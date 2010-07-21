@@ -13,3 +13,7 @@ syntax: regexp
 ^src/jsesh/mdc/parser/MDCParse\.java$
 syntax: regexp
 ^src/jsesh/mdc/lex/MDCLexAux\.java$
+syntax: regexp
+^src/jsesh/mdc/lex/MDCSymbols\.java$
+syntax: glob
+.*
