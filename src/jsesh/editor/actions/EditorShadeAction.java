@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.swingUtils.ImageIconFactory;
+import jsesh.swing.ImageIconFactory;
 
 /**
  * Action for shading. Applies on an editor.

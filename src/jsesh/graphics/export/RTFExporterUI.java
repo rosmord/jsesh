@@ -17,7 +17,7 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.swingUtils.FileButtonMapper;
+import jsesh.swing.FileButtonMapper;
 
 /**
  * Interface for RTF export to files.

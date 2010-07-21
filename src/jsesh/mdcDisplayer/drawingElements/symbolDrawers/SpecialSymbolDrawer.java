@@ -13,7 +13,7 @@ import java.util.HashMap;
 import jsesh.hieroglyphs.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.ViewBox;
-import jsesh.swingUtils.ShapeHelper;
+import jsesh.swing.ShapeHelper;
 
 public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 

@@ -7,8 +7,8 @@ import javax.swing.ActionMap;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
-import jsesh.signPalette.HieroglyphPaletteListener;
-import jsesh.signPalette.HieroglyphicPaletteDialog;
+import jsesh.swing.signPalette.HieroglyphPaletteListener;
+import jsesh.swing.signPalette.HieroglyphicPaletteDialog;
 
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.DefaultApplicationModel;

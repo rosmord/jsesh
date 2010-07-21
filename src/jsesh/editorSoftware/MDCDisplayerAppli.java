@@ -45,11 +45,11 @@ import jsesh.editorSoftware.actions.generic.ForwardedAction;
 import jsesh.editorSoftware.actions.generic.WorkflowMethodAction;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
-import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
-import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener;
-import jsesh.mdcDisplayer.swing.splash.SplashScreen;
 import jsesh.resources.ResourcesManager;
-import jsesh.swingUtils.MenuUtils;
+import jsesh.swing.MenuUtils;
+import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
+import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
+import jsesh.swing.splash.SplashScreen;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
@@ -540,7 +540,7 @@ public class MDCDisplayerAppli {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #codeSelected(java.lang.String)
 		 */
 		public void codeSelected(String code) {
@@ -552,7 +552,7 @@ public class MDCDisplayerAppli {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #enter(java.lang.String)
 		 */
 		public void enter(String code) {
@@ -563,7 +563,7 @@ public class MDCDisplayerAppli {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #exit(java.lang.String)
 		 */
 		public void exit(String code) {

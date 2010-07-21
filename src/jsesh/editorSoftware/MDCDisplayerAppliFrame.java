@@ -22,7 +22,7 @@ import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.MDCModelEditionListener;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.swingUtils.StringDisplayer;
+import jsesh.swing.StringDisplayer;
 
 /**
  * Graphical interface for MDC displayer.

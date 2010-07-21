@@ -51,7 +51,7 @@ import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.mdcDisplayer.swing.shadingMenuBuilder.ShadingMenuBuilder;
+import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
 
 import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 

@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import jsesh.swingUtils.about.AboutDisplayer;
+import jsesh.swing.about.AboutDisplayer;
 
 public class AboutAction extends AbstractAction {
 	Frame frame;

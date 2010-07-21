@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.swingUtils.KeyUtils;
+import jsesh.swing.KeyUtils;
 
 /**
  * @author S. Rosmorduc

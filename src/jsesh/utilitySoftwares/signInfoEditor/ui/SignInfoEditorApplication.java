@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.signPalette.PalettePresenter;
+import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;

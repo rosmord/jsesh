@@ -2,15 +2,14 @@ package jsesh.macSpecific;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppli;
-import jsesh.mdcDisplayer.swing.splash.SplashScreen;
+import jsesh.editorSoftware.MDCDisplayerAppli;
+import jsesh.swing.splash.SplashScreen;
 import ch.randelshofer.quaqua.QuaquaManager;
 
 import com.apple.eawt.Application;

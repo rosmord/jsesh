@@ -28,7 +28,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.swingUtils.RestrictedCharFormatter;
+import jsesh.swing.RestrictedCharFormatter;
 import jsesh.utils.FileUtils;
 
 import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;

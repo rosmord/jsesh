@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.AbstractSelectionAction;
-import jsesh.swingUtils.KeyUtils;
+import jsesh.swing.KeyUtils;
 
 /**
  * @author S. Rosmorduc
