@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.mdcDisplayer.swing.application;
+package jsesh.editorSoftware;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jsesh.mdcDisplayer.swing.application.actions.generic;
+package jsesh.editorSoftware.actions.generic;
 
 import java.awt.event.ActionEvent;
 
@@ -9,7 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import jsesh.editor.MDCEditorKeyManager;
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 
 /**
  * Actions are forwarded to the current editor, using the command name to choose the right action.

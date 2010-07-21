@@ -104,7 +104,7 @@ public class EPSExporter implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdcDisplayer.swing.application.PagedExporter#getOptionsTitle()
+	 * @see jsesh.editorSoftware.PagedExporter#getOptionsTitle()
 	 */
 	protected String getOptionsTitle() {
 		return "type".toUpperCase() + " options";

@@ -3,11 +3,11 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.mdcDisplayer.swing.application.actions.generic;
+package jsesh.editorSoftware.actions.generic;
 
 
 
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 import jsesh.swingUtils.ImageIconFactory;
 
 /**

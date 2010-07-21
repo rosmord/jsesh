@@ -2,14 +2,14 @@
  * author : Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.mdcDisplayer.swing.application.actions;
+package jsesh.editorSoftware.actions;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.Icon;
 
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppliWorkflow;
-import jsesh.mdcDisplayer.swing.application.actions.generic.BasicAction;
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.actions.generic.BasicAction;
 
 /**
  * Open a new text in the editor.

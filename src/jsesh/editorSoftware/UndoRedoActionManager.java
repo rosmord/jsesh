@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.swing.application;
+package jsesh.editorSoftware;
 
 import javax.swing.Action;
 

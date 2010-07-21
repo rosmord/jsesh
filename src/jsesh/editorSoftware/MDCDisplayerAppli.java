@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.swing.application;
+package jsesh.editorSoftware;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -32,19 +32,19 @@ import javax.swing.UIManager;
 
 import jsesh.Version;
 import jsesh.editor.MDCEditorKeyManager;
+import jsesh.editorSoftware.actions.AboutAction;
+import jsesh.editorSoftware.actions.DisplayJavaPropertiesAction;
+import jsesh.editorSoftware.actions.DocumentationAction;
+import jsesh.editorSoftware.actions.EditPreferencesAction;
+import jsesh.editorSoftware.actions.ExitAction;
+import jsesh.editorSoftware.actions.NewTextAction;
+import jsesh.editorSoftware.actions.OpenTextAction;
+import jsesh.editorSoftware.actions.SaveTextAsAction;
+import jsesh.editorSoftware.actions.SelectCopyPasteConfigurationAction;
+import jsesh.editorSoftware.actions.generic.ForwardedAction;
+import jsesh.editorSoftware.actions.generic.WorkflowMethodAction;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
-import jsesh.mdcDisplayer.swing.application.actions.AboutAction;
-import jsesh.mdcDisplayer.swing.application.actions.DisplayJavaPropertiesAction;
-import jsesh.mdcDisplayer.swing.application.actions.DocumentationAction;
-import jsesh.mdcDisplayer.swing.application.actions.EditPreferencesAction;
-import jsesh.mdcDisplayer.swing.application.actions.ExitAction;
-import jsesh.mdcDisplayer.swing.application.actions.NewTextAction;
-import jsesh.mdcDisplayer.swing.application.actions.OpenTextAction;
-import jsesh.mdcDisplayer.swing.application.actions.SaveTextAsAction;
-import jsesh.mdcDisplayer.swing.application.actions.SelectCopyPasteConfigurationAction;
-import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
-import jsesh.mdcDisplayer.swing.application.actions.generic.WorkflowMethodAction;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.mdcDisplayer.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 import jsesh.mdcDisplayer.swing.splash.SplashScreen;

@@ -2,13 +2,13 @@
  * author : Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.mdcDisplayer.swing.application.actions;
+package jsesh.editorSoftware.actions;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.actions.generic.BasicAction;
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppliWorkflow;
-import jsesh.mdcDisplayer.swing.application.actions.generic.BasicAction;
 
 /**
  * Simple action class for adding new elements (from a prototype).

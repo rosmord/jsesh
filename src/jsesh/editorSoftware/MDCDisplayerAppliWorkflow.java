@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.swing.application;
+package jsesh.editorSoftware;
 
 /**
  * Changelog:
@@ -25,6 +25,17 @@ import jsesh.editor.HieroglyphicTextModel;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
+import jsesh.editorSoftware.actions.AddNewSignAction;
+import jsesh.editorSoftware.actions.AddPhilologyAction;
+import jsesh.editorSoftware.actions.CartoucheAction;
+import jsesh.editorSoftware.actions.EditGroupAction;
+import jsesh.editorSoftware.actions.InsertElementAction;
+import jsesh.editorSoftware.actions.InsertElementIconAction;
+import jsesh.editorSoftware.actions.RotationAction;
+import jsesh.editorSoftware.actions.ShadeAction;
+import jsesh.editorSoftware.actions.ShadeSignAction;
+import jsesh.editorSoftware.actions.SizeAction;
+import jsesh.editorSoftware.actions.generic.ForwardedAction;
 import jsesh.graphics.export.BitmapExporter;
 import jsesh.graphics.export.CaretBroker;
 import jsesh.graphics.export.EMFExporter;
@@ -61,17 +72,6 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.mdcDisplayer.swing.actionsUtils.PreferenceBoundAction;
 import jsesh.mdcDisplayer.swing.actionsUtils.PreferencesChangeListener;
-import jsesh.mdcDisplayer.swing.application.actions.AddNewSignAction;
-import jsesh.mdcDisplayer.swing.application.actions.AddPhilologyAction;
-import jsesh.mdcDisplayer.swing.application.actions.CartoucheAction;
-import jsesh.mdcDisplayer.swing.application.actions.EditGroupAction;
-import jsesh.mdcDisplayer.swing.application.actions.InsertElementAction;
-import jsesh.mdcDisplayer.swing.application.actions.InsertElementIconAction;
-import jsesh.mdcDisplayer.swing.application.actions.RotationAction;
-import jsesh.mdcDisplayer.swing.application.actions.ShadeAction;
-import jsesh.mdcDisplayer.swing.application.actions.ShadeSignAction;
-import jsesh.mdcDisplayer.swing.application.actions.SizeAction;
-import jsesh.mdcDisplayer.swing.application.actions.generic.ForwardedAction;
 import jsesh.mdcDisplayer.swing.groupEditor.GroupEditorDialog;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesEditor;
 import jsesh.mdcDisplayer.swing.preferencesEditor.PreferencesFacade;

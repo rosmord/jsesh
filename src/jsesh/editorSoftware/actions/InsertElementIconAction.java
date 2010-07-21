@@ -1,12 +1,12 @@
-package jsesh.mdcDisplayer.swing.application.actions;
+package jsesh.editorSoftware.actions;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.actions.generic.MDCIconAction;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdcDisplayer.swing.application.MDCDisplayerAppliWorkflow;
-import jsesh.mdcDisplayer.swing.application.actions.generic.MDCIconAction;
 
 /**
  * A simple class for easy text addition.
