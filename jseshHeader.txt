@@ -1,0 +1,38 @@
+The JSesh header is a proprietary header for JSesh, which will complement MdC 2007 as soon 
+as MdC 2007 exists.
+
+It starts with:
+
+++JSESH_FILE
+and ends with +s
+The whole header is on ONE line.
+
+The header content is in JSON format (as I don't want to reinvent the wheel).
+(BTW, why not considering using JSON as format for the "next" MdC, huh ?)
+(because you can't write a DTD ?)
+
+e.g.
+++JSESH_FILE {"version" : "2", "encoding" : "utf-8"}+s
+
+fields: 
+	jsesh_format : the version of the JSESH format used for saving this file. 
+		I do say : any tksesh file (.hie) is version 0, old glyph compatible files are version 1
+			the current version is 2. This is a STRING
+			
+	encoding: well, the char encoding the JSesh file uses.
+
+	page: a description of the page, the unit being 1/72inch.
+			e.g. "page" : {"width" : 720, "height" : 720, "dx" : 31, "dy" : 31, "textWidth" : 600, "textHeight" : 600, orientation: "landscape"}
+				orientation is either landscape or portrait.
+				in landscape mode, the x axis is vertical (bottom to top), and the y axis is left to right.
+				in portrait mode, the origin is on the top left of the page, and y is down the page.
+				
+				dx, dy is the position of the origin on the page.
+			If no page is described, jsesh will be in pageless mode.
+
+	orientation: "lines" or "columns"
+	direction: "left to right" or "right to left"
+	"small signs centered" : true or false
+
+Forthcoming info: 
+	output transliteration encoding: one of "mdc" or "unicode" 

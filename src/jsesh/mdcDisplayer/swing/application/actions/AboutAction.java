@@ -1,0 +1,25 @@
+/**
+ * author : Serge ROSMORDUC
+ * This file is distributed according to the LGPL (GNU lesser public license)
+ */
+package jsesh.mdcDisplayer.swing.application.actions;
+
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
+import jsesh.swingUtils.about.AboutDisplayer;
+
+public class AboutAction extends AbstractAction {
+	Frame frame;
+	public AboutAction(String name, Frame mainFrame) {
+		super(name);
+		this.frame= mainFrame;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		AboutDisplayer about= new AboutDisplayer(frame);
+		about.setVisible(true);
+	}
+}

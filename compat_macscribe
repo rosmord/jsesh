@@ -1,0 +1,82 @@
+Problèmes d'importation de fichiers Macscribe dans JSesh
+
+Note: prévoir un lecteur spécifique ? Vérifier &&& vs. && (idem pour  ^^)
+
+
+c'est quoi .f : I10&&(.f:X1\90:N17\90)
+
+(visiblement un espace ? vertical sans épaisseur? fin ?)
+
+Groupe : "-X1##^^D39:O34A-F72:X1*H8-" Très curieux.
+Probablement X1 superposé avec le groupe "D39:O34A" ?
+NON. C'est X1 hachuré, inséré dans D39.
+X1##^^D39:O34-
+
+O34A-"\u     ?"*G25B#-!/Z7:X1
+
+A-"\u     ?"*G2#-!/Z7:X1
+
+A-"\u?"*G2
+A-"essai"*G2##:n
+
+"un texte" : permet d'insérer un texte quelconque comme hiéroglyphe.
+\u : place ce texte "hors cadrat". Il ne prend pas de place, même celle d'un espace vide.
+Il est écrit AU DESSUS du signe (ou groupe) suivant. S'il n'y a pas de signe suivant, la position du groupe
+est celle de fin du signe précédent.
+
+\d : même chose, mais en dessous.
+
+
+
+Probablement un texte au dessus de la ligne (\u), le texte étant "?"
+
+.f*(S56*S56):N46A\180\*.v-
+
+.f*(A1*A1):A1\180\*.v-
+
+SENS de .v : demi cadrat vertical
+.h : demi cadrat horizontal
+SENS de .f : espace "élastique".
+
+.
+
+Différence dans Macscribe entre #12 et ##12 ??????
+
+Sens de "##" après un signe ??? hachuré ???
+*Note sur macscribe : # = superposition normale. ## = hachurage de *signe*
+## seul= signe hachuré
+## + 1234 = signe partiellement hachuré
+
+	
+!/ : retour à la ligne justifié
+
+
+
+Tabulations:
+
+'%': tabulation
+^b-^e : début et fin de flêche.
+
+* Les tabulations suppriment la justification
+* le code entre deux tabulations est justifié (on peut insérer un .f pour l'aligner).
+
+G17-%-G17-G17-G17-%-G17-!
+G1-%-?-%-G1-%-! lacune
+D58-%-/^-%-! petites fleches
+D58-%-^b-%-^e-V31-! paire de fleche ? 
+D58-%-^w-%-D58-! fleche large
+V31-%-^b-%-V31-! debut de fleche 
+G17-%-_-%-D21-! trait
+G17-%-^e-%-D21-! fin de flêche.
+
++u texte au dessus de la ligne
++d texte en dessous de la ligne
++n note (texte en exposant, souvent "?".
++L centre ligne ???
+
+taille : k\200\150 = k mis à l'échelle 100 puis 150.
+
+
+
+
+

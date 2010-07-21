@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>A description of the manuel de codage(3)</title>
+</head>
+<body>
+    <span class="bar">
+      <a href="mdc2.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc4.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+
+<b>Sign Modifications</b><br>
+<b>Inversion, rotation</b><br>
+ A sign can be reversed by writing "\" after it : "A1\" is <img align='center' src="img115.png" width="39" height="54"><br>
+You can turn signs by any angle, using \R and the angle in degrees<br>
+<img align='center' src="img116.png" width="143" height="54">anx\R30-G5-G7<br>
+<img align='center' src="img117.png" width="226" height="54"><br>
+A1-A\R90-A\R180-A\R270-A\R360-<br>
+<img align='center' src="img118.png" width="178" height="54"><br>
+These two features can be combined :<br>
+A1-A\\R90-A\\R180-A\\R270-A\\R360-<br>
+<img align='center' src="img119.png" width="178" height="54"><br>
+Scaling<br>
+ It's possible to scale a sign by writing "\" and a percentage.<br>
+The sign's base size will be modified accordingly :<br>
+<img align='center' src="img120.png" width="143" height="54">A1-A1\80-A1\50-A1\20<br>
+<img align='center' src="img121.png" width="225" height="54"><br>
+The percentage can even be greater than 100: <br>
+<img align='center' src="img122.png" width="143" height="54">t-t\80-t\200-t\400-t\1000-<br>
+<img align='center' src="img123.png" width="343" height="54"><br>
+<i>note that the sign is limited by the cadrat maximal size.</i><br>
+This can be used to customize the effect of scaling in cadrats :<br>
+Let's consider the group <img align='center' src="img124.png" width="44" height="54">, written "nw:nw*nw". <br>
+Notice that the upper <img align='center' src="img125.png" width="31" height="54"> is a bit larger than the others.<br>
+We can correct this with scaling :<br>
+<img align='center' src="img126.png" width="143" height="54">nw\70:nw\70*nw\70-<br>
+<img align='center' src="img127.png" width="174" height="54"><br>
+<br>
+In traditionnal typography, the sizes of fonts are ruled by a decrease of a factor sqrt(2).<br>
+This gives a nice visual effect, and you might try using these factors : <br>
+<img align='center' src="img128.png" width="143" height="54">A1-A1\70-A1\49-A1\35-A1\24<br>
+<img align='center' src="img129.png" width="237" height="54"><br>
+A stress test for effect combination : rotated scaled sign (any use ?)<br>
+<img align='center' src="img130.png" width="92" height="54"><br>
+rotation test with non-square sign :<img align='center' src="img131.png" width="112" height="54"><br>
+<b>Ignored signs </b><br>
+<i>(JSesh extension)</i><br>
+As cadrats don't respect words boundaries, you might find yourself quoting a word, or a text,<br>
+which start in the middle of a cadrat. In JSesh, the "\i" operator means that a sign is irrelevant.<br>
+ it will be drawn in very light gray, simply for space filling.<br>
+<img align='center' src="img132.png" width="143" height="54">M\i:p*t:pt<br>
+<img align='center' src="img133.png" width="172" height="54"><br>
+<b>Wide signs and groups</b><br>
+ In Late Egyptian texts, in particular hieratic texts, some groups can be very wide.<br>
+Often, they contain a hieroglyph which is very elongated, an lots of smaller signs below it.<br>
+The normal scaling rules would reduce the cadrat's width, and give both a difficult to read and unfaithful rendering.<br>
+Thus, JSesh provides the operator "\l". It says that the current sign can have any width it likes.<br>
+without it, : "m-xt:x\80*t\80*D54\80" gives <img align='center' src="img134.png" width="79" height="54"><br>
+with it, :   "m-xt\l:x\80*t\80*D54\80" gives <img align='center' src="img135.png" width="99" height="54"><br>
+The best results are obtained by combining this and scaling : <br>
+<img align='center' src="img136.png" width="143" height="54">ir\200:r*t*W-ir\200\l:r*t*W<br>
+<img align='center' src="img137.png" width="234" height="54"><br>
+<br>
+<b>Grammatical codes</b><br>
+ The <i>manuel</i> states that " " (space) after a sign means that this sign ends a word, and that "  " (two spaces) mark a sentence end<br>
+JSesh stores this information along with the signs, but currently doesn't do anything with it.<br>
+As an alternative, after the <i>Winglyph</i> practice, you can use underscores instead of spaces.<br>
+<img align='center' src="img138.png" width="143" height="54">i-w-=f_-m_-p*t:pt_<br>
+<img align='center' src="img139.png" width="286" height="54"><br>
+<p>
+    <span class="bar">
+      <a href="mdc2.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc4.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+
+</body>
+</html>

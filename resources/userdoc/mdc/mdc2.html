@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>A description of the manuel de codage(2)</title>
+</head>
+<body>
+
+    <span class="bar">
+      <a href="mdc1.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc3.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+
+<b>Shading</b><br>
+ When nothing is visible under a shading, you can use the following codes :<br>
+<img align='center' src="img85.png" width="143" height="54">"//" for cadrat-size shading : <img align='center' src="img86.png" width="48" height="54"><br>
+<img align='center' src="img87.png" width="143" height="54">"/" for quarter shading : <img align='center' src="img88.png" width="32" height="54"><br>
+<img align='center' src="img89.png" width="143" height="54">"v/" for vertical shading : <img align='center' src="img90.png" width="32" height="54"><br>
+<img align='center' src="img91.png" width="143" height="54">"h/" for horizontal shading : <img align='center' src="img92.png" width="48" height="54"><br>
+<br>
+For shading parts of a cadrat, use "#", followed by the figures 1,2,3,4<br>
+<img align='center' src="img93.png" width="143" height="54">'1' fills the start-top corner of the cadrat: p*t:pt#1 gives <img align='center' src="img94.png" width="48" height="54"><br>
+<img align='center' src="img95.png" width="143" height="54">'2' fills the end-top corner of the cadrat : p*t:pt#2 gives <img align='center' src="img96.png" width="48" height="54"><br>
+<img align='center' src="img97.png" width="143" height="54">'3' fills the start-bottom corner of the cadrat: p*t:pt#3 gives <img align='center' src="img98.png" width="48" height="54"><br>
+<img align='center' src="img99.png" width="143" height="54">'4' fills the end-bottom corner of the cadrat: p*t:pt#4 gives <img align='center' src="img100.png" width="48" height="54"><br>
+<br>
+These codes can be combined :<br>
+<img align='center' src="img101.png" width="143" height="54"> p*t:pt#13 gives <img align='center' src="img102.png" width="48" height="54"><br>
+<img align='center' src="img103.png" width="143" height="54"> p*t:pt#14 gives <img align='center' src="img104.png" width="48" height="54"><br>
+<img align='center' src="img105.png" width="143" height="54"> p*t:pt#1234 gives <img align='center' src="img106.png" width="48" height="54"><br>
+<br>
+For shading large parts of texts, use "#b" (shade begin) and "#e" (shade end) :<br>
+zone shading <br>
+<img align='center' src="img107.png" width="143" height="54">i-W-bA:k-A1-#b-Xr:r-n:h:t-#e-xt:Z1<br>
+<img align='center' src="img108.png" width="321" height="54"><br>
+<b>Sign overlapping</b><br>
+ It's possible to combine signs using the operator "##". The result is not always very good, though.<br>
+Exempli gratia:<br>
+<img align='center' src="img109.png" width="281" height="54"><br>
+<img align='center' src="img110.png" width="143" height="54">m##a-a##b-M3##M1-M1##M3<br>
+Note that the "official" operator for this is "#", but I suggest you use "##" instead,<br>
+for
+"#" has been much over abused (it means too many things).<br>
+In any case, JSesh will transform  all "#" into "##" when saving !<br>
+<b>Red zones</b><br>
+A zone of text can be written in red with "$r" (begin red) and $b (begin black) operators<br>
+<img align='center' src="img111.png" width="143" height="54">$r-HAt:a_-m_-s-b-sbA-A-i-i-t:Y1-arq:Z1_-m_-anx-n:x-Y1v_-$b-mt:t-r:W-Dba-Dba-Hw-A2-Z3_-n_-W-DA-A-Y1v_-<br>
+<img align='center' src="img112.png" width="748" height="54"><br>
+<br>
+Individual signs can be written in red by writing "\red" after them<br>
+<i>This is a JSesh specificity.</i><br>
+<img align='center' src="img113.png" width="143" height="54">p*p:p\red*p-<br>
+<img align='center' src="img114.png" width="171" height="54"><br>
+<p>
+    <span class="bar">
+      <a href="mdc1.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc3.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+</body>
+</html>

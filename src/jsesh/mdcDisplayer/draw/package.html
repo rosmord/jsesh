@@ -1,0 +1,72 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>draw</title>
+    
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    
+    <!--
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+    -->
+  </head>
+  
+  <body>
+    <p>
+      This package is made of two parts : The first deals with building a 
+      view for a manuel de codage text, and in particular, placing the 
+      different subviews.
+    </p>
+    
+    <p>
+      Once these subviews are built, the view can be drawn on screen (or 
+      printer, or pdf file...) ; This is the task of the drawer classes. 
+      HieroglyphsDrawer is specialized in hieroglyphs, and is also used 
+      while building the view, because it knows about sign dimentions. 
+      ViewDrawer does make very few decision, and mecanically draws a 
+      view. A benefit from this approach is that things like view 
+      dimentions are easier to compute.
+    </p>
+    
+    <p>The actual drawing of the view is made, for individual elements, by 
+      an ElementDrawer. A default implementation is proposed, but it can 
+      be changed, if one wants, for instance, to change the drawing of 
+      cartouches. 
+    </p>
+    
+    <p>
+      A problem we need to handle now concerns the
+      passing of data such as drawingSpecifications.
+      It's quite clear that in most cases, the user will
+      want all his hieroglyphic rendering to look the
+      same, So we probably want to share the
+      drawingSpecifications. On the other hand, it
+      should be possible to change them on a widget by
+      widget basis.
+    </p>
+    
+    <p>
+      <b>Rendering text with multiple orientations :</b>
+      Basically, we build regions of text with homogeneous orientation. In the same page, when a 
+      region is built, it's added to the page.
+
+    <p>
+      the problem is <em>where</em> ? To solve it, we use the metaphor
+      of a <em>current cursor.</em> The cursor's place will depend on
+      the <em>global</em> text orientation, and on the previous text
+      orientation.  Suppose a global orientation right-to-left ; let's
+      consider a right-to-left sequence <em>A,B</em>, then a left-to-right
+      sequence <em>C,D</em>, then a second right-to-left sequence <em>E</em>.
+    </p>
+    <p>The rendering will be ECDBA. Thus, the cursor, after <em>B</em> would be placed at the left of <em>B</em></p>
+
+    <p>Now, if the global orientation is left-to-right, the rendering
+    would be BACDE ; the cursor after <em>B</em> would be placed to
+    the <em>right</em> of B. In general, the cursor position in a
+    homogeneous sequence is a function of the sequence orientation ;
+    the cursor position when the orientation changes is a function of
+    the <em>global</em> orientation.</p>
+    
+  </body>
+</html>

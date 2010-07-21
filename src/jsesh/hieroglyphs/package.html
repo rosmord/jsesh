@@ -1,0 +1,16 @@
+<html>
+    <head><title></title></head>
+    <body>
+Deals with hieroglyphic signs in general: drawing and values.
+<p>The data can be drawn from various sources: internal data, external
+files, database...
+<p>The system should work with no configuration, but should allow
+alternate sources to be used. The whole thing should be independant from
+the JSesh main application.
+<p>The solution is to provide a singleton implementation,
+DefaultHieroglyphicFontManager. This implementation will allow for some
+tayloring. However, if one wants full freedom on the subject, all
+classes that use hieroglyphs should be able to use the source of their
+choice.
+</body>
+</html>

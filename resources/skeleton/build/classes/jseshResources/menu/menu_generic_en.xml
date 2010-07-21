@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!-- Menu definition for JSesh -->
+<!-- Not used yet. Ongoing work. -->
+<!-- JSesh will use a simple menu description framework -->
+<!-- All menus entries are described by Actions -->
+<menus>
+	<menubar>
+		<menu label="File">
+			<item label="Open"
+				action="jsesh.mdcDisplayer.swing.actions.Open" />
+			<item label="Export as WMF" action="">
+				<!-- activators are registered named objects which return booleans. -->
+				<activation activator="selectionExists"/>
+			</item>
+		</menu>
+		<menu label="Edit">
+			<sep />
+			<!-- a group of radio buttons -->
+			<group>
+				<radio label="copy : large size"
+					action="jsesh.mdcDisplayer.swing.actions.SelectCopyPasteConfigurationAction">
+					<!-- arguments for the action constructor -->
+					<args>
+						<arg type="Integer" value="0" />
+					</args>
+				</radio>
+			</group>
+		</menu>
+	</menubar>
+</menus>

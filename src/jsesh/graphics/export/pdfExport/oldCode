@@ -1,0 +1,73 @@
+            DrawingSpecification drawingSpecification = getDrawingSpecifications().copy();
+            ByteArrayOutputStream imageArray = new ByteArrayOutputStream();
+            // If this works, we will need to move this code elsewhere as it
+            // might be useful.
+            ViewBuilder builder = new SimpleViewBuilder();
+            MDCView view = builder.buildView(topItemList, drawingSpecification);
+            Document document = new Document();
+            // Font stuff...
+            BaseFont bf;
+            // Build fonts to use
+            try {
+                bf = BaseFont.createFont(
+                        "/jseshResources/fonts/MDCTranslitLC.ttf",
+                        BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            } catch (DocumentException e1) {
+                // Just ignore and continue. It's not a huge deal...
+                e1.printStackTrace();
+            }
+            /*
+             * translitFont = new Font(bf, 12); romanFont =
+             * FontFactory.getFont(FontFactory.TIMES, 12, Font.NORMAL);
+             * talicFont = FontFactory .getFont(FontFactory.TIMES, 12,
+             * Font.ITALIC); boldFont = FontFactory.getFont(FontFactory.TIMES,
+             * 12, Font.BOLD);
+             */
+            DefaultFontMapper fontMapper = new DefaultFontMapper();
+            FontFactory.registerDirectories();
+            java.awt.Font font = new java.awt.Font("times-roman", Font.PLAIN,
+                    12);
+            fontMapper.putName("MDCTranslitLC",
+                    new DefaultFontMapper.BaseFontParameters(
+                    "/jseshResources/fonts/MDCTranslitLC.ttf"));
+            FontFactory.register("Serif");
+            for (Iterator i = FontFactory.getRegisteredFonts().iterator(); i.hasNext();) {
+                System.out.println(i.next());
+            }
+            document.setPageSize(new Rectangle(view.getWidth(), view.getHeight()));
+            PdfWriter writer;
+            try {
+                writer = PdfWriter.getInstance(document, imageArray);
+            } catch (DocumentException e) {
+                // Should not happen.
+                throw new RuntimeException(e);
+            }
+            document.open();
+            // PdfTemplate template=
+            // writer.getDirectContent().createTemplate(view.getWidth(),
+            // view.getHeight());
+            // Ensure CMYK colour space...
+           drawingSpecification.setBlackColor( new CMYKColor(0,0,0,255));
+           drawingSpecification.setRedColor(new CMYKColor(0,255,255,0));
+           drawingSpecification.setLeftMargin(1);
+           drawingSpecification.setTopMargin(1);
+           // Transparency problem here !!!
+           //drawingSpecification.setGrayColor(CMYKColor.G);
+            Graphics2D g = writer.getDirectContent().createGraphicsShapes(
+                    view.getWidth(), view.getHeight());       
+            g.setFont(font);
+            
+            ViewDrawer drawer = new ViewDrawer();
+            drawer.draw(g, view, drawingSpecification);
+            g.dispose();
+            // writer.getDirectContent().add(template);
+            document.close();
+            // temporary
+            try {
+                FileOutputStream out = new FileOutputStream("/tmp/toto.pdf");
+                out.write(imageArray.toByteArray());
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            result = new ByteArrayInputStream(imageArray.toByteArray());

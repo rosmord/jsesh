@@ -1,0 +1,124 @@
+Sur les tabulations:
+
+On réalise un premier passage sur la page pour délimiter des zones de tabulation.
+On en profite pour classer les tabulations.
+
+Ensuite : second passage "normal"
+
+Puis : on regarde les positions des différentes tabulations et des fins de lignes.
+
+A plus qu'à...
+
+Exemple :
+
+1		2
+1	3	4
+1	2	3
+
+Bon, là on a potentiellement un problème de cohérence... l'ordre n'est pas forcément défini
+1	2
+1	3
+??
+
+Nous disons donc: 
+
+a) on a une liste définie de marques (une horizontale et une verticale éventuellement, voir plus tard)
+b) l'id est en fait un ordre
+c) sur une ligne donnée, l'ordre des id est strictement croissant.
+d) si on ne donne pas d'id, l'id par défaut est donné dans l'ordre croissant :
+
+%0 est implicitement la position du début de la ligne. Si on la place ailleurs, c'est une erreur.
+
+d-%-A-%-b-%-k
+<=>
+d-%[id=1]-A-%[id=2]-b-%[id=3]-k
+
+
+Maintenant, l'algo :
+Soit à aligner
+
+A-b-%1-d-k-%2-g-h-k
+x-%2-m-n-%3
+
+pour chaque ligne, on va calculer le span entre %i et %i+1
+On prendra ensuite le max pour toute la zone, et on alignera tout ce beau monde comme ça.
+
+Exemple (on compte ici 1 char = 1 unité)
+
+span 0-1 : 2 unités => position de 1 : 2u
+span 1-2 : 2 unités => position de 2 : 4u
+span 2-3 : 2 unités => position de 3 : 6u
+d'où
+
+0 1 2 3 4 5 6
+A b d k g h k
+x       m n
+
+Autre exemple
+A-b-%1-d-k-r-%3-g-h-k
+x-%2-m-n-%3-f
+1 : 2
+2 : 1 ou 0 ???
+3 : 3 ou 2
+
+ça commence à ressembler à un algo de flux, ça.
+
+on sait que 
+p1 - p0 >= 2
+p3 - p1 >= 3
+p2 - p0 >= 1
+p3 - p2 >= 2
+p3 >= p2 >= p1 >= p0
+p4 - p3 >= 3
+p4 - p3 >= 1
+on souhaite minimiser p4
+
+C'est de la programmation linéaire :
+Maximiser la fonction 
+-p4
+
+Sachant que 
+
+p0 - p1 <= -2
+p1 - p3 <= -3
+...
+p0 - p1 <= 0
+p1 - p2 <= 0
+p2 - p3 <= 0
+...
+et -p0 <= 0 (quand même)
+
+Ceci dit, on peut simplifier. La position de p1 ne dépend pas de celle de p2, p3... ou plus exactement, 
+si on réduit p1, on améliore p2...
+
+donc :
+p0 = 0
+on considère toutes les contraintes sur p1 : p1 - p0 >= 2
+On a donc p1 = 2.
+
+Plus généralement, pour pi, connaissant pi-1, pi-2...p0
+pour chaque couple (i,j) avec j < i on a une contrainte v (éventuellement 0).
+
+Soit Mij la (demi) matrice des contraintes (j < i)
+
+le calcul de pi devient :
+
+c= 0
+pour j < i faire
+	d= pj + Mij
+	si (c < d) alors
+		c= d
+	fin si
+fin
+
+Donc : 
+p1 - p0 >= 2
+p3 - p1 >= 3
+p2 - p0 >= 1
+p3 - p2 >= 2
+
+p0 = 0
+p1 = 2
+p2 = 3
+p3 = max (5,5)= 5
+

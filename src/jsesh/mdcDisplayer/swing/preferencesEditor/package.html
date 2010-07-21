@@ -1,0 +1,19 @@
+<html>
+    <head><title></title></head>
+    <body>
+An editor for the various software preferences.
+
+<p>The architecture follows the "model-view-presenter" pattern, which is
+quite suitable for static forms. The general architecture is the
+following : each formular (generaly created with the great "abeille"
+software) has absolutely no behaviour. Even buttons have no action
+linked to them. Poor creatures.
+<p>Then, the gallant presenter associated with a form (and whose name is
+cleverly MyPresenter if the form is called MyForm) has a "prepare"
+method which attaches behaviour to the form.
+<p>Finally, the presenter has a loadFromPreferences() method which read
+the data from a PreferenceFacade object, and an updatePreference()
+method which sets the preferences values according to the user's choice.
+
+</body>
+</html>

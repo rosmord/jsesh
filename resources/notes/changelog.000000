@@ -1,0 +1,10 @@
+
+-------- TODO in next release
+* We now allow to chose which type of data will be exported while cutting and pasting.
+  It's thus possible to try to cut and paste PDF, which works on the mac (except that at least some versions
+of word don't understand anything about it. The same goes for OpenOffice).
+
+------- TODO later.
+* Changed to MDI (Multiple Document Interface)
+* Internationalized version. Menus now available in English and in French. Contact me if you want to create a version for your language, it's not difficult.
+* Small performance improvement: changed a few Readers/Streams to Buffered

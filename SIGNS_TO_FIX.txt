@@ -1,0 +1,36 @@
+T30B dans kbnt ????de
+
+Regarder si un des signes
+de T code le tour de potier
+
+Refaire S64 (plumes d'Amon)
+
+VOIR PB DE C38B
+Commenter éventuellement ?
+
+Corriger C53B (tient anx)
+C180C : geste ? idem C182A et C182B
+
+S74 T63B 
+ 
+L16 (trop similaire à signe WG)
+
+S62, S65, N60A, U39A, U39F (à faire)
+S60A: faux.
+
+
+Commentaire des signes:
+	G71: revoir composantes.
+	
+Identifier plus précisément D412 et D285
+
+N74: a les plumes (de Ta-tennen ? sur la tête)
+N96 manque ?
+
+Différences entre N133A et les autres disques aîlés ?
+
+Chercher meilleur O44
+
+Chercher exemple O50
+
+Pourquoi A157 existe-t-il ?????

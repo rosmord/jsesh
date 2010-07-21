@@ -1,0 +1,25 @@
+# This file uses the actions described in demo8n.properties
+fileMenu
+ newDocument
+ openDocument
+ # A comment. Below, you see a separating line.
+ ---------
+ closeDocument
+ saveDocument
+ saveDocumentAs
+ -------
+ quitApplication
+editMenu
+ undo
+ redo
+ -----
+ cut
+ copy
+ paste
+windowMenu
+ hideWindow
+ -----
+ bringEverythingToFront
+
+
+	

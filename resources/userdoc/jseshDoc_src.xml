@@ -1,0 +1,2184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book>
+  <title>JSesh Documentation</title>
+
+  <bookinfo>
+    <author>
+      <firstname>Serge</firstname>
+
+      <surname>Rosmorduc</surname>
+
+      <email>rosmord@iut.univ-paris8.fr</email>
+    </author>
+
+    <edition>@JSESHVERSION@</edition>
+
+    <releaseinfo>version @JSESHVERSION@</releaseinfo>
+
+    <date></date>
+  </bookinfo>
+
+  <chapter>
+    <title>Introduction</title>
+
+    <para>You are currently using JSesh, which is both an editor for
+    hieroglyphic texts and a toolset for manipulating hieroglyphic texts in
+    Java. As a user, you are probably more interested in JSesh editing and
+    printing capabilities.</para>
+
+    <para>JSesh covers most of the <foreignphrase lang="fr">Manuel de
+    Codage</foreignphrase> and can read files coming from a number of other
+    softwares, as Winglyph and Tksesh. Macscribe compatibility has not been
+    tested, and is probably not full.</para>
+
+    <para>The manuel de codage is a standard which was created in 1984 for
+    describing hieroglyphic texts in ASCII. It's a bit old by now, and there
+    are various suggestions to improve it (or replace it). JSesh will propose
+    a number of extensions. A description of the manuel de codage can be found
+    <ulink url="mdc">here</ulink> .</para>
+
+    <para>JSesh also allows you to <emphasis>edit</emphasis> hieroglyphic
+    texts, either by typing manuel de codage codes, or by a more intuitive
+    menu system. Some <emphasis>manuel de codage</emphasis> features are not
+    available yet through the menus, but you have always the possibility of
+    writing the code directly.</para>
+
+    <para>JSesh has a number of output capabilities. It can print a file, or
+    save it in various interesting graphic formats : pdf, jpg, or even as set
+    of html files. Among the possible outputs, one must note the WMF (windows
+    metafiles output). Metafiles are vector images, which means they are well
+    suited for printing. WMF files can be read by almost all word
+    processors.</para>
+
+    <para>JSesh, contrarily to tksesh, is not primarily a text database. The
+    text database capabilities of tksesh will be added to JSesh in the future,
+    but I thought it would be better to provide a nice editor/displayer first,
+    in order to involve people.</para>
+  </chapter>
+
+  <chapter>
+    <title>Overview of the JSesh Window</title>
+
+    <figure>
+      <title>the jsesh window</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/Capture.png" format="PNG" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Currently, JSesh's working space contains a menu, a main editing
+    window (the "hieroglyphic window" above), and a number of fields. The
+    field termed "Manuel de Codage field" contains the <foreignphrase>Manuel
+    de codage</foreignphrase> code for the current line of text (the one
+    pointed by the cursor). You can modify directly this code ; the field
+    termed "current sign code" is used in interractive editing to show the
+    code for the currently edited text.</para>
+
+    <para>the field directly right to it is a message field. It isn't of much
+    use currently.</para>
+  </chapter>
+
+  <chapter>
+    <title>Editing texts</title>
+
+    <section>
+      <title>Mouse Editing</title>
+
+      <para>Editing with the mouse is a very simple, but slow process.
+      Usually, you will mix it with one of the two others.</para>
+
+      <section>
+        <title>Setting a cursor position</title>
+
+        <para>To set the current cursor position, simply click on the
+        hieroglyphic panel.</para>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Inserting signs with menus and palette</title>
+
+        <para>The faster way to insert signs is to use the keyboard [<xref
+        linkend="keyboard_editing" />], and type either manuel de codage codes
+        or translitteration. However, it is possible to select the signs from
+        either a menu or from the sign palette</para>
+
+        <para></para>
+
+        <section>
+          <title>The Sign Menu</title>
+
+          <para>The sign menus only list the basic signs, from the usual
+          Gardiner categories (with the extra category Ff for signs taken from
+          hieratic. This category was used in the original Gardiner
+          fonts).</para>
+
+          <para>If you are working on a Mac, you will notice that this menu is
+          quite slow to appear. The mac obviously doesn't like huge menus like
+          that. Use the sign palette instead (I kept the menu because on other
+          platforms, like Windows and Linux, they can be manipulated from the
+          keyboard, which can make them quite fast to use).</para>
+        </section>
+
+        <section>
+          <title>The Sign Palette</title>
+
+          <para>The sign palette was created to propose a better solution than
+          the menu. It can display all available signs without any problem,
+          and it features advance search options.</para>
+
+          <para>To open the sign palette, use the menu Tools/Hide Show
+          Hieroglyphic Palette.</para>
+
+          <para>The basic usage of the palette is quite simple: you select the
+          family of signs you are interested in (using the dropdown list (b)),
+          and then you <emphasis>double click</emphasis> on the sign you want
+          to insert in the panel (e).</para>
+
+          <para>Not all signs are displayed (normally, the palette doesn't
+          display variant signs). To display all signs from a family, check
+          the "show all" box (h).</para>
+
+          <para>If you click only once on a sign, the sign will be
+          <emphasis>selected.</emphasis>Information about the sign (its code,
+          its values, etc.) will be displayed in the panel (i). More
+          information will be available if you select the "Sign Description"
+          tab (a).</para>
+
+          <para><emphasis>Please note that most information in JSesh in here
+          for searching purporses. In particular, details about
+          <emphasis>what</emphasis> the values means are not fully displayed.
+          For instance, we use "bin" as a value for G37, but only because it
+          is a convenient mnemonic. In reality, the internal format of JSesh
+          allows to store more information about what the values are. Another
+          example is Y1; for this one, we will keep the "sS" mnemonic, and add
+          the probably better "sXA". </emphasis> More scientific information
+          on the sign will belong to the "Sign Description" (which is quite
+          empty right now).</para>
+
+          <para><figure>
+              <title>Sign Palette</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/palette.png" />
+                </imageobject>
+              </mediaobject>
+            </figure></para>
+
+          <para></para>
+
+          <section>
+            <title>Advanced controls</title>
+
+            <para></para>
+
+            <variablelist>
+              <varlistentry>
+                <term>b</term>
+
+                <listitem>
+                  <para>The "family selector" holds two special families:
+                  "user palette" and "last used signs". See below for more
+                  information on user palette. "Last used signs" contains all
+                  signs selected by the user in the palette during this
+                  session. It's supposed to be usefull if the same signs
+                  appears often.</para>
+
+                  <para></para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>c</term>
+
+                <listitem>
+                  <para>The "sub family" control allows to restrict the
+                  listing to the signs which share certain characteristics.
+                  For instance, if you have selected the "God" family, you can
+                  restrict the search to "hawk-headed" gods.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>d</term>
+
+                <listitem>
+                  <para>the translitteration filter allows to look for signs
+                  using their translitteration. The translitteration used may
+                  be the phonetic value of a sign (for phonograms and
+                  ideograms), or may be a value typical of a word the sign
+                  appear in. If you check the "show all" box, all values known
+                  to JSesh will be used (TO BE COMPLETED).</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>f</term>
+
+                <listitem>
+                  <para>User palette selector. If you check this box, the
+                  currently selected sign will be added to the user
+                  palette.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>g</term>
+
+                <listitem>
+                  <para>If you click on the "part of" button, Jsesh will
+                  display all signs that contain the currently selected sign
+                  (well, if he knows). in the future, it may use the "select
+                  all" box to choose how far to go. Each further click will
+                  extend the set of displayed signs (the next one will list
+                  parts, and parts of parts, etc.)</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term>j</term>
+
+                <listitem>
+                  <para>select known variants of the current sign. The term
+                  "variant" is here used quite loosely. It may be real
+                  linguistic variants (as Z7 is a variant of G43, for
+                  instance), or it may means "signs which are graphically
+                  based on another one". For instance, A17A is a variant of
+                  A17 in this meaning, even if its linguistic uses are quite
+                  different. Each further click will extend the set. A second
+                  click would add variant of variants, etc...</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </section>
+
+          <section>
+            <title>User palette</title>
+
+            <para>The user palette allows a user to compose his own list of
+            prefered signs. Adding a sign in the palette is simple: you simply
+            select the sign, and check the "user palette control" (f) in the
+            bottom part of the palette. The content of the user palette is
+            automatically saved, so you will get your palette back next time
+            you start JSesh. Removing a sign from the palette is as simple as
+            selecting it and unchecking the "user palette" control.</para>
+
+            <para>All signs selected for inclusion in the user palette will be
+            displayed when the "user palette" special family is
+            selected.</para>
+          </section>
+
+          <section>
+            <title>You can help</title>
+
+            <para>You will find a description of the files used by the palette
+            as an appendix to this documentation. If you have a good knowledge
+            of hieroglyphs, you can help improving JSesh by extending the
+            informations it uses. Mail the author (serge.rosmorduc AT
+            qenherkhopeshef.org) for more information.</para>
+          </section>
+        </section>
+      </section>
+
+      <section>
+        <title>Selecting a zone</title>
+
+        <para>The selection stands between the cursor, and what is called the
+        mark. The whole selection is drawn in light blue. <remark> Some
+        operations are possible only if a zone of text is selected.
+        </remark></para>
+
+        <para>To select a zone of text, you can use a number of ways :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Mac style : shift-click on a point in the text ; the whole
+            text between this point and the cursor will be selected ;</para>
+          </listitem>
+
+          <listitem>
+            <para>Unix style : same, but using right-mouse button. This might
+            change one day if I decide to use contextual menus.</para>
+          </listitem>
+
+          <listitem>
+            <para>keyboard selection : <code>shift + left or right
+            arrow</code> selects and move.</para>
+          </listitem>
+
+          <listitem>
+            <para>mouse dragging</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Adding a sign chosen from a menu</title>
+
+        <para>The <code>hieroglyphs</code> menu gives access to the signs of
+        the standard Gardiner list. Simply select a sign, and it will be added
+        at the cursor position.</para>
+      </section>
+
+      <section>
+        <title>Grouping signs</title>
+
+        <para>This is done using the "Text manipulation" menu. You can group
+        signs into vertical or horizontal groups, by selecting the signs (or
+        cadrats), and choosing either "group horizontal" or "group vertical".
+        Note that you can break the groups with the menu "explode group". All
+        kinds of groups can be "exploded".</para>
+
+        <para>"Group Horizontal" has the keyboard shortcut "Ctrl-h"</para>
+
+        <para>"Group Vertical" has the keyboard shortcut "Ctrl-g"</para>
+      </section>
+
+      <section>
+        <title>Ligatures</title>
+
+        <para>JSesh knows a number of "special groups", or ligatures, which
+        are beyond the capabilities of "square" cadrats. For instance, "w" and
+        "t" will likely be arrange like that: <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/w_and_t.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> . To achieve such a layout, select the signs
+        you want to ligature, and use the menu <guimenuitem> Text
+        manipulation/Ligature elements. </guimenuitem></para>
+
+        <para>However, JSesh doesn't know how to ligature all groups, even
+        though it knows some rather "sportive" ones: ligaturing
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/stp_n_ra1.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> gives <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/stp_n_ra2.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> .</para>
+      </section>
+
+      <section>
+        <title>Complex ligatures</title>
+
+        <para>Some ligatures can be considered as the ligature of a sign and a
+        group. Let's take the group <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/mr_xAswt.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> . It can be considered as a ligature between
+        the sign <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/ns.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> and the group <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/xAswt.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> . Such ligatures can be built with the menus
+        <guimenuitem> Text manipulation/Ligature group with hieroglyph.
+        </guimenuitem> or <guimenuitem> Text manipulation/Ligature hieroglyph
+        with group. </guimenuitem> In the first case, the group is "in front"
+        of the hieroglyph, in the second case (which corresponds to our
+        example, the hieroglyph stands "in front of" the group.</para>
+
+        <para>For each sign, JSesh tries to find two areas. One for "front"
+        ligatures, and one for "back" ligatures. Some sign have their
+        "ligature area" already set. For other signs, it is computed
+        automatically. To tell the whole truth, JSesh tries to see if it can
+        fit a rectangle in the bottom-left area of signs (for left-to-right
+        orientation). This area would be the "start" area. For the "end" area,
+        two places are examined. First, the top-right corner of the signs
+        (like in the <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/w_and_t.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> ligature, and then a large area in the bottom
+        left, like in the <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/mr_xAswt.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> case.</para>
+
+        <para>Signs creator can provide other areas, like in
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/Hm_kA.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject></para>
+
+        <para>Please note that a sign can be ligatured at the same time with a
+        group before it and with a group after it.</para>
+      </section>
+
+      <section>
+        <title>Editing groups</title>
+
+        <para>When you meet a very specific group, one-of-a-kind type, in
+        which you want to place the signs exactly where you want, you can
+        select the <code>edit group</code> menu entry. The edited group will
+        be either the selected group, if there is a selection (overlined in
+        blue), or the last group before the cursor, if there is no
+        selection.</para>
+
+        <para>It will open the following window :</para>
+
+        <figure>
+          <title>Group editor</title>
+
+          <graphic fileref="images/groupEditor.png" />
+        </figure>
+
+        <para>You will be able to move the signs, to scale them, and to rotate
+        them. Note that scaling and rotations are triggered by two buttons. To
+        move a sign, click on it and drag it where you want. To rotate or
+        scale it, click and drag one of the small red boxes around the
+        currently selected sign.</para>
+      </section>
+    </section>
+
+    <section>
+      <title id="keyboard_editing">Keyboard editing</title>
+
+      <section>
+        <title>Entering hieroglyphs</title>
+
+        <para>When you type a letter or a number in the main window, this
+        letter or number appears in the small panel in the bottom left panel
+        of JSesh. This allows you to type "Manuel de Codage" codes.
+        <itemizedlist>
+            <listitem>
+              <para>Lots of signs have phonetic codes, which correspond to
+              their translitteration;</para>
+            </listitem>
+
+            <listitem>
+              <para>all signs are accessible through their code in Gardiner's
+              grammar. To find the code, you can look at the "hieroglyphs"
+              menus.</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>Once the code is typed, you must validate it. To validate, type
+        one of <command>space, ':', '*', '-', enter</command></para>
+
+        <para>The sign will be added to the hieroglyphic text.</para>
+
+        <para>Phonetic codes can correspond to more than one sign. For
+        instance, <code>iw</code> corresponds to one of <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw1.png" />
+            </imageobject>
+          </inlinemediaobject> , <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw2.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> , <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw3.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> , <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw4.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> and <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw5.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> . The "official" sign for <code>iw</code> is
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/iw1.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> according to the
+        <foreignphrase>manuel</foreignphrase> . However, you might want
+        another sign. In this case, it's quite simple : press the space bar,
+        and the system will circle through the possibilities, one at a
+        time.</para>
+
+        <para>Your last choice will be retained the next time you type the
+        code in this session.</para>
+      </section>
+
+      <section>
+        <title>Grouping signs</title>
+
+        <para>The sign you type when validating can be used to group the
+        hieroglyphs. Both 'space' and '-' have the simple effect that the
+        <emphasis>next sign</emphasis> will be added in a new cadrat.</para>
+
+        <para>':' and '*' will add the next sign respectively below and
+        besides the last sign entered.</para>
+
+        <para>'enter' has two consequences : it validates a sign (if there is
+        one), and it adds a new line.</para>
+
+        <para>If no code has been entered (that is, if the code window is
+        entered), the previous grouping sign type will group the last two
+        cadrats. It looks a bit strange, but you will see that it's quite
+        natural. you can use it to group signs as an afterthough.</para>
+      </section>
+
+      <section>
+        <title>Exempli gratia</title>
+
+        <para>If you want to type the word <graphic fileref="images/pt.jpg" />
+        , you can : <itemizedlist>
+            <listitem>
+              <para>type 'p', then '*', 't', ':', 'pt'</para>
+            </listitem>
+
+            <listitem>
+              <para>type 'p', 't', then '*', space (which, in sort, validates
+              the '*'), pt, ':', and space.</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Direct manuel de codage entry</title>
+
+      <para>When a text is displayed, the manuel de codage codes for the
+      current line are shown in a text field</para>
+
+      <figure>
+        <title>Manuel de codage field in use</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/mdcEditing.png" format="PNG" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>This field is not here just for the sake of the
+      <foreignphrase>Manuel</foreignphrase> beauty. In fact, you can edit its
+      content, and the text in the hieroglyphic window will be modified
+      accordingly when you validate (by typing the <code>Enter</code> key).
+      Note that incorrect Manuel de codage code will be refused.</para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Graphical export</title>
+
+    <section>
+      <title>Copy/Paste</title>
+
+      <para>As of version 2.1 and later, copy and paste can be used to
+      transfer data between Jsesh and other applications. You can :
+      <itemizedlist>
+          <listitem>
+            <para>Launch JSesh twice and cut and paste between the two.</para>
+          </listitem>
+
+          <listitem>
+            <para>Copy text and signs to a word processor (it works with both
+            openoffice and Word)</para>
+          </listitem>
+        </itemizedlist></para>
+
+      <section>
+        <title>Graphical copy and paste : configuration</title>
+
+        <para>Often, one needs two sizes of signs in an application: one for
+        main text, and a smaller one for footnotes. JSesh allows one to keep
+        two configurations for copy and paste. The current size can be
+        selected in the edit menu : simply choose "copy: small size" or "copy:
+        large size".</para>
+
+        <para>The corresponding settings can be changed in the preferences.
+        There are two tabs, one for "small" and the other for "large"
+        size.</para>
+
+        <figure>
+          <title>Cut and Paste Preferences</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/cutAndPastePrefs.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>"Cadrat height" changes the size of the pasted hieroglyphic
+        text. "Export mode" allows you to chose how hieroglyphic text will be
+        pasted. There are three options:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>as one large picture</term>
+
+            <listitem>
+              <para>The whole selected text will be pasted in your word
+              processor as a single picture. This is fine for text in columns,
+              for instance, or if you want to keep the graphical layout. It
+              also seems that most word processor prefer to handle large
+              pictures than lots of small ones.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>grouped cadrats</term>
+
+            <listitem>
+              <para>Adjacent hieroglyphic cadrats will be grouped in one
+              picture. The resulting text will alternate normal text and large
+              pictures.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>one picture per cadrat</term>
+
+            <listitem>
+              <para>The pasted text will contain normal text and pictures for
+              the hieroglyphic text. But then, each cadrat will be rendered as
+              one picture. This is fine for line-cutting, and might be
+              interesting if you mix text and hieroglyphs.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section>
+        <title>Cut and paste limitations</title>
+
+        <para>Due to technical issues, we have put a limit on cut and paste.
+        It's not possible to paste very long texts in a word processor (you
+        can "export as RTF instead"). We will try to improve it, but we think
+        it's a minor nuisance, as one typically paste small parts of
+        hieroglyphic texts rather than whole large document (the limit is
+        currently 1000 cadrats).</para>
+
+        <para>Don't hesitate to write to the author at
+        <email>rosmord@iut.univ-paris8.fr</email> about this (or other
+        problems with JSesh).</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Printing</title>
+
+      <para>Currently, printing doesn't work, and is not a priority. Use PDF
+      export instead.</para>
+    </section>
+
+    <section>
+      <title>Exporting PDF</title>
+
+      <para>To export your text as a PDF, choose export PDF. Explore the
+      various renderings for best results. There might currently be problems
+      with the latin and translitteration fonts.</para>
+    </section>
+
+    <section>
+      <title>Exporting Bitmap Pictures</title>
+
+      <para>Pictures on computers come in two flavours: bitmaps and vector
+      pictures. For a quick idea of which is which, let's say that bitmaps are
+      usually edited with softwares like photoshop (or gimp if you use free
+      software), and vector pictures are edited using softwares like Adobe
+      Illustrator (or Inkscape). Most softwares can display and read bitmaps,
+      so they tend to be easier to share. Their main problem is that you can't
+      zoom well on them. A bitmap fit for screen display will probably print
+      poorly. However, sharing vector pictures is quite difficult (for no good
+      reason, but it's a sorry state of affairs), so you might end up sending
+      high-resolution bitmaps for printing.</para>
+
+      <para>To export a bitmap, choose the " <guimenuitem> File/Export
+      As/Export as Bitmap </guimenuitem> " menu entry.</para>
+
+      <para>You can export a jpeg or png version of your text. If no text is
+      selected, the whole text will be rendered. If there is a selection, only
+      the selected text will be drawn.</para>
+
+      <para>Note that I've experienced memory problems with jpeg file
+      creation. The memory demands of java for images is huge, and the default
+      virtual machine "only" use 64m of memory. You might want to start java
+      with the option -Xmx :</para>
+
+      <screen>
+			<command>java</command> -Xmx128m jsesh.jar
+			</screen>
+    </section>
+
+    <section>
+      <title>Exporting RTF</title>
+
+      <para>RTF (Rich Text Format) is a portable document format that can be
+      read by most word processors (for instance, MS/word and
+      Openoffice).</para>
+
+      <para>To export a bitmap, choose the "<guimenuitem>File/Export As/Export
+      as RTF</guimenuitem>" menu entry.</para>
+    </section>
+
+    <section>
+      <title>Exporting WMF</title>
+
+      <para>WMF export is used to include short passages in a word processor,
+      so it works only on the selection. That's why it's disabled when no text
+      is selected. Once you have selected text, you can save it as a WMF file.
+      Note that in the latest version of JSesh, copy and paste can be used
+      instead of WMF output.</para>
+
+      <para>The WMF export works quite fine for the hieroglyphs. However,
+      there is still a lot of work for the text in latin fonts.</para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Tips and tricks on hieroglyphic text encoding</title>
+
+    <para></para>
+  </chapter>
+
+  <chapter>
+    <title>Extending the sign list</title>
+
+    <section>
+      <title>Introduction</title>
+
+      <para>From version 2.0beta onward, users of JSesh can create their own
+      signs. A sign editor and an elaborate database system are planned in the
+      future, but, on a more practical sign, it was decided to allow one to
+      import signs created with various softwares.</para>
+
+      <para>So : a) JSesh has currently <emphasis>no</emphasis> sign editor,
+      but b) JSesh can import signs from :</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>true type fonts (see fontforge for a free editor) ;</para>
+        </listitem>
+
+        <listitem>
+          <para>SVG files : SVG is a relatively recent format for vector
+          graphics. It's very powerfull and complete. Currently, JSesh
+          understands SVG files if the sign is drawn in black over white. You
+          can edit SVG files with a number of programs; one of the best free
+          ones is Inkscape, which has the advantage of being
+          multi-platform.</para>
+        </listitem>
+
+        <listitem>
+          <para>font files exported from tksesh (.tml files)</para>
+        </listitem>
+
+        <listitem>
+          <para>font files from the GNU font utils (.bzr files). Both types of
+          files can be edited with the fontedit software, included in
+          tksesh.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Importing new glyphs</title>
+
+      <section>
+        <title>Choosing a directory for your signs</title>
+
+        <para>In order to be able to add new signs, you must first choose
+        <emphasis>where</emphasis> they will be stored on your computer. To do
+        this, simply select <guimenuitem>Tools/Edit
+        Preferences</guimenuitem></para>
+
+        <para>In the "Font Selection" tab (currently the only one available),
+        enter the directory you want to use in the "Hieroglyphic font
+        directory" field. You should create an empty directory for this
+        specific purporse.</para>
+
+        <figure>
+          <title>Creating a Directory</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/glyphDir1.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <figure>
+          <title>The Directory is Selected</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/glyphDir2.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>You only have to do this once. Next invocations of JSesh will
+        use this directory.</para>
+      </section>
+
+      <section>
+        <title>Actual sign insertion</title>
+
+        <para>To add new signs, you should import them from a file created
+        with another software, and then assign new codes to the created signs.
+        The sign importing interface can be started from the menu
+        <code>Tools/add new signs</code> .</para>
+
+        <para>Sign importing is done in two phases :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>you import a picture or set of pictures from some file (svg
+            drawings, truetype fonts, etc.)</para>
+          </listitem>
+
+          <listitem>
+            <para>you assign a code for each sign you have imported, and then
+            you insert the new sign in the JSesh list of signs.</para>
+          </listitem>
+        </itemizedlist>
+
+        <figure>
+          <title>New signs importing interface</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/importSigns1.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <section>
+          <title>Importing drawings</title>
+
+          <para>Importing drawings is easy. JSesh can read:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>true type fonts</para>
+            </listitem>
+
+            <listitem>
+              <para>.tml and bzr files, which can be created with JSesh's
+              forerunner, tksesh.</para>
+            </listitem>
+
+            <listitem>
+              <para>SVG files</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>Simply click on the "import file" button, and select the file
+          which contains your picture(s). You can use the navigation buttons
+          (those with arrows) to browse the available signs.</para>
+        </section>
+
+        <section>
+          <title>Fine tuning your signs</title>
+
+          <para>In some cases, the size or orientation of your signs won't be
+          correct. For instance, in the picture below, the duck is too large
+          and its orientation is wrong.</para>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="images/importSigns2.png" />
+            </imageobject>
+          </mediaobject>
+
+          <para>You can correct this :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>the buttons <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/importSigns3.png" format="PNG" />
+                  </imageobject>
+                </inlinemediaobject> and <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/importSigns4.png" format="PNG" />
+                  </imageobject>
+                </inlinemediaobject> can be used to change the sign
+              orientation;</para>
+            </listitem>
+
+            <listitem>
+              <para>the button "Full cadrat height" gives the sign the same
+              size as the A1 sign;</para>
+            </listitem>
+
+            <listitem>
+              <para>if you click on the sign's window and drag the mouse, the
+              mouse position will set the sign's height.</para>
+            </listitem>
+          </itemizedlist>
+        </section>
+
+        <section>
+          <title>Attaching codes to drawings, and inserting them in
+          JSesh</title>
+
+          <para>Once your sign is correct, it's time to give it a name. In a
+          number of cases, JSesh will have guessed one, but this doesn't mean
+          the sign has been registered in its list. Nothing is done when as
+          long as you haven't pressed the insert button.</para>
+
+          <para>Except when you are creating signs which are already
+          documented in the Manuel de Codage (for instance, because they are
+          not available in JSesh), you should first get a user ID, which will
+          differentiate your signs from the signs created by other
+          users.</para>
+
+          <para>to get an uid, send an email to <email>
+          rosmord@iut.univ-paris8.fr </email> . <remark> <emphasis> Note for
+          tksesh users: </emphasis> the uid is simply your tksesh id.
+          </remark></para>
+
+          <para>Be carefull when giving signs a name. You want your files to
+          be readable by anyone, so be faithfull to the "Manuel de codage".
+          Our current suggestions are the following.</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>If you create your own version of a sign in the Manuel
+              (either because it isn't available in JSesh yet, or you don't
+              like the default sign provided, use either the standard Manuel
+              de codage for the sign, or use the following notation: US
+              <replaceable>uid</replaceable> + gardiner code, where
+              <replaceable>uid</replaceable> is the user id.</para>
+            </listitem>
+
+            <listitem>
+              <para>When you create a sign which you consider as a variant of
+              a standard sign, you should build its name like that:
+              US<replaceable>uid</replaceable>+<replaceable>Gardiner
+              Code</replaceable>+"VAR"+<replaceable>VARIANT CODE</replaceable>
+              where : Gardiner Code is the standard Manuel de codage code for
+              the base sign and VARIANT CODE is usually an uppercase
+              letter.</para>
+
+              <para>The Ramesside usual form for the hare has a Seth animal
+              tail. If I want to distinguish it from the "normal" sign, I can
+              call it US1E34VARA.</para>
+            </listitem>
+
+            <listitem>
+              <para>When the sign you create corresponds to a completely new
+              sign, give it a code of the form:
+              US<replaceable>uid</replaceable>+<replaceable>Gardiner
+              Category</replaceable> + NUMBER +"XT"+<replaceable>OPTIONNAL
+              VARIANT CODE</replaceable></para>
+
+              <para>You are free to choose the number you like, but I would
+              suggest you try to find a logical layout. It would also be
+              better if this number does not correspond to a "standard" sign
+              (to avoid confusing innocent users of other softwares), so you
+              can for instance start your numbering at 1000. Note also that
+              the number should not contain leading zeros. The Category should
+              be correct, and if you really don't have a clue, you should use
+              the Aa category. "Ff" is reserved for signs used specifically
+              when transcribing hieratic.</para>
+
+              <para>Example : the Harp Louvre E&nbsp;116&nbsp;A has recently
+              been published by C. Barbotin (<emphasis>La voix des
+              hiéroglyphes, p. 66-67</emphasis>), and in its text appears the
+              unknown sign <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/US1A1000XT.png" format="PNG" />
+                  </imageobject>
+                </inlinemediaobject>. I can create this sign, and give it, for
+              instance, the code US1Aa1000XT. On the other hand, the Israel
+              Stela contains a sign which is most probably a griffin, but does
+              not correspond to any registered griffin sign in the
+              <emphasis>manuel.</emphasis> So I gave it the code US1E162VARA,
+              because E162 is a griffin sign.</para>
+            </listitem>
+
+            <listitem>
+              <para>Using this system when importing texts from other
+              softwares: it is possible that other softwares provide their own
+              "non standard" codes. If you want to import texts from those
+              software into JSesh, you might need to give a name to the new
+              signs they contain (note that fonts are usually protected by
+              copyright laws, so you will need to redraw the signs yourself,
+              either by adaptating existing JSesh signs or by finding a
+              picture of the signs in original hieroglyphic sources). For
+              compatibility purposes, the following user codes can be used for
+              other softwares: winglyph 1000 macscribe 1001 inscribe 1002 got
+              1003 visualglyph 1004 If you think of other softwares I should
+              add, please tell me.</para>
+            </listitem>
+
+            <listitem>
+              <para>standard manuel de codage code. You will find these codes
+              in Hannig's WB, for instance. A number of lists are also
+              available on the web. Please, note that using the codes is one
+              thing, but that the actual signs drawing in the fonts of other
+              softwares are legally protected. So, have to come with you own
+              versions of the signs, either from actual sources or by
+              re-creating them. You will find more information on signs
+              drawing in the next section. In our example, your duck would
+              replace the normal one, so it would have code "G39".</para>
+
+              <para>We suggest that, if you create a sign with an "normal"
+              gardiner code, you also give it an user sign code. This way, you
+              will be sure to keep it even it a sign with this Gardiner code
+              is later added to the software.</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>Note that for compatibility with tksesh, we also support
+          arbitrary "user glyph codes". These codes correspond to the codes
+          tksesh gave to new signs. User glyph codes have the form <code> UG
+          <replaceable>id</replaceable> M <replaceable>mid</replaceable> N
+          <replaceable>sid</replaceable> </code> , where <replaceable>id,
+          mid,</replaceable> and <replaceable>sid</replaceable> are numbers.
+          Avoid using those codes for now.</para>
+
+          <figure>
+            <title>Inserting the duck sign as UG1M2N0</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/importSigns5.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>When your sign is ready, click on the insert button.</para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Creating a sign with Inkscape</title>
+
+      <section>
+        <title>Introduction</title>
+
+        <para>JSesh doesn't include a hieroglyphic editor yet. However, it can
+        include signs drawn with a number of other softwares, like fontforge
+        and inkscape. Even if a sign editor is added, this functionality will
+        be kept.</para>
+
+        <para>In this tutorial, I show how to use the Inkscape software to
+        create a new hieroglyph.</para>
+
+        <para>Drawing a new sign is a rather long and tedious task. It
+        requires a basic understanding of vector graphics (Inkscape, adobe
+        illustrator...), which is not trivial, and it also requires a lot of
+        work anyway. Not only should you draw nice signs, but those signs
+        should blend with the other fonts.</para>
+      </section>
+
+      <section>
+        <title>A few notions about vector drawing</title>
+
+        <para>Drawing vectorial pictures requires some understanding of what
+        it's all about. We will write something about it later (except if some
+        kind soul can contribute a nice free-of-right tutorial).</para>
+
+        <para>Requirement for JSesh-usable signs : you should draw your signs
+        as black filled contours on a white background. The JSesh import
+        module can read non filled contours, but the import will give better
+        results with filled contours with zero width. Inkscape is able to
+        convert curves into contours, so it's not a very heavy
+        requirement.</para>
+      </section>
+
+      <section>
+        <title>Creating a background image</title>
+
+        <para>You can start by getting a picture of the glyph you want to
+        create. This picture might be a line-drawing, or a photograph from an
+        actual glyph. You want the black lines of your sign to be readable, so
+        change the colors if needed (for instance, if you have a line drawing
+        of the sign, color it in light gray). Our example will be a low
+        resolution rendering of sign C102 (seated Ptah with Was) from Israel
+        stela. The original bitmap is <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ptahHiero.png"
+                         format="PNG" />
+            </imageobject>
+          </inlinemediaobject> . With a drawing program, we have dimmed the
+        picture to get <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ptahHiero1.png"
+                         format="PNG" />
+            </imageobject>
+          </inlinemediaobject></para>
+      </section>
+
+      <section>
+        <title>Draw the outline</title>
+
+        <para>We now start Inkscape, and import the bitmap drawing in it.
+        Create a new layer, call it "work". That way, we won't disturb the
+        bitmap drawing.</para>
+
+        <para>We are then going to draw a rough outline of the sign's
+        shape.</para>
+
+        <para>As we are not great drawers, we use the "Bezier curve" tool to
+        do it. We get the following result:</para>
+
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ink1.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+
+        <para>Note that we have selected "no fill" and a small contour width.
+        We have also left the "Was" sign alone.</para>
+      </section>
+
+      <section>
+        <title>Fit the outline</title>
+
+        <para>Straight line segments won't make a great sign. So we convert
+        some of them to curve, we add new points if needed, etc...</para>
+
+        <para>We start with the head...</para>
+
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ink2.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+
+        <para>And here is the result:</para>
+
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ink3.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+      </section>
+
+      <section>
+        <title>Working on details</title>
+
+        <para>We want our signs to be readable at small size, so we won't fill
+        to much details.</para>
+
+        <section>
+          <title>Ptah's beard</title>
+
+          <para>The outline of Ptah's body will be enlarged to make the final
+          sign. But we would like the beard to be filled. Hence, we must
+          separate it from the rest of the drawing. This is done by selecting
+          the control points which separate the beard from the body:</para>
+
+          <informalfigure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ink4.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </informalfigure>
+
+          <para>And then selecting the "Break apart" entry in the "Path" menu,
+          which gives us two objects : the beard and the rest of the
+          body.</para>
+
+          <para>We can then fill the gap we have just created (and give Ptah a
+          chin :-).</para>
+
+          <informalfigure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ink5.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </informalfigure>
+
+          <para>Now, the beard should also be closed. We edit the fill and
+          stroke characteristics of the beard, and we give it a solid black
+          filling, and no stroke. If the beard is too thin, we will be able to
+          dilate it with the "outset" action of the path menu.</para>
+        </section>
+
+        <section>
+          <title>Ptah's necklace counterpoise</title>
+
+          <para>For this one, the original scan is a bit rough. We dig some
+          iconography, and we come with a two parts necklace
+          counterpoise.</para>
+
+          <figure>
+            <title>Ptah figure in Beit el Wali</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ptah2.jpg" format="JPG" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The necklace is made of two parts: a string, and the
+          counterpoise itself. The string is a simple curved stroke, and the
+          counterpoise is a filled path.</para>
+
+          <informalfigure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ink6.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </informalfigure>
+
+          <para>We want to join them into one object, which will be a filled
+          path. To do this, we first convert the string into a stroke.</para>
+
+          <informalfigure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ink7.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </informalfigure>
+
+          <para>We then select the two parts of the necklace, and use the
+          "union" operator in the "path" menu.</para>
+
+          <informalfigure>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/inkExamples/ink8.png" format="PNG" />
+              </imageobject>
+            </mediaobject>
+          </informalfigure>
+        </section>
+      </section>
+
+      <section>
+        <title>Choosing the right line width</title>
+
+        <para>At this stage, you might want to save your work twice. Once as a
+        backup, and, one, of course, as your working file. Now, select the
+        main drawing, and choose a reasonable stroke width for it. It should
+        mix well with the rest of the fonts. It might be interesting to zoom
+        out in order to see the sign as it will be rendered.</para>
+      </section>
+
+      <section>
+        <title>Uniting everything</title>
+
+        <para>Now, get sure all strokes are transformed to path, and use the
+        union operator on them. You should get:</para>
+
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ink9.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+
+        <para>I strongly suggest you keep a backup version of your sign in
+        which strokes are not tranformed to path, it will allow you to rework
+        your sign more easily, or to reuse it as part of other signs. That's
+        what I do for my Ramesside fonts. See <ulink
+        url="http://www.iut.univ-paris8.fr/~rosmord/JSesh/hieroglyphs/Ramessides/Signes/">
+        http://www.iut.univ-paris8.fr/~rosmord/JSesh/hieroglyphs/Ramessides/Signes/
+        </ulink> for the drawings and <ulink
+        url="http://www.iut.univ-paris8.fr/~rosmord/JSesh/hieroglyphs/Ramessides/Fontes/">
+        http://www.iut.univ-paris8.fr/~rosmord/JSesh/hieroglyphs/Ramessides/Fontes/
+        </ulink> for the usable signs.</para>
+      </section>
+
+      <section>
+        <title>Adding other details</title>
+
+        <para>Using the same techniques, we get to the final result:</para>
+
+        <informalfigure>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/inkExamples/ink10.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </informalfigure>
+
+        <para>which we save under the name <ulink
+        url="images/inkExamples/C102.svg"> C102.svg </ulink> .</para>
+      </section>
+
+      <section>
+        <title>Final comments</title>
+
+        <para>From a rather low resolution picture, we can get a
+        decent-looking glyph. Remember that the sign will be rather small, and
+        don't add too many details (giving the possibility to increase the
+        sign's details with its size is an interesting option, which is used
+        in the Gardiner's lead fonts). Try to mix with the existing signs.In
+        fact, if you have SVG sources for similar signs, try to reuse them
+        (volonteers to create a complete font ?).</para>
+
+        <para>The sign given in this example is not too good an example. The
+        "Was", for one, is too high, and the sign won't mix well with the
+        existing fonts. So we should make the scepter shorter. In general, our
+        Ptah is too lean compared with the other signs. Keeping intermediate
+        stages of your work will allow you to correct things more easily. For
+        instance, if the strokes are too fat, if you have kept a version of
+        the sign where the strokes are still strokes, and have not yet been
+        replaced by paths, the correction is very easy.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Advanced Informations in Inkscape</title>
+
+      <section>
+        <title>Introduction</title>
+
+        <para>JSesh has now a relatively advanced ligature mechanism, which is
+        not as good as the one in RES, but give reasonnable results in most
+        cases. In many cases, JSesh is able to "guess" where ligatured groups
+        should fit, but it can also do with some extra help. This help can be
+        provided in the sign's SVG file itself, and we decided to use the
+        mechanisms of inkscape for that.</para>
+      </section>
+
+      <section>
+        <title>Ligature zones</title>
+
+        <para>For each sign, JSesh will try to compute two ligature zones, one
+        for ligatures of groups before the sign, the other for ligatures of
+        groups after the sign. Those zones can be computed automatically, but
+        the sign author can also provide them.</para>
+
+        <figure>
+          <title>The A17 sign with its two ligature zones</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/zones1.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>to create one of the two ligature zones in inkscape, do the
+        following:</para>
+
+        <procedure>
+          <step performance="required">
+            <para>create a rectangle where the group should fit. Note that the
+            whole group will be scaled to fit there, so draw it large enough.
+            I usually draw these rectangles in red, but it's only a
+            convention.</para>
+          </step>
+
+          <step performance="required">
+            <para>open the contextual menu for the rectangle (right-click over
+            the rectangle), and select <guimenuitem>object
+            properties</guimenuitem> . You will get the object properties
+            window ( <xref linkend="fig_zoneProperties" /> .) Define the Id as
+            either "zone1" or "zone2". Don't forget to click on the
+            <guibutton>Define</guibutton> button to validate your
+            modification. Also clear the label (more on this in <xref
+            linkend="zoneGravity" /> ).</para>
+          </step>
+        </procedure>
+
+        <remark>Admitedly, we are using the id and label information in a way
+        they are not supposed to be used. The reason for this is purely
+        pragmatic. It's far easier to do things that way, as the sign creator
+        has no need to know about the inner organization of the XML
+        format.</remark>
+
+        <figure id="fig_zoneProperties">
+          <title>Zone Properties</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/zoneProperties.png" format="PNG" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title id="zoneGravity">Ligature zones gravity</title>
+
+        <para>The ligatured group will go somewhere in the ligature zone. But
+        where exactly ? It can stand in the middle of the area, or stick to
+        one of its sides. In fact, the behaviour of the layout algorithm is
+        not always the same. In <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/w_and_t.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> , the "w" tends to fit on the bottom left of
+        the rectangular area. In <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/Hm_kA.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> , the U36 sign is more or less centered, both
+        horizontally and vertically. JSesh allows signs authors to design the
+        behaviour of "ligature zones", in the following way. Remember the
+        label of the previous paragraph? You can set it to <literallayout>
+					<code>gravity:</code> <replaceable>gravity specifications.</replaceable>
+					</literallayout> where <replaceable>gravity specifications</replaceable>
+        can contain <itemizedlist>
+            <listitem>
+              <para><code>s</code> or <code>e</code> to ask the group to stick
+              to the start side or to the end side of the zone (start and end
+              are taken from M.-J. Nederhof's RES, and avoid the use of "left"
+              and "right", which are not really usable for hieroglyphs!). If
+              neither "s" nor "e" is specified, the group will be horizontally
+              centered, like in <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/Hm_kA.png" format="PNG" />
+                  </imageobject>
+                </inlinemediaobject>.</para>
+            </listitem>
+
+            <listitem>
+              <para><code>t</code> or <code>b</code> to ask the group to stick
+              to the top or bottom of the zone. If neither "t" nor "b" is
+              specified, the group will be vertically centered.</para>
+            </listitem>
+          </itemizedlist> In <xref linkend="fig_zoneProperties" />,
+        <code>gravity:te</code> &nbsp; means that the group which would be
+        ligatured in zone1 (in front of the "child" sign) would stick to the
+        top of the red rectangle, and stay near the sign, for instance
+        <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/W_Xrd.png" format="PNG" />
+            </imageobject>
+          </inlinemediaobject> .</para>
+      </section>
+    </section>
+  </chapter>
+
+  <appendix>
+    <title>The current sign description system</title>
+
+    <para>It is possible to document the hieroglyphs (and in particular the
+    new signs) so that the the palette can handle them in better ways. This is
+    of course useful for your own new signs, but also for "standard" JSesh
+    signs, as the signs information provided by JSesh is currently very
+    partial. User input would be most welcome here, and above all user input
+    by professionals.</para>
+
+    <para>The main feature of version 2.4.15 of JSesh is the availability of a
+    user friendly editor for adding information about signs.</para>
+
+    <section>
+      <title>Starting the sign description editor</title>
+
+      <para>The sign description editor is a separate program. To start
+      it:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>on windows, there is a shortcut for it</para>
+        </listitem>
+
+        <listitem>
+          <para>on linux, there should be one too</para>
+        </listitem>
+
+        <listitem>
+          <para>on mac, go to your JSesh installation folder. You will find
+          the editor in the "bin" folder. It's called
+          <code>signInfoEditor.command.</code></para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Please note that you can play and test the editor at will, as long
+      as you save nothing. When you save, the result will be used the next
+      time you start JSesh.</para>
+    </section>
+
+    <section>
+      <title>Editing the sign descriptions</title>
+
+      <para>The signs are defined by the following information:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>The Transliterations associated with the sign</para>
+        </listitem>
+
+        <listitem>
+          <para>The signs which are part of this sign. For instance, A6
+          contains a W54 sign</para>
+        </listitem>
+
+        <listitem>
+          <para>The sign(s) of which the they are variants</para>
+        </listitem>
+
+        <listitem>
+          <para>Descriptions in free text of the sign, which may include for
+          instance bibliographical remarks</para>
+        </listitem>
+
+        <listitem>
+          <para>Tags are short description items attached to the signs, and
+          used to select them. For instance, "enemy" is attached to signs
+          which represent an ennemy.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>When you start the sign description editor, it automatically read
+      the standard sign descriptions as well as your own descriptions. You can
+      then add or change data, and save the result (simply by choosing "save"
+      in the menu). Note that the editor will prevent you from changing the
+      information which is stored in the system sign descriptions.</para>
+
+      <para>An important feature of the editor is that you can use the sign
+      palette (from the tool menu) to select signs.</para>
+
+      <section>
+        <title>The main window</title>
+
+        <para></para>
+
+        <figure>
+          <title>The Main Sign Info Editor Window</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/SignInfoWindow.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The sign info editor main windows allows one to edit information
+        on a given sign. Selecting the sign you want to work on can be done in
+        many ways. You can navigate with the arrows on the bottom of the
+        window, type the sign code in the "Code" field, or simply drag and
+        drop the sign from the palette. Once a sign appear, you can add
+        information about it.</para>
+
+        <para>The "basic sign" check box is used to say that the sign should
+        appear in the sign palette even if "show all" is not selected.</para>
+
+        <para>From this window, you can edit the sign transliterations, and
+        many other things. The bottom part of the window gives access to three
+        kinds of information: relationships between this sign and other signs,
+        free text description of the sign, and tags.</para>
+
+        <section>
+          <title>Transliteration</title>
+
+          <para>It is possible to associate a number of transliterations with
+          a given sign. Transliterations can be used in various contexts: to
+          find a sign (in the palette, or typing the transliteration directly
+          at the keyboard), or simply for informative purposes, for uncommon
+          transliterations.</para>
+
+          <para><figure>
+              <title>The Transliteration Editor</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/transliterationEditor.png" />
+                </imageobject>
+              </mediaobject>
+            </figure></para>
+
+          <para>To type a new transliteration, simply press the "+" button. If
+          you enter some text in the transliteration text fied, this text will
+          be used as the new transliteration.</para>
+
+          <para>If you want to suppress a transliteration of yours, select the
+          line, and press the "minus" button. This button is gray if no line
+          is selected, or if the selected line can't be deleted.</para>
+
+          <para>You can then fix the "type" and "use" values.</para>
+
+          <para>I'm not sure whether or not the "type" is useful, and it's
+          currently not used by JSesh. The "use" column is, on the other hand,
+          quite important.</para>
+
+          <para>The "use" explain in which context this transliteration is
+          used <emphasis>in the software</emphasis>. Note that each level of
+          use in included in the next one. For instance, if you chose
+          "keyboard", the sign will be also used in "palette" and
+          "informative" contexts.</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>type</term>
+
+              <listitem>
+                <para>phonogram</para>
+
+                <para>ideogram: should be used both for simple ideograms
+                (those followed by Z1), and for so-called phonetic
+                determinatives, which are really ideograms in disguise.</para>
+
+                <para>abbreviation : use for signs which are actual
+                abbreviations for words. They are not normally followed by Z1
+                in writing. Exempli gratia: G37 can be used as abbreviation
+                for "Sri".</para>
+
+                <para>typical: the sign is typical for some word. Often useful
+                for some determinatives. I use it for G37's value
+                "bin".</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>use</term>
+
+              <listitem>
+                <para>keyboard: the sign will be accessible through this
+                transliteration in JSesh when using the keyboard to enter
+                signs. For instance, D54's transliteration "iw".</para>
+
+                <para>palette: the sign will not be accessible from the
+                keyboard through this tranliteration, but will be accessible
+                through the palette. Note that if a user uses transliteration
+                to access a sign in the palette, he will be able to access it
+                through its transliteration afterwards.</para>
+
+                <para>informative: the transliteration is given only for
+                informative purposes. It will appear in the "value" field of
+                the palette, but that's all.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+
+        <section>
+          <title>Part of sign editor</title>
+
+          <para>The part of sign editor allows to describe the elements of a
+          sign in terms of other signs. For instance, the king of Upper Egypt
+          figure A44 wears a white crown, holds a nekhakha scepter, and wears
+          also an uraeus. All of those, in turn, are hieroglyphs. Note that
+          you don't need to list all parts. For instance, if a god wears the
+          Atef crown, which in turn contains the Maat Feather, don't list the
+          feather. It's already given as a part of the Atef (thanks to J.
+          Hallof for this remark at the Oxford 2006 conference).</para>
+
+          <para><figure>
+              <title>The parts of sign list</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/partOfEditor.png" />
+                </imageobject>
+              </mediaobject>
+            </figure></para>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Variant editor</title>
+
+          <para></para>
+
+          <para><figure>
+              <title>The variant editor</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/variantOfEditor.png" />
+                </imageobject>
+              </mediaobject>
+            </figure></para>
+
+          <para>The notion of variant is a tricky one. In fact, it's not that
+          well defined, and, worse, its useful meaning may depend on the
+          context. There are in fact two notions. One is graphical. A
+          graphical variant of a sign is a sign which looks like another one.
+          Another notion is linguistic. A sign is a linguistic value of
+          another one if it has the same values and uses. The two notions
+          often overlap, but not always. For instance, Y2 is both a graphical
+          variation of Y1, and a linguistic variant thereof. On the other
+          hand, A17A is only a graphical variant of A17. It doesn't have the
+          same uses at all; and Z7 and G43 are linguistic variants, but not
+          graphical variant at all.</para>
+
+          <para>These notions will be used by JSesh both for the sign palette
+          (with its "variant of " button) and for the search system. It may be
+          usefull, while searching for words with G43, to retrieve those with
+          Z7.</para>
+
+          <variablelist>
+            <varlistentry>
+              <term>is similar</term>
+
+              <listitem>
+                <para>is checked if the signs "look the same".</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+
+          <variablelist>
+            <varlistentry>
+              <term>degree</term>
+
+              <listitem>
+                <para>list how close the relationship between the two signs
+                is. It can be one of :</para>
+
+                <itemizedlist>
+                  <listitem>
+                    <para>full: a full variant of a sign S is a sign with the
+                    exact same uses and values as S.</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>partial: the uses overlap significantly. Usually,
+                    the variant would cover some of the uses of the original
+                    sign.</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>other: other kinds of variants. For instance, D36
+                    (the arm) can be considered as a variant of D37 (the sign
+                    "rdi"), in some contexts, but the two signs have a very
+                    distinct identity.</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>no: the sign is not a linguistic variant at
+                    all</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>unspecified: you don't really know, or don't have
+                    the time to bother.</para>
+                  </listitem>
+                </itemizedlist>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+
+          <para></para>
+        </section>
+
+        <section>
+          <title>Description editor</title>
+
+          <para></para>
+
+          <para><figure>
+              <title>The Tag list editor</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/descriptionEditor.png" />
+                </imageobject>
+              </mediaobject>
+            </figure></para>
+
+          <para>This field allows free text comments for signs. The most
+          important use for this is to document uncommon signs, giving
+          bibliographical references about them, and in general helping the
+          user to select the best possible sign. If you want your sign
+          description to be included in the distributed version of JSesh, they
+          should have bibliographical references to back up their claim.
+          Please also note that JSesh is a free software, but that it must
+          respect copyright. So, this is not the place for blind copying of
+          the sign lists of the usual grammars (it doesn't mean of course that
+          you can't use them as sources). You can write descriptions in
+          multiple languages, although it would be better if there were an
+          english version for each sign.</para>
+        </section>
+
+        <section>
+          <title>Tag list editor</title>
+
+          <para></para>
+
+          <figure>
+            <title>The Tag list editor</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/SignTagsWindow.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>This window allows to describe the sign in terms of various
+          short descriptive words called "tags". Those are available in the
+          palette to select sub-categories of a given family. For instance,
+          "standing" characters (obviously, the tags used here do not apply to
+          A44). The left window displays all available tags, listing first
+          those which are already used for this family, and then the other
+          tags. The best way to tag signs is to look at similar signs, and see
+          how it's done.</para>
+
+          <para>I'd like to draw your attention toward some very useful tags,
+          which are a bit different. Those are "tall narrow sign", "low broad
+          sign", and "long narrow sign". Those tags are used as special
+          families in JSesh palette.</para>
+
+          <para>To add a new tag to a sign, simply select the tag in the left
+          list, and click on the left-to-right arrow. To remove a tag, use the
+          same principle. Note that you can't remove tags which are given in
+          the "Official" JSesh list.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>The tag creation window</title>
+
+        <para><figure>
+            <title>The Tag Creation Window</title>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/tagEditor.png" />
+              </imageobject>
+            </mediaobject>
+          </figure>This window (accessible through the tools menu) allows you
+        to create new tag, and associate multilingual translation with them.
+        Those translation are not currently used.</para>
+      </section>
+
+      <section>
+        <title>The menus</title>
+
+        <para></para>
+
+        <variablelist>
+          <varlistentry>
+            <term>File</term>
+
+            <listitem>
+              <para>Open user default file: opens the file which contains your
+              own definitions for signs. Those will automatically be used by
+              JSesh the next time it's launched.</para>
+
+              <para>Save: saves your work in your user definition file. As
+              long as it hasn't been done, your file is unchanged.</para>
+
+              <para>Clear: create a brand new workspace, with no data in it
+              but the "official" one. Your user file will in any case be
+              changed only if you save your work.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Edit</term>
+
+            <listitem>
+              <para>copy: copy this sign's definition for future use</para>
+
+              <para>paste: paste the data copyied for another sign into this
+              sign definition. Very usefull when dealing with close
+              variants.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Tools</term>
+
+            <listitem>
+              <para>Display/Hide Palette: allows to open the sign palette, for
+              selecting signs (by drag and drop)</para>
+
+              <para>Display Tag Editor: open (or closes) the tag editor
+              window, for creating new tags.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+    </section>
+
+    <section>
+      <title>Contributing your sign description to JSesh</title>
+
+      <para>Your sign descriptions are stored in a file called
+      signs_definition.xml, which is placed in:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>(Your home directory)/Library/Preferences/JSesh on
+          macintoshes. For instance:
+          /Users/rosmord/Library/Preferences/JSesh/signs_definition.xml on my
+          machine.</para>
+        </listitem>
+
+        <listitem>
+          <para>c:\Documents and Settings\YOUR LOGIN\JSeshData on windows
+          (basically, JSeshData in your personnal directory). Normally, the
+          JSeshData directory is created by JSesh, so you can search for it if
+          you have doubts. For instance, <code>C:\Documents and
+          Settings\Rosmord\JSeshData</code>.</para>
+        </listitem>
+
+        <listitem>
+          <para>$HOME/.jsesh on linux.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>To contribute your sign descriptions to JSesh, simply send me this
+      file. I will decide what can go in the general JSesh distribution. There
+      are many problems I must take into account: the software must remain
+      general enough, correct enough, and I must avoid copyright
+      infrigement.</para>
+    </section>
+
+    <section>
+      <title>Technical information on the sign description file</title>
+
+      <remark>Beware: technically explicit content. Pure souls, avert your
+      eyes. A more user friendly system <emphasis>has</emphasis> been
+      created.</remark>
+
+      <para>Alternatively, you may directly edit your file description file.
+      You need some kind of simple editor to do this : The notepad might do on
+      windows, and softwares like TextWrangler can be used on Mac OS X. XML
+      files are made of plain text.</para>
+
+      <para>JSesh won't accept badly formed files, so you may find yourself
+      unable to launch JSesh. If this is the case, either correct
+      signs_definition.xml, or rename it to something else, so that it will be
+      ignored. In the future, I will add a user friendly editor, but I won't
+      do it until the format is completely defined.</para>
+
+      <para>The file must have the following form:</para>
+
+      <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE signs PUBLIC "-//ORG/QENHERKHOPESHEF//DTD SIGNDESCRIPTION 1.0" "sign_description.dtd"&gt;
+&lt;signs&gt;
+
+&lt;!-- here your signs definitions --&gt;
+
+&lt;/signs&gt;</programlisting>
+
+      <para>It is important to have exactly this content, specially the
+      DOCTYPE line.</para>
+
+      <para>Here is a small example (actually, a part of JSesh standard sign
+      description file). This file describes signs C1 and C1A. You see that
+      they are classified in a number of categories. They are both
+      human-headed deities and seated characters. The translitteration of C1
+      is given. We have provided one for C1A as well. The code "relevance='1'"
+      means that this translitteration is here only for informationnal
+      purporses. Actually, the XML format has been prepared to accomodate a
+      lot of different data, which is not really used yet by JSesh, and I am
+      very interested in getting suggestions about it. The definition for the
+      format (its "dtd") is given just after this appendix.</para>
+
+      <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE signs PUBLIC "-//ORG/QENHERKHOPESHEF//DTD SIGNDESCRIPTION 1.0" "sign_description.dtd"&gt;
+&lt;signs&gt;
+
+&lt;!-- As C is the most complete part of JSesh fonts now, we try to cover it fully. --&gt;
+
+&lt;tagCategory tag="human-headed deity" label="human-headed deity"/&gt;
+&lt;tagCategory tag="hawk-headed deity" label="hawk-headed deity"/&gt;
+&lt;tagCategory tag="ibis-headed deity" label="ibis-headed deity"/&gt;
+&lt;tagCategory tag="ram-headed deity" label="ram-headed deity"/&gt;
+
+&lt;sign sign="C1"&gt;
+ &lt;hasTranslitteration sign="C1" translitteration="ra"/&gt;
+ &lt;hasTag tag="human-headed deity"/&gt;
+ &lt;hasTag tag="seated"/&gt;
+ &lt;contains partCode="N6"/&gt;
+&lt;/sign&gt;
+
+&lt;sign sign="C1A"&gt;
+ &lt;similarTo baseSign="C1"/&gt;
+ &lt;hasTranslitteration translitteration="ra" relevance="1"/&gt;
+ &lt;hasTag tag="human-headed deity"/&gt;
+ &lt;hasTag tag="seated"/&gt;
+ &lt;contains partCode="N6"/&gt;
+ &lt;contains partCode="S40"/&gt;
+&lt;/sign&gt;
+
+&lt;/signs&gt;</programlisting>
+
+      <para>Note that tags must be defined before they are used (as
+      tagCategory). A tag has a name and a label ; it is indeed possible to
+      define labels in multiple languages, although this is not really used by
+      JSesh now.</para>
+    </section>
+  </appendix>
+
+  <appendix>
+    <title>Sign description DTD</title>
+
+    <para>For the more technically-oriented, here is the current DTD used for
+    sign descriptions. It is still experimental, and has already changed since
+    version 2.4.13.</para>
+
+    <programlisting>
+&lt;!-- DTD used to describe signs characteristics. --&gt;
+&lt;!-- CATALOG NAME : "-//ORG/QENHERKHOPESHEF//DTD SIGNDESCRIPTION 1.0" --&gt; 
+
+&lt;!ENTITY % signInfo "variantOf|hasTransliteration|partOf|contains|signDescription|isDeterminative|hasTag|phantom"
+&gt;
+
+&lt;!ELEMENT signs (sign|determinativeCategory|tagCategory|tagLabel|%signInfo;)*&gt;
+
+&lt;!-- The sign element is optional, but allows to have a better structured file. --&gt;
+
+&lt;!ELEMENT sign (%signInfo;)* &gt;
+
+&lt;!ATTLIST sign
+	sign CDATA #REQUIRED
+ alwaysDisplay (y|n) 'n'
+&gt;
+
+&lt;!--
+ The notion of variant used here is somehow ad-hoc.
+ The problem of variants is that there are two different notions behind it, both useful in our software.
+ The first notion is LINGUISTIC variant. A sign is a linguistic variant of another one if it has the same uses.
+ For instance, Y2 is a linguistic variant of Y1. Now, Y2 also "looks like" Y1. We will call it a "graphical variation".
+ Both notions are independant, though statistically linked. For instance, Z7 is a linguistic variant of G43, but not a 
+ graphical variation thereof.
+   
+ the notion of "looking like" another sign is covered by the "isSimilar" attribute.
+  
+ In lots of cases, especially for determinatives, the signs are not always fully substitutable one for another.
+ To allow the use of 'variant' information in searches, we introduce the "linguistic" attribute.
+ 
+ let B be a variant of A.
+ "full" means that all uses of B are also possible uses of A, and all uses of A are uses of B.
+ "other" means that B is more specific than A, or that the degree is unknown
+ "partial" means that the uses of A and B intersect, but they have also both significantly different uses.
+  For instance, the D36 sign (ayin) is a partial variant of D37 (di), as D36 can write "di". However,
+  in this case, I would not consider D37 as a variant of D36, because it would cause more harm than good.
+ "no" is used when the sign is not at all a linguistic variant. In this case, isSimilar is normally "y".
+ 
+--&gt;
+
+&lt;!ELEMENT variantOf EMPTY&gt;
+&lt;!ATTLIST variantOf
+ sign CDATA #IMPLIED
+ baseSign CDATA #REQUIRED
+ isSimilar (y|n) 'y'
+ linguistic (full|partial|other|no|unspecified)  'unspecified'
+&gt;
+
+
+
+&lt;!ELEMENT hasTransliteration EMPTY&gt;
+&lt;!-- the main purporse of transliteration is helping someone to find a sign. --&gt;
+&lt;!-- a few more information help here --&gt;
+&lt;!--
+    the "use" attribute explain where the transliteration will be visible in JSesh.
+ 'keyboard' means the sign is typical of this transliteration, i.e. it should be used 
+ in the main software when using "space" to circle among possible signs.
+ 'palette' means the sign is a not-too-unusual value for a given transliteration.
+ it should be accessible through the palette.
+ 'informative' means the value is here for informative purposes only.
+ 
+ type allows one to specify whence the value comes. It might be that a sign is a real
+ phonogram (e.g. G1 for aleph), or an ideogram, or abbreviation, or simply be typical of certain words (e.g. "bin" is not 
+ really a value for G37 ; but it's typical. G37 however is a known abbreviation for Sri.
+--&gt;
+
+&lt;!ATTLIST hasTransliteration
+ sign CDATA #IMPLIED
+ transliteration CDATA #REQUIRED
+ use (keyboard|palette|informative) 'keyboard'
+ type (phonogram|ideogram|abbreviation|typical) 'phonogram'
+&gt;
+
+&lt;!ELEMENT hasShape EMPTY&gt;
+&lt;!ATTLIST hasShape
+ sign CDATA #IMPLIED
+ shape (tallNarrow|lowBroad|lowNarrow) #REQUIRED
+ order CDATA #IMPLIED
+&gt;
+
+&lt;!ELEMENT partOf EMPTY&gt;
+&lt;!ATTLIST partOf
+ sign CDATA #IMPLIED
+ baseSign CDATA #REQUIRED
+&gt;
+
+&lt;!-- Easier to use (and to declare) than isPartOf --&gt;
+
+&lt;!ELEMENT contains EMPTY&gt;
+&lt;!ATTLIST contains
+ sign CDATA #IMPLIED
+ partCode CDATA #REQUIRED
+&gt;
+
+
+&lt;!ELEMENT determinativeCategory EMPTY&gt;
+&lt;!ATTLIST determinativeCategory
+ category CDATA #REQUIRED
+ lang NMTOKEN 'en'
+ label CDATA #REQUIRED
+&gt;
+
+&lt;!ELEMENT isDeterminative EMPTY&gt;
+&lt;!ATTLIST isDeterminative
+ sign CDATA #IMPLIED
+ category CDATA #REQUIRED
+&gt;
+
+&lt;!ELEMENT hasTag EMPTY&gt;
+&lt;!ATTLIST hasTag
+ sign CDATA #IMPLIED
+ tag CDATA #REQUIRED
+&gt;
+
+&lt;!-- Declares a tag (without any label) --&gt;
+&lt;!ELEMENT tagCategory (tagLabel)*&gt;
+&lt;!ATTLIST tagCategory
+ tag CDATA #REQUIRED
+&gt;
+
+&lt;!-- Declares a label for a tag. --&gt;
+&lt;!ELEMENT tagLabel EMPTY&gt;
+&lt;!ATTLIST tagLabel
+ tag CDATA #IMPLIED
+ lang NMTOKEN 'en'
+ label CDATA #REQUIRED
+&gt;
+
+&lt;!-- sign description, in manuel de codage format. 
+  - lang can be used to describe the language. User "fr" for french, "de" for german...
+--&gt;
+&lt;!ELEMENT signDescription (#PCDATA)&gt;
+&lt;!ATTLIST signDescription
+ sign CDATA #IMPLIED
+ lang CDATA 'en'
+&gt;
+
+&lt;!-- A phantom is a redundant code. It states that a given code is the exact equivalent of another one.
+     This can be used for normalization purposes. For instance, There are a few signs which have different encodings 
+     in winglyph, JSesh, and Inscribe. The use of phantom a) avoids having multiple signs
+     and b) allows to create a normalized text.
+--&gt;
+
+&lt;!ELEMENT phantom EMPTY&gt;
+&lt;!ATTLIST phantom
+ baseSign CDATA #REQUIRED
+ existsIn CDATA 'jsesh'
+&gt;
+
+
+</programlisting>
+
+    <para></para>
+  </appendix>
+
+  <appendix>
+    <title>The <foreignphrase>Manuel de codage</foreignphrase></title>
+
+    <para><ulink url="mdc/mdc1.html">Documentation on the Manuel de
+    Codage</ulink></para>
+  </appendix>
+</book>

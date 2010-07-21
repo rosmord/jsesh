@@ -1,0 +1,50 @@
+# If you want a particular destination directory for the application, uncomment
+# DESTDIR (and modify if necessary) 
+#DESTDIR=/usr/local
+#DESTDIR=/Applications
+#DESTDIR=/where/you/want
+
+BIBDIR=/Users/rosmord/Documents/MesDocuments/Prog/BibliothequesJava
+
+# The directory where the IzPack installer builder is installed
+#IZPACK=/home/rosmord/IzPack
+#IZPACK=/home/rosmord/Prog/BibliothequesJava/IzPack_3_8_1
+#IZPACK=/Users/admin/Desktop/Serge Rosmorduc/IzPack_3_9
+IZPACK=/Users/rosmord/Prog/BibliothequesJava/IzPack_3_10
+#IZPACK=/home/rosmord/Prog/BibliothequesJava/IzPack_4_2
+IZPACK=${BIBDIR}/IZpack-4.3.3
+
+# The path for the mac application bundler 
+JARBUNDLER=${BIBDIR}/jarbundler-1.9/jarbundler-1.9.jar
+#JARBUNDLER=/Users/admin/Desktop/Serge Rosmorduc/jarbundler-1.4.jar
+
+# The argument for using the netbeans profiler
+#PROFILING_ARGS=-agentpath:/usr/local/netbeans-5.0/profiler1/lib/deployed/jdk15/linux/libprofilerinterface.so=/usr/local/netbeans-5.0/profiler1/lib,5140
+PROFILING_ARGS=-agentpath:/usr/local/netbeans-5.5/profiler1/lib/deployed/jdk15/linux/libprofilerinterface.so=/usr/local/netbeans-5.5/profiler1/lib,5140
+
+# Do we have Mac libraries ?
+HAVE_MAC_LIB=1
+###################################################################
+# Properties used for building the documentation
+
+# Uncomment to build documentation.
+GENERATE_DOC=true
+
+# CLASSPATH TO THE SAXON XSL ENGINE (for doc. generation)
+
+PATH_TO_SAXON=${BIBDIR}/DOCBOOK/libs/saxon.jar
+
+# docbook 4.4 dtd
+#DOCBOOK_DTD=/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd
+DOCBOOK_DTD=${BIBDIR}/DOCBOOK/dtd/dtd/4.4/docbookx.dtd
+
+# script for generating the html documentation
+#WEB_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/html/chunk.xsl
+WEB_XSL=${BIBDIR}/DOCBOOK/nwalsh/html/chunk.xsl
+
+#FO_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/fo/docbook.xsl
+#FO_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/fo/fo.xsl
+FO_XSL=${BIBDIR}/DOCBOOK/nwalsh/fo/docbook.xsl
+
+FOP_DIR=${BIBDIR}/fop-0.20.5
+

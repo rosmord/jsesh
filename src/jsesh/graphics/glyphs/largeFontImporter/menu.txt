@@ -1,0 +1,11 @@
+# This file uses the actions described in demo8n.properties
+fileMenu
+	importSystemFont
+	importFileFont
+	--------
+	openDescriptionFile
+	saveDescriptionFile
+	---------
+	exportFontIntoJSesh
+	---------
+	exit

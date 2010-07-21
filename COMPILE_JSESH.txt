@@ -1,0 +1,70 @@
+
+JSesh development architecture.
+
+If you simply intend  to use JSesh, you should download a JSesh-install.jar
+file and type "java -jar JSesh-install.jar".
+
+If you want to modify JSesh or participate in its development, you have downloaded the 
+right files.
+
+HOW TO compile jsesh:
+---------------------
+
+normally, you can just type :
+
+ant -f build-eclipse.xml compile
+
+It will create and run jsesh. Then, you will find the needed jar files in the "dist" directory.
+You can manually copy those and the content of "lib" in a directory, you can then run JSesh
+using "java -jar jsesh.jar".
+
+Now, the normal way to run JSesh is to build the installer and start it. To do this, you 
+need to set a few values in resources/builder/local.prop.
+
+Read the corresponding file to do so.
+
+
+Local settings :
+----------------
+
+Some libraries (for size and copyright reasons) don't come with JSesh. Besides, 
+you might want to change a few things, like the directory where JSesh is installed.
+
+The properties you want to change are defined in the file 
+	"resources/builder/local.prop"
+if this file doesn't exist, there is a model file for it called local.prop.orig
+(still in the resources/builder directory).
+
+
+Destination directory :
+You can change the destination directory by setting the DESTDIR property in local.prop.
+
+Building the installer:
+----------------------
+
+JSesh is currently packaged as an executable jar installer, built with the great IzPack package.
+If you want to build such a file, which is very nice to get a user-friendly installation on a machine,
+you should get the following libraries :
+	IzPack : the installer builder
+	jarbundler : the macintosh application bundler
+	
+You can download them from their original sites, but just to be sure we use the same
+versions, they are mirrored at 
+	http://www.iut.univ-paris8.fr/~rosmord/JSesh/download/ThirdPartyLibs/
+
+Once you have installed them, 
+set the properties IZPACK and JARBUNDLER in the local.prop file. Currently, I use version 1.9 of jarbundler.
+
+
+Working on JSesh with eclipse
+-----------------------------
+
+If you configure jarbundler and want to build an installer for JSesh in ECLIPSE, you will likely meet the error message:
+	java.lang.NoClassDefFoundError: org/apache/xml/serialize/OutputFormat
+
+This is because jarbundler uses xerces, which is not included in eclipse internal version of ant.
+Either use plain old ant from the command line, which works fine, or add xercesImpl.jar and xml-apis.jar to eclipse ant classpath
+(information found on http://raibledesigns.com/wiki/Wiki.jsp?page=AppFuseEclipse)
+
+(For more details on this, write me : serge.rosmorduc@qenherkhopeshef.org !)
+

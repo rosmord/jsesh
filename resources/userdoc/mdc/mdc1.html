@@ -1,0 +1,129 @@
+<!doctype html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
+<html>
+<head>
+<title>A description of the manuel de codage(1)</title>
+</head>
+<body>
+
+    <span class="bar">
+      <a href="../ExportingWMF.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc2.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+
+<h1>A description of the manuel de codage</h1>
+
+<b>JSesh Demonstration File</b><br>
+This file (allmdc.gly) demonstrates Jsesh capabilities <br>
+as far as the Manuel de Codage is concerned<br>
+It contains tests for the usual constructs<br>
+Its also a tutorial about the <i>Manuel de Codage</i><br>
+Jsesh Is a work in progress. <br>
+<br>
+<b>Description of the manuel de codage</b><br>
+The <i>Manuel de codage</i> is a system for describing hieroglyphic texts in ASCII characters<br>
+It's the result of the work of an international working group, and it's described in :<br>
+<img align='center' src="img0.png" width="35" height="54">J. Buurman, N. Grimal, M. Hainsworth, J. Hallof, D. van der Plas, <i>Inventaire des signes hiéroglyphiques en vue de leur saisie informatique, </i>Paris, 1988 (first ed. 1984) <br>
+The <i>manuel</i> was inspired by a software called GLYPH, by J. Buurman ; the first versions of glyph can be traced back to the early 70s<br>
+Most hieroglyphic editors use a more or less modified version of the <i>manuel,</i> notable modifications have been proposed in 1994 by H. van den Berg for winglyph<br>
+In the Pisa 2002 <i>Table ronde Informatique et Égyptologie,</i> M.-J. Nederhoff has proposed a very interesting <i>Revised Encoding System,</i> which addresses some of the <i>manuel</i>' shortcomings.<br>
+We plan to take it into account later on.<br>
+<b>Simple manuel de codage codes</b><br>
+The basic principle of the <i>manuel</i> is that a sign is described by its code in Gardiner's fonts. <br>
+For example, <img align='center' src="img1.png" width="39" height="54"> is "A1" and <img align='center' src="img2.png" width="43" height="54"> is "G5"<br>
+Variant signs (those with a "*" in Gardiner's list) are indicated by uppercase letters after the code <br>
+For instance, <img align='center' src="img3.png" width="43" height="54"> is "A14A", vs. <img align='center' src="img4.png" width="47" height="54"> which is "A14"<br>
+A number of signs can also be described by their phonetic value.<br>
+For instance, <img align='center' src="img5.png" width="34" height="54"> can be coded "b".<br>
+A complete list of these will be given in JSesh's help.<br>
+<p> The codes for the egyptian consonnants are the following : </p>
+<center>
+<font size="6">
+<table WIDTH="80%">
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">A</font></td><td>A</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">i</font></td><td>i</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">y</font></td><td>y</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">a</font></td><td>a</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">w</font></td><td>w</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">b</font></td><td>b</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">p</font></td><td>p</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">f</font></td><td>f</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">m</font></td><td>m</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">n</font></td><td>n</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">r</font></td><td>r</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">l</font></td><td>l</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">h</font></td><td>h</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">H</font></td><td>H</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">x</font></td><td>x</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">X</font></td><td>X</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">z</font></td><td>z</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">s</font></td><td>s</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">S</font></td><td>S</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">q</font></td><td>q</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">k</font></td><td>k</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">g</font></td><td>g</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">t</font></td><td>t</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">T</font></td><td>T</td>
+</tr>
+<tr>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">d</font></td><td>d</td>
+<td><font size="+1" face="MDCTranslitLC,TransliterationItalic">D</font></td><td>D</td>
+
+</table>
+</font>
+</center>
+For uniliteral signs, there are two special codes for some frequent variants :
+<p>
+<img align='center' src="img58.png" width="37" height="54"> is coded "w", and <img align='center' src="img59.png" width="27" height="54"> is coded "W"<br>
+<img align='center' src="img60.png" width="43" height="54"> is coded "m", and <img align='center' src="img61.png" width="50" height="54"> is coded "M"<br>
+To these codes, the manuel adds also two groups :<br>
+"nTrw" for <img align='center' src="img62.png" width="40" height="54"><br>
+"nn" for <img align='center' src="img63.png" width="28" height="54"><br>
+<br>
+<b>Grouping of signs</b><br>
+Grouping hieroglyphs is done with a few simple operators :<br>
+<img align='center' src="img64.png" width="143" height="54">"-" separates cadrats. For instance, <img align='center' src="img65.png" width="81" height="54"> is coded "G41-A"<br>
+<img align='center' src="img66.png" width="143" height="54">":" stack groups. For instance, <img align='center' src="img67.png" width="46" height="54"> is coded "p:n"<br>
+<img align='center' src="img68.png" width="143" height="54">"*" group signs on the same level in a cadrat. <br>
+<img align='center' src="img69.png" width="269" height="54">For instance, <img align='center' src="img70.png" width="48" height="54"> is coded "p*t:pt"<br>
+More complex groups can be built using parenthesis : <br>
+<img align='center' src="img71.png" width="179" height="54">pA-A-N16:N23*Z1-<b>n:(x:t)*U30</b>-xAst:t*Z1<br>
+<img align='center' src="img72.png" width="381" height="54"><br>
+<b>Special signs</b><br>
+<img align='center' src="img73.png" width="143" height="54">a cadrat-long space is coded ".." : <br>
+<img align='center' src="img74.png" width="279" height="54"> A-..-A-<br>
+<img align='center' src="img75.png" width="143" height="54">a half-cadrat-long space is coded "." :<br>
+<img align='center' src="img76.png" width="263" height="54"> A-.-A-<br>
+<img align='center' src="img77.png" width="143" height="54">black punctuation point <img align='center' src="img78.png" width="26" height="54"> is coded "O" :<img align='center' src="img79.png" width="32" height="54"> is O:.<br>
+<img align='center' src="img80.png" width="143" height="54">red punctuation point <img align='center' src="img81.png" width="26" height="54"> is coded "o" :<img align='center' src="img82.png" width="32" height="54"> is o:.<br>
+<b>Unknown codes</b><br>
+ When JSesh doesn't know a sign, it will replace it in display by its code e.g. :<br>
+<img align='center' src="img83.png" width="143" height="54">A300-n:A300*A1 gives <img align='center' src="img84.png" width="77" height="54"><br>
+Please don't abuse this feature.<br>
+<p>
+    <span class="bar">
+      <a href="../ExportingWMF.html"><img src="../images/previous.png" alt="previous"></a>
+      <a href="../index.html"><img src="../images/up.png" alt="up"></a>
+      <a href="mdc2.html"><img src="../images/next.png" alt="next"></a>
+    </span>
+</body>
+</html>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-default-dtd-file:"~/sgml/html.ced"
+sgml-omittag:nil
+sgml-shorttag:nil
+End:
+-->

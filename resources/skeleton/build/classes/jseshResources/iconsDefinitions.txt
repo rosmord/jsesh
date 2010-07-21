@@ -1,0 +1,6 @@
+Next:icons/ooffice/stock_right-16.png
+Previous:icons/ooffice/stock_left-16.png
+Import file:icons/ooffice/stock_open-16.png
+Dummy:icons/ooffice/stock_extended-help.png
+Flip sign vertically:icons/custom/flip_vertical.png
+Flip sign horizontally:icons/custom/flip_horizontal.png
