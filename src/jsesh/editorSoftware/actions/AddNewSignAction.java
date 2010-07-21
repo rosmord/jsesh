@@ -7,9 +7,9 @@ package jsesh.editorSoftware.actions;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+import jsesh.editor.actionsUtils.PreferenceBoundAction;
 import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.mdcDisplayer.swing.actionsUtils.PreferenceBoundAction;
 
 public class AddNewSignAction extends PreferenceBoundAction {
 	MDCDisplayerAppliWorkflow workflow;

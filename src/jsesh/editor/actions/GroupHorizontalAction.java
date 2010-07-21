@@ -8,7 +8,7 @@ package jsesh.editor.actions;
 import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.mdcDisplayer.swing.actionsUtils.AbstractSelectionAction;
+import jsesh.editor.actionsUtils.AbstractSelectionAction;
 
 /**
  * @author S. Rosmorduc

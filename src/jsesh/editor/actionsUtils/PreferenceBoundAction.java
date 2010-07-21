@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.swing.actionsUtils;
+package jsesh.editor.actionsUtils;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;

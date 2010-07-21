@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.mdcDisplayer.swing.actionsUtils.AbstractSelectionAction;
+import jsesh.editor.actionsUtils.AbstractSelectionAction;
 import jsesh.swingUtils.KeyUtils;
 
 /**

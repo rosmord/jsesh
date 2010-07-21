@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.mdcDisplayer.swing.actionsUtils.AbstractSelectionAction;
+import jsesh.editor.actionsUtils.AbstractSelectionAction;
 import jsesh.swingUtils.KeyUtils;
 
 /**
