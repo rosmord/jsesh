@@ -1,4 +1,4 @@
-
+* MOVE JSESH TO MERCURIAL (DONE)
 * IMPORT PDF as files (when JSESH source is available in the PDF)
 * IMPORT PDF files when copied from the clipboard.
 * Add margins to EPS files
