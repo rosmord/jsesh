@@ -12,12 +12,23 @@ package jsesh.hieroglyphs;
 import java.util.*;
 
 /**
- * @author rosmord
+ * A repository which knows about hieroglyphic codes and signs equivalence.
+ * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.
+ * 
+ * @see HieroglyphicFontManager
+ * @author S. Rosmorduc
+ * 
  */
 public interface HieroglyphDatabaseInterface {
 
-    //public List getBasicGardinerCodesForFamily(java.lang.String familyCode);
-
+	/**
+	 * Gets the canonical code for a sign.
+	 * In most cases, this is the Gardiner code (for instance "xpr" gives "L1").
+	 * for unknown codes, the function will return its argument as is.
+	 * 
+	 * @param code
+	 * @return
+	 */
     public String getCanonicalCode(java.lang.String code);
 
     

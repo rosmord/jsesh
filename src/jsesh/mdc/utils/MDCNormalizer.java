@@ -12,14 +12,14 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.output.MdCModelWriter;
 
 /**
- * An expert able to normalize hieroglyphs in a MDC text.
+ * An expert able to normalize hieroglyphs in a MDC text (i.e. replace all codes by Gardiner codes for searches).
  * 
  * @author rosmord
  */
 public class MDCNormalizer {
 	/**
 	 * Normalize an existing MDC Text internal representation.
-	 * 
+	 * Replaces all codes by the canonical Gardiner codes for the sign. e.g. "xpr" will be replaced by "L1".
 	 * @param topItemList
 	 */
 	public void normalize(TopItemList topItemList) {
@@ -37,7 +37,7 @@ public class MDCNormalizer {
 	/**
 	 * Build a normalized Text representation.
 	 * The glyphs will have their correct Gardiner codes. 
-	 * Note that some supperfluous information may disappear as a result of parsing.
+	 * Note that some superfluous information may disappear as a result of parsing.
 	 * @param mdc
 	 * @return
 	 * @throws MDCSyntaxError

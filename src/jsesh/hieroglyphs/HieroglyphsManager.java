@@ -19,9 +19,9 @@ import sun.misc.Regexp;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence.
+ * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.
  * 
- * This class should be refactored as a facade to a better built database.
- * 
+ * @see HieroglyphicFontManager
  * @author S. Rosmorduc
  * 
  */
