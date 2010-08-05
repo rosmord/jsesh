@@ -2,6 +2,7 @@ package org.qenherkhopeshef.guiFramework;
 
 import java.util.HashMap;
 
+import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
@@ -29,11 +30,11 @@ public class MenuItemFactory {
 	 * @param action
 	 * @return a menu item.
 	 */
-	public JMenuItem buildItem(BundledAction action) {
-		if (action.getValue(BundledAction.GROUP_PROPERTY) != null) {
-			return buildRadioButtonMenuItem(action);
-		} else if (action.getValue(BundledAction.BOOLEAN_PROPERTY) != null) {
-			return buildCheckBoxMenuItem(action);
+	public JMenuItem buildItem(Action action) {
+		if (action.getValue(BundledAction.GROUP_PROPERTY) != null && action instanceof BundledAction) {
+			return buildRadioButtonMenuItem((BundledAction) action);
+		} else if (action.getValue(BundledAction.BOOLEAN_PROPERTY) != null && action instanceof BundledAction) {
+			return buildCheckBoxMenuItem((BundledAction) action);
 		}
 		return new JMenuItem(action);
 	}

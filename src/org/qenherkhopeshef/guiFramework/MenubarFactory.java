@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -41,13 +42,13 @@ public class MenubarFactory {
 
 	private int currentLevel = 0;
 
-	private Stack menusStack;
+	private Stack<JMenu> menusStack;
 
-	private HashMap menuMap;
+	private HashMap<String, JMenuItem> menuMap;
 	
 	int lineNumber= 0;
 
-	public MenubarFactory(Map actions) {
+	public MenubarFactory(Map<String,Action> actions) {
 		this.actions = actions;
 	}
 
@@ -101,7 +102,7 @@ public class MenubarFactory {
 	 */
 	public void fillMenuBar(JMenuBar menuBar, InputStreamReader reader) throws IOException {
 		menuToFill= null;
-		menusStack = new Stack();
+		menusStack = new Stack<JMenu>();
 		processFile(reader);
 	}
 
@@ -115,7 +116,7 @@ public class MenubarFactory {
 		menuItemFactory = buildMenuItemFactory();
 		currentLevel = 0;
 		lineNumber= 0;
-		menuMap = new HashMap();
+		menuMap = new HashMap<String, JMenuItem>();
 
 		BufferedReader bufferedReader = new BufferedReader(reader);
 
@@ -143,7 +144,7 @@ public class MenubarFactory {
 	public void fillJMenu(JMenu menu, InputStreamReader reader) throws IOException {
 		menuBar = null;
 		menuToFill= menu;
-		menusStack = new Stack();
+		menusStack = new Stack<JMenu>();
 		menusStack.push(menuToFill);
 		processFile(reader);
 		menuToFill= null;
@@ -186,7 +187,7 @@ public class MenubarFactory {
 
 		if (line.endsWith("Menu")) {
 			
-			BundledAction action = getAction(actionName);
+			Action action = getAction(actionName);
 			JMenu newMenu;
 			if ("y".equals(action.getValue(BundledAction.TEAR_OFF))) {
 				newMenu= new JMenu("",true);
@@ -206,7 +207,7 @@ public class MenubarFactory {
 				else
 					menuToFill.add(newMenu);
 			} else {
-				JMenu menu = (JMenu) menusStack.peek();
+				JMenu menu = menusStack.peek();
 				menu.add(newMenu);
 			}
 			menusStack.push(newMenu);
@@ -216,7 +217,7 @@ public class MenubarFactory {
 			if (menuBar != null)
 				menuBar.add(Box.createHorizontalGlue());
 		} else {
-			JMenu menu = (JMenu) menusStack.peek();
+			JMenu menu = menusStack.peek();
 			if (actionName.startsWith("-"))
 				menu.addSeparator();
 			else
@@ -235,7 +236,7 @@ public class MenubarFactory {
 		return result;
 	}
 
-	private BundledAction getAction(String name) {
+	private Action getAction(String name) {
 		BundledAction result= (BundledAction) actions.get(name);
 		if (result == null)
 			throw new RuntimeException("Action not found "+ name);
@@ -263,7 +264,7 @@ public class MenubarFactory {
 	 * @return a menu item.
 	 */
 	public JMenuItem getItem(String actionName) {
-		return (JMenuItem) menuMap.get(actionName);
+		return menuMap.get(actionName);
 	}
 
 }
