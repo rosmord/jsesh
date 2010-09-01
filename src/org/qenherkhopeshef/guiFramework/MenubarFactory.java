@@ -25,7 +25,7 @@ import org.qenherkhopeshef.utils.PlatformDetection;
 
 public class MenubarFactory {
 
-	private Map actions;
+	private Map<String, Action> actions;
 
 	private MenuItemFactory menuItemFactory;
 
@@ -237,7 +237,7 @@ public class MenubarFactory {
 	}
 
 	private Action getAction(String name) {
-		BundledAction result= (BundledAction) actions.get(name);
+		Action result=  actions.get(name);
 		if (result == null)
 			throw new RuntimeException("Action not found "+ name);
 		if (null==result.getValue("Name") && null== result.getValue("Icon") && null== result.getValue("SmallIcon") && null == result.getValue("IsLabelled")) {
