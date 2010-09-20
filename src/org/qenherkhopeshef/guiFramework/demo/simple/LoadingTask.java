@@ -8,11 +8,12 @@ package org.qenherkhopeshef.guiFramework.demo.simple;
 import org.qenherkhopeshef.guiFramework.swingworker.QenherSwingWorker;
 
 /**
+ * Demonstration of a long operation.
  * @author rosmord
  */
-public class LoadingTask extends QenherSwingWorker {
+public class LoadingTask extends QenherSwingWorker<Integer,Integer> {
 
-    public Object construct() {
+    public Integer construct() {
        int i =0;
        for (; i < 200; i++) {
             try {

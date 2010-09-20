@@ -256,152 +256,152 @@
 			author (S. Rosmorduc) is normally the only one who does this.
 		</description>
 		<sync todir="${basedir}/resources/texts" verbose="true">
-			<fileset dir="/Users/rosmord/Documents/HieroFinal/inBase">
+			<fileset dir="/Users/rosmord/Documents/MesDocuments/HieroFinal/inBase">
 			</fileset>
 		</sync>
 		<!-- Ugly code, but I won't get an ant extension just to solve it. -->
 		<sync verbose="yes" todir="${basedir}/resources/glyphs/varia">
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/A">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/A">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/B">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/B">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/C">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/C">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/D">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/D">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/E">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/E">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/F">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/F">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/G">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/G">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/H">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/H">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/I">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/I">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/K">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/K">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/L">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/L">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/M">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/M">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/N">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/N">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/O">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/O">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/P">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/P">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/Q">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/R">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/Q">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/S">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/T">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/U">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/V">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/W">
-				<include name="*.svg" />
-				<include name="*.SVG" />
-			</fileset>
-			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/X">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/R">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/Y">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/S">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/Z">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/T">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/Aa">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/U">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 			<fileset
-				dir="/Users/rosmord/Travail/Gsigns/SThomasDetail/ManuelDeCodage/Ff">
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/V">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/W">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/X">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/Y">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/Z">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/Aa">
+				<include name="*.svg" />
+				<include name="*.SVG" />
+			</fileset>
+			<fileset
+				dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/SThomasDetail/ManuelDeCodage/Ff">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>
 		</sync>
 		<copy todir="${basedir}/resources/glyphs/varia" overwrite="true">
-			<fileset dir="/Users/rosmord/Travail/Gsigns/Distribution">
+			<fileset dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/Distribution">
 				<include name="*.svg" />
 				<include name="*.SVG" />
 			</fileset>

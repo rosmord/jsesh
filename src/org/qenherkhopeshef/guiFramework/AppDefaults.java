@@ -17,6 +17,7 @@ public class AppDefaults extends UIDefaults {
 	public KeyStroke getKeyStroke(String key) {
         return KeyStroke.getKeyStroke(getString(key));
     }
+	
     public Integer getKeyCode(String key) {
         KeyStroke ks = getKeyStroke(key);
         return (ks != null) 

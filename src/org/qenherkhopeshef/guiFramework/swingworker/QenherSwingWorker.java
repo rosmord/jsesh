@@ -12,8 +12,8 @@ import javax.swing.SwingUtilities;
  * Works in java 1.4.
  * @author rosmord
  */
-abstract public class QenherSwingWorker extends SwingWorker{
-    private WorkerListener workerListener;
+abstract public class QenherSwingWorker<R,U> extends SwingWorker<R>{
+    private WorkerListener<R,U> workerListener;
 
     public void finished() {
         if (workerListener != null)
@@ -26,23 +26,23 @@ abstract public class QenherSwingWorker extends SwingWorker{
      * Note that the updateData should be thread safe: either a copy of original data,
      * or synchronized.
      */
-    public void update(Object updateData) {
+    public void update(U updateData) {
         if (workerListener != null)
             SwingUtilities.invokeLater(new UpdateRunnable(updateData));
     }
 
-    public void setWorkerListener(WorkerListener workerListener) {
+    public void setWorkerListener(WorkerListener<R,U> workerListener) {
         this.workerListener = workerListener;
     }
 
-    public WorkerListener getWorkerListener() {
+    public WorkerListener<R,U> getWorkerListener() {
         return workerListener;
     }
 
     private class UpdateRunnable implements Runnable{
-        Object data;
+        U data;
 
-        public UpdateRunnable(Object data) {
+        public UpdateRunnable(U data) {
             this.data = data;
         }
         

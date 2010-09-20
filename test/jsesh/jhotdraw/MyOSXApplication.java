@@ -520,7 +520,7 @@ public class MyOSXApplication extends AbstractApplication {
 
                     JFrame d = new JFrame();
 
-                    // Note: Client properties must be set before heavy-weight
+                    // Note: Client preconditions must be set before heavy-weight
                     // peers are created
                     d.getRootPane().putClientProperty("Window.style", "small");
                     d.getRootPane().putClientProperty("Quaqua.RootPane.isVertical", Boolean.FALSE);

@@ -48,11 +48,11 @@ public class EditableSignInfo {
 
 	/**
 	 * Returns the relevant property lines for a given property. Changes in
-	 * these properties will affect the element.
+	 * these preconditions will affect the element.
 	 *
      * The labels are stored in SignDescriptionConstants
 	 * @param propertyLabel
-	 * @return a list of live properties.
+	 * @return a list of live preconditions.
      * @see SignDescriptionConstants
 	 */
 	public List getPropertyList(String propertyLabel) {
@@ -68,7 +68,7 @@ public class EditableSignInfo {
 
 
 	/**
-	 * Returns a copy of the list of this sign's properties.
+	 * Returns a copy of the list of this sign's preconditions.
 	 * @return a list of SignInfoProperty
 	 * @see SignInfoProperty
 	 */

@@ -4,14 +4,15 @@ import java.util.Map;
 
 import org.qenherkhopeshef.guiFramework.ActionFactory;
 import org.qenherkhopeshef.guiFramework.AppDefaults;
+import org.qenherkhopeshef.guiFramework.ApplicationSkeleton;
 import org.qenherkhopeshef.guiFramework.BundledAction;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 
 
 public class JSeshActionFactory extends ActionFactory {
 
-	public JSeshActionFactory(PropertyHolder facade, Map actionCatalog, AppDefaults defaults) {
-		super(facade, actionCatalog, defaults);
+	public JSeshActionFactory(PropertyHolder facade) {
+		super(new ApplicationSkeleton(facade));
 	}
 
 	/* (non-Javadoc)

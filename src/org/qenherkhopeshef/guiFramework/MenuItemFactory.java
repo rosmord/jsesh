@@ -12,7 +12,7 @@ import javax.swing.JRadioButtonMenuItem;
 
 /**
  * Factory for building menu items from actions.
- * Depending on action properties, the correct menu items will be created.
+ * Depending on action preconditions, the correct menu items will be created.
  * @author rosmord
  *
  */
@@ -26,7 +26,7 @@ public class MenuItemFactory {
 	
 	/**
 	 * Create a menu item for a given action.
-	 * The exact kind of menu item will depend on the action properties.
+	 * The exact kind of menu item will depend on the action preconditions.
 	 * @param action
 	 * @return a menu item.
 	 */

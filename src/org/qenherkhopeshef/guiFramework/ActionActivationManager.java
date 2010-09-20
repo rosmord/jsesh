@@ -5,69 +5,122 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Action;
 
-
-
 /**
- * Manage the enabled status of BundleActions.
+ * Manage the enabled status of Actions.
+ * 
  * @author rosmord
- *
  */
 
 public class ActionActivationManager implements PropertyChangeListener {
-	
+
 	/**
 	 * We start with a simple system.
 	 */
-	private List<Action> managedActions;
-	
-	public ActionActivationManager() {
-		managedActions= new ArrayList<Action>();
-	}
+	private List<ActionActivator> actionActivatorList;
 
 	/**
-	 * Test if actions should be enabled
-	 * @param target
-	 * @param action
+	 * Inner object responsible for maintaining an action.
+	 * 
+	 * @author rosmord
+	 * 
 	 */
-	
-	private void updateAction(BundledAction action) {
-		String preconditions []= (String[]) action.getValue(BundledAction.PRECONDITIONS);
-		boolean enabled= true;
-		for (int i= 0; enabled && i < preconditions.length; i++) {
-			Boolean available= Boolean.FALSE;
-			try {
-				Method method= action.getTarget().getClass().getMethod("is" + preconditions[i], (Class[]) new Class[0]);
-				available= (Boolean) method.invoke(action.getTarget(), new Object[0]);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			enabled= enabled && available.booleanValue();
+	private static class ActionActivator {
+		Action action;
+		String[] preconditions;
+		Object actionTarget;
+
+		public ActionActivator(Action action, String[] properties,
+				Object actionTarget) {
+			this.action = action;
+			this.preconditions = properties;
+			this.actionTarget = actionTarget;
 		}
-		action.setEnabled(enabled);
+
+		/**
+		 * Activate or inactivate an action depending on the needs.
+		 */
+		public void testActivation() {
+			boolean enabled = true;
+			for (int i = 0; enabled && i < preconditions.length; i++) {
+				Boolean available = Boolean.FALSE;
+				try {
+					Method method = actionTarget.getClass().getMethod(
+							"is" + preconditions[i], (Class[]) new Class[0]);
+					available = (Boolean) method.invoke(actionTarget,
+							new Object[0]);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				enabled = enabled && available.booleanValue();
+			}
+			action.setEnabled(enabled);
+		}
 	}
 
+	public ActionActivationManager() {
+		actionActivatorList = new ArrayList<ActionActivator>();
+	}
 	
-	public void registerAction(BundledAction action) {
-		managedActions.add(action);
-		PropertyChangeSupport pcs = action.getTarget().getPropertyChangeSupport();
+
+	/**
+	 * Adds an action which will be enabled or disabled when the application's
+	 * preconditions change.
+	 * 
+	 * @param action
+	 *            the action to register
+	 * @param propertyHolder
+	 *            the objet whose properties action activation depends on.
+	 * @param properties
+	 *            the list of properties which should be enabled for this action
+	 *            to be activated.
+	 */
+	public void registerAction(Action action, PropertyHolder propertyHolder,
+			String[] properties) {
+
+		ActionActivator activator = new ActionActivator(action, properties,
+				propertyHolder);
+		actionActivatorList.add(activator);
+		PropertyChangeSupport pcs = propertyHolder.getPropertyChangeSupport();
 		if (pcs != null)
 			pcs.addPropertyChangeListener(this);
 		else
-			throw new RuntimeException("Bug: the target object should provide a property change support.");
-       updateAction(action);
-    }
+			throw new RuntimeException(
+					"Bug: the target object should provide a property change support.");
+		// Should the action be initially activated ?
+		activator.testActivation();
+	}
 
+	/**
+	 * Adds an action which will be enabled or disabled when the application's
+	 * preconditions change.
+	 * 
+	 * @param action
+	 */
+	public void registerAction(BundledAction action) {
+		ActionActivator activator = new ActionActivator(action, action.getPreconditions(),
+				action.getTarget());
+		actionActivatorList.add(activator);
+		PropertyChangeSupport pcs = action.getTarget()
+				.getPropertyChangeSupport();
+		if (pcs != null)
+			pcs.addPropertyChangeListener(this);
+		else
+			throw new RuntimeException(
+					"Bug: the target object should provide a property change support.");
+		activator.testActivation();
+	}
+
+	/**
+	 * Currently : update everybody. We might decide to update actions depending
+	 * on the event property...
+	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		Iterator<Action> it= managedActions.iterator();
-		
-		while (it.hasNext()) {
-			BundledAction action= (BundledAction) it.next();
-			updateAction(action);
+		for (ActionActivator activator : actionActivatorList) {
+			activator.testActivation();
 		}
 	}
 }

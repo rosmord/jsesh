@@ -6,65 +6,66 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  * Very simple facade for building applications menus for one specific window.
  */
-public class SimpleApplicationFramework {
+public class SimpleApplicationFactory {
+
+	private ApplicationSkeleton applicationSkeleton;
 
 	/**
-	 * Application default data.
+	 * The menu bar (used only for simple applications).
 	 */
-	private AppDefaults appDefaults = new AppDefaults();
-
-	/**
-	 * Actions catalog.
-	 */
-	private HashMap actionCatalog = new HashMap();
-
-    /**
-     * The menu bar (used only for simple applications).
-     */
 	private JMenuBar jMenuBar;
 
-	private PropertyHolder actionDelegate;
+	/**
+	 * Map associating action names to the corresponding menu element.
+	 */
+	private Map<String, JMenuItem> menuMap = new HashMap<String, JMenuItem>();
 
 	/**
-	 * A basic constructor to build a "raw" application.
-	 * All actions and menus must be added afterwards.
+	 * A basic constructor to build a "raw" application. All actions and menus
+	 * must be added afterwards.
+	 * 
 	 * @param actionDelegate
 	 */
-	public SimpleApplicationFramework(PropertyHolder actionDelegate) {
-		this.actionDelegate = actionDelegate;
+	public SimpleApplicationFactory(PropertyHolder actionDelegate) {
+		this.applicationSkeleton = new ApplicationSkeleton(actionDelegate);
+		;
 	}
 
 	/**
-	 * All in one simple constructor for the action and menu system. 
-	 * Once called, you can retrieve the menu bar and the actions.
+	 * All in one simple constructor for the action and menu system. Once
+	 * called, you can retrieve the menu bar and the actions.
 	 * 
-	 * @param ressourceI8n a complete I18n properties ressource path, e.g. org.toto.actionsI18n
-	 * @param menuPath the menu definition (a ressource relative to the current path).
-	 * @param actionDelegate the class which will be used for the actions.
+	 * @param ressourceI8n
+	 *            a complete I18n preconditions ressource path, e.g.
+	 *            org.toto.actionsI18n
+	 * @param menuPath
+	 *            the menu definition (a ressource relative to the current
+	 *            path).
+	 * @param actionDelegate
+	 *            the class which will be used for the actions.
 	 * @throws IOException
 	 */
-	public SimpleApplicationFramework(String ressourceI8n, String menuPath,
+	public SimpleApplicationFactory(String ressourceI8n, String menuPath,
 			PropertyHolder actionDelegate) {
 		try {
-			this.actionDelegate = actionDelegate;
+			this.applicationSkeleton = new ApplicationSkeleton(actionDelegate);
 			addRessourceBundle(ressourceI8n);
 			addActionList(menuPath);
 			buildMenu(menuPath);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public SimpleApplicationFramework() {
 	}
 
 	/**
@@ -74,15 +75,14 @@ public class SimpleApplicationFramework {
 	 * <p>
 	 * <strong>Important</strong> the resource should be in a package.
 	 * 
-	 * @param path :
-	 *            a complete path for I8n resource of the form
+	 * @param path
+	 *            : a complete path for I8n resource of the form
 	 *            "package.resourceI8n".
 	 */
 	public void addRessourceBundle(String path) {
 		// We try to be as user-friendly as possible.
 		if (path.indexOf('.') == -1) {
-			path = actionDelegate.getClass().getPackage().getName() + "."
-					+ path;
+			path = getActionDelegateClass().getPackage().getName() + "." + path;
 		}
 		String filePath = "/" + path.replace('.', '/');
 		if (this.getClass().getResource(filePath + ".properties") == null) {
@@ -91,7 +91,7 @@ public class SimpleApplicationFramework {
 			System.err
 					.println("Make sure you used the full name with packages.");
 		}
-		appDefaults.addResourceBundle(path);
+		applicationSkeleton.getDefaults().addResourceBundle(path);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class SimpleApplicationFramework {
 	 * @return
 	 */
 	public AppDefaults getAppDefaults() {
-		return appDefaults;
+		return applicationSkeleton.getDefaults();
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class SimpleApplicationFramework {
 	 */
 	public void addActionList(String actionListRessourceName)
 			throws IOException {
-		InputStream stream = actionDelegate.getClass().getResourceAsStream(
+		InputStream stream = getActionDelegateClass().getResourceAsStream(
 				actionListRessourceName);
 		if (stream == null)
 			System.err.println("Could not read " + actionListRessourceName);
@@ -137,7 +137,7 @@ public class SimpleApplicationFramework {
 	private void addActionList(InputStream stream) throws IOException {
 		Reader actionNamesSource = new InputStreamReader(stream, "UTF-8");
 		// Use the action factory to build the actions.
-		new ActionFactory(actionDelegate, actionCatalog, appDefaults)
+		new ActionFactory(applicationSkeleton)
 				.buildActionsFromText(actionNamesSource);
 	}
 
@@ -146,8 +146,8 @@ public class SimpleApplicationFramework {
 	 * 
 	 * @return
 	 */
-	public HashMap getActionCatalog() {
-		return actionCatalog;
+	public Map<String, Action> getActionCatalog() {
+		return applicationSkeleton.getActionCatalog();
 	}
 
 	/**
@@ -164,74 +164,80 @@ public class SimpleApplicationFramework {
 
 	public JMenuBar buildMenu(String menuPath) throws IOException {
 		// Create the menu.
-		MenubarFactory menubarFactory = new MenubarFactory(actionCatalog);
-		InputStream menuDescription = actionDelegate.getClass()
+		MenubarFactory menubarFactory = new MenubarFactory(applicationSkeleton
+				.getActionCatalog());
+		InputStream menuDescription = getActionDelegateClass()
 				.getResourceAsStream(menuPath);
 		if (menuDescription == null)
 			System.err.println("Could not read " + menuDescription);
 		jMenuBar = menubarFactory.buildMenuBar(new InputStreamReader(
 				menuDescription, "UTF-8"));
-        getMenu("toto");
+
+		menuMap = menubarFactory.getActionNamesToMenuMap();
+
 		return jMenuBar;
+	}
+
+	private Class<? extends PropertyHolder> getActionDelegateClass() {
+		return applicationSkeleton.getActionDelegate().getClass();
 	}
 
 	public JMenuBar getJMenuBar() {
 		return jMenuBar;
 	}
 
-    /**
-     * Returns the menu corresponding to a given result, or null.
-     * @param menuName
-     * @return
-     */
-    public JMenu getMenu(String menuName) {
-        for (int i=0; i < getJMenuBar().getMenuCount(); i++) {
-            JMenu jMenu= getJMenuBar().getMenu(i);
-            if (menuName.equals(jMenu.getName()))
-                return jMenu;
-        }
-        return null;
-    }
+	/**
+	 * Returns the menu corresponding to a given result, or null.
+	 * 
+	 * @param menuName
+	 * @return
+	 */
+	public JMenu getMenu(String menuName) {
+		for (int i = 0; i < getJMenuBar().getMenuCount(); i++) {
+			JMenu jMenu = getJMenuBar().getMenu(i);
+			if (menuName.equals(jMenu.getName()))
+				return jMenu;
+		}
+		return null;
+	}
 
 	/**
-	 * Build an action map to be used with a custom swing component.
-	 * The file containing the list of actions should be in the same
-	 *  place as the action delegate class.
-	 *  <p> keys ???
-	 * @param actionList the name of a file which contains the list of actions to put in the map.
-	 * @return 
-     * @throws IOException
+	 * Build an action map to be used with a custom swing component. The file
+	 * containing the list of actions should be in the same place as the action
+	 * delegate class.
+	 * <p>
+	 * keys ???
+	 * 
+	 * @param actionList
+	 *            the name of a file which contains the list of actions to put
+	 *            in the map.
+	 * @return
+	 * @throws IOException
 	 */
 	public ActionMap buildActionMap(String actionList) throws IOException {
 		ActionMap actionMap = new ActionMap();
-		InputStream actionInput = actionDelegate.getClass()
-				.getResourceAsStream(actionList);
+		InputStream actionInput = getActionDelegateClass().getResourceAsStream(
+				actionList);
 		if (actionInput == null) {
 			System.err.println("Could not read " + actionInput);
 			return actionMap;
 		}
-		BufferedReader r= new BufferedReader(new InputStreamReader(actionInput, "UTF-8"));
+		BufferedReader r = new BufferedReader(new InputStreamReader(
+				actionInput, "UTF-8"));
 		String s;
-		while ((s= r.readLine())!= null) {
-			s= s.trim();
-			final Action action = (Action) actionCatalog.get(s);
+		while ((s = r.readLine()) != null) {
+			s = s.trim();
+			final Action action = applicationSkeleton.getAction(s);
 			actionMap.put(s, action);
 		}
 		return actionMap;
 	}
 
-	public Action getAction(String string) {
-		return (Action) actionCatalog.get(string);
+	public Action getAction(String actionName) {
+		return applicationSkeleton.getAction(actionName);
 	}
 
-	/**
-	 * Sets the action delegate.
-	 * 
-	 * @param propertyHolder
-	 */
-	public void setActionDelegate(PropertyHolder propertyHolder) {
-		this.actionDelegate = propertyHolder;
+	public JMenuItem getMenuItemFor(String actionName) {
+		return menuMap.get(actionName);
 	}
-
-
 }

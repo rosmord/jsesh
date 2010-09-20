@@ -27,7 +27,7 @@ import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
-import org.qenherkhopeshef.guiFramework.SimpleApplicationFramework;
+import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 /**
  * 
@@ -54,7 +54,7 @@ public class SignInfoEditorApplication implements PropertyHolder {
 		signInfoPresenter = new SignInfoPresenter(signInfoModel);
 
 		// Build the framework.
-		SimpleApplicationFramework framework = new SimpleApplicationFramework(
+		SimpleApplicationFactory framework = new SimpleApplicationFactory(
 				"definitionsI8n", "menu.txt", this);
 		framework.addActionList("action_list.txt");
 		// Prepare the main frame

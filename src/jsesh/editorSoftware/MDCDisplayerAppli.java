@@ -412,7 +412,7 @@ public class MDCDisplayerAppli {
 		help.setMnemonic(KeyEvent.VK_L);
 		help.add(new AboutAction("About JSesh", frame));
 		help.add(new DocumentationAction("JSesh user documentation"));
-		help.add(new DisplayJavaPropertiesAction("Display java properties",
+		help.add(new DisplayJavaPropertiesAction("Display java preconditions",
 				frame));
 		help.add(new AbstractAction("Garbage collector") {
 

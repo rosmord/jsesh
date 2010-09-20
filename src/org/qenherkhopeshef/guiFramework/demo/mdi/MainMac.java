@@ -17,7 +17,8 @@ import com.apple.eawt.Application;
  * 
  * Goals : a multi-platform application.
  * On mac: an hidden window will allow one to create new files.
- * On Pc/Linux: the application will quit if no window is opened.
+ * On Pc/Linux: the application will quit if no window is opened.  The application will automatically 
+ * open a new document when started with none.
  *
  * Version of the Main for the macintosh.
  * @author rosmord
@@ -55,7 +56,7 @@ public class MainMac {
 
         TextEditorApplicationController textEditorApplicationController = new TextEditorApplicationController();
 
-        Application application = new Application();
+        Application application = Application.getApplication();
         application.addApplicationListener(new MainMacApplicationAdapter(textEditorApplicationController));
         textEditorApplicationController.getMacEmptyWindow().addWindowListener(new WindowAdapter() {
 

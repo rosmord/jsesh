@@ -20,7 +20,7 @@ public class JSONObject extends JSONData{
 	}
 	
 	/**
-	 * Returns the names of all defined properties.
+	 * Returns the names of all defined preconditions.
 	 * @return a list of Strings
 	 */
 	public String[] getPropertyList() {

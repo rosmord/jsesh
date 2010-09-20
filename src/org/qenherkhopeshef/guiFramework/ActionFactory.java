@@ -7,17 +7,14 @@ import java.util.Map;
 
 
 /**
- * Automatically build actions from a specification in the ActionNames file and properties files.
+ * Automatically build actions from a specification in the ActionNames file and preconditions files.
  * Register them with an activation manager.
  * @author rosmord
  */
 
 public class ActionFactory {
 
-	private PropertyHolder facade;
-	private AppDefaults defaults;
-	private Map actionCatalog;
-	private ActionActivationManager actionActivationManager;
+	private ApplicationSkeleton applicationSkeleton;
 
     /**
      * NOT IMPLEMENTED YET.
@@ -36,11 +33,9 @@ public class ActionFactory {
 	 * @param defaults
 	 */
 
-	public ActionFactory(PropertyHolder facade, Map actionCatalog, AppDefaults defaults) {
+	public ActionFactory(ApplicationSkeleton applicationSkeleton) {
 		super();
-		this.facade= facade;
-		this.defaults = defaults;
-		this.actionCatalog= actionCatalog;
+		this.applicationSkeleton= applicationSkeleton;
 	}
 
 
@@ -71,8 +66,8 @@ public class ActionFactory {
 
 					// Create the corresponding action, using the available data in
 					// system resources.
-					BundledAction action= createAction(actionName,defaults); 
-					actionCatalog.put(action.getActionName(), action);
+					BundledAction action= createAction(actionName,applicationSkeleton.getDefaults()); 
+					applicationSkeleton.putAction(action.getActionName(), action);
 					// Register the action in order to know if it's enabled or not.
 					registerAction(action);
 			}
@@ -83,18 +78,22 @@ public class ActionFactory {
 
 	
 	private void registerAction(BundledAction action) {
-		if (action.getPreconditions() != null) {
+		if (action.getPreconditions() != null && action.getPreconditions().length != 0) {
 			getActionActivationManager().registerAction(action);
 		}
 		
 	}
 
 
+	/**
+	 * Gets the object used to centralize action activation.
+	 * @return
+	 */
 	private ActionActivationManager getActionActivationManager() {
-		if (actionActivationManager == null)
-			actionActivationManager= new ActionActivationManager();
-		return actionActivationManager;
+		return applicationSkeleton.getActionActivationManager();
 	}
+	
+	
 	/**
 	 * Factory method for creating the actual BundleActions. 
 	 * If one wants to use a subclass of BundleAction, it's always possible to redefine this method.
@@ -104,7 +103,7 @@ public class ActionFactory {
 	 */
 	
 	protected BundledAction createAction(String actionName, AppDefaults defaults) {
-		return new BundledAction(facade,
+		return new BundledAction(applicationSkeleton.getActionDelegate(),
 				actionName, defaults);
 	}
 
@@ -114,9 +113,10 @@ public class ActionFactory {
 	 * @return the facade
 	 */
 	public PropertyHolder getFacade() {
-		return facade;
+		return applicationSkeleton.getActionDelegate();
 	}
 	
 	
-
+	
+		
 }

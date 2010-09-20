@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -265,6 +266,14 @@ public class MenubarFactory {
 	 */
 	public JMenuItem getItem(String actionName) {
 		return menuMap.get(actionName);
+	}
+	
+	/**
+	 * Returns a map linking action names to menu entries. 
+	 * @return a (read-only) map.
+	 */
+	public Map<String, JMenuItem> getActionNamesToMenuMap() {
+		return Collections.unmodifiableMap(menuMap);
 	}
 
 }

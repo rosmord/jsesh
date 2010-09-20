@@ -29,7 +29,7 @@ import jsesh.graphics.glyphs.ui.ShapeDisplayer;
 import jsesh.hieroglyphs.ShapeChar;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
-import org.qenherkhopeshef.guiFramework.SimpleApplicationFramework;
+import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 public class LargeFontImporter implements PropertyHolder {
 
@@ -59,7 +59,7 @@ public class LargeFontImporter implements PropertyHolder {
 	private JButton setSizeButton;
 
 	public LargeFontImporter() throws IOException {
-		SimpleApplicationFramework fw = new SimpleApplicationFramework(
+		SimpleApplicationFactory fw = new SimpleApplicationFactory(
 				"jsesh.graphics.glyphs.largeFontImporter.largeFontImporter8n", //$NON-NLS-1$ 
 				"menu.txt", this); //$NON-NLS-1$
 

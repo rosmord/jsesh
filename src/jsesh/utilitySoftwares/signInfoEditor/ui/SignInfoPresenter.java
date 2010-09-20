@@ -66,7 +66,7 @@ import org.xml.sax.SAXException;
 /**
  * Control layer for the sign information editor.
  * The model is in fact a rather plain representation of the XML data,
- * with everything represented as "properties".
+ * with everything represented as "preconditions".
  * @author rosmord
  */
 public class SignInfoPresenter implements HieroglyphPaletteListener,

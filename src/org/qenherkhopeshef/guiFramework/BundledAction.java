@@ -23,7 +23,7 @@ public class BundledAction extends AbstractAction {
 
     private static final long serialVersionUID = -5071382513186199304L;
     /**
-     * properties associated with "defaultAction" will be applied to all
+     * preconditions associated with "defaultAction" will be applied to all
      * actions, save those of define them for themselves.
      */
     public static final String DEFAULT_ACTION_NAME = "defaultAction";
@@ -128,7 +128,7 @@ public class BundledAction extends AbstractAction {
      *            the name of this action (in reality, the name of the method
      *            plus its arguments).
      * @param defaults
-     *            the bundle of properties to use.
+     *            the bundle of preconditions to use.
      */
     public BundledAction(PropertyHolder target, String actionName, AppDefaults defaults) {
         super(actionName); // methodName is the default label text
@@ -173,7 +173,7 @@ public class BundledAction extends AbstractAction {
      * @throws java.lang.reflect.InvocationTargetException
      */
     private void callMethod(Object actualTarget) throws SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Class cls = actualTarget.getClass();
+        Class<? extends Object> cls = actualTarget.getClass();
         Class[] argsClasses;
         argsClasses = new Class[this.methodArguments.length];
         Arrays.fill(argsClasses, String.class);
@@ -278,7 +278,7 @@ public class BundledAction extends AbstractAction {
             Object actualTarget = target;
 
             /**
-             * Boolean and group properties are dealt with through their properties.
+             * Boolean and group preconditions are dealt with through their preconditions.
              */
             if (getValue(BOOLEAN_PROPERTY) != null || getValue(GROUP_PROPERTY) != null) {
                 return;

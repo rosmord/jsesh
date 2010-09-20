@@ -116,7 +116,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 	/**
 	 * Returns true if the user sign definition file is correct (or if there is
 	 * no user sign definition file). This file is the XML file used to define
-	 * the signs properties.
+	 * the signs preconditions.
 	 * 
 	 * @return
 	 */

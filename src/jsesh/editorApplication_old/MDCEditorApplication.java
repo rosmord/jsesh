@@ -143,7 +143,7 @@ public class MDCEditorApplication {
 						workflow = new MDCEditorApplicationWorkflow(mainWindow,
 								appDefaults);
 						Reader actionNamesSource= new InputStreamReader(getClass().getResourceAsStream(MENU_DESCRIPTOR_RESOURCE),"UTF-8");
-						new JSeshActionFactory(workflow, actionCatalog, appDefaults).buildActionsFromText(actionNamesSource);
+						new JSeshActionFactory(workflow).buildActionsFromText(actionNamesSource);
 						buildHieroglyphActions();
 						buildMenu();
 						prepareMainWindow();

@@ -3,7 +3,7 @@ package org.qenherkhopeshef.guiFramework.swingworker;
 import javax.swing.SwingUtilities;
 
 /**
- * Old Swingworker class for use with JDK 1.4.
+ * Old Swingworker class for use with JDK 1.4 (updated for jdk 1.5).
  *
  * This is the 3rd version of SwingWorker (also known as
  * SwingWorker 3), an abstract class that you subclass to
@@ -16,8 +16,8 @@ import javax.swing.SwingUtilities;
  * You must now invoke start() on the SwingWorker after
  * creating it.
  */
-abstract class SwingWorker {
-    private Object value;  // see getValue(), setValue()
+abstract class SwingWorker<R> {
+    private R value;  // see getValue(), setValue()
     private Thread thread;
 
     /**
@@ -37,21 +37,21 @@ abstract class SwingWorker {
      * Get the value produced by the worker thread, or null if it
      * hasn't been constructed yet.
      */
-    protected synchronized Object getValue() {
+    protected synchronized R getValue() {
         return value;
     }
 
     /**
      * Set the value produced by worker thread
      */
-    private synchronized void setValue(Object x) {
+    private synchronized void setValue(R x) {
         value = x;
     }
 
     /**
      * Compute the value to be returned by the <code>get</code> method.
      */
-    public abstract Object construct();
+    public abstract R construct();
 
     /**
      * Called on the event dispatching thread (not on the worker thread)
@@ -79,7 +79,7 @@ abstract class SwingWorker {
      *
      * @return the value created by the <code>construct</code> method
      */
-    public Object get() {
+    public R get() {
         while (true) {
             Thread t = threadVar.get();
             if (t == null) {

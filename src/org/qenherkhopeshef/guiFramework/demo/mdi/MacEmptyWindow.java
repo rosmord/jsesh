@@ -13,8 +13,9 @@ import javax.swing.JFrame;
  * @author rosmord
  */
 public class MacEmptyWindow extends JFrame {
+	private static final long serialVersionUID = 7295573756327729723L;
 
-    public MacEmptyWindow(String title) {
+	public MacEmptyWindow(String title) {
         super(title);
         setUndecorated(true);
         setSize(new Dimension(0, 0));
