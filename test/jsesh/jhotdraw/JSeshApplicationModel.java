@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ActionMap;
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.HieroglyphicPaletteDialog;
+import jsesh.swing.signPalette.PalettePresenter;
 
 import org.jhotdraw.app.Application;
 import org.jhotdraw.app.DefaultApplicationModel;
@@ -28,10 +30,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void initApplication(Application a) {
 		super.initApplication(a);
 		this.application= a;
-		HieroglyphicPaletteDialog paletteDialog= new HieroglyphicPaletteDialog(null);
-		a.addWindow(paletteDialog.getDialog(), null);
-		paletteDialog.getDialog().setVisible(true);
-		paletteDialog.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
 		
 	}
 	
@@ -44,7 +42,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public List<JToolBar> createToolBars(Application a, View p) {
 		ArrayList<JToolBar> toolbars = new ArrayList<JToolBar>();
-	
+		PalettePresenter palettePresenter= new PalettePresenter();
+		palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+
+		
+		
+		JToolBar hoolbar= new  JToolBar("hieroglyphs");
+		hoolbar.add(palettePresenter.getSimplePalette());
+		toolbars.add(hoolbar);
 		return toolbars;
 	}
 

@@ -3,7 +3,7 @@ package jsesh.utilitySoftwares.signInfoEditor.ui;
 public interface GrowableModel {
 
 	/**
-	 * Try to remove the preconditions.
+	 * Try to remove the properties.
 	 * Returns false if not possible.
 	 * @param row
 	 */

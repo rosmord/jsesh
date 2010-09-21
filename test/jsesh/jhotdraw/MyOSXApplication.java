@@ -514,7 +514,7 @@ public class MyOSXApplication extends AbstractApplication {
                 int x = 0;
                 for (JToolBar tb : toolBars) {
                     i++;
-                    //tb.setFloatable(false);
+                    tb.setFloatable(false);
                     tb.setOrientation(JToolBar.VERTICAL);
                     //tb.setFocusable(false);
 

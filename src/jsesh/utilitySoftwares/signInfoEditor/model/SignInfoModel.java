@@ -301,7 +301,7 @@ public class SignInfoModel {
 	}
 
 	/**
-	 * Return the label preconditions for a given tag.
+	 * Return the label properties for a given tag.
 	 * 
 	 * @param currentTag
 	 * @return a List of XMLInfoProperty

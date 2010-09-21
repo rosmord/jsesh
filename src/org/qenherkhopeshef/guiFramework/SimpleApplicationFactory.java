@@ -16,6 +16,9 @@ import javax.swing.JMenuItem;
 
 /**
  * Very simple facade for building applications menus for one specific window.
+ * (Former SimpleApplicationFramework).
+ * 
+ * Consider moving some of this class's functionalities to ApplicationSkeleton, which is currently a data-only class ?
  */
 public class SimpleApplicationFactory {
 
@@ -239,5 +242,9 @@ public class SimpleApplicationFactory {
 
 	public JMenuItem getMenuItemFor(String actionName) {
 		return menuMap.get(actionName);
+	}
+	
+	public ApplicationSkeleton getApplicationSkeleton() {
+		return applicationSkeleton;
 	}
 }

@@ -24,16 +24,16 @@ import javax.swing.filechooser.FileFilter;
 public interface ExportFileType {
 
     /**
-     * Create an option panel, which should be initialized with values from preconditions.
-     * @param preconditions
+     * Create an option panel, which should be initialized with values from properties.
+     * @param properties
      * @return a jpanel
      */
     JPanel createOptionPanel(Properties properties);
 
     /**
-     * Modify the preconditions according to the content of panel.
+     * Modify the properties according to the content of panel.
      * @param panel
-     * @param preconditions
+     * @param properties
      */
     void applyChangedOptions(JPanel panel, Properties properties);
 
