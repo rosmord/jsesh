@@ -129,6 +129,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	private File currentOutputDirectory;
 
+	private File quickPDFOutputDirectory;
 	/**
 	 * The directory where the source for SVG, TTF fonts and the like are read.
 	 */
@@ -1798,7 +1799,36 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	public void registerUndoRedoActions(Action undoAction, Action redoAction) {
 		new UndoRedoActionManager(getEditor().getWorkflow(), undoAction,
 				redoAction);
+	}
+	
+	/**
+	 * Saves the selected text (if any) or everything (if nothing is selected) in a pdf file.
+	 */
+	public void quickPDFExport() {
+		if (pdfExportPreferences == null) {
+			pdfExportPreferences = new PDFExportPreferences();
+			pdfExportPreferences.setFile(new File(currentOutputDirectory,
+					"default.pdf"));
+		}
 
+		PDFExporter pdfExporter = new PDFExporter();
+		pdfExporter.setPdfExportPreferences(pdfExportPreferences);
+		pdfExportPreferences
+				.setDrawingSpecifications(getDrawingSpecifications());
+
+		if (pdfExporter.getOptionPanel(frame, "Export as PDF").askAndSet() == JOptionPane.OK_OPTION) {
+			try {
+				pdfExporter.exportModel(getHieroglyphicTextModel().getModel(),
+						getCaret());
+				currentOutputDirectory = pdfExportPreferences.getFile()
+						.getParentFile();
+			} catch (IOException e1) {
+				JOptionPane.showMessageDialog(null,
+						"Error while exporting to pdf " + e1.getMessage(),
+						"Problem when exporting", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			}
+		}
 	}
 
 }

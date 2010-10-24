@@ -13,63 +13,46 @@ import javax.swing.filechooser.FileFilter;
  * The provided functionalities are not that great, which has consequences on the
  * suggested way of asking for files: if needed the file dialog should be lauched
  * from another dialog.
+ * 
  * @author rosmord
  */
 
 public abstract class PortableFileDialog {
     
-    /**
-     * Create a dialog for selecting a file for saving data.
-     */
-    public static PortableFileDialog createFileSaveDialog() {
-        throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * Create a dialog for selecting a directory for saving data.
-     * The directory might or might not exist yet.
-     * @return
-     */
-    public static PortableFileDialog createDirectorySaveDialog() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Create a dialog for selecting a file for reading data.
-     */
-    public static PortableFileDialog createFileLoadDialog() {
-        throw new UnsupportedOperationException();
-    }
-
-    public static PortableFileDialog createDirectoryLoadDialog() {
-        throw new UnsupportedOperationException();
-    }
-
+	protected FileOperation operation;
     /**
      * Display the file dialog.
      * @return either APPROVE_OPTION or CANCEL_OPTION
      * @see JFileChooser#APPROVE_OPTION
      * @see JFileChooser#CANCEL_OPTION
      */
-    abstract int show();
+    public abstract FileOperationResult show();
 
     /**
      * Sets the currently selected file.
      * Will of course set the current directory.
      */
-    abstract void setSelectedFile(File file);
+    public abstract void setSelectedFile(File file);
 
+    /**
+     * Selects the operation this dialog is supposed to perform.
+     * @param operation
+     */
+    protected void setOperation(FileOperation operation) {
+		this.operation = operation;
+	}
+    
     /**
      * Sets the current directory.
      * @param directory
      */
-    abstract void setCurrentDirectory(File directory);
+    public abstract void setCurrentDirectory(File directory);
 
     /**
      * Returns the file (or directory) selected by the user.
      * @return
      */
-    abstract File getSelectedFile();
+    public abstract File getSelectedFile();
 
     /**
      * Gets the selected file's potential parent directory.
@@ -78,20 +61,26 @@ public abstract class PortableFileDialog {
      * searched for.
      * @return a directory.
      */
-    abstract File getCurrentDirectory();
+    public abstract File getCurrentDirectory();
 
     /**
      * clear used resources if needed.
      */
-    abstract void dispose();
+    public abstract void dispose();
 
     /**
      * Sets the list of file filters used by this Dialog.
-     * Note that some platform won't be able to use a list of filters.
      * @param filters the filters to use
-     * @param the "default" or "catch-all" filter to use if the implementation 
-     *  doesn't allow a list of filters.
-     *
      */
-    abstract void setFileFilters(FileFilter filters[], FileFilter fallbackFilter);
+    public abstract void setFileFilters(FileFilter filters[]);
+    
+    /**
+     * Sets the file filter to use for this dialog (iff there is only one file filter to define).
+     * @param filter
+     */
+    public void setFileFilter(FileFilter filter) {
+    		setFileFilters(new FileFilter[]{filter});
+    }
+    	
+ 
 }

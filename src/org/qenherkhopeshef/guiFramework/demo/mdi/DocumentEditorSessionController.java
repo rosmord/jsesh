@@ -15,6 +15,7 @@ import javax.swing.undo.UndoManager;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.swingUtils.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.PortableFileDialogFactory;
 
 /**
  * An abstraction which represents an editing session for one document.
@@ -79,8 +80,7 @@ public class DocumentEditorSessionController implements PropertyHolder, MDIFrame
     }
 
     public void saveDocumentAs() {
-        PortableFileDialog dialog= PortableFileDialog.createFileSaveDialog();
-        
+        PortableFileDialog dialog= PortableFileDialogFactory.createFileSaveDialog(jFrame);
     }
 
     public void undo() {

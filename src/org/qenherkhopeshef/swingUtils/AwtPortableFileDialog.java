@@ -5,29 +5,130 @@
 
 package org.qenherkhopeshef.swingUtils;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.File;
+import java.io.FilenameFilter;
+
+import javax.swing.filechooser.FileFilter;
+
 /**
- * A PortableFileDialog using AWT File Dialog.
- * Interesting for use on Mac OS and, in some cases, on Windows XP.
+ * A PortableFileDialog using AWT File Dialog. Interesting for use on Mac OS
+ * and, in some cases, on Windows XP.
+ * 
  * @author rosmord
  */
-public class AwtPortableFileDialog {
-    // Implementation notes :
-    // For Mac, System.setProperty("apple.awt.fileDialogForDirectories", "true");
-    // Allows to create a directory oriented file dialog. It must be set to false
-    // after uses.
+public class AwtPortableFileDialog extends PortableFileDialog {
+
+	private Frame parent;
+	private File base;
+	private FileDialog delegate;
+	private String title;
+
+	public AwtPortableFileDialog(Frame parent) {
+		this.parent = parent;
+		delegate= new FileDialog(parent);
+	}
+
+	@Override
+	public void dispose() {
+		if (delegate != null) {
+			delegate.dispose();
+			setDelegate(null);
+		}
+	}
+
+	@Override
+	public File getCurrentDirectory() {
+		return new File(delegate.getDirectory());
+	}
+
+	@Override
+	public File getSelectedFile() {
+		return new File(getCurrentDirectory(), delegate.getFile());
+	}
+
+	@Override
+	public void setCurrentDirectory(File directory) {
+		delegate.setDirectory(directory.getAbsolutePath());
+	}
+
+	/**
+	 * Sets the file filter to use.
+	 * 
+	 * @param filters
+	 *            : list of filters. Ignored, as not usable with AWT.
+	 * @param fallbackFilter
+	 *            : the filter used.
+	 */
+	@Override
+	public void setFileFilters(FileFilter[] filters) {
+		delegate.setFilenameFilter(new FileFilterAdapter(filters));
+	}
+
+	@Override
+	public void setSelectedFile(File file) {
+		if (file != null)
+			delegate.setFile(file.getAbsolutePath());
+		else
+			delegate.setFile(null);
+	}
+
+	@Override
+	public FileOperationResult show() {
+		switch (operation) {
+		case OPEN_FILE:
+			delegate.setMode(FileDialog.LOAD);
+			delegate.setVisible(true);
+			break;
+		case SAVE_FILE:
+			delegate.setMode(FileDialog.SAVE);
+			delegate.setVisible(true);
+			break;
+		case SAVE_DIRECTORY:
+			System.setProperty("apple.awt.fileDialogForDirectories", "true");
+			delegate.setMode(FileDialog.SAVE);
+			delegate.setFilenameFilter(new FilenameFilter() {
+				public boolean accept(File arg0, String arg1) {
+					return arg0.isDirectory();
+				}
+			});
+			delegate.setMode(FileDialog.LOAD);
+			delegate.setAlwaysOnTop(true);
+			delegate.setVisible(true);
+			System.setProperty("apple.awt.fileDialogForDirectories", "false");
+			break;
+		default:
+			break;
+		}
+		if (delegate.getFile() == null)
+			return FileOperationResult.CANCEL;
+		else
+			return FileOperationResult.OK;
+	}
 
 
-    // The AWT file dialog is not suitable for uses with windows, as file name filters
-    // don't work.
+	private void setDelegate(FileDialog delegate) {
+		this.delegate = delegate;
+	}
 
-    // FileDialog are created with:
-    // a parent window
-    // a title
-    // a mode which is either LOAD or SAVE
 
-    // The working directory can be set (as a String)
-    // and the current file too.
-    // a FileNameFilter can be installed. it has a method accept() which
-    // takes a dir and a filename as parameters. The dir is a File
-    
+	private static class FileFilterAdapter implements FilenameFilter {
+		private FileFilter[] swingFilters;
+
+		public FileFilterAdapter(FileFilter[] swingFilters) {
+			super();
+			this.swingFilters = swingFilters.clone();
+		}
+
+		@Override
+		public boolean accept(File dir, String name) {
+			for (FileFilter filter : swingFilters) {
+				if (filter.accept(new File(dir, name)))
+					return true;
+			}
+			return false;
+		}
+	}
+
 }

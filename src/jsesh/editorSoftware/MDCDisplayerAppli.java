@@ -187,6 +187,11 @@ public class MDCDisplayerAppli {
 				"exportAsPdf"));
 		exportMenu.add(new WorkflowMethodAction(workflow, "Export as Rtf",
 				"exportAsRtf"));
+		/*
+		 * Temporary system (for book editing) : "mass-produce" small PDF.
+		 */
+		
+		MenuUtils.addWithShortCut(exportMenu, new WorkflowMethodAction(workflow, "Quick PDF Export", "quickPDFExport"), KeyEvent.VK_F1);
 
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);

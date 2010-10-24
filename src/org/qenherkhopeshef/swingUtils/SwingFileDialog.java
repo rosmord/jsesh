@@ -11,49 +11,74 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * A Swing implementation of PortableFileDialog.
- * Fit for Unix implementation, and good in Windows for some purposes.
+ * A Swing implementation of PortableFileDialog. Fit for Unix implementation,
+ * and good in Windows for some purposes.
+ * 
  * @author rosmord
  */
 class SwingFileDialog extends PortableFileDialog {
 
-    JFileChooser delegate;
-    Component parent;
+	private JFileChooser delegate;
+	private Component parent;
 
-    public int show() {
-        delegate.showOpenDialog(parent);
-        delegate.showSaveDialog(parent);
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public SwingFileDialog(Component parent) {
+		delegate = new JFileChooser();
+		this.parent = parent;
+	}
 
-    public void setSelectedFile(File file) {
-        delegate.setSelectedFile(file);
-    }
+	public FileOperationResult show() {
+		int result = JFileChooser.CANCEL_OPTION;
+		switch (operation) {
+		case OPEN_FILE:
+			result = delegate.showOpenDialog(parent);
+			break;
+		case SAVE_FILE:
+			result = delegate.showSaveDialog(parent);
+			break;
+		case SAVE_DIRECTORY:
+			delegate.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			result = delegate.showSaveDialog(parent);
+			break;
+		default:
+			break;
+		}
+		if (result == JFileChooser.APPROVE_OPTION)
+			return FileOperationResult.OK;
+		else
+			return FileOperationResult.CANCEL;
+	}
 
-    public void setCurrentDirectory(File directory) {
-        delegate.setCurrentDirectory(directory);
-    }
+	public void setSelectedFile(File file) {
+		delegate.setSelectedFile(file);
+	}
 
-    public File getSelectedFile() {
-        return delegate.getSelectedFile();
-    }
+	public void setCurrentDirectory(File directory) {
+		delegate.setCurrentDirectory(directory);
+	}
 
-    public File getCurrentDirectory() {
-        return delegate.getCurrentDirectory();
-    }
+	public File getSelectedFile() {
+		return delegate.getSelectedFile();
+	}
 
-    public void dispose() {
-        delegate = null;
-        parent = null;
-    }
+	public File getCurrentDirectory() {
+		return delegate.getCurrentDirectory();
+	}
 
-    public void setFileFilters(FileFilter[] filters, FileFilter fallbackFilter) {
-        if (filters.length == 0 && fallbackFilter != null) {
-            delegate.setFileFilter(fallbackFilter);
-        } else {
-            for (int i = 0; i < filters.length; i++) {
-                delegate.addChoosableFileFilter(filters[i]);
-            }
-        }
-    }
+	public void dispose() {
+		delegate = null;
+		parent = null;
+	}
+
+	public void setFileFilters(FileFilter[] filters) {
+		// We suppose that filters may not be null or empty
+		if (filters == null || filters.length == 0)
+			throw new IllegalArgumentException("filters may not be empty or null");
+		if (filters.length == 1) {
+			delegate.setFileFilter(filters[0]);
+		} else {
+			for (int i = 0; i < filters.length; i++) {
+				delegate.addChoosableFileFilter(filters[i]);
+			}
+		}
+	}
 }
