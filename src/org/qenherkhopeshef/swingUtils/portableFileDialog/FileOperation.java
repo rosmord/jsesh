@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.swingUtils;
+package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 /**
  * Possible operations 

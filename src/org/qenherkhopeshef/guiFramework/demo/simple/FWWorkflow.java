@@ -177,7 +177,7 @@ public class FWWorkflow implements PropertyHolder {
 			setValue(v.intValue());
 		}
 
-		public void update(Integer updateData) {
+		public void updateData(Integer updateData) {
 			// We should have a real percentage here...
 			ui.getBusyAdvanceGlassPane().setAdvance(updateData);
 		}

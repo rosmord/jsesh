@@ -31,7 +31,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.utils.TranslitterationUtilities;
 
-import org.qenherkhopeshef.guiFramework.UserMessage;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -143,16 +143,6 @@ public class PDFExporter {
 				throw new RuntimeException(e);
 			}
 		}
-
-		/*
-		 * It is possible to re-read the result of a pdf dump. PdfReader reader=
-		 * new PdfReader(new FileInputStream(file)); Iterator it=
-		 * reader.getInfo().keySet().iterator(); while (it.hasNext()) { String
-		 * key= (String) it.next(); System.out.println(key +" => "+
-		 * reader.getInfo().get(key)); }
-		 */
-		//PdfReader reader = null;
-
 	}
 
 	/**

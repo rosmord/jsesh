@@ -8,7 +8,8 @@ import javax.swing.filechooser.FileFilter;
 
 import jsesh.swing.HiddenPanel;
 
-
+// Dialog used to request an MDC file.
+// Change to use the portable system at some point.
 public class MdcFileDialog {
 	private JFileChooser fileChooser;
 	private MdcFileOptionPanel mdcFileOptionPanel;
@@ -23,6 +24,8 @@ public class MdcFileDialog {
 						|| pathname.getName().endsWith(".HIE")
 						|| pathname.getName().endsWith(".gly")
 						|| pathname.getName().endsWith(".GLY")
+						|| pathname.getName().endsWith(".pdf")
+						|| pathname.getName().endsWith(".PDF")					
 						|| pathname.isDirectory();
 			}
 

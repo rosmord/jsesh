@@ -10,7 +10,7 @@ package jsesh;
  * @author rosmord
  */
 public class Version {
-	private static final String VERSION="4.3";
+	private static final String VERSION="4.4";
 	
 	public static String getVersion() {
 		return VERSION;

@@ -192,7 +192,8 @@ public class MDCDisplayerAppli {
 		 */
 		
 		MenuUtils.addWithShortCut(exportMenu, new WorkflowMethodAction(workflow, "Quick PDF Export", "quickPDFExport"), KeyEvent.VK_F1);
-
+		exportMenu.add(new WorkflowMethodAction(workflow, "Select PDF export folder", "quickPDFExportFolderSelect"));
+			
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);
 

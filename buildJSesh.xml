@@ -105,8 +105,11 @@
 	<!-- END OF PROPERTIES -->
 
 	<!-- How to generate the documentation -->
-
+	
+	<!--
+	    BOGUS ??? WITH THE LAST APPLE RELEASE OF JAVA ?????	-->
 	<import file="resources/builder/buildDocumentation.xml" />
+
 
 	<!--
 		libraries used to *build* JSesh (and not needed afterwards)
@@ -622,16 +625,18 @@
 
 	<property name="installer-dist" value="${basedir}/installer-distribution" />
 
+<!-- 		depends="jsesh-jar,glyphs-jar,jseshHtmlDoc-jar,copyStub.jar,mac,PDFDocumentation,rtfCleaner"> -->
 
+        <target name="toto" depends="-build-installer"></target>
 	<target name="-build-installer"
-		depends="jsesh-jar,glyphs-jar,jseshHtmlDoc-jar,copyStub.jar,mac,PDFDocumentation,rtfCleaner">
+		>
 		<description>
 			Build an Installer for JSesh, using the great IzPack utility
 			http://www.izforge.com/izpack/
 			We use version 3.7.1
         </description>
 		<!-- Allows us to use the IzPack Ant task -->
-		<taskdef name="izpack" classpath="${IZPACK}/lib/compiler.jar"
+		<taskdef name="izpack" classpath="${IZPACK}/lib/compiler.jar:lib/xercesImpl.jar"
 			classname="com.izforge.izpack.ant.IzPackTask" />
 		<echo message="Copying install.xml" />
 		<!-- copy the install file, with the correct version number. -->
@@ -644,7 +649,8 @@
 		<echo message="Makes the installer using IzPack" />
 		<izpack input="${installer-dist}/install.xml"
 			output="${installer-dist}/JSesh-install-${JSESHVERSION}.jar" basedir="${installer-dist}"
-			izPackDir="${IZPACK}" />
+			izPackDir="${IZPACK}"
+			/>
 		<!--			   installerType="standard-kunststoff"  -->
 	</target>
 
@@ -658,7 +664,7 @@
 			http://www.loomcom.com/jarbundler/
 			we use version 1.3
         </description>
-		<taskdef name="jarbundler" classpath="${JARBUNDLER}"
+		<taskdef name="jarbundler" classpath="${JARBUNDLER}:lib/xercesImpl.jar"
 			classname="net.sourceforge.jarbundler.JarBundler" />
 
 		<delete dir="macdist" />

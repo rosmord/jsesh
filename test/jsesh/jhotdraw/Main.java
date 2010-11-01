@@ -49,8 +49,8 @@ public class Main {
 
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-			app = new MyOSXApplication();
-			// app = new SDIApplication();
+				//app = new MyOSXApplication();
+			app = new SDIApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
 			// app = new DefaultMDIApplication();

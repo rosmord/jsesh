@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.guiFramework;
+package org.qenherkhopeshef.swingUtils.errorHandler;
 
 /**
  * A specific type of exception whose messages are supposed to be read by users.

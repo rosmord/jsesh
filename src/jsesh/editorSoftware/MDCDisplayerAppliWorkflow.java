@@ -7,6 +7,7 @@ package jsesh.editorSoftware;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -37,7 +38,6 @@ import jsesh.editorSoftware.actions.RotationAction;
 import jsesh.editorSoftware.actions.ShadeAction;
 import jsesh.editorSoftware.actions.ShadeSignAction;
 import jsesh.editorSoftware.actions.SizeAction;
-import jsesh.editorSoftware.actions.generic.ForwardedAction;
 import jsesh.graphics.export.BitmapExporter;
 import jsesh.graphics.export.CaretBroker;
 import jsesh.graphics.export.EMFExporter;
@@ -82,6 +82,9 @@ import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.HieroglyphicPaletteDialog;
 import jsesh.swing.utils.MdcFileDialog;
 
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
@@ -129,7 +132,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 */
 	private File currentOutputDirectory;
 
-	private File quickPDFOutputDirectory;
 	/**
 	 * The directory where the source for SVG, TTF fonts and the like are read.
 	 */
@@ -140,10 +142,16 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	private HieroglyphicPaletteDialog paletteDialog;
 
 	private DrawingSpecification drawingSpecifications;
+
 	// Data for HTML export (created on request).
 	private HTMLExporter htmlExporter = null;
 
 	private PDFExportPreferences pdfExportPreferences = null;
+
+	/**
+	 * The current directory for the export of small PDF pictures...
+	 */
+	private File quickPDFExportDirectory = null;
 
 	/**
 	 * Informations to display.
@@ -481,7 +489,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	}
 
 	public void addShortText() {
-		String s = JOptionPane.showInputDialog(frame,"Enter short text");
+		String s = JOptionPane.showInputDialog(frame, "Enter short text");
 		String protectedText = s.replaceAll("\\\\", "\\\\");
 		protectedText = protectedText.replaceAll("\"", "\\\\\"");
 		getEditor().getWorkflow().insertMDC("\"" + protectedText + "\"");
@@ -598,9 +606,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * @return
 	 */
 	private boolean confirmNewText() {
-		boolean canClearText= true;
+		boolean canClearText = true;
 		if (getEditor().mustSave()) {
-			canClearText= JOptionPane.showConfirmDialog(frame, "Current text has been modified.\nReally replace it ?","Confirm replacement",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+			canClearText = JOptionPane.showConfirmDialog(frame,
+					"Current text has been modified.\nReally replace it ?",
+					"Confirm replacement", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
 		}
 		return canClearText;
 	}
@@ -1166,33 +1176,52 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * @param encoding
 	 */
 	public void loadFile(File file, String encoding) {
-		if (confirmNewText()) {
-			setWindowTitle(file.getName());
-			// Mac specific stuff. Will compile anywhere, though.
-			if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX
-					&& file != null) {
-				// Sets the "file" icon...
-				if (file.exists()) {
-					frame.getRootPane().putClientProperty(
-							"Window.documentFile", file);
-					// frame.getRootPane().putClientProperty("Window.documentModified",
-					// Boolean.TRUE);
+		try {
+			if (confirmNewText()) {
+				setWindowTitle(file.getName());
+				// Mac specific stuff. Will compile anywhere, though.
+				if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX
+						&& file != null) {
+					// Sets the "file" icon...
+					if (file.exists()) {
+						frame.getRootPane().putClientProperty(
+								"Window.documentFile", file);
+						// frame.getRootPane().putClientProperty("Window.documentModified",
+						// Boolean.TRUE);
+					}
+				}
+				// Two possibilities : PDF files or JSesh files...
+				if (file.getName().toLowerCase().endsWith(".pdf")) {
+					try {
+						FileInputStream in = new FileInputStream(file);
+						setCurrentDocument(PDFImporter.createPDFStreamImporter(
+								in, file).getMdcDocument());
+					} catch (PDFImportException e) {
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(frame,
+								"Error opening pdf. Sorry", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} else { // Regular JSesh file...
+					try {
+						MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
+						mdcDocumentReader.setEncoding(encoding);
+						setCurrentDocument(mdcDocumentReader.loadFile(file));
+					} catch (MDCSyntaxError e) {
+						String msg = "error at line " + e.getLine();
+						msg += " near token: " + e.getToken();
+						JOptionPane.showMessageDialog(frame, msg,
+								"Syntax Error", JOptionPane.ERROR_MESSAGE);
+						System.out.println(e.getCharPos());
+						// e.printStackTrace();
+					}
 				}
 			}
-			try {
-				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
-				mdcDocumentReader.setEncoding(encoding);
-				setCurrentDocument(mdcDocumentReader.loadFile(file));
-			} catch (MDCSyntaxError e) {
-				String msg = "error at line " + e.getLine();
-				msg += " near token: " + e.getToken();
-				JOptionPane.showMessageDialog(frame, msg, "Syntax Error",
-						JOptionPane.ERROR_MESSAGE);
-				System.out.println(e.getCharPos());
-				// e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(frame, "problem with file : "
+					+ e.getLocalizedMessage(), "File Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -1235,6 +1264,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 				new File(currentOutputDirectory, "unnamed.rtf")
 						.getAbsolutePath()));
 
+		// Quick pdf export...
+		quickPDFExportDirectory = new File(preferences.get(
+				"quickPdfExportDirectory", new File(System
+						.getProperty("user.home"), "quickPdf")
+						.getAbsolutePath()));
 		// Dimensions...
 		drawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
 				"smallBodyScaleLimit", 12.0));
@@ -1318,6 +1352,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		preferences.put("currentHieroglyphsSource", currentHieroglyphsSource
 				.getAbsolutePath());
 
+		preferences.put("quickPdfExportDirectory", quickPDFExportDirectory
+				.getAbsolutePath());
 		// Dimensions...
 		preferences.putDouble("smallBodyScaleLimit", drawingSpecifications
 				.getSmallBodyScaleLimit());
@@ -1424,7 +1460,24 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 					.getDrawingSpecifications().isSmallSignsCentered());
 			// TODO END OF TEMPORARY PATCH
 			try {
-				currentDocument.save();
+				if (currentDocument.getFile().getName().toLowerCase().endsWith(
+						".pdf")) {
+					// Create the prefs for this document... move the code to document ? or what ?
+					// more info should also be saved in the case of PDF files (pdf prefs).
+					// TODO save PDF prefs in pdf files...
+					PDFExportPreferences prefs= new PDFExportPreferences();
+					prefs.setFile(currentDocument.getFile());
+					prefs.setDrawingSpecifications(getDrawingSpecifications().copy());
+					prefs.getDrawingSpecifications().setTextDirection(currentDocument.getMainDirection());
+					prefs.getDrawingSpecifications().setTextOrientation(currentDocument.getMainOrientation());
+					prefs.getDrawingSpecifications().setSmallSignsCentered(currentDocument.isSmallSignsCentred());
+					PDFExporter exporter= new PDFExporter();
+					exporter.setPdfExportPreferences(prefs);
+					TopItemList model = currentDocument.getHieroglyphicTextModel().getModel();
+					exporter.exportModel(model, MDCCaret.buildWholeTextCaret(model));
+				} else {
+					currentDocument.save();
+				}
 				currentMDCDirectory = currentDocument.getFile().getParentFile();
 				saved = true;
 			} catch (IOException e) {
@@ -1570,8 +1623,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * jsesh.editor.MDCModelTransferableBroker#buildTransferable
+	 * @see jsesh.editor.MDCModelTransferableBroker#buildTransferable
 	 * (jsesh.mdc.model.TopItemList)
 	 */
 	public MDCModelTransferable buildTransferable(TopItemList top) {
@@ -1800,35 +1852,89 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		new UndoRedoActionManager(getEditor().getWorkflow(), undoAction,
 				redoAction);
 	}
-	
+
 	/**
-	 * Saves the selected text (if any) or everything (if nothing is selected) in a pdf file.
+	 * Selects the folder where PDF exports will be saved.
 	 */
-	public void quickPDFExport() {
-		if (pdfExportPreferences == null) {
-			pdfExportPreferences = new PDFExportPreferences();
-			pdfExportPreferences.setFile(new File(currentOutputDirectory,
-					"default.pdf"));
-		}
-
-		PDFExporter pdfExporter = new PDFExporter();
-		pdfExporter.setPdfExportPreferences(pdfExportPreferences);
-		pdfExportPreferences
-				.setDrawingSpecifications(getDrawingSpecifications());
-
-		if (pdfExporter.getOptionPanel(frame, "Export as PDF").askAndSet() == JOptionPane.OK_OPTION) {
-			try {
-				pdfExporter.exportModel(getHieroglyphicTextModel().getModel(),
-						getCaret());
-				currentOutputDirectory = pdfExportPreferences.getFile()
-						.getParentFile();
-			} catch (IOException e1) {
-				JOptionPane.showMessageDialog(null,
-						"Error while exporting to pdf " + e1.getMessage(),
-						"Problem when exporting", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
-			}
+	public void quickPDFExportFolderSelect() {
+		PortableFileDialog dialog = PortableFileDialogFactory
+				.createDirectorySaveDialog(frame);
+		dialog.setTitle("Select folder for PDF files");
+		FileOperationResult op = dialog.show();
+		if (op == FileOperationResult.OK) {
+			quickPDFExportDirectory = dialog.getSelectedFile();
+			message("Selected " + quickPDFExportDirectory.getAbsolutePath()
+					+ " for PDF output");
 		}
 	}
 
+	/**
+	 * Saves the selected text (if any) or everything (if nothing is selected)
+	 * in a pdf file.
+	 */
+	public void quickPDFExport() {
+
+		// Ensures the folder exists :
+		if (!quickPDFExportDirectory.exists()) {
+			quickPDFExportDirectory.mkdir();
+		}
+
+		if (!(quickPDFExportDirectory.exists() && quickPDFExportDirectory
+				.isDirectory())) {
+			JOptionPane.showMessageDialog(null, ""
+					+ quickPDFExportDirectory.getAbsolutePath()
+					+ " is not a folder or can't be created",
+					"Incorrect folder", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		PDFExportPreferences quickExportPreferences = new PDFExportPreferences();
+
+		PDFExporter pdfExporter = new PDFExporter();
+		quickExportPreferences
+				.setDrawingSpecifications(getDrawingSpecifications());
+
+		// Find the next file name...
+		int maxNum = 0;
+
+		for (File f : quickPDFExportDirectory.listFiles()) {
+			String fname = f.getName();
+			// File names : jsesh + number + .pdf
+			if (fname.matches("jsesh[0-9]*\\.pdf")) {
+				String numString = fname.substring(5, fname.lastIndexOf('.'));
+				try {
+					int num = Integer.parseInt(numString);
+					if (num > maxNum)
+						maxNum = num;
+				} catch (NumberFormatException e) {
+					// DO NOTHING ? DON'T STOP PROCESSING, but WARN JUST IN
+					// CASE.
+					e.printStackTrace();
+				}
+			}
+		}
+		String numAsString = String.format("%06d", maxNum + 1);
+
+		File pdfFile = new File(quickPDFExportDirectory, "jsesh" + numAsString
+				+ ".pdf");
+		quickExportPreferences.setFile(pdfFile);
+		quickExportPreferences.setEncapsulated(true);
+
+		pdfExporter.setPdfExportPreferences(quickExportPreferences);
+
+		try {
+			pdfExporter.exportModel(getHieroglyphicTextModel().getModel(),
+					getCaret());
+			message.setText(pdfFile.getAbsolutePath() + " exported");
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(null, "Error while exporting to pdf "
+					+ e1.getMessage(), "Problem when exporting",
+					JOptionPane.ERROR_MESSAGE);
+			e1.printStackTrace();
+		}
+	}
+
+	private void message(String message) {
+		frame.setMessage(message);
+	}
 }

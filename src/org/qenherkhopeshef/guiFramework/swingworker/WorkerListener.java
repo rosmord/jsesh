@@ -21,5 +21,5 @@ public interface WorkerListener<R,U> {
      * Note that the updateData should be thread safe: either a copy of original data,
      * or synchronized.
      */
-    public void update(U updateData);
+    public void updateData(U updateData);
 }

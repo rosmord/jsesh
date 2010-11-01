@@ -5,18 +5,18 @@ import javax.swing.SwingUtilities;
 /**
  * Old Swingworker class for use with JDK 1.4 (updated for jdk 1.5).
  *
- * This is the 3rd version of SwingWorker (also known as
- * SwingWorker 3), an abstract class that you subclass to
+ * This is the 3rd version of SwingWorker1_5 (also known as
+ * SwingWorker1_5 3), an abstract class that you subclass to
  * perform GUI-related work in a dedicated thread.  For
  * instructions on using this class, see:
  *
  * http://java.sun.com/docs/books/tutorial/uiswing/misc/threads.html
  *
  * Note that the API changed slightly in the 3rd version:
- * You must now invoke start() on the SwingWorker after
+ * You must now invoke start() on the SwingWorker1_5 after
  * creating it.
  */
-abstract class SwingWorker<R> {
+public abstract class SwingWorker1_5<R> {
     private R value;  // see getValue(), setValue()
     private Thread thread;
 
@@ -100,7 +100,7 @@ abstract class SwingWorker<R> {
      * Start a thread that will call the <code>construct</code> method
      * and then exit.
      */
-    public SwingWorker() {
+    public SwingWorker1_5() {
         final Runnable doFinished = new Runnable() {
            public void run() { finished(); }
         };

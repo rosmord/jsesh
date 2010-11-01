@@ -103,10 +103,10 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		separatorField.setToolTipText("Manuel de codage separator to use");
 
 		JScrollPane scroll = new JScrollPane(editor);
-		scroll.getVerticalScrollBar().setUnitIncrement(20); 
+		scroll.getVerticalScrollBar().setUnitIncrement(20);
 		// scroll.
 		// scroll.getHorizontalScrollBar().setFocusable(false);
-		// scroll.get	VerticalScrollBar().setFocusable(false);
+		// scroll.get VerticalScrollBar().setFocusable(false);
 
 		messageField = new StringDisplayer(workflow.getMessage(), 30);
 		messageField.setToolTipText("Various messages");
@@ -132,7 +132,9 @@ public class MDCDisplayerAppliFrame extends JFrame {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see jsesh.editor.MDCModelEditionAdapter#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
+			 * @see
+			 * jsesh.editor.MDCModelEditionAdapter#caretChanged(jsesh.mdcDisplayer
+			 * .draw.MDCCaret)
 			 */
 			public void caretChanged(MDCCaret caret) {
 				updateCurrentMDCLine();
@@ -150,7 +152,9 @@ public class MDCDisplayerAppliFrame extends JFrame {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see jsesh.editor.MDCModelEditionAdapter#textEdited(jsesh.mdc.model.operations.ModelOperation)
+			 * @see
+			 * jsesh.editor.MDCModelEditionAdapter#textEdited(jsesh.mdc.model
+			 * .operations.ModelOperation)
 			 */
 			public void textEdited(ModelOperation op) {
 				updateCurrentMDCLine();
@@ -197,15 +201,19 @@ public class MDCDisplayerAppliFrame extends JFrame {
 				}
 
 			};
-			Timer timer= new Timer();
+			Timer timer = new Timer();
 			timer.schedule(task, 500);
-			//task.run();
+			// task.run();
 		}
 	}
 
 	private void setCurrentMDCLine() {
 		editor.getWorkflow().setCurrentLineTo(mdcField.getText());
 
+	}
+
+	public void setMessage(String message) {
+		messageField.setText(message);
 	}
 
 	private final class ManuelDeCodageLineUpdater implements Runnable {
@@ -241,7 +249,8 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.editor.MDCModelEditionListener#textEdited(jsesh.mdc.model.operations.ModelOperation)
+		 * @seejsesh.editor.MDCModelEditionListener#textEdited(jsesh.mdc.model.
+		 * operations.ModelOperation)
 		 */
 		public void textEdited(ModelOperation op) {
 		}
@@ -257,7 +266,9 @@ public class MDCDisplayerAppliFrame extends JFrame {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
+		 * @see
+		 * jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh
+		 * .mdcDisplayer.draw.MDCCaret)
 		 */
 		public void caretChanged(MDCCaret caret) {
 		}
@@ -270,4 +281,5 @@ public class MDCDisplayerAppliFrame extends JFrame {
 			codeField.setText(getEditor().getCodeBuffer());
 		}
 	}
+
 }

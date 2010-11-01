@@ -3,7 +3,7 @@
  * Author: Serge Rosmorduc
  */
 
-package org.qenherkhopeshef.swingUtils;
+package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
@@ -129,6 +129,11 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			}
 			return false;
 		}
+	}
+	
+	@Override
+	public void setTitle(String title) {
+		delegate.setTitle(title);
 	}
 
 }

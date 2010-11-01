@@ -10,8 +10,9 @@ BIBDIR=/Users/rosmord/Documents/MesDocuments/Prog/BibliothequesJava
 #IZPACK=/home/rosmord/IzPack
 #IZPACK=/home/rosmord/Prog/BibliothequesJava/IzPack_3_8_1
 #IZPACK=/Users/admin/Desktop/Serge Rosmorduc/IzPack_3_9
-IZPACK=/Users/rosmord/Prog/BibliothequesJava/IzPack_3_10
+#IZPACK=/Users/rosmord/Prog/BibliothequesJava/IzPack_3_10
 #IZPACK=/home/rosmord/Prog/BibliothequesJava/IzPack_4_2
+
 IZPACK=${BIBDIR}/IZpack-4.3.3
 
 # The path for the mac application bundler 

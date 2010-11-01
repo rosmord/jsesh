@@ -2,7 +2,7 @@
  * This file is distributed under the LGPL
  * Author: Serge Rosmorduc
  */
-package org.qenherkhopeshef.swingUtils;
+package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 import java.awt.Component;
 import java.io.File;
@@ -67,6 +67,11 @@ class SwingFileDialog extends PortableFileDialog {
 	public void dispose() {
 		delegate = null;
 		parent = null;
+	}
+	
+	@Override
+	public void setTitle(String title) {
+		delegate.setDialogTitle(title);
 	}
 
 	public void setFileFilters(FileFilter[] filters) {

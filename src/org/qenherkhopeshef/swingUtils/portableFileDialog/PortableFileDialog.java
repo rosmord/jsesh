@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.swingUtils;
+package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 import java.io.File;
 
@@ -81,6 +81,8 @@ public abstract class PortableFileDialog {
     public void setFileFilter(FileFilter filter) {
     		setFileFilters(new FileFilter[]{filter});
     }
+
+	public abstract void setTitle(String string) ;
     	
  
 }

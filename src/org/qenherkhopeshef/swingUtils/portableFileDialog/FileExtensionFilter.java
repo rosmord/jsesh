@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.swingUtils;
+package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 import java.io.File;
 import java.util.LinkedHashSet;

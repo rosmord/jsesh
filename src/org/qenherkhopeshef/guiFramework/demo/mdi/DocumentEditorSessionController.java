@@ -14,8 +14,8 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
-import org.qenherkhopeshef.swingUtils.PortableFileDialog;
-import org.qenherkhopeshef.swingUtils.PortableFileDialogFactory;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * An abstraction which represents an editing session for one document.

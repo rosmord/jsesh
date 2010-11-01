@@ -25,8 +25,8 @@ public class PDFImporter {
 	private MDCDocument mdcDocument;
 	
 	private PDFImporter(InputStream in, File outFile) throws PDFImportException {
-		mdcDocument = readStream(in);
 		this.outFile= outFile;
+		mdcDocument = readStream(in);
 	}
 
 	private MDCDocument readStream(InputStream in) throws PDFImportException {

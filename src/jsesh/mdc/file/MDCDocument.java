@@ -8,7 +8,12 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+
 import jsesh.editor.HieroglyphicTextModel;
+import jsesh.editor.caret.MDCCaret;
+import jsesh.graphics.export.pdfExport.PDFExportPreferences;
+import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.constants.TextDirection;
@@ -22,14 +27,15 @@ import jsesh.utils.SystemUtils;
 /**
  * A document containing Manuel de codage text.
  * 
- * A document might be associated with a file, or not.
- * In this case, the file property is null.
+ * A document might be associated with a file, or not. In this case, the file
+ * property is null.
+ * 
  * @author rosmord
  * 
  */
 public class MDCDocument {
 
-	private File file= null;
+	private File file = null;
 	private String encoding = "UTF-8";
 	private Dialect dialect = Dialect.JSESH;
 	private TextOrientation mainOrientation = TextOrientation.HORIZONTAL;
@@ -123,14 +129,16 @@ public class MDCDocument {
 	 * @throws IOException
 	 */
 	public void save() throws IOException {
+		if (getFile().getName().toLowerCase().endsWith(".pdf"))
+			throw new UserMessage("THIS METHOD CAN NOT SAVE PDF");
 		fixDocumentEncoding();
 		saveTo(new FileOutputStream(getFile()));
 	}
 
 	/**
-	 * Save the document on a binary stream.
-	 * Only use this method if you want to save the document in an unusual place.
-	 * Normally, the save() method is preferred.
+	 * Save the document on a binary stream. Only use this method if you want to
+	 * save the document in an unusual place. Normally, the save() method is
+	 * preferred.
 	 * 
 	 * @param out
 	 * @throws IOException
@@ -141,9 +149,9 @@ public class MDCDocument {
 	}
 
 	/**
-	 * Save the document on a text writer.
-	 * Only use this method if you want to save the document in an unusual place.
-	 * Normally, the save() method is preferred.
+	 * Save the document on a text writer. Only use this method if you want to
+	 * save the document in an unusual place. Normally, the save() method is
+	 * preferred.
 	 * 
 	 * @param writer
 	 * @throws IOException
@@ -215,7 +223,7 @@ public class MDCDocument {
 	}
 
 	public String getMdC() {
-		StringWriter writer= new StringWriter();
+		StringWriter writer = new StringWriter();
 		try {
 			saveTo(writer);
 		} catch (IOException e) {
