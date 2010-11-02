@@ -7,8 +7,6 @@ import java.net.URI;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -16,18 +14,15 @@ import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCEditorKeyManager;
 import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
-import jsesh.swing.utils.MdcFileDialog;
 
-import org.jhotdraw.app.AbstractView;
-import org.jhotdraw.app.action.edit.CopyAction;
-import org.jhotdraw.app.action.edit.CutAction;
-import org.jhotdraw.app.action.edit.PasteAction;
-import org.jhotdraw.app.action.edit.RedoAction;
-import org.jhotdraw.app.action.edit.UndoAction;
-import org.jhotdraw.gui.URIChooser;
-import org.qenherkhopeshef.utils.PlatformDetection;
+import org.jhotdraw_7_4_1.app.AbstractView;
+import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
+import org.jhotdraw_7_4_1.app.action.edit.CutAction;
+import org.jhotdraw_7_4_1.app.action.edit.PasteAction;
+import org.jhotdraw_7_4_1.app.action.edit.RedoAction;
+import org.jhotdraw_7_4_1.app.action.edit.UndoAction;
+import org.jhotdraw_7_4_1.gui.URIChooser;
 
 public class JSeshView extends AbstractView {
 

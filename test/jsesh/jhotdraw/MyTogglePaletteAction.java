@@ -14,11 +14,16 @@
 
 package jsesh.jhotdraw;
 
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.*;
-import org.jhotdraw.app.OSXApplication;
-import org.jhotdraw.app.action.ActionUtil;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.AbstractAction;
+
+import org.jhotdraw_7_4_1.app.AbstractApplication;
+import org.jhotdraw_7_4_1.app.action.ActionUtil;
 
 /**
  * MyTogglePaletteAction.
@@ -28,11 +33,11 @@ import org.jhotdraw.app.action.ActionUtil;
  */
 public class MyTogglePaletteAction extends AbstractAction {
     private Window palette;
-    private MyOSXApplication app;
+    private AbstractApplication app;
     private WindowListener windowHandler;
     
     /** Creates a new instance. */
-    public MyTogglePaletteAction(MyOSXApplication myOSXApplication, Window palette, String label) {
+    public MyTogglePaletteAction(AbstractApplication myOSXApplication, Window palette, String label) {
         super(label);
         this.app = myOSXApplication;
         

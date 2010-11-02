@@ -14,10 +14,11 @@
 
 package jsesh.jhotdraw;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 
-import org.jhotdraw.app.*;
+import org.jhotdraw_7_4_1.app.Application;
+import org.jhotdraw_7_4_1.app.MDIApplication;
+import org.jhotdraw_7_4_1.app.SDIApplication;
 
 /**
  * Main class.
@@ -50,16 +51,12 @@ public class Main {
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
 				//app = new MyOSXApplication();
-			app = new SDIApplication();
+			app = new MyOSXApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
-			// app = new DefaultMDIApplication();
-			// app = new SDIApplication();
-			app = new MyOSXApplication();
-
+			app = new OSXLikeApplication();
 		} else {
-			// app = new SDIApplication();
-			app = new MyOSXApplication();
+			 app= new OSXLikeApplication();
 		}
 		app.setModel(applicationModel);
 		app.launch(args);

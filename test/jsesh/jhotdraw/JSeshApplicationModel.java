@@ -1,23 +1,25 @@
 package jsesh.jhotdraw;
 
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ActionMap;
-import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
-import jsesh.swing.signPalette.HieroglyphicPaletteDialog;
+import jsesh.swing.signPalette.JSimplePalette;
 import jsesh.swing.signPalette.PalettePresenter;
 
-import org.jhotdraw.app.Application;
-import org.jhotdraw.app.DefaultApplicationModel;
-import org.jhotdraw.app.View;
-import org.jhotdraw.app.action.edit.DeleteAction;
-import org.jhotdraw.app.action.edit.DuplicateAction;
-import org.jhotdraw.gui.URIChooser;
+import org.jhotdraw_7_4_1.app.Application;
+import org.jhotdraw_7_4_1.app.DefaultApplicationModel;
+import org.jhotdraw_7_4_1.app.View;
+import org.jhotdraw_7_4_1.app.action.edit.DeleteAction;
+import org.jhotdraw_7_4_1.app.action.edit.DuplicateAction;
+import org.jhotdraw_7_4_1.gui.URIChooser;
 
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
@@ -30,7 +32,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void initApplication(Application a) {
 		super.initApplication(a);
 		this.application= a;
-		
 	}
 	
 	@Override
@@ -39,18 +40,20 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		return menus;
 	}
 
-	@Override
-	public List<JToolBar> createToolBars(Application a, View p) {
-		ArrayList<JToolBar> toolbars = new ArrayList<JToolBar>();
+	private JSimplePalette createHieroglyphicPalette() {
 		PalettePresenter palettePresenter= new PalettePresenter();
 		palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
-
-		
-		
-		JToolBar hoolbar= new  JToolBar("hieroglyphs");
-		hoolbar.add(palettePresenter.getSimplePalette());
+		return palettePresenter.getSimplePalette();
+	}
+	
+	@Override
+	public List<JToolBar> createToolBars(Application a, View p) {
+		List<JToolBar> toolbars= new ArrayList<JToolBar>();
+        JToolBar hoolbar= new  JToolBar("hieroglyphs");
+        hoolbar.add(createHieroglyphicPalette());
+//		toolbars.add(hoolbar);
 		toolbars.add(hoolbar);
-		return toolbars;
+		 return toolbars;
 	}
 
 	public ActionMap createActionMap(Application a, View v) {

@@ -89,15 +89,12 @@ import org.jhotdraw_7_4_1.util.prefs.PreferencesUtil;
 import ch.randelshofer.quaqua.QuaquaManager;
 
 /**
- * {@code MyOSXApplication} handles the lifecycle of {@link View}s using a
- * Mac OS X document interface.
+ * {@code OSXLikeApplication} handles the lifecycle of {@link View}s using a
+ * Mac-like document interface, but for simple SDI applications (much like GIMP in linus or Windows).
  * <p>
  * An application consists of a screen menu bar and {@code JFrame}s for the
  * {@code View}s. The application also provides floating toolbars and palette
  * windows for the views.
- * <p>
- * The life cycle of the application is tied to the screen menu bar. Choosing
- * the quit action in the screen menu bar quits the application.
  * <p>
  * The screen menu bar has the following standard menus:
  * <pre>
@@ -144,26 +141,23 @@ import ch.randelshofer.quaqua.QuaquaManager;
  * the file menu and the window menu. In case the application model supplies
  * a menu with the title "Help", it is inserted after the window menu.
  *
- * @author Werner Randelshofer
+ * @author Serge Rosmorduc (after OXApplication by Werner Randelshofer)
  * @version $Id: MyOSXApplication.java 608 2010-01-11 18:46:00Z rawcoder $
  */
-public class MyOSXApplication extends AbstractApplication {
+public class OSXLikeApplication extends AbstractApplication {
 
     private GenericPaletteHandler paletteHandler;
     private Preferences prefs;
     private LinkedList<Action> paletteActions;
-    /** The "invisible" frame is used to hold the frameless menu bar on Mac OS X.
-     */
-    private JFrame invisibleFrame;
+ 
 
     /** Creates a new instance. */
-    public MyOSXApplication() {
+    public OSXLikeApplication() {
     }
 
     @Override
     public void init() {
         super.init();
-        ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         prefs = PreferencesUtil.userNodeForPackage((getModel() == null) ? getClass() : getModel().getClass());
         initLookAndFeel();
         paletteHandler = new GenericPaletteHandler(this);
@@ -180,19 +174,16 @@ public class MyOSXApplication extends AbstractApplication {
 
     @Override
     public void launch(String[] args) {
-        System.setProperty("apple.awt.graphics.UseQuartz", "false");
         super.launch(args);
     }
 
     @Override
     public void configure(String[] args) {
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
-        System.setProperty("com.apple.macos.useScreenMenuBar", "true");
     }
 
     protected void initLookAndFeel() {
         try {
-            UIManager.setLookAndFeel(QuaquaManager.getLookAndFeel());
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -442,7 +433,8 @@ public class MyOSXApplication extends AbstractApplication {
         addAction(m, view, SaveFileAsAction.ID);
         addAction(m, view, ExportFileAction.ID);
         addAction(m, view, PrintFileAction.ID);
-
+        maybeAddSeparator(m);
+        addAction(m, view, ExitAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;
     }
 
@@ -475,32 +467,6 @@ public class MyOSXApplication extends AbstractApplication {
     }
 
     protected void initScreenMenuBar() {
-        ApplicationModel model = getModel();
-        setScreenMenuBar(createMenuBar(null));
-        paletteHandler.add((JFrame) getComponent(), null);
-
-        Action a;
-        if (null != (a = getAction(null, OpenApplicationAction.ID))) {
-            OSXAdapter.setOpenApplicationHandler(a);
-        }
-        if (null != (a = getAction(null, ReOpenApplicationAction.ID))) {
-            OSXAdapter.setReOpenApplicationHandler(a);
-        }
-        if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
-            OSXAdapter.setOpenFileHandler(a);
-        }
-        if (null != (a = getAction(null, PrintApplicationFileAction.ID))) {
-            OSXAdapter.setPrintFileHandler(a);
-        }
-        if (null != (a = getAction(null, AboutAction.ID))) {
-            OSXAdapter.setAboutHandler(a);
-        }
-        if (null != (a = getAction(null, AbstractPreferencesAction.ID))) {
-            OSXAdapter.setPreferencesHandler(a);
-        }
-        if (null != (a = getAction(null, ExitAction.ID))) {
-            OSXAdapter.setQuitHandler(a);
-        }
     }
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
@@ -508,7 +474,7 @@ public class MyOSXApplication extends AbstractApplication {
 
             public LinkedList<JFrame> construct() {
                 LinkedList<JFrame> palettes = new LinkedList<JFrame>();
-                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(MyOSXApplication.this, null));
+                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(getModel().createToolBars(OSXLikeApplication.this, null));
 
                 int i = 0;
                 int x = 0;
@@ -545,7 +511,7 @@ public class MyOSXApplication extends AbstractApplication {
                     PreferencesUtil.installPalettePrefsHandler(prefs, "toolbar." + i, d, x);
                     x += d.getWidth();
 
-                    paletteActions.add(new MyTogglePaletteAction(MyOSXApplication.this, d, tb.getName()));
+                    paletteActions.add(new MyTogglePaletteAction(OSXLikeApplication.this, d, tb.getName()));
                     palettes.add(d);
                     if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
                         //addPalette(d);
@@ -574,30 +540,13 @@ public class MyOSXApplication extends AbstractApplication {
         return true;
     }
 
-    /** Returns the Frame which holds the frameless JMenuBar.
-     */
+   /**
+    * It's not a MacOS X application, hence no "invisible" window.
+    */
     public Component getComponent() {
-        if (invisibleFrame == null) {
-            invisibleFrame = new JFrame();
-            invisibleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            invisibleFrame.setUndecorated(true);
-            // Move it way off screen
-            invisibleFrame.setLocation(10000, 10000);
-            // make the frame transparent and shadowless
-            // see https://developer.apple.com/mac/library/technotes/tn2007/tn2196.html
-            invisibleFrame.getRootPane().putClientProperty("Window.alpha", 0f);
-            invisibleFrame.getRootPane().putClientProperty("Window.shadow", false);
-            // make it visible, so the menu bar will show
-            invisibleFrame.setVisible(true);
-        }
-        return invisibleFrame;
+       return null;
     }
 
-    protected void setScreenMenuBar(JMenuBar mb) {
-        ((JFrame) getComponent()).setJMenuBar(mb);
-        // pack it (without calling pack, the screen menu bar won't work for some reason)
-        invisibleFrame.pack();
-    }
 
     protected ActionMap createModelActionMap(ApplicationModel mo) {
         ActionMap rootMap = new ActionMap();
@@ -637,7 +586,7 @@ public class MyOSXApplication extends AbstractApplication {
         public WindowMenuHandler(JMenu windowMenu, View view) {
             this.windowMenu = windowMenu;
             this.view = view;
-            MyOSXApplication.this.addPropertyChangeListener(this);
+            OSXLikeApplication.this.addPropertyChangeListener(this);
             if (view != null) {
                 view.addDisposable(this);
             }
