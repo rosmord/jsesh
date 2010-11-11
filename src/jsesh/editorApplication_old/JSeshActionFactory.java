@@ -1,18 +1,15 @@
 package jsesh.editorApplication_old;
 
-import java.util.Map;
-
-import org.qenherkhopeshef.guiFramework.ActionFactory;
 import org.qenherkhopeshef.guiFramework.AppDefaults;
-import org.qenherkhopeshef.guiFramework.ApplicationSkeleton;
+import org.qenherkhopeshef.guiFramework.ActionCatalogue;
 import org.qenherkhopeshef.guiFramework.BundledAction;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 
 
-public class JSeshActionFactory extends ActionFactory {
+public class JSeshActionFactory extends ActionCatalogue {
 
 	public JSeshActionFactory(PropertyHolder facade) {
-		super(new ApplicationSkeleton(facade));
+		super(facade);
 	}
 
 	/* (non-Javadoc)

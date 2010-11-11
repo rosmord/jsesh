@@ -49,7 +49,7 @@ public class FWDemo {
 		// Define the list of available actions
 		simpleApplicationFW.addActionList("menu.txt");
 
-		JMenuBar menuBar = simpleApplicationFW.buildMenu("menu.txt");
+		JMenuBar menuBar = simpleApplicationFW.buildMenuBar("menu.txt");
 
 		// Demonstration of actions used outside of menus.
 		toolbar.add(simpleApplicationFW.getAction("increase_one"));

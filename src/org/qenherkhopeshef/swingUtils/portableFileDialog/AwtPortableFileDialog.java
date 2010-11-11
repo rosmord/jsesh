@@ -5,6 +5,7 @@
 
 package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
+import java.awt.Component;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
@@ -27,7 +28,7 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 
 	public AwtPortableFileDialog(Frame parent) {
 		this.parent = parent;
-		delegate= new FileDialog(parent);
+		delegate = new FileDialog(parent);
 	}
 
 	@Override
@@ -107,11 +108,9 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			return FileOperationResult.OK;
 	}
 
-
 	private void setDelegate(FileDialog delegate) {
 		this.delegate = delegate;
 	}
-
 
 	private static class FileFilterAdapter implements FilenameFilter {
 		private FileFilter[] swingFilters;
@@ -121,7 +120,7 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			this.swingFilters = swingFilters.clone();
 		}
 
-		@Override
+
 		public boolean accept(File dir, String name) {
 			for (FileFilter filter : swingFilters) {
 				if (filter.accept(new File(dir, name)))
@@ -130,10 +129,21 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void setTitle(String title) {
 		delegate.setTitle(title);
+	}
+
+	@Override
+	public void setParent(Component parent) {
+		// Parent must be a frame for an AwtPortableFileDialog...
+		try {
+			this.parent = (Frame) parent;
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			this.parent = null;
+		}
 	}
 
 }

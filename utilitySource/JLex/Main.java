@@ -140,7 +140,7 @@
      Fixed dynamic reallocation of accept action buffers.
 
   Version 1.1.1, September 3, 1996 [Andrew Appel]
-    Made the class "Main" instead of "JavaLex", 
+    Made the class "JSeshMain" instead of "JavaLex", 
      improved the installation instructions to reflect this.
 
   Version 1.1, August 15, 1996  [Andrew Appel]
@@ -3254,7 +3254,7 @@ class CNfa2Dfa
 	    
 	    m_spec.m_state_dtrans[istate] = m_spec.m_dtrans_vector.size();
 
-	    /* Main loop of CDTrans creation. */
+	    /* JSeshMain loop of CDTrans creation. */
 	    while (null != (dfa = get_unmarked()))
 	      {
 		System.out.print(".");
@@ -3399,7 +3399,7 @@ class CNfa2Dfa
 	    nfa_stack.push(state);
 	  }
 
-	/* Main loop. */
+	/* JSeshMain loop. */
 	while (false == nfa_stack.empty())
 	  {
 	    state = (CNfa) nfa_stack.pop();
@@ -3817,7 +3817,7 @@ class CAlloc
 }
 
 /***************************************************************
-  Class: Main
+  Class: JSeshMain
   Description: Top-level lexical analyzer generator function.
  **************************************************************/
 public class Main

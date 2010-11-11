@@ -31,13 +31,13 @@ public class JTextBasicPalette extends JDialog {
     		add(textOne);
     		add(textTwo);
     		textOne.addActionListener(new ActionListener() {		
-				@Override
+			
 				public void actionPerformed(ActionEvent e) {
 					controller.insertText("one");
 				}
 			});
     		textOne.addActionListener(new ActionListener() {		
-				@Override
+			
 				public void actionPerformed(ActionEvent e) {
 					controller.insertText("two");
 				}

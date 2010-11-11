@@ -17,12 +17,11 @@ import javax.swing.JMenuItem;
 /**
  * Very simple facade for building applications menus for one specific window.
  * (Former SimpleApplicationFramework).
- * 
- * Consider moving some of this class's functionalities to ApplicationSkeleton, which is currently a data-only class ?
  */
+
 public class SimpleApplicationFactory {
 
-	private ApplicationSkeleton applicationSkeleton;
+	private ActionCatalogue actionCatalogue;
 
 	/**
 	 * The menu bar (used only for simple applications).
@@ -41,7 +40,7 @@ public class SimpleApplicationFactory {
 	 * @param actionDelegate
 	 */
 	public SimpleApplicationFactory(PropertyHolder actionDelegate) {
-		this.applicationSkeleton = new ApplicationSkeleton(actionDelegate);
+		this.actionCatalogue = new ActionCatalogue(actionDelegate);
 		;
 	}
 
@@ -62,10 +61,10 @@ public class SimpleApplicationFactory {
 	public SimpleApplicationFactory(String ressourceI8n, String menuPath,
 			PropertyHolder actionDelegate) {
 		try {
-			this.applicationSkeleton = new ApplicationSkeleton(actionDelegate);
+			this.actionCatalogue = new ActionCatalogue(actionDelegate);
 			addRessourceBundle(ressourceI8n);
 			addActionList(menuPath);
-			buildMenu(menuPath);
+			buildMenuBar(menuPath);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -83,18 +82,7 @@ public class SimpleApplicationFactory {
 	 *            "package.resourceI8n".
 	 */
 	public void addRessourceBundle(String path) {
-		// We try to be as user-friendly as possible.
-		if (path.indexOf('.') == -1) {
-			path = getActionDelegateClass().getPackage().getName() + "." + path;
-		}
-		String filePath = "/" + path.replace('.', '/');
-		if (this.getClass().getResource(filePath + ".properties") == null) {
-			System.err.println("Bundle " + path
-					+ ".properties seems not to be there.");
-			System.err
-					.println("Make sure you used the full name with packages.");
-		}
-		applicationSkeleton.getDefaults().addResourceBundle(path);
+		actionCatalogue.addResourceBundle(path);
 	}
 
 	/**
@@ -103,7 +91,7 @@ public class SimpleApplicationFactory {
 	 * @return
 	 */
 	public AppDefaults getAppDefaults() {
-		return applicationSkeleton.getDefaults();
+		return actionCatalogue.getDefaults();
 	}
 
 	/**
@@ -121,11 +109,7 @@ public class SimpleApplicationFactory {
 	 */
 	public void addActionList(String actionListRessourceName)
 			throws IOException {
-		InputStream stream = getActionDelegateClass().getResourceAsStream(
-				actionListRessourceName);
-		if (stream == null)
-			System.err.println("Could not read " + actionListRessourceName);
-		addActionList(stream);
+		actionCatalogue.addActionList(actionListRessourceName);
 	}
 
 	/**
@@ -138,51 +122,46 @@ public class SimpleApplicationFactory {
 	 * @throws IOException
 	 */
 	private void addActionList(InputStream stream) throws IOException {
-		Reader actionNamesSource = new InputStreamReader(stream, "UTF-8");
-		// Use the action factory to build the actions.
-		new ActionFactory(applicationSkeleton)
-				.buildActionsFromText(actionNamesSource);
+		actionCatalogue.addActionList(stream);
 	}
 
 	/**
-	 * Returns the catalog of actions (indexed by action ids).
+	 * Returns a copy of the catalog of actions (indexed by action ids) as  map.
 	 * 
 	 * @return
 	 */
 	public Map<String, Action> getActionCatalog() {
-		return applicationSkeleton.getActionCatalog();
+		return actionCatalogue.getActionMap();
 	}
 
 	/**
-	 * build a menu according to a description.
+	 * build a menubar according to a description.
 	 * 
 	 * <p>
 	 * Precondition: A resource bundle and an action delegate must be set.
 	 * 
-	 * @param menuPath
+	 * @param menuPath a path to a file resource describing the menu.
 	 * @return
 	 * @throws IOException
-	 * 
 	 */
 
-	public JMenuBar buildMenu(String menuPath) throws IOException {
+	public JMenuBar buildMenuBar(String menuPath) throws IOException {
 		// Create the menu.
-		MenubarFactory menubarFactory = new MenubarFactory(applicationSkeleton
-				.getActionCatalog());
+		MenuFactory menuFactory = new MenuFactory(actionCatalogue
+				.getActionMap());
 		InputStream menuDescription = getActionDelegateClass()
 				.getResourceAsStream(menuPath);
 		if (menuDescription == null)
 			System.err.println("Could not read " + menuDescription);
-		jMenuBar = menubarFactory.buildMenuBar(new InputStreamReader(
+		jMenuBar = menuFactory.buildMenuBar(new InputStreamReader(
 				menuDescription, "UTF-8"));
-
-		menuMap = menubarFactory.getActionNamesToMenuMap();
-
+		menuMap = menuFactory.getActionNamesToMenuMap();
 		return jMenuBar;
 	}
 
+	
 	private Class<? extends PropertyHolder> getActionDelegateClass() {
-		return applicationSkeleton.getActionDelegate().getClass();
+		return actionCatalogue.getActionDelegate().getClass();
 	}
 
 	public JMenuBar getJMenuBar() {
@@ -230,21 +209,21 @@ public class SimpleApplicationFactory {
 		String s;
 		while ((s = r.readLine()) != null) {
 			s = s.trim();
-			final Action action = applicationSkeleton.getAction(s);
+			final Action action = actionCatalogue.getAction(s);
 			actionMap.put(s, action);
 		}
 		return actionMap;
 	}
 
 	public Action getAction(String actionName) {
-		return applicationSkeleton.getAction(actionName);
+		return actionCatalogue.getAction(actionName);
 	}
 
 	public JMenuItem getMenuItemFor(String actionName) {
 		return menuMap.get(actionName);
 	}
 	
-	public ApplicationSkeleton getApplicationSkeleton() {
-		return applicationSkeleton;
+	public ActionCatalogue getApplicationSkeleton() {
+		return actionCatalogue;
 	}
 }

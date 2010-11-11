@@ -1,5 +1,6 @@
 package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
+import java.awt.Component;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -83,6 +84,8 @@ public abstract class PortableFileDialog {
     }
 
 	public abstract void setTitle(String string) ;
+
+	public abstract void setParent(Component parent);
     	
  
 }

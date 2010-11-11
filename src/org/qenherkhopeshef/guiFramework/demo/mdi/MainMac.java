@@ -20,7 +20,7 @@ import com.apple.eawt.Application;
  * On Pc/Linux: the application will quit if no window is opened.  The application will automatically 
  * open a new document when started with none.
  *
- * Version of the Main for the macintosh.
+ * Version of the JSeshMain for the macintosh.
  * @author rosmord
  *
  */

@@ -67,7 +67,7 @@ public class MDCDisplayerAppli {
 	 */
 
 	/**
-	 * The Main GUI window
+	 * The JSeshMain GUI window
 	 * 
 	 */
 	private MDCDisplayerAppliFrame frame;

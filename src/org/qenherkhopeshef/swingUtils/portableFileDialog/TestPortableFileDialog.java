@@ -50,7 +50,6 @@ class TestPortableFileDialog {
 								"text files"),
 						new FileExtensionFilter("doc", "word files") };
 
-				@Override
 				public void actionPerformed(ActionEvent e) {
 					JButton b = (JButton) e.getSource();
 					File result = null;

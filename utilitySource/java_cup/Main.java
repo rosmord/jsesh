@@ -148,7 +148,7 @@ public class Main {
   /* Additional timing information is also collected in emit */
 
   /*-----------------------------------------------------------*/
-  /*--- Main Program ------------------------------------------*/
+  /*--- JSeshMain Program ------------------------------------------*/
   /*-----------------------------------------------------------*/
 
   /** The main driver for the system. 

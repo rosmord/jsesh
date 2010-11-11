@@ -17,7 +17,7 @@ import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
  */
 public class ClockDisplay implements ProgressionDisplay {
 
-	@Override
+
 	public void drawAdvancement(Graphics2D g, int width, int height,
 			int progression) {
 		double centerX= width/ 2.0;

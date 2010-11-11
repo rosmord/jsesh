@@ -86,4 +86,9 @@ class SwingFileDialog extends PortableFileDialog {
 			}
 		}
 	}
+	
+	@Override
+	public void setParent(Component parent) {
+		this.parent= parent;
+	}
 }

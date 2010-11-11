@@ -14,7 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
-import org.qenherkhopeshef.guiFramework.MenubarFactory;
+import org.qenherkhopeshef.guiFramework.MenuFactory;
 
 /**
  * New Application for JSesh 3.0 (and later).
@@ -93,10 +93,10 @@ public class MDCEditorApplication {
 	}
 
 	private void buildMenu() throws IOException {
-		MenubarFactory menubarFactory = new MenubarFactory(actionCatalog);
+		MenuFactory menuFactory = new MenuFactory(actionCatalog);
 		InputStream menuDescription = this.getClass().getResourceAsStream(MENU_DESCRIPTOR_RESOURCE);
 		
-		menuBar = menubarFactory.buildMenuBar(new InputStreamReader(menuDescription, "UTF-8"));
+		menuBar = menuFactory.buildMenuBar(new InputStreamReader(menuDescription, "UTF-8"));
 		// Fill a map with menus for hieroglyphs.
 		//JMenu menu = (JMenu)menubarFactory.getItem("hieroglyphsAMenu");
 		//menubarFactory.fillJMenu(menu, new InputStreamReader(this.getClass().getResourceAsStream("A.txt"), "UTF-8"));
