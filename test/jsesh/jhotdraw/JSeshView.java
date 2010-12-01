@@ -140,4 +140,9 @@ public class JSeshView extends AbstractView {
 		getEditor().getWorkflow().addSign(code);
 	}
 
+	@Override
+	public void setEnabled(boolean enabled) {
+		viewModel.setEnabled(enabled);
+		super.setEnabled(enabled);
+	}
 }

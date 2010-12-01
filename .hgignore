@@ -17,3 +17,7 @@ syntax: regexp
 ^src/jsesh/mdc/lex/MDCSymbols\.java$
 syntax: glob
 .*
+syntax: regexp
+^depcache$
+syntax: regexp
+^installer-distribution$

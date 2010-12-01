@@ -462,7 +462,7 @@ public class MDIApplication extends AbstractApplication {
         addAction(m, view, NewFileAction.ID);
         addAction(m, view, NewWindowAction.ID);
 
-        getModel().getStandardMenuBuilder().afterFileNew(m, view);
+        getModel().getStandardMenuBuilder().afterFileNew(m, this, view);
         
         addAction(m, view, LoadFileAction.ID);
         addAction(m, view, OpenFileAction.ID);
@@ -475,17 +475,17 @@ public class MDIApplication extends AbstractApplication {
                 getAction(view, OpenDirectoryAction.ID) != null) {
             m.add(createOpenRecentFileMenu(view));
         }
-        getModel().getStandardMenuBuilder().afterFileOpen(m, view);
+        getModel().getStandardMenuBuilder().afterFileOpen(m,this, view);
 
         maybeAddSeparator(m);
         addAction(m, view, CloseFileAction.ID);
-        getModel().getStandardMenuBuilder().afterFileClose(m, view);
+        getModel().getStandardMenuBuilder().afterFileClose(m, this, view);
 
         addAction(m, view, SaveFileAction.ID);
         addAction(m, view, SaveFileAsAction.ID);
         addAction(m, view, ExportFileAction.ID);
         addAction(m, view, PrintFileAction.ID);
-        getModel().getStandardMenuBuilder().atEndOfFileMenu(m, view);
+        getModel().getStandardMenuBuilder().atEndOfFileMenu(m,this,  view);
 
         maybeAddSeparator(m);
         addAction(m, view, ExitAction.ID);
@@ -573,7 +573,7 @@ public class MDIApplication extends AbstractApplication {
         addAction(m, view, ClearSelectionAction.ID);
         maybeAddSeparator(m);
         addAction(m, view, AbstractFindAction.ID);
-        getModel().getStandardMenuBuilder().atEndOfEditMenu(m, view);
+        getModel().getStandardMenuBuilder().atEndOfEditMenu(m, this, view);
         maybeAddSeparator(m);
         addAction(m, view, AbstractPreferencesAction.ID);
         return (m.getPopupMenu().getComponentCount() == 0) ? null : m;

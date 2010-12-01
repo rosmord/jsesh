@@ -5,8 +5,8 @@ import jsesh.mdc.file.MDCDocument;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing session of a JSesh document.
+ * Might be worth merging with JSeshView.
  * @author rosmord
- *
  */
 public class JSeshViewModel {
 	private MDCDocument mdcDocument;
@@ -37,6 +37,10 @@ public class JSeshViewModel {
 		// What to do with those ???? 
 //		this.getDrawingSpecifications().setSmallSignsCentered(
 //				currentDocument.isSmallSignsCentred());
+	}
+
+	public void setEnabled(boolean enabled) {
+			editor.setEnabled(enabled);
 	}
 
 }
