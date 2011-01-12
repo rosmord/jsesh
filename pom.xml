@@ -10,8 +10,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
-    <module>jlex</module>
-    <module>jcup</module>
     <module>jvect</module>
     <module>cupAndlex</module>
     <module>cupruntime</module>
