@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.qenherkhopeshef</groupId>
+		<artifactId>JSesh-all</artifactId>
+		<version>4.5-SNAPSHOT</version>
+	</parent>
+	<artifactId>jsesh</artifactId>
+	<packaging>jar</packaging>
+	<name>jsesh</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+				<version>2.3.2</version> <configuration> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<!-- <echo>building jlex and jcup parsers</echo> <mkdir dir="target/tmp"/> 
+									<java dir="target/tmp" classname="java_cup.Main" fork="true" classpath="../jcup/target/jcup-0.0.1.jar" 
+									output="target/tmp/cupReport.txt"> <arg value="-package" /> <arg value="jsesh.mdc.parser" 
+									/> <arg value="-dump" /> <arg value="-interface" /> <arg value="-parser" 
+									/> <arg value="MDCParse" /> <arg value="-symbols" /> <arg value="MDCSymbols" 
+									/> <arg value="../../src/jcup/MDCParse.y" /> </java> move the generated files 
+									where they belong, and correct a few things about packages <mkdir dir="target/generated-sources/jcup/jsesh/mdc/parser"/> 
+									<mkdir dir="target/generated-sources/jcup/jsesh/mdc/lex"/> <move file="target/tmp/MDCParse.java" 
+									todir="target/generated-sources/jcup/jsesh/mdc/parser" /> <replace file="target/tmp/MDCSymbols.java" 
+									token="package jsesh.mdc.parser;" value="package jsesh.mdc.lex;" /> <move 
+									file="target/tmp/MDCSymbols.java" todir="target/generated-sources/jcup/jsesh/mdc/lex" 
+									/> -->
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/target/generated-sources/jcup</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.qenherkhopeshef</groupId>
+				<artifactId>cupAndlex</artifactId>
+				<version>4.5-SNAPSHOT</version>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.qenherkhopeshef</groupId>
+			<artifactId>jvect</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.qenherkhopeshef</groupId>
+			<artifactId>cupruntime</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>forms</artifactId>
+			<version>1.0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+	</dependencies>
+</project>

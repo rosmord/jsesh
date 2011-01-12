@@ -69,13 +69,12 @@
 		property file holding local data (installation directory, external
 		libraries...
 	-->
-	<property file="resources/builder/local.prop" />
+	<property file="${basedir}/local.prop" />
 
 	<property name="ant.build.javac.target" value="1.5"/> 
 
 	<!-- place holding the version number -->
-	<property name="versionFile" value="${basedir}/resources/builder/version.prop">
-	</property>
+	<property name="versionFile" value="${basedir}/version.prop"></property>
 
 	<!-- read the version number -->
 	<property file="${versionFile}" />

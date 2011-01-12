@@ -1,6 +1,8 @@
 
 syntax: regexp
 ^build$
+syntax: glob
+**/target
 syntax: regexp
 ^extLib$
 syntax: regexp

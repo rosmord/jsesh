@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.qenherkhopeshef</groupId>
+  <artifactId>JSesh-all</artifactId>
+  <version>4.5-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>JSesh complete distribution</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <modules>
+    <module>jlex</module>
+    <module>jcup</module>
+    <module>jvect</module>
+    <module>cupAndlex</module>
+    <module>cupruntime</module>
+    <module>jsesh</module>
+  </modules>
+</project>
