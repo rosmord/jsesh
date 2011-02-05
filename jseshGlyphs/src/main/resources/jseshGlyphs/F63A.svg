@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="F63A.svg"
+   sodipodi:docbase="/Users/rosmord/Travail/Gsigns/Distribution"
+   inkscape:version="0.46"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800.000000px"
+   width="1800.000000px"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs3">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 900 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1800 : 900 : 1"
+       inkscape:persp3d-origin="900 : 600 : 1"
+       id="perspective9" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-y="22"
+     inkscape:window-x="0"
+     inkscape:window-height="800"
+     inkscape:window-width="1273"
+     inkscape:current-layer="layer2"
+     inkscape:document-units="px"
+     inkscape:cy="539.21954"
+     inkscape:cx="1197.6399"
+     inkscape:zoom="0.3226802"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>from an original sign in Nefertary's tomb.</dc:description>
+        <dc:title>F63A</dc:title>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1" />
+  <g
+     inkscape:label="dessin"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="cssssccssscccssscssssccssssccccccccccccccccccsss"
+       id="path1351"
+       d="M 1393.1274,995.4375 C 1377.5683,877.03613 1281.0928,698.2156 1100.0145,698.2156 C 778.65695,698.2156 589.40055,924.41571 424.37819,1113.0364 C 312.52811,1240.8811 214.16343,1388.0626 61.581932,1470.1813 C 14.725073,1495.3995 -18.239944,1543.4007 -19.802833,1597.8921 C -21.062519,1641.8121 -23.081105,1689.5187 5.7348312,1725.7695 C 63.252347,1801.5606 163.86893,1840.1314 257.67135,1827.961 C 342.56545,1820.5459 426.96609,1807.6109 512.71579,1811.2006 C 747.56305,1821.0319 982.93297,1829.8832 1217.9956,1824.6094 C 1292.0684,1822.9475 1377.168,1817.4251 1431.8815,1761.1 C 1478.9051,1712.6913 1472.6755,1638.9911 1468.1591,1576.9475 C 1450.8031,1382.2192 1422.3968,1188.6773 1393.1274,995.4375 z M 1099.5,764.34375 C 1328.4922,767.44279 1349.5419,1136.6352 1369.4162,1306.7827 C 1379.5619,1393.6417 1440.0245,1650.168 1378.3116,1713.1795 C 1328.1885,1764.3573 1238.1286,1765.0071 1168.4062,1765.4688 C 925.53341,1767.0773 410.25081,1742.5874 380.57579,1753.4424 C 407.07905,1687.9331 410.8484,1578.8148 353.77443,1530.8191 C 313.48375,1496.9371 267.27545,1468.0223 217.14701,1453.7633 C 179.0336,1442.922 176.38169,1499.4541 211.09053,1512.8307 C 255.65115,1530.0042 309.86181,1565.56 315.21855,1617.6924 C 321.15696,1675.4858 283.99792,1733.875 237.59375,1768.9688 C 168.89087,1774.4852 95.706527,1744.7281 53.705651,1689.5106 C 30.651536,1657.7856 37.689564,1616.3729 42.859551,1580.5429 C 50.013384,1530.964 105.87256,1515.7715 142.74091,1491.3314 C 297.60172,1388.6737 388.8321,1220.0513 518.00594,1090.8775 C 770.98091,837.90253 903.29621,761.68845 1099.5,764.34375 z M 788.46875,1130.125 C 728.57495,1132.8448 678.4324,1171.9254 619.33599,1178.7659 C 580.46554,1185.3948 550.64079,1214.9103 537.5625,1251.2188 C 513.50229,1285.5704 469.6674,1297.0671 438.59662,1323.0862 C 412.32835,1365.8068 471.83741,1381.9321 502.24936,1364.6168 C 602.7618,1351.8995 704.51512,1357.7442 805.16634,1347.9471 C 889.45528,1335.5239 922.98589,1213.9189 860.56251,1157.6161 C 841.36525,1139.4604 814.8913,1129.3194 788.46875,1130.125 z M 793.28125,1190.25 C 835.609,1192.7725 843.60565,1249.3955 818.15333,1275.9708 C 800.06282,1296.43 749.74477,1292.6639 738.24752,1289.5047 C 758.25668,1266.4003 758.31052,1227.1257 736.84375,1204.9062 C 754.94788,1198.068 773.60183,1190.14 793.28125,1190.25 z M 652.09375,1233.7812 C 644.48072,1256.132 654.08459,1299.6054 657.24087,1294.8718 C 634.63781,1292.8946 589.99684,1302.418 581.9242,1293.2096 C 598.57829,1261.911 611.98364,1234.2655 652.09375,1233.7812 z M 198.1875,1574.375 C 147.43806,1580.7756 79.191182,1614.3925 79.191182,1639.6148 C 79.191182,1665.9218 175.32788,1674.1293 230.24299,1657.9277 C 280.2621,1643.1706 236.9323,1569.4884 198.1875,1574.375 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:60.000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

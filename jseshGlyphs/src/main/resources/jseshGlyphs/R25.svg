@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="12.484246"
+   height="17.977417"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22R25.svg"
+   sodipodi:docbase="C:\PROGRA~1\JSesh\fonts\TRANSM~1\ENVOI1~4">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22R25</dc:title>
+        <dc:date>7/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:description>optimisation du signe déjà existant R25</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="6.2421231"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="110"
+     inkscape:window-y="145"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 9.415922 3.584457  Q 9.262506 0.918849 10.643251 0.947615  Q 12.023998 0.976381 12.043175 0.707902  Q 11.985643 0.40107 10.441893 0.477778  Q 8.898142 0.554486 9.013205 3.584457  L 9.415922 3.584457  Z  M 9.991233 6.997968  L 9.991233 4.562485  L 2.473837 7.017145  L 9.991233 6.997968  Z  M 9.991233 4.083059  L 2.493014 4.083059  L 2.493014 6.518542  L 9.991233 4.083059  Z  M 2.608076 3.584457  Q 2.914909 1.225682 1.457454 1.359921  Q 0 1.49416 0 0.707902  Q 0 -0.078356 2.013588 0.00794  Q 4.027176 0.094237 3.892937 3.584457  L 2.608076 3.584457  Z  M 3.451865 3.584457  Q 3.586105 0.554486 2.032765 0.477778  Q 0.479426 0.40107 0.441072 0.707902  Q 0.460249 0.976381 1.840995 0.947615  Q 3.221741 0.918849 3.049148 3.584457  L 3.451865 3.584457  Z  M 9.991233 10.46901  L 9.991233 7.995173  L 2.493014 10.46901  L 9.991233 10.46901  Z  M 9.991233 7.515748  L 2.493014 7.515748  L 2.493014 9.951231  L 9.991233 7.515748  Z  M 3.049148 14.400302  Q 3.221741 17.065908 1.840995 17.037144  Q 0.460249 17.008377 0.441072 17.276855  Q 0.498603 17.583689 2.042354 17.506981  Q 3.586105 17.430273 3.451865 14.400302  L 3.049148 14.400302  Z  M 2.493014 10.967613  L 2.493014 13.403096  L 10.010409 10.967613  L 2.493014 10.967613  Z  M 2.512191 13.901699  L 9.991233 13.901699  L 9.991233 11.447039  L 2.512191 13.901699  Z  M 10.509012 14.400302  L 3.912114 14.400302  Q 4.046353 17.871344 2.032765 17.96723  Q 0.019177 18.063114 0.019177 17.276855  Q 0.019177 16.490599 1.467043 16.624838  Q 2.914909 16.759077 2.608076 14.400302  L 1.975234 14.400302  L 1.975234 3.584457  L 8.572132 3.584457  Q 8.437893 0.094237 10.451482 0.00794  Q 12.46507 -0.078356 12.46507 0.707902  Q 12.46507 1.49416 11.017203 1.359921  Q 9.569338 1.225682 9.87617 3.584457  L 10.509012 3.584457  L 10.509012 14.400302  Z  M 9.87617 14.400302  Q 9.569338 16.759077 11.026793 16.624838  Q 12.484246 16.490599 12.484246 17.276855  Q 12.484246 18.063114 10.470658 17.96723  Q 8.45707 17.871344 8.59131 14.400302  L 9.87617 14.400302  Z  M 9.032381 14.400302  Q 8.898142 17.430273 10.451482 17.506981  Q 12.004821 17.583689 12.043175 17.276855  Q 12.023998 17.008377 10.643251 17.037144  Q 9.262506 17.065908 9.435099 14.400302  L 9.032381 14.400302  Z "
+     id="path4" />
+</svg>

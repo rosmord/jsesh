@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="10.56"
+   height="10.56"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="O38.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="480"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 10.56 2.608731  L 2.590863 2.608731  L 2.590863 10.56  L 0 10.56  L 0 0  L 10.56 0  L 10.56 2.608731  Z  M 10.006092 2.054822  L 10.006092 0.553909  L 0.553909 0.553909  L 0.553909 10.006092  L 2.054822 10.006092  L 2.054822 2.054822  L 10.006092 2.054822  Z "
+     id="path4" />
+  <rect
+     style="opacity:1;fill:none;fill-opacity:1;stroke:red;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="zone2"
+     width="13.968254"
+     height="15.141588"
+     x="3.0730159"
+     y="3.1288891"
+     rx="0.066033319"
+     ry="0.066033319"
+     inkscape:label="gravity:ts" />
+</svg>

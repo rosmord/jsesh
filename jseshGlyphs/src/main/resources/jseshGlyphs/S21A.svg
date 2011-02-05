@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="US1S21A.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.10741663"
+     inkscape:cx="533.01275"
+     inkscape:cy="553.33394"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="992"
+     inkscape:window-height="705"
+     inkscape:window-x="140"
+     inkscape:window-y="40"
+     inkscape:snap-global="false">
+    <sodipodi:guide
+       orientation="1,0"
+       position="0,2113.2669"
+       id="guide4028" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="1126.455,2448.4105"
+       id="guide4030" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Standardized S11 sign. An actual model is needed.
+</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="c2"
+     style="display:inline">
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:53.58904648;stroke-linecap:round;stroke-linejoin:round;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 567.875 3.84375 C 257.3015 3.84372 4.65625 256.48904 4.65625 567.0625 C 4.6562417 821.34885 174.01735 1036.8116 405.875 1106.5625 L 16.15625 1106.5625 C -0.41160629 1106.5642 -13.842093 1119.9946 -13.84375 1136.5625 L -13.84375 1411.4688 C -13.842093 1428.0367 -0.41160629 1441.4671 16.15625 1441.4688 L 1110.2812 1441.4688 C 1126.8491 1441.4671 1140.2796 1428.0367 1140.2812 1411.4688 L 1140.2812 1136.5625 C 1140.2795 1119.9946 1126.8492 1106.5642 1110.2812 1106.5625 L 729.875 1106.5625 C 961.74021 1036.8116 1131.1249 821.34887 1131.125 567.0625 C 1131.125 256.48907 878.44847 3.84375 567.875 3.84375 z M 567.875 63.84375 C 845.98468 63.843739 1071.125 288.95288 1071.125 567.0625 C 1071.125 845.17223 845.98471 1070.3126 567.875 1070.3125 C 289.76526 1070.3126 64.65625 845.17226 64.65625 567.0625 C 64.656253 288.95291 289.76529 63.84375 567.875 63.84375 z M 567.875 159.21875 C 343.07478 159.21873 160.03125 342.2622 160.03125 567.0625 C 160.03125 791.86267 343.07475 974.90635 567.875 974.90625 C 792.67529 974.90627 975.71873 791.8628 975.71875 567.0625 C 975.71873 342.26217 792.67526 159.21875 567.875 159.21875 z M 567.875 219.21875 C 760.21152 219.21877 915.71875 374.726 915.71875 567.0625 C 915.71873 759.39897 760.21149 914.90625 567.875 914.90625 C 375.53854 914.90627 220.03125 759.3991 220.03125 567.0625 C 220.03125 374.72587 375.53851 219.21875 567.875 219.21875 z M 46.15625 1166.5625 L 1080.2812 1166.5625 L 1080.2812 1381.4688 L 46.15625 1381.4688 L 46.15625 1166.5625 z "
+       id="path3849" />
+  </g>
+</svg>

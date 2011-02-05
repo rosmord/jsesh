@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="U31.svg"
+   sodipodi:docbase="/home/rosmord/Desktop/lien vers Gsigns/Others"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800.000000px"
+   width="1800.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="202"
+     inkscape:window-x="218"
+     inkscape:window-height="541"
+     inkscape:window-width="790"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="900.00000"
+     inkscape:cx="900.00000"
+     inkscape:zoom="0.21166667"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1300" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator
+           id="creator2069">
+          <cc:Agent
+             id="Agent2071">
+            <dc:title
+               id="title2073">Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         id="License1302"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1304"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1306"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1308"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1310"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1312"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1314"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccc"
+       id="path1329"
+       d="M 291.37500,1126.9062 C 263.02034,1128.7381 84.177187,1237.3718 18.777563,1276.2926 C -11.523856,1297.7168 -3.3418437,1348.0752 30.514958,1361.2109 L 207.71875,1465.2500 L 18.514897,1576.8586 C -11.676064,1598.4806 -3.1509837,1648.8296 30.824412,1661.7250 L 270.53045,1799.6963 C 311.28252,1819.7146 357.01993,1767.6694 331.86655,1729.8309 L 145.96875,1615.0938 L 317.75000,1514.2500 L 1751.8750,1514.2500 C 1797.5682,1517.7068 1820.3538,1451.3917 1782.1257,1426.0620 L 317.81250,1416.3125 L 146.00000,1315.4375 C 204.05081,1281.5058 262.88517,1248.7954 320.43793,1214.0872 C 351.39706,1191.6878 340.54049,1137.5284 303.34611,1128.7828 C 299.45415,1127.6639 295.42237,1127.0341 291.37500,1126.9062 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:97.944748;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

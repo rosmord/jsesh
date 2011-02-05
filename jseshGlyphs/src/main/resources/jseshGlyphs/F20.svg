@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   version="1.0"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Signes"
+   sodipodi:docname="F20.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.11377214"
+     inkscape:cx="2269.6027"
+     inkscape:cy="-863.49121"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1273"
+     inkscape:window-height="942"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:description>F20 sign from Louvre C92 (Ruru Stela)</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/2.0/" />
+        <dc:title>F20 sign</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 199.05129,106.39623 C 139.99673,106.39623 -18.70744,331.59469 5.1800791,372.9691 C 44.279015,440.69048 605.82109,312.38436 901.83436,312.38436 C 1586.8769,312.38436 1616.7344,549.48097 1616.7344,784.9454 C 1616.7344,921.81079 1563.8569,1023.3428 1563.8569,1166.081 C 1563.8569,1373.262 1766.3608,1802.7694 1798.4887,1802.7694 C 1830.6164,1802.7694 1667.405,1376.95 1667.405,1181.5033 C 1667.405,988.59541 1739.0063,838.01692 1739.0063,651.65896 C 1739.0063,518.07816 1677.3191,457.78775 1640.9682,360.85217 C 1697.5141,356.81318 1792.9824,364.64046 1792.9824,347.63378 C 1792.9824,330.40926 1624.9231,295.09731 1535.2211,279.33886 C 1326.0383,242.59055 1148.7158,208.83811 940.38616,208.83811 C 718.82757,208.83811 225.49002,266.11949 225.49002,266.11949 C 229.16025,211.40981 230.40306,106.39623 199.05129,106.39623 z "
+       id="path1317"
+       sodipodi:nodetypes="csssszsscssscs" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:58.00976944;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="zone2"
+       width="1446.1635"
+       height="1976.3527"
+       x="2.0519028"
+       y="495.40179"
+       inkscape:label="" />
+  </g>
+</svg>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.813789"
+   height="12"
+   id="svg2249"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22M38.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\Jseshopt">
+  <metadata
+     id="metadata2256">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22M38</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe Jsesh M38</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2254" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="31.416667"
+     inkscape:cx="8.9068947"
+     inkscape:cy="6"
+     inkscape:window-x="56"
+     inkscape:window-y="66"
+     inkscape:current-layer="svg2249" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 17.813789 12  L 16.69655 12  Q 16.55172 9.331035 15.351719 7.996549  Q 14.151721 6.662068 11.441378 6.724137  Q 11.379311 7.034481 11.317242 7.510342  Q 11.255172 7.986204 11.296551 9.372414  L 1.841379 9.372414  Q 1.924137 8.544827 1.655172 6.475861  Q 0.993103 3.289655 0 0  L 13.09655 0  Q 12.289654 2.751724 11.627585 5.855172  Q 14.296549 5.896552 15.755167 7.179309  Q 17.213789 8.462067 17.813789 12  Z  M 12.124137 0.868965  L 10.882759 0.868965  Q 10.510346 3.372413 10.179308 5.855172  L 10.882759 5.855172  L 12.124137 0.868965  Z  M 9.724137 5.855172  Q 10.013792 3.372413 10.427586 0.868965  L 9.351724 0.868965  Q 9.041376 3.372413 9.041376 5.855172  L 9.724137 5.855172  Z  M 8.565516 5.855172  Q 8.565516 3.372413 8.89655 0.868965  L 7.882756 0.868965  Q 7.882756 3.372413 7.882756 5.855172  L 8.565516 5.855172  Z  M 7.427585 0.868965  L 6.744827 0.868965  Q 6.744827 3.372413 6.744827 5.855172  L 7.427585 5.855172  Q 7.427585 3.372413 7.427585 0.868965  Z  M 10.77931 6.724137  L 10.179308 6.724137  Q 10.179308 7.179309 10.179308 8.524137  L 10.65517 8.524137  Q 10.71724 7.179309 10.77931 6.724137  Z  M 6.268965 5.855172  Q 6.268965 3.372413 6.268965 0.868965  L 5.586207 0.868965  Q 5.586207 3.372413 5.586207 5.855172  L 6.268965 5.855172  Z  M 9.724137 6.724137  L 9.041376 6.724137  Q 9.041376 7.179309 9.041376 8.524137  L 9.724137 8.524137  Q 9.724137 7.179309 9.724137 6.724137  Z  M 8.565516 6.724137  L 7.882756 6.724137  Q 7.882756 7.262067 7.882756 8.524137  L 8.565516 8.524137  Q 8.565516 7.179309 8.565516 6.724137  Z  M 3.972413 5.855172  Q 3.931034 3.372413 3.703447 0.868965  L 2.689655 0.868965  Q 3.041379 3.372413 3.351723 5.855172  L 3.972413 5.855172  Z  M 7.427585 8.524137  Q 7.427585 7.262067 7.427585 6.724137  L 6.744827 6.724137  Q 6.744827 7.262067 6.744827 8.524137  L 7.427585 8.524137  Z  M 2.875862 5.855172  Q 2.648276 3.372413 2.213793 0.868965  L 0.972413 0.868965  Q 1.572414 3.372413 2.172413 5.855172  L 2.875862 5.855172  Z  M 6.268965 6.724137  L 5.586207 6.724137  L 5.586207 8.524137  L 6.268965 8.524137  Q 6.268965 7.262067 6.268965 6.724137  Z  M 5.131033 6.724137  L 4.448275 6.724137  Q 4.448275 7.262067 4.448275 8.524137  L 5.131033 8.524137  Q 5.131033 7.262067 5.131033 6.724137  Z  M 3.972413 6.724137  L 3.351723 6.724137  L 3.351723 8.524137  L 3.972413 8.524137  Q 3.972413 7.262067 3.972413 6.724137  Z  M 2.875862 8.524137  L 2.875862 6.724137  L 2.193103 6.724137  Q 2.337931 7.262067 2.42069 8.524137  L 2.875862 8.524137  Z  M 5.131033 5.855172  Q 5.131033 3.372413 5.131033 0.868965  L 4.282758 0.868965  Q 4.448275 3.372413 4.448275 5.855172  L 5.131033 5.855172  Z "
+     id="path2251" />
+</svg>

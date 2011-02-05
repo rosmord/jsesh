@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="19.780016"
+   height="8.88"
+   id="svg3427"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22D25.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR">
+  <metadata
+     id="metadata3434">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>US22D25</dc:title>
+        <dc:date>17/04/06</dc:date>
+        <dc:description>variante optimisée du signe de Jsesh</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3432" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="36.400375"
+     inkscape:cx="9.890008"
+     inkscape:cy="4.4400001"
+     inkscape:window-x="111"
+     inkscape:window-y="18"
+     inkscape:current-layer="svg3427" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 9.875751 8.88  Q 4.633914 8.616713 0.349493 6.079572  Q -0.416437 5.385446 0.493105 5.385446  Q 2.910573 6.414665 5.51952 7.2524  Q 6.213645 7.467819 6.476933 7.084854  Q 6.476933 6.247116 7.147122 6.199247  Q 7.913051 6.199247 7.92502 6.833531  Q 7.936987 7.467819 8.535372 7.467819  Q 9.133754 7.467819 9.133754 6.821566  Q 9.133754 6.199247 9.875751 6.199247  Q 10.617745 6.199247 10.617745 6.821566  Q 10.617745 7.467819 11.240065 7.467819  Q 11.838446 7.467819 11.850415 6.833531  Q 11.862383 6.199247 12.62831 6.199247  Q 13.298498 6.247116 13.298498 7.084854  Q 13.561789 7.467819 14.255911 7.2524  Q 16.864862 6.414665 19.28233 5.385446  Q 20.167936 5.385446 19.425941 6.079572  Q 15.141518 8.616713 9.875751 8.88  L 9.875751 8.88  Z  M 9.899685 0  Q 15.141518 0.263289 19.425941 2.800433  Q 20.191872 3.494556 19.306265 3.494556  Q 16.864862 2.465338 14.255911 1.627602  Q 13.561789 1.412184 13.298498 1.795148  Q 13.298498 2.632885 12.62831 2.680756  Q 11.886317 2.680756 11.874352 2.046469  Q 11.862383 1.412184 11.264 1.412184  Q 10.641678 1.412184 10.641678 2.058437  Q 10.641678 2.680756 9.899685 2.680756  Q 9.157688 2.680756 9.157688 2.058437  Q 9.157688 1.412184 8.535372 1.412184  Q 7.936987 1.412184 7.92502 2.046469  Q 7.913051 2.680756 7.147122 2.680756  Q 6.50087 2.632885 6.50087 1.795148  Q 6.213645 1.412184 5.51952 1.627602  Q 2.910573 2.465338 0.493105 3.494556  Q -0.392502 3.494556 0.373428 2.800433  Q 4.65785 0.263289 9.899685 0  L 9.899685 0  Z "
+     id="path3429" />
+</svg>

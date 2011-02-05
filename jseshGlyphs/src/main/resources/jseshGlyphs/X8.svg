@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="7.379892"
+   height="17.977417"
+   id="svg1611"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22X8A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\transmis à Serge Rosmorduc\envoi18_SR">
+  <metadata
+     id="metadata1618">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22X8A</dc:title>
+        <dc:date>22/01/2006</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier>US22</dc:identifier>
+        <dc:source>KV 57</dc:source>
+        <dc:relation>valeur : dj</dc:relation>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1616" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="3.6899459"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="108"
+     inkscape:window-y="8"
+     inkscape:current-layer="svg1611" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 7.379892 17.977417  L 0 17.977417  L 3.571868 0  L 3.837544 0  L 7.379892 17.977417  Z  M 1.151263 17.032791  L 2.804359 17.032791  L 3.571868 10.833681  L 3.837544 10.833681  L 4.605052 17.032791  L 6.199109 17.032791  L 3.719465 2.892918  L 1.151263 17.032791  Z  M 4.0737 17.032791  L 3.689946 12.722934  L 3.306192 17.032791  L 4.0737 17.032791  Z "
+     id="path1613" />
+</svg>

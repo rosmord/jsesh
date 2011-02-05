@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.420446"
+   height="17.977417"
+   id="svg2094"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22V29A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi24_SR">
+  <metadata
+     id="metadata2101">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:date>18/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:title>US22V29A</dc:title>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>Pour exprimer le signe  V29A de la classification de Bob composé à partir de signes tirés de KV 57</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2099" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.748253"
+     inkscape:cx="8.7102232"
+     inkscape:cy="8.9887085"
+     inkscape:window-x="88"
+     inkscape:window-y="116"
+     inkscape:current-layer="svg2094" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 8.268239 5.403518  Q 9.554791 3.945426 8.911515 3.327881  Q 8.268239 2.710336 7.624964 3.327881  Q 6.981688 3.945426 8.268239 5.403518  Z  M 8.268239 11.647582  Q 8.645628 10.892805 8.456934 10.584033  Q 8.268239 10.27526 8.088122 10.584033  Q 7.908005 10.892805 8.268239 11.647582  Z  M 10.000796 3.465113  L 11.047192 3.019108  Q 10.086566 0.977779 8.268239 0.977779  Q 6.449913 0.977779 5.506442 3.019108  L 6.535683 3.482267  Q 6.998842 2.247177 8.276816 2.247177  Q 9.554791 2.247177 10.000796 3.465113  Z  M 15.918934 5.403518  Q 16.742327 5.866676 17.093985 6.981688  Q 17.445642 8.0967 17.41991 8.971555  Q 17.39418 9.84641 16.733749 10.386762  Q 16.07332 10.927114 15.421468 10.386762  Q 14.769614 9.84641 14.726729 8.971555  Q 14.683845 8.0967 15.232773 6.484221  Q 13.225753 9.606254 9.074478 10.223798  Q 9.589099 10.686956 8.69709 12.196511  L 10.875651 17.977417  L 9.589099 17.977417  L 8.268239 13.208598  L 6.94738 17.977417  L 5.660828 17.977417  L 7.856543 12.196511  Q 6.94738 10.686956 7.462 10.240952  Q 2.230023 10.086566 0 5.403518  L 7.221844 5.403518  Q 6.690069 4.957513 6.535683 4.288506  L 4.545816 3.482267  Q 5.283439 0.137232 8.268239 0  Q 11.253039 0.137232 11.973509 3.482267  L 10.01795 4.288506  Q 9.84641 4.957513 9.314635 5.403518  L 15.918934 5.403518  Z  M 14.186378 6.312681  L 1.66394 6.312681  Q 3.911118 9.314635 7.830812 9.391828  Q 11.750506 9.469021 14.186378 6.312681  Z  M 16.056166 6.878764  Q 15.593008 7.908005 15.610162 8.791437  Q 15.627316 9.67487 16.056166 9.67487  Q 16.485018 9.67487 16.510748 8.791437  Q 16.536478 7.908005 16.056166 6.878764  Z "
+     id="path2096" />
+</svg>

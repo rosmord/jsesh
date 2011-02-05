@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="T1.svg"
+   sodipodi:docbase="/home/rosmord/Desktop/lien vers Ramessides/Fontes"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="18.000000px"
+   width="18.000000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:window-height="941"
+     inkscape:window-width="1272"
+     inkscape:current-layer="svg1290"
+     inkscape:document-units="px"
+     inkscape:cy="4.8258551"
+     inkscape:cx="6.9439413"
+     inkscape:zoom="76.688702"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
+           id="license1300" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         id="License1302"
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           id="permits1304"
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           id="permits1306"
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           id="requires1308"
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           id="requires1310"
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           id="permits1312"
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           id="requires1314"
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <path
+     sodipodi:nodetypes="cczcsccccccsccccccccccccccccccccccccccccc"
+     id="path1352"
+     d="M 0.56250000,14.113548 L 0.56250000,15.019798 C 0.34344313,15.019798 -0.031250000,15.255628 -0.031250000,15.957298 C -0.031250000,16.645931 0.34056757,16.894798 0.56250000,16.894798 L 0.56250000,17.707298 C 0.56250000,17.986215 0.75386243,18.063321 0.93750000,17.957298 L 4.1250000,16.551048 L 18.031250,16.769798 L 18.031250,14.894798 L 4.1250000,15.238548 L 0.93750000,13.863548 C 0.74333733,13.751448 0.56250000,13.871092 0.56250000,14.113548 z M 1.1250000,14.551048 L 3.6562500,15.613548 L 3.6562500,16.207298 L 1.1250000,17.269798 L 1.1250000,14.551048 z M 17.468750,15.488548 L 17.468750,16.176048 L 16.375000,16.144798 L 16.312500,15.519798 L 17.468750,15.488548 z M 15.218750,15.551048 L 15.750000,15.551048 L 15.781250,16.144798 L 15.250000,16.113548 L 15.218750,15.551048 z M 13.718750,15.582298 L 13.718750,16.082298 L 13.218750,16.082298 L 13.250000,15.613548 L 13.718750,15.582298 z M 14.281250,15.582298 L 14.656250,15.582298 L 14.656250,16.113548 L 14.312500,16.082298 L 14.281250,15.582298 z M 12.687500,15.613548 L 12.656250,16.051048 L 4.3750000,15.926048 L 12.687500,15.613548 z "
+     style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:28.689381;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+</svg>

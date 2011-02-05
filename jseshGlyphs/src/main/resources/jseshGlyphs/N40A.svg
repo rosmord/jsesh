@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.79986"
+   height="12.24"
+   id="svg2774"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22N40A.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\EL">
+  <metadata
+     id="metadata2781">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc-nd/2.5/" />
+        <dc:description>variant ede N40 combinaisonde N37A et de D54</dc:description>
+        <dc:title>US22N40A</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc-nd/2.5/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:prohibits
+           rdf:resource="http://web.resource.org/cc/CommercialUse" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2779" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="30.800654"
+     inkscape:cx="8.89993"
+     inkscape:cy="6.1199999"
+     inkscape:window-x="22"
+     inkscape:window-y="29"
+     inkscape:current-layer="svg2774" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 0.643119 0.622373  L 0.643119 4.086914  L 8.89993 4.086914  L 6.451931 0.622373  L 0.643119 0.622373  Z  M 9.729762 0.622373  L 12.177761 4.086914  L 17.156744 4.086914  L 17.156744 0.622373  L 9.729762 0.622373  Z  M 7.302506 0.622373  L 9.729762 4.086914  L 11.347932 4.086914  L 8.89993 0.622373  L 7.302506 0.622373  Z  M 10.372881 4.730034  Q 12.488949 5.767322 13.98264 8.858438  Q 14.646505 10.206914 15.310369 11.036746  Q 15.6423 11.472406 15.6423 11.845831  Q 15.6423 12.177761 15.16515 12.24  L 13.754438 12.115525  L 12.385221 12.24  Q 10.538847 12.198507 10.538847 12.053287  L 10.538847 12.011796  Q 10.538847 11.700609 12.157016 11.430915  Q 12.613422 11.347932 13.360269 10.870778  Q 13.671456 10.829288 13.671456 10.746304  Q 12.447456 8.671726 10.850033 6.763118  Q 10.144677 5.891796 9.501558 5.87105  Q 8.920676 5.87105 8.920676 6.223728  Q 8.692472 7.095049 7.084676 8.910303  Q 5.476881 10.725559 5.476881 10.974507  Q 5.373152 11.949558 5.165694 11.949558  Q 4.958237 12.198507 4.522575 12.198507  L 4.50183 12.198507  Q 4.294372 12.198507 3.734236 12.094778  L 3.526779 12.094778  Q 3.049627 12.094778 2.738441 12.198507  Q 0.103729 12.136271 0.103729 11.908067  L 0.082983 11.887321  L 0.082983 11.866576  Q 0.082983 11.555388 1.286237 11.472406  Q 2.676203 11.347932 2.925152 11.223457  Q 3.526779 11.05749 4.356609 10.414372  Q 6.099254 7.800405 8.671726 4.730034  L 0 4.730034  L 0 0  L 17.79986 0  L 17.79986 4.730034  L 10.372881 4.730034  Z "
+     id="path2776" />
+</svg>

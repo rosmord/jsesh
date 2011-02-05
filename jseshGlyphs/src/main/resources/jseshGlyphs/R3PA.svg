@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.76"
+   height="8.88"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="R3PA.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:description>Addition proposed by B. Richmond in inscribe.
+</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="583"
+     inkscape:window-width="1010"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="42.567567"
+     inkscape:cx="8.8800001"
+     inkscape:cy="4.4400001"
+     inkscape:window-x="25"
+     inkscape:window-y="0"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 2.194365 3.281292  L 1.763695 5.496165  L 16.016813 5.496165  L 15.627159 3.281292  L 2.194365 3.281292  Z  M 11.587061 2.666051  L 11.587061 0  L 13.371268 0  L 13.371268 2.666051  L 16.509007 2.666051  L 17.76 8.88  L 16.673073 8.88  L 16.139858 6.090899  L 1.702171 6.090899  L 1.127945 8.88  L 0 8.88  L 1.230485 2.666051  L 4.28619 2.666051  L 4.28619 0  L 6.090899 0  L 6.090899 2.666051  L 7.957136 2.666051  L 7.957136 0  L 9.761847 0  L 9.761847 2.666051  L 11.587061 2.666051  Z "
+     id="path4" />
+</svg>

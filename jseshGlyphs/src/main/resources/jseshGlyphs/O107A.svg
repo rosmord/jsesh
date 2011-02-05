@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20.009832"
+   height="17.977583"
+   id="svg2444"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="O107A.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2451">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2449">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 8.9887915 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="20.009832 : 8.9887915 : 1"
+       inkscape:persp3d-origin="10.004916 : 5.9925276 : 1"
+       id="perspective2453" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="27.993043"
+     inkscape:cx="14.067788"
+     inkscape:cy="8.9932079"
+     inkscape:window-x="22"
+     inkscape:window-y="15"
+     inkscape:current-layer="svg2444" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 3.4375,0 L 3.4375,1.4375 L 1.40625,1.4375 L 1.40625,3.46875 L 0,3.46875 L 0,4.5 L 1.40625,4.5 L 1.40625,5.46875 L 0,5.46875 L 0,6.5 L 1.40625,6.5 L 1.40625,7.46875 L 0,7.46875 L 0,8.5 L 1.40625,8.5 L 1.40625,9.5 L 0,9.5 L 0,10.53125 L 1.40625,10.53125 L 1.40625,11.5 L 0,11.5 L 0,12.53125 L 1.40625,12.53125 L 1.40625,13.5 L 0,13.5 L 0,14.53125 L 1.40625,14.53125 L 1.40625,15.5 L 0,15.5 L 0,16.53125 L 1.40625,16.53125 L 1.40625,17.96875 L 9.46875,17.96875 L 9.46875,10.84375 L 8.4375,10.84375 L 8.4375,16.9375 L 2.46875,16.9375 L 2.46875,2.46875 L 17.53125,2.46875 L 17.53125,17.96875 L 18.5625,17.96875 L 18.5625,16.53125 L 20,16.53125 L 20,15.5 L 18.5625,15.5 L 18.5625,14.53125 L 20,14.53125 L 20,13.5 L 18.5625,13.5 L 18.5625,12.53125 L 20,12.53125 L 20,11.5 L 18.5625,11.5 L 18.5625,10.53125 L 20,10.53125 L 20,9.5 L 18.5625,9.5 L 18.5625,8.5 L 20,8.5 L 20,7.46875 L 18.5625,7.46875 L 18.5625,6.5 L 20,6.5 L 20,5.46875 L 18.5625,5.46875 L 18.5625,4.5 L 20,4.5 L 20,3.46875 L 18.5625,3.46875 L 18.5625,1.4375 L 16.5,1.4375 L 16.5,0 L 15.46875,0 L 15.46875,1.4375 L 14.5,1.4375 L 14.5,0 L 13.46875,0 L 13.46875,1.4375 L 12.5,1.4375 L 12.5,0 L 11.4375,0 L 11.4375,1.4375 L 10.5,1.4375 L 10.5,0 L 9.46875,0 L 9.46875,1.4375 L 8.5,1.4375 L 8.5,0 L 7.46875,0 L 7.46875,1.4375 L 6.46875,1.4375 L 6.46875,0 L 5.4375,0 L 5.4375,1.4375 L 4.46875,1.4375 L 4.46875,0 L 3.4375,0 z M 13.33125,3.09375 C 11.729478,3.0937501 10.81918,3.9178367 10.6125,5.59375 L 16.05,5.59375 C 15.84332,3.9178363 14.933023,3.0937499 13.33125,3.09375 z M 13.33125,3.625 C 14.450768,3.6250002 15.024427,4.0745239 15.3,5.15625 L 11.3625,5.15625 C 11.655296,4.0745236 12.228955,3.625 13.33125,3.625 z M 2.9375,5.6875 L 4.40625,10.34375 L 7.21875,10.34375 L 8.78125,5.6875 L 2.9375,5.6875 z M 9.8875,6.5 L 9.8875,10.84375 L 12.16875,10.84375 L 12.16875,10.09375 L 10.6375,10.09375 L 10.6375,7.28125 L 16.2375,7.28125 L 16.2375,10.09375 L 14.70625,10.09375 L 14.70625,10.84375 L 16.9875,10.84375 L 16.9875,6.5 L 9.8875,6.5 z M 4.0625,6.53125 L 7.59375,6.53125 L 6.625,9.5 L 5.03125,9.5 L 4.0625,6.53125 z"
+     id="path2446"
+     sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" />
+</svg>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="6.263214"
+   height="8.356506"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="M35.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 4.1782532 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="6.2632141 : 4.1782532 : 1"
+       inkscape:persp3d-origin="3.1316071 : 2.7855021 : 1"
+       id="perspective11" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="701"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="59.594283"
+     inkscape:cx="3.1316071"
+     inkscape:cy="4.1782532"
+     inkscape:window-x="1280"
+     inkscape:window-y="22"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 3.28125 0 C 2.5254181 -0.016624289 1.8457683 0.47489163 1.46875 1.125 C 0.91290302 2.0837399 0.178802 6.995148 0 8.34375 L 6.25 8.34375 C 6.1692509 6.5901187 5.521484 0.462555 3.59375 0.03125 C 3.4825593 0.0063628751 3.389226 0.0023748984 3.28125 0 z M 3.0625 0.6875 C 4.1866159 0.42406922 5.3056377 2.788968 5.53125 7.625 L 0.71875 7.625 C 1.0778369 3.1991975 2.070633 0.91993892 3.0625 0.6875 z "
+     id="path2386" />
+</svg>

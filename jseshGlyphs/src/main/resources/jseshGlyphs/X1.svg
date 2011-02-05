@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="18.000000px"
+   height="18.000000px"
+   id="svg1290"
+   sodipodi:version="0.32"
+   inkscape:version="0.41.1"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   sodipodi:docname="X1.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="67.100821"
+     inkscape:cx="4.4188226"
+     inkscape:cy="2.0118897"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1273"
+     inkscape:window-height="944"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           id="license1300"
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject
+           id="subject1316">
+          <rdf:Bag
+             id="Bag1318">
+            <rdf:li
+               id="li1350">JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description
+           id="description1405">A40, Karnak Hypostyle hall</dc:description>
+        <dc:creator
+           id="creator1407">
+          <cc:Agent
+             id="Agent1409">
+            <dc:title
+               id="title1411">S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/"
+         id="License1302">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction"
+           id="permits1304" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution"
+           id="permits1306" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice"
+           id="requires1308" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution"
+           id="requires1310" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+           id="permits1312" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike"
+           id="requires1314" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:nodetypes="cccccccccccccc"
+       id="path2188"
+       d="M 4.2500000,13.718750 C 2.9914931,13.718750 1.6373634,14.300137 0.84375000,15.093750 C 0.029756845,15.907743 -0.062500000,16.979359 -0.062500000,17.781250 L -0.062500000,18.093750 L 8.5625000,18.093750 L 8.5625000,17.781250 C 8.5625000,16.979358 8.5014936,15.907743 7.6875000,15.093750 C 6.8938870,14.300137 5.5085073,13.718750 4.2500000,13.718750 z M 4.2500000,14.312500 C 5.3108485,14.312500 6.6387130,14.857463 7.2812500,15.500000 C 7.8434033,16.062153 7.9168942,16.807462 7.9375000,17.500000 L 0.59375000,17.500000 C 0.61435582,16.807463 0.68784689,16.062153 1.2500000,15.500000 C 1.8925374,14.857463 3.1891517,14.312500 4.2500000,14.312500 z "
+       style="opacity:0.99415207;fill:#000000;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:0.60000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;display:inline" />
+  </g>
+</svg>

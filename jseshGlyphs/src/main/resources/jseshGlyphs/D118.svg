@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16.340105"
+   height="15.36"
+   id="svg3993"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22D118.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\D">
+  <metadata
+     id="metadata4000">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22D118</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>D118A
+Var. de D118 
+FCD p. 143 
+(ndb) 
+PT 123 Pepi II
+</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3998" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="24.544271"
+     inkscape:cx="8.1700524"
+     inkscape:cy="7.6799997"
+     inkscape:window-x="22"
+     inkscape:window-y="29"
+     inkscape:current-layer="svg3993" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 2.183186 6.275346  Q 1.6911 7.032401 1.615394 7.713748  Q 2.410302 7.524485 2.561713 7.259517  Q 2.258891 6.805284 2.183186 6.275346  Z  M 3.129504 6.691725  L 3.167356 6.767431  Q 3.318767 6.729578 3.545884 6.691725  Q 3.394472 7.070254 3.318767 7.145959  Q 3.545884 7.675896 4.416496 8.205833  L 5.476373 8.205833  Q 6.611954 7.44878 6.763365 6.691725  L 3.129504 6.691725  Z  M 8.845264 1.922283  Q 11.116427 2.641484 11.381397 3.247128  Q 11.722071 2.868601 12.308787 2.982159  Q 12.895506 3.095717 12.895506 3.928476  Q 12.895506 4.420561 12.100598 5.36688  Q 11.949188 6.19964 12.592684 6.048229  Q 13.841825 5.896819 14.239279 3.70136  Q 14.636733 1.505903 12.346641 0.84348  Q 10.056552 0.181057 8.845264 1.922283  Z  M 8.126061 3.54995  Q 8.50459 2.565779 10.132257 3.587803  Q 8.466737 4.307004 8.126061 3.54995  Z  M 11.267838 5.215469  Q 12.289864 4.307004 12.270936 3.890624  Q 12.25201 3.474244 11.873482 3.777066  Q 11.494954 4.079888 11.192134 3.890624  Q 9.110233 2.30081 8.315326 2.792895  Q 6.83907 4.685531 7.444714 4.685531  Q 8.012505 4.685531 8.050357 5.745407  Q 8.08821 6.464609 8.50459 6.426757  Q 9.980846 6.19964 10.056552 7.240591  Q 10.132257 8.28154 9.318423 8.565435  Q 8.50459 8.849329 8.428884 9.303563  Q 9.299498 9.833502 10.681122 9.871354  Q 12.062746 9.909206 13.463298 9.568533  Q 13.539002 8.735772 13.009064 8.527583  Q 12.479126 8.319392 12.043819 7.827307  Q 11.608515 7.335221 11.267838 5.215469  Z  M 7.596124 6.767431  Q 7.179746 7.903012 5.779194 8.773624  L 4.151527 8.773624  Q 3.205209 8.243686 2.902387 7.751602  Q 2.486007 8.28154 1.236867 9.152152  Q 1.880363 11.536874 2.10748 13.164541  Q 4.265084 11.158347 6.801217 8.773624  Q 7.936799 8.130129 8.750632 7.959792  Q 9.564466 7.789454 9.110233 7.145959  Q 7.671829 7.145959 7.596124 6.767431  Z  M 7.444714 6.010376  L 7.406862 5.593997  Q 7.369008 5.064058 6.801217 5.064058  Q 6.157721 4.609826 7.671829 2.641484  Q 7.633976 2.225104 8.750632 0.900259  Q 9.867289 -0.424586 12.592684 0.199984  Q 15.318082 0.824554 14.977407 3.777066  Q 14.636733 6.729578 12.441274 6.805284  Q 12.706244 7.675896 14.1825 8.395098  Q 15.620901 8.811478 16.340105 10.62841  L 7.671829 10.62841  Q 6.422691 11.726138 5.362814 12.786015  Q 4.302938 13.845892 1.539689 15.36  Q -0.315094 13.80804 0.063433 8.660067  L 0.02558 8.660067  Q 0.44196 7.44878 0.971898 6.464609  Q 1.501837 5.480438 3.962263 4.647678  Q 4.454348 4.9505 2.637419 6.010376  L 7.444714 6.010376  Z "
+     id="path3995" />
+</svg>

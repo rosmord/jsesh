@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800.000000px"
+   height="1800.000000px"
+   id="svg1290"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution"
+   sodipodi:docname="V23A.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.41965029"
+     inkscape:cx="899.6094"
+     inkscape:cy="559.06746"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     inkscape:window-width="1024"
+     inkscape:window-height="583"
+     inkscape:window-x="124"
+     inkscape:window-y="227" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:title>V23A</dc:title>
+        <dc:description>V23A sign from Theinhart fonts.</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="display:inline"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="a"
+     style="display:inline">
+    <path
+       style="opacity:1;fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:63.17089844;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 892.5625,885.875 C 735.24784,888.20283 596.3568,959.27618 462.6875,1034.9375 C 375.8122,985.29243 296.70473,937.90626 193.875,937.90625 C 97.356683,941.96165 10.726014,973.7028 -1.25,1080.9688 C 10.308015,1188.3241 100.67962,1213.014 193.875,1216.625 C 278.77347,1216.625 366.28876,1164.3389 463.25,1107.75 C 603.47687,1195.4277 760.3724,1222.0649 922.3125,1231.4688 C 1097.5632,1231.4688 1220.7921,1182.0318 1322.2188,1111.75 C 1544.6308,1282.6747 1638.3264,1534.2391 1738.8438,1786.625 L 1800.4688,1772.7188 C 1716.5906,1499.9051 1594.3774,1257.6822 1374.0938,1072.625 C 1427.6374,1029.1867 1482.315,985.58935 1524.4062,932.34375 L 1479.7188,887.6875 C 1421.1104,932.11195 1377.6855,990.52078 1323.5,1033.6562 C 1196.2848,942.78597 1050.2056,885.87501 892.5625,885.875 z M 892.5625,949.03125 C 1027.9047,949.03126 1155.4298,995.85686 1269.3438,1073.125 C 1180.8656,1130.845 1074.8923,1168.3125 922.3125,1168.3125 C 742.53245,1168.3125 625.74922,1122.1805 527.9375,1070.8125 C 641.57387,1007.4766 765.32033,949.03125 892.5625,949.03125 z M 193.875,1001.0625 C 265.93678,1001.0625 326.81088,1031.2739 398.28125,1071.2812 C 314.68046,1117.8047 243.09087,1153.4375 193.875,1153.4375 C 143.52621,1151.0285 68.209747,1143.6077 61.9375,1080.9688 C 67.543368,1017.5516 142.16952,1003.7335 193.875,1001.0625 z "
+       id="path1907"
+       sodipodi:nodetypes="ccssscscccccccsccscsccsss" />
+  </g>
+</svg>

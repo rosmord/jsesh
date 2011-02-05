@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="26.089735"
+   height="14.16"
+   id="svg2441"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="P23Avara.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2448">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2446">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 7.0799999 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="26.089735 : 7.0799999 : 1"
+       inkscape:persp3d-origin="13.044868 : 4.7199999 : 1"
+       id="perspective2450" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="20.851112"
+     inkscape:cx="13.044868"
+     inkscape:cy="8.9983626"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg2441" />
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 16.998543,4.419165 L 19.64382,7.064439 C 18.746395,7.323952 17.856913,7.560812 16.998543,7.717978 L 16.998543,4.419165 z M 20.79529,8.215912 L 21.448828,8.838329 C 21.455774,8.97724 21.487682,9.11588 21.51107,9.242901 L 16.718456,9.242901 C 17.326765,9.145774 17.947636,9.04172 18.585709,8.900572 C 19.26895,8.74943 20.013941,8.512793 20.79529,8.215912 z M 21.822281,8.620482 C 23.124701,8.741078 23.836966,9.493409 23.969622,10.892307 C 22.582783,10.747594 21.818392,10.035331 21.697796,8.744967 L 21.822281,8.620482 z M 17.994411,10.249979 L 17.994411,13.152922 L 7.226588,13.152922 L 7.226588,10.249979 L 17.994411,10.249979 z M 16.625093,0 C 16.365814,0 16.220522,0.144321 16.220522,0.373451 L 16.220522,2.614154 L 14.44663,0.840264 C 14.374265,0.767899 14.305218,0.732998 14.235239,0.732998 C 14.153612,0.732998 14.070719,0.780484 13.979818,0.871385 C 13.810987,1.040218 13.772863,1.193484 13.917577,1.338198 L 16.220522,3.641143 L 16.220522,7.842462 C 15.302189,8.013989 14.381882,8.082664 13.461341,8.082664 C 12.191152,8.082664 10.920519,7.951915 9.654016,7.780221 L 9.187202,7.717978 C 6.54618,7.2356 3.753139,6.322999 0.846807,4.94822 C 0.712663,4.873695 0.592981,4.835652 0.485963,4.835652 C 0.333218,4.835652 0.206273,4.913152 0.099906,5.072703 C -0.080986,5.344042 -0.014855,5.576471 0.286631,5.757362 C 3.108547,7.421569 5.516864,8.460401 7.506675,8.900572 C 8.147799,9.042397 8.7616,9.145521 9.373928,9.242901 L 3.554324,9.242901 L 3.554324,10.249979 L 6.057269,10.249979 L 6.057269,13.152922 L 3.554324,13.152922 L 3.554324,14.16 L 21.542192,14.16 L 21.542192,13.152922 L 19.039248,13.152922 L 19.039248,10.249979 L 21.51107,10.249979 L 21.51107,9.367384 C 21.769596,10.492495 22.71806,11.097462 24.343071,11.234637 C 24.186298,9.377479 23.36278,8.424811 21.915642,8.340396 L 21.51107,7.935824 C 22.819036,7.386549 24.242395,6.654903 25.805752,5.726242 C 26.107239,5.55741 26.167341,5.344042 25.992477,5.072703 C 25.884342,4.904904 25.748831,4.820567 25.584152,4.820567 C 25.482538,4.820567 25.369822,4.852675 25.245577,4.917099 C 23.574791,5.711069 21.946882,6.321901 20.39072,6.815473 L 16.998543,3.423297 L 16.998543,0.373451 C 16.998543,0.14432 16.884373,0 16.625093,0 z"
+     id="path2443"
+     sodipodi:nodetypes="ccccccccsccccccccccccccsscccscccsssscccccccccccccccccssscccc" />
+</svg>

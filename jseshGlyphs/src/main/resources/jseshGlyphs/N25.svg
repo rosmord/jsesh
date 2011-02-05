@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="19.317553"
+   height="6.5700006pt"
+   id="svg1333"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22N25A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi24_SR"
+   version="1.0">
+  <metadata
+     id="metadata1340">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:title>US22N25A</dc:title>
+        <dc:date>18/03/06</dc:date>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation et calibrage d'un signe relevé par SR sur paroi de Karnak</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1338" />
+  <sodipodi:namedview
+     inkscape:window-height="708"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="48.298044"
+     inkscape:cx="9.6587763"
+     inkscape:cy="3.8555328"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:current-layer="svg1333" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 9.708776,0.54734947 C 10.249882,0.54734947 10.81439,0.99789583 10.853057,1.5314885 C 10.900334,2.1839003 11.126995,3.0804105 11.309618,4.2099725 C 11.492242,5.3395338 12.256092,5.6975508 14.001167,5.6840235 C 15.746238,5.6840235 16.510084,5.3226248 16.692706,4.1998275 C 16.875331,3.0770288 17.080374,2.1915302 17.139121,1.5213435 C 17.229615,0.48899222 18.113594,0.52705747 19.317553,0.52705747 L 19.317553,8.1870575 L 0,8.1870575 L 0,0.52705747 C 1.1904373,0.52705747 2.0296218,0.53652693 2.16828,1.5213435 C 2.2622421,2.1887069 2.4422153,3.0770288 2.624838,4.1998275 C 2.8074627,5.3226248 3.5713107,5.6840235 5.316382,5.6840235 C 7.0614573,5.6975508 7.8253073,5.3395338 8.007932,4.2099725 C 8.1905533,3.0804105 8.4250357,2.1545881 8.464488,1.5314885 C 8.4969867,1.0182129 8.967668,0.54734947 9.508776,0.54734947 L 9.708776,0.54734947 z M 9.608776,1.1734715 C 9.2976393,1.2411101 9.1514877,1.3285735 9.070321,1.8358615 C 8.9891577,2.3431508 8.8504977,3.2089235 8.654341,4.4331795 C 8.4581917,5.6574368 7.3455387,6.2966205 5.316382,6.3507305 C 3.28723,6.2966205 2.17796,5.6540545 1.988572,4.4230325 C 1.799184,3.1920132 1.6469967,2.3262408 1.53201,1.8257155 C 1.4170253,1.3251915 1.2754517,1.1816935 0.707289,1.1952215 L 0.707289,7.5203525 L 18.610263,7.5203525 L 18.610263,1.1952215 C 18.042099,1.1816935 17.900526,1.3251915 17.785543,1.8257155 C 17.670557,2.3262408 17.518368,3.1920132 17.328976,4.4230325 C 17.139589,5.6540545 16.030319,6.2966205 14.001167,6.3507305 C 11.972009,6.2966205 10.859354,5.6574368 10.663202,4.4331795 C 10.46705,3.2089235 10.328392,2.3431508 10.247227,1.8358615 C 10.16606,1.3285735 9.9699093,1.2411101 9.658776,1.1734715 L 9.608776,1.1734715 z "
+     id="path1335"
+     sodipodi:nodetypes="csscssccccsscsscccsscssccccsscsscc" />
+</svg>

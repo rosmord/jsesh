@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="F12.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
+   inkscape:version="0.41.1"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="1800.0000px"
+   width="1800.0000px">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="157"
+     inkscape:window-x="540"
+     inkscape:window-height="538"
+     inkscape:window-width="733"
+     inkscape:current-layer="layer2"
+     inkscape:document-units="px"
+     inkscape:cy="857.64247"
+     inkscape:cx="900.00000"
+     inkscape:zoom="0.21000000"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         id="Work6"
+         rdf:about="">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type9" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1" />
+  <g
+     inkscape:label="dsdde"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="ccssssssssssssssc"
+       id="path1310"
+       d="M 607.97296,1795.2193 L 472.47989,1795.2193 L 487.10062,583.80650 C 487.59911,542.50406 446.17696,500.46788 411.02334,485.99288 C 353.79741,462.42924 276.97790,468.24444 209.96200,469.69059 C 87.747329,472.26927 -36.878142,381.03717 8.9006126,376.92162 C 79.186336,370.60287 204.97051,376.67181 296.90743,360.61933 C 319.08640,356.74682 330.18363,323.91742 351.24834,317.14661 C 380.90179,307.61515 404.76501,328.89281 430.04265,314.42956 C 474.96463,288.72628 489.24139,156.34219 508.69089,93.030510 C 528.14035,29.718842 526.53402,-10.212994 544.15857,1.9693450 C 595.55274,37.493691 582.35946,200.19208 549.59266,311.71252 C 546.62038,321.82858 579.44491,323.32278 590.34834,311.71252 C 643.28209,255.34722 676.42135,-12.435247 693.59606,1.9693450 C 732.57363,34.660210 744.92596,278.22728 720.76652,333.44887 C 706.88734,365.17273 600.89554,390.09032 601.08069,426.84639 L 607.97296,1795.2193 z "
+       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:10.700000;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
+  </g>
+</svg>

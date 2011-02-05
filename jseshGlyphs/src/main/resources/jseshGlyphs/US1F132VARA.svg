@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.828901"
+   height="12.0231"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US1F132VARA.svg"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Variant of F132, listed in the original manuel de codage. Closer to rendering practices when rendering hieratic Ramesside texts.
+
+</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     inkscape:window-height="583"
+     inkscape:window-width="1010"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="31.439479"
+     inkscape:cx="8.9144505"
+     inkscape:cy="6.0115498"
+     inkscape:window-x="120"
+     inkscape:window-y="209"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 9.097899 10.809999  C 10.8569 10.809999 11.705999 9.5969 11.705999 7.9593  C 11.705999 6.8069 11.4634 5.1086 9.0373 5.1086  C 6.7325 5.1086 6.4292 6.6856 6.4292 7.7167  C 6.4292 9.3543 7.339 10.809999 9.097899 10.809999  Z  M 9.2193 2.6825  L 10.311 0.7416  L 8.0668 0.7416  L 9.2193 2.6825  Z  M 0 12.0231  C 0 3.95819 5.027906 3.606535 8.392002 3.606535  C 8.494027 3.606535 8.594522 3.606858 8.6933 3.6073  L 8.6933 3.6073  L 7.0565 0  L 11.2565 0  L 9.5838 3.570499  C 13.483399 3.570499 17.824301 3.6441 17.828901 11.98  L 17.015001 11.9949  C 16.941732 4.341028 13.040581 4.415762 10.161033 4.396765  L 10.161033 4.396765  C 10.161032 4.396765 10.161032 4.396765 10.161032 4.396765  C 10.161029 4.396765 10.161026 4.396765 10.161024 4.396765  C 10.160996 4.396764 10.16097 4.396764 10.160943 4.396763  L 10.160848 4.396763  C 10.160904 4.396764 10.160959 4.396764 10.161015 4.396765  C 10.16102 4.396765 10.161026 4.396765 10.161031 4.396765  C 10.161032 4.396765 10.161032 4.396765 10.161033 4.396765  L 10.161033 4.396765  C 12.191602 4.424373 12.65183 6.601798 12.6565 7.9  C 12.6565 9.299999 11.4201 11.785299 9.056499 11.8  C 6.2606 11.785299 5.5565 9.299999 5.5565 7.7  C 5.5616 6.4936 6.0609 4.3965 8.2579 4.3965  C 7.99093 4.384113 7.617385 4.357794 7.178581 4.357794  C 4.910791 4.357794 0.899959 5.060772 0.8491 12.0231  Z "
+     id="path4" />
+</svg>

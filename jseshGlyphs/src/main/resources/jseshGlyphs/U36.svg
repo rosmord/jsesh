@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="3.279826"
+   height="18.24"
+   id="svg3285"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22U36.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR">
+  <metadata
+     id="metadata3292">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:description>variante optimisée du signe U36 de Jsesh.
+valeur phonétique : Hm</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>US22U36</dc:title>
+        <dc:date>17/04/06</dc:date>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3290" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.449562"
+     inkscape:cx="1.639913"
+     inkscape:cy="9.1199999"
+     inkscape:window-x="22"
+     inkscape:window-y="29"
+     inkscape:current-layer="svg3285" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 3.220283 4.247399  Q 2.664548 12.007834 2.684396 13.516257  Q 2.664548 15.679652 3.16074 17.783504  Q 3.220283 18.220152 2.783635 18.24  L 0.540849 18.24  Q 0.084353 18.24 0.143896 17.783504  Q 0.640087 15.679652 0.620239 13.516257  Q 0.580544 12.007834 0.02481 4.247399  Q -0.054581 2.858063 0.1042 1.349641  Q 0.342372 0 1.731709 0  Q 3.121045 0 3.180588 1.349641  Q 3.359216 2.858063 3.220283 4.247399  Z  M 2.505767 1.587813  Q 2.485919 0.992383 1.652318 0.734363  Q 0.798868 0.992383 0.798868 1.587813  Q 0.640087 2.858063 0.719478 4.247399  Q 1.275212 12.007834 1.314908 13.516257  Q 1.334755 15.679652 0.898107 17.545332  L 2.406529 17.545332  Q 1.96988 15.679652 1.989728 13.516257  Q 2.009576 12.007834 2.545462 4.247399  Q 2.664548 2.858063 2.505767 1.587813  Z "
+     id="path3287" />
+</svg>

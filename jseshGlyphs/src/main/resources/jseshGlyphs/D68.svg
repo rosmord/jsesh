@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="8.752609"
+   height="17.972717"
+   id="svg3284"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22D68.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\D">
+  <metadata
+     id="metadata3291">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22D68</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>FCD page 117
+ PT : 1185b, pyr. de Pepi Ier</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3289" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="20.976238"
+     inkscape:cx="4.3763045"
+     inkscape:cy="8.9863585"
+     inkscape:window-x="16"
+     inkscape:window-y="27"
+     inkscape:current-layer="svg3284" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 2.177824 10.645379  Q 4.435935 11.382721 4.712438 12.027895  Q 5.035025 11.61314 5.611074 11.72835  Q 6.187122 11.84356 6.187122 12.719153  Q 6.187122 13.226076 5.357613 14.193838  Q 5.44978 15.484187 6.694045 15.207684  Q 7.984394 14.654677 7.93831 12.419608  Q 7.892226 10.18454 5.634116 9.493281  Q 3.376005 8.802023 2.177824 10.645379  Z  M 1.532649 12.304399  Q 1.855237 11.336637 3.468173 12.350483  Q 1.809153 13.087825 1.532649 12.304399  Z  M 4.574186 14.055587  Q 5.541948 13.087825 5.541948 12.650028  Q 5.541948 12.212231 5.173277 12.534819  Q 4.804606 12.857406 4.482018 12.67307  Q 2.454327 11.01405 1.716985 11.520972  Q 0.2423 13.456496 0.841391 13.50258  Q 1.348314 13.548664 1.394398 14.608593  Q 1.486566 15.438104 2.039572 15.299851  Q 3.698592 15.1616 3.882928 15.737649  Q 4.067264 16.313698 4.02118 17.189291  L 5.495864 17.189291  L 4.574186 14.055587  Z  M 1.025727 11.382721  Q 1.025727 10.921882 2.085656 9.585449  Q 2.96125 8.709855 4.205515 8.617687  L 4.205515 2.765033  Q 4.205515 1.843356 3.90597 1.175139  Q 3.606424 0.506923 2.592579 0.506923  Q 1.855237 0.645174 1.855237 1.290349  Q 1.855237 2.027691 2.592579 2.073775  Q 2.96125 2.027691 3.007334 1.65902  Q 2.96125 1.244265 2.592579 1.244265  L 2.592579 0.82951  Q 3.514257 0.875594 3.56034 1.65902  Q 3.468173 2.534614 2.592579 2.580698  Q 1.348314 2.534614 1.30223 1.290349  Q 1.348314 0.138252 2.592579 0  Q 4.067264 0 4.574186 0.875594  Q 5.081109 0 6.601878 0  Q 7.800059 0.138252 7.846143 1.290349  Q 7.800059 2.534614 6.601878 2.580698  Q 5.726284 2.534614 5.588032 1.65902  Q 5.634116 0.875594 6.601878 0.82951  L 6.601878 1.244265  Q 6.141038 1.244265 6.141038 1.65902  Q 6.187122 2.027691 6.601878 2.073775  Q 7.293136 2.027691 7.293136 1.290349  Q 7.293136 0.645174 6.601878 0.506923  Q 5.541948 0.506923 5.242403 1.175139  Q 4.942857 1.843356 4.942857 2.765033  L 4.942857 8.663772  Q 5.127193 8.663772 5.864535 8.802023  Q 8.583485 9.447198 8.744779 12.650028  Q 8.906072 15.852859 5.910619 15.852859  L 6.647962 17.972717  L 3.145586 17.972717  L 3.145586 15.852859  Q 2.13174 15.898942 1.624817 15.968068  Q 1.117894 16.037193 0.956601 15.530272  Q 0.795307 15.023348 0.772265 14.470342  Q 0.749223 13.917335 0.196217 13.917335  Q -0.448958 13.456496 1.025727 11.382721  Z "
+     id="path3286" />
+</svg>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.47pre3 r22311"
+   version="1.0"
+   sodipodi:docname="US1D45.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2671"
+       inkscape:persp3d-origin="12.741887 : 5.9925276 : 1"
+       inkscape:vp_z="25.483774 : 8.9887915 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 8.9887915 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2881"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2896"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.1429927"
+     inkscape:cx="900"
+     inkscape:cy="422.46325"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="976"
+     inkscape:window-x="1280"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:description>D45 sign from Sethy the Ist Tomb.
+Hornung, Das Grab Sethos'I, p. 79.
+</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="photo"
+     style="display:none"
+     sodipodi:insensitive="true">
+    <image
+       y="621.78571"
+       x="-1810.1667"
+       id="image2883"
+       height="1177.8572"
+       width="1806.0476"
+       xlink:href="file:///Users/rosmord/Travail/Gsigns/Ramessides/modeles/D45_comm.jpg"
+       transform="scale(-1,1)" />
+  </g>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 1590.7745,832.52984 c -54.5229,62.90992 -60.0336,129.05788 -68.462,206.28266 -125.413,158.2723 -231.326,330.8371 -347.9687,495.4063 -251.79729,-14.6199 -500.62293,31.7146 -750.7813,50.5 -42.8611,-36.9698 -85.17679,-76.2379 -136.16742,-101.4605 -26.19304,-11.3391 -54.67942,-15.9417 -82.95758,-18.6958 -1.794,-16.2072 -4.29543,-32.3252 -6.03125,-48.5313 C 224.55868,1382.6837 250.63632,1349.2802 276.875,1316 239.87263,1164.7106 204.75271,1012.9232 166.68731,861.9168 154.90239,832.48437 119.25642,812.76598 88.53125,823.9375 58.168383,835.31407 40.576177,868.72215 43.123421,900.37446 38.208155,1050.0726 33.2859,1199.7705 28.375,1349.4688 c 32.677507,24.836 65.373896,49.6472 98.0625,74.4687 1.09375,13.3333 2.1875,26.6667 3.28125,40 -42.586476,1.4844 -85.645088,2.1982 -127.5,10.3125 -10.2475531,6.4363 -8.2786508,21.7308 -1.28125,29.9062 19.293635,23.0082 50.716134,23.6934 78.625,23.0626 -21.0208,73.5209 14.039237,142.5589 69.8125,189.1874 2.41721,30.2708 4.83013,60.542 7.25,90.8126 29.19698,-1.3844 58.39451,-2.758 87.59375,-4.0938 -3.30508,-25.4994 -6.5829,-50.9965 -9.75,-76.4688 54.6439,2.5971 109.20991,-3.3687 163.80714,-3.8207 216.55411,12.9676 433.77498,31.1027 650.73701,16.2515 80.5696,-4.574 161.2868,-9.8635 242.0183,-6.712 176.2264,-222.0945 342.8513,-451.6764 506.6876,-683.0625 -65.3613,-70.86636 -30.0176,-144.68781 21.3124,-210.5 l -2.3437,-68.25 c -89.7415,-13.90561 -156.2944,-1.84599 -225.913,61.96734 z m 140.6005,-2.12359 c -43.1235,75.09493 -60.1887,138.6299 -22.7812,218.40625 -157.264,199.6818 -304.6175,406.922 -444,619.4375 l -52,-62.3438 c 116.8994,-190.4721 233.0101,-383.7384 385.1874,-548.7187 -13.3013,-112.3132 19.6083,-196.8006 133.8126,-227.15625 l -0.2188,0.375 z m -1623.53125,56.625 c 10.71527,4.8883 13.15566,17.99655 17.5,27.84375 11.06156,34.92844 15.12429,71.78025 24.01303,107.3618 20.42274,97.6294 40.84548,195.2588 61.26822,292.8882 -17.10417,19.5938 -34.20833,39.1875 -51.3125,58.7812 -22.125,-14.677 -44.25,-29.3541 -66.375,-44.0312 1.931638,-138.0209 1.630277,-276.0948 4.934868,-414.08204 1.224592,-9.97985 1.862735,-21.5703 9.971382,-28.76171 z"
+       id="path2910"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccc" />
+  </g>
+</svg>

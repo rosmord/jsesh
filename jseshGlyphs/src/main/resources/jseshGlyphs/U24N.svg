@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="3.96"
+   height="17.98"
+   id="svg2602"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="U24N.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2609">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2607">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 8.9899998 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="3.96 : 8.9899998 : 1"
+       inkscape:persp3d-origin="1.98 : 5.9933332 : 1"
+       id="perspective2611" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="667"
+     inkscape:window-width="640"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="25.695218"
+     inkscape:cx="1.98"
+     inkscape:cy="8.9899998"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg2602" />
+  <path
+     style="fill:#000000; stroke:none"
+     d="M 1.97,0.59 C 1.49,0.59 1.2833333,0.86 1.35,1.4 C 1.41,1.94 1.6366667,2.29 2.03,2.45 C 2.3833333,2.3033333 2.5933333,1.9566667 2.66,1.41 C 2.7266667,0.86333333 2.4966667,0.59 1.97,0.59 z M 0,3.65 L 0,2.67 L 1.31,2.67 C 0.95,2.3633333 0.73666667,1.84 0.67,1.1 C 0.60333333,0.36666667 1.05,0 2.01,0 C 2.9566667,0 3.4,0.36333333 3.34,1.09 C 3.2733333,1.8233333 3.0566667,2.35 2.69,2.67 L 3.96,2.67 L 3.96,3.65 L 2.43,3.65 L 2.43,14.41 L 3.83,14.41 L 3.83,15.29 L 3.04,15.29 C 3.2733333,15.463333 3.39,15.833333 3.39,16.4 C 3.39,17.32 2.93,17.846667 2.01,17.98 C 1.0166667,17.906667 0.52,17.38 0.52,16.4 L 0.52,16.4 C 0.52,15.86 0.64666667,15.49 0.9,15.29 L 0.11,15.29 L 0.11,14.41 L 1.53,14.41 L 1.53,3.65 L 0,3.65 z M 0.28,3.37 L 3.65,3.37 L 3.65,2.95 L 0.28,2.95 L 0.28,3.37 z"
+     id="path2604"
+     sodipodi:nodetypes="cscsccccsssccccccccscccccccccccccc" />
+</svg>

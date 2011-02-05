@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="11.068655"
+   height="10.56"
+   id="svg2760"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22N14A.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi23_SR">
+  <metadata
+     id="metadata2767">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22N14A</dc:title>
+        <dc:date>02/03/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>optimisation du signeN14 de Jsesh
+valeur :sbA</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2765" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="35.321968"
+     inkscape:cx="5.5343275"
+     inkscape:cy="5.2800002"
+     inkscape:window-x="2"
+     inkscape:window-y="57"
+     inkscape:current-layer="svg2760" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 5.534328 6.922159  Q 5.118999 7.060602 4.901445 7.396821  L 2.923685 10.126129  Q 2.409468 10.719457 2.112803 10.501904  Q 1.81614 10.304129 2.231469 9.631689  L 4.209229 6.902381  Q 4.466337 6.585939 4.466337 6.150833  Q 4.229006 5.794836 3.853231 5.67617  L 0.629484 4.647735  Q -0.102287 4.351071 0.016378 3.995074  Q 0.115266 3.658855 0.886593 3.836854  L 4.090563 4.885067  Q 4.466337 5.043288 4.881667 4.885067  Q 5.118999 4.548847 5.09922 4.153295  L 5.09922 0.771326  Q 5.158553 0 5.534328 0  Q 5.890324 0 5.949657 0.771326  L 5.949657 4.153295  Q 5.92988 4.548847 6.186988 4.885067  Q 6.58254 5.02351 6.958313 4.885067  L 10.182063 3.836854  Q 10.933612 3.658855 11.052277 4.014852  Q 11.170942 4.351071 10.439172 4.647735  L 7.235202 5.67617  Q 6.83965 5.794836 6.602318 6.150833  Q 6.58254 6.566161 6.83965 6.882604  L 8.837186 9.611911  Q 9.232738 10.284349 8.936074 10.501904  Q 8.659186 10.719457 8.14497 10.126129  L 6.16721 7.396821  Q 5.92988 7.040824 5.534328 6.922159  L 5.534328 6.922159  Z  M 4.565226 5.913502  Q 4.565226 6.229942 4.832222 6.546384  Q 5.09922 6.862826 5.514551 6.862826  Q 5.969435 6.862826 6.236433 6.566161  Q 6.503429 6.269498 6.503429 5.913502  Q 6.503429 5.51795 6.196877 5.241063  Q 5.890324 4.964177 5.534328 4.964177  Q 5.09922 4.964177 4.832222 5.250952  Q 4.565226 5.537727 4.565226 5.913502  L 4.565226 5.913502  Z  M 4.743224 5.913502  Q 4.743224 6.170609 4.960778 6.417831  Q 5.178332 6.66505 5.514551 6.66505  Q 5.890324 6.66505 6.097989 6.437608  Q 6.305654 6.210165 6.305654 5.913502  Q 6.305654 5.59706 6.058434 5.369617  Q 5.811214 5.142175 5.534328 5.142175  Q 5.178332 5.142175 4.960778 5.379506  Q 4.743224 5.616838 4.743224 5.913502  L 4.743224 5.913502  Z "
+     id="path2762" />
+</svg>

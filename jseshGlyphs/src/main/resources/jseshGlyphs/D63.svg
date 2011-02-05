@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="17.726824"
+   height="17.040001"
+   id="svg1977"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22D63.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\Jseshopt">
+  <metadata
+     id="metadata1984">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22D63</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SR &amp; ST</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe Jsesh D63</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:rights>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:rights>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1982" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="22.124412"
+     inkscape:cx="8.8634119"
+     inkscape:cy="8.5200005"
+     inkscape:window-x="77"
+     inkscape:window-y="21"
+     inkscape:current-layer="svg1977" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 4.045642 0.94359  Q 2.818975 1.155898 1.214872 1.273847  Q 1.002564 1.580513 1.214872 1.88718  Q 2.818975 2.028719 4.045642 2.193847  L 4.045642 0.94359  Z  M 15.274364 13.21026  Q 15.368722 14.955902 15.62821 15.486671  Q 15.887699 16.017441 16.25334 16.135389  Q 16.618979 16.25334 16.772314 15.899494  Q 16.925648 15.545646 16.725134 14.991286  Q 16.524624 14.436928 15.274364 13.21026  Z  M 12.490772 12.219491  L 12.490772 3.278975  Q 11.193336 2.736411 8.598464 2.335385  Q 8.338977 1.556924 8.598464 0.825641  Q 11.193336 0.424616 13.434362 0  L 13.434362 12.219491  L 14.425133 12.219491  Q 16.005648 12.219491 17.196928 14.201029  Q 18.388212 16.182568 16.902058 16.866671  Q 14.708208 17.857443 14.425133 13.21026  L 3.007693 13.21026  Q 2.724616 13.21026 2.701027 12.714875  Q 2.724616 12.24308 3.007693 12.219491  L 4.022052 12.219491  L 4.022052 3.278975  Q 2.701027 2.736411 0.129744 2.335385  Q -0.129744 1.556924 0.129744 0.802051  Q 2.724616 0.424616 4.965643 0  L 4.965643 12.219491  L 12.490772 12.219491  Z  M 12.514362 0.94359  Q 11.287697 1.155898 9.683594 1.273847  Q 9.471287 1.580513 9.683594 1.88718  Q 11.287697 2.028719 12.514362 2.193847  L 12.514362 0.94359  Z "
+     id="path1979" />
+</svg>

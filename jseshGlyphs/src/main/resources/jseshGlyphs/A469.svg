@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="8.370969"
+   height="18.719999"
+   id="svg2546"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docname="US22A469.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonts\envoi26_SR">
+  <metadata
+     id="metadata2553">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>US22A469</dc:title>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>version personnelleinspirée du signe A469 de la classification de Bob Richmond</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:date>17/04/06</dc:date>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2551" />
+  <sodipodi:namedview
+     inkscape:window-height="542"
+     inkscape:window-width="811"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="19.925214"
+     inkscape:cx="4.1854844"
+     inkscape:cy="9.3599997"
+     inkscape:window-x="44"
+     inkscape:window-y="58"
+     inkscape:current-layer="svg2546" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 5.536974 0.446982  C 6.189942 0.446982 6.812626 0.910148 6.983748 1.561058  C 7.042129 1.783123 7.33372 3.487176 6.379297 3.82321  C 6.113282 3.861103 5.886275 3.877064 5.692587 3.877064  C 4.656887 3.877064 4.573875 3.420677 4.573875 3.420677  C 3.865038 2.677734 4.116558 1.401259 4.474785 0.942867  C 4.787521 0.595591 5.167106 0.446982 5.536974 0.446982  Z  M 4.4316 4.300066  C 5.32618 4.439033 6.220761 4.044466 6.795221 5.784029  L 4.908543 5.78038  C 4.864052 5.859671 4.861132 6.277399 4.861132 6.277399  L 7.189159 6.277399  C 7.189159 6.408711 7.189159 6.540023 7.189159 6.671336  L 4.4316 6.671336  L 4.4316 4.300066  Z  M 0.886168 11.201612  L 0.886168 11.592546  L 5.28513 11.585091  L 5.28513 11.201612  Z  M 5.52075 0  C 5.016581 0 4.606881 0.099519 4.336071 0.364888  C 2.647565 2.019464 4.037988 3.463925 4.037988 3.463925  L 4.029618 6.63517  L 4.021249 9.806417  C 2.965144 8.104924 0.557424 3.735771 0.532815 2.674517  L 0.519769 1.911265  L 0.85334 1.911265  L 0.85334 1.527859  L 0.310353 1.498762  C 0.10855 1.630988 -0.000341 2.090425 0 2.808205  C 0.000319 3.478767 3.340082 9.806417 3.340082 9.806417  L 0.886168 9.84237  L 0.886168 10.216768  L 6.401285 10.216768  L 6.401285 9.822831  L 4.4316 9.822831  L 4.4316 7.327897  L 7.189159 7.327897  C 7.580416 8.036269 7.402572 11.696852 7.189159 12.974326  L 0.886168 12.974326  L 0.850599 13.472228  L 4.166305 13.45854  C 4.166306 13.45854 4.166306 13.45854 4.166306 13.45854  C 4.200285 13.45854 3.598028 17.965607 3.573473 18.016733  C 3.526786 18.113945 3.188555 18.398829 3.081085 18.398829  C 3.073351 18.398829 3.066812 18.397354 3.061662 18.394228  C 2.882274 18.285282 2.621037 18.254995 2.385278 18.254995  C 2.15834 18.254995 1.955009 18.283058 1.87101 18.296047  C 1.535812 18.347872 1.381431 18.463987 1.423718 18.632469  L 1.445687 18.719999  L 4.019675 18.702827  L 4.27026 17.53743  C 4.344382 17.167294 5.273174 14.621834 4.917486 13.741789  C 4.90905 13.720916 5.633832 13.673018 6.213695 13.673018  C 6.585161 13.673018 6.897153 13.692675 6.918818 13.751685  C 7.173457 14.445262 8.087153 18.231319 7.540083 18.279242  C 6.965394 18.329578 6.487459 18.333185 6.362202 18.333185  C 6.341232 18.333185 6.330147 18.333088 6.330147 18.333088  C 6.295588 18.323942 6.261029 18.319775 6.227142 18.319775  C 5.947128 18.319775 5.712947 18.604416 5.903321 18.719242  L 8.370969 18.719242  C 8.140241 16.986923 8.509617 15.191878 7.678785 13.522291  C 7.363184 12.888082 7.628036 12.171586 7.804342 12.171586  C 7.812053 12.171586 7.819593 12.172957 7.826909 12.175764  C 7.826964 12.175785 7.827019 12.175797 7.827073 12.175797  C 7.865985 12.175797 7.76094 6.818427 7.76094 6.818427  C 7.748189 6.385774 7.806578 5.810845 7.189159 5.520467  C 7.189159 5.349092 7.189159 5.177718 7.189159 5.006344  L 7.066053 4.365811  C 8.59368 1.137891 6.669536 0.110323 6.286386 0.058628  C 6.013509 0.021811 5.756776 0 5.52075 0  Z "
+     id="path2548" />
+</svg>

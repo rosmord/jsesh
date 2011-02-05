@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="10.180466"
+   height="9.12"
+   id="svg2317"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   sodipodi:docname="US22M39.svg"
+   sodipodi:docbase="C:\Program Files\Inkscape\envoi31\Jseshopt">
+  <metadata
+     id="metadata2324">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22M39</dc:title>
+        <dc:date>30/09/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>variante optimisée du signe Jsesh M39</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2322" />
+  <sodipodi:namedview
+     inkscape:window-height="569"
+     inkscape:window-width="939"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="41.33772"
+     inkscape:cx="5.0902328"
+     inkscape:cy="4.5599999"
+     inkscape:window-x="55"
+     inkscape:window-y="54"
+     inkscape:current-layer="svg2317" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 1.187721 0.636279  Q 0.763535 0.636279 0.763535 1.124093  Q 0.763535 1.633117 1.187721 1.633117  Q 1.654326 1.633117 1.654326 1.124093  Q 1.654326 0.636279 1.187721 0.636279  Z  M 3.775257 0.636279  Q 3.35107 0.636279 3.35107 1.124093  Q 3.35107 1.633117 3.775257 1.633117  Q 4.241861 1.633117 4.241861 1.124093  Q 4.241861 0.636279 3.775257 0.636279  Z  M 6.723351 8.398885  Q 6.999071 8.398885 8.027722 5.959815  Q 9.056372 3.520745 9.066978 3.05414  Q 9.077581 2.587535 8.759442 2.587535  L 1.421023 2.587535  Q 1.102884 2.587535 1.113488 3.05414  Q 1.124093 3.520745 2.152745 5.959815  Q 3.181396 8.398885 3.457117 8.398885  L 6.723351 8.398885  Z  M 5.090233 0.636279  Q 5.387163 0.636279 5.588652 0.31814  Q 5.79014 0 6.40521 0  Q 6.999071 0 7.20056 0.31814  Q 7.402049 0.636279 7.720187 0.636279  Q 8.017118 0.636279 8.25042 0.31814  Q 8.483722 0 8.992744 0  Q 9.459348 0 9.724464 0.201488  Q 9.989583 0.402977 10.095629 1.145302  Q 10.180466 1.84521 10.180466 2.587535  Q 8.356465 7.741397 7.168745 9.12  L 3.011721 9.12  Q 1.824 7.741397 0 2.587535  Q 0 1.84521 0.084837 1.145302  Q 0.190884 0.402977 0.456 0.201488  Q 0.721116 0 1.187721 0  Q 1.696744 0 1.930047 0.31814  Q 2.163349 0.636279 2.460279 0.636279  Q 2.778419 0.636279 2.969303 0.31814  Q 3.160187 0 3.775257 0  Q 4.390326 0 4.591814 0.31814  Q 4.793303 0.636279 5.090233 0.636279  Z  M 6.40521 0.636279  Q 5.938606 0.636279 5.938606 1.124093  Q 5.938606 1.633117 6.40521 1.633117  Q 6.829396 1.633117 6.829396 1.124093  Q 6.829396 0.636279 6.40521 0.636279  Z  M 8.992744 0.636279  Q 8.52614 0.636279 8.52614 1.124093  Q 8.52614 1.633117 8.992744 1.633117  Q 9.41693 1.633117 9.41693 1.124093  Q 9.41693 0.636279 8.992744 0.636279  Z "
+     id="path2319" />
+</svg>

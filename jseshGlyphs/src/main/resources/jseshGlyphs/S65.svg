@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="US248S65.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
+  <metadata
+     id="metadata9">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>S65</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc, d'après un fragment de signe de S. Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Version temporaire de S65.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs7">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 8.9887228 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="12.287004 : 8.9887228 : 1"
+       inkscape:persp3d-origin="6.1435022 : 5.9924819 : 1"
+       id="perspective11" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="701"
+     inkscape:window-width="940"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.23490053"
+     inkscape:cx="-708.3312"
+     inkscape:cy="897.97943"
+     inkscape:window-x="193"
+     inkscape:window-y="32"
+     inkscape:current-layer="svg2" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 704.17145,-3.6144578 C 627.91233,-3.6144578 564.1166,41.608159 545.60012,139.51042 C 492.2094,421.80346 471.09709,712.68839 438.98231,999.89412 C 426.66531,1110.0463 417.41804,1179.1617 417.41804,1207.8353 C 383.96574,1136.1518 338.57616,1066.799 281.22943,999.89412 C 223.88264,932.98971 171.26563,892.41851 123.47654,878.08167 C 142.59197,921.09183 182.08694,985.62632 241.82329,1071.6466 C 301.55948,1157.6667 348.15394,1275.8946 381.60595,1426.4301 C 415.05854,1576.9655 469.95632,1690.5034 546.41857,1766.966 C 541.09918,1767.754 535.93201,1768.7029 530.75881,1769.6614 L 599.17401,1807.6556 L 1304.505,1805.5551 C 1327.8215,1786.5318 1358.0974,1745.1655 1395.8965,1709.5895 C 1436.5165,1671.3582 1473.6025,1576.9655 1507.0555,1426.4301 C 1540.5076,1275.8947 1587.1017,1157.6667 1646.8379,1071.6466 C 1706.5743,985.62632 1745.9408,921.09179 1765.0562,878.08167 C 1717.2677,892.41854 1664.779,932.98971 1607.4316,999.89412 C 1550.0851,1066.799 1504.6953,1136.1518 1471.2433,1207.8353 C 1466.4642,1169.6042 1459.2367,1097.9704 1449.6789,992.83437 L 1326.1708,141.06075 C 1311.8343,42.189474 1253.6859,-3.6144578 1177.3017,-3.6144578 C 1053.0503,-3.6144578 974.18869,34.675777 940.73659,111.13825 C 907.28429,34.675781 828.42278,-3.6144578 704.17145,-3.6144578 z M 1140.9765,112.55019 C 1174.2979,112.3402 1229.1236,128.71172 1234.6778,182.76243 C 1265.5691,483.38142 1310.9866,791.00046 1335.0548,1100.2706 C 1344.6126,1200.6273 1346.893,1258.0627 1342.1143,1272.3997 C 1281.4953,1129.9357 1176.3953,1032.226 1019.5489,1021.4584 L 1019.5489,204.32669 C 1019.5489,129.6586 1103.2114,112.78819 1140.9765,112.55019 z M 737.54471,117.68454 C 776.85864,115.66847 869.11242,130.74251 869.11242,211.38642 L 869.11242,1021.4584 C 711.29644,1016.2768 605.48141,1142.1235 539.35884,1272.3997 L 546.41857,1100.2706 L 653.98319,182.76243 C 659.66126,134.32948 706.96721,119.2526 737.54471,117.68454 z M 947.92469,1100.2706 C 1048.2812,1100.2706 1128.3475,1133.7427 1188.0839,1200.6471 C 1247.8202,1267.5518 1277.6782,1344.004 1277.6782,1430.0242 C 1277.6782,1525.6022 1253.7144,1597.3643 1205.9255,1645.1534 C 1158.1366,1692.9424 1119.9744,1721.596 1091.3014,1731.1539 L 797.35989,1731.1539 C 763.9076,1716.8172 724.54113,1686.959 679.14149,1641.5594 C 633.74197,1596.1596 610.98313,1525.6022 610.98301,1430.0242 C 610.98301,1344.004 640.84119,1267.5518 700.5774,1200.6471 C 760.31388,1133.7428 842.78866,1100.2706 947.92469,1100.2706 z"
+     id="path4"
+     sodipodi:nodetypes="csscccscccccccsccccsscccscccsscscccssccsscccccc" />
+</svg>

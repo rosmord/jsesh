@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24.822325"
+   height="9.2148838"
+   id="svg3838"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="P94.svg"
+   sodipodi:docbase="C:\Program Files\JSesh\fonteUS22"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
+  <metadata
+     id="metadata3845">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:description>FCD p. 71 
+in ( wgiw )
+à mon avis a sa place en P (en tant que partie de navire)
+US22P1EX</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/GPL/2.0/" />
+        <dc:title>US22P1EXA</dc:title>
+        <dc:date>5/11/06</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3843">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 3.6074419 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="24.822325 : 3.6074419 : 1"
+       inkscape:persp3d-origin="12.411162 : 2.4049613 : 1"
+       id="perspective2487" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="712"
+     inkscape:window-width="1024"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="34.404513"
+     inkscape:cx="12.411162"
+     inkscape:cy="3.6074419"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:current-layer="svg3838"
+     showgrid="false" />
+  <path
+     style="fill:#000000;stroke:none"
+     d="M 18.597209,1.823256 C 19.448062,2.934574 19.899535,6.6275973 19.951628,8.902326 C 19.951628,9.110698 19.890853,9.214884 19.769302,9.214884 L 18.96186,9.214884 C 18.857674,9.214884 18.805581,9.110698 18.805581,8.902326 C 18.56248,5.5857367 17.676899,1.8927133 16.148836,1.823256 L 0.52093,1.823256 C 0.17364333,1.84062 0,1.536744 0,0.911628 C 0,0.303876 0.17364333,0 0.52093,0 L 13.726511,0 C 16.417984,0 18.857674,0.0781397 21.045581,0.234419 C 23.476588,0.842171 24.735503,5.0648067 24.822325,8.902326 C 24.822325,9.110698 24.770232,9.214884 24.666046,9.214884 L 23.858604,9.214884 C 23.737053,9.214884 23.676278,9.110698 23.676278,8.902326 C 23.433177,5.5857367 22.556278,1.8927133 21.045581,1.823256 L 18.597209,1.823256 L 18.597209,1.823256 z"
+     id="path3840"
+     sodipodi:nodetypes="cccccccscccccccccc" />
+</svg>

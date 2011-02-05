@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1800"
+   height="1800"
+   id="svg2337"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Distribution"
+   sodipodi:docname="U2.svg">
+  <defs
+     id="defs2339" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.16366039"
+     inkscape:cx="1512.6987"
+     inkscape:cy="453.40491"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     height="1800px"
+     width="1800px"
+     inkscape:window-width="1255"
+     inkscape:window-height="953"
+     inkscape:window-x="25"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata2342">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>U2 sign from Karnak Hypostyle hall
+</dc:description>
+        <dc:title>U2</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="dessin">
+    <path
+       style="opacity:1;fill:black;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:70;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 1461.0625,859.84375 C 1461.1614,971.2303 1440.1266,1067.3232 1401.0625,1171.5625 C 1391.3093,1249.49 1469.7276,1293.7344 1501.5,1357.0625 C 1405.0809,1458.8569 1144.958,1580.3632 950.375,1624.9062 C 687.52181,1673.2071 417.69942,1651.064 151.9375,1645 C 109.90073,1648.8112 38.473513,1628.8802 12.15625,1672.7812 C -8.4330298,1736.4117 88.118353,1743.492 129.09375,1750.0625 C 190.21705,1760.2933 274.72761,1770.3462 368.84375,1777.75 C 866.86165,1829.5012 1365.3429,1710.4334 1774.3438,1417.1562 C 1786.4314,1406.3595 1795.1485,1388.4319 1794.7812,1371.8125 C 1794.414,1355.1931 1787.7856,1342.1692 1780.25,1331.1875 C 1729.8529,1269.6258 1655.0714,1229.8638 1591.5938,1182.4375 C 1602.1323,1084.866 1640.6004,995.1787 1683.625,908.25 L 1461.0625,859.84375 z M 1526.7188,945.75 L 1582.375,957.875 C 1548.8052,1035.2252 1528.8624,1111.6901 1519.5938,1193.0625 C 1552.1582,1284.9241 1662.4245,1298.3582 1721.8438,1369.9375 C 1605.0926,1470.4937 1350.2316,1582.6028 1109.875,1652.5312 C 1283.1639,1595.2527 1463.3695,1505.7871 1555.875,1407.0312 C 1592.7906,1360.034 1558.9064,1310.8962 1528.1875,1271.75 C 1502.7666,1239.675 1477.4963,1205.3521 1470.125,1186.9688 C 1501.7517,1107.0874 1519.7269,1030.4694 1526.7188,945.75 z "
+       id="path2356"
+       sodipodi:nodetypes="csccssssssscccccccccscc" />
+  </g>
+</svg>

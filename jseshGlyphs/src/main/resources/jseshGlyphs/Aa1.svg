@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="Aa1.svg"
+   sodipodi:docbase="/Users/rosmord/Travail/Gsigns/Distribution"
+   inkscape:version="0.45.1"
+   sodipodi:version="0.32"
+   id="svg1290"
+   height="1800"
+   width="1800"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:window-y="88"
+     inkscape:window-x="8"
+     inkscape:window-height="583"
+     inkscape:window-width="1010"
+     inkscape:current-layer="layer2"
+     inkscape:document-units="px"
+     inkscape:cy="427.30353"
+     inkscape:cx="431.71325"
+     inkscape:zoom="0.43896652"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     width="1800px"
+     height="1800px"
+     showguides="false"
+     showgrid="true" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/2.0/" />
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>JSesh hieroglyph</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>A40, Karnak Hypostyle hall</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Attribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="nouveau"
+     style="display:inline">
+    <path
+       style="color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:60;stroke-linecap:butt;stroke-linejoin:round;marker:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       d="M 433.6875,940 C 195.35122,940 1.3437495,1134.0394 1.34375,1372.375 C 1.34375,1610.7105 195.35124,1804.7187 433.6875,1804.7188 C 672.03067,1804.7188 866.06252,1610.7106 866.0625,1372.375 C 866.0625,1134.0393 672.03068,940 433.6875,940 z M 433.6875,1000 C 551.26303,1000 656.0082,1054.291 724.21875,1139.2188 L 143.1875,1139.2188 C 211.3907,1054.291 316.11653,1000 433.6875,1000 z M 103.875,1199.2188 L 763.53125,1199.2188 C 785.95297,1241.9001 800.34947,1289.4853 804.6875,1339.9688 L 62.71875,1339.9688 C 67.05619,1289.4853 81.455935,1241.9001 103.875,1199.2188 z M 62.34375,1399.9688 L 805.0625,1399.9688 C 801.38492,1450.3447 787.72399,1497.9218 766.03125,1540.7188 L 101.375,1540.7188 C 79.684846,1497.9218 66.020828,1450.3447 62.34375,1399.9688 z M 139.4375,1600.7188 L 727.96875,1600.7188 C 659.88177,1688.3715 553.45163,1744.7188 433.6875,1744.7188 C 313.93119,1744.7187 207.51731,1688.3675 139.4375,1600.7188 z "
+       id="path2260" />
+  </g>
+</svg>
