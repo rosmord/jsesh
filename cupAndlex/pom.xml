@@ -5,11 +5,14 @@
   <parent>
     <artifactId>JSesh-all</artifactId>
     <groupId>org.qenherkhopeshef</groupId>
-    <version>4.5-SNAPSHOT</version>
+    <version>1</version>
   </parent>
   <groupId>org.qenherkhopeshef</groupId>
   <artifactId>cupAndlex</artifactId>
   <version>4.5-SNAPSHOT</version>
+  <description>
+      Generic plugin to run FLEX AND CUP in maven.
+  </description>
   <packaging>maven-plugin</packaging>
   <name>cupAndlex Maven Mojo</name>
   <url>http://maven.apache.org</url>

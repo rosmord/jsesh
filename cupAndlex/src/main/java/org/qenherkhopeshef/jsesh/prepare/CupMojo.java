@@ -106,10 +106,20 @@ public class CupMojo extends AbstractMojo {
 				grammarFilePath
 		};	
 		try {
+			// The source file
+			File sourceFile= new File(grammarFilePath);
+			// The parser file created by cups
+			File tempParserFile= new File(temporaryDir, parserName + ".java");		
+			// The parser file in its final folder.
+			File targetParserFile = new File(createParserDir(), parserName+ ".java");
+			
+			// Test the creation date
+			if (sourceFile.lastModified() < targetParserFile.lastModified())
+				return;
+		
 			java_cup.Main.main(args);
 			// Move the generated files where they belong
-			File parserFile= new File(temporaryDir, parserName + ".java");		
-			parserFile.renameTo(new File(createParserDir(), parserName+ ".java"));
+			tempParserFile.renameTo(targetParserFile);
 			
 			// The symbol file must have its package name changed too.
 			// We work in UTF-8

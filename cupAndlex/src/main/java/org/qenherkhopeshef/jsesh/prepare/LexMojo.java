@@ -45,18 +45,26 @@ public class LexMojo extends AbstractMojo{
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		String[] args= {lexDef};
 		try {
-			JLex.Main.main(args);		
+			File sourceFile= new File(lexDef);
 			// JLex is supposed to create a file in the SAME folder as the source.
-			// We must now move it.
+			// We will need to move it.
 			String resultPath= lexDef+ ".java";
+			// The file created by JLex
 			File tempResult= new File(resultPath);
-			if (tempResult.exists()) {
-				int endPos= tempResult.getName().lastIndexOf(".l.java");
-				if (endPos == -1)
-					throw new MojoExecutionException("lex file names must end in '.l' "+ lexDef);
-				
-				String finalResultName= tempResult.getName().substring(0, endPos) + ".java";
-				File finalResultFile= new File(createPackage(lexerPackage), finalResultName);
+			// Compute the resulting file name
+			int endPos= tempResult.getName().lastIndexOf(".l.java");
+			if (endPos == -1)
+				throw new MojoExecutionException("lex file names must end in '.l' "+ lexDef);
+			
+			String finalResultName= tempResult.getName().substring(0, endPos) + ".java";
+			File finalResultFile= new File(createPackage(lexerPackage), finalResultName);
+			
+			// Avoid unnecessary processing
+			if (finalResultFile.lastModified() > sourceFile.lastModified())
+				return;
+			JLex.Main.main(args);		
+			
+			if (tempResult.exists()) {			
 				tempResult.renameTo(finalResultFile);
 				project.addCompileSourceRoot(getJavaSourcePath().getAbsolutePath());
 			}
