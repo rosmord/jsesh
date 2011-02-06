@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
 <shortcuts>
-  <SkipIfNotSupported/>
-  <programGroup defaultName="JSesh" location="applications"/>
+    <SkipIfNotSupported/>
+    <programGroup defaultName="JSesh" location="applications"/>
   
-  <shortcut
+    <shortcut
      name="JSesh"
      programGroup="yes"
      desktop="yes"
@@ -12,38 +12,24 @@
      startMenu="no"
      startup="no"
      target="java"
-     commandLine="-Xmx256m -jar &quot;$INSTALL_PATH\libs\jsesh.jar&quot;"
+     commandLine="-Xmx256m -jar &quot;$INSTALL_PATH\lib\${project.build.finalName}.jar&quot;"
      description="JSesh hieroglyphic editor"
      iconFile="$INSTALL_PATH\icons\tksesh.ico"
      >
-     <createForPack name="Base"/>
+        <createForPack name="Base"/>
     </shortcut>
 
-  <shortcut
+    <shortcut
      name="Sign Info Editor"
      programGroup="yes"
      desktop="yes"
      applications="no"
      startMenu="no"
      startup="no"
-     target="$INSTALL_PATH\bin\signInfoEditor.bat"
+     target="java"
+     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH\lib\${project.build.finalName}.jar&quot; jsesh.signInfoEditor.ui.SignInfoEditorApplication"
      description="Editor for documenting hieroglyphic signs"
      >
-     <createForPack name="Base"/>
-    </shortcut>
-
-    <!--
-     <shortcut
-     name="Ramses syntax"
-     programGroup="yes"
-     desktop="yes"
-     applications="no"
-     startMenu="no"
-     startup="no"
-     target="java"
-     commandLine="-Xmx1G -cp &quot;$INSTALL_PATH\lib\${project.build.finalName}.jar&quot; grammaticalBase.syntaxEditor.app.SyntaxEditorMain"
-     description="Ramses syntactic editor"
-     >
-     <createForPack name="main"/>
-    </shortcut>-->
+        <createForPack name="Base"/>
+    </shortcut>   
 </shortcuts>

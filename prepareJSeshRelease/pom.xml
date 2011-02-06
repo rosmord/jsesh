@@ -5,11 +5,10 @@
   <parent>
     <artifactId>JSesh-all</artifactId>
     <groupId>org.qenherkhopeshef</groupId>
-    <version>1</version>
+    <version>4.6-SNAPSHOT</version>
   </parent>
   <groupId>org.qenherkhopeshef</groupId>
-  <artifactId>prepareJSeshRelease</artifactId>
-  <version>1</version>
+  <artifactId>prepareJSeshRelease</artifactId> 
   <description>
 	Various (or not so various) mojos needed after the main JSesh jar
 	is built in order to prepare the software release.
@@ -34,7 +33,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>jsesh</artifactId>
-      <version>4.5-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

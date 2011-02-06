@@ -12,7 +12,7 @@
      startMenu="yes"
      startup="no"
      target="java"
-	 commandLine="-Xmx256m -jar &quot;$INSTALL_PATH/libs/jsesh.jar&quot;"
+     commandLine="-Xmx256m -jar &quot;$INSTALL_PATH/lib/${project.build.finalName}.jar&quot;"
      type="Application"
 	 description="JSesh hieroglyphic editor"
 	 iconFile="$INSTALL_PATH/icons/hibou.png"
@@ -20,32 +20,22 @@
      > 
      <createForPack name="Base"/>
    </shortcut>
-   
-    <shortcut
-     name="Sign info editor"
+
+     <shortcut
+     name="Sign Info Editor"
      programGroup="yes"
      desktop="yes"
      startMenu="yes"
      startup="no"
-     target="$INSTALL_PATH/bin/signInfoEditor.sh"
+     target="java"
+     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH/lib/${project.build.finalName}.jar&quot; jsesh.signInfoEditor.ui.SignInfoEditorApplication"
+     description="Editor for documenting hieroglyphic signs"
      type="Application"
-	 description="Sign info editor"
-	 encoding="UTF-8"
-     > 
+     encoding="UTF-8"
+     >
+        <createForPack name="Base"/>
+    </shortcut>
      
      <createForPack name="Base"/>
-   </shortcut>
-   
-   <shortcut
-     name="JSesh_Documentation"
-     programGroup="yes"
-     desktop="yes"
-     startMenu="yes"
-     startup="no"
-     type="Link"
-     url="$INSTALL_PATH/jseshDoc.pdf"
-	 encoding="UTF-8"
-	 description="JSesh editor documentation"
-     >
    </shortcut>
 </shortcuts>
