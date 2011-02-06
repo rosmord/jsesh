@@ -4,7 +4,7 @@
     <property name="fontRoot" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns"/>
     <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/inBase"/>
     <property name="fontDest" value="../jseshGlyphs/src/main/resources/jseshGlyphs"/>
-    <property name="textDest" value="../jsesh-installer/src/texts"/>
+    <property name="textDest" value="../jsesh-installer/src/binary/texts"/>
 
     <target name="updateGlyphsAndTextResources" description="-->update glyphs and texts libraries">
         <description>
