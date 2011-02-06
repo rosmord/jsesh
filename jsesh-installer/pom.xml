@@ -107,6 +107,11 @@
              <artifactId>jseshGlyphs</artifactId>
              <version>1</version>
          </dependency>
+         <dependency>
+             <groupId>${project.groupId}</groupId>
+             <artifactId>jseshMac</artifactId>
+             <version>1</version>
+         </dependency>
      </dependencies>
 
 </project>

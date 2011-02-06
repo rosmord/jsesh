@@ -73,11 +73,11 @@
         <pack name="Base" required="yes">
             <description>The base files</description>
 		
-            <fileset targetdir="$INSTALL_PATH/libs" dir="../lib">
+            <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
                 <include name="*.jar"/>
             </fileset>
             <!--
-            <fileset targetdir="$INSTALL_PATH/libs" dir="../lib">
+            <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
                 <exclude name="cupruntime.jar" />
                 <exclude name="AppleJavaExtensions.jar"/>
             </fileset>
@@ -89,8 +89,8 @@
             <fileset dir="licenses" targetdir="$INSTALL_PATH/licenses"/>
             <file src="fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
 
-            <fileset os="mac"  targetdir="$INSTALL_PATH" dir="macApp"></fileset>
-            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
+            <fileset os="mac"  targetdir="$INSTALL_PATH" dir="mac"></fileset>
+            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="true">
                 <args>
                     <arg value="$INSTALL_PATH"/>
                 </args>

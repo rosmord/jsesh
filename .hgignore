@@ -21,5 +21,6 @@ syntax: glob
 .*
 syntax: regexp
 ^depcache$
+nbactions.xml
 syntax: regexp
 ^installer-distribution$
