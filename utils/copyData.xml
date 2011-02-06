@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JSesh" default="updateGlyphsAndTextResources" basedir=".">
+    
+    <property name="fontRoot" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns"/>
+    <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/inBase"/>
+    <property name="fontDest" value="../jseshGlyphs/src/main/resources/jseshGlyphs"/>
+    <property name="textDest" value="../jsesh-installer/src/texts"/>
+
+    <target name="updateGlyphsAndTextResources" description="-->update glyphs and texts libraries">
+        <description>
+            Import a number of data files into the JSesh project.
+            The author (S. Rosmorduc) is normally the only one who does this.
+        </description>
+        <sync todir="${textDest}" verbose="true">
+            <fileset dir="${textRoot}">
+            </fileset>
+        </sync>
+		<!-- Ugly code, but I won't get an ant extension just to solve it. -->
+        <sync verbose="yes" todir="${fontDest}">
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/A">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/B">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/C">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/D">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/E">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/F">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/G">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/H">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/I">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/K">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/L">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/M">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/N">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/O">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/P">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Q">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/R">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/S">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/T">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/U">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/V">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/W">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/X">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Y">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Z">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Aa">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Ff">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+        </sync>
+        <copy todir="${fontDest}" overwrite="true">
+            <fileset dir="${fontRoot}/Distribution">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean" description="erase imported resources">
+        <delete dir="${fontDest}">
+        </delete>
+        <delete dir="${textDest}">
+        </delete>
+        
+    </target>
+</project>

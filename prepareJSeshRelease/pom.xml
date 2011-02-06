@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>JSesh-all</artifactId>
+    <groupId>org.qenherkhopeshef</groupId>
+    <version>1</version>
+  </parent>
+  <groupId>org.qenherkhopeshef</groupId>
+  <artifactId>prepareJSeshRelease</artifactId>
+  <version>1</version>
+  <description>
+	Various (or not so various) mojos needed after the main JSesh jar
+	is built in order to prepare the software release.
+	Currently, mainly concerned with font preparation.
+  </description>
+  <packaging>maven-plugin</packaging>
+  <name>prepareJSeshRelease Maven Mojo</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+     <dependency>
+    	<groupId>org.apache.maven</groupId>
+    	<artifactId>maven-project</artifactId>
+    	<version>3.0-alpha-2</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>jsesh</artifactId>
+      <version>4.5-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,41 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.qenherkhopeshef</groupId>
+        <artifactId>JSesh-all</artifactId>
+        <version>1</version>
+    </parent>
+    <artifactId>jseshGlyphs</artifactId>
+    <packaging>jar</packaging>
+    <name>jseshGlyph</name>
+    <description>
+            Font packager for JSesh.
+            Packages fonts in resources dir            
+    </description>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.qenherkhopeshef</groupId>
+                <artifactId>prepareJSeshRelease</artifactId>
+                <version>1</version>
+                <configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepareFonts</goal>
+                        </goals>
+                        <configuration>
+                            <glyphsPackage>jseshGlyphs</glyphsPackage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IZPACK installation file -->
+<installation version="1.0">
+    <info>
+        <appname>JSesh</appname>
+        <appversion>${project.version}</appversion>
+        <uninstaller write="no" />
+        <javaversion>1.5</javaversion>
+        <run-privileged condition="izpack.windowsinstall"/>
+
+        <!--pack200 /-->
+    </info>
+
+    <resources>
+        <!-- <res id="Unix_shortcutSpec.xml" src="../resources/installer/Unix_shortcutSpec.xml"/> -->
+        <res  id="shortcutSpec.xml" src="Win_shortcutSpec.xml"/>
+        <!--        <res id="Installer.image" src="../resources/images/hibou.png"/>
+                    <res id="XInfoPanel.info" src="../resources/installer/info.txt"/>-->
+    </resources>
+    <guiprefs resizable="no" width="480" height="360">
+        <laf name="looks">
+            <param name="variant" value="windows" />
+            <os family="windows" />
+        </laf>
+    </guiprefs>
+
+    <locale>
+        <langpack iso3="fra" />
+        <langpack iso3="eng" />
+    </locale>
+
+    <panels>
+        <panel classname="HelloPanel" />
+        <panel classname="TargetPanel"/>
+        <panel classname="PacksPanel"/>
+        <panel classname="InstallPanel"/>
+        <panel classname="ShortcutPanel"/>
+        <panel classname="SimpleFinishPanel"/>
+    </panels>
+
+    <packs>
+        <pack name="main" required="yes">
+            <description>Ramses Installation</description>
+            <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
+                <include name="*.jar"/>
+            </fileset>
+            <file src="../${project.build.finalName}.jar" targetdir="$INSTALL_PATH/lib"/>
+            <fileset os="mac"  targetdir="$INSTALL_PATH" dir="macApp"></fileset>
+            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
+                <args>
+                    <arg value="$INSTALL_PATH"/>
+                </args>
+                <os family="mac"></os>
+            </executable>
+        </pack>
+    </packs>
+ <!--    doesn't work ???
+    <natives>
+        <native type="izpack" name="ShellLink.dll"/>
+        <native type="izpack" name="ShellLink_x64.dll"/>
+       <native type="izpack" name="WinSetupAPI.dll"/>
+        <native type="izpack" name="WinSetupAPI_x64.dll"/
+    </natives>-->
+ 
+    <native type="izpack" name="ShellLink.dll"/>
+
+</installation>
