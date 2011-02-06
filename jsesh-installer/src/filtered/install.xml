@@ -89,6 +89,13 @@
             <fileset dir="licenses" targetdir="$INSTALL_PATH/licenses"/>
             <file src="fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
 
+            <fileset os="mac"  targetdir="$INSTALL_PATH" dir="macApp"></fileset>
+            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
+                <args>
+                    <arg value="$INSTALL_PATH"/>
+                </args>
+                <os family="mac"></os>
+            </executable>
             <!-- files related to the sign information editor 
 			
             <file src="../resources/signInfoScripts/signInfoEditor.command" targetdir="$INSTALL_PATH/bin">
@@ -125,7 +132,7 @@
 				
             </file>
             -->
-            
+        </pack>
 	   
         <pack name="Egyptian texts" required="no">
             <description>A number of Egyptian texts for JSesh. Includes quite a few classics, plus a lot of Late Egyptian texts.</description>
