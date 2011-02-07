@@ -37,6 +37,8 @@ cd "$dest"
 ls ./lib/ | sed 's%\(.*\)%<string>$APP_PACKAGE/../lib/\1</string>%' >/tmp/dep_list.txt
 
 prepareApp JSesh
+prepareApp SignInfo
+
 
 # cleanup
 #rm Info.plist.end Info.plist.jsesh
