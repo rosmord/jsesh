@@ -11,7 +11,12 @@
         </authors>
         <url>http://www.iut.univ-paris8.fr/~rosmord/JSesh/</url>
         <javaversion>1.5</javaversion>
-        <uninstaller write="yes"/>
+        <!--
+            uninstaller works, but is not necessary.
+            and I'd rather not have problems with users accidentally
+            removing their install with files of their own in it.
+        -->
+        <uninstaller write="no"/>
         <run-privileged condition="izpack.windowsinstall"/>
     </info>
 	<!-- 
@@ -96,37 +101,7 @@
                 </args>
                 <os family="mac"></os>
             </executable>
-            <!-- files related to the sign information editor 
-			
-            <file src="../resources/signInfoScripts/signInfoEditor.command" targetdir="$INSTALL_PATH/bin">
-                <os family="mac"/>
-            </file>
-            <file src="../resources/signInfoScripts/signInfoEditor.bat" targetdir="$INSTALL_PATH/bin">
-                <os family="windows"/>
-            </file>
-            <file src="../resources/signInfoScripts/signInfoEditor.sh" targetdir="$INSTALL_PATH/bin">
-                <os family="unix"/>
-            </file>
-
-            <parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.command">
-                <os family="mac"/>
-            </parsable>
-            <executable targetfile="$INSTALL_PATH/bin/signInfoEditor.command">
-                <os family="mac"/>
-            </executable>
-            <parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.bat">
-                <os family="windows"/>
-            </parsable>
-            <executable targetfile="$INSTALL_PATH/bin/signInfoEditor.bat">
-                <os family="windows"/>
-            </executable>
-            <parsable targetfile="$INSTALL_PATH/bin/signInfoEditor.sh">
-                <os family="unix"/>
-            </parsable>
-            <executable targetfile="$INSTALL_PATH/bin/signInfoEditor.sh">
-                <os family="unix"/>
-            </executable>
-            -->
+         
 	    <!-- rtf cleaner (mainly for mac)  
             <file src="../dist/rtfCleaner.jar" targetdir="$INSTALL_PATH/bin">
 				
