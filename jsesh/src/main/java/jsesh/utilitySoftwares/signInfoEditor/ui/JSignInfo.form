@@ -451,7 +451,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Container class="jsesh.mdcDisplayer.swing.editor.JMDCEditor" name="descriptionField">
+                <Container class="jsesh.editor.JMDCEditor" name="descriptionField">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="Sign Description in Manuel de codage format. May contain any kind of information: sign values, bibliography..." noResource="true"/>
                     <Property name="scale" type="double" value="1.0"/>
