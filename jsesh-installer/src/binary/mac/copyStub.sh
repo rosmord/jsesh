@@ -20,8 +20,8 @@ prepareApp() {
 
     mkdirIfNotE "$dest/$app.app/Contents/MacOS"
     cp $stub "$dest/$app.app/Contents/MacOS"
-
     # cleanup
+    rm "$head"
 }
 
 
@@ -41,7 +41,7 @@ prepareApp SignInfo
 
 
 # cleanup
-#rm Info.plist.end Info.plist.jsesh
+rm Info.plist.end
 
 
 

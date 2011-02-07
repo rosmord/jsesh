@@ -90,7 +90,7 @@
             <file src="fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
 
             <fileset os="mac"  targetdir="$INSTALL_PATH" dir="mac"></fileset>
-            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="true">
+            <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
                 <args>
                     <arg value="$INSTALL_PATH"/>
                 </args>

@@ -35,26 +35,13 @@ public class DocDisplayer extends JFrame {
 	 * 
 	 */
 	private DocDisplayer() {
-		super("JSesh Documentation");
-		// A trick to have an anti aliased TextPanel. Why on earth did the conceptor not provide a simple
-		// way of doing this ????
-		// THIS MIGHT NOT BE A GOOD IDEA. IT SEEMS TO WORK, ANYWAY
-		/*docPanel= new JTextPane() {
-
-			public void paintComponent(Graphics g)
-			{	Graphics2D g2 = (Graphics2D) g;
-				GraphicsUtils.antialias(g);
-				g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-					RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-				super.paintComponent(g2);
-			}
-		};*/
+		super("JSesh Documentation");		
 		docPanel= new JTextPane();
 		getContentPane().add(new JScrollPane(docPanel));
 		setSize(640,600);
 		//URL base= jsesh.userdoc.DocBase.class.getResource("index.html");
 		//URL base= this.getClass().getResource("../userdoc/index.html");
-		URL base= this.getClass().getResource("/jseshResources/userdoc/index.html");
+		URL base= this.getClass().getResource("/jsesh/userdoc/index.html");
 		try {
 			docPanel.setPage(base);
 		} catch (IOException e) {
