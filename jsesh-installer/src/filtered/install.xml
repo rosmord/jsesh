@@ -81,13 +81,12 @@
             <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
                 <include name="*.jar"/>
             </fileset>
-            <!--
-            <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
-                <exclude name="cupruntime.jar" />
-                <exclude name="AppleJavaExtensions.jar"/>
+
+            <fileset targetdir="$INSTALL_PATH/lib" dir="lib">
+                <include name="*.jnilib"/>
             </fileset>
-            -->
-            
+
+
 	    <!-- resources : icons, licences... -->
             
             <fileset dir="icons" targetdir="$INSTALL_PATH/icons"/>
@@ -95,6 +94,7 @@
             <file src="fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
 
             <fileset os="mac"  targetdir="$INSTALL_PATH" dir="mac"></fileset>
+
             <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
                 <args>
                     <arg value="$INSTALL_PATH"/>
