@@ -27,7 +27,7 @@
      startMenu="no"
      startup="no"
      target="java"
-     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH\lib\jsesh-${project.version}.jar:$INSTALL_PATH\lib\jseshGlyphs-${project.version}.jar&quot; jsesh.utilitySoftwares.signInfoEditor.ui.SignInfoEditorApplication"
+     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH\lib\jsesh-${project.version}.jar;$INSTALL_PATH\lib\jseshGlyphs-${project.version}.jar&quot; jsesh.utilitySoftwares.signInfoEditor.ui.SignInfoEditorApplication"
      description="Editor for documenting hieroglyphic signs"
      >
         <createForPack name="Base"/>
