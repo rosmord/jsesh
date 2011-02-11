@@ -3,7 +3,7 @@ Contains the following folders and modules:
 
 First, modules and files for the current JSesh version :
 
-comments: various text files I keep about JSesh...
+comments: various text files I keep about JSesh, and some unused code (unformal tests and proof-of-concept)
 cupAndlex : a bundle with CUP and LEX. Probably usable for other projects as a maven MOJO.
 cupruntime : the CUP runtime, used by JSesh
 jsesh : the main jsesh library (we will remove the application part from it)

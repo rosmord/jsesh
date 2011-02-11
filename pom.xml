@@ -41,5 +41,7 @@
         <module>jseshDoc</module>
         <module>jseshMac</module>
         <module>jseshOthers</module>
+	<module>jhotdrawfw</module>
+	<module>jseshAppli</module>
   </modules>
 </project>

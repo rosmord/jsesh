@@ -19,6 +19,7 @@ syntax: regexp
 ^src/jsesh/mdc/lex/MDCSymbols\.java$
 syntax: glob
 .*
+*.iml
 syntax: regexp
 ^depcache$
 nbactions.xml
