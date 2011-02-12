@@ -263,8 +263,9 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Convenience method for adding multiple control points with a single
      * coordinate C0.
+     * Changed from addAll to addAllPoints due to an erasure problem.
      */
-    public void addAll(Collection<Point2D.Double> points) {
+    public void addAllPoints(Collection<Point2D.Double> points) {
         for (Point2D.Double c0 : points) {
             add(new Node(0, c0, c0, c0));
         }

@@ -13,8 +13,11 @@
  */
 package org.jhotdraw_7_4_1.app.action;
 
-import java.beans.*;
-import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;
@@ -33,6 +36,7 @@ import org.jhotdraw_7_4_1.app.View;
  * @author Werner Randelshofer
  * @version $Id: AbstractViewAction.java 604 2010-01-09 12:00:29Z rawcoder $
  */
+@SuppressWarnings("serial")
 public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;

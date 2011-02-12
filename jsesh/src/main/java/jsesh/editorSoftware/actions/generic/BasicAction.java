@@ -11,7 +11,7 @@ import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 
 /**
  * Base class for a number of actions in our application.
- * Optionnaly, the action can be aware of a number of events, and activate accordingly.
+ * Optionally, the action can be aware of a number of events, and activate accordingly.
  * @author rosmord
  */
 public abstract class BasicAction extends AbstractAction {
