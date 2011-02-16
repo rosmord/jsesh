@@ -1,4 +1,4 @@
-package jsesh.editor.actions;
+package jsesh.editor.actions.text;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 import jsesh.swing.ImageIconFactory;
 
 /**

@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.editor.actions;
+package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

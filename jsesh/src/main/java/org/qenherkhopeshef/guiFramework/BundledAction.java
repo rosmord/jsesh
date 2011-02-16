@@ -1,17 +1,11 @@
 package org.qenherkhopeshef.guiFramework;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.KeyStroke;
 
 /**
  * Action which takes (most of) its informations from a ressource bundle. from
@@ -27,10 +21,7 @@ public class BundledAction extends AbstractAction {
      * actions, save those of define them for themselves.
      */
     public static final String DEFAULT_ACTION_NAME = "defaultAction";
-    /**
-     * Boolean conditions that should be met so that the action is possible.
-     */
-    public static final String PRECONDITIONS = "Preconditions";
+  
     /**
      * For "radio-button" actions, the name of their groups.
      */
@@ -52,10 +43,6 @@ public class BundledAction extends AbstractAction {
      * For actions linked with a property, the value of the property.
      */
     public static final String PROPERTY_VALUE = "PropertyValue";
-    /**
-     * For Menu actions, optionally, the number of columns.
-     */
-    public static final String NUMBER_OF_COLUMNS = "NumberOfColumns";
     /**
      * For Menu actions, can the menu be torn off ?
      * possible values are "y" and "n".
@@ -81,16 +68,6 @@ public class BundledAction extends AbstractAction {
      * Hence we propose an explicit way.
      */
     public static final String METHOD_ARGUMENT = "Argument";
-    /**
-     * Property to control the content of a menu depending on the platform.
-     * Some actions won't appear on certain menus.
-     */
-    private final static String actionKeys[] = {Action.NAME,
-        Action.SHORT_DESCRIPTION, Action.LONG_DESCRIPTION,
-        Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,
-        Action.ACCELERATOR_KEY, Action.MNEMONIC_KEY,
-        TEAR_OFF,
-        PRECONDITIONS, GROUP_PROPERTY, BOOLEAN_PROPERTY, METHOD_ARGUMENT, NUMBER_OF_COLUMNS, IS_LABELLED, PROXY_METHOD};
     /**
      * The object which will receive this action's input.
      */
@@ -141,13 +118,13 @@ public class BundledAction extends AbstractAction {
         System.arraycopy(m, 1, methodArguments, 0, methodArguments.length);
 
         // Empty precondition table.
-        putValue(PRECONDITIONS, new String[0]);
+        putValue(BundledActionFiller.PRECONDITIONS, new String[0]);
 
         if (!methodName.endsWith("Menu")) {
-            initActionProperties(DEFAULT_ACTION_NAME, defaults);
+            BundledActionFiller.initActionProperties(this, DEFAULT_ACTION_NAME, defaults);
         }
 
-        initActionProperties(actionName, defaults);
+        BundledActionFiller.initActionProperties(this, actionName, defaults);
 
         // Explicit setting of arguments.
         if (getValue(METHOD_ARGUMENT) != null) {
@@ -188,75 +165,6 @@ public class BundledAction extends AbstractAction {
         return actualTarget;
     }
 
-    /**
-     * fill the action information using the default data
-     * @param actionName
-     * @param defaults
-     * @throws java.lang.NumberFormatException
-     * @throws java.awt.HeadlessException
-     */
-    private void initActionProperties(String actionName, AppDefaults defaults) throws NumberFormatException, HeadlessException {
-        for (int i = 0; i < actionKeys.length; i++) {
-            String k = actionKeys[i];
-            String mk = actionName + "." + k;
-            if (k == Action.MNEMONIC_KEY) {
-                putValue(k, defaults.getKeyCode(mk));
-            } else if (k == Action.ACCELERATOR_KEY) {
-                // Now, we want to deal with accelerator keys
-                // differently on macs and on other system.
-                // for this we introduce the "shortcut"
-                String keyStroke = defaults.getString(mk);
-                if (keyStroke != null && keyStroke.startsWith("shortcut")) {
-                    int shortCutMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
-                    String replaceString = "control";
-                    switch (shortCutMask) {
-                        case KeyEvent.META_MASK:
-                            replaceString = "meta";
-                            break;
-                        case KeyEvent.ALT_MASK:
-                            replaceString = "alt"; // Not likely at all...
-                            break;
-                    }
-                    String actualShortcut = keyStroke.replaceFirst("shortcut", replaceString);
-                    putValue(k, KeyStroke.getKeyStroke(actualShortcut));
-                } else {
-                    putValue(k, defaults.getKeyStroke(mk));
-                }
-            } else if (k == Action.SMALL_ICON) {
-                // If we don't get an icon straight from the UIDefault..
-                if (defaults.getIcon(mk) == null) {
-                    // we consider the data as a string...
-                    if (defaults.get(mk) instanceof String) {
-                        String iconPath = (String) defaults.get(mk);
-                        if (iconPath != null) {
-                            // Normally always true
-                            Icon icon = new ImageIcon(this.getClass().getResource(iconPath));
-                            putValue(k, icon);
-                        }
-                    }
-                } else {
-                    putValue(k, defaults.getIcon(mk));
-                }
-            } else if (k == PRECONDITIONS) {
-                if (defaults.getString(mk) != null) {
-                    // if precondition string is empty, remove existing ones.
-                    if ("".equals(defaults.getString(mk))) {
-                        putValue(k, null);
-                    } else {
-                        String[] s = defaults.getString(mk).split(", *");
-                        putValue(k, s);
-                    }
-                }
-            } else if (k == NUMBER_OF_COLUMNS) {
-                if (defaults.getString(mk) != null) {
-                    int ncols = Integer.parseInt(defaults.getString(mk));
-                    putValue(NUMBER_OF_COLUMNS, new Integer(ncols));
-                }
-            } else {
-                putValue(k, defaults.get(mk));
-            }
-        }
-    }
 
     private void prepareBooleanValue() {
         putValue(PROPERTY_NAME, getValue(BOOLEAN_PROPERTY));
@@ -344,6 +252,6 @@ public class BundledAction extends AbstractAction {
     }
 
     public String[] getPreconditions() {
-        return (String[]) getValue(PRECONDITIONS);
+        return (String[]) getValue(BundledActionFiller.PRECONDITIONS);
     }
 }

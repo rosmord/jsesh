@@ -1,14 +1,10 @@
 package org.qenherkhopeshef.guiFramework.demo.simple;
 
-import java.awt.BorderLayout;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Action;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JRadioButton;
 import javax.swing.JToolBar;

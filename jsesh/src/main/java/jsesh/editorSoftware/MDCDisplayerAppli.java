@@ -32,6 +32,8 @@ import javax.swing.UIManager;
 
 import jsesh.Version;
 import jsesh.editor.MDCEditorKeyManager;
+import jsesh.editor.actions.edit.CopyAsAction;
+import jsesh.editor.actions.edit.PasteAction;
 import jsesh.editorSoftware.actions.AboutAction;
 import jsesh.editorSoftware.actions.DisplayJavaPropertiesAction;
 import jsesh.editorSoftware.actions.DocumentationAction;
@@ -121,18 +123,6 @@ public class MDCDisplayerAppli {
 	private void loadDemo() {
 		Reader r = ResourcesManager.getInstance().getDemoData();
 		workflow.loadData(r);
-		// Reader r= new
-		// FileReader("/home/rosmord/HieroFinal/inBase/amenemope.hie");
-		// r= new
-		// StringReader("r:a-ra-m-!-t:A-p*t:pt-n\\200:(x:t)*U30\\200-xAst-!-s-r:D-A1");
-		// r= new StringReader("<h-m-p*t:pt->");
-
-		// Test :
-		/*
-		 * MdCModelWriter w = new MdCModelWriter(); OutputStreamWriter outw =
-		 * new OutputStreamWriter(System.out); w.write(outw, data.getModel());
-		 * outw.flush();
-		 */
 	}
 
 	public JMenuBar buildMenuBar() {
@@ -143,15 +133,15 @@ public class MDCDisplayerAppli {
 
 		MenuUtils.addWithShortCut(fileMenu, new NewTextAction("New", workflow),
 				KeyEvent.VK_N);
-		
-		MenuUtils.addWithShortCut(fileMenu, new OpenTextAction("Open", workflow),
-				KeyEvent.VK_O);
-		
-		MenuUtils.addWithShortCut(fileMenu, new WorkflowMethodAction(workflow, "Save", "saveText"),
-				KeyEvent.VK_S);
-		
-		MenuUtils.addWithShortCut(fileMenu, new SaveTextAsAction("Save As", workflow),
-				KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK);
+
+		MenuUtils.addWithShortCut(fileMenu,
+				new OpenTextAction("Open", workflow), KeyEvent.VK_O);
+
+		MenuUtils.addWithShortCut(fileMenu, new WorkflowMethodAction(workflow,
+				"Save", "saveText"), KeyEvent.VK_S);
+
+		MenuUtils.addWithShortCut(fileMenu, new SaveTextAsAction("Save As",
+				workflow), KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK);
 
 		JMenu importMenu = new JMenu("Import");
 		importMenu.add(new WorkflowMethodAction(workflow,
@@ -168,9 +158,9 @@ public class MDCDisplayerAppli {
 				new Integer('X'));
 		menubar.add(fileMenu);
 
-		MenuUtils.addWithShortCut(exportMenu, new WorkflowMethodAction(workflow,
-				"Export as JPEG or PNG", "exportAsBitmap"), KeyEvent.VK_B,
-				InputEvent.SHIFT_DOWN_MASK);
+		MenuUtils.addWithShortCut(exportMenu, new WorkflowMethodAction(
+				workflow, "Export as JPEG or PNG", "exportAsBitmap"),
+				KeyEvent.VK_B, InputEvent.SHIFT_DOWN_MASK);
 		exportMenu.add(new WorkflowMethodAction(workflow, "Export as Wmf",
 				"exportAsWMF", true));
 		exportMenu.add(new WorkflowMethodAction(workflow, "Export as Emf",
@@ -190,10 +180,13 @@ public class MDCDisplayerAppli {
 		/*
 		 * Temporary system (for book editing) : "mass-produce" small PDF.
 		 */
-		
-		MenuUtils.addWithShortCut(exportMenu, new WorkflowMethodAction(workflow, "Quick PDF Export", "quickPDFExport"), KeyEvent.VK_F1);
-		exportMenu.add(new WorkflowMethodAction(workflow, "Select PDF export folder", "quickPDFExportFolderSelect"));
-			
+
+		MenuUtils
+				.addWithShortCut(exportMenu, new WorkflowMethodAction(workflow,
+						"Quick PDF Export", "quickPDFExport"), KeyEvent.VK_F1);
+		exportMenu.add(new WorkflowMethodAction(workflow,
+				"Select PDF export folder", "quickPDFExportFolderSelect"));
+
 		JMenu edit = new JMenu("Edit");
 		edit.setMnemonic(KeyEvent.VK_E);
 
@@ -217,28 +210,33 @@ public class MDCDisplayerAppli {
 				MDCEditorKeyManager.CUT, true), KeyEvent.VK_X);
 		MenuUtils.addWithShortCut(edit, new ForwardedAction(workflow, "Copy",
 				MDCEditorKeyManager.COPY, true), KeyEvent.VK_C);
-		MenuUtils.addWithShortCut(edit, new ForwardedAction(workflow, "Paste",
-				MDCEditorKeyManager.PASTE), KeyEvent.VK_V);
+		
+		addEditorAction(edit, PasteAction.ID);
 
 		JMenu copyAs = new JMenu("Copy as...");
-		copyAs.add(new ForwardedAction(workflow, "Copy as PDF", "COPY_AS_PDF"));
-		copyAs.add(new ForwardedAction(workflow, "Copy as RTF", "COPY_AS_RTF"));
-		copyAs.add(new ForwardedAction(workflow,
-				"Copy as BITMAP (JPEG,PNG...)", "COPY_AS_BITMAP"));
+		
+		addEditorAction(copyAs, CopyAsAction.COPY_AS_PDF);
+		addEditorAction(copyAs, CopyAsAction.COPY_AS_RTF);
+		addEditorAction(copyAs, CopyAsAction.COPY_AS_BITMAP);
 
 		edit.add(copyAs);
 
 		edit.addSeparator();
-		MenuUtils.addWithShortCut(edit, workflow.getSelectAllAction(), KeyEvent.VK_A);
+		MenuUtils.addWithShortCut(edit, workflow.getSelectAllAction(),
+				KeyEvent.VK_A);
 		edit.addSeparator();
-		MenuUtils.addWithShortCut(edit, workflow.getSetHieroglyphicModeAction(),
-				KeyEvent.VK_N);
-		MenuUtils.addWithShortCut(edit, workflow.getSetLatinModeAction(), KeyEvent.VK_D);
-		MenuUtils.addWithShortCut(edit, workflow.getSetBoldModeAction(), KeyEvent.VK_B);
-		MenuUtils.addWithShortCut(edit, workflow.getSetItalicModeAction(), KeyEvent.VK_I);
-		MenuUtils.addWithShortCut(edit, workflow.getSetTransliterationModeAction(),
-				KeyEvent.VK_T);
-		MenuUtils.addWithShortCut(edit, workflow.getSetLinePageNumberModeAction(),
+		MenuUtils.addWithShortCut(edit,
+				workflow.getSetHieroglyphicModeAction(), KeyEvent.VK_N);
+		MenuUtils.addWithShortCut(edit, workflow.getSetLatinModeAction(),
+				KeyEvent.VK_D);
+		MenuUtils.addWithShortCut(edit, workflow.getSetBoldModeAction(),
+				KeyEvent.VK_B);
+		MenuUtils.addWithShortCut(edit, workflow.getSetItalicModeAction(),
+				KeyEvent.VK_I);
+		MenuUtils.addWithShortCut(edit,
+				workflow.getSetTransliterationModeAction(), KeyEvent.VK_T);
+		MenuUtils.addWithShortCut(edit,
+				workflow.getSetLinePageNumberModeAction(),
 				KeyEvent.VK_EXCLAMATION_MARK);
 		edit.add(new WorkflowMethodAction(workflow, "Add Short Text",
 				"addShortText"));
@@ -270,29 +268,32 @@ public class MDCDisplayerAppli {
 		// For mac, command-H is usually used by the system (hides windows).
 
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-			MenuUtils.addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
-					KeyEvent.VK_J);
+			MenuUtils.addWithShortCut(manipulate,
+					workflow.getGroupHorizontallyAction(), KeyEvent.VK_J);
 		} else {
-			MenuUtils.addWithShortCut(manipulate, workflow.getGroupHorizontallyAction(),
-					KeyEvent.VK_H);
+			MenuUtils.addWithShortCut(manipulate,
+					workflow.getGroupHorizontallyAction(), KeyEvent.VK_H);
 		}
-		MenuUtils.addWithShortCut(manipulate, workflow.getGroupVerticallyAction(),
-				KeyEvent.VK_G);
-		MenuUtils.addWithShortCut(manipulate, workflow.getLigatureAction(), KeyEvent.VK_L);
-		MenuUtils.addWithShortCut(manipulate, workflow.getLigatureBeforeAction(),
-				KeyEvent.VK_K);
-		MenuUtils.addWithShortCut(manipulate, workflow.getLigatureAfterAction(),
-				KeyEvent.VK_M);
+		MenuUtils.addWithShortCut(manipulate,
+				workflow.getGroupVerticallyAction(), KeyEvent.VK_G);
+		MenuUtils.addWithShortCut(manipulate, workflow.getLigatureAction(),
+				KeyEvent.VK_L);
+		MenuUtils.addWithShortCut(manipulate,
+				workflow.getLigatureBeforeAction(), KeyEvent.VK_K);
+		MenuUtils.addWithShortCut(manipulate,
+				workflow.getLigatureAfterAction(), KeyEvent.VK_M);
 		MenuUtils.addWithShortCut(manipulate, workflow.getExplodeGroupAction(),
 				KeyEvent.VK_E);
 		manipulate.addSeparator();
 
 		MenuUtils.addWithShortCut(manipulate, workflow.getInsertSpaceAction(),
 				KeyEvent.VK_P);
-		MenuUtils.addWithShortCut(manipulate, workflow.getInsertHalfSpaceAction(),
-				KeyEvent.VK_P, InputEvent.SHIFT_DOWN_MASK);
-		MenuUtils.addWithShortCut(manipulate, workflow.getInsertPageBreakAction(),
-				KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK);
+		MenuUtils.addWithShortCut(manipulate,
+				workflow.getInsertHalfSpaceAction(), KeyEvent.VK_P,
+				InputEvent.SHIFT_DOWN_MASK);
+		MenuUtils.addWithShortCut(manipulate,
+				workflow.getInsertPageBreakAction(), KeyEvent.VK_ENTER,
+				InputEvent.SHIFT_DOWN_MASK);
 
 		manipulate.add(workflow.getInsertRedPointAction());
 		manipulate.add(workflow.getInsertBlackPointAction());
@@ -319,7 +320,8 @@ public class MDCDisplayerAppli {
 		// KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK);
 		manipulate.add(workflow.getUnShadeZoneAction());
 		// manipulate.add(workflow.getInsertPageBreakAction());
-		MenuUtils.addWithShortCut(manipulate, workflow.getPaintRedAction(), KeyEvent.VK_R);
+		MenuUtils.addWithShortCut(manipulate, workflow.getPaintRedAction(),
+				KeyEvent.VK_R);
 		MenuUtils.addWithShortCut(manipulate, workflow.getPaintBlackAction(),
 				KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK);
 		MenuUtils.addWithShortCut(manipulate, workflow.getEditGroupAction(),
@@ -380,9 +382,7 @@ public class MDCDisplayerAppli {
 		view.add(directionMenu);
 		view.addSeparator();
 		// Small signs on base line ?
-		view
-				.add(new JCheckBoxMenuItem(workflow
-						.getSelectCenteredSignsAction()));
+		view.add(new JCheckBoxMenuItem(workflow.getSelectCenteredSignsAction()));
 		menubar.add(view);
 
 		ButtonGroup orientationGroup = new ButtonGroup();
@@ -429,6 +429,15 @@ public class MDCDisplayerAppli {
 
 		menubar.add(help);
 		return menubar;
+	}
+
+	/**
+	 * Add an action from the editor itself to a menu.
+	 * @param menu : a menu
+	 * @param iD : the id of the action.
+	 */
+	private void addEditorAction(JMenu menu, String iD) {
+		menu.add(this.frame.editor.getActionMap().get(iD));
 	}
 
 	private void buildToolsMenus(JMenuBar menubar2) {
@@ -545,8 +554,7 @@ public class MDCDisplayerAppli {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * @see jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #codeSelected(java.lang.String)
 		 */
 		public void codeSelected(String code) {
@@ -557,8 +565,7 @@ public class MDCDisplayerAppli {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * @see jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #enter(java.lang.String)
 		 */
 		public void enter(String code) {
@@ -568,8 +575,7 @@ public class MDCDisplayerAppli {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
+		 * @see jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener
 		 * #exit(java.lang.String)
 		 */
 		public void exit(String code) {
@@ -694,7 +700,8 @@ public class MDCDisplayerAppli {
 
 		if (!CompositeHieroglyphsManager.getInstance().isUserFileCorrect()) {
 			JOptionPane
-					.showMessageDialog(a.frame,
+					.showMessageDialog(
+							a.frame,
 							"I had difficulties reading the signs definitions\n"
 									+ "Maybe it's because of the file "
 									+ CompositeHieroglyphsManager

@@ -14,8 +14,11 @@ import javax.swing.SwingUtilities;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCEditorKeyManager;
+import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocumentReader;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 import org.jhotdraw_7_4_1.app.AbstractView;
 import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
@@ -26,17 +29,18 @@ import org.jhotdraw_7_4_1.app.action.edit.UndoAction;
 import org.jhotdraw_7_4_1.gui.URIChooser;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
+@SuppressWarnings("serial")
 public class JSeshView extends AbstractView {
 
 	private JSeshViewModel viewModel;
 
 	public JSeshView() {
+		viewModel= new JSeshViewModel();
 	}
 
 	@Override
 	public void init() {
 		setFocusable(false); // Focus should go to the editor, not to the JSeshView panel itself !
-		viewModel= new JSeshViewModel();
 		setLayout(new BorderLayout());
 		add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
 		observeChanges();
@@ -66,8 +70,7 @@ public class JSeshView extends AbstractView {
 		getActionMap().put(CutAction.ID,
 				getEditor().getActionMap().get(MDCEditorKeyManager.CUT));
 		getActionMap().put(PasteAction.ID,
-				getEditor().getActionMap().get(MDCEditorKeyManager.PASTE));
-
+				getEditor().getActionMap().get(jsesh.editor.actions.edit.PasteAction.ID));
 	}
 
 	public void clear() {
@@ -145,4 +148,77 @@ public class JSeshView extends AbstractView {
 		viewModel.setEnabled(enabled);
 		super.setEnabled(enabled);
 	}
+
+	/**
+	 * Returns the current caret.
+	 * TODO : we should simplify this... the inner code should not use so many layers.
+	 * @return a caret.
+	 */
+	public MDCCaret getCaret() {
+		return viewModel.getEditor().getWorkflow().getCaret();
+	}
+
+	/**
+	 * Returns the current drawing specifications.
+	 * TODO : we should simplify this... the inner code should not use so many layers.
+	 * @return a caret.
+	 */
+	public DrawingSpecification getDrawingSpecifications() {
+		return viewModel.getEditor().getDrawingSpecifications();
+	}
+
+	/**
+	 * Returns the inner text representation.
+	 * TODO : we should probably simplify this... or return the HieroglyphicTextModel.
+	 * getModel() should probably be called getText().
+	 * @return
+	 */
+	public TopItemList getTopItemList() {
+		return viewModel.getEditor().getWorkflow().getHieroglyphicTextModel().getModel();
+	}
 }
+
+
+// list of the methods used through getEditor().getWorkflow().
+// 		workflow.getEditor().getWorkflow().changeAngle(angle);
+//			this.workflow.getEditor().getWorkflow().resizeSign(size);
+//			getEditor().getWorkflow().ligatureElements();
+//	        239: getEditor().getWorkflow().ligatureElements(); 
+//246: getEditor().getWorkflow().ligatureBefore(); 
+//253: getEditor().getWorkflow().ligatureAfter(); 
+//261: getEditor().getWorkflow().redZone(false); 
+//268: getEditor().getWorkflow().redZone(true); 
+//279: getEditor().getWorkflow().reverseSign(); 
+//291: getEditor().getWorkflow().setMode('b'); 
+//298: getEditor().getWorkflow().setMode('s'); 
+//305: getEditor().getWorkflow().setMode('i'); 
+//312: getEditor().getWorkflow().setMode('l'); 
+//319: getEditor().getWorkflow().setMode('t'); 
+//326: getEditor().getWorkflow().setMode('|'); 
+//336: getEditor().getWorkflow().shadeZone(true); 
+//342: getEditor().getWorkflow().setSignIsInsideWord(); 
+//348: getEditor().getWorkflow().setSignIsAtSentenceEnd(); 
+//354: getEditor().getWorkflow().setSignIsAtWordEnd(); 
+//360: getEditor().getWorkflow().toggleGrammar(); 
+//366: getEditor().getWorkflow().toggleIgnoredSign(); 
+//372: getEditor().getWorkflow().toggleRedSign(); 
+//378: getEditor().getWorkflow().toggleWideSign(); 
+//385: getEditor().getWorkflow().shadeZone(false); 
+//437: AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup(); 
+//445: getEditor().getWorkflow().replaceSelectionByAbsoluteGroup(g); 
+//469: getEditor().getWorkflow().doShade(shade); 
+//481: getEditor().getWorkflow().doShadeSign(shade); 
+//488: getEditor().getWorkflow().addPhilologicalMarkup(code); 
+//495: getEditor().getWorkflow().insertMDC("\"" + protectedText + "\""); 
+//502: getEditor().getWorkflow().insertElement(element); 
+//511: getEditor().getWorkflow().addCartouche(type, start, end); 
+//547: getEditor().getWorkflow().selectAll(); 
+//554: getEditor().getWorkflow().insertPageBreak(); 
+//561: getEditor().getWorkflow().explodeGroup(); 
+//567: getEditor().getWorkflow().groupVertical(); 
+//573: getEditor().getWorkflow().groupHorizontally(); 
+//595: getEditor().getWorkflow().clear(); 
+//1 140: getEditor().getWorkflow().addSign(code);
+// Varia : 
+// 1 518: caretActionManager = new CaretActionManager(getEditor().getWorkflow()); 
+// 1 852: new UndoRedoActionManager(getEditor().getWorkflow(), undoAction, 

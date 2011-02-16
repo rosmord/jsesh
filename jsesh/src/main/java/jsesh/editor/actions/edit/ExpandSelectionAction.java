@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.editor.actions;
+package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 
 /**
  * @author S. Rosmorduc
@@ -21,6 +22,7 @@ public class ExpandSelectionAction extends EditorAction  {
 	private int dir;
 	/**
 	 * Action that expand the selection in the direction dir.
+	 * @param editor : the editor.
 	 * @param dir : -1 for left, 1 for right ; -2 for left and -1 for right.
 	 */
 	public ExpandSelectionAction(JMDCEditor editor, int dir) {

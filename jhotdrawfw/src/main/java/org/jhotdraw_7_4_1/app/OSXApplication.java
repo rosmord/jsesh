@@ -13,15 +13,35 @@
  */
 package org.jhotdraw_7_4_1.app;
 
-import ch.randelshofer.quaqua.QuaquaManager;
-import java.util.*;
-import java.util.prefs.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.awt.*;
-import javax.swing.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.net.URI;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.prefs.Preferences;
+
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRootPane;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.jhotdraw_7_4_1.app.action.ActionUtil;
 import org.jhotdraw_7_4_1.app.action.app.AboutAction;
@@ -63,8 +83,10 @@ import org.jhotdraw_7_4_1.app.osx.OSXPaletteHandler;
 import org.jhotdraw_7_4_1.beans.Disposable;
 import org.jhotdraw_7_4_1.gui.Worker;
 import org.jhotdraw_7_4_1.net.URIUtil;
-import org.jhotdraw_7_4_1.util.*;
-import org.jhotdraw_7_4_1.util.prefs.*;
+import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
+import org.jhotdraw_7_4_1.util.prefs.PreferencesUtil;
+
+import ch.randelshofer.quaqua.QuaquaManager;
 
 /**
  * {@code OSXApplication} handles the lifecycle of {@link View}s using a

@@ -2,13 +2,14 @@
  * Created on 30 sept. 2004 by rosmord
  * This code can be distributed under the Gnu Library Public Licence.
  **/
-package jsesh.editor.actions;
+package jsesh.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 
 /**
  * TODO describe type
@@ -16,9 +17,9 @@ import jsesh.editor.JMDCEditor;
  * @author rosmord
  * 
  */
-public class GoLeftAction extends EditorAction {
+public class GoRightAction extends EditorAction {
 
-	public GoLeftAction(JMDCEditor editor) {
+	public GoRightAction(JMDCEditor editor) {
 		super(editor);
 	}
 
@@ -32,17 +33,18 @@ public class GoLeftAction extends EditorAction {
 		if (editor.getDrawingSpecifications().getTextDirection().isLeftToRight()) {
 			if (editor.getDrawingSpecifications().getTextOrientation()
 					.isHorizontal())
-				editor.getWorkflow().cursorPrevious();
+				editor.getWorkflow().cursorNext();
 			else
-				editor.getWorkflow().cursorUp();
+				editor.getWorkflow().cursorDown();
 		} else {
 			if (editor.getDrawingSpecifications().getTextOrientation()
 					.isHorizontal()) {
-				editor.getWorkflow().cursorNext();
+				editor.getWorkflow().cursorPrevious();
 			} else {
-				editor.getWorkflow().cursorDown();
+				editor.getWorkflow().cursorUp();
 			}
 		}
+
 	}
 
 }

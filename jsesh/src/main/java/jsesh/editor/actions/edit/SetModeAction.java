@@ -1,8 +1,9 @@
-package jsesh.editor.actions;
+package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 
 public class SetModeAction extends EditorAction {
 

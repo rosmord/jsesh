@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,6 +30,7 @@ import javax.swing.filechooser.FileFilter;
 
 import jsesh.swing.RestrictedCharFormatter;
 import jsesh.utils.FileUtils;
+import jsesh.utils.JSeshWorkingDirectory;
 
 import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;
 
@@ -40,11 +42,12 @@ import com.jgoodies.forms.layout.FormLayout;
  * 
  * @author Serge Rosmorduc
  * 
- * This file is free software under the Gnu Lesser Public License.
+ *         This file is free software under the Gnu Lesser Public License.
  */
 public class BitmapExporter {
 
 	private Component parent;
+
 	/**
 	 * The export file name
 	 */
@@ -66,8 +69,8 @@ public class BitmapExporter {
 	boolean transparency;
 
 	int cadratHeight;
-	
-	Color backgroundColor= Color.WHITE;
+
+	Color backgroundColor = Color.WHITE;
 
 	/**
 	 * The index of the selected format in the outputFormat table.
@@ -80,16 +83,17 @@ public class BitmapExporter {
 	public static final String outputFormats[] = { "png", "jpg" };
 
 	/**
-	 * 
+	 * Create a new bitmap exporter.
 	 */
 	public BitmapExporter(Component parent) {
-		this.parent= parent;
+		this.parent = parent;
 		outputFormatIndex = 0;
 		setSingleOutputFile(new File("unnamed.png"));
 		multiFile = false;
 		basename = "unnamed";
 		transparency = true;
 		cadratHeight = 32;
+		initFromPreferences();
 	}
 
 	/**
@@ -116,7 +120,8 @@ public class BitmapExporter {
 
 	public void export(ExportData data) {
 		try {
-			double length = data.getDrawingSpecifications().getHieroglyphsDrawer().getHeightOfA1();
+			double length = data.getDrawingSpecifications()
+					.getHieroglyphsDrawer().getHeightOfA1();
 			data.setScale(this.cadratHeight / length);
 			if (multiFile)
 				exportAll(data);
@@ -128,7 +133,7 @@ public class BitmapExporter {
 	}
 
 	public void exportAll(ExportData data) throws IOException {
-		
+
 		SelectionExporter exporter = new SelectionExporter(data,
 				new MultipleGraphicsFactory());
 		if (getEffectiveTransparency())
@@ -137,7 +142,7 @@ public class BitmapExporter {
 			exporter.setBackground(Color.WHITE);
 		exporter.setTransparency(getEffectiveTransparency());
 		exporter.exportToPages();
-		
+
 	}
 
 	public void exportSelection(ExportData data) throws IOException {
@@ -186,22 +191,22 @@ public class BitmapExporter {
 		private Dimension2D scaledDimensions;
 
 		public void setDimension(Dimension2D deviceDimensions) {
-			scaledDimensions = deviceDimensions;	
+			scaledDimensions = deviceDimensions;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.graphics.export.BaseGraphics2DFactory#buildGraphics(java.io.File,
-		 *      java.awt.Dimension)
+		 * @see
+		 * jsesh.graphics.export.BaseGraphics2DFactory#buildGraphics(java.io
+		 * .File, java.awt.Dimension)
 		 */
-		public Graphics2D buildGraphics()
-				throws IOException {
+		public Graphics2D buildGraphics() throws IOException {
 			OutputStream out = new FileOutputStream(getSingleOutputFile());
 			BitmapStreamGraphics g = new BitmapStreamGraphics(out,
 					scaledDimensions, outputFormats[outputFormatIndex],
 					getEffectiveTransparency());
-			if (! getEffectiveTransparency())
+			if (!getEffectiveTransparency())
 				g.fillWith(backgroundColor);
 			return g;
 		}
@@ -222,44 +227,44 @@ public class BitmapExporter {
 	 */
 	private class MultipleGraphicsFactory implements BaseGraphics2DFactory {
 
-		private int n= 1;
-		
+		private int n = 1;
+
 		private Dimension2D scaledDimensions;
-		
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.graphics.export.BaseGraphics2DFactory#buildGraphics(java.io.File,
-		 *      java.awt.Dimension)
+		 * @see
+		 * jsesh.graphics.export.BaseGraphics2DFactory#buildGraphics(java.io
+		 * .File, java.awt.Dimension)
 		 */
-		public Graphics2D buildGraphics()
-				throws IOException {
-			String num= ""+n;
+		public Graphics2D buildGraphics() throws IOException {
+			String num = "" + n;
 			n++;
-			if (num.length()== 1)
-				num= "00" + num;
+			if (num.length() == 1)
+				num = "00" + num;
 			else if (num.length() == 2)
-				num= "0" + num;
-			File f= new File(directory, basename+ num+ "."+ outputFormats[outputFormatIndex]);
+				num = "0" + num;
+			File f = new File(directory, basename + num + "."
+					+ outputFormats[outputFormatIndex]);
 			OutputStream out = new FileOutputStream(f);
 			BitmapStreamGraphics g = new BitmapStreamGraphics(out,
 					scaledDimensions, outputFormats[outputFormatIndex],
 					getEffectiveTransparency());
-			if (! getEffectiveTransparency())
+			if (!getEffectiveTransparency())
 				g.fillWith(backgroundColor);
 			return g;
 		}
 
 		public void setDimension(Dimension2D scaledDimensions) {
-			this.scaledDimensions= scaledDimensions;
+			this.scaledDimensions = scaledDimensions;
 		}
-		
+
 		public void writeGraphics() throws IOException {
 			// NO-OP
 		}
 	}
 
-	
 	private class BitmapOptionPanel extends ExportOptionPanel implements
 			ActionListener {
 
@@ -387,14 +392,16 @@ public class BitmapExporter {
 		/*
 		 * (non-Javadoc) called when using the "browse button".
 		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+		 * )
 		 */
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == browseButton) {
 				int userResult;
-				JFileChooser chooser = new JFileChooser((File) fileField
-						.getValue());
+				JFileChooser chooser = new JFileChooser(
+						(File) fileField.getValue());
 
 				if (!multiFile) {
 					// Select only our formats.
@@ -406,8 +413,10 @@ public class BitmapExporter {
 							int i = 0;
 							while (!result && i < outputFormats.length) {
 								result = result
-										|| f.getName().toLowerCase().endsWith(
-												"." + outputFormats[i]);
+										|| f.getName()
+												.toLowerCase()
+												.endsWith(
+														"." + outputFormats[i]);
 								i++;
 							}
 							return result;
@@ -453,7 +462,7 @@ public class BitmapExporter {
 				File file = (File) fileField.getValue();
 				String ext = FileUtils.getExtension(file);
 				if (ext != null) {
-					List l = Arrays.asList(outputFormats);
+					List<String> l = Arrays.asList(outputFormats);
 					if (l.contains(ext)) {
 						// Known extension
 						mustCorrectExtension = false;
@@ -482,23 +491,65 @@ public class BitmapExporter {
 			if (multiFile) {
 				directory = (File) fileField.getValue();
 				basename = (String) baseNameField.getValue();
-			} else
+			} else {
 				setSingleOutputFile((File) fileField.getValue());
-
+			}
 			transparency = transparentField.isSelected();
-
 			cadratHeight = ((Number) cadratHeightField.getValue()).intValue();
-
 			outputFormatIndex = outputFormatField.getSelectedIndex();
-
 		}
 	}
-	
+
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
-	
+
 	public Color getBackgroundColor() {
 		return backgroundColor;
+	}
+
+	/**
+	 * Saves the current preferences. TODO : create a more robust preferences
+	 * system.
+	 * <p>
+	 * Some preferences should be shared.
+	 * <p>
+	 * There should be preferences objects, with a way to see them all. later.
+	 */
+	public void savePreferences() {
+		Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+		prefs.putBoolean("bitmap.multiFile", multiFile);
+		if (multiFile) {
+			JSeshWorkingDirectory.setWorkingDirectory(directory);
+			prefs.put("bitmap.baseName", basename);
+		} else {
+			prefs.put("bitmap.file", getSingleOutputFile().getAbsolutePath());
+			JSeshWorkingDirectory.setWorkingDirectory(getSingleOutputFile()
+					.getParentFile());
+		}
+		prefs.putBoolean("bitmap.transparent", transparency);
+		prefs.putInt("bitmap.cadratHeight", cadratHeight);
+		prefs.putInt("bitmap.outputFormatIndex", outputFormatIndex);
+	}
+
+	/**
+	 * Initialize the preferences using saved values.
+	 */
+	public void initFromPreferences() {
+		Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+		transparency= prefs.getBoolean("bitmap.transparent", true);
+		cadratHeight= prefs.getInt("bitmap.cadratHeight", 18);
+		outputFormatIndex= prefs.getInt("bitmap.outputFormatIndex", 0);
+		if (outputFormatIndex>= outputFormats.length)
+			outputFormatIndex= 0;
+
+		multiFile = prefs.getBoolean("bitmap.multiFile", false);
+		directory = JSeshWorkingDirectory.getWorkingDirectory();
+		if (multiFile) {
+			basename = prefs.get("bitmap.baseName", "unnamed");
+		} else {
+			File defaultOutput= new File(directory, "unnamed" + "."+ outputFormats[outputFormatIndex]);
+			setSingleOutputFile(new File(prefs.get("bitmap.file", defaultOutput.getAbsolutePath())));
+		}
 	}
 }

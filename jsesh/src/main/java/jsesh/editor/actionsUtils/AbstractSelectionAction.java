@@ -9,7 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.EditorAction;
+import jsesh.editor.actions.generic.EditorAction;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
 

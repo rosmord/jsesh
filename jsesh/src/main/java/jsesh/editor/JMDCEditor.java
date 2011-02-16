@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
-import jsesh.editor.actions.EditorShadeAction;
+import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;

@@ -16,29 +16,32 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import jsesh.editor.actions.CopyAction;
-import jsesh.editor.actions.CopyAsAction;
-import jsesh.editor.actions.CutAction;
-import jsesh.editor.actions.EditorAction;
-import jsesh.editor.actions.ExpandSelectionAction;
-import jsesh.editor.actions.GoDownAction;
-import jsesh.editor.actions.GoLeftAction;
-import jsesh.editor.actions.GoRightAction;
-import jsesh.editor.actions.GoUpAction;
-import jsesh.editor.actions.GroupHorizontalAction;
-import jsesh.editor.actions.GroupVerticalAction;
-import jsesh.editor.actions.NewLineAction;
-import jsesh.editor.actions.NewPageAction;
-import jsesh.editor.actions.PasteAction;
-import jsesh.editor.actions.RedoAction;
-import jsesh.editor.actions.SelectOrientationAction;
-import jsesh.editor.actions.SelectTextDirectionAction;
-import jsesh.editor.actions.SetModeAction;
-import jsesh.editor.actions.UndoAction;
+import jsesh.editor.actions.AppDefaultFactory;
+import jsesh.editor.actions.edit.CopyAction;
+import jsesh.editor.actions.edit.CopyAsAction;
+import jsesh.editor.actions.edit.CutAction;
+import jsesh.editor.actions.edit.ExpandSelectionAction;
+import jsesh.editor.actions.edit.PasteAction;
+import jsesh.editor.actions.edit.RedoAction;
+import jsesh.editor.actions.edit.SelectAllAction;
+import jsesh.editor.actions.edit.SetModeAction;
+import jsesh.editor.actions.edit.UndoAction;
+import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actions.move.GoDownAction;
+import jsesh.editor.actions.move.GoLeftAction;
+import jsesh.editor.actions.move.GoRightAction;
+import jsesh.editor.actions.move.GoUpAction;
+import jsesh.editor.actions.text.GroupHorizontalAction;
+import jsesh.editor.actions.text.GroupVerticalAction;
+import jsesh.editor.actions.text.NewLineAction;
+import jsesh.editor.actions.text.NewPageAction;
+import jsesh.editor.actions.view.SelectOrientationAction;
+import jsesh.editor.actions.view.SelectTextDirectionAction;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 
+import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
@@ -50,7 +53,7 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  */
 
 public class MDCEditorKeyManager extends KeyAdapter {
-	
+
 	public static final String GO_LEFT = "GO LEFT";
 
 	public static final String GO_RIGHT = "GO RIGHT";
@@ -62,16 +65,6 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	public static final String END_OF_LINE = "END_OF_LINE";
 
 	public static final String COPY = "COPY";
-
-	public static final String COPY_AS_PDF = "COPY_AS_PDF";
-
-	public static final String COPY_AS_RTF = "COPY_AS_RTF";
-	
-	public static final String COPY_AS_BITMAP = "COPY_AS_BITMAP";
-
-	public static final String COPY_AS_MDC = "COPY_AS_MDC";
-
-	public static final String PASTE = "PASTE";
 
 	public static final String CUT = "CUT";
 
@@ -111,8 +104,7 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	public static final String SET_MODE_HIEROGLYPHS = "SET_MODE_HIEROGLYPHS";
 	public static final String SET_MODE_ITALIC = "SET_MODE_ITALIC";
 	public static final String SET_MODE_BOLD = "SET_MODE_BOLD";
-	
-	
+
 	/**
 	 * The "normal " control key for this system.
 	 */
@@ -125,7 +117,7 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	private JMDCEditor editor;
 
 	MDCEditorKeyManager(JMDCEditor editor) {
-		this.editor= editor;
+		this.editor = editor;
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
 			controlKey = "meta";
 		} else {
@@ -143,12 +135,15 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	}
 
 	private void addActions() {
+		AppDefaults appDefaults= AppDefaultFactory.getAppDefaults();
+		
 		addAction(GO_RIGHT, new GoRightAction(editor));
 		addAction(GO_LEFT, new GoLeftAction(editor));
 		addAction(GO_DOWN, new GoDownAction(editor));
 		addAction(GO_UP, new GoUpAction(editor));
-		addAction(BEGINNING_OF_LINE, new EditorAction(editor,"Beginning of line") {
-			public void actionPerformed(ActionEvent e) {			
+		addAction(BEGINNING_OF_LINE, new EditorAction(editor,
+				"Beginning of line") {
+			public void actionPerformed(ActionEvent e) {
 				editor.getWorkflow().cursorToBeginningOfLine();
 			}
 		});
@@ -162,12 +157,17 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		addAction(NEW_LINE, new NewLineAction(editor));
 		addAction(NEW_PAGE, new NewPageAction(editor));
 		addAction(COPY, new CopyAction(editor));
-		addAction(COPY_AS_PDF, new CopyAsAction(editor,"Copy as PDF",JSeshPasteFlavors.PDFFlavor));
-		addAction(COPY_AS_RTF, new CopyAsAction(editor,"Copy as RTF",JSeshPasteFlavors.RTFFlavor));
-		addAction(COPY_AS_BITMAP, new CopyAsAction(editor,"Copy as Bitmap",DataFlavor.imageFlavor));
-		addAction(COPY_AS_MDC, new CopyAsAction(editor, "Copy as MDC",DataFlavor.stringFlavor));
+		addAction(CopyAsAction.COPY_AS_PDF, new CopyAsAction(editor, "Copy as PDF",
+				JSeshPasteFlavors.PDFFlavor));
+		addAction(CopyAsAction.COPY_AS_RTF, new CopyAsAction(editor, "Copy as RTF",
+				JSeshPasteFlavors.RTFFlavor));
+		addAction(CopyAsAction.COPY_AS_BITMAP, new CopyAsAction(editor, "Copy as Bitmap",
+				DataFlavor.imageFlavor));
+		addAction(CopyAsAction.COPY_AS_MDC, new CopyAsAction(editor, "Copy as MDC",
+				DataFlavor.stringFlavor));
 
-		addAction(PASTE, new PasteAction(editor));
+		addAction(PasteAction.ID, new PasteAction(editor));
+		addAction(SelectAllAction.ID, new SelectAllAction(editor, appDefaults));
 		addAction(CUT, new CutAction(editor));
 		addAction(GROUP_HORIZONTAL, new GroupHorizontalAction(editor));
 		addAction(GROUP_VERTICAL, new GroupVerticalAction(editor));
@@ -175,10 +175,10 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		addAction(EXPAND_SELECTION_RIGHT, new ExpandSelectionAction(editor, 1));
 		addAction(EXPAND_SELECTION_UP, new ExpandSelectionAction(editor, -2));
 		addAction(EXPAND_SELECTION_DOWN, new ExpandSelectionAction(editor, 2));
-		addAction(SELECT_HORIZONTAL_ORIENTATION, new SelectOrientationAction(editor,
-				TextOrientation.HORIZONTAL));
-		addAction(SELECT_VERTICAL_ORIENTATION, new SelectOrientationAction(editor,
-				TextOrientation.VERTICAL));
+		addAction(SELECT_HORIZONTAL_ORIENTATION, new SelectOrientationAction(
+				editor, TextOrientation.HORIZONTAL));
+		addAction(SELECT_VERTICAL_ORIENTATION, new SelectOrientationAction(
+				editor, TextOrientation.VERTICAL));
 		addAction(SELECT_L2R_DIRECTION, new SelectTextDirectionAction(editor,
 				TextDirection.LEFT_TO_RIGHT));
 		addAction(SELECT_R2L_DIRECTION, new SelectTextDirectionAction(editor,
@@ -196,6 +196,8 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		inputMap.put(KeyStroke.getKeyStroke(code), command);
 	}
 
+	// NOTE : add all relevant input so that the object can be used stand-alone.
+	
 	private void addInputs() {
 		addInput("LEFT", GO_LEFT);
 		addInput("RIGHT", GO_RIGHT);
@@ -219,15 +221,20 @@ public class MDCEditorKeyManager extends KeyAdapter {
 
 		addInput(controlKey + " C", COPY);
 		addInput(controlKey + " X", CUT);
-		addInput(controlKey + " V", PASTE);
-		addInput(controlKey + " H", GROUP_HORIZONTAL);
+		addInput(controlKey + " V", PasteAction.ID);
+		
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX)
+			addInput(controlKey + " J", GROUP_HORIZONTAL); // J On mac..
+		else
+			addInput(controlKey + " H", GROUP_HORIZONTAL); // J On mac..
 		addInput(controlKey + " G", GROUP_VERTICAL);
 
 		addInput("shift LEFT", EXPAND_SELECTION_LEFT);
 		addInput("shift RIGHT", EXPAND_SELECTION_RIGHT);
 		addInput("shift DOWN", EXPAND_SELECTION_DOWN);
 		addInput("shift UP", EXPAND_SELECTION_UP);
-		addInput(controlKey + " N", SET_MODE_HIEROGLYPHS);
+
+		addInput(controlKey + " E", SET_MODE_HIEROGLYPHS);
 		addInput(controlKey + " D", SET_MODE_LATIN);
 		addInput(controlKey + " I", SET_MODE_ITALIC);
 		addInput(controlKey + " B", SET_MODE_BOLD);
@@ -237,6 +244,7 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		editor.addKeyListener(this);
 		editor.setActionMap(actionMap);
 		editor.setInputMap(JComponent.WHEN_FOCUSED, inputMap);
+		// editor.setInputMap(JComponent.WHEN_FOCUSED, new InputMap());
 	}
 
 	public ActionMap getActionMap() {

@@ -60,14 +60,7 @@ public class ForwardedAction extends BasicAction {
 
 	public void actionPerformed(ActionEvent e) {
 		ActionEvent newEvent= new ActionEvent(applicationWorkflow.getEditor(), 0, getCommand());
-		applicationWorkflow.getEditor().getActionMap().get(getCommand()).actionPerformed(newEvent);
-		/*
-		applicationWorkflow.getEditor().getWorkflow().copy();
-		// TODO : here for test purposes. Move it to the editor ???
-		TopItemList top = applicationWorkflow.getEditor().getWorkflow().getSelectionAsTopItemList();
-		MDCModelTransferable transferable= new MDCModelTransferable(top);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(transferable, null);
-		*/
+		applicationWorkflow.getEditor().getActionMap().get(getCommand()).actionPerformed(newEvent);		
 	}
 
 	private String getCommand() {

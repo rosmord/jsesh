@@ -3,23 +3,20 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.editor.actions;
+package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.KeyStroke;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.AbstractSelectionAction;
 import jsesh.swing.KeyUtils;
 
 /**
+ * 
  * @author S. Rosmorduc
- *
- *
- *
  */
+@SuppressWarnings("serial")
 public class CopyAction extends AbstractSelectionAction {
 	
 	public CopyAction(JMDCEditor editor) {

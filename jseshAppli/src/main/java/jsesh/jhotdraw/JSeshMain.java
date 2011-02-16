@@ -19,8 +19,6 @@ import jsesh.jhotdraw.generic.QenherOSXApplication;
 import jsesh.jhotdraw.generic.QenherOSXLikeApplication;
 
 import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.MDIApplication;
-import org.jhotdraw_7_4_1.app.SDIApplication;
 
 /**
  * JSeshMain class.

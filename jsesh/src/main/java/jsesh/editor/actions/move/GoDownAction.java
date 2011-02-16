@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.editor.actions;
+package jsesh.editor.actions.move;
 
 import java.awt.event.ActionEvent;
 
@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 
 /**
  * @author S. Rosmorduc

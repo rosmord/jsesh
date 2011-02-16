@@ -2,29 +2,29 @@
  * author : Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.editor.actions;
+package jsesh.editor.actions.view;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.editor.actions.generic.EditorAction;
+import jsesh.mdc.constants.TextDirection;
 
 /**
  * @author rosmord
  *
  */
-public class SelectOrientationAction extends EditorAction {
+public class SelectTextDirectionAction extends EditorAction {
+	TextDirection direction;
 
-	TextOrientation orientation;
-	
 	/**
-	 * @param horizontal
+	 * @param direction
 	 */
-	public SelectOrientationAction(JMDCEditor editor, TextOrientation horizontal) {
+	public SelectTextDirectionAction(JMDCEditor editor, TextDirection direction) {
 		super(editor);
-		this.orientation= horizontal;
+		this.direction = direction;
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +32,8 @@ public class SelectOrientationAction extends EditorAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (editor.isEditable())
-			editor.setTextOrientation(orientation);
+			editor.setTextDirection(direction);
 	}
-
+	
+	
 }

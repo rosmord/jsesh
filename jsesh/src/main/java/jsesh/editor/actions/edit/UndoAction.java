@@ -1,9 +1,10 @@
-package jsesh.editor.actions;
+package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.generic.EditorAction;
 import jsesh.swing.KeyUtils;
 
 public class UndoAction extends EditorAction {

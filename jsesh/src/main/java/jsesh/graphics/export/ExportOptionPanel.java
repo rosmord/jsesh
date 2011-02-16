@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 /**
  * A base class for option setting panels.
  * @author rosmord
- *
  */
+@SuppressWarnings("serial")
 public abstract class ExportOptionPanel extends JPanel {
 
 	Component parent;

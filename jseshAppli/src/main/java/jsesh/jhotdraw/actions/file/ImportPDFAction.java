@@ -1,4 +1,4 @@
-package jsesh.jhotdraw.actions;
+package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
 

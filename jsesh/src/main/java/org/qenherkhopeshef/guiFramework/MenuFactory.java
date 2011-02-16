@@ -247,9 +247,9 @@ public class MenuFactory {
 			} else
 				newMenu = new JMenu(action);
 			// Multi-columns menus.
-			if (action.getValue(BundledAction.NUMBER_OF_COLUMNS) != null) {
+			if (action.getValue(BundledActionFiller.NUMBER_OF_COLUMNS) != null) {
 				int ncol = ((Integer) action
-						.getValue(BundledAction.NUMBER_OF_COLUMNS)).intValue();
+						.getValue(BundledActionFiller.NUMBER_OF_COLUMNS)).intValue();
 				newMenu.getPopupMenu().setLayout(new GridLayout(0, ncol));
 			}
 			menuMap.put(actionName, newMenu);
