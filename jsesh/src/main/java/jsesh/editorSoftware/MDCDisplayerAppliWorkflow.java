@@ -564,7 +564,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		groupVerticallyAction = new AbstractAction("Group Vertically") {
 			public void actionPerformed(ActionEvent e) {
-				getEditor().getWorkflow().groupVertical();
+				getEditor().getWorkflow().groupVertically();
 			}
 		};
 

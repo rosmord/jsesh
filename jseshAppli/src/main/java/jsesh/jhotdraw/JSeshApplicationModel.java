@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 
 import jsesh.editor.JMDCEditor;
@@ -22,6 +21,7 @@ import jsesh.swing.signPalette.PalettePresenter;
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.DefaultApplicationModel;
 import org.jhotdraw_7_4_1.app.View;
+import org.jhotdraw_7_4_1.app.action.edit.ClearSelectionAction;
 import org.jhotdraw_7_4_1.app.action.edit.DeleteAction;
 import org.jhotdraw_7_4_1.app.action.edit.DuplicateAction;
 import org.jhotdraw_7_4_1.app.action.edit.SelectAllAction;
@@ -76,19 +76,23 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		ActionMap map = super.createActionMap(a, v);
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
-		map.put(SelectAllAction.ID, getEditorAction(editor, jsesh.editor.actions.edit.SelectAllAction.ID));
-		
+		map.put(SelectAllAction.ID, getEditorAction(editor, jsesh.editor.ActionsID.SELECT_ALL));
+		map.put(ClearSelectionAction.ID, getEditorAction(editor, jsesh.editor.ActionsID.CLEAR_SELECTION));
+                
 		Action copyAsPDF= new CopyAsAction(editor, "",
 				JSeshPasteFlavors.PDFFlavor);		
 		BundleHelper.configure(copyAsPDF, "edit.copyAsPDF");
-		map.put("edit.copyAsPDF", copyAsPDF);
+
+                map.put("edit.copyAsPDF", copyAsPDF);
 		Action copyAsRTF= new CopyAsAction(editor, "",
 				JSeshPasteFlavors.RTFFlavor);		
 		BundleHelper.configure(copyAsRTF, "edit.copyAsRTF");
-		map.put("edit.copyAsRTF", copyAsRTF);
+
+                map.put("edit.copyAsRTF", copyAsRTF);
 		Action copyAsBitmap= new CopyAsAction(editor, "",
 				DataFlavor.imageFlavor);		
-		BundleHelper.configure(copyAsBitmap, "edit.copyAsBitmap");
+
+                BundleHelper.configure(copyAsBitmap, "edit.copyAsBitmap");
 		map.put("edit.copyAsBitmap", copyAsBitmap);
 		return map;
 	}

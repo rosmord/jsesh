@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.swing.KeyUtils;
 
 public class UndoAction extends EditorAction {

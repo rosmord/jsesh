@@ -9,6 +9,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +25,11 @@ import javax.swing.event.HyperlinkListener;
  *
  */
 public class DocDisplayer extends JFrame {
-	
+
+        private static final Logger logger= Logger.getLogger(DocDisplayer.class.getName());
+
+        
+
 	/**
 	 * Singleton.
 	 */
@@ -46,7 +52,7 @@ public class DocDisplayer extends JFrame {
 			docPanel.setPage(base);
 		} catch (IOException e) {
 		    JOptionPane.showMessageDialog(this,"Problem while loading the documentation\n"+ e.getMessage() + "(url : "+ base + ")");
-			e.printStackTrace();	
+                    logger.log(Level.WARNING, e.getMessage());
 		}
 		docPanel.setEditable(false);
 		docPanel.addHyperlinkListener(new Control());
@@ -55,12 +61,14 @@ public class DocDisplayer extends JFrame {
 			/* (non-Javadoc)
 			 * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
 			 */
-			public void windowClosing(WindowEvent e) {
+                       @Override
+    			public void windowClosing(WindowEvent e) {
 				instance= null;
 			}
 			/* (non-Javadoc)
 			 * @see java.awt.event.WindowAdapter#windowClosed(java.awt.event.WindowEvent)
 			 */
+                       @Override
 			public void windowClosed(WindowEvent e) {
 				dispose();
 				instance= null;

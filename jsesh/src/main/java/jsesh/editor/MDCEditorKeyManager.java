@@ -5,11 +5,9 @@
 package jsesh.editor;
 
 import java.awt.datatransfer.DataFlavor;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -23,20 +21,16 @@ import jsesh.editor.actions.edit.CutAction;
 import jsesh.editor.actions.edit.ExpandSelectionAction;
 import jsesh.editor.actions.edit.PasteAction;
 import jsesh.editor.actions.edit.RedoAction;
-import jsesh.editor.actions.edit.SelectAllAction;
 import jsesh.editor.actions.edit.SetModeAction;
 import jsesh.editor.actions.edit.UndoAction;
-import jsesh.editor.actions.generic.EditorAction;
 import jsesh.editor.actions.move.GoDownAction;
 import jsesh.editor.actions.move.GoLeftAction;
 import jsesh.editor.actions.move.GoRightAction;
 import jsesh.editor.actions.move.GoUpAction;
-import jsesh.editor.actions.text.GroupHorizontalAction;
-import jsesh.editor.actions.text.GroupVerticalAction;
-import jsesh.editor.actions.text.NewLineAction;
-import jsesh.editor.actions.text.NewPageAction;
 import jsesh.editor.actions.view.SelectOrientationAction;
 import jsesh.editor.actions.view.SelectTextDirectionAction;
+import jsesh.editor.actionsUtils.DelegatingAction;
+import jsesh.editor.actionsUtils.Enabler;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
@@ -53,57 +47,6 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  */
 
 public class MDCEditorKeyManager extends KeyAdapter {
-
-	public static final String GO_LEFT = "GO LEFT";
-
-	public static final String GO_RIGHT = "GO RIGHT";
-
-	public static final String INSERT_CHAR = "INSERT CHAR";
-
-	public static final String BEGINNING_OF_LINE = "BEGINNING OF LINE";
-
-	public static final String END_OF_LINE = "END_OF_LINE";
-
-	public static final String COPY = "COPY";
-
-	public static final String CUT = "CUT";
-
-	public static final String UNDO = "UNDO";
-
-	public static final String REDO = "REDO";
-
-	public static final String GROUP_HORIZONTAL = "GROUP HORIZONTAL";
-
-	public static final String GROUP_VERTICAL = "GROUP VERTICAL";
-
-	public static final String EXPAND_SELECTION_LEFT = "EXPAND_SELECTION_LEFT";
-
-	public static final String EXPAND_SELECTION_RIGHT = "EXPAND_SELECTION_RIGHT";
-
-	public static final String EXPAND_SELECTION_DOWN = "EXPAND_SELECTION_DOWN";
-
-	public static final String EXPAND_SELECTION_UP = "EXPAND_SELECTION_UP";
-
-	public static final String NEW_LINE = "NEW_LINE";
-
-	public static final String NEW_PAGE = "NEW_PAGE";
-
-	public static final String GO_DOWN = "GO DOWN";
-
-	public static final String GO_UP = "GO UP";
-
-	public static final String SELECT_HORIZONTAL_ORIENTATION = "SELECT_HORIZONTAL_ORIENTATION";
-
-	public static final String SELECT_VERTICAL_ORIENTATION = "SELECT_VERTICAL_ORIENTATION";
-
-	public static final String SELECT_L2R_DIRECTION = "SELECT_L2R_DIRECTION";
-
-	public static final String SELECT_R2L_DIRECTION = "SELECT_R2L_DIRECTION";
-
-	public static final String SET_MODE_LATIN = "SET_MODE_LATIN";
-	public static final String SET_MODE_HIEROGLYPHS = "SET_MODE_HIEROGLYPHS";
-	public static final String SET_MODE_ITALIC = "SET_MODE_ITALIC";
-	public static final String SET_MODE_BOLD = "SET_MODE_BOLD";
 
 	/**
 	 * The "normal " control key for this system.
@@ -135,60 +78,81 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	}
 
 	private void addActions() {
-		AppDefaults appDefaults= AppDefaultFactory.getAppDefaults();
-		
-		addAction(GO_RIGHT, new GoRightAction(editor));
-		addAction(GO_LEFT, new GoLeftAction(editor));
-		addAction(GO_DOWN, new GoDownAction(editor));
-		addAction(GO_UP, new GoUpAction(editor));
-		addAction(BEGINNING_OF_LINE, new EditorAction(editor,
-				"Beginning of line") {
-			public void actionPerformed(ActionEvent e) {
-				editor.getWorkflow().cursorToBeginningOfLine();
+		AppDefaults appDefaults = AppDefaultFactory.getAppDefaults();
+		// For actions which modify their edited object...
+		Enabler editorEnabler = new Enabler() {
+			public boolean canDo() {
+				return editor.isEditable();
 			}
-		});
+		};
 
-		addAction(END_OF_LINE, new EditorAction(editor, "End Of line") {
-
-			public void actionPerformed(ActionEvent e) {
-				editor.getWorkflow().cursorToEndOfLine();
-			}
-		});
-		addAction(NEW_LINE, new NewLineAction(editor));
-		addAction(NEW_PAGE, new NewPageAction(editor));
-		addAction(COPY, new CopyAction(editor));
-		addAction(CopyAsAction.COPY_AS_PDF, new CopyAsAction(editor, "Copy as PDF",
-				JSeshPasteFlavors.PDFFlavor));
-		addAction(CopyAsAction.COPY_AS_RTF, new CopyAsAction(editor, "Copy as RTF",
-				JSeshPasteFlavors.RTFFlavor));
-		addAction(CopyAsAction.COPY_AS_BITMAP, new CopyAsAction(editor, "Copy as Bitmap",
-				DataFlavor.imageFlavor));
-		addAction(CopyAsAction.COPY_AS_MDC, new CopyAsAction(editor, "Copy as MDC",
-				DataFlavor.stringFlavor));
-
+		// MOVE
+		addAction(ActionsID.GO_RIGHT, new GoRightAction(editor));
+		addAction(ActionsID.GO_LEFT, new GoLeftAction(editor));
+		addAction(ActionsID.GO_DOWN, new GoDownAction(editor));
+		addAction(ActionsID.GO_UP, new GoUpAction(editor));
+		// COPY/PASTE
+		addAction(ActionsID.COPY, new CopyAction(editor));
+		addAction(ActionsID.CUT, new CutAction(editor));
+		addAction(ActionsID.COPY_AS_PDF, new CopyAsAction(editor,
+				"Copy as PDF", JSeshPasteFlavors.PDFFlavor));
+		addAction(ActionsID.COPY_AS_RTF, new CopyAsAction(editor,
+				"Copy as RTF", JSeshPasteFlavors.RTFFlavor));
+		addAction(ActionsID.COPY_AS_BITMAP, new CopyAsAction(editor,
+				"Copy as Bitmap", DataFlavor.imageFlavor));
+		addAction(ActionsID.COPY_AS_MDC, new CopyAsAction(editor,
+				"Copy as MDC", DataFlavor.stringFlavor));
 		addAction(PasteAction.ID, new PasteAction(editor));
-		addAction(SelectAllAction.ID, new SelectAllAction(editor, appDefaults));
-		addAction(CUT, new CutAction(editor));
-		addAction(GROUP_HORIZONTAL, new GroupHorizontalAction(editor));
-		addAction(GROUP_VERTICAL, new GroupVerticalAction(editor));
-		addAction(EXPAND_SELECTION_LEFT, new ExpandSelectionAction(editor, -1));
-		addAction(EXPAND_SELECTION_RIGHT, new ExpandSelectionAction(editor, 1));
-		addAction(EXPAND_SELECTION_UP, new ExpandSelectionAction(editor, -2));
-		addAction(EXPAND_SELECTION_DOWN, new ExpandSelectionAction(editor, 2));
-		addAction(SELECT_HORIZONTAL_ORIENTATION, new SelectOrientationAction(
-				editor, TextOrientation.HORIZONTAL));
-		addAction(SELECT_VERTICAL_ORIENTATION, new SelectOrientationAction(
-				editor, TextOrientation.VERTICAL));
-		addAction(SELECT_L2R_DIRECTION, new SelectTextDirectionAction(editor,
-				TextDirection.LEFT_TO_RIGHT));
-		addAction(SELECT_R2L_DIRECTION, new SelectTextDirectionAction(editor,
-				TextDirection.RIGHT_TO_LEFT));
-		addAction(UNDO, new UndoAction(editor));
-		addAction(REDO, new RedoAction(editor));
-		addAction(SET_MODE_LATIN, new SetModeAction(editor, 'l'));
-		addAction(SET_MODE_HIEROGLYPHS, new SetModeAction(editor, 's'));
-		addAction(SET_MODE_ITALIC, new SetModeAction(editor, 'i'));
-		addAction(SET_MODE_BOLD, new SetModeAction(editor, 'b'));
+		
+		// DELEGATE ACTIONS...
+		addDelegateAction(ActionsID.BEGINNING_OF_LINE, editor,
+				"cursorToBeginningOfLine", appDefaults, null);
+		addDelegateAction(ActionsID.END_OF_LINE, editor, "cursorToEndOfLine",
+				appDefaults, null);
+
+		// actions which modify the text content need to work on editable
+		// objects.
+		addDelegateAction(ActionsID.NEW_LINE, editor, "insertNewLine",
+				appDefaults, editorEnabler);
+		
+		addDelegateAction(ActionsID.NEW_PAGE, editor, "insertPageBreak",
+				appDefaults, editorEnabler);
+		
+		addDelegateAction(ActionsID.SELECT_ALL, editor, "selectAll",
+				appDefaults, null);
+
+		addDelegateAction(ActionsID.CLEAR_SELECTION, editor, "clearSelection",
+				appDefaults, null);
+
+		addDelegateAction(ActionsID.GROUP_HORIZONTAL, editor, "groupHorizontally", appDefaults, editorEnabler);
+
+		addDelegateAction(ActionsID.GROUP_VERTICAL, editor, "groupVertically", appDefaults, editorEnabler);
+		
+		addAction(ActionsID.EXPAND_SELECTION_LEFT, new ExpandSelectionAction(
+				editor, -1));
+		addAction(ActionsID.EXPAND_SELECTION_RIGHT, new ExpandSelectionAction(
+				editor, 1));
+		addAction(ActionsID.EXPAND_SELECTION_UP, new ExpandSelectionAction(
+				editor, -2));
+		addAction(ActionsID.EXPAND_SELECTION_DOWN, new ExpandSelectionAction(
+				editor, 2));
+		addAction(ActionsID.SELECT_HORIZONTAL_ORIENTATION,
+				new SelectOrientationAction(editor, TextOrientation.HORIZONTAL));
+		addAction(ActionsID.SELECT_VERTICAL_ORIENTATION,
+				new SelectOrientationAction(editor, TextOrientation.VERTICAL));
+		addAction(ActionsID.SELECT_L2R_DIRECTION,
+				new SelectTextDirectionAction(editor,
+						TextDirection.LEFT_TO_RIGHT));
+		addAction(ActionsID.SELECT_R2L_DIRECTION,
+				new SelectTextDirectionAction(editor,
+						TextDirection.RIGHT_TO_LEFT));
+		addAction(ActionsID.UNDO, new UndoAction(editor));
+		addAction(ActionsID.REDO, new RedoAction(editor));
+		addAction(ActionsID.SET_MODE_LATIN, new SetModeAction(editor, 'l'));
+		addAction(ActionsID.SET_MODE_HIEROGLYPHS,
+				new SetModeAction(editor, 's'));
+		addAction(ActionsID.SET_MODE_ITALIC, new SetModeAction(editor, 'i'));
+		addAction(ActionsID.SET_MODE_BOLD, new SetModeAction(editor, 'b'));
 
 	}
 
@@ -197,14 +161,14 @@ public class MDCEditorKeyManager extends KeyAdapter {
 	}
 
 	// NOTE : add all relevant input so that the object can be used stand-alone.
-	
+
 	private void addInputs() {
-		addInput("LEFT", GO_LEFT);
-		addInput("RIGHT", GO_RIGHT);
-		addInput("DOWN", GO_DOWN);
-		addInput("UP", GO_UP);
-		addInput("HOME", BEGINNING_OF_LINE);
-		addInput("END", END_OF_LINE);
+		addInput("LEFT", ActionsID.GO_LEFT);
+		addInput("RIGHT", ActionsID.GO_RIGHT);
+		addInput("DOWN", ActionsID.GO_DOWN);
+		addInput("UP", ActionsID.GO_UP);
+		addInput("HOME", ActionsID.BEGINNING_OF_LINE);
+		addInput("END", ActionsID.END_OF_LINE);
 		// addInput("BACK_SPACE", BACK_SPACE);
 		// addInput(':', ADD_LOWER_LEVEL);
 		// addInput('*', ADD_SAME_LEVEL);
@@ -214,30 +178,32 @@ public class MDCEditorKeyManager extends KeyAdapter {
 		// addInput("ENTER", ADD_NEW_CADRAT); // ENTER SHOULD ALSO CREATE A NEW
 		// LINE !
 
-		addInput("shift ENTER", NEW_PAGE);
-		addInput("ENTER", NEW_LINE);
-		addInput(controlKey + " Z", UNDO);
-		addInput(controlKey + " Y", REDO);
+		addInput("shift ENTER", ActionsID.NEW_PAGE);
+		addInput("ENTER", ActionsID.NEW_LINE);
+		addInput(controlKey + " Z", ActionsID.UNDO);
+		addInput(controlKey + " Y", ActionsID.REDO);
 
-		addInput(controlKey + " C", COPY);
-		addInput(controlKey + " X", CUT);
+		addInput(controlKey + " C", ActionsID.COPY);
+		addInput(controlKey + " X", ActionsID.CUT);
 		addInput(controlKey + " V", PasteAction.ID);
-		
+
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX)
-			addInput(controlKey + " J", GROUP_HORIZONTAL); // J On mac..
+			addInput(controlKey + " J", ActionsID.GROUP_HORIZONTAL); // J On
+																		// mac..
 		else
-			addInput(controlKey + " H", GROUP_HORIZONTAL); // J On mac..
-		addInput(controlKey + " G", GROUP_VERTICAL);
+			addInput(controlKey + " H", ActionsID.GROUP_HORIZONTAL); // J On
+																		// mac..
+		addInput(controlKey + " G", ActionsID.GROUP_VERTICAL);
 
-		addInput("shift LEFT", EXPAND_SELECTION_LEFT);
-		addInput("shift RIGHT", EXPAND_SELECTION_RIGHT);
-		addInput("shift DOWN", EXPAND_SELECTION_DOWN);
-		addInput("shift UP", EXPAND_SELECTION_UP);
+		addInput("shift LEFT", ActionsID.EXPAND_SELECTION_LEFT);
+		addInput("shift RIGHT", ActionsID.EXPAND_SELECTION_RIGHT);
+		addInput("shift DOWN", ActionsID.EXPAND_SELECTION_DOWN);
+		addInput("shift UP", ActionsID.EXPAND_SELECTION_UP);
 
-		addInput(controlKey + " E", SET_MODE_HIEROGLYPHS);
-		addInput(controlKey + " D", SET_MODE_LATIN);
-		addInput(controlKey + " I", SET_MODE_ITALIC);
-		addInput(controlKey + " B", SET_MODE_BOLD);
+		addInput(controlKey + " E", ActionsID.SET_MODE_HIEROGLYPHS);
+		addInput(controlKey + " D", ActionsID.SET_MODE_LATIN);
+		addInput(controlKey + " I", ActionsID.SET_MODE_ITALIC);
+		addInput(controlKey + " B", ActionsID.SET_MODE_BOLD);
 	}
 
 	private void control(JMDCEditor editor) {
@@ -286,5 +252,27 @@ public class MDCEditorKeyManager extends KeyAdapter {
 			}
 			editor.getWorkflow().keyTyped(e.getKeyChar());
 		}
+	}
+
+	/**
+	 * Add an action.
+	 * 
+	 * @param ID
+	 *            the ID used to identify the action in both map and property
+	 *            files.
+	 * @param editor
+	 *            the editor which will receive the action.
+	 * @param methodName
+	 *            the method of the action (called on the editor's workflow).
+	 * @param appDefaults
+	 *            the application default for action properties (shortcut,
+	 *            names, icons...)
+	 * @param enabler
+	 *            an optional enabler (may be null).
+	 */
+	private void addDelegateAction(String ID, JMDCEditor editor,
+			String methodName, AppDefaults appDefaults, Enabler enabler) {
+		addAction(ID, new DelegatingAction(editor.getWorkflow(), methodName,
+				ID, appDefaults));
 	}
 }

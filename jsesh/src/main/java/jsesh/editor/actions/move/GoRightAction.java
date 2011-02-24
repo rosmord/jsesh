@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actionsUtils.EditorAction;
 
 /**
  * TODO describe type
@@ -17,6 +17,7 @@ import jsesh.editor.actions.generic.EditorAction;
  * @author rosmord
  * 
  */
+@SuppressWarnings("serial")
 public class GoRightAction extends EditorAction {
 
 	public GoRightAction(JMDCEditor editor) {

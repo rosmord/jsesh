@@ -1150,7 +1150,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * @return true if success.
 	 */
 	// UNDO/REDO
-	public boolean groupVertical() {
+	public boolean groupVertically() {
 		boolean result;
 		VerticalGrouper v = new VerticalGrouper();
 		List<ModelElement> elts = getSelection();
@@ -1524,6 +1524,12 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		clearSeparator();
 	}
 
+
+        public void clearSelection() {
+            	possibilities = null;
+                caret.unsetMark();
+		clearSeparator();
+        }
 	/**
 	 * Sets the content of the current line from a manuel de codage encoding.
 	 * 

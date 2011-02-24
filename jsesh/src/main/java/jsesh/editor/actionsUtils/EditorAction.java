@@ -1,4 +1,4 @@
-package jsesh.editor.actions.generic;
+package jsesh.editor.actionsUtils;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;

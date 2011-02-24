@@ -31,7 +31,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import jsesh.Version;
-import jsesh.editor.MDCEditorKeyManager;
+import jsesh.editor.ActionsID;
 import jsesh.editor.actions.edit.CopyAsAction;
 import jsesh.editor.actions.edit.PasteAction;
 import jsesh.editorSoftware.actions.AboutAction;
@@ -191,11 +191,11 @@ public class MDCDisplayerAppli {
 		edit.setMnemonic(KeyEvent.VK_E);
 
 		ForwardedAction undoAction = new ForwardedAction(workflow, "Undo",
-				MDCEditorKeyManager.UNDO);
+				ActionsID.UNDO);
 		MenuUtils.addWithShortCut(edit, undoAction, KeyEvent.VK_Z);
 
 		Action redoAction = new ForwardedAction(workflow, "Redo",
-				MDCEditorKeyManager.REDO);
+				ActionsID.REDO);
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
 			MenuUtils.addWithShortCut(edit, redoAction, KeyEvent.VK_Z,
 					InputEvent.SHIFT_DOWN_MASK);
@@ -207,17 +207,17 @@ public class MDCDisplayerAppli {
 
 		edit.addSeparator();
 		MenuUtils.addWithShortCut(edit, new ForwardedAction(workflow, "Cut",
-				MDCEditorKeyManager.CUT, true), KeyEvent.VK_X);
+				ActionsID.CUT, true), KeyEvent.VK_X);
 		MenuUtils.addWithShortCut(edit, new ForwardedAction(workflow, "Copy",
-				MDCEditorKeyManager.COPY, true), KeyEvent.VK_C);
+				ActionsID.COPY, true), KeyEvent.VK_C);
 		
 		addEditorAction(edit, PasteAction.ID);
 
 		JMenu copyAs = new JMenu("Copy as...");
 		
-		addEditorAction(copyAs, CopyAsAction.COPY_AS_PDF);
-		addEditorAction(copyAs, CopyAsAction.COPY_AS_RTF);
-		addEditorAction(copyAs, CopyAsAction.COPY_AS_BITMAP);
+		addEditorAction(copyAs, ActionsID.COPY_AS_PDF);
+		addEditorAction(copyAs, ActionsID.COPY_AS_RTF);
+		addEditorAction(copyAs, ActionsID.COPY_AS_BITMAP);
 
 		edit.add(copyAs);
 
@@ -388,10 +388,10 @@ public class MDCDisplayerAppli {
 		ButtonGroup orientationGroup = new ButtonGroup();
 		JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(
 				new ForwardedAction(workflow, "Horizontal",
-						MDCEditorKeyManager.SELECT_HORIZONTAL_ORIENTATION));
+						ActionsID.SELECT_HORIZONTAL_ORIENTATION));
 		JRadioButtonMenuItem verticalButton = new JRadioButtonMenuItem(
 				new ForwardedAction(workflow, "Vertical",
-						MDCEditorKeyManager.SELECT_VERTICAL_ORIENTATION));
+						ActionsID.SELECT_VERTICAL_ORIENTATION));
 		orientationGroup.add(horizontalButton);
 		orientationGroup.add(verticalButton);
 		orientationMenu.add(horizontalButton);
@@ -400,10 +400,10 @@ public class MDCDisplayerAppli {
 		ButtonGroup directionGroup = new ButtonGroup();
 		JRadioButtonMenuItem leftToRightButton = new JRadioButtonMenuItem(
 				new ForwardedAction(workflow, "Left to Right",
-						MDCEditorKeyManager.SELECT_L2R_DIRECTION));
+						ActionsID.SELECT_L2R_DIRECTION));
 		JRadioButtonMenuItem rightToLeftButton = new JRadioButtonMenuItem(
 				new ForwardedAction(workflow, "Right to Left",
-						MDCEditorKeyManager.SELECT_R2L_DIRECTION));
+						ActionsID.SELECT_R2L_DIRECTION));
 		directionGroup.add(rightToLeftButton);
 		directionGroup.add(leftToRightButton);
 		directionMenu.add(leftToRightButton);

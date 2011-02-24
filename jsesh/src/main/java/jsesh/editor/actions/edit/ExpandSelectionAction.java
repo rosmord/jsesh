@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actionsUtils.EditorAction;
 
 /**
  * @author S. Rosmorduc

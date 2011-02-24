@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.swing.KeyUtils;
 
 public class RedoAction extends EditorAction {

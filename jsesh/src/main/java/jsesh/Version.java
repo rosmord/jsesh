@@ -2,6 +2,8 @@ package jsesh;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Gets the version number.
@@ -17,8 +19,8 @@ public class Version {
                     "/jsesh/version.properties"));
             version = properties.getProperty("jsesh.version");
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            Logger.getLogger(Version.class.getName()).log(Level.WARNING, "No version number available");
+            version= "0";
         }
         return version;
     }

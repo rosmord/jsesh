@@ -3,7 +3,7 @@ package jsesh.editor.actions.edit;
 import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.generic.EditorAction;
+import jsesh.editor.actionsUtils.EditorAction;
 
 public class SetModeAction extends EditorAction {
 

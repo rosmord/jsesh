@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.MDCEditorKeyManager;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocumentReader;
@@ -62,13 +62,13 @@ public class JSeshView extends AbstractView {
 	private void initActions() {
 		// Link between jhotdraw action names conventions and JSesh's
 		getActionMap().put(UndoAction.ID,
-				getEditor().getActionMap().get(MDCEditorKeyManager.UNDO));
+				getEditor().getActionMap().get(ActionsID.UNDO));
 		getActionMap().put(RedoAction.ID,
-				getEditor().getActionMap().get(MDCEditorKeyManager.REDO));
+				getEditor().getActionMap().get(ActionsID.REDO));
 		getActionMap().put(CopyAction.ID,
-				getEditor().getActionMap().get(MDCEditorKeyManager.COPY));
+				getEditor().getActionMap().get(ActionsID.COPY));
 		getActionMap().put(CutAction.ID,
-				getEditor().getActionMap().get(MDCEditorKeyManager.CUT));
+				getEditor().getActionMap().get(ActionsID.CUT));
 		getActionMap().put(PasteAction.ID,
 				getEditor().getActionMap().get(jsesh.editor.actions.edit.PasteAction.ID));
 	}
