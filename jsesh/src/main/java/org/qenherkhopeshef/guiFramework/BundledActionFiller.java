@@ -9,6 +9,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import org.qenherkhopeshef.utils.PlatformDetection;
+
 /**
  * A class to initialize action data from a given bundle.
  * <p>
@@ -39,7 +41,7 @@ public class BundledActionFiller {
 	 */
 	public final static String actionKeys[] = { Action.NAME,
 			Action.SHORT_DESCRIPTION, Action.LONG_DESCRIPTION,
-			Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,
+			Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,		
 			Action.ACCELERATOR_KEY, Action.MNEMONIC_KEY,
 			BundledAction.TEAR_OFF, PRECONDITIONS,
 			BundledAction.GROUP_PROPERTY, BundledAction.BOOLEAN_PROPERTY,
@@ -86,8 +88,10 @@ public class BundledActionFiller {
 			HeadlessException {
 		// Loop the possible properties of an action...
 		// The loop is used, because most properties are processed in the same
-		// way
-		// (see last "else")
+		// way (see last "else")
+		// An hashmap-oriented system would be better.
+		
+		
 		for (String propertyName : BundledActionFiller.actionKeys) {
 			// The key in the property file for this particular action for this
 			// particular entry.
@@ -95,11 +99,19 @@ public class BundledActionFiller {
 			if (propertyName == Action.MNEMONIC_KEY) {
 				action.putValue(propertyName,
 						defaults.getKeyCode(actionPropertyKey));
-			} else if (propertyName == Action.ACCELERATOR_KEY) {
+			} else if (propertyName == Action.ACCELERATOR_KEY || propertyName == Action.ACCELERATOR_KEY + "[mac]") {
 				// Now, we want to deal with accelerator keys
 				// differently on macs and on other system.
 				// for this we introduce the "shortcut"
-				String keyStroke = defaults.getString(actionPropertyKey);
+				String keyStroke = null;
+				// On the mac, try to see if a [mac] version of the property is defined.
+				if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+					keyStroke= defaults.getString(actionPropertyKey + "[mac]");
+				}
+				// If not found, or not on the mac, try the plain "AcceleratorKey" keyword.
+				if (keyStroke == null)
+					keyStroke= defaults.getString(actionPropertyKey);
+				// Now, process the result (if any).				
 				if (keyStroke != null && keyStroke.startsWith("shortcut")) {
 					int shortCutMask = java.awt.Toolkit.getDefaultToolkit()
 							.getMenuShortcutKeyMask();

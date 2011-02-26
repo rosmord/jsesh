@@ -5,10 +5,8 @@ package jsesh.editorSoftware.actions.generic;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import jsesh.editor.MDCEditorKeyManager;
 import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 
 /**
@@ -23,6 +21,7 @@ import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
  * @author rosmord
  *
  */
+@SuppressWarnings("serial")
 public class ForwardedAction extends BasicAction {
 	/**
 	 * 

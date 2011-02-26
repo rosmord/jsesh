@@ -50,8 +50,8 @@ public class JSeshMain {
 
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-				//app = new QenherOSXApplication();
-			app = new QenherOSXApplication();
+			// app= new QenherOSXLikeApplication();
+			 app = new QenherOSXApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
 			app = new QenherOSXLikeApplication();

@@ -14,6 +14,7 @@ import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
  * Optionally, the action can be aware of a number of events, and activate accordingly.
  * @author rosmord
  */
+@SuppressWarnings("serial")
 public abstract class BasicAction extends AbstractAction {
 
 	protected MDCDisplayerAppliWorkflow workflow;

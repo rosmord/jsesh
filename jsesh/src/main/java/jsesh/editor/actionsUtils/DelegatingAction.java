@@ -9,17 +9,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractAction;
-import jsesh.editor.actions.AppDefaultFactory;
 
-import org.qenherkhopeshef.guiFramework.AppDefaults;
-import org.qenherkhopeshef.guiFramework.BundledActionFiller;
+import javax.swing.AbstractAction;
 
 /**
  * An action whose behaviour is delegated to a specific object's method.
  * TODO : add a guarding mecanism (like "isEditable") to prevent accidents.
  * @author rosmord
  */
+@SuppressWarnings("serial")
 public class DelegatingAction extends AbstractAction {
 
     private Object delegate;
@@ -46,31 +44,6 @@ public class DelegatingAction extends AbstractAction {
         } catch (SecurityException ex) {
             Logger.getLogger(DelegatingAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    /**
-     * Create a deletegating method and initialize its properties using the AppDefaultFactory and an action ID.
-     * @param delegate
-     * @param methodName a argumentless method's name.
-     * @param ID
-     */
-    public DelegatingAction(Object delegate, String methodName, String ID) {
-        this(delegate, methodName);
-        AppDefaults appDefaults = AppDefaultFactory.getAppDefaults();
-        BundledActionFiller.initActionProperties(this, ID, appDefaults);
-    }
-
-    /**
-     * Create a deletegating method, getting all properties from an AppDefault object.
-     * @param delegate the object on which the action will be called
-     * @param methodName the method to call on "delegate"
-     * @param ID the ID which identifies the action in the appDefault. e.g. if ID = edit.toto, the
-     *  action name will be edit.toto.Name
-     * @param appDefaults
-     */
-     public DelegatingAction(Object delegate, String methodName, String ID, AppDefaults appDefaults) {
-        this(delegate, methodName);
-        BundledActionFiller.initActionProperties(this, ID, appDefaults);
     }
      
     public void actionPerformed(ActionEvent e) {

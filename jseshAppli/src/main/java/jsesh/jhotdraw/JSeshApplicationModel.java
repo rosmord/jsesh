@@ -1,6 +1,5 @@
 package jsesh.jhotdraw;
 
-import java.awt.datatransfer.DataFlavor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +8,10 @@ import javax.swing.ActionMap;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
+import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.actions.edit.CopyAsAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.JSimplePalette;
 import jsesh.swing.signPalette.PalettePresenter;
@@ -43,10 +41,33 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	}
 
 	@Override
-	public List<JMenu> createMenus(Application a, View p) {
+	public List<JMenu> createMenus(Application a, View v) {
 		List<JMenu> menus = new ArrayList<JMenu>();
-
+		menus.add(createTextMenu(a,(JSeshView)v));
 		return menus;
+	}
+
+	private JMenu createTextMenu(Application a, JSeshView v) {
+		JMenu textMenu= new JMenu();
+		BundleHelper.configure(textMenu, "text");
+		addToMenu(textMenu, a,v, ActionsID.GROUP_HORIZONTAL);
+		addToMenu(textMenu, a,v, ActionsID.GROUP_VERTICAL);
+
+		return textMenu;
+	}
+
+	/**
+	 * Optional action addition.
+	 * @param menu
+	 * @param a
+	 * @param v
+	 * @param actionID
+	 */
+	private void addToMenu(JMenu menu, Application a, JSeshView v,
+			String actionID) {
+		Action action= a.getActionMap(v).get(actionID);
+		if (action != null)
+			menu.add(action);
 	}
 
 	private JSimplePalette createHieroglyphicPalette() {
@@ -67,39 +88,45 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	}
 
 	public ActionMap createActionMap(Application a, View v) {
-		JMDCEditor editor= null;
-		JSeshView jseshView= (JSeshView) v;
+		JMDCEditor editor = null;
+		JSeshView jseshView = (JSeshView) v;
 		if (jseshView != null) {
-			editor= jseshView.getEditor();
+			editor = jseshView.getEditor();
 		}
-		
+
 		ActionMap map = super.createActionMap(a, v);
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
-		map.put(SelectAllAction.ID, getEditorAction(editor, jsesh.editor.ActionsID.SELECT_ALL));
-		map.put(ClearSelectionAction.ID, getEditorAction(editor, jsesh.editor.ActionsID.CLEAR_SELECTION));
-                
-		Action copyAsPDF= new CopyAsAction(editor, "",
-				JSeshPasteFlavors.PDFFlavor);		
-		BundleHelper.configure(copyAsPDF, "edit.copyAsPDF");
+		map.put(SelectAllAction.ID,
+				getEditorAction(editor, jsesh.editor.ActionsID.SELECT_ALL));
+		map.put(ClearSelectionAction.ID,
+				getEditorAction(editor, jsesh.editor.ActionsID.CLEAR_SELECTION));
+		addEditorAction(map, editor, ActionsID.COPY_AS_PDF);
+		addEditorAction(map, editor, ActionsID.COPY_AS_RTF);
+		addEditorAction(map, editor, ActionsID.COPY_AS_BITMAP);
+		addEditorAction(map, editor, ActionsID.COPY_AS_MDC);
 
-                map.put("edit.copyAsPDF", copyAsPDF);
-		Action copyAsRTF= new CopyAsAction(editor, "",
-				JSeshPasteFlavors.RTFFlavor);		
-		BundleHelper.configure(copyAsRTF, "edit.copyAsRTF");
+		addEditorAction(map, editor, ActionsID.SET_MODE_HIEROGLYPHS);
+		addEditorAction(map, editor, ActionsID.SET_MODE_ITALIC);
+		addEditorAction(map, editor, ActionsID.SET_MODE_LATIN);
+		addEditorAction(map, editor, ActionsID.SET_MODE_BOLD);
+		
+		addEditorAction(map, editor, ActionsID.GROUP_HORIZONTAL);
+		addEditorAction(map, editor, ActionsID.GROUP_VERTICAL);
 
-                map.put("edit.copyAsRTF", copyAsRTF);
-		Action copyAsBitmap= new CopyAsAction(editor, "",
-				DataFlavor.imageFlavor);		
-
-                BundleHelper.configure(copyAsBitmap, "edit.copyAsBitmap");
-		map.put("edit.copyAsBitmap", copyAsBitmap);
 		return map;
 	}
 
+	private void addEditorAction(ActionMap map, JMDCEditor editor,
+			String editorActionID) {
+		map.put(editorActionID, getEditorAction(editor, editorActionID));
+
+	}
+
 	/**
-	 * Returns an action linked to the current editor in a safe way.
-	 * If there is no current editor, returns null...
+	 * Returns an action linked to the current editor in a safe way. If there is
+	 * no current editor, returns null...
+	 * 
 	 * @param editor
 	 * @param id
 	 * @return
@@ -138,7 +165,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	@Override
 	/**
-	 * Create the menus for this application.
+	 * Create the standard menus for this application.
 	 * This method is not in the original jhotdraw 7. A better, yet similar, option has 
 	 * been made available recently, and will be used a bit later.
 	 * 
@@ -155,7 +182,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				JMenu exportMenu = BundleHelper.configure(new JMenu(),
 						"file.export");
 				exportMenu.add(new ExportAsBitmapAction(app, view));
-				
+
 				fileMenu.add(importMenu);
 				fileMenu.add(exportMenu);
 			}
@@ -165,22 +192,24 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				editMenu.addSeparator();
 				JMenu copyAsMenu = BundleHelper.configure(new JMenu(),
 						"edit.copyAs");
-				ActionMap map=app.getActionMap(view);
-				copyAsMenu.add(map.get("edit.copyAsPDF"));			
-				copyAsMenu.add(map.get("edit.copyAsRTF"));			
-				copyAsMenu.add(map.get("edit.copyAsBitmap"));			
+				ActionMap map = app.getActionMap(view);
+				copyAsMenu.add(map.get(ActionsID.COPY_AS_PDF));
+				copyAsMenu.add(map.get(ActionsID.COPY_AS_RTF));
+				copyAsMenu.add(map.get(ActionsID.COPY_AS_BITMAP));
+				copyAsMenu.add(map.get(ActionsID.COPY_AS_MDC));
+
 				editMenu.add(copyAsMenu);
 				editMenu.addSeparator();
-				// Edit Hieroglyphs
-				// latin text
-				// bold
-				// italic
+				editMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
+				editMenu.add(map.get(ActionsID.SET_MODE_LATIN));
+				editMenu.add(map.get(ActionsID.SET_MODE_ITALIC));
+
 				// translit
 				// line/page
 				// short text
 				// copy large size
 				// copy small size
-				// copy wysiwyg				
+				// copy wysiwyg
 			}
 
 			public void afterFileOpen(JMenu fileMenu, Application app, View view) {
@@ -194,6 +223,5 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			}
 		};
 	}
-	
-	
+
 }

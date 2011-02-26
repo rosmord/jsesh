@@ -21,7 +21,6 @@ public class CopyAction extends AbstractSelectionAction {
 	
 	public CopyAction(JMDCEditor editor) {
 		super(editor, "copy");
-		putValue(ACCELERATOR_KEY, KeyUtils.buildCommandShortCut(KeyEvent.VK_C));
 	}
 	
 	/* (non-Javadoc)
@@ -30,5 +29,4 @@ public class CopyAction extends AbstractSelectionAction {
 	public void actionPerformed(ActionEvent e) {
 		editor.copy();
 	}
-
 }

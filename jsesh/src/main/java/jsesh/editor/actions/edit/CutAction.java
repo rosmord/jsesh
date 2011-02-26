@@ -20,7 +20,6 @@ public class CutAction extends AbstractSelectionAction {
 
 	public CutAction(JMDCEditor editor) {
 		super(editor, "cut");
-		putValue(ACCELERATOR_KEY, KeyUtils.buildCommandShortCut(KeyEvent.VK_X));
 	}
 
 	/*

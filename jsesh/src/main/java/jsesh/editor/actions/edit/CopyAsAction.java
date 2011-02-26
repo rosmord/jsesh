@@ -18,8 +18,8 @@ public class CopyAsAction extends EditorAction {
 	
 	private DataFlavor dataFlavor;
 	
-	public CopyAsAction(JMDCEditor editor, String name, DataFlavor dataFlavor) {
-		super(editor,name);
+	public CopyAsAction(JMDCEditor editor, DataFlavor dataFlavor) {
+		super(editor);
 		this.dataFlavor = dataFlavor;
 	}
 
