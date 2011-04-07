@@ -296,11 +296,13 @@ public class GardinerCode implements Comparable<GardinerCode> {
 		return Pattern.matches(GARDINER_CODE_REGEXP_STRING, code);
 	}
 
-	
 
 	/**
 	 * Returns the Manuel de codage code corresponding to a given file name, or null
 	 * if the file name does not fit.
+	 *
+	 * <p>Can also be used to normalise codes which don't respect the MdC capitalisation rules.
+	 *  
 	 * 
 	 * <p> This function can be used when a file name is supposed to correspond to a gardiner code.
 	 * The problem in this case is that not all file systems are case sensitives, hence the need 
@@ -316,6 +318,8 @@ public class GardinerCode implements Comparable<GardinerCode> {
 		fname = fname.toUpperCase();
 		// suppress file extension.
 		int stopIndex = fname.indexOf('.');
+		if (stopIndex == -1)
+			stopIndex= fname.length();
 		String code = fname.substring(0, stopIndex);
 	
 		// Special codes "nTrw" and "nn" don't have a Gardiner code associated

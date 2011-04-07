@@ -40,5 +40,9 @@ public interface ActionsID {
 	String SET_MODE_HIEROGLYPHS = "edit.setModeHieroglyphs";
 	String SET_MODE_ITALIC = "edit.setModeItalic";
 	String SET_MODE_LATIN = "edit.setModeLatin";
+	String SET_MODE_TRANSLIT = "edit.setModeTranslit";
+	String SET_MODE_LINENUMBER = "edit.setModeLineNumber";
+
+
 	String UNDO = "edit.undo";
 }

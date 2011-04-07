@@ -1,389 +1,345 @@
-Signs "missing" for EGPZ (those signs might have other codes !!)
-
-glyph A6M not found
-glyph A6N not found
-glyph A64 not found
-glyph C2AR not found
-glyph C2R not found
-glyph C12R not found
-glyph C14R not found
-glyph C16 not found
-glyph D48A not found
-glyph D50B not found
-glyph D50C not found
-glyph D50D not found
-glyph D50E not found
-glyph D50F not found
-glyph D50G not found
-glyph D50H not found
-glyph D50I not found
-glyph D50J not found
-glyph D417 not found
-glyph D417A not found
-glyph D417B not found
-glyph D417C not found
-glyph D417D not found
-glyph D417E not found
-glyph D417F not found
-glyph D417G not found
-glyph D417H not found
-glyph E16C not found
-glyph E20B not found
-glyph E28A not found
-glyph E34C not found
-glyph F1B not found
-glyph F13B not found
-glyph F21A not found
-glyph F31B not found
-glyph F38C not found
-glyph F45A not found
-glyph F51G not found
-glyph F51GV not found
-glyph G11A not found
-glyph G36A not found
-glyph G37A not found
-glyph I11A not found
-glyph L2A not found
-glyph L6A not found
-glyph M3G not found
-glyph M12C not found
-glyph M12D not found
-glyph M12E not found
-glyph M12F not found
-glyph M12G not found
-glyph M12H not found
-glyph M12I not found
-glyph M12J not found
-glyph M24B not found
-glyph M31D not found
-glyph M33C not found
-glyph M40D not found
-glyph N18B not found
-glyph N25A not found
-glyph N34B not found
-glyph N37B not found
-glyph NL1 not found
-glyph NL2 not found
-glyph NL3 not found
-glyph NL4 not found
-glyph NL5 not found
-glyph NL5A not found
-glyph NL6 not found
-glyph NL7 not found
-glyph NL8 not found
-glyph NL9 not found
-glyph NL11 not found
-glyph NL12 not found
-glyph NL13 not found
-glyph NL14 not found
-glyph NL15 not found
-glyph NL16 not found
-glyph NL17 not found
-glyph NL17A not found
-glyph NL18 not found
-glyph NL19 not found
-glyph NL20 not found
-glyph NU1 not found
-glyph NU2 not found
-glyph NU3 not found
-glyph NU4 not found
-glyph NU5 not found
-glyph NU6 not found
-glyph NU7 not found
-glyph NU8 not found
-glyph NU9 not found
-glyph NU10 not found
-glyph NU10A not found
-glyph NU11 not found
-glyph NU11A not found
-glyph NU12 not found
-glyph NU13 not found
-glyph NU14 not found
-glyph NU15 not found
-glyph NU16 not found
-glyph NU17 not found
-glyph NU18 not found
-glyph NU18A not found
-glyph NU19 not found
-glyph NU20 not found
-glyph NU21 not found
-glyph NU22 not found
-glyph NU22A not found
-glyph O86A not found
-glyph O85C not found
-glyph O85D not found
-glyph O10B not found
-glyph O18F not found
-glyph O19D not found
-glyph O20C not found
-glyph O24B not found
-glyph O29V not found
-glyph O30A not found
-glyph O119A not found
-glyph O119B not found
-glyph O119C not found
-glyph O119D not found
-glyph O50A not found
-glyph O50B not found
-glyph P3B not found
-glyph R2C not found
-glyph R10I not found
-glyph R133 not found
-glyph S14D not found
-glyph S130A not found
-glyph S130B not found
-glyph S35A not found
-glyph T33B not found
-glyph T141 not found
-glyph U6A not found
-glyph U6B not found
-glyph U23F not found
-glyph U32D not found
-glyph V1A not found
-glyph V1B not found
-glyph V1C not found
-glyph V1D not found
-glyph V1E not found
-glyph V1F not found
-glyph V1G not found
-glyph V1H not found
-glyph V1I not found
-glyph V2C not found
-glyph V7A not found
-glyph V7B not found
-glyph V11B not found
-glyph V11C not found
-glyph V12A not found
-glyph V12B not found
-glyph V20A not found
-glyph V20B not found
-glyph V20C not found
-glyph V20D not found
-glyph V20E not found
-glyph V20F not found
-glyph V20G not found
-glyph V20I not found
-glyph V20J not found
-glyph V20K not found
-glyph V20L not found
-glyph V23C not found
-glyph V90A not found
-glyph V30A not found
-glyph V33A not found
-glyph V37A not found
-glyph V20M not found
-glyph V20N not found
-glyph W3B not found
-glyph W9D not found
-glyph W14B not found
-glyph W17E not found
-glyph W18C not found
-glyph W24A not found
-glyph X4H not found
-glyph X8A not found
-glyph Y1V not found
-glyph Z2D not found
-glyph Z2E not found
-glyph Z3B not found
-glyph Z5A not found
-glyph Z8A not found
-glyph Z40 not found
-glyph Z41 not found
-glyph Z41A not found
-glyph Z41B not found
-glyph Z41C not found
-glyph Z41D not found
-glyph Z41E not found
-glyph Z41F not found
-glyph Z41G not found
-glyph Z41H not found
-glyph Z41I not found
-glyph Z42 not found
-glyph Z42A not found
-glyph Z42B not found
-glyph Z42C not found
-glyph Z42D not found
-glyph Z42E not found
-glyph Z42F not found
-glyph Z42G not found
-glyph Z42H not found
-glyph AA7A not found
-glyph AA7B not found
-glyph K6B not found
-glyph L3U not found
-glyph N11VR not found
-glyph N11V not found
-glyph N12VR not found
-glyph N12V not found
-glyph NU15A not found
-glyph O6E not found
-glyph O10C not found
-glyph O31V not found
-glyph O31VR not found
-glyph P8HR not found
-glyph R24V not found
-glyph T10V not found
-glyph T21V not found
-glyph V26V not found
-glyph V27V not found
-glyph W2H not found
-glyph Y2V not found
-glyph AA11V not found
-glyph AA11VA not found
-glyph AA32H not found
-glyph A512 not found
-glyph B7I not found
-glyph B7J not found
-glyph C175B not found
-glyph D7B not found
-glyph D24A not found
-glyph D36A not found
-glyph D129A not found
-glyph D218A not found
-glyph D223 not found
-glyph D280A not found
-glyph D363 not found
-glyph D364 not found
-glyph D418 not found
-glyph E100B not found
-glyph E100C not found
-glyph E295 not found
-glyph F41A not found
-glyph F51C not found
-glyph F51F not found
-glyph F130 not found
-glyph F163 not found
-glyph F163A not found
-glyph G14B not found
-glyph G23A not found
-glyph G24B not found
-glyph G225A not found
-glyph H2A not found
-glyph H6D not found
-glyph L7A not found
-glyph L12B not found
-glyph M32A not found
-glyph M43C not found
-glyph M43D not found
-glyph M139A not found
-glyph M248 not found
-glyph N5A not found
-glyph N5B not found
-glyph N6E not found
-glyph N16D not found
-glyph N23A not found
-glyph N23B not found
-glyph N31J not found
-glyph N36C not found
-glyph N40B not found
-glyph N63A not found
-glyph N71A not found
-glyph N145 not found
-glyph NL1A not found
-glyph NL1B not found
-glyph NL1C not found
-glyph NL2A not found
-glyph NL3A not found
-glyph NL3B not found
-glyph NL4A not found
-glyph NL4B not found
-glyph NL4C not found
-glyph NL5B not found
-glyph NL5C not found
-glyph NL6A not found
-glyph NL7A not found
-glyph NL7B not found
-glyph NL7C not found
-glyph NL7D not found
-glyph NL8A not found
-glyph NL8B not found
-glyph NL9A not found
-glyph NL9B not found
-glyph NL11A not found
-glyph NL12A not found
-glyph NL14A not found
-glyph NL15A not found
-glyph NL18A not found
-glyph NL20A not found
-glyph NU1A not found
-glyph NU2A not found
-glyph NU2B not found
-glyph NU2C not found
-glyph NU2D not found
-glyph NU2E not found
-glyph NU6A not found
-glyph NU9A not found
-glyph NU10B not found
-glyph NU10C not found
-glyph NU10D not found
-glyph NU11B not found
-glyph NU12A not found
-glyph NU12B not found
-glyph NU13A not found
-glyph NU14A not found
-glyph NU14B not found
-glyph NU14C not found
-glyph NU16A not found
-glyph NU17A not found
-glyph NU17B not found
-glyph NU17C not found
-glyph NU17D not found
-glyph NU18B not found
-glyph NU21A not found
-glyph O15A not found
-glyph O31A not found
-glyph O31B not found
-glyph O44D not found
-glyph O49B not found
-glyph O246 not found
-glyph O289A not found
-glyph O354 not found
-glyph P2G not found
-glyph P4A not found
-glyph P4F not found
-glyph P4G not found
-glyph P5W not found
-glyph P57 not found
-glyph P60D not found
-glyph Q18B not found
-glyph R10J not found
-glyph R15C not found
-glyph R22A not found
-glyph R23C not found
-glyph R24B not found
-glyph R24C not found
-glyph R24D not found
-glyph R25A not found
-glyph R25B not found
-glyph R61B not found
-glyph S34A not found
-glyph S40A not found
-glyph S42B not found
-glyph T83B not found
-glyph T142 not found
-glyph T143 not found
-glyph U3A not found
-glyph U6C not found
-glyph U7E not found
-glyph U39R not found
-glyph U40A not found
-glyph U116A not found
-glyph V1J not found
-glyph V6A not found
-glyph V31B not found
-glyph V39A not found
-glyph V116 not found
-glyph W9C not found
-glyph W24B not found
-glyph W30 not found
-glyph W72 not found
-glyph X2D not found
-glyph Y1A not found
-glyph Y1AV not found
-glyph Z3C not found
-glyph Z6A not found
-glyph Z44 not found
-glyph Z45 not found
-glyph Z46 not found
-glyph AA1A not found
-glyph AA12V not found
+Missing EGPZ and unicode signes
+reading EGPZ
+reading Unicode
+Opening /jseshGlyphs/list.txt
+glyph A64 (UNICODE) not found
+glyph A65 (UNICODE) not found
+glyph A70 (UNICODE) not found
+glyph C13 (UNICODE) not found
+glyph C15 (UNICODE) not found
+glyph C16 (UNICODE) not found
+glyph D48a (UNICODE) not found
+glyph D50b (UNICODE) not found
+glyph D50c (UNICODE) not found
+glyph D50d (UNICODE) not found
+glyph D50e (UNICODE) not found
+glyph D50f (UNICODE) not found
+glyph D50g (UNICODE) not found
+glyph D50h (UNICODE) not found
+glyph D50i (UNICODE) not found
+glyph D64 (UNICODE) not found
+glyph D67a (UNICODE) not found
+glyph D67b (UNICODE) not found
+glyph D67c (UNICODE) not found
+glyph D67d (UNICODE) not found
+glyph D67e (UNICODE) not found
+glyph D67f (UNICODE) not found
+glyph D67g (UNICODE) not found
+glyph D67h (UNICODE) not found
+glyph E28a (UNICODE) not found
+glyph F21a (UNICODE) not found
+glyph F45a (UNICODE) not found
+glyph F51c (UNICODE) not found
+glyph G6a (UNICODE) not found
+glyph G11a (UNICODE) not found
+glyph G36a (UNICODE) not found
+glyph G37a (UNICODE) not found
+glyph G45a (UNICODE) not found
+glyph I11a (UNICODE) not found
+glyph L2a (UNICODE) not found
+glyph L6a (UNICODE) not found
+glyph L8 (UNICODE) not found
+glyph M10a (UNICODE) not found
+glyph M12c (UNICODE) not found
+glyph M12d (UNICODE) not found
+glyph M12e (UNICODE) not found
+glyph M12f (UNICODE) not found
+glyph M12g (UNICODE) not found
+glyph M12h (UNICODE) not found
+glyph M28a (UNICODE) not found
+glyph N18b (UNICODE) not found
+glyph N25a (UNICODE) not found
+glyph NL1 (UNICODE) not found
+glyph NL2 (UNICODE) not found
+glyph NL3 (UNICODE) not found
+glyph NL4 (UNICODE) not found
+glyph NL5 (UNICODE) not found
+glyph NL5a (UNICODE) not found
+glyph NL6 (UNICODE) not found
+glyph NL7 (UNICODE) not found
+glyph NL8 (UNICODE) not found
+glyph NL9 (UNICODE) not found
+glyph NL11 (UNICODE) not found
+glyph NL12 (UNICODE) not found
+glyph NL13 (UNICODE) not found
+glyph NL14 (UNICODE) not found
+glyph NL15 (UNICODE) not found
+glyph NL16 (UNICODE) not found
+glyph NL17 (UNICODE) not found
+glyph NL17a (UNICODE) not found
+glyph NL18 (UNICODE) not found
+glyph NL19 (UNICODE) not found
+glyph NL20 (UNICODE) not found
+glyph NU1 (UNICODE) not found
+glyph NU2 (UNICODE) not found
+glyph NU3 (UNICODE) not found
+glyph NU4 (UNICODE) not found
+glyph NU5 (UNICODE) not found
+glyph NU6 (UNICODE) not found
+glyph NU7 (UNICODE) not found
+glyph NU8 (UNICODE) not found
+glyph NU9 (UNICODE) not found
+glyph NU10 (UNICODE) not found
+glyph NU10a (UNICODE) not found
+glyph NU11 (UNICODE) not found
+glyph NU11a (UNICODE) not found
+glyph NU12 (UNICODE) not found
+glyph NU13 (UNICODE) not found
+glyph NU14 (UNICODE) not found
+glyph NU15 (UNICODE) not found
+glyph NU16 (UNICODE) not found
+glyph NU17 (UNICODE) not found
+glyph NU18 (UNICODE) not found
+glyph NU18a (UNICODE) not found
+glyph NU19 (UNICODE) not found
+glyph NU20 (UNICODE) not found
+glyph NU21 (UNICODE) not found
+glyph NU22 (UNICODE) not found
+glyph NU22a (UNICODE) not found
+glyph O1a (UNICODE) not found
+glyph O5a (UNICODE) not found
+glyph O6e (UNICODE) not found
+glyph O6f (UNICODE) not found
+glyph O10b (UNICODE) not found
+glyph O10c (UNICODE) not found
+glyph O25a (UNICODE) not found
+glyph O29a (UNICODE) not found
+glyph O30a (UNICODE) not found
+glyph O50a (UNICODE) not found
+glyph O50b (UNICODE) not found
+glyph S6a (UNICODE) not found
+glyph S26a (UNICODE) not found
+glyph S26b (UNICODE) not found
+glyph S35a (UNICODE) not found
+glyph U6a (UNICODE) not found
+glyph U6b (UNICODE) not found
+glyph U42 (UNICODE) not found
+glyph V1a (UNICODE) not found
+glyph V1b (UNICODE) not found
+glyph V1c (UNICODE) not found
+glyph V1d (UNICODE) not found
+glyph V1e (UNICODE) not found
+glyph V1f (UNICODE) not found
+glyph V1g (UNICODE) not found
+glyph V1h (UNICODE) not found
+glyph V1i (UNICODE) not found
+glyph V7a (UNICODE) not found
+glyph V7b (UNICODE) not found
+glyph V11b (UNICODE) not found
+glyph V11c (UNICODE) not found
+glyph V12a (UNICODE) not found
+glyph V12b (UNICODE) not found
+glyph V20a (UNICODE) not found
+glyph V20b (UNICODE) not found
+glyph V20c (UNICODE) not found
+glyph V20d (UNICODE) not found
+glyph V20e (UNICODE) not found
+glyph V20f (UNICODE) not found
+glyph V20g (UNICODE) not found
+glyph V20i (UNICODE) not found
+glyph V20j (UNICODE) not found
+glyph V20k (UNICODE) not found
+glyph V20l (UNICODE) not found
+glyph V30a (UNICODE) not found
+glyph V33a (UNICODE) not found
+glyph V37a (UNICODE) not found
+glyph V40a (UNICODE) not found
+glyph W24a (UNICODE) not found
+glyph X8a (UNICODE) not found
+glyph Y1a (UNICODE) not found
+glyph Z2d (UNICODE) not found
+glyph Z3b (UNICODE) not found
+glyph Z5a (UNICODE) not found
+glyph Z15a (UNICODE) not found
+glyph Z15b (UNICODE) not found
+glyph Z15c (UNICODE) not found
+glyph Z15d (UNICODE) not found
+glyph Z15e (UNICODE) not found
+glyph Z15f (UNICODE) not found
+glyph Z15g (UNICODE) not found
+glyph Z15h (UNICODE) not found
+glyph Z15i (UNICODE) not found
+glyph Z16a (UNICODE) not found
+glyph Z16b (UNICODE) not found
+glyph Z16c (UNICODE) not found
+glyph Z16d (UNICODE) not found
+glyph Z16e (UNICODE) not found
+glyph Z16f (UNICODE) not found
+glyph Z16g (UNICODE) not found
+glyph Z16h (UNICODE) not found
+glyph Aa7a (UNICODE) not found
+glyph Aa7b (UNICODE) not found
+glyph K6B (EGZP) not found
+glyph L3U (EGZP) not found
+glyph N11VR (EGZP) not found
+glyph N11V (EGZP) not found
+glyph N12VR (EGZP) not found
+glyph N12V (EGZP) not found
+glyph NU15A (EGZP) not found
+glyph O6E (EGZP) not found
+glyph O10C (EGZP) not found
+glyph O31V (EGZP) not found
+glyph O31VR (EGZP) not found
+glyph P8HR (EGZP) not found
+glyph T10V (EGZP) not found
+glyph V26V (EGZP) not found
+glyph V27V (EGZP) not found
+glyph W2H (EGZP) not found
+glyph AA11VA (EGZP) not found
+glyph AA32H (EGZP) not found
+glyph A512 (EGZP) not found
+glyph B7I (EGZP) not found
+glyph B7J (EGZP) not found
+glyph C175B (EGZP) not found
+glyph D7B (EGZP) not found
+glyph D24A (EGZP) not found
+glyph D36A (EGZP) not found
+glyph D129A (EGZP) not found
+glyph D218A (EGZP) not found
+glyph D223 (EGZP) not found
+glyph D280A (EGZP) not found
+glyph D363 (EGZP) not found
+glyph D364 (EGZP) not found
+glyph D418 (EGZP) not found
+glyph E100B (EGZP) not found
+glyph E100C (EGZP) not found
+glyph E295 (EGZP) not found
+glyph F41A (EGZP) not found
+glyph F51C (EGZP) not found
+glyph F51F (EGZP) not found
+glyph F130 (EGZP) not found
+glyph F163 (EGZP) not found
+glyph F163A (EGZP) not found
+glyph G14B (EGZP) not found
+glyph G23A (EGZP) not found
+glyph G24B (EGZP) not found
+glyph G225A (EGZP) not found
+glyph H2A (EGZP) not found
+glyph H6D (EGZP) not found
+glyph L7A (EGZP) not found
+glyph L12B (EGZP) not found
+glyph M32A (EGZP) not found
+glyph M43C (EGZP) not found
+glyph M43D (EGZP) not found
+glyph M139A (EGZP) not found
+glyph M248 (EGZP) not found
+glyph N5A (EGZP) not found
+glyph N5B (EGZP) not found
+glyph N6E (EGZP) not found
+glyph N16D (EGZP) not found
+glyph N23A (EGZP) not found
+glyph N23B (EGZP) not found
+glyph N31J (EGZP) not found
+glyph N36C (EGZP) not found
+glyph N40B (EGZP) not found
+glyph N63A (EGZP) not found
+glyph N71A (EGZP) not found
+glyph N145 (EGZP) not found
+glyph NL1A (EGZP) not found
+glyph NL1B (EGZP) not found
+glyph NL1C (EGZP) not found
+glyph NL2A (EGZP) not found
+glyph NL3A (EGZP) not found
+glyph NL3B (EGZP) not found
+glyph NL4A (EGZP) not found
+glyph NL4B (EGZP) not found
+glyph NL4C (EGZP) not found
+glyph NL5B (EGZP) not found
+glyph NL5C (EGZP) not found
+glyph NL6A (EGZP) not found
+glyph NL7A (EGZP) not found
+glyph NL7B (EGZP) not found
+glyph NL7C (EGZP) not found
+glyph NL7D (EGZP) not found
+glyph NL8A (EGZP) not found
+glyph NL8B (EGZP) not found
+glyph NL9A (EGZP) not found
+glyph NL9B (EGZP) not found
+glyph NL11A (EGZP) not found
+glyph NL12A (EGZP) not found
+glyph NL14A (EGZP) not found
+glyph NL15A (EGZP) not found
+glyph NL18A (EGZP) not found
+glyph NL20A (EGZP) not found
+glyph NU1A (EGZP) not found
+glyph NU2A (EGZP) not found
+glyph NU2B (EGZP) not found
+glyph NU2C (EGZP) not found
+glyph NU2D (EGZP) not found
+glyph NU2E (EGZP) not found
+glyph NU6A (EGZP) not found
+glyph NU9A (EGZP) not found
+glyph NU10B (EGZP) not found
+glyph NU10C (EGZP) not found
+glyph NU10D (EGZP) not found
+glyph NU11B (EGZP) not found
+glyph NU12A (EGZP) not found
+glyph NU12B (EGZP) not found
+glyph NU13A (EGZP) not found
+glyph NU14A (EGZP) not found
+glyph NU14B (EGZP) not found
+glyph NU14C (EGZP) not found
+glyph NU16A (EGZP) not found
+glyph NU17A (EGZP) not found
+glyph NU17B (EGZP) not found
+glyph NU17C (EGZP) not found
+glyph NU17D (EGZP) not found
+glyph NU18B (EGZP) not found
+glyph NU21A (EGZP) not found
+glyph O15A (EGZP) not found
+glyph O31A (EGZP) not found
+glyph O31B (EGZP) not found
+glyph O44D (EGZP) not found
+glyph O49B (EGZP) not found
+glyph O246 (EGZP) not found
+glyph O289A (EGZP) not found
+glyph O354 (EGZP) not found
+glyph P2G (EGZP) not found
+glyph P4A (EGZP) not found
+glyph P4F (EGZP) not found
+glyph P4G (EGZP) not found
+glyph P5W (EGZP) not found
+glyph P57 (EGZP) not found
+glyph P60D (EGZP) not found
+glyph Q18B (EGZP) not found
+glyph R10J (EGZP) not found
+glyph R15C (EGZP) not found
+glyph R22A (EGZP) not found
+glyph R23C (EGZP) not found
+glyph R24B (EGZP) not found
+glyph R24C (EGZP) not found
+glyph R24D (EGZP) not found
+glyph R25A (EGZP) not found
+glyph R25B (EGZP) not found
+glyph R61B (EGZP) not found
+glyph S34A (EGZP) not found
+glyph S40A (EGZP) not found
+glyph S42B (EGZP) not found
+glyph T83B (EGZP) not found
+glyph T142 (EGZP) not found
+glyph T143 (EGZP) not found
+glyph U3A (EGZP) not found
+glyph U6C (EGZP) not found
+glyph U7E (EGZP) not found
+glyph U39R (EGZP) not found
+glyph U40A (EGZP) not found
+glyph U116A (EGZP) not found
+glyph V1J (EGZP) not found
+glyph V6A (EGZP) not found
+glyph V31B (EGZP) not found
+glyph V39A (EGZP) not found
+glyph V116 (EGZP) not found
+glyph W9C (EGZP) not found
+glyph W24B (EGZP) not found
+glyph W30 (EGZP) not found
+glyph W72 (EGZP) not found
+glyph X2D (EGZP) not found
+glyph Y1A (EGZP) not found
+glyph Y1AV (EGZP) not found
+glyph Z3C (EGZP) not found
+glyph Z6A (EGZP) not found
+glyph Z44 (EGZP) not found
+glyph Z45 (EGZP) not found
+glyph Z46 (EGZP) not found
+glyph AA1A (EGZP) not found
+glyph AA12V (EGZP) not found

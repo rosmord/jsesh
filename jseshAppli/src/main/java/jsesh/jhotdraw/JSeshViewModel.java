@@ -33,14 +33,11 @@ public class JSeshViewModel {
 		editor.setTextDirection(mdcDocument.getMainDirection());
 		editor.setTextOrientation(
 				mdcDocument.getMainOrientation());
-		
-		// What to do with those ???? 
-//		this.getDrawingSpecifications().setSmallSignsCentered(
-//				currentDocument.isSmallSignsCentred());
 	}
 
 	public void setEnabled(boolean enabled) {
 			editor.setEnabled(enabled);
 	}
 
+	
 }

@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocumentReader;
@@ -35,12 +36,13 @@ public class JSeshView extends AbstractView {
 	private JSeshViewModel viewModel;
 
 	public JSeshView() {
-		viewModel= new JSeshViewModel();
+		viewModel = new JSeshViewModel();
 	}
 
 	@Override
 	public void init() {
-		setFocusable(false); // Focus should go to the editor, not to the JSeshView panel itself !
+		setFocusable(false); // Focus should go to the editor, not to the
+								// JSeshView panel itself !
 		setLayout(new BorderLayout());
 		add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
 		observeChanges();
@@ -48,8 +50,8 @@ public class JSeshView extends AbstractView {
 	}
 
 	/**
-	 * Sets an observer to track document changes.
-	 * As the observer is linked to the document, closing the document will free the observer too.
+	 * Sets an observer to track document changes. As the observer is linked to
+	 * the document, closing the document will free the observer too.
 	 */
 	private void observeChanges() {
 		getEditor().getHieroglyphicTextModel().addObserver(new MyObserver());
@@ -58,7 +60,7 @@ public class JSeshView extends AbstractView {
 	public JMDCEditor getEditor() {
 		return viewModel.getEditor();
 	}
-	
+
 	private void initActions() {
 		// Link between jhotdraw action names conventions and JSesh's
 		getActionMap().put(UndoAction.ID,
@@ -69,8 +71,10 @@ public class JSeshView extends AbstractView {
 				getEditor().getActionMap().get(ActionsID.COPY));
 		getActionMap().put(CutAction.ID,
 				getEditor().getActionMap().get(ActionsID.CUT));
-		getActionMap().put(PasteAction.ID,
-				getEditor().getActionMap().get(jsesh.editor.actions.edit.PasteAction.ID));
+		getActionMap().put(
+				PasteAction.ID,
+				getEditor().getActionMap().get(
+						jsesh.editor.actions.edit.PasteAction.ID));
 	}
 
 	public void clear() {
@@ -88,24 +92,29 @@ public class JSeshView extends AbstractView {
 
 	/**
 	 * Read a new JSesh document.
-	 * <p> Note to self: we should arrange viewModel.setCurrentDocument 
-	 * so that it's clear which part is performed as a background operation and which part is 
+	 * <p>
+	 * The uri can be either:
+	 * <ul>
+	 * <li> a normal URL (file:)
+	 * <li> "clipboard:"
+	 * </ul>
+	 * <p>
+	 * Note to self: we should arrange viewModel.setCurrentDocument so that it's
+	 * clear which part is performed as a background operation and which part is
 	 * performed in the ED thread.
-	 * <p> We should also block the input, something which is not done by jhotdraw.
+	 * <p>
+	 * We should also block the input, something which is not done by jhotdraw (false. See examples).
 	 */
 	public void read(URI uri, URIChooser chooser) throws IOException {
-
 		if (uri != null) {
 			File file = new File(uri);
-			
 			try {
 				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
 				// mdcDocumentReader.setEncoding(encoding);
-				
 				viewModel.setCurrentDocument(mdcDocumentReader.loadFile(file));
-				SwingUtilities.invokeAndWait(new Runnable() {					
+				SwingUtilities.invokeAndWait(new Runnable() {
 					public void run() {
-						observeChanges();						
+						observeChanges();
 					}
 				});
 			} catch (MDCSyntaxError e) {
@@ -124,8 +133,6 @@ public class JSeshView extends AbstractView {
 			}
 		}
 	}
-	
-
 
 	public void write(URI uri, URIChooser chooser) throws IOException {
 		// TODO Auto-generated method stub
@@ -135,7 +142,8 @@ public class JSeshView extends AbstractView {
 	private class MyObserver implements Observer {
 
 		public void update(Observable o, Object arg) {
-			setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel().isClean());
+			setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
+					.isClean());
 		}
 	}
 
@@ -150,8 +158,9 @@ public class JSeshView extends AbstractView {
 	}
 
 	/**
-	 * Returns the current caret.
-	 * TODO : we should simplify this... the inner code should not use so many layers.
+	 * Returns the current caret. TODO : we should simplify this... the inner
+	 * code should not use so many layers.
+	 * 
 	 * @return a caret.
 	 */
 	public MDCCaret getCaret() {
@@ -159,8 +168,9 @@ public class JSeshView extends AbstractView {
 	}
 
 	/**
-	 * Returns the current drawing specifications.
-	 * TODO : we should simplify this... the inner code should not use so many layers.
+	 * Returns the current drawing specifications. TODO : we should simplify
+	 * this... the inner code should not use so many layers.
+	 * 
 	 * @return a caret.
 	 */
 	public DrawingSpecification getDrawingSpecifications() {
@@ -168,57 +178,79 @@ public class JSeshView extends AbstractView {
 	}
 
 	/**
-	 * Returns the inner text representation.
-	 * TODO : we should probably simplify this... or return the HieroglyphicTextModel.
-	 * getModel() should probably be called getText().
+	 * Returns the inner text representation. TODO : we should probably simplify
+	 * this... or return the HieroglyphicTextModel. getModel() should probably
+	 * be called getText().
+	 * 
 	 * @return
 	 */
 	public TopItemList getTopItemList() {
-		return viewModel.getEditor().getWorkflow().getHieroglyphicTextModel().getModel();
+		return viewModel.getEditor().getWorkflow().getHieroglyphicTextModel()
+				.getModel();
 	}
+
+	public void setDrawingSpecifications(
+			DrawingSpecification drawingSpecifications) {
+		viewModel.getEditor().setDrawingSpecifications(drawingSpecifications);
+	}
+
+	/**
+	 * Sets the object which will be used to generate copy/paste information.
+	 * This object must handle the current copy/paste selection.
+	 * @param jseshBase
+	 */
+	public void setMDCModelTransferableBroker(
+			MDCModelTransferableBroker mdcModelTransferableBroker) {
+			viewModel.getEditor().setMdcModelTransferableBroker(mdcModelTransferableBroker);
+	}
+
+	public void insertMDC(String mdcText) {
+		viewModel.getEditor().getWorkflow().insertMDC(mdcText);
+	}
+
 }
 
-
 // list of the methods used through getEditor().getWorkflow().
-// 		workflow.getEditor().getWorkflow().changeAngle(angle);
-//			this.workflow.getEditor().getWorkflow().resizeSign(size);
-//			getEditor().getWorkflow().ligatureElements();
-//	        239: getEditor().getWorkflow().ligatureElements(); 
-//246: getEditor().getWorkflow().ligatureBefore(); 
-//253: getEditor().getWorkflow().ligatureAfter(); 
-//261: getEditor().getWorkflow().redZone(false); 
-//268: getEditor().getWorkflow().redZone(true); 
-//279: getEditor().getWorkflow().reverseSign(); 
-//291: getEditor().getWorkflow().setMode('b'); 
-//298: getEditor().getWorkflow().setMode('s'); 
-//305: getEditor().getWorkflow().setMode('i'); 
-//312: getEditor().getWorkflow().setMode('l'); 
-//319: getEditor().getWorkflow().setMode('t'); 
-//326: getEditor().getWorkflow().setMode('|'); 
-//336: getEditor().getWorkflow().shadeZone(true); 
-//342: getEditor().getWorkflow().setSignIsInsideWord(); 
-//348: getEditor().getWorkflow().setSignIsAtSentenceEnd(); 
-//354: getEditor().getWorkflow().setSignIsAtWordEnd(); 
-//360: getEditor().getWorkflow().toggleGrammar(); 
-//366: getEditor().getWorkflow().toggleIgnoredSign(); 
-//372: getEditor().getWorkflow().toggleRedSign(); 
-//378: getEditor().getWorkflow().toggleWideSign(); 
-//385: getEditor().getWorkflow().shadeZone(false); 
-//437: AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup(); 
-//445: getEditor().getWorkflow().replaceSelectionByAbsoluteGroup(g); 
-//469: getEditor().getWorkflow().doShade(shade); 
-//481: getEditor().getWorkflow().doShadeSign(shade); 
-//488: getEditor().getWorkflow().addPhilologicalMarkup(code); 
-//495: getEditor().getWorkflow().insertMDC("\"" + protectedText + "\""); 
-//502: getEditor().getWorkflow().insertElement(element); 
-//511: getEditor().getWorkflow().addCartouche(type, start, end); 
-//547: getEditor().getWorkflow().selectAll(); 
-//554: getEditor().getWorkflow().insertPageBreak(); 
-//561: getEditor().getWorkflow().explodeGroup(); 
-//567: getEditor().getWorkflow().groupVertical(); 
-//573: getEditor().getWorkflow().groupHorizontally(); 
-//595: getEditor().getWorkflow().clear(); 
-//1 140: getEditor().getWorkflow().addSign(code);
-// Varia : 
-// 1 518: caretActionManager = new CaretActionManager(getEditor().getWorkflow()); 
+// workflow.getEditor().getWorkflow().changeAngle(angle);
+// this.workflow.getEditor().getWorkflow().resizeSign(size);
+// getEditor().getWorkflow().ligatureElements();
+// 239: getEditor().getWorkflow().ligatureElements();
+// 246: getEditor().getWorkflow().ligatureBefore();
+// 253: getEditor().getWorkflow().ligatureAfter();
+// 261: getEditor().getWorkflow().redZone(false);
+// 268: getEditor().getWorkflow().redZone(true);
+// 279: getEditor().getWorkflow().reverseSign();
+// 291: getEditor().getWorkflow().setMode('b');
+// 298: getEditor().getWorkflow().setMode('s');
+// 305: getEditor().getWorkflow().setMode('i');
+// 312: getEditor().getWorkflow().setMode('l');
+// 319: getEditor().getWorkflow().setMode('t');
+// 326: getEditor().getWorkflow().setMode('|');
+// 336: getEditor().getWorkflow().shadeZone(true);
+// 342: getEditor().getWorkflow().setSignIsInsideWord();
+// 348: getEditor().getWorkflow().setSignIsAtSentenceEnd();
+// 354: getEditor().getWorkflow().setSignIsAtWordEnd();
+// 360: getEditor().getWorkflow().toggleGrammar();
+// 366: getEditor().getWorkflow().toggleIgnoredSign();
+// 372: getEditor().getWorkflow().toggleRedSign();
+// 378: getEditor().getWorkflow().toggleWideSign();
+// 385: getEditor().getWorkflow().shadeZone(false);
+// 437: AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup();
+// 445: getEditor().getWorkflow().replaceSelectionByAbsoluteGroup(g);
+// 469: getEditor().getWorkflow().doShade(shade);
+// 481: getEditor().getWorkflow().doShadeSign(shade);
+// 488: getEditor().getWorkflow().addPhilologicalMarkup(code);
+// 495: getEditor().getWorkflow().insertMDC("\"" + protectedText + "\"");
+// 502: getEditor().getWorkflow().insertElement(element);
+// 511: getEditor().getWorkflow().addCartouche(type, start, end);
+// 547: getEditor().getWorkflow().selectAll();
+// 554: getEditor().getWorkflow().insertPageBreak();
+// 561: getEditor().getWorkflow().explodeGroup();
+// 567: getEditor().getWorkflow().groupVertical();
+// 573: getEditor().getWorkflow().groupHorizontally();
+// 595: getEditor().getWorkflow().clear();
+// 1 140: getEditor().getWorkflow().addSign(code);
+// Varia :
+// 1 518: caretActionManager = new
+// CaretActionManager(getEditor().getWorkflow());
 // 1 852: new UndoRedoActionManager(getEditor().getWorkflow(), undoAction, 

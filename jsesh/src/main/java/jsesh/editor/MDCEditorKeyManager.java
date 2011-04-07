@@ -155,6 +155,8 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addEditingModeAction(ActionsID.SET_MODE_HIEROGLYPHS, 's');
 			addEditingModeAction(ActionsID.SET_MODE_ITALIC, 'i');
 			addEditingModeAction(ActionsID.SET_MODE_BOLD, 'b');
+			addEditingModeAction(ActionsID.SET_MODE_LINENUMBER, '|');
+			addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
 		}
 
 		/**

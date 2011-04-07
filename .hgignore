@@ -20,6 +20,8 @@ syntax: regexp
 syntax: glob
 .*
 *.iml
+nb-configuration.xml
+nbactions-large.xml
 syntax: regexp
 ^depcache$
 nbactions.xml

@@ -7,9 +7,11 @@
 package jsesh.utilitySoftwares.svgFontsManager;
 
 /**
- *
+ * UNUSED CLASS FOR MANAGING SVG FONTS.
+ * Delete ?
  * @author  rosmord
  */
+@SuppressWarnings("serial")
 public class JSVGFontManager extends javax.swing.JPanel {
     
     /** Creates new form JSVGFontManager */

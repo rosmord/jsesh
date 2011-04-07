@@ -1,4 +1,4 @@
-package jsesh.jhotdraw;
+package jsesh.jhotdraw.actions;
 
 import java.lang.reflect.Field;
 

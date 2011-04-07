@@ -1492,14 +1492,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		return saved;
 	}
 
-	/**
-	 * @param drawingSpecifications
-	 *            The drawingSpecifications to set.
-	 */
-	public void setDrawingSpecifications(
-			DrawingSpecification drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
-	}
+
 
 	/**
 	 * @param frame
