@@ -32,6 +32,8 @@ import org.jhotdraw_7_4_1.util.*;
 import org.jhotdraw_7_4_1.util.prefs.PreferencesUtil;
 
 /**
+ * ONGOING WORK!!!!
+ * 
  * Generic document opener action. loads a document into an empty view. If no
  * empty view is available, a new view is created.
  * 
@@ -79,20 +81,20 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 			disposeView = false;
 		}
 
-		doc = prepareDocument(view);
+		//doc = prepareDocument(view);
 
-		URIChooser chooser = getChooser(view);
-		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
+		//URIChooser chooser = getChooser(view);
+		//chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		//if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
 			app.show(view);
-			openViewFromURI(view, chooser.getSelectedURI(), chooser);
-		} else {
-			if (disposeView) {
-				app.dispose(view);
-			}
-			app.setEnabled(true);
+			//openViewFromURI(view, chooser.getSelectedURI(), chooser);
+		//} else {
+			//if (disposeView) {
+				//app.dispose(view);
+			//}
+			//app.setEnabled(true);
 		}
-	}
+	//}
 
 	/**
 	 * Returns the document which should be opened, or null if no document was
@@ -102,11 +104,11 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 	 */
 	protected URI prepareDocument(View view) {
 
-		URIChooser chooser = getChooser(view);
-		chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION)
-			return chooser.getSelectedURI();
-		else
+		//URIChooser chooser = getChooser(view);
+		//chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		//if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION)
+			//return chooser.getSelectedURI();
+		//else
 			return null;
 	}
 
@@ -122,7 +124,8 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 
 			@Override
 			public Object construct() throws IOException {
-				return PDFImporter.createPDFPasteImporter(new File("Unnamed.gly")).getMdcDocument();				
+				return null;
+				//return PDFImporter.createPDFPasteImporter(new File("Unnamed.gly")).getMdcDocument();				
 			}
 
 			@Override
@@ -178,7 +181,7 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 				} catch (IllegalArgumentException e) {
 				}
 				if (exists) {
-					view.read(uri, chooser);
+					//view.read(uri, chooser);
 					return null;
 				} else {
 					ResourceBundleUtil labels = ResourceBundleUtil

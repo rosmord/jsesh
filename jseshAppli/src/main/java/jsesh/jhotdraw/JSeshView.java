@@ -22,6 +22,7 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 import org.jhotdraw_7_4_1.app.AbstractView;
+import org.jhotdraw_7_4_1.app.View;
 import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
 import org.jhotdraw_7_4_1.app.action.edit.CutAction;
 import org.jhotdraw_7_4_1.app.action.edit.PasteAction;
@@ -95,42 +96,64 @@ public class JSeshView extends AbstractView {
 	 * <p>
 	 * The uri can be either:
 	 * <ul>
-	 * <li> a normal URL (file:)
-	 * <li> "clipboard:"
+	 * <li>a normal URL (file:)
+	 * <li>"clipboard:rtf", "clipboard:pdf" (later on, "clipboard:any" will be added).
 	 * </ul>
 	 * <p>
 	 * Note to self: we should arrange viewModel.setCurrentDocument so that it's
 	 * clear which part is performed as a background operation and which part is
 	 * performed in the ED thread.
 	 * <p>
-	 * We should also block the input, something which is not done by jhotdraw (false. See examples).
+	 * We should also block the input, something which is not done by jhotdraw
+	 * (false. See examples).
+	 * 
+	 * Normally <em>Not</em> called on the EDT.
+	 * 
+	 * @see View#read(URI, URIChooser)
 	 */
 	public void read(URI uri, URIChooser chooser) throws IOException {
 		if (uri != null) {
-			File file = new File(uri);
-			try {
-				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
-				// mdcDocumentReader.setEncoding(encoding);
-				viewModel.setCurrentDocument(mdcDocumentReader.loadFile(file));
-				SwingUtilities.invokeAndWait(new Runnable() {
-					public void run() {
-						observeChanges();
-					}
-				});
-			} catch (MDCSyntaxError e) {
-				String msg = "error at line " + e.getLine();
-				msg += " near token: " + e.getToken();
-				JOptionPane.showMessageDialog(getParent(), msg, "Syntax Error",
-						JOptionPane.ERROR_MESSAGE);
-				System.out.println(e.getCharPos());
-				// e.printStackTrace();
-			} catch (IOException e) {
-				throw new UserMessage(e);
-			} catch (InvocationTargetException e) {
-				throw new RuntimeException(e);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+			if ("clipboard".equals(uri.getScheme())) {
+				readFromClipboard(uri);
+			} else {
+				readFromFile(uri);
 			}
+		}
+	}
+
+	private void readFromClipboard(URI uri) {
+		if (uri.getSchemeSpecificPart().equals("rtf")) {
+			
+		} else if (uri.getSchemeSpecificPart().equals("pdf")) {
+			
+		}
+	}
+
+	private void readFromFile(URI uri) {
+		File file = new File(uri);
+		try {
+			MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
+			// mdcDocumentReader.setEncoding(encoding);
+			viewModel.setCurrentDocument(mdcDocumentReader
+					.loadFile(file));
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					observeChanges();
+				}
+			});
+		} catch (MDCSyntaxError e) {
+			String msg = "error at line " + e.getLine();
+			msg += " near token: " + e.getToken();
+			JOptionPane.showMessageDialog(getParent(), msg,
+					"Syntax Error", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e.getCharPos());
+			// e.printStackTrace();
+		} catch (IOException e) {
+			throw new UserMessage(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -197,11 +220,13 @@ public class JSeshView extends AbstractView {
 	/**
 	 * Sets the object which will be used to generate copy/paste information.
 	 * This object must handle the current copy/paste selection.
+	 * 
 	 * @param jseshBase
 	 */
 	public void setMDCModelTransferableBroker(
 			MDCModelTransferableBroker mdcModelTransferableBroker) {
-			viewModel.getEditor().setMdcModelTransferableBroker(mdcModelTransferableBroker);
+		viewModel.getEditor().setMdcModelTransferableBroker(
+				mdcModelTransferableBroker);
 	}
 
 	public void insertMDC(String mdcText) {

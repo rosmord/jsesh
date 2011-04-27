@@ -23,8 +23,8 @@ public class ImportPDFAction extends AbstractApplicationAction {
 
 
 	public void actionPerformed(ActionEvent e) {
-		JSeshApplicationModel applicationModel= (JSeshApplicationModel) getApplication().getModel();
-new OpenFileAction(app);
+		//JSeshApplicationModel applicationModel= (JSeshApplicationModel) getApplication().getModel();
+		//new OpenFileAction(applicationModel);
 
 //RamsesSyntaxViewModel model= (RamsesSyntaxViewModel) getActiveView();
 		//if (model != null) {
