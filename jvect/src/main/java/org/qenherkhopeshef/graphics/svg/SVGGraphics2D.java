@@ -42,6 +42,7 @@ public class SVGGraphics2D extends BaseGraphics2D {
 
 	SVGLowLevel svgOut;
 
+	// TODO : use this value somewhere...
 	private float currentLineWidth;
 
 	/**

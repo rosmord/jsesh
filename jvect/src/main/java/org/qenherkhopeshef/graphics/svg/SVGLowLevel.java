@@ -14,6 +14,7 @@ public class SVGLowLevel {
 	private StringBuffer currentPath = new StringBuffer();
 	private String fillOpacity = null;
 	private String foreground = "#000";
+	// USE THIS VALUE SOMEWHERE ...
 	private String background = "#FFF";
 
 	public SVGLowLevel(Writer writer, java.awt.geom.Dimension2D dimensions)
@@ -25,9 +26,14 @@ public class SVGLowLevel {
 		// <svg xmlns="http://www.w3.org/2000/svg"
 		// xmlns:xlink="http://www.w3.org/1999/xlink">
 
+		double width= dimensions.getWidth();
+		double height= dimensions.getHeight();
 		String[][] attributes = new String[][] {
 				{ "xmlns", "http://www.w3.org/2000/svg" },
-				{ "xmlns:xlink", "http://www.w3.org/1999/xlink" } };
+				{ "xmlns:xlink", "http://www.w3.org/1999/xlink" },
+				{"width", ""+ width},
+				{"height", ""+ height}				
+		};
 		generateStartTag("svg", attributes);
 	}
 

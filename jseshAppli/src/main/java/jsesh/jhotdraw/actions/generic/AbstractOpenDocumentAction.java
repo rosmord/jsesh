@@ -14,22 +14,23 @@ package jsesh.jhotdraw.actions.generic;
  * the copyright holders. For details see accompanying license terms. 
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
-import java.util.prefs.Preferences;
 
-import jsesh.io.importer.pdf.PDFImporter;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;
 import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
-import org.jhotdraw_7_4_1.gui.*;
+import org.jhotdraw_7_4_1.gui.JSheet;
+import org.jhotdraw_7_4_1.gui.Worker;
 import org.jhotdraw_7_4_1.net.URIUtil;
-import org.jhotdraw_7_4_1.util.*;
-import org.jhotdraw_7_4_1.util.prefs.PreferencesUtil;
+import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
 
 /**
  * ONGOING WORK!!!!
