@@ -7,13 +7,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Line2D.Double;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D.Double;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.WeakHashMap;
 
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.constants.TextDirection;

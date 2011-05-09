@@ -53,6 +53,11 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-resources-plugin</artifactId>
+            	<version>2.5</version>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -91,5 +96,6 @@
             <artifactId>swing-layout</artifactId>
             <version>1.0.3</version>
         </dependency>
+        	
     </dependencies>
 </project>

@@ -2,6 +2,7 @@ package jsesh.jhotdraw;
 
 import java.awt.BorderLayout;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -16,7 +17,12 @@ import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
+import jsesh.graphics.export.pdfExport.PDFExportPreferences;
+import jsesh.graphics.export.pdfExport.PDFExporter;
+import jsesh.io.importer.pdf.PDFImportException;
+import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -97,7 +103,8 @@ public class JSeshView extends AbstractView {
 	 * The uri can be either:
 	 * <ul>
 	 * <li>a normal URL (file:)
-	 * <li>"clipboard:rtf", "clipboard:pdf" (later on, "clipboard:any" will be added).
+	 * <li>"clipboard:rtf", "clipboard:pdf" (later on, "clipboard:any" will be
+	 * added).
 	 * </ul>
 	 * <p>
 	 * Note to self: we should arrange viewModel.setCurrentDocument so that it's
@@ -123,19 +130,44 @@ public class JSeshView extends AbstractView {
 
 	private void readFromClipboard(URI uri) {
 		if (uri.getSchemeSpecificPart().equals("rtf")) {
-			
+
 		} else if (uri.getSchemeSpecificPart().equals("pdf")) {
-			
+			try {
+				final MDCDocument document = (PDFImporter
+						.createPDFPasteImporter(new File("Unnamed.gly"))
+						.getMdcDocument());
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						viewModel.setCurrentDocument(document);
+					}
+				});
+			} catch (PDFImportException e) {
+				throw new UserMessage(e.getMessage());
+			}
 		}
 	}
 
+	/**
+	 * Read a JSesh file in the current view.
+	 * TODO : improve this code, which is not correct regarding the EDT.
+	 * @param uri
+	 */
 	private void readFromFile(URI uri) {
 		File file = new File(uri);
+		/*
+		 * // Two possibilities : PDF files or JSesh files... if
+		 * (file.getName().toLowerCase().endsWith(".pdf")) { try {
+		 * FileInputStream in = new FileInputStream(file);
+		 * setCurrentDocument(PDFImporter.createPDFStreamImporter( in,
+		 * file).getMdcDocument()); } catch (PDFImportException e) {
+		 * e.printStackTrace(); JOptionPane.showMessageDialog(frame,
+		 * "Error opening pdf. Sorry", "Error", JOptionPane.ERROR_MESSAGE); }
+		 */
 		try {
 			MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
 			// mdcDocumentReader.setEncoding(encoding);
-			viewModel.setCurrentDocument(mdcDocumentReader
-					.loadFile(file));
+			viewModel.setCurrentDocument(mdcDocumentReader.loadFile(file));
+			// Observe changes to this document in the future.
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
 					observeChanges();
@@ -144,8 +176,8 @@ public class JSeshView extends AbstractView {
 		} catch (MDCSyntaxError e) {
 			String msg = "error at line " + e.getLine();
 			msg += " near token: " + e.getToken();
-			JOptionPane.showMessageDialog(getParent(), msg,
-					"Syntax Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), msg, "Syntax Error",
+					JOptionPane.ERROR_MESSAGE);
 			System.out.println(e.getCharPos());
 			// e.printStackTrace();
 		} catch (IOException e) {
@@ -158,8 +190,48 @@ public class JSeshView extends AbstractView {
 	}
 
 	public void write(URI uri, URIChooser chooser) throws IOException {
-		// TODO Auto-generated method stub
+		File file = new File(uri);
+		MDCDocument document = viewModel.getMdcDocument();
+		document.setFile(file);
 
+		// TODO : create a sane system for dealing with text orientation and
+		// direction.
+		// Currently, the "document" data is not synchronized with the
+		// content of the editor.
+		// TODO TEMPORARY PATCH
+
+		document.setMainDirection(getEditor().getDrawingSpecifications()
+				.getTextDirection());
+		document.setMainOrientation(getEditor().getDrawingSpecifications()
+				.getTextOrientation());
+		document.setSmallSignCentered(getEditor().getDrawingSpecifications()
+				.isSmallSignsCentered());
+		// TODO END OF TEMPORARY PATCH
+
+		if (document.getFile() != null
+				&& document.getFile().getName().toLowerCase().endsWith(".pdf")) {
+			// Create the prefs for this document... move the code to document ?
+			// or what ?
+			// more info should also be saved in the case of PDF files (pdf
+			// prefs).
+			// TODO save PDF prefs in pdf files...
+			PDFExportPreferences prefs = new PDFExportPreferences();
+			prefs.setFile(document.getFile());
+			prefs.setDrawingSpecifications(getDrawingSpecifications().copy());
+			prefs.getDrawingSpecifications().setTextDirection(
+					document.getMainDirection());
+			prefs.getDrawingSpecifications().setTextOrientation(
+					document.getMainOrientation());
+			prefs.getDrawingSpecifications().setSmallSignsCentered(
+					document.isSmallSignsCentred());
+			PDFExporter exporter = new PDFExporter();
+			exporter.setPdfExportPreferences(prefs);
+			TopItemList model = document.getHieroglyphicTextModel().getModel();
+			exporter.exportModel(model, MDCCaret.buildWholeTextCaret(model));
+		} else {
+			document.save();
+		}
+		// currentMDCDirectory = currentDocument.getFile().getParentFile();
 	}
 
 	private class MyObserver implements Observer {

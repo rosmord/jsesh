@@ -24,9 +24,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import jsesh.jhotdraw.generic.ApplicationHelper;
+
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;
 import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
+import org.jhotdraw_7_4_1.app.action.file.OpenFileAction;
 import org.jhotdraw_7_4_1.gui.JSheet;
 import org.jhotdraw_7_4_1.gui.Worker;
 import org.jhotdraw_7_4_1.net.URIUtil;
@@ -47,11 +50,12 @@ import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
  * OpenFileAction (i.e. it should be possible to retrofit OpenFileAction to use
  * this code).
  * 
- * 
+ *  see {@link OpenFileAction}
  * @author Werner Randelshofer, changes by S. Rosmorduc
  */
 @SuppressWarnings("serial")
-public class AbstractOpenDocumentAction extends AbstractApplicationAction {
+public abstract class AbstractOpenDocumentAction extends
+		AbstractApplicationAction {
 
 	/** Creates a new instance. */
 	public AbstractOpenDocumentAction(Application app) {
@@ -61,97 +65,25 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 	/**
 	 * perform the actual document opening.
 	 */
-	final protected void performOpenDocument() {
+	public void actionPerformed(ActionEvent e) {
 		final Application app = getApplication();
+		final View view = ApplicationHelper.findEmptyView(app);
+		URI uri = getDocumentURI();
 
-		// Search for an empty view
-		View emptyView = app.getActiveView();
-		if (emptyView == null || emptyView.getURI() != null
-				|| emptyView.hasUnsavedChanges() || !emptyView.isEnabled()) {
-			emptyView = null;
-		}
-
-		final View view;
-		boolean disposeView;
-		if (emptyView == null) {
-			view = app.createView();
-			app.add(view);
-			disposeView = true;
-		} else {
-			view = emptyView;
-			disposeView = false;
-		}
-
-		//doc = prepareDocument(view);
-
-		//URIChooser chooser = getChooser(view);
-		//chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		//if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION) {
+		if (uri != null) {
 			app.show(view);
-			//openViewFromURI(view, chooser.getSelectedURI(), chooser);
-		//} else {
-			//if (disposeView) {
-				//app.dispose(view);
-			//}
-			//app.setEnabled(true);
+			openViewFromURI(view, uri);
 		}
-	//}
+	}
 
 	/**
 	 * Returns the document which should be opened, or null if no document was
-	 * selected. This is where a document can be selected, for instance.
+	 * selected. This is where a document can be selected, for instance. Some
+	 * subclasses might have constant URI returned.
 	 * 
-	 * @return
+	 * @return an URI, or null if no document should be opened after all.
 	 */
-	protected URI prepareDocument(View view) {
-
-		//URIChooser chooser = getChooser(view);
-		//chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		//if (showDialog(chooser, app.getComponent()) == JFileChooser.APPROVE_OPTION)
-			//return chooser.getSelectedURI();
-		//else
-			return null;
-	}
-
-	protected void openDocumentInView(final View view) {
-		final Application app = getApplication();
-		app.setEnabled(true);
-		view.setEnabled(false);
-
-		view.setEnabled(false);
-
-		// Open the document
-		view.execute(new Worker() {
-
-			@Override
-			public Object construct() throws IOException {
-				return null;
-				//return PDFImporter.createPDFPasteImporter(new File("Unnamed.gly")).getMdcDocument();				
-			}
-
-			@Override
-			protected void done(Object value) {
-				final Application app = getApplication();
-				view.setEnabled(true);
-				Frame w = (Frame) SwingUtilities.getWindowAncestor(view
-						.getComponent());
-				if (w != null) {
-					w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
-					w.toFront();
-				}
-				view.getComponent().requestFocus();
-				app.setEnabled(true);
-			}
-		});	
-	}
-
-	public void actionPerformed(ActionEvent evt) {
-		final Application app = getApplication();
-		if (app.isEnabled()) {
-			app.setEnabled(false);
-			performOpenDocument();
-		}
-	}
+	protected abstract URI getDocumentURI();
 
 	protected void openViewFromURI(final View view, final URI uri) {
 		final Application app = getApplication();
@@ -182,7 +114,7 @@ public class AbstractOpenDocumentAction extends AbstractApplicationAction {
 				} catch (IllegalArgumentException e) {
 				}
 				if (exists) {
-					//view.read(uri, chooser);
+					view.read(uri, null);
 					return null;
 				} else {
 					ResourceBundleUtil labels = ResourceBundleUtil

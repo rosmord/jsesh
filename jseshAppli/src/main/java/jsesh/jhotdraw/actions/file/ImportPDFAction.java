@@ -1,19 +1,20 @@
 package jsesh.jhotdraw.actions.file;
 
-import java.awt.event.ActionEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.actions.generic.AbstractOpenDocumentAction;
 
 import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
-import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
-import org.jhotdraw_7_4_1.app.action.app.OpenApplicationAction;
-import org.jhotdraw_7_4_1.app.action.file.OpenFileAction;
 
+/**
+ * Import a PDF pasted on the clipboard.
+ * @author rosmord
+ *
+ */
 @SuppressWarnings("serial")
-public class ImportPDFAction extends AbstractApplicationAction {
+public class ImportPDFAction extends AbstractOpenDocumentAction {
 	public static final String ID= "file.import.pdf";
 
 	public ImportPDFAction(Application app) {
@@ -21,15 +22,16 @@ public class ImportPDFAction extends AbstractApplicationAction {
 		BundleHelper.configure(this);
 	}
 
-
-	public void actionPerformed(ActionEvent e) {
-		//JSeshApplicationModel applicationModel= (JSeshApplicationModel) getApplication().getModel();
-		//new OpenFileAction(applicationModel);
-
-//RamsesSyntaxViewModel model= (RamsesSyntaxViewModel) getActiveView();
-		//if (model != null) {
-			//model.groupElements();
-		//}
+	
+	@Override
+	protected URI getDocumentURI() {
+		try {
+			// Return pseudo-uri for pdf on clipboard.
+			return new URI("clipboard:pdf");
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
+
 
 }

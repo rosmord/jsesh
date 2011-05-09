@@ -25,7 +25,9 @@ import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.
- * 
+ * TODO:  make it possible to avoid computing a drawing twice in all cases
+ * 		a) create code for generating SVG
+ * 		b) create code taking a graphic2D factory as argument.  
  * TODO : reuse this class in all image creating soft.
  * TODO : move it in a more logical (?) place.
  * 

@@ -23,4 +23,16 @@ Then, modules and files for the NEXT JSesh version :
 jhotdrawfw : the "application framework" part of JHOTDRAW 7.
 jseshAppli : a module containing the new JSesh application (using JHotdraw)
 
+Working with eclipse:
+	there seems to be a problem with the eclipse plugin for maven regarding generated sources:
+	the "jsesh" maven module will report missing classes in eclipse.
+	A quick fix:
+	* import the JSesh-all project in eclipse (import maven project)
+	* open the jsesh module, and, on the pom.xml file, select "run as/maven package".
+		This will create the missing files
+	* then, you need to add the corresponding folders to the jsesh eclipse project as "source folders".
+		In the jsesh module, open target/generated sources
+		Then right click on target/generated sources/cup, and select the menu entry "build path/use as source folder".
+		do the same for the target/generated sources/lex folder.
+That's it.
 

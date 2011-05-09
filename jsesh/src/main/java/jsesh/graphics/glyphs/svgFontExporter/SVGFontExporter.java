@@ -15,9 +15,11 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
+import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.hieroglyphs.ShapeChar;
 
 /**
@@ -39,6 +41,7 @@ public class SVGFontExporter {
 	private class GlyphData {
 		Area table = Area.UNICODE;
 		String mdcCode;
+		String UnicodeName;
 		String position;
 
 		public GlyphData(String mdcCode, String position, Area table) {
@@ -46,6 +49,14 @@ public class SVGFontExporter {
 			this.mdcCode = mdcCode;
 			this.position = position;
 			this.table = table;
+		}
+
+		public GlyphData(String mdcCode, String unicodeName, String position, Area table) {
+			super();
+			this.mdcCode = mdcCode;
+			this.position = position;
+			this.table = table;
+			this.UnicodeName= unicodeName;
 		}
 
 		void outputGlyph(Writer writer, String path, double width)
@@ -59,7 +70,7 @@ public class SVGFontExporter {
 				writer.write("glyph-name='PRIV_" + mdcCode + "' ");
 				break;
 			case UNICODE:
-				writer.write("glyph-name='" + mdcCode + "' ");
+				writer.write("glyph-name='" + UnicodeName + "' ");
 			}
 			writer.write("unicode='&#x" + position + ";' ");
 			writer.write(" horiz-adv-x='" + width + "'");
@@ -73,15 +84,22 @@ public class SVGFontExporter {
 			// If the glyph is not a ligature, gets the sign.
 			// Ligature will be dealt with later...
 			if (mdcCode.indexOf('_') == -1) {
-				// System.err.print("for "+ glyph);
-				// Trick: we use the file name conversion provided by the
-				// GardinerCode class:
-				String glyphCode = GardinerCode.getCodeForFileName(mdcCode);
+				String glyphCode= null;
+
+				if (table== Area.EGZP) {				
+					// System.err.print("for "+ glyph);
+					// Trick: we use the file name conversion provided by the
+					// GardinerCode class:
+					glyphCode = GardinerCode.getCodeForFileName(mdcCode);
+				} else {
+					CompositeHieroglyphsManager manager= CompositeHieroglyphsManager.getInstance();
+					glyphCode= manager.getCanonicalCode(mdcCode);
+				}
 				// End of code = capital letters
 				ShapeChar sign = fontManager.get(glyphCode);
 				if (sign == null) {
 					System.err.println("glyph " + mdcCode + " (" + table
-							+ ") not found");
+							+ ") not found, was " + glyphCode);
 					return;
 				}
 				sign = (ShapeChar) sign.clone();
@@ -115,10 +133,10 @@ public class SVGFontExporter {
 
 	public SVGFontExporter() {
 		try {
-			System.err.println("reading EGPZ");
-			readEGPZDef();
+			//System.err.println("reading EGPZ");
+			//readEGPZDef();
 			System.err.println("reading Unicode");
-			readNewGardiner();
+			readUnicode();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -171,7 +189,7 @@ public class SVGFontExporter {
 	}
 
 	/**
-	 * Read the Gardiner-code-to-Unicode list made by M-J Nederhof.
+	 * Read the Gardiner-code-to-Unicode list.
 	 * 
 	 * <p> Note : some codes are DIFFERENT between standard MdC and Unicode.
 	 * <p> JSesh follows the de facto standard as we want portability with existing texts.
@@ -180,34 +198,24 @@ public class SVGFontExporter {
 	 * @throws IOException
 	 * @throws NumberFormatException
 	 */
-	public void readNewGardiner() throws NumberFormatException, IOException {
+	public void readUnicode() throws NumberFormatException, IOException {
 		InputStream in = SVGFontExporter.class
-				.getResourceAsStream("NewGardiner.txt");
+				.getResourceAsStream("MdC2Unicode-table.txt");
 		BufferedReader r = new BufferedReader(
 				new InputStreamReader(in, "ASCII"));
 		String line;
 		while ((line = r.readLine()) != null) {
-			int endGlyphName = line.indexOf('\t');
-			String glyphName = line.substring(0, endGlyphName);
-			// Now, MdC codes variants use CAPITAL letters..
-
-			// extract the codePoint
-			int startCodePoint = line.indexOf("0x");
-			String pos = line.substring(startCodePoint + 2); // Suppresses the
-																// "0x"
-			// System.err.print(glyphName+ "=>");
-			// System.err.print(pos);
-
-			// Ensure the codepoint is a correct hex number.
-			int codePoint = Integer.parseInt(pos, 16);
-			// If there is an error, the software fail. Normally, we then need
-			// to correct egpz.h
+			if (line.startsWith("#") || line.trim().length() == 0)
+				continue;
+			String[] fields = line.split("\t");
+			String mdcName= fields[0];
+			String UnicodeName= fields[1];
+			int codePoint= Integer.parseInt(fields[2].substring(2), 16);
 
 			// Ok, now we fill the map:
-			codeMap.put(pos, new GlyphData(glyphName, pos, Area.PRIVATE));
-			codePoint = codePoint - 0xE000 + 0x13000;
-			codeMap.put(pos,
-					new GlyphData(glyphName, Integer.toHexString(codePoint)
+			//codeMap.put(codePoint, new GlyphData(glyphName, pos, Area.PRIVATE));
+			codeMap.put(""+codePoint,
+					new GlyphData(mdcName, UnicodeName, Integer.toHexString(codePoint)
 							.toUpperCase(), Area.UNICODE));
 		}
 	}
