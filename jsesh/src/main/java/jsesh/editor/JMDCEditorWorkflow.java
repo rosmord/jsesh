@@ -18,8 +18,13 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.Action;
+
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
+import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
+import jsesh.editorSoftware.actions.ShadeAction;
+import jsesh.editorSoftware.actions.ShadeSignAction;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.PossibilitiesList;
@@ -60,6 +65,7 @@ import jsesh.mdc.model.utilities.LastHieroglyphSelector;
 import jsesh.mdc.model.utilities.VerticalGrouper;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
+import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
 
 /**
  * An abstract represention of the editing process of a hieroglyphic text.
@@ -786,7 +792,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * there is nothing to shade, nothing will be shaded.
 	 * 
 	 * @param shade
-	 *            shading specifications
+	 *            shading specifications (see {@link ShadingCode}
 	 */
 	// UNDO/REDO
 	public void doShade(final int shade) {
@@ -1320,18 +1326,18 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * 
+	 * Ligature a hieroglyph and a following group. 
 	 */
 	// UNDO/REDO
-	public void ligatureAfter() {
+	public void ligatureHieroglyphWithGroup() {
 		doComplexLigature(0);
 	}
 
 	/**
-	 * 
+	 * Insert a group in a following hieroglyph.
 	 */
 	// UNDO/REDO
-	public void ligatureBefore() {
+	public void ligatureGroupWithHieroglyph() {
 		doComplexLigature(-1);
 
 	}
@@ -1427,6 +1433,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
+	 * Paint a zone in red if b is true, black otherwise.
+	 * Will become private in favour of paintZoneInRed() and paintZoneInBlack ?
 	 * @param b
 	 */
 	// UNDO/REDO
@@ -1444,6 +1452,20 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		clearSeparator();
 	}
 
+	/**
+	 * Colour the selection in red.
+	 */
+	public void paintZoneInRed() {
+		redZone(true);
+	}
+	
+	/**
+	 * Colour the selection in black.
+	 */
+	public void paintZoneInBlack() {
+		redZone(false);
+	}
+	
 	/**
 	 * Remove a single letter from the text element in front of the cursor.
 	 * Erase the element if it becomes empty. Things would be waayyyy simpler if
@@ -1663,11 +1685,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * shade or unshade selected zone, depending the value of <code>shade</code>
-	 * .
-	 * 
-	 * @param shade
-	 * 
+	 * shade or unshade selected zone, depending the value of <code>shade</code>.
+	 * This method will be made private in favour of {@link #shadeZone()} and {@link #unshadeZone()}.	 
+	 * @param shade	 
 	 */
 	// UNDO/REDO
 	public void shadeZone(final boolean shade) {
@@ -1680,6 +1700,20 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		});
 	}
 
+	/**
+	 * Shade selected zone.
+	 */
+	public void shadeZone() {
+		shadeZone(true);
+	}
+	
+	/**
+	 * Remove shading for selected zone.
+	 */
+	public void unshadeZone() {
+		shadeZone(false);
+	}
+	
 	/**
 	 * Returns a copy of the list of selected elements, or null if none is
 	 * selected.
@@ -1835,8 +1869,6 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public boolean mustSave() {
 		return hieroglyphicTextModel.mustSave();
 	}
-
-	
 
 
 }

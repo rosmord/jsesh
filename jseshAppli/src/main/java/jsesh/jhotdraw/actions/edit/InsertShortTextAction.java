@@ -18,7 +18,7 @@ public class InsertShortTextAction extends AbstractViewAction {
 
 	public InsertShortTextAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.configure(this);
+		BundleHelper.getInstance().configure(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -243,14 +243,14 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			"ligature group with hieroglyph") {
 
 		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().ligatureBefore();
+			getEditor().getWorkflow().ligatureGroupWithHieroglyph();
 		}
 	};
 	private AbstractAction ligatureAfterAction = new AbstractAction(
 			"ligature hieroglyph with group") {
 
 		public void actionPerformed(ActionEvent e) {
-			getEditor().getWorkflow().ligatureAfter();
+			getEditor().getWorkflow().ligatureHieroglyphWithGroup();
 		}
 	};
 

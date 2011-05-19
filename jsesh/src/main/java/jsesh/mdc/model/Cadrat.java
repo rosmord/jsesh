@@ -63,7 +63,7 @@ public class Cadrat
 	/**
 	 * Sets the shading value.
 	 * @see Cadrat#getShading()
-	 * @param shading The shading to set
+	 * @param shading The shading to set (value in {@link ShadingCode}
 	 * @see ShadingCode
 	 */
 	public void setShading(int shading) {

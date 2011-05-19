@@ -36,7 +36,7 @@ public class SelectCopyPasteConfigurationAction extends AbstractViewAction {
 			int configurationNumber) {
 		super(app, view);
 		this.configurationNumber = configurationNumber;
-		BundleHelper.configure(this, partialID + configurationNumber);
+		BundleHelper.getInstance().configure(this, partialID + configurationNumber);
 	}
 
 	/*

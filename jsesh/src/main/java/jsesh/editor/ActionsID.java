@@ -26,7 +26,6 @@ public interface ActionsID {
 	String GO_UP = "edit.up";
 	String GROUP_HORIZONTAL = "text.groupHorizontally";
 	String GROUP_VERTICAL = "text.groupVertically";
-	//String INSERT_CHAR = "INSERT CHAR";
 	String NEW_LINE = "text.newLine";
 	String NEW_PAGE = "text.newPage";
 	String PASTE = "edit.paste";
@@ -41,8 +40,18 @@ public interface ActionsID {
 	String SET_MODE_ITALIC = "edit.setModeItalic";
 	String SET_MODE_LATIN = "edit.setModeLatin";
 	String SET_MODE_TRANSLIT = "edit.setModeTranslit";
-	String SET_MODE_LINENUMBER = "edit.setModeLineNumber";
-
-
+	String SET_MODE_LINENUMBER = "edit.setModeLineNumber";	
 	String UNDO = "edit.undo";
+	String LIGATURE_ELEMENTS = "text.ligatureElements";
+	String LIGATURE_GROUP_WITH_GLYPH= "text.ligatureGroupWithGlyph";
+	String LIGATURE_GLYPH_WITH_GROUP = "text.ligatureGlyphWithGroup";
+	String EXPLODE_GROUP = "text.explodeGroup";
+	String INSERT_SPACE= "text.insertSpace";
+	String INSERT_HALF_SPACE="text.insertHalfSpace";
+	String INSERT_RED_POINT="text.insertRedPoint";
+	String INSERT_BLACK_POINT="text.insertBlackPoint";
+	String SHADE_ZONE ="text.shadeZone";
+	String UNSHADE_ZONE ="text.unshadeZone";
+	String RED_ZONE = "text.redZone";
+	String BLACK_ZONE= "text.blackZone";
 }

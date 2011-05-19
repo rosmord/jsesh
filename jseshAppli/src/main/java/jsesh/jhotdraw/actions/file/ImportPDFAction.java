@@ -19,7 +19,7 @@ public class ImportPDFAction extends AbstractOpenDocumentAction {
 
 	public ImportPDFAction(Application app) {
 		super(app);
-		BundleHelper.configure(this);
+		BundleHelper.getInstance().configure(this);
 	}
 
 	

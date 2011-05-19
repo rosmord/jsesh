@@ -7,9 +7,13 @@ package jsesh.editor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -27,13 +31,18 @@ import jsesh.editor.actions.move.GoDownAction;
 import jsesh.editor.actions.move.GoLeftAction;
 import jsesh.editor.actions.move.GoRightAction;
 import jsesh.editor.actions.move.GoUpAction;
+import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editor.actions.text.InsertElementIconAction;
 import jsesh.editor.actions.view.SelectOrientationAction;
 import jsesh.editor.actions.view.SelectTextDirectionAction;
 import jsesh.editor.actionsUtils.DelegatingAction;
 import jsesh.editor.actionsUtils.Enabler;
+import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.model.ModelElement;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
+import jsesh.swing.ImageIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;
@@ -47,12 +56,12 @@ import org.qenherkhopeshef.utils.PlatformDetection;
 
 class MDCEditorKeyManager extends KeyAdapter {
 
+	private List<Action> shadingActions= new ArrayList<Action>();
+	
+	private List<Action> signShadingActions= new ArrayList<Action>();
+	
 	private static class ActionMapper {
-		/**
-		 * The "normal " shortcut key for the current operating system.
-		 */
-		private String shortcutKey;
-
+	
 		private ActionMap actionMap;
 
 		private InputMap inputMap;
@@ -63,11 +72,11 @@ class MDCEditorKeyManager extends KeyAdapter {
 
 		ActionMapper(JMDCEditor editor) {
 			this.editor = editor;
-			if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-				shortcutKey = "meta";
-			} else {
-				shortcutKey = "control";
-			}
+			//if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+				//shortcutKey = "meta";
+			//} else {
+				//shortcutKey = "control";
+			//}
 			appDefaults = AppDefaultFactory.getAppDefaults();
 			inputMap = new InputMap();
 			actionMap = new ActionMap();
@@ -113,7 +122,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 			// objects.
 			addDelegateAction(ActionsID.NEW_LINE, editor, "insertNewLine",
 					editorEnabler);
-
+			
 			addDelegateAction(ActionsID.NEW_PAGE, editor, "insertPageBreak",
 					editorEnabler);
 
@@ -128,6 +137,30 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addDelegateAction(ActionsID.GROUP_VERTICAL, editor,
 					"groupVertically", editorEnabler);
 
+			addDelegateAction(ActionsID.LIGATURE_ELEMENTS, editor,
+					"ligatureElements", editorEnabler);
+			
+			addDelegateAction(ActionsID.LIGATURE_GLYPH_WITH_GROUP, editor,
+					"ligatureHieroglyphWithGroup", editorEnabler);
+			
+			addDelegateAction(ActionsID.LIGATURE_GROUP_WITH_GLYPH, editor,
+					"ligatureGroupWithHieroglyph", editorEnabler);
+
+			addDelegateAction(ActionsID.EXPLODE_GROUP, editor,
+					"explodeGroup", editorEnabler);
+
+			addDelegateAction(ActionsID.INSERT_SPACE, editor, "insertSpace", editorEnabler);
+			addDelegateAction(ActionsID.INSERT_HALF_SPACE, editor, "insertHalfSpace", editorEnabler);
+			
+			addInsertAction(ActionsID.INSERT_BLACK_POINT, editor, SymbolCodes.BLACKPOINT, editorEnabler );
+			addInsertAction(ActionsID.INSERT_RED_POINT, editor, SymbolCodes.REDPOINT, editorEnabler );
+			
+			addDelegateAction(ActionsID.SHADE_ZONE, editor, "shadeZone", editorEnabler);
+			addDelegateAction(ActionsID.UNSHADE_ZONE, editor, "unshadeZone", editorEnabler);
+			addDelegateAction(ActionsID.RED_ZONE, editor, "paintZoneInRed", editorEnabler);
+			addDelegateAction(ActionsID.BLACK_ZONE, editor, "paintZoneInBlack", editorEnabler);
+
+			
 			addAction(ActionsID.EXPAND_SELECTION_LEFT,
 					new ExpandSelectionAction(editor, -1));
 			addAction(ActionsID.EXPAND_SELECTION_RIGHT,
@@ -157,7 +190,13 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addEditingModeAction(ActionsID.SET_MODE_BOLD, 'b');
 			addEditingModeAction(ActionsID.SET_MODE_LINENUMBER, '|');
 			addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
+			
+			// Shading 
+			for (Entry<String, Action> e: EditorShadeAction.generateActionMap(editor).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}
 		}
+
 
 		/**
 		 * Bind keystrokes to actions
@@ -202,6 +241,30 @@ class MDCEditorKeyManager extends KeyAdapter {
 					new DelegatingAction(editor.getWorkflow(), methodName));
 		}
 
+
+		/**
+		 * Add a action for inserting a given element.
+		 * @param id
+		 * @param editor
+		 * @param symbolCode see {@link SymbolCodes}
+		 * @param editorEnabler
+		 */
+		private void addInsertAction(String id,
+				JMDCEditor editor, int symbolCode,
+				Enabler editorEnabler) {
+			Action action= new InsertElementIconAction(editor, symbolCode) ;
+			addAction(id, action);
+		}
+		
+		private void addInsertAction(String id,
+				JMDCEditor editor, ModelElement modelElement,
+				Enabler editorEnabler) {
+			Action action= new InsertElementIconAction(editor, modelElement) ;
+			addAction(id, action);
+		}
+		
+		
+		
 		private void addEditingModeAction(String actionID, char mode) {
 			SetModeAction action = new SetModeAction(editor, mode);
 			addAction(actionID, action);
@@ -216,6 +279,12 @@ class MDCEditorKeyManager extends KeyAdapter {
 			Object accelerator = action.getValue(Action.ACCELERATOR_KEY);
 			if (accelerator != null)
 				getInputMap().put((KeyStroke) accelerator, actionID);
+			// Bind the Icon according to the IconMdC property
+			String iconMdcCode= appDefaults.getString(actionID+ "." + "IconMdC");
+			if (iconMdcCode != null) {
+				ImageIcon icon = ImageIconFactory.buildImage((String) iconMdcCode);
+				action.putValue(Action.SMALL_ICON, icon);			
+			}
 		}
 
 	}

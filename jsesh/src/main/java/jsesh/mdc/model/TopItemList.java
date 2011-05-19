@@ -183,7 +183,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * 
 	 * @param a
 	 * @param b
-	 * @param shadeCode
+	 * @param shadeCode value in {@link ShadingCode}
 	 * @see #shade(int, int, boolean) for another kind of shading.
 	 */
 	public void shade(int a, int b, int shadeCode) {

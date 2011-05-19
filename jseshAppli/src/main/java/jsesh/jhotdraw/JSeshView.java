@@ -305,6 +305,13 @@ public class JSeshView extends AbstractView {
 		viewModel.getEditor().getWorkflow().insertMDC(mdcText);
 	}
 
+	
+	@Override
+	public boolean canSaveTo(URI uri) {		
+		if (uri != null && ! "file".equals(uri.getScheme()))
+			return false;
+		return super.canSaveTo(uri);
+	}
 }
 
 // list of the methods used through getEditor().getWorkflow().

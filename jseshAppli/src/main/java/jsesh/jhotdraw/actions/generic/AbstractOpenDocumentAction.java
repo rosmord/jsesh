@@ -104,7 +104,7 @@ public abstract class AbstractOpenDocumentAction extends
 		view.setEnabled(false);
 
 		// Open the file
-		view.execute(new Worker() {
+		view.execute(new Worker<Object>() {
 
 			@Override
 			public Object construct() throws IOException {

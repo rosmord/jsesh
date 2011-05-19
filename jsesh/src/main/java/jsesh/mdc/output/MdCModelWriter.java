@@ -161,20 +161,7 @@ public class MdCModelWriter {
 		 */
 		public void visitCadrat(Cadrat c) {
 			visitElementList(c, ":");
-			// Shading :
-			int sh = c.getShading();
-			if (sh != ShadingCode.NONE) {
-				write("#");
-				if ((sh & ShadingCode.TOP_START) != 0)
-					write("1");
-				if ((sh & ShadingCode.TOP_END) != 0)
-					write("2");
-				if ((sh & ShadingCode.BOTTOM_START) != 0)
-					write("3");
-				if ((sh & ShadingCode.BOTTOM_END) != 0)
-					write("4");
-			}
-
+			write(ShadingCode.toString("#", c.getShading()));
 		}
 
 		/*
