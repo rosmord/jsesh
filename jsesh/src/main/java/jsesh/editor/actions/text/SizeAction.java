@@ -6,21 +6,22 @@ package jsesh.editor.actions.text;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.editor.JMDCEditor;
+import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 import jsesh.editorSoftware.actions.generic.BasicAction;
 
-public class SizeAction extends BasicAction {
-	/**
-	 * 
-	 */
-	private final MDCDisplayerAppliWorkflow workflow;
+@SuppressWarnings("serial")
+public class SizeAction extends EditorAction {
+	
+	public SizeAction(JMDCEditor editor) {
+		super(editor);
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private int size;
 
-	public SizeAction(int size,MDCDisplayerAppliWorkflow workflow) {
-		super(workflow,"" + size + "%");
-		this.workflow = workflow;
-		this.size = size;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -28,6 +29,7 @@ public class SizeAction extends BasicAction {
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.workflow.getEditor().getWorkflow().resizeSign(size);
+		if (editor.isEditable())
+			editor.getWorkflow().resizeSign(size);
 	}
 }

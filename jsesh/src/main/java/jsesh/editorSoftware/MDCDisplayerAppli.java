@@ -32,7 +32,6 @@ import javax.swing.UIManager;
 
 import jsesh.Version;
 import jsesh.editor.ActionsID;
-import jsesh.editor.actions.edit.CopyAsAction;
 import jsesh.editor.actions.edit.PasteAction;
 import jsesh.editorSoftware.actions.AboutAction;
 import jsesh.editorSoftware.actions.DisplayJavaPropertiesAction;

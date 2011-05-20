@@ -31,6 +31,8 @@ import jsesh.editor.actions.move.GoDownAction;
 import jsesh.editor.actions.move.GoLeftAction;
 import jsesh.editor.actions.move.GoRightAction;
 import jsesh.editor.actions.move.GoUpAction;
+import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
+import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.InsertElementIconAction;
 import jsesh.editor.actions.view.SelectOrientationAction;
@@ -195,6 +197,14 @@ class MDCEditorKeyManager extends KeyAdapter {
 			for (Entry<String, Action> e: EditorShadeAction.generateActionMap(editor).entrySet()) {
 				actionMap.put(e.getKey(), e.getValue());
 			}
+			// Cartouches
+			for (Entry<String, Action> e: EditorCartoucheAction.generateActionMap(editor).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}
+			// Philological markup
+			for (Entry<String, Action> e: AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}			
 		}
 
 

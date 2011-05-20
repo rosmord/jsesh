@@ -1,3 +1,36 @@
+/*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
 package jsesh.jhotdraw;
 
 import java.awt.GridLayout;
@@ -9,13 +42,17 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
 
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
+import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editorSoftware.actions.CartoucheAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
@@ -135,15 +172,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		addToMenu(textMenu, a, v, ActionsID.RED_ZONE);
 		addToMenu(textMenu, a, v, ActionsID.BLACK_ZONE);
 		textMenu.addSeparator();
-		// SEP
-		JMenu shadingMenu = buildShadingMenu(a, v);
-		textMenu.add(shadingMenu);
-
-		// (...)
-		// Cartouche (...)
-		// Philological markup
+		textMenu.add(buildShadingMenu(a, v));
+		textMenu.add(buildCartoucheMenu(a, v));
+		textMenu.add(buildEcdoticMenu(a, v));
 		return textMenu;
 	}
+
 
 	private JMenu createSignMenu(Application a, JSeshView v) {
 		// Reverse sign
@@ -406,7 +440,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * @param menubar
 	 */
 	private JMenu buildShadingMenu(Application a, JSeshView v) {
-		JMenu shadingMenu = new JMenu("Shading");
+		JMenu shadingMenu = BundleHelper.getInstance().configure(
+				new JMenu(), "text.shadingMenu");
 		shadingMenu.setMnemonic(KeyEvent.VK_H);
 		JPopupMenu pm = shadingMenu.getPopupMenu();
 		pm.setLayout(new GridLayout(0, 4));
@@ -424,6 +459,42 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		 * signShading.add(workflow.getShadeSignActions()[i]); }
 		 * parent.add(signShading);
 		 */
+	}
+
+	/**
+	 * @param menubar
+	 * @return 
+	 */
+	private JMenu buildCartoucheMenu(Application a, JSeshView v) {
+		JMenu cartoucheMenu = BundleHelper.getInstance().configure(
+				new JMenu(), "text.cartoucheMenu");
+
+		cartoucheMenu.setMnemonic(KeyEvent.VK_C);
+		JPopupMenu pm = cartoucheMenu.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		for (String s : EditorCartoucheAction.cartoucheActionNames) {
+			cartoucheMenu.add(a.getActionMap(v).get(s));
+		}
+		return cartoucheMenu;
+	}
+
+	/**
+	 * Build menu for Ecdotic/Philological marks.
+	 * @param a
+	 * @param v
+	 * @return
+	 */
+	
+	private JMenu buildEcdoticMenu(Application a, JSeshView v) {
+		JMenu ecdoticMenu = BundleHelper.getInstance().configure(
+				new JMenu(), "text.ecdoticMenu");
+
+		JPopupMenu pm = ecdoticMenu.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		for (String s : AddPhilologicalMarkupAction.philologyActionNames) {
+			ecdoticMenu.add(a.getActionMap(v).get(s));
+		}
+		return ecdoticMenu;
 	}
 
 }

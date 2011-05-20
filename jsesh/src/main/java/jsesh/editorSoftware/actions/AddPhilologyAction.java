@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
 import jsesh.editorSoftware.actions.generic.MDCIconAction;
 
+@SuppressWarnings("serial")
 public class AddPhilologyAction extends MDCIconAction {
 	int code;
 	
