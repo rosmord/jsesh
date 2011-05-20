@@ -9,6 +9,7 @@ import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
+import jsesh.mdc.model.TopItemList;
 import jsesh.swing.ImageIconFactory;
 
 import org.jhotdraw_7_4_1.app.Application;
@@ -38,9 +39,9 @@ public class InsertElementAction extends AbstractViewAction {
 	public InsertElementAction(Application app, View view, int glyphCode, String mdcTextForIcon) {
 		this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getStringForLexicalItem(glyphCode));
 	}
-
+	
 	/** 
-	 * Icon-less insert element action.
+	 * Build icon-less insert element action.
 	 * @param app
 	 * @param view
 	 * @param glyphCode see {@link SymbolCodes}
@@ -50,6 +51,17 @@ public class InsertElementAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this,id);
 	}
 
+	/** 
+	 * Build insert element action with the symbol as icon.
+	 * @param app
+	 * @param view
+	 * @param glyphCode see {@link SymbolCodes}
+	 */
+	public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String id, int symbolCode) {
+		InsertElementAction action= new InsertElementAction(app, view, id, symbolCode);
+		action.putValue(SMALL_ICON, ImageIconFactory.buildImage(symbolCode));
+		return action;
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		JSeshView jSeshView= (JSeshView) getActiveView();

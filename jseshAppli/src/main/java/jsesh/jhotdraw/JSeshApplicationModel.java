@@ -42,7 +42,6 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
@@ -52,7 +51,6 @@ import jsesh.editor.JMDCEditor;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.editorSoftware.actions.CartoucheAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
@@ -91,6 +89,11 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  */
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
+
+	/**
+	 * Prefix for action names which insert a symbol with a SymbolCode.
+	 */
+	private static final String INSERT_CODE = "INSERT_CODE_";
 
 	/**
 	 * Some actions require a knowledge of the application...
@@ -132,6 +135,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		menus.add(createTextMenu(a, (JSeshView) v));
 		// menus.add(createSignMenu(a, (JSeshView) v));
 		// View and Help Menu. Tools (insert new Sign ?)
+		
+		// View menu :
+		// Zoom out/in
+		// Reset Zoom
+		// sep
+		// orientation 
+		// direction 
+		// center sign
 		return menus;
 	}
 
@@ -177,7 +188,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		textMenu.add(buildEcdoticMenu(a, v));
 		return textMenu;
 	}
-
 
 	private JMenu createSignMenu(Application a, JSeshView v) {
 		// Reverse sign
@@ -285,11 +295,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
 				SymbolCodes.QUATERSHADE);
 
-		// Shading symbols;.. full size, vertical, horizontal, quarter.
-
-		// addEditorAction(map, editor, ActionsID.GROUP_HORIZONTAL);
-		// addEditorAction(map, editor, ActionsID.GROUP_VERTICAL);
-		// addEditorAction(map, editor, ActionsID.LIGATURE_ELEMENTS);
+		// Ecdotic signs. Codes from 100 to 113.
+		for (int i = 100; i <= 113; i++) {
+			map.put(INSERT_CODE + i, InsertElementAction
+					.buildInsertElementActionWithIcon(a, jseshView, INSERT_CODE
+							+ i, i));
+		}
 
 		if (editor != null) {
 			for (Object actionIDa : editor.getActionMap().keys()) {
@@ -435,13 +446,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	/**
 	 * Build a menu for shading quadrants.
+	 * 
 	 * @param v
 	 * @param a
 	 * @param menubar
 	 */
 	private JMenu buildShadingMenu(Application a, JSeshView v) {
-		JMenu shadingMenu = BundleHelper.getInstance().configure(
-				new JMenu(), "text.shadingMenu");
+		JMenu shadingMenu = BundleHelper.getInstance().configure(new JMenu(),
+				"text.shadingMenu");
 		shadingMenu.setMnemonic(KeyEvent.VK_H);
 		JPopupMenu pm = shadingMenu.getPopupMenu();
 		pm.setLayout(new GridLayout(0, 4));
@@ -463,11 +475,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	/**
 	 * @param menubar
-	 * @return 
+	 * @return
 	 */
 	private JMenu buildCartoucheMenu(Application a, JSeshView v) {
-		JMenu cartoucheMenu = BundleHelper.getInstance().configure(
-				new JMenu(), "text.cartoucheMenu");
+		JMenu cartoucheMenu = BundleHelper.getInstance().configure(new JMenu(),
+				"text.cartoucheMenu");
 
 		cartoucheMenu.setMnemonic(KeyEvent.VK_C);
 		JPopupMenu pm = cartoucheMenu.getPopupMenu();
@@ -480,19 +492,24 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	/**
 	 * Build menu for Ecdotic/Philological marks.
+	 * 
 	 * @param a
 	 * @param v
 	 * @return
 	 */
-	
+
 	private JMenu buildEcdoticMenu(Application a, JSeshView v) {
-		JMenu ecdoticMenu = BundleHelper.getInstance().configure(
-				new JMenu(), "text.ecdoticMenu");
+		JMenu ecdoticMenu = BundleHelper.getInstance().configure(new JMenu(),
+				"text.ecdoticMenu");
 
 		JPopupMenu pm = ecdoticMenu.getPopupMenu();
 		pm.setLayout(new GridLayout(0, 4));
 		for (String s : AddPhilologicalMarkupAction.philologyActionNames) {
 			ecdoticMenu.add(a.getActionMap(v).get(s));
+		}
+		// Limits should be taken from Symbol codes class
+		for (int i = 100; i <= 113; i++) {
+			ecdoticMenu.add(a.getActionMap(v).get(INSERT_CODE + i));
 		}
 		return ecdoticMenu;
 	}
