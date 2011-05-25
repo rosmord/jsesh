@@ -54,4 +54,5 @@ public interface ActionsID {
 	String UNSHADE_ZONE ="text.unshadeZone";
 	String RED_ZONE = "text.redZone";
 	String BLACK_ZONE= "text.blackZone";
+	String REVERSE_SIGN = "sign.reverseSign";
 }

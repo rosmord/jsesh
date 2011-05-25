@@ -48,6 +48,8 @@ import javax.swing.JToolBar;
 
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.actions.sign.EditorSignRotationAction;
+import jsesh.editor.actions.sign.EditorSignSizeAction;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
@@ -133,7 +135,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public List<JMenu> createMenus(Application a, View v) {
 		List<JMenu> menus = new ArrayList<JMenu>();
 		menus.add(createTextMenu(a, (JSeshView) v));
-		// menus.add(createSignMenu(a, (JSeshView) v));
+		menus.add(createSignMenu(a, (JSeshView) v));
 		// View and Help Menu. Tools (insert new Sign ?)
 		
 		// View menu :
@@ -190,8 +192,23 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	}
 
 	private JMenu createSignMenu(Application a, JSeshView v) {
-		// Reverse sign
-		// Size (240, 200, 144, 120, 100, 70, 50, 35, 25, 1)
+		JMenu menu= new JMenu();
+		BundleHelper.getInstance().configure(menu, "sign");
+		addToMenu(menu, a, v, ActionsID.REVERSE_SIGN);
+
+		JMenu sizeMenu= new JMenu();
+		BundleHelper.getInstance().configure(sizeMenu, "sign.size");
+		for (String sizeActionName: EditorSignSizeAction.actionNames) {
+			sizeMenu.add(a.getActionMap(v).get(sizeActionName));
+		}
+		menu.add(sizeMenu);
+		
+		JMenu rotationMenu= new JMenu();
+		BundleHelper.getInstance().configure(rotationMenu, "sign.rotate");
+		for (String actionName: EditorSignRotationAction.getActionNames()) {
+			rotationMenu.add(a.getActionMap(v).get(actionName));
+		}
+		menu.add(rotationMenu);
 		// Rotation (graphical! 30 and 45 °)
 		// Toggle sign is red
 		// Toggle wide sign
@@ -200,7 +217,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		// Toggle ignore sign
 		// sign shading...
 
-		return null;
+		return menu;
 	}
 
 	/**
@@ -484,7 +501,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		cartoucheMenu.setMnemonic(KeyEvent.VK_C);
 		JPopupMenu pm = cartoucheMenu.getPopupMenu();
 		pm.setLayout(new GridLayout(0, 4));
-		for (String s : EditorCartoucheAction.cartoucheActionNames) {
+		for (String s : EditorCartoucheAction.actionNames) {
 			cartoucheMenu.add(a.getActionMap(v).get(s));
 		}
 		return cartoucheMenu;

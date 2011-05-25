@@ -494,7 +494,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * @param angle
 	 */
 	// UNDO/REDO
-	public void changeAngle(final int angle) {
+	public void setAngle(final int angle) {
 		possibilities = null;
 		modifyLastSign(new SignModifier() {
 			public void modifySign(Hieroglyph h) {

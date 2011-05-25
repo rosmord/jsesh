@@ -31,6 +31,8 @@ import jsesh.editor.actions.move.GoDownAction;
 import jsesh.editor.actions.move.GoLeftAction;
 import jsesh.editor.actions.move.GoRightAction;
 import jsesh.editor.actions.move.GoUpAction;
+import jsesh.editor.actions.sign.EditorSignRotationAction;
+import jsesh.editor.actions.sign.EditorSignSizeAction;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
@@ -57,8 +59,6 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  */
 
 class MDCEditorKeyManager extends KeyAdapter {
-
-	private List<Action> shadingActions= new ArrayList<Action>();
 	
 	private List<Action> signShadingActions= new ArrayList<Action>();
 	
@@ -193,7 +193,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addEditingModeAction(ActionsID.SET_MODE_LINENUMBER, '|');
 			addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
 			
-			// Shading 
+			// Quadrant Shading 
 			for (Entry<String, Action> e: EditorShadeAction.generateActionMap(editor).entrySet()) {
 				actionMap.put(e.getKey(), e.getValue());
 			}
@@ -204,7 +204,17 @@ class MDCEditorKeyManager extends KeyAdapter {
 			// Philological markup
 			for (Entry<String, Action> e: AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults).entrySet()) {
 				actionMap.put(e.getKey(), e.getValue());
-			}			
+			}
+			
+			// Sign-oriented actions
+			//editor.getWorkflow().reverseSign()
+			addDelegateAction(ActionsID.REVERSE_SIGN, editor, "reverseSign", editorEnabler);
+			for (Entry<String,Action> e: EditorSignSizeAction.generateActionMap(editor).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}
+			for (Entry<String,Action> e: EditorSignRotationAction.generateActionMap(editor).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}
 		}
 
 

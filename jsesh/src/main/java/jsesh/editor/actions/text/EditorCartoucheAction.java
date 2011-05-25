@@ -118,12 +118,12 @@ public class EditorCartoucheAction extends EditorAction {
 			new CartoucheParameters('h', 0, 0, "<h0-ra-xa-f-h0>"),
 			new CartoucheParameters('F', 1, 2, "<F-ra-xa-f->") };
 
-	public final static String[] cartoucheActionNames = new String[allCartouches.length];
+	public final static String[] actionNames = new String[allCartouches.length];
 
 	static {
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
-			cartoucheActionNames[i] = ID + c.c + "_" + c.start + "_" + c.end;
+			actionNames[i] = ID + c.c + "_" + c.start + "_" + c.end;
 		}
 	}
 
@@ -131,7 +131,7 @@ public class EditorCartoucheAction extends EditorAction {
 		TreeMap<String, Action> map = new TreeMap<String, Action>();
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
-			map.put(cartoucheActionNames[i], new EditorCartoucheAction(editor,
+			map.put(actionNames[i], new EditorCartoucheAction(editor,
 					c.c, c.start, c.end, c.sample));
 		}
 		return map;
