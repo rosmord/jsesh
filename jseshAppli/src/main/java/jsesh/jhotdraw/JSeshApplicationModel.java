@@ -209,7 +209,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			rotationMenu.add(a.getActionMap(v).get(actionName));
 		}
 		menu.add(rotationMenu);
-		// Rotation (graphical! 30 and 45 °)
 		// Toggle sign is red
 		// Toggle wide sign
 		//

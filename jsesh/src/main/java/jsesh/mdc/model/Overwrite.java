@@ -1,7 +1,5 @@
 package jsesh.mdc.model;
 
-import java.util.Iterator;
-
 import jsesh.mdc.interfaces.OverwriteInterface;
 
 /**

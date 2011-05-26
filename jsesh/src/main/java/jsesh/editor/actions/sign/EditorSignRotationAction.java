@@ -42,8 +42,6 @@ import java.util.TreeSet;
 
 import javax.swing.Action;
 
-import com.jgoodies.forms.layout.Sizes;
-
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.swing.ImageIconFactory;

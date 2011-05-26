@@ -2,7 +2,6 @@ package jsesh.mdc.model;
 
 import jsesh.mdc.constants.TabbingJustification;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /*
  * This file is free Software

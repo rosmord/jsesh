@@ -4,7 +4,8 @@ import java.util.ListIterator;
 
 /**
  * This file is free Software (c) Serge Rosmorduc
- * 
+ * <p>
+ * TODO : replace uses of this type by ListIterator&lt;HorizontalListElement&gt; !
  * @author rosmord
  *  
  */

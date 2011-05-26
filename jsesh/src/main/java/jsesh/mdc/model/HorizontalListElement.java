@@ -1,7 +1,6 @@
 package jsesh.mdc.model;
 
 import jsesh.mdc.interfaces.HorizontalListElementInterface;
-import jsesh.mdc.model.utilities.HieroglyphExtractor;
 
 abstract public class HorizontalListElement extends EmbeddedModelElement implements HorizontalListElementInterface{
 	
