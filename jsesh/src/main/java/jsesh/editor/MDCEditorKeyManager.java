@@ -66,6 +66,7 @@ import jsesh.editor.actions.sign.EditorSignSizeAction;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.editor.actions.text.InsertElementIconAction;
 import jsesh.editor.actions.view.SelectOrientationAction;
 import jsesh.editor.actions.view.SelectTextDirectionAction;
@@ -237,12 +238,26 @@ class MDCEditorKeyManager extends KeyAdapter {
 			}
 			
 			// Sign-oriented actions
-			//editor.getWorkflow().reverseSign()
+			
+			
 			addDelegateAction(ActionsID.REVERSE_SIGN, editor, "reverseSign", editorEnabler);
+			addDelegateAction(ActionsID.TOGGLE_SIGN_IS_RED, editor, "toggleRedSign", editorEnabler);
+			addDelegateAction(ActionsID.TOGGLE_SIGN_IS_WIDE, editor, "toggleWideSign", editorEnabler);
+			addDelegateAction(ActionsID.TOGGLE_IGNORED_SIGN, editor, "toggleIgnoredSign", editorEnabler);
+			addDelegateAction(ActionsID.TOGGLE_GRAMMAR, editor, "toggleGrammar", editorEnabler);
+
+			addDelegateAction(ActionsID.SIGN_IS_SENTENCE_END, editor, "setSignIsAtSentenceEnd", editorEnabler);
+			addDelegateAction(ActionsID.SIGN_IS_WORD_END, editor, "setSignIsAtWordEnd", editorEnabler);
+			addDelegateAction(ActionsID.SIGN_IS_INSIDE_WORD, editor, "setSignIsInsideWord", editorEnabler);
+
 			for (Entry<String,Action> e: EditorSignSizeAction.generateActionMap(editor).entrySet()) {
 				actionMap.put(e.getKey(), e.getValue());
 			}
 			for (Entry<String,Action> e: EditorSignRotationAction.generateActionMap(editor).entrySet()) {
+				actionMap.put(e.getKey(), e.getValue());
+			}
+			// Sign Shading 
+			for (Entry<String, Action> e: EditorSignShadeAction.generateActionMap(editor).entrySet()) {
 				actionMap.put(e.getKey(), e.getValue());
 			}
 		}

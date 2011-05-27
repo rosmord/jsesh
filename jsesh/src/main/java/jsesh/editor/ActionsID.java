@@ -88,4 +88,11 @@ public interface ActionsID {
 	String RED_ZONE = "text.redZone";
 	String BLACK_ZONE= "text.blackZone";
 	String REVERSE_SIGN = "sign.reverseSign";
+	String TOGGLE_SIGN_IS_RED = "sign.toggleSignIsRed";
+	String TOGGLE_SIGN_IS_WIDE = "sign.toggleSignIsWide";
+	String TOGGLE_IGNORED_SIGN = "sign.toggleIgnoredSign";
+	String TOGGLE_GRAMMAR = "sign.toggleGrammar";
+	String SIGN_IS_SENTENCE_END = "sign.setSentenceEnd";
+	String SIGN_IS_WORD_END = "sign.setWordEnd";
+	String SIGN_IS_INSIDE_WORD = "sign.setSignInsideWord";
 }

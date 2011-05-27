@@ -53,6 +53,7 @@ import jsesh.editor.actions.sign.EditorSignSizeAction;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
@@ -137,13 +138,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		menus.add(createTextMenu(a, (JSeshView) v));
 		menus.add(createSignMenu(a, (JSeshView) v));
 		// View and Help Menu. Tools (insert new Sign ?)
-		
+
 		// View menu :
 		// Zoom out/in
 		// Reset Zoom
 		// sep
-		// orientation 
-		// direction 
+		// orientation
+		// direction
 		// center sign
 		return menus;
 	}
@@ -192,30 +193,45 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	}
 
 	private JMenu createSignMenu(Application a, JSeshView v) {
-		JMenu menu= new JMenu();
+		JMenu menu = new JMenu();
 		BundleHelper.getInstance().configure(menu, "sign");
 		addToMenu(menu, a, v, ActionsID.REVERSE_SIGN);
-
-		JMenu sizeMenu= new JMenu();
+		// Size...
+		JMenu sizeMenu = new JMenu();
 		BundleHelper.getInstance().configure(sizeMenu, "sign.size");
-		for (String sizeActionName: EditorSignSizeAction.actionNames) {
+		for (String sizeActionName : EditorSignSizeAction.actionNames) {
 			sizeMenu.add(a.getActionMap(v).get(sizeActionName));
 		}
 		menu.add(sizeMenu);
-		
-		JMenu rotationMenu= new JMenu();
+		// Rotation...
+		JMenu rotationMenu = new JMenu();
 		BundleHelper.getInstance().configure(rotationMenu, "sign.rotate");
-		for (String actionName: EditorSignRotationAction.getActionNames()) {
+		for (String actionName : EditorSignRotationAction.getActionNames()) {
 			rotationMenu.add(a.getActionMap(v).get(actionName));
 		}
 		menu.add(rotationMenu);
-		// Toggle sign is red
-		// Toggle wide sign
-		//
-		// (ignore grammar, inside word/word end, sentence end)
-		// Toggle ignore sign
-		// sign shading...
-
+		// Shading...
+		JMenu shadingMenu = BundleHelper.getInstance().configure(new JMenu(),
+				"sign.shadingMenu");
+		shadingMenu.setMnemonic(KeyEvent.VK_H);
+		JPopupMenu pm = shadingMenu.getPopupMenu();
+		pm.setLayout(new GridLayout(0, 4));
+		for (String s : EditorSignShadeAction.getActionNames()) {
+			shadingMenu.add(a.getActionMap(v).get(s));
+		}
+		// Others...
+		menu.add(shadingMenu);
+		menu.addSeparator();
+		addToMenu(menu, a, v, ActionsID.REVERSE_SIGN);
+		addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_RED);
+		addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_WIDE);		
+		addToMenu(menu, a, v, ActionsID.TOGGLE_IGNORED_SIGN);
+		menu.addSeparator();
+		addToMenu(menu, a, v, ActionsID.SIGN_IS_INSIDE_WORD);
+		addToMenu(menu, a, v, ActionsID.SIGN_IS_WORD_END);
+		addToMenu(menu, a, v, ActionsID.SIGN_IS_SENTENCE_END);
+		addToMenu(menu, a, v, ActionsID.TOGGLE_GRAMMAR);
+		
 		return menu;
 	}
 

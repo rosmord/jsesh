@@ -35,9 +35,16 @@ package jsesh.editor.actions.text;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
+import jsesh.mdc.model.ShadingCode;
 import jsesh.swing.ImageIconFactory;
 
 /**
@@ -48,6 +55,7 @@ import jsesh.swing.ImageIconFactory;
  */
 @SuppressWarnings("serial")
 public class EditorSignShadeAction extends EditorAction {
+	public static final String ID = "sign.shade_";
 
 	private int shade;
 
@@ -77,6 +85,37 @@ public class EditorSignShadeAction extends EditorAction {
 		}
 	}
 	
+	/**
+	 * Generate an action map for a given editor, giving to each shade action the name "text_shade_N", where N is the 
+	 * numeric or-code (between 0 and 15) for the shading (not the MdC code).
+	 * @see ShadingCode
+	 * @param editor
+	 * @return a map of action id, action.
+	 */
+	public static Map<String,Action> generateActionMap(JMDCEditor editor) {
+		TreeMap<String, Action> result = new TreeMap<String, Action>();
+		for (int i = 0; i < 16; i++) {
+			String iconMdC = "G1"+ ShadingCode.toString("#", i);
+			result.put(getActionName(i), new EditorSignShadeAction(editor, i, iconMdC));
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the possible names for shade actions.
+	 * @return
+	 */
+	public static List<String> getActionNames() {
+		ArrayList<String> names= new ArrayList<String>();
+		for (int i= 0; i < 16; i++) {
+			names.add(getActionName(i));
+		}
+		return names;
+	}
 	
+	private static String getActionName(int i) {
+		String id = ID +i;
+		return id;
+	}
 
 }
