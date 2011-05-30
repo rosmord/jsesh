@@ -66,11 +66,11 @@ public class TclImporter {
 		return result;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		TclImporter importer= new TclImporter();
-		List result= importer.parseTclList(new StringReader("a b c {z z1} 3 {d e cf { 23.2 -1.4}} {h i}"));
-		System.out.println(result);
-		result= importer.parseTclList(new StringReader("a b c {d e cf { 23.2 -1.4} {h i"));
-		System.out.println(result);
-	}
+//	public static void main(String[] args) throws IOException {
+//		TclImporter importer= new TclImporter();
+//		List result= importer.parseTclList(new StringReader("a b c {z z1} 3 {d e cf { 23.2 -1.4}} {h i}"));
+//		System.out.println(result);
+//		result= importer.parseTclList(new StringReader("a b c {d e cf { 23.2 -1.4} {h i"));
+//		System.out.println(result);
+//	}
 }

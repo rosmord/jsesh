@@ -22,7 +22,6 @@ public class MainMacApplicationAdapter implements ApplicationListener {
     }
 
     public void handleAbout(ApplicationEvent ev) {
-        System.out.println("hello there");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 applicationController.about();

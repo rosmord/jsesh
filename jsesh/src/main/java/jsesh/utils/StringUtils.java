@@ -48,11 +48,11 @@ public class StringUtils {
 		
 	}
 
-	public static void main(String[] args) {
-		String t = "aadsfsdaafsdfdaaaqdfdsaaddd";
-		System.out.println(replace(t, "aa", " hello "));
-		System.out.println(replace(t, "aa", ""));
-		System.out.println(replace(t, "hello", "world"));
-		System.out.println(replace(t, "", " good "));
-	}
+//	public static void main(String[] args) {
+//		String t = "aadsfsdaafsdfdaaaqdfdsaaddd";
+//		System.out.println(replace(t, "aa", " hello "));
+//		System.out.println(replace(t, "aa", ""));
+//		System.out.println(replace(t, "hello", "world"));
+//		System.out.println(replace(t, "", " good "));
+//	}
 }

@@ -159,7 +159,6 @@ public class MDCModelBuilder implements MDCBuilder {
 			String text) {
 		// Remove protection characters... (only in front of "\" and "-")
 		text= text.replaceAll("\\\\(\\\\|-)", "$1");
-		System.out.println(text);
 		Superscript t = new Superscript(text);
 		addToTop(l, t);
 	}

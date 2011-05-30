@@ -52,6 +52,7 @@ public class JSeshView extends AbstractView {
 								// JSeshView panel itself !
 		setLayout(new BorderLayout());
 		add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
+		add(viewModel.getBottomPanel(), BorderLayout.PAGE_END);
 		observeChanges();
 		initActions();
 	}

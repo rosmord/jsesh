@@ -1212,7 +1212,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 						msg += " near token: " + e.getToken();
 						JOptionPane.showMessageDialog(frame, msg,
 								"Syntax Error", JOptionPane.ERROR_MESSAGE);
-						System.out.println(e.getCharPos());
 						// e.printStackTrace();
 					}
 				}
@@ -1585,7 +1584,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 							.setSmallSignsCentered(checkBox.isSelected());
 					currentDocument.setSmallSignCentered(checkBox.isSelected());
 					getEditor().invalidateView();
-					System.out.println("redrawing");
 				}
 
 			}

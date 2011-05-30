@@ -917,9 +917,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         }
 
         public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
-            System.out.println("Trying " + transferFlavors);
             boolean result = super.canImport(comp, transferFlavors);
-            System.out.println("Can i do it ? " + result);
             return result;
         }
 
@@ -927,7 +925,6 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             GrowableModel model = (GrowableModel) table.getModel();
             String txt = getString(t);
             model.addRow(txt);
-            System.out.println("Adding " + txt);
 
             return true;
         }

@@ -120,7 +120,6 @@ public class PropertyButtonModel extends ToggleButtonModel {
 	private class MyPropertyChangeListener implements PropertyChangeListener {
 
 		public void propertyChange(PropertyChangeEvent evt) {
-			System.out.println("getting event "+ evt+ " for property "+ evt.getPropertyName());
 			if (propertyName.equals(evt.getPropertyName())) {
 				fireStateChanged();
 			}

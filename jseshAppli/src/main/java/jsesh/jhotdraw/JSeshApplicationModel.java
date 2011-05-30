@@ -42,6 +42,7 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
@@ -93,6 +94,28 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
+	// NOTE : in the current application model for JHotDraw, the "Window" menu is completely
+	// driven by JHotdraw. New JH. versions might change this, but meanwhile I'll let it as it is.
+	// Hence, I will provide a combobox for zoom in the view.
+	
+	// NOTE : stuff to add 
+	// Document sub menu (in File)
+	//		orientation /direction sub-menus
+	//		center single signs
+	//		Edit document preferences
+	//		Set as default document
+	
+	//	Add to the "text menu" : center vertically/horizontally (will insert stuff around sign)
+	
+	
+	// View and Help Menu. Tools (insert new Sign ?)
+	// View menu :
+	// Zoom out/in
+	// Reset Zoom
+	// sep
+	// orientation
+	// direction
+	// center sign
 	/**
 	 * Prefix for action names which insert a symbol with a SymbolCode.
 	 */
@@ -137,18 +160,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		List<JMenu> menus = new ArrayList<JMenu>();
 		menus.add(createTextMenu(a, (JSeshView) v));
 		menus.add(createSignMenu(a, (JSeshView) v));
-		// View and Help Menu. Tools (insert new Sign ?)
-
-		// View menu :
-		// Zoom out/in
-		// Reset Zoom
-		// sep
-		// orientation
-		// direction
-		// center sign
+		
+	
 		return menus;
 	}
 
+	
 	private JMenu createTextMenu(Application a, JSeshView v) {
 		JMenu textMenu = new JMenu();
 		BundleHelper.getInstance().configure(textMenu, "text");
@@ -472,6 +489,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 			public void afterFileClose(JMenu fileMenu, Application app,
 					View view) {
+			}
+
+			public void inWindowMenu(JMenu windowMenu, Application app,
+					View view) {
+				System.out.println("HERE");
+				windowMenu.add(new JMenuItem("hello there"));
 			}
 		};
 	}

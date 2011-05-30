@@ -51,13 +51,7 @@ public class PDFDocumentWriterAux {
                 fontMapper.putName("MDCTranslitLC",
 				new DefaultFontMapper.BaseFontParameters(
 						"/jseshResources/fonts/MDCTranslitLC.ttf"));
-
-                
-		//FontFactory.register("Serif");
-		// for (Iterator i = FontFactory.getRegisteredFonts().iterator(); i
-		// .hasNext();) {
-		// System.out.println(i.next());
-		// }
+		
 		document.setPageSize(new Rectangle(docWidth, docHeight));
 
 		try {

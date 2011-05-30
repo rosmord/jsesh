@@ -446,8 +446,6 @@ public class PDFExporter {
 			// It's currently false, but better than nothing.
 			// drawElement(t);
 			if (currentParagraph != null) {
-				// System.out.println(currentParagraph.leading());
-				// currentParagraph.setSpacingAfter(-currentParagraph.leading());
 				currentParagraph
 						.setSpacingAfter(-currentParagraph.getLeading());
 				flushParagraph();

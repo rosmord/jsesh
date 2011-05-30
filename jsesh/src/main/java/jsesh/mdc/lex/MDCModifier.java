@@ -85,20 +85,21 @@ public class MDCModifier {
 	return "\\" + getName() + "=" + getIntValue();
     }
 
-    public static void main(String a[])
-    {
-	MDCModifier m;
-	m= buildMDCModifierFromString("\\");
-	System.out.println("" + m);
-	m= buildMDCModifierFromString("\\?");
-	System.out.println("" + m);
-	m= buildMDCModifierFromString("\\80");
-	System.out.println("" + m);
-	m= buildMDCModifierFromString("\\tyut800");
-	System.out.println("" + m);
-	m= buildMDCModifierFromString("\\tyut");
-	System.out.println("" + m);
-	m= buildMDCModifierFromString("\\R-10");
-	System.out.println("" + m);
-    }
+    // Could become a test suite
+//    public static void main(String a[])
+//    {
+//	MDCModifier m;
+//	m= buildMDCModifierFromString("\\");
+//	System.out.println("" + m);
+//	m= buildMDCModifierFromString("\\?");
+//	System.out.println("" + m);
+//	m= buildMDCModifierFromString("\\80");
+//	System.out.println("" + m);
+//	m= buildMDCModifierFromString("\\tyut800");
+//	System.out.println("" + m);
+//	m= buildMDCModifierFromString("\\tyut");
+//	System.out.println("" + m);
+//	m= buildMDCModifierFromString("\\R-10");
+//	System.out.println("" + m);
+//    }
 }

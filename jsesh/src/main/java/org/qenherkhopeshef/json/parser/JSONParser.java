@@ -209,15 +209,15 @@ public class JSONParser {
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
-		StringReader reader= new StringReader("{\"a\": 34, \"b\" : [3,4,5], \"toto\": \"un \\ttableau avec des \\\"dedans\"}");
-		JSONParser parser= new JSONParser();
-		JSONData dat = parser.parseJSON(reader);
-		OutputStreamWriter out= new OutputStreamWriter(System.out);
-		dat.write(out);
-		out.write("\n");
-		out.flush();
-		out.close();
-		
-	}
+//	public static void main(String[] args) throws IOException {
+//		StringReader reader= new StringReader("{\"a\": 34, \"b\" : [3,4,5], \"toto\": \"un \\ttableau avec des \\\"dedans\"}");
+//		JSONParser parser= new JSONParser();
+//		JSONData dat = parser.parseJSON(reader);
+//		OutputStreamWriter out= new OutputStreamWriter(System.out);
+//		dat.write(out);
+//		out.write("\n");
+//		out.flush();
+//		out.close();
+//		
+//	}
 }

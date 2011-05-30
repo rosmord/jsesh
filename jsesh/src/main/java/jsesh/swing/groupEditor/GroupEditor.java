@@ -569,8 +569,6 @@ public class GroupEditor extends JPanel {
 	public void move(double dx, double dy) {
 		if (selected != -1) {
 			MDCView v = getView().getSubView(selected);
-			// System.out.println("moving view for " + v.getModel().toString()+
-			// " by "+ dx + ","+ dy);
 			Point2D p = getViewPosition(v);
 			double x = p.getX() + dx;
 			double y = p.getY() + dy;
@@ -579,10 +577,8 @@ public class GroupEditor extends JPanel {
 					.getGroupUnitLength();
 			x = x / unitSize;
 			y = y / unitSize;
-			// System.out.println("moving to " + x + " " + y);
 			Hieroglyph h = group.getHieroglyphAt(selected);
 			h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
-			// System.out.println("group is " + group);
 			revalidate();
 			repaint();
 		}
@@ -598,8 +594,6 @@ public class GroupEditor extends JPanel {
 		// FOR LATER IMPLEMENTATION : If both an hside and vside are
 		// selected, the sign aspect ratio will be kept.
 
-		// System.out.println("" + horizontalHandlePosition + ", "
-		// + verticalHandlePosition);
 		if (selected != -1) {
 			double scale = 1;
 			double x, y;
@@ -633,7 +627,6 @@ public class GroupEditor extends JPanel {
 			}
 
 			Hieroglyph h = group.getHieroglyphAt(selected);
-			// System.out.println("pos " + x + "," + y);
 			// Convert to integers :
 			// double unitSize = 1000.0 / drawingSpecifications.getBaseLength();
 			x = x
@@ -642,7 +635,6 @@ public class GroupEditor extends JPanel {
 			y = y
 					/ drawingSpecifications.getHieroglyphsDrawer()
 							.getGroupUnitLength();
-			// System.out.println("integer pos " + (int) x + "," + (int) y);
 
 			scale = scale * h.getRelativeSize();
 			if (scale < 5)

@@ -97,7 +97,6 @@ public class GrowableTableControl {
 	 */
 	protected void setButtonState() {
 		int sel = table.getSelectedRow();
-		System.out.println(sel);
 		if (sel != -1) {
 			GrowableModel model = (GrowableModel) table.getModel();
 			removeButton.setEnabled(model.canRemove(sel));

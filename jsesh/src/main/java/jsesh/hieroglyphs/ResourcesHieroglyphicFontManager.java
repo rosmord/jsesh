@@ -35,7 +35,6 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 		this.resourcePath = resourcePath;
 		signs = new HashMap();
 		try {
-			System.out.println("Opening "+ resourcePath+"/"+ LIST_FILE);
 			InputStream ins = getClass().getResourceAsStream(
 					resourcePath + "/" + LIST_FILE);
 			if (ins != null) {
@@ -86,7 +85,6 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 			if (svgs[i].isDirectory()) {
 				initDirectoryAux(svgs[i], out);
 			} else {
-				System.out.println(svgs[i].getName());
 				// Add the sign code to list.txt
 				String code = GardinerCode.getCodeForFileName(svgs[i]
 						.getName());

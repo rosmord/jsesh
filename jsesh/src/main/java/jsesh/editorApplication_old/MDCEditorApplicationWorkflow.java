@@ -101,7 +101,6 @@ public class MDCEditorApplicationWorkflow implements PropertyHolder {
 	}
 
 	public void rotate(String angle) {
-		System.out.println("rotating by " + angle);
 	}
 
 	public void insertCode(String code) {

@@ -293,7 +293,6 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 	 * @param scale : the relative scale for this sign, in percentage.
 	 */
 	public void setExplicitPosition(int x, int y, int scale) {
-	    //System.out.println("position : "+ x + " " + y);
 		this.x= x;
 		this.y=y;
 		getModifiers().setScale(scale);	

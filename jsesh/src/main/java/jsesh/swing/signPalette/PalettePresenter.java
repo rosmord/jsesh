@@ -692,7 +692,6 @@ public class PalettePresenter {
 	 * @param code
 	 */
 	public void setSelectedCode(String code) {
-		System.out.println("Selecting code " + code);
 		selectedSignCodeIndex = (selectedSignCodeIndex + 1)
 				% selectedSignCodes.length;
 		selectedSignCodes[selectedSignCodeIndex] = code;
@@ -706,7 +705,6 @@ public class PalettePresenter {
 	 * @param signIndex
 	 */
 	private void displaySelectedSignInfo() {
-		System.out.println("Displaying sign " + selectedSignCodeIndex);
 		String code = getSelectedCode();
 
 		JLabel iconLabel = simplePalette.getGlyphPictureLabel();

@@ -33,7 +33,6 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,11 +43,7 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
-import javax.swing.BoxLayout;
 import javax.swing.InputMap;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import jsesh.mdcDisplayer.preferences.PageLayout;
@@ -62,9 +57,9 @@ import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
  * @author rosmord
  *
  */
+@SuppressWarnings("serial")
 public class JMDCField extends JMDCEditor {
 	
-	private static Container p;
 	private Dimension preferedSize;
 	// Drawing margin to move.
 	private float drawingHorizontalOrigin=0;
@@ -77,7 +72,7 @@ public class JMDCField extends JMDCEditor {
 	/**
 	 * List of action listeners.
 	 */
-	private ArrayList actionListeners= new ArrayList();
+	private ArrayList<ActionListener> actionListeners= new ArrayList<ActionListener>();
 	
 	/**
 	 * Create a hieroglyphic field with the given dimensions, in pixels.
@@ -98,7 +93,7 @@ public class JMDCField extends JMDCEditor {
 			textHeight --;
 		}
 		setScale(textHeight/getDrawingSpecifications().getMaxCadratHeight());
-		//System.out.println(getScale());
+		
 		
 		PageLayout pageLayout= getDrawingSpecifications().getPageLayout();
 		pageLayout.setTopMargin((int)(margin/2.0/getScale()));
@@ -172,37 +167,11 @@ public class JMDCField extends JMDCEditor {
 		public void actionPerformed(ActionEvent e) {
 			actionId++;
 			for (int i=0; i < actionListeners.size();i++) {
-				ActionListener a= (ActionListener)actionListeners.get(i);
+				ActionListener a= actionListeners.get(i);
 				a.actionPerformed(new ActionEvent(JMDCField.this, actionId,VALIDATE_INPUT));
 			}
 		}
 
 	}
-
-	/**
-	 * Demo of use.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		JFrame jf= new JFrame();
-		JMDCField f1= new JMDCField();
-		f1.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				JMDCField f= (JMDCField) e.getSource();
-				System.out.println("hello "+ f.getMDCText());
-			}
-			
-		});
-		p= jf.getContentPane();
-		p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
-		p.add(new JTextField());
-		new JTextField().addActionListener(null);
-		p.add(f1);
-		p.add(new JLabel("hello"));
-		p.add(new JMDCField());
-		jf.pack();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
-	}
+	
 }

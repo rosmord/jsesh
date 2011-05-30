@@ -32,4 +32,6 @@ public class DefaultStandardMenuBuilder implements StandardMenuBuilder {
 	
 	public void atEndOfEditMenu(JMenu editMenu, Application app, View view) {
 	}
+
+
 }

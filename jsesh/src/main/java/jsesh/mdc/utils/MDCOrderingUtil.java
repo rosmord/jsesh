@@ -17,7 +17,6 @@ public class MDCOrderingUtil {
 				'd', 'D' };
 		for (int i = 0; i < t.length; i++) {
 			charMap.put(new Character(t[i]), new Integer(' ' + i));
-			System.out.println("code "+ charMap.get(new Character(t[i])));
 		}
 	}
 	

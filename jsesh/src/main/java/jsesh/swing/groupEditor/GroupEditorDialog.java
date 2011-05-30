@@ -116,39 +116,4 @@ public class GroupEditorDialog extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        AbsoluteGroup g = new AbsoluteGroup();
-        g.addHieroglyph(new Hieroglyph("t"));
-        g.addHieroglyph(new Hieroglyph("A"));
-        g.addHieroglyph(new Hieroglyph("x"));
-        g.addHieroglyph(new Hieroglyph("anx"));
-        final GroupEditorDialog editor = new GroupEditorDialog();
-        editor.setGroup(g);
-        JFrame f = new JFrame();
-        f.getContentPane().add(editor);
-        f.pack();
-        f.addWindowListener(new WindowAdapter() {
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.awt.event.WindowAdapter#windowClosed(java.awt.event.WindowEvent)
-             */
-            public void windowClosing(WindowEvent e) {
-                MdCModelWriter m= new MdCModelWriter();
-                TopItemList l= new TopItemList();
-                editor.getGroup().compact();
-                l.addTopItem(editor.getGroup().buildTopItem());            
-                try {
-                    OutputStreamWriter w = new OutputStreamWriter(System.out);
-                    m.write(w, l);
-                    w.flush();
-                } catch (java.io.IOException ex) {
-                    ex.printStackTrace();
-                }
-                System.exit(0);
-            }
-        });
-        f.setVisible(true);
-    }
-
 }

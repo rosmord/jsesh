@@ -94,7 +94,7 @@ public class ErrorMessageDisplayer {
 					return;
 				}
 			}
-			System.out.println("saving tokenInfoLabels");
+			//Saving tokenInfoLabels
 			try {
 				PrintWriter writer = new PrintWriter(new FileWriter(saveFile));
 				message.printStackTrace(writer);

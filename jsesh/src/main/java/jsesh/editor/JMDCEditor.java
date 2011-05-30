@@ -90,7 +90,9 @@ import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
  * An editor for Manuel de codage text. If you want to manipulate the text, you
  * may do it through the workflow object.
  * 
- * The names for the available actions are defined as constants in  {@link MDCEditorKeyManager}
+ * The names for the available actions are defined as constants in  
+ * {@link MDCEditorKeyManager}
+ * 
  * @author rosmord
  */
 public class JMDCEditor extends JPanel {
@@ -105,36 +107,35 @@ public class JMDCEditor extends JPanel {
 	 * Strategy to build a view.
 	 * 
 	 */
-	//SimpleViewBuilder builder;
+	// SimpleViewBuilder builder;
 	/**
 	 * Debugging of view placement.
 	 */
 	private boolean debug = false;
-	
+
 	/**
-	 * Strategy to draw a view.
-	 * (we have just decided to build the view builder on demand,
-	 * and not to keep it. But the drawer contains some information, 
-	 * and in particular a cache of views). 
+	 * Strategy to draw a view. (we have just decided to build the view builder
+	 * on demand, and not to keep it. But the drawer contains some information,
+	 * and in particular a cache of views).
 	 */
 	protected ViewDrawer drawer;
-	
+
 	/**
 	 * The current view we maintain.
 	 */
 	MDCView documentView;
-	
+
 	/**
 	 * Display scale for this window.
 	 */
 	private double scale;
-	
+
 	/**
 	 * Updates the view.
 	 * 
 	 */
 	private MDCViewUpdater viewUpdater;
-	
+
 	/**
 	 * Deals with events that occur on this object :
 	 */
@@ -155,14 +156,14 @@ public class JMDCEditor extends JPanel {
 	 * position are only done <em>after</em> view updates.
 	 */
 	private boolean caretChanged = true;
-	
+
 	private boolean editable = true;
-	
+
 	// FIXME : choose a reasonable method to share drawing specifications.
 	private DrawingSpecification drawingSpecifications = MDCEditorKit
 			.getBasicMDCEditorKit().getDrawingSpecifications();
-	
-	private boolean drawLimits= false;
+
+	private boolean drawLimits = false;
 
 	public JMDCEditor() {
 		this(new HieroglyphicTextModel());
@@ -174,9 +175,9 @@ public class JMDCEditor extends JPanel {
 		drawer.setCached(true);
 		setScale(2.0);
 		// simpleDrawingSpecification= new SimpleDrawingSpecifications();
-		// The use of an interface for the view builder may have been 
+		// The use of an interface for the view builder may have been
 		// some kind of over-engineering.
-		//builder = new SimpleViewBuilder();
+		// builder = new SimpleViewBuilder();
 		documentView = null;
 		workflow = new JMDCEditorWorkflow(data);
 
@@ -195,8 +196,7 @@ public class JMDCEditor extends JPanel {
 			HieroglyphicTextModel hieroglyphicTextModel) {
 		workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
 		workflow.setCursor(hieroglyphicTextModel.buildFirstPosition());
-		workflow
-				.setCursor(new MDCPosition(hieroglyphicTextModel.getModel(), 0));
+		workflow.setCursor(new MDCPosition(hieroglyphicTextModel.getModel(), 0));
 		invalidateView();
 	}
 
@@ -265,7 +265,8 @@ public class JMDCEditor extends JPanel {
 	 */
 	public MDCView getView() {
 		if (documentView == null) {
-			documentView = new SimpleViewBuilder().buildView(getHieroglyphicTextModel().getModel(),
+			documentView = new SimpleViewBuilder().buildView(
+					getHieroglyphicTextModel().getModel(),
 					getDrawingSpecifications());
 			revalidate();
 			if (debug) {
@@ -337,13 +338,14 @@ public class JMDCEditor extends JPanel {
 
 	protected void paintComponent(Graphics g) {
 		drawBaseComponent(g);
-		
+
 		Graphics2D g2d = (Graphics2D) g;
 		GraphicsUtils.antialias(g2d);
 		g2d.scale(scale, scale);
 
-		// Either there are no page format specification (in which case there is only
-		// one infinitie page). 
+		// Either there are no page format specification (in which case there is
+		// only
+		// one infinitie page).
 		PageLayout pageLayout = getDrawingSpecifications().getPageLayout();
 		if (drawLimits && pageLayout.hasPageFormat()) {
 			// IMPROVE THIS...
@@ -351,12 +353,12 @@ public class JMDCEditor extends JPanel {
 			g2d.draw(pageLayout.getDrawingRectangle());
 		}
 
-		
 		drawer.setClip(true);
 		drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(),
 				getDrawingSpecifications());
 
-		drawer.drawCursor(g2d, getView(), getMDCCaret(), getDrawingSpecifications());
+		drawer.drawCursor(g2d, getView(), getMDCCaret(),
+				getDrawingSpecifications());
 		if (caretChanged) {
 			// Disarm caret change updates.
 			caretChanged = false;
@@ -457,8 +459,8 @@ public class JMDCEditor extends JPanel {
 		if (h < 2) {
 			h = 2;
 		}
-		Rectangle r = new Rectangle((int) (r1.getX() * getScale()), (int) (r1
-				.getY() * getScale()), w, h);
+		Rectangle r = new Rectangle((int) (r1.getX() * getScale()),
+				(int) (r1.getY() * getScale()), w, h);
 		return r;
 	}
 
@@ -510,8 +512,8 @@ public class JMDCEditor extends JPanel {
 			DrawingSpecification drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
 		drawingSpecifications.setGraphicDeviceScale(scale);
-		//TODO : remove me after...
-		PageLayout p= drawingSpecifications.getPageLayout();
+		// TODO : remove me after...
+		PageLayout p = drawingSpecifications.getPageLayout();
 		p.setPageFormat(new PageFormat());
 		drawingSpecifications.setPageLayout(p);
 
@@ -537,8 +539,7 @@ public class JMDCEditor extends JPanel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.editor.MDCModelEditionListener#textEdited
+		 * @see jsesh.editor.MDCModelEditionListener#textEdited
 		 * (jsesh.mdc.model.operations.ModelOperation)
 		 */
 
@@ -554,8 +555,7 @@ public class JMDCEditor extends JPanel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.editor.MDCModelEditionListener#textChanged()
+		 * @see jsesh.editor.MDCModelEditionListener#textChanged()
 		 */
 		public void textChanged() {
 			Logger.getLogger(CLASS_FULL_NAME).fine("Text changed");
@@ -579,8 +579,7 @@ public class JMDCEditor extends JPanel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.editor.MDCModelEditionListener#codeChanged
+		 * @see jsesh.editor.MDCModelEditionListener#codeChanged
 		 * (java.lang.StringBuffer)
 		 */
 		public void codeChanged(StringBuffer code) {
@@ -594,8 +593,7 @@ public class JMDCEditor extends JPanel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.editor.MDCModelEditionListener#focusGained
+		 * @see jsesh.editor.MDCModelEditionListener#focusGained
 		 * (java.lang.StringBuffer)
 		 */
 		public void focusGained(StringBuffer code) {
@@ -605,8 +603,7 @@ public class JMDCEditor extends JPanel {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * jsesh.editor.MDCModelEditionListener#focusLost(
+		 * @see jsesh.editor.MDCModelEditionListener#focusLost(
 		 */
 		public void focusLost() {
 			// NO-OP.
@@ -627,17 +624,13 @@ public class JMDCEditor extends JPanel {
 	 */
 	public void paste() {
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		
+
 		try {
-			System.out.println("getting content");
 			Transferable t = clipboard.getContents(this);
 			if (t != null) {
-				System.out.println("asking for list of top items");
-				if (t
-						.isDataFlavorSupported(JSeshPasteFlavors.ListOfTopItemsFlavor)) {
+				if (t.isDataFlavorSupported(JSeshPasteFlavors.ListOfTopItemsFlavor)) {
 					ListOfTopItems l = (ListOfTopItems) t
 							.getTransferData(JSeshPasteFlavors.ListOfTopItemsFlavor);
-					System.err.println("data got");
 					workflow.insertElements(l);
 				} else if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 					String string = (String) t
@@ -662,16 +655,16 @@ public class JMDCEditor extends JPanel {
 		TopItemList top = getWorkflow().getSelectionAsTopItemList();
 		MDCModelTransferable transferable = mdcModelTransferableBroker
 				.buildTransferable(top);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-				transferable, null);
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+				.setContents(transferable, null);
 	}
 
 	public void copy(DataFlavor[] dataFlavors) {
 		TopItemList top = getWorkflow().getSelectionAsTopItemList();
 		MDCModelTransferable transferable = mdcModelTransferableBroker
 				.buildTransferable(top, dataFlavors);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-				transferable, null);
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+				.setContents(transferable, null);
 
 	}
 
@@ -773,11 +766,11 @@ public class JMDCEditor extends JPanel {
 
 	/**
 	 * Has the current document some unsaved changes ?
+	 * 
 	 * @return
 	 */
 	public boolean mustSave() {
 		return workflow.mustSave();
 	}
-
 
 }

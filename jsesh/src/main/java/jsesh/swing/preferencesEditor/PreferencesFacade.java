@@ -34,9 +34,7 @@ public class PreferencesFacade {
 		this.drawingSpecifications= drawingSpecifications;
 		preferedUnit = unit;
 		rtfExportPreferences = preferences;
-        this.clipboardPreferences= clipboardPreferences;
-		for (int i=0; i< rtfExportPreferences.length; i++)
-			System.out.println(rtfExportPreferences[i].getCadratHeight());
+        this.clipboardPreferences= clipboardPreferences;		
 	}
 
 	/**

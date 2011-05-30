@@ -40,4 +40,5 @@ public interface StandardMenuBuilder {
 	 */
 	void atEndOfEditMenu(JMenu editMenu, Application app, View view);
 
+
 }

@@ -77,14 +77,7 @@ public class HieroglyphicMenu extends JMenu {
 		super(title);
 		this.ncols = ncols;
 		this.family = family;
-		addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("menu selected");
-			}
-
-		});
-
+		
 		// The popup system doesn't work on the mac if the menu is application
 		// level.
 		// In fact it's not very useful anymore, as menus are not really

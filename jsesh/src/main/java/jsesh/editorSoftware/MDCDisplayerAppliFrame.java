@@ -202,6 +202,7 @@ public class MDCDisplayerAppliFrame extends JFrame {
 
 			};
 			Timer timer = new Timer();
+			
 			timer.schedule(task, 500);
 			// task.run();
 		}

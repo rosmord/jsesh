@@ -409,7 +409,6 @@ public class QenherOSXApplication extends AbstractApplication {
         JMenu windowMenu = m;
         labels.configureMenu(m, "window");
         m.addSeparator();
-
         new WindowMenuHandler(windowMenu, view);
 
         return m;
