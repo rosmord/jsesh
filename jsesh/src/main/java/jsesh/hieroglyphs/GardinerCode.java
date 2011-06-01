@@ -307,7 +307,7 @@ public class GardinerCode implements Comparable<GardinerCode> {
 	 * <p> This function can be used when a file name is supposed to correspond to a gardiner code.
 	 * The problem in this case is that not all file systems are case sensitives, hence the need 
 	 * to process the file name.
-	 * @param fname a file name (with a mandatory extension, ".svg", ".png", whatever).
+	 * @param fname a file name (with a mandatory extensions, ".svg", ".png", whatever).
 	 * 
 	 * <p> This method understands Gardiner codes, MdC specificities (nn and nTrw codes) and Jsesh extensions. 
 	 * @return a code or null if no code can be created.
@@ -316,7 +316,7 @@ public class GardinerCode implements Comparable<GardinerCode> {
 	public static String getCodeForFileName(String fname) {
 		// We put the code in upper case.
 		fname = fname.toUpperCase();
-		// suppress file extension.
+		// suppress file extensions.
 		int stopIndex = fname.indexOf('.');
 		if (stopIndex == -1)
 			stopIndex= fname.length();

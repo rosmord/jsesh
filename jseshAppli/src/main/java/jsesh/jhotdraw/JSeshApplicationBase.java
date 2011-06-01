@@ -31,6 +31,8 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 * Folder for exporting small pdf pictures (useful for press release).
 	 */
 	private File quickPDFExportDirectory;
+	
+	private File currentDirectory;
 
 	/**
 	 * Export information for copy/paste.
@@ -230,4 +232,11 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 		rtfExportPreferencesIndex = configurationNumber;
 	}
 
+	public File getCurrentDirectory() {
+		return currentDirectory;
+	}
+	
+	public void setCurrentDirectory(File currentDirectory) {
+		this.currentDirectory = currentDirectory;
+	}
 }

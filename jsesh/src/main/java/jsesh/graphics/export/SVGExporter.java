@@ -11,16 +11,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.Messages;
+import jsesh.swing.utils.FileSaveConfirmDialog;
+
 import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
 
 
 /**
- * Quick hack because I really need to export SVG NOW.
- * I should generalize WMF Exporter to factorize common code.
- * @author rosmord
- *
+ * Export SVG files.
  */
-public class SVGExporter implements BaseGraphics2DFactory {
+public class SVGExporter extends AbstractGraphicalExporter {
 
 
 
@@ -32,7 +32,7 @@ public class SVGExporter implements BaseGraphics2DFactory {
 
 
 	public SVGExporter() {
-		exportFile= new File(".");
+		super("svg", Messages.getString("SVGExporter.description"));
 		frame= null;
 	}
 
@@ -45,50 +45,10 @@ public class SVGExporter implements BaseGraphics2DFactory {
 		} catch (HeadlessException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			FileSaveConfirmDialog.showCantOpenDialog(frame);
 		}
 	}
 
-	public int askUser() {
-		int returnval = JOptionPane.OK_OPTION;
-
-		JFileChooser chooser = new JFileChooser();
-
-		chooser.setFileFilter(new FileFilter() {
-
-			public boolean accept(File f) {
-				String n = f.getName();
-				return n.endsWith(".svg") || n.endsWith(".svg")
-						|| f.isDirectory();
-			}
-
-			public String getDescription() {
-				return "SVG files";
-			}
-
-		});
-		
-		if (exportFile.isDirectory())
-			chooser.setSelectedFile(new File(exportFile, "unnamed.svg"));
-		else
-			chooser.setSelectedFile(exportFile);
-		returnval = chooser.showSaveDialog(frame);
-
-		if (returnval == JFileChooser.APPROVE_OPTION) {
-
-			exportFile = chooser.getSelectedFile();
-
-			if (exportFile.exists()) {
-				returnval = JOptionPane.showConfirmDialog(frame, "File "
-						+ exportFile.getName()
-						+ " exists. Do you want to continue ?", "File exists",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		return returnval;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -100,28 +60,13 @@ public class SVGExporter implements BaseGraphics2DFactory {
 	}
 
 
-	/**
-	 * @return Returns the exportFile.
-	 */
-	public File getExportFile() {
-		return exportFile;
-	}
-
-	/**
-	 * @param exportFile
-	 *            The exportFile to set.
-	 */
-	public void setExportFile(File exportFile) {
-		this.exportFile = exportFile;
-	}
-
 	public void setDimension(Dimension2D scaledDimensions) {
 		this.scaledDimension= scaledDimensions;
 	}
 	
 	public Graphics2D buildGraphics()
 			throws IOException {
-		return new SVGGraphics2D(exportFile, scaledDimension);
+		return new SVGGraphics2D(getExportFile(), scaledDimension);
 	}
 	
 	public void writeGraphics() throws IOException {

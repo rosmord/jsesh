@@ -35,6 +35,7 @@ package jsesh.jhotdraw;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +56,15 @@ import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
+import jsesh.graphics.export.WMFExporter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
+import jsesh.jhotdraw.actions.file.GenericExportAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
+import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
@@ -88,31 +92,41 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 /**
  * JHotdraw-specific model for the application.
  * 
+ * TODO before release : FIX copy as... / copy/paste .... FIX copy small size,
+ * etc...
+ * 
+ * MOVE simple hieroglyphic menu to the window toolbar
+ * 
+ * EXPORT AS : WMF/EMF/EPS/MAC PICT/SVG/HTML/PDF/RTF QUICK PDF EXPORT (where do
+ * we put SELECT PDF EXPORT FOLDER ???)
+ * 
+ * Document preferences: orientation/direction/center single signs + drawing
+ * preferences Add to the "text menu" : center vertically/horizontally (will
+ * insert stuff around sign) in menu file : add new signs
+ * 
+ * in edit preferences : fonts, export prefs, clipboard formats (see how mac
+ * prefs are handled).
+ * 
  * @author rosmord
  * 
  */
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
-	// NOTE : in the current application model for JHotDraw, the "Window" menu is completely
-	// driven by JHotdraw. New JH. versions might change this, but meanwhile I'll let it as it is.
-	// Hence, I will provide a combobox for zoom in the view.
-	
-	// NOTE : stuff to add 
+	// NOTE : in the current application model for JHotDraw, the "Window" menu
+	// is completely
+	// driven by JHotdraw. New JH. versions might change this, but meanwhile
+	// I'll let it as it is.
+
+	// NOTE : stuff to add
 	// Document sub menu (in File)
-	//		orientation /direction sub-menus
-	//		center single signs
-	//		Edit document preferences
-	//		Set as default document
-	
-	//	Add to the "text menu" : center vertically/horizontally (will insert stuff around sign)
-	
-	
+	// orientation /direction sub-menus
+	// center single signs
+	// Edit document preferences
+	// Set as default document
+
 	// View and Help Menu. Tools (insert new Sign ?)
 	// View menu :
-	// Zoom out/in
-	// Reset Zoom
-	// sep
 	// orientation
 	// direction
 	// center sign
@@ -160,12 +174,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		List<JMenu> menus = new ArrayList<JMenu>();
 		menus.add(createTextMenu(a, (JSeshView) v));
 		menus.add(createSignMenu(a, (JSeshView) v));
-		
-	
+
 		return menus;
 	}
 
-	
 	private JMenu createTextMenu(Application a, JSeshView v) {
 		JMenu textMenu = new JMenu();
 		BundleHelper.getInstance().configure(textMenu, "text");
@@ -241,14 +253,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		menu.addSeparator();
 		addToMenu(menu, a, v, ActionsID.REVERSE_SIGN);
 		addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_RED);
-		addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_WIDE);		
+		addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_WIDE);
 		addToMenu(menu, a, v, ActionsID.TOGGLE_IGNORED_SIGN);
 		menu.addSeparator();
 		addToMenu(menu, a, v, ActionsID.SIGN_IS_INSIDE_WORD);
 		addToMenu(menu, a, v, ActionsID.SIGN_IS_WORD_END);
 		addToMenu(menu, a, v, ActionsID.SIGN_IS_SENTENCE_END);
 		addToMenu(menu, a, v, ActionsID.TOGGLE_GRAMMAR);
-		
+
 		return menu;
 	}
 
@@ -297,6 +309,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				new EditDocumentPreferencesAction(a, v));
 		map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
 
+		map.put(JSeshApplicationActionsID.EXPORT_WMF, new GenericExportAction(
+				a, jseshView, new WMFExporter(), JSeshApplicationActionsID.EXPORT_WMF));
+
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
 		map.remove(CopyAction.ID);
@@ -305,6 +320,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 		map.remove(SelectAllAction.ID);
 		map.remove(ClearSelectionAction.ID);
+
 		// map.put(SelectAllAction.ID,
 		// getEditorAction(editor, jsesh.editor.ActionsID.SELECT_ALL));
 		// map.put(ClearSelectionAction.ID,
@@ -428,9 +444,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				JMenu importMenu = BundleHelper.getInstance().configure(
 						new JMenu(), "file.import");
 				importMenu.add(new ImportPDFAction(app));
+				importMenu.add(new ImportRTFAction(app));
+
 				JMenu exportMenu = BundleHelper.getInstance().configure(
 						new JMenu(), "file.export");
 				exportMenu.add(new ExportAsBitmapAction(app, view));
+				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_WMF));
 
 				fileMenu.add(importMenu);
 				fileMenu.add(exportMenu);
@@ -489,13 +508,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 			public void afterFileClose(JMenu fileMenu, Application app,
 					View view) {
-			}
-
-			public void inWindowMenu(JMenu windowMenu, Application app,
-					View view) {
-				System.out.println("HERE");
-				windowMenu.add(new JMenuItem("hello there"));
-			}
+			}		
 		};
 	}
 
@@ -569,4 +582,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		return ecdoticMenu;
 	}
 
+	public File getCurrentDirectory() {
+		return jseshBase.getCurrentDirectory();
+	}
+
+	public void setCurrentDirectory(File directory) {
+		if (!directory.isDirectory())
+			throw new RuntimeException("Bug : " + directory.getAbsolutePath()
+					+ " should be a directory");
+		jseshBase.setCurrentDirectory(directory);
+	}
 }

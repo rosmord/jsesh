@@ -2,7 +2,7 @@ package jsesh.editorSoftware;
 
 /**
  * Changelog:
- * 2004/04/28 : modified saveText so that all texts get an extension.
+ * 2004/04/28 : modified saveText so that all texts get an extensions.
  */
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
@@ -1647,7 +1647,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public void exportAsWMF() {
 		if (getCaret().hasSelection()
-				&& wmfExporter.askUser() == JOptionPane.OK_OPTION) {
+				&& wmfExporter.askUser(frame) == JOptionPane.OK_OPTION) {
 			/*
 			 * DrawingSpecifications ds = frame.editor
 			 * .getDrawingSpecifications().copy(); ds.setTopMargin(1f);
@@ -1662,7 +1662,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public void exportAsEMF() {
 		if (getCaret().hasSelection()
-				&& emfExporter.askUser() == JOptionPane.OK_OPTION) {
+				&& emfExporter.askUser(frame) == JOptionPane.OK_OPTION) {
 			ExportData exportData = new ExportData(getDrawingSpecifications(),
 					getCaret(), getHieroglyphicTextModel().getModel(), 1f);
 			emfExporter.export(exportData);
@@ -1672,7 +1672,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	public void exportAsEPS() {
 		EPSExporter epsExporter = new EPSExporter();
 		if (getCaret().hasSelection()
-				&& epsExporter.askUser() == JOptionPane.OK_OPTION) {
+				&& epsExporter.askUser(frame) == JOptionPane.OK_OPTION) {
 
 			ExportData exportData = new ExportData(getDrawingSpecifications(),
 					getCaret(), getHieroglyphicTextModel().getModel(), 1f);
@@ -1682,7 +1682,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public void exportAsMacPict() {
 		if (getCaret().hasSelection()
-				&& macPictExporter.askUser() == JOptionPane.OK_OPTION) {
+				&& macPictExporter.askUser(frame) == JOptionPane.OK_OPTION) {
 			ExportData exportData = new ExportData(getDrawingSpecifications(),
 					getCaret(), getHieroglyphicTextModel().getModel(), 1f);
 			macPictExporter.export(exportData);
@@ -1691,7 +1691,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 	public void exportAsSVG() {
 		if (getCaret().hasSelection()
-				&& svgExporter.askUser() == JOptionPane.OK_OPTION) {
+				&& svgExporter.askUser(frame) == JOptionPane.OK_OPTION) {
 			ExportData exportData = new ExportData(getDrawingSpecifications(),
 					getCaret(), getHieroglyphicTextModel().getModel(), 1f);
 			svgExporter.export(exportData);

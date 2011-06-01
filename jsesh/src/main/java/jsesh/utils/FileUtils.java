@@ -13,13 +13,13 @@ import java.io.File;
 public class FileUtils {
 
     /**
-     * Return a file name for a certain type of files, ensuring the extension is correct.
-     * <p>If there is no extension, it will be added.
-     * <p>If the extension is wrong, it will be replaced.
+     * Return a file name for a certain type of files, ensuring the extensions is correct.
+     * <p>If there is no extensions, it will be added.
+     * <p>If the extensions is wrong, it will be replaced.
      * <p>If file is null, null will be returned.
      * @param file
-     * @param type : the extension to use (without dot)
-     * @return a file name for a certain type of files, ensuring the extension is correct.
+     * @param type : the extensions to use (without dot)
+     * @return a file name for a certain type of files, ensuring the extensions is correct.
      */
     public static File buildFileWithExtension(File file, String type) {
     	if (file == null)
@@ -36,9 +36,9 @@ public class FileUtils {
     }
     
     /**
-     * Return a file extension, or null if there is none.
+     * Return a file extensions, or null if there is none.
      * @param file
-     * @return a file extension, or null if there is none.
+     * @return a file extensions, or null if there is none.
      */
     public static String getExtension(File file) {        
         String name= file.getName();

@@ -1,7 +1,38 @@
 /*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
+/*
  * Created on 4 nov. 2004
- *
- * This file is distributed under the LGPL.
  */
 package jsesh.graphics.export;
 
@@ -16,6 +47,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.Messages;
+import jsesh.swing.utils.FileSaveConfirmDialog;
+
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 
 /**
@@ -24,76 +58,33 @@ import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
  * @author S. Rosmorduc
  * 
  */
-public class EMFExporter implements
-		BaseGraphics2DFactory {
-
-	private File exportFile;
+public class EMFExporter extends AbstractGraphicalExporter {
 
 	private Component frame;
-	
+
 	private Dimension2D scaledDimension;
 
-	private String comment="";
+	private String comment = "";
 
 	public EMFExporter() {
-		exportFile= new File(".");
-		frame= null;
+		super("emf", Messages.getString("EMFExporter.description"));
+		frame = null;
 	}
 
 	public void export(ExportData exportData) {
 		try {
-			comment= exportData.getExportedMdC();
-			
+			comment = exportData.getExportedMdC();
 			SelectionExporter selectionExporter = new SelectionExporter(
 					exportData, this);
 			selectionExporter.exportSelection();
 		} catch (HeadlessException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			FileSaveConfirmDialog.showCantOpenDialog(frame);
 		}
 	}
 
-	public int askUser() {
-		int returnval = JOptionPane.OK_OPTION;
-
-		JFileChooser chooser = new JFileChooser();
-
-		chooser.setFileFilter(new FileFilter() {
-
-			public boolean accept(File f) {
-				String n = f.getName();
-				return n.endsWith(".emf") || n.endsWith(".EMF")
-						|| f.isDirectory();
-			}
-
-			public String getDescription() {
-				return "EMF files";
-			}
-
-		});
-		if (exportFile.isDirectory())
-			chooser.setSelectedFile(new File(exportFile, "unnamed.emf"));
-		else
-			chooser.setSelectedFile(exportFile);
-		returnval = chooser.showSaveDialog(frame);
-
-		if (returnval == JFileChooser.APPROVE_OPTION) {
-
-			exportFile = chooser.getSelectedFile();
-
-			if (exportFile.exists()) {
-				returnval = JOptionPane.showConfirmDialog(frame, "File "
-						+ exportFile.getName()
-						+ " exists. Do you want to continue ?", "File exists",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		return returnval;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,32 +94,15 @@ public class EMFExporter implements
 		return "type".toUpperCase() + " options";
 	}
 
-
-	/**
-	 * @return Returns the exportFile.
-	 */
-	public File getExportFile() {
-		return exportFile;
-	}
-
-	/**
-	 * @param exportFile
-	 *            The exportFile to set.
-	 */
-	public void setExportFile(File exportFile) {
-		this.exportFile = exportFile;
-	}
-
 	public void setDimension(Dimension2D scaledDimensions) {
-		this.scaledDimension= scaledDimensions;
+		this.scaledDimension = scaledDimensions;
 	}
-	
-	public Graphics2D buildGraphics()
-			throws IOException {
-        return new EMFGraphics2D(exportFile, scaledDimension, "JSesh", comment);
+
+	public Graphics2D buildGraphics() throws IOException {
+		return new EMFGraphics2D(getExportFile(), scaledDimension, "JSesh", comment);
 	}
-	
+
 	public void writeGraphics() throws IOException {
-		// NO-OP. the file is writen has it is created.
+		// NO-OP. the file is written as it is created.
 	}
 }

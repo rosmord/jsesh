@@ -16,6 +16,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.Messages;
+
 import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
 
 
@@ -25,22 +27,15 @@ import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
  * @author S. Rosmorduc
  * 
  */
-public class WMFExporter implements
-		BaseGraphics2DFactory {
-
-	
-
-	private File exportFile;
+public class WMFExporter extends AbstractGraphicalExporter {
 
 	private Component frame;
 	
 	private Dimension2D scaledDimension;
-
-	// private MDCView view;
 	
 
 	public WMFExporter() {
-		exportFile= new File(".");
+		super("wmf", Messages.getString("WMFExporter.description"));
 		frame= null;
 	}
 
@@ -57,44 +52,6 @@ public class WMFExporter implements
 		}
 	}
 
-	public int askUser() {
-		int returnval = JOptionPane.OK_OPTION;
-
-		JFileChooser chooser = new JFileChooser();
-
-		chooser.setFileFilter(new FileFilter() {
-
-			public boolean accept(File f) {
-				String n = f.getName();
-				return n.endsWith(".wmf") || n.endsWith(".WMF")
-						|| f.isDirectory();
-			}
-
-			public String getDescription() {
-				return "WMF files";
-			}
-
-		});
-		if (exportFile.isDirectory())
-			chooser.setSelectedFile(new File(exportFile, "unnamed.wmf"));
-		else
-			chooser.setSelectedFile(exportFile);
-		returnval = chooser.showSaveDialog(frame);
-
-		if (returnval == JFileChooser.APPROVE_OPTION) {
-
-			exportFile = chooser.getSelectedFile();
-
-			if (exportFile.exists()) {
-				returnval = JOptionPane.showConfirmDialog(frame, "File "
-						+ exportFile.getName()
-						+ " exists. Do you want to continue ?", "File exists",
-						JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
-			}
-		}
-		return returnval;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -106,31 +63,16 @@ public class WMFExporter implements
 	}
 
 
-	/**
-	 * @return Returns the exportFile.
-	 */
-	public File getExportFile() {
-		return exportFile;
-	}
-
-	/**
-	 * @param exportFile
-	 *            The exportFile to set.
-	 */
-	public void setExportFile(File exportFile) {
-		this.exportFile = exportFile;
-	}
-
 	public void setDimension(Dimension2D scaledDimensions) {
 		this.scaledDimension= scaledDimensions;
 	}
 	
 	public Graphics2D buildGraphics()
 			throws IOException {
-		return new WMFGraphics2D(exportFile, scaledDimension);
+		return new WMFGraphics2D(getExportFile(), scaledDimension);
 	}
 	
 	public void writeGraphics() throws IOException {
-		// NO-OP. the file is writen has it is created.
+		// NO-OP. the file is written as it is created.
 	}
 }

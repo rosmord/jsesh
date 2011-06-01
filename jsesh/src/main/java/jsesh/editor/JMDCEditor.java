@@ -773,4 +773,8 @@ public class JMDCEditor extends JPanel {
 		return workflow.mustSave();
 	}
 
+	public boolean hasSelection() {
+		return workflow.getCaret().hasSelection();
+	}
+
 }

@@ -123,8 +123,8 @@ public class MDCDocument {
 
 	/**
 	 * Save the document to the correct file. Will currently always save with an
-	 * extension. Tksesh files will be kept "as is", but other files will be
-	 * saved in latest JSesh format, with a GLY extension.
+	 * extensions. Tksesh files will be kept "as is", but other files will be
+	 * saved in latest JSesh format, with a GLY extensions.
 	 * 
 	 * @throws IOException
 	 */

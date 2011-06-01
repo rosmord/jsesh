@@ -145,9 +145,10 @@ import ch.randelshofer.quaqua.QuaquaManager;
  * the file menu and the window menu. In case the application model supplies
  * a menu with the title "Help", it is inserted after the window menu.
  *
- * @author Werner Randelshofer
+ * @author Werner Randelshofer (with small changes by S. Rosmorduc for palette code).
  * @version $Id: QenherOSXApplication.java 608 2010-01-11 18:46:00Z rawcoder $
  */
+@SuppressWarnings("serial")
 public class QenherOSXApplication extends AbstractApplication {
 
     private GenericPaletteHandler paletteHandler;

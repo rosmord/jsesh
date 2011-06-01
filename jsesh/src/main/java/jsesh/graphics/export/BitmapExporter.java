@@ -464,14 +464,14 @@ public class BitmapExporter {
 				if (ext != null) {
 					List<String> l = Arrays.asList(outputFormats);
 					if (l.contains(ext)) {
-						// Known extension
+						// Known extensions
 						mustCorrectExtension = false;
 						// Get sure the "selected format" agrees with the
-						// extension :
+						// extensions :
 						outputFormatField.setSelectedItem(ext);
 					}
 				}
-				// In case of missing or incorrect extension, provide a new one.
+				// In case of missing or incorrect extensions, provide a new one.
 				if (mustCorrectExtension) {
 					String correctFormat = (String) outputFormatField
 							.getSelectedItem();

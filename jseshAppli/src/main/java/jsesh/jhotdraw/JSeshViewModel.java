@@ -27,6 +27,9 @@ import jsesh.mdc.model.operations.ModelOperation;
  * An abstract (more or less framework-agnostic) representation of an editing
  * session of a JSesh document. Might be worth merging with JSeshView.
  * 
+ * <p>
+ * TODO this class is a bit too heavy for my taste... nothing as awful as the old JSesh application, 
+ * but still...
  * @author rosmord
  */
 public class JSeshViewModel {
@@ -38,12 +41,40 @@ public class JSeshViewModel {
 	// an optional MDC zone
 	// current code / current sep / message / zoom
 	//
+	/**
+	 * The document we are working on.
+	 */
 	private MDCDocument mdcDocument;
+	
+	/**
+	 * The editor to edit the document's text.
+	 */
 	private JMDCEditor editor;
+	
+	/**
+	 * Toolbar associated with this element.
+	 */
+	private JPanel topPanel;
+	/**
+	 * Panel holding various information.
+	 */
 	private JPanel bottomPanel;
+	/**
+	 * Field displaying the code being typed.
+	 * (a combobox could be a nice idea here).
+	 */
 	private JTextField codeField;
+	/**
+	 * the separator which has been selected (* or :)
+	 */
 	private JTextField separatorField;
+	/**
+	 * The MdC for the current "line" (or column).
+	 */
 	private JTextField mdcField;
+	/**
+	 * Actually, a menu to choose the zoom factor.
+	 */
 	private JComboBox zoomComboBox;
 
 	public JSeshViewModel() {
@@ -63,7 +94,7 @@ public class JSeshViewModel {
 		// Zoom combobox
 		DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
 		for (int zoom : new int[] { 25, 50, 75, 100, 112, 128, 150, 200, 400,
-				600, 800, 1600 }) {
+				600, 800, 1600, 3200, 6400, 12800 }) {
 			comboBoxModel.addElement(new ZoomInfo(zoom));
 		}
 		zoomComboBox.setModel(comboBoxModel);
@@ -81,7 +112,7 @@ public class JSeshViewModel {
 	/**
 	 * Prepare the bottom panel
 	 * 
-	 * @return
+	 * @return the bottom panel.
 	 */
 	private JPanel prepareBottomPanel() {
 		BundleHelper bundle = BundleHelper.getInstance();
@@ -100,10 +131,10 @@ public class JSeshViewModel {
 		separatorField.setFocusable(false);
 		separatorField.setMaximumSize(separatorField.getPreferredSize());
 		separatorField.setDisabledTextColor(separatorField.getForeground());
-		separatorField.setToolTipText("Manuel de codage separator to use");
+		separatorField.setToolTipText(bundle.getLabel("separatorField.toolTipText"));
 
 		mdcField = new JTextField();
-		mdcField.setToolTipText("Here you can edit the manuel de codage code for the current line.");
+		mdcField.setToolTipText(bundle.getLabel("mdcField.toolTipText"));
 
 		zoomComboBox = new JComboBox();
 
@@ -145,11 +176,9 @@ public class JSeshViewModel {
 	}
 
 	/**
-	 * Synchronize the hieroglyphic editor and the optional mdc line display
-	 * below it.
+	 * Synchronize the hieroglyphic editor and the optional mdc line display below it.
 	 * 
 	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
-	 * 
 	 */
 	private final class MDCLineManager extends MDCModelEditionAdapter implements
 			ActionListener {
@@ -244,4 +273,6 @@ public class JSeshViewModel {
 			return zoom + " %";
 		}
 	}
+
+	
 }

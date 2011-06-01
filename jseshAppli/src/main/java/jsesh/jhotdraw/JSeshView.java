@@ -2,7 +2,6 @@ package jsesh.jhotdraw;
 
 import java.awt.BorderLayout;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -17,10 +16,13 @@ import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
+import jsesh.graphics.export.ExportData;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
+import jsesh.io.importer.rtf.RTFImportException;
+import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
@@ -129,9 +131,25 @@ public class JSeshView extends AbstractView {
 		}
 	}
 
+	/**
+	 * Read a document from the clipboard. This is not done in the EDT.
+	 * 
+	 * @param uri
+	 */
 	private void readFromClipboard(URI uri) {
 		if (uri.getSchemeSpecificPart().equals("rtf")) {
-
+			try {
+				final MDCDocument document = RTFImporter
+						.createRTFPasteImporter(new File("Unnamed.gly"))
+						.getMdcDocument();
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						viewModel.setCurrentDocument(document);
+					}
+				});
+			} catch (RTFImportException e) {
+				throw new UserMessage(e.getMessage());
+			}
 		} else if (uri.getSchemeSpecificPart().equals("pdf")) {
 			try {
 				final MDCDocument document = (PDFImporter
@@ -149,8 +167,9 @@ public class JSeshView extends AbstractView {
 	}
 
 	/**
-	 * Read a JSesh file in the current view.
-	 * TODO : improve this code, which is not correct regarding the EDT.
+	 * Read a JSesh file in the current view. TODO : improve this code, which is
+	 * not correct regarding the EDT.
+	 * 
 	 * @param uri
 	 */
 	private void readFromFile(URI uri) {
@@ -306,12 +325,31 @@ public class JSeshView extends AbstractView {
 		viewModel.getEditor().getWorkflow().insertMDC(mdcText);
 	}
 
-	
 	@Override
-	public boolean canSaveTo(URI uri) {		
-		if (uri != null && ! "file".equals(uri.getScheme()))
+	public boolean canSaveTo(URI uri) {
+		if (uri != null && !"file".equals(uri.getScheme()))
 			return false;
 		return super.canSaveTo(uri);
+	}
+
+	/**
+	 * Returns true if a selection is available.
+	 * 
+	 * @return
+	 */
+	public boolean hasSelection() {
+		return viewModel.getEditor().hasSelection();
+	}
+
+	/**
+	 * Returns the data needed for the graphical export of a selection.
+	 * 
+	 * @return
+	 */
+	public ExportData getExportData() {
+		// Note : there is some doubt over which drawing specifications should be used ?
+		return new ExportData(getDrawingSpecifications(), getCaret(), viewModel
+				.getMdcDocument().getHieroglyphicTextModel().getModel(), 1f);
 	}
 }
 
