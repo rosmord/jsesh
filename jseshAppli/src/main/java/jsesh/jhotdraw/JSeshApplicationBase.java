@@ -6,6 +6,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import jsesh.editor.MDCModelTransferableBroker;
+import jsesh.graphics.export.HTMLExporter;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
@@ -32,7 +33,7 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	/**
 	 * Folder for exporting small pdf pictures (useful for press release).
 	 */
-	private File quickPDFExportDirectory;
+	private File quickPDFExportDirectory= new File("pdfExports");
 
 	private File currentDirectory;
 
@@ -67,6 +68,8 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 * Folder containing the user's hieroglyphs.
 	 */
 	private File currentHieroglyphsSource;
+
+	private HTMLExporter htmlExporter= new HTMLExporter();
 
 	public JSeshApplicationBase() {
 		loadPreferences();
@@ -271,5 +274,18 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 			throw new RuntimeException("???? invalid value for exportType "
 					+ exportType);
 		}
+	}
+
+	public HTMLExporter getHTMLExporter() {
+		return htmlExporter;
+	}
+
+	public File getQuickPDFExportFolder() {
+		return quickPDFExportDirectory;
+	}
+	
+	
+	public void setQuickPDFExportFolder(File exportFolder) {
+		this.quickPDFExportDirectory = exportFolder;
 	}
 }

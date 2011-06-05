@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
+import jsesh.Messages;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
@@ -127,8 +128,8 @@ public class HTMLExporter {
 	}
 
 	public void setDefaults() {
-		directory = new File(".");
-		baseName = "egyptian";
+		directory = new File("."); //$NON-NLS-1$
+		baseName = "egyptian"; //$NON-NLS-1$
 		respectPages = true;
 		lineHeight = 30;
 		pictureMargin = 0;
@@ -217,34 +218,34 @@ public class HTMLExporter {
 			flushElements();
 			switch (t.getScriptCode()) {
 			case 'b':
-				write("<b>");
+				write("<b>"); //$NON-NLS-1$
 				break;
 			case 'i':
-				write("<i>");
+				write("<i>"); //$NON-NLS-1$
 				break;
 			case 't':
-				write("<font face=\"MDCTranslitLC,TransliterationItalic\">");
+				write("<font face=\"MDCTranslitLC,TransliterationItalic\">"); //$NON-NLS-1$
 				break;
 			case '+':
-				write("<!--");
+				write("<!--"); //$NON-NLS-1$
 			}
 			if (htmlSpecialProtected)
-				write(t.getText().toString().replaceAll("&", "&amp;")
-						.replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
+				write(t.getText().toString().replaceAll("&", "&amp;") //$NON-NLS-1$ //$NON-NLS-2$
+						.replaceAll("<", "&lt;").replaceAll(">", "&gt;")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			else
 				write(t.getText());
 			switch (t.getScriptCode()) {
 			case 'b':
-				write("</b>");
+				write("</b>"); //$NON-NLS-1$
 				break;
 			case 'i':
-				write("</i>");
+				write("</i>"); //$NON-NLS-1$
 				break;
 			case 't':
-				write("</font>");
+				write("</font>"); //$NON-NLS-1$
 				break;
 			case '+':
-				write("-->");
+				write("-->"); //$NON-NLS-1$
 				break;
 			}
 		}
@@ -264,7 +265,7 @@ public class HTMLExporter {
 					e.printStackTrace();
 				}
 			} else {
-				write("<br/>\n<hrule/>\n");
+				write("<br/>\n<hrule/>\n"); //$NON-NLS-1$
 			}
 		}
 
@@ -277,13 +278,13 @@ public class HTMLExporter {
 			flushElements();
 			switch (newLinesReplacement) {
 			case SPACE:
-				writeln("");
+				writeln(""); //$NON-NLS-1$
 				break;
 			case BREAK:
-				writeln("<br/>");
+				writeln("<br/>"); //$NON-NLS-1$
 				break;
 			case PARAGRAPH:
-				writeln("<p>");
+				writeln("<p>"); //$NON-NLS-1$
 				break;
 			}
 
@@ -308,7 +309,7 @@ public class HTMLExporter {
 
 		private void writeln(String s) {
 			write(s);
-			write("\n");
+			write("\n"); //$NON-NLS-1$
 		}
 
 		private java.util.List getElements() {
@@ -359,27 +360,27 @@ public class HTMLExporter {
 
 				File fic = getImageFile(imageNumber);
 				try {
-					ImageIO.write(image, "png", fic);
+					ImageIO.write(image, "png", fic); //$NON-NLS-1$
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				String center = "";
+				String center = ""; //$NON-NLS-1$
 
 				if (centerPictures)
-					center = " align='center' ";
+					center = " align='center' "; //$NON-NLS-1$
 
 				if (pictureScale != 100) {
-					write("<img " + center + " src='" + fic.getName()
-							+ "' width='" + pictureScale + "%' height='"
-							+ pictureScale + "%'>");
+					write("<img " + center + " src='" + fic.getName() //$NON-NLS-1$ //$NON-NLS-2$
+							+ "' width='" + pictureScale + "%' height='" //$NON-NLS-1$ //$NON-NLS-2$
+							+ pictureScale + "%'>"); //$NON-NLS-1$
 
 				} else if (generatePictureSize) {
-					write("<img " + center + " src='" + fic.getName()
-							+ "' width='" + image.getWidth() + "' height='"
-							+ image.getHeight() + "'>");
+					write("<img " + center + " src='" + fic.getName() //$NON-NLS-1$ //$NON-NLS-2$
+							+ "' width='" + image.getWidth() + "' height='" //$NON-NLS-1$ //$NON-NLS-2$
+							+ image.getHeight() + "'>"); //$NON-NLS-1$
 				} else {
-					write("<img " + center + "src='" + fic.getName() + "'>");
+					write("<img " + center + "src='" + fic.getName() + "'>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 				imageNumber++;
 				image.flush();
@@ -388,11 +389,11 @@ public class HTMLExporter {
 		}
 
 		private File getImageFile(int i) {
-			return new File(directory, "img" + i + ".png");
+			return new File(directory, "img" + i + ".png"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		private String getFileName(int i) {
-			return baseName + formatNum(i) + ".html";
+			return baseName + formatNum(i) + ".html"; //$NON-NLS-1$
 		}
 
 		private void startPage() throws IOException {
@@ -403,7 +404,7 @@ public class HTMLExporter {
 		}
 
 		private String formatNum(int i) {
-			return "" + i;
+			return "" + i; //$NON-NLS-1$
 		}
 
 		private void closePage(boolean hasNext) {
@@ -417,27 +418,27 @@ public class HTMLExporter {
 
 		private void outPutHeader() {
 			flushElements();
-			writeln("<html>");
-			writeln("<head>");
-			writeln("<title>" + title + "(" + pageNumber + ")</title>");
-			writeln("</head>");
-			writeln("<body>");
+			writeln("<html>"); //$NON-NLS-1$
+			writeln("<head>"); //$NON-NLS-1$
+			writeln("<title>" + title + "(" + pageNumber + ")</title>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			writeln("</head>"); //$NON-NLS-1$
+			writeln("<body>"); //$NON-NLS-1$
 			if (pageNumber == 1 && title != null)
-				writeln("<h1>" + title + "</h1>");
+				writeln("<h1>" + title + "</h1>"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		private void outPutFooter(boolean hasNext) {
 			if (hasNext) {
 				outputNextLink(pageNumber + 1);
 			}
-			writeln("</body>");
-			writeln("</html>");
+			writeln("</body>"); //$NON-NLS-1$
+			writeln("</html>"); //$NON-NLS-1$
 		}
 
 		private void outputNextLink(int num) {
-			writeln("<p>");
-			write("<a href='" + getFileName(num) + "'> next </a>");
-			writeln("</p>");
+			writeln("<p>"); //$NON-NLS-1$
+			write("<a href='" + getFileName(num) + "'> next </a>"); //$NON-NLS-1$ //$NON-NLS-2$
+			writeln("</p>"); //$NON-NLS-1$
 		}
 	}
 
@@ -515,13 +516,9 @@ public class HTMLExporter {
 		lineHeight = i;
 	}
 
+	@SuppressWarnings("serial")
 	class OptionPanel extends ExportOptionPanel implements ActionListener {
 	
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -4257399135647530503L;
-
 		JTextField baseNameField;
 
 		JFormattedTextField directoryField;
@@ -551,48 +548,48 @@ public class HTMLExporter {
 
 			// Title :
 			titleField = new JTextField(HTMLExporter.this.title, 40);
-			titleField.setToolTipText("Title of the html document");
+			titleField.setToolTipText(Messages.getString("HTMLExporter.title.toolTip")); //$NON-NLS-1$
 
 			// Directory
 			directoryField = new JFormattedTextField();
 			directoryField.setValue(directory);
 			directoryField.setColumns(40);
-			browse = new JButton("Browse");
+			browse = new JButton(Messages.getString("HTMLExporter.browse.label")); //$NON-NLS-1$
 			browse.addActionListener(this);
 
 			// Base name.
 			baseNameField = new JTextField(baseName, 20);
 			baseNameField
-					.setToolTipText("each html file name will start with this string.");
+					.setToolTipText(Messages.getString("HTMLExporter.baseName.toolTip")); //$NON-NLS-1$
 			// Respect pages :
-			respectPageField = new JCheckBox("Respect pages", respectPages);
+			respectPageField = new JCheckBox(Messages.getString("HTMLExporter.respectPage.label"), respectPages); //$NON-NLS-1$
 			respectPageField
-					.setToolTipText("Output one html file for each manuel de codage page");
+					.setToolTipText(Messages.getString("HTMLExporter.respectPage.toolTip")); //$NON-NLS-1$
 
 			// line height.
 			// NOTE : I use a java 1.4 specific class.
 			lineHeightField = new JFormattedTextField();
 			lineHeightField.setValue(new java.lang.Integer(lineHeight));
 			lineHeightField
-					.setToolTipText("height of a typical line of hieroglyphs");
+					.setToolTipText(Messages.getString("HTMLExporter.lineHeight.toolTip")); //$NON-NLS-1$
 
 			// Picture top and bottom margin
 			pictureMarginField = new JFormattedTextField();
 			pictureMarginField.setValue(new Integer(pictureMargin));
 			pictureMarginField
-					.setToolTipText("Top and bottom margin around pictures, expressed in pixels.");
+					.setToolTipText(Messages.getString("HTMLExporter.margin.toolTip")); //$NON-NLS-1$
 
-			protectSpecialField = new JCheckBox("Protect html specials");
+			protectSpecialField = new JCheckBox(Messages.getString("HTMLExporter.protectHTML.label")); //$NON-NLS-1$
 			protectSpecialField
-					.setToolTipText("If checked, all special HTML characters (a, <, >) will be escaped, and printed as normal char in HTML");
+					.setToolTipText(Messages.getString("HTMLExporter.protectHTML.toolTip")); //$NON-NLS-1$
 			protectSpecialField.setSelected(htmlSpecialProtected);
 
-			newLineReplacementField = new JComboBox(new String[] { "new line",
-					"<br>", "<p>" });
+			newLineReplacementField = new JComboBox(new String[] { Messages.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
+					"<br>", "<p>" }); //$NON-NLS-1$ //$NON-NLS-2$
 			newLineReplacementField.setSelectedIndex(newLinesReplacement);
 
 			NumberFormatter formatter = new NumberFormatter(new DecimalFormat(
-					"###"));
+					"###")); //$NON-NLS-1$
 			// formatter.setAllowsInvalid(false);
 			// formatter.setOverwriteMode(true);
 			// formatter.setCommitsOnValidEdit(true);
@@ -602,18 +599,16 @@ public class HTMLExporter {
 			pictureScaleField.setColumns(4);
 
 			pictureScaleField
-					.setToolTipText("Picture scale in HTML output.\n"
-							+ "Normally 100%; but can be set to a smaller value if one wants to print the page.\n"
-							+ "You can for example, set picture height to 300 and picture scale to 10");
+					.setToolTipText(Messages.getString("HTMLExporter.scale.toolTip"));
 
-			generatePictureSizeField = new JCheckBox("Set picture size in HTML");
+			generatePictureSizeField = new JCheckBox(Messages.getString("HTMLExporter.pictureSize.label")); //$NON-NLS-1$
 			generatePictureSizeField
-					.setToolTipText("If checked, the HTML code IMG tags will contain WIDTH=... HEIGHT=... declaration\n");
+					.setToolTipText(Messages.getString("HTMLExporter.pictureSize.toolTip")); //$NON-NLS-1$
 			generatePictureSizeField.setSelected(generatePictureSize);
 
-			centerPictureField = new JCheckBox("Center pictures vertically");
+			centerPictureField = new JCheckBox(Messages.getString("HTMLExporter.centerPictures.label")); //$NON-NLS-1$
 			centerPictureField
-					.setToolTipText("If checked, the HTML code IMG tags will align='center' declaration\n");
+					.setToolTipText(Messages.getString("HTMLExporter.centerPictures.toolTip")); //$NON-NLS-1$
 			centerPictureField.setSelected(centerPictures);
 
 			// OK, This layout is UGLY. REALLY.
@@ -626,29 +621,29 @@ public class HTMLExporter {
 			c.insets = new Insets(3, 3, 3, 3);
 			c.gridwidth = 1;
 			c.anchor = GridBagConstraints.WEST;
-			add(new LabeledField("document title", titleField), c);
+			add(new LabeledField(Messages.getString("HTMLExporter.documentTitle.label"), titleField), c); //$NON-NLS-1$
 			c.gridy++;
-			add(new LabeledField("directory", directoryField), c);
+			add(new LabeledField(Messages.getString("HTMLExporter.directory.label"), directoryField), c); //$NON-NLS-1$
 			c.gridx = 1;
 			add(browse, c);
 			c.gridx = 0;
 			c.gridy++;
-			add(new LabeledField("base name", baseNameField), c);
+			add(new LabeledField(Messages.getString("HTMLExporter.baseName.label"), baseNameField), c); //$NON-NLS-1$
 			c.gridy++;
 			add(respectPageField, c);
 			c.gridy++;
-			add(new LabeledField("line height", lineHeightField), c);
+			add(new LabeledField(Messages.getString("HTMLExporter.lineHeight.label"), lineHeightField), c); //$NON-NLS-1$
 			c.gridy++;
 			Insets oldInset = c.insets;
 			c.insets = new Insets(20, 0, 0, 0);
-			add(new JLabel("Advanced settings:"), c);
+			add(new JLabel(Messages.getString("HTMLExporter.advancedSettings.label")), c); //$NON-NLS-1$
 			c.insets = oldInset;
 			c.gridy++;
 			add(
-					new LabeledField("Pictures vertical margin",
+					new LabeledField(Messages.getString("HTMLExporter.verticalMargin.label"), //$NON-NLS-1$
 							pictureMarginField), c);
 			c.gridy++;
-			add(new LabeledField("Pictures scales", pictureScaleField), c);
+			add(new LabeledField(Messages.getString("HTMLExporter.scale.label"), pictureScaleField), c); //$NON-NLS-1$
 			c.gridy++;
 			add(protectSpecialField, c);
 			c.gridy++;
@@ -657,7 +652,7 @@ public class HTMLExporter {
 			add(centerPictureField, c);
 			c.gridy++;
 
-			add(new LabeledField("Html replacement for newlines",
+			add(new LabeledField(Messages.getString("HTMLExporter.newLine.label"), //$NON-NLS-1$
 					newLineReplacementField), c);
 		}
 
@@ -686,10 +681,10 @@ public class HTMLExporter {
 			if (e.getSource() == browse) {
 				JFileChooser chooser = new JFileChooser(directory);
 				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				chooser.setApproveButtonText("Choose Directory");
+				chooser.setApproveButtonText(Messages.getString("HTMLExporter.chooseDirectory.label")); //$NON-NLS-1$
 				chooser.setFileFilter(new FileFilter() {
 					public String getDescription() {
-						return "directory for the html files";
+						return Messages.getString("HTMLExporter.directoryDescription.label"); //$NON-NLS-1$
 					}
 
 					public boolean accept(File f) {

@@ -4,11 +4,14 @@ import java.awt.image.BufferedImage;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
+import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
@@ -63,6 +66,34 @@ public class ImageIconFactory {
 	public static ImageIcon buildImage(int symbolCode) {
 		String mdc = LexicalSymbolsUtils.getStringForLexicalItem(symbolCode);
 		return buildImage(mdc);
+	}
+
+	/**
+	 * Build a picture for a given glyph.
+	 * 
+	 * TODO : cleanup to avoid pasted code.
+	 * @param code
+	 * @return
+	 */
+	public static Icon buildGlyphImage(String code) {
+		ImageIcon imageIcon = null;
+		if (iconMap.containsKey(code)) {
+			imageIcon = iconMap.get(code).get();
+		}
+		if (imageIcon == null) {
+			MDCDrawingFacade drawing = prepareFacade();
+
+			BufferedImage bufferedImage = null;
+
+			TopItemList text = new TopItemList();
+			text.addTopItem(new Hieroglyph(code).buildTopItem());
+			bufferedImage = drawing.createImage(text);
+
+			imageIcon = new ImageIcon(bufferedImage);
+			iconMap.put(code, new SoftReference<ImageIcon>(imageIcon));
+		}
+
+		return imageIcon;
 	}
 
 	/**

@@ -57,6 +57,7 @@ import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.graphics.export.EMFExporter;
 import jsesh.graphics.export.EPSExporter;
+import jsesh.graphics.export.HTMLExporter;
 import jsesh.graphics.export.MacPictExporter;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.SVGExporter;
@@ -68,11 +69,14 @@ import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
+import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
 import jsesh.jhotdraw.actions.file.GenericExportAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
+import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
+import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
@@ -100,13 +104,15 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 /**
  * JHotdraw-specific model for the application.
  * 
+ * TODO check consistency and file export system in particular.
  * TODO before release : FIX copy as... / copy/paste .... FIX copy small size,
  * etc...
+ * TODO Fix the missing column orientation for opened texts.
+ * TODO improve the hieroglyphic menu system... should use a regular button, not a bad-looking out-of-place toolbar.
+ * TODO after release : fix the import/export/file reading to use proper threads
+ * and display...
+ * TODO check uses of JFileChooser, and replace when needed by PortableFileDialog (in particular in exports).
  * 
- * MOVE simple hieroglyphic menu to the window toolbar
- * 
- * EXPORT AS : HTML QUICK PDF EXPORT (where do we put SELECT PDF EXPORT
- * FOLDER ???)
  * 
  * Document preferences: orientation/direction/center single signs + drawing
  * preferences Add to the "text menu" : center vertically/horizontally (will
@@ -115,8 +121,6 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * in edit preferences : fonts, export prefs, clipboard formats (see how mac
  * prefs are handled).
  * 
- * TODO after release : fix the import/export/file reading to use proper threads
- * and display...
  * 
  * @author rosmord
  * 
@@ -342,6 +346,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 		map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
 		map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
+		map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
+		map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a, jseshView));
+		map.put(QuickPDFSelectExportFolderAction.ID, new QuickPDFSelectExportFolderAction(a));
 
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
@@ -473,6 +480,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_EPS));
 				exportMenu.add(map.get(ExportAsPDFAction.ID));
 				exportMenu.add(map.get(ExportAsRTFAction.ID));
+				exportMenu.add(map.get(ExportAsHTMLAction.ID));
+				exportMenu.add(map.get(QuickPDFExportAction.ID));
+				exportMenu.add(map.get(QuickPDFSelectExportFolderAction.ID));
 
 				fileMenu.add(importMenu);
 				fileMenu.add(exportMenu);
@@ -613,4 +623,25 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
 		return jseshBase.getRTFExportPreferences(exportType);
 	}
+
+	public HTMLExporter getHTMLExporter() {
+		return jseshBase.getHTMLExporter();
+	}
+
+	public File getQuickPDFExportFolder() {
+		return jseshBase.getQuickPDFExportFolder();
+	}
+	
+	public void setQuickPDFExportFolder(File folder) {
+		jseshBase.setQuickPDFExportFolder(folder);
+	}
+
+	public void setMessage(String string) {
+		JSeshView view= (JSeshView) application.getActiveView();
+		if (view != null) {
+			view.setMessage(string);
+		}
+	}
+	
+	
 }

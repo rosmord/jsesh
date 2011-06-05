@@ -3,13 +3,17 @@ package jsesh.jhotdraw;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -19,17 +23,22 @@ import javax.swing.Timer;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.caret.MDCCaret;
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
+import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing
  * session of a JSesh document. Might be worth merging with JSeshView.
  * 
  * <p>
- * TODO this class is a bit too heavy for my taste... nothing as awful as the old JSesh application, 
- * but still...
+ * TODO this class is a bit too heavy for my taste... nothing as awful as the
+ * old JSesh application, but still...
+ * 
  * @author rosmord
  */
 public class JSeshViewModel {
@@ -45,23 +54,23 @@ public class JSeshViewModel {
 	 * The document we are working on.
 	 */
 	private MDCDocument mdcDocument;
-	
+
 	/**
 	 * The editor to edit the document's text.
 	 */
 	private JMDCEditor editor;
-	
+
 	/**
 	 * Toolbar associated with this element.
 	 */
-	private JPanel topPanel;
+	private JComponent topPanel;
 	/**
 	 * Panel holding various information.
 	 */
 	private JPanel bottomPanel;
 	/**
-	 * Field displaying the code being typed.
-	 * (a combobox could be a nice idea here).
+	 * Field displaying the code being typed. (a combobox could be a nice idea
+	 * here).
 	 */
 	private JTextField codeField;
 	/**
@@ -72,6 +81,12 @@ public class JSeshViewModel {
 	 * The MdC for the current "line" (or column).
 	 */
 	private JTextField mdcField;
+	
+	/**
+	 * A field to display various messages.
+	 */
+	private JTextField messageField;
+	
 	/**
 	 * Actually, a menu to choose the zoom factor.
 	 */
@@ -82,6 +97,7 @@ public class JSeshViewModel {
 		editor = new JMDCEditor(mdcDocument.getHieroglyphicTextModel());
 		// JScrollPane scroll = new JScrollPane(editor);
 		// scroll.getVerticalScrollBar().setUnitIncrement(20);
+		topPanel = prepareTopPanel();
 		bottomPanel = prepareBottomPanel();
 
 		// Activate the objects
@@ -99,14 +115,22 @@ public class JSeshViewModel {
 		}
 		zoomComboBox.setModel(comboBoxModel);
 		zoomComboBox.setSelectedIndex(7);
-		zoomComboBox.addActionListener(new ActionListener() {			
+		zoomComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ZoomInfo zoomInfo= (ZoomInfo) zoomComboBox.getSelectedItem();
+				ZoomInfo zoomInfo = (ZoomInfo) zoomComboBox.getSelectedItem();
 				if (zoomInfo != null) {
 					editor.setScale(zoomInfo.zoom / 100.0);
 				}
 			}
 		});
+	}
+
+	private JComponent prepareTopPanel() {
+		JToolBar top = new JToolBar(JToolBar.HORIZONTAL);
+		top.setFloatable(false);
+	
+		top.add(Box.createHorizontalGlue());
+		return top;
 	}
 
 	/**
@@ -131,8 +155,13 @@ public class JSeshViewModel {
 		separatorField.setFocusable(false);
 		separatorField.setMaximumSize(separatorField.getPreferredSize());
 		separatorField.setDisabledTextColor(separatorField.getForeground());
-		separatorField.setToolTipText(bundle.getLabel("separatorField.toolTipText"));
+		separatorField.setToolTipText(bundle
+				.getLabel("separatorField.toolTipText"));
 
+		messageField= new JTextField();
+		messageField.setEditable(false);
+		messageField.setBorder(BorderFactory.createEmptyBorder());
+		
 		mdcField = new JTextField();
 		mdcField.setToolTipText(bundle.getLabel("mdcField.toolTipText"));
 
@@ -143,6 +172,16 @@ public class JSeshViewModel {
 		actualBar.add(codeField);
 		actualBar.add(separatorField);
 		actualBar.add(Box.createHorizontalGlue());
+		actualBar.add(messageField);
+		actualBar.add(Box.createHorizontalGlue());
+
+		// The following should be a regular button with a pop-up menu.
+		JMenu hieroglyphicMenu = buildHieroglyphicMenus();
+		JMenuBar menuBar= new JMenuBar();
+		menuBar.add(hieroglyphicMenu);
+		menuBar.setMaximumSize(menuBar.getPreferredSize());
+		actualBar.add(menuBar);
+		
 		actualBar.add(new JLabel(bundle.getLabel("combobox.zoom.text")));
 		actualBar.add(zoomComboBox);
 		panel.add(mdcField);
@@ -175,8 +214,13 @@ public class JSeshViewModel {
 		return bottomPanel;
 	}
 
+	public JComponent getTopPanel() {
+		return topPanel;
+	}
+
 	/**
-	 * Synchronize the hieroglyphic editor and the optional mdc line display below it.
+	 * Synchronize the hieroglyphic editor and the optional mdc line display
+	 * below it.
 	 * 
 	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 	 */
@@ -274,5 +318,80 @@ public class JSeshViewModel {
 		}
 	}
 
-	
+	/**
+	 * Build the hieroglyphic menu.
+	 * 
+	 * @return a menu containing only "standard" glyphs.
+	 */
+	private JMenu buildHieroglyphicMenus() {
+		HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
+		List<HieroglyphFamily> families = CompositeHieroglyphsManager
+				.getInstance().getFamilies();
+		BundleHelper bundle = BundleHelper.getInstance();
+
+		JMenu hieroglyphs = new JMenu(bundle.getLabel("hieroglyphicMenu.text"));
+
+		hieroglyphs.getPopupMenu().setLayout(new GridLayout(14, 2));
+		for (int i = 0; i < families.size(); i++) {
+			HieroglyphFamily family = (HieroglyphFamily) families.get(i);
+
+			HieroglyphicMenu fmenu = new HieroglyphicMenu(family.getCode()
+					+ ". " + family.getDescription(), family.getCode(), 6);
+
+			fmenu.setHieroglyphicMenuListener(mediator);
+			if (i < 25)
+				fmenu.setMnemonic(family.getCode().toUpperCase().charAt(0));
+			else if (i == 25) {
+				fmenu.setMnemonic(KeyEvent.VK_J);
+			} else if (i == 26)
+				fmenu.setMnemonic(KeyEvent.VK_AMPERSAND);
+			hieroglyphs.add(fmenu);
+		}
+		
+		HieroglyphicMenu[] others = new HieroglyphicMenu[] {
+				new HieroglyphicMenu("Tall Narrow Signs",
+						HieroglyphicMenu.TALL_NARROW, 6),
+				new HieroglyphicMenu("Low Broad Signs",
+						HieroglyphicMenu.LOW_BROAD, 6),
+				new HieroglyphicMenu("Low Narrow Signs",
+						HieroglyphicMenu.LOW_NARROW, 6) };
+		for (HieroglyphicMenu m : others) {
+			hieroglyphs.add(m);
+			m.setHieroglyphicMenuListener(mediator);
+		}
+
+		hieroglyphs.setMnemonic(KeyEvent.VK_H);
+		return hieroglyphs;
+	}
+
+	public void setMessage(String messsage) {
+		messageField.setText(messsage);
+	}
+	/**
+	 * Manages interactions between the menu and the view.
+	 * 
+	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+	 * 
+	 */
+	private class HieroglyphicMenuMediator implements HieroglyphicMenuListener {
+		/**
+		 * Insert the sign in the document.
+		 */
+		public void codeSelected(String code) {
+			editor.insert(code);
+
+		}
+
+		/**
+		 * Display sign informations.
+		 */
+		public void enter(String code) {
+			setMessage(code);
+		}
+
+		// Erase the message
+		public void exit(String code) {
+			setMessage("");
+		}
+	}
 }

@@ -8,11 +8,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import jsesh.swing.ImageIconFactory;
+
 import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * An helper class to create bitmap versions of the signs.
  * 
+ * @see ImageIconFactory for a similar class.
  * @author rosmord
  * 
  */
@@ -77,17 +80,6 @@ public class HieroglyphicBitmapBuilder {
 	}
 
 	public BufferedImage buildSignBitmap(ShapeChar glyph) {
-		// NOTE : creating images with new BufferedImage(...) is supposed not to
-		// be the best way
-		// methods like createCompatibleImage()... are in theory more efficient
-		// because they create images that are both accelerated and can be
-		// directly drawn into the target
-		// device. However, it's a bit hard to get a graphicConfiguration object
-		// in a clean way
-		// and this leads to timing problems. Besides jdk1.5 tends to accelerate
-		// all images.
-		// Anyway, we will change our code only if it appears to be too slow.
-
 		// Compute the scale
 
 		float scale = (float) (size / maxSize);

@@ -1,13 +1,43 @@
 /*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
+/*
  * Created on 27 oct. 2004
- *
- * This file is distributed under the LGPL.
  */
 package jsesh.swing.hieroglyphicMenu;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -25,6 +55,7 @@ import javax.swing.event.PopupMenuListener;
 
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.ManuelDeCodage;
+import jsesh.swing.ImageIconFactory;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
@@ -34,6 +65,7 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  * @author S. Rosmorduc
  * 
  */
+@SuppressWarnings("serial")
 public class HieroglyphicMenu extends JMenu {
 
 	/**
@@ -50,11 +82,7 @@ public class HieroglyphicMenu extends JMenu {
 	 * pseudo family for low narrow signs.
 	 */
 	public static String LOW_NARROW = "LOW NARROW";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -88729059102316882L;
-
+	
 	/**
 	 * The dimensions of a basic icon
 	 */
@@ -131,7 +159,7 @@ public class HieroglyphicMenu extends JMenu {
 
 		menuFilled = true;
 
-		List codes;
+		List<String> codes;
 		if (family.equals(TALL_NARROW)) {
 			codes = ManuelDeCodage.getInstance().getTallNarrowSigns();
 		} else if (family.equals(LOW_BROAD)) {
@@ -147,7 +175,7 @@ public class HieroglyphicMenu extends JMenu {
 		JPopupMenu pm = getPopupMenu();
 		pm.setLayout(new GridLayout(0, ncols));
 		for (int i = 0; i < codes.size(); i++) {
-			Action a = new HieroglyphAction((String) codes.get(i));
+			Action a = new HieroglyphAction(codes.get(i));
 			JMenuItem jm = new JMenuItem(a);
 			jm.addMouseListener(menuEnter);
 			add(jm);
@@ -169,13 +197,7 @@ public class HieroglyphicMenu extends JMenu {
 		this.hieroglyphicMenuListener = hieroglyphicMenuListener;
 	}
 
-	class HieroglyphAction extends AbstractAction {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 3149637635116611380L;
-
+	class HieroglyphAction extends AbstractAction {	
 		String code;
 
 		/**
@@ -185,8 +207,9 @@ public class HieroglyphicMenu extends JMenu {
 		 * 
 		 */
 		public HieroglyphAction(String code) {
-			super(code, HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
-					size, border, HieroglyphicMenu.this));
+			super(code, ImageIconFactory.buildGlyphImage(code));
+			/*super(code, HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
+					size, border, HieroglyphicMenu.this));*/		
 			this.code = code;
 		}
 
@@ -197,12 +220,6 @@ public class HieroglyphicMenu extends JMenu {
 	}
 
 	class CodeSelector extends MouseAdapter {
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseAdapter#mouseEntered(java.awt.event.MouseEvent)
-		 */
 		public void mouseEntered(MouseEvent e) {
 			if (hieroglyphicMenuListener != null) {
 				JMenuItem item = (JMenuItem) e.getSource();
@@ -211,12 +228,6 @@ public class HieroglyphicMenu extends JMenu {
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-		 */
 		public void mouseExited(MouseEvent e) {
 			if (hieroglyphicMenuListener != null) {
 				JMenuItem item = (JMenuItem) e.getSource();
@@ -224,18 +235,5 @@ public class HieroglyphicMenu extends JMenu {
 				hieroglyphicMenuListener.exit(action.code);
 			}
 		}
-
-		public void mouseWheelMoved(MouseWheelEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		public void mouseDragged(MouseEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		public void mouseMoved(MouseEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
 	}
-
 }

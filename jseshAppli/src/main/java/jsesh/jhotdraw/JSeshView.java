@@ -55,6 +55,7 @@ public class JSeshView extends AbstractView {
 		setLayout(new BorderLayout());
 		add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
 		add(viewModel.getBottomPanel(), BorderLayout.PAGE_END);
+		add(viewModel.getTopPanel(), BorderLayout.PAGE_START);
 		observeChanges();
 		initActions();
 	}
@@ -393,6 +394,14 @@ public class JSeshView extends AbstractView {
 		JSeshApplicationModel applicationModel = (jsesh.jhotdraw.JSeshApplicationModel) getApplication()
 				.getModel();
 		return new File(applicationModel.getCurrentDirectory(), name + "."+ extension);
+	}
+
+	/**
+	 * Message display system... to do.
+	 * @param message the message to display.
+	 */
+	public void setMessage(String message) {
+		viewModel.setMessage(message);
 	}
 }
 

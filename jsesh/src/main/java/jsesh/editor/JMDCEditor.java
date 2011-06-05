@@ -777,4 +777,8 @@ public class JMDCEditor extends JPanel {
 		return workflow.getCaret().hasSelection();
 	}
 
+	public void insert(String code) {
+		workflow.addSign(code);
+	}
+
 }
