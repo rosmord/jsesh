@@ -34,7 +34,7 @@ public class FileButtonMapper implements ActionListener {
 
 	private int fileSelectionMode;
 
-	private List fileFilters;
+	private List<FileFilter> fileFilters;
 	
 	private String dialogTitle;
 	
@@ -109,11 +109,10 @@ public class FileButtonMapper implements ActionListener {
 
 		JFileChooser chooser;
 		
-		chooser = new JFileChooser(f) {
-			
-		};
+		chooser = new JFileChooser(f);
 		chooser.setFileSelectionMode(fileSelectionMode);
-	
+		chooser.setSelectedFile(f);
+		
 		if (getDialogTitle() != null)
 			chooser.setDialogTitle(getDialogTitle());
 		
@@ -123,7 +122,7 @@ public class FileButtonMapper implements ActionListener {
 		
 		if (fileFilters != null) {
 			for (int i = 0; i < fileFilters.size(); i++)
-				chooser.addChoosableFileFilter((FileFilter) fileFilters.get(i));
+				chooser.addChoosableFileFilter(fileFilters.get(i));
 		}
 		int result;
 		if (mode == OPEN)
@@ -170,7 +169,7 @@ public class FileButtonMapper implements ActionListener {
 
 	public void addFileFilter(FileFilter filter) {
 		if (fileFilters == null)
-			fileFilters = new ArrayList();
+			fileFilters = new ArrayList<FileFilter>();
 		fileFilters.add(filter);
 	}
 

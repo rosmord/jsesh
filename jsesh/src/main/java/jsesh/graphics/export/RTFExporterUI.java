@@ -56,14 +56,7 @@ public class RTFExporterUI {
 		}
 	}
 
-	/**
-	 * @param currentOutputDirectory
-	 * @param string
-	 */
-	public void setFile(File currentOutputDirectory, String fname) {
-		this.file = new File(currentOutputDirectory, fname);
-	}
-
+	
 
 	/**
 	 * @return

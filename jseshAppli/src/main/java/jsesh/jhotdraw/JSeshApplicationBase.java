@@ -8,6 +8,7 @@ import java.util.prefs.Preferences;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
+import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
@@ -20,6 +21,7 @@ import jsesh.utils.JSeshWorkingDirectory;
  * Framework-agnostic part of the JSesh application. Deals with all information
  * which is not specific to the JHotdraw framework.
  * 
+ * TODO : fix the export preferences system.
  * @author rosmord
  */
 
@@ -31,24 +33,25 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 * Folder for exporting small pdf pictures (useful for press release).
 	 */
 	private File quickPDFExportDirectory;
-	
+
 	private File currentDirectory;
 
 	/**
 	 * Export information for copy/paste.
 	 */
-	private RTFExportPreferences[] rtfExportPreferences = new RTFExportPreferences[3];
+	private RTFExportPreferences[] rtfExportPreferences = new RTFExportPreferences[2];
 
 	/**
 	 * The RTF Preference currently selected for copy/paste.
 	 * 
-	 * Note that if the index is 0 or 1, it will be taken from the export preference
-	 * array. Index 2 corresponds to "Wysiwyg" export. The dimensional data will
-	 * be taken from the "large" export preferences, but other data will be
-	 * ignored.
-	 *
+	 * We will change the way everything is done there. Currently : SMALL and
+	 * LARGE are directly picked from the RTFExportPreferences array (resp. 0
+	 * and 1). FILE uses the 0 and WYSIWYG the 1 slots data, but only for the
+	 * sizes.
 	 */
-	private int rtfExportPreferencesIndex= 0;
+	private ExportType exportType = ExportType.SMALL;
+
+	private PDFExportPreferences pdfExportPreferences = new PDFExportPreferences();
 
 	/**
 	 * Base drawing specifications for <em>new</em> documents.
@@ -65,7 +68,10 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 */
 	private File currentHieroglyphsSource;
 
-
+	public JSeshApplicationBase() {
+		loadPreferences();
+	}
+	
 	/**
 	 * Change a number of preferences for this program according to the user
 	 * preferences.
@@ -108,15 +114,16 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 		loadCurrentHieroglyphicSource(preferences);
 
 		// Cut and paste preferences.
-		String prefNames[] = { "large", "small", "file" };
+		String prefNames[] = {"small","large", "file" };
 		int defaultHeight[] = { 20, 12, 12 };
 		RTFExportGranularity defaultGranularity[] = {
 				RTFExportGranularity.ONE_PICTURE_PER_CADRAT,
 				RTFExportGranularity.ONE_PICTURE_PER_CADRAT,
 				RTFExportGranularity.GROUPED_CADRATS };
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < rtfExportPreferences.length; i++) {
 			String name = prefNames[i];
+			rtfExportPreferences[i]= new RTFExportPreferences();
 			rtfExportPreferences[i].setCadratHeight(preferences.getInt("rtf_"
 					+ name + "_size", defaultHeight[i]));
 
@@ -208,9 +215,47 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 		result.setClipboardPreferences(clipboardPreferences);
 		return result;
 	}
-	
+
 	private RTFExportPreferences getCurrentRTFPreferences() {
-		if (rtfExportPreferencesIndex == 2) {
+		return getRTFExportPreferences(exportType);
+	}
+
+	/**
+	 * Choose which copy/paste configuration to use. {@link ExportType#FILE}
+	 * should not be used for copy/paste.
+	 * <p>
+	 * (it should probably not be an exportype ?)
+	 * 
+	 * @param exportType
+	 */
+	public void selectCopyPasteConfiguration(ExportType exportType) {
+		if (exportType == ExportType.FILE)
+			throw new IllegalArgumentException(
+					"Incorrect export type for copy/paste " + ExportType.FILE);
+		this.exportType = exportType;
+	}
+
+	public File getCurrentDirectory() {
+		return currentDirectory;
+	}
+
+	public void setCurrentDirectory(File currentDirectory) {
+		this.currentDirectory = currentDirectory;
+	}
+
+	public PDFExportPreferences getPDFExportPreferences() {
+		return pdfExportPreferences;
+	}
+
+	/**
+	 * Returns suitable RTF preferences for a type of export.
+	 * @param exportType
+	 * @return
+	 */
+	public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
+		switch (exportType) {
+		case WYSIWYG:
+		case FILE:
 			RTFExportPreferences prefs = new RTFExportPreferences();
 			prefs.setCadratHeight(rtfExportPreferences[1].getCadratHeight());
 			prefs.setExportGraphicFormat(rtfExportPreferences[1]
@@ -218,25 +263,13 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 			prefs.setExportGranularity(RTFExportGranularity.ONE_LARGE_PICTURE);
 			prefs.setRespectOriginalTextLayout(true);
 			return prefs;
-		} else {
-			return rtfExportPreferences[rtfExportPreferencesIndex];
+		case SMALL:
+			return rtfExportPreferences[0];
+		case LARGE:
+			return rtfExportPreferences[1];
+		default:
+			throw new RuntimeException("???? invalid value for exportType "
+					+ exportType);
 		}
-	}
-	
-	/**
-	 * Choose which copy/paste configuration to use.
-	 * 0, 1 or 2. 2 is Wysiwyg.
-	 * @param configurationNumber 0, 1 or 2.
-	 */
-	public void selectCopyPasteConfiguration(int configurationNumber) {
-		rtfExportPreferencesIndex = configurationNumber;
-	}
-
-	public File getCurrentDirectory() {
-		return currentDirectory;
-	}
-	
-	public void setCurrentDirectory(File currentDirectory) {
-		this.currentDirectory = currentDirectory;
 	}
 }

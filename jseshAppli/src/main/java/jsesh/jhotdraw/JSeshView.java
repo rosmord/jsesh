@@ -347,9 +347,52 @@ public class JSeshView extends AbstractView {
 	 * @return
 	 */
 	public ExportData getExportData() {
-		// Note : there is some doubt over which drawing specifications should be used ?
+		// Note : there is some doubt over which drawing specifications should
+		// be used ?
 		return new ExportData(getDrawingSpecifications(), getCaret(), viewModel
 				.getMdcDocument().getHieroglyphicTextModel().getModel(), 1f);
+	}
+
+	/**
+	 * Returns a <em>name</em> suitable for use as basis for export files (as
+	 * pictures). For instance, if the original file name is Sinuhe.gly, it will
+	 * be "Sinuhe". If there is no file, the name will be equals to the scheme,
+	 * or, in despair, to "untitled".
+	 * 
+	 * 	<p> This method could be moved (or delegated to JSeshViewModel)
+	 * @return a string
+	 */
+	public String getBaseFileName() {
+		if (uri == null) {
+			return "untitled";
+		} else if (uri.getScheme() == null || "file".equals(uri.getScheme())) {
+			File f = new File(uri);
+			String name = f.getName();
+			int pos = name.lastIndexOf(".");
+			if (pos != -1) {
+				name = name.substring(0, pos);
+			}
+			return name;
+		} else
+			return uri.getScheme();
+
+	}
+
+	/**
+	 * Create a File object suitable for saving (parts of) the current document
+	 * in a certain format.
+	 * 
+	 * <p> This method could be moved (or delegated to JSeshViewModel)
+	 * @param extension
+	 *            the extension to use (without "."). Exemply gratia : "rtf" or
+	 *            "png".
+	 * @return
+	 */
+	public File buildDefaultExportFile(String extension) {
+		String name = getBaseFileName();
+		JSeshApplicationModel applicationModel = (jsesh.jhotdraw.JSeshApplicationModel) getApplication()
+				.getModel();
+		return new File(applicationModel.getCurrentDirectory(), name + "."+ extension);
 	}
 }
 

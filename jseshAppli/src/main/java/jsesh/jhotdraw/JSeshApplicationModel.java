@@ -43,7 +43,6 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
@@ -56,12 +55,21 @@ import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
+import jsesh.graphics.export.EMFExporter;
+import jsesh.graphics.export.EPSExporter;
+import jsesh.graphics.export.MacPictExporter;
+import jsesh.graphics.export.RTFExportPreferences;
+import jsesh.graphics.export.SVGExporter;
 import jsesh.graphics.export.WMFExporter;
+import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
+import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
+import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
+import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
 import jsesh.jhotdraw.actions.file.GenericExportAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
@@ -97,8 +105,8 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * 
  * MOVE simple hieroglyphic menu to the window toolbar
  * 
- * EXPORT AS : WMF/EMF/EPS/MAC PICT/SVG/HTML/PDF/RTF QUICK PDF EXPORT (where do
- * we put SELECT PDF EXPORT FOLDER ???)
+ * EXPORT AS : HTML QUICK PDF EXPORT (where do we put SELECT PDF EXPORT
+ * FOLDER ???)
  * 
  * Document preferences: orientation/direction/center single signs + drawing
  * preferences Add to the "text menu" : center vertically/horizontally (will
@@ -106,6 +114,9 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * 
  * in edit preferences : fonts, export prefs, clipboard formats (see how mac
  * prefs are handled).
+ * 
+ * TODO after release : fix the import/export/file reading to use proper threads
+ * and display...
  * 
  * @author rosmord
  * 
@@ -149,7 +160,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
-		this.application = a;
+		this.application = a;		
 	}
 
 	/*
@@ -310,7 +321,27 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
 
 		map.put(JSeshApplicationActionsID.EXPORT_WMF, new GenericExportAction(
-				a, jseshView, new WMFExporter(), JSeshApplicationActionsID.EXPORT_WMF));
+				a, jseshView, new WMFExporter(),
+				JSeshApplicationActionsID.EXPORT_WMF));
+
+		map.put(JSeshApplicationActionsID.EXPORT_EMF, new GenericExportAction(
+				a, jseshView, new EMFExporter(),
+				JSeshApplicationActionsID.EXPORT_EMF));
+
+		map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
+				new GenericExportAction(a, jseshView, new MacPictExporter(),
+						JSeshApplicationActionsID.EXPORT_MACPICT));
+
+		map.put(JSeshApplicationActionsID.EXPORT_SVG, new GenericExportAction(
+				a, jseshView, new SVGExporter(),
+				JSeshApplicationActionsID.EXPORT_SVG));
+
+		map.put(JSeshApplicationActionsID.EXPORT_EPS, new GenericExportAction(
+				a, jseshView, new EPSExporter(),
+				JSeshApplicationActionsID.EXPORT_EPS));
+
+		map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
+		map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
 
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
@@ -321,29 +352,15 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		map.remove(SelectAllAction.ID);
 		map.remove(ClearSelectionAction.ID);
 
-		// map.put(SelectAllAction.ID,
-		// getEditorAction(editor, jsesh.editor.ActionsID.SELECT_ALL));
-		// map.put(ClearSelectionAction.ID,
-		// getEditorAction(editor, jsesh.editor.ActionsID.CLEAR_SELECTION));
-		// addEditorAction(map, editor, ActionsID.COPY_AS_PDF);
-		// addEditorAction(map, editor, ActionsID.COPY_AS_RTF);
-		// addEditorAction(map, editor, ActionsID.COPY_AS_BITMAP);
-		// addEditorAction(map, editor, ActionsID.COPY_AS_MDC);
-		//
-		// addEditorAction(map, editor, ActionsID.SET_MODE_HIEROGLYPHS);
-		// addEditorAction(map, editor, ActionsID.SET_MODE_ITALIC);
-		// addEditorAction(map, editor, ActionsID.SET_MODE_LATIN);
-		// addEditorAction(map, editor, ActionsID.SET_MODE_BOLD);
-		// addEditorAction(map, editor, ActionsID.SET_MODE_LINENUMBER);
-		// addEditorAction(map, editor, ActionsID.SET_MODE_TRANSLIT);
-
 		map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
 
-		for (int i = 0; i < 3; i++)
-			map.put(jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction.partialID
-					+ i,
-					new jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction(
-							a, v, i));
+		for (ExportType exportType : new ExportType[] { ExportType.SMALL,
+				ExportType.LARGE, ExportType.WYSIWYG }) {
+			SelectCopyPasteConfigurationAction action= new SelectCopyPasteConfigurationAction(
+					a, v, exportType);
+			
+			map.put(action.getID(), action);					
+		}
 
 		map.put(EditGroupAction.ID, new EditGroupAction(editor));
 
@@ -420,8 +437,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * @param configurationNumber
 	 * @see jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(int)
 	 */
-	public void selectCopyPasteConfiguration(int configurationNumber) {
-		jseshBase.selectCopyPasteConfiguration(configurationNumber);
+	public void selectCopyPasteConfiguration(ExportType exportType) {
+		jseshBase.selectCopyPasteConfiguration(exportType);
 	}
 
 	@Override
@@ -450,6 +467,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 						new JMenu(), "file.export");
 				exportMenu.add(new ExportAsBitmapAction(app, view));
 				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_WMF));
+				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_EMF));
+				exportMenu.add(map
+						.get(JSeshApplicationActionsID.EXPORT_MACPICT));
+				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_EPS));
+				exportMenu.add(map.get(ExportAsPDFAction.ID));
+				exportMenu.add(map.get(ExportAsRTFAction.ID));
 
 				fileMenu.add(importMenu);
 				fileMenu.add(exportMenu);
@@ -508,7 +531,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 			public void afterFileClose(JMenu fileMenu, Application app,
 					View view) {
-			}		
+			}
 		};
 	}
 
@@ -529,16 +552,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			shadingMenu.add(a.getActionMap(v).get(s));
 		}
 		return shadingMenu;
-	}
-
-	private void buildShadeSignMenu(JMenu parent) {
-		/*
-		 * JMenu signShading = new JMenu("Sign Shading"); JPopupMenu pm =
-		 * signShading.getPopupMenu(); pm.setLayout(new GridLayout(0, 4)); for
-		 * (int i = 0; i < workflow.getShadeSignActions().length; i++) {
-		 * signShading.add(workflow.getShadeSignActions()[i]); }
-		 * parent.add(signShading);
-		 */
 	}
 
 	/**
@@ -591,5 +604,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			throw new RuntimeException("Bug : " + directory.getAbsolutePath()
 					+ " should be a directory");
 		jseshBase.setCurrentDirectory(directory);
+	}
+
+	public PDFExportPreferences getPDFExportPreferences() {
+		return jseshBase.getPDFExportPreferences();
+	}
+
+	public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
+		return jseshBase.getRTFExportPreferences(exportType);
 	}
 }
