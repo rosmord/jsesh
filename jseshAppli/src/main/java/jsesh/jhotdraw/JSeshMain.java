@@ -28,7 +28,7 @@ import org.jhotdraw_7_4_1.app.Application;
  */
 public class JSeshMain {
 	public final static String NAME = "JSesh";
-	public final static String COPYRIGHT = "JSesh is LGPL Software writen by S. Rosmorduc";
+	public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
 	/**
 	 * Launches the application.

@@ -781,4 +781,19 @@ public class JMDCEditor extends JPanel {
 		workflow.addSign(code);
 	}
 
+	/**
+	 * Should <em>all</em> small signs be vertically centered 
+	 * @param center
+	 */
+	public void setSmallSignsCentered(boolean center) {
+		getDrawingSpecifications().setSmallSignsCentered(center);
+	}
+	
+	/**
+	 * 	 are <em>all</em> small signs be vertically centered 
+	 * @return true if it is the case.
+	 */
+	public boolean isSmallSignsCentered() {
+		return getDrawingSpecifications().isSmallSignsCentered();
+	}
 }

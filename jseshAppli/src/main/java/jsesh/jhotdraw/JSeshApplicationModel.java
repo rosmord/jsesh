@@ -34,14 +34,17 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
@@ -55,6 +58,7 @@ import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
+import jsesh.editorSoftware.actions.generic.ForwardedAction;
 import jsesh.graphics.export.EMFExporter;
 import jsesh.graphics.export.EPSExporter;
 import jsesh.graphics.export.HTMLExporter;
@@ -78,9 +82,14 @@ import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.format.CenterSmallSignsAction;
+import jsesh.jhotdraw.actions.format.SetDocumentDirectionAction;
+import jsesh.jhotdraw.actions.format.SetDocumentOrientationAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
 import jsesh.mdc.constants.SymbolCodes;
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.JSimplePalette;
@@ -104,14 +113,13 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 /**
  * JHotdraw-specific model for the application.
  * 
- * TODO check consistency and file export system in particular.
- * TODO before release : FIX copy as... / copy/paste .... FIX copy small size,
- * etc...
- * TODO Fix the missing column orientation for opened texts.
- * TODO improve the hieroglyphic menu system... should use a regular button, not a bad-looking out-of-place toolbar.
- * TODO after release : fix the import/export/file reading to use proper threads
- * and display...
- * TODO check uses of JFileChooser, and replace when needed by PortableFileDialog (in particular in exports).
+ * TODO check consistency and file export system in particular. TODO before
+ * release : FIX copy as... / copy/paste .... FIX copy small size, etc... TODO
+ * Fix the missing column orientation for opened texts. TODO improve the
+ * hieroglyphic menu system... should use a regular button, not a bad-looking
+ * out-of-place toolbar. TODO after release : fix the import/export/file reading
+ * to use proper threads and display... TODO check uses of JFileChooser, and
+ * replace when needed by PortableFileDialog (in particular in exports).
  * 
  * 
  * Document preferences: orientation/direction/center single signs + drawing
@@ -164,7 +172,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
-		this.application = a;		
+		this.application = a;
 	}
 
 	/*
@@ -348,7 +356,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
 		map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
 		map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a, jseshView));
-		map.put(QuickPDFSelectExportFolderAction.ID, new QuickPDFSelectExportFolderAction(a));
+		map.put(QuickPDFSelectExportFolderAction.ID,
+				new QuickPDFSelectExportFolderAction(a));
 
 		map.remove(DuplicateAction.ID);
 		map.remove(DeleteAction.ID);
@@ -363,10 +372,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 		for (ExportType exportType : new ExportType[] { ExportType.SMALL,
 				ExportType.LARGE, ExportType.WYSIWYG }) {
-			SelectCopyPasteConfigurationAction action= new SelectCopyPasteConfigurationAction(
+			SelectCopyPasteConfigurationAction action = new SelectCopyPasteConfigurationAction(
 					a, v, exportType);
-			
-			map.put(action.getID(), action);					
+
+			map.put(action.getID(), action);
 		}
 
 		map.put(EditGroupAction.ID, new EditGroupAction(editor));
@@ -491,6 +500,64 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				fileMenu.addSeparator();
 				addToMenu(fileMenu, app, jSeshView,
 						EditDocumentPreferencesAction.ID);
+
+				JMenu documentFormat;
+
+				documentFormat = buildFormatMenu(app, jSeshView);
+
+				fileMenu.add(documentFormat);
+			}
+
+			/**
+			 * Build the Menu for document format.
+			 * <p>
+			 * This is a rather complex menu, with specific types of buttons (and a button group in one case).
+			 * 
+			 * @param app
+			 * @param jSeshView
+			 * @return
+			 */
+			private JMenu buildFormatMenu(Application app, JSeshView jSeshView) {
+				JMenu documentFormat;
+				documentFormat = BundleHelper.getInstance().configure(
+						new JMenu(), "format");
+
+				/**
+				 * TODO Add the actions to the map...
+				 */
+
+				ButtonGroup orientationGroup = new ButtonGroup();
+
+				JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(
+						new SetDocumentOrientationAction(app, jSeshView,
+								TextOrientation.HORIZONTAL));
+				JRadioButtonMenuItem verticalButton = new JRadioButtonMenuItem(
+						new SetDocumentOrientationAction(app, jSeshView,
+								TextOrientation.VERTICAL));
+				orientationGroup.add(horizontalButton);
+				orientationGroup.add(verticalButton);
+				documentFormat.add(horizontalButton);
+				documentFormat.add(verticalButton);
+
+				documentFormat.addSeparator();
+				ButtonGroup directionGroup = new ButtonGroup();
+
+				JRadioButtonMenuItem leftToRightButton = new JRadioButtonMenuItem(
+						new SetDocumentDirectionAction(app, jSeshView,
+								TextDirection.LEFT_TO_RIGHT));
+				JRadioButtonMenuItem rightToLeftButton = new JRadioButtonMenuItem(
+						new SetDocumentDirectionAction(app, jSeshView,
+								TextDirection.RIGHT_TO_LEFT));
+				directionGroup.add(leftToRightButton);
+				directionGroup.add(rightToLeftButton);
+				documentFormat.add(leftToRightButton);
+				documentFormat.add(rightToLeftButton);
+				documentFormat.addSeparator();
+
+				JCheckBoxMenuItem centeredMenuItem = new JCheckBoxMenuItem(
+						new CenterSmallSignsAction(app, jSeshView));
+				documentFormat.add(centeredMenuItem);
+				return documentFormat;
 			}
 
 			public void atEndOfEditMenu(JMenu editMenu, Application app,
@@ -631,17 +698,16 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public File getQuickPDFExportFolder() {
 		return jseshBase.getQuickPDFExportFolder();
 	}
-	
+
 	public void setQuickPDFExportFolder(File folder) {
 		jseshBase.setQuickPDFExportFolder(folder);
 	}
 
 	public void setMessage(String string) {
-		JSeshView view= (JSeshView) application.getActiveView();
+		JSeshView view = (JSeshView) application.getActiveView();
 		if (view != null) {
 			view.setMessage(string);
 		}
 	}
-	
-	
+
 }

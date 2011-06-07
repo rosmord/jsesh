@@ -24,6 +24,8 @@ import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
@@ -41,6 +43,11 @@ import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 @SuppressWarnings("serial")
 public class JSeshView extends AbstractView {
+
+	/**
+	 * Name of the property fired when document information change.
+	 */
+	public static final String DOCUMENT_INFO_PROPERTY = "documentInfo";
 
 	private JSeshViewModel viewModel;
 
@@ -70,6 +77,14 @@ public class JSeshView extends AbstractView {
 
 	public JMDCEditor getEditor() {
 		return viewModel.getEditor();
+	}
+
+	/**
+	 * @return
+	 * @see jsesh.jhotdraw.JSeshViewModel#getMdcDocument()
+	 */
+	public MDCDocument getMdcDocument() {
+		return viewModel.getMdcDocument();
 	}
 
 	private void initActions() {
@@ -192,6 +207,9 @@ public class JSeshView extends AbstractView {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
 					observeChanges();
+					// Fire the corresponding event, with dummy properties...
+					// We might decide to use "real" property at some point.
+					firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 				}
 			});
 		} catch (MDCSyntaxError e) {
@@ -360,7 +378,9 @@ public class JSeshView extends AbstractView {
 	 * be "Sinuhe". If there is no file, the name will be equals to the scheme,
 	 * or, in despair, to "untitled".
 	 * 
-	 * 	<p> This method could be moved (or delegated to JSeshViewModel)
+	 * <p>
+	 * This method could be moved (or delegated to JSeshViewModel)
+	 * 
 	 * @return a string
 	 */
 	public String getBaseFileName() {
@@ -383,7 +403,9 @@ public class JSeshView extends AbstractView {
 	 * Create a File object suitable for saving (parts of) the current document
 	 * in a certain format.
 	 * 
-	 * <p> This method could be moved (or delegated to JSeshViewModel)
+	 * <p>
+	 * This method could be moved (or delegated to JSeshViewModel)
+	 * 
 	 * @param extension
 	 *            the extension to use (without "."). Exemply gratia : "rtf" or
 	 *            "png".
@@ -393,15 +415,52 @@ public class JSeshView extends AbstractView {
 		String name = getBaseFileName();
 		JSeshApplicationModel applicationModel = (jsesh.jhotdraw.JSeshApplicationModel) getApplication()
 				.getModel();
-		return new File(applicationModel.getCurrentDirectory(), name + "."+ extension);
+		return new File(applicationModel.getCurrentDirectory(), name + "."
+				+ extension);
 	}
 
 	/**
 	 * Message display system... to do.
-	 * @param message the message to display.
+	 * 
+	 * @param message
+	 *            the message to display.
 	 */
 	public void setMessage(String message) {
 		viewModel.setMessage(message);
+	}
+
+	public void setOrientation(TextOrientation orientation) {
+		viewModel.getEditor().setTextOrientation(orientation);
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+	}
+	
+	public void setSmallSignsCentered(boolean selected) {
+		// Rather bad design: the info is kept both in drawingspecs
+		// and in the document.
+		/*
+		 * TODO CLEANUP THIS MESS (well we do have this mess since we introduced
+		 * this capability in JSesh and we still have it now, including the
+		 * "bad design" comment...
+		 * 
+		 * There should be some kind of "document event" system there... (better
+		 * still, have a look at Buoy, and propose something on the lines of...
+		 * document.addEventLink(FormatEvent.class, menuManager,
+		 * updateMenuItems); )
+		 */
+		getEditor().setSmallSignsCentered(selected);
+		getMdcDocument().setSmallSignCentered(selected);
+		getEditor().invalidateView();
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+	}
+
+	public void setTextOrientation(TextOrientation textOrientation) {
+		getEditor().setTextOrientation(textOrientation);
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+	}
+	
+	public void setTextDirection(TextDirection textDirection) {
+		getEditor().setTextDirection(textDirection);
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);		
 	}
 }
 
