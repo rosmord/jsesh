@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
+@SuppressWarnings("serial")
 public class FontChooserForm extends JPanel {
 	JButton browseHieroglyphs = new JButton();
 

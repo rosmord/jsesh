@@ -24,9 +24,7 @@ public class ExportAsBitmapAction extends AbstractViewAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
 		JSeshView v = (JSeshView) getActiveView();
-		getApplication();
 		if (v != null) {
 			BitmapExporter bitmapExporter = new BitmapExporter(getActiveView()
 					.getComponent());

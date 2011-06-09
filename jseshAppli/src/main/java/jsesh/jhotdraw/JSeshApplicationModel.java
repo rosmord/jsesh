@@ -34,13 +34,11 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
@@ -58,7 +56,6 @@ import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
-import jsesh.editorSoftware.actions.generic.ForwardedAction;
 import jsesh.graphics.export.EMFExporter;
 import jsesh.graphics.export.EPSExporter;
 import jsesh.graphics.export.HTMLExporter;
@@ -69,6 +66,7 @@ import jsesh.graphics.export.WMFExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
+import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
@@ -98,6 +96,7 @@ import jsesh.swing.signPalette.PalettePresenter;
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.DefaultApplicationModel;
 import org.jhotdraw_7_4_1.app.View;
+import org.jhotdraw_7_4_1.app.action.app.OpenApplicationFileAction;
 import org.jhotdraw_7_4_1.app.action.edit.ClearSelectionAction;
 import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
 import org.jhotdraw_7_4_1.app.action.edit.CutAction;
@@ -113,21 +112,29 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 /**
  * JHotdraw-specific model for the application.
  * 
- * TODO check consistency and file export system in particular. TODO before
- * release : FIX copy as... / copy/paste .... FIX copy small size, etc... TODO
- * Fix the missing column orientation for opened texts. TODO improve the
- * hieroglyphic menu system... should use a regular button, not a bad-looking
- * out-of-place toolbar. TODO after release : fix the import/export/file reading
- * to use proper threads and display... TODO check uses of JFileChooser, and
- * replace when needed by PortableFileDialog (in particular in exports).
+ * TODO check consistency and file export system in particular.
+ * 
+ *  TODO before release : FIX copy as... / copy/paste .... FIX copy small size, etc... 
+ * 
+ *  TODO Fix the missing column orientation for opened texts. 
+ *  
+ *  
+ * TODO improve the hieroglyphic menu system... should use a regular button, not a bad-looking
+ * out-of-place toolbar. 
+ * 
+ * TODO after release : fix the import/export/file reading
+ * to use proper threads and display... 
+ * 
+ * TODO check uses of JFileChooser, and replace when needed by PortableFileDialog (in particular in exports).
  * 
  * 
- * Document preferences: orientation/direction/center single signs + drawing
- * preferences Add to the "text menu" : center vertically/horizontally (will
- * insert stuff around sign) in menu file : add new signs
+ * Document preferences: drawing preferences 
  * 
- * in edit preferences : fonts, export prefs, clipboard formats (see how mac
- * prefs are handled).
+ * Add to the "text menu" : center vertically/horizontally (will insert stuff around sign)
+ * 
+ * in menu file : add new signs
+ * 
+ * in edit preferences : fonts, export prefs, clipboard formats (see how mac prefs are handled).
  * 
  * 
  * @author rosmord
@@ -328,9 +335,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 		ActionMap map = super.createActionMap(a, v);
 
+		// Only on mac ?
+		map.put(OpenApplicationFileAction.ID, new OpenApplicationFileAction(a));
+		
 		map.put(EditDocumentPreferencesAction.ID,
 				new EditDocumentPreferencesAction(a, v));
 		map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
+		map.put(JSeshApplicationPreferenceAction.ID, new JSeshApplicationPreferenceAction(a));
 
 		map.put(JSeshApplicationActionsID.EXPORT_WMF, new GenericExportAction(
 				a, jseshView, new WMFExporter(),

@@ -20,7 +20,7 @@
         <dependency>
             <groupId>external</groupId>
             <artifactId>quaqua</artifactId>
-            <version>UNKNOWN</version>
+            <version>7.3.4</version>
         </dependency>
     </dependencies>
 </project>
