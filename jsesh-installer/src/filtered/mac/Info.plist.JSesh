@@ -44,11 +44,11 @@
     <key>Java</key>
     <dict>
       <key>MainClass</key>
-      <string>jsesh.macSpecific.JSeshMacApplication</string>
+      <string>jsesh.jhotdraw.JSeshMain</string>
       <key>JVMVersion</key>
       <string>1.6+</string>
       <key>VMOptions</key>
-      <string>-Xmx128m</string>
+      <string>-Xmx256m</string>
       <key>Properties</key>
       <dict>
         <key>apple.awt.textantialiasing</key>
@@ -56,7 +56,7 @@
         <key>jsesh.mdcDisplayer.swing.editor.JMDCEditor.level</key>
         <string>FINE</string>
         <key>apple.laf.useScreenMenuBar</key>
-        <string>false</string>
+        <string>true</string>
         <key>apple.awt.antialiasing</key>
         <string>true</string>
         <key>apple.awt.showGrowBox</key>

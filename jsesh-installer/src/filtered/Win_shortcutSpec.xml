@@ -12,7 +12,7 @@
      startMenu="no"
      startup="no"
      target="java"
-     commandLine="-Xmx256m -jar &quot;$INSTALL_PATH\lib\jseshOthers-${project.version}.jar&quot;"
+     commandLine="-Xmx256m -jar &quot;$INSTALL_PATH\lib\jseshAppli-${project.version}.jar&quot;"
      description="JSesh hieroglyphic editor"
      iconFile="$INSTALL_PATH\icons\tksesh.ico"
      >

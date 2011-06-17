@@ -117,7 +117,7 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  *  TODO before release : FIX copy as... / copy/paste .... FIX copy small size, etc... 
  * 
  *  TODO Fix the missing column orientation for opened texts. 
- *  
+ *  TODO actually load/save document preferences (like line widths...)
  *  
  * TODO improve the hieroglyphic menu system... should use a regular button, not a bad-looking
  * out-of-place toolbar. 
@@ -126,9 +126,6 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * to use proper threads and display... 
  * 
  * TODO check uses of JFileChooser, and replace when needed by PortableFileDialog (in particular in exports).
- * 
- * 
- * Document preferences: drawing preferences 
  * 
  * Add to the "text menu" : center vertically/horizontally (will insert stuff around sign)
  * 

@@ -26,7 +26,7 @@
       <key>JVMVersion</key>
       <string>1.6+</string>
       <key>VMOptions</key>
-      <string>-Xmx128m</string>
+      <string>-Xmx256m</string>
       <key>Properties</key>
       <dict>
         <key>apple.awt.textantialiasing</key>
