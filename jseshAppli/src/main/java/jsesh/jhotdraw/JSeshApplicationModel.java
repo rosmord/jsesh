@@ -112,29 +112,36 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 /**
  * JHotdraw-specific model for the application.
  * 
+ * <p>
+ * We have decided not to follow Apple guidelines for the "no-document" window,
+ * that is, Only the menus relevant to document creation are proposed there.
+ * </p>
  * TODO check consistency and file export system in particular.
  * 
- *  TODO before release : FIX copy as... / copy/paste .... FIX copy small size, etc... 
+ * TODO before release : FIX copy as... / copy/paste .... FIX copy small size,
+ * etc...
  * 
- *  TODO Fix the missing column orientation for opened texts. 
- *  TODO actually load/save document preferences (like line widths...)
- *  
- * TODO improve the hieroglyphic menu system... should use a regular button, not a bad-looking
- * out-of-place toolbar. 
+ * TODO Fix the missing column orientation for opened texts. TODO actually
+ * load/save document preferences (like line widths...)
  * 
- * TODO after release : fix the import/export/file reading
- * to use proper threads and display... 
+ * TODO improve the hieroglyphic menu system... should use a regular button, not
+ * a bad-looking out-of-place toolbar.
  * 
- * TODO check uses of JFileChooser, and replace when needed by PortableFileDialog (in particular in exports).
+ * TODO after release : fix the import/export/file reading to use proper threads
+ * and display...
  * 
- * Add to the "text menu" : center vertically/horizontally (will insert stuff around sign)
+ * TODO check uses of JFileChooser, and replace when needed by
+ * PortableFileDialog (in particular in exports).
+ * 
+ * Add to the "text menu" : center vertically/horizontally (will insert stuff
+ * around sign)
  * 
  * in menu file : add new signs
  * 
- * in edit preferences : fonts, export prefs, clipboard formats (see how mac prefs are handled).
+ * in edit preferences : fonts, export prefs, clipboard formats (see how mac
+ * prefs are handled).
  * 
- * 
- * @author rosmord
+ * @author Serge Rosmorduc
  * 
  */
 @SuppressWarnings("serial")
@@ -147,8 +154,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	// NOTE : stuff to add
 	// Document sub menu (in File)
-	// orientation /direction sub-menus
-	// center single signs
 	// Edit document preferences
 	// Set as default document
 
@@ -199,9 +204,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public List<JMenu> createMenus(Application a, View v) {
 		List<JMenu> menus = new ArrayList<JMenu>();
-		menus.add(createTextMenu(a, (JSeshView) v));
-		menus.add(createSignMenu(a, (JSeshView) v));
-
+		if (v != null) {
+			menus.add(createTextMenu(a, (JSeshView) v));
+			menus.add(createSignMenu(a, (JSeshView) v));
+		}
 		return menus;
 	}
 
@@ -323,6 +329,21 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		return toolbars;
 	}
 
+	/*
+	 * Note that createActionMap is in the application model and not in the view
+	 * model, because for Mac OS X, all actions are supposed to be created, even
+	 * if there is no view.
+	 * 
+	 * <p> We don't follow this exactly. Currently, some actions are fetched
+	 * from our editor object, which doesn't follow the JHotdraw framework.
+	 * Anyway, if we want to respect the system, we will need to create an
+	 * action factory for the JMDCEditor object. The action factory will be able
+	 * to create actions for both an existing editor and a null one. </p>
+	 * (non-Javadoc)
+	 * 
+	 * @see org.jhotdraw_7_4_1.app.DefaultApplicationModel#createActionMap(org.
+	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_4_1.app.View)
+	 */
 	public ActionMap createActionMap(Application a, View v) {
 		JMDCEditor editor = null;
 		JSeshView jseshView = (JSeshView) v;
@@ -332,86 +353,86 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 		ActionMap map = super.createActionMap(a, v);
 
-		// Only on mac ?
-		map.put(OpenApplicationFileAction.ID, new OpenApplicationFileAction(a));
-		
-		map.put(EditDocumentPreferencesAction.ID,
-				new EditDocumentPreferencesAction(a, v));
-		map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
-		map.put(JSeshApplicationPreferenceAction.ID, new JSeshApplicationPreferenceAction(a));
+		if (v == null) {
+			// Application-level actions
+			// Only on mac ?
+			map.put(OpenApplicationFileAction.ID,
+					new OpenApplicationFileAction(a));
+			map.put(JSeshApplicationPreferenceAction.ID,
+					new JSeshApplicationPreferenceAction(a));
+			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
+			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
 
-		map.put(JSeshApplicationActionsID.EXPORT_WMF, new GenericExportAction(
-				a, jseshView, new WMFExporter(),
-				JSeshApplicationActionsID.EXPORT_WMF));
+			map.remove(DuplicateAction.ID);
+			map.remove(DeleteAction.ID);
+			map.remove(CopyAction.ID);
+			map.remove(CutAction.ID);
+			map.remove(PasteAction.ID);
 
-		map.put(JSeshApplicationActionsID.EXPORT_EMF, new GenericExportAction(
-				a, jseshView, new EMFExporter(),
-				JSeshApplicationActionsID.EXPORT_EMF));
+			map.remove(SelectAllAction.ID);
+			map.remove(ClearSelectionAction.ID);
+		} else {
+			// View level actions
+			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
+			map.put(EditDocumentPreferencesAction.ID,
+					new EditDocumentPreferencesAction(a, v));
+			map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
+			map.put(JSeshApplicationActionsID.EXPORT_WMF,
+					new GenericExportAction(a, jseshView, new WMFExporter(),
+							JSeshApplicationActionsID.EXPORT_WMF));
 
-		map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
-				new GenericExportAction(a, jseshView, new MacPictExporter(),
-						JSeshApplicationActionsID.EXPORT_MACPICT));
+			map.put(JSeshApplicationActionsID.EXPORT_EMF,
+					new GenericExportAction(a, jseshView, new EMFExporter(),
+							JSeshApplicationActionsID.EXPORT_EMF));
 
-		map.put(JSeshApplicationActionsID.EXPORT_SVG, new GenericExportAction(
-				a, jseshView, new SVGExporter(),
-				JSeshApplicationActionsID.EXPORT_SVG));
+			map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
+					new GenericExportAction(a, jseshView,
+							new MacPictExporter(),
+							JSeshApplicationActionsID.EXPORT_MACPICT));
 
-		map.put(JSeshApplicationActionsID.EXPORT_EPS, new GenericExportAction(
-				a, jseshView, new EPSExporter(),
-				JSeshApplicationActionsID.EXPORT_EPS));
+			map.put(JSeshApplicationActionsID.EXPORT_SVG,
+					new GenericExportAction(a, jseshView, new SVGExporter(),
+							JSeshApplicationActionsID.EXPORT_SVG));
 
-		map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
-		map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
-		map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
-		map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a, jseshView));
-		map.put(QuickPDFSelectExportFolderAction.ID,
-				new QuickPDFSelectExportFolderAction(a));
+			map.put(JSeshApplicationActionsID.EXPORT_EPS,
+					new GenericExportAction(a, jseshView, new EPSExporter(),
+							JSeshApplicationActionsID.EXPORT_EPS));
 
-		map.remove(DuplicateAction.ID);
-		map.remove(DeleteAction.ID);
-		map.remove(CopyAction.ID);
-		map.remove(CutAction.ID);
-		map.remove(PasteAction.ID);
+			map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
+			map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
+			map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
+			map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a,
+					jseshView));
+			map.put(QuickPDFSelectExportFolderAction.ID,
+					new QuickPDFSelectExportFolderAction(a));
 
-		map.remove(SelectAllAction.ID);
-		map.remove(ClearSelectionAction.ID);
+			map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
 
-		map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
+			for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
+					.buildActions(a, jseshView)) {
+				map.put(action.getID(), action);
+			}
 
-		for (ExportType exportType : new ExportType[] { ExportType.SMALL,
-				ExportType.LARGE, ExportType.WYSIWYG }) {
-			SelectCopyPasteConfigurationAction action = new SelectCopyPasteConfigurationAction(
-					a, v, exportType);
+			map.put(EditGroupAction.ID, new EditGroupAction(editor));
 
-			map.put(action.getID(), action);
-		}
+			addInsertAction(map, a, v,
+					JSeshApplicationActionsID.INSERT_FULL_SHADING,
+					SymbolCodes.FULLSHADE);
+			addInsertAction(map, a, v,
+					JSeshApplicationActionsID.INSERT_HORIZONTAL_SHADING,
+					SymbolCodes.HORIZONTALSHADE);
+			addInsertAction(map, a, v,
+					JSeshApplicationActionsID.INSERT_VERTICAL_SHADING,
+					SymbolCodes.VERTICALSHADE);
+			addInsertAction(map, a, v,
+					JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
+					SymbolCodes.QUATERSHADE);
 
-		map.put(EditGroupAction.ID, new EditGroupAction(editor));
-
-		addInsertAction(map, a, v,
-				JSeshApplicationActionsID.INSERT_FULL_SHADING,
-				SymbolCodes.FULLSHADE);
-		addInsertAction(map, a, v,
-				JSeshApplicationActionsID.INSERT_HORIZONTAL_SHADING,
-				SymbolCodes.HORIZONTALSHADE);
-		addInsertAction(map, a, v,
-				JSeshApplicationActionsID.INSERT_VERTICAL_SHADING,
-				SymbolCodes.VERTICALSHADE);
-		addInsertAction(map, a, v,
-				JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
-				SymbolCodes.QUATERSHADE);
-
-		// Ecdotic signs. Codes from 100 to 113.
-		for (int i = 100; i <= 113; i++) {
-			map.put(INSERT_CODE + i, InsertElementAction
-					.buildInsertElementActionWithIcon(a, jseshView, INSERT_CODE
-							+ i, i));
-		}
-
-		if (editor != null) {
-			for (Object actionIDa : editor.getActionMap().keys()) {
-				if (map.get(actionIDa) == null)
-					map.put(actionIDa, editor.getActionMap().get(actionIDa));
+			// Ecdotic signs. Codes from 100 to 113.
+			for (int i = 100; i <= 113; i++) {
+				map.put(INSERT_CODE + i, InsertElementAction
+						.buildInsertElementActionWithIcon(a, jseshView,
+								INSERT_CODE + i, i));
 			}
 		}
 
@@ -484,22 +505,28 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				// add the import and export as menus...
 				JMenu importMenu = BundleHelper.getInstance().configure(
 						new JMenu(), "file.import");
-				importMenu.add(new ImportPDFAction(app));
-				importMenu.add(new ImportRTFAction(app));
+				importMenu.add(map.get(ImportPDFAction.ID));
+				importMenu.add(map.get(ImportRTFAction.ID));
 
 				JMenu exportMenu = BundleHelper.getInstance().configure(
 						new JMenu(), "file.export");
-				exportMenu.add(new ExportAsBitmapAction(app, view));
-				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_WMF));
-				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_EMF));
-				exportMenu.add(map
-						.get(JSeshApplicationActionsID.EXPORT_MACPICT));
-				exportMenu.add(map.get(JSeshApplicationActionsID.EXPORT_EPS));
-				exportMenu.add(map.get(ExportAsPDFAction.ID));
-				exportMenu.add(map.get(ExportAsRTFAction.ID));
-				exportMenu.add(map.get(ExportAsHTMLAction.ID));
-				exportMenu.add(map.get(QuickPDFExportAction.ID));
-				exportMenu.add(map.get(QuickPDFSelectExportFolderAction.ID));
+				addToMenu(exportMenu, app, jSeshView, ExportAsBitmapAction.ID);
+				addToMenu(exportMenu, app, jSeshView,
+						JSeshApplicationActionsID.EXPORT_WMF);
+				addToMenu(exportMenu, app, jSeshView,
+						JSeshApplicationActionsID.EXPORT_EMF);
+				addToMenu(exportMenu, app, jSeshView,
+						JSeshApplicationActionsID.EXPORT_MACPICT);
+				addToMenu(exportMenu, app, jSeshView,
+						JSeshApplicationActionsID.EXPORT_EPS);
+				addToMenu(exportMenu, app, jSeshView,
+						JSeshApplicationActionsID.EXPORT_SVG);
+				addToMenu(exportMenu, app, jSeshView, ExportAsPDFAction.ID);
+				addToMenu(exportMenu, app, jSeshView, ExportAsRTFAction.ID);
+				addToMenu(exportMenu, app, jSeshView, ExportAsHTMLAction.ID);
+				addToMenu(exportMenu, app, jSeshView, QuickPDFExportAction.ID);
+				addToMenu(exportMenu, app, jSeshView,
+						QuickPDFSelectExportFolderAction.ID);
 
 				fileMenu.add(importMenu);
 				fileMenu.add(exportMenu);
@@ -509,17 +536,18 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				addToMenu(fileMenu, app, jSeshView,
 						EditDocumentPreferencesAction.ID);
 
-				JMenu documentFormat;
-
-				documentFormat = buildFormatMenu(app, jSeshView);
-
-				fileMenu.add(documentFormat);
+				if (view != null) {
+					JMenu documentFormat;
+					documentFormat = buildFormatMenu(app, jSeshView);
+					fileMenu.add(documentFormat);
+				}
 			}
 
 			/**
 			 * Build the Menu for document format.
 			 * <p>
-			 * This is a rather complex menu, with specific types of buttons (and a button group in one case).
+			 * This is a rather complex menu, with specific types of buttons
+			 * (and a button group in one case).
 			 * 
 			 * @param app
 			 * @param jSeshView
@@ -570,6 +598,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 			public void atEndOfEditMenu(JMenu editMenu, Application app,
 					View view) {
+				if (view == null)
+					return;
 				editMenu.addSeparator();
 				JMenu copyAsMenu = BundleHelper.getInstance().configure(
 						new JMenu(), "edit.copyAs");
@@ -590,22 +620,16 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 				editMenu.addSeparator();
 				ButtonGroup group = new ButtonGroup();
-				JRadioButtonMenuItem copyAndPaste1 = new JRadioButtonMenuItem(
-						map.get(jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction.partialID
-								+ "0"));
-				JRadioButtonMenuItem copyAndPaste2 = new JRadioButtonMenuItem(
-						map.get(jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction.partialID
-								+ "1"));
-				JRadioButtonMenuItem copyAndPaste3 = new JRadioButtonMenuItem(
-						map.get(jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction.partialID
-								+ "2"));
-				group.add(copyAndPaste1);
-				group.add(copyAndPaste2);
-				group.add(copyAndPaste3);
-				editMenu.add(copyAndPaste1);
-				editMenu.add(copyAndPaste2);
-				editMenu.add(copyAndPaste3);
-				copyAndPaste1.setSelected(true);
+				boolean isFirst = true;
+				for (String s : SelectCopyPasteConfigurationAction
+						.getSelectCopyPasteConfigurationActionNames()) {
+					JRadioButtonMenuItem selectConfigButton = new JRadioButtonMenuItem(
+							map.get(s));
+					group.add(selectConfigButton);
+					editMenu.add(selectConfigButton);
+					selectConfigButton.setSelected(isFirst);
+					isFirst = false;
+				}
 			}
 
 			public void afterFileOpen(JMenu fileMenu, Application app, View view) {

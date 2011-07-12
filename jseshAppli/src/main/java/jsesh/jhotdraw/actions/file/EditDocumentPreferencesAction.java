@@ -39,7 +39,7 @@ import javax.swing.JOptionPane;
 
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.preferences.ui.DrawingSpecificationsPresenter;
+import jsesh.jhotdraw.documentPreferences.ui.DrawingSpecificationsPresenter;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 import org.jhotdraw_7_4_1.app.Application;

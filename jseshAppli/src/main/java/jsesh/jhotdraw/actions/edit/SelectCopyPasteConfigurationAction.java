@@ -6,16 +6,15 @@ package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.Action;
+
+import jsesh.jhotdraw.ExportType;
+import jsesh.jhotdraw.JSeshApplicationModel;
+import jsesh.jhotdraw.actions.BundleHelper;
+
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;
 import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
-
-import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
-import jsesh.editorSoftware.actions.generic.BasicAction;
-import jsesh.jhotdraw.ExportType;
-import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.JSeshView;
-import jsesh.jhotdraw.actions.BundleHelper;
 
 /**
  * Select one of the copy and paste configuration
@@ -26,6 +25,10 @@ import jsesh.jhotdraw.actions.BundleHelper;
 @SuppressWarnings("serial")
 public class SelectCopyPasteConfigurationAction extends AbstractViewAction {
 
+	private static ExportType [] selectableTypes = {
+		ExportType.SMALL, ExportType.LARGE, ExportType.WYSIWYG
+	};
+	
 	private ExportType exportType;
 
 	/**
@@ -53,6 +56,25 @@ public class SelectCopyPasteConfigurationAction extends AbstractViewAction {
 	}
 
 	public String getID() {
-		return partialID + exportType.toString();
+		return buildActionName(exportType);
 	}
+	
+	private static String buildActionName(ExportType exportType) {
+		return partialID + exportType.toString();		
+	}
+	public static SelectCopyPasteConfigurationAction[] buildActions(Application app, View view) {
+		SelectCopyPasteConfigurationAction actions[] = new SelectCopyPasteConfigurationAction[selectableTypes.length];
+		for (int i= 0; i < selectableTypes.length; i++)
+			actions[i]= new SelectCopyPasteConfigurationAction(app, view, selectableTypes[i]);
+		return actions;
+	}
+	
+	public static String[] getSelectCopyPasteConfigurationActionNames() {
+		String result[]= new String[selectableTypes.length];
+		for (int i= 0; i <result.length; i++) {
+			result[i]= buildActionName(selectableTypes[i]);
+		}
+		return result;
+	}
+	
 }

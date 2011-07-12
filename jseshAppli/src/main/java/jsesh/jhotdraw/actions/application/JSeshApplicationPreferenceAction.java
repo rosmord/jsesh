@@ -17,5 +17,4 @@ public class JSeshApplicationPreferenceAction extends AbstractPreferencesAction 
 	public void actionPerformed(ActionEvent e) {
 		JOptionPane.showMessageDialog(getApplication().getComponent(), "Here soon a preference menu");
 	}
-
 }

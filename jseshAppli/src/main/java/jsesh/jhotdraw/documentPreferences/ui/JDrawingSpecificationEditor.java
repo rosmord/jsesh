@@ -31,7 +31,7 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.jhotdraw.preferences.ui;
+package jsesh.jhotdraw.documentPreferences.ui;
 
 
 import javax.swing.JCheckBox;
@@ -42,6 +42,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import jsesh.jhotdraw.Messages;
+import jsesh.jhotdraw.utils.PanelHelper;
 
 import net.miginfocom.swing.MigLayout;
 

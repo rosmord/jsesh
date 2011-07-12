@@ -325,7 +325,7 @@ public class JMDCEditor extends JPanel {
 	}
 
 	/**
-	 * Preliminary etap for drawing this component.
+	 * Preliminary operation for drawing this component.
 	 * 
 	 * @param g
 	 */

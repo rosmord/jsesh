@@ -101,6 +101,11 @@ public class JSeshView extends AbstractView {
 				PasteAction.ID,
 				getEditor().getActionMap().get(
 						jsesh.editor.actions.edit.PasteAction.ID));
+		// Fetch actions from the view editor.
+		for (Object actionIDa : getEditor().getActionMap().keys()) {
+			if (getActionMap().get(actionIDa) == null)
+				getActionMap().put(actionIDa, getEditor().getActionMap().get(actionIDa));
+		}
 	}
 
 	public void clear() {

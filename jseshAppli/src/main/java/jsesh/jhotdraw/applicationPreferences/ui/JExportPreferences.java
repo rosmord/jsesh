@@ -1,4 +1,4 @@
-package jsesh.jhotdraw.preferences.ui;
+package jsesh.jhotdraw.applicationPreferences.ui;
 
 import java.awt.Label;
 
@@ -14,7 +14,8 @@ import javax.swing.JTextField;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.preferences.model.ExportPreferences;
+import jsesh.jhotdraw.documentPreferences.model.ExportPreferences;
+import jsesh.jhotdraw.utils.PanelHelper;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
 import net.miginfocom.swing.MigLayout;

@@ -3,13 +3,10 @@ package jsesh.jhotdraw.actions.format;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JRadioButtonMenuItem;
 
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
 
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;
