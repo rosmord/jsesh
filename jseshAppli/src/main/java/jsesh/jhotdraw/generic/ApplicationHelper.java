@@ -13,14 +13,14 @@ public class ApplicationHelper {
 		}
 	
 		final View view;
-		boolean disposeView;
+		//boolean disposeView;
 		if (emptyView == null) {
 			view = app.createView();
 			app.add(view);
-			disposeView = true;
+			//disposeView = true;
 		} else {
 			view = emptyView;
-			disposeView = false;
+			//disposeView = false;
 		}
 		return view;
 	}

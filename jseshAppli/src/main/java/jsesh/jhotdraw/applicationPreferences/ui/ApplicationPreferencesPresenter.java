@@ -31,66 +31,77 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.jhotdraw.utils;
+package jsesh.jhotdraw.applicationPreferences.ui;
 
 import java.awt.Component;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
+import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 
 /**
- * Helps building a JPanel with labelled components. 
- * Uses jsesh.jhotdraw.labels as resource.
+ * Presenter for application preferences.
+ * <p>
+ * choice to make: use a modal dialog or not ?
+ * <p>
+ * Modal dialogs are simpler to manage, in particular their content don't need
+ * updating when the data is modified in another way.
+ * <p>
+ * Currently, preferences are
+ * <ul>
+ * <li>export preferences
+ * <li>export formats
+ * <li>fonts preferences (move directly to DOCUMENT preferences)...
+ * <li>or replicate here
+ * <li>
+ * </ul>
+ * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- *
+ * 
  */
-public class PanelHelper {
+public class ApplicationPreferencesPresenter {
 
-	JPanel panel;
-
-	public PanelHelper(JPanel panel) {
-		super();
-		this.panel = panel;
+	private JTabbedPane tabbedPane;
+	private JClipboardFormatSelector clipboardFormatSelector;
+	private JExportPreferences exportPreferences;
+	
+	public ApplicationPreferencesPresenter() {
+		init();
 	}
 
 	/**
-	 * Add a multilingual label.
-	 * The label is defined in jsesh.jhotdraw.labels
-	 * @param labelCode the code for the multilingual label.
+	 * Create the global UI.
 	 */
-	public void addLabel(String labelCode) {
-		panel.add(new JLabel(Messages.getString(labelCode)));
-	}
+	private void init() {
+		tabbedPane = new JTabbedPane();
 
-	public void add(Component component, String constraints) {
-		panel.add(component, constraints);
-	}
-
-	public void add(Component component) {
-		panel.add(component);
+		// preferenceFrame= new
+		// JFrame(Messages.getString("appPreferencesDialog.text"));
+		// preferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	}
 
 	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 * @param constraints
+	 * Fetches the preferences from the application.
 	 */
-	public void addWithLabel(String labelCode, Component component,
-			String constraints) {
-		addLabel(labelCode);
-		add(component, constraints);
+	public void loadPreferences(JSeshApplicationModel app) {
+		
+	}
+	
+	/**
+	 * Sets the application preferences.
+	 */
+	public void updatePreferences(JSeshApplicationModel app) {
+		
+	}
+	
+	public int showDialog(Component parent) {
+		// tabbedPane.addFocus();
+		return JOptionPane.showOptionDialog(parent, tabbedPane,
+				Messages.getString("appPreferencesDialog.text"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
+				null, null);
 	}
 
-	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 */
-	public void addWithLabel(String labelCode, Component component) {
-		addLabel(labelCode);
-		add(component);
-	}
 }

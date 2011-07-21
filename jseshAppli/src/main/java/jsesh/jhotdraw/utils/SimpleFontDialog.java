@@ -34,63 +34,38 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.utils;
 
 import java.awt.Component;
+import java.awt.Font;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
-import jsesh.jhotdraw.Messages;
+import org.jhotdraw_7_4_1.gui.JFontChooser;
 
 /**
- * Helps building a JPanel with labelled components. 
- * Uses jsesh.jhotdraw.labels as resource.
+ * Simple facade for the Font dialog of JHotdraw.
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */
-public class PanelHelper {
+public class SimpleFontDialog {
 
-	JPanel panel;
-
-	public PanelHelper(JPanel panel) {
-		super();
-		this.panel = panel;
+	private JFontChooser fontChooser= new JFontChooser();
+	private Component parent;
+	private String title;
+	
+	
+	public SimpleFontDialog(Component parent, String title) {
+		this.parent = parent;
+		this.title = title;
 	}
 
-	/**
-	 * Add a multilingual label.
-	 * The label is defined in jsesh.jhotdraw.labels
-	 * @param labelCode the code for the multilingual label.
-	 */
-	public void addLabel(String labelCode) {
-		panel.add(new JLabel(Messages.getString(labelCode)));
+	public void setFont(Font font) {
+		fontChooser.setSelectedFont(font);
 	}
-
-	public void add(Component component, String constraints) {
-		panel.add(component, constraints);
+	
+	public int showDialog() {
+		return  JOptionPane.showConfirmDialog(parent, fontChooser, title, JOptionPane.OK_CANCEL_OPTION,  JOptionPane.PLAIN_MESSAGE);
 	}
-
-	public void add(Component component) {
-		panel.add(component);
-	}
-
-	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 * @param constraints
-	 */
-	public void addWithLabel(String labelCode, Component component,
-			String constraints) {
-		addLabel(labelCode);
-		add(component, constraints);
-	}
-
-	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 */
-	public void addWithLabel(String labelCode, Component component) {
-		addLabel(labelCode);
-		add(component);
+	
+	public Font getSelectedFont() {
+		return fontChooser.getSelectedFont();
 	}
 }

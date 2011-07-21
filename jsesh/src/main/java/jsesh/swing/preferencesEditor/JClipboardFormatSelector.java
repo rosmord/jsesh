@@ -17,6 +17,7 @@ import javax.swing.JCheckBox;
  *
  * @author rosmord
  */
+@SuppressWarnings("serial")
 public class JClipboardFormatSelector extends javax.swing.JPanel {
 
     /** Creates new form JClipboardFormatSelector */

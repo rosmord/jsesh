@@ -63,9 +63,11 @@ public class JDrawingSpecificationEditor {
 		layout();
 	}
 	
+	/**
+	 * Requests the focus in one of the fields when the dialog is opened. 
+	 */
 	public void addFocus() {
-		panel.addAncestorListener(new AncestorListener() {
-			
+		panel.addAncestorListener(new AncestorListener() {			
 			public void ancestorRemoved(AncestorEvent event) {}
 			
 			public void ancestorMoved(AncestorEvent event) {}

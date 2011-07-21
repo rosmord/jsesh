@@ -33,64 +33,22 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.utils;
 
-import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import jsesh.jhotdraw.Messages;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 
 /**
- * Helps building a JPanel with labelled components. 
- * Uses jsesh.jhotdraw.labels as resource.
+ * An input verifier to check an integer field.
+ * <p> Not that useful : verifiers are only called when the focus is lost, not when "enter" is typed.
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */
-public class PanelHelper {
+public class IntegerVerifier extends InputVerifier {
 
-	JPanel panel;
-
-	public PanelHelper(JPanel panel) {
-		super();
-		this.panel = panel;
+	@Override
+	public boolean verify(JComponent input) {
+		JTextField field= (JTextField) input;
+		return field.getText().matches("^[0-9]+$");
 	}
 
-	/**
-	 * Add a multilingual label.
-	 * The label is defined in jsesh.jhotdraw.labels
-	 * @param labelCode the code for the multilingual label.
-	 */
-	public void addLabel(String labelCode) {
-		panel.add(new JLabel(Messages.getString(labelCode)));
-	}
-
-	public void add(Component component, String constraints) {
-		panel.add(component, constraints);
-	}
-
-	public void add(Component component) {
-		panel.add(component);
-	}
-
-	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 * @param constraints
-	 */
-	public void addWithLabel(String labelCode, Component component,
-			String constraints) {
-		addLabel(labelCode);
-		add(component, constraints);
-	}
-
-	/**
-	 * Add a component with a specific label.
-	 * @param labelCode the code for the multilingual label.
-	 * @param component
-	 */
-	public void addWithLabel(String labelCode, Component component) {
-		addLabel(labelCode);
-		add(component);
-	}
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class HiddenPanel extends JPanel {
 
 	private static final String SHOWN = "SHOWN";

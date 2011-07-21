@@ -46,6 +46,11 @@ import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
 
 /**
+ * Presenter for drawing preferences.
+ * <p> Choice to make at some point: use a dialog or a frame. With a frame, we would
+ * need some kind of listener.
+ * The DrawingSpecification class should probably be much much much simpler.
+ * <p> For now, we stick with a modal dialog.
  * @author rosmord
  * 
  */
@@ -85,8 +90,6 @@ public class DrawingSpecificationsPresenter {
 	 */
 	public void updatePreferences(		
 			DrawingSpecificationsImplementation drawingSpecifications) {
-
-		System.out.println("here");
 		drawingSpecifications.setCartoucheLineWidth(getLength(form
 				.getCartoucheLineWidthField()));
 		drawingSpecifications
@@ -146,7 +149,7 @@ public class DrawingSpecificationsPresenter {
 
 	public int  showDialog(Component parent) {
 		form.addFocus();
-		return JOptionPane.showOptionDialog(parent, form.getPanel(), Messages.getString("drawingPrefs.title"), 0,
+		return JOptionPane.showOptionDialog(parent, form.getPanel(), Messages.getString("drawingPrefs.title"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE, null, null, null);
 	}
 	

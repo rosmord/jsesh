@@ -1,20 +1,54 @@
-package jsesh.jhotdraw.applicationPreferences.ui;
+/*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
 
-import java.awt.Label;
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
+package jsesh.jhotdraw.applicationPreferences.ui;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
+import org.jhotdraw_7_4_1.gui.JFontChooser;
+import org.jhotdraw_7_4_1.gui.fontchooser.DefaultFontChooserModel;
+import org.jhotdraw_7_4_1.gui.plaf.FontChooserUI;
+import org.jhotdraw_7_4_1.gui.plaf.palette.PaletteFontChooserUI;
 
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.documentPreferences.model.ExportPreferences;
+import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelHelper;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
@@ -22,10 +56,9 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * Panel for export preferences.
- * The graphical part could be moved.
+ * The graphical part should be separated from the rest.
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
-@SuppressWarnings("serial")
 public class JExportPreferences {
 
 	private ExportPreferences exportPreferences= new ExportPreferences();
@@ -103,6 +136,15 @@ public class JExportPreferences {
 		return panel;
 	}
 	
-
-	
+	public static void main(String[] args) {
+		PaletteFontChooserUI paletteFontChooserUI= new PaletteFontChooserUI(new JFontChooser());
+		JFontChooser fontChooser= new JFontChooser();
+		JExportPreferences prefs= new JExportPreferences();
+		JFrame frame= new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.add(prefs.getPanel());
+		frame.add(fontChooser);
+		frame.pack();
+		frame.setVisible(true);
+	}
 }

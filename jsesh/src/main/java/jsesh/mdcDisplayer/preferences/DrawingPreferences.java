@@ -3,7 +3,9 @@ package jsesh.mdcDisplayer.preferences;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.io.ObjectInputStream.GetField;
 
+import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 
@@ -11,9 +13,15 @@ public interface DrawingPreferences {
 	
 	// Methods about sign dimensions
 
-
+	/**
+	 * get the width of the unit used in MdC tabulation (in points).
+	 */
 	float getTabUnitWidth();
 	
+	/**
+	 * sets the width of the unit used in MdC tabulation (in points).
+	 * @param f the width to set.
+	 */
 	void setTabUnitWidth(float f);
 	
 	/**
@@ -52,43 +60,53 @@ public interface DrawingPreferences {
 
 	/**
 	 * Returns the width of fine lines.
-	 * 
+	 * Those are lines created with the MdC {l200,800} construct
 	 * @return
 	 */
 	float getFineLineWidth();
 
 	/**
+	 * Sets the width of fine lines
+	 * @see #getFineLineWidth()
 	 * @param fineLineWidth
 	 *            The fineLineWidth to set.
 	 */
 	void setFineLineWidth(float fineLineWidth);
 
 	/**
-	 * The width of wide lines.
-	 * 
-	 * @return
+	 * Gets the width of wide lines.
+	 * Those are horizontal lines created with the MdC {L200,800} constructs.
+	 * @return a width in points
 	 */
 	float getWideLineWidth();
 
 	/**
+	 * sets the width of wide lines.
+	 * @see #getWideLineWidth()
 	 * @param wideLineWidth
 	 *            The wideLineWidth to set.
 	 */
 	void setWideLineWidth(float wideLineWidth);
 
+	/**
+	 * Get the space to use when drawing ecdotic signs like accolades.
+	 * @param philologyType
+	 * @return
+	 */
 	float getPhilologyWidth(int philologyType);
 
 	/**
+	 * Are small signs vertically centered ?
 	 * @return true if small signs are centered.
 	 */
 	boolean isSmallSignsCentered();
 
 	/**
-	 * @param b
+	 * Choose if quadrants made of a "low sign" like "X1" should be vertically centered. 
+	 * @param centered
 	 */
-	void setSmallSignsCentered(boolean b);
+	void setSmallSignsCentered(boolean centered);
 
-	
 
 	/**
 	 * return the ratio to base size a sign should have to be considered a
@@ -99,6 +117,9 @@ public interface DrawingPreferences {
 	double getLargeSignSizeRatio();
 
 	/**
+	 * Sets the ratio used to say if a sign is a "large" sign.
+	 * <p> The ratio is a comparizon with the A1 base size. 
+	 * For instance, if the ration is 0.8, any sign at least as tall as 0.8*height of A1 will be considered large.
 	 * @param largeSignSize
 	 *            the largeSignSize to set
 	 */
@@ -119,6 +140,10 @@ public interface DrawingPreferences {
 
 	void setLineSkip(float f);
 
+	/**
+	 * gets the separation between adjacent quadrants.
+	 * @return the separation, in points.
+	 */
 	float getSmallSkip();
 
 	void setSmallSkip(float smallSkip);
@@ -235,8 +260,19 @@ public interface DrawingPreferences {
 	void setHutSquareSize(float hutSquareSize);
 
 	// Methods about non hieroglyphic fonts
+	
+	/**
+	 * Sets the font for a particular type of text.
+	 * The character code are described by the ScriptCodes class.
+	 * @see ScriptCodes
+	 * @param code a one-letter code 
+	 */
 	Font getFont(char code);
 
+	/**
+	 * Gets the font to use for superscript text.
+	 * @return
+	 */
 	Font getSuperScriptFont();
 	
 	/**

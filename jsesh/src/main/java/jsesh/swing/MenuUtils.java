@@ -1,7 +1,5 @@
 package jsesh.swing;
 
-import java.awt.Toolkit;
-
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
