@@ -78,8 +78,8 @@ public class DrawingSpecificationsPresenter extends FormPresenter {
 	}
 
 	private float getLength(JFormattedTextField field) {
-		float pointValue= (float)(((Number)field.getValue()).doubleValue() * ((LengthUnit)form.getUnitField().getSelectedItem()).getPointsValue());
-		return pointValue;		
+		LengthUnit unit= (LengthUnit) form.getUnitField().getSelectedItem();
+		return (float) unit.getValueFromTextField(field);
 	}
 	
 	

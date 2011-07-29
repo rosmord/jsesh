@@ -374,7 +374,7 @@ public class MDCDisplayerAppli {
 		view.add(workflow.getDoubleZoomAction());
 		view.add(workflow.getResetZoomAction());
 		view.addSeparator();
-		// FIXME : design a cleaner system for actions (xml definition file ?)
+
 		JMenu orientationMenu = new JMenu("Orientation");
 		JMenu directionMenu = new JMenu("Direction");
 		view.add(orientationMenu);

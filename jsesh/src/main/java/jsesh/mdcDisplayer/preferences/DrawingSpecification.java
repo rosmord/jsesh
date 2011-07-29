@@ -66,4 +66,7 @@ public interface DrawingSpecification extends DrawingPreferences {
 	 */
 	Rectangle2D getTextDimensions(char scriptCode, String text);
 
+	boolean isGardinerQofUsed();
+
+	void setGardinerQofUsed(boolean useGardinerQof);
 }

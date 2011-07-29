@@ -36,6 +36,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
+import jsesh.mdcDisplayer.preferences.TextHelper;
 import jsesh.utils.TranslitterationUtilities;
 
 /**
@@ -67,7 +68,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 			String text = t.getText();
 			// TODO : support uppercase signs.
 			if (t.getScriptCode() == 't')
-				text = TranslitterationUtilities.toLowerCase(text);
+				text = TextHelper.getActualTransliterationString(text, drawingSpecifications);
 
 			if ("".equals(text))
 				return;
@@ -84,8 +85,11 @@ public class SimpleElementDrawer extends ElementDrawer {
 			// layout.draw draws relatively to the text baseline, hence
 			// the g.getFontMetrics().getAscent() here.
 			// layout.draw(g, 0, g.getFontMetrics().getAscent());
+			
+			// IN THEORY, THIS IS THE CORRECT LINE.
 			layout.draw(g, 0, layout.getAscent());
-
+			//g.drawString(text, 0, layout.getAscent());
+			
 			// One day we might propose a caret drawing system ?
 		}
 	}

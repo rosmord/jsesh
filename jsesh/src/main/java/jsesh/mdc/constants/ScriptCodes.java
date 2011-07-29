@@ -11,6 +11,12 @@ package jsesh.mdc.constants;
  */
 public class ScriptCodes
 {
+	/**
+	 * This code can be used to design all non-hieroglyphic fonts.
+	 * In this case, derivations of the font will be used to provide italics, etc...
+	 */
+	static final public char ALL= '*';
+	
 	static final public char HIEROGLYPHIC= 's';
 	static final public char LATIN= 'l';
 	static final public char ITALIC= 'i';

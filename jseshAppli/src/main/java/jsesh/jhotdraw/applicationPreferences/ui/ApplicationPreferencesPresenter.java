@@ -66,6 +66,7 @@ public class ApplicationPreferencesPresenter {
 	private JTabbedPane tabbedPane;
 	private JClipboardFormatSelector clipboardFormatSelector;
 	private JExportPreferences exportPreferences;
+	private JFontPreferences fontPreferences;
 	
 	public ApplicationPreferencesPresenter() {
 		init();
@@ -76,32 +77,37 @@ public class ApplicationPreferencesPresenter {
 	 */
 	private void init() {
 		tabbedPane = new JTabbedPane();
-
-		// preferenceFrame= new
-		// JFrame(Messages.getString("appPreferencesDialog.text"));
-		// preferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		clipboardFormatSelector= new JClipboardFormatSelector();
+		exportPreferences= new JExportPreferences();
+		fontPreferences= new JFontPreferences();
+		tabbedPane.add(Messages.getString("applicationPreferences.exportPreferences.label"), exportPreferences.getPanel());
+		tabbedPane.add(Messages.getString("applicationPreferences.clipboardFormat.label"), clipboardFormatSelector.getPanel());		
+		tabbedPane.add(Messages.getString("applicationPreferences.fontPreferences.label"), fontPreferences.getPanel());
 	}
 
 	/**
 	 * Fetches the preferences from the application.
 	 */
 	public void loadPreferences(JSeshApplicationModel app) {
-		
+		clipboardFormatSelector.loadPreferences(app);
+		exportPreferences.loadPreferences(app);
+		fontPreferences.setFontInfo(app.getFontInfo());
 	}
 	
 	/**
 	 * Sets the application preferences.
 	 */
 	public void updatePreferences(JSeshApplicationModel app) {
-		
+		clipboardFormatSelector.updatePreferences(app);
+		exportPreferences.updatePreferences(app);
+		app.setFontInfo(fontPreferences.getFontInfo());
 	}
 	
 	public int showDialog(Component parent) {
 		// tabbedPane.addFocus();
-		return JOptionPane.showOptionDialog(parent, tabbedPane,
+		return JOptionPane.showConfirmDialog(parent, tabbedPane,
 				Messages.getString("appPreferencesDialog.text"),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-				null, null);
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
 }

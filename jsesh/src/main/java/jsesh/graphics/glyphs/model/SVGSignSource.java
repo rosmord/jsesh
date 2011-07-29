@@ -927,9 +927,9 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		private void drawArc(GeneralPath result, float startx, float starty,
 				float rx, float ry, float rot, float largeArc, float sweep,
 				float endx, float endy) {
-			// TODO WRITE ME !!!!
+			if (true) throw new RuntimeException("The method drawArc should be written for this to work. Complete the code");
+			// FIXME write drawArc.
 			result.lineTo(endx, endy);
-
 		}
 
 		/**

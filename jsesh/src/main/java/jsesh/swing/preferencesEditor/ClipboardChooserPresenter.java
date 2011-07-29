@@ -7,35 +7,43 @@ package jsesh.swing.preferencesEditor;
 
 import javax.swing.JComponent;
 
+import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
+
 /**
- *
+ * 
  * @author rosmord
  */
 public class ClipboardChooserPresenter extends FormPresenter {
 
-    JClipboardFormatSelector panel= new JClipboardFormatSelector();
+	JClipboardFormatSelector panel = new JClipboardFormatSelector();
 
-    public ClipboardChooserPresenter(String title) {
-        super(title);
-    }
+	public ClipboardChooserPresenter(String title) {
+		super(title);
+	}
 
-    public JComponent getPanel() {
-        return panel;
-    }
+	public JComponent getPanel() {
+		return panel;
+	}
 
-    public void updatePreferences(PreferencesFacade facade) {
-        facade.getClipboardPreferences().setImageWanted(panel.getBitmapCheckBox().isSelected());
-        facade.getClipboardPreferences().setRtfWanted(panel.getRtfCheckBox().isSelected());
-        facade.getClipboardPreferences().setPdfWanted(panel.getPdfCheckBox().isSelected());
-        facade.getClipboardPreferences().setTextWanted(panel.getPlainTextCheckBox().isSelected());
-    }
+	public void updatePreferences(PreferencesFacade facade) {
+		MDCClipboardPreferences prefs = new MDCClipboardPreferences()
+				.withImageWanted(panel.getBitmapCheckBox().isSelected())
+				.withRtfWanted(panel.getRtfCheckBox().isSelected())
+				.withPdfWanted(panel.getPdfCheckBox().isSelected())
+				.withTextWanted(panel.getPlainTextCheckBox().isSelected());
+		facade.setClipboardPreferences(prefs);
+	}
 
-    public void loadPreferences(PreferencesFacade facade) {
-        panel.getRtfCheckBox().setSelected(facade.getClipboardPreferences().isRtfWanted());
-        panel.getPdfCheckBox().setSelected(facade.getClipboardPreferences().isPdfWanted());
-        panel.getBitmapCheckBox().setSelected(facade.getClipboardPreferences().isImageWanted());
-        panel.getPlainTextCheckBox().setSelected(facade.getClipboardPreferences().isTextWanted());
-        
-    }
+	public void loadPreferences(PreferencesFacade facade) {
+		panel.getRtfCheckBox().setSelected(
+				facade.getClipboardPreferences().isRtfWanted());
+		panel.getPdfCheckBox().setSelected(
+				facade.getClipboardPreferences().isPdfWanted());
+		panel.getBitmapCheckBox().setSelected(
+				facade.getClipboardPreferences().isImageWanted());
+		panel.getPlainTextCheckBox().setSelected(
+				facade.getClipboardPreferences().isTextWanted());
+
+	}
 
 }

@@ -35,6 +35,7 @@ package jsesh.jhotdraw.utils;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JOptionPane;
 
@@ -42,16 +43,16 @@ import org.jhotdraw_7_4_1.gui.JFontChooser;
 
 /**
  * Simple facade for the Font dialog of JHotdraw.
+ * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- *
+ * 
  */
 public class SimpleFontDialog {
 
-	private JFontChooser fontChooser= new JFontChooser();
+	private JFontChooser fontChooser = new JFontChooser();
 	private Component parent;
 	private String title;
-	
-	
+
 	public SimpleFontDialog(Component parent, String title) {
 		this.parent = parent;
 		this.title = title;
@@ -60,11 +61,12 @@ public class SimpleFontDialog {
 	public void setFont(Font font) {
 		fontChooser.setSelectedFont(font);
 	}
-	
+
 	public int showDialog() {
-		return  JOptionPane.showConfirmDialog(parent, fontChooser, title, JOptionPane.OK_CANCEL_OPTION,  JOptionPane.PLAIN_MESSAGE);
+		return JOptionPane.showConfirmDialog(parent, fontChooser, title,
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
-	
+
 	public Font getSelectedFont() {
 		return fontChooser.getSelectedFont();
 	}

@@ -1,7 +1,36 @@
 /*
- * Created on 28 mai 2004
- *
- * This code is published under the LGPL.
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ *  Created on 28 mai 2004
  */
 package jsesh.mdcDisplayer.preferences;
 
@@ -91,6 +120,10 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
 	private Font[] fontMap;
 
+	private YODChoice yodChoice;
+	
+	private boolean translitUnicode;
+	
 	private FontRenderContext fontRenderContext;
 
 	// private HieroglyphsDrawer hieroglyphsDrawer;
@@ -180,6 +213,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	
 	private ShadingStyle shadingStyle= ShadingStyle.LINE_HATCHING;
 
+	private boolean gardinerQofUsed= true;;
+
 	// private float
 	public DrawingSpecificationsImplementation() {
 		fontRenderContext = new FontRenderContext(null, true,
@@ -263,20 +298,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getBaseLength
-	 * ()
-	 */
-	// public float getBaseLength() {
-	// if (baseLength == -1) {
-	// Rectangle2D r = hieroglyphsDrawer.getBBox("A1");
-	// baseLength = (float) r.getHeight();
-	// }
-	// return baseLength;
-	// }
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
 	 * getStandardSignHeight()
 	 */
@@ -288,7 +309,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
+	 * @see jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
 	 * setStandardSignHeight(float)
 	 */
 	public void setStandardSignHeight(float standardSignHeight) {
@@ -470,6 +491,59 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		return result;
 	}
 
+	/**
+	 * @see DrawingPreferences#setFont(char, Font) 
+	 */
+	public void setFont(char code, Font font) {
+		if (code == '*') {
+			this.fontMap[ScriptCodes.LATIN]= font;
+			this.fontMap[ScriptCodes.BOLD]= font.deriveFont(Font.BOLD);
+			this.fontMap[ScriptCodes.ITALIC]= font.deriveFont(Font.ITALIC);
+			this.fontMap[ScriptCodes.TRANSLITERATION]= font.deriveFont(Font.ITALIC);			
+		} else {
+			this.fontMap[code]= font;
+		}
+	}
+	
+
+	/**
+	 * @return the yodChoice
+	 */
+	public YODChoice getYodChoice() {
+		return yodChoice;
+	}
+
+	/**
+	 * @param yodChoice the yodChoice to set
+	 */
+	public void setYodChoice(YODChoice yodChoice) {
+		this.yodChoice = yodChoice;
+	}
+
+	/**
+	 * @return the translitUnicode
+	 */
+	public boolean isTranslitUnicode() {
+		return translitUnicode;
+	}
+
+	/**
+	 * @param translitUnicode the translitUnicode to set
+	 */
+	public void setTranslitUnicode(boolean translitUnicode) {
+		this.translitUnicode = translitUnicode;
+	}
+	
+	public boolean isGardinerQofUsed() {
+		return this.gardinerQofUsed;
+	}
+
+	/**
+	 * @param gardinerQofUsed the gardinerQofUsed to set
+	 */
+	public void setGardinerQofUsed(boolean gardinerQofUsed) {
+		this.gardinerQofUsed = gardinerQofUsed;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1158,5 +1232,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public void setPageLayout(PageLayout pageLayout) {
 		this.pageLayout = pageLayout;
 	}
+
+	
+	
 	
 }

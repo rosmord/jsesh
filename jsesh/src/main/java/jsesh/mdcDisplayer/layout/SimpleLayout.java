@@ -47,6 +47,7 @@ import jsesh.mdcDisplayer.mdcView.ViewIterator;
 import jsesh.mdcDisplayer.mdcView.ViewSide;
 import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.TextHelper;
 import jsesh.utils.TranslitterationUtilities;
 
 /**
@@ -159,7 +160,7 @@ public class SimpleLayout extends AbstractLayout {
 	// is always the model for the currentView (which can be accessed as a
 	// protected
 	// field of AbstractLayout).
-	// 
+	//
 	// This avoids writing code like that :
 	// layout(MDCView v) {
 	// ModelElement e= v.getModelElement();
@@ -169,7 +170,7 @@ public class SimpleLayout extends AbstractLayout {
 	//
 	// The previous code is bad, because it gives a mammoth method, hard to
 	// modify.
-	// 
+	//
 	// On the other hand, argument passing is not really simple in the visitor
 	// pattern, as we use class fields to do this. But, in return, one can
 	// quite easily extend our SimpleLayout to adapt it.
@@ -184,7 +185,8 @@ public class SimpleLayout extends AbstractLayout {
 
 		String text = t.getText();
 		if (t.getScriptCode() == 't')
-			text = TranslitterationUtilities.toLowerCase(text);
+			text = TextHelper.getActualTransliterationString(text,
+					drawingSpecifications);
 		// Compute the text dimensions :
 		Rectangle2D dims;
 
@@ -217,8 +219,7 @@ public class SimpleLayout extends AbstractLayout {
 
 			// Align the text base with the hieroglyphs...
 			currentView.setDeltaBaseY(+drawingSpecifications
-					.getMaxCadratHeight()
-					/ 2.0 - layout.getAscent());
+					.getMaxCadratHeight() / 2.0 - layout.getAscent());
 		}
 
 	}
@@ -661,7 +662,8 @@ public class SimpleLayout extends AbstractLayout {
 			if (l.getNumberOfChildren() == 2) {
 				// a) compute the larger element...
 				// b) select which area to use
-				// We consider first that the first element is larger, and that we put the second "below" the sign.
+				// We consider first that the first element is larger, and that
+				// we put the second "below" the sign.
 				int larger = 0;
 				int smaller = 1;
 				int ligPos = 2;
@@ -672,7 +674,8 @@ public class SimpleLayout extends AbstractLayout {
 					smaller = 0;
 					ligPos = 0;
 				}
-				// In case the second ligature zone is missing from the first element, try zone 1.
+				// In case the second ligature zone is missing from the first
+				// element, try zone 1.
 				if (ligPos == 2
 						&& drawingSpecifications.getHieroglyphsDrawer()
 								.getLigatureZone(ligPos,
@@ -681,7 +684,7 @@ public class SimpleLayout extends AbstractLayout {
 				LigatureZone ligatureZone = drawingSpecifications
 						.getHieroglyphsDrawer().getLigatureZone(ligPos,
 								l.getHieroglyphAt(larger).getCode());
-				
+
 				// Build the ligature.
 				if (ligatureZone != null) {
 					currentView.getSubView(larger).resetPos();
@@ -799,9 +802,9 @@ public class SimpleLayout extends AbstractLayout {
 		Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(s
 				.getText());
 		currentView.setWidth((float) dims.getWidth());
-		currentView.setHeight((float) Math.max(drawingSpecifications
-				.getMaxCadratHeight(), dims.getHeight()
-				+ drawingSpecifications.getSmallSkip() * 2));
+		currentView.setHeight((float) Math.max(
+				drawingSpecifications.getMaxCadratHeight(), dims.getHeight()
+						+ drawingSpecifications.getSmallSkip() * 2));
 	}
 
 	/**
@@ -813,10 +816,11 @@ public class SimpleLayout extends AbstractLayout {
 
 	/**
 	 * Layout the top item list.
-	 * @param t the list of items to lay out.
-	 * @see
-	 * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.
-	 * TopItemList)
+	 * 
+	 * @param t
+	 *            the list of items to lay out.
+	 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.
+	 *      TopItemList)
 	 */
 	public void visitTopItemList(TopItemList t) {
 		// monoliticVisitTopItemList(t);
@@ -830,18 +834,19 @@ public class SimpleLayout extends AbstractLayout {
 	 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
 	 */
 	public void compositeVisitTopItemList(TopItemList t) {
-		
+
 		// currentView contains the content for all pages.
-		// we need 
+		// we need
 		// a) to extract the individual page content
 		// b) to layout this content as individual lines
-		// c) to dispatch these lines in individual pages, and layout them again.
-		//    (althought it might be interesting to retrieve the work done in b, 
-		//     but this requires a notion of "line".
-		
+		// c) to dispatch these lines in individual pages, and layout them
+		// again.
+		// (althought it might be interesting to retrieve the work done in b,
+		// but this requires a notion of "line".
+
 		// LineLayout topItemLayout= null;
 		TopItemLayout topItemLayout = null;
-		
+
 		// using a factory at this point would be overkill.
 		if (currentTextOrientation.equals(TextOrientation.HORIZONTAL))
 			topItemLayout = new LineLayout(currentView, drawingSpecifications);
@@ -850,7 +855,7 @@ public class SimpleLayout extends AbstractLayout {
 
 		ViewIterator i = currentView.iterator();
 		topItemLayout.startLayout();
-		// Ok. Currently, even for long texts, the 
+		// Ok. Currently, even for long texts, the
 		// layout time is very short
 		// between 71 and 21ms for Horus and Seth, which is a really long text
 		// (by ancient egyptian standards)

@@ -70,5 +70,9 @@ public class PreferencesFacade {
         return clipboardPreferences;
     }
 
+    public void setClipboardPreferences(
+			MDCClipboardPreferences clipboardPreferences) {
+		this.clipboardPreferences = clipboardPreferences;
+	}
     
 }

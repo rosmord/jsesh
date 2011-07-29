@@ -23,13 +23,16 @@ import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
+import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 import org.jhotdraw_7_4_1.app.AbstractView;
 import org.jhotdraw_7_4_1.app.View;
@@ -467,49 +470,18 @@ public class JSeshView extends AbstractView {
 		getEditor().setTextDirection(textDirection);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);		
 	}
-}
 
-// list of the methods used through getEditor().getWorkflow().
-// workflow.getEditor().getWorkflow().changeAngle(angle);
-// this.workflow.getEditor().getWorkflow().resizeSign(size);
-// getEditor().getWorkflow().ligatureElements();
-// 239: getEditor().getWorkflow().ligatureElements();
-// 246: getEditor().getWorkflow().ligatureBefore();
-// 253: getEditor().getWorkflow().ligatureAfter();
-// 261: getEditor().getWorkflow().redZone(false);
-// 268: getEditor().getWorkflow().redZone(true);
-// 279: getEditor().getWorkflow().reverseSign();
-// 291: getEditor().getWorkflow().setMode('b');
-// 298: getEditor().getWorkflow().setMode('s');
-// 305: getEditor().getWorkflow().setMode('i');
-// 312: getEditor().getWorkflow().setMode('l');
-// 319: getEditor().getWorkflow().setMode('t');
-// 326: getEditor().getWorkflow().setMode('|');
-// 336: getEditor().getWorkflow().shadeZone(true);
-// 342: getEditor().getWorkflow().setSignIsInsideWord();
-// 348: getEditor().getWorkflow().setSignIsAtSentenceEnd();
-// 354: getEditor().getWorkflow().setSignIsAtWordEnd();
-// 360: getEditor().getWorkflow().toggleGrammar();
-// 366: getEditor().getWorkflow().toggleIgnoredSign();
-// 372: getEditor().getWorkflow().toggleRedSign();
-// 378: getEditor().getWorkflow().toggleWideSign();
-// 385: getEditor().getWorkflow().shadeZone(false);
-// 437: AbsoluteGroup g = getEditor().getWorkflow().buildAbsoluteGroup();
-// 445: getEditor().getWorkflow().replaceSelectionByAbsoluteGroup(g);
-// 469: getEditor().getWorkflow().doShade(shade);
-// 481: getEditor().getWorkflow().doShadeSign(shade);
-// 488: getEditor().getWorkflow().addPhilologicalMarkup(code);
-// 495: getEditor().getWorkflow().insertMDC("\"" + protectedText + "\"");
-// 502: getEditor().getWorkflow().insertElement(element);
-// 511: getEditor().getWorkflow().addCartouche(type, start, end);
-// 547: getEditor().getWorkflow().selectAll();
-// 554: getEditor().getWorkflow().insertPageBreak();
-// 561: getEditor().getWorkflow().explodeGroup();
-// 567: getEditor().getWorkflow().groupVertical();
-// 573: getEditor().getWorkflow().groupHorizontally();
-// 595: getEditor().getWorkflow().clear();
-// 1 140: getEditor().getWorkflow().addSign(code);
-// Varia :
-// 1 518: caretActionManager = new
-// CaretActionManager(getEditor().getWorkflow());
-// 1 852: new UndoRedoActionManager(getEditor().getWorkflow(), undoAction, 
+	/**
+	 * Change the fonts JSesh uses.
+	 * @param fontInfo
+	 */
+	public void setFontInfo(FontInfo fontInfo) {
+		DrawingSpecification drawingSpecification= getDrawingSpecifications().copy();
+		fontInfo.getTransliterationFont();
+		drawingSpecification.setFont('*', fontInfo.getBaseFont());
+		drawingSpecification.setFont(ScriptCodes.TRANSLITERATION, fontInfo.getTransliterationFont());
+		drawingSpecification.setTranslitUnicode(fontInfo.isTranslitUnicode());
+		drawingSpecification.setYodChoice(fontInfo.getYodChoice());
+		setDrawingSpecifications(drawingSpecification);
+	}
+}

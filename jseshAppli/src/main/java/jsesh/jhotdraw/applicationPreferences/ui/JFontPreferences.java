@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,9 +17,12 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import jsesh.jhotdraw.Messages;
+import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.utils.FontSelectorHelper;
 import jsesh.jhotdraw.utils.PanelHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.YODChoice;
+import jsesh.resources.ResourcesManager;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -44,6 +48,13 @@ public class JFontPreferences {
 
 	// General font-oriented widgets.
 	private FontSelectorHelper alphabeticFontHelper;
+	/**
+	 * Select the use of JSesh default font (old transliteration font).
+	 */
+	private JButton useDefaultJSeshFontCB;
+	
+	private FontSelectorHelper transliterationFontHelper;
+
 	private JFormattedTextField hieroglyphsFolderField;
 	private JButton browseHieroglyphicFolderButton;
 
@@ -68,29 +79,30 @@ public class JFontPreferences {
 	 */
 	private JRadioButton yodUsesU0313;
 
-	//
-	// private JRadioButton useIFAOEncodingRadioButton;
-
-	private Font font;
 
 	public JFontPreferences() {
 		init();
 		layout();
 		animate();
-		setFont(font);
+		setFont(new Font("Dialog", Font.PLAIN, 12));
+		setTranslitFont(new Font("Dialog", Font.PLAIN, 12));
 	}
 
 	private void setFont(Font font) {
-		this.font = font;
 		alphabeticFontHelper.setFont(font);
 	}
 
+	public void setTranslitFont(Font font) {
+		transliterationFontHelper.setFont(font);
+	}
+
 	private void init() {
-		font = new java.awt.Font("Serif", Font.PLAIN, 12);
 		panel = new JPanel();
 		alphabeticFontHelper = new FontSelectorHelper(panel,
 				"fontPreferences.font.label.text");
-
+		transliterationFontHelper = new FontSelectorHelper(panel,
+				"fontPreferences.transliterationFont.label.text");
+		useDefaultJSeshFontCB= new JButton(Messages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
 		hieroglyphsFolderField = new JFormattedTextField(new File("."));
 		browseHieroglyphicFolderButton = new JButton(
 				Messages.getString("fontPreferences.browseHiero.text"));
@@ -114,7 +126,6 @@ public class JFontPreferences {
 	}
 
 	private void layout() {
-
 		panel.setLayout(new MigLayout("", "[][grow,fill][][]"));
 		PanelHelper helper = new PanelHelper(panel);
 		helper.addWithLabel("fontPreferences.hiero.label.text",
@@ -122,6 +133,10 @@ public class JFontPreferences {
 		helper.add(browseHieroglyphicFolderButton, "sg b, wrap");
 		alphabeticFontHelper.doMigLayout(panel, "sg a, wmin 300pt", "sg b",
 				"wrap para");
+		transliterationFontHelper.doMigLayout(panel, "sg a, wmin 300pt",
+				"sg b", "wrap para");
+		helper.add(useDefaultJSeshFontCB, "wrap");
+
 		panel.add(showOptionButton, "wrap");
 
 		optionPanelContainer.setLayout(new MigLayout("wrap 1", "[fill, grow]"));
@@ -136,18 +151,18 @@ public class JFontPreferences {
 	}
 
 	private void animate() {
-		ButtonGroup trlEncodingGroup= new ButtonGroup();
+		ButtonGroup trlEncodingGroup = new ButtonGroup();
 		trlEncodingGroup.add(useMdCRadioButton);
 		trlEncodingGroup.add(useUnicodeRadioButton);
-		ButtonGroup yodGroup= new ButtonGroup();
+		ButtonGroup yodGroup = new ButtonGroup();
 		yodGroup.add(yodUsesU0313);
 		yodGroup.add(yodUsesU0486);
-		useMdCRadioButton.addActionListener(new ActionListener() {			
+		useMdCRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				trlChanged();
 			}
 		});
-		useUnicodeRadioButton.addActionListener(new ActionListener() {			
+		useUnicodeRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				trlChanged();
 			}
@@ -157,11 +172,25 @@ public class JFontPreferences {
 				toggleShowOption();
 			}
 		});
+		useDefaultJSeshFontCB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				useOldDefaultFont();
+			}
+		});
+	}
+
+	/**
+	 * Use the old JSesh MDC-compatible font, taken from software resources.
+	 */
+	protected void useOldDefaultFont() {
+		Font trl= ResourcesManager.getInstance().getTransliterationFont();
+		setTranslitFont(trl);
+		useMdCRadioButton.setSelected(true);
 	}
 
 	protected void trlChanged() {
-			yodUsesU0313.setEnabled(useUnicodeRadioButton.isSelected());
-			yodUsesU0486.setEnabled(useUnicodeRadioButton.isSelected());
+		yodUsesU0313.setEnabled(useUnicodeRadioButton.isSelected());
+		yodUsesU0486.setEnabled(useUnicodeRadioButton.isSelected());
 	}
 
 	protected void toggleShowOption() {
@@ -176,7 +205,8 @@ public class JFontPreferences {
 		}
 		try {
 			Window window = (Window) SwingUtilities.getRoot(panel);
-			if (window != null) window.pack();
+			if (window != null)
+				window.pack();
 		} catch (ClassCastException e) {
 			// DO NOTHING
 		}
@@ -187,14 +217,39 @@ public class JFontPreferences {
 		return panel;
 	}
 
-	public void updatePreferences(DrawingSpecification drawingSpecification) {
-		
+	public FontInfo getFontInfo() {
+		FontInfo fontInfo = new FontInfo(
+				(File) hieroglyphsFolderField.getValue(), alphabeticFontHelper.getSelectedFont(),
+				transliterationFontHelper.getSelectedFont());
+		fontInfo = fontInfo.withTranslitUnicode(useUnicodeRadioButton
+				.isSelected());
+		if (yodUsesU0313.isSelected())
+			fontInfo = fontInfo.withYodChoice(YODChoice.U0313);
+		else if (yodUsesU0486.isSelected())
+			fontInfo = fontInfo.withYodChoice(YODChoice.U0486);
+		return fontInfo;
 	}
-	
-	public void loadPreferences(DrawingSpecification drawingSpecification) {
-		
+
+	public void setFontInfo(FontInfo fontInfo) {
+		hieroglyphsFolderField.setValue(fontInfo.getHieroglyphsFolder());
+		setFont(fontInfo.getBaseFont());
+		setTranslitFont(fontInfo.getTransliterationFont());
+		if (fontInfo.isTranslitUnicode()) {
+			useUnicodeRadioButton.setSelected(true);
+		} else {
+			useMdCRadioButton.setSelected(true);
+		}
+		trlChanged();
+		switch (fontInfo.getYodChoice()) {
+		case U0313:
+			yodUsesU0313.setSelected(true);
+			break;
+		case U0486:
+			yodUsesU0486.setSelected(true);
+			break;
+		}
 	}
-	
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 

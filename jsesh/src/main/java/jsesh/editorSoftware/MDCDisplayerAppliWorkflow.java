@@ -1218,9 +1218,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(frame, "problem with file : "
-					+ e.getLocalizedMessage(), "File Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame,
+					"problem with file : " + e.getLocalizedMessage(),
+					"File Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -1265,8 +1265,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		// Quick pdf export...
 		quickPDFExportDirectory = new File(preferences.get(
-				"quickPdfExportDirectory", new File(System
-						.getProperty("user.home"), "quickPdf")
+				"quickPdfExportDirectory",
+				new File(System.getProperty("user.home"), "quickPdf")
 						.getAbsolutePath()));
 		// Dimensions...
 		drawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
@@ -1325,39 +1325,36 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		}
 
 		// Clipboard preferences...
-		clipboardPreferences.setImageWanted(preferences.getBoolean(
-				"imageWanted", false));
-		clipboardPreferences.setPdfWanted(preferences.getBoolean("pdfWanted",
-				false));
-		clipboardPreferences.setRtfWanted(preferences.getBoolean("rtfWanted",
-				true));
-		clipboardPreferences.setTextWanted(preferences.getBoolean("textWanted",
-				true));
+		clipboardPreferences = new MDCClipboardPreferences()
+				.withImageWanted(preferences.getBoolean("imageWanted", false))
+				.withPdfWanted(preferences.getBoolean("pdfWanted", false))
+				.withRtfWanted(preferences.getBoolean("rtfWanted", true))
+				.withTextWanted(preferences.getBoolean("textWanted", true));
 	}
 
 	public void savePreferences() {
 		// Also save the creator software version.
 		preferences.put("prefversion", "2.9.1");
-		preferences.put("currentMDCDirectory", currentMDCDirectory
-				.getAbsolutePath());
-		preferences.put("currentOutputDirectory", currentOutputDirectory
-				.getAbsolutePath());
+		preferences.put("currentMDCDirectory",
+				currentMDCDirectory.getAbsolutePath());
+		preferences.put("currentOutputDirectory",
+				currentOutputDirectory.getAbsolutePath());
 		preferences.put("wmfExportFile", wmfExporter.getExportFile()
 				.getAbsolutePath());
 		preferences.put("emfExportFile", emfExporter.getExportFile()
 				.getAbsolutePath());
 		preferences.put("macpictExportFile", macPictExporter.getExportFile()
 				.getAbsolutePath());
-		preferences.put("currentHieroglyphsSource", currentHieroglyphsSource
-				.getAbsolutePath());
+		preferences.put("currentHieroglyphsSource",
+				currentHieroglyphsSource.getAbsolutePath());
 
-		preferences.put("quickPdfExportDirectory", quickPDFExportDirectory
-				.getAbsolutePath());
+		preferences.put("quickPdfExportDirectory",
+				quickPDFExportDirectory.getAbsolutePath());
 		// Dimensions...
-		preferences.putDouble("smallBodyScaleLimit", drawingSpecifications
-				.getSmallBodyScaleLimit());
-		preferences.putDouble("cartoucheLineWidth", drawingSpecifications
-				.getCartoucheLineWidth());
+		preferences.putDouble("smallBodyScaleLimit",
+				drawingSpecifications.getSmallBodyScaleLimit());
+		preferences.putDouble("cartoucheLineWidth",
+				drawingSpecifications.getCartoucheLineWidth());
 
 		// shading
 		preferences.putBoolean("useLinesForShading", drawingSpecifications
@@ -1368,8 +1365,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		for (int i = 0; i < prefNames.length; i++) {
 			String name = prefNames[i];
-			preferences.putInt("rtf_" + name + "_size", rtfExportPreferences[i]
-					.getCadratHeight());
+			preferences.putInt("rtf_" + name + "_size",
+					rtfExportPreferences[i].getCadratHeight());
 			preferences.putInt("rtf_" + name + "_mode", rtfExportPreferences[i]
 					.getExportGranularity().getId());
 			preferences.putInt("rtf_" + name + "_graphicformat",
@@ -1382,12 +1379,12 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		// Clipboard preferences...
 
-		preferences.putBoolean("imageWanted", clipboardPreferences
-				.isImageWanted());
+		preferences.putBoolean("imageWanted",
+				clipboardPreferences.isImageWanted());
 		preferences.putBoolean("pdfWanted", clipboardPreferences.isPdfWanted());
 		preferences.putBoolean("rtfWanted", clipboardPreferences.isRtfWanted());
-		preferences.putBoolean("textWanted", clipboardPreferences
-				.isTextWanted());
+		preferences.putBoolean("textWanted",
+				clipboardPreferences.isTextWanted());
 
 		try {
 			preferences.flush();
@@ -1415,8 +1412,7 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		int result = fc.showSaveDialog(frame);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			if (((currentFile == null) || !currentFile.equals(fc
-					.getSelectedFile()))
-					&& fc.getSelectedFile().exists()) {
+					.getSelectedFile())) && fc.getSelectedFile().exists()) {
 				int opt = JOptionPane.showConfirmDialog(frame, ""
 						+ fc.getSelectedFile().getName()
 						+ " will be replaced. Are you sure ?", "confirm",
@@ -1459,21 +1455,29 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 					.getDrawingSpecifications().isSmallSignsCentered());
 			// TODO END OF TEMPORARY PATCH
 			try {
-				if (currentDocument.getFile().getName().toLowerCase().endsWith(
-						".pdf")) {
-					// Create the prefs for this document... move the code to document ? or what ?
-					// more info should also be saved in the case of PDF files (pdf prefs).
+				if (currentDocument.getFile().getName().toLowerCase()
+						.endsWith(".pdf")) {
+					// Create the prefs for this document... move the code to
+					// document ? or what ?
+					// more info should also be saved in the case of PDF files
+					// (pdf prefs).
 					// TODO save PDF prefs in pdf files...
-					PDFExportPreferences prefs= new PDFExportPreferences();
+					PDFExportPreferences prefs = new PDFExportPreferences();
 					prefs.setFile(currentDocument.getFile());
-					prefs.setDrawingSpecifications(getDrawingSpecifications().copy());
-					prefs.getDrawingSpecifications().setTextDirection(currentDocument.getMainDirection());
-					prefs.getDrawingSpecifications().setTextOrientation(currentDocument.getMainOrientation());
-					prefs.getDrawingSpecifications().setSmallSignsCentered(currentDocument.isSmallSignsCentred());
-					PDFExporter exporter= new PDFExporter();
+					prefs.setDrawingSpecifications(getDrawingSpecifications()
+							.copy());
+					prefs.getDrawingSpecifications().setTextDirection(
+							currentDocument.getMainDirection());
+					prefs.getDrawingSpecifications().setTextOrientation(
+							currentDocument.getMainOrientation());
+					prefs.getDrawingSpecifications().setSmallSignsCentered(
+							currentDocument.isSmallSignsCentred());
+					PDFExporter exporter = new PDFExporter();
 					exporter.setPdfExportPreferences(prefs);
-					TopItemList model = currentDocument.getHieroglyphicTextModel().getModel();
-					exporter.exportModel(model, MDCCaret.buildWholeTextCaret(model));
+					TopItemList model = currentDocument
+							.getHieroglyphicTextModel().getModel();
+					exporter.exportModel(model,
+							MDCCaret.buildWholeTextCaret(model));
 				} else {
 					currentDocument.save();
 				}
@@ -1490,8 +1494,6 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		}
 		return saved;
 	}
-
-
 
 	/**
 	 * @param frame
@@ -1618,8 +1620,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 	 * (jsesh.mdc.model.TopItemList)
 	 */
 	public MDCModelTransferable buildTransferable(TopItemList top) {
-		return buildTransferable(top, JSeshPasteFlavors
-				.getTransferDataFlavors(clipboardPreferences));
+		return buildTransferable(top,
+				JSeshPasteFlavors.getTransferDataFlavors(clipboardPreferences));
 	}
 
 	public MDCModelTransferable buildTransferable(TopItemList top,
@@ -1872,9 +1874,9 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 
 		if (!(quickPDFExportDirectory.exists() && quickPDFExportDirectory
 				.isDirectory())) {
-			JOptionPane.showMessageDialog(null, ""
-					+ quickPDFExportDirectory.getAbsolutePath()
-					+ " is not a folder or can't be created",
+			JOptionPane.showMessageDialog(null,
+					"" + quickPDFExportDirectory.getAbsolutePath()
+							+ " is not a folder or can't be created",
 					"Incorrect folder", JOptionPane.ERROR_MESSAGE);
 			return;
 		}

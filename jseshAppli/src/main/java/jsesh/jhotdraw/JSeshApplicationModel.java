@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -44,6 +45,7 @@ import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
@@ -85,9 +87,13 @@ import jsesh.jhotdraw.actions.format.SetDocumentDirectionAction;
 import jsesh.jhotdraw.actions.format.SetDocumentOrientationAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
+import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
+import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
+import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.JSimplePalette;
@@ -742,4 +748,64 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		}
 	}
 
+	/**
+	 * Display the preferences dialog.
+	 */
+	public void showPreferencesEditor() {
+		ApplicationPreferencesPresenter applicationPreferencesPresenter = new ApplicationPreferencesPresenter();
+		Component parentComponent = application.getActiveView().getComponent();
+		if (parentComponent == null)
+			parentComponent = application.getComponent();
+		applicationPreferencesPresenter.loadPreferences(this);
+		if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
+			applicationPreferencesPresenter.updatePreferences(this);
+		}
+	}
+
+	public DrawingSpecification getDrawingSpecifications() {
+		return this.jseshBase.getDrawingSpecifications();
+	}
+
+	public FontInfo getFontInfo() {
+		return jseshBase.getFontInfo();
+	}
+
+	/**
+	 * Change the fonts used by JSesh.
+	 * 
+	 * @param fontInfo
+	 */
+	public void setFontInfo(FontInfo fontInfo) {
+		jseshBase.setFontInfo(fontInfo);
+		for (View v : application.views()) {
+			JSeshView view = (JSeshView) v;
+			view.setFontInfo(fontInfo);
+		}
+	}
+
+	public MDCClipboardPreferences getClipboardPreferences() {
+		return jseshBase.getClipboardPreferences();
+	}
+
+	public void setClipboardPreferences(MDCClipboardPreferences prefs) {
+		jseshBase.setClipboardPreferences(prefs);
+	}
+
+	/**
+	 * Returns a copy of the current export preferences.
+	 * 
+	 * @return
+	 */
+	public ExportPreferences getExportPreferences() {
+		return jseshBase.getExportPreferences();
+	}
+
+	public void setExportPreferences(ExportPreferences exportPreferences) {
+		jseshBase.setExportPreferences(exportPreferences);
+	}
+
+	@Override
+	public void destroyApplication(Application a) {
+		jseshBase.savePreferences();
+	}
 }
