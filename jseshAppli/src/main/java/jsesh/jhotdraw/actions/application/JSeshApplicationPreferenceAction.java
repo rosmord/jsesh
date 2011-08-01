@@ -35,8 +35,6 @@ package jsesh.jhotdraw.actions.application;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JOptionPane;
-
 import jsesh.jhotdraw.JSeshApplicationModel;
 
 import org.jhotdraw_7_4_1.app.Application;

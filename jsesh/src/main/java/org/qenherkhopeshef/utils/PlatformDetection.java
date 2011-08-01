@@ -26,6 +26,10 @@ public class PlatformDetection {
 		}
 		return result;
 	}
+
+	public static String getMacUserFontDir() {
+		return System.getProperty("user.home") + "/Library/Fonts";
+	}
 	
 
 }

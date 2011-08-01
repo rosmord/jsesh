@@ -15,6 +15,7 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.utils.JSeshWorkingDirectory;
@@ -34,11 +35,6 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 * pdf export folder property name for preferences.
 	 */
 	private static final String QUICK_PDF_EXPORT_DIRECTORY = "quickPdfExportDirectory";
-
-	/**
-	 * Current hieroglyphic source property for prefererences.
-	 */
-	private static final String CURRENT_HIEROGLYPHS_SOURCE = "currentHieroglyphsSource";
 
 	/**
 	 * Folder for exporting small pdf pictures (useful for press release).
@@ -63,14 +59,16 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	/**
 	 * Base drawing specifications for <em>new</em> documents.
 	 */
-	private DrawingSpecificationsImplementation drawingSpecifications = new DrawingSpecificationsImplementation();
+	private DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
 
 	/**
 	 * Other information for copy/paste (file formats, for instance).
 	 */
 	private MDCClipboardPreferences clipboardPreferences = new MDCClipboardPreferences();
 
-
+	/**
+	 * Information about fonts (used to build DrawingSpecifications).
+	 */
 	private FontInfo fontInfo;
 	
 	/**
@@ -101,8 +99,8 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 		Preferences preferences = Preferences.userNodeForPackage(this
 				.getClass());
 
-		fontInfo= FontInfo.getFromPreferences(preferences);
 		loadDrawingSpecificationPreferences(preferences);
+		setFontInfo(FontInfo.getFromPreferences(preferences));
 		quickPDFExportDirectory = new File(preferences.get(
 				QUICK_PDF_EXPORT_DIRECTORY, new File(getCurrentDirectory(),
 						"quickPdf").getAbsolutePath()));
@@ -159,7 +157,7 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	}
 
 
-	public DrawingSpecificationsImplementation getDrawingSpecifications() {
+	public DrawingSpecification getDrawingSpecifications() {
 		return drawingSpecifications;
 	}
 
@@ -282,6 +280,9 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 
 	public void setFontInfo(FontInfo fontInfo) {
 		this.fontInfo= fontInfo;
+		DrawingSpecification d = drawingSpecifications.copy();
+		fontInfo.applyToDrawingSpecifications(d);
+		drawingSpecifications= d;
 	}
 
 }

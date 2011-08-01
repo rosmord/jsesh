@@ -37,22 +37,36 @@ import java.awt.Font;
 import java.io.File;
 import java.util.prefs.Preferences;
 
-import jsesh.jhotdraw.utils.FontUtil;
+import jsesh.mdc.constants.ScriptCodes;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.YODChoice;
 
 /**
  * Font-related information to set (Immutable object).
- * <p> This will be transformed into a parameter for DrawingSpecification at some point.
+ * <p>
+ * This will be transformed into a parameter for DrawingSpecification at some
+ * point, which is the reason for this class to be immutable.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 
 public class FontInfo {
+	private static final String YOD_CHOICE = "yodChoice";
+	private static final String USE_EMBEDDED_TRANSLIT_FONT = "useEmbeddedTranslitFont";
+	private static final String TRANSLIT_UNICODE = "translitUnicode";
 	private static final String TRANSLITERATION_FONT = "transliterationFont";
+	private static final String TRANSLITERATION_FONT_SIZE = "transliterationFontSize";
+
 	private static final String BASE_FONT = "baseFont";
+	private static final String BASE_FONT_SIZE = "baseFontSize";
+
 	private static final String CURRENT_HIEROGLYPHS_SOURCE = "CURRENT_HIEROGLYPHS_SOURCE";
 	private File hieroglyphsFolder;
 	private Font baseFont, transliterationFont;
+	/**
+	 * Should we use the embedded ASCII MdC Font ?
+	 */
+	private boolean useEmbeddedFont;
 	private boolean translitUnicode = true;
 	private YODChoice yodChoice = YODChoice.U0313;
 
@@ -111,15 +125,20 @@ public class FontInfo {
 					hieroglyphsFolder.getAbsolutePath());
 		}
 
-		//preferences.put(BASE_FONT, FontUtil.fontEncode(baseFont) );
-		//preferences.put(TRANSLITERATION_FONT, FontUtil.fontEncode(transliterationFont));
-		preferences.putBoolean("translitUnicode", translitUnicode);
-		preferences.put("yodChoice", yodChoice.name());
+		preferences.put(BASE_FONT, baseFont.getName());
+		preferences.putInt(BASE_FONT_SIZE, baseFont.getSize());
+		preferences.put(TRANSLITERATION_FONT, transliterationFont.getName());
+		preferences.putInt(TRANSLITERATION_FONT_SIZE,
+				transliterationFont.getSize());
+
+		preferences.putBoolean(TRANSLIT_UNICODE, translitUnicode);
+		preferences.putBoolean(USE_EMBEDDED_TRANSLIT_FONT, useEmbeddedFont);
+		preferences.put(YOD_CHOICE, yodChoice.name());
 	}
 
 	public static FontInfo getFromPreferences(Preferences preferences) {
 		FontInfo fontInfo;
-		
+
 		File hieroglyphsFolder;
 		Font baseFont, transliterationFont;
 
@@ -129,16 +148,72 @@ public class FontInfo {
 		if (currentHieroglyphicPath != null)
 			hieroglyphsFolder = new File(currentHieroglyphicPath);
 		else
-			hieroglyphsFolder= null;
-		
-		baseFont= Font.getFont(preferences.get(BASE_FONT, "Serif PLAIN 12"), Font.decode(null));
-		transliterationFont= Font.getFont(preferences.get(TRANSLITERATION_FONT, "Serif ITALIC 12"), Font.decode(null));
+			hieroglyphsFolder = null;
 
-		fontInfo= new FontInfo(hieroglyphsFolder, baseFont, transliterationFont);
-		fontInfo = fontInfo.withTranslitUnicode(
-				preferences.getBoolean("translitUnicode", true)).withYodChoice(
-				YODChoice.valueOf(preferences.get("yodChoice",
-						YODChoice.U0313.name())));
+		baseFont = new Font(preferences.get(BASE_FONT, "Serif"), Font.PLAIN,
+				preferences.getInt(BASE_FONT_SIZE, 12));
+		transliterationFont = new Font(preferences.get(TRANSLITERATION_FONT,
+				"Serif"), Font.PLAIN, preferences.getInt(
+				TRANSLITERATION_FONT_SIZE, 12));
+
+		fontInfo = new FontInfo(hieroglyphsFolder, baseFont,
+				transliterationFont);
+		fontInfo = fontInfo
+				.withTranslitUnicode(
+						preferences.getBoolean(TRANSLIT_UNICODE, true))
+				.withYodChoice(
+						YODChoice.valueOf(preferences.get(YOD_CHOICE,
+								YODChoice.U0313.name())))
+				.withUseEmbeddedFont(
+						preferences
+								.getBoolean(USE_EMBEDDED_TRANSLIT_FONT, true));
 		return fontInfo;
 	}
+
+	/**
+	 * Should we use the embedded ASCII MdC Font ?
+	 * 
+	 * @return
+	 */
+	public FontInfo withUseEmbeddedFont(boolean useEmbeddedFont) {
+		FontInfo result = new FontInfo(this);
+		result.useEmbeddedFont = useEmbeddedFont;
+		return result;
+	}
+
+	/**
+	 * Should we use the embedded ASCII MdC Font ?
+	 */
+	public boolean isUseEmbeddedFont() {
+		return useEmbeddedFont;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "FontInfo [hieroglyphsFolder=" + hieroglyphsFolder
+				+ ", baseFont=" + baseFont + ", transliterationFont="
+				+ transliterationFont + ", useEmbeddedFont=" + useEmbeddedFont
+				+ ", translitUnicode=" + translitUnicode + ", yodChoice="
+				+ yodChoice + "]";
+	}
+
+	/**
+	 * Apply those font information to a given drawing specification object.
+	 * Temporary method. In fact, font information should be part of the drawing specifications.
+	 * @param drawingSpecification
+	 */
+	public void applyToDrawingSpecifications(
+			DrawingSpecification drawingSpecification) {
+		drawingSpecification.setFont('*', getBaseFont());
+		drawingSpecification.setFont(ScriptCodes.TRANSLITERATION,
+				getTransliterationFont());
+		drawingSpecification.setTranslitUnicode(isTranslitUnicode());
+		drawingSpecification.setYodChoice(getYodChoice());
+	}
+
 }

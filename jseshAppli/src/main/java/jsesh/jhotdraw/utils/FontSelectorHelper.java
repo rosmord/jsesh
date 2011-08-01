@@ -37,18 +37,18 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
-
 import jsesh.jhotdraw.Messages;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Font selection composite object.
@@ -58,6 +58,12 @@ import jsesh.jhotdraw.Messages;
  */
 public class FontSelectorHelper {
 
+	/**
+	 * Font property corresponds to the font selected in this object. 
+	 */
+	public static final String FONT = "Font";
+	
+	private PropertyChangeSupport propertyChangeSupport= new PropertyChangeSupport(this);
 	private Component parent;
 	/**
 	 * A label to put in front of the font selection. If null, no label is set.
@@ -206,11 +212,69 @@ public class FontSelectorHelper {
 		Font oldFont = font;
 		if (oldFont == newFont)
 			return;
-		else {
+		else {			
 			font = newFont;
 			fontNameDisplayField.setFont(font);
 			fontNameDisplayField.setText(font.getFontName());
 			fontSizeBox.setSelectedItem("" + newFont.getSize());
+			propertyChangeSupport.firePropertyChange(FONT, oldFont, newFont);
 		}
 	}
+
+	/**
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+
+	/**
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.beans.PropertyChangeListener)
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * @return
+	 * @see java.beans.PropertyChangeSupport#getPropertyChangeListeners()
+	 */
+	public PropertyChangeListener[] getPropertyChangeListeners() {
+		return propertyChangeSupport.getPropertyChangeListeners();
+	}
+
+	/**
+	 * @param propertyName
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
+	 */
+	public void addPropertyChangeListener(String propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+	}
+
+	/**
+	 * @param propertyName
+	 * @param listener
+	 * @see java.beans.PropertyChangeSupport#removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
+	 */
+	public void removePropertyChangeListener(String propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(propertyName,
+				listener);
+	}
+
+	/**
+	 * @param propertyName
+	 * @return
+	 * @see java.beans.PropertyChangeSupport#getPropertyChangeListeners(java.lang.String)
+	 */
+	public PropertyChangeListener[] getPropertyChangeListeners(
+			String propertyName) {
+		return propertyChangeSupport.getPropertyChangeListeners(propertyName);
+	}
+	
+	
 }

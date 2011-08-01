@@ -16,6 +16,7 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.graphics.export.ExportData;
 import jsesh.graphics.export.ExportOptionPanel;
 import jsesh.graphics.export.SelectionExporter;
+import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.HRule;
 import jsesh.mdc.model.LineBreak;
@@ -29,9 +30,12 @@ import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.mdcDisplayer.preferences.TextHelper;
+import jsesh.resources.ResourcesManager;
 import jsesh.utils.TranslitterationUtilities;
 
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+import org.qenherkhopeshef.utils.PlatformDetection;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
@@ -82,7 +86,6 @@ public class PDFExporter {
 		return new JPDFOptionPanel(parent, title, pdfExportPreferences);
 	}
 
-
 	public void exportModel(TopItemList model, MDCCaret caret)
 			throws IOException {
 		if (pdfExportPreferences.isEncapsulated()) {
@@ -90,8 +93,8 @@ public class PDFExporter {
 					.getDrawingSpecifications().copy();
 			PDFDataSaver pdfDataSaver = new PDFDataSaver(specs,
 					pdfExportPreferences);
-			FileOutputStream out = new FileOutputStream(pdfExportPreferences
-					.getFile());
+			FileOutputStream out = new FileOutputStream(
+					pdfExportPreferences.getFile());
 
 			if (caret.hasSelection()) {
 				// TODO WE SHOULD USE EXPORTDATA
@@ -109,30 +112,36 @@ public class PDFExporter {
 			if (!caret.hasSelection())
 				caret = MDCCaret.buildWholeTextCaret(model);
 
-			DrawingSpecification actualDrawingSpecification= pdfExportPreferences.getDrawingSpecifications().copy();
-			
+			DrawingSpecification actualDrawingSpecification = pdfExportPreferences
+					.getDrawingSpecifications().copy();
+
 			// TODO : do something better here..
-			PageLayout pageLayout= actualDrawingSpecification.getPageLayout();	
+			PageLayout pageLayout = actualDrawingSpecification.getPageLayout();
 			pageLayout.setLeftMargin(32);
 			pageLayout.setTopMargin(32);
 			actualDrawingSpecification.setPageLayout(pageLayout);
-			
-			ExportData exportData = new ExportData(actualDrawingSpecification, caret, model, scale);
+
+			ExportData exportData = new ExportData(actualDrawingSpecification,
+					caret, model, scale);
 
 			PDFGraphics2DFactory graphicFactory = new PDFGraphics2DFactory(
-					pdfExportPreferences, PDFExportHelper
-							.buildCommentText(actualDrawingSpecification, model));
+					pdfExportPreferences, PDFExportHelper.buildCommentText(
+							actualDrawingSpecification, model));
 
 			SelectionExporter selectionExporter = new SelectionExporter(
 					exportData, graphicFactory);
-		
+
 			selectionExporter.exportToPages();
 			graphicFactory.close();
 		} else {
 			try {
-				// TODO : correct the architecture. We are sending strange drawing specifications here
-				// It would be way better to initialize drawingSpecifications once and for all for this class, and to get them when needed.
-				String mdcText = PDFExportHelper.buildCommentText(pdfExportPreferences.getDrawingSpecifications().copy(), model);
+				// TODO : correct the architecture. We are sending strange
+				// drawing specifications here
+				// It would be way better to initialize drawingSpecifications
+				// once and for all for this class, and to get them when needed.
+				String mdcText = PDFExportHelper.buildCommentText(
+						pdfExportPreferences.getDrawingSpecifications().copy(),
+						model);
 				IPDFExporterAux visitor = new IPDFExporterAux(mdcText);
 
 				model.accept(visitor);
@@ -190,13 +199,15 @@ public class PDFExporter {
 		 */
 		TreeMap<TopItem, TemplateInfo> imageCache;
 
-		DrawingSpecification actualDrawingSpecifications;
+		DrawingSpecification drawingSpecifications;
 
 		SimpleViewBuilder builder;
 
 		public IPDFExporterAux(String comment) throws IOException,
 				DocumentException {
 
+			drawingSpecifications = pdfExportPreferences
+					.getDrawingSpecifications().copy();
 			/*
 			 * Create various utilitary objects.
 			 */
@@ -205,20 +216,14 @@ public class PDFExporter {
 
 			// Classes used to draw the cadrats.
 			builder = new SimpleViewBuilder();
-			// TODO : really organise a coherent system for
-			// drawingspecifications !!!!
-			actualDrawingSpecifications = pdfExportPreferences
-					.getDrawingSpecifications().copy();
-			
-			
-			PDFExportHelper.prepareColors(actualDrawingSpecifications);
-			
+
+			PDFExportHelper.prepareColors(drawingSpecifications);
+
 			// TODO : fix fonts passed to graphics2D.
 			// specs.setTranslitterationFont(translitFont);
-			PageLayout pageLayout= actualDrawingSpecifications.getPageLayout();
+			PageLayout pageLayout = drawingSpecifications.getPageLayout();
 			pageLayout.setLeftMargin(0.1f);
-			actualDrawingSpecifications.setPageLayout(pageLayout);
-			
+			drawingSpecifications.setPageLayout(pageLayout);
 
 			/*
 			 * Create the PDF document itself :
@@ -257,20 +262,44 @@ public class PDFExporter {
 		 * @throws IOException
 		 */
 		private void prepareFonts() throws DocumentException, IOException {
-			BaseFont bf;
-			// Build fonts to use
-			bf = BaseFont.createFont("/jseshResources/fonts/MDCTranslitLC.ttf",
-					BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			translitFont = new Font(bf, 12);
+			fontMapper = new DefaultFontMapper();
+
+			if (drawingSpecifications
+					.getFont(ScriptCodes.TRANSLITERATION)
+					.getName()
+					.equals(ResourcesManager.getInstance()
+							.getTransliterationFont().getName())) {
+				// Build fonts to use
+
+				BaseFont bf = BaseFont.createFont(
+						"/jseshResources/fonts/MDCTranslitLC.ttf",
+						BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				translitFont = new Font(bf, drawingSpecifications.getFont(
+						ScriptCodes.TRANSLITERATION).getSize());
+				fontMapper.putName("MDCTranslitLC",
+						new DefaultFontMapper.BaseFontParameters(
+								"/jseshResources/fonts/MDCTranslitLC.ttf"));
+			} else {
+				java.awt.Font g2dTranslitFont = drawingSpecifications
+						.getFont(ScriptCodes.TRANSLITERATION);
+				// translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
+				// g2dTranslitFont.getSize(), Font.NORMAL);
+				// BaseFont bf = BaseFont.createFont(g2dTranslitFont.getName() +
+				// ".ttf",""
+				// , true);
+				// translitFont = new Font(bf, drawingSpecifications.getFont(
+				// ScriptCodes.TRANSLITERATION).getSize());
+				translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
+						BaseFont.IDENTITY_H, true, g2dTranslitFont.getSize());
+
+				fontMapper.putName(g2dTranslitFont.getName(),
+						new DefaultFontMapper.BaseFontParameters(
+								g2dTranslitFont.getName()));
+			}
 			romanFont = FontFactory.getFont(FontFactory.TIMES, 12, Font.NORMAL);
 			italicFont = FontFactory
 					.getFont(FontFactory.TIMES, 12, Font.ITALIC);
 			boldFont = FontFactory.getFont(FontFactory.TIMES, 12, Font.BOLD);
-
-			fontMapper = new DefaultFontMapper();
-			fontMapper.putName("MDCTranslitLC",
-					new DefaultFontMapper.BaseFontParameters(
-							"/jseshResources/fonts/MDCTranslitLC.ttf"));
 
 		}
 
@@ -321,15 +350,14 @@ public class PDFExporter {
 			float x1;
 			float x2;
 
-			x1 = h.getStartPos()
-					* actualDrawingSpecifications.getTabUnitWidth();
-			x2 = h.getEndPos() * actualDrawingSpecifications.getTabUnitWidth();
+			x1 = h.getStartPos() * drawingSpecifications.getTabUnitWidth();
+			x2 = h.getEndPos() * drawingSpecifications.getTabUnitWidth();
 
 			float y = writer.getVerticalPosition(false);
 			if (h.getType() == 'l')
-				cb.setLineWidth(actualDrawingSpecifications.getFineLineWidth());
+				cb.setLineWidth(drawingSpecifications.getFineLineWidth());
 			else
-				cb.setLineWidth(actualDrawingSpecifications.getWideLineWidth());
+				cb.setLineWidth(drawingSpecifications.getWideLineWidth());
 			cb.moveTo(x1, y);
 			cb.lineTo(x2, y);
 			cb.stroke();
@@ -339,15 +367,14 @@ public class PDFExporter {
 			 * 
 			 * //float lineWidth; float x1; float x2;
 			 * 
-			 * x1= h.getStartPos()
-			 * actualDrawingSpecifications.getTabUnitWidth(); x2= h.getEndPos()
-			 * actualDrawingSpecifications.getTabUnitWidth();
+			 * x1= h.getStartPos() drawingSpecifications.getTabUnitWidth(); x2=
+			 * h.getEndPos() drawingSpecifications.getTabUnitWidth();
 			 * 
 			 * float y= writer.getVerticalPosition(false); if (h.getType()==
 			 * 'l')
-			 * pdfGraphics.setLineWidth(actualDrawingSpecifications.getFineLineWidth
+			 * pdfGraphics.setLineWidth(drawingSpecifications.getFineLineWidth
 			 * ()); else
-			 * pdfGraphics.setLineWidth(actualDrawingSpecifications.getWideLineWidth
+			 * pdfGraphics.setLineWidth(drawingSpecifications.getWideLineWidth
 			 * ()); pdfGraphics.moveTo(x1, y); pdfGraphics.lineTo(x2, y);
 			 * pdfGraphics.stroke(); try {
 			 * 
@@ -379,7 +406,8 @@ public class PDFExporter {
 				break;
 			case 't':
 				f = translitFont;
-				text = TranslitterationUtilities.toLowerCase(text);
+				//text = TranslitterationUtilities.toLowerCase(text);
+				text= TextHelper.getActualTransliterationString(text, drawingSpecifications);
 				break;
 			case '+':
 			default:
@@ -453,7 +481,7 @@ public class PDFExporter {
 
 			currentParagraph = new Paragraph();
 			currentParagraph.setIndentationLeft(t.getStopPos()
-					* actualDrawingSpecifications.getTabUnitWidth());
+					* drawingSpecifications.getTabUnitWidth());
 		}
 
 		/**
@@ -468,7 +496,7 @@ public class PDFExporter {
 		public void flushParagraph() {
 			if (currentParagraph != null)
 				try {
-					float space = actualDrawingSpecifications.getLineSkip();
+					float space = drawingSpecifications.getLineSkip();
 					// if (currentParagraph.getMultipliedLeading() < space)
 					// currentParagraph.setLeading(space);
 					// currentParagraph.setLeading(0,1);
@@ -495,14 +523,14 @@ public class PDFExporter {
 			// scale Compute
 
 			double scale = (double) pdfExportPreferences.getLineHeight()
-					/ actualDrawingSpecifications.getMaxCadratHeight();
+					/ drawingSpecifications.getMaxCadratHeight();
 
 			if (templateInfo == null) {
 				TopItemList smallModel = new TopItemList();
 				smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
 				MDCView view = builder.buildView(smallModel,
-						actualDrawingSpecifications);
+						drawingSpecifications);
 
 				if (view.getWidth() == 0 || view.getHeight() == 0)
 					return;
@@ -524,10 +552,10 @@ public class PDFExporter {
 				Graphics2D g = templateInfo.template.createGraphics(width,
 						height, fontMapper);
 
-				g.setColor(actualDrawingSpecifications.getBlackColor());
+				g.setColor(drawingSpecifications.getBlackColor());
 				g.scale(scale, scale);
 				drawer.setShadeAfter(false);
-				drawer.draw(g, view, actualDrawingSpecifications);
+				drawer.draw(g, view, drawingSpecifications);
 				// g.setColor(Color.RED);
 				// g.draw(new Rectangle2D.Float(0, 0, view.getWidth(),
 				// view.getHeight()));
@@ -555,7 +583,7 @@ public class PDFExporter {
 				// The actual "good" size is next to impossible to compute. We
 				// should create a special drawing for it
 				// addChunck(new
-				// Chunk(' ').setHorizontalScaling((float)(actualDrawingSpecifications.getSmallSkip()*scale)));
+				// Chunk(' ').setHorizontalScaling((float)(drawingSpecifications.getSmallSkip()*scale)));
 				if (templateInfo.template.getLeading() > currentParagraph
 						.getLeading())
 					currentParagraph.setLeading(templateInfo.template
@@ -640,4 +668,11 @@ public class PDFExporter {
 		this.pdfExportPreferences = pdfExportPreferences;
 	}
 
+	// On the mac, look for the user's fonts.
+	static {
+		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+			FontFactory
+					.registerDirectory(PlatformDetection.getMacUserFontDir());
+		}
+	}
 }

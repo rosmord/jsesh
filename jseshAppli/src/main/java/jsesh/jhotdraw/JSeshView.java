@@ -477,11 +477,7 @@ public class JSeshView extends AbstractView {
 	 */
 	public void setFontInfo(FontInfo fontInfo) {
 		DrawingSpecification drawingSpecification= getDrawingSpecifications().copy();
-		fontInfo.getTransliterationFont();
-		drawingSpecification.setFont('*', fontInfo.getBaseFont());
-		drawingSpecification.setFont(ScriptCodes.TRANSLITERATION, fontInfo.getTransliterationFont());
-		drawingSpecification.setTranslitUnicode(fontInfo.isTranslitUnicode());
-		drawingSpecification.setYodChoice(fontInfo.getYodChoice());
+		fontInfo.applyToDrawingSpecifications(drawingSpecification);
 		setDrawingSpecifications(drawingSpecification);
 	}
 }

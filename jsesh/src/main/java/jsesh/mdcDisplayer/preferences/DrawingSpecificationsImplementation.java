@@ -278,7 +278,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public Object clone() throws CloneNotSupportedException {
 		DrawingSpecificationsImplementation result;
 		result = (DrawingSpecificationsImplementation) super.clone();
-		result.buildFontMap();
+		result.fontMap= this.fontMap.clone();
 		return result;
 	}
 

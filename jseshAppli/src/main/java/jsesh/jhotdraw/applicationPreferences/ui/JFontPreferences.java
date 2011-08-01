@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -51,8 +53,8 @@ public class JFontPreferences {
 	/**
 	 * Select the use of JSesh default font (old transliteration font).
 	 */
-	private JButton useDefaultJSeshFontCB;
-	
+	private JButton useDefaultJSeshFontButton;
+
 	private FontSelectorHelper transliterationFontHelper;
 
 	private JFormattedTextField hieroglyphsFolderField;
@@ -61,6 +63,8 @@ public class JFontPreferences {
 	// Transliteration option manager
 	private JButton showOptionButton;
 	private boolean optionDisplayed = false;
+	private boolean useDefaultJSeshFont = true;
+
 	/**
 	 * Check to state that the transliteration font is Unicode or MDC.
 	 */
@@ -78,7 +82,6 @@ public class JFontPreferences {
 	 * Unusual capital yod, but gives a reasonable rendering with most fonts.
 	 */
 	private JRadioButton yodUsesU0313;
-
 
 	public JFontPreferences() {
 		init();
@@ -102,7 +105,8 @@ public class JFontPreferences {
 				"fontPreferences.font.label.text");
 		transliterationFontHelper = new FontSelectorHelper(panel,
 				"fontPreferences.transliterationFont.label.text");
-		useDefaultJSeshFontCB= new JButton(Messages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
+		useDefaultJSeshFontButton = new JButton(
+				Messages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
 		hieroglyphsFolderField = new JFormattedTextField(new File("."));
 		browseHieroglyphicFolderButton = new JButton(
 				Messages.getString("fontPreferences.browseHiero.text"));
@@ -135,7 +139,7 @@ public class JFontPreferences {
 				"wrap para");
 		transliterationFontHelper.doMigLayout(panel, "sg a, wmin 300pt",
 				"sg b", "wrap para");
-		helper.add(useDefaultJSeshFontCB, "wrap");
+		helper.add(useDefaultJSeshFontButton, "wrap");
 
 		panel.add(showOptionButton, "wrap");
 
@@ -172,9 +176,14 @@ public class JFontPreferences {
 				toggleShowOption();
 			}
 		});
-		useDefaultJSeshFontCB.addActionListener(new ActionListener() {
+		useDefaultJSeshFontButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				useOldDefaultFont();
+			}
+		});
+		this.transliterationFontHelper.addPropertyChangeListener(FontSelectorHelper.FONT, new PropertyChangeListener() {			
+			public void propertyChange(PropertyChangeEvent evt) {
+				useDefaultJSeshFont=false;
 			}
 		});
 	}
@@ -183,9 +192,10 @@ public class JFontPreferences {
 	 * Use the old JSesh MDC-compatible font, taken from software resources.
 	 */
 	protected void useOldDefaultFont() {
-		Font trl= ResourcesManager.getInstance().getTransliterationFont();
+		Font trl = ResourcesManager.getInstance().getTransliterationFont();
 		setTranslitFont(trl);
 		useMdCRadioButton.setSelected(true);
+		useDefaultJSeshFont = true;
 	}
 
 	protected void trlChanged() {
@@ -219,7 +229,8 @@ public class JFontPreferences {
 
 	public FontInfo getFontInfo() {
 		FontInfo fontInfo = new FontInfo(
-				(File) hieroglyphsFolderField.getValue(), alphabeticFontHelper.getSelectedFont(),
+				(File) hieroglyphsFolderField.getValue(),
+				alphabeticFontHelper.getSelectedFont(),
 				transliterationFontHelper.getSelectedFont());
 		fontInfo = fontInfo.withTranslitUnicode(useUnicodeRadioButton
 				.isSelected());
@@ -227,6 +238,8 @@ public class JFontPreferences {
 			fontInfo = fontInfo.withYodChoice(YODChoice.U0313);
 		else if (yodUsesU0486.isSelected())
 			fontInfo = fontInfo.withYodChoice(YODChoice.U0486);
+		fontInfo= fontInfo.withUseEmbeddedFont(useDefaultJSeshFont);
+		System.out.println(fontInfo);
 		return fontInfo;
 	}
 
@@ -247,6 +260,11 @@ public class JFontPreferences {
 		case U0486:
 			yodUsesU0486.setSelected(true);
 			break;
+		}
+		if (fontInfo.isUseEmbeddedFont()) {
+			useOldDefaultFont();
+		} else {
+			useDefaultJSeshFont= false;
 		}
 	}
 
