@@ -217,7 +217,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addAction(ActionsID.UNDO, new UndoAction(editor));
 			addAction(ActionsID.REDO, new RedoAction(editor));
 			// editing modes...
-			addEditingModeAction(ActionsID.SET_MODE_LATIN, 'I');
+			addEditingModeAction(ActionsID.SET_MODE_LATIN, 'l');
 			addEditingModeAction(ActionsID.SET_MODE_HIEROGLYPHS, 's');
 			addEditingModeAction(ActionsID.SET_MODE_ITALIC, 'i');
 			addEditingModeAction(ActionsID.SET_MODE_BOLD, 'b');

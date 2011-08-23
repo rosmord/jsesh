@@ -1,20 +1,15 @@
 package jsesh.jhotdraw;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.graphics.export.HTMLExporter;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
-import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
@@ -29,7 +24,7 @@ import jsesh.utils.JSeshWorkingDirectory;
  * @author rosmord
  */
 
-public class JSeshApplicationBase implements MDCModelTransferableBroker {
+public class JSeshApplicationBase {
 
 	/**
 	 * pdf export folder property name for preferences.
@@ -59,7 +54,7 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	/**
 	 * Base drawing specifications for <em>new</em> documents.
 	 */
-	private DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
+	private DrawingSpecification defaultDrawingSpecifications = new DrawingSpecificationsImplementation();
 
 	/**
 	 * Other information for copy/paste (file formats, for instance).
@@ -115,16 +110,16 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	 */
 	private void loadDrawingSpecificationPreferences(Preferences preferences) {
 		// Dimensions...
-		drawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
+		defaultDrawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
 				"smallBodyScaleLimit", 12.0));
-		drawingSpecifications.setCartoucheLineWidth((float) preferences
+		defaultDrawingSpecifications.setCartoucheLineWidth((float) preferences
 				.getDouble("cartoucheLineWidth", 1.0));
 
 		// Shading
 		if (preferences.getBoolean("useLinesForShading", true)) {
-			drawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
+			defaultDrawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
 		} else {
-			drawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
+			defaultDrawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
 		}
 	}
 
@@ -132,9 +127,9 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 
 	private void saveDrawingSpecificationPreferences(Preferences preferences) {
 		// Dimensions...		
-		preferences.putDouble("smallBodyScaleLimit", drawingSpecifications.getSmallBodyScaleLimit());
-		preferences.putDouble("cartoucheLineWidth", drawingSpecifications.getCartoucheLineWidth());
-		preferences.putBoolean("useLinesForShading", drawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
+		preferences.putDouble("smallBodyScaleLimit", defaultDrawingSpecifications.getSmallBodyScaleLimit());
+		preferences.putDouble("cartoucheLineWidth", defaultDrawingSpecifications.getCartoucheLineWidth());
+		preferences.putBoolean("useLinesForShading", defaultDrawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
 	}
 
 	public void savePreferences() {
@@ -157,27 +152,11 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 	}
 
 
-	public DrawingSpecification getDrawingSpecifications() {
-		return drawingSpecifications;
+	public DrawingSpecification getDefaultDrawingSpecifications() {
+		return defaultDrawingSpecifications;
 	}
 
-	public MDCModelTransferable buildTransferable(TopItemList top) {
-		return buildTransferable(top,
-				JSeshPasteFlavors.getTransferDataFlavors(clipboardPreferences));
-
-	}
-
-	public MDCModelTransferable buildTransferable(TopItemList top,
-			DataFlavor[] dataFlavors) {
-
-		MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top);
-		result.setDrawingSpecifications(getDrawingSpecifications());
-		result.setRtfPreferences(getCurrentRTFPreferences());
-		result.setClipboardPreferences(clipboardPreferences);
-		return result;
-	}
-
-	private RTFExportPreferences getCurrentRTFPreferences() {
+	RTFExportPreferences getCurrentRTFPreferences() {
 		return getRTFExportPreferences(exportType);
 	}
 
@@ -280,9 +259,9 @@ public class JSeshApplicationBase implements MDCModelTransferableBroker {
 
 	public void setFontInfo(FontInfo fontInfo) {
 		this.fontInfo= fontInfo;
-		DrawingSpecification d = drawingSpecifications.copy();
+		DrawingSpecification d = defaultDrawingSpecifications.copy();
 		fontInfo.applyToDrawingSpecifications(d);
-		drawingSpecifications= d;
+		defaultDrawingSpecifications= d;
 	}
 
 }

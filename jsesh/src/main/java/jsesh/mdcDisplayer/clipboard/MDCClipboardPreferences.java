@@ -76,11 +76,10 @@ public class MDCClipboardPreferences {
 	}
 
 	private MDCClipboardPreferences(MDCClipboardPreferences orig) {
-		MDCClipboardPreferences result = new MDCClipboardPreferences();
-		result.pdfWanted = this.pdfWanted;
-		result.rtfWanted = this.rtfWanted;
-		result.textWanted = this.textWanted;
-		result.imageWanted = this.imageWanted;
+		this.pdfWanted = orig.pdfWanted;
+		this.rtfWanted = orig.rtfWanted;
+		this.textWanted = orig.textWanted;
+		this.imageWanted = orig.imageWanted;
 	}
 
 	public boolean isImageWanted() {

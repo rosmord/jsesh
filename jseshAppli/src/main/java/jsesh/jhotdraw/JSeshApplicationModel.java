@@ -35,6 +35,7 @@ package jsesh.jhotdraw;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import javax.swing.JToolBar;
 
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.actions.sign.EditorSignRotationAction;
 import jsesh.editor.actions.sign.EditorSignSizeAction;
 import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
@@ -93,7 +95,10 @@ import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
+import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.JSimplePalette;
@@ -124,14 +129,18 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * </p>
  * TODO check consistency and file export system in particular.
  * 
- * TODO before release : FIX copy as... / copy/paste .... FIX copy small size,
- * etc...
+ * TODO before release : 
+ * - SetAsModelAction
+ * - in menu file : add new signs
+ * - browse for hieroglyphic folder.
  * 
- * TODO Fix the missing column orientation for opened texts. TODO actually
- * load/save document preferences (like line widths...)
+ * TODO Fix the missing column orientation for opened texts. 
  * 
+ * TODO actually load/save document preferences (like line widths...) with documents
+ * 
+ * LATER....
  * TODO improve the hieroglyphic menu system... should use a regular button, not
- * a bad-looking out-of-place toolbar.
+ * a bad-looking out-of-place toolbar (may wait a little)
  * 
  * TODO after release : fix the import/export/file reading to use proper threads
  * and display...
@@ -141,12 +150,7 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * 
  * Add to the "text menu" : center vertically/horizontally (will insert stuff
  * around sign)
- * 
- * in menu file : add new signs
- * 
- * in edit preferences : fonts, export prefs, clipboard formats (see how mac
- * prefs are handled).
- * 
+ 	* 
  * @author Serge Rosmorduc
  * 
  */
@@ -184,6 +188,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 */
 	private JSeshApplicationBase jseshBase = new JSeshApplicationBase();
 
+	/**
+	 * Deals with copy/paste. 
+	 * Needs to know the current view to work correctly.
+	 */
+	private MyTransferableBroker transferableBroker= new MyTransferableBroker();
+	
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
@@ -201,10 +211,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void initView(Application a, View v) {
 		super.initView(a, v);
 		DrawingSpecification drawingSpecifications = jseshBase
-				.getDrawingSpecifications().copy();
+				.getDefaultDrawingSpecifications().copy();
 		JSeshView jSeshView = (JSeshView) v;
 		jSeshView.setDrawingSpecifications(drawingSpecifications);
-		jSeshView.setMDCModelTransferableBroker(jseshBase);
+		jSeshView.setMDCModelTransferableBroker(transferableBroker);
 	}
 
 	@Override
@@ -762,9 +772,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		}
 	}
 
-	public DrawingSpecification getDrawingSpecifications() {
-		return this.jseshBase.getDrawingSpecifications();
-	}
 
 	public FontInfo getFontInfo() {
 		return jseshBase.getFontInfo();
@@ -807,5 +814,26 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public void destroyApplication(Application a) {
 		jseshBase.savePreferences();
+	}
+	
+	private class MyTransferableBroker implements MDCModelTransferableBroker {
+		public MDCModelTransferable buildTransferable(TopItemList top) {
+			return buildTransferable(top,
+					JSeshPasteFlavors.getTransferDataFlavors(getClipboardPreferences()));
+
+		}
+
+		public MDCModelTransferable buildTransferable(TopItemList top,
+				DataFlavor[] dataFlavors) {
+
+			MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top);
+			// PROBLEM HERE : WE SHOULD BE PASSING THE CURRENT VIEW'S drawing specifications...
+			DrawingSpecification currentDrawingSpecifications = ((JSeshView)application.getActiveView()).getDrawingSpecifications();
+			result.setDrawingSpecifications(currentDrawingSpecifications);
+			result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
+			result.setClipboardPreferences(jseshBase.getClipboardPreferences());
+			return result;
+		}
+
 	}
 }
