@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * A panel which can be hidden.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ *
+ */
 @SuppressWarnings("serial")
 public class HiddenPanel extends JPanel {
 

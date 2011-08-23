@@ -10,7 +10,7 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.TopItemList;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 import org.jhotdraw_7_4_1.app.Application;
 import org.jhotdraw_7_4_1.app.View;

@@ -3,7 +3,7 @@ package jsesh.editorApplication_old;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledAction;

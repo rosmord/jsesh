@@ -77,7 +77,7 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;

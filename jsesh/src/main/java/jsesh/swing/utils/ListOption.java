@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 /**
  * A couple key/displayed value for use in comboboxes.

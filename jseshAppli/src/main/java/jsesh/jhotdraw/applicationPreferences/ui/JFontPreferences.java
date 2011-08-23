@@ -1,6 +1,7 @@
 package jsesh.jhotdraw.applicationPreferences.ui;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,16 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
+
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
@@ -186,6 +192,27 @@ public class JFontPreferences {
 				useDefaultJSeshFont=false;
 			}
 		});
+		this.browseHieroglyphicFolderButton.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				selectHieroglyphicFolder();
+			}
+		});
+	}
+
+	/**
+	 * Displays the selection dialog for hieroglyphs.
+	 */
+	private void selectHieroglyphicFolder() {
+		File hieroglyphicFolder= (File) hieroglyphsFolderField.getValue();
+		PortableFileDialog selector = PortableFileDialogFactory.createDirectorySaveDialog(panel);
+		selector.setTitle(Messages.getString("JFontPreferences.hieroglyphDialog.label"));
+		if (hieroglyphicFolder != null) {
+			selector.setCurrentDirectory(hieroglyphicFolder);
+		}
+		if (selector.show() == FileOperationResult.OK) {
+			hieroglyphsFolderField.setValue(selector.getSelectedFile());
+		}
+		
 	}
 
 	/**

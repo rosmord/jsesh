@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.swing.KeyUtils;
+import jsesh.swing.utils.KeyUtils;
 
 @SuppressWarnings("serial")
 public class RedoAction extends EditorAction {

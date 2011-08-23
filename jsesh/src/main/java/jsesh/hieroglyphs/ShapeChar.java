@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import jsesh.swing.ShapeHelper;
+import jsesh.swing.utils.ShapeHelper;
 import jsesh.utils.DoubleFormatter;
 
 /**

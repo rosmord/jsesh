@@ -122,17 +122,14 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 
 /**
  * JHotdraw-specific model for the application.
- * 
  * <p>
  * We have decided not to follow Apple guidelines for the "no-document" window,
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
  * TODO check consistency and file export system in particular.
- * 
  * TODO before release : 
  * - SetAsModelAction
  * - in menu file : add new signs
- * - browse for hieroglyphic folder.
  * 
  * TODO Fix the missing column orientation for opened texts. 
  * 

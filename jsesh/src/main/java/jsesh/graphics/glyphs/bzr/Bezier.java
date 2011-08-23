@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.graphics.glyphs.bzr;
 
 /**
  * Utility functions related to bezier splines.

@@ -47,10 +47,10 @@ import jsesh.editorSoftware.actions.generic.WorkflowMethodAction;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.resources.ResourcesManager;
-import jsesh.swing.MenuUtils;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 import jsesh.swing.splash.SplashScreen;
+import jsesh.swing.utils.MenuUtils;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 

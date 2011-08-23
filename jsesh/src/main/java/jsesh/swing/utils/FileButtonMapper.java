@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,9 +14,12 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+
 /**
  * Binds a button to a JTextField displaying a file (or directory) name.
  * 
+ * Might be changed to use {@link PortableFileDialog}.
  * @author rosmord
  * 
  */
@@ -94,7 +97,6 @@ public class FileButtonMapper implements ActionListener {
 				}
 
 			}
-
 		});
 	}
 

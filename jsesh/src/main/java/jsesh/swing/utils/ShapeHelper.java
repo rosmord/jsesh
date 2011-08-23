@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;

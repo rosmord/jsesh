@@ -160,7 +160,7 @@ public class BzrFontReader implements BzrCodes {
 									break;
 								case SPLINE:
 								case SPLINE_ABBREV:
-									area+= jsesh.swing.Bezier.area(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
+									area+= jsesh.graphics.glyphs.bzr.Bezier.area(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
 									break;
 								}
 								

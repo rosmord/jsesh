@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.util.Observable;
 import java.util.Observer;

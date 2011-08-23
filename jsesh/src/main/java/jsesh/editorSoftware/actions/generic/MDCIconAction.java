@@ -8,7 +8,7 @@ package jsesh.editorSoftware.actions.generic;
 
 
 import jsesh.editorSoftware.MDCDisplayerAppliWorkflow;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 /**
  * An action whose icon is built from an MDCtype.

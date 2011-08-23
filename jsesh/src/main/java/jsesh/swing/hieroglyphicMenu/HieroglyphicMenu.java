@@ -55,7 +55,7 @@ import javax.swing.event.PopupMenuListener;
 
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.ManuelDeCodage;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 

@@ -45,7 +45,7 @@ import org.qenherkhopeshef.guiFramework.BundledActionFiller;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.constants.SymbolCodes;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 @SuppressWarnings("serial")
 public class AddPhilologicalMarkupAction extends EditorAction {

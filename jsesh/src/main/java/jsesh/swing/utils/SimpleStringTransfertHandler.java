@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

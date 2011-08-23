@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 

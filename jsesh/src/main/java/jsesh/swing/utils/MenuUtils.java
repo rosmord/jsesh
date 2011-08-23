@@ -1,4 +1,4 @@
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import javax.swing.Action;
 import javax.swing.JMenu;

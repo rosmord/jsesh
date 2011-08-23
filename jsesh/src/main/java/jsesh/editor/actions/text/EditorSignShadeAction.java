@@ -45,7 +45,7 @@ import javax.swing.Action;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.model.ShadingCode;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 /**
  * Action for shading. Applies on an editor.

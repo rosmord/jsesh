@@ -38,7 +38,7 @@ import java.awt.event.KeyEvent;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.swing.KeyUtils;
+import jsesh.swing.utils.KeyUtils;
 
 @SuppressWarnings("serial")
 public class UndoAction extends EditorAction {

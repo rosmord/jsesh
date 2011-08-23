@@ -73,7 +73,6 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.swing.SimpleStringModel;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 import jsesh.swing.preferencesEditor.PreferencesEditor;
 import jsesh.swing.preferencesEditor.PreferencesFacade;
@@ -81,6 +80,7 @@ import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.HieroglyphicPaletteDialog;
 import jsesh.swing.utils.MdcFileDialog;
+import jsesh.swing.utils.SimpleStringModel;
 
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;

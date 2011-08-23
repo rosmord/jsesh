@@ -7,6 +7,7 @@ import java.util.prefs.Preferences;
 import jsesh.graphics.export.HTMLExporter;
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
+import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
@@ -259,6 +260,8 @@ public class JSeshApplicationBase {
 
 	public void setFontInfo(FontInfo fontInfo) {
 		this.fontInfo= fontInfo;
+		// TODO : use a better system here... Meanwhile, we will stay with the current one.
+		DefaultHieroglyphicFontManager.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
 		DrawingSpecification d = defaultDrawingSpecifications.copy();
 		fontInfo.applyToDrawingSpecifications(d);
 		defaultDrawingSpecifications= d;

@@ -6,11 +6,15 @@
 package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.awt.Window;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -21,14 +25,27 @@ import javax.swing.filechooser.FileFilter;
  */
 public class AwtPortableFileDialog extends PortableFileDialog {
 
-	private Frame parent;
+	private Component parent;
 	private File base;
 	private FileDialog delegate;
 	private String title;
 
-	public AwtPortableFileDialog(Frame parent) {
+	/**
+	 * Create a portable file dialog using AWT (i.e. a system dialog).
+	 * @param parent must have a frame or a dialog as an ancestor.
+	 */
+	public AwtPortableFileDialog(Component parent) {
 		this.parent = parent;
-		delegate = new FileDialog(parent);
+		Window ancestor = SwingUtilities.getWindowAncestor(parent);
+		if (ancestor instanceof Frame)
+			delegate = new FileDialog((Frame) ancestor);
+		else if (ancestor instanceof Dialog)
+			delegate= new FileDialog((Dialog)ancestor);
+		else {
+			delegate= new FileDialog((Frame)null);
+			throw new RuntimeException("NOT EXPECTED");
+		}
+			
 	}
 
 	@Override

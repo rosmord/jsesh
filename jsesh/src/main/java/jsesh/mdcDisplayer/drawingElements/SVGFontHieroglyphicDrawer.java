@@ -16,7 +16,7 @@ import jsesh.hieroglyphs.LigatureZone;
 import jsesh.hieroglyphs.LigatureZoneBuilder;
 import jsesh.hieroglyphs.ShapeChar;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.swing.ShapeHelper;
+import jsesh.swing.utils.ShapeHelper;
 
 /**
  * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.

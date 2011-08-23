@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.swing.FileButtonMapper;
+import jsesh.swing.utils.FileButtonMapper;
 
 /**
  * @author rosmord

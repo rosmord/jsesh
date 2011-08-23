@@ -6,7 +6,6 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.swing.HiddenPanel;
 
 // Dialog used to request an MDC file.
 // Change to use the portable system at some point.

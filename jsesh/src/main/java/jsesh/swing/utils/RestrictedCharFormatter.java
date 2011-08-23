@@ -4,7 +4,7 @@
  * This file is distributed along the GNU Lesser Public License (LGPL)
  * author : rosmord
  */
-package jsesh.swing;
+package jsesh.swing.utils;
 
 import java.text.ParseException;
 import java.util.HashSet;

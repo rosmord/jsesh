@@ -1,6 +1,6 @@
 package org.qenherkhopeshef.swingUtils.portableFileDialog;
 
-import java.awt.Frame;
+import java.awt.Component;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
@@ -15,13 +15,13 @@ public class PortableFileDialogFactory {
 	/**
 	 * Create a dialog for selecting a file for saving data.
 	 */
-	public static PortableFileDialog createFileSaveDialog(Frame parent) {
+	public static PortableFileDialog createFileSaveDialog(Component parent) {
 		PortableFileDialog dialog= createDialog(parent);		
 		dialog.setOperation(FileOperation.SAVE_FILE);
 		return dialog;
 	}
 
-	private static PortableFileDialog createDialog(Frame parent) {
+	private static PortableFileDialog createDialog(Component parent) {
 		PortableFileDialog dialog;
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
 			dialog = new AwtPortableFileDialog(parent);
@@ -34,7 +34,7 @@ public class PortableFileDialogFactory {
 	/**
 	 * Create a dialog for selecting a file for reading data.
 	 */
-	public static PortableFileDialog createFileOpenDialog(Frame parent) {
+	public static PortableFileDialog createFileOpenDialog(Component parent) {
 		PortableFileDialog dialog= createDialog(parent);		
 		dialog.setOperation(FileOperation.OPEN_FILE);
 		return dialog;
@@ -47,7 +47,7 @@ public class PortableFileDialogFactory {
 	 * 
 	 * @return
 	 */
-	public static PortableFileDialog createDirectorySaveDialog(Frame parent) {
+	public static PortableFileDialog createDirectorySaveDialog(Component parent) {
 		PortableFileDialog dialog= createDialog(parent);		
 		dialog.setOperation(FileOperation.SAVE_DIRECTORY);
 		return dialog;		

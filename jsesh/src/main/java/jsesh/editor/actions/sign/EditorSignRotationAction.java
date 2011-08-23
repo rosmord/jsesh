@@ -44,7 +44,7 @@ import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.swing.ImageIconFactory;
+import jsesh.swing.utils.ImageIconFactory;
 
 /**
  * Action for adding a cartouche to a JSesh editor.
