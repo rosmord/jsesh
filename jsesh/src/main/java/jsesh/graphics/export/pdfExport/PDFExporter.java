@@ -32,7 +32,6 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.mdcDisplayer.preferences.TextHelper;
 import jsesh.resources.ResourcesManager;
-import jsesh.utils.TranslitterationUtilities;
 
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.utils.PlatformDetection;

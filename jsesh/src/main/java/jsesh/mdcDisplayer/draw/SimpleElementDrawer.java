@@ -37,7 +37,6 @@ import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.mdcDisplayer.preferences.TextHelper;
-import jsesh.utils.TranslitterationUtilities;
 
 /**
  * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.

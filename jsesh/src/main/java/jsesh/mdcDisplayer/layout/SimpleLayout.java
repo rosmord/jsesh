@@ -6,15 +6,12 @@ package jsesh.mdcDisplayer.layout;
  */
 
 import java.awt.Font;
-import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.hieroglyphs.LigatureZone;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextOrientation;
@@ -44,11 +41,9 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
-import jsesh.mdcDisplayer.mdcView.ViewSide;
 import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.TextHelper;
-import jsesh.utils.TranslitterationUtilities;
 
 /**
  * 

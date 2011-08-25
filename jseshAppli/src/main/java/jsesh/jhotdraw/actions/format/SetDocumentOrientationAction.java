@@ -3,8 +3,6 @@ package jsesh.jhotdraw.actions.format;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JRadioButtonMenuItem;
 
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;

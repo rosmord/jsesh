@@ -20,7 +20,6 @@ import jsesh.graphics.glyphs.model.ExternalSignImporterModel;
 import jsesh.resources.ResourcesManager;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.forms.layout.FormLayout;
 
 public class ExternalSignImporterUI {

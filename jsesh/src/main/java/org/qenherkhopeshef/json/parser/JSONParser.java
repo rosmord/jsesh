@@ -1,10 +1,8 @@
 package org.qenherkhopeshef.json.parser;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StreamTokenizer;
-import java.io.StringReader;
 
 import org.qenherkhopeshef.json.model.JSONArray;
 import org.qenherkhopeshef.json.model.JSONData;

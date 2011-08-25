@@ -30,11 +30,8 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;

@@ -15,8 +15,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
-import sun.misc.Regexp;
-
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence.
  * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.

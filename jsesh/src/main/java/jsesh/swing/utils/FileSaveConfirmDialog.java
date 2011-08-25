@@ -1,7 +1,6 @@
 package jsesh.swing.utils;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.io.File;
 import java.text.MessageFormat;
 

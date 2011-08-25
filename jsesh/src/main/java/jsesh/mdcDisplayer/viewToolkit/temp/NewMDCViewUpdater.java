@@ -5,15 +5,7 @@
  */
 package jsesh.mdcDisplayer.viewToolkit.temp;
 
-import java.util.Iterator;
-
-import javax.print.Doc;
-
-import org.qenherkhopeshef.algo.ReversibleMultiHashMap;
-
 import jsesh.editor.JMDCEditor;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.operations.ChildOperation;
 import jsesh.mdc.model.operations.Deletion;
 import jsesh.mdc.model.operations.Insertion;
@@ -21,9 +13,6 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.viewToolkit.elements.GraphicalElement;
 
 
 /**

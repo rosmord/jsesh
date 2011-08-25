@@ -40,7 +40,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -53,7 +52,6 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.ManuelDeCodage;
 import jsesh.swing.utils.ImageIconFactory;
 

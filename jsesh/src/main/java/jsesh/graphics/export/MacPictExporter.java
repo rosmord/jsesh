@@ -7,14 +7,9 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 
 import jsesh.Messages;
 import jsesh.swing.utils.FileSaveConfirmDialog;

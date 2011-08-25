@@ -37,7 +37,8 @@ public class JSeshMain {
 	 *            the command line arguments
 	 */
 	public static void main(String[] args) {
-		DefaultHieroglyphicFontManager manager = DefaultHieroglyphicFontManager.getInstance();
+		// Force creation of the hieroglyphic font manager and loading of the fonts (do it elsewhere).
+		DefaultHieroglyphicFontManager.getInstance();
 		JSeshApplicationModel applicationModel = new JSeshApplicationModel();
 		applicationModel.setCopyright(COPYRIGHT);
 		applicationModel.setName(NAME);

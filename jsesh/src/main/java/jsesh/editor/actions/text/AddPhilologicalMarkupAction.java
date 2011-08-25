@@ -39,13 +39,13 @@ import java.util.TreeMap;
 
 import javax.swing.Action;
 
-import org.qenherkhopeshef.guiFramework.AppDefaults;
-import org.qenherkhopeshef.guiFramework.BundledActionFiller;
-
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.swing.utils.ImageIconFactory;
+
+import org.qenherkhopeshef.guiFramework.AppDefaults;
+import org.qenherkhopeshef.guiFramework.BundledActionFiller;
 
 @SuppressWarnings("serial")
 public class AddPhilologicalMarkupAction extends EditorAction {

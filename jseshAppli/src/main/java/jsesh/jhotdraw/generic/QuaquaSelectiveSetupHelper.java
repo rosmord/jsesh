@@ -3,8 +3,6 @@ package jsesh.jhotdraw.generic;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.randelshofer.quaqua.QuaquaManager;
-
 /**
  * Helper class for selecting only the parts of Quaqua we want.
  * <p> As a user, I want to have a number of keyboard-oriented features which are removed by Quaqua...

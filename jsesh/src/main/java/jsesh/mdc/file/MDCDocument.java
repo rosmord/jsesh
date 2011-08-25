@@ -8,12 +8,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
-
 import jsesh.editor.HieroglyphicTextModel;
-import jsesh.editor.caret.MDCCaret;
-import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.constants.TextDirection;
@@ -23,6 +18,8 @@ import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
+
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 /**
  * A document containing Manuel de codage text.

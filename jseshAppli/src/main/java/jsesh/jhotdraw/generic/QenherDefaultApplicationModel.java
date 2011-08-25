@@ -10,6 +10,7 @@ import org.jhotdraw_7_4_1.gui.URIChooser;
  * @author rosmord
  *
  */
+@SuppressWarnings("serial")
 public class QenherDefaultApplicationModel extends DefaultApplicationModel {
 
 	@Override

@@ -19,7 +19,6 @@ import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.hieroglyphs.ShapeChar;
 
 /**

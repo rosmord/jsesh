@@ -9,12 +9,9 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
-import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 
 import jsesh.Messages;
 

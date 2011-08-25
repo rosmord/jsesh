@@ -6,7 +6,6 @@ package jsesh.resources;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.font.TextAttribute;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

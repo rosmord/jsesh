@@ -3,8 +3,6 @@ package org.qenherkhopeshef.guiFramework.demo.simple;
 import java.beans.PropertyChangeSupport;
 import java.text.MessageFormat;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;

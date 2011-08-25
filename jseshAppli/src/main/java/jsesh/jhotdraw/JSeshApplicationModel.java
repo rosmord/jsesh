@@ -130,8 +130,6 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * TODO check consistency and file export system in particular.
  * TODO before release : 
  * - in menu file : add new signs
- * - Fix the missing column orientation for opened texts. 
- * - Fix strange problems with sign sizes
  * - TODO actually load/save document preferences (like line widths...) with documents
  * 
  * LATER....
@@ -139,14 +137,14 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * a bad-looking out-of-place toolbar (may wait a little)
  * 
  * TODO after release : fix the import/export/file reading to use proper threads
- * and display...
+ * and display... prevent actions in the JMDCEditor widget when not in the EDT.
  * 
  * TODO check uses of JFileChooser, and replace when needed by
  * PortableFileDialog (in particular in exports).
  * 
  * Add to the "text menu" : center vertically/horizontally (will insert stuff
  * around sign)
- 	* 
+ * 
  * @author Serge Rosmorduc
  * 
  */

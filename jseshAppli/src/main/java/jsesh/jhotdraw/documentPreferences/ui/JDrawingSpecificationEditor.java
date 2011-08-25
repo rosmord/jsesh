@@ -43,7 +43,6 @@ import javax.swing.event.AncestorListener;
 
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.PanelHelper;
-
 import net.miginfocom.swing.MigLayout;
 
 /**

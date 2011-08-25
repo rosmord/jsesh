@@ -42,7 +42,6 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-
 import org.jhotdraw_7_4_1.app.AbstractApplication;
 import org.jhotdraw_7_4_1.app.ApplicationModel;
 import org.jhotdraw_7_4_1.app.View;
@@ -52,7 +51,6 @@ import org.jhotdraw_7_4_1.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw_7_4_1.app.action.app.ExitAction;
 import org.jhotdraw_7_4_1.app.action.app.OpenApplicationAction;
 import org.jhotdraw_7_4_1.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw_7_4_1.app.action.app.PrintApplicationFileAction;
 import org.jhotdraw_7_4_1.app.action.app.ReOpenApplicationAction;
 import org.jhotdraw_7_4_1.app.action.edit.AbstractFindAction;
 import org.jhotdraw_7_4_1.app.action.edit.ClearSelectionAction;
@@ -80,14 +78,10 @@ import org.jhotdraw_7_4_1.app.action.file.SaveFileAsAction;
 import org.jhotdraw_7_4_1.app.action.window.FocusWindowAction;
 import org.jhotdraw_7_4_1.app.action.window.MaximizeWindowAction;
 import org.jhotdraw_7_4_1.app.action.window.MinimizeWindowAction;
-import org.jhotdraw_7_4_1.app.osx.OSXAdapter;
 import org.jhotdraw_7_4_1.beans.Disposable;
 import org.jhotdraw_7_4_1.gui.Worker;
 import org.jhotdraw_7_4_1.net.URIUtil;
-import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
 import org.jhotdraw_7_4_1.util.prefs.PreferencesUtil;
-
-import ch.randelshofer.quaqua.QuaquaManager;
 
 /**
  * {@code QenherOSXLikeApplication} handles the lifecycle of {@link View}s using a

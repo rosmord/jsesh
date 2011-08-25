@@ -25,14 +25,12 @@ import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 import org.jhotdraw_7_4_1.app.AbstractView;
 import org.jhotdraw_7_4_1.app.View;

@@ -2,14 +2,10 @@ package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
 import jsesh.graphics.export.RTFExporterUI;
-import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.JSeshView;

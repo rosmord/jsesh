@@ -1,7 +1,7 @@
 package jsesh.editorApplication_old;
 
-import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.ActionCatalogue;
+import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledAction;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 

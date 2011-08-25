@@ -8,13 +8,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.OutputStreamWriter;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
@@ -22,9 +18,6 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.MdCModelWriter;
 
 /**
  * Dialog panel for editing groups.

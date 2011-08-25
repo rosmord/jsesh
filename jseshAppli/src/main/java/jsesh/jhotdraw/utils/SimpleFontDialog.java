@@ -35,7 +35,6 @@ package jsesh.jhotdraw.utils;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 
 import javax.swing.JOptionPane;
 
