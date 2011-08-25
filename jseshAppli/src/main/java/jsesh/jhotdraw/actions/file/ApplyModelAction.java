@@ -16,11 +16,11 @@ import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
-public class SetAsModelAction extends AbstractViewAction {
+public class ApplyModelAction extends AbstractViewAction {
 
-	public static final String ID="file.setAsModel";
+	public static final String ID="file.applyModel";
 
-	public SetAsModelAction(Application app, View view) {
+	public ApplyModelAction(Application app, View view) {
 		super(app, view);
 		BundleHelper.getInstance().configure(this);
 	}
@@ -28,7 +28,7 @@ public class SetAsModelAction extends AbstractViewAction {
 	public void actionPerformed(ActionEvent e) {
 		JSeshView view= (JSeshView) getActiveView();
 		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
-		app.setDefaultDrawingSpecifications(view.getDrawingSpecifications());
+		view.setDrawingSpecifications(app.getDefaultDrawingSpecifications().copy());
 	}
 	
 }

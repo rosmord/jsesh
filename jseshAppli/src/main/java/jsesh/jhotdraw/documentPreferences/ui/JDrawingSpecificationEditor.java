@@ -97,6 +97,7 @@ public class JDrawingSpecificationEditor {
 		h.addWithLabel("drawingPrefs.maximalQuadrantHeight", maxCadratHeightField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.maximalQuadrantWidth", maxCadratWidthField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.smallFontBodyLimit", smallFontBodyLimitField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.cartoucheLineWidth", cartoucheLineWidthField, "sg a, wrap");
 		h.add(useLinesForShadingCheckBox, "wrap");
 
 	}

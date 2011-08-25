@@ -525,6 +525,7 @@ public class JMDCEditor extends JPanel {
 		if (drawer.isCached()) {
 			drawer.flushCache();
 		}
+		revalidate();
 		repaint();
 	}
 

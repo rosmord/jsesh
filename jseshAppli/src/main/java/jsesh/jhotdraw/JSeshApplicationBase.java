@@ -111,13 +111,20 @@ public class JSeshApplicationBase {
 	 */
 	private void loadDrawingSpecificationPreferences(Preferences preferences) {
 		// Dimensions...
+		defaultDrawingSpecifications.setStandardSignHeight((float)preferences.getDouble(DefaultDocumentPreferenceIDs.STANDARD_SIGN_HEIGHT, 18.0));
+		defaultDrawingSpecifications.setLineSkip((float)preferences.getDouble(DefaultDocumentPreferenceIDs.LINE_SKIP, 6));
+		defaultDrawingSpecifications.setColumnSkip((float)preferences.getDouble(DefaultDocumentPreferenceIDs.COLUMN_SKIP, 10));
+		defaultDrawingSpecifications.setMaxCadratHeight((float)preferences.getDouble(DefaultDocumentPreferenceIDs.MAX_QUADRANT_HEIGHT, 18));
+		defaultDrawingSpecifications.setMaxCadratWidth((float)preferences.getDouble(DefaultDocumentPreferenceIDs.MAX_QUADRANT_WIDTH, 22));
+		defaultDrawingSpecifications.setSmallSignsCentered(preferences.getBoolean(DefaultDocumentPreferenceIDs.CENTER_SMALL_SIGNS, false));
+
 		defaultDrawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
-				"smallBodyScaleLimit", 12.0));
+				DefaultDocumentPreferenceIDs.SMALL_BODY_SCALE_LIMIT, 12.0));
 		defaultDrawingSpecifications.setCartoucheLineWidth((float) preferences
-				.getDouble("cartoucheLineWidth", 1.0));
+				.getDouble(DefaultDocumentPreferenceIDs.CARTOUCHE_LINE_WIDTH, 1.0));
 
 		// Shading
-		if (preferences.getBoolean("useLinesForShading", true)) {
+		if (preferences.getBoolean(DefaultDocumentPreferenceIDs.USE_LINES_FOR_SHADING, true)) {
 			defaultDrawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
 		} else {
 			defaultDrawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
@@ -127,10 +134,16 @@ public class JSeshApplicationBase {
 
 
 	private void saveDrawingSpecificationPreferences(Preferences preferences) {
-		// Dimensions...		
-		preferences.putDouble("smallBodyScaleLimit", defaultDrawingSpecifications.getSmallBodyScaleLimit());
-		preferences.putDouble("cartoucheLineWidth", defaultDrawingSpecifications.getCartoucheLineWidth());
-		preferences.putBoolean("useLinesForShading", defaultDrawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
+		// From default document...
+		preferences.putDouble(DefaultDocumentPreferenceIDs.STANDARD_SIGN_HEIGHT, defaultDrawingSpecifications.getStandardSignHeight()); //ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.LINE_SKIP, defaultDrawingSpecifications.getLineSkip());//ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.COLUMN_SKIP, defaultDrawingSpecifications.getColumnSkip());//ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.MAX_QUADRANT_HEIGHT, defaultDrawingSpecifications.getMaxCadratHeight());//ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.MAX_QUADRANT_WIDTH, defaultDrawingSpecifications.getMaxCadratWidth());//ok
+		preferences.putBoolean(DefaultDocumentPreferenceIDs.CENTER_SMALL_SIGNS, defaultDrawingSpecifications.isSmallSignsCentered());//ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.SMALL_BODY_SCALE_LIMIT, defaultDrawingSpecifications.getSmallBodyScaleLimit());//ok
+		preferences.putBoolean(DefaultDocumentPreferenceIDs.USE_LINES_FOR_SHADING, defaultDrawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING));//ok
+		preferences.putDouble(DefaultDocumentPreferenceIDs.CARTOUCHE_LINE_WIDTH, defaultDrawingSpecifications.getCartoucheLineWidth());	//ok
 	}
 
 	public void savePreferences() {
@@ -153,8 +166,12 @@ public class JSeshApplicationBase {
 	}
 
 
+	/**
+	 * Returns a copy of the current default drawing specifications.
+	 * @return
+	 */
 	public DrawingSpecification getDefaultDrawingSpecifications() {
-		return defaultDrawingSpecifications;
+		return defaultDrawingSpecifications.copy();
 	}
 
 	RTFExportPreferences getCurrentRTFPreferences() {
@@ -265,6 +282,11 @@ public class JSeshApplicationBase {
 		DrawingSpecification d = defaultDrawingSpecifications.copy();
 		fontInfo.applyToDrawingSpecifications(d);
 		defaultDrawingSpecifications= d;
+	}
+
+	public void setDefaultDrawingSpecifications(
+			DrawingSpecification drawingSpecifications) {
+		defaultDrawingSpecifications= drawingSpecifications.copy();
 	}
 
 }

@@ -73,6 +73,7 @@ import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
+import jsesh.jhotdraw.actions.file.ApplyModelAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
@@ -128,12 +129,10 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * </p>
  * TODO check consistency and file export system in particular.
  * TODO before release : 
- * - SetAsModelAction
  * - in menu file : add new signs
- * 
- * TODO Fix the missing column orientation for opened texts. 
- * 
- * TODO actually load/save document preferences (like line widths...) with documents
+ * - Fix the missing column orientation for opened texts. 
+ * - Fix strange problems with sign sizes
+ * - TODO actually load/save document preferences (like line widths...) with documents
  * 
  * LATER....
  * TODO improve the hieroglyphic menu system... should use a regular button, not
@@ -208,7 +207,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void initView(Application a, View v) {
 		super.initView(a, v);
 		DrawingSpecification drawingSpecifications = jseshBase
-				.getDefaultDrawingSpecifications().copy();
+				.getDefaultDrawingSpecifications();
 		JSeshView jSeshView = (JSeshView) v;
 		jSeshView.setDrawingSpecifications(drawingSpecifications);
 		jSeshView.setMDCModelTransferableBroker(transferableBroker);
@@ -390,6 +389,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(EditDocumentPreferencesAction.ID,
 					new EditDocumentPreferencesAction(a, v));
 			map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
+			map.put(ApplyModelAction.ID, new ApplyModelAction(a, jseshView));
 			map.put(JSeshApplicationActionsID.EXPORT_WMF,
 					new GenericExportAction(a, jseshView, new WMFExporter(),
 							JSeshApplicationActionsID.EXPORT_WMF));
@@ -545,6 +545,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				fileMenu.add(exportMenu);
 				fileMenu.addSeparator();
 				addToMenu(fileMenu, app, jSeshView, SetAsModelAction.ID);
+				addToMenu(fileMenu, app, jSeshView, ApplyModelAction.ID);
 				fileMenu.addSeparator();
 				addToMenu(fileMenu, app, jSeshView,
 						EditDocumentPreferencesAction.ID);
@@ -824,13 +825,24 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				DataFlavor[] dataFlavors) {
 
 			MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top);
-			// PROBLEM HERE : WE SHOULD BE PASSING THE CURRENT VIEW'S drawing specifications...
 			DrawingSpecification currentDrawingSpecifications = ((JSeshView)application.getActiveView()).getDrawingSpecifications();
 			result.setDrawingSpecifications(currentDrawingSpecifications);
 			result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
 			result.setClipboardPreferences(jseshBase.getClipboardPreferences());
 			return result;
 		}
+	}
 
+	public void setDefaultDrawingSpecifications(
+			DrawingSpecification drawingSpecifications) {
+		jseshBase.setDefaultDrawingSpecifications(drawingSpecifications);
+	}
+
+	/**
+	 * Returns a copy of the current default drawing specifications.
+	 * @return
+	 */
+	public DrawingSpecification getDefaultDrawingSpecifications() {
+		return jseshBase.getDefaultDrawingSpecifications();
 	}
 }

@@ -201,9 +201,9 @@ public class JSeshViewModel {
 
 	public void setCurrentDocument(MDCDocument doc) {
 		mdcDocument = doc;
-		editor.setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
 		editor.setTextDirection(mdcDocument.getMainDirection());
 		editor.setTextOrientation(mdcDocument.getMainOrientation());
+		editor.setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
 	}
 
 	public void setEnabled(boolean enabled) {
