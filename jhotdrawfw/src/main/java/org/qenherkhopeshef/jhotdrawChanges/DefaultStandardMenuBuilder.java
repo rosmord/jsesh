@@ -2,8 +2,8 @@ package org.qenherkhopeshef.jhotdrawChanges;
 
 import javax.swing.JMenu;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
 
 /**
  * A default class for standard menu builder, which does nothing.

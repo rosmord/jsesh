@@ -11,9 +11,9 @@ import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.swing.utils.ImageIconFactory;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
  * A simple class for easy text addition.

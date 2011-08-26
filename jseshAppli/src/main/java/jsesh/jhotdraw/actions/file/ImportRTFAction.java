@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.generic.AbstractOpenDocumentAction;
 
-import org.jhotdraw_7_4_1.app.Application;
+import org.jhotdraw_7_6.app.Application;
 
 /**
  * Import a PDF pasted on the clipboard.

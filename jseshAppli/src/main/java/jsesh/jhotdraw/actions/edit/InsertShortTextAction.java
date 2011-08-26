@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 @SuppressWarnings("serial")
 public class InsertShortTextAction extends AbstractViewAction {

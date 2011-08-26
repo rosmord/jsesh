@@ -106,20 +106,20 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.PalettePresenter;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.DefaultApplicationModel;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw_7_4_1.app.action.edit.ClearSelectionAction;
-import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
-import org.jhotdraw_7_4_1.app.action.edit.CutAction;
-import org.jhotdraw_7_4_1.app.action.edit.DeleteAction;
-import org.jhotdraw_7_4_1.app.action.edit.DuplicateAction;
-import org.jhotdraw_7_4_1.app.action.edit.PasteAction;
-import org.jhotdraw_7_4_1.app.action.edit.SelectAllAction;
-import org.jhotdraw_7_4_1.gui.JFileURIChooser;
-import org.jhotdraw_7_4_1.gui.URIChooser;
-import org.jhotdraw_7_4_1.io.ExtensionFileFilter;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.DefaultApplicationModel;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.app.OpenApplicationFileAction;
+import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
+import org.jhotdraw_7_6.app.action.edit.CopyAction;
+import org.jhotdraw_7_6.app.action.edit.CutAction;
+import org.jhotdraw_7_6.app.action.edit.DeleteAction;
+import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
+import org.jhotdraw_7_6.app.action.edit.PasteAction;
+import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
+import org.jhotdraw_7_6.gui.JFileURIChooser;
+import org.jhotdraw_7_6.gui.URIChooser;
+import org.jhotdraw_7_6.io.ExtensionFileFilter;
 import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
 
 /**
@@ -206,8 +206,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.jhotdraw_7_4_1.app.DefaultApplicationModel#initView(org.jhotdraw_7_4_1
-	 * .app.Application, org.jhotdraw_7_4_1.app.View)
+	 * org.jhotdraw_7_6.app.DefaultApplicationModel#initView(org.jhotdraw_7_6
+	 * .app.Application, org.jhotdraw_7_6.app.View)
 	 */
 	@Override
 	public void initView(Application a, View v) {
@@ -359,8 +359,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * to create actions for both an existing editor and a null one. </p>
 	 * (non-Javadoc)
 	 * 
-	 * @see org.jhotdraw_7_4_1.app.DefaultApplicationModel#createActionMap(org.
-	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_4_1.app.View)
+	 * @see org.jhotdraw_7_6.app.DefaultApplicationModel#createActionMap(org.
+	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_6.app.View)
 	 */
 	public ActionMap createActionMap(Application a, View v) {
 		JMDCEditor editor = null;

@@ -37,8 +37,8 @@ import java.awt.event.ActionEvent;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.action.app.AbstractPreferencesAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.action.app.AbstractPreferencesAction;
 
 @SuppressWarnings("serial")
 public class JSeshApplicationPreferenceAction extends AbstractPreferencesAction {

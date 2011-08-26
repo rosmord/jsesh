@@ -26,14 +26,14 @@ import javax.swing.UIManager;
 
 import jsesh.jhotdraw.generic.ApplicationHelper;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
-import org.jhotdraw_7_4_1.app.action.file.OpenFileAction;
-import org.jhotdraw_7_4_1.gui.JSheet;
-import org.jhotdraw_7_4_1.gui.Worker;
-import org.jhotdraw_7_4_1.net.URIUtil;
-import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
+import org.jhotdraw_7_6.app.action.file.OpenFileAction;
+import org.jhotdraw_7_6.gui.JSheet;
+import org.jhotdraw_7_6.gui.Worker;
+import org.jhotdraw_7_6.net.URIUtil;
+import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
  * ONGOING WORK!!!!
@@ -118,7 +118,7 @@ public abstract class AbstractOpenDocumentAction extends
 					return null;
 				} else {
 					ResourceBundleUtil labels = ResourceBundleUtil
-							.getBundle("org.jhotdraw_7_4_1.app.Labels");
+							.getBundle("org.jhotdraw_7_6.app.Labels");
 					throw new IOException(labels.getFormatted(
 							"file.open.fileDoesNotExist.message",
 							URIUtil.getName(uri)));
@@ -158,7 +158,7 @@ public abstract class AbstractOpenDocumentAction extends
 					message = value.toString();
 				}
 				ResourceBundleUtil labels = ResourceBundleUtil
-						.getBundle("org.jhotdraw_7_4_1.app.Labels");
+						.getBundle("org.jhotdraw_7_6.app.Labels");
 				JSheet.showMessageSheet(
 						view.getComponent(),
 						"<html>"

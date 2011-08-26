@@ -8,8 +8,8 @@ import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.WindowsHelper;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;

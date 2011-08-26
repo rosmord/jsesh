@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 
 import jsesh.swing.utils.ImageIconFactory;
 
-import org.jhotdraw_7_4_1.util.ResourceBundleUtil;
+import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
  * Singleton Bundle for resources.

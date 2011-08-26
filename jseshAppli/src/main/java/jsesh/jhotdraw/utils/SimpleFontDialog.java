@@ -38,7 +38,7 @@ import java.awt.Font;
 
 import javax.swing.JOptionPane;
 
-import org.jhotdraw_7_4_1.gui.JFontChooser;
+import org.jhotdraw_7_6.gui.JFontChooser;
 
 /**
  * Simple facade for the Font dialog of JHotdraw.

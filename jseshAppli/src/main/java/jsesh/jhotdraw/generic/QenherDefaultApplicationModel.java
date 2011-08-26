@@ -1,9 +1,9 @@
 package jsesh.jhotdraw.generic;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.DefaultApplicationModel;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.gui.URIChooser;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.DefaultApplicationModel;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.gui.URIChooser;
 
 /**
  * Default application model customized for my taste.

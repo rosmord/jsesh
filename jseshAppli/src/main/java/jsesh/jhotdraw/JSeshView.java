@@ -33,14 +33,14 @@ import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
-import org.jhotdraw_7_4_1.app.AbstractView;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.edit.CopyAction;
-import org.jhotdraw_7_4_1.app.action.edit.CutAction;
-import org.jhotdraw_7_4_1.app.action.edit.PasteAction;
-import org.jhotdraw_7_4_1.app.action.edit.RedoAction;
-import org.jhotdraw_7_4_1.app.action.edit.UndoAction;
-import org.jhotdraw_7_4_1.gui.URIChooser;
+import org.jhotdraw_7_6.app.AbstractView;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.edit.CopyAction;
+import org.jhotdraw_7_6.app.action.edit.CutAction;
+import org.jhotdraw_7_6.app.action.edit.PasteAction;
+import org.jhotdraw_7_6.app.action.edit.RedoAction;
+import org.jhotdraw_7_6.app.action.edit.UndoAction;
+import org.jhotdraw_7_6.gui.URIChooser;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 @SuppressWarnings("serial")

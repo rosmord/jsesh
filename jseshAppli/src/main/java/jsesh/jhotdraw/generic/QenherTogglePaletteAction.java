@@ -22,8 +22,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.AbstractAction;
 
-import org.jhotdraw_7_4_1.app.AbstractApplication;
-import org.jhotdraw_7_4_1.app.action.ActionUtil;
+import org.jhotdraw_7_6.app.AbstractApplication;
+import org.jhotdraw_7_6.app.action.ActionUtil;
 
 /**
  * QenherTogglePaletteAction.

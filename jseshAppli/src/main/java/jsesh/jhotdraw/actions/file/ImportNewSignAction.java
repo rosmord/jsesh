@@ -9,8 +9,8 @@ import jsesh.graphics.glyphs.ExternalSignImporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.action.AbstractApplicationAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 
 /**
  * Add a new sign in the user's own hieroglyphic folder.

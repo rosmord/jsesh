@@ -6,9 +6,9 @@ import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 
-import org.jhotdraw_7_4_1.app.Application;
-import org.jhotdraw_7_4_1.app.View;
-import org.jhotdraw_7_4_1.app.action.AbstractViewAction;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
  * This action uses the current view's defaults as generic defaults for new views.

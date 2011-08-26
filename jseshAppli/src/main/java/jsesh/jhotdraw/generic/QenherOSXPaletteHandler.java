@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jhotdraw_7_4_1.app.View;
+import org.jhotdraw_7_6.app.View;
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
