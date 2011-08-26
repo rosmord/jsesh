@@ -30,5 +30,4 @@ public class QenherDefaultApplicationModel extends DefaultApplicationModel {
 		// TODO Auto-generated method stub
 		return super.createOpenDirectoryChooser(a, v);
 	}
-	
 }

@@ -44,6 +44,7 @@ import javax.swing.UIManager;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
+import org.jhotdraw_7_6.app.Disposable;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.ActionUtil;
 import org.jhotdraw_7_6.app.action.app.AboutAction;
@@ -78,7 +79,6 @@ import org.jhotdraw_7_6.app.action.file.SaveFileAsAction;
 import org.jhotdraw_7_6.app.action.window.FocusWindowAction;
 import org.jhotdraw_7_6.app.action.window.MaximizeWindowAction;
 import org.jhotdraw_7_6.app.action.window.MinimizeWindowAction;
-import org.jhotdraw_7_6.beans.Disposable;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;

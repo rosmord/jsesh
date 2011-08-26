@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.View;
+
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
