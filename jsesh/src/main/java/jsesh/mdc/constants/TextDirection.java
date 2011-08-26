@@ -5,28 +5,19 @@
  */
 package jsesh.mdc.constants;
 
-import jsesh.utils.EnumBase;
 
 /**
  * Writing direction for the text : left to right or right to left.
+ * 
  * @author S. Rosmorduc
- *
+ * 
  */
-public class TextDirection extends EnumBase {
+public enum TextDirection {
 
-	public static final TextDirection LEFT_TO_RIGHT= new TextDirection(0,"LEFT_TO_RIGHT");
-	public static final TextDirection RIGHT_TO_LEFT= new TextDirection(1, "RIGHT_TO_LEFT");
-	
-	/**
-	 * @param id
-	 * @param designation
-	 */
-	
-	public TextDirection(int id, String designation) {
-		super(id, designation);
-	}
-	
+	LEFT_TO_RIGHT, RIGHT_TO_LEFT;
+
 	public boolean isLeftToRight() {
-	    return getId() == 0;
+		return this == LEFT_TO_RIGHT;
 	}
+
 }

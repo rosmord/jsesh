@@ -5,30 +5,21 @@
  */
 package jsesh.mdc.constants;
 
-import jsesh.utils.EnumBase;
 
 /**
  * Constants for text general orientation : horizontal or vertical.
+ * 
  * @author S. Rosmorduc
- *
+ * 
  */
-public class TextOrientation extends EnumBase {
+public enum TextOrientation {
 
-	public  static final TextOrientation HORIZONTAL= new TextOrientation(0, "HORIZONTAL");
-	public static final TextOrientation VERTICAL= new TextOrientation(1,"VERTICAL");
+	HORIZONTAL, VERTICAL;
 
 	/**
-	 * @param id
-	 * @param designation
+	 * @return true if this is the horizontal orientation.
 	 */
-	private TextOrientation(int id, String designation) {
-		super(id, designation);
+	public boolean isHorizontal() {
+		return this == HORIZONTAL;
 	}
-
-    /**
-     * @return true if this is the horizontal orientation.
-     */
-    public boolean isHorizontal() {      
-        return getId() == HORIZONTAL.getId();
-    }
 }

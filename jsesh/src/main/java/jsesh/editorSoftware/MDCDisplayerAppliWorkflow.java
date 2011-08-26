@@ -60,6 +60,7 @@ import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
+import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -1228,11 +1229,11 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 		currentDocument = doc;
 		this.getEditor().setHieroglyphiTextModel(
 				currentDocument.getHieroglyphicTextModel());
-		this.getEditor().setTextDirection(currentDocument.getMainDirection());
-		this.getEditor().setTextOrientation(
-				currentDocument.getMainOrientation());
+		DocumentPreferences prefs = currentDocument.getDocumentPreferences();
+		this.getEditor().setTextDirection(prefs.getTextDirection());
+		this.getEditor().setTextOrientation(prefs.getTextOrientation());
 		this.getDrawingSpecifications().setSmallSignsCentered(
-				currentDocument.isSmallSignsCentred());
+				prefs.isSmallSignCentered());
 	}
 
 	/**
@@ -1446,13 +1447,15 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 			// Currently, the "document" data is not synchronized with the
 			// content of the editor.
 			// TODO TEMPORARY PATCH
-
-			currentDocument.setMainDirection(getEditor()
-					.getDrawingSpecifications().getTextDirection());
-			currentDocument.setMainOrientation(getEditor()
-					.getDrawingSpecifications().getTextOrientation());
-			currentDocument.setSmallSignCentered(getEditor()
-					.getDrawingSpecifications().isSmallSignsCentered());
+			DocumentPreferences docprefs = currentDocument
+					.getDocumentPreferences()
+					.withTextDirection(
+							getEditor().getDrawingSpecifications()
+									.getTextDirection())
+					.withTextOrientation(
+							getEditor().getDrawingSpecifications()
+									.getTextOrientation());
+			// Sign centering SHOULD BE DONE...
 			// TODO END OF TEMPORARY PATCH
 			try {
 				if (currentDocument.getFile().getName().toLowerCase()
@@ -1466,12 +1469,12 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 					prefs.setFile(currentDocument.getFile());
 					prefs.setDrawingSpecifications(getDrawingSpecifications()
 							.copy());
-					prefs.getDrawingSpecifications().setTextDirection(
-							currentDocument.getMainDirection());
-					prefs.getDrawingSpecifications().setTextOrientation(
-							currentDocument.getMainOrientation());
-					prefs.getDrawingSpecifications().setSmallSignsCentered(
-							currentDocument.isSmallSignsCentred());
+					// prefs.getDrawingSpecifications().setTextDirection(
+					// currentDocument.getMainDirection());
+					// prefs.getDrawingSpecifications().setTextOrientation(
+					// currentDocument.getMainOrientation());
+					// prefs.getDrawingSpecifications().setSmallSignsCentered(
+					// currentDocument.isSmallSignsCentred());
 					PDFExporter exporter = new PDFExporter();
 					exporter.setPdfExportPreferences(prefs);
 					TopItemList model = currentDocument
@@ -1584,7 +1587,8 @@ public class MDCDisplayerAppliWorkflow implements CaretBroker,
 					// and in the document.
 					getEditor().getDrawingSpecifications()
 							.setSmallSignsCentered(checkBox.isSelected());
-					currentDocument.setSmallSignCentered(checkBox.isSelected());
+					// TODO REMOVE ALL THIS CODE !!!!!
+					//currentDocument.setSmallSignCentered(checkBox.isSelected());
 					getEditor().invalidateView();
 				}
 

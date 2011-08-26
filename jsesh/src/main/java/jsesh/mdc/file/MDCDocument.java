@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map;
 
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
@@ -16,6 +17,7 @@ import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
 
@@ -35,14 +37,16 @@ public class MDCDocument {
 	private File file = null;
 	private String encoding = "UTF-8";
 	private Dialect dialect = Dialect.JSESH;
-	private TextOrientation mainOrientation = TextOrientation.HORIZONTAL;
+	private DocumentPreferences documentPreferences = new DocumentPreferences();
+
+	// private TextOrientation mainOrientation = TextOrientation.HORIZONTAL;
 
 	/**
 	 * kind of statistical bias.
 	 */
-	private TextDirection mainDirection = TextDirection.LEFT_TO_RIGHT;
+	// private TextDirection mainDirection = TextDirection.LEFT_TO_RIGHT;
 
-	private boolean smallSignsCentred = false;
+	// private boolean smallSignsCentred = false;
 
 	private HieroglyphicTextModel hieroglyphicTextModel = new HieroglyphicTextModel();
 
@@ -65,8 +69,23 @@ public class MDCDocument {
 		this();
 		hieroglyphicTextModel = new HieroglyphicTextModel();
 		hieroglyphicTextModel.setTopItemList(topItemList);
-		setMainDirection(drawingSpecifications.getTextDirection());
-		setMainOrientation(drawingSpecifications.getTextOrientation());
+		// This will be simpler if DocumentPreferences becomes a part of drawing specifications...
+		DocumentPreferences prefs = new DocumentPreferences()
+				.withTextDirection(drawingSpecifications.getTextDirection())
+				.withTextOrientation(drawingSpecifications.getTextOrientation())
+				.withCartoucheLineWidth(
+						drawingSpecifications.getCartoucheLineWidth())
+				.withColumnSkip(drawingSpecifications.getColumnSkip())
+				.withLineSkip(drawingSpecifications.getLineSkip())
+				.withMaxQuadrantHeight(
+						drawingSpecifications.getMaxCadratHeight())
+				.withMaxQuadrantWidth(drawingSpecifications.getMaxCadratWidth())
+				.withSmallSignCentered(drawingSpecifications.isSmallSignsCentered())
+				.withSmallBodyScaleLimit(drawingSpecifications.getSmallBodyScaleLimit())
+				.withStandardSignHeight(drawingSpecifications.getStandardSignHeight())
+				.withUseLinesForShading(drawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING))
+				;
+		setDocumentPreferences(prefs);
 	}
 
 	public HieroglyphicTextModel getHieroglyphicTextModel() {
@@ -100,22 +119,6 @@ public class MDCDocument {
 	public void setHieroglyphicTextModel(
 			HieroglyphicTextModel hieroglyphicTextModel) {
 		this.hieroglyphicTextModel = hieroglyphicTextModel;
-	}
-
-	public TextOrientation getMainOrientation() {
-		return mainOrientation;
-	}
-
-	public void setMainOrientation(TextOrientation mainOrientation) {
-		this.mainOrientation = mainOrientation;
-	}
-
-	public TextDirection getMainDirection() {
-		return mainDirection;
-	}
-
-	public void setMainDirection(TextDirection mainDirection) {
-		this.mainDirection = mainDirection;
 	}
 
 	/**
@@ -194,13 +197,24 @@ public class MDCDocument {
 	private void writeHeader(Writer f) throws IOException {
 		if (Dialect.JSESH1.equals(getDialect())) {
 			writeEntry(f, JSeshInfoConstants.JSESH_INFO, "1.0");
-			writeEntry(f, JSeshInfoConstants.JSESH_MAIN_DIRECTION,
-					getMainDirection().toString());
-			writeEntry(f, JSeshInfoConstants.JSESH_MAIN_ORIENTATION,
-					getMainOrientation().toString());
-			writeEntry(f, JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED,
-					isSmallSignsCentred() ? "1" : "0");
+			Map<String, String> map = documentPreferences
+					.getStringRepresentation();
+			for (String key : map.keySet()) {
+				writeEntry(f, key, map.get(key));
+			}
 		}
+	}
+
+	public DocumentPreferences getDocumentPreferences() {
+		return documentPreferences;
+	}
+
+	public void setDocumentPreferences(
+			DocumentPreferences newDocumentPreferences) {
+		if (newDocumentPreferences == null)
+			throw new NullPointerException(
+					"DocumentPreferences must not be null");
+		this.documentPreferences = newDocumentPreferences;
 	}
 
 	private void writeEntry(Writer f, String propertyName, String value)
@@ -209,14 +223,6 @@ public class MDCDocument {
 		if (value != null)
 			f.write(" " + value);
 		f.write(" +s\n");
-	}
-
-	public void setSmallSignCentered(boolean centered) {
-		this.smallSignsCentred = centered;
-	}
-
-	public boolean isSmallSignsCentred() {
-		return smallSignsCentred;
 	}
 
 	public String getMdC() {

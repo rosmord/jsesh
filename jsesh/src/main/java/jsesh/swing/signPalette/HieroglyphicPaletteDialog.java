@@ -8,6 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+/**
+ * A full palette display, with glyph informations.
+ * Should be integrated and created by PalettePresenter.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ */
+
 public class HieroglyphicPaletteDialog {
 	private JDialog dialog;
 

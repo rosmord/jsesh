@@ -26,8 +26,10 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 
@@ -201,8 +203,10 @@ public class JSeshViewModel {
 
 	public void setCurrentDocument(MDCDocument doc) {
 		mdcDocument = doc;
-		editor.setTextDirection(mdcDocument.getMainDirection());
-		editor.setTextOrientation(mdcDocument.getMainOrientation());
+		DocumentPreferences prefs = mdcDocument.getDocumentPreferences();		
+		DrawingSpecification ds = editor.getDrawingSpecifications();
+		ds.applyDocumentPreferences(prefs);
+		editor.setDrawingSpecifications(ds);
 		editor.setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
 	}
 
@@ -393,5 +397,11 @@ public class JSeshViewModel {
 		public void exit(String code) {
 			setMessage("");
 		}
+	}
+
+	public void setDrawingSpecifications(
+			DrawingSpecification drawingSpecifications) {		
+		getEditor().setDrawingSpecifications(drawingSpecifications);
+		getMdcDocument().setDocumentPreferences(drawingSpecifications.extractDocumentPreferences());
 	}
 }

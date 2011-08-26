@@ -20,13 +20,19 @@ import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
@@ -46,8 +52,12 @@ import jsesh.hieroglyphs.ShapeChar;
 import jsesh.hieroglyphs.SignDescriptionConstants;
 
 /**
- * Control and data feed for the simple palette. TODO : use a MultiLingual label
- * instead of the plain tag name...
+ * Control and data feed for the simple palette. 
+ * 
+ * Currently, one might prefer to use HieroglyphicPaletteDialog, which provides also a glyph information tab.
+ * (See, however, method createFullPalette).
+ * 
+ * TODO : use a MultiLingual label instead of the plain tag name...
  * 
  * @author rosmord
  * 
@@ -602,6 +612,33 @@ public class PalettePresenter {
 		return simplePalette;
 	}
 
+	/**
+	 * Create a panel with this palette and a tab to display sign informations.
+	 * @return a panel containing the palette panel, plus sign info.
+	 */
+	public JTabbedPane createComplexPalette() {
+		JTabbedPane tabbedPane = new JTabbedPane();
+
+		// This part should probably be handled by using another prepared
+		// element.
+		tabbedPane.addTab("Palette", getSimplePalette());
+
+		JPanel infoPanel = new JPanel();
+
+		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+		JScrollPane sp1 = new JScrollPane(getGlyphDescriptionField());
+		sp1.setBorder(BorderFactory.createTitledBorder("Glyph info"));
+
+		JScrollPane sp2 = new JScrollPane(getSignDescriptionField());
+		sp2.setBorder(BorderFactory.createTitledBorder("Sign Info"));
+		infoPanel.add(sp2);
+		infoPanel.add(sp1);
+		
+		tabbedPane.addTab("Sign Description", infoPanel);
+		return tabbedPane;
+	}
+	
+	
 	private final class PaletteRowSelectionListener implements
 			ListSelectionListener {
 

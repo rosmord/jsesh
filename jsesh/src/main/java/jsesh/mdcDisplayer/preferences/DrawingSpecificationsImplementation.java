@@ -46,11 +46,11 @@ import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
-
 
 /**
  * Informations about line width, height... Should probably be simpler (and cut
@@ -67,7 +67,8 @@ import jsesh.utils.DoubleDimensions;
  * 
  * <h2>Cartouche related dimensions (add "cartouche" to get the real name of the
  * variables) :</h2>
- * <p align="center"> <img src= "../../../images/cartoucheDims.png">
+ * <p align="center">
+ * <img src= "../../../images/cartoucheDims.png">
  * </p>
  * <p>
  * Note that a standard horizontal cartouche total length is : lineWidth*2 +
@@ -94,7 +95,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	 */
 	private Color grayColor = new Color(0.6f, 0.6f, 0.6f, 0.3f);
 
-	
 	/*------------------------
 	 * Cartouche-related variables.
 	 *
@@ -121,9 +121,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	private Font[] fontMap;
 
 	private YODChoice yodChoice;
-	
+
 	private boolean translitUnicode;
-	
+
 	private FontRenderContext fontRenderContext;
 
 	// private HieroglyphsDrawer hieroglyphsDrawer;
@@ -184,7 +184,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	 */
 	private float standardSignHeight;
 
-
 	/**
 	 * Ratio to base size a sign should have to be considered a "large" sign.
 	 */
@@ -208,17 +207,16 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	 */
 
 	private double graphicDeviceScale = 1;
-	
-	private boolean paged;
-	
-	private ShadingStyle shadingStyle= ShadingStyle.LINE_HATCHING;
 
-	private boolean gardinerQofUsed= true;;
+	private boolean paged;
+
+	private ShadingStyle shadingStyle = ShadingStyle.LINE_HATCHING;
+
+	private boolean gardinerQofUsed = true;;
 
 	// private float
 	public DrawingSpecificationsImplementation() {
-		fontRenderContext = new FontRenderContext(null, true,
-				true);
+		fontRenderContext = new FontRenderContext(null, true, true);
 		smallSignsCentered = false;
 		smallSkip = 2;
 		lineSkip = 6;
@@ -230,15 +228,15 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		// hieroglyphsDrawer = new SVGFontHieroglyphicDrawer();
 		maxCadratHeight = 18f;
 		maxCadratWidth = 22f;
-		
+
 		// Sets sensible defaults for page layout.
-		pageLayout= new PageLayout();
-		//pageLayout.setTextWidth(80 * 14); // What does this mean ?
-		pageLayout.setTopMargin(smallSkip + getCartoucheLineWidth() + getCartoucheMargin());
+		pageLayout = new PageLayout();
+		// pageLayout.setTextWidth(80 * 14); // What does this mean ?
+		pageLayout.setTopMargin(smallSkip + getCartoucheLineWidth()
+				+ getCartoucheMargin());
 		pageLayout.setLeftMargin(3 * smallSkip);
 		pageLayout.setTextWidth(538);
 		pageLayout.setTextHeight(760);
-		
 
 		standardSignHeight = 18f;
 		// TODO : ensure system independance for font ?.
@@ -278,7 +276,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public Object clone() throws CloneNotSupportedException {
 		DrawingSpecificationsImplementation result;
 		result = (DrawingSpecificationsImplementation) super.clone();
-		result.fontMap= this.fontMap.clone();
+		result.fontMap = this.fontMap.clone();
 		return result;
 	}
 
@@ -492,19 +490,19 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	}
 
 	/**
-	 * @see DrawingPreferences#setFont(char, Font) 
+	 * @see DrawingPreferences#setFont(char, Font)
 	 */
 	public void setFont(char code, Font font) {
 		if (code == '*') {
-			this.fontMap[ScriptCodes.LATIN]= font;
-			this.fontMap[ScriptCodes.BOLD]= font.deriveFont(Font.BOLD);
-			this.fontMap[ScriptCodes.ITALIC]= font.deriveFont(Font.ITALIC);
-			this.fontMap[ScriptCodes.TRANSLITERATION]= font.deriveFont(Font.ITALIC);			
+			this.fontMap[ScriptCodes.LATIN] = font;
+			this.fontMap[ScriptCodes.BOLD] = font.deriveFont(Font.BOLD);
+			this.fontMap[ScriptCodes.ITALIC] = font.deriveFont(Font.ITALIC);
+			this.fontMap[ScriptCodes.TRANSLITERATION] = font
+					.deriveFont(Font.ITALIC);
 		} else {
-			this.fontMap[code]= font;
+			this.fontMap[code] = font;
 		}
 	}
-	
 
 	/**
 	 * @return the yodChoice
@@ -514,7 +512,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	}
 
 	/**
-	 * @param yodChoice the yodChoice to set
+	 * @param yodChoice
+	 *            the yodChoice to set
 	 */
 	public void setYodChoice(YODChoice yodChoice) {
 		this.yodChoice = yodChoice;
@@ -528,22 +527,25 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	}
 
 	/**
-	 * @param translitUnicode the translitUnicode to set
+	 * @param translitUnicode
+	 *            the translitUnicode to set
 	 */
 	public void setTranslitUnicode(boolean translitUnicode) {
 		this.translitUnicode = translitUnicode;
 	}
-	
+
 	public boolean isGardinerQofUsed() {
 		return this.gardinerQofUsed;
 	}
 
 	/**
-	 * @param gardinerQofUsed the gardinerQofUsed to set
+	 * @param gardinerQofUsed
+	 *            the gardinerQofUsed to set
 	 */
 	public void setGardinerQofUsed(boolean gardinerQofUsed) {
 		this.gardinerQofUsed = gardinerQofUsed;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -605,7 +607,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		return hutSquareSize;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -641,8 +642,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public float getMaxCadratWidth() {
 		return maxCadratWidth;
 	}
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -785,8 +784,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		return textOrientation;
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -913,8 +910,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		this.hutSquareSize = hutSquareSize;
 	}
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -945,8 +940,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public void setMaxCadratWidth(float maxCadratWidth) {
 		this.maxCadratWidth = maxCadratWidth;
 	}
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -1000,8 +993,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		textOrientation = i;
 	}
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1023,10 +1014,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public void setColumnSkip(float columnSkip) {
 		this.columnSkip = columnSkip;
 	}
-
-
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -1134,7 +1121,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	 * .Color)
 	 */
 	public void setRedColor(Color color) {
-		this.redColor= color;
+		this.redColor = color;
 	}
 
 	/*
@@ -1148,8 +1135,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		return (float) (getStandardSignHeight() / getHieroglyphsDrawer()
 				.getHeightOfA1());
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -1207,9 +1192,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public boolean isPaged() {
 		return paged;
 	}
-	
+
 	public void setPaged(boolean paged) {
-		this.paged= paged;
+		this.paged = paged;
 	}
 
 	public ShadingStyle getShadingStyle() {
@@ -1219,21 +1204,59 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	public void setShadingStyle(ShadingStyle shadingStyle) {
 		this.shadingStyle = shadingStyle;
 	}
-	
+
 	/**
-	 * Returns a copy of the current page layout.
-	 * To actually change the page layout, one needs to modify this copy and 
-	 * set a new layout.
+	 * Returns a copy of the current page layout. To actually change the page
+	 * layout, one needs to modify this copy and set a new layout.
 	 */
 	public PageLayout getPageLayout() {
 		return (PageLayout) pageLayout.clone();
 	}
-	
+
 	public void setPageLayout(PageLayout pageLayout) {
 		this.pageLayout = pageLayout;
 	}
 
-	
-	
-	
+	/**
+	 * Gets the parts of those specifications which corresponds to document
+	 * preferences.
+	 */
+	public DocumentPreferences extractDocumentPreferences() {
+		DocumentPreferences prefs = new DocumentPreferences()
+				.withCartoucheLineWidth(cartoucheLineWidth)
+				.withColumnSkip(columnSkip)
+				.withLineSkip(lineSkip)
+				.withMaxQuadrantHeight(getMaxCadratHeight())
+				.withMaxQuadrantWidth(getMaxCadratWidth())
+				.withSmallBodyScaleLimit(smallBodyScaleLimit)
+				.withSmallSignCentered(isSmallSignsCentered())
+				.withStandardSignHeight(standardSignHeight)
+				.withTextDirection(textDirection)
+				.withTextOrientation(textOrientation)
+				.withUseLinesForShading(
+						getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
+		return prefs;
+	}
+
+	/**
+	 * modify the parts of those specifications which corresponds to document
+	 * preferences.
+	 */
+	public void applyDocumentPreferences(DocumentPreferences prefs) {
+		setTextDirection(prefs.getTextDirection());
+		setTextOrientation(prefs.getTextOrientation());
+		setCartoucheLineWidth((float) prefs.getCartoucheLineWidth());
+		setColumnSkip((float) prefs.getColumnSkip());
+		setLineSkip((float) prefs.getLineSkip());
+		setMaxCadratHeight((float) prefs.getMaxQuadrantHeight());
+		setMaxCadratWidth((float) prefs.getMaxQuadrantWidth());
+		setSmallBodyScaleLimit(prefs.getSmallBodyScaleLimit());
+		setStandardSignHeight((float) prefs.getStandardSignHeight());
+		setSmallSignsCentered(prefs.isSmallSignCentered());
+		if( prefs.isUseLinesForShading()) {
+			setShadingStyle(ShadingStyle.LINE_HATCHING);
+		} else
+			setShadingStyle(ShadingStyle.GRAY_SHADING);
+			
+	}
 }

@@ -5,6 +5,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 /**
@@ -69,4 +70,12 @@ public interface DrawingSpecification extends DrawingPreferences {
 	boolean isGardinerQofUsed();
 
 	void setGardinerQofUsed(boolean useGardinerQof);
+
+	/**
+	 * Gets the document preferences which corresponds to those drawing specifications.
+	 * @return
+	 */
+	DocumentPreferences extractDocumentPreferences();
+
+	void applyDocumentPreferences(DocumentPreferences prefs);
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *   @author rosmord
  *
  */
-public class EnumBase implements Serializable {
+public abstract class EnumBase implements Serializable {
 	private final String designation; 
 	private final int id;
 	

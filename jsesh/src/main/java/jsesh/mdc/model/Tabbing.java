@@ -57,7 +57,7 @@ public class Tabbing extends TopItem {
 		result= this.tabbingJustification.compareTo(other.tabbingJustification);
 		if (result !=  0)
 			return result;
-		result= this.orientation.getId() - other.orientation.getId();
+		result= this.orientation.compareTo(other.orientation);
 		if (result !=  0)
 			return result;
 		if (result==0)

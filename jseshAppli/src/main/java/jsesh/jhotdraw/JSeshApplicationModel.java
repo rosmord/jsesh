@@ -49,6 +49,7 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
 import jsesh.editor.ActionsID;
@@ -80,6 +81,7 @@ import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
 import jsesh.jhotdraw.actions.file.GenericExportAction;
+import jsesh.jhotdraw.actions.file.ImportNewSignAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
@@ -102,7 +104,6 @@ import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
-import jsesh.swing.signPalette.JSimplePalette;
 import jsesh.swing.signPalette.PalettePresenter;
 
 import org.jhotdraw_7_4_1.app.Application;
@@ -128,11 +129,18 @@ import org.qenherkhopeshef.jhotdrawChanges.StandardMenuBuilder;
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
  * TODO check consistency and file export system in particular.
- * TODO before release : 
- * - in menu file : add new signs
- * - TODO actually load/save document preferences (like line widths...) with documents
+ * TODO before release :
+ * - check prefs saving with documents
+ * - Check memory leaks.
  * 
  * LATER....
+ * 
+ * TODO decide something about drawingspecifications, mutability, etc... currently
+ * it's too complex and not coherent. Use a builder of the complex immutable objects,
+ * as the current copy/change system might be expansive in some cases.
+ * 
+ * Improve the import sign dialog... the "ok" button is misleading.
+ * 
  * TODO improve the hieroglyphic menu system... should use a regular button, not
  * a bad-looking out-of-place toolbar (may wait a little)
  * 
@@ -322,11 +330,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			menu.add(action);
 	}
 
-	private JSimplePalette createHieroglyphicPalette() {
+	private JTabbedPane createHieroglyphicPalette() {	
 		PalettePresenter palettePresenter = new PalettePresenter();
 		palettePresenter
 				.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
-		return palettePresenter.getSimplePalette();
+		return palettePresenter.createComplexPalette();		
 	}
 
 	@Override
@@ -372,7 +380,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 					new JSeshApplicationPreferenceAction(a));
 			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
 			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
-
+			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
+			
 			map.remove(DuplicateAction.ID);
 			map.remove(DeleteAction.ID);
 			map.remove(CopyAction.ID);
@@ -547,12 +556,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				fileMenu.addSeparator();
 				addToMenu(fileMenu, app, jSeshView,
 						EditDocumentPreferencesAction.ID);
-
+				
 				if (view != null) {
 					JMenu documentFormat;
 					documentFormat = buildFormatMenu(app, jSeshView);
 					fileMenu.add(documentFormat);
 				}
+				fileMenu.addSeparator();
+				addToMenu(fileMenu, app, jSeshView, ImportNewSignAction.ID);
 			}
 
 			/**

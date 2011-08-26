@@ -26,7 +26,7 @@ public class SetDocumentOrientationAction extends AbstractViewAction {
 	}
 
 	public String getID() {
-		return ID + textOrientation.getDesignation();
+		return ID + textOrientation.name();
 	}
 
 	public void actionPerformed(ActionEvent e) {

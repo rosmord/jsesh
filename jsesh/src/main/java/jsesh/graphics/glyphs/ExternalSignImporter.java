@@ -33,7 +33,8 @@ public class ExternalSignImporter {
 	}
 
 	/**
-	 * sets the directory where the system will look for source files for the glyphs.
+	 * sets the directory where the system will look for source files for the glyph to choose.
+	 * <p> This is <em>NOT</em> the user's own glyph library, it's a place where the search will start. 
 	 * @param sourceDirectory : the  directory where the search will start.
 	 */
 	public void setSourceDirectory(File sourceDirectory) {

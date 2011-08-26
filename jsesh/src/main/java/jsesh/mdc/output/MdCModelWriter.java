@@ -358,7 +358,7 @@ public class MdCModelWriter {
 		public void visitTabbing(Tabbing tabbing) {
 			write("%[");
 			write("id="+ tabbing.getId()+",");
-			write("orientation="+ tabbing.getOrientation().getDesignation().toLowerCase()+",");
+			write("orientation="+ tabbing.getOrientation().name().toLowerCase()+",");
 			write("justification="+ tabbing.getTabbingJustification().name().toLowerCase()+"]");
 		}
 		

@@ -27,6 +27,7 @@ import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
@@ -243,14 +244,17 @@ public class JSeshView extends AbstractView {
 		// direction.
 		// Currently, the "document" data is not synchronized with the
 		// content of the editor.
-		// TODO TEMPORARY PATCH
+		// CHECK IF THIS IS TRUE.... I DON'T BELIEVE IT ?
+		// NOW, MOST METHODS LIKE THE ACTION TO CENTER DO CHANGE THE DOCUMENT. HOWEVER, 
+		// THERE ARE SMALL PROBLEMS... SOLUTION : store document preferences in the drawing specifications ?
 
-		document.setMainDirection(getEditor().getDrawingSpecifications()
-				.getTextDirection());
-		document.setMainOrientation(getEditor().getDrawingSpecifications()
-				.getTextOrientation());
-		document.setSmallSignCentered(getEditor().getDrawingSpecifications()
+		DocumentPreferences documentPreferences= document.getDocumentPreferences();
+		
+		documentPreferences=documentPreferences.withTextDirection(getEditor().getDrawingSpecifications()
+				.getTextDirection()).withTextOrientation(getEditor().getDrawingSpecifications()
+				.getTextOrientation()).withSmallSignCentered(getEditor().getDrawingSpecifications()
 				.isSmallSignsCentered());
+		
 		// TODO END OF TEMPORARY PATCH
 
 		if (document.getFile() != null
@@ -264,11 +268,10 @@ public class JSeshView extends AbstractView {
 			prefs.setFile(document.getFile());
 			prefs.setDrawingSpecifications(getDrawingSpecifications().copy());
 			prefs.getDrawingSpecifications().setTextDirection(
-					document.getMainDirection());
+					documentPreferences.getTextDirection());
 			prefs.getDrawingSpecifications().setTextOrientation(
-					document.getMainOrientation());
-			prefs.getDrawingSpecifications().setSmallSignsCentered(
-					document.isSmallSignsCentred());
+					documentPreferences.getTextOrientation());
+			prefs.getDrawingSpecifications().setSmallSignsCentered(documentPreferences.isSmallSignCentered());
 			PDFExporter exporter = new PDFExporter();
 			exporter.setPdfExportPreferences(prefs);
 			TopItemList model = document.getHieroglyphicTextModel().getModel();
@@ -331,7 +334,7 @@ public class JSeshView extends AbstractView {
 
 	public void setDrawingSpecifications(
 			DrawingSpecification drawingSpecifications) {
-		viewModel.getEditor().setDrawingSpecifications(drawingSpecifications);
+		viewModel.setDrawingSpecifications(drawingSpecifications);
 	}
 
 	/**
@@ -454,7 +457,7 @@ public class JSeshView extends AbstractView {
 		 * updateMenuItems); )
 		 */
 		getEditor().setSmallSignsCentered(selected);
-		getMdcDocument().setSmallSignCentered(selected);
+		getMdcDocument().setDocumentPreferences(getMdcDocument().getDocumentPreferences().withSmallSignCentered(selected));
 		getEditor().invalidateView();
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}

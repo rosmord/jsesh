@@ -26,7 +26,7 @@ public class SetDocumentDirectionAction extends AbstractViewAction {
 	}
 
 	public String getID() {
-		return ID + textDirection.getDesignation();
+		return ID + textDirection.name();
 	}
 
 	public void actionPerformed(ActionEvent e) {
