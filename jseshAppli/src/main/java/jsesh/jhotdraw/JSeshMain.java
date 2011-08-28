@@ -15,9 +15,6 @@
 package jsesh.jhotdraw;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.jhotdraw.generic.QenherOSXApplication;
-import jsesh.jhotdraw.generic.QenherOSXLikeApplication;
-
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.OSXApplication;
 
