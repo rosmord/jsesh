@@ -1,5 +1,5 @@
 /*
- * @(#)QenherTogglePaletteAction.java
+ * @(#)QenherTogglePaletteAction_OLD.java
  *
  * Copyright (c) 1996-2010 by the original authors of JHotDraw
  * and all its contributors.
@@ -26,18 +26,19 @@ import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.action.ActionUtil;
 
 /**
- * QenherTogglePaletteAction.
+ * QenherTogglePaletteAction_OLD.
  * 
  * @author Werner Randelshofer.
- * @version $Id: QenherTogglePaletteAction.java 604 2010-01-09 12:00:29Z rawcoder $
+ * @version $Id: QenherTogglePaletteAction_OLD.java 604 2010-01-09 12:00:29Z rawcoder $
  */
-public class QenherTogglePaletteAction extends AbstractAction {
+@SuppressWarnings("serial")
+public class QenherTogglePaletteAction_OLD extends AbstractAction {
     private Window palette;
     private AbstractApplication app;
     private WindowListener windowHandler;
     
     /** Creates a new instance. */
-    public QenherTogglePaletteAction(AbstractApplication myOSXApplication, Window palette, String label) {
+    public QenherTogglePaletteAction_OLD(AbstractApplication myOSXApplication, Window palette, String label) {
         super(label);
         this.app = myOSXApplication;
         

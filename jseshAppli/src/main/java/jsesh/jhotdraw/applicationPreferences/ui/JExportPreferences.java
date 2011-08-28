@@ -150,7 +150,6 @@ public class JExportPreferences {
 
 	public void loadPreferences(JSeshApplicationModel app) {
 		setExportPreferences(app.getExportPreferences());
-
 	}
 
 	public void updatePreferences(JSeshApplicationModel app) {

@@ -35,7 +35,9 @@ package jsesh.jhotdraw.applicationPreferences.ui;
 
 import java.awt.Component;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
@@ -104,8 +106,7 @@ public class ApplicationPreferencesPresenter {
 	}
 	
 	public int showDialog(Component parent) {
-		// tabbedPane.addFocus();
-		return JOptionPane.showConfirmDialog(parent, tabbedPane,
+				return JOptionPane.showConfirmDialog(parent, tabbedPane,
 				Messages.getString("appPreferencesDialog.text"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}

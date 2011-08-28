@@ -21,13 +21,15 @@ import jsesh.graphics.glyphs.model.SVGSignSource;
  * @author rosmord
  * 
  */
-public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager {
+public class DirectoryHieroglyphicFontManager implements
+		HieroglyphicFontManager {
 
-	File directory;
+	FolderProxy directory;
 
-	TreeMap codeMap= new TreeMap(GardinerCode.getCodeComparator());
+	TreeMap<String, File> codeMap = new TreeMap<String, File>(
+			GardinerCode.getCodeComparator());
 
-	HashMap signsMap;
+	HashMap<String, ShapeChar> signsMap;
 
 	long lastRefreshed;
 
@@ -38,12 +40,13 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	 * directory.
 	 * 
 	 * @param directory
+	 *            . May be null.
 	 */
 	public DirectoryHieroglyphicFontManager(File directory) {
 		super();
-		this.directory = directory;
-	
-		signsMap = new HashMap();
+		this.directory = new FolderProxy(directory);
+
+		signsMap = new HashMap<String, ShapeChar>();
 		hasNewSigns = true;
 		lastRefreshed = System.currentTimeMillis();
 		refresh();
@@ -53,8 +56,10 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	public void refresh() {
 		codeMap.clear();
 		signsMap.clear();
+		File[] contents;
+
 		// List all svg files.
-		File[] contents = directory.listFiles(new FilenameFilter() {
+		contents = directory.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".svg");
 			};
@@ -64,16 +69,17 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 			return;
 		// get the corresponding names.
 		for (int i = 0; i < contents.length; i++) {
-			String code = GardinerCode.getCodeForFileName(contents[i].getName());
+			String code = GardinerCode
+					.getCodeForFileName(contents[i].getName());
 			if (code != null) {
 				codeMap.put(code, contents[i]);
 			} else {
-				code= contents[i].getName();
-				code= code.substring(0,code.indexOf('.'));
+				code = contents[i].getName();
+				code = code.substring(0, code.indexOf('.'));
 				codeMap.put(code, contents[i]);
 			}
 		}
-		hasNewSigns= true;
+		hasNewSigns = true;
 		lastRefreshed = directory.lastModified();
 	}
 
@@ -81,9 +87,9 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 		ShapeChar result = null;
 		refreshIfNeeded();
 		if (signsMap.containsKey(code))
-			result = (ShapeChar) signsMap.get(code);
+			result = signsMap.get(code);
 		else if (codeMap.containsKey(code)) {
-			SVGSignSource src = new SVGSignSource((File) codeMap.get(code));
+			SVGSignSource src = new SVGSignSource(codeMap.get(code));
 			result = src.getCurrentShape();
 			signsMap.put(code, result);
 		}
@@ -93,8 +99,8 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	public ShapeChar getSmallBody(String code) {
 		return get(code + "_BOLD");
 	}
-	
-	public Set getCodes() {
+
+	public Set<String> getCodes() {
 		refreshIfNeeded();
 		hasNewSigns = false;
 		return codeMap.keySet();
@@ -106,8 +112,8 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	 * @return
 	 */
 	private void refreshIfNeeded() {
-		if (directory.lastModified() > lastRefreshed) {
-			refresh();						
+		if (directory == null || directory.lastModified() > lastRefreshed) {
+			refresh();
 		}
 	}
 
@@ -115,11 +121,13 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 	 * @return Returns the directory.
 	 */
 	public File getDirectory() {
-		return directory;
+		return directory.getFolder();
 	}
 
 	public void insertNewSign(String code, ShapeChar shapeChar) {
-		File f = new File(directory, code + ".svg");
+		if (directory.getFolder() == null)
+			throw new NullPointerException("Can not insert files in " + null);
+		File f = new File(directory.getFolder(), code + ".svg");
 		OutputStream out;
 		try {
 			out = new FileOutputStream(f);
@@ -130,14 +138,49 @@ public class DirectoryHieroglyphicFontManager implements HieroglyphicFontManager
 		hasNewSigns = true;
 	}
 
-	public boolean hasNewSigns() {
+	public boolean hasNewSigns() {	
 		if (directory.lastModified() > lastRefreshed)
 			hasNewSigns = true;
 		return hasNewSigns;
 	}
-	
+
 	public void setDirectory(File directory) {
-		this.directory = directory;
-		refresh();		
+		this.directory = new FolderProxy(directory);
+		refresh();
+	}
+
+	/**
+	 * Proxy class supporting "null" folder in a gracefull way.
+	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+	 *
+	 */
+	private static class FolderProxy {
+		File folder;
+		long lastModified= 0;
+
+		public FolderProxy(File folder) {
+			super();
+			this.folder = folder;
+			this.lastModified= System.currentTimeMillis();
+		}
+
+		public File getFolder() {
+			return folder;			
+		}
+
+		public long lastModified() {
+			if (folder != null)
+				return folder.lastModified();
+			else
+				return lastModified;
+		}
+
+		public File[] listFiles(FilenameFilter filenameFilter) {
+			if (folder != null)
+				return folder.listFiles(filenameFilter);
+			else
+				return new File[0];
+		}
+
 	}
 }

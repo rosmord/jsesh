@@ -1,15 +1,12 @@
 /*
  * @(#)QenherOSXPaletteHandler.java
  *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
+ * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
+ * contributors. All rights reserved.
  *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
+ * You may not use, copy or modify this file, except in compliance with the 
+ * license agreement you entered into with the copyright holders. For details
+ * see accompanying license terms.
  */
 
 package jsesh.jhotdraw.generic;
@@ -24,26 +21,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
+
 /**
  * Hides all registered floating palettes, if none of the registered view
  * windows have focus anymore.
  *
  * @author Werner Randelshofer
- * @version $Id: QenherOSXPaletteHandler.java 604 2010-01-09 12:00:29Z rawcoder $
+ * @version $Id: QenherOSXPaletteHandler.java 717 2010-11-21 12:30:57Z rawcoder $
  */
 public class QenherOSXPaletteHandler {
     private HashSet<Window> palettes = new HashSet<Window>();
     private HashMap<Window,View> windows = new HashMap<Window,View>();
-    private static QenherOSXPaletteHandler instance;
     private javax.swing.Timer timer;
-    private QenherOSXApplication app;
+    private ActiveViewAwareApplication app;
     private WindowFocusListener focusHandler = new WindowFocusListener() {
         /**
          * Invoked when the Window is set to be the focused Window, which means
          * that the Window, or one of its subcomponents, will receive keyboard
          * events.
          */
+        
         public void windowGainedFocus(WindowEvent e) {
             timer.stop();
             if (windows.get(e.getWindow()) != null) {
@@ -57,15 +56,17 @@ public class QenherOSXPaletteHandler {
          * that keyboard events will no longer be delivered to the Window or any of
          * its subcomponents.
          */
+        
         public void windowLostFocus(WindowEvent e) {
             timer.restart();
         }
     };
     
     /** Creates a new instance. */
-    public QenherOSXPaletteHandler(QenherOSXApplication qenherOSXApplication) {
-        this.app = qenherOSXApplication;
+    public QenherOSXPaletteHandler(ActiveViewAwareApplication app) {
+        this.app = app;
         timer = new javax.swing.Timer(60, new ActionListener() {
+            
             public void actionPerformed(ActionEvent evt) {
                 maybeHidePalettes();
             }
@@ -73,7 +74,7 @@ public class QenherOSXPaletteHandler {
         timer.setRepeats(false);
     }
     
-    public void add(Window window, View view) {
+    public void add(Window window,  View view) {
         window.addWindowFocusListener(focusHandler);
         windows.put(window, view);
     }

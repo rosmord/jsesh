@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
-
 /**
  * Place holder for the default hieroglyphic font manager. The default system
  * currently uses both internal hieroglyphic fonts and a directory based system.
@@ -48,7 +47,9 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.hieroglyphs.CompositeHieroglyphicFontManager#addHieroglyphicFontManager(jsesh.hieroglyphs.HieroglyphicFontManager)
+	 * @see
+	 * jsesh.hieroglyphs.CompositeHieroglyphicFontManager#addHieroglyphicFontManager
+	 * (jsesh.hieroglyphs.HieroglyphicFontManager)
 	 */
 	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {
 		composite.addHieroglyphicFontManager(manager);
@@ -57,28 +58,33 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.hieroglyphs.CompositeHieroglyphicFontManager#get(java.lang.String)
+	 * @see
+	 * jsesh.hieroglyphs.CompositeHieroglyphicFontManager#get(java.lang.String)
 	 */
 	public ShapeChar get(String code) {
-		String newCode= code;
-		// TODO Awfull patch for now. This should move to another class. The font manager should 
+		String newCode = code;
+		// TODO Awfull patch for now. This should move to another class. The
+		// font manager should
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
-		if (! GardinerCode.isCanonicalCode(code))
-			newCode= CompositeHieroglyphsManager.getInstance().getCanonicalCode(code);
+		if (!GardinerCode.isCanonicalCode(code))
+			newCode = CompositeHieroglyphsManager.getInstance()
+					.getCanonicalCode(code);
 		return composite.get(newCode);
 	}
 
 	public ShapeChar getSmallBody(String code) {
-		String newCode= code;
-		// TODO Awfull patch for now. This should move to another class. The font manager should 
+		String newCode = code;
+		// TODO Awfull patch for now. This should move to another class. The
+		// font manager should
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
-		if (! GardinerCode.isCanonicalCode(code))
-			newCode= CompositeHieroglyphsManager.getInstance().getCanonicalCode(code);
+		if (!GardinerCode.isCanonicalCode(code))
+			newCode = CompositeHieroglyphsManager.getInstance()
+					.getCanonicalCode(code);
 		return composite.getSmallBody(newCode);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -109,33 +115,36 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.hieroglyphs.DirectoryHieroglyphicFontManager#setDirectory(java.io.File)
+	 * @see
+	 * jsesh.hieroglyphs.DirectoryHieroglyphicFontManager#setDirectory(java.
+	 * io.File)
 	 */
 	public void setDirectory(File directory) {
-		directoryManager.setDirectory(directory);
-		String path = directory.getAbsolutePath();
-		try {
-			path = directory.getCanonicalPath();
-		} catch (IOException e) {
-			// e.printStackTrace();
-		}
-
 		Preferences preferences = Preferences.userNodeForPackage(this
 				.getClass());
-
-		preferences.put(GLYPH_DIRECTORY, path);
+		directoryManager.setDirectory(directory);
+		if (directory != null) {
+			String path = directory.getAbsolutePath();
+			try {
+				path = directory.getCanonicalPath();
+			} catch (IOException e) {
+				// e.printStackTrace();
+			}
+			preferences.put(GLYPH_DIRECTORY, path);
+		} else {
+			preferences.remove(GLYPH_DIRECTORY);
+		}
 	}
 
 	private void initDirectory() {
-        try {
-            
-            Preferences preferences = Preferences.userNodeForPackage(this
-            		.getClass());
-            String dirPath = preferences.get(GLYPH_DIRECTORY, "");
-            directoryManager.setDirectory(new File(dirPath));
-        } catch (javax.xml.parsers.FactoryConfigurationError e) {
-            e.printStackTrace();
-        }
+		try {
+			Preferences preferences = Preferences.userNodeForPackage(this
+					.getClass());
+			String dirPath = preferences.get(GLYPH_DIRECTORY, "");
+			directoryManager.setDirectory(new File(dirPath));
+		} catch (javax.xml.parsers.FactoryConfigurationError e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void insertNewSign(String text, ShapeChar shapeChar) {

@@ -10,6 +10,7 @@ import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -40,6 +41,7 @@ import jsesh.jhotdraw.actions.format.CenterSmallSignsAction;
 import jsesh.jhotdraw.actions.format.SetDocumentDirectionAction;
 import jsesh.jhotdraw.actions.format.SetDocumentOrientationAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 
@@ -56,7 +58,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 			menus.add(createSignMenu(app, (JSeshView) v));
 		}
 	}
-
+	
 	private JMenu createTextMenu(Application a, JSeshView v) {
 		JMenu textMenu = new JMenu();
 		BundleHelper.getInstance().configure(textMenu, "text");
@@ -355,6 +357,17 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 					JSeshApplicationModel.INSERT_CODE + i));
 		}
 		return ecdoticMenu;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.app.DefaultMenuBuilder#addOtherWindowItems(javax.swing.JMenu, org.jhotdraw_7_6.app.Application, org.jhotdraw_7_6.app.View)
+	 */
+	@Override
+	public void addOtherWindowItems(JMenu m, Application app, View v) {
+		//m.addSeparator();
+		//m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlyphPaletteAction.ID)));
 	}
 
 }

@@ -68,6 +68,7 @@ public class JClipboardFormatSelector {
 				Messages.getString("clipboardFormat.plaintext.text"));
 		messageArea = new JEditorPane("text/html",
 				Messages.getString("clipboardFormat.explanation.text"));
+
 		messageArea.setEditable(false);
 		messageArea.setBackground(panel.getBackground());
 	}

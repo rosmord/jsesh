@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ActionMap;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
@@ -74,6 +75,7 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
@@ -98,6 +100,7 @@ import org.jhotdraw_7_6.app.action.edit.DeleteAction;
 import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
 import org.jhotdraw_7_6.app.action.edit.PasteAction;
 import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
+import org.jhotdraw_7_6.app.action.window.TogglePaletteAction;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
@@ -108,16 +111,15 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
  * We have decided not to follow Apple guidelines for the "no-document" window,
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
- * TODO check consistency and file export system in particular.
- * TODO before release :
- * - check prefs saving with documents
- * - Check memory leaks.
+ * TODO check consistency and file export system in particular. TODO before
+ * release : - check prefs saving with documents - Check memory leaks.
  * 
  * LATER....
  * 
- * TODO decide something about drawingspecifications, mutability, etc... currently
- * it's too complex and not coherent. Use a builder of the complex immutable objects,
- * as the current copy/change system might be expansive in some cases.
+ * TODO decide something about drawingspecifications, mutability, etc...
+ * currently it's too complex and not coherent. Use a builder of the complex
+ * immutable objects, as the current copy/change system might be expansive in
+ * some cases.
  * 
  * Improve the import sign dialog... the "ok" button is misleading.
  * 
@@ -155,8 +157,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	// direction
 	// center sign
 	/**
-	 * Prefix for action names which insert a symbol with a SymbolCode.
-	 * Should move in some other class.
+	 * Prefix for action names which insert a symbol with a SymbolCode. Should
+	 * move in some other class.
 	 */
 	public static final String INSERT_CODE = "INSERT_CODE_";
 
@@ -172,15 +174,15 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	private JSeshApplicationBase jseshBase = new JSeshApplicationBase();
 
 	/**
-	 * Deals with copy/paste. 
-	 * Needs to know the current view to work correctly.
+	 * Deals with copy/paste. Needs to know the current view to work correctly.
 	 */
-	private MyTransferableBroker transferableBroker= new MyTransferableBroker();
-	
+	private MyTransferableBroker transferableBroker = new MyTransferableBroker();
+
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
 		this.application = a;
+
 	}
 
 	/*
@@ -200,13 +202,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		jSeshView.setMDCModelTransferableBroker(transferableBroker);
 	}
 
-	
-
-	private JTabbedPane createHieroglyphicPalette() {	
+	private JTabbedPane createHieroglyphicPalette() {
 		PalettePresenter palettePresenter = new PalettePresenter();
 		palettePresenter
 				.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
-		return palettePresenter.createComplexPalette();		
+		return palettePresenter.createComplexPalette();
 	}
 
 	@Override
@@ -253,7 +253,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
 			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
 			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
-			
+			// palette ...
+
+			// hieroglyphicPalette = new JDialog();
+			// map.put(ToggleGlyphPaletteAction.ID, new
+			// ToggleGlyphPaletteAction(a, hieroglyphicPalette, new
+			// PaletteCreator()));
+
 			map.remove(DuplicateAction.ID);
 			map.remove(DeleteAction.ID);
 			map.remove(CopyAction.ID);
@@ -262,6 +268,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 			map.remove(SelectAllAction.ID);
 			map.remove(ClearSelectionAction.ID);
+
 		} else {
 			// View level actions
 			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
@@ -334,7 +341,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	protected MenuBuilder createMenuBuilder() {
 		return new JSeshMenuBuilder();
 	}
-	
+
 	private void addInsertAction(ActionMap map, Application a, View jseshView,
 			String id, int code) {
 		map.put(id, new InsertElementAction(a, jseshView, id, code));
@@ -382,8 +389,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		jseshBase.selectCopyPasteConfiguration(exportType);
 	}
 
-
-	
 	public File getCurrentDirectory() {
 		return jseshBase.getCurrentDirectory();
 	}
@@ -436,7 +441,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		}
 	}
 
-
 	public FontInfo getFontInfo() {
 		return jseshBase.getFontInfo();
 	}
@@ -479,19 +483,22 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void destroyApplication(Application a) {
 		jseshBase.savePreferences();
 	}
-	
+
 	private class MyTransferableBroker implements MDCModelTransferableBroker {
 		public MDCModelTransferable buildTransferable(TopItemList top) {
 			return buildTransferable(top,
-					JSeshPasteFlavors.getTransferDataFlavors(getClipboardPreferences()));
+					JSeshPasteFlavors
+							.getTransferDataFlavors(getClipboardPreferences()));
 
 		}
 
 		public MDCModelTransferable buildTransferable(TopItemList top,
 				DataFlavor[] dataFlavors) {
 
-			MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top);
-			DrawingSpecification currentDrawingSpecifications = ((JSeshView)application.getActiveView()).getDrawingSpecifications();
+			MDCModelTransferable result = new MDCModelTransferable(dataFlavors,
+					top);
+			DrawingSpecification currentDrawingSpecifications = ((JSeshView) application
+					.getActiveView()).getDrawingSpecifications();
 			result.setDrawingSpecifications(currentDrawingSpecifications);
 			result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
 			result.setClipboardPreferences(jseshBase.getClipboardPreferences());
@@ -506,9 +513,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	/**
 	 * Returns a copy of the current default drawing specifications.
+	 * 
 	 * @return
 	 */
 	public DrawingSpecification getDefaultDrawingSpecifications() {
 		return jseshBase.getDefaultDrawingSpecifications();
 	}
+
 }

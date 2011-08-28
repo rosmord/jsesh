@@ -15,8 +15,12 @@
 package jsesh.jhotdraw;
 
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
+import jsesh.jhotdraw.generic.QenherOSXApplication;
+import jsesh.jhotdraw.generic.QenherOSXLikeApplication;
+
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.OSXApplication;
+import org.jhotdraw_7_6.app.SDIApplication;
 
 /**
  * JSeshMain class.
@@ -50,16 +54,15 @@ public class JSeshMain {
 
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-			// app= new QenherOSXLikeApplication();
-			// app = new QenherOSXApplication();
-			app = new OSXApplication();
+			//app= new QenherOSXApplication();
+			app= new QenherOSXLikeApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
-			// app = new QenherOSXLikeApplication();
-			app = new OSXApplication();
+			// app = new QenherOSXApplication();
+			app = new QenherOSXLikeApplication();
 		} else {
-			app = new OSXApplication();
-			// app= new QenherOSXLikeApplication();
+			app = new QenherOSXLikeApplication();
+			// app= new QenherOSXApplication();
 		}
 		app.setModel(applicationModel);
 		app.launch(args);
