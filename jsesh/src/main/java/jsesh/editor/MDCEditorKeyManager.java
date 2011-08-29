@@ -170,7 +170,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 			addDelegateAction(ActionsID.GROUP_VERTICAL, editor,
 					"groupVertically", editorEnabler);
 
-			addDelegateAction(ActionsID.LIGATURE_ELEMENTS, editor,
+    			addDelegateAction(ActionsID.LIGATURE_ELEMENTS, editor,
 					"ligatureElements", editorEnabler);
 			
 			addDelegateAction(ActionsID.LIGATURE_GLYPH_WITH_GROUP, editor,

@@ -209,11 +209,12 @@ public class JSeshView extends AbstractView {
 		try {
 			MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
 			// mdcDocumentReader.setEncoding(encoding);
-			viewModel.setCurrentDocument(mdcDocumentReader.loadFile(file));
+                        final MDCDocument document= mdcDocumentReader.loadFile(file);			
 			// Observe changes to this document in the future.
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
 					observeChanges();
+                                        viewModel.setCurrentDocument(document);
 					// Fire the corresponding event, with dummy properties...
 					// We might decide to use "real" property at some point.
 					firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
@@ -222,8 +223,8 @@ public class JSeshView extends AbstractView {
 		} catch (MDCSyntaxError e) {
 			String msg = "error at line " + e.getLine();
 			msg += " near token: " + e.getToken();
-			JOptionPane.showMessageDialog(getParent(), msg, "Syntax Error",
-					JOptionPane.ERROR_MESSAGE);
+                        displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
+			
 			System.out.println(e.getCharPos());
 			// e.printStackTrace();
 		} catch (IOException e) {
@@ -235,6 +236,15 @@ public class JSeshView extends AbstractView {
 		}
 	}
 
+        private void displayErrorInEdt(final String title, final String message) {
+            SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                JOptionPane.showMessageDialog(getParent(), message, title,
+					JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        }
+        
 	public void write(URI uri, URIChooser chooser) throws IOException {
 		File file = new File(uri);
 		MDCDocument document = viewModel.getMdcDocument();

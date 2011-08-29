@@ -9,6 +9,7 @@
     <artifactId>jhotdrawfw</artifactId>
     <packaging>jar</packaging>
     <name>jhotdrawfw</name>
+    <version>7.3-SNAPSHOT</version>
     <description>
         A slightly modified version of Werner Randelshofer's Jhotdraw application framework         
         (jhotdraw 7.3).

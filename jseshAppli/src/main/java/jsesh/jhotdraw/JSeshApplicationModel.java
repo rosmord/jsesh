@@ -41,6 +41,7 @@ import java.util.List;
 
 import javax.swing.ActionMap;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
@@ -433,12 +434,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void showPreferencesEditor() {
 		ApplicationPreferencesPresenter applicationPreferencesPresenter = new ApplicationPreferencesPresenter();
 		Component parentComponent = application.getActiveView().getComponent();
-		if (parentComponent == null)
-			parentComponent = application.getComponent();
 		applicationPreferencesPresenter.loadPreferences(this);
 		if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
 			applicationPreferencesPresenter.updatePreferences(this);
 		}
+                applicationPreferencesPresenter.dispose();
 	}
 
 	public FontInfo getFontInfo() {

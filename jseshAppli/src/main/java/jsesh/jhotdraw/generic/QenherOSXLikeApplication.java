@@ -236,13 +236,10 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 
 	protected void initLookAndFeel() {
 		/*
-		try {
-			UIManager
-					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		 * try { UIManager
+		 * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 */
 	}
 
 	public void dispose(View p) {
@@ -252,6 +249,9 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 			a.dispose();
 		}
 		super.dispose(p);
+		if (views().size() == 0) {
+			destroy();
+		}
 	}
 
 	public void addPalette(Window palette) {
@@ -588,7 +588,7 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 					d.getRootPane().setFont(
 							new Font("Lucida Grande", Font.PLAIN, 11));
 
-					d.setJMenuBar(createMenuBar(null));
+					// d.setJMenuBar(createMenuBar(null));
 
 					d.pack();
 					// d.setFocusableWindowState(false);
