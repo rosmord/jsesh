@@ -4,8 +4,10 @@
  */
 package jsesh.swing.about;
 
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -14,57 +16,101 @@ import java.net.URL;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
- * Graphical objet used to display JSesh's "about" informations.
+ * Graphical objet used to display JSesh's "about" informations. One-use only.
+ * 
  * @author rosmord
- *
+ * 
  */
-public class AboutDisplayer extends JDialog {
-	
+public class AboutDisplayer {
 	/**
-	 * 
+	 * display panel.
+	 * <p>
+	 * Important developper note : for HTML content, the loading is
+	 * asynchronous. Which means we need to wait for it to be done in order to
+	 * know the page size. Now, this can be done by listening to the "page"
+	 * property.
+	 * <p>
+	 * See Core Swing advanced programming, p. 366-369.
+	 * <p>
+	 * Note that all methods here are executed on the EDT.
 	 */
-	private static final long serialVersionUID = -7646798089863153268L;
-	
 	private JEditorPane textPane;
-	
-	public AboutDisplayer(Frame frame) {
-		super(frame,"About JSesh",true);
-		//setUndecorated(true);
-		URL base= this.getClass().getResource("/jseshResources/about/about.html");
-		
-		// Create the textfield.
-		textPane= new JEditorPane();
+
+	private JPanel panel;
+
+	private Component parent;
+
+	private boolean pageLoaded = false;
+	private boolean displayAsked = false;
+
+	public AboutDisplayer(Component parent) {
+		this.parent = parent;
+		panel = new JPanel();
+		URL base = this.getClass().getResource(
+				"/jseshResources/about/about.html");
+		textPane = new JEditorPane();
 		textPane.setEditable(false);
 		try {
+			textPane.addPropertyChangeListener(new PageLoadedListener());
 			textPane.setPage(base);
-			//textPane.setEditable(false);
 		} catch (IOException exception) {
-			exception.printStackTrace();	
-		    JOptionPane.showMessageDialog(getOwner(),"Problem while loading the documentation\n"+ exception.getMessage() + "(url : "+ base + ")");
+			exception.printStackTrace();
+			throw new RuntimeException("loading problem", exception);
 		}
-		textPane.setMinimumSize(new Dimension(600,400));
-	
-		JScrollPane sp= new JScrollPane(textPane);
-		sp.setMinimumSize(new Dimension(600,400));
+		textPane.setMinimumSize(new Dimension(600, 400));
+		panel.add(textPane);
+	}
 
-		// Create a panel :
-		JOptionPane panel= new JOptionPane(sp,JOptionPane.PLAIN_MESSAGE,JOptionPane.DEFAULT_OPTION);
-		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+	public void show() {
+		if (pageLoaded) {
+			displayAsked= true;
+			doShow();
+		} else {
+			displayAsked= true;
+		}
+	}
 
-		panel.addPropertyChangeListener(new PropertyChangeListener() {
-
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (JOptionPane.VALUE_PROPERTY.equals(evt.getPropertyName())) {
-					setVisible(false);
-				}
+	/**
+	 * Actual display. Call only when the HTML document has been loaded.
+	 */
+	private void doShow() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JOptionPane.showMessageDialog(parent, panel, "About JSesh",
+						JOptionPane.PLAIN_MESSAGE);
+				displayAsked= false;
 			}
 		});
-		setContentPane(panel);
-		
-		setSize(640, 480);
+	}
+
+	private final class PageLoadedListener implements PropertyChangeListener {
+		/**
+		 * Method called when the page has been loaded.
+		 * Note to self : the property change is NOT advertized by the EDT ????
+		 */
+		public void propertyChange(PropertyChangeEvent evt) {
+			final PropertyChangeEvent  e = evt;
+			SwingUtilities.invokeLater(new Runnable() {				
+				public void run() {
+					//if (!SwingUtilities.isEventDispatchThread())
+					//	throw new RuntimeException("Is this not the EDT ???");
+
+					if (e.getPropertyName().equals("page")) {					
+						pageLoaded = true;
+						if (displayAsked)
+							doShow();
+					}
+				}
+			});
+		}
 	}
 
 }

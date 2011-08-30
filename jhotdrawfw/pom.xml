@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.0</version>
+        <version>5.1</version>
     </parent>
     <artifactId>jhotdrawfw</artifactId>
     <packaging>jar</packaging>
     <name>jhotdrawfw</name>
-    <version>7.3-SNAPSHOT</version>
+    <version>7.3</version>
     <description>
         A slightly modified version of Werner Randelshofer's Jhotdraw application framework         
         (jhotdraw 7.3).

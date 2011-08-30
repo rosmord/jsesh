@@ -40,8 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ActionMap;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
@@ -58,6 +56,7 @@ import jsesh.graphics.export.WMFExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
+import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
@@ -76,7 +75,6 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
-import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
@@ -93,6 +91,7 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.DefaultApplicationModel;
 import org.jhotdraw_7_6.app.MenuBuilder;
 import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.app.AboutAction;
 import org.jhotdraw_7_6.app.action.app.OpenApplicationFileAction;
 import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
 import org.jhotdraw_7_6.app.action.edit.CopyAction;
@@ -101,7 +100,6 @@ import org.jhotdraw_7_6.app.action.edit.DeleteAction;
 import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
 import org.jhotdraw_7_6.app.action.edit.PasteAction;
 import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
-import org.jhotdraw_7_6.app.action.window.TogglePaletteAction;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
@@ -113,7 +111,6 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
  * TODO check consistency and file export system in particular. TODO before
- * release : - check prefs saving with documents - Check memory leaks.
  * 
  * LATER....
  * 
@@ -251,6 +248,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 					new OpenApplicationFileAction(a));
 			map.put(JSeshApplicationPreferenceAction.ID,
 					new JSeshApplicationPreferenceAction(a));
+			map.put(AboutAction.ID, new JSeshAboutAction(a));
 			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
 			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
 			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));

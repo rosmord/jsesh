@@ -20,6 +20,6 @@ public class AboutAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		AboutDisplayer about= new AboutDisplayer(frame);
-		about.setVisible(true);
+		about.show();
 	}
 }
