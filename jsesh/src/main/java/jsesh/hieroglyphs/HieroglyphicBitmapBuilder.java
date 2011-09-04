@@ -7,10 +7,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import jsesh.swing.utils.GraphicsUtils;
 
 import jsesh.swing.utils.ImageIconFactory;
-
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * An helper class to create bitmap versions of the signs.

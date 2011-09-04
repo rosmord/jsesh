@@ -15,10 +15,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.VolatileImage;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import org.qenherkhopeshef.swingUtils.GraphicsUtils;
 
 /**
  * @author Serge Rosmorduc
@@ -26,41 +30,43 @@ import javax.swing.SwingUtilities;
 public class SplashScreen {
 
 	private String imgPath;
-
 	private PictureFrame frame;
-	
 	private Image img;
-	
-	private ProgressionDisplay progressionDisplay= null;
+	private ProgressionDisplay progressionDisplay = null;
+	private int progressionLevel = -1;
+	private List<SplashMessageText> messages = new ArrayList<SplashMessageText>();
 
-	private int progressionLevel= -1;
-	
 	public SplashScreen(String imgPath) {
-		this.imgPath= imgPath;
+		this.imgPath = imgPath;
 	}
 
 	public SplashScreen() {
 		this("/org/qenherkhopeshef/guiFramework/splash/default.png");
 	}
 
+	public void addMessage(SplashMessageText message) {
+		this.messages.add(message);
+	}
+
 	/**
 	 * Ask for a certain display to be used for the advancement.
+	 * 
 	 * @param progressionDisplay
 	 */
 	public void setProgressionDisplay(ProgressionDisplay progressionDisplay) {
 		this.progressionDisplay = progressionDisplay;
 	}
-	
+
 	/**
 	 * Ask for a clock-like progression display.
 	 */
 	public void setClockDisplay() {
 		setProgressionDisplay(new ClockDisplay());
 	}
-	
+
 	private void buildFrame() {
 		buildImage();
-		frame= new PictureFrame();
+		frame = new PictureFrame();
 		frame.setUndecorated(true);
 		MediaTracker tracker = new MediaTracker(frame);
 		tracker.addImage(img, 0);
@@ -68,18 +74,21 @@ public class SplashScreen {
 		center();
 		frame.toFront();
 		frame.addMouseListener(new MouseAdapter() {
+
 			public void mouseClicked(MouseEvent e) {
 				closeSplash();
 			}
 		});
 		frame.setVisible(true);
 	}
+
 	/**
 	 * Displays this screen in a thread-clean way ?
 	 * 
 	 */
 	public void display() {
 		Runnable r = new Runnable() {
+
 			public void run() {
 				buildFrame();
 			}
@@ -91,8 +100,7 @@ public class SplashScreen {
      * 
      */
 	private void buildImage() {
-		URL imgURL = getClass()
-				.getResource(imgPath);
+		URL imgURL = getClass().getResource(imgPath);
 		img = new ImageIcon(imgURL).getImage();
 	}
 
@@ -103,67 +111,78 @@ public class SplashScreen {
 				(screen.height - rect.height) / 2);
 	}
 
-	
-
-
 	public void closeSplash() {
 		img.flush();
 		frame.dispose();
 	}
-	
+
 	/**
 	 * A frame displaying a picture and an advancement clock.
+	 * 
 	 * @author rosmord
-	 *
+	 * 
 	 */
+	@SuppressWarnings("serial")
 	private class PictureFrame extends JFrame {
-				
+
 		public void update(Graphics g) {
 			paint(g);
 		}
 
 		public void paint(Graphics g) {
-			VolatileImage buff = frame.createVolatileImage(frame.getWidth(), frame.getHeight());			
-			Graphics2D g2d= buff.createGraphics();
-			g2d.drawImage(img, 0, 0, frame.getWidth(), frame.getHeight(),null);
+			VolatileImage buff = frame.createVolatileImage(frame.getWidth(),
+					frame.getHeight());
+			Graphics2D g2d = buff.createGraphics();
+			g2d.drawImage(img, 0, 0, frame.getWidth(), frame.getHeight(), null);
 			if (progressionDisplay != null && progressionLevel > 0) {
-				progressionDisplay.drawAdvancement(g2d, frame.getWidth(), frame.getHeight(),getProgressionLevel());
+				progressionDisplay.drawAdvancement(g2d, frame.getWidth(),
+						frame.getHeight(), getProgressionLevel());
+			}
+			if (! messages.isEmpty()) {
+				GraphicsUtils.antialias(g2d);
+				for (SplashMessageText m: messages) {
+					m.paint(g2d);
+				}
 			}
 			g2d.dispose();
-			g.drawImage(buff, 0, 0, frame.getWidth(), frame.getHeight(), frame);			
+			g.drawImage(buff, 0, 0, frame.getWidth(), frame.getHeight(), frame);
 		}
 	}
 
 	/**
 	 * Sets the progression level.
-	 * <p>nothing is displayed if it is negative.
+	 * <p>
+	 * nothing is displayed if it is negative.
 	 * 
-	 * <p> The actual interpretation depends on the ProgressionDisplay used. A bar would mean a percentage.
-	 * A clock would mean degrees.
+	 * <p>
+	 * The actual interpretation depends on the ProgressionDisplay used. A bar
+	 * would mean a percentage. A clock would mean degrees.
 	 * 
 	 * @param n
 	 */
 	public synchronized void setProgression(int n) {
-		this.progressionLevel= n;
+		this.progressionLevel = n;
 		// Repaint can be called from anywhere.
-		if (frame != null)
+		if (frame != null) {
 			frame.repaint();
+		}
 	}
-	
+
 	public synchronized int getProgressionLevel() {
 		return progressionLevel;
 	}
-	
+
 	/**
 	 * Demo...
+	 * 
 	 * @param args
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		SplashScreen splash= new SplashScreen();
+		SplashScreen splash = new SplashScreen();
 		splash.setClockDisplay();
 		splash.display();
-		for (int i= 0; i < 100; i++) {
+		for (int i = 0; i < 100; i++) {
 			splash.setProgression(i);
 			Thread.sleep(100);
 		}

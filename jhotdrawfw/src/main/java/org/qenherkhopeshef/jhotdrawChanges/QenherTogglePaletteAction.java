@@ -9,7 +9,7 @@
  * see accompanying license terms.
  */
 
-package jsesh.jhotdraw.generic;
+package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;

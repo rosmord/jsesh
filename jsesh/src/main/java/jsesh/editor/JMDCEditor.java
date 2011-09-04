@@ -83,8 +83,8 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
+import jsesh.swing.utils.GraphicsUtils;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you

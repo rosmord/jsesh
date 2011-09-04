@@ -23,6 +23,11 @@
             <artifactId>miglayout</artifactId>
             <version>3.7.4</version>
         </dependency>
+         <dependency>
+            <groupId>org.qenherkhopeshef</groupId>
+            <artifactId>qenherkhopeshefUtils</artifactId>
+            <version>5.1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -46,8 +46,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.PageLayout;
-
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
+import jsesh.swing.utils.GraphicsUtils;
 
 /**
  * Expert for exporting a Manuel de codage file to HTML.

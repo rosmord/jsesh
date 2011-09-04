@@ -188,7 +188,7 @@ public class SignDescriptionReader {
                 }
             });
 
-            System.err.println("VALIDATING " + parser.isValidating());
+            //System.err.println("VALIDATING " + parser.isValidating());
 
             // Note : we really need to set the system id below.
             // It's not really used by JSesh, as it relies on the PUBLIC id

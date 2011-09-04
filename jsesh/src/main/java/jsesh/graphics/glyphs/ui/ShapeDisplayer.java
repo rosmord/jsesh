@@ -11,8 +11,7 @@ import java.awt.geom.Line2D;
 import javax.swing.JComponent;
 
 import jsesh.hieroglyphs.ShapeChar;
-
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
+import jsesh.swing.utils.GraphicsUtils;
 
 /**
  * A widget able to display a ShapeChar.

@@ -117,5 +117,7 @@ public class EditorSignShadeAction extends EditorAction {
 		String id = ID +i;
 		return id;
 	}
+              
+    
 
 }

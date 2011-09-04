@@ -81,6 +81,11 @@
             <artifactId>jvect</artifactId>
             <version>1.3</version>
         </dependency>
+       <dependency>
+            <groupId>org.qenherkhopeshef</groupId>
+            <artifactId>qenherkhopeshefUtils</artifactId>
+            <version>5.1</version>
+        </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>
             <artifactId>cupruntime</artifactId>

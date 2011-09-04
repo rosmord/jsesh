@@ -9,7 +9,7 @@
  * see accompanying license terms.
  */
 
-package jsesh.jhotdraw.generic;
+package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
 /**

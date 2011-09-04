@@ -51,10 +51,10 @@ public class ImageIconFactory {
 			imageIcon = new ImageIcon(bufferedImage);
 			iconMap.put(mdcText, new SoftReference<ImageIcon>(imageIcon));
 		}
-
 		return imageIcon;
 	}
 
+	
 	/**
 	 * Build the picture of a single symbol (not real glyphs, usually
 	 * parenthesis and the like).

@@ -7,7 +7,7 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
+import org.qenherkhopeshef.swingUtils.GraphicsUtils;
 
 /**
  * Ugly (as of today) clock display.

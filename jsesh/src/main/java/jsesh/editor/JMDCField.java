@@ -47,8 +47,8 @@ import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
 import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.swing.utils.GraphicsUtils;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * A field like editor for Manuel de Codage texts.

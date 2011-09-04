@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
+import org.qenherkhopeshef.swingUtils.GraphicsUtils;
 
 import com.lowagie.text.DocumentException;
 

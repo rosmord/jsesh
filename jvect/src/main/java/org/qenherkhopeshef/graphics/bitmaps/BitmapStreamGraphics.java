@@ -18,8 +18,6 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
-
 /**
  * A StreamGraphics2D for bitmaps files.
  * 

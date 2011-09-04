@@ -20,8 +20,8 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
+import jsesh.swing.utils.GraphicsUtils;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.

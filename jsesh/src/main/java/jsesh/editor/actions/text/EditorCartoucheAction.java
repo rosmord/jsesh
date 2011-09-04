@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor.actions.text;
 
+import com.sun.j3d.audioengines.Sample;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.TreeMap;
@@ -136,4 +137,14 @@ public class EditorCartoucheAction extends EditorAction {
 		}
 		return map;
 	}
+        
+        /**
+         * Can be called to preload cartouches pictures before the program is started.
+         */
+        public static void preloadCartoucheIcons() {
+            for (int i = 0; i < allCartouches.length; i++) {
+			CartoucheParameters c = allCartouches[i];
+			ImageIconFactory.buildImage(c.sample);
+		}
+        }
 }

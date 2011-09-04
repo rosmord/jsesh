@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package org.qenherkhopeshef.graphics.utils;
+package org.qenherkhopeshef.swingUtils;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

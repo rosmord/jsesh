@@ -36,7 +36,6 @@ import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
-import org.qenherkhopeshef.graphics.utils.GraphicsUtils;
 
 /**
  * Editor for groups and ligatures.
@@ -456,7 +455,7 @@ public class GroupEditor extends JPanel {
 		// Sets the graphics environment
 		Graphics2D g2d = (Graphics2D) g.create();
 		// We want antialiasing !!!
-		GraphicsUtils.antialias(g2d);
+		jsesh.swing.utils.GraphicsUtils.antialias(g2d);
 
 		g2d.scale(scale, scale);
 		g2d.translate(this.sideMargin, this.topMargin);

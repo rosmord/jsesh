@@ -40,6 +40,7 @@
 		<module>jvect</module>
 		<module>cupAndlex</module>
 		<module>cupruntime</module>
+		<module>qenherkhopeshefUtils</module>
 		<module>jsesh</module>
 		<module>jsesh-installer</module>
 		<module>jseshGlyphs</module>

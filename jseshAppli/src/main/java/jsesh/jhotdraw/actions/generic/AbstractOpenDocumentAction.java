@@ -24,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import jsesh.jhotdraw.generic.ApplicationHelper;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -34,6 +33,7 @@ import org.jhotdraw_7_6.gui.JSheet;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
+import org.qenherkhopeshef.jhotdrawChanges.ApplicationHelper;
 
 /**
  * ONGOING WORK!!!!

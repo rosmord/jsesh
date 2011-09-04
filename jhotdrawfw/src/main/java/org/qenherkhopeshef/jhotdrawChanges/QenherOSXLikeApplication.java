@@ -8,7 +8,7 @@
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
-package jsesh.jhotdraw.generic;
+package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -23,7 +23,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.URI;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.prefs.Preferences;
@@ -38,10 +37,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
@@ -54,7 +51,6 @@ import org.jhotdraw_7_6.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw_7_6.app.action.app.ExitAction;
 import org.jhotdraw_7_6.app.action.app.OpenApplicationAction;
 import org.jhotdraw_7_6.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw_7_6.app.action.app.PrintApplicationFileAction;
 import org.jhotdraw_7_6.app.action.app.ReOpenApplicationAction;
 import org.jhotdraw_7_6.app.action.edit.AbstractFindAction;
 import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
@@ -82,19 +78,12 @@ import org.jhotdraw_7_6.app.action.file.SaveFileAsAction;
 import org.jhotdraw_7_6.app.action.window.FocusWindowAction;
 import org.jhotdraw_7_6.app.action.window.MaximizeWindowAction;
 import org.jhotdraw_7_6.app.action.window.MinimizeWindowAction;
-import org.jhotdraw_7_6.app.action.window.TogglePaletteAction;
-import org.jhotdraw_7_6.app.osx.OSXAdapter;
-import org.jhotdraw_7_6.app.osx.OSXPaletteHandler;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
-import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
 
 /**
- * Application with one window by document for non-Macintosh environment. Mac OS
- * Base Application for JSesh. An adaptation of Werner Randelshofer's OS
- * Application, with small changes for Palettes.
- * 
+ * Application with one window by document for non-Macintosh environment.
  * <p>
  * This is an adaptation by S. Rosmorduc of Werner Randelshofer's OS
  * Application.
@@ -198,18 +187,17 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  * @version $Id: QenherOSXApplication.java 717 2010-11-21 12:30:57Z rawcoder $
  */
 @SuppressWarnings("serial")
-public class QenherOSXApplication extends AbstractApplication implements ActiveViewAwareApplication {
+public class QenherOSXLikeApplication extends AbstractApplication implements
+		ActiveViewAwareApplication {
 
 	private QenherOSXPaletteHandler paletteHandler;
+
 	private Preferences prefs;
+
 	private LinkedList<Action> paletteActions;
-	/**
-	 * The "invisible" frame is used to hold the frameless menu bar on Mac OS X.
-	 */
-	private JFrame invisibleFrame;
 
 	/** Creates a new instance. */
-	public QenherOSXApplication() {
+	public QenherOSXLikeApplication() {
 	}
 
 	/**
@@ -221,7 +209,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
 	public void init() {
 		abstractApplicationInit();
-		ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
+		// ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
 		prefs = PreferencesUtil
 				.userNodeForPackage((getModel() == null) ? getClass()
 						: getModel().getClass());
@@ -233,34 +221,25 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		paletteActions = new LinkedList<Action>();
 		setActionMap(createModelActionMap(model));
 		initPalettes(paletteActions);
-		initScreenMenuBar();
 		model.initApplication(this);
 	}
 
 	public void launch(String[] args) {
-		System.setProperty("apple.awt.graphics.UseQuartz", "false");
+		// System.setProperty("apple.awt.graphics.UseQuartz", "false");
 		super.launch(args);
 	}
 
 	public void configure(String[] args) {
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.macos.useScreenMenuBar", "true");
+		// System.setProperty("apple.laf.useScreenMenuBar", "true");
+		// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
 	}
 
 	protected void initLookAndFeel() {
-		try {
-			UIManager
-					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (UIManager.getString("OptionPane.css") == null) {
-			UIManager.put("OptionPane.css", "<head>"
-					+ "<style type=\"text/css\">"
-					+ "b { font: 13pt \"Dialog\" }"
-					+ "p { font: 11pt \"Dialog\"; margin-top: 8px }"
-					+ "</style>" + "</head>");
-		}
+		/*
+		 * try { UIManager
+		 * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 */
 	}
 
 	public void dispose(View p) {
@@ -270,6 +249,9 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 			a.dispose();
 		}
 		super.dispose(p);
+		if (views().size() == 0) {
+			destroy();
+		}
 	}
 
 	public void addPalette(Window palette) {
@@ -533,8 +515,8 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		mb.addPrintFileItems(m, this, view);
 
 		mb.addOtherFileItems(m, this, view);
+		mb.addExitItems(m, this, view);
 
-		maybeAddSeparator(m);
 		return (m.getItemCount() == 0) ? null : m;
 	}
 
@@ -553,7 +535,8 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		mb.addFindItems(m, this, view);
 		maybeAddSeparator(m);
 		mb.addOtherEditItems(m, this, view);
-
+		maybeAddSeparator(m);
+		mb.addPreferencesItems(m, this, view);
 		return (m.getItemCount() == 0) ? null : m;
 	}
 
@@ -567,42 +550,14 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		return (m.getItemCount() == 0) ? null : m;
 	}
 
-	protected void initScreenMenuBar() {
-		setScreenMenuBar(createMenuBar(null));
-		paletteHandler.add((JFrame) getComponent(), null);
-
-		Action a;
-		if (null != (a = getAction(null, OpenApplicationAction.ID))) {
-			OSXAdapter.setOpenApplicationHandler(a);
-		}
-		if (null != (a = getAction(null, ReOpenApplicationAction.ID))) {
-			OSXAdapter.setReOpenApplicationHandler(a);
-		}
-		if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
-			OSXAdapter.setOpenFileHandler(a);
-		}
-		if (null != (a = getAction(null, PrintApplicationFileAction.ID))) {
-			OSXAdapter.setPrintFileHandler(a);
-		}
-		if (null != (a = getAction(null, AboutAction.ID))) {
-			OSXAdapter.setAboutHandler(a);
-		}
-		if (null != (a = getAction(null, AbstractPreferencesAction.ID))) {
-			OSXAdapter.setPreferencesHandler(a);
-		}
-		if (null != (a = getAction(null, ExitAction.ID))) {
-			OSXAdapter.setQuitHandler(a);
-		}
-	}
-
 	protected void initPalettes(final LinkedList<Action> paletteActions) {
 		SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 
 			public LinkedList<JFrame> construct() {
 				LinkedList<JFrame> palettes = new LinkedList<JFrame>();
 				LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(
-						getModel().createToolBars(QenherOSXApplication.this,
-								null));
+						getModel().createToolBars(
+								QenherOSXLikeApplication.this, null));
 
 				int i = 0;
 				int x = 0;
@@ -616,23 +571,24 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
 					// Note: Client properties must be set before heavy-weight
 					// peers are created
-					d.getRootPane().putClientProperty("Window.style", "small");
-					d.getRootPane().putClientProperty(
-							"Quaqua.RootPane.isVertical", Boolean.FALSE);
-					d.getRootPane().putClientProperty(
-							"Quaqua.RootPane.isPalette", Boolean.TRUE);
+					// d.getRootPane().putClientProperty("Window.style",
+					// "small");
+					// d.getRootPane().putClientProperty(
+					// "Quaqua.RootPane.isVertical", Boolean.FALSE);
+					// d.getRootPane().putClientProperty(
+					// "Quaqua.RootPane.isPalette", Boolean.TRUE);
 
 					d.setFocusable(true);
 					d.setResizable(true);
 					d.getContentPane().setLayout(new BorderLayout());
 					d.getContentPane().add(tb, BorderLayout.CENTER);
 					d.setAlwaysOnTop(true);
-					//d.setUndecorated(true);
-					//d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+					// d.setUndecorated(true);
+					// d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 					d.getRootPane().setFont(
 							new Font("Lucida Grande", Font.PLAIN, 11));
 
-					d.setJMenuBar(createMenuBar(null));
+					// d.setJMenuBar(createMenuBar(null));
 
 					d.pack();
 					// d.setFocusableWindowState(false);
@@ -641,7 +597,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 					x += d.getWidth();
 
 					QenherTogglePaletteAction tpa = new QenherTogglePaletteAction(
-							QenherOSXApplication.this, d, tb.getName());
+							QenherOSXLikeApplication.this, d, tb.getName());
 					palettes.add(d);
 					if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
 						addPalette(d);
@@ -669,36 +625,6 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
 	public boolean isSharingToolsAmongViews() {
 		return true;
-	}
-
-	/**
-	 * Returns the Frame which holds the frameless JMenuBar.
-	 */
-
-	public Component getComponent() {
-		if (invisibleFrame == null) {
-			invisibleFrame = new JFrame();
-			invisibleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			invisibleFrame.setUndecorated(true);
-			// Move it way off screen
-			invisibleFrame.setLocation(10000, 10000);
-			// make the frame transparent and shadowless
-			// see
-			// https://developer.apple.com/mac/library/technotes/tn2007/tn2196.html
-			invisibleFrame.getRootPane().putClientProperty("Window.alpha", 0f);
-			invisibleFrame.getRootPane().putClientProperty("Window.shadow",
-					false);
-			// make it visible, so the menu bar will show
-			invisibleFrame.setVisible(true);
-		}
-		return invisibleFrame;
-	}
-
-	protected void setScreenMenuBar(JMenuBar mb) {
-		((JFrame) getComponent()).setJMenuBar(mb);
-		// pack it (without calling pack, the screen menu bar won't work for
-		// some reason)
-		invisibleFrame.pack();
 	}
 
 	protected ActionMap createModelActionMap(ApplicationModel mo) {
@@ -747,7 +673,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		public WindowMenuHandler(JMenu windowMenu, View view) {
 			this.windowMenu = windowMenu;
 			this.view = view;
-			QenherOSXApplication.this.addPropertyChangeListener(this);
+			QenherOSXLikeApplication.this.addPropertyChangeListener(this);
 			if (view != null) {
 				view.addDisposable(this);
 			}
@@ -772,7 +698,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 			mi = m.add(getAction(view, MaximizeWindowAction.ID));
 			mi.setIcon(null);
 			m.addSeparator();
-			for (View pr: views()) {
+			for (View pr : views()) {
 				if (getAction(pr, FocusWindowAction.ID) != null) {
 					mi = m.add(getAction(pr, FocusWindowAction.ID));
 				}
@@ -788,7 +714,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 			}
 
 			MenuBuilder mb = model.getMenuBuilder();
-			mb.addOtherWindowItems(m, QenherOSXApplication.this, view);
+			mb.addOtherWindowItems(m, QenherOSXLikeApplication.this, view);
 		}
 
 		public void dispose() {
@@ -852,6 +778,10 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		public void windowGainedFocus(WindowEvent e) {
 			setActiveView(view);
 		}
+	}
+
+	public Component getComponent() {
+		return null;
 	}
 
 	private static class QuitHandler {

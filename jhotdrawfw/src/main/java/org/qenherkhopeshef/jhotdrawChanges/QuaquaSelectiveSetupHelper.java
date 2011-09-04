@@ -1,4 +1,4 @@
-package jsesh.jhotdraw.generic;
+package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.util.HashSet;
 import java.util.Set;
