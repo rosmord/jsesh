@@ -41,75 +41,78 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
  */
 public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 
-    public final static String NAME = "JSesh";
-    public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
-    
-    private String args[];
-    
- 
+	public final static String NAME = "JSesh";
+	public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
-    @Override
-    public JSeshApplicationStartingData initApplicationData() {
-    		// Pre-load a number of objects so that they are ready when graphic stuff starts.
-        JSeshApplicationStartingData data = new JSeshApplicationStartingData();
-        new DrawingSpecificationsImplementation();
-        DefaultHieroglyphicFontManager.getInstance();
-        preloadHieroglyphicIcons();
-        return data;
-    }
+	private String args[];
 
-    
-    private void preloadHieroglyphicIcons() {
-        List<HieroglyphFamily> families = CompositeHieroglyphsManager.getInstance().getFamilies();
-        for (int i = 0; i < families.size(); i++) {
-            HieroglyphFamily family = families.get(i);
-            for (String code: ManuelDeCodage.getInstance().getBasicGardinerCodesForFamily(family.getCode())) {
-                ImageIconFactory.buildGlyphImage(code);
-            }
-        }
-        EditorCartoucheAction.preloadCartoucheIcons();
-        EditorShadeAction.preloadIcons();
-        
-    }
-    
-    @Override
-    public void startApplication(JSeshApplicationStartingData data) {
-        // Force creation of the hieroglyphic font manager and loading of the
-        // fonts (do it elsewhere).
-        JSeshApplicationModel applicationModel = new JSeshApplicationModel();
-        applicationModel.setCopyright(COPYRIGHT);
-        applicationModel.setName(NAME);
-        applicationModel.setVersion(Version.getVersion());
-        
-        // We use setViewClass method instead of setViewClassName
-        // Because we will probably move the code...
+	@Override
+	public JSeshApplicationStartingData initApplicationData() {
+		// Pre-load a number of objects so that they are ready when graphic
+		// stuff starts.
+		JSeshApplicationStartingData data = new JSeshApplicationStartingData();
+		new DrawingSpecificationsImplementation();
+		DefaultHieroglyphicFontManager.getInstance();
+		preloadHieroglyphicIcons();
+		return data;
+	}
 
-        applicationModel.setViewClass(JSeshView.class);
+	private void preloadHieroglyphicIcons() {
+		List<HieroglyphFamily> families = CompositeHieroglyphsManager
+				.getInstance().getFamilies();
+		for (int i = 0; i < families.size(); i++) {
+			HieroglyphFamily family = families.get(i);
+			for (String code : ManuelDeCodage.getInstance()
+					.getBasicGardinerCodesForFamily(family.getCode())) {
+				ImageIconFactory.buildGlyphImage(code);
+			}
+		}
+		EditorCartoucheAction.preloadCartoucheIcons();
+		EditorShadeAction.preloadIcons();
 
-        Application app;
-        if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-            app = new QenherOSXApplication();
-            //app= new QenherOSXLikeApplication();
-        } else if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
-            // app = new QenherOSXApplication();
-            app = new QenherOSXLikeApplication();
-        } else {
-            app = new QenherOSXLikeApplication();
-            // app= new QenherOSXApplication();
-        }
-        app.setModel(applicationModel);
-        app.launch(args);
-    }
+	}
 
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
-        JSeshMain jseshMain = new JSeshMain();
-        jseshMain.args= args;
-        jseshMain.setSplashPicture("/jseshResources/images/splash.png");
-        SplashMessageText message= new SplashMessageText(50, 172, "Version "+ Version.getVersion());
-        message.setColor(Color.WHITE);
-        jseshMain.addSplashMessage(message);
-        jseshMain.setTickTimer();
-        jseshMain.run();
-    }
+	@Override
+	public void startApplication(JSeshApplicationStartingData data) {
+		// Force creation of the hieroglyphic font manager and loading of the
+		// fonts (do it elsewhere).
+		JSeshApplicationModel applicationModel = new JSeshApplicationModel();
+		applicationModel.setCopyright(COPYRIGHT);
+		applicationModel.setName(NAME);
+		applicationModel.setVersion(Version.getVersion());
+
+		// We use setViewClass method instead of setViewClassName
+		// Because we will probably move the code...
+
+		applicationModel.setViewClass(JSeshView.class);
+
+		Application app;
+		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
+			app = new QenherOSXApplication();
+			// app= new QenherOSXLikeApplication();
+		} else if (System.getProperty("os.name").toLowerCase()
+				.startsWith("win")) {
+			// app = new QenherOSXApplication();
+			app = new QenherOSXLikeApplication();
+		} else {
+			app = new QenherOSXLikeApplication();
+			// app= new QenherOSXApplication();
+		}
+		app.setModel(applicationModel);
+		app.launch(args);
+	}
+
+	public static void main(String[] args) throws InterruptedException,
+			InvocationTargetException {
+		JSeshMain jseshMain = new JSeshMain();
+		jseshMain.args = args;
+		jseshMain.setSplashPicture("/jseshResources/images/splash.png");
+		SplashMessageText message = new SplashMessageText(50, 172, "Version "
+				+ Version.getVersion());
+		message.setColor(Color.WHITE);
+		jseshMain.addSplashMessage(message);
+		jseshMain.setTickTimer();
+		jseshMain.run();
+	}
 
 }

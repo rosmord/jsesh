@@ -546,7 +546,7 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 
 		MenuBuilder mb = model.getMenuBuilder();
 		mb.addHelpItems(m, this, view);
-
+		mb.addAboutItems(m, this, view);
 		return (m.getItemCount() == 0) ? null : m;
 	}
 

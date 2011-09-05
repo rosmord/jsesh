@@ -13,6 +13,7 @@ import java.awt.MediaTracker;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import javax.swing.SwingUtilities;
 import org.qenherkhopeshef.swingUtils.GraphicsUtils;
 
 /**
+ * A simple, JDK 1.5 compatible, splash screen.
+ * TODO : either use JDK 1.6, or cleanup/check media tracking problems on this one.
  * @author Serge Rosmorduc
  */
 public class SplashScreen {
@@ -38,6 +41,7 @@ public class SplashScreen {
 
 	public SplashScreen(String imgPath) {
 		this.imgPath = imgPath;
+		buildImage();
 	}
 
 	public SplashScreen() {
@@ -65,20 +69,12 @@ public class SplashScreen {
 	}
 
 	private void buildFrame() {
-		buildImage();
-		frame = new PictureFrame();
-		frame.setUndecorated(true);
-		MediaTracker tracker = new MediaTracker(frame);
-		tracker.addImage(img, 0);
-		frame.setSize(img.getWidth(frame), img.getHeight(frame));
+		// buildImage();
+		
+		frame = new PictureFrame();		
 		center();
-		frame.toFront();
-		frame.addMouseListener(new MouseAdapter() {
-
-			public void mouseClicked(MouseEvent e) {
-				closeSplash();
-			}
-		});
+		// Dummy draw. Ensure fonts needed for the messages have been read.
+		paintPicture(new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB));
 		frame.setVisible(true);
 	}
 
@@ -88,7 +84,6 @@ public class SplashScreen {
 	 */
 	public void display() {
 		Runnable r = new Runnable() {
-
 			public void run() {
 				buildFrame();
 			}
@@ -113,9 +108,27 @@ public class SplashScreen {
 
 	public void closeSplash() {
 		img.flush();
-		frame.dispose();
+		if (frame != null)
+			frame.dispose();
 	}
 
+	private void paintPicture(Image buff) {
+		Graphics2D g2d = (Graphics2D) buff.getGraphics();
+		g2d.drawImage(img, 0, 0, buff.getWidth(null), buff.getHeight(null),
+				null);
+		if (progressionDisplay != null && progressionLevel > 0) {
+			progressionDisplay.drawAdvancement(g2d, buff.getWidth(null),
+					buff.getHeight(null), getProgressionLevel());
+		}
+		if (!messages.isEmpty()) {
+			GraphicsUtils.antialias(g2d);
+			for (SplashMessageText m : messages) {
+				m.paint(g2d);
+			}
+		}
+		g2d.dispose();
+	}
+	
 	/**
 	 * A frame displaying a picture and an advancement clock.
 	 * 
@@ -125,27 +138,54 @@ public class SplashScreen {
 	@SuppressWarnings("serial")
 	private class PictureFrame extends JFrame {
 
+		// A number of attempts have been done here to speed up the first
+		// rendering of the splash screen, but
+		// in vain.
+
+		VolatileImage buff = null;
+
+		public PictureFrame() {
+			setUndecorated(true);
+			MediaTracker tracker = new MediaTracker(this);
+			tracker.addImage(img, 0);// (we should wait for the picture to be loaded.)
+			try {
+				tracker.waitForID(0);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			buff = preparePicture();
+			setSize(img.getWidth(null), img.getHeight(null));
+			toFront();
+			addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					closeSplash();
+				}
+			});
+		}
+
 		public void update(Graphics g) {
 			paint(g);
 		}
 
 		public void paint(Graphics g) {
-			VolatileImage buff = frame.createVolatileImage(frame.getWidth(),
-					frame.getHeight());
-			Graphics2D g2d = buff.createGraphics();
-			g2d.drawImage(img, 0, 0, frame.getWidth(), frame.getHeight(), null);
-			if (progressionDisplay != null && progressionLevel > 0) {
-				progressionDisplay.drawAdvancement(g2d, frame.getWidth(),
-						frame.getHeight(), getProgressionLevel());
+			if (buff == null || buff.contentsLost())
+				buff = preparePicture();
+			// g.drawImage(buff, 0, 0, frame.getWidth(), frame.getHeight(),
+			// frame);
+			g.drawImage(buff, 0, 0, null);
+			buff = preparePicture();
+		}
+
+		/**
+		 * @return
+		 */
+		private VolatileImage preparePicture() {
+			VolatileImage buff;
+			buff = this.createVolatileImage(this.getWidth(), this.getHeight());
+			if (buff != null) {
+				paintPicture(buff);
 			}
-			if (! messages.isEmpty()) {
-				GraphicsUtils.antialias(g2d);
-				for (SplashMessageText m: messages) {
-					m.paint(g2d);
-				}
-			}
-			g2d.dispose();
-			g.drawImage(buff, 0, 0, frame.getWidth(), frame.getHeight(), frame);
+			return buff;
 		}
 	}
 
