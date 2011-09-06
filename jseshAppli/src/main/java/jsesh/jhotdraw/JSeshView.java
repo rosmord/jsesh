@@ -51,7 +51,7 @@ public class JSeshView extends AbstractView {
 	 */
 	public static final String DOCUMENT_INFO_PROPERTY = "documentInfo";
 
-	private JSeshViewModel viewModel;
+	private final JSeshViewModel  viewModel;
 
 	public JSeshView() {
 		viewModel = new JSeshViewModel();
@@ -65,17 +65,11 @@ public class JSeshView extends AbstractView {
 		add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
 		add(viewModel.getBottomPanel(), BorderLayout.PAGE_END);
 		add(viewModel.getTopPanel(), BorderLayout.PAGE_START);
-		observeChanges();
+		viewModel.setParentObserver(new MyObserver());
 		initActions();
 	}
 
-	/**
-	 * Sets an observer to track document changes. As the observer is linked to
-	 * the document, closing the document will free the observer too.
-	 */
-	private void observeChanges() {
-		getEditor().getHieroglyphicTextModel().addObserver(new MyObserver());
-	}
+	
 
 	public JMDCEditor getEditor() {
 		return viewModel.getEditor();
@@ -106,7 +100,8 @@ public class JSeshView extends AbstractView {
 		// Fetch actions from the view editor.
 		for (Object actionIDa : getEditor().getActionMap().keys()) {
 			if (getActionMap().get(actionIDa) == null)
-				getActionMap().put(actionIDa, getEditor().getActionMap().get(actionIDa));
+				getActionMap().put(actionIDa,
+						getEditor().getActionMap().get(actionIDa));
 		}
 	}
 
@@ -180,7 +175,7 @@ public class JSeshView extends AbstractView {
 						.getMdcDocument());
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						viewModel.setCurrentDocument(document);
+						viewModel.setCurrentDocument(document);					
 					}
 				});
 			} catch (PDFImportException e) {
@@ -209,12 +204,11 @@ public class JSeshView extends AbstractView {
 		try {
 			MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
 			// mdcDocumentReader.setEncoding(encoding);
-                        final MDCDocument document= mdcDocumentReader.loadFile(file);			
+			final MDCDocument document = mdcDocumentReader.loadFile(file);
 			// Observe changes to this document in the future.
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
-					observeChanges();
-                                        viewModel.setCurrentDocument(document);
+					viewModel.setCurrentDocument(document);
 					// Fire the corresponding event, with dummy properties...
 					// We might decide to use "real" property at some point.
 					firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
@@ -223,8 +217,8 @@ public class JSeshView extends AbstractView {
 		} catch (MDCSyntaxError e) {
 			String msg = "error at line " + e.getLine();
 			msg += " near token: " + e.getToken();
-                        displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
-			
+			displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
+
 			System.out.println(e.getCharPos());
 			// e.printStackTrace();
 		} catch (IOException e) {
@@ -236,15 +230,15 @@ public class JSeshView extends AbstractView {
 		}
 	}
 
-        private void displayErrorInEdt(final String title, final String message) {
-            SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JOptionPane.showMessageDialog(getParent(), message, title,
-					JOptionPane.ERROR_MESSAGE);
-            }
-        });
-        }
-        
+	private void displayErrorInEdt(final String title, final String message) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JOptionPane.showMessageDialog(getParent(), message, title,
+						JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+
 	public void write(URI uri, URIChooser chooser) throws IOException {
 		File file = new File(uri);
 		MDCDocument document = viewModel.getMdcDocument();
@@ -255,16 +249,25 @@ public class JSeshView extends AbstractView {
 		// Currently, the "document" data is not synchronized with the
 		// content of the editor.
 		// CHECK IF THIS IS TRUE.... I DON'T BELIEVE IT ?
-		// NOW, MOST METHODS LIKE THE ACTION TO CENTER DO CHANGE THE DOCUMENT. HOWEVER, 
-		// THERE ARE SMALL PROBLEMS... SOLUTION : store document preferences in the drawing specifications ?
+		// NOW, MOST METHODS LIKE THE ACTION TO CENTER DO CHANGE THE DOCUMENT.
+		// HOWEVER,
+		// THERE ARE SMALL PROBLEMS... SOLUTION : store document preferences in
+		// the drawing specifications ?
 
-		DocumentPreferences documentPreferences= document.getDocumentPreferences();
-		
-		documentPreferences=documentPreferences.withTextDirection(getEditor().getDrawingSpecifications()
-				.getTextDirection()).withTextOrientation(getEditor().getDrawingSpecifications()
-				.getTextOrientation()).withSmallSignCentered(getEditor().getDrawingSpecifications()
-				.isSmallSignsCentered());
-		
+		DocumentPreferences documentPreferences = document
+				.getDocumentPreferences();
+
+		documentPreferences = documentPreferences
+				.withTextDirection(
+						getEditor().getDrawingSpecifications()
+								.getTextDirection())
+				.withTextOrientation(
+						getEditor().getDrawingSpecifications()
+								.getTextOrientation())
+				.withSmallSignCentered(
+						getEditor().getDrawingSpecifications()
+								.isSmallSignsCentered());
+
 		// TODO END OF TEMPORARY PATCH
 
 		if (document.getFile() != null
@@ -281,7 +284,8 @@ public class JSeshView extends AbstractView {
 					documentPreferences.getTextDirection());
 			prefs.getDrawingSpecifications().setTextOrientation(
 					documentPreferences.getTextOrientation());
-			prefs.getDrawingSpecifications().setSmallSignsCentered(documentPreferences.isSmallSignCentered());
+			prefs.getDrawingSpecifications().setSmallSignsCentered(
+					documentPreferences.isSmallSignCentered());
 			PDFExporter exporter = new PDFExporter();
 			exporter.setPdfExportPreferences(prefs);
 			TopItemList model = document.getHieroglyphicTextModel().getModel();
@@ -452,7 +456,7 @@ public class JSeshView extends AbstractView {
 		viewModel.getEditor().setTextOrientation(orientation);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
-	
+
 	public void setSmallSignsCentered(boolean selected) {
 		// Rather bad design: the info is kept both in drawingspecs
 		// and in the document.
@@ -467,7 +471,9 @@ public class JSeshView extends AbstractView {
 		 * updateMenuItems); )
 		 */
 		getEditor().setSmallSignsCentered(selected);
-		getMdcDocument().setDocumentPreferences(getMdcDocument().getDocumentPreferences().withSmallSignCentered(selected));
+		getMdcDocument().setDocumentPreferences(
+				getMdcDocument().getDocumentPreferences()
+						.withSmallSignCentered(selected));
 		getEditor().invalidateView();
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
@@ -476,18 +482,20 @@ public class JSeshView extends AbstractView {
 		getEditor().setTextOrientation(textOrientation);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
-	
+
 	public void setTextDirection(TextDirection textDirection) {
 		getEditor().setTextDirection(textDirection);
-		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);		
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
 	/**
 	 * Change the fonts JSesh uses.
+	 * 
 	 * @param fontInfo
 	 */
 	public void setFontInfo(FontInfo fontInfo) {
-		DrawingSpecification drawingSpecification= getDrawingSpecifications().copy();
+		DrawingSpecification drawingSpecification = getDrawingSpecifications()
+				.copy();
 		fontInfo.applyToDrawingSpecifications(drawingSpecification);
 		setDrawingSpecifications(drawingSpecification);
 	}

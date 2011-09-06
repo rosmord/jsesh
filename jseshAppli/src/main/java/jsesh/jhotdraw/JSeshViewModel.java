@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -94,9 +96,13 @@ public class JSeshViewModel {
 	 */
 	private JComboBox zoomComboBox;
 
-	public JSeshViewModel() {
-		mdcDocument = new MDCDocument();
-		editor = new JMDCEditor(mdcDocument.getHieroglyphicTextModel());
+	private Observer parentObserver;
+
+	private DelegatingObserver delegatingObserver= new DelegatingObserver();
+	
+	public JSeshViewModel() {		
+		editor = new JMDCEditor();
+		setCurrentDocument(new MDCDocument());
 		// JScrollPane scroll = new JScrollPane(editor);
 		// scroll.getVerticalScrollBar().setUnitIncrement(20);
 		topPanel = prepareTopPanel();
@@ -201,8 +207,12 @@ public class JSeshViewModel {
 		return mdcDocument;
 	}
 
-	public void setCurrentDocument(MDCDocument doc) {
-		mdcDocument = doc;
+	public void setCurrentDocument(MDCDocument newDocument) {
+		if (mdcDocument != null) {
+			mdcDocument.getHieroglyphicTextModel().deleteObserver(delegatingObserver);
+		}
+		mdcDocument = newDocument;
+		mdcDocument.getHieroglyphicTextModel().addObserver(delegatingObserver);
 		DocumentPreferences prefs = mdcDocument.getDocumentPreferences();		
 		DrawingSpecification ds = editor.getDrawingSpecifications();
 		ds.applyDocumentPreferences(prefs);
@@ -403,5 +413,21 @@ public class JSeshViewModel {
 			DrawingSpecification drawingSpecifications) {		
 		getEditor().setDrawingSpecifications(drawingSpecifications);
 		getMdcDocument().setDocumentPreferences(drawingSpecifications.extractDocumentPreferences());
+	}
+
+	/**
+	 * Sets the parent parentObserver which will receive information when the view is modified
+	 * @param parentObserver
+	 */
+	public void setParentObserver(Observer observer) {
+		this.parentObserver= observer;
+	}
+	
+	private class DelegatingObserver implements Observer {
+
+		public void update(Observable o, Object arg) {
+			parentObserver.update(o, arg);
+		}
+		
 	}
 }
