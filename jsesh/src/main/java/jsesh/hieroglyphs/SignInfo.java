@@ -1,6 +1,8 @@
 package jsesh.hieroglyphs;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,13 +14,14 @@ import java.util.Set;
 
 public class SignInfo {
 	private String code= "";
-	private List translitterationList= new ArrayList(); // of SignTranslitteration
-	private Set determinativeValuesSet= new HashSet(); // of MultilingualLabels
-	private Set tagSet= new HashSet(); // of tag names...
+	private List<SignTransliteration> translitterationList= new ArrayList<SignTransliteration>(); // of SignTranslitteration
+	private Set<String> determinativeValuesSet= new HashSet<String>(); // of MultilingualLabels
+	private Set<String> tagSet= new HashSet<String>(); // of tag names...
 	private String description= "";
-	private Set variants= new HashSet(); // of sign codes (Strings)
-	private Set signsContainingThisOne= new HashSet(); // of sign codes (Strings)
+	private Set<String> variants= new HashSet<String>(); // of sign codes (Strings)
+	private Set<String> signsContainingThisOne= new HashSet<String>(); // of sign codes (Strings)
 	private boolean alwaysDisplayed= false;
+	private Set<String> subSigns= new HashSet<String>();
                 
 	public SignInfo(String code) {
 		this.code= code;
@@ -45,7 +48,7 @@ public class SignInfo {
 	 * @return
 	 */
 	
-	public Set getDeterminativeValuesSet() {
+	public Set<String> getDeterminativeValuesSet() {
 		return determinativeValuesSet;
 	}
 
@@ -53,11 +56,11 @@ public class SignInfo {
      * Returns the set of tag names.
      * @return a set of String.
      */
-	public Set getTagSet() {
+	public Set<String> getTagSet() {
 		return tagSet;
 	}
 	
-	public Set getSignsContainingThisOne() {
+	public Set<String> getSignsContainingThisOne() {
 		return signsContainingThisOne;
 	}
 	
@@ -65,11 +68,11 @@ public class SignInfo {
 	 * Returns the list of known SignTranslitteration for this sign.
 	 * @return a list of SignTranslitteration
 	 */
-	public List getTranslitterationList() {
+	public List<SignTransliteration> getTranslitterationList() {
 		return translitterationList;
 	}
 	
-	public Set getVariants() {
+	public Set<String> getVariants() {
 		return variants;
 	}
 
@@ -109,5 +112,12 @@ public class SignInfo {
 		this.alwaysDisplayed = alwaysDisplayed;
 	}
 
+	public void addSubSign(String sign) {
+		subSigns.add(sign);
+	}
+
+	public Set<String> getSubSigns() {
+		return Collections.unmodifiableSet(subSigns);
+	}
 	
 }

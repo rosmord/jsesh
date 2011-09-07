@@ -147,16 +147,16 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 		return distributionInfoManager.getCanonicalCode(code);
 	}
 
-	public Collection getCodesForFamily(String familyCode, boolean userCodes) {
-		TreeSet s = new TreeSet(GardinerCode.getCodeComparator());
+	public Collection<String> getCodesForFamily(String familyCode, boolean userCodes) {
+		TreeSet<String> s = new TreeSet<String>(GardinerCode.getCodeComparator());
 		s.addAll(distributionInfoManager.getCodesForFamily(familyCode,
 				userCodes));
 		s.addAll(userInfoManager.getCodesForFamily(familyCode, userCodes));
 		return s;
 	}
 
-	public Set getCodesSet() {
-		TreeSet s = new TreeSet(GardinerCode.getCodeComparator());
+	public Set<String> getCodesSet() {
+		TreeSet<String> s = new TreeSet<String>(GardinerCode.getCodeComparator());
 		s.addAll(distributionInfoManager.getCodesSet());
 		s.addAll(userInfoManager.getCodesSet());
 		return s;
@@ -210,6 +210,14 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 		result.addAll(userInfoManager.getSignsContaining(code));
 		return result;
 	}
+	
+	public Collection<String> getSignsIn(String code) {
+		TreeSet<String> result = new TreeSet<String>(GardinerCode.getCodeComparator());
+		result.addAll(distributionInfoManager.getSignsIn(code));
+		result.addAll(userInfoManager.getSignsIn(code));
+		return result;
+	}
+	
 
 	public Collection<String> getSignsWithTagInFamily(String currentTag,
 			String familyName) {

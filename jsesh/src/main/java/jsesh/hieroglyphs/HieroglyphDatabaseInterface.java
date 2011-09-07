@@ -73,6 +73,14 @@ public interface HieroglyphDatabaseInterface {
     public jsesh.hieroglyphs.PossibilitiesList getPossibilityFor(java.lang.String phoneticValue, String level);
 
     public Collection<String> getSignsContaining(java.lang.String code);
+    
+    /**
+     * Returns all the signs which are contained in a larger sign
+     * @param code
+     * @return
+     */
+    public Collection<String> getSignsIn(java.lang.String code);
+
 
     public Collection<String> getSignsWithTagInFamily(java.lang.String currentTag, java.lang.String familyName);
 

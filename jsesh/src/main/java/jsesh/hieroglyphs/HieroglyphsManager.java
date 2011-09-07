@@ -48,7 +48,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 * probably be suppressed anyway).
 	 */
 	private ManuelDeCodage basicManuelDeCodageManager = null;
-	private HashMap<String, ArrayList> signsValues;
+	private HashMap<String, ArrayList<String>> signsValues;
 	private HashMap<String, PossibilitiesList> possibilitiesLists;
 	/**
 	 * When this boolean is true, all new information comes from the standard
@@ -60,7 +60,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 
 	public HieroglyphsManager(ManuelDeCodage basicManuelDeCodageManager) {
 		this.basicManuelDeCodageManager = basicManuelDeCodageManager;
-		signsValues = new HashMap<String, ArrayList>();
+		signsValues = new HashMap<String, ArrayList<String>>();
 		possibilitiesLists = new HashMap<String, PossibilitiesList>();
 		fillFamilyList();
 
@@ -69,7 +69,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	private void fillFamilyList() {
 		final String[] familyCodes = { "A", "B", "C", "D", "E", "F", "G", "H",
 				"I", "K", "L", "M", "N", "O", "P", "Q", "" + "R", "S", "T",
-				"U", "V", "W", "X", "Y", "Z", "Aa", "Ff" };
+				"U", "V", "W", "X", "Y", "Z", "Aa", "Ff", "NU", "NL" };
 
 		final String[] familyNames = { "Man and his occupations",
 				"Woman and her occupations", "Anthropomorphic Deities",
@@ -86,8 +86,9 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 				"Rope, Fibre, baskets, bags, etc.",
 				"Vessels of stone and earthenware", "Loaves and cakes",
 				"Writings, games, music", "Strokes", "Unclassified (J)",
-				"Hieratic signs, Gardiner, JEA 15 (&)" };
+				"Hieratic signs, Gardiner, JEA 15 (&)", "Upper Egypt Nomes", "Lower Egypt Nomes" };
 
+		assert(familyCodes.length == familyNames.length);
 		families = new ArrayList<HieroglyphFamily>();
 		for (int i = 0; i < familyCodes.length; i++) {
 			families.add(new HieroglyphFamily(familyCodes[i], familyNames[i]));
@@ -115,7 +116,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 * bug).
 	 * 
 	 * @param family
-	 *            : the Gardiner family for this sign (A,B...Aa,Ff)
+	 *            : the Gardiner family for this sign (A,B...Aa,Ff, NU, NL)
 	 * @param usercodes
 	 *            : if true, also add signs which have an user code (USn+
 	 *            Gardiner code)
@@ -123,10 +124,10 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 */
 	public Collection<String> getCodesForFamily(String family, boolean userCodes) {
 		ArrayList<String> l = new ArrayList<String>();
-		Set s = getCodesSet();
-		Iterator it = s.iterator();
+		Set<String> s = getCodesSet();
+		Iterator<String> it = s.iterator();
 		while (it.hasNext()) {
-			String c = (String) it.next();
+			String c = it.next();
 			// The regexps here should move to GardinerCode !!!
 			if (family.length() > 0 && c.matches(family + "[0-9]+[a-zA-Z]*")) {
 				l.add(c);
@@ -146,7 +147,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	public void addValue(String gardinerCode, String value) {
 		// create a value entry for the sign if necessary
 		if (!signsValues.containsKey(gardinerCode)) {
-			signsValues.put(gardinerCode, new ArrayList());
+			signsValues.put(gardinerCode, new ArrayList<String>());
 		}
 		getOrCreatePossibilityList(value);
 		// Now add the actual data
@@ -330,6 +331,8 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	public void addPartOf(String sign, String baseSign) {
 		SignInfo signInfo = getSignInfo(sign);
 		signInfo.addSignContainingThisOne(baseSign);
+		SignInfo baseSignInfo= getSignInfo(baseSign);
+		baseSignInfo.addSubSign(sign);
 	}
 
 	/**
@@ -379,24 +382,33 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		}
 	}
 
-	public Collection getVariants(String code) {
+	public Collection<String> getVariants(String code) {
 		if (code == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		SignInfo signInfo = getSignInfo(code);
 		return signInfo.getVariants();
 	}
 
-	public Collection getSignsContaining(String code) {
+	public Collection<String> getSignsContaining(String code) {
 		if (code == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		SignInfo signInfo = getSignInfo(code);
 		return signInfo.getSignsContainingThisOne();
 	}
 
-	public Collection getTagsForFamily(String familyName) {
-		TreeSet tagsNames = new TreeSet(); // Strings
+	public Collection<String> getSignsIn(String code) {
+		if (code == null)
+			return Collections.emptySet();
+		else {
+			SignInfo signInfo= getSignInfo(code);
+			return signInfo.getSubSigns();
+		}
+	}
+	
+	public Collection<String> getTagsForFamily(String familyName) {
+		TreeSet<String> tagsNames = new TreeSet<String>(); // Strings
 		Iterator<SignInfo> iter = signInfoMap.values().iterator();
 		Pattern pattern = Pattern.compile(familyName + "[0-9]+.*");
 		while (iter.hasNext()) {
@@ -408,8 +420,8 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		return tagsNames;
 	}
 
-	public Collection getTagsForSign(String gardinerCode) {
-		TreeSet tagsNames = new TreeSet(); // Strings
+	public Collection<String> getTagsForSign(String gardinerCode) {
+		TreeSet<String> tagsNames = new TreeSet<String>(); // Strings
 		final SignInfo signInfo = signInfoMap.get(gardinerCode);
 		if (signInfo != null)
 			tagsNames.addAll(signInfo.getTagSet());

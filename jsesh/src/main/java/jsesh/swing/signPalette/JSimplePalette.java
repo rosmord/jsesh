@@ -50,16 +50,16 @@ public class JSimplePalette extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         secondaryTagCB = new javax.swing.JComboBox();
         jSeparator1 = new javax.swing.JSeparator();
-        showFilteredContainingButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        containsCB = new javax.swing.JComboBox();
 
-        showContainingButtons.setIcon(new javax.swing.ImageIcon(getClass().getResource("partof.png"))); // NOI18N
+        showContainingButtons.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/partof.png"))); // NOI18N
         showContainingButtons.setToolTipText("Display signs which contain the selected sign");
 
         inUserPaletteCheckBox.setText("user Pal.");
         inUserPaletteCheckBox.setToolTipText("sign should appear in user palette.");
 
-        showVariantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("var.png"))); // NOI18N
+        showVariantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/var.png"))); // NOI18N
         showVariantsButton.setToolTipText("Display variants of sign");
 
         categoryChooserCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -118,11 +118,10 @@ public class JSimplePalette extends javax.swing.JPanel {
 
         secondaryTagCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        showFilteredContainingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("partoffiltered.png"))); // NOI18N
-        showFilteredContainingButton.setToolTipText("<html>filter <strong>displayed</strong> signs which contain the selected sign  ");
-
-        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("stock_left-16.png"))); // NOI18N
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
         backButton.setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
+
+        containsCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -131,24 +130,8 @@ public class JSimplePalette extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel4)
-                            .add(jLabel2)
-                            .add(showAllCheckBox)
-                            .add(jLabel3))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(categoryChooserCB, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(tagChooserCB, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(secondaryTagCB, 0, 202, Short.MAX_VALUE)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 208, Short.MAX_VALUE)
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(translitterationFilterField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -160,11 +143,26 @@ public class JSimplePalette extends javax.swing.JPanel {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(backButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 57, Short.MAX_VALUE)
-                                .add(showFilteredContainingButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 216, Short.MAX_VALUE)
                                 .add(showContainingButtons))
-                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))))
+                            .add(jScrollPane1)))
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel4)
+                            .add(jLabel2)
+                            .add(showAllCheckBox)
+                            .add(jLabel3))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, categoryChooserCB, 0, 352, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, tagChooserCB, 0, 352, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, secondaryTagCB, 0, 352, Short.MAX_VALUE)
+                            .add(layout.createSequentialGroup()
+                                .add(containsCB, 0, 190, Short.MAX_VALUE)
+                                .add(18, 18, 18)
+                                .add(jLabel1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(translitterationFilterField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
@@ -189,7 +187,8 @@ public class JSimplePalette extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(showAllCheckBox)
                     .add(translitterationFilterField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel1))
+                    .add(jLabel1)
+                    .add(containsCB, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -203,7 +202,6 @@ public class JSimplePalette extends javax.swing.JPanel {
                     .add(showVariantsButton)
                     .add(showContainingButtons)
                     .add(inUserPaletteCheckBox)
-                    .add(showFilteredContainingButton)
                     .add(backButton))
                 .addContainerGap())
         );
@@ -214,6 +212,7 @@ public class JSimplePalette extends javax.swing.JPanel {
     private javax.swing.JButton backButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox categoryChooserCB;
+    private javax.swing.JComboBox containsCB;
     private javax.swing.JLabel glyphCodeLabel;
     private javax.swing.JEditorPane glyphInfoText;
     private javax.swing.JLabel glyphPictureLabel;
@@ -229,7 +228,6 @@ public class JSimplePalette extends javax.swing.JPanel {
     private javax.swing.JComboBox secondaryTagCB;
     private javax.swing.JCheckBox showAllCheckBox;
     private javax.swing.JButton showContainingButtons;
-    private javax.swing.JButton showFilteredContainingButton;
     private javax.swing.JButton showVariantsButton;
     private javax.swing.JList signTable;
     private javax.swing.JComboBox tagChooserCB;
@@ -284,12 +282,12 @@ public class JSimplePalette extends javax.swing.JPanel {
         return secondaryTagCB;
     }
 
-    public JButton getShowFilteredContainingButton() {
-        return showFilteredContainingButton;
-    }
-
     public JButton getBackButton() {
         return backButton;
+    }
+
+    public JComboBox getContainsCB() {
+        return containsCB;
     }
 
     

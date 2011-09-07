@@ -62,7 +62,7 @@ public class GardinerCode implements Comparable<GardinerCode> {
 	private final static List<String> FAMILIES = Arrays.asList(new String[] {
 			"A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
 			"O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Aa",
-			"Ff", "NL", "NU" });
+			"Ff", "NU", "NL" });
 	
 	private String family;
 	private int number;
@@ -342,6 +342,11 @@ public class GardinerCode implements Comparable<GardinerCode> {
 					gardinerCode.setFamily("Aa");
 				else if ("FF".equals(gardinerCode.getFamily()))
 					gardinerCode.setFamily("Ff");
+				else if ("NU".equals(gardinerCode.getFamily()))
+					gardinerCode.setFamily("NU");
+				else if ("NL".equals(gardinerCode.getFamily()))
+					gardinerCode.setFamily("NL");
+				
 				gardinerCode.setNumber(Integer.parseInt(matcher.group(4)));
 				gardinerCode.setVariantPart(matcher.group(5));
 				code= gardinerCode.toString();

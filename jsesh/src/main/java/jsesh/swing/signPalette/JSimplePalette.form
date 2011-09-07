@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.3" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
@@ -23,28 +23,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSeparator1" alignment="0" pref="346" max="32767" attributes="0"/>
-                  <Component id="jScrollPane2" alignment="0" pref="346" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel4" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="showAllCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="categoryChooserCB" alignment="0" max="32767" attributes="1"/>
-                          <Component id="tagChooserCB" alignment="0" max="32767" attributes="1"/>
-                          <Component id="secondaryTagCB" alignment="0" pref="202" max="32767" attributes="1"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="208" max="32767" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="translitterationFilterField" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jSeparator1" alignment="0" pref="460" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="460" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -58,12 +38,31 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="backButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="57" max="32767" attributes="0"/>
-                              <Component id="showFilteredContainingButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace pref="216" max="32767" attributes="0"/>
                               <Component id="showContainingButtons" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane1" alignment="0" pref="206" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel4" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel2" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="showAllCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="categoryChooserCB" alignment="0" pref="352" max="32767" attributes="1"/>
+                          <Component id="tagChooserCB" alignment="0" pref="352" max="32767" attributes="1"/>
+                          <Component id="secondaryTagCB" alignment="0" pref="352" max="32767" attributes="1"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="containsCB" pref="190" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="translitterationFilterField" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -94,6 +93,7 @@
                   <Component id="showAllCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="translitterationFilterField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="containsCB" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" pref="132" max="32767" attributes="0"/>
@@ -109,7 +109,6 @@
                   <Component id="showVariantsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="showContainingButtons" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="inUserPaletteCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="showFilteredContainingButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="backButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -121,7 +120,7 @@
     <Component class="javax.swing.JButton" name="showContainingButtons">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/mdcDisplayer/swing/palette/partof.png"/>
+          <Image iconType="3" name="/jsesh/swing/signPalette/partof.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Display signs which contain the selected sign"/>
       </Properties>
@@ -135,7 +134,7 @@
     <Component class="javax.swing.JButton" name="showVariantsButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/mdcDisplayer/swing/palette/var.png"/>
+          <Image iconType="3" name="/jsesh/swing/signPalette/var.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Display variants of sign"/>
       </Properties>
@@ -294,20 +293,24 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
-    <Component class="javax.swing.JButton" name="showFilteredContainingButton">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/mdcDisplayer/swing/palette/partoffiltered.png"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;filter &lt;strong&gt;displayed&lt;/strong&gt; signs which contain the selected sign  "/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="backButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/mdcDisplayer/swing/palette/stock_left-16.png"/>
+          <Image iconType="3" name="/jsesh/swing/signPalette/stock_left-16.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;previously selected glyphs&#xa;(JSesh remembers the last three selected signs).&#xa;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="containsCB">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

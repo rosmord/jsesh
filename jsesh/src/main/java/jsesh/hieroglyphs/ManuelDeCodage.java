@@ -523,7 +523,11 @@ public class ManuelDeCodage {
 		if (basicGardinerCodeMap == null) {
 			fillBasicGardinerCodeMap();
 		}
-		return basicGardinerCodeMap.get(familyCode);
+		List<String> result = basicGardinerCodeMap.get(familyCode);
+		if (result == null)
+			return Collections.emptyList();
+		else
+			return result;
 	}
 
 	private void fillBasicGardinerCodeMap() {

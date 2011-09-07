@@ -470,21 +470,30 @@ public class JSeshView extends AbstractView {
 		 * document.addEventLink(FormatEvent.class, menuManager,
 		 * updateMenuItems); )
 		 */
-		getEditor().setSmallSignsCentered(selected);
-		getMdcDocument().setDocumentPreferences(
+		DrawingSpecification specs= getDrawingSpecifications().copy();
+		specs.setSmallSignsCentered(selected);
+		viewModel.setDrawingSpecifications(specs);
+		//getEditor().setSmallSignsCentered(selected);
+		/*getMdcDocument().setDocumentPreferences(
 				getMdcDocument().getDocumentPreferences()
 						.withSmallSignCentered(selected));
-		getEditor().invalidateView();
+		getEditor().invalidateView();*/
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
 	public void setTextOrientation(TextOrientation textOrientation) {
-		getEditor().setTextOrientation(textOrientation);
+		DrawingSpecification specs= getDrawingSpecifications().copy();
+		specs.setTextOrientation(textOrientation);
+		viewModel.setDrawingSpecifications(specs);
+		//getEditor().setTextOrientation(textOrientation);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
 	public void setTextDirection(TextDirection textDirection) {
-		getEditor().setTextDirection(textDirection);
+		DrawingSpecification specs= getDrawingSpecifications().copy();
+		specs.setTextDirection(textDirection);
+		viewModel.setDrawingSpecifications(specs);
+		//getEditor().setTextDirection(textDirection);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 

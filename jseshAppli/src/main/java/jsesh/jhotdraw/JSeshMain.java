@@ -89,7 +89,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
 			app = new QenherOSXApplication();
-			// app= new QenherOSXLikeApplication();
+			//app= new QenherOSXLikeApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
 			// app = new QenherOSXApplication();

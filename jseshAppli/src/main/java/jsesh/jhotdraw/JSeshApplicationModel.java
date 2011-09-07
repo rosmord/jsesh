@@ -110,10 +110,7 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
  * We have decided not to follow Apple guidelines for the "no-document" window,
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
- * TODO fix line/column etc... currently not changed as document information (and not saved, except if the document properties 
- * 	are edited too
  * TODO for Windows (check for mac) : ensure that the palette is correctly displayed, in sync with its menu.
- * TODO text modifications are not tracked on imported texts... 
  * TODO update the readmes... (in particular regarding jhotdraw).
  * 
  * TODO check consistency and file export system in particular. TODO before
@@ -186,7 +183,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	public void initApplication(Application a) {
 		super.initApplication(a);
 		this.application = a;
-
 	}
 
 	/*

@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +25,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,6 +34,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -52,11 +51,12 @@ import jsesh.hieroglyphs.ShapeChar;
 import jsesh.hieroglyphs.SignDescriptionConstants;
 
 /**
- * Control and data feed for the simple palette. 
+ * Control and data feed for the simple palette.
  * 
- * Currently, one might prefer to use HieroglyphicPaletteDialog, which provides also a glyph information tab.
- * (See, however, method createFullPalette).
+ * Currently, one might prefer to use HieroglyphicPaletteDialog, which provides
+ * also a glyph information tab. (See, however, method createFullPalette).
  * 
+ *
  * TODO : use a MultiLingual label instead of the plain tag name...
  * 
  * @author rosmord
@@ -102,19 +102,19 @@ public class PalettePresenter {
 	/**
 	 * Signs already got from the palette, for faster retrieval.
 	 */
-	private Set<String> lastUsed = new TreeSet<String>(GardinerCode
-			.getCodeComparator());
+	private Set<String> lastUsed = new TreeSet<String>(
+			GardinerCode.getCodeComparator());
 	/**
 	 * Signs placed in the user palette.
 	 */
-	private Set<String> userPalette = new TreeSet<String>(GardinerCode
-			.getCodeComparator());
+	private Set<String> userPalette = new TreeSet<String>(
+			GardinerCode.getCodeComparator());
 	private Set<String> partSet;
 	private Set<String> variantSet;
 	/**
 	 * Selected sign codes (may be empty strings)
 	 */
-	private String[] selectedSignCodes = { "", "", "" };
+	private String[] selectedSignCodes = { "", "", "", "", "","" };
 	/**
 	 * Index of the selected sign code in the buffer.
 	 */
@@ -139,6 +139,7 @@ public class PalettePresenter {
 		// Sign families
 		DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
 		List<HieroglyphFamily> families = hieroglyphsManager.getFamilies();
+		comboModel.addElement("Select a sign family");
 		comboModel.addElement(new HieroglyphFamily(LAST_USED, "Latest signs"));
 		comboModel
 				.addElement(new HieroglyphFamily(USER_PALETTE, "User Palette"));
@@ -174,13 +175,7 @@ public class PalettePresenter {
 			}
 		});
 
-		simplePalette.getShowFilteredContainingButton().addActionListener(
-				new ActionListener() {
-
-					public void actionPerformed(ActionEvent e) {
-						selectFilteredContaining();
-					}
-				});
+		
 		simplePalette.getShowVariantsButton().addActionListener(
 				new ActionListener() {
 
@@ -197,6 +192,11 @@ public class PalettePresenter {
 					}
 				});
 
+		simplePalette.getContainsCB().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				filterFromContainsCB();
+			}
+		});
 		// Sign table
 		SignListCellRenderer renderer = new SignListCellRenderer(simplePalette);
 		final int bitmapHeight = 40;
@@ -208,6 +208,7 @@ public class PalettePresenter {
 		// signTable.setPrototypeCellValue("A248B");
 		signTable.setFixedCellHeight((int) (bitmapHeight * 1.2));
 		signTable.setFixedCellWidth((int) (2.5 * bitmapHeight));
+
 		// signTable.setRowHeight((int) (renderer.getBitmapHeight() * 1.2));
 		// Row and column selection don't mean anything in our context. Away
 		// with them !
@@ -228,6 +229,13 @@ public class PalettePresenter {
 		newInputMap.put(KeyStroke.getKeyStroke("SPACE"), "INSERT_SIGN");
 
 		signTable.setInputMap(JComponent.WHEN_FOCUSED, newInputMap);
+
+		SignListCellRenderer smallListRenderer = new SignListCellRenderer(
+				simplePalette);
+		smallListRenderer.setDisplaySignsCodes(true);
+		smallListRenderer.setBitmapHeight(20);
+		simplePalette.getContainsCB().setRenderer(smallListRenderer);
+		simplePalette.getContainsCB().setPrototypeDisplayValue("A1");
 
 		ActionMap newActionMap = new ActionMap();
 		newActionMap.setParent(signTable.getActionMap());
@@ -277,6 +285,12 @@ public class PalettePresenter {
 		simplePalette.getCategoryChooserCB().setSelectedItem(families.get(0));
 
 		simplePalette.getShowAllCheckBox().setSelected(true);
+
+		System.out.println(UIManager.getLookAndFeel().toString());
+		// if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX &&
+		// UIManager.getLookAndFeel().toString().contains("Quaqua")) {
+		// }
+
 		// First update.
 		updateAccordingToSelectedCategory();
 
@@ -295,6 +309,8 @@ public class PalettePresenter {
 	}
 
 	protected void selectTag() {
+		// Fast fix... should be improved...
+		if (simplePalette.getCategoryChooserCB().getSelectedIndex() == 0) return;
 		String currentTag = getMainTag();
 
 		if (currentTag != null) {
@@ -311,8 +327,8 @@ public class PalettePresenter {
 	 * @return
 	 */
 	private Collection<String> getCompatibleSignsForTag(String tag) {
-		Collection<String> signs = new TreeSet<String>(GardinerCode
-				.getCodeComparator());
+		Collection<String> signs = new TreeSet<String>(
+				GardinerCode.getCodeComparator());
 		if (tag != null) {
 			if (ALL.equals(tag)) {
 				// The signs order is given by getSignsCodeInPaletteFamily
@@ -455,8 +471,8 @@ public class PalettePresenter {
 			partSet = null;
 			variantSet.add(getSelectedCode());
 		}
-		TreeSet<String> tmp = new TreeSet<String>(GardinerCode
-				.getCodeComparator());
+		TreeSet<String> tmp = new TreeSet<String>(
+				GardinerCode.getCodeComparator());
 		tmp.addAll(variantSet);
 		Iterator<String> it = tmp.iterator();
 		while (it.hasNext()) {
@@ -476,8 +492,8 @@ public class PalettePresenter {
 			partSet = new TreeSet<String>(GardinerCode.getCodeComparator());
 			partSet.add(getSelectedCode());
 		}
-		TreeSet<String> tmp = new TreeSet<String>(GardinerCode
-				.getCodeComparator());
+		TreeSet<String> tmp = new TreeSet<String>(
+				GardinerCode.getCodeComparator());
 		tmp.addAll(partSet);
 		Iterator<String> it = tmp.iterator();
 		while (it.hasNext()) {
@@ -490,8 +506,7 @@ public class PalettePresenter {
 	/**
 	 * Filter displayed signs to find those which contain the selected sign.
 	 */
-	protected void selectFilteredContaining() {
-		String code = getSelectedCode();
+	protected void selectFilteredContaining(String code) {
 		if (!"".equals(code) && null != code) {
 			// Compute the closure of the part of relation.
 			TreeSet<String> containingSign = new TreeSet<String>();
@@ -505,8 +520,8 @@ public class PalettePresenter {
 				}
 			}
 			// Closure computed. Now the list of displayed signs:
-			TreeSet<String> display = new TreeSet<String>(GardinerCode
-					.getCodeComparator());
+			TreeSet<String> display = new TreeSet<String>(
+					GardinerCode.getCodeComparator());
 			display.addAll(getDisplayedSigns());
 			display.retainAll(containingSign);
 			setDisplayedSigns(display);
@@ -543,7 +558,9 @@ public class PalettePresenter {
 	}
 
 	private void updateAccordingToSelectedCategory() {
-		selectCategory(getSelectedFamily());
+		// Skip index 0 (no-op)
+		if (simplePalette.getCategoryChooserCB().getSelectedIndex() > 0)
+			selectCategory(getSelectedFamily());
 	}
 
 	/**
@@ -579,16 +596,54 @@ public class PalettePresenter {
 		simplePalette.getSecondaryTagCB().setModel(new DefaultComboBoxModel());
 	}
 
+	/**
+	 * display those signs in the large sign list, and add their parts to the
+	 * sub sign combo box.
+	 * 
+	 * @param signsCodes
+	 */
 	private void setDisplayedSigns(Collection<String> signsCodes) {
 		String[] l = new String[signsCodes.size()];
 		signsCodes.toArray(l);
+
 		DefaultListModel model = new DefaultListModel();
-		for (Iterator<String> it = signsCodes.iterator(); it.hasNext();) {
-			model.addElement(it.next());
+		// add the signs to the list model for general display.
+		for (String code : signsCodes) {
+			model.addElement(code);
 		}
 
 		simplePalette.getSignTable().setModel(model);
 		simplePalette.getSignTable().scrollRectToVisible(new Rectangle(0, 0));
+		updateSubSignCombobox();
+	}
+
+	private void updateSubSignCombobox() {
+
+		TreeSet<String> containedSigns = new TreeSet<String>(
+				GardinerCode.getCodeComparator());
+		// add the signs to the list model for general display.
+		// add the signs parts to the list model for the sub-sign selector.
+		for (String code : getDisplayedSigns()) {
+			for (String subSignCode : hieroglyphsManager.getSignsIn(code)) {
+				containedSigns.add(subSignCode);
+			}
+		}
+
+		DefaultComboBoxModel subSignListModel = new DefaultComboBoxModel();
+		// add the title as a string buffer. This way, it won't be rendered :-)
+		subSignListModel
+				.addElement(new StringBuffer("filter signs containing"));
+
+		for (String oldSign : selectedSignCodes) {
+			if (!oldSign.equals(""))
+				subSignListModel.addElement(oldSign);
+		}
+		subSignListModel.addElement(new StringBuffer(" "));
+
+		for (String signIcon : containedSigns) {
+			subSignListModel.addElement(signIcon);
+		}
+		simplePalette.getContainsCB().setModel(subSignListModel);
 	}
 
 	/**
@@ -597,8 +652,8 @@ public class PalettePresenter {
 	 * @return a collection of String.
 	 */
 	private Collection<String> getDisplayedSigns() {
-		TreeSet<String> result = new TreeSet<String>(GardinerCode
-				.getCodeComparator());
+		TreeSet<String> result = new TreeSet<String>(
+				GardinerCode.getCodeComparator());
 		// run through the possible signs...
 		ListModel listModel = simplePalette.getSignTable().getModel();
 		for (int i = 0; i < listModel.getSize(); i++) {
@@ -614,6 +669,7 @@ public class PalettePresenter {
 
 	/**
 	 * Create a panel with this palette and a tab to display sign informations.
+	 * 
 	 * @return a panel containing the palette panel, plus sign info.
 	 */
 	public JTabbedPane createComplexPalette() {
@@ -633,12 +689,11 @@ public class PalettePresenter {
 		sp2.setBorder(BorderFactory.createTitledBorder("Sign Info"));
 		infoPanel.add(sp2);
 		infoPanel.add(sp1);
-		
+
 		tabbedPane.addTab("Sign Description", infoPanel);
 		return tabbedPane;
 	}
-	
-	
+
 	private final class PaletteRowSelectionListener implements
 			ListSelectionListener {
 
@@ -671,18 +726,6 @@ public class PalettePresenter {
 			if (e.getClickCount() >= 2) {
 				sendCode(code);
 			}
-		}
-
-		public void mouseWheelMoved(MouseWheelEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		public void mouseDragged(MouseEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-
-		public void mouseMoved(MouseEvent e) {
-			throw new UnsupportedOperationException("Not supported yet.");
 		}
 	}
 
@@ -730,7 +773,7 @@ public class PalettePresenter {
 				% selectedSignCodes.length;
 		selectedSignCodes[selectedSignCodeIndex] = code;
 		displaySelectedSignInfo();
-
+		updateSubSignCombobox();
 	}
 
 	/**
@@ -806,6 +849,15 @@ public class PalettePresenter {
 		displaySelectedSignInfo();
 	}
 
+	public void filterFromContainsCB() {
+		Object selected = simplePalette.getContainsCB().getSelectedItem();
+		// The list also contains text.
+		if (selected instanceof String) {
+			selectFilteredContaining((String) selected);
+			simplePalette.getCategoryChooserCB().setSelectedIndex(0);
+		}
+	}
+
 	private void updateSecondaryTagCB() {
 		TreeSet<String> tags = new TreeSet<String>();// Strings...
 		// run through the possible signs...
@@ -814,8 +866,8 @@ public class PalettePresenter {
 			String code = it.next();
 			tags.addAll(hieroglyphsManager.getTagsForSign(code));
 		}
-		DefaultComboBoxModel secondaryCBModel = new DefaultComboBoxModel(tags
-				.toArray());
+		DefaultComboBoxModel secondaryCBModel = new DefaultComboBoxModel(
+				tags.toArray());
 		simplePalette.getSecondaryTagCB().setModel(secondaryCBModel);
 	}
 
