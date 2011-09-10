@@ -16,6 +16,7 @@ package jsesh.jhotdraw;
 import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
@@ -23,7 +24,6 @@ import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.hieroglyphs.ManuelDeCodage;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.swing.utils.ImageIconFactory;
 

@@ -422,6 +422,11 @@ public class PreferencesUtil
         });
         window.addWindowListener(new WindowAdapter() {
 
+            @Override
+            public void windowClosed(WindowEvent we) {
+                prefs.putBoolean(name + ".visible", false);
+            }
+
             
             public void windowClosing(WindowEvent e) {
                 prefs.putBoolean(name + ".visible", false);

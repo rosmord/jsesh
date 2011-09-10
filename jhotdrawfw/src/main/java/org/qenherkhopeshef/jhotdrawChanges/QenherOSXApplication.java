@@ -639,7 +639,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 					QenherTogglePaletteAction tpa = new QenherTogglePaletteAction(
 							QenherOSXApplication.this, d, tb.getName());
 					palettes.add(d);
-					if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
+					if (prefs.getBoolean("toolbar." + i + ".visible", false)) {
 						addPalette(d);
 						tpa.putValue(ActionUtil.SELECTED_KEY, true);
 					}

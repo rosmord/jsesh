@@ -111,7 +111,6 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
  * TODO for Windows (check for mac) : ensure that the palette is correctly displayed, in sync with its menu.
- * TODO update the readmes... (in particular regarding jhotdraw).
  * 
  * TODO check consistency and file export system in particular. TODO before
  * 

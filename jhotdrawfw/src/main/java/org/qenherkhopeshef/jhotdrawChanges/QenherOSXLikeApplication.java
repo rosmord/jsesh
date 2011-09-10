@@ -599,7 +599,7 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 					QenherTogglePaletteAction tpa = new QenherTogglePaletteAction(
 							QenherOSXLikeApplication.this, d, tb.getName());
 					palettes.add(d);
-					if (prefs.getBoolean("toolbar." + i + ".visible", true)) {
+					if (prefs.getBoolean("toolbar." + i + ".visible", false)) {
 						addPalette(d);
 						tpa.putValue(ActionUtil.SELECTED_KEY, true);
 					}

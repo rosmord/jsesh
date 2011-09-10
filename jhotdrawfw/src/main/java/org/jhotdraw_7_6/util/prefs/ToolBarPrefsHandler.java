@@ -44,7 +44,7 @@ public class ToolBarPrefsHandler implements ComponentListener, AncestorListener 
         int orientation = (constraint.equals(BorderLayout.NORTH) || constraint.equals(BorderLayout.SOUTH)) ? JToolBar.HORIZONTAL : JToolBar.VERTICAL;
         toolbar.setOrientation(orientation);
         toolbar.getParent().add(constraint, toolbar);
-        toolbar.setVisible(prefs.getBoolean(prefsPrefix+".visible", true));
+        toolbar.setVisible(prefs.getBoolean(prefsPrefix+".visible", false));
         /*
         if (prefs.getBoolean(prefsPrefix+".isFloating", false)) {
             makeToolBarFloat();

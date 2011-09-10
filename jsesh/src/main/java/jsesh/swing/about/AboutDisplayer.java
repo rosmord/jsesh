@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -54,8 +55,7 @@ public class AboutDisplayer {
 	public AboutDisplayer(Component parent) {
 		this.parent = parent;
 		panel = new JPanel();
-		URL base = this.getClass().getResource(
-				"/jseshResources/about/about.html");
+		URL base = getHtmlResource();
 		textPane = new JEditorPane();
 		textPane.setEditable(false);
 		try {
@@ -65,16 +65,34 @@ public class AboutDisplayer {
 			exception.printStackTrace();
 			throw new RuntimeException("loading problem", exception);
 		}
-		textPane.setMinimumSize(new Dimension(600, 400));
-		panel.add(textPane);
+		JScrollPane sc = new JScrollPane(textPane);
+		sc.setPreferredSize(new Dimension(800, 600));
+		panel.add(sc);
+	}
+
+	/**
+	 * @return
+	 */
+	private URL getHtmlResource() {
+		String countryCode = Locale.getDefault().getCountry().toLowerCase();
+		if (countryCode.equals("us"))
+			countryCode = "gb";
+		String countryFile = "/jseshResources/about/about-" + countryCode
+				+ ".html";
+		URL result = this.getClass().getResource(countryFile);
+		if (result == null) {
+			String defaultFile = "/jseshResources/about/about-gb.html";
+			result= this.getClass().getResource(defaultFile);
+		}
+		return result;
 	}
 
 	public void show() {
 		if (pageLoaded) {
-			displayAsked= true;
+			displayAsked = true;
 			doShow();
 		} else {
-			displayAsked= true;
+			displayAsked = true;
 		}
 	}
 
@@ -84,26 +102,27 @@ public class AboutDisplayer {
 	private void doShow() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				// panel.setSize(800, 600);
 				JOptionPane.showMessageDialog(parent, panel, "About JSesh",
 						JOptionPane.PLAIN_MESSAGE);
-				displayAsked= false;
+				displayAsked = false;
 			}
 		});
 	}
 
 	private final class PageLoadedListener implements PropertyChangeListener {
 		/**
-		 * Method called when the page has been loaded.
-		 * Note to self : the property change is NOT advertized by the EDT ????
+		 * Method called when the page has been loaded. Note to self : the
+		 * property change is NOT advertized by the EDT ????
 		 */
 		public void propertyChange(PropertyChangeEvent evt) {
-			final PropertyChangeEvent  e = evt;
-			SwingUtilities.invokeLater(new Runnable() {				
+			final PropertyChangeEvent e = evt;
+			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					//if (!SwingUtilities.isEventDispatchThread())
-					//	throw new RuntimeException("Is this not the EDT ???");
+					// if (!SwingUtilities.isEventDispatchThread())
+					// throw new RuntimeException("Is this not the EDT ???");
 
-					if (e.getPropertyName().equals("page")) {					
+					if (e.getPropertyName().equals("page")) {
 						pageLoaded = true;
 						if (displayAsked)
 							doShow();

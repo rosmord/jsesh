@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.1</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <artifactId>jsesh</artifactId>
     <packaging>jar</packaging>
@@ -69,6 +69,42 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									org.qenherkhopeshef
+        								</groupId>
+        								<artifactId>
+        									cupAndlex
+        								</artifactId>
+        								<versionRange>
+        									[1,)
+        								</versionRange>
+        								<goals>
+        									<goal>lex</goal>
+        									<goal>cup</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<execute/>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
     </build>
     <dependencies>
         <dependency>
@@ -84,7 +120,7 @@
        <dependency>
             <groupId>org.qenherkhopeshef</groupId>
             <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>5.1</version>
+            <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>

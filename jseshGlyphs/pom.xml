@@ -1,50 +1,84 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.qenherkhopeshef</groupId>
-        <artifactId>JSesh-all</artifactId>
-        <version>5.1</version>
-    </parent>
-    <artifactId>jseshGlyphs</artifactId>
-    <packaging>jar</packaging>
-    <name>jseshGlyph</name>
-    <description>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.qenherkhopeshef</groupId>
+		<artifactId>JSesh-all</artifactId>
+		<version>5.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>jseshGlyphs</artifactId>
+	<packaging>jar</packaging>
+	<name>jseshGlyph</name>
+	<description>
             Font packager for JSesh.
             Packages fonts in resources dir            
     </description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.qenherkhopeshef</groupId>
-                <artifactId>prepareJSeshRelease</artifactId>
-                <version>${project.version}</version>
-                <configuration>
-                </configuration>
-                <executions>                    
-                    <execution>
-                        <!-- prepareFonts must be called
-                            AFTER copying the resources
-                        -->
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>prepareFonts</goal>
-                        </goals>
-                        <configuration>
-                            <glyphsPackage>jseshGlyphs</glyphsPackage>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-            	<artifactId>maven-resources-plugin</artifactId>
-            	<version>2.5</version>
-            </plugin>
-        </plugins>
-    </build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.qenherkhopeshef</groupId>
+				<artifactId>prepareJSeshRelease</artifactId>
+				<version>${project.version}</version>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<!-- prepareFonts must be called AFTER copying the resources -->
+						<phase>process-classes</phase>
+						<goals>
+							<goal>prepareFonts</goal>
+						</goals>
+						<configuration>
+							<glyphsPackage>jseshGlyphs</glyphsPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+		<plugins>
+			<!--This plugin's configuration is used to store Eclipse m2e settings 
+				only. It has no influence on the Maven build itself. -->
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										org.qenherkhopeshef
+									</groupId>
+									<artifactId>
+										prepareJSeshRelease
+									</artifactId>
+									<versionRange>
+										[1,)
+									</versionRange>
+									<goals>
+										<goal>prepareFonts</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<execute />
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+	</build>
 </project>

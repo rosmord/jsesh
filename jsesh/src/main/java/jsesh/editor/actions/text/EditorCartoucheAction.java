@@ -33,7 +33,6 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor.actions.text;
 
-import com.sun.j3d.audioengines.Sample;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 import java.util.TreeMap;
@@ -68,11 +67,8 @@ public class EditorCartoucheAction extends EditorAction {
 		putValue(Action.SMALL_ICON, ImageIconFactory.buildImage(mdcText));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/**
+	 * {@inheritDoc}
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (editor.isEditable())
@@ -128,23 +124,30 @@ public class EditorCartoucheAction extends EditorAction {
 		}
 	}
 
+	/**
+	 * create a action map for a given editor, containing all cartouche-related actions.
+	 * @param editor
+	 * @return an action map
+	 */
 	public static Map<String, Action> generateActionMap(JMDCEditor editor) {
 		TreeMap<String, Action> map = new TreeMap<String, Action>();
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
-			map.put(actionNames[i], new EditorCartoucheAction(editor,
-					c.c, c.start, c.end, c.sample));
+			map.put(actionNames[i], new EditorCartoucheAction(editor, c.c,
+					c.start, c.end, c.sample));
 		}
 		return map;
 	}
-        
-        /**
-         * Can be called to preload cartouches pictures before the program is started.
-         */
-        public static void preloadCartoucheIcons() {
-            for (int i = 0; i < allCartouches.length; i++) {
+
+	/**
+	 * Can be called to preload cartouches pictures before the program is
+	 * started.
+	 * <p> 
+	 */
+	public static void preloadCartoucheIcons() {
+		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
 			ImageIconFactory.buildImage(c.sample);
 		}
-        }
+	}
 }
