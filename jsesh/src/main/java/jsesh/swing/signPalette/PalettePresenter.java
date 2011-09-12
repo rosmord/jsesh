@@ -296,6 +296,10 @@ public class PalettePresenter {
 
 	}
 
+	/**
+	 * Returns the family currently selected.
+	 * @return
+	 */
 	public HieroglyphFamily getSelectedFamily() {
 		HieroglyphFamily hieroglyphFamily = (HieroglyphFamily) simplePalette
 				.getCategoryChooserCB().getSelectedItem();
@@ -303,11 +307,14 @@ public class PalettePresenter {
 		if (hieroglyphFamily == null) {
 			hieroglyphFamily = (HieroglyphFamily) simplePalette
 					.getCategoryChooserCB().getModel().getElementAt(0);
-			simplePalette.getCategoryChooserCB().setSelectedIndex(0);
+			selectNoFamily();
 		}
 		return hieroglyphFamily;
 	}
 
+	/**
+	 * Called when a specific tag is selected in the first level of tags.
+	 */
 	protected void selectTag() {
 		// Fast fix... should be improved...
 		if (simplePalette.getCategoryChooserCB().getSelectedIndex() == 0) return;
@@ -317,7 +324,6 @@ public class PalettePresenter {
 			setDisplayedSigns(getCompatibleSignsForTag(currentTag));
 			updateSecondaryTagCB();
 		}
-
 	}
 
 	/**
@@ -385,6 +391,9 @@ public class PalettePresenter {
 		return result;
 	}
 
+	/**
+	 * Called when a tag is selected in the secondary level of tags.
+	 */
 	protected void selectSecondaryTag() {
 		String secondaryTag = (String) simplePalette.getSecondaryTagCB()
 				.getSelectedItem();
@@ -396,6 +405,7 @@ public class PalettePresenter {
 		setDisplayedSigns(signs);
 	}
 
+	
 	protected void toggleSignInUserPalette() {
 		String code = getSelectedCode();
 		if (code != null) {
@@ -435,6 +445,10 @@ public class PalettePresenter {
 		userPalette.addAll(Arrays.asList(codes));
 	}
 
+	/**
+	 * Get all signs which have a specific translitteration or code.
+	 * Actually, get all signs whose transliteration or code contain the text in the text field.
+	 */
 	protected void selectFromTranslitterationOrCode() {
 		String trl = simplePalette.getTranslitterationFilterField().getText();
 		PossibilitiesList l;
@@ -462,9 +476,13 @@ public class PalettePresenter {
 				content.add(c);
 			}
 		}
+		selectNoFamily();
 		setDisplayedSigns(content);
 	}
 
+	/**
+	 * list variants of the selected sign.
+	 */
 	protected void selectVariants() {
 		if (variantSet == null) {
 			variantSet = new TreeSet<String>(GardinerCode.getCodeComparator());
@@ -479,6 +497,7 @@ public class PalettePresenter {
 			String code = it.next();
 			variantSet.addAll(hieroglyphsManager.getVariants(code));
 		}
+		selectNoFamily();
 		setDisplayedSigns(variantSet);
 	}
 
@@ -500,6 +519,7 @@ public class PalettePresenter {
 			String code = it.next();
 			partSet.addAll(hieroglyphsManager.getSignsContaining(code));
 		}
+		selectNoFamily();
 		setDisplayedSigns(partSet);
 	}
 
@@ -524,13 +544,13 @@ public class PalettePresenter {
 					GardinerCode.getCodeComparator());
 			display.addAll(getDisplayedSigns());
 			display.retainAll(containingSign);
+			selectNoFamily();
 			setDisplayedSigns(display);
 		}
 	}
 
 	/**
 	 * Method called when a new cell is focused.
-	 * 
 	 */
 	protected void selectedCellChanged() {
 		JList signTable = simplePalette.getSignTable();
@@ -756,7 +776,6 @@ public class PalettePresenter {
 				while (!possibilities.getCurrentSign().equals(code)) {
 					possibilities.next();
 				}
-
 			}
 		}
 		lastUsed.add(code);
@@ -778,7 +797,6 @@ public class PalettePresenter {
 
 	/**
 	 * Displays info about the currently selected sign.
-	 * 
 	 * @param signIndex
 	 */
 	private void displaySelectedSignInfo() {
@@ -854,8 +872,19 @@ public class PalettePresenter {
 		// The list also contains text.
 		if (selected instanceof String) {
 			selectFilteredContaining((String) selected);
-			simplePalette.getCategoryChooserCB().setSelectedIndex(0);
+			selectNoFamily();
 		}
+	}
+
+	/**
+	 * Sets the selected family to "none".
+	 * <p>Called when a manipulation invalidate the currently selected family.
+	 * (for instance, filtering signs by transliteration).
+	 * <p>If we don't do that, on the mac, the user can't directly reselect the previously displayed 
+	 * sign family.
+	 */
+	private void selectNoFamily() {
+		simplePalette.getCategoryChooserCB().setSelectedIndex(0);
 	}
 
 	private void updateSecondaryTagCB() {

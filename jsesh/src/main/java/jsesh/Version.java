@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 public class Version {
 
     public static String getVersion() {
+	    	
         String version = "";
         try {
             Properties properties = new Properties();

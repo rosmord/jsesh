@@ -43,6 +43,7 @@ import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileFilter;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
@@ -103,6 +104,7 @@ import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
 /**
  * JHotdraw-specific model for the application.
@@ -352,8 +354,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		JFileURIChooser chooser = new JFileURIChooser();
 		String description = BundleHelper.getInstance().getLabel(
 				"file.glyphFile.text");
-		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
-				"gly"));
+//		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
+//				"gly"));
+		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"gly", "hie"}, description) );
 		return chooser;
 	}
 

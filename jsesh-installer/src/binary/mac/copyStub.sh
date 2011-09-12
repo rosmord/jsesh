@@ -8,7 +8,7 @@ mkdirIfNotE () {
 
 # prepare an application.
 #
-prepareApp() {
+prepareApp() {	
     app="$1"
     head="Info.plist.$app"
     plistFile="$dest/$app.app/Contents/Info.plist"
@@ -20,6 +20,10 @@ prepareApp() {
 
     mkdirIfNotE "$dest/$app.app/Contents/MacOS"
     cp $stub "$dest/$app.app/Contents/MacOS"
+    # copy jni files to the correct folder...
+    # Note that the installer doesn't copy empty folders 
+    mkdirIfNotE "$dest/$app.app/Contents/Resources/Java"
+    cp -a ./lib/*.jnilib "$dest/$app.app/Contents/Resources/Java"
     # cleanup
     rm "$head"
 }

@@ -14,6 +14,7 @@ import javax.swing.JList;
  * Simple palette window.
  * @author  rosmord
  */
+@SuppressWarnings("serial")
 public class JSimplePalette extends javax.swing.JPanel {
     
     /** Creates new form JSimplePalette */
