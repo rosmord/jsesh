@@ -36,14 +36,10 @@ package jsesh.jhotdraw;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ActionMap;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
-import javax.swing.filechooser.FileFilter;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
@@ -76,6 +72,7 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
@@ -104,6 +101,7 @@ import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
+import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
 /**
@@ -180,10 +178,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 */
 	private MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
+	private PalettePresenter palettePresenter;
+	
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
 		this.application = a;
+		((ActiveViewAwareApplication)a).initSecondaryWindow(palettePresenter.getDialog());
 	}
 
 	/*
@@ -201,24 +202,21 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		JSeshView jSeshView = (JSeshView) v;
 		jSeshView.setDrawingSpecifications(drawingSpecifications);
 		jSeshView.setMDCModelTransferableBroker(transferableBroker);
+		System.out.println(getFontInfo());
+		jSeshView.setFontInfo(getFontInfo());
 	}
 
-	private JTabbedPane createHieroglyphicPalette() {
-		PalettePresenter palettePresenter = new PalettePresenter();
-		palettePresenter
-				.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
-		return palettePresenter.createComplexPalette();
-	}
+	
 
-	@Override
-	public List<JToolBar> createToolBars(Application a, View p) {
-		List<JToolBar> toolbars = new ArrayList<JToolBar>();
-		JToolBar hoolbar = new JToolBar("hieroglyphs");
-		hoolbar.add(createHieroglyphicPalette());
-		// toolbars.add(hoolbar);
-		toolbars.add(hoolbar);
-		return toolbars;
-	}
+//	@Override
+//	public List<JToolBar> createToolBars(Application a, View p) {
+//		List<JToolBar> toolbars = new ArrayList<JToolBar>();
+//		JToolBar hoolbar = new JToolBar("hieroglyphs");
+//		hoolbar.add(createHieroglyphicPalette());
+//		// toolbars.add(hoolbar);
+//		toolbars.add(hoolbar);
+//		return toolbars;
+//	}
 
 	/*
 	 * Note that createActionMap is in the application model and not in the view
@@ -257,10 +255,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
 			// palette ...
 
-			// hieroglyphicPalette = new JDialog();
-			// map.put(ToggleGlyphPaletteAction.ID, new
-			// ToggleGlyphPaletteAction(a, hieroglyphicPalette, new
-			// PaletteCreator()));
+			palettePresenter = new PalettePresenter();
+			palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+
+			map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
 
 			map.remove(DuplicateAction.ID);
 			map.remove(DeleteAction.ID);
@@ -483,6 +481,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	@Override
 	public void destroyApplication(Application a) {
+		palettePresenter.getDialog().savePreferences();
 		jseshBase.savePreferences();
 	}
 

@@ -25,6 +25,7 @@ import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.hieroglyphs.ManuelDeCodage;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
+import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ImageIconFactory;
 
 import org.jhotdraw_7_6.app.Application;
@@ -32,6 +33,8 @@ import org.qenherkhopeshef.guiFramework.AppStartup;
 import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
+
+import com.sun.naming.internal.ResourceManager;
 
 /**
  * JSeshMain class.
@@ -50,6 +53,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 	public JSeshApplicationStartingData initApplicationData() {
 		// Pre-load a number of objects so that they are ready when graphic
 		// stuff starts.
+		ResourcesManager.getInstance();
 		JSeshApplicationStartingData data = new JSeshApplicationStartingData();
 		new DrawingSpecificationsImplementation();
 		DefaultHieroglyphicFontManager.getInstance();

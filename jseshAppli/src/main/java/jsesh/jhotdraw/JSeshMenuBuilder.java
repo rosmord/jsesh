@@ -2,7 +2,6 @@ package jsesh.jhotdraw;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Action;
@@ -10,7 +9,6 @@ import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -70,6 +68,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		addToMenu(textMenu, a, v, ActionsID.EXPLODE_GROUP);
 		textMenu.addSeparator();
 		addToMenu(textMenu, a, v, EditGroupAction.ID);
+		textMenu.addSeparator();
 		addToMenu(textMenu, a, v, ActionsID.INSERT_SPACE);
 		addToMenu(textMenu, a, v, ActionsID.INSERT_HALF_SPACE);
 		addToMenu(textMenu, a, v, ActionsID.NEW_PAGE);
@@ -366,8 +365,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 	 */
 	@Override
 	public void addOtherWindowItems(JMenu m, Application app, View v) {
-		//m.addSeparator();
-		//m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlyphPaletteAction.ID)));
+		m.addSeparator();
+		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlyphPaletteAction.ID)));
 	}
 
 }

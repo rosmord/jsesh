@@ -591,6 +591,19 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 		}
 	}
 
+	/**
+	 * Sets menus and the like for non-document windows
+	 * @param window
+	 */
+	public void initSecondaryWindow(final JFrame dialog) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			public void run() {
+				dialog.setJMenuBar(createMenuBar(null));				
+			}
+		});
+	}
+	
 	protected void initPalettes(final LinkedList<Action> paletteActions) {
 		SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 

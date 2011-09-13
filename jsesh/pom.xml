@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.2</version>
+        <version>5.3-SNAPSHOT</version>
     </parent>
     <artifactId>jsesh</artifactId>
     <packaging>jar</packaging>
@@ -120,7 +120,7 @@
        <dependency>
             <groupId>org.qenherkhopeshef</groupId>
             <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>5.2</version>
+            <version>5.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>

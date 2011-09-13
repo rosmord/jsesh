@@ -25,7 +25,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -56,7 +58,7 @@ import jsesh.hieroglyphs.SignDescriptionConstants;
  * Currently, one might prefer to use HieroglyphicPaletteDialog, which provides
  * also a glyph information tab. (See, however, method createFullPalette).
  * 
- *
+ * 
  * TODO : use a MultiLingual label instead of the plain tag name...
  * 
  * @author rosmord
@@ -114,11 +116,16 @@ public class PalettePresenter {
 	/**
 	 * Selected sign codes (may be empty strings)
 	 */
-	private String[] selectedSignCodes = { "", "", "", "", "","" };
+	private String[] selectedSignCodes = { "", "", "", "", "", "" };
 	/**
 	 * Index of the selected sign code in the buffer.
 	 */
 	private int selectedSignCodeIndex = 0;
+
+	/**
+	 * A dialog (which can be null or can be used to display this palette).
+	 */
+	private HieroglyphicPaletteDialog dialog;
 
 	public PalettePresenter() {
 		hieroglyphsManager = CompositeHieroglyphsManager.getInstance();
@@ -175,7 +182,6 @@ public class PalettePresenter {
 			}
 		});
 
-		
 		simplePalette.getShowVariantsButton().addActionListener(
 				new ActionListener() {
 
@@ -298,6 +304,7 @@ public class PalettePresenter {
 
 	/**
 	 * Returns the family currently selected.
+	 * 
 	 * @return
 	 */
 	public HieroglyphFamily getSelectedFamily() {
@@ -317,7 +324,8 @@ public class PalettePresenter {
 	 */
 	protected void selectTag() {
 		// Fast fix... should be improved...
-		if (simplePalette.getCategoryChooserCB().getSelectedIndex() == 0) return;
+		if (simplePalette.getCategoryChooserCB().getSelectedIndex() == 0)
+			return;
 		String currentTag = getMainTag();
 
 		if (currentTag != null) {
@@ -405,7 +413,6 @@ public class PalettePresenter {
 		setDisplayedSigns(signs);
 	}
 
-	
 	protected void toggleSignInUserPalette() {
 		String code = getSelectedCode();
 		if (code != null) {
@@ -446,8 +453,9 @@ public class PalettePresenter {
 	}
 
 	/**
-	 * Get all signs which have a specific translitteration or code.
-	 * Actually, get all signs whose transliteration or code contain the text in the text field.
+	 * Get all signs which have a specific translitteration or code. Actually,
+	 * get all signs whose transliteration or code contain the text in the text
+	 * field.
 	 */
 	protected void selectFromTranslitterationOrCode() {
 		String trl = simplePalette.getTranslitterationFilterField().getText();
@@ -714,6 +722,18 @@ public class PalettePresenter {
 		return tabbedPane;
 	}
 
+	/**
+	 * Returns a dialog suitable for displaying this palette.
+	 * <p> Creates the dialog if needed.
+	 * @return
+	 */
+	public HieroglyphicPaletteDialog getDialog() {
+		if (dialog == null) {
+			dialog = new HieroglyphicPaletteDialog(this);
+		}
+		return dialog;
+	}
+
 	private final class PaletteRowSelectionListener implements
 			ListSelectionListener {
 
@@ -797,6 +817,7 @@ public class PalettePresenter {
 
 	/**
 	 * Displays info about the currently selected sign.
+	 * 
 	 * @param signIndex
 	 */
 	private void displaySelectedSignInfo() {
@@ -878,10 +899,12 @@ public class PalettePresenter {
 
 	/**
 	 * Sets the selected family to "none".
-	 * <p>Called when a manipulation invalidate the currently selected family.
-	 * (for instance, filtering signs by transliteration).
-	 * <p>If we don't do that, on the mac, the user can't directly reselect the previously displayed 
-	 * sign family.
+	 * <p>
+	 * Called when a manipulation invalidate the currently selected family. (for
+	 * instance, filtering signs by transliteration).
+	 * <p>
+	 * If we don't do that, on the mac, the user can't directly reselect the
+	 * previously displayed sign family.
 	 */
 	private void selectNoFamily() {
 		simplePalette.getCategoryChooserCB().setSelectedIndex(0);

@@ -43,7 +43,7 @@ public class ResourcesManager {
 	/**
 	 * A map linking symbolic names to icons.
 	 */
-	private Map iconMap = new HashMap();
+	private Map<String, ImageIcon> iconMap = new HashMap<String, ImageIcon>();
 
 	private ResourcesManager() {
 		loadFonts();
@@ -170,9 +170,9 @@ public class ResourcesManager {
 
 	public ImageIcon getIcon(String symbolicName) {
 		if (iconMap.containsKey(symbolicName)) {
-			return (ImageIcon) iconMap.get(symbolicName);
+			return iconMap.get(symbolicName);
 		} else {
-			return (ImageIcon) iconMap.get("Dummy");
+			return iconMap.get("Dummy");
 		}
 	}
 
