@@ -647,4 +647,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
     public ActionMap getActionMap( View v) {
         return (v == null) ? actionMap : v.getActionMap();
     }
+    
+    public void recomputeWindowMenu() {
+		firePropertyChange(VIEW_COUNT_PROPERTY, 0, 1);    	
+};
 }

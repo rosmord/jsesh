@@ -52,12 +52,7 @@ public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
 			putValue(ActionUtil.SELECTED_KEY, true);
 		}
 	}
-
-	@Override
-	protected void updateApplicationEnabled() {
-		System.out.println("called application enabled");
-	}
-
+	
 	public class PaletteListener extends WindowAdapter implements
 			WindowListener {
 		@Override

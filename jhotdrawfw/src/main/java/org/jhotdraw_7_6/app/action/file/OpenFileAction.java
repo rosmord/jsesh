@@ -42,6 +42,7 @@ import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
+import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 
 /**
  * Presents an {@code URIChooser} and loads the selected URI into an
@@ -167,6 +168,10 @@ public class OpenFileAction extends AbstractApplicationAction {
                 app.setEnabled(true);
             }
 
+            @Override
+            protected void finished() {
+            		app.recomputeWindowMenu();
+            }
             
             protected void failed(Throwable value) {
                 value.printStackTrace();

@@ -368,4 +368,9 @@ public interface Application {
      * @param v A view or null
      */
     public ActionMap getActionMap( View v);
+    
+    /**
+     * Kind of patch for some widow menu update problem.
+     */
+    public void recomputeWindowMenu();
 }

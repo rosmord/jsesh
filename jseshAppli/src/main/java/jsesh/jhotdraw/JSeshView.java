@@ -200,15 +200,6 @@ public class JSeshView extends AbstractView {
 	 */
 	private void readFromFile(URI uri) {
 		File file = new File(uri);
-		/*
-		 * // Two possibilities : PDF files or JSesh files... if
-		 * (file.getName().toLowerCase().endsWith(".pdf")) { try {
-		 * FileInputStream in = new FileInputStream(file);
-		 * setCurrentDocument(PDFImporter.createPDFStreamImporter( in,
-		 * file).getMdcDocument()); } catch (PDFImportException e) {
-		 * e.printStackTrace(); JOptionPane.showMessageDialog(frame,
-		 * "Error opening pdf. Sorry", "Error", JOptionPane.ERROR_MESSAGE); }
-		 */
 		try {
 			if (file.getName().toLowerCase().endsWith(".pdf")) {
 				FileInputStream in = new FileInputStream(file);
@@ -227,7 +218,7 @@ public class JSeshView extends AbstractView {
 				// mdcDocumentReader.setEncoding(encoding);
 				final MDCDocument document = mdcDocumentReader.loadFile(file);
 				// Observe changes to this document in the future.
-				SwingUtilities.invokeAndWait(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						viewModel.setCurrentDocument(document);
 						// Fire the corresponding event, with dummy
@@ -246,13 +237,10 @@ public class JSeshView extends AbstractView {
 			// e.printStackTrace();
 		} catch (IOException e) {
 			throw new UserMessage(e);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
 		} catch (PDFImportException e) {
 			throw new UserMessage(e);
 		}
+
 	}
 
 	private void displayErrorInEdt(final String title, final String message) {

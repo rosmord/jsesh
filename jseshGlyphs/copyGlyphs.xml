@@ -157,7 +157,7 @@
 				<include name="*.SVG" />
 			</fileset>
 		</sync>
-		<copy todir="${basedir}/resources/glyphs/varia" overwrite="true">
+		<copy todir="${basedir}/src/main/resources/jseshGlyphs" overwrite="true">
 			<fileset dir="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/Distribution">
 				<include name="*.svg" />
 				<include name="*.SVG" />

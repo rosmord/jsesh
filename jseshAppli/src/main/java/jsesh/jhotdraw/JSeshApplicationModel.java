@@ -443,7 +443,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 */
 	public void showPreferencesEditor() {
 		ApplicationPreferencesPresenter applicationPreferencesPresenter = new ApplicationPreferencesPresenter();
-		Component parentComponent = application.getActiveView().getComponent();
+		Component parentComponent = null;
+		View activeView = application.getActiveView();
+		if (activeView!= null) 
+			parentComponent= 	activeView.getComponent();
 		applicationPreferencesPresenter.loadPreferences(this);
 		if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
 			applicationPreferencesPresenter.updatePreferences(this);
