@@ -354,6 +354,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 				"file.glyphFile.text");
 //		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
 //				"gly"));
+		String pdfDescription = BundleHelper.getInstance().getLabel(
+				"file.pdfFile.text");
+
+		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"pdf"}, pdfDescription) );
 		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"gly", "hie"}, description) );
 		return chooser;
 	}
@@ -361,8 +365,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	@Override
 	public URIChooser createSaveChooser(Application a, View v) {
 		JFileURIChooser chooser = new JFileURIChooser();
+
+		String pdfDescription = BundleHelper.getInstance().getLabel(
+				"file.pdfFile.text");
+
 		String description = BundleHelper.getInstance().getLabel(
 				"file.glyphFile.text");
+		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"pdf"}, pdfDescription) );
+
 		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
 				"gly"));
 		return chooser;

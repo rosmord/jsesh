@@ -78,11 +78,11 @@
         <pack name="Base" required="yes">
             <description>The base files</description>
 		
-            <fileset targetdir="$INSTALL_PATH/lib" dir="../lib">
+            <fileset targetdir="$INSTALL_PATH/libJSesh" dir="../lib">
                 <include name="*.jar"/>
             </fileset>
 
-            <fileset targetdir="$INSTALL_PATH/lib" dir="lib">
+            <fileset targetdir="$INSTALL_PATH/libJSesh" dir="lib">
                 <include name="*.jnilib"/>
             </fileset>
 

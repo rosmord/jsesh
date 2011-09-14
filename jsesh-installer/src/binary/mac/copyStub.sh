@@ -23,7 +23,7 @@ prepareApp() {
     # copy jni files to the correct folder...
     # Note that the installer doesn't copy empty folders 
     mkdirIfNotE "$dest/$app.app/Contents/Resources/Java"
-    cp -a ./lib/*.jnilib "$dest/$app.app/Contents/Resources/Java"
+    cp -a ./libJS/*.jnilib "$dest/$app.app/Contents/Resources/Java"
     # cleanup
     rm "$head"
 }
@@ -32,13 +32,17 @@ prepareApp() {
 dest="$1"
 cd "$dest"
 
+# Remove old application libraries.
+rm -rf libJS
+
+mv libJSesh libJS
 
 # ok, we need to fix the Info.plist files a bit... we want them
 # to contain a list
 # of strings like <string>$APP_PACKAGE/../lib/antlr-2.7.7.jar</string>
 # where the original files contain <MY_CLASSPATH/>
 
-ls ./lib/ | sed 's%\(.*\)%<string>$APP_PACKAGE/../lib/\1</string>%' >/tmp/dep_list.txt
+ls ./libJS/ | sed 's%\(.*\)%<string>$APP_PACKAGE/../libJS/\1</string>%' >/tmp/dep_list.txt
 
 prepareApp JSesh
 prepareApp SignInfo

@@ -2,6 +2,7 @@ package jsesh.jhotdraw;
 
 import java.awt.BorderLayout;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -11,6 +12,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
@@ -32,6 +34,7 @@ import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.utils.JSeshWorkingDirectory;
 
 import org.jhotdraw_7_6.app.AbstractView;
 import org.jhotdraw_7_6.app.View;
@@ -40,6 +43,7 @@ import org.jhotdraw_7_6.app.action.edit.CutAction;
 import org.jhotdraw_7_6.app.action.edit.PasteAction;
 import org.jhotdraw_7_6.app.action.edit.RedoAction;
 import org.jhotdraw_7_6.app.action.edit.UndoAction;
+import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
@@ -51,7 +55,7 @@ public class JSeshView extends AbstractView {
 	 */
 	public static final String DOCUMENT_INFO_PROPERTY = "documentInfo";
 
-	private final JSeshViewModel  viewModel;
+	private final JSeshViewModel viewModel;
 
 	public JSeshView() {
 		viewModel = new JSeshViewModel();
@@ -68,8 +72,6 @@ public class JSeshView extends AbstractView {
 		viewModel.setParentObserver(new MyObserver());
 		initActions();
 	}
-
-	
 
 	public JMDCEditor getEditor() {
 		return viewModel.getEditor();
@@ -175,7 +177,7 @@ public class JSeshView extends AbstractView {
 						.getMdcDocument());
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						viewModel.setCurrentDocument(document);					
+						viewModel.setCurrentDocument(document);
 					}
 				});
 			} catch (PDFImportException e) {
@@ -202,18 +204,33 @@ public class JSeshView extends AbstractView {
 		 * "Error opening pdf. Sorry", "Error", JOptionPane.ERROR_MESSAGE); }
 		 */
 		try {
-			MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
-			// mdcDocumentReader.setEncoding(encoding);
-			final MDCDocument document = mdcDocumentReader.loadFile(file);
-			// Observe changes to this document in the future.
-			SwingUtilities.invokeAndWait(new Runnable() {
-				public void run() {
-					viewModel.setCurrentDocument(document);
-					// Fire the corresponding event, with dummy properties...
-					// We might decide to use "real" property at some point.
-					firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
-				}
-			});
+			if (file.getName().toLowerCase().endsWith(".pdf")) {
+				FileInputStream in = new FileInputStream(file);
+				PDFImporter importer = PDFImporter.createPDFStreamImporter(in,
+						file);
+				final MDCDocument document = importer.getMdcDocument();
+				document.setFile(new File(JSeshWorkingDirectory
+						.getWorkingDirectory(), "Unnamed.gly"));
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						viewModel.setCurrentDocument(document);
+					}
+				});
+			} else {
+				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
+				// mdcDocumentReader.setEncoding(encoding);
+				final MDCDocument document = mdcDocumentReader.loadFile(file);
+				// Observe changes to this document in the future.
+				SwingUtilities.invokeAndWait(new Runnable() {
+					public void run() {
+						viewModel.setCurrentDocument(document);
+						// Fire the corresponding event, with dummy
+						// properties...
+						// We might decide to use "real" property at some point.
+						firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+					}
+				});
+			}
 		} catch (MDCSyntaxError e) {
 			String msg = "error at line " + e.getLine();
 			msg += " near token: " + e.getToken();
@@ -227,6 +244,8 @@ public class JSeshView extends AbstractView {
 			throw new RuntimeException(e);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
+		} catch (PDFImportException e) {
+			throw new UserMessage(e);
 		}
 	}
 
@@ -270,8 +289,22 @@ public class JSeshView extends AbstractView {
 
 		// TODO END OF TEMPORARY PATCH
 
-		if (document.getFile() != null
-				&& document.getFile().getName().toLowerCase().endsWith(".pdf")) {
+		boolean isPdfFile = false;
+
+		if (document.getFile() != null) {
+			String fileName = document.getFile().getName().toLowerCase();
+			if (fileName.endsWith(".pdf"))
+				isPdfFile = true;
+			else if (!fileName.endsWith(".gly") && !fileName.endsWith(".hie")
+					&& chooser != null && chooser instanceof JFileURIChooser) {
+				FileFilter filter = ((JFileURIChooser) chooser).getFileFilter();
+				if (filter != null && filter.accept(new File("toto.pdf"))
+						&& !filter.accept(new File("toto.gly"))) {
+					isPdfFile = true;
+				}
+			}
+		}
+		if (isPdfFile) {
 			// Create the prefs for this document... move the code to document ?
 			// or what ?
 			// more info should also be saved in the case of PDF files (pdf
@@ -470,30 +503,31 @@ public class JSeshView extends AbstractView {
 		 * document.addEventLink(FormatEvent.class, menuManager,
 		 * updateMenuItems); )
 		 */
-		DrawingSpecification specs= getDrawingSpecifications().copy();
+		DrawingSpecification specs = getDrawingSpecifications().copy();
 		specs.setSmallSignsCentered(selected);
 		viewModel.setDrawingSpecifications(specs);
-		//getEditor().setSmallSignsCentered(selected);
-		/*getMdcDocument().setDocumentPreferences(
-				getMdcDocument().getDocumentPreferences()
-						.withSmallSignCentered(selected));
-		getEditor().invalidateView();*/
+		// getEditor().setSmallSignsCentered(selected);
+		/*
+		 * getMdcDocument().setDocumentPreferences(
+		 * getMdcDocument().getDocumentPreferences()
+		 * .withSmallSignCentered(selected)); getEditor().invalidateView();
+		 */
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
 	public void setTextOrientation(TextOrientation textOrientation) {
-		DrawingSpecification specs= getDrawingSpecifications().copy();
+		DrawingSpecification specs = getDrawingSpecifications().copy();
 		specs.setTextOrientation(textOrientation);
 		viewModel.setDrawingSpecifications(specs);
-		//getEditor().setTextOrientation(textOrientation);
+		// getEditor().setTextOrientation(textOrientation);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
 	public void setTextDirection(TextDirection textDirection) {
-		DrawingSpecification specs= getDrawingSpecifications().copy();
+		DrawingSpecification specs = getDrawingSpecifications().copy();
 		specs.setTextDirection(textDirection);
 		viewModel.setDrawingSpecifications(specs);
-		//getEditor().setTextDirection(textDirection);
+		// getEditor().setTextDirection(textDirection);
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
 
