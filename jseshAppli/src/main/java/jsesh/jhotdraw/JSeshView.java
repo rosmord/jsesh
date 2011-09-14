@@ -73,6 +73,12 @@ public class JSeshView extends AbstractView {
 		initActions();
 	}
 
+	@Override
+	public void start() {
+		super.start();
+		viewModel.getEditor().requestFocusInWindow();
+	}
+
 	public JMDCEditor getEditor() {
 		return viewModel.getEditor();
 	}

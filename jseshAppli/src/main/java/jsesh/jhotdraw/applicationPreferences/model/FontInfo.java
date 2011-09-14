@@ -40,6 +40,7 @@ import java.util.prefs.Preferences;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.YODChoice;
+import jsesh.resources.ResourcesManager;
 
 /**
  * Font-related information to set (Immutable object).
@@ -66,7 +67,7 @@ public class FontInfo {
 	/**
 	 * Should we use the embedded ASCII MdC Font ?
 	 */
-	private boolean useEmbeddedFont;
+	private boolean useEmbeddedFont= true;
 	private boolean translitUnicode = true;
 	private YODChoice yodChoice = YODChoice.U0313;
 
@@ -155,7 +156,6 @@ public class FontInfo {
 		transliterationFont = new Font(preferences.get(TRANSLITERATION_FONT,
 				"Serif"), Font.PLAIN, preferences.getInt(
 				TRANSLITERATION_FONT_SIZE, 12));
-
 		fontInfo = new FontInfo(hieroglyphsFolder, baseFont,
 				transliterationFont);
 		fontInfo = fontInfo
@@ -178,6 +178,11 @@ public class FontInfo {
 	public FontInfo withUseEmbeddedFont(boolean useEmbeddedFont) {
 		FontInfo result = new FontInfo(this);
 		result.useEmbeddedFont = useEmbeddedFont;
+		if (useEmbeddedFont)
+		{
+			this.translitUnicode= false;
+			this.transliterationFont= ResourcesManager.getInstance().getTransliterationFont();
+		}
 		return result;
 	}
 
