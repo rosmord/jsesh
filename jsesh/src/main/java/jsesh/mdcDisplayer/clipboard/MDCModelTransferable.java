@@ -7,10 +7,12 @@ package jsesh.mdcDisplayer.clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Dimension2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 
 import jsesh.graphics.export.RTFExportPreferences;
 import jsesh.graphics.export.RTFSimpleExporter;
@@ -26,8 +28,12 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.utils.DoubleDimensions;
 
+import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
+import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
+import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
 /**
  * 
@@ -56,14 +62,14 @@ public class MDCModelTransferable implements Transferable {
 	private int maxBitmapHeight;
 
 	private DataFlavor dataFlavors[];
-	
+
 	public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list) {
-		this.topItemList= list;
+		this.topItemList = list;
 		maxBitmapWidth = 2000;
 		maxBitmapHeight = 2000;
 		rtfPreferences = new RTFExportPreferences();
 		this.drawingSpecifications = new DrawingSpecificationsImplementation();
-		this.dataFlavors= dataFlavors;
+		this.dataFlavors = dataFlavors;
 	}
 
 	public DataFlavor[] getTransferDataFlavors() {
@@ -98,63 +104,54 @@ public class MDCModelTransferable implements Transferable {
 		Object result;
 		// Temporiser pour tester...
 
-		if (JSeshPasteFlavors.RTFFlavor.equals(flavor)) {
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		if (JSeshPasteFlavors.RTFFlavor.equals(flavor))
+			result = getRtfData();
+		else if (DataFlavor.stringFlavor.equals(flavor))
+			return getStringData();
+		else if (JSeshPasteFlavors.ListOfTopItemsFlavor.equals(flavor))
+			return getItemListData();
+		else if (DataFlavor.imageFlavor.equals(flavor))
+			result = getImageData();
+		else if (JSeshPasteFlavors.MACPictFlavor.equals(flavor))
+			result = getMacPictData();
+		else if (JSeshPasteFlavors.PDFFlavor.equals(flavor))
+			result = getPDFData();
+		else if (EMFTransferable.EMF_FLAVOR.equals(flavor))
+			result = getEMFData();
+		else {
+			throw new UnsupportedFlavorException(flavor);
+		}
+		return result;
+	}
 
-			// FIXME : WHEN text is too large, RTF cut and paste fails because
-			// of timing issues.
-			if (topItemList.getNumberOfChildren() < 5000) {
-				DrawingSpecification drawingSpecifications = getDrawingSpecifications();
-				PageLayout pageLayout= drawingSpecifications.getPageLayout();
-				pageLayout.setTopMargin(0);
-				pageLayout.setLeftMargin(0);
-				drawingSpecifications.setPageLayout(pageLayout);
-				RTFSimpleExporter rtfExporter = new RTFSimpleExporter();
-				rtfExporter.setDrawingSpecifications(drawingSpecifications);
-				rtfExporter.setViewBuilder(new SimpleViewBuilder());
-				rtfExporter.setRtfPreferences(rtfPreferences);
-				rtfExporter.ExportModelTo(topItemList, outputStream);
-				result = new ByteArrayInputStream(outputStream.toByteArray());
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	private Object getEMFData() throws IOException {
+		Object result;
+		RandomAccessByteArray out1 = new RandomAccessByteArray();
+		ViewBuilder simpleBuilder = new SimpleViewBuilder();
+		MDCView view = simpleBuilder.buildView(topItemList,
+				getDrawingSpecifications());
+		ViewDrawer drawer = new ViewDrawer();
+		Dimension2D dims = new DoubleDimensions(view.getWidth(),
+				view.getHeight());
+		EMFGraphics2D g = new EMFGraphics2D(out1, dims, "JSesh",
+				topItemList.toMdC());
+		drawer.draw(g, view, getDrawingSpecifications());
+		g.dispose();
+		result = new ByteArrayInputStream(out1.getByteArray());
+		return result;
+	}
 
-			} else {
-				String data = "{\\rtf1\\ansi\\ansicpg1252Jsesh : sorry, data too large for RTF cut and paste. Please copy a smaller part of your text.\\par}";
-				result = new ByteArrayInputStream(data.getBytes("US-ASCII"));
-			}
-		} else if (DataFlavor.stringFlavor.equals(flavor)) {
-			StringWriter writer = new StringWriter();
-
-			MdCModelWriter mdCModelWriter = new MdCModelWriter();
-			mdCModelWriter.write(writer, topItemList);
-			return writer.toString();
-		} else if (JSeshPasteFlavors.ListOfTopItemsFlavor.equals(flavor)) {
-			ListOfTopItems l = new ListOfTopItems();
-			for (int i = 0; i < topItemList.getNumberOfChildren(); i++) {
-				l.add(topItemList.getTopItemAt(i).deepCopy());
-			}
-			System.err.println("copy made.");
-			return l;
-		} else if (DataFlavor.imageFlavor.equals(flavor)) {
-
-			MDCDrawingFacade facade = new MDCDrawingFacade();
-			facade.setDrawingSpecifications(getDrawingSpecifications());
-			facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
-			facade.setCadratHeight(rtfPreferences.getCadratHeight());
-			result = facade.createImage(topItemList);
-
-		} else if (JSeshPasteFlavors.MACPictFlavor.equals(flavor)) {
-			// Just to try...
-			// Won't last...
-			// TODO : suppress this or generalize the system for creating files
-			// (the simpleFacade) to
-			// all formats...
-			MacPictGraphics2D g = new MacPictGraphics2D();
-			ViewBuilder simpleBuilder = new SimpleViewBuilder();
-			MDCView view = simpleBuilder.buildView(topItemList,
-					getDrawingSpecifications());
-			ViewDrawer drawer = new ViewDrawer();
-			drawer.draw(g, view, getDrawingSpecifications());
-			result = new ByteArrayInputStream(g.getAsArray());
-		} else if (JSeshPasteFlavors.PDFFlavor.equals(flavor)) {
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	private Object getPDFData() throws IOException {
+		Object result;
+		{
 			DrawingSpecification drawingSpecification = getDrawingSpecifications()
 					.copy();
 			// Cadrat height, in points.
@@ -162,7 +159,7 @@ public class MDCModelTransferable implements Transferable {
 			float ratio = drawingSpecification.getMaxCadratWidth()
 					/ drawingSpecification.getMaxCadratHeight();
 			// Change the pdf data accordingly:
-			PageLayout pageLayout= drawingSpecification.getPageLayout();
+			PageLayout pageLayout = drawingSpecification.getPageLayout();
 			pageLayout.setTopMargin(1);
 			pageLayout.setLeftMargin(1);
 			drawingSpecification.setPageLayout(pageLayout);
@@ -173,8 +170,98 @@ public class MDCModelTransferable implements Transferable {
 			drawingSpecification.setMaxCadratWidth(cadratHeight * ratio);
 			PDFDataSaver pdfDataSaver = new PDFDataSaver(drawingSpecification);
 			result = pdfDataSaver.getPDFContent(topItemList);
-		} else {
-			throw new UnsupportedFlavorException(flavor);
+		}
+		return result;
+	}
+
+	/**
+	 * @return
+	 */
+	private Object getMacPictData() {
+		Object result;
+		{
+			// A test for Mac Picts (normal system is PDF now)
+			MacPictGraphics2D g = new MacPictGraphics2D();
+			ViewBuilder simpleBuilder = new SimpleViewBuilder();
+			MDCView view = simpleBuilder.buildView(topItemList,
+					getDrawingSpecifications());
+			ViewDrawer drawer = new ViewDrawer();
+			drawer.draw(g, view, getDrawingSpecifications());
+			result = new ByteArrayInputStream(g.getAsArray());
+		}
+		return result;
+	}
+
+	/**
+	 * @return
+	 */
+	private Object getImageData() {
+		Object result;
+		{
+			MDCDrawingFacade facade = new MDCDrawingFacade();
+			facade.setDrawingSpecifications(getDrawingSpecifications());
+			facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
+			facade.setCadratHeight(rtfPreferences.getCadratHeight());
+			result = facade.createImage(topItemList);
+		}
+		return result;
+	}
+
+	/**
+	 * @return
+	 */
+	private Object getItemListData() {
+		{
+			ListOfTopItems l = new ListOfTopItems();
+			for (int i = 0; i < topItemList.getNumberOfChildren(); i++) {
+				l.add(topItemList.getTopItemAt(i).deepCopy());
+			}
+			return l;
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	private Object getStringData() {
+		{
+			StringWriter writer = new StringWriter();
+
+			MdCModelWriter mdCModelWriter = new MdCModelWriter();
+			mdCModelWriter.write(writer, topItemList);
+			return writer.toString();
+		}
+	}
+
+	/**
+	 * @return
+	 * @throws IOException
+	 * @throws UnsupportedEncodingException
+	 */
+	private Object getRtfData() throws IOException,
+			UnsupportedEncodingException {
+		Object result;
+		{
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+			// FIXME : WHEN text is too large, RTF cut and paste fails because
+			// of timing issues.
+			if (topItemList.getNumberOfChildren() < 5000) {
+				DrawingSpecification drawingSpecifications = getDrawingSpecifications();
+				PageLayout pageLayout = drawingSpecifications.getPageLayout();
+				pageLayout.setTopMargin(0);
+				pageLayout.setLeftMargin(0);
+				drawingSpecifications.setPageLayout(pageLayout);
+				RTFSimpleExporter rtfExporter = new RTFSimpleExporter();
+				rtfExporter.setDrawingSpecifications(drawingSpecifications);
+				rtfExporter.setViewBuilder(new SimpleViewBuilder());
+				rtfExporter.setRtfPreferences(rtfPreferences);
+				rtfExporter.ExportModelTo(topItemList, outputStream);
+				result = new ByteArrayInputStream(outputStream.toByteArray());
+			} else {
+				String data = "{\\rtf1\\ansi\\ansicpg1252Jsesh : sorry, data too large for RTF cut and paste. Please copy a smaller part of your text.\\par}";
+				result = new ByteArrayInputStream(data.getBytes("US-ASCII"));
+			}
 		}
 		return result;
 	}

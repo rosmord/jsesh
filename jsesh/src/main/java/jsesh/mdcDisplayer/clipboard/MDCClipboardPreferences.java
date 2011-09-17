@@ -71,6 +71,7 @@ public class MDCClipboardPreferences {
 	private boolean rtfWanted = true;
 	private boolean textWanted = true;
 	private boolean imageWanted = false;
+	private boolean emfWanted= false;
 
 	public MDCClipboardPreferences() {
 	}
@@ -80,6 +81,7 @@ public class MDCClipboardPreferences {
 		this.rtfWanted = orig.rtfWanted;
 		this.textWanted = orig.textWanted;
 		this.imageWanted = orig.imageWanted;
+		this.emfWanted= orig.emfWanted;
 	}
 
 	public boolean isImageWanted() {
@@ -122,16 +124,28 @@ public class MDCClipboardPreferences {
 		return result;
 	}
 
+	public boolean isEmfWanted() {
+		return emfWanted;
+	}
+	
+	public MDCClipboardPreferences withEmfWanted(boolean emfWanted) {
+		MDCClipboardPreferences result = new MDCClipboardPreferences(this);
+		result.emfWanted = emfWanted;
+		return result;
+	}
+	
 	public void saveToPrefs(Preferences prefs) {
 		prefs.putBoolean("rtfWanted", rtfWanted);
 		prefs.putBoolean("pdfWanted", pdfWanted);
 		prefs.putBoolean("imageWanted", imageWanted);
 		prefs.putBoolean("textWanted", this.textWanted);
+		prefs.putBoolean("emfWanted", this.emfWanted);
 	}
 
 	public static MDCClipboardPreferences getFromPreferences(Preferences prefs) {
 		return new MDCClipboardPreferences()
 				.withRtfWanted(prefs.getBoolean("rtfWanted", true))
+				.withEmfWanted(prefs.getBoolean("emfWanted", false))
 				.withPdfWanted(
 						prefs.getBoolean(
 								"pdfWanted",

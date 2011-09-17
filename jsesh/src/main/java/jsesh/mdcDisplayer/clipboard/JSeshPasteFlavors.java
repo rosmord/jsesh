@@ -3,6 +3,8 @@ package jsesh.mdcDisplayer.clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.util.ArrayList;
 
+import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
+
 import jsesh.mdc.model.ListOfTopItems;
 
 /**
@@ -34,7 +36,7 @@ public class JSeshPasteFlavors {
 	 * @return
 	 */
 	public static DataFlavor[] getTransferDataFlavors(MDCClipboardPreferences clipboardPreferences) {
-		ArrayList list = new ArrayList();
+		ArrayList<DataFlavor> list = new ArrayList<DataFlavor>();
 		
 		list.add(JSeshPasteFlavors.ListOfTopItemsFlavor);
 
@@ -54,7 +56,13 @@ public class JSeshPasteFlavors {
 			list.add(DataFlavor.stringFlavor);
 		}
 
-		return (DataFlavor[]) list.toArray(new DataFlavor[list.size()]);
+		if (clipboardPreferences.isEmfWanted()) {
+			// Direct-to-clipboard Window Copy/paste. 
+			// note that loading the class EMFTransferable will perform some
+			// static magic with SystemFlavorMap
+			list.add(EMFTransferable.EMF_FLAVOR);
+		}
+		return list.toArray(new DataFlavor[list.size()]);
 	}
 
 }

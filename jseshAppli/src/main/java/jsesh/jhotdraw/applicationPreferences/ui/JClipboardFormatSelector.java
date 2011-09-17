@@ -50,7 +50,7 @@ import net.miginfocom.swing.MigLayout;
 public class JClipboardFormatSelector {
 	private JPanel panel = new JPanel();
 	private JEditorPane messageArea;
-	private JCheckBox rtfCheckBox, pdfCheckBox, bitmapCheckBox, plainTextBox;
+	private JCheckBox rtfCheckBox, pdfCheckBox, emfCheckBox, bitmapCheckBox, plainTextBox;
 
 	public JClipboardFormatSelector() {
 		init();
@@ -62,6 +62,8 @@ public class JClipboardFormatSelector {
 				Messages.getString("clipboardFormat.rtf.text"));
 		pdfCheckBox = new JCheckBox(
 				Messages.getString("clipboardFormat.pdf.text"));
+		emfCheckBox = new JCheckBox(
+				Messages.getString("clipboardFormat.emf.text"));
 		bitmapCheckBox = new JCheckBox(
 				Messages.getString("clipboardFormat.bitmap.text"));
 		plainTextBox = new JCheckBox(
@@ -94,6 +96,7 @@ public class JClipboardFormatSelector {
 		PanelHelper helper = new PanelHelper(panel);
 		helper.add(messageArea, "wrap");
 		helper.add(rtfCheckBox, "wrap");
+		helper.add(emfCheckBox, "wrap");
 		helper.add(pdfCheckBox, "wrap");
 		helper.add(bitmapCheckBox, "wrap");
 		helper.add(plainTextBox, "wrap");
@@ -120,6 +123,7 @@ public class JClipboardFormatSelector {
 		MDCClipboardPreferences clipboardPreferences = app
 				.getClipboardPreferences();
 		this.rtfCheckBox.setSelected(clipboardPreferences.isRtfWanted());
+		this.emfCheckBox.setSelected(clipboardPreferences.isEmfWanted());
 		this.pdfCheckBox.setSelected(clipboardPreferences.isPdfWanted());
 		this.bitmapCheckBox.setSelected(clipboardPreferences.isImageWanted());
 		this.plainTextBox.setSelected(clipboardPreferences.isTextWanted());
@@ -128,6 +132,7 @@ public class JClipboardFormatSelector {
 	public void updatePreferences(JSeshApplicationModel app) {
 		MDCClipboardPreferences prefs = new MDCClipboardPreferences()
 				.withRtfWanted(rtfCheckBox.isSelected())
+				.withEmfWanted(emfCheckBox.isSelected())
 				.withPdfWanted(pdfCheckBox.isSelected())
 				.withImageWanted(bitmapCheckBox.isSelected())
 				.withTextWanted(plainTextBox.isSelected());

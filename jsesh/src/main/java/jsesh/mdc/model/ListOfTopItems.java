@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * @author rosmord
  *
  */
-public class ListOfTopItems extends ArrayList implements Serializable {
+@SuppressWarnings("serial")
+public class ListOfTopItems extends ArrayList<ModelElement> implements Serializable {
 	
 }
