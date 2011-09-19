@@ -47,6 +47,8 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
+import jsesh.mdc.utils.TransliterationEncoding;
+import jsesh.mdc.utils.YODChoice;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.resources.ResourcesManager;
@@ -1256,7 +1258,11 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		if( prefs.isUseLinesForShading()) {
 			setShadingStyle(ShadingStyle.LINE_HATCHING);
 		} else
-			setShadingStyle(ShadingStyle.GRAY_SHADING);
-			
+			setShadingStyle(ShadingStyle.GRAY_SHADING);		
+	}
+	
+	
+	public TransliterationEncoding getTransliterationEncoding() {
+		return new TransliterationEncoding(isTranslitUnicode(), getYodChoice(), isGardinerQofUsed());
 	}
 }

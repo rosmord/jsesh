@@ -40,6 +40,7 @@ import java.awt.Stroke;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.utils.YODChoice;
 
 public interface DrawingPreferences {
 	

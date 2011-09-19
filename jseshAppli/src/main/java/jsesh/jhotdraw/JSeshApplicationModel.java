@@ -38,7 +38,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 
 import javax.swing.ActionMap;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import jsesh.editor.JMDCEditor;
@@ -56,6 +55,8 @@ import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
+import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
+import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplyModelAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
@@ -270,6 +271,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.remove(ClearSelectionAction.ID);
 
 		} else {
+			map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
+			map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
 			// View level actions
 			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
 			map.put(EditDocumentPreferencesAction.ID,

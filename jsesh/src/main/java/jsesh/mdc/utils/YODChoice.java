@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.preferences;
+package jsesh.mdc.utils;
 
 public enum YODChoice {
 	U0313, U0486

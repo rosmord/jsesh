@@ -43,12 +43,13 @@ import org.jhotdraw_7_6.app.action.edit.CutAction;
 import org.jhotdraw_7_6.app.action.edit.PasteAction;
 import org.jhotdraw_7_6.app.action.edit.RedoAction;
 import org.jhotdraw_7_6.app.action.edit.UndoAction;
+import org.jhotdraw_7_6.gui.EditableComponent;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 @SuppressWarnings("serial")
-public class JSeshView extends AbstractView {
+public class JSeshView extends AbstractView  {
 
 	/**
 	 * Name of the property fired when document information change.
@@ -536,4 +537,41 @@ public class JSeshView extends AbstractView {
 		fontInfo.applyToDrawingSpecifications(drawingSpecification);
 		setDrawingSpecifications(drawingSpecification);
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.gui.EditableComponent#delete()
+	 */
+	public void delete() {
+		getEditor().getWorkflow().doBackspace();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.gui.EditableComponent#duplicate()
+	 */
+	public void duplicate() {
+		// Currently no-op.
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.gui.EditableComponent#selectAll()
+	 */
+	public void selectAll() {
+		getEditor().getWorkflow().selectAll();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.gui.EditableComponent#clearSelection()
+	 */
+	public void clearSelection() {
+		getEditor().getWorkflow().clearSelection();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jhotdraw_7_6.gui.EditableComponent#isSelectionEmpty()
+	 */
+	public boolean isSelectionEmpty() {
+		return getEditor().hasSelection();	
+	}
+	
+	
 }

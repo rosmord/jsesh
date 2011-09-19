@@ -5,6 +5,7 @@
 package jsesh.graphics.export;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,10 +20,10 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.utils.TranslitterationUtilities;
 
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
@@ -103,6 +104,9 @@ public class RTFSimpleExporter {
 		rtfWriter = new SimpleRTFWriter(outputStream);
 		rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
 		rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
+		Font f= drawingSpecifications.getFont('t');
+		System.out.println("Transliteration; Name="+ f.getName() + "; fontName="+f.getFontName()+ "; family name = "+ f.getFamily());
+		rtfWriter.declareFont(drawingSpecifications.getFont('t').getName(), RTFFontFamily.ROMAN);
 		// Actual export, using a visitor.
 		rtfWriter.writeHeader();
 		if (shouldExportAsOnePicture()) {
@@ -196,17 +200,18 @@ public class RTFSimpleExporter {
 		RTFExportSimpleDrawer result = null;
 		switch (pictureType) {
 		case MAC_PICT:
-			result = new MacPictSimpleDrawer(viewBuilder, rtfPreferences
-					.getCadratHeight()); // We used to have a multiplier of 1.83
+			result = new MacPictSimpleDrawer(viewBuilder,
+					rtfPreferences.getCadratHeight()); // We used to have a
+														// multiplier of 1.83
 			// here. Why ???
 			break;
 		case EMF:
-			result = new EMFSimpleDrawer(viewBuilder, rtfPreferences
-					.getCadratHeight(), comment);
+			result = new EMFSimpleDrawer(viewBuilder,
+					rtfPreferences.getCadratHeight(), comment);
 			break;
 		case WMF:
-			result = new WMFSimpleDrawer(viewBuilder, rtfPreferences
-					.getCadratHeight());
+			result = new WMFSimpleDrawer(viewBuilder,
+					rtfPreferences.getCadratHeight());
 			break;
 		}
 		return result;
@@ -257,9 +262,12 @@ public class RTFSimpleExporter {
 					break;
 				case 't':
 					rtfWriter.setBold(false);
-					rtfWriter.setItalic(true);
-					text = TranslitterationUtilities.toLowerCase(text);
-					fontName = TRANSLITFONTNAME;
+					rtfWriter.setItalic(false); // italic choosen in the font itself.
+					text = TranslitterationUtilities
+							.getActualTransliterationString(text,
+									drawingSpecifications
+											.getTransliterationEncoding());
+					fontName = drawingSpecifications.getFont('t').getFontName();
 					break;
 				case '+':
 				default:
@@ -422,7 +430,8 @@ public class RTFSimpleExporter {
 		}
 
 		public void writeToRTF(SimpleRTFWriter rtfWriter) throws IOException {
-			rtfWriter.writeEmfPicture(getAsArrayForRTF(), getScaledWidth(), getScaledHeight());
+			rtfWriter.writeEmfPicture(getAsArrayForRTF(), getScaledWidth(),
+					getScaledHeight());
 		}
 	}
 
@@ -458,7 +467,7 @@ public class RTFSimpleExporter {
 		}
 
 		public void writeToRTF(SimpleRTFWriter rtfWriter) throws IOException {
-			rtfWriter.writeWmfPicture(getAsArrayForRTF(), getScaledWidth(), 
+			rtfWriter.writeWmfPicture(getAsArrayForRTF(), getScaledWidth(),
 					getScaledHeight());
 
 		}

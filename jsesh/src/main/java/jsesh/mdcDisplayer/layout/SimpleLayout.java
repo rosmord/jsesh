@@ -38,12 +38,12 @@ import jsesh.mdc.model.SubCadrat;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
 import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.TextHelper;
 
 /**
  * 
@@ -180,8 +180,8 @@ public class SimpleLayout extends AbstractLayout {
 
 		String text = t.getText();
 		if (t.getScriptCode() == 't')
-			text = TextHelper.getActualTransliterationString(text,
-					drawingSpecifications);
+			text = TranslitterationUtilities.getActualTransliterationString(text,
+					drawingSpecifications.getTransliterationEncoding());
 		// Compute the text dimensions :
 		Rectangle2D dims;
 

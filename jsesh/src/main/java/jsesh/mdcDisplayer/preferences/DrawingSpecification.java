@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.mdc.file.DocumentPreferences;
+import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 /**
@@ -78,4 +79,10 @@ public interface DrawingSpecification extends DrawingPreferences {
 	DocumentPreferences extractDocumentPreferences();
 
 	void applyDocumentPreferences(DocumentPreferences prefs);
+
+	/**
+	 * gets the way transliteration should be encoded in the display font.
+	 * @return
+	 */
+	TransliterationEncoding getTransliterationEncoding();
 }

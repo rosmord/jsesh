@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import jsesh.jhotdraw.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentPreferences.ui.DrawingSpecificationsPresenter;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -61,7 +61,7 @@ public class EditDocumentPreferencesAction extends AbstractViewAction {
 		if (v != null) {
 			// TODO : ok, enought with current drawing specifications system...
 			// we are going to use the old, simpler system with only a class...
-			DrawingSpecificationsImplementation d = (DrawingSpecificationsImplementation) v
+			DrawingSpecification d = (DrawingSpecification) v
 					.getDrawingSpecifications();
 			DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
 			presenter

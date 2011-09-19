@@ -21,7 +21,7 @@ import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.utils.FontSelectorHelper;
 import jsesh.jhotdraw.utils.PanelHelper;
-import jsesh.mdcDisplayer.preferences.YODChoice;
+import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
 import net.miginfocom.swing.MigLayout;
 

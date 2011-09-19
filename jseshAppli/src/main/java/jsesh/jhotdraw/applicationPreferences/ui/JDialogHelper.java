@@ -8,8 +8,8 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
+
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -19,9 +19,11 @@ import javax.swing.SwingUtilities;
 class JDialogHelper {
 
     static public JDialog createDialog(Component parent, String title, boolean modal) {
-        Window ancestor = SwingUtilities.getWindowAncestor(parent);
+        Window ancestor = null;        
+        if (parent != null)
+        		ancestor= SwingUtilities.getWindowAncestor(parent);
         JDialog dialog;
-        if (ancestor instanceof Frame) {
+        if (ancestor instanceof Frame || ancestor == null) {
             dialog = new JDialog((Frame) ancestor, title, modal);
         } else if (ancestor instanceof Dialog) {
             dialog = new JDialog((Dialog) ancestor, title, modal);

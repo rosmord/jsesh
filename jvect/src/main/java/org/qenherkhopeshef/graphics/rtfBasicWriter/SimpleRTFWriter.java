@@ -22,11 +22,11 @@ public class SimpleRTFWriter {
 	/**
 	 * Map String -> RTFFontData
 	 */
-	private HashMap fontNamesToFontData= new HashMap(); 
+	private HashMap<String, RTFFontData> fontNamesToFontData= new HashMap<String, RTFFontData>(); 
 	/**
 	 * Array of RTFFontData
 	 */
-	private ArrayList  fontIdToFontData=new ArrayList();
+	private ArrayList<RTFFontData>  fontIdToFontData=new ArrayList<RTFFontData>();
 	private BufferedWriter writer;
 	private int maxFontNum= -1;
 	
@@ -103,7 +103,7 @@ public class SimpleRTFWriter {
 		for (int i=0 ; i <= maxFontNum; i++) {
 			// \f0\fswiss\fcharset77 Helvetica;
 			// \f2\fnil\fcharset77 MDCTranslitLC;
-			RTFFontData data= (RTFFontData) fontIdToFontData.get(i);
+			RTFFontData data= fontIdToFontData.get(i);
 			header.append("\\f"+ i+ "\\fnil"+"\\fcharset77 "+ data.fontName);
 			header.append(";");
 		}
@@ -172,7 +172,7 @@ public class SimpleRTFWriter {
 	}
 
 	public void useFont(String fontName) throws IOException {
-		RTFFontData data= (RTFFontData) fontNamesToFontData.get(fontName);
+		RTFFontData data= fontNamesToFontData.get(fontName);
 		writer.write("\\f"+ data.fontNum+ " ");
 	}
 	/**

@@ -38,8 +38,8 @@ import java.io.File;
 import java.util.prefs.Preferences;
 
 import jsesh.mdc.constants.ScriptCodes;
+import jsesh.mdc.utils.YODChoice;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.YODChoice;
 import jsesh.resources.ResourcesManager;
 
 /**

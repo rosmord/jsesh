@@ -25,12 +25,12 @@ import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.mdcDisplayer.preferences.TextHelper;
 import jsesh.resources.ResourcesManager;
 
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
@@ -406,7 +406,7 @@ public class PDFExporter {
 			case 't':
 				f = translitFont;
 				//text = TranslitterationUtilities.toLowerCase(text);
-				text= TextHelper.getActualTransliterationString(text, drawingSpecifications);
+				text= TranslitterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
 				break;
 			case '+':
 			default:

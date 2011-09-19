@@ -124,7 +124,7 @@ public class DrawingSpecificationsPresenter {
 	 * @param drawingSpecifications
 	 */
 	public void updatePreferences(		
-			DrawingSpecificationsImplementation drawingSpecifications) {
+			DrawingSpecification drawingSpecifications) {
 		drawingSpecifications.setCartoucheLineWidth(getLength(form
 				.getCartoucheLineWidthField()));
 		drawingSpecifications
@@ -157,7 +157,7 @@ public class DrawingSpecificationsPresenter {
 		DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
 		presenter.loadPreferences(new DrawingSpecificationsImplementation());
 		presenter.showDialog(null);
-		DrawingSpecificationsImplementation d= new DrawingSpecificationsImplementation();
+		DrawingSpecification d= new DrawingSpecificationsImplementation();
 		presenter.updatePreferences(d);
 		System.out.println(d.getMaxCadratWidth());
 	}

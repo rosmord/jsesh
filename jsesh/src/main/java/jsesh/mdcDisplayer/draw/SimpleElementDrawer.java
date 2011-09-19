@@ -32,11 +32,11 @@ import jsesh.mdc.model.ShadingCode;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
+import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.CartoucheHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
-import jsesh.mdcDisplayer.preferences.TextHelper;
 
 /**
  * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
@@ -67,7 +67,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 			String text = t.getText();
 			// TODO : support uppercase signs.
 			if (t.getScriptCode() == 't')
-				text = TextHelper.getActualTransliterationString(text, drawingSpecifications);
+				text = TranslitterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
 
 			if ("".equals(text))
 				return;
