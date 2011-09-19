@@ -454,7 +454,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
 			applicationPreferencesPresenter.updatePreferences(this);
 		}
-                applicationPreferencesPresenter.dispose();
 	}
 
 	public FontInfo getFontInfo() {

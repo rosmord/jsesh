@@ -36,9 +36,9 @@ package jsesh.jhotdraw.documentPreferences.ui;
 import java.awt.Component;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 
 import jsesh.jhotdraw.Messages;
+import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
@@ -58,6 +58,7 @@ public class DrawingSpecificationsPresenter {
 
 	JDrawingSpecificationEditor form;
 
+	
 	/**
 	 * @param string
 	 */
@@ -147,9 +148,10 @@ public class DrawingSpecificationsPresenter {
 	}
 
 	public int  showDialog(Component parent) {
-		form.addFocus();
-		return JOptionPane.showOptionDialog(parent, form.getPanel(), Messages.getString("drawingPrefs.title"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE, null, null, null);
+		JSimpleDialog dialog= new JSimpleDialog(parent, form.getPanel(),Messages.getString("drawingPrefs.title"));
+		int result=dialog.show();
+		dialog.dispose();
+		return result;
 	}
 	
 
