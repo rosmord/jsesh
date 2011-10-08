@@ -17,11 +17,11 @@
 	</repositories>
 	<build>
 		<plugins>
-            <plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-            	<artifactId>maven-resources-plugin</artifactId>
-            	<version>2.5</version>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -30,6 +30,17 @@
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>1.0-beta-7</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
@@ -45,10 +56,18 @@
 		<module>jsesh-installer</module>
 		<module>jseshGlyphs</module>
 		<module>prepareJSeshRelease</module>
-		<module>jseshDoc</module>	
+		<module>jseshDoc</module>
 		<module>jseshOthers</module>
 		<module>jhotdrawfw</module>
 		<module>jseshAppli</module>
 		<module>jseshDemos</module>
 	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>ssh-repository</id>
+			<url>${env.JSESH_REPOS}</url>			
+		</repository>
+	</distributionManagement>
+
 </project>

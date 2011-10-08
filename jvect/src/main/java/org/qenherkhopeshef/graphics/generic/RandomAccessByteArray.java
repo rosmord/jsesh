@@ -26,7 +26,7 @@ public class RandomAccessByteArray implements RandomAccessStream {
 	 */
 	public RandomAccessByteArray(byte[] array) {
 		size= array.length;
-		data= new byte[(array.length / CHUNK_SIZE) + 1];
+		data= new byte[((array.length / CHUNK_SIZE) + 1) * CHUNK_SIZE];
 		System.arraycopy(array, 0, data, 0, size);
 	}
 
