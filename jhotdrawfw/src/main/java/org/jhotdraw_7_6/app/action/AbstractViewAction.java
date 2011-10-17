@@ -18,6 +18,7 @@ import javax.swing.Action;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.beans.WeakPropertyChangeListener;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that acts
@@ -31,18 +32,26 @@ import org.jhotdraw_7_6.app.View;
  * is invoked.
  * 
  * @author Werner Randelshofer
- * @version $Id: AbstractViewAction.java 717 2010-11-21 12:30:57Z rawcoder $
+ * (minor changes to compile with jdk 1.5, S. Rosmorduc).
+ * @version $Id$
  */
+@SuppressWarnings("serial")
 public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;
-     private View view;
+    
+    private View view;
     private String propertyName;
+    /** Set this to true if the action may create a new view if none exists.*/
+    private boolean mayCreateView;
     public final static String VIEW_PROPERTY = "view";
     public final static String ENABLED_PROPERTY = "enabled";
+    /** Combined enabled value consisting of the enabled state of this action and 
+     * the enabled state of the view and the application.
+     */
+    private boolean combinedEnabled = true;
     private PropertyChangeListener applicationListener = new PropertyChangeListener() {
 
-        
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName() == Application.ACTIVE_VIEW_PROPERTY) { // Strings get interned
                 updateView((View) evt.getOldValue(), (View) evt.getNewValue());
@@ -51,11 +60,10 @@ public abstract class AbstractViewAction extends AbstractAction {
     };
     private PropertyChangeListener viewListener = new PropertyChangeListener() {
 
-        
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
-            if (name == "enabled") { // Strings get interned
-                updateEnabled((Boolean) evt.getOldValue(), (Boolean) evt.getNewValue());
+            if ("enabled".equals(name)) {
+                updateEnabled();
             } else if (name == propertyName) {
                 updateView();
             }
@@ -67,9 +75,8 @@ public abstract class AbstractViewAction extends AbstractAction {
         this.app = app;
         this.view = view;
         this.enabled = true;
-        if (view == null) {
-            app.addPropertyChangeListener(applicationListener);
-        } else {
+        app.addPropertyChangeListener(new WeakPropertyChangeListener(applicationListener));
+        if (view != null) {
             view.addPropertyChangeListener(viewListener);
         }
     }
@@ -88,8 +95,7 @@ public abstract class AbstractViewAction extends AbstractAction {
                 installViewListeners(newValue);
             }
             firePropertyChange(VIEW_PROPERTY, oldValue, newValue);
-            updateEnabled(oldValue != null && oldValue.isEnabled(),
-                    newValue != null && newValue.isEnabled());
+            updateEnabled();
             updateView();
         }
     }
@@ -136,8 +142,8 @@ public abstract class AbstractViewAction extends AbstractAction {
      * Updates the enabled state of this action depending on the new enabled
      * state of the view.
      */
-    protected void updateEnabled(boolean oldValue, boolean newValue) {
-        firePropertyChange("enabled", oldValue, isEnabled());
+    protected void updateEnabled() {
+        setEnabled(this.enabled);
     }
 
     public Application getApplication() {
@@ -150,21 +156,15 @@ public abstract class AbstractViewAction extends AbstractAction {
     }
 
     /**
-     * Returns true if the action is enabled.
-     * The enabled state of the action depends on the state that has been set
-     * using setEnabled(), on the enabled state of the application,
-     * on the enabled state of the active view and whether there is an active
-     * view.
+     * Returns true if the action <i>and</i> the application and <i>the</i> view 
+     * is enabled.
      *
      * @return true if the action is enabled, false otherwise
      * @see Action#isEnabled
      */
-    
+    @Override
     public boolean isEnabled() {
-        return getApplication().isEnabled() &&
-                getActiveView() != null
-                && getActiveView().isEnabled()
-                && this.enabled;
+        return combinedEnabled;
     }
 
     /**
@@ -176,16 +176,30 @@ public abstract class AbstractViewAction extends AbstractAction {
      *                  disable it
      * @see Action#setEnabled
      */
-    
+    @Override
     public void setEnabled(boolean newValue) {
-        boolean oldValue = this.enabled;
+        boolean oldValue = combinedEnabled;
         this.enabled = newValue;
 
-        boolean projIsEnabled = getActiveView() != null && getActiveView().isEnabled();
+        combinedEnabled = getApplication().isEnabled()
+                && (isMayCreateView() || getActiveView() != null
+                && getActiveView().isEnabled())
+                && this.enabled;
 
         firePropertyChange(ENABLED_PROPERTY,
-                Boolean.valueOf(oldValue && projIsEnabled),
-                Boolean.valueOf(newValue && projIsEnabled));
+                oldValue,
+                combinedEnabled);
+    }
 
+    /** Set this to true if the action may create a new view if none exists.
+     * If this is false, the action will be disabled, if no view is available.
+     */
+    protected void setMayCreateView(boolean b) {
+        mayCreateView = b;
+    }
+
+    /** Returns to true if the action may create a new view if none exists.*/
+    protected boolean isMayCreateView() {
+        return mayCreateView;
     }
 }

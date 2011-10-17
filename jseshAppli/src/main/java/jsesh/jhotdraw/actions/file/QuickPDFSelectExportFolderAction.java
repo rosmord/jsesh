@@ -30,7 +30,7 @@ public class QuickPDFSelectExportFolderAction extends AbstractApplicationAction 
 
 		PortableFileDialog dialog = PortableFileDialogFactory
 				.createDirectorySaveDialog(WindowsHelper.getRootFrame(
-						getApplication(), null));
+						getApplication(), getApplication().getActiveView()));
 		dialog.setTitle(Messages.getString("file.quickPDFExportFolder.title"));
 		dialog.setCurrentDirectory(model.getQuickPDFExportFolder());
 		FileOperationResult op = dialog.show();

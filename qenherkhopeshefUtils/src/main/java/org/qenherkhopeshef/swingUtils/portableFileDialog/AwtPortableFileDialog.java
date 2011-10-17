@@ -25,9 +25,9 @@ import javax.swing.filechooser.FileFilter;
 public class AwtPortableFileDialog extends PortableFileDialog {
 
 	private Component parent;
-	private File base;
+	//private File base;
 	private FileDialog delegate;
-	private String title;
+	//private String title;
 
 	/**
 	 * Create a portable file dialog using AWT (i.e. a system dialog).
@@ -40,9 +40,8 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			delegate = new FileDialog((Frame) ancestor);
 		else if (ancestor instanceof Dialog)
 			delegate= new FileDialog((Dialog)ancestor);
-		else {
+		else { // null ?
 			delegate= new FileDialog((Frame)null);
-			throw new RuntimeException("NOT EXPECTED");
 		}
 			
 	}

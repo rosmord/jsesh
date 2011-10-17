@@ -75,6 +75,11 @@ public class EditorCartoucheAction extends EditorAction {
 			editor.getWorkflow().addCartouche(type, start, end);
 	}
 
+	/**
+	 * 
+	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+	 *
+	 */
 	private static class CartoucheParameters {
 		char c;
 		int start;
@@ -92,9 +97,9 @@ public class EditorCartoucheAction extends EditorAction {
 
 	private static CartoucheParameters[] allCartouches = {
 			new CartoucheParameters('c', 1, 2, "<-ra-mn:n-xpr\\R270->"),
-			new CartoucheParameters('c', 1, 1, "<1-ra-mn:n-xpr\\R270->"),
+			new CartoucheParameters('c', 1, 1, "<1-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 2, 1, "<2-ra-mn:n-xpr\\R270-1>"),
-			new CartoucheParameters('c', 2, 1, "<2-ra-mn:n-xpr\\R270-2>"),
+			new CartoucheParameters('c', 2, 1, "<2-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 0, 1, "<0-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 1, 0, "<1-ra-mn:n-xpr\\R270-0>"),
 			new CartoucheParameters('c', 2, 0, "<2-ra-mn:n-xpr\\R270-0>"),

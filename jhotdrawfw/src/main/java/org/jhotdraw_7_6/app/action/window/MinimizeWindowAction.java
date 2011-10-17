@@ -25,32 +25,34 @@ import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
  * Minimizes the Frame of the current view.
- *
- * @author  Werner Randelshofer
- * @version $Id: MinimizeWindowAction.java 717 2010-11-21 12:30:57Z rawcoder $
+ * 
+ * @author Werner Randelshofer
+ * @version $Id$
  */
+@SuppressWarnings("serial")
 public class MinimizeWindowAction extends AbstractViewAction {
-    public final static String ID = "window.minimize";
+	public final static String ID = "window.minimize";
 
-    /** Creates a new instance. */
-    public MinimizeWindowAction(Application app,  View view) {
-        super(app, view);
-        ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
-        labels.configureAction(this, ID);
-    }
-    
-    private JFrame getFrame() {
-        return (JFrame) SwingUtilities.getWindowAncestor(
-                getActiveView().getComponent()
-                );
-    }
-    
-    public void actionPerformed(ActionEvent evt) {
-        JFrame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(frame.getExtendedState() ^ Frame.ICONIFIED);
-        } else {
-            Toolkit.getDefaultToolkit().beep();
-        }
-    }
+	/** Creates a new instance. */
+	public MinimizeWindowAction(Application app, View view) {
+		super(app, view);
+		ResourceBundleUtil labels = ResourceBundleUtil
+				.getBundle("org.jhotdraw_7_6.app.Labels");
+		labels.configureAction(this, ID);
+	}
+
+	private JFrame getFrame() {
+		return (JFrame) SwingUtilities.getWindowAncestor(getActiveView()
+				.getComponent());
+	}
+
+	public void actionPerformed(ActionEvent evt) {
+		JFrame frame = getFrame();
+		System.out.println("HERE*********************");
+		if (frame != null) {
+			frame.setExtendedState(frame.getExtendedState() ^ Frame.ICONIFIED);
+		} else {
+			Toolkit.getDefaultToolkit().beep();
+		}
+	}
 }
