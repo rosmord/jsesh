@@ -16,28 +16,30 @@ public class InputBlockerUtils {
 	 * @param component
 	 */
 	public static void interceptInput(Component component) {
-		component.addMouseListener(new MouseAdapter() {});
-		component.addMouseMotionListener(new MouseMotionAdapter() {});
+		component.addMouseListener(new MouseAdapter() {
+		});
+		component.addMouseMotionListener(new MouseMotionAdapter() {
+		});
 		component.addMouseWheelListener(new MouseWheelListener() {
 			public void mouseWheelMoved(MouseWheelEvent e) {
 			}
 		});
-		 component.addKeyListener(new KeyAdapter() { });
-	        
-	        component.setFocusTraversalKeysEnabled(false);
-	        component.addComponentListener(new FocusRequester(component));		
+		component.addKeyListener(new KeyAdapter() {
+		});
+		component.setFocusTraversalKeysEnabled(false);
+		component.addComponentListener(new FocusRequester(component));
 	}
-	
+
 	private static class FocusRequester extends ComponentAdapter {
 		private Component component;
-		
-		 public FocusRequester(Component component) {	
+
+		public FocusRequester(Component component) {
 			this.component = component;
 		}
 
 		@Override
 		public void componentShown(ComponentEvent evt) {
-             component.requestFocusInWindow();
-         }
+			component.requestFocusInWindow();
+		}
 	}
 }

@@ -5,13 +5,14 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.5</version>
+        <version>5.4</version>
     </parent>
-    <groupId>org.qenherkhopeshef</groupId>
-    <artifactId>cupruntime</artifactId>
-    <version>1</version>
+    <artifactId>jseshDoc</artifactId>
     <packaging>jar</packaging>
-    <name>cupruntime</name>
+    <name>jseshGlyph</name>
+    <description>
+	JSesh documentation
+    </description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

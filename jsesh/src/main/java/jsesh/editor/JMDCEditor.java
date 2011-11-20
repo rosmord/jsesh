@@ -759,6 +759,13 @@ public class JMDCEditor extends JPanel {
 			}
 		};
 		JPopupMenu shadingPopup = menuBuilder.buildPopup();
+		
+		// Create specific actions for this popup ?????
+		// (the labels for these one is too long).
+		// P.S. Only shade zone seems necessary. Unshade is not as useful.
+		shadingPopup.add(getActionMap().get(ActionsID.SHADE_ZONE));
+		shadingPopup.add(getActionMap().get(ActionsID.UNSHADE_ZONE));
+
 		Rectangle r = getPointerRectangle();
 
 		shadingPopup.show(this, (int) r.getCenterX(), (int) r.getCenterY());

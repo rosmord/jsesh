@@ -1,18 +1,15 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>    
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.5</version>
+        <version>5.4</version>
     </parent>
-    <artifactId>jseshOthers</artifactId>
+    <artifactId>jseshAppli</artifactId>
     <packaging>jar</packaging>
-    <name>jseshOthers</name>
-    <description>
-    	Executable jar for non mac-versions.
-    </description>
+    <name>jseshAppli</name>
     <build>
         <plugins>
             <plugin>
@@ -23,14 +20,14 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>jsesh.editorSoftware.MDCDisplayerAppli</mainClass>
+                            <mainClass>jsesh.jhotdraw.JSeshMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <dependencies>
+    <dependencies>        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jsesh</artifactId>
@@ -41,7 +38,25 @@
             <artifactId>jseshGlyphs</artifactId>
             <version>${project.version}</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jhotdrawfw</artifactId>
+            <version>7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <version>3.7.4</version>
+            <type>jar</type>
+            <classifier>swing</classifier>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.qenherkhopeshef</groupId>
+            <artifactId>qenherkhopeshefUtils</artifactId>
+            <version>5.4</version>
+        </dependency>
+    </dependencies> 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>5.5</version>
+        <version>5.4</version>
     </parent>
     <artifactId>jsesh</artifactId>
     <packaging>jar</packaging>
@@ -114,13 +114,13 @@
         </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>
-            <artifactId>jvectClipboard</artifactId>
+            <artifactId>jvect</artifactId>
             <version>1.3</version>
         </dependency>
        <dependency>
             <groupId>org.qenherkhopeshef</groupId>
             <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>5.5</version>
+            <version>5.4</version>
         </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>

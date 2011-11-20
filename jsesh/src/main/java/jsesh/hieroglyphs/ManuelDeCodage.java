@@ -107,7 +107,7 @@ public class ManuelDeCodage {
         putCanon("Hp", "Aa5");
         putCanon("qn", "Aa8");
         putCanon("mAa", "Aa11");
-        putCanon("M", "Aa13");
+        putCanon("M", "Aa15");
         putCanon("im", "Aa13");
         putCanon("gs", "Aa13");
         putCanon("sA", "Aa17");
