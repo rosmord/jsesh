@@ -4,10 +4,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 public class RTFTransferable implements Transferable {
 

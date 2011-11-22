@@ -20,8 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A class representing 1988 manuel de codage and providing information about some of the standard
+ * A class representing the manuel de codage and providing information about some of the standard
  * codes.
+ * 
+ * TODO : merge with HieroglypsManager.
  * @author rosmord
  *
  */
@@ -465,7 +467,18 @@ public class ManuelDeCodage {
         putCanon("ibA", "Y6");
         putCanon("zSSt", "Y8");
         putCanon("1", "Z1");
-        putCanon("3", "Z2");
+        putCanon("2", "2");
+        putCanon("3", "3");
+        putCanon("4", "4");
+        putCanon("5", "5");
+        putCanon("20", "20");
+        putCanon("30", "30");
+        putCanon("40", "40");
+        putCanon("50", "50");
+        putCanon("200", "200");
+        putCanon("300", "300");
+        putCanon("400", "400");
+        putCanon("500", "500");
         putCanon("y", "Z4");
         putCanon("W", "Z7");
         putCanon("imi", "Z11");

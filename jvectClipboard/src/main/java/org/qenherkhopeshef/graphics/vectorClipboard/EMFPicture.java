@@ -1,7 +1,6 @@
 package org.qenherkhopeshef.graphics.vectorClipboard;
 
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 

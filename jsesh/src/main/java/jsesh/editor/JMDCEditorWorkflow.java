@@ -394,13 +394,16 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * Adds the sign whose code is "currentCode" at the cursor position.
+	 * Adds the sign whose mnemonic is "currentCode" at the cursor position.
+	 * <p> The sign actual code will be thought in the sign database,
+	 * and it is possible to circle among possible signs.
 	 */
 	// UNDO/REDO
 	public void addSign() {
 		// No empty sign.
 		if (getCurrentCode().length() == 0)
 			return;
+		// See if we have a Gardiner code or a translitteration.
 		if (GardinerCode.isCorrectGardinerCode(currentCode.toString())) {
 			possibilities = CompositeHieroglyphsManager.getInstance()
 					.getSuitableSignsForCode(getCurrentCode().toString());
@@ -416,7 +419,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * @param code
+	 * Adds a sign whose code is "code" to the text.
+	 * @param code the sign code (which has the form of an identifier).
 	 */
 	// UNDO/REDO
 	public void addSign(String code) {

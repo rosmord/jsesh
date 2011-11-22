@@ -33,7 +33,7 @@ public class PDFPicture implements TransferablePicture {
 	 * The array containing the pdf data.
 	 */
 
-	ByteArrayOutputStream out = new ByteArrayOutputStream();
+	private ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 	/**
 	 * The PDF document we will produce.

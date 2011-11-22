@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
  * A repository which knows about hieroglyphic codes and signs equivalence.
  * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.
  * 
+ * TODO : merge with ManueDeCodage (relatively close meaning).
  * @see HieroglyphicFontManager
  * @author S. Rosmorduc
  * 

@@ -43,7 +43,7 @@ public class SVGGraphics2D extends BaseGraphics2D {
 	SVGLowLevel svgOut;
 
 	// TODO : use this value somewhere...
-	private float currentLineWidth;
+	//private float currentLineWidth;
 
 	/**
 	 * Picture dimensions, in px.
@@ -204,7 +204,7 @@ public class SVGGraphics2D extends BaseGraphics2D {
 		super.setStroke(stroke);
 		if (stroke instanceof BasicStroke) {
 			BasicStroke bs = (BasicStroke) stroke;
-			currentLineWidth = bs.getLineWidth();
+			//currentLineWidth = bs.getLineWidth();
 		}
 	}
 
