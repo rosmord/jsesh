@@ -11,12 +11,13 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
@@ -28,12 +29,15 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
+
+import org.jhotdraw_7_6.gui.JPopupButton;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing
@@ -184,17 +188,28 @@ public class JSeshViewModel {
 		actualBar.add(Box.createHorizontalGlue());
 
 		// The following should be a regular button with a pop-up menu.
-		JMenu hieroglyphicMenu = buildHieroglyphicMenus();
-		JMenuBar menuBar= new JMenuBar();
-		menuBar.add(hieroglyphicMenu);
-		menuBar.setMaximumSize(menuBar.getPreferredSize());
-		actualBar.add(menuBar);
+		// we could use the JPopupButton class from JHotdraw ?
+		JPopupMenu hieroglyphicMenu = buildHieroglyphicMenus();
+		
+		//JMenuBar menuBar= new JMenuBar();
+		//menuBar.add(hieroglyphicMenu);
+		//menuBar.setMaximumSize(menuBar.getPreferredSize());
+		//actualBar.add(menuBar);
+	
+		JButton hieroglyphsButton= new JButton();
+		hieroglyphsButton.setAction(new OpenHieroglyphicMenuAction(hieroglyphsButton, hieroglyphicMenu));
+		hieroglyphsButton.setBorderPainted(true);
+		hieroglyphsButton.setBorder(BorderFactory.createBevelBorder(3));
+		actualBar.add(hieroglyphsButton);
 		
 		actualBar.add(new JLabel(bundle.getLabel("combobox.zoom.text")));
 		actualBar.add(zoomComboBox);
 		panel.add(mdcField);
 		panel.add(actualBar);
-
+		actualBar.putClientProperty("Quaqua.ToolBar.style", "bottom");
+		actualBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
+		hieroglyphsButton.putClientProperty("Quaqua.Button.style", "push");
+		//hieroglyphsButton.putClientProperty("Quaqua.Button.style", "colorWell");
 		panel.setLayout(new GridLayout(2, 0));
 		return panel;
 	}
@@ -337,15 +352,15 @@ public class JSeshViewModel {
 	 * 
 	 * @return a menu containing only "standard" glyphs.
 	 */
-	private JMenu buildHieroglyphicMenus() {
+	private JPopupMenu buildHieroglyphicMenus() {
 		HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
 		List<HieroglyphFamily> families = CompositeHieroglyphsManager
 				.getInstance().getFamilies();
 		BundleHelper bundle = BundleHelper.getInstance();
 
-		JMenu hieroglyphs = new JMenu(bundle.getLabel("hieroglyphicMenu.text"));
+		JPopupMenu hieroglyphs = new JPopupMenu();
 
-		hieroglyphs.getPopupMenu().setLayout(new GridLayout(14, 2));
+		hieroglyphs.setLayout(new GridLayout(14, 2));
 		for (int i = 0; i < families.size(); i++) {
 			HieroglyphFamily family = (HieroglyphFamily) families.get(i);
 
@@ -374,7 +389,7 @@ public class JSeshViewModel {
 			m.setHieroglyphicMenuListener(mediator);
 		}
 
-		hieroglyphs.setMnemonic(KeyEvent.VK_H);
+		//hieroglyphs.setMnemonic(KeyEvent.VK_H);
 		return hieroglyphs;
 	}
 

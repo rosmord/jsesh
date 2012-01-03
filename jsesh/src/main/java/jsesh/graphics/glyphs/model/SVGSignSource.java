@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,9 +50,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * <b>Ligature zones </b> TODO : write doc.
  * <ul>
- * <li> TODO implement a larger part type filter textof SVG (static graphics,
+ * <li>TODO implement a larger part type filter textof SVG (static graphics,
  * ignoring spurious stuff like animation).
- * <li> TODO take viewBox into account (not a priority)
+ * <li>TODO take viewBox into account (not a priority)
  * <li>
  * </ul>
  * 
@@ -117,10 +118,10 @@ public class SVGSignSource implements SimpleSignSourceModel {
 	 * SVGReader handler = new SVGReader(); parser.parse(file, handler); shape =
 	 * new ShapeChar(); shape.setShape(handler.getGeneralPath());
 	 * shape.fixShape(); } catch (ParserConfigurationException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (SAXException e) { //
-	 * TODO Auto-generated catch block e.printStackTrace(); } catch (IOException
-	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
-	 * beforeFirst(); }
+	 * Auto-generated catch block e.printStackTrace(); } catch (SAXException e)
+	 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
+	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
+	 * } beforeFirst(); }
 	 */
 	public SVGSignSource(URL url) {
 		try {
@@ -147,9 +148,10 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		initSVGSignSource(ressourceName, in, getCodeForURL(url));
 	}
 
-	private void initSVGSignSource(String ressourceName, InputStream in, String signCode) throws FactoryConfigurationError {
+	private void initSVGSignSource(String ressourceName, InputStream in,
+			String signCode) throws FactoryConfigurationError {
 		try {
-			code= signCode;
+			code = signCode;
 			if (code == null)
 				code = "";
 			// read SVG
@@ -296,7 +298,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					if (fillColorAttr.startsWith("rgb(0,0,0"))
 						blackPaint = true;
 					if (fillColorAttr.startsWith("currentColor"))
-						blackPaint= true;
+						blackPaint = true;
 				}
 			}
 
@@ -381,9 +383,10 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		}
 	}
 
-	// We currently use SAX. However, as we start using the extra information provided by the DUBLIN CORE,
+	// We currently use SAX. However, as we start using the extra information
+	// provided by the DUBLIN CORE,
 	// We may find it useful to go to DOM one of these days.
-	
+
 	class SVGReader extends DefaultHandler {
 
 		public static final String INKSCAPE_NAMESPACES = "http://www.inkscape.org/namespaces/inkscape";
@@ -396,45 +399,49 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		 * label may contain additionnal information (like gravity anchor
 		 * point). TODO : add a "gravity" system.
 		 */
-		
+
 		private String zoneName = null;
 
 		private LigatureZone[] zones;
 
 		private Area area;
 
-		private Stack styles;
-		
-		boolean inPattern= false; // don't take into account paths in pattern definition. 
-		
-		private int clipPathDepth= 0; // Don't take into account path in clippath either...
-		
-		String description= "";
-		
-		String author="";
-		
+		private Stack<Style> styles;
+
+		boolean inPattern = false; // don't take into account paths in pattern
+									// definition.
+
+		private int clipPathDepth = 0; // Don't take into account path in
+										// clippath either...
+
+		String description = "";
+
+		String author = "";
+
 		String license;
 
-		StringBuffer currentText= new StringBuffer();
-		
-		boolean recordText= false;
-		
+		StringBuffer currentText = new StringBuffer();
+
+		boolean recordText = false;
+
 		public SVGReader() {
 			area = new Area();
-			styles = new Stack();
+			styles = new Stack<Style>();
 			zones = null;
 		}
 
-		public void characters(char[] ch, int start, int length) throws SAXException {
+		public void characters(char[] ch, int start, int length)
+				throws SAXException {
 			if (recordText)
-				currentText.append(ch, start, length);	
+				currentText.append(ch, start, length);
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
-		 *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
+		 * @see
+		 * org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
+		 * java.lang.String, java.lang.String, org.xml.sax.Attributes)
 		 */
 
 		public void startElement(String uri, String localName, String qName,
@@ -443,7 +450,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			Style parentStyle = null;
 
 			if (!styles.isEmpty())
-				parentStyle = (Style) styles.peek();
+				parentStyle = styles.peek();
 
 			// Create the current style, and select it.
 			Style style = new Style(parentStyle, attributes);
@@ -504,25 +511,27 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					addPathToArea(style, subPath);
 				}
 			} else if ("pattern".equals(localName)) {
-				inPattern= true;
+				inPattern = true;
 			} else if ("clipPath".equals(localName)) {
 				clipPathDepth++;
-			}else if (isDCDescription(uri, localName)) {
+			} else if (isDCDescription(uri, localName)) {
 				// dc:description
-				recordText= true;
+				recordText = true;
 				currentText.setLength(0);
 			} else if (isDCCreator(uri, localName)) {
-				recordText= true;
+				recordText = true;
 				currentText.setLength(0);
-			} 
+			}
 		}
 
 		private boolean isDCDescription(String uri, String localName) {
-			return "description".equals(localName) && DUBLIN_CORE_NAMESPACE.equals(uri);
+			return "description".equals(localName)
+					&& DUBLIN_CORE_NAMESPACE.equals(uri);
 		}
-		
+
 		private boolean isDCCreator(String uri, String localName) {
-			return "creator".equals(localName) && DUBLIN_CORE_NAMESPACE.equals(uri);
+			return "creator".equals(localName)
+					&& DUBLIN_CORE_NAMESPACE.equals(uri);
 		}
 
 		private void addPathToArea(Style style, GeneralPath subPath) {
@@ -641,19 +650,19 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			if ("a".equals(localName))
 				this.zoneName = null;
 			else if ("pattern".equals(localName)) {
-				inPattern= false;
+				inPattern = false;
 			} else if ("clipPath".equals(localName)) {
 				clipPathDepth--;
-			}else if (isDCDescription(uri, localName)) {
-				recordText= false;
-				description= currentText.toString().trim();
+			} else if (isDCDescription(uri, localName)) {
+				recordText = false;
+				description = currentText.toString().trim();
 				currentText.setLength(0);
-				
+
 			} else if (isDCCreator(uri, localName)) {
-				recordText= false;
-				author= currentText.toString().trim();
+				recordText = false;
+				author = currentText.toString().trim();
 				currentText.setLength(0);
-				
+
 			}
 			styles.pop();
 
@@ -667,25 +676,25 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		 * <p>
 		 * SVG path commands are : M x y ; L x y ; Z ; H x; V x;
 		 * <ul>
-		 * <li> M/m x y : move to x y
-		 * <li> L/l x y : line to x y
-		 * <li> H x : horizontal line to x
-		 * <li> V y : vertical line to y
-		 * <li> C/c x1 y1 x2 y2 x y : cubic B&eacute;zier spline
-		 * <li> S/s x2 y2 x y : same, but x1 y1 is computed as the reflection of
+		 * <li>M/m x y : move to x y
+		 * <li>L/l x y : line to x y
+		 * <li>H x : horizontal line to x
+		 * <li>V y : vertical line to y
+		 * <li>C/c x1 y1 x2 y2 x y : cubic B&eacute;zier spline
+		 * <li>S/s x2 y2 x y : same, but x1 y1 is computed as the reflection of
 		 * the previous x2 y2, or x y.
-		 * <li> Q/q x1 y1 x y : quadratic B&eacute;zier.
-		 * <li> T/t x y : is to Q/q what s/S is to C/c
-		 * <li> A/a rx ry rot largearc sweep x y : arc.
-		 * <li> Z/z : the end
+		 * <li>Q/q x1 y1 x y : quadratic B&eacute;zier.
+		 * <li>T/t x y : is to Q/q what s/S is to C/c
+		 * <li>A/a rx ry rot largearc sweep x y : arc.
+		 * <li>Z/z : the end
 		 * </ul>
 		 * Uppercase means "absolute coordinates". Lower case means relative
 		 * coordinates.
 		 * <p>
 		 * All command can be factorized. For instance, 'M' can be followed by
 		 * any even number of coordinates. For relative commands, the "current
-		 * point" is only updated <em>after</em> the last coordinate (i.e.
-		 * when a new command is met).
+		 * point" is only updated <em>after</em> the last coordinate (i.e. when
+		 * a new command is met).
 		 * <p>
 		 * Note that the arc commands won't be recognized.
 		 * 
@@ -733,13 +742,13 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					fixArgsAndCurrentPos(args, currentPos, relative);
 					result.moveTo(args[0], args[1]);
 					pathStart.setLocation(args[0], args[1]);
-					// It is said in the documentation that 
+					// It is said in the documentation that
 					// If a m or M is followed by more than two coords,
 					// those are implicit "lineto" commands. Hence :
-					if (command== 'm')
-						command= 'l';
+					if (command == 'm')
+						command = 'l';
 					else
-						command= 'L';
+						command = 'L';
 					// (fixes I had in JSesh 2.13.5 with W1).
 				}
 					break;
@@ -787,7 +796,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 						cx = currentPos.x;
 						cy = currentPos.y;
 					}
-					// Called AFTER computing cx and cy. 
+					// Called AFTER computing cx and cy.
 					// See the current documentation of fixArgsAndCurrentPos
 					// for a comment about the BAD idea I had there.
 					fixArgsAndCurrentPos(args, currentPos, relative);
@@ -840,7 +849,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					// ellipse
 					float ry = Float.parseFloat(l[i + 2]);
 					float rot = Float.parseFloat(l[i + 3]); // x-axis rotation
-					float largeArc = Float.parseFloat(l[i + 4]); // boolean
+					int largeArc = Integer.parseInt(l[i + 4]); // boolean
 					// flag :
 					// should we
 					// choose
@@ -848,7 +857,7 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					// largest
 					// possible
 					// arc ?
-					float sweep = Float.parseFloat(l[i + 5]); // boolean flag
+					int sweep = Integer.parseInt(l[i + 5]); // boolean flag
 					// : do we turn
 					// in the direct
 					// orientation ?
@@ -858,8 +867,8 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					i += 7;
 					fixArgsAndCurrentPos(args, currentPos, relative);
 					// Now, due to rot, the usual java Arc can't be used here.
-					drawArc(result, startx, starty, rx, ry, rot, largeArc,
-							sweep, args[0], args[1]);
+					drawArc(result, startx, starty, rx, ry, rot, largeArc != 0,
+							sweep != 0, args[0], args[1]);
 				}
 					break;
 				case 'z':
@@ -909,27 +918,133 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		}
 
 		/**
-		 * Draws an SVG specified Arc on a java path. see
+		 * Approximate an SVG specified Arc on a java path. see
 		 * http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes for
 		 * implementation details
 		 * 
+		 * <p>
+		 * There are two candidate ellipse for this, and two different parts of
+		 * each ellipse. Hence, four solutions.
+		 * <p>
+		 * See http://www.spaceroots.org/documents/ellipse/elliptical-arc.pdf
+		 * for a controlled solution. Our approximation uses a simple set of
+		 * four Bezier curves. (two are probably good enough in fact).
+		 * 
+		 * In case of problem, the arc is degraded in a line segment.
 		 * @param result
-		 * @param startx
-		 * @param starty
+		 *            the path the arc should be added to.
+		 * @param x1
+		 *            starting x for the arc
+		 * @param y1
+		 *            starting y for the arc
 		 * @param rx
+		 *            'major' radius
 		 * @param ry
+		 *            'minor' radius
 		 * @param rot
+		 *            angle from the current system x axis to the ellipse x
+		 *            axis.
 		 * @param largeArc
+		 *            do we use the larger arc (>180) or the smaller one.
 		 * @param sweep
-		 * @param endx
-		 * @param endy
+		 * @param x2
+		 *            ending x for the arc
+		 * @param y2
+		 *            ending y for the arc
 		 */
-		private void drawArc(GeneralPath result, float startx, float starty,
-				float rx, float ry, float rot, float largeArc, float sweep,
-				float endx, float endy) {
-			if (true) throw new RuntimeException("The method drawArc should be written for this to work. Complete the code");
-			// FIXME write drawArc.
-			result.lineTo(endx, endy);
+		private void drawArc(GeneralPath result, double x1, double y1,
+				double rx, double ry, double rot, boolean largeArc,
+				boolean sweep, double x2, double y2) {
+			if (rx == 0.0 || ry == 0.0 || (x1 == x2 && y1 == y2)) {
+				// As per F6.6 in spec.
+				result.lineTo(x2, y2);
+			} else {
+				rx = Math.abs(rx);
+				ry = Math.abs(ry); // Apply F 6 6
+				// OK. We use compute according to the specs.
+				double dx = (x1 - x2) / 2.0;
+				double dy = (y1 - y2) / 2.0;
+				double x1p = Math.cos(rot) * dx + Math.sin(rot) * dy;
+				double y1p = -Math.sin(rot) * dx + Math.cos(rot) * dy;
+				double sign = largeArc == sweep ? -1 : 1;
+				double rx2 = rx * rx;
+				double ry2 = ry * ry;
+				// Ensure radii are large enough
+				double lambda = x1p * x1p / rx2 + y1p * y1p / ry2;
+				if (lambda > 1) {
+					rx = rx * Math.sqrt(lambda);
+					ry = ry * Math.sqrt(lambda);
+					rx2 = rx * rx;
+					ry2 = ry * ry;
+				}
+				double d= (rx2 * ry2)
+						/ (rx2 * y1p * y1p + ry2 * x1p * x1p) - 1.0;				
+				double root =0;
+				// Secure against small computation errors (we met cases where root was -1.0E-16, hence error).
+				if (d >0)
+					root= Math.sqrt(d);
+				double cxp = sign * root * rx * y1p / ry;
+				double cyp = -sign * root * ry * x1p / rx;
+				double cx = Math.cos(rot) * cxp - Math.sin(rot) * cyp
+						+ (x1 + x2) / 2.0;
+				double cy = Math.sin(rot) * cxp + Math.cos(rot) * cyp
+						+ (y1 + y2) / 2.0;
+				double theta1 = angle(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry);
+				double deltaTheta = angle((x1p - cxp) / rx, (y1p - cyp) / ry,
+						-(x1p + cxp) / rx, -(y1p + cyp) / ry);
+				if (!sweep && deltaTheta > 0)
+					deltaTheta -= Math.PI * 2.0;
+				if (sweep && deltaTheta < 0)
+					deltaTheta += 2 * Math.PI;
+				// We approximate the ellipse by four bezier splines.
+
+				double[][] onCurve = new double[5][2];
+				onCurve[0][0] = x1;
+				onCurve[0][1] = y1;
+				for (int i = 1; i <= 3; i++) {
+					double a = theta1 + deltaTheta * i / 4.0;
+					onCurve[i][0] = cx + rx * Math.cos(rot) * Math.cos(a) - ry
+							* Math.sin(rot) * Math.sin(a);
+					onCurve[i][1] = cy + ry * Math.sin(rot) * Math.cos(a) + ry
+							* Math.cos(rot) * Math.sin(a);
+					if (	onCurve[i][0] == Double.NaN || onCurve[i][1] == Double.NaN) {
+						// Emergency exit !!!
+						System.err.println("Problem with arc "+ x1+ "," + y1+ " "+ rx+ " "+ ry+ " rot "+ rot+ " flags "+ largeArc+ " "+ sweep+ " end "+ x2+ ", "+ y2);
+						result.lineTo(x2, y2);
+						return;
+					}						
+				}
+				onCurve[4][0] = x2;
+				onCurve[4][1] = y2;
+
+				double[][] derivate = new double[5][2];
+				for (int i = 0; i <= 4; i++) {
+					double a = theta1 + deltaTheta * i / 4.0;
+					double factor= 1/(2*Math.PI);
+					factor= factor* Math.abs(deltaTheta)/4.0;
+					derivate[i][0] = (-rx * Math.cos(rot) * Math.sin(a) - ry
+							* Math.sin(rot) * Math.cos(a))*factor;
+					derivate[i][1] = (-rx * Math.sin(rot) * Math.sin(a) + ry
+							* Math.cos(rot) * Math.cos(a))*factor;
+					if (deltaTheta < 0) {
+						derivate[i][0] = -derivate[i][0];
+						derivate[i][1] = -derivate[i][1];
+					}
+				}
+
+				// Compute all curves. Note that When we point to the last
+				// point, we are done (hence the -1).
+				// The approximation is not very good. 
+				for (int i = 0; i < onCurve.length - 1; i++) {
+					double c1x, c1y, c2x, c2y;
+					c1x = onCurve[i][0] + derivate[i][0];
+					c1y = onCurve[i][1] + derivate[i][1];
+					c2x = onCurve[i + 1][0] - derivate[i + 1][0];
+					c2y = onCurve[i + 1][1] - derivate[i + 1][1];
+					result.curveTo(c1x, c1y, c2x, c2y, onCurve[i + 1][0],
+							onCurve[i + 1][1]);
+				}
+			}
 		}
 
 		/**
@@ -957,12 +1072,12 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			// So we don't bother to keep it static.
 			Pattern p = Pattern.compile(command);
 			Matcher m = p.matcher(pathData);
-			ArrayList result = new ArrayList();
+			ArrayList<String> result = new ArrayList<String>();
 			// here is the complex part.
 			while (m.find()) {
 				result.add(m.group());
 			}
-			return (String[]) result.toArray(new String[result.size()]);
+			return result.toArray(new String[result.size()]);
 		}
 
 		public InputSource resolveEntity(String publicId, String systemId)
@@ -1001,9 +1116,12 @@ public class SVGSignSource implements SimpleSignSourceModel {
 		/**
 		 * Transform points into absolute coordinates.
 		 * <p>
-		 * side effect : update current point. This is probably NOT the best idea I have had, as it caused a nasty bug when  
-		 * parsing "s" tags... Yet another bug due to side effects.
-		 * (the reason for the bug was that I called fixargs and then did computation which intended to involve the "old" currentPoint.)
+		 * side effect : update current point. This is probably NOT the best
+		 * idea I have had, as it caused a nasty bug when parsing "s" tags...
+		 * Yet another bug due to side effects. (the reason for the bug was that
+		 * I called fixargs and then did computation which intended to involve
+		 * the "old" currentPoint.)
+		 * 
 		 * @param args
 		 * @param current
 		 * @param relative
@@ -1040,5 +1158,31 @@ public class SVGSignSource implements SimpleSignSourceModel {
 			code = code.substring(0, code.indexOf('.'));
 		}
 		return code;
+	}
+
+	/**
+	 * Compute the angle between two vectors.
+	 * <p>
+	 * precondition : none of the vectors shall be null.
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
+	private static double angle(double x1, double y1, double x2, double y2) {
+		double n1 = Math.sqrt(x1 * x1 + y1 * y1);
+		double n2 = Math.sqrt(x2 * x2 + y2 * y2);
+		double cos = (x1 * x2 + y1 * y2) / (n1 * n2);
+		// make for rounding errors :
+		if (cos < -1.0)
+			cos = -1.0;
+		else if (cos > 1.0)
+			cos = 1.0;
+		double angle = Math.acos(cos);
+		if (x1 * y2 - y1 * x2 < 0)
+			angle = -angle;
+		return angle;
 	}
 }
