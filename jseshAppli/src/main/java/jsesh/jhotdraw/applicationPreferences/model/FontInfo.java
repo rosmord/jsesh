@@ -57,11 +57,10 @@ public class FontInfo {
 	private static final String TRANSLIT_UNICODE = "translitUnicode";
 	private static final String TRANSLITERATION_FONT = "transliterationFont";
 	private static final String TRANSLITERATION_FONT_SIZE = "transliterationFontSize";
-
 	private static final String BASE_FONT = "baseFont";
 	private static final String BASE_FONT_SIZE = "baseFontSize";
-
 	private static final String CURRENT_HIEROGLYPHS_SOURCE = "CURRENT_HIEROGLYPHS_SOURCE";
+	
 	private File hieroglyphsFolder;
 	private Font baseFont, transliterationFont;
 	/**
@@ -82,6 +81,7 @@ public class FontInfo {
 	public FontInfo(FontInfo fontInfo) {
 		this(fontInfo.hieroglyphsFolder, fontInfo.baseFont,
 				fontInfo.transliterationFont);
+		this.useEmbeddedFont= fontInfo.useEmbeddedFont;
 		this.translitUnicode = fontInfo.translitUnicode;
 		this.yodChoice = fontInfo.yodChoice;
 	}

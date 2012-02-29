@@ -6,25 +6,36 @@
  */
 package jsesh.mdc.model;
 
+import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 
 /**
- * A group of signs with explicit placement. NOTE : should this be limited to
- * hieroglyphs ??? IMPORTANT : currently, we need at least two signs in an
+ * A group of signs with explicit placement. 
+ * IMPORTANT : currently, we need at least two signs in an
  * absolute group. This is not a
  * 
  * @author rosmord
  *  
  */
 
+@SuppressWarnings("serial")
 public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface {
 
+	/**
+	 * Add a child. 
+	 * For compatibility with the graphical formats and because of questions of transparency, shading elements will be placed in front of other elements if necessary.
+	 * @param h
+	 */
     public void addHieroglyph(Hieroglyph h) {
-        addChild(h);
-    }
-
-    public void addHieroglyphAt(int idx, Hieroglyph h) {
-        addChildAt(idx, h);
+    		if (h.isShadingSign()) {
+    			// find the position for inserting h :
+    			int i= 0;
+    			while (i < getNumberOfChildren() && getHieroglyphAt(i).isShadingSign())
+    				i++;
+    			addChildAt(i, h);
+    		} else {
+    			addChild(h);
+    		}
     }
 
     public void removeHieroglyphAt(int idx) {

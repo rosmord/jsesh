@@ -13,6 +13,7 @@ import jsesh.mdc.interfaces.HieroglyphInterface;
  *This code is published under the GNU LGPL.
  */
 
+@SuppressWarnings("serial")
 public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 {
 
@@ -376,5 +377,21 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 			return elt.containsOnlyOneSign();
 		} else
 			return false;
+	}
+	
+	/**
+	 * Is this sign a shading sign (horizontal, vertical, full or quarter shading ?).
+	 * @return
+	 */
+	public boolean isShadingSign() {
+	  	switch (getType()) {
+			case SymbolCodes.HORIZONTALSHADE:
+			case SymbolCodes.VERTICALSHADE:
+			case SymbolCodes.FULLSHADE:
+			case SymbolCodes.QUATERSHADE:
+				return true;
+			default:
+				return false;
+			}
 	}
 } // end Hieroglyph
