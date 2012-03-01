@@ -225,13 +225,11 @@ public class EncapsulatedPostscriptGraphics2D extends BaseGraphics2D {
 	}
 
 	public void dispose() {
-
 		if (closeOnDispose && epsOut != null) {
 			epsOut.close();
 			epsOut = null;
 		} else
 			epsOut = null;
-
 	}
 
 	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {

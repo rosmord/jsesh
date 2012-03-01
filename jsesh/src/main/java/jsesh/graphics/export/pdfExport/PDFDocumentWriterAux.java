@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.OutputStream;
 
+import org.qenherkhopeshef.graphics.pdf.QenherPDFGraphics2D;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
@@ -11,8 +13,8 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * utility class representing a pdf document.
- * 
+ * utility class for creating a pdf picture.
+ * (there are probably too many classes for this in the current architecture. Some cleanup is needed).
  * @author rosmord
  * 
  */
@@ -21,11 +23,25 @@ public class PDFDocumentWriterAux {
 	private Document document;
 	private PdfWriter pdfWriter;
 	private Font font;
+	/**
+	 * The PDF document size in points.
+	 */
+	private float width, height;
 
+	/**
+	 * Create a pdf document suitable for drawing a hieroglyphic text on it by getting the associated Graphics2D.
+	 * @param prefs pdf specific preferences
+	 * @param out stream where the document will be written
+	 * @param docWidth the document width, in points
+	 * @param docHeight the document height, in points
+	 * @param comment a PDF comment.
+	 */
 	public PDFDocumentWriterAux(PDFExportPreferences prefs, OutputStream out,
 			float docWidth, float docHeight, String comment) {
 		this.pdfExportPreferences = prefs;
-		document = new Document();
+		this.width= docWidth;
+		this.height= docHeight;
+		this.document = new Document();
 		// Font stuff...
 		// BaseFont bf= null;
 		// Build fonts to use
@@ -90,9 +106,10 @@ public class PDFDocumentWriterAux {
 		document.close();
 	}
 	
-	public Graphics2D createGraphics(float width, float height) {
-		return pdfWriter.getDirectContent().createGraphicsShapes(
-				width, height);
+	public Graphics2D createGraphics() {
+		return new QenherPDFGraphics2D( pdfWriter.getDirectContent().createGraphicsShapes(
+				width, height));
+		//return pdfWriter.getDirectContent().createGraphicsShapes(width, height);
 	}
 
 	public Font getFont() {

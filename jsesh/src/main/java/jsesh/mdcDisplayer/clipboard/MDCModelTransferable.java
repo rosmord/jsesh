@@ -146,31 +146,21 @@ public class MDCModelTransferable implements Transferable {
 	}
 
 	/**
+	 * Get pdf as binary content.
 	 * @return
 	 * @throws IOException
 	 */
 	private Object getPDFData() throws IOException {
 		Object result;
-		{
-			DrawingSpecification drawingSpecification = getDrawingSpecifications()
-					.copy();
-			// Cadrat height, in points.
-			int cadratHeight = rtfPreferences.getCadratHeight();
-			float ratio = drawingSpecification.getMaxCadratWidth()
-					/ drawingSpecification.getMaxCadratHeight();
-			// Change the pdf data accordingly:
-			PageLayout pageLayout = drawingSpecification.getPageLayout();
-			pageLayout.setTopMargin(1);
-			pageLayout.setLeftMargin(1);
-			drawingSpecification.setPageLayout(pageLayout);
-
-			drawingSpecification.setStandardSignHeight(cadratHeight);
-
-			drawingSpecification.setMaxCadratHeight(cadratHeight);
-			drawingSpecification.setMaxCadratWidth(cadratHeight * ratio);
-			PDFDataSaver pdfDataSaver = new PDFDataSaver(drawingSpecification);
-			result = pdfDataSaver.getPDFContent(topItemList);
-		}
+		DrawingSpecification drawingSpecification = getDrawingSpecifications()
+				.copy();
+		// Target Cadrat height, in points.
+		float targetHeight = rtfPreferences.getCadratHeight();
+		float scale = targetHeight 
+				/ drawingSpecification.getMaxCadratHeight();
+		PDFDataSaver pdfDataSaver = new PDFDataSaver(drawingSpecification);
+		pdfDataSaver.setScale(scale);		
+		result = pdfDataSaver.getPDFContent(topItemList);
 		return result;
 	}
 

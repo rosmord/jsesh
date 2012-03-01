@@ -27,7 +27,7 @@ public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 	}
 	
 	public Graphics2D buildGraphics() throws IOException {
-		return documentWriter.createGraphics(width, height);
+		return documentWriter.createGraphics();
 	}
 	
 	

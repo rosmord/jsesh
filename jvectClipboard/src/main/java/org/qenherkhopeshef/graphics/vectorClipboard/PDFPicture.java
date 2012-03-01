@@ -5,6 +5,8 @@ import java.awt.datatransfer.Transferable;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
+import org.qenherkhopeshef.graphics.pdf.QenherPDFGraphics2D;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Rectangle;
@@ -92,7 +94,9 @@ public class PDFPicture implements TransferablePicture {
 		if (comment != null && !"".equals(comment))
 			document.addSubject(comment);
 		document.open();
-		return pdfWriter.getDirectContent().createGraphicsShapes(width, height);
+		Graphics2D g = pdfWriter.getDirectContent().createGraphicsShapes(width, height);
+		return new QenherPDFGraphics2D(g);
+		//return g;
 	}
 
 	public Transferable buildTransferable() {

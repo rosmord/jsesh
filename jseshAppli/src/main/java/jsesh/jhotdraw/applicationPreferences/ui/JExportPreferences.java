@@ -85,6 +85,10 @@ public class JExportPreferences {
 	private void animate() {
 		LengthUnit.attachToCombobox(unitCB, unit);
 		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightSmallField);
+		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightLargeField);
+		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightWysiwygField);
+		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightFileField);
+		
 		exportModeCB.setModel(new DefaultComboBoxModel(
 				RTFExportGranularity.GRANULARITIES));
 		exportModeCB.setSelectedItem(RTFExportGranularity.GROUPED_CADRATS);

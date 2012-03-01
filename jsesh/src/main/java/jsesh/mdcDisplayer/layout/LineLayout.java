@@ -117,6 +117,10 @@ public class LineLayout extends TopItemLayout {
 		if (!zone.isEmpty()) {
 			flushZone();
 		}
+		// Ensure the margin is there ?
+		documentArea.add(new Point2D.Double(documentArea.getMaxX()
+				+ drawingSpecifications.getPageLayout().getLeftMargin(),
+				documentArea.getMinY()+ drawingSpecifications.getPageLayout().getTopMargin()));
 	}
 
 	/**
