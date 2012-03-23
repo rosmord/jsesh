@@ -180,8 +180,8 @@ public class FontInfo {
 		result.useEmbeddedFont = useEmbeddedFont;
 		if (useEmbeddedFont)
 		{
-			this.translitUnicode= false;
-			this.transliterationFont= ResourcesManager.getInstance().getTransliterationFont();
+			result.translitUnicode= false;
+			result.transliterationFont= ResourcesManager.getInstance().getTransliterationFont();
 		}
 		return result;
 	}
