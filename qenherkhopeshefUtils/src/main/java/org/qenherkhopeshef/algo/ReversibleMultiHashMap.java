@@ -18,6 +18,7 @@ import java.util.Set;
  * 
  * In this map, keys without values and values without keys are automatically removed.
  * 
+ * <p>(question to self : why is this thing serializable ?????)
  * @author Serge Rosmorduc
  * @version 20100417
  * 
@@ -26,6 +27,8 @@ import java.util.Set;
  */
 public class ReversibleMultiHashMap<K, V> implements Serializable {
 
+	private static final long serialVersionUID = -1379144229315950937L;
+	
 	private HashMap<K, HashSet<V>> map = new HashMap<K, HashSet<V>>();
 	// The reverse index.
 	private HashMap<V, HashSet<K>> reverseMap = new HashMap<V, HashSet<K>>();
