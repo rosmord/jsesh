@@ -17,7 +17,7 @@ import jsesh.mdc.interfaces.ModifierListInterface;
  * @author rosmord
  *
  */
-public class CodeExtractor {
+public class MDCCodeExtractor {
 	private boolean normalize= true;
 	
 	private boolean suppressNonGlyphs= true;
@@ -26,20 +26,20 @@ public class CodeExtractor {
 		SignListBuilder builder = new SignListBuilder();
 		MDCParserFacade parser = new MDCParserFacade(builder);
 		parser.parse(new StringReader(manuelDeCodageText));
-		return (String[]) builder.result.toArray(new String[builder.result.size()]);
+		return builder.result.toArray(new String[builder.result.size()]);
 	}
 	
 
 	
 	private class SignListBuilder extends MDCBuilderAdapter {
 		
-		public List result;
+		public List<String> result;
 
 		/* (non-Javadoc)
 		 * @see jsesh.mdc.interfaces.MDCBuilder#reset()
 		 */
 		public void reset() {
-			result= new LinkedList();
+			result= new LinkedList<String>();
 		}
 	
 		/* (non-Javadoc)
@@ -99,8 +99,8 @@ public class CodeExtractor {
 
 
 	public static void main(String[] args) throws MDCSyntaxError {
-		CodeExtractor codeExtractor= new CodeExtractor();
-		String[] l = codeExtractor.getCodes("i-w-r:a-O-$b-ra-[[-m-]]-p*t:pt-$r");
+		MDCCodeExtractor mDCCodeExtractor= new MDCCodeExtractor();
+		String[] l = mDCCodeExtractor.getCodes("i-w-r:a-O-$b-ra-[[-m-]]-p*t:pt-$r");
 		for (int i=0; i < l.length; i++)
 			System.out.print(l[i]+ " ");
 		System.out.println();

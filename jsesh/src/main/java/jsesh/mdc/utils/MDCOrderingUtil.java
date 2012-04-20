@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ * Utility class for managing transliteration alphabetic order in manual de codage ASCII format.
+ * <p> This code should move to TransliterationUtilities for simplicity and coherence sake.
  * @author rosmord
- * 
  */
 public class MDCOrderingUtil {
-	private static final Map charMap = new HashMap();
+	private static final Map<Character, Integer> charMap = new HashMap<Character, Integer>();
 	static {
 		char[] t = { ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'A', 'i', 'y', 'a', 'w', 'b', 'p', 'f', 'm', 'n', 'r', 'l',
@@ -33,12 +33,12 @@ public class MDCOrderingUtil {
 		for (int i = 0; i < translitteration.length(); i++) {
 			Character c = new Character(translitteration.charAt(i));
 			if (c.charValue() == 'y') {
-				buff.append((char) ((Integer) charMap.get(new Character('i')))
+				buff.append((char) charMap.get(new Character('i'))
 						.intValue());
-				buff.append((char) ((Integer) charMap.get(new Character('i')))
+				buff.append((char) charMap.get(new Character('i'))
 						.intValue());
 			} else if (charMap.containsKey(c)) {
-				buff.append((char) ((Integer) charMap.get(c)).intValue());
+				buff.append((char) charMap.get(c).intValue());
 			}
 		}
 		return buff.toString();

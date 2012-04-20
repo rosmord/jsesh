@@ -1,6 +1,5 @@
 package jsesh.mdc.utils;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.utils.StringUtils;
 
 /**

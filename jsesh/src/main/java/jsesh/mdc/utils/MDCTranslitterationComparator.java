@@ -2,14 +2,12 @@ package jsesh.mdc.utils;
 
 import java.util.Comparator;
 
-public class MDCTranslitterationComparator implements Comparator {
+public class MDCTranslitterationComparator implements Comparator<String> {
 
 	/**
 	 * Compare two translitterations.
 	 */
-	public int compare(Object o1, Object o2) {
-		String s1 = (String) o1;
-		String s2 = (String) o2;
+	public int compare(String s1, String s2) {
 		return MDCOrderingUtil.getOrderingForm(s1).compareTo(
 				MDCOrderingUtil.getOrderingForm(s2));
 	}
