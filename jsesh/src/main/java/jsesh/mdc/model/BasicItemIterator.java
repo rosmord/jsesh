@@ -2,22 +2,23 @@ package jsesh.mdc.model;
 import java.util.ListIterator;
 
 /**
+ * A typed iterator class (probably not needed anymore in jdk 1.5+).
  * This file is free Software
  * (c) Serge Rosmorduc
  * @author rosmord
  *
  */
-public class BasicItemIterator {
-	private	ListIterator rep;
+public class BasicItemIterator<T extends BasicItem> {
+	private	ListIterator<T> rep;
 	
 
-	BasicItemIterator(ListIterator rep)
+	BasicItemIterator(ListIterator<T> rep)
 	{
 		this.rep= rep;	
 	}	
 	
 
-	public void add(BasicItem o) {
+	public void add(T o) {
 		rep.add(o);
 	}
 
@@ -45,7 +46,7 @@ public class BasicItemIterator {
 	 * @see java.util.Iterator#next()
 	 */
 	public BasicItem next() {
-		return (BasicItem)rep.next();
+		return rep.next();
 	}
 
 
@@ -63,7 +64,7 @@ public class BasicItemIterator {
 	 * @see java.util.ListIterator#previous()
 	 */
 	public BasicItem previous() {
-		return (BasicItem)rep.previous();
+		return rep.previous();
 	}
 
 
@@ -88,7 +89,7 @@ public class BasicItemIterator {
 	 * @param o
 	 * @see java.util.ListIterator#set(java.lang.Object)
 	 */
-	public void set(BasicItem o) {
+	public void set(T o) {
 		rep.set(o);
 	}
 

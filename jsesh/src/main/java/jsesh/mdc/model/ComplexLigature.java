@@ -12,6 +12,11 @@ public class ComplexLigature extends HorizontalListElement implements ComplexLig
 	 */
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7128468265154325421L;
+
+	/**
 	 * Does the ligature contain a "G1" element ?
 	 */
 	private boolean hasBeforeGroup;
@@ -78,7 +83,7 @@ public class ComplexLigature extends HorizontalListElement implements ComplexLig
 		return result;
 	}
 	
-	public ModelElement deepCopy() {
+	public ComplexLigature deepCopy() {
 		InnerGroup copy1= null, copy2= null;
 		if (hasBeforeGroup)
 			copy1= (InnerGroup) getBeforeGroup().deepCopy();

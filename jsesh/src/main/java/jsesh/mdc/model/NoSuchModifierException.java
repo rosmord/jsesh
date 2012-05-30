@@ -8,6 +8,8 @@ package jsesh.mdc.model;
  */
 public class NoSuchModifierException extends RuntimeException {
 
+	private static final long serialVersionUID = 2245315587952154381L;
+
 	String modifierName;
 	
 	/**

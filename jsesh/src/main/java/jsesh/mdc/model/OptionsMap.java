@@ -7,24 +7,29 @@ package jsesh.mdc.model;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import jsesh.mdc.interfaces.OptionListInterface;
 
 /**
+ * Map of attributes given to a glyph or construct.
+ * <p> An attribut has a name, and a value (a string or an integer).
+ * <p> Note that the inner representation is not very good. We should have an "attribute value" class.
  * @author S. Rosmorduc
  * 
  */
-public class OptionsMap implements OptionListInterface, Comparable,
+public class OptionsMap implements OptionListInterface, Comparable<OptionsMap>,
 		Serializable {
-	TreeMap map;
+
+	
+	private static final long serialVersionUID = -4388928774717325300L;
+	
+	TreeMap<String, Comparable<?>> map;
 
 	public OptionsMap() {
-		map = new TreeMap();
+		map = new TreeMap<String, Comparable<?>>();
 	}
 
 	/**
@@ -47,7 +52,7 @@ public class OptionsMap implements OptionListInterface, Comparable,
 	 * 
 	 * @return
 	 */
-	public Set entrySet() {
+	public Set<Entry<String, Comparable<?>>> entrySet() {
 		return map.entrySet();
 	}
 
@@ -105,28 +110,22 @@ public class OptionsMap implements OptionListInterface, Comparable,
 
 	public OptionsMap deepCopy() {
 		OptionsMap result = new OptionsMap();
-		Set entries = map.entrySet();
-		for (Iterator i = entries.iterator(); i.hasNext();) {
-			Map.Entry e = (Entry) i.next();
+		Set<Entry<String, Comparable<?>>> entries = map.entrySet();
+		for (Iterator<Entry<String, Comparable<?>>> i = entries.iterator(); i.hasNext();) {
+			Entry<String, Comparable<?>> e = i.next();
 			result.map.put(e.getKey(), e.getValue());
 		}
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Object o) {
-		OptionsMap o1 = (OptionsMap) o;
+	
+	public int compareTo(OptionsMap o1) {
 		int result = 0;
-		TreeSet s;
-		Iterator i = map.entrySet().iterator();
-		Iterator j = o1.map.entrySet().iterator();
+		Iterator<Entry<String, Comparable<?>>> i = map.entrySet().iterator();
+		Iterator<Entry<String, Comparable<?>>> j = o1.map.entrySet().iterator();
 		while (result == 0 && i.hasNext() && j.hasNext()) {
-			Map.Entry opt1 = (Entry) i.next();
-			Map.Entry opt2 = (Entry) j.next();
+			Entry<String, Comparable<?>> opt1 = i.next();
+			Entry<String, Comparable<?>> opt2 = j.next();
 			// Compare option names
 			result = ((String) opt1.getKey()).compareTo((String) opt2.getKey());
 			// Compare options values.

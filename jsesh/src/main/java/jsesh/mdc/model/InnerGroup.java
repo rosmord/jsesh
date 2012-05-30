@@ -14,6 +14,8 @@ import jsesh.mdc.interfaces.InnerGroupInterface;
 
 abstract public class InnerGroup extends HorizontalListElement implements InnerGroupInterface {
 
+	private static final long serialVersionUID = 7046828734218909370L;
+
 
 } // end InnerGroup
 

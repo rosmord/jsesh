@@ -17,6 +17,11 @@ public class BasicItemList
     extends EmbeddedModelElement
 	implements BasicItemListInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6889728940705626342L;
+
 	public BasicItemList() {
 	}
 
@@ -58,7 +63,7 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public BasicItemList deepCopy() {
 		BasicItemList r= new BasicItemList();
 		copyContentTo(r);
 		return r; 

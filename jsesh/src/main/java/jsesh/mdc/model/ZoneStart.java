@@ -10,7 +10,7 @@ import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.interfaces.ZoneStartInterface;
 
 /**
- * Zone markers delimitate new drawing zones in the text.
+ * Zone markers introduce new drawing zones in the text.
  * A zone gives information on the following points :
  * <ul>
  * <li> zone position;
@@ -35,7 +35,7 @@ import jsesh.mdc.interfaces.ZoneStartInterface;
  */
 public class ZoneStart extends TopItem implements ZoneStartInterface {
 
-	
+	private static final long serialVersionUID = -6568578915390082362L;
 	/**
 	 * Zone width. If set to "0", the width will be computed.
 	 */
@@ -95,9 +95,8 @@ public class ZoneStart extends TopItem implements ZoneStartInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
-		ZoneStart result= new ZoneStart();
-		
+	public ZoneStart deepCopy() {
+		ZoneStart result= new ZoneStart();		
 		return result;
 	}
 

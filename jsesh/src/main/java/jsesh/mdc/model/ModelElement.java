@@ -75,9 +75,15 @@ import jsesh.mdc.model.operations.Replacement;
  * 
  */
 public abstract class ModelElement implements ModelElementObserver,
-		Comparable, Serializable {
+		Comparable<ModelElement>, Serializable {
 
-	private List children = null;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8654450475547792198L;
+
+
+	private List<EmbeddedModelElement> children = null;
 
 	
 	/**
@@ -95,20 +101,21 @@ public abstract class ModelElement implements ModelElementObserver,
 	 * Add all the elements in the list elementList. The compatibility of these
 	 * elements with this structure is up to the programmer.
 	 * 
+	 * TODO : check if those methods are still relevant in jdk 1.5+ ?
 	 * @param elementList
 	 * @param eltClass
 	 *            the base class of the legal elements.
 	 */
-	final protected void addAll(List elementList, Class eltClass) {
+	final protected void addAll(List<EmbeddedModelElement> elementList, Class eltClass) {
 		addAllAt(children.size(), elementList, eltClass);
 	}
 
-	protected void addAllAt(int index, List elementList, Class eltClass) {
+	protected void addAllAt(int index, List<EmbeddedModelElement> elementList, Class eltClass) {
 		int i = index;
 
 		children.addAll(index, elementList);
-		for (Iterator iter = elementList.iterator(); iter.hasNext();) {
-			EmbeddedModelElement child = (EmbeddedModelElement) iter.next();
+		for (Iterator<EmbeddedModelElement> iter = elementList.iterator(); iter.hasNext();) {
+			EmbeddedModelElement child = iter.next();
 			if (!eltClass.isInstance(child)) {
 				throw new ClassCastException("Bad element in list " + child
 						+ " for " + eltClass);
@@ -151,8 +158,8 @@ public abstract class ModelElement implements ModelElementObserver,
 	 * @return a newly built empty list of children.
 	 */
 
-	protected List buildChildrenList() {
-		return new ArrayList();
+	protected List<EmbeddedModelElement> buildChildrenList() {
+		return new ArrayList<EmbeddedModelElement>();
 	}
 
 	/**
@@ -169,9 +176,9 @@ public abstract class ModelElement implements ModelElementObserver,
 	}
 
 	final protected void clearChildren() {
-		ListIterator i = getListIterator();
+		ListIterator<EmbeddedModelElement> i = getListIterator();
 		while (i.hasNext()) {
-			EmbeddedModelElement child = (EmbeddedModelElement) i.next();
+			EmbeddedModelElement child = i.next();
 			child.detachFromContainer();
 		}
 		children.clear();
@@ -222,7 +229,7 @@ public abstract class ModelElement implements ModelElementObserver,
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	final public int compareTo(Object o) {
+	final public int compareTo(ModelElement o) {
 		int result = compareClass(o);
 		if (result == 0)
 			result = compareToAux((ModelElement) o);
@@ -298,11 +305,11 @@ public abstract class ModelElement implements ModelElementObserver,
 		EmbeddedModelElement previousChild = null;
 
 		if (id >= 0 && id < children.size())
-			child = (EmbeddedModelElement) children.get(id);
+			child = children.get(id);
 		if (id + 1 >= 0 && id + 1 < children.size())
-			nextChild = (EmbeddedModelElement) children.get(id + 1);
+			nextChild = children.get(id + 1);
 		if (id - 1 >= 0 && id - 1 < children.size())
-			previousChild = (EmbeddedModelElement) children.get(id - 1);
+			previousChild = children.get(id - 1);
 		// Fix previous element, if any :
 		if (child != null) {
 			child.previous = previousChild;
@@ -325,18 +332,18 @@ public abstract class ModelElement implements ModelElementObserver,
 	 */
 
 	final public EmbeddedModelElement getChildAt(int id) {
-		return (EmbeddedModelElement) children.get(id);
+		return children.get(id);
 	}
 
 	final protected String getChildrenAsString() {
 		return children.toString();
 	}
 
-	final protected ListIterator getListIterator() {
+	final protected ListIterator<EmbeddedModelElement> getListIterator() {
 		return children.listIterator();
 	}
 
-	final protected ListIterator getListIterator(int idx) {
+	final protected ListIterator<EmbeddedModelElement> getListIterator(int idx) {
 		return children.listIterator(idx);
 	}
 
@@ -409,7 +416,7 @@ public abstract class ModelElement implements ModelElementObserver,
 		if (id < 0 || id >= children.size())
 			return;
 		EmbeddedModelElement child;
-		child = (EmbeddedModelElement) children.get(id);
+		child = children.get(id);
 		children.remove(id);
 		fixSlibings(id);
 		child.detachFromContainer();
@@ -424,11 +431,11 @@ public abstract class ModelElement implements ModelElementObserver,
 	 * @param b second position (b > a).
 	 * @return the list of the suppressed elements.
 	 */
-	protected List removeChildren(int a, int b) {
-		List l = new ArrayList(b - a);
+	protected List<EmbeddedModelElement> removeChildren(int a, int b) {
+		List<EmbeddedModelElement> l = new ArrayList<EmbeddedModelElement>(b - a);
 		l.addAll(children.subList(a, b));
 		for (int i = b - 1; i >= a; i--) {
-			EmbeddedModelElement child = (EmbeddedModelElement) children.get(i);
+			EmbeddedModelElement child = children.get(i);
 			children.remove(i);
 			child.detachFromContainer();
 		}
@@ -438,7 +445,7 @@ public abstract class ModelElement implements ModelElementObserver,
 	}
 
 	final protected void setChildAt(int idx, EmbeddedModelElement child) {
-		EmbeddedModelElement oldChild = (EmbeddedModelElement) children.get(idx);
+		EmbeddedModelElement oldChild = children.get(idx);
 		oldChild.detachFromContainer();
 		child.setParent(this);
 		children.set(idx, child);

@@ -9,6 +9,7 @@ package jsesh.mdc.model;
  */
 
 public class Superscript extends TopItem implements TextContainer {
+	private static final long serialVersionUID = -7999824386923154047L;
 	private String text;
 	
 	public Superscript(String text) {
@@ -53,7 +54,7 @@ public class Superscript extends TopItem implements TextContainer {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Superscript deepCopy() {
 		Superscript r= new Superscript(text);
 		copyStateTo(r);
 		return r;

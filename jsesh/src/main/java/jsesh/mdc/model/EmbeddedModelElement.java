@@ -12,6 +12,11 @@ import jsesh.mdc.model.operations.ModelOperation;
  */
 public abstract class EmbeddedModelElement extends ModelElement {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1774338831719968071L;
+
 	private ModelElement parent= null;
 
 	/**

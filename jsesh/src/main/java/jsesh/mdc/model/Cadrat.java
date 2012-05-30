@@ -8,8 +8,9 @@ import jsesh.mdc.interfaces.CadratInterface;
 import jsesh.mdc.interfaces.VBoxInterface;
 
 /**
- * <p>
- * 
+ * <p> A quadrant.
+ * <p>The current name of the class is not English at all, and refers to the French name for the "ideal squares" found
+ * in hieroglyphic texts. 
  * @author Rosmorduc
  * </p>
  */
@@ -17,6 +18,10 @@ public class Cadrat
 	extends BasicItem
 	implements CadratInterface, VBoxInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3562569351364822516L;
 	/**
 	 * The code for this cadrat's shading.
 	 * @see ShadingCode
@@ -141,7 +146,7 @@ public class Cadrat
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Cadrat deepCopy() {
 		Cadrat result;
 		result= new Cadrat();
 		result.shading= shading;

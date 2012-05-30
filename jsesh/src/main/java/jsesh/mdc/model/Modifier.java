@@ -21,6 +21,11 @@ import jsesh.mdc.interfaces.ModifierInterface;
  */
 public class Modifier extends EmbeddedModelElement implements ModifierInterface {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3786219881145601789L;
+
+	/**
 	 * Represents the modifier's name.
 	 */
 	private String name;
@@ -85,7 +90,7 @@ public class Modifier extends EmbeddedModelElement implements ModifierInterface 
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Modifier deepCopy() {
 		// Both name and value are immutable objects !
 		Modifier m= new Modifier(name,value);
 		return m;

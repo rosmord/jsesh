@@ -13,7 +13,7 @@ import jsesh.mdc.output.MdCModelWriter;
  *This code is published under the GNU LGPL.
  */
 abstract public class TopItem extends EmbeddedModelElement{
-	
+	private static final long serialVersionUID = 658832630365366776L;
 	private TopItemState state;
 	
 	public TopItem() {

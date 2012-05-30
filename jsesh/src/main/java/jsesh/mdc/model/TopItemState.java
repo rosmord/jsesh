@@ -14,9 +14,9 @@ import java.io.Serializable;
  * @author rosmord
  *
  */
-public class TopItemState implements Cloneable, Comparable, Serializable
+public class TopItemState implements Cloneable, Comparable<TopItemState>, Serializable
 {
-
+	private static final long serialVersionUID = 9076888292349625796L;
 	private boolean isRed= false;
 	private boolean isShaded= false;
 
@@ -103,8 +103,7 @@ public class TopItemState implements Cloneable, Comparable, Serializable
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object o) {
-		TopItemState s= (TopItemState)o;
+	public int compareTo(TopItemState s) {
 		int result= (isRed?1:0) - (s.isRed?1:0);
 		if (result==0)
 			result= (isShaded?1:0) - (s.isShaded?1:0);

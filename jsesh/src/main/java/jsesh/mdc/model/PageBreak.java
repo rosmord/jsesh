@@ -13,6 +13,7 @@ package jsesh.mdc.model;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class PageBreak extends TopItem {
+	private static final long serialVersionUID = -2629984358117811174L;
 
 	public PageBreak() {
 	}
@@ -31,7 +32,7 @@ public class PageBreak extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public PageBreak deepCopy() {
 		PageBreak b= new PageBreak();
 		copyStateTo(b);
 		return b;

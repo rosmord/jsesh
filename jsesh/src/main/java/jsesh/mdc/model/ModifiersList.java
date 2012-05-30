@@ -37,6 +37,11 @@ public class ModifiersList
 	extends EmbeddedModelElement
 	implements ModifierListInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4828408974756161279L;
+
 	private static int getArity(Modifier m) {
 		if (m.getValue() == null)
 			return 0;
@@ -105,7 +110,7 @@ public class ModifiersList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public ModifiersList deepCopy() {
 		ModifiersList result= new ModifiersList();
 		result.angle= angle;
 		result.reversed= reversed;

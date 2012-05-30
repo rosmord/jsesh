@@ -4,6 +4,11 @@ import jsesh.mdc.interfaces.HorizontalListElementInterface;
 
 abstract public class HorizontalListElement extends EmbeddedModelElement implements HorizontalListElementInterface{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1478503908902697915L;
+
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
 	 */

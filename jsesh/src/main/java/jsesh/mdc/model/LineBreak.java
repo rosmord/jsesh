@@ -11,7 +11,7 @@ package jsesh.mdc.model;
  */
 public class LineBreak extends TopItem {
 	
-
+	private static final long serialVersionUID = 1228419796041957932L;
 	/**
 	 * post-break vertical spacing
 	 * Default value ?
@@ -74,7 +74,7 @@ public class LineBreak extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public LineBreak deepCopy() {
 		LineBreak b= new LineBreak(spacing);
 		copyStateTo(b);
 		return b;

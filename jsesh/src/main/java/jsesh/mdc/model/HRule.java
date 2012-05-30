@@ -14,6 +14,11 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * 
  */
 public class HRule extends TopItem {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3065155670819138356L;
+
 	private char type;
 
 	private int startPos, endPos;
@@ -117,7 +122,7 @@ public class HRule extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public HRule deepCopy() {
 		HRule r= new HRule(type, startPos, endPos);
 		copyStateTo(r);
 		return r;

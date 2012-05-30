@@ -1,9 +1,12 @@
 package jsesh.mdc.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jsesh.utils.StringUtils;
 
 /**
- * Various utility methods to help importing texts from other softwares.
+ * Various utility methods to deal with transliteration strings.
  * 
  * @author rosmord
  * 
@@ -55,8 +58,8 @@ public class TranslitterationUtilities {
 	}
 	
 	/**
-	 * Suppress all uppercase markers (^) from a MdC translitteration.
-	 * @param entry
+	 * Suppress all uppercase markers (^) from a MdC transliteration.
+	 * @param entry a proper standard MdC transliteration text.
 	 * @return
 	 */
 	public static String toLowerCase(String entry) {
@@ -157,5 +160,43 @@ public class TranslitterationUtilities {
 			// We don't do capitals in our mdc font.
 			return mdcCode.replace("^", "");
 		}
+	}
+	
+	/**
+	 * Static data used by the ordering system.
+	 */
+	private static final Map<Character, Integer> charMap = new HashMap<Character, Integer>();
+	static {
+		char[] t = { ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'A', 'i', 'y', 'a', 'w', 'b', 'p', 'f', 'm', 'n', 'r', 'l',
+				'h', 'H', 'x', 'X', 'z', 's', 'S', 'q', 'k', 'g', 't', 'T',
+				'd', 'D' };
+		for (int i = 0; i < t.length; i++) {
+			charMap.put(new Character(t[i]), new Integer(' ' + i));
+		}
+	}
+	
+	/**
+	 * Return a string suitable for ordering translitterations.
+	 * <p>
+	 * The string will be an ASCII string.
+	 * 
+	 * @param translitteration an MdC transliteration.
+	 * @return the transliterated text.
+	 */
+	public static String getOrderingForm(String translitteration) {
+		StringBuffer buff = new StringBuffer();
+		for (int i = 0; i < translitteration.length(); i++) {
+			Character c = new Character(translitteration.charAt(i));
+			if (c.charValue() == 'y') {
+				buff.append((char) charMap.get(new Character('i'))
+						.intValue());
+				buff.append((char) charMap.get(new Character('i'))
+						.intValue());
+			} else if (charMap.containsKey(c)) {
+				buff.append((char) charMap.get(c).intValue());
+			}
+		}
+		return buff.toString();
 	}
 }

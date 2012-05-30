@@ -14,6 +14,11 @@ import jsesh.mdc.interfaces.HBoxInterface;
  */
 public class HBox extends EmbeddedModelElement implements HBoxInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6681486002034607932L;
+
 	public HBox() {
 	}
 
@@ -70,7 +75,7 @@ public class HBox extends EmbeddedModelElement implements HBoxInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public HBox deepCopy() {
 		HBox result;
 		result= new HBox();
 		copyContentTo(result);

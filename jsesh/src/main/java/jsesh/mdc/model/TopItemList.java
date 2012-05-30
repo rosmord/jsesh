@@ -24,16 +24,21 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		TopItemListInterface {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8950824272164138323L;
+
+	/**
 	 * List of observers for this topItemList. Currently, the associated
 	 * HieroglyphicTextModel
 	 */
-	transient List topItemListObservers;
+	transient List<ModelElementObserver> topItemListObservers;
 
 	/**
 	 * The list of MDCMark on this topItemList. To avoid problems with outdated
 	 * marks, we have separated them from the usual observers.
 	 */
-	transient List marks;
+	transient List<MDCMark> marks;
 
 	public TopItemList() {
 	}
@@ -81,12 +86,9 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		return compareContents(e);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.ModelElement#deepCopy()
-	 */
-	public ModelElement deepCopy() {
+	
+	@Override
+	public TopItemList deepCopy() {
 		TopItemList r = new TopItemList();
 		copyContentTo(r);
 		return r;
@@ -252,15 +254,15 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	protected void notifyModelElementObservers(ModelOperation op) {
 		// First notify marks
 		if (marks != null) {
-			for (Iterator it = marks.iterator(); it.hasNext();) {
-				MDCMark mark = (MDCMark) it.next();
+			for (Iterator<MDCMark> it = marks.iterator(); it.hasNext();) {
+				MDCMark mark = it.next();
 				mark.updateMark(op);
 			}
 		}
 		// Then notify regular observers
 		if (topItemListObservers != null) {
-			for (Iterator it = topItemListObservers.iterator(); it.hasNext();) {
-				ModelElementObserver observer = (ModelElementObserver) it
+			for (Iterator<ModelElementObserver> it = topItemListObservers.iterator(); it.hasNext();) {
+				ModelElementObserver observer = it
 						.next();
 				observer.observedElementChanged(op);
 			}
@@ -309,14 +311,14 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 */
 	public void addObserver(ModelElementObserver obs) {
 		if (topItemListObservers == null) {
-			topItemListObservers = new ArrayList();
+			topItemListObservers = new ArrayList<ModelElementObserver>();
 		}
 		topItemListObservers.add(obs);
 	}
 
 	public void addMark(MDCMark mdcMark) {
 		if (marks == null)
-			marks = new ArrayList();
+			marks = new ArrayList<MDCMark>();
 		marks.add(mdcMark);
 	}
 
@@ -362,8 +364,8 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * @param max
 	 * @return a copy of the items between the two limits.
 	 */
-	public List getTopItemListBetween(int min, int max) {
-		ArrayList result= new ArrayList();
+	public List<ModelElement> getTopItemListBetween(int min, int max) {
+		ArrayList<ModelElement> result= new ArrayList<ModelElement>();
 		for (int i= min; i< max; i++) {
 			result.add(getTopItemAt(i).deepCopy());
 		}

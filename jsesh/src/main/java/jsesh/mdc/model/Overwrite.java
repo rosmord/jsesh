@@ -10,6 +10,8 @@ import jsesh.mdc.interfaces.OverwriteInterface;
 
 public class Overwrite extends InnerGroup implements OverwriteInterface {
 
+	private static final long serialVersionUID = 4331203673936550315L;
+
 	public Overwrite(Hieroglyph s1, Hieroglyph s2) {
 		addChild(s1);
 		addChild(s2);
@@ -49,7 +51,7 @@ public class Overwrite extends InnerGroup implements OverwriteInterface {
 	 * 
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Overwrite deepCopy() {
 		Overwrite o = new Overwrite((Hieroglyph) getFirst().deepCopy(),
 				(Hieroglyph) getSecond().deepCopy());
 		return o;

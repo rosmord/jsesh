@@ -8,22 +8,11 @@ package jsesh.mdc.model;
  * Items which can be found more or less anywhere in a Manuel de Codage text.
  * 
  * @author Rosmorduc
- *
  */
 abstract public class BasicItem extends TopItem {
-/*
-    private BasicItemList parent; 
+	private static final long serialVersionUID = -3363955336542099881L;
 
-
-    public BasicItemList getParent() {
-        return parent;
-    }
-
-    public void setParent(BasicItemList basicItemList) {
-        parent= basicItemList;
-    }
-*/
-} // end BasicItem
+} 
 
 
 

@@ -13,9 +13,13 @@ import jsesh.mdc.interfaces.HieroglyphInterface;
  *This code is published under the GNU LGPL.
  */
 
-@SuppressWarnings("serial")
 public class Hieroglyph extends InnerGroup implements HieroglyphInterface
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5396127914583416286L;
 
 	/**
 	 * The code used to designate this sign.

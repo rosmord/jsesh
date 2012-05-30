@@ -13,6 +13,11 @@ import jsesh.mdc.utils.TranslitterationUtilities;
 
 public class AlphabeticText extends BasicItem implements TextContainer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7424391126481567194L;
+
 	private char scriptCode;
 
 	private String text;
@@ -95,15 +100,11 @@ public class AlphabeticText extends BasicItem implements TextContainer {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.ModelElement#deepCopy()
-	 */
-	public ModelElement deepCopy() {
+	@Override
+	public AlphabeticText deepCopy() {
 		// String are immutable ! no need to copy them !
 		AlphabeticText t = new AlphabeticText(scriptCode, text);
 		copyStateTo(t);
 		return t;
 	}
-} // end AlphabeticText
+} 
