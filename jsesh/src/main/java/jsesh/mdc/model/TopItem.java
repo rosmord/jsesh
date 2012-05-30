@@ -81,6 +81,8 @@ abstract public class TopItem extends EmbeddedModelElement{
 		state.setShaded(b);
 	}
 	
+	@Override
+	public abstract TopItem deepCopy();
 	
 } 
 

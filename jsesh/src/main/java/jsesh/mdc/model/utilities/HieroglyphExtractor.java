@@ -26,10 +26,9 @@ public class HieroglyphExtractor {
 	 * @param elts
 	 * @return the hieroglyphs in elts.
 	 */
-	public List<Hieroglyph> extractHieroglyphs(List<ModelElement> elts) {
+	public List<Hieroglyph> extractHieroglyphs(List<? extends ModelElement> elts) {
 		HieroglyphExtractorAux aux= new HieroglyphExtractorAux();
-		for (Iterator<ModelElement> it= elts.iterator(); it.hasNext();) {
-			ModelElement e= (ModelElement) it.next();
+		for (ModelElement e: elts) {
 			e.accept(aux);
 		}
 		return aux.result;

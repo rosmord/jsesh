@@ -263,7 +263,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// UNDO/REDO
 	public boolean addCartouche(int type, int start, int end) {
 		boolean result;
-		List<ModelElement> elts = getSelection();
+		List<TopItem> elts = getSelection();
 		BasicItemList l = new BasicItemListGrouper().extractBasicItemList(elts);
 		if (l != null) {
 			Cartouche c = new Cartouche(type, start, end, l);
@@ -324,7 +324,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			result = true;
 		} else {
 			BasicItemListGrouper grouper = new BasicItemListGrouper();
-			List<ModelElement> elts = getSelection();
+			List<TopItem> elts = getSelection();
 			BasicItemList l = grouper.extractBasicItemList(elts);
 			if (l != null) {
 				Philology c = new Philology(type, l);
@@ -467,7 +467,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		if (!caret.hasSelection() && getInsertPosition() >= 1)
 			caret.setMarkAt(getInsertPosition() - 1);
 		if (caret.hasSelection()) {
-			List<ModelElement> elts = getSelection();
+			List<TopItem> elts = getSelection();
 			// FIXME : drawing specifications alert !!!
 			AbsoluteGroup g = AbsoluteGroupBuilder.createAbsoluteGroupFrom(
 					elts, MDCEditorKit.getBasicMDCEditorKit()
@@ -723,7 +723,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// UNDO/REDO
 	public void doComplexLigature(int signPos) {
 		boolean success = false;
-		List<ModelElement> elts = getSelection();
+		List<TopItem> elts = getSelection();
 		MDCPosition minPos = caret.getMinPosition();
 		MDCPosition maxPos = caret.getMaxPosition();
 		if (elts == null)
@@ -846,7 +846,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	private void applyChangeToSelection(TopItemModifier topItemModifier) {
 		List<TopItem> modified = new ArrayList<TopItem>();
 		if (caret.hasSelection()) {
-			List<ModelElement> sel = getSelection();
+			List<TopItem> sel = getSelection();
 			for (int i = 0; i < sel.size(); i++) {
 				TopItem t = (TopItem) ((TopItem) sel.get(i)).deepCopy();
 				topItemModifier.modifyTopItem(t);
@@ -1093,7 +1093,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		if (caret.hasMark()) {
 			int a = caret.getMin();
 			int b = caret.getMax();
-			List<ModelElement> l = hieroglyphicTextModel.getTopItemsBetween(a, b);
+			List<TopItem> l = hieroglyphicTextModel.getTopItemsBetween(a, b);
 			topItemList.addAll(l);
 		}
 		return topItemList;
@@ -1139,7 +1139,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public boolean groupHorizontally() {
 		boolean result;
 		HorizontalGrouper f = new HorizontalGrouper();
-		List<ModelElement> elts = getSelection();
+		List<TopItem> elts = getSelection();
 
 		Cadrat c = f.buildCadrat(elts);
 		if (c != null) {
@@ -1160,7 +1160,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// UNDO/REDO
 	private void groupLastTwoVertically() {
 		VerticalGrouper f = new VerticalGrouper();
-		List<ModelElement> elts;
+		List<TopItem> elts;
 		MDCPosition pos2 = caret.getInsertPosition();
 		MDCPosition pos1 = pos2.getPreviousPosition(2);
 		elts = hieroglyphicTextModel.getTopItemsBetween(pos1.getIndex(), pos2
@@ -1188,7 +1188,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	public boolean groupVertically() {
 		boolean result;
 		VerticalGrouper v = new VerticalGrouper();
-		List<ModelElement> elts = getSelection();
+		List<TopItem> elts = getSelection();
 		if (elts.isEmpty())
 			return false;
 		Cadrat c = v.buildCadrat(elts);
@@ -1379,7 +1379,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// UNDO/REDO
 	public boolean ligatureElements() {
 		boolean result = false;
-		List<ModelElement> elts = getSelection();
+		List<TopItem> elts = getSelection();
 		if (getSelection().isEmpty())
 			return false;
 
@@ -1750,9 +1750,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * @return a copy of the list of TopItems, empty if there is no selection.
 	 */
 	// UNDO/REDO
-	private List<ModelElement> getSelection() {
+	private List<TopItem> getSelection() {
 		// possibilities = null; WHY WAS THAT ??
-		List<ModelElement> result = null;
+		List<TopItem> result = null;
 		if (caret.hasMark()) {
 			result = hieroglyphicTextModel.getTopItemsBetween(caret.getMin(),
 					caret.getMax());

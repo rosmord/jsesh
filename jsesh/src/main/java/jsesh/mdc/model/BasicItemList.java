@@ -37,14 +37,6 @@ public class BasicItemList
 		v.visitBasicItemList(this);
 	}
 
-	public BasicItemIterator iterator() {
-		return new BasicItemIterator(getListIterator());
-	}
-
-	public BasicItemIterator iterator(int idx) {
-		return new BasicItemIterator(getListIterator(idx));
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

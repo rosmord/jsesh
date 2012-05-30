@@ -176,9 +176,7 @@ public class Cartouche extends InnerGroup implements CartoucheInterface {
 		type = _type;
 	}
 
-	public BasicItemIterator iterator() {
-		return new BasicItemIterator(getListIterator());
-	}
+	
 
 	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)

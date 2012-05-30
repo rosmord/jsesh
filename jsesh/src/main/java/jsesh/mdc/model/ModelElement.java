@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import jsesh.mdc.model.operations.ChildOperation;
 import jsesh.mdc.model.operations.Deletion;
@@ -97,35 +96,6 @@ public abstract class ModelElement implements ModelElementObserver,
 
 	abstract public void accept(ModelElementVisitor v);
 
-	/**
-	 * Add all the elements in the list elementList. The compatibility of these
-	 * elements with this structure is up to the programmer.
-	 * 
-	 * TODO : check if those methods are still relevant in jdk 1.5+ ?
-	 * @param elementList
-	 * @param eltClass
-	 *            the base class of the legal elements.
-	 */
-	final protected void addAll(List<EmbeddedModelElement> elementList, Class eltClass) {
-		addAllAt(children.size(), elementList, eltClass);
-	}
-
-	protected void addAllAt(int index, List<EmbeddedModelElement> elementList, Class eltClass) {
-		int i = index;
-
-		children.addAll(index, elementList);
-		for (Iterator<EmbeddedModelElement> iter = elementList.iterator(); iter.hasNext();) {
-			EmbeddedModelElement child = iter.next();
-			if (!eltClass.isInstance(child)) {
-				throw new ClassCastException("Bad element in list " + child
-						+ " for " + eltClass);
-			}
-			child.setParent(this);
-			fixSlibings(i);
-			i++;
-		}
-		notifyModelElementObservers(new Insertion(this, index, elementList));
-	}
 
 	/**
 	 * Add a child at the end of the children list.
@@ -176,10 +146,8 @@ public abstract class ModelElement implements ModelElementObserver,
 	}
 
 	final protected void clearChildren() {
-		ListIterator<EmbeddedModelElement> i = getListIterator();
-		while (i.hasNext()) {
-			EmbeddedModelElement child = i.next();
-			child.detachFromContainer();
+		for (EmbeddedModelElement child: children) {
+			child.detachFromContainer();			
 		}
 		children.clear();
 		// FIXME : change the system for element suppression.
@@ -339,21 +307,14 @@ public abstract class ModelElement implements ModelElementObserver,
 		return children.toString();
 	}
 
-	final protected ListIterator<EmbeddedModelElement> getListIterator() {
-		return children.listIterator();
-	}
-
-	final protected ListIterator<EmbeddedModelElement> getListIterator(int idx) {
-		return children.listIterator(idx);
-	}
-
+	
 	/**
 	 * Returns an iterator to the elements included in this one.
 	 * 
 	 * @return ModelElementIterator
 	 */
-	final public ModelElementIterator getModelElementIterator() {
-		return new ModelElementIterator(children.iterator());
+	final public Iterator<EmbeddedModelElement> getModelElementIterator() {
+		return children.iterator();
 	}
 
 	/**

@@ -99,14 +99,7 @@ public class Cadrat
 		v.visitCadrat(this);
 	}
 
-	public HBoxIterator iterator() {
-		return new HBoxIterator(getListIterator());
-	}
-
-	public HBoxIterator iterator(int idx) {
-		return new HBoxIterator(getListIterator(idx));
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

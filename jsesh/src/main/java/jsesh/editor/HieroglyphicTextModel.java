@@ -245,7 +245,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @throws MDCSyntaxError
 	 */
 
-	public List buildItems(String text) throws MDCSyntaxError {
+	public List<TopItem> buildItems(String text) throws MDCSyntaxError {
 		MDCParserModelGenerator generator = createGenerator(Dialect.OTHER);
 		StringReader r = new StringReader(text);
 		TopItemList t = generator.parse(r);
@@ -263,7 +263,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @throws MDCSyntaxError
 	 */
 	public void insertMDCText(int index, String mdcText) throws MDCSyntaxError {
-		List items = buildItems(mdcText);
+		List<TopItem> items = buildItems(mdcText);
 		insertElementsAt(buildPosition(index), items);
 	}
 
@@ -296,7 +296,7 @@ public class HieroglyphicTextModel extends Observable implements
 		replaceElementBefore(position, Collections.singletonList(newElement));
 	}
 
-	public void replaceElementBefore(MDCPosition position, List newElements) {
+	public void replaceElementBefore(MDCPosition position, List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(model,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
@@ -310,7 +310,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @param elements
 	 *            a list of TopItems
 	 */
-	public void insertElementsAt(MDCPosition position, List elements) {
+	public void insertElementsAt(MDCPosition position, List<TopItem> elements) {
 		MDCCommand command = new CommandFactory().buildInsertCommand(model,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
@@ -324,7 +324,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 *            a list of TopItems
 	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
-			List newElements) {
+			List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(
 				getModel(), newElements, pos1, pos2, isClean());
 		undoManager.doCommand(command);
@@ -356,7 +356,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @param max
 	 * @return
 	 */
-	public List getTopItemsBetween(int min, int max) {
+	public List<TopItem> getTopItemsBetween(int min, int max) {
 		return getModel().getTopItemListBetween(min, max);
 	}
 
@@ -368,7 +368,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @param pos2
 	 * @return
 	 */
-	public List getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
+	public List<TopItem> getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
 		int min = Math.min(pos1.getIndex(), pos2.getIndex());
 		int max = Math.max(pos1.getIndex(), pos2.getIndex());
 		return getTopItemsBetween(min, max);
@@ -424,7 +424,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 */
 	public void replaceWithMDCText(int start, int end, String text)
 			throws MDCSyntaxError {
-		List items = buildItems(text);
+		List<TopItem> items = buildItems(text);
 		MDCPosition startPos = buildPosition(start);
 		MDCPosition endPos = buildPosition(end);
 		replaceElement(startPos, endPos, items);

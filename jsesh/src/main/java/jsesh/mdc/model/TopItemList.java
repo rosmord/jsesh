@@ -17,7 +17,7 @@ import jsesh.mdc.output.MdCModelWriter;
  * 
  * @author rosmord
  * 
- * This code is published under the GNU LGPL.
+ *         This code is published under the GNU LGPL.
  */
 
 public class TopItemList extends ModelElement implements MDCFileInterface,
@@ -53,8 +53,10 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * 
 	 * @param elements
 	 */
-	public void addAll(List elements) {
-		super.addAll(elements, TopItem.class);
+	public void addAll(List<TopItem> elements) {
+		for (TopItem e : elements) {
+			addChild(e);
+		}
 	}
 
 	/**
@@ -64,9 +66,11 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * @param items
 	 * 
 	 */
-	public void addAllAt(int index, List items) {
-		super.addAllAt(index, items, TopItem.class);
-
+	public void addAllAt(int index, List<? extends TopItem> items) {
+		int pos= index;
+		for (TopItem e : items) {
+			super.addChildAt(pos++, e);
+		}
 	}
 
 	public void addTopItem(TopItem topItem) {
@@ -80,13 +84,13 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
+	 * @see
+	 * jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
 	 */
 	public int compareToAux(ModelElement e) {
 		return compareContents(e);
 	}
 
-	
 	@Override
 	public TopItemList deepCopy() {
 		TopItemList r = new TopItemList();
@@ -102,15 +106,6 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 */
 	public TopItem getTopItemAt(int i) {
 		return (TopItem) getChildAt(i);
-	}
-
-	// Iterators stuff
-	public TopItemIterator iterator() {
-		return new TopItemIterator(getListIterator());
-	}
-
-	public TopItemIterator iterator(int idx) {
-		return new TopItemIterator(getListIterator(idx));
 	}
 
 	/**
@@ -138,7 +133,8 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * elements.
 	 * 
 	 * @param a
-	 * @param b (b > a).
+	 * @param b
+	 *            (b > a).
 	 * @return Returns the list of the suppressed elements.
 	 */
 	public List removeTopItems(int a, int b) {
@@ -181,11 +177,12 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	}
 
 	/**
-	 * Apply a partial shading (for instance shade the top) to a whole zone.  
+	 * Apply a partial shading (for instance shade the top) to a whole zone.
 	 * 
 	 * @param a
 	 * @param b
-	 * @param shadeCode value in {@link ShadingCode}
+	 * @param shadeCode
+	 *            value in {@link ShadingCode}
 	 * @see #shade(int, int, boolean) for another kind of shading.
 	 */
 	public void shade(int a, int b, int shadeCode) {
@@ -201,7 +198,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 			if (t instanceof Cadrat) {
 				// No "zone shading" in this case...
 				t.getState().setShaded(false);
-				Cadrat c= (Cadrat) t;
+				Cadrat c = (Cadrat) t;
 				c.setShading(shadeCode);
 			}
 		}
@@ -215,8 +212,8 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * 
 	 * @param a
 	 * @param b
-	 * @param red :
-	 *            if true, paint in red ; if false, paint in black.
+	 * @param red
+	 *            : if true, paint in red ; if false, paint in black.
 	 */
 	public void setRed(int a, int b, boolean red) {
 		int start = Math.min(a, b);
@@ -249,7 +246,9 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.model.ModelElement#notifyContainers(jsesh.mdc.model.operations.ModelOperation)
+	 * @see
+	 * jsesh.mdc.model.ModelElement#notifyContainers(jsesh.mdc.model.operations
+	 * .ModelOperation)
 	 */
 	protected void notifyModelElementObservers(ModelOperation op) {
 		// First notify marks
@@ -261,9 +260,9 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		}
 		// Then notify regular observers
 		if (topItemListObservers != null) {
-			for (Iterator<ModelElementObserver> it = topItemListObservers.iterator(); it.hasNext();) {
-				ModelElementObserver observer = it
-						.next();
+			for (Iterator<ModelElementObserver> it = topItemListObservers
+					.iterator(); it.hasNext();) {
+				ModelElementObserver observer = it.next();
 				observer.observedElementChanged(op);
 			}
 		}
@@ -332,7 +331,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 
 	/**
 	 * Returns a MdC Representation for this object.
-	 *
+	 * 
 	 * @return
 	 */
 	public String toMdC() {
@@ -360,16 +359,17 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 
 	/**
 	 * Returns the list of top items between two points.
+	 * 
 	 * @param min
 	 * @param max
 	 * @return a copy of the items between the two limits.
 	 */
-	public List<ModelElement> getTopItemListBetween(int min, int max) {
-		ArrayList<ModelElement> result= new ArrayList<ModelElement>();
-		for (int i= min; i< max; i++) {
+	public List<TopItem> getTopItemListBetween(int min, int max) {
+		ArrayList<TopItem> result = new ArrayList<TopItem>();
+		for (int i = min; i < max; i++) {
 			result.add(getTopItemAt(i).deepCopy());
 		}
 		return result;
 	}
-	
+
 }

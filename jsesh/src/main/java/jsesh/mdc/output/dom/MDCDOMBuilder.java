@@ -5,6 +5,8 @@
 * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
 */
 package jsesh.mdc.output.dom;
+import java.util.Iterator;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
@@ -16,13 +18,13 @@ import jsesh.mdc.model.BasicItemList;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdc.model.ComplexLigature;
+import jsesh.mdc.model.EmbeddedModelElement;
 import jsesh.mdc.model.HBox;
 import jsesh.mdc.model.HRule;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.Ligature;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementIterator;
 import jsesh.mdc.model.ModelElementVisitor;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
@@ -219,7 +221,7 @@ public class MDCDOMBuilder {
 				e.setAttribute(REVERSED, "" + true);
 			if (l.getScale() != 100)
 				e.setAttribute(SCALE, "" + l.getScale());
-			ModelElementIterator i = l.getModelElementIterator();
+			 Iterator<EmbeddedModelElement> i = l.getModelElementIterator();
 			while (i.hasNext()) {
 				ModelElement subElement = i.next();
 				subElement.accept(this);
@@ -322,7 +324,7 @@ public class MDCDOMBuilder {
 			Node oldParent = parent;
 			Element node = createModelElement(title, e);
 			parent = node;
-			ModelElementIterator i = e.getModelElementIterator();
+			Iterator<EmbeddedModelElement> i = e.getModelElementIterator();
 			while (i.hasNext()) {
 				ModelElement subElement = i.next();
 				subElement.accept(this);

@@ -22,9 +22,7 @@ public class HBox extends EmbeddedModelElement implements HBoxInterface {
 	public HBox() {
 	}
 
-	public HorizontalListElementIterator iterator() {
-		return new HorizontalListElementIterator(getListIterator());
-	}
+	
 
 	public void addHorizontalListElement(HorizontalListElement elt) {
 		addChild(elt);

@@ -36,6 +36,7 @@ package jsesh.editor.command;
 import java.util.List;
 
 import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 
 /**
@@ -54,7 +55,7 @@ class RemoveCommand extends AbstractMDCCommand {
 	/**
 	 * The deleted elements.
 	 */
-	private List deletedElements;
+	private List<TopItem> deletedElements;
 	
 	/**
 	 * The text which will be modified. 
