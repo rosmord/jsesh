@@ -7,6 +7,7 @@
 package jsesh.mdc;
 
 import java.io.Reader;
+import java.io.StringReader;
 
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.model.MDCModelBuilder;
@@ -40,6 +41,10 @@ public class MDCParserModelGenerator {
 		return ((MDCModelBuilder) facade.getBuilder()).getResult();
 	}
 	
+	public TopItemList parse(String text) throws MDCSyntaxError {
+		facade.parse(new StringReader(text));
+		return ((MDCModelBuilder) facade.getBuilder()).getResult();
+	}
 	
 	
 	/**

@@ -1,6 +1,8 @@
 package jsesh.mdc.model;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import jsesh.mdc.output.MdCModelWriter;
 
@@ -84,6 +86,18 @@ abstract public class TopItem extends EmbeddedModelElement{
 	@Override
 	public abstract TopItem deepCopy();
 	
+	/**
+	 * defensive copy.
+	 * @param items
+	 * @return
+	 */
+	public static List<TopItem> listCopy(List<TopItem> items) {
+		ArrayList<TopItem> result= new ArrayList<TopItem>();
+		for (TopItem item: items) {
+			result.add(item.deepCopy());
+		}
+		return result;
+	}
 } 
 
 

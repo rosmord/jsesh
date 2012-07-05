@@ -46,11 +46,13 @@ import jsesh.editor.command.MDCCommand;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.Dialect;
+import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.ModelElementObserver;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.mdc.model.utilities.VerticalGrouper;
 import jsesh.mdc.output.MdCModelWriter;
 
 /**
@@ -340,7 +342,7 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	// I Don't know if I will use this "first command" stuff.
-	// Meanwhile, I have moved the responsability to make the choice to this
+	// Meanwhile, I have moved the responsibility to make the choice to this
 	// method.
 	private boolean isFirstCommand() {
 		// TODO Auto-generated method stub
@@ -450,7 +452,22 @@ public class HieroglyphicTextModel extends Observable implements
 	public void setClean() {
 		undoManager.clear();
 	}
-
 	
-
+	/**
+	 * Insert a new element in the text, grouping it with the previous quadrant.
+	 * <p> the element should probably be a glyph.
+	 * @param pos the position for the inserted data (before grouping!)
+	 * @param elt the element to insert.
+	 * @param sepCode the separator MdC code
+	 */
+	public void insertAndGroup(MDCPosition pos, TopItem elt, char sepCode) {
+		MDCCommand command= new CommandFactory().buildInsertAndGroupCommand();
+		undoManager.doCommand(command);
+	}
+	
+	
+	public void group(MDCPosition pos, char sepCode) {
+		MDCCommand command= new CommandFactory().buildGroupCommand(sepCode);
+		undoManager.doCommand(command);
+	}
 }

@@ -24,10 +24,12 @@ import jsesh.mdc.model.operations.Replacement;
  * <p>But this class has also a natural ordering that is <em>inconsistent</em> with equals, and 
  * is content based. It can be used to compare elements. Note that, as elements are mutable, if one 
  * wants to build an index based on ModelElement contents, a preventive copy is needed.
- * The comparison operator should probably move it to a comparator.
+ * <p>
+ * TODO : The comparison operator should probably move it to a comparator.
  * 
  * <p>
- * Model elements are comparable one to each other. The way this is done is :
+ * Model elements are comparable one to each other, regardless of their actual class. 
+ * The way this is done is :
  * <ol>
  * <li>if the elements belong to different classes, we compare the names of the
  * classes.</li>
@@ -36,13 +38,12 @@ import jsesh.mdc.model.operations.Replacement;
  * </ol>
  * To ensure that all classes implement compareTo, ModelElement doesn't provide
  * any implementation. Instead, it provides a number of protected helpful
- * functions : IMPORTANT : The current system does not ensure views are
+ * functions.
+ * 
+ * <p>IMPORTANT : The current system does not ensure views are
  * systematically deleted. IMPROVE IT.
  * 
- * <p>
- * Note that a list of child elements is maintained. It is suggested to use it
- * to store the child elements !!!!!!
- * 
+
  * <p>
  * ModelElements used to implement the Observable class and be observers for
  * their children. It is no longer the case, and Observable has been replaced by
@@ -55,6 +56,11 @@ import jsesh.mdc.model.operations.Replacement;
  * the current architecture. Multiple observers can easily be managed by
  * encapsulating a TopItemList in some Observable element.
  * 
+ * <p>
+ * Note that a list of child elements is maintained. It is suggested to use it
+ * to store the children elements. 
+ * 
+ * <p> This list is somehow problematic, from a type point of view this being said. 
  * <p>
  * Modelisation problem : all elements have at most one Container,
  * which, for most of them, is also a ModelElement.

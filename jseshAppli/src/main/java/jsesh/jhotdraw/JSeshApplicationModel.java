@@ -142,21 +142,8 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
-	// NOTE : in the current application model for JHotDraw, the "Window" menu
-	// is completely
-	// driven by JHotdraw. New JH. versions might change this, but meanwhile
-	// I'll let it as it is.
-
-	// NOTE : stuff to add
-	// Document sub menu (in File)
-	// Edit document preferences
-	// Set as default document
-
 	// View and Help Menu. Tools (insert new Sign ?)
-	// View menu :
-	// orientation
-	// direction
-	// center sign
+	
 	/**
 	 * Prefix for action names which insert a symbol with a SymbolCode. Should
 	 * move in some other class.

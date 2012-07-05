@@ -49,6 +49,7 @@ import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.ManuelDeCodage;
 import jsesh.hieroglyphs.PossibilitiesList;
+import jsesh.hieroglyphs.PossibilitiesList.Possibility;
 import jsesh.hieroglyphs.ShapeChar;
 import jsesh.hieroglyphs.SignDescriptionConstants;
 
@@ -470,18 +471,17 @@ public class PalettePresenter {
 					SignDescriptionConstants.PALETTE);
 		}
 		// We only want Gardiner codes in our list (or similar stuff).
-		Iterator<String> it;
+		Iterator<Possibility> it;
 		if (l != null) {
 			it = l.asList().iterator();
 		} else {
-			List<String> empty = Collections.emptyList();
-			it = empty.iterator();
+			it = Collections.<Possibility>emptyList().iterator();
 		}
 		ArrayList<String> content = new ArrayList<String>();
 		while (it.hasNext()) {
-			String c = it.next();
-			if (GardinerCode.isCorrectGardinerCode(c)) {
-				content.add(c);
+			Possibility c = it.next();
+			if (c.isSingleSign() && GardinerCode.isCorrectGardinerCode(c.getCode())) {
+				content.add(c.getCode());
 			}
 		}
 		selectNoFamily();

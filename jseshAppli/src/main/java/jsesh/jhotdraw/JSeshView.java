@@ -331,7 +331,8 @@ public class JSeshView extends AbstractView  {
 	}
 
 	public void insertCode(String code) {
-		getEditor().getWorkflow().addSign(code);
+		//getEditor().getWorkflow().addSign(code);
+		getEditor().insert(code);
 	}
 
 	@Override

@@ -785,6 +785,10 @@ public class JMDCEditor extends JPanel {
 		return workflow.getCaret().hasSelection();
 	}
 
+	/**
+	 * Insert one sign with a given code.
+	 * @param code
+	 */
 	public void insert(String code) {
 		workflow.addSign(code);
 	}

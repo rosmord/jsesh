@@ -131,7 +131,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	/**
 	 * Suppress all elements between a and b. Returns the list of the suppressed
 	 * elements.
-	 * 
+	 * (The list should be given as argument, in order to avoid typing problems ???).
 	 * @param a
 	 * @param b
 	 *            (b > a).
@@ -362,7 +362,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * 
 	 * @param min
 	 * @param max
-	 * @return a copy of the items between the two limits.
+	 * @return a <strong>copy</strong> of the items between the two limits.
 	 */
 	public List<TopItem> getTopItemListBetween(int min, int max) {
 		ArrayList<TopItem> result = new ArrayList<TopItem>();
