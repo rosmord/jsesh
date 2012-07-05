@@ -167,7 +167,7 @@ public final class ExportPreferences implements Cloneable {
 		r.rtfExportGranularity = RTFExportGranularity.getGranularity(prefs
 				.getInt("rtfExportGranularity", 0));
 		r.rtfExportGraphicFormat = RTFExportGraphicFormat.getMode(prefs.getInt(
-				"rtfExportGranularity", 0));
+				"rtfExportGraphicFormat", 0));
 		r.textLayoutRespected = prefs.getBoolean("textLayoutRespected", true);
 		return r;
 	}
