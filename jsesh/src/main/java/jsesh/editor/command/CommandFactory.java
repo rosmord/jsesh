@@ -73,5 +73,20 @@ public class CommandFactory {
 
 	}
 
+	public MDCCommand buildInsertAndGroupCommand(MDCPosition pos, TopItem elt,
+			char sepCode) {
+		// WRITE Auto-generated method stub
+		if (true) throw new RuntimeException("WRITE ME");
+		return null;
+		
+	}
+
+	public MDCCommand buildGroupCommand(MDCPosition pos, char sepCode) {
+		// WRITE Auto-generated method stub
+		if (true) throw new RuntimeException("WRITE ME");
+		return null;
+		
+	}
+
 	
 }

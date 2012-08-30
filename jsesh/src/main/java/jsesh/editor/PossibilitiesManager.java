@@ -23,6 +23,11 @@ class PossibilitiesManager {
 	PossibilitiesList possibilities = null;
 	
 	/**
+	 * The item in front of the new element (which will be combined with it if needed).
+	 */
+	TopItem previousItem= null;
+	
+	/**
 	 * Must we undo the previous operation in order to insert the next possibility ?
 	 * 
 	 */
@@ -51,8 +56,8 @@ class PossibilitiesManager {
 	}
 
 	private void insertSign() {
-		if (possibility.isSingleSign()) {
-			addSign(possibility.getCode());
+		if (possibilities.isSingleSign()) {
+			addSign(possibilities.getCode());
 		} else {			
 			List<TopItem> eltsList = getPossibility().getTopItemList();
 	
