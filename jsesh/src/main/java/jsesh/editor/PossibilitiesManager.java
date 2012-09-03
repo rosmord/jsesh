@@ -1,42 +1,44 @@
 package jsesh.editor;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.PossibilitiesList;
-import jsesh.hieroglyphs.SignDescriptionConstants;
 import jsesh.hieroglyphs.PossibilitiesList.Possibility;
+import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
 
 /**
- * Manages the choice of the text to insert for a given entry.
+ * Manages the choice of the text to insert at a given point.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 class PossibilitiesManager {
 	
-	char separator= ' ';
+	private char separator= ' ';
 	
-	PossibilitiesList possibilities = null;
+	private PossibilitiesList possibilities = null;
 	
 	/**
 	 * The item in front of the new element (which will be combined with it if needed).
 	 */
-	TopItem previousItem= null;
+	private TopItem previousItem= null;
 	
 	/**
-	 * Must we undo the previous operation in order to insert the next possibility ?
-	 * 
+	 * Must we undo the previous operation in order to insert the next possibility ? 
+         * (deprecated now ?)
 	 */
-	boolean mustUndo= false;
+	private boolean mustUndo= false;
 	
-	HieroglyphicTextModel hieroglyphicTextModel;
+	private HieroglyphicTextModel hieroglyphicTextModel;
+        
+        private MDCPosition insertPosition;
 	
 	public void clear() {
 		possibilities = null;
+                
+                separator= ' ';
 	}
 
 	public void init(String code) {
@@ -55,28 +57,30 @@ class PossibilitiesManager {
 		//return possibilities.getCurrentSign();
 	}
 
-	private void insertSign() {
-		if (possibilities.isSingleSign()) {
-			addSign(possibilities.getCode());
-		} else {			
-			List<TopItem> eltsList = getPossibility().getTopItemList();
-	
-			hieroglyphicTextModel.insertElementsAt(caret.getInsertPosition(),
-					eltsList);
-		}
-	}
+        // Back to workflow. First let's do something which works. 
+        // No refactoring while changing stuff
+        // (besides, this class is supposed to stay simple).
+//	private void insertSign() {
+//		if (getPossibility().isSingleSign()) {
+//                    hieroglyphicTextModel.insertElementAt(insertPosition, sign);
+//			addSign(possi.getCode());
+//		} else {			
+//			List<TopItem> eltsList = getPossibility().getTopItemList();
+//	
+//			hieroglyphicTextModel.insertElementsAt(caret.getInsertPosition(),
+//					eltsList);
+//		}
+//	}
 	
 	
 	public boolean hasPossibilities() {
-		// WRITE Auto-generated method stub
-		if (true) throw new RuntimeException("WRITE ME");
-		return false;
-		
+		return possibilities!= null && ! possibilities.isEmpty();
 	}
 
 	public Possibility getPossibility() {
 		return possibilities.getCurrentSign();
 	}
+        
 	/**
 	 * Insert the next possibility in this text.
 	 */
@@ -84,6 +88,9 @@ class PossibilitiesManager {
 	public void next() {
 		mustUndo= true;
 		possibilities.next();
+                // remove the text span for the previous insert
+                // 
+                
 	}
 
 	public char getSeparator() {

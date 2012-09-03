@@ -465,36 +465,4 @@ public class HieroglyphicTextModel extends Observable implements
 	public void setClean() {
 		undoManager.clear();
 	}
-
-	/**
-	 * Insert a new element in the text, grouping it with the previous quadrant.
-	 * <p>
-	 * the element should probably be a glyph.
-	 * 
-	 * @param pos
-	 *            the position for the inserted data (before grouping!)
-	 * @param elt
-	 *            the element to insert.
-	 * @param sepCode
-	 *            the separator MdC code
-	 */
-	public void insertAndGroup(MDCPosition pos, TopItem elt, char sepCode) {
-		MDCCommand command = new CommandFactory().buildInsertAndGroupCommand(
-				pos, elt, sepCode);
-		undoManager.doCommand(command);
-	}
-
-	/**
-	 * Group the two elements before pos, using sepCode as a grouping command
-	 * 
-	 * @param pos
-	 *            the position in front of which grouping should occur.
-	 * @param sepCode
-	 *            one of "*" or "-".
-	 */
-	public void group(MDCPosition pos, char sepCode) {
-		MDCCommand command = new CommandFactory().buildGroupCommand(pos,
-				sepCode);
-		undoManager.doCommand(command);
-	}
 }

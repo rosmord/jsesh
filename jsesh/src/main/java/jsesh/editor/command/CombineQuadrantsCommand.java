@@ -14,7 +14,7 @@ import jsesh.mdc.model.utilities.CadratStarInserter;
  * Edit for grouping the last two quadrants.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- *
+ * @deprecated 
  */
 public class CombineQuadrantsCommand extends AbstractMDCCommand {
 
