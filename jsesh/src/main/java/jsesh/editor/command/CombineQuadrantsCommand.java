@@ -38,11 +38,11 @@ public class CombineQuadrantsCommand extends AbstractMDCCommand {
 			break;
 		case ':':
 			if (pos.getIndex() > 1)
-				groupLastTwoVertically();
+				//groupLastTwoVertically();
 			break;
 		case '&':
 			if (pos.getIndex() > 1)
-				ligatureLastTwoElements();
+				//ligatureLastTwoElements();
 			break;
 		default: // Should not happen.
 			throw new RuntimeException("bad separator " + separator);
@@ -60,9 +60,9 @@ public class CombineQuadrantsCommand extends AbstractMDCCommand {
 		Cadrat c = f.buildCadrat((TopItem) elts.get(0), (TopItem) elts.get(1));
 		if (c != null) {
 			
-			hieroglyphicTextModel.replaceElement(pos1, pos2, c);
-			clearMark();
-			clearSeparator();
+		//	hieroglyphicTextModel.replaceElement(pos1, pos2, c);
+		//	clearMark();
+		//	clearSeparator();
 		}
 	}
 	@Override

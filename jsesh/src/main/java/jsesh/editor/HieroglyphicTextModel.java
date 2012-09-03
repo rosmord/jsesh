@@ -46,13 +46,11 @@ import jsesh.editor.command.MDCCommand;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.Dialect;
-import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.ModelElementObserver;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdc.model.utilities.VerticalGrouper;
 import jsesh.mdc.output.MdCModelWriter;
 
 /**
@@ -82,17 +80,6 @@ import jsesh.mdc.output.MdCModelWriter;
  * The carets would probably deserve a better treatment (and we might use a more
  * precise class than observer). This file is free Software (c) Serge Rosmorduc
  * 
- * <p>
- * Bibliographic note: pushing some undo/redo mecanism in the model is more or
- * less done in A. Naderlinger, J. Templ,
- * "A Framework for Command Processing in Java/Swing Programs Based on the MVC Pattern"
- * , ACM International Conference on Principles and Practice of Programming In
- * Java (PPPJ 2008), Modena, Italy, Sep. 9 - 11, 2008
- * 
- * <p> What they do there is to consider "undoable events" (at the model level) triggered by "commands".
- * Events are also dispatched to the undo/redo manager (UndoView), which registers them.
- * <p> In their model, the transactionnal aspect of commands (i.e. sequence of events) is explicitely dealt with thanks 
- * to two commands (beginSequence and endSequence) which are part of the model. 
  * @author rosmord
  */
 
@@ -309,8 +296,7 @@ public class HieroglyphicTextModel extends Observable implements
 		replaceElementBefore(position, Collections.singletonList(newElement));
 	}
 
-	public void replaceElementBefore(MDCPosition position,
-			List<TopItem> newElements) {
+	public void replaceElementBefore(MDCPosition position, List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(model,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
@@ -354,7 +340,7 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	// I Don't know if I will use this "first command" stuff.
-	// Meanwhile, I have moved the responsibility to make the choice to this
+	// Meanwhile, I have moved the responsability to make the choice to this
 	// method.
 	private boolean isFirstCommand() {
 		// TODO Auto-generated method stub
@@ -450,7 +436,6 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Return true if an operation can be redone.
-	 * 
 	 * @return
 	 * @see jsesh.editor.UndoManager#canRedo()
 	 */
@@ -459,10 +444,13 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public boolean mustSave() {
-		return !undoManager.isClean();
+		return ! undoManager.isClean();
 	}
 
 	public void setClean() {
 		undoManager.clear();
 	}
+
+	
+
 }

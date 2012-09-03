@@ -39,20 +39,6 @@
  * 2005/05/03 : now, most moves and significant changes clear the "currentSeparator".
  * 	We will get a more intuitive behaviour.
  * 
- * <p>Note on the way sign insertion/possibilities are handled
- * <p> In the old versions of JSesh, when choosing the "next possibility",
- * The last sign of the quadrant in front of the cursor is replaced by the
- * new choice, using the method 'modifyLastSign', which allows undo/redo
- * (and is also used for things like sign scale, sign colour, etc.)
- * <p> This won't work with sign groups.
- * <p> Two solutions:
- * <ul>
- * <li> move the undo/redo mecanism to the workflow, using the system
- * proposed in an article: events sent by the model have undo/redo method.
- * we also have a way to group events (which are then collated in composite events).
- * <li> move all the code for dealing with an event down to the model.
- * </ul>
- * 
  **/
 package jsesh.editor;
 
@@ -142,6 +128,11 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
     // NOTE : each method which has been reread for undo/redo capability will be
     // associated with a // UNDO/REDO comment
+    /**
+     * The data from the last cut or copy. Should move somewhere else, and be
+     * integrated in the normal java copy/paste scheme;
+     */
+    // static private List copyBuffer;
     private MDCCaret caret;
     private StringBuffer currentCode;
     private char currentSeparator = ' ';
@@ -157,10 +148,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * "page/line number".
      */
     private char mode;
-    /**
-     * The list of possible insertions.
-     */
-    private PossibilitiesManager possibilitiesManager;
+    //private PossibilitiesList possibilities;
+    private PossibilitiesManager possibilitiesManager = new PossibilitiesManager();
 
     // UNDO/REDO
     public JMDCEditorWorkflow() {
@@ -224,13 +213,13 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                     // THIS WILL CHANGE...
                     AlphabeticText txt = (AlphabeticText) t.deepCopy();
                     txt.setText(txt.getText() + key);
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), txt);
+                    hieroglyphicTextModel.replaceElementBefore(caret
+                            .getInsertPosition(), txt);
                 } else if (t instanceof Superscript && mode == '|') {
                     Superscript txt = (Superscript) t.deepCopy();
                     txt.setText(txt.getText() + key);
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), txt);
+                    hieroglyphicTextModel.replaceElementBefore(caret
+                            .getInsertPosition(), txt);
                 } else {
                     addNew = true;
                 }
@@ -241,9 +230,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                             .getInsertPosition(), new AlphabeticText(mode, ""
                             + key).buildTopItem());
                 } else {
-                    hieroglyphicTextModel.insertElementAt(
-                            caret.getInsertPosition(),
-                            new Superscript("" + key).buildTopItem());
+                    hieroglyphicTextModel.insertElementAt(caret
+                            .getInsertPosition(), new Superscript("" + key)
+                            .buildTopItem());
                 }
             }
         }
@@ -273,8 +262,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                 markPos = getCaret().getMarkPosition();
             }
             clearMark();
-            hieroglyphicTextModel.replaceElement(insertPos, markPos,
-                    c.buildTopItem());
+            hieroglyphicTextModel.replaceElement(insertPos, markPos, c
+                    .buildTopItem());
             result = true;
         } else {
             result = false;
@@ -317,8 +306,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             hieroglyphicTextModel.insertElementAt(max, new Hieroglyph(
                     type * 2 + 1).buildTopItem());
 
-            hieroglyphicTextModel.insertElementAt(min,
-                    new Hieroglyph(type * 2).buildTopItem());
+            hieroglyphicTextModel.insertElementAt(min, new Hieroglyph(type * 2)
+                    .buildTopItem());
             caret.moveInsertTo(maxIndex + 1);
             result = true;
         } else {
@@ -340,10 +329,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     /**
-     * Adds a sign corresponding to currentCode to the quadrant before the
+     * Adds a sign coorresponding to currentCode to the cadrat before the
      * insertion point.
-     *
-     * @deprecated (move to possibilityManager ?)
      */
     // UNDO/REDO
     public void addSameLevel() {
@@ -357,8 +344,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             // add sign :
             Hieroglyph hiero = buildHieroglyphFromCode(currentCode.toString());
             hbox.addHorizontalListElement(hiero);
-            hieroglyphicTextModel.replaceElementBefore(
-                    caret.getInsertPosition(), c);
+            hieroglyphicTextModel.replaceElementBefore(caret
+                    .getInsertPosition(), c);
             clearCode();
             clearSeparator();
         }
@@ -374,8 +361,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * the current separator is used to group the last two signs before the
      * separator, and the new separator becomes the current separator.
      *
-     * <p> If currentCode is not empty, add the corresponding glyph to the
-     * model, according to the current separator, and then make sep the current
+     * If currentCode is not empty, add the corresponding glyph to the model,
+     * according to the current separator, and then make sep the current
      * separator.
      *
      * @param sep
@@ -383,91 +370,36 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void addSeparator(char sep) {
         if (currentCode.length() != 0) {
-            possibilitiesManager.init(currentSeparator, currentCode.toString());
             addSign();
         }
-
-        groupByOLD(currentSeparator);
+        groupBy(currentSeparator);
         currentSeparator = sep;
         notifyCodeChangeListeners();
         notifySeparatorChangeListeners();
     }
-    
-      /**
+
+    /**
      * Adds the sign whose mnemonic is "currentCode" at the cursor position. <p>
      * The sign actual code will be thought in the sign database, and it is
      * possible to circle among possible signs.
      */
     // UNDO/REDO
-    private void addSign() {
+    public void addSign() {
         // No empty sign.
         if (getCurrentCode().length() == 0) {
             return;
         }
         possibilitiesManager.init(getCurrentCode().toString());
         if (possibilitiesManager.hasPossibilities()) {
-            // Change this if it's not a sign.
-            addSign(possibilitiesManager.getPossibility());
+            Possibility s = possibilitiesManager.getPossibility();
+            if (!s.isSingleSign()) {
+                throw new RuntimeException("not done yet");
+            }
+            addSign(s.getCode());
         } else {
             addSign(currentCode.toString());
         }
     }
-    // Version n-1
-//	public void addSeparator(char sep) {
-//		if (currentCode.length() != 0) {
-//			addSign();
-//		}
-//		groupBy(currentSeparator);
-//		currentSeparator = sep;
-//		notifyCodeChangeListeners();
-//		notifySeparatorChangeListeners();
-//	}
-
-    /**
-     * Insert the current possibility from the possibilityManager.
-     * use nextPossibility instead ?
-     * @deprecated ???
-     */
-    private void playPossibility() {
-        char sep = possibilitiesManager.getSeparator();
-        Possibility possibility = possibilitiesManager.getPossibility();
-        MDCPosition position = null;
-        if (possibilitiesManager.getPossibility().isSingleSign()) {
-            hieroglyphicTextModel.insertAndGroup(position, possibility.getCode(), sep);
-        } else {
-            hieroglyphicTextModel.insertElementsAt(position, possibility.getTopItemList());
-        }
-    }
-    
-    /**
-     * Insert the current possibility from the possibilityManager.
-     *
-     * @deprecated ???
-     */
-    
-    // UNDO/REDO
-    public void nextPossibility() {        
-        if (possibilitiesManager.hasPossibilities()) {
-            possibilitiesManager.next();
-            // Cancel the previous entry...
-            // Works because we use replace to perform our operations.
-            // If anything else is done, it will fail.
-            hieroglyphicTextModel.undo();
-            // replay the insertion command.
-        }
-        // if (possibilities != null && !possibilities.isEmpty()) {
-        // modifyLastSign(new SignModifier() {
-        // public void modifySign(Hieroglyph h) {
-        // if (h != null) {
-        // possibilities.next();
-        // h.setCode(possibilities.getCurrentSign());
-        // }
-        // }
-        // });
-        // }
-    }
-
-  
 
     /**
      * Adds a sign whose code is "code" to the text.
@@ -485,8 +417,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         HBox hbox = new HBox();
         cadrat.addHBox(hbox);
         hbox.addHorizontalListElement(buildHieroglyphFromCode(code));
-        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
-                cadrat.buildTopItem());
+        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), cadrat
+                .buildTopItem());
         clearCode();
     }
 
@@ -563,8 +495,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void caretChanged(MDCCaret caret) {
-        for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i
-                .hasNext();) {
+        for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i.hasNext();) {
             MDCModelEditionListener l = i.next();
             l.caretChanged(caret);
         }
@@ -594,8 +525,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                 if (h != null) {
                     modifier.modifySign(h);
                 }
-                hieroglyphicTextModel.replaceElementBefore(
-                        caret.getInsertPosition(), item);
+                hieroglyphicTextModel.replaceElementBefore(caret
+                        .getInsertPosition(), item);
             }
         }
     }
@@ -717,8 +648,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void removeSelectedText() {
         possibilitiesManager.clear();
-        hieroglyphicTextModel.removeElements(caret.getMinPosition(),
-                caret.getMaxPosition());
+        hieroglyphicTextModel.removeElements(caret.getMinPosition(), caret
+                .getMaxPosition());
         clearSeparator();
     }
 
@@ -903,8 +834,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                 modified.add(t);
             }
             if (modified.size() > 0) {
-                hieroglyphicTextModel.replaceElement(caret.getMinPosition(),
-                        caret.getMaxPosition(), modified);
+                hieroglyphicTextModel.replaceElement(caret.getMinPosition(), caret
+                        .getMaxPosition(), modified);
             }
         } else if (caret.getInsert().hasPrevious()) {
             TopItem t = (TopItem) caret.getInsert().getElementBefore()
@@ -912,10 +843,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             topItemModifier.modifyTopItem(t);
             modified.add(t);
             if (modified.size() > 0) {
-                hieroglyphicTextModel.replaceElementBefore(
-                        caret.getInsertPosition(), modified);
+                hieroglyphicTextModel.replaceElementBefore(caret.getInsertPosition(), modified);
             }
         }
+
 
     }
 
@@ -937,7 +868,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                 caret.advanceInsertBy(dir);
                 break;
             case 2:
-                caret.setInsertPosition(caret.getInsertPosition().getDownPosition());
+                caret
+                        .setInsertPosition(caret.getInsertPosition()
+                        .getDownPosition());
                 break;
             case -2:
                 caret.setInsertPosition(caret.getInsertPosition().getUpPosition());
@@ -959,8 +892,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         TopItem topItem = getCurrentItem();
         if (topItem != null) {
             List<TopItem> result = f.explode((TopItem) topItem.deepCopy());
-            hieroglyphicTextModel.replaceElementBefore(
-                    caret.getInsertPosition(), result);
+            hieroglyphicTextModel.replaceElementBefore(caret
+                    .getInsertPosition(), result);
         }
         clearSeparator();
         possibilitiesManager.clear();
@@ -972,7 +905,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void focusGained() {
         for (int i = 0; i < listeners.size(); i++) {
-            MDCModelEditionListener listener = listeners.get(i);
+            MDCModelEditionListener listener = listeners
+                    .get(i);
             listener.focusGained(currentCode);
         }
 
@@ -984,7 +918,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void focusLost() {
         for (int i = 0; i < listeners.size(); i++) {
-            MDCModelEditionListener listener = listeners.get(i);
+            MDCModelEditionListener listener = listeners
+                    .get(i);
             listener.focusLost();
         }
 
@@ -1150,7 +1085,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * @param key one of '-', ' ' ; '*' , ':' or '&'.
      */
     // UNDO/REDO
-    private void groupByOLD(char key) {
+    private void groupBy(char key) {
         switch (key) {
             case ' ':
             case '-':
@@ -1190,8 +1125,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
         Cadrat c = f.buildCadrat(elts);
         if (c != null) {
-            hieroglyphicTextModel.replaceElement(caret.getMinPosition(),
-                    caret.getMaxPosition(), c);
+            hieroglyphicTextModel.replaceElement(caret.getMinPosition(), caret
+                    .getMaxPosition(), c);
             result = true;
         } else {
             result = false;
@@ -1210,8 +1145,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         List<TopItem> elts;
         MDCPosition pos2 = caret.getInsertPosition();
         MDCPosition pos1 = pos2.getPreviousPosition(2);
-        elts = hieroglyphicTextModel.getTopItemsBetween(pos1.getIndex(),
-                pos2.getIndex());
+        elts = hieroglyphicTextModel.getTopItemsBetween(pos1.getIndex(), pos2
+                .getIndex());
         if (elts.size() == 2) {
             Cadrat c = f.buildCadrat(elts);
             if (c != null) {
@@ -1240,8 +1175,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         }
         Cadrat c = v.buildCadrat(elts);
         if (c != null) {
-            hieroglyphicTextModel.replaceElement(caret.getMinPosition(),
-                    caret.getMaxPosition(), c);
+            hieroglyphicTextModel.replaceElement(caret.getMinPosition(), caret
+                    .getMaxPosition(), c);
             clearMark();
             result = true;
         } else {
@@ -1270,8 +1205,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     public void insertHalfSpace() {
         possibilitiesManager.clear();
         Hieroglyph h = new Hieroglyph(SymbolCodes.HALFSPACE);
-        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
-                h.buildTopItem());
+        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), h
+                .buildTopItem());
     }
 
     /**
@@ -1337,8 +1272,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     public void insertSpace() {
         possibilitiesManager.clear();
         Hieroglyph h = new Hieroglyph(SymbolCodes.FULLSPACE);
-        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
-                h.buildTopItem());
+        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), h
+                .buildTopItem());
     }
 
     /**
@@ -1440,8 +1375,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             for (Hieroglyph h : hieros) {
                 lig.addHieroglyph(h.deepCopy());
             }
-            hieroglyphicTextModel.replaceElement(minPos, maxPos,
-                    lig.buildTopItem());
+            hieroglyphicTextModel.replaceElement(minPos, maxPos, lig
+                    .buildTopItem());
             // setCursor(caret.getMinPosition().getNextPosition(1));
             result = true;
         } else {
@@ -1468,11 +1403,31 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         clearSeparator();
     }
 
+    // UNDO/REDO
+    public void nextPossibility() {
+        // TODO: avoid creating empty possibility lists.
+        // TODO: avoid creating null possibility lists
+        if (possibilitiesManager.hasPossibilities()) {
+            modifyLastSign(new SignModifier() {
+                public void modifySign(Hieroglyph h) {
+                    if (h != null) {
+                        possibilitiesManager.next();
+                        Possibility s = possibilitiesManager.getPossibility();
+                        if (!s.isSingleSign()) {
+                            throw new RuntimeException("not done yet");
+                        }
+                        h.setCode(s.getCode());
+                    }
+                }
+            });
+        }
+    }
 
     // UNDO/REDO
     private void notifyCodeChangeListeners() {
         for (int i = 0; i < listeners.size(); i++) {
-            MDCModelEditionListener listener = listeners.get(i);
+            MDCModelEditionListener listener = listeners
+                    .get(i);
             listener.codeChanged(currentCode);
         }
 
@@ -1481,7 +1436,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     private void notifySeparatorChangeListeners() {
         for (int i = 0; i < listeners.size(); i++) {
-            MDCModelEditionListener listener = listeners.get(i);
+            MDCModelEditionListener listener = listeners
+                    .get(i);
             listener.separatorChanged();
         }
     }
@@ -1550,8 +1506,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                     // NOW, THIS IS A UGLY CAST.
                     // Normally, we would need some kind of
                     // "TextContainer + TopItem" class.
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), (TopItem) newText);
+                    hieroglyphicTextModel.replaceElementBefore(caret
+                            .getInsertPosition(), (TopItem) newText);
                 }
             }
         }
@@ -1748,7 +1704,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
     /**
      * shade or unshade selected zone, depending the value of
-     * <code>shade</code> . This method will be made private in favour of
+     * <code>shade</code>. This method will be made private in favour of
      * {@link #shadeZone()} and {@link #unshadeZone()}.
      *
      * @param shade
@@ -1863,8 +1819,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         modifyLastSign(new SignModifier() {
             public void modifySign(Hieroglyph h) {
                 if (h != null) {
-                    h.getModifiers().setInteger("shading",
-                            Integer.parseInt(code.toString()));
+                    h.getModifiers().setInteger("shading", Integer.parseInt(code.toString()));
                 }
             }
         });
@@ -1899,16 +1854,14 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             // itself !
             caret.changeModel(hieroglyphicTextModel.getModel());
 
-            for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i
-                    .hasNext();) {
+            for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i.hasNext();) {
                 MDCModelEditionListener l = i.next();
                 l.textChanged();
             }
             clearSeparator();
         } else if (arg instanceof ModelOperation) {
             ModelOperation op = (ModelOperation) arg;
-            for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i
-                    .hasNext();) {
+            for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i.hasNext();) {
                 MDCModelEditionListener l = i.next();
                 l.textEdited(op);
             }

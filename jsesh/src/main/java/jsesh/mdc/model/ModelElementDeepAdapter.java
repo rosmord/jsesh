@@ -53,7 +53,7 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+  	 * @see jsesh.mdc.model.ModelElementVisitor#visitBasicItemList(jsesh.mdc.model.BasicItemList)
 	 */
 	public void visitBasicItemList(BasicItemList l) {
 		visitDefault(l);
