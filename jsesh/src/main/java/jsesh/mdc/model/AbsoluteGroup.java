@@ -11,7 +11,7 @@ import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 /**
  * A group of signs with explicit placement. 
  * IMPORTANT : currently, we need at least two signs in an
- * absolute group. This is not a
+ * absolute group.
  * 
  * @author rosmord
  *  

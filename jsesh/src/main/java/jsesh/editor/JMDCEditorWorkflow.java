@@ -44,18 +44,14 @@ package jsesh.editor;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.PossibilitiesList;
 import jsesh.hieroglyphs.PossibilitiesList.Possibility;
-import jsesh.hieroglyphs.SignDescriptionConstants;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
@@ -98,6 +94,13 @@ import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
  * far too large a class. <p> We should separate parts of it, and move the
  * actual manipulations in the model. We would only keep what is relevant for us
  * (e.g. possibility lists for signs, undo, etc...)
+ *
+ * TODO : current version: sign insertion should be done in two steps: a) find
+ * what text needs to be written b) replace the "old text" by this new text TODO
+ * : in a second step, try to implement the "events contain undo commands"
+ * system. It's likely that the current system is too precise. We always go
+ * through TextModel, and the events can be generated at that level (and not at
+ * the model element actual level, which is probably too fine ?)
  *
  * TODO : cleanup. find unused methods from previous versions, and suppress
  * them.
@@ -165,7 +168,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     // UNDO/REDO
-    public void setHieroglyphicTextModel(
+    public final void setHieroglyphicTextModel(
             HieroglyphicTextModel newHieroglyphicTextModel) {
 
         if (this.hieroglyphicTextModel == newHieroglyphicTextModel) {
@@ -352,9 +355,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     /**
-     * Add a separator to the code. <p> The separator is used to groups new
-     * signs ; it can be '*', ' ', ':' or '&'. The exact effect depends on
-     * currentCode and on the presence of a previous separator.
+     * Accept a separator, and possibly insert the current code in the text. <p>
+     * The separator is used to groups new signs ; it can be '*', ' ', ':' or
+     * '&'. The exact effect depends on currentCode and on the presence of a
+     * previous separator.
      *
      * <p> if currentCode is empty and there is no current separator, the
      * separator becomes the current separator. if there is a current separator,
@@ -368,36 +372,66 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * @param sep
      */
     // UNDO/REDO
-    public void addSeparator(char sep) {
+    // New implementation in two steps
+    // Step a) build the new text fragment
+    // Step b) replace the old text fragment (possibly empty) with the new one. 
+    public void acceptSeparator(char sep) {
         if (currentCode.length() != 0) {
-            addSign();
+            // sign insertion and grouping.
+            possibilitiesManager.init(getCurrentCode().toString());
+            TopItem newItem;
+            if (possibilitiesManager.hasPossibilities()) {
+                Possibility s = possibilitiesManager.getPossibility();
+                if (!s.isSingleSign()) {
+                    throw new RuntimeException("not done yet");
+                }
+                newItem= buildItemForSignCode(s.getCode());
+            } else {
+                newItem= buildItemForSignCode(currentCode.toString());
+            }
+            MDCPosition pos1, pos2;
+            pos1= caret.getInsertPosition();
+            pos2= pos1.getPreviousPosition(1);
+            TopItem head= hieroglyphicTextModel.getItemBefore(pos1);
+            List<TopItem> items= new ArrayList<TopItem>();
+            items.add(newItem);
+
+            List<TopItem> newElements = groupBy(head, items, currentSeparator);
+            hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);            
+            clearCode();
+        } else {
+            MDCPosition pos1 = caret.getInsertPosition().getPreviousPosition(2);
+            MDCPosition pos2 = caret.getInsertPosition();
+            List<TopItem> items = hieroglyphicTextModel.getTopItemsBetween(pos1, pos2);
+            if (items.size() == 2) {
+                // Only grouping is done.
+                List<TopItem> newElements = groupBy(items.get(0), items.subList(1, items.size()), currentSeparator);
+                hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
+            }
         }
-        groupBy(currentSeparator);
+        clearMark();
         currentSeparator = sep;
         notifyCodeChangeListeners();
         notifySeparatorChangeListeners();
     }
 
-    /**
-     * Adds the sign whose mnemonic is "currentCode" at the cursor position. <p>
-     * The sign actual code will be thought in the sign database, and it is
-     * possible to circle among possible signs.
-     */
     // UNDO/REDO
-    public void addSign() {
-        // No empty sign.
-        if (getCurrentCode().length() == 0) {
-            return;
-        }
-        possibilitiesManager.init(getCurrentCode().toString());
+    public void nextPossibility() {
+        // TODO: avoid creating empty possibility lists.
+        // TODO: avoid creating null possibility lists
         if (possibilitiesManager.hasPossibilities()) {
-            Possibility s = possibilitiesManager.getPossibility();
-            if (!s.isSingleSign()) {
-                throw new RuntimeException("not done yet");
-            }
-            addSign(s.getCode());
-        } else {
-            addSign(currentCode.toString());
+            modifyLastSign(new SignModifier() {
+                public void modifySign(Hieroglyph h) {
+                    if (h != null) {
+                        possibilitiesManager.next();
+                        Possibility s = possibilitiesManager.getPossibility();
+                        if (!s.isSingleSign()) {
+                            throw new RuntimeException("not done yet");
+                        }
+                        h.setCode(s.getCode());
+                    }
+                }
+            });
         }
     }
 
@@ -408,20 +442,23 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void addSign(String code) {
+        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), buildItemForSignCode(code));
+        clearCode();
+    }
+
+    private TopItem buildItemForSignCode(String code) {
         // Avoid codes which would create unreadable files.
         if (!code.matches("[@0-9a-zA-Z]+")) {
-            return;
+            code= "illegalCode";
         }
 
         Cadrat cadrat = new Cadrat();
         HBox hbox = new HBox();
         cadrat.addHBox(hbox);
         hbox.addHorizontalListElement(buildHieroglyphFromCode(code));
-        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), cadrat
-                .buildTopItem());
-        clearCode();
+        return cadrat.buildTopItem();
     }
-
+    
     /**
      * @param c
      */
@@ -1081,33 +1118,60 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
     /**
      * Group the two groups before the insert mark according to this separator
-     *
+     * All parameters should be copies of the original elements.
+     * @param head the item just before the group which should be inserted (may
+     * be null)
+     * @param tail the 'new' items (usually, one, but glossary entry might be
+     * whole words).
      * @param key one of '-', ' ' ; '*' , ':' or '&'.
+     * @return the list of items which should replace head (or head and tail, it
+     * depends).
      */
     // UNDO/REDO
-    private void groupBy(char key) {
-        switch (key) {
-            case ' ':
-            case '-':
-                // No - Op !
-                break;
-            case '*':
-                if (caret.getInsert().getIndex() > 1) {
-                    insertLastCadratIntoBeforeLast();
+    private List<TopItem> groupBy(TopItem head, List<TopItem> tail, char sep) {
+        // No need for grouping when separator is '-'
+        if (sep == ' ' || sep == '-') {
+            ArrayList<TopItem> result = new ArrayList<TopItem>();
+            if (head != null) {
+                result.add(head);
+            }
+            result.addAll(tail);
+            return result;
+        } else {
+            // A) try to group tail as one quadrant. 
+            //
+            if (head == null) {
+                return tail;
+            }
+            if (tail.isEmpty()) {
+                return Collections.singletonList(head);
+            }
+            TopItem secondElement;
+            if (tail.size() == 1) {
+                secondElement = tail.get(0);
+            } else {
+                HorizontalGrouper grouper = new HorizontalGrouper();
+                ArrayList<ModelElement> tmpList = new ArrayList<ModelElement>();
+                tmpList.add(head);
+                tmpList.addAll(tail);
+                secondElement = grouper.buildCadrat(tmpList);
+            }
+            // we now have two elements.
+            switch (sep) {
+                case '*':
+                    return buildCombinedQuadrant(head, secondElement);
+                case ':':
+                    return buildVerticalStack(head, secondElement);
+                case '&':
+                {
+                    ArrayList<TopItem> list= new ArrayList<TopItem>();
+                    list.add(head);
+                    list.addAll(tail);
+                    return buildLigature(list);
                 }
-                break;
-            case ':':
-                if (caret.getInsert().getIndex() > 1) {
-                    groupLastTwoVertically();
-                }
-                break;
-            case '&':
-                if (caret.getInsert().getIndex() > 1) {
-                    ligatureLastTwoElements();
-                }
-                break;
-            default: // Should not happen.
-                throw new RuntimeException("bad separator " + key);
+                default: // Should not happen.
+                    throw new RuntimeException("bad separator " + sep);
+            }
         }
     }
 
@@ -1140,21 +1204,23 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * stack the last two cadrats.
      */
     // UNDO/REDO
-    private void groupLastTwoVertically() {
+    private List<TopItem> buildVerticalStack(TopItem head, TopItem secondElement) {
+        ArrayList<TopItem> result = new ArrayList<TopItem>();
         VerticalGrouper f = new VerticalGrouper();
-        List<TopItem> elts;
-        MDCPosition pos2 = caret.getInsertPosition();
-        MDCPosition pos1 = pos2.getPreviousPosition(2);
-        elts = hieroglyphicTextModel.getTopItemsBetween(pos1.getIndex(), pos2
-                .getIndex());
+        List<TopItem> elts = new ArrayList<TopItem>();
+        elts.add(head);
+        elts.add(secondElement);
         if (elts.size() == 2) {
             Cadrat c = f.buildCadrat(elts);
             if (c != null) {
-                hieroglyphicTextModel.replaceElement(pos1, pos2, c);
+                result.add(c);
             }
         }
-        clearMark();
-        clearSeparator();
+        if (result.isEmpty()) {
+            result.add(head);
+            result.add(secondElement);
+        }
+        return result;
     }
 
     /**
@@ -1210,24 +1276,21 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     /**
-     * group the last two cadrat horizontally, inserting the second in the
+     * group two quadrants, inserting the second in the
      * <em>lower</em> row of the first.
-     *
-     * Precondition: the position must be at least 2.
+     * 
      */
-    // UNDO/REDO
-    private void insertLastCadratIntoBeforeLast() {
+    private List<TopItem> buildCombinedQuadrant(TopItem head, TopItem secondElement) {
+        ArrayList<TopItem> result= new ArrayList<TopItem>();
         CadratStarInserter f = new CadratStarInserter();
-        List elts;
-        MDCPosition pos1 = caret.getInsertPosition().getPreviousPosition(2);
-        MDCPosition pos2 = caret.getInsertPosition();
-        elts = hieroglyphicTextModel.getTopItemsBetween(pos1, pos2);
-        Cadrat c = f.buildCadrat((TopItem) elts.get(0), (TopItem) elts.get(1));
+        Cadrat c = f.buildCadrat(head, secondElement);
         if (c != null) {
-            hieroglyphicTextModel.replaceElement(pos1, pos2, c);
-            clearMark();
-            clearSeparator();
+            result.add(c);
+        } else {
+            result.add(head);
+            result.add(secondElement);
         }
+        return result;
     }
 
     /**
@@ -1249,7 +1312,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void insertNewLine() {
         possibilitiesManager.clear();
-        addSeparator(' ');
+        acceptSeparator(' ');
         hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
                 new LineBreak().buildTopItem());
     }
@@ -1260,7 +1323,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void insertPageBreak() {
         possibilitiesManager.clear();
-        addSeparator(' ');
+        acceptSeparator(' ');
         hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
                 new PageBreak().buildTopItem());
     }
@@ -1324,11 +1387,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
                 // right now, I want my Ff1 sign !
                 currentCode.replace(0, currentCode.length(), "Ff1");
             } else if (isSeparatorChar(key)) {
-                addSeparator(key);
+                acceptSeparator(key);
             } else if (isCodeChar(key)) {
-                {
-                    addToCode(key);
-                }
+                addToCode(key);
             }
         } else {
             addAlphabeticChar(key);
@@ -1359,15 +1420,33 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public boolean ligatureElements() {
-        boolean result = false;
         List<TopItem> elts = getSelection();
         if (getSelection().isEmpty()) {
             return false;
         }
-
         MDCPosition minPos = caret.getMinPosition();
         MDCPosition maxPos = caret.getMaxPosition();
+        List<TopItem> toInsert = buildLigature(elts);
+        hieroglyphicTextModel.replaceElement(minPos, maxPos, toInsert);     
+        clearMark();
+        clearSeparator();
+        return true;
+    }
 
+    /**
+     * Build a ligature from a number of elements.
+     * The parameters are not
+     * copied here, so you should be sure they are already copies, or not
+     * already parts of an existing construct.
+     *
+     * @param elts the elements, whose glyphs will be used
+     * IMPORTANT : improve this. The ligature should take place with the last
+     * element of the previous cadrat.
+     */
+    private List<TopItem> buildLigature(List<? extends ModelElement> elts) {
+        ArrayList<TopItem> result = new ArrayList<TopItem>();
+        // Copy of the corresponding code from ligatureElements.
+        // We will change ligatureElements so that it uses this method
         HieroglyphExtractor extractor = new HieroglyphExtractor();
         List<Hieroglyph> hieros = extractor.extractHieroglyphs(elts);
         if (hieros != null && hieros.size() > 1) {
@@ -1375,52 +1454,13 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             for (Hieroglyph h : hieros) {
                 lig.addHieroglyph(h.deepCopy());
             }
-            hieroglyphicTextModel.replaceElement(minPos, maxPos, lig
-                    .buildTopItem());
-            // setCursor(caret.getMinPosition().getNextPosition(1));
-            result = true;
+            result.add(lig.buildTopItem());
         } else {
-            result = false;
+            for (ModelElement e : elts) {
+                result.add(e.buildTopItem());
+            }
         }
-        clearMark();
-        clearSeparator();
         return result;
-    }
-
-    /**
-     * Build a ligature with the last two elements. IMPORTANT : improve this.
-     * The ligature should take place with the last element of the previous
-     * cadrat.
-     */
-    // UNDO/REDO
-    private void ligatureLastTwoElements() {
-        // bored now. I use the mark !
-        caret.setMarkAt(caret.getInsert().getIndex() - 2);
-        // If enough elements are selected :
-        if (caret.getMax() - caret.getMin() == 2) {
-            ligatureElements();
-        }
-        clearSeparator();
-    }
-
-    // UNDO/REDO
-    public void nextPossibility() {
-        // TODO: avoid creating empty possibility lists.
-        // TODO: avoid creating null possibility lists
-        if (possibilitiesManager.hasPossibilities()) {
-            modifyLastSign(new SignModifier() {
-                public void modifySign(Hieroglyph h) {
-                    if (h != null) {
-                        possibilitiesManager.next();
-                        Possibility s = possibilitiesManager.getPossibility();
-                        if (!s.isSingleSign()) {
-                            throw new RuntimeException("not done yet");
-                        }
-                        h.setCode(s.getCode());
-                    }
-                }
-            });
-        }
     }
 
     // UNDO/REDO
@@ -1735,8 +1775,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     /**
-     * Returns a copy of the list of selected elements, or null if none is
-     * selected.
+     * Returns a <em>copy</em> of the list of selected elements, or null if none
+     * is selected.
      *
      * @return a copy of the list of TopItems, empty if there is no selection.
      */

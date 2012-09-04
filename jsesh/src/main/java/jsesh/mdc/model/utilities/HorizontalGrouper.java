@@ -32,10 +32,9 @@ public class HorizontalGrouper {
 	 * @return a cadrat, with an horizontal stack of the elements, or null if the result would be empty.
 	 */
 
-	public Cadrat buildCadrat(List elts) {
+	public Cadrat buildCadrat(List<? extends ModelElement> elts) {
 		FetcherAux aux= new FetcherAux();
-		for (Iterator i= elts.iterator(); i.hasNext();) {
-			ModelElement e= (ModelElement) i.next();
+                for (ModelElement e: elts) {
 			e.accept(aux);
 		}
 		if (aux.result.getNumberOfChildren() == 0) {

@@ -82,9 +82,6 @@ import jsesh.mdc.model.operations.Replacement;
 public abstract class ModelElement implements ModelElementObserver,
 		Comparable<ModelElement>, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8654450475547792198L;
 
 
@@ -97,6 +94,7 @@ public abstract class ModelElement implements ModelElementObserver,
 	private boolean updatesEnabled = true;
 
 	public ModelElement() {
+                // Replace with lazy creation to avoid warning ?
 		children = buildChildrenList();
 	}
 
