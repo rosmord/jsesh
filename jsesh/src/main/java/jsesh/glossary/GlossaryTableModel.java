@@ -1,7 +1,6 @@
 package jsesh.glossary;
 
 import javax.swing.table.AbstractTableModel;
-
 import jsesh.mdc.model.TopItemList;
 
 @SuppressWarnings("serial")

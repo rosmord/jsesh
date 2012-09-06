@@ -58,5 +58,13 @@ public class GlossaryManager {
 		f = new File(f, "jsesh_glossary.txt");
 		return f;
 	}
+        
+        public static GlossaryManager getInstance() {
+            return instance;
+        }
+        
+        public JSeshGlossary getGlossary() {
+            return glossary;
+        }
 
 }

@@ -1,8 +1,8 @@
 package jsesh.glossary;
 
-import java.awt.Event;
 import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -12,8 +12,8 @@ import java.util.WeakHashMap;
  * disappear, it will be removed from the support (weak references are used).
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- * 
  */
+
 public class EventSupport {
 
 	/**
@@ -85,9 +85,9 @@ public class EventSupport {
 		
 	}
 
-	private HashMap<Class<? extends Event>, Set<CallBack>> map = new HashMap<Class<? extends Event>, Set<CallBack>>();
+	private HashMap<Class<? extends EventObject>, Set<CallBack>> map = new HashMap<Class<? extends EventObject>, Set<CallBack>>();
 
-	public void addEventLink(Class<? extends Event> eventClass, Object object,
+	public void addEventLink(Class<? extends EventObject> eventClass, Object object,
 			String methodName) {
 		if (! map.containsKey(eventClass)) {
 			Set<CallBack> set = Collections.newSetFromMap(
@@ -97,14 +97,14 @@ public class EventSupport {
 		map.get(eventClass).add(new CallBack(object, methodName));
 	}
 	
-	public void removeEventLink(Class<? extends Event> eventClass, Object object,
+	public void removeEventLink(Class<? extends EventObject> eventClass, Object object,
 			String methodName) {
 		if (map.containsKey(eventClass)) {
 			map.get(eventClass).remove(new CallBack(object, methodName));
 		}
 	}
 
-	public void fireEvent(Event e) {
+	public void fireEvent(EventObject e) {
 		Set<CallBack> callbacks = map.get(e.getClass());
 		for (CallBack c : callbacks) {
 			c.call();
