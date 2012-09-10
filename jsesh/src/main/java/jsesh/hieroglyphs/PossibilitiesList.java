@@ -167,7 +167,7 @@ public class PossibilitiesList {
 		 *        returns true.
 		 */
 		public List<TopItem> getTopItemList() {
-			if (!isSingleSign())
+			if (isSingleSign())
 				throw new NullPointerException();
 			return topItemList;
 		}

@@ -117,7 +117,6 @@ import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
 public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
 	private interface TopItemModifier {
-
 		void modifyTopItem(TopItem topItem);
 	}
 
@@ -126,7 +125,6 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * data.
 	 * 
 	 * @author rosmord
-	 * 
 	 */
 	private interface SignModifier {
 
@@ -145,17 +143,19 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	private char currentSeparator = ' ';
 	private HieroglyphicTextModel hieroglyphicTextModel;
 	private List<MDCModelEditionListener> listeners;
+
 	/**
 	 * Is it possible to modify this text, or is this simply a view?
 	 */
 	private boolean readWrite = true;
+
 	/**
 	 * Mode is one of 's', 'l', 'i', 'b', 't', '|' for respectively
 	 * "hieroglyphs", "latin", "italic", "bold", "transliteration", and
 	 * "page/line number".
 	 */
 	private char mode;
-	// private PossibilitiesList possibilities;
+
 	private PossibilitiesManager possibilitiesManager = new PossibilitiesManager();
 
 	// UNDO/REDO
@@ -364,21 +364,22 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	/**
 	 * Accept a separator, and possibly insert the current code in the text.
 	 * <p>
-	 * The separator is used to groups new signs ; it can be '*', ' ', ':' or
+	 * The separator is used to groups new signs ; it can be ' ', '*', ':' or
 	 * '&'. The exact effect depends on currentCode and on the presence of a
 	 * previous separator.
-	 * 
 	 * <p>
 	 * if currentCode is empty and there is no current separator, the separator
 	 * becomes the current separator. if there is a current separator, the
 	 * current separator is used to group the last two signs before the
 	 * separator, and the new separator becomes the current separator.
 	 * 
+	 * <p>
 	 * If currentCode is not empty, add the corresponding glyph to the model,
 	 * according to the current separator, and then make sep the current
 	 * separator.
 	 * 
 	 * @param sep
+	 *            the next separator.
 	 */
 	// UNDO/REDO
 	// New implementation in two steps
@@ -386,45 +387,62 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// Step b) replace the old text fragment (possibly empty) with the new one.
 	public void acceptSeparator(char sep) {
 		if (currentCode.length() != 0) {
-			// sign insertion and grouping.
-			possibilitiesManager.init(getCurrentCode().toString());
-			TopItem newItem;
-			if (possibilitiesManager.hasPossibilities()) {
-				Possibility s = possibilitiesManager.getPossibility();
-				if (!s.isSingleSign()) {
-					throw new RuntimeException("not done yet");
-				} else {
-					newItem = buildItemForSignCode(s.getCode());
-				}
-			} else {
-				newItem = buildItemForSignCode(currentCode.toString());
-			}
-			MDCPosition pos1, pos2;
-			pos1 = caret.getInsertPosition();
-			pos2 = pos1.getPreviousPosition(1);
-			TopItem head = hieroglyphicTextModel.getItemBefore(pos1);
-			List<TopItem> items = new ArrayList<TopItem>();
-			items.add(newItem);
-
-			List<TopItem> newElements = groupBy(head, items, currentSeparator);
-			hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
-			clearCode();
+			addAndGroup();
 		} else {
-			MDCPosition pos1 = caret.getInsertPosition().getPreviousPosition(2);
-			MDCPosition pos2 = caret.getInsertPosition();
-			List<TopItem> items = hieroglyphicTextModel.getTopItemsBetween(
-					pos1, pos2);
-			if (items.size() == 2) {
-				// Only grouping is done.
-				List<TopItem> newElements = groupBy(items.get(0),
-						items.subList(1, items.size()), currentSeparator);
-				hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
-			}
+			groupTwoPreviousBySeparator();
 		}
 		clearMark();
 		currentSeparator = sep;
 		notifyCodeChangeListeners();
 		notifySeparatorChangeListeners();
+	}
+
+	/**
+	 * Add the element(s) corresponding to the current code, and group them
+	 * using the current separator.
+	 */
+	private void addAndGroup() {
+		// Build a list of items to add
+		List<TopItem> items;		
+		possibilitiesManager.init(getCurrentCode().toString());
+		if (possibilitiesManager.hasPossibilities()) {
+			Possibility s = possibilitiesManager.getPossibility();
+			if (!s.isSingleSign()) {
+				items= s.getTopItemList();
+			} else {
+				items = Collections.singletonList(buildItemForSignCode(s
+						.getCode()));
+			}
+		} else {
+			items = Collections.singletonList(buildItemForSignCode(currentCode
+					.toString()));
+		}
+		
+		MDCPosition pos1, pos2;
+		pos1 = caret.getInsertPosition();
+		pos2 = pos1.getPreviousPosition(1);
+		TopItem head = hieroglyphicTextModel.getItemBefore(pos1);
+		
+		List<TopItem> newElements = groupBy(head, items, currentSeparator);
+		hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
+		clearCode();
+	}
+
+	/**
+	 * Group the two elements in front of the cursor according to the
+	 */
+	private void groupTwoPreviousBySeparator() {
+		// group only.
+		MDCPosition pos1 = caret.getInsertPosition().getPreviousPosition(2);
+		MDCPosition pos2 = caret.getInsertPosition();
+		List<TopItem> items = hieroglyphicTextModel.getTopItemsBetween(pos1,
+				pos2);
+		if (items.size() == 2) {
+			// Only grouping is done.
+			List<TopItem> newElements = groupBy(items.get(0),
+					items.subList(1, items.size()), currentSeparator);
+			hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
+		}
 	}
 
 	// UNDO/REDO
@@ -1153,14 +1171,14 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 *            the 'new' items (usually, one, but glossary entry might be
 	 *            whole words).
 	 * @param key
-	 *            one of '-', ' ' ; '*' , ':' or '&'.
+	 *            one of ' ' ; '*' , ':' or '&'.
 	 * @return the list of items which should replace head (or head and tail, it
 	 *         depends).
 	 */
 	// UNDO/REDO
 	private List<TopItem> groupBy(TopItem head, List<TopItem> tail, char sep) {
 		// No need for grouping when separator is '-'
-		if (sep == ' ' || sep == '-') {
+		if (sep == ' ') {
 			ArrayList<TopItem> result = new ArrayList<TopItem>();
 			if (head != null) {
 				result.add(head);
@@ -1182,7 +1200,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			} else {
 				HorizontalGrouper grouper = new HorizontalGrouper();
 				ArrayList<ModelElement> tmpList = new ArrayList<ModelElement>();
-				tmpList.add(head);
+				//tmpList.add(head);
 				tmpList.addAll(tail);
 				secondElement = grouper.buildCadrat(tmpList);
 			}
