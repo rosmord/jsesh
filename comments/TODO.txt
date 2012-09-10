@@ -1,12 +1,7 @@
 * Fonction de mise en page intelligente : génère n:A1\70 pour n:A1 - ou mieux, n[noscale]:A1 ?
-* MOVE JSESH TO MERCURIAL (DONE)
-* IMPORT PDF as files (when JSESH source is available in the PDF)
-* IMPORT PDF files when copied from the clipboard.
+
 * Add margins to EPS files
 * provide EMF, EPS, MAC PICT as clipboard formats
-
-
-Avant cette Release
 
 * A propos de la mise en page: idée... on trouve les éléments de modèle dont la mise en page est à refaire,
 et on empile les ordres de mise en page (ou, alternativement, on remet en page directement).
@@ -20,7 +15,6 @@ URGENT (ou rapide à faire)
 * Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
 * Modif rapide (plus ou moins) :  quand les commandes ont besoin d'une sélection et qu'il n'y en a pas, faire
   quelque chose de raisonnable (e.g. dernier ou deux derniers cadrats, etc...).
-* filtre de translittération dans la palette = pour les codes aussi (n'activer que si le texte contient une famille et au moins un chiffre)
 * définir les dimensions des documents
 
 * UNDO et demande avant de quitter
@@ -50,18 +44,13 @@ Joli rouge CMYK : 0 52 62 7
 
 
 * PDF correct (?)
-* Modif rapide: rotation "visuelle"
-* Revoir l'éditeur de groupes (bugs ?)
 * glossaire
-* MDI
+
 * éditeur de ligatures
 * mode "export", avec les signes spécifiques utilisés
-* choix des fontes, sauvegarde en unicode du texte.
 * export avec MDC en commentaire (fait pour le EPS et le PDF. à faire pour MACPICT)
 
 
-* MOVE ***EVERY**** FILE WHICH IS BUILT INTO THE "BUILD" DIRECTORY
-* Régler le problème de cupruntime.jar...
 
 MOINS URGENT
 * REVOIR STRUCTURE DU PROGRAMME. EN PARTICULIER NOTION DE DOCUMENT...
@@ -94,18 +83,23 @@ FUTUR
 Varia IFAO:
 * glossaire
 * éditeur de ligatures
-* possibilité de paramétrer les racourcis
+* possibilité de paramétrer les raccourcis
 * choix des couleurs pentones ?
 * tabulations
-* export Unicode en option
 * rouge = souligné
 * MDI
-* Système de préférence générique (pb interne)
 * Dessin de bastion
 * trucs et astuces dans la doc
 * considérer tout signe avec pos non 0,0 comme un groupe potentiel ?
 
+A_CONSIDERER
+* Système de préférence générique (pb interne)
+
 FAIT:
+* choix des fontes, sauvegarde en unicode du texte.
+* MDI
+* export Unicode en option
+* Modif rapide: rotation "visuelle"
 * hachures plus précises
 * grisé éditable ? (PARTIELLEMENT IMPLEMENTE)
 * hachures "en traits"
@@ -122,3 +116,12 @@ FAIT:
 * unifier l'édition en colonnes (et en ligne) pour la sélection et le déplacement du curseur.
 * ajouter la compréhension de '#' suivi d'un nombre dans l'éditeur intéractif (non, mais menu popup)
 
+* MOVE JSESH TO MERCURIAL (DONE)
+* IMPORT PDF as files (when JSESH source is available in the PDF)
+* IMPORT PDF files when copied from the clipboard.
+* filtre de translittération dans la palette = pour les codes aussi (n'activer que si le texte contient une famille et au moins un chiffre)
+* Revoir l'éditeur de groupes (bugs ?)
+
+
+* MOVE ***EVERY**** FILE WHICH IS BUILT INTO THE "BUILD" DIRECTORY
+* Régler le problème de cupruntime.jar...

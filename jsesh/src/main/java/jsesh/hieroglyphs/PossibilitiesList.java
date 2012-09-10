@@ -136,7 +136,7 @@ public class PossibilitiesList {
 		 * @param topItems a list of items (will be defensively copied).
 		 */
 		public Possibility(List<TopItem> topItems) {
-			if (topItemList == null) {
+			if (topItems == null) {
 				throw new NullPointerException();
 			}
 			this.topItemList = TopItem.listCopy(topItems);

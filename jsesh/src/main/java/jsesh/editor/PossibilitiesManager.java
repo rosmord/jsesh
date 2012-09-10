@@ -74,20 +74,7 @@ class PossibilitiesManager {
 	}
 
 	public void init(String code) {
-		// See if we have a Gardiner code or a translitteration.
-		if (GardinerCode.isCorrectGardinerCode(code.toString())) {
-			possibilities = CompositeHieroglyphsManager.getInstance()
-					.getSuitableSignsForCode(code);
-		} else {
-			possibilities = CompositeHieroglyphsManager.getInstance()
-					.getPossibilityFor(code, SignDescriptionConstants.KEYBOARD);
-		}
-		if (possibilities == null || possibilities.isEmpty()) {
-			possibilities = new PossibilitiesList(code);
-			possibilities.add(code);
-		}
-                
-		//return possibilities.getCurrentSign();
+		possibilities= PossibilityRepository.getInstance().getPossibilityListFor(code);
 	}
 	
 	public boolean hasPossibilities() {

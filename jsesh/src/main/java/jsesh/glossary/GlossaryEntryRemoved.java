@@ -10,7 +10,8 @@ import java.util.EventObject;
  *
  * @author rosmord
  */
-class GlossaryEntryRemoved extends EventObject {
+@SuppressWarnings("serial")
+public class GlossaryEntryRemoved extends EventObject {
     private final GlossaryEntry entry;
 
     

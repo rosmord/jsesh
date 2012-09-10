@@ -33,30 +33,92 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.List;
+
+import jsesh.glossary.GlossaryEntry;
+import jsesh.glossary.GlossaryEntryAdded;
+import jsesh.glossary.GlossaryEntryRemoved;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JSeshGlossary;
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.PossibilitiesList;
+import jsesh.hieroglyphs.SignDescriptionConstants;
 
 /**
- * Shared repository to manage access to possibility lists.
- * Also, maintains possibility lists coherence when the glossary is changed.
+ * Shared repository to manage access to possibility lists. Also, maintains
+ * possibility lists coherence when the glossary is changed.
+ * 
  * @author rosmord
  */
 public class PossibilityRepository {
 
-    public PossibilityRepository() {
-        getGlossary().addEventLink(this, this, "myMethod");
-    }
-    
-    
-    public PossibilitiesList getPossibilityListFor(String code) {
-        return null;
-    }
-    
-    private final JSeshGlossary getGlossary() {
-        return GlossaryManager.getInstance().getGlossary();
-    }
-    
-   
-    
+	private static PossibilityRepository instance= new PossibilityRepository();
+	
+	private HashMap<String, PossibilitiesList> map = new HashMap<String, PossibilitiesList>();
+
+	private PossibilityRepository() {
+		getGlossary().addEventLink(GlossaryEntryAdded.class, this, "update");
+		getGlossary().addEventLink(GlossaryEntryRemoved.class, this, "update");
+	}
+
+	public PossibilitiesList getPossibilityListFor(String code) {
+		if (map.containsKey(code)) {
+			return map.get(code);
+		} else {
+			// compute the actual list, combining the signs values and the
+			// glossary.
+			List<GlossaryEntry> fromGlossary = getGlossary().get(code);
+			// See if we have a Gardiner code or a translitteration.
+			PossibilitiesList possibilities;
+
+			if (GardinerCode.isCorrectGardinerCode(code.toString())) {
+				possibilities = CompositeHieroglyphsManager.getInstance()
+						.getSuitableSignsForCode(code);
+			} else {
+				possibilities = CompositeHieroglyphsManager.getInstance()
+						.getPossibilityFor(code,
+								SignDescriptionConstants.KEYBOARD);
+			}
+
+			if (possibilities == null) {
+				possibilities = new PossibilitiesList(code);
+			}
+
+			PossibilitiesList result = new PossibilitiesList(possibilities);
+
+			if (result.isEmpty() && fromGlossary.isEmpty()) {
+				possibilities.add(code);
+			}
+
+			for (GlossaryEntry e : fromGlossary) {
+				result.add(e.getTopItems());
+			}
+			map.put(code, result);
+			return result;
+		}
+	}
+
+	public void update(EventObject ev) {
+		String code = null;
+		// We should have a common parent class.
+		if (ev instanceof GlossaryEntryAdded) {
+			code = ((GlossaryEntryAdded) ev).getEntry().getKey();
+		} else if (ev instanceof GlossaryEntryRemoved) {
+			code = ((GlossaryEntryRemoved) ev).getEntry().getKey();
+		} else {
+			throw new RuntimeException("unexpected event " + ev);
+		}
+		map.remove(code);
+	}
+
+	private final JSeshGlossary getGlossary() {
+		return GlossaryManager.getInstance().getGlossary();
+	}
+
+	public static PossibilityRepository getInstance() {
+		return instance;
+	}
 }

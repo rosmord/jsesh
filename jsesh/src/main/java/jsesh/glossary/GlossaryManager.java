@@ -32,7 +32,7 @@ public class GlossaryManager {
 			this.glossary = new JSeshGlossary();
 			MDCParserModelGenerator parser = new MDCParserModelGenerator();
 			glossary.add("stpnra", parser.parse("stp&n&ra"));
-			glossary.add("ramss", parser.parse("<-ra-ms-s-s->"));
+			glossary.add("ramss", parser.parse("ra-ms-z:z"));
 			glossary.add("iw", parser.parse("D54^^^w"));
 		} catch (Exception e) {
 			throw new RuntimeException(e);

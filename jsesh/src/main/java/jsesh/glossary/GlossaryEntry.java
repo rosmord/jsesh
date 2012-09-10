@@ -48,7 +48,7 @@ public class GlossaryEntry {
 		if (!isCorrectKey(key))
 			throw new BadGlossaryEntryException();
 		this.key = key;
-		this.topItems = items.getTopItemListBetween(0, topItems.size());
+		this.topItems = items.getTopItemListBetween(0, items.getNumberOfChildren());
 	}
 
 	public String getKey() {

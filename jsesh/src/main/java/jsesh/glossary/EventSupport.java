@@ -17,7 +17,9 @@ import java.util.WeakHashMap;
 public class EventSupport {
 
 	/**
-	 * An attempt at using Buoy logic in JSesh objects, just to see...
+	 * An attempt at using Buoy logic in JSesh objects, just to see... A
+	 * callback provides either a zero-args method, or a method which accepts
+	 * the event.
 	 * 
 	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 	 */
@@ -25,25 +27,40 @@ public class EventSupport {
 
 		private Object object;
 		private Method method;
+		private boolean withArgs = false;
 
-		public CallBack(Object object, String methodName) {
+		public CallBack(Object object, String methodName,
+				Class<? extends EventObject> eventClass) {
 			this.object = object;
 			try {
-				this.method = object.getClass().getMethod(methodName);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+				this.method = object.getClass().getMethod(methodName,
+						new Class<?>[] { EventObject.class });
+				this.withArgs = true;
+			} catch (NoSuchMethodException e) {
+				try {
+					this.method = object.getClass().getMethod(methodName);
+					this.withArgs = false;
+				} catch (NoSuchMethodException e1) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
 
-		public void call() {
+		public void call(EventObject event) {
 			try {
-				method.invoke(object);
+				if (withArgs) {
+					method.invoke(object, event);
+				} else {
+					method.invoke(object);
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#hashCode()
 		 */
 		@Override
@@ -57,7 +74,9 @@ public class EventSupport {
 			return result;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
@@ -81,33 +100,45 @@ public class EventSupport {
 				return false;
 			return true;
 		}
-		
-		
+
 	}
 
 	private HashMap<Class<? extends EventObject>, Set<CallBack>> map = new HashMap<Class<? extends EventObject>, Set<CallBack>>();
 
-	public void addEventLink(Class<? extends EventObject> eventClass, Object object,
-			String methodName) {
-		if (! map.containsKey(eventClass)) {
-			Set<CallBack> set = Collections.newSetFromMap(
-			        new WeakHashMap<CallBack, Boolean>());
+	/**
+	 * Adds an event link, which will result in calling the method methodName on
+	 * object when the event is raised. If the method takes {@link EventObject}
+	 * as a parameter, it will be passed. (note that we should propose a more
+	 * precise scheme, with specific events classes).
+	 * 
+	 * @param eventClass
+	 * @param object
+	 * @param methodName
+	 */
+	public void addEventLink(Class<? extends EventObject> eventClass,
+			Object object, String methodName) {
+		if (!map.containsKey(eventClass)) {
+			Set<CallBack> set = Collections
+					.newSetFromMap(new WeakHashMap<CallBack, Boolean>());
 			map.put(eventClass, set);
 		}
-		map.get(eventClass).add(new CallBack(object, methodName));
+		map.get(eventClass).add(new CallBack(object, methodName, eventClass));
 	}
-	
-	public void removeEventLink(Class<? extends EventObject> eventClass, Object object,
-			String methodName) {
+
+	public void removeEventLink(Class<? extends EventObject> eventClass,
+			Object object, String methodName) {
 		if (map.containsKey(eventClass)) {
-			map.get(eventClass).remove(new CallBack(object, methodName));
+			map.get(eventClass).remove(
+					new CallBack(object, methodName, eventClass));
 		}
 	}
 
 	public void fireEvent(EventObject e) {
 		Set<CallBack> callbacks = map.get(e.getClass());
-		for (CallBack c : callbacks) {
-			c.call();
+		if (callbacks != null) {
+			for (CallBack c : callbacks) {
+				c.call(e);
+			}
 		}
 	}
 }
