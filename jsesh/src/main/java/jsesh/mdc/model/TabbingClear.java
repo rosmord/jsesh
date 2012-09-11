@@ -26,4 +26,8 @@ public class TabbingClear extends TopItem {
 		return c;
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
 }

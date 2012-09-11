@@ -38,6 +38,11 @@ public class PageBreak extends TopItem {
 		return b;
 	}
 	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
+	
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.TopItem#isBreak()
 	 */

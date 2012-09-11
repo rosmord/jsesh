@@ -33,7 +33,7 @@ public class GlossaryManager {
 			MDCParserModelGenerator parser = new MDCParserModelGenerator();
 			glossary.add("stpnra", parser.parse("stp&n&ra"));
 			glossary.add("ramss", parser.parse("ra-ms-z:z"));
-			glossary.add("iw", parser.parse("D54^^^w"));
+			glossary.add("iw", parser.parse("D54-w"));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -387,7 +387,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	// Step b) replace the old text fragment (possibly empty) with the new one.
 	public void acceptSeparator(char sep) {
 		if (currentCode.length() != 0) {
-			addAndGroup();
+			possibilitiesManager.init(getCurrentCode().toString(), currentSeparator);
+			addCodeAndThenGroup();
 		} else {
 			groupTwoPreviousBySeparator();
 		}
@@ -401,10 +402,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 * Add the element(s) corresponding to the current code, and group them
 	 * using the current separator.
 	 */
-	private void addAndGroup() {
+	private void addCodeAndThenGroup() {
 		// Build a list of items to add
 		List<TopItem> items;		
-		possibilitiesManager.init(getCurrentCode().toString());
 		if (possibilitiesManager.hasPossibilities()) {
 			Possibility s = possibilitiesManager.getPossibility();
 			if (!s.isSingleSign()) {
@@ -417,13 +417,13 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 			items = Collections.singletonList(buildItemForSignCode(currentCode
 					.toString()));
 		}
-		
+		// Now, add the item.
 		MDCPosition pos1, pos2;
 		pos1 = caret.getInsertPosition();
 		pos2 = pos1.getPreviousPosition(1);
 		TopItem head = hieroglyphicTextModel.getItemBefore(pos1);
 		
-		List<TopItem> newElements = groupBy(head, items, currentSeparator);
+		List<TopItem> newElements = groupBy(head, items, possibilitiesManager.getSeparator());
 		hieroglyphicTextModel.replaceElement(pos1, pos2, newElements);
 		clearCode();
 	}
@@ -446,23 +446,14 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	// UNDO/REDO
+	/**
+	 * Use next possible choice for the previously input code.
+	 */
 	public void nextPossibility() {
-		// TODO: avoid creating empty possibility lists.
-		// TODO: avoid creating null possibility lists
 		if (possibilitiesManager.hasPossibilities()) {
-			modifyLastSign(new SignModifier() {
-				public void modifySign(Hieroglyph h) {
-					if (h != null) {
-						possibilitiesManager.next();
-						Possibility s = possibilitiesManager.getPossibility();
-						if (!s.isSingleSign()) {
-							throw new RuntimeException("not done yet");
-						} else {
-							h.setCode(s.getCode());
-						}
-					}
-				}
-			});
+			hieroglyphicTextModel.undo();
+			possibilitiesManager.next();
+			addCodeAndThenGroup();
 		}
 	}
 

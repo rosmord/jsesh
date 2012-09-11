@@ -61,6 +61,11 @@ public class BasicItemList
 		return r; 
 	}
 	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return new SubCadrat(deepCopy());
+	}
+	
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
 	 */

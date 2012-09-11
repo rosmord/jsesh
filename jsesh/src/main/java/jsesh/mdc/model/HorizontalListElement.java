@@ -16,6 +16,11 @@ abstract public class HorizontalListElement extends EmbeddedModelElement impleme
 		return buildCadrat();
 	}
 	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return (HorizontalListElement) deepCopy();
+	}
+	
 	/**
 	 * Build a cadrat containing only this element.
 	 * @return

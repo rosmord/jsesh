@@ -74,4 +74,9 @@ public class TabStop extends TopItem {
 	public String toString() {
 		return "(tab "+ stopPos + ")";
 	}
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
 }

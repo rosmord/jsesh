@@ -67,7 +67,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 	 * 
 	 */
 	public void addAllAt(int index, List<? extends TopItem> items) {
-		int pos= index;
+		int pos = index;
 		for (TopItem e : items) {
 			super.addChildAt(pos++, e);
 		}
@@ -130,8 +130,9 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 
 	/**
 	 * Suppress all elements between a and b. Returns the list of the suppressed
-	 * elements.
-	 * (The list should be given as argument, in order to avoid typing problems ???).
+	 * elements. (The list should be given as argument, in order to avoid typing
+	 * problems ???).
+	 * 
 	 * @param a
 	 * @param b
 	 *            (b > a).
@@ -370,6 +371,24 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 			result.add(getTopItemAt(i).deepCopy());
 		}
 		return result;
+	}
+
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {		
+		// Weird... check if reasonable.
+		BasicItemList list= new BasicItemList();
+		for (int i = 0; i < getNumberOfChildren(); i++) {
+			TopItem item = getTopItemAt(i);
+			HorizontalListElement hElt = item.buildHorizontalListElement();
+			Cadrat c= new Cadrat();
+			HBox box= new HBox();
+			box.addHorizontalListElement(hElt);
+			c.addHBox(box);
+			if (hElt != null) {
+				list.addBasicItem(c);
+			}
+		}
+		return new SubCadrat(list);
 	}
 
 }

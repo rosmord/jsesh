@@ -138,6 +138,11 @@ public class Modifier extends EmbeddedModelElement implements ModifierInterface 
 		notifyModification();
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
+	
 	public String toString() {
 		String result= "\\" + getName();
 		if (value != null)

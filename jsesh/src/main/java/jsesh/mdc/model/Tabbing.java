@@ -104,5 +104,8 @@ public class Tabbing extends TopItem {
 		return orientation;
 	}
 	
-	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null; // for now.	
+	}
 }

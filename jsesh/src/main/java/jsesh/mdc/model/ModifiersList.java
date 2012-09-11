@@ -321,6 +321,11 @@ public class ModifiersList
 		notifyModification();
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
+	
 	/**
 	 * Unsets a modifier.
 	 * Note that angle and reverse can't be unset. They can be set to 0.

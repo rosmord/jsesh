@@ -138,11 +138,20 @@ public abstract class ModelElement implements ModelElementObserver,
 
 	/**
 	 * Build a <em>copy</em> of this object, embedded into a topitem. May
-	 * return null if this doesn't mean a thing (in particular, for modifiers).
+	 * return null if this doesn't mean anything (in particular, for modifiers).
 	 * 
 	 * @return a topitem or null.
 	 */
 	public abstract TopItem buildTopItem();
+	
+
+	/**
+	 * Build a <em>copy</em> of this object, embedded in an HorizontalListElement.
+	 * May return null if it's not possible. The result may then (if not null) be used as part of
+	 * a new quadrant, in an {@link HBox}.
+	 * @return a {@link HorizontalListElement} or null.
+	 */
+	public abstract HorizontalListElement buildHorizontalListElement();
 
 	// Notifies observers about this element's associated values being modified.
 	final protected void changeValue() {

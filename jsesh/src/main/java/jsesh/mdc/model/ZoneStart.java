@@ -200,4 +200,9 @@ public class ZoneStart extends TopItem implements ZoneStartInterface {
 	public void setWritingOrientation(TextOrientation writingOrientation) {
 		this.writingOrientation = writingOrientation;
 	}
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
 }

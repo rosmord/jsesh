@@ -101,6 +101,11 @@ public class AlphabeticText extends BasicItem implements TextContainer {
 	}
 
 	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return new SubCadrat(deepCopy());
+	}
+	
+	@Override
 	public AlphabeticText deepCopy() {
 		// String are immutable ! no need to copy them !
 		AlphabeticText t = new AlphabeticText(scriptCode, text);

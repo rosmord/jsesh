@@ -86,4 +86,9 @@ public class LineBreak extends TopItem {
 	public boolean isBreak() {
 		return true;
 	}
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
 }

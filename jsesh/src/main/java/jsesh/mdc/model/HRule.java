@@ -119,6 +119,12 @@ public class HRule extends TopItem {
 		return result;
 	}
 	
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
+	
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */

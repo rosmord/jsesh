@@ -67,6 +67,10 @@ public class Superscript extends TopItem implements TextContainer {
 		return "(super "+ text + ")";
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;
+	}
 }
 
 

@@ -33,9 +33,26 @@ public class Cadrat
 		shading = ShadingCode.NONE;
 	}
 
-	/*public List getHBoxs() {
+	/**
+	 * Creates a quadrant containing one item.
+	 * @param item
+	 * @throws IllegalArgumentException if the construction is not possible.
+	 */
+	public Cadrat(BasicItem item) {
+		shading = ShadingCode.NONE;
+		addHBox(new HBox(item));
+	}
 	
-	}*/
+	/**
+	 * Creates a quadrant containing one item.
+	 * @param item
+	 * @throws IllegalArgumentException if the construction is not possible.
+	 */
+	public Cadrat(HorizontalListElement item) {
+		shading = ShadingCode.NONE;
+		addHBox(new HBox(item));
+	}
+	
 
 	public void addHBox(HBox hBox) {
 		addChild(hBox);
@@ -148,6 +165,12 @@ public class Cadrat
 		return result;
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		// We might improve this one ?
+		return new SubCadrat(deepCopy());		
+	}
+	
 	/**
 	 * Is this quadrant embedded in a larger quadrant as a sub-quadrant.
 	 * For instance, in 

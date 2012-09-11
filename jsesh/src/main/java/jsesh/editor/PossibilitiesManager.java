@@ -33,64 +33,50 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.GardinerCode;
 import jsesh.hieroglyphs.PossibilitiesList;
 import jsesh.hieroglyphs.PossibilitiesList.Possibility;
-import jsesh.hieroglyphs.SignDescriptionConstants;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItem;
 
 /**
  * Manages the choice of the text to insert at a given point in a given editor.
- * 
+ * Also used to remember the separator, as this is only needed when a possibility list is used. 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 class PossibilitiesManager {
-	
-	private char separator= ' ';
-	
+
+	private char separator = ' ';
+
 	private PossibilitiesList possibilities = null;
-	
-	/**
-	 * The item in front of the new element (which will be combined with it if needed).
-	 */
-	private TopItem previousItem= null;
-	
-	/**
-	 * Must we undo the previous operation in order to insert the next possibility ? 
-         * (deprecated now ?)
-	 */
-	private boolean mustUndo= false;
-	
-	private HieroglyphicTextModel hieroglyphicTextModel;
-        
-        private MDCPosition insertPosition;
-	
+
 	public void clear() {
 		possibilities = null;
-                
-                separator= ' ';
+		separator = ' ';
 	}
 
-	public void init(String code) {
-		possibilities= PossibilityRepository.getInstance().getPossibilityListFor(code);
+	/**
+	 * Prepare the list, with a given code and separator.
+	 * 
+	 * @param code
+	 * @param separator
+	 */
+	public void init(String code, char separator) {
+		this.possibilities = PossibilityRepository.getInstance()
+				.getPossibilityListFor(code);
+		this.separator = separator;
 	}
-	
+
 	public boolean hasPossibilities() {
-		return possibilities!= null && ! possibilities.isEmpty();
+		return possibilities != null && !possibilities.isEmpty();
 	}
 
 	public Possibility getPossibility() {
 		return possibilities.getCurrentSign();
 	}
-        
+
 	/**
 	 * Insert the next possibility in this text.
 	 */
-	
+
 	public void next() {
-		mustUndo= true;
 		possibilities.next();
 	}
 
