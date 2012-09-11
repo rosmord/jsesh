@@ -1,6 +1,5 @@
 package jsesh.glossary;
 
-import java.awt.Event;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.MDCTranslitterationComparator;

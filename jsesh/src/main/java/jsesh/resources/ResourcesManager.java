@@ -80,6 +80,7 @@ public class ResourcesManager {
 		unicodeFont = unicodeFont.deriveFont(12f);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Font loadStreamFont(String resourceName, int defaultStyle) {
 		InputStream in = null;
 		Font result = null;
