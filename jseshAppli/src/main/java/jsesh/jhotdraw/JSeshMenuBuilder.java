@@ -21,6 +21,7 @@ import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
+import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplyModelAction;
@@ -283,6 +284,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		editMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
 		editMenu.add(map.get(InsertShortTextAction.ID));
 
+		editMenu.addSeparator();
+		editMenu.add(map.get(AddToGlossaryAction.ID));
 		editMenu.addSeparator();
 		ButtonGroup group = new ButtonGroup();
 		boolean isFirst = true;

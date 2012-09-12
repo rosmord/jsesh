@@ -44,7 +44,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import jsesh.Messages;
+import jsesh.i18n.I18n;
 
 import org.qenherkhopeshef.graphics.eps.EncapsulatedPostscriptGraphics2D;
 
@@ -69,7 +69,7 @@ public class EPSExporter extends AbstractGraphicalExporter {
 	
 
 	public EPSExporter() {
-		super("eps", Messages.getString("EPSExporter.description"));
+		super("eps", I18n.getString("EPSExporter.description"));
 		frame= null;
 	}
 

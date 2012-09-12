@@ -808,4 +808,8 @@ public class JMDCEditor extends JPanel {
 	public boolean isSmallSignsCentered() {
 		return getDrawingSpecifications().isSmallSignsCentered();
 	}
+
+	public TopItemList getSelection() {
+		return workflow.getSelectionAsTopItemList();
+	}
 }

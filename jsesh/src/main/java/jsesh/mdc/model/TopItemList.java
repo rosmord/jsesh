@@ -391,4 +391,13 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		return new SubCadrat(list);
 	}
 
+	/**
+	 * Returns a list view of the top item list.
+	 * (the elements are copies of the original ones).
+	 * @return
+	 */
+	public List<TopItem> asList() {
+		return getTopItemListBetween(0, getNumberOfChildren());
+	}
+
 }

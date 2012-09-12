@@ -232,7 +232,7 @@ public class JSeshView extends AbstractView  {
 			msg += " near token: " + e.getToken();
 			displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
 
-			System.out.println(e.getCharPos());
+			System.err.println(e.getCharPos());
 			// e.printStackTrace();
 		} catch (IOException e) {
 			throw new UserMessage(e);

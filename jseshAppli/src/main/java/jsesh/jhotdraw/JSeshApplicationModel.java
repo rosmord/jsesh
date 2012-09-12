@@ -42,6 +42,7 @@ import javax.swing.JOptionPane;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
+import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.EMFExporter;
 import jsesh.graphics.export.EPSExporter;
 import jsesh.graphics.export.HTMLExporter;
@@ -54,6 +55,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
+import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
@@ -168,6 +170,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	private PalettePresenter palettePresenter;
 	
+	private JGlossaryEditor glossaryEditor;
+	
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
@@ -190,7 +194,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		JSeshView jSeshView = (JSeshView) v;
 		jSeshView.setDrawingSpecifications(drawingSpecifications);
 		jSeshView.setMDCModelTransferableBroker(transferableBroker);
-		System.out.println(getFontInfo());
 		jSeshView.setFontInfo(getFontInfo());
 	}
 
@@ -258,9 +261,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.remove(ClearSelectionAction.ID);
 
 		} else {
+			// View level actions
 			map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
 			map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
-			// View level actions
 			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
 			map.put(EditDocumentPreferencesAction.ID,
 					new EditDocumentPreferencesAction(a, v));
@@ -295,6 +298,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(QuickPDFSelectExportFolderAction.ID,
 					new QuickPDFSelectExportFolderAction(a));
 
+			map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
 			map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
 
 			for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
@@ -521,6 +525,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 */
 	public DrawingSpecification getDefaultDrawingSpecifications() {
 		return jseshBase.getDefaultDrawingSpecifications();
+	}
+
+	public JGlossaryEditor getGlossaryEditor() {
+		if (glossaryEditor== null)
+			glossaryEditor= new JGlossaryEditor();
+		return glossaryEditor;		
 	}
 
 }

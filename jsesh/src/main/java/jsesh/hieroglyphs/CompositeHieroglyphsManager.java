@@ -102,7 +102,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 
 			File f = getUserSignDefinitionFile();
 			if (f.exists()) {
-				System.err.println("Reading user sign definition");
+				//System.err.println("Reading user sign definition");
 				InputStream in2 = new FileInputStream(f);
 				reader.readSignDescription(in2);
 			}

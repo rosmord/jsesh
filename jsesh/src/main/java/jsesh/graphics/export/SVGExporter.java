@@ -7,7 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.IOException;
 
-import jsesh.Messages;
+import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
@@ -28,7 +28,7 @@ public class SVGExporter extends AbstractGraphicalExporter {
 
 
 	public SVGExporter() {
-		super("svg", Messages.getString("SVGExporter.description"));
+		super("svg", I18n.getString("SVGExporter.description"));
 		frame= null;
 	}
 

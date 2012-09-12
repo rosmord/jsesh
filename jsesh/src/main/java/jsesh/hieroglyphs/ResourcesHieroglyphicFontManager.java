@@ -64,7 +64,7 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 	 */
 
 	static public void initDirectory(File src) throws IOException {
-                System.err.println("pos " + src.getCanonicalPath());
+                //System.err.println("pos " + src.getCanonicalPath());
 		FileOutputStream os = new FileOutputStream(new File(src, LIST_FILE));
 		OutputStreamWriter out = new OutputStreamWriter(os, "US-ASCII");
 		initDirectoryAux(src, out);

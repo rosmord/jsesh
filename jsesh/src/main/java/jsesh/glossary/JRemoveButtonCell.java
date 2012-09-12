@@ -33,25 +33,60 @@
  */
 package jsesh.glossary;
 
-import java.util.EventObject;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.beans.EventHandler;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+
+import jsesh.i18n.I18n;
 
 /**
+ * Very specific class for 'remove' button in our glossary.
+ * <p> A reusable one would be nice.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
- * @author rosmord
  */
 @SuppressWarnings("serial")
-public class GlossaryEntryAdded extends EventObject {
-    private final GlossaryEntry entry;
+public class JRemoveButtonCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
-    public GlossaryEntryAdded(Object source, GlossaryEntry entry) {
-        super(source);
-        this.entry= entry;
-    }
+	private GlossaryTableModel model;
+	private JButton  active;
+	private int currentRow;
+	
+	public JRemoveButtonCell(GlossaryTableModel model) {
+		this.model= model;
+		this.active= new JButton(I18n.getString("JRemoveButtonCell.remove.label"));
+		active.addActionListener(EventHandler.create(ActionListener.class, this, "remove"));
+		active.setMaximumSize(active.getMinimumSize());
+	}
+	
+	public Object getCellEditorValue() {
+		return null;
+	}
 
-    public GlossaryEntry getEntry() {
-        return entry;
-    }
-    
-    
-    
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+		return active;
+	}
+
+	public Component getTableCellEditorComponent(JTable table, Object value,
+			boolean isSelected, int row, int column) {
+		this.currentRow= row;
+		return active;
+	}
+	
+	public void remove() {
+		model.delete(currentRow);
+		stopCellEditing();
+	}
+
+	public static double getMaxWidth() {
+		JButton button = new JButton(I18n.getString("JRemoveButtonCell.remove.label"));
+		return button.getPreferredSize().getWidth();
+	}
 }

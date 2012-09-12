@@ -407,8 +407,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		List<TopItem> items;		
 		if (possibilitiesManager.hasPossibilities()) {
 			Possibility s = possibilitiesManager.getPossibility();
-			if (!s.isSingleSign()) {
-				items= s.getTopItemList();
+			if (!s.isSingleSign()) {				
+				items= s.getTopItemList().asList();
 			} else {
 				items = Collections.singletonList(buildItemForSignCode(s
 						.getCode()));
@@ -1135,7 +1135,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	}
 
 	/**
-	 * Returns a copy of the selection, as a new TopItemList.
+	 * Returns a <em>copy</em> of the selection, as a new TopItemList.
 	 * 
 	 * @return
 	 */

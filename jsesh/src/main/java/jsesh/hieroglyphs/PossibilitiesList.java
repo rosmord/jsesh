@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jsesh.mdc.model.TopItem;
+import jsesh.mdc.model.TopItemList;
 
 /**
  * A list of possible signs for a given phonetic phonCode. Created and updated
@@ -52,8 +53,8 @@ public class PossibilitiesList {
 			signs.add(newPossibility);
 	}
 
-	public void add(List<TopItem> items) {
-		signs.add(new Possibility(items));
+	public void add(TopItemList item) {
+		signs.add(new Possibility(item));
 	}
 
 	void add(Possibility possibility) {
@@ -123,7 +124,7 @@ public class PossibilitiesList {
 	 */
 	public static final class Possibility {
 		private String code;
-		private List<TopItem> topItemList;
+		private TopItemList topItemList;
 
 		public Possibility(String signCode) {
 			if (signCode == null)
@@ -133,13 +134,15 @@ public class PossibilitiesList {
 
 		/**
 		 * Create a possibility corresponding to some text.
-		 * @param topItems a list of items (will be defensively copied).
+		 * 
+		 * @param topItems
+		 *            a list of items (will be defensively copied).
 		 */
-		public Possibility(List<TopItem> topItems) {
+		public Possibility(TopItemList topItems) {
 			if (topItems == null) {
 				throw new NullPointerException();
 			}
-			this.topItemList = TopItem.listCopy(topItems);
+			this.topItemList = topItems.deepCopy();
 		}
 
 		public boolean isSingleSign() {
@@ -166,53 +169,10 @@ public class PossibilitiesList {
 		 * @throw {@link NullPointerException} if {@link #isSingleSign()}
 		 *        returns true.
 		 */
-		public List<TopItem> getTopItemList() {
+		public TopItemList getTopItemList() {
 			if (isSingleSign())
 				throw new NullPointerException();
 			return topItemList;
-		}
-
-		@Override
-		public int hashCode() {
-			if (code != null)
-				return code.hashCode();
-			else {
-				int result = 0;
-				for (TopItem item : topItemList) {
-					result = result * 31 + item.hashCode();
-				}
-				return result;
-			}
-		}
-
-		/**
-		 * Equality semantics here: if the object corresponds to a code, we
-		 * compare the codes. if it corresponds to a MdC text, we compare the
-		 * MdC texts as strings.
-		 */
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof Possibility) {
-				Possibility other = (Possibility) obj;
-				if (this.code != null && other.code != null) {
-					return this.code.equals(other.code);
-				} else if (this.topItemList != null
-						&& other.topItemList != null) {
-					if (this.topItemList.size() != other.topItemList.size()) {
-						return false;
-					} else {
-						boolean equals = true;
-						for (int i = 0; equals && i < this.topItemList.size(); i++) {
-							if (! this.topItemList.get(i).toMdC().equals(other.topItemList.get(i).toMdC()))
-								equals= false;
-						}
-						return equals;
-					}
-				} else
-					return false;
-			} else {
-				return false;
-			}
 		}
 	}
 }

@@ -293,7 +293,7 @@ public class PalettePresenter {
 
 		simplePalette.getShowAllCheckBox().setSelected(true);
 
-		System.out.println(UIManager.getLookAndFeel().toString());
+		//System.out.println(UIManager.getLookAndFeel().toString());
 		// if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX &&
 		// UIManager.getLookAndFeel().toString().contains("Quaqua")) {
 		// }

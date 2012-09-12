@@ -262,7 +262,6 @@ public class JFontPreferences {
 		else if (yodUsesU0486.isSelected())
 			fontInfo = fontInfo.withYodChoice(YODChoice.U0486);
 		fontInfo= fontInfo.withUseEmbeddedFont(useDefaultJSeshFont);
-		System.out.println(fontInfo);
 		return fontInfo;
 	}
 
