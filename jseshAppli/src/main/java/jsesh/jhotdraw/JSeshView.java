@@ -282,8 +282,8 @@ public class JSeshView extends AbstractView  {
 
 		// TODO END OF TEMPORARY PATCH
 
+		// Check if the file is PDF or MdC
 		boolean isPdfFile = false;
-
 		if (document.getFile() != null) {
 			String fileName = document.getFile().getName().toLowerCase();
 			if (fileName.endsWith(".pdf"))

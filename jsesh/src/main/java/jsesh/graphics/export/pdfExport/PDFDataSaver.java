@@ -3,7 +3,6 @@ package jsesh.graphics.export.pdfExport;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +20,11 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
 // TODO : use EXPORTDATA !!
 // TODO : mix with PDFExporter to avoid code duplication.
 // TODO : also mix with TopItemSimpleDrawer (which should be generalized) to factorize common code.
+/**
+ * This class is redundant with PDFExporter, and one of them should go.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ *
+ */
 public class PDFDataSaver {
 
 	private DrawingSpecification drawingSpecification;
