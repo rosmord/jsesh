@@ -216,14 +216,6 @@ public class PalettePresenter {
 		signTable.setFixedCellHeight((int) (bitmapHeight * 1.2));
 		signTable.setFixedCellWidth((int) (2.5 * bitmapHeight));
 
-		// signTable.setRowHeight((int) (renderer.getBitmapHeight() * 1.2));
-		// Row and column selection don't mean anything in our context. Away
-		// with them !
-		// signTable.setRowSelectionAllowed(true);
-		// signTable.setColumnSelectionAllowed(true);
-		// Listen for selection (in fact focus) change.
-		// signTable.getColumnModel().addColumnModelListener(
-		// new PaletteColumnListener());
 		signTable.getSelectionModel().addListSelectionListener(
 				new PaletteRowSelectionListener());
 
@@ -251,7 +243,6 @@ public class PalettePresenter {
 
 		// Simple action, refreshes the list according to the selection.
 		ActionListener updateToSelectedCategoryListener = new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				updateAccordingToSelectedCategory();
 			}
@@ -260,7 +251,6 @@ public class PalettePresenter {
 		// Control for user palette:
 		simplePalette.getInUserPaletteCheckBox().addActionListener(
 				new ActionListener() {
-
 					public void actionPerformed(ActionEvent e) {
 						toggleSignInUserPalette();
 					}
@@ -269,7 +259,6 @@ public class PalettePresenter {
 		// Control for tags
 
 		simplePalette.getTagChooserCB().addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				selectTag();
 			}
@@ -277,7 +266,6 @@ public class PalettePresenter {
 
 		simplePalette.getSecondaryTagCB().addActionListener(
 				new ActionListener() {
-
 					public void actionPerformed(ActionEvent e) {
 						selectSecondaryTag();
 					}
@@ -293,7 +281,7 @@ public class PalettePresenter {
 
 		simplePalette.getShowAllCheckBox().setSelected(true);
 
-		//System.out.println(UIManager.getLookAndFeel().toString());
+		// System.out.println(UIManager.getLookAndFeel().toString());
 		// if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX &&
 		// UIManager.getLookAndFeel().toString().contains("Quaqua")) {
 		// }
@@ -475,12 +463,13 @@ public class PalettePresenter {
 		if (l != null) {
 			it = l.asList().iterator();
 		} else {
-			it = Collections.<Possibility>emptyList().iterator();
+			it = Collections.<Possibility> emptyList().iterator();
 		}
 		ArrayList<String> content = new ArrayList<String>();
 		while (it.hasNext()) {
 			Possibility c = it.next();
-			if (c.isSingleSign() && GardinerCode.isCorrectGardinerCode(c.getCode())) {
+			if (c.isSingleSign()
+					&& GardinerCode.isCorrectGardinerCode(c.getCode())) {
 				content.add(c.getCode());
 			}
 		}
@@ -724,7 +713,9 @@ public class PalettePresenter {
 
 	/**
 	 * Returns a dialog suitable for displaying this palette.
-	 * <p> Creates the dialog if needed.
+	 * <p>
+	 * Creates the dialog if needed.
+	 * 
 	 * @return
 	 */
 	public HieroglyphicPaletteDialog getDialog() {

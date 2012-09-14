@@ -34,9 +34,11 @@
 package jsesh.glossary;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -137,7 +139,12 @@ public class EventSupport {
 	}
 
 	private HashMap<Class<? extends EventObject>, Set<CallBack>> map = new HashMap<Class<? extends EventObject>, Set<CallBack>>();
-
+	
+	/**
+	 * Weak hash map to keep the callbacks as long as their support object exists. 
+	 */
+	private WeakHashMap<Object, List<CallBack>> keepCallback= new WeakHashMap<Object, List<CallBack>>();
+	
 	/**
 	 * Adds an event link, which will result in calling the method methodName on
 	 * object when the event is raised. If the method takes {@link EventObject}
@@ -155,14 +162,22 @@ public class EventSupport {
 					.newSetFromMap(new WeakHashMap<CallBack, Boolean>());
 			map.put(eventClass, set);
 		}
-		map.get(eventClass).add(new CallBack(object, methodName, eventClass));
+		if (! keepCallback.containsKey(object)) {
+			keepCallback.put(object, new ArrayList<EventSupport.CallBack>());
+		}
+		CallBack callBack = new CallBack(object, methodName, eventClass);
+		keepCallback.get(object).add(callBack);
+		map.get(eventClass).add(callBack);
 	}
 
 	public void removeEventLink(Class<? extends EventObject> eventClass,
 			Object object, String methodName) {
 		if (map.containsKey(eventClass)) {
 			map.get(eventClass).remove(
-					new CallBack(object, methodName, eventClass));
+					new CallBack(object, methodName, eventClass));			
+		}
+		if (keepCallback.containsKey(object)) {
+			keepCallback.get(object).remove(new CallBack(object, methodName, eventClass));			
 		}
 	}
 

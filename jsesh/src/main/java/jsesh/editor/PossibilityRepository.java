@@ -74,7 +74,7 @@ public class PossibilityRepository {
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
-			if (GardinerCode.isCorrectGardinerCode(code.toString())) {
+			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toString().toUpperCase())) {
 				possibilities = CompositeHieroglyphsManager.getInstance()
 						.getSuitableSignsForCode(code);
 			} else {

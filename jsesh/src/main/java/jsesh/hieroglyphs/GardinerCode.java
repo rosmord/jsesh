@@ -19,7 +19,7 @@ public class GardinerCode implements Comparable<GardinerCode> {
 	
 	/**
 	 * text of regular expression for "Gardiner-like" codes.
-	 * 
+	 * (we allow for AA/FF being writen instead of Aa and Ff.
 	 */
 	
 	private static final String GARDINER_CODE_REGEXP_STRING= "(US([0-9]+))?([A-Z]|Aa|Ff|NL|NU)([0-9]+)([A-Za-z]*)";
@@ -279,21 +279,30 @@ public class GardinerCode implements Comparable<GardinerCode> {
 
 	/**
 	 * Returns true if the sign has the form of a "Gardiner" code.
-	 * Basically, Gardiner codes contain a family and a number.
-	 * 
+	 * Basically, Gardiner codes contain a family and a number. 
+	 * <p>As a result for accepting AA and FF as family names (in addition to Aa and Ff), 
+	 * the following holds true : if <code>X</code> is a correct code, 
+	 * then <code>X.toUpperCase()</code> is also correct.
 	 * <p> More precisely, we consider as "gardiner codes":
 	 * <u>
-	 * <li> Gardiner codes as defined in the manuel.
+	 * <li> Gardiner codes as defined in the manuel, plus the Ff family.
 	 * <li> JSesh extended signs, with "US" + user id in front of a gardiner code
 	 * <li> TODO : add @ as a prefix.
 	 * <li> We accept signs with both uppercase and lower case letters after the sign number, as 
 	 * a variant indicator. Note that the manuel distinguishes the two, but most software don't.
+	 * <li> for families Aa and Ff, the family names AA and FF are also accepted.
+	 * <li>
 	 * </ul>
 	 * @param code
 	 * @return
 	 */
 	public static boolean isCorrectGardinerCode (String code) {
 		return Pattern.matches(GARDINER_CODE_REGEXP_STRING, code);
+	}
+
+	public static boolean isCorrectGardinerCodeIgnoreCase (String code) {
+		Pattern pattern= Pattern.compile(GARDINER_CODE_REGEXP_STRING, Pattern.CASE_INSENSITIVE);
+		return pattern.matcher(code).matches();
 	}
 
 

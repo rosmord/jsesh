@@ -77,6 +77,8 @@ public class JGlossaryEditor extends JPanel {
 		codeField = new JTextField(10);
 		mdcField = new JMDCField();
 		table = new JTable(model);
+	    table.setTableHeader(null);
+
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fixTable();
 
@@ -105,6 +107,7 @@ public class JGlossaryEditor extends JPanel {
 	public void addEntry() {
 		String code = codeField.getText().replaceAll("[^a-zA-Z0-9]", "");
 		String mdc = mdcField.getMDCText();
+		if ("".equals(mdc) || "".equals(code)) return;
 		model.addEntry(code, mdc);
 		codeField.setText("");
 		mdcField.clearText();

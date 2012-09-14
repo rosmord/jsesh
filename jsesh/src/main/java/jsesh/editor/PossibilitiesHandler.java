@@ -41,7 +41,7 @@ import jsesh.hieroglyphs.PossibilitiesList.Possibility;
  * Also used to remember the separator, as this is only needed when a possibility list is used. 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
-class PossibilitiesManager {
+class PossibilitiesHandler {
 
 	private char separator = ' ';
 

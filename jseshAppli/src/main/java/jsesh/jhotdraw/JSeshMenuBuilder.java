@@ -40,6 +40,7 @@ import jsesh.jhotdraw.actions.format.CenterSmallSignsAction;
 import jsesh.jhotdraw.actions.format.SetDocumentDirectionAction;
 import jsesh.jhotdraw.actions.format.SetDocumentOrientationAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -369,6 +370,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 	@Override
 	public void addOtherWindowItems(JMenu m, Application app, View v) {
 		m.addSeparator();
+		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlossaryEditorAction.ID)));
 		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlyphPaletteAction.ID)));
 	}
 

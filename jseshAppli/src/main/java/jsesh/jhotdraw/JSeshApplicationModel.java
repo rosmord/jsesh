@@ -37,6 +37,7 @@ import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 
@@ -75,6 +76,7 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
@@ -197,18 +199,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		jSeshView.setFontInfo(getFontInfo());
 	}
 
-	
-
-//	@Override
-//	public List<JToolBar> createToolBars(Application a, View p) {
-//		List<JToolBar> toolbars = new ArrayList<JToolBar>();
-//		JToolBar hoolbar = new JToolBar("hieroglyphs");
-//		hoolbar.add(createHieroglyphicPalette());
-//		// toolbars.add(hoolbar);
-//		toolbars.add(hoolbar);
-//		return toolbars;
-//	}
-
 	/*
 	 * Note that createActionMap is in the application model and not in the view
 	 * model, because for Mac OS X, all actions are supposed to be created, even
@@ -250,7 +240,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
 
 			map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
-
+			
+			Action glossaryEditorAction= new ToggleGlossaryEditorAction(a);
+			new PaletteActionEnabler( glossaryEditorAction, getGlossaryEditor().getFrame());
+			
+			map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
+			
 			map.remove(DuplicateAction.ID);
 			map.remove(DeleteAction.ID);
 			map.remove(CopyAction.ID);
