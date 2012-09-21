@@ -49,7 +49,7 @@ import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 import jsesh.hieroglyphs.ManuelDeCodage;
 import jsesh.hieroglyphs.PossibilitiesList;
-import jsesh.hieroglyphs.PossibilitiesList.Possibility;
+import jsesh.hieroglyphs.Possibility;
 import jsesh.hieroglyphs.ShapeChar;
 import jsesh.hieroglyphs.SignDescriptionConstants;
 
@@ -783,7 +783,7 @@ public class PalettePresenter {
 				PossibilitiesList possibilities = hieroglyphsManager
 						.getPossibilityFor(trl,
 								SignDescriptionConstants.KEYBOARD);
-				possibilities.add(code);
+				possibilities.addSign(code);
 				while (!possibilities.getCurrentSign().equals(code)) {
 					possibilities.next();
 				}

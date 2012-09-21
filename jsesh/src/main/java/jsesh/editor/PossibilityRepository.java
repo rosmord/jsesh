@@ -90,11 +90,11 @@ public class PossibilityRepository {
 			PossibilitiesList result = new PossibilitiesList(possibilities);
 
 			if (result.isEmpty() && fromGlossary.isEmpty()) {
-				possibilities.add(code);
+				possibilities.addSign(code);
 			}
 
 			for (GlossaryEntry e : fromGlossary) {
-				result.add(e.getTopItems());
+				result.addMdCText(e.getMdc());
 			}
 			map.put(code, result);
 			return result;

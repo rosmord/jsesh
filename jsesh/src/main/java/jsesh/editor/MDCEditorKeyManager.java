@@ -75,7 +75,6 @@ import jsesh.editor.actionsUtils.Enabler;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.ModelElement;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.swing.utils.ImageIconFactory;
 
@@ -320,15 +319,6 @@ class MDCEditorKeyManager extends KeyAdapter {
 			Action action= new InsertElementIconAction(editor, symbolCode) ;
 			addAction(id, action);
 		}
-		
-		private void addInsertAction(String id,
-				JMDCEditor editor, ModelElement modelElement,
-				Enabler editorEnabler) {
-			Action action= new InsertElementIconAction(editor, modelElement) ;
-			addAction(id, action);
-		}
-		
-		
 		
 		private void addEditingModeAction(String actionID, char mode) {
 			SetModeAction action = new SetModeAction(editor, mode);

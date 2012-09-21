@@ -51,7 +51,7 @@ import java.util.Observable;
 import java.util.Observer;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
-import jsesh.hieroglyphs.PossibilitiesList.Possibility;
+import jsesh.hieroglyphs.Possibility;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;

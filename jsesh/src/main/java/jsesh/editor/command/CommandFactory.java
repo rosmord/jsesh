@@ -71,22 +71,5 @@ public class CommandFactory {
 			MDCPosition pos2, boolean clean) {
 		return new RemoveCommand(model, pos1, pos2, clean);
 
-	}
-
-	public MDCCommand buildInsertAndGroupCommand(MDCPosition pos, TopItem elt,
-			char sepCode) {
-		// WRITE Auto-generated method stub
-		if (true) throw new RuntimeException("WRITE ME");
-		return null;
-		
-	}
-
-	public MDCCommand buildGroupCommand(MDCPosition pos, char sepCode) {
-		// WRITE Auto-generated method stub
-		if (true) throw new RuntimeException("WRITE ME");
-		return null;
-		
-	}
-
-	
+	}	
 }

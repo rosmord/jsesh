@@ -9,6 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.HieroglyphsManager;
+import jsesh.hieroglyphs.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.WordEndingCode;
@@ -56,7 +59,8 @@ public class MdCModelWriter {
 	private int endIndex;
 	private Dialect inDialect= Dialect.JSESH1;
 	private Dialect outDialect= Dialect.JSESH1;
-	
+	private boolean normalized= false;
+
 	public MdCModelWriter() {
 		out = null;
 	}
@@ -207,7 +211,13 @@ public class MdCModelWriter {
 				write("=");
 			//		grammar
 			// Well I would write something for SMALLTEXT, but it already works !
-			write(h.getCode());
+			String code;
+			if (normalized)
+				code=	CompositeHieroglyphsManager.getInstance().getCanonicalCode(h.getCode());
+			else
+				code= h.getCode();
+ 
+			write(code);
 
 			ModifiersList l = h.getModifiers();
 			//		Inversion
@@ -545,11 +555,28 @@ public class MdCModelWriter {
 		top.accept(aux);
 	}
 	
+		
 	public void setInDialect(Dialect inDialect) {
 		this.inDialect = inDialect;
 	}
 	
 	public void setOutDialect(Dialect outDialect) {
 		this.outDialect = outDialect;
+	}
+	
+	/**
+	 * Should we normalize the hieroglyph codes to their Gardiner form.
+	 * @param normalized
+	 */
+	public void setNormalized(boolean normalized) {
+		this.normalized = normalized;
+	}
+
+	/**
+	 * Should we normalize the hieroglyph codes to their Gardiner form.
+	 * @return true if signs are normalized. 
+	  */
+	public boolean isNormalized() {
+		return normalized;
 	}
 }

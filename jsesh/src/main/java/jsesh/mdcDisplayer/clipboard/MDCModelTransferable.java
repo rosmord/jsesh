@@ -147,6 +147,7 @@ public class MDCModelTransferable implements Transferable {
 
 	/**
 	 * Get pdf as binary content.
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
@@ -156,10 +157,9 @@ public class MDCModelTransferable implements Transferable {
 				.copy();
 		// Target Cadrat height, in points.
 		float targetHeight = rtfPreferences.getCadratHeight();
-		float scale = targetHeight 
-				/ drawingSpecification.getMaxCadratHeight();
+		float scale = targetHeight / drawingSpecification.getMaxCadratHeight();
 		PDFDataSaver pdfDataSaver = new PDFDataSaver(drawingSpecification);
-		pdfDataSaver.setScale(scale);		
+		pdfDataSaver.setScale(scale);
 		result = pdfDataSaver.getPDFContent(topItemList);
 		return result;
 	}
@@ -214,13 +214,7 @@ public class MDCModelTransferable implements Transferable {
 	 * @return
 	 */
 	private Object getStringData() {
-		{
-			StringWriter writer = new StringWriter();
-
-			MdCModelWriter mdCModelWriter = new MdCModelWriter();
-			mdCModelWriter.write(writer, topItemList);
-			return writer.toString();
-		}
+		return topItemList.toMdC(true);
 	}
 
 	/**

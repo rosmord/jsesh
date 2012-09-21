@@ -114,8 +114,7 @@ public class EditorShadeAction extends EditorAction {
     }
 
     public static void preloadIcons() {
-        TreeMap<String, Action> result = new TreeMap<String, Action>();
-        for (int i = 0; i < 16; i++) {
+    		for (int i = 0; i < 16; i++) {
             String iconMdC = "G1" + ShadingCode.toString("#", i);
             ImageIconFactory.buildImage(iconMdC);
         }

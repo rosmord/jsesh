@@ -156,7 +156,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		getOrCreatePossibilityList(value);
 		// Now add the actual data
 		signsValues.get(gardinerCode).add(value);
-		possibilitiesLists.get(value).add(gardinerCode);
+		possibilitiesLists.get(value).addSign(gardinerCode);
 	}
 
 	private PossibilitiesList getOrCreatePossibilityList(String value) {
@@ -167,7 +167,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 			if (basicManuelDeCodageManager.isKnownCode(value)) {
 				// For readability, we want to have the "official" phonetic code
 				// available.
-				l.add(value);
+				l.addSign(value);
 			}
 			possibilitiesLists.put(value, l);
 		}
@@ -207,11 +207,11 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 						if (SignDescriptionConstants.PALETTE.equals(level)) {
 							if (SignDescriptionConstants.PALETTE.equals(trl
 									.getUse())) {
-								result.add(info.getCode());
+								result.addSign(info.getCode());
 							}
 						} else if (!SignDescriptionConstants.KEYBOARD
 								.equals(trl.getUse()))
-							result.add(info.getCode());
+							result.addSign(info.getCode());
 					}
 				}
 			}
@@ -236,7 +236,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 			}
 		}
 		for (String signCode : codes) {
-			p.add(signCode);
+			p.addSign(signCode);
 		}
 		return p;
 	}
@@ -255,14 +255,14 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 			if (GardinerCode.isCorrectGardinerCode(signCode)) {
 				// The exact code should come first, if possible.
 				if (signCode.equalsIgnoreCase(code)) {
-					p.add(signCode);
+					p.addSign(signCode);
 				} else if (pattern.matcher(signCode).matches()) {
 					codes.add(signCode);
 				}
 			}
 		}
 		for (String signCode : codes) {
-			p.add(signCode);
+			p.addSign(signCode);
 		}
 		return p;
 	}
