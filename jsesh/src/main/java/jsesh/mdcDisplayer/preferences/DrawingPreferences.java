@@ -179,6 +179,10 @@ public interface DrawingPreferences {
 	 */
 	float getSmallSkip();
 
+	/**
+	 * sets the separation between adjacent quadrants.
+	 * @param smallSkip the skip, in points.
+	 */
 	void setSmallSkip(float smallSkip);
 
 	float getColumnSkip();

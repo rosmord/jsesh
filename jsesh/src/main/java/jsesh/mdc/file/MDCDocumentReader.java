@@ -10,10 +10,14 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
+import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.jseshInfo.JSeshInfoReader;
+import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.LineBreak;
+import jsesh.mdc.model.TopItemList;
 import jsesh.utils.ByteArraysUtils;
 import jsesh.utils.StringBufferUtils;
 import jsesh.utils.SystemUtils;
@@ -70,7 +74,7 @@ public class MDCDocumentReader {
 
 		int first = 0;
 
-		//  
+		//
 		first = guessEncodingAndDialect(file, bytes);
 
 		// Now, build a StringBuffer with the whole text in it.
@@ -87,8 +91,26 @@ public class MDCDocumentReader {
 		readHeader(buff);
 
 		StringReader r = new StringReader(buff.toString());
-		document.getHieroglyphicTextModel().readTopItemList(r,
-				document.getDialect());
+		try {
+			document.getHieroglyphicTextModel().readTopItemList(r,
+					document.getDialect());
+		} catch (MDCSyntaxError e) {
+			MDCParserModelGenerator gen= new MDCParserModelGenerator(document.getDialect());
+			String[] tab = buff.toString().split("\n|\r|\r\n");
+			TopItemList list= new TopItemList();
+			for (String line: tab) {
+				try {
+				TopItemList items = gen.parse(line);
+				list.addAll(items.asList());
+				} catch (MDCSyntaxError exception) {
+					list.addTopItem(new AlphabeticText('b', "Error in file: " + exception.getMessage()));
+					list.addTopItem(new LineBreak());
+					list.addTopItem(new AlphabeticText('l', line));
+					list.addTopItem(new LineBreak());
+				}
+			}
+			document.getHieroglyphicTextModel().setTopItemList(list);
+		}
 		return document;
 	}
 
@@ -207,8 +229,8 @@ public class MDCDocumentReader {
 			OutputStreamWriter w = new OutputStreamWriter(out, "UTF-8");
 			w.write(mdc);
 			w.close();
-			ByteArrayInputStream in = new ByteArrayInputStream(out
-					.toByteArray());
+			ByteArrayInputStream in = new ByteArrayInputStream(
+					out.toByteArray());
 			return readStream(in, file);
 		} catch (IOException e) {
 			throw new RuntimeException(e); // Should not happen.

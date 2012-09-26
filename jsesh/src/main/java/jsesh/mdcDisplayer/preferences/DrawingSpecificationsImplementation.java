@@ -160,6 +160,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
 	private boolean smallSignsCentered;
 
+	/**
+	 * Skip between adjacent quadrants.
+	 */
 	private float smallSkip;
 
 	/**

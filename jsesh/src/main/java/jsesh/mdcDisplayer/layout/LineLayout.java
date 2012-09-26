@@ -22,8 +22,6 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
 /**
  * Expert for laying out text organised in lines.
  * <p>
- * Currently works only for left-to-right text.
- * <p>
  * We suppose that:
  * <ul>
  * <li>Apart from the first element, the others can be placed absolutely.

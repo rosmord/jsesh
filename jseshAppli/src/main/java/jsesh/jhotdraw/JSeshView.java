@@ -214,7 +214,6 @@ public class JSeshView extends AbstractView  {
 				});
 			} else {
 				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
-				// mdcDocumentReader.setEncoding(encoding);
 				final MDCDocument document = mdcDocumentReader.loadFile(file);
 				// Observe changes to this document in the future.
 				SwingUtilities.invokeLater(new Runnable() {
@@ -233,7 +232,6 @@ public class JSeshView extends AbstractView  {
 			displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
 
 			System.err.println(e.getCharPos());
-			// e.printStackTrace();
 		} catch (IOException e) {
 			throw new UserMessage(e);
 		} catch (PDFImportException e) {
