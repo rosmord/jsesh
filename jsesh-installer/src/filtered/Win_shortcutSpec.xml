@@ -15,6 +15,7 @@
      commandLine="-Xmx256m -jar &quot;$INSTALL_PATH\libJSesh\jseshAppli-${project.version}.jar&quot;"
      description="JSesh hieroglyphic editor"
      iconFile="$INSTALL_PATH\icons\tksesh.ico"
+     initialState="noShow"
      >
         <createForPack name="Base"/>
     </shortcut>
@@ -29,7 +30,25 @@
      target="java"
      commandLine="-Xmx256m -cp &quot;$INSTALL_PATH\libJSesh\jsesh-${project.version}.jar;$INSTALL_PATH\libJSesh\jseshGlyphs-${project.version}.jar&quot; jsesh.utilitySoftwares.signInfoEditor.ui.SignInfoEditorApplication"
      description="Editor for documenting hieroglyphic signs"
+     initialState="noShow"
      >
+     
+        <createForPack name="Base"/>
+    </shortcut>   
+     
+    <shortcut
+     name="RTF CLeaner"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="no"
+     startup="no"
+     target="java"
+     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH\libJSesh\jsesh-${project.version}.jar;$INSTALL_PATH\libJSesh\jseshGlyphs-${project.version}.jar&quot; jsesh.utilitySoftwares.rtfCleaner.JRTFCleaner"
+     description="RTF Cleaning application (mostly for Mac/Indesign)"
+     initialState="noShow"
+     >
+     
         <createForPack name="Base"/>
     </shortcut>   
 </shortcuts>

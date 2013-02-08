@@ -46,7 +46,7 @@ ls ./libJS/ | sed 's%\(.*\)%<string>$APP_PACKAGE/../libJS/\1</string>%' >/tmp/de
 
 prepareApp JSesh
 prepareApp SignInfo
-
+prepareApp RTFCleaner
 
 # cleanup
 rm Info.plist.end
