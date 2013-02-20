@@ -6,5 +6,5 @@ package org.qenherkhopeshef.swingUtils.portableFileDialog;
  *
  */
 public enum FileOperation {
-	SAVE_FILE, OPEN_FILE, SAVE_DIRECTORY
+	SAVE_FILE, OPEN_FILE, SAVE_DIRECTORY, OPEN_DIRECTORY
 }

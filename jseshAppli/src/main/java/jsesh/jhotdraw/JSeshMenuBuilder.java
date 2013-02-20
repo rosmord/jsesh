@@ -281,6 +281,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		editMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
 		editMenu.add(map.get(ActionsID.SET_MODE_LATIN));
 		editMenu.add(map.get(ActionsID.SET_MODE_ITALIC));
+		editMenu.add(map.get(ActionsID.SET_MODE_BOLD));
 		editMenu.add(map.get(ActionsID.SET_MODE_TRANSLIT));
 		editMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
 		editMenu.add(map.get(InsertShortTextAction.ID));

@@ -39,6 +39,9 @@ class SwingFileDialog extends PortableFileDialog {
 			delegate.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			result = delegate.showSaveDialog(parent);
 			break;
+		case OPEN_DIRECTORY:
+			delegate.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			result = delegate.showOpenDialog(parent);
 		default:
 			break;
 		}

@@ -97,6 +97,18 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 			delegate.setMode(FileDialog.LOAD);
 			delegate.setVisible(true);
 			break;
+		case OPEN_DIRECTORY:
+			System.setProperty("apple.awt.fileDialogForDirectories", "true");
+			delegate.setMode(FileDialog.LOAD);
+			delegate.setFilenameFilter(new FilenameFilter() {
+				public boolean accept(File arg0, String arg1) {
+					return arg0.isDirectory();
+				}
+			});
+			delegate.setAlwaysOnTop(true);
+			delegate.setVisible(true);
+			System.setProperty("apple.awt.fileDialogForDirectories", "false");
+			break;
 		case SAVE_FILE:
 			delegate.setMode(FileDialog.SAVE);
 			delegate.setVisible(true);
