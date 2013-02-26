@@ -388,5 +388,16 @@ public interface DrawingPreferences {
 	
 	void setShadingStyle(ShadingStyle style);
 	
+	/**
+	 * (TEMPORARY) should text be justified.
+	 * (Here, justified means 'all lines will have the same width'.
+	 */
 	
+	boolean isJustified();
+	
+	/**
+	 * Ask for justification of the text.
+	 * @param justified
+	 */
+	void setJustified(boolean justified);
 }

@@ -74,6 +74,7 @@ import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
@@ -234,6 +235,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
 			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
 			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
+			map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
 			// palette ...
 
 			palettePresenter = new PalettePresenter();

@@ -809,7 +809,17 @@ public class JMDCEditor extends JPanel {
 		return getDrawingSpecifications().isSmallSignsCentered();
 	}
 
+	/**
+	 * Temporary method for signs justification.
+	 * @return true if lines are justified.
+	 */
+	public boolean isJustified() {
+		return getDrawingSpecifications().isJustified();		
+	}
+	
 	public TopItemList getSelection() {
 		return workflow.getSelectionAsTopItemList();
 	}
+
+
 }

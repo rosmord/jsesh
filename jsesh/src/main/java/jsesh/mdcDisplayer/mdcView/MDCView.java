@@ -16,7 +16,8 @@ import jsesh.mdcDisplayer.drawingElements.ViewBox;
  * Base class for all view elements. A view element is a view of an MDC model
  * element.
  * 
- * <p><b>About coordinates : </b> we take hereby the convention that the y axis is
+ * <p>
+ * <b>About coordinates : </b> we take hereby the convention that the y axis is
  * oriented bottomward (as in so-called "text mode").
  * 
  * <p>
@@ -41,8 +42,9 @@ import jsesh.mdcDisplayer.drawingElements.ViewBox;
  * 
  * <p>
  * Scaling and dimensions : scaling and dimensions are really two different
- * things in this class. An important thing to note is that <em> a view's dimensions are quite independant of those of its subviews.</em> One
- * might think of a subview which will be partly outside the view.
+ * things in this class. An important thing to note is that
+ * <em> a view's dimensions are quite independant of those of its subviews.</em>
+ * One might think of a subview which will be partly outside the view.
  * 
  * The scale is in fact the <em>Inner scale</em> of the view, i.e. the scale
  * used to draw elements inside the view (and the subviews). So, scaling a view
@@ -52,26 +54,31 @@ import jsesh.mdcDisplayer.drawingElements.ViewBox;
  * modified thereafter, fitToSubViews() should be called once more.
  * 
  * <p>
- * deltaBaseLine and deltaBaseColumn are modifiers which describe the difference
- * between the "standard" base lines and column and those for this view.
- * Normally, the tops of the views are aligned in horizontal text. Note that
- * those values are used for computing the position of the view. Once this is
- * done, the position is completely defined.
+ * deltaBaseX and deltaBaseY are modifiers which describe the difference between
+ * the "standard" base lines and column and those for this view. Normally, the
+ * tops of the views are aligned in horizontal text. Note that those values are
+ * used for computing the position of the view. Once this is done, the position
+ * is completely defined.
  * 
- * <p>This file is free Software under the LGPL. (c) Serge Rosmorduc
+ * <p>
+ * This file is free Software under the LGPL. (c) Serge Rosmorduc
  * 
- * <h3> Use of views to represent pages:</h3>
- * Note that views can be used to represent pages. It's quite easy to have a whole 
- * document view (the size of a page), and each page is itself a view. Now, if we want
- * to draw a particular page, the page "n" will be the "nth" page of the view.
- * The software must of course be aware of this.
- * <p> for drawing a whole document as <em>one</em> drawing, the layout algorithm will
- * do the following :
- * <ul> 
- * 	<li>if there is no page specification, simply build a view of the whole document
- * 	<li>if there is a page specification, build a global view of the document, 
- * 		but lay out the subviews one above the other (and not one following the other). 
+ * <h3>Use of views to represent pages:</h3>
+ * Note that views can be used to represent pages. It's quite easy to have a
+ * whole document view (the size of a page), and each page is itself a view.
+ * Now, if we want to draw a particular page, the page "n" will be the "nth"
+ * page of the view. The software must of course be aware of this.
+ * <p>
+ * for drawing a whole document as <em>one</em> drawing, the layout algorithm
+ * will do the following :
+ * <ul>
+ * <li>if there is no page specification, simply build a view of the whole
+ * document
+ * <li>if there is a page specification, build a global view of the document,
+ * but lay out the subviews one above the other (and not one following the
+ * other).
  * </ul>
+ * 
  * @author rosmord
  */
 
@@ -357,9 +364,9 @@ public class MDCView implements ViewBox {
 		ViewIterator it = iterator();
 		while (it.hasNext()) {
 			MDCView subView = it.next();
-			Rectangle2D subViewArea = new Rectangle2D.Double(subView
-					.getPosition().x, subView.getPosition().y, subView
-					.getWidth(), subView.getHeight());
+			Rectangle2D subViewArea = new Rectangle2D.Double(
+					subView.getPosition().x, subView.getPosition().y,
+					subView.getWidth(), subView.getHeight());
 			if (area == null)
 				area = subViewArea;
 			else
@@ -407,6 +414,16 @@ public class MDCView implements ViewBox {
 	// Subview manipulation
 
 	/**
+	 * gets the horizontal relative position.
+	 * <p>
+	 * When computing the layout, we use the notion of current point (somehow as
+	 * in HTML layout), which is where the current algorithm would want to place
+	 * this view. However, some views have they own idea about their placement. For instance,
+	 * latin text will not have the same vertical alignment as quadrants.  So {@link #deltaBaseX} and {@link #deltaBaseY}
+	 * are somehow similar to the notion of relative position in HTML.
+	 * 
+	 * <p> Note that this is actually only used for latin text (as of 2013/2/25).
+	 * 
 	 * @return Returns the deltaBaseX.
 	 */
 	public double getDeltaBaseX() {
@@ -414,7 +431,10 @@ public class MDCView implements ViewBox {
 	}
 
 	/**
+	 * gets the vertical relative position.
+	 * 
 	 * @return Returns the deltaBaseY.
+	 * @see #getDeltaBaseX()
 	 */
 	public double getDeltaBaseY() {
 		return deltaBaseY;
@@ -816,16 +836,22 @@ public class MDCView implements ViewBox {
 	}
 
 	/**
+	 * Sets the horizontal relative position.
+	 * 
 	 * @param deltaBaseX
 	 *            The deltaBaseX to set.
+	 * @see #getDeltaBaseX()
 	 */
 	public void setDeltaBaseX(double deltaBaseX) {
 		this.deltaBaseX = deltaBaseX;
 	}
 
 	/**
+	 * Sets the vertical relative position.
+	 * 
 	 * @param deltaBaseY
 	 *            The deltaBaseY to set.
+	 * @see #getDeltaBaseX()
 	 */
 	public void setDeltaBaseY(double deltaBaseY) {
 		this.deltaBaseY = deltaBaseY;

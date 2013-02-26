@@ -506,6 +506,18 @@ public class JSeshView extends AbstractView  {
 		 */
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
+	
+	/**
+	 * Temporary method to control lines justification.
+	 * @param selected
+	 */
+	public void setJustify(boolean selected) {
+		DrawingSpecification specs = getDrawingSpecifications().copy();
+		specs.setJustified(selected);
+		viewModel.setDrawingSpecifications(specs);		
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+	}
+
 
 	public void setTextOrientation(TextOrientation textOrientation) {
 		DrawingSpecification specs = getDrawingSpecifications().copy();
@@ -569,6 +581,7 @@ public class JSeshView extends AbstractView  {
 	public boolean isSelectionEmpty() {
 		return getEditor().hasSelection();	
 	}
+
 	
 	
 }

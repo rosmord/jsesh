@@ -7,6 +7,7 @@ package jsesh.mdcDisplayer.layout;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.*;
 
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AlphabeticText;
@@ -52,6 +53,10 @@ public class LineLayout extends TopItemLayout {
 	 */
 	private Zone zone;
 
+	/**
+	 * A list of all zones, if we decide to justify the text.
+	 */
+	private List<Zone> allZones= new ArrayList<Zone>();
 	/**
 	 * the position that will be used to place the current zone
 	 */
@@ -115,6 +120,17 @@ public class LineLayout extends TopItemLayout {
 		if (!zone.isEmpty()) {
 			flushZone();
 		}
+		if (drawingSpecifications.isJustified()) {
+			double width= 0;
+			for (Zone z: allZones) {
+				if (z.getWidth() > width)
+					width= z.getWidth();
+			}
+			width= width - drawingSpecifications.getPageLayout().getLeftMargin() ;
+			for (Zone z: allZones) {
+				z.justifyWidthTo(drawingSpecifications.getPageLayout().getLeftMargin(), width);
+			}
+		}
 		// Ensure the margin is there ?
 		documentArea.add(new Point2D.Double(documentArea.getMaxX()
 				+ drawingSpecifications.getPageLayout().getLeftMargin(),
@@ -137,6 +153,7 @@ public class LineLayout extends TopItemLayout {
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
 	 */
 	public void startLayout() {
+		allZones.clear();
 		// Pseudo relative position for first element.
 		addTopMargin = true;
 		// nextViewPosition = documentView.getFirstSubViewPosition();
@@ -199,7 +216,10 @@ public class LineLayout extends TopItemLayout {
 		
 		documentArea.add(new Rectangle2D.Double(zoneOriginPosition.x + minx, zoneOriginPosition.y
 				+ miny, zone.getWidth(), zone.getHeight()));
-
+		if (drawingSpecifications.isJustified()) {
+			allZones.add(zone);
+		}
+		zone= null;
 	}
 
 	/**
@@ -249,12 +269,7 @@ public class LineLayout extends TopItemLayout {
 
 			// create a new zone.
 			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-			zoneOriginPosition.y += verticalSkip;
-			// Next view position is computed relatively to the zone (SOLVE
-			// THIS.)
-			// nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
-			// 0, RelativePosition.NORTH);
-			// nextViewPosition= subView.getNextViewPosition();
+			zoneOriginPosition.y += verticalSkip;		
 			addTopMargin = false;
 
 		}
