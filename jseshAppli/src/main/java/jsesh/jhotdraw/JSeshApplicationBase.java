@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import jsesh.graphics.export.HTMLExporter;
-import jsesh.graphics.export.RTFExportPreferences;
+import jsesh.graphics.export.*;
+import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
@@ -232,7 +232,12 @@ public class JSeshApplicationBase {
 					.getquadrantHeightWysiwyg());
 			break;
 		}
-		result.setExportGranularity(exportPreferences.getGranularity());
+		
+		if (exportType != ExportType.WYSIWYG)
+			result.setExportGranularity(exportPreferences.getGranularity());
+		else
+			result.setExportGranularity(RTFExportGranularity.ONE_LARGE_PICTURE);
+			
 		result.setExportGraphicFormat(exportPreferences.getGraphicFormat());
 		result.setRespectOriginalTextLayout(exportPreferences
 				.isTextLayoutRespected() || exportType == ExportType.WYSIWYG);
