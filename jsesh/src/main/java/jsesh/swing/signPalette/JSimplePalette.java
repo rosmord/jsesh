@@ -71,7 +71,7 @@ public class JSimplePalette extends javax.swing.JPanel {
         showAllCheckBox.setText("Show all");
         showAllCheckBox.setToolTipText("Display all signs in the category, including variants");
 
-        jLabel1.setText("Trlt. filter");
+        jLabel1.setText("Search");
 
         glyphCodeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18));
         glyphCodeLabel.setText("        ");

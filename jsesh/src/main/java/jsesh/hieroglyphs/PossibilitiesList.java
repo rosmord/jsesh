@@ -88,7 +88,8 @@ public class PossibilitiesList {
 	}
 
 	void add(Possibility possibility) {
-		signs.add(possibility);
+		if(! signs.contains(possibility))
+			signs.add(possibility);
 	}
 
 	/**
@@ -134,8 +135,7 @@ public class PossibilitiesList {
 	public PossibilitiesList add(PossibilitiesList p1) {
 		PossibilitiesList result = new PossibilitiesList(this);
 		HashSet<Possibility> p1Content = new HashSet<Possibility>(p1.asList());
-		for (Possibility o : p1.asList()) {
-			if (!p1Content.contains(o))
+		for (Possibility o : p1.asList()) {			
 				result.add(o);
 		}
 		return result;
