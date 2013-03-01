@@ -56,7 +56,7 @@ public class LineLayout extends TopItemLayout {
 	/**
 	 * A list of all zones, if we decide to justify the text.
 	 */
-	private List<Zone> allZones= new ArrayList<Zone>();
+	private List<Zone> allZones = new ArrayList<Zone>();
 	/**
 	 * the position that will be used to place the current zone
 	 */
@@ -102,7 +102,9 @@ public class LineLayout extends TopItemLayout {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer.mdcView.MDCView)
+	 * @see
+	 * jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer
+	 * .mdcView.MDCView)
 	 */
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
@@ -121,20 +123,35 @@ public class LineLayout extends TopItemLayout {
 			flushZone();
 		}
 		if (drawingSpecifications.isJustified()) {
-			double width= 0;
-			for (Zone z: allZones) {
+			// Compute the maximal width of zones.
+			double width = 0;
+			for (Zone z : allZones) {
 				if (z.getWidth() > width)
-					width= z.getWidth();
+					width = z.getWidth();
 			}
-			width= width - drawingSpecifications.getPageLayout().getLeftMargin() ;
-			for (Zone z: allZones) {
-				z.justifyWidthTo(drawingSpecifications.getPageLayout().getLeftMargin(), width);
+			width = width
+					- drawingSpecifications.getPageLayout().getLeftMargin();
+			// Justify all zones to this width.
+			for (int i = 0; i < allZones.size(); i++) {
+				Zone z = allZones.get(i);
+				// If it's not the last zone, or it looks large enough
+				// This is a temporary fix. 
+				// We should get somehow the information that the zone "would be centered".
+				if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {					
+					z.justifyWidthTo(drawingSpecifications.getPageLayout()
+							.getLeftMargin(), width);
+				}
 			}
 		}
 		// Ensure the margin is there ?
-		documentArea.add(new Point2D.Double(documentArea.getMaxX()
-				+ drawingSpecifications.getPageLayout().getLeftMargin(),
-				documentArea.getMinY()+ drawingSpecifications.getPageLayout().getTopMargin()));
+		documentArea
+				.add(new Point2D.Double(
+						documentArea.getMaxX()
+								+ drawingSpecifications.getPageLayout()
+										.getLeftMargin(), documentArea
+								.getMinY()
+								+ drawingSpecifications.getPageLayout()
+										.getTopMargin()));
 	}
 
 	/**
@@ -191,8 +208,8 @@ public class LineLayout extends TopItemLayout {
 
 		// Compute the margins we want.
 		float marginx = 0f, marginy = 0f;
-		
-		PageLayout pageLayout= drawingSpecifications.getPageLayout();
+
+		PageLayout pageLayout = drawingSpecifications.getPageLayout();
 
 		if (addTopMargin) {
 			marginy = pageLayout.getTopMargin();
@@ -213,13 +230,15 @@ public class LineLayout extends TopItemLayout {
 		zone.translateBy(zoneOriginPosition);
 
 		// flush the zone. Add it to the current document area.
-		
-		documentArea.add(new Rectangle2D.Double(zoneOriginPosition.x + minx, zoneOriginPosition.y
-				+ miny, zone.getWidth(), zone.getHeight()));
+
+		documentArea
+				.add(new Rectangle2D.Double(zoneOriginPosition.x + minx,
+						zoneOriginPosition.y + miny, zone.getWidth(), zone
+								.getHeight()));
 		if (drawingSpecifications.isJustified()) {
 			allZones.add(zone);
 		}
-		zone= null;
+		zone = null;
 	}
 
 	/**
@@ -269,7 +288,7 @@ public class LineLayout extends TopItemLayout {
 
 			// create a new zone.
 			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
-			zoneOriginPosition.y += verticalSkip;		
+			zoneOriginPosition.y += verticalSkip;
 			addTopMargin = false;
 
 		}
@@ -277,7 +296,9 @@ public class LineLayout extends TopItemLayout {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
+		 * @see
+		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+		 * .PageBreak)
 		 */
 		public void visitPageBreak(PageBreak b) {
 			double dh = zone.getHeight();
@@ -311,10 +332,12 @@ public class LineLayout extends TopItemLayout {
 		 * zone after a tab. <p> For right-to-left text, the tabs are defined in
 		 * terms of the EAST side of the zone.
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.TabStop)
+		 * @see
+		 * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
+		 * TabStop)
 		 */
 		public void visitTabStop(TabStop tab) {
-			float pos = tab.getStopPos() 
+			float pos = tab.getStopPos()
 					* drawingSpecifications.getTabUnitWidth();
 			zone.getCurrentPoint().setLocation(pos, 0);
 			zone.add(subView);
