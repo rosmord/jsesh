@@ -57,7 +57,10 @@ public class DocumentPreferences {
 	private double standardSignHeight = 18;
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT)
 	private double smallBodyScaleLimit = 12;
-
+	
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_SKIP)
+	private double smallSkip= 2;
+	
 	public DocumentPreferences() {
 	}
 
@@ -297,7 +300,23 @@ public class DocumentPreferences {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param smallSkip
+	 * @return
+	 */
+	public DocumentPreferences withSmallSkip(double smallSkip) {
+		DocumentPreferences result= this.copy();
+		result.smallSkip= smallSkip;
+		return result;
+	}
+	
 	// Generated code
+	
+	public double getSmallSkip() {
+		return smallSkip;
+	}
+	
 	/**
 	 * @return the smallSignCentered
 	 */

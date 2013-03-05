@@ -1248,6 +1248,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 				.withStandardSignHeight(standardSignHeight)
 				.withTextDirection(textDirection)
 				.withTextOrientation(textOrientation)
+				.withSmallSkip(smallSkip)
 				.withUseLinesForShading(
 						getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
 		return prefs;
@@ -1268,6 +1269,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		setSmallBodyScaleLimit(prefs.getSmallBodyScaleLimit());
 		setStandardSignHeight((float) prefs.getStandardSignHeight());
 		setSmallSignsCentered(prefs.isSmallSignCentered());
+		setSmallSkip((float) prefs.getSmallSkip());
 		if( prefs.isUseLinesForShading()) {
 			setShadingStyle(ShadingStyle.LINE_HATCHING);
 		} else

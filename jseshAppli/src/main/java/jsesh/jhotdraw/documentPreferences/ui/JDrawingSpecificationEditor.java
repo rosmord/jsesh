@@ -34,10 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.documentPreferences.ui;
 
 
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -92,6 +89,7 @@ public class JDrawingSpecificationEditor {
 		h.addWithLabel("drawingPrefs.a1SignHeight", normalSignHeightField, "w 40pt, sg a, gapright unrelated");
 		h.addWithLabel("drawingPrefs.units", unitField, "wrap");
 		h.addWithLabel("drawingPrefs.lineSkip", lineSkipField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.interQuadrantSkip", interQuadrantSkipField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.columnSkip", columnSkipField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.maximalQuadrantHeight", maxCadratHeightField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.maximalQuadrantWidth", maxCadratWidthField, "sg a, wrap");
@@ -104,6 +102,7 @@ public class JDrawingSpecificationEditor {
 	private JFormattedTextField cartoucheLineWidthField= new JFormattedTextField();
 	private JFormattedTextField columnSkipField=new JFormattedTextField();
 	private JFormattedTextField lineSkipField=new JFormattedTextField();
+	private JFormattedTextField interQuadrantSkipField= new JFormattedTextField();
 	private JFormattedTextField maxCadratHeightField=new JFormattedTextField();
 	private JFormattedTextField maxCadratWidthField=new JFormattedTextField();
 	private JFormattedTextField normalSignHeightField=new JFormattedTextField();
@@ -119,6 +118,10 @@ public class JDrawingSpecificationEditor {
 		return columnSkipField;
 	}
 
+	public JFormattedTextField getInterQuadrantSkipField() {
+		return interQuadrantSkipField;
+	}
+	
 	public JFormattedTextField getLineSkipField() {
 		return lineSkipField;
 	}
@@ -147,4 +150,18 @@ public class JDrawingSpecificationEditor {
 		return useLinesForShadingCheckBox;
 	}
 
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater( new Runnable() {
+			
+			@Override
+			public void run() {
+				JFrame frame= new JFrame();
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				JDrawingSpecificationEditor editor= new JDrawingSpecificationEditor();
+				frame.add(editor.getPanel());
+				frame.pack();
+				frame.setVisible(true);
+			}
+		});
+	}
 }
