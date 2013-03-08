@@ -214,7 +214,6 @@ public class JSeshView extends AbstractView  {
 				});
 			} else {
 				MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
-				// mdcDocumentReader.setEncoding(encoding);
 				final MDCDocument document = mdcDocumentReader.loadFile(file);
 				// Observe changes to this document in the future.
 				SwingUtilities.invokeLater(new Runnable() {
@@ -232,8 +231,7 @@ public class JSeshView extends AbstractView  {
 			msg += " near token: " + e.getToken();
 			displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
 
-			System.out.println(e.getCharPos());
-			// e.printStackTrace();
+			System.err.println(e.getCharPos());
 		} catch (IOException e) {
 			throw new UserMessage(e);
 		} catch (PDFImportException e) {
@@ -282,8 +280,8 @@ public class JSeshView extends AbstractView  {
 
 		// TODO END OF TEMPORARY PATCH
 
+		// Check if the file is PDF or MdC
 		boolean isPdfFile = false;
-
 		if (document.getFile() != null) {
 			String fileName = document.getFile().getName().toLowerCase();
 			if (fileName.endsWith(".pdf"))
@@ -331,7 +329,8 @@ public class JSeshView extends AbstractView  {
 	}
 
 	public void insertCode(String code) {
-		getEditor().getWorkflow().addSign(code);
+		//getEditor().getWorkflow().addSign(code);
+		getEditor().insert(code);
 	}
 
 	@Override
@@ -507,6 +506,18 @@ public class JSeshView extends AbstractView  {
 		 */
 		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
 	}
+	
+	/**
+	 * Temporary method to control lines justification.
+	 * @param selected
+	 */
+	public void setJustify(boolean selected) {
+		DrawingSpecification specs = getDrawingSpecifications().copy();
+		specs.setJustified(selected);
+		viewModel.setDrawingSpecifications(specs);		
+		firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+	}
+
 
 	public void setTextOrientation(TextOrientation textOrientation) {
 		DrawingSpecification specs = getDrawingSpecifications().copy();
@@ -570,6 +581,7 @@ public class JSeshView extends AbstractView  {
 	public boolean isSelectionEmpty() {
 		return getEditor().hasSelection();	
 	}
+
 	
 	
 }

@@ -1,35 +1,35 @@
 /*
-Copyright Serge Rosmorduc
-contributor(s) : Serge J. P. Thomas for the fonts
-serge.rosmorduc@qenherkhopeshef.org
+ Copyright Serge Rosmorduc
+ contributor(s) : Serge J. P. Thomas for the fonts
+ serge.rosmorduc@qenherkhopeshef.org
 
-This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+ This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
 
-This software is governed by the CeCILL license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
-modify and/ or redistribute the software under the terms of the CeCILL
-license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
+ This software is governed by the CeCILL license under French law and
+ abiding by the rules of distribution of free software.  You can  use, 
+ modify and/ or redistribute the software under the terms of the CeCILL
+ license as circulated by CEA, CNRS and INRIA at the following URL
+ "http://www.cecill.info". 
 
-As a counterpart to the access to the source code and  rights to copy,
-modify and redistribute granted by the license, users are provided only
-with a limited warranty  and the software's author,  the holder of the
-economic rights,  and the successive licensors  have only  limited
-liability. 
+ As a counterpart to the access to the source code and  rights to copy,
+ modify and redistribute granted by the license, users are provided only
+ with a limited warranty  and the software's author,  the holder of the
+ economic rights,  and the successive licensors  have only  limited
+ liability. 
 
-In this respect, the user's attention is drawn to the risks associated
-with loading,  using,  modifying and/or developing or reproducing the
-software by the user in light of its specific status of free software,
-that may mean  that it is complicated to manipulate,  and  that  also
-therefore means  that it is reserved for developers  and  experienced
-professionals having in-depth computer knowledge. Users are therefore
-encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
+ In this respect, the user's attention is drawn to the risks associated
+ with loading,  using,  modifying and/or developing or reproducing the
+ software by the user in light of its specific status of free software,
+ that may mean  that it is complicated to manipulate,  and  that  also
+ therefore means  that it is reserved for developers  and  experienced
+ professionals having in-depth computer knowledge. Users are therefore
+ encouraged to load and test the software's suitability as regards their
+ requirements in conditions enabling the security of their systems and/or 
+ data to be ensured and,  more generally, to use and operate it in the 
+ same conditions as regards security. 
 
-The fact that you are presently reading this means that you have had
-knowledge of the CeCILL license and that you accept its terms.
+ The fact that you are presently reading this means that you have had
+ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
@@ -82,16 +82,12 @@ import jsesh.mdc.output.MdCModelWriter;
  * 
  * @author rosmord
  */
-
 public class HieroglyphicTextModel extends Observable implements
 		ModelElementObserver {
 
 	private TopItemList model;
-
 	private boolean philologyIsSign;
-
 	private boolean debug;
-
 	private UndoManager undoManager;
 
 	public HieroglyphicTextModel() {
@@ -149,7 +145,9 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	/**
-	 * read data into the model.
+	 * read data into the model. If the data is incorrect, a line-by-line
+	 * reading system will be used, and incorrect lines will be transformed into
+	 * plain text, for possible correction.
 	 * 
 	 * @param in
 	 * @param dialect
@@ -164,10 +162,7 @@ public class HieroglyphicTextModel extends Observable implements
 		} else {
 			this.philologyIsSign = true;
 		}
-		// long start= System.currentTimeMillis();
 		TopItemList l = createGenerator(dialect).parse(in);
-		// System.err.println("model created in "+ (System.currentTimeMillis() -
-		// start));
 		setTopItemList(l);
 	}
 
@@ -244,8 +239,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @return the corresponding list of items.
 	 * @throws MDCSyntaxError
 	 */
-
-	public List buildItems(String text) throws MDCSyntaxError {
+	public List<TopItem> buildItems(String text) throws MDCSyntaxError {
 		MDCParserModelGenerator generator = createGenerator(Dialect.OTHER);
 		StringReader r = new StringReader(text);
 		TopItemList t = generator.parse(r);
@@ -263,7 +257,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @throws MDCSyntaxError
 	 */
 	public void insertMDCText(int index, String mdcText) throws MDCSyntaxError {
-		List items = buildItems(mdcText);
+		List<TopItem> items = buildItems(mdcText);
 		insertElementsAt(buildPosition(index), items);
 	}
 
@@ -271,7 +265,6 @@ public class HieroglyphicTextModel extends Observable implements
 	 * Is the model clean (i.e. has it been modified since last loaded or saved
 	 * ?).
 	 */
-
 	public boolean isClean() {
 		return undoManager.isClean();
 	}
@@ -296,7 +289,8 @@ public class HieroglyphicTextModel extends Observable implements
 		replaceElementBefore(position, Collections.singletonList(newElement));
 	}
 
-	public void replaceElementBefore(MDCPosition position, List newElements) {
+	public void replaceElementBefore(MDCPosition position,
+			List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(model,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
@@ -310,7 +304,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @param elements
 	 *            a list of TopItems
 	 */
-	public void insertElementsAt(MDCPosition position, List elements) {
+	public void insertElementsAt(MDCPosition position, List<TopItem> elements) {
 		MDCCommand command = new CommandFactory().buildInsertCommand(model,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
@@ -324,7 +318,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 *            a list of TopItems
 	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
-			List newElements) {
+			List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(
 				getModel(), newElements, pos1, pos2, isClean());
 		undoManager.doCommand(command);
@@ -352,11 +346,13 @@ public class HieroglyphicTextModel extends Observable implements
 	 * 
 	 * Precondition min < max.
 	 * 
+	 * 
+	 * 
 	 * @param min
 	 * @param max
 	 * @return
 	 */
-	public List getTopItemsBetween(int min, int max) {
+	public List<TopItem> getTopItemsBetween(int min, int max) {
 		return getModel().getTopItemListBetween(min, max);
 	}
 
@@ -368,7 +364,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * @param pos2
 	 * @return
 	 */
-	public List getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
+	public List<TopItem> getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
 		int min = Math.min(pos1.getIndex(), pos2.getIndex());
 		int max = Math.max(pos1.getIndex(), pos2.getIndex());
 		return getTopItemsBetween(min, max);
@@ -402,20 +398,24 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public void redo() {
-		if (undoManager.canRedo())
+		if (undoManager.canRedo()) {
 			undoManager.redo();
+		}
 
 	}
 
 	public void undo() {
-		if (undoManager.canUndo())
+		if (undoManager.canUndo()) {
 			undoManager.undoCommand();
+		}
 
 	}
 
 	/**
 	 * Replace a part of the text with a text in MdC. Precondition: start < end,
 	 * text is a valid MdC text.
+	 * 
+	 * 
 	 * 
 	 * @param start
 	 * @param end
@@ -424,7 +424,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 */
 	public void replaceWithMDCText(int start, int end, String text)
 			throws MDCSyntaxError {
-		List items = buildItems(text);
+		List<TopItem> items = buildItems(text);
 		MDCPosition startPos = buildPosition(start);
 		MDCPosition endPos = buildPosition(end);
 		replaceElement(startPos, endPos, items);
@@ -436,6 +436,7 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Return true if an operation can be redone.
+	 * 
 	 * @return
 	 * @see jsesh.editor.UndoManager#canRedo()
 	 */
@@ -444,13 +445,28 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public boolean mustSave() {
-		return ! undoManager.isClean();
+		return !undoManager.isClean();
 	}
 
 	public void setClean() {
 		undoManager.clear();
 	}
 
-	
+	/**
+	 * Returns <em>a copy of</em> the item just before a given position, or null
+	 * if the position is the first one.
+	 * 
+	 * @param position
+	 * @return an item or null
+	 */
+	public TopItem getItemBefore(MDCPosition position) {
+		MDCPosition pos1 = position.getPreviousPosition(1);
+		TopItem head = null;
+		List<TopItem> previousElement = getTopItemsBetween(pos1, position);
+		if (!previousElement.isEmpty()) {
+			head = previousElement.get(0);
+		}
+		return head;
 
+	}
 }

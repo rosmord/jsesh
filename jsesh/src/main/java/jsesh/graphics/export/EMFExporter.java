@@ -42,7 +42,7 @@ import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
-import jsesh.Messages;
+import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
@@ -62,7 +62,7 @@ public class EMFExporter extends AbstractGraphicalExporter {
 	private String comment = "";
 
 	public EMFExporter() {
-		super("emf", Messages.getString("EMFExporter.description"));
+		super("emf", I18n.getString("EMFExporter.description"));
 		frame = null;
 	}
 

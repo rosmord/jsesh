@@ -13,9 +13,7 @@ C180C : geste ? idem C182A et C182B
 
 S74 T63B 
  
-L16 (trop similaire à signe WG)
 
-S62, S65, N60A, U39A, U39F (à faire)
 S60A: faux.
 
 

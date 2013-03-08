@@ -39,7 +39,7 @@ import java.util.List;
 
 
 class  CompositeCommand extends AbstractMDCCommand {
-	private List commands= new ArrayList();
+	private List<MDCCommand> commands= new ArrayList<MDCCommand>();
 	
 	/**
 	 * Create an empty composite command.
@@ -53,14 +53,14 @@ class  CompositeCommand extends AbstractMDCCommand {
 	
 	public void doCommand() {
 		for (int i= 0; i < commands.size(); i++) {
-			MDCCommand c= (MDCCommand)commands.get(i);
+			MDCCommand c= commands.get(i);
 			c.doCommand();
 		}
 	}
 	
 	public void undoCommand() {
 		for (int i= commands.size()-1; i >=0 ; i--) {
-			MDCCommand c= (MDCCommand)commands.get(i);
+			MDCCommand c= commands.get(i);
 			c.undoCommand();
 		}
 	}

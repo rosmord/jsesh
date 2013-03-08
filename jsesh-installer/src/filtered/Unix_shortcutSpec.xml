@@ -34,4 +34,18 @@
      >
         <createForPack name="Base"/>
     </shortcut>     
+     <shortcut
+     name="RTF Cleaner"
+     programGroup="yes"
+     desktop="yes"
+     startMenu="yes"
+     startup="no"
+     target="java"
+     commandLine="-Xmx256m -cp &quot;$INSTALL_PATH/libJSesh/jsesh-${project.version}.jar:$INSTALL_PATH/libJSesh/jseshGlyphs-${project.version}.jar&quot; jsesh.utilitySoftwares.rtfCleaner.JRTFCleaner"
+     description="RTF Cleaning application (mostly for Mac/Indesign)"
+     type="Application"
+     encoding="UTF-8"
+     >
+        <createForPack name="Base"/>
+    </shortcut>     
 </shortcuts>

@@ -39,7 +39,8 @@ import java.io.Serializable;
  *  
  */
 
-public class MDCPosition implements Cloneable, Serializable, Comparable {
+@SuppressWarnings("serial")
+public class MDCPosition implements Cloneable, Serializable, Comparable<MDCPosition> {
 
 	private TopItemList topItemList;
 
@@ -242,8 +243,7 @@ public class MDCPosition implements Cloneable, Serializable, Comparable {
 	 * Note: this class has a natural ordering that is inconsistent with equals, in the case where the corresponding topItemLists are differents.
 	 * @see Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo(Object o) {
-		MDCPosition other= (MDCPosition) o;
+	public int compareTo(MDCPosition other) {
 		return (index - other.index);
 	}
 	

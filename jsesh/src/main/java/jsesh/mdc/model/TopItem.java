@@ -1,6 +1,8 @@
 package jsesh.mdc.model;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import jsesh.mdc.output.MdCModelWriter;
 
@@ -13,7 +15,7 @@ import jsesh.mdc.output.MdCModelWriter;
  *This code is published under the GNU LGPL.
  */
 abstract public class TopItem extends EmbeddedModelElement{
-	
+	private static final long serialVersionUID = 658832630365366776L;
 	private TopItemState state;
 	
 	public TopItem() {
@@ -81,7 +83,21 @@ abstract public class TopItem extends EmbeddedModelElement{
 		state.setShaded(b);
 	}
 	
+	@Override
+	public abstract TopItem deepCopy();
 	
+	/**
+	 * defensive copy.
+	 * @param items
+	 * @return
+	 */
+	public static List<TopItem> listCopy(List<TopItem> items) {
+		ArrayList<TopItem> result= new ArrayList<TopItem>();
+		for (TopItem item: items) {
+			result.add(item.deepCopy());
+		}
+		return result;
+	}
 } 
 
 

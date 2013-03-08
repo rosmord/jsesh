@@ -13,15 +13,12 @@ jseshGlyphs : the main hieroglyphic font
 jvect : vectorial copy/paste library.
 prepareJSeshRelease: a maven mojo for preparing the release (mostly indexing the fonts)
 utils : utilities to update some data files. nothing of interest.
-
-Among those, the following modules and files are quite likely to disapear in the next versions :
-jseshMac : the mac JSesh application (will be replaced by jseshAppli)
-jseshOthers : non-mac application jar (will be replaced by jseshAppli)
-
-
-Then, modules and files for the NEXT JSesh version :
 jhotdrawfw : the "application framework" part of JHOTDRAW 7.
 jseshAppli : a module containing the new JSesh application (using JHotdraw)
+
+Among those, the following modules are obsolete :
+jseshMac : the mac JSesh application (will be replaced by jseshAppli)
+jseshOthers : non-mac application jar (will be replaced by jseshAppli)
 
 Working with eclipse:
 	there seems to be a problem with the eclipse plugin for maven regarding generated sources:

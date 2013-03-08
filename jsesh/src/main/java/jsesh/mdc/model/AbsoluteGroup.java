@@ -6,20 +6,20 @@
  */
 package jsesh.mdc.model;
 
-import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 
 /**
  * A group of signs with explicit placement. 
  * IMPORTANT : currently, we need at least two signs in an
- * absolute group. This is not a
+ * absolute group.
  * 
  * @author rosmord
  *  
  */
 
-@SuppressWarnings("serial")
 public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface {
+
+	private static final long serialVersionUID = -5214658535536154651L;
 
 	/**
 	 * Add a child. 
@@ -72,7 +72,7 @@ public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface 
      * 
      * @see jsesh.mdc.model.ModelElement#deepCopy()
      */
-    public ModelElement deepCopy() {
+    public AbsoluteGroup deepCopy() {
         AbsoluteGroup r = new AbsoluteGroup();
         copyContentTo(r);
         return r;

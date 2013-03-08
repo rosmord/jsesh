@@ -105,7 +105,6 @@ public class RTFSimpleExporter {
 		rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
 		rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
 		Font f= drawingSpecifications.getFont('t');
-		System.out.println("Transliteration; Name="+ f.getName() + "; fontName="+f.getFontName()+ "; family name = "+ f.getFamily());
 		rtfWriter.declareFont(drawingSpecifications.getFont('t').getName(), RTFFontFamily.ROMAN);
 		// Actual export, using a visitor.
 		rtfWriter.writeHeader();

@@ -7,8 +7,8 @@ package jsesh.mdc.model.operations;
 import jsesh.mdc.model.ModelElement;
 
 /**
- * Insertion represents the action of inserting an element in another one. 
- *   @author rosmord
+ * An unspecified modification made to an element.
+ * @author rosmord
  *
  */
 public class Modification extends ModelOperation {

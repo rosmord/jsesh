@@ -50,5 +50,6 @@ public interface JSeshInfoConstants {
 	String JSESH_USE_LINES_FOR_SHADING = "JSesh_use_lines_for_shading";
 	String JSESH_STANDARD_SIGN_HEIGHT = "JSesh_standard_sign_height";
 	String JSESH_SMALL_BODY_SCALE_LIMIT = "JSesh_small_body_scale_limit";
+	String JSESH_SMALL_SKIP = "JSesh_small_skip";
 
 }

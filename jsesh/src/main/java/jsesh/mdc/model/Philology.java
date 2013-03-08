@@ -11,6 +11,7 @@ import jsesh.mdc.interfaces.PhilologyInterface;
  */
 public class Philology extends InnerGroup implements PhilologyInterface {
 
+	private static final long serialVersionUID = -433250876175828144L;
 	private int type;
 	
 	public Philology(int type, BasicItemList l)
@@ -72,7 +73,7 @@ public class Philology extends InnerGroup implements PhilologyInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Philology deepCopy() {
 		BasicItemList l = (BasicItemList) getBasicItemList().deepCopy();
 		Philology result= new Philology(type,l);
 		return result;

@@ -24,7 +24,7 @@ public class XMLInfoProperty {
 	/**
 	 * Map of String->String.
 	 */
-	private Map attributes = new HashMap();
+	private Map<String, String> attributes = new HashMap<String, String>();
 
 	
 
@@ -95,10 +95,10 @@ public class XMLInfoProperty {
 	}
 
 	public String get(String attributeName) {
-		return (String) attributes.get(attributeName);
+		return attributes.get(attributeName);
 	}
 
-	protected Map getAttributes() {
+	protected Map<String, String> getAttributes() {
 		return Collections.unmodifiableMap(attributes);
 	}
 	
@@ -106,7 +106,7 @@ public class XMLInfoProperty {
 	 * Returns the collection of all attribute names
 	 * @return a collection of Strings.
 	 */
-	public Collection getAttributeNames() {
+	public Collection<String> getAttributeNames() {
 		return attributes.keySet();
 	}
 	

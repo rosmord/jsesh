@@ -11,6 +11,11 @@ import jsesh.mdc.interfaces.LigatureInterface;
 public class Ligature extends InnerGroup implements LigatureInterface {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2576146421775705888L;
+
 	public Ligature() {
 	}
 
@@ -48,7 +53,7 @@ public class Ligature extends InnerGroup implements LigatureInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Ligature deepCopy() {
 		Ligature l= new Ligature();
 		copyContentTo(l);
 		return l;

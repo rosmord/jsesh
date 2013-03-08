@@ -41,7 +41,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.Messages;
+import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 /**
@@ -104,7 +104,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
 	public AbstractGraphicalExporter(String extensions[], String description) {
 		this.extensions = extensions;
 		this.description = description;
-		fileName = Messages.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
+		fileName = I18n.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
 	}
 
 	public File getExportFile() {
@@ -131,7 +131,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
 
 	public void setOriginalDocumentFile(URI uri) {
 		if (uri == null) {
-			fileName = Messages.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
+			fileName = I18n.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
 		} else if (uri.getScheme() == null || uri.getScheme().equals("file")) {
 			fileName = new File(uri).getName();
 			fileName = fileName.substring(0, fileName.lastIndexOf("."))+ "."+ extensions[0];

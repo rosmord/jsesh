@@ -118,6 +118,8 @@ public interface HieroglyphDatabaseInterface {
 
 	/**
 	 * Get the all the codes which might match a "generic gardiner code".
+	 * The code is considered as case insensitive (thus a1 will return A1).
+	 * The code given is case insensitive. So a1 and A1 will return A1 and variants, for instance.
 	 * In fact, there are two conceptual layers of signs : Glyphs and Characters, roughly.
 	 * Characters are described (more or less consistently, see for example Y1 and Y2 as a counter example)
 	 * by Gardiner code. Those codes might correspond to user defined glyphs (US1A1 for A1, as an example).
@@ -131,5 +133,5 @@ public interface HieroglyphDatabaseInterface {
 	 * @param string
 	 * @return
 	 */
-	public PossibilitiesList getSuitableSignsForCode(String string);
+	public PossibilitiesList getSuitableSignsForCode(String code);
 }

@@ -1,5 +1,5 @@
 /*
- * Created on 1 août 2004 by rosmord
+ * Created on 1 aoï¿½t 2004 by rosmord
  * This code can be distributed under the Gnu Library Public Licence.
  **/
 package jsesh.mdc.model;
@@ -43,6 +43,8 @@ import jsesh.utils.EnumBase;
 public class MDCMark {
 
 	static public class Gravity extends EnumBase {
+
+		private static final long serialVersionUID = 2830453509378805410L;
 
 		public static Gravity BACKWARD = new Gravity(1, "BACKWARD");
 

@@ -16,10 +16,12 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 /**
- * A repository which knows about hieroglyphic codes and signs equivalence.
- * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.
+ * A repository which knows about hieroglyphic codes and signs equivalence. It
+ * doesn't deal with sign shapes, which are dealt with by
+ * HieroglyphicFontManager.
  * 
  * TODO : merge with ManueDeCodage (relatively close meaning).
+ * 
  * @see HieroglyphicFontManager
  * @author S. Rosmorduc
  * 
@@ -87,9 +89,10 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 				"Rope, Fibre, baskets, bags, etc.",
 				"Vessels of stone and earthenware", "Loaves and cakes",
 				"Writings, games, music", "Strokes", "Unclassified (J)",
-				"Hieratic signs, Gardiner, JEA 15 (&)", "Upper Egypt Nomes", "Lower Egypt Nomes" };
+				"Hieratic signs, Gardiner, JEA 15 (&)", "Upper Egypt Nomes",
+				"Lower Egypt Nomes" };
 
-		assert(familyCodes.length == familyNames.length);
+		assert (familyCodes.length == familyNames.length);
 		families = new ArrayList<HieroglyphFamily>();
 		for (int i = 0; i < familyCodes.length; i++) {
 			families.add(new HieroglyphFamily(familyCodes[i], familyNames[i]));
@@ -153,7 +156,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		getOrCreatePossibilityList(value);
 		// Now add the actual data
 		signsValues.get(gardinerCode).add(value);
-		possibilitiesLists.get(value).add(gardinerCode);
+		possibilitiesLists.get(value).addSign(gardinerCode);
 	}
 
 	private PossibilitiesList getOrCreatePossibilityList(String value) {
@@ -164,7 +167,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 			if (basicManuelDeCodageManager.isKnownCode(value)) {
 				// For readability, we want to have the "official" phonetic code
 				// available.
-				l.add(value);
+				l.addSign(value);
 			}
 			possibilitiesLists.put(value, l);
 		}
@@ -204,11 +207,11 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 						if (SignDescriptionConstants.PALETTE.equals(level)) {
 							if (SignDescriptionConstants.PALETTE.equals(trl
 									.getUse())) {
-								result.add(info.getCode());
+								result.addSign(info.getCode());
 							}
 						} else if (!SignDescriptionConstants.KEYBOARD
 								.equals(trl.getUse()))
-							result.add(info.getCode());
+							result.addSign(info.getCode());
 					}
 				}
 			}
@@ -221,9 +224,9 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		// Temporary system...
 		PossibilitiesList p = new PossibilitiesList(code);
 		String protectedCode = code.replaceAll("(\\W)", "\\\\$1");
-		Pattern pattern = Pattern.compile("^(US[0-9]+)?"
-				+ protectedCode+ ".*");
-		TreeSet<String> codes= new TreeSet<String>();
+		Pattern pattern = Pattern
+				.compile("^(US[0-9]+)?" + protectedCode + ".*");
+		TreeSet<String> codes = new TreeSet<String>();
 		for (String signCode : getCodesSet()) {
 			if (GardinerCode.isCorrectGardinerCode(signCode)) {
 				// Protect code for insertion in a regexp.
@@ -232,8 +235,8 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 				}
 			}
 		}
-		for (String signCode: codes) {
-			p.add(signCode);
+		for (String signCode : codes) {
+			p.addSign(signCode);
 		}
 		return p;
 	}
@@ -242,27 +245,24 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 * @see HieroglyphDatabaseInterface#getSuitableSignsForCode(String)
 	 */
 	public PossibilitiesList getSuitableSignsForCode(String code) {
-		// Temporary system...
 		PossibilitiesList p = new PossibilitiesList(code);
 		String protectedCode = code.replaceAll("(\\W)", "\\\\$1");
-		Pattern pattern = Pattern.compile("^(US[0-9]+)?"
-				+ protectedCode+ "[a-zA-Z]*$");
-		TreeSet<String> codes= new TreeSet<String>();
+		Pattern pattern = Pattern.compile("^(US[0-9]+)?" + protectedCode
+				+ "[a-zA-Z]*$", Pattern.CASE_INSENSITIVE);
+		// Build a sorted list of codes.
+		TreeSet<String> codes = new TreeSet<String>();
 		for (String signCode : getCodesSet()) {
 			if (GardinerCode.isCorrectGardinerCode(signCode)) {
-				// Protect code for insertion in a regexp.
-				if (pattern.matcher(signCode).matches()) {
+				// The exact code should come first, if possible.
+				if (signCode.equalsIgnoreCase(code)) {
+					p.addSign(signCode);
+				} else if (pattern.matcher(signCode).matches()) {
 					codes.add(signCode);
 				}
 			}
 		}
-		// Ensure that the code itself comes as the first element.
-		if (codes.contains(code)) {
-			codes.remove(code);
-			p.add(code);
-		}
-		for (String signCode: codes) {
-			p.add(signCode);
+		for (String signCode : codes) {
+			p.addSign(signCode);
 		}
 		return p;
 	}
@@ -332,7 +332,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	public void addPartOf(String sign, String baseSign) {
 		SignInfo signInfo = getSignInfo(sign);
 		signInfo.addSignContainingThisOne(baseSign);
-		SignInfo baseSignInfo= getSignInfo(baseSign);
+		SignInfo baseSignInfo = getSignInfo(baseSign);
 		baseSignInfo.addSubSign(sign);
 	}
 
@@ -403,11 +403,11 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		if (code == null)
 			return Collections.emptySet();
 		else {
-			SignInfo signInfo= getSignInfo(code);
+			SignInfo signInfo = getSignInfo(code);
 			return signInfo.getSubSigns();
 		}
 	}
-	
+
 	public Collection<String> getTagsForFamily(String familyName) {
 		TreeSet<String> tagsNames = new TreeSet<String>(); // Strings
 		Iterator<SignInfo> iter = signInfoMap.values().iterator();
@@ -502,5 +502,4 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 		return getSignInfo(code).isAlwaysDisplayed();
 	}
 
-	
 }

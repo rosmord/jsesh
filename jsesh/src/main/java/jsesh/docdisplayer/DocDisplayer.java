@@ -52,6 +52,7 @@ import javax.swing.event.HyperlinkListener;
  * @author S. Rosmorduc
  *
  */
+@SuppressWarnings("serial")
 public class DocDisplayer extends JFrame {
 
         private static final Logger logger= Logger.getLogger(DocDisplayer.class.getName());

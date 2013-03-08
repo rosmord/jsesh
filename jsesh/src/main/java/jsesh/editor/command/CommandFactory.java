@@ -36,38 +36,40 @@ package jsesh.editor.command;
 import java.util.List;
 
 import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 
+/**
+ * A factory to build the main edit commands used by the hieroglyphic editor.
+ * <p> tech detail : Basically build composite commands using deletion and insertion. 
+ * <p> other tech detail : the list of available commands needs not be known, as the Factory hides them.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ *
+ */
 public class CommandFactory {
 
-	public MDCCommand buildReplaceCommand(
-			TopItemList topItemList, List newTopItems,
-			MDCPosition pos1, MDCPosition pos2, boolean clean) {
+	public MDCCommand buildReplaceCommand(TopItemList topItemList,
+			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
+			boolean clean) {
 		CompositeCommand command = new CompositeCommand(clean);
-		
 		MDCPosition[] p = MDCPosition.getOrdereredPositions(pos1, pos2);
-		
-		MDCCommand removeCommand = buildRemoveCommand(topItemList, pos1, pos2, false);
-		
-		MDCCommand insertCommand = buildInsertCommand(topItemList, newTopItems, p[0], false); 
-		
+		MDCCommand removeCommand = buildRemoveCommand(topItemList, pos1, pos2,
+				false);
+		MDCCommand insertCommand = buildInsertCommand(topItemList, newTopItems,
+				p[0], false);
 		command.addCommand(removeCommand);
 		command.addCommand(insertCommand);
 		return command;
 	}
 
-	public MDCCommand buildInsertCommand(TopItemList model,	List newCadrats, MDCPosition position, boolean firstCommand) {
-		return new InsertCommand(model, newCadrats, position,
-				firstCommand);
+	public MDCCommand buildInsertCommand(TopItemList model,
+			List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+		return new InsertCommand(model, newCadrats, position, firstCommand);
 	}
 
-	public MDCCommand buildRemoveCommand(
-			TopItemList model , MDCPosition pos1,
+	public MDCCommand buildRemoveCommand(TopItemList model, MDCPosition pos1,
 			MDCPosition pos2, boolean clean) {
-		return new RemoveCommand(model, pos1, pos2,
-				clean);
+		return new RemoveCommand(model, pos1, pos2, clean);
 
-	}
-	
-	
+	}	
 }

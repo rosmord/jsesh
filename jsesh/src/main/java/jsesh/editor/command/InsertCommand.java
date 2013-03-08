@@ -36,6 +36,7 @@ package jsesh.editor.command;
 import java.util.List;
 
 import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 
 /**
@@ -48,7 +49,7 @@ class InsertCommand extends AbstractMDCCommand {
 	/**
 	 * The cadrats to add.
 	 */
-	private List newCadrats;
+	private List<TopItem> newCadrats;
 	private MDCPosition position;
 	private TopItemList topItemList;
 	
@@ -60,7 +61,7 @@ class InsertCommand extends AbstractMDCCommand {
 	 * @param firstCommand Is this command the first one on a fresh text ?
 	 */
 	
-	public InsertCommand(TopItemList topItemList, List newCadrats, MDCPosition position, boolean firstCommand) {
+	public InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
 		super(firstCommand);
 		this.topItemList= topItemList;
 		this.newCadrats= newCadrats;

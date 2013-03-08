@@ -14,6 +14,8 @@ import jsesh.mdc.constants.TextOrientation;
  */
 
 public class Tabbing extends TopItem {
+	private static final long serialVersionUID = 1191171926857074622L;
+
 	/**
 	 * Identifies tab ids.
 	 */
@@ -68,7 +70,7 @@ public class Tabbing extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Tabbing deepCopy() {
 		Tabbing r= new Tabbing(id, tabbingJustification, orientation);
 		copyStateTo(r);
 		return r;
@@ -102,5 +104,8 @@ public class Tabbing extends TopItem {
 		return orientation;
 	}
 	
-	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null; // for now.	
+	}
 }

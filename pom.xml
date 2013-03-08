@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.qenherkhopeshef</groupId>
   <artifactId>JSesh-all</artifactId>
-  <version>5.7</version>
+  <version>6.3.2</version>
   <packaging>pom</packaging>
   <name>JSesh complete distribution</name>
   <repositories>
@@ -64,7 +64,6 @@
     <module>jseshGlyphs</module>
     <module>prepareJSeshRelease</module>
     <module>jseshDoc</module>
-    <module>jseshOthers</module>
     <module>jhotdrawfw</module>
     <module>jseshAppli</module>
     <module>jseshDemos</module>

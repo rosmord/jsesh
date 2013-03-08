@@ -47,10 +47,13 @@ import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
 
 /**
  * Presenter for drawing preferences.
- * <p> Choice to make at some point: use a dialog or a frame. With a frame, we would
- * need some kind of listener.
- * The DrawingSpecification class should probably be much much much simpler.
- * <p> For now, we stick with a modal dialog.
+ * <p>
+ * Choice to make at some point: use a dialog or a frame. With a frame, we would
+ * need some kind of listener. The DrawingSpecification class should probably be
+ * much much much simpler.
+ * <p>
+ * For now, we stick with a modal dialog.
+ * 
  * @author rosmord
  * 
  */
@@ -58,7 +61,6 @@ public class DrawingSpecificationsPresenter {
 
 	JDrawingSpecificationEditor form;
 
-	
 	/**
 	 * @param string
 	 */
@@ -73,6 +75,8 @@ public class DrawingSpecificationsPresenter {
 		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
 				form.getLineSkipField());
 		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
+				form.getInterQuadrantSkipField());
+		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
 				form.getMaxCadratHeightField());
 		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
 				form.getMaxCadratWidthField());
@@ -80,11 +84,8 @@ public class DrawingSpecificationsPresenter {
 				form.getNormalSignHeightField());
 		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
 				form.getSmallFontBodyLimitField());
-		
 
 	}
-
-	
 
 	private float getLength(JFormattedTextField field) {
 		float pointValue = (float) (((Number) field.getValue()).doubleValue() * ((LengthUnit) form
@@ -97,21 +98,21 @@ public class DrawingSpecificationsPresenter {
 	 * 
 	 * @param drawingSpecification
 	 */
-	public void loadPreferences(DrawingSpecification drawingSpecification) {	
+	public void loadPreferences(DrawingSpecification drawingSpecification) {
 		form.getCartoucheLineWidthField().setValue(
 				new Double(drawingSpecification.getCartoucheLineWidth()));
 		form.getColumnSkipField().setValue(
 				new Double(drawingSpecification.getColumnSkip()));
 		form.getLineSkipField().setValue(
 				new Double(drawingSpecification.getLineSkip()));
+		form.getInterQuadrantSkipField().setValue(
+				drawingSpecification.getSmallSkip());
 		form.getMaxCadratHeightField().setValue(
 				new Double(drawingSpecification.getMaxCadratHeight()));
 		form.getMaxCadratWidthField().setValue(
 				new Double(drawingSpecification.getMaxCadratWidth()));
-		form.getNormalSignHeightField()
-				.setValue(
-						new Double((int) drawingSpecification
-								.getStandardSignHeight()));
+		form.getNormalSignHeightField().setValue(
+				new Double((int) drawingSpecification.getStandardSignHeight()));
 		form.getSmallFontBodyLimitField().setValue(
 				new Double(drawingSpecification.getSmallBodyScaleLimit()));
 		form.getUseLinesForShadingCheckBox().setSelected(
@@ -124,8 +125,7 @@ public class DrawingSpecificationsPresenter {
 	 * 
 	 * @param drawingSpecifications
 	 */
-	public void updatePreferences(		
-			DrawingSpecification drawingSpecifications) {
+	public void updatePreferences(DrawingSpecification drawingSpecifications) {
 		drawingSpecifications.setCartoucheLineWidth(getLength(form
 				.getCartoucheLineWidthField()));
 		drawingSpecifications
@@ -137,6 +137,8 @@ public class DrawingSpecificationsPresenter {
 				.getMaxCadratWidthField()));
 		drawingSpecifications.setStandardSignHeight(getLength(form
 				.getNormalSignHeightField()));
+		drawingSpecifications.setSmallSkip(getLength(form
+				.getInterQuadrantSkipField()));
 		double limit = ((Double) form.getSmallFontBodyLimitField().getValue())
 				.doubleValue();
 		drawingSpecifications.setSmallBodyScaleLimit(limit);
@@ -147,19 +149,19 @@ public class DrawingSpecificationsPresenter {
 		}
 	}
 
-	public int  showDialog(Component parent) {
-		JSimpleDialog dialog= new JSimpleDialog(parent, form.getPanel(),Messages.getString("drawingPrefs.title"));
-		int result=dialog.show();
+	public int showDialog(Component parent) {
+		JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
+				Messages.getString("drawingPrefs.title"));
+		int result = dialog.show();
 		dialog.dispose();
 		return result;
 	}
-	
 
 	public static void main(String[] args) {
 		DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
 		presenter.loadPreferences(new DrawingSpecificationsImplementation());
 		presenter.showDialog(null);
-		DrawingSpecification d= new DrawingSpecificationsImplementation();
+		DrawingSpecification d = new DrawingSpecificationsImplementation();
 		presenter.updatePreferences(d);
 		System.out.println(d.getMaxCadratWidth());
 	}

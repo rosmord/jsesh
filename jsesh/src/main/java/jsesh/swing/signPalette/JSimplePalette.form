@@ -173,7 +173,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Trlt. filter"/>
+        <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">

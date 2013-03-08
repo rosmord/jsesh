@@ -53,4 +53,14 @@ public class PortableFileDialogFactory {
 		return dialog;		
 	}
 
+	/**
+	 * Create a dialog for selecting an existing directory.
+	 * 
+	 * @return
+	 */
+	public static PortableFileDialog createDirectoryOpenDialog(Component parent) {
+		PortableFileDialog dialog= createDialog(parent);		
+		dialog.setOperation(FileOperation.OPEN_DIRECTORY);
+		return dialog;		
+	}
 }

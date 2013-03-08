@@ -37,11 +37,13 @@ import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
+import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.EMFExporter;
 import jsesh.graphics.export.EPSExporter;
 import jsesh.graphics.export.HTMLExporter;
@@ -54,6 +56,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
+import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
@@ -71,8 +74,10 @@ import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
@@ -142,21 +147,8 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
-	// NOTE : in the current application model for JHotDraw, the "Window" menu
-	// is completely
-	// driven by JHotdraw. New JH. versions might change this, but meanwhile
-	// I'll let it as it is.
-
-	// NOTE : stuff to add
-	// Document sub menu (in File)
-	// Edit document preferences
-	// Set as default document
-
 	// View and Help Menu. Tools (insert new Sign ?)
-	// View menu :
-	// orientation
-	// direction
-	// center sign
+	
 	/**
 	 * Prefix for action names which insert a symbol with a SymbolCode. Should
 	 * move in some other class.
@@ -181,6 +173,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
 	private PalettePresenter palettePresenter;
 	
+	private JGlossaryEditor glossaryEditor;
+	
 	@Override
 	public void initApplication(Application a) {
 		super.initApplication(a);
@@ -203,21 +197,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 		JSeshView jSeshView = (JSeshView) v;
 		jSeshView.setDrawingSpecifications(drawingSpecifications);
 		jSeshView.setMDCModelTransferableBroker(transferableBroker);
-		System.out.println(getFontInfo());
 		jSeshView.setFontInfo(getFontInfo());
 	}
-
-	
-
-//	@Override
-//	public List<JToolBar> createToolBars(Application a, View p) {
-//		List<JToolBar> toolbars = new ArrayList<JToolBar>();
-//		JToolBar hoolbar = new JToolBar("hieroglyphs");
-//		hoolbar.add(createHieroglyphicPalette());
-//		// toolbars.add(hoolbar);
-//		toolbars.add(hoolbar);
-//		return toolbars;
-//	}
 
 	/*
 	 * Note that createActionMap is in the application model and not in the view
@@ -254,13 +235,19 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
 			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
 			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
+			map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
 			// palette ...
 
 			palettePresenter = new PalettePresenter();
 			palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
 
 			map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
-
+			
+			Action glossaryEditorAction= new ToggleGlossaryEditorAction(a);
+			new PaletteActionEnabler( glossaryEditorAction, getGlossaryEditor().getFrame());
+			
+			map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
+			
 			map.remove(DuplicateAction.ID);
 			map.remove(DeleteAction.ID);
 			map.remove(CopyAction.ID);
@@ -271,9 +258,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.remove(ClearSelectionAction.ID);
 
 		} else {
+			// View level actions
 			map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
 			map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
-			// View level actions
 			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
 			map.put(EditDocumentPreferencesAction.ID,
 					new EditDocumentPreferencesAction(a, v));
@@ -308,6 +295,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 			map.put(QuickPDFSelectExportFolderAction.ID,
 					new QuickPDFSelectExportFolderAction(a));
 
+			map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
 			map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
 
 			for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
@@ -534,6 +522,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 */
 	public DrawingSpecification getDefaultDrawingSpecifications() {
 		return jseshBase.getDefaultDrawingSpecifications();
+	}
+
+	public JGlossaryEditor getGlossaryEditor() {
+		if (glossaryEditor== null)
+			glossaryEditor= new JGlossaryEditor();
+		return glossaryEditor;		
 	}
 
 }

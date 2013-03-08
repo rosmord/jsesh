@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import jsesh.Messages;
+import jsesh.i18n.I18n;
 
 import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
 
@@ -32,7 +32,7 @@ public class WMFExporter extends AbstractGraphicalExporter {
 	
 
 	public WMFExporter() {
-		super("wmf", Messages.getString("WMFExporter.description"));
+		super("wmf", I18n.getString("WMFExporter.description"));
 		frame= null;
 	}
 

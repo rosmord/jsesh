@@ -717,7 +717,7 @@ public class SimpleLayout extends AbstractLayout {
 	public void visitLineBreak(LineBreak b) {
 		// The actual layout is done in TopItemList, because we need a global
 		// view to decide LineBreak skips.
-		currentView.setWidth(0.1f);
+		currentView.setWidth(0.0f);
 		currentView.setHeight(drawingSpecifications.getMaxCadratHeight());
 	}
 

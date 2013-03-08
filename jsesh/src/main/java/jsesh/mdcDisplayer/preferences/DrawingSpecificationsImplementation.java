@@ -159,7 +159,16 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	private float maxCadratWidth;
 
 	private boolean smallSignsCentered;
+	
+	/**
+	 * Temporary system, while waiting for something better.
+	 * Ask for text justification.
+	 */
+	private boolean justified= false;
 
+	/**
+	 * Skip between adjacent quadrants.
+	 */
 	private float smallSkip;
 
 	/**
@@ -237,6 +246,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		pageLayout.setTopMargin(smallSkip + getCartoucheLineWidth()
 				+ getCartoucheMargin());
 		pageLayout.setLeftMargin(3 * smallSkip);
+		//pageLayout.setLeftMargin(0);
+		
 		pageLayout.setTextWidth(538);
 		pageLayout.setTextHeight(760);
 
@@ -1207,6 +1218,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		this.shadingStyle = shadingStyle;
 	}
 
+	
+	
 	/**
 	 * Returns a copy of the current page layout. To actually change the page
 	 * layout, one needs to modify this copy and set a new layout.
@@ -1235,6 +1248,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 				.withStandardSignHeight(standardSignHeight)
 				.withTextDirection(textDirection)
 				.withTextOrientation(textOrientation)
+				.withSmallSkip(smallSkip)
 				.withUseLinesForShading(
 						getShadingStyle().equals(ShadingStyle.LINE_HATCHING));
 		return prefs;
@@ -1255,6 +1269,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 		setSmallBodyScaleLimit(prefs.getSmallBodyScaleLimit());
 		setStandardSignHeight((float) prefs.getStandardSignHeight());
 		setSmallSignsCentered(prefs.isSmallSignCentered());
+		setSmallSkip((float) prefs.getSmallSkip());
 		if( prefs.isUseLinesForShading()) {
 			setShadingStyle(ShadingStyle.LINE_HATCHING);
 		} else
@@ -1264,5 +1279,22 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	
 	public TransliterationEncoding getTransliterationEncoding() {
 		return new TransliterationEncoding(isTranslitUnicode(), getYodChoice(), isGardinerQofUsed());
+	}
+
+	/**
+	 * Are the lines (all of them) the same width ?
+	 * (temporary measure)
+	 * @return true if lines are justified.
+	 */
+	public boolean isJustified() {
+		return justified;
+	}
+
+	/**
+	 * Change the lines justification (all of them).
+	 * @param justified the justified to set
+	 */
+	public void setJustified(boolean justified) {
+		this.justified = justified;
 	}
 }

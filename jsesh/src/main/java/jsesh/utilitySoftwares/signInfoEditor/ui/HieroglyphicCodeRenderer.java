@@ -4,12 +4,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
 
+/**
+ * Renders <em>one</em> sign
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ *
+ * The sign is given  by its mdc code.
+ */
+@SuppressWarnings("serial")
 public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8259595791768407149L;
 	private int bitmapSize = 30;
 	private int bitmapBorder = 4;
 
@@ -29,7 +32,4 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 		else
 			setIcon(null);
 	}
-
-	
-
 }

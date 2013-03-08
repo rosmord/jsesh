@@ -17,6 +17,11 @@ public class BasicItemList
     extends EmbeddedModelElement
 	implements BasicItemListInterface {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6889728940705626342L;
+
 	public BasicItemList() {
 	}
 
@@ -30,14 +35,6 @@ public class BasicItemList
 
 	public void accept(ModelElementVisitor v) {
 		v.visitBasicItemList(this);
-	}
-
-	public BasicItemIterator iterator() {
-		return new BasicItemIterator(getListIterator());
-	}
-
-	public BasicItemIterator iterator(int idx) {
-		return new BasicItemIterator(getListIterator(idx));
 	}
 
 	/* (non-Javadoc)
@@ -58,10 +55,15 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public BasicItemList deepCopy() {
 		BasicItemList r= new BasicItemList();
 		copyContentTo(r);
 		return r; 
+	}
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return new SubCadrat(deepCopy());
 	}
 	
 	/* (non-Javadoc)

@@ -13,6 +13,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * This is an absolute point on the screen. 
  */
 public class TabStop extends TopItem {
+	private static final long serialVersionUID = -6631740389850638821L;
 	private int stopPos;
 	
 	public TabStop(int stopPos)
@@ -61,7 +62,7 @@ public class TabStop extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public TabStop deepCopy() {
 		TabStop r= new TabStop(stopPos);
 		copyStateTo(r);
 		return r;
@@ -72,5 +73,10 @@ public class TabStop extends TopItem {
 	 */
 	public String toString() {
 		return "(tab "+ stopPos + ")";
+	}
+	
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
 	}
 }

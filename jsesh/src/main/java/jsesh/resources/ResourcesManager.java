@@ -80,6 +80,7 @@ public class ResourcesManager {
 		unicodeFont = unicodeFont.deriveFont(12f);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Font loadStreamFont(String resourceName, int defaultStyle) {
 		InputStream in = null;
 		Font result = null;
@@ -156,7 +157,7 @@ public class ResourcesManager {
 			result = new File(result, "Library");
 			result = new File(result, "Preferences");
 			result = new File(result, "JSesh");
-			System.err.println("Looking for " + result);
+			//System.err.println("Looking for " + result);
 		} else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
 			result = new File(result, "JSeshData");
 		} else { // Unix

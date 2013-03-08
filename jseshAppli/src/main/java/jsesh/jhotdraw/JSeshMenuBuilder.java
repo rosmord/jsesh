@@ -21,6 +21,7 @@ import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
+import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplyModelAction;
@@ -35,10 +36,10 @@ import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.SetAsModelAction;
-import jsesh.jhotdraw.actions.format.CenterSmallSignsAction;
-import jsesh.jhotdraw.actions.format.SetDocumentDirectionAction;
-import jsesh.jhotdraw.actions.format.SetDocumentOrientationAction;
+import jsesh.jhotdraw.actions.format.*;
+import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -56,7 +57,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 			menus.add(createSignMenu(app, (JSeshView) v));
 		}
 	}
-	
+
 	private JMenu createTextMenu(Application a, JSeshView v) {
 		JMenu textMenu = new JMenu();
 		BundleHelper.getInstance().configure(textMenu, "text");
@@ -258,6 +259,10 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		JCheckBoxMenuItem centeredMenuItem = new JCheckBoxMenuItem(
 				new CenterSmallSignsAction(app, jSeshView));
 		documentFormat.add(centeredMenuItem);
+
+		JCheckBoxMenuItem justifyMenuItem = new JCheckBoxMenuItem(
+				new ToggleJustifyAction(app, jSeshView));
+		documentFormat.add(justifyMenuItem);
 		return documentFormat;
 	}
 
@@ -279,10 +284,13 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		editMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
 		editMenu.add(map.get(ActionsID.SET_MODE_LATIN));
 		editMenu.add(map.get(ActionsID.SET_MODE_ITALIC));
+		editMenu.add(map.get(ActionsID.SET_MODE_BOLD));
 		editMenu.add(map.get(ActionsID.SET_MODE_TRANSLIT));
 		editMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
 		editMenu.add(map.get(InsertShortTextAction.ID));
 
+		editMenu.addSeparator();
+		editMenu.add(map.get(AddToGlossaryAction.ID));
 		editMenu.addSeparator();
 		ButtonGroup group = new ButtonGroup();
 		boolean isFirst = true;
@@ -358,15 +366,25 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 		return ecdoticMenu;
 	}
 
+	@Override
+	public void addHelpItems(JMenu m, Application app, View v) {
+		m.add(app.getActionMap(v).get(JSeshHelpAction.ID));
+	}
 
-
-	/* (non-Javadoc)
-	 * @see org.jhotdraw_7_6.app.DefaultMenuBuilder#addOtherWindowItems(javax.swing.JMenu, org.jhotdraw_7_6.app.Application, org.jhotdraw_7_6.app.View)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.jhotdraw_7_6.app.DefaultMenuBuilder#addOtherWindowItems(javax.swing
+	 * .JMenu, org.jhotdraw_7_6.app.Application, org.jhotdraw_7_6.app.View)
 	 */
 	@Override
 	public void addOtherWindowItems(JMenu m, Application app, View v) {
 		m.addSeparator();
-		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(ToggleGlyphPaletteAction.ID)));
+		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(
+				ToggleGlossaryEditorAction.ID)));
+		m.add(new JCheckBoxMenuItem(app.getActionMap(v).get(
+				ToggleGlyphPaletteAction.ID)));
 	}
 
 }

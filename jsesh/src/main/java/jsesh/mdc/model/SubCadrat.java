@@ -12,6 +12,7 @@ import jsesh.mdc.interfaces.SubCadratInterface;
  *This code is published under the GNU LGPL.
  */
 public class SubCadrat extends InnerGroup implements SubCadratInterface {
+	private static final long serialVersionUID = -9028273421807758298L;
 
 	public SubCadrat(BasicItemList b)
 	{
@@ -61,7 +62,7 @@ public class SubCadrat extends InnerGroup implements SubCadratInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public SubCadrat deepCopy() {
 		BasicItemList l= (BasicItemList) getBasicItemList().deepCopy();
 		SubCadrat r= new SubCadrat(l);
 		return r;

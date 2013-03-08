@@ -102,7 +102,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 
 			File f = getUserSignDefinitionFile();
 			if (f.exists()) {
-				System.err.println("Reading user sign definition");
+				//System.err.println("Reading user sign definition");
 				InputStream in2 = new FileInputStream(f);
 				reader.readSignDescription(in2);
 			}
@@ -229,37 +229,37 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 		return result;
 	}
 
-	public Collection getSignsWithoutTagInFamily(String familyName) {
-		TreeSet result = new TreeSet(GardinerCode.getCodeComparator());
+	public Collection<String> getSignsWithoutTagInFamily(String familyName) {
+		TreeSet<String> result = new TreeSet<String>(GardinerCode.getCodeComparator());
 		result.addAll(distributionInfoManager
 				.getSignsWithoutTagInFamily(familyName));
 		result.addAll(userInfoManager.getSignsWithoutTagInFamily(familyName));
 		return result;
 	}
 
-	public Collection getTagsForFamily(String familyName) {
-		TreeSet result = new TreeSet();
+	public Collection<String> getTagsForFamily(String familyName) {
+		TreeSet<String> result = new TreeSet<String>();
 		result.addAll(distributionInfoManager.getTagsForFamily(familyName));
 		result.addAll(userInfoManager.getTagsForFamily(familyName));
 		return result;
 	}
 
-	public Collection getTagsForSign(String gardinerCode) {
-		TreeSet result = new TreeSet();
+	public Collection<String> getTagsForSign(String gardinerCode) {
+		TreeSet<String> result = new TreeSet<String>();
 		result.addAll(distributionInfoManager.getTagsForSign(gardinerCode));
 		result.addAll(userInfoManager.getTagsForSign(gardinerCode));
 		return result;
 	}
 
-	public List getValuesFor(String gardinerCode) {
-		ArrayList result = new ArrayList();
+	public List<String> getValuesFor(String gardinerCode) {
+		ArrayList<String> result = new ArrayList<String>();
 		result.addAll(distributionInfoManager.getValuesFor(gardinerCode));
 		result.addAll(userInfoManager.getValuesFor(gardinerCode));
 		return result;
 	}
 
-	public Collection getVariants(String code) {
-		TreeSet result = new TreeSet(GardinerCode.getCodeComparator());
+	public Collection<String> getVariants(String code) {
+		TreeSet<String> result = new TreeSet<String>(GardinerCode.getCodeComparator());
 		result.addAll(distributionInfoManager.getVariants(code));
 		result.addAll(userInfoManager.getVariants(code));
 		return result;
@@ -278,7 +278,9 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 	}
 
 	/**
-	 * Get the all the codes which might match a "generic gardiner code". In
+	 * Get the all the codes which might match a "generic gardiner code".
+	 * 
+	 * 
 	 * fact, there are two conceptual layers of signs : Glyphs and Characters,
 	 * roughly. Characters are described (more or less consistently, see for
 	 * example Y1 and Y2 as a counter example) by Gardiner code. Those codes
@@ -295,7 +297,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
 	 * @return
 	 */
 	public PossibilitiesList getSuitableSignsForCode(String code) {
-		if (GardinerCode.isCorrectGardinerCode(code)) {
+		if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code)) {
 			if (!possibilityListsForKeyBoard.containsKey(code)) {
 				PossibilitiesList p = distributionInfoManager
 						.getSuitableSignsForCode(code);

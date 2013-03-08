@@ -785,6 +785,10 @@ public class JMDCEditor extends JPanel {
 		return workflow.getCaret().hasSelection();
 	}
 
+	/**
+	 * Insert one sign with a given code.
+	 * @param code
+	 */
 	public void insert(String code) {
 		workflow.addSign(code);
 	}
@@ -804,4 +808,18 @@ public class JMDCEditor extends JPanel {
 	public boolean isSmallSignsCentered() {
 		return getDrawingSpecifications().isSmallSignsCentered();
 	}
+
+	/**
+	 * Temporary method for signs justification.
+	 * @return true if lines are justified.
+	 */
+	public boolean isJustified() {
+		return getDrawingSpecifications().isJustified();		
+	}
+	
+	public TopItemList getSelection() {
+		return workflow.getSelectionAsTopItemList();
+	}
+
+
 }

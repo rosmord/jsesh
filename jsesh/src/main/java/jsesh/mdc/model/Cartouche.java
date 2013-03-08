@@ -11,6 +11,11 @@ import jsesh.mdc.interfaces.CartoucheInterface;
 public class Cartouche extends InnerGroup implements CartoucheInterface {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4695009410080992441L;
+
+	/**
 	 * <p>
 	 * see endPart
 	 * </p>
@@ -171,9 +176,7 @@ public class Cartouche extends InnerGroup implements CartoucheInterface {
 		type = _type;
 	}
 
-	public BasicItemIterator iterator() {
-		return new BasicItemIterator(getListIterator());
-	}
+	
 
 	/*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
@@ -228,7 +231,7 @@ public class Cartouche extends InnerGroup implements CartoucheInterface {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
-	public ModelElement deepCopy() {
+	public Cartouche deepCopy() {
 		BasicItemList l= (BasicItemList) getBasicItemList().deepCopy();
 		Cartouche c= new Cartouche(type,startPart, endPart,l);
 		// As cartouches are no more top-level items, they don't have state anymore

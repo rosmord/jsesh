@@ -7,6 +7,7 @@ package jsesh.mdcDisplayer.layout;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.*;
 
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AlphabeticText;
@@ -21,8 +22,6 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
 
 /**
  * Expert for laying out text organised in lines.
- * <p>
- * Currently works only for left-to-right text.
  * <p>
  * We suppose that:
  * <ul>
@@ -54,6 +53,10 @@ public class LineLayout extends TopItemLayout {
 	 */
 	private Zone zone;
 
+	/**
+	 * A list of all zones, if we decide to justify the text.
+	 */
+	private List<Zone> allZones = new ArrayList<Zone>();
 	/**
 	 * the position that will be used to place the current zone
 	 */
@@ -99,7 +102,9 @@ public class LineLayout extends TopItemLayout {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer.mdcView.MDCView)
+	 * @see
+	 * jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer
+	 * .mdcView.MDCView)
 	 */
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
@@ -117,10 +122,36 @@ public class LineLayout extends TopItemLayout {
 		if (!zone.isEmpty()) {
 			flushZone();
 		}
+		if (drawingSpecifications.isJustified()) {
+			// Compute the maximal width of zones.
+			double width = 0;
+			for (Zone z : allZones) {
+				if (z.getWidth() > width)
+					width = z.getWidth();
+			}
+			width = width
+					- drawingSpecifications.getPageLayout().getLeftMargin();
+			// Justify all zones to this width.
+			for (int i = 0; i < allZones.size(); i++) {
+				Zone z = allZones.get(i);
+				// If it's not the last zone, or it looks large enough
+				// This is a temporary fix. 
+				// We should get somehow the information that the zone "would be centered".
+				if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {					
+					z.justifyWidthTo(drawingSpecifications.getPageLayout()
+							.getLeftMargin(), width);
+				}
+			}
+		}
 		// Ensure the margin is there ?
-		documentArea.add(new Point2D.Double(documentArea.getMaxX()
-				+ drawingSpecifications.getPageLayout().getLeftMargin(),
-				documentArea.getMinY()+ drawingSpecifications.getPageLayout().getTopMargin()));
+		documentArea
+				.add(new Point2D.Double(
+						documentArea.getMaxX()
+								+ drawingSpecifications.getPageLayout()
+										.getLeftMargin(), documentArea
+								.getMinY()
+								+ drawingSpecifications.getPageLayout()
+										.getTopMargin()));
 	}
 
 	/**
@@ -139,6 +170,7 @@ public class LineLayout extends TopItemLayout {
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
 	 */
 	public void startLayout() {
+		allZones.clear();
 		// Pseudo relative position for first element.
 		addTopMargin = true;
 		// nextViewPosition = documentView.getFirstSubViewPosition();
@@ -176,8 +208,8 @@ public class LineLayout extends TopItemLayout {
 
 		// Compute the margins we want.
 		float marginx = 0f, marginy = 0f;
-		
-		PageLayout pageLayout= drawingSpecifications.getPageLayout();
+
+		PageLayout pageLayout = drawingSpecifications.getPageLayout();
 
 		if (addTopMargin) {
 			marginy = pageLayout.getTopMargin();
@@ -198,10 +230,15 @@ public class LineLayout extends TopItemLayout {
 		zone.translateBy(zoneOriginPosition);
 
 		// flush the zone. Add it to the current document area.
-		
-		documentArea.add(new Rectangle2D.Double(zoneOriginPosition.x + minx, zoneOriginPosition.y
-				+ miny, zone.getWidth(), zone.getHeight()));
 
+		documentArea
+				.add(new Rectangle2D.Double(zoneOriginPosition.x + minx,
+						zoneOriginPosition.y + miny, zone.getWidth(), zone
+								.getHeight()));
+		if (drawingSpecifications.isJustified()) {
+			allZones.add(zone);
+		}
+		zone = null;
 	}
 
 	/**
@@ -252,11 +289,6 @@ public class LineLayout extends TopItemLayout {
 			// create a new zone.
 			zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
 			zoneOriginPosition.y += verticalSkip;
-			// Next view position is computed relatively to the zone (SOLVE
-			// THIS.)
-			// nextViewPosition = new RelativePosition(0, RelativePosition.WEST,
-			// 0, RelativePosition.NORTH);
-			// nextViewPosition= subView.getNextViewPosition();
 			addTopMargin = false;
 
 		}
@@ -264,7 +296,9 @@ public class LineLayout extends TopItemLayout {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
+		 * @see
+		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+		 * .PageBreak)
 		 */
 		public void visitPageBreak(PageBreak b) {
 			double dh = zone.getHeight();
@@ -298,10 +332,12 @@ public class LineLayout extends TopItemLayout {
 		 * zone after a tab. <p> For right-to-left text, the tabs are defined in
 		 * terms of the EAST side of the zone.
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.TabStop)
+		 * @see
+		 * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
+		 * TabStop)
 		 */
 		public void visitTabStop(TabStop tab) {
-			float pos = tab.getStopPos() 
+			float pos = tab.getStopPos()
 					* drawingSpecifications.getTabUnitWidth();
 			zone.getCurrentPoint().setLocation(pos, 0);
 			zone.add(subView);

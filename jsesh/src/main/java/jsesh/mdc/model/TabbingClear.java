@@ -6,6 +6,8 @@ package jsesh.mdc.model;
  */
 public class TabbingClear extends TopItem {
 
+	private static final long serialVersionUID = -8676818809470697539L;
+
 	@Override
 	public void accept(ModelElementVisitor v) {
 		v.visitTabbingClear(this);		
@@ -18,10 +20,14 @@ public class TabbingClear extends TopItem {
 	}
 
 	@Override
-	public ModelElement deepCopy() {
+	public TabbingClear deepCopy() {
 		TabbingClear c= new TabbingClear();
 		this.copyStateTo(c);
 		return c;
 	}
 
+	@Override
+	public HorizontalListElement buildHorizontalListElement() {
+		return null;	
+	}
 }

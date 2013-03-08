@@ -90,6 +90,7 @@ public class PDFExporter {
 		if (pdfExportPreferences.isEncapsulated()) {
 			DrawingSpecification specs = pdfExportPreferences
 					.getDrawingSpecifications().copy();
+			//  PDFDataSaver is somehow redundant with PDFExporter...  
 			PDFDataSaver pdfDataSaver = new PDFDataSaver(specs,
 					pdfExportPreferences);
 			FileOutputStream out = new FileOutputStream(

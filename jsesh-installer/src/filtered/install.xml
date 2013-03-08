@@ -10,7 +10,7 @@
             <author name="Serge Rosmorduc" email="rosmord@iut.univ-paris8.fr"/>
         </authors>
         <url>http://www.iut.univ-paris8.fr/~rosmord/JSesh/</url>
-        <javaversion>1.5</javaversion>
+        <javaversion>1.6</javaversion>
         <!--
             uninstaller works, but is not necessary.
             and I'd rather not have problems with users accidentally
@@ -142,5 +142,6 @@ Most users really don't need it. Note that more complete sources (with ant scrip
     </packs>
 	
     <native type="izpack" name="ShellLink.dll"/>
+    <native type="izpack" name="ShellLink_x64.dll"/>
 	
 </installation>

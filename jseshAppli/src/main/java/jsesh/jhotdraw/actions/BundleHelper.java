@@ -46,7 +46,6 @@ public class BundleHelper {
 		// Mdc Icon if available :
 		String mdcIcon= resourceBundleUtil.getString(ID + ".mdcIcon");
 		if (mdcIcon != null && ! "".equals(mdcIcon) && ! (ID+".mdcIcon").equals(mdcIcon)) {
-			System.out.println("ICON " + mdcIcon);
 			action.putValue(Action.SMALL_ICON, ImageIconFactory.buildImage(mdcIcon));
 		}
 		return action;
