@@ -77,6 +77,7 @@ class SwingFileDialog extends PortableFileDialog {
 		delegate.setDialogTitle(title);
 	}
 
+        @Override
 	public void setFileFilters(FileFilter[] filters) {
 		// We suppose that filters may not be null or empty
 		if (filters == null || filters.length == 0)
