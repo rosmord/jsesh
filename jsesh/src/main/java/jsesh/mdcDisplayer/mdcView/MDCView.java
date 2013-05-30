@@ -1099,7 +1099,6 @@ public class MDCView implements ViewBox {
 
 	/**
 	 * Compute a view size, given the current transformations.
-	 * TODO : move to the view class.
 	 * @param transform
 	 * @return
 	 */
