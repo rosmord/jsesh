@@ -45,4 +45,4 @@ knowledge of the CeCILL license and that you accept its terms.
  * </ul>
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
-package jsesh.newDisplay;
+package jsesh.newEdit;

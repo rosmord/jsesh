@@ -15,5 +15,11 @@ public class NewMDCEditor extends JGraphicalElementDisplayer<PlainDrawing>{
 		super(new PlainDrawing());
 	}
 
+	public void setMdC(String mdc) {
+		// WRITE Auto-generated method stub
+		if (true) throw new RuntimeException("WRITE ME");
+		
+	}
+
 	
 }

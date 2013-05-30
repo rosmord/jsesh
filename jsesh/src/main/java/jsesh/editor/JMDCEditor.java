@@ -357,6 +357,7 @@ public class JMDCEditor extends JPanel {
 		drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(),
 				getDrawingSpecifications());
 
+		// Next call currently does nothing.
 		drawer.drawCursor(g2d, getView(), getMDCCaret(),
 				getDrawingSpecifications());
 		if (caretChanged) {
