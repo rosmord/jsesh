@@ -422,6 +422,7 @@ public class JMDCEditor extends JPanel {
         revalidate();
     }
 
+
     /**
      * @return the current insertion position.
      */

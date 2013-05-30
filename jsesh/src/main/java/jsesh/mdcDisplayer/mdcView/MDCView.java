@@ -1,8 +1,8 @@
 package jsesh.mdcDisplayer.mdcView;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Dimension;
+import java.awt.geom.*;
+import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1095,6 +1095,26 @@ public class MDCView implements ViewBox {
 	 */
 	public void setYStretchable(boolean stretchable) {
 		yStretchable = stretchable;
+	}
+
+	/**
+	 * Compute a view size, given the current transformations.
+	 * TODO : move to the view class.
+	 * @param transform
+	 * @return
+	 */
+	public Dimension transformedDimensions(AffineTransform transform) {
+		// Compute the picture size.
+		Point2D topLeft = new Float();
+		Point2D bottomRight = new Float();
+		Dimension viewDimension;
+		transform.transform(new Float(0, 0), topLeft);
+		transform.transform(
+				new Float(getWidth(), getHeight()), bottomRight);
+		int computedWidth = (int) Math.ceil(bottomRight.getX() - topLeft.getX());
+		int computedHeight = (int) Math.ceil(bottomRight.getY() - topLeft.getY());
+		viewDimension= new Dimension(computedWidth, computedHeight);
+		return viewDimension;
 	}
 
 }

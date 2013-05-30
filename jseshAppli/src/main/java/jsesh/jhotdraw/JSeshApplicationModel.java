@@ -324,6 +324,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 						.buildInsertElementActionWithIcon(a, jseshView,
 								INSERT_CODE + i, i));
 			}
+                        for (String s: AdditionalSymbols.ARROWS) {
+                            map.put(INSERT_CODE+ s, InsertElementAction.buildInsertElementActionWithIcon(a, jseshView, s));
+                        }
 		}
 		return map;
 	}

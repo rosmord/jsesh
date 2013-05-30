@@ -1,6 +1,6 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 12 f�vr. 2005
+ * Created on 12 fevr. 2005
  *
  */
 package org.qenherkhopeshef.graphics.generic;

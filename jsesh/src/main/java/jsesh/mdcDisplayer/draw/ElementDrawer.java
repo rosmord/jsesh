@@ -348,6 +348,13 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		this.shadeAfter = shadeAfter;
 	}
 
+	/**
+	 * Sets the coordinate system relative to the original device we are drawing to.
+	 * <p>This is useful, for instance, to get a regular hatching on the page, or, if one
+	 * wants a line to have exactly the same width, current transform notwithstanding.
+	 * @param pageCoordinateSystem
+	 * @see #getTransformToPageCoordinates(Graphics2D)
+	 */
 	public void setPageCoordinateSystem(
 			PageCoordinateSystem pageCoordinateSystem) {
 		this.pageCoordinateSystem = pageCoordinateSystem;

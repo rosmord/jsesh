@@ -363,6 +363,9 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 			ecdoticMenu.add(a.getActionMap(v).get(
 					JSeshApplicationModel.INSERT_CODE + i));
 		}
+                for (String s: AdditionalSymbols.ARROWS) {
+                    ecdoticMenu.add(a.getActionMap(v).get(JSeshApplicationModel.INSERT_CODE + s));
+                }
 		return ecdoticMenu;
 	}
 

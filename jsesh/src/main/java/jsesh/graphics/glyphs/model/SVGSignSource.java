@@ -1,35 +1,17 @@
 package jsesh.graphics.glyphs.model;
 
 import java.awt.BasicStroke;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.awt.geom.*;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.*;
 
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.HorizontalGravity;
-import jsesh.hieroglyphs.LigatureZone;
-import jsesh.hieroglyphs.ShapeChar;
-import jsesh.hieroglyphs.VerticalGravity;
+import jsesh.hieroglyphs.*;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
