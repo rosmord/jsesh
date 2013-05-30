@@ -160,6 +160,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		currentTextOrientation = drawingSpecifications.getTextOrientation();
 		this.g = g;
 		elt.accept(this);
+                currentView= null;
 	}
 
 	/**

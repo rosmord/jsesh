@@ -1,6 +1,6 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 7 déc. 2004
+ * Created on 7 dec. 2004
  *
  */
 package jsesh.mdc.model.utilities;

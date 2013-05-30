@@ -203,7 +203,7 @@ public class ViewDrawer {
 
 	private boolean drawFromCache(Graphics2D g, MDCView v) {
 		boolean result;
-		BufferedImage img = (BufferedImage) imageCache.get(v.getModel());
+		BufferedImage img =  imageCache.get(v.getModel());
 		result = (img != null);
 		if (result) {
 			AffineTransform t = g.getTransform();
