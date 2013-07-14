@@ -12,23 +12,18 @@ public class Main {
 	
 	public Main() {		
 		Container panel = frame.getContentPane();
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints c= new GridBagConstraints();
+		panel.setLayout(new BorderLayout());
 		JScrollPane scroll= new JScrollPane(newMDCEditor);
 		panel.setPreferredSize(new Dimension(640, 480));
-		c.fill= GridBagConstraints.BOTH;
-		c.weightx= 1;
-		c.weighty= 1;
-		panel.add(scroll,c);
-		c= new GridBagConstraints();
-		c.gridy= 1;
+		panel.add(scroll,BorderLayout.CENTER);
 		mdcTextField.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setMdC();
 			}
 		});
-		panel.add(mdcTextField);		
+		mdcTextField.setText("p*t:pt");
+		panel.add(mdcTextField, BorderLayout.SOUTH);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
@@ -40,6 +35,12 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		
+		SwingUtilities.invokeLater(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        new Main();
+                    }
+                });
 	}
 }
