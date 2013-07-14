@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
 
 /**
@@ -74,5 +75,10 @@ public class PlainDrawing extends AbstractDrawing {
 		drawingSize= null;
 		fireDrawingEvent(ev);
 	}
+
+    public void clear() {
+        elements.clear();
+        eventOccurredInDrawing(new DrawingChangedEvent());
+    }
 
 }

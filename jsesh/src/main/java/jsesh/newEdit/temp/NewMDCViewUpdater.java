@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.mdcDisplayer.viewToolkit.temp;
+package jsesh.newEdit.temp;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.mdc.model.operations.ChildOperation;

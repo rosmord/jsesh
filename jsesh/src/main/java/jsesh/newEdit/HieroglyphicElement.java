@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.viewToolkit.elements;
+package jsesh.newEdit;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
@@ -6,8 +6,9 @@ import java.awt.geom.Rectangle2D;
 
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
-import jsesh.mdcDisplayer.viewToolkit.elements.properties.ObjectProperty;
 import jsesh.utils.DoubleDimensions;
+import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
 
 public class HieroglyphicElement extends GraphicalElement {
 	

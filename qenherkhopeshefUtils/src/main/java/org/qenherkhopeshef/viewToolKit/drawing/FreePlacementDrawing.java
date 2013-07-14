@@ -1,6 +1,8 @@
-package jsesh.mdcDisplayer.viewToolkit.drawing;
+package org.qenherkhopeshef.viewToolKit.drawing;
 
-import jsesh.mdcDisplayer.viewToolkit.elements.GraphicalElement;
+import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+
+
 
 public interface FreePlacementDrawing extends Drawing {
 

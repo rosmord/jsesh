@@ -1,9 +1,9 @@
-package jsesh.mdcDisplayer.viewToolkit.temp;
+package jsesh.newEdit.temp;
 
 import jsesh.mdc.model.ModelElement;
-import jsesh.mdcDisplayer.viewToolkit.elements.GraphicalElement;
 
 import org.qenherkhopeshef.algo.ReversibleMultiHashMap;
+import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
 
 /**
  * Paginated view for a manuel de codage document.
