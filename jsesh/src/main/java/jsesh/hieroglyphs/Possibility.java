@@ -165,5 +165,9 @@ public final class Possibility {
 	public String toString() {
 		return code;
 	}
+
+    public boolean hasCode(String code) {
+       return this.code.equals(code);
+    }
 	
 }

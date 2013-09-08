@@ -76,6 +76,10 @@ public class PossibilitiesList {
 		signs.addAll(possibilitiesList.signs);
 	}
 
+	/**
+	 * Add a code in the list, but only if it isn't already there.
+	 * @param gardinerCode
+	 */
 	public void addSign(String gardinerCode) {
 		Possibility newPossibility = Possibility
 				.createSignPossibility(gardinerCode);

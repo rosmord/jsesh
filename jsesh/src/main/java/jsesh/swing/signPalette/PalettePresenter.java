@@ -62,6 +62,8 @@ import jsesh.hieroglyphs.SignDescriptionConstants;
  * 
  * TODO : use a MultiLingual label instead of the plain tag name...
  * 
+ * Some cleanup done : minimized the number of public methods.
+ * TODO : remove the back button to navigate in recent selection. The dropdown list is sufficient.
  * @author rosmord
  * 
  */
@@ -297,7 +299,7 @@ public class PalettePresenter {
 	 * 
 	 * @return
 	 */
-	public HieroglyphFamily getSelectedFamily() {
+	private HieroglyphFamily getSelectedFamily() {
 		HieroglyphFamily hieroglyphFamily = (HieroglyphFamily) simplePalette
 				.getCategoryChooserCB().getSelectedItem();
 		// In some case, there might be no selected item
@@ -586,7 +588,7 @@ public class PalettePresenter {
 	 * 
 	 * @param family
 	 */
-	public void selectCategory(HieroglyphFamily family) {
+	private void selectCategory(HieroglyphFamily family) {
 		simplePalette.getTagChooserCB().setModel(new DefaultComboBoxModel());
 		// Allow two special families :
 		// last signs : the signs chosen from the palette by the user
@@ -742,7 +744,7 @@ public class PalettePresenter {
 	 * @author rosmord
 	 * 
 	 */
-	public class SimplePaletteMouseListener extends MouseAdapter {
+	private class SimplePaletteMouseListener extends MouseAdapter {
 
 		public void mouseClicked(MouseEvent e) {
 			// Retrieve the code corresponding to the clicked cell.
@@ -771,25 +773,38 @@ public class PalettePresenter {
 		this.hieroglyphPaletteListener = hieroglyphPaletteListener;
 	}
 
-	public void sendCode(String code) {
+	private void sendCode(String code) {
 		if (hieroglyphPaletteListener != null) {
 			hieroglyphPaletteListener.signSelected(code);
 		}
 
-		String trl = simplePalette.getTranslitterationFilterField().getText();
+		// We should change the listener pattern, to include information about the way the sign was found.
+		// Using this information, the main JSesh widget may use the possibility *repository*,
+		// in particular add the sign in the corresponding list if a) a transliteration was used
+		// and b) this transliteration's scope was PALETTE and not KEYBOARD.
+		
+		//String trl = simplePalette.getTranslitterationFilterField().getText();
 		// If we got the sign from a transliteration, add it...
-		if (!"".equals(trl)
-				&& hieroglyphsManager.getValuesFor(code).contains(trl)) {
-			{
-				PossibilitiesList possibilities = hieroglyphsManager
-						.getPossibilityFor(trl,
-								SignDescriptionConstants.KEYBOARD);
-				possibilities.addSign(code);
-				while (!possibilities.getCurrentSign().equals(code)) {
-					possibilities.next();
-				}
-			}
-		}
+		// In a way, I am really not sure that this code should be there...
+		// Maybe the event about selected signs could contain info about HOW the sign was selected.
+		// Allowing us to deal with it in the right place.
+		//
+		// I'm not even sure the code does something useful.
+//		
+//		if (!"".equals(trl)
+//				&& hieroglyphsManager.getValuesFor(code).contains(trl)) {
+//			{
+//				PossibilitiesList possibilities = hieroglyphsManager
+//						.getPossibilityFor(trl,
+//								SignDescriptionConstants.KEYBOARD);
+//				possibilities.addSign(code);
+//				// Loop until we find the new code...
+//				// Loop alsways ends because of the previous line (addSign).
+//				while (!possibilities.getCurrentSign().hasCode(code)) {
+//					possibilities.next();
+//				}
+//			}
+//		}
 		lastUsed.add(code);
 	}
 
@@ -799,7 +814,7 @@ public class PalettePresenter {
 	 * 
 	 * @param code
 	 */
-	public void setSelectedCode(String code) {
+	private void setSelectedCode(String code) {
 		selectedSignCodeIndex = (selectedSignCodeIndex + 1)
 				% selectedSignCodes.length;
 		selectedSignCodes[selectedSignCodeIndex] = code;
@@ -880,7 +895,7 @@ public class PalettePresenter {
 		displaySelectedSignInfo();
 	}
 
-	public void filterFromContainsCB() {
+	private void filterFromContainsCB() {
 		Object selected = simplePalette.getContainsCB().getSelectedItem();
 		// The list also contains text.
 		if (selected instanceof String) {
@@ -915,24 +930,24 @@ public class PalettePresenter {
 		simplePalette.getSecondaryTagCB().setModel(secondaryCBModel);
 	}
 
-	public void setUserPalette(Collection<String> newUserPalette) {
+	private void setUserPalette(Collection<String> newUserPalette) {
 		userPalette.clear();
 		userPalette.addAll(newUserPalette);
 	}
 
-	public Set<String> getUserPalette() {
+	private Set<String> getUserPalette() {
 		return userPalette;
 	}
 
-	public JMDCEditor getSignDescriptionField() {
+	private JMDCEditor getSignDescriptionField() {
 		return signDescriptionField;
 	}
 
-	public JTextArea getGlyphDescriptionField() {
+	private JTextArea getGlyphDescriptionField() {
 		return glyphDescriptionField;
 	}
 
-	public String getMainTag() {
+	private String getMainTag() {
 		return (String) simplePalette.getTagChooserCB().getSelectedItem();
 	}
 }
