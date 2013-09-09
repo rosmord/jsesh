@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1297.125"
+   height="1170"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="X2D.svg">
+  <title
+     id="title3799">X2D</title>
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.24866588"
+     inkscape:cx="1963.5819"
+     inkscape:cy="821.20292"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-grids="false"
+     inkscape:snap-global="true"
+     borderlayer="false"
+     inkscape:snap-to-guides="false"
+     inkscape:snap-page="false"
+     inkscape:object-paths="true"
+     inkscape:snap-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1029"
+     inkscape:window-height="835"
+     inkscape:window-x="889"
+     inkscape:window-y="249"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="20"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       dotted="false"
+       spacingx="5px"
+       spacingy="5px"
+       originx="-263.5px"
+       originy="0px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>X2D</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc </dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Free drawn sign for MdC X2D</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-263.5,117.63782)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:70;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="m 912.0625,630 c -226.02219,0 -410,183.9778 -410,410 0,30.9096 3.47898,61.0262 10,90 L 263.5,1130 c 74.48138,223.3222 148.90895,446.6623 223.34375,670 l 850.43745,0 c 74.4825,-223.3218 148.908,-446.6626 223.3438,-670 l -248.5625,0 c 6.521,-28.9738 10,-59.0904 10,-90 0,-226.0222 -183.9778,-410 -410,-410 z m 0,70 c 188.1914,0 340,151.8086 340,340 0,31.1727 -4.1938,61.3477 -12,90 l -656,0 c -7.8062,-28.6523 -12,-58.8273 -12,-90 0,-188.1914 151.80862,-340 340,-340 z m -551.40625,500 1102.84375,0 -176.6562,530 -749.5313,0 -176.65625,-530 z"
+       transform="translate(0,-747.63782)"
+       id="path2995"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

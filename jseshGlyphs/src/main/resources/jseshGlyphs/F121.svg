@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1802.8733"
+   height="627.68781"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="Nouveau document 2">
+  <title
+     id="title2990">F121</title>
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.40166667"
+     inkscape:cx="1165.6082"
+     inkscape:cy="275.25874"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1540"
+     inkscape:window-height="925"
+     inkscape:window-x="190"
+     inkscape:window-y="246"
+     inkscape:window-maximized="0"
+     inkscape:snap-page="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>F121</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Free hand drawing</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-2.34375,100.48186)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:70;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="M 1545.875,-100.48157 37.15625,-93.01282 c -20.246106,1.718676 -34.5186874,16.165864 -34.8125,35 l 0,151.875 c 1.6515161,20.54956 16.433185,34.98749 35.53125,35 l 1338.7188,-19.9375 c 0.076,3.8e-4 0.1429,-4.1e-4 0.2187,0 78.9613,1.05736 189.8706,30.26157 186.6563,117.25 -3.3614,64.9574 -73.8857,163.4349 -226.3438,234.2813 -28.0592,24.92991 -21.3923,66.56508 15.0312,66.75 153.3141,-1.2732 264.0702,-24.4645 340.1876,-82.5313 76.1173,-58.0668 109.6363,-149.4494 112.7812,-265.21875 3.9115,-143.98872 -117.4651,-279.60005 -258.9688,-279.9375 -0.094,-3.8e-4 -0.1875,-3.8e-4 -0.2812,0 z m 0.094,70 c 0.083,2e-4 0.1669,-3.7e-4 0.25,0 93.3578,0.41193 191.6443,107.238 188.9062,208.03125 -5.3638,166.61931 -101.3629,245.44139 -238.375,268.6875 85.2379,-65.6003 132.762,-141.7868 136.625,-216.4375 -3.6874,-144.747901 -148.8647,-189.450121 -256.4375,-190.875 -0.2293,0.0082 -0.4584,0.01858 -0.6875,0.03125 l -1303.90625,19.375 0,-81.53125 z"
+       id="path2992"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccsscccccccccccc" />
+  </g>
+</svg>

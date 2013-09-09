@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1785.9688"
+   height="1799.5312"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="P5I.svg">
+  <title
+     id="title3799">P5I</title>
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35611111"
+     inkscape:cx="338.38246"
+     inkscape:cy="900.0625"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1855"
+     inkscape:window-height="1176"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>P5I</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Freehand drawing.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-16.84375,747.10657)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:100;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="m 16.84375,0.53125 0,100 69.3125,0 C 93.137785,540.85897 192.4091,856.45223 338,1065.3438 c 137.16829,196.8068 316.53705,298.0567 493.09375,315 l 0.65625,419.7187 100,-0.125 -0.65625,-417.8125 c 248.74305,-8.1935 600.86585,-79.225 776.87505,-180.8438 l 46.2187,-26.6562 -42.875,-31.7812 C 1556.746,1028.342 1422.2188,793.32488 1422.2188,645.875 c 0,-92.90127 44.5591,-229.33333 110.4374,-343.875 51.3849,-89.34179 116.982,-164.43313 175.4688,-201.46875 l 94.6875,0 0,-100 -1785.96875,0 z m 139.3125,100 672.9375,0 L 830.96875,1310 C 678.07427,1293.4784 520.94755,1205.3923 395.4375,1025.3125 260.37783,831.53107 163.15641,530.19425 156.15625,100.53125 z m 772.9375,0 665.68745,0 c -45.5685,45.63391 -86.7533,103.86697 -122.8124,166.5625 -70.7653,123.03818 -119.7501,264.77617 -119.75,378.78125 0,170.63592 120.1832,384.466 274.2812,518.4062 -168.6338,76.8392 -480.1689,139.3848 -695.5,147.6876 L 929.09375,100.53125 z"
+       transform="translate(0,-747.63782)"
+       id="path3009"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

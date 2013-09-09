@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1590.3241"
+   height="1799.8125"
+   id="svg2991"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="F111.svg">
+  <title
+     id="title3804">F111</title>
+  <defs
+     id="defs2993" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.17283997"
+     inkscape:cx="220.14436"
+     inkscape:cy="1543.7364"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1032"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata2996">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>F111</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Freehand drawing of F111.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-77.38662,733.51282)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:70;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="m 919.3125,-733.51282 c -360.82548,0 -598.06593,177.71176 -739.0625,420.96875 C 60.825986,-106.50555 65.750613,228.18732 94.53125,514.70598 114.20612,700.10614 143.17259,884.84924 186.375,1066.2997 l 441.1875,0 c -61.07887,-202.6148 -109.6664,-380.82441 -140,-547.90632 -48.55199,-274.50989 -65.03096,-595.75754 36.34375,-771.3437 99.28659,-171.96941 222.04329,-238.625 416.4375,-238.625 95.09665,0 252.10895,62.08968 380.12505,126.125 128.016,64.03532 229.2187,128.09375 229.2187,128.09375 39.3411,23.46399 78.6821,46.92798 118.0232,70.39197 -23.1327,-39.38066 -46.2655,-78.76131 -69.3982,-118.14197 0,0 -266.2846,-448.40625 -679,-448.40625 z m 0,70 c 221.6233,0 404.5664,156.58656 512.7813,277.34375 -25.0872,-13.56296 -51.8638,-27.67583 -80.3126,-41.90625 -131.5224,-65.78924 -288.5478,-133.5 -411.43745,-133.5 -211.87575,0 -368.46799,85.53379 -477.0625,273.625 -120.43623,208.60166 -94.23721,538.20356 -44.65625,818.5313 36.45897,206.1367 87.81165,385.0207 112.5625,465.7187 l -289.09375,0 c -13.39433,-60.0337 -54.28805,-253.4685 -77.90625,-488.5937 -28.25316,-281.2675 -25.06864,-609.70744 76.625,-785.1563 131.66503,-227.15757 340.14088,-386.0625 678.5,-386.0625 z"
+       id="path3011"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssccccssscccsscssssccsss" />
+  </g>
+</svg>
