@@ -11,7 +11,7 @@ import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
 
 public class TextElement extends GraphicalElement {
 
-	private ObjectProperty<String> textProperty;
+	private final ObjectProperty<String> textProperty;
 
 	private Font font = new Font("SansSerif", Font.PLAIN, 12);
 
@@ -19,7 +19,7 @@ public class TextElement extends GraphicalElement {
 	 * Inner margin (equivalent of HTML padding). TODO : move this property up;
 	 * it should be in Graphical Element already.
 	 */
-	private ObjectProperty<Margin> innerMarginProperty = new ObjectProperty<Margin>(
+	private final ObjectProperty<Margin> innerMarginProperty = new ObjectProperty<Margin>(
 			"margins", this, new Margin(3), true);
 
 	private Dimension2D preferredSize;

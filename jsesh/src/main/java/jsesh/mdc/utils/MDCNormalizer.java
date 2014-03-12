@@ -31,7 +31,9 @@ public class MDCNormalizer {
 			String code = CompositeHieroglyphsManager.getInstance()
 					.getCanonicalCode(h.getCode());
 			h.setCode(code);
+            
 		}
+        
 	}
 
 	/**

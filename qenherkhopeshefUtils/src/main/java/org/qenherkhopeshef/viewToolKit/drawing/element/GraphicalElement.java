@@ -22,9 +22,14 @@ import org.qenherkhopeshef.viewToolKit.drawing.event.PropertyChangedEvent;
  * 
  * <p>
  * Note that (according to a usual practice with composites) we moved a number
- * of method from composite to this class. it makes it far easier to write code
- * in an uniform way, as basically, leaf elements are considered as a kind of
+ * of method from composite to this class. It makes it far easier to write code
+ * in an uniform way, as, basically, leaf elements are considered as a kind of
  * "empty" composite.
+ * 
+ * <p>
+ * About alignment: The room given for an element (through setBounds()) might be 
+ * larger than the size of the element itself. In this case, the element will be 
+ * drawn in this available space according to alignment.
  * 
  * @author rosmord
  */

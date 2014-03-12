@@ -42,7 +42,7 @@ public class JGraphicalElementDisplayer<T extends Drawing> extends JPanel {
 	 */
 	private JComponent currentEditor = null;
 
-	private GDrawingListener drawingListener = new GDrawingListener();
+	private final GDrawingListener drawingListener = new GDrawingListener();
 
 	private int rightMargin = 10;
 
@@ -68,7 +68,7 @@ public class JGraphicalElementDisplayer<T extends Drawing> extends JPanel {
 		}
 	}
 
-	public void setDrawing(T newDrawing) {
+	public final void setDrawing(T newDrawing) {
 		if (drawing != newDrawing) {
 			if (drawing != null)
 				drawing.remove(drawingListener);
@@ -98,6 +98,7 @@ public class JGraphicalElementDisplayer<T extends Drawing> extends JPanel {
 	private class GDrawingListener extends DrawingEventAdapter implements
 			DrawingListener {
 
+        @Override
 		public void drawingChanged(DrawingEvent e) {
 			e.accept(this);
 		}
@@ -140,6 +141,7 @@ public class JGraphicalElementDisplayer<T extends Drawing> extends JPanel {
 	 */
 	public void showCursor() {
 		SwingUtilities.invokeLater(new Runnable() {
+            @Override
 			public void run() {
 				Rectangle2D cursorBounds = drawing.getCursorBounds();
 				if (cursorBounds != null) {

@@ -135,7 +135,7 @@ public class MDCView implements ViewBox {
 	 * subviews, if any
 	 */
 
-	private List subViews;
+	private List<MDCView> subViews;
 
 	/**
 	 * size of this view (seen from <em>outside</rm>).
@@ -578,9 +578,9 @@ public class MDCView implements ViewBox {
 		return (MDCView) subViews.get(i);
 	}
 
-	public List getSubViews() {
+	public List<MDCView> getSubViews() {
 		if (subViews == null)
-			subViews = new ArrayList();
+			subViews = new ArrayList<MDCView>();
 		return subViews;
 	}
 
@@ -881,7 +881,7 @@ public class MDCView implements ViewBox {
 	 * @param model
 	 *            The model to set
 	 */
-	public void setModel(ModelElement model) {
+	public final void setModel(ModelElement model) {
 		this.model = model;
 	}
 

@@ -976,14 +976,14 @@ public class ViewDrawer {
 	}
 
 	/**
-	 * Draw the cursor.
+	 * Draw the cursor (NOT USED).
 	 * 
 	 * @param g2d
 	 * @param documentMdcView
 	 * @param mdcCaret
 	 * @param drawingSpecifications2
 	 */
-	public void drawCursor(Graphics2D g2d, MDCView documentMdcView, MDCCaret mdcCaret,
+	private void drawCursor(Graphics2D g2d, MDCView documentMdcView, MDCCaret mdcCaret,
 			DrawingSpecification drawingSpecifications2) {
 		// First, decide which element will be used to determine the cursor position (if any)
 		// At the same time, decide which position (before or after the view will be used)

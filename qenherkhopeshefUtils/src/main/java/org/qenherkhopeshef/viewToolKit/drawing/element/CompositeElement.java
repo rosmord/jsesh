@@ -1,5 +1,6 @@
 package org.qenherkhopeshef.viewToolKit.drawing.element;
 
+import org.qenherkhopeshef.viewToolKit.drawing.element.layout.CompositeLayout;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -9,11 +10,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
+import org.qenherkhopeshef.viewToolKit.drawing.element.layout.VerticalCompositeLayout;
 import org.qenherkhopeshef.viewToolKit.drawing.event.CompositeEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
 
 /**
+ * A general composite element.
+ * <p> The element layout is decided by one of the available layout classes.
+ * <p> <strong>Dynamics between layout and element size</strong> :
+ * Basically, there are two ways for doing the layout. The size of the element might
+ * be computed from its content, and the layout done, so to speak, <em>a mimima,</em>
+ * or the layout might try to fill some existing space.
+ * <p>
  * At the time being, a vertically arranged graphical element. Layout will be
  * separated from the composite in a next version.
  * 
@@ -29,13 +38,18 @@ public class CompositeElement extends GraphicalElement {
 	 */
 	private boolean inUpdate = false;
 
-	private List<GraphicalElement> elements = new ArrayList<GraphicalElement>();
-	// private HashMap<GraphicalElement, Alignment> alignmentMap = new
-	// HashMap<GraphicalElement, Alignment>();
+	private final List<GraphicalElement> elements = new ArrayList<GraphicalElement>();
+
 	private Dimension2D preferredSize;
-	private CompositeContentManager contentManager = new CompositeContentManager();
+    /**
+     * Manages elements removal and all that.
+     */
+	private final CompositeContentManager contentManager = new CompositeContentManager();
+    
 	private CompositeAxis axis= CompositeAxis.VERTICAL;
 	
+    private CompositeLayout layout= new VerticalCompositeLayout();
+    
 	@Override
 	public void drawElement(Graphics2D g) {
 		for (GraphicalElement elt : this) {
@@ -61,6 +75,14 @@ public class CompositeElement extends GraphicalElement {
 		elt.setManager(this.contentManager);
 	}
 
+    public int getNumberOfChildren() {
+        return elements.size();
+    }
+    
+    public GraphicalElement getChild(int i) {
+        return elements.get(i);
+    }
+    
 	@Override
 	public Iterator<GraphicalElement> iterator() {
 		return elements.iterator();
@@ -112,22 +134,13 @@ public class CompositeElement extends GraphicalElement {
 		boolean oldInUpdate = inUpdate;
 		inUpdate = true;
 		preferredSize = null;
-		double w = 0;
-		double y = 0;
-		for (GraphicalElement elt : this) {
-			Dimension2D pref = elt.getTotalPreferredSize();
-			if (pref.getWidth() > w)
-				w = pref.getWidth();
-		}
-		for (GraphicalElement elt : this) {
-			Dimension2D pref = elt.getTotalPreferredSize();
-			Margin m= elt.getMargin();
-			elt.setOrigin(m.getLeft(), y+ m.getTop());
-			y += pref.getHeight();
-		}
-		setBounds(getBounds().getMinX(), getBounds().getMinY(), w, y);
+        
+        layout.layoutComposite(this);
+        // End of part which moves to layout...
 		inUpdate = oldInUpdate;
 	}
+
+    
 
 	@Override
 	public String toString() {

@@ -185,7 +185,7 @@ public class TranslitterationUtilities {
 	 * @return the transliterated text.
 	 */
 	public static String getOrderingForm(String translitteration) {
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		for (int i = 0; i < translitteration.length(); i++) {
 			Character c = new Character(translitteration.charAt(i));
 			if (c.charValue() == 'y') {

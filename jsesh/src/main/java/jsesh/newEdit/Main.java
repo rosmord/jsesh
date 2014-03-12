@@ -6,9 +6,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Main {
-	private JFrame frame= new JFrame("display");
-	private NewMDCEditor newMDCEditor= new  NewMDCEditor();
-	private JTextField mdcTextField= new JTextField();
+	private final JFrame frame= new JFrame("display");
+	private final NewMDCEditor newMDCEditor= new  NewMDCEditor();
+	private final JTextField mdcTextField= new JTextField();
 	
 	public Main() {		
 		Container panel = frame.getContentPane();
