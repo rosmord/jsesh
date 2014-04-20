@@ -353,6 +353,7 @@ public class MDCView implements ViewBox {
 		if (getNumberOfSubviews() == 0) {
 			width = 0;
 			height = 0;
+            return; // Fix... the following code assume there are children.
 		}
 
 		/*

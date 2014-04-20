@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>6.4.0</version>
+        <version>6.4.1</version>
     </parent>
     <artifactId>jsesh</artifactId>
     <packaging>jar</packaging>
@@ -120,7 +120,7 @@
        <dependency>
             <groupId>org.qenherkhopeshef</groupId>
             <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>6.4.0</version>
+            <version>6.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.qenherkhopeshef</groupId>
@@ -137,6 +137,11 @@
             <artifactId>swing-layout</artifactId>
             <version>1.0.3</version>
         </dependency>
-        	
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

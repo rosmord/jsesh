@@ -29,9 +29,9 @@ public class ReversibleMultiHashMap<K, V> implements Serializable {
 
 	private static final long serialVersionUID = -1379144229315950937L;
 	
-	private HashMap<K, HashSet<V>> map = new HashMap<K, HashSet<V>>();
+	private final HashMap<K, HashSet<V>> map = new HashMap<K, HashSet<V>>();
 	// The reverse index.
-	private HashMap<V, HashSet<K>> reverseMap = new HashMap<V, HashSet<K>>();
+	private final HashMap<V, HashSet<K>> reverseMap = new HashMap<V, HashSet<K>>();
 
 	public void clear() {
 		map.clear();
