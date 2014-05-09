@@ -11,14 +11,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -44,9 +41,9 @@ public class TestPartialCartoucheDrawingsWithOrientation {
         return Arrays.asList(t);
     }
 
-    private String testName;
-    private TextOrientation orientation;
-    private TextDirection direction;
+    private final String testName;
+    private final TextOrientation orientation;
+    private final TextDirection direction;
 
     /**
      * Initialize the test.

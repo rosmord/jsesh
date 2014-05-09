@@ -66,7 +66,8 @@ public class AwtPortableFileDialog extends PortableFileDialog {
 
 	@Override
 	public void setCurrentDirectory(File directory) {
-		delegate.setDirectory(directory.getAbsolutePath());
+        if (directory != null)
+            delegate.setDirectory(directory.getAbsolutePath());
 	}
 
 	/**
