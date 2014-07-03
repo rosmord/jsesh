@@ -33,6 +33,9 @@ import org.qenherkhopeshef.graphics.utils.DoubleDimensions;
  * Should probably be improved and cleaned up, as it is mainly a cut and paste
  * from WMFGraphics2D. Some kind of "vector graphics" base class would be
  * welcome.
+ * 
+ * <p> NOTE : when using draw operators, the stroke command with CMYK values fails 
+ * in web browsers. It's perhaps a problem of SVG level ?
  */
 public class SVGGraphics2D extends BaseGraphics2D {
 
@@ -41,7 +44,7 @@ public class SVGGraphics2D extends BaseGraphics2D {
      */
     SVGLowLevel svgOut;
 
-	// TODO : use this value somewhere...
+    // TODO : use this value somewhere...
     //private float currentLineWidth;
     /**
      * Picture dimensions, in px.
@@ -59,6 +62,12 @@ public class SVGGraphics2D extends BaseGraphics2D {
      * file).
      */
     private boolean closeOnDispose;
+
+    /**
+     * If true, always use fill for drawing. This ensures line width is the one
+     * computed by graphics2D.
+     */
+    private boolean alwaysFill= false;
 
     /**
      * Creates a SVGGraphics2D in the file f.
@@ -106,23 +115,27 @@ public class SVGGraphics2D extends BaseGraphics2D {
     }
 
     public void draw(Shape shape) {
-        try {
-            if (shape instanceof Line2D) {
-                Line2D l = (Line2D) shape;
-                Point2D a = this.deviceCoords(l.getP1());
-                Point2D b = this.deviceCoords(l.getP2());
+        if (alwaysFill) {
+            super.draw(shape);
+        } else {
+            try {
+                if (shape instanceof Line2D) {
+                    Line2D l = (Line2D) shape;
+                    Point2D a = this.deviceCoords(l.getP1());
+                    Point2D b = this.deviceCoords(l.getP2());
 
-                svgOut.drawLine(a.getX(), a.getY(), b
-                        .getX(), b.getY());
-            } else {
-                addPath(shape);
-                svgOut.setForeground(getColor().getRed(), getColor().getGreen(), getColor().getBlue(), getColor().getAlpha());
-                svgOut.setBackground(getBackground().getRed(), getBackground().getGreen(), getBackground().getBlue(), getBackground().getAlpha());
-                svgOut.drawPath();
+                    svgOut.drawLine(a.getX(), a.getY(), b
+                            .getX(), b.getY());
+                } else {
+                    addPath(shape);
+                    svgOut.setForeground(getColor().getRed(), getColor().getGreen(), getColor().getBlue(), getColor().getAlpha());
+                    svgOut.setBackground(getBackground().getRed(), getBackground().getGreen(), getBackground().getBlue(), getBackground().getAlpha());
+                    svgOut.drawPath();
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -178,8 +191,6 @@ public class SVGGraphics2D extends BaseGraphics2D {
             throw new RuntimeException(e);
         }
     }
-    
-    
 
     public double getPrecision() {
         return precision;
@@ -201,7 +212,10 @@ public class SVGGraphics2D extends BaseGraphics2D {
         if (stroke instanceof BasicStroke) {
             BasicStroke bs = (BasicStroke) stroke;
             //currentLineWidth = bs.getLineWidth();
-            svgOut.setStrokeWidth((int) Math.ceil(bs.getLineWidth()));
+            float lineWidth = bs.getLineWidth();
+            Point2D p = deviceCoords(new Point2D.Float(lineWidth, lineWidth));
+            Point2D p0 = deviceCoords(new Point2D.Float(0, 0));
+            svgOut.setStrokeWidth((int) Math.ceil(p.getX() - p0.getX()));
         }
     }
 
@@ -285,6 +299,24 @@ public class SVGGraphics2D extends BaseGraphics2D {
             points[i] = deviceCoords(p);
         }
         return points;
+    }
+
+    public boolean isAlwaysFill() {
+        return alwaysFill;
+    }
+
+    public void setAlwaysFill(boolean alwaysFill) {
+        this.alwaysFill = alwaysFill;
+    }
+    
+    /**
+     * Ask for usage (or not) of SVG 1.2 CMYK colour.
+     * <p> This is very rarely supported by softwares. However, as printing 
+     * is our main use-case, we support it.
+     * @param useCmyk 
+     */
+    public void useCmyk(boolean useCmyk) {
+        svgOut.setUseCmyk(useCmyk);
     }
 
 }

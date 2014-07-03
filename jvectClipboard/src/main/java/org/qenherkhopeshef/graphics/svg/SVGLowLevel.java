@@ -18,7 +18,11 @@ public class SVGLowLevel {
     // USE THIS VALUE SOMEWHERE ...
     private String background = "#FFF";
     private int strokeWidth = 2;
-
+    /**
+     * Ask for the SVG 1.2 CMYK colour profiles.
+     */
+    private boolean useCmyk= true;
+    
     public SVGLowLevel(Writer writer, java.awt.geom.Dimension2D dimensions)
             throws IOException {
         this.writer = writer;
@@ -170,12 +174,12 @@ public class SVGLowLevel {
      */
     private String toColor(int red, int green, int blue) {
         String color;
-        if (red == 0 && green == 0 && blue == 0) {
+        if (useCmyk && red == 0 && green == 0 && blue == 0) {
             //color = "black icc-color(#CMYK, 0,0,0,100)";
-            color = "black cmyk(0, 0, 0, 100)";
-        } else if (red == 255 && green == 0 && blue == 0) {
+            color = "black device-cmyk(0, 0, 0, 100)";
+        } else if (useCmyk && red == 255 && green == 0 && blue == 0) {
             //color= "red icc-color(#CMYK, 0,100,100,0)";
-            color = "red cmyk(0,100,100,0)";
+            color = "red device-cmyk(0,100,100,0)";
         } else {
             color = "#" + buildColorComponent(red) + buildColorComponent(green)
                     + buildColorComponent(blue);
@@ -207,6 +211,10 @@ public class SVGLowLevel {
 
     public void setStrokeWidth(int strokeWidth) {
         this.strokeWidth = strokeWidth;
+    }
+
+    public void setUseCmyk(boolean useCmyk) {
+        this.useCmyk = useCmyk;
     }
 
     
