@@ -21,7 +21,7 @@ public class SVGLowLevel {
     /**
      * Ask for the SVG 1.2 CMYK colour profiles.
      */
-    private boolean useCmyk= true;
+    private boolean useCmyk= false;
     
     public SVGLowLevel(Writer writer, java.awt.geom.Dimension2D dimensions)
             throws IOException {

@@ -38,8 +38,7 @@ public class QenherPDFGraphics2D extends BaseGraphics2D {
 	/**
 	 * Create a graphics.
 	 * 
-	 * @param writer
-	 * @param dims
+         * @param g2d the PDF graphics 2D from IText.
 	 *            dimensions, expressed in pica points (1/72 inch or 0.03528cm)
 	 */
 	public QenherPDFGraphics2D(Graphics2D g2d) {

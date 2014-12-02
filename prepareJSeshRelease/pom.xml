@@ -5,7 +5,7 @@
   <parent>
     <artifactId>JSesh-all</artifactId>
     <groupId>org.qenherkhopeshef</groupId>
-    <version>6.4.3</version>
+    <version>6.4.2</version>
   </parent>
   <groupId>org.qenherkhopeshef</groupId>
   <artifactId>prepareJSeshRelease</artifactId> 
