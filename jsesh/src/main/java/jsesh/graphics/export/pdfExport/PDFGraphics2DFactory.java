@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import jsesh.graphics.export.BaseGraphics2DFactory;
 
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.CMYKColor;
 
 public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 
@@ -27,7 +28,10 @@ public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 	}
 	
 	public Graphics2D buildGraphics() throws IOException {
-		return documentWriter.createGraphics();
+		Graphics2D result= documentWriter.createGraphics();
+                result.setColor(new CMYKColor(0, 0, 0, 255));
+                result.setBackground(new CMYKColor(0, 0, 0, 0));
+                return result;
 	}
 	
 	

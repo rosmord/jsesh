@@ -1,5 +1,6 @@
 package jsesh.mdcDisplayer.preferences;
 
+import com.lowagie.text.pdf.CMYKColor;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Dimension2D;
@@ -85,4 +86,6 @@ public interface DrawingSpecification extends DrawingPreferences {
 	 * @return
 	 */
 	TransliterationEncoding getTransliterationEncoding();
+
+     
 }

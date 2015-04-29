@@ -1,7 +1,16 @@
 ++JSesh_Info 1.0 +s
+++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_direction LEFT_TO_RIGHT +s
 ++JSesh_page_orientation HORIZONTAL +s
-++JSesh_small_sign_centered 0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_column_skip 8.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
 +bStela Cairo CGC 34025+s-!
 +lfrom W. F. Petrie, +s-+iSix Temples at Thebes, +s-+l1896, 1897, pl. 13-14+s-!
 +lIncludes corrections proposed in KRI p. 41, l. 6-7.+s-!
@@ -20,7 +29,7 @@ O42\:p:D40-n:k-x*p:S:xpS-D40:r-xAst:t*1:nb-S23:M-b-wa:1^^^a-!
 +lMain Text+s-!
 |1-M4&&&(t:zp)-1*1*1:.\25*1*1*.\25-Abd\70:1*1*1-S:n:n:n-ra:1*1*1-x:r-Hm-1:n\50-G5&N6-E1:D40-A28-M:(mAa\R270:t)*C10A-M23:t-bit:t-<-U7\\R70-C12\-C2-n:E10->-zA&N5-<-U7\\R70-C102\_-C10A_-n:Htp:Hr*Z1_->-z:aA:a:Y1-F9*F9:t*y:D40-s\99**q{{222,492,70}}**A28{{441,5,94}}-xpS:D40-N-G5&N6-E1:D40-H-A24-T9A:(t:1\70*1\70*1\70)*(1\70*1\70*1\70:1\70*1\70*1\70)-di-V10:f:n-H-.\25:N5:.\25-H-D&&&(t:N17)-z:D&&&(d:t*A2)-n:A-i*i:N33A:f-!
 |2-n:xt:(x*t)^^^D40:1\70*1\70*1\70-M:N17:N17:N17:nb:1\70*1\70*1\70-r\108**di{{0,385,61}}**a{{393,379,62}}**t{{539,851,61}}**G3{{1053,0,98}}-M:D6:tA:1\70*N21\70:nb-S23:d:Y1-r:di*t-D6:t*W-nfr-M:n:A-i*i:1*1*1:f-q:n:Z9^^^D40-Z3-M23:t-bit:t-<-U7\\R70-C12\-C2-n:E10->-zA&N5-<-U7\\R70-C102\_-C10A_-n:Htp:Hr*Z1_->-pA-E1:nb-F9*F9:D40-T30:D40-xrw-i-i-A14A:N33A:f-a:n:D6-Hr*1:E10:W*y-N21*1:n:q:n:Z9:D40-h:n:d:D41:f-xpr:r-Sw-W:N5:1-k:f:pH:Y1-!
-|3-Sn:n:a:N4-wn:n:W*Hr*Z1-km:t:niwt-di-U3:D12*D12-tA:U7:i*tr*(niwt:niwt)-F29-W:t:N8-i-t:n:N5-r:i*(W:D54)-Dw:O39*Z1:n:N34*(N33:N33*N33*N33)-Hr*1:nH*H-b:t:F51-p^^^a:A1*B1-Z3-D37:f:TAw*(W:Z1*Z1*Z1)-n:G24:3-wn:n:W-n:t:F63:D40-i-a:n:n:n:ib*Z1-n:<h3-p:t-H-kA:niwt-h1>-M:n:A-i*i-z:n:Z1\70*Z1\70*Z1\70-x*t:f:A14A:Z1\70*Z1\70*Z1\70-di-r:S:F63:3-C18A-M:n:A-i*i:N33*N33*N33:f-s-b-i-W:A14A:3-wn:n:O31-s-sbA&b-O32:Z1\70*Z1\70*Z1\70-n:inb*(Z1\70*Z1\70*Z1\70:niwt)-wn*W:n:DbA*b-inb^^^D40-X8-O42A:t*p:D40-!
+|3-Sn:n:a:N4-wn:n:W*Hr*Z1-km:t:niwt-di-U3:D12*D12-tA:U7:i*tr*(niwt:niwt)-F29-W:t:N8-i-t:n:N5-r:i*(W:D54)-Dw:O39*Z1:n:N34*(N33:N33*N33*N33)-Hr*1:nH*H-b:t:F51-p:p^^^a:A1*B1-Z3-D37:f:TAw*(W:Z1*Z1*Z1)-n:G24:3-wn:n:W-n:t:F63:D40-i-a:n:n:n:ib*Z1-n:<h3-p:t-H-kA:niwt-h1>-M:n:A-i*i-z:n:Z1\70*Z1\70*Z1\70-x*t:f:A14A:Z1\70*Z1\70*Z1\70-di-r:S:F63:3-C18A-M:n:A-i*i:N33*N33*N33:f-s-b-i-W:A14A:3-wn:n:O31-s-sbA&b-O32:Z1\70*Z1\70*Z1\70-n:inb*(Z1\70*Z1\70*Z1\70:niwt)-wn*W:n:DbA*b-inb^^^D40-X8-O42A:t*p:D40-!
 |4-r*Z1:pr*Z1:niwt\70*Z1\70*Z1\70*Z1\70:f-n:A-i*i-z:n:Z1\70*Z1\70*Z1\70-S:b*(W:Y1:Z1\70*Z1\70*Z1\70)-M23:t-bit:t-<-mr\-C12\-C2-n:E10->-zA&N5-<-mr\_-C102\_-C10A_-n:Htp:Hr*Z1_->-wa:a:Z1-s-mn:n:U32*Y1v-HAt:t*W:i*i*Z3-ib:Z3-n:Hfn&W24:3-aq:q*D54-TAw-W:Z1*Z1*Z1-r:D19*W:Z2_-n:pA_-U3:N33A:f_-s_-d:bH_:Z9:D40_-pA_:tA:Z1*N21_-n_:U32\sic_*m_-H_-T14:N25_-M\l_:aHa_*(a:ra*Z1:f_)-n\l_:anx_*(n:x_)-di_-Hr:r_-i_-i_-Aa19:D40:Z2_-n:H*ra*H_-!
 |5-M:ib*Z1_:M:a_-SA:A_-wA\sic_:A_-SA:A_-T14:N25_-D37:f_:xt:x*t_-i_*i_:D55_-r*Z1_:b_*W_*T14_:N25_-d:g*A_:z:D54_-km:t*O49_:n:r-i_*i_:nr:D40_-O29v_-M_:HAt_:(t:2_)*(ib:3_)-z:n:Z2_:n_:tA:U7_-i_-M7_-O49:O49_-n:A*i*i_-z:n:Z2_:Sm_-M:W*D54_:n_-Hr*Z1:w*Z3_-xA_*A_:a:D54_-w:Z2_-pH:W*W:Z2_-b_*w_:ir:r_-r:d_:rd_*rd_-w:Z2_-z:mn:n_:U32_*Y1v_-wp:p*W:Y1_-Hr*Z1*p_:d:rd*D54_-xA_*A_:a:W*D54_-n:A*i*i_:z:n:Z2_-F29_*i_*i_:T11:t_*D40_-A2:Z2_-n:A*i*i_:z:n:Z2_-T10:t*3_:ib*Z1:n_-n:A*i*i_:z:n:Z2_-z:x:z_:rd_*(D54:3_)-X:z_:i*i-!
 |6-G37:M:M_-a:S:a_:rd_*D54_-n:t:f_:D40:W*3_-n:A*i*i_:z:n:Z2_-F26:n_:F27*1*1*1#3-H_-.\25:W_:.\25-i_-i_-A82_-r_:E9:t:n_-N21:N33:N33:N33-n:A*i*i_:W_*1*1*1-g:A_-wA\:A\ainsi_-n:A:F51\\R90*Z2_-T:t:Z9:D40_-xA_*A_:a:D54_-r:b*w_-n:r_:N31:D54_-pA_-A19-X:z:G37_-x:r_:A14A_-n:r*Z1_:b_*W_*(T14:N25)-W:a:r_-rd:D54_-M_:nfr_*(Z1:Y1:Z2_)-g:r_:H_*N46_-n_:wa:a*Z1_:G37:f_-b:n_-mH&&&(H_*t_*H6_)-Hr*Z1:tp*Z1:f_-r:d_:rd_*rd_-f:d_:g_*A_-i_-i_-G37:D54_-i_-TA_:A_-D51:D40_:n:A_-i_*i_:Z2:f_-!

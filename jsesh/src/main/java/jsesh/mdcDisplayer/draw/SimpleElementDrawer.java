@@ -898,7 +898,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 		String text = s.getText();
 		Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(text);
 		g.setFont(drawingSpecifications.getSuperScriptFont());
-		g.drawString(text.toString(), 0, g.getFontMetrics().getAscent());
+		g.drawString(text, 0, g.getFontMetrics().getAscent());
 		g.setStroke(drawingSpecifications.getFineStroke());
 		g
 				.draw(new Line2D.Float((float) dims.getWidth() / 2.0f,

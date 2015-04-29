@@ -24,11 +24,12 @@ public class PortableFileDialogFactory {
     private static PortableFileDialog createDialog(Component parent) {
         PortableFileDialog dialog;
         if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-            if ("1.7".compareTo(System.getProperty("java.version")) > 0) {
                 dialog = new AwtPortableFileDialog(parent);
-            } else {
-                dialog= new MacPortableFileDialog(parent);
-            }
+//            if ("1.7".compareTo(System.getProperty("java.version")) > 0) {
+//                dialog = new AwtPortableFileDialog(parent);
+//            } else {
+//                dialog= new MacPortableFileDialog(parent);
+//            }
         } else {
             dialog = new SwingFileDialog(parent);
         }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="2020"
+   height="1060"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="F40A.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.42929688"
+     inkscape:cx="-22.78999"
+     inkscape:cy="342.38949"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     guidecolor="#ff0000"
+     guideopacity="0.49803922"
+     guidehicolor="#ffb900"
+     guidehiopacity="0.49803922"
+     inkscape:window-width="1419"
+     inkscape:window-height="797"
+     inkscape:window-x="33"
+     inkscape:window-y="105"
+     inkscape:window-maximized="0"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2993"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="20px"
+       spacingy="20px"
+       originx="-4.3039103px"
+       originy="-0.28208px" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="" />
+        <dc:description>F40A, freehand drawing; not a copy of original sign.
+</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-4.3039103,7.9198943)">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:60;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="m 484.30391,-7.9198943 0,140.1250043 c -92.31215,2.19723 -170.58623,34.81816 -233.15625,87.9375 -64.81581,55.0259 -113.26032,131.0526 -149.53125,217.8437 C 29.07455,611.56871 4.3039103,829.44851 4.3039103,1022.0801 l 0,30 59.9999997,0 0,-30 c 0,-187.36839 25.22936,-399.51979 92.6875,-560.93749 33.72907,-80.7088 77.78456,-148.4322 132.96875,-195.2813 52.9529,-44.95476 115.72761,-71.54609 194.34375,-73.62495 l 0,859.84374 1059.99999,0 0,-859.84374 c 78.6161,2.07886 141.3908,28.67019 194.3438,73.62495 55.184,46.8491 99.2396,114.5725 132.9687,195.2813 67.4581,161.4177 92.6875,373.5691 92.6875,560.93749 l 0,30 60,0 0,-30 c 0,-192.63159 -24.7706,-410.51139 -97.3125,-584.09379 -36.2709,-86.7911 -84.7154,-162.8178 -149.5313,-217.8437 -62.57,-53.11934 -140.844,-85.74027 -233.1562,-87.9375 l 0,-140.1250043 z m 60,60.0000003 140,0 0,940.000004 -140,0 z m 200,0 140,0 0,940.000004 -140,0 z m 200,0 139.99999,0 0,940.000004 -139.99999,0 z m 199.99999,0 140,0 0,940.000004 -140,0 z m 200,0 140,0 0,940.000004 -140,0 z"
+       id="path4945"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccsssccsssccccsssccssscccccccccccccccccccccccccccc" />
+  </g>
+</svg>

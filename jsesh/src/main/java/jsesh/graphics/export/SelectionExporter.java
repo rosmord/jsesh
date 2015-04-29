@@ -100,7 +100,7 @@ public class SelectionExporter {
 		Graphics2D g = graphicsFactory
 		        .buildGraphics();
 
-		
+		g.setColor(actualDrawingSpecifications.getBlackColor());
 		g.setBackground(background);
 		if (clearBeforeDrawing)
 			g.clearRect(0,0,(int)getScaledDimensions(view).getWidth() +1, (int)getScaledDimensions(view).getHeight()+1);
