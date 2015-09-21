@@ -4,7 +4,7 @@
 -->
 <installation version="1.0">
     <info>
-        <appname>JSesh</appname>
+        <appname>JSesh-${project.version}</appname>
         <appversion>${project.version}</appversion>
         <authors>
             <author name="Serge Rosmorduc" email="rosmord@iut.univ-paris8.fr"/>
@@ -94,7 +94,18 @@
             <file src="fonts/MDCTranslitLC.ttf" targetdir="$INSTALL_PATH/fonts"/>
 
             <fileset os="mac"  targetdir="$INSTALL_PATH" dir="mac"></fileset>
-
+            
+            <file src="windows/bin/jsesh.bat" targetdir="$INSTALL_PATH/bin">
+				<os family="windows"/>
+            </file>
+            <!--<fileset os="windows"  targetdir="$INSTALL_PATH" dir="windows"></fileset>-->
+            <parsable targetfile="$INSTALL_PATH/bin/jsesh.bat">
+                <os family="windows"/>
+            </parsable>
+            
+            <executable targetfile="$INSTALL_PATH/bin/jsesh.bat">
+                <os family="windows"/>
+            </executable>
             <executable targetfile="$INSTALL_PATH/copyStub.sh" stage="postinstall" keep="false">
                 <args>
                     <arg value="$INSTALL_PATH"/>
@@ -124,21 +135,21 @@
             <description>Printable End user documentation, in PDF format</description>
             <file src="../resources/userdoc/jseshDoc.pdf" targetdir="$INSTALL_PATH"/>
         </pack>-->
-		<!-- As we now integrated the sources in the sourceforge package, there is no need to save them here.		
-		<pack name="Technical Documentation" required="no" preselected="no">
-			<description>A Documentation for those who want to extend JSesh or to use it as a library for their own programs.
-				Most users don't need it.
-			</description>
-			<fileset dir="../doc" targetdir="$INSTALL_PATH/doc"/>
-		</pack>
-		<pack name="Sources" required="no" preselected="no">
-			<description>The java sources, for those who want to extend JSesh or want to know how it's done.
+        <!-- As we now integrated the sources in the sourceforge package, there is no need to save them here.		
+       <pack name="Technical Documentation" required="no" preselected="no">
+               <description>A Documentation for those who want to extend JSesh or to use it as a library for their own programs.
+                       Most users don't need it.
+               </description>
+               <fileset dir="../doc" targetdir="$INSTALL_PATH/doc"/>
+       </pack>
+       <pack name="Sources" required="no" preselected="no">
+               <description>The java sources, for those who want to extend JSesh or want to know how it's done.
 Most users really don't need it. Note that more complete sources (with ant scripts, and everything needed to compile jsesh), are distributed separately.
-				 </description>
-			<fileset dir="../src" targetdir="$INSTALL_PATH/src"/>
-			<fileset dir="../resources/grammars" targetdir="$INSTALL_PATH/grammars"/>
-		</pack>
-		 -->
+                        </description>
+               <fileset dir="../src" targetdir="$INSTALL_PATH/src"/>
+               <fileset dir="../resources/grammars" targetdir="$INSTALL_PATH/grammars"/>
+       </pack>
+        -->
     </packs>
 	
 	
