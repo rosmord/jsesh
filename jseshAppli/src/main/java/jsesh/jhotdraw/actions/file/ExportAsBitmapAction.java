@@ -43,7 +43,7 @@ public class ExportAsBitmapAction extends AbstractViewAction {
 					try {
 						bitmapExporter.exportAll(exportData);
 					} catch (IOException exception) {
-						exception.printStackTrace();
+						throw new RuntimeException(exception);
 					}
 				}
 				bitmapExporter.savePreferences();

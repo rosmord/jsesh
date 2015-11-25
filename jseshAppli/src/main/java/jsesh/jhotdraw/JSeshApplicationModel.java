@@ -280,7 +280,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 							JSeshApplicationActionsID.EXPORT_MACPICT));
 
 			map.put(JSeshApplicationActionsID.EXPORT_SVG,
-					new GenericExportAction(a, jseshView, new SVGExporter(),
+					new GenericExportAction(a, jseshView, new SVGExporter(a.getComponent()),
 							JSeshApplicationActionsID.EXPORT_SVG));
 
 			map.put(JSeshApplicationActionsID.EXPORT_EPS,

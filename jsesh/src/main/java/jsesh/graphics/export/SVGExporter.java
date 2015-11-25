@@ -23,11 +23,12 @@ public class SVGExporter extends AbstractGraphicalExporter {
 
     private Dimension2D scaledDimension;
 
-    public SVGExporter() {
+    public SVGExporter(final Component frame) {
         super("svg", I18n.getString("SVGExporter.description"));
-        frame = null;
+        this.frame = frame;
     }
 
+    @Override
     public void export(ExportData exportData) {
         try {
             SelectionExporter selectionExporter = new SelectionExporter(
@@ -35,7 +36,7 @@ public class SVGExporter extends AbstractGraphicalExporter {
             selectionExporter.setClearBeforeDrawing(false);
             selectionExporter.exportSelection();
         } catch (HeadlessException e1) {
-            e1.printStackTrace();
+            throw new RuntimeException(e1);
         } catch (IOException e1) {
             FileSaveConfirmDialog.showCantOpenDialog(frame);
         }
@@ -51,10 +52,12 @@ public class SVGExporter extends AbstractGraphicalExporter {
         return "type".toUpperCase() + " options";
     }
 
+    @Override
     public void setDimension(Dimension2D scaledDimensions) {
         this.scaledDimension = scaledDimensions;
     }
 
+    @Override
     public Graphics2D buildGraphics()
             throws IOException {
         return new SVGGraphics2D(getExportFile(), scaledDimension);

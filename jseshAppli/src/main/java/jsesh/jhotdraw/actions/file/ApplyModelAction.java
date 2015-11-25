@@ -24,6 +24,7 @@ public class ApplyModelAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
+        @Override
 	public void actionPerformed(ActionEvent e) {
 		JSeshView view= (JSeshView) getActiveView();
 		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
