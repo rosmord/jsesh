@@ -22,24 +22,25 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.utils.DoubleDimensions;
 
-
 /**
- * An expert which is able to export manuel de codage data to some kind of graphics.
+ * An expert which is able to export manuel de codage data to some kind of
+ * graphics.
+ *
  * @author rosmord
- * 
+ *
  */
 public class SelectionExporter {
 
-    private ExportData exportData;
+    private final ExportData exportData;
 
     private BaseGraphics2DFactory graphicsFactory;
 
     private Color background;
-    
-    private boolean clearBeforeDrawing= true;
-    
+
+    private boolean clearBeforeDrawing = true;
+
     private DrawingSpecification actualDrawingSpecifications;
-    
+
     /**
      * @param exportData
      * @param graphicsFactory
@@ -47,7 +48,7 @@ public class SelectionExporter {
     public SelectionExporter(ExportData exportData, BaseGraphics2DFactory graphicsFactory) {
         this.exportData = exportData;
         this.graphicsFactory = graphicsFactory;
-        this.background= Color.WHITE;
+        this.background = Color.WHITE;
     }
 
     /**
@@ -56,68 +57,73 @@ public class SelectionExporter {
     public void exportSelection() throws IOException {
         // Build the view :
         SimpleViewBuilder builder = new SimpleViewBuilder();
-        actualDrawingSpecifications= exportData.getDrawingSpecifications().copy();
-        PageLayout pageLayout= actualDrawingSpecifications.getPageLayout();     
+        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
+        PageLayout pageLayout = actualDrawingSpecifications.getPageLayout();
         pageLayout.setLeftMargin(0f);
         pageLayout.setTopMargin(0f);
         actualDrawingSpecifications.setPageLayout(pageLayout);
-        exportZone(builder,exportData.getStart().getIndex(), exportData.getEnd().getIndex());
-        actualDrawingSpecifications= null;
+        exportZone(builder, exportData.getStart().getIndex(), exportData.getEnd().getIndex());
+        actualDrawingSpecifications = null;
     }
 
-
-	public void exportToPages() throws IOException {
-	    // Build the view :
+    /**
+     * Export to a system where pages actually exist.
+     * @throws IOException 
+     */
+    public void exportToPages() throws IOException {
+        // Build the view :
         SimpleViewBuilder builder = new SimpleViewBuilder();
-        actualDrawingSpecifications= exportData.getDrawingSpecifications().copy();
+        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
         actualDrawingSpecifications.setPaged(true);
-        
-        int start=0;
-        TopItemList l= exportData.getTopItemList();
+
+        int start = 0;
+        TopItemList l = exportData.getTopItemList();
         // export all pages.
         while (start < l.getNumberOfChildren()) {
-        	//          Now, loop through the model to find page limits	
-            int end= start + 1;
-            while (end < l.getNumberOfChildren() && ! (l.getChildAt(end) instanceof PageBreak))
-            	end++;
-            exportZone(builder, start, end);        
-   
-            start= end;
-        }		
-        actualDrawingSpecifications= null;
-	}
+            //          Now, loop through the model to find page limits	
+            int end = start + 1;
+            while (end < l.getNumberOfChildren() && !(l.getChildAt(end) instanceof PageBreak)) {
+                end++;
+            }
+            exportZone(builder, start, end);
+            graphicsFactory.newPage();
+            start = end;
+        }
+        actualDrawingSpecifications = null;
+    }
 
-	/**
-	 * @param builder
-	 * @param start
-	 * @param end
-	 * @throws IOException
-	 */
-	private void exportZone(SimpleViewBuilder builder, int start, int end) throws IOException {
-		MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
-		graphicsFactory.setDimension(getScaledDimensions(view));
-		// Build the graphic file and initialize it :
-		Graphics2D g = graphicsFactory
-		        .buildGraphics();
+    /**
+     * @param builder
+     * @param start
+     * @param end
+     * @throws IOException
+     */
+    private void exportZone(SimpleViewBuilder builder, int start, int end) throws IOException {
+        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
+        graphicsFactory.setDimension(getScaledDimensions(view));
+        // Build the graphic file and initialize it :
+        Graphics2D g = graphicsFactory
+                .buildGraphics();
 
-		g.setColor(actualDrawingSpecifications.getBlackColor());
-		g.setBackground(background);
-		if (clearBeforeDrawing)
-			g.clearRect(0,0,(int)getScaledDimensions(view).getWidth() +1, (int)getScaledDimensions(view).getHeight()+1);
-		g.scale(exportData.getScale(), exportData.getScale());
-		// Prepare to draw.
-		ViewDrawer drawer = new ViewDrawer();		
-		drawer.setShadeAfter(false);
+        g.setColor(actualDrawingSpecifications.getBlackColor());
+        g.setBackground(background);
+        if (clearBeforeDrawing) {
+            g.clearRect(0, 0, (int) getScaledDimensions(view).getWidth() + 1, (int) getScaledDimensions(view).getHeight() + 1);
+        }
+        g.scale(exportData.getScale(), exportData.getScale());
+        // Prepare to draw.
+        ViewDrawer drawer = new ViewDrawer();
+        drawer.setShadeAfter(false);
 
-		// draw !
-		drawer.draw(g, view, actualDrawingSpecifications);
-		g.dispose();
-		graphicsFactory.writeGraphics();
-	}
-	
+        // draw !
+        drawer.draw(g, view, actualDrawingSpecifications);
+        g.dispose();
+        graphicsFactory.writeGraphics();
+    }
+
     /**
      * returns the scaled dimensions for the view.
-     * 
+     *
      * @param view
      * @return the scaled dimensions for the view.
      */
@@ -125,7 +131,7 @@ public class SelectionExporter {
         double w = view.getWidth() * exportData.getScale();
         double h = view.getHeight() * exportData.getScale();
         //return new Dimension((int) Math.ceil(w), (int) Math.ceil(h));
-        return new DoubleDimensions(w,h);
+        return new DoubleDimensions(w, h);
     }
 
     public BaseGraphics2DFactory getGraphicsFactory() {
@@ -135,17 +141,19 @@ public class SelectionExporter {
     public void setGraphicsFactory(BaseGraphics2DFactory graphicsFactory) {
         this.graphicsFactory = graphicsFactory;
     }
-    
+
     /**
      * Get the background color.
+     *
      * @return the background color
      */
     public Color getBackground() {
         return background;
     }
-    
+
     /**
      * Sets the background color.
+     *
      * @param background
      */
     public void setBackground(Color background) {
@@ -155,26 +163,26 @@ public class SelectionExporter {
     /**
      * @param transparency
      */
-    public void setTransparency(boolean transparency) {        
+    public void setTransparency(boolean transparency) {
     }
 
-	/**
-	 * Should the drawing surface be cleared before drawing.
-	 *
-	 * @return the clearBeforeDrawing
-	 */
-	public boolean isClearBeforeDrawing() {
-		return clearBeforeDrawing;
-	}
+    /**
+     * Should the drawing surface be cleared before drawing.
+     *
+     * @return the clearBeforeDrawing
+     */
+    public boolean isClearBeforeDrawing() {
+        return clearBeforeDrawing;
+    }
 
-	/**
-	 * Selects if the drawing surface should be cleared before drawing.
-	 * Usually, this is true for bitmap pictures, and false for vector.
-	 * @param clearBeforeDrawing the clearBeforeDrawing to set
-	 */
-	public void setClearBeforeDrawing(boolean clearBeforeDrawing) {
-		this.clearBeforeDrawing = clearBeforeDrawing;
-	}
+    /**
+     * Selects if the drawing surface should be cleared before drawing. Usually,
+     * this is true for bitmap pictures, and false for vector.
+     *
+     * @param clearBeforeDrawing the clearBeforeDrawing to set
+     */
+    public void setClearBeforeDrawing(boolean clearBeforeDrawing) {
+        this.clearBeforeDrawing = clearBeforeDrawing;
+    }
 
-    
 }

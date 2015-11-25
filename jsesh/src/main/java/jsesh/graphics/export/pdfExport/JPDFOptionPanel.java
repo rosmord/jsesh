@@ -75,8 +75,8 @@ public class JPDFOptionPanel extends ExportOptionPanel implements
 		// line height.
 		// NOTE : I use a java 1.4 specific class.
 		lineHeightField = new JFormattedTextField();
-		lineHeightField.setValue(new java.lang.Integer(exportPreferences
-				.getLineHeight()));
+		lineHeightField.setValue(exportPreferences
+                        .getLineHeight());
 		lineHeightField
 				.setToolTipText("height of a typical line of hieroglyphs");
 
@@ -131,6 +131,7 @@ public class JPDFOptionPanel extends ExportOptionPanel implements
 
 	}
 
+        @Override
 	public void setOptions() {
 		exportPreferences.setFile(new File(fileField.getText()));
 		exportPreferences.setTitle(titleField.getText());
@@ -152,16 +153,19 @@ public class JPDFOptionPanel extends ExportOptionPanel implements
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
 	 * )
 	 */
+        @Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == browse) {
 			JFileChooser chooser = new JFileChooser();
 			chooser.setSelectedFile(exportPreferences.getFile());
 			chooser.setApproveButtonText("Choose file");
 			chooser.setFileFilter(new FileFilter() {
+                                @Override
 				public String getDescription() {
 					return "pdf files";
 				}
 
+                                @Override
 				public boolean accept(File f) {
 					return (f.getName().endsWith(".pdf") || f.getName()
 							.endsWith(".PDF"))

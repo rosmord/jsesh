@@ -14,38 +14,43 @@ import com.lowagie.text.pdf.CMYKColor;
 
 public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 
-	PDFDocumentWriterAux documentWriter;
-	private float height;
-	private float width;
-	
-	public PDFGraphics2DFactory(PDFExportPreferences pdfExportPreferences, String comment) throws FileNotFoundException {		
-		Rectangle format = pdfExportPreferences.getPageRectangle();
-		 height=format.getHeight();
-		 width= format.getWidth();
-		OutputStream out= new FileOutputStream(pdfExportPreferences.getFile());
-		documentWriter= new PDFDocumentWriterAux(pdfExportPreferences, out, width, height,comment);
-		documentWriter.open();
-	}
-	
-	public Graphics2D buildGraphics() throws IOException {
-		Graphics2D result= documentWriter.createGraphics();
-                result.setColor(new CMYKColor(0, 0, 0, 255));
-                result.setBackground(new CMYKColor(0, 0, 0, 0));
-                return result;
-	}
-	
-	
+    private final PDFDocumentWriterAux documentWriter;
+    private final float height;
+    private final float width;
 
-	public void setDimension(Dimension2D deviceDimensions) {
-		
-	}
+    public PDFGraphics2DFactory(PDFExportPreferences pdfExportPreferences, String comment) throws FileNotFoundException {
+        Rectangle format = pdfExportPreferences.getPageRectangle();
+        height = format.getHeight();
+        width = format.getWidth();
+        OutputStream out = new FileOutputStream(pdfExportPreferences.getFile());
+        documentWriter = new PDFDocumentWriterAux(pdfExportPreferences, out, width, height, comment);
+        documentWriter.open();
+    }
 
-	public void writeGraphics() throws IOException {
-		documentWriter.getDocument().newPage();
-	}
+    @Override
+    public Graphics2D buildGraphics() throws IOException {
+        Graphics2D result = documentWriter.createGraphics();
+        result.setColor(new CMYKColor(0, 0, 0, 255));
+        result.setBackground(new CMYKColor(0, 0, 0, 0));
+        return result;
+    }
 
-	public void close() {
-		documentWriter.close();
-	}
+    @Override
+    public void setDimension(Dimension2D deviceDimensions) {
+
+    }
+
+    @Override
+    public void writeGraphics() throws IOException {
+    }
+
+    public void close() {
+        documentWriter.close();
+    }
+
+    @Override
+    public void newPage() throws IOException {
+        documentWriter.getDocument().newPage();
+    }
 
 }

@@ -322,6 +322,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model
 		 * .TopItemList)
 		 */
+                @Override
 		public void visitTopItemList(TopItemList t) {
 			try {
 				int i = 0;
@@ -332,7 +333,7 @@ public class PDFExporter {
 				}
 				closePage(false);
 			} catch (IOException e) {
-				e.printStackTrace();
+                                throw new RuntimeException(e);
 			}
 		}
 
@@ -343,6 +344,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementDeepAdapter#visitHRule(jsesh.mdc.model
 		 * .HRule)
 		 */
+                @Override
 		public void visitHRule(HRule h) {
 			PdfContentByte cb = writer.getDirectContent();
 
@@ -390,8 +392,9 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
 		 * .model.AlphabeticText)
 		 */
+                @Override
 		public void visitAlphabeticText(AlphabeticText t) {
-			Font f = null;
+			Font f;
 			String text = t.getText();
 
 			switch (t.getScriptCode()) {
@@ -424,6 +427,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
 		 * .PageBreak)
 		 */
+                @Override
 		public void visitPageBreak(PageBreak b) {
 			flushParagraph();
 			if (pdfExportPreferences.isRespectPages()) {
@@ -440,6 +444,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model
 		 * .LineBreak)
 		 */
+                @Override
 		public void visitLineBreak(LineBreak b) {
 			if (currentParagraph == null) {
 				// Empty paragraphs are ignored by IText.
@@ -457,6 +462,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementDeepAdapter#visitTopItem(jsesh.mdc.model
 		 * .TopItem)
 		 */
+                @Override
 		public void visitTopItem(TopItem t) {
 			drawElement(t);
 		}
@@ -468,6 +474,7 @@ public class PDFExporter {
 		 * jsesh.mdc.model.ModelElementDeepAdapter#visitTabStop(jsesh.mdc.model
 		 * .TabStop)
 		 */
+                @Override
 		public void visitTabStop(TabStop t) {
 			// IText has no tabulation system. Hence, we simply draw a white
 			// space
@@ -589,7 +596,7 @@ public class PDFExporter {
 					currentParagraph.setLeading(templateInfo.template
 							.getLeading());
 			} catch (BadElementException e) {
-				e.printStackTrace();
+                            throw new RuntimeException(e);
 			}
 		}
 
@@ -624,10 +631,12 @@ public class PDFExporter {
 		 */
 		public class PDFPageNumberHandler extends PdfPageEventHelper {
 
+                        @Override
 			public void onStartPage(PdfWriter arg0, Document arg1) {
 
 			}
 
+                        @Override
 			public void onEndPage(PdfWriter writer, Document document) {
 				// From an example in the IText tutorial.
 				PdfContentByte cb = writer.getDirectContent();

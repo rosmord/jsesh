@@ -94,8 +94,8 @@ public class PDFExportPreferences {
 	/**
 	 * @param respectTextLayout the respectTextLayout to set
 	 */
-	public void setRespectTextLayout(boolean repectTextLayout) {
-		this.respectTextLayout = repectTextLayout;
+	public void setRespectTextLayout(boolean respectTextLayout) {
+		this.respectTextLayout = respectTextLayout;
 	}
 
 	/**
