@@ -14,6 +14,7 @@
 package jsesh.jhotdraw;
 
 import java.awt.Color;
+import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
-import com.sun.naming.internal.ResourceManager;
+import java.awt.datatransfer.SystemFlavorMap;
 
 /**
  * JSeshMain class.
@@ -107,7 +108,10 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 	}
 
 	public static void main(String[] args) throws InterruptedException,
-			InvocationTargetException {
+			InvocationTargetException,
+			ClassNotFoundException {
+         	((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
+				.addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF" );
 		JSeshMain jseshMain = new JSeshMain();
 		jseshMain.args = args;
 		jseshMain.setSplashPicture("/jseshResources/images/splash.png");

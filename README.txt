@@ -33,3 +33,10 @@ Working with eclipse:
 		do the same for the target/generated sources/lex folder.
 That's it.
 
+Mac OS X distribution:
+    Bundled JRE for mac os X distribution need :
+    a) to patch flavormap.properties:
+        add the line PDF: application/pdf
+        (allows copy/paste of PDF)
+
+    P.S. see if we can handle this as EMF ?
