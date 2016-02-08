@@ -179,13 +179,15 @@ public interface URIChooser {
     public void setApproveButtonMnemonic(int mnemonic);
 
     /**
-     * Returns the component of the URIChooser.
+     * Returns the component of the URIChooser (or NULL if AWT or JFrame).
      * <p>
      * Typically, this would return {@code this}.
-     *
+     * <p> IMPORTANT : if the dialog can't be embedded in another dialog, should return null.
+     * 
      * @return The component.
      */
     public JComponent getComponent();
+    
 
     /**
      * Adds an {@code ActionListener}  to the chooser.

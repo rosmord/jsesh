@@ -9,9 +9,10 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * A file dialog for Mac OS X, with java &gt; 1.7 (due to Oracle lack of support
+ * A file dialog for Mac OS X, with java 1.7 (due to Oracle lack of support
  * for standard Apple Java extensions).
- *
+ * Not useful for Java 1.8.
+ * @deprecated
  * @author rosmord
  */
 class MacPortableFileDialog extends PortableFileDialog {

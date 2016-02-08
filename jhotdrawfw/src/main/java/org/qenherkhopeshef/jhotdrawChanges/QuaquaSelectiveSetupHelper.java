@@ -5,7 +5,9 @@ import java.util.Set;
 
 /**
  * Helper class for selecting only the parts of Quaqua we want.
- * <p> As a user, I want to have a number of keyboard-oriented features which are removed by Quaqua...
+ * <p> Alas, this doesn't work anymore with java 8 and quaqua.
+ * <p> As a user, I want to have a number of keyboard-oriented features 
+ * which are removed by Quaqua...
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */

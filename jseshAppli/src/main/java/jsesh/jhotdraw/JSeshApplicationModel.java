@@ -40,6 +40,7 @@ import java.io.File;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
@@ -82,6 +83,7 @@ import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
+import jsesh.jhotdraw.jhotdrawCustom.QenherkhURIChooser;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
@@ -116,91 +118,91 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
  * We have decided not to follow Apple guidelines for the "no-document" window,
  * that is, Only the menus relevant to document creation are proposed there.
  * </p>
- * TODO for Windows (check for mac) : ensure that the palette is correctly displayed, in sync with its menu.
- * 
+ * TODO for Windows (check for mac) : ensure that the palette is correctly
+ * displayed, in sync with its menu.
+ *
  * TODO check consistency and file export system in particular. TODO before
- * 
+ *
  * LATER....
- * 
+ *
  * TODO decide something about drawingspecifications, mutability, etc...
  * currently it's too complex and not coherent. Use a builder of the complex
  * immutable objects, as the current copy/change system might be expansive in
  * some cases.
- * 
+ *
  * Improve the import sign dialog... the "ok" button is misleading.
- * 
+ *
  * TODO improve the hieroglyphic menu system... should use a regular button, not
  * a bad-looking out-of-place toolbar (may wait a little)
- * 
+ *
  * TODO after release : fix the import/export/file reading to use proper threads
  * and display... prevent actions in the JMDCEditor widget when not in the EDT.
- * 
+ *
  * TODO check uses of JFileChooser, and replace when needed by
  * PortableFileDialog (in particular in exports).
- * 
+ *
  * Add to the "text menu" : center vertically/horizontally (will insert stuff
  * around sign)
- * 
+ *
  * @author Serge Rosmorduc
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class JSeshApplicationModel extends DefaultApplicationModel {
 
-	// View and Help Menu. Tools (insert new Sign ?)
-	
-	/**
-	 * Prefix for action names which insert a symbol with a SymbolCode. Should
-	 * move in some other class.
-	 */
-	public static final String INSERT_CODE = "INSERT_CODE_";
+    // View and Help Menu. Tools (insert new Sign ?)
+    /**
+     * Prefix for action names which insert a symbol with a SymbolCode. Should
+     * move in some other class.
+     */
+    public static final String INSERT_CODE = "INSERT_CODE_";
 
-	/**
-	 * Some actions require a knowledge of the application...
-	 */
-	private Application application;
+    /**
+     * Some actions require a knowledge of the application...
+     */
+    private Application application;
 
-	/**
-	 * Everything which is a) application-level and b) non specific to JHotdraw
-	 * is delegated to {@link JSeshApplicationBase}.
-	 */
-	private JSeshApplicationBase jseshBase = new JSeshApplicationBase();
+    /**
+     * Everything which is a) application-level and b) non specific to JHotdraw
+     * is delegated to {@link JSeshApplicationBase}.
+     */
+    private JSeshApplicationBase jseshBase = new JSeshApplicationBase();
 
-	/**
-	 * Deals with copy/paste. Needs to know the current view to work correctly.
-	 */
-	private MyTransferableBroker transferableBroker = new MyTransferableBroker();
+    /**
+     * Deals with copy/paste. Needs to know the current view to work correctly.
+     */
+    private MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
-	private PalettePresenter palettePresenter;
-	
-	private JGlossaryEditor glossaryEditor;
-	
-	@Override
-	public void initApplication(Application a) {
-		super.initApplication(a);
-		this.application = a;
-		((ActiveViewAwareApplication)a).initSecondaryWindow(palettePresenter.getDialog());
-	}
+    private PalettePresenter palettePresenter;
 
-	/*
+    private JGlossaryEditor glossaryEditor;
+
+    @Override
+    public void initApplication(Application a) {
+        super.initApplication(a);
+        this.application = a;
+        ((ActiveViewAwareApplication) a).initSecondaryWindow(palettePresenter.getDialog());
+    }
+
+    /*
 	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * org.jhotdraw_7_6.app.DefaultApplicationModel#initView(org.jhotdraw_7_6
 	 * .app.Application, org.jhotdraw_7_6.app.View)
-	 */
-	@Override
-	public void initView(Application a, View v) {
-		super.initView(a, v);
-		DrawingSpecification drawingSpecifications = jseshBase
-				.getDefaultDrawingSpecifications();
-		JSeshView jSeshView = (JSeshView) v;
-		jSeshView.setDrawingSpecifications(drawingSpecifications);
-		jSeshView.setMDCModelTransferableBroker(transferableBroker);
-		jSeshView.setFontInfo(getFontInfo());
-	}
+     */
+    @Override
+    public void initView(Application a, View v) {
+        super.initView(a, v);
+        DrawingSpecification drawingSpecifications = jseshBase
+                .getDefaultDrawingSpecifications();
+        JSeshView jSeshView = (JSeshView) v;
+        jSeshView.setDrawingSpecifications(drawingSpecifications);
+        jSeshView.setMDCModelTransferableBroker(transferableBroker);
+        jSeshView.setFontInfo(getFontInfo());
+    }
 
-	/*
+    /*
 	 * Note that createActionMap is in the application model and not in the view
 	 * model, because for Mac OS X, all actions are supposed to be created, even
 	 * if there is no view.
@@ -214,323 +216,338 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * 
 	 * @see org.jhotdraw_7_6.app.DefaultApplicationModel#createActionMap(org.
 	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_6.app.View)
-	 */
-	public ActionMap createActionMap(Application a, View v) {
-		JMDCEditor editor = null;
-		JSeshView jseshView = (JSeshView) v;
-		if (jseshView != null) {
-			editor = jseshView.getEditor();
-		}
+     */
+    public ActionMap createActionMap(Application a, View v) {
+        JMDCEditor editor = null;
+        JSeshView jseshView = (JSeshView) v;
+        if (jseshView != null) {
+            editor = jseshView.getEditor();
+        }
 
-		ActionMap map = super.createActionMap(a, v);
+        ActionMap map = super.createActionMap(a, v);
 
-		if (v == null) {
-			// Application-level actions
-			// Only on mac ?
-			map.put(OpenApplicationFileAction.ID,
-					new OpenApplicationFileAction(a));
-			map.put(JSeshApplicationPreferenceAction.ID,
-					new JSeshApplicationPreferenceAction(a));
-			map.put(AboutAction.ID, new JSeshAboutAction(a));
-			map.put(ImportPDFAction.ID, new ImportPDFAction(a));
-			map.put(ImportRTFAction.ID, new ImportRTFAction(a));
-			map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
-			map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
-			// palette ...
+        if (v == null) {
+            // Application-level actions
+            // Only on mac ?
+            map.put(OpenApplicationFileAction.ID,
+                    new OpenApplicationFileAction(a));
+            map.put(JSeshApplicationPreferenceAction.ID,
+                    new JSeshApplicationPreferenceAction(a));
+            map.put(AboutAction.ID, new JSeshAboutAction(a));
+            map.put(ImportPDFAction.ID, new ImportPDFAction(a));
+            map.put(ImportRTFAction.ID, new ImportRTFAction(a));
+            map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
+            map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
+            // palette ...
 
-			palettePresenter = new PalettePresenter();
-			palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+            palettePresenter = new PalettePresenter();
+            palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
 
-			map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
-			
-			Action glossaryEditorAction= new ToggleGlossaryEditorAction(a);
-			new PaletteActionEnabler( glossaryEditorAction, getGlossaryEditor().getFrame());
-			
-			map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
-			
-			map.remove(DuplicateAction.ID);
-			map.remove(DeleteAction.ID);
-			map.remove(CopyAction.ID);
-			map.remove(CutAction.ID);
-			map.remove(PasteAction.ID);
+            map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
 
-			map.remove(SelectAllAction.ID);
-			map.remove(ClearSelectionAction.ID);
+            Action glossaryEditorAction = new ToggleGlossaryEditorAction(a);
+            new PaletteActionEnabler(glossaryEditorAction, getGlossaryEditor().getFrame());
 
-		} else {
-			// View level actions
-			map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
-			map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
-			map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
-			map.put(EditDocumentPreferencesAction.ID,
-					new EditDocumentPreferencesAction(a, v));
-			map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
-			map.put(ApplyModelAction.ID, new ApplyModelAction(a, jseshView));
-			map.put(JSeshApplicationActionsID.EXPORT_WMF,
-					new GenericExportAction(a, jseshView, new WMFExporter(),
-							JSeshApplicationActionsID.EXPORT_WMF));
+            map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
 
-			map.put(JSeshApplicationActionsID.EXPORT_EMF,
-					new GenericExportAction(a, jseshView, new EMFExporter(),
-							JSeshApplicationActionsID.EXPORT_EMF));
+            map.remove(DuplicateAction.ID);
+            map.remove(DeleteAction.ID);
+            map.remove(CopyAction.ID);
+            map.remove(CutAction.ID);
+            map.remove(PasteAction.ID);
 
-			map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
-					new GenericExportAction(a, jseshView,
-							new MacPictExporter(),
-							JSeshApplicationActionsID.EXPORT_MACPICT));
+            map.remove(SelectAllAction.ID);
+            map.remove(ClearSelectionAction.ID);
 
-			map.put(JSeshApplicationActionsID.EXPORT_SVG,
-					new GenericExportAction(a, jseshView, new SVGExporter(a.getComponent()),
-							JSeshApplicationActionsID.EXPORT_SVG));
+        } else {
+            // View level actions
+            map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
+            map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
+            map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
+            map.put(EditDocumentPreferencesAction.ID,
+                    new EditDocumentPreferencesAction(a, v));
+            map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
+            map.put(ApplyModelAction.ID, new ApplyModelAction(a, jseshView));
+            map.put(JSeshApplicationActionsID.EXPORT_WMF,
+                    new GenericExportAction(a, jseshView, new WMFExporter(),
+                            JSeshApplicationActionsID.EXPORT_WMF));
 
-			map.put(JSeshApplicationActionsID.EXPORT_EPS,
-					new GenericExportAction(a, jseshView, new EPSExporter(),
-							JSeshApplicationActionsID.EXPORT_EPS));
+            map.put(JSeshApplicationActionsID.EXPORT_EMF,
+                    new GenericExportAction(a, jseshView, new EMFExporter(),
+                            JSeshApplicationActionsID.EXPORT_EMF));
 
-			map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
-			map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
-			map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
-			map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a,
-					jseshView));
-			map.put(QuickPDFSelectExportFolderAction.ID,
-					new QuickPDFSelectExportFolderAction(a));
+            map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
+                    new GenericExportAction(a, jseshView,
+                            new MacPictExporter(),
+                            JSeshApplicationActionsID.EXPORT_MACPICT));
 
-			map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
-			map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
+            map.put(JSeshApplicationActionsID.EXPORT_SVG,
+                    new GenericExportAction(a, jseshView, new SVGExporter(a.getComponent()),
+                            JSeshApplicationActionsID.EXPORT_SVG));
 
-			for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
-					.buildActions(a, jseshView)) {
-				map.put(action.getID(), action);
-			}
+            map.put(JSeshApplicationActionsID.EXPORT_EPS,
+                    new GenericExportAction(a, jseshView, new EPSExporter(),
+                            JSeshApplicationActionsID.EXPORT_EPS));
 
-			map.put(EditGroupAction.ID, new EditGroupAction(editor));
+            map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
+            map.put(ExportAsRTFAction.ID, new ExportAsRTFAction(a, jseshView));
+            map.put(ExportAsHTMLAction.ID, new ExportAsHTMLAction(a, jseshView));
+            map.put(QuickPDFExportAction.ID, new QuickPDFExportAction(a,
+                    jseshView));
+            map.put(QuickPDFSelectExportFolderAction.ID,
+                    new QuickPDFSelectExportFolderAction(a));
 
-			addInsertAction(map, a, v,
-					JSeshApplicationActionsID.INSERT_FULL_SHADING,
-					SymbolCodes.FULLSHADE);
-			addInsertAction(map, a, v,
-					JSeshApplicationActionsID.INSERT_HORIZONTAL_SHADING,
-					SymbolCodes.HORIZONTALSHADE);
-			addInsertAction(map, a, v,
-					JSeshApplicationActionsID.INSERT_VERTICAL_SHADING,
-					SymbolCodes.VERTICALSHADE);
-			addInsertAction(map, a, v,
-					JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
-					SymbolCodes.QUATERSHADE);
+            map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
+            map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
 
-			// Ecdotic signs. Codes from 100 to 113.
-			for (int i = 100; i <= 113; i++) {
-				map.put(INSERT_CODE + i, InsertElementAction
-						.buildInsertElementActionWithIcon(a, jseshView,
-								INSERT_CODE + i, i));
-			}
-                        for (String s: AdditionalSymbols.ARROWS) {
-                            map.put(INSERT_CODE+ s, InsertElementAction.buildInsertElementActionWithIcon(a, jseshView, s));
-                        }
-		}
-		return map;
-	}
+            for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
+                    .buildActions(a, jseshView)) {
+                map.put(action.getID(), action);
+            }
 
-	@Override
-	protected MenuBuilder createMenuBuilder() {
-		return new JSeshMenuBuilder();
-	}
+            map.put(EditGroupAction.ID, new EditGroupAction(editor));
 
-	private void addInsertAction(ActionMap map, Application a, View jseshView,
-			String id, int code) {
-		map.put(id, new InsertElementAction(a, jseshView, id, code));
-	}
+            addInsertAction(map, a, v,
+                    JSeshApplicationActionsID.INSERT_FULL_SHADING,
+                    SymbolCodes.FULLSHADE);
+            addInsertAction(map, a, v,
+                    JSeshApplicationActionsID.INSERT_HORIZONTAL_SHADING,
+                    SymbolCodes.HORIZONTALSHADE);
+            addInsertAction(map, a, v,
+                    JSeshApplicationActionsID.INSERT_VERTICAL_SHADING,
+                    SymbolCodes.VERTICALSHADE);
+            addInsertAction(map, a, v,
+                    JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
+                    SymbolCodes.QUATERSHADE);
 
-	@Override
-	public URIChooser createOpenChooser(Application a, View v) {
-		JFileURIChooser chooser = new JFileURIChooser();
-		String description = BundleHelper.getInstance().getLabel(
-				"file.glyphFile.text");
+            // Ecdotic signs. Codes from 100 to 113.
+            for (int i = 100; i <= 113; i++) {
+                map.put(INSERT_CODE + i, InsertElementAction
+                        .buildInsertElementActionWithIcon(a, jseshView,
+                                INSERT_CODE + i, i));
+            }
+            for (String s : AdditionalSymbols.ARROWS) {
+                map.put(INSERT_CODE + s, InsertElementAction.buildInsertElementActionWithIcon(a, jseshView, s));
+            }
+        }
+        return map;
+    }
+
+    @Override
+    protected MenuBuilder createMenuBuilder() {
+        return new JSeshMenuBuilder();
+    }
+
+    private void addInsertAction(ActionMap map, Application a, View jseshView,
+            String id, int code) {
+        map.put(id, new InsertElementAction(a, jseshView, id, code));
+    }
+
+    @Override
+    public URIChooser createOpenChooser(Application a, View v) {
+        QenherkhURIChooser chooser= new QenherkhURIChooser();        
+        String description = BundleHelper.getInstance().getLabel(
+                "file.glyphFile.text");
 //		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
 //				"gly"));
-		String pdfDescription = BundleHelper.getInstance().getLabel(
-				"file.pdfFile.text");
+        String pdfDescription = BundleHelper.getInstance().getLabel(
+                "file.pdfFile.text");
+        chooser.setOpenFileFilters(
+                new FileFilter[] {
+                    new FileExtensionFilter(new String[]{"pdf"}, pdfDescription),
+                    new FileExtensionFilter(new String[]{"gly", "hie"}, description)
+                }
+        );        
+        return chooser;
+    }
 
-		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"pdf"}, pdfDescription) );
-		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"gly", "hie"}, description) );
-		return chooser;
-	}
+    @Override
+    public URIChooser createSaveChooser(Application a, View v) {
+         // fix the following later...
+        String pdfDescription = BundleHelper.getInstance().getLabel(
+                "file.pdfFile.text");
 
-	@Override
-	public URIChooser createSaveChooser(Application a, View v) {
-		JFileURIChooser chooser = new JFileURIChooser();
+               
+        String description = BundleHelper.getInstance().getLabel(
+                "file.glyphFile.text");
+        QenherkhURIChooser chooser= new QenherkhURIChooser();    
+        chooser.setSelectedURI(v.getURI());
+        chooser.setCloseFileFilters(new FileFilter[]{
+            new ExtensionFileFilter(description,"gly"),
+            new FileExtensionFilter(new String[]{"pdf"}, pdfDescription)
+        });
+       
+        //        chooser.addChoosableFileFilter(new FileExtensionFilter(new String[]{"pdf"}, pdfDescription));
 
-		String pdfDescription = BundleHelper.getInstance().getLabel(
-				"file.pdfFile.text");
+        // chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
+               // "gly"));
+        return chooser;
+    }
 
-		String description = BundleHelper.getInstance().getLabel(
-				"file.glyphFile.text");
-		chooser.addChoosableFileFilter(new FileExtensionFilter(new String[] {"pdf"}, pdfDescription) );
+    private class MyHieroglyphicPaletteListener implements
+            HieroglyphPaletteListener {
 
-		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
-				"gly"));
-		return chooser;
-	}
+        public void signSelected(String code) {
+            if (application.getActiveView() != null
+                    && application.getActiveView() instanceof JSeshView) {
+                JSeshView currentView = (JSeshView) application.getActiveView();
+                currentView.insertCode(code);
+            } else {
+                System.err.println(application.getActiveView());
+            }
+        }
+    }
 
-	private class MyHieroglyphicPaletteListener implements
-			HieroglyphPaletteListener {
+    /**
+     * @param configurationNumber
+     * @see
+     * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(int)
+     */
+    public void selectCopyPasteConfiguration(ExportType exportType) {
+        jseshBase.selectCopyPasteConfiguration(exportType);
+    }
 
-		public void signSelected(String code) {
-			if (application.getActiveView() != null
-					&& application.getActiveView() instanceof JSeshView) {
-				JSeshView currentView = (JSeshView) application.getActiveView();
-				currentView.insertCode(code);
-			} else {
-				System.err.println(application.getActiveView());
-			}
-		}
-	}
+    public File getCurrentDirectory() {
+        return jseshBase.getCurrentDirectory();
+    }
 
-	/**
-	 * @param configurationNumber
-	 * @see jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(int)
-	 */
-	public void selectCopyPasteConfiguration(ExportType exportType) {
-		jseshBase.selectCopyPasteConfiguration(exportType);
-	}
+    public void setCurrentDirectory(File directory) {
+        if (!directory.isDirectory()) {
+            throw new RuntimeException("Bug : " + directory.getAbsolutePath()
+                    + " should be a directory");
+        }
+        jseshBase.setCurrentDirectory(directory);
+    }
 
-	public File getCurrentDirectory() {
-		return jseshBase.getCurrentDirectory();
-	}
+    public PDFExportPreferences getPDFExportPreferences() {
+        return jseshBase.getPDFExportPreferences();
+    }
 
-	public void setCurrentDirectory(File directory) {
-		if (!directory.isDirectory())
-			throw new RuntimeException("Bug : " + directory.getAbsolutePath()
-					+ " should be a directory");
-		jseshBase.setCurrentDirectory(directory);
-	}
+    public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
+        return jseshBase.getRTFExportPreferences(exportType);
+    }
 
-	public PDFExportPreferences getPDFExportPreferences() {
-		return jseshBase.getPDFExportPreferences();
-	}
+    public HTMLExporter getHTMLExporter() {
+        return jseshBase.getHTMLExporter();
+    }
 
-	public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
-		return jseshBase.getRTFExportPreferences(exportType);
-	}
+    public File getQuickPDFExportFolder() {
+        return jseshBase.getQuickPDFExportFolder();
+    }
 
-	public HTMLExporter getHTMLExporter() {
-		return jseshBase.getHTMLExporter();
-	}
+    public void setQuickPDFExportFolder(File folder) {
+        jseshBase.setQuickPDFExportFolder(folder);
+    }
 
-	public File getQuickPDFExportFolder() {
-		return jseshBase.getQuickPDFExportFolder();
-	}
+    public void setMessage(String string) {
+        JSeshView view = (JSeshView) application.getActiveView();
+        if (view != null) {
+            view.setMessage(string);
+        }
+    }
 
-	public void setQuickPDFExportFolder(File folder) {
-		jseshBase.setQuickPDFExportFolder(folder);
-	}
+    /**
+     * Display the preferences dialog.
+     */
+    public void showPreferencesEditor() {
+        ApplicationPreferencesPresenter applicationPreferencesPresenter = new ApplicationPreferencesPresenter();
+        Component parentComponent = null;
+        View activeView = application.getActiveView();
+        if (activeView != null) {
+            parentComponent = activeView.getComponent();
+        }
+        applicationPreferencesPresenter.loadPreferences(this);
+        if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
+            applicationPreferencesPresenter.updatePreferences(this);
+        }
+    }
 
-	public void setMessage(String string) {
-		JSeshView view = (JSeshView) application.getActiveView();
-		if (view != null) {
-			view.setMessage(string);
-		}
-	}
+    public FontInfo getFontInfo() {
+        return jseshBase.getFontInfo();
+    }
 
-	/**
-	 * Display the preferences dialog.
-	 */
-	public void showPreferencesEditor() {
-		ApplicationPreferencesPresenter applicationPreferencesPresenter = new ApplicationPreferencesPresenter();
-		Component parentComponent = null;
-		View activeView = application.getActiveView();
-		if (activeView!= null) 
-			parentComponent= 	activeView.getComponent();
-		applicationPreferencesPresenter.loadPreferences(this);
-		if (applicationPreferencesPresenter.showDialog(parentComponent) == JOptionPane.OK_OPTION) {
-			applicationPreferencesPresenter.updatePreferences(this);
-		}
-	}
+    /**
+     * Change the fonts used by JSesh.
+     *
+     * @param fontInfo
+     */
+    public void setFontInfo(FontInfo fontInfo) {
+        jseshBase.setFontInfo(fontInfo);
+        for (View v : application.views()) {
+            JSeshView view = (JSeshView) v;
+            view.setFontInfo(fontInfo);
+        }
+    }
 
-	public FontInfo getFontInfo() {
-		return jseshBase.getFontInfo();
-	}
+    public MDCClipboardPreferences getClipboardPreferences() {
+        return jseshBase.getClipboardPreferences();
+    }
 
-	/**
-	 * Change the fonts used by JSesh.
-	 * 
-	 * @param fontInfo
-	 */
-	public void setFontInfo(FontInfo fontInfo) {
-		jseshBase.setFontInfo(fontInfo);
-		for (View v : application.views()) {
-			JSeshView view = (JSeshView) v;
-			view.setFontInfo(fontInfo);
-		}
-	}
+    public void setClipboardPreferences(MDCClipboardPreferences prefs) {
+        jseshBase.setClipboardPreferences(prefs);
+    }
 
-	public MDCClipboardPreferences getClipboardPreferences() {
-		return jseshBase.getClipboardPreferences();
-	}
+    /**
+     * Returns a copy of the current export preferences.
+     *
+     * @return
+     */
+    public ExportPreferences getExportPreferences() {
+        return jseshBase.getExportPreferences();
+    }
 
-	public void setClipboardPreferences(MDCClipboardPreferences prefs) {
-		jseshBase.setClipboardPreferences(prefs);
-	}
+    public void setExportPreferences(ExportPreferences exportPreferences) {
+        jseshBase.setExportPreferences(exportPreferences);
+    }
 
-	/**
-	 * Returns a copy of the current export preferences.
-	 * 
-	 * @return
-	 */
-	public ExportPreferences getExportPreferences() {
-		return jseshBase.getExportPreferences();
-	}
+    @Override
+    public void destroyApplication(Application a) {
+        palettePresenter.getDialog().savePreferences();
+        jseshBase.savePreferences();
+    }
 
-	public void setExportPreferences(ExportPreferences exportPreferences) {
-		jseshBase.setExportPreferences(exportPreferences);
-	}
+    private class MyTransferableBroker implements MDCModelTransferableBroker {
 
-	@Override
-	public void destroyApplication(Application a) {
-		palettePresenter.getDialog().savePreferences();
-		jseshBase.savePreferences();
-	}
+        public MDCModelTransferable buildTransferable(TopItemList top) {
+            return buildTransferable(top,
+                    JSeshPasteFlavors
+                    .getTransferDataFlavors(getClipboardPreferences()));
 
-	private class MyTransferableBroker implements MDCModelTransferableBroker {
-		public MDCModelTransferable buildTransferable(TopItemList top) {
-			return buildTransferable(top,
-					JSeshPasteFlavors
-							.getTransferDataFlavors(getClipboardPreferences()));
+        }
 
-		}
+        public MDCModelTransferable buildTransferable(TopItemList top,
+                DataFlavor[] dataFlavors) {
 
-		public MDCModelTransferable buildTransferable(TopItemList top,
-				DataFlavor[] dataFlavors) {
+            MDCModelTransferable result = new MDCModelTransferable(dataFlavors,
+                    top);
+            DrawingSpecification currentDrawingSpecifications = ((JSeshView) application
+                    .getActiveView()).getDrawingSpecifications();
+            result.setDrawingSpecifications(currentDrawingSpecifications);
+            result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
+            result.setClipboardPreferences(jseshBase.getClipboardPreferences());
+            return result;
+        }
+    }
 
-			MDCModelTransferable result = new MDCModelTransferable(dataFlavors,
-					top);
-			DrawingSpecification currentDrawingSpecifications = ((JSeshView) application
-					.getActiveView()).getDrawingSpecifications();
-			result.setDrawingSpecifications(currentDrawingSpecifications);
-			result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
-			result.setClipboardPreferences(jseshBase.getClipboardPreferences());
-			return result;
-		}
-	}
+    public void setDefaultDrawingSpecifications(
+            DrawingSpecification drawingSpecifications) {
+        jseshBase.setDefaultDrawingSpecifications(drawingSpecifications);
+    }
 
-	public void setDefaultDrawingSpecifications(
-			DrawingSpecification drawingSpecifications) {
-		jseshBase.setDefaultDrawingSpecifications(drawingSpecifications);
-	}
+    /**
+     * Returns a copy of the current default drawing specifications.
+     *
+     * @return
+     */
+    public DrawingSpecification getDefaultDrawingSpecifications() {
+        return jseshBase.getDefaultDrawingSpecifications();
+    }
 
-	/**
-	 * Returns a copy of the current default drawing specifications.
-	 * 
-	 * @return
-	 */
-	public DrawingSpecification getDefaultDrawingSpecifications() {
-		return jseshBase.getDefaultDrawingSpecifications();
-	}
-
-	public JGlossaryEditor getGlossaryEditor() {
-		if (glossaryEditor== null)
-			glossaryEditor= new JGlossaryEditor();
-		return glossaryEditor;		
-	}
+    public JGlossaryEditor getGlossaryEditor() {
+        if (glossaryEditor == null) {
+            glossaryEditor = new JGlossaryEditor();
+        }
+        return glossaryEditor;
+    }
 
 }

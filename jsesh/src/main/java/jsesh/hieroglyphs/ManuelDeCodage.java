@@ -184,6 +184,7 @@ public class ManuelDeCodage {
         putCanon("sd", "F33");
         putCanon("ib", "F34");
         putCanon("nfr", "F35");
+        // putCanon("mHy", "F37B"); ???
         putCanon("zmA", "F36");
         putCanon("imAx", "F39");
         putCanon("Aw", "F40");

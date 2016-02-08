@@ -234,19 +234,21 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 	}
 
 	public void launch(String[] args) {
-		System.setProperty("apple.awt.graphics.UseQuartz", "false");
+		System.setProperty("apple.awt.graphics.UseQuartz", "true");
 		super.launch(args);
 	}
 
 	public void configure(String[] args) {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.macos.useScreenMenuBar", "true");
+                System.setProperty("Quaqua.requestFocusEnabled", "true");  
+                QuaquaSelectiveSetupHelper.selectJSeshSpecificUI();
 	}
 
 	protected void initLookAndFeel() {
 		try {
-			UIManager
-					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+//			UIManager
+//					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

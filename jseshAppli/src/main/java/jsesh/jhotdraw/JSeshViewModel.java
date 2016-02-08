@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
@@ -37,7 +36,6 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 
-import org.jhotdraw_7_6.gui.JPopupButton;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing

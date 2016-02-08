@@ -12,6 +12,7 @@ package org.jhotdraw_7_6.app.action.file;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
@@ -35,17 +36,17 @@ import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
- * Saves the changes in the active view. If the active view has not an URI,
- * an {@code URIChooser} is presented.
+ * Saves the changes in the active view. If the active view has not an URI, an
+ * {@code URIChooser} is presented.
  * <p>
- * This action is called when the user selects the Save item in the File
- * menu. The menu item is automatically created by the application.
+ * This action is called when the user selects the Save item in the File menu.
+ * The menu item is automatically created by the application.
  * <p>
- * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel} in method
+ * If you want this behavior in your application, you have to create it and put
+ * it in your {@code ApplicationModel} in method
  * {@link ApplicationModel#initApplication}.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id: SaveFileAction.java 717 2010-11-21 12:30:57Z rawcoder $
  */
 public class SaveFileAction extends AbstractViewAction {
@@ -54,13 +55,17 @@ public class SaveFileAction extends AbstractViewAction {
     private boolean saveAs;
     private Component oldFocusOwner;
 
-    /** Creates a new instance. */
-    public SaveFileAction(Application app,  View view) {
+    /**
+     * Creates a new instance.
+     */
+    public SaveFileAction(Application app, View view) {
         this(app, view, false);
     }
 
-    /** Creates a new instance. */
-    public SaveFileAction(Application app,  View view, boolean saveAs) {
+    /**
+     * Creates a new instance.
+     */
+    public SaveFileAction(Application app, View view, boolean saveAs) {
         super(app, view);
         this.saveAs = saveAs;
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
@@ -76,7 +81,6 @@ public class SaveFileAction extends AbstractViewAction {
         return chsr;
     }
 
-    
     public void actionPerformed(ActionEvent evt) {
         final View view = getActiveView();
         if (view == null) {
@@ -91,41 +95,56 @@ public class SaveFileAction extends AbstractViewAction {
             } else {
                 URIChooser fileChooser = getChooser(view);
 
-                JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
-
-                    
-                    public void optionSelected(final SheetEvent evt) {
-                        if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                            final URI uri;
-                            if ((evt.getChooser() instanceof JFileURIChooser) && (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter)) {
-                                uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
-                            } else {
-                                uri = evt.getChooser().getSelectedURI();
-                            }
-                            saveViewToURI(view, uri, evt.getChooser());
-                        } else {
-                            view.setEnabled(true);
-                            if (oldFocusOwner != null) {
-                                oldFocusOwner.requestFocus();
-                            }
+                if (fileChooser.getComponent() == null) {
+                    int rep = fileChooser.showSaveDialog(view.getComponent());
+                    if (rep == URIChooser.APPROVE_OPTION) {
+                        URI uri = fileChooser.getSelectedURI();
+                        saveViewToURI(view, uri, fileChooser);
+                    } else {
+                        view.setEnabled(true);
+                        if (oldFocusOwner != null) {
+                            oldFocusOwner.requestFocus();
                         }
                     }
-                });
+                } else {
+                    saveToSheet(fileChooser, view);
+                }
             }
+
         }
     }
 
+    private void saveToSheet(URIChooser fileChooser, final View view) {
+        JSheet.showSaveSheet(fileChooser, view.getComponent(), new SheetListener() {
+
+            public void optionSelected(final SheetEvent evt) {
+                if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+                    final URI uri;
+                    if ((evt.getChooser() instanceof JFileURIChooser) && (evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter)) {
+                        uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
+                    } else {
+                        uri = evt.getChooser().getSelectedURI();
+                    }
+                    saveViewToURI(view, uri, evt.getChooser());
+                } else {
+                    view.setEnabled(true);
+                    if (oldFocusOwner != null) {
+                        oldFocusOwner.requestFocus();
+                    }
+                }
+            }
+        });
+    }
+
     protected void saveViewToURI(final View view, final URI file,
-             final URIChooser chooser) {
+            final URIChooser chooser) {
         view.execute(new Worker() {
 
-            
             protected Object construct() throws IOException {
                 view.write(file, chooser);
                 return null;
             }
 
-            
             protected void done(Object value) {
                 view.setURI(file);
                 view.markChangesAsSaved();
@@ -139,7 +158,6 @@ public class SaveFileAction extends AbstractViewAction {
                 view.setMultipleOpenId(multiOpenId);
             }
 
-            
             protected void failed(Throwable value) {
                 value.printStackTrace();
                 String message = value.getMessage() != null ? value.getMessage() : value.toString();
@@ -151,7 +169,6 @@ public class SaveFileAction extends AbstractViewAction {
                         JOptionPane.ERROR_MESSAGE);
             }
 
-            
             protected void finished() {
                 view.setEnabled(true);
                 SwingUtilities.getWindowAncestor(view.getComponent()).toFront();

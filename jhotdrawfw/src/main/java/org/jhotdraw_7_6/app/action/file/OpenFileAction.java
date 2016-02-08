@@ -45,30 +45,33 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 
 /**
- * Presents an {@code URIChooser} and loads the selected URI into an
- * empty view. If no empty view is available, a new view is created.
+ * Presents an {@code URIChooser} and loads the selected URI into an empty view.
+ * If no empty view is available, a new view is created.
  * <p>
- * This action is called when the user selects the Open item in the File
- * menu. The menu item is automatically created by the application.
- * A Recent Files sub-menu is also automatically generated.
+ * This action is called when the user selects the Open item in the File menu.
+ * The menu item is automatically created by the application. A Recent Files
+ * sub-menu is also automatically generated.
  * <p>
- * If you want this behavior in your application, you have to create it
- * and put it in your {@code ApplicationModel} in method
+ * If you want this behavior in your application, you have to create it and put
+ * it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw_7_6.app.ApplicationModel#initApplication}.
  * <p>
- * This action is designed for applications which automatically
- * create a new view for each opened file. This action goes together with
- * {@link NewFileAction}, {@link OpenDirectoryAction} and {@link CloseFileAction}.
- * This action should not be used together with {@link LoadFileAction}.
+ * This action is designed for applications which automatically create a new
+ * view for each opened file. This action goes together with
+ * {@link NewFileAction}, {@link OpenDirectoryAction} and
+ * {@link CloseFileAction}. This action should not be used together with
+ * {@link LoadFileAction}.
  *
- * @author  Werner Randelshofer
+ * @author Werner Randelshofer
  * @version $Id: OpenFileAction.java 717 2010-11-21 12:30:57Z rawcoder $
  */
 public class OpenFileAction extends AbstractApplicationAction {
 
     public final static String ID = "file.open";
 
-    /** Creates a new instance. */
+    /**
+     * Creates a new instance.
+     */
     public OpenFileAction(Application app) {
         super(app);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
@@ -80,7 +83,6 @@ public class OpenFileAction extends AbstractApplicationAction {
         return getApplication().getOpenChooser(null);
     }
 
-    
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         if (app.isEnabled()) {
@@ -137,7 +139,6 @@ public class OpenFileAction extends AbstractApplicationAction {
         // Open the file
         view.execute(new Worker() {
 
-            
             public Object construct() throws IOException {
                 boolean exists = true;
                 try {
@@ -153,7 +154,6 @@ public class OpenFileAction extends AbstractApplicationAction {
                 }
             }
 
-            
             protected void done(Object value) {
                 final Application app = getApplication();
                 view.setURI(uri);
@@ -170,9 +170,9 @@ public class OpenFileAction extends AbstractApplicationAction {
 
             @Override
             protected void finished() {
-            		app.recomputeWindowMenu();
+                app.recomputeWindowMenu();
             }
-            
+
             protected void failed(Throwable value) {
                 value.printStackTrace();
                 view.setEnabled(true);
@@ -188,44 +188,48 @@ public class OpenFileAction extends AbstractApplicationAction {
         });
     }
 
-    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+    /**
+     * We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
     public int showDialog(URIChooser chooser, Component parent) {
         final Component finalParent = parent;
-        final int[] returnValue = new int[1];
-        final JDialog dialog = createDialog(chooser, finalParent);
-        dialog.addWindowListener(new WindowAdapter() {
+        if (chooser.getComponent() == null) {
+            return chooser.showOpenDialog(parent);
+        } else {
+            final int[] returnValue = new int[1];
+            final JDialog dialog = createDialog(chooser, finalParent);
+            dialog.addWindowListener(new WindowAdapter() {
 
-            
-            public void windowClosing(WindowEvent e) {
-                returnValue[0] = JFileChooser.CANCEL_OPTION;
-            }
-        });
-        chooser.addActionListener(new ActionListener() {
-
-            
-            public void actionPerformed(ActionEvent e) {
-                if (e.getActionCommand().equals("CancelSelection")) {
+                public void windowClosing(WindowEvent e) {
                     returnValue[0] = JFileChooser.CANCEL_OPTION;
-                    dialog.setVisible(false);
-                } else if (e.getActionCommand().equals("ApproveSelection")) {
-                    returnValue[0] = JFileChooser.APPROVE_OPTION;
-                    dialog.setVisible(false);
                 }
-            }
-        });
-        returnValue[0] = JFileChooser.ERROR_OPTION;
-        chooser.rescanCurrentDirectory();
+            });
+            chooser.addActionListener(new ActionListener() {
 
-        dialog.setVisible(true);
-        //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
-        dialog.removeAll();
-        dialog.dispose();
-        return returnValue[0];
+                public void actionPerformed(ActionEvent e) {
+                    if (e.getActionCommand().equals("CancelSelection")) {
+                        returnValue[0] = JFileChooser.CANCEL_OPTION;
+                        dialog.setVisible(false);
+                    } else if (e.getActionCommand().equals("ApproveSelection")) {
+                        returnValue[0] = JFileChooser.APPROVE_OPTION;
+                        dialog.setVisible(false);
+                    }
+                }
+            });
+            returnValue[0] = JFileChooser.ERROR_OPTION;
+            chooser.rescanCurrentDirectory();
+
+            dialog.setVisible(true);
+            //chooser.firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
+            dialog.removeAll();
+            dialog.dispose();
+            return returnValue[0];
+        }
     }
 
-    /** We implement JFileChooser.showDialog by ourselves, so that we can center
+    /**
+     * We implement JFileChooser.showDialog by ourselves, so that we can center
      * dialogs properly on screen on Mac OS X.
      */
     protected JDialog createDialog(URIChooser chooser, Component parent) throws HeadlessException {
@@ -235,7 +239,7 @@ public class OpenFileAction extends AbstractApplicationAction {
         }
 
         JDialog dialog;
-        Window window = (parent==null ||(parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
+        Window window = (parent == null || (parent instanceof Window)) ? (Window) parent : SwingUtilities.getWindowAncestor(parent);
         if (window instanceof Frame) {
             dialog = new JDialog((Frame) window, title, true);
         } else {
@@ -248,8 +252,8 @@ public class OpenFileAction extends AbstractApplicationAction {
         contentPane.add(chooser.getComponent(), BorderLayout.CENTER);
 
         if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-                    UIManager.getLookAndFeel().getSupportsWindowDecorations();
+            boolean supportsWindowDecorations
+                    = UIManager.getLookAndFeel().getSupportsWindowDecorations();
             if (supportsWindowDecorations) {
                 dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
             }

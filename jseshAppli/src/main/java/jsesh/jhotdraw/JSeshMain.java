@@ -13,6 +13,7 @@
  */
 package jsesh.jhotdraw;
 
+import jsesh.jhotdraw.jhotdrawCustom.CustomApplicationBase;
 import java.awt.Color;
 import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
@@ -36,6 +37,7 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
 import java.awt.datatransfer.SystemFlavorMap;
+import jsesh.jhotdraw.jhotdrawCustom.CustomApplicationBaseOSX;
 
 /**
  * JSeshMain class.
@@ -93,8 +95,8 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 
 		Application app;
 		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-			app = new QenherOSXApplication();
-			//app= new QenherOSXLikeApplication();
+			//app = new CustomApplicationBaseOSX();
+			app= new QenherOSXApplication();
 		} else if (System.getProperty("os.name").toLowerCase()
 				.startsWith("win")) {
 			// app = new QenherOSXApplication();

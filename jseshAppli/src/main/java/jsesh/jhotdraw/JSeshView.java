@@ -88,7 +88,7 @@ public class JSeshView extends AbstractView {
         viewModel.getEditor().clearText();
         viewModel.getEditor().setCached(false);
         super.dispose();
-        
+
     }
 
     /**
@@ -111,7 +111,7 @@ public class JSeshView extends AbstractView {
         getActionMap().put(
                 PasteAction.ID,
                 getEditor().getActionMap().get(
-                jsesh.editor.actions.edit.PasteAction.ID));
+                        jsesh.editor.actions.edit.PasteAction.ID));
         // Fetch actions from the view editor.
         for (Object actionIDa : getEditor().getActionMap().keys()) {
             if (getActionMap().get(actionIDa) == null) {
@@ -271,23 +271,21 @@ public class JSeshView extends AbstractView {
         // HOWEVER,
         // THERE ARE SMALL PROBLEMS... SOLUTION : store document preferences in
         // the drawing specifications ?
-
         DocumentPreferences documentPreferences = document
                 .getDocumentPreferences();
 
         documentPreferences = documentPreferences
                 .withTextDirection(
-                getEditor().getDrawingSpecifications()
-                .getTextDirection())
+                        getEditor().getDrawingSpecifications()
+                        .getTextDirection())
                 .withTextOrientation(
-                getEditor().getDrawingSpecifications()
-                .getTextOrientation())
+                        getEditor().getDrawingSpecifications()
+                        .getTextOrientation())
                 .withSmallSignCentered(
-                getEditor().getDrawingSpecifications()
-                .isSmallSignsCentered());
+                        getEditor().getDrawingSpecifications()
+                        .isSmallSignsCentered());
 
         // TODO END OF TEMPORARY PATCH
-
         // Check if the file is PDF or MdC
         boolean isPdfFile = false;
         if (document.getFile() != null) {
@@ -493,7 +491,7 @@ public class JSeshView extends AbstractView {
     public void setSmallSignsCentered(boolean selected) {
         // Rather bad design: the info is kept both in drawingspecs
         // and in the document.
-		/*
+        /*
          * TODO CLEANUP THIS MESS (well we do have this mess since we introduced
          * this capability in JSesh and we still have it now, including the
          * "bad design" comment...
@@ -507,7 +505,7 @@ public class JSeshView extends AbstractView {
         specs.setSmallSignsCentered(selected);
         viewModel.setDrawingSpecifications(specs);
         // getEditor().setSmallSignsCentered(selected);
-		/*
+        /*
          * getMdcDocument().setDocumentPreferences(
          * getMdcDocument().getDocumentPreferences()
          * .withSmallSignCentered(selected)); getEditor().invalidateView();
@@ -589,4 +587,5 @@ public class JSeshView extends AbstractView {
     public boolean isSelectionEmpty() {
         return getEditor().hasSelection();
     }
+    
 }
