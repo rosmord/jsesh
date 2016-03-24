@@ -1,6 +1,7 @@
 Maven-oriented JSesh distributions. 
 Contains the following folders and modules:
 
+
 First, modules and files for the current JSesh version :
 
 comments: various text files I keep about JSesh, and some unused code (unformal tests and proof-of-concept)
