@@ -13,8 +13,9 @@
  */
 package jsesh.jhotdraw;
 
-import jsesh.jhotdraw.jhotdrawCustom.CustomApplicationBase;
 import java.awt.Color;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -37,92 +38,107 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
 import java.awt.datatransfer.SystemFlavorMap;
-import jsesh.jhotdraw.jhotdrawCustom.CustomApplicationBaseOSX;
+import net.miginfocom.layout.PlatformDefaults;
 
 /**
  * JSeshMain class.
- * 
+ *
  * @author Serge Rosmorduc.
  * @version $Id: JSeshMain.java 604 2010-01-09 12:00:29Z rawcoder $
  */
 public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 
-	public final static String NAME = "JSesh";
-	public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
+    public final static String NAME = "JSesh";
+    public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
-	private String args[];
+    private String args[];
 
-	@Override
-	public JSeshApplicationStartingData initApplicationData() {
-		// Pre-load a number of objects so that they are ready when graphic
-		// stuff starts.
-		ResourcesManager.getInstance();
-		JSeshApplicationStartingData data = new JSeshApplicationStartingData();
-		new DrawingSpecificationsImplementation();
-		DefaultHieroglyphicFontManager.getInstance();
-		preloadHieroglyphicIcons();
-		return data;
-	}
+    @Override
+    public JSeshApplicationStartingData initApplicationData() {
+        // Pre-load a number of objects so that they are ready when graphic
+        // stuff starts.
+        ResourcesManager.getInstance();
+        JSeshApplicationStartingData data = new JSeshApplicationStartingData();
+        new DrawingSpecificationsImplementation();
+        DefaultHieroglyphicFontManager.getInstance();
+        preloadHieroglyphicIcons();
+        return data;
+    }
 
-	private void preloadHieroglyphicIcons() {
-		List<HieroglyphFamily> families = CompositeHieroglyphsManager
-				.getInstance().getFamilies();
-		for (int i = 0; i < families.size(); i++) {
-			HieroglyphFamily family = families.get(i);
-			for (String code : ManuelDeCodage.getInstance()
-					.getBasicGardinerCodesForFamily(family.getCode())) {
-				ImageIconFactory.buildGlyphImage(code);
-			}
-		}
-		EditorCartoucheAction.preloadCartoucheIcons();
-		EditorShadeAction.preloadIcons();
+    private void preloadHieroglyphicIcons() {
+        List<HieroglyphFamily> families = CompositeHieroglyphsManager
+                .getInstance().getFamilies();
+        for (int i = 0; i < families.size(); i++) {
+            HieroglyphFamily family = families.get(i);
+            for (String code : ManuelDeCodage.getInstance()
+                    .getBasicGardinerCodesForFamily(family.getCode())) {
+                ImageIconFactory.buildGlyphImage(code);
+            }
+        }
+        EditorCartoucheAction.preloadCartoucheIcons();
+        EditorShadeAction.preloadIcons();
 
-	}
+    }
 
-	@Override
-	public void startApplication(JSeshApplicationStartingData data) {
-		// Force creation of the hieroglyphic font manager and loading of the
-		// fonts (do it elsewhere).
-		JSeshApplicationModel applicationModel = new JSeshApplicationModel();
-		applicationModel.setCopyright(COPYRIGHT);
-		applicationModel.setName(NAME);
-		applicationModel.setVersion(Version.getVersion());
+    @Override
+    public void startApplication(JSeshApplicationStartingData data) {
+        // Force creation of the hieroglyphic font manager and loading of the
+        // fonts (do it elsewhere).
+        JSeshApplicationModel applicationModel = new JSeshApplicationModel();
+        applicationModel.setCopyright(COPYRIGHT);
+        applicationModel.setName(NAME);
+        applicationModel.setVersion(Version.getVersion());
 
-		// We use setViewClass method instead of setViewClassName
-		// Because we will probably move the code...
+        // We use setViewClass method instead of setViewClassName
+        // Because we will probably move the code...
+        applicationModel.setViewClass(JSeshView.class);
 
-		applicationModel.setViewClass(JSeshView.class);
+        Application app;
+        if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
+            //app = new CustomApplicationBaseOSX();
+            app = new QenherOSXApplication();
+        } else if (System.getProperty("os.name").toLowerCase()
+                .startsWith("win")) {
+            // app = new QenherOSXApplication();
+            app = new QenherOSXLikeApplication();
+        } else {
+            app = new QenherOSXLikeApplication();
+            // app= new QenherOSXApplication();
+        }
+        System.err.println("getDefaultToolkit().getScreenResolution() :"+ 
+                Toolkit.getDefaultToolkit().getScreenResolution());
+        System.err.println("getDefaultToolkit().getScreenSize() : "+ java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+        System.err.println("PlatformDefaults.getHorizontalScaleFactor(): "
+        +PlatformDefaults.getHorizontalScaleFactor());
+        System.err.println("PlatformDefaults.getVerticalScaleFactor(): "+
+                 PlatformDefaults.getVerticalScaleFactor());
+        System.err.println("PlatformDefaults.getDefaultDPI "+ PlatformDefaults.getDefaultDPI());       
+        app.setModel(applicationModel);
+        app.launch(args);
+        int currentDpi= PlatformDefaults.getDefaultDPI();
+        double dpi = app.getComponent().getToolkit().getScreenResolution();
+        System.err.println("You should scale "+ dpi/currentDpi);
+        // Sample code from MigLayout
+        //g2.scale(dpi / CUR_DPI, dpi / CUR_DPI);
+        //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        //g2.drawImage(GUI_BUF, 0, 0, null);
 
-		Application app;
-		if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
-			//app = new CustomApplicationBaseOSX();
-			app= new QenherOSXApplication();
-		} else if (System.getProperty("os.name").toLowerCase()
-				.startsWith("win")) {
-			// app = new QenherOSXApplication();
-			app = new QenherOSXLikeApplication();
-		} else {
-			app = new QenherOSXLikeApplication();
-			// app= new QenherOSXApplication();
-		}
-		app.setModel(applicationModel);
-		app.launch(args);
-	}
+    }
 
-	public static void main(String[] args) throws InterruptedException,
-			InvocationTargetException,
-			ClassNotFoundException {
-         	((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
-				.addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF" );
-		JSeshMain jseshMain = new JSeshMain();
-		jseshMain.args = args;
-		jseshMain.setSplashPicture("/jseshResources/images/splash.png");
-		SplashMessageText message = new SplashMessageText(50, 172, "Version "
-				+ Version.getVersion());
-		message.setColor(Color.WHITE);
-		jseshMain.addSplashMessage(message);
-		jseshMain.setTickTimer();
-		jseshMain.run();
-	}
+    public static void main(String[] args) throws InterruptedException,
+            InvocationTargetException,
+            ClassNotFoundException {
+        ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
+                .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
+        JSeshMain jseshMain = new JSeshMain();
+        jseshMain.args = args;
+        jseshMain.setSplashPicture("/jseshResources/images/splash.png");
+        SplashMessageText message = new SplashMessageText(50, 172, "Version "
+                + Version.getVersion());
+        message.setColor(Color.WHITE);
+        jseshMain.addSplashMessage(message);
+        jseshMain.setTickTimer();
+        jseshMain.run();
+    }
 
 }

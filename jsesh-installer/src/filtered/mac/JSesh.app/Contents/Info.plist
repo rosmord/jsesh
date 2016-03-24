@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!-- see https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html -->
+    <dict>
+      <key>CFBundleName</key>
+      <string>JSesh</string>
+      <!-- app version number. Three numbers -->
+      <key>CFBundleShortVersionString</key>
+      <string>${project.version}</string>
+      <!-- build number. three numbers -->
+      <key>CFBundleVersion</key>
+      <string>${project.version}</string>
+      <key>CFBundleIdentifier</key>
+      <string>org.qenherkhopeshef.jsesh</string>
+      <!-- maybe not needed
+      <key>CFBundleGetInfoString</key>
+      <string>JSesh 6.5.6</string>
+      -->
+      <key>CFBundleExecutable</key>
+      <string>main.sh</string>
+      <!-- should be 6 ? -->
+      <key>CFBundleInfoDictionaryVersion</key>
+      <string>6.0</string>
+      <key>CFBundlePackageType</key>
+      <string>APPL</string>
+      <key>CFBundleSignature</key>
+      <string>JSES</string>
+      <key>CFBundleIconFile</key>
+      <string>hibou.icns</string>    
+    <key>CFBundleDocumentTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleTypeName</key>
+        <string>Manuel de Codage File</string>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleTypeIconFile</key>
+        <string>canard.icns</string>
+        <key>CFBundleTypeExtensions</key>
+        <array>
+          <string>gly</string>
+          <string>hie</string>
+          <string>GLY</string>
+          <string>HIE</string>
+        </array>
+      </dict>
+    </array>
+    </dict>
+</plist>

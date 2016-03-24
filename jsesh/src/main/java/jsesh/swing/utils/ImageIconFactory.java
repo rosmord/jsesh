@@ -82,7 +82,7 @@ public class ImageIconFactory {
 		}
 		if (imageIcon == null) {
 			MDCDrawingFacade drawing = prepareFacade();
-
+                        //drawing.setCadratHeight(100);
 			BufferedImage bufferedImage = null;
 
 			TopItemList text = new TopItemList();
