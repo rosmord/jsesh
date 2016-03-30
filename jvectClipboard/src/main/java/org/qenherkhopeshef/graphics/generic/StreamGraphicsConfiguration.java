@@ -99,7 +99,7 @@ public class StreamGraphicsConfiguration extends GraphicsConfiguration {
      * @see java.awt.GraphicsConfiguration#getNormalizingTransform()
      */
     public AffineTransform getNormalizingTransform() {
-        return normalizingTransform;
+        return (AffineTransform) normalizingTransform.clone();
     }
 
     /* (non-Javadoc)

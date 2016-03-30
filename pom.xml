@@ -68,5 +68,6 @@
     <module>jhotdrawfw</module>
     <module>jseshAppli</module>
     <module>jseshDemos</module>
+    <module>jfxTest</module>
   </modules>
 </project>
