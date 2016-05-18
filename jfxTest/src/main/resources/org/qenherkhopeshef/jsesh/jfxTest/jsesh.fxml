@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.qenherkhopeshef.jsesh.jfxTest.JseshController">
    <center>
-      <ScrollPane fx:id="main" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="main" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <content>
          </content>
       </ScrollPane>

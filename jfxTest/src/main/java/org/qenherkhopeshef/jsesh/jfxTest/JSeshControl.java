@@ -5,13 +5,24 @@
  */
 package org.qenherkhopeshef.jsesh.jfxTest;
 
-import java.awt.Color;
+import com.sun.javafx.scene.control.skin.ListViewSkin;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Control;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Skin;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import org.jfree.fx.FXGraphics2D;
@@ -21,49 +32,22 @@ import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
  *
  * @author rosmord
  */
-public class JSeshControl extends Canvas {
+public class JSeshControl extends Control {
 
     private final StringProperty mdc = new SimpleStringProperty("r:a-ra-m-p*t:pt");
 
-    public JSeshControl() {
-        setWidth(10000);
-        setHeight(10000);
-        mdc.addListener(this::updateDrawing);
-        updateDrawing(mdc);
+    public JSeshControl() {   
+        //mdc.addListener(this::updateDrawing);   
+        getChildren().add(new Circle(100, 100, 50, Color.RED));     
+        setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        setMaxHeight(USE_PREF_SIZE);
+        setMaxWidth(USE_PREF_SIZE);
+        setMinHeight(USE_PREF_SIZE);
+        setMinWidth(USE_PREF_SIZE);
+        setPrefSize(3000, 1_000);
     }
 
-    private void updateDrawing(Observable observable) {
-        System.out.println(getClip());
-        getGraphicsContext2D().save();
-        getGraphicsContext2D().setFill(javafx.scene.paint.Color.WHITE);
-        getGraphicsContext2D().clearRect(0, 0, 1.0e10, 1.0e10);
-        getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
-
-        getGraphicsContext2D().setFill(javafx.scene.paint.Color.BLACK);
-//        getGraphicsContext2D().beginPath();
-//        getGraphicsContext2D().rect(0, 0, 300, 300);
-//        getGraphicsContext2D().closePath();
-//        
-//        getGraphicsContext2D().clip();
-         FXGraphics2D g = new FXGraphics2D(getGraphicsContext2D());
-       // MyG2D g = new MyG2D(getGraphicsContext2D());
-        MDCDrawingFacade drawing = new MDCDrawingFacade();
-        // Change the scale, choosing the cadrat height in pixels.
-        drawing.setCadratHeight(25);
-        g.setBackground(Color.WHITE);
-        g.setColor(Color.BLACK);
-        try {
-            System.err.println("ICI");
-            // Change a number of parameters
-            drawing.draw(mdc.get(), g, 0, 0);
-        } catch (MDCSyntaxError ex) {
-            Logger.getLogger(JSeshControl.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            g.dispose();
-            getGraphicsContext2D().restore();
-        }
-
-    }
+    
 
     public StringProperty getMdcProperty() {
         return mdc;
@@ -77,4 +61,9 @@ public class JSeshControl extends Canvas {
         return mdc.get();
     }
 
+      /** {@inheritDoc} */
+    @Override protected Skin<JSeshControl> createDefaultSkin() {
+        //return new JSeshSkin(this, new JSeshBehaviour(this, new ArrayList<>()));
+        return new JSeshSkin(this);
+    }
 }

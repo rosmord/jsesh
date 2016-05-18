@@ -5,7 +5,6 @@
  */
 package org.qenherkhopeshef.jsesh.jfxTest;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +14,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -36,6 +42,21 @@ public class JseshController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         jSeshControl = new JSeshControl();
+        main.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+      
+//        AnchorPane anchorPane= new AnchorPane();     
+//        final TextArea textArea = new TextArea(s.toString());
+//        AnchorPane.setBottomAnchor(textArea, 0.0);
+//        AnchorPane.setTopAnchor(textArea, 0.0);
+//        AnchorPane.setLeftAnchor(textArea, 0.0);
+//        AnchorPane.setRightAnchor(textArea, 0.0);
+//        anchorPane.getChildren().add(textArea);
+//        //anchorPane.setStyle("-fx-background: #FF0000;");
+//        anchorPane.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+//        anchorPane.setPrefHeight(300);
+//        anchorPane.setPrefWidth(300);
+        main.setFitToHeight(true);
+        main.setFitToWidth(true);
         main.setContent(jSeshControl);
     }
 

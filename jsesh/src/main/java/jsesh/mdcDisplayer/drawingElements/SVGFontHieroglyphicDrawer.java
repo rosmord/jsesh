@@ -200,6 +200,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 	 * jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getSignArea(java.lang.String,
 	 * double, double, double, double, float, boolean)
 	 */
+        @Override
 	public Area getSignArea(String code, double x, double y, double xscale,
 			double yscale, int angle, boolean reversed) {
 		code = normalizeCode(code);
