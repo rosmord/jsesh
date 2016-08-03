@@ -5,28 +5,16 @@
  */
 package org.qenherkhopeshef.jsesh.jfxTest;
 
-import com.sun.javafx.scene.control.skin.ListViewSkin;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Control;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Skin;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
-import org.jfree.fx.FXGraphics2D;
-import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
 
 /**
  *

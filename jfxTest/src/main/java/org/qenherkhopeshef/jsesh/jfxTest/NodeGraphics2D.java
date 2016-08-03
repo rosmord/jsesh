@@ -20,7 +20,7 @@ import org.qenherkhopeshef.graphics.generic.BaseGraphics2D;
 
 /**
  * A graphics 2D which will create a node-oriented representation.
- *
+ * <p> Probably not for the final version ?
  * @author rosmord
  */
 public class NodeGraphics2D extends BaseGraphics2D {

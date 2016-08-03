@@ -13,11 +13,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import org.jfree.fx.FXGraphics2D;
-import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
 
 /**
  *
@@ -25,7 +23,7 @@ import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
  */
 public class JSeshCanvasControl extends Canvas {
 
-    ListView<Object> a;
+    private ListView<Object> a;
     private final StringProperty mdc = new SimpleStringProperty("r:a-ra-m-p*t:pt");
 
     public JSeshCanvasControl() {

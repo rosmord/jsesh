@@ -21,6 +21,7 @@ class JSeshSkin extends SkinBase<JSeshControl> implements Skin<JSeshControl>{
 
     public JSeshSkin(JSeshControl control) {
         super(control);
+        control.getMdc();
     }
     
     
