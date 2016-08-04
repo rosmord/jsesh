@@ -106,7 +106,6 @@ import org.jhotdraw_7_6.app.action.edit.DeleteAction;
 import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
 import org.jhotdraw_7_6.app.action.edit.PasteAction;
 import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
-import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;

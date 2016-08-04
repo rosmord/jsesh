@@ -1,5 +1,6 @@
 package jsesh.jhotdraw;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -111,6 +112,8 @@ public class JSeshApplicationBase {
      * @param preferences
      */
     private void loadDrawingSpecificationPreferences(Preferences preferences) {
+//        defaultDrawingSpecifications.setColorForProperty("det", Color.YELLOW);
+//        defaultDrawingSpecifications.setColorForProperty("blue", Color.BLUE);
         // Dimensions...
         defaultDrawingSpecifications.setStandardSignHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, 18.0));
         defaultDrawingSpecifications.setLineSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_LINE_SKIP, 6));
