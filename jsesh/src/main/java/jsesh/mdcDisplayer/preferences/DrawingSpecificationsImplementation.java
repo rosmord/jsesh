@@ -43,6 +43,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
@@ -90,7 +91,7 @@ import jsesh.utils.DoubleDimensions;
 public class DrawingSpecificationsImplementation implements Cloneable,
         DrawingSpecification {
 
-    private Map<String, Color> propertyColors = new HashMap<String, Color>();
+    private Map<String, Color> propertyColors = new HashMap<>();
     private Color redColor = Color.RED;
 
     private Color blackColor = Color.BLACK;
@@ -129,7 +130,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
     private FontRenderContext fontRenderContext;
 
-    // private HieroglyphsDrawer hieroglyphsDrawer;
 
     /*
 	 * ------------------------- Hut-related variables
@@ -223,10 +223,10 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
     private boolean gardinerQofUsed = true;
 
-    ;
+    private HashMap<String, Color> tagColors = new HashMap<>();
 
-	// private float
-	public DrawingSpecificationsImplementation() {
+    // private float
+    public DrawingSpecificationsImplementation() {
         fontRenderContext = new FontRenderContext(null, true, true);
         smallSignsCentered = false;
         smallSkip = 2;
@@ -260,6 +260,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         superScriptFont = new Font(null, Font.PLAIN, 5);
         cursorColor = new Color(0, 0, 255, 100);
         hieroglyphsDrawer = new HieroglyphicDrawerDispatcher();
+        //tagColors.put("blue", Color.BLUE);
     }
 
     /**
@@ -276,29 +277,18 @@ public class DrawingSpecificationsImplementation implements Cloneable,
                 .getTransliterationFont();
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#clone()
-     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         DrawingSpecificationsImplementation result;
         result = (DrawingSpecificationsImplementation) super.clone();
         result.fontMap = this.fontMap.clone();
-        result.propertyColors = new HashMap<String, Color>(propertyColors);
+        result.tagColors = new HashMap<>(this.tagColors);
+        result.propertyColors = new HashMap<>(propertyColors);
         return result;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#copy()
+    /**
+     * {@inheritDoc}
      */
     public DrawingSpecification copy() {
         try {
@@ -308,190 +298,118 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         }
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getStandardSignHeight()
-     */
+   
     public float getStandardSignHeight() {
         return standardSignHeight;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setStandardSignHeight(float)
-     */
+   
     public void setStandardSignHeight(float standardSignHeight) {
         this.standardSignHeight = standardSignHeight;
     }
 
-    /**
-     * @return the tabUnitWidth
-     */
+    @Override
     public float getTabUnitWidth() {
         return tabUnitWidth;
     }
 
-    /**
-     * @param tabUnitWidth the tabUnitWidth to set
-     */
+    @Override
     public void setTabUnitWidth(float tabUnitWidth) {
         this.tabUnitWidth = tabUnitWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getBlackColor()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getBlackColor
-	 * ()
-     */
+    @Override
     public Color getBlackColor() {
         return blackColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getCartoucheknotLength()
-     */
+    
     public float getCartoucheknotLength() {
         // return cartoucheknotLength;
         return cartoucheLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.DrawingSpecifications#getCartoucheEndWidth(int,
-	 * int)
-	 * 
-	 * public float getCartoucheEndWidth(int cartoucheType, int part) { return
-	 * getCartouchePartWidth(cartoucheType, part); }
-     */
-
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.DrawingSpecifications#getCartoucheLineWidth()
-	 * 
-	 * public float getCartoucheLineWidth() { return 2.0f; }
-     */
-
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getCartoucheLineWidth()
-     */
+   @Override
     public float getCartoucheLineWidth() {
         return cartoucheLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getCartoucheLoopLength()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getCartoucheLoopLength() {
         return cartoucheLoopLength;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getCartoucheMargin()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getCartoucheMargin() {
         return cartoucheMargin;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * buildCartoucheStroke(int)
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public Stroke buildCartoucheStroke(int cartoucheType) {
         return new BasicStroke(getCartoucheLineWidth());
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getCursorColor
-	 * ()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public Color getCursorColor() {
         return cursorColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getEnclosureBastionDepth()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getEnclosureBastionDepth() {
         return enclosureBastionDepth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getEnclosureBastionLength()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getEnclosureBastionLength() {
         return enclosureBastionLength;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getEnclosureBastionSkip()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getEnclosureBastionSkip() {
         return enclosureBastionSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getFineStroke()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getFineStroke
-	 * ()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public Stroke getFineStroke() {
         return new BasicStroke(fineLineWidth);
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getFont(
-	 * char)
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public Font getFont(char code) {
         if (code < 0 || code > 255) {
@@ -505,7 +423,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
     /**
-     * @see DrawingPreferences#setFont(char, Font)
+     * {@inheritDoc}
+     *
+     * @return
      */
     public void setFont(char code, Font font) {
         if (code == '*') {
@@ -558,98 +478,64 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         this.gardinerQofUsed = gardinerQofUsed;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getFontRenderContext()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public FontRenderContext getFontRenderContext() {
         return fontRenderContext;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getGrayColor()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getGrayColor
-	 * ()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public Color getGrayColor() {
         return grayColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getHieroglyphsDrawer()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getHieroglyphsDrawer()
-     */
-    // public HieroglyphsDrawer getHieroglyphsDrawer() {
-    // return hieroglyphsDrawer;
-    // }
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getHutSmallMargin()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getHwtSmallMargin() {
         return hutSmallMargin;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getHutSquareSize
-	 * ()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getHwtSquareSize() {
         return hutSquareSize;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getLineSkip()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getLineSkip
-	 * ()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getLineSkip() {
         return lineSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getMaxCadratHeight()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getMaxCadratHeight() {
         return maxCadratHeight;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getMaxCadratWidth()
+    /**
+     * {@inheritDoc}
+     *
+     * @return
      */
     public float getMaxCadratWidth() {
         return maxCadratWidth;
@@ -1305,6 +1191,21 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     @Override
     public void setColorForProperty(String propertyName, Color color) {
         propertyColors.put(propertyName, color);
+    }
+
+    @Override
+    public Optional<Color> getTagColor(String tag) {
+        Color c = tagColors.get(tag);
+        if (c == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(c);
+        }
+    }
+
+    @Override
+    public void setTagColor(String tag, Color color) {
+        tagColors.put(tag, color);
     }
 
 }

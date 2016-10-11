@@ -678,7 +678,12 @@ public class SimpleElementDrawer extends ElementDrawer {
 
 		if (!postfix)
 			return;
-
+                for (Modifier m: h.getModifiers().asIterable()) {                    
+                    drawingSpecifications.getTagColor(m.getName()).ifPresent(
+                            (c)->{g.setColor(c);}
+                    );
+                }
+                
 		if (h.getModifiers().getBoolean("red")) {
 			g.setColor(drawingSpecifications.getRedColor());
 		}
