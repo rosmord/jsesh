@@ -123,18 +123,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>jseshDoc</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <!--         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jseshMac</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jseshOthers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-         -->
-        
+        </dependency>        
     </dependencies>
 </project>
