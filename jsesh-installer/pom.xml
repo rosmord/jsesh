@@ -4,10 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>JSesh-all</artifactId>
-        <groupId>org.qenherkhopeshef</groupId>
-        <version>6.6.1</version>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
+        <version>6.7</version>
     </parent>
-    <groupId>org.qenherkhopeshef</groupId>
     <artifactId>jsesh-installer</artifactId> 
     <name>jsesh-installer</name>
     <url>http://maven.apache.org</url>

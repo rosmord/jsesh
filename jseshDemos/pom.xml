@@ -5,9 +5,9 @@
     		Demontrations of the uses of JSesh as a library.
     </description>
     <parent>
-        <groupId>org.qenherkhopeshef</groupId>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>6.6.1</version>
+        <version>6.7</version>
     </parent>
     <artifactId>jseshDemos</artifactId>
     <packaging>jar</packaging>
@@ -24,9 +24,9 @@
             <version>3.7.4</version>
         </dependency>
          <dependency>
-            <groupId>org.qenherkhopeshef</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>6.6.1</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <properties>

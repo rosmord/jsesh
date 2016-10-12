@@ -3,13 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.qenherkhopeshef</groupId>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>6.6.1</version>
+        <version>6.7</version>
     </parent>
-    <groupId>org.qenherkhopeshef</groupId>
     <artifactId>cupAndlex</artifactId>
-    <version>1</version>
     <description>
       Generic plugin to run FLEX AND CUP in maven.
     </description>

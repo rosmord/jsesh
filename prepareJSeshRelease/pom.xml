@@ -4,10 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>JSesh-all</artifactId>
-        <groupId>org.qenherkhopeshef</groupId>
-        <version>6.6.1</version>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
+        <version>6.7</version>
     </parent>
-    <groupId>org.qenherkhopeshef</groupId>
     <artifactId>prepareJSeshRelease</artifactId> 
     <description>
         Various (or not so various) mojos needed after the main JSesh jar
