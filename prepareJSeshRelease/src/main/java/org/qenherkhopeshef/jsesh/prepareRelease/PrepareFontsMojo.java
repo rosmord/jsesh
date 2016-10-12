@@ -19,17 +19,19 @@ public class PrepareFontsMojo extends AbstractMojo {
 
     /**
      * package where the fonts are stored.
-     * @parameter expression="${glyphsPackage}"
+     * @parameter glyphsPackage="glyphsPackage"
      * @required
      */
     private String glyphsPackage;
+    
     /**
      * The output directory.
-     * @parameter  default-value="${project.build.directory}"
+     * @parameter default-value="${project.build.directory}"
      * @readonly
      */
     private String outputDirPath;
 
+    @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
             File outputDir = new File(outputDirPath, "classes");

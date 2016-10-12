@@ -36,6 +36,7 @@ package jsesh.mdcDisplayer.preferences;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.util.Optional;
 
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.TextDirection;
@@ -251,6 +252,16 @@ public interface DrawingPreferences {
 
     void setBackgroundColor(Color backgroundColor);
 
+    /**
+     * Returns the color associated with a given tag (like A1\red, or
+     * A1\det).
+     * @param tag
+     * @return a color, if any is specified.
+     */
+    Optional<Color> getTagColor(String tag);
+    
+    void setTagColor(String tag, Color color);
+    
     /**
      * Returns the width of a cartouche knot. Currently it's the same as
      * cartoucheLineWidth. TODO CHECK THIS. It's used in CartoucheHelper. What

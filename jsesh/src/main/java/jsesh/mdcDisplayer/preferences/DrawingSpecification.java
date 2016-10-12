@@ -1,6 +1,7 @@
 package jsesh.mdcDisplayer.preferences;
 
 import com.lowagie.text.pdf.CMYKColor;
+import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Dimension2D;
@@ -87,5 +88,19 @@ public interface DrawingSpecification extends DrawingPreferences {
 	 */
 	TransliterationEncoding getTransliterationEncoding();
 
+        /**
+         * Returns the color associated with a given property.
+         * <p>For instance,
+         * one can define that glyphs annotated with \det are displayed in blue.
+         * @param propertyName
+         * @return 
+         */
+        Color getColorForProperty(String propertyName);
      
+        /**
+         * Defines the color used for glyphs having a certain property.
+         * @param propertyName
+         * @param color 
+         */
+        void setColorForProperty(String propertyName, Color color);
 }

@@ -46,6 +46,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -179,8 +181,7 @@ public class JMDCEditor extends JPanel {
         setFocusable(true);
         viewUpdater = new MDCViewUpdater(this);
 
-        eventListener = new MDCEditorEventsListener(this);
-
+        eventListener = new MDCEditorEventsListener(this);        
         new MDCEditorKeyManager(this);
     }
 
@@ -328,8 +329,12 @@ public class JMDCEditor extends JPanel {
 
     protected void paintComponent(Graphics g) {
         drawBaseComponent(g);
-
+        GraphicsDevice[] devs = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getScreenDevices();       
         Graphics2D g2d = (Graphics2D) g;
+//        System.err.println(g2d.getDeviceConfiguration()
+//                .getNormalizingTransform().getScaleX());
         GraphicsUtils.antialias(g2d);
         g2d.scale(scale, scale);
 

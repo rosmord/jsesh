@@ -25,6 +25,7 @@ import jsesh.mdc.model.Cartouche;
 import jsesh.mdc.model.ComplexLigature;
 import jsesh.mdc.model.HRule;
 import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.OptionsMap;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.Philology;
@@ -665,6 +666,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 	/**
 	 * @see jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
 	 */
+        @Override
 	public void visitHieroglyph(Hieroglyph h) {
 		if (!postfix) {
 			if (h.getModifiers().hasInteger("shading")) {
@@ -676,13 +678,26 @@ public class SimpleElementDrawer extends ElementDrawer {
 
 		if (!postfix)
 			return;
-
+                for (Modifier m: h.getModifiers().asIterable()) {                    
+                    drawingSpecifications.getTagColor(m.getName()).ifPresent(
+                            (c)->{g.setColor(c);}
+                    );
+                }
+                
 		if (h.getModifiers().getBoolean("red")) {
 			g.setColor(drawingSpecifications.getRedColor());
 		}
 		if (h.getModifiers().getBoolean("i")) {
 			g.setColor(drawingSpecifications.getGrayColor());
 		}
+                for (int i= 0; i < h.getModifiers().getNumberOfChildren(); i++) {
+                    Modifier mod = h.getModifiers().getModifierAt(i);
+                    Color c= drawingSpecifications.getColorForProperty(mod.getName());
+                    if (c != null) {
+                        g.setColor(c);
+                    }
+                        
+                }
 		switch (h.getType()) {
 		case SymbolCodes.SMALLTEXT: {
 			g.setFont(drawingSpecifications.getSuperScriptFont());

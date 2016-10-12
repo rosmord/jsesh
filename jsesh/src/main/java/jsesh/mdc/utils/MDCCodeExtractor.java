@@ -13,7 +13,8 @@ import jsesh.mdc.interfaces.MDCBuilderAdapter;
 import jsesh.mdc.interfaces.ModifierListInterface;
 
 /**
- * An extractor is able to fetch codes from a manuel de codage text, and, if needed to normalize them.
+ * An extractor is able to fetch codes from a manuel de codage text, 
+ * and, if needed, to normalize them.
  * @author rosmord
  *
  */

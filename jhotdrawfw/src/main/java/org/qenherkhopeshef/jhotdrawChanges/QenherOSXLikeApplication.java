@@ -25,6 +25,8 @@ import java.io.File;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.AbstractButton;
@@ -39,6 +41,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
@@ -235,11 +239,22 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
 	}
 
 	protected void initLookAndFeel() {
-		/*
-		 * try { UIManager
-		 * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
-		 * (Exception e) { e.printStackTrace(); }
-		 */
+            try {
+                /*
+                * try { UIManager
+                * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
+                * (Exception e) { e.printStackTrace(); }
+                */
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	public void dispose(View p) {
