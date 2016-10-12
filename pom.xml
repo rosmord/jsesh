@@ -64,7 +64,6 @@
     <module>jsesh-installer</module>
     <module>jseshGlyphs</module>
     <module>prepareJSeshRelease</module>
-    <module>jseshDoc</module>
     <module>jhotdrawfw</module>
     <module>jseshAppli</module>
     <module>jseshDemos</module>

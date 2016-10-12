@@ -118,10 +118,5 @@
             <artifactId>jseshGlyphs</artifactId>
             <version>${project.version}</version>
         </dependency>
-	<dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jseshDoc</artifactId>
-            <version>${project.version}</version>
-        </dependency>        
     </dependencies>
 </project>
