@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jsesh.jhotdraw.jhotdrawCustom;
 
 import java.awt.Component;
@@ -10,6 +5,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URI;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw_7_6.gui.URIChooser;
@@ -131,9 +127,7 @@ public class QenherkhURIChooser implements URIChooser {
     @Override
     public int showOpenDialog(Component parent) throws HeadlessException {
         portableOpenDialog = PortableFileDialogFactory.createFileOpenDialog(parent);
-        if (selectedURI != null) {
-            portableOpenDialog.setSelectedFile(new File(selectedURI));
-        }
+        prepareSelectedFile(portableOpenDialog);
         if (openFilter != null) {
             portableOpenDialog.setFileFilters(openFilter);
         }
@@ -149,10 +143,7 @@ public class QenherkhURIChooser implements URIChooser {
     @Override
     public int showSaveDialog(Component parent) throws HeadlessException {
         portableSaveDialog = PortableFileDialogFactory.createFileSaveDialog(parent);
-        if (selectedURI != null) {
-            portableSaveDialog.setSelectedFile(new File(selectedURI));
-        }
-
+        prepareSelectedFile(portableSaveDialog);
         if (closeFilters != null) {
             portableSaveDialog.setFileFilters(closeFilters);
         }
@@ -168,6 +159,22 @@ public class QenherkhURIChooser implements URIChooser {
     @Override
     public int showDialog(Component parent, String approveButtonText) throws HeadlessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Sets the selected file (if possible).
+     * @param portableDialog 
+     */
+    private void prepareSelectedFile(PortableFileDialog portableDialog) {        
+        try {
+            if (selectedURI != null) {
+                File selectedFile= new File(selectedURI);
+                portableDialog.setSelectedFile(selectedFile);
+            }
+        } catch (IllegalArgumentException e) {
+            // Just IGNORE (but log for possible debug).
+            e.printStackTrace();  
+        }
     }
 
 }

@@ -165,12 +165,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * Everything which is a) application-level and b) non specific to JHotdraw
      * is delegated to {@link JSeshApplicationBase}.
      */
-    private JSeshApplicationBase jseshBase = new JSeshApplicationBase();
+    private final JSeshApplicationBase jseshBase = new JSeshApplicationBase();
 
     /**
      * Deals with copy/paste. Needs to know the current view to work correctly.
      */
-    private MyTransferableBroker transferableBroker = new MyTransferableBroker();
+    private final MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
     private PalettePresenter palettePresenter;
 
@@ -354,7 +354,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         chooser.setOpenFileFilters(
                 new FileFilter[] {
                     new FileExtensionFilter(new String[]{"pdf"}, pdfDescription),
-                    new FileExtensionFilter(new String[]{"gly", "hie"}, description)
+                    new FileExtensionFilter(new String[]{"gly", "hie", "GLY"}, description)
                 }
         );        
         return chooser;
@@ -507,6 +507,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     private class MyTransferableBroker implements MDCModelTransferableBroker {
 
+        @Override
         public MDCModelTransferable buildTransferable(TopItemList top) {
             return buildTransferable(top,
                     JSeshPasteFlavors

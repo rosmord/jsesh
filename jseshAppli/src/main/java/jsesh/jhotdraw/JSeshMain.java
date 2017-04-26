@@ -14,7 +14,6 @@
 package jsesh.jhotdraw;
 
 import java.awt.Color;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
