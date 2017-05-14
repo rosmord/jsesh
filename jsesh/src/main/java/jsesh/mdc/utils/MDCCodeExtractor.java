@@ -39,13 +39,15 @@ public class MDCCodeExtractor {
 		/* (non-Javadoc)
 		 * @see jsesh.mdc.interfaces.MDCBuilder#reset()
 		 */
+                @Override
 		public void reset() {
-			result= new LinkedList<String>();
+			result= new LinkedList<>();
 		}
 	
 		/* (non-Javadoc)
 		 * @see jsesh.mdc.interfaces.MDCBuilder#buildHieroglyph(boolean, int, java.lang.String, jsesh.mdc.interfaces.ListInterface, int)
 		 */
+                @Override
 		public HieroglyphInterface buildHieroglyph(boolean isGrammar, int type, String code, ModifierListInterface m, int isEnd) {
 			String actualCode= code;
 			if (GardinerCode.isCanonicalCode(code))
