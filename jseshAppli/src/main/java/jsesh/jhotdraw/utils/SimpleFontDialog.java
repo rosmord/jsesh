@@ -48,9 +48,9 @@ import org.jhotdraw_7_6.gui.JFontChooser;
  */
 public class SimpleFontDialog {
 
-	private JFontChooser fontChooser = new JFontChooser();
-	private Component parent;
-	private String title;
+	private final JFontChooser fontChooser = new JFontChooser();
+	private final Component parent;
+	private final String title;
 
 	public SimpleFontDialog(Component parent, String title) {
 		this.parent = parent;

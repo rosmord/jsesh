@@ -58,7 +58,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         // stuff starts.
         ResourcesManager.getInstance();
         JSeshApplicationStartingData data = new JSeshApplicationStartingData();
-        new DrawingSpecificationsImplementation();
+        //new DrawingSpecificationsImplementation(); Why ????
         DefaultHieroglyphicFontManager.getInstance();
         preloadHieroglyphicIcons();
         return data;

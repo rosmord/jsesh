@@ -57,70 +57,74 @@ import jsesh.jhotdraw.utils.JSimpleDialog;
  * <li>or replicate here
  * <li>
  * </ul>
- * 
+ *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- * 
+ *
  */
 public class ApplicationPreferencesPresenter {
 
-	private JTabbedPane tabbedPane;
-	private JClipboardFormatSelector clipboardFormatSelector;
-	private JExportPreferences exportPreferences;
-	private JFontPreferences fontPreferences;
+    private JTabbedPane tabbedPane;
+    private JClipboardFormatSelector clipboardFormatSelector;
+    private JExportPreferences exportPreferences;
+    private JFontPreferences fontPreferences;
 
-	public ApplicationPreferencesPresenter() {
-		init();
-	}
+    public ApplicationPreferencesPresenter() {
+        init();
+    }
 
-	/**
-	 * Create the global UI.
-	 */
-	private void init() {
-		tabbedPane = new JTabbedPane();
-		clipboardFormatSelector = new JClipboardFormatSelector();
-		exportPreferences = new JExportPreferences();
-		fontPreferences = new JFontPreferences();
-		tabbedPane.add(Messages
-				.getString("applicationPreferences.exportPreferences.label"),
-				exportPreferences.getPanel());
-		tabbedPane.add(Messages
-				.getString("applicationPreferences.clipboardFormat.label"),
-				clipboardFormatSelector.getPanel());
-		tabbedPane.add(Messages
-				.getString("applicationPreferences.fontPreferences.label"),
-				fontPreferences.getPanel());
+    /**
+     * Create the global UI.
+     */
+    private void init() {
+        tabbedPane = new JTabbedPane();
+        clipboardFormatSelector = new JClipboardFormatSelector();
+        exportPreferences = new JExportPreferences();
+        fontPreferences = new JFontPreferences();
+        tabbedPane.add(Messages
+                .getString("applicationPreferences.exportPreferences.label"),
+                exportPreferences.getPanel());
+        tabbedPane.add(Messages
+                .getString("applicationPreferences.clipboardFormat.label"),
+                clipboardFormatSelector.getPanel());
+        tabbedPane.add(Messages
+                .getString("applicationPreferences.fontPreferences.label"),
+                fontPreferences.getPanel());
 
-	}
+    }
 
-	/**
-	 * Fetches the preferences from the application.
-	 */
-	public void loadPreferences(JSeshApplicationModel app) {
-		clipboardFormatSelector.loadPreferences(app);
-		exportPreferences.loadPreferences(app);
-		fontPreferences.setFontInfo(app.getFontInfo());
-	}
+    /**
+     * Fetches the preferences from the application.
+     */
+    public void loadPreferences(JSeshApplicationModel app) {
+        clipboardFormatSelector.loadPreferences(app);
+        exportPreferences.loadPreferences(app);
+        fontPreferences.setFontInfo(app.getFontInfo());
+    }
 
-	/**
-	 * Sets the application preferences.
-	 */
-	public void updatePreferences(JSeshApplicationModel app) {
-		clipboardFormatSelector.updatePreferences(app);
-		exportPreferences.updatePreferences(app);
-		app.setFontInfo(fontPreferences.getFontInfo());
-	}
+    /**
+     * Sets the application preferences.
+     */
+    public void updatePreferences(JSeshApplicationModel app) {
+        clipboardFormatSelector.updatePreferences(app);
+        exportPreferences.updatePreferences(app);
+        app.setFontInfo(fontPreferences.getFontInfo());
+    }
 
-	/**
-	 * Display the dialog (and block the software).
-	 * 
-	 * @return one of JOptionPane.OK_OPTION or JOptionPane.CANCEL_OPTION
-	 */
-	public int showDialog(Component parent) {
-		JSimpleDialog dialog = new JSimpleDialog(parent, tabbedPane,
-				Messages.getString("appPreferencesDialog.text"));
-		int result= dialog.show();
-		dialog.dispose();
-		return result;
-	}
+    /**
+     * Display the dialog (and block the software).
+     *
+     * @return one of JOptionPane.OK_OPTION or JOptionPane.CANCEL_OPTION
+     */
+    public int showDialog(Component parent) {
+        JSimpleDialog dialog = new JSimpleDialog(parent, tabbedPane,
+                Messages.getString("appPreferencesDialog.text"));
+        int result = dialog.show();
+        dialog.dispose();
+        return result;
+    }
 
+    public static void main(String[] args) {
+        ApplicationPreferencesPresenter p= new ApplicationPreferencesPresenter();
+        p.showDialog(null);
+    }
 }

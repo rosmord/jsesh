@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
+import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -47,124 +48,138 @@ import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelHelper;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
+import jsesh.mdcDisplayer.swing.units.UnitMediator;
 import net.miginfocom.swing.MigLayout;
 
 /**
  * Panel for export preferences. The graphical part should be separated from the
  * rest.
- * 
+ *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 public class JExportPreferences {
 
-	private ExportPreferences exportPreferences = new ExportPreferences();
+    private ExportPreferences exportPreferences = new ExportPreferences();
 
-	private LengthUnit unit = LengthUnit.POINT;
+    private JPanel panel;
+    private JComboBox exportModeCB;
+    private JComboBox unitCB;
+    private JComboBox graphicFormatCB;
+    private JFormattedTextField quadrantHeightLargeField;
+    private JFormattedTextField quadrantHeightSmallField;
+    private JFormattedTextField quadrantHeightFileField;
+    private JFormattedTextField quadrantHeightWysiwygField;
+    private JCheckBox respectTextLayoutCB;
 
-	JPanel panel;
-	JComboBox exportModeCB;
-	JComboBox unitCB;
-	JComboBox graphicFormatCB;
-	JFormattedTextField quadrantHeightLargeField;
-	JFormattedTextField quadrantHeightSmallField;
-	JFormattedTextField quadrantHeightFileField;
-	JFormattedTextField quadrantHeightWysiwygField;
+    private UnitMediator unitMediator = new UnitMediator();
 
-	JCheckBox respectTextLayoutCB;
+    public JExportPreferences() {
+        init();
+        layout();
+        animate();
+    }
 
-	public JExportPreferences() {
-		init();
-		layout();
-		animate();
-	}
+    /**
+     * Sets the control part of the dialog.
+     */
+    private void animate() {
+        unitMediator.attachToComboBox(unitCB);
+        for (JFormattedTextField f: Arrays.asList(
+                quadrantHeightFileField,
+                quadrantHeightSmallField,
+                quadrantHeightLargeField,
+                quadrantHeightWysiwygField                
+                )) {
+            unitMediator.managedTextField(f);
+        }
+        exportModeCB.setModel(new DefaultComboBoxModel(
+                RTFExportGranularity.GRANULARITIES));
+        exportModeCB.setSelectedItem(RTFExportGranularity.GROUPED_CADRATS);
+        setExportPreferences(exportPreferences);
+    }
 
-	/**
-	 * Sets the control part of the dialog.
-	 */
-	private void animate() {
-		LengthUnit.attachToCombobox(unitCB, unit);
-		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightSmallField);
-		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightLargeField);
-		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightWysiwygField);
-		UnitMaintainter.linkUnitsToValueField(unitCB, quadrantHeightFileField);
-		
-		exportModeCB.setModel(new DefaultComboBoxModel(
-				RTFExportGranularity.GRANULARITIES));
-		exportModeCB.setSelectedItem(RTFExportGranularity.GROUPED_CADRATS);
-		setExportPreferences(exportPreferences);
-	}
+    /**
+     * Update user interface from data.
+     * @param exportPreferences 
+     */
+    public void setExportPreferences(ExportPreferences exportPreferences) {
+        this.exportPreferences = exportPreferences;
+        // Reset unit (would be nicer if we had a model for this. 
+        // not that simple in Swing.)
+        unitMediator.setCurrentUnit(LengthUnit.POINT);
+        exportModeCB.setSelectedItem(exportPreferences.getGranularity());
+        graphicFormatCB.setSelectedItem(exportPreferences.getGraphicFormat());
+        respectTextLayoutCB.setSelected(exportPreferences
+                .isTextLayoutRespected());
 
-	public void setExportPreferences(ExportPreferences exportPreferences) {
-		this.exportPreferences = exportPreferences;
-		exportModeCB.setSelectedItem(exportPreferences.getGranularity());
-		graphicFormatCB.setSelectedItem(exportPreferences.getGraphicFormat());
-		respectTextLayoutCB.setSelected(exportPreferences
-				.isTextLayoutRespected());
+        quadrantHeightSmallField.setValue(exportPreferences
+                .getquadrantHeightSmall());
+        quadrantHeightLargeField.setValue(exportPreferences
+                .getquadrantHeightLarge());
+        quadrantHeightFileField.setValue(exportPreferences
+                .getquadrantHeightFile());
+        quadrantHeightWysiwygField.setValue(exportPreferences
+                .getquadrantHeightWysiwyg());
+    }
 
-		quadrantHeightSmallField.setValue(exportPreferences
-				.getquadrantHeightSmall());
-		quadrantHeightLargeField.setValue(exportPreferences
-				.getquadrantHeightLarge());
-		quadrantHeightFileField.setValue(exportPreferences
-				.getquadrantHeightFile());
-		quadrantHeightWysiwygField.setValue(exportPreferences
-				.getquadrantHeightWysiwyg());
-	}
+    private void init() {
+        panel = new JPanel();
+        exportModeCB = new JComboBox();
+        unitCB = new JComboBox();
+        graphicFormatCB = new JComboBox();
+        graphicFormatCB.setModel(new DefaultComboBoxModel(
+                RTFExportPreferences.graphicFormatList));
 
-	private void init() {
-		panel = new JPanel();
-		exportModeCB = new JComboBox();
-		unitCB = new JComboBox();
-		graphicFormatCB = new JComboBox();
-		graphicFormatCB.setModel(new DefaultComboBoxModel(
-				RTFExportPreferences.graphicFormatList));
+        respectTextLayoutCB = new JCheckBox(
+                Messages.getString("exportPrefs.respectTextLayout"));
+        quadrantHeightLargeField = new JFormattedTextField(new Double(20));
+        quadrantHeightSmallField = new JFormattedTextField(new Double(20));
+        quadrantHeightFileField = new JFormattedTextField(new Double(20));
+        quadrantHeightWysiwygField = new JFormattedTextField(new Double(20));
 
-		respectTextLayoutCB = new JCheckBox(
-				Messages.getString("exportPrefs.respectTextLayout"));
-		quadrantHeightLargeField = new JFormattedTextField(new Double(20));
-		quadrantHeightSmallField = new JFormattedTextField(new Double(20));
-		quadrantHeightFileField = new JFormattedTextField(new Double(20));
-		quadrantHeightWysiwygField = new JFormattedTextField(new Double(20));
+    }
 
-	}
+    private void layout() {
+        panel.setLayout(new MigLayout());
+        PanelHelper helper = new PanelHelper(panel);
+        helper.addLabel("exportPrefs.exportMode");
+        panel.add(exportModeCB, "span, grow, wrap");
+        helper.addLabel("exportPrefs.quadrantHeightLarge");
+        panel.add(quadrantHeightLargeField, "w 40pt, sg a");
+        panel.add(unitCB, "span, grow, wrap");
+        helper.addLabel("exportPrefs.quadrantHeightSmall");
+        panel.add(quadrantHeightSmallField, "sg a, wrap");
+        helper.addLabel("exportPrefs.quadrantHeightWysiwyg");
+        panel.add(quadrantHeightWysiwygField, "sg a, wrap");
+        helper.addLabel("exportPrefs.quadrantHeightFile");
+        panel.add(quadrantHeightFileField, "sg a,wrap");
+        helper.addLabel("exportPrefs.graphicFormat");
+        panel.add(graphicFormatCB, "span, grow, wrap");
+        panel.add(respectTextLayoutCB, "span,grow, wrap");
+    }
 
-	private void layout() {
-		panel.setLayout(new MigLayout());
-		PanelHelper helper = new PanelHelper(panel);
-		helper.addLabel("exportPrefs.exportMode");
-		panel.add(exportModeCB, "span, grow, wrap");
-		helper.addLabel("exportPrefs.quadrantHeightLarge");
-		panel.add(quadrantHeightLargeField, "w 40pt, sg a");
-		panel.add(unitCB, "span, grow, wrap");
-		helper.addLabel("exportPrefs.quadrantHeightSmall");
-		panel.add(quadrantHeightSmallField, "sg a, wrap");
-		helper.addLabel("exportPrefs.quadrantHeightWysiwyg");
-		panel.add(quadrantHeightWysiwygField, "sg a, wrap");
-		helper.addLabel("exportPrefs.quadrantHeightFile");
-		panel.add(quadrantHeightFileField, "sg a,wrap");
-		helper.addLabel("exportPrefs.graphicFormat");
-		panel.add(graphicFormatCB, "span, grow, wrap");
-		panel.add(respectTextLayoutCB, "span,grow, wrap");
-	}
+    public JPanel getPanel() {
+        return panel;
+    }
 
-	public JPanel getPanel() {
-		return panel;
-	}
+    public void loadPreferences(JSeshApplicationModel app) {
+        setExportPreferences(app.getExportPreferences());
+    }
 
-	public void loadPreferences(JSeshApplicationModel app) {
-		setExportPreferences(app.getExportPreferences());
-	}
-
-	public void updatePreferences(JSeshApplicationModel app) {
-		ExportPreferences exportPreferences = new ExportPreferences();		
-		exportPreferences.setRTFExportGranularity((RTFExportGranularity) this.exportModeCB.getSelectedItem());
-		exportPreferences.setRTFExportGraphicFormat((RTFExportGraphicFormat) this.graphicFormatCB.getSelectedItem());
-		exportPreferences.setTextLayoutRespected(this.respectTextLayoutCB.isSelected());
-		exportPreferences.setQuadrantHeightSmall(unit.getValueFromTextField(quadrantHeightSmallField));
-		exportPreferences.setQuadrantHeightLarge(unit.getValueFromTextField(quadrantHeightLargeField));
-		exportPreferences.setQuadrantHeightFile(unit.getValueFromTextField(quadrantHeightFileField));
-		exportPreferences.setQuadrantHeightWysiwyg(unit.getValueFromTextField(quadrantHeightWysiwygField));		
-		app.setExportPreferences(exportPreferences);
-	}
+    private double lengthFromField(JFormattedTextField field) {
+        return unitMediator.getManagedFieldInPoints(field);
+    }
+    
+    public void updatePreferences(JSeshApplicationModel app) {
+        ExportPreferences exportPreferences = new ExportPreferences();
+        exportPreferences.setRTFExportGranularity((RTFExportGranularity) this.exportModeCB.getSelectedItem());
+        exportPreferences.setRTFExportGraphicFormat((RTFExportGraphicFormat) this.graphicFormatCB.getSelectedItem());
+        exportPreferences.setTextLayoutRespected(this.respectTextLayoutCB.isSelected());
+        
+        exportPreferences.setQuadrantHeightSmall(lengthFromField(quadrantHeightSmallField));
+        exportPreferences.setQuadrantHeightLarge(lengthFromField(quadrantHeightLargeField));
+        exportPreferences.setQuadrantHeightFile(lengthFromField(quadrantHeightFileField));
+        exportPreferences.setQuadrantHeightWysiwyg(lengthFromField(quadrantHeightWysiwygField));
+        app.setExportPreferences(exportPreferences);
+    }
 }

@@ -34,6 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.documentPreferences.ui;
 
 import java.awt.Component;
+import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
@@ -43,7 +44,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
+import jsesh.mdcDisplayer.swing.units.UnitMediator;
 
 /**
  * Presenter for drawing preferences.
@@ -53,116 +54,107 @@ import jsesh.mdcDisplayer.swing.units.UnitMaintainter;
  * much much much simpler.
  * <p>
  * For now, we stick with a modal dialog.
- * 
+ *
  * @author rosmord
- * 
+ *
  */
 public class DrawingSpecificationsPresenter {
 
-	JDrawingSpecificationEditor form;
+    JDrawingSpecificationEditor form;
+    UnitMediator unitMediator = new UnitMediator();
 
-	/**
-	 * @param string
-	 */
-	public DrawingSpecificationsPresenter() {
-		form = new JDrawingSpecificationEditor();
-		LengthUnit.attachToCombobox(form.getUnitField(), LengthUnit.POINT);
+  
+    public DrawingSpecificationsPresenter() {
+        form = new JDrawingSpecificationEditor();
+        unitMediator.attachToComboBox(form.getUnitField());
+        for (JFormattedTextField field : Arrays.asList(
+                form.getCartoucheLineWidthField(),
+                form.getColumnSkipField(),
+                form.getLineSkipField(),
+                form.getInterQuadrantSkipField(),
+                form.getMaxCadratHeightField(),
+                form.getMaxCadratWidthField(),
+                form.getNormalSignHeightField(),
+                form.getSmallFontBodyLimitField()
+        )) {
+            unitMediator.managedTextField(field);
+        }
+    }
 
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getCartoucheLineWidthField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getColumnSkipField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getLineSkipField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getInterQuadrantSkipField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getMaxCadratHeightField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getMaxCadratWidthField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getNormalSignHeightField());
-		UnitMaintainter.linkUnitsToValueField(form.getUnitField(),
-				form.getSmallFontBodyLimitField());
+    private float getLength(JFormattedTextField field) {
+        return (float) unitMediator.getManagedFieldInPoints(field);
+    }
 
-	}
+    /**
+     * Copy the preference drawing implementations in the dialog.
+     *
+     * @param drawingSpecification
+     */
+    public void loadPreferences(DrawingSpecification drawingSpecification) {
+        unitMediator.setCurrentUnit(LengthUnit.POINT);
+        form.getCartoucheLineWidthField().setValue(
+                drawingSpecification.getCartoucheLineWidth());
+        form.getColumnSkipField().setValue(
+                drawingSpecification.getColumnSkip());
+        form.getLineSkipField().setValue(
+                drawingSpecification.getLineSkip());
+        form.getInterQuadrantSkipField().setValue(
+                drawingSpecification.getSmallSkip());
+        form.getMaxCadratHeightField().setValue(
+                drawingSpecification.getMaxCadratHeight());
+        form.getMaxCadratWidthField().setValue(
+                drawingSpecification.getMaxCadratWidth());
+        form.getNormalSignHeightField().setValue(
+                drawingSpecification.getStandardSignHeight());
+        form.getSmallFontBodyLimitField().setValue(
+                drawingSpecification.getSmallBodyScaleLimit());
+        form.getUseLinesForShadingCheckBox().setSelected(
+                drawingSpecification.getShadingStyle().equals(
+                        ShadingStyle.LINE_HATCHING));
+    }
 
-	private float getLength(JFormattedTextField field) {
-		float pointValue = (float) (((Number) field.getValue()).doubleValue() * ((LengthUnit) form
-				.getUnitField().getSelectedItem()).getPointsValue());
-		return pointValue;
-	}
+    /**
+     * Update the given drawing specifications from the dialog.
+     *
+     * @param drawingSpecifications
+     */
+    public void updatePreferences(DrawingSpecification drawingSpecifications) {
+        drawingSpecifications.setCartoucheLineWidth(getLength(form
+                .getCartoucheLineWidthField()));
+        drawingSpecifications
+                .setColumnSkip(getLength(form.getColumnSkipField()));
+        drawingSpecifications.setLineSkip(getLength(form.getLineSkipField()));
+        drawingSpecifications.setMaxCadratHeight(getLength(form
+                .getMaxCadratHeightField()));
+        drawingSpecifications.setMaxCadratWidth(getLength(form
+                .getMaxCadratWidthField()));
+        drawingSpecifications.setStandardSignHeight(getLength(form
+                .getNormalSignHeightField()));
+        drawingSpecifications.setSmallSkip(getLength(form
+                .getInterQuadrantSkipField()));
+        double limit = ((Double) form.getSmallFontBodyLimitField().getValue());
+        drawingSpecifications.setSmallBodyScaleLimit(limit);
+        if (form.getUseLinesForShadingCheckBox().isSelected()) {
+            drawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
+        } else {
+            drawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
+        }
+    }
 
-	/**
-	 * Copy the preference drawing implementations in the dialog.
-	 * 
-	 * @param drawingSpecification
-	 */
-	public void loadPreferences(DrawingSpecification drawingSpecification) {
-		form.getCartoucheLineWidthField().setValue(
-				new Double(drawingSpecification.getCartoucheLineWidth()));
-		form.getColumnSkipField().setValue(
-				new Double(drawingSpecification.getColumnSkip()));
-		form.getLineSkipField().setValue(
-				new Double(drawingSpecification.getLineSkip()));
-		form.getInterQuadrantSkipField().setValue(
-				drawingSpecification.getSmallSkip());
-		form.getMaxCadratHeightField().setValue(
-				new Double(drawingSpecification.getMaxCadratHeight()));
-		form.getMaxCadratWidthField().setValue(
-				new Double(drawingSpecification.getMaxCadratWidth()));
-		form.getNormalSignHeightField().setValue(
-				new Double((int) drawingSpecification.getStandardSignHeight()));
-		form.getSmallFontBodyLimitField().setValue(
-				new Double(drawingSpecification.getSmallBodyScaleLimit()));
-		form.getUseLinesForShadingCheckBox().setSelected(
-				drawingSpecification.getShadingStyle().equals(
-						ShadingStyle.LINE_HATCHING));
-	}
+    public int showDialog(Component parent) {
+        JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
+                Messages.getString("drawingPrefs.title"));
+        int result = dialog.show();
+        dialog.dispose();
+        return result;
+    }
 
-	/**
-	 * Update the given drawing specifications from the dialog.
-	 * 
-	 * @param drawingSpecifications
-	 */
-	public void updatePreferences(DrawingSpecification drawingSpecifications) {
-		drawingSpecifications.setCartoucheLineWidth(getLength(form
-				.getCartoucheLineWidthField()));
-		drawingSpecifications
-				.setColumnSkip(getLength(form.getColumnSkipField()));
-		drawingSpecifications.setLineSkip(getLength(form.getLineSkipField()));
-		drawingSpecifications.setMaxCadratHeight(getLength(form
-				.getMaxCadratHeightField()));
-		drawingSpecifications.setMaxCadratWidth(getLength(form
-				.getMaxCadratWidthField()));
-		drawingSpecifications.setStandardSignHeight(getLength(form
-				.getNormalSignHeightField()));
-		drawingSpecifications.setSmallSkip(getLength(form
-				.getInterQuadrantSkipField()));
-		double limit = ((Double) form.getSmallFontBodyLimitField().getValue())
-				.doubleValue();
-		drawingSpecifications.setSmallBodyScaleLimit(limit);
-		if (form.getUseLinesForShadingCheckBox().isSelected()) {
-			drawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
-		} else {
-			drawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
-		}
-	}
-
-	public int showDialog(Component parent) {
-		JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
-				Messages.getString("drawingPrefs.title"));
-		int result = dialog.show();
-		dialog.dispose();
-		return result;
-	}
-
-	public static void main(String[] args) {
-		DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
-		presenter.loadPreferences(new DrawingSpecificationsImplementation());
-		presenter.showDialog(null);
-		DrawingSpecification d = new DrawingSpecificationsImplementation();
-		presenter.updatePreferences(d);
-		System.out.println(d.getMaxCadratWidth());
-	}
+    public static void main(String[] args) {
+        DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
+        presenter.loadPreferences(new DrawingSpecificationsImplementation());
+        presenter.showDialog(null);
+        DrawingSpecification d = new DrawingSpecificationsImplementation();
+        presenter.updatePreferences(d);
+        System.out.println(d.getMaxCadratWidth());
+    }
 }
