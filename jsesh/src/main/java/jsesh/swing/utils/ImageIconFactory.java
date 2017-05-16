@@ -19,97 +19,100 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
 
 /**
  * Static icons repository.
- * 
+ *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 public class ImageIconFactory {
 
-	/**
-	 * Cache for icons. Note that the cache will leak a bit of memory, but only
-	 * for MDC code... which is finite.
-	 */
-	private static HashMap<String, SoftReference<ImageIcon>> iconMap = new HashMap<String, SoftReference<ImageIcon>>();
+    private static final ImageIconFactory INSTANCE = new ImageIconFactory();
 
-	/**
-	 * @param mdcText
-	 * @return an image for the given manuel de codage text.
-	 */
-	public static synchronized ImageIcon buildImage(String mdcText) {
-		ImageIcon imageIcon = null;
-		if (iconMap.containsKey(mdcText)) {
-			imageIcon = iconMap.get(mdcText).get();
-		}
-		if (imageIcon == null) {
-			MDCDrawingFacade drawing = prepareFacade();
+    public static ImageIconFactory getInstance() {
+        return INSTANCE;
+    }
 
-			BufferedImage bufferedImage = null;
-			try {
-				bufferedImage = drawing.createImage(mdcText);
-			} catch (MDCSyntaxError e) {
-				throw new RuntimeException("Error when parsing " + mdcText, e);
-			}
-			imageIcon = new ImageIcon(bufferedImage);
-			iconMap.put(mdcText, new SoftReference<ImageIcon>(imageIcon));
-		}
-		return imageIcon;
-	}
+    /**
+     * Cache for icons. Note that the cache will leak a bit of memory, but only
+     * for MDC code... which are a finite set.
+     */
+    private final HashMap<String, SoftReference<ImageIcon>> iconMap = new HashMap<>();
+    private final MDCDrawingFacade mdcDrawingFacade;
 
-	
-	/**
-	 * Build the picture of a single symbol (not real glyphs, usually
-	 * parenthesis and the like).
-	 * 
-	 * @param symbolCode
-	 *            the code for the symbol, from {@link SymbolCodes}
-	 * @return an image for the given manuel de codage text.
-	 */
-	public static ImageIcon buildImage(int symbolCode) {
-		String mdc = LexicalSymbolsUtils.getStringForLexicalItem(symbolCode);
-		return buildImage(mdc);
-	}
+    private ImageIconFactory() {
+        mdcDrawingFacade = new MDCDrawingFacade();
+        DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
+        PageLayout pageLayout = drawingSpecifications.getPageLayout();
+        pageLayout.setLeftMargin(0);
+        pageLayout.setTopMargin(0);
+        drawingSpecifications.setPageLayout(pageLayout);
+        mdcDrawingFacade.setDrawingSpecifications(drawingSpecifications);
+        mdcDrawingFacade.setPhilologySign(true);
+        setCadratHeight(30);
+    }
 
-	/**
-	 * Build a picture for a given glyph.
-	 * 
-	 * TODO : cleanup to avoid pasted code.
-	 * @param code
-	 * @return
-	 */
-	public static Icon buildGlyphImage(String code) {
-		ImageIcon imageIcon = null;
-		if (iconMap.containsKey(code)) {
-			imageIcon = iconMap.get(code).get();
-		}
-		if (imageIcon == null) {
-			MDCDrawingFacade drawing = prepareFacade();
-                        //drawing.setCadratHeight(100);
-			BufferedImage bufferedImage = null;
+    public synchronized final void setCadratHeight(int cadratHeight) {
+        this.iconMap.clear();
+        this.mdcDrawingFacade.setCadratHeight(cadratHeight);
+    }
 
-			TopItemList text = new TopItemList();
-			text.addTopItem(new Hieroglyph(code).buildTopItem());
-			bufferedImage = drawing.createImage(text);
+    /**
+     * @param mdcText
+     * @return an image for the given manuel de codage text.
+     */
+    public synchronized ImageIcon buildImage(String mdcText) {
+        ImageIcon imageIcon = null;
+        if (iconMap.containsKey(mdcText)) {
+            imageIcon = iconMap.get(mdcText).get();
+        }
+        if (imageIcon == null) {
+            BufferedImage bufferedImage = null;
+            try {
+                bufferedImage = mdcDrawingFacade.createImage(mdcText);
+            } catch (MDCSyntaxError e) {
+                throw new RuntimeException("Error when parsing " + mdcText, e);
+            }
+            imageIcon = new ImageIcon(bufferedImage);
+            iconMap.put(mdcText, new SoftReference<>(imageIcon));
+        }
+        return imageIcon;
+    }
 
-			imageIcon = new ImageIcon(bufferedImage);
-			iconMap.put(code, new SoftReference<ImageIcon>(imageIcon));
-		}
+    /**
+     * Build the picture of a single symbol (not real glyphs, usually
+     * parenthesis and the like).
+     *
+     * @param symbolCode the code for the symbol, from {@link SymbolCodes}
+     * @return an image for the given manuel de codage text.
+     */
+    public ImageIcon buildImage(int symbolCode) {
+        String mdc = LexicalSymbolsUtils.getStringForLexicalItem(symbolCode);
+        return buildImage(mdc);
+    }
 
-		return imageIcon;
-	}
+    /**
+     * Build a picture for a given glyph.
+     *
+     * TODO : cleanup to avoid pasted code.
+     *
+     * @param code
+     * @return
+     */
+    public Icon buildGlyphImage(String code) {
+        ImageIcon imageIcon = null;
+        if (iconMap.containsKey(code)) {
+            imageIcon = iconMap.get(code).get();
+        }
+        if (imageIcon == null) {
+            BufferedImage bufferedImage;
 
-	/**
-	 * @return
-	 */
-	private static MDCDrawingFacade prepareFacade() {
-		MDCDrawingFacade drawing = new MDCDrawingFacade();
-		DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
-		drawingSpecifications.setMaxCadratHeight(20);
-		PageLayout pageLayout = drawingSpecifications.getPageLayout();
-		pageLayout.setLeftMargin(0);
-		pageLayout.setTopMargin(0);
-		drawingSpecifications.setPageLayout(pageLayout);
-		drawing.setDrawingSpecifications(drawingSpecifications);
-		drawing.setPhilologySign(true);
-		return drawing;
-	}
+            TopItemList text = new TopItemList();
+            text.addTopItem(new Hieroglyph(code).buildTopItem());
+            bufferedImage = mdcDrawingFacade.createImage(text);
+
+            imageIcon = new ImageIcon(bufferedImage);
+            iconMap.put(code, new SoftReference<>(imageIcon));
+        }
+
+        return imageIcon;
+    }
 
 }

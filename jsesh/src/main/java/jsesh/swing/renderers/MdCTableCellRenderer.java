@@ -1,9 +1,5 @@
 package jsesh.swing.renderers;
 
-import java.awt.Component;
-
-import javax.swing.ImageIcon;
-import javax.swing.JList;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import jsesh.swing.utils.ImageIconFactory;
@@ -21,7 +17,7 @@ public class MdCTableCellRenderer extends DefaultTableCellRenderer {
 	protected void setValue(Object value) {
 		if (value instanceof String) {
 			String mdc= (String) value;
-			setIcon(ImageIconFactory.buildImage(mdc));
+			setIcon(ImageIconFactory.getInstance().buildImage(mdc));
 		}
 	}
 

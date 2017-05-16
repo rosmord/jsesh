@@ -344,7 +344,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     @Override
     public URIChooser createOpenChooser(Application a, View v) {
-        QenherkhURIChooser chooser= new QenherkhURIChooser();        
+        QenherkhURIChooser chooser = new QenherkhURIChooser();
         String description = BundleHelper.getInstance().getLabel(
                 "file.glyphFile.text");
 //		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
@@ -352,34 +352,32 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         String pdfDescription = BundleHelper.getInstance().getLabel(
                 "file.pdfFile.text");
         chooser.setOpenFileFilters(
-                new FileFilter[] {
+                new FileFilter[]{
                     new FileExtensionFilter(new String[]{"pdf"}, pdfDescription),
                     new FileExtensionFilter(new String[]{"gly", "hie", "GLY"}, description)
                 }
-        );        
+        );
         return chooser;
     }
 
     @Override
     public URIChooser createSaveChooser(Application a, View v) {
-         // fix the following later...
+        // fix the following later...
         String pdfDescription = BundleHelper.getInstance().getLabel(
                 "file.pdfFile.text");
 
-               
         String description = BundleHelper.getInstance().getLabel(
                 "file.glyphFile.text");
-        QenherkhURIChooser chooser= new QenherkhURIChooser();    
+        QenherkhURIChooser chooser = new QenherkhURIChooser();
         chooser.setSelectedURI(v.getURI());
         chooser.setCloseFileFilters(new FileFilter[]{
-            new ExtensionFileFilter(description,"gly"),
+            new ExtensionFileFilter(description, "gly"),
             new FileExtensionFilter(new String[]{"pdf"}, pdfDescription)
         });
-       
-        //        chooser.addChoosableFileFilter(new FileExtensionFilter(new String[]{"pdf"}, pdfDescription));
 
+        //        chooser.addChoosableFileFilter(new FileExtensionFilter(new String[]{"pdf"}, pdfDescription));
         // chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
-               // "gly"));
+        // "gly"));
         return chooser;
     }
 
@@ -511,7 +509,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         public MDCModelTransferable buildTransferable(TopItemList top) {
             return buildTransferable(top,
                     JSeshPasteFlavors
-                    .getTransferDataFlavors(getClipboardPreferences()));
+                            .getTransferDataFlavors(getClipboardPreferences()));
 
         }
 

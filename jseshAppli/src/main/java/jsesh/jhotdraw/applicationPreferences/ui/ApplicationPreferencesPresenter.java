@@ -67,7 +67,8 @@ public class ApplicationPreferencesPresenter {
     private JClipboardFormatSelector clipboardFormatSelector;
     private JExportPreferences exportPreferences;
     private JFontPreferences fontPreferences;
-
+    private JOtherPreferences otherPreferences;
+    
     public ApplicationPreferencesPresenter() {
         init();
     }
@@ -80,6 +81,7 @@ public class ApplicationPreferencesPresenter {
         clipboardFormatSelector = new JClipboardFormatSelector();
         exportPreferences = new JExportPreferences();
         fontPreferences = new JFontPreferences();
+        otherPreferences= new JOtherPreferences();
         tabbedPane.add(Messages
                 .getString("applicationPreferences.exportPreferences.label"),
                 exportPreferences.getPanel());
@@ -89,7 +91,9 @@ public class ApplicationPreferencesPresenter {
         tabbedPane.add(Messages
                 .getString("applicationPreferences.fontPreferences.label"),
                 fontPreferences.getPanel());
-
+         tabbedPane.add(Messages
+                .getString("applicationPreferences.others.label"),
+                otherPreferences.getPanel());
     }
 
     /**
@@ -99,20 +103,24 @@ public class ApplicationPreferencesPresenter {
         clipboardFormatSelector.loadPreferences(app);
         exportPreferences.loadPreferences(app);
         fontPreferences.setFontInfo(app.getFontInfo());
+        otherPreferences.loadPreferences();
     }
 
     /**
      * Sets the application preferences.
+     * @param app
      */
     public void updatePreferences(JSeshApplicationModel app) {
         clipboardFormatSelector.updatePreferences(app);
         exportPreferences.updatePreferences(app);
         app.setFontInfo(fontPreferences.getFontInfo());
+        otherPreferences.savePreferences();
     }
 
     /**
      * Display the dialog (and block the software).
      *
+     * @param parent
      * @return one of JOptionPane.OK_OPTION or JOptionPane.CANCEL_OPTION
      */
     public int showDialog(Component parent) {

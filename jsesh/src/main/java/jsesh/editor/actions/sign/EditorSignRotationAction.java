@@ -62,7 +62,7 @@ public class EditorSignRotationAction extends EditorAction {
 		super(editor);
 		putValue(NAME, angle + "°");
 		String mdcText= "A\\R" + angle;
-		putValue(Action.SMALL_ICON, ImageIconFactory.buildImage(mdcText));
+		putValue(Action.SMALL_ICON, ImageIconFactory.getInstance().buildImage(mdcText));
 		this.angle= angle;
 	}
 

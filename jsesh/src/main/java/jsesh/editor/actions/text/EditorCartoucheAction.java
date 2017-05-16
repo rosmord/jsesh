@@ -64,7 +64,8 @@ public class EditorCartoucheAction extends EditorAction {
 		this.type = type;
 		this.start = start;
 		this.end = end;
-		putValue(Action.SMALL_ICON, ImageIconFactory.buildImage(mdcText));
+		putValue(Action.SMALL_ICON, 
+                        ImageIconFactory.getInstance().buildImage(mdcText));
 	}
 
 	/**
@@ -152,7 +153,7 @@ public class EditorCartoucheAction extends EditorAction {
 	public static void preloadCartoucheIcons() {
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
-			ImageIconFactory.buildImage(c.sample);
+			ImageIconFactory.getInstance().buildImage(c.sample);
 		}
 	}
 }

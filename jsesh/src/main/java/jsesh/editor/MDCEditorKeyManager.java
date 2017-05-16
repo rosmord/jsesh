@@ -337,7 +337,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 			// Bind the Icon according to the IconMdC property
 			String iconMdcCode= appDefaults.getString(actionID+ "." + "IconMdC");
 			if (iconMdcCode != null) {
-				ImageIcon icon = ImageIconFactory.buildImage((String) iconMdcCode);
+				ImageIcon icon = ImageIconFactory.getInstance().buildImage((String) iconMdcCode);
 				action.putValue(Action.SMALL_ICON, icon);			
 			}
 		}

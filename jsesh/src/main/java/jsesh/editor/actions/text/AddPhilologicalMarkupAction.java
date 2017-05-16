@@ -90,7 +90,8 @@ public class AddPhilologicalMarkupAction extends EditorAction {
 					appDefaults);
 			String mdcText=appDefaults.getString(philologyActionNames[i]+ ".iconMdC");
 			if (mdcText!= null)
-				action.putValue(Action.SMALL_ICON, ImageIconFactory.buildImage(mdcText));
+				action.putValue(Action.SMALL_ICON, 
+                                        ImageIconFactory.getInstance().buildImage(mdcText));
 		}
 		return map;
 	}

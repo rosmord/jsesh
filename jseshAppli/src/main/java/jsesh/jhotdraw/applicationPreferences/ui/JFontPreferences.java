@@ -2,10 +2,6 @@ package jsesh.jhotdraw.applicationPreferences.ui;
 
 import java.awt.Font;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;

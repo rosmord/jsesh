@@ -3,7 +3,8 @@ Copyright Serge Rosmorduc
 contributor(s) : Serge J. P. Thomas for the fonts
 serge.rosmorduc@qenherkhopeshef.org
 
-This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+This software is a computer program whose purpose is to edit ancient
+egyptian hieroglyphic texts.
 
 This software is governed by the CeCILL license under French law and
 abiding by the rules of distribution of free software.  You can  use, 

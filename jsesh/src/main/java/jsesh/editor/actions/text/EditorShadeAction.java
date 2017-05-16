@@ -67,7 +67,8 @@ public class EditorShadeAction extends EditorAction {
         KeyEvent.VK_E, KeyEvent.VK_F};
 
     public EditorShadeAction(JMDCEditor editor, int shade, String mdcLabel) {
-        super(editor, "" + mnemonicChars[shade] + ". ", ImageIconFactory.buildImage(mdcLabel));
+        super(editor, "" + mnemonicChars[shade] + ". ", 
+                ImageIconFactory.getInstance().buildImage(mdcLabel));
         this.shade = shade;
         this.putValue(EditorShadeAction.MNEMONIC_KEY, new Integer(
                 mnemonicCodes[shade]));
@@ -116,7 +117,7 @@ public class EditorShadeAction extends EditorAction {
     public static void preloadIcons() {
     		for (int i = 0; i < 16; i++) {
             String iconMdC = "G1" + ShadingCode.toString("#", i);
-            ImageIconFactory.buildImage(iconMdC);
+            ImageIconFactory.getInstance().buildImage(iconMdC);
         }
     }
 }

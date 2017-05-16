@@ -26,7 +26,6 @@ import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.hieroglyphs.ManuelDeCodage;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ImageIconFactory;
 
@@ -37,6 +36,7 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
 import java.awt.datatransfer.SystemFlavorMap;
+import jsesh.jhotdraw.applicationPreferences.model.ApplicationPreferences;
 import net.miginfocom.layout.PlatformDefaults;
 
 /**
@@ -54,6 +54,10 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 
     @Override
     public JSeshApplicationStartingData initApplicationData() {
+        // Prepare icon factory...
+        ApplicationPreferences applicationPreferences = ApplicationPreferences.getFromPreferences();
+        ImageIconFactory.getInstance().setCadratHeight(applicationPreferences.getIconHeight());
+        
         // Pre-load a number of objects so that they are ready when graphic
         // stuff starts.
         ResourcesManager.getInstance();
@@ -64,19 +68,18 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         return data;
     }
 
-    private void preloadHieroglyphicIcons() {
+    private void preloadHieroglyphicIcons() {       
         List<HieroglyphFamily> families = CompositeHieroglyphsManager
                 .getInstance().getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);
             for (String code : ManuelDeCodage.getInstance()
                     .getBasicGardinerCodesForFamily(family.getCode())) {
-                ImageIconFactory.buildGlyphImage(code);
+                ImageIconFactory.getInstance().buildGlyphImage(code);
             }
         }
         EditorCartoucheAction.preloadCartoucheIcons();
         EditorShadeAction.preloadIcons();
-
     }
 
     @Override

@@ -54,16 +54,16 @@ import jsesh.swing.utils.ImageIconFactory;
  * 
  */
 @SuppressWarnings("serial")
-public class EditorSignShadeAction extends EditorAction {
+public final class EditorSignShadeAction extends EditorAction {
 	public static final String ID = "sign.shade_";
 
-	private int shade;
+	private final int shade;
 
-	private static char mnemonicChars [] = {
+	private static final char mnemonicChars [] = {
 			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',  'F'
 	};
 	
-	private static int mnemonicCodes [] = {
+	private static final int mnemonicCodes [] = {
 		KeyEvent.VK_0, 		KeyEvent.VK_1, 		KeyEvent.VK_2,
 		KeyEvent.VK_3, 		KeyEvent.VK_4, 		KeyEvent.VK_5,
 		KeyEvent.VK_6, 		KeyEvent.VK_7, 		KeyEvent.VK_8,
@@ -74,11 +74,13 @@ public class EditorSignShadeAction extends EditorAction {
 	
 	
 	public EditorSignShadeAction(JMDCEditor editor, int shade, String mdcLabel) {
-		super(editor, ""+ mnemonicChars[shade]+ ". ", ImageIconFactory.buildImage(mdcLabel));
+		super(editor, ""+ mnemonicChars[shade]+ ". ",
+                        ImageIconFactory.getInstance().buildImage(mdcLabel));
 		this.shade = shade;
-		this.putValue(EditorSignShadeAction.MNEMONIC_KEY, new Integer(mnemonicCodes[shade]));
+		this.putValue(EditorSignShadeAction.MNEMONIC_KEY, mnemonicCodes[shade]);
 	}
 
+        @Override
 	public void actionPerformed(ActionEvent e) {
 		if (editor.isEditable()) {
 			editor.getWorkflow().doShadeSign(shade);

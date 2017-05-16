@@ -205,7 +205,7 @@ public class HieroglyphicMenu extends JMenu {
 		 * 
 		 */
 		public HieroglyphAction(String code) {
-			super(code, ImageIconFactory.buildGlyphImage(code));
+			super(code, ImageIconFactory.getInstance().buildGlyphImage(code));
 			/*super(code, HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
 					size, border, HieroglyphicMenu.this));*/		
 			this.code = code;

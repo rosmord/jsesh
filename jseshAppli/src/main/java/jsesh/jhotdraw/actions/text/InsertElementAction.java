@@ -41,7 +41,7 @@ public class InsertElementAction extends AbstractViewAction {
     public InsertElementAction(Application app, View view, ModelElement element, String mdcTextForIcon) {
         super(app, view);
         this.element = element.deepCopy();
-        putValue(SMALL_ICON, ImageIconFactory.buildImage(mdcTextForIcon));
+        putValue(SMALL_ICON, ImageIconFactory.getInstance().buildImage(mdcTextForIcon));
     }
 
     /**
@@ -71,16 +71,17 @@ public class InsertElementAction extends AbstractViewAction {
     }
 
     /**
-     * Build insert element action with the symbol as icon.
+     * Named constructor for insert element action with the symbol as icon.
      *
      * @param app
      * @param view
      * @param id the action id, used to configure the action.
-     * @param glyphCode see {@link SymbolCodes}
+     * @param symbolCode see {@link SymbolCodes}
+     * @return an action for inserting this element.
      */
     public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String id, int symbolCode) {
         InsertElementAction action = new InsertElementAction(app, view, id, symbolCode);
-        action.putValue(SMALL_ICON, ImageIconFactory.buildImage(symbolCode));
+        action.putValue(SMALL_ICON, ImageIconFactory.getInstance().buildImage(symbolCode));
         return action;
     }
 
@@ -90,6 +91,7 @@ public class InsertElementAction extends AbstractViewAction {
      * @param app
      * @param view
      * @param mdc the manuel de codage code for the glyph we want.
+     * @return 
      */
     public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String mdc) {
         ModelElement elt = new Hieroglyph(mdc);
