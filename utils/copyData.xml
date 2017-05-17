@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="JSesh" default="updateGlyphsAndTextResources" basedir=".">
-    
     <property name="fontRoot" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns"/>
     <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/inBase"/>
     <property name="fontDest" value="../jseshGlyphs/src/main/resources/jseshGlyphs"/>
@@ -18,140 +17,140 @@
 		<!-- Ugly code, but I won't get an ant extension just to solve it. -->
         <sync verbose="yes" todir="${fontDest}">
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/A">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/A">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/B">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/B">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/C">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/C">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/D">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/D">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/E">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/E">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/F">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/F">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/G">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/G">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/H">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/H">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/I">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/I">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/K">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/K">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/L">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/L">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/M">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/M">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/N">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/N">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/O">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/O">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/P">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/P">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Q">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/R">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/Q">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
 
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/S">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/T">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/U">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/V">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/W">
-                <include name="*.svg" />
-                <include name="*.SVG" />
-            </fileset>
-            <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/X">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/R">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
 
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Y">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/S">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Z">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/T">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Aa">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/U">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
             <fileset
-				dir="${fontRoot}/SThomasDetail/ManuelDeCodage/Ff">
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/V">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/W">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/X">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/Y">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/Z">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/Aa">
+                <include name="*.svg" />
+                <include name="*.SVG" />
+            </fileset>
+            <fileset
+				dir="${fontRoot}/SergeThomasDetails/ManuelDeCodage/Ff">
                 <include name="*.svg" />
                 <include name="*.SVG" />
             </fileset>
