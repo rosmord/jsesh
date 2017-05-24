@@ -60,7 +60,7 @@ public interface DrawingPreferences {
 
     /**
      * The desired height of a standard "high" sign (like A1), in points.
-     *
+     * Defaults to 18.
      * @return the standard sign height.
      */
     float getStandardSignHeight();
@@ -162,7 +162,7 @@ public interface DrawingPreferences {
      *
      * @param largeSignSize the largeSignSize to set
      */
-    void setLargeSignSize(double largeSignSize);
+    void setLargeSignSizeRatio(double largeSignSize);
 
     /**
      * Return the ratio to base size a sign should have to be considered a
@@ -171,9 +171,8 @@ public interface DrawingPreferences {
      *
      * @return a ratio.
      */
-    double getSmallSignSize();
-
-	// text layout
+    double getSmallSignSizeRatio();
+    
     float getLineSkip();
 
     void setLineSkip(float f);
@@ -316,8 +315,9 @@ public interface DrawingPreferences {
      * Sets the font for a particular type of text. The character code are
      * described by the ScriptCodes class.
      *
+     * @param code the code for the font to use ('l' for latin, 'i' for italic...)
+     * @return the font to use.
      * @see ScriptCodes
-     * @param code a one-letter code
      */
     Font getFont(char code);
 

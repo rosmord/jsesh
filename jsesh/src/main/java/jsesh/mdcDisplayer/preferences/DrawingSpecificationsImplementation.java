@@ -197,14 +197,14 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     /**
      * Ratio to base size a sign should have to be considered a "large" sign.
      */
-    private double largeSignSize = 0.8;
+    private double largeSignSizeRatio = 0.8;
 
     /**
      * Ratio to base size a sign should have to be considered a "small" sign.
      * i.e. if a sign size is smaller than getBaseLangth() * getSmallSize(),
      * this sign is small.
      */
-    private double smallSignSize = 0.4;
+    private double smallSignSizeRatio = 0.4;
 
     private HieroglyphsDrawer hieroglyphsDrawer;
 
@@ -225,7 +225,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
     private HashMap<String, Color> tagColors = new HashMap<>();
 
-    // private float
     public DrawingSpecificationsImplementation() {
         fontRenderContext = new FontRenderContext(null, true, true);
         smallSignsCentered = false;
@@ -263,9 +262,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         //tagColors.put("blue", Color.BLUE);
     }
 
-    /**
-     *
-     */
     private void buildFontMap() {
         fontMap = new Font[256];
         // fontMap[ScriptCodes.LATIN] = new Font("Serif", Font.PLAIN, 12);
@@ -290,6 +286,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     /**
      * {@inheritDoc}
      */
+    @Override
     public DrawingSpecification copy() {
         try {
             return (DrawingSpecification) clone();
@@ -298,12 +295,12 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         }
     }
 
-   
+    @Override
     public float getStandardSignHeight() {
         return standardSignHeight;
     }
 
-   
+    @Override
     public void setStandardSignHeight(float standardSignHeight) {
         this.standardSignHeight = standardSignHeight;
     }
@@ -323,13 +320,12 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         return blackColor;
     }
 
-    
     public float getCartoucheknotLength() {
         // return cartoucheknotLength;
         return cartoucheLineWidth;
     }
 
-   @Override
+    @Override
     public float getCartoucheLineWidth() {
         return cartoucheLineWidth;
     }
@@ -384,6 +380,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return
      */
+    @Override
     public float getEnclosureBastionLength() {
         return enclosureBastionLength;
     }
@@ -393,6 +390,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return
      */
+    @Override
     public float getEnclosureBastionSkip() {
         return enclosureBastionSkip;
     }
@@ -402,6 +400,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return
      */
+    @Override
     public Stroke getFineStroke() {
         return new BasicStroke(fineLineWidth);
     }
@@ -409,8 +408,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     /**
      * {@inheritDoc}
      *
-     * @return
+     *
      */
+    @Override
     public Font getFont(char code) {
         if (code < 0 || code > 255) {
             code = 'l';
@@ -425,8 +425,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     /**
      * {@inheritDoc}
      *
-     * @return
      */
+    @Override
     public void setFont(char code, Font font) {
         if (code == '*') {
             this.fontMap[ScriptCodes.LATIN] = font;
@@ -440,8 +440,9 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
     /**
-     * @return the yodChoice
+     * {@inheritDoc}
      */
+    @Override
     public YODChoice getYodChoice() {
         return yodChoice;
     }
@@ -454,7 +455,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
     /**
-     * @return the translitUnicode
+     * {@inheritDoc}
      */
     public boolean isTranslitUnicode() {
         return translitUnicode;
@@ -547,6 +548,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
 	 * getPhilologyWidth(int)
      */
+    @Override
     public float getPhilologyWidth(int philologyType) {
         // IMPORTANT : this is a hack. We should make it cleaner.
         if (philologyType >= 100) {
@@ -567,539 +569,266 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         return width;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getRedColor()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getRedColor
-	 * ()
-     */
     public Color getRedColor() {
         return redColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getSerekhDoorSize()
-     */
+    @Override
     public float getSerekhDoorSize() {
         return serekhDoorSize;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getSmallSkip()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getSmallSkip
-	 * ()
-     */
+    @Override
     public float getSmallSkip() {
         return smallSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.DrawingSpecifications#getSuperScriptDimensions
-	 * (java.lang.String)
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getSuperScriptDimensions(java.lang.String)
-     */
+    @Override
     public Dimension2D getSuperScriptDimensions(String text) {
-        Rectangle2D r = superScriptFont.getStringBounds(text.toString(),
+        Rectangle2D r = superScriptFont.getStringBounds(text,
                 fontRenderContext);
         return new DoubleDimensions(r.getWidth(), r.getHeight());
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getSuperScriptFont()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getSuperScriptFont()
-     */
+    @Override
     public Font getSuperScriptFont() {
         return superScriptFont;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.DrawingSpecifications#getTextDimensions(char,
-	 * java.lang.String)
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getTextDimensions(char, java.lang.String)
-     */
+    @Override
     public Rectangle2D getTextDimensions(char scriptCode, String text) {
-        Rectangle2D r = getFont(scriptCode).getStringBounds(text.toString(),
+        Rectangle2D r = getFont(scriptCode).getStringBounds(text,
                 fontRenderContext);
         return r;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getTextDirection
-	 * ()
-     */
+    @Override
     public TextDirection getTextDirection() {
         return textDirection;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getTextOrientation()
-     */
+    @Override
     public TextOrientation getTextOrientation() {
         return textOrientation;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.DrawingSpecifications#getWideStroke()
-     */
- /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getWideStroke
-	 * ()
-     */
+    @Override
     public Stroke getWideStroke() {
         return new BasicStroke(wideLineWidth);
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * isSmallSignsCentered()
-     */
+    @Override
     public boolean isSmallSignsCentered() {
         return smallSignsCentered;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setCartoucheLineWidth(float)
-     */
+    @Override
     public void setCartoucheLineWidth(float cartoucheLineWidth) {
         this.cartoucheLineWidth = cartoucheLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setCartoucheLoopLength(float)
-     */
+    @Override
     public void setCartoucheLoopLength(float cartoucheLoopLength) {
         this.cartoucheLoopLength = cartoucheLoopLength;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setCartoucheMargin(float)
-     */
+    @Override
     public void setCartoucheMargin(float cartoucheMargin) {
         this.cartoucheMargin = cartoucheMargin;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setEnclosureBastionDepth(float)
-     */
+    @Override
     public void setEnclosureBastionDepth(float enclosureBastionDepth) {
         this.enclosureBastionDepth = enclosureBastionDepth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setEnclosureBastionLength(float)
-     */
+    @Override
     public void setEnclosureBastionLength(float enclosureBastionLength) {
         this.enclosureBastionLength = enclosureBastionLength;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setEnclosureBastionSkip(float)
-     */
+    @Override
     public void setEnclosureBastionSkip(float enclosureBastionSkip) {
         this.enclosureBastionSkip = enclosureBastionSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setFontRenderContext(java.awt.font.FontRenderContext)
-     */
+    @Override
     public void setFontRenderContext(FontRenderContext context) {
         fontRenderContext = context;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setHieroglyphsDrawer(jsesh.mdcDisplayer.mdcView.HieroglyphsDrawer)
-     */
-    // public void setHieroglyphsDrawer(HieroglyphsDrawer drawer) {
-    // hieroglyphsDrawer = drawer;
-    // }
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setHutSmallMargin(float)
-     */
+    @Override
     public void setHutSmallMargin(float hutSmallMargin) {
         this.hutSmallMargin = hutSmallMargin;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setHutSquareSize
-	 * (float)
-     */
+    @Override
     public void setHutSquareSize(float hutSquareSize) {
         this.hutSquareSize = hutSquareSize;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setLineSkip
-	 * (float)
-     */
+    @Override
     public void setLineSkip(float f) {
         lineSkip = f;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setMaxCadratHeight(float)
-     */
+    @Override
     public void setMaxCadratHeight(float f) {
         maxCadratHeight = f;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setMaxCadratWidth(float)
-     */
+    @Override
     public void setMaxCadratWidth(float maxCadratWidth) {
         this.maxCadratWidth = maxCadratWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setSerekhDoorSize(float)
-     */
+    @Override
     public void setSerekhDoorSize(float serekhDoorSize) {
         this.serekhDoorSize = serekhDoorSize;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setSmallSignsCentered(boolean)
-     */
+    @Override
     public void setSmallSignsCentered(boolean b) {
         smallSignsCentered = b;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setSmallSkip
-	 * (float)
-     */
+    @Override
     public void setSmallSkip(float f) {
         smallSkip = f;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setTextDirection
-	 * (jsesh.mdc.constants.TextDirection)
-     */
+    @Override
     public void setTextDirection(TextDirection textDirection) {
         this.textDirection = textDirection;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setTextOrientation(jsesh.mdc.constants.TextOrientation)
-     */
+    @Override
     public void setTextOrientation(TextOrientation i) {
         textOrientation = i;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getColumnSkip
-	 * ()
-     */
+    @Override
     public float getColumnSkip() {
         return columnSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setColumnSkip
-	 * (float)
-     */
+    @Override
     public void setColumnSkip(float columnSkip) {
         this.columnSkip = columnSkip;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getFineLineWidth
-	 * ()
-     */
+    @Override
     public float getFineLineWidth() {
         return fineLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setFineLineWidth
-	 * (float)
-     */
+    @Override
     public void setFineLineWidth(float fineLineWidth) {
         this.fineLineWidth = fineLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getWideLineWidth
-	 * ()
-     */
+    @Override
     public float getWideLineWidth() {
         return wideLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setWideLineWidth
-	 * (float)
-     */
+    @Override
     public void setWideLineWidth(float wideLineWidth) {
         this.wideLineWidth = wideLineWidth;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * getBackgroundColor()
-     */
+    @Override
     public Color getBackgroundColor() {
         return backgroundColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#
-	 * setBackgroundColor(java.awt.Color)
-     */
+    @Override
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingPreferences#setBlackColor(java.
-	 * awt.Color)
-     */
+    @Override
     public void setBlackColor(Color black) {
         this.blackColor = black;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingPreferences#setCursorColor(java
-	 * .awt.Color)
-     */
+    @Override
     public void setCursorColor(Color color) {
-        // TODO Auto-generated method stub
-
+        this.cursorColor = color;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingPreferences#setGrayColor(java.awt
-	 * .Color)
-     */
+    @Override
     public void setGrayColor(Color color) {
         this.grayColor = color;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingPreferences#setRedColor(java.awt
-	 * .Color)
-     */
+    @Override
     public void setRedColor(Color color) {
         this.redColor = color;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getSignScale
-	 * ()
-     */
+    @Override
     public float getSignScale() {
         return (float) (getStandardSignHeight() / getHieroglyphsDrawer()
                 .getHeightOfA1());
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getLargeSignSize
-	 * ()
-     */
+    @Override
     public double getLargeSignSizeRatio() {
-        return largeSignSize;
+        return largeSignSizeRatio;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#setLargeSignSize
-	 * (double)
-     */
-    public void setLargeSignSize(double largeSignSize) {
-        this.largeSignSize = largeSignSize;
+    @Override
+    public void setLargeSignSizeRatio(double largeSignSize) {
+        this.largeSignSizeRatio = largeSignSize;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.preferences.DrawingSpecificationInterface#getSmallSignSize
-	 * ()
-     */
-    public double getSmallSignSize() {
-        return smallSignSize;
+    @Override
+    public double getSmallSignSizeRatio() {
+        return smallSignSizeRatio;
     }
 
+    @Override
     public HieroglyphsDrawer getHieroglyphsDrawer() {
         return hieroglyphsDrawer;
     }
 
+    @Override
     public double getSmallBodyScaleLimit() {
         return smallBodyScaleLimit;
     }
 
+    @Override
     public void setSmallBodyScaleLimit(double limit) {
         this.smallBodyScaleLimit = limit;
     }
 
+    @Override
     public double getGraphicDeviceScale() {
         return graphicDeviceScale;
     }
 
+    @Override
     public void setGraphicDeviceScale(double graphicDeviceScale) {
         this.graphicDeviceScale = graphicDeviceScale;
     }
 
+    @Override
     public boolean isPaged() {
         return paged;
     }
 
+    @Override
     public void setPaged(boolean paged) {
         this.paged = paged;
     }
 
+    @Override
     public ShadingStyle getShadingStyle() {
         return shadingStyle;
     }
 
+    @Override
     public void setShadingStyle(ShadingStyle shadingStyle) {
         this.shadingStyle = shadingStyle;
     }
@@ -1108,10 +837,12 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      * Returns a copy of the current page layout. To actually change the page
      * layout, one needs to modify this copy and set a new layout.
      */
+    @Override
     public PageLayout getPageLayout() {
         return (PageLayout) pageLayout.clone();
     }
 
+    @Override
     public void setPageLayout(PageLayout pageLayout) {
         this.pageLayout = pageLayout;
     }
@@ -1120,6 +851,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      * Gets the parts of those specifications which corresponds to document
      * preferences.
      */
+    @Override
     public DocumentPreferences extractDocumentPreferences() {
         DocumentPreferences prefs = new DocumentPreferences()
                 .withCartoucheLineWidth(cartoucheLineWidth)
@@ -1142,6 +874,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      * modify the parts of those specifications which corresponds to document
      * preferences.
      */
+    @Override
     public void applyDocumentPreferences(DocumentPreferences prefs) {
         setTextDirection(prefs.getTextDirection());
         setTextOrientation(prefs.getTextOrientation());
@@ -1161,6 +894,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         }
     }
 
+    @Override
     public TransliterationEncoding getTransliterationEncoding() {
         return new TransliterationEncoding(isTranslitUnicode(), getYodChoice(), isGardinerQofUsed());
     }
@@ -1170,6 +904,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return true if lines are justified.
      */
+    @Override
     public boolean isJustified() {
         return justified;
     }
@@ -1179,6 +914,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @param justified the justified to set
      */
+    @Override
     public void setJustified(boolean justified) {
         this.justified = justified;
     }

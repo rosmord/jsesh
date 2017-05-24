@@ -217,7 +217,7 @@ public class QuadrantLayout {
 											.getHieroglyphsDrawer()
 											.getHeightOfA1()
 							&& subSubView.getInternalHeight() <= drawingSpecifications
-									.getSmallSignSize()
+									.getSmallSignSizeRatio()
 									* drawingSpecifications
 											.getHieroglyphsDrawer()
 											.getHeightOfA1()) {

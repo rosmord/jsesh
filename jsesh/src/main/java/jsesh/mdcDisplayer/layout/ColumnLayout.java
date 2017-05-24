@@ -54,7 +54,7 @@ public class ColumnLayout extends TopItemLayout {
 
 	private MDCView subView;
 
-	private LayoutAux aux = new LayoutAux();
+	private final LayoutAux aux = new LayoutAux();
 
 	/**
 	 * @param documentView
@@ -77,6 +77,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer
 	 * .mdcView.MDCView)
 	 */
+        @Override
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
 		subView.getModel().accept(aux);
@@ -88,6 +89,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * 
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#endLayout()
 	 */
+        @Override
 	public void endLayout() {
 		if (!zone.isEmpty()) {
 			flushZone();
@@ -104,6 +106,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * @return the area for the complete document.
 	 */
 
+        @Override
 	public Rectangle2D getDocumentArea() {
 		return this.documentArea;
 	}
@@ -113,6 +116,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * 
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
 	 */
+        @Override
 	public void startLayout() {
 		documentView.reset();
 		// Pseudo relative position for first element.
@@ -167,6 +171,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
 		 */
 
+                @Override
 		public void visitLineBreak(LineBreak b) {
 			subView.setHeight(0.1f);
 			subView.setWidth(drawingSpecifications.getMaxCadratWidth());
@@ -191,6 +196,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
 		 * .PageBreak)
 		 */
+                @Override
 		public void visitPageBreak(PageBreak b) {
 			// TEMPORARY.
 			if (!drawingSpecifications.isPaged())
@@ -204,6 +210,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
 		 * TabStop)
 		 */
+                @Override
 		public void visitTabStop(TabStop t) {
 			visitDefault(t);
 		}
@@ -218,6 +225,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * 
 		 * @param t
 		 */
+                @Override
 		public void visitAlphabeticText(AlphabeticText t) {
 			subView.setDeltaBaseY(0); // No y alignment required !
 			visitDefault(t);
@@ -234,6 +242,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
 		 */
 
+                @Override
 		public void visitDefault(ModelElement t) {
 			// add the new view's bounding box to the current column.
 			zone.add(subView);
@@ -242,7 +251,7 @@ public class ColumnLayout extends TopItemLayout {
 			// the skip is "integrated" in v,
 			if (subView.getHeight() != 0) {
 				zone.moveCurrentPoint(0, subView.getHeight()
-						+ drawingSpecifications.getSmallSkip());
+						+ drawingSpecifications.getLineSkip());
 			}
 		}
 	}
