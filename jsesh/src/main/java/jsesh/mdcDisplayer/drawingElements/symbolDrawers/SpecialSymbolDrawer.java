@@ -9,6 +9,7 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.Optional;
 
 import jsesh.hieroglyphs.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
@@ -88,8 +89,9 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 		return 0;
 	}
 
-	public LigatureZone getLigatureZone(int i, String code) {
-		return null;
+        @Override
+	public Optional<LigatureZone> getLigatureZone(int i, String code) {
+		return Optional.empty();
 	}
 
 	public Shape getShape(String code) {

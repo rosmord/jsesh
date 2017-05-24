@@ -1,6 +1,6 @@
 package jsesh.mdcDisplayer.preferences;
 
-public class CartoucheHelper {
+public class CartoucheSizeHelper {
 
 	/**
 	 * Compute the size needed for cartouches starts and ends along the main

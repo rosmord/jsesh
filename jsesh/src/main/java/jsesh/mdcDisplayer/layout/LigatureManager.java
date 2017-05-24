@@ -43,7 +43,7 @@ public class LigatureManager {
 
 		return instance;
 	}
-	private Map<String[], ExplicitPosition[]> ligaturesMap;
+	private final Map<String[], ExplicitPosition[]> ligaturesMap;
 
 	@SuppressWarnings("unchecked")
 	public LigatureManager() {
@@ -51,7 +51,7 @@ public class LigatureManager {
 		// generic type.
 		// We would need to build arraylists of strings, which we might do later.
 		// meanwhile, we are content with @SuppressWarnings
-		ligaturesMap = new TreeMap<String[], ExplicitPosition[]>(new Comparator() {
+		ligaturesMap = new TreeMap<>(new Comparator() {
 
 			public int compare(Object o1, Object o2) {
 				String t0[]= (String[]) o1;
