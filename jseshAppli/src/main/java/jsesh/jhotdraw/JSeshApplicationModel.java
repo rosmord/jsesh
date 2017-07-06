@@ -58,6 +58,7 @@ import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
+import jsesh.jhotdraw.actions.edit.FindAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
@@ -262,6 +263,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             // View level actions
             map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
             map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
+            map.put(FindAction.ID, new FindAction(a, jseshView));
             map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
             map.put(EditDocumentPreferencesAction.ID,
                     new EditDocumentPreferencesAction(a, v));
