@@ -56,6 +56,7 @@ public class ComplexLigature extends HorizontalListElement implements ComplexLig
 			addChild(g2);
 	}
 
+        @Override
 	public void accept(ModelElementVisitor v) {
 		v.visitComplexLigature(this);
 	}
@@ -73,6 +74,7 @@ public class ComplexLigature extends HorizontalListElement implements ComplexLig
 		return result;
 	}
 	
+        @Override
 	public int compareToAux(ModelElement e) {
 		ComplexLigature lig2= (ComplexLigature) e;
 		
@@ -83,6 +85,7 @@ public class ComplexLigature extends HorizontalListElement implements ComplexLig
 		return result;
 	}
 	
+        @Override
 	public ComplexLigature deepCopy() {
 		InnerGroup copy1= null, copy2= null;
 		if (hasBeforeGroup)

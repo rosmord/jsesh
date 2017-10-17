@@ -71,6 +71,18 @@ public class Superscript extends TopItem implements TextContainer {
 	public HorizontalListElement buildHorizontalListElement() {
 		return null;
 	}
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        // Ideally, we would use a delegate, which itself would use inheritance
+        // or delegation or interface default method to do this for all TextContainer elements...
+        // but we can't use default method on the interface, for we want hasSameValueIgnoreIdAux to be protected
+        // not public.
+        Superscript otherSuperscript= (Superscript) other;
+        return this.text.equals(otherSuperscript.text);
+    }
+        
+        
 }
 
 

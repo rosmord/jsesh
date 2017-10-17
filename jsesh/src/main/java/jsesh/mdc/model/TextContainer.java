@@ -16,5 +16,7 @@ public interface TextContainer {
 	void setText(String text);
 	
 	ModelElement deepCopy();
+        
+        
 	
 }

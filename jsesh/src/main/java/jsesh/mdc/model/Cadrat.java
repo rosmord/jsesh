@@ -192,4 +192,12 @@ public class Cadrat
 		}
 		return embedded;
 	}
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        Cadrat otherCadrat= (Cadrat) other;
+        return this.shading == otherCadrat.shading;
+    }
+        
+        
 } // end Cadrat

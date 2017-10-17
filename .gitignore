@@ -10,3 +10,8 @@
 /jseshDoc/target/
 /jsesh-installer/target/
 /jseshDemos/target/
+/jsesh/nbproject/
+.classpath
+.settings
+.project
+nb-configuration.xml

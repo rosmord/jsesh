@@ -205,4 +205,23 @@ public class ZoneStart extends TopItem implements ZoneStartInterface {
 	public HorizontalListElement buildHorizontalListElement() {
 		return null;	
 	}
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        ZoneStart o= (ZoneStart) other;
+        return this.columnSkip == o.columnSkip
+                && this.height== o.height
+                && this.lineSkip== o.lineSkip
+                && this.lineWidth == o.lineWidth
+                && this.refHorizontalReference== o.refHorizontalReference
+                && this.refVerticalReference== o.refVerticalReference
+                && this.refx== o.refx
+                && this.refy== o.refy
+                && this.width== o.width
+                && this.writingDirection == o.writingDirection
+                && this.writingOrientation == o.writingOrientation
+                ;
+    }
+        
+        
 }

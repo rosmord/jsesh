@@ -43,11 +43,13 @@ public abstract class EmbeddedModelElement extends ModelElement {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#unsetContainer()
 	 */
+        @Override
 	protected void unsetContainers() {
 		parent= null;
 	}
 	
 
+        @Override
 	final protected void notifyModelElementObservers(ModelOperation op) {
 		if (parent != null)
 			parent.observedElementChanged(op);
@@ -63,10 +65,12 @@ public abstract class EmbeddedModelElement extends ModelElement {
 		next = null;
 	}
 
+        @Override
 	public ModelElement getNextSlibing() {
 		return next;
 	}
 
+        @Override
 	public ModelElement getPreviousSlibing() {
 		return previous;
 	}

@@ -83,6 +83,14 @@ public class Philology extends InnerGroup implements PhilologyInterface {
 		return false;
 	}
 
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+            Philology otherPhilology= (Philology) other;
+            return this.type == otherPhilology.type;
+    }
+        
+        
+
 } 
 
 

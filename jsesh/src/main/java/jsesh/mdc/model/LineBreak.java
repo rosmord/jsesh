@@ -74,6 +74,7 @@ public class LineBreak extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
+        @Override
 	public LineBreak deepCopy() {
 		LineBreak b= new LineBreak(spacing);
 		copyStateTo(b);
@@ -83,6 +84,7 @@ public class LineBreak extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.TopItem#isBreak()
 	 */
+        @Override
 	public boolean isBreak() {
 		return true;
 	}
@@ -91,4 +93,12 @@ public class LineBreak extends TopItem {
 	public HorizontalListElement buildHorizontalListElement() {
 		return null;	
 	}
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        LineBreak otherBreak= (LineBreak) other;
+        return this.spacing == otherBreak.spacing;
+    }
+        
+        
 }

@@ -33,6 +33,7 @@ public class BasicItemList
 		addChildAt(id, basicItem);
 	}
 
+        @Override
 	public void accept(ModelElementVisitor v) {
 		v.visitBasicItemList(this);
 	}
@@ -40,6 +41,7 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+        @Override
 	public String toString() {
 		return getChildrenAsString();
 	}
@@ -47,6 +49,7 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
 	 */
+        @Override
 	public int compareToAux(ModelElement e) {
 		return compareContents(e);
 	}
@@ -55,6 +58,7 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
+        @Override
 	public BasicItemList deepCopy() {
 		BasicItemList r= new BasicItemList();
 		copyContentTo(r);
@@ -69,6 +73,7 @@ public class BasicItemList
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
 	 */
+        @Override
 	public TopItem buildTopItem() {
 		Cadrat c= new Cadrat();
 		HBox b= new HBox();

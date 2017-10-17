@@ -9,33 +9,34 @@ package jsesh.mdc.model;
 import jsesh.mdc.interfaces.AbsoluteGroupInterface;
 
 /**
- * A group of signs with explicit placement. 
- * IMPORTANT : currently, we need at least two signs in an
- * absolute group.
- * 
+ * A group of signs with explicit placement. IMPORTANT : currently, we need at
+ * least two signs in an absolute group.
+ *
  * @author rosmord
- *  
+ *
  */
-
 public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface {
 
-	private static final long serialVersionUID = -5214658535536154651L;
+    private static final long serialVersionUID = -5214658535536154651L;
 
-	/**
-	 * Add a child. 
-	 * For compatibility with the graphical formats and because of questions of transparency, shading elements will be placed in front of other elements if necessary.
-	 * @param h
-	 */
+    /**
+     * Add a child. For compatibility with the graphical formats and because of
+     * questions of transparency, shading elements will be placed in front of
+     * other elements if necessary.
+     *
+     * @param h
+     */
     public void addHieroglyph(Hieroglyph h) {
-    		if (h.isShadingSign()) {
-    			// find the position for inserting h :
-    			int i= 0;
-    			while (i < getNumberOfChildren() && getHieroglyphAt(i).isShadingSign())
-    				i++;
-    			addChildAt(i, h);
-    		} else {
-    			addChild(h);
-    		}
+        if (h.isShadingSign()) {
+            // find the position for inserting h :
+            int i = 0;
+            while (i < getNumberOfChildren() && getHieroglyphAt(i).isShadingSign()) {
+                i++;
+            }
+            addChildAt(i, h);
+        } else {
+            addChild(h);
+        }
     }
 
     public void removeHieroglyphAt(int idx) {
@@ -50,10 +51,12 @@ public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface 
         return (Hieroglyph) getChildAt(idx);
     }
 
+    @Override
     public void accept(ModelElementVisitor v) {
         v.visitAbsoluteGroup(this);
     }
 
+    @Override
     public String toString() {
         return "(absolute " + getChildrenAsString() + ")";
     }
@@ -63,7 +66,8 @@ public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface 
      * 
      * @see jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
      */
-    public int compareToAux(ModelElement e) {
+    @Override
+    protected int compareToAux(ModelElement e) {
         return compareContents(e);
     }
 
@@ -72,19 +76,21 @@ public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface 
      * 
      * @see jsesh.mdc.model.ModelElement#deepCopy()
      */
+    @Override
     public AbsoluteGroup deepCopy() {
         AbsoluteGroup r = new AbsoluteGroup();
         copyContentTo(r);
         return r;
     }
 
+    @Override
     public boolean containsOnlyOneSign() {
-    	return getNumberOfChildren() == 1;
+        return getNumberOfChildren() == 1;
     }
-    
+
     /**
      * Move the group elements in order to have a tight boundingbox around it.
-     *  
+     *
      */
     public void compact() {
         if (getNumberOfChildren() > 0) {
@@ -92,14 +98,16 @@ public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface 
             int y = getHieroglyphAt(0).getY();
 
             for (int i = 1; i < getNumberOfChildren(); i++) {
-                if (getHieroglyphAt(i).getX() < x)
+                if (getHieroglyphAt(i).getX() < x) {
                     x = getHieroglyphAt(i).getX();
-                if (getHieroglyphAt(i).getY() < y)
+                }
+                if (getHieroglyphAt(i).getY() < y) {
                     y = getHieroglyphAt(i).getY();
+                }
             }
             for (int i = 0; i < getNumberOfChildren(); i++) {
-                Hieroglyph h= getHieroglyphAt(i);
-                h.setExplicitPosition(h.getX() - x, h.getY()- y, h.getRelativeSize());           
+                Hieroglyph h = getHieroglyphAt(i);
+                h.setExplicitPosition(h.getX() - x, h.getY() - y, h.getRelativeSize());
             }
         }
     }

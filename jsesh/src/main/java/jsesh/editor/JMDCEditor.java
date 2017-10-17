@@ -42,50 +42,26 @@
  **/
 package jsesh.editor;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.geom.Rectangle2D;
-import java.awt.print.PageFormat;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.datatransfer.*;
+import java.awt.geom.*;
+import java.awt.print.*;
+import java.io.*;
 import java.util.logging.Logger;
-
-import javax.swing.Action;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-
-import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.editor.caret.MDCCaret;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.ListOfTopItems;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
-import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
-import jsesh.swing.utils.GraphicsUtils;
+import javax.swing.*;
+import jsesh.editor.actions.text.*;
+import jsesh.editor.caret.*;
+import jsesh.mdc.*;
+import jsesh.mdc.constants.*;
+import jsesh.mdc.model.*;
+import jsesh.mdc.model.operations.*;
+import jsesh.mdcDisplayer.clipboard.*;
+import jsesh.mdcDisplayer.draw.*;
+import jsesh.mdcDisplayer.layout.*;
+import jsesh.mdcDisplayer.mdcView.*;
+import jsesh.mdcDisplayer.preferences.*;
+import jsesh.swing.shadingMenuBuilder.*;
+import jsesh.swing.utils.*;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you
@@ -156,6 +132,7 @@ public class JMDCEditor extends JPanel {
     // FIXME : choose a reasonable method to share drawing specifications.
     private DrawingSpecification drawingSpecifications = MDCEditorKit
             .getBasicMDCEditorKit().getDrawingSpecifications();
+    
     private boolean drawLimits = false;
 
     public JMDCEditor() {

@@ -1,5 +1,6 @@
 package jsesh.mdc.model;
 
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
@@ -108,6 +109,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     /*
 	 * @see jsesh.mdc.model.ModelElement#Accept(jsesh.mdc.model.ModelElementVisitor)
      */
+    @Override
     public void accept(ModelElementVisitor v) {
         v.visitHieroglyph(this);
     }
@@ -115,6 +117,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     /* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#compareToAux(jsesh.mdc.model.ModelElement)
      */
+    @Override
     public int compareToAux(ModelElement e) {
         Hieroglyph h = (Hieroglyph) e;
         int result = getCode().compareTo(h.getCode());
@@ -244,7 +247,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
         getModifiers().setAngle(_angle);
     }
 
-    public void setCode(String code) {
+    public final void setCode(String code) {
         // This code should stand elsewhere. For instance, we could use a 
         // factory...
         if (code.startsWith("J")) {
@@ -309,7 +312,8 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
 
     /**
      * Returns a float value of the sign scale, 1.0 being "no change" scale.
-     * @return 
+     *
+     * @return
      */
     public float getFLoatScale() {
         return (float) (getRelativeSize() / 100.0);
@@ -327,6 +331,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     /* (non-Javadoc)
 	 * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         String result = "(glyph " + code;
         if (getRelativeSize() != 100 || getX() != 0 || getY() != 0) {
@@ -336,10 +341,12 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
         return result;
     }
 
+    @Override
     public boolean containsOnlyOneSign() {
         return true;
     }
 
+    @Override
     public Hieroglyph getLoneSign() {
         return this;
     }
@@ -394,6 +401,19 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
             default:
                 return false;
         }
+    }
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        Hieroglyph o = (Hieroglyph) other;
+        CompositeHieroglyphsManager manager = CompositeHieroglyphsManager.getInstance();
+        return manager.getCanonicalCode(this.code).equals(manager.getCanonicalCode(o.code))
+                && this.endingCode.equals(o.endingCode)
+                && this.grammar == o.grammar
+                && this.type == o.type
+                && this.x == o.x
+                && this.y == o.y;
+
     }
 
 } // end Hieroglyph

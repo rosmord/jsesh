@@ -17,19 +17,21 @@ import jsesh.mdc.model.operations.Replacement;
  * constructs. Each model element is potentially a container for other elements,
  * and modifications to the lower levels are forwarded to the upper levels
  * (hence each element is potentially an observer for its sub-elements).
- * 
+ *
  * <p>
- * Equality for this class is entity based (as inherited from Object). That is, two ModelElement are
- * the same iff they have the same address.
- * <p>But this class has also a natural ordering that is <em>inconsistent</em> with equals, and 
- * is content based. It can be used to compare elements. Note that, as elements are mutable, if one 
- * wants to build an index based on ModelElement contents, a preventive copy is needed.
+ * Equality for this class is entity based (as inherited from Object). That is,
+ * two ModelElement are the same iff they have the same address.
+ * <p>
+ * But this class has also a natural ordering that is <em>inconsistent</em> with
+ * equals, and is content based. It can be used to compare elements. Note that,
+ * as elements are mutable, if one wants to build an index based on ModelElement
+ * contents, a preventive copy is needed.
  * <p>
  * TODO : The comparison operator should probably move it to a comparator.
- * 
+ *
  * <p>
- * Model elements are comparable one to each other, regardless of their actual class. 
- * The way this is done is :
+ * Model elements are comparable one to each other, regardless of their actual
+ * class. The way this is done is :
  * <ol>
  * <li>if the elements belong to different classes, we compare the names of the
  * classes.</li>
@@ -39,11 +41,12 @@ import jsesh.mdc.model.operations.Replacement;
  * To ensure that all classes implement compareTo, ModelElement doesn't provide
  * any implementation. Instead, it provides a number of protected helpful
  * functions.
- * 
- * <p>IMPORTANT : The current system does not ensure views are
- * systematically deleted. IMPROVE IT.
- * 
-
+ *
+ * <p>
+ * IMPORTANT : The current system does not ensure views are systematically
+ * deleted. IMPROVE IT.
+ *
+ *
  * <p>
  * ModelElements used to implement the Observable class and be observers for
  * their children. It is no longer the case, and Observable has been replaced by
@@ -55,432 +58,469 @@ import jsesh.mdc.model.operations.Replacement;
  * was too general to maintain a list of observers for each model element with
  * the current architecture. Multiple observers can easily be managed by
  * encapsulating a TopItemList in some Observable element.
- * 
+ *
  * <p>
  * Note that a list of child elements is maintained. It is suggested to use it
- * to store the children elements. 
- * 
- * <p> This list is somehow problematic, from a type point of view this being said. 
+ * to store the children elements.
+ *
  * <p>
- * Modelisation problem : all elements have at most one Container,
- * which, for most of them, is also a ModelElement.
- * the only exception is TopItemList, whose Container is arbitrary.
- * In some cases, we want to know the parent ModelElement of an element (for navigation purposes. 
- * Currently, it's used to know if an element is an inner element or not).
- * 
- * <p>Now, we don't want to store the same information twice : for all elements
- *  save TopItemList, the parentElement is also the ModelElementContainer. 
- *  We also want to avoid using instanceof, which is evil. 
- *  The only possible solution is to create an intermediary abstract class, EmbeddedModelElement.
- * 
+ * This list is somehow problematic, from a type point of view this being said.
+ * <p>
+ * Modelisation problem : all elements have at most one Container, which, for
+ * most of them, is also a ModelElement. the only exception is TopItemList,
+ * whose Container is arbitrary. In some cases, we want to know the parent
+ * ModelElement of an element (for navigation purposes. Currently, it's used to
+ * know if an element is an inner element or not).
+ *
+ * <p>
+ * Now, we don't want to store the same information twice : for all elements
+ * save TopItemList, the parentElement is also the ModelElementContainer. We
+ * also want to avoid using instanceof, which is evil. The only possible
+ * solution is to create an intermediary abstract class, EmbeddedModelElement.
+ *
  * <p>
  * This file is free Software under the LGPL (c) Serge Rosmorduc
- * 
+ *
  * @author rosmord
- * 
+ *
  */
 public abstract class ModelElement implements ModelElementObserver,
-		Comparable<ModelElement>, Serializable {
+        Comparable<ModelElement>, Serializable {
 
-	private static final long serialVersionUID = -8654450475547792198L;
+    private static final long serialVersionUID = -8654450475547792198L;
 
+    private List<EmbeddedModelElement> children = null;
 
-	private List<EmbeddedModelElement> children = null;
+    /**
+     * Means that modifications to sub elements of this one will be forwarded.
+     */
+    private boolean updatesEnabled = true;
 
-	
-	/**
-	 * Means that modifications to sub elements of this one will be forwarded.
-	 */
-	private boolean updatesEnabled = true;
+    public ModelElement() {
+        children = buildChildrenList();
+    }
 
-	public ModelElement() {
-                // Replace with lazy creation to avoid warning ?
-		children = buildChildrenList();
-	}
+    abstract public void accept(ModelElementVisitor v);
 
-	abstract public void accept(ModelElementVisitor v);
+    /**
+     * Add a child at the end of the children list.
+     *
+     * @param child the child to add.
+     */
+    final protected void addChild(EmbeddedModelElement child) {
+        addChildAt(children.size(), child);
+    }
 
+    /**
+     * add child at position idx.
+     *
+     * @param idx
+     * @param child
+     */
+    final protected void addChildAt(int idx, EmbeddedModelElement child) {
+        child.setParent(this);
+        children.add(idx, child);
+        fixSlibings(idx);
+        notifyModelElementObservers(new Insertion(this, idx, child));
+    }
 
-	/**
-	 * Add a child at the end of the children list.
-	 * 
-	 * @param child
-	 *            the child to add.
-	 */
-	final protected void addChild(EmbeddedModelElement child) {
-		addChildAt(children.size(), child);
-	}
+    /**
+     * Creates an empty list for children. Override it to change the children
+     * list implementation.
+     *
+     * @return a newly built empty list of children.
+     */
+    private List<EmbeddedModelElement> buildChildrenList() {
+        return new ArrayList<>();
+    }
 
-	/**
-	 * add child at position idx.
-	 * 
-	 * @param idx
-	 * @param child
-	 */
+    /**
+     * Build a <em>copy</em> of this object, embedded into a topitem. May return
+     * null if this doesn't mean anything (in particular, for modifiers).
+     *
+     * @return a topitem or null.
+     */
+    public abstract TopItem buildTopItem();
 
-	final protected void addChildAt(int idx, EmbeddedModelElement child) {
-		child.setParent(this);
-		children.add(idx, child);
-		fixSlibings(idx);
-		notifyModelElementObservers(new Insertion(this, idx, child));
-	}
+    /**
+     * Build a <em>copy</em> of this object, embedded in an
+     * HorizontalListElement. May return null if it's not possible. The result
+     * may then (if not null) be used as part of a new quadrant, in an
+     * {@link HBox}.
+     *
+     * @return a {@link HorizontalListElement} or null.
+     */
+    public abstract HorizontalListElement buildHorizontalListElement();
 
-	/**
-	 * Creates an empty list for children. Override it to change the children
-	 * list implementation.
-	 * 
-	 * @return a newly built empty list of children.
-	 */
+    // Notifies observers about this element's associated values being modified.
+    final protected void changeValue() {
+        // IMPORTANT : think about this function
+    }
 
-	protected List<EmbeddedModelElement> buildChildrenList() {
-		return new ArrayList<EmbeddedModelElement>();
-	}
+    final protected void clearChildren() {
+        for (EmbeddedModelElement child : children) {
+            child.detachFromContainer();
+        }
+        children.clear();
+        // FIXME : change the system for element suppression.
+        notifyModelElementObservers(new Modification(this));
+    }
 
-	/**
-	 * Build a <em>copy</em> of this object, embedded into a topitem. May
-	 * return null if this doesn't mean anything (in particular, for modifiers).
-	 * 
-	 * @return a topitem or null.
-	 */
-	public abstract TopItem buildTopItem();
-	
+    /**
+     * Utility function that compare the classes of two ModelElements. Usable to
+     * implement compareTo.
+     *
+     * @param o
+     * @return a comparison between two classes.
+     */
+    private int compareClass(Object o) {
+        if (getClass().equals(o.getClass())) {
+            return 0;
+        } else {
+            return getClass().getName().compareTo(o.getClass().getName());
+        }
+    }
 
-	/**
-	 * Build a <em>copy</em> of this object, embedded in an HorizontalListElement.
-	 * May return null if it's not possible. The result may then (if not null) be used as part of
-	 * a new quadrant, in an {@link HBox}.
-	 * @return a {@link HorizontalListElement} or null.
-	 */
-	public abstract HorizontalListElement buildHorizontalListElement();
+    /**
+     * Compare the contents of two model elements. Usable to implement
+     * compareToAux. In fact, when this and e have the same type
+     * <em>and</em> are completely defined by their sub elements (i.e. in
+     * practice, have no other field than their children), compareToAux is
+     * simply a call to this method.
+     *
+     * @param e : a model element, of the exact same type as <code>this</code>.
+     * @return an int, &lt; 0 if this &lt; e, 0 if this and e have the same
+     * content; and &gt; 0 if this &gt; e.
+     * @see ModelElement#compareToAux(ModelElement)
+     */
+    protected final int compareContents(ModelElement e) {
+        int result = 0;
+        int n = Math.min(getNumberOfChildren(), e.getNumberOfChildren());
+        for (int i = 0; result == 0 && i < n; i++) {
+            result = getChildAt(i).compareTo(e.getChildAt(i));
+        }
+        // the elements up to n are the same, compare the lengths.
+        if (result == 0) {
+            result = getNumberOfChildren() - e.getNumberOfChildren();
+        }
+        return result;
+    }
 
-	// Notifies observers about this element's associated values being modified.
-	final protected void changeValue() {
-		// IMPORTANT : think about this function
-	}
+    /**
+     * Compare two elements for equality of content, ignoring id.
+     * A possible "id" property would be ignored.
+     *
+     * @param other
+     * @return
+     */
+    public boolean equalsIgnoreId(ModelElement other) {
+        if (this.getClass().equals(other.getClass())) {
+            if (equalsIgnoreIdAux(other)
+                    && this.getNumberOfChildren() == other.getNumberOfChildren()) {
+                for (int i = 0; i < this.getNumberOfChildren(); i++) {
+                    if (! this.getChildAt(i).equalsIgnoreId(other.getChildAt(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Aux method, used to compare the non-children part of two different elements.
+     * Defaut value (usable when there are no children) will always return true.
+     * Ignores ids.
+     * @param other
+     * @return 
+     */
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        return true;
+    }
+    
+    
+    /**
+     * Skeleton implementation of compareTo.
+     * <p>
+     * Calls compareToAux when the objects have the same real classes.
+     *
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    final public int compareTo(ModelElement o) {
+        int result = compareClass(o);
+        if (result == 0) {
+            result = compareToAux((ModelElement) o);
+        }
+        return result;
+    }
+    
 
-	final protected void clearChildren() {
-		for (EmbeddedModelElement child: children) {
-			child.detachFromContainer();			
-		}
-		children.clear();
-		// FIXME : change the system for element suppression.
-		notifyModelElementObservers(new Modification(this));
-	}
+    /**
+     * Function called to compare two model elements that have the
+     * <em>exact</em> same classes. Implementations can securely cast
+     * <code>e</code> to their real type.
+     * <p>
+     * Implementations for this method can use compareContent().
+     *
+     * @param e : the element to compare
+     * @return an int
+     * @see Comparable#compareTo(java.lang.Object)
+     * @see ModelElement#compareContents(ModelElement)
+     */
+    abstract protected int compareToAux(ModelElement e);
 
-	/**
-	 * Utility function that compare the classes of two ModelElements. Usable to
-	 * implement compareTo.
-	 * 
-	 * @param o
-	 * @return a comparison between two classes.
-	 */
-	private int compareClass(Object o) {
-		if (getClass().equals(o.getClass()))
-			return 0;
-		else
-			return getClass().getName().compareTo(o.getClass().getName());
-	}
+    /**
+     * Copy the content of this modelElement into copy. This is an auxiliary
+     * function.
+     *
+     * @param copy
+     */
+    protected void copyContentTo(ModelElement copy) {
+        if (children != null) {
+            copy.children = buildChildrenList();
+            for (int i = 0; i < children.size(); i++) // It's important to use addChild here !
+            {
+                copy.addChild((EmbeddedModelElement) getChildAt(i).deepCopy());
+            }
+        }
+    }
 
-	/**
-	 * Compare the contents of two model elements. Usable to implement
-	 * compareToAux. In fact, when this and e have the same type
-	 * <em>and</and> are completely defined by their sub elements (i.e. in practice, have no other
-	 * field than their children), compareToAux is simply a call to this method.
-	 * @param e : a model element, of the exact same type as <code>this</code>.
-	 * @return an int, &lt; 0 if this &lt; e, 0 if this and e have the same content; and &gt; 0 if this &gt; e.
-	 * @see ModelElement#compareToAux(ModelElement)
-	 */
-	protected final int compareContents(ModelElement e) {
-		int result = 0;
-		int n = Math.min(getNumberOfChildren(), e.getNumberOfChildren());
-		for (int i = 0; result == 0 && i < n; i++) {
-			result = getChildAt(i).compareTo(e.getChildAt(i));
-		}
-		// the elements up to n are the same, compare the lengthes.
-		if (result == 0) {
-			result = getNumberOfChildren() - e.getNumberOfChildren();
-		}
-		return result;
-	}
+    /**
+     * Create a copy of this ModelElement.
+     *
+     * @return a recursive copy of this ModelElement.
+     */
+    abstract public ModelElement deepCopy();
 
-	/**
-	 * Skeleton implementation of compareTo.
-	 * <p>
-	 * Calls compareToAux when the objects have the same real classes.
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	final public int compareTo(ModelElement o) {
-		int result = compareClass(o);
-		if (result == 0)
-			result = compareToAux((ModelElement) o);
-		return result;
-	}
+    /**
+     * Disable updates forwarding. If updates are enables, modifications to sub
+     * elements will be forwarded to our listeners. Disabling updates might be
+     * useful when doing zone modification.
+     */
+    protected void disableUpdates() {
+        updatesEnabled = false;
+    }
 
-	/**
-	 * Function called to compare two model elements that have the
-	 * <em>exact</em> same classes. Implementations can securely cast
-	 * <code>e</code> to their real type.
-	 * <p>
-	 * Implementations for this method can use compareContent().
-	 * 
-	 * @param e
-	 * @return an int
-	 * @see Comparable#compareTo(java.lang.Object)
-	 * @see ModelElement#compareContents(ModelElement)
-	 */
-	abstract protected int compareToAux(ModelElement e);
+    /**
+     * Enable updates forwarding. If updates are enables, modifications to sub
+     * elements will be forwarded to our listeners.
+     *
+     */
+    protected void enableUpdates() {
+        updatesEnabled = true;
+    }
 
-	/**
-	 * Copy the content of this modelElement into copy. This is an auxiliary
-	 * function.
-	 * 
-	 * @param copy
-	 */
-	protected void copyContentTo(ModelElement copy) {
-		if (children != null) {
-			copy.children = buildChildrenList();
-			for (int i = 0; i < children.size(); i++)
-				// It's important to use addChild here !
-				copy.addChild((EmbeddedModelElement) getChildAt(i).deepCopy());
-		}
-	}
+    /**
+     * Fix the slibings at position id.
+     *
+     * @param id
+     */
+    private void fixSlibings(int id) {
+        EmbeddedModelElement child = null;
+        EmbeddedModelElement nextChild = null;
+        EmbeddedModelElement previousChild = null;
 
-	/**
-	 * Create a copy of this ModelElement.
-	 * 
-	 * @return a recursive copy of this ModelElement.
-	 */
-	abstract public ModelElement deepCopy();
+        if (id >= 0 && id < children.size()) {
+            child = children.get(id);
+        }
+        if (id + 1 >= 0 && id + 1 < children.size()) {
+            nextChild = children.get(id + 1);
+        }
+        if (id - 1 >= 0 && id - 1 < children.size()) {
+            previousChild = children.get(id - 1);
+        }
+        // Fix previous element, if any :
+        if (child != null) {
+            child.previous = previousChild;
+            child.next = nextChild;
+        }
+        if (previousChild != null) {
+            previousChild.next = child;
+        }
+        if (nextChild != null) {
+            nextChild.previous = child;
+        }
+    }
 
+    /**
+     * Returns the ith child of this element. Indexes start at 0.
+     *
+     * @param id
+     *
+     * @return null if there is no such child.
+     */
+    final public EmbeddedModelElement getChildAt(int id) {
+        return children.get(id);
+    }
 
-	
+    final protected String getChildrenAsString() {
+        return children.toString();
+    }
 
-	/**
-	 * Disable updates forwarding. If updates are enables, modifications to sub
-	 * elements will be forwarded to our listeners. Disabling updates might be
-	 * useful when doing zone modification.
-	 */
+    /**
+     * Returns an iterator to the elements included in this one.
+     *
+     * @return ModelElementIterator
+     */
+    final public Iterator<EmbeddedModelElement> getModelElementIterator() {
+        return children.iterator();
+    }
 
-	protected void disableUpdates() {
-		updatesEnabled = false;
-	}
+    /**
+     * Get the next element at the same level as this one. If there is no such
+     * element, return null.
+     *
+     * @return the next element at the same level as this one.
+     */
+    public abstract ModelElement getNextSlibing();
 
-	/**
-	 * Enable updates forwarding. If updates are enables, modifications to sub
-	 * elements will be forwarded to our listeners.
-	 * 
-	 */
-	protected void enableUpdates() {
-		updatesEnabled = true;
-	}
+    /**
+     * Return the number of children of this element. Elements who have no child
+     * by nature should return 0.
+     *
+     * @return the number of childs.
+     */
+    final public int getNumberOfChildren() {
+        return children.size();
+    }
 
-	/**
-	 * Fix the slibings at position id.
-	 * 
-	 * @param id
-	 */
-	private void fixSlibings(int id) {
-		EmbeddedModelElement child = null;
-		EmbeddedModelElement nextChild = null;
-		EmbeddedModelElement previousChild = null;
+    /**
+     * Get the previous element at the same level as this one. If there is no
+     * such element, return null.
+     *
+     * @return the previous element at the same level as this one.
+     */
+    public abstract ModelElement getPreviousSlibing();
 
-		if (id >= 0 && id < children.size())
-			child = children.get(id);
-		if (id + 1 >= 0 && id + 1 < children.size())
-			nextChild = children.get(id + 1);
-		if (id - 1 >= 0 && id - 1 < children.size())
-			previousChild = children.get(id - 1);
-		// Fix previous element, if any :
-		if (child != null) {
-			child.previous = previousChild;
-			child.next = nextChild;
-		}
-		if (previousChild != null) {
-			previousChild.next = child;
-		}
-		if (nextChild != null) {
-			nextChild.previous = child;
-		}
-	}
+    /**
+     * @return true for elements that break the current structure (line breaks,
+     * page breaks).
+     */
+    public boolean isBreak() {
+        return false;
+    }
 
-	/**
-	 * Returns the ith child of this element. Indexes start at 0.
-	 * 
-	 * @param id
-	 * 
-	 * @return null if there is no such child.
-	 */
+    /**
+     * Warns listeners that a small modification has been done to this element.
+     * (it might be colour change, shading...)
+     */
+    protected void notifyModification() {
+        notifyModelElementObservers(new Modification(this));
+    }
 
-	final public EmbeddedModelElement getChildAt(int id) {
-		return children.get(id);
-	}
+    final protected void removeChild(ModelElement child) {
+        int id = children.indexOf(child);
+        removeChildAt(id);
+    }
 
-	final protected String getChildrenAsString() {
-		return children.toString();
-	}
+    /**
+     * Removes the child after position id
+     *
+     * @param id
+     */
+    final protected void removeChildAt(int id) {
+        if (id < 0 || id >= children.size()) {
+            return;
+        }
+        EmbeddedModelElement child;
+        child = children.get(id);
+        children.remove(id);
+        fixSlibings(id);
+        child.detachFromContainer();
+        notifyModelElementObservers(new Deletion(this, id, id + 1));
+    }
 
-	
-	/**
-	 * Returns an iterator to the elements included in this one.
-	 * 
-	 * @return ModelElementIterator
-	 */
-	final public Iterator<EmbeddedModelElement> getModelElementIterator() {
-		return children.iterator();
-	}
+    /**
+     * Suppress all elements between indexes a and b. Returns the list of the
+     * suppressed elements.
+     *
+     * @param a first position
+     * @param b second position (b > a).
+     * @return the list of the suppressed elements.
+     */
+    protected List<EmbeddedModelElement> removeChildren(int a, int b) {
+        List<EmbeddedModelElement> l = new ArrayList<>(b - a);
+        l.addAll(children.subList(a, b));
+        for (int i = b - 1; i >= a; i--) {
+            EmbeddedModelElement child = children.get(i);
+            children.remove(i);
+            child.detachFromContainer();
+        }
+        fixSlibings(a);
+        notifyModelElementObservers(new Deletion(this, a, b));
+        return l;
+    }
 
-	/**
-	 * Get the next element at the same level as this one. If there is no such
-	 * element, return null.
-	 * 
-	 * @return the next element at the same level as this one.
-	 */
-	public abstract ModelElement getNextSlibing();
+    final protected void setChildAt(int idx, EmbeddedModelElement child) {
+        EmbeddedModelElement oldChild = children.get(idx);
+        oldChild.detachFromContainer();
+        child.setParent(this);
+        children.set(idx, child);
+        fixSlibings(idx);
+        notifyModelElementObservers(new Replacement(this, idx));
+    }
 
-	/**
-	 * Return the number of children of this element. Elements who have no child
-	 * by nature should return 0.
-	 * 
-	 * @return the number of childs.
-	 */
+    @Override
+    public void observedElementChanged(ModelOperation operation) {
+        if (updatesEnabled) {
+            notifyModelElementObservers(new ChildOperation(this, operation));
+        }
+    }
 
-	final public int getNumberOfChildren() {
-		return children.size();
-	}
+    abstract protected void notifyModelElementObservers(ModelOperation op);
 
+    /**
+     * Returns this element's parent, or null if none.
+     *
+     * @return this element's parent, or null if none.
+     */
+    public abstract ModelElement getParent();
 
-	/**
-	 * Get the previous element at the same level as this one. If there is no
-	 * such element, return null.
-	 * 
-	 * @return the previous element at the same level as this one.
-	 */
-	public abstract ModelElement getPreviousSlibing();
+    /**
+     * Detaches an element from its container, be it another modelElement or
+     * something else.
+     *
+     */
+    protected abstract void unsetContainers();
 
-	/**
-	 * @return true for elements that break the current structure (line breaks,
-	 *         page breaks).
-	 */
-	public boolean isBreak() {
-		return false;
-	}
+    /**
+     * Returns true if the element contains exactly one sign and nothing else. A
+     * quadrant might contain a single sign, but a cartouche is not considered
+     * as containing a single sign, as it also contains the cartouche lines.
+     *
+     * <p>
+     * Implementation note: the default implementation does the right thing for
+     * most container elements. One needs to overwrite the method for more
+     * specific elements.
+     *
+     * @return a boolean.
+     */
+    public boolean containsOnlyOneSign() {
+        return (getNumberOfChildren() == 1 && getChildAt(0).containsOnlyOneSign());
+    }
 
+    /**
+     * If the group contains only one sign, return it, else return null. It's an
+     * error to call this method in other cases.
+     *
+     * <p>
+     * Implementation note: the default implementation does the right thing for
+     * most container elements. One needs to overwrite the method for more
+     * specific elements.
+     *
+     * @return the unique hieroglyph contained in this element.
+     * @throws IllegalStateException if called when
+     * {@link #containsOnlyOneSign()} is false.
+     */
+    public Hieroglyph getLoneSign() {
+        if (containsOnlyOneSign()) {
+            return getChildAt(0).getLoneSign();
+        } else {
+            throw new IllegalStateException("Wrong call to getLoneSign.");
+        }
+    }
 
-	
-	/**
-	 * Warns listeners that a small modification has been done to this element.
-	 * (it might be colour change, shading...)
-	 */
-	protected void notifyModification() {
-		notifyModelElementObservers(new Modification(this));
-	}
-
-	final protected void removeChild(ModelElement child) {
-		int id = children.indexOf(child);
-		removeChildAt(id);
-	}
-
-	/**
-	 * Removes the child after position id
-	 * 
-	 * @param id
-	 */
-	final protected void removeChildAt(int id) {
-		if (id < 0 || id >= children.size())
-			return;
-		EmbeddedModelElement child;
-		child = children.get(id);
-		children.remove(id);
-		fixSlibings(id);
-		child.detachFromContainer();
-		notifyModelElementObservers(new Deletion(this, id, id + 1));
-	}
-
-	/**
-	 * Suppress all elements between indexes a and b. Returns the list of the
-	 * suppressed elements.
-	 * 
-	 * @param a first position
-	 * @param b second position (b > a).
-	 * @return the list of the suppressed elements.
-	 */
-	protected List<EmbeddedModelElement> removeChildren(int a, int b) {
-		List<EmbeddedModelElement> l = new ArrayList<EmbeddedModelElement>(b - a);
-		l.addAll(children.subList(a, b));
-		for (int i = b - 1; i >= a; i--) {
-			EmbeddedModelElement child = children.get(i);
-			children.remove(i);
-			child.detachFromContainer();
-		}
-		fixSlibings(a);
-		notifyModelElementObservers(new Deletion(this, a, b));
-		return l;
-	}
-
-	final protected void setChildAt(int idx, EmbeddedModelElement child) {
-		EmbeddedModelElement oldChild = children.get(idx);
-		oldChild.detachFromContainer();
-		child.setParent(this);
-		children.set(idx, child);
-		fixSlibings(idx);
-		notifyModelElementObservers(new Replacement(this, idx));
-	}
-
-
-	public void observedElementChanged(ModelOperation operation) {
-		if (updatesEnabled) {
-			notifyModelElementObservers(new ChildOperation(this,operation));
-		}
-	}
-
-	abstract protected void notifyModelElementObservers(ModelOperation op);
-	
-	/**
-	 * Returns this element's parent, or null if none.
-	 * @return this element's parent, or null if none.
-	 */
-	public abstract ModelElement getParent();
-	
-	/**
-	 * Detaches an element from its container, be it another modelElement or something else.
-	 * 
-	 */
-	protected abstract void unsetContainers();
-	
-	/**
-	 * Returns true if the element contains exactly one sign and nothing else. 
-	 * A quadrant might contain a single sign, but a cartouche is 
-	 * not considered as containing a single sign, as it also contains the cartouche 
-	 * lines.
-	 * 
-	 * <p>Implementation note: the default implementation does the right thing for most container elements.
-	 * One needs to overwrite the method for more specific elements.
-	 * @return a boolean.
-	 */
-
-	public boolean containsOnlyOneSign() {
-		return (getNumberOfChildren() == 1 && getChildAt(0).containsOnlyOneSign());
-	}
-	
-	
-	
-	/**
-	 * If the group contains only one sign, return it, else return null.
-	 * It's an error to call this method in other cases.
-	 * 
-	 * <p>Implementation note: the default implementation does the right thing for most container elements.
-	 * One needs to overwrite the method for more specific elements.
-	 * 
-	 * @return the unique hieroglyph contained in this element.
-	 * @throws IllegalStateException if called when {@link #containsOnlyOneSign()} is false. 
-	 */
-	
-	public Hieroglyph getLoneSign() {
-		if (containsOnlyOneSign()) {
-			return getChildAt(0).getLoneSign();
-		} else 
-			throw new IllegalStateException("Wrong call to getLoneSign.");
-	}
 
 }

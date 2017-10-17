@@ -128,9 +128,19 @@ public class HRule extends TopItem {
 	/* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#deepCopy()
 	 */
+        @Override
 	public HRule deepCopy() {
 		HRule r= new HRule(type, startPos, endPos);
 		copyStateTo(r);
 		return r;
 	}
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+            HRule rule= (HRule) other;
+            return this.type== rule.type && this.startPos== rule.startPos
+                    && this.endPos== rule.endPos;
+    }
+        
+        
 }

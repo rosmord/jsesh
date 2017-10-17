@@ -17,6 +17,7 @@ import java.util.Set;
  * A repository which knows about hieroglyphic codes and signs equivalence.
  * It doesn't deal with sign shapes, which are dealt with by HieroglyphicFontManager.
  * 
+ * @see CompositeHieroglyphsManager for default implementation.
  * @see HieroglyphicFontManager
  * @author S. Rosmorduc
  * 
@@ -43,7 +44,7 @@ public interface HieroglyphDatabaseInterface {
      *
      * @param family :
      *            the Gardiner family for this sign (A,B...Aa,Ff)
-     * @param usercodes :
+     * @param userCodes :
      *            if true, also add signs which have an user code (USn+ Gardiner
      *            code)
      * @return all codes for a given sign family as a Collection of String.

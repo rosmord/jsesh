@@ -1,6 +1,6 @@
 package jsesh.mdc.model;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import jsesh.mdc.interfaces.ModifierListInterface;
 
@@ -51,7 +51,7 @@ public class ModifiersList
     private int angle;
     private boolean reversed;
     private int scale;
-    // scale of the sign, in percentage. 100 means full scale.
+    // computedScale of the sign, in percentage. 100 means full computedScale.
 
     /**
      * Constructor for ModifiersList.
@@ -72,7 +72,6 @@ public class ModifiersList
 
     // Method called for "normal" modifiers
     private void addAux(Modifier m) {
-        boolean notFound = true;
         Modifier m1 = getModifierFrom(m.getName(), getArity(m));
         if (m1 == null) {
             addChild(m);
@@ -85,6 +84,7 @@ public class ModifiersList
     /* (non-Javadoc)
 	 * @see jsesh.mdc.model.ModelElement#buildTopItem()
      */
+    @Override
     public TopItem buildTopItem() {
         return null;
     }
@@ -121,6 +121,33 @@ public class ModifiersList
         return result;
     }
 
+    @Override
+    public boolean equalsIgnoreId(ModelElement other) {
+        if (other.getClass().equals(this.getClass())) {
+            ModifiersList otherList = (ModifiersList) other;
+            if (this.angle == otherList.angle
+                    && this.reversed == otherList.reversed
+                    && this.scale == otherList.scale) {
+                HashMap<String, Integer> m1 = new HashMap<>();
+                HashMap<String, Integer> m2 = new HashMap<>();
+                for (int i = 0; i < this.getNumberOfChildren(); i++) {
+                    Modifier m = getModifierAt(i);
+                    if (!m.getName().equals("id")) {
+                        m1.put(m.getName(), m.getValue());
+                    }
+                }
+                for (int i = 0; i < otherList.getNumberOfChildren(); i++) {
+                    Modifier m = otherList.getModifierAt(i);
+                    if (!m.getName().equals("id")) {
+                        m2.put(m.getName(), m.getValue());
+                    }
+                }
+                return m1.equals(m2);
+            }
+        }
+        return false;
+    }
+
     /**
      * Method getAngle.
      *
@@ -149,7 +176,7 @@ public class ModifiersList
     public int getInteger(String name) throws NoSuchModifierException {
         Modifier m = getModifierFrom(name, 1);
         if (m != null) {
-            return m.getValue().intValue();
+            return m.getValue();
         } else {
             throw new NoSuchModifierException(name);
         }
@@ -163,7 +190,6 @@ public class ModifiersList
      * @param defaultValue
      * @return int
      */
-
     public int getIntegerWithDefault(String name, int defaultValue) {
         Modifier m = getModifierFrom(name, 1);
         if (m != null) {
@@ -187,7 +213,7 @@ public class ModifiersList
      * @return
      */
     public Iterable<Modifier> asIterable() {
-        return () -> new ModifierIterator();                
+        return () -> new ModifierIterator();
     }
 
     private Modifier getModifierFrom(String name, int arity) {
@@ -203,7 +229,7 @@ public class ModifiersList
     }
 
     /**
-     * @return the scale.
+     * @return the computedScale.
      */
     public int getScale() {
         return scale;
@@ -232,28 +258,34 @@ public class ModifiersList
                 // Reversed
                 reversed = true;
             } else {
-                // Modifier is "\NNN" => scale.
-                setScale(m.getValue().intValue());
+                // Modifier is "\NNN" => computedScale.
+                setScale(m.getValue());
             }
         } else if (m.getValue() != null) {
-            if (m.getName().equals("r")) {
-                angle = (360 - m.getValue().intValue() * 90) % 360;
-            } else if (m.getName().equals("t")) {
-                angle = (360 - m.getValue().intValue() * 90) % 360;
-                reversed = true;
-            } else if (m.getName().equals("R")) {
-                angle = m.getValue().intValue() % 360;
-                if (angle < 0) {
-                    angle += 360;
-                }
-            } else if (m.getName().equals("s")) {
-                double scale = 100;
-                for (int i = 0; i < m.getValue().intValue(); i++) {
-                    scale = scale / 1.4142136; // sqrt(2)
-                }
-                setScale((int) scale);
-            } else {
-                addAux(m);
+            switch (m.getName()) {
+                case "r":
+                    angle = (360 - m.getValue() * 90) % 360;
+                    break;
+                case "t":
+                    angle = (360 - m.getValue() * 90) % 360;
+                    reversed = true;
+                    break;
+                case "R":
+                    angle = m.getValue() % 360;
+                    if (angle < 0) {
+                        angle += 360;
+                    }
+                    break;
+                case "s":
+                    double computedScale = 100;
+                    for (int i = 0; i < m.getValue(); i++) {
+                        computedScale = computedScale / 1.4142136; // sqrt(2)
+                    }
+                    setScale((int) computedScale);
+                    break;
+                default:
+                    addAux(m);
+                    break;
             }
         } else {
             addAux(m);
@@ -283,15 +315,20 @@ public class ModifiersList
                 setScale(100);
             }
         } else if (m.getValue() != null) {
-            if (m.getName().equals("r")) {
-                angle = 0;
-            } else if (m.getName().equals("t")) {
-                angle = 0;
-                reversed = false;
-            } else if (m.getName().equals("R")) {
-                angle = 0;
-            } else {
-                removeChild(m);
+            switch (m.getName()) {
+                case "r":
+                    angle = 0;
+                    break;
+                case "t":
+                    angle = 0;
+                    reversed = false;
+                    break;
+                case "R":
+                    angle = 0;
+                    break;
+                default:
+                    removeChild(m);
+                    break;
             }
         } else {
             removeChild(m);
@@ -330,7 +367,7 @@ public class ModifiersList
      * @param val a <b>positive</b> integer.
      */
     public void setInteger(String name, int val) {
-        includeModifier(new Modifier(name, new Integer(val)));
+        includeModifier(new Modifier(name, val));
     }
 
     /**
@@ -373,8 +410,9 @@ public class ModifiersList
      * Note that the hierachy of objects in JSesh could use some improvement.
      */
     private class ModifierIterator implements Iterator<Modifier> {
-        private int pos= 0;
-        
+
+        private int pos = 0;
+
         @Override
         public boolean hasNext() {
             return pos < getNumberOfChildren();
@@ -382,10 +420,10 @@ public class ModifiersList
 
         @Override
         public Modifier next() {
-            Modifier result= (Modifier) getChildAt(pos);
+            Modifier result = (Modifier) getChildAt(pos);
             pos++;
             return result;
         }
-       
+
     }
 }
