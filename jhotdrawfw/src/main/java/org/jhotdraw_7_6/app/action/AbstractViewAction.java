@@ -40,7 +40,7 @@ public abstract class AbstractViewAction extends AbstractAction {
 
     private Application app;
     
-    private View view;
+    public View view;
     private String propertyName;
     /** Set this to true if the action may create a new view if none exists.*/
     private boolean mayCreateView;

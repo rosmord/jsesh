@@ -8,7 +8,7 @@ import jsesh.graphics.export.ExportData;
 import jsesh.graphics.export.GraphicalExporter;
 import jsesh.i18n.I18n;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 
 import org.jhotdraw_7_6.app.Application;

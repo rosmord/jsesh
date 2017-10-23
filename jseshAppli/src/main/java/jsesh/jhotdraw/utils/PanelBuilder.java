@@ -34,39 +34,63 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.utils;
 
 import java.awt.Component;
-import java.awt.Font;
 
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import org.jhotdraw_7_6.gui.JFontChooser;
+import jsesh.jhotdraw.Messages;
 
 /**
- * Simple facade for the Font dialog of JHotdraw.
- * 
+ * Helps building a JPanel with labelled components. 
+ * Uses jsesh.jhotdraw.labels as resource.
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- * 
+ *
  */
-public class SimpleFontDialog {
+public class PanelBuilder {
 
-	private final JFontChooser fontChooser = new JFontChooser();
-	private final Component parent;
-	private final String title;
+	JPanel panel;
 
-	public SimpleFontDialog(Component parent, String title) {
-		this.parent = parent;
-		this.title = title;
+	public PanelBuilder(JPanel panel) {
+		super();
+		this.panel = panel;
 	}
 
-	public void setFont(Font font) {
-		fontChooser.setSelectedFont(font);
+	/**
+	 * Add a multilingual label.
+	 * The label is defined in jsesh.jhotdraw.labels
+	 * @param labelCode the code for the multilingual label.
+	 */
+	public void addLabel(String labelCode) {
+		panel.add(new JLabel(Messages.getString(labelCode)));
 	}
 
-	public int showDialog() {
-		return JOptionPane.showConfirmDialog(parent, fontChooser, title,
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	public void add(Component component, String constraints) {
+		panel.add(component, constraints);
 	}
 
-	public Font getSelectedFont() {
-		return fontChooser.getSelectedFont();
+	public void add(Component component) {
+		panel.add(component);
+	}
+
+	/**
+	 * Add a component with a specific label.
+	 * @param labelCode the code for the multilingual label.
+	 * @param component
+	 * @param constraints
+	 */
+	public void addWithLabel(String labelCode, Component component,
+			String constraints) {
+		addLabel(labelCode);
+		add(component, constraints);
+	}
+
+	/**
+	 * Add a component with a specific label.
+	 * @param labelCode the code for the multilingual label.
+	 * @param component
+	 */
+	public void addWithLabel(String labelCode, Component component) {
+		addLabel(labelCode);
+		add(component);
 	}
 }

@@ -60,6 +60,7 @@ import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
 import jsesh.mdcDisplayer.preferences.*;
+import jsesh.search.MdCSearchQuery;
 import jsesh.swing.shadingMenuBuilder.*;
 import jsesh.swing.utils.*;
 
@@ -346,6 +347,10 @@ public class JMDCEditor extends JPanel {
         }
 
     }
+
+    public java.util.List<MDCPosition> doSearch(MdCSearchQuery query) {
+        return getHieroglyphicTextModel().doSearch(query);
+   }
 
     /*
      * Auxiliary class, used to redraw the window when the cursor is out of the

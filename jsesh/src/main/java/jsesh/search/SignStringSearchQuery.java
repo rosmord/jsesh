@@ -52,11 +52,11 @@ import jsesh.mdc.model.TopItemList;
  *
  * @author rosmord
  */
-class SignStringSearcher {
+public class SignStringSearchQuery implements MdCSearchQuery {
 
     private final List<String> search;
 
-    public SignStringSearcher(List<String> search) {
+    public SignStringSearchQuery(List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
             String normalized = CompositeHieroglyphsManager.getInstance()

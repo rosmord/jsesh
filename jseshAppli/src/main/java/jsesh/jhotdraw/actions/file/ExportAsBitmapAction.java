@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 import jsesh.graphics.export.BitmapExporter;
 import jsesh.graphics.export.ExportData;
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 
 import org.jhotdraw_7_6.app.Application;

@@ -13,6 +13,7 @@
  */
 package jsesh.jhotdraw;
 
+import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;

@@ -1,9 +1,10 @@
-package jsesh.jhotdraw;
+package jsesh.jhotdraw.viewClass;
 
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,6 +25,8 @@ import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
+import jsesh.jhotdraw.JSeshApplicationModel;
+import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
@@ -33,6 +36,7 @@ import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.search.MdCSearchQuery;
 import jsesh.utils.JSeshWorkingDirectory;
 
 import org.jhotdraw_7_6.app.AbstractView;
@@ -46,6 +50,22 @@ import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
+/**
+ * A view of a JSesh editor instance, as used by the jhotdraw framework.
+ * <p>
+ * NOTE : I have tried to isolate JHotdraw code and generic Swing code by
+ * creating a JSeshViewModel class. However my current code has many
+ * architectural problems dealing with DEMETER law.</p>
+ * <p>
+ * The problems might be: a) outright violation of DEMETER law (often quite
+ * deep...) or b) attempts to solve it which results in endless duplications of
+ * delegating methods.</p>
+ * <p>
+ * As a result, I'm not always secure about <strong>where</strong>
+ * the code should go.
+ *
+ * @author rosmord
+ */
 @SuppressWarnings("serial")
 public class JSeshView extends AbstractView {
 
@@ -53,6 +73,7 @@ public class JSeshView extends AbstractView {
      * Name of the property fired when document information change.
      */
     public static final String DOCUMENT_INFO_PROPERTY = "documentInfo";
+
     private final JSeshViewModel viewModel;
 
     public JSeshView() {
@@ -61,13 +82,10 @@ public class JSeshView extends AbstractView {
 
     @Override
     public void init() {
-        setFocusable(false); // Focus should go to the editor, not to the
-        // JSeshView panel itself !
+        setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());
-        add(new JScrollPane(viewModel.getEditor()), BorderLayout.CENTER);
-        add(viewModel.getBottomPanel(), BorderLayout.PAGE_END);
-        add(viewModel.getTopPanel(), BorderLayout.PAGE_START);
-        viewModel.setParentObserver(new MyObserver());
+        add(viewModel.getViewComponent(), BorderLayout.CENTER);
+        viewModel.setObserver(new MyObserver());
         initActions();
     }
 
@@ -121,15 +139,13 @@ public class JSeshView extends AbstractView {
         }
     }
 
+    @Override
     public void clear() {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    getEditor().clearText();
-                }
-            });
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            SwingUtilities.invokeAndWait(()
+                    -> getEditor().clearText());
+        } catch (RuntimeException |InterruptedException | InvocationTargetException e) {
+            throw new UserMessage(e.getMessage());
         }
     }
 
@@ -152,8 +168,12 @@ public class JSeshView extends AbstractView {
      *
      * Normally <em>Not</em> called on the EDT.
      *
+     * @param uri uri for the file ; may be null.
+     * @param chooser chooser to find an uri if uri is null.
+     * @throws java.io.IOException
      * @see View#read(URI, URIChooser)
      */
+    @Override
     public void read(URI uri, URIChooser chooser) throws IOException {
         if (uri != null) {
             if ("clipboard".equals(uri.getScheme())) {
@@ -175,11 +195,9 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = RTFImporter
                         .createRTFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument();
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        viewModel.setCurrentDocument(document);
-                    }
-                });
+                SwingUtilities.invokeLater(()
+                        -> viewModel.setCurrentDocument(document)
+                );
             } catch (RTFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -188,11 +206,8 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = (PDFImporter
                         .createPDFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument());
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        viewModel.setCurrentDocument(document);
-                    }
-                });
+                SwingUtilities.invokeLater(()
+                        -> viewModel.setCurrentDocument(document));
             } catch (PDFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -215,23 +230,18 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = importer.getMdcDocument();
                 document.setFile(new File(JSeshWorkingDirectory
                         .getWorkingDirectory(), "Unnamed.gly"));
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        viewModel.setCurrentDocument(document);
-                    }
-                });
+                SwingUtilities.invokeLater(
+                        ()->viewModel.setCurrentDocument(document));
             } else {
                 MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
                 final MDCDocument document = mdcDocumentReader.loadFile(file);
                 // Observe changes to this document in the future.
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        viewModel.setCurrentDocument(document);
-                        // Fire the corresponding event, with dummy
-                        // properties...
-                        // We might decide to use "real" property at some point.
-                        firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
-                    }
+                SwingUtilities.invokeLater(() -> {
+                    viewModel.setCurrentDocument(document);
+                    // Fire the corresponding event, with dummy
+                    // properties...
+                    // We might decide to use "real" property at some point.
+                    firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
                 });
             }
         } catch (MDCSyntaxError e) {
@@ -240,23 +250,20 @@ public class JSeshView extends AbstractView {
             displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
 
             System.err.println(e.getCharPos());
-        } catch (IOException e) {
-            throw new UserMessage(e);
-        } catch (PDFImportException e) {
+        } catch (IOException | PDFImportException e) {
             throw new UserMessage(e);
         }
 
     }
 
     private void displayErrorInEdt(final String title, final String message) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JOptionPane.showMessageDialog(getParent(), message, title,
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        SwingUtilities.invokeLater(()
+                -> JOptionPane.showMessageDialog(getParent(), message, title,
+                        JOptionPane.ERROR_MESSAGE)
+        );
     }
 
+    @Override
     public void write(URI uri, URIChooser chooser) throws IOException {
         File file = new File(uri);
         MDCDocument document = viewModel.getMdcDocument();
@@ -277,13 +284,13 @@ public class JSeshView extends AbstractView {
         documentPreferences = documentPreferences
                 .withTextDirection(
                         getEditor().getDrawingSpecifications()
-                        .getTextDirection())
+                                .getTextDirection())
                 .withTextOrientation(
                         getEditor().getDrawingSpecifications()
-                        .getTextOrientation())
+                                .getTextOrientation())
                 .withSmallSignCentered(
                         getEditor().getDrawingSpecifications()
-                        .isSmallSignsCentered());
+                                .isSmallSignsCentered());
 
         // TODO END OF TEMPORARY PATCH
         // Check if the file is PDF or MdC
@@ -326,8 +333,20 @@ public class JSeshView extends AbstractView {
         // currentMDCDirectory = currentDocument.getFile().getParentFile();
     }
 
+    public void doSearch(MdCSearchQuery query) {
+        viewModel.doSearch(query);
+    }
+
+    public void nextSearch() {
+        viewModel.nextSearch();
+    }
+
+    /**
+     * This observer keeps tracks of unsaved changes.
+     */
     private class MyObserver implements Observer {
 
+        @Override
         public void update(Observable o, Object arg) {
             setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
                     .isClean());
@@ -335,7 +354,6 @@ public class JSeshView extends AbstractView {
     }
 
     public void insertCode(String code) {
-        //getEditor().getWorkflow().addSign(code);
         getEditor().insert(code);
     }
 
@@ -386,7 +404,7 @@ public class JSeshView extends AbstractView {
      * Sets the object which will be used to generate copy/paste information.
      * This object must handle the current copy/paste selection.
      *
-     * @param jseshBase
+     * @param mdcModelTransferableBroker
      */
     public void setMDCModelTransferableBroker(
             MDCModelTransferableBroker mdcModelTransferableBroker) {
@@ -587,5 +605,5 @@ public class JSeshView extends AbstractView {
     public boolean isSelectionEmpty() {
         return getEditor().hasSelection();
     }
-    
+
 }

@@ -46,7 +46,7 @@ import jsesh.graphics.export.RTFExportPreferences.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
-import jsesh.jhotdraw.utils.PanelHelper;
+import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.mdcDisplayer.swing.units.UnitMediator;
 import net.miginfocom.swing.MigLayout;
@@ -141,7 +141,7 @@ public class JExportPreferences {
 
     private void layout() {
         panel.setLayout(new MigLayout());
-        PanelHelper helper = new PanelHelper(panel);
+        PanelBuilder helper = new PanelBuilder(panel);
         helper.addLabel("exportPrefs.exportMode");
         panel.add(exportModeCB, "span, grow, wrap");
         helper.addLabel("exportPrefs.quadrantHeightLarge");

@@ -20,6 +20,7 @@ import org.jhotdraw_7_6.app.action.app.AboutAction;
 import org.jhotdraw_7_6.app.action.app.AbstractPreferencesAction;
 import org.jhotdraw_7_6.app.action.app.ExitAction;
 import org.jhotdraw_7_6.app.action.edit.AbstractFindAction;
+import org.jhotdraw_7_6.app.action.edit.AbstractFindNextAction;
 import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
 import org.jhotdraw_7_6.app.action.edit.CopyAction;
 import org.jhotdraw_7_6.app.action.edit.CutAction;
@@ -50,13 +51,13 @@ import org.jhotdraw_7_6.app.action.file.SaveFileAsAction;
  */
 public class DefaultMenuBuilder implements MenuBuilder {
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AbstractPreferencesAction}</li>
      * </ul>
      */
-    
-    public void addPreferencesItems(JMenu m, Application app,  View v) {
+    public void addPreferencesItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AbstractPreferencesAction.ID))) {
@@ -64,13 +65,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ExitAction}</li>
      * </ul>
      */
-    
-    public void addExitItems(JMenu m, Application app,  View v) {
+    public void addExitItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExitAction.ID))) {
@@ -78,13 +79,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ClearFileAction}</li>
      * </ul>
      */
-    
-    public void addClearFileItems(JMenu m, Application app,  View v) {
+    public void addClearFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ClearFileAction.ID))) {
@@ -92,13 +93,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link NewWindowAction}</li>
      * </ul>
      */
-    
-    public void addNewWindowItems(JMenu m, Application app,  View v) {
+    public void addNewWindowItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewWindowAction.ID))) {
@@ -106,13 +107,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link NewFileAction}</li>
      * </ul>
      */
-    
-    public void addNewFileItems(JMenu m, Application app,  View v) {
+    public void addNewFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(NewFileAction.ID))) {
@@ -120,14 +121,14 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link LoadFileAction}</li>
      * <li>{@link LoadDirectoryAction}</li>
      * </ul>
      */
-    
-    public void addLoadFileItems(JMenu m, Application app,  View v) {
+    public void addLoadFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(LoadFileAction.ID))) {
@@ -138,14 +139,14 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link OpenFileAction}</li>
      * <li>{@link OpenDirectoryAction}</li>
      * </ul>
      */
-    
-    public void addOpenFileItems(JMenu m, Application app,  View v) {
+    public void addOpenFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(OpenFileAction.ID))) {
@@ -156,13 +157,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link CloseFileAction}</li>
      * </ul>
      */
-    
-    public void addCloseFileItems(JMenu m, Application app,  View v) {
+    public void addCloseFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CloseFileAction.ID))) {
@@ -170,14 +171,14 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link SaveFileAction}</li>
      * <li>{@link SaveFileAsAction}</li>
      * </ul>
      */
-    
-    public void addSaveFileItems(JMenu m, Application app,  View v) {
+    public void addSaveFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SaveFileAction.ID))) {
@@ -188,13 +189,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link ExportFileAction}</li>
      * </ul>
      */
-    
-    public void addExportFileItems(JMenu m, Application app,  View v) {
+    public void addExportFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(ExportFileAction.ID))) {
@@ -202,13 +203,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link PrintFileAction}</li>
      * </ul>
      */
-    
-    public void addPrintFileItems(JMenu m, Application app,  View v) {
+    public void addPrintFileItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(PrintFileAction.ID))) {
@@ -216,19 +217,20 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Does nothing. */
-    
-    public void addOtherFileItems(JMenu m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addOtherFileItems(JMenu m, Application app, View v) {
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link UndoAction}</li>
      * <li>{@link RedoAction}</li>
      * </ul>
      */
-    
-    public void addUndoItems(JMenu m, Application app,  View v) {
+    public void addUndoItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(UndoAction.ID))) {
@@ -239,7 +241,8 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link CutAction}</li>
      * <li>{@link CopyAction}</li>
@@ -248,8 +251,7 @@ public class DefaultMenuBuilder implements MenuBuilder {
      * <li>{@link DeleteAction}</li>
      * </ul>
      */
-    
-    public void addClipboardItems(JMenu m, Application app,  View v) {
+    public void addClipboardItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(CutAction.ID))) {
@@ -269,14 +271,14 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link SelectAllAction}</li>
      * <li>{@link ClearSelectionAction}</li>
      * </ul>
      */
-    
-    public void addSelectionItems(JMenu m, Application app,  View v) {
+    public void addSelectionItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(SelectAllAction.ID))) {
@@ -287,52 +289,62 @@ public class DefaultMenuBuilder implements MenuBuilder {
         }
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AbstractFindAction}</li>
      * </ul>
      */
-    
-    public void addFindItems(JMenu m, Application app,  View v) {
+    @Override
+    public void addFindItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
-        Action a;
-        if (null != (a = am.get(AbstractFindAction.ID))) {
-            m.add(a);
+        Action find;
+        if (null != (find = am.get(AbstractFindAction.ID))) {
+            m.add(find);
+        }
+        Action findNext;
+        if (null != (findNext = am.get(AbstractFindNextAction.ID))) {
+            m.add(findNext);
         }
     }
 
-    /** Does nothing. */
-    
-    public void addOtherEditItems(JMenu m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addOtherEditItems(JMenu m, Application app, View v) {
     }
 
-    /** Does nothing. */
-    
-    public void addOtherViewItems(JMenu m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addOtherViewItems(JMenu m, Application app, View v) {
     }
 
-    /** Does nothing. */
-    
-    public void addOtherMenus(List<JMenu> m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addOtherMenus(List<JMenu> m, Application app, View v) {
     }
 
-    /** Does nothing. */
-    
-    public void addOtherWindowItems(JMenu m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addOtherWindowItems(JMenu m, Application app, View v) {
     }
 
-    /** Does nothing. */
-    
-    public void addHelpItems(JMenu m, Application app,  View v) {
+    /**
+     * Does nothing.
+     */
+    public void addHelpItems(JMenu m, Application app, View v) {
     }
 
-    /** Adds items for the following actions to the menu:
+    /**
+     * Adds items for the following actions to the menu:
      * <ul>
      * <li>{@link AboutAction}</li>
      * </ul>
      */
-    
-    public void addAboutItems(JMenu m, Application app,  View v) {
+    public void addAboutItems(JMenu m, Application app, View v) {
         ActionMap am = app.getActionMap(v);
         Action a;
         if (null != (a = am.get(AboutAction.ID))) {

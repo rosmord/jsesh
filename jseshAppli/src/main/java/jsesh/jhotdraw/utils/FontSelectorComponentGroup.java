@@ -34,10 +34,9 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.utils;
 
+import jsesh.jhotdraw.dialogs.SimpleFontDialog;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -57,7 +56,7 @@ import net.miginfocom.swing.MigLayout;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */
-public class FontSelectorHelper {
+public class FontSelectorComponentGroup {
 
     /**
      * Font property corresponds to the font selected in this object.
@@ -96,7 +95,7 @@ public class FontSelectorHelper {
      * @param parent
      * @param label the text to display in front of the font. May be null.
      */
-    public FontSelectorHelper(Component parent, String label) {
+    public FontSelectorComponentGroup(Component parent, String label) {
         this.parent = parent;
         selectorLabel = label;
         fontNameDisplayField = new JTextField("");
@@ -177,7 +176,7 @@ public class FontSelectorHelper {
      */
     public void doMigLayout(JPanel panel, String displayContraints, String buttonConstraints,
             String finalConstraints) {
-        PanelHelper helper = new PanelHelper(panel);
+        PanelBuilder helper = new PanelBuilder(panel);
         if (!(panel.getLayout() instanceof MigLayout)) {
             throw new RuntimeException(
                     "doMigLayout needs a mig layout to be set on the panel");
@@ -202,15 +201,12 @@ public class FontSelectorHelper {
      * @param newFont
      */
     public final void setFont(Font newFont) {
-        Font oldFont = font;
-        if (oldFont == newFont) {
-            return;
-        } else {
+        if (font != newFont) {        
             font = newFont;
             fontNameDisplayField.setFont(font);
             fontNameDisplayField.setText(font.getFontName());
             fontSizeBox.setSelectedItem("" + newFont.getSize());
-            propertyChangeSupport.firePropertyChange(FONT, oldFont, newFont);
+            propertyChangeSupport.firePropertyChange(FONT, font, newFont);
         }
     }
 

@@ -32,56 +32,35 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search;
+package jsesh.jhotdraw.actions.edit;
 
-import java.util.ArrayList;
-import java.util.List;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
+import java.awt.event.ActionEvent;
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.viewClass.JSeshView;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
- * Model for a search in JSesh.
- * We will start with a very simple system,
- * but improve it later on. So
+ * Find an element action.
+ *
+ * Simple search functionality for JSesh.
+ *
  * @author rosmord
  */
-public class SearchModel {
-    /**
-     * are we looking for the exact same quadrants, or just for a list of signs ?
-     */
-    private boolean exact= false;
-    
-    private TopItemList searchedItems= new TopItemList();
+public class FindNextAction extends AbstractViewAction {
 
-    public SearchModel() {
+    public static final String ID = "edit.findNext";
+
+    public FindNextAction(Application app, View view) {
+        super(app, view);
+        BundleHelper.getInstance().configure(this);
     }
 
-    public boolean isExact() {
-        return exact;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JSeshView jseshView= (JSeshView) getActiveView();
+        jseshView.nextSearch();
     }
 
-    public void setExact(boolean exact) {
-        this.exact = exact;
-    }
-
-    public TopItemList getSearchedItems() {
-        return searchedItems;
-    }
-
-    public void setSearchedItems(TopItemList searchedItems) {
-        this.searchedItems = searchedItems;
-    }
-    
-    /**
-     * Performs the search in a text.
-     * Uses the Boyer-Moore algorithm for efficiency.
-     * Returns the results of the search.
-     * @param text 
-     * @param startPosition start position for the search.
-     * @return  
-     */
-    public SearchResult doSearch(TopItemList text, MDCPosition startPosition) {
-        List<MDCPosition> result= new ArrayList<>();
-        return null;
-    }
 }

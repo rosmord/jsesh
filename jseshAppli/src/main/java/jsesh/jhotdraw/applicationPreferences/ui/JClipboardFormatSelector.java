@@ -43,7 +43,7 @@ import javax.swing.SwingUtilities;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.utils.PanelHelper;
+import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import net.miginfocom.swing.MigLayout;
 
@@ -93,7 +93,7 @@ public class JClipboardFormatSelector {
 
 	private void layout() {
 		panel.setLayout(new MigLayout());
-		PanelHelper helper = new PanelHelper(panel);
+		PanelBuilder helper = new PanelBuilder(panel);
 		helper.add(messageArea, "wrap");
 		helper.add(rtfCheckBox, "wrap");
 		helper.add(emfCheckBox, "wrap");

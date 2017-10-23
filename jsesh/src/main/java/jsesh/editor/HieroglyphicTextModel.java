@@ -52,6 +52,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.output.MdCModelWriter;
+import jsesh.search.MdCSearchQuery;
 
 /**
  * The edition model of a hieroglyphic text.
@@ -469,4 +470,8 @@ public class HieroglyphicTextModel extends Observable implements
 		return head;
 
 	}
+
+    public List<MDCPosition> doSearch(MdCSearchQuery query) {
+        return query.doSearch(getModel());
+     }
 }

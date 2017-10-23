@@ -1,5 +1,6 @@
 package jsesh.jhotdraw;
 
+import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.util.List;

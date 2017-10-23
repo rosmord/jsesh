@@ -34,11 +34,9 @@
  */
 package jsesh.search;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
@@ -47,127 +45,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Test of searches for sequences of signs.
  * @author rosmord
  */
 public class SignStringSearcherTest {
-
-    public SignStringSearcherTest() {
-    }
-
-    @Test
-    public void testSimpleSearch() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("D21");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 2),
-                        new MDCPosition(text, 4)
-                );
-        assertEquals("Simple search", expected, result);
-    }
-
-    @Test
-    public void testInQuadrant() {
-        TopItemList text = parse("i-n:n:n:k:w-m");
-        List<String> toSearch = Arrays.asList("n", "n", "k");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 1)
-                );
-        assertEquals("testInQuadrant", expected, result);
-    }
-
-    @Test
-    public void testLast() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("t");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 5)
-                );
-        assertEquals("last", expected, result);
-    }
-
-    @Test
-    public void testFirst() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("i");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 0)
-                );
-        assertEquals("testFirst", expected, result);
-    }
-
-    @Test
-    public void testSecond() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("w", "r");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 1)
-                );
-        assertEquals("testSecond", expected, result);
-    }
-
-    @Test
-    public void testPartiel() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("w", "b");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList();
-        assertEquals("testPartiel", expected, result);
-    }
-
-    @Test
-    public void testSeq() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("r", "ir");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 4)
-                );
-        assertEquals("testSeq", expected, result);
-    }
-
-    @Test
-    public void testLongSeq() {
-        TopItemList text = parse("i-w-r:a#12-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("r", "a", "C1", "r", "ir");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList(
-                        new MDCPosition(text, 2)
-                );
-        assertEquals("testLongSeq", expected, result);
-    }
-
-    @Test
-    public void testNo() {
-        TopItemList text = parse("i-w-r:a-C1-r-ir:t");
-        List<String> toSearch = Arrays.asList("r", "C1");
-        SignStringSearcher searcher = new SignStringSearcher(toSearch);
-        List<MDCPosition> result = searcher.doSearch(text);
-        List<MDCPosition> expected
-                = Arrays.asList();
-        assertEquals("testNo", expected, result);
-    }
 
     private TopItemList parse(String mdc) {
         try {
@@ -176,4 +57,76 @@ public class SignStringSearcherTest {
             throw new RuntimeException(ex);
         }
     }
+    
+    /**
+     * Auxiliary method for writing tests.
+     * @param message
+     * @param mdc
+     * @param codes
+     * @param expected 
+     */
+    private void doSearch(String message, String mdc, String codes, Integer... expected) {
+        TopItemList text = parse(mdc);
+        List<String> toSearch = Arrays.asList(codes.split(" "));
+        SignStringSearchQuery searcher = new SignStringSearchQuery(toSearch);
+        List<MDCPosition> actualResult = searcher.doSearch(text);
+        List<MDCPosition> expectedResult
+                = Arrays.asList(expected).stream()
+                        .map(pos -> new MDCPosition(text, pos))
+                        .collect(Collectors.toList());
+        assertEquals(message, expectedResult, actualResult);
+    }
+
+    @Test
+    public void testSimpleSearchGardinerCodes() {
+        doSearch("Simple search", "i-w-r:a-C1-r-ir:t", "D21", 2, 4);
+    }
+
+    @Test
+    public void testSimpleSearchPhonCodes() {
+        doSearch("Simple search", "i-w-r:a-C1-r-ir:t", "r", 2, 4);
+    }
+
+    @Test
+    public void testInQuadrant() {
+        doSearch("test In Quadrants", "i-n:n:n:k:w-m", "n n k", 1);
+    }
+
+    @Test
+    public void testLast() {
+        doSearch("last Pos", "i-w-r:a-C1-r-ir:t", "t", 5);
+    }
+
+    @Test
+    public void testFirst() {
+        doSearch("first", "i-w-r:a-C1-r-ir:t", "i", 0);
+    }
+
+    @Test
+    public void testSecond() {
+        doSearch("second", "i-w-r:a-C1-r-ir:t", "w r", 1);
+    }
+
+    @Test
+    public void testPartiel() {
+        doSearch("testPartiel", "i-w-r:a-C1-r-ir:t", "w b");
+    }
+
+    @Test
+    public void testSeq() {
+        doSearch("testSeq", "i-w-r:a-C1-r-ir:t", "r ir", 4);
+
+    }
+
+    @Test
+    public void testLongSeq() {
+        doSearch("testLongSeq", "i-w-r:a#12-C1-r-ir:t", "r a C1 r ir",2);
+    }
+
+    @Test
+    public void testNo() {
+        doSearch("testNo", "i-w-r:a-C1-r-ir:t", "r C1");
+    }
+
+
 }

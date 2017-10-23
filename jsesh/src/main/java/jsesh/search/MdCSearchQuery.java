@@ -32,45 +32,16 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.jhotdraw.actions.edit;
+package jsesh.search;
 
-import java.awt.event.ActionEvent;
-import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.dialogs.JSearchPanel;
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
+import java.util.List;
+import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItemList;
 
 /**
- * Find an element action.
- *
- * Simple search functionality for JSesh.
- *
+ * Generic representation of search queries in JSesh.
  * @author rosmord
  */
-public class FindAction extends AbstractApplicationAction {
-
-    public static final String ID = "edit.find";
-
-    private final JSearchPanel searchPanel;
-    
-    public FindAction(Application app) {
-        super(app);
-        BundleHelper.getInstance().configure(this);        
-        searchPanel= new JSearchPanel(app);
-    }
-    
-//
-//    public FindAction(Application app, View view) {
-//        super(app, view);
-//        BundleHelper.getInstance().configure(this);
-//    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        View view = getApplication().getActiveView();
-        if (view != null) {
-            searchPanel.startSearch();
-        }
-    }
+public interface MdCSearchQuery {
+       List<MDCPosition> doSearch(TopItemList items);
 }

@@ -15,8 +15,8 @@ import javax.swing.SwingUtilities;
 
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
-import jsesh.jhotdraw.utils.FontSelectorHelper;
-import jsesh.jhotdraw.utils.PanelHelper;
+import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
+import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
 import net.miginfocom.swing.MigLayout;
@@ -46,13 +46,13 @@ public class JFontPreferences {
     private JPanel transliterationOptionPanel;
 
     // General font-oriented widgets.
-    private FontSelectorHelper alphabeticFontHelper;
+    private FontSelectorComponentGroup alphabeticFontHelper;
     /**
      * Select the use of JSesh default font (old transliteration font).
      */
     private JButton useDefaultJSeshFontButton;
 
-    private FontSelectorHelper transliterationFontHelper;
+    private FontSelectorComponentGroup transliterationFontHelper;
 
     private JFormattedTextField hieroglyphsFolderField;
     private JButton browseHieroglyphicFolderButton;
@@ -92,15 +92,15 @@ public class JFontPreferences {
         alphabeticFontHelper.setFont(font);
     }
 
-    public void setTranslitFont(Font font) {
+    private void setTranslitFont(Font font) {
         transliterationFontHelper.setFont(font);
     }
 
     private void init() {
         panel = new JPanel();
-        alphabeticFontHelper = new FontSelectorHelper(panel,
+        alphabeticFontHelper = new FontSelectorComponentGroup(panel,
                 "fontPreferences.font.label.text");
-        transliterationFontHelper = new FontSelectorHelper(panel,
+        transliterationFontHelper = new FontSelectorComponentGroup(panel,
                 "fontPreferences.transliterationFont.label.text");
         useDefaultJSeshFontButton = new JButton(
                 Messages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
@@ -128,7 +128,7 @@ public class JFontPreferences {
 
     private void layout() {
         panel.setLayout(new MigLayout("", "[][grow,fill][][]"));
-        PanelHelper helper = new PanelHelper(panel);
+        PanelBuilder helper = new PanelBuilder(panel);
         helper.addWithLabel("fontPreferences.hiero.label.text",
                 hieroglyphsFolderField, "sg a");
         helper.add(browseHieroglyphicFolderButton, "sg b, wrap");
@@ -144,7 +144,7 @@ public class JFontPreferences {
         panel.add(optionPanelContainer, "grow, spanx 4");
 
         transliterationOptionPanel.setLayout(new MigLayout());
-        PanelHelper trlHelper = new PanelHelper(transliterationOptionPanel);
+        PanelBuilder trlHelper = new PanelBuilder(transliterationOptionPanel);
         trlHelper.add(useMdCRadioButton, "wrap");
         trlHelper.add(useUnicodeRadioButton, "wrap para");
         trlHelper.add(yodUsesU0486, "wrap");
@@ -162,8 +162,7 @@ public class JFontPreferences {
         useUnicodeRadioButton.addActionListener((e) -> trlChanged());
         showOptionButton.addActionListener(e -> toggleShowOption());
         useDefaultJSeshFontButton.addActionListener(e -> useOldDefaultFont());
-        this.transliterationFontHelper.addPropertyChangeListener(
-                FontSelectorHelper.FONT, (e) -> useDefaultJSeshFont = false);
+        this.transliterationFontHelper.addPropertyChangeListener(FontSelectorComponentGroup.FONT, (e) -> useDefaultJSeshFont = false);
         this.browseHieroglyphicFolderButton.addActionListener(
                 e -> selectHieroglyphicFolder());
     }

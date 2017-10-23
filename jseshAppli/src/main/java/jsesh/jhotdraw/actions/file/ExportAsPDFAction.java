@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
 
@@ -26,6 +26,7 @@ public class ExportAsPDFAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
+        @Override
 	public void actionPerformed(ActionEvent arg0) {
 		JSeshView jSeshView = (JSeshView) getActiveView();
 		JSeshApplicationModel applicationModel = (JSeshApplicationModel) getApplication()

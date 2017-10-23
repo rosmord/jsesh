@@ -39,7 +39,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.utils.PanelHelper;
+import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -85,7 +85,7 @@ public class JDrawingSpecificationEditor {
 
 	private void layout() {
 		panel.setLayout(new MigLayout());
-		PanelHelper h = new PanelHelper(panel);
+		PanelBuilder h = new PanelBuilder(panel);
 		h.addWithLabel("drawingPrefs.a1SignHeight", normalSignHeightField, "w 40pt, sg a, gapright unrelated");
 		h.addWithLabel("drawingPrefs.units", unitField, "wrap");
 		h.addWithLabel("drawingPrefs.lineSkip", lineSkipField, "sg a, wrap");

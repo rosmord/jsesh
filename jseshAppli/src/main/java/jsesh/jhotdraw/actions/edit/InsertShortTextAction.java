@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 
 import org.jhotdraw_7_6.app.Application;

@@ -33,6 +33,8 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
+import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
@@ -59,6 +61,7 @@ import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.FindAction;
+import jsesh.jhotdraw.actions.edit.FindNextAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
@@ -217,6 +220,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 	 * @see org.jhotdraw_7_6.app.DefaultApplicationModel#createActionMap(org.
 	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_6.app.View)
      */
+    @Override
     public ActionMap createActionMap(Application a, View v) {
         JMDCEditor editor = null;
         JSeshView jseshView = (JSeshView) v;
@@ -246,7 +250,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
 
             Action glossaryEditorAction = new ToggleGlossaryEditorAction(a);
-            new PaletteActionEnabler(glossaryEditorAction, getGlossaryEditor().getFrame());
+            // Links the glossaryEditorAction and the glossary editor frame.
+            getGlossaryEditor().getFrame()
+                    .addComponentListener(new ComponentMenuActionChecker(glossaryEditorAction));
 
             map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
 
@@ -258,12 +264,15 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
             map.remove(SelectAllAction.ID);
             map.remove(ClearSelectionAction.ID);
+            // Find is application-level (because form is shared).
+            
+            map.put(FindAction.ID, new FindAction(a));
 
         } else {
             // View level actions
             map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
-            map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
-            map.put(FindAction.ID, new FindAction(a, jseshView));
+            map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));            
+            map.put(FindNextAction.ID, new FindNextAction(a, v));
             map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
             map.put(EditDocumentPreferencesAction.ID,
                     new EditDocumentPreferencesAction(a, v));
@@ -349,8 +358,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         QenherkhURIChooser chooser = new QenherkhURIChooser();
         String description = BundleHelper.getInstance().getLabel(
                 "file.glyphFile.text");
-//		chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
-//				"gly"));
         String pdfDescription = BundleHelper.getInstance().getLabel(
                 "file.pdfFile.text");
         chooser.setOpenFileFilters(
@@ -383,9 +390,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         return chooser;
     }
 
+    /**
+     * Manages the palette.
+     * This is done at application level, as the palette is used by all views.
+     */
     private class MyHieroglyphicPaletteListener implements
             HieroglyphPaletteListener {
 
+        @Override
         public void signSelected(String code) {
             if (application.getActiveView() != null
                     && application.getActiveView() instanceof JSeshView) {
@@ -398,7 +410,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     /**
-     * @param configurationNumber
+     * @param exportType
      * @see
      * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(int)
      */

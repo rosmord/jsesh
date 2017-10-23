@@ -48,7 +48,7 @@ import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ApplicationPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
-import jsesh.jhotdraw.utils.PanelHelper;
+import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdcDisplayer.swing.units.LengthUnit;
 import jsesh.mdcDisplayer.swing.units.UnitMediator;
 import net.miginfocom.swing.MigLayout;
@@ -79,7 +79,7 @@ public class JOtherPreferences {
 
     private void layout() {
         panel.setLayout(new MigLayout());
-        PanelHelper helper = new PanelHelper(panel);
+        PanelBuilder helper = new PanelBuilder(panel);
         helper.addLabel("otherPrefs.iconHeight.label");
         panel.add(iconHeight, "span, grow, wrap");
         JLabel comment= new JLabel(Messages.getString("otherPrefs.iconHeight.comment"));

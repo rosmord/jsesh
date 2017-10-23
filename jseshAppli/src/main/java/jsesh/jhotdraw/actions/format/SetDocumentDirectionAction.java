@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
 
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.mdc.constants.TextDirection;
 

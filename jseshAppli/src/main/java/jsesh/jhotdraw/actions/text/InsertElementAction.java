@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import static javax.swing.Action.SMALL_ICON;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.jhotdraw.JSeshView;
+import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
