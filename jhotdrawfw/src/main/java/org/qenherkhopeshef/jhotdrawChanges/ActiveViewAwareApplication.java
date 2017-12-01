@@ -1,6 +1,5 @@
 package org.qenherkhopeshef.jhotdrawChanges;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import org.jhotdraw_7_6.app.Application;

@@ -65,8 +65,10 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
      * <p>
      * The file name is passed in the action command of the action event.
      *
+     * @param evt action event.
      */
     
+    @Override
     public void actionPerformed(ActionEvent evt) {
         final Application app = getApplication();
         final String filename = evt.getActionCommand();
@@ -115,6 +117,7 @@ public class OpenApplicationFileAction extends AbstractApplicationAction {
         view.execute(new Worker() {
 
             
+            @Override
             protected Object construct() throws IOException {
                 boolean exists = true;
                 try {

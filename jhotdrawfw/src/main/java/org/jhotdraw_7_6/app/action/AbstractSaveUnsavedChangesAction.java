@@ -35,31 +35,34 @@ import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
  * This abstract class can be extended to implement an {@code Action} that asks
- * to save unsaved changes of a {@link org.jhotdraw_7_6.app.View} before a destructive
- * action is performed.
+ * to save unsaved changes of a {@link org.jhotdraw_7_6.app.View} before a
+ * destructive action is performed.
  * <p>
- * If the view has no unsaved changes, method {@code doIt} is invoked immediately.
- * If unsaved changes are present, a dialog is shown asking whether the user
- * wants to discard the changes, cancel or save the changes before doing it.
- * If the user chooses to discard the changes, {@code doIt} is invoked immediately.
- * If the user chooses to cancel, the action is aborted.
- * If the user chooses to save the changes, the view is saved, and {@code doIt}
- * is only invoked after the view was successfully saved.
+ * If the view has no unsaved changes, method {@code doIt} is invoked
+ * immediately. If unsaved changes are present, a dialog is shown asking whether
+ * the user wants to discard the changes, cancel or save the changes before
+ * doing it. If the user chooses to discard the changes, {@code doIt} is invoked
+ * immediately. If the user chooses to cancel, the action is aborted. If the
+ * user chooses to save the changes, the view is saved, and {@code doIt} is only
+ * invoked after the view was successfully saved.
  *
- * @author  Werner Randelshofer
- * @version $Id: AbstractSaveUnsavedChangesAction.java 717 2010-11-21 12:30:57Z rawcoder $
+ * @author Werner Randelshofer
+ * @version $Id: AbstractSaveUnsavedChangesAction.java 717 2010-11-21 12:30:57Z
+ * rawcoder $
  */
 public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewAction {
 
-    
     private Component oldFocusOwner;
 
-    /** Creates a new instance. */
-    public AbstractSaveUnsavedChangesAction(Application app,  View view) {
+    /**
+     * Creates a new instance.
+     * @param app the application
+     * @param view the view
+     */
+    public AbstractSaveUnsavedChangesAction(Application app, View view) {
         super(app, view);
     }
 
-    
     public void actionPerformed(ActionEvent evt) {
         final View v = getActiveView();
         if (v == null) {
@@ -74,9 +77,11 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
                 JOptionPane pane = new JOptionPane(
-                        "<html>" + UIManager.getString("OptionPane.css") +//
+                        "<html>" + UIManager.getString("OptionPane.css")
+                        +//
                         "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
-                        (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>" +//
+                                (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
+                        +//
                         labels.getString("file.saveBefore.doYouWantToSave.details"),
                         JOptionPane.WARNING_MESSAGE);
                 Object[] options = { //
@@ -89,7 +94,6 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                 pane.putClientProperty("Quaqua.OptionPane.destructiveOption", 2);
                 JSheet.showSheet(pane, v.getComponent(), new SheetListener() {
 
-                    
                     public void optionSelected(SheetEvent evt) {
                         Object value = evt.getValue();
                         if (value == null || value.equals(labels.getString("file.saveBefore.cancelOption.text"))) {
@@ -125,49 +129,74 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     protected void saveView(final View v) {
         if (v.getURI() == null) {
             URIChooser chooser = getChooser(v);
-            //int option = fileChooser.showSaveDialog(this);
-            JSheet.showSaveSheet(chooser, v.getComponent(), new SheetListener() {
+            // Change made by S. Rosmorduc : 
+            // (See SaveFileAction#actionPerformed) : 
+            // I prefer using the AWTFileSelector, especially on the Mac.
+            // Hence, JSheet doesn't work correctly.
+            // This code is a bit repetitive (see SaveFileAction and others) 
+            // and should be factorized somewhere.
 
-                
-                public void optionSelected(final SheetEvent evt) {
-                    if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
-                        final URI uri;
-                        if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
-                            uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
-                        } else {
-                            uri = evt.getChooser().getSelectedURI();
-                        }
-                        saveViewToURI(v, uri, evt.getChooser());
-                    } else {
-                        v.setEnabled(true);
-                        if (oldFocusOwner != null) {
-                            oldFocusOwner.requestFocus();
-                        }
-                    }
-                }
-            });
+            //int option = fileChooser.showSaveDialog(this);
+            if (chooser.getComponent() != null) {
+                saveToSheet(chooser, v);
+            } else {
+                directSave(chooser, v);
+            }
         } else {
             saveViewToURI(v, v.getURI(), null);
         }
     }
 
-    protected void saveViewToURI(final View v, final URI uri,  final URIChooser chooser) {
+    private void directSave(URIChooser chooser, View v) {
+        int option = chooser.showSaveDialog(v.getComponent());
+        if (option == JFileChooser.APPROVE_OPTION) {
+            final URI uri= chooser.getSelectedURI();
+            saveViewToURI(v, uri, chooser);
+        } else {
+            v.setEnabled(true);
+            if (oldFocusOwner != null) {
+                oldFocusOwner.requestFocus();
+            }
+        }
+
+    }
+
+    private void saveToSheet(URIChooser chooser, final View v) {
+        JSheet.showSaveSheet(chooser, v.getComponent(), (final SheetEvent evt) -> {
+            if (evt.getOption() == JFileChooser.APPROVE_OPTION) {
+                final URI uri;
+                if ((evt.getChooser() instanceof JFileURIChooser) && evt.getFileChooser().getFileFilter() instanceof ExtensionFileFilter) {
+                    uri = ((ExtensionFileFilter) evt.getFileChooser().getFileFilter()).makeAcceptable(evt.getFileChooser().getSelectedFile()).toURI();
+                } else {
+                    uri = evt.getChooser().getSelectedURI();
+                }
+                saveViewToURI(v, uri, evt.getChooser());
+            } else {
+                v.setEnabled(true);
+                if (oldFocusOwner != null) {
+                    oldFocusOwner.requestFocus();
+                }
+            }
+        });
+    }
+
+    protected void saveViewToURI(final View v, final URI uri, final URIChooser chooser) {
         v.execute(new Worker() {
 
-            
+            @Override
             protected Object construct() throws IOException {
                 v.write(uri, chooser);
                 return null;
             }
 
-            
+            @Override
             protected void done(Object value) {
                 v.setURI(uri);
                 v.markChangesAsSaved();
                 doIt(v);
             }
 
-            
+            @Override
             protected void failed(Throwable value) {
                 String message = (value.getMessage() != null) ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
@@ -178,7 +207,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
                         JOptionPane.ERROR_MESSAGE);
             }
 
-            
+            @Override
             protected void finished() {
                 v.setEnabled(true);
                 if (oldFocusOwner != null) {
@@ -189,4 +218,5 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
     }
 
     protected abstract void doIt(View p);
+
 }

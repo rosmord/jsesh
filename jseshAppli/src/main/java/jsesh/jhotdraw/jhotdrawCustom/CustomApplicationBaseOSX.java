@@ -17,8 +17,7 @@ public class CustomApplicationBaseOSX extends QenherOSXApplication {
 
     @Override
     public URIChooser getSaveChooser(View v) {
-        return new QenherkhURIChooser();
-        
+        return new QenherkhURIChooser();        
     }
 
     @Override

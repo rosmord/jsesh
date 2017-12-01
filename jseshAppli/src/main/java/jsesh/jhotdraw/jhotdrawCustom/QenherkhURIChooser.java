@@ -5,7 +5,6 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URI;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.filechooser.FileFilter;
 import org.jhotdraw_7_6.gui.URIChooser;

@@ -81,33 +81,34 @@ public class SaveFileAction extends AbstractViewAction {
         return chsr;
     }
 
+    @Override
     public void actionPerformed(ActionEvent evt) {
-        final View view = getActiveView();
-        if (view == null) {
+        final View activeView = getActiveView();
+        if (activeView == null) {
             return;
         }
-        if (view.isEnabled()) {
-            oldFocusOwner = SwingUtilities.getWindowAncestor(view.getComponent()).getFocusOwner();
-            view.setEnabled(false);
+        if (activeView.isEnabled()) {
+            oldFocusOwner = SwingUtilities.getWindowAncestor(activeView.getComponent()).getFocusOwner();
+            activeView.setEnabled(false);
 
-            if (!saveAs && view.getURI() != null && view.canSaveTo(view.getURI())) {
-                saveViewToURI(view, view.getURI(), null);
+            if (!saveAs && activeView.getURI() != null && activeView.canSaveTo(activeView.getURI())) {
+                saveViewToURI(activeView, activeView.getURI(), null);
             } else {
-                URIChooser fileChooser = getChooser(view);
+                URIChooser fileChooser = getChooser(activeView);
 
                 if (fileChooser.getComponent() == null) {
-                    int rep = fileChooser.showSaveDialog(view.getComponent());
+                    int rep = fileChooser.showSaveDialog(activeView.getComponent());
                     if (rep == URIChooser.APPROVE_OPTION) {
                         URI uri = fileChooser.getSelectedURI();
-                        saveViewToURI(view, uri, fileChooser);
+                        saveViewToURI(activeView, uri, fileChooser);
                     } else {
-                        view.setEnabled(true);
+                        activeView.setEnabled(true);
                         if (oldFocusOwner != null) {
                             oldFocusOwner.requestFocus();
                         }
                     }
                 } else {
-                    saveToSheet(fileChooser, view);
+                    saveToSheet(fileChooser, activeView);
                 }
             }
 

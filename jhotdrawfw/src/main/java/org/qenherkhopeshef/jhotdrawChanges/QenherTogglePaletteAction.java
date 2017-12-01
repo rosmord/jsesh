@@ -20,7 +20,6 @@ import java.awt.event.WindowListener;
 import javax.swing.AbstractAction;
 
 import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.OSXApplication;
 import org.jhotdraw_7_6.app.action.ActionUtil;
 
 /**

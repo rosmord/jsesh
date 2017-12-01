@@ -256,13 +256,13 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         } catch (Exception e) {
             e.printStackTrace();
         }
-//		if (UIManager.getString("OptionPane.css") == null) {
-//			UIManager.put("OptionPane.css", "<head>"
-//					+ "<style type=\"text/css\">"
-//					+ "b { font: 13pt \"Dialog\" }"
-//					+ "p { font: 11pt \"Dialog\"; margin-top: 8px }"
-//					+ "</style>" + "</head>");
-//		}
+        if (UIManager.getString("OptionPane.css") == null) {
+            UIManager.put("OptionPane.css", "<head>"
+                    + "<style type=\"text/css\">"
+                    + "b { font: 13pt \"Dialog\" }"
+                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+                    + "</style>" + "</head>");
+        }
     }
 
     @Override
@@ -325,6 +325,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         paletteHandler.remove(window);
     }
 
+    @Override
     public void show(View view) {
         if (!view.isShowing()) {
             view.setShowing(true);
@@ -342,8 +343,8 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
                     if (aView != view
                             && aView.isShowing()
                             && SwingUtilities
-                            .getWindowAncestor(aView.getComponent())
-                            .getLocation().equals(loc)) {
+                                    .getWindowAncestor(aView.getComponent())
+                                    .getLocation().equals(loc)) {
                         loc.x += 22;
                         loc.y += 22;
                         moved = true;
@@ -427,7 +428,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         String viewMenuText = labels.getString("view.text");
         String windowMenuText = labels.getString("window.text");
         String helpMenuText = labels.getString("help.text");
-        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        LinkedList<JMenu> ll = new LinkedList<>();
         getModel().getMenuBuilder().addOtherMenus(ll, this, v);
         for (JMenu mm : ll) {
             String text = mm.getText();
@@ -489,6 +490,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return mb;
     }
 
+    @Override
     public JMenu createViewMenu(final View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "view");
@@ -499,6 +501,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return (m.getItemCount() > 0) ? m : null;
     }
 
+    @Override
     public JMenu createWindowMenu(View view) {
         JMenu m;
 
@@ -515,6 +518,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return (m.getItemCount() == 0) ? null : m;
     }
 
+    @Override
     public JMenu createFileMenu(View view) {
         JMenu m;
 
@@ -550,6 +554,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return (m.getItemCount() == 0) ? null : m;
     }
 
+    @Override
     public JMenu createEditMenu(View view) {
 
         JMenu m;
@@ -569,6 +574,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return (m.getItemCount() == 0) ? null : m;
     }
 
+    @Override
     public JMenu createHelpMenu(View view) {
         JMenu m = new JMenu();
         labels.configureMenu(m, "help");
@@ -610,23 +616,19 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
     /**
      * Sets menus and the like for non-document windows
      *
-     * @param window
      */
+    @Override
     public void initSecondaryWindow(final JFrame dialog) {
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                dialog.setJMenuBar(createMenuBar(null));
-            }
-        });
+        SwingUtilities.invokeLater(()
+                -> dialog.setJMenuBar(createMenuBar(null)));
     }
 
     protected void initPalettes(final LinkedList<Action> paletteActions) {
         SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 
             public LinkedList<JFrame> construct() {
-                LinkedList<JFrame> palettes = new LinkedList<JFrame>();
-                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(
+                LinkedList<JFrame> palettes = new LinkedList<>();
+                LinkedList<JToolBar> toolBars = new LinkedList<>(
                         getModel().createToolBars(QenherOSXApplication.this,
                                 null));
 
@@ -679,6 +681,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
             }
 
+            @Override
             protected void done(LinkedList<JFrame> result) {
                 @SuppressWarnings("unchecked")
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
@@ -693,6 +696,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         });
     }
 
+    @Override
     public boolean isSharingToolsAmongViews() {
         return true;
     }
@@ -700,6 +704,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
     /**
      * Returns the Frame which holds the frameless JMenuBar.
      */
+    @Override
     public Component getComponent() {
         if (invisibleFrame == null) {
             invisibleFrame = new JFrame();
@@ -747,6 +752,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         return moMap;
     }
 
+    @Override
     protected ActionMap createViewActionMap(View v) {
         ActionMap intermediateMap = new ActionMap();
         intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
@@ -767,7 +773,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
     private class WindowMenuHandler implements PropertyChangeListener,
             Disposable {
 
-        private JMenu windowMenu;
+        private final JMenu windowMenu;
 
         private View view;
 
@@ -781,6 +787,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             updateWindowMenu();
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
@@ -818,6 +825,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             mb.addOtherWindowItems(m, QenherOSXApplication.this, view);
         }
 
+        @Override
         public void dispose() {
             windowMenu.removeAll();
             removePropertyChangeListener(this);
@@ -831,8 +839,8 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
     private class FrameHandler extends WindowAdapter implements
             PropertyChangeListener, Disposable {
 
-        private JFrame frame;
-        private View view;
+        private final JFrame frame;
+        private final View view;
 
         public FrameHandler(JFrame frame, View view) {
             this.frame = frame;
@@ -842,6 +850,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             view.addDisposable(this);
         }
 
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             String name = evt.getPropertyName();
             if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
@@ -853,15 +862,18 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             }
         }
 
+        @Override
         public void windowClosing(final WindowEvent evt) {
             getAction(view, CloseFileAction.ID).actionPerformed(
                     new ActionEvent(evt.getSource(),
                             ActionEvent.ACTION_PERFORMED, "windowClosing"));
         }
 
+        @Override
         public void windowClosed(final WindowEvent evt) {
         }
 
+        @Override
         public void windowIconified(WindowEvent e) {
             if (view == getActiveView()) {
                 setActiveView(null);
@@ -869,15 +881,18 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             view.stop();
         }
 
+        @Override
         public void windowDeiconified(WindowEvent e) {
             view.start();
         }
 
+        @Override
         public void dispose() {
             frame.removeWindowListener(this);
             view.removePropertyChangeListener(this);
         }
 
+        @Override
         public void windowGainedFocus(WindowEvent e) {
             setActiveView(view);
         }

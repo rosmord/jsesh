@@ -112,14 +112,14 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  * the quit action in the screen menu bar quits the application.
  * <p>
  * The screen menu bar has the following standard menus:
- * 
+ *
  * <pre>
  * "Application-Name" &nbsp; File &nbsp; Edit &nbsp; Window
  * </pre>
- * 
+ *
  * The first menu, is the <b>application menu</b>. It has the following standard
  * menu items:
- * 
+ *
  * <pre>
  *  About "Application-Name" ({@link AboutAction#ID})
  *  -
@@ -133,9 +133,9 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  *  -
  *  Quit "Application-Name" ({@link ExitAction#ID})
  * </pre>
- * 
+ *
  * The <b>file menu</b> has the following standard menu items:
- * 
+ *
  * <pre>
  *  Clear ({@link ClearFileAction#ID}})
  *  New ({@link NewFileAction#ID}})
@@ -153,9 +153,9 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  *  Export... ({@link ExportFileAction#ID})
  *  Print... ({@link PrintFileAction#ID})
  * </pre>
- * 
+ *
  * The <b>edit menu</b> has the following standard menu items:
- * 
+ *
  * <pre>
  *  Undo ({@link UndoAction#ID}})
  *  Redo ({@link RedoAction#ID}})
@@ -171,9 +171,9 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  *  -
  *  Find ({@link AbstractFindAction#ID}})
  * </pre>
- * 
+ *
  * The <b>window menu</b> has the following standard menu items:
- * 
+ *
  * <pre>
  *  Minimize ({@link MinimizeWindowAction#ID})
  *  Zoom ({@link MaximizeWindowAction#ID})
@@ -182,648 +182,673 @@ import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
  *  -
  *  "Palette" ({@link QenherTogglePaletteAction})
  * </pre>
- * 
+ *
  * The menus provided by the {@code ApplicationModel} are inserted between the
  * file menu and the window menu. In case the application model supplies a menu
  * with the title "Help", it is inserted after the window menu.
- * 
+ *
  * @author Werner Randelshofer
  * @version $Id: QenherOSXApplication.java 717 2010-11-21 12:30:57Z rawcoder $
  */
 @SuppressWarnings("serial")
 public class QenherOSXLikeApplication extends AbstractApplication implements
-		ActiveViewAwareApplication {
+        ActiveViewAwareApplication {
 
-	private QenherOSXPaletteHandler paletteHandler;
+    private QenherOSXPaletteHandler paletteHandler;
 
-	private Preferences prefs;
+    private Preferences prefs;
 
-	private LinkedList<Action> paletteActions;
+    private LinkedList<Action> paletteActions;
 
-	/** Creates a new instance. */
-	public QenherOSXLikeApplication() {
-	}
+    /**
+     * Creates a new instance.
+     */
+    public QenherOSXLikeApplication() {
+    }
 
-	/**
-	 * Keep the basic init methods.
-	 */
-	protected void abstractApplicationInit() {
-		super.init();
-	}
+    /**
+     * Keep the basic init methods.
+     */
+    protected void abstractApplicationInit() {
+        super.init();
+    }
 
-	public void init() {
-		abstractApplicationInit();
-		// ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
-		prefs = PreferencesUtil
-				.userNodeForPackage((getModel() == null) ? getClass()
-						: getModel().getClass());
-		initLookAndFeel();
-		paletteHandler = new QenherOSXPaletteHandler(this);
+    @Override
+    public void init() {
+        abstractApplicationInit();
+        // ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
+        prefs = PreferencesUtil
+                .userNodeForPackage((getModel() == null) ? getClass()
+                        : getModel().getClass());
+        initLookAndFeel();
+        paletteHandler = new QenherOSXPaletteHandler(this);
 
-		initLabels();
+        initLabels();
 
-		paletteActions = new LinkedList<Action>();
-		setActionMap(createModelActionMap(model));
-		initPalettes(paletteActions);
-		model.initApplication(this);
-	}
+        paletteActions = new LinkedList<>();
+        setActionMap(createModelActionMap(model));
+        initPalettes(paletteActions);
+        model.initApplication(this);
+    }
 
-	public void launch(String[] args) {
-		// System.setProperty("apple.awt.graphics.UseQuartz", "false");
-		super.launch(args);
-	}
+    @Override
+    public void launch(String[] args) {
+        // System.setProperty("apple.awt.graphics.UseQuartz", "false");
+        super.launch(args);
+    }
 
-	public void configure(String[] args) {
-		// System.setProperty("apple.laf.useScreenMenuBar", "true");
-		// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
-	}
+    public void configure(String[] args) {
+        // System.setProperty("apple.laf.useScreenMenuBar", "true");
+        // System.setProperty("com.apple.macos.useScreenMenuBar", "true");
+    }
 
-	protected void initLookAndFeel() {
-            try {
-                /*
+    protected void initLookAndFeel() {
+        try {
+            /*
                 * try { UIManager
                 * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
                 * (Exception e) { e.printStackTrace(); }
-                */
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+             */
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void dispose(View p) {
+        FocusWindowAction a = (FocusWindowAction) getAction(p,
+                FocusWindowAction.ID);
+        if (a != null) {
+            a.dispose();
+        }
+        super.dispose(p);
+        if (views().isEmpty()) {
+            destroy();
+        }
+    }
+
+    @Override
+    public void addPalette(Window palette) {
+        paletteHandler.addPalette(palette);
+    }
+
+    @Override
+    public void removePalette(Window palette) {
+        paletteHandler.removePalette(palette);
+    }
+
+    @Override
+    public void addWindow(Window window, final View view) {
+        if (window instanceof JFrame) {
+            ((JFrame) window).setJMenuBar(createMenuBar(view));
+        } else if (window instanceof JDialog) {
+            // ((JDialog) window).setJMenuBar(createMenuBar(null));
+        }
+
+        paletteHandler.add(window, view);
+    }
+
+    @Override
+    public void removeWindow(Window window) {
+        if (window instanceof JFrame) {
+
+            // Unlink all menu items from action objects
+            JMenuBar mb = ((JFrame) window).getJMenuBar();
+            Stack<JMenu> s = new Stack<>();
+            for (int i = 0, n = mb.getMenuCount(); i < n; ++i) {
+                if (mb.getMenu(i) != null) {
+                    s.push(mb.getMenu(i));
+                }
             }
-	}
+            while (!s.isEmpty()) {
+                JPopupMenu m = s.pop().getPopupMenu();
+                for (int i = 0, n = m.getComponentCount(); i < n; ++i) {
+                    if (m.getComponent(i) instanceof JMenu) {
+                        s.push((JMenu) m.getComponent(i));
+                    } else if (m.getComponent(i) instanceof AbstractButton) {
+                        ((AbstractButton) m.getComponent(i)).setAction(null);
+                    }
+                }
+            }
+            // We explicitly set the JMenuBar to null to facilitate garbage
+            // collection
+            ((JFrame) window).setJMenuBar(null);
+        }
+        paletteHandler.remove(window);
+    }
 
-	public void dispose(View p) {
-		FocusWindowAction a = (FocusWindowAction) getAction(p,
-				FocusWindowAction.ID);
-		if (a != null) {
-			a.dispose();
-		}
-		super.dispose(p);
-		if (views().size() == 0) {
-			destroy();
-		}
-	}
+    @Override
+    public void show(View view) {
+        if (!view.isShowing()) {
+            view.setShowing(true);
+            JFrame f = new JFrame();
+            f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            f.setSize(new Dimension(600, 400));
+            updateViewTitle(view, f);
 
-	public void addPalette(Window palette) {
-		paletteHandler.addPalette(palette);
-	}
+            PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
+            Point loc = f.getLocation();
+            boolean moved;
+            do {
+                moved = false;
+                for (View aView : views()) {
+                    if (aView != view
+                            && aView.isShowing()
+                            && SwingUtilities
+                                    .getWindowAncestor(aView.getComponent())
+                                    .getLocation().equals(loc)) {
+                        loc.x += 22;
+                        loc.y += 22;
+                        moved = true;
+                        break;
+                    }
+                }
+            } while (moved);
+            f.setLocation(loc);
 
-	public void removePalette(Window palette) {
-		paletteHandler.removePalette(palette);
-	}
+            new FrameHandler(f, view);
+            addWindow(f, view);
 
-	public void addWindow(Window window, final View view) {
-		if (window instanceof JFrame) {
-			((JFrame) window).setJMenuBar(createMenuBar(view));
-		} else if (window instanceof JDialog) {
-			// ((JDialog) window).setJMenuBar(createMenuBar(null));
-		}
+            f.getContentPane().add(view.getComponent());
+            f.setVisible(true);
+            view.start();
+        }
+    }
 
-		paletteHandler.add(window, view);
-	}
+    /**
+     * Updates the title of a view and displays it in the given frame.
+     *
+     * @param v The view.
+     * @param f The frame.
+     */
+    protected void updateViewTitle(View v, JFrame f) {
+        String title;
+        URI uri = v.getURI();
+        if (uri == null) {
+            title = labels.getString("unnamedFile");
+        } else {
+            title = URIUtil.getName(uri);
+        }
+        v.setTitle(labels.getFormatted("frame.title", title, getName(),
+                v.getMultipleOpenId()));
+        f.setTitle(v.getTitle());
 
-	public void removeWindow(Window window) {
-		if (window instanceof JFrame) {
+        // Adds a proxy icon for the file to the title bar
+        // See
+        // http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
+        if (uri != null && uri.getScheme() != null
+                && uri.getScheme().equals("file")) {
+            f.getRootPane().putClientProperty("Window.documentFile",
+                    new File(uri));
+        } else {
+            f.getRootPane().putClientProperty("Window.documentFile", null);
+        }
+    }
 
-			// Unlink all menu items from action objects
-			JMenuBar mb = ((JFrame) window).getJMenuBar();
-			Stack<JMenu> s = new Stack<JMenu>();
-			for (int i = 0, n = mb.getMenuCount(); i < n; ++i) {
-				if (mb.getMenu(i) != null) {
-					s.push(mb.getMenu(i));
-				}
-			}
-			while (!s.isEmpty()) {
-				JPopupMenu m = s.pop().getPopupMenu();
-				for (int i = 0, n = m.getComponentCount(); i < n; ++i) {
-					if (m.getComponent(i) instanceof JMenu) {
-						s.push((JMenu) m.getComponent(i));
-					} else if (m.getComponent(i) instanceof AbstractButton) {
-						((AbstractButton) m.getComponent(i)).setAction(null);
-					}
-				}
-			}
-			// We explicitly set the JMenuBar to null to facilitate garbage
-			// collection
-			((JFrame) window).setJMenuBar(null);
-		}
-		paletteHandler.remove(window);
-	}
+    @Override
+    public void hide(View p) {
+        if (p.isShowing()) {
+            JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p
+                    .getComponent());
+            if (getActiveView() == p) {
+                setActiveView(null);
+            }
+            f.setVisible(false);
+            removeWindow(f);
+            f.remove(p.getComponent());
+            f.dispose();
+        }
+    }
 
-	public void show(View view) {
-		if (!view.isShowing()) {
-			view.setShowing(true);
-			JFrame f = new JFrame();
-			f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			f.setSize(new Dimension(600, 400));
-			updateViewTitle(view, f);
+    /**
+     * Creates a menu bar.
+     *
+     * @param v the view
+     * @return the menu bar.
+     */
+    protected JMenuBar createMenuBar(View v) {
+        JMenuBar mb = new JMenuBar();
 
-			PreferencesUtil.installFramePrefsHandler(prefs, "view", f);
-			Point loc = f.getLocation();
-			boolean moved;
-			do {
-				moved = false;
-				for (View aView : views()) {
-					if (aView != view
-							&& aView.isShowing()
-							&& SwingUtilities
-									.getWindowAncestor(aView.getComponent())
-									.getLocation().equals(loc)) {
-						loc.x += 22;
-						loc.y += 22;
-						moved = true;
-						break;
-					}
-				}
-			} while (moved);
-			f.setLocation(loc);
+        // Get menus from application model
+        JMenu fileMenu = null;
+        JMenu editMenu = null;
+        JMenu helpMenu = null;
+        JMenu viewMenu = null;
+        JMenu windowMenu = null;
+        String fileMenuText = labels.getString("file.text");
+        String editMenuText = labels.getString("edit.text");
+        String viewMenuText = labels.getString("view.text");
+        String windowMenuText = labels.getString("window.text");
+        String helpMenuText = labels.getString("help.text");
+        LinkedList<JMenu> ll = new LinkedList<JMenu>();
+        getModel().getMenuBuilder().addOtherMenus(ll, this, v);
+        for (JMenu mm : ll) {
+            String text = mm.getText();
+            if (text == null) {
+                mm.setText("-null-");
+            } else if (text.equals(fileMenuText)) {
+                fileMenu = mm;
+                continue;
+            } else if (text.equals(editMenuText)) {
+                editMenu = mm;
+                continue;
+            } else if (text.equals(viewMenuText)) {
+                viewMenu = mm;
+                continue;
+            } else if (text.equals(windowMenuText)) {
+                windowMenu = mm;
+                continue;
+            } else if (text.equals(helpMenuText)) {
+                helpMenu = mm;
+                continue;
+            }
+            mb.add(mm);
+        }
 
-			new FrameHandler(f, view);
-			addWindow(f, view);
+        // Create missing standard menus
+        if (fileMenu == null) {
+            fileMenu = createFileMenu(v);
+        }
+        if (editMenu == null) {
+            editMenu = createEditMenu(v);
+        }
+        if (viewMenu == null) {
+            viewMenu = createViewMenu(v);
+        }
+        if (windowMenu == null) {
+            windowMenu = createWindowMenu(v);
+        }
+        if (helpMenu == null) {
+            helpMenu = createHelpMenu(v);
+        }
 
-			f.getContentPane().add(view.getComponent());
-			f.setVisible(true);
-			view.start();
-		}
-	}
+        // Insert standard menus into menu bar
+        if (fileMenu != null) {
+            mb.add(fileMenu, 0);
+        }
+        if (editMenu != null) {
+            mb.add(editMenu, Math.min(1, mb.getComponentCount()));
+        }
+        if (viewMenu != null) {
+            mb.add(viewMenu, Math.min(2, mb.getComponentCount()));
+        }
+        if (windowMenu != null) {
+            mb.add(windowMenu);
+        }
+        if (helpMenu != null) {
+            mb.add(helpMenu);
+        }
 
-	/**
-	 * Updates the title of a view and displays it in the given frame.
-	 * 
-	 * @param v
-	 *            The view.
-	 * @param f
-	 *            The frame.
-	 */
-	protected void updateViewTitle(View v, JFrame f) {
-		String title;
-		URI uri = v.getURI();
-		if (uri == null) {
-			title = labels.getString("unnamedFile");
-		} else {
-			title = URIUtil.getName(uri);
-		}
-		v.setTitle(labels.getFormatted("frame.title", title, getName(),
-				v.getMultipleOpenId()));
-		f.setTitle(v.getTitle());
+        return mb;
+    }
 
-		// Adds a proxy icon for the file to the title bar
-		// See
-		// http://developer.apple.com/technotes/tn2007/tn2196.html#WINDOW_DOCUMENTFILE
-		if (uri != null && uri.getScheme() != null
-				&& uri.getScheme().equals("file")) {
-			f.getRootPane().putClientProperty("Window.documentFile",
-					new File(uri));
-		} else {
-			f.getRootPane().putClientProperty("Window.documentFile", null);
-		}
-	}
+    public JMenu createViewMenu(final View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "view");
 
-	public void hide(View p) {
-		if (p.isShowing()) {
-			JFrame f = (JFrame) SwingUtilities.getWindowAncestor(p
-					.getComponent());
-			if (getActiveView() == p) {
-				setActiveView(null);
-			}
-			f.setVisible(false);
-			removeWindow(f);
-			f.remove(p.getComponent());
-			f.dispose();
-		}
-	}
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherViewItems(m, this, view);
 
-	/**
-	 * Creates a menu bar.
-	 */
-	protected JMenuBar createMenuBar(View v) {
-		JMenuBar mb = new JMenuBar();
+        return (m.getItemCount() > 0) ? m : null;
+    }
 
-		// Get menus from application model
-		JMenu fileMenu = null;
-		JMenu editMenu = null;
-		JMenu helpMenu = null;
-		JMenu viewMenu = null;
-		JMenu windowMenu = null;
-		String fileMenuText = labels.getString("file.text");
-		String editMenuText = labels.getString("edit.text");
-		String viewMenuText = labels.getString("view.text");
-		String windowMenuText = labels.getString("window.text");
-		String helpMenuText = labels.getString("help.text");
-		LinkedList<JMenu> ll = new LinkedList<JMenu>();
-		getModel().getMenuBuilder().addOtherMenus(ll, this, v);
-		for (JMenu mm : ll) {
-			String text = mm.getText();
-			if (text == null) {
-				mm.setText("-null-");
-			} else if (text.equals(fileMenuText)) {
-				fileMenu = mm;
-				continue;
-			} else if (text.equals(editMenuText)) {
-				editMenu = mm;
-				continue;
-			} else if (text.equals(viewMenuText)) {
-				viewMenu = mm;
-				continue;
-			} else if (text.equals(windowMenuText)) {
-				windowMenu = mm;
-				continue;
-			} else if (text.equals(helpMenuText)) {
-				helpMenu = mm;
-				continue;
-			}
-			mb.add(mm);
-		}
+    public JMenu createWindowMenu(View view) {
+        JMenu m;
 
-		// Create missing standard menus
-		if (fileMenu == null) {
-			fileMenu = createFileMenu(v);
-		}
-		if (editMenu == null) {
-			editMenu = createEditMenu(v);
-		}
-		if (viewMenu == null) {
-			viewMenu = createViewMenu(v);
-		}
-		if (windowMenu == null) {
-			windowMenu = createWindowMenu(v);
-		}
-		if (helpMenu == null) {
-			helpMenu = createHelpMenu(v);
-		}
+        m = new JMenu();
+        JMenu windowMenu = m;
+        labels.configureMenu(m, "window");
+        m.addSeparator();
 
-		// Insert standard menus into menu bar
-		if (fileMenu != null) {
-			mb.add(fileMenu, 0);
-		}
-		if (editMenu != null) {
-			mb.add(editMenu, Math.min(1, mb.getComponentCount()));
-		}
-		if (viewMenu != null) {
-			mb.add(viewMenu, Math.min(2, mb.getComponentCount()));
-		}
-		if (windowMenu != null) {
-			mb.add(windowMenu);
-		}
-		if (helpMenu != null) {
-			mb.add(helpMenu);
-		}
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addOtherWindowItems(m, this, view);
 
-		return mb;
-	}
+        new WindowMenuHandler(windowMenu, view);
 
-	public JMenu createViewMenu(final View view) {
-		JMenu m = new JMenu();
-		labels.configureMenu(m, "view");
+        return (m.getItemCount() == 0) ? null : m;
+    }
 
-		MenuBuilder mb = model.getMenuBuilder();
-		mb.addOtherViewItems(m, this, view);
+    public JMenu createFileMenu(View view) {
+        JMenu m;
 
-		return (m.getItemCount() > 0) ? m : null;
-	}
+        m = new JMenu();
+        labels.configureMenu(m, "file");
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addClearFileItems(m, this, view);
+        mb.addNewFileItems(m, this, view);
+        mb.addNewWindowItems(m, this, view);
 
-	public JMenu createWindowMenu(View view) {
-		JMenu m;
+        mb.addLoadFileItems(m, this, view);
+        mb.addOpenFileItems(m, this, view);
 
-		m = new JMenu();
-		JMenu windowMenu = m;
-		labels.configureMenu(m, "window");
-		m.addSeparator();
+        if (getAction(view, LoadFileAction.ID) != null
+                || //
+                getAction(view, OpenFileAction.ID) != null
+                || //
+                getAction(view, LoadDirectoryAction.ID) != null
+                || //
+                getAction(view, OpenDirectoryAction.ID) != null) {
+            m.add(createOpenRecentFileMenu(view));
+        }
+        maybeAddSeparator(m);
 
-		MenuBuilder mb = model.getMenuBuilder();
-		mb.addOtherWindowItems(m, this, view);
+        mb.addCloseFileItems(m, this, view);
+        mb.addSaveFileItems(m, this, view);
+        mb.addExportFileItems(m, this, view);
+        mb.addPrintFileItems(m, this, view);
 
-		new WindowMenuHandler(windowMenu, view);
+        mb.addOtherFileItems(m, this, view);
+        mb.addExitItems(m, this, view);
 
-		return (m.getItemCount() == 0) ? null : m;
-	}
+        return (m.getItemCount() == 0) ? null : m;
+    }
 
-	public JMenu createFileMenu(View view) {
-		JMenu m;
+    public JMenu createEditMenu(View view) {
 
-		m = new JMenu();
-		labels.configureMenu(m, "file");
-		MenuBuilder mb = model.getMenuBuilder();
-		mb.addClearFileItems(m, this, view);
-		mb.addNewFileItems(m, this, view);
-		mb.addNewWindowItems(m, this, view);
+        JMenu m;
+        m = new JMenu();
+        labels.configureMenu(m, "edit");
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addUndoItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addClipboardItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addSelectionItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addFindItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addOtherEditItems(m, this, view);
+        maybeAddSeparator(m);
+        mb.addPreferencesItems(m, this, view);
+        return (m.getItemCount() == 0) ? null : m;
+    }
 
-		mb.addLoadFileItems(m, this, view);
-		mb.addOpenFileItems(m, this, view);
+    @Override
+    public JMenu createHelpMenu(View view) {
+        JMenu m = new JMenu();
+        labels.configureMenu(m, "help");
 
-		if (getAction(view, LoadFileAction.ID) != null || //
-				getAction(view, OpenFileAction.ID) != null || //
-				getAction(view, LoadDirectoryAction.ID) != null || //
-				getAction(view, OpenDirectoryAction.ID) != null) {
-			m.add(createOpenRecentFileMenu(view));
-		}
-		maybeAddSeparator(m);
+        MenuBuilder mb = model.getMenuBuilder();
+        mb.addHelpItems(m, this, view);
+        mb.addAboutItems(m, this, view);
+        return (m.getItemCount() == 0) ? null : m;
+    }
 
-		mb.addCloseFileItems(m, this, view);
-		mb.addSaveFileItems(m, this, view);
-		mb.addExportFileItems(m, this, view);
-		mb.addPrintFileItems(m, this, view);
+    /**
+     * Sets menus and the like for non-document windows (no-op on windows?)
+     * @param dialog the dialog to initialize.
+     */
+    @Override
+    public void initSecondaryWindow(final JFrame dialog) {
+        // Does nothing.
+        //SwingUtilities.invokeLater(()->{});
+    }
 
-		mb.addOtherFileItems(m, this, view);
-		mb.addExitItems(m, this, view);
+    protected void initPalettes(final LinkedList<Action> paletteActions) {
+        SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
 
-		return (m.getItemCount() == 0) ? null : m;
-	}
+            @Override
+            public LinkedList<JFrame> construct() {
+                LinkedList<JFrame> palettes = new LinkedList<JFrame>();
+                LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(
+                        getModel().createToolBars(
+                                QenherOSXLikeApplication.this, null));
 
-	public JMenu createEditMenu(View view) {
+                int i = 0;
+                int x = 0;
+                for (JToolBar tb : toolBars) {
+                    i++;
+                    tb.setFloatable(false);
+                    tb.setOrientation(JToolBar.VERTICAL);
+                    tb.setFocusable(true);
 
-		JMenu m;
-		m = new JMenu();
-		labels.configureMenu(m, "edit");
-		MenuBuilder mb = model.getMenuBuilder();
-		mb.addUndoItems(m, this, view);
-		maybeAddSeparator(m);
-		mb.addClipboardItems(m, this, view);
-		maybeAddSeparator(m);
-		mb.addSelectionItems(m, this, view);
-		maybeAddSeparator(m);
-		mb.addFindItems(m, this, view);
-		maybeAddSeparator(m);
-		mb.addOtherEditItems(m, this, view);
-		maybeAddSeparator(m);
-		mb.addPreferencesItems(m, this, view);
-		return (m.getItemCount() == 0) ? null : m;
-	}
+                    JFrame d = new JFrame();
 
-	public JMenu createHelpMenu(View view) {
-		JMenu m = new JMenu();
-		labels.configureMenu(m, "help");
+                    // Note: Client properties must be set before heavy-weight
+                    // peers are created
+                    // d.getRootPane().putClientProperty("Window.style",
+                    // "small");
+                    // d.getRootPane().putClientProperty(
+                    // "Quaqua.RootPane.isVertical", Boolean.FALSE);
+                    // d.getRootPane().putClientProperty(
+                    // "Quaqua.RootPane.isPalette", Boolean.TRUE);
+                    d.setFocusable(true);
+                    d.setResizable(true);
+                    d.getContentPane().setLayout(new BorderLayout());
+                    d.getContentPane().add(tb, BorderLayout.CENTER);
+                    d.setAlwaysOnTop(true);
+                    // d.setUndecorated(true);
+                    // d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+                    d.getRootPane().setFont(
+                            new Font("Lucida Grande", Font.PLAIN, 11));
 
-		MenuBuilder mb = model.getMenuBuilder();
-		mb.addHelpItems(m, this, view);
-		mb.addAboutItems(m, this, view);
-		return (m.getItemCount() == 0) ? null : m;
-	}
+                    // d.setJMenuBar(createMenuBar(null));
+                    d.pack();
+                    // d.setFocusableWindowState(false);
+                    PreferencesUtil.installPalettePrefsHandler(prefs,
+                            "toolbar." + i, d, x);
+                    x += d.getWidth();
 
-	/**
-	 * Sets menus and the like for non-document windows
-	 * (no-op on windows?)
-	 * @param window
-	 */
-	public void initSecondaryWindow(final JFrame dialog) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			public void run() {
-				//dialog.setJMenuBar(createMenuBar(null));	
-			}
-		});
-	}
-	
-	protected void initPalettes(final LinkedList<Action> paletteActions) {
-		SwingUtilities.invokeLater(new Worker<LinkedList<JFrame>>() {
+                    QenherTogglePaletteAction tpa = new QenherTogglePaletteAction(
+                            QenherOSXLikeApplication.this, d, tb.getName());
+                    palettes.add(d);
+                    if (prefs.getBoolean("toolbar." + i + ".visible", false)) {
+                        addPalette(d);
+                        tpa.putValue(ActionUtil.SELECTED_KEY, true);
+                    }
+                    paletteActions.add(tpa);
+                }
+                return palettes;
 
-			public LinkedList<JFrame> construct() {
-				LinkedList<JFrame> palettes = new LinkedList<JFrame>();
-				LinkedList<JToolBar> toolBars = new LinkedList<JToolBar>(
-						getModel().createToolBars(
-								QenherOSXLikeApplication.this, null));
+            }
 
-				int i = 0;
-				int x = 0;
-				for (JToolBar tb : toolBars) {
-					i++;
-					tb.setFloatable(false);
-					tb.setOrientation(JToolBar.VERTICAL);
-					tb.setFocusable(true);
-
-					JFrame d = new JFrame();
-
-					// Note: Client properties must be set before heavy-weight
-					// peers are created
-					// d.getRootPane().putClientProperty("Window.style",
-					// "small");
-					// d.getRootPane().putClientProperty(
-					// "Quaqua.RootPane.isVertical", Boolean.FALSE);
-					// d.getRootPane().putClientProperty(
-					// "Quaqua.RootPane.isPalette", Boolean.TRUE);
-
-					d.setFocusable(true);
-					d.setResizable(true);
-					d.getContentPane().setLayout(new BorderLayout());
-					d.getContentPane().add(tb, BorderLayout.CENTER);
-					d.setAlwaysOnTop(true);
-					// d.setUndecorated(true);
-					// d.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-					d.getRootPane().setFont(
-							new Font("Lucida Grande", Font.PLAIN, 11));
-
-					// d.setJMenuBar(createMenuBar(null));
-
-					d.pack();
-					// d.setFocusableWindowState(false);
-					PreferencesUtil.installPalettePrefsHandler(prefs,
-							"toolbar." + i, d, x);
-					x += d.getWidth();
-
-					QenherTogglePaletteAction tpa = new QenherTogglePaletteAction(
-							QenherOSXLikeApplication.this, d, tb.getName());
-					palettes.add(d);
-					if (prefs.getBoolean("toolbar." + i + ".visible", false)) {
-						addPalette(d);
-						tpa.putValue(ActionUtil.SELECTED_KEY, true);
-					}
-					paletteActions.add(tpa);
-				}
-				return palettes;
-
-			}
-
-			protected void done(LinkedList<JFrame> result) {
-				@SuppressWarnings("unchecked")
-				LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
-				if (palettes != null) {
-					/*
+            protected void done(LinkedList<JFrame> result) {
+                @SuppressWarnings("unchecked")
+                LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
+                if (palettes != null) {
+                    /*
 					 * for (JFrame p : palettes) { if
 					 * (prefs.getBoolean("toolbar.", true)) addPalette(p); }
-					 */
-					firePropertyChange("paletteCount", 0, palettes.size());
-				}
-			}
-		});
-	}
+                     */
+                    firePropertyChange("paletteCount", 0, palettes.size());
+                }
+            }
+        });
+    }
 
-	public boolean isSharingToolsAmongViews() {
-		return true;
-	}
+    @Override
+    public boolean isSharingToolsAmongViews() {
+        return true;
+    }
 
-	protected ActionMap createModelActionMap(ApplicationModel mo) {
-		ActionMap rootMap = new ActionMap();
-		rootMap.put(AboutAction.ID, new AboutAction(this));
-		rootMap.put(ExitAction.ID, new ExitAction(this));
-		rootMap.put(OpenApplicationAction.ID, new OpenApplicationAction(this));
-		rootMap.put(OpenApplicationFileAction.ID,
-				new OpenApplicationFileAction(this));
-		rootMap.put(ReOpenApplicationAction.ID, new ReOpenApplicationAction(
-				this));
-		rootMap.put(ClearRecentFilesMenuAction.ID,
-				new ClearRecentFilesMenuAction(this));
-		rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this,
-				null));
-		rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this,
-				null));
+    protected ActionMap createModelActionMap(ApplicationModel mo) {
+        ActionMap rootMap = new ActionMap();
+        rootMap.put(AboutAction.ID, new AboutAction(this));
+        rootMap.put(ExitAction.ID, new ExitAction(this));
+        rootMap.put(OpenApplicationAction.ID, new OpenApplicationAction(this));
+        rootMap.put(OpenApplicationFileAction.ID,
+                new OpenApplicationFileAction(this));
+        rootMap.put(ReOpenApplicationAction.ID, new ReOpenApplicationAction(
+                this));
+        rootMap.put(ClearRecentFilesMenuAction.ID,
+                new ClearRecentFilesMenuAction(this));
+        rootMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(this,
+                null));
+        rootMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(this,
+                null));
 
-		ActionMap moMap = mo.createActionMap(this, null);
-		moMap.setParent(rootMap);
-		return moMap;
-	}
+        ActionMap moMap = mo.createActionMap(this, null);
+        moMap.setParent(rootMap);
+        return moMap;
+    }
 
-	protected ActionMap createViewActionMap(View v) {
-		ActionMap intermediateMap = new ActionMap();
-		intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
-		intermediateMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(
-				this, v));
-		intermediateMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(
-				this, v));
+    protected ActionMap createViewActionMap(View v) {
+        ActionMap intermediateMap = new ActionMap();
+        intermediateMap.put(FocusWindowAction.ID, new FocusWindowAction(v));
+        intermediateMap.put(MaximizeWindowAction.ID, new MaximizeWindowAction(
+                this, v));
+        intermediateMap.put(MinimizeWindowAction.ID, new MinimizeWindowAction(
+                this, v));
 
-		ActionMap vMap = model.createActionMap(this, v);
-		vMap.setParent(intermediateMap);
-		intermediateMap.setParent(getActionMap(null));
-		return vMap;
-	}
+        ActionMap vMap = model.createActionMap(this, v);
+        vMap.setParent(intermediateMap);
+        intermediateMap.setParent(getActionMap(null));
+        return vMap;
+    }
 
-	/** Updates the menu items in the "Window" menu. */
-	private class WindowMenuHandler implements PropertyChangeListener,
-			Disposable {
+    /**
+     * Updates the menu items in the "Window" menu.
+     */
+    private class WindowMenuHandler implements PropertyChangeListener,
+            Disposable {
 
-		private JMenu windowMenu;
+        private final JMenu windowMenu;
 
-		private View view;
+        private View view;
 
-		public WindowMenuHandler(JMenu windowMenu, View view) {
-			this.windowMenu = windowMenu;
-			this.view = view;
-			QenherOSXLikeApplication.this.addPropertyChangeListener(this);
-			if (view != null) {
-				view.addDisposable(this);
-			}
-			updateWindowMenu();
-		}
+        public WindowMenuHandler(JMenu windowMenu, View view) {
+            this.windowMenu = windowMenu;
+            this.view = view;
+            QenherOSXLikeApplication.this.addPropertyChangeListener(this);
+            if (view != null) {
+                view.addDisposable(this);
+            }
+            updateWindowMenu();
+        }
 
-		public void propertyChange(PropertyChangeEvent evt) {
-			String name = evt.getPropertyName();
-			if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
-				updateWindowMenu();
-			}
-		}
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name == VIEW_COUNT_PROPERTY || name == "paletteCount") {
+                updateWindowMenu();
+            }
+        }
 
-		protected void updateWindowMenu() {
-			JMenu m = windowMenu;
-			JMenuItem mi;
+        protected void updateWindowMenu() {
+            JMenu m = windowMenu;
+            JMenuItem mi;
 
-			// FIXME - We leak memory here!!
-			m.removeAll();
-			mi = m.add(getAction(view, MinimizeWindowAction.ID));
-			mi.setIcon(null);
-			mi = m.add(getAction(view, MaximizeWindowAction.ID));
-			mi.setIcon(null);
-			m.addSeparator();
-			for (View pr : views()) {
-				if (getAction(pr, FocusWindowAction.ID) != null) {
-					mi = m.add(getAction(pr, FocusWindowAction.ID));
-				}
-			}
-			if (paletteActions.size() > 0) {
-				m.addSeparator();
-				for (Action a : paletteActions) {
-					JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
-					ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
-					cbmi.setIcon(null);
-					m.add(cbmi);
-				}
-			}
+            // FIXME - We leak memory here!!
+            m.removeAll();
+            mi = m.add(getAction(view, MinimizeWindowAction.ID));
+            mi.setIcon(null);
+            mi = m.add(getAction(view, MaximizeWindowAction.ID));
+            mi.setIcon(null);
+            m.addSeparator();
+            for (View pr : views()) {
+                if (getAction(pr, FocusWindowAction.ID) != null) {
+                    mi = m.add(getAction(pr, FocusWindowAction.ID));
+                }
+            }
+            if (paletteActions.size() > 0) {
+                m.addSeparator();
+                for (Action a : paletteActions) {
+                    JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(a);
+                    ActionUtil.configureJCheckBoxMenuItem(cbmi, a);
+                    cbmi.setIcon(null);
+                    m.add(cbmi);
+                }
+            }
 
-			MenuBuilder mb = model.getMenuBuilder();
-			mb.addOtherWindowItems(m, QenherOSXLikeApplication.this, view);
-		}
+            MenuBuilder mb = model.getMenuBuilder();
+            mb.addOtherWindowItems(m, QenherOSXLikeApplication.this, view);
+        }
 
-		public void dispose() {
-			windowMenu.removeAll();
-			removePropertyChangeListener(this);
-			view = null;
-		}
-	}
+        public void dispose() {
+            windowMenu.removeAll();
+            removePropertyChangeListener(this);
+            view = null;
+        }
+    }
 
-	/** Updates the modifedState of the frame. */
-	private class FrameHandler extends WindowAdapter implements
-			PropertyChangeListener, Disposable {
+    /**
+     * Updates the modifedState of the frame.
+     */
+    private class FrameHandler extends WindowAdapter implements
+            PropertyChangeListener, Disposable {
 
-		private JFrame frame;
-		private View view;
+        private final JFrame frame;
+        private final View view;
 
-		public FrameHandler(JFrame frame, View view) {
-			this.frame = frame;
-			this.view = view;
-			view.addPropertyChangeListener(this);
-			frame.addWindowListener(this);
-			view.addDisposable(this);
-		}
+        public FrameHandler(JFrame frame, View view) {
+            this.frame = frame;
+            this.view = view;
+            view.addPropertyChangeListener(this);
+            frame.addWindowListener(this);
+            view.addDisposable(this);
+        }
 
-		public void propertyChange(PropertyChangeEvent evt) {
-			String name = evt.getPropertyName();
-			if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
-				frame.getRootPane().putClientProperty("windowModified",
-						view.hasUnsavedChanges());
-			} else if (name.equals(View.URI_PROPERTY)
-					|| name.equals(View.TITLE_PROPERTY)) {
-				updateViewTitle(view, frame);
-			}
-		}
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            String name = evt.getPropertyName();
+            if (name.equals(View.HAS_UNSAVED_CHANGES_PROPERTY)) {
+                frame.getRootPane().putClientProperty("windowModified",
+                        view.hasUnsavedChanges());
+            } else if (name.equals(View.URI_PROPERTY)
+                    || name.equals(View.TITLE_PROPERTY)) {
+                updateViewTitle(view, frame);
+            }
+        }
 
-		public void windowClosing(final WindowEvent evt) {
-			getAction(view, CloseFileAction.ID).actionPerformed(
-					new ActionEvent(evt.getSource(),
-							ActionEvent.ACTION_PERFORMED, "windowClosing"));
-		}
+        @Override
+        public void windowClosing(final WindowEvent evt) {
+            getAction(view, CloseFileAction.ID).actionPerformed(
+                    new ActionEvent(evt.getSource(),
+                            ActionEvent.ACTION_PERFORMED, "windowClosing"));
+        }
 
-		public void windowClosed(final WindowEvent evt) {
-		}
+        @Override
+        public void windowClosed(final WindowEvent evt) {
+        }
 
-		public void windowIconified(WindowEvent e) {
-			if (view == getActiveView()) {
-				setActiveView(null);
-			}
-			view.stop();
-		}
+        @Override
+        public void windowIconified(WindowEvent e) {
+            if (view == getActiveView()) {
+                setActiveView(null);
+            }
+            view.stop();
+        }
 
-		public void windowDeiconified(WindowEvent e) {
-			view.start();
-		}
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            view.start();
+        }
 
-		public void dispose() {
-			frame.removeWindowListener(this);
-			view.removePropertyChangeListener(this);
-		}
+        @Override
+        public void dispose() {
+            frame.removeWindowListener(this);
+            view.removePropertyChangeListener(this);
+        }
+        
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+            setActiveView(view);
+        }
+    }
 
-		public void windowGainedFocus(WindowEvent e) {
-			setActiveView(view);
-		}
-	}
+    @Override
+    public Component getComponent() {
+        return null;
+    }
 
-	public Component getComponent() {
-		return null;
-	}
+    private static class QuitHandler {
 
-	private static class QuitHandler {
-
-		/**
-		 * This method is invoked, when the user has selected the Quit menu
-		 * item.
-		 * 
-		 * @return Returns true if the application has no unsaved changes and
-		 *         can be closed.
-		 */
-		public boolean handleQuit() {
-			return false;
-		}
-	}
+        /**
+         * This method is invoked, when the user has selected the Quit menu
+         * item.
+         *
+         * @return Returns true if the application has no unsaved changes and
+         * can be closed.
+         */
+        public boolean handleQuit() {
+            return false;
+        }
+    }
 }
