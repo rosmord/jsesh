@@ -5,8 +5,20 @@
     <parent>
         <artifactId>JSesh-all</artifactId>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
-        <version>7.0.0</version>
+        <version>7.0.1</version>
     </parent>
+    <description>
+        The original installer builder for JSesh.
+        I will still distribute the corresponding jar
+        (which will probably be all right for linux users,
+        who are supposed to be able to fix problems with, for
+        instance, versions of java).
+        For Mac and Windows, my policy will now be to provide a fully bundled
+        version.
+        
+        Note: packr.jar might also be used.
+        
+    </description>
     <artifactId>jsesh-installer</artifactId> 
     <name>jsesh-installer</name>
     <url>http://maven.apache.org</url>

@@ -118,9 +118,9 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         System.err.println("PlatformDefaults.getDefaultDPI "+ PlatformDefaults.getDefaultDPI());       
         app.setModel(applicationModel);
         app.launch(args);
-        int currentDpi= PlatformDefaults.getDefaultDPI();
-        double dpi = app.getComponent().getToolkit().getScreenResolution();
-        System.err.println("You should scale "+ dpi/currentDpi);
+        //int currentDpi= PlatformDefaults.getDefaultDPI();
+        //double dpi = app.getComponent().getToolkit().getScreenResolution();
+        //System.err.println("You should scale "+ dpi/currentDpi);
         // Sample code from MigLayout
         //g2.scale(dpi / CUR_DPI, dpi / CUR_DPI);
         //g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);

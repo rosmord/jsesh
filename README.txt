@@ -40,3 +40,15 @@ Mac OS X distribution:
         (allows copy/paste of PDF)
 
     P.S. see if we can handle this as EMF ?
+
+Note about recent changes on Mac:
+Translocation is certainly reasonable in some cases. For me, it's a *#!
+idea which will force me to either integrate the sign editor in JSesh,
+or double JSesh's size.
+You can look at https://lapcatsoftware.com/articles/app-translocation.html,
+Moving the app itself though the finder removes the translocation problem...
+but ... not moving a FOLDER which contains the app... Bored now.
+https://weblog.rogueamoeba.com/2016/06/29/sierra-and-gatekeeper-path-randomization/
+Solution : make a package (.pkg) for instance with "Packages" by Stéphane Sudre.
+
+Windows distribution:

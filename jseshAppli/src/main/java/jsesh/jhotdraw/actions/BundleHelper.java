@@ -18,9 +18,9 @@ import org.jhotdraw_7_6.util.ResourceBundleUtil;
  */
 public class BundleHelper {
 
-	private static BundleHelper instance = new BundleHelper();
+	private static final BundleHelper instance = new BundleHelper();
 
-	private ResourceBundleUtil resourceBundleUtil;
+	private final ResourceBundleUtil resourceBundleUtil;
 
 	private BundleHelper() {
 		resourceBundleUtil = ResourceBundleUtil

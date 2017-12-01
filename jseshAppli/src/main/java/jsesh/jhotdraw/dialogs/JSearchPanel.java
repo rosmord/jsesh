@@ -45,6 +45,7 @@ import jsesh.jhotdraw.viewClass.JSeshViewModel;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.utils.MDCCodeExtractor;
 import jsesh.search.MdCSearchQuery;
+import jsesh.search.QuadrantSearchQuery;
 import jsesh.search.SignStringSearchQuery;
 import net.miginfocom.swing.MigLayout;
 import org.jhotdraw_7_6.app.Application;
@@ -103,6 +104,9 @@ public final class JSearchPanel extends JFrame {
                 if (searchGlyphsSearchBox.isSelected()) {
                     List<String> l = new MDCCodeExtractor().getCodesAsList(mDCField.getMDCText());
                     query = new SignStringSearchQuery(l);
+                    jSeshView.doSearch(query);
+                } else {
+                    query= new QuadrantSearchQuery(mDCField.getHieroglyphicTextModel().getModel());
                     jSeshView.doSearch(query);
                 }
             } catch (MDCSyntaxError e) {

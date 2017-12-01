@@ -48,7 +48,7 @@ import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
  *
  * @author rosmord
  */
-public class FindAction extends AbstractApplicationAction {
+public final class FindAction extends AbstractApplicationAction {
 
     public static final String ID = "edit.find";
 
