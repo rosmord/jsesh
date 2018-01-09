@@ -16,8 +16,8 @@ import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.mdcDisplayer.swing.units.UnitMediator;
+import jsesh.swing.units.LengthUnit;
+import jsesh.swing.units.UnitMediator;
 import jsesh.swing.utils.FileButtonMapper;
 
 /**

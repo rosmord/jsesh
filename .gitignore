@@ -15,3 +15,5 @@
 .settings
 .project
 nb-configuration.xml
+.vscode
+

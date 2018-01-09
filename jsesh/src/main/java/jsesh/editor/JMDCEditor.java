@@ -165,8 +165,7 @@ public class JMDCEditor extends JPanel {
 
     public void setHieroglyphiTextModel(
             HieroglyphicTextModel hieroglyphicTextModel) {
-        workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
-        
+        workflow.setHieroglyphicTextModel(hieroglyphicTextModel);        
         invalidateView();
     }
 
@@ -205,6 +204,7 @@ public class JMDCEditor extends JPanel {
         return workflow.getCaret();
     }
 
+    @Override
     public Dimension getPreferredSize() {
         if (getHieroglyphicTextModel() == null) {
             return new Dimension(600, 600);
@@ -305,6 +305,7 @@ public class JMDCEditor extends JPanel {
                 - insets.right, getHeight() - insets.top - insets.bottom);
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         drawBaseComponent(g);
         GraphicsDevice[] devs = GraphicsEnvironment

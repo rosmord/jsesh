@@ -2,7 +2,7 @@
  * author : Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.mdcDisplayer.swing.units;
+package jsesh.swing.units;
 
 import javax.swing.JFormattedTextField;
 

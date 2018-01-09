@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.swing.units;
+package jsesh.swing.units;
 
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;

@@ -14,20 +14,7 @@ b) replace the original main.sh files for JSesh and SignInfo with those from
 
 b1) place the jre in the Contents folder of the application.
 
-c) run disk utilities and create a DMG image large enough for the project
-    copy the file back1.png in the ".background" folder on this disk
-    
-    open .background
-    edit display options, make background the background
-    copy the JSesh application folder in the DMG
-    make a symbolic link to application
-    fix folder size (120x120, text 16pt is fine)
-
-d) eject the dmg
-e) from disk utility, menu "convert". Choose your dmg; make it read only and
-    compressed.
-
-f) done !
+See JSesh-7.0.1-dist.pkgproj for a config file for the Packages software for Mac.
 
 ------------------------------------
 Building a PC distribution : 
