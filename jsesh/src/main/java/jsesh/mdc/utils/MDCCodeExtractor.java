@@ -14,8 +14,9 @@ import jsesh.mdc.interfaces.ModifierListInterface;
 import jsesh.mdc.model.utilities.HieroglyphExtractor;
 
 /**
- * An extractor is able to fetch codes from a manuel de codage STRING, and, if
- * needed, to normalize them.
+ * An extractor is able to fetch codes from a manuel de codage STRING
+ * (see HieroglyphExtractor otherwise) and, if needed, to normalize them. 
+ * 
  *
  * @see HieroglyphExtractor for a class working on already parsed text.
  * @author rosmord
@@ -40,8 +41,6 @@ public class MDCCodeExtractor {
         parser.parse(new StringReader(manuelDeCodageText));
         return builder.result;
     }
-
-  
     
     private class SignListBuilder extends MDCBuilderAdapter {
 

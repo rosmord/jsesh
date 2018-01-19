@@ -23,6 +23,7 @@ import jsesh.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
+import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplyModelAction;
@@ -271,6 +272,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 	public void addOtherEditItems(JMenu editMenu, Application app, View view) {
 		if (view == null)
 			return;
+                editMenu.addSeparator();
+                editMenu.add(app.getActionMap(null).get(FindInFolderAction.ID));
 		editMenu.addSeparator();
 		JMenu copyAsMenu = BundleHelper.getInstance().configure(new JMenu(),
 				"edit.copyAs");

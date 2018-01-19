@@ -61,6 +61,7 @@ import jsesh.jhotdraw.actions.application.JSeshAboutAction;
 import jsesh.jhotdraw.actions.application.JSeshApplicationPreferenceAction;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.FindAction;
+import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.FindNextAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
@@ -242,6 +243,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ImportRTFAction.ID, new ImportRTFAction(a));
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
+            map.put(FindInFolderAction.ID, new FindInFolderAction(a));
             // palette ...
 
             palettePresenter = new PalettePresenter();
