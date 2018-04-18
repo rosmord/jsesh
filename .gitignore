@@ -16,5 +16,7 @@
 .project
 nb-configuration.xml
 .vscode
-
+*.iml
+.idea
 /codeDumper/target/
+.sts4-cache

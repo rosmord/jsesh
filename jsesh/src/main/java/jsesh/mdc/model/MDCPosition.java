@@ -25,7 +25,13 @@ import java.io.Serializable;
  * index in this element. For instance, inserting element e1 at position 0 in
  * element e0 would make e1 the first child of e0. The first child of an element
  * stands between positions 0 and 1.
- * 
+ *
+ * <p>
+ *     BEWARE: Positions are currently not suitable if you want to transfer information
+ *     from one text to the other. More precisely, in the search system, two representations
+ *     of the same text might be stored in memory. MDCPositions are not suitable in this
+ *     case.
+ * </p>
  * <p>
  * A position can be used to insert new data, as well as to implement cursors,
  * text selection, etc.
@@ -45,14 +51,6 @@ public class MDCPosition implements Cloneable, Serializable, Comparable<MDCPosit
 	private TopItemList topItemList;
 
 	private int index;
-
-	// Methods :
-	// getTopMostHre
-	// getPrevious, getNext
-	// getNextBrother, getPreviousBrother
-	// getParent
-	// getFirstChild
-	// getLastChild
 
 	/**
 	 * TEMPORARY CONSTRUCTOR.

@@ -72,7 +72,7 @@ public abstract class AbstractOpenDocumentAction extends
 
 		if (uri != null) {
 			app.show(view);
-			openViewFromURI(view, uri);
+			new ViewOpenerForDocument().openViewFromURI(view, uri);
 		}
 	}
 
@@ -84,92 +84,4 @@ public abstract class AbstractOpenDocumentAction extends
 	 * @return an URI, or null if no document should be opened after all.
 	 */
 	protected abstract URI getDocumentURI();
-
-	protected void openViewFromURI(final View view, final URI uri) {
-		final Application app = getApplication();
-		app.setEnabled(true);
-		view.setEnabled(false);
-
-		// If there is another view with the same URI we set the multiple open
-		// id of our view to max(multiple open id) + 1.
-		int multipleOpenId = 1;
-		for (View aView : app.views()) {
-			if (aView != view && aView.getURI() != null
-					&& aView.getURI().equals(uri)) {
-				multipleOpenId = Math.max(multipleOpenId,
-						aView.getMultipleOpenId() + 1);
-			}
-		}
-		view.setMultipleOpenId(multipleOpenId);
-		view.setEnabled(false);
-
-		// Open the file
-		view.execute(new Worker<Object>() {
-
-			@Override
-			public Object construct() throws IOException {
-				boolean exists = true;
-				try {
-					exists = new File(uri).exists();
-				} catch (IllegalArgumentException e) {
-				}
-				if (exists) {
-					view.read(uri, null);
-					return null;
-				} else {
-					ResourceBundleUtil labels = ResourceBundleUtil
-							.getBundle("org.jhotdraw_7_6.app.Labels");
-					throw new IOException(labels.getFormatted(
-							"file.open.fileDoesNotExist.message",
-							URIUtil.getName(uri)));
-				}
-			}
-
-			@Override
-			protected void done(Object value) {
-				final Application app = getApplication();
-				view.setURI(uri);
-				view.setEnabled(true);
-				Frame w = (Frame) SwingUtilities.getWindowAncestor(view
-						.getComponent());
-				if (w != null) {
-					w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
-					w.toFront();
-				}
-				view.getComponent().requestFocus();
-				app.addRecentURI(uri);
-				app.setEnabled(true);
-			}
-
-			@Override
-			protected void failed(Throwable value) {
-				value.printStackTrace();
-				view.setEnabled(true);
-				app.setEnabled(true);
-				String message;
-				if ((value instanceof Throwable)
-						&& ((Throwable) value).getMessage() != null) {
-					message = ((Throwable) value).getMessage();
-					((Throwable) value).printStackTrace();
-				} else if ((value instanceof Throwable)) {
-					message = value.toString();
-					((Throwable) value).printStackTrace();
-				} else {
-					message = value.toString();
-				}
-				ResourceBundleUtil labels = ResourceBundleUtil
-						.getBundle("org.jhotdraw_7_6.app.Labels");
-				JSheet.showMessageSheet(
-						view.getComponent(),
-						"<html>"
-								+ UIManager.getString("OptionPane.css")
-								+ "<b>"
-								+ labels.getFormatted(
-										"file.open.couldntOpen.message",
-										URIUtil.getName(uri)) + "</b><p>"
-								+ ((message == null) ? "" : message),
-						JOptionPane.ERROR_MESSAGE);
-			}
-		});
-	}
 }

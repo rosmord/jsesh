@@ -77,20 +77,6 @@ public class CupMojo extends AbstractMojo {
 	 */
 	private String lexerPackage;
 	
-	public void executeOLD() throws MojoExecutionException, MojoFailureException {
-	
-		try {
-			FileWriter f= new FileWriter("toto.txt");
-			f.write("outpudirName= "+ outputDirName+"\n");
-			f.write("parserName="+parserName+"\n");
-			f.write("output dir "+ tempDirName);
-			f.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		// A) build the directory for temporary outputs
 		File outputDir= new File(outputDirName);		

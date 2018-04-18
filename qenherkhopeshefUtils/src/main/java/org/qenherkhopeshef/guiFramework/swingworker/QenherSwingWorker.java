@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
  * <p>
  * The two type parameters are
  * <ol>
- * <li>the type of the object finaly built
+ * <li>the type of the object finally built
  * <li>the type of the information which is passed to the WorkerListener.
  * </ol>
  * 
@@ -47,6 +47,8 @@ import javax.swing.SwingUtilities;
  * receive information.
  * 
  * @author rosmord
+ * @param <R> type of the final result
+ * @param <U> the update information to track progress.
  */
 abstract public class QenherSwingWorker<R, U> extends SwingWorker1_5<R> {
 	private WorkerListener<R, U> workerListener;

@@ -13,7 +13,7 @@ import jsesh.mdc.model.InnerGroup;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.utilities.InnerGroupLister;
+import jsesh.mdc.utils.InnerGroupLister;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 

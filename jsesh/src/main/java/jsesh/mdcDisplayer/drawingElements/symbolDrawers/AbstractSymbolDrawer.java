@@ -16,8 +16,6 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 
 	/**
 	 * Base class for symbol drawer, with optionnal initial translation.
-	 * 
-	 * @param delta
 	 */
 	public AbstractSymbolDrawer() {
 		super();

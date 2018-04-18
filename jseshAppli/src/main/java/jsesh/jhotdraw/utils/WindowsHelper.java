@@ -41,29 +41,51 @@ import javax.swing.SwingUtilities;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
+/**
+ * Useful static methods for manipulating views and the like.
+ */
 public class WindowsHelper {
 
-	/**
-	 * Gets the root frame for an application and a view
-	 * @param application the application
-	 * @param view the view
-	 * @return a frame, or null if non could be found.
-	 */
-	public static  Frame getRootFrame(Application application, View view) {
-		Frame result= null;
-		try {
-		Component component= null;
-		if (view != null) {
-			 component = SwingUtilities.getRoot((Component) view);
-		} else if (application.getActiveView() != null) {
-			 component = SwingUtilities.getRoot((Component) application.getActiveView());
-		} 
-		result= (Frame) component;
-		} catch (Exception e) {
-			// Those messages might be removed (see method documentation).
-			System.err.println("problem getting window root. Will return null");
-			e.printStackTrace();
-		}
-		return result;
-	}
+    /**
+     * Moves a view to the foreground if possible.
+     * From an heavily replicated piece of code in JHotDraw.
+     *
+     * @param view
+     */
+    public static void toFront(View view) {
+        Frame w = (Frame) SwingUtilities.getWindowAncestor(view.getComponent());
+        if (w != null) {
+            w.setExtendedState(w.getExtendedState() & ~Frame.ICONIFIED);
+            w.toFront();
+        }
+        view.getComponent().requestFocus();
+    }
+
+    /**
+     * Gets the root frame for an application and a view
+     *
+     * @param application the application
+     * @param view        the view
+     * @return a frame, or null if non could be found.
+     */
+    public static Frame getRootFrame(Application application, View view) {
+        Frame result = null;
+        try {
+            Component component = null;
+            if (view != null) {
+                component = SwingUtilities.getRoot((Component) view);
+            } else if (application.getActiveView() != null) {
+                component = SwingUtilities.getRoot((Component) application.getActiveView());
+            }
+            result = (Frame) component;
+        } catch (Exception e) {
+            // Those messages might be removed (see method documentation).
+            System.err.println("problem getting window root. Will return null");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    // Helper class : no instance.
+    private WindowsHelper() {}
 }

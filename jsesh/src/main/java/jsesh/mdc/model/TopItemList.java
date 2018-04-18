@@ -10,6 +10,8 @@ import jsesh.mdc.interfaces.TopItemListInterface;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.model.operations.ZoneModification;
 import jsesh.mdc.output.MdCModelWriter;
+import jsesh.mdc.utils.HieroglyphCodesExtractor;
+import jsesh.mdc.utils.MDCCodeExtractor;
 
 /**
  * 
@@ -421,4 +423,13 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		return getTopItemListBetween(0, getNumberOfChildren());
 	}
 
+
+	/**
+	 * Returns a list with the gardiner codes of all signs in this text.
+	 * @return  a list of Strings.
+	 */
+	public List<String> getCodes() {
+		HieroglyphCodesExtractor extractor= new HieroglyphCodesExtractor(true);
+		return extractor.extractHieroglyphs(this);
+	}
 }

@@ -199,7 +199,33 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         return activeView;
     }
 
-    
+
+    /**
+     * A method to distinguish multiple views of the same file/uri.
+     * <p> the multipleOpenId of view will be computed to avoid
+     * conflicts with other views displaying the same URI.</p>
+     * @param view
+     * @param uri
+     */
+    @Override
+    public void fixMultipleOpenId(View view, URI uri) {
+       		setEnabled(true);
+       		view.setEnabled(false);
+
+       		// If there is another view with the same URI we set the multiple open
+       		// id of our view to max(multiple open id) + 1.
+       		int multipleOpenId = 1;
+       		for (View aView : views()) {
+       			if (aView != view && aView.getURI() != null
+       					&& aView.getURI().equals(uri)) {
+       				multipleOpenId = Math.max(multipleOpenId,
+       						aView.getMultipleOpenId() + 1);
+       			}
+       		}
+       		view.setMultipleOpenId(multipleOpenId);
+       		view.setEnabled(false);
+    }
+
     public String getName() {
         return model.getName();
     }

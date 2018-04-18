@@ -56,7 +56,7 @@ public class BundleHelper {
 	 * methods retuns the item. One can thus write things like:
 	 * 
 	 * <pre>
-	 * menu.add(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
+	 * menu.addAll(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
 	 * </pre>
 	 * 
 	 * @param menu
@@ -74,7 +74,7 @@ public class BundleHelper {
 	 * methods retuns the item. One can thus write things like:
 	 * 
 	 * <pre>
-	 * menu.add(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
+	 * menu.addAll(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
 	 * </pre>
 	 * 
 	 * @param menu

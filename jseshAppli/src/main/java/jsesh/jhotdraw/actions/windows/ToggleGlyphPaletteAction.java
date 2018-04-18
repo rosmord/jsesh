@@ -27,7 +27,7 @@ public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
 	 * 
 	 * @param app
 	 * @param palette
-	 * @param onFirtDisplay
+	 * @param onFirstDisplay
 	 *            (not used currently).
 	 */
 	public ToggleGlyphPaletteAction(Application app, JFrame palette,

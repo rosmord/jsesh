@@ -18,9 +18,9 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
  * A simple class for easy text addition.
- * <p>We are not going to add all text addition commands to the editor object
+ * <p>We are not going to addAll all text addition commands to the editor object
  * itself, so this class allows application-level actions for this task. A
- * graphic representation of the text to add will be used as icon.
+ * graphic representation of the text to addAll will be used as icon.
  *
  * @author S. Rosmorduc
  */
@@ -34,7 +34,7 @@ public class InsertElementAction extends AbstractViewAction {
      *
      * @param app
      * @param view
-     * @param element a prototype of the element to add.
+     * @param element a prototype of the element to addAll.
      * @param mdcTextForIcon the text of the icon which should be displayed
      * (which can be more than the element).
      */

@@ -349,6 +349,7 @@ public class JMDCEditor extends JPanel {
 
     }
 
+
     public java.util.List<MDCPosition> doSearch(MdCSearchQuery query) {
         return getHieroglyphicTextModel().doSearch(query);
    }
@@ -409,6 +410,12 @@ public class JMDCEditor extends JPanel {
     }
 
 
+    public void setInsertPosition(int insertPosition) {
+        // TODO : this is WAAYYY too convoluted. 
+        MDCPosition mdcPosition= getHieroglyphicTextModel().buildPosition(insertPosition);
+        getWorkflow().setCursor(mdcPosition);
+    }
+    
     /**
      * @return the current insertion position.
      */

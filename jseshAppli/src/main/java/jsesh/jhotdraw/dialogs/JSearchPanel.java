@@ -39,6 +39,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import jsesh.editor.JMDCField;
+import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.utils.MDCCodeExtractor;
@@ -69,10 +70,10 @@ public final class JSearchPanel extends JFrame {
     public JSearchPanel(Application application) {
         this.application = application;
         this.mDCField = new JMDCField();
-        this.searchGlyphsSearchBox = new JCheckBox("search glyphs sequence");
+        this.searchGlyphsSearchBox = new JCheckBox(Messages.getString("searchFolder.searchGlyphsCheckBox.text"));
         this.searchGlyphsSearchBox.setSelected(true);
-        this.searchButton = new JButton("search");
-        this.nextButton = new JButton("next");
+        this.searchButton = new JButton(Messages.getString("search"));
+        this.nextButton = new JButton(Messages.getString("edit.findNext.text"));
 
         this.setLayout(new MigLayout());
         this.add(mDCField, "span 2,wrap");

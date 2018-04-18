@@ -43,8 +43,8 @@ import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
-import jsesh.mdcDisplayer.swing.units.LengthUnit;
-import jsesh.mdcDisplayer.swing.units.UnitMediator;
+import jsesh.swing.units.LengthUnit;
+import jsesh.swing.units.UnitMediator;
 
 /**
  * Presenter for drawing preferences.

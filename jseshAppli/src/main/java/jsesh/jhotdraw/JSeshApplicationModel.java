@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
+import jsesh.jhotdraw.search.CorpusSearchPresenter;
 import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Component;
@@ -178,6 +179,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     private final MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
     private PalettePresenter palettePresenter;
+    private CorpusSearchPresenter corpusSearchPresenter;
 
     private JGlossaryEditor glossaryEditor;
 
@@ -186,6 +188,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         super.initApplication(a);
         this.application = a;
         ((ActiveViewAwareApplication) a).initSecondaryWindow(palettePresenter.getDialog());
+        ((ActiveViewAwareApplication) a).initSecondaryWindow(corpusSearchPresenter.getDialog());
     }
 
     /*
@@ -243,7 +246,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ImportRTFAction.ID, new ImportRTFAction(a));
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
-            map.put(FindInFolderAction.ID, new FindInFolderAction(a));
+            // Corpus search...
+            corpusSearchPresenter= new CorpusSearchPresenter((ActiveViewAwareApplication)a);
+            map.put(FindInFolderAction.ID, new FindInFolderAction((ActiveViewAwareApplication)a, corpusSearchPresenter));
+
             // palette ...
 
             palettePresenter = new PalettePresenter();

@@ -11,7 +11,6 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.interfaces.HieroglyphInterface;
 import jsesh.mdc.interfaces.MDCBuilderAdapter;
 import jsesh.mdc.interfaces.ModifierListInterface;
-import jsesh.mdc.model.utilities.HieroglyphExtractor;
 
 /**
  * An extractor is able to fetch codes from a manuel de codage STRING

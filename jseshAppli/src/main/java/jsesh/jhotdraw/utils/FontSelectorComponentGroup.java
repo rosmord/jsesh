@@ -171,7 +171,7 @@ public class FontSelectorComponentGroup {
      * display have the same size.
      * @param buttonConstraints on the button. Typically also something like "sg
      * b".
-     * @param finalConstraints the mig constraints to add after the last element
+     * @param finalConstraints the mig constraints to addAll after the last element
      * (the size combobox). Typically "wrap".
      */
     public void doMigLayout(JPanel panel, String displayContraints, String buttonConstraints,

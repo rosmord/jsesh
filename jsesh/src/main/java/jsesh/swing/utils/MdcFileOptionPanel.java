@@ -64,13 +64,6 @@ public class MdcFileOptionPanel extends JPanel {
 	}
 	
 	private void prepareLayout() {
-		
-		//FormLayout layout = new FormLayout("right:pref,3dlu,pref,3dlu","");
-		//setLayout(layout);
-		//DefaultFormBuilder builder = new DefaultFormBuilder(layout,this);
-		//builder.setDefaultDialogBorder();
-
 		add("File encoding",encodingField);
-		
 	}
 }

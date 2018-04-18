@@ -1,0 +1,13 @@
+.button {
+    -fx-font-weight: bold;    
+}
+
+* {
+    -fx-padding: 2pt;
+    -fx-margin: 4pt;
+}
+
+.grid {
+    -fx-padding: 10pt;
+}
+

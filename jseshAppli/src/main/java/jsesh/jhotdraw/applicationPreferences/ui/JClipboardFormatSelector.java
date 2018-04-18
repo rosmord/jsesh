@@ -33,19 +33,14 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.JCheckBox;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
 public class JClipboardFormatSelector {
 	private JPanel panel = new JPanel();

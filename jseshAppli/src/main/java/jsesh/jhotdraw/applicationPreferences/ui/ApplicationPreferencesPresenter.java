@@ -33,13 +33,13 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import java.awt.Component;
-
-import javax.swing.JTabbedPane;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.JSimpleDialog;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Presenter for application preferences.

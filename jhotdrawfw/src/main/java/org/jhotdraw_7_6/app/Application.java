@@ -4,7 +4,7 @@
  * Copyright (c) 1996-2010 by the original authors of JHotDraw and all its
  * contributors. All rights reserved.
  *
- * You may not use, copy or modify this file, except in compliance with the 
+ * You may not use, copy or modify this file, except in compliance with the
  * license agreement you entered into with the copyright holders. For details
  * see accompanying license terms.
  */
@@ -55,17 +55,17 @@ import org.jhotdraw_7_6.gui.URIChooser;
  *         model.setViewClassName("org.jhotdraw_7_6.myapplication.MyView");
  *         app.setModel(model);
  *         app.launch(args);
- *     } 
+ *     }
  * </pre>
  * <hr>
  * <b>Design Patterns</b>
- *
+ * <p>
  * <p><em>Framework</em><br>
  * The interfaces and classes listed below together with the {@code Action}
  * classes in the org.jhotddraw.app.action package define the contracts of a
  * framework for document oriented applications:<br>
  * Contract: {@link Application}, {@link ApplicationModel}, {@link View}.
- *
+ * <p>
  * <p><em>Abstract Factory</em><br>
  * {@code MenuBuilder} is used by {@code Application} for creating menu items.
  * The {@code MenuBuilder} is provided by {@code ApplicationModel}.
@@ -90,7 +90,7 @@ public interface Application {
     /**
      * Launches the application from the main method.
      * This method is typically invoked on the main Thread.
-     * This will invoke configure() on the current thread and then 
+     * This will invoke configure() on the current thread and then
      * init() and start() on the AWT Event Dispatcher Thread.
      */
     public void launch(String[] args);
@@ -123,6 +123,7 @@ public interface Application {
      * <code>init()</code> must have been invoked before the application is stopped.
      */
     public void stop();
+
     /**
      * Destroys the application and calls System.exit(0).
      */
@@ -170,14 +171,14 @@ public interface Application {
     public Collection<View> views();
 
     /**
-     * Returns the active view. This is used for OSXApplication and 
+     * Returns the active view. This is used for OSXApplication and
      * MDIApplication which share actions among multiple View instances.
      * Active view may be become null, if the
      * application has no view.
      * <p>
-     * This is a bound property. 
+     * This is a bound property.
      */
-     public View getActiveView();
+    public View getActiveView();
 
     /**
      * Returns the enabled state of the application.
@@ -186,18 +187,18 @@ public interface Application {
 
     /**
      * Sets the enabled state of the application.
-     *
+     * <p>
      * The enabled state is used to prevent parallel invocation of actions
      * on the application. If an action consists of a sequential part and a
      * concurrent part, it must disable the application only for the sequential
      * part.
-     *
+     * <p>
      * Actions that act on the application must check in their actionPerformed
      * method whether the application is enabled.
-     * If the application is disabled, they must do nothing. 
+     * If the application is disabled, they must do nothing.
      * If the application is enabled, they must disable the application,
      * perform the action and then enable the application again.
-     *
+     * <p>
      * This is a bound property.
      */
     public void setEnabled(boolean newValue);
@@ -211,6 +212,17 @@ public interface Application {
      * Removes a property change listener.
      */
     public void removePropertyChangeListener(PropertyChangeListener l);
+
+    /**
+     * A method to distinguish multiple views of the same file/uri.
+     * <p> the multipleOpenId of view will be computed to avoid
+     * conflicts with other views displaying the same URI.</p>
+     *
+     * @param view
+     * @param uri
+     */
+
+    void fixMultipleOpenId(View view, URI uri);
 
     /**
      * Returns the name of the application.
@@ -243,11 +255,11 @@ public interface Application {
     public boolean isSharingToolsAmongViews();
 
     /**
-     * Returns the application component. 
+     * Returns the application component.
      * This may return null, if the application is not represented by a component
      * of its own on the user interface.
      */
-     public Component getComponent();
+    public Component getComponent();
 
     /**
      * Adds a palette window to the application.
@@ -263,10 +275,10 @@ public interface Application {
      * Adds a (non-palette) window to the application.
      *
      * @param window The window.
-     * @param view The View to which this window is associated, or null
-     * if the window is associated to the application.
+     * @param view   The View to which this window is associated, or null
+     *               if the window is associated to the application.
      */
-    public void addWindow(Window window,  View view);
+    public void addWindow(Window window, View view);
 
     /**
      * Removes a (non-palette) window from the application.
@@ -297,7 +309,7 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-     public JMenu createFileMenu( View v);
+    public JMenu createFileMenu(View v);
 
     /**
      * Creates an edit menu for the specified view or for the entire application.
@@ -305,7 +317,7 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-     public JMenu createEditMenu( View v);
+    public JMenu createEditMenu(View v);
 
     /**
      * Creates a view menu for the specified view or for the entire application.
@@ -313,7 +325,7 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-     public JMenu createViewMenu( View v);
+    public JMenu createViewMenu(View v);
 
     /**
      * Creates a window menu for the specified view or for the entire application.
@@ -321,15 +333,15 @@ public interface Application {
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-     public JMenu createWindowMenu( View v);
+    public JMenu createWindowMenu(View v);
 
-    /** 
+    /**
      * Creates a help menu for the specified view of for the entire application.
      *
      * @param v A view or null.
      * @return A JMenu or null, if the menu is empty.
      */
-     public JMenu createHelpMenu( View v);
+    public JMenu createHelpMenu(View v);
 
     /**
      * Gets an open chooser for the specified view or for the entire application.
@@ -337,7 +349,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getOpenChooser( View v);
+    public URIChooser getOpenChooser(View v);
 
     /**
      * Gets a save chooser for the specified view or for the entire application.
@@ -345,7 +357,7 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getSaveChooser( View v);
+    public URIChooser getSaveChooser(View v);
 
     /**
      * Gets an export chooser for the specified view or for the entire application.
@@ -353,22 +365,23 @@ public interface Application {
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getExportChooser( View v);
+    public URIChooser getExportChooser(View v);
+
     /**
      * Gets an import chooser for the specified view or for the entire application.
      *
      * @param v A view or null.
      * @return A chooser.
      */
-    public URIChooser getImportChooser( View v);
+    public URIChooser getImportChooser(View v);
 
     /**
      * Gets an action map for the specified view or for the entire application.
      *
      * @param v A view or null
      */
-    public ActionMap getActionMap( View v);
-    
+    public ActionMap getActionMap(View v);
+
     /**
      * Kind of patch for some widow menu update problem.
      */
