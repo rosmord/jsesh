@@ -432,4 +432,40 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
 		HieroglyphCodesExtractor extractor= new HieroglyphCodesExtractor(true);
 		return extractor.extractHieroglyphs(this);
 	}
+
+	/**
+	 * Returns the line limits for the line around a given position.
+	 * More precisely, will return an array of two positions [pos1, pos2] around pos, with :
+	 * <p> pos1 &le; pos &le; pos2 </p>
+	 * <ul>
+	 *     <li>pos1 is the position in front of the first element in the line containing pos;</li>
+	 *	   <li>pos2 is the position after the last element in the line containing pos;</li>
+	 * </ul>
+	 * <p> a line being a list of elements which are not page or line break.</p>
+	 * @param pos a position in the line.
+	 * @return a list of two elements.
+	 */
+	public int[] getLineLimitsAround(int pos) {
+		int startLinePos= getLineStartBefore(pos);
+		int endLinePos= getLineEndAfter(pos);
+		return new int[] {startLinePos, endLinePos};
+	}
+
+	private int getLineEndAfter(int pos) {
+		int res= pos;
+		while (res < getNumberOfChildren() && ! getChildAt(res).isBreak()) {
+			res++;
+		}
+		return res;
+	}
+
+	private int getLineStartBefore(int pos) {
+		int res= pos - 1; // The element BEFORE position pos is at index pos - 1 in the array
+		while (res >= 0 && ! getChildAt(res).isBreak()) {
+			res--;
+		}
+		// so, now, we have the index of the new line (or -1 if we fell on the beginning of the text)
+		// the position we see is just after that.
+		return res + 1;
+	}
 }

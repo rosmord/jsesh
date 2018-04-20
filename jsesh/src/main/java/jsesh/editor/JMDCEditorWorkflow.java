@@ -116,6 +116,7 @@ import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
  */
 public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
+
     private interface TopItemModifier {
 
         void modifyTopItem(TopItem topItem);
@@ -1627,6 +1628,15 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         caret.moveInsertTo(0);
         caret.setMarkAt(hieroglyphicTextModel.getLastPosition().getIndex());
         clearSeparator();
+    }
+
+     // UNDO/REDO ?
+    public void selectCurrentLine() {
+        possibilitiesHandler.clear();
+        int pos= getInsertPosition();
+        List<MDCPosition> limits = hieroglyphicTextModel.getLineLimitsAround(caret.getInsertPosition());
+        caret.setInsertPosition(limits.get(0));
+        caret.setMarkAt(limits.get(1).getIndex());
     }
 
     public void clearSelection() {

@@ -76,30 +76,11 @@ final class MDCEditorEventsListener extends MouseInputAdapter implements
 	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	public void mouseClicked(MouseEvent e) {
-		/*
-		int action = 0;
-		if (dragging) {
-			dragging = false;
-			return;
-		}
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			action = 1;
-			if ((e.isShiftDown()))
-				action = 2;
-		} else if (e.getButton() == MouseEvent.BUTTON3) {
-			action = 2;
-		}
-		if (action == 1) {
-			Point p = (Point) e.getPoint();
-			this.editor.moveCursorToMouse(p);
-			getWorkflow().clearMark();
-			editor.requestFocusInWindow();
-		} else if (action == 2) {
-			Point p = (Point) e.getPoint();
-			this.editor.moveMarkToMouse(p);
+		if (e.getClickCount() == 3 && e.getButton() == MouseEvent.BUTTON1) {
+			this.editor.moveCursorToMouse(e.getPoint());
+			this.getWorkflow().selectCurrentLine();
 			editor.requestFocusInWindow();
 		}
-		*/
 	}
 
 	/*

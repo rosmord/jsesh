@@ -36,6 +36,7 @@ package jsesh.editor;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
@@ -56,31 +57,31 @@ import jsesh.search.MdCSearchQuery;
 
 /**
  * The edition model of a hieroglyphic text.
- * 
+ * <p>
  * This model represents a edited text and all operations which can be made on
  * it. (including changing the text completely).
- * 
+ * <p>
  * As such, it handles undo/redo operations and the like.
- * 
+ * <p>
  * The advantages of using this class is that the text can be easily loaded,
  * cleared, and so on.
- * 
+ * <p>
  * TODO : express this class in terms of patterns, and modify it accordingly.
- * 
+ * <p>
  * FIXME : currently, the Observable pattern used is misleading.
  * <p>
  * For instance, the workflow and the Carets are all understood as Observers.
  * Now, the workflow uses the carets, and hence should be warned <em>after</em>
  * them, because some of them may be out of date at the time they are used.
- * 
+ * <p>
  * <p>
  * In a few cases, these caused a problem with the code of getCurrentMDCLine,
  * but it's now fixed.
- * 
+ * <p>
  * <p>
  * The carets would probably deserve a better treatment (and we might use a more
  * precise class than observer). This file is free Software (c) Serge Rosmorduc
- * 
+ *
  * @author rosmord
  */
 public class HieroglyphicTextModel extends Observable implements
@@ -105,7 +106,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * Returns the model for READONLY PURPORSES ONLY. Currently, nothing
 	 * enforces this rule. We might either decide to hide the model behind some
 	 * kind of specific interface, or send a copy.
-	 * 
+	 *
 	 * @return TopItemList
 	 */
 	public TopItemList getModel() {
@@ -114,10 +115,8 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Sets the model.
-	 * 
-	 * @param model
-	 *            The model to set
-	 * 
+	 *
+	 * @param model The model to set
 	 */
 	public void setTopItemList(TopItemList model) {
 		undoManager.clear();
@@ -149,10 +148,9 @@ public class HieroglyphicTextModel extends Observable implements
 	 * read data into the model. If the data is incorrect, a line-by-line
 	 * reading system will be used, and incorrect lines will be transformed into
 	 * plain text, for possible correction.
-	 * 
+	 *
 	 * @param in
-	 * @param dialect
-	 *            a MDC dialect identifier from Dialect
+	 * @param dialect a MDC dialect identifier from Dialect
 	 * @throws MDCSyntaxError
 	 * @see Dialect
 	 */
@@ -181,9 +179,8 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Returns the debug.
-	 * 
+	 *
 	 * @return boolean
-	 * 
 	 */
 	public boolean isDebug() {
 		return debug;
@@ -191,9 +188,8 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Returns the philologyIsSign.
-	 * 
+	 *
 	 * @return boolean
-	 * 
 	 */
 	public boolean isPhilologyIsSign() {
 		return philologyIsSign;
@@ -201,10 +197,8 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Sets the debug.
-	 * 
-	 * @param debug
-	 *            The debug to set
-	 * 
+	 *
+	 * @param debug The debug to set
 	 */
 	public void setDebug(boolean debug) {
 		this.debug = debug;
@@ -212,10 +206,8 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Sets the philologyIsSign.
-	 * 
-	 * @param philologyIsSign
-	 *            The philologyIsSign to set
-	 * 
+	 *
+	 * @param philologyIsSign The philologyIsSign to set
 	 */
 	public void setPhilologyIsSign(boolean philologyIsSign) {
 		this.philologyIsSign = philologyIsSign;
@@ -223,7 +215,7 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * jsesh.mdc.model.ModelElementObserver#observedElementChanged(jsesh.mdc
 	 * .model.operations.ModelOperation)
@@ -235,7 +227,7 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Build a list of topitems from a String.
-	 * 
+	 *
 	 * @param text
 	 * @return the corresponding list of items.
 	 * @throws MDCSyntaxError
@@ -252,7 +244,7 @@ public class HieroglyphicTextModel extends Observable implements
 	 * A simple method for adding text at a given place. Note that this method
 	 * is really not the most efficient one. It's quite error prone. Yet it
 	 * allows a to write simple stuff fast.
-	 * 
+	 *
 	 * @param index
 	 * @param mdcText
 	 * @throws MDCSyntaxError
@@ -280,18 +272,16 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Replaces the element at a certain position by a new one.
-	 * 
-	 * @param position
-	 *            : the cursor position <em>after</em> the element to replace.
-	 * @param newElement
-	 *            : the new element.
+	 *
+	 * @param position   : the cursor position <em>after</em> the element to replace.
+	 * @param newElement : the new element.
 	 */
 	public void replaceElementBefore(MDCPosition position, TopItem newElement) {
 		replaceElementBefore(position, Collections.singletonList(newElement));
 	}
 
 	public void replaceElementBefore(MDCPosition position,
-			List<TopItem> newElements) {
+									 List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(model,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
@@ -300,10 +290,9 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Insert a list of elements at a certain point.
-	 * 
+	 *
 	 * @param position
-	 * @param elements
-	 *            a list of TopItems
+	 * @param elements a list of TopItems
 	 */
 	public void insertElementsAt(MDCPosition position, List<TopItem> elements) {
 		MDCCommand command = new CommandFactory().buildInsertCommand(model,
@@ -312,21 +301,19 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	/**
-	 * 
 	 * @param pos1
 	 * @param pos2
-	 * @param newElements
-	 *            a list of TopItems
+	 * @param newElements a list of TopItems
 	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
-			List<TopItem> newElements) {
+							   List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(
 				getModel(), newElements, pos1, pos2, isClean());
 		undoManager.doCommand(command);
 	}
 
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
-			TopItem element) {
+							   TopItem element) {
 		replaceElement(pos1, pos2, Collections.singletonList(element));
 	}
 
@@ -344,11 +331,9 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Returns a <em>copy</em> of the items between two positions.
-	 * 
+	 * <p>
 	 * Precondition min < max.
-	 * 
-	 * 
-	 * 
+	 *
 	 * @param min
 	 * @param max
 	 * @return
@@ -360,7 +345,7 @@ public class HieroglyphicTextModel extends Observable implements
 	/**
 	 * Returns a <em>copy</em> of the items between two positions. There are no
 	 * conditions on pos1 and pos2.
-	 * 
+	 *
 	 * @param pos1
 	 * @param pos2
 	 * @return
@@ -379,7 +364,7 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Write a part of the text to a Writer.
-	 * 
+	 *
 	 * @param sw
 	 * @param minPos
 	 * @param maxPos
@@ -415,9 +400,7 @@ public class HieroglyphicTextModel extends Observable implements
 	/**
 	 * Replace a part of the text with a text in MdC. Precondition: start < end,
 	 * text is a valid MdC text.
-	 * 
-	 * 
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 * @param text
@@ -437,7 +420,7 @@ public class HieroglyphicTextModel extends Observable implements
 
 	/**
 	 * Return true if an operation can be redone.
-	 * 
+	 *
 	 * @return
 	 * @see jsesh.editor.UndoManager#canRedo()
 	 */
@@ -456,7 +439,7 @@ public class HieroglyphicTextModel extends Observable implements
 	/**
 	 * Returns <em>a copy of</em> the item just before a given position, or null
 	 * if the position is the first one.
-	 * 
+	 *
 	 * @param position
 	 * @return an item or null
 	 */
@@ -471,7 +454,30 @@ public class HieroglyphicTextModel extends Observable implements
 
 	}
 
-    public List<MDCPosition> doSearch(MdCSearchQuery query) {
-        return query.doSearch(getModel());
-     }
+	/**
+	 * Returns all positions where query matches were found.
+	 * @param query
+	 * @return a list of positions.
+	 */
+	public List<MDCPosition> doSearch(MdCSearchQuery query) {
+		return query.doSearch(getModel());
+	}
+
+	/**
+	 * Returns the line limits for the line around a given position.
+	 * More precisely, will return a list of two positions [pos1, pos2] around pos, with :
+	 * <p> pos1 &le; pos &le; pos2 </p>
+	 * <ul>
+	 *     <li>pos1 is the position in front of the first element in the line containing pos;</li>
+	 *	   <li>pos2 is the position after the last element in the line containing pos;</li>
+	 * </ul>
+	 * <p> a line being a list of elements which are not page or line break.</p>
+	 * @param pos a position in the line.
+	 * @return a list of two elements.
+	 */
+
+	public List<MDCPosition> getLineLimitsAround(MDCPosition pos) {
+		int positions[]= model.getLineLimitsAround(pos.getIndex());
+		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
+	}
 }

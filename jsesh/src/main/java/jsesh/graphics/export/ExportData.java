@@ -31,9 +31,12 @@ public class ExportData {
 	private double scale;
 
 	/**
-	 * @param drawingSpecifications
-	 * @param caretProvider
-	 * @param data
+	 * Select export between two positions.
+	 * @param drawingSpecifications the drawing specifications.
+	 * @param start beginning of the zone to export in data
+	 * @param end  end of the zone to export in data
+	 * @param data data to export (partially)
+	 * @param scale scaling information.
 	 */
 	public ExportData(DrawingSpecification drawingSpecifications,
 			MDCPosition start, MDCPosition end, TopItemList data, double scale) {
