@@ -2,6 +2,19 @@
 
 Franglish file, mainly for personnal use.
 
+## Planned for this version
+* Include text names in texts.
+* (N.S.) With export, how about defaulting 
+  to exporting all text unless something is highlighted?
+  * Logic : take the same logic as bitmap export : one file
+  for each page (unless it's too large ?)
+  * bitmap is ok. RTF is ok.
+  * EMF, WMF, MACPICT, EPS, SVG : TODO use Bitmap logic
+  * PDF : ok, except encapsulated pdf. 
+    for pdf export, if encapsulated, export one PDF by page ?
+  * quick pdf export : export current line if no selection.
+* fix Neith sign C303
+
 ## Bug fixes
 
 ## High priority
@@ -12,7 +25,6 @@ Franglish file, mainly for personnal use.
 * Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
 * PLUS OU MOINS FAITE, À VÉRIFIER SYSTÉMATIQUEMENT : Modif rapide (plus ou moins) :  quand les commandes ont besoin d'une sélection et qu'il n'y en a pas, faire
   quelque chose de raisonnable (e.g. dernier ou deux derniers cadrats, etc...).
-* (N.S.) With export, how about defaulting to exporting all text unless something is highlighted?  
 * finir enceinte crénellée
 * ajouter enceintes circulaires
 
