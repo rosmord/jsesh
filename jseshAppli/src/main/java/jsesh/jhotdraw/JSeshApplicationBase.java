@@ -1,6 +1,5 @@
 package jsesh.jhotdraw;
 
-import java.awt.Color;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;

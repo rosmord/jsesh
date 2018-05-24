@@ -569,10 +569,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void setAngle(final int angle) {
         possibilitiesHandler.clear();
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                h.setAngle(angle);
-            }
+        modifyLastSign((h) -> {
+            h.setAngle(angle);
         });
     }
 
@@ -874,12 +872,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void doShade(final int shade) {
         possibilitiesHandler.clear();
-        applyChangeToSelection(new TopItemModifier() {
-            public void modifyTopItem(TopItem t) {
-                if (t instanceof Cadrat) {
-                    Cadrat c = (Cadrat) t;
-                    c.setShading(shade);
-                }
+        applyChangeToSelection((TopItem t) -> {
+            if (t instanceof Cadrat) {
+                Cadrat c = (Cadrat) t;
+                c.setShading(shade);
             }
         });
     }
@@ -1523,13 +1519,11 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     // UNDO/REDO
     public void redZone(final boolean b) {
         possibilitiesHandler.clear();
-        applyChangeToSelection(new TopItemModifier() {
-            public void modifyTopItem(TopItem t) {
-                if (t instanceof Cadrat) {
-                    Cadrat c = (Cadrat) t;
-                    c.setRed(b);
-
-                }
+        applyChangeToSelection((TopItem t) -> {
+            if (t instanceof Cadrat) {
+                Cadrat c = (Cadrat) t;
+                c.setRed(b);
+                
             }
         });
         clearSeparator();
@@ -1598,10 +1592,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void resizeSign(final int size) {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                h.setRelativeSize(size);
-            }
+        modifyLastSign((Hieroglyph h) -> {
+            h.setRelativeSize(size);
         });
     }
 
@@ -1610,11 +1602,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void reverseSign() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.setReversed(!h.isReversed());
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.setReversed(!h.isReversed());
             }
         });
     }
@@ -1639,6 +1629,14 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         caret.setMarkAt(limits.get(1).getIndex());
     }
 
+    public void selectCurrentPage() {
+        possibilitiesHandler.clear();
+        int pos= getInsertPosition();
+        List<MDCPosition> limits = hieroglyphicTextModel.getPageLimitsAround(caret.getInsertPosition());
+        caret.setInsertPosition(limits.get(0));
+        caret.setMarkAt(limits.get(1).getIndex());
+    }
+    
     public void clearSelection() {
         possibilitiesHandler.clear();
         caret.unsetMark();
@@ -1741,11 +1739,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void setSignIsAtSentenceEnd() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.setEndingCode(WordEndingCode.SENTENCE_END);
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.setEndingCode(WordEndingCode.SENTENCE_END);
             }
         });
     }
@@ -1755,11 +1751,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void setSignIsAtWordEnd() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.setEndingCode(WordEndingCode.WORD_END);
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.setEndingCode(WordEndingCode.WORD_END);
             }
         });
     }
@@ -1769,11 +1763,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void setSignIsInsideWord() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.setEndingCode(WordEndingCode.NONE);
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.setEndingCode(WordEndingCode.NONE);
             }
         });
     }
@@ -1789,10 +1781,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     public void shadeZone(final boolean shade) {
         clearSeparator();
         possibilitiesHandler.clear();
-        applyChangeToSelection(new TopItemModifier() {
-            public void modifyTopItem(TopItem t) {
-                t.setShaded(shade);
-            }
+        applyChangeToSelection((TopItem t) -> {
+            t.setShaded(shade);
         });
     }
 
@@ -1832,23 +1822,19 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void toggleGrammar() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.setGrammar(!h.isGrammar());
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.setGrammar(!h.isGrammar());
             }
         });
     }
 
     // UNDO/REDO
     public void toggleIgnoredSign() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.getModifiers().setBoolean("i",
-                            !h.getModifiers().getBoolean("i"));
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.getModifiers().setBoolean("i",
+                        !h.getModifiers().getBoolean("i"));
             }
         });
     }
@@ -1858,12 +1844,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void toggleRedSign() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.getModifiers().setBoolean("red",
-                            !h.getModifiers().getBoolean("red"));
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.getModifiers().setBoolean("red",
+                        !h.getModifiers().getBoolean("red"));
             }
         });
     }
@@ -1892,24 +1876,20 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         if (code.toString().equals("")) {
             code.append("0");
         }
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.getModifiers().setInteger("shading",
-                            Integer.parseInt(code.toString()));
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.getModifiers().setInteger("shading",
+                        Integer.parseInt(code.toString()));
             }
         });
     }
 
     // UNDO/REDO
     public void toggleWideSign() {
-        modifyLastSign(new SignModifier() {
-            public void modifySign(Hieroglyph h) {
-                if (h != null) {
-                    h.getModifiers().setBoolean("l",
-                            !h.getModifiers().getBoolean("l"));
-                }
+        modifyLastSign((Hieroglyph h) -> {
+            if (h != null) {
+                h.getModifiers().setBoolean("l",
+                        !h.getModifiers().getBoolean("l"));
             }
         });
     }

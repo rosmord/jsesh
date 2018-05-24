@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import jsesh.i18n.I18n;
 
 import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 /**
  * Expert able to export the selection to an WMF file.
@@ -25,7 +26,7 @@ import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
  */
 public class WMFExporter extends AbstractGraphicalExporter {
 
-    private Component frame;
+    private final Component frame;
 
     private Dimension2D scaledDimension;
 
@@ -34,13 +35,14 @@ public class WMFExporter extends AbstractGraphicalExporter {
         frame = null;
     }
 
+    @Override
     public void export(ExportData exportData) {
         try {
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, this);
             selectionExporter.exportSelection();
         } catch (HeadlessException e1) {
-            e1.printStackTrace();
+            throw new UserMessage(e1);            
         } catch (IOException e1) {
             JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -57,15 +59,18 @@ public class WMFExporter extends AbstractGraphicalExporter {
         return "type".toUpperCase() + " options";
     }
 
+    @Override
     public void setDimension(Dimension2D scaledDimensions) {
         this.scaledDimension = scaledDimensions;
     }
 
+    @Override
     public Graphics2D buildGraphics()
             throws IOException {
         return new WMFGraphics2D(getExportFile(), scaledDimension);
     }
 
+    @Override
     public void writeGraphics() throws IOException {
         // NO-OP. the file is written as it is created.
     }

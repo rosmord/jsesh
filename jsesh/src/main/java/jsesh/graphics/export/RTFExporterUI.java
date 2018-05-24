@@ -84,7 +84,7 @@ public class RTFExporterUI {
             form = new JRTFFileExportPreferences();
 
             form.getFileField().setValue(file);
-            //			form.fileNameField.setValue(file);
+
             new FileButtonMapper(form.getBrowseButton(), form.getFileField());
 
             unitMediator.attachToComboBox(form.getUnitCB());

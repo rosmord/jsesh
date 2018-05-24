@@ -592,6 +592,13 @@ public class JSeshView extends AbstractView {
         getEditor().getWorkflow().selectAll();
     }
 
+    public void selectCurrentLine() {
+        getEditor().getWorkflow().selectCurrentLine();
+    }
+    
+     public void selectCurrentPage() {
+        getEditor().getWorkflow().selectCurrentPage();
+    }
     /* (non-Javadoc)
      * @see org.jhotdraw_7_6.gui.EditableComponent#clearSelection()
      */

@@ -164,15 +164,13 @@ public class JGlossaryEditor extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				JFrame demo = new JFrame();
-				JGlossaryEditor editor = new JGlossaryEditor();
-				demo.add(editor);
-				demo.pack();
-				demo.setVisible(true);
-				demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			}
-		});
+		SwingUtilities.invokeLater(() -> {
+                    JFrame demo = new JFrame();
+                    JGlossaryEditor editor = new JGlossaryEditor();
+                    demo.add(editor);
+                    demo.pack();
+                    demo.setVisible(true);
+                    demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                });
 	}
 }

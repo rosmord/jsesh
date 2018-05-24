@@ -37,12 +37,13 @@ import java.awt.Component;
 import java.io.File;
 import java.net.URI;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * Simple base class for writing exporters.
@@ -143,18 +144,16 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
     }
 
     @Override
-    public int askUser(Component frame) {
-        int returnval;
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(new SpecificFilter());
+    public FileOperationResult askUser(Component frame) {
+        PortableFileDialog fileDialog = PortableFileDialogFactory.createFileSaveDialog(frame);
+        fileDialog.setFileFilter(new SpecificFilter());
+        fileDialog.setSelectedFile(getExportFile());
+        FileOperationResult returnval = fileDialog.show();
 
-        chooser.setSelectedFile(getExportFile());
-        returnval = chooser.showSaveDialog(frame);
-
-        if (returnval == JFileChooser.APPROVE_OPTION) {
-            File chosenFile = chooser.getSelectedFile();
+        if (returnval == FileOperationResult.OK) {
+            File chosenFile = fileDialog.getSelectedFile();
             if (chosenFile.isDirectory()) {
-                returnval = JOptionPane.CANCEL_OPTION;
+                returnval = FileOperationResult.CANCEL;
             } else {
                 // Fix the file ending ?
                 boolean hasExtension = false;
@@ -174,12 +173,11 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
                             chosenFile);
                 }
 
-                if (returnval == JOptionPane.OK_OPTION) {
+                if (returnval == FileOperationResult.OK) {
                     setExportFile(chosenFile);
                 }
             }
         }
-        return returnval;
+        return FileOperationResult.OK;
     }
-
 }

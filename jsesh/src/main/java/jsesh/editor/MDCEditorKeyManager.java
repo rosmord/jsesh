@@ -119,11 +119,7 @@ class MDCEditorKeyManager extends KeyAdapter {
 
 		private void addActions() {
 			// For actions which modify their edited object...
-			Enabler editorEnabler = new Enabler() {
-				public boolean canDo() {
-					return editor.isEditable();
-				}
-			};
+			Enabler editorEnabler = editor::isEditable;
 
 			// MOVE
 			addAction(ActionsID.GO_RIGHT, new GoRightAction(editor));

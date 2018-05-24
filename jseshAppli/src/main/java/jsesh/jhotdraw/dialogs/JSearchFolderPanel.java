@@ -130,6 +130,4 @@ public final class JSearchFolderPanel extends JFrame {
         p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         p.setVisible(true);
     }
-
-
 }

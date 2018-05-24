@@ -3,17 +3,20 @@
 Franglish file, mainly for personnal use.
 
 ## Planned for this version
-* Include text names in texts.
-* (N.S.) With export, how about defaulting 
-  to exporting all text unless something is highlighted?
-  * Logic : take the same logic as bitmap export : one file
-  for each page (unless it's too large ?)
-  * bitmap is ok. RTF is ok.
-  * EMF, WMF, MACPICT, EPS, SVG : TODO use Bitmap logic
-  * PDF : ok, except encapsulated pdf. 
-    for pdf export, if encapsulated, export one PDF by page ?
-  * quick pdf export : export current line if no selection.
-* fix Neith sign C303
+* Searches (DONE)
+* Include text names in texts. (DONE)
+* fix Neith sign C303 (DONE)
+* Upon a suggestion by N. Strudwick, remove the error cases when exporting.
+    
+    * the initial suggestion was to export all the document 
+      if no selection is available
+    * implementing it would delay the release of this version of JSesh. I prefer
+      proposing a reasonable solution: exporting the current page.
+    * bitmap and RTF are already ok.
+    * EMF, WMF, MACPICT, EPS, SVG : TODO use Bitmap logic DONE
+    * PDF : ok, except encapsulated pdf. Export current page. DONE
+    * quick pdf export : export current line if no selection. DONE
+* unify exports : use the standard file export chooser everywhere. DONE
 
 ## Bug fixes
 

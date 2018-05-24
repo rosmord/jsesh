@@ -130,15 +130,13 @@ public class LargeFontImporter implements PropertyHolder {
 
 	public static void main(String[] args) throws InterruptedException,
 			InvocationTargetException {
-		SwingUtilities.invokeAndWait(new Runnable() {
-			public void run() {
-				try {
-					new LargeFontImporter();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		SwingUtilities.invokeAndWait(() -> {
+                    try {
+                        new LargeFontImporter();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 	}
 
 	public void exportFontIntoJSesh() {

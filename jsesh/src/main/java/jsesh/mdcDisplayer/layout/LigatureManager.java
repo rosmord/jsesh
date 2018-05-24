@@ -51,25 +51,7 @@ public class LigatureManager {
 		// generic type.
 		// We would need to build arraylists of strings, which we might do later.
 		// meanwhile, we are content with @SuppressWarnings
-		ligaturesMap = new TreeMap<>(new Comparator() {
-
-			public int compare(Object o1, Object o2) {
-				String t0[]= (String[]) o1;
-				String t1[]= (String[]) o2; 
-				int result= 0;
-				int i= 0;
-				while (result == 0 && i < t0.length && i < t1.length) {
-					result= t0[i].compareTo(t1[i]);
-					i++;
-				}
-				if (result == 0) {
-					// both array are equals until the end of one of them.
-					// the shorter is the smaller :
-					result= t0.length - t1.length;
-				}
-				return result;
-			}
-		});
+		ligaturesMap = new TreeMap<>(new LigatureComparator());
 	}
 
 	public ExplicitPosition[] getPositions(String codes[]) {
@@ -122,5 +104,29 @@ public class LigatureManager {
 			put(codes, positions);
 		}
 	}
+
+    private static class LigatureComparator implements Comparator {
+
+        public LigatureComparator() {
+        }
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            String t0[]= (String[]) o1;
+            String t1[]= (String[]) o2;
+            int result= 0;
+            int i= 0;
+            while (result == 0 && i < t0.length && i < t1.length) {
+                result= t0[i].compareTo(t1[i]);
+                i++;
+            }
+            if (result == 0) {
+                // both array are equals until the end of one of them.
+                // the shorter is the smaller :
+                result= t0.length - t1.length;
+            }
+            return result;
+        }
+    }
 
 }

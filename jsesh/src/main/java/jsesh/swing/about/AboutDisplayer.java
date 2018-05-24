@@ -100,14 +100,12 @@ public class AboutDisplayer {
 	 * Actual display. Call only when the HTML document has been loaded.
 	 */
 	private void doShow() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				// panel.setSize(800, 600);
-				JOptionPane.showMessageDialog(parent, panel, "About JSesh",
-						JOptionPane.PLAIN_MESSAGE);
-				displayAsked = false;
-			}
-		});
+		SwingUtilities.invokeLater(() -> {
+                    // panel.setSize(800, 600);
+                    JOptionPane.showMessageDialog(parent, panel, "About JSesh",
+                            JOptionPane.PLAIN_MESSAGE);
+                    displayAsked = false;
+                });
 	}
 
 	private final class PageLoadedListener implements PropertyChangeListener {
@@ -115,20 +113,19 @@ public class AboutDisplayer {
 		 * Method called when the page has been loaded. Note to self : the
 		 * property change is NOT advertized by the EDT ????
 		 */
+                @Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			final PropertyChangeEvent e = evt;
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					// if (!SwingUtilities.isEventDispatchThread())
-					// throw new RuntimeException("Is this not the EDT ???");
-
-					if (e.getPropertyName().equals("page")) {
-						pageLoaded = true;
-						if (displayAsked)
-							doShow();
-					}
-				}
-			});
+			SwingUtilities.invokeLater(() -> {
+                            // if (!SwingUtilities.isEventDispatchThread())
+                            // throw new RuntimeException("Is this not the EDT ???");
+                            
+                            if (e.getPropertyName().equals("page")) {
+                                pageLoaded = true;
+                                if (displayAsked)
+                                    doShow();
+                            }
+                        });
 		}
 	}
 

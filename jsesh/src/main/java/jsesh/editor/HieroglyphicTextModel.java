@@ -480,4 +480,22 @@ public class HieroglyphicTextModel extends Observable implements
 		int positions[]= model.getLineLimitsAround(pos.getIndex());
 		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
 	}
+        
+        /**
+	 * Returns the page limits for the page around a given position.
+	 * More precisely, will return a list of two positions [pos1, pos2] around pos, with :
+	 * <p> pos1 &le; pos &le; pos2 </p>
+	 * <ul>
+	 *     <li>pos1 is the position in front of the first element in the page containing pos;</li>
+	 *	   <li>pos2 is the position after the last element in the page containing pos;</li>
+	 * </ul>
+	 * <p> a page being a list of elements which are not page break.</p>
+	 * @param pos a position in the line.
+	 * @return a list of two elements.
+	 */
+
+	public List<MDCPosition> getPageLimitsAround(MDCPosition pos) {
+		int positions[]= model.getPageLimitsAround(pos.getIndex());
+		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
+	}
 }

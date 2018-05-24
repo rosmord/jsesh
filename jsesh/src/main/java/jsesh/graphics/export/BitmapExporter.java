@@ -1,16 +1,12 @@
 /*
- * Created on 17 oct. 2004
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Created on 17 oct. 2004 (!)
+ * Ok, this file is veeery old.
  */
 package jsesh.graphics.export;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,9 +19,7 @@ import java.util.prefs.Preferences;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.swing.utils.RestrictedCharFormatter;
@@ -36,17 +30,21 @@ import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * Export to graphic bitmaps.
  *
  * @author Serge Rosmorduc
  *
- * This file is free software under the Gnu Lesser Public License.
+ * This file is free software under the CECILL License. And is WAAAY too large.
  */
 public class BitmapExporter {
 
-    private Component parent;
+    private final Component parent;
 
     /**
      * The export file name
@@ -79,10 +77,12 @@ public class BitmapExporter {
     /**
      * The list of possible output formats.
      */
-    public static final String outputFormats[] = {"png", "jpg"};
+    public static final String[] OUTPUT_FORMATS = {"png", "jpg"};
 
     /**
      * Create a new bitmap exporter.
+     *
+     * @param parent the main window.
      */
     public BitmapExporter(Component parent) {
         this.parent = parent;
@@ -104,18 +104,10 @@ public class BitmapExporter {
      * depending on user input.
      */
     public int askUser(boolean onlySelection) {
-        int result = JOptionPane.CANCEL_OPTION;
-
         this.multiFile = !onlySelection;
-
         BitmapOptionPanel panel = new BitmapOptionPanel(parent,
                 "Export as bitmap file");
-        result = panel.askAndSet();
-        if (result == JOptionPane.CANCEL_OPTION) {
-            return result;
-        }
-
-        return result;
+        return panel.askAndSet();
     }
 
     public void export(ExportData data) {
@@ -129,7 +121,7 @@ public class BitmapExporter {
                 exportSelection(data);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UserMessage(e);
         }
     }
 
@@ -178,7 +170,7 @@ public class BitmapExporter {
         this.directory = directory;
     }
 
-    public void setSingleOutputFile(File f) {
+    public final void setSingleOutputFile(File f) {
         directory = f.getParentFile();
         this.fileName = f.getName();
     }
@@ -206,7 +198,7 @@ public class BitmapExporter {
         public Graphics2D buildGraphics() throws IOException {
             OutputStream out = new FileOutputStream(getSingleOutputFile());
             BitmapStreamGraphics g = new BitmapStreamGraphics(out,
-                    scaledDimensions, outputFormats[outputFormatIndex],
+                    scaledDimensions, OUTPUT_FORMATS[outputFormatIndex],
                     getEffectiveTransparency());
             if (!getEffectiveTransparency()) {
                 g.fillWith(backgroundColor);
@@ -257,10 +249,10 @@ public class BitmapExporter {
                 num = "0" + num;
             }
             File f = new File(directory, basename + num + "."
-                    + outputFormats[outputFormatIndex]);
+                    + OUTPUT_FORMATS[outputFormatIndex]);
             OutputStream out = new FileOutputStream(f);
             BitmapStreamGraphics g = new BitmapStreamGraphics(out,
-                    scaledDimensions, outputFormats[outputFormatIndex],
+                    scaledDimensions, OUTPUT_FORMATS[outputFormatIndex],
                     getEffectiveTransparency());
             if (!getEffectiveTransparency()) {
                 g.fillWith(backgroundColor);
@@ -284,13 +276,7 @@ public class BitmapExporter {
 
     }
 
-    private class BitmapOptionPanel extends ExportOptionPanel implements
-            ActionListener {
-
-        /**
-         *
-         */
-        private static final long serialVersionUID = -8713249612816729039L;
+    private class BitmapOptionPanel extends ExportOptionPanel {
 
         /**
          * The directory where the files will be saved, or the file itself if we
@@ -340,7 +326,7 @@ public class BitmapExporter {
             // When not in multiFile mode, fileField contains the output file.
             // We see to it that the format is coherent with the file name.
             browseButton = new JButton("Browse");
-            browseButton.addActionListener(this);
+            browseButton.addActionListener((e) -> browse());
 
             String fileFieldLabel = "Output file";
             if (multiFile) {
@@ -370,20 +356,15 @@ public class BitmapExporter {
             cadratHeightField
                     .setToolTipText("height of a typical line of hieroglyphs");
 
-            outputFormatField = new JComboBox(outputFormats);
+            outputFormatField = new JComboBox(OUTPUT_FORMATS);
             outputFormatField.setSelectedIndex(outputFormatIndex);
             outputFormatField
                     .setToolTipText("Format of the saved images.\n Explicit extensions like .jpg or .png will have precedence over this field.");
-            outputFormatField.addActionListener(this);
-            // Layout :
-            // We will try to be a bit consistent here (in the future, and to
-            // adapt this for older dialogues)
-            // General stuff about rendering will be in the upper part. File
-            // related stuff will be in a lower part.
-            // cadratHeight transparent
-            // file... browse
-            // (basename) outputformat
+            outputFormatField.addActionListener((e) -> selectOutputFormat());
+            prepareLayout(fileFieldLabel);
+        }
 
+        private void prepareLayout(String fileFieldLabel) {
             FormLayout formLayout = new FormLayout(
                     "right:p,4dlu,left:max(40dlu;pref),4dlu,left:max(20dlu;pref),4dlu,left:max(20dlu;pref)",
                     "");
@@ -404,77 +385,50 @@ public class BitmapExporter {
                 formBuilder.append("Base name for output files", baseNameField);
             }
             formBuilder.append("Output format", outputFormatField);
-            // setLayout(new BorderLayout());
-            // add(formBuilder.getPanel(), BorderLayout.CENTER);
-
         }
 
-        /*
-         * (non-Javadoc) called when using the "browse button".
-         * 
-         * @see
-         * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
-         * )
-         */
-        public void actionPerformed(ActionEvent e) {
+        private void selectOutputFormat() {
+            if (!multiFile) {
+                File f = (File) fileField.getValue();
+                f = FileUtils.buildFileWithExtension(f,
+                        (String) outputFormatField.getSelectedItem());
+                fileField.setValue(f);
+            }
+        }
 
-            if (e.getSource() == browseButton) {
-                int userResult;
-                JFileChooser chooser = new JFileChooser(
-                        (File) fileField.getValue());
+        private void browse() {
+            if (!multiFile) {
+                browseSingleFile();
+            } else {
+                browseMultiFile();
+            }
+        }
 
-                if (!multiFile) {
-                    // Select only our formats.
-                    chooser.addChoosableFileFilter(new FileFilter() {
+        private void browseSingleFile() {
+            FileOperationResult userResult;
+            PortableFileDialog chooser = PortableFileDialogFactory.createFileSaveDialog(parent);
+            chooser.setSelectedFile((File) fileField.getValue());
 
-                        public boolean accept(File f) {
-                            boolean result = false;
-                            result = f.isDirectory();
-                            int i = 0;
-                            while (!result && i < outputFormats.length) {
-                                result = result
-                                        || f.getName()
-                                        .toLowerCase()
-                                        .endsWith(
-                                                "." + outputFormats[i]);
-                                i++;
-                            }
-                            return result;
-                        }
+            // Select only our formats.
+            chooser.setFileFilter(new FileFilterImpl());
 
-                        public String getDescription() {
-                            String s = outputFormats[0];
+            chooser.setSelectedFile((File) fileField.getValue());
+            // Display.
+            userResult = chooser.show();
+            if (userResult == FileOperationResult.OK) {
+                fileField.setValue(chooser.getSelectedFile());
+                fixExtension();
+            }
+        }
 
-                            for (int i = 1; i < outputFormats.length; i++) {
-                                s += ", " + outputFormats[i];
-                            }
-                            return s;
-                        }
-                    });
-
-                    chooser.setSelectedFile((File) fileField.getValue());
-                    // Display.
-                    userResult = chooser.showSaveDialog(null);
-                    if (userResult == JFileChooser.APPROVE_OPTION) {
-                        fileField.setValue(chooser.getSelectedFile());
-                        fixExtension();
-                    }
-
-                } else {
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    userResult = chooser.showDialog(null,
-                            "Choose output directory");
-                    if (userResult == JFileChooser.APPROVE_OPTION) {
-                        fileField.setValue(chooser.getSelectedFile());
-                    }
-                }
-            } else if (e.getSource() == outputFormatField) {
-                if (!multiFile) {
-                    File f = (File) fileField.getValue();
-                    f = FileUtils.buildFileWithExtension(f,
-                            (String) outputFormatField.getSelectedItem());
-                    fileField.setValue(f);
-                }
+        private void browseMultiFile() {
+            FileOperationResult userResult;
+            PortableFileDialog chooser = PortableFileDialogFactory.createDirectorySaveDialog(parent);
+            chooser.setSelectedFile((File) fileField.getValue());
+            chooser.setTitle("Choose output directory"); // TODO : I18N
+            userResult = chooser.show();
+            if (userResult == FileOperationResult.OK) {
+                fileField.setValue(chooser.getSelectedFile());
             }
         }
 
@@ -484,7 +438,7 @@ public class BitmapExporter {
                 File file = (File) fileField.getValue();
                 String ext = FileUtils.getExtension(file);
                 if (ext != null) {
-                    List<String> l = Arrays.asList(outputFormats);
+                    List<String> l = Arrays.asList(OUTPUT_FORMATS);
                     if (l.contains(ext)) {
                         // Known extensions
                         mustCorrectExtension = false;
@@ -509,6 +463,7 @@ public class BitmapExporter {
          * 
          * @see jsesh.graphics.export.ExportOptionPanel#setOptions()
          */
+        @Override
         public void setOptions() {
             if (multiFile) {
                 directory = (File) fileField.getValue();
@@ -519,6 +474,35 @@ public class BitmapExporter {
             transparency = transparentField.isSelected();
             cadratHeight = ((Number) cadratHeightField.getValue()).intValue();
             outputFormatIndex = outputFormatField.getSelectedIndex();
+        }
+
+        private class FileFilterImpl extends FileFilter {
+
+            public FileFilterImpl() {
+            }
+
+            public boolean accept(File f) {
+                boolean result = false;
+                result = f.isDirectory();
+                int i = 0;
+                while (!result && i < OUTPUT_FORMATS.length) {
+                    result = result
+                            || f.getName()
+                                    .toLowerCase()
+                                    .endsWith("." + OUTPUT_FORMATS[i]);
+                    i++;
+                }
+                return result;
+            }
+
+            public String getDescription() {
+                String s = OUTPUT_FORMATS[0];
+
+                for (int i = 1; i < OUTPUT_FORMATS.length; i++) {
+                    s += ", " + OUTPUT_FORMATS[i];
+                }
+                return s;
+            }
         }
     }
 
@@ -557,12 +541,12 @@ public class BitmapExporter {
     /**
      * Initialize the preferences using saved values.
      */
-    public void initFromPreferences() {
+    public final void initFromPreferences() {
         Preferences prefs = Preferences.userNodeForPackage(this.getClass());
         transparency = prefs.getBoolean("bitmap.transparent", true);
         cadratHeight = prefs.getInt("bitmap.cadratHeight", 18);
         outputFormatIndex = prefs.getInt("bitmap.outputFormatIndex", 0);
-        if (outputFormatIndex >= outputFormats.length) {
+        if (outputFormatIndex >= OUTPUT_FORMATS.length) {
             outputFormatIndex = 0;
         }
 
@@ -571,7 +555,7 @@ public class BitmapExporter {
         if (multiFile) {
             basename = prefs.get("bitmap.baseName", "unnamed");
         } else {
-            File defaultOutput = new File(directory, "unnamed" + "." + outputFormats[outputFormatIndex]);
+            File defaultOutput = new File(directory, "unnamed" + "." + OUTPUT_FORMATS[outputFormatIndex]);
             setSingleOutputFile(new File(prefs.get("bitmap.file", defaultOutput.getAbsolutePath())));
         }
     }

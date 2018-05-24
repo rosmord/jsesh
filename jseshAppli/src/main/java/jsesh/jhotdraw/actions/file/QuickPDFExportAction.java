@@ -16,6 +16,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 @SuppressWarnings("serial")
 public class QuickPDFExportAction extends AbstractViewAction {
@@ -27,6 +28,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
+        @Override
 	public void actionPerformed(ActionEvent e) {
 		BundleHelper bundleHelper = BundleHelper.getInstance();
 		JSeshView jSeshView = (JSeshView) getActiveView();
@@ -74,7 +76,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 				} catch (NumberFormatException numberFormatException) {
 					// DO NOTHING ? DON'T STOP PROCESSING, but WARN JUST IN
 					// CASE.
-					numberFormatException.printStackTrace();
+                                        throw new UserMessage(numberFormatException);
 				}
 			}
 		}
@@ -86,7 +88,11 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		quickExportPreferences.setEncapsulated(true);
 
 		pdfExporter.setPdfExportPreferences(quickExportPreferences);
-
+                
+                // Ensure there is a selection
+                if (! jSeshView.hasSelection()) {
+                    jSeshView.selectCurrentLine();
+                }              
 		try {
 			pdfExporter.exportModel(jSeshView.getTopItemList(),
 					jSeshView.getCaret());
