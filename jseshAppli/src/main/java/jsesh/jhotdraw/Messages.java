@@ -2,6 +2,7 @@ package jsesh.jhotdraw;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import jsesh.jhotdraw.actions.BundleHelper;
 
 public class Messages {
 	private static final String BUNDLE_NAME = "jsesh.jhotdraw.labels"; //$NON-NLS-1$
@@ -20,5 +21,9 @@ public class Messages {
 		}
 	}
 	
+        public static String format(String key, String ...args) {
+            BundleHelper bundleHelper= BundleHelper.getInstance();
+            return bundleHelper.getFormatedLabel(key, args);
+        }
 	
 }

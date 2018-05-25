@@ -1,17 +1,21 @@
 package jsesh.search;
 
-import jsesh.mdc.model.MDCPosition;
 
 import java.nio.file.Path;
 
 /**
  * An occurrence of a search result in a corpus.
+ * I have removed MDCPosition from this class - but in fact, MDCPosition should
+ * be independent from the text it refers to. 
+ * <p> With MDC Position as it is, we have a major memory leak. All texts are kept
+ * in memory.
  */
 public class CorpusSearchHit {
     Path file;
-    MDCPosition position;
+    //MDCPosition position;
+    int position;
 
-    public CorpusSearchHit(Path file, MDCPosition position) {
+    public CorpusSearchHit(Path file, int position) {
         this.file = file;
         this.position = position;
     }
@@ -20,7 +24,7 @@ public class CorpusSearchHit {
         return file;
     }
 
-    public MDCPosition getPosition() {
+    public int getPosition() {
         return position;
     }
 }

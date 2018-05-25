@@ -31,39 +31,43 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+import jsesh.utils.JSeshWorkingDirectory;
 
 /**
  * Manages searches in the corpus.
  */
 public class CorpusSearchPresenter {
+
     /**
      * The application (we need to ask it to open or display files).
      */
     private ActiveViewAwareApplication app;
     private JSearchFolderPanel ui;
     private Optional<SearchWorker> currentSearchWorker = Optional.empty();
-    private boolean canOpenNewView= true;
-
+    private boolean canOpenNewView = true;
 
     public CorpusSearchPresenter(ActiveViewAwareApplication app) {
         this.app = app;
         ui = new JSearchFolderPanel();
         clearTable();
         activateButtons();
-        ui.getFolderField().setValue(new File("."));
+        ui.getFolderField().setValue(JSeshWorkingDirectory.getWorkingDirectory());
     }
 
     private void activateButtons() {
         ui.getSearchButton().addActionListener((e) -> this.doSearch());
         ui.getChooseFolderButton().addActionListener((e) -> this.chooseFolder());
-        ui.getCancelButton().addActionListener((e) -> this.stopSearch());
+        ui.getCancelButton().addActionListener((e) -> {
+            ui.getMessageField().setText(Messages.getString("searchFolder.canceled"));
+            this.stopSearch();
+        });
         ui.getResultTable().addMouseListener(
                 new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        selectResult(e);
-                    }
-                }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectResult(e);
+            }
+        }
         );
     }
 
@@ -91,9 +95,9 @@ public class CorpusSearchPresenter {
         Path hitPath = hit.getFile();
         JSeshView selectedView = null;
         for (View view : app.views()) {
-            if (view.getURI() == null)
+            if (view.getURI() == null) {
                 continue; // We don't try (for the moment) to load the document
-            // in the existing view... it might contain unsaved data.
+            }            // in the existing view... it might contain unsaved data.
             Path viewPath = Paths.get(view.getURI());
             try {
                 if (Files.isSameFile(viewPath, hitPath)) {
@@ -106,7 +110,7 @@ public class CorpusSearchPresenter {
         }
         if (selectedView == null) {
             if (canOpenNewView) { // Else, nothing... do it later.
-                canOpenNewView= false;
+                canOpenNewView = false;
                 View newView = app.createView();
                 app.add(newView);
                 newView.setEnabled(false);
@@ -118,8 +122,8 @@ public class CorpusSearchPresenter {
                     protected void done(Object value) {
                         super.done(value);
                         JSeshView v = (JSeshView) newView;
-                        v.getEditor().setInsertPosition(hit.getPosition().getIndex());
-                        canOpenNewView= true;
+                        v.getEditor().setInsertPosition(hit.getPosition());
+                        canOpenNewView = true;
                     }
                 });
             }
@@ -129,12 +133,11 @@ public class CorpusSearchPresenter {
                 selectedView.setEnabled(false);
                 app.show(selectedView);
                 WindowsHelper.toFront(selectedView);
-                selectedView.getEditor().setInsertPosition(hit.getPosition().getIndex());
+                selectedView.getEditor().setInsertPosition(hit.getPosition());
                 selectedView.setEnabled(true);
             }
         }
     }
-
 
     private void chooseFolder() {
         File rootFile = (File) ui.getFolderField().getValue();
@@ -144,6 +147,7 @@ public class CorpusSearchPresenter {
         if (selector.show() == FileOperationResult.OK) {
             File newRoot = selector.getSelectedFile();
             ui.getFolderField().setValue(newRoot);
+            JSeshWorkingDirectory.setWorkingDirectory(newRoot);
         }
     }
 
@@ -155,7 +159,8 @@ public class CorpusSearchPresenter {
         currentSearchWorker.ifPresent(w -> {
             try {
                 w.cancel(true);
-            } catch (CancellationException e) {/* NOTHING*/}
+            } catch (CancellationException e) {/* NOTHING*/
+            }
         });
     }
 
@@ -184,6 +189,7 @@ public class CorpusSearchPresenter {
     }
 
     private void doSearch() {
+        ui.getMessageField().setText(Messages.getString("searchFolder.started"));
         currentSearchWorker.ifPresent(this::cancelAndWaitForCompletion);
         clearTable();
         currentSearchWorker = Optional.of(new SearchWorker(getQuery(), getRootPath()));
@@ -206,23 +212,26 @@ public class CorpusSearchPresenter {
         ui.getResultTable().setModel(new ResultTableModel(getRootPath()));
     }
 
-    private class SearchWorker extends SwingWorker<List<CorpusSearchHit>, CorpusSearchHit> {
+    private class SearchWorker extends SwingWorker<List<CorpusSearchHit>, PartialResults> {
+
         private Path rootPath;
         private CorpusSearch corpusSearch;
 
         public SearchWorker(MdCSearchQuery query, Path rootPath) {
             corpusSearch = new CorpusSearch(rootPath, query);
-            this.rootPath= rootPath;
+            this.rootPath = rootPath;
         }
 
         @Override
         protected List<CorpusSearchHit> doInBackground() {
             try {
+                int fileCount = 0;
                 while (corpusSearch.hasNext()) {
+                    fileCount++;
+                    // This sleep method allows one to call interrupt().
                     Thread.sleep(1);
-                    List<CorpusSearchHit> nextFound = corpusSearch.searchNext();
-                    for (CorpusSearchHit h : nextFound)
-                        publish(h);
+                    List<CorpusSearchHit> hits = corpusSearch.searchNext();
+                    publish(new PartialResults(fileCount, hits));
                 }
                 return corpusSearch.getResult();
             } catch (InterruptedException e) {
@@ -231,11 +240,16 @@ public class CorpusSearchPresenter {
             }
         }
 
-
         @Override
-        protected void process(List<CorpusSearchHit> chunks) {
+        protected void process(List<PartialResults> partialResultList) {
             ResultTableModel tableModel = (ResultTableModel) ui.getResultTable().getModel();
-            tableModel.addAll(chunks);
+            int currentCount = 0;
+            for (PartialResults partialResult : partialResultList) {
+                tableModel.addAll(partialResult.getHits());
+                currentCount = Math.max(currentCount, partialResult.getFileCount());
+            }
+            String countText = Messages.format("searchFolder.files_searched", "" + currentCount);
+            ui.getMessageField().setText(countText);
         }
 
         @Override
@@ -244,6 +258,7 @@ public class CorpusSearchPresenter {
                 List<CorpusSearchHit> res = get();
                 ResultTableModel model = new ResultTableModel(rootPath, res);
                 ui.getResultTable().setModel(model);
+                ui.getMessageField().setText(Messages.format("searchFolder.done", Integer.toString(res.size())));
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -258,13 +273,13 @@ public class CorpusSearchPresenter {
         private final List<CorpusSearchHit> resultData;
 
         public ResultTableModel(Path rootPath, List<CorpusSearchHit> resultData) {
-            this.rootPath= rootPath;
+            this.rootPath = rootPath;
             this.resultData = new ArrayList<>(resultData);
         }
 
         public ResultTableModel(Path rootPath) {
             resultData = new ArrayList<>();
-            this.rootPath= rootPath;
+            this.rootPath = rootPath;
         }
 
         @Override
@@ -274,10 +289,11 @@ public class CorpusSearchPresenter {
 
         @Override
         public String getColumnName(int column) {
-            if (column >= 0 && column < columnNames.length)
+            if (column >= 0 && column < columnNames.length) {
                 return columnNames[column];
-            else
+            } else {
                 return "";
+            }
         }
 
         @Override
@@ -311,7 +327,7 @@ public class CorpusSearchPresenter {
         }
 
         private String pathToString(Path file) {
-            Path relativePath= rootPath.relativize(file);
+            Path relativePath = rootPath.relativize(file);
             return relativePath.toString();
         }
 

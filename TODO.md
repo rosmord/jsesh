@@ -2,27 +2,12 @@
 
 Franglish file, mainly for personnal use.
 
-## Planned for this version
-* Searches (DONE)
-* Include text names in texts. (DONE)
-* fix Neith sign C303 (DONE)
-* Upon a suggestion by N. Strudwick, remove the error cases when exporting.
-    
-    * the initial suggestion was to export all the document 
-      if no selection is available
-    * implementing it would delay the release of this version of JSesh. I prefer
-      proposing a reasonable solution: exporting the current page.
-    * bitmap and RTF are already ok.
-    * EMF, WMF, MACPICT, EPS, SVG : TODO use Bitmap logic DONE
-    * PDF : ok, except encapsulated pdf. Export current page. DONE
-    * quick pdf export : export current line if no selection. DONE
-* unify exports : use the standard file export chooser everywhere. DONE
 
 ## Bug fixes
 
 ## High priority
 * définir les dimensions des documents
-
+* Redéfinir MDCPosition
 
 ## Easy to do
 * Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
@@ -106,9 +91,6 @@ with "Space between quadrants".
   that one doesn't have to keep closing and opening it to see the effects of the changes?
   This is a nice feature that e.g. lots of Adobe applications have.
 
-
-
-
 * Add margins to EPS files
 * Fonction de mise en page intelligente : génère n:A1\70 pour n:A1 - ou mieux, n[noscale]:A1 ?
 * Redéfinir les différentes représentations du texte édité et leurs relations.
@@ -125,8 +107,24 @@ Varia IFAO:
 * trucs et astuces dans la doc
 * considérer tout signe avec pos non 0,0 comme un groupe potentiel ?
 
-## Probably not (save if someone else does it)
+## Probably not (except if someone else does it)
 
 * possibilité de paramétrer les raccourcis
 
 ## Recently Done
+
+### version 7.1
+
+* Searches (DONE)
+* Include text names in texts. (DONE)
+* fix Neith sign C303 (DONE)
+* Upon a suggestion by N. Strudwick, remove the error cases when exporting.
+    * the initial suggestion was to export all the document 
+      if no selection is available
+    * implementing it would delay the release of this version of JSesh. I prefer
+      proposing a reasonable solution: exporting the current page.
+    * bitmap and RTF are already ok.
+    * EMF, WMF, MACPICT, EPS, SVG : TODO use Bitmap logic DONE
+    * PDF : ok, except encapsulated pdf. Export current page. DONE
+    * quick pdf export : export current line if no selection. DONE
+* unify exports : use the standard file export chooser everywhere. DONE

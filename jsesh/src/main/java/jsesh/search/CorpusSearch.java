@@ -34,53 +34,48 @@
  */
 package jsesh.search;
 
-
-import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.MDCPosition;
-import org.qenherkhopeshef.guiFramework.swingworker.QenherSwingWorker;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 /**
  * A Search query in a full corpus (folder-based).
- * <p>Instances should not be reused for other queries.</p>
+ * <p>
+ * Instances should not be reused for other queries.</p>
  * As performing such a query can be quite time-consuming, the query performance
  * is represented by an object, which can be run in a SwingWorker.
- * <p> TODO: modify the system so that we can get intermediary results.
- * <p>The search itself is mono-threaded; the result will probably be dispatched in
+ * <p>
+ * TODO: modify the system so that we can get intermediary results.
+ * <p>
+ * The search itself is mono-threaded; the result will probably be dispatched in
  * a multi-thread environment, like a SwingWorker.</p>
- * <p>Note that everything there is </p>
+ * <p>
+ * Note that everything there is </p>
  */
-
 public class CorpusSearch {
+
     private final Path searchRoot;
     private final MdCSearchQuery query;
     private final String[] extensions;
     private final Iterator<Path> fileIterator;
     private final List<CorpusSearchHit> result = new ArrayList<>();
 
-
     /**
      * Create a search in a certain folder (which will be recursively search).
      *
      * @param searchRoot the folder to search.
-     * @param query      the query to perform.
+     * @param query the query to perform.
      */
     public CorpusSearch(Path searchRoot, MdCSearchQuery query) {
         try {
             this.searchRoot = searchRoot;
             this.query = query;
             extensions = new String[]{
-                    ".gly", ".GLY", ".hie", ".HIE"
+                ".gly", ".GLY", ".hie", ".HIE"
             };
             fileIterator = Files
                     .walk(searchRoot)
@@ -103,8 +98,9 @@ public class CorpusSearch {
         Path filePath = p.getFileName();
         String name = filePath.toString();
         for (String ext : extensions) {
-            if (name.endsWith(ext))
+            if (name.endsWith(ext)) {
                 return true;
+            }
         }
         return false;
     }
@@ -116,29 +112,37 @@ public class CorpusSearch {
     /**
      * Next search step.
      *
-     * <p>Prerequisite : hashNext() must be true.</p>
-     * <p>Postcondition: full result is updated.</p>
+     * <p>
+     * Prerequisite : hashNext() must be true.</p>
+     * <p>
+     * Postcondition: full result is updated.</p>
+     *
      * @return the matches found for the current file.
      */
     public List<CorpusSearchHit> searchNext() {
-        List<CorpusSearchHit> partialResult= new ArrayList<>();
+        List<CorpusSearchHit> hits;
         Path file = fileIterator.next();
+
+        hits = new ArrayList<>();
         try {
             MDCDocumentReader reader = new MDCDocumentReader();
             MDCDocument mdcDocument = reader.loadFile(file.toFile());
             List<MDCPosition> positions = query.doSearch(mdcDocument.getHieroglyphicTextModel().getModel());
+            // see information about MDCPosition for more details.
             for (MDCPosition pos : positions) {
-                partialResult.add(new CorpusSearchHit(file, pos));
+                hits.add(new CorpusSearchHit(file, pos.getIndex()));
             }
-            result.addAll(partialResult);
+            result.addAll(hits);
         } catch (MDCSyntaxError | IOException e) {
             System.err.println("Error in file " + file.toString());
         }
-        return partialResult;
+
+        return hits;
     }
 
     /**
      * Returns the full search result (once all files have been searched).
+     *
      * @return
      */
     public List<CorpusSearchHit> getResult() {

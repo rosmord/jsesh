@@ -9,6 +9,10 @@ package jsesh.mdc.model;
 import java.io.Serializable;
 
 /**
+ * TODO MDCPosition should undergo a major rewriting. It should NOT contain 
+ * a reference to the text it refers to, and should simply be a value. It would 
+ * be simpler, and would avoid memory leaks.
+ * 
  * 
  * AT THE TIME BEING, THE POSITION IS JUST A INTEGER. THE TEXT BELOW DESCRIBES
  * WHAT THE TEXT POSITION WILL PROBABLY BE.

@@ -55,6 +55,7 @@ public final class JSearchFolderPanel extends JFrame {
     JCheckBox searchGlyphsCheckBox;
     JButton searchButton;
     JButton cancelButton;
+    JLabel messageField;
 
     JTable resultTable;
 
@@ -67,9 +68,10 @@ public final class JSearchFolderPanel extends JFrame {
         this.searchGlyphsCheckBox.setSelected(true);
         this.searchButton = new JButton(Messages.getString("search"));
         this.cancelButton = new JButton(Messages.getString("cancel"));
-
+        
         this.resultTable= new JTable();
-
+        this.messageField= new JLabel("0");
+        
         this.setLayout(new MigLayout("fill",
                 "[right]rel[grow,fill]", "[]10[]"));
         this.add(new JLabel(Messages.getString("folder")));
@@ -79,6 +81,8 @@ public final class JSearchFolderPanel extends JFrame {
         this.add(mDCField, "growx, wrap");
         this.add(searchGlyphsCheckBox, "span 2,wrap");
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
+        this.add(new JLabel(Messages.getString("searchFolder.state")));
+        this.add(messageField, "span, growx 1, pushx");
         this.add(searchButton, "tag ok, span, split 2, sizegroup bttn");
         this.add(cancelButton, "tag cancel, sizegroup bttn");
         this.pack();
@@ -125,6 +129,11 @@ public final class JSearchFolderPanel extends JFrame {
         return cancelButton;
     }
 
+    public JLabel getMessageField() {
+        return messageField;
+    }
+
+    
     public static void main(String[] args) {
         JSearchFolderPanel p= new JSearchFolderPanel();
         p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
