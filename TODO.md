@@ -2,24 +2,20 @@
 
 Franglish file, mainly for personnal use.
 
-
 ## Bug fixes
 
 ## High priority
 * définir les dimensions des documents
 * Redéfinir MDCPosition
+* Automate installer building again.
 
 ## Easy to do
 * Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
-* PLUS OU MOINS FAITE, À VÉRIFIER SYSTÉMATIQUEMENT : Modif rapide (plus ou moins) :  quand les commandes ont besoin d'une sélection et qu'il n'y en a pas, faire
+* PLUS OU MOINS FAITE, À VÉRIFIER SYSTÉMATIQUEMENT : Modif rapide (plus ou moins) :  quand les commandes 
+  ont besoin d'une sélection et qu'il n'y en a pas, faire
   quelque chose de raisonnable (e.g. dernier ou deux derniers cadrats, etc...).
 * finir enceinte crénellée
 * ajouter enceintes circulaires
-
-* (N.S.) Another question: the open and save dialogue boxes use the standard Mac sidebar etc. 
-  But the Export as dialogue uses something custom that does not work in the same way. 
-  I suspect this is breaking the user interface guidelines...
-
 
 ## Strategic projets
 * mise en page (taille du texte, taille de page)
@@ -128,3 +124,6 @@ Varia IFAO:
     * PDF : ok, except encapsulated pdf. Export current page. DONE
     * quick pdf export : export current line if no selection. DONE
 * unify exports : use the standard file export chooser everywhere. DONE
+* (N.S.) Another question: the open and save dialogue boxes use the standard Mac sidebar etc. 
+  But the Export as dialogue uses something custom that does not work in the same way. 
+  I suspect this is breaking the user interface guidelines...

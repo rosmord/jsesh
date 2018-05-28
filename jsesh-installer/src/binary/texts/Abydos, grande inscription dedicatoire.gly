@@ -1,16 +1,17 @@
 ++JSesh_Info 1.0 +s
-++JSesh_max_quadrantHeight 18.0 +s
-++JSesh_page_direction LEFT_TO_RIGHT +s
-++JSesh_page_orientation HORIZONTAL +s
-++JSesh_standard_sign_height 18.0 +s
-++JSesh_line_skip 6.0 +s
-++JSesh_max_quadrant_width 22.0 +s
 ++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
 ++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
 ++JSesh_small_body_scale_limit 12.0 +s
 ++JSesh_cartouche_line_width 1.0 +s
 ++JSesh_small_sign_centered true +s
-+lRéf. KRI II, pp. 323-336, saisie sous Jsesh 3.3.0 by R.MONFORT+s-!
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bRéf. KRI II, pp. 323-336, saisie sous Jsesh 3.3.0 by R.MONFORT+s-!
 ++JSeshInfo 1.0 +s-++JSeshpagedirection LEFTTORIGHT +s-++JSeshpageorientation HORIZONTAL +s-++JSeshsmallsigncentered 1 +s-+l-+s-+lColonnes 1-6 et 7 bis, au dessus d'Osiris, Planche 5 de Mariette +s-!
 |1-D\99**md{{27,259,76}}**i{{424,318,71}}:n-ir:st*A40-nb-D{{31,0,99}}**t{{205,461,88}}**N17{{0,859,84}}-x:r-G39{{0,276,100}}**[[{{718,0,77}}**Z1{{856,218,100}}**]]{{936,17,77}}-f-sw:t-L2:t-<-N5-wsr-C10A-stp{{0,48,100}}**ra{{564,0,58}}:n->-!
 |2-ib:Z1-A40-Htp:t*p-Hr-Z1-ir:t-n:k-N-A40-[[-H-#b-..-#e-]]-[[{{0,33,40}}**.{{170,87,71}}**k{{38,639,71}}**W{{67,865,71}}**Z1{{636,877,71}}**]]{{831,0,43}}**]]{{760,566,57}}**[[{{473,551,60}}#12-Hr-[[\68**Z1{{129,148,100}}**]]{{225,2,69}}-V25-G43{{0,76,100}}**[[{{563,4,44}}**t{{643,143,76}}**]]{{1023,0,44}}-[[-#b-n:k-#e-]]-!

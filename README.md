@@ -1,7 +1,6 @@
 #Maven-oriented JSesh distributions. 
 Contains the following folders and modules:
 
-
 ### Maven modules for JSesh
 
 #### Libraries
@@ -23,7 +22,7 @@ Among those, the following modules are obsolete :
 
 * jseshAppli : a module containing
   the JSesh application (using JHotdraw)
-* jsesh-installer : the IZ pack installer
+* jsesh-installer : everthing related to installing JSesh
 * codeDumper : a small software to create a dump of JSesh files, 
   as simple lists of codes.
 
@@ -53,30 +52,43 @@ A quick fix:
 		
 That's it.
 
-## Mac OS X distribution:
+## Building distributions
 
-Bundled JRE for mac os X distribution need :
+Due to changes in Java distribution and on Windows and Mac OS X as platform 
+(with a strong bias against softwares not distributed through their respective
+stores), the previous java-only distribution system has changed.
 
-1) to patch flavormap.properties:
-    add the line PDF: application/pdf (allows copy/paste of PDF)
-    P.S. see if we can handle this as EMF ? (check if still needed anyway)
+JSesh will now embed its own version of Java - at the present time, it will
+be java 8.
 
-### Note about recent changes on Mac:
 
-**Translocation** is certainly reasonable in some cases. For me, it's 
-a (insert favorite rude word here)
-idea which will force me to either
- integrate the sign editor in JSesh,
-or double JSesh's size.
-You can look at https://lapcatsoftware.com/articles/app-translocation.html,
+The files here are used in the last, non-automated phase of building a
+JSesh distribution. 
 
-Moving the app itself though the finder removes the translocation problem...
-but ... not moving a FOLDER which contains the app... Bored now.
+I will probably try to automate everything at some point, this being said.
 
-https://weblog.rogueamoeba.com/2016/06/29/sierra-and-gatekeeper-path-randomization/
+------------------------------------
+### Building a Mac Distribution:
 
-Solution : make a package (.pkg) for instance with "Packages" by Stéphane Sudre.
+1. run the izpack jar installer to have everything where it belongs.
 
-## Windows distribution:
-(TODO : explain how to create a window distribution,
- including an installer).
+2. replace the original main.sh files for JSesh and SignInfo with those from
+    jsesh-sh and signInfo-sh in the folder
+    `JSesh/jsesh-installer/non-maven/jsesh-sh`
+    (check that they have the +x flag set)
+
+3. place jre 8 in the Contents folder of the application.
+
+4. Bundled JRE for mac os X distribution need to patch `flavormap.properties`:
+        add the line PDF: application/pdf (allows copy/paste of PDF)
+        P.S. see if we can handle this as EMF ? (check if still needed anyway)
+
+5. make a package (.pkg) with "Packages" by Stéphane Sudre.
+    See JSesh-7.0.1-dist.pkgproj for a config file for the Packages software for Mac.
+
+------------------------------------
+### Windows distribution
+
+- embed a 32 bit JRE. That way, it will work on all window platforms.
+- use Launch4J to make an exe (done)
+- use innoSetup to build the installer.
