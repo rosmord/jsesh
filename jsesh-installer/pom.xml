@@ -67,6 +67,9 @@
                                 <resource>
                                     <directory>src/binary</directory>
                                 </resource>
+                                <resource>
+                                    <directory>src/mac-binary</directory>
+                                </resource>
                             </resources>
                         </configuration>
                     </execution>

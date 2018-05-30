@@ -70,35 +70,30 @@ I will probably try to automate everything at some point, this being said.
 ------------------------------------
 ### Building a Mac Distribution:
 
-1. run the izpack jar installer to have everything where it belongs.
+build the whole project: "mvn install".
 
-2. replace the original main.sh files for JSesh and SignInfo with those from
-    jsesh-sh and signInfo-sh in the folder
-    `JSesh/jsesh-installer/non-maven/jsesh-sh`
-    (check that they have the +x flag set)
+1. all files are in jsesh-installer/target/mac. cd there.
 
-3. place jre 8 in the Contents folder of the application.
+5. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
+
+3. place jre 8 in the Contents folder of JSesh.app, with "jre" as folder name.
 
 4. (maybe not needed anymore ?) Bundled JRE for mac os X distribution need to patch `flavormap.properties`:
         add the line PDF: application/pdf (allows copy/paste of PDF)
         P.S. see if we can handle this as EMF ? (check if still needed
         anyway)
 
-5. Ensure main.sh is executable in both apps.
 
-6. Check if JSesh and SignInfo are functional.
+6. Check if JSesh and SignInfo are functional (they should start if you double click on them).
 
 7. make a package (.pkg) with "Packages" by Stéphane Sudre.
-    See JSesh-7.0.1-dist.pkgproj for a config file for the Packages software for Mac.
+    See JSesh-dist.pkgproj for a config file for the Packages software for Mac.
 
 ------------------------------------
 ### Windows distribution
 
-- embed a 32 bit JRE. That way, it will work on all window platforms.
-    - use Launch4J to make an exe (done)
-- use innoSetup to build the installer.
-
 1. copy the files from target/windows into a Windows machine
 2. copy a 32 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
 3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
-4. 
+4. same for the file signInfo-bundler.xml
+5. run InnoDB on jsesh-inno.iss 

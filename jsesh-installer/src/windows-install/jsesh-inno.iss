@@ -6,6 +6,7 @@
 #define MyAppPublisher "Serge Rosmorduc"
 #define MyAppURL "http://jsesh.qenherkhopeshef.org"
 #define MyAppExeName "JSesh.exe"
+#define MyOtherAppExeName "SignInfo.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -43,8 +44,8 @@ Source: "JSesh-${project.version}\*"; DestDir: "{app}"; Flags: ignoreversion rec
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\icons\tksesh.ico"
+Name: "{group}\{#MyOtherAppExeName}"; Filename: "{app}\{#MyOtherAppExeName}";
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\icons\tksesh.ico"
-
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
