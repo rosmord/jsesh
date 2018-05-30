@@ -1,23 +1,22 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>JSesh-all</artifactId>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
-        <version>7.0.2</version>
+        <version>7.2.0</version>
     </parent>
     <description>
-        The original installer builder for JSesh.
-        I will still distribute the corresponding jar
-        (which will probably be all right for linux users,
-        who are supposed to be able to fix problems with, for
-        instance, versions of java).
-        For Mac and Windows, my policy will now be to provide a fully bundled
-        version.
-        
-        Note: packr.jar might also be used.
-        
+        New JSesh installer builder.
+
+        Due to changes in Java distribution, we must a) bundle jre with
+        JSesh and b) provide more "native" installers.
+
+        The ultimate goal of this file is to provide an easy way to
+        build the said installers.
+      
+        What we do currently: create two distinct folders, 
     </description>
     <artifactId>jsesh-installer</artifactId> 
     <name>jsesh-installer</name>
@@ -25,63 +24,66 @@
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <staging.dir>${project.build.directory}/staging</staging.dir>
+        <macInstall.dir>${project.build.directory}/mac</macInstall.dir>
+        <mac.dir>${macInstall.dir}/JSesh-${project.version}</mac.dir>
+        <windowsInstall.dir>${project.build.directory}/windows</windowsInstall.dir>
+        <windows.dir>${windowsInstall.dir}/JSesh-${project.version}</windows.dir>
     </properties>
    
     <build>
         <plugins>
-	  <!-- avoid deployment -->
-	  <plugin>
-	    <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-deploy-plugin</artifactId>
-	    <version>2.5</version>
-	    <configuration>
-	      <skip>true</skip>
-	    </configuration>
-	  </plugin>
+            <!-- avoid deployment -->
             <plugin>
-                <groupId>org.codehaus.izpack</groupId>
-                <artifactId>izpack-maven-plugin</artifactId>
-                <version>1.0-alpha-5</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>izpack</goal>
-                        </goals>
-                        <configuration>
-                            <izpackBasedir>${staging.dir}</izpackBasedir>
-                            <descriptorEncoding>UTF-8</descriptorEncoding>
-                            <installerFile>
-                                ${project.build.directory}/${project.build.finalName}-installer.jar
-                            </installerFile>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.izpack</groupId>
-                        <artifactId>izpack-standalone-compiler</artifactId>
-                        <version>4.3.2</version>
-                    </dependency>
-                </dependencies>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
-
-            <!-- copy various files where izpack will find them -->
+            <!-- copy various files (fix this) -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.4.2</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-resources-mac</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <encoding>UTF-8</encoding>
-                            <outputDirectory>${staging.dir}</outputDirectory>
+                            <outputDirectory>${mac.dir}</outputDirectory>
                             <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/filtered</directory>
+                                </resource>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/mac-filtered</directory>
+                                </resource>
+                                <resource>
+                                    <directory>src/binary</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-windows</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${windows.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/windows-filtered</directory>
+                                </resource>
                                 <resource>
                                     <filtering>true</filtering>
                                     <directory>src/filtered</directory>
@@ -89,6 +91,40 @@
                                 <resource>
                                     <directory>src/binary</directory>
                                 </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-install-mac</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${macInstall.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/mac-install</directory>
+                                </resource>                                
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-install-windows</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${windowsInstall.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/windows-install</directory>
+                                </resource>                                
                             </resources>
                         </configuration>
                     </execution>
@@ -100,22 +136,32 @@
                 <version>2.1</version>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>copy-dependencies-mac</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                       <configuration>
+                            <outputDirectory>${mac.dir}/JSesh.app/Contents/lib</outputDirectory>                           
+                       </configuration>
                     </execution>
-                </executions>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                </configuration>
+                     <execution>
+                        <id>copy-dependencies-windows</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                       <configuration>
+                            <outputDirectory>${windows.dir}/lib</outputDirectory>                           
+                       </configuration>
+                    </execution>
+                </executions>                
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
-            <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jseshAppli</artifactId>
             <version>${project.version}</version>
@@ -128,6 +174,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jseshGlyphs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>signInfoAppli</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

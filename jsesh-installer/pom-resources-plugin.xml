@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>JSesh-all</artifactId>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
+        <version>7.2.0</version>
+    </parent>
+    <description>
+        New JSesh installer builder.
+
+        Due to changes in Java distribution, we must a) bundle jre with
+        JSesh and b) provide more "native" installers.
+
+        The ultimate goal of this file is to provide an easy way to
+        build the said installers.
+      
+        What we do currently: create two distinct folders, 
+    </description>
+    <artifactId>jsesh-new-installer</artifactId> 
+    <name>jsesh-new-installer</name>
+    <url>http://maven.apache.org</url>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <macInstall.dir>${project.build.directory}/mac</macInstall.dir>
+        <mac.dir>${macInstall.dir}/JSesh-${project.version}</mac.dir>
+        <windowsInstall.dir>${project.build.directory}/windows</windowsInstall.dir>
+        <windows.dir>${windowsInstall.dir}/JSesh-${project.version}</windows.dir>
+    </properties>
+   
+    <build>
+        <plugins>
+            <!-- avoid deployment -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!-- copy various files (fix this) -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources-mac</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${mac.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/filtered</directory>
+                                </resource>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/mac-filtered</directory>
+                                </resource>
+                                <resource>
+                                    <directory>src/binary</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-windows</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${windows.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/windows-filtered</directory>
+                                </resource>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/filtered</directory>
+                                </resource>
+                                <resource>
+                                    <directory>src/binary</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-install-mac</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${macInstall.dir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/mac-install</directory>
+                                </resource>                                
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies-mac</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                       <configuration>
+                            <outputDirectory>${mac.dir}/JSesh.app/Contents/lib</outputDirectory>                           
+                       </configuration>
+                    </execution>
+                     <execution>
+                        <id>copy-dependencies-windows</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                       <configuration>
+                            <outputDirectory>${windows.dir}/lib</outputDirectory>                           
+                       </configuration>
+                    </execution>
+                </executions>                
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jseshAppli</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jsesh</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jseshGlyphs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

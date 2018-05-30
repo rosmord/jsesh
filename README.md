@@ -79,16 +79,26 @@ I will probably try to automate everything at some point, this being said.
 
 3. place jre 8 in the Contents folder of the application.
 
-4. Bundled JRE for mac os X distribution need to patch `flavormap.properties`:
+4. (maybe not needed anymore ?) Bundled JRE for mac os X distribution need to patch `flavormap.properties`:
         add the line PDF: application/pdf (allows copy/paste of PDF)
-        P.S. see if we can handle this as EMF ? (check if still needed anyway)
+        P.S. see if we can handle this as EMF ? (check if still needed
+        anyway)
 
-5. make a package (.pkg) with "Packages" by Stéphane Sudre.
+5. Ensure main.sh is executable in both apps.
+
+6. Check if JSesh and SignInfo are functional.
+
+7. make a package (.pkg) with "Packages" by Stéphane Sudre.
     See JSesh-7.0.1-dist.pkgproj for a config file for the Packages software for Mac.
 
 ------------------------------------
 ### Windows distribution
 
 - embed a 32 bit JRE. That way, it will work on all window platforms.
-- use Launch4J to make an exe (done)
+    - use Launch4J to make an exe (done)
 - use innoSetup to build the installer.
+
+1. copy the files from target/windows into a Windows machine
+2. copy a 32 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
+3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
+4. 
