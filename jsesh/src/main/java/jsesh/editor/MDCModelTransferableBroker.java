@@ -53,11 +53,21 @@ public interface MDCModelTransferableBroker {
 
 	/**
 	 * Create a transferable for the given TopItemList
-	 * @param top
+         * <p> The method itself decides on the DataFlavors (i.e. the possible export formats) 
+         * to allow. Usually, this will be done by asking some 
+         * external authority (e.g. application preferences).
+         *
+	 * @param top the itemlist to use.
 	 * @return
 	 */
 	MDCModelTransferable buildTransferable(TopItemList top);
 
+        /**
+         * Create a transferable object for the given text.
+         * @param top the text (as a TopItemList)
+         * @param dataFlavors the export formats we want.
+         * @return a transferable.
+         */
 	MDCModelTransferable buildTransferable(TopItemList top,
 			DataFlavor[] dataFlavors);
 

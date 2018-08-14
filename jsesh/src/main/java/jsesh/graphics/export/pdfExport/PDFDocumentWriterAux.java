@@ -14,7 +14,8 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * utility class for creating a pdf picture.
- * (there are probably too many classes for this in the current architecture. Some cleanup is needed).
+ * (there are probably too many classes for this in the current architecture. 
+ * Some cleanup is needed).
  * @author rosmord
  * 
  */

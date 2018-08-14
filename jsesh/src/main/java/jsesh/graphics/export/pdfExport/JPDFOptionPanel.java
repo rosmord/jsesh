@@ -1,6 +1,3 @@
-/**
- *
- */
 package jsesh.graphics.export.pdfExport;
 
 import java.awt.BorderLayout;
@@ -14,7 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.graphics.export.ExportOptionPanel;
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.utils.FileUtils;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;

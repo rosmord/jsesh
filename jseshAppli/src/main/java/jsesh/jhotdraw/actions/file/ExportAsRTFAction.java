@@ -5,7 +5,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import jsesh.graphics.export.RTFExporterUI;
+import jsesh.graphics.export.rtf.RTFExporterPresenter;
 import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.viewClass.JSeshView;
@@ -30,9 +30,9 @@ public class ExportAsRTFAction extends AbstractViewAction {
 		JSeshApplicationModel applicationModel = (JSeshApplicationModel) getApplication()
 				.getModel();
 		if (jSeshView != null) {
-			RTFExporterUI rtfExporterUI;
+			RTFExporterPresenter rtfExporterUI;
 			File exportFile = jSeshView.buildDefaultExportFile("rtf");
-			rtfExporterUI = new RTFExporterUI(exportFile,
+			rtfExporterUI = new RTFExporterPresenter(exportFile,
 					applicationModel.getRTFExportPreferences(ExportType.FILE));
 
 			if (rtfExporterUI.getOptionPanel(jSeshView,

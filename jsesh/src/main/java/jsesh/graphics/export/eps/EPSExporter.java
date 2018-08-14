@@ -34,8 +34,10 @@
 /*
  * Created on 4 nov. 2004
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.eps;
 
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.AbstractGraphicalExporter;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -43,6 +45,7 @@ import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
+import jsesh.graphics.export.generic.SelectionExporter;
 
 import jsesh.i18n.I18n;
 

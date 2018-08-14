@@ -9,7 +9,7 @@
  * Created on 2 févr. 2009, 14:43:08
  */
 
-package jsesh.graphics.export;
+package jsesh.graphics.export.rtf;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;

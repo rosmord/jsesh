@@ -6,8 +6,10 @@
  * This file is distributed along the GNU Lesser Public License (LGPL)
  * author : rosmord
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;

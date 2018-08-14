@@ -1,31 +1,41 @@
-package jsesh.graphics.export;
+/*
+ * Created on 4 nov. 2004
+ *
+ * This file is distributed under the LGPL.
+ */
+package jsesh.graphics.export.wmf;
 
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.AbstractGraphicalExporter;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
-import java.io.File;
 import java.io.IOException;
 
-import jsesh.i18n.I18n;
-import jsesh.swing.utils.FileSaveConfirmDialog;
+import javax.swing.JOptionPane;
+import jsesh.graphics.export.generic.SelectionExporter;
 
-import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
+import jsesh.i18n.I18n;
+
+import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 /**
- * Export SVG files.
+ * Expert able to export the selection to an WMF file.
+ *
+ * @author S. Rosmorduc
+ *
  */
-public class SVGExporter extends AbstractGraphicalExporter {
+public class WMFExporter extends AbstractGraphicalExporter {
 
-    private File exportFile;
-
-    private Component frame;
+    private final Component frame;
 
     private Dimension2D scaledDimension;
 
-    public SVGExporter(final Component frame) {
-        super("svg", I18n.getString("SVGExporter.description"));
-        this.frame = frame;
+    public WMFExporter() {
+        super("wmf", I18n.getString("WMFExporter.description"));
+        frame = null;
     }
 
     @Override
@@ -33,12 +43,12 @@ public class SVGExporter extends AbstractGraphicalExporter {
         try {
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, this);
-            selectionExporter.setClearBeforeDrawing(false);
             selectionExporter.exportSelection();
         } catch (HeadlessException e1) {
-            throw new RuntimeException(e1);
+            throw new UserMessage(e1);            
         } catch (IOException e1) {
-            FileSaveConfirmDialog.showCantOpenDialog(frame);
+            JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -60,16 +70,17 @@ public class SVGExporter extends AbstractGraphicalExporter {
     @Override
     public Graphics2D buildGraphics()
             throws IOException {
-        return new SVGGraphics2D(getExportFile(), scaledDimension);
+        return new WMFGraphics2D(getExportFile(), scaledDimension);
     }
 
+    @Override
     public void writeGraphics() throws IOException {
-        // NO OP.
+        // NO-OP. the file is written as it is created.
     }
 
     @Override
     public void newPage() throws IOException {
-        // NO OP.
+        // NO-OP.
     }
 
 }

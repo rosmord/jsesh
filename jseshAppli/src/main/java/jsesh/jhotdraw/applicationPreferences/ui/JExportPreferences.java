@@ -33,9 +33,9 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.graphics.export.RTFExportPreferences;
-import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
-import jsesh.graphics.export.RTFExportPreferences.RTFExportGraphicFormat;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.graphics.export.rtf.RTFExportGranularity;
+import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
@@ -124,7 +124,7 @@ public class JExportPreferences {
         unitCB = new JComboBox();
         graphicFormatCB = new JComboBox();
         graphicFormatCB.setModel(new DefaultComboBoxModel(
-                RTFExportPreferences.graphicFormatList));
+                RTFExportGraphicFormat.GRAPHIC_FORMATS));
 
         respectTextLayoutCB = new JCheckBox(
                 Messages.getString("exportPrefs.respectTextLayout"));
@@ -167,15 +167,15 @@ public class JExportPreferences {
     }
     
     public void updatePreferences(JSeshApplicationModel app) {
-        ExportPreferences exportPreferences = new ExportPreferences();
-        exportPreferences.setRTFExportGranularity((RTFExportGranularity) this.exportModeCB.getSelectedItem());
-        exportPreferences.setRTFExportGraphicFormat((RTFExportGraphicFormat) this.graphicFormatCB.getSelectedItem());
-        exportPreferences.setTextLayoutRespected(this.respectTextLayoutCB.isSelected());
+        ExportPreferences newPreferences = new ExportPreferences();
+        newPreferences.setRTFExportGranularity((RTFExportGranularity) this.exportModeCB.getSelectedItem());
+        newPreferences.setRTFExportGraphicFormat((RTFExportGraphicFormat) this.graphicFormatCB.getSelectedItem());
+        newPreferences.setTextLayoutRespected(this.respectTextLayoutCB.isSelected());
         
-        exportPreferences.setQuadrantHeightSmall(lengthFromField(quadrantHeightSmallField));
-        exportPreferences.setQuadrantHeightLarge(lengthFromField(quadrantHeightLargeField));
-        exportPreferences.setQuadrantHeightFile(lengthFromField(quadrantHeightFileField));
-        exportPreferences.setQuadrantHeightWysiwyg(lengthFromField(quadrantHeightWysiwygField));
-        app.setExportPreferences(exportPreferences);
+        newPreferences.setQuadrantHeightSmall(lengthFromField(quadrantHeightSmallField));
+        newPreferences.setQuadrantHeightLarge(lengthFromField(quadrantHeightLargeField));
+        newPreferences.setQuadrantHeightFile(lengthFromField(quadrantHeightFileField));
+        newPreferences.setQuadrantHeightWysiwyg(lengthFromField(quadrantHeightWysiwygField));
+        app.setExportPreferences(newPreferences);
     }
 }

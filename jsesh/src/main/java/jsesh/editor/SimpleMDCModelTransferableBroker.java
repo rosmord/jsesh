@@ -44,19 +44,21 @@ import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
  * Trivial implementation of a MDCModelTransferableBroker.
  */
 public class SimpleMDCModelTransferableBroker implements
-		MDCModelTransferableBroker {
+        MDCModelTransferableBroker {
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see jsesh.editor.MDCModelTransferableBroker#buildTransferable(jsesh.mdc.model.TopItemList)
-	 */
-	public MDCModelTransferable buildTransferable(TopItemList top) {
-		return buildTransferable(top, JSeshPasteFlavors.getTransferDataFlavors(new MDCClipboardPreferences()));
-			}
+     */
+    @Override
+    public MDCModelTransferable buildTransferable(TopItemList top) {
+        return buildTransferable(top, JSeshPasteFlavors.getTransferDataFlavors(new MDCClipboardPreferences()));
+    }
 
-	public MDCModelTransferable buildTransferable(TopItemList top,
-			DataFlavor[] dataFlavors) {
-		return new MDCModelTransferable(dataFlavors, top);
+    @Override
+    public MDCModelTransferable buildTransferable(TopItemList top,
+            DataFlavor[] dataFlavors) {
+        return new MDCModelTransferable(dataFlavors, top);
 
-	}
+    }
 
 }

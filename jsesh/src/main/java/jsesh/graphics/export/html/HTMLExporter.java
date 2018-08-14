@@ -2,8 +2,9 @@
  * Created on 18 oct. 2004
  *
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.html;
 
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -124,7 +125,7 @@ public class HTMLExporter {
         setDefaults();
     }
 
-    public void setDefaults() {
+    public final void setDefaults() {
         directory = new File("."); //$NON-NLS-1$
         baseName = "egyptian"; //$NON-NLS-1$
         respectPages = true;
@@ -161,12 +162,12 @@ public class HTMLExporter {
     /**
      * gets a panel suitable for option editing.
      *
-     * @param parent
+     * @param popupParent
      * @param title
      * @return a panel
      */
-    public ExportOptionPanel getOptionPanel(Component parent, String title) {
-        return new OptionPanel(parent, title);
+    public ExportOptionPanel getOptionPanel(Component popupParent, String title) {
+        return new OptionPanel(popupParent, title);
     }
 
     public void exportModel(TopItemList model) {
@@ -542,8 +543,8 @@ public class HTMLExporter {
 
         JButton browse;
 
-        private OptionPanel(Component parent, String paneltitle) {
-            super(parent, paneltitle);
+        private OptionPanel(Component popupParent, String paneltitle) {
+            super(popupParent, paneltitle);
 
             // Title :
             titleField = new JTextField(HTMLExporter.this.title, 40);
@@ -554,7 +555,7 @@ public class HTMLExporter {
             directoryField.setValue(directory);
             directoryField.setColumns(40);
             browse = new JButton(I18n.getString("HTMLExporter.browse.label")); //$NON-NLS-1$
-            browse.addActionListener(e-> browse());
+            browse.addActionListener(e -> browse());
 
             // Base name.
             baseNameField = new JTextField(baseName, 20);
@@ -568,7 +569,7 @@ public class HTMLExporter {
             // line height.
             // NOTE : I use a java 1.4 specific class.
             lineHeightField = new JFormattedTextField();
-            lineHeightField.setValue(new java.lang.Integer(lineHeight));
+            lineHeightField.setValue(lineHeight);
             lineHeightField
                     .setToolTipText(I18n.getString("HTMLExporter.lineHeight.toolTip")); //$NON-NLS-1$
 
@@ -589,12 +590,9 @@ public class HTMLExporter {
 
             NumberFormatter formatter = new NumberFormatter(new DecimalFormat(
                     "###")); //$NON-NLS-1$
-            // formatter.setAllowsInvalid(false);
-            // formatter.setOverwriteMode(true);
-            // formatter.setCommitsOnValidEdit(true);
-
+          
             pictureScaleField = new JFormattedTextField(formatter);
-            pictureScaleField.setValue(new Integer(pictureScale));
+            pictureScaleField.setValue(pictureScale);
             pictureScaleField.setColumns(4);
 
             pictureScaleField
@@ -672,7 +670,7 @@ public class HTMLExporter {
         }
 
         private void browse() {
-            PortableFileDialog portableFileDialog = PortableFileDialogFactory.createDirectorySaveDialog(parent);
+            PortableFileDialog portableFileDialog = PortableFileDialogFactory.createDirectorySaveDialog(getPopupParent());
             portableFileDialog.setCurrentDirectory(directory);
             //chooser.setApproveButtonText(I18n.getString("HTMLExporter.chooseDirectory.label")); //$NON-NLS-1$
             portableFileDialog.setFileFilter(new FileFilter() {
@@ -748,5 +746,4 @@ public class HTMLExporter {
     public void setPictureScale(int pictureScale) {
         this.pictureScale = pictureScale;
     }
-
 }

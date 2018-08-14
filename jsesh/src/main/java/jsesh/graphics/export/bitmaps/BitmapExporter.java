@@ -2,8 +2,9 @@
  * Created on 17 oct. 2004 (!)
  * Ok, this file is veeery old.
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.bitmaps;
 
+import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -30,6 +31,9 @@ import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.ExportOptionPanel;
+import jsesh.graphics.export.generic.SelectionExporter;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -44,7 +48,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
  */
 public class BitmapExporter {
 
-    private final Component parent;
+    private final Component popupParent;
 
     /**
      * The export file name
@@ -82,10 +86,10 @@ public class BitmapExporter {
     /**
      * Create a new bitmap exporter.
      *
-     * @param parent the main window.
+     * @param popupParent the main window.
      */
-    public BitmapExporter(Component parent) {
-        this.parent = parent;
+    public BitmapExporter(Component popupParent) {
+        this.popupParent = popupParent;
         outputFormatIndex = 0;
         setSingleOutputFile(new File("unnamed.png"));
         multiFile = false;
@@ -105,7 +109,7 @@ public class BitmapExporter {
      */
     public int askUser(boolean onlySelection) {
         this.multiFile = !onlySelection;
-        BitmapOptionPanel panel = new BitmapOptionPanel(parent,
+        BitmapOptionPanel panel = new BitmapOptionPanel(popupParent,
                 "Export as bitmap file");
         return panel.askAndSet();
     }
@@ -195,6 +199,7 @@ public class BitmapExporter {
          * jsesh.graphics.export.BaseGraphics2DFactory#buildGraphics(java.io
          * .File, java.awt.Dimension)
          */
+        @Override
         public Graphics2D buildGraphics() throws IOException {
             OutputStream out = new FileOutputStream(getSingleOutputFile());
             BitmapStreamGraphics g = new BitmapStreamGraphics(out,
@@ -312,8 +317,8 @@ public class BitmapExporter {
 
         public final int[] FORBIDDEN_CHARS = {':', '/', '.'};
 
-        public BitmapOptionPanel(Component parent, String title) {
-            super(parent, title);
+        public BitmapOptionPanel(Component popupParent, String title) {
+            super(popupParent, title);
             // Directory
             fileField = new JFormattedTextField();
             fileField.setColumns(40);
@@ -406,7 +411,7 @@ public class BitmapExporter {
 
         private void browseSingleFile() {
             FileOperationResult userResult;
-            PortableFileDialog chooser = PortableFileDialogFactory.createFileSaveDialog(parent);
+            PortableFileDialog chooser = PortableFileDialogFactory.createFileSaveDialog(getPopupParent());
             chooser.setSelectedFile((File) fileField.getValue());
 
             // Select only our formats.
@@ -423,7 +428,7 @@ public class BitmapExporter {
 
         private void browseMultiFile() {
             FileOperationResult userResult;
-            PortableFileDialog chooser = PortableFileDialogFactory.createDirectorySaveDialog(parent);
+            PortableFileDialog chooser = PortableFileDialogFactory.createDirectorySaveDialog(popupParent);
             chooser.setSelectedFile((File) fileField.getValue());
             chooser.setTitle("Choose output directory"); // TODO : I18N
             userResult = chooser.show();

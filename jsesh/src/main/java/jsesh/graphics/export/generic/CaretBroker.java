@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
 import jsesh.editor.caret.MDCCaret;
 

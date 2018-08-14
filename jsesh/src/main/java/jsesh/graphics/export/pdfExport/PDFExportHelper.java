@@ -30,7 +30,7 @@ class PDFExportHelper {
 	 * 
 	 * @param drawingSpecifications
 	 */
-	public static void prepareColors(
+	public static void ensureCMYKColorSpace(
 			DrawingSpecification drawingSpecifications) {
 
 		// Use PANTONE COLOR

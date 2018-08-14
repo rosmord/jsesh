@@ -2,8 +2,9 @@
  * author : Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.rtf;
 
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,7 +13,6 @@ import java.io.OutputStream;
 
 import javax.swing.DefaultComboBoxModel;
 
-import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -21,19 +21,18 @@ import jsesh.swing.units.UnitMediator;
 import jsesh.swing.utils.FileButtonMapper;
 
 /**
- * Interface for RTF export to files. TODO: create an export form using
- * Netbeans.
+ * Presenter for the GUI interface for RTF export to files.
  */
-public class RTFExporterUI {
+public class RTFExporterPresenter {
 
-    File file;
-    RTFExportPreferences rtfPreferences;
+    private File file;
+    private RTFExportPreferences rtfPreferences;
 
     /**
      * @param file
      * @param preferences
      */
-    public RTFExporterUI(File file, RTFExportPreferences preferences) {
+    public RTFExporterPresenter(File file, RTFExportPreferences preferences) {
         this.file = file;
         rtfPreferences = preferences;
     }
@@ -45,7 +44,7 @@ public class RTFExporterUI {
     public void exportModel(DrawingSpecification drawingSpecifications,
             TopItemList model) {
 
-        RTFSimpleExporter exporter = new RTFSimpleExporter();
+        RTFExporter exporter = new RTFExporter();
         exporter.setDrawingSpecifications(drawingSpecifications);
         exporter.setRtfPreferences(rtfPreferences);
         exporter.setViewBuilder(new SimpleViewBuilder());
@@ -53,7 +52,6 @@ public class RTFExporterUI {
             OutputStream out = new FileOutputStream(file);
             exporter.ExportModelTo(model, out);
         } catch (IOException exception) {
-            exception.printStackTrace();
             throw new RuntimeException(exception);
         }
     }
@@ -101,6 +99,7 @@ public class RTFExporterUI {
         /* (non-Javadoc)
 		 * @see jsesh.graphics.export.ExportOptionPanel#setOptions()
          */
+        @Override
         public void setOptions() {
             file = (File) form.getFileField().getValue();
             rtfPreferences.setCadratHeight(getCadratHeight());

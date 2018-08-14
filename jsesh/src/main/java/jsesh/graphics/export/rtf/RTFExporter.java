@@ -2,15 +2,15 @@
  * author : Serge ROSMORDUC This file is distributed according to the LGPL (GNU
  * lesser public license)
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.rtf;
 
+import jsesh.graphics.export.generic.ExportDrawer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import jsesh.graphics.export.RTFExportPreferences.RTFExportGranularity;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
@@ -34,25 +34,23 @@ import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
- * Exports a MDC model into a RTF file (or byte array). Suitable for cut and
- * paste on a macintosh (well, and on other machines as well).
- * <p>
- * Currently used in JSesh not only for plain file export, but also as vector
- * cut-and-paste mecanism.
+ * Exports a MDC model into a RTF file (or byte array).
+ * 
+ * <p> RTF is very basic, but can be used in copy/paste, which is nice. 
+ * It's the only copy/paste system for vector graphics which works 
+ * on all platforms.
+ * It also provides an export format which can be edited later in a
+ * word processor.
  *
  * <p>
  * After considering as an option the possibility to create a generic class to
  * unify HTML, PDF and Rtf output, it appeared that the common part was quite
  * small, so we decided to write utility classes for the common parts.
  *
- * <p>
- * There are currently problems with Itext and WMF imports. itext1.3 and 1.4
- * behave differently with respect to the imported wmf file size.
- *
  * @author rosmord
  *
  */
-public class RTFSimpleExporter {
+public class RTFExporter {
 
     private static final String TRANSLITFONTNAME = "MDCTranslitLC";
     private static final String TIMES = "Times";
@@ -60,45 +58,37 @@ public class RTFSimpleExporter {
      * Constant for mac pict pictures.
      */
     public static final int MAC_PICT = 0;
+    
     /**
-     * Constant for EMF pictures. EMF is better, but EMF pictures only work well
-     * with OpenOffice.
+     * Constant for EMF pictures, which is the most sophisticated
+     * format for RTF embedding. 
      */
     public static final int EMF = 1;
+    
     /**
      * Constants for WMF pictures.
      */
     public static final int WMF = 2;
+    
     private int pictureType = MAC_PICT;
     private ViewBuilder viewBuilder;
     private DrawingSpecification drawingSpecifications;
     private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
     private SimpleRTFWriter rtfWriter;
 
-    public RTFSimpleExporter() {
-        if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-            pictureType = MAC_PICT;
-            // pictureType= EMF;
-        } else if (PlatformDetection.getPlatform() == PlatformDetection.WINDOWS) {
-			// Temporary patch to allow correct cut and paste with windows
-            // pictureType= WMF;
-            pictureType = MAC_PICT;
-        } else {
-            // pictureType= EMF;
-            pictureType = MAC_PICT;
-        }
+    public RTFExporter() {
     }
 
     public void ExportModelTo(TopItemList model, OutputStream outputStream)
             throws IOException {
         if (rtfPreferences.getExportGraphicFormat().equals(
-                RTFExportPreferences.RTFExportGraphicFormat.WMF)) {
+                RTFExportGraphicFormat.WMF)) {
             pictureType = WMF;
         } else if (rtfPreferences.getExportGraphicFormat().equals(
-                RTFExportPreferences.RTFExportGraphicFormat.EMF)) {
+                RTFExportGraphicFormat.EMF)) {
             pictureType = EMF;
         } else if (rtfPreferences.getExportGraphicFormat().equals(
-                RTFExportPreferences.RTFExportGraphicFormat.MACPICT)) {
+                RTFExportGraphicFormat.MACPICT)) {
             pictureType = MAC_PICT;
         }
         rtfWriter = new SimpleRTFWriter(outputStream);
@@ -199,9 +189,7 @@ public class RTFSimpleExporter {
         switch (pictureType) {
             case MAC_PICT:
                 result = new MacPictSimpleDrawer(viewBuilder,
-                        rtfPreferences.getCadratHeight()); // We used to have a
-                // multiplier of 1.83
-                // here. Why ???
+                        rtfPreferences.getCadratHeight());
                 break;
             case EMF:
                 result = new EMFSimpleDrawer(viewBuilder,
@@ -387,7 +375,7 @@ public class RTFSimpleExporter {
     }
 
     private static abstract class RTFExportSimpleDrawer extends
-            TopItemSimpleDrawer {
+            ExportDrawer {
 
         protected RTFExportSimpleDrawer(ViewBuilder viewBuilder,
                 DrawingSpecification drawingSpecifications, double cadratHeight) {
@@ -498,6 +486,7 @@ public class RTFSimpleExporter {
             setShadeAfter(false);
         }
 
+        @Override
         protected Graphics2D buildGraphics() {
 
             macPictGraphics2D = new MacPictGraphics2D(0, 0,

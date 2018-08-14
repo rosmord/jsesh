@@ -34,7 +34,7 @@
 /*
  * Created on 5 juil. 2005 by rosmord
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;

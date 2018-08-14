@@ -97,3 +97,14 @@ build the whole project: "mvn install".
 3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
 4. same for the file signInfo-bundler.xml
 5. run InnoDB on jsesh-inno.iss 
+
+
+## Note about github distribution (for personnal use mainly)
+
+To get the number of downloads for version 7.2.0 :
+
+~~~~~~~~~~~~~
+curl -i https://api.github.com/repos/rosmord/jsesh/releases/11259307
+~~~~~~~~~~~~~
+
+Remove the last number for all releases.

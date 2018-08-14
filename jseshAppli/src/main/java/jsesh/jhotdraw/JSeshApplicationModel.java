@@ -48,13 +48,13 @@ import javax.swing.filechooser.FileFilter;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.glossary.JGlossaryEditor;
-import jsesh.graphics.export.EMFExporter;
-import jsesh.graphics.export.EPSExporter;
-import jsesh.graphics.export.HTMLExporter;
-import jsesh.graphics.export.MacPictExporter;
-import jsesh.graphics.export.RTFExportPreferences;
-import jsesh.graphics.export.SVGExporter;
-import jsesh.graphics.export.WMFExporter;
+import jsesh.graphics.export.emf.EMFExporter;
+import jsesh.graphics.export.eps.EPSExporter;
+import jsesh.graphics.export.html.HTMLExporter;
+import jsesh.graphics.export.macpict.MacPictExporter;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.graphics.export.svg.SVGExporter;
+import jsesh.graphics.export.wmf.WMFExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
@@ -291,7 +291,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                             JSeshApplicationActionsID.EXPORT_WMF));
 
             map.put(JSeshApplicationActionsID.EXPORT_EMF,
-                    new GenericExportAction(a, jseshView, new EMFExporter(),
+                    new GenericExportAction(a, jseshView, new EMFExporter(a.getComponent()),
                             JSeshApplicationActionsID.EXPORT_EMF));
 
             map.put(JSeshApplicationActionsID.EXPORT_MACPICT,
@@ -535,6 +535,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
         }
 
+        @Override
         public MDCModelTransferable buildTransferable(TopItemList top,
                 DataFlavor[] dataFlavors) {
 

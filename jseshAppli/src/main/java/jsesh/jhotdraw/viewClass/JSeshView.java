@@ -18,7 +18,7 @@ import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
-import jsesh.graphics.export.ExportData;
+import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.io.importer.pdf.PDFImportException;

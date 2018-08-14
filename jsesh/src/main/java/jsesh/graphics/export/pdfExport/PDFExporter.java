@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.util.TreeMap;
 
 import jsesh.editor.caret.MDCCaret;
-import jsesh.graphics.export.ExportData;
-import jsesh.graphics.export.ExportOptionPanel;
-import jsesh.graphics.export.SelectionExporter;
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.ExportOptionPanel;
+import jsesh.graphics.export.generic.SelectionExporter;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.HRule;
@@ -217,7 +217,7 @@ public class PDFExporter {
             // Classes used to draw the cadrats.
             builder = new SimpleViewBuilder();
 
-            PDFExportHelper.prepareColors(drawingSpecifications);
+            PDFExportHelper.ensureCMYKColorSpace(drawingSpecifications);
 
             // TODO : fix fonts passed to graphics2D.
             // specs.setTranslitterationFont(translitFont);

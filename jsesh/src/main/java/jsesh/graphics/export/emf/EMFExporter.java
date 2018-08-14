@@ -31,16 +31,19 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
-/*
+ /*
  * Created on 4 nov. 2004
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.emf;
 
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.AbstractGraphicalExporter;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
+import jsesh.graphics.export.generic.SelectionExporter;
 
 import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
@@ -55,17 +58,18 @@ import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
  */
 public class EMFExporter extends AbstractGraphicalExporter {
 
-    private Component frame;
+    private final Component parent;
 
     private Dimension2D scaledDimension;
 
     private String comment = "";
 
-    public EMFExporter() {
+    public EMFExporter(Component parent) {
         super("emf", I18n.getString("EMFExporter.description"));
-        frame = null;
+        this.parent = parent;
     }
 
+    @Override
     public void export(ExportData exportData) {
         try {
             comment = exportData.getExportedMdC();
@@ -75,27 +79,25 @@ public class EMFExporter extends AbstractGraphicalExporter {
         } catch (HeadlessException e1) {
             throw new RuntimeException(e1);
         } catch (IOException e1) {
-            FileSaveConfirmDialog.showCantOpenDialog(frame);
+            FileSaveConfirmDialog.showCantOpenDialog(parent);
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.editorSoftware.PagedExporter#getOptionsTitle()
-     */
     protected String getOptionsTitle() {
         return "type".toUpperCase() + " options";
     }
 
+    @Override
     public void setDimension(Dimension2D scaledDimensions) {
         this.scaledDimension = scaledDimensions;
     }
 
+    @Override
     public Graphics2D buildGraphics() throws IOException {
         return new EMFGraphics2D(getExportFile(), scaledDimension, "JSesh", comment);
     }
 
+    @Override
     public void writeGraphics() throws IOException {
         // NO-OP. the file is written as it is created.
     }

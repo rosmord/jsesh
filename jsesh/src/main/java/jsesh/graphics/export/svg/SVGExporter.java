@@ -1,46 +1,45 @@
-/*
- * Created on 4 nov. 2004
- */
-package jsesh.graphics.export;
+package jsesh.graphics.export.svg;
 
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.AbstractGraphicalExporter;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
+import java.awt.geom.Dimension2D;
+import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import jsesh.graphics.export.generic.SelectionExporter;
 
 import jsesh.i18n.I18n;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
-import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
+import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
 
 /**
- * Expert able to export the selection to an Mac Pict file.
- *
- * @author S. Rosmorduc
- *
+ * Export SVG files.
  */
-public class MacPictExporter extends AbstractGraphicalExporter {
+public class SVGExporter extends AbstractGraphicalExporter {
+
+    private File exportFile;
 
     private Component frame;
 
-	//private Dimension scaledDimension;
-    private MacPictGraphics2D currentGraphics;
+    private Dimension2D scaledDimension;
 
-    public MacPictExporter() {
-        super(new String[]{"pct", "pict"}, I18n.getString("MacPictExporter.description"));
-        frame = null;
+    public SVGExporter(final Component frame) {
+        super("svg", I18n.getString("SVGExporter.description"));
+        this.frame = frame;
     }
 
+    @Override
     public void export(ExportData exportData) {
         try {
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, this);
+            selectionExporter.setClearBeforeDrawing(false);
             selectionExporter.exportSelection();
         } catch (HeadlessException e1) {
-            e1.printStackTrace();
+            throw new RuntimeException(e1);
         } catch (IOException e1) {
             FileSaveConfirmDialog.showCantOpenDialog(frame);
         }
@@ -56,24 +55,24 @@ public class MacPictExporter extends AbstractGraphicalExporter {
         return "type".toUpperCase() + " options";
     }
 
-    public void setDimension(java.awt.geom.Dimension2D scaledDimensions) {
-        //this.scaledDimension= scaledDimensions;
+    @Override
+    public void setDimension(Dimension2D scaledDimensions) {
+        this.scaledDimension = scaledDimensions;
     }
 
+    @Override
     public Graphics2D buildGraphics()
             throws IOException {
-        currentGraphics = new MacPictGraphics2D();
-        return currentGraphics;
+        return new SVGGraphics2D(getExportFile(), scaledDimension);
     }
 
     public void writeGraphics() throws IOException {
-        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(getExportFile()));
-        currentGraphics.writeToStream(outputStream);
+        // NO OP.
     }
 
     @Override
     public void newPage() throws IOException {
-        // NO-OP.
+        // NO OP.
     }
 
 }

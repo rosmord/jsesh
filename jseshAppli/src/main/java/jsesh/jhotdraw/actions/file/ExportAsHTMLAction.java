@@ -5,7 +5,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import jsesh.graphics.export.HTMLExporter;
+import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;

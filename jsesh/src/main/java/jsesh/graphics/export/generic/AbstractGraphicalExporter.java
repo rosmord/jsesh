@@ -31,7 +31,7 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
 import java.awt.Component;
 import java.io.File;
@@ -152,9 +152,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
 
         if (returnval == FileOperationResult.OK) {
             File chosenFile = fileDialog.getSelectedFile();
-            if (chosenFile.isDirectory()) {
-                returnval = FileOperationResult.CANCEL;
-            } else {
+            if (! chosenFile.isDirectory()) {                
                 // Fix the file ending ?
                 boolean hasExtension = false;
                 for (String ext : extensions) {

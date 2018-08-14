@@ -6,7 +6,7 @@
  * This file is distributed along the GNU Lesser Public License (LGPL)
  * author : rosmord
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.bitmaps;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -6,7 +6,7 @@
  * This file is distributed along the GNU Lesser Public License (LGPL)
  * author : rosmord
  */
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.model.MDCPosition;
