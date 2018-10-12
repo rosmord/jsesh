@@ -174,6 +174,7 @@ public class FontInfo {
     /**
      * Should we use the embedded ASCII MdC Font ?
      *
+     * @param useEmbeddedFont
      * @return
      */
     public FontInfo withUseEmbeddedFont(boolean useEmbeddedFont) {
@@ -188,6 +189,7 @@ public class FontInfo {
 
     /**
      * Should we use the embedded ASCII MdC Font ?
+     * @return true if we use the embedded font.
      */
     public boolean isUseEmbeddedFont() {
         return useEmbeddedFont;

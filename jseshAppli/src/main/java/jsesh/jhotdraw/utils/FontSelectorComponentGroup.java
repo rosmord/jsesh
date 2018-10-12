@@ -201,12 +201,18 @@ public class FontSelectorComponentGroup {
      * @param newFont
      */
     public final void setFont(Font newFont) {
-        if (font != newFont) {        
+        // Note on code change: I don't understand why I changed the
+        // old code which had an "oldfont" variable into the new code. 
+        // it's weird.
+        // I revert to using an "oldFont" variable to keep track of the 
+        // font change.
+        Font oldFont= this.font;
+        if (oldFont != newFont) {        
             font = newFont;
             fontNameDisplayField.setFont(font);
             fontNameDisplayField.setText(font.getFontName());
             fontSizeBox.setSelectedItem("" + newFont.getSize());
-            propertyChangeSupport.firePropertyChange(FONT, font, newFont);
+            propertyChangeSupport.firePropertyChange(FONT, oldFont, newFont);
         }
     }
 

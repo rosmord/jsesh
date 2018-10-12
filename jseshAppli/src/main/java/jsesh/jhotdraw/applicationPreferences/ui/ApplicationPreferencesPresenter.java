@@ -98,6 +98,7 @@ public class ApplicationPreferencesPresenter {
 
     /**
      * Fetches the preferences from the application.
+     * @param app
      */
     public void loadPreferences(JSeshApplicationModel app) {
         clipboardFormatSelector.loadPreferences(app);

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.2.0</version>
+        <version>7.2.1-SNAPSHOT</version>
     </parent>
     <artifactId>jhotdrawfw</artifactId>
     <packaging>jar</packaging>
