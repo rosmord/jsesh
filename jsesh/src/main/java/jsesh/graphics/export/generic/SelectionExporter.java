@@ -171,7 +171,7 @@ public class SelectionExporter {
     /**
      * Should the drawing surface be cleared before drawing.
      *
-     * @return the clearBeforeDrawing
+     * @return true if we need to clear first.
      */
     public boolean isClearBeforeDrawing() {
         return clearBeforeDrawing;
