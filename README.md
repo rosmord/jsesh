@@ -1,4 +1,20 @@
-#Maven-oriented JSesh distributions. 
+# JSesh sources
+Welcome to JSesh sources!
+
+JSesh is a Java hieroglyphic editor 
+developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+
+JSesh developpers :
+- Serge J.-P. Thomas : most of the fonts
+- S. Rosmorduc : almost all the code, a few glyphs in the fonts
+- Wayne Collins (CVS, ant improvement)
+
+
+Licences for the various libraries used by JSesh can be found in resources/licenses
+
+
+
+## Source Content 
 Contains the following folders and modules:
 
 ### Maven modules for JSesh

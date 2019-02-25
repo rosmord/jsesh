@@ -304,7 +304,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                             JSeshApplicationActionsID.EXPORT_SVG));
 
             map.put(JSeshApplicationActionsID.EXPORT_EPS,
-                    new GenericExportAction(a, jseshView, new EPSExporter(),
+                    new GenericExportAction(a, jseshView, new EPSExporter(a.getComponent()),
                             JSeshApplicationActionsID.EXPORT_EPS));
 
             map.put(ExportAsPDFAction.ID, new ExportAsPDFAction(a, jseshView));
@@ -420,7 +420,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     /**
      * @param exportType
      * @see
-     * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(int)
+     * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(ExportType) 
      */
     public void selectCopyPasteConfiguration(ExportType exportType) {
         jseshBase.selectCopyPasteConfiguration(exportType);

@@ -4,6 +4,11 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
+* Use 0 margin around EMF pictures when in copy/paste. 
+* not really bug fix, but : unify all copy/paste systems, 
+  in particular about dimensions.
+
+
 ## High priority
 * définir les dimensions des documents
 * Redéfinir MDCPosition

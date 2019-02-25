@@ -1,4 +1,4 @@
-# JSesh developper journal
+# JSesh developer journal
 
 ## 2019/02/22
 

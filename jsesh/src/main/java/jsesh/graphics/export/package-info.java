@@ -35,9 +35,7 @@
 
 /**
  * Classes related to the export of JSesh text to various graphical formats.
- * <p> Currently, those classes are not very clean, as they mix some business
- * logic with GUI related stuff (display of preference forms, asking for 
- * file names, and the like).
- * 
+ *
+ * <p></p>
  */
 package jsesh.graphics.export;

@@ -61,16 +61,16 @@ import org.qenherkhopeshef.graphics.eps.EncapsulatedPostscriptGraphics2D;
  */
 public class EPSExporter extends AbstractGraphicalExporter {
 
-    private Component frame;
+    private Component parent;
 
     private Dimension2D scaledDimension;
 
     private String sourceMdC;
 
 	// private MDCView view;
-    public EPSExporter() {
+    public EPSExporter(Component parent) {
         super("eps", I18n.getString("EPSExporter.description"));
-        frame = null;
+        this.parent = parent;
     }
 
     public void export(ExportData exportData) {
@@ -82,7 +82,7 @@ public class EPSExporter extends AbstractGraphicalExporter {
         } catch (HeadlessException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
-            JOptionPane.showMessageDialog(frame, "Can't open file", "Error",
+            JOptionPane.showMessageDialog(parent, "Can't open file", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
