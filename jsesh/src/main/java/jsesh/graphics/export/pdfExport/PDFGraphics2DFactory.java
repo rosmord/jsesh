@@ -15,13 +15,11 @@ import com.lowagie.text.pdf.CMYKColor;
 public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 
     private final PDFDocumentWriterAux documentWriter;
-    private final float height;
-    private final float width;
-
+    
     public PDFGraphics2DFactory(PDFExportPreferences pdfExportPreferences, String comment) throws FileNotFoundException {
         Rectangle format = pdfExportPreferences.getPageRectangle();
-        height = format.getHeight();
-        width = format.getWidth();
+        float height = format.getHeight();
+        float width = format.getWidth();
         OutputStream out = new FileOutputStream(pdfExportPreferences.getFile());
         documentWriter = new PDFDocumentWriterAux(pdfExportPreferences, out, width, height, comment);
         documentWriter.open();
@@ -37,7 +35,7 @@ public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
 
     @Override
     public void setDimension(Dimension2D deviceDimensions) {
-
+        // ???? is this called or not. NOT LOGICAL.
     }
 
     @Override

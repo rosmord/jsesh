@@ -166,7 +166,7 @@ public class PDFExporter {
         PdfTemplate template;
 
         double dx, dy;
-    };
+    }
 
     private class IPDFExporterAux extends ModelElementDeepAdapter {
 

@@ -126,14 +126,10 @@ public class RTFExporter {
                 RTFExportGranularity.ONE_LARGE_PICTURE)) {
             return true;
         } else if (rtfPreferences.respectOriginalTextLayout()) {
-            if (drawingSpecifications.getTextDirection().equals(
+            return drawingSpecifications.getTextDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
                     || drawingSpecifications.getTextOrientation().equals(
-                            TextOrientation.VERTICAL)) {
-                return true;
-            } else {
-                return false;
-            }
+                    TextOrientation.VERTICAL);
         } else {
             return false;
         }

@@ -3,6 +3,7 @@ package jsesh.graphics.export.pdfExport;
 import java.awt.Color;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.TreeMap;
 
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -41,7 +42,7 @@ public class PDFExportPreferences {
 	 * move to a class of its own if needed.
 	 */
 
-	private TreeMap pageFormats;
+	private Map<String,Rectangle> pageFormats;
 
 	/**
 	 * The size of the current document (as a textual format : A4, A3...).
@@ -213,7 +214,7 @@ public class PDFExportPreferences {
 	/**
 	 * @return the pageFormats
 	 */
-	public TreeMap getPageFormats() {
+	public Map<String,Rectangle> getPageFormats() {
 		return pageFormats;
 	}
 
@@ -270,7 +271,7 @@ public class PDFExportPreferences {
 	
 	/**
 	 * Should this PDF be encapsulated ?
-	 * @param encapsulated
+	 * @param embedded true iff the pdf code should be a single large picture.
 	 */
 	public void setEncapsulated(boolean embedded) {
 		this.encapsulated = embedded;
@@ -281,12 +282,12 @@ public class PDFExportPreferences {
 	 * is done using reflection on the class PageSize.
 	 */
 	private void fillPageSizes() {
-		pageFormats = new TreeMap();
+		pageFormats = new TreeMap<>();
 		Field[] fields = PageSize.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			if (fields[i].getType().equals(Rectangle.class)) {
 				try {
-					pageFormats.put(fields[i].getName(), fields[i].get(null));
+					pageFormats.put(fields[i].getName(), (Rectangle)fields[i].get(null));
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
