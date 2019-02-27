@@ -155,7 +155,7 @@ public class RTFExporter {
      */
     public void setDrawingSpecifications(
             DrawingSpecification drawingSpecifications) {
-        this.drawingSpecifications = EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
+        this.drawingSpecifications = drawingSpecifications.copy();
         this.drawingSpecifications.setGrayColor(new Color(200, 200, 200));
     }
 

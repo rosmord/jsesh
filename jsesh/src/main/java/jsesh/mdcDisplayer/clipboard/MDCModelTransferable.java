@@ -117,10 +117,9 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getEMFData() throws IOException {
-    	// TODO : evaluate the possibility to remove the call to  createEmbeddedDrawingSpecifications here. It should be done by AbstractRTFEmbeddableDrawer.
-        EmbeddableEMFSimpleDrawer drawer=
+    	EmbeddableEMFSimpleDrawer drawer=
                 new EmbeddableEMFSimpleDrawer(new SimpleViewBuilder(),
-                        createEmbeddedDrawingSpecifications(),
+                        getDrawingSpecifications(),
                         rtfPreferences.getCadratHeight(),
                         topItemList.toMdC());
         drawer.drawTopItemList(topItemList);
@@ -198,10 +197,8 @@ public class MDCModelTransferable implements Transferable {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         if (topItemList.getNumberOfChildren() < 5000) {
-            DrawingSpecification currentSpecifications=
-                    createEmbeddedDrawingSpecifications();
             RTFExporter rtfExporter = new RTFExporter();
-            rtfExporter.setDrawingSpecifications(currentSpecifications);
+            rtfExporter.setDrawingSpecifications(getDrawingSpecifications());
             rtfExporter.setViewBuilder(new SimpleViewBuilder());
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);

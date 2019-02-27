@@ -9,13 +9,18 @@ import java.io.IOException;
 
 /**
  * A drawer able to create graphics which can be embedded in RTF.
+ * Embedded graphics have little or no margin.
  */
 public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
 	protected AbstractRTFEmbeddableDrawer(ViewBuilder viewBuilder,
 										  DrawingSpecification drawingSpecifications, double cadratHeight) {
-		super(viewBuilder, drawingSpecifications, cadratHeight);
+		super(viewBuilder, prepareDrawingSpecifications(drawingSpecifications), cadratHeight);
+	}
+
+	private static DrawingSpecification prepareDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
 	}
 
 	public abstract void writeToRTF(SimpleRTFWriter rtfWriter)

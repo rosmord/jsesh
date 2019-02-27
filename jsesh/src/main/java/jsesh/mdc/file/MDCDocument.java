@@ -38,16 +38,6 @@ public class MDCDocument {
 	private String encoding = "UTF-8";
 	private Dialect dialect = Dialect.JSESH;
 	private DocumentPreferences documentPreferences = new DocumentPreferences();
-
-	// private TextOrientation mainOrientation = TextOrientation.HORIZONTAL;
-
-	/**
-	 * kind of statistical bias.
-	 */
-	// private TextDirection mainDirection = TextDirection.LEFT_TO_RIGHT;
-
-	// private boolean smallSignsCentred = false;
-
 	private HieroglyphicTextModel hieroglyphicTextModel = new HieroglyphicTextModel();
 
 	public MDCDocument() {
