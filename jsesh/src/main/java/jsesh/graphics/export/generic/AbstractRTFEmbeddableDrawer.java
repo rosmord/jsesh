@@ -1,4 +1,4 @@
-package jsesh.graphics.export.rtf;
+package jsesh.graphics.export.generic;
 
 import jsesh.graphics.export.generic.AbtractExportDrawer;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
@@ -10,11 +10,11 @@ import java.io.IOException;
 /**
  * A drawer able to create graphics which can be embedded in RTF.
  */
-public abstract class AbstractEmbeddableDrawer extends
+public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
-	protected AbstractEmbeddableDrawer(ViewBuilder viewBuilder,
-									   DrawingSpecification drawingSpecifications, double cadratHeight) {
+	protected AbstractRTFEmbeddableDrawer(ViewBuilder viewBuilder,
+										  DrawingSpecification drawingSpecifications, double cadratHeight) {
 		super(viewBuilder, drawingSpecifications, cadratHeight);
 	}
 

@@ -4,13 +4,16 @@
  */
 package jsesh.graphics.export.rtf;
 
-import jsesh.graphics.export.generic.ExportDrawer;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
+import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
+import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
+import jsesh.graphics.export.wmf.EmbeddableWMFSimpleDrawer;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
@@ -23,15 +26,9 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 
-import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
-import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
-import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
-import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
-import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
  * Exports a MDC model into a RTF file (or byte array).
@@ -141,7 +138,7 @@ public class RTFExporter {
      * @throws IOException
      */
     private void exportAsPicture(TopItemList model) throws IOException {
-        RTFExportSimpleDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(model));
+        AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(model));
         simpleDrawer.drawTopItemList(model);
         simpleDrawer.writeToRTF(rtfWriter);
     }
@@ -158,11 +155,7 @@ public class RTFExporter {
      */
     public void setDrawingSpecifications(
             DrawingSpecification drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications.copy();
-        PageLayout pageLayout = this.drawingSpecifications.getPageLayout();
-        pageLayout.setLeftMargin(01);
-        pageLayout.setTopMargin(01);
-        this.drawingSpecifications.setPageLayout(pageLayout);
+        this.drawingSpecifications = EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
         this.drawingSpecifications.setGrayColor(new Color(200, 200, 200));
     }
 
@@ -180,19 +173,19 @@ public class RTFExporter {
      * supported).
      * @return
      */
-    private RTFExportSimpleDrawer buildSimpleDrawer(String comment) {
-        RTFExportSimpleDrawer result = null;
+    private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {
+        AbstractRTFEmbeddableDrawer result = null;
         switch (pictureType) {
             case MAC_PICT:
-                result = new MacPictSimpleDrawer(viewBuilder,
+                result = new EmbeddableMacPictSimpleDrawer(viewBuilder, drawingSpecifications,
                         rtfPreferences.getCadratHeight());
                 break;
             case EMF:
-                result = new EMFSimpleDrawer(viewBuilder,
+                result = new EmbeddableEMFSimpleDrawer(viewBuilder,  drawingSpecifications,
                         rtfPreferences.getCadratHeight(), comment);
                 break;
             case WMF:
-                result = new WMFSimpleDrawer(viewBuilder,
+                result = new EmbeddableWMFSimpleDrawer(viewBuilder, drawingSpecifications,
                         rtfPreferences.getCadratHeight());
                 break;
         }
@@ -326,20 +319,9 @@ public class RTFExporter {
                         || rtfPreferences.getExportGranularity().equals(
                                 RTFExportGranularity.GROUPED_CADRATS)) {
                     if (toDraw != null) {
-                        RTFExportSimpleDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(toDraw));
+                        AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(toDraw));
                         simpleDrawer.drawTopItemList(toDraw);
-						// float deltay = 0;
-                        // if (simpleDrawer.getCurrentView().getFirstSubView()
-                        // != null) {
-                        // deltay = (float) simpleDrawer.getCurrentView()
-                        // .getFirstSubView().getDeltaBaseY();
-                        // }
-
                         simpleDrawer.writeToRTF(rtfWriter);
-						// rtfWriter.writeMacPictPicture(simpleDrawer.getAsArrayForRTF(),
-                        // (int) simpleDrawer.getScaledWidth(),
-                        // (int) simpleDrawer.getScaledHeight());
-
                         toDraw = null;
                     }
                 }
@@ -355,7 +337,7 @@ public class RTFExporter {
 
         private void drawElement(TopItem t) {
 
-            RTFExportSimpleDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(t));
+            AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(t));
             simpleDrawer.drawElement(t);
             try {
                 // float deltay = 0;
@@ -370,136 +352,4 @@ public class RTFExporter {
         }
     }
 
-    private static abstract class RTFExportSimpleDrawer extends
-            ExportDrawer {
-
-        protected RTFExportSimpleDrawer(ViewBuilder viewBuilder,
-                DrawingSpecification drawingSpecifications, double cadratHeight) {
-            super(viewBuilder, drawingSpecifications, cadratHeight);
-        }
-
-        public abstract void writeToRTF(SimpleRTFWriter rtfWriter)
-                throws IOException;
-
-        abstract public byte[] getAsArrayForRTF();
-
-    }
-
-    private class EMFSimpleDrawer extends RTFExportSimpleDrawer {
-
-        private EMFGraphics2D emGraphics2D;
-        private RandomAccessByteArray out;
-        private final String comment;
-
-        public EMFSimpleDrawer(ViewBuilder viewBuilder, double cadratHeight,
-                String comment) {
-            super(viewBuilder, drawingSpecifications, cadratHeight);
-            setShadeAfter(false);
-            this.comment = comment;
-        }
-
-        @Override
-        protected Graphics2D buildGraphics() {
-            out = new RandomAccessByteArray();
-            emGraphics2D = null;
-            try {
-                // TODO : change the "JSesh" name here into a field...
-                emGraphics2D = new EMFGraphics2D(out,
-                        (int) getScaledWidth() + 1,
-                        (int) getScaledHeight() + 1, "JSesh", comment);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return emGraphics2D;
-        }
-
-        @Override
-        public byte[] getAsArrayForRTF() {
-            return out.getByteArray();
-        }
-
-        @Override
-        public void writeToRTF(SimpleRTFWriter rtfWriter) throws IOException {
-            rtfWriter.writeEmfPicture(getAsArrayForRTF(), getScaledWidth(),
-                    getScaledHeight());
-        }
-    }
-
-    private class WMFSimpleDrawer extends RTFExportSimpleDrawer {
-
-        private WMFGraphics2D wmfGraphics2D;
-        private RandomAccessByteArray out;
-        private double deviceScale = 1.0;
-
-        public WMFSimpleDrawer(ViewBuilder viewBuilder, double cadratHeight) {
-            super(viewBuilder, drawingSpecifications, cadratHeight);
-            setShadeAfter(false);
-        }
-
-        @Override
-        protected Graphics2D buildGraphics() {
-            out = new RandomAccessByteArray();
-            wmfGraphics2D = null;
-            try {
-                wmfGraphics2D = new WMFGraphics2D(out,
-                        (int) getScaledWidth() + 1, (int) getScaledHeight() + 1);
-                wmfGraphics2D.setPrecision(1);
-                deviceScale = wmfGraphics2D.getTransform().getScaleX();
-                drawingSpecifications.setGraphicDeviceScale(deviceScale);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return wmfGraphics2D;
-        }
-
-        @Override
-        public byte[] getAsArrayForRTF() {
-            // Skip the placeable header.
-            return out.getByteArray(22);
-        }
-
-        @Override
-        public void writeToRTF(SimpleRTFWriter rtfWriter) throws IOException {
-            rtfWriter.writeWmfPicture(getAsArrayForRTF(), getScaledWidth(),
-                    getScaledHeight());
-
-        }
-
-    }
-
-    private class MacPictSimpleDrawer extends RTFExportSimpleDrawer {
-
-        private MacPictGraphics2D macPictGraphics2D;
-
-        /**
-         * @param viewBuilder
-         * @param cadratHeight
-         *
-         */
-        protected MacPictSimpleDrawer(ViewBuilder viewBuilder,
-                double cadratHeight) {
-            super(viewBuilder, drawingSpecifications, cadratHeight);
-            setShadeAfter(false);
-        }
-
-        @Override
-        protected Graphics2D buildGraphics() {
-
-            macPictGraphics2D = new MacPictGraphics2D(0, 0,
-                    getScaledWidth() + 1, getScaledHeight() + 1);
-
-            return macPictGraphics2D;
-        }
-
-        @Override
-        public byte[] getAsArrayForRTF() {
-            return macPictGraphics2D.getAsArrayForRTF();
-        }
-
-        @Override
-        public void writeToRTF(SimpleRTFWriter rtfWriter) throws IOException {
-            rtfWriter.writeMacPictPicture(getAsArrayForRTF(), getScaledWidth(),
-                    getScaledHeight());
-        }
-    }
 }

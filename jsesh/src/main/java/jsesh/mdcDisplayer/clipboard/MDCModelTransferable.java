@@ -7,7 +7,6 @@ package jsesh.mdcDisplayer.clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,6 +14,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
+import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExporter;
 import jsesh.graphics.export.pdfExport.PDFDataSaver;
@@ -26,11 +27,7 @@ import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.utils.DoubleDimensions;
 
-import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
-import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
@@ -120,23 +117,14 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getEMFData() throws IOException {
-        int cadratHeight= rtfPreferences.getCadratHeight();
-        // Remove page margins, which are not useful for embedding.
-        // TODO : Unify this with the way EMF is built in RTFExporter.
-        DrawingSpecification currentSpecifications = createEmbeddedDrawingSpecifications();
-        // the memory space in which to write the EMF content.
-        RandomAccessByteArray out = new RandomAccessByteArray();
-        MDCView view = new SimpleViewBuilder().buildView(topItemList,
-                currentSpecifications);
-        Dimension2D dims = new DoubleDimensions(view.getWidth(),
-                view.getHeight());
-        EMFGraphics2D g = new EMFGraphics2D(out, dims, "JSesh",
-                topItemList.toMdC());
-        ViewDrawer drawer = new ViewDrawer();
-        drawer.setShadeAfter(false);
-        drawer.draw(g, view, currentSpecifications);
-        g.dispose();
-        return new ByteArrayInputStream(out.getByteArray());
+    	// TODO : evaluate the possibility to remove the call to  createEmbeddedDrawingSpecifications here. It should be done by AbstractRTFEmbeddableDrawer.
+        EmbeddableEMFSimpleDrawer drawer=
+                new EmbeddableEMFSimpleDrawer(new SimpleViewBuilder(),
+                        createEmbeddedDrawingSpecifications(),
+                        rtfPreferences.getCadratHeight(),
+                        topItemList.toMdC());
+        drawer.drawTopItemList(topItemList);
+        return new ByteArrayInputStream(drawer.getBytes());
     }
 
     /**
@@ -204,8 +192,7 @@ public class MDCModelTransferable implements Transferable {
      * @return @throws IOException
      * @throws UnsupportedEncodingException
      */
-    private ByteArrayInputStream getRtfData() throws IOException,
-            UnsupportedEncodingException {
+    private ByteArrayInputStream getRtfData() throws IOException {
         ByteArrayInputStream result;
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -236,12 +223,7 @@ public class MDCModelTransferable implements Transferable {
     }
 
     private DrawingSpecification createEmbeddedDrawingSpecifications() {
-        DrawingSpecification currentSpecifications = getDrawingSpecifications();
-        PageLayout pageLayout = currentSpecifications.getPageLayout();
-        pageLayout.setTopMargin(0);
-        pageLayout.setLeftMargin(0);
-        currentSpecifications.setPageLayout(pageLayout);
-        return currentSpecifications;
+       return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(this.drawingSpecifications);
     }
 
     /**

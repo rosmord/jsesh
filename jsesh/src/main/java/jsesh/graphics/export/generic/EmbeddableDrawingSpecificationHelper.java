@@ -1,4 +1,4 @@
-package jsesh.graphics.export;
+package jsesh.graphics.export.generic;
 
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;

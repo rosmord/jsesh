@@ -1,8 +1,6 @@
 # State of the `jsesh.graphics.export`
-As of 2019/02/25.
 
 ## Current state
-
 
 ### bitmaps
 
@@ -33,7 +31,7 @@ I feel it's quite a mess here.
   Uses `BaseGraphics2DFactory`, but not the others.  
 - CaretBroker : an object with a caret -- to define a selection
 - ExportData : the data needed for an export : the text, selection, and preferences.
-- ExportDrawer : base class, used by RTFExporter, to draw *parts* of the text. Look at equivalent in PDF processing.
+- AbstractExportDrawer : base class, used by RTFExporter, to draw *parts* of the text. Look at equivalent in PDF processing.
 - ExportOptionPanel : A very generic dialog. With a bit of renaming for the methods,
   this dialog could be reusable -- and moved elsewhere.
   
@@ -42,13 +40,13 @@ I feel it's quite a mess here.
 - LabeledField : a field with a label - really basic Swing stuff. Used in the HTML preferences
  panel.
 
-## macpict
+### macpict
 
 - MacPictExporter extends AbstractGraphicalExporter ;
 
 relatively small class.
 
-## pdfExport
+### pdfExport
 
 - JPDFOptionPanel ok, an option panel.
 - PDFDataSaver : used by the clipboard; 
@@ -63,7 +61,7 @@ relatively small class.
 - PDFExportPreferences : no problem here
 - PDFGraphics2DFactory : implements BaseGraphics2DFactory 
 
-## rtf
+### rtf
 
 - JRTFFileExportPreferences : gui panel ;
 - RTFExporter : base class for exporting RTF
@@ -72,13 +70,34 @@ relatively small class.
 - RTFExportGraphicFormat : the embedded graphical formats for RTF (used in selection)
 - RTFExportPreferences : choices to make for RTF generation.
 
-## svg
+### svg
 
 - SVGExporter : extends AbstractGraphicalExporter
 
-## wmf
+### wmf
 
 - WMFExporter extends AbstractGraphicalExporter
 
-## Package newExport 
+### Package newExport 
 A new organisation for export. I don't know yet if it's better.
+
+## How EMF exports are done
+
+- direct copy/paste of EMF : direct creation of a EMFGraphics2D 
+  in MDCModelTransferable.
+- from menu : uses EMFExporter.
+- in RTFExporter : inner class EMFSimpleDrawer.
+- the margings :
+    - in RTFExporter, the margins are fixed in setDrawingSpecifications,
+      which sets them for all purposes to 1,1.
+    - in EMFExporter, nothing is done about the margins. We 
+      might decide to add a possibility to fix them.
+    - in MDCModelTransferable, the method createEmbeddedDrawingSpecifications
+      returns new drawing specifications with margins of 1,1.
+      
+      The easiest way would be to make an utility class to factorize 
+      those specifications. Not very OO, though.
+
+**DONE** : introduced helper class. But the architecture is somehow bad.
+**TODO** : deal with glyph size ! 
+

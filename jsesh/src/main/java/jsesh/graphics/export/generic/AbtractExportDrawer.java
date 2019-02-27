@@ -16,22 +16,22 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * This class is usable to implement all export filter in which some elements
  * are exported as drawings and others are not.
  *
- * <p>
- * Typical use of this class involves creating a subclass of it with the
- * appropriate methods, and calling drawElement on it, and, if needed,
- * consulting the resulting view and dimensions for layout purposes.
+ * <p> It uses the template method pattern.</p>
  *
  * <p>
- It would probably be better not to keep instances of ExportDrawer.
-
- <p>
- Note that by default, ExportDrawer assumes that the scale of the
- device used to draw the items is 1 graphical point = 1 device point. This is
- fixed in the copy of DrawingSpecifications used by the drawer.
+ * Typical use of this class involves creating a subclass of it with the
+ * appropriate methods, calling drawElement on it, and, if needed,
+ * consulting the resulting view and dimensions for layout purposes.
+ *
+ * <p> It would probably be better not to keep instances of AbtractExportDrawer.</p>
+ *
+ * <p> Note that by default, AbtractExportDrawer assumes that the scale of the
+ * device used to draw the items is 1 graphical point = 1 device point.
+ * <b>This is fixed in the copy of DrawingSpecifications used by the drawer.</b>
  *
  * @author rosmord
  */
-public abstract class ExportDrawer {
+public abstract class AbtractExportDrawer {
 
     private MDCView currentView;
     private float scaledWidth, scaledHeight;
@@ -41,11 +41,11 @@ public abstract class ExportDrawer {
     private boolean shadeAfter;
 
     /**
-     * @param viewBuilder
-     * @param drawingSpecifications
-     * @param cadratHeight
+     * @param viewBuilder the builder used to create views.
+     * @param drawingSpecifications the general drawing specifications
+     * @param cadratHeight the actual quadrant height we want.
      */
-    protected ExportDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecifications, double cadratHeight) {
+    protected AbtractExportDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecifications, double cadratHeight) {
         this.viewBuilder = viewBuilder;
         this.drawingSpecifications = drawingSpecifications.copy();
         this.drawingSpecifications.setGraphicDeviceScale(1);
