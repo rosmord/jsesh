@@ -4,10 +4,6 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
-* Use 0 margin around EMF pictures when in copy/paste. 
-* not really bug fix, but : unify all copy/paste systems, 
-  in particular about dimensions.
-
 
 ## High priority
 * définir les dimensions des documents
@@ -132,3 +128,11 @@ Varia IFAO:
 * (N.S.) Another question: the open and save dialogue boxes use the standard Mac sidebar etc. 
   But the Export as dialogue uses something custom that does not work in the same way. 
   I suspect this is breaking the user interface guidelines...
+
+
+### Version 7.3.1
+
+* Use 0 margin around EMF pictures when in copy/paste. 
+* not really bug fix, but : unify all copy/paste systems, 
+  in particular about dimensions.
+* TODO : allow size setting for file menu export graphics.

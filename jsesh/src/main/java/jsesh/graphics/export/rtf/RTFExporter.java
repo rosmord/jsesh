@@ -67,7 +67,7 @@ public class RTFExporter {
      */
     public static final int WMF = 2;
     
-    private int pictureType = MAC_PICT;
+    private int pictureType = EMF;
     private ViewBuilder viewBuilder;
     private DrawingSpecification drawingSpecifications;
     private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
