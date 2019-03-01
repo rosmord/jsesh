@@ -112,7 +112,7 @@ build the whole project: "mvn install".
 2. copy a 32 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
 3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
 4. same for the file signInfo-bundler.xml
-5. run InnoDB on jsesh-inno.iss 
+5. run Inno Setup on jsesh-inno.iss 
 
 
 ## Note about github distribution (for personnal use mainly)
