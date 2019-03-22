@@ -4,6 +4,11 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
+## Next version
+
+* extend search - advanced search
+* WB-like
+* full regular expression language.
 
 ## High priority
 * définir les dimensions des documents

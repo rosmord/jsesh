@@ -72,7 +72,7 @@ public abstract class AbstractOpenDocumentAction extends
 
 		if (uri != null) {
 			app.show(view);
-			new ViewOpenerForDocument().openViewFromURI(view, uri);
+			new ViewOpenerForDocument(app).openViewFromURI(view, uri);
 		}
 	}
 
