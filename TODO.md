@@ -4,6 +4,10 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
+## In work
+* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
+
+## Next version
 - Fix bug : bad name remembered for new files
 - Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
 
