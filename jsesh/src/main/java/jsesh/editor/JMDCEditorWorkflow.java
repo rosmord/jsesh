@@ -49,6 +49,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.function.Consumer;
 
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
@@ -115,16 +116,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		void modifyTopItem(TopItem topItem);
 	}
 
-	/**
-	 * Essentially, a lambda expression called on a hieroglyph to change its
-	 * data.
-	 *
-	 * @author rosmord
-	 */
-	private interface SignModifier {
 
-		void modifySign(Hieroglyph h);
-	}
 	// NOTE : each method which has been reread for undo/redo capability will be
 	// associated with a // UNDO/REDO comment
 	/**
@@ -555,6 +547,50 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		}
 	}
 
+
+	/**
+	 * Replaces the last sign (and the last sign only).
+	 *
+	 * @param hieroglyphConsumer
+	 */
+
+	// UNDO/REDO
+	private void modifyLastSign(Consumer<Hieroglyph> hieroglyphConsumer) {
+		if (getCurrentItem() != null) {
+			TopItem item = (TopItem) getCurrentItem().deepCopy();
+			if (item != null) {
+				Hieroglyph h = getLastHieroglyph(item);
+				if (h != null) {
+					hieroglyphConsumer.accept(h);
+				}
+				hieroglyphicTextModel.replaceElementBefore(
+						caret.getInsertPosition(), item);
+			}
+		}
+	}
+
+	/**
+	 * Perform a modification either on the last sign, or on a selection.
+	 * <p>Handles the UNDO/REDO framework.</p>
+	 *
+	 * @param hieroglyphConsumer
+	 */
+	private void processLastSignOrSelection(Consumer<Hieroglyph> hieroglyphConsumer) {
+		possibilitiesHandler.clear();
+		if (!caret.hasSelection()) {
+			modifyLastSign(hieroglyphConsumer);
+		} else {
+			clearSeparator();
+			List<TopItem> newItems = hieroglyphicTextModel.getTopItemsBetween(
+					caret.getInsertPosition(), caret.getMarkPosition());
+			DeepHieroglyphsProcessor processor = new DeepHieroglyphsProcessor();
+			processor.processItems(newItems, hieroglyphConsumer);
+			hieroglyphicTextModel.replaceElement(
+					caret.getInsertPosition(),
+					caret.getMarkPosition(), newItems);
+		}
+	}
+
 	/**
 	 * Set the angle for either the last hieroglyph or all glyphs in selection, if there is a selection.
 	 *
@@ -562,38 +598,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void setAngle(final int angle) {
-		possibilitiesHandler.clear();
-		if (!caret.hasSelection()) {
-			modifyLastSign((h) -> {
-				h.setAngle(angle);
-			});
-		} else {
-			List<TopItem> newItems = hieroglyphicTextModel.getTopItemsBetween(
-					caret.getInsertPosition(), caret.getMarkPosition());
-			DeepHieroglyphsProcessor processor = new DeepHieroglyphsProcessor();
-			processor.processItems(newItems, hieroglyph -> {
-				hieroglyph.setAngle(angle);
-			});
-			hieroglyphicTextModel.replaceElement(
-					caret.getInsertPosition(),
-					caret.getMarkPosition(), newItems);
-		}
+		processLastSignOrSelection(h -> h.setAngle(angle));
 	}
 
-	// UNDO/REDO
-	private void modifyLastSign(SignModifier modifier) {
-		if (getCurrentItem() != null) {
-			TopItem item = (TopItem) getCurrentItem().deepCopy();
-			if (item != null) {
-				Hieroglyph h = getLastHieroglyph(item);
-				if (h != null) {
-					modifier.modifySign(h);
-				}
-				hieroglyphicTextModel.replaceElementBefore(
-						caret.getInsertPosition(), item);
-			}
-		}
-	}
 
 	/**
 	 * Clear the text in the current model.
@@ -1593,9 +1600,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void resizeSign(final int size) {
-		modifyLastSign((Hieroglyph h) -> {
-			h.setRelativeSize(size);
-		});
+		processLastSignOrSelection(
+				hieroglyph -> hieroglyph.setRelativeSize(size));
 	}
 
 	/**
@@ -1603,11 +1609,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void reverseSign() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.setReversed(!h.isReversed());
-			}
-		});
+		processLastSignOrSelection(
+				hieroglyph ->
+						hieroglyph.setReversed(!hieroglyph.isReversed()));
 	}
 
 	/**
@@ -1740,11 +1744,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void setSignIsAtSentenceEnd() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.setEndingCode(WordEndingCode.SENTENCE_END);
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.setEndingCode(WordEndingCode.SENTENCE_END));
 	}
 
 	/**
@@ -1752,11 +1753,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void setSignIsAtWordEnd() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.setEndingCode(WordEndingCode.WORD_END);
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.setEndingCode(WordEndingCode.WORD_END)
+		);
 	}
 
 	/**
@@ -1764,11 +1763,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void setSignIsInsideWord() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.setEndingCode(WordEndingCode.NONE);
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.setEndingCode(WordEndingCode.NONE)
+			);
 	}
 
 	/**
@@ -1823,21 +1820,17 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void toggleGrammar() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.setGrammar(!h.isGrammar());
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.setGrammar(!hieroglyph.isGrammar())
+			);
 	}
 
 	// UNDO/REDO
 	public void toggleIgnoredSign() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.getModifiers().setBoolean("i",
-						!h.getModifiers().getBoolean("i"));
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.getModifiers().setBoolean("i",
+						!hieroglyph.getModifiers().getBoolean("i"))
+		);
 	}
 
 	/**
@@ -1845,12 +1838,11 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 	 */
 	// UNDO/REDO
 	public void toggleRedSign() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.getModifiers().setBoolean("red",
-						!h.getModifiers().getBoolean("red"));
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.getModifiers().setBoolean("red",
+						!hieroglyph.getModifiers().getBoolean("red"))
+
+		);
 	}
 
 	/**
@@ -1877,22 +1869,19 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 		if (code.toString().equals("")) {
 			code.append("0");
 		}
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.getModifiers().setInteger("shading",
-						Integer.parseInt(code.toString()));
-			}
-		});
+		processLastSignOrSelection(hieroglyph ->
+				hieroglyph.getModifiers().setInteger("shading",
+						Integer.parseInt(code.toString()))
+		);
 	}
 
 	// UNDO/REDO
 	public void toggleWideSign() {
-		modifyLastSign((Hieroglyph h) -> {
-			if (h != null) {
-				h.getModifiers().setBoolean("l",
-						!h.getModifiers().getBoolean("l"));
-			}
-		});
+		processLastSignOrSelection( hieroglyph ->
+				hieroglyph.getModifiers().setBoolean("l",
+						!hieroglyph.getModifiers().getBoolean("l"))
+
+		);
 	}
 
 	// UNDO/REDO
