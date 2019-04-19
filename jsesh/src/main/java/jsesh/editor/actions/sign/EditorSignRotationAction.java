@@ -47,7 +47,7 @@ import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.swing.utils.ImageIconFactory;
 
 /**
- * Action for adding a cartouche to a JSesh editor.
+ * Action for rotating a sign.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */

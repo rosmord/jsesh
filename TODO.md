@@ -4,6 +4,9 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
+## In work
+* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
+
 ## Next version
 
 * extend search - advanced search
@@ -16,7 +19,6 @@ Franglish file, mainly for personnal use.
 * Automate installer building again.
 
 ## Easy to do
-* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
 * PLUS OU MOINS FAITE, À VÉRIFIER SYSTÉMATIQUEMENT : Modif rapide (plus ou moins) :  quand les commandes 
   ont besoin d'une sélection et qu'il n'y en a pas, faire
   quelque chose de raisonnable (e.g. dernier ou deux derniers cadrats, etc...).
