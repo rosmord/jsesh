@@ -7,6 +7,9 @@ Franglish file, mainly for personnal use.
 - Fix bug : bad name remembered for new files
 - Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
 
+## In work
+* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
+
 ## Next version
 
 * Simple LaTeX output ? "Copy as LaTeX" : copy something like :
@@ -27,7 +30,6 @@ A "copy from LaTeX" will also be useful !
 * Automate installer building again.
 
 ## Easy to do
-* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
 * PLUS OU MOINS FAITE, À VÉRIFIER SYSTÉMATIQUEMENT : Modif rapide (plus ou moins) :  quand les commandes 
   ont besoin d'une sélection et qu'il n'y en a pas, faire
   quelque chose de raisonnable (e.g. dernier ou deux derniers cadrats, etc...).
