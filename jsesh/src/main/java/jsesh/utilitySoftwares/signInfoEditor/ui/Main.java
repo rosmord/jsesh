@@ -144,8 +144,9 @@ public class Main implements PropertyHolder {
 	 * Ask for a XML definition file and open it. (not used any more, maybe in
 	 * the future...)
 	 * 
-	 * @deprecated
+	 *
 	 */
+	@Deprecated
 	public void open() {
 		FileDialog fileDialog = new FileDialog(mainFrame, "Open");
 		if (signInfoPresenter.getCurrentFile() != null) {
@@ -225,7 +226,7 @@ public class Main implements PropertyHolder {
 			fileDialog.setFile(signInfoPresenter.getCurrentFile().getName());
 		}
 		fileDialog.setMode(FileDialog.SAVE);
-		fileDialog.show();
+		fileDialog.setVisible(true);
 		if (fileDialog.getFile() != null) {
 			File dir = new File(fileDialog.getDirectory());
 			File f = new File(dir, fileDialog.getFile());

@@ -13,6 +13,7 @@ package org.jhotdraw_7_6.xml;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Matcher;
 
 /**
@@ -128,19 +129,9 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         name = unescape(name);
 
         try {
-            return Class.forName(name).newInstance();
-        } catch (InstantiationException ex) {
-            IllegalArgumentException e = new IllegalArgumentException("Class " + name + " can not instantiate an object");
-            e.initCause(ex);
-            throw e;
-        } catch (IllegalAccessException ex) {
-            IllegalArgumentException e = new IllegalArgumentException("Class " + name + " is not public");
-            e.initCause(ex);
-            throw e;
-        } catch (ClassNotFoundException ex) {
-            IllegalArgumentException e = new IllegalArgumentException("Class " + name + " does not exist");
-            e.initCause(ex);
-            throw e;
+            return Class.forName(name).getDeclaredConstructor().newInstance();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -278,9 +269,9 @@ public class JavaPrimitivesDOMFactory implements DOMFactory {
         } else if (tagName.equals("long")) {
             o = Long.decode(in.getText());
         } else if (tagName.equals("float")) {
-            o = new Float(Float.parseFloat(in.getText()));
+            o = Float.valueOf(in.getText());
         } else if (tagName.equals("double")) {
-            o = new Double(Double.parseDouble(in.getText()));
+            o = Double.valueOf(in.getText());
         } else if (tagName.equals("string")) {
             o = in.getText();
         } else if (tagName.equals("enum")) {

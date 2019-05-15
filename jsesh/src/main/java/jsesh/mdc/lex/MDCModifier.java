@@ -28,7 +28,7 @@ public class MDCModifier {
 	String name= str.substring(1, endPos);
 	Integer value= null;
 	if (endPos < str.length()) // If there is a value, capture it.
-	    value= new Integer(Integer.parseInt(str.substring(endPos, str.length())));
+	    value= Integer.parseInt(str.substring(endPos, str.length()));
 	return new MDCModifier(name, value);
     }
     

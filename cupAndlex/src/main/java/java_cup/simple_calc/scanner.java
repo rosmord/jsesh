@@ -41,7 +41,7 @@ public class scanner implements java_cup.runtime.Scanner {
 	        i_val = i_val * 10 + (next_char - '0');
 	        advance();
 	      } while (next_char >= '0' && next_char <= '9');
-	    return new Symbol(sym.NUMBER, new Integer(i_val));
+	    return new Symbol(sym.NUMBER, i_val);
 
 	    case ';': advance(); return new Symbol(sym.SEMI);
 	    case '+': advance(); return new Symbol(sym.PLUS);

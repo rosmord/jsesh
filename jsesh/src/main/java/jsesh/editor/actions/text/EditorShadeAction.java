@@ -70,8 +70,7 @@ public class EditorShadeAction extends EditorAction {
         super(editor, "" + mnemonicChars[shade] + ". ", 
                 ImageIconFactory.getInstance().buildImage(mdcLabel));
         this.shade = shade;
-        this.putValue(EditorShadeAction.MNEMONIC_KEY, new Integer(
-                mnemonicCodes[shade]));
+        this.putValue(EditorShadeAction.MNEMONIC_KEY, mnemonicCodes[shade]);
     }
 
     public void actionPerformed(ActionEvent e) {

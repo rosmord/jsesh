@@ -172,7 +172,7 @@ public class TranslitterationUtilities {
 				'h', 'H', 'x', 'X', 'z', 's', 'S', 'q', 'k', 'g', 't', 'T',
 				'd', 'D', '[', ']', '/', '-'};
 		for (int i = 0; i < t.length; i++) {
-			charMap.put(new Character(t[i]), new Integer(' ' + i));
+			charMap.put(t[i], ' ' + i);
 		}
 	}
 	

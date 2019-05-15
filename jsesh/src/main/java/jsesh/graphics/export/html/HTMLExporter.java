@@ -575,7 +575,7 @@ public class HTMLExporter {
 
             // Picture top and bottom margin
             pictureMarginField = new JFormattedTextField();
-            pictureMarginField.setValue(new Integer(pictureMargin));
+            pictureMarginField.setValue(pictureMargin);
             pictureMarginField
                     .setToolTipText(I18n.getString("HTMLExporter.margin.toolTip")); //$NON-NLS-1$
 

@@ -585,7 +585,7 @@ public class PaletteToolBarUI extends ToolBarUI implements SwingConstants {
         }
         DragWindow w = new DragWindow(frame);
         JRootPane rp = ((RootPaneContainer) w).getRootPane();
-        rp.putClientProperty("Window.alpha", new Float(0.6f));
+        rp.putClientProperty("Window.alpha", Float.valueOf(0.6f));
         return w;
     }
 

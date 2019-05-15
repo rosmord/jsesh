@@ -82,7 +82,7 @@ public class DefaultDOMFactory extends JavaPrimitivesDOMFactory {
         }
         if (o instanceof Class) {
             try {
-                return ((Class) o).newInstance();
+                return ((Class) o).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 IllegalArgumentException error = new IllegalArgumentException("Storable class not instantiable by factory: "+name);
                 error.initCause(e);

@@ -34,7 +34,7 @@ public class RestrictedCharFormatter extends DefaultFormatter {
     public RestrictedCharFormatter(int [] chars) {
         this();
         for(int i=0; i< chars.length; i++) {
-            codePoints.add(new Integer(chars[i]));
+            codePoints.add(chars[i]);
         }
     }
     
@@ -46,7 +46,7 @@ public class RestrictedCharFormatter extends DefaultFormatter {
         // TODO : THIS METHOD MUST BE UPDATED WHEN FULL JDK 1.5 IS USED,
         // TO TAKE ADVANTAGE AT THE FULL UNICODE SYSTEM.
         for (int i=0; i< text.length(); i++) {
-            if (codePoints.contains(new Integer(text.charAt(i)))) {
+            if (codePoints.contains((int) text.charAt(i))) {
                 throw new ParseException("error ",i);
             }
         }

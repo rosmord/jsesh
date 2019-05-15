@@ -327,7 +327,7 @@ public class Methods {
     throws NoSuchMethodException {
         try {
             Method method =  obj.getClass().getMethod(methodName,  new Class[] { Float.TYPE} );
-            return method.invoke(obj, new Object[] { new Float(newValue)});
+            return method.invoke(obj, new Object[] { Float.valueOf(newValue)});
         } catch (IllegalAccessException e) {
             throw new NoSuchMethodException(methodName+" is not accessible");
         } catch (InvocationTargetException e) {

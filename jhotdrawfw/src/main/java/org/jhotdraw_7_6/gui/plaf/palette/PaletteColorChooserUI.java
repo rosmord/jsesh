@@ -87,7 +87,7 @@ public class PaletteColorChooserUI extends ColorChooserUI {
         for (int i=0; i < defaultChooserNames.length; i++) {
             try {
                 
-                panels.add((AbstractColorChooserPanel) Class.forName(defaultChooserNames[i]).newInstance());
+                panels.add((AbstractColorChooserPanel) Class.forName(defaultChooserNames[i]).getDeclaredConstructor().newInstance());
                 
             } catch (AccessControlException e) {
                 // suppress

@@ -67,14 +67,14 @@ public class LargeFontImporterModel extends AbstractTableModel {
 	}
 
 	public String getMDC(int pos) {
-		if (fontCodes.containsKey(new Integer(pos))) {
-			return ((String) fontCodes.get(new Integer(pos))).trim();
+		if (fontCodes.containsKey(pos)) {
+			return ((String) fontCodes.get(pos)).trim();
 		} else
 			return ""; //$NON-NLS-1$
 	}
 
 	public void setMdC(int pos, String mdc) {
-		fontCodes.put(new Integer(pos), mdc);
+		fontCodes.put(pos, mdc);
 		saved = false;
 	}
 
@@ -105,7 +105,7 @@ public class LargeFontImporterModel extends AbstractTableModel {
 			fireTableCellUpdated(rowIndex, columnIndex);
 			saved = false;
 		} else if (columnIndex == 3) {
-			Integer i = new Integer(rowIndex);
+			Integer i = rowIndex;
 			if (fullHeightSigns.contains(i))
 				fullHeightSigns.remove(i);
 			else
@@ -122,13 +122,13 @@ public class LargeFontImporterModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			return new Integer(row);
+			return row;
 		case 1:
 			return new FontGlyph(font, row);
 		case 2:
 			return getMDC(row);
 		case 3:
-			return new Boolean(fullHeightSigns.contains(new Integer(row)));
+			return fullHeightSigns.contains(row);
 		}
 		return null;
 	}
@@ -217,7 +217,7 @@ public class LargeFontImporterModel extends AbstractTableModel {
 		it = fontCodes.keySet().iterator();
 		while (it.hasNext()) {
 			int pos = ((Integer) it.next()).intValue();
-			String code = (String) fontCodes.get(new Integer(pos));
+			String code = (String) fontCodes.get(pos);
 			if (code != null && !code.equals("")) { //$NON-NLS-1$
 				ShapeChar s = getShapeCharForPos(pos);
 				// s.fixShape();

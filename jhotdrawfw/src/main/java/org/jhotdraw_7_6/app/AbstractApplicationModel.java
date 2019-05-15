@@ -113,7 +113,7 @@ public abstract class AbstractApplicationModel extends AbstractBean
     
     public View createView() {
         try {
-            return (View) getViewClass().newInstance();
+            return (View) getViewClass().getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             InternalError error = new InternalError("unable to create view");
             error.initCause(e);

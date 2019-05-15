@@ -290,11 +290,11 @@ public class JavaNumberFormatter extends DefaultFormatter {
                 } else if (valueClass == Float.class) {
                     float v = Float.parseFloat(text);
                     v = (float) (v / multiplier);
-                    value = new Float(v);
+                    value = Float.valueOf(v);
                 } else if (valueClass == Double.class) {
                     double v = Double.parseDouble(text);
                     v = (double) (v / multiplier);
-                    value = new Double(v);
+                    value = Double.valueOf(v);
                 } else if (valueClass == Byte.class) {
                     byte v = Byte.parseByte(text);
                     v = (byte) (v / multiplier);

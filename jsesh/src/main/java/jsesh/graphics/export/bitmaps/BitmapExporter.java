@@ -355,8 +355,7 @@ public class BitmapExporter {
 
             // line height.
             // NOTE : I use a java 1.4 specific class.
-            cadratHeightField = new JFormattedTextField(new java.lang.Integer(
-                    cadratHeight));
+            cadratHeightField = new JFormattedTextField(cadratHeight);
             cadratHeightField.setColumns(3);
             cadratHeightField
                     .setToolTipText("height of a typical line of hieroglyphs");

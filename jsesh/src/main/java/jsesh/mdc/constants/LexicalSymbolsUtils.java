@@ -44,7 +44,7 @@ public class LexicalSymbolsUtils {
 		
 		for (int i= 0; i < 256; i++) {
 			if (codesForSymbols[i] != null)
-				integerCodesForString.put(codesForSymbols[i], new Integer(i));
+				integerCodesForString.put(codesForSymbols[i], i);
 		}
 	}
 

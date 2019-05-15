@@ -165,7 +165,7 @@ public class BundledActionFiller {
 				if (defaults.getString(actionPropertyKey) != null) {
 					int ncols = Integer.parseInt(defaults
 							.getString(actionPropertyKey));
-					action.putValue(NUMBER_OF_COLUMNS, new Integer(ncols));
+					action.putValue(NUMBER_OF_COLUMNS, ncols);
 				}
 			} else {
 				// GENERIC CASE (and the reason why we loop) :

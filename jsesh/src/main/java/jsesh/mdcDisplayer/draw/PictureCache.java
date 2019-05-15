@@ -80,7 +80,7 @@ class PictureCache {
 		if (elements[pos] != null && elements[pos].model != null) {
 			remove(elements[pos].model);
 		}
-		viewMap.put(e, new Integer(pos));
+		viewMap.put(e, pos);
 		elements[pos] = new Element(e, img);
 		pos = (pos + 1) % maxSize;
 	}
@@ -104,10 +104,6 @@ class PictureCache {
 		}
 	}
 
-	protected void finalize() throws Throwable {
-		reset();
-		super.finalize();
-	}
 	
 	/**
 	 * Creates an image of the required size ; can fail. If the requested image

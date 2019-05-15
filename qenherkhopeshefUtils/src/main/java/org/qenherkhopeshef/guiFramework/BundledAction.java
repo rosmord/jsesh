@@ -155,7 +155,7 @@ public class BundledAction extends AbstractAction {
         argsClasses = new Class[this.methodArguments.length];
         Arrays.fill(argsClasses, String.class);
         Method m = cls.getMethod(methodName, argsClasses);
-        m.invoke(actualTarget, methodArguments);
+        m.invoke(actualTarget, (Object[])methodArguments);
     }
 
     private Object getDelegateObject(String proxyName) throws InvocationTargetException, NoSuchMethodException, SecurityException, IllegalArgumentException, IllegalAccessException {

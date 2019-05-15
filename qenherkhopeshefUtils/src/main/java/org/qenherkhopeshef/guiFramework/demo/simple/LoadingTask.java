@@ -21,8 +21,8 @@ public class LoadingTask extends QenherSwingWorker<Integer,Integer> {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            update(new Integer(i));
+            update(i);
        }
-       return new Integer(i);
+       return i;
     }    
 }

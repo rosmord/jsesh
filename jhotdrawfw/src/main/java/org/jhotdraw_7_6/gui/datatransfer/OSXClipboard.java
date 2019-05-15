@@ -36,7 +36,7 @@ public class OSXClipboard extends AWTClipboard {
                 if (isAvailable) {
                    CompositeTransferable ct = new CompositeTransferable();
                    ct.add(t);
-                   ct.add((Transferable) c.newInstance());
+                   ct.add((Transferable) c.getDeclaredConstructor().newInstance());
                    t = ct;
                 }
             } catch (Throwable ex) {

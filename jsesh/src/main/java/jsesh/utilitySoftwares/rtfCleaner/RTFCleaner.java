@@ -57,7 +57,7 @@ public class RTFCleaner {
 
 		TokenizerNode startNode = new TokenizerNode() {
 			public TokenizerNode inputCode(int code) {
-				currentTokens.add(new Integer(code));
+				currentTokens.add(code);
 				TokenizerNode next = this;
 				switch (code) {
 				case '\\':
@@ -93,7 +93,7 @@ public class RTFCleaner {
 		TokenizerNode backSlashRead = new TokenizerNode() {
 
 			public TokenizerNode inputCode(int code) {
-				currentTokens.add(new Integer(code));
+				currentTokens.add(code);
 				TokenizerNode next = this;
 				if ((code >= 'a' && code <= 'z')
 						|| (code >= 'A' && code <= 'Z')) {
@@ -113,7 +113,7 @@ public class RTFCleaner {
 				TokenizerNode next;
 				if ((code >= 'a' && code <= 'z')
 						|| (code >= 'A' && code <= 'Z')) {
-					currentTokens.add(new Integer(code));
+					currentTokens.add(code);
 					next = this;
 				} else {
 					processCommand();
@@ -129,11 +129,11 @@ public class RTFCleaner {
 			public TokenizerNode inputCode(int code) {
 				TokenizerNode next = this;
 				if (isHexDigit(code) || isSpace(code)) {
-					currentTokens.add(new Integer(code));
+					currentTokens.add(code);
 					next = digitRead;
 				} else if (code == '}') {
 					clearTokenEndIfNeeded();
-					currentTokens.add(new Integer(code));
+					currentTokens.add(code);
 					closeAccolades();
 					next = startNode;
 				} else {

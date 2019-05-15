@@ -113,7 +113,7 @@ public class ExternalFontTableModel extends AbstractTableModel {
     }
 
     public void add(int charCode, ImageIcon image, String mdc) {
-        rows.add(new FontTableGlyphModel(new Integer(charCode), image, mdc));
+        rows.add(new FontTableGlyphModel(charCode, image, mdc));
         fireTableRowsInserted(rows.size() - 1, rows.size() - 1);
     }
 

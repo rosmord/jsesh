@@ -351,8 +351,8 @@ public class EMFDeviceContext implements EMFOpCodes {
 	/**
 	 * Add a new command with one argument.
 	 * 
-	 * @param emr_deleteobject
-	 * @param nobj
+	 * @param emr_code
+	 * @param arg0
 	 * @throws IOException
 	 */
 	private void addCommandX(long emr_code, long arg0) throws IOException {
@@ -363,8 +363,9 @@ public class EMFDeviceContext implements EMFOpCodes {
 	/**
 	 * Add a new command with two argument.
 	 * 
-	 * @param emr_deleteobject
-	 * @param nobj
+	 * @param emr_code
+	 * @param a
+	 * @param b
 	 * @throws IOException
 	 */
 	private void addCommandXY(long emr_code, long a, long b) throws IOException {
@@ -459,7 +460,7 @@ public class EMFDeviceContext implements EMFOpCodes {
 	 */
 	private void initLowLevelGraphics(RandomAccessStream stream, long width,
 			long height, String creator, String comment) throws IOException {
-		objects.add(new Integer(0)); // Dummy value. We ge sure that indexes
+		objects.add(Integer.valueOf(0)); // Dummy value. We ge sure that indexes
 		// start at 1.
 		// As objects contains booleans, if there's a bug, this code will cause
 		// an exception.
@@ -742,8 +743,8 @@ public class EMFDeviceContext implements EMFOpCodes {
 	}
 
 	/**
-	 * @param i
-	 * @param j
+	 * @param x
+	 * @param y
 	 * @throws IOException
 	 */
 	public void setWindowOrg(int x, int y) throws IOException {
@@ -753,8 +754,8 @@ public class EMFDeviceContext implements EMFOpCodes {
 	/**
 	 * Sets the reference window extension.
 	 * 
-	 * @param i
-	 * @param j
+	 * @param w
+	 * @param  h
 	 * @throws IOException
 	 */
 	public void setWindowExt(int w, int h) throws IOException {

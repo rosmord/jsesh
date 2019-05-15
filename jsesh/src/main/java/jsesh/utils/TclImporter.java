@@ -39,7 +39,7 @@ public class TclImporter {
 			}
 				break;
 			case StreamTokenizer.TT_NUMBER: {
-				result.add(new Double(tok.nval));
+				result.add(tok.nval);
 				tok.nextToken();
 			}
 				break;

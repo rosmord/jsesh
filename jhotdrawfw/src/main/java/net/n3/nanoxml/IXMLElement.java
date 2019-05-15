@@ -301,6 +301,7 @@ public interface IXMLElement
     *
     * @return the value, or null if the attribute does not exist.
     */
+   @Deprecated
    public String getAttribute(String name);
 
 

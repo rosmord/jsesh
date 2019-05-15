@@ -128,10 +128,10 @@ public class JExportPreferences {
 
         respectTextLayoutCB = new JCheckBox(
                 Messages.getString("exportPrefs.respectTextLayout"));
-        quadrantHeightLargeField = new JFormattedTextField(new Double(20));
-        quadrantHeightSmallField = new JFormattedTextField(new Double(20));
-        quadrantHeightFileField = new JFormattedTextField(new Double(20));
-        quadrantHeightWysiwygField = new JFormattedTextField(new Double(20));
+        quadrantHeightLargeField = new JFormattedTextField(20d);
+        quadrantHeightSmallField = new JFormattedTextField(20d);
+        quadrantHeightFileField = new JFormattedTextField(20d);
+        quadrantHeightWysiwygField = new JFormattedTextField(20d);
 
     }
 

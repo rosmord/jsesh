@@ -27,7 +27,6 @@ public class DoubleFormatter {
 	public void outputNumbers(Writer out, float[] t, int length)
 			throws IOException {
 		for (int i = 0; i < length; i++) {
-			// out.write(DoubleUtils.writeInDecimal(coords[i]));
 			writeTo(out, t[i]);
 			out.write(' ');
 		}

@@ -298,9 +298,7 @@ public class ShapeChar implements Cloneable {
         out.write("standalone='yes'?>\n");
         out.write("<svg width='");
         formatter.writeTo(out, bbox.getWidth());
-        // out.write(DoubleUtils.writeInDecimal(bbox.getWidth()));
         out.write("' height='");
-        // out.write(DoubleUtils.writeInDecimal(bbox.getHeight()));
         formatter.writeTo(out, bbox.getHeight());
         out.write("' ");
         // Necessary according to firefox site.
@@ -415,15 +413,6 @@ public class ShapeChar implements Cloneable {
         }
     }
 
-    /*
-     * private void outputNumbers(Writer out, float[] coords, int length, int
-     * precision) throws IOException { DoubleFormatter formatter= new
-     * DoubleFormatter(precision); for (int i = 0; i < length; i++) {
-     * //out.write(DoubleUtils.writeInDecimal(coords[i]));
-     * formatter.writeTo(out, coords[i]); out.write(' '); }
-     * 
-     * }
-     */
     public void setZone(int i, LigatureZone z) {
         if (zones == null) {
             zones = new LigatureZone[3];

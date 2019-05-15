@@ -20,6 +20,6 @@ public class AppDefaults extends UIDefaults {
 
 	public Integer getKeyCode(String key) {
 		KeyStroke ks = getKeyStroke(key);
-		return (ks != null) ? new Integer(ks.getKeyCode()) : null;
+		return (ks != null) ? ks.getKeyCode() : null;
 	}
 }
