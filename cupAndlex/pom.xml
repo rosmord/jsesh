@@ -33,7 +33,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.2</version>
+                    <version>3.2</version> <!-- IMPORTANT : version 3.5 doesn't support java extractor out of the box. Keep with 3.2 -->
                     <configuration>
                         <extractors>
                             <extractor>java</extractor>
