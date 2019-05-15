@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -7,7 +8,7 @@
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <version>7-jdk9-SNAPSHOT</version>
     </parent>
-    <artifactId>prepareJSeshRelease</artifactId> 
+    <artifactId>prepareJSeshRelease</artifactId>
     <description>
         Various (or not so various) mojos needed after the main JSesh jar
         is built in order to prepare the software release.
@@ -20,14 +21,12 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.3.9</version>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
-            <version>3.0-alpha-2</version>
-            <type>jar</type>
-            <scope>compile</scope>
+            <artifactId>maven-core</artifactId>
+            <version>3.5.0</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -40,7 +39,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.5</version>
+                <version>3.2</version>
                 <executions>
                     <execution>
                         <id>default-descriptor</id>
@@ -49,6 +48,20 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.2</version> <!-- IMPORTANT : version 3.5 doesn't support java extractor out of the box. Keep with 3.2 -->
+                    <configuration>
+                        <extractors>
+                            <extractor>java</extractor>
+                        </extractors>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
