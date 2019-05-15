@@ -31,7 +31,7 @@
                             <parserName>MDCParse</parserName>
                             <symbolsName>MDCSymbols</symbolsName>
                             <grammarFilePath>${basedir}/src/jcup/MDCParse.y</grammarFilePath>
-                            <outputDirPath>${project.build.directory}</outputDirPath>
+                            <outputDirName>${project.build.directory}</outputDirName>
                             <parserPackage>jsesh.mdc.parser</parserPackage>
                             <lexerPackage>jsesh.mdc.lex</lexerPackage>
                             <lexDef>${basedir}/src/jlex/MDCLexAux.l</lexDef>
