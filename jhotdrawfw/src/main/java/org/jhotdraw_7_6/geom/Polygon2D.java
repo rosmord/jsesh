@@ -10,6 +10,8 @@
  */
 package org.jhotdraw_7_6.geom;
 
+import org.jhotdraw_7_6.sumGeom.Crossings;
+
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -20,7 +22,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
-//import sun.awt.geom.Crossings;
 
 /**
  * Polygon2D.
@@ -470,32 +471,31 @@ public abstract class Polygon2D implements Shape, Cloneable {
 				return false;
 			}
 
-//            Crossings cross = getCrossings(x, y, x + w, y + h);
-//            return (cross == null || !cross.isEmpty());
-			throw new UnsupportedOperationException("Needs methods from sun.awt.geom");
+            Crossings cross = getCrossings(x, y, x + w, y + h);
+            return (cross == null || !cross.isEmpty());
 		}
 
 
-//        private Crossings getCrossings(double xlo, double ylo,
-//                double xhi, double yhi) {
-//            Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
-//            double lastx = xpoints[npoints - 1];
-//            double lasty = ypoints[npoints - 1];
-//            double curx, cury;
-//
-//            // Walk the edges of the polygon
-//            for (int i = 0; i < npoints; i++) {
-//                curx = xpoints[i];
-//                cury = ypoints[i];
-//                if (cross.accumulateLine(lastx, lasty, curx, cury)) {
-//                    return null;
-//                }
-//                lastx = curx;
-//                lasty = cury;
-//            }
-//
-//            return cross;
-//        }
+        private Crossings getCrossings(double xlo, double ylo,
+                double xhi, double yhi) {
+            Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
+            double lastx = xpoints[npoints - 1];
+            double lasty = ypoints[npoints - 1];
+            double curx, cury;
+
+            // Walk the edges of the polygon
+            for (int i = 0; i < npoints; i++) {
+                curx = xpoints[i];
+                cury = ypoints[i];
+                if (cross.accumulateLine(lastx, lasty, curx, cury)) {
+                    return null;
+                }
+                lastx = curx;
+                lasty = cury;
+            }
+
+            return cross;
+        }
 
 
 		public void addPoint(double x, double y) {
@@ -550,9 +550,8 @@ public abstract class Polygon2D implements Shape, Cloneable {
 				return false;
 			}
 
-			//Crossings cross = getCrossings(x, y, x + w, y + h);
-			//return (cross != null && cross.covers(y, y + h));
-			throw new UnsupportedOperationException("needs methods from sun.awt.geom");
+			Crossings cross = getCrossings(x, y, x + w, y + h);
+			return (cross != null && cross.covers(y, y + h));
 		}
 
 
@@ -795,32 +794,31 @@ public abstract class Polygon2D implements Shape, Cloneable {
 				return false;
 			}
 
-			// Crossings cross = getCrossings(x, y, x + w, y + h);
-			//return (cross == null || !cross.isEmpty());*
-			throw new UnsupportedOperationException("needs methods from sun.awt.geom");
+            Crossings cross = getCrossings(x, y, x + w, y + h);
+            return (cross == null || !cross.isEmpty());
 		}
 
 
-//        private Crossings getCrossings(float xlo, float ylo,
-//                float xhi, float yhi) {
-//            Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
-//            float lastx = xpoints[npoints - 1];
-//            float lasty = ypoints[npoints - 1];
-//            float curx, cury;
-//
-//            // Walk the edges of the polygon
-//            for (int i = 0; i < npoints; i++) {
-//                curx = xpoints[i];
-//                cury = ypoints[i];
-//                if (cross.accumulateLine(lastx, lasty, curx, cury)) {
-//                    return null;
-//                }
-//                lastx = curx;
-//                lasty = cury;
-//            }
-//
-//            return cross;
-//        }
+        private Crossings getCrossings(float xlo, float ylo,
+                float xhi, float yhi) {
+            Crossings cross = new Crossings.EvenOdd(xlo, ylo, xhi, yhi);
+            float lastx = xpoints[npoints - 1];
+            float lasty = ypoints[npoints - 1];
+            float curx, cury;
+
+            // Walk the edges of the polygon
+            for (int i = 0; i < npoints; i++) {
+                curx = xpoints[i];
+                cury = ypoints[i];
+                if (cross.accumulateLine(lastx, lasty, curx, cury)) {
+                    return null;
+                }
+                lastx = curx;
+                lasty = cury;
+            }
+
+            return cross;
+        }
 
 
 		public void addPoint(double x, double y) {
@@ -882,9 +880,8 @@ public abstract class Polygon2D implements Shape, Cloneable {
 				return false;
 			}
 
-			//  Crossings cross = getCrossings(x, y, x + w, y + h);
-			// return (cross != null && cross.covers(y, y + h));
-			throw new UnsupportedOperationException("needs methods from sun.awt.geom");
+            Crossings cross = getCrossings(x, y, x + w, y + h);
+            return (cross != null && cross.covers(y, y + h));
 		}
 
 
