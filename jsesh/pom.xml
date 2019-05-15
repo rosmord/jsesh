@@ -15,7 +15,6 @@
     </properties>
     <build>
         <plugins>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> -->
             <plugin>
                 <groupId>org.qenherkhopeshef.jsesh</groupId>
                 <artifactId>cupAndlex</artifactId>
