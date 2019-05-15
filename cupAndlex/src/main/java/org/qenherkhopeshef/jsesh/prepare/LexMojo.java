@@ -30,14 +30,14 @@ public class LexMojo extends AbstractMojo{
 	private MavenProject project;
 	
 	/**
-	 * @parameter expression="${cup.lexerPackage}"
+	 * @parameter property="cup.lexerPackage"
 	 * @required
 	 */
 	private String lexerPackage;
 	
 	/**
 	 * Path to lexicon definition file.
-	 * @parameter expression="${lex.lexDef}" 
+	 * @parameter property="lex.lexDef"
 	 * @required
 	 */
 	private String lexDef;

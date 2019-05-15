@@ -38,41 +38,41 @@ public class CupMojo extends AbstractMojo {
 
 	/**
 	 * Name of the parser class to create.
-	 * @parameter expression="${cup.parserName}" default-value="Toto"
+	 * @parameter property="cup.parserName" default-value="Toto"
 	 * @required
 	 */
 	private String parserName;
 
 	/**
-	 * @parameter expression="${cup.symbolName}"
+	 * @parameter property="cup.symbolName"
 	 * @required
 	 */
 
 	private String symbolsName;
 
 	/**
-	 * @parameter expression="${cup.grammarFilePath}"
+	 * @parameter property="cup.grammarFilePath"
 	 * @required
 	 */
 	private String grammarFilePath;
 	
 	/**
 	 * Name of the directory where temporary files will be created.
-	 * @parameter expression="${cup.tempDirName}" default-value="tmp"
+	 * @parameter property="cup.tempDirName" default-value="tmp"
 	 * @required
 	 */
 
 	private String tempDirName;
 
 	/**
-	 * @parameter expression="${cup.parserPackage}" 
+	 * @parameter property="cup.parserPackage"
 	 * @required
 	 */
 
 	private String parserPackage;
 	
 	/**
-	 * @parameter expression="${cup.lexerPackage}"
+	 * @parameter property="cup.lexerPackage"
 	 * @required
 	 */
 	private String lexerPackage;
