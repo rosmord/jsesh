@@ -54,8 +54,25 @@ import jsesh.mdc.model.TopItemList;
  */
 public class SignStringSearchQuery implements MdCSearchQuery {
 
+    /**
+     * Should the search be done on one line only.
+     */
+    private boolean onSameLine= true;
+
+
+
     private final List<String> search;
 
+    /**
+     * Build the query from a list of codes.
+     * <p>Codes are either sign codes, or special codes :
+     * </p>
+     * <ul>
+     *     <li><code>@SKIP</code> matches any sequence of signs. Normally on the same line. </li>
+     *     <li><code>@BEGINSET</code> and <code>@ENDSET</code>, for defining a set of signs.</li>
+     * </ul>
+     * @param search
+     */
     public SignStringSearchQuery(List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
@@ -106,7 +123,6 @@ public class SignStringSearchQuery implements MdCSearchQuery {
     }
 
     private static class HieroglyphOccurrence {
-
         private final String code;
         private final int position;
 
@@ -131,8 +147,6 @@ public class SignStringSearchQuery implements MdCSearchQuery {
         public String toString() {
             return "(" + code + ", " + position + ')';
         }
-        
-        
     }
 
     /**
@@ -160,4 +174,5 @@ public class SignStringSearchQuery implements MdCSearchQuery {
             codes.add(new HieroglyphOccurrence(code, position));
         }
     }
+    
 }
