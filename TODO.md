@@ -5,7 +5,7 @@ Franglish file, mainly for personnal use.
 ## Bug fixes
 
 ## In work
-* Modif rapide: la modification des signes doit agir sur la sélection quand il y en a une.
+
 
 ## Next version
 - Fix bug : bad name remembered for new files
@@ -26,6 +26,12 @@ LateX generate code...
 % ... footer for hieroglyphic text.
 ~~~
 A "copy from LaTeX" will also be useful !
+
+## Done in 7.4.0
+
+* Now, each command which works on individual signs will 
+  also work on text selection.
+
 
 ## Planned in 7.4.0
 * Improvements for basic search

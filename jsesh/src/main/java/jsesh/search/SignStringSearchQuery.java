@@ -70,9 +70,12 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      * Build the query from a list of codes.
      * <p>Codes are either sign codes, or special codes :
      * </p>
+     * (NOTA : language is not fixed yet).
      * <ul>
      *     <li><code>QUERYSKIP</code> matches any sequence of signs. Normally on the same line. </li>
      *     <li><code>QUERYSETB</code> and <code>QUERYSETE</code>, for defining a set of signs.</li>
+     *     <li><code>@SKIP</code> matches any sequence of signs. Normally on the same line. </li>
+     *     <li><code>@BEGINSET</code> and <code>@ENDSET</code>, for defining a set of signs.</li>
      * </ul>
      * @param search
      */
@@ -178,5 +181,4 @@ public class SignStringSearchQuery implements MdCSearchQuery {
         }
     }
 
-    
 }
