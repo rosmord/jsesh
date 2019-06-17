@@ -1,6 +1,22 @@
 # JSesh sources
 Welcome to JSesh sources!
 
+**JAVA 9+ (actually Java 12) version: ** to compile on mac, use something like :
+
+    export JAVA_HOME=/Users/rosmord/Applications/jdk-12.0.1.jdk/Contents/Home
+before starting maven.
+
+## TEMPORARY Note (remove when JSesh for Java 9+ is done)
+
+To package java 12, one needs to  use `jlink`
+
+The following line kind of works (but does not include all dependencies) :
+~~~~~
+jlink --module-path $JAVA_HOME/jmods --add-modules java.base,java.desktop,java.naming,java.prefs,java.sql --output jre
+~~~~~
+
+(we should identify why on earth java.sql would be needed...)
+
 JSesh is a Java hieroglyphic editor 
 developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 

@@ -216,10 +216,9 @@ abstract public class StreamGraphics2DDelegate extends BaseGraphics2D {
     public Rectangle getClipBounds(Rectangle r) {
         return proxy.getClipBounds(r);
     }
-    
-    /**
-     * @deprecated
-     */
+   
+    @Deprecated
+    @Override
     public Rectangle getClipRect() {
         return proxy.getClipRect();
     }
