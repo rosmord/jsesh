@@ -180,5 +180,4 @@ public class SignStringSearchQuery implements MdCSearchQuery {
             codes.add(new HieroglyphOccurrence(code, position));
         }
     }
-
 }
