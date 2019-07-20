@@ -43,10 +43,9 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;
 
 /**
- * Search for sign strings.
- * <p>
- * Preprocessing step: create an array with couples (Sign occurrence, position).
- *
+ * Simple Search for sign strings.
+ * Not full Regexp power - this will be  
+ * <p> Preprocessing step: create an array with couples (Sign occurrence, position).
  * Currently uses a naive search algorithm. I'm not convinced that boyer-moore
  * is needed or relevant here.
  *
@@ -59,7 +58,11 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      */
     private boolean onSameLine= true;
 
-
+    /**
+     * Maximum width of match.
+     * 0 means unlimited.
+     */
+    private int maxWidth = 0;
 
     private final List<String> search;
 
@@ -68,8 +71,8 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      * <p>Codes are either sign codes, or special codes :
      * </p>
      * <ul>
-     *     <li><code>@SKIP</code> matches any sequence of signs. Normally on the same line. </li>
-     *     <li><code>@BEGINSET</code> and <code>@ENDSET</code>, for defining a set of signs.</li>
+     *     <li><code>QUERYSKIP</code> matches any sequence of signs. Normally on the same line. </li>
+     *     <li><code>QUERYSETB</code> and <code>QUERYSETE</code>, for defining a set of signs.</li>
      * </ul>
      * @param search
      */
@@ -174,5 +177,6 @@ public class SignStringSearchQuery implements MdCSearchQuery {
             codes.add(new HieroglyphOccurrence(code, position));
         }
     }
+
     
 }
