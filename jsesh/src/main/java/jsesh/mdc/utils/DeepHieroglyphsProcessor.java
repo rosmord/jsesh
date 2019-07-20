@@ -13,6 +13,9 @@ import java.util.function.Consumer;
 
 public class DeepHieroglyphsProcessor {
 
+	/**
+	 * Apply Consumer hieroglyphicProcessors to all glyphs in this document.
+	 */
 	public final void processItems(List<TopItem> items, Consumer<Hieroglyph> hieroglyphProcessor) {
 		HieroglyphicFilter filter= new HieroglyphicFilter(hieroglyphProcessor);
 		for (TopItem item: items) {
