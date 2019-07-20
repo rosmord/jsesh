@@ -25,7 +25,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     /**
      * Additional numeric codes for digits.
      */
-    private static final String NUMBER_REGEXP_STRING = "[2456789]|[2-9]00*";
+    private static final String NUMBER_REGEXP_STRING = "[23456789]|[2-9]00*";
 
     /**
      * Tksesh-like code
@@ -268,7 +268,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * haven't got a Gardiner code.
      * <ul>
      * <li> "nn" or "nTrw"
-     * <li> numbers 2,4,5,6,7,8,9, 20, ..., 90, 200..900, 2000..9000 etc...</li>
+     * <li> numbers 2, 3, 4, 5, 6, 7, 8, 9, 20, ..., 90, 200..900, 2000..9000 etc...</li>
      * <li> tksesh user sign code of the form
      * UG<em>n0</em>M<em>n1</em>N<em>n2</em>
      * where
@@ -279,8 +279,11 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * </ul>
      * </ul>
      * </ul>
+     *
      * Note that translitteration codes (except nTrw and nn) are not dealt with
-     * here.
+     * here. "3" as a code is a new addition - I think originally an inscribe code. Originally, "3" and "Z2"
+     * where the same signs, but as a version of "3" was made for groups like 3:2, we had introduced a new sign without
+     * canonical code.
      *
      * @param code
      * @return
@@ -293,6 +296,9 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     /**
      * Returns true if the sign has the form of a "Gardiner" code. Basically,
      * Gardiner codes contain a family and a number.
+     * <p>This is different from "isCanonicalCode". For historical reasons, the MdC contains a number of signs
+     * which have no Gardiner code.
+     * </p>
      * <p>
      * As a result for accepting AA and FF as family names (in addition to Aa
      * and Ff), the following holds true : if <code>X</code> is a correct code,
