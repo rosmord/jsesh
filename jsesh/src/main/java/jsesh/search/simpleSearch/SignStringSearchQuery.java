@@ -32,15 +32,14 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search;
+package jsesh.search.simpleSearch;
 
 import java.util.ArrayList;
 import java.util.List;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;
+import jsesh.search.MdCSearchQuery;
 
 /**
  * Simple Search for sign strings.
@@ -97,8 +96,8 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      */
     public List<MDCPosition> doSearch(TopItemList items) {
         ArrayList<MDCPosition> result= new ArrayList<>();
-        CodeExtractors codeExtractors= new CodeExtractors();
-        List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrant(items); 
+        OccurrenceStringBuilder codeExtractors= new OccurrenceStringBuilder();
+        List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrant(items);
         for (int i= 0; i < l.size(); i++) {
             if (match(l, i))
                 result.add(new MDCPosition(items, l.get(i).getPosition()));
@@ -125,58 +124,5 @@ public class SignStringSearchQuery implements MdCSearchQuery {
         return ok && i == search.size();
     }
 
-    private static class HieroglyphOccurrence {
-        private final String code;
-        private final int position;
 
-        public HieroglyphOccurrence(String code, int position) {
-            this.code = code;
-            this.position = position;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public int getPosition() {
-            return position;
-        }
-
-        private boolean hasCode(String code) {
-            return this.code.equals(code);
-        }
-
-        @Override
-        public String toString() {
-            return "(" + code + ", " + position + ')';
-        }
-    }
-
-    /**
-     * Extract a normalised list of codes+position...
-     */
-    private class CodeExtractors extends ModelElementDeepAdapter {
-
-        private List<HieroglyphOccurrence> codes;
-
-        private int position = -1;
-
-        public List<HieroglyphOccurrence> analyzeQuadrant(TopItemList list) {
-            this.codes = new ArrayList<>();
-            for (int i = 0; i < list.getNumberOfChildren(); i++) {
-                this.position = i;
-                list.getChildAt(i).accept(this);
-            }
-            return this.codes;
-        }
-
-        @Override
-        public void visitHieroglyph(Hieroglyph h) {
-            String code = CompositeHieroglyphsManager.getInstance()
-                    .getCanonicalCode(h.getCode());
-            codes.add(new HieroglyphOccurrence(code, position));
-        }
-    }
-
-    
 }

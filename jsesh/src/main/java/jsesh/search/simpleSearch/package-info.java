@@ -1,7 +1,13 @@
 /**
- * A slightly improved search system.
+ * Simple searches for sequences of signs.
  *
- * <p><Allows:</p>
+ * <p>Currently includes two types of searches:</p>
+ * <ul>
+ *     <li>A basic exact match ({@link jsesh.search.simpleSearch.SignStringSearchQuery})</li>
+ *     <li>A more advance wildcard enabled search ({@link jsesh.search.simpleSearch.WildCardQuery})</li>
+ * </ul>
+ *
+ * <p> {@link jsesh.search.simpleSearch.WildCardQuery} allows:</p>
  * <ul>
  *     <li>Wildcards '*'</li>
  *     <li>size limitation</li>
