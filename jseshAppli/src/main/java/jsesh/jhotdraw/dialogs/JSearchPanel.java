@@ -45,7 +45,7 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.utils.MDCCodeExtractor;
 import jsesh.search.MdCSearchQuery;
 import jsesh.search.QuadrantSearchQuery;
-import jsesh.search.SignStringSearchQuery;
+import jsesh.search.simpleSearch.SignStringSearchQuery;
 import net.miginfocom.swing.MigLayout;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

@@ -1,15 +1,13 @@
 package jsesh.jhotdraw.search;
 
-import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.actions.generic.ViewOpenerForDocument;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.dialogs.JSearchFolderPanel;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.mdc.model.TopItemList;
 import jsesh.search.*;
-import org.jhotdraw_7_6.app.Application;
+import jsesh.search.simpleSearch.SignStringSearchQuery;
 import org.jhotdraw_7_6.app.View;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
