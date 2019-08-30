@@ -4,6 +4,8 @@ Franglish file, mainly for personnal use.
 
 ## Bug fixes
 
+- Fix bug : bad name remembered for new files
+- Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
 ## Next version
 
 * extend search - advanced search
