@@ -6,8 +6,17 @@ Franglish file, mainly for personnal use.
 
 - Fix bug : bad name remembered for new files
 - Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
+
 ## Next version
 
+* Simple LaTeX output ? "Copy as LaTeX" : copy something like :
+~~~LaTeX
+% Manuel de codage code in comment(s) ...
+LateX generate code...
+% Information about PDF files needed.
+% ... footer for hieroglyphic text.
+~~~
+A "copy from LaTeX" will also be useful !
 * extend search - advanced search
 * WB-like
 * full regular expression language.
