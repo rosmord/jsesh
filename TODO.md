@@ -41,7 +41,8 @@ A "copy from LaTeX" will also be useful !
   - generic sign ? bird/man/mammal/shapes
   - max distance : 10 (not used for exact sequence match)
 * extend search - advanced search
-* Finish standard enclosures.
+* WB-like
+* full regular expression language.
 
 ## High priority
 * full regular expression language.
