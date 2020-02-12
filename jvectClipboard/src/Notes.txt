@@ -1,7 +1,0 @@
-Future development:
-	* provide multiple formats at the same time, with probably a "plug-and-play" option, which will choose the "best" formats for the platform. We want to keep control if needed, though.
-	* add more versatility to EMF export ?
-	* make use of Unix X11 atoms : ADOBE_PORTABLE_DOCUMENT_FORMAT , APPLE_PICT, 
-		ENCAPSULATED_POSTSCRIPT, ENCAPSULATED_POSTSCRIPT_INTERCHANGE
-	* have a look at the Windows identifiers. EPS ?? (would be nice to support EPS copy/paste everywhere)
-	* when everything else fails : create a temporary file... and send it. yep. That's the solution everybody wants... doesn't work that easily, though.

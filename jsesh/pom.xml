@@ -113,9 +113,9 @@
             <version>2.1.5</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jvectClipboard</artifactId>
-            <version>${project.version}</version>
+          <groupId>org.qenherkhopeshef</groupId>
+          <artifactId>jvectclipboard</artifactId>
+          <version>8.0.0</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

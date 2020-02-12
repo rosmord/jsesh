@@ -56,7 +56,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
-    <module>jvectClipboard</module>
     <module>cupAndlex</module>
     <module>cupruntime</module>
     <module>qenherkhopeshefUtils</module>
