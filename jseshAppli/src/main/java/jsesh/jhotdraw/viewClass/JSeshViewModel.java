@@ -27,7 +27,7 @@ import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 

@@ -1,4 +1,4 @@
-package jsesh.search.simpleSearch;
+package search;
 
 import org.junit.Test;
 

@@ -43,9 +43,9 @@ import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.utils.MDCCodeExtractor;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.search.QuadrantSearchQuery;
-import jsesh.search.simpleSearch.SignStringSearchQuery;
+import jsesh.search.SignStringSearchQuery;
 import net.miginfocom.swing.MigLayout;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -53,8 +53,7 @@ import org.jhotdraw_7_6.app.View;
 /**
  * Search Panel for JSesh.
  *
- * TODO : attach this element to the view, so that it's closed when the view is
- * closed.
+ * TODO : attach this element to the view, so that it's closed when the view is closed.
  *
  * @author rosmord
  */

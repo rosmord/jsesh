@@ -59,12 +59,6 @@ public final class FindAction extends AbstractApplicationAction {
         BundleHelper.getInstance().configure(this);        
         searchPanel= new JSearchPanel(app);
     }
-    
-//
-//    public FindAction(Application app, View view) {
-//        super(app, view);
-//        BundleHelper.getInstance().configure(this);
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

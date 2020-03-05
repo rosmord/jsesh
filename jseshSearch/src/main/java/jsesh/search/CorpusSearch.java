@@ -34,6 +34,7 @@
  */
 package jsesh.search;
 
+import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;

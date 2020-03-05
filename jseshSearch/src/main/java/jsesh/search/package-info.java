@@ -14,4 +14,4 @@
  *     <li>search for variant signs</li>
  * </ul>
  */
-package jsesh.search.simpleSearch;
+package jsesh.search;

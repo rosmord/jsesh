@@ -39,7 +39,7 @@ import javax.swing.*;
 
 import jsesh.editor.JMDCField;
 import jsesh.jhotdraw.Messages;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 import net.miginfocom.swing.MigLayout;
 
 /**

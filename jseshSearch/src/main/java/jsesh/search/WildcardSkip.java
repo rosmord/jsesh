@@ -1,4 +1,4 @@
-package jsesh.search.simpleSearch;
+package jsesh.search;
 
 /**
  * A skip.

@@ -1,9 +1,9 @@
-package jsesh.search.simpleSearch;
+package jsesh.search;
 
 /**
- * A set of possible matching values.
+ * A simple label, for exact match.
  */
-public class WildcardSet implements WildcardToken {
+public class WildcardLabel implements WildcardToken {
 	@Override
 	public boolean match(HieroglyphOccurrence token) {
 		return false;

@@ -1,8 +1,8 @@
-package jsesh.search.simpleSearch;
+package jsesh.search;
 
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 
 import java.util.ArrayList;
 import java.util.List;

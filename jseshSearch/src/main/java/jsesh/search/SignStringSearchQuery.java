@@ -32,14 +32,14 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search.simpleSearch;
+package jsesh.search;
 
 import java.util.ArrayList;
 import java.util.List;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 
 /**
  * Simple Search for sign strings.

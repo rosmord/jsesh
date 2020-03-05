@@ -34,14 +34,50 @@
  */
 package jsesh.search;
 
+import jsesh.editor.MdCSearchQuery;
+import java.util.ArrayList;
 import java.util.List;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.utils.MDCNormalizer;
 
 /**
- * Generic representation of search queries in JSesh.
+ * Search for the exact appearance of a given quadrant.
  * @author rosmord
  */
-public interface MdCSearchQuery {
-       List<MDCPosition> doSearch(TopItemList items);
+public class QuadrantSearchQuery implements MdCSearchQuery {
+    private final TopItemList search;
+
+    public QuadrantSearchQuery(TopItemList search) {        
+        this.search =search.deepCopy();
+        MDCNormalizer normalizer= new MDCNormalizer();
+        normalizer.normalize(this.search);
+    }
+
+    /**
+     * Perform the search.
+     *
+     * <p>
+     * Basically, we have a tree and we want to perform a sequential search on
+     * it. The easiest way to do this is to linearize the entry.
+     *
+     * @param items the items to search into.
+     * @return
+     */
+    public List<MDCPosition> doSearch(TopItemList items) {
+        ArrayList<MDCPosition> result= new ArrayList<>();
+        for (int pos= 0; pos < items.getNumberOfChildren(); pos++) {
+            // Brute force search. 
+            int i;
+            for (i=0; i < search.getNumberOfChildren() && i + pos < items.getNumberOfChildren(); i++) {
+                if (! search.getChildAt(i).equalsIgnoreId(items.getChildAt(pos+i))) {
+                    break;
+                }
+            }
+            if (i == search.getNumberOfChildren())
+                result.add(new MDCPosition(items, pos));
+        }
+        return result;
+    }
+
 }

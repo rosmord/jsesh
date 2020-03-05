@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search;
+package search;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,7 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.simpleSearch.SignStringSearchQuery;
+import jsesh.search.SignStringSearchQuery;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package jsesh.search.simpleSearch;
+package jsesh.search;
 
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.mdc.model.Hieroglyph;

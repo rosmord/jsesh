@@ -60,7 +60,6 @@ import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
 import jsesh.mdcDisplayer.preferences.*;
-import jsesh.search.MdCSearchQuery;
 import jsesh.swing.shadingMenuBuilder.*;
 import jsesh.swing.utils.*;
 
