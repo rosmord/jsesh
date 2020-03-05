@@ -32,74 +32,52 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package search;
+package jsesh.search.quadrant;
 
-import java.util.Arrays;
+import jsesh.editor.MdCSearchQuery;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.QuadrantSearchQuery;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import jsesh.mdc.utils.MDCNormalizer;
 
 /**
- * Test of searches for Specific quadrants.
+ * Search for the exact appearance of a given quadrant.
  * @author rosmord
  */
-public class QuadrantSearcherTest {
-    
-    private TopItemList parse(String mdc) {
-        try {
-            return new MDCParserModelGenerator().parse(mdc);
-        } catch (MDCSyntaxError ex) {
-            throw new RuntimeException(ex);
-        }
+public class QuadrantSearchQuery implements MdCSearchQuery {
+    private final TopItemList search;
+
+    public QuadrantSearchQuery(TopItemList search) {        
+        this.search =search.deepCopy();
+        MDCNormalizer normalizer= new MDCNormalizer();
+        normalizer.normalize(this.search);
     }
-    
+
     /**
-     * Auxiliary method for writing tests.
-     * @param message
-     * @param mdc
-     * @param codes
-     * @param expected 
+     * Perform the search.
+     *
+     * <p>
+     * Basically, we have a tree and we want to perform a sequential search on
+     * it. The easiest way to do this is to linearize the entry.
+     *
+     * @param items the items to search into.
+     * @return
      */
-    private void doSearch(String message, String mdc, String mdcToSearch, Integer... expected) {
-        TopItemList text = parse(mdc);
-        TopItemList toSearch= parse(mdcToSearch);
-        QuadrantSearchQuery searcher = new QuadrantSearchQuery(toSearch);
-        List<MDCPosition> actualResult = searcher.doSearch(text);
-        List<MDCPosition> expectedResult
-                = Arrays.asList(expected).stream()
-                        .map(pos -> new MDCPosition(text, pos))
-                        .collect(Collectors.toList());
-        assertEquals(message, expectedResult, actualResult);
+    public List<MDCPosition> doSearch(TopItemList items) {
+        ArrayList<MDCPosition> result= new ArrayList<>();
+        for (int pos= 0; pos < items.getNumberOfChildren(); pos++) {
+            // Brute force search. 
+            int i;
+            for (i=0; i < search.getNumberOfChildren() && i + pos < items.getNumberOfChildren(); i++) {
+                if (! search.getChildAt(i).equalsIgnoreId(items.getChildAt(pos+i))) {
+                    break;
+                }
+            }
+            if (i == search.getNumberOfChildren())
+                result.add(new MDCPosition(items, pos));
+        }
+        return result;
     }
 
-    @Test
-    public void testSimpleSearchGardinerCodes() {
-        doSearch("Simple search", "i-w-r:a-C1-r-ir:t", "D21", 4);
-    }
-
-    @Test
-    public void testSearchQuadrant() {
-        doSearch("Simple search", "i-w-r:a-C1-r-ir:t", "D21", 4);
-    }
-    
-     @Test
-    public void testNone() {
-        doSearch("Simple search", "i-w-r:a-C1-Hr:r-ir:t", "D21");
-    }
-    
-    // The following specification is not yet implemented.
-    // (case pending).
-//    @Test
-//    public void testSubQuadrant() {
-//        doSearch("testSubQuadrant", 
-//                "G40-tA:N23*1-n:km:niwt*t-m-anx-DA-s",
-//                "km:niwt*X1", 2
-//                );
-//    }
 }

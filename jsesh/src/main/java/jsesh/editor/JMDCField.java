@@ -72,7 +72,7 @@ public class JMDCField extends JMDCEditor {
 	/**
 	 * List of action listeners.
 	 */
-	private ArrayList<ActionListener> actionListeners= new ArrayList<ActionListener>();
+	private final ArrayList<ActionListener> actionListeners= new ArrayList<ActionListener>();
 	
 	/**
 	 * Create a hieroglyphic field with the given dimensions, in pixels.

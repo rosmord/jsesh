@@ -66,6 +66,8 @@ import jsesh.mdc.output.MdCModelWriter;
  * cleared, and so on.
  * <p>
  * TODO : express this class in terms of patterns, and modify it accordingly.
+ * We should probably define the TopItemList and the HieroglyphicTextModel in terms 
+ * of interfaces, have have HieroglyphicTextModel extend or implement TopItemList.
  * <p>
  * FIXME : currently, the Observable pattern used is misleading.
  * <p>

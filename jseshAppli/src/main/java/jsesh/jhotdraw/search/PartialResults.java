@@ -36,7 +36,7 @@ package jsesh.jhotdraw.search;
 
 import java.util.Collections;
 import java.util.List;
-import jsesh.search.CorpusSearchHit;
+import jsesh.search.corpus.CorpusSearchHit;
 
 /**
  * Results sent during a search, along with the number of files which have been explored.

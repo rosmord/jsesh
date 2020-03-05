@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search;
+package jsesh.search.corpus;
 
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.MDCSyntaxError;

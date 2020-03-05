@@ -1,6 +1,10 @@
-package jsesh.search;
+package jsesh.search.backingSupport;
 
-class HieroglyphOccurrence {
+/**
+ * A record of the occurrence of a sign at a certain position in a text.
+ * @author rosmord
+ */
+public class HieroglyphOccurrence {
 	private final String code;
 	private final int position;
 

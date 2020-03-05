@@ -1,4 +1,4 @@
-package jsesh.search;
+package jsesh.search.backingSupport;
 
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.mdc.model.Hieroglyph;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Extract a normalised list of codes+position...
+ * Extract a normalised list of couples codes/position, usable for a number of searches.
  */
-class OccurrenceStringBuilder extends ModelElementDeepAdapter {
+public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 
 	private List<HieroglyphOccurrence> codes;
 

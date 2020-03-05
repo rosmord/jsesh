@@ -1,15 +1,15 @@
 package jsesh.jhotdraw.search;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.search.CorpusSearchHit;
-import jsesh.search.QuadrantSearchQuery;
+import jsesh.search.corpus.CorpusSearchHit;
+import jsesh.search.quadrant.QuadrantSearchQuery;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.dialogs.JSearchFolderPanel;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.SignStringSearchQuery;
+import jsesh.search.simple.SignStringSearchQuery;
 import org.jhotdraw_7_6.app.View;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
@@ -31,10 +31,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import jsesh.search.CorpusSearch;
-import jsesh.search.CorpusSearchHit;
-import jsesh.search.QuadrantSearchQuery;
-import jsesh.search.SignStringSearchQuery;
+import jsesh.search.corpus.CorpusSearch;
+import jsesh.search.corpus.CorpusSearchHit;
+import jsesh.search.quadrant.QuadrantSearchQuery;
+import jsesh.search.simple.SignStringSearchQuery;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**

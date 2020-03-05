@@ -32,8 +32,10 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search;
+package jsesh.search.simple;
 
+import jsesh.search.backingSupport.HieroglyphOccurrence;
+import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import jsesh.hieroglyphs.CompositeHieroglyphsManager;
