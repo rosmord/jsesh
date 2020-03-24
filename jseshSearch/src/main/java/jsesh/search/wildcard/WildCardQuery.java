@@ -48,7 +48,6 @@ import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import org.qenherkhopeshef.finiteState.lazy.*;
 import static org.qenherkhopeshef.finiteState.lazy.RegularLanguageFactory.*;
-
 /**
  * Wildcard implementation.
  *
@@ -67,15 +66,16 @@ public class WildCardQuery implements MdCSearchQuery {
     /**
      * Build a wildcard query from a top item list.
      *
-     * @param items
+     * @param items : items to search
+     * @param maxLength : max match length. 0 = any length
      */
-    public WildCardQuery(TopItemList items) {
+    public WildCardQuery(TopItemList items, int maxLength) {
         if (items.getNumberOfChildren() == 0) {
             correct = false;
         } else {
             try {
                 correct = true;
-                extractor = new QueryBuilder().buildQuery(items);
+                extractor = new QueryBuilder().buildQuery(items, maxLength);
             } catch (IncorrectQueryException e) {
                 correct = false;
             }
@@ -114,13 +114,18 @@ public class WildCardQuery implements MdCSearchQuery {
         List<String> codes;
         int pos = -1;
         private String currentCode;
+        
 
-        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items) {            
+        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, int maxLength) {            
             codes = new HieroglyphCodesExtractor(true).extractHieroglyphs(items);
             codes.add(null); // null as sentinel.
             seq = new ArrayList<>();
             parseItems();
-            return new RegularExtractor<>(seq);
+            if (maxLength == 0)
+                return new RegularExtractor<>(seq);
+            else {
+                return new RegularExtractor<>(maxLength(seq(seq), maxLength));
+            }
         }
 
         private void parseItems() {

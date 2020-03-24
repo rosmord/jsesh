@@ -30,7 +30,7 @@ public class Main {
 	
 	public void start()  {
 		try {
-			splashScreen= new SplashScreen("/jseshResources/images/splash.png");
+			splashScreen= new SplashScreen("/org/qenherkhopeshef/guiFramework/splash/default.png");
 			splashScreen.display();
 			try {
 				Thread.sleep(2000);

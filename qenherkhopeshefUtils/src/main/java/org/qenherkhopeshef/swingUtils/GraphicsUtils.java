@@ -15,8 +15,6 @@ import java.awt.RenderingHints;
  */
 public class GraphicsUtils {
 
-
-
 	/**
 	 * Sets antialiasing on a graphics context.
 	 * @param g
