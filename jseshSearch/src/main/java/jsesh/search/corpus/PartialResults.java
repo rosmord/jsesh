@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.jhotdraw.search;
+package jsesh.search.corpus;
 
 import java.util.Collections;
 import java.util.List;

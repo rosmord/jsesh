@@ -35,18 +35,12 @@
 package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.dialogs.JSearchFolderPanel;
-import jsesh.jhotdraw.dialogs.JSearchPanel;
-import jsesh.jhotdraw.search.CorpusSearchPresenter;
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
+import jsesh.search.corpus.CorpusSearchPresenter;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 
-import javax.swing.*;
 
 /**
  * Search folder for text action.
@@ -65,7 +59,6 @@ public final class FindInFolderAction extends AbstractApplicationAction {
         super(app);
         this.corpusSearchPresenter= corpusSearchPresenter;
         BundleHelper.getInstance().configure(this);        
-        corpusSearchPresenter= new CorpusSearchPresenter(app);
     }
     
 

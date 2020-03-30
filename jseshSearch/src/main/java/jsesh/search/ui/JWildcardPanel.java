@@ -1,13 +1,11 @@
 package jsesh.search.ui;
 
-import jsesh.search.Messages;
 import javax.swing.JPanel;
 
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -21,6 +19,7 @@ import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
 import jsesh.mdc.model.TopItemList;
+import jsesh.search.Messages;
 import jsesh.search.quadrant.QuadrantSearchQuery;
 import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;

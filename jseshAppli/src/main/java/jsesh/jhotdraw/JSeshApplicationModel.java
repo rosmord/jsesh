@@ -33,7 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
-import jsesh.jhotdraw.search.CorpusSearchPresenter;
+import jsesh.search.corpus.CorpusSearchPresenter;
 import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Component;

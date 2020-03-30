@@ -1,17 +1,7 @@
-package jsesh.jhotdraw.search;
+package jsesh.search.corpus;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.search.corpus.CorpusSearchHit;
-import jsesh.search.quadrant.QuadrantSearchQuery;
-import jsesh.jhotdraw.Messages;
-import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
-import jsesh.jhotdraw.dialogs.JSearchFolderPanel;
-import jsesh.jhotdraw.utils.WindowsHelper;
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.simple.SignStringSearchQuery;
-import org.jhotdraw_7_6.app.View;
-import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
@@ -45,7 +35,6 @@ public class CorpusSearchPresenter {
     /**
      * The application (we need to ask it to open or display files).
      */
-    private ActiveViewAwareApplication app;
     private JSearchFolderPanel ui;
     private Optional<SearchWorker> currentSearchWorker = Optional.empty();
     private boolean canOpenNewView = true;

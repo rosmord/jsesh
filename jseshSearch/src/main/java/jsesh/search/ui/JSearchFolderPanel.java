@@ -32,14 +32,14 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.jhotdraw.dialogs;
+package jsesh.search.ui;
 
 import java.io.File;
 import javax.swing.*;
 
 import jsesh.editor.JMDCField;
-import jsesh.jhotdraw.Messages;
 import jsesh.editor.MdCSearchQuery;
+import jsesh.search.Messages;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -47,7 +47,7 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author rosmord
  */
-public final class JSearchFolderPanel extends JFrame {
+public final class JSearchFolderPanel extends JPanel {
 
     JFormattedTextField folderField;
     JButton chooseFolderButton;
@@ -61,17 +61,17 @@ public final class JSearchFolderPanel extends JFrame {
 
     public JSearchFolderPanel() {
         this.mDCField = new JMDCField();
-        this.folderField= new JFormattedTextField(new File("."));
+        this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
-        this.chooseFolderButton= new JButton(Messages.getString("browse"));
-        this.searchGlyphsCheckBox = new JCheckBox(Messages.getString("searchFolder.searchGlyphsCheckBox.text"));
+        this.chooseFolderButton = new JButton(Messages.getString("browse"));
+        this.searchGlyphsCheckBox = new JCheckBox(Messages.getString("jsesh.search.folder.searchGlyphsCheckBox.text"));
         this.searchGlyphsCheckBox.setSelected(true);
         this.searchButton = new JButton(Messages.getString("search"));
         this.cancelButton = new JButton(Messages.getString("cancel"));
-        
-        this.resultTable= new JTable();
-        this.messageField= new JLabel("0");
-        
+
+        this.resultTable = new JTable();
+        this.messageField = new JLabel("0");
+
         this.setLayout(new MigLayout("fill",
                 "[right]rel[grow,fill]", "[]10[]"));
         this.add(new JLabel(Messages.getString("folder")));
@@ -81,22 +81,20 @@ public final class JSearchFolderPanel extends JFrame {
         this.add(mDCField, "growx, wrap");
         this.add(searchGlyphsCheckBox, "span 2,wrap");
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
-        this.add(new JLabel(Messages.getString("searchFolder.state")));
+        this.add(new JLabel(Messages.getString("jsesh.search.folder.state")));
         this.add(messageField, "span, growx 1, pushx");
         this.add(searchButton, "tag ok, span, split 2, sizegroup bttn");
         this.add(cancelButton, "tag cancel, sizegroup bttn");
-        this.pack();
     }
 
     public File getFolder() {
         return (File) folderField.getValue();
     }
 
-
     public void setFolder(File folder) {
         folderField.setValue(folder);
     }
-    
+
     public JFormattedTextField getFolderField() {
         return folderField;
     }
@@ -133,10 +131,19 @@ public final class JSearchFolderPanel extends JFrame {
         return messageField;
     }
 
-    
+    /**
+     * Just to test the display of this object...
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        JSearchFolderPanel p= new JSearchFolderPanel();
-        p.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        p.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame();
+            JSearchFolderPanel panel = new JSearchFolderPanel();
+            frame.add(panel);
+            frame.pack();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+        });
     }
 }
