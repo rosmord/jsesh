@@ -228,7 +228,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
         initLabels();
 
-        paletteActions = new LinkedList<Action>();
+        paletteActions = new LinkedList<>();
         setActionMap(createModelActionMap(model));
         initPalettes(paletteActions);
         initScreenMenuBar();

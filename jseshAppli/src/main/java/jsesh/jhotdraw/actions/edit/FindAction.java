@@ -40,7 +40,8 @@ import jsesh.editor.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.search.ui.JWildcardPanel;
-import jsesh.search.ui.SearchTarget;
+import jsesh.search.clientApi.SearchTarget;
+import jsesh.search.ui.SearchPanelFactory;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
@@ -62,7 +63,7 @@ public final class FindAction extends AbstractApplicationAction {
 
     public FindAction(Application app) {
         super(app);
-        searchPanel = new JWildcardPanel(searchAdapter);
+        searchPanel = SearchPanelFactory.createWildCardPanel(searchAdapter);
         frame = new JFrame();
         frame.add(searchPanel);
         frame.pack();

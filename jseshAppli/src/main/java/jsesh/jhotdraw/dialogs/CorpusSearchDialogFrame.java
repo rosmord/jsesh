@@ -32,32 +32,25 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search.corpus;
+package jsesh.jhotdraw.dialogs;
 
-import java.util.Collections;
-import java.util.List;
-import jsesh.search.clientApi.CorpusSearchHit;
+import java.awt.HeadlessException;
+import javax.swing.JFrame;
+import jsesh.search.clientApi.CorpusSearchTarget;
+import jsesh.search.ui.JSearchFolderPanel;
+import jsesh.search.ui.SearchPanelFactory;
 
 /**
- * Results sent during a search, along with the number of files which have been explored.
+ * Dialog for corpus searches.
  * @author rosmord
  */
-public class PartialResults {
-    private final int fileCount;
-    private final List<CorpusSearchHit> hits;
-
-    public PartialResults(int fileCount, List<CorpusSearchHit> hits) {
-        this.fileCount = fileCount;
-        this.hits = Collections.unmodifiableList(hits);
-    }
-
-    public int getFileCount() {
-        return fileCount;
-    }
-
-    public List<CorpusSearchHit> getHits() {
-        return hits;
-    }
+public class CorpusSearchDialogFrame extends JFrame{
+    JSearchFolderPanel jseshFolderPanel;
     
+    public CorpusSearchDialogFrame(CorpusSearchTarget corpusSearchTarget) {
+        this.jseshFolderPanel = SearchPanelFactory.createSearchFolderPanel(corpusSearchTarget);
+        this.add(jseshFolderPanel);
+        this.pack();
+    }
     
 }

@@ -37,7 +37,8 @@ package jsesh.jhotdraw.actions.edit;
 import java.awt.event.ActionEvent;
 
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.search.corpus.CorpusSearchPresenter;
+import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
+import jsesh.search.ui.JSearchFolderPanel;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 
@@ -52,19 +53,18 @@ import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 public final class FindInFolderAction extends AbstractApplicationAction {
 
     public static final String ID = "edit.findInFolder";
+    private CorpusSearchDialogFrame corpusSearchDialogFrame;
 
-    private final CorpusSearchPresenter corpusSearchPresenter;
     
-    public FindInFolderAction(ActiveViewAwareApplication app, CorpusSearchPresenter corpusSearchPresenter) {
+    public FindInFolderAction(ActiveViewAwareApplication app, CorpusSearchDialogFrame corpusSearchDialogFrame) {
         super(app);
-        this.corpusSearchPresenter= corpusSearchPresenter;
         BundleHelper.getInstance().configure(this);        
     }
     
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            corpusSearchPresenter.show();
+        corpusSearchDialogFrame.setVisible(true);
     }
 }
 

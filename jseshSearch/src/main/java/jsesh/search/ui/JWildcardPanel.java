@@ -1,5 +1,6 @@
 package jsesh.search.ui;
 
+import jsesh.search.clientApi.SearchTarget;
 import javax.swing.JPanel;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.Messages;
+import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadrantSearchQuery;
 import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;
@@ -41,91 +42,48 @@ public final class JWildcardPanel extends JPanel {
     /**
      * Fields...
      */
-    private final JMDCField searchField;
-    private final JCheckBox wholeQuadrantsCheckBox;
+    private final JSearchSearchFields jseshFields;
     private final JButton searchButton;
     private final JButton nextButton;
-    private final JButton addSkipButton;
-    private final JButton addSetButton;
-    private final JSpinner matchLengthSpinner;
-    private final JLabel matchLengthSpinnerLabel;
+  
 
     /**
      * Buttons which are meaningless for whole quadrant search...
      */
-    private final JComponent signOriented[];
 
     /**
      *
      * @param target
      */
-    public JWildcardPanel(SearchTarget target) {
+    JWildcardPanel(SearchTarget target) {
         setupFont();
         this.searchTarget = target;
-        this.searchField = new JMDCField();
-        this.searchButton = new JButton(Messages.getString("jsesh.search.search.text"));
-        this.nextButton = new JButton(Messages.getString("jsesh.search.findNext.text"));
-        this.addSkipButton = new JButton("*");
-        this.addSetButton = new JButton("[...]");
-        this.matchLengthSpinner = new JSpinner();
-        this.matchLengthSpinnerLabel = new JLabel("Max. match Length");
-
-        this.wholeQuadrantsCheckBox = new JCheckBox("Whole Quadrants Match");
-
-        this.addSkipButton.setToolTipText(Messages.getString("jsesh.search.skip.tooltip"));
-        this.addSetButton.setToolTipText(Messages.getString("jsesh.search.set.tooltip"));
-
-        this.signOriented = new JComponent[]{addSetButton, addSkipButton, matchLengthSpinner, matchLengthSpinnerLabel};
-        SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
-        matchLengthSpinner.setModel(spinnerModel);
+        this.jseshFields = new JSearchSearchFields();
+        this.searchButton = new JButton(JSeshMessages.getString("jsesh.search.search.text"));
+        this.nextButton = new JButton(JSeshMessages.getString("jsesh.search.findNext.text"));        
         prepareLayout();
         enableControls();
     }
 
     private void enableControls() {
-        addSetButton.addActionListener(e -> addSet());
-        addSkipButton.addActionListener(e -> addSkip());
         searchButton.addActionListener(e -> doSearch());
         nextButton.addActionListener(e -> nextSearch());
-        this.wholeQuadrantsCheckBox.addActionListener(e -> wholeQuadrantSelect());
     }
 
     private void prepareLayout() {
         this.setLayout(new MigLayout());
-        this.add(searchField, "span, grow, wrap 10");
-        this.add(wholeQuadrantsCheckBox, "span 2, wrap 10");
-        this.add(addSkipButton, "sg bt");
-        this.add(addSetButton, "sg bt");
-        this.add(matchLengthSpinnerLabel);
-        this.add(matchLengthSpinner, "wrap 10");
+        this.add(jseshFields, "span, grow, wrap 15");
 
         this.add(searchButton, "sg bt, tag apply");
         this.add(nextButton, "sg bt, tag next");
     }
 
-    public JMDCField getSearchField() {
-        return searchField;
-    }
-
-    private TopItemList getSearchFieldContent() {
-        return searchField.getHieroglyphicTextModel().getModel();
-    }
+  
 
     private void doSearch() {
         if (searchTarget.isAvailable()) {
-            try {
-                if (wholeQuadrantsCheckBox.isSelected()) {
-                    QuadrantSearchQuery query = new QuadrantSearchQuery(getSearchFieldContent());
-                    searchTarget.doSearch(query);
-                } else {
-                    WildCardQuery query;
-                    List<String> l = new MDCCodeExtractor().getCodesAsList(searchField.getMDCText());
-                    query = new WildCardQuery(getSearchFieldContent(), (Integer) matchLengthSpinner.getValue());
-                    searchTarget.doSearch(query);
-                }
-            } catch (MDCSyntaxError e) {
-                throw new RuntimeException(e);
-            }
+            MdCSearchQuery query = jseshFields.getQuery();
+            searchTarget.doSearch(query);
         }
     }
 
@@ -145,23 +103,6 @@ public final class JWildcardPanel extends JPanel {
         }
     }
 
-    private void addSet() {
-        searchField.insert("QUERYSETB");
-        searchField.insert("QUERYSETE");
-        searchField.getWorkflow().cursorPrevious();
-        searchField.requestFocusInWindow();
-    }
-
-    private void addSkip() {
-        searchField.insert("QUERYSKIP");
-        searchField.requestFocusInWindow();
-    }
-
-    private void wholeQuadrantSelect() {
-        for (JComponent b : this.signOriented) {
-            b.setEnabled(!this.wholeQuadrantsCheckBox.isSelected());
-        }
-    }
 
     /**
      * Just to test the display of this object...

@@ -21,7 +21,6 @@ import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.hieroglyphs.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
-import jsesh.jhotdraw.dialogs.JSearchPanel;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;

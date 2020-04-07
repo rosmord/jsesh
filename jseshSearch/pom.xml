@@ -36,6 +36,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>jsesh</artifactId>
             <version>${project.version}</version>
+        </dependency>       
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jseshLabels</artifactId>
+            <version>${project.version}</version>
         </dependency>            
         <dependency>
             <groupId>com.miglayout</groupId>

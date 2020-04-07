@@ -8,7 +8,8 @@ import jsesh.editor.JMDCEditor;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.search.ui.JWildcardPanel;
-import jsesh.search.ui.SearchTarget;
+import jsesh.search.clientApi.SearchTarget;
+import jsesh.search.ui.SearchPanelFactory;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -19,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 public class WildCardMain {
 
     JFrame frame = new JFrame("Test Wildcard");
-    JWildcardPanel panel = new JWildcardPanel(new LocalSearchTarget());
+    JWildcardPanel panel = SearchPanelFactory.createWildCardPanel(new LocalSearchTarget());
     JMDCEditor editor = new JMDCEditor();
     List<MDCPosition> answers;
     

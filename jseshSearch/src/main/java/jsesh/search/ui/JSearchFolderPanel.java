@@ -38,8 +38,7 @@ import java.io.File;
 import javax.swing.*;
 
 import jsesh.editor.JMDCField;
-import jsesh.editor.MdCSearchQuery;
-import jsesh.search.Messages;
+import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -49,39 +48,45 @@ import net.miginfocom.swing.MigLayout;
  */
 public final class JSearchFolderPanel extends JPanel {
 
-    JFormattedTextField folderField;
-    JButton chooseFolderButton;
-    JMDCField mDCField;
-    JCheckBox searchGlyphsCheckBox;
-    JButton searchButton;
-    JButton cancelButton;
-    JLabel messageField;
+    private JFormattedTextField folderField;
+    private JButton chooseFolderButton;
+    private JMDCField mDCField;
+    private JCheckBox searchGlyphsCheckBox;
+    private JButton searchButton;
+    private JButton cancelButton;
+    private JLabel messageField;
+    private JTable resultTable;
+    
 
-    JTable resultTable;
+    JSearchFolderPanel() {
+        createFields();
+        layoutFields();
+    }
 
-    public JSearchFolderPanel() {
+    private void createFields() {
         this.mDCField = new JMDCField();
         this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
-        this.chooseFolderButton = new JButton(Messages.getString("browse"));
-        this.searchGlyphsCheckBox = new JCheckBox(Messages.getString("jsesh.search.folder.searchGlyphsCheckBox.text"));
+        this.chooseFolderButton = new JButton(JSeshMessages.getString("generic.browse.text"));
+        this.searchGlyphsCheckBox = new JCheckBox(JSeshMessages.getString("jsesh.search.folder.searchGlyphsCheckBox.text"));
         this.searchGlyphsCheckBox.setSelected(true);
-        this.searchButton = new JButton(Messages.getString("search"));
-        this.cancelButton = new JButton(Messages.getString("cancel"));
-
+        this.searchButton = new JButton(JSeshMessages.getString("generic.search.text"));
+        this.cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));
         this.resultTable = new JTable();
         this.messageField = new JLabel("0");
+    }
 
+    private void layoutFields() {
         this.setLayout(new MigLayout("fill",
                 "[right]rel[grow,fill]", "[]10[]"));
-        this.add(new JLabel(Messages.getString("folder")));
+        this.add(new JLabel(JSeshMessages.getString("generic.folder.text")));
         this.add(folderField, "span, split 2, growx 1, pushx");
         this.add(chooseFolderButton, "grow 0, sizegroup bttn, wrap");
-        this.add(new JLabel(Messages.getString("query")));
+        this.add(new JLabel(JSeshMessages.getString("generic.query.text")));
         this.add(mDCField, "growx, wrap");
         this.add(searchGlyphsCheckBox, "span 2,wrap");
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
-        this.add(new JLabel(Messages.getString("jsesh.search.folder.state")));
+        this.add(new JLabel(JSeshMessages.getString("jsesh.search.folder.state")));
         this.add(messageField, "span, growx 1, pushx");
         this.add(searchButton, "tag ok, span, split 2, sizegroup bttn");
         this.add(cancelButton, "tag cancel, sizegroup bttn");
@@ -119,10 +124,6 @@ public final class JSearchFolderPanel extends JPanel {
         return resultTable;
     }
 
-    public MdCSearchQuery getQuery() {
-        return null;
-    }
-
     public JButton getCancelButton() {
         return cancelButton;
     }
@@ -130,6 +131,7 @@ public final class JSearchFolderPanel extends JPanel {
     public JLabel getMessageField() {
         return messageField;
     }
+
 
     /**
      * Just to test the display of this object...
@@ -139,7 +141,7 @@ public final class JSearchFolderPanel extends JPanel {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame();
-            JSearchFolderPanel panel = new JSearchFolderPanel();
+            JSearchFolderPanel panel = SearchPanelFactory.createSearchFolderPanel(hit -> {});
             frame.add(panel);
             frame.pack();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.search.ui;
+package jsesh.search.clientApi;
 
 import jsesh.editor.MdCSearchQuery;
 

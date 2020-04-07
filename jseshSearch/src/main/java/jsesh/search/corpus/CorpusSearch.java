@@ -34,6 +34,7 @@
  */
 package jsesh.search.corpus;
 
+import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.file.MDCDocument;

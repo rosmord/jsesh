@@ -1,4 +1,4 @@
-package jsesh.search.corpus;
+package jsesh.search.clientApi;
 
 
 import java.nio.file.Path;
