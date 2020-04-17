@@ -10,6 +10,7 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.SearchPanelFactory;
+import jsesh.search.ui.specifications.JSearchFormModelIF;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -20,7 +21,7 @@ import net.miginfocom.swing.MigLayout;
 public class WildCardMain {
 
     JFrame frame = new JFrame("Test Wildcard");
-    JWildcardPanel panel = SearchPanelFactory.createWildCardPanel(new LocalSearchTarget());
+    JWildcardPanel panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget());
     JMDCEditor editor = new JMDCEditor();
     List<MDCPosition> answers;
     
@@ -31,8 +32,10 @@ public class WildCardMain {
     
     public WildCardMain() {
         mettreEnPage();
-        editor.setMDCText(mdc);
-        panel.getSearchField().setMDCText("A-QUERYSKIP-d");
+        editor.setMDCText(mdc);    
+        // Separated interfaces.
+        JSearchFormModelIF formModel = panel;        
+        formModel.setMdcQuery("A-QUERYSKIP-d");
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,9 +46,9 @@ public class WildCardMain {
     }
 
     private void mettreEnPage() {
-        frame.setLayout(new MigLayout("", "[grow 1]", "[grow 1]10[grow 0]"));
-        frame.add(new JScrollPane(editor), "wrap, grow");
-        frame.add(panel, "wrap");        
+        frame.setLayout(new MigLayout(""));
+        frame.add(new JScrollPane(editor), "push, grow, wrap");
+        frame.add(panel, "pushx, growx, wrap");        
     }
 
     private  class LocalSearchTarget implements SearchTarget {

@@ -5,6 +5,7 @@
  */
 package jsesh.search.ui;
 
+import jsesh.search.ui.specifications.JSearchEmbeddableFormFieldsIF;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -20,6 +21,7 @@ import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadrantSearchQuery;
+import jsesh.search.ui.specifications.JSearchFormModelIF;
 import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;
 
@@ -27,9 +29,13 @@ import net.miginfocom.swing.MigLayout;
  * Search fields used by dialogs for JSesh searches. Used both for in-document
  * searches and out-of-document searches.
  *
+ * <p>
+ * To ease the use of this widget, we publish two interfaces : one gives access
+ * to its fields, and the other to its underlying model.
+ *
  * @author rosmord
  */
-class JSearchSearchFields extends JPanel {
+class JSearchEmbeddableForm extends JPanel implements JSearchEmbeddableFormFieldsIF, JSearchFormModelIF {
 
     private static final String FONT_PATH = "/jsesh/search/wildcard";
 
@@ -37,7 +43,7 @@ class JSearchSearchFields extends JPanel {
      * Fields...
      */
     private final JMDCField searchField;
-    private final JCheckBox wholeQuadrantsCheckBox;
+    private final JCheckBox matchLayoutCheckBox;
     private final JButton addSkipButton;
     private final JButton addSetButton;
     private final JSpinner matchLengthSpinner;
@@ -52,7 +58,7 @@ class JSearchSearchFields extends JPanel {
      *
      * @param target
      */
-    JSearchSearchFields() {
+    JSearchEmbeddableForm() {
         setupFont();
         this.searchField = new JMDCField();
         this.addSkipButton = new JButton("*");
@@ -60,7 +66,7 @@ class JSearchSearchFields extends JPanel {
         this.matchLengthSpinner = new JSpinner();
         this.matchLengthSpinnerLabel = new JLabel("Max. match Length");
 
-        this.wholeQuadrantsCheckBox = new JCheckBox("Whole Quadrants Match");
+        this.matchLayoutCheckBox = new JCheckBox("Whole Quadrants Match");
 
         this.addSkipButton.setToolTipText(JSeshMessages.getString("jsesh.search.skip.tooltip"));
         this.addSetButton.setToolTipText(JSeshMessages.getString("jsesh.search.set.tooltip"));
@@ -71,25 +77,24 @@ class JSearchSearchFields extends JPanel {
         prepareLayout();
         enableControls();
     }
-    
-     private void enableControls() {
+
+    private void enableControls() {
         addSetButton.addActionListener(e -> addSet());
-        addSkipButton.addActionListener(e -> addSkip());     
-        this.wholeQuadrantsCheckBox.addActionListener(e -> wholeQuadrantSelect());
+        addSkipButton.addActionListener(e -> addSkip());
+        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadrantSelect());
     }
 
-    
-
     private void prepareLayout() {
-        this.setLayout(new MigLayout());
+        this.setLayout(new MigLayout("fillx, insets 0"));
         this.add(searchField, "span, grow, wrap 10");
-        this.add(wholeQuadrantsCheckBox, "span 2, wrap 10");
+        this.add(matchLayoutCheckBox, "span 2, wrap 10");
         this.add(addSkipButton, "sg bt");
         this.add(addSetButton, "sg bt");
         this.add(matchLengthSpinnerLabel);
         this.add(matchLengthSpinner, "wrap 10");
     }
 
+    @Override
     public JMDCField getSearchField() {
         return searchField;
     }
@@ -98,9 +103,10 @@ class JSearchSearchFields extends JPanel {
         return searchField.getHieroglyphicTextModel().getModel();
     }
 
+    @Override
     public MdCSearchQuery getQuery() {
         MdCSearchQuery result;
-        if (wholeQuadrantsCheckBox.isSelected()) {
+        if (matchLayoutCheckBox.isSelected()) {
             result = new QuadrantSearchQuery(getSearchFieldContent());
         } else {
             result = new WildCardQuery(getSearchFieldContent(), (Integer) matchLengthSpinner.getValue());
@@ -132,8 +138,58 @@ class JSearchSearchFields extends JPanel {
 
     private void wholeQuadrantSelect() {
         for (JComponent b : this.signOriented) {
-            b.setEnabled(!this.wholeQuadrantsCheckBox.isSelected());
+            b.setEnabled(!this.matchLayoutCheckBox.isSelected());
         }
+    }
+
+    @Override
+    public JCheckBox getMatchLayoutCheckBox() {
+        return matchLayoutCheckBox;
+    }
+
+    @Override
+    public JButton getAddSkipButton() {
+        return addSkipButton;
+    }
+
+    @Override
+    public JButton getAddSetButton() {
+        return addSetButton;
+    }
+
+    @Override
+    public JSpinner getMatchLengthSpinner() {
+        return matchLengthSpinner;
+    }
+
+    @Override
+    public void setMdcQuery(String mdcQuery) {
+        this.searchField.setMDCText(mdcQuery);
+    }
+
+    @Override
+    public String getMdcQueryAsText() {
+        return this.searchField.getMDCText();
+    }
+
+    @Override
+    public void setMaxMatchLength(int max) {
+        this.matchLengthSpinner.setValue(max);
+    }
+
+    @Override
+    public int getMaxMatchLength() {        
+        return (Integer)this.matchLengthSpinner.getValue();
+    }
+
+    @Override
+    public void setMatchLayout(boolean matchLayout) {
+        this.matchLayoutCheckBox.setSelected(matchLayout);
+    }
+
+    @Override
+    public boolean isMatchLayout() {
+        return this.matchLayoutCheckBox.isSelected();
     }
 
 }

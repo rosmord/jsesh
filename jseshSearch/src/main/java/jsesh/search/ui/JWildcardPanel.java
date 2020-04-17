@@ -3,26 +3,15 @@ package jsesh.search.ui;
 import jsesh.search.clientApi.SearchTarget;
 import javax.swing.JPanel;
 
-import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCField;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.utils.MDCCodeExtractor;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
-import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.quadrant.QuadrantSearchQuery;
-import jsesh.search.wildcard.WildCardQuery;
+import jsesh.search.ui.specifications.JSearchFormModelIF;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -30,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author rosmord
  */
-public final class JWildcardPanel extends JPanel {
+public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
 
     private static final String FONT_PATH = "/jsesh/search/wildcard";
 
@@ -42,27 +31,32 @@ public final class JWildcardPanel extends JPanel {
     /**
      * Fields...
      */
-    private final JSearchSearchFields jseshFields;
+    private final JSearchEmbeddableForm embeddableForm;
     private final JButton searchButton;
     private final JButton nextButton;
-  
+
+    private final boolean hasInsets;
+    
+    public JWildcardPanel(SearchTarget target) {
+        this(target, true);
+    }
 
     /**
-     * Buttons which are meaningless for whole quadrant search...
-     */
-
-    /**
+     * Creates a new JWildcardPanel.
      *
      * @param target
+     * @param hasInsets : choose if we want an inner margin. Sets to false if we
+     * embed the panel in a larger one.
      */
-    JWildcardPanel(SearchTarget target) {
+    JWildcardPanel(SearchTarget target, boolean hasInsets) {
+        this.hasInsets = hasInsets;
         setupFont();
         this.searchTarget = target;
-        this.jseshFields = new JSearchSearchFields();
+        this.embeddableForm = new JSearchEmbeddableForm();
         this.searchButton = new JButton(JSeshMessages.getString("jsesh.search.search.text"));
-        this.nextButton = new JButton(JSeshMessages.getString("jsesh.search.findNext.text"));        
+        this.nextButton = new JButton(JSeshMessages.getString("jsesh.search.findNext.text"));
         prepareLayout();
-        enableControls();
+        enableControls();        
     }
 
     private void enableControls() {
@@ -71,18 +65,17 @@ public final class JWildcardPanel extends JPanel {
     }
 
     private void prepareLayout() {
-        this.setLayout(new MigLayout());
-        this.add(jseshFields, "span, grow, wrap 15");
+        String migLayoutSpec = hasInsets?"fill":"fill, insets 0";
+        this.setLayout(new MigLayout(migLayoutSpec));
+        this.add(embeddableForm, "span, grow, wrap 15");
 
         this.add(searchButton, "sg bt, tag apply");
         this.add(nextButton, "sg bt, tag next");
     }
 
-  
-
     private void doSearch() {
         if (searchTarget.isAvailable()) {
-            MdCSearchQuery query = jseshFields.getQuery();
+            MdCSearchQuery query = embeddableForm.getQuery();
             searchTarget.doSearch(query);
         }
     }
@@ -103,6 +96,44 @@ public final class JWildcardPanel extends JPanel {
         }
     }
 
+    public JMDCField getSearchField() {
+        return embeddableForm.getSearchField();
+    }
+
+    @Override
+    public MdCSearchQuery getQuery() {
+        return embeddableForm.getQuery();
+    }
+
+    @Override
+    public void setMdcQuery(String mdcQuery) {
+        embeddableForm.setMdcQuery(mdcQuery);
+    }
+
+    @Override
+    public String getMdcQueryAsText() {
+        return embeddableForm.getMdcQueryAsText();
+    }
+
+    @Override
+    public void setMaxMatchLength(int max) {
+        embeddableForm.setMaxMatchLength(max);
+    }
+
+    @Override
+    public int getMaxMatchLength() {
+        return embeddableForm.getMaxMatchLength();
+    }
+
+    @Override
+    public void setMatchLayout(boolean matchLayout) {
+        embeddableForm.setMatchLayout(matchLayout);
+    }
+
+    @Override
+    public boolean isMatchLayout() {
+        return embeddableForm.isMatchLayout();
+    }
 
     /**
      * Just to test the display of this object...
