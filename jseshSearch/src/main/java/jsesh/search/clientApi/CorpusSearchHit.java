@@ -27,4 +27,11 @@ public class CorpusSearchHit {
     public int getPosition() {
         return position;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d : %s", position, file);
+    }
+    
+    
 }
