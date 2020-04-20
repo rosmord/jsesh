@@ -253,7 +253,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
             // Corpus search...
-            map.put(FindInFolderAction.ID, new FindInFolderAction((ActiveViewAwareApplication) a, null));
+            map.put(FindInFolderAction.ID, new FindInFolderAction((ActiveViewAwareApplication) a, hit -> showCorpusSearchHit(hit)));
 
             // palette ...
             palettePresenter = new PalettePresenter();

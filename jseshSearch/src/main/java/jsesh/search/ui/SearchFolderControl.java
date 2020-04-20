@@ -14,14 +14,11 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.corpus.CorpusSearch;
 import jsesh.search.corpus.PartialResults;
-import jsesh.search.quadrant.QuadrantSearchQuery;
-import jsesh.search.simple.SignStringSearchQuery;
 import jsesh.utils.JSeshWorkingDirectory;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -132,36 +129,11 @@ class SearchFolderControl {
             );
         }
     }
+    
+    private MdCSearchQuery getQuery() {
+        return ui.getSearchForm().getQuery();
+    }
 
-    /**
-     * Display the data of a given corpus hit.
-     *
-     * @param hit
-     *
-     * private void showCorpusSearchHit(final CorpusSearchHit hit) { Path
-     * hitPath = hit.getFile(); JSeshView selectedView = null; for (View view :
-     * app.views()) { if (view.getURI() == null) { continue; // We don't try
-     * (for the moment) to load the document } // in the existing view... it
-     * might contain unsaved data. Path viewPath = Paths.get(view.getURI()); try
-     * { if (Files.isSameFile(viewPath, hitPath)) { System.out.println("FOUND
-     * FILE " + viewPath); selectedView = (JSeshView) view; } } catch
-     * (IOException e) { e.printStackTrace(); // Don't stop for this, but
-     * display just in case. } } if (selectedView == null) { if (canOpenNewView)
-     * { // Else, nothing... do it later. canOpenNewView = false; View newView =
-     * app.createView(); app.add(newView); newView.setEnabled(false);
-     * app.show(newView); app.setActiveView(newView); newView.execute(new
-     * ViewOpenerWorker(hit.getFile().toUri(), newView, app) { // When the file
-     * is loaded, move to the correct position.
-     * @Override protected void done(Object value) { super.done(value);
-     * JSeshView v = (JSeshView) newView;
-     * v.getEditor().setInsertPosition(hit.getPosition()); canOpenNewView =
-     * true; } }); } } else { // TODO : reorganize MDCPosition. It's too tightly
-     * coupled to the text. if (selectedView.isEnabled()) {
-     * selectedView.setEnabled(false); app.show(selectedView);
-     * WindowsHelper.toFront(selectedView);
-     * selectedView.getEditor().setInsertPosition(hit.getPosition());
-     * selectedView.setEnabled(true); } } }
-     */
     
     private void chooseFolder() {
         File rootFile = (File) ui.getFolderField().getValue();
@@ -181,16 +153,6 @@ class SearchFolderControl {
         }
     }
 
-    private MdCSearchQuery getQuery() {
-        if (ui.getSearchGlyphsCheckBox().isSelected()) {
-            TopItemList topitems = ui.getmDCField().getHieroglyphicTextModel().getModel();
-            List<String> codes = topitems.getCodes();
-            return new SignStringSearchQuery(codes);
-        } else {
-            TopItemList quadrants = ui.getmDCField().getHieroglyphicTextModel().getModel();
-            return new QuadrantSearchQuery(quadrants);
-        }
-    }
 
     private Path getRootPath() {
         File f = ui.getFolder();

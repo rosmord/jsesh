@@ -37,8 +37,8 @@ package jsesh.search.ui;
 import java.io.File;
 import javax.swing.*;
 
-import jsesh.editor.JMDCField;
 import jsesh.resources.JSeshMessages;
+import jsesh.search.clientApi.SearchTarget;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -50,13 +50,12 @@ public final class JSearchFolderPanel extends JPanel {
 
     private JFormattedTextField folderField;
     private JButton chooseFolderButton;
-    private JMDCField mDCField;
-    private JCheckBox searchGlyphsCheckBox;
+    private JSearchEmbeddableForm searchForm;
+  
     private JButton searchButton;
     private JButton cancelButton;
     private JLabel messageField;
     private JTable resultTable;
-    
 
     JSearchFolderPanel() {
         createFields();
@@ -64,12 +63,10 @@ public final class JSearchFolderPanel extends JPanel {
     }
 
     private void createFields() {
-        this.mDCField = new JMDCField();
         this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
+        this.searchForm = new JSearchEmbeddableForm();
         this.chooseFolderButton = new JButton(JSeshMessages.getString("generic.browse.text"));
-        this.searchGlyphsCheckBox = new JCheckBox(JSeshMessages.getString("jsesh.search.folder.searchGlyphsCheckBox.text"));
-        this.searchGlyphsCheckBox.setSelected(true);
         this.searchButton = new JButton(JSeshMessages.getString("generic.search.text"));
         this.cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));
         this.resultTable = new JTable();
@@ -83,8 +80,7 @@ public final class JSearchFolderPanel extends JPanel {
         this.add(folderField, "span, split 2, growx 1, pushx");
         this.add(chooseFolderButton, "grow 0, sizegroup bttn, wrap");
         this.add(new JLabel(JSeshMessages.getString("generic.query.text")));
-        this.add(mDCField, "growx, wrap");
-        this.add(searchGlyphsCheckBox, "span 2,wrap");
+        this.add(searchForm, "growx, wrap");        
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
         this.add(new JLabel(JSeshMessages.getString("jsesh.search.folder.state")));
         this.add(messageField, "span, growx 1, pushx");
@@ -108,13 +104,6 @@ public final class JSearchFolderPanel extends JPanel {
         return chooseFolderButton;
     }
 
-    public JMDCField getmDCField() {
-        return mDCField;
-    }
-
-    public JCheckBox getSearchGlyphsCheckBox() {
-        return searchGlyphsCheckBox;
-    }
 
     public JButton getSearchButton() {
         return searchButton;
@@ -132,20 +121,9 @@ public final class JSearchFolderPanel extends JPanel {
         return messageField;
     }
 
-
-    /**
-     * Just to test the display of this object...
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame();
-            JSearchFolderPanel panel = SearchPanelFactory.createSearchFolderPanel(hit -> {});
-            frame.add(panel);
-            frame.pack();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        });
+    public JSearchEmbeddableForm getSearchForm() {
+        return searchForm;
     }
+    
+    
 }

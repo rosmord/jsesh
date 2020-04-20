@@ -11,6 +11,11 @@ import jsesh.search.clientApi.SearchTarget;
 /**
  * Factory class for creating search panels.
  *
+ * <p> Note to self : factories are nice, but they don't work well 
+ * with a IDE editor.
+ * 
+ * <p> Basically, we want graphical components with default constructors, plus
+ * setters to choose the actual behaviour.
  * @author rosmord
  */
 public class SearchPanelFactory {
