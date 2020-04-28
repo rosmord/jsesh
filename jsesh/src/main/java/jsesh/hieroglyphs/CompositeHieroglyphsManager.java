@@ -262,8 +262,9 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
         return result;
     }
 
+    @Override
     public Collection<String> getVariants(String code) {
-        TreeSet<String> result = new TreeSet<String>(
+        TreeSet<String> result = new TreeSet<>(
                 GardinerCode.getCodeComparator());
         result.addAll(distributionInfoManager.getVariants(code));
         result.addAll(userInfoManager.getVariants(code));

@@ -44,23 +44,12 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		return instance;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.hieroglyphs.CompositeHieroglyphicFontManager#addHieroglyphicFontManager
-	 * (jsesh.hieroglyphs.HieroglyphicFontManager)
-	 */
+	
 	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {
 		composite.addHieroglyphicFontManager(manager);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.hieroglyphs.CompositeHieroglyphicFontManager#get(java.lang.String)
-	 */
+	@Override
 	public ShapeChar get(String code) {
 		String newCode = code;
 		// TODO Awfull patch for now. This should move to another class. The
@@ -73,6 +62,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		return composite.get(newCode);
 	}
 
+        @Override
 	public ShapeChar getSmallBody(String code) {
 		String newCode = code;
 		// TODO Awfull patch for now. This should move to another class. The
@@ -85,40 +75,20 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		return composite.getSmallBody(newCode);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.hieroglyphs.CompositeHieroglyphicFontManager#getCodes()
-	 */
+	@Override
 	public Set<String> getCodes() {
 		return composite.getCodes();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.hieroglyphs.CompositeHieroglyphicFontManager#hasNewSigns()
-	 */
+	@Override
 	public boolean hasNewSigns() {
 		return composite.hasNewSigns();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.hieroglyphs.DirectoryHieroglyphicFontManager#getDirectory()
-	 */
 	public File getDirectory() {
 		return directoryManager.getDirectory();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.hieroglyphs.DirectoryHieroglyphicFontManager#setDirectory(java.
-	 * io.File)
-	 */
 	public void setDirectory(File directory) {
 		Preferences preferences = Preferences.userNodeForPackage(this
 				.getClass());

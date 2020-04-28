@@ -6,7 +6,7 @@ import java.util.Map;
 public class MultiLingualLabel {
 
     private String labelKey = "";
-    private Map translations = new HashMap();
+    private final Map translations = new HashMap();
 
     public MultiLingualLabel(String labelKey) {
         super();

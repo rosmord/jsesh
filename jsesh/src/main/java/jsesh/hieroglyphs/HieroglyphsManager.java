@@ -28,31 +28,34 @@ import java.util.regex.Pattern;
  */
 public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 
-	// phonogram|ideogram|abbreviation|typical
-	// private static HieroglyphsManager instance = null;
-	private HashMap<String, SignInfo> signInfoMap = new HashMap<String, SignInfo>(); // maps
-	// sign
-	// codes
-	// to
-	// signInfo.
-	private HashMap<String, MultiLingualLabel> tagsMap = new HashMap<String, MultiLingualLabel>(); // maps
-	// tag
-	// codes
-	// to
-	// MultiLingualLabels.
-	private HashMap<String, MultiLingualLabel> determinativeMap = new HashMap<String, MultiLingualLabel>(); // maps
-	// category
-	// codes
-	// to
-	// MultiLingualLabels.
-	private ArrayList<HieroglyphFamily> families = null;
 	/**
+         * Sign code to sign info
+         */
+	private final HashMap<String, SignInfo> signInfoMap = new HashMap<>();
+	
+        /**
+         * tag code to tag labels.
+         */
+	private final HashMap<String, MultiLingualLabel> tagsMap = new HashMap<>(); 
+	
+        /**
+         * category code to category labels.
+         */
+	private final HashMap<String, MultiLingualLabel> determinativeMap = new HashMap<>(); 
+	
+        /**
+         * List of available families.
+         */
+	private ArrayList<HieroglyphFamily> families = null;
+	
+        /**
 	 * Deal with the core manuel de codage, which can't be extended. (will
 	 * probably be suppressed anyway).
 	 */
 	private ManuelDeCodage basicManuelDeCodageManager = null;
-	private HashMap<String, ArrayList<String>> signsValues;
-	private HashMap<String, PossibilitiesList> possibilitiesLists;
+	private final HashMap<String, ArrayList<String>> signsValues;
+	private final HashMap<String, PossibilitiesList> possibilitiesLists;
+        
 	/**
 	 * When this boolean is true, all new information comes from the standard
 	 * sources for JSesh.
@@ -274,16 +277,13 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 * @return a list of Strings, possibly empty.
 	 */
 	public List<String> getValuesFor(String gardinerCode) {
-		List<String> result;// = (List) signsValues.get(gardinerCode);
-		result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		SignInfo info = getSignInfo(gardinerCode);
 		for (int i = 0; i < info.getTranslitterationList().size(); i++) {
 			SignTransliteration trl = (SignTransliteration) info
 					.getTranslitterationList().get(i);
 			result.add(trl.getTranslitteration());
-		}
-		// if (result == null)
-		// result = Collections.EMPTY_LIST;
+		}		
 		return result;
 	}
 
