@@ -12,6 +12,7 @@ package jsesh.search.ui;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
+import jsesh.search.wildcard.VariantLevelForSearch;
 
 /**
  * Search fields used by dialogs for JSesh searches. Used both for in-document
@@ -53,6 +55,7 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     private final JButton addSetButton;
     private final JSpinner matchLengthSpinner;
     private final JLabel matchLengthSpinnerLabel;
+    private final JComboBox<VariantLevelForSearch> variantLevel;
    
     /**
      * Buttons which are meaningless for whole quadrant search...
@@ -77,8 +80,11 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
 
         this.addSkipButton.setToolTipText(JSeshMessages.getString("jsesh.search.skip.tooltip"));
         this.addSetButton.setToolTipText(JSeshMessages.getString("jsesh.search.set.tooltip"));
+        
+        this.variantLevel = new JComboBox<>(VariantLevelForSearch.values());
 
-        this.signOriented = new JComponent[]{addSetButton, addSkipButton, matchLengthSpinner, matchLengthSpinnerLabel};
+        this.signOriented = new JComponent[]{
+            addSetButton, addSkipButton, matchLengthSpinner, matchLengthSpinnerLabel, variantLevel};
         SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
         matchLengthSpinner.setModel(spinnerModel);
        
@@ -96,7 +102,8 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
         
         this.setLayout(new MigLayout("fillx, insets 0"));
         this.add(searchField, "span, grow, wrap 10");
-        this.add(matchLayoutCheckBox, "span 2, wrap 10");
+        this.add(matchLayoutCheckBox, "span 2");
+        this.add(variantLevel, "wrap 10");
         this.add(addSkipButton, "sg bt");
         this.add(addSetButton, "sg bt");
         this.add(matchLengthSpinnerLabel);
@@ -118,7 +125,10 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
         if (matchLayoutCheckBox.isSelected()) {
             result = new QuadrantSearchQuery(getSearchFieldContent());
         } else {
-            result = new WildCardQuery(getSearchFieldContent(), (Integer) matchLengthSpinner.getValue());
+            result = new WildCardQuery(getSearchFieldContent(), 
+                    (Integer) matchLengthSpinner.getValue(),
+                    (VariantLevelForSearch)variantLevel.getSelectedItem()
+            );
         }
         return result;
     }

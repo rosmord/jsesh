@@ -14,14 +14,14 @@ import java.util.Set;
 
 public class SignInfo {
 	private String code= "";
-	private List<SignTransliteration> translitterationList= new ArrayList<SignTransliteration>(); // of SignTranslitteration
-	private Set<String> determinativeValuesSet= new HashSet<String>(); // of MultilingualLabels
-	private Set<String> tagSet= new HashSet<String>(); // of tag names...
+	private final List<SignTransliteration> translitterationList= new ArrayList<>(); // of SignTranslitteration
+	private final Set<String> determinativeValuesSet= new HashSet<>(); // of MultilingualLabels
+	private final Set<String> tagSet= new HashSet<>(); // of tag names...
 	private String description= "";
-	private Set<String> variants= new HashSet<String>(); // of sign codes (Strings)
-	private Set<String> signsContainingThisOne= new HashSet<String>(); // of sign codes (Strings)
+	private final Set<String> variants= new HashSet<>(); // of sign codes (Strings)
+	private final Set<String> signsContainingThisOne= new HashSet<>(); // of sign codes (Strings)
 	private boolean alwaysDisplayed= false;
-	private Set<String> subSigns= new HashSet<String>();
+	private final Set<String> subSigns= new HashSet<>();
                 
 	public SignInfo(String code) {
 		this.code= code;

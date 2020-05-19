@@ -323,7 +323,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 * 
 	 * @param sign
 	 * @param baseSign
-	 */
+	 */        
 	public void addVariant(String sign, String baseSign) {
 		SignInfo signInfo = getSignInfo(baseSign);
 		signInfo.addVariant(sign);

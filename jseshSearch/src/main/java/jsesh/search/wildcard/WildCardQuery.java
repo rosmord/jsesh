@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import jsesh.editor.MdCSearchQuery;
+import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.HieroglyphsManager;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
@@ -24,34 +27,57 @@ import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import org.qenherkhopeshef.finiteState.lazy.*;
 import static org.qenherkhopeshef.finiteState.lazy.RegularLanguageFactory.*;
+
 /**
  * Wildcard implementation.
  *
  * Implementation uses my finiteState library.
+ *
+ * <p>
+ * Note : this class has a hidden dependency on
+ * {@link CompositeHieroglyphsManager} We should replace it by a more explicit
+ * one through dependency injection at some point.
+ *
  * @author rosmord
  */
 public class WildCardQuery implements MdCSearchQuery {
+
+    /**
+     * Code in the MdC String to introduce the start of a set of searched signs.
+     */
+    private static final String QUERY_SET_BEGIN = "QUERYSETB";
+
+    /**
+     * Code in the MdC String to introduce the end of a set of searched signs.
+     */
+    private static final String QUERY_SET_END = "QUERYSETE";
+
+    /**
+     * Code in the MdC String for a skip (a undefined number of signs, possibly
+     * 0).
+     */
+    private static final String QUERY_SKIP = "QUERYSKIP";
 
     private RegularExtractor<HieroglyphOccurrence> extractor;
     /**
      * Is this query correct or erroneous ?
      */
     private boolean correct;
-    private static final String QUERYSETE = "QUERYSETE";
 
     /**
      * Build a wildcard query from a top item list.
      *
      * @param items : items to search
      * @param maxLength : max match length. 0 = any length
+     * @param variantLevel
      */
-    public WildCardQuery(TopItemList items, int maxLength) {
+    public WildCardQuery(TopItemList items, int maxLength, VariantLevelForSearch variantLevel) {
         if (items.getNumberOfChildren() == 0) {
             correct = false;
         } else {
             try {
                 correct = true;
-                extractor = new QueryBuilder().buildQuery(items, maxLength);
+                extractor = new QueryBuilder().buildQuery(items, maxLength, variantLevel);
             } catch (IncorrectQueryException e) {
                 correct = false;
             }
@@ -90,16 +116,17 @@ public class WildCardQuery implements MdCSearchQuery {
         List<String> codes;
         int pos = -1;
         private String currentCode;
-        
+        private VariantLevelForSearch variantLevel;
 
-        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, int maxLength) {            
+        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, int maxLength, VariantLevelForSearch variantLevel) {
+            this.variantLevel = variantLevel;
             codes = new HieroglyphCodesExtractor(true).extractHieroglyphs(items);
             codes.add(null); // null as sentinel.
             seq = new ArrayList<>();
             parseItems();
-            if (maxLength == 0)
+            if (maxLength == 0) {
                 return new RegularExtractor<>(seq);
-            else {
+            } else {
                 return new RegularExtractor<>(maxLength(seq(seq), maxLength));
             }
         }
@@ -108,13 +135,13 @@ public class WildCardQuery implements MdCSearchQuery {
             nextPos();
             while (correct && currentCode != null) {
                 switch (currentCode) {
-                    case "QUERYSKIP":
+                    case QUERY_SKIP:
                         processSkip();
                         break;
-                    case "QUERYSETB":
+                    case QUERY_SET_BEGIN:
                         processSet();
                         break;
-                    case "QUERYSETE":
+                    case QUERY_SET_END:
                         throw new IncorrectQueryException();
                     default:
                         processStandardCode(currentCode);
@@ -123,8 +150,16 @@ public class WildCardQuery implements MdCSearchQuery {
             }
         }
 
-        private void processStandardCode(String code) {   
-            seq.add(label(occ -> occ.getCode().equals(code)));
+        private void processStandardCode(String code) {
+            if (variantLevel == VariantLevelForSearch.EXACT_SEARCH) {
+                seq.add(label(occ -> occ.getCode().equals(code)));
+            } else {
+                HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphsManager.getInstance();
+                
+                HashSet<String> codes = new HashSet<>();
+                seq.add(label(new CodeSetLabel(codes)));
+            }
+
             nextPos();
         }
 
@@ -136,13 +171,13 @@ public class WildCardQuery implements MdCSearchQuery {
         private void processSet() {
             nextPos(); // skips [...
             HashSet<String> codes = new HashSet<>();
-            while (currentCode != null && !currentCode.equals(QUERYSETE)) {
+            while (currentCode != null && !currentCode.equals(QUERY_SET_END)) {
                 codes.add(currentCode);
                 nextPos();
             }
             if (currentCode == null) {
                 throw new IncorrectQueryException();
-            } else {                
+            } else {
                 seq.add(label(new CodeSetLabel(codes)));
                 nextPos();
             }
@@ -159,19 +194,19 @@ public class WildCardQuery implements MdCSearchQuery {
 
     private static class IncorrectQueryException extends RuntimeException {
     }
-    
+
     private static class CodeSetLabel implements LazyLabelIF<HieroglyphOccurrence> {
+
         private Set<String> codes;
 
         public CodeSetLabel(Set<String> codes) {
             this.codes = codes;
         }
-        
-        
+
         @Override
         public boolean matches(HieroglyphOccurrence t) {
             return codes.contains(t.getCode());
         }
-        
+
     }
 }
