@@ -1,4 +1,3 @@
-
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -11,13 +10,26 @@
  */
 package jsesh.search.ui.specifications;
 
-import jsesh.editor.MdCSearchQuery;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JSpinner;
+import jsesh.editor.JMDCField;
 
 /**
- * Interface for generic search interface.
- * @author Serge Rosmorduc
+ * List of fields in JSearchEmbeddableForm.
+ *
+ * @author rosmord
  */
-public interface JSearchFormModelIF {
-    
-    public MdCSearchQuery getQuery();
+public interface JMdCSearchEmbeddableFormFieldsIF {
+
+    JButton getAddSetButton();
+
+    JButton getAddSkipButton();
+
+    JSpinner getMatchLengthSpinner();
+
+    JMDCField getSearchField();
+
+    JCheckBox getMatchLayoutCheckBox();
+
 }

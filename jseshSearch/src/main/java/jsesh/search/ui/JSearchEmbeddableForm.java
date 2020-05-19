@@ -1,195 +1,104 @@
+
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
  */
 package jsesh.search.ui;
 
-import jsesh.search.ui.specifications.JSearchEmbeddableFormFieldsIF;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import jsesh.editor.JMDCField;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
-import jsesh.mdc.model.TopItemList;
-import jsesh.resources.JSeshMessages;
-import jsesh.search.quadrant.QuadrantSearchQuery;
+import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
+import jsesh.search.ui.specifications.SearchType;
 import jsesh.search.ui.specifications.JSearchFormModelIF;
-import jsesh.search.wildcard.WildCardQuery;
-import net.miginfocom.swing.MigLayout;
+import jsesh.search.ui.specifications.JSelectableSearchIF;
+import jsesh.search.ui.specifications.JTextSearchFormModelIF;
 
 /**
- * Search fields used by dialogs for JSesh searches. Used both for in-document
- * searches and out-of-document searches.
- *
- * <p>
- * To ease the use of this widget, we publish two interfaces : one gives access
- * to its fields, and the other to its underlying model.
+ * Full search panel, including all possible searches, and allowing navigation
+ * among them.
  *
  * @author rosmord
  */
-class JSearchEmbeddableForm extends JPanel implements JSearchEmbeddableFormFieldsIF, JSearchFormModelIF {
+class JSearchEmbeddableForm extends JPanel implements JSearchFormModelIF, JSelectableSearchIF {
 
-    private static final String FONT_PATH = "/jsesh/search/wildcard";
+    private final JComboBox<SearchType> chooseSearchTypeCB;
+    private final JMdCSearchEmbeddableForm mdCSearchForm;
+    private final JTextSearchEmbeddableForm textSearchForm;
+    private final JPanel mainPanel;
+    private final CardLayout cardLayout;
 
-    /**
-     * Fields...
-     */
-    private final JMDCField searchField;
-    private final JCheckBox matchLayoutCheckBox;
-    private final JButton addSkipButton;
-    private final JButton addSetButton;
-    private final JSpinner matchLengthSpinner;
-    private final JLabel matchLengthSpinnerLabel;
-
-    /**
-     * Buttons which are meaningless for whole quadrant search...
-     */
-    private final JComponent signOriented[];
-
-    /**
-     *
-     * @param target
-     */
-    JSearchEmbeddableForm() {
-        setupFont();
-        this.searchField = new JMDCField();
-        this.addSkipButton = new JButton("*");
-        this.addSetButton = new JButton("[...]");
-        this.matchLengthSpinner = new JSpinner();
-        this.matchLengthSpinnerLabel = new JLabel("Max. match Length");
-
-        this.matchLayoutCheckBox = new JCheckBox("Whole Quadrants Match");
-
-        this.addSkipButton.setToolTipText(JSeshMessages.getString("jsesh.search.skip.tooltip"));
-        this.addSetButton.setToolTipText(JSeshMessages.getString("jsesh.search.set.tooltip"));
-
-        this.signOriented = new JComponent[]{addSetButton, addSkipButton, matchLengthSpinner, matchLengthSpinnerLabel};
-        SpinnerModel spinnerModel = new SpinnerNumberModel(0, 0, 1000, 1);
-        matchLengthSpinner.setModel(spinnerModel);
+    public JSearchEmbeddableForm() {
+        chooseSearchTypeCB = new JComboBox(SearchType.values());
+        mdCSearchForm = new JMdCSearchEmbeddableForm();
+        textSearchForm = new JTextSearchEmbeddableForm();
+        mainPanel = new JPanel();
+        cardLayout = new CardLayout();
         prepareLayout();
-        enableControls();
+        activateComponents();
     }
-
-    private void enableControls() {
-        addSetButton.addActionListener(e -> addSet());
-        addSkipButton.addActionListener(e -> addSkip());
-        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadrantSelect());
+    
+    
+    private void activateComponents() {
+        chooseSearchTypeCB.addActionListener(e -> displayPanel());
+        displayPanel();
     }
-
+    
+    
+    private void displayPanel() {
+        SearchType selected = getSearchType();
+        cardLayout.show(mainPanel, selected.name());
+    }
+    
     private void prepareLayout() {
-        this.setLayout(new MigLayout("fillx, insets 0"));
-        this.add(searchField, "span, grow, wrap 10");
-        this.add(matchLayoutCheckBox, "span 2, wrap 10");
-        this.add(addSkipButton, "sg bt");
-        this.add(addSetButton, "sg bt");
-        this.add(matchLengthSpinnerLabel);
-        this.add(matchLengthSpinner, "wrap 10");
+        setLayout(new BorderLayout());
+        add(chooseSearchTypeCB, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+        mainPanel.setLayout(cardLayout);
+        mainPanel.add(mdCSearchForm, SearchType.MDC_SEARCH.name());
+        mainPanel.add(textSearchForm, SearchType.SIMPLE_TEXT_SEARCH.name());
     }
-
-    @Override
-    public JMDCField getSearchField() {
-        return searchField;
-    }
-
-    private TopItemList getSearchFieldContent() {
-        return searchField.getHieroglyphicTextModel().getModel();
-    }
-
+    
+    
     @Override
     public MdCSearchQuery getQuery() {
-        MdCSearchQuery result;
-        if (matchLayoutCheckBox.isSelected()) {
-            result = new QuadrantSearchQuery(getSearchFieldContent());
-        } else {
-            result = new WildCardQuery(getSearchFieldContent(), (Integer) matchLengthSpinner.getValue());
-        }
-        return result;
-    }
-
-    /**
-     * Add the additional signs for wildcards (*, [ and ]).
-     */
-    private void setupFont() {
-        DefaultHieroglyphicFontManager manager = DefaultHieroglyphicFontManager.getInstance();
-        if (manager.get("QUERYSKIP") == null) {
-            manager.addHieroglyphicFontManager(new ResourcesHieroglyphicFontManager(FONT_PATH));
-        }
-    }
-
-    private void addSet() {
-        searchField.insert("QUERYSETB");
-        searchField.insert("QUERYSETE");
-        searchField.getWorkflow().cursorPrevious();
-        searchField.requestFocusInWindow();
-    }
-
-    private void addSkip() {
-        searchField.insert("QUERYSKIP");
-        searchField.requestFocusInWindow();
-    }
-
-    private void wholeQuadrantSelect() {
-        for (JComponent b : this.signOriented) {
-            b.setEnabled(!this.matchLayoutCheckBox.isSelected());
+        switch (getSearchType()) {
+            case MDC_SEARCH:
+                return mdCSearchForm.getQuery();                
+            case SIMPLE_TEXT_SEARCH:
+                return textSearchForm.getQuery();
+            default:
+                throw new RuntimeException("no search type ???");
         }
     }
 
     @Override
-    public JCheckBox getMatchLayoutCheckBox() {
-        return matchLayoutCheckBox;
+    public SearchType getSearchType() {
+        return (SearchType) chooseSearchTypeCB.getSelectedItem(); 
     }
 
     @Override
-    public JButton getAddSkipButton() {
-        return addSkipButton;
+    public void setSearchType(SearchType searchType) {
+        chooseSearchTypeCB.setSelectedItem(searchType);
     }
 
     @Override
-    public JButton getAddSetButton() {
-        return addSetButton;
+    public JMdCSearchFormModelIF getMdcSearchForm() {
+        return mdCSearchForm;
     }
 
     @Override
-    public JSpinner getMatchLengthSpinner() {
-        return matchLengthSpinner;
+    public JTextSearchFormModelIF getTextSearchForm() {
+        return textSearchForm;
     }
 
-    @Override
-    public void setMdcQuery(String mdcQuery) {
-        this.searchField.setMDCText(mdcQuery);
-    }
-
-    @Override
-    public String getMdcQueryAsText() {
-        return this.searchField.getMDCText();
-    }
-
-    @Override
-    public void setMaxMatchLength(int max) {
-        this.matchLengthSpinner.setValue(max);
-    }
-
-    @Override
-    public int getMaxMatchLength() {        
-        return (Integer)this.matchLengthSpinner.getValue();
-    }
-
-    @Override
-    public void setMatchLayout(boolean matchLayout) {
-        this.matchLayoutCheckBox.setSelected(matchLayout);
-    }
-
-    @Override
-    public boolean isMatchLayout() {
-        return this.matchLayoutCheckBox.isSelected();
-    }
-
+    
 }

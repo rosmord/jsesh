@@ -1,3 +1,13 @@
+/*
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
+ */
 package jsesh.search.ui;
 
 import jsesh.search.clientApi.SearchTarget;
@@ -6,13 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import jsesh.editor.JMDCField;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.ui.specifications.JSearchFormModelIF;
 import net.miginfocom.swing.MigLayout;
+import jsesh.search.ui.specifications.JSearchFormModelIF;
 
 /**
  * UI for wildcard search functions.
@@ -96,43 +105,10 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
         }
     }
 
-    public JMDCField getSearchField() {
-        return embeddableForm.getSearchField();
-    }
 
     @Override
     public MdCSearchQuery getQuery() {
         return embeddableForm.getQuery();
-    }
-
-    @Override
-    public void setMdcQuery(String mdcQuery) {
-        embeddableForm.setMdcQuery(mdcQuery);
-    }
-
-    @Override
-    public String getMdcQueryAsText() {
-        return embeddableForm.getMdcQueryAsText();
-    }
-
-    @Override
-    public void setMaxMatchLength(int max) {
-        embeddableForm.setMaxMatchLength(max);
-    }
-
-    @Override
-    public int getMaxMatchLength() {
-        return embeddableForm.getMaxMatchLength();
-    }
-
-    @Override
-    public void setMatchLayout(boolean matchLayout) {
-        embeddableForm.setMatchLayout(matchLayout);
-    }
-
-    @Override
-    public boolean isMatchLayout() {
-        return embeddableForm.isMatchLayout();
     }
 
     /**

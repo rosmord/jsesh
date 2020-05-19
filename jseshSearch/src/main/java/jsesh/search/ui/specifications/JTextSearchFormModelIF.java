@@ -9,3 +9,13 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
+package jsesh.search.ui.specifications;
+
+/**
+ *
+ * @author rosmord
+ */
+public interface JTextSearchFormModelIF extends JSearchFormModelIF{
+    String getQueryAsText();
+    void setQuery(String text);  
+}

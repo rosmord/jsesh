@@ -33,7 +33,8 @@ class TextAndPosition {
     
     private TextAndPosition(int startPos, String content, List<Integer> limits){
         this.limits = limits;
-        this.content = content;
+        // For now, search is case-insensitive....
+        this.content = content.toLowerCase();
         this.startPos = startPos;
     }
     
@@ -43,12 +44,13 @@ class TextAndPosition {
      * @param toMatch a string to search. If empty, the resulting list will also be empty.
      * @return a list of <em>positions</em> (indexes in the MdC document).
      */
-    public List<Integer> match(String toMatch) {        
+    public List<Integer> match(String toMatch) { 
+        // For now, we do case-insensitive search...
+        toMatch = toMatch.toLowerCase();
         ArrayList<Integer> result= new ArrayList<>();
         if (toMatch.length() == 0)
             return result;
-        int found = 0;
-        
+        int found = 0;        
         while ((found = content.indexOf(toMatch, found)) != -1 ) {
             int actualPos = convertIndexToPos(found);
             result.add(actualPos);

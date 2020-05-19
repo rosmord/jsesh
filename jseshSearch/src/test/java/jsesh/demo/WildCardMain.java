@@ -1,3 +1,13 @@
+/*
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
+ */
 package jsesh.demo;
 
 import java.util.List;
@@ -10,8 +20,8 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.SearchPanelFactory;
-import jsesh.search.ui.specifications.JSearchFormModelIF;
 import net.miginfocom.swing.MigLayout;
+import jsesh.search.ui.specifications.JSearchFormModelIF;
 
 /**
  * Interactive demo of Wildcard search.
@@ -35,7 +45,8 @@ public class WildCardMain {
         editor.setMDCText(mdc);    
         // Separated interfaces.
         JSearchFormModelIF formModel = panel;        
-        formModel.setMdcQuery("A-QUERYSKIP-d");
+        // note : give a bit more programmatic control on the interface ?
+        //formModel.setMdcQuery("A-QUERYSKIP-d"); 
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
