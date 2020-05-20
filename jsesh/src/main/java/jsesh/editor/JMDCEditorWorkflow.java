@@ -53,7 +53,7 @@ import java.util.function.Consumer;
 
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
-import jsesh.hieroglyphs.Possibility;
+import jsesh.hieroglyphs.data.Possibility;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;

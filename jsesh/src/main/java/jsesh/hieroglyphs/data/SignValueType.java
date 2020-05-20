@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 /**
  * Possible types for sign values

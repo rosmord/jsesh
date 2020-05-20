@@ -3,7 +3,7 @@ package jsesh.hieroglyphs;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static jsesh.hieroglyphs.GardinerCode.*;
+import static jsesh.hieroglyphs.data.GardinerCode.*;
 
 public class GardinerCodeTest {
 

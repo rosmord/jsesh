@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 import java.util.HashMap;
 import java.util.Map;

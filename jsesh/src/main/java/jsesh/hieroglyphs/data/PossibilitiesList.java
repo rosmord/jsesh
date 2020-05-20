@@ -32,7 +32,7 @@
  knowledge of the CeCILL license and that you accept its terms.
   Created on 14 nov. 2004
  */
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 import java.util.ArrayList;
 import java.util.Collections;

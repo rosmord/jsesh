@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 /**
  * XML tags names and property names used in sign_description.dtd.

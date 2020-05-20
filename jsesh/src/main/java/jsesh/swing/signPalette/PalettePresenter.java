@@ -41,17 +41,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.HieroglyphFamily;
-import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
-import jsesh.hieroglyphs.ManuelDeCodage;
-import jsesh.hieroglyphs.PossibilitiesList;
-import jsesh.hieroglyphs.Possibility;
-import jsesh.hieroglyphs.ShapeChar;
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphFamily;
+import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.data.ManuelDeCodage;
+import jsesh.hieroglyphs.data.PossibilitiesList;
+import jsesh.hieroglyphs.data.Possibility;
+import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 
 /**
  * Control and data feed for the simple palette.

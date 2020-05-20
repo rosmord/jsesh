@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.awt.geom.Rectangle2D;
 

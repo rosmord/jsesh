@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 import java.util.Collection;
 import java.util.List;
@@ -71,7 +71,7 @@ public interface HieroglyphDatabaseInterface {
      *
      * @return
      */
-    public jsesh.hieroglyphs.PossibilitiesList getPossibilityFor(java.lang.String phoneticValue, String level);
+    public jsesh.hieroglyphs.data.PossibilitiesList getPossibilityFor(java.lang.String phoneticValue, String level);
 
     public Collection<String> getSignsContaining(java.lang.String code);
 
@@ -111,7 +111,7 @@ public interface HieroglyphDatabaseInterface {
      * @param code
      * @return 
      */
-    public Collection<String> getAllVariants(java.lang.String code);
+    // public Collection<String> getAllVariants(java.lang.String code);
 
     /**
      * Should the sign be always displayed in the palette when its family is

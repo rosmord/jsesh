@@ -3,8 +3,8 @@ package jsesh.newEdit;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.utils.DoubleDimensions;

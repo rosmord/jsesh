@@ -1,6 +1,6 @@
 package jsesh.mdc.model;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;

@@ -6,7 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.graphics.LigatureZone;
 
 /**
  * This class is responsible for everything which concerns the graphical

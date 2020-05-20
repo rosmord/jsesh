@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import jsesh.graphics.glyphs.model.SVGSignSource;
+import jsesh.hieroglyphs.data.GardinerCode;
 
 /**
  * A font manager which stores the signs as files in a directory. The codes for

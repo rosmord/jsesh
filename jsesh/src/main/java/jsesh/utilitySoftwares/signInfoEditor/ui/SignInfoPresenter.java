@@ -45,10 +45,10 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
-import jsesh.hieroglyphs.SignDescriptionConstants;
-import jsesh.hieroglyphs.SignDescriptionReader;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignDescriptionReader;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.SimpleStringTransfertHandler;
 import jsesh.utilitySoftwares.signInfoEditor.events.SignInfoModelEvent;

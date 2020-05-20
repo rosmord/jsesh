@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,7 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;

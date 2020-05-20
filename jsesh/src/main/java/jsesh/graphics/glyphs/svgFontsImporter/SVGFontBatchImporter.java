@@ -12,7 +12,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import jsesh.graphics.glyphs.model.SVGSignSource;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

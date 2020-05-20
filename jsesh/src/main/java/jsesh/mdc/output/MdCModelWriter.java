@@ -9,9 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.HieroglyphsManager;
-import jsesh.hieroglyphs.ManuelDeCodage;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.HieroglyphsManager;
+import jsesh.hieroglyphs.data.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.WordEndingCode;

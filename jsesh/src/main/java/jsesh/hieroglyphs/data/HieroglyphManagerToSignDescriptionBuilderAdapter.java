@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 /**
  * Adapter class for reading XML signs descriptions into HieroglyphManager.

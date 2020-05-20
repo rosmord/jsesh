@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
 import jsesh.mdc.utils.TranslitterationUtilities;

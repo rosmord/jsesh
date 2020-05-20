@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.utils.TclImporter;
 
 /**

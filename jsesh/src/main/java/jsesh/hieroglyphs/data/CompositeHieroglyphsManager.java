@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 import java.io.File;
 import java.io.FileInputStream;

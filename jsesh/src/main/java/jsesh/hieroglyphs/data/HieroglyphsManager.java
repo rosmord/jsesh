@@ -3,8 +3,11 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

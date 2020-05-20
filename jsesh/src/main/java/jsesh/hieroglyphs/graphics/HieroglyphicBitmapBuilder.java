@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -244,7 +244,7 @@ public class HieroglyphicBitmapBuilder {
 
 		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
 				.getInstance();
-		jsesh.hieroglyphs.ShapeChar glyph = manager.get(code);
+		jsesh.hieroglyphs.graphics.ShapeChar glyph = manager.get(code);
 		if (glyph == null) {
 			System.err.println("Could not build "+ code);
 			return createHieroglyphIcon("A1", size, border, container);

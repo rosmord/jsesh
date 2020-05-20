@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 /**
  * HieroglyphicFontManager associates glyphs with codes. Test version

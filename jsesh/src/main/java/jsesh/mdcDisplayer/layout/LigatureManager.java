@@ -12,9 +12,9 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.resources.ResourcesManager;
 
 /**

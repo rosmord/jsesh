@@ -3,7 +3,7 @@ package jsesh.utilitySoftwares.signInfoEditor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 
 
 /**

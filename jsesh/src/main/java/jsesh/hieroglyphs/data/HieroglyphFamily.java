@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.data;
 
 /**
  * Abstract representation of a family of hieroglyphs.

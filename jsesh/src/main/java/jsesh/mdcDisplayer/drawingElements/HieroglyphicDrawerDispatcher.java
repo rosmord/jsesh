@@ -6,7 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 
 /**

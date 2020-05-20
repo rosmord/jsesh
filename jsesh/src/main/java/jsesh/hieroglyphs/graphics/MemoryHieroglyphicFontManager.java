@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 /**
  * HieroglyphicFontManager associates glyphs with codes. Test version
@@ -12,6 +12,7 @@ package jsesh.hieroglyphs;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;

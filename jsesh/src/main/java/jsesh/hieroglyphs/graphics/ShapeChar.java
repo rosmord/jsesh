@@ -1,5 +1,7 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
+import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.graphics.HorizontalGravity;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;

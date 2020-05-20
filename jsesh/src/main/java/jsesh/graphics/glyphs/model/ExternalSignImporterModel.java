@@ -5,9 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 public class ExternalSignImporterModel {
 

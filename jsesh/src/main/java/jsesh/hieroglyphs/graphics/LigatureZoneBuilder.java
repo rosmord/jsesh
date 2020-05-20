@@ -6,7 +6,7 @@
  * @author Serge ROSMORDUC
  * This file is distributed according to the LGPL (GNU lesser public license)
  */
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;

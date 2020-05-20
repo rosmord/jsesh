@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 

@@ -20,8 +20,8 @@ import java.util.Iterator;
 
 import javax.swing.table.AbstractTableModel;
 
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 public class LargeFontImporterModel extends AbstractTableModel {
 	/**

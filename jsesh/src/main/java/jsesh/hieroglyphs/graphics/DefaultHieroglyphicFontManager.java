@@ -1,9 +1,11 @@
-package jsesh.hieroglyphs;
+package jsesh.hieroglyphs.graphics;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
+import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.GardinerCode;
 
 /**
  * Place holder for the default hieroglyphic font manager. The default system
