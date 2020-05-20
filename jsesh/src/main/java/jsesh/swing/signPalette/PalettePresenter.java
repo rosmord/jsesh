@@ -41,7 +41,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -131,7 +131,7 @@ public class PalettePresenter {
 	private HieroglyphicPaletteDialog dialog;
 
 	public PalettePresenter() {
-		hieroglyphsManager = CompositeHieroglyphsManager.getInstance();
+		hieroglyphsManager = CompositeHieroglyphDatabase.getInstance();
 		simplePalette = new JSimplePalette();
 
 		signDescriptionField = new JMDCEditor();

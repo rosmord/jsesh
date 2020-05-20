@@ -1,5 +1,5 @@
 /*
- * CompositeHieroglyphsManager.java
+ * CompositeHieroglyphDatabase.java
  *
  * Created on 27 sept. 2007, 17:40:08
  *
@@ -29,17 +29,17 @@ import org.xml.sax.SAXException;
  * 
  * @author rosmord
  */
-public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface {
+public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface {
 
-    private static CompositeHieroglyphsManager instance;
+    private static CompositeHieroglyphDatabase instance;
 
     private ManuelDeCodage basicManuelDeCodageManager = ManuelDeCodage
             .getInstance();
 
-    private HieroglyphsManager distributionInfoManager = new HieroglyphsManager(
+    private SimpleHieroglyphDatabase distributionInfoManager = new SimpleHieroglyphDatabase(
             basicManuelDeCodageManager);
 
-    private HieroglyphsManager userInfoManager = new HieroglyphsManager(
+    private SimpleHieroglyphDatabase userInfoManager = new SimpleHieroglyphDatabase(
             basicManuelDeCodageManager);
 
     private boolean userFileCorrect = true;
@@ -51,9 +51,9 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
     // private Map<String, PossibilitiesList> possibilityListsForKeyBoard = new
     // HashMap<String, PossibilitiesList>();
 
-    public static CompositeHieroglyphsManager getInstance() {
+    public static CompositeHieroglyphDatabase getInstance() {
         if (instance == null) {
-            instance = new CompositeHieroglyphsManager();
+            instance = new CompositeHieroglyphDatabase();
         }
 
         return instance;
@@ -62,7 +62,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
     /**
      * Build the default hieroglyphic manager, filled using two different files.
      */
-    public CompositeHieroglyphsManager() {
+    public CompositeHieroglyphDatabase() {
         try {
             readFiles();
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
     private void readFiles() throws SAXException, IOException {
 
         SignDescriptionReader reader = new SignDescriptionReader(
-                new HieroglyphManagerToSignDescriptionBuilderAdapter(
+                new SignDescriptionBuilderToHieroglyphDatabaseAdapter(
                         distributionInfoManager));
 
         // Read "standard" signs description
@@ -98,7 +98,7 @@ public class CompositeHieroglyphsManager implements HieroglyphDatabaseInterface 
         try {
             // Read user signs descriptions (if any is available)
             reader = new SignDescriptionReader(
-                    new HieroglyphManagerToSignDescriptionBuilderAdapter(
+                    new SignDescriptionBuilderToHieroglyphDatabaseAdapter(
                             userInfoManager));
 
             File f = getUserSignDefinitionFile();

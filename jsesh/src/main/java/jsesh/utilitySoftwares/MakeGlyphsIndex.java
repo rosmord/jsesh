@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.hieroglyphs.graphics.ShapeChar;
 
 public class MakeGlyphsIndex {
@@ -51,7 +51,7 @@ public class MakeGlyphsIndex {
             displayUsage();
         }
 
-        String codes[] = (String[]) CompositeHieroglyphsManager.getInstance().getCodesForFamily(family, false).toArray(new String[0]);
+        String codes[] = (String[]) CompositeHieroglyphDatabase.getInstance().getCodesForFamily(family, false).toArray(new String[0]);
         for (String code : codes) {
             dumpSign(code, format);
         }

@@ -549,7 +549,7 @@ public class ManuelDeCodage {
         basicGardinerCodeMap = new HashMap<String, List<String>>();
         try {
             // Read and build the map if necessary
-            Reader in = new InputStreamReader(HieroglyphsManager.class
+            Reader in = new InputStreamReader(SimpleHieroglyphDatabase.class
                     .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
             StreamTokenizer tok = new StreamTokenizer(in);
             // Read and store the codes according to their families.

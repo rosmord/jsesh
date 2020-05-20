@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 
@@ -174,7 +174,7 @@ public class Main implements PropertyHolder {
 		if (signInfoPresenter.isExpertMode()) {
 			signInfoPresenter.openExpertFile();
 		} else {
-			signInfoPresenter.openFile(CompositeHieroglyphsManager
+			signInfoPresenter.openFile(CompositeHieroglyphDatabase
 					.getUserSignDefinitionFile());
 		}
 

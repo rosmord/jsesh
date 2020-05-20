@@ -1,6 +1,6 @@
 package jsesh.mdc.model;
 
-import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
@@ -406,7 +406,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     @Override
     protected boolean equalsIgnoreIdAux(ModelElement other) {
         Hieroglyph o = (Hieroglyph) other;
-        CompositeHieroglyphsManager manager = CompositeHieroglyphsManager.getInstance();
+        CompositeHieroglyphDatabase manager = CompositeHieroglyphDatabase.getInstance();
         return manager.getCanonicalCode(this.code).equals(manager.getCanonicalCode(o.code))
                 && this.endingCode.equals(o.endingCode)
                 && this.grammar == o.grammar

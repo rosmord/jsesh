@@ -1,19 +1,19 @@
 package jsesh.hieroglyphs.data;
 
 /**
- * Adapter class for reading XML signs descriptions into HieroglyphManager.
+ * Adapter class for reading XML signs descriptions into HieroglyphDatabase.
  * The model used for storing signs information in XML is richer than the one currently used
  * by JSesh. Hence, we need this adapter.
  * @author rosmord
  *
  */
-public class HieroglyphManagerToSignDescriptionBuilderAdapter implements SignDescriptionBuilder {
+public class SignDescriptionBuilderToHieroglyphDatabaseAdapter implements SignDescriptionBuilder {
 
-	private HieroglyphsManager hieroglyphsManager;
+	private SimpleHieroglyphDatabase hieroglyphsManager;
 	
 	
-	public HieroglyphManagerToSignDescriptionBuilderAdapter(
-			HieroglyphsManager hieroglyphsManager) {
+	public SignDescriptionBuilderToHieroglyphDatabaseAdapter(
+			SimpleHieroglyphDatabase hieroglyphsManager) {
 		super();
 		this.hieroglyphsManager = hieroglyphsManager;
 	}

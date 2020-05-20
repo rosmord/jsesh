@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * @author S. Rosmorduc
  * 
  */
-public class HieroglyphsManager implements HieroglyphDatabaseInterface {
+public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
 
 	/**
          * Sign code to sign info
@@ -67,7 +67,7 @@ public class HieroglyphsManager implements HieroglyphDatabaseInterface {
 	 */
 	private boolean inDistributionMode = true;
 
-	public HieroglyphsManager(ManuelDeCodage basicManuelDeCodageManager) {
+	public SimpleHieroglyphDatabase(ManuelDeCodage basicManuelDeCodageManager) {
 		this.basicManuelDeCodageManager = basicManuelDeCodageManager;
 		signsValues = new HashMap<String, ArrayList<String>>();
 		possibilitiesLists = new HashMap<String, PossibilitiesList>();

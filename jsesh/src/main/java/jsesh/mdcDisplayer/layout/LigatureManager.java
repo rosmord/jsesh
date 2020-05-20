@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.data.CompositeHieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.resources.ResourcesManager;
@@ -57,7 +57,7 @@ public class LigatureManager {
 	public ExplicitPosition[] getPositions(String codes[]) {
 		String c[]= new String[codes.length];
 		for (int i= 0; i< codes.length; i++)
-			c[i]= CompositeHieroglyphsManager.getInstance().getCanonicalCode(codes[i]);
+			c[i]= CompositeHieroglyphDatabase.getInstance().getCanonicalCode(codes[i]);
 		return ligaturesMap.get(c);
 	}
 
@@ -82,7 +82,7 @@ public class LigatureManager {
 			String codes[] = parts[0].split("&");
 			// replace codes by their canonical equivalents.
 			for(i= 0; i< codes.length; i++)
-				codes[i]= CompositeHieroglyphsManager.getInstance().getCanonicalCode(codes[i]);
+				codes[i]= CompositeHieroglyphDatabase.getInstance().getCanonicalCode(codes[i]);
 			
 			String pos[] = parts[1].split(" ");
 			// pos[0] holds the number of signs in the ligature.
