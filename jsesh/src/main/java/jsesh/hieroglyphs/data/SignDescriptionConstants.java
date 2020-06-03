@@ -2,7 +2,12 @@ package jsesh.hieroglyphs.data;
 
 /**
  * XML tags names and property names used in sign_description.dtd.
+ * 
+ * <p> Other tag names have moved to enums (look at references).
+ * 
  * @see sign_description.dtd
+ * @see SignValueType
+ * @see SignVariantType
  * @author rosmord
  *
  */
@@ -38,41 +43,13 @@ public class SignDescriptionConstants {
 	public static final String LINGUISTIC = "linguistic";
 	public static final String EXISTS_IN = "existsIn";
 	public static final String SIGN = "sign";
-	/**
-	 * Possible value for degree of variantOf.
-	 * Means complete linguistic variant.
-	 * The sign has the same values as the base sign.
-	 * In text searches, the variant will be usually considered exactly as the base sign
-	 * (e.g. Z7 and G43). 
-	 */
-	public static final String FULL= "full";
-	/**
-	 * Possible value for degree of variantOf.
-	 * Means the sign can be used as a variant of the base sign in some contexts.
-	 * The sign will be accessible from the variant button in the sign palette. 
-	 */
-	public static final String PARTIAL= "partial";
-	/**
-	 * Possible value for degree of variantOf.
-	 * Means that in some cases, the sign can be considered as a variant of another one,
-	 * but that is has also values of its own.
-	 * 
-	 * Currently won't be accessible as a variant from the palette.
-	 * But will be usable, <em>on request</em> for searches.
-	 * e.g. D36 as a variant of D40.
-	 */
-	public static final String OTHER= "other";
+	
 	public static final String USE = "use";
 	public static final String KEYBOARD = "keyboard";
 	public static final String PALETTE= "palette";
 	public static final String INFORMATIVE= "informative";
 	
-	//phonogram|ideogram|abbreviation|typical
 	
-	public static final String PHONOGRAM= "phonogram";
-	public static final String IDEOGRAM= "ideogram";
-	public static final String ABBREVIATION= "abbreviation";
-	public static final String TYPICAL= "typical";
 	public static final String ALWAYS_DISPLAY = "alwaysDisplay";
 	public static final String[] LANGUAGES_CODES = new String[] { "en", "ar", "de", "es",
 	"fr", "he", "it", "nl", "ru" };

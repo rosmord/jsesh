@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.data;
+package jsesh.hieroglyphs.data.io;
 
 /**
  * Builder to use along a SignDescriptionReader.

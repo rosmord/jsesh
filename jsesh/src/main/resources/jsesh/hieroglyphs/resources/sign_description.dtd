@@ -35,6 +35,7 @@
 		For instance, the D36 sign (ayin) is a partial variant of D37 (di), as D36 can write "di". However,
 		in this case, I would not consider D37 as a variant of D36, because it would cause more harm than good.
 	"no" is used when the sign is not at all a linguistic variant. In this case, isSimilar is normally "y".
+        "unspecified" is used when the sign creator hasn't made a choice for yet.
 	
 -->
 

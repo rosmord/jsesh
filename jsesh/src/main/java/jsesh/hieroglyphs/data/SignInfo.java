@@ -17,7 +17,7 @@ public class SignInfo {
 	private final Set<String> determinativeValuesSet= new HashSet<>(); // of MultilingualLabels
 	private final Set<String> tagSet= new HashSet<>(); // of tag names...
 	private String description= "";
-	private final Set<String> variants= new HashSet<>(); // of sign codes (Strings)
+	private final Set<SignVariant> variants= new HashSet<>(); // of sign codes (Strings)
 	private final Set<String> signsContainingThisOne= new HashSet<>(); // of sign codes (Strings)
 	private boolean alwaysDisplayed= false;
 	private final Set<String> subSigns= new HashSet<>();
@@ -71,7 +71,7 @@ public class SignInfo {
 		return translitterationList;
 	}
 	
-	public Set<String> getVariants() {
+	public Set<SignVariant> getVariants() {
 		return variants;
 	}
 
@@ -79,8 +79,8 @@ public class SignInfo {
 		getTranslitterationList().add(translitteration);
 	}
 
-	public void addVariant(String sign) {
-		variants.add(sign);
+	public void addVariant(String variantCode, SignVariantType type) {
+		variants.add(new SignVariant(variantCode, type));
 	}
 
 	public void addSignContainingThisOne(String containingSign) {

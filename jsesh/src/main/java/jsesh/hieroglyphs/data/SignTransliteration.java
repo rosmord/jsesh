@@ -1,20 +1,16 @@
 package jsesh.hieroglyphs.data;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 public class SignTransliteration {
 
 //	sign CDATA #REQUIRED
 //	translitteration CDATA #REQUIRED
 //	relevance NMTOKEN '3'
 //	type (phonogram|ideogram|abbreviation|typical) 'phonogram'
-    private static final HashSet types = new HashSet(Arrays.asList(new String[]{SignValueType.PHONOGRAM, SignValueType.IDEOGRAM, SignValueType.ABBREVIATION, SignValueType.TYPICAL}));
     private String translitteration;
     private String use;
-    private String type;
+    private SignValueType type;
 
-    public SignTransliteration(String translitteration, String use, String type) {
+    public SignTransliteration(String translitteration, String use, SignValueType type) {
         super();
         this.translitteration = translitteration;
         this.use = use;
@@ -63,7 +59,7 @@ public class SignTransliteration {
      * @return the type
      * @see SignValueType
      */
-    public String getType() {
+    public SignValueType getType() {
         return type;
     }
 
@@ -71,11 +67,7 @@ public class SignTransliteration {
      * @param type the type to set
      * @see SignValueType
      */
-    public void setType(String type) {
-        if (types.contains(type)) {
-            this.type = type;
-        } else {
-            throw new RuntimeException("Bad type : " + type);
-        }
+    public final void setType(SignValueType type) {
+        this.type = type;
     }
 }

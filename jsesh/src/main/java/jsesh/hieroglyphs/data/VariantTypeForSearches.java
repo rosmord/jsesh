@@ -12,12 +12,12 @@
 package jsesh.hieroglyphs.data;
 
 /**
- * Types of variants.
+ * Types of variants usable in searches.
  * <p>Doesn't cover all types which are used by the current SignInfo
  * Software, because I feel the data is not consistent enough yet.
  * @author rosmord
  */
-public enum VariantType {
+public enum VariantTypeForSearches {
     /**
      * Full variants : the signs are equivalent.
      */
@@ -28,5 +28,15 @@ public enum VariantType {
      * but this relation should probably not be transitive.
      * (we will make it transitive in a first attempt, though).
      */
-    UNSPECIFIED
+    UNSPECIFIED;
+        
+    public boolean match(SignVariantType type) {
+        if (this == UNSPECIFIED)
+            return true;
+        else {
+            // FULL...
+            return type == SignVariantType.FULL;
+        }
+            
+    }
 }

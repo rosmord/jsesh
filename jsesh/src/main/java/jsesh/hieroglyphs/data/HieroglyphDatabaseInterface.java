@@ -12,9 +12,13 @@
  */
 package jsesh.hieroglyphs.data;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -36,7 +40,7 @@ public interface HieroglyphDatabaseInterface {
      * @param code
      * @return
      */
-    public String getCanonicalCode(java.lang.String code);
+    public String getCanonicalCode(String code);
 
     /**
      * Returns all the codes for a given family of signs.
@@ -50,7 +54,7 @@ public interface HieroglyphDatabaseInterface {
      * Gardiner code)
      * @return all codes for a given sign family as a Collection of String.
      */
-    public Collection<String> getCodesForFamily(java.lang.String family, boolean userCodes);
+    public Collection<String> getCodesForFamily(String family, boolean userCodes);
 
     /**
      * Returns the set of known codes (including phonetic codes).
@@ -59,7 +63,7 @@ public interface HieroglyphDatabaseInterface {
      */
     public Set<String> getCodesSet();
 
-    public String getDescriptionFor(java.lang.String code);
+    public String getDescriptionFor(String code);
 
     public List<HieroglyphFamily> getFamilies();
 
@@ -75,9 +79,9 @@ public interface HieroglyphDatabaseInterface {
      *
      * @return
      */
-    public jsesh.hieroglyphs.data.PossibilitiesList getPossibilityFor(java.lang.String phoneticValue, String level);
+    public jsesh.hieroglyphs.data.PossibilitiesList getPossibilityFor(String phoneticValue, String level);
 
-    public Collection<String> getSignsContaining(java.lang.String code);
+    public Collection<String> getSignsContaining(String code);
 
     /**
      * Returns all the signs which are contained in a larger sign
@@ -85,13 +89,13 @@ public interface HieroglyphDatabaseInterface {
      * @param code
      * @return
      */
-    public Collection<String> getSignsIn(java.lang.String code);
+    public Collection<String> getSignsIn(String code);
 
-    public Collection<String> getSignsWithTagInFamily(java.lang.String currentTag, java.lang.String familyName);
+    public Collection<String> getSignsWithTagInFamily(String currentTag, String familyName);
 
-    public Collection<String> getSignsWithoutTagInFamily(java.lang.String familyName);
+    public Collection<String> getSignsWithoutTagInFamily(String familyName);
 
-    public Collection<String> getTagsForFamily(java.lang.String familyName);
+    public Collection<String> getTagsForFamily(String familyName);
 
     /**
      * gets declared tags for a particular Gardiner code.
@@ -101,21 +105,50 @@ public interface HieroglyphDatabaseInterface {
      */
     public Collection<String> getTagsForSign(String gardinerCode);
 
-    public List<String> getValuesFor(java.lang.String gardinerCode);
+    public List<String> getValuesFor(String gardinerCode);
 
     /**
      * Gets directly recorded variants for a sign.
-     * @param code
+     * <p> This will get all variants of the signs, regardless of variant level.
+     * <p> this methods is not transitive : variants of variants won't be returned.
+     * @param code the code of the original sign
      * @return the signs which are recorded as variants for this one.
      */
-    public Collection<String> getVariants(java.lang.String code);
+    public Collection<SignVariant> getVariants(String code);
+    
+      /**
+     * Gets directly recorded variants for a sign.
+     * <p> this methods is not transitive : variants of variants won't be returned.
+     * @param code the code of the original sign
+     * @param variantTypeForSearches the kind of variants to search for.
+     * @return the signs which are recorded as variants for this one.
+     */
+    public Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches);
     
     /**
      * Gets variants, directly or indirectly.
-     * @param code
-     * @return 
+     * This method will return variants, and variants of variants, etc...
+     * @param code the basic sign.
+     * @param variantTypeForSearches the level of variants to search for.
+     * @return a collection of sign codes.
      */
-    // public Collection<String> getAllVariants(java.lang.String code);
+    default Collection<String> getTransitiveVariants(String code, VariantTypeForSearches variantTypeForSearches) {
+        HashSet<String> result= new HashSet<>();
+        Deque<String> toProcess = new ArrayDeque<>();
+        toProcess.push(code);
+        while (! toProcess.isEmpty()) {
+            String toExpand = toProcess.pop();
+            if (! result.contains(toExpand)) {
+                result.add(toExpand);
+                for (String variant : getVariants(toExpand, variantTypeForSearches)) {
+                    if (! result.contains(variant)) {
+                        toProcess.push(variant);
+                    }
+                }
+            }
+        }
+        return result;    
+    }
 
     /**
      * Should the sign be always displayed in the palette when its family is
@@ -135,7 +168,9 @@ public interface HieroglyphDatabaseInterface {
     public PossibilitiesList getCodesStartingWith(String code);
 
     /**
-     * Get the all the codes which might match a "generic gardiner code". The
+     * Get the all the codes which might match a "generic gardiner code".
+     * 
+     * <p>The
      * code is considered as case insensitive (thus a1 will return A1). The code
      * given is case insensitive. So a1 and A1 will return A1 and variants, for
      * instance. In fact, there are two conceptual layers of signs : Glyphs and
@@ -152,24 +187,9 @@ public interface HieroglyphDatabaseInterface {
      * So this method is not about signs values or equivalence, but mostly an
      * input/output facility.
      *
-     * @param string
-     * @return
+     * @param code the code typed by the user.
+     * @return a "possibility list", a navigable set of possible choices.
      */
     public PossibilitiesList getSuitableSignsForCode(String code);
     
-    
-    /**
-     * Currently mananaged variant levels.
-     * <p> More will come, but we stick to the one which are relatively secure.
-     */
-    public enum VariantLevel {
-        /**
-         * Full variants : signs which have exactly the same value.
-         */
-        FULL, 
-        /**
-         * Any recorded variant.
-         */
-        ANY
-    }
 }

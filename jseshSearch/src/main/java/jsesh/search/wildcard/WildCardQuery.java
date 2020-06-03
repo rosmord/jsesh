@@ -11,6 +11,7 @@
 package jsesh.search.wildcard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.VariantTypeForSearches;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
@@ -153,9 +155,11 @@ public class WildCardQuery implements MdCSearchQuery {
             if (variantLevel == VariantLevelForSearch.EXACT_SEARCH) {
                 seq.add(label(occ -> occ.getCode().equals(code)));
             } else {
+                // TO MODIFY.. redundant types...
+                VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;                
                 HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphDatabase.getInstance();
                 
-                HashSet<String> codes = new HashSet<>();
+                Collection<String> codes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
                 seq.add(label(new CodeSetLabel(codes)));
             }
 
@@ -198,8 +202,8 @@ public class WildCardQuery implements MdCSearchQuery {
 
         private Set<String> codes;
 
-        public CodeSetLabel(Set<String> codes) {
-            this.codes = codes;
+        public CodeSetLabel(Collection<String> codes) {
+            this.codes = new HashSet<>(codes);
         }
 
         @Override

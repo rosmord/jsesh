@@ -9,15 +9,24 @@
 
 package jsesh.hieroglyphs.data;
 
+import jsesh.hieroglyphs.data.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
+import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import jsesh.hieroglyphs.resources.HieroglyphResources;
 
 import jsesh.resources.ResourcesManager;
 
@@ -45,6 +54,8 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
     private boolean userFileCorrect = true;
 
     private String userFileMessage = "";
+    
+    private Map<String,Collection<SignVariant>> variantMap;
 
     // Now that there is an explicit way to remember possibilities (the
     // repository), remove this variable
@@ -85,8 +96,7 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
                         distributionInfoManager));
 
         // Read "standard" signs description
-        InputStream in1 = this.getClass().getResourceAsStream(
-                "signs_description.xml");
+        InputStream in1 = HieroglyphResources.getSignsDescriptionXML();
         if (in1 != null) {
             reader.readSignDescription(in1);
         } else {
@@ -263,13 +273,61 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
     }
 
     @Override
-    public Collection<String> getVariants(String code) {
-        TreeSet<String> result = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+    public Collection<SignVariant> getVariants(String code) {
+        TreeSet<SignVariant> result = new TreeSet<>();
         result.addAll(distributionInfoManager.getVariants(code));
         result.addAll(userInfoManager.getVariants(code));
         return result;
     }
+
+    @Override
+    public Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches) {
+        return getCachedVariantMap().get(code).stream()
+                .filter(info -> variantTypeForSearches.match(info.getType()))
+                .map(info -> info.getCode())
+                .collect(Collectors.toSet());
+    }
+
+    
+    /**
+     * Caching system for variant map...
+     * @return 
+     */
+    private Map<String, Collection<SignVariant>> getCachedVariantMap() {
+        if (variantMap == null) {
+            variantMap = new HashMap<>();
+            for (String code: distributionInfoManager.getCodesSet()) {
+                for (SignVariant v: distributionInfoManager.getVariants(code)) {
+                    addVariant(code, v.getCode(), v.getType());
+                }
+            }
+            for (String code: userInfoManager.getCodesSet()) {
+                // Can refer to distributionInfoManager !
+                for (SignVariant v: userInfoManager.getVariants(code)) {
+                    addVariant(code, v.getCode(), v.getType());
+                }
+            }
+        }
+        return variantMap;
+    }
+    
+    /**
+     * Record in cache a variant relationship between two signs.
+     * @param code1
+     * @param code2
+     * @param type
+     */
+    private void addVariant(String code1, String code2, SignVariantType type) {
+        if (! variantMap.containsKey(code1)) {
+            variantMap.put(code1, new HashSet<>());
+        }
+        if (! variantMap.containsKey(code2)) {
+            variantMap.put(code2, new HashSet<>());
+        }
+        variantMap.get(code1).add(new SignVariant(code2, type));
+        variantMap.get(code2).add(new SignVariant(code1, type));
+    }
+    
 
     public PossibilitiesList getCodesStartingWith(String code) {
         PossibilitiesList p = distributionInfoManager
@@ -314,4 +372,5 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
             return new PossibilitiesList(code);
         }
     }
+
 }

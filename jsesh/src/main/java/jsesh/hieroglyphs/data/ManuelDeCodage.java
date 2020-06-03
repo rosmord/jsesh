@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import jsesh.hieroglyphs.resources.HieroglyphResources;
 
 /**
  * A class representing the manuel de codage and providing information about
@@ -546,11 +547,10 @@ public class ManuelDeCodage {
     }
 
     private void fillBasicGardinerCodeMap() {
-        basicGardinerCodeMap = new HashMap<String, List<String>>();
-        try {
+        basicGardinerCodeMap = new HashMap<>();
+        try (Reader in = HieroglyphResources.getBasicGardinerCodes();) {
             // Read and build the map if necessary
-            Reader in = new InputStreamReader(SimpleHieroglyphDatabase.class
-                    .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
+            
             StreamTokenizer tok = new StreamTokenizer(in);
             // Read and store the codes according to their families.
             while (tok.nextToken() != StreamTokenizer.TT_EOF) {
@@ -562,7 +562,7 @@ public class ManuelDeCodage {
                 }
                 if (!basicGardinerCodeMap.containsKey(code.getFamily())) {
                     basicGardinerCodeMap.put(code.getFamily(),
-                            new ArrayList<String>());
+                            new ArrayList<>());
                 }
                 basicGardinerCodeMap.get(code.getFamily())
                         .add(tok.sval);
@@ -574,7 +574,6 @@ public class ManuelDeCodage {
                 Collections.sort(l, GardinerCode.getCodeComparator());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
