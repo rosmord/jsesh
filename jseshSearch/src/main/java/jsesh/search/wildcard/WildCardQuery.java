@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.HieroglyphsManager;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
@@ -154,7 +153,7 @@ public class WildCardQuery implements MdCSearchQuery {
             if (variantLevel == VariantLevelForSearch.EXACT_SEARCH) {
                 seq.add(label(occ -> occ.getCode().equals(code)));
             } else {
-                HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphsManager.getInstance();
+                HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphDatabase.getInstance();
                 
                 HashSet<String> codes = new HashSet<>();
                 seq.add(label(new CodeSetLabel(codes)));

@@ -38,10 +38,10 @@ import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.editor.MdCSearchQuery;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
 
 /**
  * Simple Search for sign strings.
@@ -80,7 +80,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
     public SignStringSearchQuery(List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
-            String normalized = CompositeHieroglyphsManager.getInstance()
+            String normalized = CompositeHieroglyphDatabase.getInstance()
                     .getCanonicalCode(rawCode);
             this.search.add(normalized);
         }
