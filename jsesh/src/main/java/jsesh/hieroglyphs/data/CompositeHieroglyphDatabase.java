@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -282,7 +283,8 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
 
     @Override
     public Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches) {
-        return getCachedVariantMap().get(code).stream()
+        Collection<SignVariant> variants = getCachedVariantMap().getOrDefault(code, Collections.emptySet());  
+        return variants.stream()
                 .filter(info -> variantTypeForSearches.match(info.getType()))
                 .map(info -> info.getCode())
                 .collect(Collectors.toSet());
@@ -329,6 +331,7 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
     }
     
 
+    @Override
     public PossibilitiesList getCodesStartingWith(String code) {
         PossibilitiesList p = distributionInfoManager
                 .getCodesStartingWith(code);
@@ -336,6 +339,7 @@ public class CompositeHieroglyphDatabase implements HieroglyphDatabaseInterface 
         return p.add(p1);
     }
 
+    @Override
     public boolean isAlwaysDisplayed(String code) {
         return distributionInfoManager.isAlwaysDisplayed(code)
                 || userInfoManager.isAlwaysDisplayed(code);

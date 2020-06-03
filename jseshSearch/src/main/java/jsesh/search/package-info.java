@@ -19,5 +19,10 @@
  * 
  * To create those objects, use {@link jsesh.search.ui.SearchPanelFactory}
  * 
+ * TODO: the search for variants should be improved. First, with data about the signs.
+ * G43 and G7 are not currently registered as variants.
+ * 
+ * Some though about transitivity and reflexivity in those relationships would 
+ * be although needed.
  */
 package jsesh.search;

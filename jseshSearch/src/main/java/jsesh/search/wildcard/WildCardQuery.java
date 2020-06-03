@@ -155,12 +155,12 @@ public class WildCardQuery implements MdCSearchQuery {
             if (variantLevel == VariantLevelForSearch.EXACT_SEARCH) {
                 seq.add(label(occ -> occ.getCode().equals(code)));
             } else {
-                // TO MODIFY.. redundant types...
+                // TO MODIFY.. redundant types, in a way (but FULL != EXACT...)
                 VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;                
                 HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphDatabase.getInstance();
                 
-                Collection<String> codes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
-                seq.add(label(new CodeSetLabel(codes)));
+                Collection<String> variantCodes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
+                seq.add(label(new CodeSetLabel(variantCodes)));
             }
 
             nextPos();
