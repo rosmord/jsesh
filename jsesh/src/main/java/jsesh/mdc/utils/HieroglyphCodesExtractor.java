@@ -7,8 +7,8 @@ package jsesh.mdc.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.LineBreak;
@@ -36,7 +36,7 @@ public class HieroglyphCodesExtractor {
      * @param normalise should we normalise the codes toward Gardiner codes ?
      */
     public HieroglyphCodesExtractor(boolean normalise) {
-        mdcInfo = CompositeHieroglyphsManager.getInstance();
+        mdcInfo = CompositeHieroglyphDatabase.getInstance();
         this.normalise = normalise;
     }
 

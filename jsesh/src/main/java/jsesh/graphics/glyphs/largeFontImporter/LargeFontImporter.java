@@ -26,7 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import jsesh.graphics.glyphs.ui.ShapeDisplayer;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;

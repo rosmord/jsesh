@@ -135,7 +135,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         // Others...
         menu.add(shadingMenu);
         menu.addSeparator();
-        addToMenu(menu, a, v, ActionsID.REVERSE_SIGN);
         addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_RED);
         addToMenu(menu, a, v, ActionsID.TOGGLE_SIGN_IS_WIDE);
         addToMenu(menu, a, v, ActionsID.TOGGLE_IGNORED_SIGN);

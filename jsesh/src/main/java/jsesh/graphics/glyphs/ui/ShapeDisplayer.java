@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.swing.utils.GraphicsUtils;
 
 /**

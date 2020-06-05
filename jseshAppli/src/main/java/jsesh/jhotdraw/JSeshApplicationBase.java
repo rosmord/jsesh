@@ -8,7 +8,7 @@ import java.util.prefs.Preferences;
 
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.constants.JSeshInfoConstants;

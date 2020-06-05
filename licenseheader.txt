@@ -1,38 +1,11 @@
-<#if licenseFirst??>
-${licenseFirst}
-</#if>
-${licensePrefix}Copyright ou © ou Copr. Serge Rosmorduc (2016) 
-${licensePrefix}serge.rosmorduc@cnam.fr
 
-${licensePrefix}Ce logiciel est un programme informatique servant à mettre en place 
-${licensePrefix}une base de données linguistique pour l'égyptien ancien.
+/*
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
 
-${licensePrefix}Ce logiciel est régi par la licence CeCILL soumise au droit français et
-${licensePrefix}respectant les principes de diffusion des logiciels libres. Vous pouvez
-${licensePrefix}utiliser, modifier et/ou redistribuer ce programme sous les conditions
-${licensePrefix}de la licence [CeCILL|CeCILL-B|CeCILL-C] telle que diffusée par le CEA, le CNRS et l'INRIA 
-${licensePrefix}sur le site "http://www.cecill.info".
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
 
-${licensePrefix}En contrepartie de l'accessibilité au code source et des droits de copie,
-${licensePrefix}de modification et de redistribution accordés par cette licence, il n'est
-${licensePrefix}offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
-${licensePrefix}seule une responsabilité restreinte pèse sur l'auteur du programme,  le
-${licensePrefix}titulaire des droits patrimoniaux et les concédants successifs.
-
-${licensePrefix}A cet égard  l'attention de l'utilisateur est attirée sur les risques
-${licensePrefix}associés au chargement,  à l'utilisation,  à la modification et/ou au
-${licensePrefix}développement et à la reproduction du logiciel par l'utilisateur étant 
-${licensePrefix}donné sa spécificité de logiciel libre, qui peut le rendre complexe à 
-${licensePrefix}manipuler et qui le réserve donc à des développeurs et des professionnels
-${licensePrefix}avertis possédant  des  connaissances  informatiques approfondies.  Les
-${licensePrefix}utilisateurs sont donc invités à charger  et  tester  l'adéquation  du
-${licensePrefix}logiciel à leurs besoins dans des conditions permettant d'assurer la
-${licensePrefix}sécurité de leurs systèmes et ou de leurs données et, plus généralement, 
-${licensePrefix}à l'utiliser et l'exploiter dans les mêmes conditions de sécurité. 
-
-${licensePrefix}Le fait que vous puissiez accéder à cet en-tête signifie que vous avez 
-${licensePrefix}pris connaissance de la licence CeCILL, et que vous en avez accepté les
-${licensePrefix}termes.
-<#if licenseLast??>
-${licenseLast}
-</#if>
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
+ */

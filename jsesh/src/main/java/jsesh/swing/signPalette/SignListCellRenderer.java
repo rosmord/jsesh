@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {

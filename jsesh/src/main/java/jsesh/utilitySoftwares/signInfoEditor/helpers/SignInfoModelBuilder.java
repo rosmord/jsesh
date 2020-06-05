@@ -1,7 +1,7 @@
 package jsesh.utilitySoftwares.signInfoEditor.helpers;
 
-import jsesh.hieroglyphs.SignDescriptionBuilder;
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.io.SignDescriptionBuilder;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoProperty;
 import jsesh.utilitySoftwares.signInfoEditor.model.XMLInfoProperty;

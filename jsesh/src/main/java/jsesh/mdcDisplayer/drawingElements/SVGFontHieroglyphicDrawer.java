@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.hieroglyphs.LigatureZone;
-import jsesh.hieroglyphs.LigatureZoneBuilder;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.graphics.LigatureZoneBuilder;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.swing.utils.ShapeHelper;
 

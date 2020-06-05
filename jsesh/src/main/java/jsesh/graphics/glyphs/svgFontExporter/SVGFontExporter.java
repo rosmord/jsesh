@@ -15,11 +15,11 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.HieroglyphicFontManager;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 /**
  * Software to create an Unicode and EGPZ compliant SVG font (which can be made into a TTF
@@ -91,7 +91,7 @@ public class SVGFontExporter {
 					// GardinerCode class:
 					glyphCode = GardinerCode.getCodeForFileName(mdcCode);
 				} else {
-					CompositeHieroglyphsManager manager= CompositeHieroglyphsManager.getInstance();
+					CompositeHieroglyphDatabase manager= CompositeHieroglyphDatabase.getInstance();
 					glyphCode= manager.getCanonicalCode(mdcCode);
 				}
 				// End of code = capital letters

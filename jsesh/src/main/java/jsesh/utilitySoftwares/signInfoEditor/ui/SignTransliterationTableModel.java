@@ -1,6 +1,7 @@
 package jsesh.utilitySoftwares.signInfoEditor.ui;
 
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.utilitySoftwares.signInfoEditor.model.EditableSignInfo;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoProperty;
 import jsesh.utilitySoftwares.signInfoEditor.model.XMLInfoProperty;
@@ -32,12 +33,13 @@ class SignTransliterationTableModel extends SignPropertyTableModel {
 	}
 
 
+        @Override
 	protected XMLInfoProperty buildDefaultSignProperty(String code) {
 		XMLInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.HAS_TRANSLITERATION, true);
 		prop.setAttribute(SignDescriptionConstants.SIGN, editableSignInfo.getCode());
 		prop.setAttribute(SignDescriptionConstants.TRANSLITERATION, code);
 		prop.setAttribute(SignDescriptionConstants.USE, SignDescriptionConstants.PALETTE);
-		prop.setAttribute(SignDescriptionConstants.TYPE,SignDescriptionConstants.PHONOGRAM);
+		prop.setAttribute(SignDescriptionConstants.TYPE,SignValueType.PHONOGRAM.toString());
 		return prop;
 	}
 	

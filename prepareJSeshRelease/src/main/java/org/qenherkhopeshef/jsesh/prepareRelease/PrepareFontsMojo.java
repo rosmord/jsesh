@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import jsesh.hieroglyphs.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;

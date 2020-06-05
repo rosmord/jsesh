@@ -17,17 +17,16 @@ import javax.swing.Timer;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.caret.MDCCaret;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.HieroglyphFamily;
+import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
-import jsesh.jhotdraw.dialogs.JSearchPanel;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 
@@ -246,7 +245,7 @@ public final class JSeshViewModel {
      */
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
-        List<HieroglyphFamily> families = CompositeHieroglyphsManager
+        List<HieroglyphFamily> families = CompositeHieroglyphDatabase
                 .getInstance().getFamilies();
         BundleHelper bundle = BundleHelper.getInstance();
 
