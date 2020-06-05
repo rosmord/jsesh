@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.qenherkhopeshef.jsesh</groupId>
 		<artifactId>JSesh-all</artifactId>
-		<version>7.4.0-SNAPSHOT</version>
+		<version>7.4.1</version>
 	</parent>
 	<artifactId>jseshGlyphs</artifactId>
 	<packaging>jar</packaging>
