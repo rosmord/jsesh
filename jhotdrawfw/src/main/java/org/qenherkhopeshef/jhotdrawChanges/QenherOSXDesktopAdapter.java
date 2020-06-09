@@ -8,7 +8,10 @@ package org.qenherkhopeshef.jhotdrawChanges;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import org.jhotdraw_7_6.app.AbstractApplication;
 
 /**
@@ -63,10 +66,24 @@ public class QenherOSXDesktopAdapter {
      */
     public void setOpenFileHandler(ActionListener fileHandler) {
         Desktop.getDesktop().setOpenFileHandler(
-                e -> JOptionPane.showMessageDialog(null, "Open files " + e.getFiles())
+                e -> processFiles(fileHandler, e.getFiles())
         );
         Desktop.getDesktop().setOpenURIHandler(
-                e -> JOptionPane.showMessageDialog(null, "Open URI " + e.getURI())
+                e -> JOptionPane.showMessageDialog(null, "got URI " + e.getURI() + "... don't know how to deal with it.")
         );
+    }
+
+    /**
+     * Pass files to fileHandler.
+     * Due to the current architecture of jhotdraw, file handlers are
+     * event listeners, which expect the file paths as strings.
+     * @param fileHandler
+     * @param files 
+     */
+    private void processFiles(ActionListener fileHandler, List<File> files) {
+        for (File f: files) {
+            final ActionEvent actionEvent = new ActionEvent(application, ActionEvent.ACTION_FIRST, f.getPath());
+            SwingUtilities.invokeLater(() -> fileHandler.actionPerformed(actionEvent));
+        }
     }
 }

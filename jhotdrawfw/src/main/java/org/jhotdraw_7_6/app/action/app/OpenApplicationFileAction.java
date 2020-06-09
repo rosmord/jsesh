@@ -44,6 +44,10 @@ import org.jhotdraw_7_6.util.ResourceBundleUtil;
  * If you want this behavior in your application, you have to create an action
  * with this ID and put it in your {@code ApplicationModel} in method
  * {@link org.jhotdraw_7_6.app.ApplicationModel#initApplication}.
+ * 
+ * <p> Note (S. Rosmorduc) : as this action takes an actual argument, it's perhaps
+ * not really a regular action. An improved framework might differentiate between
+ * its aspects, with a finer grain for classes.
  *
  * @author  Werner Randelshofer
  * @version $Id: OpenApplicationFileAction.java 717 2010-11-21 12:30:57Z rawcoder $
