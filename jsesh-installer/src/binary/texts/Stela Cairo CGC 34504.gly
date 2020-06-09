@@ -1,0 +1,76 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading true +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 10.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bCairo 34 504+s-!
++iStela of Year 8 from Manshîyet eṣ Ṣadr+s-+i (Heliopolis) +s-!
++ityped by S. Rosmorduc+s-!
++lK+s-+iRI +s-+lII, 360+s-!
++lChecked with personnal photography and A. Hamada, ASAE 38, Pl. XXX.+s-!
++lin a few cases, a double check on the original would be useful.+s-!
++lNote: I have tried, in the limits of the currently available fonts, to stay as close as possible to the original.+s-!
++lA sign was created just for this stela : +s-US1A22VARA-!
++lNames of King+s-!
+PF4-|a1-<-ra-wsr-mAat-stp&n&ra->-|a2-<-C2A\*C12:N36-ms-s-sw->-!
++lName of god+s-!
+PF5-|b1-G9&N19-nTr-O29v-nb:pt-!
++lSpeech of god+s-!
+PF5-|c1-O42:p:D40-n:k-HqA-S45-anx-wAs-di-w-r:F63*1:k-!
+|c2-di-A40-D54&w&t-n:k-M24-y:N21*1-M:nb**"sic"{{708,164,100}}:z-A16-V22:t*N21*1-x:r-xr:n-k{{0,656,100}}**G30{{700,0,98}}**"so"{{2070,0,98}}-!
+|c3-i-w-k:M-sw-t:n-V15:t:D40-N17:N17:N21*N21-mi-G5-US22W17BVARD-r:x-G24B-Z2D-!
++inote: the +s-+trxy.t +s-+isign doesn't have wings in the original. Yet another variant problem.+s-!
++inote: +s-US22W17BVARD-+iis a variant of +s-W18-+lwhich doesn't occur in the Hieroglyphica, but which existed in the JSesh fonts nonetheless.+s-!
++lEpithets and speech of goddess+s-!
+|d1-O10-nb:p*Dw-dSr-nb:pt-W10*t-tA:tA:N21*N21-s-mn:n:n-rnp-rnp-rnp-k\-mi-t:t-N5:1-C2A-!
+|d2-aHa-a:N5*1:k\-m-sw-t-A43C-mi-i-t:tm-D&&&(t:N17)-zp-y-!
++inote: col. d1 and d2, the +s-k-+isign is oriented in the same way as the king, hence the reversal.+s-!
++lMain Text+s-!
+PF2-|1-rnp-t:zp-4:4-(Abd:2):(pr:r:t*N5)-4:4-sw:t-bit:t-<-ra-wsr-mAat-stp&n&ra->-zA&N5-<-U6\-C12\-C2A-ms-s-sw->-N5*1:p:n-i-s-t^^^w-Hm-1^^^A42:f-m-iwn-niwt:1-Hr*1:ir:t-W14-s-sw-w-n:t:f-G9&N19-t:tm:nb:N17:N17-iwn-i-s-t:W-!
+|2-Hm-1^^^A42A:f-Hr:1-s-t&w&t-rd:D54-Hr*1:t:xAst-Hr:1-xnt:n:t*y-n:ra*pr:mH&&&(t*N21*1)-pr:1-N10:Z2-nTr-r:a:q-qmA-qmA-Y1v-O10:nb:X1-Dw:1:O39-dSr:X1*O39-aHa-a:n-gm:M:n-Hm*1*A42:f-wa:biA:aA-X1:D35:gm-M:n:X1*W-mi-i-qd-d:nw:Y1:f-M36:k-ra:1-q^^^A28-f:r-!
+|3-X1:x-txn-n:X1{{0,81,100}}**U2{{15,0,100}}:F132*O39-i-N-Hm*1*A42:f-q**U2{{40,75,100}}:M-sw-w-D&&&(z:f)-M-F29\148**X1{{1081,446,73}}**X1{{1522,446,73}}**N8{{1138,710,73}}:f-mi-Axt:X1*pr:I9-aHa-a:n-s-H-mr:n:z-Hm*1*A42:f-D&&&(z:I9)-m-kA:X1:Y1:N33A-stp&&&p:i*i*N33AV-D21:x:i*i-Y1v-Z3-d:X1*1:W*1*1*1-M:rnp*(ra:4:4)-Abd:3:S:X1*ra-10:10:1-xpr:n:I9-Hr*1:mH:a:D40-M:rnp*(ra:4:5)-Abd:3:S:X1*ra-10:4:4-!
+|4-ir:n-wa\R270-rnp-ra:3-X1&w&X1-A53-aAv-<-mr\-C12\-C2A-ms-s-sw->-pA-nTr-A40-aHa-a:n-I9:q&A&W-Y1:N33A:n-Hm*1*A42:f-ns&&&(kA:X1:N33A)-p:n-M:S14-S12A:N33:N33A-q:n:nw*W-Z3-aSA&&&X1:Z2-kA:t*1:A9*Z3-x:p:S-i-i-xpS:D40:Z2-n:X1*y:Hr*Z1-bA&&&k:D40-!
+|5-/{{504,271,100}}**i\98**M{{233,0,100}}**I9{{233,708,111}}-m#13-W14-s-W:1*1*1-n:X1:x:D21-sw-X1{{0,697,64}}**A42{{128,0,98}}:n-i-w-Hm*1*A42:f-Hr:1-G20-k:z:n:N33A-N5*1:nb-i-w-bA&&&k:D40-z:n:Z2-n:Hm*1*A42:f-G17&&&(ib:1)-U7:N33A:D21-sw:X1-bit:X1-nb:N17:N17:N21*N21-N5-<-wsr-C10A-stp&n&N5->-N5:H8-!
+|6-<-mr\-C12\-C2A-ms-s-sw->-i-s-X1:W-gm:n-Hm*1*A42:f-k:X1:XA:X1*O39-D21:Aa16*1:I9-M:X1&w&X1-A53-Z3-G17-biA:X1:O39-Hr:1-z:n:X5:D54-D21:U7:D21-i-i-iAm-wHm*G17:n-z:(((H*mr))):n:z-N33AV-D21\70:(pr\70:1)*(p:X1)*H-ir:w-n:z:n:Z2-D21:n:V10:Z2-Hr:1-D21:n:V10-G36:D21-Hm*1*A304E:f-G17-!
+|7-<-mr\-C12\-C2A-ms-s-sw->-H8:1-p:X1-H-k:X1*x:W*(Y1:N33A)-X1&w&X1-A53-i-M:z-D21:pr*1-i-mn:n:n-<-mr\-C12\-C2A-ms-s-sw->-D21:(pr:1)*(p:X1)*H-N-<-mr\-C12\-C2-ms-s-sw->-M:pr*1-<-mr\-C12\-C2A-ms-s-sw->-aA:n:xt:x*X1:D40-Z3-mH:Y1:A40B-pr*N5:M-E151:N33A-!
+|8-q:n:Y1:N33A-G17&&&(X1:W:X1)-A53-Z3-Hr:1-US1A22VARA:1*1*1-Hr:1-A57B-Z3-sw:X1-bit:X1-<-wsr-C10A-stp&n&N5->-zA&&&N5-<-mr\-C12\-C2-ms-s-sw->-D&&&(d:I9)-D&&&(z:I9)-n:A:n-kA:i*i-X1:D40:N33A-stp&p:i*i*(Y1:N33A)-x*p:S:i*i-xpS:D40:N33A-D21:x:Y1:Z2-d:X1*1:Z2-n:X1*y:Hr*1-w-!
+|9-HA-A-T30:D40:O39-n:A42-mn:n:nw*nw*nw-M:X1:nw*W-qmA-G41A:Y1-nb:X1-n:A&&&dwA-A30-Z3-kA:X1:Y1:N33A-M:aA:X1*O39:(x:X1)*mnx-aq&q:D54-i-i-D54:N33A:M-U2:X1:F132*O39-Xnm:M:Y1#1-G17-biA:X1:O39-q:n:nw*W-D40:A1*Z3-pr:D21:1:a-M:bA&&&nb:D40-mn:n:nw*nw*nw-mH&&&Y1:W*A42-D21*1:pr*1:niwt*N33AV\50-nb:X1:ir-i-i-A43B-!
+|10-aHa-a:N5*Z1:z:n:N33A-n:A-aHA:D40:X1*W-Z3-nfr-I9:D21:Z2-X1:tm:M-i-i-D54:1*1*1-nn:n:n-A7A:G37:N33A-n:A-U40-ir\144\l:i*i*Z3-kA:X1:Y1:Z2-M:D219:D21:ir:X1-O44-X1:Y1:N33A:z:n:Z2-(Dr:D21)*i:D40-mnx:X1-n:D&&&(d:X1*W)-Z3-ir\120:i*i*Z3-G20:k-x:I9:X1-s-x:D21:Y1:N33A-Sm:M:X1*D54-Z3-Hr:1-n:A-i*i:1*1*Z1-s-M:d:X1*O39:N33A-!
+|11-M:Dw:Z1*O39-nTr-X1:D21:y*A40-Ff4:M:Y1-D&&&(d:X1:n:Z2)-n:X1:n:Z2-M:a:k-x{{0,438,59}}**Ax{{84,0,100}}**X1{{860,0,100}}**N33{{1036,853,35}}**N33{{1040,646,35}}**N33{{1038,750,35}}:Y1-i-M:X1:n:Z2-wn:n-w-z:p:zp-x:I9:X1-M:S43*(d:X1:Z2)-nw:k:A42-<-mr\-C12\-C2-ms-s-sw->-pA:z-xpr:D21-DA-M:Xrd*Z3-M:s*anx-n:x:X1:W*(Z1*Z1*Z1)-kA*Z1:N18:Z2-T:n:I9:mw-M:a:q*qmA*qmA-X1:n:Z2-!
+|12-D35:n-HA-A-n:N33A:r:1:n-r:z:aSA:t*N33A-D&&&(f:N18:N33A)-m-s-t^^^w&&&Z9-t:n:Z2-nb:t-ir:i*i*A42-x:r:t-w-Y1:t:n:N33A-m-V6*1:Y1:nb-r:D&d-bA{{0,9,98}}**k{{788,0,100}}**W{{1131,561,100}}-D40:t:n:Z2-n:A42-m&&&ib-U7:r:t*1*1*1-i-w-A42A-r:w*(d:rwd)-!
+|13-k:w-A42A-M:nD*(nw:t:y)*Y1v-x:r:t-Y1:t:n:Z2-d:n\shading1234:z:O39-kA*1:N18:Z2-M:D37:t:n:N33A-r:t{{0,637,100}}**bA{{189,0,98}}**k{{551,5,77}}:D40-Z3-m-iAb-b-A2-s-anx-n:x:t:n:Z2-r:z:xpr:r-t:n:Z2-i-w-A43B-r:x:Y1:k-t^^^A-t:n:1:1-kA:t:Y1:N33A-Dr:r:t:D40-mn:n:x*mnx-H-a:2:a-A28-t:W-bA&&&k:D40-!
+|14-i-M:z-i-w-X:t*1-mH&&&Y1:T-s-b-bA-A&&&g-n:t:n:Z2-O229A:t*pr:Z2-Xr:r:V6*it:1*N33A-r:t:tm:t-D37:A1-ir:i*i*(t:(1*1)*1)-h:r:ra*1-n:g&A&W-Z3-anx-n:x:N18:Z2-i-w-wa:1:a:nb:t-i-M:t:n:Z2-s\-t:n:nw*W-qmA-G41A:Y1:n-Abd:sbA:d:ra*1-mH&&&Y1:W*A42-!
+|15-n:t:n:Z2-w-DA-t:pr:Z2-M:x*t:N33A:nb:t-m-aq&&&q:N18:N33A-i-w-f:F27:Z2-S:a:i*i*(N21:N33A)-r:M:a:k-t:n:Z2-S33-S33-W:t:1*1*1-H-b-s-S28:Z2-s-g:n:n:W22\144*((N33:N33:N33))-q:n:nw*W:Y1:Z2-r:wr:r#3-H-W23:D40:Z2-tp*1:t:n:Z2-r:t:n:nw*W-qmA-ra:10-H-b-s-S28:Z2-t:n:Z2-t:n:nw*W-qmA-M4-t:1-!
+|16-r:d:S33*S33-r:d:rd*rd-t:n:Z2-n:ra*1:nb-D35:n-s-M36:D21:A55-i-M:t:n:N33A-i-h:M:G37:f-n:g&A&W-Y1v-D37:A42-r:T:A1*B1-Z3-q:n:nw*W-Y1v-Z3-r:z:D&&&(f:Z2)-t:n:1*1*.\25-r:qs*(1:N33A):G37-wHa:a:(W:t)*(K5:Z2)-r:ini:n-r:z:f:K5:N33A-k:t*x:Y1:N33A-M:kA:r-i*i:D40:N33A-r:ir:t-H-s-b-t:Hn:1*1*1-A35E:D40-[?-n:D&&&((z:t):W23*Z3\50)-?]-!
+|17-Hr:1-A158:D40-Hr:1-ir:t-H-mr:n:nw*W-W23:Z3-r:z:(q^^^b)*W15-n:t:n:Z2-N35A-m-t:r-i-tr-[?-ra:n:S*ra:mw-?]-D33:n:n:P1-n:t:n:Z2-N17:M245\98**t{{64,838,70}}**niwt{{661,791,50}}-r:N17:mH-H-M15:niwt-D33:n:n:P1-n:t:n:Z2-N17:mH&&&(H*i*i)-M15:niwt-r:N17:M245\98**t{{64,838,70}}**niwt{{661,791,50}}-M:it:Z2-bdt-t*y:it:Z2-s-W:t*y:N33*1*1*1-H-U2:M:N33*(1*1*1)-E9:W*(r:1)-i-i-N33:1*1*1-!
+|18-D35:r:1:a-z:n:Z2-i-w-ir:n-nn:n:n-r:M36A:r:N33A-r:D&&&d-xpr:r-t:n:Z2-i-w-t:n:Z2#1-m&&&(ib:1)-T21\R270-Hr:1-bA&&&k\:D40-n:A42-t^^^w-A43C-Sm:M:D54:k-r:R15*b-xAst:niwt-gm:M-H-D6:n:A1-Hr:1-M:Dw:1*O39-nfr-D37:W*A42B-s-M:d:t*O39:f-n:t:n:Z2-i-W:A42-!
+|19-aHa-a:D54:k-V25-w-Y1:n:t:n:Z2-bA&k:D40-M:XA:t*O39-Hr*1:r:n:V10-t:XA:t:O39-<-mr\-C12\-C2-ms-s-sw->-mi*(ra:1):N36:r-x:r:t*W-r:z-gm:M:Y1-n:t:n:Z2-k:t:XA:t*O39-M:O39:km-r:Aa16*1:z-M:A63A*Z3-aAv-Z3-S5:z:n:Z2-i-r:y-M:biA:t*O39-t:XA:t:O39-<-ra-wsr-C10A-stp&n&ra->-HqA&&&q-N16:N16:N21*N21-!
+|20-x:r:t*W-r:z-gm:M-Y1:n:t:n:Z2#4-k:t:XA:t*O39-M:pA-t*O39#12-i-in:n-nm*m:z-mi-S14:N33:N33A-i-a:mw:D40-t:XA:t*O39-<-mr\-C12\-C2-ms-s-sw->-mi*(p:t)*H:N36-x:r:t*W-r:z-HDt:t-N:t-<-ra-wsr-mAat-stp&n&ra->-H8:ra-<-mr\-C12\-C2-ms-s-sw->-X8-anx-!
++bNotes+s-!
++iFor dates, I transcribe the circle as +s-ra-+l, +s-+ibut it's only a plain circle. In most cases, +s-zp-+iwould also be possible.+s-!
++iThe MdC lacks signs for those ambiguous cases.+s-!
++iline 6: +s-iAm-+i is very slim (much slimmer than the shape choosen for JSesh).+s-!
++iOn line 9, the determinative of wḥꜣ might be closer to a saw than to a knife U105+s-U105-!
++iHowever, according to the WB, plain +s-T30-+iis known as +s-!
++ideterminative for +s-+twHA, +s-+iso there is a doubt (all the more since the sign is not very detailled). +s-!
++lOn line 9, the determinative of +s-+twHA +s-+lis slightly curved. It's a shape of +s-T30-+lknown from other sources, +s-+lfor instance tomb TT1+s-!
++l(+s-+lHaring, B. J. J. 2006. +s-+iThe tomb of Sennedjem (TT1) in Deir el-Medina: palaeography+s-+l Vol. 2. Paléographie hiéroglyphique.)+s-!
++il. 9 and 14.+s-+iThe duck sign is not exactly+s-G41A-+i. Its neck might or might not be broken, and, mostly, its wings are tied.+s-!
++iline 10: the +s-O44-+isign has its +s-V1-+iloop below the horns.+s-!
++il. 15: the determinative of +s-S:a-i-i-N21:N33A-+ishould be a cake and not a bank of sand. ASAE 38 gives a triangular cake,+s-!
++iwith references to Gunn, +s-+l"Teti Pyramid Cemeteries", +s-+iI, p. 207. +s-+lThe pictures we have are not very conclusive, and Kitchen has +s-N21-+l.+s-!
++il. 16: instead of +s-n:D&&&(N17:t:W23*Z3)-+i. I suggest reading +s-+tqd nDs.t, +s-+iwhich is a well-attested compound for "potter". Traditional reading here is "+s-+tnDj.t^^+s-+i", a large vase +s-!
++iattested in the Pyramid texts (Hamada, o.c. p. 229, n. 4).+s-!
++il. 17: I can't vouch for it given my current documentation, but I wonder if +s-t:r-i-tr-ra:S:t*ra:T-+i is not to be read +s-t:r-i-tr-ra:n:S*ra:mw-+i, which would explain away+s-!
++ithis spurious +s-T-+l.+s-+i I have difficulties telling +s-A42B-+i at the end from a simple +s-A42A-+l.+s-!
++il. 19: +s-A63A-+iis probably a better rendering than +s-Sps-+ihere.+s-!
++il. 20: the first sign in +s-nm*m:z-+i is not very clear. Kitchen renders it as +s-wHm-+i, but states that the correct reading is +s-T34-+l.+s-+iIt's unclear, given the pictures I have whether or+s-!
++inot it's a mistakes from the scribe between the two signs, or if it's simply a badly written +s-T34-+l.+s-!
