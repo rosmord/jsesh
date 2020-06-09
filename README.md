@@ -1,5 +1,5 @@
 # JSesh sources
-Welcome to JSesh sources!
+Welcome to JSesh sources! 
 
 JSesh is a Java hieroglyphic editor 
 developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
