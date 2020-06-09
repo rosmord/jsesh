@@ -1,6 +1,6 @@
 package jsesh.graphics.glyphs.model;
 
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 /**
  * Simple model for a source of hieroglyphic signs drawing.

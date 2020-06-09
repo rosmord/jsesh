@@ -42,10 +42,10 @@ import jsesh.glossary.GlossaryEntryAdded;
 import jsesh.glossary.GlossaryEntryRemoved;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JSeshGlossary;
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.PossibilitiesList;
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.PossibilitiesList;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains
@@ -75,10 +75,10 @@ public class PossibilityRepository {
 			PossibilitiesList possibilities;
 
 			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toString().toUpperCase())) {
-				possibilities = CompositeHieroglyphsManager.getInstance()
+				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 						.getSuitableSignsForCode(code);
 			} else {
-				possibilities = CompositeHieroglyphsManager.getInstance()
+				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 						.getPossibilityFor(code,
 								SignDescriptionConstants.KEYBOARD);
 			}

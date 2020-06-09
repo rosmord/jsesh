@@ -22,3 +22,5 @@ nb-configuration.xml
 .sts4-cache
 /jsesh-new-installer/target/
 /signInfoAppli/target/
+target
+/jseshSearch/nbproject/

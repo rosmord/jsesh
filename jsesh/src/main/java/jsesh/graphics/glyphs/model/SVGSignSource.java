@@ -1,5 +1,10 @@
 package jsesh.graphics.glyphs.model;
 
+import jsesh.hieroglyphs.graphics.VerticalGravity;
+import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.graphics.HorizontalGravity;
+import jsesh.hieroglyphs.data.GardinerCode;
 import java.awt.BasicStroke;
 import java.awt.geom.*;
 import java.io.*;
@@ -9,7 +14,6 @@ import java.util.regex.*;
 
 import javax.xml.parsers.*;
 
-import jsesh.hieroglyphs.*;
 
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;

@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.LigatureZone;
+import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.ViewBox;
 import jsesh.swing.utils.ShapeHelper;

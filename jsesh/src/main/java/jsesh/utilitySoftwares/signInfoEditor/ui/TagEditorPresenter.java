@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitySoftwares.signInfoEditor.model.SignInfoModel;
 import jsesh.utilitySoftwares.signInfoEditor.model.XMLInfoProperty;
 

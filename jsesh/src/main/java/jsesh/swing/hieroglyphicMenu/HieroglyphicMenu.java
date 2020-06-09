@@ -52,7 +52,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import jsesh.hieroglyphs.ManuelDeCodage;
+import jsesh.hieroglyphs.data.ManuelDeCodage;
 import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.utils.PlatformDetection;

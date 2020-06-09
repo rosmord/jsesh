@@ -3,7 +3,7 @@ package jsesh.utilitySoftwares.signInfoEditor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.hieroglyphs.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
 
 
 /**
@@ -30,7 +30,7 @@ public class EditableSignInfo {
 	/**
 	 * Copy constructor for sign info.
 	 * 
-	 * @param currentSign
+	 * @param other
 	 */
 	public EditableSignInfo(EditableSignInfo other) {
 		code = other.code;
@@ -98,7 +98,7 @@ public class EditableSignInfo {
 
 	/**
 	 * Add the attributes of another sign into this one.
-	 * @param copiedSignInfo
+	 * @param other
 	 */
 	public void addAttributesOf(EditableSignInfo other) {
 		// TODO Auto-generated method stub

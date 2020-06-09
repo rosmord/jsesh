@@ -85,12 +85,6 @@ public class PropertyButtonModel extends ToggleButtonModel {
 
 	public void setSelected(boolean b) {
 		super.setSelected(b);
-//		try {
-//			if (getGroup() != null)
-//			{
-//				getGroup().setSelected(this, b);
-//			    b = group.isSelected(this);
-//			}
 		try {
 			Class argClass = propertyValue.getClass();
 			if (isBoolean)

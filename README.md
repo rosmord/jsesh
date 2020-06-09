@@ -1,5 +1,5 @@
 # JSesh sources
-Welcome to JSesh sources!
+Welcome to JSesh sources! 
 
 **JAVA 9+ (actually Java 12) version: ** to compile on mac, use something like :
 

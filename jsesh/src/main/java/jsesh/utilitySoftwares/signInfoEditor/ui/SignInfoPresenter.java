@@ -45,10 +45,13 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.HieroglyphicBitmapBuilder;
-import jsesh.hieroglyphs.SignDescriptionConstants;
-import jsesh.hieroglyphs.SignDescriptionReader;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.SignValueType;
+import jsesh.hieroglyphs.data.SignVariantType;
+import jsesh.hieroglyphs.data.io.SignDescriptionReader;
+import jsesh.hieroglyphs.resources.HieroglyphResources;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.SimpleStringTransfertHandler;
 import jsesh.utilitySoftwares.signInfoEditor.events.SignInfoModelEvent;
@@ -625,11 +628,9 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         transliterationTable.setModel(signTransliterationTableModel);
         // adapt display for second and third columns.
 
-        JComboBox typeCB = new JComboBox();
-        typeCB.addItem(SignDescriptionConstants.PHONOGRAM);
-        typeCB.addItem(SignDescriptionConstants.IDEOGRAM);
-        typeCB.addItem(SignDescriptionConstants.ABBREVIATION);
-        typeCB.addItem(SignDescriptionConstants.TYPICAL);
+        JComboBox<SignValueType> typeCB = new JComboBox();
+        for (SignValueType valueType: SignValueType.values())
+            typeCB.addItem(valueType);
 
         transliterationTable.getColumnModel().getColumn(1).setCellEditor(
                 new DefaultCellEditor(typeCB));
@@ -662,9 +663,9 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // third column: use a combobox. Content is ListOption
         //
         JComboBox combobox = new JComboBox();
-        combobox.addItem(SignDescriptionConstants.FULL);
-        combobox.addItem(SignDescriptionConstants.PARTIAL);
-        combobox.addItem(SignDescriptionConstants.OTHER);
+        for (SignVariantType variantType: SignVariantType.values()) {
+            combobox.addItem(variantType.toString());
+        }
         combobox.addItem(SignDescriptionConstants.NO);
         combobox.addItem(SignDescriptionConstants.UNSPECIFIED);
         variantTable.getColumnModel().getColumn(2).setCellEditor(
@@ -833,8 +834,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
         // Read the basic JSesh description.
         signInfoModelBuilder.setInUserPart(false);
-        InputStream in1 = this.getClass().getResourceAsStream(
-                "/jsesh/hieroglyphs/signs_description.xml");
+        InputStream in1 = HieroglyphResources.getSignsDescriptionXML();
 
         try {
             signDescriptionReader.readSignDescription(in1);

@@ -36,7 +36,7 @@ import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.search.MdCSearchQuery;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.utils.JSeshWorkingDirectory;
 
 import org.jhotdraw_7_6.app.AbstractView;

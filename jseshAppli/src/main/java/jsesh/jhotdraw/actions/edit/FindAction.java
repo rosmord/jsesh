@@ -35,8 +35,13 @@
 package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.dialogs.JSearchPanel;
+import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.search.ui.JWildcardPanel;
+import jsesh.search.clientApi.SearchTarget;
+import jsesh.search.ui.SearchPanelFactory;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
@@ -52,25 +57,51 @@ public final class FindAction extends AbstractApplicationAction {
 
     public static final String ID = "edit.find";
 
-    private final JSearchPanel searchPanel;
-    
+    private final JFrame frame;
+    private final JWildcardPanel searchPanel;
+    private final SearchTarget searchAdapter = new MyTarget();
+
     public FindAction(Application app) {
         super(app);
-        BundleHelper.getInstance().configure(this);        
-        searchPanel= new JSearchPanel(app);
+        searchPanel = SearchPanelFactory.createWildCardPanel(searchAdapter);
+        frame = new JFrame();
+        frame.add(searchPanel);
+        frame.pack();
+        BundleHelper.getInstance().configure(this);
     }
-    
-//
-//    public FindAction(Application app, View view) {
-//        super(app, view);
-//        BundleHelper.getInstance().configure(this);
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        View view = getApplication().getActiveView();
-        if (view != null) {
-            searchPanel.startSearch();
+        if (searchAdapter.isAvailable()) {
+            frame.setVisible(true);
+        }
+    }
+
+    private class MyTarget implements SearchTarget {
+
+        @Override
+        public boolean isAvailable() {
+            View view = getApplication().getActiveView();
+            return view != null;
+        }
+
+        private JSeshView getJSeshView() {
+            return (JSeshView) getApplication().getActiveView();
+        }
+
+        @Override
+        public void doSearch(MdCSearchQuery query) {
+            if (isAvailable()) {
+                JSeshView view = getJSeshView();
+                view.doSearch(query);
+            }
+        }
+
+        @Override
+        public void nextSearch() {
+            if (isAvailable()) {
+                getJSeshView().nextSearch();
+            }
         }
     }
 }

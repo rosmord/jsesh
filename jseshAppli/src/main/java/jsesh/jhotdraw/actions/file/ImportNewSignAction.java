@@ -6,7 +6,7 @@ import java.io.File;
 import javax.swing.JOptionPane;
 
 import jsesh.graphics.glyphs.ExternalSignImporter;
-import jsesh.hieroglyphs.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;

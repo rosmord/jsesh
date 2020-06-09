@@ -3,7 +3,7 @@ package jsesh.graphics.glyphs.bzr.simple;
 import java.awt.geom.GeneralPath;
 
 import jsesh.graphics.glyphs.bzr.BzrFontBuilder;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 /**
  * BzrSimpleFontBuilder builds demo fonts from a BZR file. Note that in BZR

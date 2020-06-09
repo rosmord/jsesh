@@ -53,7 +53,6 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.output.MdCModelWriter;
-import jsesh.search.MdCSearchQuery;
 
 /**
  * The edition model of a hieroglyphic text.
@@ -67,6 +66,8 @@ import jsesh.search.MdCSearchQuery;
  * cleared, and so on.
  * <p>
  * TODO : express this class in terms of patterns, and modify it accordingly.
+ * We should probably define the TopItemList and the HieroglyphicTextModel in terms 
+ * of interfaces, have have HieroglyphicTextModel extend or implement TopItemList.
  * <p>
  * FIXME : currently, the Observable pattern used is misleading.
  * <p>

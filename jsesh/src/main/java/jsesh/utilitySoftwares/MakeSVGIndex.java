@@ -26,8 +26,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import jsesh.graphics.glyphs.model.SVGSignSource;
-import jsesh.hieroglyphs.GardinerCode;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.utils.FileUtils;
 
 import org.xml.sax.EntityResolver;
@@ -275,7 +275,7 @@ public class MakeSVGIndex {
 			source.next();
 			ShapeChar shapeChar = source.getCurrentShape();
 
-			jsesh.hieroglyphs.HieroglyphicBitmapBuilder builder = new jsesh.hieroglyphs.HieroglyphicBitmapBuilder();
+			jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder builder = new jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder();
 			builder.setSize(56);
 			builder.setMaxSize(20);
 			builder.setFit(true);

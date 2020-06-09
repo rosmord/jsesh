@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.qenherkhopeshef.jsesh</groupId>
   <artifactId>JSesh-all</artifactId>
-  <version>7-jdk9-SNAPSHOT</version>
+  <version>7.4.2</version>
   <packaging>pom</packaging>
   <name>JSesh complete distribution</name>
   <repositories>
@@ -34,8 +34,8 @@
 	<artifactId>maven-compiler-plugin</artifactId>
 	<version>2.0</version>
 	<configuration>
-	  <source>12</source>
-	  <target>12</target>
+	  <source>1.8</source>
+	  <target>1.8</target>
            <encoding>UTF-8</encoding>
 	</configuration>
       </plugin>
@@ -52,11 +52,18 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+      <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>        
+  </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <modules>
-    <module>jvectClipboard</module>
     <module>cupAndlex</module>
     <module>cupruntime</module>
     <module>qenherkhopeshefUtils</module>
@@ -65,8 +72,10 @@
     <module>jseshGlyphs</module>
     <module>prepareJSeshRelease</module>
     <module>jhotdrawfw</module>
+    <module>jseshSearch</module>
     <module>jseshAppli</module>
     <module>signInfoAppli</module>
     <module>jseshDemos</module>
+    <module>jseshLabels</module>
   </modules>
 </project>

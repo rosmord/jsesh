@@ -43,7 +43,7 @@ import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 
 /**
- * Action for adding a cartouche to a JSesh editor.
+ * Action changing a sign size.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */

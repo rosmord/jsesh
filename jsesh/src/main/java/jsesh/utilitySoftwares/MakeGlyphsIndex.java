@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import jsesh.hieroglyphs.CompositeHieroglyphsManager;
-import jsesh.hieroglyphs.ShapeChar;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.graphics.ShapeChar;
 
 public class MakeGlyphsIndex {
 
@@ -51,7 +51,7 @@ public class MakeGlyphsIndex {
             displayUsage();
         }
 
-        String codes[] = (String[]) CompositeHieroglyphsManager.getInstance().getCodesForFamily(family, false).toArray(new String[0]);
+        String codes[] = (String[]) HieroglyphDatabaseRepository.getHieroglyphDatabase().getCodesForFamily(family, true).toArray(new String[0]);
         for (String code : codes) {
             dumpSign(code, format);
         }
@@ -64,10 +64,10 @@ public class MakeGlyphsIndex {
     }
 
     private static void dumpSign(String code, String format) throws IOException {
-        jsesh.hieroglyphs.DefaultHieroglyphicFontManager manager = jsesh.hieroglyphs.DefaultHieroglyphicFontManager.getInstance();
+        jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager manager = jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager.getInstance();
         ShapeChar s = manager.get(code);
         if ("png".equals(format)) {
-            jsesh.hieroglyphs.HieroglyphicBitmapBuilder bitmapBuilder = new jsesh.hieroglyphs.HieroglyphicBitmapBuilder();
+            jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder bitmapBuilder = new jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder();
             bitmapBuilder.setFit(true);
             BufferedImage bitmap = bitmapBuilder.buildSignBitmap(s);
             ImageIO.write(bitmap, "png", new java.io.File(code + ".png"));
