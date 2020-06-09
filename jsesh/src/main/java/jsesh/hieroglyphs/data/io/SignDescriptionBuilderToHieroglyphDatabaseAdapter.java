@@ -73,7 +73,6 @@ public class SignDescriptionBuilderToHieroglyphDatabaseAdapter implements SignDe
     @Override
     public void setSignAlwaysDisplay(String sign) {
         hieroglyphsManager.setSignAlwaysDisplay(sign);
-
     }
 
     @Override

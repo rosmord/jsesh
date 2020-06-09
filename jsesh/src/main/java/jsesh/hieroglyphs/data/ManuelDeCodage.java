@@ -39,7 +39,7 @@ public class ManuelDeCodage {
 
     private  List<String> tallNarrowSigns, lowBroadSigns, lowNarrowSigns;
 
-    public static ManuelDeCodage instance = new ManuelDeCodage();
+    private static ManuelDeCodage instance = new ManuelDeCodage();
 
     public static ManuelDeCodage getInstance() {
         return instance;

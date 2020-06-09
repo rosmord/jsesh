@@ -34,7 +34,7 @@ public interface HieroglyphicFontManager {
 
 	/**
 	 * Gets the set of the codes for the signs defined by this manager.
-	 * @return a set of codes.
+	 * @return a immutable set of codes.
 	 */
 	Set<String> getCodes();
 	

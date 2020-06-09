@@ -41,7 +41,7 @@ import java.util.List;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 
 /**
  * Simple Search for sign strings.
@@ -80,7 +80,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
     public SignStringSearchQuery(List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
-            String normalized = CompositeHieroglyphDatabase.getInstance()
+            String normalized = HieroglyphDatabaseRepository.getHieroglyphDatabase()
                     .getCanonicalCode(rawCode);
             this.search.add(normalized);
         }

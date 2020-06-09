@@ -12,13 +12,11 @@
  */
 package jsesh.hieroglyphs.data;
 
-import java.util.ArrayDeque;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -74,19 +72,19 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      * When false, the data is specific to the current user.
      */
     private boolean inDistributionMode = true;
-    
+
     public SimpleHieroglyphDatabase(ManuelDeCodage basicManuelDeCodageManager) {
         this.basicManuelDeCodageManager = basicManuelDeCodageManager;
         signsValues = new HashMap<>();
         possibilitiesLists = new HashMap<>();
         fillFamilyList();
     }
-    
+
     private void fillFamilyList() {
         final String[] familyCodes = {"A", "B", "C", "D", "E", "F", "G", "H",
             "I", "K", "L", "M", "N", "O", "P", "Q", "" + "R", "S", "T",
             "U", "V", "W", "X", "Y", "Z", "Aa", "Ff", "NU", "NL"};
-        
+
         final String[] familyNames = {"Man and his occupations",
             "Woman and her occupations", "Anthropomorphic Deities",
             "Parts of the human body", "E. Mammals", "Parts of Mammals",
@@ -104,7 +102,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             "Writings, games, music", "Strokes", "Unclassified (J)",
             "Hieratic signs, Gardiner, JEA 15 (&)", "Upper Egypt Nomes",
             "Lower Egypt Nomes"};
-        
+
         assert (familyCodes.length == familyNames.length);
         families = new ArrayList<>();
         for (int i = 0; i < familyCodes.length; i++) {
@@ -115,7 +113,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     /**
      * Return all known codes.
      *
-     * @return
+     * @return an immutable set of codes.
      */
     @Override
     public Set<String> getCodesSet() {
@@ -127,40 +125,44 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     }
 
     /**
-     * Returns all the codes for a given family of signs.
+     * Returns the codes for a given family of signs.
      * <p>
      * If family is the empty string, will return all codes for all families.
-     * Note that tksesh user glyph codes won't be listed. (this could count as a
-     * bug).
+     * <p>
+     * Variants for signd can be included or excluded. The definition of a
+     * variant is "a sign which is both listed as a variant for another sign,
+     * and which is not marked as "basic" sign.
      *
-     * @param family : the Gardiner family for this sign (A,B...Aa,Ff, NU, NL)
-     * @param userCodes : if true, also add signs which have an user code (USn+
-     * Gardiner code)
-     * @return all codes for a given sign family.
+     * @param family : the Gardiner family for this sign (A,B...Aa,Ff,NL,NU)
+     * @param includeVariants : should we list all signs, including variants.
+     * @return all codes for a given sign family as a Collection of String.
      */
     @Override
-    public Collection<String> getCodesForFamily(String family, boolean userCodes) {
-        ArrayList<String> l = new ArrayList<>();
-        Set<String> s = getCodesSet();
-        Iterator<String> it = s.iterator();
-        while (it.hasNext()) {
-            String c = it.next();
-            // The regexps here should move to GardinerCode !!!
-            if (family.length() > 0 && c.matches(family + "[0-9]+[a-zA-Z]*")) {
-                l.add(c);
-            } else if (userCodes
-                    && c.matches("US" + "[0-9]+" + family + "[0-9]+[a-zA-Z]*")) {
-                l.add(c);
-            } else if ("".equals(family)
-                    && GardinerCode.isCorrectGardinerCode(c)
-                    && !c.startsWith("UG")) {
-                l.add(c);
+    public Collection<String> getCodesForFamily(String family, boolean includeVariants) {
+        // Removed prefix "UG" from tksesh. I think nobody uses it.
+        TreeSet<String> l = new TreeSet<>(GardinerCode.getCodeComparator());
+        for (String code : getCodesSet()) {
+            boolean keepCode;
+            // First filter
+            if (family.length() > 0) {
+                keepCode = code.matches("(US[0-9]+)?" + family + "[0-9]+[a-zA-Z]*");
+            } else {
+                keepCode = GardinerCode.isCorrectGardinerCode(code); // No specific family needed
+            }
+
+            if (keepCode) {
+                if (!includeVariants) {
+                    keepCode = isAlwaysDisplayed(code);
+                }
+            }
+
+            if (keepCode) {
+                l.add(code);
             }
         }
-        Collections.sort(l, GardinerCode.getCodeComparator());
         return l;
     }
-    
+
     public void addValue(String gardinerCode, String value) {
         // create a value entry for the sign if necessary
         if (!signsValues.containsKey(gardinerCode)) {
@@ -171,7 +173,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         signsValues.get(gardinerCode).add(value);
         possibilitiesLists.get(value).addSign(gardinerCode);
     }
-    
+
     private PossibilitiesList getOrCreatePossibilityList(String value) {
         // If there is no sign list for this value, create one
         if (!possibilitiesLists.containsKey(value)) {
@@ -231,10 +233,10 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
                 }
             }
         }
-        
+
         return (PossibilitiesList) result;
     }
-    
+
     @Override
     public PossibilitiesList getCodesStartingWith(String code) {
         // Temporary system...
@@ -312,7 +314,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     public List<HieroglyphFamily> getFamilies() {
         return families;
     }
-    
+
     private SignInfo getSignInfo(String code) {
         if (code == null) {
             return null;
@@ -322,7 +324,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         }
         return signInfoMap.get(code);
     }
-    
+
     public void addTransliteration(String sign, String transliteration,
             String use, SignValueType type) {
         SignInfo signInfo = getSignInfo(sign);
@@ -342,13 +344,14 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      * @param type the relationship between the two signs.
      */
     public void addVariant(String sign, String baseSign, SignVariantType type) {
-        SignInfo signInfo = getSignInfo(baseSign);
-        signInfo.addVariant(sign, type);
-        SignInfo otherSignInfo = getSignInfo(sign);
-        otherSignInfo.addVariant(baseSign, type); // Not completely reflexive in theory...
-
+        SignInfo baseSignInfo = getSignInfo(baseSign);
+        baseSignInfo.addVariant(sign, type);
+        SignInfo variantSignInfo = getSignInfo(sign);
+        variantSignInfo.addVariant(baseSign, type); 
+        // Not completely reflexive in theory :
+        variantSignInfo.markAsVariant(true);
     }
-    
+
     public void addPartOf(String sign, String baseSign) {
         SignInfo signInfo = getSignInfo(sign);
         signInfo.addSignContainingThisOne(baseSign);
@@ -371,17 +374,17 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         SignInfo signInfo = getSignInfo(sign);
         signInfo.setDescription(text);
     }
-    
+
     public void addDeterminativeValue(String sign, String category) {
         SignInfo signInfo = getSignInfo(sign);
         signInfo.addDeterminativeValue(category);
     }
-    
+
     public void addTagToSign(String sign, String tag) {
         SignInfo signInfo = getSignInfo(sign);
         signInfo.addTag(tag);
     }
-    
+
     public void addDeterminative(String category, String lang, String label) {
         if (!determinativeMap.containsKey(category)) {
             determinativeMap.put(category, new MultiLingualLabel(category));
@@ -389,19 +392,19 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         MultiLingualLabel mlabel = determinativeMap.get(category);
         mlabel.addLabel(lang, label);
     }
-    
+
     public void addTagLabel(String tag, String lang, String label) {
         addTagCategory(tag);
         MultiLingualLabel mlabel = tagsMap.get(tag);
         mlabel.addLabel(lang, label);
     }
-    
+
     public void addTagCategory(String tag) {
         if (!tagsMap.containsKey(tag)) {
             tagsMap.put(tag, new MultiLingualLabel(tag));
         }
     }
-    
+
     @Override
     public Collection<SignVariant> getVariants(String code) {
         if (code == null) {
@@ -410,7 +413,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         SignInfo signInfo = getSignInfo(code);
         return signInfo.getVariants();
     }
-    
+
     @Override
     public Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches) {
         if (code == null) {
@@ -422,7 +425,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
                 .map(info -> info.getCode())
                 .collect(Collectors.toSet());
     }
-    
+
     @Override
     public Collection<String> getSignsContaining(String code) {
         if (code == null) {
@@ -431,7 +434,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         SignInfo signInfo = getSignInfo(code);
         return signInfo.getSignsContainingThisOne();
     }
-    
+
     @Override
     public Collection<String> getSignsIn(String code) {
         if (code == null) {
@@ -441,7 +444,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             return signInfo.getSubSigns();
         }
     }
-    
+
     @Override
     public Collection<String> getTagsForFamily(String familyName) {
         TreeSet<String> tagsNames = new TreeSet<>(); // Strings
@@ -455,7 +458,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         }
         return tagsNames;
     }
-    
+
     @Override
     public Collection<String> getTagsForSign(String gardinerCode) {
         TreeSet<String> tagsNames = new TreeSet<>(); // Strings
@@ -487,7 +490,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         }
         return result;
     }
-    
+
     @Override
     public Collection<String> getSignsWithoutTagInFamily(String familyName) {
         ArrayList<String> result = new ArrayList<>();
@@ -518,7 +521,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             return "";
         }
     }
-    
+
     public void setInDistributionMode(boolean inDistributionMode) {
         this.inDistributionMode = inDistributionMode;
     }
@@ -532,19 +535,24 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     public boolean isInDistributionMode() {
         return inDistributionMode;
     }
-    
+
     @Override
     public String getCanonicalCode(String code) {
         return basicManuelDeCodageManager.getCanonicalCode(code);
     }
-    
+
+    /**
+     * Explicitly mark sign as being always displayed.
+     * @param sign 
+     */
     public void setSignAlwaysDisplay(String sign) {
         getSignInfo(sign).setAlwaysDisplayed(true);
     }
-    
+
     @Override
     public boolean isAlwaysDisplayed(String code) {
-        return getSignInfo(code).isAlwaysDisplayed();
+        SignInfo signInfo = getSignInfo(code);
+        return signInfo.isAlwaysDisplayed() || ! signInfo.isVariant();
     }
-    
+
 }

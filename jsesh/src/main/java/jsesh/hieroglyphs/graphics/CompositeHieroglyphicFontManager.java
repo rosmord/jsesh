@@ -1,6 +1,7 @@
 package jsesh.hieroglyphs.graphics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -71,10 +72,11 @@ public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager
 		return result;
 	}
 	
+        @Override
 	public Set<String> getCodes() {
 		
 		if (codes == null || hasNewSigns()) {
-			codes = new TreeSet<String>();
+			codes = new TreeSet<>();
 			int i = 0;
 			while (i < managers.size()) {
 				HieroglyphicFontManager m = managers
@@ -83,7 +85,7 @@ public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager
 				i++;
 			}
 		}
-		return codes;
+		return Collections.unmodifiableSet(codes);
 	}
 
 	public boolean hasNewSigns() {

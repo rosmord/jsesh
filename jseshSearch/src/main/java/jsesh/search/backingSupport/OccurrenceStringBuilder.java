@@ -6,7 +6,7 @@ import jsesh.mdc.model.TopItemList;
 
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 
 /**
  * Extract a normalised list of couples codes/position, usable for a number of searches.
@@ -29,7 +29,7 @@ public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 
 	@Override
 	public void visitHieroglyph(Hieroglyph h) {
-		String code = CompositeHieroglyphDatabase.getInstance()
+		String code = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 				.getCanonicalCode(h.getCode());
 		codes.add(new HieroglyphOccurrence(code, position));
 	}

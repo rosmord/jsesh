@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.VariantTypeForSearches;
 import jsesh.mdc.model.MDCPosition;
@@ -157,7 +157,7 @@ public class WildCardQuery implements MdCSearchQuery {
             } else {
                 // TO MODIFY.. redundant types, in a way (but FULL != EXACT...)
                 VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;                
-                HieroglyphDatabaseInterface hieroglyphsManager = CompositeHieroglyphDatabase.getInstance();
+                HieroglyphDatabaseInterface hieroglyphsManager = HieroglyphDatabaseRepository.getHieroglyphDatabase();
                 
                 Collection<String> variantCodes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
                 seq.add(label(new CodeSetLabel(variantCodes)));

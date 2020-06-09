@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
 import jsesh.hieroglyphs.data.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
@@ -213,7 +213,7 @@ public class MdCModelWriter {
 			// Well I would write something for SMALLTEXT, but it already works !
 			String code;
 			if (normalized)
-				code=	CompositeHieroglyphDatabase.getInstance().getCanonicalCode(h.getCode());
+				code=	HieroglyphDatabaseRepository.getHieroglyphDatabase().getCanonicalCode(h.getCode());
 			else
 				code= h.getCode();
  

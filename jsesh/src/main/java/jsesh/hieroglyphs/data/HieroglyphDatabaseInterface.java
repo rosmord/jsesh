@@ -40,32 +40,39 @@ public interface HieroglyphDatabaseInterface {
      * @param code
      * @return
      */
-    public String getCanonicalCode(String code);
+    String getCanonicalCode(String code);
 
     /**
-     * Returns all the codes for a given family of signs.
+     * Returns the codes for a given family of signs.
      * <p>
      * If family is the empty string, will return all codes for all families.
-     * Note that tksesh user glyph codes won't be listed. (this could count as a
-     * bug).
+     * <p>
+     * Variants for signs can be included or excluded. The definition of a
+     * variant is "a sign which is both listed as a variant for another sign,
+     * and which is not marked as "basic" sign.
+     *
+     * <p>
+     * <strong>Note:</strong> in a previous version of this method, the boolean
+     * argument was used to include or exclude user-made variants of the signs.
+     * I don't find this very useful, and I revert to the original version.
      *
      * @param family : the Gardiner family for this sign (A,B...Aa,Ff)
-     * @param userCodes : if true, also add signs which have an user code (USn+
-     * Gardiner code)
+     * @param includeVariants : should we list all signs, including variants.
      * @return all codes for a given sign family as a Collection of String.
      */
-    public Collection<String> getCodesForFamily(String family, boolean userCodes);
+    Collection<String> getCodesForFamily(
+            String family, boolean includeVariants);
 
     /**
      * Returns the set of known codes (including phonetic codes).
      *
      * @return
      */
-    public Set<String> getCodesSet();
+    Set<String> getCodesSet();
 
-    public String getDescriptionFor(String code);
+    String getDescriptionFor(String code);
 
-    public List<HieroglyphFamily> getFamilies();
+    List<HieroglyphFamily> getFamilies();
 
     /**
      * Gets all possibilities for a certain transliteration.
@@ -79,23 +86,33 @@ public interface HieroglyphDatabaseInterface {
      *
      * @return
      */
-    public jsesh.hieroglyphs.data.PossibilitiesList getPossibilityFor(String phoneticValue, String level);
+    PossibilitiesList getPossibilityFor(String phoneticValue, String level);
 
-    public Collection<String> getSignsContaining(String code);
+    /**
+     * Gets all signs which contain this one in their drawing.
+     * <p>
+     * E.g. A12 (mšꜥ) contains T9 (pḏ.t).
+     *
+     * @param code gardiner code of the sign
+     * @return all signs which are currently recorded as containing sign "code".
+     */
+    Collection<String> getSignsContaining(String code);
 
     /**
      * Returns all the signs which are contained in a larger sign
+     * <p>
+     * (inverse of {@link #getSignsContaining(java.lang.String)}).
      *
      * @param code
-     * @return
+     * @return all signs which are part of this sign.
      */
-    public Collection<String> getSignsIn(String code);
+    Collection<String> getSignsIn(String code);
 
-    public Collection<String> getSignsWithTagInFamily(String currentTag, String familyName);
+    Collection<String> getSignsWithTagInFamily(String currentTag, String familyName);
 
-    public Collection<String> getSignsWithoutTagInFamily(String familyName);
+    Collection<String> getSignsWithoutTagInFamily(String familyName);
 
-    public Collection<String> getTagsForFamily(String familyName);
+    Collection<String> getTagsForFamily(String familyName);
 
     /**
      * gets declared tags for a particular Gardiner code.
@@ -103,61 +120,68 @@ public interface HieroglyphDatabaseInterface {
      * @param gardinerCode
      * @return a collection of Strings.
      */
-    public Collection<String> getTagsForSign(String gardinerCode);
+    Collection<String> getTagsForSign(String gardinerCode);
 
-    public List<String> getValuesFor(String gardinerCode);
+    List<String> getValuesFor(String gardinerCode);
 
     /**
      * Gets directly recorded variants for a sign.
-     * <p> This will get all variants of the signs, regardless of variant level.
-     * <p> this methods is not transitive : variants of variants won't be returned.
+     * <p>
+     * This will get all variants of the signs, regardless of variant level.
+     * <p>
+     * this methods is not transitive : variants of variants won't be returned.
+     *
      * @param code the code of the original sign
      * @return the signs which are recorded as variants for this one.
      */
-    public Collection<SignVariant> getVariants(String code);
-    
-      /**
+    Collection<SignVariant> getVariants(String code);
+
+    /**
      * Gets directly recorded variants for a sign.
-     * <p> this methods is not transitive : variants of variants won't be returned.
+     * <p>
+     * this methods is not transitive : variants of variants won't be returned.
+     *
      * @param code the code of the original sign
      * @param variantTypeForSearches the kind of variants to search for.
      * @return the signs which are recorded as variants for this one.
      */
-    public Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches);
-    
+    Collection<String> getVariants(String code, VariantTypeForSearches variantTypeForSearches);
+
     /**
-     * Gets variants, directly or indirectly.
-     * This method will return variants, and variants of variants, etc...
+     * Gets variants, directly or indirectly. This method will return variants,
+     * and variants of variants, etc...
+     *
      * @param code the basic sign.
      * @param variantTypeForSearches the level of variants to search for.
      * @return a collection of sign codes.
      */
     default Collection<String> getTransitiveVariants(String code, VariantTypeForSearches variantTypeForSearches) {
-        HashSet<String> result= new HashSet<>();
+        HashSet<String> result = new HashSet<>();
         Deque<String> toProcess = new ArrayDeque<>();
         toProcess.push(code);
-        while (! toProcess.isEmpty()) {
+        while (!toProcess.isEmpty()) {
             String toExpand = toProcess.pop();
-            if (! result.contains(toExpand)) {
+            if (!result.contains(toExpand)) {
                 result.add(toExpand);
                 for (String variant : getVariants(toExpand, variantTypeForSearches)) {
-                    if (! result.contains(variant)) {
+                    if (!result.contains(variant)) {
                         toProcess.push(variant);
                     }
                 }
             }
         }
-        return result;    
+        return result;
     }
 
     /**
-     * Should the sign be always displayed in the palette when its family is
-     * shown.
-     *
+     * Should the sign be displayed in lists, as a "main" entry for signs.
+     * <p> This method name is not very good. 
+     * The idea is that, when hiding variant signs,
+     * this sign should be displayed.
      * @param string
      * @return
      */
-    public boolean isAlwaysDisplayed(String string);
+    boolean isAlwaysDisplayed(String string);
 
     /**
      * Return all codes which start with a given string.
@@ -165,22 +189,22 @@ public interface HieroglyphDatabaseInterface {
      * @param code
      * @return
      */
-    public PossibilitiesList getCodesStartingWith(String code);
+    PossibilitiesList getCodesStartingWith(String code);
 
     /**
      * Get the all the codes which might match a "generic gardiner code".
-     * 
-     * <p>The
-     * code is considered as case insensitive (thus a1 will return A1). The code
-     * given is case insensitive. So a1 and A1 will return A1 and variants, for
-     * instance. In fact, there are two conceptual layers of signs : Glyphs and
-     * Characters, roughly. Characters are described (more or less consistently,
-     * see for example Y1 and Y2 as a counter example) by Gardiner code. Those
-     * codes might correspond to user defined glyphs (US1A1 for A1, as an
-     * example). Notice that this is somehow ad-hoc, as some user codes are
-     * really character codes (signs ending in XT, for instance, are supposed to
-     * be real new signs, not variants of existing signs, so US1A1XT would be
-     * completely different from US2A1XT).
+     *
+     * <p>
+     * The code is considered as case insensitive (thus a1 will return A1). The
+     * code given is case insensitive. So a1 and A1 will return A1 and variants,
+     * for instance. In fact, there are two conceptual layers of signs : Glyphs
+     * and Characters, roughly. Characters are described (more or less
+     * consistently, see for example Y1 and Y2 as a counter example) by Gardiner
+     * code. Those codes might correspond to user defined glyphs (US1A1 for A1,
+     * as an example). Notice that this is somehow ad-hoc, as some user codes
+     * are really character codes (signs ending in XT, for instance, are
+     * supposed to be real new signs, not variants of existing signs, so US1A1XT
+     * would be completely different from US2A1XT).
      *
      * Signs indicated as "variants" by their names will also be returned.
      *
@@ -190,6 +214,6 @@ public interface HieroglyphDatabaseInterface {
      * @param code the code typed by the user.
      * @return a "possibility list", a navigable set of possible choices.
      */
-    public PossibilitiesList getSuitableSignsForCode(String code);
-    
+    PossibilitiesList getSuitableSignsForCode(String code);
+
 }

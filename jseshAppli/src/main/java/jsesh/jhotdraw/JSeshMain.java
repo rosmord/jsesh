@@ -23,7 +23,7 @@ import java.util.List;
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.hieroglyphs.data.CompositeHieroglyphDatabase;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.ManuelDeCodage;
@@ -70,8 +70,8 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
     }
 
     private void preloadHieroglyphicIcons() {       
-        List<HieroglyphFamily> families = CompositeHieroglyphDatabase
-                .getInstance().getFamilies();
+        List<HieroglyphFamily> families = HieroglyphDatabaseRepository
+                .getHieroglyphDatabase().getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);
             for (String code : ManuelDeCodage.getInstance()
