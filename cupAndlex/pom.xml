@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -9,16 +10,31 @@
     </parent>
     <artifactId>cupAndlex</artifactId>
     <description>
-      Generic plugin to run FLEX AND CUP in maven.
+        Generic plugin to run FLEX AND CUP in maven.
     </description>
     <packaging>maven-plugin</packaging>
     <name>cupAndlex Maven Mojo</name>
     <url>http://maven.apache.org</url>
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-plugin-plugin</artifactId>
+            <version>3.6.0</version>
+            <executions>
+                <execution>
+                    <id>default-descriptor</id>
+                    <phase>process-classes</phase>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>2.0</version>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -28,4 +44,5 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
 </project>

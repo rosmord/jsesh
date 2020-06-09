@@ -40,6 +40,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
@@ -253,7 +254,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
 //			UIManager
 //					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
         if (UIManager.getString("OptionPane.css") == null) {
@@ -302,7 +303,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 
             // Unlink all menu items from action objects
             JMenuBar mb = ((JFrame) window).getJMenuBar();
-            Stack<JMenu> s = new Stack<JMenu>();
+            Stack<JMenu> s = new Stack<>();
             for (int i = 0, n = mb.getMenuCount(); i < n; ++i) {
                 if (mb.getMenu(i) != null) {
                     s.push(mb.getMenu(i));
@@ -589,27 +590,23 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         setScreenMenuBar(createMenuBar(null));
         paletteHandler.add((JFrame) getComponent(), null);
 
+        QenherOSXDesktopAdapter desktopAdapter = new QenherOSXDesktopAdapter(this);
+
         Action a;
-        if (null != (a = getAction(null, OpenApplicationAction.ID))) {
-            OSXAdapter.setOpenApplicationHandler(a);
-        }
-        if (null != (a = getAction(null, ReOpenApplicationAction.ID))) {
-            OSXAdapter.setReOpenApplicationHandler(a);
-        }
         if (null != (a = getAction(null, OpenApplicationFileAction.ID))) {
-            OSXAdapter.setOpenFileHandler(a);
+            desktopAdapter.setOpenFileHandler(a);
         }
         if (null != (a = getAction(null, PrintApplicationFileAction.ID))) {
-            OSXAdapter.setPrintFileHandler(a);
+            // desktopAdapter.setPrintFileHandler(a);
         }
         if (null != (a = getAction(null, AboutAction.ID))) {
-            OSXAdapter.setAboutHandler(a);
+            // desktopAdapter.setAboutHandler(a);
         }
         if (null != (a = getAction(null, AbstractPreferencesAction.ID))) {
-            OSXAdapter.setPreferencesHandler(a);
+            desktopAdapter.setPreferencesHandler(a);
         }
         if (null != (a = getAction(null, ExitAction.ID))) {
-            OSXAdapter.setQuitHandler(a);
+            desktopAdapter.setQuitHandler(a);
         }
     }
 

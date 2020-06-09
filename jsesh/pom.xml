@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <plugins>
+        <plugins>            
             <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> -->
             <plugin>
                 <groupId>org.qenherkhopeshef.jsesh</groupId>
@@ -113,9 +113,9 @@
             <version>2.1.5</version>
         </dependency>
         <dependency>
-          <groupId>org.qenherkhopeshef</groupId>
-          <artifactId>jvectclipboard</artifactId>
-          <version>8.0.0</version>
+            <groupId>org.qenherkhopeshef</groupId>
+            <artifactId>jvectclipboard</artifactId>
+            <version>8.0.0</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
