@@ -24,14 +24,15 @@ import javax.swing.JFileChooser;
  */
 public class JFileURIChooser extends JFileChooser implements URIChooser {
 
-    
+   
     public void setSelectedURI(URI uri) {
         setSelectedFile(new File(uri));
     }
 
-    
     public URI getSelectedURI() {
+
         return getSelectedFile() == null ? null : getSelectedFile().toURI();
+        
     }
 
     

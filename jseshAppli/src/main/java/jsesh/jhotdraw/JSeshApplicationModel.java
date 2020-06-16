@@ -390,15 +390,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         String description = BundleHelper.getInstance().getLabel(
                 "file.glyphFile.text");
         QenherkhURIChooser chooser = new QenherkhURIChooser();
+        chooser.setAllowedSaveExtensions(new String[] {"gly"});
         chooser.setSelectedURI(v.getURI());
         chooser.setCloseFileFilters(new FileFilter[]{
             new ExtensionFileFilter(description, "gly"),
             new FileExtensionFilter(new String[]{"pdf"}, pdfDescription)
         });
-
-        //        chooser.addChoosableFileFilter(new FileExtensionFilter(new String[]{"pdf"}, pdfDescription));
-        // chooser.addChoosableFileFilter(new ExtensionFileFilter(description,
-        // "gly"));
         return chooser;
     }
 

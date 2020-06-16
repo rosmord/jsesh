@@ -10,6 +10,8 @@
  */
 package org.jhotdraw_7_6.gui;
 
+import org.qenherkhopeshef.jhotdrawChanges.Nullable;
+
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
@@ -274,6 +276,22 @@ public interface URIChooser {
      * @see #showDialog
      */
     public int showSaveDialog( Component parent) throws HeadlessException;
+
+    /**
+     * Sets allowed extensions to use for saving new documents.
+     * if null, nothing special is enforced.
+     * <p>If the document exists,
+     * nothing will be done either.</p>
+     * <p>Else, if the document name doesn't end with an allowed extension,
+     * <code>extensions[0]</code>  will added.</p>
+     * <p>This method is optional at the moment.</p>
+     * (S. Rosmorduc)
+     * @param extensions the extension to add (without the "."). May be null, but not empty.
+     * @throws UnsupportedOperationException if the operation is not implemented.
+     */
+    default void setAllowedSaveExtensions(@Nullable String[] extensions) {
+        throw new UnsupportedOperationException("setAllowedSaveExtension not implemented");
+    }
 
     /**
      * Pops a custom file chooser dialog with a custom approve button.
