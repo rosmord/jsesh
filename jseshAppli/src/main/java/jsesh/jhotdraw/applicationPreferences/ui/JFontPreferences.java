@@ -60,8 +60,12 @@ public class JFontPreferences {
     private JRadioButton useMdCRadioButton;
 
     /**
-     * Probably the theoretical "best" choice, but doesn't always work with
-     * today softwares.
+     * This sign is specifically the code for "Egyptological yod".
+     */
+    private JRadioButton yodUsesUA7BD;
+
+    /**
+     * Previous "best" choice
      */
     private JRadioButton yodUsesU0486;
 
@@ -113,6 +117,8 @@ public class JFontPreferences {
                 Messages.getString("fontPreferences.yodUsesU0313.text"));
         this.yodUsesU0486 = new JRadioButton(
                 Messages.getString("fontPreferences.yodUsesU0486.text"));
+        this.yodUsesUA7BD = new JRadioButton(
+                Messages.getString("fontPreferences.yodUsesUA7BD.text"));
 
     }
 
@@ -137,6 +143,7 @@ public class JFontPreferences {
         PanelBuilder trlHelper = new PanelBuilder(transliterationOptionPanel);
         trlHelper.add(useMdCRadioButton, "wrap");
         trlHelper.add(useUnicodeRadioButton, "wrap para");
+        trlHelper.add(yodUsesUA7BD, "wrap");
         trlHelper.add(yodUsesU0486, "wrap");
         trlHelper.add(yodUsesU0313, "wrap");
     }
@@ -148,6 +155,7 @@ public class JFontPreferences {
         ButtonGroup yodGroup = new ButtonGroup();
         yodGroup.add(yodUsesU0313);
         yodGroup.add(yodUsesU0486);
+        yodGroup.add(yodUsesUA7BD);
         useMdCRadioButton.addActionListener((e) -> trlChanged());
         useUnicodeRadioButton.addActionListener((e) -> trlChanged());
         showOptionButton.addActionListener(e -> toggleShowOption());
@@ -186,6 +194,7 @@ public class JFontPreferences {
     protected void trlChanged() {
         yodUsesU0313.setEnabled(useUnicodeRadioButton.isSelected());
         yodUsesU0486.setEnabled(useUnicodeRadioButton.isSelected());
+        yodUsesUA7BD.setEnabled(useUnicodeRadioButton.isSelected());
     }
 
     protected void toggleShowOption() {
@@ -224,6 +233,8 @@ public class JFontPreferences {
             fontInfo = fontInfo.withYodChoice(YODChoice.U0313);
         } else if (yodUsesU0486.isSelected()) {
             fontInfo = fontInfo.withYodChoice(YODChoice.U0486);
+        } else if (yodUsesUA7BD.isSelected()) {
+            fontInfo = fontInfo.withYodChoice(YODChoice.UA7BD);
         }
         fontInfo = fontInfo.withUseEmbeddedFont(useDefaultJSeshFont);
         return fontInfo;
@@ -245,6 +256,9 @@ public class JFontPreferences {
                 break;
             case U0486:
                 yodUsesU0486.setSelected(true);
+                break;
+            case UA7BD:
+                yodUsesUA7BD.setSelected(true);
                 break;
         }
         if (fontInfo.isUseEmbeddedFont()) {
