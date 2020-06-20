@@ -21,7 +21,7 @@
     <minVersion>8.0.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>jdkOnly</jdkPreference>
-    <runtimeBits>32</runtimeBits>
-    <maxHeapSize>1024</maxHeapSize>
+    <runtimeBits>64</runtimeBits>
+    <maxHeapSize>12</maxHeapSize>
   </jre>
 </launch4jConfig>

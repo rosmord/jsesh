@@ -1,0 +1,25 @@
+fileMenu
+	openDefault
+	save
+#	-------
+	newFile
+#	newFileWithoutDefault
+#	open // NOT USED ANY MORE.
+#	saveAs
+#	--------
+#	resetDefault
+#	-------
+	quit
+editMenu
+	copy
+	paste
+navigateMenu
+	nextSign
+	previousSign
+toolsMenu
+	displayPalette
+	displayTagEditor
+expertMenu
+	toggleExpertMode
+	selectExpertFile
+

@@ -1,21 +1,8 @@
 # JSesh sources
 Welcome to JSesh sources! 
 
-**JAVA 9+ (actually Java 12) version: ** to compile on mac, use something like :
+**JAVA 9+ (actually Java 12) version: **
 
-    export JAVA_HOME=/Users/rosmord/Applications/jdk-12.0.1.jdk/Contents/Home
-before starting maven.
-
-## TEMPORARY Note (remove when JSesh for Java 9+ is done)
-
-To package java 12, one needs to  use `jlink`
-
-The following line kind of works (but does not include all dependencies) :
-~~~~~
-jlink --module-path $JAVA_HOME/jmods --add-modules java.base,java.desktop,java.naming,java.prefs,java.sql --output jre
-~~~~~
-
-(we should identify why on earth java.sql would be needed...)
 
 JSesh is a Java hieroglyphic editor 
 developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
@@ -90,8 +77,7 @@ Due to changes in Java distribution and on Windows and Mac OS X as platform
 (with a strong bias against softwares not distributed through their respective
 stores), the previous java-only distribution system has changed.
 
-JSesh will now embed its own version of Java - at the present time, it will
-be java 8.
+JSesh will now embed its own version of Java
 
 
 The files here are used in the last, non-automated phase of building a
@@ -107,22 +93,26 @@ build the whole project: "mvn install".
 1. all files are in jsesh-installer/target/mac. cd there.
 
 5. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
+~~~
+$ find . -name main.sh -exec chmod a+x {} \;
+~~~
 
-3. place jre 8 in the Contents folder of JSesh.app, with "jre" as folder name.
+3. build a jre for JSesh (check if your path is correct before).
+
+~~~
+$ cd JSesh.app/Contents
+$ MODULES=java.base,java.desktop,java.naming,java.prefs,java.sql
+$ jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output jre
+~~~
+  (we should identify why on earth java.sql is needed. This being said, it's very small,
+   so no harm done.)
+
 
 6. Check if JSesh and SignInfo are functional (they should start if you double click on them).
 
-7. make a package (.pkg) with "Packages" by Stéphane Sudre.
-    See JSesh-dist.pkgproj for a config file for the Packages software for Mac.
+7. make a package (.pkg) using the application "Packages" by Stéphane Sudre.
+    A config file is provided : JSesh-dist.pkgproj.
 
-
-(maybe not needed anymore ?) Bundled JRE for mac os X distribution need to patch `flavormap.properties`:
-add the line 
-~~~~~
-PDF: application/pdf 
-~~~~~
-(allows copy/paste of PDF)
-P.S. see if we can handle this as EMF ? (check if still needed anyway)
 
 ------------------------------------
 ### Windows distribution
@@ -133,6 +123,7 @@ P.S. see if we can handle this as EMF ? (check if still needed anyway)
 4. same for the file signInfo-bundler.xml
 5. run Inno Setup on jsesh-inno.iss. Generate a new ID for the build before building.
 
+*Note : we will probably use jlink as above to generate the JRE*
 
 
 ## Note about github distribution (for personnal use mainly)

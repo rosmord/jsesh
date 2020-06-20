@@ -24,5 +24,5 @@ LIB="$CONTENTS/../../JSesh.app/Contents/lib"
 JRE="$CONTENTS/../../JSesh.app/Contents/jre/bin/java"
 # Starts java
 # removed -Djava.library.path="$LIB" because not needed anymore...
- APPCLASS=jsesh.utilitySoftwares.signInfoEditor.ui.Main
+ APPCLASS=jsesh.utilitysoftwares.signinfoeditor.Main
 "$JRE" -Xmx512m  -cp "$LIB/*" -Xdock:name="Sign Info" $APPCLASS
