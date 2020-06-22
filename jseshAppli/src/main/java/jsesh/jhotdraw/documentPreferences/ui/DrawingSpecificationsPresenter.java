@@ -38,11 +38,11 @@ import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.ShadingStyle;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
 
@@ -143,7 +143,7 @@ public class DrawingSpecificationsPresenter {
 
     public int showDialog(Component parent) {
         JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
-                Messages.getString("drawingPrefs.title"));
+                JSeshMessages.getString("drawingPrefs.title"));
         int result = dialog.show();
         dialog.dispose();
         return result;

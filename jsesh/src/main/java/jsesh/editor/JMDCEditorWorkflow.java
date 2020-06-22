@@ -1800,6 +1800,8 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         if (caret.hasMark()) {
             result = hieroglyphicTextModel.getTopItemsBetween(caret.getMin(),
                     caret.getMax());
+        } else {
+            result = Collections.emptyList();
         }
         return result;
     }
@@ -1926,4 +1928,11 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     public boolean mustSave() {
         return hieroglyphicTextModel.mustSave();
     }
+
+    public void insertLineNumber(String line) {
+            possibilitiesHandler.clear();
+            Superscript superscript = new Superscript(line);            
+            hieroglyphicTextModel.insertElementAt(getInsertPosition(), superscript);                    
+    }
+
 }

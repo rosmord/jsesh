@@ -101,12 +101,7 @@ class MDCEditorKeyManager extends KeyAdapter {
         private AppDefaults appDefaults;
 
         ActionMapper(JMDCEditor editor) {
-            this.editor = editor;
-            //if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-            //shortcutKey = "meta";
-            //} else {
-            //shortcutKey = "control";
-            //}
+            this.editor = editor;          
             appDefaults = AppDefaultFactory.getAppDefaults();
             inputMap = new InputMap();
             actionMap = new ActionMap();
@@ -332,7 +327,6 @@ class MDCEditorKeyManager extends KeyAdapter {
     }
 
     public MDCEditorKeyManager(JMDCEditor editor) {
-        super();
         new ActionMapper(editor);
         editor.addKeyListener(this);
     }

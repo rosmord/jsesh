@@ -33,12 +33,12 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ApplicationPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import jsesh.resources.JSeshMessages;
 
 /**
  * Panel for various (ui linked) preferences.
@@ -69,7 +69,7 @@ public class JOtherPreferences {
         PanelBuilder helper = new PanelBuilder(panel);
         helper.addLabel("otherPrefs.iconHeight.label");
         panel.add(iconHeight, "span, grow, wrap");
-        JLabel comment= new JLabel(Messages.getString("otherPrefs.iconHeight.comment"));
+        JLabel comment= new JLabel(JSeshMessages.getString("otherPrefs.iconHeight.comment"));
         panel.add(comment, "span, grow, wrap");
     }
 

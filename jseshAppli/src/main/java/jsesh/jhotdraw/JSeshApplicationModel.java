@@ -65,6 +65,7 @@ import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.FindAction;
 import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.FindNextAction;
+import jsesh.jhotdraw.actions.edit.InsertNextLineNumberAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
@@ -281,6 +282,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(FindAction.ID, new FindAction(a));
 
         } else {
+            // Note : many actions are in fact defined in the MDCEditor 
+            // object itself. 
             // View level actions
             map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
             map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
@@ -321,6 +324,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
             map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
             map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
+            map.put(InsertNextLineNumberAction.ID, new InsertNextLineNumberAction(a, v));
 
             for (SelectCopyPasteConfigurationAction action : SelectCopyPasteConfigurationAction
                     .buildActions(a, jseshView)) {

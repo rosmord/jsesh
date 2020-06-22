@@ -33,11 +33,9 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.swing.units.LengthUnit;
@@ -46,6 +44,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.util.Arrays;
+import jsesh.resources.JSeshMessages;
 
 /**
  * Panel for export preferences. The graphical part should be separated from the
@@ -127,7 +126,7 @@ public class JExportPreferences {
                 RTFExportGraphicFormat.GRAPHIC_FORMATS));
 
         respectTextLayoutCB = new JCheckBox(
-                Messages.getString("exportPrefs.respectTextLayout"));
+                JSeshMessages.getString("exportPrefs.respectTextLayout"));
         quadrantHeightLargeField = new JFormattedTextField(20d);
         quadrantHeightSmallField = new JFormattedTextField(20d);
         quadrantHeightFileField = new JFormattedTextField(20d);

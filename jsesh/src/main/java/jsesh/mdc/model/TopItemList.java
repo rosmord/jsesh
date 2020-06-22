@@ -480,11 +480,10 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
     }
 
     /**
-     * Returns the page limits for the page around a given position. 
-     * TODO : generalize this. A getLimitsAround method, taking as argument a boolean test,
-     * or specific types of elements, would be ok.
-     * More precisely, will return an array of two positions [pos1, pos2] around pos,
-     * with :
+     * Returns the page limits for the page around a given position. TODO :
+     * generalize this. A getLimitsAround method, taking as argument a boolean
+     * test, or specific types of elements, would be ok. More precisely, will
+     * return an array of two positions [pos1, pos2] around pos, with :
      * <p>
      * pos1 &le; pos &le; pos2 </p>
      * <ul>
@@ -504,8 +503,8 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
         int endLinePos = getPageEndAfter(pos);
         return new int[]{startLinePos, endLinePos};
     }
-    
-      private int getPageEndAfter(int pos) {
+
+    private int getPageEndAfter(int pos) {
         int res = pos;
         while (res < getNumberOfChildren() && !(getChildAt(res) instanceof PageBreak)) {
             res++;
@@ -521,5 +520,29 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
         // so, now, we have the index of the new line (or -1 if we fell on the beginning of the text)
         // the position we see is just after that.
         return res + 1;
+    }
+
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
+     * function will return the coordinates for a given point in text.
+     *
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if
+     * none is found.
+     */
+    public String getOriginalDocumentCoordinates(int position) {
+        int res = position - 1; // The element BEFORE position pos is at index pos - 1 in the array
+        while (res >= 0 && !(getChildAt(res) instanceof Superscript)) {
+            res--;
+        }
+        if (res == -1)
+            return "";
+        else {
+            Superscript superscript = (Superscript) getChildAt(res);
+            return superscript.getText();
+        }     
     }
 }

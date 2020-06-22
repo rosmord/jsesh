@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import jsesh.resources.JSeshMessages;
 
 import jsesh.swing.utils.ImageIconFactory;
 
@@ -24,7 +25,7 @@ public class BundleHelper {
 
 	private BundleHelper() {
 		resourceBundleUtil = ResourceBundleUtil
-				.getBundle("jsesh.jhotdraw.labels");
+				.getBundle(JSeshMessages.getBundleName());                
 	}
 
 	/**

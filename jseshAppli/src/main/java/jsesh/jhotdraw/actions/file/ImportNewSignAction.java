@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 import jsesh.graphics.glyphs.ExternalSignImporter;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.resources.JSeshMessages;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
@@ -46,8 +46,8 @@ public class ImportNewSignAction extends AbstractApplicationAction {
 			jSeshApplicationModel.setCurrentDirectory(importer
 					.getSourceDirectory());
 		} else {
-			String message= Messages.getString("file.importNewSign.notfoundMessage");
-			String messageTitle= Messages.getString("file.importNewSign.notfoundMessageTitle");
+			String message= JSeshMessages.getString("file.importNewSign.notfoundMessage");
+			String messageTitle= JSeshMessages.getString("file.importNewSign.notfoundMessageTitle");
 			
 			JOptionPane.showMessageDialog(null, message, messageTitle, JOptionPane.WARNING_MESSAGE);
 		}

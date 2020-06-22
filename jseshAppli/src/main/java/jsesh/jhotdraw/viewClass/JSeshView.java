@@ -26,7 +26,6 @@ import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
@@ -37,6 +36,8 @@ import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.editor.MdCSearchQuery;
+import jsesh.mdc.model.MDCPosition;
+import jsesh.resources.JSeshMessages;
 import jsesh.utils.JSeshWorkingDirectory;
 
 import org.jhotdraw_7_6.app.AbstractView;
@@ -247,7 +248,7 @@ public class JSeshView extends AbstractView {
         } catch (MDCSyntaxError e) {
             String msg = "error at line " + e.getLine();
             msg += " near token: " + e.getToken();
-            displayErrorInEdt(Messages.getString("syntaxError.title"), msg);
+            displayErrorInEdt(JSeshMessages.getString("syntaxError.title"), msg);
 
             System.err.println(e.getCharPos());
         } catch (IOException | PDFImportException e) {
@@ -339,6 +340,26 @@ public class JSeshView extends AbstractView {
 
     public void nextSearch() {
         viewModel.nextSearch();
+    }
+
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p> If the document contains line-number indications, like (vo, 3) which 
+     * reference the actual source document (ostracon, papyrus...), this 
+     * function will return the coordinates for a given point in text.
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if none is found.
+     */
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        return viewModel.getOriginalDocumentCoordinates(position);
+    }
+
+    /**
+     * insert a line number at current insert position.
+     * @param line 
+     */
+    public void insertLineNumber(String line) {
+        viewModel.insertLineNumber(line);
     }
 
     /**

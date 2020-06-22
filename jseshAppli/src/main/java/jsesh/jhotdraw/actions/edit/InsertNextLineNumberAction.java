@@ -6,9 +6,9 @@
 package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.utils.LineNumberHelper;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
@@ -37,9 +37,11 @@ public class InsertNextLineNumberAction extends AbstractViewAction{
 	public void actionPerformed(ActionEvent e) {
 		JSeshView v = (JSeshView) getActiveView();
 		if (v != null) {
-			
+                    	String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
+                        String nextLine = "".equals(textPos)?
+                                "1"
+                                :LineNumberHelper.incrementLineNumber(textPos);
+                        v.insertLineNumber(nextLine);
 		}
-	}
-        
-        ERROR... Remove me when code is written.
+	}       
 }

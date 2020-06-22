@@ -38,8 +38,8 @@ import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.PanelBuilder;
+import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -80,7 +80,7 @@ public class JDrawingSpecificationEditor {
 	}
 
 	private void initComponents() {
-		useLinesForShadingCheckBox= new JCheckBox(Messages.getString("drawingPrefs.useLinesForShadingCheckBox"));
+		useLinesForShadingCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
 	}
 
 	private void layout() {

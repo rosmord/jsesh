@@ -31,7 +31,7 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
-/*
+ /*
  * Created on 30 sept. 2004 by rosmord* 
  * NOTE I have noticed a bad behaviour for the focus with 
  * linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
@@ -132,7 +132,7 @@ public class JMDCEditor extends JPanel {
     // FIXME : choose a reasonable method to share drawing specifications.
     private DrawingSpecification drawingSpecifications = MDCEditorKit
             .getBasicMDCEditorKit().getDrawingSpecifications();
-    
+
     private boolean drawLimits = false;
 
     public JMDCEditor() {
@@ -158,13 +158,13 @@ public class JMDCEditor extends JPanel {
         setFocusable(true);
         viewUpdater = new MDCViewUpdater(this);
 
-        eventListener = new MDCEditorEventsListener(this);        
+        eventListener = new MDCEditorEventsListener(this);
         new MDCEditorKeyManager(this);
     }
 
     public void setHieroglyphiTextModel(
             HieroglyphicTextModel hieroglyphicTextModel) {
-        workflow.setHieroglyphicTextModel(hieroglyphicTextModel);        
+        workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
         invalidateView();
     }
 
@@ -309,7 +309,7 @@ public class JMDCEditor extends JPanel {
         drawBaseComponent(g);
         GraphicsDevice[] devs = GraphicsEnvironment
                 .getLocalGraphicsEnvironment()
-                .getScreenDevices();       
+                .getScreenDevices();
         Graphics2D g2d = (Graphics2D) g;
         GraphicsUtils.antialias(g2d);
         g2d.scale(scale, scale);
@@ -327,7 +327,7 @@ public class JMDCEditor extends JPanel {
         drawer.setClip(true);
         drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(),
                 getDrawingSpecifications());
-        
+
         if (caretChanged) {
             // Disarm caret change updates.
             caretChanged = false;
@@ -346,10 +346,33 @@ public class JMDCEditor extends JPanel {
 
     }
 
-
     public java.util.List<MDCPosition> doSearch(MdCSearchQuery query) {
         return getHieroglyphicTextModel().doSearch(query);
-   }
+    }
+
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
+     * function will return the coordinates for a given point in text.
+     *
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if
+     * none is found.
+     */
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);        
+    }
+
+    /**
+     * insert a line number at current insert position.
+     *
+     * @param line
+     */
+    public void insertLineNumber(String line) {
+        workflow.insertLineNumber(line);
+    }
 
     /*
      * Auxiliary class, used to redraw the window when the cursor is out of the
@@ -406,13 +429,12 @@ public class JMDCEditor extends JPanel {
         revalidate();
     }
 
-
     public void setInsertPosition(int insertPosition) {
         // TODO : this is WAAYYY too convoluted. 
-        MDCPosition mdcPosition= getHieroglyphicTextModel().buildPosition(insertPosition);
+        MDCPosition mdcPosition = getHieroglyphicTextModel().buildPosition(insertPosition);
         getWorkflow().setCursor(mdcPosition);
     }
-    
+
     /**
      * @return the current insertion position.
      */

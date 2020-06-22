@@ -37,8 +37,8 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import jsesh.resources.JSeshMessages;
 
-import jsesh.jhotdraw.Messages;
 
 /**
  * Helps building a JPanel with labelled components. 
@@ -61,7 +61,7 @@ public class PanelBuilder {
 	 * @param labelCode the code for the multilingual label.
 	 */
 	public void addLabel(String labelCode) {
-		panel.add(new JLabel(Messages.getString(labelCode)));
+		panel.add(new JLabel(JSeshMessages.getString(labelCode)));
 	}
 
 	public void add(Component component, String constraints) {

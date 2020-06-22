@@ -44,10 +44,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import jsesh.resources.JSeshMessages;
 
 import net.miginfocom.swing.MigLayout;
 
-import jsesh.jhotdraw.Messages;
 
 /**
  * A simple dialog form for getting information from the user. Manages possible
@@ -66,8 +66,8 @@ public class JSimpleDialog {
 
     public JSimpleDialog(Component parent, Component form, String title) {
         dialog = JDialogHelper.createDialog(parent, title, true);
-        okButton = new JButton(Messages.getString("ok"));
-        cancelButton = new JButton(Messages.getString("cancel"));
+        okButton = new JButton(JSeshMessages.getString("generic.ok.text"));
+        cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));
 
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

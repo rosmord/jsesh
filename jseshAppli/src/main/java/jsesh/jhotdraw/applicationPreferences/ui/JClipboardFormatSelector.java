@@ -34,103 +34,104 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.applicationPreferences.ui;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
+import jsesh.resources.JSeshMessages;
 
 public class JClipboardFormatSelector {
-	private JPanel panel = new JPanel();
-	private JEditorPane messageArea;
-	private JCheckBox rtfCheckBox, pdfCheckBox, emfCheckBox, bitmapCheckBox, plainTextBox;
 
-	public JClipboardFormatSelector() {
-		init();
-		layout();
-	}
+    private JPanel panel = new JPanel();
+    private JEditorPane messageArea;
+    private JCheckBox rtfCheckBox, pdfCheckBox, emfCheckBox, bitmapCheckBox, plainTextBox;
 
-	private void init() {
-		rtfCheckBox = new JCheckBox(
-				Messages.getString("clipboardFormat.rtf.text"));
-		pdfCheckBox = new JCheckBox(
-				Messages.getString("clipboardFormat.pdf.text"));
-		emfCheckBox = new JCheckBox(
-				Messages.getString("clipboardFormat.emf.text"));
-		bitmapCheckBox = new JCheckBox(
-				Messages.getString("clipboardFormat.bitmap.text"));
-		plainTextBox = new JCheckBox(
-				Messages.getString("clipboardFormat.plaintext.text"));
-		messageArea = new JEditorPane("text/html",
-				Messages.getString("clipboardFormat.explanation.text"));
+    public JClipboardFormatSelector() {
+        init();
+        layout();
+    }
 
-		messageArea.setEditable(false);
-		messageArea.setBackground(panel.getBackground());
-	}
+    private void init() {
+        rtfCheckBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.rtf.text"));
+        pdfCheckBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.pdf.text"));
+        emfCheckBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.emf.text"));
+        bitmapCheckBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.bitmap.text"));
+        plainTextBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.plaintext.text"));
+        messageArea = new JEditorPane("text/html",
+                JSeshMessages.getString("clipboardFormat.explanation.text"));
 
-	public JCheckBox getBitmapCheckBox() {
-		return bitmapCheckBox;
-	}
+        messageArea.setEditable(false);
+        messageArea.setBackground(panel.getBackground());
+    }
 
-	public JCheckBox getPdfCheckBox() {
-		return pdfCheckBox;
-	}
+    public JCheckBox getBitmapCheckBox() {
+        return bitmapCheckBox;
+    }
 
-	public JCheckBox getPlainTextBox() {
-		return plainTextBox;
-	}
+    public JCheckBox getPdfCheckBox() {
+        return pdfCheckBox;
+    }
 
-	public JCheckBox getRtfCheckBox() {
-		return rtfCheckBox;
-	}
+    public JCheckBox getPlainTextBox() {
+        return plainTextBox;
+    }
 
-	private void layout() {
-		panel.setLayout(new MigLayout());
-		PanelBuilder helper = new PanelBuilder(panel);
-		helper.add(messageArea, "wrap");
-		helper.add(rtfCheckBox, "wrap");
-		helper.add(emfCheckBox, "wrap");
-		helper.add(pdfCheckBox, "wrap");
-		helper.add(bitmapCheckBox, "wrap");
-		helper.add(plainTextBox, "wrap");
-	}
+    public JCheckBox getRtfCheckBox() {
+        return rtfCheckBox;
+    }
 
-	public JPanel getPanel() {
-		return panel;
-	}
+    private void layout() {
+        panel.setLayout(new MigLayout());
+        PanelBuilder helper = new PanelBuilder(panel);
+        helper.add(messageArea, "wrap");
+        helper.add(rtfCheckBox, "wrap");
+        helper.add(emfCheckBox, "wrap");
+        helper.add(pdfCheckBox, "wrap");
+        helper.add(bitmapCheckBox, "wrap");
+        helper.add(plainTextBox, "wrap");
+    }
 
-	public static void main(String[] args) throws InterruptedException,
-			InvocationTargetException {
-		SwingUtilities.invokeAndWait(new Runnable() {
-			public void run() {
-				JFrame frame = new JFrame();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.add(new JClipboardFormatSelector().getPanel());
-				frame.pack();
-				frame.setVisible(true);
-			}
-		});
-	}
+    public JPanel getPanel() {
+        return panel;
+    }
 
-	public void loadPreferences(JSeshApplicationModel app) {
-		MDCClipboardPreferences clipboardPreferences = app
-				.getClipboardPreferences();
-		this.rtfCheckBox.setSelected(clipboardPreferences.isRtfWanted());
-		this.emfCheckBox.setSelected(clipboardPreferences.isEmfWanted());
-		this.pdfCheckBox.setSelected(clipboardPreferences.isPdfWanted());
-		this.bitmapCheckBox.setSelected(clipboardPreferences.isImageWanted());
-		this.plainTextBox.setSelected(clipboardPreferences.isTextWanted());
-	}
+    public static void main(String[] args) throws InterruptedException,
+            InvocationTargetException {
+        SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.add(new JClipboardFormatSelector().getPanel());
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+    }
 
-	public void updatePreferences(JSeshApplicationModel app) {
-		MDCClipboardPreferences prefs = new MDCClipboardPreferences()
-				.withRtfWanted(rtfCheckBox.isSelected())
-				.withEmfWanted(emfCheckBox.isSelected())
-				.withPdfWanted(pdfCheckBox.isSelected())
-				.withImageWanted(bitmapCheckBox.isSelected())
-				.withTextWanted(plainTextBox.isSelected());
-		app.setClipboardPreferences(prefs);
-	}
+    public void loadPreferences(JSeshApplicationModel app) {
+        MDCClipboardPreferences clipboardPreferences = app
+                .getClipboardPreferences();
+        this.rtfCheckBox.setSelected(clipboardPreferences.isRtfWanted());
+        this.emfCheckBox.setSelected(clipboardPreferences.isEmfWanted());
+        this.pdfCheckBox.setSelected(clipboardPreferences.isPdfWanted());
+        this.bitmapCheckBox.setSelected(clipboardPreferences.isImageWanted());
+        this.plainTextBox.setSelected(clipboardPreferences.isTextWanted());
+    }
+
+    public void updatePreferences(JSeshApplicationModel app) {
+        MDCClipboardPreferences prefs = new MDCClipboardPreferences()
+                .withRtfWanted(rtfCheckBox.isSelected())
+                .withEmfWanted(emfCheckBox.isSelected())
+                .withPdfWanted(pdfCheckBox.isSelected())
+                .withImageWanted(bitmapCheckBox.isSelected())
+                .withTextWanted(plainTextBox.isSelected());
+        app.setClipboardPreferences(prefs);
+    }
 }

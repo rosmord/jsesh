@@ -46,8 +46,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import jsesh.resources.JSeshMessages;
 
-import jsesh.jhotdraw.Messages;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -101,7 +101,7 @@ public class FontSelectorComponentGroup {
         fontNameDisplayField = new JTextField("");
         fontNameDisplayField.setEditable(false);
         fontSelectButton = new JButton(
-                Messages.getString("fontPreferences.browseFonts.text"));
+                JSeshMessages.getString("fontPreferences.browseFonts.text"));
         fontSizeBox = new JComboBox();
         animate();
         setFont(new Font("Serif", Font.PLAIN, 12));
@@ -132,7 +132,7 @@ public class FontSelectorComponentGroup {
 
     private void chooseFont() {
         SimpleFontDialog fontDialog = new SimpleFontDialog(parent,
-                Messages.getString("fontPreferences.browseFonts.text"));
+                JSeshMessages.getString("fontPreferences.browseFonts.text"));
         fontDialog.setFont(font);
         if (fontDialog.showDialog() == JOptionPane.OK_OPTION) {
             float size = getFontSizeFromBox();

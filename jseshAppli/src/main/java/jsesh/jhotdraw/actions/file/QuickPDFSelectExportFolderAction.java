@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.WindowsHelper;
+import jsesh.resources.JSeshMessages;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
@@ -31,7 +31,7 @@ public class QuickPDFSelectExportFolderAction extends AbstractApplicationAction 
 		PortableFileDialog dialog = PortableFileDialogFactory
 				.createDirectorySaveDialog(WindowsHelper.getRootFrame(
 						getApplication(), getApplication().getActiveView()));
-		dialog.setTitle(Messages.getString("file.quickPDFExportFolder.title"));
+		dialog.setTitle(JSeshMessages.getString("file.quickPDFExportFolder.title"));
 		dialog.setCurrentDirectory(model.getQuickPDFExportFolder());
 		FileOperationResult op = dialog.show();
 		if (op == FileOperationResult.OK) {

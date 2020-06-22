@@ -25,6 +25,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;
 import jsesh.jhotdraw.actions.edit.FindInFolderAction;
+import jsesh.jhotdraw.actions.edit.InsertNextLineNumberAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplyModelAction;
@@ -292,6 +293,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
             editMenu.add(map.get(ActionsID.SET_MODE_TRANSLIT));
             editMenu.add(map.get(ActionsID.SET_MODE_UPPERCASE_TRANSLIT));
             editMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
+            editMenu.add(map.get(InsertNextLineNumberAction.ID));
             editMenu.add(map.get(InsertShortTextAction.ID));
             editMenu.addSeparator();
             editMenu.add(map.get(AddToGlossaryAction.ID));

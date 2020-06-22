@@ -1,6 +1,5 @@
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
 import jsesh.jhotdraw.utils.PanelBuilder;
@@ -14,6 +13,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import jsesh.resources.JSeshMessages;
 
 /**
  * font preferences chooser.
@@ -97,28 +97,28 @@ public class JFontPreferences {
         transliterationFontHelper = new FontSelectorComponentGroup(panel,
                 "fontPreferences.transliterationFont.label.text");
         useDefaultJSeshFontButton = new JButton(
-                Messages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
+                JSeshMessages.getString("fontPreferences.useDefaultJSeshFontCB.text"));
         hieroglyphsFolderField = new JFormattedTextField(new File("."));
         browseHieroglyphicFolderButton = new JButton(
-                Messages.getString("fontPreferences.browseHiero.text"));
+                JSeshMessages.getString("fontPreferences.browseHiero.text"));
         // Transliteration option (expert mode).
         showOptionButton = new JButton(
-                Messages.getString("fontPreferences.showOptionButton.show.text"));
+                JSeshMessages.getString("fontPreferences.showOptionButton.show.text"));
         optionPanelContainer = new JPanel();
         transliterationOptionPanel = new JPanel();
         transliterationOptionPanel
-                .setBorder(BorderFactory.createTitledBorder(Messages
+                .setBorder(BorderFactory.createTitledBorder(JSeshMessages
                         .getString("fontPreferences.transliterationPanel.text")));
         this.useMdCRadioButton = new JRadioButton(
-                Messages.getString("fontPreferences.useMdCRadioButton.text"));
+                JSeshMessages.getString("fontPreferences.useMdCRadioButton.text"));
         this.useUnicodeRadioButton = new JRadioButton(
-                Messages.getString("fontPreferences.useUnicodeRadioButton.text"));
+                JSeshMessages.getString("fontPreferences.useUnicodeRadioButton.text"));
         this.yodUsesU0313 = new JRadioButton(
-                Messages.getString("fontPreferences.yodUsesU0313.text"));
+                JSeshMessages.getString("fontPreferences.yodUsesU0313.text"));
         this.yodUsesU0486 = new JRadioButton(
-                Messages.getString("fontPreferences.yodUsesU0486.text"));
+                JSeshMessages.getString("fontPreferences.yodUsesU0486.text"));
         this.yodUsesUA7BD = new JRadioButton(
-                Messages.getString("fontPreferences.yodUsesUA7BD.text"));
+                JSeshMessages.getString("fontPreferences.yodUsesUA7BD.text"));
 
     }
 
@@ -171,7 +171,7 @@ public class JFontPreferences {
     private void selectHieroglyphicFolder() {
         File hieroglyphicFolder = (File) hieroglyphsFolderField.getValue();
         PortableFileDialog selector = PortableFileDialogFactory.createDirectorySaveDialog(panel);
-        selector.setTitle(Messages.getString("JFontPreferences.hieroglyphDialog.label"));
+        selector.setTitle(JSeshMessages.getString("JFontPreferences.hieroglyphDialog.label"));
         if (hieroglyphicFolder != null) {
             selector.setCurrentDirectory(hieroglyphicFolder);
         }
@@ -200,11 +200,11 @@ public class JFontPreferences {
     protected void toggleShowOption() {
         if (optionDisplayed) {
             optionPanelContainer.remove(transliterationOptionPanel);
-            this.showOptionButton.setText(Messages
+            this.showOptionButton.setText(JSeshMessages
                     .getString("fontPreferences.showOptionButton.show.text"));
         } else {
             optionPanelContainer.add(transliterationOptionPanel, "growx");
-            this.showOptionButton.setText(Messages
+            this.showOptionButton.setText(JSeshMessages
                     .getString("fontPreferences.showOptionButton.hide.text"));
         }
         try {

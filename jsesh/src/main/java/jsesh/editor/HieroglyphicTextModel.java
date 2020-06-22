@@ -321,6 +321,15 @@ public class HieroglyphicTextModel extends Observable implements
 	public void insertElementAt(MDCPosition position, TopItem item) {
 		insertElementsAt(position, Collections.singletonList(item));
 	}
+        
+        /**
+         * Same as previous, but position is a plain number.
+         * @param position
+         * @param item 
+         */
+	public void insertElementAt(int position, TopItem item) {
+		insertElementsAt(new MDCPosition(model, position), Collections.singletonList(item));
+	}
 
 	// I Don't know if I will use this "first command" stuff.
 	// Meanwhile, I have moved the responsability to make the choice to this
@@ -499,4 +508,21 @@ public class HieroglyphicTextModel extends Observable implements
 		int positions[]= model.getPageLimitsAround(pos.getIndex());
 		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
 	}
+        
+        
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
+     * function will return the coordinates for a given point in text.
+     *
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if
+     * none is found.
+     */
+  
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        return model.getOriginalDocumentCoordinates(position.getIndex());
+    }
 }

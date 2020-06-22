@@ -10,8 +10,8 @@ import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.viewClass.JSeshView;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.resources.JSeshMessages;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -50,10 +50,10 @@ public class ExportAsPDFAction extends AbstractViewAction {
 					applicationModel.setCurrentDirectory(pdfExportPreferences
 							.getFile().getParentFile());
 				} catch (IOException e1) {
-					String message = Messages.getString("exportAsPdf.error");
+					String message = JSeshMessages.getString("exportAsPdf.error");
 					MessageFormat.format(message,
 							new Object[] { e1.getMessage() });
-					String messageTitle = Messages
+					String messageTitle = JSeshMessages
 							.getString("exportAsPdf.errorTitle");
 					JOptionPane.showMessageDialog(jSeshView, message,
 							messageTitle, JOptionPane.ERROR_MESSAGE);

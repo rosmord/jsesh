@@ -34,5 +34,8 @@ public class JSeshMessages {
         String pattern = RESOURCE_BUNDLE.getString(key);        
         return MessageFormat.format(pattern, (Object[])values);
     }
-
+    
+    public static String getBundleName() {
+        return BUNDLE_NAME;
+    }
 }

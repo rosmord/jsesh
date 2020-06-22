@@ -9,8 +9,8 @@ import jsesh.graphics.export.rtf.RTFExporterPresenter;
 import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.viewClass.JSeshView;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.resources.JSeshMessages;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -36,7 +36,7 @@ public class ExportAsRTFAction extends AbstractViewAction {
 					applicationModel.getRTFExportPreferences(ExportType.FILE));
 
 			if (rtfExporterUI.getOptionPanel(jSeshView,
-					Messages.getString("exportAsRTF.title")).askAndSet() == JOptionPane.OK_OPTION) {
+					JSeshMessages.getString("exportAsRTF.title")).askAndSet() == JOptionPane.OK_OPTION) {
 				rtfExporterUI.exportModel(jSeshView.getDrawingSpecifications(),
 						jSeshView.getTopItemList());
 				applicationModel.setCurrentDirectory(rtfExporterUI.getFile()

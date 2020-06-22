@@ -35,11 +35,11 @@ package jsesh.jhotdraw.applicationPreferences.ui;
 
 
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.Messages;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 
 import javax.swing.*;
 import java.awt.*;
+import jsesh.resources.JSeshMessages;
 
 /**
  * Presenter for application preferences.
@@ -82,16 +82,16 @@ public class ApplicationPreferencesPresenter {
         exportPreferences = new JExportPreferences();
         fontPreferences = new JFontPreferences();
         otherPreferences= new JOtherPreferences();
-        tabbedPane.add(Messages
+        tabbedPane.add(JSeshMessages
                 .getString("applicationPreferences.exportPreferences.label"),
                 exportPreferences.getPanel());
-        tabbedPane.add(Messages
+        tabbedPane.add(JSeshMessages
                 .getString("applicationPreferences.clipboardFormat.label"),
                 clipboardFormatSelector.getPanel());
-        tabbedPane.add(Messages
+        tabbedPane.add(JSeshMessages
                 .getString("applicationPreferences.fontPreferences.label"),
                 fontPreferences.getPanel());
-         tabbedPane.add(Messages
+         tabbedPane.add(JSeshMessages
                 .getString("applicationPreferences.others.label"),
                 otherPreferences.getPanel());
     }
@@ -126,7 +126,7 @@ public class ApplicationPreferencesPresenter {
      */
     public int showDialog(Component parent) {
         JSimpleDialog dialog = new JSimpleDialog(parent, tabbedPane,
-                Messages.getString("appPreferencesDialog.text"));
+                JSeshMessages.getString("appPreferencesDialog.text"));
         int result = dialog.show();
         dialog.dispose();
         return result;

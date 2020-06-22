@@ -77,7 +77,7 @@ public final class JSeshViewModel {
         getEditor().addCodeChangeListener(codeModel);
         getEditor().getWorkflow().addMDCModelListener(mdcLineManager);
         viewComponent.getMdcField().addActionListener(mdcLineManager);
-        
+
         // Zoom combobox
         DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
         for (int zoom : new int[]{25, 50, 75, 100, 112, 128, 150, 200, 400,
@@ -130,7 +130,25 @@ public final class JSeshViewModel {
         return viewComponent;
     }
 
-    
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
+     * function will return the coordinates for a given point in text.
+     *
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if
+     * none is found.
+     */
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        return getEditor().getOriginalDocumentCoordinates(position);
+    }
+
+    public void insertLineNumber(String line) {
+        getEditor().insertLineNumber(line);
+    }
+
     /**
      * Synchronize the hieroglyphic editor and the optional mdc line display
      * below it.
