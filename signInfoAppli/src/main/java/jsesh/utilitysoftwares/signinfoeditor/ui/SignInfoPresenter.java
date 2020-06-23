@@ -272,9 +272,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             signInfoModelBuilder.setInUserPart(true);
             signDescriptionReader.readSignDescription(new FileInputStream(
                     userSignDefinitionFile));
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
         setSignInfoModel(newSignInfoModel);
@@ -666,8 +664,8 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         for (SignVariantType variantType: SignVariantType.values()) {
             combobox.addItem(variantType.toString());
         }
-        combobox.addItem(SignDescriptionConstants.NO);
-        combobox.addItem(SignDescriptionConstants.UNSPECIFIED);
+        // combobox.addItem(SignDescriptionConstants.NO);
+        // combobox.addItem(SignDescriptionConstants.UNSPECIFIED);
         variantTable.getColumnModel().getColumn(2).setCellEditor(
                 new DefaultCellEditor(combobox));
     }

@@ -27,9 +27,12 @@ class SignTransliterationTableModel extends SignPropertyTableModel {
 
 
 	public SignTransliterationTableModel(EditableSignInfo editableSignInfo) {
-		super(editableSignInfo, SignDescriptionConstants.HAS_TRANSLITERATION, new String[] {
-				"Transliteration","type", "use"
-		}, new String[] {SignDescriptionConstants.TRANSLITERATION, SignDescriptionConstants.TYPE, SignDescriptionConstants.USE});
+		super(editableSignInfo, 
+                        SignDescriptionConstants.HAS_TRANSLITERATION, 
+                        new String[] {
+				"Transliteration","type", "use"}, 
+                        new String[] {SignDescriptionConstants.TRANSLITERATION, SignDescriptionConstants.TYPE, SignDescriptionConstants.USE}
+                );
 	}
 
 

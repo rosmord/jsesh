@@ -71,6 +71,7 @@ public class SignVariantTableModel extends SignPropertyTableModel {
 	}
 	
 
+        @Override
 	protected XMLInfoProperty buildDefaultSignProperty(String code) {
 		XMLInfoProperty property= new SignInfoProperty(SignDescriptionConstants.VARIANT_OF,true);
 		property.setAttribute(SignDescriptionConstants.BASE_SIGN, code);
