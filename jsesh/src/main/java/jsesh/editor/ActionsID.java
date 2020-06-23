@@ -45,6 +45,9 @@ public interface ActionsID {
     String CLEAR_SELECTION = "edit.clearSelection";
     String COPY = "edit.copy";
     String COPY_AS_BITMAP = "edit.copyAsBitmap";
+    String COPY_AS_UNICODE = "edit.copyAsUnicode";
+    String COPY_AS_UNICODE_WITH_FORMAT_CONTROLS = "edit.copyAsUnicodeWithFormatControls";
+
     String COPY_AS_MDC = "edit.copyAsMDC";
     String COPY_AS_PDF = "edit.copyAsPDF";
     String COPY_AS_RTF = "edit.copyAsRTF";

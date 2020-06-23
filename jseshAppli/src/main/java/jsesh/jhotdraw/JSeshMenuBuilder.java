@@ -149,8 +149,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
     }
 
     /**
-     * Optional action addition. Only addAll an action to the corresponding menu if
-     * the action exists.
+     * Optional action addition. Only addAll an action to the corresponding menu
+     * if the action exists.
      *
      * @param menu
      * @param a
@@ -158,10 +158,11 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
      * @param actionID
      */
     private void addToMenu(JMenu menu, Application a, JSeshView v,
-                           String actionID) {
+            String actionID) {
         Action action = a.getActionMap(v).get(actionID);
-        if (action != null)
+        if (action != null) {
             menu.add(action);
+        }
     }
 
     @Override
@@ -230,7 +231,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         /**
          * TODO Add the actions to the map...
          */
-
         ButtonGroup orientationGroup = new ButtonGroup();
 
         JRadioButtonMenuItem horizontalButton = new JRadioButtonMenuItem(
@@ -284,6 +284,9 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
             copyAsMenu.add(map.get(ActionsID.COPY_AS_RTF));
             copyAsMenu.add(map.get(ActionsID.COPY_AS_BITMAP));
             copyAsMenu.add(map.get(ActionsID.COPY_AS_MDC));
+            copyAsMenu.add(map.get(ActionsID.COPY_AS_UNICODE));
+            copyAsMenu.add(map.get(ActionsID.COPY_AS_UNICODE_WITH_FORMAT_CONTROLS));
+
             editMenu.add(copyAsMenu);
             editMenu.addSeparator();
             editMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
@@ -355,7 +358,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
      * @param v
      * @return
      */
-
     private JMenu buildEcdoticMenu(Application a, JSeshView v) {
         JMenu ecdoticMenu = BundleHelper.getInstance().configure(new JMenu(),
                 "text.ecdoticMenu");

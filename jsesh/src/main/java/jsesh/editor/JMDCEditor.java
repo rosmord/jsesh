@@ -55,6 +55,7 @@ import jsesh.mdc.*;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
 import jsesh.mdc.model.operations.*;
+import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.clipboard.*;
 import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.layout.*;
@@ -374,6 +375,7 @@ public class JMDCEditor extends JPanel {
         workflow.insertLineNumber(line);
     }
 
+
     /*
      * Auxiliary class, used to redraw the window when the cursor is out of the
      * visible frame.
@@ -668,6 +670,29 @@ public class JMDCEditor extends JPanel {
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
 
+    }
+    
+    /**
+     * Copy the selection as plain Unicode text on the clipboard.
+     */
+    public void copyAsUnicode() {
+        copyAsUnicodeImpl(false);
+    }
+    
+    /**
+     * Copy the selection as plain Unicode text on the clipboard.
+     */
+    public void copyAsUnicodeWithFormatControls() {
+       copyAsUnicodeImpl(true);
+    }
+    
+    private void copyAsUnicodeImpl(boolean useFormatChars) {
+         TopItemList top = getWorkflow().getSelectionAsTopItemList();
+         MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
+         converter.setIncludeFormatControlChars(useFormatChars);
+         String toCopy = converter.convertToPlainUnicode(top);
+         Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(toCopy), null);
     }
 
     /**

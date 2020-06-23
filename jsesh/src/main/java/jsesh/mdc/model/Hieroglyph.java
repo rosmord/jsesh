@@ -40,7 +40,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     /**
      * a code which helps to distinguish between real hieroglyphs (MDCCODE) and
      * another kind of sign (shading, red points...).
-     *
+     * TODO: use an enum instead.
      * @see SymbolCodes
      */
     private int type;
@@ -91,7 +91,7 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
                 break;
             default:
                 this.type = type;
-                setCode(LexicalSymbolsUtils.getStringForLexicalItem(type));
+                setCode(LexicalSymbolsUtils.getCodeForLexicalItem(type));
                 break;
         }
     }

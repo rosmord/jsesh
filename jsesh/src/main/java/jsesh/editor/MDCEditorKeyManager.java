@@ -51,6 +51,8 @@ import javax.swing.KeyStroke;
 import jsesh.editor.actions.AppDefaultFactory;
 import jsesh.editor.actions.edit.CopyAction;
 import jsesh.editor.actions.edit.CopyAsAction;
+import jsesh.editor.actions.edit.CopyAsUnicodeAction;
+import jsesh.editor.actions.edit.CopyAsUnicodeWithFormatControls;
 import jsesh.editor.actions.edit.CutAction;
 import jsesh.editor.actions.edit.ExpandSelectionAction;
 import jsesh.editor.actions.edit.PasteAction;
@@ -132,6 +134,9 @@ class MDCEditorKeyManager extends KeyAdapter {
                     DataFlavor.imageFlavor));
             addAction(ActionsID.COPY_AS_MDC, new CopyAsAction(editor,
                     DataFlavor.stringFlavor));
+            addAction(ActionsID.COPY_AS_UNICODE, new CopyAsUnicodeAction(editor));
+            addAction(ActionsID.COPY_AS_UNICODE_WITH_FORMAT_CONTROLS, 
+                    new CopyAsUnicodeWithFormatControls(editor));
 
             // DELEGATE ACTIONS...
             addDelegateAction(ActionsID.BEGINNING_OF_LINE, editor,

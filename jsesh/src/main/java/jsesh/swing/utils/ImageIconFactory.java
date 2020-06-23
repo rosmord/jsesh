@@ -84,7 +84,7 @@ public class ImageIconFactory {
      * @return an image for the given manuel de codage text.
      */
     public ImageIcon buildImage(int symbolCode) {
-        String mdc = LexicalSymbolsUtils.getStringForLexicalItem(symbolCode);
+        String mdc = LexicalSymbolsUtils.getCodeForLexicalItem(symbolCode);
         return buildImage(mdc);
     }
 

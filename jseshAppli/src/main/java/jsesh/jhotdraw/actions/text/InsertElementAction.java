@@ -54,7 +54,7 @@ public class InsertElementAction extends AbstractViewAction {
      * @param mdcTextForIcon the mdc for the icon to display.
      */
     public InsertElementAction(Application app, View view, int glyphCode, String mdcTextForIcon) {
-        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getStringForLexicalItem(glyphCode));
+        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode));
     }
 
     /**
@@ -66,7 +66,7 @@ public class InsertElementAction extends AbstractViewAction {
      * @param glyphCode see {@link SymbolCodes}
      */
     public InsertElementAction(Application app, View view, String id, int glyphCode) {
-        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getStringForLexicalItem(glyphCode));
+        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode));
         BundleHelper.getInstance().configure(this, id);
     }
 
