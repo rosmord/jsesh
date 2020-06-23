@@ -26,8 +26,8 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
-import org.qenherkhopeshef.finiteState.lazy.*;
-import static org.qenherkhopeshef.finiteState.lazy.RegularLanguageFactory.*;
+import org.qenherkhopeshef.finitestate.lazy.*;
+import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.*;
 
 /**
  * Wildcard implementation.
