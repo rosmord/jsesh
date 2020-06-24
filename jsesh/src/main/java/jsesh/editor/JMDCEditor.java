@@ -49,6 +49,7 @@ import java.awt.print.*;
 import java.io.*;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
 import jsesh.mdc.*;
@@ -307,10 +308,7 @@ public class JMDCEditor extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        drawBaseComponent(g);
-        GraphicsDevice[] devs = GraphicsEnvironment
-                .getLocalGraphicsEnvironment()
-                .getScreenDevices();
+        drawBaseComponent(g);      
         Graphics2D g2d = (Graphics2D) g;
         GraphicsUtils.antialias(g2d);
         g2d.scale(scale, scale);
@@ -334,9 +332,7 @@ public class JMDCEditor extends JPanel {
             caretChanged = false;
             // Show the cursor.
             Rectangle r = getPointerRectangle();
-            if (!g.getClipBounds().contains(r)) {
-                // canDraw= false;
-                // Let's get some space around the cursor :
+            if (!g.getClipBounds().contains(r)) {          
                 r.height += 4;
                 r.width += 4;
                 r.x -= 2;
