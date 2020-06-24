@@ -58,91 +58,145 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
 
     @Override
     public void drawHorizontal(Cartouche cartouche) {
-        Stroke lineStroke = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
-
-        // MdC code for cartouche extremities.
-        int leftElementCode, rightElementCode;
-
+        Point2D.Float topLeftCorner = new Point2D.Float(0, 0);
+        boolean left, right;
         if (currentTextDirection.isLeftToRight()) {
-            leftElementCode = cartouche.getStartPart();
-            rightElementCode = cartouche.getEndPart();
+            left = cartouche.getStartPart() != 0;
+            right = cartouche.getEndPart() != 0;
         } else {
-            leftElementCode = cartouche.getEndPart();
-            rightElementCode = cartouche.getStartPart();
+            left = cartouche.getEndPart() != 0;
+            right = cartouche.getStartPart() != 0;
         }
+        float width = currentView.getWidth();
+        float height = currentView.getHeight();
+        drawEnclosure(topLeftCorner, width, height, true, true, left, right);
+    }
 
-        float spaceBefore = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
-                cartouche.getType(), leftElementCode);
-        float spaceAfter = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
-                cartouche.getType(), rightElementCode);
+    @Override
+    public void drawVertical(Cartouche cartouche) {
+        Point2D.Float topLeftCorner = new Point2D.Float(0, 0);
+        boolean drawTop = cartouche.getStartPart() != 0;
+        boolean drawBottom = cartouche.getEndPart()!= 0;        
+        float width = currentView.getWidth();
+        float height = currentView.getHeight();
+        drawEnclosure(topLeftCorner, width, height, drawTop, drawBottom, true, true);
+    }
+
+    /**
+     * Draws an enclosure at the given coordinates.
+     * <p>
+     * The coordinates correspond to the whole drawing space, including the
+     * bastions.
+     *
+     * @param topLeftCorner top left corner of the rectangle to draw (without
+     * the bastions).
+     * @param outerWidth width of the enclosure
+     * @param outerHeight height of the enclosure
+     * @param drawTop should we draw the top side of the enclosure
+     * @param drawBottom should we draw the bottom side of the enclosure
+     * @param drawLeft should we draw the left side of the enclosure
+     * @param drawRight should we draw the right side of the enclosure
+     */
+    public void drawEnclosure(Point2D.Float topLeftCorner, float outerWidth, float outerHeight,
+            boolean drawTop, boolean drawBottom, boolean drawLeft, boolean drawRight) {
+        Stroke lineStroke = drawingSpecifications.buildCartoucheStroke('f');
+        float bLength = drawingSpecifications.getEnclosureBastionLength();
+        float bWidth = drawingSpecifications.getEnclosureBastionDepth();
 
         // Half line width : allows to have a close bounding box.
         float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
         float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
 
         // Account for the  bastion depth.
-        dy += drawingSpecifications.getEnclosureBastionDepth();
-
+        // dy = drawingSpecifications.getEnclosureBastionDepth();
+        // The frame
         Point2D.Float topLeft, bottomLeft, topRight, bottomRight;
 
-        topLeft = new Point2D.Float(spaceBefore, dy);
-        bottomLeft = new Point2D.Float(spaceBefore, currentView.getHeight() - dy);
-        topRight = new Point2D.Float(currentView.getWidth() - spaceAfter, dy);
-        bottomRight = new Point2D.Float(currentView.getWidth() - spaceAfter, currentView
-                .getHeight()
-                - dy);
+        float topX = topLeftCorner.x;
+        float topY = topLeftCorner.y;
+        float innerWidth = outerWidth;
+        float innerHeight = outerHeight;
 
-        float innerWidth = currentView.getWidth() - spaceAfter - spaceBefore;
-        float innerHeight = currentView.getHeight() - 2 * dy;
+        if (drawLeft) {
+            topX += bWidth;
+            innerWidth -= bWidth;
+        }
+        if (drawTop) {
+            topY += bWidth;
+            innerHeight -= bWidth;
+        }
+        if (drawBottom) {
+            innerHeight -= bWidth;
+        }
+        if (drawRight) {
+            innerWidth -= bWidth;
+        }
+
+        topLeft = new Point2D.Float(topX, topY);
+        bottomLeft = new Point2D.Float(topLeft.x, topLeft.y + innerHeight);
+        topRight = new Point2D.Float(topLeft.x + innerWidth, topLeft.y);
+        bottomRight = new Point2D.Float(topLeft.x + innerWidth, bottomLeft.y);
+
         BastionDrawingInfo horizontalBastionInfo = new BastionDrawingInfo(innerWidth);
         BastionDrawingInfo verticalBastionInfo = new BastionDrawingInfo(innerHeight);
 
         g.setStroke(lineStroke);
-        // Start
-        if (leftElementCode != 0) {
+
+        // Sides
+        if (drawTop) {
+            g.draw(new Line2D.Float(topLeft, topRight));
+            drawHorizontalBastions(horizontalBastionInfo, topLeft.x, topRight.y, BastionPosition.BEFORE);
+        }
+
+        if (drawBottom) {
+            g.draw(new Line2D.Float(bottomLeft, bottomRight));
+            drawHorizontalBastions(horizontalBastionInfo, bottomLeft.x, bottomLeft.y, BastionPosition.AFTER);
+        }
+
+        if (drawLeft) {
             g.draw(new Line2D.Float(topLeft, bottomLeft));
             drawVerticalBastions(verticalBastionInfo, topLeft.x, topLeft.y, BastionPosition.BEFORE);
-            // Draw angle bastions. 
-            float bLength = drawingSpecifications.getEnclosureBastionLength();
-            float bWidth = drawingSpecifications.getEnclosureBastionDepth();
+        }
+
+        if (drawRight) {
+            g.draw(new Line2D.Float(topRight, bottomRight));
+            drawVerticalBastions(verticalBastionInfo, topRight.x, topRight.y, BastionPosition.AFTER);
+
+        }
+
+        // Corner bastions
+        if (drawTop && drawLeft) {
             float angleX = topLeft.x - bWidth;
             float angleYTop = topLeft.y - bWidth;
-            float angleYBottom = bottomLeft.y;
             fillRect(angleX, angleYTop, bWidth + bLength, bWidth);
             fillRect(angleX, angleYTop, bWidth, bWidth + bLength);
+        }
+
+        if (drawBottom && drawLeft) {
+            float angleX = topLeft.x - bWidth;
+            float angleYBottom = bottomLeft.y;
             fillRect(angleX, angleYBottom - bLength, bWidth, bLength);
             fillRect(angleX, angleYBottom, bWidth + bLength, bWidth);
-            drawLine(topLeft.x, topLeft.y, topLeft.x, topLeft.y + drawingSpecifications.getEnclosureBastionLength());
-
-            g.setStroke(lineStroke);
         }
 
-        drawLine(topLeft, topRight);
-        drawLine(bottomLeft, bottomRight);
-
-        drawHorizontalBastions(horizontalBastionInfo, topLeft.x, topLeft.y, BastionPosition.BEFORE);
-        drawHorizontalBastions(horizontalBastionInfo, topLeft.x, bottomLeft.y, BastionPosition.AFTER);
-        if (rightElementCode != 0) {
-            g.draw(new Line2D.Float(topRight, bottomRight));
-
-            // Draw angle bastions. 
-            float bLength = drawingSpecifications.getEnclosureBastionLength();
-            float bWidth = drawingSpecifications.getEnclosureBastionDepth();
+        if (drawTop && drawRight) {
             float angleX = topRight.x;
             float angleYTop = topRight.y - bWidth;
-            float angleYBottom = bottomRight.y;
             fillRect(angleX - bLength, angleYTop, bWidth + bLength, bWidth);
             fillRect(angleX, angleYTop, bWidth, bWidth + bLength);
-            
+
+        }
+
+        if (drawBottom && drawRight) {
+            float angleX = topRight.x;
+            float angleYBottom = bottomRight.y;
+
             fillRect(angleX, angleYBottom - bLength, bWidth, bLength);
             fillRect(angleX - bLength, angleYBottom, bWidth + bLength, bWidth);
-
-            drawVerticalBastions(verticalBastionInfo, topRight.x, topRight.y, BastionPosition.AFTER);
         }
+
     }
 
-    
-    
     private void drawLine(float x0, float y0, float x1, float y1) {
         g.draw(new Line2D.Float(x0, y0, x1, y1));
     }
@@ -156,7 +210,7 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
     }
 
     private void drawHorizontalBastions(BastionDrawingInfo info, float startX, float startY, BastionPosition bastionPosition) {
-        float x = startX + info.getInterBastionSkip()+ drawingSpecifications.getEnclosureBastionLength();
+        float x = startX + info.getInterBastionSkip() + drawingSpecifications.getEnclosureBastionLength();
         float bastionY;
         if (bastionPosition == BastionPosition.BEFORE) {
             bastionY = startY - drawingSpecifications.getEnclosureBastionDepth();
@@ -183,35 +237,13 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
 
         for (int i = 0; i < info.getNumberOfBastions(); i++) {
             fillRect(bastionX, y,
-                    drawingSpecifications.getEnclosureBastionLength(),
-                    drawingSpecifications.getEnclosureBastionDepth());
+                    drawingSpecifications.getEnclosureBastionDepth(),
+                    drawingSpecifications.getEnclosureBastionLength()
+            );
 
             y += drawingSpecifications.getEnclosureBastionLength()
                     + info.getInterBastionSkip();
         }
-    }
-
-    @Override
-    public void drawVertical(Cartouche cartouche) {
-
-        Stroke stroke = drawingSpecifications.buildCartoucheStroke(cartouche.getType());      
-      
-        // Compute vertical space before and after the cartouche's body :
-        float spaceBefore = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
-                cartouche.getType(), cartouche.getStartPart());
-        float spaceAfter = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
-                cartouche.getType(), cartouche.getEndPart());
-
-        // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
-
-        dx += drawingSpecifications.getEnclosureBastionDepth();
-
-        Point2D.Float topLeft, topRight, bottomLeft, bottomRight;
-        
-        
-       
     }
 
     /**
@@ -222,10 +254,10 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
         private int numberOfBastions;
         private float interBastionSkip;
 
-        public BastionDrawingInfo(float availableRealEstate) {            
+        public BastionDrawingInfo(float availableRealEstate) {
             float bastionWidth = drawingSpecifications.getEnclosureBastionLength();
             this.numberOfBastions = (int) ((availableRealEstate - 3.0 * bastionWidth) / (2 * bastionWidth));
-            this.interBastionSkip = (availableRealEstate - (this.numberOfBastions+2) * bastionWidth)
+            this.interBastionSkip = (availableRealEstate - (this.numberOfBastions + 2) * bastionWidth)
                     / (this.numberOfBastions + 1);
             if (this.numberOfBastions == 1) {
                 // One intermediary bastion is simply ugly. And seems to be avoided in

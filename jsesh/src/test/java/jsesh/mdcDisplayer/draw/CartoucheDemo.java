@@ -35,7 +35,9 @@ public class CartoucheDemo {
                 "<-ra-mn:n-xpr->-!" +
                 "<S-E2-A24-m-k:D40-km:t->-!"+
                 "<H-p:t-H-kA->-!"+
-                "<F-ra:xpr-kA*q:D140-A28-w:w->-!"
+                "<F-ra:xpr-kA*q:D140-A28-w:w->-!"+
+                "<f0-ra:xpr-kA*q:D140-A28-w:w->-!"+
+                "<f-ra:xpr-kA*q:D140-A28-w:w-0>-!"
                 ;
         editor.setMDCText(mdc);
         editor1.setTextDirection(TextDirection.RIGHT_TO_LEFT);
