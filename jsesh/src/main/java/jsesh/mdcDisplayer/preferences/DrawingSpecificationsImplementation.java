@@ -113,14 +113,12 @@ public class DrawingSpecificationsImplementation implements Cloneable,
 
     private Color cursorColor;
 
-    private float enclosureBastionDepth = 5;
+    private float enclosureBastionDepth = 3;
 
     /*
 	 * ------------------------- Enclosure
      */
-    private float enclosureBastionLength = 10;
-
-    private float enclosureBastionSkip = 5;
+    private float enclosureBastionLength = 4;
 
     private Font[] fontMap;
 
@@ -353,6 +351,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return
      */
+    @Override
     public Stroke buildCartoucheStroke(int cartoucheType) {
         return new BasicStroke(getCartoucheLineWidth());
     }
@@ -362,6 +361,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
      *
      * @return
      */
+    @Override
     public Color getCursorColor() {
         return cursorColor;
     }
@@ -385,21 +385,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         return enclosureBastionLength;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return
-     */
-    @Override
-    public float getEnclosureBastionSkip() {
-        return enclosureBastionSkip;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return
-     */
     @Override
     public Stroke getFineStroke() {
         return new BasicStroke(fineLineWidth);
@@ -647,10 +632,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         this.enclosureBastionLength = enclosureBastionLength;
     }
 
-    @Override
-    public void setEnclosureBastionSkip(float enclosureBastionSkip) {
-        this.enclosureBastionSkip = enclosureBastionSkip;
-    }
 
     @Override
     public void setFontRenderContext(FontRenderContext context) {

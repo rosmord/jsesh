@@ -308,7 +308,7 @@ public class JMDCEditor extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        drawBaseComponent(g);      
+        drawBaseComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         GraphicsUtils.antialias(g2d);
         g2d.scale(scale, scale);
@@ -332,7 +332,7 @@ public class JMDCEditor extends JPanel {
             caretChanged = false;
             // Show the cursor.
             Rectangle r = getPointerRectangle();
-            if (!g.getClipBounds().contains(r)) {          
+            if (!g.getClipBounds().contains(r)) {
                 r.height += 4;
                 r.width += 4;
                 r.x -= 2;
@@ -359,7 +359,7 @@ public class JMDCEditor extends JPanel {
      * none is found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
-        return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);        
+        return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);
     }
 
     /**
@@ -472,8 +472,9 @@ public class JMDCEditor extends JPanel {
      * @param orientation
      */
     public void setTextOrientation(TextOrientation orientation) {
-        getDrawingSpecifications().setTextOrientation(orientation);
-        invalidateView();
+        DrawingSpecification newSpecifications = getDrawingSpecifications().copy();
+        newSpecifications.setTextOrientation(orientation);
+        setDrawingSpecifications(newSpecifications);
     }
 
     /**
@@ -481,8 +482,9 @@ public class JMDCEditor extends JPanel {
      *
      */
     public void setTextDirection(TextDirection direction) {
-        getDrawingSpecifications().setTextDirection(direction);
-        invalidateView();
+        DrawingSpecification newSpecifications = getDrawingSpecifications().copy();
+        newSpecifications.setTextDirection(direction);
+        setDrawingSpecifications(newSpecifications);
     }
 
     public TextOrientation getTextOrientation() {
@@ -667,27 +669,27 @@ public class JMDCEditor extends JPanel {
                 .setContents(transferable, null);
 
     }
-    
+
     /**
      * Copy the selection as plain Unicode text on the clipboard.
      */
     public void copyAsUnicode() {
         copyAsUnicodeImpl(false);
     }
-    
+
     /**
      * Copy the selection as plain Unicode text on the clipboard.
      */
     public void copyAsUnicodeWithFormatControls() {
-       copyAsUnicodeImpl(true);
+        copyAsUnicodeImpl(true);
     }
-    
+
     private void copyAsUnicodeImpl(boolean useFormatChars) {
-         TopItemList top = getWorkflow().getSelectionAsTopItemList();
-         MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
-         converter.setIncludeFormatControlChars(useFormatChars);
-         String toCopy = converter.convertToPlainUnicode(top);
-         Toolkit.getDefaultToolkit().getSystemClipboard()
+        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
+        converter.setIncludeFormatControlChars(useFormatChars);
+        String toCopy = converter.convertToPlainUnicode(top);
+        Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new StringSelection(toCopy), null);
     }
 

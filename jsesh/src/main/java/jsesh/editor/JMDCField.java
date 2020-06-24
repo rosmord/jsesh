@@ -67,6 +67,8 @@ public class JMDCField extends JMDCEditor {
         // setScale(textHeight / getDrawingSpecifications().getMaxCadratHeight());
         getDrawingSpecifications().setMaxCadratHeight(textHeight);
         getDrawingSpecifications().setStandardSignHeight(textHeight);
+        getDrawingSpecifications().setMaxCadratWidth(textHeight*1.1f);
+        
         PageLayout pageLayout = getDrawingSpecifications().getPageLayout();
         pageLayout.setTopMargin(margin);
         pageLayout.setLeftMargin(0);

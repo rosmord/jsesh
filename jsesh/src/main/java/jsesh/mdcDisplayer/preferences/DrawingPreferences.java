@@ -284,8 +284,6 @@ public interface DrawingPreferences {
 
     float getEnclosureBastionLength();
 
-    float getEnclosureBastionSkip();
-
     float getHwtSmallMargin();
 
     float getHwtSquareSize();
@@ -303,8 +301,6 @@ public interface DrawingPreferences {
     void setEnclosureBastionDepth(float enclosureBastionDepth);
 
     void setEnclosureBastionLength(float enclosureBastionLength);
-
-    void setEnclosureBastionSkip(float enclosureBastionSkip);
 
     void setHutSmallMargin(float hutSmallMargin);
 
