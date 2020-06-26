@@ -134,28 +134,28 @@
     <Component class="javax.swing.JButton" name="labelAddButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="labelRemoveButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="tagAddButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="tagRemoveButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
         </Property>
       </Properties>
     </Component>

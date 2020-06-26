@@ -148,14 +148,14 @@
     <Component class="javax.swing.JButton" name="transliterationAddButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="transliterationRemoveButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
         </Property>
       </Properties>
     </Component>
@@ -167,14 +167,14 @@
     <Component class="javax.swing.JButton" name="previousButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="nextButton">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"/>
+          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"/>
         </Property>
       </Properties>
     </Component>
@@ -290,7 +290,7 @@
             <Component class="javax.swing.JButton" name="variantRemoveButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+                  <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -319,7 +319,7 @@
             <Component class="javax.swing.JButton" name="variantAddButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+                  <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -374,14 +374,14 @@
                 <Component class="javax.swing.JButton" name="partAddButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="partRemoveButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -524,28 +524,28 @@
                 <Component class="javax.swing.JButton" name="previousDescriptionButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="nextDescriptionButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="removeDescriptionButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="addDescriptionButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"/>
+                      <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"/>
                     </Property>
                   </Properties>
                 </Component>
@@ -686,14 +686,14 @@
                     <Component class="javax.swing.JButton" name="tagAddButton">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"/>
+                          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="tagRemoveButton">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"/>
+                          <Image iconType="3" name="/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"/>
                         </Property>
                       </Properties>
                     </Component>

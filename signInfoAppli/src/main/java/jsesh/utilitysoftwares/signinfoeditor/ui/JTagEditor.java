@@ -69,13 +69,13 @@ public class JTagEditor extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(labelTable);
 
-        labelAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        labelAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
-        labelRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        labelRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
-        tagAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        tagAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
-        tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);

@@ -83,7 +83,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
     /*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.utilitySoftwares.signInfoEditor.GrowableModel#removeRow(int)
+	 * @see jsesh.utilitysoftwares.signinfoeditor.GrowableModel#removeRow(int)
      */
     public boolean removeRow(int row) {
         XMLInfoProperty property = getRow(row);
@@ -140,7 +140,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
     /*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.utilitySoftwares.signInfoEditor.GrowableModel#addRow(java.lang.String)
+	 * @see jsesh.utilitysoftwares.signinfoeditor.GrowableModel#addRow(java.lang.String)
      */
     public final void addRow(String code) {
         XMLInfoProperty property = buildDefaultSignProperty(code);

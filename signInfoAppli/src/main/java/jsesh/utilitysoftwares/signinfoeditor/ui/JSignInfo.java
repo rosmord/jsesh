@@ -108,15 +108,15 @@ public class JSignInfo extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(transliterationTable);
 
-        transliterationAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        transliterationAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
-        transliterationRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        transliterationRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
         jLabel1.setText("Transliteration"); // NOI18N
 
-        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"))); // NOI18N
+        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
 
-        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"))); // NOI18N
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -139,7 +139,7 @@ public class JSignInfo extends javax.swing.JPanel {
 
         jPanel1.setToolTipText("<html>\n<p>The notion of variant used here is somehow ad-hoc.</p>\n<p>\tThe problem of variants is that there are two different notions behind it, both useful in our software.\n<p>\tThe first notion is LINGUISTIC variant. A sign is a linguistic variant of another one if it has the same uses.\n<p>\tFor instance, Y2 is a linguistic variant of Y1. Now, Y2 also \"looks like\" Y1. We will call it a \"graphical variation\".\n<p>\tBoth notions are independant, though statistically linked. For instance, Z7 is a linguistic variant of G43, but not a \n\tgraphical variation thereof.\n\t  \n<p> \tthe notion of \"looking like\" another sign is covered by the \"isSimilar\" attribute.\n\t \n<p>\tIn lots of cases, especially for determinatives, the signs are not always fully substitutable one for another.\n\tTo allow the use of 'variant' information in searches, we introduce the \"linguistic\" attribute.\n\t\n<p>\tlet B be a variant of A.\n<ul>\n<li>\t\"full\" means that all uses of B are also possible uses of A, and all uses of A are uses of B.\n<li>\t\"other\" means that B is more specific than A, or that the degree is unknown\n<li>\t\"partial\" means that the uses of A and B intersect, but they have also both significantly different uses.\n<p>\t\tFor instance, the D36 sign (ayin) is a partial variant of D37 (di), as D36 can write \"di\". However,\n\t\tin this case, I would not consider D37 as a variant of D36, because it would cause more harm than good.\n<li>\t\"no\" is used when the sign is not at all a linguistic variant. In this case, isSimilar is normally \"y\".\n</ul>\n\n</html>");
 
-        variantRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        variantRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
         variantTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,7 +155,7 @@ public class JSignInfo extends javax.swing.JPanel {
         variantTable.setToolTipText("<html>\nFor an explanation of variants in JSesh, see the documentation. \n<p>It's a bit tricky.\n</html>");
         jScrollPane4.setViewportView(variantTable);
 
-        variantAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        variantAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
         variantField.setColumns(5);
 
@@ -181,10 +181,10 @@ public class JSignInfo extends javax.swing.JPanel {
 
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.PAGE_AXIS));
 
-        partAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        partAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
         jPanel9.add(partAddButton);
 
-        partRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        partRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
         jPanel9.add(partRemoveButton);
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
@@ -265,13 +265,13 @@ public class JSignInfo extends javax.swing.JPanel {
 
         jLabel8.setText("Sign Description:");
 
-        previousDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"))); // NOI18N
+        previousDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
 
-        nextDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"))); // NOI18N
+        nextDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
 
-        removeDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_remove.png"))); // NOI18N
+        removeDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
-        addDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/edit_add.png"))); // NOI18N
+        addDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel8Layout = new org.jdesktop.layout.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -359,9 +359,9 @@ public class JSignInfo extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        tagAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/next.png"))); // NOI18N
+        tagAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
 
-        tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitySoftwares/signInfoEditor/icons/previous.png"))); // NOI18N
+        tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
 
         org.jdesktop.layout.GroupLayout jPanel7Layout = new org.jdesktop.layout.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
