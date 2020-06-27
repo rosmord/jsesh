@@ -95,6 +95,7 @@ public class BundleHelper {
 	 * the action class <b>must</b> have a static String field called ID.
 	 * 
 	 * @param action
+         * @return the action which has just been configured.
 	 */
 	public Action configure(Action action) {
 		try {
