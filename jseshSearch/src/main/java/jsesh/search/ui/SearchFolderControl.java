@@ -94,6 +94,8 @@ class SearchFolderControl {
                 ResultTableModel model = new ResultTableModel(rootPath, res);
                 ui.getResultTable().setModel(model);
                 ui.getMessageField().setText(JSeshMessages.format("jsesh.search.folder.done", Integer.toString(res.size())));
+            } catch (CancellationException e) {
+                // DO NOTHING. It's cancelled, that's it.
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }

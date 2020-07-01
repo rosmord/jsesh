@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.5.1-SNAPSHOT</version>
+        <version>7.5.2--SNAPSHOT</version>
     </parent>
     <artifactId>jseshAppli</artifactId>
     <packaging>jar</packaging>

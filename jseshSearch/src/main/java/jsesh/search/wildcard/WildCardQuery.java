@@ -64,29 +64,36 @@ public class WildCardQuery implements MdCSearchQuery {
      * Is this query correct or erroneous ?
      */
     private boolean correct;
+    
+    /**
+     * Maximum length of individual results.
+     */
+    
+    int maxLength;
 
     /**
      * Build a wildcard query from a top item list.
      *
      * @param items : items to search
-     * @param maxLength : max match length. 0 = any length
+     * @param maxLength : maximum length of individual results, 0 meaning "no length limit".
      * @param variantLevel
      */
     public WildCardQuery(TopItemList items, int maxLength, VariantLevelForSearch variantLevel) {
+        this.maxLength = maxLength;
         if (items.getNumberOfChildren() == 0) {
             correct = false;
         } else {
             try {
                 correct = true;
-                extractor = new QueryBuilder().buildQuery(items, maxLength, variantLevel);
+                extractor = new QueryBuilder().buildQuery(items, variantLevel);
             } catch (IncorrectQueryException e) {
                 correct = false;
             }
         }
     }
 
-    private static int extractPosition(List<HieroglyphOccurrence> text, List<Integer> match) {
-        return text.get(match.get(0)).getPosition();
+    private static int extractPosition(List<HieroglyphOccurrence> text, MatchResult m) {
+        return text.get(m.getFirstPosition()).getPosition();
     }
 
     @Override
@@ -119,17 +126,13 @@ public class WildCardQuery implements MdCSearchQuery {
         private String currentCode;
         private VariantLevelForSearch variantLevel;
 
-        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, int maxLength, VariantLevelForSearch variantLevel) {
+        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, VariantLevelForSearch variantLevel) {
             this.variantLevel = variantLevel;
             codes = new HieroglyphCodesExtractor(true).extractHieroglyphs(items);
             codes.add(null); // null as sentinel.
             seq = new ArrayList<>();
             parseItems();
-            if (maxLength == 0) {
-                return new RegularExtractor<>(seq);
-            } else {
-                return new RegularExtractor<>(maxLength(seq(seq), maxLength));
-            }
+            return new RegularExtractor<>(seq);
         }
 
         private void parseItems() {
@@ -156,9 +159,9 @@ public class WildCardQuery implements MdCSearchQuery {
                 seq.add(label(occ -> occ.getCode().equals(code)));
             } else {
                 // TO MODIFY.. redundant types, in a way (but FULL != EXACT...)
-                VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;                
+                VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;
                 HieroglyphDatabaseInterface hieroglyphsManager = HieroglyphDatabaseRepository.getHieroglyphDatabase();
-                
+
                 Collection<String> variantCodes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
                 seq.add(label(new CodeSetLabel(variantCodes)));
             }
@@ -167,7 +170,10 @@ public class WildCardQuery implements MdCSearchQuery {
         }
 
         private void processSkip() {
-            seq.add(skip());
+            if (maxLength == 0)
+                seq.add(skip());
+            else
+                seq.add(maxLength(maxLength));            
             nextPos();
         }
 

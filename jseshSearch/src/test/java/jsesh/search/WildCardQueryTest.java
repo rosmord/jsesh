@@ -61,7 +61,8 @@ public class WildCardQueryTest {
 
     @Test
     public void searchStar() {
-        doSearch("QuerySkip", "m-m-n:r-s-g-p", "n QUERYSKIP g", VariantLevelForSearch.EXACT_SEARCH, 2);
+        doSearch("QuerySkip", "m-m-n:r-s-g-p", "n QUERYSKIP g", 
+                VariantLevelForSearch.EXACT_SEARCH, 2);
     }
 
     @Test

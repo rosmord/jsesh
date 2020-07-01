@@ -74,12 +74,13 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
         this.addSkipButton = new JButton("*");
         this.addSetButton = new JButton("[...]");
         this.matchLengthSpinner = new JSpinner();
-        this.matchLengthSpinnerLabel = new JLabel("Max. match Length");
+        this.matchLengthSpinnerLabel = new JLabel(JSeshMessages.getString("jsesh.search.maxLength.text"));
 
-        this.matchLayoutCheckBox = new JCheckBox("Whole Quadrants Match");
+        this.matchLayoutCheckBox = new JCheckBox(JSeshMessages.getString("jsesh.search.matchLayout.text"));
 
         this.addSkipButton.setToolTipText(JSeshMessages.getString("jsesh.search.skip.tooltip"));
         this.addSetButton.setToolTipText(JSeshMessages.getString("jsesh.search.set.tooltip"));
+        this.matchLengthSpinner.setToolTipText(JSeshMessages.getString("jsesh.search.maxLength.tooltip"));
         
         this.variantLevel = new JComboBox<>(VariantLevelForSearch.values());
 
