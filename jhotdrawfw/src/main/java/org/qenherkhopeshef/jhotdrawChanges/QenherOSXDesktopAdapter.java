@@ -6,6 +6,8 @@
 package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.awt.Desktop;
+import java.awt.desktop.AboutEvent;
+import java.awt.desktop.AboutHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -28,6 +30,13 @@ public class QenherOSXDesktopAdapter {
         this.application = application;
     }
 
+    public void setAboutHandler(ActionListener aboutHandler) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().setAboutHandler(e -> {
+                aboutHandler.actionPerformed(new ActionEvent(Desktop.getDesktop(), ActionEvent.ACTION_PERFORMED, "about"));
+            });
+        }
+    }
     /**
      * The action listener will be called when the Quit menu item is selected
      * from the application menu.

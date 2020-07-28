@@ -1,5 +1,13 @@
 /*
- * */
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
+ */
 package jsesh.swing.groupEditor;
 
 import java.awt.geom.Point2D;
@@ -11,59 +19,40 @@ import java.awt.geom.Point2D;
  *  
  */
 class GroupEditorControl implements GroupEditorListener {
-    private GroupEditor editor;
+    private final GroupEditor editor;
 
-    Point2D oldPoint;
+    private Point2D oldPoint;
 
-    int horizontalHandle;
+    private int horizontalHandle;
 
-    int verticalHandle;
+    private int verticalHandle;
 
-    boolean handleSelected;
+    private boolean handleSelected;
 
     /**
      * @param editor
-     * 
      */
     public GroupEditorControl(GroupEditor editor) {
         this.editor = editor;
-        editor.addGroupEditorEventListener(this);
         handleSelected = false;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseClicked(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+  
+    @Override
     public void mouseClicked(GroupEditorEvent e) {
+        // NOTHING
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseEntered(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+    @Override
     public void mouseEntered(GroupEditorEvent e) {
-        // TODO Auto-generated method stub
-
+        // NOTHING
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseExited(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+    @Override
     public void mouseExited(GroupEditorEvent e) {
-        // TODO Auto-generated method stub
-
+       // NOTHING
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mousePressed(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+    @Override
     public void mousePressed(GroupEditorEvent e) {
         editor.setSelected(e.getElementIndex());
         handleSelected = e.isOnHandle();
@@ -77,21 +66,12 @@ class GroupEditorControl implements GroupEditorListener {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseReleased(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+    @Override
     public void mouseReleased(GroupEditorEvent e) {
         oldPoint = null;
-
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseDragged(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+   
+    @Override
     public void mouseDragged(GroupEditorEvent e) {
         if (editor.getSelected() != -1 && oldPoint != null) {
             if (handleSelected) {
@@ -122,14 +102,10 @@ class GroupEditorControl implements GroupEditorListener {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see jsesh.swing.groupEditor.GroupEditorListener#mouseMoved(jsesh.swing.groupEditor.GroupEditorEvent)
-     */
+   
+    @Override
     public void mouseMoved(GroupEditorEvent e) {
-        // TODO Auto-generated method stub
-
+        // NOTHING.
     }
 
 }

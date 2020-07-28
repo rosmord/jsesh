@@ -7,7 +7,7 @@
  */
 package jsesh.swing.groupEditor;
 
-import java.awt.BasicStroke;
+import java.awt.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -36,7 +36,6 @@ import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
-
 /**
  * Editor for groups and ligatures.
  * <p>
@@ -45,704 +44,591 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * allow resizing. shift and mouse movement allow rotation.
  * <p>
  * The cursor will change accordingly.
- * 
+ * <p>
+ * Ergonomics of the handles :
+ * <ul>
+ * <li> If we keep the aspect ratio of the glyph (which is currently the case),
+ * the handle can't be placed at mouse position. Some extra visual feedback is
+ * probably needed.
+ * <li> The same goes for rotation.
+ * </ul>
+ *
  * @author rosmord
  */
+public final class GroupEditor extends JPanel {
 
-public class GroupEditor extends JPanel {
+    /**
+     * At this level, the group editor control's function is just to build
+     * events.
+     *
+     * @author rosmord
+     */
+    class LowLevelControl implements MouseInputListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1003487338247822571L;
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            groupEditorControl.mouseClicked(buildEvent(e));
+        }
 
-	private static class Handle {
-		public Shape shape;
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            groupEditorControl.mouseDragged(buildEvent(e));
+        }
 
-		public int vpos, hpos;
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            groupEditorControl.mouseEntered(buildEvent(e));
+        }
 
-		/**
-		 * @param shape
-		 * @param vpos
-		 * @param hpos
-		 */
-		public Handle(Shape shape, int hpos, int vpos) {
-			this.shape = shape;
-			this.vpos = vpos;
-			this.hpos = hpos;
-		}
-	}
+        @Override
+        public void mouseExited(MouseEvent e) {
+            groupEditorControl.mouseExited(buildEvent(e));
+        }
 
-	/**
-	 * At this level, the group editor control's function is just to build
-	 * events.
-	 * 
-	 * @author rosmord
-	 */
-	class LowLevelControl implements MouseInputListener {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            groupEditorControl.mouseMoved(buildEvent(e));
+        }
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-		 */
+        @Override
+        public void mousePressed(MouseEvent e) {
+            groupEditorControl.mousePressed(buildEvent(e));
+        }
 
-		public void mouseClicked(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseClicked(buildEvent(e));
-		}
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            groupEditorControl.mouseReleased(buildEvent(e));
+        }
+    }
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent
-		 * )
-		 */
-		public void mouseDragged(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseDragged(buildEvent(e));
-		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-		 */
-		public void mouseEntered(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseEntered(buildEvent(e));
-		}
+    // The group we are editing.
+    private AbsoluteGroup group;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-		 */
-		public void mouseExited(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseExited(buildEvent(e));
-		}
+    private GroupEditorListener groupEditorControl;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent
-		 * )
-		 */
-		public void mouseMoved(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseMoved(buildEvent(e));
-		}
+    private GroupEditorDrawingPreferences groupEditorDrawingPreferences = new GroupEditorDrawingPreferences();
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-		 */
-		public void mousePressed(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mousePressed(buildEvent(e));
-		}
+    // the selected sign.
+    private int selected = -1;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-		 */
-		public void mouseReleased(MouseEvent e) {
-			for (int i = 0; i < groupEditorEventListeners.size(); i++)
-				((GroupEditorListener) groupEditorEventListeners.get(i))
-						.mouseReleased(buildEvent(e));
-		}
-	}
 
-	// The modes
-	/**
-	 * In RESIZE mode, handles are used for resizing the signs.
-	 */
-	public static final int RESIZE = 1;
+    public GroupEditor() {
+        setBackground(Color.WHITE);
+        LowLevelControl control = new LowLevelControl();
+        addMouseListener(control);
+        addMouseMotionListener(control);
+        // TODO : fix the system so that it handle right-to-left signs.
+        // Currently, we simply force left-to-right order
+        specs = groupEditorDrawingPreferences.getDrawingSpecifications();
+        groupEditorDrawingPreferences.drawingSpecifications = groupEditorDrawingPreferences.drawingSpecifications.copy();
+        groupEditorDrawingPreferences.drawingSpecifications.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+    }
 
-	/**
-	 * In ROTATION mode, handles rotate signs.
-	 */
-	public static final int ROTATION = 2;
+    public void setGroupEditorEventListener(GroupEditorListener groupEditorControl) {
+        this.groupEditorControl = groupEditorControl;
+    }
 
-	/**
-	 * In move mode, there are no handles.
-	 */
-	public static final int MOVE = 3;
+    /**
+     * Translates a mouse event into a significant group editor event.
+     *
+     * @param e
+     * @return the corresponding event.
+     */
+    private GroupEditorEvent buildEvent(MouseEvent e) {
+        GroupEditorEvent result = null;
+        Point2D p = getModelPoint(e.getPoint());
+        MDCView v = getView();
 
-	/**
-	 * The drawing specifications. TODO find a good policy for drawing
-	 * specifications !!!!
-	 */
-	DrawingSpecification drawingSpecifications = MDCEditorKit
-			.getBasicMDCEditorKit().getDrawingSpecifications();
+        // First, test handles for the selected shape.
+        if (selected != -1 && mode != MOVE) {
+            MDCView subv = v.getSubView(selected);
+            // Test the selected sign handles.
+            GroupEditorHandle handles[] = getHandles(subv);
+            for (int i = 0; result == null && i < handles.length; i++) {
+                if (handles[i].shape.contains(p)) {
+                    result = new GroupEditorEvent(group, p, selected,
+                            handles[i].hpos, handles[i].vpos);
+                }
+            }
+        }
 
-	// The group we are editing.
-	private AbsoluteGroup group;
+        // Test all shapes.
+        // First, we try an exact system, based on actual shapes.
+        // However, the click must fall on a "black" line.
+        for (int i = 0; (result == null) && i < v.getNumberOfSubviews(); i++) {
+            // Test the view itself.
+            MDCView subv = v.getSubView(i);
+            Hieroglyph h = group.getHieroglyphAt(i);
 
-	private ArrayList groupEditorEventListeners = new ArrayList();
+            Area s1 = getGlyphArea(subv, h);
+            if (s1.contains(p)) {
+                result = new GroupEditorEvent(group, p, i);
+            }
+        }
+        if (result == null) {
+            result = new GroupEditorEvent(group, p, -1);
+        }
+        return result;
+    }
 
-	/**
-	 * Handle sizes
-	 */
+    /**
+     * Should probably move somewhere else.
+     *
+     * @param subv
+     * @param h
+     * @return
+     */
+    private Area getGlyphArea(MDCView subv, Hieroglyph h) {
+        DrawingSpecification specs= groupEditorDrawingPreferences.getDrawingSpecifications();
+        Area area;
+        if (h.getType() == SymbolCodes.SMALLTEXT) {
+            Dimension2D dims = specs.getSuperScriptDimensions(h.getSmallText());
+            double height = h.getRelativeSize() / 100.0 * dims.getHeight();
+            double width = h.getRelativeSize() / 100.0 * dims.getWidth();
+            area = new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));
+        } else {
+            area = specs.getHieroglyphsDrawer().getSignArea(
+                    h.getCode(), subv.getPosition().x, subv.getPosition().y,
+                    h.getRelativeSize() / 100.0, h.getRelativeSize() / 100.0,
+                    h.getAngle(), h.isReversed());
+        }
+        return area;
+    }
 
-	private int handleSize = 10;
 
-	/**
-	 * Frame line width.
-	 */
-	private int lineWidth = 2;
+    /**
+     * @return Returns the group.
+     */
+    public AbsoluteGroup getGroup() {
+        return group;
+    }
 
-	/**
-	 * The editing mode ; either RESIZE or ROTATE.
-	 */
-	private int mode = RESIZE;
+    /**
+     * Build the list of handles.
+     *
+     * <pre>
+     *  1 2 : top handles
+     *    4 : middle handles
+     *  6 7 : bottom handles
+     * </pre>
+     *
+     * @param v the view.
+     * @return the handles.
+     */
+    private GroupEditorHandle[] getHandles(MDCView v) {
+        GroupEditorHandle result[] = new GroupEditorHandle[8];
+        Point2D orig = getViewPosition(v);
+        double w = v.getWidth();
+        double h = v.getHeight();
+        double radius = (groupEditorDrawingPreferences.handleSize / (2 * groupEditorDrawingPreferences.scale));
+        double diameter = 2 * radius;
+        int i = 0;
 
-	private double scale = 10;
+        result[i++] = buildHandle(orig.getX() - radius, orig.getY() - radius,
+                diameter, GroupEditorEvent.LEFT, GroupEditorEvent.TOP);
+        result[i++] = buildHandle(orig.getX() - radius + w / 2, orig.getY()
+                - radius, diameter, GroupEditorEvent.MIDDLE,
+                GroupEditorEvent.TOP);
+        result[i++] = buildHandle(orig.getX() - radius + w, orig.getY()
+                - radius, diameter, GroupEditorEvent.RIGHT,
+                GroupEditorEvent.TOP);
+        result[i++] = buildHandle(orig.getX() - radius, orig.getY() + h / 2
+                - radius, diameter, GroupEditorEvent.LEFT,
+                GroupEditorEvent.MIDDLE);
+        result[i++] = buildHandle(orig.getX() - radius + w, orig.getY() + h / 2
+                - radius, diameter, GroupEditorEvent.RIGHT,
+                GroupEditorEvent.MIDDLE);
+        result[i++] = buildHandle(orig.getX() - radius, orig.getY() + h
+                - radius, diameter, GroupEditorEvent.LEFT,
+                GroupEditorEvent.BOTTOM);
+        result[i++] = buildHandle(orig.getX() - radius + w / 2, orig.getY() + h
+                - radius, diameter, GroupEditorEvent.MIDDLE,
+                GroupEditorEvent.BOTTOM);
+        result[i++] = buildHandle(orig.getX() - radius + w, orig.getY() + h
+                - radius, diameter, GroupEditorEvent.RIGHT,
+                GroupEditorEvent.BOTTOM);
+        return result;
+    }
 
-	// the selected sign.
-	private int selected = -1;
+    public int getHandleSize() {
+        return groupEditorDrawingPreferences.handleSize;
+    }
 
-	private double sideMargin = 5;
+    public int getLineWidth() {
+        return groupEditorDrawingPreferences.lineWidth;
+    }
 
-	private double topMargin = 5;
+    public int getMode() {
+        return mode;
+    }
 
-	public GroupEditor() {
-		setBackground(Color.WHITE);
-		LowLevelControl control = new LowLevelControl();
-		addMouseListener(control);
-		addMouseMotionListener(control);
-		// TODO : fix the system so that it handle right-to-left signs.
-		// Currently, we simply force left-to-right order
-		drawingSpecifications = drawingSpecifications.copy();
-		drawingSpecifications.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-	}
+    /**
+     * Return a point in model coordinates
+     *
+     * @param p : a point in screen coordinates.
+     * @return a point in model coordinates
+     */
+    private Point2D getModelPoint(Point p) {
+        double x = (p.getX() / groupEditorDrawingPreferences.scale - groupEditorDrawingPreferences.sideMargin);
+        double y = (p.getY() / groupEditorDrawingPreferences.scale - groupEditorDrawingPreferences.topMargin);
+        return new Point2D.Double(x, y);
+    }
 
-	public void addGroupEditorEventListener(GroupEditorListener l) {
-		groupEditorEventListeners.add(l);
-	}
-
-	/**
-	 * Translates a mouse event into a significant group editor event.
-	 * 
-	 * @param e
-	 * @return the corresponding event.
-	 */
-	private GroupEditorEvent buildEvent(MouseEvent e) {
-		GroupEditorEvent result = null;
-		Point2D p = getModelPoint(e.getPoint());
-		MDCView v = getView();
-
-		// First, test handles for the selected shape.
-		if (selected != -1 && mode != MOVE) {
-			MDCView subv = v.getSubView(selected);
-			// Test the selected sign handles.
-			Handle handles[] = getHandles(subv);
-			for (int i = 0; result == null && i < handles.length; i++) {
-				if (handles[i].shape.contains(p))
-					result = new GroupEditorEvent(group, p, selected,
-							handles[i].hpos, handles[i].vpos);
-			}
-		}
-
-		// Test all shapes.
-		// First, we try an exact system, based on actual shapes.
-		// However, the click must fall on a "black" line.
-
-		for (int i = 0; (result == null) && i < v.getNumberOfSubviews(); i++) {
-			// Test the view itself.
-			MDCView subv = v.getSubView(i);
-			Hieroglyph h = group.getHieroglyphAt(i);
-
-			Area s1 = getGlyphArea(subv, h);
-			if (s1.contains(p)) {
-				result = new GroupEditorEvent(group, p, i);
-			}
-		}
-		if (result == null) {
-			result = new GroupEditorEvent(group, p, -1);
-		}
-		return result;
-	}
-
-	/**
-	 * Should probably move somewhere else.
-	 * @param subv
-	 * @param h
-	 * @return
-	 */
-	private Area getGlyphArea(MDCView subv, Hieroglyph h) {
-		Area area;
-		if (h.getType() == SymbolCodes.SMALLTEXT) {
-			Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(h.getSmallText());
-			double height= h.getRelativeSize() / 100.0 * dims.getHeight();
-			double width= h.getRelativeSize() / 100.0 * dims.getWidth();
-			area= new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));
-		} else {
-			area = drawingSpecifications.getHieroglyphsDrawer().getSignArea(
-					h.getCode(), subv.getPosition().x, subv.getPosition().y,
-					h.getRelativeSize() / 100.0, h.getRelativeSize() / 100.0,
-					h.getAngle(), h.isReversed());
-		}
-		return area;
-	}
-
-	private Handle buildHandle(double x, double y, double diameter, int hpos,
-			int vpos) {
-		Shape shape;
-		if (mode == ROTATION)
-			shape = new Ellipse2D.Double(x, y, diameter, diameter);
-		else
-			shape = new Rectangle2D.Double(x, y, diameter, diameter);
-		return new Handle(shape, hpos, vpos);
-	}
-
-	/**
-	 * @return Returns the group.
-	 */
-
-	public AbsoluteGroup getGroup() {
-		return group;
-	}
-
-	/**
-	 * Build the list of handles.
-	 * 
-	 * <pre>
-	 *  1 2 : top handles
-	 *    4 : middle handles
-	 *  6 7 : bottom handles
-	 * </pre>
-	 * 
-	 * @param v
-	 *            the view.
-	 * @return the handles.
-	 */
-
-	private Handle[] getHandles(MDCView v) {
-		Handle result[] = new Handle[8];
-		Point2D orig = getViewPosition(v);
-		double w = v.getWidth();
-		double h = v.getHeight();
-		double radius = (handleSize / (2 * scale));
-		double diameter = 2 * radius;
-		int i = 0;
-
-		result[i++] = buildHandle(orig.getX() - radius, orig.getY() - radius,
-				diameter, GroupEditorEvent.LEFT, GroupEditorEvent.TOP);
-		result[i++] = buildHandle(orig.getX() - radius + w / 2, orig.getY()
-				- radius, diameter, GroupEditorEvent.MIDDLE,
-				GroupEditorEvent.TOP);
-		result[i++] = buildHandle(orig.getX() - radius + w, orig.getY()
-				- radius, diameter, GroupEditorEvent.RIGHT,
-				GroupEditorEvent.TOP);
-		result[i++] = buildHandle(orig.getX() - radius, orig.getY() + h / 2
-				- radius, diameter, GroupEditorEvent.LEFT,
-				GroupEditorEvent.MIDDLE);
-		result[i++] = buildHandle(orig.getX() - radius + w, orig.getY() + h / 2
-				- radius, diameter, GroupEditorEvent.RIGHT,
-				GroupEditorEvent.MIDDLE);
-		result[i++] = buildHandle(orig.getX() - radius, orig.getY() + h
-				- radius, diameter, GroupEditorEvent.LEFT,
-				GroupEditorEvent.BOTTOM);
-		result[i++] = buildHandle(orig.getX() - radius + w / 2, orig.getY() + h
-				- radius, diameter, GroupEditorEvent.MIDDLE,
-				GroupEditorEvent.BOTTOM);
-		result[i++] = buildHandle(orig.getX() - radius + w, orig.getY() + h
-				- radius, diameter, GroupEditorEvent.RIGHT,
-				GroupEditorEvent.BOTTOM);
-		return result;
-	}
-
-	public int getHandleSize() {
-		return handleSize;
-	}
-
-	public int getLineWidth() {
-		return lineWidth;
-	}
-
-	public int getMode() {
-		return mode;
-	}
-
-	/**
-	 * Return a point in model coordinates
-	 * 
-	 * @param p
-	 *            : a point in screen coordinates.
-	 * @return a point in model coordinates
-	 */
-	private Point2D getModelPoint(Point p) {
-		double x = (p.getX() / scale - sideMargin);
-		double y = (p.getY() / scale - topMargin);
-		return new Point2D.Double(x, y);
-	}
-
-	/*
+    /*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.swing.JComponent#getPreferredSize()
-	 */
-	public Dimension getPreferredSize() {
-		if (group == null) {
-			return new Dimension(640, 480);
-		} else {
-			MDCView v = getView();
-			int w = (int) ((v.getWidth() + 2 * this.sideMargin) * scale);
-			int h = (int) ((v.getHeight() + 2 * topMargin) * scale);
-			return new Dimension(w, h);
-		}
-	}
+     */
+    public Dimension getPreferredSize() {
+        if (group == null) {
+            return new Dimension(640, 480);
+        } else {
+            MDCView v = getView();
+            int w = (int) ((v.getWidth() + 2 * groupEditorDrawingPreferences.sideMargin) * groupEditorDrawingPreferences.scale);
+            int h = (int) ((v.getHeight() + 2 * groupEditorDrawingPreferences.topMargin) * groupEditorDrawingPreferences.scale);
+            return new Dimension(w, h);
+        }
+    }
 
-	public double getScale() {
-		return scale;
-	}
+    public double getScale() {
+        return groupEditorDrawingPreferences.scale;
+    }
 
-	/**
-	 * Return the index of the selected element, or -1 if none.
-	 * 
-	 * @return the index of the selected element, or -1 if none.
-	 */
-	public int getSelected() {
-		return selected;
-	}
+    /**
+     * Return the index of the selected element, or -1 if none.
+     *
+     * @return the index of the selected element, or -1 if none.
+     */
+    public int getSelected() {
+        return selected;
+    }
 
-	public double getSideMargin() {
-		return sideMargin;
-	}
+    public double getSideMargin() {
+        return groupEditorDrawingPreferences.sideMargin;
+    }
 
-	public double getTopMargin() {
-		return topMargin;
-	}
+    public double getTopMargin() {
+        return groupEditorDrawingPreferences.topMargin;
+    }
 
-	private MDCView getView() {
-		MDCView view = null;
-		if (group != null) {
-			SimpleViewBuilder builder = new SimpleViewBuilder();
-			view = builder.buildView(group, drawingSpecifications);
-		} else {
-			view = new MDCView(null);
-		}
-		return view;
-	}
+    private MDCView getView() {
+        MDCView view = null;
+        if (group != null) {
+            SimpleViewBuilder builder = new SimpleViewBuilder();
+            view = builder.buildView(group, groupEditorDrawingPreferences.drawingSpecifications);
+        } else {
+            view = new MDCView(null);
+        }
+        return view;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
-		// The view is rebuilt for each redraw, as it's very simple.
-		MDCView view = getView();
-		// Sets the graphics environment
-		Graphics2D g2d = (Graphics2D) g.create();
-		// We want antialiasing !!!
-		jsesh.swing.utils.GraphicsUtils.antialias(g2d);
+        // The view is rebuilt for each redraw, as it's very simple.
+        MDCView view = getView();
+        // Sets the graphics environment
+        Graphics2D g2d = (Graphics2D) g.create();
+        // We want antialiasing !!!
+        jsesh.swing.utils.GraphicsUtils.antialias(g2d);
 
-		g2d.scale(scale, scale);
-		g2d.translate(this.sideMargin, this.topMargin);
-		double wd = (lineWidth / g2d.getTransform().getScaleX());
+        g2d.scale(groupEditorDrawingPreferences.scale, groupEditorDrawingPreferences.scale);
+        g2d.translate(groupEditorDrawingPreferences.sideMargin, groupEditorDrawingPreferences.topMargin);
+        double wd = (groupEditorDrawingPreferences.lineWidth / g2d.getTransform().getScaleX());
 
-		if (group != null) {
-			// draw the signs
-			ViewDrawer drawer = new ViewDrawer();
-			drawer.draw(g2d, view, drawingSpecifications);
-			// Draw the frame around the selected sign.
-			if (selected >= 0) {
-				// The view for this sign :
-				MDCView v = view.getSubView(selected);
-				// For absolute groups, the view placement is ... absolute
-				// (This could be a bug source, if we changed the layout for
-				// this element)
-				Point2D orig = getViewPosition(v);
-				double w = v.getWidth();
-				double h = v.getHeight();
+        if (group != null) {
+            // draw the signs
+            ViewDrawer drawer = new ViewDrawer();
+            drawer.draw(g2d, view, groupEditorDrawingPreferences.drawingSpecifications);
+            // Draw the frame around the selected sign.
+            if (selected >= 0) {
+                // The view for this sign :
+                MDCView v = view.getSubView(selected);
+                // For absolute groups, the view placement is ... absolute
+                // (This could be a bug source, if we changed the layout for
+                // this element)
+                Point2D orig = getViewPosition(v);
+                double w = v.getWidth();
+                double h = v.getHeight();
 
-				// g2d.setColor(new Color(255,0,0,100));
-				g2d.setColor(Color.RED);
-				g2d.setStroke(new BasicStroke((float) wd));
-				// Draw the frame
-				g2d
-						.draw(new Rectangle2D.Double(orig.getX(), orig.getY(),
-								w, h));
-				// Draw the handles
-				if (mode != MOVE) {
-					Handle handles[] = getHandles(v);
-					for (int i = 0; i < handles.length; i++)
-						g2d.draw(handles[i].shape);
-				}
-			}
-		}
-		g2d.setColor(Color.RED);
-		// Sets the actual width for drawing :
-		float f[] = { 0.5f, 1 };
-		g2d.setStroke(new BasicStroke((float) (wd / 2), BasicStroke.CAP_ROUND,
-				BasicStroke.JOIN_MITER, 2, f, 0));
+                // g2d.setColor(new Color(255,0,0,100));
+                g2d.setColor(Color.RED);
+                g2d.setStroke(new BasicStroke((float) wd));
+                // Draw the frame
+                g2d
+                        .draw(new Rectangle2D.Double(orig.getX(), orig.getY(),
+                                w, h));
+                // Draw the handles
+                GroupEditorHandle handles[] = getHandles(v);
+                for (int i = 0; i < handles.length; i++) {
+                    g2d.draw(handles[i].shape);
+                }
 
-		g2d.draw(new Line2D.Double(0, 0, 1000, 0));
-		g2d.draw(new Line2D.Double(0, 0, 0, 1000));
-		g2d.dispose();
-	}
+            }
+        }
+        g2d.setColor(Color.RED);
+        // Sets the actual width for drawing :
+        float f[] = {0.5f, 1};
+        g2d.setStroke(new BasicStroke((float) (wd / 2), BasicStroke.CAP_ROUND,
+                BasicStroke.JOIN_MITER, 2, f, 0));
 
-	public void removeGroupEditorEventListener(GroupEditorListener l) {
-		groupEditorEventListeners.remove(l);
-	}
+        g2d.draw(new Line2D.Double(0, 0, 1000, 0));
+        g2d.draw(new Line2D.Double(0, 0, 0, 1000));
+        g2d.dispose();
+    }
 
-	/**
-	 * @param group
-	 *            The group to set.
-	 */
-	public void setGroup(AbsoluteGroup group) {
-		this.group = group;
-		selected = -1;
-		revalidate();
-	}
+    public void removeGroupEditorEventListener(GroupEditorListener l) {
+        groupEditorEventListeners.remove(l);
+    }
 
-	public void setHandleSize(int handleSize) {
-		this.handleSize = handleSize;
-	}
+    /**
+     * @param group The group to set.
+     */
+    public void setGroup(AbsoluteGroup group) {
+        this.group = group;
+        selected = -1;
+        revalidate();
+    }
 
-	public void setLineWidth(int lineWidth) {
-		this.lineWidth = lineWidth;
-	}
+    public void setHandleSize(int handleSize) {
+        groupEditorDrawingPreferences.handleSize = handleSize;
+    }
 
-	public void setMode(int mode) {
-		this.mode = mode;
-		repaint();
-	}
+    public void setLineWidth(int lineWidth) {
+        groupEditorDrawingPreferences.lineWidth = lineWidth;
+    }
 
-	public void setScale(double scale) {
-		this.scale = scale;
-		revalidate();
-	}
+    public void setMode(int mode) {
+        this.mode = mode;
+        repaint();
+    }
 
-	public void setSelected(int selected) {
-		this.selected = selected;
-		repaint();
-	}
+    public void setScale(double scale) {
+        groupEditorDrawingPreferences.scale = scale;
+        revalidate();
+    }
 
-	public void setSideMargin(double sideMargin) {
-		this.sideMargin = sideMargin;
-		revalidate();
-	}
+    public void setSelected(int selected) {
+        this.selected = selected;
+        repaint();
+    }
 
-	public void setTopMargin(double topMargin) {
-		this.topMargin = topMargin;
-		revalidate();
-	}
+    public void setSideMargin(double sideMargin) {
+        groupEditorDrawingPreferences.sideMargin = sideMargin;
+        revalidate();
+    }
 
-	/**
-	 * Rotate the selected sign by the correct angle.
-	 * 
-	 * @param angle
-	 */
-	public void rotate(double angle) {
-		revalidate();
-		repaint();
-	}
+    public void setTopMargin(double topMargin) {
+        groupEditorDrawingPreferences.topMargin = topMargin;
+        revalidate();
+    }
 
-	/**
-	 * moves the selected sign.
-	 * 
-	 * @param dx
-	 * @param dy
-	 */
-	public void move(double dx, double dy) {
-		if (selected != -1) {
-			MDCView v = getView().getSubView(selected);
-			Point2D p = getViewPosition(v);
-			double x = p.getX() + dx;
-			double y = p.getY() + dy;
-			// Convert to integers :
-			double unitSize = drawingSpecifications.getHieroglyphsDrawer()
-					.getGroupUnitLength();
-			x = x / unitSize;
-			y = y / unitSize;
-			Hieroglyph h = group.getHieroglyphAt(selected);
-			h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
-			revalidate();
-			repaint();
-		}
-	}
+    /**
+     * Rotate the selected sign by the correct angle.
+     *
+     * @param angle
+     */
+    public void rotate(double angle) {
+        revalidate();
+        repaint();
+    }
 
-	/*
-	 * Change the size of the selected glyph. Currently, the aspect ratio
-	 * doesn't change.
-	 */
+    /**
+     * moves the selected sign.
+     *
+     * @param dx
+     * @param dy
+     */
+    public void move(double dx, double dy) {
+        if (selected != -1) {
+            MDCView v = getView().getSubView(selected);
+            Point2D p = getViewPosition(v);
+            double x = p.getX() + dx;
+            double y = p.getY() + dy;
+            // Convert to integers :
+            double unitSize = groupEditorDrawingPreferences.drawingSpecifications.getHieroglyphsDrawer()
+                    .getGroupUnitLength();
+            x = x / unitSize;
+            y = y / unitSize;
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
+            revalidate();
+            repaint();
+        }
+    }
 
-	public void resizeTo(double dx, double dy, int horizontalHandlePosition,
-			int verticalHandlePosition) {
-		// FOR LATER IMPLEMENTATION : If both an hside and vside are
-		// selected, the sign aspect ratio will be kept.
+    /**
+     * Change the size of the selected glyph.
+     * <p>
+     * Currently, the aspect ratio doesn't change.
+     *
+     * @param dx
+     * @param dy
+     * @param horizontalHandlePosition
+     * @param verticalHandlePosition
+     */
+    public void resizeTo(double dx, double dy, int horizontalHandlePosition,
+            int verticalHandlePosition) {
+        // FOR LATER IMPLEMENTATION : If both an hside and vside are
+        // selected, the sign aspect ratio will be kept.
 
-		if (selected != -1) {
-			double scale = 1;
-			double x, y;
+        if (selected != -1) {
+            double scale = 1;
+            double x, y;
 
-			MDCView v = getView().getSubView(selected);
-			Point2D orig = getViewPosition(v);
+            MDCView v = getView().getSubView(selected);
+            Point2D orig = getViewPosition(v);
 
-			x = orig.getX();
-			y = orig.getY();
+            x = orig.getX();
+            y = orig.getY();
 
-			if (horizontalHandlePosition != GroupEditorEvent.MIDDLE) {
-				double newWidth;
-				if (horizontalHandlePosition == GroupEditorEvent.LEFT) {
-					newWidth = v.getWidth() - dx;
-					x = x + dx;
-				} else {
-					newWidth = v.getWidth() + dx;
-				}
-				if (newWidth > 0)
-					scale = newWidth / v.getWidth();
-			} else {
-				double newHeight;
-				if (verticalHandlePosition == GroupEditorEvent.TOP) {
-					newHeight = v.getHeight() - dy;
-					y = y + dy;
-				} else {
-					newHeight = v.getHeight() + dy;
-				}
-				if (newHeight > 0)
-					scale = newHeight / v.getHeight();
-			}
+            if (horizontalHandlePosition != GroupEditorEvent.MIDDLE) {
+                double newWidth;
+                if (horizontalHandlePosition == GroupEditorEvent.LEFT) {
+                    newWidth = v.getWidth() - dx;
+                    x = x + dx;
+                } else {
+                    newWidth = v.getWidth() + dx;
+                }
+                if (newWidth > 0) {
+                    scale = newWidth / v.getWidth();
+                }
+            } else {
+                double newHeight;
+                if (verticalHandlePosition == GroupEditorEvent.TOP) {
+                    newHeight = v.getHeight() - dy;
+                    y = y + dy;
+                } else {
+                    newHeight = v.getHeight() + dy;
+                }
+                if (newHeight > 0) {
+                    scale = newHeight / v.getHeight();
+                }
+            }
 
-			Hieroglyph h = group.getHieroglyphAt(selected);
-			// Convert to integers :
-			// double unitSize = 1000.0 / drawingSpecifications.getBaseLength();
-			x = x
-					/ drawingSpecifications.getHieroglyphsDrawer()
-							.getGroupUnitLength();
-			y = y
-					/ drawingSpecifications.getHieroglyphsDrawer()
-							.getGroupUnitLength();
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            // Convert to integers :
+            // double unitSize = 1000.0 / drawingSpecifications.getBaseLength();
+            x = x
+                    / groupEditorDrawingPreferences.drawingSpecifications.getHieroglyphsDrawer()
+                            .getGroupUnitLength();
+            y = y
+                    / groupEditorDrawingPreferences.drawingSpecifications.getHieroglyphsDrawer()
+                            .getGroupUnitLength();
 
-			scale = scale * h.getRelativeSize();
-			if (scale < 5)
-				scale = 5;
-			h.setExplicitPosition((int) x, (int) y, (int) scale);
-			repaint();
-			invalidate();
-		}
+            scale = scale * h.getRelativeSize();
+            if (scale < 5) {
+                scale = 5;
+            }
+            h.setExplicitPosition((int) x, (int) y, (int) scale);
+            repaint();
+            invalidate();
+        }
 
-	}
+    }
 
-	/**
-	 * Not too reliable system for sub view positions.
-	 * 
-	 * @param subview
-	 * @return the position of subview.
-	 */
-	private Point2D getViewPosition(MDCView subview) {
-		return new Point2D.Double(subview.getPosition().x, subview
-				.getPosition().y);
-	}
+    /**
+     * Not too reliable system for sub view positions.
+     *
+     * @param subview
+     * @return the position of subview.
+     */
+    Point2D getViewPosition(MDCView subview) {
+        return new Point2D.Double(subview.getPosition().x, subview
+                .getPosition().y);
+    }
 
-	/**
-	 * Reverse the selected hieroglyph's orientation.
-	 */
-	public void reverse() {
+    public GroupEditorDrawingPreferences getGroupEditorDrawingPreferences() {
+        return groupEditorDrawingPreferences;
+    }
+    
+    
 
-	}
+    /**
+     * Rotate the selected sign around its center c.
+     * <p>
+     * the angle is given by the two vectors c-p1 and c-p2.
+     *
+     * @param p1
+     * @param p2
+     */
+    public void rotate(Point2D p1, Point2D p2) {
+        if (selected != -1) {
+            MDCView v = getView().getSubView(selected);
+            Point2D orig = getViewPosition(v);
+            Point2D center = new Point2D.Double(orig.getX() + v.getWidth() / 2,
+                    orig.getY() + v.getHeight() / 2);
+            // Compute the vectors.
+            Point2D v1 = new Point2D.Double(p1.getX() - center.getX(), p1
+                    .getY()
+                    - center.getY());
+            Point2D v2 = new Point2D.Double(p2.getX() - center.getX(), p2
+                    .getY()
+                    - center.getY());
+            double d1 = v1.distance(0, 0);
+            double d2 = v2.distance(0, 0);
+            if (d1 == 0 || d2 == 0) {
+                return;
+            }
+            double cos = (v1.getX() * v2.getX() + v1.getY() * v2.getY())
+                    / (d1 * d2);
+            double sin = (v1.getX() * v2.getY() - v1.getY() * v2.getX())
+                    / (d1 * d2);
 
-	/**
-	 * Rotate the selected sign around its center c.
-	 * <p>
-	 * the angle is given by the two vectors cp1 and cp2.
-	 * 
-	 * @param p1
-	 * @param p2
-	 */
-	public void rotate(Point2D p1, Point2D p2) {
-		if (selected != -1) {
-			MDCView v = getView().getSubView(selected);
-			Point2D orig = getViewPosition(v);
-			Point2D center = new Point2D.Double(orig.getX() + v.getWidth() / 2,
-					orig.getY() + v.getHeight() / 2);
-			// Compute the vectors.
-			Point2D v1 = new Point2D.Double(p1.getX() - center.getX(), p1
-					.getY()
-					- center.getY());
-			Point2D v2 = new Point2D.Double(p2.getX() - center.getX(), p2
-					.getY()
-					- center.getY());
-			double d1 = v1.distance(0, 0);
-			double d2 = v2.distance(0, 0);
-			if (d1 == 0 || d2 == 0)
-				return;
-			double cos = (v1.getX() * v2.getX() + v1.getY() * v2.getY())
-					/ (d1 * d2);
-			double sin = (v1.getX() * v2.getY() - v1.getY() * v2.getX())
-					/ (d1 * d2);
+            double alpha = Math.acos(cos);
 
-			double alpha = Math.acos(cos);
+            if (sin < 0) {
+                alpha = 2 * Math.PI - alpha;
+            }
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            double angle = (alpha * 180.0 / Math.PI) + h.getAngle();
+            h.setAngle((int) angle);
+            repaint();
+            revalidate();
+        }
+    }
 
-			if (sin < 0)
-				alpha = 2 * Math.PI - alpha;
-			Hieroglyph h = group.getHieroglyphAt(selected);
-			double angle = (alpha * 180.0 / Math.PI) + h.getAngle();
-			h.setAngle((int) angle);
-			repaint();
-			revalidate();
-		}
-	}
+    public void rotate(int angle) {
+        if (selected != -1) {
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            h.setAngle((int) angle);
+            repaint();
+            revalidate();
+        }
+    }
 
-	public void rotate(int angle) {
-		if (selected != -1) {
-			Hieroglyph h = group.getHieroglyphAt(selected);
-			h.setAngle((int) angle);
-			repaint();
-			revalidate();
-		}
-	}
+    public void resetSign() {
+        if (selected != -1) {
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            h.setExplicitPosition(0, 0, 100);
+            repaint();
+            revalidate();
+        }
+    }
 
-	public void resetSign() {
-		if (selected != -1) {
-			Hieroglyph h = group.getHieroglyphAt(selected);
-			h.setExplicitPosition(0, 0, 100);
-			repaint();
-			revalidate();
-		}
-	}
+    /**
+     * select the next glyph in group.
+     */
+    public void next() {
+        if (group != null) {
+            selected = (selected + 2) % (group.getNumberOfChildren() + 1) - 1;
+            repaint();
+        }
+    }
 
-	/**
-	 * select the next sign.
-	 */
-	public void next() {
-		if (group != null) {
-			selected = (selected + 2) % (group.getNumberOfChildren() + 1) - 1;
-			repaint();
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public void previous() {
-		if (group != null) {
-			selected = selected - 1;
-			if (selected == -2)
-				selected = group.getNumberOfChildren() - 1;
-			repaint();
-		}
-	}
+    /**
+     * Select previous glyph in group.
+     */
+    public void previous() {
+        if (group != null) {
+            selected = selected - 1;
+            if (selected == -2) {
+                selected = group.getNumberOfChildren() - 1;
+            }
+            repaint();
+        }
+    }
 
 }

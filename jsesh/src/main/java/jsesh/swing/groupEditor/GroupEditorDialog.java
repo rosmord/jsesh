@@ -1,4 +1,12 @@
 /*
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
  * Created on 28 nov. 2004
  */
 package jsesh.swing.groupEditor;
@@ -6,8 +14,6 @@ package jsesh.swing.groupEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -21,59 +27,67 @@ import jsesh.mdc.model.AbsoluteGroup;
 
 /**
  * Dialog panel for editing groups.
- * 
+ *
  * @author S. Rosmorduc
  */
-public class GroupEditorDialog extends JPanel {
+public final class GroupEditorDialog extends JPanel {
 
-    private JButton next, previous, reset;
+    private final JButton next;
 
-    
-    private JToggleButton rotate;
+    private final JButton previous, reset;
 
-    private JToggleButton resize;
-    
-    private JToggleButton move;
+    private final JToggleButton rotate;
 
-    private GroupEditor editor;
+    private final JToggleButton resize;
+
+    private final JToggleButton move;
+
+    private final GroupEditor editor;
+
+    private final GroupEditorControl control;
 
     public GroupEditorDialog() {
         setBackground(Color.WHITE);
         editor = new GroupEditor();
-        GroupEditorControl control = new GroupEditorControl(editor);
+        next = new JButton("next");
+        previous = new JButton("previous");
+        reset = new JButton("reset");
+        rotate = new JToggleButton("rotate");
+        resize = new JToggleButton("resize");
+        move = new JToggleButton("move");
+        control = new GroupEditorControl(editor);
 
-        ActionListener l = new GroupEditorDialogListener();
-        next= new JButton("next");
-        previous= new JButton("previous");
-        reset= new JButton("reset");
-        ButtonGroup buttonGroup= new ButtonGroup();
-        rotate= new JToggleButton("rotate");
-        resize= new JToggleButton("resize");
-        move= new JToggleButton("move");
+        prepareLayout();
+        activateControls();
+        setPreferredSize(new Dimension(640, 480));
+    }
+
+    private void prepareLayout() {
+        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(rotate);
         buttonGroup.add(resize);
         buttonGroup.add(move);
-        JToolBar sub= new JToolBar(SwingConstants.HORIZONTAL);
-        //sub.setLayout(new BoxLayout(sub, BoxLayout.X_AXIS));
+        JToolBar sub = new JToolBar(SwingConstants.HORIZONTAL);
         sub.add(previous);
-        previous.addActionListener(l);
         sub.add(next);
-        next.addActionListener(l);
         sub.add(reset);
-        reset.addActionListener(l);
         sub.add(rotate);
-        rotate.addActionListener(l);
         sub.add(resize);
-        resize.addActionListener(l);
         sub.add(move);
-        move.addActionListener(l);
-        
         setLayout(new BorderLayout());
-
         add(new JScrollPane(editor), BorderLayout.CENTER);
         add(sub, BorderLayout.SOUTH);
-        setPreferredSize(new Dimension(640, 480));
-        
+
+    }
+
+    private void activateControls() {
+        editor.setGroupEditorEventListener(control);
+        previous.addActionListener(e -> editor.previous());
+        next.addActionListener(e -> editor.next());
+        reset.addActionListener(e -> editor.resetSign());
+        rotate.addActionListener(e -> editor.setMode(GroupEditor.ROTATION));
+        resize.addActionListener(e -> editor.setMode(GroupEditor.RESIZE));
+        move.addActionListener(e -> editor.setMode(GroupEditor.MOVE));
     }
 
     public void setGroup(AbsoluteGroup group) {
@@ -83,30 +97,4 @@ public class GroupEditorDialog extends JPanel {
     public AbsoluteGroup getGroup() {
         return editor.getGroup();
     }
-
-    private class GroupEditorDialogListener implements ActionListener {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == next) {
-                editor.next();
-            }
-            else if (e.getSource() == previous)
-                editor.previous();
-            else if (e.getSource() == rotate)
-                editor.setMode(GroupEditor.ROTATION);
-            else if (e.getSource()== resize)
-                editor.setMode(GroupEditor.RESIZE);
-            else if (e.getSource() == reset)
-                editor.resetSign();
-            else if (e.getSource() == move)
-            	editor.setMode(GroupEditor.MOVE);
-        }
-
-    }
-
 }

@@ -600,7 +600,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
             // desktopAdapter.setPrintFileHandler(a);
         }
         if (null != (a = getAction(null, AboutAction.ID))) {
-            // desktopAdapter.setAboutHandler(a);
+            desktopAdapter.setAboutHandler(a);            
         }
         if (null != (a = getAction(null, AbstractPreferencesAction.ID))) {
             desktopAdapter.setPreferencesHandler(a);
