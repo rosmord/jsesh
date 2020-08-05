@@ -11,9 +11,7 @@
  */
 package jsesh.swing.groupEditor;
 
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -23,7 +21,7 @@ public class RotateMode extends GroupEditorMode {
 
     @Override
     public GroupEditorListener buildTool(GroupEditor editor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new RotateTool(editor);
     }
 
     @Override

@@ -44,8 +44,6 @@ public final class GroupEditorDialog extends JPanel {
 
     private final GroupEditor editor;
 
-    private final GroupEditorControl control;
-
     public GroupEditorDialog() {
         setBackground(Color.WHITE);
         editor = new GroupEditor();
@@ -55,7 +53,6 @@ public final class GroupEditorDialog extends JPanel {
         rotate = new JToggleButton("rotate");
         resize = new JToggleButton("resize");
         move = new JToggleButton("move");
-        control = new GroupEditorControl(editor);
 
         prepareLayout();
         activateControls();
@@ -81,13 +78,13 @@ public final class GroupEditorDialog extends JPanel {
     }
 
     private void activateControls() {
-        editor.setGroupEditorEventListener(control);
+        editor.setGroupEditorMode(new MoveMode());
         previous.addActionListener(e -> editor.previous());
         next.addActionListener(e -> editor.next());
         reset.addActionListener(e -> editor.resetSign());
-        rotate.addActionListener(e -> editor.setMode(GroupEditor.ROTATION));
-        resize.addActionListener(e -> editor.setMode(GroupEditor.RESIZE));
-        move.addActionListener(e -> editor.setMode(GroupEditor.MOVE));
+        rotate.addActionListener(e -> editor.setGroupEditorMode(new RotateMode()));
+        resize.addActionListener(e -> editor.setGroupEditorMode(new ResizeMode()));
+        move.addActionListener(e -> editor.setGroupEditorMode(new MoveMode()));
     }
 
     public void setGroup(AbsoluteGroup group) {

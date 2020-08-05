@@ -22,9 +22,9 @@ public class RotateTool implements GroupEditorListener {
 
     private Point2D oldPoint;
 
-    private int horizontalHandle;
+    private HandleHorizontalPosition horizontalHandle;
 
-    private int verticalHandle;
+    private HandleVerticalPosition verticalHandle;
 
     private boolean handleSelected;
 
@@ -59,12 +59,9 @@ public class RotateTool implements GroupEditorListener {
     public void mouseDragged(GroupEditorEvent e) {
         if (editor.getSelected() != -1 && oldPoint != null) {
             if (handleSelected) {
-                // Rotation :
-                //Graphics2D g= (Graphics2D) editor.getGraphics();
                 Point2D p = e.getPoint();
                 editor.rotate(oldPoint, p);
                 oldPoint.setLocation(p.getX(), p.getY());
-                //g.dispose();
             }
         }
     }

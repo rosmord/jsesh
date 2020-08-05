@@ -14,24 +14,23 @@ package jsesh.swing.groupEditor;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
- *
+ * A No-op group editor.
  * @author rosmord
  */
-public class MoveMode extends GroupEditorMode {
-
-    @Override
-    public GroupEditorHandle[] getHandles(GroupEditor editor, MDCView v) {
-        return new GroupEditorHandle[0];
-    }
+public class DoNothingGroupEditorMode extends GroupEditorMode {
 
     @Override
     public GroupEditorListener buildTool(GroupEditor editor) {
-        return new MoveTool(editor);
+        return new DoNothingEditorListener();
     }
 
     @Override
     protected GroupEditorHandle buildHandle(double x, double y, double diameter, HandleHorizontalPosition hpos, HandleVerticalPosition vpos) {
-        throw new UnsupportedOperationException("No handle for this mode");
+        throw new UnsupportedOperationException("Not supported.");
     }
     
+     @Override
+    public GroupEditorHandle[] getHandles(GroupEditor editor, MDCView v) {
+        return new GroupEditorHandle[0];
+    }
 }

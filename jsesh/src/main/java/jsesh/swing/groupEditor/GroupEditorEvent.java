@@ -23,18 +23,12 @@ import jsesh.mdc.model.AbsoluteGroup;
  */
 public class GroupEditorEvent {
 
-    public static final int TOP = 1;
-    public static final int BOTTOM = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
-    public static final int MIDDLE = 0;
-
     private final Point2D point;
     private final AbsoluteGroup group;
     private final int elementIndex;
     private final boolean onHandle;
-    private int horizontalHandlePosition;
-    private int verticalHandlePosition;
+    private HandleHorizontalPosition horizontalHandlePosition;
+    private HandleVerticalPosition verticalHandlePosition;
 
     /**
      * Create an event for a mouse click or down on an absolute group.
@@ -51,9 +45,6 @@ public class GroupEditorEvent {
         this.onHandle = false;
     }
 
-    public int getHorizontalHandlePosition() {
-        return horizontalHandlePosition;
-    }
 
     /**
      * Get the mouse event point, in model coordinates.
@@ -64,9 +55,16 @@ public class GroupEditorEvent {
         return point;
     }
 
-    public int getVerticalHandlePosition() {
+    public HandleHorizontalPosition getHorizontalHandlePosition() {
+        return horizontalHandlePosition;
+    }
+
+    public HandleVerticalPosition getVerticalHandlePosition() {
         return verticalHandlePosition;
     }
+
+   
+    
 
     /**
      * Event for mouse events on an handle.
@@ -78,7 +76,8 @@ public class GroupEditorEvent {
      * @param handleVerticalPosition
      */
     public GroupEditorEvent(AbsoluteGroup group, Point2D point, int elementIndex,
-            int handleHorizontalPosition, int handleVerticalPosition) {
+            HandleHorizontalPosition handleHorizontalPosition,
+            HandleVerticalPosition handleVerticalPosition) {
         this.group = group;
         this.point = point;
         this.elementIndex = elementIndex;

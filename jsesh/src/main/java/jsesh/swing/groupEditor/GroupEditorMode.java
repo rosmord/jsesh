@@ -15,6 +15,9 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
  * The mode (MOVE, RESIZE, ROTATE, mainly) for the group editor.
+ * <p>Modes are primarily stateless. Thus, they may be shared and reused.
+ * The {@link  GroupEditorListener} they create are used to keep the states of
+ * ongoing manipulations.
  * @author rosmord
  */
 public abstract class GroupEditorMode {
@@ -46,7 +49,6 @@ public abstract class GroupEditorMode {
     
     /**
      * Build the list of handles for a sign in this mode.
-     *
      *
      * @param v the view.
      * @return the handles.

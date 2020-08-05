@@ -17,9 +17,9 @@ public class ResizeTool implements GroupEditorListener {
 
     private Point2D oldPoint;
 
-    private int horizontalHandle;
+    private HandleHorizontalPosition horizontalHandle;
 
-    private int verticalHandle;
+    private HandleVerticalPosition verticalHandle;
 
     private boolean handleSelected;
 
