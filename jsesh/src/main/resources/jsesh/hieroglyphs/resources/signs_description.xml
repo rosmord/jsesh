@@ -163,6 +163,7 @@
     <hasTag sign="US1A6BEXTU" tag="holding nothing"/>
     <hasTag sign="US1A6BEXTU" tag="praying"/>
     <variantOf baseSign="A6" isSimilar="y" linguistic="unspecified" sign="US1A6BEXTU"/>
+    <contains partCode="W54" sign="US1A6BEXTU"/>
   </sign>
   <sign sign="A6C">
     <variantOf baseSign="A6" isSimilar="y" linguistic="unspecified" sign="A6C"/>
@@ -370,6 +371,7 @@
     <contains partCode="H6" sign="A12"/>
     <hasTag sign="A12" tag="kneeled"/>
     <hasTag sign="A12" tag="armed character"/>
+    <contains partCode="T10" sign="A12"/>
   </sign>
   <sign sign="A12A">
     <variantOf baseSign="A12" isSimilar="y" linguistic="unspecified" sign="A12A"/>
@@ -699,6 +701,7 @@
     <hasTransliteration sign="A17" transliteration="Xrd" type="phonogram" use="keyboard"/>
     <hasTag sign="A17" tag="holding nothing"/>
     <hasTag sign="A17" tag="seated on nothing"/>
+    <hasTag sign="A17" tag="child"/>
   </sign>
   <sign alwaysDisplay="y" sign="A17A">
     <hasTransliteration sign="A17A" transliteration="Hms" type="phonogram" use="keyboard"/>
@@ -709,17 +712,20 @@
     <hasTag sign="A17A" tag="holding nothing"/>
     <signDescription lang="en" sign="A17A">
 +lReally quite different from +s-A17-+l in its normal meaning. +s</signDescription>
+    <hasTag sign="A17A" tag="child"/>
   </sign>
   <sign sign="A17B">
     <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A17B"/>
     <hasTag sign="A17B" tag="seated on nothing"/>
     <hasTag sign="A17B" tag="holding nothing"/>
+    <hasTag sign="A17B" tag="child"/>
   </sign>
   <sign sign="A17C">
     <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A17C"/>
     <hasTag sign="A17C" tag="seated on nothing"/>
     <hasTag sign="A17C" tag="holding nothing"/>
     <hasTag sign="A17C" tag="with raised arms"/>
+    <hasTag sign="A17C" tag="child"/>
   </sign>
   <sign sign="A17D">
     <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A17D"/>
@@ -727,6 +733,7 @@
     <hasTag sign="A17D" tag="seated on nothing"/>
     <hasTag sign="A17D" tag="holding nothing"/>
     <hasTag sign="A17D" tag="king or god"/>
+    <hasTag sign="A17D" tag="child"/>
   </sign>
   <sign alwaysDisplay="y" sign="A18">
     <hasTransliteration sign="A18" transliteration="inp" type="phonogram" use="keyboard"/>
@@ -738,6 +745,7 @@
     <hasTag sign="A18" tag="with crown"/>
     <hasTag sign="A18" tag="king or god"/>
     <hasTransliteration sign="A18" transliteration="imty" type="phonogram" use="informative"/>
+    <contains partCode="A17" sign="A18"/>
   </sign>
   <sign alwaysDisplay="y" sign="A19">
     <signDescription lang="en" sign="A19">
@@ -888,6 +896,7 @@
     <hasTag sign="A23h" tag="with crown"/>
     <hasTag sign="A23h" tag="holding stick"/>
     <contains partCode="I64" sign="A23h"/>
+    <variantOf baseSign="A23" isSimilar="y" linguistic="unspecified" sign="A23h"/>
   </sign>
   <sign alwaysDisplay="y" sign="A24">
     <signDescription lang="en" sign="A24">
@@ -901,6 +910,7 @@
     <hasTransliteration sign="A24" transliteration="Hw" type="phonogram" use="palette"/>
     <hasTag sign="A24" tag="armed character"/>
     <hasTag sign="A24" tag="bent"/>
+    <contains partCode="D40" sign="A24"/>
   </sign>
   <sign alwaysDisplay="y" sign="A25">
     <signDescription lang="en" sign="A25">
@@ -919,6 +929,7 @@
     <hasTag sign="A25A" tag="standing"/>
     <hasTag sign="A25A" tag="armed character"/>
     <hasTag sign="A25A" tag="holding stick"/>
+    <contains partCode="D40" sign="A25A"/>
   </sign>
   <sign alwaysDisplay="y" sign="A26">
     <signDescription lang="en" sign="A26">+lstandard sign. see grammars.
@@ -941,12 +952,14 @@
     <hasTag sign="A27" tag="holding nothing"/>
     <hasTag sign="A27" tag="standing"/>
     <hasTransliteration sign="A27" transliteration="ii" type="phonogram" use="palette"/>
+    <hasTag sign="A27" tag="moving, running"/>
   </sign>
   <sign sign="A27A">
     <variantOf baseSign="A27" isSimilar="y" linguistic="unspecified" sign="A27A"/>
     <hasTag sign="A27A" tag="holding nothing"/>
     <hasTag sign="A27A" tag="standing"/>
     <hasTag sign="A27A" tag="with raised arms"/>
+    <hasTag sign="A27A" tag="moving, running"/>
   </sign>
   <sign alwaysDisplay="y" sign="A28">
     <signDescription lang="en" sign="A28">
@@ -992,6 +1005,7 @@
     <hasTag sign="A31" tag="standing"/>
     <hasTag sign="A31" tag="praying"/>
     <hasTransliteration sign="A31" transliteration="an" type="phonogram" use="palette"/>
+    <variantOf baseSign="D55" isSimilar="y" linguistic="unspecified" sign="A31"/>
   </sign>
   <sign sign="A31A">
     <variantOf baseSign="A31" isSimilar="y" linguistic="unspecified" sign="A31A"/>
@@ -1720,6 +1734,7 @@
     <hasTag sign="A50A" tag="seated on chair"/>
     <hasTag sign="A50A" tag="holding nothing"/>
     <hasTag sign="A50A" tag="mummyform"/>
+    <contains partCode="A50" sign="A50A"/>
   </sign>
   <sign sign="A50B">
     <contains partCode="Q12" sign="A50B"/>
@@ -1776,7 +1791,7 @@
     <hasTag sign="A51A" tag="seated on chair"/>
     <variantOf baseSign="A51" isSimilar="y" linguistic="full" sign="A51A"/>
   </sign>
-  <sign alwaysDisplay="y" sign="A51B">
+  <sign sign="A51B">
     <variantOf baseSign="A51" isSimilar="y" linguistic="unspecified" sign="A51B"/>
     <contains partCode="S38" sign="A51B"/>
     <contains partCode="S45" sign="A51B"/>
@@ -3491,6 +3506,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A194" tag="with raised arms"/>
     <contains partCode="U22" sign="A194"/>
     <contains partCode="U23" sign="A194"/>
+    <hasTag sign="A194" tag="working"/>
   </sign>
   <sign sign="A194A">
     <hasTag sign="A194A" tag="seated"/>
@@ -3640,6 +3656,7 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <contains partCode="S3" sign="A207A"/>
     <contains partCode="D156" sign="A207A"/>
     <variantOf baseSign="A12" isSimilar="y" linguistic="unspecified" sign="A207A"/>
+    <hasTag sign="A207A" tag="moving, running"/>
   </sign>
   <sign sign="A208">
     <hasTag sign="A208" tag="armed character"/>
@@ -3988,18 +4005,21 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A229" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A229" tag="standing"/>
     <hasTag sign="A229" tag="holding stick"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A229"/>
   </sign>
   <sign sign="A230">
     <hasTag sign="A230" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A230" tag="standing"/>
     <hasTag sign="A230" tag="holding something"/>
     <hasTag sign="A230" tag="with raised arms"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A230"/>
   </sign>
   <sign sign="A233">
     <hasTag sign="A233" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A233" tag="standing"/>
     <hasTag sign="A233" tag="with raised arms"/>
     <hasTag sign="A233" tag="holding nothing"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A233"/>
   </sign>
   <sign alwaysDisplay="y" sign="A234">
     <hasTag sign="A234" tag="group"/>
@@ -4011,6 +4031,7 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A235" tag="standing"/>
     <hasTag sign="A235" tag="with raised arms"/>
     <hasTag sign="A235" tag="holding nothing"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A235"/>
   </sign>
   <sign sign="A236">
     <hasTag sign="A236" tag="chanting, dancing, playing instrument"/>
@@ -4018,12 +4039,14 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A236" tag="with raised arms"/>
     <hasTag sign="A236" tag="holding something"/>
     <hasTag sign="A236" tag="drops"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A236"/>
   </sign>
   <sign sign="A237">
     <hasTag sign="A237" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A237" tag="standing"/>
     <hasTag sign="A237" tag="with raised arms"/>
     <hasTag sign="A237" tag="holding nothing"/>
+    <variantOf baseSign="A32" isSimilar="y" linguistic="unspecified" sign="A237"/>
   </sign>
   <sign sign="A239">
     <hasTag sign="A239" tag="chanting, dancing, playing instrument"/>
@@ -4143,6 +4166,7 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A243" tag="holding something"/>
     <hasTag sign="A243" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A243" tag="seated"/>
+    <variantOf baseSign="A241" isSimilar="y" linguistic="unspecified" sign="A243"/>
   </sign>
   <sign sign="A244">
     <hasTag sign="A244" tag="holding something"/>
@@ -4153,6 +4177,7 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A244A" tag="holding something"/>
     <hasTag sign="A244A" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A244A" tag="seated"/>
+    <variantOf baseSign="A244" isSimilar="y" linguistic="unspecified" sign="A244A"/>
   </sign>
   <sign sign="A245">
     <hasTag sign="A245" tag="holding something"/>
@@ -4163,27 +4188,32 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
     <hasTag sign="A245A" tag="holding something"/>
     <hasTag sign="A245A" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A245A" tag="standing"/>
+    <variantOf baseSign="A245" isSimilar="y" linguistic="unspecified" sign="A245A"/>
   </sign>
   <sign sign="A245B">
     <hasTag sign="A245B" tag="holding something"/>
     <hasTag sign="A245B" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A245B" tag="seated"/>
+    <variantOf baseSign="A245" isSimilar="y" linguistic="unspecified" sign="A245B"/>
   </sign>
   <sign sign="A245C">
     <hasTag sign="A245C" tag="holding something"/>
     <hasTag sign="A245C" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A245C" tag="standing"/>
     <hasTag sign="A245C" tag="with raised arms"/>
+    <variantOf baseSign="A245" isSimilar="y" linguistic="unspecified" sign="A245C"/>
   </sign>
   <sign sign="A245D">
     <hasTag sign="A245D" tag="holding something"/>
     <hasTag sign="A245D" tag="chanting, dancing, playing instrument"/>
     <hasTag sign="A245D" tag="standing"/>
+    <variantOf baseSign="A245" isSimilar="y" linguistic="unspecified" sign="A245D"/>
   </sign>
   <sign sign="A247">
     <hasTag sign="A247" tag="holding something"/>
     <hasTag sign="A247" tag="standing"/>
     <hasTag sign="A247" tag="with animals"/>
+    <variantOf baseSign="A38" isSimilar="y" linguistic="unspecified" sign="A247"/>
   </sign>
   <sign sign="A248">
     <hasTag sign="A248" tag="holding something"/>
@@ -4264,17 +4294,21 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A251" tag="armed character"/>
     <hasTransliteration sign="A251" transliteration="wnty" type="phonogram" use="palette"/>
     <hasTag sign="A251" tag="bovid"/>
+    <contains partCode="E1" sign="A251"/>
   </sign>
   <sign sign="A252">
     <hasTag sign="A252" tag="with animals"/>
     <hasTag sign="A252" tag="standing"/>
     <hasTag sign="A252" tag="holding stick"/>
     <hasTag sign="A252" tag="bovid"/>
+    <contains partCode="E1" sign="A252"/>
+    <contains partCode="A21" sign="A252"/>
   </sign>
   <sign sign="A253">
     <hasTag sign="A253" tag="with animals"/>
     <hasTag sign="A253" tag="seated"/>
     <hasTag sign="A253" tag="bovid"/>
+    <contains partCode="E1" sign="A253"/>
   </sign>
   <sign sign="A254">
     <hasTag sign="A254" tag="with animals"/>
@@ -4283,6 +4317,8 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A254" tag="king or god"/>
     <hasTransliteration sign="A254" transliteration="sA-ra" type="phonogram" use="palette"/>
     <hasTag sign="A254" tag="bovid"/>
+    <contains partCode="E1" sign="A254"/>
+    <contains partCode="A272" sign="A254"/>
   </sign>
   <sign sign="A254A">
     <hasTag sign="A254A" tag="with animals"/>
@@ -4291,12 +4327,19 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A254A" tag="king or god"/>
     <hasTransliteration sign="A254A" transliteration="mHt-wrt" type="phonogram" use="palette"/>
     <hasTag sign="A254A" tag="bovid"/>
+    <variantOf baseSign="A254" isSimilar="y" linguistic="unspecified" sign="A254A"/>
+    <contains partCode="E1" sign="A254A"/>
+    <contains partCode="A272" sign="A254A"/>
   </sign>
   <sign sign="A255">
     <hasTag sign="A255" tag="standing"/>
     <hasTag sign="A255" tag="holding something"/>
     <hasTag sign="A255" tag="king or god"/>
     <hasTag sign="A255" tag="with crown"/>
+    <contains partCode="S3" sign="A255"/>
+    <contains partCode="S45" sign="A255"/>
+    <contains partCode="Aa5" sign="A255"/>
+    <hasTag sign="A255" tag="moving, running"/>
   </sign>
   <sign sign="A256">
     <hasTag sign="A256" tag="with animals"/>
@@ -4304,6 +4347,8 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A256" tag="holding nothing"/>
     <hasTransliteration sign="A256" transliteration="nnib" type="phonogram" use="palette"/>
     <hasTag sign="A256" tag="elephant"/>
+    <contains partCode="E26" sign="A256"/>
+    <contains partCode="A17" sign="A256"/>
   </sign>
   <sign sign="A257">
     <hasTag sign="A257" tag="holding something"/>
@@ -4322,69 +4367,101 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A258" tag="standing"/>
     <hasTag sign="A258" tag="armed character"/>
     <hasTag sign="A258" tag="crocodile"/>
+    <contains partCode="I3" sign="A258"/>
+    <contains partCode="T80" sign="A258"/>
   </sign>
   <sign sign="A259">
     <hasTag sign="A259" tag="with animals"/>
     <hasTag sign="A259" tag="standing"/>
     <hasTag sign="A259" tag="armed character"/>
     <hasTag sign="A259" tag="hippopotamus"/>
+    <contains partCode="T80" sign="A259"/>
+    <contains partCode="E25" sign="A259"/>
   </sign>
   <sign sign="A260">
     <hasTag sign="A260" tag="standing"/>
     <hasTag sign="A260" tag="holding stick"/>
     <hasTag sign="A260" tag="king or god"/>
     <hasTag sign="A260" tag="in boat"/>
+    <contains partCode="P1" sign="A260"/>
+    <contains partCode="P3" sign="A260"/>
+    <contains partCode="I12" sign="A260"/>
+    <contains partCode="S42" sign="A260"/>
   </sign>
   <sign sign="A261">
     <hasTag sign="A261" tag="seated"/>
     <hasTag sign="A261" tag="in boat"/>
+    <contains partCode="P1" sign="A261"/>
+    <contains partCode="P3" sign="A261"/>
+    <contains partCode="A4" sign="A261"/>
   </sign>
   <sign sign="A262">
     <hasTag sign="A262" tag="holding something"/>
     <hasTag sign="A262" tag="seated on nothing"/>
     <hasTransliteration sign="A262" transliteration="msdmt" type="phonogram" use="palette"/>
+    <contains partCode="T30" sign="A262"/>
+    <contains partCode="A17" sign="A262"/>
   </sign>
   <sign sign="A263">
     <hasTag sign="A263" tag="holding something"/>
     <hasTag sign="A263" tag="seated on nothing"/>
     <hasTransliteration sign="A263" transliteration="xnw" type="phonogram" use="palette"/>
+    <contains partCode="S42" sign="A263"/>
+    <contains partCode="A17" sign="A263"/>
   </sign>
   <sign sign="A264">
     <hasTag sign="A264" tag="holding something"/>
     <hasTag sign="A264" tag="seated on nothing"/>
     <hasTag sign="A264" tag="carrying something"/>
     <hasTransliteration sign="A264" transliteration="xft-Hr" type="phonogram" use="palette"/>
+    <contains partCode="X8" sign="A264"/>
+    <contains partCode="A17" sign="A264"/>
   </sign>
   <sign sign="A265">
     <hasTag sign="A265" tag="holding something"/>
     <hasTag sign="A265" tag="seated on nothing"/>
+    <contains partCode="S34" sign="A265"/>
+    <contains partCode="A18" sign="A265"/>
   </sign>
   <sign sign="A266">
     <hasTag sign="A266" tag="holding something"/>
     <hasTag sign="A266" tag="seated on nothing"/>
     <hasTag sign="A266" tag="carrying something"/>
+    <contains partCode="A18" sign="A266"/>
+    <contains partCode="M89" sign="A266"/>
   </sign>
   <sign sign="A267">
     <hasTag sign="A267" tag="seated on nothing"/>
     <hasTag sign="A267" tag="holding something"/>
     <hasTransliteration sign="A267" transliteration="ab" type="phonogram" use="palette"/>
+    <contains partCode="F16" sign="A267"/>
+    <contains partCode="A17" sign="A267"/>
   </sign>
   <sign sign="A268">
     <hasTag sign="A268" tag="seated on nothing"/>
     <hasTag sign="A268" tag="holding something"/>
     <hasTag sign="A268" tag="with animals"/>
+    <contains partCode="A17" sign="A268"/>
+    <contains partCode="G38" sign="A268"/>
+    <contains partCode="G41A" sign="A268"/>
   </sign>
   <sign sign="A269">
     <hasTag sign="A269" tag="seated on nothing"/>
     <hasTag sign="A269" tag="carrying something"/>
+    <contains partCode="A17" sign="A269"/>
+    <contains partCode="R7C" sign="A269"/>
   </sign>
   <sign sign="A270">
     <hasTag sign="A270" tag="seated on nothing"/>
     <hasTag sign="A270" tag="holding something"/>
+    <contains partCode="M7" sign="A270"/>
+    <contains partCode="A17" sign="A270"/>
   </sign>
   <sign sign="A271">
     <hasTag sign="A271" tag="seated on nothing"/>
     <hasTag sign="A271" tag="holding nothing"/>
+    <contains partCode="A17" sign="A271"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A271"/>
   </sign>
   <sign sign="A272">
     <hasTag sign="A272" tag="seated on nothing"/>
@@ -4392,16 +4469,27 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A272" tag="king or god"/>
     <hasTag sign="A272" tag="child"/>
     <hasTransliteration sign="A272" transliteration="sA-ra" type="phonogram" use="palette"/>
+    <contains partCode="A17" sign="A272"/>
+    <contains partCode="N6" sign="A272"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A272"/>
   </sign>
   <sign sign="A272A">
     <hasTag sign="A272A" tag="king or god"/>
     <hasTag sign="A272A" tag="child"/>
     <hasTag sign="A272A" tag="holding something"/>
     <hasTag sign="A272A" tag="seated"/>
+    <variantOf baseSign="A272" isSimilar="y" linguistic="unspecified" sign="A272A"/>
+    <contains partCode="A17" sign="A272A"/>
+    <contains partCode="N6" sign="A272A"/>
+    <contains partCode="S45" sign="A272A"/>
   </sign>
   <sign sign="A273">
     <hasTag sign="A273" tag="seated on nothing"/>
     <hasTag sign="A273" tag="child"/>
+    <contains partCode="I12" sign="A273"/>
+    <contains partCode="I64" sign="A273"/>
+    <contains partCode="A17" sign="A273"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A273"/>
   </sign>
   <sign sign="A274">
     <hasTag sign="A274" tag="child"/>
@@ -4409,7 +4497,9 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A274" tag="with crown"/>
     <hasTag sign="A274" tag="holding nothing"/>
     <hasTransliteration sign="A274" transliteration="imty" type="phonogram" use="palette"/>
-    <variantOf baseSign="A18" isSimilar="y" linguistic="unspecified" sign="A274"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A274"/>
+    <contains partCode="A17" sign="A274"/>
+    <contains partCode="S1" sign="A274"/>
   </sign>
   <sign sign="A274A">
     <hasTag sign="A274A" tag="holding something"/>
@@ -4417,33 +4507,48 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A274A" tag="seated"/>
     <hasTag sign="A274A" tag="with crown"/>
     <hasTag sign="A274A" tag="king or god"/>
+    <variantOf baseSign="A274" isSimilar="y" linguistic="unspecified" sign="A274A"/>
+    <contains partCode="A17" sign="A274A"/>
+    <contains partCode="S45" sign="A274A"/>
+    <contains partCode="S1" sign="A274A"/>
   </sign>
   <sign sign="A275">
     <hasTag sign="A275" tag="holding nothing"/>
     <hasTag sign="A275" tag="with raised arms"/>
     <hasTag sign="A275" tag="seated on nothing"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A275"/>
+    <contains partCode="A17" sign="A275"/>
   </sign>
   <sign sign="A276">
     <hasTag sign="A276" tag="holding nothing"/>
     <hasTag sign="A276" tag="seated on nothing"/>
+    <variantOf baseSign="A7" isSimilar="y" linguistic="unspecified" sign="A276"/>
+    <variantOf baseSign="A17A" isSimilar="y" linguistic="unspecified" sign="A276"/>
   </sign>
   <sign sign="A278">
     <hasTag sign="A278" tag="king or god"/>
     <hasTag sign="A278" tag="seated"/>
     <hasTag sign="A278" tag="child"/>
     <hasTag sign="A278" tag="holding nothing"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A278"/>
+    <contains partCode="I12" sign="A278"/>
   </sign>
   <sign sign="A278A">
     <hasTag sign="A278A" tag="king or god"/>
     <hasTag sign="A278A" tag="seated"/>
     <hasTag sign="A278A" tag="child"/>
     <hasTag sign="A278A" tag="holding nothing"/>
+    <variantOf baseSign="A278" isSimilar="y" linguistic="unspecified" sign="A278A"/>
+    <contains partCode="A278" sign="A278A"/>
   </sign>
   <sign sign="A278B">
     <hasTag sign="A278B" tag="king or god"/>
     <hasTag sign="A278B" tag="seated"/>
     <hasTag sign="A278B" tag="child"/>
     <hasTag sign="A278B" tag="holding something"/>
+    <variantOf baseSign="A278" isSimilar="y" linguistic="unspecified" sign="A278B"/>
+    <contains partCode="A278" sign="A278B"/>
+    <contains partCode="S38" sign="A278B"/>
   </sign>
   <sign sign="A279">
     <hasTag sign="A279" tag="king or god"/>
@@ -4452,72 +4557,112 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A279" tag="holding nothing"/>
     <hasTag sign="A279" tag="group"/>
     <hasTransliteration sign="A279" transliteration="xa" type="phonogram" use="palette"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A279"/>
+    <contains partCode="A17" sign="A279"/>
+    <contains partCode="M9" sign="A279"/>
   </sign>
   <sign sign="A280">
     <hasTag sign="A280" tag="seated"/>
     <hasTag sign="A280" tag="holding nothing"/>
     <hasTag sign="A280" tag="mutilated glyphs"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A280"/>
   </sign>
   <sign sign="A281">
     <hasTag sign="A281" tag="standing"/>
     <hasTag sign="A281" tag="holding nothing"/>
     <hasTag sign="A281" tag="child"/>
+    <variantOf baseSign="A17" isSimilar="y" linguistic="unspecified" sign="A281"/>
   </sign>
   <sign sign="A282">
     <hasTag sign="A282" tag="standing"/>
     <hasTag sign="A282" tag="holding nothing"/>
     <hasTransliteration sign="A282" transliteration="nm" type="phonogram" use="palette"/>
     <signDescription lang="en" sign="A282"/>
+    <signDescription lang="en" sign="A282">+ldwarf+s</signDescription>
+    <hasTag sign="A282" tag="dwarf"/>
   </sign>
   <sign sign="A283">
     <hasTag sign="A283" tag="seated on chair"/>
     <hasTag sign="A283" tag="holding something"/>
     <hasTag sign="A283" tag="noble"/>
+    <contains partCode="A50C" sign="A283"/>
+    <variantOf baseSign="A50C" isSimilar="y" linguistic="unspecified" sign="A283"/>
+    <contains partCode="S45" sign="A283"/>
   </sign>
   <sign sign="A284">
     <hasTag sign="A284" tag="seated on chair"/>
     <hasTag sign="A284" tag="holding something"/>
     <hasTag sign="A284" tag="king or god"/>
     <hasTag sign="A284" tag="with crown"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A284"/>
+    <contains partCode="S34" sign="A284"/>
+    <contains partCode="S45" sign="A284"/>
+    <contains partCode="A50A" sign="A284"/>
+    <contains partCode="S5" sign="A284"/>
   </sign>
   <sign sign="A285">
     <hasTag sign="A285" tag="seated on chair"/>
     <hasTag sign="A285" tag="noble"/>
     <hasTag sign="A285" tag="holding stick"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A285"/>
+    <contains partCode="A50" sign="A285"/>
+    <variantOf baseSign="sr" isSimilar="y" linguistic="unspecified" sign="A285"/>
   </sign>
   <sign sign="A285A">
     <hasTag sign="A285A" tag="seated on chair"/>
     <hasTag sign="A285A" tag="noble"/>
     <hasTag sign="A285A" tag="holding stick"/>
+    <variantOf baseSign="A285" isSimilar="y" linguistic="unspecified" sign="A285A"/>
+    <contains partCode="A50" sign="A285A"/>
+    <contains partCode="M9" sign="A285A"/>
   </sign>
   <sign sign="A286">
     <hasTag sign="A286" tag="seated on chair"/>
     <hasTag sign="A286" tag="holding stick"/>
     <hasTag sign="A286" tag="king or god"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A286"/>
+    <contains partCode="H6" sign="A286"/>
+    <contains partCode="A50A" sign="A286"/>
+    <contains partCode="S38" sign="A286"/>
   </sign>
   <sign sign="A287">
     <hasTag sign="A287" tag="seated on chair"/>
     <hasTag sign="A287" tag="holding nothing"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A287"/>
+    <contains partCode="A50" sign="A287"/>
   </sign>
   <sign sign="A287A">
     <hasTag sign="A287A" tag="seated on chair"/>
     <hasTag sign="A287A" tag="holding nothing"/>
+    <variantOf baseSign="A287" isSimilar="y" linguistic="unspecified" sign="A287A"/>
+    <contains partCode="A50" sign="A287A"/>
   </sign>
   <sign sign="A288">
     <hasTag sign="A288" tag="seated on chair"/>
     <hasTag sign="A288" tag="king or god"/>
     <hasTag sign="A288" tag="with crown"/>
     <hasTag sign="A288" tag="holding something"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A288"/>
+    <variantOf baseSign="A311" isSimilar="y" linguistic="unspecified" sign="A288"/>
+    <variantOf baseSign="C18D" isSimilar="y" linguistic="unspecified" sign="A288"/>
+    <contains partCode="A50" sign="A288"/>
+    <contains partCode="C18D" sign="A288"/>
   </sign>
   <sign sign="A289">
     <hasTag sign="A289" tag="seated on chair"/>
     <hasTag sign="A289" tag="king or god"/>
     <hasTag sign="A289" tag="with crown"/>
     <hasTag sign="A289" tag="holding something"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A289"/>
+    <contains partCode="A50A" sign="A289"/>
+    <contains partCode="D28" sign="A289"/>
+    <contains partCode="S40" sign="A289"/>
   </sign>
   <sign sign="A290">
     <hasTag sign="A290" tag="seated"/>
     <hasTag sign="A290" tag="holding something"/>
+    <contains partCode="T30" sign="A290"/>
+    <contains partCode="A40" sign="A290"/>
   </sign>
   <sign sign="A291">
     <hasTag sign="A291" tag="seated"/>
@@ -4536,10 +4681,14 @@ sxm-U20:W24-w-A248B-!
   <sign sign="A293">
     <hasTag sign="A293" tag="seated"/>
     <hasTag sign="A293" tag="holding something"/>
+    <contains partCode="A40" sign="A293"/>
+    <contains partCode="T2" sign="A293"/>
   </sign>
   <sign sign="A294">
     <hasTag sign="A294" tag="seated"/>
     <hasTag sign="A294" tag="holding something"/>
+    <contains partCode="A40" sign="A294"/>
+    <contains partCode="M13" sign="A294"/>
   </sign>
   <sign sign="A295">
     <hasTag sign="A295" tag="seated"/>
@@ -4567,6 +4716,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A296B" tag="holding something"/>
     <contains partCode="S40" sign="A296B"/>
     <variantOf baseSign="A296" isSimilar="y" linguistic="unspecified" sign="A296B"/>
+    <contains partCode="A21" sign="A296B"/>
   </sign>
   <sign sign="A296C">
     <hasTag sign="A296C" tag="standing"/>
@@ -4598,6 +4748,8 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A296F" tag="holding something"/>
     <hasTag sign="A296F" tag="holding stick"/>
     <variantOf baseSign="A296" isSimilar="y" linguistic="unspecified" sign="A296F"/>
+    <contains partCode="A21" sign="A296F"/>
+    <contains partCode="S40" sign="A296F"/>
   </sign>
   <sign sign="A296G">
     <hasTag sign="A296G" tag="standing"/>
@@ -4605,65 +4757,108 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A296G" tag="holding stick"/>
     <hasTag sign="A296G" tag="king or god"/>
     <variantOf baseSign="A296" isSimilar="y" linguistic="unspecified" sign="A296G"/>
+    <contains partCode="A21" sign="A296G"/>
+    <contains partCode="S40" sign="A296G"/>
+    <contains partCode="S34" sign="A296G"/>
+    <contains partCode="N6" sign="A296G"/>
   </sign>
   <sign sign="A298">
     <hasTag sign="A298" tag="standing"/>
     <hasTag sign="A298" tag="statue"/>
     <hasTag sign="A298" tag="king or god"/>
+    <variantOf baseSign="A53" isSimilar="y" linguistic="unspecified" sign="A298"/>
+    <variantOf baseSign="A22" isSimilar="y" linguistic="unspecified" sign="A298"/>
+    <contains partCode="S57" sign="A298"/>
   </sign>
   <sign sign="A299">
     <hasTag sign="A299" tag="seated on chair"/>
     <hasTag sign="A299" tag="king or god"/>
     <hasTag sign="A299" tag="with crown"/>
     <hasTag sign="A299" tag="mummyform"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A299"/>
+    <contains partCode="A50A" sign="A299"/>
+    <contains partCode="S1" sign="A299"/>
   </sign>
   <sign sign="A299A">
     <hasTag sign="A299A" tag="seated on chair"/>
     <hasTag sign="A299A" tag="king or god"/>
     <hasTag sign="A299A" tag="with crown"/>
     <hasTag sign="A299A" tag="holding nothing"/>
+    <variantOf baseSign="A299" isSimilar="y" linguistic="unspecified" sign="A299A"/>
+    <contains partCode="A299" sign="A299A"/>
   </sign>
   <sign sign="A299B">
     <hasTag sign="A299B" tag="seated on chair"/>
     <hasTag sign="A299B" tag="king or god"/>
     <hasTag sign="A299B" tag="with crown"/>
     <hasTag sign="A299B" tag="mummyform"/>
+    <variantOf baseSign="A299" isSimilar="y" linguistic="unspecified" sign="A299B"/>
+    <contains partCode="A299" sign="A299B"/>
+    <contains partCode="S45" sign="A299B"/>
   </sign>
   <sign sign="A299C">
     <hasTag sign="A299C" tag="seated on chair"/>
     <hasTag sign="A299C" tag="king or god"/>
     <hasTag sign="A299C" tag="with crown"/>
     <hasTag sign="A299C" tag="holding something"/>
+    <variantOf baseSign="A299" isSimilar="y" linguistic="unspecified" sign="A299C"/>
+    <contains partCode="A299" sign="A299C"/>
+    <contains partCode="S38" sign="A299C"/>
   </sign>
   <sign sign="A299D">
     <hasTag sign="A299D" tag="seated on chair"/>
     <hasTag sign="A299D" tag="king or god"/>
     <hasTag sign="A299D" tag="with crown"/>
     <hasTag sign="A299D" tag="holding something"/>
+    <hasTag sign="A299D" tag="seated on chair"/>
+    <hasTag sign="A299D" tag="king or god"/>
+    <hasTag sign="A299D" tag="with crown"/>
+    <hasTag sign="A299D" tag="holding something"/>
+    <variantOf baseSign="A299" isSimilar="y" linguistic="unspecified" sign="A299D"/>
+    <contains partCode="A299" sign="A299D"/>
+    <contains partCode="S38" sign="A299D"/>
   </sign>
   <sign sign="A299E">
     <hasTag sign="A299E" tag="seated on chair"/>
     <hasTag sign="A299E" tag="king or god"/>
     <hasTag sign="A299E" tag="with crown"/>
     <hasTag sign="A299E" tag="holding something"/>
+    <hasTag sign="A299E" tag="seated on chair"/>
+    <hasTag sign="A299E" tag="king or god"/>
+    <hasTag sign="A299E" tag="with crown"/>
+    <hasTag sign="A299E" tag="holding something"/>
+    <variantOf baseSign="A299" isSimilar="y" linguistic="unspecified" sign="A299E"/>
+    <contains partCode="A299" sign="A299E"/>
+    <contains partCode="S38" sign="A299E"/>
+    <contains partCode="S45" sign="A299E"/>
   </sign>
   <sign sign="A300">
     <hasTag sign="A300" tag="king or god"/>
     <hasTag sign="A300" tag="with crown"/>
     <hasTag sign="A300" tag="holding something"/>
     <hasTag sign="A300" tag="standing"/>
+    <variantOf baseSign="A23" isSimilar="y" linguistic="unspecified" sign="A300"/>
+    <contains partCode="S45" sign="A300"/>
+    <contains partCode="S38" sign="A300"/>
+    <contains partCode="S1A" sign="A300"/>
   </sign>
   <sign sign="A300A">
     <hasTag sign="A300A" tag="king or god"/>
     <hasTag sign="A300A" tag="with crown"/>
     <hasTag sign="A300A" tag="holding something"/>
     <hasTag sign="A300A" tag="standing"/>
+    <variantOf baseSign="A300" isSimilar="y" linguistic="unspecified" sign="A300A"/>
+    <contains partCode="S38" sign="A300A"/>
+    <contains partCode="S1A" sign="A300A"/>
   </sign>
   <sign sign="A300B">
     <hasTag sign="A300B" tag="king or god"/>
     <hasTag sign="A300B" tag="with crown"/>
     <hasTag sign="A300B" tag="standing"/>
     <hasTag sign="A300B" tag="holding stick"/>
+    <variantOf baseSign="A300" isSimilar="y" linguistic="unspecified" sign="A300B"/>
+    <contains partCode="A23" sign="A300B"/>
+    <contains partCode="S1A" sign="A300B"/>
   </sign>
   <sign sign="A300C">
     <hasTag sign="A300C" tag="king or god"/>
@@ -4671,42 +4866,67 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A300C" tag="standing"/>
     <hasTag sign="A300C" tag="holding something"/>
     <contains partCode="R88" sign="A300C"/>
+    <contains partCode="S45" sign="A300C"/>
+    <contains partCode="S1A" sign="A300C"/>
   </sign>
   <sign sign="A300D">
     <hasTag sign="A300D" tag="king or god"/>
     <hasTag sign="A300D" tag="with crown"/>
     <hasTag sign="A300D" tag="standing"/>
     <hasTag sign="A300D" tag="holding something"/>
+    <contains partCode="S1A" sign="A300D"/>
+    <variantOf baseSign="A300" isSimilar="y" linguistic="unspecified" sign="A300D"/>
+    <contains partCode="S45" sign="A300D"/>
   </sign>
   <sign sign="A300E">
     <hasTag sign="A300E" tag="king or god"/>
     <hasTag sign="A300E" tag="with crown"/>
     <hasTag sign="A300E" tag="standing"/>
     <hasTag sign="A300E" tag="holding something"/>
+    <contains partCode="S1A" sign="A300E"/>
+    <contains partCode="S40" sign="A300E"/>
+    <variantOf baseSign="A300" isSimilar="y" linguistic="unspecified" sign="A300E"/>
   </sign>
   <sign sign="A301">
     <hasTag sign="A301" tag="king or god"/>
     <hasTag sign="A301" tag="with crown"/>
     <hasTag sign="A301" tag="mummyform"/>
     <hasTag sign="A301" tag="seated on chair"/>
+    <variantOf baseSign="A50" isSimilar="y" linguistic="unspecified" sign="A301"/>
+    <contains partCode="A50A" sign="A301"/>
+    <contains partCode="S3" sign="A301"/>
   </sign>
   <sign sign="A301A">
     <hasTag sign="A301A" tag="king or god"/>
     <hasTag sign="A301A" tag="with crown"/>
     <hasTag sign="A301A" tag="seated on chair"/>
     <hasTag sign="A301A" tag="holding something"/>
+    <hasTag sign="A301A" tag="king or god"/>
+    <hasTag sign="A301A" tag="with crown"/>
+    <hasTag sign="A301A" tag="mummyform"/>
+    <hasTag sign="A301A" tag="seated on chair"/>
+    <contains partCode="S45" sign="A301A"/>
+    <contains partCode="A301" sign="A301A"/>
+    <variantOf baseSign="A301" isSimilar="y" linguistic="unspecified" sign="A301A"/>
   </sign>
   <sign sign="A302">
     <hasTag sign="A302" tag="king or god"/>
     <hasTag sign="A302" tag="with crown"/>
     <hasTag sign="A302" tag="holding stick"/>
     <hasTag sign="A302" tag="standing"/>
+    <contains partCode="A23" sign="A302"/>
+    <variantOf baseSign="A23" isSimilar="y" linguistic="unspecified" sign="A302"/>
+    <contains partCode="S3" sign="A302"/>
   </sign>
   <sign sign="A302A">
     <hasTag sign="A302A" tag="king or god"/>
     <hasTag sign="A302A" tag="with crown"/>
     <hasTag sign="A302A" tag="standing"/>
     <hasTag sign="A302A" tag="holding something"/>
+    <variantOf baseSign="A302" isSimilar="y" linguistic="unspecified" sign="A302A"/>
+    <contains partCode="A23" sign="A302A"/>
+    <contains partCode="S40" sign="A302A"/>
+    <contains partCode="S1A" sign="A302A"/>
   </sign>
   <sign sign="A302B">
     <hasTag sign="A302B" tag="king or god"/>
@@ -4714,24 +4934,36 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A302B" tag="standing"/>
     <hasTag sign="A302B" tag="holding something"/>
     <hasTag sign="A302B" tag="holding stick"/>
+    <variantOf baseSign="A302" isSimilar="y" linguistic="unspecified" sign="A302B"/>
+    <contains partCode="S3" sign="A302B"/>
+    <contains partCode="S42" sign="A302B"/>
+    <contains partCode="A23" sign="A302B"/>
   </sign>
   <sign sign="A302C">
     <hasTag sign="A302C" tag="king or god"/>
     <hasTag sign="A302C" tag="with crown"/>
     <hasTag sign="A302C" tag="standing"/>
     <hasTag sign="A302C" tag="holding something"/>
+    <variantOf baseSign="A302" isSimilar="y" linguistic="unspecified" sign="A302C"/>
+    <contains partCode="A23" sign="A302C"/>
+    <contains partCode="S3" sign="A302C"/>
+    <contains partCode="S38" sign="A302C"/>
   </sign>
   <sign sign="A302D">
     <hasTag sign="A302D" tag="king or god"/>
     <hasTag sign="A302D" tag="with crown"/>
     <hasTag sign="A302D" tag="standing"/>
     <hasTag sign="A302D" tag="holding something"/>
+    <variantOf baseSign="A302" isSimilar="y" linguistic="unspecified" sign="A302D"/>
+    <contains partCode="S42" sign="A302D"/>
+    <contains partCode="S3" sign="A302D"/>
   </sign>
   <sign sign="A303">
     <hasTag sign="A303" tag="king or god"/>
     <hasTag sign="A303" tag="with crown"/>
     <hasTag sign="A303" tag="standing"/>
     <hasTag sign="A303" tag="holding something"/>
+    <hasTag sign="A303" tag="moving, running"/>
   </sign>
   <sign sign="A304">
     <hasTag sign="A304" tag="king or god"/>
@@ -4906,7 +5138,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="A78" sign="A310D"/>
     <hasTag sign="A310D" tag="statue"/>
   </sign>
-  <sign sign="A311">
+  <sign alwaysDisplay="y" sign="A311">
     <hasTag sign="A311" tag="king or god"/>
     <hasTag sign="A311" tag="with crown"/>
     <hasTag sign="A311" tag="standing"/>
@@ -5633,6 +5865,8 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A434" tag="king or god"/>
     <hasTag sign="A434" tag="with crown"/>
     <hasTag sign="A434" tag="holding stick"/>
+    <contains partCode="A300B" sign="A434"/>
+    <contains partCode="A302" sign="A434"/>
   </sign>
   <sign sign="A435">
     <hasTag sign="A435" tag="group"/>
@@ -5750,6 +5984,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A459" tag="holding something"/>
     <hasTag sign="A459" tag="armed character"/>
     <hasTag sign="A459" tag="holding stick"/>
+    <hasTag sign="A459" tag="moving, running"/>
   </sign>
   <sign sign="A460">
     <hasTag sign="A460" tag="standing"/>
@@ -5838,29 +6073,40 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A466" tag="king or god"/>
     <hasTag sign="A466" tag="holding something"/>
     <hasTag sign="A466" tag="with standard"/>
+    <contains partCode="R12" sign="A466"/>
+    <contains partCode="A311E" sign="A466"/>
   </sign>
   <sign sign="A466A">
     <hasTag sign="A466A" tag="standing"/>
     <hasTag sign="A466A" tag="with crown"/>
     <hasTag sign="A466A" tag="king or god"/>
     <hasTag sign="A466A" tag="holding stick"/>
+    <variantOf baseSign="A466" isSimilar="y" linguistic="unspecified" sign="A466A"/>
+    <contains partCode="A311" sign="A466A"/>
+    <contains partCode="R12A" sign="A466A"/>
   </sign>
   <sign sign="A467">
     <hasTag sign="A467" tag="standing"/>
     <hasTag sign="A467" tag="with crown"/>
     <hasTag sign="A467" tag="king or god"/>
     <hasTag sign="A467" tag="holding stick"/>
+    <contains partCode="A23" sign="A467"/>
+    <contains partCode="S42" sign="A467"/>
+    <contains partCode="S8" sign="A467"/>
   </sign>
   <sign sign="A468">
     <hasTag sign="A468" tag="standing"/>
     <hasTag sign="A468" tag="king or god"/>
     <hasTag sign="A468" tag="statue"/>
+    <contains partCode="S57" sign="A468"/>
   </sign>
   <sign sign="A468A">
     <hasTag sign="A468A" tag="standing"/>
     <hasTag sign="A468A" tag="king or god"/>
     <hasTag sign="A468A" tag="statue"/>
     <hasTag sign="A468A" tag="with crown"/>
+    <variantOf baseSign="A468" isSimilar="y" linguistic="unspecified" sign="A468A"/>
+    <contains partCode="S5" sign="A468A"/>
   </sign>
   <sign sign="A469">
     <hasTag sign="A469" tag="hieratic sign"/>
@@ -5884,6 +6130,8 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A471" tag="fallen"/>
     <hasTag sign="A471" tag="with crown"/>
     <hasTag sign="A471" tag="wounded, killed"/>
+    <hasTag sign="A471" tag="moving, running"/>
+    <hasTag sign="A471" tag="group"/>
   </sign>
   <sign sign="A472">
     <hasTag sign="A472" tag="standing"/>
@@ -5928,6 +6176,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A479" tag="king or god"/>
     <hasTag sign="A479" tag="with crown"/>
     <hasTag sign="A479" tag="standing"/>
+    <hasTag sign="A479" tag="moving, running"/>
   </sign>
   <sign sign="A480">
     <hasTag sign="A480" tag="armed character"/>
@@ -5945,6 +6194,7 @@ sxm-U20:W24-w-A248B-!
   <sign sign="A483">
     <hasTag sign="A483" tag="lying down"/>
     <hasTag sign="A483" tag="holding nothing"/>
+    <contains partCode="Q4" sign="A483"/>
   </sign>
   <sign sign="A484">
     <hasTag sign="A484" tag="armed character"/>
@@ -8213,6 +8463,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C18" tag="mummyform"/>
     <hasTag sign="C18" tag="holding nothing"/>
     <contains partCode="S73" sign="C18"/>
+    <variantOf baseSign="A311" isSimilar="y" linguistic="unspecified" sign="C18"/>
   </sign>
   <sign sign="C18A">
     <hasTag sign="C18A" tag="human-headed"/>
@@ -33476,11 +33727,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
 +lis oblique (+s-T2-+l).+s-!
 </signDescription>
     <variantOf baseSign="T1" isSimilar="y" linguistic="unspecified" sign="T2"/>
+    <variantOf baseSign="T3" isSimilar="y" linguistic="unspecified" sign="T2"/>
+    <contains partCode="T3" sign="T2"/>
   </sign>
   <sign alwaysDisplay="y" sign="T3">
     <hasTransliteration sign="T3" transliteration="HD" type="phonogram" use="keyboard"/>
     <hasTag sign="T3" tag="mace"/>
     <variantOf baseSign="T1" isSimilar="y" linguistic="unspecified" sign="T3"/>
+    <variantOf baseSign="T2" isSimilar="y" linguistic="unspecified" sign="T3"/>
   </sign>
   <sign sign="T3A">
     <hasTag sign="T3A" tag="mace"/>
@@ -39023,6 +39277,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="duck or goose"/>
   <tagLabel label="duck or goose" lang="en" tag="duck or goose"/>
   <tagLabel label="canard ou oie" lang="fr" tag="duck or goose"/>
+  <tagCategory tag="dwarf"/>
+  <tagLabel label="dwarf" lang="en" tag="dwarf"/>
+  <tagLabel label="nain" lang="fr" tag="dwarf"/>
   <tagCategory tag="egg"/>
   <tagLabel label="egg" lang="en" tag="egg"/>
   <tagLabel label="œuf" lang="fr" tag="egg"/>
@@ -39369,6 +39626,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="mouth, lips..."/>
   <tagLabel label="mouth, lips..." lang="en" tag="mouth, lips..."/>
   <tagLabel label="bouche, lèvres..." lang="fr" tag="mouth, lips..."/>
+  <tagCategory tag="moving, running"/>
+  <tagLabel label="moving, running" lang="en" tag="moving, running"/>
+  <tagLabel label="avançant, courant" lang="fr" tag="moving, running"/>
   <tagCategory tag="mummyform"/>
   <tagLabel label="mummyform" lang="en" tag="mummyform"/>
   <tagLabel label="momieforme" lang="fr" tag="mummyform"/>
