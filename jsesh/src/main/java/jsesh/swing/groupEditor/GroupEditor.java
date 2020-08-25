@@ -7,21 +7,19 @@
  */
 package jsesh.swing.groupEditor;
 
-import java.awt.*;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
@@ -31,7 +29,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -58,8 +55,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 public final class GroupEditor extends JPanel {
 
     /**
-     * At this level, the group editor control's function is just to build
-     * events.
+     * Adapter from plain mouse events to meaningful ones.
      *
      * @author rosmord
      */
@@ -67,53 +63,47 @@ public final class GroupEditor extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            groupEditorListener.mouseClicked(buildEvent(e));
+            currentTool.mouseClicked(buildEvent(e));
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            groupEditorListener.mouseDragged(buildEvent(e));
+            currentTool.mouseDragged(buildEvent(e));
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            groupEditorListener.mouseEntered(buildEvent(e));
+            currentTool.mouseEntered(buildEvent(e));
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            groupEditorListener.mouseExited(buildEvent(e));
+            currentTool.mouseExited(buildEvent(e));
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            groupEditorListener.mouseMoved(buildEvent(e));
+            currentTool.mouseMoved(buildEvent(e));
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            groupEditorListener.mousePressed(buildEvent(e));
+            currentTool.mousePressed(buildEvent(e));
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            groupEditorListener.mouseReleased(buildEvent(e));
+            currentTool.mouseReleased(buildEvent(e));
         }
     }
 
-    // The group we are editing.
-    private AbsoluteGroup group;
-
-    private GroupEditorListener groupEditorListener = new DoNothingEditorListener();
 
     private GroupEditorDrawingPreferences groupEditorDrawingPreferences = new GroupEditorDrawingPreferences();
-
-    // the selected sign.
-    private int selected = -1;
-
-    private GroupEditorMode groupEditorMode = new DoNothingGroupEditorMode();
-
-    public GroupEditor() {
+    private GroupEditorModel model;
+    
+    public GroupEditor() {        
+        model = new GroupEditorModel();
+        model.setListener(() -> {revalidate(); repaint();}); // Modify if needed.
         setBackground(Color.WHITE);
         LowLevelControl control = new LowLevelControl();
         addMouseListener(control);
@@ -125,22 +115,8 @@ public final class GroupEditor extends JPanel {
         groupEditorDrawingPreferences.setDrawingSpecifications(specs);
     }
 
-    public void setGroupEditorEventListener(GroupEditorListener groupEditorControl) {
-        this.groupEditorListener = groupEditorControl;
-    }
-
-    public void setGroupEditorMode(GroupEditorMode groupEditorMode) {
-        this.groupEditorMode = groupEditorMode;
-        this.groupEditorListener = groupEditorMode.buildTool(this);
-        repaint();
-    }
-
-    public GroupEditorMode getGroupEditorMode() {
-        return groupEditorMode;
-    }
-
     /**
-     * Translates a mouse event into a significant group editor event.
+     * Translates a mouse event into a significant editedGroup editor event.
      *
      * @param e
      * @return the corresponding event.
@@ -157,7 +133,7 @@ public final class GroupEditor extends JPanel {
             GroupEditorHandle handles[] = groupEditorMode.getHandles(this, subv);
             for (int i = 0; result == null && i < handles.length; i++) {
                 if (handles[i].getShape().contains(p)) {
-                    result = new GroupEditorEvent(group, p, selected,
+                    result = new GroupEditorEvent(editedGroup, p, selected,
                             handles[i].getHpos(), handles[i].getVpos());
                 }
             }
@@ -169,15 +145,15 @@ public final class GroupEditor extends JPanel {
         for (int i = 0; (result == null) && i < v.getNumberOfSubviews(); i++) {
             // Test the view itself.
             MDCView subv = v.getSubView(i);
-            Hieroglyph h = group.getHieroglyphAt(i);
+            Hieroglyph h = editedGroup.getHieroglyphAt(i);
 
             Area s1 = getGlyphArea(subv, h);
             if (s1.contains(p)) {
-                result = new GroupEditorEvent(group, p, i);
+                result = new GroupEditorEvent(editedGroup, p, i);
             }
         }
         if (result == null) {
-            result = new GroupEditorEvent(group, p, -1);
+            result = new GroupEditorEvent(editedGroup, p, -1);
         }
         return result;
     }
@@ -206,13 +182,6 @@ public final class GroupEditor extends JPanel {
         return area;
     }
 
-    /**
-     * @return Returns the group.
-     */
-    public AbsoluteGroup getGroup() {
-        return group;
-    }
-
     public int getHandleSize() {
         return groupEditorDrawingPreferences.getHandleSize();
     }
@@ -233,8 +202,9 @@ public final class GroupEditor extends JPanel {
         return new Point2D.Double(x, y);
     }
 
+    @Override
     public Dimension getPreferredSize() {
-        if (group == null) {
+        if (model.isEmpty()) {
             return new Dimension(640, 480);
         } else {
             MDCView v = getView();
@@ -267,24 +237,13 @@ public final class GroupEditor extends JPanel {
         return groupEditorDrawingPreferences.getTopMargin();
     }
 
-    private MDCView getView() {
-        MDCView view = null;
-        if (group != null) {
-            SimpleViewBuilder builder = new SimpleViewBuilder();
-            view = builder.buildView(group,
-                    groupEditorDrawingPreferences.getDrawingSpecifications());
-        } else {
-            view = new MDCView(null);
-        }
-        return view;
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         // The view is rebuilt for each redraw, as it's very simple.
-        MDCView view = getView();
+        MDCView view = model.getView();
         // Sets the graphics environment
         Graphics2D g2d = (Graphics2D) g.create();
         // We want antialiasing !!!
@@ -294,10 +253,11 @@ public final class GroupEditor extends JPanel {
         g2d.translate(getSideMargin(), getTopMargin());
         double wd = (getLineWidth() / g2d.getTransform().getScaleX());
 
-        if (group != null) {
+        if (! model.isEmpty()) {
             // draw the signs
             ViewDrawer drawer = new ViewDrawer();
             drawer.draw(g2d, view, groupEditorDrawingPreferences.getDrawingSpecifications());
+            
             // Draw the frame around the selected sign.
             if (selected >= 0) {
                 // The view for this sign :
@@ -320,8 +280,8 @@ public final class GroupEditor extends JPanel {
                 for (int i = 0; i < handles.length; i++) {
                     g2d.draw(handles[i].getShape());
                 }
-
             }
+            model.drawControls(g);
         }
         g2d.setColor(Color.RED);
         // Sets the actual width for drawing :
@@ -335,10 +295,10 @@ public final class GroupEditor extends JPanel {
     }
 
     /**
-     * @param group The group to set.
+     * @param editedGroup The editedGroup to set.
      */
-    public void setGroup(AbsoluteGroup group) {
-        this.group = group;
+    public void setEditedGroup(AbsoluteGroup editedGroup) {
+        this.editedGroup = editedGroup;
         selected = -1;
         revalidate();
     }
@@ -353,34 +313,12 @@ public final class GroupEditor extends JPanel {
 
     public void setScale(double scale) {
         groupEditorDrawingPreferences.setScale(scale);
-        revalidate();
-    }
-
-    public void setSelected(int selected) {
-        this.selected = selected;
         repaint();
-    }
-
-    public void setSideMargin(double sideMargin) {
-        groupEditorDrawingPreferences.setSideMargin(sideMargin);
         revalidate();
     }
 
-    public void setTopMargin(double topMargin) {
-        groupEditorDrawingPreferences.setTopMargin(topMargin);
-        revalidate();
-    }
 
-    /**
-     * Rotate the selected sign by the correct angle.
-     *
-     * @param angle
-     */
-    public void rotate(double angle) {
-        revalidate();
-        repaint();
-    }
-
+  
     /**
      * moves the selected sign.
      *
@@ -399,7 +337,7 @@ public final class GroupEditor extends JPanel {
                     .getGroupUnitLength();
             x = x / unitSize;
             y = y / unitSize;
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            Hieroglyph h = editedGroup.getHieroglyphAt(selected);
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
             revalidate();
             repaint();
@@ -456,7 +394,7 @@ public final class GroupEditor extends JPanel {
                 }
             }
 
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            Hieroglyph h = editedGroup.getHieroglyphAt(selected);
             // Convert to integers :
             // double unitSize = 1000.0 / drawingSpecifications.getBaseLength();
             x = x
@@ -528,7 +466,7 @@ public final class GroupEditor extends JPanel {
             if (sin < 0) {
                 alpha = 2 * Math.PI - alpha;
             }
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            Hieroglyph h = editedGroup.getHieroglyphAt(selected);
             double angle = (alpha * 180.0 / Math.PI) + h.getAngle();
             h.setAngle((int) angle);
             repaint();
@@ -538,7 +476,7 @@ public final class GroupEditor extends JPanel {
 
     public void rotate(int angle) {
         if (selected != -1) {
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            Hieroglyph h = editedGroup.getHieroglyphAt(selected);
             h.setAngle((int) angle);
             repaint();
             revalidate();
@@ -547,7 +485,7 @@ public final class GroupEditor extends JPanel {
 
     public void resetSign() {
         if (selected != -1) {
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            Hieroglyph h = editedGroup.getHieroglyphAt(selected);
             h.setExplicitPosition(0, 0, 100);
             repaint();
             revalidate();
@@ -555,23 +493,23 @@ public final class GroupEditor extends JPanel {
     }
 
     /**
-     * select the next glyph in group.
+     * select the next glyph in editedGroup.
      */
     public void next() {
-        if (group != null) {
-            selected = (selected + 2) % (group.getNumberOfChildren() + 1) - 1;
+        if (editedGroup != null) {
+            selected = (selected + 2) % (editedGroup.getNumberOfChildren() + 1) - 1;
             repaint();
         }
     }
 
     /**
-     * Select previous glyph in group.
+     * Select previous glyph in editedGroup.
      */
     public void previous() {
-        if (group != null) {
+        if (editedGroup != null) {
             selected = selected - 1;
             if (selected == -2) {
-                selected = group.getNumberOfChildren() - 1;
+                selected = editedGroup.getNumberOfChildren() - 1;
             }
             repaint();
         }

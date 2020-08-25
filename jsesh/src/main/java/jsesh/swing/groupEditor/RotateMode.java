@@ -1,4 +1,3 @@
-
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -20,7 +19,7 @@ import java.awt.geom.Ellipse2D;
 public class RotateMode extends GroupEditorMode {
 
     @Override
-    public GroupEditorListener buildTool(GroupEditor editor) {
+    public GroupEditorTool buildTool(GroupEditor editor) {
         return new RotateTool(editor);
     }
 

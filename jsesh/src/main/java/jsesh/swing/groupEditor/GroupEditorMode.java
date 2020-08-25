@@ -28,7 +28,7 @@ public abstract class GroupEditorMode {
      * @param editor
      * @return
      */
-    public abstract GroupEditorListener buildTool(GroupEditor editor);
+    public abstract GroupEditorTool buildTool(GroupEditor editor);
 
     /**
      * Create an handle (if relevant for the current mode).

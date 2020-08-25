@@ -1,4 +1,3 @@
-
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -15,21 +14,22 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
  * A No-op group editor.
+ *
  * @author rosmord
  */
 public class DoNothingGroupEditorMode extends GroupEditorMode {
 
     @Override
-    public GroupEditorListener buildTool(GroupEditor editor) {
-        return new DoNothingEditorListener();
+    public GroupEditorTool buildTool(GroupEditor editor) {
+        return new DoNothingTool();
     }
 
     @Override
     protected GroupEditorHandle buildHandle(double x, double y, double diameter, HandleHorizontalPosition hpos, HandleVerticalPosition vpos) {
         throw new UnsupportedOperationException("Not supported.");
     }
-    
-     @Override
+
+    @Override
     public GroupEditorHandle[] getHandles(GroupEditor editor, MDCView v) {
         return new GroupEditorHandle[0];
     }

@@ -1,3 +1,4 @@
+
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -14,6 +15,6 @@ package jsesh.swing.groupEditor;
  *
  * @author rosmord
  */
-public enum HandleHorizontalPosition {
-    LEFT, MIDDLE, RIGHT
+public interface GroupEditorModelListener {
+    void groupModified();
 }

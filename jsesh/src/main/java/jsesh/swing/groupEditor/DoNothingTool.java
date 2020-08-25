@@ -11,9 +11,10 @@
 package jsesh.swing.groupEditor;
 
 /**
- *
+ * A default/do nothing value for the GroupEditorListener.
+ * 
  * @author rosmord
  */
-public enum HandleHorizontalPosition {
-    LEFT, MIDDLE, RIGHT
+public class DoNothingTool implements GroupEditorTool {
+    
 }

@@ -1,4 +1,3 @@
-
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -11,11 +10,17 @@
  */
 package jsesh.swing.groupEditor;
 
+import java.awt.Graphics;
+
 /**
- * A default/do nothing value for the GroupEditorListener.
+ * Base interface for tools.
  * 
  * @author rosmord
  */
-public class DoNothingEditorListener implements GroupEditorListener {
-    
+public interface GroupEditorTool extends GroupEditorListener {
+    /**
+     * Draws the information about the current tool state.
+     * @param g 
+     */
+    default void drawControls(Graphics g) {} 
 }
