@@ -92,7 +92,7 @@ build the whole project: "mvn install".
 
 1. all files are in jsesh-installer/target/mac. cd there.
 
-2. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
+5. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
 ~~~
 $ find . -name main.sh -exec chmod a+x {} \;
 ~~~

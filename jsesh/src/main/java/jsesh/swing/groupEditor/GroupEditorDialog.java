@@ -88,10 +88,10 @@ public final class GroupEditorDialog extends JPanel {
     }
 
     public void setGroup(AbsoluteGroup group) {
-        editor.setEditedGroup(group);
+        editor.setGroup(group);
     }
 
     public AbsoluteGroup getGroup() {
-        return editor.getEditedGroup();
+        return editor.getGroup();
     }
 }

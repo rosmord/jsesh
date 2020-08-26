@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  *
  * @author rosmord
  */
-public class MoveTool implements GroupEditorTool {
+public class MoveTool implements GroupEditorListener {
 
     private final GroupEditor editor;
 

@@ -8,12 +8,10 @@ package jsesh.swing.groupEditor;
 import java.awt.geom.Point2D;
 
 /**
- * Resizing with aspect-ratio conservation.
- * <p>  we choose to use the symmetric handle as fixed point in the homothetical 
- * transformation.
+ *
  * @author rosmord
  */
-public class ResizeTool implements GroupEditorTool {
+public class ResizeTool implements GroupEditorListener {
 
     private final GroupEditor editor;
 

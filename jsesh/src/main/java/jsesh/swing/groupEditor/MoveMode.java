@@ -1,3 +1,4 @@
+
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -13,7 +14,7 @@ package jsesh.swing.groupEditor;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
- * Default mode for the group editor : moves elements.
+ *
  * @author rosmord
  */
 public class MoveMode extends GroupEditorMode {
@@ -24,7 +25,7 @@ public class MoveMode extends GroupEditorMode {
     }
 
     @Override
-    public GroupEditorTool buildTool(GroupEditor editor) {
+    public GroupEditorListener buildTool(GroupEditor editor) {
         return new MoveTool(editor);
     }
 

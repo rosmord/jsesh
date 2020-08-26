@@ -1,3 +1,4 @@
+
 /*
  * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
  * serge.rosmorduc@cnam.fr
@@ -21,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 public class ResizeMode extends GroupEditorMode{
 
     @Override
-    public GroupEditorTool buildTool(GroupEditor editor) {
+    public GroupEditorListener buildTool(GroupEditor editor) {
         return new ResizeTool(editor);
     }
 
