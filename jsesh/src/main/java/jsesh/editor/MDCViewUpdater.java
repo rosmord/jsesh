@@ -66,29 +66,28 @@ class MDCViewUpdater implements ModelOperationVisitor {
 		this.editor = editor;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitChildOperation(jsesh.mdc.model.operations.ChildOperation)
-	 */
+        private MDCView getView() {
+            return editor.getView();
+        }
+	
+        @Override
 	public void visitChildOperation(ChildOperation operation) {
 		int k;
 		SimpleViewBuilder builder= new SimpleViewBuilder();
 		// Find the index for the element which was modified...
-		for (k = 0; k < this.editor.documentView.getNumberOfSubviews()
-				&& this.editor.documentView.getSubView(k).getModel() != operation
+		for (k = 0; k < getView().getNumberOfSubviews()
+				&& getView().getSubView(k).getModel() != operation
 						.getChildOperation().getElement(); k++)
-			;
+			/*empty*/;
 		// This is k. rebuild view for k, and replace it.
-		if (this.editor.documentView.getSubView(k).getModel() == operation
+		if (this.getView().getSubView(k).getModel() == operation
 				.getChildOperation().getElement()) {
 			MDCView subv = builder.buildView(operation.getChildOperation()
 					.getElement(), editor.getDrawingSpecifications());
-			this.editor.documentView.replaceSubView(k, subv);
+			this.getView().replaceSubView(k, subv);
 		}
 		// update the page layout.
-		builder.reLayout(this.editor.documentView, editor.getDrawingSpecifications());
+		builder.reLayout(getView(), editor.getDrawingSpecifications());
 	}
 
 	/*
@@ -98,58 +97,48 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	 */
 	public void visitDeletion(Deletion deletion) {
 		// Remove the modified views, and update page layout.
-		this.editor.documentView.remove(deletion.getStart(), deletion.getEnd());
-		new SimpleViewBuilder().reLayout(this.editor.documentView,editor.getDrawingSpecifications());
+		getView().remove(deletion.getStart(), deletion.getEnd());
+		new SimpleViewBuilder().reLayout(getView(),editor.getDrawingSpecifications());
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitInsertion(jsesh.mdc.model.operations.Insertion)
-	 */
+	
+        @Override
 	public void visitInsertion(Insertion insertion) {
 		SimpleViewBuilder builder= new SimpleViewBuilder();
 		int index= insertion.getIndex();
 		// Create and insert views at the proper position.
 		for (Iterator i= insertion.getChildren().iterator(); i.hasNext();) {
 			MDCView subView = builder.buildView((ModelElement) i.next(),editor.getDrawingSpecifications());
-			this.editor.documentView.addAt(index++, subView);
+			getView().addAt(index++, subView);
 		}
-		builder.reLayout(this.editor.documentView,editor.getDrawingSpecifications());
+		builder.reLayout(getView(),editor.getDrawingSpecifications());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitModification(jsesh.mdc.model.operations.Modification)
-	 */
+	
+        @Override
 	public void visitModification(Modification modification) {
-		// Huge change: we suppress the whole view, which will cause the complete recomputation of the page.
-		this.editor.documentView = null;
+		// Huge change: we suppress the whole view, which will cause the complete recomputation of the page.		
+                editor.clearView();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitReplacement(jsesh.mdc.model.operations.Replacement)
-	 */
+	
+        @Override
 	public void visitReplacement(Replacement replacement) {
-		this.editor.documentView = null;
+		editor.clearView();
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitZoneModification(jsesh.mdc.model.operations.ZoneModification)
-	 */
+	
+        @Override
 	public void visitZoneModification(ZoneModification modification) {
 		SimpleViewBuilder builder= new SimpleViewBuilder();
 		for (int i= modification.getStart(); i< modification.getEnd(); i++) {
 			TopItem it= this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
 			MDCView v= builder.buildView(it,editor.getDrawingSpecifications());
-			editor.documentView.replaceSubView(i,v);
+			getView().replaceSubView(i,v);
 		}
 		
-		builder.reLayout(this.editor.documentView,editor.getDrawingSpecifications());
+		builder.reLayout(getView(),editor.getDrawingSpecifications());
 	}
 
 }

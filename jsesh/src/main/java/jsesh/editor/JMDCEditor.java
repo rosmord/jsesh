@@ -100,7 +100,7 @@ public class JMDCEditor extends JPanel {
     /**
      * The current view we maintain.
      */
-    MDCView documentView;
+    private MDCView documentView;
     /**
      * Display scale for this window.
      */
@@ -147,10 +147,6 @@ public class JMDCEditor extends JPanel {
         //drawer.setCached(true);
         drawer.setCached(false);
         setScale(2.0);
-        // simpleDrawingSpecification= new SimpleDrawingSpecifications();
-        // The use of an interface for the view builder may have been
-        // some kind of over-engineering.
-        // builder = new SimpleViewBuilder();
         documentView = null;
         workflow = new JMDCEditorWorkflow(data);
 
@@ -369,6 +365,10 @@ public class JMDCEditor extends JPanel {
      */
     public void insertLineNumber(String line) {
         workflow.insertLineNumber(line);
+    }
+
+    void clearView() {
+        this.documentView = null;
     }
 
 

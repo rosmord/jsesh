@@ -24,6 +24,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import jsesh.mdc.model.AbsoluteGroup;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Dialog panel for editing groups.
@@ -93,5 +94,9 @@ public final class GroupEditorDialog extends JPanel {
 
     public AbsoluteGroup getGroup() {
         return editor.getGroup();
+    }
+    
+    public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+        editor.setDrawingSpecification(drawingSpecifications);
     }
 }

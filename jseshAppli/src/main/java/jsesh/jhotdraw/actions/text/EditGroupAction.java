@@ -24,6 +24,7 @@ public class EditGroupAction extends EditorAction {
 
 		if (g != null) {
 			GroupEditorDialog d = new GroupEditorDialog();
+                        d.setDrawingSpecifications(editor.getDrawingSpecifications());
 			d.setGroup(g);
 			int choice = JOptionPane.showConfirmDialog(editor, d,
 					"Group editor", JOptionPane.OK_CANCEL_OPTION,

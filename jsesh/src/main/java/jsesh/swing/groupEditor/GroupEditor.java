@@ -13,15 +13,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
@@ -31,7 +28,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -120,6 +116,7 @@ public final class GroupEditor extends JPanel {
         addMouseMotionListener(control);
         // TODO : fix the system so that it handle right-to-left signs.
         // Currently, we simply force left-to-right order
+        //        
         DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications().copy();
         specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
         groupEditorDrawingPreferences.setDrawingSpecifications(specs);
@@ -233,6 +230,7 @@ public final class GroupEditor extends JPanel {
         return new Point2D.Double(x, y);
     }
 
+    @Override
     public Dimension getPreferredSize() {
         if (group == null) {
             return new Dimension(640, 480);
@@ -492,6 +490,10 @@ public final class GroupEditor extends JPanel {
         return groupEditorDrawingPreferences;
     }
 
+    public void setGroupEditorDrawingPreferences(GroupEditorDrawingPreferences groupEditorDrawingPreferences) {
+        this.groupEditorDrawingPreferences = groupEditorDrawingPreferences;
+    }
+
     /**
      * Rotate the selected sign around its center c.
      * <p>
@@ -575,6 +577,16 @@ public final class GroupEditor extends JPanel {
             }
             repaint();
         }
+    }
+
+    public void setDrawingSpecification(DrawingSpecification drawingSpecifications) {
+        // Ensure drawing specs are left to right.
+        // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
+        DrawingSpecification specs = drawingSpecifications.copy();
+        specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+        groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        repaint();
+        revalidate();
     }
 
 }

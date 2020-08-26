@@ -13,6 +13,7 @@ package jsesh.demo;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCField;
@@ -27,10 +28,17 @@ import jsesh.swing.groupEditor.GroupEditorDialog;
  */
 public final class GroupEditorDemo extends JFrame{
     
-    JMDCField editor = new JMDCField();
-    GroupEditorDialog groupEditor = new GroupEditorDialog();;
+    JMDCField editor;
+    GroupEditorDialog groupEditor;
+    JButton validateButton;
+    
     
     public GroupEditorDemo() throws HeadlessException {
+        editor = new JMDCField();
+        groupEditor = new GroupEditorDialog();
+        validateButton = new JButton("ok");
+        validateButton.addActionListener(e -> getBackGroup());
+        groupEditor.setDrawingSpecifications(editor.getDrawingSpecifications());
         setLayout(new GridBagLayout());
         GridBagConstraints cc = new GridBagConstraints();
         cc.fill = GridBagConstraints.HORIZONTAL;
@@ -40,13 +48,14 @@ public final class GroupEditorDemo extends JFrame{
         cc.weighty = 1;
         cc.gridy = 1;
         add(groupEditor,cc);
+        cc.gridy = 2;
+        add(validateButton, cc);
         pack();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         editor.addActionListener(e -> editGroup());
         editor.setMDCText("p*t:pt");
     }
-    
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new GroupEditorDemo());
@@ -56,6 +65,13 @@ public final class GroupEditorDemo extends JFrame{
         TopItemList topItems = editor.getHieroglyphicTextModel().getModel();
         AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(), editor.getDrawingSpecifications());
         groupEditor.setGroup(group);
+    }
+    
+    
+    public void getBackGroup() {
+        AbsoluteGroup g = groupEditor.getGroup();
+        editor.getWorkflow().clear();
+        editor.getWorkflow().insertElement(g);
     }
 
 }

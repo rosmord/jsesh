@@ -16,11 +16,11 @@ import java.awt.Shape;
  * A handle (square or round) for grabbing an element.
  * @author rosmord
  */
-class GroupEditorHandle {
+public class GroupEditorHandle {
     
-    private Shape shape;
-    private HandleVerticalPosition vpos;
-    private HandleHorizontalPosition hpos;
+    private final Shape shape;
+    private final HandleVerticalPosition vpos;
+    private final HandleHorizontalPosition hpos;
 
     /**
      * @param shape
