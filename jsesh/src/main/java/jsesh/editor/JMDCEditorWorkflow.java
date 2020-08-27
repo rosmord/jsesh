@@ -170,6 +170,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         setCursor(hieroglyphicTextModel.buildFirstPosition());
         caret.addCaretChangeListener(this);
         possibilitiesHandler.clear();
+        update(hieroglyphicTextModel, null); // Notifies that the text model has changed !
     }
 
     /**
@@ -535,6 +536,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         return hiero;
     }
 
+    @Override
     public void caretChanged(MDCCaret caret) {
         for (Iterator<MDCModelEditionListener> i = listeners.iterator(); i
                 .hasNext();) {
@@ -1897,6 +1899,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             throw new RuntimeException("should not happen.");
         }
     }
+    
 
     public HieroglyphicTextModel getHieroglyphicTextModel() {
         return hieroglyphicTextModel;

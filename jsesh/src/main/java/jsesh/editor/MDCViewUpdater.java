@@ -96,7 +96,6 @@ class MDCViewUpdater implements ModelOperationVisitor {
 		// Remove the modified views, and update page layout.
 		getView().remove(deletion.getStart(), deletion.getEnd());
 		new SimpleViewBuilder().reLayout(getView(),editor.getDrawingSpecifications());
-
 	}
 
 	

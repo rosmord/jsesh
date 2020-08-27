@@ -79,7 +79,7 @@ public final class GroupEditorDemo extends JFrame{
         } catch (MDCSyntaxError ex) {
             Logger.getLogger(GroupEditorDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        editor.getWorkflow().insertElement(g.buildTopItem());
+        editor.getWorkflow().insertElement(g);
     }
 
 }

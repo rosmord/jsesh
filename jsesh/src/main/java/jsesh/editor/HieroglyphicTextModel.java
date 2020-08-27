@@ -134,8 +134,8 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public void clear() {
-            //removeElements(buildFirstPosition(), getLastPosition());
-            setTopItemList(new TopItemList());
+            removeElements(buildFirstPosition(), getLastPosition());
+            // setTopItemList(new TopItemList());
 	}
 
 	public void readTopItemList(Reader in) throws MDCSyntaxError {
@@ -216,13 +216,7 @@ public class HieroglyphicTextModel extends Observable implements
 		this.philologyIsSign = philologyIsSign;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * jsesh.mdc.model.ModelElementObserver#observedElementChanged(jsesh.mdc
-	 * .model.operations.ModelOperation)
-	 */
+	@Override
 	public void observedElementChanged(ModelOperation operation) {
 		setChanged();
 		notifyObservers(operation);

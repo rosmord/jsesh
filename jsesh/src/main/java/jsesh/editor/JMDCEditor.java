@@ -49,7 +49,6 @@ import java.awt.print.*;
 import java.io.*;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
 import jsesh.mdc.*;
@@ -115,7 +114,7 @@ public class JMDCEditor extends JPanel {
      */
     MDCEditorEventsListener eventListener;
     /**
-     * Basic Informations about drawing : fonts to use, line width, etc...
+     * Basic Information about drawing : fonts to use, line width, etc...
      *
      */
     JMDCEditorWorkflow workflow;
@@ -147,7 +146,6 @@ public class JMDCEditor extends JPanel {
         //drawer.setCached(true);
         drawer.setCached(false);
         setScale(2.0);
-        documentView = null;
         workflow = new JMDCEditorWorkflow(data);
 
         mdcModelEditionListener = new JMDCModelEditionListener();
@@ -155,8 +153,8 @@ public class JMDCEditor extends JPanel {
         // setRequestFocusEnabled(true);
         setFocusable(true);
         viewUpdater = new MDCViewUpdater(this);
-
         eventListener = new MDCEditorEventsListener(this);
+        documentView = recomputeDocumentView();       
         new MDCEditorKeyManager(this);
     }
 
@@ -225,24 +223,23 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
-     * Returns a MDCView of the current hieroglyphicTextModel. Build it if
-     * necessary.
+     * Returns a MDCView of the current hieroglyphicTextModel.
+     * Build it if necessary.
      *
      * @return the view for the model.
      */
-    public MDCView getView() {
-        if (documentView == null) {
-            documentView = new SimpleViewBuilder().buildView(
-                    getHieroglyphicTextModel().getModel(),
-                    getDrawingSpecifications());
-            revalidate();
-            if (debug) {
-                System.out.println(documentView);
-            }
-        }
+    public MDCView getView() {       
         return documentView;
     }
 
+    private MDCView recomputeDocumentView() {
+         documentView = new SimpleViewBuilder().buildView(
+                    getHieroglyphicTextModel().getModel(),
+                    getDrawingSpecifications());                   
+         revalidate();
+         return documentView;
+    }
+    
     /**
      * Return the workflow, which allows manipulation of the underlaying
      * hieroglyphicTextModel.
@@ -518,10 +515,10 @@ public class JMDCEditor extends JPanel {
     }
 
     public void invalidateView() {
-        documentView = null;
         if (drawer.isCached()) {
             drawer.flushCache();
         }
+        documentView = recomputeDocumentView();        
         revalidate();
         repaint();
     }
