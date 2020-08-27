@@ -310,7 +310,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
      */
     public void addObserver(ModelElementObserver obs) {
         if (topItemListObservers == null) {
-            topItemListObservers = new ArrayList<ModelElementObserver>();
+            topItemListObservers = new ArrayList<>();
         }
         topItemListObservers.add(obs);
     }

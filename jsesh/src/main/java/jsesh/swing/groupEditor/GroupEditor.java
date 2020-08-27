@@ -207,7 +207,10 @@ public final class GroupEditor extends JPanel {
      * @return Returns the group.
      */
     public AbsoluteGroup getGroup() {
-        return group;
+        if (group != null)
+            return group;
+        else
+            return new AbsoluteGroup();
     }
 
     public int getHandleSize() {

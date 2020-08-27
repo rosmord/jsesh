@@ -22,6 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.swing.utils.GraphicsUtils;
@@ -61,19 +62,19 @@ public class JMDCField extends JMDCEditor {
     public JMDCField(int width, int height) {
         setCached(false);
         preferedSize = new Dimension(width, height);
-        setDrawingSpecifications(getDrawingSpecifications().copy());
+        DrawingSpecification specs = getDrawingSpecifications().copy();
         int textHeight = height - 2 * margin;       
         setScale(1.0);
-        // setScale(textHeight / getDrawingSpecifications().getMaxCadratHeight());
-        getDrawingSpecifications().setMaxCadratHeight(textHeight);
-        getDrawingSpecifications().setStandardSignHeight(textHeight);
-        getDrawingSpecifications().setMaxCadratWidth(textHeight*1.1f);
+        specs.setMaxCadratHeight(textHeight);
+        specs.setStandardSignHeight(textHeight);
+        specs.setMaxCadratWidth(textHeight*1.1f);
         
-        PageLayout pageLayout = getDrawingSpecifications().getPageLayout();
+        PageLayout pageLayout = specs.getPageLayout();
         pageLayout.setTopMargin(margin);
         pageLayout.setLeftMargin(0);
 
-        getDrawingSpecifications().setLineSkip(0);
+        specs.setLineSkip(0);
+        setDrawingSpecifications(specs);
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.

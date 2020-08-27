@@ -134,7 +134,8 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public void clear() {
-		setTopItemList(new TopItemList());
+            //removeElements(buildFirstPosition(), getLastPosition());
+            setTopItemList(new TopItemList());
 	}
 
 	public void readTopItemList(Reader in) throws MDCSyntaxError {
@@ -142,7 +143,8 @@ public class HieroglyphicTextModel extends Observable implements
 		TopItemList l = createGenerator(Dialect.OTHER).parse(in);
 		// System.err.println("model created in "+ (System.currentTimeMillis() -
 		// start));
-		setTopItemList(l);
+		clear();
+                insertElementsAt(buildFirstPosition(), l.asList());
 	}
 
 	/**

@@ -367,11 +367,6 @@ public class JMDCEditor extends JPanel {
         workflow.insertLineNumber(line);
     }
 
-    void clearView() {
-        this.documentView = null;
-    }
-
-
     /*
      * Auxiliary class, used to redraw the window when the cursor is out of the
      * visible frame.
@@ -539,12 +534,7 @@ public class JMDCEditor extends JPanel {
 
         private static final String CLASS_FULL_NAME = "jsesh.editor.JMDCEditor";
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.editor.MDCModelEditionListener#textEdited
-         * (jsesh.mdc.model.operations.ModelOperation)
-         */
+        @Override
         public void textEdited(ModelOperation op) {
             op.accept(viewUpdater);
             Logger.getLogger(CLASS_FULL_NAME).fine("Text edited");
@@ -554,59 +544,38 @@ public class JMDCEditor extends JPanel {
             repaint();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.editor.MDCModelEditionListener#textChanged()
-         */
+        @Override
         public void textChanged() {
             Logger.getLogger(CLASS_FULL_NAME).fine("Text changed");
-            documentView = null;
-            // repaint();
+            invalidateView();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh
-         * .mdcDisplayer.draw.MDCCaret)
-         */
+        @Override
         public void caretChanged(MDCCaret caret) {
             Logger.getLogger(CLASS_FULL_NAME).fine("Caret changed");
             caretChanged = true;
             repaint();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.editor.MDCModelEditionListener#codeChanged
-         * (java.lang.StringBuffer)
-         */
+       
+        @Override
         public void codeChanged(StringBuffer code) {
             // NO-OP.
         }
 
+        @Override
         public void separatorChanged() {
             // NO-OP
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.editor.MDCModelEditionListener#focusGained
-         * (java.lang.StringBuffer)
-         */
+       
+        @Override
         public void focusGained(StringBuffer code) {
             // NO-OP.
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.editor.MDCModelEditionListener#focusLost(
-         */
+       
+        @Override
         public void focusLost() {
             // NO-OP.
         }
@@ -713,7 +682,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void clearText() {
-        setMDCText("");
+        getWorkflow().clear();
     }
 
     /**

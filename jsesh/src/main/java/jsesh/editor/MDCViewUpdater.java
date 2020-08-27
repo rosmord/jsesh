@@ -90,11 +90,8 @@ class MDCViewUpdater implements ModelOperationVisitor {
 		builder.reLayout(getView(), editor.getDrawingSpecifications());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdc.model.operations.ModelOperationVisitor#visitDeletion(jsesh.mdc.model.operations.Deletion)
-	 */
+	
+        @Override
 	public void visitDeletion(Deletion deletion) {
 		// Remove the modified views, and update page layout.
 		getView().remove(deletion.getStart(), deletion.getEnd());
@@ -119,13 +116,13 @@ class MDCViewUpdater implements ModelOperationVisitor {
         @Override
 	public void visitModification(Modification modification) {
 		// Huge change: we suppress the whole view, which will cause the complete recomputation of the page.		
-                editor.clearView();
+                editor.invalidateView();
 	}
 
 	
         @Override
 	public void visitReplacement(Replacement replacement) {
-		editor.clearView();
+		editor.invalidateView();
 	}
 
 	

@@ -13,10 +13,13 @@ package jsesh.demo;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCField;
+import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
@@ -70,8 +73,13 @@ public final class GroupEditorDemo extends JFrame{
     
     public void getBackGroup() {
         AbsoluteGroup g = groupEditor.getGroup();
-        editor.getWorkflow().clear();
-        editor.getWorkflow().insertElement(g);
+        // editor.getWorkflow().clear(); ok, but we want to fix the bug...
+        try {
+            editor.getWorkflow().setMDCCode("");
+        } catch (MDCSyntaxError ex) {
+            Logger.getLogger(GroupEditorDemo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        editor.getWorkflow().insertElement(g.buildTopItem());
     }
 
 }

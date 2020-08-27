@@ -600,14 +600,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * Clear the text in the current model.
      */
     public void clear() {
-        try {
-            possibilitiesHandler.clear();
-            setMDCCode("");
-            clearSeparator();
-        } catch (MDCSyntaxError e) {
-            // Should not happen
-            throw new RuntimeException(e);
-        }
+        possibilitiesHandler.clear();
+        hieroglyphicTextModel.clear();
+        clearSeparator();
+
         currentCode.setLength(0);
         clearSeparator();
     }
@@ -1930,9 +1926,9 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     public void insertLineNumber(String line) {
-            possibilitiesHandler.clear();
-            Superscript superscript = new Superscript(line);            
-            hieroglyphicTextModel.insertElementAt(getInsertPosition(), superscript);                    
+        possibilitiesHandler.clear();
+        Superscript superscript = new Superscript(line);
+        hieroglyphicTextModel.insertElementAt(getInsertPosition(), superscript);
     }
 
 }
