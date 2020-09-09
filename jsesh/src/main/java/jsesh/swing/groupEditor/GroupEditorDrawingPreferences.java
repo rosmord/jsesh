@@ -23,34 +23,17 @@ public class GroupEditorDrawingPreferences {
     /**
      * Frame line width.
      */
-    private int lineWidth = 2;
-    /**
-     * The editing mode ; either RESIZE or ROTATE.
-     */
-    //private int mode = RESIZE;
+    private int lineWidth = 2;  
     private double scale = 10;
     private double topMargin = 5;
     private double sideMargin = 5;
-    //    // The modes
-    //    /**
-    //     * In RESIZE mode, handles are used for resizing the signs.
-    //     */
-    //    public static final int RESIZE = 1;
-    //
-    //    /**
-    //     * In ROTATION mode, handles rotate signs.
-    //     */
-    //    public static final int ROTATION = 2;
-    //
-    //    /**
-    //     * In move mode, there are no handles.
-    //     */
-    //    public static final int MOVE = 3;
+   
     /**
      * The drawing specifications. TODO find a good policy for drawing
      * specifications !!!!
      */
     private DrawingSpecification drawingSpecifications = MDCEditorKit.getBasicMDCEditorKit().getDrawingSpecifications();
+    
     /**
      * Handle sizes
      */

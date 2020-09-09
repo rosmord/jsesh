@@ -22,6 +22,7 @@ import jsesh.editor.JMDCField;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
@@ -41,7 +42,7 @@ public final class GroupEditorDemo extends JFrame{
         groupEditor = new GroupEditorDialog();
         validateButton = new JButton("ok");
         validateButton.addActionListener(e -> getBackGroup());
-        groupEditor.setDrawingSpecifications(editor.getDrawingSpecifications());
+        // groupEditor.setDrawingSpecifications(editor.getDrawingSpecifications().copy());
         setLayout(new GridBagLayout());
         GridBagConstraints cc = new GridBagConstraints();
         cc.fill = GridBagConstraints.HORIZONTAL;
@@ -66,8 +67,15 @@ public final class GroupEditorDemo extends JFrame{
 
     private void editGroup() {
         TopItemList topItems = editor.getHieroglyphicTextModel().getModel();
-        AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(), editor.getDrawingSpecifications());
+        // AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(), editor.getDrawingSpecifications());
+        // The absolute group builder has a problem when using alternate specifications,
+        // especially specs.setStandardSignHeight(textHeight);
+        AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(),MDCEditorKit.getBasicMDCEditorKit()
+                            .getDrawingSpecifications());
         groupEditor.setGroup(group);
+        TopItemList top = new TopItemList();
+        top.addTopItem(group.buildTopItem());
+        editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(top);
     }
     
     

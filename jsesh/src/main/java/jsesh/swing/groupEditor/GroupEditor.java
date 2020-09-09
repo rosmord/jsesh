@@ -117,9 +117,9 @@ public final class GroupEditor extends JPanel {
         // TODO : fix the system so that it handle right-to-left signs.
         // Currently, we simply force left-to-right order
         //        
-        DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications().copy();
-        specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-        groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        //DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications().copy();
+        //specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+        //groupEditorDrawingPreferences.setDrawingSpecifications(specs);
     }
 
     public void setGroupEditorEventListener(GroupEditorListener groupEditorControl) {
@@ -269,7 +269,7 @@ public final class GroupEditor extends JPanel {
     }
 
     private MDCView getView() {
-        MDCView view = null;
+        MDCView view;
         if (group != null) {
             SimpleViewBuilder builder = new SimpleViewBuilder();
             view = builder.buildView(group,
@@ -341,6 +341,7 @@ public final class GroupEditor extends JPanel {
     public void setGroup(AbsoluteGroup group) {
         this.group = group;
         selected = -1;
+        repaint();
         revalidate();
     }
 
@@ -373,18 +374,8 @@ public final class GroupEditor extends JPanel {
     }
 
     /**
-     * Rotate the selected sign by the correct angle.
-     *
-     * @param angle
-     */
-    public void rotate(double angle) {
-        revalidate();
-        repaint();
-    }
-
-    /**
      * moves the selected sign.
-     *
+     * TODO : move this method (or part of it) to MoveTool ?
      * @param dx
      * @param dy
      */
@@ -475,7 +466,16 @@ public final class GroupEditor extends JPanel {
             repaint();
             invalidate();
         }
-
+    }
+    
+    
+    public void rotate(int angle) {
+        if (selected != -1) {
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            h.setAngle((int) angle);
+            repaint();
+            revalidate();
+        }
     }
 
     /**
@@ -488,6 +488,24 @@ public final class GroupEditor extends JPanel {
         return new Point2D.Double(subview.getPosition().x, subview
                 .getPosition().y);
     }
+    
+    /**
+     * Questionable method to access view information.
+     * @return 
+     */
+    MDCView getSelectedView() {
+        if (selected != -1)
+            return getView().getSubView(selected);
+        else
+            return null;
+    }
+    
+    Hieroglyph getSelectedSign() {
+        if (selected != -1)
+            return group.getHieroglyphAt(selected);
+        else
+            return null;
+    }
 
     public GroupEditorDrawingPreferences getGroupEditorDrawingPreferences() {
         return groupEditorDrawingPreferences;
@@ -497,58 +515,7 @@ public final class GroupEditor extends JPanel {
         this.groupEditorDrawingPreferences = groupEditorDrawingPreferences;
     }
 
-    /**
-     * Rotate the selected sign around its center c.
-     * <p>
-     * the angle is given by the two vectors c-p1 and c-p2.
-     *
-     * @param p1
-     * @param p2
-     */
-    public void rotate(Point2D p1, Point2D p2) {
-        if (selected != -1) {
-            MDCView v = getView().getSubView(selected);
-            Point2D orig = getViewPosition(v);
-            Point2D center = new Point2D.Double(orig.getX() + v.getWidth() / 2,
-                    orig.getY() + v.getHeight() / 2);
-            // Compute the vectors.
-            Point2D v1 = new Point2D.Double(p1.getX() - center.getX(), p1
-                    .getY()
-                    - center.getY());
-            Point2D v2 = new Point2D.Double(p2.getX() - center.getX(), p2
-                    .getY()
-                    - center.getY());
-            double d1 = v1.distance(0, 0);
-            double d2 = v2.distance(0, 0);
-            if (d1 == 0 || d2 == 0) {
-                return;
-            }
-            double cos = (v1.getX() * v2.getX() + v1.getY() * v2.getY())
-                    / (d1 * d2);
-            double sin = (v1.getX() * v2.getY() - v1.getY() * v2.getX())
-                    / (d1 * d2);
 
-            double alpha = Math.acos(cos);
-
-            if (sin < 0) {
-                alpha = 2 * Math.PI - alpha;
-            }
-            Hieroglyph h = group.getHieroglyphAt(selected);
-            double angle = (alpha * 180.0 / Math.PI) + h.getAngle();
-            h.setAngle((int) angle);
-            repaint();
-            revalidate();
-        }
-    }
-
-    public void rotate(int angle) {
-        if (selected != -1) {
-            Hieroglyph h = group.getHieroglyphAt(selected);
-            h.setAngle((int) angle);
-            repaint();
-            revalidate();
-        }
-    }
 
     public void resetSign() {
         if (selected != -1) {
@@ -585,9 +552,15 @@ public final class GroupEditor extends JPanel {
     public void setDrawingSpecification(DrawingSpecification drawingSpecifications) {
         // Ensure drawing specs are left to right.
         // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
+        
+        // DrawingSpecification specs = drawingSpecifications.copy();
+        // specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+        // groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
         DrawingSpecification specs = drawingSpecifications.copy();
-        specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+        specs.setTextDirection(TextDirection.LEFT_TO_RIGHT.LEFT_TO_RIGHT);
         groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
         repaint();
         revalidate();
     }

@@ -85,7 +85,7 @@ public class AbsoluteGroupBuilder {
 				// Build a view of this item
 				MDCView v = builder.buildView((ModelElement) topItems.get(i),drawingSpecifications);
 				// extract the actual coordinates of the view elements
-				scanView(v);
+				scanView(v);                                
 				origx += v.getWidth();
 				origy = 0;
 			}
@@ -132,7 +132,7 @@ public class AbsoluteGroupBuilder {
 			int yy = (int) (origy /sizeOfGroupUnit);
 			// Don't take into account the sign explicit size, as it is already 
 			// taken into account in the view scale.
-			//int s = (int) (scale * h.getRelativeSize());
+			// int s = (int) (scale * h.getRelativeSize());
 			int s = (int) (scale*100);
 			
 			h.setExplicitPosition(xx, yy, s);

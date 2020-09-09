@@ -8,7 +8,9 @@ package jsesh.swing.groupEditor;
 import java.awt.geom.Point2D;
 
 /**
- *
+ * Tool for resizing element.
+ * 
+ * Current version : 
  * @author rosmord
  */
 public class ResizeTool implements GroupEditorListener {

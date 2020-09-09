@@ -505,7 +505,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             // FIXME : drawing specifications alert !!!
             AbsoluteGroup g = AbsoluteGroupBuilder.createAbsoluteGroupFrom(
                     elts, MDCEditorKit.getBasicMDCEditorKit()
-                            .getDrawingSpecifications());
+                            .getDrawingSpecifications());          
             result = g;
         }
         return result;

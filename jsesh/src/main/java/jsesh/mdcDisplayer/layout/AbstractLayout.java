@@ -81,6 +81,7 @@ public abstract class AbstractLayout extends ModelElementAdapter implements Layo
 	 * compute the view size (width and height)
 	 * @see jsesh.mdcDisplayer.layout.Layout#layout(MDCView, int)
 	 */
+        @Override
 	final public void layout(MDCView view, int depth) {
 		currentView= view;
 		this.depth= depth;

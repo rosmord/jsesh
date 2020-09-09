@@ -11,8 +11,6 @@
  */
 package jsesh.swing.groupEditor;
 
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 /**

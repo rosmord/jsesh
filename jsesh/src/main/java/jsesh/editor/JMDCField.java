@@ -64,8 +64,9 @@ public class JMDCField extends JMDCEditor {
         preferedSize = new Dimension(width, height);
         DrawingSpecification specs = getDrawingSpecifications().copy();
         int textHeight = height - 2 * margin;       
-        setScale(1.0);
+        
         specs.setMaxCadratHeight(textHeight);
+        // Perhaps not the best system...
         specs.setStandardSignHeight(textHeight);
         specs.setMaxCadratWidth(textHeight*1.1f);
         
@@ -74,7 +75,9 @@ public class JMDCField extends JMDCEditor {
         pageLayout.setLeftMargin(0);
 
         specs.setLineSkip(0);
-        setDrawingSpecifications(specs);
+        setScale(1.0);
+        
+        setDrawingSpecifications(specs); 
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.

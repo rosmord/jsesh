@@ -78,7 +78,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         // If it's not, we might think of using prototypes.
         this.fontManager = DefaultHieroglyphicFontManager.getInstance();
 
-        nonHieroglyphic = new HashMap<String, Float>();
+        nonHieroglyphic = new HashMap<>();
 
         // Use The A1 sign as base
         // TODO : perhaps give the HieroglyphicDrawer some informations about

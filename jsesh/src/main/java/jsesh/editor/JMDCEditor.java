@@ -132,9 +132,9 @@ public class JMDCEditor extends JPanel {
     private boolean editable = true;
     // FIXME : choose a reasonable method to share drawing specifications.
     private DrawingSpecification drawingSpecifications = MDCEditorKit
-            .getBasicMDCEditorKit().getDrawingSpecifications();
+            .getBasicMDCEditorKit().getDrawingSpecifications().copy();
 
-    private boolean drawLimits = false;
+    private final boolean drawLimits = false;
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel());
@@ -464,19 +464,18 @@ public class JMDCEditor extends JPanel {
      * @param orientation
      */
     public void setTextOrientation(TextOrientation orientation) {
-        DrawingSpecification newSpecifications = getDrawingSpecifications().copy();
-        newSpecifications.setTextOrientation(orientation);
-        setDrawingSpecifications(newSpecifications);
+        drawingSpecifications.setTextOrientation(orientation);
+        invalidateView();
     }
 
     /**
      * Choose between right-to-left and left-to-right text direction.
      *
+     * @param direction the new TextDirection
      */
     public void setTextDirection(TextDirection direction) {
-        DrawingSpecification newSpecifications = getDrawingSpecifications().copy();
-        newSpecifications.setTextDirection(direction);
-        setDrawingSpecifications(newSpecifications);
+        drawingSpecifications.setTextDirection(direction);
+        invalidateView();
     }
 
     public TextOrientation getTextOrientation() {
@@ -486,13 +485,15 @@ public class JMDCEditor extends JPanel {
     /**
      * Choose between right-to-left and left-to-right text direction.
      *
+     * @return current TextDirection
      */
     public TextDirection getTextDirection() {
         return getDrawingSpecifications().getTextDirection();
     }
 
     /**
-     * Returns a copy of the specifications attached to the current window.
+     * Returns the specifications attached to the current window.
+     * @return the current drawing specifications (live object).
      */
     public DrawingSpecification getDrawingSpecifications() {
         DrawingSpecification result = drawingSpecifications;
@@ -506,9 +507,9 @@ public class JMDCEditor extends JPanel {
             DrawingSpecification drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications;
         drawingSpecifications.setGraphicDeviceScale(scale);
-        // TODO : remove me after...
+        // TODO : remove me after... (after what ???)
         PageLayout p = drawingSpecifications.getPageLayout();
-        p.setPageFormat(new PageFormat());
+        p.setPageFormat(new PageFormat()); // what for ???
         drawingSpecifications.setPageLayout(p);
 
         invalidateView();
@@ -731,7 +732,7 @@ public class JMDCEditor extends JPanel {
      *
      * @param c
      */
-    public void setCached(boolean c) {
+    public final void setCached(boolean c) {
         drawer.setCached(c);
     }
 
