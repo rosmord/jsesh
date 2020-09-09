@@ -29,28 +29,17 @@ public class RotateTool implements GroupEditorListener {
 
     private int originalAngle;
 
-    private HandleHorizontalPosition horizontalHandle;
-
-    private HandleVerticalPosition verticalHandle;
-
-    private boolean handleSelected;
-
     /**
      * @param editor
      */
     public RotateTool(GroupEditor editor) {
         this.editor = editor;
-        handleSelected = false;
     }
 
     @Override
     public void mousePressed(GroupEditorEvent e) {
         editor.setSelected(e.getElementIndex());
-        handleSelected = e.isOnHandle();
         if (e.getElementIndex() != -1 && e.isOnHandle()) {
-            horizontalHandle = e.getHorizontalHandlePosition();
-            verticalHandle = e.getVerticalHandlePosition();
-
             MDCView v = editor.getSelectedView();
             originalAngle = editor.getSelectedSign().getAngle();
             Point2D orig = editor.getViewPosition(v);
@@ -72,13 +61,11 @@ public class RotateTool implements GroupEditorListener {
     @Override
     public void mouseDragged(GroupEditorEvent e) {
         if (editor.getSelected() != -1 && originalPoint != null) {
-            if (handleSelected) {
-                Point2D p = e.getPoint();
-                computeAngle(p).ifPresent(angle -> {
-                    editor.rotate(angle);
-                }
-                );
+            Point2D p = e.getPoint();
+            computeAngle(p).ifPresent(angle -> {
+                editor.rotate(angle);
             }
+            );
         }
     }
 

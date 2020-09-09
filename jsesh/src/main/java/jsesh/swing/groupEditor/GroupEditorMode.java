@@ -18,6 +18,8 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  * <p>Modes are primarily stateless. Thus, they may be shared and reused.
  * The {@link  GroupEditorListener} they create are used to keep the states of
  * ongoing manipulations.
+ * TODO: In the current editor, we might directly use the "tools" objects directly.
+ * They don't belong in the GroupEditor itself, but in the dialog.
  * @author rosmord
  */
 public abstract class GroupEditorMode {

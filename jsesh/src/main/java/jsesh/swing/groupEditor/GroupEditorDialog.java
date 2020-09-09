@@ -14,6 +14,7 @@ package jsesh.swing.groupEditor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.BoxLayout;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -65,7 +66,9 @@ public final class GroupEditorDialog extends JPanel {
         buttonGroup.add(rotate);
         buttonGroup.add(resize);
         buttonGroup.add(move);
-        JToolBar sub = new JToolBar(SwingConstants.HORIZONTAL);
+        //JToolBar sub = new JToolBar(SwingConstants.HORIZONTAL);
+        JPanel sub = new JPanel();
+        sub.setLayout(new BoxLayout(sub, BoxLayout.LINE_AXIS));
         sub.add(previous);
         sub.add(next);
         sub.add(reset);
@@ -86,6 +89,7 @@ public final class GroupEditorDialog extends JPanel {
         rotate.addActionListener(e -> editor.setGroupEditorMode(new RotateMode()));
         resize.addActionListener(e -> editor.setGroupEditorMode(new ResizeMode()));
         move.addActionListener(e -> editor.setGroupEditorMode(new MoveMode()));
+        move.setSelected(true);
     }
 
     public void setGroup(AbsoluteGroup group) {
