@@ -207,10 +207,11 @@ public final class GroupEditor extends JPanel {
      * @return Returns the group.
      */
     public AbsoluteGroup getGroup() {
-        if (group != null)
+        if (group != null) {
             return group;
-        else
+        } else {
             return new AbsoluteGroup();
+        }
     }
 
     public int getHandleSize() {
@@ -374,8 +375,9 @@ public final class GroupEditor extends JPanel {
     }
 
     /**
-     * moves the selected sign.
-     * TODO : move this method (or part of it) to MoveTool ?
+     * moves the selected sign. TODO : move this method (or part of it) to
+     * MoveTool ?
+     *
      * @param dx
      * @param dy
      */
@@ -399,76 +401,21 @@ public final class GroupEditor extends JPanel {
     }
 
     /**
-     * Change the size of the selected glyph.
-     * <p>
-     * Currently, the aspect ratio doesn't change.
-     *
-     * @param dx
-     * @param dy
-     * @param horizontalHandlePosition
-     * @param verticalHandlePosition
+     * Set selected sign position and scale.
+     * If scale is below 5, it will be set at 5 anyway.
+     * @param positionAndScale the new values of position and scale for the selected sign.
      */
-    public void resizeTo(double dx, double dy, HandleHorizontalPosition horizontalHandlePosition,
-            HandleVerticalPosition verticalHandlePosition) {
-        // FOR LATER IMPLEMENTATION : If both an hside and vside are
-        // selected, the sign aspect ratio will be kept.
-        DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications();
-
-        if (selected != -1) {
-            double scale = 1;
-            double x, y;
-
-            MDCView v = getView().getSubView(selected);
-            Point2D orig = getViewPosition(v);
-
-            x = orig.getX();
-            y = orig.getY();
-
-            if (horizontalHandlePosition != HandleHorizontalPosition.MIDDLE) {
-                double newWidth;
-                if (horizontalHandlePosition == HandleHorizontalPosition.LEFT) {
-                    newWidth = v.getWidth() - dx;
-                    x = x + dx;
-                } else {
-                    newWidth = v.getWidth() + dx;
-                }
-                if (newWidth > 0) {
-                    scale = newWidth / v.getWidth();
-                }
-            } else {
-                double newHeight;
-                if (verticalHandlePosition == HandleVerticalPosition.TOP) {
-                    newHeight = v.getHeight() - dy;
-                    y = y + dy;
-                } else {
-                    newHeight = v.getHeight() + dy;
-                }
-                if (newHeight > 0) {
-                    scale = newHeight / v.getHeight();
-                }
-            }
-
-            Hieroglyph h = group.getHieroglyphAt(selected);
-            // Convert to integers :
-            // double unitSize = 1000.0 / drawingSpecifications.getBaseLength();
-            x = x
-                    / specs.getHieroglyphsDrawer()
-                            .getGroupUnitLength();
-            y = y
-                    / specs.getHieroglyphsDrawer()
-                            .getGroupUnitLength();
-
-            scale = scale * h.getRelativeSize();
-            if (scale < 5) {
-                scale = 5;
-            }
-            h.setExplicitPosition((int) x, (int) y, (int) scale);
+    public void setPositionAndSize(PositionAndScale positionAndScale) {
+        Hieroglyph h = getSelectedSign();
+        if (h != null) {          
+            h.setExplicitPosition(positionAndScale.getX(), positionAndScale.getY(), 
+                    (positionAndScale.getScale() < 5)? 5 : positionAndScale.getScale());
             repaint();
             invalidate();
         }
     }
-    
-    
+
+
     public void rotate(int angle) {
         if (selected != -1) {
             Hieroglyph h = group.getHieroglyphAt(selected);
@@ -488,23 +435,26 @@ public final class GroupEditor extends JPanel {
         return new Point2D.Double(subview.getPosition().x, subview
                 .getPosition().y);
     }
-    
+
     /**
      * Questionable method to access view information.
-     * @return 
+     *
+     * @return
      */
     MDCView getSelectedView() {
-        if (selected != -1)
+        if (selected != -1) {
             return getView().getSubView(selected);
-        else
+        } else {
             return null;
+        }
     }
-    
+
     Hieroglyph getSelectedSign() {
-        if (selected != -1)
+        if (selected != -1) {
             return group.getHieroglyphAt(selected);
-        else
+        } else {
             return null;
+        }
     }
 
     public GroupEditorDrawingPreferences getGroupEditorDrawingPreferences() {
@@ -514,8 +464,6 @@ public final class GroupEditor extends JPanel {
     public void setGroupEditorDrawingPreferences(GroupEditorDrawingPreferences groupEditorDrawingPreferences) {
         this.groupEditorDrawingPreferences = groupEditorDrawingPreferences;
     }
-
-
 
     public void resetSign() {
         if (selected != -1) {
@@ -552,7 +500,7 @@ public final class GroupEditor extends JPanel {
     public void setDrawingSpecification(DrawingSpecification drawingSpecifications) {
         // Ensure drawing specs are left to right.
         // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
-        
+
         // DrawingSpecification specs = drawingSpecifications.copy();
         // specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
         // groupEditorDrawingPreferences.setDrawingSpecifications(specs);
