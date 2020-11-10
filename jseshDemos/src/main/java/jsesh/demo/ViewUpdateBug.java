@@ -26,6 +26,8 @@ import jsesh.mdc.model.TopItemList;
  * A demo for a bug we have currently. It should move to a test file at some
  * point, but we need to isolate it first.
  *
+ * 
+ * Expected behaviour : 
  * @author rosmord
  */
 public class ViewUpdateBug {
@@ -57,11 +59,12 @@ public class ViewUpdateBug {
         try {
             // editor.getWorkflow().setHieroglyphicTextModel(new HieroglyphicTextModel());
             TopItemList topItemList = new TopItemList();
-            topItemList.addTopItem(new Hieroglyph("B1").buildTopItem());
+            topItemList.addTopItem(new Hieroglyph("A1").buildTopItem());
             editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(topItemList);
-            //editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(new TopItemList());
-             //editor.getWorkflow().setMDCCode("m-n-x");
-            editor.getWorkflow().insertElement(new Hieroglyph("A1")); // g is some kind of element...
+            editor.getWorkflow().cursorToEndOfLine();
+            // editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(new TopItemList());
+            //editor.getWorkflow().setMDCCode("m-n-x");
+            editor.getWorkflow().insertElement(new Hieroglyph("B1")); // g is some kind of element...
         } catch (Exception ex) {
             Logger.getLogger(ViewUpdateBug.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -144,7 +144,10 @@ public class JSeshView extends AbstractView {
     public void clear() {
         try {
             SwingUtilities.invokeAndWait(()
-                    -> getEditor().clearText());
+                    -> {
+                getEditor().clearText();
+                setHasUnsavedChanges(false);
+                            });
         } catch (RuntimeException |InterruptedException | InvocationTargetException e) {
             throw new UserMessage(e.getMessage());
         }

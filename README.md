@@ -110,11 +110,11 @@ $ jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output 
     A config file is provided : JSesh-dist.pkgproj.
 
 
-#### For Java 14 distributions
+#### For Java 11 distributions
 
-A branch of JSesh is being developped to use Java 14. What I currently do is :
+A branch of JSesh is being developped to use Java 11. What I currently do is :
 
-- get sure the PATH is correct (includes the jdk for java 14, and not a former one);
+- get sure the PATH is correct (includes the jdk for java 11, and not a former one);
 - get sure JAVA_HOME is correct (it's used by Maven).
 
 Once JSesh is built, I have played with `jdeps` and `jlinks` to create the correct jre.

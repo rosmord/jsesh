@@ -134,8 +134,23 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	public void clear() {
-            removeElements(buildFirstPosition(), getLastPosition());
-            // setTopItemList(new TopItemList());
+            // There was a bug, documented by the small demo ViewUpdateBug
+            // if we simply clear the view by calling setTopItemList
+            // can't reproduce it ??!!??
+            setTopItemList(new TopItemList());
+            
+            
+            // The following two lines are annoying, because they generate
+            // an edition in the text, and this edition should leave the text in
+            // a "clean" state, which is not normally the case. Hence, complications.
+            
+            // removeElements(buildFirstPosition(), getLastPosition());
+            // undoManager.clear(); // This is somehow a patch. The behaviour of the undo manager should be clearer.
+            
+            // This line is buggy, but I can't remember when it is so...
+            // It triggers a NullPointerException in some context...
+            
+            
 	}
 
 	public void readTopItemList(Reader in) throws MDCSyntaxError {

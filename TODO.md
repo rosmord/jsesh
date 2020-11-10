@@ -132,6 +132,15 @@ with "Space between quadrants".
 ## Probably not (except if someone else does it)
 * possibilité de paramétrer les raccourcis
 
+## Annoying bug
+
+The app framework uses setHasUnsavedChanges to change its state 
+each time a change occurs.
+
+Now, this is a bit annoying : we should have a computed, dynamic, method for this, not a boolean value. It makes keeping track of
+modifications difficult.
+
+
 ## Recently Done
 
 ### version 7.1

@@ -680,7 +680,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void clearText() {
-        getWorkflow().clear();
+        getWorkflow().clear();        
     }
 
     /**
