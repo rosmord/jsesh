@@ -1,7 +1,7 @@
 # JSesh sources
 Welcome to JSesh sources! 
 
-**JAVA 9+ (actually Java 12) version: **
+**JAVA 9+ (actually Java 11) version: **
 
 
 JSesh is a Java hieroglyphic editor 
@@ -32,10 +32,6 @@ Contains the following folders and modules:
 * prepareJSeshRelease: a maven mojo for preparing the release (mostly indexing the fonts)
 * utils : utilities to update some data files. nothing of interest.
 * jhotdrawfw : the "application framework" part of JHOTDRAW 7.
-
-Among those, the following modules are obsolete :
-* jseshMac : the mac JSesh application (will be replaced by jseshAppli)
-* jseshOthers : non-mac application jar (will be replaced by jseshAppli)
 
 #### Softwares
 
