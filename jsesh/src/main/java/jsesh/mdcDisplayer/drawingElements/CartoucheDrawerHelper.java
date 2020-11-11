@@ -99,6 +99,7 @@ public class CartoucheDrawerHelper {
         AbstractCartoucheDrawer delegate = null;
         switch (c.getType()) {
             case 'f':
+            case 'F':
                 delegate = new EnclosureDrawer(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
             case 's':

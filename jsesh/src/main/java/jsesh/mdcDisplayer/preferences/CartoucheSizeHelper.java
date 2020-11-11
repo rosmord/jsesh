@@ -7,7 +7,7 @@ public class CartoucheSizeHelper {
 	 * axis. Use the basic sizes values declared in this class.
 	 * @param drawingSpecification the corresponding {@link DrawingSpecification}
 	 * @param type
-	 *            the type of cartouche ('c', 's', 'h', 'f')
+	 *            the type of cartouche ('c', 's', 'h', 'f' or 'F')
 	 * @param element :
 	 *            0,1,2,3, depending on the type of cartouche.
 	 * @return a size.
@@ -62,6 +62,7 @@ public class CartoucheSizeHelper {
 	            throw new RuntimeException("bad value for element " + element);
 	        }
 	        break;
+	    case 'F':                
 	    case 'f':
 	        if (element != 0) {
 	            result = drawingSpecification.getHwtSmallMargin()
@@ -89,6 +90,7 @@ public class CartoucheSizeHelper {
 	    case 'h':
 	        result = drawingSpecification.getCartoucheMargin() + drawingSpecification.getCartoucheLineWidth();
 	        break;
+            case 'F':                	                    
 	    case 'f':
 	        result = drawingSpecification.getCartoucheMargin() + drawingSpecification.getCartoucheLineWidth()
 	                + drawingSpecification.getEnclosureBastionDepth();
