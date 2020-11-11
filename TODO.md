@@ -8,10 +8,13 @@ Franglish file, mainly for personnal use.
 
 
 ## Next version
-- Fix bug : bad name remembered for new files
 - Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
 
 ## In work
+
+## Done in 7.5
+- Fix bug : bad name remembered for new files
+- plus new functions...
 
 ## Done in 7.4.0
 

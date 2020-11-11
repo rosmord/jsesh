@@ -20,7 +20,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>jsesh.utilitysoftwares.signinfoeditor.ui.Main</mainClass>
+                            <mainClass>jsesh.utilitysoftwares.signinfoeditor.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
