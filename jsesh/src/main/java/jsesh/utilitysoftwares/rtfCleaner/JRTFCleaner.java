@@ -3,7 +3,7 @@
  *
  * Created on 20 avril 2008, 22:48
  */
-package jsesh.utilitySoftwares.rtfCleaner;
+package jsesh.utilitysoftwares.rtfCleaner;
 
 import java.awt.FileDialog;
 import java.io.File;

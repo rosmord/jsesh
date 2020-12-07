@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares;
+package jsesh.utilitysoftwares;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;

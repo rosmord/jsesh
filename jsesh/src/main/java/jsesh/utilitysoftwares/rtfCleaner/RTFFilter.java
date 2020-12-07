@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package jsesh.utilitySoftwares.rtfCleaner;
+package jsesh.utilitysoftwares.rtfCleaner;
 
 import java.io.File;
 import java.io.FilenameFilter;

@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.rtfCleaner;
+package jsesh.utilitysoftwares.rtfCleaner;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

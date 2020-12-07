@@ -13,10 +13,15 @@ public class FontGlyphRenderer extends DefaultTableCellRenderer {
 		if (value instanceof FontGlyph) {
 			FontGlyph glyph = (FontGlyph) value;
 			setFont(glyph.getFont());
-			char []s= new char[] {(char)glyph.getSignPos()};
-			if (! glyph.getFont().canDisplay((char)glyph.getSignPos()))
-				System.out.println(Messages.getString("FontGlyphRenderer.CANT_DISPLAY")+ glyph.getSignPos()); //$NON-NLS-1$
-			setText(new String(s));
+                        
+			//char []s= new char[] {(char)glyph.getSignPos()};
+			//if (! glyph.getFont().canDisplay((char)glyph.getSignPos()))
+			//	System.out.println(Messages.getString("FontGlyphRenderer.CANT_DISPLAY")+ glyph.getSignPos()); //$NON-NLS-1$
+                        if (!glyph.getFont().canDisplay(glyph.getSignPos())) {
+                            System.out.println(Messages.getString("FontGlyphRenderer.CANT_DISPLAY")+ glyph.getSignPos()); //$NON-NLS-1$
+                        }
+                        String s = Character.toString(glyph.getSignPos());
+			setText(s);
 		}
 	}
 
