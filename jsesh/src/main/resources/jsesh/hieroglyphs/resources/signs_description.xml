@@ -17,7 +17,7 @@
     <hasTransliteration sign="A1" transliteration="z" type="ideogram" use="palette"/>
   </sign>
   <sign sign="A1A">
-    <variantOf baseSign="A1" isSimilar="y" linguistic="unspecified" sign="A1A"/>
+    <variantOf baseSign="A1" isSimilar="y" linguistic="full" sign="A1A"/>
     <hasTag sign="A1A" tag="seated"/>
     <hasTag sign="A1A" tag="holding nothing"/>
     <signDescription lang="en" sign="A1A">+l= IFAO 1,9+s</signDescription>
@@ -13962,7 +13962,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
 +bBibliography+s-!
 +lGEG p. 457+s-!
 </signDescription>
-    <hasTransliteration sign="D55" transliteration="an" type="phonogram" use="palette"/>
+    <hasTransliteration sign="D55" transliteration="an" type="phonogram" use="keyboard"/>
   </sign>
   <sign alwaysDisplay="y" sign="D56">
     <hasTransliteration sign="D56" transliteration="gH" type="phonogram" use="keyboard"/>
