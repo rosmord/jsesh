@@ -15,8 +15,6 @@ JSesh developpers :
 
 Licences for the various libraries used by JSesh can be found in resources/licenses
 
-
-
 ## Source Content 
 Contains the following folders and modules:
 
@@ -41,7 +39,6 @@ Contains the following folders and modules:
 * codeDumper : a small software to create a dump of JSesh files, 
   as simple lists of codes.
 
-
 ## Files and Folders not part of the general maven architecture
 
 * README.md : this file
@@ -51,7 +48,8 @@ Contains the following folders and modules:
     proof-of-concept)
 
 ## Working with eclipse:
-there seems to be a problem with the eclipse plugin for maven regarding generated sources:
+
+There seems to be a problem with the eclipse plugin for maven regarding generated sources:
 the "jsesh" maven module will report missing classes in eclipse.
 
 A quick fix:
