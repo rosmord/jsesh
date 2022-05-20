@@ -3,7 +3,7 @@
  *
  * This file is distributed under the LGPL.
  */
-package jsesh.utilitySoftwares.demos;
+package jsesh.utilitysoftwares.demos;
 
 import jsesh.mdcDisplayer.layout.LigatureManager;
 

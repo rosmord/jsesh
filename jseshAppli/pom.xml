@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.5.5</version>
+        <version>7.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>jseshAppli</artifactId>
     <packaging>jar</packaging>
@@ -15,7 +15,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
+                <version>3.2.2</version>
                 <configuration>
                     <archive>
                         <manifest>

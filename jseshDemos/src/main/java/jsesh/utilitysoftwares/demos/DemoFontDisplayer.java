@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.demos;
+package jsesh.utilitysoftwares.demos;
 
 import java.awt.Color;
 import java.awt.Dimension;

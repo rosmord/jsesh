@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.demos;
+package jsesh.utilitysoftwares.demos;
 
 import java.beans.PropertyChangeSupport;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;

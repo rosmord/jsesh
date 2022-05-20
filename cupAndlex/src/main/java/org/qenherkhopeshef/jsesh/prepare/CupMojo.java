@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -151,6 +149,7 @@ public class CupMojo extends AbstractMojo {
 		File result= new File(outputDirName);
 		result= new File(result, "generated-sources");
 		result= new File(result, "cup");
+		//result= new File(result, "java");
 		return result;
 	}
 	

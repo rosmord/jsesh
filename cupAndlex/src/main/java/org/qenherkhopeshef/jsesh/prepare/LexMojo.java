@@ -94,6 +94,7 @@ public class LexMojo extends AbstractMojo{
 		File result= new File(outputDirName);
 		result= new File(result, "generated-sources");
 		result= new File(result, "lex");
+		//result= new File(result, "java");
 		return result;
 	}
 }

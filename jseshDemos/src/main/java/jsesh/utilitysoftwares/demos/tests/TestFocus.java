@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.demos.tests;
+package jsesh.utilitysoftwares.demos.tests;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;

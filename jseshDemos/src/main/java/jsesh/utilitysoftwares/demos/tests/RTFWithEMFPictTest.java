@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.demos.tests;
+package jsesh.utilitysoftwares.demos.tests;
 
 import java.awt.geom.Rectangle2D;
 import java.io.File;

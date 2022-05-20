@@ -1,4 +1,4 @@
-package jsesh.utilitySoftwares.demos.tests;
+package jsesh.utilitysoftwares.demos.tests;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.5.5</version>
+        <version>7.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>jhotdrawfw</artifactId>
     <packaging>jar</packaging>
@@ -32,11 +32,4 @@
         </resources>
         
     </build>
-    <dependencies>        
-        <dependency>
-            <groupId>external</groupId>
-            <artifactId>quaqua</artifactId>
-            <version>7.3.4</version>
-        </dependency>
-    </dependencies>
 </project>

@@ -3,7 +3,7 @@
  * Created on 3 juin 2005
  *
  */
-package jsesh.utilitySoftwares.demos;
+package jsesh.utilitysoftwares.demos;
 
 import java.util.ArrayList;
 
