@@ -102,6 +102,9 @@ public class CupMojo extends AbstractMojo {
 				return;
 		
 			java_cup.Main.main(args);
+			if (targetParserFile.exists()) {
+				targetParserFile.delete();
+			}
 			// Move the generated files where they belong
 			tempParserFile.renameTo(targetParserFile);
 			

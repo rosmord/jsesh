@@ -63,7 +63,9 @@ public class LexMojo extends AbstractMojo{
 			if (finalResultFile.lastModified() > sourceFile.lastModified())
 				return;
 			JLex.Main.main(args);		
-			
+			if (finalResultFile.exists()) {
+				finalResultFile.delete();
+			}
 			if (tempResult.exists()) {			
 				tempResult.renameTo(finalResultFile);
 				project.addCompileSourceRoot(getJavaSourcePath().getAbsolutePath());

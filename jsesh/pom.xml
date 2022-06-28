@@ -54,6 +54,28 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                
+                        <!-- This executes the goal in Eclipse on project import.
+                             Other options like are available, eg ignore.  -->
+                        <?m2e execute?>
+                
+                        <phase>generate-sources</phase>
+                        <goals><goal>add-source</goal></goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/cup</source>
+                                <source>target/generated-sources/lex</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+                </plugin>
+                
         </plugins>
         <resources>
             <resource>
@@ -66,62 +88,7 @@
             </resource>
         </resources>
         <pluginManagement>
-            <plugins>
-                <!-- help for IDE finding sources... -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.3.0</version>
-                    <executions>
-                        <execution>
-                            <id>addSource</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>${project.basedir}/target/generated-sources/cup</source>
-                                    <source>${project.basedir}/target/generated-sources/lex</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-                                            org.qenherkhopeshef.jsesh
-                                        </groupId>
-                                        <artifactId>
-                                            cupAndlex
-                                        </artifactId>
-                                        <versionRange>
-                                            [1,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>lex</goal>
-                                            <goal>cup</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
+           
         </pluginManagement>
     </build>
     <dependencies>
