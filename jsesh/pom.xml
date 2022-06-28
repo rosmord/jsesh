@@ -54,28 +54,6 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                
-                        <!-- This executes the goal in Eclipse on project import.
-                             Other options like are available, eg ignore.  -->
-                        <?m2e execute?>
-                
-                        <phase>generate-sources</phase>
-                        <goals><goal>add-source</goal></goals>
-                        <configuration>
-                            <sources>
-                                <source>target/generated-sources/cup</source>
-                                <source>target/generated-sources/lex</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-                </plugin>
-                
         </plugins>
         <resources>
             <resource>
@@ -86,10 +64,7 @@
                 <directory>src/main/filtered-resources</directory>
                 <filtering>true</filtering>
             </resource>
-        </resources>
-        <pluginManagement>
-           
-        </pluginManagement>
+        </resources>       
     </build>
     <dependencies>
         <dependency>

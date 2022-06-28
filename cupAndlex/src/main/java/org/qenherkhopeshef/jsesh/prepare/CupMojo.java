@@ -12,128 +12,130 @@ import java.io.Writer;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * Process CUP grammar and produces the corresponding java sources.
  * 
- * @goal cup
- * @phase generate-sources
+ * //@goal cup
+ * //@phase generate-sources
  */
+@Mojo(name = "cup", defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresDependencyResolution = ResolutionScope.COMPILE, requiresProject = true, threadSafe = true)
 public class CupMojo extends AbstractMojo {
 
 	/**
 	 * The output directory.
-	 * @parameter  default-value="${project.build.directory}"
-	 * @readonly
 	 */
+	@Parameter(property = "outputDirName", defaultValue = "${project.build.directory}", readonly = true)
 	private String outputDirName;
+
 	
-	/**
-	 * @parameter default-value="${project}";
-	 */
+	@Parameter(property = "project", defaultValue = "${project}")
 	private MavenProject project;
 
-	/**
-	 * Name of the parser class to create.
-	 * @parameter property="cup.parserName" default-value="Toto"
-	 * @required
-	 */
+	
+	@Parameter(property = "cup.parserName", defaultValue = "Toto", required = true)
 	private String parserName;
 
-	/**
-	 * @parameter property="cup.symbolName"
-	 * @required
-	 */
 
+	@Parameter(property = "cup.symbolName", required = true)
 	private String symbolsName;
 
-	/**
-	 * @parameter property="cup.grammarFilePath"
-	 * @required
-	 */
+
+	@Parameter(property = "cup.grammarFilePath", required = true)
 	private String grammarFilePath;
-	
+
 	/**
 	 * Name of the directory where temporary files will be created.
-	 * @parameter property="cup.tempDirName" default-value="tmp"
-	 * @required
+	 * 
 	 */
-
+	@Parameter(property = "cup.tempDirName", defaultValue = "tmp", required = true)
 	private String tempDirName;
 
-	/**
-	 * @parameter property="cup.parserPackage"
-	 * @required
-	 */
+
+	@Parameter(property = "cup.parserPackage", required = true)
 
 	private String parserPackage;
+
 	
-	/**
-	 * @parameter property="cup.lexerPackage"
-	 * @required
-	 */
+	@Parameter(property = "cup.lexerPackage", required = true)
 	private String lexerPackage;
-	
+
+	@Component
+	private BuildContext buildContext;
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		// A) build the directory for temporary outputs
-		File outputDir= new File(outputDirName);		
-		File temporaryDir= new File(outputDir, tempDirName);
+		File outputDir = new File(outputDirName);
+		File temporaryDir = new File(outputDir, tempDirName);
 		temporaryDir.mkdirs();
 		// Run CUP
-		String[] args= {
+		String[] args = {
 				"-outputDir", temporaryDir.getPath(),
 				"-package", parserPackage,
-				"-dump", "-interface", 
+				"-dump", "-interface",
 				"-parser", parserName,
 				"-symbols", symbolsName,
 				grammarFilePath
-		};	
+		};
 		try {
 			// The source file
-			File sourceFile= new File(grammarFilePath);
+			File sourceFile = new File(grammarFilePath);
+			buildContext.refresh(sourceFile);
+			buildContext.removeMessages(sourceFile);
+
 			// The parser file created by cups
-			File tempParserFile= new File(temporaryDir, parserName + ".java");		
+			File tempParserFile = new File(temporaryDir, parserName + ".java");
 			// The parser file in its final folder.
-			File targetParserFile = new File(createParserDir(), parserName+ ".java");
-			
+			File targetParserFile = new File(createParserDir(), parserName + ".java");
+
 			// Test the creation date
 			if (sourceFile.lastModified() < targetParserFile.lastModified())
 				return;
-		
+
 			java_cup.Main.main(args);
 			if (targetParserFile.exists()) {
 				targetParserFile.delete();
 			}
 			// Move the generated files where they belong
 			tempParserFile.renameTo(targetParserFile);
-			
+
 			// The symbol file must have its package name changed too.
 			// We work in UTF-8
-			
-			File symbolFile= new File(temporaryDir, symbolsName + ".java");
-			File symbolDir= createSymbolDir();
 
-			BufferedReader symbolReader= new BufferedReader(new InputStreamReader(new FileInputStream(symbolFile), "UTF-8"));
-			StringWriter s= new StringWriter();
+			File symbolFile = new File(temporaryDir, symbolsName + ".java");
+			File symbolDir = createSymbolDir();
+
+			BufferedReader symbolReader = new BufferedReader(
+					new InputStreamReader(new FileInputStream(symbolFile), "UTF-8"));
+			StringWriter s = new StringWriter();
 			int c;
-			while ((c= symbolReader.read())!= -1) {
+			while ((c = symbolReader.read()) != -1) {
 				s.write(c);
 			}
 			symbolReader.close();
-			String newSymbols= s.toString().replaceAll("package "+parserPackage+";", "package "+lexerPackage+";");
-			Writer w= new OutputStreamWriter(new FileOutputStream(new File(symbolDir, symbolsName + ".java")), "UTF-8");
+			String newSymbols = s.toString().replaceAll("package " + parserPackage + ";",
+					"package " + lexerPackage + ";");
+			Writer w = new OutputStreamWriter(new FileOutputStream(new File(symbolDir, symbolsName + ".java")),
+					"UTF-8");
 			w.write(newSymbols);
 			w.close();
 			project.addCompileSourceRoot(getJavaSourcePath().getPath());
 			symbolFile.delete();
 		} catch (Exception e) {
-			throw new MojoExecutionException("Cup failure",e);
+			throw new MojoExecutionException("Cup failure", e);
 		}
 	}
 
 	/**
 	 * Create and return parser folder.
+	 * 
 	 * @return
 	 */
 	private File createParserDir() {
@@ -142,30 +144,31 @@ public class CupMojo extends AbstractMojo {
 
 	/**
 	 * Create and return symbol folder.
+	 * 
 	 * @return
 	 */
 	private File createSymbolDir() {
 		return createPackage(lexerPackage);
 	}
-	
+
 	private File getJavaSourcePath() {
-		File result= new File(outputDirName);
-		result= new File(result, "generated-sources");
-		result= new File(result, "cup");
-		//result= new File(result, "java");
+		File result = new File(outputDirName);
+		result = new File(result, "generated-sources");
+		result = new File(result, "cup");
+		// result= new File(result, "java");
 		return result;
 	}
-	
+
 	private File createPackage(String packageName) {
-		File result= getJavaSourcePath();
+		File result = getJavaSourcePath();
 		// ok. Now use the package name...
 		String[] folders = packageName.trim().split("\\.");
 		for (String folder : folders) {
-			result= new File(result, folder);
+			result = new File(result, folder);
 		}
 		result.mkdirs();
 		return result;
-		
+
 	}
-	
+
 }

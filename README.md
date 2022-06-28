@@ -65,6 +65,12 @@ A quick fix:
 		
 That's it.
 
+## Working with VSCode
+
+Interaction between VSCode and Maven is not that easy (again, because of generated files). I'm not sure I will spend the time to do it.
+
+
+
 ## Building distributions
 
 Due to changes in Java distribution and on Windows and Mac OS X as platform 
