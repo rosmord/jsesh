@@ -12,6 +12,7 @@ Franglish file, mainly for personnal use.
 - integrate the version of the Amduat which was sent to me by 
 - introduce more sub-menus in the edit menu, to shorten it (it causes problems on small screens)
 - Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
+- Add export to XML/JSON for MdC documents. 
 
 ## In work
 
