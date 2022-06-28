@@ -13,7 +13,6 @@
     </properties>
     <build>
         <plugins>
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> -->
             <plugin>
                 <groupId>org.qenherkhopeshef.jsesh</groupId>
                 <artifactId>cupAndlex</artifactId>
@@ -30,7 +29,6 @@
                             <parserName>MDCParse</parserName>
                             <symbolsName>MDCSymbols</symbolsName>
                             <grammarFilePath>${basedir}/src/jcup/MDCParse.y</grammarFilePath>
-
                             <parserPackage>jsesh.mdc.parser</parserPackage>
                             <lexerPackage>jsesh.mdc.lex</lexerPackage>
                             <lexDef>${basedir}/src/jlex/MDCLexAux.l</lexDef>

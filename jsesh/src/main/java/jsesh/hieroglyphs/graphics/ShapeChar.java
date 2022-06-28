@@ -297,7 +297,7 @@ public class ShapeChar implements Cloneable {
         if (!"".equals(encoding)) {
             out.write("encoding ='" + encoding + "' ");
         }
-        out.write("standalone='yes'?>\n");
+        out.write("standalone='no'?>\n");
         out.write("<svg width='");
         formatter.writeTo(out, bbox.getWidth());
         out.write("' height='");
@@ -306,7 +306,7 @@ public class ShapeChar implements Cloneable {
         // Necessary according to firefox site.
         out.write("xmlns='http://www.w3.org/2000/svg' ");
         out.write("xmlns:xlink='http://www.w3.org/1999/xlink' ");
-
+        out.write("version='1.1' ");
         if (!pictureOnly) {
             out
                     .write("xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'");

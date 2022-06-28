@@ -252,7 +252,7 @@ public class SVGFontExporter {
     private void writeHeader(Writer writer) throws IOException {
         writer.write("<?xml version='1.0' standalone='no'?>\n");
         writer.write("<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' >\n");
-        writer.write("<svg>\n");
+        writer.write("<svg version='1.0'>\n");
         writer.write("<font id='JSeshFont'>\n");
         writer.write("<font-face font-family='JSesh font' units-per-em='2048'"
                 + " font-weight='400'" + " ascent='2000'" + " descent='-48'"
