@@ -269,11 +269,17 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         return documentFormat;
     }
 
+
+    @Override
+    public void addFindItems(JMenu m, Application app, View v) {
+        super.addFindItems(m, app, v);
+        m.add(app.getActionMap(null).get(FindInFolderAction.ID));
+    }
+
     @Override
     public void addOtherEditItems(JMenu editMenu, Application app, View view) {
         // On all windows with a proper menu
-        editMenu.addSeparator();
-        editMenu.add(app.getActionMap(null).get(FindInFolderAction.ID));
+        // editMenu.addSeparator(); (no need/too much space)
         // Only on view windows...
         if (view != null) {
             editMenu.addSeparator();
@@ -289,16 +295,19 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 
             editMenu.add(copyAsMenu);
             editMenu.addSeparator();
-            editMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
-            editMenu.add(map.get(ActionsID.SET_MODE_LATIN));
-            editMenu.add(map.get(ActionsID.SET_MODE_ITALIC));
-            editMenu.add(map.get(ActionsID.SET_MODE_BOLD));
-            editMenu.add(map.get(ActionsID.SET_MODE_TRANSLIT));
-            editMenu.add(map.get(ActionsID.SET_MODE_UPPERCASE_TRANSLIT));
-            editMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
-            editMenu.add(map.get(InsertNextLineNumberAction.ID));
-            editMenu.add(map.get(InsertShortTextAction.ID));
-            editMenu.addSeparator();
+            JMenu modeMenu = BundleHelper.getInstance().configure(new JMenu(), "edit.modeMenu");
+            
+            modeMenu.add(map.get(ActionsID.SET_MODE_HIEROGLYPHS));
+            modeMenu.add(map.get(ActionsID.SET_MODE_LATIN));
+            modeMenu.add(map.get(ActionsID.SET_MODE_ITALIC));
+            modeMenu.add(map.get(ActionsID.SET_MODE_BOLD));
+            modeMenu.add(map.get(ActionsID.SET_MODE_TRANSLIT));
+            modeMenu.add(map.get(ActionsID.SET_MODE_UPPERCASE_TRANSLIT));
+            modeMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
+            modeMenu.add(map.get(InsertNextLineNumberAction.ID));
+            modeMenu.add(map.get(InsertShortTextAction.ID));
+            editMenu.add(modeMenu);
+            
             editMenu.add(map.get(AddToGlossaryAction.ID));
             editMenu.addSeparator();
             ButtonGroup group = new ButtonGroup();

@@ -8,7 +8,6 @@ import javax.swing.JMenuItem;
 import jsesh.resources.JSeshMessages;
 
 import jsesh.swing.utils.ImageIconFactory;
-
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**

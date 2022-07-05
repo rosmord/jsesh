@@ -8,13 +8,15 @@ Franglish file, mainly for personnal use.
 
 
 ## Next version
-- Fix bug on Mac : graphics are blurry on highres screens (it's simply a change to do in the software configuration)
-- integrate the version of the Amduat which was sent to me by 
 - introduce more sub-menus in the edit menu, to shorten it (it causes problems on small screens)
-- Fix bug : EMF saving bug when saving pictures for new files (probably because they have no name)
-- Add export to XML/JSON for MdC documents.
+- Add export to XML/JSON for MdC documents
+- reorganize somehow some of the textual property files ; the organisation between the JSesh jar and JSeshLabels is not always logical.
 
 ## In work
+## Done in 7.6
+- Fix bug on Mac : graphics are blurry on highres screens (it's simply a change to do in the software configuration)
+- integrate the version of the Amduat which was sent to me by 
+- Fixed bug : EMF saving bug when saving pictures for new files (probably because they have no name)
 
 ## Done in 7.5
 - Fix bug : bad name remembered for new files
