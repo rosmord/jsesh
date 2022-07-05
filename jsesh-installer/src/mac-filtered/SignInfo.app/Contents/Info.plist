@@ -19,6 +19,8 @@
         -->
         <key>CFBundleExecutable</key>
         <string>main.sh</string>
+        <key>NSHighResolutionCapable</key>
+        <true/>  
         <!-- should be 6 ? -->
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>

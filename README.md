@@ -9,7 +9,7 @@ developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 
 JSesh developpers :
 - Serge J.-P. Thomas : most of the fonts
-- S. Rosmorduc : almost all the code, a few glyphs in the fonts
+- Serge Rosmorduc : almost all the code, a few glyphs in the fonts
 - Wayne Collins (CVS, ant improvement)
 
 

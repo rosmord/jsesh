@@ -17,6 +17,8 @@
       <key>CFBundleGetInfoString</key>
       <string>JSesh 6.5.6</string>
       -->
+      <key>NSHighResolutionCapable</key>
+      <true/>
       <key>CFBundleExecutable</key>
       <string>main.sh</string>
       <!-- should be 6 ? -->
