@@ -22,7 +22,7 @@ public class MDCCartouche implements MDCSymbols {
     
     public MDCCartouche(char type, int part) {
 	// that old C-like magic :
-	cartoucheType= Character.toLowerCase(type);
+	cartoucheType= Character.toLowerCase(type);  // locale insensitive
 	this.part= part;
     }
     

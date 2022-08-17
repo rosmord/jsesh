@@ -6,6 +6,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -62,7 +63,7 @@ public class DirectoryHieroglyphicFontManager implements
 		// List all svg files.
 		contents = directory.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".svg");
+				return name.toLowerCase(Locale.ENGLISH).endsWith(".svg");
 			};
 		});
 		// do nothing if the directory doesn't exist.

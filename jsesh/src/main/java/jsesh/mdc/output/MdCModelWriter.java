@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
 import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
@@ -180,7 +181,7 @@ public class MdCModelWriter {
 			if (c.getType() != 'c')
 				cartoucheCode = "" + (char) c.getType();
 			if (c.getStartPart() == 1 && c.getEndPart() == 2) {
-				start = "<" + cartoucheCode.toUpperCase() + "-";
+				start = "<" + cartoucheCode.toUpperCase(Locale.ENGLISH) + "-";
 				end = "->";
 			} else {
 				start = "<" + cartoucheCode + c.getStartPart() + "-";
@@ -368,8 +369,8 @@ public class MdCModelWriter {
 		public void visitTabbing(Tabbing tabbing) {
 			write("%[");
 			write("id="+ tabbing.getId()+",");
-			write("orientation="+ tabbing.getOrientation().name().toLowerCase()+",");
-			write("justification="+ tabbing.getTabbingJustification().name().toLowerCase()+"]");
+			write("orientation="+ tabbing.getOrientation().name().toLowerCase(Locale.ENGLISH)+",");
+			write("justification="+ tabbing.getTabbingJustification().name().toLowerCase(Locale.ENGLISH)+"]");
 		}
 		
 		public void visitTabbingClear(TabbingClear tabbingClear) {

@@ -4,6 +4,7 @@
  */
 package org.qenherkhopeshef.utils;
 
+import java.util.Locale;
 
 /**
  * @author rosmord
@@ -16,7 +17,7 @@ public class PlatformDetection {
 	
 	public static int getPlatform() {
 		int result= UNIX;
-		String osName= System.getProperty("os.name").toLowerCase(); 
+		String osName= System.getProperty("os.name").toLowerCase(Locale.ENGLISH); 
 		if (osName.startsWith(
 				"windows")) {
 			result= WINDOWS;

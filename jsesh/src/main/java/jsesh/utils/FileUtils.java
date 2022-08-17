@@ -6,6 +6,7 @@
 package jsesh.utils;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * @author Serge Rosmorduc
@@ -45,7 +46,7 @@ public class FileUtils {
         int idx= name.lastIndexOf('.');
         String result= null;
         if (idx != -1) {
-            result= name.substring(idx+1).toLowerCase();
+            result= name.substring(idx+1).toLowerCase(Locale.ENGLISH);
         }
         return result;
     }

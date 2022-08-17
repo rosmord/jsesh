@@ -178,7 +178,8 @@ public class BundledAction extends AbstractAction {
     }
 
     private static String capitalizeString(String s) {
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+        return Character.toUpperCase(s.charAt(0)) // locale insensitive
+             + s.substring(1); 
     }
 
     public void actionPerformed(ActionEvent e) {

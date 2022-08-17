@@ -11,6 +11,9 @@
  */
 package jsesh.search.wildcard;
 
+import java.time.LocalDate;
+import java.util.Locale;
+
 import jsesh.resources.JSeshMessages;
 
 /**
@@ -40,6 +43,6 @@ public enum VariantLevelForSearch {
     
     @Override
     public String toString() {
-       return JSeshMessages.getString("jsesh.search.variant_level."+this.name().toLowerCase());
+       return JSeshMessages.getString("jsesh.search.variant_level."+this.name().toLowerCase(Locale.ENGLISH));
     }
 }

@@ -1,5 +1,7 @@
 package jsesh.hieroglyphs.data;
 
+import java.util.Locale;
+
 /**
  * Possible types for sign values
  * @author rosmord
@@ -35,7 +37,7 @@ public enum SignValueType {
      */
     @Override
     public String toString() {
-        return this.name().toLowerCase();
+        return this.name().toLowerCase(Locale.ENGLISH);
     }
         
         

@@ -3,6 +3,7 @@ package jsesh.hieroglyphs.data;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +54,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     /**
      * The same, but the pattern is in uppercase
      */
-    private static final Pattern jseshUpperCasePattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING.toUpperCase());
+    private static final Pattern jseshUpperCasePattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING.toUpperCase(Locale.ENGLISH));
 
     /**
      * Should move in a "code" class
@@ -164,9 +165,9 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     }
 
     public void setVariantPart(String v) {
-        variantPart = v.toUpperCase();
+        variantPart = v.toUpperCase(Locale.ENGLISH);
         if ("H".equals(variantPart) || "V".equals(variantPart)) {
-            variantPart = variantPart.toLowerCase();
+            variantPart = variantPart.toLowerCase(Locale.ENGLISH);
         }
     }
 
@@ -197,7 +198,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
             result = number - code.getNumber();
         }
         if (result == 0) {
-            result = variantPart.toLowerCase().compareTo(code.getVariantPart().toLowerCase());
+            result = variantPart.toLowerCase(Locale.ENGLISH).compareTo(code.getVariantPart().toLowerCase(Locale.ENGLISH));
         }
         if (result == 0) {
             result = userId - code.userId;
@@ -302,7 +303,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * <p>
      * As a result for accepting AA and FF as family names (in addition to Aa
      * and Ff), the following holds true : if <code>X</code> is a correct code,
-     * then <code>X.toUpperCase()</code> is also correct.
+     * then <code>X.toUpperCase(Locale.ENGLISH)</code> is also correct.
      * <p>
      * More precisely, we consider as "gardiner codes":
      * <u>
@@ -354,7 +355,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      */
     public static String getCodeForFileName(String fname) {
         // We put the code in upper case.
-        fname = fname.toUpperCase();
+        fname = fname.toUpperCase(Locale.ENGLISH);
         // suppress file extensions.
         int stopIndex = fname.indexOf('.');
         if (stopIndex == -1) {
@@ -366,7 +367,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         // to it.
         if ("NTRW".equals(code)) {
             code = "nTrw";
-        } else if ("NN".equals(code.toLowerCase())) {
+        } else if ("NN".equals(code.toLowerCase(Locale.ENGLISH))) {
             code = "nn";
         } else {
             // Test for a gardiner code.

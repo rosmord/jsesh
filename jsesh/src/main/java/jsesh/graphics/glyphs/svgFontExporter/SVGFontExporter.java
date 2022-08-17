@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
@@ -226,7 +227,7 @@ public class SVGFontExporter {
             //codeMap.put(codePoint, new GlyphData(glyphName, pos, Area.PRIVATE));
             codeMap.put("" + codePoint,
                     new GlyphData(mdcName, UnicodeName, Integer.toHexString(codePoint)
-                            .toUpperCase(), Area.UNICODE));
+                            .toUpperCase(Locale.ENGLISH), Area.UNICODE));
         }
     }
 

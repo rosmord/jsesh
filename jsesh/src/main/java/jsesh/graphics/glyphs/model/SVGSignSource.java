@@ -892,11 +892,11 @@ public class SVGSignSource implements SimpleSignSourceModel {
 					System.err.println("unknown code" + l[i]);
 					return null;
 				}
-				if (Character.toLowerCase(command) != 'c'
-						&& Character.toLowerCase(command) != 's')
+				if (Character.toLowerCase(command) != 'c' // locale insensitive
+						&& Character.toLowerCase(command) != 's')  // locale insensitive
 					previousCubicControlPoint = null;
-				if (Character.toLowerCase(command) != 'q'
-						&& Character.toLowerCase(command) != 't')
+				if (Character.toLowerCase(command) != 'q' // locale insensitive
+						&& Character.toLowerCase(command) != 't')  // locale insensitive
 					previousQuadricControlPoint = null;
 
 			}

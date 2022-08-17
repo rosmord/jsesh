@@ -148,7 +148,7 @@ public class TranslitterationUtilities {
                             cDown = "\u1e0f";
                             break;
                         default:
-                            cUp = "" + Character.toUpperCase(c);
+                            cUp = "" + Character.toUpperCase(c);  // locale insensitive
                             cDown = "" + c;
                             break;
                     }

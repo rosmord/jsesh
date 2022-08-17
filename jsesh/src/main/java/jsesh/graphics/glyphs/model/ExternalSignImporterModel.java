@@ -3,6 +3,7 @@ package jsesh.graphics.glyphs.model;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Locale;
 
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
@@ -88,7 +89,7 @@ public class ExternalSignImporterModel {
 
 	public void loadSigns(File file) throws IOException {
 
-		String fileName = file.getName().toLowerCase();
+		String fileName = file.getName().toLowerCase(Locale.ENGLISH);
 		if (fileName.endsWith(".ttf")) {
 			loadTTF(file);
 		} else if (fileName.endsWith(".bzr")) {
@@ -138,7 +139,7 @@ public class ExternalSignImporterModel {
 	public boolean fileFormatIsKnown(File file) {
 		if (file.isDirectory())
 			return true;
-		String fileName = file.getName().toLowerCase();
+		String fileName = file.getName().toLowerCase(Locale.ENGLISH);
 		if (fileName.endsWith(".ttf")) {
 			return true;
 		} else if (fileName.endsWith(".bzr")) {

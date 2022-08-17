@@ -43,6 +43,8 @@ import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
+import java.util.Locale;
+
 import jsesh.graphics.export.generic.SelectionExporter;
 
 import jsesh.i18n.I18n;
@@ -84,7 +86,7 @@ public class EMFExporter extends AbstractGraphicalExporter {
     }
 
     protected String getOptionsTitle() {
-        return "type".toUpperCase() + " options";
+        return "type".toUpperCase(Locale.ENGLISH) + " options";
     }
 
     @Override

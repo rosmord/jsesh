@@ -13,6 +13,7 @@ package org.jhotdraw_7_6.text;
 import java.awt.Font;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.text.DefaultFormatter;
@@ -98,7 +99,7 @@ public class FontFormatter extends DefaultFormatter {
 
     /** Adds a generic font family. */
     public void putGenericFontFamily(String familyName, Font font) {
-        genericFontFamilies.put(familyName.toLowerCase(), font);
+        genericFontFamilies.put(familyName.toLowerCase(Locale.ENGLISH), font);
     }
 
     
@@ -112,7 +113,7 @@ public class FontFormatter extends DefaultFormatter {
                 throw new ParseException("Null value is not allowed.", 0);
             }
         }
-        String strLC = str.trim().toLowerCase();
+        String strLC = str.trim().toLowerCase(Locale.ENGLISH);
 
         Font f = null;
         f = genericFontFamilies.get(strLC);
@@ -122,8 +123,8 @@ public class FontFormatter extends DefaultFormatter {
                 throw new ParseException(str, 0);
             }
             if (!allowsUnknownFont) {
-                String fontName = f.getFontName().toLowerCase();
-                String family = f.getFamily().toLowerCase();
+                String fontName = f.getFontName().toLowerCase(Locale.ENGLISH);
+                String family = f.getFamily().toLowerCase(Locale.ENGLISH);
                 if (!fontName.equals(strLC) &&
                         !family.equals(strLC) &&
                         !fontName.equals(strLC + "-derived")) {

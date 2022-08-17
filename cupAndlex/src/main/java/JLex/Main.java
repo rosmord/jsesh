@@ -4636,9 +4636,9 @@ class CSet
 	/* Do this in a Unicode-friendly way. */
 	/* (note that duplicate adds have no effect) */
 	add(c);
-	add(Character.toLowerCase(c));
-	add(Character.toTitleCase(c));
-	add(Character.toUpperCase(c));
+	add(Character.toLowerCase(c)); // locale insensitive
+	add(Character.toTitleCase(c)); // locale insensitive
+	add(Character.toUpperCase(c)); // locale insensitive
       }
   
   /********************************************************

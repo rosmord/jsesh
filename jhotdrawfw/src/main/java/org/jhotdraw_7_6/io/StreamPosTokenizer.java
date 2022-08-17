@@ -12,6 +12,7 @@ package org.jhotdraw_7_6.io;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Locale;
 import java.util.Vector;
 
 /**
@@ -732,7 +733,7 @@ public class StreamPosTokenizer
             peekc = c;
             sval = String.copyValueOf(buf, 0, i);
             if (forceLower)
-                sval = sval.toLowerCase();
+                sval = sval.toLowerCase(Locale.ENGLISH); // not sure for the locale.
             // rlw EOF must be treated specially
             endpos = (c == -1) ? readpos - 1 : readpos - 2;
             return ttype = TT_WORD;

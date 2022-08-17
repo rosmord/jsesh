@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -37,7 +38,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
     public ExtensionFileFilter(String description, String extension) {
         this.description = description;
         this.extensions = new HashSet<String>();
-        extensions.add(extension.toLowerCase());
+        extensions.add(extension.toLowerCase(Locale.ENGLISH));
         defaultExtension = extension;
     }
     /**
@@ -52,7 +53,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
         
         String[] extlc = new String[extensions.length];
         for (int i=0; i < extlc.length; i++) {
-            extlc[i] = extensions[i].toLowerCase();
+            extlc[i] = extensions[i].toLowerCase(Locale.ENGLISH);
         }
         
         this.extensions.addAll(Arrays.asList(extlc));
@@ -77,7 +78,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
             if (p == -1 || p == name.length() - 1) {
                 return extensions.contains("");
             } else {
-                return extensions.contains(name.substring(p + 1).toLowerCase());
+                return extensions.contains(name.substring(p + 1).toLowerCase(Locale.ENGLISH));
             }
         }
     }

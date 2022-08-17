@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 
 import jsesh.graphics.glyphs.model.SVGSignSource;
@@ -79,7 +80,7 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 
 			public boolean accept(File pathname) {
 				return pathname.isDirectory()
-						|| pathname.getName().toLowerCase().endsWith(".svg");
+						|| pathname.getName().toLowerCase(Locale.ENGLISH).endsWith(".svg");
 			}
 		});
 

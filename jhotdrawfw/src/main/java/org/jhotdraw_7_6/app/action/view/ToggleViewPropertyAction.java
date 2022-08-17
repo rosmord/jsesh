@@ -57,11 +57,12 @@ public class ToggleViewPropertyAction extends AbstractViewAction {
         this.parameterClass = new Class[] { propertyClass };
         this.selectedPropertyValue = selectedPropertyValue;
         this.deselectedPropertyValue = deselectedPropertyValue;
-        setterName = "set"+Character.toUpperCase(propertyName.charAt(0)) +
-                propertyName.substring(1);
+        setterName = "set"
+            + Character.toUpperCase(propertyName.charAt(0)) // locale insensitive
+            + propertyName.substring(1);
         getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")+
-                Character.toUpperCase(propertyName.charAt(0)) +
-                propertyName.substring(1);
+                Character.toUpperCase(propertyName.charAt(0))  // locale insensitive
+                + propertyName.substring(1);
         updateView();
     }
     

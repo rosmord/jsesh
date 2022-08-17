@@ -101,7 +101,7 @@ public class ResourceBundleUtil implements Serializable {
     private static HashMap<String, String[]> propertyNameModifiers = new HashMap<String, String[]>();
 
     static {
-        String osName = System.getProperty("os.name").toLowerCase();
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
         String os;
         if (osName.startsWith("mac os x")) {
             os = "mac";

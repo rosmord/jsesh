@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Locale;
 import java.util.Map;
 
 import jsesh.editor.HieroglyphicTextModel;
@@ -119,7 +120,7 @@ public class MDCDocument {
 	 * @throws IOException
 	 */
 	public void save() throws IOException {
-		if (getFile().getName().toLowerCase().endsWith(".pdf"))
+		if (getFile().getName().toLowerCase(Locale.ENGLISH).endsWith(".pdf"))
 			throw new UserMessage("THIS METHOD CAN NOT SAVE PDF");
 		fixDocumentEncoding();
 		saveTo(new FileOutputStream(getFile()));

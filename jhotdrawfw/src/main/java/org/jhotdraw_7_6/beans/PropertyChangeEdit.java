@@ -96,7 +96,9 @@ public class PropertyChangeEdit extends AbstractUndoableEdit {
      */
     protected Method getSetter() {
         try {
-            return source.getClass().getMethod("set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1), type);
+            return source.getClass().getMethod("set" 
+                + Character.toUpperCase(propertyName.charAt(0))  // locale insensitive
+                + propertyName.substring(1), type);
         } catch (Exception e) {
             InternalError ie = new InternalError("Couldn't find setter for property \"" + propertyName + "\" in " + source);
             ie.initCause(e);

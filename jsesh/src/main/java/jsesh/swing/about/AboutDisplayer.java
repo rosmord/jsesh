@@ -74,7 +74,7 @@ public class AboutDisplayer {
 	 * @return
 	 */
 	private URL getHtmlResource() {
-		String countryCode = Locale.getDefault().getCountry().toLowerCase();
+		String countryCode = Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH);
 		if (countryCode.equals("us"))
 			countryCode = "gb";
 		String countryFile = "/jseshResources/about/about-" + countryCode

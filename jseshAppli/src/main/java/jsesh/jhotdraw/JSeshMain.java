@@ -19,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Locale;
 
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
@@ -97,10 +98,10 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         applicationModel.setViewClass(JSeshView.class);
 
         Application app;
-        if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
+        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")) {
             //app = new CustomApplicationBaseOSX();
             app = new QenherOSXApplication();
-        } else if (System.getProperty("os.name").toLowerCase()
+        } else if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
                 .startsWith("win")) {
             // app = new QenherOSXApplication();
             app = new QenherOSXLikeApplication();

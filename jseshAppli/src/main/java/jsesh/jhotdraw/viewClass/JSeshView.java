@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -227,7 +228,7 @@ public class JSeshView extends AbstractView {
     private void readFromFile(URI uri) {
         File file = new File(uri);
         try {
-            if (file.getName().toLowerCase().endsWith(".pdf")) {
+            if (file.getName().toLowerCase(Locale.ENGLISH).endsWith(".pdf")) {
                 FileInputStream in = new FileInputStream(file);
                 PDFImporter importer = PDFImporter.createPDFStreamImporter(in,
                         file);
@@ -300,7 +301,7 @@ public class JSeshView extends AbstractView {
         // Check if the file is PDF or MdC
         boolean isPdfFile = false;
         if (document.getFile() != null) {
-            String fileName = document.getFile().getName().toLowerCase();
+            String fileName = document.getFile().getName().toLowerCase(Locale.ENGLISH);
             if (fileName.endsWith(".pdf")) {
                 isPdfFile = true;
             } else if (!fileName.endsWith(".gly") && !fileName.endsWith(".hie")

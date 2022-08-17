@@ -51,11 +51,11 @@ public class ViewPropertyAction extends AbstractViewAction {
         this.propertyName = propertyName;
         this.parameterClass = new Class[] { propertyClass };
         this.propertyValue = propertyValue;
-        setterName = "set"+Character.toUpperCase(propertyName.charAt(0)) +
-                propertyName.substring(1);
-        getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")+
-                Character.toUpperCase(propertyName.charAt(0)) +
-                propertyName.substring(1);
+        setterName = "set"+Character.toUpperCase(propertyName.charAt(0))  // locale insensitive
+        + propertyName.substring(1);
+        getterName = ((propertyClass == Boolean.TYPE || propertyClass == Boolean.class) ? "is" : "get")
+            + Character.toUpperCase(propertyName.charAt(0))  // locale insensitive
+            + propertyName.substring(1);
         updateSelectedState();
     }
     

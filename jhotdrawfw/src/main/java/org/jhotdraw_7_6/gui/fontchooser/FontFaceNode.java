@@ -13,6 +13,7 @@ package org.jhotdraw_7_6.gui.fontchooser;
 import java.awt.Font;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Locale;
 
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -39,7 +40,7 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
         int p = name.lastIndexOf('-');
         if (p != -1) {
             name = name.substring(p + 1);
-            String lcName = name.toLowerCase();
+            String lcName = name.toLowerCase(Locale.ENGLISH); // Not sure, depends on font name language...
             if (lcName.equals("plain")) {
                 name = "Plain";
             } else if (lcName.equals("bolditalic")) {
@@ -50,7 +51,7 @@ public class FontFaceNode implements MutableTreeNode, Comparable<FontFaceNode>, 
                 name = "Bold";
             }
         } else {
-            String lcName = name.toLowerCase();
+            String lcName = name.toLowerCase(Locale.ENGLISH); // depends on Font name language, not system localisation.
             if (lcName.endsWith("plain")) {
                 name = "Plain";
             } else if (lcName.endsWith("boldoblique")) {

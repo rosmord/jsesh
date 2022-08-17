@@ -15,6 +15,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
@@ -137,7 +138,8 @@ public class MakeSVGIndex {
 		File[] files = directory.listFiles(new FileFilter() {
 
 			public boolean accept(File pathname) {
-				return pathname.getName().toLowerCase().endsWith(".svg");
+				// TODO : this suffix code is used all over the software. Makes a shared function for it !!!!
+				return pathname.getName().toLowerCase(Locale.ENGLISH).endsWith(".svg");
 			}
 		});
 

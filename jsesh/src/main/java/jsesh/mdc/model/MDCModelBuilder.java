@@ -1,5 +1,7 @@
 package jsesh.mdc.model;
 
+import java.util.Locale;
+
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.TabbingJustification;
 import jsesh.mdc.constants.TextOrientation;
@@ -577,7 +579,7 @@ public class MDCModelBuilder implements MDCBuilder {
 			orientation = TextOrientation.VERTICAL;
 		}
 		TabbingJustification justification = TabbingJustification
-				.valueOf(justificationCode.toUpperCase());
+				.valueOf(justificationCode.toUpperCase(Locale.ENGLISH));
 		Tabbing tabbing= new Tabbing(id, justification, orientation);
 		l.addTopItem(tabbing);
 

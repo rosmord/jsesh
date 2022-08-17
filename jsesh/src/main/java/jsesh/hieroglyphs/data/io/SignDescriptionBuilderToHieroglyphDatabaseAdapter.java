@@ -1,5 +1,7 @@
 package jsesh.hieroglyphs.data.io;
 
+import java.util.Locale;
+
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
 import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
@@ -61,13 +63,15 @@ public class SignDescriptionBuilderToHieroglyphDatabaseAdapter implements SignDe
     @Override
     public void addTransliteration(String sign, String transliteration,
             String use, String type) {
-        hieroglyphsManager.addTransliteration(sign, transliteration, use, SignValueType.valueOf(type.toUpperCase()));
+        hieroglyphsManager.addTransliteration(sign, transliteration, use, SignValueType.valueOf(
+            type.toUpperCase(Locale.ENGLISH)));
     }
 
     @Override
     public void addVariant(String sign, String baseSign,
             String isSimilar, String degree) {
-        hieroglyphsManager.addVariant(sign, baseSign, SignVariantType.valueOf(degree.toUpperCase()));
+        hieroglyphsManager.addVariant(sign, baseSign, SignVariantType.valueOf(
+            degree.toUpperCase(Locale.ENGLISH)));
     }
 
     @Override

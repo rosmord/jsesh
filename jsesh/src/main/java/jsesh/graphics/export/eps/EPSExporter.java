@@ -43,6 +43,7 @@ import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 import jsesh.graphics.export.generic.SelectionExporter;
@@ -93,7 +94,7 @@ public class EPSExporter extends AbstractGraphicalExporter {
      * @see jsesh.editorSoftware.PagedExporter#getOptionsTitle()
      */
     protected String getOptionsTitle() {
-        return "type".toUpperCase() + " options";
+        return "type".toUpperCase(Locale.ENGLISH) + " options";
     }
 
     public void setDimension(Dimension2D scaledDimensions) {

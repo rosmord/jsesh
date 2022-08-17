@@ -44,7 +44,7 @@ public class MDCStartOldCartouche implements MDCSymbols {
     }
     
     public MDCStartOldCartouche(char type, char part) {
-	cartoucheType= Character.toLowerCase(type);
-	part= Character.toLowerCase(part);
+	cartoucheType= Character.toLowerCase(type);  // locale insensitive
+	part= Character.toLowerCase(part);  // locale insensitive
     }
 }

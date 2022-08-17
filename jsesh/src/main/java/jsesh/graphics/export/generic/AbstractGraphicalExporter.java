@@ -36,6 +36,7 @@ package jsesh.graphics.export.generic;
 import java.awt.Component;
 import java.io.File;
 import java.net.URI;
+import java.util.Locale;
 
 import javax.swing.filechooser.FileFilter;
 
@@ -57,7 +58,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
 
         @Override
         public boolean accept(File f) {
-            String n = f.getName().toLowerCase();
+            String n = f.getName().toLowerCase(Locale.ENGLISH);
             boolean hasCorrectSuffix = false;
             for (int i = 0; !hasCorrectSuffix && i < extensions.length; i++) {
                 hasCorrectSuffix = n.endsWith("." + extensions[i]);
@@ -156,7 +157,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
                 // Fix the file ending ?
                 boolean hasExtension = false;
                 for (String ext : extensions) {
-                    if (chosenFile.getName().toLowerCase().endsWith("." + ext)) {
+                    if (chosenFile.getName().toLowerCase(Locale.ENGLISH).endsWith("." + ext)) {
                         hasExtension = true;
                         break;
                     }

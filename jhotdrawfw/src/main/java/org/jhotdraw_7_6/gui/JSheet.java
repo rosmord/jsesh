@@ -27,6 +27,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Locale;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -123,7 +124,7 @@ public class JSheet extends JDialog {
         // SoyLatte doesn't properly support document modal dialogs yet.
         isDocumentModalitySupported = !System.getProperty("os.name").equals("Darwin")
                 && System.getProperty("java.version").compareTo("1.6") >= 0;
-        isNativeSheetSupported = System.getProperty("os.name").toLowerCase().startsWith("mac os x")
+        isNativeSheetSupported = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")
                 && System.getProperty("java.version").compareTo("1.6") >= 0;
     }
 

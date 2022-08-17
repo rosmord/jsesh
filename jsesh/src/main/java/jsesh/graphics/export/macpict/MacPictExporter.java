@@ -12,6 +12,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
+
 import jsesh.graphics.export.generic.SelectionExporter;
 
 import jsesh.i18n.I18n;
@@ -56,7 +58,7 @@ public class MacPictExporter extends AbstractGraphicalExporter {
      * @see jsesh.editorSoftware.PagedExporter#getOptionsTitle()
      */
     protected String getOptionsTitle() {
-        return "type".toUpperCase() + " options";
+        return "type".toUpperCase(Locale.ENGLISH) + " options";
     }
 
     public void setDimension(java.awt.geom.Dimension2D scaledDimensions) {

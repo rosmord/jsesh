@@ -36,6 +36,7 @@ package jsesh.editor;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryEntryAdded;
@@ -74,7 +75,7 @@ public class PossibilityRepository {
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
-			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toString().toUpperCase())) {
+			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
 				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 						.getSuitableSignsForCode(code);
 			} else {

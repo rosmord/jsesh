@@ -409,7 +409,6 @@ public class PDFExporter {
                     break;
                 case 't':
                     f = translitFont;
-                    //text = TranslitterationUtilities.toLowerCase(text);
                     text = TranslitterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
                     break;
                 case '+':

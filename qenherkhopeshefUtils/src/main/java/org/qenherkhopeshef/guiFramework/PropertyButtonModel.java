@@ -58,7 +58,8 @@ public class PropertyButtonModel extends ToggleButtonModel {
 	}
 
 	private String capitalizePropertyName() {
-		return Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1); 
+		return Character.toUpperCase(propertyName.charAt(0))  // locale insensitive
+			+ propertyName.substring(1); 
 	}
 	
 	public boolean isSelected() {

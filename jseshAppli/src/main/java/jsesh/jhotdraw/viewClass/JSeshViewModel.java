@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -278,7 +279,7 @@ public final class JSeshViewModel {
 
             fmenu.setHieroglyphicMenuListener(mediator);
             if (i < 25) {
-                fmenu.setMnemonic(family.getCode().toUpperCase().charAt(0));
+                fmenu.setMnemonic(family.getCode().toUpperCase(Locale.ENGLISH).charAt(0));
             } else if (i == 25) {
                 fmenu.setMnemonic(KeyEvent.VK_J);
             } else if (i == 26) {

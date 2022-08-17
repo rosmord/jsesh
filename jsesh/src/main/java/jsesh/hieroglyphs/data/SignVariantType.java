@@ -11,6 +11,8 @@
  */
 package jsesh.hieroglyphs.data;
 
+import java.util.Locale;
+
 /**
  * Types of variants.
  * 
@@ -67,6 +69,6 @@ public enum SignVariantType {
      */
     @Override
     public String toString() {
-        return this.name().toLowerCase();
+        return this.name().toLowerCase(Locale.ENGLISH);
     }
 }

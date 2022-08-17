@@ -39032,9 +39032,19 @@ Y2-+l is the old shape, used until the end of the+s-!
   </sign>
   <sign sign="Ff6">
     <hasTag sign="Ff6" tag="canine-headed"/>
+    <hasTransliteration sign="Ff6" transliteration="sTA" type="phonogram" use="keyboard"/>
+    <variantOf baseSign="V2" isSimilar="y" linguistic="full" sign="Ff6"/>
   </sign>
-  <sign alwaysDisplay="y" sign="Ff8"/>
-  <sign alwaysDisplay="y" sign="Ff8A"/>
+  <sign alwaysDisplay="y" sign="Ff8">
+    <variantOf baseSign="O50" isSimilar="y" linguistic="full" sign="Ff8"/>
+    <hasTransliteration sign="Ff8" transliteration="zp" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="Ff8" transliteration="sp" type="phonogram" use="keyboard"/>
+  </sign>
+  <sign alwaysDisplay="y" sign="Ff8A">
+    <variantOf baseSign="Ff8" isSimilar="y" linguistic="full" sign="Ff8A"/>
+    <hasTransliteration sign="Ff8A" transliteration="sp" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="Ff8A" transliteration="zp" type="phonogram" use="keyboard"/>
+  </sign>
   <sign alwaysDisplay="y" sign="Ff100"/>
   <sign alwaysDisplay="y" sign="Ff101"/>
   <sign alwaysDisplay="y" sign="Ff110"/>

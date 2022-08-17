@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
@@ -492,7 +493,7 @@ public class BitmapExporter {
                 while (!result && i < OUTPUT_FORMATS.length) {
                     result = result
                             || f.getName()
-                                    .toLowerCase()
+                                    .toLowerCase(Locale.ENGLISH)
                                     .endsWith("." + OUTPUT_FORMATS[i]);
                     i++;
                 }
