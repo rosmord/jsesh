@@ -1,7 +1,7 @@
 # JSesh sources
 Welcome to JSesh sources! 
 
-**JAVA 9+ (actually Java 11) version: **
+**JAVA 9+ (actually Java 11) version:**
 
 
 JSesh is a Java hieroglyphic editor 
