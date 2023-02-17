@@ -1,5 +1,6 @@
 # What's new in JSesh 7.6.1
 
+
 - Fix a "bug" : on some recent screens, the "Edit" menu was too large
 - Fix visual bug on high-resolution display for Mac
 - Fix bug for Turkish locale 
