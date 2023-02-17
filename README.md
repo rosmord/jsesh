@@ -74,7 +74,7 @@ Interaction between VSCode and Maven is not that easy (again, because of generat
 ## Building distributions
 
 Due to changes in Java distribution and on Windows and Mac OS X as platform 
-(with a strong bias against softwares not distributed through their respective
+(with a strong bias against software not distributed through their respective
 stores), the previous java-only distribution system has changed.
 
 JSesh will now embed its own version of Java
@@ -84,6 +84,18 @@ The files here are used in the last, non-automated phase of building a
 JSesh distribution. 
 
 I will probably try to automate everything at some point, this being said.
+
+### Updating data
+
+This is only done if you are in charge of updating the JSesh text base or the JSesh sign base.
+That is, you most probably don't need to do it.
+
+To update the JSesh external data, go to the `utils` folder and type :
+
+~~~bash
+ant -f copyData.xml
+~~~
+
 
 ------------------------------------
 ### Building a Mac Distribution:

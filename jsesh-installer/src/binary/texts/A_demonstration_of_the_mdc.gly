@@ -1,15 +1,16 @@
 ++JSesh_Info 1.0 +s
-++JSesh_max_quadrantHeight 18.0 +s
-++JSesh_page_direction LEFT_TO_RIGHT +s
-++JSesh_page_orientation HORIZONTAL +s
-++JSesh_standard_sign_height 18.0 +s
-++JSesh_line_skip 6.0 +s
-++JSesh_max_quadrant_width 22.0 +s
 ++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
 ++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
 ++JSesh_small_body_scale_limit 12.0 +s
 ++JSesh_cartouche_line_width 1.0 +s
 ++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
 +bJSesh Demonstration File+s-!
 +lThis file (allmdc.gly) demonstrates Jsesh capabilities +s-!
 +las far as the Manuel de Codage is concerned+s-!
@@ -31,7 +32,7 @@
 !
 +lNow, when you have a sign, should you look for the most precise variant for it, or use +s-!
 +la somehow standardised one? To answer this, you should wonder if this variant is+s-!
-+lrelevant, in the text, and in the use you intend to make of it. For instance, in the Kana√Øs texts+s-!
++lrelevant, in the text, and in the use you intend to make of it. For instance, in the Kanaïs texts+s-!
 +lby Sethi the Ist, the first person pronoun uses many variants of A40 (+s-A40-+l).  If you intend the+s-!
 +ltext to be for grammatical study, it's not very relevant. If you wonder whether it's a free play+s-!
 +lto add diversity to the text, then you may take the time to use code the variants. As a rule,+s-!
@@ -291,7 +292,7 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 ?800-+l<H-Z3-A19->+s-!
 ?800-<H-Z3-A19->-!
 !
-+lEnclosure (not yet drawn, but correctly read)+s-!
++lEnclosure+s-!
 ?800-+l<F-bA-A-y:r-i-i-Aa18-Z1-mr:r-W:t-A2-r-D:t:N17->+s-!
 ?800-<F-bA-A-y:r-i-i-Aa18-Z1-mr:r-W:t-A2-r-D:t:N17->-!
 !
@@ -301,9 +302,13 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 +lcartouche : nothing = 0 ; no-knot : 1 ; knot : 2+s-!
 ?800-+l<1-ra-mn:n-xpr-1>+s-!
 ?800-<1-ra-mn:n-xpr-1>-!
-?800-+l<1-ra-mn:n-xpr-0>-!
-?800<1-ra-mn:n-xpr-0>!
-?800+s-+l<2-ra-mn:n-xpr-1>+s-!
+?800-+l<1-ra-mn:n-xpr-0>+s-!
+?800-<1-ra-mn:n-xpr-0>-!
+?800-+l<0-ra-mn:n-xpr-1>+s-!
+?800-<0-ra-mn:n-xpr-1>-!
+?800-+l<0-ra-mn:n-xpr-0>+s-!
+?800-<0-ra-mn:n-xpr-0>-!
+?800-+l<2-ra-mn:n-xpr-1>+s-!
 ?800-<2-ra-mn:n-xpr-1>-!
 !
 +lhut-sign : 0: nothing, 1: no square, 2: square in the bottom; 3: square in the top.+s-!
@@ -340,6 +345,8 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 ?2000-+i"^pAnb" for "P+s-+tAnb+s-+i".+s-!
 ?2000-+iAvoid at all the direct use of the codes supported by your particular font+s-!
 ?2000-+i(except probably when the unicode standard for translitteration appears).+s-!
+?2000-+iNote that uppercase letter in translitteration is handled in JSesh only with Unicode+s-!
+?2000-+itranslitteration fonts.+s-!
 !
 +lExempli gratia :+s-!
 ?800-+l\+l this is a text \+iwith italics and \+s nTr-md-Z3A\+\+ and a comment\+s-!+s-!
@@ -381,6 +388,11 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 ?800-+l?400-A1-?100-A2-+s-!
 ?400-A1-?100-A2-!
 !
++bDemonstration for synoptic edition+s-+l (from Koch, Sinuhe, p. 8)+s-!
++lR+s-?500-mn:n-mn:n-t-E1:Z2-nb:t-D35:n#12-Dr:r#34-W-N31:Z2-s-?2800-|17-s-U23-m:r-W-sr-A1:Z2-nw*1-stp:z-pr-!
++lAn+s-?500-..-..-..-..-.-#b-Dr:r-rw-.-#e-+lEnde+s-!
++lAOS+s-?500-mn:n-mn:n-E1-Z3A-nb:t-Dr:r-W-W-N31:Z2-O:.-?2800-s-U23-m:r-sr-G7&&&"sic"-nw*1-stp:t*p-Y1:Z2-O:.-!
+!
 !!
 +bEcdotic codes+s-!
 +lAdded+s-!
@@ -415,6 +427,19 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 ?800-+lp*[[*t*]]:pt_-p*[[*t:pt-]]+s-!
 ?800-p*[[*t*]]:pt_-p*[[*t:pt-]]-!
 !
++bNotation for glyph orientation+s-!
++lIn traditional printed edition, signs are often oriented left-to-right.+s-!
++lIn this case, there are a number of specific typographical annotation to +s-!
++lindicate the original glyph layout.+s-!
+?800-PF1-..-+lline of +s-+lglyphs looking toward the left (+s-A-+l)+s-!
+?800-PF2-..-+lline of glyphs looking toward the right (+s-A\-+l)+s-!
+?800-PF4-..-+lcolumn of glyphs looking toward the left+s-!
+?800-PF5-..-+lcolumn of glyphs looking toward the right+s-!
+!
++lThus, a line like :+s-!
+.\0:PF2:.\0-i-w-r:a-C1-m-p*t:pt-!
++lcorresponds to an original which would be :+s-!
+t*p:pt\-m\-C1\-r:a\-w\-i\-!
 +bSupport for deprecated +s-+iManuel+s-+b practices+s-!
 +lJSesh is able to read texts that don't follow the exact manuel de codage.+s-!
 +lFor instance, it's quite forgiving about spaces.+s-!

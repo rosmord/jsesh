@@ -1,17 +1,19 @@
 ++JSesh_Info 1.0 +s
-++JSesh_max_quadrantHeight 18.0 +s
-++JSesh_page_direction LEFT_TO_RIGHT +s
-++JSesh_page_orientation HORIZONTAL +s
-++JSesh_standard_sign_height 18.0 +s
-++JSesh_line_skip 6.0 +s
-++JSesh_max_quadrant_width 22.0 +s
 ++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
 ++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
 ++JSesh_small_body_scale_limit 12.0 +s
 ++JSesh_cartouche_line_width 1.0 +s
 ++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
 +bP. Berlin 10463+s-!
 +lRef. Caminos, "P. Berlin 10463", +s-+iJEA+s-+l 49, p. 29-37+s-!
++bLicence : Creative commons CC-BY+s-!
 |1-HAt:a-A1:n-niwt:t*1-M24-t:N23-1-sn-nfr-f:r:A1-D&&&(d:n)-T24-t:W*y-D40:A1-bA:V31A-i-A1-p:n-V31A:i*i-A1-r:n:t*t-ini-n:t*W-n:V31A-zS-Y1:3-p:n-m-D&d-r:n:t*t-i-W-A1-r-!
 |2-spr:r-D54-r:V31A-i-W-i-W-t-W-r-mn:n-T14-P1-r-Hwt-t:pr-sxm-1-niwt-n-h-r-W-ra-1\200-1\200-1\200-m-r:a-TA-A-Ff1-Ff1-D51:D40-A1:n:V31A-!
 |3-Hr-1-t:A-i*i:V31A-st-t:pr-m-n:g-A-D51:D40-s-m-V33-1-Y1-zp:y-H-n:a-n:t:V31A-TA-A-t-D51:D40-n:A1-s-F37B\-m-W-Hn:3-q:n-nw-W-Y1:3-n:x-b-W-Hn:3-Hw:Y1-rw-1-!

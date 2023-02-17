@@ -1,0 +1,103 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered true +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bTombe KV34  - Textes du Sarcophage de Thoutmosis III d'après William C. HAYES :  +s-+i"Royal Sarcophagi of the XVIII DYNASTY" +s-+l(Princeton 1935) - pp. 183-204+s-!
++bTexte saisi par Jean-Yves BARRÉ+s-!
++bLicence : Creative commons CC-BY+s-!
++lEtude, photos, schémas, traduction de ces textes à voir sur : +s-+ihttps://jy-barre.pagesperso-orange.fr/eecth3/eec-th3.htm +s-!
++lTextes saisis initialement en+s-+iGlyph for Windows ® +s-+lpuis adaptés à +s-+iJSesh+s-+lSaisis d'abord en +s-+iGlyph for Windows ® +s-+lpuis adaptés à +s-+iJSesh+s-+l par Jean-Yves Barré et ses élèves.+s-!
++lLes hiéroglyphes figurant entre accolades +s-[{-.-+bcomme ici+s-.-}]-+l sont contenus dans des cartouches très allongés pouvant contenir eux-mêmes d'autres cartouches.+s-!!
++bExtérieur du sarcophage +s-!
++lA la +s-+btête+s-+l (extérieur) +s-!
+|S,13-[{-.-D&md_-sw_-t:n_-<-ra:mn_-xpr->-zA&ra_-n_-X:t:f_-N36:Z1:f_-<-G26-ms_-nfr_-xpr:Z2\80->-nw:k_-B1_-st_-t:H8_-B1_-nw:k_-B1_-O9_-.-}]-!
+|14-[{-.-D&md_-ii_-D54:n_-n:Z2\80_-T:z_-U39_-n:Z2\80_-t&w_-anx_-n:x_-ib*Z1:k_-.-}]-!
+++15+s-|15-D&md_-i_-n_-O9_-nTr_-F47:r_-D54:n_-HA_-A_-tp_-sn:n_-B1_-sw_-t:n_-<-ra:mn_-xpr->-mAa:xrw\R270_-n:g*H_-A7_-a:t_-F51D*F51D*F51D:f_-i_-p*t:n_-zA&ra_-<-G26-ms_-nfr_-xpr->-!
+|12-D&md_-i_-n:nw*t:pt_-Hr:t_-tp_-O7_-t:pr_-H_-U8:n_-nw_-w_-zA&Z1_-sw_-t:n_-<-ra:mn_-xpr->-mAa:xrw\R270_-zA&ra_-<-G26-ms_-nfr_-xpr->-t:f_-Sw_-w_-nTr_-t&mwt_-f_-t:f:nw*t_-nTr_-mr:r_-r:t:f_-!
+|17-[{-.-D&md_-i_-n:q_-n:Z2\80_-i_-f:F51:F51*F51*F51_-k_-H_-n:n:Z2\80_-a:t_-F51B*F51B*F51B:k_-anx_-n:x_-n_-m_-t:D12_-k_-.-}]-!
++lAu +s-+bpied+s-+l (extérieur) +s-!
+|S,20-[{-.-D&md_-sw_-t:n_-<-ra:mn_-xpr->-zA&ra_-<-G26-ms_-nfr_-xpr:Z2\80->-nw:k_-i_-sn_-n:t:k_-st_-t:H8_-nTr_-.-}]-!
+|21-[{-.-D&md_-sw_-t:n_-<-ra:mn_-xpr->-ii_-i_-D54:n_-H_-n:a_-k:n_-U7:r:t_-k_-.-}]-!
+|22-D&md_-i_-n_-st_-t:H8_-zA_-b_-nTr_-a:a_-k_-i_-HA_-A_-tp_-sw_-t:n_-<-ra:mn_-xpr->-s_-T5_-k_-Hr*Z1:f_-wn:O31_-k:n:f_-ir:ir_-f_-!
+|19-D&md_-i_-n:nw*t:pt_-sw_-t:n_-<-ra:mn_-xpr->-zA&ra_-<-G26-ms_-nfr_-xpr:Z2\80->-r:D37_-n:n:k_-tp*Z1:k_-n:D\98**t{{65,639,88}}**Z1{{606,487,89}}_-k_-n:g_-H_-A7_-a:t_-F51D*F51D*F51D:k_-i_-p*t:n_-!
+|23-[{-.-D&md_-sw_-t:n_-<-G26-ms_-nfr_-xpr:Z2\80->-mAa:xrw\R270_-ii_-i_-n:n_-Dr:r_-i_-m_-k_-.-}]-!
++bFlanc+s-+l extérieur droit+s-!
+|S,26-[{-.-D&md_-i_-n:ir_-st_-A44_-zA&Z1_-sw:t_-bit:t_-nb:ir:t_-x:t_-<-ra:mn_-xpr->-E9:a_-F44_-w_-HqA_-q_-imnt_-t:xAst_-G5_-p_-w_-ms_-s_-n_-st_-t:H8_-nTr_-D37:n:n:k_-z:t:xAst:Z2\80_-a:a:z:n_-HA_-A_-tp:k_-anx_-ti_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-zA&ra_-<-G26-ms:z_-nfr_-xpr:Z2\80->-U5:a_-xrw\R270:x:r_-ir:st_-A40_-.-}]-!
+|27-[{-.-D&md_-i_-n_-mH_-N_-Htp:k_-w_-Hr:r_-z_-mr:r_-n_-sw_-t:n_-<-G26-ms_-nfr_-xpr->-.-}]-!
+|29-D&md_-i_-n:M:z_-ti_-nw:k_-M:s*ti_-zA_-ir_-st_-nTr_-sw_-t:n_-<-ra:mn_-xpr->-ii_-i_-D54:n_-wn:n_-A40_-m_-V16:k_-z:r_-w_-d:rwd_-i_-pr*Z1:k_-mn:n:ra*2_-m_-V25_-w_-n_-p:t_-H_-mi_-t_-V25_-n_-C1_-D&s_-f_-!
+|2b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-sw:t_-bit:t_-<-ra:mn_-xpr->-mAa:xrw\R270_-x:r_-ir:st*nTr_-.-}]-!
++lGrand panneau de texte - chap. 72 du +s-+iLivre des Morts+s-!
+|S,30 i-D\98**md{{173,415,60}}**i{{493,419,57}}_-n:sw*(t:n)-<-ra:mn_-xpr->-i_-Aa27_-Hr:T:n_-nb:kA*Z2A_-Sw_-w&Z2_-m_-i_-s_-f:t:Z2\80_-wn:n_-._-._-!
+|ii-w&Z2_-n:r_-H_-ra_-H_-V36_-t:y_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-U26_-r:n_-T:n_-Ax&x_-k_-w_-m_-A53_-w&Z2_-i_-sxm_-D49:D37:k_-w_-m_-._-._-!
+|iii-H_-kA:Z2\80_-i_-i_-r:p:k_-w_-m_-Ax&x:Z2\80_-i_-n:N42:a_-T:n:Z2\80_-w_-i_-m:a_-A_-d_-mzH:Z1_-n:tA_-p:n_-n_-U5:a_-t_-tyw_-Z2\80_-._-._-!
+|iv-r:Z1_-A42_-n:A42_-md_-i_-i_-m_-i_-w_-di_-t_-w_-Aw:t_-N18:N33*N33*N33_-i_-m_-mt:T:n_-Hr:Z1_-n:t*t_-w_-i_-._-._-!
+|v-r:x:Y1:k_-w_-i_-T:n:Z2\80_-r:x:Y1:k__-w_-i_-r:n:nw_-w&Z2_-T:n:Z2\80_-r:x:Y1:k_-w_-A42_-r:n:n_-nTr_-A40_-p_-w_-i_-i_-aA:Y1_-D37:D37_-._-._-!
+|vi-w_-T:n_-n:f_-D&f_-Z2\80:w_-r_-f:n:d_-fnD*Z1:f_-t:k_-m_-nTr_-r:n:f_-i_-w:f_-U26_-Y1:f:r_-Axt:t*pr_-iAb_-t:t_-!
+|vii-n:t:pt_-i_-w:f_-x:n_-D54:f_-m_-Axt:t*pr_-imnt_-t*t:n:t_-p*t:pt_-r_-w_-i_-D54_-f:r_-w_-i_-D54_-A42_-w_-DA_-Y1:A42_-._-._-!
+|viii-w_-DA_-Y1:f_-n:n_-d:r_-t:D40_-i_-Hr:Z1_-ms_-s_-q:t_-pr:n:n_-sxm_-U39_-w_-Z3_-i_-m_-A42_-n:n_-Sn_-n:a:t*D54_-i_-Hr:Z1_-sbA_-!
+|ix-w_-O32:Z2\80_-T:n:Z2\80_-n:n_-S20*t:D40_-Z2\80_-T:n:Z2\80_-O31:Z2\80_-T:n:Z2\80_-Hr:r_-i_-Hr:Z1_-n:t*t_-t*X2:N18:Z2\80_-A42__-m_-p*Z1:niwt_-H_-q:t_-W9:Z2\80_-A42_-m_-d:p*Z1_-niwt_-!
+|x-i_-w_-HA_-A&t_-a:a_-A42_-m_-nTr_-O7_-r:D37:n:n_-A42_-t:f_-A42_-tm_-nTr_-s_-mn:n:Y1__-f:n_-A42_-pr:Z1_-Hr:r_-y_-!
+|xi-N17:Z1*N21_-M33:U9:Z2\80_-bdt_-t*y:U9:Z2\80_-i_-m_-f:n_-r:x_-T:n_-nw:Y1_-ir:n_-A42_-i_-m_-n:W4_-Z3_-A42_-i_-A27:n_-zA&Z1_-A42_-._-._-!
+|xii-n:D\98**t{{65,639,88}}**Z1{{606,487,89}}_-A42_-D37:T_-n:n_-A42_-O3_-F1:H1_-Z3_-nTr_-sn_-T:r:N33\80:N33A_-W1:t_-Z3_-x:t_-nb:t_-nfr:t_-wab:t_-anx_-ti_-nTr_-i_-m_-._-._-!
+|xiii-wn:n:n_-mn:n_-Y1:n_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-m_-xpr_-w_-A53_-Z2\80:nb_-mr_-i_-i_-sw_-t:n_-<-ra:mn_-xpr->-x:d_-P1:f_-m_-sxt:t*N21_-._-._-!
+|xiv-i_-A_-rw_:Z1_-w_-Hn:niwt_-Xnm_-m_-sw_-t:n_-<-ra:mn_-xpr->-sxt:t*N21_-Htp:t*p_-A40_-zA&ra_-<-G26-ms_-s->-mAa\R90_-xrw_-p_-w_-rw:rw_-ti_-i_-!
++lAutres textes+s-!
+|S,4b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-zA&ra_-<-G26-ms_-nfr_-xpr:Z2\80->-mAa:xrw\R270_-x:r_-ir_-st_-nTr_-.-}]-!
+|S,31-D&md_-i_-n_-E16_-i_-imi_-Aa2_-w&t_-h_-A_-D54_-mwt_-st_-t:H8_-nTr_-m_-D54_-d:r:t_-D40_-TA_-m_-w_-S28_-Z3_-Hr:r_-i_-m_-a_-ir:r_-i_-!
+|5b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-sw:t_-bit:t_-<-ra:mn_-xpr->-mAa:xrw\R270_-x:r_-ir:st*nTr_-.-}]-!
+|32-D&md_-i_-n:sbA_-D38:t:f_-nw:k_-sbA_-D38:t:f_-nTr_-nw:k_-zA&Z1_-k_-G5_-mr:r_-i_-i_-k_-ii_-i_-D54:n_-nD_-nw_-i_-t:f_-nTr_-ir:st*nTr_-sw_-t:n_-<-ra:mn_-xpr->-m_-a_-ir:n:k_-n:f_-di_-i_-sw_-w_-Xr_-rd_-rd_-f_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+|34-[{-.-D&md_-i_-n_-z:k:r_-A40_-r:D37:n_-imAx_-nfr_-n_-sw_-t:n_-<-G26-ms_-nfr_-xpr:Z2\80->-.-}]-!
++bFlanc+s-+l extérieur gauche+s-!
+|S,36-[{-.-D&md_-i_-n_-nw*t:pt_-wr&t:r_-Ax&x_-t:Y1_-zA&Z1_-sw_-t:n_-<-ra:mn_-xpr->-zA&ra_-n_-X:t:f_-<-G26-ms*nfr:z_-xpr:Z2\80->-ms_-s_-tyw_-t:y_-zA_-b_-nTr_-HqA_-q:N21\:N21\_-zA&Z1_-f:N36:f_-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-nb:xa:a_-T:t:D40_-nfr_-S1_-sw:t_-bit:t__-<-ra:mn_-xpr->-U4:a_-xrw_-.-}]-!
+|37-[{-.-D&md_-i_-n:ra*Z1_-A40_-s_-mn:n:n_-sw_-t:n_-<-G26-ms_-nfr_-xpr->-Hr:tp_-xA\_-bA_-s_-sbA\80:sbA*sbA_-.-}]-!
+|39-D&md_-i_-n_-Hp:p_-i_-i_-A40_-zA&Z1_-ir:st*nTr_-sw_-t:n_-<-ra:mn_-xpr->-ii_-i_-D54:n_-wn:n_-m_-V16:k_-Tz:z_-V1:D40_-A40_-n_-tp:tp*tp_-a:t_-F51D*F51D*F51D:k_-H_-D40:n_-A40_-n:k_-x*t:f_-tyw_-D12:k_-Xr:r_-k_-D37:n_-n:k_-tp*Z1:k_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+|8b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-sw:t_-bit:t_-<-ra:mn_-xpr->-mAa:xrw\R270_-x:r_-ir_-st_-nTr_-.-}]-!
+|9b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-zA&ra_-<-G26-ms_-nfr_-xpr:Z2\80->-mAa:xrw\R270_-x:r_-ir_-st_-nTr_-.-}]-!
+|40-D&md_-i_-n_-E16_-xnt_-n:t_-O175_-n:i*i_-A7_-n:nn__-i_-i_-A7_-sw_-t:n_-<-ra:mn_-xpr->-zA&ra_-<-G26-ms_-nfr_-xpr->-mAa:xrw\R270_-n:g*H_-A7_-a:t_-F51D*F51D*F51D:f_-i_-p*t:n_-!
+|10b-[{-.-nTr_-nfr_-nb:tA:tA_-nb:ir_-x:t_-sw:t_-bit:t_-<-ra:mn_-xpr->-mAa:xrw\R270_-x:r_-ir_-st_-nTr_-.-}]-!
+|41-D&md_-i_-n_-W16\_-sn*sn*sn_-f_-nw:k_-W16\_-sn*sn*sn_-f_-nw:k_-zA&Z1_-k_-ii_-i_-n_-wn:n_-m_-V16:k_-dmD_-n:k_-T19*T19*T19_-k:mzH_-n:k_-a:t_-F51D*F51D*F51D:k_-ini_-n:n:k_-ib*Z1:k_-D37:n:n:k_-sw_-w_-Hr:Z1_-st_-t:pr_-f_-m_-X:k_-s_-rwd_-pr*Z1:k_-m_-xt:x*t_-k_-anx_-ti_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+|43-[{-.-D&md_-i_-n_-rsw_-N_-Htp:k_-w_-i_-Hr:r_-s_-mr:n_-sw_-t:n_-<-G26-ms*nfr:z_-xpr:Z2\80->-.-}]-!
++bRebord supérieur des parois +s-!
+|S,50-D&md_-zA_-b_-A40_-a:a:k_-HA_-A#1234-tp_-sw_-t:n#34-#b-<-ra:mn-xpr->-#e-U4:a_-xrw_-w_-#b-s_-HD-#e-D&N8#34-k#1234-Hr*Z1:f#134-wn:N36#13-k:n:f_-ir:ir:f_-!
+|51-D&md_-i_-n_-sw_-t:n_-<-ra:mn_-xpr->-D&d_-f_-F47:r_-D54:n_-HA_-sn*sn*sn_-i_-n:g_-A7_-a:t:F51*F51*F51_-A42_-i_-p*t:n_-!
+|52-G6_-D&md_-i_-n_-nTr_-nfr_-nb:tA:tA_-sw:t_-bit:t_-nb:ir:t_-x:t_-<-ra:mn-xpr->-zA&ra_-n_-X:t*Z1:f_-mr_-i_-i_-f_-<-G26-ms_-nfr_-xpr->-U4:a_-xrw_-h_-A_-mwt&t_-B1_-A43B_-m_-a_-i_-D54:n_-A42_-d:r_-t:D40_-TA_-A_-m_-w_-S28_-Z3_-Hr:r_-i_-m_-a_-ir:r_-A42_-!
+|53-D&md_-i_-n_-nTr_-nfr_-nb:tA:tA_-sw:t_-bit:t_-nb:ir:t_-x:t_-<-ra:mn-xpr->-zA&ra_-n_-X:t*Z1:f_-N36:Z1:f_-<-G26-ms:z_-HqA_-Sw->-U4:a_-x:r_-xrw_-w_-x:r_-nTr_-aA\R90_-n:i*i_-A2_-A42_-n:nn_-n:n_-A7_-A42_-n:g_-H_-a:t_-F44:Z2\80_-A42_-i_-p*t:n:n_-zA&Z1_-nw*t:pt_-nTr_-!!
++bIntérieur du sarcophage +s-!
++lFond intérieur de la cuve +s-!
+|S,55-D&md_-zA_-b_-A40_-a:a_-w&y_-k:2_-HA_-A_-tp_-A42_-s_-T4_-D&ra_-k:Hr*Z1_-A42_-wn:n_-N36:k:n_-A42_-ir:ir_-A42_-sw_-t:n_-<-ra:mn_-xpr->-mAa\R270_-xrw_-!
+|56-G6_-D&md_-i_-n_-sw_-t:n_-<-ra:mn_-xpr->-mAa:a:xrw\R270_-h_-mwt&t_-A42_-nw*t:pt_-m_-D38:D54_-d:r_-t:D40_-TA_-m_-w_-S28_-Hr:r_-i_-m_-a_-ir:r_-i_-!
+|57-D&md_-i_-n_-sw_-t:n_-<-ra:mn_-xpr->-mAa:a:xrw\R270_-n:i*i_-A2_-A42_-n:nn_-i_-i_-A7_-A42_-n:g*H_-A7_-a:t:F51*F51*F51_-A42_-i_-p:n_-n_-s_-S_-nTr_-!!
++bCouvercle du sarcophage +s-!
++lFace intérieure +s-!
+|S,44-D&md_-i_-n_-sw_-t:n_-<-ra:mn_-xpr->-t&mwt_-nw*t:pt_-T:z_-U39_-w_-nw:k_-zA&t_-d:r:t_-D40_-wr:r_-d:t_-A7_-m_-a_-ir:r_-i_-!
+|45-D&md_-i_-n_-nw*t:pt_-p:z_-S:n_-w_-i_-Hr:Z1_-zA&Z1_-p:n_-sw:t_-bit:t_-<-ra:mn_-xpr->-mAa:xrw\R270_-m_-r:n:n_-nw*t:pt_-n_-Hr:r_-N31_-!
+i_-r_-zA_-p:n_-zA&ra_-<-G26-ms:z_-HqA_-Sw->-mAa:a:xrw\R270_-mi_-i_-zA_-b_-nTr_-U7:r:r_-w_-ir_-st_-nTr_-TA_-t&w_-X6:tp_-p:t_-A40_-Z3_-xa:a_-w&Z2_-!
+m_-sw:t_-bit:t_-i_-A2_-i_-n_-r:a_-ra:Z1_-A40_-wn:n_-n:f_-anx_-n:x_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-m_-i_-w_-m&x_-w&Z2_-s_-wAH_-k:sbA_-A40_-Z3_-i_-imi_-T:n_-!
+m_-t:N33_-zA&Z1_-i_-p_-w_-i_-i_-mr_-i_-i_-p:n_-sw:t_-bit:t_-<-ra:mn_-xpr->-anx_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-p:z:S_-Z9:n_-w_-i_-Hr:Z1_-zA_-p:n_-m_-r:n:n_-pt:t_-!
+p*t:pt_-t&w&t_-zA&Z1_-zA_-b_-nTr_-tp*p:f_-A19_-f_-anx_-n:x_-k_-i_-m_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-H_-w_-a:ib*Z1_-n_-ir:r_-k_-zA&ra_-!
+<-G26-ms:z_-nfr_-xpr->-mAa:xrw\R270_-nw:k_-nw*t:pt_-T:z_-U39_-t&w_-U2:ir_-A_-k_-w_-R8A_-!
++lTexte courant tout le long de la feuillure+s-!
+|S,49a-D&md_-i_-n:nw*t:pt_-nw:k_-i_-nw*t:pt_-wr&t:r_-aA_:a:t_-G29&Z1_-Y1:n_-i_-Ax&x_-Y1:n_-i_-sxm_-m_-N_-i_-m_-X:n:t_-mwt&t_-i__-t:f:nw*t_-nTr_-!
+n:ms*s_-i_-i_-t_-ii_-i_-D54:n_-i_-Xnm_-m_-i_-sw_-t:n_-<-ra:mn_-xpr->-U4:a_-xrw_-w_-m_-anx_-Dd_-wAs_-N_-m_-t:D12:f_-nw:k_-i_-nw*t:pt_-sxm_-!
+|b-ib:Z1_-i_-M42_-M42_-i_-m_-X:n:t_-t&mwt_-i_-t:f:nw*t_-m_-r:n:n_-i_-n:nw*t:pt_-nTr_-t_-m_-t:Y1_-sxm_-m&t_-m_-mwt&t_-s_-mH**Y1{{33,320,77}}**n{{43,652,76}}_-i_-b_-!
+nb:M_-nfr_-i_-N17:Z1*N21_-Xr:r_-i_-r_-Dr:r_-f_-iTi:t:n_-i_-sw_-w_-iTi:t:n_-i_-Sma_-M15_-niwt:niwt_-!
+|c-Sn_-n:V1:n_-i_-x*t:nb:t_-m_-Xn:n_-nw:pr_-a:a_-i_-s_-anx_-n:x_-i_-sw:t_-bit:t_-nb:tA:tA_-nb:ir_-x:t_-<-ra:mn_-xpr->-zA&ra_-n:X:f_-N36:Z1:f_-!
+<-G26-ms_-nfr_-xpr:Z2\80->-U4:a_-x:r_-xrw_-w_-x:r_-R8A_-nTr_-t:r_-i_-i_-t*B1:Z2\80_-imi_-w_-R10_-!
++lFace extérieure +s-!
+|S,1-[{-.-D&md_-i_-n_-sw_-t:n_-<-ra:mn_-xpr->-mAa:xrw\R270_-D&d_-f_-mwt&t_-i_-nw*t:pt_-p:z:S_-T:n_-Hr:r_-i_-D37:t_-w_-m_-i_-x_-m_-w_-Z3_-s_-wAH_-k_-sbA\80:sbA*sbA_-imi_-m&t_-n_-m_-t:D12_-A42_-.-}]-!
+|2a-[{-.-imAx_-i_-i_-x:r_-M:z_-ti_-i_-nTr_-.-}]-!
+|4a-[{-.-imAx_-i_-i_-x:r_-E15_-xnt_-n:t_-O175_-.-}]-!
+|5a-[{-.-imAx_-i_-i_-x:r_-sbA_-D38:t:f_-nTr_-.-}]-!
+|8a-[{-.-imAx_-i_-i_-x:r_-Hp:p_-i_-i_-.-}]-!
+|9a-[{-.-imAx_-i_-i_-x:r_-E15_-imi_-Aa2:t_-.-}]-!
+|10a-[{-.-imAx_-i_-i_-x:r_-W16\_-sn*sn*sn_-f-.-}]-!
+!

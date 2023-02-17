@@ -38484,6 +38484,17 @@ Y2-+l is the old shape, used until the end of the+s-!
     <contains partCode="R12" sign="Z25A"/>
   </sign>
   <sign alwaysDisplay="y" sign="Z30"/>
+  <sign sign="US1Z100EXT">
+    <hasTransliteration sign="US1Z100EXT" transliteration="n" type="phonogram" use="palette"/>
+    <hasTransliteration sign="US1Z100EXT" transliteration="z" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="US1Z100EXT">+lThis is what the Thot sign list calls a Token, more than an actual sign.+s-!
++lThis code is intended for cases where the text doesn't differenciate signs such as +s-n-!
++land +s-z-+land uses a single simplified line +s-US1Z100EXT-+l instead.+s-!
+</signDescription>
+    <variantOf baseSign="N35" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
+    <variantOf baseSign="D35" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
+    <variantOf baseSign="O34" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
+  </sign>
   <sign sign="Z202">
     <hasTransliteration sign="Z202" transliteration="2" type="phonogram" use="keyboard"/>
   </sign>

@@ -24,3 +24,4 @@ nb-configuration.xml
 /signInfoAppli/target/
 target
 nbactions.xml
+.sdkmanrc

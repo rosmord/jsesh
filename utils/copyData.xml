@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="JSesh" default="updateGlyphsAndTextResources" basedir=".">
     <property name="fontRoot" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns"/>
-    <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/inBase"/>
+    <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/JSesh-texts/texts"/>
     <property name="fontDest" value="../jseshGlyphs/src/main/resources/jseshGlyphs"/>
     <property name="textDest" value="../jsesh-installer/src/binary/texts"/>
 

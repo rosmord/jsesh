@@ -1,8 +1,19 @@
 ++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
 ++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
-++JSesh_small_sign_centered 0 +s
 +bP. Valançay I+s-!
++btyped by S. Rosmorduc+s-!
++bLicence : Creative commons CC-BY+s-!
 |1-[[-H-W14-s-]]-#b-A2-#e-|i -#b-mn:n-#e-G7-ra-mn:n-H6-n:xt:x*t-t-W-A1-#b-..-#e-HAt:a-A1-U7:r-A2-iwn-nw:niwt-A1:n-R15-b-W-xAst:niwt-s-W-DA-A-ib-1-!
 |2-m-anx-DA-s-m-H-W14-s-Ff1-A2-i-mn:n-G7-ra-G7-sw-Ff1-G7-nTrw-#b-G7-Z3A-#e-[[-H-n:a-D&d-t-W-A1-D&d-]]-#b-n-i-#e-[[-mn:n-G7-ra-]]-G7-#b-G5-G7-Axt:t*Ff100-pr-G7-#e-!
 |3-i-W-f-W^^^b-n:ra-G7-Htp:t-p-G7-n-Xnm-m-W-G7-F29-i-i-I12-a:n-q:t-G7-nTrw-G7-Z3A-nb:W*Ff101-R15-b-Ff1-Ff1-Ff1-niwt-s-s-n:b-Y1-G41-A-!

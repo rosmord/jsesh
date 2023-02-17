@@ -1,9 +1,19 @@
 ++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
 ++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
-++JSesh_small_sign_centered 0 +s
 +lP. Turin 1887 (The Indictment Papyrus). Pleyte et Rossi, Papyrus de Turin, Pls LI-LX+s-!
 +l= RAD 73, 15 - 82, 3+s-!
++bLicence : Creative commons CC-BY+s-!
 !
 +lRecto+s-!
 ++TKSESH DATABASE FILE+s-++NAME P. Turin 1887+s-++SCRIBE cassonnet+s-++COMMENT The Turin Indictment Papyrus. Pleyte & Rossi,Papyrus de Turin, Pls LI-LX; Gardiner, Ramesside Administrative Documents, p. 73-82.+s-++SCRCOD 11+s-++COORD 2 is recto verso+s-++COORDSYS $2. $3, $1+s-|rt. 0,1-.-.#1234-+l +s-+lnearly a whole line lost +s-.#1234-+l.?.+s-m-G41-A-i-i-t-Z7-!

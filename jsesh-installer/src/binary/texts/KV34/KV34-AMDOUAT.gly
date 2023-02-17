@@ -1,0 +1,1799 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered true +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bTombe KV34 de Thoutmosis III - Textes de l'Amdouat d'après Paul BUCHER +s-+i: "Les textes des tombes de Thoutmosis III et d'Amenophis II" +s-+let +s-+bErik HORNUNG +s-+i: "Das Amduat".+s-!
++bTexte saisi par Jean-Yves BARRÉ+s-!
++bLicence : Creative commons CC-BY+s-!
++lEtude, photos, schémas, traduction de ces textes à voir sur : +s-+ihttps://jy-barre.pagesperso-orange.fr/eecth3/eec-th3.htm +s-!
++lTextes saisis initialement en+s-+iGlyph for Windows ® +s-+lpuis adaptés à +s-+iJSesh+s-+l par Jean-Yves Barré et ses élèves.+s-!!
++lLa disposition des signes dans la tombe est complexe et variable, souvent en +s-+iécriture rétrograde. +s-+lIl a fallu ajouter +s-+bplusieurs signes complémentaires +s-+lpour en rendre compte : +s-!
++l"+s-+bSU85Aa1001XT+s-+l+s-+l" à "+s-+b...1010XT+s-+l"+s-+l(\++s-+bUS22A13B+s-+l) fournis dans un document annexe. Il faut les +s-+bajouter+s-+l à votre dossier personnel de signes hiéroglyphiques.+s-!
++lConsulter à ce sujet la documentation +s-+iJSesh+s-+l à la page : +s-+ihttp://jseshdoc.qenherkhopeshef.org/doku.php/doc:en:importingglyphs+s-!
++lEn savoir plus sur l'usage de ces signes : +s-+ihttps://jy-barre.pagesperso-orange.fr/eecth3/textes/conv.htm+s-!!
++bTitre et introduction +s-!
++l(Les chiffres entre parenthèses renvoient aux numéros de colonnes)+s-!
+US85Aa1002XT-|i,A (1) -$r-zS_-Y1:Z2\80_-n_-a:t_-i_-mn:n_-t_-aHa_-aHa_-aHa_-G29A:Z2\80-nTr_-Z1:Z2\80_-S36_-t:Z1:Z2_-Ax_-Z1:Z2\80_-ir:r_-w_-$b-[[-._-.-]]-!
+|i,a (2) -zS_-Y1:Z2\80_-n_-a:t*pr_-i_-mn:n_-t:Y1_-aHa_-w_-D54_-G29A:Z2\80-nTr_-Z1:Z2\80_-t*S36*Z1:Z2\80_-Ax:Z2_-ir:r_-w_-[[-.-.-]]-!
+|i,B (2)-._-._-._-._-$r-imnt_-sbA:n_-Axt_-imnt_-t:t_-pH_-y*w_-k:k_-w_-$b-[[-.-.-]]-!
+|i,b (1) -HAt_-wp_-imnt_-sbA:n_-Axt_-imnt_-pH__-N2_-zmA_-sbA:Z1_-n_-Axt_-imnt_-t:t_-[[-.-.-]]-!
+|i,C (3)-$r-r:x:Y1_-G30_-sbA:sbA*sbA_-$b-[[-.-.-]]-+l               +s-|i,c (4)  -r:x:Y1_-G30_-sbA_-tyw_-pr_-A40:Z2\80_-[[-.-.-]]-!
+|i,D3 -$r-r:x:Y1_-ir_-w_-$b-[[-.-.-]]-+l             +s-._-._-|i,d (4) -r:x:Y1_-ir_-w_-[[-.-.-]]-!
+|i,E (3) -$r-r:x_-Y1:Z2\80_-z_-Ax:Z2\80_-z:n:Z2\80_-n_-ra:Z1_-$b-[[-..-]]-+l       +s-._-._-|i,e (4) -r:x:Y1_-z_-Ax_-x_-w_-Y1:Z2\80_-z:n:Z2\80_-n_-ra:Z1_-[[-..-]]-!
+|i,F (5) -$r-r:x:Y1_-G30_-S:tA:tA:tA_-$b-[[-..-]]-+l        +s-._-._-|i,f (3) -r:x:Y1_-G30_-S:tA_-w_-Y1:Z2\80_-[[-..-]]-!
+|i,G (5) -$r-r:x:Y1_-m_-$b-[[-..-]]-+l                 +s-._-._-|i,g (4) -r:x:Y1_-i_-imi_-t_-wn:n_-nw:t_-sbA:ra_-[[-..-]]-!
+|i,H (5) -$r-nTr_-Z1:Z2\80_-z:n:Z2\80_-$b-[[-..-]]-+l                      +s-|i,h (5) -nTr_-Z1:Z2\80_-z:n:Z2\80-!
+|i,I (5) -$r-r:x:Y1_-Dw_-i_-f_-n_-z:n:Z2\80_-$b-[[-.-]]-+l +s-._-._-|i,i (5) -r:x:Y1_-Dw_-i_-Y1:f_-n_-z:n:Z2\80_-[[-..-]]-!
+|i,K (1) -$r-r:x:Y1_-sbA:Z2\80_-wA_-t:Z2\80_-a:p*p_-t_-nTr_-aA\\R90_-Hr:Z1_-z:n:Z2\80_-$b-[[-..-]]-+l     +s-._-._-|i,k (2) -r:x:Y1_-sbA_-w_-pr:Z2\80_-wA_-t:N31:Z2\80_-a:p*p_-t:D54_-nTr_-aA\\R90_-Hr:Z1_-z:n:Z2\80_-!
+|i,L (1) -$r-r:x:Y1_-Sm_-t:Z2\80_-sbA:sbA*sbA-$b-[[-.-]]__-+l         +s-._-._-|i,l (2) -r:x:Y1_-Sm_-t:D54:Z2_-wn:n_-nw*t:sbA_-[[-.-]]__-!
+|i,M (1) -$r-nTr_-Z1:Z2\80_-z:n:Z2\80_-$b-+l                        +s-._-._-|i,m (2) -nTr_-Z1:Z2\80_-z:n:Z2\80-!
+|i,N (1) -$r-r:x:Y1_-wA__-S_-i_-i_-Z2\80_-w_-zA_-i_-i_-w:Z2\80_-$b-+l           +s-._-._-|i,n (2) -r:x:Y1_-wA_-S_-i_-i_-w_-Y1:Z2\80_-A40_-H_-t_-st_-tm_-i_-i_-w_-zA_-!
+|i,O (4) -$r-G35&N29_-nTr_-Z1:Z2\80-m_-a:r:r_-i_-t_-i_-pr_-imnt_-t_-n:t_-Axt:t_-pr_-aHa_-a_-E21:r_-i_-d_-b_-N21_-i_-t:r_-w_-S_-100:10*10_-Z3_-$b-!
+|i,o (3) -D54_-nTr_-p:n_-m_-a:r:r_-t_-imnt_-t_-n:t_-Axt_-aHa_-E20_-r_-N21:S_-100:10\80*10\80_-Z2-Hr_-D54:t_-a:r:r:t_-t:n_-[[-..-]]-!
+|i,P (5) -$r-s_-p:r_-t:D54_-w_-i_-A_-P30_-sbA_-tyw_-pr_-A40:Z2\80-a:p*p_-D54:f_-m_-xt:x*t_-r_-wr:r_-n_-s_-mw_-$b-!
+|i,p (3) -._-._-._-._-._-._-._-.._-sbA:sbA*sbA_-A40:Z2\80-a:p*p_-f_-mw_-m_-xt:t_-r_-wr:r_-n:z_-mw_-!!
+!!
+!
++b1ère HEURE +s-+ide la nuit  "Celle qui fracasse le front des ennemis de Rê" +s-!
++bH1+s-+b Registre 1 +s-!
++lH1,R1 Scène 1+s-!
+US85Aa1001XT-|1,1 1 -$r-r:n:Z2\80_-nw:Z1\50_-nTr_-Z1:Z2\80_-wn:n_-i_-i_-w_-O31:a:Z2\80_-n_-Z1\50__-G29A-O29:a:Y1_-$b-!
++lNoms des divinités 1 à 8+s-!
+US85Aa1002XT-"1"-b:n_-ti_-._-$r-b_-n:t*y_-._-._-$b-"2"-i_-f_-i_-._-$r-i_-f_-w__-._-._-$b-"3"-d_-H_-d_-H_-._-$r-D_-H_-D_-H_-$b-!
+"4"-i_-b_-tA_-._-$r-ib:tA_-._-._-$b-"5"-i_-b_-i_-b_-tA_-._-$r-ib*ib:tA_-._-._-$b-"6"-A26_-._-$r-H_-k:n_-nw:Z1_-$b-!
+"7"-wn:n_-tA_-._-$r-wn:n_-O31:a_-tA_-._-._-$b-"8"-zA_-Y1:tA_-._-$r-b_-G29A-Y1:tA_-$b-!
+"9"-D12:n_-ra_-._-$r-U2:ir_-n_-r:a_-N5_-$b-!
++lH1,R1 Scène 2+s-!
+$r-++ 1H - R1 - Â§ 20 - noms 10-21 +s-$b-US85Aa1001XT-|1,1 20 -$r-r:n:Z2\80_-nw:Z2\80_-nTr:Z2\80_-s_-n_-s_-i_-i_-w_-Z2\80_-Z11_-tA_-$b-!
++lNoms des divinités 10 à 21+s-!
+US85Aa1002XT-"10"-F10_-._-$r-H_-t&w_-i_-i_-t_-F10_-._-._-$b-"11"-H_-M42:t_-._-$r-H_-wn:n_-t_-Xrd_-._-._-$b-"12"-nb:t_-anx_-._-$r-nb:t_-anx_-n:x_-$b-!
+"13"-A26_-m_-zA_-z_-._-$r-H_-k:n_-t:Y1_-m_-G29A-z_-$b-!
+"14"-A28_-t_-m_-S42_-s_-._-$r-q_-A&t_-A28_-m_-G25_-z_-$b-!
+"15"-S42_-t_-m_-A14:Z2\80_-z_-._-$r-S42_-x:t_-m_-x*t:f:Z2\80_-s_-._-._-$b-"16"-A4A_-t_-wr:t_-._-$r-i_-mn:n:t_-wr:r:t_-$b-!
+"17"-F7_-t&w_-._-$r-S:f_-t&w:Z2\80_-._-._-$b-"18"-r:n_-T:T_-._-$r-r:n_-T:T:Y1_-$b-!
+"19"-A28_-t_-a_-._-$r-q_-A&t_-A28_-a:Z1_-._-._-$b-"20"-nb_-a:k_-t:Z2\80_-._-$r-nb_-m_-a:k_-t:Z2\80_-$b-!
+"21"-z:x_-i_-i_-t:sDm_-._-$r-s_-x_-i_-i_-t:sDm_-$b-!
++lH1,R1 Scène 3+s-!
+$r-++ H1 R1 - Â§ 45 - noms 22-30 +s-$b-US85Aa1001XT-|1,1 45 -$r-r:n:Z2\80_-nw:Z1_-nTr_-Z1:Z2\80_-sbA_-i_-i_-w_-Z2\80_-N5:Z1_-$b-!
++lNoms des divinités 22 à 30+s-!
+US85Aa1002XT-"22"-U28_-sbA:t_-._-$r-U28_-A_-Z9_-sbA_-t:pr_-._-._-$b-"23"-n:g_-i_-i_-._-$r-n:g_-i_-i_-A2_-._-._-$b-"24"-Hr_-S42_-"sic"-._-$r-S42_-m_-Y1_-Hr:Z1_-$b-!
+"25"-nb:tA_-Dsr_-._-$r-nb_-tA_-d:z:r_-N25_-._-._-$b-"26"-wp_-tA:tA_-._-$r-wp:p_-tA:tA_-$b-!
+"27"-wp_-S42_-S42_-._-$r-wp_-S42_-S42_-t:y_-._-._-$b-"28"-T3_-a_-._-$r-T3_-D&ra_-a:Z1__-._-._-$b-"29"-ir:a_-._-$r-U2:ir_-a:Z1_-$b-!
+"30"-W14_-a_-._-$r-H_-W14_-z:a:Z1_-$b-!
++lH1,R1 Scène 4 [d'après AmenHotep II ]+s-!
+$r-++ H1 R1 - 64 AmenHotep II et noms 31-42 +s-++64+s-$b-US85Aa1001XT-|64 -$r-r:n:Z2\80_-nw:Z1_-nTr_-t:Z2\80_-i_-i_-$b-"sic"-$r-z:T31_-t:D54:Z2\80_-nTr*aA\\R90:Y1_-$b-!
++lNoms des divinités 31 à 42+s-!
+US85Aa1002XT-"31"-H1*t:a_-F4:t*Z2\80__-A14E:Z2\80_-._-$r-w_-S_-m&t_-F4:t*Z2\80_-x*t:f:Z2\80_-s_-$b-!
+"32"-F5&t_-a:k:t_-nb_-s_-._-$r-F5&t_-N2_-m_-a:k:t_-nb_-s_-$b-!
+"33"-d:z:t_-T30_-zA:Z2\80_-._-$r-d:n:t_-T30_-G29{{2,0,69}}**R7{{0,354,39}}**Z2{{64,768,55}}_-._-._-$b-"34"-wr&t_-t*imi_-sbA_-t:pr_-._-$r-wr:r_-t_-i_-imi_-t*sbA_-t:pr_-$b-!
+"35"-Hr_-ib:t_-P30_-s_-._-$r-Hr_-ib:t_-P30:z_-._-._-$b-"36"-m_-z:p:r_-i_-i_-t_-._-$r-m_-z:p:r_-i_-i_-t_-$b-!
+"37"-U35_-t_-F36_-t:Z2\80_-z:t_-S_-._-$r-U35_-t:a_-F36_-t:Z2\80_-E21_-$b-!
+"38"-G195_-i_-i_-t_-._-$r-G195_-w_-A_-i_-i_-t_-N46B_-$b-!
+"39"-a:k:t_-Y1_-ir:z:y_-._-$r-m_-a:k:t_-nb:z_-._-._-$b-"40"-d:n:d_-i_-i*t_-._-$r-d:n:d_-i_-i_-t:Z9_-$b-!
+"41"-s_-b_-i_-i_-t:sbA_-._-$r-s_-b_-sbA_-i_-i_-t:sbA_-._-._-$b-"42"-ir:t_-nfr_-Z1:Z2\80_-nb:z_-._-$r-U2:ir_-A&t_-nfr_-Z1:Z2\80_-nb_-s_-$b-!!
++bH1 +s-+bRegistre 2+s-!
+US85Aa1001XT-|1,2 88 -$r-U4:a_-t:y_-H6_-H6_-V2_-nTr_-p:n_-m_-z:k:t*t_-P30_-s_-Aa28_-d:nw*D54_-m_-a:r:r_-i_-i_-t:pr_-n:t_-niwt:t*Z1_-t:n_-i_-t:r_-w_-S_-V1:V20*V20_-p_-w_-a:p*p_-D54:f_-mw_-$b-!
+$r-m_-M3:x*t_-r_-wr:r_-n:z_-i_-t:r_-w_-S_-V1*V1:V1_-p_-w_-m__-F40_-s_-H__-Hn\:n_-b_-$b-!
++lNoms des divinités 43 à 63+s-!
+US85Aa1004XT-"43"-F13_-N31:t*Z2\80_-._-._-"44"-siA_-._-._-"45"-nb:t_-P30_-._-._-"46"-F51\\R90*F51\\R90:F51\\R90_-._-._-"47"-N31_-H_-k:nw_-._-._-"48"-D28_-H6_-!
+"49"-n:h_-s_-._-._-"50"-H_-w_-._-._-"51"-x:r:p_-D43_-P30_-._-._-"52"-$r-U4:a_-t_-._-$b-H6_-._-.__-"53"-$r-U4:a_-t_-._-$b-H6_-!
+"54"-$r-n:k:n_-nw__-._-$b-D57_-._-._-"55"-W17_-imnt_-._-._-"56"-S42*t_-._-$r-s_-S42_-x_-m&t_-._-._-$b-"57"-T3_-s_-wr:r_-._-$r-s_-T3_-D&ra_-wr:r_-$b-!
+"58"-T3_-md_-ra_-._-$r-T3_-Z1_-md_-w_-Y1_-r:a_-N5_-._-._-$b-"59"-T3_-md_-t:tm_-._-$r-T3_-w_-S43_-w_-Y1_-t:tm_-$b-!
+"60"-T3_-S43_-xpr_-._-$r-V25_-Z1_-md_-w_-Y1_-xpr_-._-._-$b-"61"-T3_-S43_-Q1:ir_-._-$r-V25_-Z1\50_-S43_-w_-Y1_-Q1:ir_-._-._-$b-"62"-sbA_-!
+"63"-U28_-sbA:Z2\80_-._-$r-U28_-A_-wn:n_-nw:t_-sbA*ra:Z2\80_-$b-!!
++bH1 +s-+bRegistre 3+s-!
+US85Aa1001XT-|1,3 120 -$r-a:r:r_-i_-i_-t:pr_-a:p*p_-t:D54_-nTr_-Z1_-p:n_-Hr:Z1_-z:n:Z2\80_-m_-z:r_-E10_-ir:r_-f_-xpr_-r_-Z2\80_-w_-m_-$b-!
+$r-M3:x*t_-a:p*p_-D54:f_-a:r:r_-i_-i_-t:pr_-t:n_-D35:w&t_-a:r_-D54_-m_-i_-i_-G1_-$b-"sic"-$r-A14E:Z2\80_-M3:x*t_-Z2\80_-w_-f_-aHa_-a:D54_-s_-n:Z2\80_-$b-!
++l Ci-dessous, restauration d'après la tombe d'AmenHotep II+s-$r-++ restauration du reste d'aprÃ¨s AmenHotep II, Â§ 114 (fin) +s-$b-!
+US85Aa1001XT-|114 -$r-n_-a:r:r_-i_-i_-t:pr_-t:n_-i_-w_-f_-HD_-md_-Y1:f_-n_-nn:n_-imi_-Z2\80_-w_-a:r:r_-t:pr_-t:n_-$b-i_-w_-ir:t__-nn_-m_-$r-i_-mn:n_-t_-$b-Y1:Z2\80_-n:t_-sbA*t:pr_-mi_-i_-qd_-d:nw:Y1_-p:n_-!
+$r-d:z:r_-Y1_-i_-mn:n:Y1_-n_-a:n:Y1_-G37:n_-r:x_-i_-i_-w_-Y1_-A2:Z2\80_-s_-t_-$b-!
++lNoms des divinités 64 à 82+s-!
+$r-++ H1 R3 - noms 64-82 +s-$b-US85Aa1002XT-"64"-Q1_-ir_-._-._-"65"-x:p:r_-._-._-"66"-Q1_-ir_-._-._-US85Aa1008XT-"67"-s__-V29_-k:a_-r:Z1_-._-._-"68"-z:f_-i_-._-._-"69"-n:p:n_-!
+US85Aa1002XT-"70"-M21_-M21_-._-$r-M21:t*y_-._-._-$b-"71"-M21_-M21_-._-$r-z:M21_-m_-i_-i__-._-._-$b-"72"-O24_-O24_-._-$r-b:n_-b:n_-t:y_-$b-!
+"73"-H_-nw_-b_-._-$r-H_-n:nw_-b_-P30_-._-._-$b-"74"-S43_-S43_-._-$r-S43_-d_-i_-i_-._-.__-$b-"75"-U28_-t:y_-._-$r-U28_-w_-t:y:Y1_-$b-!
+"76"-n_-H_-b_-t:y_-._-$r-n_-H_-b_-t:y:N23_-._-._-$b-"77"-n:t_-._-$r-n:t_-R24_-._-._-$b-"78"-a:r_-t:t_-._-$r-a:r_-t:t__-E186_-$b-!
+"79"-O9_-._-._-"80"-F13_-n:t*y_-mw__-._-$r-F13:p_-Y1_-n:t_-mw_-._-._-$b-"81"-m_-z:t_-._-$r-m_-z:t_-$b-!
+US85Aa1009XT-"82"-d_-b_-S20_-tA_-._-$r-d_-b_-a:S20_-tA_-$b-!!
++bH1 +s-+bRegistre 4+s-!
++lH1,R4 Scène 1+s-!
+US85Aa1001XT-|1,4 152 -$r-r:n:Z2\80_-nw:Z1_-nTr_-Z1:Z2\80_-H_-W14_-s_-i_-i_-w_-D41:Z2\80_-n:N5_-q:a:D54_-f_-m_-sbA_-t:pr_-$b-!
++lNoms des divinités 83 à 91+s-!
+US85Aa1002XT-"83"-h:T_-t:y_-._-$r-h:T_-t:y_-N25_-._-._-$b-"84"-G40_-V14:V14_-._-$r-p_-G40_-V14:V14_-._-._-$b-"85"-b:z_-i_-i_-._-$r-b_-s_-i_-i_-$b-!
+"86"-A26_-m_-b_-s_-f_-._-$r-H_-k:n_-m_-b_-s_-Q7A_-f_-._-._-$b-"87"-A32B_-w_-._-$r-i_-b_-G29_-D54_-w_-$b-!
+"(88 est anonyme)"-.-"89"-Z11_-D28_-._-$r-i_-Z11_-D28:r_-pr_-._-._-$b-"90"-W17_-n:t*y_-tA:f_-._-$r-W17_-n:t*y_-tA:f_-._-._-$b-"91"-M2\:n:n_-._-$r-H_-U8:n_-$b-!
++lH1,R4 Scène 2 [d'après AmenHotep II ]+s-!
+US85Aa1001XT-|164 -$r-r:n:Z2\80_-nw:Z1_-nTr*.*t:Z2\80_-s_-HD_-t:n_-i_-t_-i_-ra:Z2\80_-k:k_-w:Z2\80_-N2_-m_-sbA*t:pr_-$b-!
++lNoms des divinités 92 à 103+s-!
+US85Aa1002XT-"92"-n:z:r_-t_-._-$r-n:ns&z_-r:t_-._-._-$b-"93"-F13:p_-z:t_-._-$r-F13:p_-Q1_-t_-._-._-$b-"94"-M13_-i_-i_-t_-._-$r-M13_-i_-i_-t_-$b-!
+"95"-Ab_-m_-r:t_-n:z:r_-t_-._-$r-Ab_-r:t_-n:z_-Q7A_-._-._-$b-"96"-b_-H_-n:t_-D34_-._-$r-b_-H_-n:t_-D34_-D40_-$b-!
+"97"-F13:p_-S:t_-._-$r-F13:p_-S:t_-._-._-$b-"98"-D43_-tA:tA:tA_-._-$r-x:D43_-tA:tA:tA_-$b-!
+"99"-H_-s_-q:t_-A14E:Z2\80_-z_-._-$r-H_-s_-q:t_-T30_-x*t:f_-A14E:Z2\80_-s_-._-._-$b-"100"-F35*t_-xa:Z2\80_-._-$r-F35_-f:r:t_-xa_-$b-!
+"101"-b_-s_-i_-i_-t_-._-$r-b_-s_-i_-i_-t_-Q7A_-._-._-$b-"102"-R4:t*p_-i_-i_-t_-._-$r-R4:t*p_-i_-i_-t:Y1_-.-$b-"(103 est anonyme)"-!
++lH1,R4 Scène 3 [d'après AmenHotep II ]+s-!
+US85Aa1001XT-|187 -$r-r:n_-nw:Z1_-nTr_-Z1:Z2\80_-sbA_-i_-i_-w_-Y1:Z2\80_-nb_-N9:t_-3\80:3*.*3_-A40_-$b-!
++lNoms des divinités 104 à 112+s-!
+US85Aa1002XT-"104"-sbA:t*y_-._-$r-sbA:t*y_-pr_-._-._-$b-"105"-A26_-N5_-._-$r-H_-k:n_-nw:Y1_-N5_-._-._-$b-"106"-a_-!
+"107"-Aa11:a_-N21_-._-$r-U4:a_-i_-d_-b_-N21_-._-._-$b-"108"-h_-m_-h_-m_-t:y_-._-$r-h_-m_-h_-m_-t:y_-A2_-$b-!
+"109"-D28:D52_-._-._-"110"-D28_-sbA:t_-._-$r-D28:D53_-sbA:t_-pr_-._-._-$b-"111"-zA_-ib_-._-$r-V28_-Q1_-t_-zA_-ib_-$b-.-.-"112"-r_-i_-._-$r-i_-r_-$b-!
++lH1,R4 Scène 4 [d'après AmenHotep II ]+s-!
+|206 -US85Aa1001XT-$r-r:n_-nw:Z1_-nTr_-t:Z2\80_-D37:D37:t_-h:n_-nw:Y1:Z2\80_-n_-r:a_-ra_-m_-a:p_-w_-D54:Z2\80_-wr:r_-n:z_-N18_-$b-!
++lNoms des divinités 113 à 124+s-!
+US85Aa1002XT-"113"-niwt:niwt__-._-$r-niwt:t*t_-._-._-$b-"114"-imnt_-._-$r-imnt_-t:N25_-._-._-$b-"115"-Q1*t_-._-$r-Q1*t_-$b-!
+"116"-O9_-._-$r-O9_-t_-._-._-$b-"117"-Hr:Z1\80_-s_-i__-._-$r-Hr:Z1\80_-s_-y_-._-$b-"(118 est anonyme)"-$r-.-._-$b-"119"-n:t*t_-N_-._-$r-n:t*t_-mw_-$b-!
+"120"-a:p:r_-t:r*Z1_-._-$r-a:p:r_-t:Y1_-r:Z1_-._-._-$b-"121"-iAb_-b_-._-._-"122"-ir:t_-nTr_-s_-._-$r-U2:ir_-t_-nTr_-s_-$b-!
+"123"-r:t_-nTr_-s_-._-$r-i_-r:t_-nTr_-s_-._-._-$b-"124"-A26_-._-$r-H_-k:n:t_-$b-!!
++bH1 +s-+bTexte de conclusion +s-+l(231-239)+s-!
+US85Aa1002XT-|1,c 231 -$r-a_-aHa_-a_-i:n_-Hm_-Z1:n_-nTr_-p:n_-m_-M3:x*t_-R4:t*p_-f:r_-a:r:r_-t:pr_-t:n_-V25_-S43_-Y1:Z2\80_-n_-M22*M22:n_-$b-!
+$r-nTr_-Z1:Z2\80_-Z11_-w_-Z2\80:z_-$b-wn:n:O31_-D40:Z2\80_-n:A1_-sbA_-w_-pr:Z2\80_-T:n:Z2\80_-z:N37_-O31:D40:Z2\80_-n:A1_-a:r:r_-i_-i_-t:pr:Z2\80_-T:n:Z2\80_-z:t_-!
+Q7A:Z2\80_-n:A1_-ir_-w:Z2\80_-n:A1_-z:T30_-m_-D54:Z2\80_-w_-A1_-xpr_-r_-Z2\80_-w_-m_-H_-a:F51\\R90*Z1:Z2\80_-A1_-V25_-w_-D&Y1_-!
+[[-..-]]-A1_-T:n:Z2\80_-r_-T:n:Z2\80_-n_-K4_-A__-t:F51:Z2\80_-A1_-ir:n_-A1_-T:n:Z2\80_-n_-G53A*Z1_-A1_-!
+|1,c 232 -N29&U1_-A_-m_-T14_-n:A1_-T:n:Z2\80_-n_-G25_-x_-w_-Y1:Z2\80_-A1_-M18_-i_-D54_-n:A1_-Aa27D_-nw_-A2_-A1_-Hr:Z1\80_-A1_-!
+i_-m_-A1_-z:n:f_-TAw_-A1_-H_-a_-w_-F51\\R90:Z2\80_-a_-aHa_-i_-i_-D54_-z:n:Z2\80_-i_-w_-A1_-s_-t\80_-V28_-tm_-zA_-!
+A1_-ir_-w_-r:z_-D37:A1_-z:r:q_-Y1\R270_-m_-z:f_-g:Y1_-ir_-w_-A53_-Y1:Z2\80_-A40_-st_-ir_-A40_-W17_-n:t*y_-!
+imnt_-tyw_-A40_-wn:n_-O31:D40_-n_-a:a_-Z1:Z1_-T:n:Z2\80_-b:n_-tyw_-Z3_-E35_-!
+|1,c 233 -z:n:N37_-O31:D40:Z2\80_-n_-a:r_-i_-i_-t:pr:Z2\80_-T:n:Z2\80_-b:n_-tyw_-E35:Z2\80_-nTr_-n:T:r_-t_-I12:Z2\80_-A1_-xpr_-r:t:Z2\80_-m_-G53A_-!
+A1_-nTr_-Z1:Z2\80_-A1_-xpr_-r_-[[-..-]]-T:n:Z2\80_-xpr_-r_-T:n:Z2\80_-n_-xpr_-r_-A40_-wn:n_-[[-..-]]-W17_-!
+n:t*y_-sbA_-t:pr_-a_-aHa_-a:D54_-T:n:Z2\80_-n_-wr_-[[-..-]]-i_-i_-T:n:Z2\80_-n_-i_-d:N21_-b_-S:t*U30_-A_-!
+Y1_-ir_-T:n:Z2\80_-n_-sbA\80_-tyw_-A40:Z2\80_-r_-a:r:r_-t:pr_-i_-r:t_-T:n:Z2\80_-[[-..-]]-m_-st_-t:pr_-T:n:Z2\80_-A_-H_-t:N23:Z2\80_-!
+|1,c 234 -T:n:Z2\80_-n_-T:n:Z2\80_-n:t_-[[-..-]]-t:N23:Z2\80_-$r-nTr_-Z1:Z2\80_-a:r:r_-t:pr_-t:n_-n_-r:a_-N5_-z:n_-z:n_-Y1_-$b-!
+$r-z:n:Z2\80_-$b-[[-..-]]-$r-nTr_-Z1_-O29:a_-G1_-Y1\R270_-$b-wn:n_-O31:D40_-n:k_-i_-mn:n_-t:Y1_-S:tA_-t:Y1_-ir_-w_-A53_-Y1:Z2\80_-z:n:N37_-!
+O31:D40_-n:k_-O31:O31_-niwt_-wr:r_-t:N25_-s_-HD_-D_-N8_-k:k_-t_-N2_-z:r_-q:Y1_-k_-H_-t_-st_-tm_-m_-!
+t_-zA_-pr_-a:r_-N31:k_-m_-r:n:k_-n_-r:a_-N5:Z1_-r_-b_-w_-Xr:r_-st_-ir_-A40_-xnt_-n:t*y_-imnt_-!
+tyw_-A40:Z2\80_-i_-w_-h_-i_-i_-Y1:n_-r:a_-N5:Z1_-r#1234-r_-Z1_-O31:O31_-tA:N23_-Z1_-!
+|1,c 235 -i_-mn:n_-A4A_-n:k_-z:r_-q:Y1_-G25_-x_-w_-G35&N29_-D54:k_-sbA:pr_-n:niwt_-wr:r:t_-N25_-wn:n:O31_-D40:Z2\80_-n:k_-!
+O31:O31_-m_-b:n_-tyw_-E35:Z2\80_-O31:D40:Z2\80_-n:k_-m_-h:T_-tyw_-E35:Z2\80_-z:n:Z2\80_-A26_-T_-w_-z:n_-z_-i_-i_-T_-!
+A26_-I12_-Z2\80:k_-s_-HD_-D&N8_-n:k_-G25_-x_-w_-I12_-Z2\80:k_-k:k_-w_-N2:Z2\80_-sbA_-A_-A30_-T_-w_-nTr_-Z1:Z2\80_-!
+k_-r:a_-N5_-A40_-z:T30_-m_-D54_-T_-w_-wn:n_-nw:t_-sbA:Z2\80_-!
+|1,c 236 -I12:Z2\80_-i_-Z11_-t:Z2\80:k_-z:T_-V2:D54_-T_-w_-zA_-t_-zA_-I12_-I12_-k:y_-[[-..-]]-A_-Y1:Z2\80:k_-Htp:t*p_-!
+k_-V25_-V25_-V25_-tp:p_-t&w_-M21_-t:N23:Z2\80_-tA:N23*Z1_-V15_-t:D40_-k_-g:r_-H_-N2_-W25_-n:t:k_-h:r_-w_-N5:Z1_-T_-t&w_-nTr_-!
+A40_-p_-w_-U28_-A_-Z9_-wn:n_-nw:t_-sbA:N5:Z2\80_-Htp:t*p_-k_-w_-i_-m_-P30_-xpr_-r_-A40_-TA_-A_-D40_-n:k_-!
+tp_-w:Z2\80_-[[-..-]]-H__-U8:n_-b_-t:y_-A40_-m_-m_-S_-Htp:t*p_-t:Y1_-n:k_-n:t_-R24_-F13:p_-!
+|1,c 237 -k_-n:t*y_-mw_-r_-m_-[[-..-]]-k:f_-S28:D40_-n:k_-d_-b_-a:S20_-tA:N23*Z1_-A40_-r:mn:n_-D41:f_-!
+A30_-T_-w_-nTr_-n:T:r_-t_-I12:Z2\80_-wr:r_-t:Z2\80_-i_-A_-w_-A30:Z2\80_-n:k_-n_-h:n_-w_-i_-i_-t_-I12:Z2\80_-z:U5:a_-P8_-Y1:Z2\80:k_-!
+r_-x*t:f_-tyw_-A14E:Z2\80_-k_-D37:k_-z:d_-O30\\R180_-b_-w:Z2\80_-m_-$r-gm_-Sny_-V25_-md_-Y1\R270_-i:n_-Hm__-Z1:n_-nTr_-p:n_-O29:a_-$b-!
+$r-A_-Y1\R270_-m_-M3:x*t_-D54_-N12:r_-D54_-a:r:r_-t:pr_-t:n_-$b-D34_-A_-D40:n_-a:r:r_-w_-O38__-T:n_-r:d_-rwd_-!
+|1,c 238 -Y1:n_-O31:Z2\80_-T:n:Z2\80_-x:t_-m_-S20:a_-n_-A&q_-t&w_-M3:Z2\80_-T:n:Z2\80_-M18_-i_-w_-D54:Z2\80_-x:r_-A1_-n_-a:p_-!
+w_-[[-..-]]-w_-D54:Z2\80_-x:r_-A1_-n_-SA_-A_-z_-w_-D54:Z2\80_-A1_-mn:n:Y1_-n_-T:n:Z2\80_-m_-st_-!
+t:pr:Z2\80_-T:n:Z2\80_-a_-aHa_-a_-[[-..-]]-w_-S:Z2\80_-T:n:Z2\80_-$r-a:p*p_-D54_-nTr_-Z1_-p:n_-Hr:Z1_-z:n:Z2\80_-h_-t&w_-A2_-z:n:Z2\80_-$b-!
+$r-m_-M3:x*t_-D54_-z:n:n_-D54:f_-z:n:Z2\80_-$b-[[-..-]]-$r-r_-n:z_-mw_-N37_-i_-w_-ir:t_-w_-M22_-M22_-mi_-i_-z:T30_-m_-Y1:Z2\80_-p:n_-$b-!
+|1,c 239 -$r-m_-i_-mn:n_-t:Y1:Z2\80_-n:t_-sbA_-t:pr_-$b-[[-..-]]-$r-n_-U20:nw_-n:z_-n:t*y_-T30_-Y1:Z2\80_-mi_-t:y:Y1_-$b-!
+$r-nTr_-Z1_-O29:a_-A:Y1_-D\98**z{{25,506,72}}**f{{33,775,79}}_-i_-w__-G25&Aa1_-Y1_-n:f_-tp:Z1_-tA:N23*Z1_-V6:Z1_-U4:a_-$b-[[-..-]]-$r-wr:r:t_-mi_-i_-z:sSm_-m_-Y1:Z2\80_-$b-!
+$r-z:n:Z2\80_-S:tA:Y1_-m_-Y4_-Y1:Z2\80_-i_-r:t_-N37_-w_-100:20_-Hr:Z1_-N40_-m_-t:D54_-r_-a:r:r_-t:pr_-t:n_-wn:n_-nw:t_-$b-!
+$r-sbA:N5_-z:sSm_-m_-t:D54_-a:r:r_-t:pr_-t:n_-w_-S_-m_-t_-H1_-F4:t*Z2\80_-ib:Z2\80_-x*t:f_-A14E:Z2\80_-r:a_-N5:Z1_-sbA:N5_-A40_-r:n_-n_-$b-!
+$r-wn:n_-nw*t:sbA_-p_-w_-tp:p_-t_-n:t_-g:r_-H__-N2_-$b-!!
+!!
++b2e HEURE +s-+ide la nuit  "L'Avisée, celle qui protège son maître" +s-!
++bH2 +s-+bIntroduction +s-+l(1-2)+s-!
+US85Aa1006XT-|2,i 1 -$r-Htp:t*p_-m_-wr:r_-n:z_-mw_-S_-i:n_-Hm_-Z1:n_-nTr_-p:n_-ir:t_-H_-p_-xrw_-t&w:Z2\60_-i_-A_-r_-ra_-++sic+s-$b-"sic"-$r-w_-A40_-m_-$b-!
+$r-n:t_-mw_-r:a_-ra:Z1_-A40_-i_-t:r_-w_-N18_-100:100_-100_-3\80:3*.*3_-m_-Aw:n_-M21_-t:N23_-t:n_-100:20_-m_-w_-z:x_-$b-!
+$r-W10:z_-ir_-nTr_-p:n_-aA:a:Y1_-H_-U8:n_-N23_-b_-N23:Z2\60_-nTr_-Z1:Z2\60_-r_-niwt:t*Z1_-t:n_-r:n_-n_-wn:n_-nw:t_-dwA:ra_-n:t_-$b-!
+$r-g:r_-H_-N46B_-z:T30_-t_-nTr_-p:n_-$b-[[-..-]]-$r-SsA:t_-m_-a:k:t_-nb:z_-dwA:ra_-B1_-r:n_-n_-dwA_-A_-pr:n_-niwt:t*Z1_-t:n_-$b-!
+$r-a_-m_-A2_-r_-Dr:r_-pr_-$b-!
++lLigne souvent constituée de très petites colonnes +s-!
+US85Aa1001XT-|2,i 2 -$r-H_-Hn\:n_-b_-Y1\R270_-nTr_-p:n_-aA:a:Y1_-A_-H_-t:N23:Z2\60_-n_-nTr_-Z1:Z2\60_-dwA_-tyw_-pr_-A40:Z2\60_-ir:r_-f_-s_-x:r:Y1_-z:n:Z2\60_-r_-$b-!
+$r-M21_-t:N23_-t:n_-$b-r:x:Y1_-dwA_-tyw_-pr_-A40:Z2\60_-$r-i_-r_-r:x:Y1_-r:n:Z2\60_-s_-n:Z2\60_-wn:n:n_-f_-x:r_-s_-n:Z2\60_-H_-Hn\:n_-b_-Y1\R270_-$b-!
+$r-n:f_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-A_-H_-t:N23:Z2\60_-r_-b_-w_-z:n:Z2\60_-n_-M21_-t:N23_-wr:r_-n:z_-mw_-S:Z1*N23_-$b-!
+$r-a_-aHa_-a:D54_-f_-x:r_-a_-aHa_-a_-w_-G29A-a:p*p_-D54:f_-m_-xt:x*t_-D54_-nTr_-p:n_-aA:a_-A:Y1_-a:q_-D54:f_-$b-!
+$r-tA:N23*Z1_-wbA_-bA_-Y1:f_-dwA_-t:pr_-wp:p_-Z9:f_-zb:t_-D3_-m_-H_-Hn\:n_-z:k_-tyw_-D3_-A40:Z2\60_-a:p*p_-D54:f_-Hr:Z1__-$b-!
+$r-a_-m_-w_-A2_-aA:D53_-E7_-A40_-m_-xt:x*t_-Sw_-t:Z1_-H_-Hn\:n_-b_-n_-i_-i_-N23_-i_-w_-f_-q:q_-A2_-f_-$b-!
+$r-t:X2_-X4A:Z2\60_-r_-P30_-tA:N23*Z1_-a_-t&w_-n:f_-HAt:t*t_-W_-t&w_-b_-P30_-$b-i_-w_-ir_-t&w_-nn:n_-z:T31_-Y1:Z2\60_-n__-!
+G30A_-dwA_-tyw_-pr_-A40_-Z3_-m_-Y4_-Y1:Z2\60_-mi_-i_-qd_-d:nw_-Y1:Z2\60_-p:n_-m_-i_-mn:n_-t:Y1:Z2\60_-n:t_-dwA_-t:pr_-!
+HAt:t*Z1_-Y4:Y1_-r_-imnt_-p_-A_-++sic +s-i_-w_-Ax&x_-n_-sw_-t:n_-A44_-<-ra_-mn_-xpr_->-anx_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-tp:Z1_-tA:N23*Z1_-V6_-Z1_-U4_-a:Y1_-[[-..-]]_-!!
++bH2  Registre 1 +s-+l(3-43) +s-+l- Ligne constituée de très petites colonnes+s-!
+US85Aa1002XT-|2,1 3 -wn:n:n_-z:n:Z2\60_-._-._-m_-z:x_-._-._-r:Y1:Z2\60_-p:n_-._-._-i_-w_-._-._-z:n:Z2\60_-dwA_-._-._-A_-Y1_-._-._-!
+z:n:Z2\60_-nTr_-A40_-._-|10-p:n_-aA:a:Y1_-._-._-m_-xt:x*t_-._-._-D54_-z:p:r_-N12_-._-._-D54:f_-r_-z:n:Z2\60_-i:n_-._-._-!
+x:r_-xrw_-w_-Y1_-z:n:Z2\60_-._-|15-z:T31_-m_-D54_-sw_-w_-._-._-r_-z:n:Z2\60_-i:n_-h_-._-._-t&w_-A2:Z2\60_-z:n:Z2\60_-._-._-!
+zb_-b_-b_-D54_-._-.__-sw_-w_-._-|20-m_-xt:x*t_-D54_-._-.__-V25_-w_-Y1:f_-._-.__-n_-z:n:Z2\60_-md_-w_-._-._-!
+Y1:Z2\60_-i:n_-nn:n_-._-.__-nTr_-Z1:Z2\60_-s_-._-|25-a:r_-N31_-md_-w_-._-.__-A2_-tp:p_-w_-._-._-!
+tA:N23*Z1_-A1:Z2\60_-n:t_-z:n:Z2\60_-._-._-z:a:r_-N31:D54_-._-.__-G29A-Z1:Z2\60_-r_-._-|30-qd_-d:d_-nw_-w_-._-._-!
+D7:Z2\60_-s_-n:Z2\60_-ir:r_-t:Z2\60_-s_-n:Z2\60_-._-._-p_-w_-z_-xpr:r_-._-._-ini:n_-w_-D54:Z2\60_-w_-._-._-!
+SA_-A_-w_-N2:Z2\60_-._-._-ir:t_-x:r_-i_-i_-t_-A14:Z2\60_-._-|35-r_-wn:n_-nw:t_-dwA:ra_-s_-n:Z2\60_-._-._-!
+n:t_-z:n:Z2\60_-z_-zA_-A_-A_-._-._-a_-h:r_-w_-ra_-._-._-ini_-n:n_-._-.__-g:r_-H_-N2_-r_-!
+pr:r_-D54_-._-._-nTr_-Z1_-p:n_-aA:a_-A_-Y1\R270_-m_-._-|40-k:k_-w_-N2_-zmA_-A_-w_-Y1:Z2\60_-._-._-!
+r_-Htp:t*p_-m_-a:r:r_-i_-i_-t:pr_-n:t_-._-._-|43 -Axt:t*pr_-R15_-b_-t*t:N23_-n:t_-p*t:pt_-!
++lNoms des divinités 125-141+s-._-._-!
+US85Aa1002XT-"125"-Sw_-tp:t_-i_-n:t_-._-$r-U4_-a:t_-tp:t_-i_-n:t_-xAst_-$b-._-._-._-"126"-S1_-t_-tp:t_-i_-n:t_-._-$r-HD_-t_-tp:p_-t_-i_-n:t_-xAst_-$b-!
+"127"-S3:t_-tp:t_-i_-n:t_-._-$r-bit:t*Z1_-tp:p_-t_-i_-n:t_-xAst_-$b-._-"128"-imnt_-nfr_-t_-._-$r-i_-mn:n_-t:xAst_-nfr_-f:r:t_-xAst_-$b-!
+"129"-a_-m_-t_-Dr:r_-w_-._-$r-a_-m_-t_-Dr:r_-w_-Y1:Z2\60_-._-$b-"130"-sxm_-t_-wAs_-t_-._-$r-sxm_-x:t_-wA_-s_-s_-t_-wAs_-._-$b-!
+"131"-Hr:r_-t:tp_-dwA_-tyw:Z2\60_-._-$r-Hr:r_-t:tp_-dwA_-tyw_-pr_-A40:Z2\60_-._-$b-"132"-a_-m_-t_-m_-t:ra:Z2\60_-"sic"-++sic+s-.__-$r-a_-m_-t:Y1_-m_-t_-tyw_-A14:Z2\60_-._-$b-!
+"133"-ms_-s_-t_-s_-D\98**z{{52,534,68}}**z{{51,826,68}}_-._-$r-ms_-s_-t_-$b-"sic"-$r-s_-++sic+s-B3_-D&z&z_-._-$b-"134"-s_-n:d:t_-Ax:Z2\60_-._-$r-z:n:d_-t:snD_-Ax:Z2\60_-._-$b-"135"-V25_-md_-st_-ir_-._-$r-V25_-Z1_-md_-w_-st_-ir_-$b-._-!
+"136"-md_-n_-st_-ir_-._-$r-md_-Z1_-n_-st_-ir_-._-$b-"137 "-US85Aa1007XT-s_-t_-O30\R180_-n_-st_-ir_-._-$r-m_-s_-t_-O30\R180_-n_-st_-ir_-._-$b-"138"-US85Aa1002XT-Hr_-Hr_-f:y_-._-|70-Hr_-f:y_-._-!
+"139"-i_-a:n:a_-._-$r-i_-a:n:a_-._-$b-"140"-b:n_-ti_-._-$r-b_-n:t*y__-$b-._-"141"-s_-b_-n_-H_-s_-q_-S36_-t:Z2\60_-._-$r-s_-b_-n_-H_-z:q__-T30:D40_-S36*t:Z2\60_-$b-!!
++bH2 Registre 2 +s-+l(77-101)+s-!
+US85Aa1002XT-|2,2 77 -P34_-Z1:Z2\60_-._-._-s_-n:Z2\60_-._-._-V25_-w_-D&Y1_-._-._-nTr_-A40_-p:n_-aA:a_-A_-Y1\R270_-._-|80-n:p_-r:M33_-!
+US85Aa1006XT-|81 -w_-i_-A_-z:n:Z2\60_-sxm_-m_-Y1_-M21_-t:Z2\60_-!
+US85Aa1001XT-|82-$r-w-$b-"sic"-$r-i__-r:x_-Y1\R270_-m_-h_-A_-wr:r_-m_-r_-xAst_-P30_-$b-+l   (P. Bucher numérote de 82 à 86 et omet 87)+s-!
+US85Aa1002XT-|88 -i_-w_-z:n:Z2\60_-._-._-h_-t&w_-._-|90 -A2_-z:n:Z2\60_-n_-._-._-nTr_-Z1_-p:n_-._-._-aA:a_-A_-._-._-Y1_-i_-._-._-A_-k_-._-!
+|95 -b_-D3_-._-._-A2_-z:n:Z2\60_-._-._-n:f_-m_-._-._-xt:x*t_-D54_-._-._-a:p*p_-+l     +s-|100-D54:f_-._-._-Hr:Z1_-s_-n:Z2\60_-!
++lNoms des barques (102-107)+s-!
+US85Aa1002XT-|2,2 102 -D41_-wr:r_-n:z_-S_-._-._-|103 -$r-D41_-wr:r_-n:z_-S_-$b-!
+|104 -t:Sw_-._-.__-|106 -d:p_-w_-xrw_-sbA_-tyw_-pr_-A40:Z2\60__-._-._-|107 -$r-sbA_-tyw_-pr_-A40:Z2\60_-$b-!
++lNoms des divinités 142 à 149 \+ 169+s-!
+US85Aa1002XT-"142"-N31_-dwA_-t:y_-._-._-$r-G5_-dwA_-t:y_-._-._-$b-"143 "-sxm_-D40_-A24_-x*t:f_-A14:Z2\60_-f_-._-._-$r-sxm_-a_-A24_-a__-x*t:f_-Z2\60:f_-$b-!
+"144 "-k_-w&t_-i_-i_-t:t_-d:n:t_-G29A:Z2\80-._-._-$r-k_-w_-i_-i_-t:pr_-d:n_-t_-T30_-zA:Z2\60_-._-._-$b-"145 "-i_-f:F51\\R90_-pt_-x:n:d_-f_-+l     +s-$r-i_-w_-f_-Hr:r_-pt_-x:n:d_-O40_-f_-._-._-$b-!
+"146 "-G26_-pt_-x:Dw_-f_-._-._-$r-G26_-Hr:r_-pt_-x:n:d_-O40_-f_-$b-+l         +s-"147 "-Xnm_-O38_-O38_-._-._-$r-Xnm_-w_-q:n_-b_-t:y_-O38_-._-._-$b-!
+"148 "-gb_-b_-O38_-O38_-+l      +s-$r-gb_-b_-q:n_-b_-t:y_-O38_-._-._-$b-"149 "-st_-t_-Aa27D_-nw:t:t_-._-._-$r-st_-t_-Aa27D_-D\98**nw{{192,386,76}}**t{{167,826,84}}_-Y1_-$b-!
+"169"-$r-r:mn:n_-D41_-U4_-a:t_-Sw_-$b-!!
++bH2 Registre 3 +s-+l(124-147)+s-._-._-!
+US85Aa1002XT-|2,3 124  -aA:a_-._-._-r_-._-._-r:Y1:Z2\60_-p:n_-._-._-D33_-n:D40_-f_-._-._-m_-w_-._-._-i_-A_-._-._-P30:Z2\60_-.-.-.-imi_-Z2\60_-w_-._-._-!
+|130 -tA:N23*Z1_-._-._-i_-imi_-+l     +s-w_-._-._-D54:Z2\60_-z:n_-._-._-ir:f_-H_-p_-xrw_-r_-._-._-M21_-t:N23_-t:n_-V25_-md_-._-._-|135 -w_-"sic"-md_-._-._-r:n:z_-._-._-!
+P30:f_-._-._-Dw_-i_-A26_-._-._-mn:n_-i_-T14_-P30_-f_-H_-p:t_-xrw_-._-._-|140 -w_-D54:Z2\60_-wr_-._-._-!
+F46_-nn:n_-P30:Z2\60_-._-._-aA:a:Y1_-wr_-._-._-m_-._-._-z:Y1_-r:mn_-._-._-|145 -a_-._-._-r_-A40_-h_-._-._-A2_-!
++lNoms des divinités 150 à 156 et des barques +s-._-._-!
+US85Aa1004XT-"150 "-st_-t_-._-._-"152 "-wp_-N31:Z2\60_-._-._-"153 "-s_-siA_-._-._-"155 "-i_-f:F51\\R90_-w_-._-._-"156 "-H_-k:nw_-!
++lNoms des barques (153-157)+s-._-._-!
+US85Aa1002XT-|2,3 153 -R12_-k_-m_-t:t_-._-._-|154  -p_-i_-._-._-$r-n:p:r_-M33A_-A40_-._-._-$b-|156 -ii_-P30:Z2\60_-.._-$r-D33:n_-D40_-n:t_-$b-!!
++b H2 Registre 4 +s-+l(158-187)+s-._-._-!
+US85Aa1002XT-|2,4 158 -wn:n:n_-s-n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-H_-Hn\:n_-k_-z-n:Z2\80_-n_-nTr_-p:n_-aA:a_-m_-!
+|160-t:r_-w_-tr_-ra:Z2\80_-._-._-H_-n:k:Y1_-s-n:Z2\80_-n:f_-._-._-m_-r:n_-rnp_-p:t:Z2\80_-._-._-i_-imi_-t_-._-._-a:a_-Z1:Z1_-z-n:Z2\80_-!
+|165-i_-w_-nTr_-Z1_-p:n_-aA:a:Y1_-._-._-V25_-w_-Y1:f_-n_-z-n:Z2\80_-._-._-md_-w_-Y1:Z2\80_-Dw_-i_-A26_-._-._-!
+z-n:Z2\80_-n:f_-anx_-n:x_-z-n:Z2\80_-m_-._-._-x:r_-xrw_-w_-Y1\R270_-nTr_-Z1_-p:n_-aA:a:Y1_-._-._-|170-z:r:q_-Y1\R270_-H_-t&w&t_-i_-i_-t_-._-._-!
+F10:Z2\80_-z-n:Z2\80_-._-._-Dw_-i_-Y1:f_-._-._-z-n:Z2\80_-._-._-V25_-w_-D&Y1_-f_-z-n:Z2\80_-._-._-|175-i_-ir_-w_-Y1:Z2\80_-._-._-!
+z-n:Z2\80_-mA:mAa_-a:Y1:f_-._-._-n_-z-n:Z2\80_-z_-M21_-m_-._-._-w_-Hn\:Z2\80_-z-n:Z2\80_-._-._-i_-imi_-m_-Z2\80_-w_-._-._-!
+|180-M21_-t:N23:Z2\80_-z-n:Z2\80_-._-._-n:t_-z-n:Z2\80_-z:n_-._-._-m_-Y1_-M13_-._-._-D_-D_-t_-Hn\:Z2\80_-._-._-!
+i_-imi_-t_-wr:r_-n:z_-S_-._-._-|185-n_-nTr_-Z1:Z2\80_-i_-imi_-._-._-m_-Z2\80_-w_-._-._-xt:x*t_-D54_-r:a_-ra:Z1_-._-._-!
++l(188-204) +s-!
+|2,4 188 -n:t_-z:n:Z2\80_-i_-a:iab_-b_-Y1\R270_-._-._-mw_-Z3_-Ax_-Z1\60:Z2\80_-._-._-|190-V25_-w_-d_-w_-Y1_-._-._-nTr_-Z1_-p:n_-aA:a__-A_-Y1\R270_-.._-!
+n:t_-z:n:Z2\80_-r:k_-H_-Q7_-a_-wA_-wA_-t_-Q7:Z2\80_-._-._-r_-z_-A_-m_-t_-Q7_-a_-x*t:f_-tyw_-._-._-!
+A14:Z2\80_-nw:Z1_-r:a_-ra_-A40_-n:t_-z-n:Z2\80_-._-._-|195-w_-d:d_-D40_-HA_-ib_-w&t_-Z2\80_-._-._-Hr:Z1_-z:d_-t_-Q7_-h_-t&w_-._-._-!
+A2_-x:r_-z-n:Z2\80_-i_-A_-._-._-k_-b_-D3_-A2_-z-n:Z2\80_-m_-xt:x*t_-._-._-a:p*p_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1\R270_-!
+Hr:Z1_-z-n:Z2\80_-._-._-|200-i_-imi_-m_-n_-b_-i_-y_-w_-Q7_-Q7_-A40_-._-._-m_-z_-zA_-A_-A_-D40_-M21_-t:N23_-t:n_-._-._-!
+|202-$r-w_-r:x:Y1_-m_-Z1*Ax_-a:p_-._-._-r:Y1_-x:D43_-._-._-$b-|204 -$r-w_-w_-Y1\R270_-s-n:Z2\80_-$b-!
++lNoms des divinités 170-193+s-!
+US85Aa1002XT-"170 "-wp_-tr:Z2\80_-._-._-$r-wp:p_-t:r_-w_-tr_-ra:Z2\80_-._-._-$b-"171 "-r_-tr:Z2\80_-._-._-$r-i_-r_-t:r_-w_-tr_-ra:Z2\80_-$b-!
+"172 "-f_-A_-._-$r-f_-A_-A9_-._-._-$b-"173"-a:f_-A_-w_-._-._-$r-a_-$b-"sic"-$r-A_-w_-._-._-$b-"174 "-r:n_-p:t_-y_-.-.-$r-r:n_-p:t_-y_-rnp_-rnp_-._-$b-!
+"175 "-mA_-x_-._-._-$r-mA_-x_-i_-i_-._-._-$b-"176 "-n_-H_-i_-._-._-$r-n_-nH_-H_-r_-A2_-$b-!
+"177 "-H_-D_-D_-t&w_-._-$r-H_-D_-D_-y_-w_-t:y_-._-._-$b-"178 "-H_-M42:n_-wr_-._-._-$r-H_-wn:n_-A17_-wr_-$b-!
+"179 "-HD_-wr_-._-._-$r-HD_-wr_-._-._-$b-"180 "-Hr_-f:y_-a*Z1:f:y_-._-._-$r-Hr_-f:y_-a*Z1:f:y_-._-$b-.-.-"181 "-Ax_-i_-i_-._-._-$r-Ax_-i_-i_-$b-!
+"182 "-ir_-wn:n:n_-nfr_-._-._-$r-st_-ir_-wn:n:n_-nfr_-f:r_-._-._-$b-"183 "-nb:tA_-d:z:r_-xAst_-._-$r-nb_-tA_-Dsr:xAst_-$b-!
+"184 "-A_-X_-b_-i_-i_-._-._-$r-A_-X_-b_-i_-i_-t_-A2_-._-._-$b-"185 "-a_-m_-w_-aA:D53_-._-._-$r-a_-m_-w_-A2_-aA:D53_-._-$b-!
+"186 "-r_-st_-nTr_-._-._-$r-i_-r_-st_-t:pr_-nTr_-Z1_-._-._-$b-"187 "-n:p:n_-._-._-$r-n:p:n_-a_-$b-!
+"188 "-a_-b_-sxm_-._-$r-a_-b_-sxm_-._-._-$b-"189 "-HD_-D41_-"sic"-._-._-$r-HD_-D&ra_-a:Z1_-._-._-$b-"190 "-tp:tp_-._-._-$r-tp:p_-i_-$b-!
+"191 "-n:p_-i_-._-._-$r-n:p:r_-M33A_-._-._-$b-"192 "-b_-s_-A_-._-._-$r-b_-s_-Aa18_-A_-._-._-$b-"193 "-n_-b_-i_-y_-w_-Q7_-Q7_-$r-.-.-n_-b_-i_-y_-w_-Q7_-Q7_-$b-!!
++bH2 Texte de conclusion  +s-+l(251-260)+s-._-._-!
+US85Aa1002XT-|2,c 251 -$r-D&md_-i:n_-nTr_-Z1\60:Z2\80_-dwA_-tyw_-pr_-A40:Z2\80_-x*t:f_-nTr_-Z1_-p:n_-aA:a:Y1_-G35&N29_-D54:f_-m_-a_-m_-A2_-r_-$b-!
+$r-Dr:r_-O31_-D33:n_-P30:f_-n:t_-mw_-r:a_-ra_-r_-wr:r_-n:z_-S_-$b-i_-[[-..-]]_-A26_-xa:a:Y1_-G53A*Z1_-aA:a:Y1_-!
+Szp_-p:D40_-n_-n:z_-dwA_-t:pr_-i_-f:F51B*Z1:Z2\80_-A40_-i_-r_-p*t:pt_-[[-..-]]_-r_:Y1_-anx_-n:x_-k_-i_-f:F51B*Z1:Z2\80_-A40_-!
+m_-tA:N23*Z1_-d:z:r_-Y1\R270_-n:k_-m_-a_-i_-D54_-i_-r:k_-r:a_-ra_-[[-..-]]_-k_-m_-r:n:k_-n_-anx_-n:x_-w_-!
+|252-xpr_-xnt_-n:t*y_-dwA_-t:pr_-x:n_-z:D54_-k_-M20_-t:N23:Z2\80_-x:D43_-w_-[[-..-]]_-in:n_-t:W_-D40:k_-h_-i_-w_-!
+mt:I86E_-H_-A24_-A24_-k_-n_-H_-HA_-A_-Aa2_-Hr:Z1_-I86E_-i_-w_-[[-..-]]_-h:n_-nw&w_-Y1:Z2\80_-m_-tA:N23*Z1_-!
+n_-wbA_-b_-G29A-Y1_-XA_-A_-t:F51\\R90:Z2\80_-f_-HD_-D&N8_-s_-HD_-D&N8_-wr:r_-A40_-[[-..-]]_-w_-Y1:Z2\80_-H_-HA_-A_-!
+i_-i_-N8_-i_-imi_-t_-tp:Z1_-r:a_-ra_-A40_-d:r_-D40_-k:k_-!
+|253-w_-N2_-[[-..-]]_-r:n:k_-n_-x:z:r_-D40_-S:tA_-w_-G37_-[[-..-]]_-a:Z1_-s_-HD_-D&N8_-k:k_-w_-N2:Z2\80_-!
+z:mA_-A_-w_-[[-..-]]_-F51\\R90:Z2\80_-A40_-mA_-mA_-mA_-f_-x:r_-f_-Htp:t*p_-w_-r:a_-ra:Z1_-m_-i_-mn:n_-t_-!
+[[-..-]]_-k_-mA_-mAa:a_-y_-w_-z:T31_-m_-D54_-T_-w_-D33:n_-nw&w_-P30_-A40_-Z2\80:k_-i_-imi_-Z2\80_-w_-tA:N23*Z1_-!
+[[-..-]]_-a_-z-n:Z2\80_-mn:n:Y1_-n_-H_-st_-t_-tm_-m_-zA_-G37_-z-n:Z2\80_-n:k_-!
+|254-aA:p*p_-I86E_-r_-wn:n_-nw:t_-dwA:ra_-m_-a:k:t_-nb_-s_-sbA_-[[-..-]]_-i_-A_-A27_-N33\150:2_-zb_-D54:n_-G53A*Z1_-f_-!
+SA_-A_-z:D54_-a:p:r_-Y1_-ii_-n_-XA_-A_-t:F51\\R90:Z2\80_-f_-wp:p_-Y1\R270_-[[-..-]]_-A_-k:t:Z2\80_-xAst_-wn:n_-O31:D40_-!
+aA:a_-A_-y_-w_-O31:O31_-tA:N23*Z1_-S:t*U30_-A_-Z1*w_-Y1\R270_-Sm_-m_-t:D54_-Z2\80:k_-[[-..-]]_-st_-ir_-A40_-n:D_-Aa27D_-!
+nw:Y1:k_-n:D_-Aa27D_-nw:t:Y1__-st_-ir_-A40_-U4:a_-x:r_-xrw_-w_-Y1:k_-r_-x*t:f_-tyw_-A14:Z2\80_-k_-m_-!
+|255-[[-..-]]_-t:N33\150_-p:2_-n_-i_-mn:n_-t:xAst_-m_-xpr:r_-m_-xpr__-r:n_-n_-iAb_-b_-t:xAst_-$r-V25_-md_-Y1\R270_-i:n_-Hm_-Z1:n_-nTr_-Z1_-$b-!
+$r-p:n_-aA:a:Y1_-n_-nTr_-Z1:Z2\80_-dwA_-tyw_-pr_-A40:Z2\80_-xnt__-n:t_-tyw:Z2\80_-wr:r_-n:z_-S_-$b-wn:n_-O31:a_-dwA_-w_-pr:Z2\80_-T:n:Z2\80_-!
+S:tA_-w_-Y1:Z2\80_-mA:ir_-A_-i_-f_-[[-..-]]_-k:f_-S28:D40_-k:k_-w_-N2:Z2\80_-T:n:Z2\80_-mw:Z2\80_-n_-T:n:Z2\80_-n_-!
+wr:r_-n:z_-S_-t&w_-D54_-t*X2:X4:Z2\80_-n_-T:n:Z2\80_-n_-r:d:t_-M9_-M9_-i_-m_-[[-..-]]_-n_-H_-st_-t:tm_-zA_-T:n:Z2\80_-z:S:r_-t:ra_-!
+|256-n_-z-n:Z2\80_-T:F51\\R90*Z2\80_-T:n:Z2\80_-n_-Dw_-w_-G37_-s_-t:Aa2_-H_-wA_-A_-A_-t*F51\\R90:Z2\80_-T:n:Z2\80_-[[-..-]]_-t&w_-U30_-A_-!
+w_-S28:Z2\80_-T:n:Z2\80_-d_-wn:n_-D54:n_-r:d_-rd_-rd_-T:n:Z2\80_-Sm_-m_-D54_-T:n:Z2\80_-Hr:Z1_-z-n:Z2\80_-p:d_-D54_-[[-..-]]_-!
+T:n:Z2\80_-n_-T:n:Z2\80_-G29A\69**Z2{{69,784,55}}**Z1{{531,41,57}}_-T:n:Z2\80_-D35_-H_-Hr:r_-N31_-z-n:Z2\80_-r_-T:n:Z2\80_-anx_-n:x_-n_-i_-ir_-w_-A53:Z2\80_-T:n:Z2\80_-!
+md_-d_-w_-A2_-z-n:Z2\80_-Ax&x_-w_-Y1:Z2\80_-T:n:Z2\80_-z:p:d_-M44_-Y1:n_-s_-f_-w_-T30:Z2\80_-T:n:Z2\80_-q:n_-T30:D40_-T:n:Z2\80_-!
+|257-x*t:f_-tyw_-A14:Z2\80_-st_-ir_-A40_-mn:n:Y1_-n:t:r_-w_-[[-..-]]_-ra:Z2\80_-T:n:Z2\80_-Dd_-Dd_-t:Y1_-n_-r:n_-p:t_-rnp:Z2\80_-T:n:Z2\80_-!
+xpr:r_-xpr:r_-w_-A53:Z2\80_-T:n:Z2\80_-n_-wn:n_-t_-dwA:ra_-T:n:Z2\80_-N41:z_-A7_-[[-..-]]_-A_-t:N23:Z2\80_-T:n:Z2\80_-bdt_-t:y_-U9_-n_-T:n:Z2\80_-!
+m_-t*X2:X4:Z2\80_-k_-m_-A_-X4:Z2\80_-M33:U10_-n_-T:n:Z2\80_-m_-U4:a_-[[-..-]]_-T:n:Z2\80_-n_-w_-i_-A_-P30:Z2\80_-!
+A1_-N41_-m_-w_-D54\:Z2\80_-T:n:Z2\80_-r_-z:T31_-m_-Y1:Z2\80_-[[-..-]]_-s_-anx_-n:x_-mA_-A_-sxt_-t:N23_-!
+|258-n:t_-T:n:Z2\80_-n_-M21_-tyw_-A40:Z2\80_-wr:r_-n:z_-S_-anx_-n:x_-w:Z2\80_-G29A-i_-imi_-m_-[[-..-]]_-A1_-n:t_-!
+T:n:Z2\80_-D34_-w_-D40:Z2\80_-Hr:Z1_-H_-a:F51\\R90*Z1:Z2\80_-A1_-m_-a:k_-w_-A24:Z2\80_-w_-A1_-r_-n:p*p_-"sic"-i_-I86E_-[[-..-]]_-n:t_-T:n:Z2\80_-!
+n_-G53A_-A1_-z:r:q_-Y1_-T:n:Z2\80_-n_-XA_-t_-A_-F51\\R90:Z2\80_-A1_-mn:n:Y1_-T:n:Z2\80_-n_-st_-t:pr_-T:n:Z2\80_-d:z:r_-t:Y1_-!
+V25_-t&w_-Y1_-[[-..-]]_-z_-i_-w_-A1_-a:n_-N31_-h:r_-w_-xt:x*t_-w_-D54:Z2\80_-A1_-m_-dwA_-t:pr_-zb:D54_-A1_-!
+g:r_-H_-N2_-[[-..-]]_-!
+|259-k:k_-w_-N2:Z2\80_-i_-Z1_-m_-a_-T:n:Z2\80_-w_-A1_-Sm_-m_-D54_-A1_-m_-xt:x*t_-D54_-Ax_-x:t_-ir_-A1_-!
+zb_-i_-D54_-A1_-Hr:Z1_-xt:x*t_-w_-D54:Z2\80_-iAb_-b_-t_-ir_-A1_-i_-h_-i_-i_-A2_-dwA_-tyw_-pr_-A40:Z2\80_-n:D_-Aa27D_-nw_-A2_-A1_-!
+T:n:Z2\80_-i_-h_-i_-i_-A2_-ir_-A1_-z:x:r_-w_-Y1:Z2\80_-T:n:Z2\80_-$r-Dw_-w_-i_-A26_-n_-z-n:Z2\80_-nTr_-Z1_-p:n_-m_-H_-p:t_-Hp_-$b-!
+$r-w_-i_-A_-P30:f_-i_-imi_-m_-tA:N23*Z1_-h_-t&w_-A2_-z-n:Z2\80_-z:n:D54_-f_-z-n:Z2\80_-r_-Htp:t*p_-Y1_-$b-!
+|260-$r-m_-M21_-t:N23_-n:p:r_-tyw_-A40:Z2\80_-imi_-w_-xt:x*t_-st_-ir_-A40_-i_-w_-ir_-t&w_-nn:n_-mi_-i_-z:T31_-m_-Y1:Z2\80_-$b-!
+$r-p:n_-m_-i_-mn:n_-t:Y1_-n:t_-a:t:pr_-i_-w_-r:x:Y1_-md_-w_-Y1:Z2\80_-p:n_-m_-a:N31_-x:r_-dwA_-tyw_-pr:Z2\80_-Z3_-$b-"sic"-$r-A40_-$b-!
+$r-i_-w_-Ax&x_-Y1:n_-z:A1*Z1_-tp_-Z1_-tA:N23*Z1_-V6_-Z1_-mA:a_-Y1_-[[-..-]]_-n:t_-SsA:t_-m_-a:k:t_-Y1_-nb_-s_-sbA:ra_-B1_-$b-!!
+!!
+!
++b3e HEURE +s-+ide la nuit  "Celle qui découpe les âmes-+s-+lbaou" +s-!
++bH3 Introduction  +s-!
+US85Aa1006XT-|3,i 1 -$r-Htp:t*p_-m_-sxt_-t:N23_-n:p:r_-tyw_-N23_-A40:Z2\80_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a:Y1_-ir:t_-H_-p_-t&w:Z2\80_-xrw_-m_-n:t_-$b-!
+$r-mw_-st_-i_-t:r_-w_-100*.*100:100_-3:3*.*3_-m_-Aw:n_-sxt_-t:N23_-t:n_-t&w_-._-nTr_-Z1_-p:n_-aA:a:Y1_-md_-w_-Y1:Z2\80_-$b-!
+$r-n_-G29A:Z2\80-imi_-Z2\80_-w_-xt:x*t_-st_-ir_-A40_-r_-niwt:t*Z1_-t:n_-r:n_-n_-wn:n_-nw:t_-ra:sbA_-n:t_-$b-[[-..-]]_-$r-nTr_-Z1_-p:n_-$b-!
+$r-aA:a:Y1_-d:n:t_-T30_-G29A\98**R7{{8,520,56}}-Z1:Z2\80_-sbA_-r:n_-n_-s_-b_-sbA_-pr_-n_-niwt:t*Z1_-t:n_-V15_-t&w_-A24_-[&-pr-&]_-$b-!!
++bH3 Registre 1 +s-+l(2-27)+s-!
+US85Aa1002XT-|3,1 2 -wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-sbA:t*pr_-._-._-m_-i_-f:F51\\R90*Z2\80_-z:n:Z2\80_-n__-D\98**t{{65,639,88}}**Z1{{606,487,89}}-z:n:Z2\80_-._-._-!
+D&z_-z:n:Z2\80_-md_-d_-w_-A2_-._-._-G29A\98**R7{{8,520,56}}:Z2\80-z:n:Z2\80_-._-._-Hr:Z1_-z:n:Z2\80_-Htp:t*p_-Y1_-._-._-S36_-t&w_-ra:Z2\80_-z:n:Z2\80_-._-._-!
+Hr:Z1_-z:n:Z2\80_-m_-xt:x*t_-D54_-._-.__-m_-xt:x*t_-D54_-Dw_-._-._-|10 -i_-w_-A26_-n_-z:n:Z2\80_-._-._-nTr_-Z1_-A40_-p:n_-._-._-!
+aA:a_-A_-Y1_-i_-w_-z:n:Z2\80__-._-._-md_-d_-w_-A2_-z:n:Z2\80_-n:f_-._-._-d_-wA_-A_-A30_-z:n:Z2\80__-._-._-!
+|15 -sw_-w_-i_-A_-k_-b_-Sny_-._-._-A2_-z:n:Z2\80_-m_-xt:x*t_-._-._-D54_-a:p*p_-D54:f_-Hr:Z1_-z:n:Z2\80_-._-._-!
+$r-ir:r:t_-z:n:Z2\80_-p_-w_-m_-._-._-imnt_-t:xAst_-$b-n:D_-Aa27D_-nw:Y1_-._-._-|20 -s_-b_-i_-T14_-N33:z_-xpr:r_-Y1_-._-._-!
+nw*nw*nw:pt_-A40_-ir:t_-n_-m_-t*t:D54:Z2\80_-._-._-H_-a:p_-mw_-pr:r:r_-D&a_-._-._-TAw:Z2\80_-m_-tA:N23*Z1_-._-._-!
+Xr:r_-z:n:Z2\80_-a_-z:n:Z2\80_-._-._-|25 -x:r_-xrw_-w_-Y1_-n:D_-Aa27D_-nw:Y1_-s_-n:Z2\80_-s_-b_-i_-i_-A14_-$r-i_-w_-r:x:Y1_-z:n:Z2\80_-$b-!
+$r-m_-a:p*p_-D54_-Hr:Z1_-z:n:Z2\80_-._-._-$b-|26 -$r-D35:O35_-D54_-n:f_-n:h_-m_-h_-m_-t:Y1:Z2\80_-z:n:Z2\80_-._-._-$b-!
+|27 -$r-D35_-h_-A_-D54_-n:f_-m_-H_-HA_-A_-d_-w_-T92:Z2\80_-z:n:Z2\80_-$b-!
++lNoms des divinités  194 à 217 +s-!
+US85Aa1002XT-"194 "-pt_-S:a:Z2\80_-f__-._-._-$r-Hr:r_-S:a:Z2\80_-f_-._-$b-"195 "-D&b&b_-nTr_-._-._-$r-d_-b_-i_-i_-Y1_-nTr_-Z1_-._-._-$b-!
+"196 "-i_-n:p_-._-._-$r-i_-n:p_-w_-._-._-$b-"197"-n:h_-A_-xrw_-._-._-$r-n:h_-m_-a_-xrw_-w_-Y1_-._-._-$b-!
+"198"-ini:n_-ti_-._-._-$r-ini_-n:t*y_-._-._-$b-"199"-ini:n_-T:T_-._-._-$r-ini:n_-t:t_-._-._-$b-"200"-T31_-A14_-Z2\80:f_-._-._-$r-z:U2_-T31_-x*t:f_-Z2\80:f_-$b-!
+"201"-pd_-aHa_-._-._-$r-p:d_-pd_-aHa_-a:D54_-._-._-$b-"202"-wAs:Z1\R270_-._-._-$r-i_-n:p_-w_-wAs_-Z1_-._-._-$b-"203"-$r-ini:n_-ir:t*Z1_-s_-Htp:t*p_-nTr:Z2\80_-._-._-$b-ini_-n:D12_-s_-Htp_-nTr:Z2\80_-._-._-!
+"204"-$r-wr:r_-H_-kA:Z2\80_-._-._-$b-wr_-H_-kA:Z2\80_-._-._-"205"-S20_-ib_-._-._-$r-s_-a_-H_-S20:Y1_-ib_-._-._-$b-!
+"206"-T:U2_-._-._-$r-T:U2_-Y1_-._-._-$b-"207"-H_-M42_-E31:Z2\80_-._-._-$r-H_-M42:n_-A17_-s_-a_-H_-S20:Z2\80_-._-._-$b-"208"-V15_-m_-N2_-._-._-$r-V15_-t:D40_-m_-g:r_-H_-N2_-._-._-$b-!
+"209"-d_-G29\98**R7{{10,509,56}}_-Y1_-._-._-$r-d_-b_-G29_-S28_-._-$b-!
+"210"-a_-wA_-i_-i_-A24_-._-._-$r-a_-wA_-A_-i_-i_-D40_-._-._-$b-"211"-kA_-D12_-w_-Y1:Z2\80_-._-._-$r-kA:mt_-ir_-w_-Y1:Z2\80_-._-._-$b-!
+"212"-G29\98**R7{{10,509,56}}_-p:f_-._-._-$r-G29\98**R7{{10,509,56}}_-p:f_-._-._-$b-"213"-D143:t_-._-._-$r-r_-m_-i_-i_-t:D143_-$b-!
+"214"-U2_-ti_-i_-T_-._-._-$r-U2_-ti_-i_-i_-t_-A2_-._-$b-"215"-Sny_-i_-i_-T_-._-._-$r-i_-A_-k_-b_-i_-i_-t_-Sny_-$b-!
+"216"-H_-A_-i_-i_-t_-._-._-$r-H_-HA_-i_-i_-t:Sny_-._-._-$b-"217"-H_-nw&w__-._-._-$r-H_-n:w__-$b-!!
++bH3 Registre 2  +s-+l(76)+s-!
+US85Aa1001XT-|3,2 76-w_-"sic"-i_-nn_-P30_-Z1:Z2\80_-S:tA_-w_-Y1:Z2\80_-z:T31_-m_-sw_-w_-m_-M21_-t:N23_-t:n_-H_-p:t_-xrw_-nTr_-Z1_-p:n_-!
+aA:a:Y1_-m_-sxt_-t:N23_-t:n_-r_-wn:n_-nw:t_-sbA:ra_-d:n:t_-T30_-G29\98**R7{{10,509,56}}_-Z1:Z2\80_-F47A:r_-D54_-nn:n_-P30_-Z1:Z2\80_-r_-i_-d_-!
+N21_-b_-V15_-w_-D40_-m_-xt:x*t_-m_-xt:x*t_-x:n:z_-D54_-niwt:t*Z1_-t:n_-$r-i_-w_-r:x:Y1_-s_-t_-m_-i_-r_-st_-t:pr:Z2\80_-$b-!
+$r-p_-pA_-d:D12_-f_-r_-Hr:Z1_-H_-n:a_-r:a_-ra_-A40_-$b-!
++lNoms des divinités (218 à 249) et des barques+s-!
+US85Aa1002XT-"236"-d:z_-T30_-m_-Hr*Z1:f_-._-._-"237"-U2_-Aw_-t&w_-._-._-"240"-z:t_-Q7_-Hr_-._-$r-z:t_-Q7_-Hr_-$b-!
+"241"-$r-D33:n_-D40_-n_-wr:r_-d:f_-._-._-._-._-$b-"1ère barque"-|3,2 82-$r-P30_-h:mw_-n_-$b-"sic"-!
+"242"-n:i*b_-Q7_-Hr_-._-._-"243"-aHa_-G5_-T30_-._-._-$r-aHa_-w_-f:n_-T30_-D54&w_-G5_-$b-!
+"244"-b_-i_-k:t_-._-._-"245"-k\:t_-i\_-b\_-._-._-"246"-t:k_-Hr__-._-._-$r-t:kA_-Q7_-Hr_-._-._-.._-$b-"2e barque"-|3,2 90-$r-P30_-a:p:r_-Y1-$b-!
+"248"-$r-++s 248-249 +s-$b-nb_-n:t_-mw_-._-._-"249"-mn:n_-tA_-._-._-$r-mn:n_-i_-i_-tA_-._-._-$b-!
+"218"-G5_-xt_-._-._-$r-G5_-xt:t*y__-._-._-$b-"219"-nTr_-nfr:Z2\80_-._-._-$r-nTr_-nfr:Z2\80_-._-._-$b-"220"-mH_-Sw_-._-._-$r-mH:Y1_-U5:a_-t_-Sw_-$b-!!
++bH3 Registre 3  +s-+l(100)+s-!
+US85Aa1001XT-|3,3 100-x:n:z_-D54_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-n:t_-mw_-nb_-wa:a_-A40_-xpr_-r_-Aw_-t&w_-X4A:Z2\80_-z:x:r_-Y1:Z2\80_-!
+p:n_-D33:n_-D40:f_-m_-P30:Z2\80_-imi_-Z2\80_-w_-tA:N23*Z1_-ir:f_-H_-p:t_-xrw_-st_-ir_-A40_-r_-niwt:t*Z1_-t:n_-i_-w_-nTr_-Z1_-p:n_-!
+aA:a:Y1_-Htp:t*p_-f_-a_-aHa_-w_-ra_-m_-niwt:t*Z1_-t:n_-HD_-md_-f:n_-st_-ir_-A40_-H_-n:a_-imi_-Z2\80_-w_-xt:x*t_-D54:f_-!
++lNoms des divinités (230 à 277) et de la barque+s-!
+US85Aa1002XT-"230"-D33:n_-._-._-$r-D33:n_-nw_-._-._-$b-"231"-m_-tA_-._-._-$r-i_-imi_-tA:N23*Z1_-.-._-$b-"232"-F8_-._-._-$r-S:f:Y1_-$b-!
+"233"-nb_-wAs_-Z1_-._-._-$r-nb_-wA_-s_-wAs_-._-._-$b-"234"-Q7_-m_-D12:f_-._-._-$r-z:t_-Q7_-m_-ir:t*Z1_-f_-$b-!
+|barque 3,3 111-$r-G29_-xt:t_-._-._-$b-US85Aa1003XT-"250"-$r-++ 250 à 251 de Hornung +s-$b-D12:Dr_-._-._-$r-ir_-Dr:r_-w_-N31:Z2\80_-._-._-$b-"251"-U2_-Dr_-._-._-$r-U2:ir_-Dr:r_-w_-N31:Z2\80_-$b-!
+US85Aa1002XT-"273"-i_-k_-w_-._-._-"274"-H_-f_-A_-._-._-"275"-S:tA_-Sm_-._-._-$r-S_-tA:N23*Z1_-Sm_-D54_-$b-!
+US85Aa1003XT-"276"-G29_-X:i*i_-t_-._-._-"277"-x:t:r_-rnp_-!!
++bH3 Registre 4  +s-+l(124-156)+s-!
+US85Aa1002XT-|3,4 124-wn:n:n_-z:n:Z2\80_-m_-._-._-z:x:r_-Y1:Z2\80_-p:n_-._-._-d_-wA_-A_-dwA_-._-._-Y1_-z:n:Z2\80_-nTr_-Z1_-p:n_-!
+aA:a:Y1_-i_-w_-._-._-nTr_-Z1_-p:n_-._-._-|130-aA:a:Y1_-V25_-w_-D_-._-._-Y1:f_-n_-s_-n:Z2\80_-md_-w_-._-._-!
+Y1:Z2\80_-anx_-n:x_-z:n:Z2\80_-Dw_-._-._-w_-i_-Y1:f_-n_-z:n:Z2\80_-._-._-V25_-w_-Y1:f_-n:n_-"sic"-z:n:Z2\80__-._-._-!
+|135-mw:Z2\80_-z:n:Z2\80_-Szp:p_-D40_-._-._-z:n:Z2\80_-tp:Z2\80_-Z1:Z2\80_-z:n:Z2\80_-m_-._-._-TAw:Z2\80_-tp:p_-r:Z1_-f_-._-._-!
+$r-ir:r:t_-z:n:Z2\80_-p_-w_-._-._-m_-i_-mn:n:t_-Dw_-$b-._-._-|140-ir:t_-m_-a:q_-T30:a_-._-._-S:a_-T30:D40_-G29A-Z1:Z2\80_-!
+x:n:r_-i_-D20_-G37_-._-._-S36_-t&w:Z2\80_-r:a:t_-._-._-t:tm_-m_-w_-G37_-._-._-|145-A14_-D35:t_-tyw_-G37:Z2\80_-wn:n:n_-!
+r_-st_-t:pr_-z:n:Z2\80_-n:t_-H_-st_-t_-._-._-tm_-m_-i_-i_-t_-zA_-G37_-pr_-z:t*t_-Q7_-D40_-!
+z:n:Z2\80_-z:d:t_-Q7:Z2\80_-z_-x:p:r_-Y1_-z:n:Z2\80_-A_-._-._-m_-t&w_-Q7:Z2\80_-x*t:f_-tyw_-D12:Z2\80_-m_-!
+|150-i_-imi_-t:tp:Z2\80_-z:f_-w_-T30:Z2\80_-z:n:Z2\80_-._-._-h_-t&w_-A2:Z2\80_-z:n:Z2\80_-i_-A_-k_-b_-D3_-._-._-Y1:Z2\80_-z:n:Z2\80_-!
+m_-xt:x*t_-D54_-a:p*p_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-._-._-Hr:Z1_-z:n:Z2\80_-x:t:r_-i_-A40_-r:n_-n_-._-._-z:zA_-A_-!
+A_-D40_-sxt_-t:N23_-t:n_-._-._-|155-$r-i_-w_-r:x:Y1_-s_-t_-m_-._-._-Z1_-Ax_-sxm_-m_-Y1_-m_-rd_-rd_-f_-$b-!
++lNoms des divinités (252 à 272)+s-!
+US85Aa1002XT-"252"-Xnm_-._-._-$r-Xnm_-m_-w__-._-._-$b-"253"-n:r_-tA_-._-._-"254"-st_-ir_-nb_-imnt_-t:xAst_-._-._-!
+"255"-st_-ir_-xnt_-n_-imnt_-t:xAst_-._-._-"256"-st_-ir_-st_-st_-._-._-$r-st_-ir_-st_-t:y_-pr_-._-._-$b-"257"-st_-ir_-iTi_-A73:Z2\80_-!
+"258"-n:h_-A_-Hr_-._-._-$r-n:h_-A_-A24_-Hr_-._-._-$b-"259"-A_-g_-b_-z:n_-._-._-"261"-i_-T_-m_-t:y_-._-._-$r-i_-t:tm_-m_-t:y_-T30_-._-._-$b-!
+"262"-3:2_-w_-t:y_-._-._-$r-3:2_-w_-t:y_-A2_-._-._-$b-"263"-ms_-x:n:t_-._-._-"264"-z:zA_-F41_-t:Z2\80_-._-._-$r-z:zA_-D40_-S:a_-t:Z2\80_-._-._-$b-!
+"265"-tp:t_-b_-s_-z:z_-._-._-$r-tp*p:t_-b_-s_-Q7_-s_-._-._-$b-"266"-i_-mn:n_-t:y_-._-._-"267"-st_-ir_-kA_-imnt_-!
+"268"-st_-ir_-pt_-x:n_-Dw:f_-._-._-"269"-st_-ir_-bit_-$r-bit_-._-._-$b-"270"-st_-ir_-sxm_-nTr:Z2\80_-._-._-"271"-D63_-._-._-"272"-aHa_-w_-!!
++bH3 Texte de conclusion - +s-+lHymne au dieu et ordres qu'il donne  +s-+l(185-215)+s-!
+US85Aa1002XT-|3,c 185-$r-D&md_-i:n_-nTr_-Z1:Z2\80_-S:t*U30_-A_-w_-Y1:Z2\80_-x*t:f_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-G35&N29_-D54:f_-m_-$b-!
+$r-iTi_-t&w_-O31\R90_-$b-|186-$r-D33:n_-P30:f_-n:t_-mw_-nb_-wa:a_-A40_-xpr_-r:t_-Aw_-t&w__-X4A:Z2\80_-$b-m_-a:r:k_-n:n:Z2\80_-D33:n:n_-w_-!
+D40_-i_-f:F51\\R90:Z2\80_-f_-|187-++187+s-z:T31_-m_-w_-D54:n_-H_-a:F51\\R90*Z2\80:f_-D\98**z{{52,534,68}}**z{{51,826,68}}_-a:a_-A_-w_-A2_-sbA_-t:pr_-nb_-z:r:q_-Y1_-!
+md_-w_-A2_-H_-a:Z1*F51\\R90:Z2\80_-ir_-anx_-Z1:Z2\80:f_-|188-xa:a:Y1_-zA_-k_-wA_-A_-S:Y1_-sxm_-Z1:k_-z:T31_-m_-D54_-t&w_-!
+Sw_-Sw_-k:y_-m_-wA_-A_-t:N31_-k:k_-w_-N2:Z2\80_-p*t:pt_-n_-|189-G29A\98**R7{{8,520,56}}-Z1:k_-tA:N23*Z1_-n_-XA_-A_-!
+t_-F51\\R90:Z2\80:k_-a_-aHa_-a:D54_-n:k_-wa:a:t_-A40_-wa:a_-t:t_-r_-nfr_-f:r:t_-W_-mn:n_-i_-t_-qmA_-P30_-zAb:Z2\80_-z:Szp_-p:D40_-!
+|3,c 190-T_-w_-a:a_-Z1:Z1_-imnt_-tyw_-A40:Z2\80_-m_-i_-ir_-w_-Y1:Z2\80:k_-n_-d:z:r_-Y1_-n:n_-x*x:Y1_-A40_-nfr_-f:r_-y&w_-!
+A_-U2:ir_-A_-A_-|191-++191+s-imnt_-tyw_-A40:Z2\80_-Htp:t*p_-y&w_-A_-sDm_-m_-sbA:t_-tyw_-A40:Z2\80_-r:a_-ra:Z1_-A40_-Htp:t*p_-f_-!
+m_-imnt_-t:xAst_-HD_-t&w_-ra:Z2\80:f_-|192-a:Z2\80_-m_-k:k_-t_-N2_-z:T31_-m_-Y1:Z2\80_-pr_-m_-a:r_-k:D54_-n:n:Z2\80_-!
+r:a_-ra:Z1_-Axt:t*y_-A40_-xpr:r_-A40_-nbw:b_-mw_-Y1_-nTr_-Z1:Z2\80_-|193-D33:n_-P30:k_-i_-d_-b_-w__-N21:Z2\80_-sbA_-t:pr_-x:n:z_-D54:k_-!
+sxt_-t:N23_-Z2\80:k_-i_-mn:n_-t:Y1:Z2\80_-xpr_-r:k_-xpr_-r:t_-m_-tA:N23*Z1_-k_-p_-w_-r:n:n_-A2_-n:k_-|194-niwt:t*Z1_-wr:r:t_-!
+Htp:t*p_-n:k_-Hr:r_-z_-m_-a_-H_-k:n_-A26_-i_-r:k_-n_-st_-ir_-A40_-H_-k:n_-Y1:f_-n:k_-m_-!
+D\98**t{{65,639,88}}**Z1{{606,487,89}}-f_-i_-imi_-t_-sbA_-t:pr_-h_-A_-!
+|195-r:a_-ra:Z1_-A40_-U5:a_-x:r_-xrw_-w_-A2_-h_-A_-r:a_-ra:Z1_-A40_-!
+H_-A24_-A24_-x*t:f_-tyw_-A14_-Z2\80:f_-U5_-a:Y1_-xrw_-w_-Y1:k_-|196-++196+s-r:a_-ra:Z1_-A40_-r_-x*t:f_-tyw_-A14_-Z2\80:k_-!
+nb_-i_-t:n:ra_-HD_-D&N8_-G53A_-Y1_-s_-HD_-D&N8_-tA:N23*Z1_-$r-HD*md:Y1_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a:Y1_-n_-G30A_-Z3_-$b-!
+|197-$r-++197+s-S:t*U30_-A_-w_-Y1:Z2\80_-i_-imi_-w_-Y1:Z2\80_-xt:x*t_-D54_-st_-ir_-A40_-$b-i_-Z1_-n:U20_-nw_-w_-z:S:Y1_-n:A1_-i_-mn:n:Y1_-n:A1_-!
+G29A\98**R7{{8,520,56}}-Z1:Z2\80_-z:n:Z2\80_-|198-a:r_-N31:Z2\80_-w_-n:A1_-st_-ir_-A40_-m_-xt:x*t_-D54:f_-r_-n:D_-Aa27D_-nw\70:Y1_-Hr*Z1:r_-f_-!
+r_-zb_-t_-b_-D54_-Hr:Z1_-z:T31_-m_-Y1:Z2\80_-f_-r_-s_-H_-st_-t:tm_-m_-zA_-G37_-|199-++199+s-ir:Z2\80_-w_-!
+t&w_-A24:Z2\80_-r:f_-H_-w_-Y1_-A40_-n:k_-st_-ir_-A40_-siA_-A_-A40_-n:k_-xnt_-n:t*y_-imnt_-tyw_-A40_-i_-Z1_-Ax_-Z1:Z2\80_-!
+|200-st_-ir_-A40_-imi_-Z2\80_-w__-xt:x*t_-D54_-xnt_-n:t_-tyw_-A40_-imnt_-tyw_-A40_-mn:n:Y1_-n_-i_-ir_-w_-Y1:Z2\80_-!
+T:n:Z2\80_-Ax&x_-Y1:n_-xpr:r_-w_-Y1:Z2\80_-T:n_-|201-++201+s-Z2\80_-z:z:n_-t:fnD:Y1_-TAw_-w:Z2\80_-n_-f:n_-Dw_-fnD:Z2\80_-T:n:Z2\80_-!
+U2:ir_-A_-A_-n_-Hr*Z1:Z2\80_-T:n:Z2\80_-sDm_-m_-n_-sDm:sDm_-T:n:Z2\80_-k:f_-t:D40_-n_-a:f_-n:t_-S28:Z2\80_-T:n:Z2\80_-!
+|202-wHa:a:Y1_-n_-t&w_-Aa2_-S28:Z2\80_-T:n:Z2\80_-Htp:t*p_-N135:Z2\80_-n_-T:n:Z2\80_-tp:p*y_-tA:N23*Z1_-mw:Z2\80_-n_-T:n:Z2\80_-n_-n:p:r_-t:N23*Z1_-nTr_-Z1_-!
+A_-H_-t:N23:Z2\80_-n_-T:n:Z2\80_-n_-sxt_-t:N23:Z2\80_-T:n:Z2\80_-|203-++203+s-D35_-x:r_-A14__-G29A\98**R7{{8,520,56}}-Z2\80_-T:n:Z2\80_-D35_-z:x:d_-D54_-!
+XA_-A_-t&w_-F51B*Z1:Z2\80_-T:n:Z2\80_-wn:n:O31_-D40:n_-sbA_-w_-pr:Z2\80_-T:n:Z2\80_-Szp:p_-N8_-n_-q:r:t_-pr:Z2\80_-T:n:Z2\80_-!
+|204-a_-aHa_-a:D54_-n_-T:n:Z2\80_-Hr:Z1_-st_-t:pr:Z2\80_-T:n:Z2\80_-ii_-i_-D54_-n:A1_-aA:a_-A_-N31_-r_-U2:ir_-A_-A_-XA_-A_-t*F51B:Z2\80_-A1_-s_-i_-p:Y1_-A1_-z:T31_-!
+|205-m_-Y1:Z2\80_-A1_-i_-imi_-sbA_-t:pr_-D33:n_-nw&w_-D40:Z2\80_-tA_-T:n:n_-A40_-D33:n_-D40_-w_-A1_-!
+Aw_-w_-a_-Z1_-A40:Z2\80_-ir_-z:n:Z2\80_-H_-p:t_-Hp_-|206-A1_-G29&R7_-k:n_-p*t:pt_-st_-ir_-A40_-XA_-A&t_-F51B:Z2\80:k_-!
+n_-tA:N23*Z1_-xnt_-n:t*y_-i_-g:r:t_-xAst_-nTr_-Z1:Z2\80:k_-m_-xt:x*t_-D54:k_-Ax_-Z2\80:k_-tp_-|207-++207+s-a:a_-Z1:Z1_-k_-xpr_-r:n_-!
+t&w_-t&w_-A53_-Z2\80:k_-imi_-w_-A40_-Z2\80:k_-i_-s_-t_-Ax_-x:Y1_-n_-Ax_-Z1:k_-st_-ir_-A40_-Ax_-x:Y1_-n_-!
+|208-Ax:Z2\80_-T:n:Z2\80_-Ax:Z2\80_-imi_-Z2\80_-w_-xt:x*t_-st_-ir_-i_-w_-A1_-a:r_-N31_-A1_-n_-tA:N23*Z1_-h:r_-w_-ra:Z1_-!
+m_-xt:x*t_-D54_-A1_-zb_-b_-D54_-|209-A1_-g:r_-H_-N2_-r_-Htp:t*p_-t:Y1_-G53A_-A1_-i_-ir_-w_-Y1:Z2\80_-!
+T:n:Z2\80_-n_-h:r_-w_-ra:Z1_-ir:n_-A1_-Ax_-x_-w_-Y1:Z2\80_-T:n:Z2\80_-n_-!
+|210-g:r_-H_-N2_-N29&U1_-A_-qmA_-Y1:n_-A1_-G29A:Z2\80-T:n_-n:A1_-m_-xt:x*t_-D54_-A1_-sw_-w&t_-ir_-T:n:Z2\80_-D35_-h_-A_-w_-D54_-T:n:Z2\80_-r_-!
+|211-H_-st_-t:tm_-m_-z_-zA_-pr_-$r-i_-w_-nTr_-Z1_-p:n_-aA:a:Y1_-mn:n_-i_-qmA_-Y1:f_-r_-z:n:Z2\80_-Dw_-w_-i_-A26_-$b-!
+$r-x:r_-z:n:Z2\80_-n_-a:a_-P30_:f_-m_-xt:x*t_-D54_-$b-|212-$r-++212+s-HD_-w_-Y1:f_-n_-z:n:Z2\80_-md_-w_-Y1:Z2\80_-i_-w_-ir:t_-$b-!
+$r-mi_-i_-i_-Y1_-m_-i_-mn:n_-t:Y1:Z2\80_-n:t_-sbA_-t:pr_-i_-w_-r:x_-nn:n_-m_-G29A\98**R7{{8,520,56}}-Z1_-$b-|213-$r-Ax_-x:Y1_-s_-sxm_-x_-$b-!
+$r-m_-Y1_-m_-r:d_-rd_-rd_-f_-D35:t*y_-G37_-G35&N29_-D54:f_-m_-H_-st_-t:tm_-m_-zA_-G37:z_-pr_-i_-w_-$b-!
+|214-$r-f_-pr:r_-D54:f_-m_-ir_-w_-A53_-Y1:Z2\80_-m_-h:r_-w_-ra:Z1_-t:p_-i_-TAw_-f_-TAw_-w_-r_-$b-!
+$r-wn:n_-nw:t_-sbA_-f_-$b-|215-$r-++215+s-wn:n_-nw:t_-sbA:ra_-z:T31_-m_-t:D54_-sxt_-t:N23_-t:n_-d:n:t_-T30_-G29A\98**R7{{8,520,56}}-Z2\80:sbA_-ra_-$b-!!
+!!
++b4e HEURE +s-+ide la nuit  "Celle qui est grande par son pouvoir " +s-!
++bH4 gauche -  Introduction et registre 1 +s-+l(1-7)+s-!
+US85Aa1002XT-|4,1g 1-$r-Htp:t*p_-m_-z:T_-A_-w_-sTA_-D54:Z2\80_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-m_-q:r:r_-t:pr__-S:tA_-t:Y1_-n:t_-$b-!
+$r-imnt_-t:xAst_-d:z:r_-t:Y1_-i_-ir_-w_-._-._-$b-|2-$r-++ 2 +s-A53:Z2\80_-ir:t_-z:x:r_-w_-Y1:Z2\80_-n:t_-tyw:Z2\80_-A40_-i_-m_-z_-m_-x:r_-xrw_-$b-!
+$r-w_-Y1:f_-D35:t_-G37_-U2:ir_-A_-A_-f_-s-n:Z2\80_-._-._-$b-|3-$r-++ 3 +s-anx_-n:x*t_-xpr:r_-w_-A53_-Y1:Z2\80_-pr_-r:n_-n_-$b-!
+$r-q:r:r_-t:pr_-t:n_-r:n_-n_-s_-b_-sbA_-A_-pr:n_-q:r:r_-t:pr_-t:n_-i_-mn:n:Y1_-s_-T_-A_-$b-|4-$r-w_-sTA_-D54:Z2\80_-$b-!
+$r-pr_-r:n_-n_-wn:n_-nw:t_-sbA:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-wr:r:t_-m_-$b-!
+$r-sxm_-Z1:Z2\80:z_-$b-|5-$r-sbA:ra_-B1_-i_-w_-r:x:Y1_-z:T31_-m_-Y1:Z2\80_-p:n_-m_-wn:n_-m_-q:q_-A2_-t*X2:X4A_-r_-r:Z1_-anx_-n:x_-$b-!
+$r-w_-A1_-$b-|6-$r-A1_-A1_-m_-Hwt_-t:pr_-t:tm_-m_-A40_-$b-!
+|6b=A-US85Aa1008XT-sw_-N41:t_-wr:r:t_-N36:t:f_-._-.__-US85Aa1006XT-<-ra_-mr_-i_-i_-t_->-anx_-ti_-mn:n_-ti_-i_-tp_-tA:N23*Z1_-!
+|7-++ 7 +s-W_-W_-W_-S:tA_-T:Z2\80_-z:T_-r:sTA:Z2\80_-mw_-T:nw:Z2\80_-d:z:r_-w:Z2\80_-n:a_-H_-t:pr_-b_-s_-zA_-zA_-pr:Z2\80_-A4:Z2\80_-i_-n:n:Z2\80_-!
+T_-zA__-H10\70:pt_-S:a:Z2\80_-f_-$r-i_-zA_-D12:T_-w_-S:T31_-p:n_-n:T_-m_-zS_-m_-A4:Z2\80_-n:t_-N15:t_-Hr_-imnt_-a:T_-A4:T_-$b-!
+i_-zA_-r:x_-st_-zA_-mAa\:W*Z2\80_-S_-zA_-mw_-T_-nw*Z1:Z2\80_-n:r_-sTA:Z2\80_-D12*D12:T31_-zA_-a_-H_-t:pr_-!!
++bH4g - Chemin sablonneux, en diagonale  +s-+l(166-174)+s-!
++lS1 +s-US85Aa1006XT-|4,g 166-n_-r:sTA:Z2\80_-._-._-._-US85Aa1002XT-+lP1 +s-T30_-zmA__-C12A_-._-._-$r-m_-d:z_-T30_-z:U2_-zmA_-Y1:tA:N23*Z1_-$b-!
+US85Aa1001XT-|167-W_-W_-W_-S:tA_-t:Z2\80_-n:t_-r:sTA:Z2\80_-O32_-nTr_-n:D54_-n:f_-z:n_-xrw_-f:p_-sDm_-z:n_-!
++lS2 +s-|168-$r-N31:t*Z2\80_-S:t*U30_-t:Y1:Z2\80_-n:t_-r_-sTA:Z2\80_-r:t*y_-O32__-nTr_-Z1_-D35:a_-p:D54_-n:f_-z:n:Z2\80_-xrw_-w_-Y1:f_-p_-w_-sDm_-w_-z:n:Z2\80_-$b-!
++lS3 +s-US85Aa1002XT-|169-W_-n:t_-D54:t_-XA:t_-F51B:Z2\80_-n:t_-z:k:r_-pt_-S:a:Z2\80_-f_-z:T31:Y1_-S:tA:Z2\80_-n:D12*D12_-n:p*t_-r:ir_-!
+|170-$r-N31:t*Z1_-n:t_-a:q*D54_-XA:t*F51B_-n:t_-z:k:r_-A40_-pt_-S:a:Z2\80_-f_-z:T31:Y1_-S:tA:Z2\80_-Y1:D35_-U2:ir_-D35_-p*t:r_-D6A_-$b-!
++lP2 +s-|77-W_-n:t_-D54:t_-XA:t*F51B:Z2\80_-n:t_-z:k:r_-A40_-._-._-|78-$r-d:z_-T30_-z:U2_-Y1_-tA:N23*Z1_-$b-!
++lS4 +s-US85Aa1001XT-|171-W_-S:tA_-t:Y1_-D54_-t:n_-i_-n:p_-Hr:r_-z_-A4_-XA:t*F51B_-H8:r_-!
+|172-$r-N31:t*Z1_-S:tA_-t:Y1_-a:q_-D54:n_-i_-n:p_-w_-A40_-Hr:r_-z_-i_-mn:n:Y1_-XA:t*F51B:Z2\80_-st_-ir_-A40_-$b-!
++lS5 +s-US85Aa1002XT-|173-W_-S:tA_-T_-n:T_-r_-a_-H_-T:pr_-._-._-|174-$r-wA_-t:N31_-S:tA_-t:Y1_-n:t_-r:Z1_-a_-H_-t:pr__-$b-!!
++bH4g - Registre 2  +s-+l(8-39)+s-!
++lH4g,R2 Scène 1 +s-US85Aa1002XT-|4,2g 8-$r-M42:n:n_-z:r_-N8\140_-$b-.-.-|9-wn:n:n_-z:r_-w_-b_-n:nw_-N8\140_-D54:Z2\80_-._-._-!
++lH4g,R2 Scène 2 +s-US85Aa1002XT-|10-W:r:T_-r_-sTA:Z2\80_-.-.-$r-N31:t*Z1_-i_-r:t_-sTA:Z2\80_-xAst_-._-._-sbA_-p:n_-$b-s_-b_-sbA:pr_-p:n_-._-._-!
+|13-M42:n:n_-f_-zA_-r_-N31:t*Z1_-.-.-|14-$r-wn:n:n_-f_-m_-i_-r_-N31:t*Z1_-._-._-$b-|15-T:n_-n:t_-D54_-n:f_-._-._-$r-t:n_-D35:t_-Sm_-n:f_-$b-!
+|17-r_-st_-nb_-._-._-$r-r_-st_-t:pr_-nb_-._-._-$b-ra:nb_-._-._-|20-$r-r:a_-ra:nb_-$b-!
+"serpent 279"-US85Aa1005XT-$r-tp:p_-i_-i_-z:zA_-a_-m_-t:n_-N31_-._-._-$b-tp_-tp_-zA_-a:T:n_-!
++lH4g,R2 Scène 3 +s-US85Aa1002XT-|23-$r-M42:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-n:t_-D54_-n_-z:n:Z2\80_-r_-st_-nb_-ra:nb_-._-._-$b-!
+"serpents 280-283"-US85Aa1008XT-ra_-ra_-ra_-F51B_-F51B_-F51B_-S28_-N_-._-._-$r-Hr:r_-w_-pr:Z2\80_-X:t*Z2\80_-z:n:Z2\80_-$b-!
++lH4g,R2 Scène 4 +s-US85Aa1003XT-|26-M42:n:n_-z_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-|27-a_-aHa_-a:D54_-z:r_-sTA:Z2\80_-tp:n_-N31_-T:n_-!
+"serpent 283"-srqt_-!
++lH4g,R2 Scène 5 +s-US85Aa1003XT-|28-M42:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-m_-z:T31_-n:N31_-D\98**z{{27,492,74}}**f{{28,720,81}}-wp:f_-.-.-|30-T31_-m_-N31_-d:z:r_-t:Y1_-!
+"284"-$r-wp:p_-Y1_-nTr_-nTr_-._-._-$b-zA_-p_-nTr_-nTr_-!
++lH4g,R2 Scène 6 +s-US85Aa1003XT-|31-M42:n:n_-f_-m_-._-._-z:x:r_-Y1:Z2\80_-p:n_-m_-sbA_-t:pr_-._-._-|33-m_-r_-m_-a_-T:n_-N31_-p:n_-._-._-!
+|34-d:z:r_-Y1:n_-r:sTA:Z2\80_-anx_-n:x_-f_-m_-TAw_-Z2\80_-w_-n_-d:t&U2_-H5:H5_-f:y_-!
+"serpent 285"-nTr_-aA\R90_-!
++lH4g,R2 Scène 7 +s-US85Aa1002XT-|35-M42:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-m_-z:T31_-Y1:ir_-n:N31_-wp:f_-nTr_-nTr_-Hr:Z1_-._-._-N31_-T:n_-!
+"286"-zA_-p_-sbA:t_-._-._-$r-wp:p_-Y1_-sbA_-t:pr_-$b-!
++lH4g,R2 Scène 8 +s-US85Aa1003XT-|38-M42:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-r_-st_-f_-n:t_-mw_-T:n_-N31_-d:z:r_-Y1:n_-V1_-n:T_-r_-sTA:Z2\80_-._-._-!
+|39-n:t_-D54_-n:f_-r_-st_-nb_-ra:nb_-anx_-n:x_-f_-m_-TAw_-Z2\80_-w_-tp:p_-r:Z1:f_-!
+US85Aa1009XT-"serpent 287"-n_-H_-b_-kA_-Z1:Z2\80_-!!
++bH4 gauche -  Registre 3  +s-+l(56-76)+s-!
++lH4g,R3 Scène 1+s-!
+US85Aa1002XT-|4,3g 56-$r-qd_-$b-"sic"-$r-s_-d:d_-D54_-._-._-nTr_-A40_-p:n_-._-._-aA:a_-A_-Y1_-Hr:Z1_-z:n:Z2\80_-._-._-m_-z:x:r_-Y1:Z2\80_-p:n_-$b-!
+|60-$r-i_-n:n:z_-Q7:Z2\80_-._-._-tp:p*y_-r:Z1:n_-P30:Z1_-f_-._-._-$b-|61a-$r-z:T32_-m_-D54_-M22_-w_-._-._-m_-nn:n_-N31_-T:Z2\80_-$b-!
+|63-$r-S:tA_-T:Y1:Z2\80_-$b-D35:t_-G37_-._-._-U2:ir_-A_-A_-f_-._-._-z:T31_-Y1:Z2\80_-z:n:Z2\80_-._-._-!
+|64-Dw_-i_-Y1:f_-n_-z:n:Z2\80_-._-._-md_-w_-Y1:f_-p_-w_-._-._-sDm_-w_-z:n:Z2\80_-!
++lNoms de la barque, des divinités 292 à 303 et graffiti+s-!
+US85Aa1002XT-|barque 4,3g 87-T30_-N31:T:Z2\80_-._-$r-d_-m_-T30_-wA_-t:N31_-$b-!
+US85Aa1004XT-"292"-wp:N31_-._-._-"293"-siA_-._-._-"294"-nb:t_-P30_-._-._-"295"-i_-f:F51B_-._-._-US85Aa1008XT-"296"-G5_-H_-k:n:nw__-._-._-US85Aa1004XT-"297"-kA_-Sw_-t_-!
+"298"-n:h_-s_-._-._-"299"-H_-w_-._-._-!
++lGraffiti +s-.-US85Aa1006XT-i-mn_-Htp:t_-p_-.-nfr_-f:r_-W_-Y1_-.-D17&t_-Z1_-Hr_-Z1_-.-imnt_-.-m_-xA_-Z1_-.-!
+US85Aa1002XT-"300"-S:tA:tA_-._-._-$r-S:tA_-i_-i_-Y1_-$b-!
+"301"-#b-._-._-#e-r:n_-f:r_-T_-._-._-$r-i_-r_-nfr_-f:r_-t:V1_-._-._-$b-"302"-pt:V1_-r:T_-._-._-$r-Hr:r_-pt_-wA_-r:t_-V1_-$b-!
+"303"-d:M42_-Sw_-._-._-$r-d:wn:n_-t:a_-U5:a_-t:V1_-$b-!
++lH4g,R3 Scène 2 +s-!
+US85Aa1002XT-|4,3g 69-M42:n:n_-z:n:Z2\80_-._-._-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-m_-z:T31_-Y1:Z2\80_-z:n:Z2\80_-._-._-n_-D\98**t{{65,639,88}}**Z1{{606,487,89}}-z:n:Z2\80_-!
+|73-i_-mn:n__-Y1:n_-._-._-N31_-Hr:Z1_-N31_-T:n_-d:z:r_-t:Y1_-._-._-n:t_-i_-mn:n:Y1_-"sic":S-w_-Z2\80_-!
++lNoms des divinités  (304 à 309) +s-!
+"304"-N36_-anx_-T:y_-._-._-$r-m_-anx_-n:x_-t:y_-._-._-$b-"305"-z:t_-S:r_-._-._-$r-m_-z:t_-st_-ir_-$b-!
+"306"-U40_-w_-._-._-$r-w_-T:z_-w_-U40_-._-._-$b-"307"-z:k:r_-._-._-US85Aa1005XT-"308"-Aw:a_-._-._-$r-Aw_-w_-a_-$b-!
+US85Aa1002XT-"309"-z:T:n_-T_-T3_-._-._-$r-z:T_-n:Y1_-HAt:t*Z1_-$b-!
++lH4g,R3 Scène 3 +s-!
+US85Aa1004XT-|4,3g 76-sw_-t:n_-<-ra_-mn_-xpr_->-U5:a#24-#b-xrw_-w-#e-pr:r:D54#1-f_-m_-sbA*t:pr_-s_-HD_-D&N8_-w_-!
+p*t:pt_-r_-Sms_-s_-D54_-._-._-r:a_-ra:Z1_-m_-pt_-m_-tA:N23*Z1_-!!
++bH4 gauche -  Registre 4  +s-+l(117-151)+s-!
++lH4g,R4 Scène 1 (117-122)+s-!
+US85Aa1002XT-|4,4g 117-M42:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-P30:Z1_-f_-._-._-z:zA_-A_-A_-D40_-a_-H_-T:pr_-!
+|119-aHa_-a:D54_-f:r_-W:T_-T:n_-S:tA_-T_-._-._-n:T_-a_-H_-T:pr_-anx_-n:x_-f_-!
+|121-m_-xrw_-w_-md_-w_-A2_-tp:Z2\80:n_-._-._-P30:Z1_-f_-!
+"serpent 317"-D54_-$r-n:a_-w_-._-$b-N8\140_-$r-H_-D&N8_-$b-!
++lH4g,R4 Scène 2  (123-126)+s-!
+US85Aa1002XT-|4,4g 123-M42:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-._-m_-z:T31_-ir:n_-N31_-a_-aHa_-a:D54_-z:n:Z2\80_-!
+|125-m_-tA:r_-W:T_-T:n_-S:T_-n:T_-a_-H_-T:pr_-._-._-a:q_-T:Z2\80_-z:n:Z2\80_-T:zp_-tp_-zA_-tA_-!
++lNoms des divinités  (318 à 322) +s-!
+US85Aa1002XT-"318"-mw_-T:n_-i_-i_-T_-._-.__-$r-m_-a_-T:n_-i_-i_-T:N31_-._-._-$b-"319"-S_-zA_-T:T_-H7_-.-$r-SA_-A_-t:t_-H7_-._-._-$b-"320"-b_-n:n_-i_-i_-!
+"321"-H_-n:g_-T_-._-._-"322"-Tz:t_-wp:t*Z1_-!
++lGraffiti +s-.-US85Aa1006XT-Y3-mn:i*n-Htp:t_-p_-.-!
++lH4g,R4 Scène 3  (133-136)+s-!
+US85Aa1004XT-|4,4g 133-M42:n:n_-f_-m_-z:x_-._-._-S:tA:T_-Aa8:T_-r:Y1:Z2\80_-p:n_-m_-._-._-|135-anx_-f:a_-H_-T:pr_-n:t_-D54_-n:f_-!
+r_-W:T_-T:n_-._-._-|136-m_-xrw_-w_-nTr_-Z1:Z2\80_-r:r:r_-W:T_-r_-st_-nb_-ra:nb_-!
++l[Version AmenHotep II (4,3 166-171) ]+s-._-._-!
+US85Aa1004XT-|4,3 166-M42:n:n_-f_-m_-z:x_-._-._-r:Y1_-p:n_-m_-._-._-r:W_-T_-T:n_-S:tA_-T_-n:T_-!
+a_-H_-T:pr_-n:t_-D54_-n:f_-._-._-r_-st_-nb_-ra:nb_-anx_-f_-._-._-m_-xrw_-w_-nTr_-Z1:Z2\80_-r:r:r_-W_-T:n_-!
+US85Aa1008XT-"serpent 323"-i_-mn:n_-Z1_-!
++lH4g,R4 Scène 4  (127-132 \+ 151)+s-!
+US85Aa1004XT-|4,4g 127-M42:n:n_-z_-._-._-m_-z:x:r_-Y1_-._-._-Z2\80_-p:n_-m_-zA_-._-._-|130-A26_-s_-m_-t&w_-a:Z2\80_-n:T_-W_-T:n_-._-._-!
+|131-Hr_-Hr_-mw_-T31_-Y1:Z2\80_-._-._-|132-aA:a_-n:T_-i_-m_-z_-!
+US85Aa1008XT-"serpent 324"-A26_-T_-._-._-$r-H_-k:n_-t_-A26_-._-._-._-._-$b-!
+US85Aa1006XT-|4,4g 151-N_-N_-N_-XA_-XA_-XA_-!!
++bH4 droite -  Registre 1  +s-+l(48a-158)+s-!
++lH4d,R1 Scène 1 (48a et b)+s-!
+US85Aa1004XT-|C=4,1d 48a-nTr_-nfr_-<-ra_-mn_-xpr_-U7:n_->-._-._-nTr_-aA\R90_-A40_-mr_-i_-i_-._-._-zA&ra_-<-G26_-ms_-s_-nfr_-xpr_-Z3_->-._-._-U2:a_-xrw_-w_-x:r_-nTr_-aA\R90_-HqA_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+|D=48b-sw_-N41:t_-wr:r:t_-<-ra_-U7:r_-i_-i_-t_->-._-._-anx_-ti_-DA_-ti_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
++lH4d,R1 Scène 2 (49-50)+s-!
+US85Aa1001XT-|4,1d 49-M42_-n:n_-s-n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-z:T31_-m_-Y1:Z2\80_-ir:n_-N31_-n:t_-z:n:Z2\80_-z_-zA_-!
+A_-A_-a:n_-h:p_-I14_-n:h_-p:tA_-._-._-|50-a:a_-t_-W:r_-z:S:tA_-m_-N31_-T:n_-d:z:r_-t:Y1_-!
++lNoms des divinités  (288 à 291) +s-!
+US85Aa1006XT-"288"-H_-k:n_-tp_-._-._-US85Aa1005XT-"289"-$r-a_-b_-w_-F16_-zA_-sbA:t_-pr_-._-._-$b-a:b_-zA_-sbA:t_-!
+US85Aa1002XT-"290"-M22_-w_-t_-._-._-"291"-mH:t_-!!
++bH4 droite -  Registre 2  +s-+l(108)+s-!
+US85Aa1001XT-|4,2d 108-M42:n:n_-z:n:Z2\80_-m_-r:r:r_-W:T_-d:z:r_-t:Y1_-n:t_-a:q*t_-Z2\80_-i_-mn:n_-t:Y1_-n:t_-sbA_-t:pr_-n:t_-z:n:Z2\80_-!
+z_-zA_-A_-A_-D40_-i_-n:p_-w_-A40_-m_-z:T31_-Y1:Z2\80:f_-n:V1_-t:Z2\80_-a:p*D54_-n:f_-Hr:Z1_-z:n:Z2\80_-.-US85Aa1006XT-m_-tA_-d:z:r_-Y1_-!
++lNoms des divinités  (310 à 316) +s-!
+US85Aa1002XT-"310"-pt:d_-zA_-t:f_-._-$r-Hr:r_-pt:d_-b_-bA_-t:N23_-f_-._-._-$b-"311"-wAD_-Hr_-._-._-"312"-Htp:t*p_-!
+US85Aa1003XT-"313"-T31_-anx_-._-._-"314"-ini_-N31_-._-._-"315"-HD_-md_-._-._-"316"-nb:t_-anx_-!!
++bH4 droite -  Registre 3  +s-+l(152-158)+s-!
+US85Aa1003XT-|4,3d 152-z:T31_-m_-Y1_-p#1234-i_-S:tA_-n_-a_-H_-T_-i_-w_-._-._-|153-p:z_-d:ra#4-#b-i_-m-#e-s#12-ra:nb_-ms_-t:Z2\80_-._-._-!
+|154-xpr_-r_-i#34-A40#1234-pr:r:r#1-m_-Hr*Z1:Z2\80_-._-._-|155-mn:n_-mn:n_-nw&w_-I14#1234-H#12-r:N31#12-._-._-|156-x:r_-xpr_-r_-i#1234-A40_-!
++lNoms des divinités  (325 à 328) et textes 159 et 157-158+s-!
+US85Aa1009XT-"325"-zA:n_-zA:n_-._-$r-mn:n_-mn:n_-nw_-W\_-._-._-._-$b-US85Aa1001XT-|326-x:p_-i_-._-$r-xpr_-r_-i_-$b-!
+US85Aa1009XT-|4,3d 159-Htp:f_-Sw\_-m_-D12_-zA_-Y1:Z2\80_-f_-n:n_-T:r_-F28_-Sw\_-!
+"327"-Xn:pt_-._-._-._-"328"-Sw\_-._-$r-U2:mAa_-a:t_-Sw\_-$b-!
+US85Aa1002XT-|4,3d 157-T30:n_-A73_-._-._-|158-$r-m_-d:z_-T30_-n_-nH_-H_-H_-ra_-$b-!!
+!!
++b5e HEURE +s-+ide la nuit  "La Conductrice, qui est dans sa barque" +s-!
++bH5 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|5,i 1-$r-z:T_-A_-w_-sTA:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-Hr:Z1_-wA_-A_-t:N31:Z2\80_-U5:a_-t:Y1:Z2\80_-n:t_-sbA_-t:pr_-m_-$b-!
+$r-M_-Z1_-Hr:r_-pt_-q:r:r_-t:pr_-S:T_-A_-t:Y1_-n:T_-z:k:r_-pt_-S:a_-Z2\80:f_-xAst_-D35:D12*D12_-D35:p*t_-r:ir_-z:T31_-$b-!
+$r-m_-Y1:Z2\80_-p:n_-S:tA_-Y1:n_-tA:N23*Z1_-Xr:r_-F51B*F51B*F51B_-nTr_-Z1_-p:n_-i_-w_-imi_-Z2\80_-w_-nTr_-Z1_-p:n_-sDm_-m_-s-n:Z2\80_-$b-!
+$r-xrw_-w_-Y1_-ra:Z1_-A40_-Dw_-w_-i__-A26_-f:r_-h_-A_-w_-Y1:Z2\80__-$b-!
+|5,i 2-$r-r:n_-n_-sbA_-A_-pr_-n_-niwt_-t:Z1_-t:n_-a_-aHa_-a_-nTr_-Z1:Z2\80_-r:n_-n_-q:r:r_-t:pr_-nTr_-Z1:Z2\80_-$b-!
+$r-n_-i_-mn:n_-t:xAst_-r:n_-n_-wn:n_-nw:t_-ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-$b-!
+$r-z:T30_-t:D54_-Hr*ib:t_-P30:z_-B1_-$b-z:T31_-m_-t:D54_-sw_-t:n__-A43E#34-<-ra_-mn#24-xpr#34->-zA&D12#1234-<-G26#13-ms_-s_-nfr_-xpr:Z2\80->-mAa:xrw\R90_-Hr:Z1_-!
+N31:t*Z2\80_-nfr_-f:r_-t:Z2\80_-m_-p*t:pt_-m_-sbA_-t:pr_-!
+US85Aa1001XT-|5,i 3-$r-N31_-T:Z2\80_-S:t*U30_-A_-t:N31:Z2\80_-n:T_-imnt_-t:Z1_-sbA_-w_-pr:Z2\80_-n_-a:q*t_-D54:Z2\80_-i_-mn:n_-t:Y1:Z2\80_-b_-w_-d:z:r_-$b-!
+$r-Y1:n_-tA:N23*Z1_-z:k:r_-xAst:F51B*F51B*F51B_-i_-f:F51B*Z1:Z2\80_-D\98**t{{65,639,88}}**Z1{{606,487,89}}-m_-x:p_-r_-w_-Y1:Z2\80_-tp:p*y_-r:x:Y1_-G30A-Y1:Z2\80_-i_-imi_-w_-Z2\80_-sbA_-t:pr_-$b-!
+$r-ir_-w_-Y1_-z:n:Z2\80_-n_-i_-imi_-t_-wn:n_-nw:t_-sbA:Z2\80_-m_-r:n_-w_-Z2\80_-z:n:Z2\80_-S:tA_-w_-Y1:Z2\80_-D35:t_-r:x:Y1_-$b-!
+$r-D35:D12*D12_-D35_-p:t_-r:D7_-z:T31:Z2\80_-p:n_-n_-N31:f_-n:f_-$b-i_-w_-ir:t_-nn:n_-mi_-i_-z:T31:Z2\80_-p:n_-n:t*y_-m_-zS\_-Y1:Z2\80_-!
+m_-i_-mn:n_-t:xAst_-n:t_-sbA_-t:pr_-Hr:Z1_-rsw_-N23_-a:t*pr_-i_-mn:n_-t:Y1_-$r-i_-w_-r:x:Y1_-s_-t__-m_-Htp_-Z1_-G29A-f_-$b-!
+$r-Htp:f_-m_-Htp:t*p_-z:k:r_-n_-d:z_-T30:n_-i:t_-O36_-XA:t*F51B_-Z2\80:f_-i_-w_-F46_-n:t_-n_-z:n:Z2\80_-tp:Z1_-tA:N23*Z1_-$b-!
+i:n_-sw_-t:n_-<-ra_-mn:n_-xpr->-zA&D12_-<-G26_-ms_-s_-nfr_-xpr_-Z3->-anx_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-r:n_-nH_-H_-ra_-H_-!!
++bH5 Registre 1 +s-!
++lH5,R1 Scène 1  (4-19) +s-!
+US85Aa1002XT-|5,1 4-$r-D&md_-i:n_-._-._-$b-|5-$r-nTr_-Z1_-p:n_-aA:a_-A_-$b-Y1_-._-._-imnt_-di_-D41:T_-nfr_-._-._-mw_-T:n_-G5_-"?"-Xn_-tA_-!
+|8-N31_-s_-i_-pr:Z2\80_-Htp:Z2\80_-nTr_-Z1:Z2\80_-A1_-._-._-z:r:q_-Y1_-T:n:Z2\80_-N10:t_-3*3:3\80_-t&w_-._-._-|10-n:t_-nTr_-Z1:Z2\80_-x:p_-w_-Z2\80_-!
+m_-i_-f:F51B*(Z1:Z2\80)-A1_-._-._-t:tm_-m_-x*p:r_-n:ir_-._-._-w_-Z2\80_-T:n:Z2\80_-mn:n:Z2\80_-n_-._-._-M2\_-w_-!
+Y1:Z2\80_-T:n:Z2\80_-._-._-|15-n:D_-Aa27D_-nw_-T:n:Z2\80_-Aa27D_-nw:Y1_-T:n:Z2\80_-._-._-Hr:r_-A1_-n:t_-T:n:Z2\80_-V25_-D&Y1_-n:A1_-!
+d:z:r_-Y1:z:n:Z2\80_-Hr:Z1_-n:D_-Aa27D_-nw:Y1_-Hr:r_-A1_-._-._-m_-tA_-imnt_-!
+US85Aa1001XT-|19-M2\_-w_-Y1:Z2\80_-p:n_-nn:n_-nTr_-Z1:Z2\80_-m_-sbA_-t:D12_-imi_-n:n_-z:n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-!
++lNoms des divinités  329 à 338 +s-!
+US85Aa1006XT-"329"-D12:F51C_-T:Y1_-._-._-US85Aa1007XT-"330"-wr:tA_-"?"-A17_-.__-US85Aa1002XT-M27_-nTr_-t_-xpr_-._-$r-M27_-nTr_-i_-i_-t:sxm_-x:p_-i_-$b-!
+"331"-nTr_-t_-nTr_-Sw_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-S_-Sw_-._-._-$b-"332"-nTr_-t_-nTr_-T:t_-f:D12_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-t:f_-n:t_-$b-!
+"333"-nTr_-t_-nTr_-zA_-b_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-zA_-b_-._-._-$b-"334"-nTr_-t_-nTr_-T_-nw*nw:T_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-nw*t:pt__-$b-!
+"335"-nTr_-t_-nTr_-T_-st_-ir_-._-._-$r-nTr_-i_-i_-t:sxm_-nTr_-st_-ir_-._-._-$b-"336"-nTr_-t_-nTr_-T:H8*t_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-st_-t_-$b-!
+"337"-nTr_-t_-nTr_-T__-O9B_-._-$r-nTr_-i_-i_-t:sxm_-nTr_-O9B_-$b-!
+"338"-nTr_-t_-nTr_-HA_-t:N31_-N15_-._-$r-nTr_-i_-i_-t_-sxm_-mH:t_-G5_-sbA_-t*y:pr_-$b-!
++lH5,R1 Scène 2  (20-22) +s-!
+US85Aa1001XT-|5,1 20-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-$b-a_-aHa_-a:n_-T:n:Z2\80_-r_-mw_-T:n:Z2\80_-z_-zA_-A_-D40:Z2\80_-n_-T:n:Z2\80_-N21:Z1*Z2\80_-!
+T:n:Z2\80_-D37_-T:n:Z2\80_-mH:t_-mw_-m_-mH&i&i_-w_-mw_-i_-imi_-w_-Z2\80_-nw*nw*nw:mw_-A40_-mn:n_-i_-i_-T:n:Z2\80_-z:n:Z2\80_-n_-N21:Z1*Z2\80_-!
+A_-g_-b_-mw:Z2\80_-mw_-T:n:Z2\80_-D35_-w_-S:r:ra_-z:n:Z2\80_-A28_-t:n_-N21:Z1*Z2\80_-T:n:Z2\80_-._-._-|21-n:f_-A_-k:D3_-z:n:Z2\80_-!
+q:a_-H__-D132\:Z2\80_-n:D41_-n_-DA_-n:n_-r_-a:p*t_-D54_-Hr:Z1_-T:n:Z2\80_-m_-Htp:t*p_-._-._-|22-$r-M42_-n:n_-z:n:Z2\80_-m_-r:r:r_-n:t_-$b-!
+$r-mw_-mH_-i_-i_-w_-Z2\80_-m_-sbA_-t:pr_-ir:r_-t:Z2\80_-z:n:Z2\80_-p:D54_-t_-P30_-$b-!
++lNoms des divinités  339 à 343 +s-!
+US85Aa1007XT-"339"-r_-mw_-A17_-._-US85Aa1002XT-$r-i_-r_-mw_-mH\98**i{{598,334,62}}**i{{165,336,63}}_-w_-mw_-._-._-$b-"340"-zA_-A_-D40_-N21*Z1:Z2\80_-._-._-"341"-anx_-ib_-!
+"342"-pA_-T_-M22_-T_-._-._-"343"-i_-n:p_-h:n_-i_-i_-!
++lH5,R1 Scène 3  (23-31) +s-!
+US85Aa1002XT-|5,1 23-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-$b-zA_-n:Z2\80_-n_-T:n:Z2\80_-h:n__-Q37_-T:n:Z2\80_-._-._-|25-A28_-t:n_-xrw_-w_-T:n:Z2\80_-mAa:n_-"?"-!
+F87_-Z2\80_-._-T:n:Z2\80__-A4A_-n_-._-p:n_-z:T31:Y1_-z_-zA_-A_-._-A_-w_-D40_-T:n:Z2\80_-wp_-p:Z2\80_-n:d_-!
+U2:Z2\80_-T:n:Z2\80_-ir:Z2\80_-n:ir_-Y1:Z2\80_-T:n:Z2\80_-r_-.._-|30-a:p*t_-D54_-A1_-Hr:Z1_-T:n:Z2\80_-._-m_-Htp:t*p_-!
++lNoms des divinités  344 à 346 +s-!
+"344"-N3_-._-._-"345"-H8_-t_-._-._-"346"-O9B_-!
++lH5,R1 Scène 4  (32 à 35 \+ 62) +s-!
+US85Aa1001XT-|5,1 32-$r-Z1_-D&md_-i:n_-$b-"sic"-$r-i:n_-Hm_-Z1:n_-nTr_-p:n_-aA:a:Y1_-._-$b-i_-Z1_-d:z:r_-Y1:I14A_-d:z:r_-Y1:n_-A1_-D41:Z1:k_-wn:n_-O31:D40_-n:A1_-!
+F46:Z2\80_-k_-._-Hr*Hr:k_-m_-tA:N23*Z1_-n:z:t_-a:k_-w_-A1_-n_-V6:z:r_-D54:k_-._-._-|35-r_-n:t_-tyw_-Z2\80_-m_-!
+xt:x*t_-D54_-A1_-r_-a:p_-t:D54_-A1_-Hr*Z1:r_-k_-m_-Htp:t*p_-!
+US85Aa1009XT-|5,1 63=347-$r-anx_-f_-m_-xrw_-ra*ra*Z1:nb_-z:t:D54_-n:f_-r_-st_-t:pr_-nb:t_-n:t_-sbA:t_-M42:n:n_-f_-._-._-r_-h_-xpr:Z1_-$b-!
++lH5,R1 Scène 5  (36 à 63b \+ 101) +s-!
+US85Aa1002XT-|5,1 36-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-$b-A26_-T30:Xr_-A:Z2\80_-r:r:r_-._-T30:Xr_-a_-aHa_-i_-i_-w_-D54:Z2\80_-._-Hr:Z1_-q:n_-t:Z2\80_-!
+m_-t_-tyw_-D12:Z2\80_-._-._-x:p_-r:n_-md_-w_-Y1:Z2\80_-T:n:Z2\80_-._-O42A_-p:N8_-n_-H_-k_-A_-w_-Y1:Z2\80_-T:n:Z2\80_-!
+z:p_-d:Y1_-n_-zA_-Z2\80_-T:n:Z2\80_-wA_-A_-._-S:Y1_-n_-sxm_-Z1:Z2\80_-T:n:Z2\80_-n:D_-Aa27D_-nw:Y1_-._-!
+x*t:f_-tyw_-Z2\80_-s_-H_-t:tm_-m_-._-._-|45-T:n:Z2\80_-m_-t_-tyw_-D12:Z2\80_-S:a_-T30_-._-a_-T:n:Z2\80_-S36_-t:Z1:Z2\80_-zA_-i_-i_-!
+w_-D12:Z2\80_-n_-i_-k_-i_-i_-T31_-._-m_-Aa2:t_-nb:Z2\80_-T:n:Z2\80_-._-n_-T:n:Z2\80_-n:D_-Aa27D_-nw_-w_-Y1:Z2\80_-!
+|50-Hr:Z1_-st_-ir_-sDm_-Z2\80_-w_-._-md_-w_-Y1:Z2\80_-Hr:Z1_-._-wn:n:n_-nfr_-A40_-z:p:d_-d:n_-._-T31:Z2\80_-T:n:Z2\80_-q:n:t_-n:T31:Xr_-!
+Z2\80_-T:n:Z2\80_-S24:z:Y1_-n_-._-._-|55-z:w_-S:t_-._-V1:Z2\80_-T:n:Z2\80_-._-a:a_-Z1:Z1_-T:n:Z2\80_-._-Hr:Z1_-z:T31_-Y1:Z2\80_-._-i_-imi_-m_-T:n:Z2\80_-!
+|60-r_-a:p*t_-D54_-A1_-._-Hr:Z1_-T:n:Z2\80_-._-._-m_-Htp:t*p_-!
+US85Aa1001XT-|63-$r-n:t_-z:n:Z2\80_-aHa_-a:D54_-Hr:Z1_-q:n:t_-m_-t:D12:Z2\80_-m_-sbA_-t:D12_-ir:r:t_-z:n:Z2\80_-p_-i_-s_-A_-m_-t_-Q7_-XA:t*F51:Z2\80_-$b-!
+$r-m_-t:D12:Z2\80_-m_-h:h_-Q7_-n_-r:Z1_-z:n:Z2\80_-m_-Xr:r_-t:Y1:Z2\80_-ra:Z1_-$b-!
+US85Aa1009XT-|63b-anx_-s_-m\_-"sic"-z:n:f_-w_-mw_-._-._-m_-tyw_-D12:Z2\80_-._-US85Aa1003XT-|101-$r-M:z:p_-d:n:n_-Y1_-M44_-n_-nn:n_-n_-nTr_-Z1:Z2\80_-$b-!
++lNoms des divinités  348 à 356 +s-!
+US85Aa1002XT-"348"-Htp_-nTr:Z2\80_-._-._-"349"-snD_-n:f_-imnt:Z2\80_-._-._-"350"-z:t_-O30\R180_-._-._-"351"-a_-m_-w__-._-._-"352"-F16:F16_-i_-i_-._-._-"353"-ini_-Sw_-t_-!
+"354"-Hr:D54\_-s_-p_-H_-t:Z2\80_-V1_-._-._-"355"-G29_-p:f_-r:D12:Z2\80_-._-._-US85Aa1007XT-"356"-inb_-C6_-pt:t_-d:n:t_-D12:Z2\80_-!!
++bH5 Registre 2 +s-!
++lH5,R2 Scène 1  (102-127) +s-!
+US85Aa1002XT-|5,2 102-#b-s_-qd_-d:d_-D54_-nTr_-Z1_-p:n_-aA:a:Y1_-m_-sTA_-w_-D54:Z2\80_-._-Hr:Z1_-#e-q:r:r_-t:pr_-t:n_-._-m_-w_-i_-A_-!
+|105-P30:f_-i_-imi_-tA:N23*Z1_-._-._-anx_-G30A-._-._-$r-i:n_-nTr_-Z1:Z2\80_-sbA_-._-tyw_-pr:Z2\80_-n_-nTr_-Z1_-p:n_-._-._-aA:a_-A_-Y1_-$b-!
+m_-Htp:t*p_-zp:y_-._-._-|110-nb_-anx_-m_-Htp:t*p__-._-._-Htp:Z1_-imnt_-t:Z1_-xAst_-m_-._-._-Htp:t*p_-wn:n_-O31:a_-tA:N23*Z1_-!
+m_-Htp:t*p_-U27_-G29A-tA:N23*Z1_-._-._-m_-Htp:t*p_-i_-imi_-p*t:pt_-._-._-m_-Htp:t*p_-Htp:t*p_-Y1_-nn_-n:t_-pr_-!
+m_-Htp:t*p_-U4:a_-xrw_-nb_-N10:t_-3*.*3:3_-._-._-|115-m_-Htp:t*p_-wn:n_-O31:D40_-n:k_-tA:N23*Z1_-r:mn_-n:D41_-!
+|118-U4:a_-D54_-n:k_-nfr_-t:xAst_-wA_-A_-t:N31_-Z2\80:z_-!
+|119-xrw_-w_-Y1:k_-ra:Z1_-A40_-n_-st_-ir_-A40_-._-._-|120-Dw_-i_-Y1:k_-ra:Z1_-A40_-n:tA:N23*Z1_-z:k:r_-A40_-!
+anx_-n:x_-G5_-Hr*Z1:r_-S:a:Z2\80_-f_-m_-a_-i_-D54:n_-._-xpr:r_-i_-A40_-ra:Z1_-A40_-m_-a_-i_-D54_-ra:Z1_-A40_-!
+n_-xpr:r_-i_-A40_-nfr_-r:t_-V1_-i_-ini_-n:n_-t:n:Z2\80_-nfr_-r:t_-V1_-._-z:a:r_-t:D54_-n_-xpr:r_-i_-A40_-D37:f_-a*Z1:n_-!
+|125-ra:Z1_-A40_-U4:a_-D54:f_-N31:t*Z2\80_-S:tA_-t:Y1:Z2\80_-n_-._-ra:Z1_-N31_-Axt:t*y_-pt_-m_-Htp:t*p_-zp:y_-ra*Z1:n_-._-._-|127-imnt_-t:xAst_-nfr_-r:t_-!
++lNoms des divinités  357 à 365 +s-!
+US85Aa1006XT-|5,2 182-"sous la proue"-$r-anx_-G30A-._-$b-US85Aa1004XT-"357"-$r-wp_-N31:Z2\80_-._-$b-"358"-$r-siA_-._-$b-"359"-$r-nb:t_-P30_-._-._-$b-"361"-$r-N31_-H_-k:n_-nw_-._-$b-!
+"362"-$r-kA_-Sw_-._-._-$b-"363"-$r-n:h_-s_-._-._-$b-"364"-$r-H_-w_-._-._-$b-"365"-$r-x:r#1234-p_-P30_-$b-!
+!
+US85Aa1001XT-|5,2 171-$r-nTr_-Z1:Z2\80_-sbA_-tyw_-pr:Z2\80_-ir:r_-t:Z2\80_-z:n:Z2\80_-p_-i_-sTA:D54_-nTr_-p:n_-Hr:Z1_-q:r:r_-t:pr_-z:k:r_-$b-!
++lH5,R2 Scène 2  (128-138) +s-!
+US85Aa1002XT-|5,2 128-$r-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-Hr:Z1_-tp:Z1_-q:r:r_-t:D12_-t:n_-._-$b-s_-i_-i_-k_-z:k:r_-p:n_-z:k:r_-i_-mn:n_-S:tA_-Y1:Dw_-i_-Y1:A1_-!
+|130-n:k_-Ax_-k_-md_-w_-Z2\80_-A1_-n:k_-A26_-k_-i_-m_-z:n:Z2\80_-.__-H8*t:n_-z:T31_-Y1:Z2\80_-k_-nTr_-aA\R90_-A40_-!
+n_-XA:t*F51B_-Z2\80:k_-M22_-t:n_-s_-zA_-a:f_-!
+US85Aa1004XT-|132-$r-aHa_-a:D54_-nTr_-Z1_-p:n_-._-Hr:tp_-Z1:Z1_-nTr_-t:r_-t:n_-._-V25_-md_-Y1:f_-m_-tA:N23*Z1_-z:k:r_-._-._-$b-|135-$r-ra*Z1:nb_-i:n_-xpr_-i_-A40_-$b-!
+$r-i_-imi_-pr:f_-._-U4:a_-D54_-nfr_-r:t_-V1_-z:sTA_-w_-Z2\80_-._-Hr:Z1_-tp:Z1_-q:r:r_-t:D12_-t:n_-r_-Htp:t*p_-f__-$b-!
+|138-$r-N31:t*Z2\80_-n:t_-sbA_-t:pr_-$b-!
++lNoms de la divinité  374+s-!
+US85Aa1006XT-"374"-F51C_-F51C_-F51C_-H8:t_-pt:T_-S:a:Z2\80_-zA_-H10_-._-$r-i__-f:F51B*Z2\80_-st_-t:H8_-Hr_-r:t_-S:a:Z2\80_-tA:N23*Z1_-z:k:r_-A40_-$b-!
++lH5,R2 Scène 3  (139-174) +s-!
+US85Aa1002XT-|5,2 139-$r-qd_-s_-$b-"sic"-$r-d_-t&w_-._-._-$b-|140-$r-D54:Z2\80_-m_-z:T_-A_-w_-._-sTA:D54:Z2\80_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a_-._-A_-Y1:O42A_-$b-!
+$r-p:D40_-i:n_-nn:n_-._-nTr_-n:T:r_-i_-i_-t:Z2\80_-._-i:n_-nn:n_-nTr_-n:T:r_-t:Z2\80_-n_-._-._-$b-|145-$r-nTr_-Z1:p_-aA:a_-A_-Y1_-$b-ii_-i_-D54_-!
+ra:Z1_-A40_-m_-Htp:t*p_-._-n:sbA_-t:pr_-U4:a_-D54_-N31_-r:a_-ra:Z1_-._-m_-w_-i_-A_-P30:f_-._-i_-imi_-m_-tA:N23*Z1_-!
+m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-f_-._-._-|150-H_-st_-t:tm_-t_-zA_-x*t:f_-tyw_-D12:Z2\80_-f_-._-n:k_-i_-m_-imnt_-t:Z1_-ra:Z1_-A40_-!
+Htp:t*p_-k_-i_-m_-z_-a:r_-D54:k_-._-n_-p*t:pt_-m_-zA_-aA:a:Y1_-Hr:tp_-._-._-|155-sxm_-Z1:Z2\80_-Axt:t*pr_-sTA:Z2\80:k_-xpr:r_-!
+sTA:Z2\80_-k_-U4:a_-xrw_-w_-k_-d:r_-._-A24_-x*t:f_-tyw_-D12:Z2\80:k_-!
+US85Aa1001XT-|5,2 172-$r-nTr_-t:Z2\80_-sTA:t:Z2\80_-ra:Z1_-m_-sbA_-t:pr_-q:r:r_-t:pr_-t:n_-ir:r_-t:Z2\80_-z:n:Z2\80_-p_-i_-._-$b-!
+US85Aa1002XT-$r-sTA_:D54_-nTr_-Z1_-p:n_-aA:a:Y1_-r_-Htp:t*p_-f_-._-P30:f_-i_-imi_-nw*nw*nw:pt_-m_-sbA_-t:pr_-$b-!
++lH5,R2 Scène 4  (158-173) +s-!
+US85Aa1002XT-|5,2 158-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-$b-O42B_-p:D40_-n_-T:n:Z2\80_-md_-Z1:Z2\80_-T:n:Z2\80_-._-._-|160-wA_-A_-D40:Z2\80_-n_-T:n:Z2\80_-!
+D&a_-._-m_-t_-O30\R180:Z2\80_-T:n:Z2\80_-r_-h:n_-a:Z2\80_-._-n_-T:n:Z2\80_-A_-m_-s_-md:Z2\80_-T:n:Z2\80_-._-a_-aHa_-a_-T:n:Z2\80_-!
+n_-G29A\98**R7{{8,520,56}}-Z1:Z2\80_-T:n:Z2\80_-.__-N42_-s_-A7_-T:n:Z2\80_-n_-Htp:Z2\80_-T:n:Z2\80_-._-._-|165-n:t_-T:n:Z2\80_-r:r:r_-Aw:t_-X4A:Z2\80_-t*X2:X4A:Z2\80_-!
+nb:Z2\80_-x:r_-t:Y1:Z2\80_-m_-imnt_-Z2\80_-._-st_-t_-a_-z:n:Z2\80_-F46:Z2\80_-imnt_-t_-Htp:t*p_-z_-._-Hr:Z1_-T:n:Z2\80_-aHa_-a:D54:Z2\80_-n:Z1_-i_-r_-!
+T:n:Z2\80_-._-m_-w&D12_-Z2\80_-T:n:Z2\80_-r_-a:p*t_-D54_-A1_-._-._-|170-Hr:Z1_-T:n:Z2\80_-m_-Htp:t*p_-!
+US85Aa1001XT-|5,2 173-$r-M42_-n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-DA_-DA_-nw:t_-Aa8\R270_-Z2\80_-p_-i_-z:n_-m_-t:Y1_-Aw:t_-X4A:Z2\80_-$b-!
+US85Aa1006XT-$r-m_-q:r:r_-t:D12_-t:n_-$b-!
++lNoms des divinités  382 à 386 +s-!
+US85Aa1002XT-"382"-pt_-zA&D12_-Y1:Z2\80_-._-._-"383"-ini_-Htp_-._-._-"384"-N31_-HqA_-HqA_-._-._-"385"-V24_-md_-._-._-"386"-st_-t_-imnt_-!!
++bH5 Registre 3 +s-!
++lH5,R3 - Chemins et portes (zones A, B, C et D) - (234-236) +s-!
+US85Aa1002XT-|5,3 234-V1_-S:T_-zA_-T_-n:T_-a_-H_-t:pr_-nTr_-H10_-p:n_-Hr:r_-z_-imi_-n:n_-z_-Xr_-b_-t:Z2\80_-n_-h:z_-!
+O32_-imnt_-._-._-|235-$r-wA_-t:N31_-S:t*U30_-Y1_-n:t_-M_-H_-t:pr_-sTA:D54:t_-nTr_-Z1_-p:n_-Hr:r__-z_-wn:n:n_-z_-Xr:r_-$b-!
+$r-b_-XA:t*Z2\80_-n_-h:z_-A40_-r_-w_-t:y_-O32_-imnt_-t:t_-xAst__-$b-!
+US85Aa1001XT-|230-V1_-S:T_-zA_-T_-n:t_-t_-zA_-H10_-D54_-t:n_-H8:t_-Hr:z_-i_-imi_-n:n_-zA_-xt:T_-T22A_-s_-imi_-n:n_-s_-!
+zA_-H_-t_-zA_-n:z:n_-Z9:t_-d:pt_-r_-Z1_-n_-H8:t_-n:D54_-n_-nTr_-Z1:Z2\80_-Ax:Z2\80_-D12:Z2\80_-Hr:r_-s_-!
+|231-$r-wA_-t:N31_-S:t*U30_-A_-t:Y1_-n:t_-tA:N23*Z1_-z:k:r_-a:q*D54_-t:n_-st_-t_-Hr:r_-z:r_-wn:n:n_-m_-xt:x*t_-D54_-$b-!
+$r-T22A_-n:z_-wn:n:n_-s_-mH_-H*t_-m_-n:ns_-Q7_-n_-Z9:t_-Q7_-._-._-tp:t_-r:Z1_-n_-st_-t:H8_-D35_-a:q_-D54_-nTr_-Z1:Z2\80_-Ax_-Z1:Z2\80_-$b-!
+$r-m_-t_-tyw_-D12:Z2\80_-Hr:r_-s_-$b-!
+|232-V1_-S:T_-zA_-T_-n:T_-t_-zA_-H10_-imnt_-sTA:Z2\80_-nTr_-Z1_-p:n_-i_-T:T_-a:p*p_-nTr_-Z1:Z2\80_-Ax:Z2\80_-D12:Z2\80_-Hr:r_-s_-imi_-!
+n:n_-s_-a_-H_-t:zA_-n_-z:n_-Z9:t_-d:pt_-r:n_-zA_-zA_-X2_-i_-._-._-|233-$r-wA_-t:N31_-S:t*U30_-A_-t:Y1_-n:t_-$b-!
+$r-tA:N23*Z1_-z:k:r_-imnt_-tyw_-sTA:D54:Z2\80_-nTr_-p:n_-D35:t*t_-G37_-a:p*p_-D54_-nTr_-Z1:Z2\80_-Ax:Z2\80_-m_-t:D12:Z2\80_-V1_-$b-"sic"-$r-Hr:r_-z_-wn:n:n_-s_-$b-!
+$r-mH_-H_-t_-zA_-n:z_-Q7:Z2\80_-n_-Z9:t_-Q7_-tp:t_-r:Z1_-n_-wA_-m_-m_-t*y:I14_-$b-!
+US85Aa1006XT-|236-E21A_-T_-imi_-f_-zb:n_-T31_-f_-!
++lH5,R3 Scène 1  (190) +s-!
+US85Aa1009XT-|6,3 190-$r-M42_-n:n_-z:n:Z2\80_-zA_-xt:T_-nTr_-Z1_-p:n_-ir:r_-t:Z2\80_-z:n:Z2\80_-p_-i_-s_-A_-m_-t_-Q7_-D54\:t:Z2\80_-x*t:f_-D12:Z2\80:f_-$b-!
++lNom collectif des têtes (387 à 390) +s-$r-._-._-$b-!
+"387-390"-tp_-Z1:Z2\80_-t:k_-A_-w_-Q7_-Z2\80_-!
++lH5,R3 Scène 2  (191) +s-!
+US85Aa1008XT-|5,3 191-$r-anx_-n:x_-f_-m_-xrw_-w_-Y1_-nTr_-Z1:Z2\80_-tp:p_-Z2\80_-w_-tA:N23*Z1_-i_-w_-f_-a:q*D54_-f_-pr:r_-D54:f_-x:r_-$b-!
+$r-t:Y1:Z2\80_-._-._-anx_-n:x_-Z2\80_-w_-n_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-ra*Z1:nb_-D35:t_-D12:D12_-$b-!
+US85Aa1008XT-"serpent 391"-I14:z_-i_-d:p_-!
++lH5,R3 Scène 3 - partie centrale (200-227 ) +s-!
+US85Aa1003XT-|5,3 200-$r-z:r:q_-Y1:f_-m_-xrw_-w_-Y1_-._-nTr_-aA\R90_-ir:r_-t:f_-p_-zA_-t:D40_-._-z:T31_-Y1:f_-$b-!
+US85Aa1002XT-|203-$r-s_-r:q_-Y1:f_-m_-xrw_-w_-Y1_-nTr_-aA\R90_-ir:r_-t:f_-._-p_-w_-z_-zA_-A_-t:a_-z:T31_-m_-Y1:Z2\80:f_-$b-!
++lNoms des têtes de sphinx +s-$r-._-._-$b-!
+US85Aa1006XT-"392 g"-F51C_-F51C_-F51C_-._-._-"392 dr"-F51C_-F51C_-F51C_-._-$r-i_-f:F51B*Z2\80_-$b-!
++lH5,R3 - Textes 192-196+s-!
+US85Aa1002XT-|5,3 192-$r-M42:n:n_-z:T31_-Y1:Z2\80_-p:n_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-z:mA_-zmA_-w_-Y1:Z2\80_-m_-k:k_-Z2\80_-w_-._-nTr_-aA\R90_-$b-!
+$r-i_-r:t_-nTr_-Z1_-p:n_-HD_-D&N8_-n:U20_-nw*t:N17&N33A&N33A_-._-._-$b-|195-$r-HA_-A_-i_-i_-ra_-rd_-rd_-m_-ir:ir_-tp*Z1:Z2\80_-._-nTr_-aA\R90_-z_-zA_-$b-!
+$r-A_-A24_-f_-m_-A&q_-b_-F46:F51B*F51B*F51B_-$b-!
+US85Aa1001XT-|197-$r-s_-T31_-m_-Y1:Z2\80:f_-i_-w_-sDm_-m_-t&w_-xrw_-w_-x:t_-Y1:Z2\80_-._-m_-n:U20_-nw:t_-O238_-t:n_-m_-xt:x*t_-$b-!
+$r-a:p*p_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-._-Hr:Z1_-z:n:Z2\80_-mi_-xrw_-w_-Y1_-h_-m_-h_-m_-t:Z2\80_-n:t_-Hr:r_-t:pt_-$b-!
+US85Aa1006XT-$r-m_-n:S:n_-N4_-s_-$b-!
++lNom du dieu dans la zone ovale+s-$r-._-._-$b-!
+US85Aa1006XT-|393-F51C_-F51C_-F51C_-H10\75:pt_-S:a:Z2\80_-._-._-$r-i_-f:F51B*Z2\80_-z:k:r_-Hr:r_-S:a_-Z2\80:f_-$b-!
++lH5,R3 Chemin sablonneux +s-!
+US85Aa1007XT-|5,3 220-zA_-k:r_-zA_-zA_-zA_-F51C:Z2\80_-S:tA_-._-$r-A_-$b-"?"-$r-k:r_-A40_-z_-zA_-zA_-zA_-a_-i_-f:F51B_-S:tA_-$b-!
+US85Aa1008XT-|222-t_-zA_-H10_-._-$r-tA_-z:k:r_-._-._-$b-US85Aa1006XT-zA_-k_-i_-A40_-zA_-zA_-zA_-a_-F51C:Z2\80_-S:tA_-!
+|225-$r-A_-$b-"?"-$r-k:r_-A40_-z_-zA_-A_-a_-i_-f:F51B_-S:tA_-$b-!
+US85Aa1003XT-|226-$r-anx_-n:x_-f_-m_-TAw_-tp:p*y_-._-._-r:Z1:f_-r:a_-ra:nb__-._-._-$b-US85Aa1006XT-|227-ir:r_-t:f_-p_-zA_-t:a_-z:T31_-Y1:f_-!
+US85Aa1008XT-"serpent 394"-nTr_-aA\R90_-zA_-p_-d_-nH_-nH_-Sw_-F28_-._-$r-nTr_-aA\R90_-wp:p_-d:n_-H_-y_-w_-F28_-Sw_-$b-!
++lH5,R3 Scène 4, à droite de l'ovale +s-!
+US85Aa1004XT-|5,3 205-$r-anx_-n:x_-f_-m_-h:h_-Q7_-tp:p_-r:Z1_-f_-._-$b-|206-$r-ir:r_-t:f_-p_-zA_-t:D40_-nw*t:O238_-D35:t_-D54_-n:f_-r_-$b-!
+$r-st_-t:pr_-nb:t_-n:t_-sbA_-t:pr_-$b-!
+US85Aa1008XT-"serpent 395"-V1_-zA_-zA_-X2_-"?"-i_-anx_-!
++lH5,R3 Scène 5  (207-208 ) +s-!
+US85Aa1008XT-|5,3 207-$r-z:T31_-z:n:Z2\80_-pr:t_-m_-._-$b-US85Aa1006XT-$r-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}-i_-m_-z:n:Z2\80_-$b-US85Aa1006XT-$r-z:n:Z2\80_-D&z_-._-$b-US85Aa1008XT-$r-z:n:Z2\80_-._-$b-!
+US85Aa1001XT-|208-$r-M42:n:n_-z:n:Z2\80_-._-$b-US85Aa1001XT-$r-m_-xt:x*t_-D54_-._-$b-US85Aa1004XT-$r-nTr_-Z1_-p:n_-aA:a:Y1_-._-D35:D12*D12_-._-D35:ir:Y1_-$b-!
++lNom collectif des divinités 396 à 399+s-!
+US85Aa1008XT-"396-399"-nTr_-Z1:Z2\80_-Xr_-._-._-T31:Z2\80_-t:Z2\80_-"?"-S:tA_-Y1:n_-z:k:r_-pt_-S:a_-Z2\80:f_-!
++lH5,R3 Scène 6  (209-210 ) +s-!
+US85Aa1003XT-|5,3 209-nTr_-anx_-i_-a_-"sic"-Sm_-f_-._-._-|210-ii_-f_-zb_-f_-U27_-f_-d:z_-!
++lH5,R3 - La mer de flammes  (237-238 ) +s-!
+US85Aa1001XT-|5,3 237-N_-N_-N_-A2_-A2_-A2_-nTr_-Z1:Z2\80_-i_-mw:Z2\80_-a_-H_-t:pr_-n:D54_-n_-P30_-Hr_-z:n:Z2\80_-n_-z:x_-m_-!
+Y1:n_-sbA_-zA:Z2\80_-zA_-mw_-z:n:Z2\80_-imi_-n:n_-zA_-Xr_-nTr_-p:n_-imi_-n:n_-mw_-z:n:Z2\80_-r_-n:t_-zA:Z2\80_-i_-zA_-z_-!
+m_-US85Aa1006XT-Z9:t_-Q7__-._-._-US85Aa1001XT-|238-$r-n:t_-w_-mw_-i_-A_-k_-b_-i_-i_-w_-Z2\80_-nTr_-Z1:Z2\80_-i_-imi_-w_-M_-m_-a_-$b-!
+$r-H_-t:pr_-n_-a:p*D54_-P30_-Hr_-s-n:Z2\80_-sxm_-m_-Y1:n_-sbA_-tyw_-pr:Z2\80_-m_-mw_-z:n:Z2\80_-wn:n:n_-m_-R50_-r:xAst_-$b-!
+$r-p:n_-wn:n:n_-mw:Z2\80_-z:n:Z2\80_-r_-n:t_-tyw:Z2\80_-i_-m_-s_-m_-Z9:t_-Q7_-$b-!!
+!!
++b6e HEURE +s-+ide la nuit  "L'arrivée, qui donne la bonne (direction)" +s-!
++bH6 Introduction  +s-+l(1-6)+s-!
+US85Aa1002XT-|6,i 1-$r-Htp:t*p_-i:n_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-m_-m_-d:t:Y1_-mw_-nb:t*Z1_-sbA_-tyw_-pr:Z2\80_-V25_-w_-D&Y1_-nTr_-Z1_-$b-!
+$r-p:n_-s_-sxm_-x_-._-$b-|2-$r-m_-Y1_-nn:n_-nTr_-Z1:Z2\80_-m_-nTr_-Htp:t*p_-X4A:Z2\80_-z:n:Z2\80_-r_-niwt:t*Z1_-t:n_-s_-qd_-d:d_-D54:f_-m_-t:n_-$b-!
+$r-a:p:r_-Y1_-m_-w_-._-$b-|3-$r-i_-A_-P30:f_-V25_-w_-D&Y1_-f:n_-z:n:Z2\80_-A_-H_-t:N23:Z2\80_-z:n:Z2\80_-r_-Htp:t*p_-w_-X4A:Z2\80_-$b-!
+$r-z:n:Z2\80_-D37:f_-n_-z:n:Z2\80_-mw_-Z2\80:n_-n:t_-mw_-z:n:Z2\80_-m_-a:p_-D54:Z2\80_-w_-._-$b-|4-$r-sbA_-t:pr_-m_-ra:nb_-r:n_-$b-!
+$r-n_-sbA_-A_-pr:n_-niwt:t*Z1_-t:n_-s_-p:d_-Y1:d_-m_-t&w_-T30:Z2\80_-pr:Z1_-r:n_-n_-wn:n_-nw:t_-sbA:ra_-._-$b-|5-$r-n:t_-g:r_-$b-!
+$r-H_-N2_-z:T31_-m_-t:D54_-nTr-Z1-p:n-aA:a-A-Y1-m_-z:p:r_-i_-i_-t_-r:a:t_-U4:a_-w_-Y1:sbA_-B1_-$b-!
+US85Aa1001XT-|6-N31:T_-S:tA_-T:Y1_-n:T_-imnt_-t:t_-D33:n:n_-t:D40_-nTr_-Z1_-p:n_-aA:a:Y1_-mw_-i_-m_-z_-m_-P30:f_-r_-ir:t_-!
+z:x:r_-w_-Y1:Z2\80_-sbA_-tyw_-pr:Z2\80_-d_-m_-Y1_-r:n_-z:n:Z2\80_-r:x:Y1_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}-z:n:Z2\80_-m_-a:T:Y1_-m_-ir_-!
+w_-Y1:Z2\80_-z:n:Z2\80_-wn:n_-nw:t_-sbA:ra:Z2\80_-z:n:Z2\80_-S:tA_-t:Y1:Z2\80_-D35:t*y_-G37_-r:x:Y1_-z:T31_-Y1:Z2\80_-p:n_-S:tA:Y1_-n:sbA_-t:pr_-i:n_-r:T:Z2\80_-!
+nb:t_-i_-w_-ir_-t&w_-z:T31_-Y1:Z2\80_-p:n_-m_-zS_-Y1:Z2\80_-mi_-i_-qd_-d:nw:Y1_-m_-i_-mn:n_-t:Y1:Z2\80_-n:t_-sbA*t:pr_-Hr_-!
+M156_-a:t*pr_-i_-mn:n_-t_-A4A_-$r-i_-w__-r:x:Y1_-z:t_-m_-r_-Aw:t_-X4A:Z2\80_-m_-sbA_-t:pr_-Htp:t*p_-f_-m_-Htp:t*p_-$b-!
+$r-nTr_-Z1:Z2\80_-imi_-w_-Z2\80_-xt:x*t_-st_-ir_-A40_-i_-w_-U4:a_-t_-n:f_-iAb_-b_-t:Z2\80_-f:nb_-m_-tA:N23*Z1_-$b-!!
++bH6 Registre 1+s-!
++lH6,R1 Scène 1  (7-20)+s-!
+US85Aa1002XT-|6,1 7-$r-D&md_-i:n_-nTr_-p:n_-aA:a:Y1_-n_-nTr_-Z1:Z2\80_-tp*Z1:Z2\80_-sxt_-t:N23_-t:n_-$b-A26_-H_-f:d_-Z2\80_-w_-._-i_-imi_-Z2\80_-w_-sbA_-!
+t:pr_-Htp:t*p_-tyw_-A40:Z2\80_-r:r:r_-nb:nb_-nb_-z:n:Z2\80_-._-Htp:t*p_-n_-T:n:Z2\80_-Htp_-T:n_-A_-H_-t:N23:Z2\80_-n_-T:n:Z2\80_-n:t_-!
+Htp:t*p_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-._-._-i_-m_-z:n:Z2\80_-ra*Z1:nb_-n:t_-T:n:Z2\80_-Htp:t*p_-Z2\80_-w_-x:r_-t:Y1:Z2\80_-A40:Z2\80_-nb_-Z2\80_-w_-!
+a_-Z1_-U4:a_-w_-Y1_-r:d_-w_-rd_-rd_-q_-A_-t:Y1_-._-n:ir_-w_-Y1:Z2\80_-T:n:Z2\80_-aA:a_-t:Y1_-n_-x*p:r_-!
+w_-Y1:Z2\80_-._-T:n:Z2\80_-wsr_-s_-r:D40_-T:n:Z2\80_-sxm_-x_-m_-T:n:Z2\80_-Tz:pXr_-._-wsr_-s_-r:n_-T:n:Z2\80_-m_-wsr_-Z1:Z2\80_-T:n:Z2\80_-sxm_-m_-Y1:n_-._-._-!
+|15-T:n:Z2\80_-m_-sxm_-Z1:Z2\80_-T:n:Z2\80_-n:D_-nw_-Aa27D_-Y1_-T:n:Z2\80_-._-st_-ir_-A40_-m_-a:ir_-Z2\80_-w_-n:U19_-nw&w_-!
+n:t_-w_-A24_-D40_-wA_-A_-i_-i_-Z2\80_-w_-i_-r:f_-._-$r-ir:r_-t:Z2\80_-z:n:Z2\80_-p_-m_-sbA_-t:pr_-r:a:t_-Htp:t*p_-$b-!
+$r-nTr_-Z1:Z2\80_-sbA_-tyw_-Z2\80_-x*p:r_-w_-Y1:Z2\80_-z:n:Z2\80_-Hr:a_-Z1:Z1_-._-._-$b-|20-$r-m_-Aw_-t:Z2\80_-tp:t_-r:Z1_-n_-nTr_-Z1_-p:n_-aA:a:Y1_-$b-!
++lNoms des divinités 401 à 409  +s-!
+US85Aa1002XT-"401"-$r-Htp:mzH_-sbA*t:pr_-._-Htp_-W18_-n:t*y_-sbA*t:pr_-._-._-$b-"402"-H8:T_-M_-H_-i_-i_-t_-._-$r-st_-t_-i_-M_-m_-H_-i_-i_-t_-$b-!
+"403"-H8:r_-i_-imi_-ib_-nTr:Z2\80_-._-$r-st_-ir_-imi_-ib_-nTr_-Z1:Z2\80_-._-._-$b-"404"-N31:mzH_-T24_-t:f_-._-$r-G5_-W17_-n:t*y_-i_-H_-t:f_-$b-!
+"405"-b:n_-ti_-r_-T24:t_-f_-._-$r-b_-n:t*y_-i_-r_-i_-H_-t:f_-._-._-$b-"406"-U2:ib_-mzH_-T24:t_-f_-._-$r-U2:Y1_-ib_-W18:t*y_-i_-H_-t:f_-._-._-$b-!
+"407"-H_-n_-b_-T:T_-._-._-"408"-n_-H_-b_-i_-i_-T_-._-._-"409"-Htp:t*p_-T_-nTr_-Z1:Z2\80_-!
++lH6,R1 Scène 2  (21-31)+s-!
+US85Aa1002XT-|6,1 21-$r-V25_-md_-Y1_-i:n_-Hm_-Z1:n_-nTr_-p:n_-aA:a:Y1_-HD_-Z1:Z2\80_-M22_-t:n:Z2\80_-bit:Z2\80_-._-i_-imi_-w_-Z2\80_-sbA_-t:pr_-$b-i_-Z1_-U2_-T:n:Z2\80_-!
+U39:Z2\80_-S1_-._-D41_-Z2\80_-w_-N_-m_-G24_-t:Z2\80_-N23:Z2\80_-T:n:Z2\80_-n_-T:n:Z2\80_-n:t_-._-sbA_-t:pr_-x*p:r_-t:Y1_-Htp_-!
+T:n:Z2\80_-i_-m_-z:n:Z2\80_-U4_-a:n_-._-._-|25-T3_-Z1:Z2\80_-T:n:Z2\80_-anx_-n:x_-n_-G29A:Z2\80-T:n:Z2\80_-z:r:q_-Y1:n_-._-F10_-Z1:Z2\80_-T:n:Z2\80_-!
+n:t_-T:n:Z2\80_-xpr:r_-i_-i_-Z2\80_-w_-._-tp:Z2\80_-tA:N23*Z1_-H_-k:n_-nw&w_-A26:Z2\80_-m_-d:r_-._-x*t:f_-tyw_-D12:Z2\80_-A1_-!
+$r-aHa:a_-G29A:Z2\80-z:n:Z2\80_-m_-sbA_-t:pr_-._-._-$b-|30-$r-Hr:Z1_-HqA_-HqA_-HqA_-z:n:Z2\80_-a:k_-t:Z2\80_-z:n:Z2\80__-m_-i_-t_-m_-t:T30:Z2\80_-._-D35:x_-m_-$b-!
+$r-n_-s_-t_-a_-wA_-A_-w_-$b-!
++lNoms des 9 sceptres+s-!
+US85Aa1002XT-"410"-a_-w_-t_-._-._-"411"-$r-i_-d:t_-idt_-tA:N23*Z1_-._-$b-idt:t_-tA_-._-._-"412"-$r-HqA_-q:t:Y1_-sbA:t_-pr_-._-$b-HqA_-q:t_-sbA_-!
+"413"-$r-U4:a_-t:Y1_-nTr_-Z1:Z2\80_-._-$b-Sw_-nTr:Z2\80_-._-._-"414"-Xnm_-t:sbA_-tyw_-Z2\80_-._-._-"415"-$r-n:t_-mw_-tA_-T:n:n_-._-$b-n:t_-tA_-T:n:n_-!
+"416"-D43:t_-nTr_-Z1:Z2\80_-._-._-"417"-$r-i_-r:t_-tp:Z2\80_-nTr_-Z1:Z2\80_-._-$b-r:t_-d:p*Z2\80_-nTr_-Z1:Z2\80_-._-._-"418"-r:t_-z:x*t:Z2\80_-sbA_-tyw:Z2\80_-!
++lH6,R1 Scène 3  (32-37)+s-!
+US85Aa1002XT-|6,1 32-z:V14:r_-t:3_-"à lire :"-[[-n:V14:r_-t:p-]]_-n:t_-ra:Z1_-wn:n:n_-z_-m_-pt:t_-._-kA_-h_-m_-h_-m_-t_-m_-sbA_-t:pr_-!
+n_-i_-m_-Y1_-kA:D53_-h_-m_-h_-m_-t_-A40_-._-._-|35-Htp:t*p_-ra:Z1_-Hr:Z1_-nTr_-n:T:r_-t:f_-wn:n:n_-z:T31:Z2\80_-n_-!
+st_-t_-t:U30_-i_-t_-B1_-m_-a:r_-._-Z2\80_-w_-n_-nTr_-n:T:r_-t_-t:n_-!
++lNoms des divinités  419-421+s-!
+US85Aa1002XT-"419"-wDAt\_-wDAt_-D15_-ra_-Z1_-._-._-"420"-kA_-h_-m_-h_-m_-t_-._-._-"421"-$r-st_-t_-t:U30_-i_-t:S28_-._-$b-F51C:T_-T_-G47A_-i_-r:T_-!
++lH6,R1 Scène 4  (38-46) +s-!
+++ 6e Heure. R1 - 38-46 +s-US85Aa1002XT-|6,1 38-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-$b-HD_-DD_-t&w_-A40_-._-._-|40-z_-zA_-D40_-._-z:T31_-Z2\80:k_-!
+T_-wr:r_-T_-nTr_-Z1:Z2\80_-T_-wr:r_-Y1_-._-m_-V25_-w_-Y1:Z2\80_-T_-i_-mn:n:Y1_-n_-z:T31_-Y1:Z2\80:T_-._-HD_-D&N8_-!
+n_-k:k_-w_-Z2\80_-z:n:Z2\80_-z:r:q_-Y1:n_-._-H_-a:F51B:Z2\80_-f_-i_-f:F51B*Z2\80_-z_-zA_-A_-w_-._-._-|45-D40_-T:n:Z2\80_-!
+w_-"sic"-i_-A1_-a:p*D54_-A1_-._-Hr:Z1_-T:n:Z2\80_-m_-Htp:t*p_-Y1_-!
++lNoms des divinités  422-423+s-!
+US85Aa1002XT-"422"-H_-DD_-w_-._-._-"423"-T_-wr:T_-nTr_-Z1:Z2\80_-!
++lH6,R1 Scène 5  (46-57) +s-!
+US85Aa1002XT-|6,1 46-$r-md_-w_-Y1:Z2\80_-._-D&d_-w_-nTr_-Z1_-p:n_-r_-h_-A_-w_-._-Y1:Z2\80_-z:T31_-m_-Y1:Z2\80_-p:n_-S:tA_-Y1:n_-sbA_-t:pr_-._-$b-!
+HD_-D&N8_-k:k_-Z2\80_-w_-m_-tA:N23*Z1_-H_-a:Y1_-._-._-|50-i_-n_-m_-F51C_-"sic"-md_-w_-Y1_-tp*Z1:d_-m_-d:n:f_-H_-a:F51B*Z2\80:f_-._-!
+$r-z:T31_-Y1:Z2\80_-p_-w_-S:tA_-Y1:n_-._-sbA*t:pr_-imi_-n:n_-pt:Z2\80_-X:t*Z2\80_-z:n:Z2\80_-I14:Z2\80_-z:n:Z2\80_-._-m_-$b-!
+$r-z_-zA_-A_-t&w_-D40:Z2\80_-z:n:Z2\80_-i_-w_-ra:Z1_-._-s_-HD_-D&N8_-f_-k:k_-Z2\80_-w_-z:n:Z2\80_-tp:Z1_-md_-w_-f__-$b-!
+|55-$r-m_-xt:x*t_-D54_-nTr_-Z1_-._-sbA_-t:t_-Dw_-i_-._-A26_-s_-x:r_-f_-$b-!
++lNoms des 3 serpents et des 3 tombeaux  424 à 430+s-!
+US85Aa1006XT-"424"-s_-t_-m_-D12:f_-._-._-US85Aa1008XT-"425"-E21_-A4A_-O7_-._-._-US85Aa1006XT-"426"-s_-t_-m_-ns:Z1_-f_-._-._-!
+US85Aa1008XT-"427"-D34_-Xr_-O7_-._-.__-US85Aa1006XT-"428"-A28_-n:s_-Q7_-._-._-US85Aa1008XT-"429"-N31:d_-d:t_-m_-O7_-!
+US85Aa1007XT-"430"-sbA_-T:T_-r:t_-tp_-O6_-t:Z2\80_-._-$r-sbA:t_-t:pr_-i_-r:t_-tp_-O6_-t:Z2\80_-$b-!!
++bH6 Registre 2+s-!
++lH6,R2 Scène 1  (102-112)+s-!
+US85Aa1002XT-|6,2 102-$r-qd_-d:d_-D54_-nTr-Z1-p:n-aA:a-A-Y1-._-m_-niwt:t*Z1__-T:n_-Hr:Z1_-mw_-ir:f_-xrw_-t:Z1_-._-m_-sxt_-t:Z1_-$b-!
+$r-t:n_-r:h_-A_-Z2\80_-w_-._-._-$b-|105-$r-XA:t*F51B:Z2\80_-st_-ir_-$b-V25_-md_-Y1_-nTr_-Z1_-p:n_-aA:a:Y1_-n_-._-nTr_-Z1:Z2\80_-i_-imi_-w_-Z2\80_-sxt_-!
+t:N23:Z2\80_-mn:n_-i_-T14_-f_-._-r_-n:U20_-nw&w_-n_-O7_-t:Z2\80_-S:tA_-t:Y1:Z2\80_-Xr:r_-t:Z2\80_-._-z:T31_-Y1:Z2\80_-n_-st_-ir_-A40_-!
+i_-w_-._-nTr_-Z1_-p:n_-Dw:f_-Hr:tp_-nn:n_-._-O6_-t:Z2\80_-S:tA_-t:Y1:Z2\80_-xrw_-w__-sDm_-m_-._-|110-w_-nTr_-Z1_-p:n_-!
+._-a:p*D54_-x:r_-f_-._-m_-xt:x*t_-D54_-Dw_-i_-A26_-Z2\80:f_-!
++lNoms des divinités 431 à 439+s-!
+US85Aa1004XT-|6,2 169-"à la proue"-P30_-ra_-._-._-"431"-wp:N31_-._-._-"432"-siA_-._-._-"433"-nb:t_-P30_-._-._-"434"-f_-F51B_-._-._-"435"-N31_-H_-k:nw_-!
+"436"-kA:D53_-Sw_-._-._-"437"-H_-w_-._-._-"438"-n:h:z_-._-._-US85Aa1008XT-"439"-x:r:p_-P30_-!
++lH6,R2 Scène 2  (113-119)+s-!
+US85Aa1002XT-|6,2 113-$r-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-s_-mn:n_-Y1:N23*Z2\80_-n_-._-nn:n_-nTr_-Z1:Z2\80_-niwt:t*Z1_-t:n_-m_-sbA_-t:pr_-._-._-$b-!
+|115-i:n_-ra:n_-nTr_-Z1_-p:n_-mn:n:Y1_-n:ir_-w_-Z2\80:k_-._-mn:n:Y1_-n_-Ax_-Z2\80:k_-z:T31_-m_-D54_-w&t_-._-i_-mn:n_-t:Y1_-r_-!
+sxt_-t:N23_-Z2\80:k_-m_-z:S_-tA:Y1_-._-i_-mn:n_-Y1:n:z_-i_-mn:n_-t:Y1_-i_-mn:n:Y1_-n_-a:a_-Z1:Z1_-T:t*y_-._-n_-H_-HA_-!
+A_-i_-i_-S28_-s-n:Z2\80_-!
++lNoms des divinités 440 à 441+s-!
+++ noms 440-441 (§170) +s-US85Aa1006XT-"440"-G26_-mzH:nb_-sbA_-tyw_-Z2\80_-._-$r-G26_-W17#24-n:t*y_-nb_-sbA_-tyw_-pr:Z2\80_-$b-!
+US85Aa1007XT-"441"-i_-zA_-n:t:Y1_-z:T31_-Y1:Z2\80:z_-._-$r-i_-mn:n:t_-Y1_-z:T31_-Y1:Z2\80:z_-$b-!
++lH6,R2 Scène 3  (120-147)+s-!
+US85Aa1002XT-|6,2 120-$r-D&md_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-._-aA:a_-A_-Y1:n_-sw_-t:n:Z2\80_-bit:t_-tyw_-A40:Z2\80_-._-n_-Ax_-Z2\80_-w_-$b-!
+$r-i_-imi_-Z2\80_-w_-._-niwt:t*Z1_-t:n_-$b-sw_-t:n_-i_-i_-t:Y1:Z2\80_-T:n:Z2\80_-n_-T:n:Z2\80_-._-sw_-t:n:Z2\80__-O42B_-O42B:Z2\80_-n_-T:n:Z2\80_-!
+HD_-t_-HDt_-T:n:Z2\80_-._-._-|125-tp*Z1:Z2\80_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-._-Htp:t*p_-tyw_-A40:Z2\80_-bit:t*Z1_-._-T:n:Z2\80_-n_-T:n:Z2\80_-bit:t_-tyw_-A40:Z2\80_-!
+._-Ax_-Z2\80_-T:n:Z2\80_-n_-T:n:Z2\80_-Ax_-Z1:Z2\80_-nTr_-Htp:t_-._-p_-w__-X4A:Z2\80_-T:n:Z2\80_-n_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-._-._-|130-sxm_-m_-!
+Y1_-T:n:Z2\80_-G29A-Z2\80_-T:n:Z2\80_-wA_-._-A_-S:Y1_-T:n:Z2\80_-sw_-t:n:Z2\80_-T:n:Z2\80_-niwt:t*Z1_-T:n:Z2\80_-._-Htp:t*p_-T:n:Z2\80_-A_-H_-t:N23:Z2\80_-!
+T:n:Z2\80_-._-Xnm_-m_-Y1_-T:n:Z2\80_-S:tA_-t:Y1_-._-m_-bit:t*Z1_-T:n:Z2\80_-x&Ax_-._-._-|135-Y1_-T:n:Z2\80_-m_-x&Ax_-w_-Y1:Z2\80_-T:n:Z2\80_-!
+|6,2 136-n:t_-T:n:Z2\80_-Htp:t*p_-._-w_-Y1:Z2\80_-m_-Htp:t*p_-t:X4A:Z2\80_-._-r_-a:r_-w_-r:Z1_-nTr_-Z1_-A40:Z2\80_-._-n_-T:n:Z2\80_-!
+n:t_-T:n:Z2\80_-n:D_-Aa27D_-nw&w_-._-._-|140-Y1:Z2\80_-Hr:r_-A1_-tp:Z1_-tA:N23*Z1_-._-n_-i_-k_-i_-i_-w_-T31:Z2\80_-._-aA:p*p_-I86E_-!
+$r-sw_-t:n:Z2\80_-Htp:t*p_-._-tyw_-Z2\80_-bit:t_-tyw_-Z2\80_-bit:t_-tyw_-Z2\80_-._-Ax_-Z2\80_-imi_-Z2\80_-w_-tA:N23*Z1_-wn:n:n_-z:n:Z2\80_-$b-!
+|145-$r-m_-z:x:Y1:Z2\80_-$b-"sic"-$r-p:n_-a_-aHa_-a:D54_-z:n:Z2\80_-._-r_-q:r_-t:D12_-z:n:Z2\80_-i_-w_-z:n:Z2\80_-sDm_-m_-z:n:Z2\80_-._-xrw_-w_-nTr_-Z1_-p:n_-ra:nb_-$b-!
++lNoms des divinités 442 à 457+s-!
+US85Aa1002XT-"442-445"-sw_-t:n_-._-._-._-"446-449"-Htp:t*p_-tyw:Z2\80_-._-._-._-"450-453"-bit:t*Z1_-._-._-._-"454-457"-Ax_-!
++lH6,R2 Scène 4  (178-191)+s-!
+US85Aa1002XT-|6,2 178-XA_-A_-t:F51B:Z2\80_-xpr:r_-p_-w_-._-._-|180-m_-i_-f:F51B*Z2\80_-f_-._-D\98**z{{27,492,74}}**f{{28,720,81}}-a:S_-._-A_-Y1_-Hr:Z2\80__-!
+I70B_-m_-._-z_-zA__-A_-A_-D40:n_-._-wn:n:n_-f_-m_-z:x:r_-._-._-|185-Y1:Z2\80_-p:n_-z:d_-Z5_-f_-!
+m_-r:Z1_-f_-._-._-$r-ir:r_-t:f_-p_-w_-._-d_-wn:n_-D54:f_-Xr:r_-z:T31_-p:n_-._-wA_-A_-$b-!
+$r-D54_-x:r_-f_-imnt_-mi_-._-qd_-d:nw:Y1_-D35:t_-D54:f_-r_-st_-t:nb_-._-._-$b-|190-$r-n:t_-sbA_-t:pr_-xrw_-w_-ra:Z1_-p_-w_-._-$b-!
+$r-D54_-w_-z:T31_-Y1:Z2\80_-i_-imi_-f_-$b-!
+"Les divintés sont anonymes"-!
++lH6,R2 Scène 5  (148-150)+s-!
+US85Aa1002XT-|6,2 148-$r-i_-w_-z:n:Z2\80_-sDm_-m_-s-n:Z2\80_-._-md_-w_-Y1_-ra*ra:nb_-z:q:r_-Y1_-z:n:Z2\80_-m_-xrw_-w_-Y1:f__-._-._-$b-!
+|150-$r-ir:r_-t_-z:n:Z2\80_-p_-w_-m_-sbA_-t:pr_-zb_-t_-b_-D54_-G29A-Z2\80_-z:x_-n:t:D54_-S36_-t:Z1:Z2\80_-ir_-Xr:r_-t:Y1:Z2\80_-$b-!
+$r-G25&Aa1_-Z2\80_-w__-m_-mw_-$b-!
++lNoms des divinités 458 à 459+s-!
+"468"-i:n_-T:T_-._-._-"469"-Hn\*Hn\:n_-i_-i_-t_-._-.__-"470"-N104_-m_-t:D54\_-._-._-"471"-s_-H_-i_-i_-t_-!
++lH6,R2 Scène 6  (151-154)+s-!
+US85Aa1004XT-|6,2 151-$r-D35:t_-G37_-U2:ir_-A_-A_-sw_-w_-nTr-Z1-p:n-aA:a-A-Y1-z:q:r_-Y1_-nn:n_-z:T31_-Y1:Z2\80_-i_-imi_-$b-!
+$r-m_-._-q_-b_-w_-pXr:Z2\80_-f_-sDm_-m_-s-n:Z2\80_-xrw_-w_-Y1__-nTr_-Z1_-p:n_-aA:a:Y1_-r:a_-ra*Z1:nb_-$b-ir:r_-t:f_-!
+p_-w_-._-m_-sbA_-t:pr_-z:X_-b_-ns_-S36_-t:Z2\80_-a:x_-m_-Y1_-w&D12_-Y1:Z2\80_-x*t:f_-tyw_-A14E__-!
+|154-z:x:r_-w_-A14E_-m_-sbA_-t:pr_-!
++lDivinité : +s-US85Aa1006XT-"472"-a_-m_-w&D12_-Y1:Z2\80_-!
++lD'après AmenHotep II 6,3 296-299)  +s-US85Aa1004XT-m_-z:T_-._-._-zA_-zA_-._-._-sbA:a_-t:f_-._-._-W16\__-T22A_-Z2\80:f_-!
++lH6,R2 Scène 7  (155-159)+s-!
+US85Aa1002XT-|6,2 155-$r-D&md_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a:Y1_-n_-nn:n_-nTr_-Z1:Z2\80_-$b-a_-aHa_-a:D54:Z2\80_-._-i_-r_-T:n:Z2\80_-m_-N104_-m_-D54:Z2\80_-!
+d_-wn:n_-D54:Z2\80_-i_-r_-T:n:Z2\80_-m_-wr:r_-d:Z2\80_-._-x:p_-r:n_-G29A-Z1:Z2\80_-T:n:Z2\80_-Htp:t*p_-n_-S36_-t:Z2\80_-T:n:Z2\80_-!
+d_-wn:n_-D54:n_-rd*rd:Z2\80_-T:n:Z2\80_-._-U4:a_-D54:n_-U2_-st_-t_-rd:Z2\80_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-r_-T:n:Z2\80_-m_-F51B*F51B*F51B_-T:n:Z2\80_-!
+|159-D35_-U7:r_-a:Aa2*t:Z2\80_-T:n:Z2\80_-$r-anx_-z:n:Z2\80_-m_-xrw_-nTr_-Z1_-p:n_-aA:a:Y1_-ra*Z1:nb_-ir:r:t_-z:n:Z2\80_-p_-ir:t_-ii_-i_-n__-N27:t*y_-pr_-$b-!
++lNoms des divinités 473 à 476+s-!
+US85Aa1008XT-"473"-g_-i_-i_-._-._-US85Aa1002XT-"474"-mn_-i_-i_-rd_-._-._-"475"-n:n_-r:d_-rd_-rd_-._-._-"476"-wr:r_-d_-!!
++bH6 Registre 3+s-!
++lH6,R3 Scène 1  (201-212)+s-!
+US85Aa1002XT-|6,3 201-$r-D&md_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a_-A_-Y1:n_-nn:n_-nTr_-Z1:Z2\80_-$b-i_-Z1_-nTr_-Z1:Z2\80_-._-W17_-n:t_-tyw:Z2\80_-sbA_-t:pr_-!
+i_-imi_-Z2\80_-w_-xt:x*t_-D54_-nb:t*Z1_-sbA_-tyw:Z2\80_-._-aHa_-i_-i_-w_-D54:Z2\80_-N104_-s_-i_-i_-w_-Z2\80:n_-nw*nw*nw:pt_-i_-imi_-sxt__-t:N23:Z2\80_-z:n:Z2\80_-!
+n:t_-T:n:Z2\80_-._-nTr_-Z1:Z2\80_-HD_-D_-w_-ra:Z2\80_-tp*Z1:Z2\80_-aHa_-w_-D54_-XA_-t&w_-F51B:Z2\80_-._-._-|205-n:t_-T:n:Z2\80_-n:U20_-nw&w_-n_-!
+nTr_-n:T:r_-t:Z2\80_-N104_-m_-i_-i_-t:D54:Z2\80_-m_-._-xt:x*t_-D54_-xpr_-r:r_-b_-w_-Xr:r_-XA:t*F51B_-Z2\80:f_-m_-sbA_-t:pr_-anx_-!
+n_-._-._-Hr:Z2\80_-T:n:Z2\80_-z:r:q_-Y1:n_-ib:Z2\80_-T:n:Z2\80_-HD_-D&N8_-n_-k:k_-w_-Z2\80_-T:n:Z2\80_-._-sxm_-x#24-m_-Y1:n_-T:n:Z2\80_-!
+m_-mw#24-Htp:t*p#2-n_-T:n:Z2\80_-m#13-Htp:t*p#13-._-w#1234-X4A:Z2\80#12-T:n:Z2\80_-pr:r_-t:D54_-n_-G29A\69**Z2{{69,784,55}}**Z1{{531,41,57}}_-T:n:Z2\80_-a:p*D54_-z:n:Z2\80_-!
+|210-#b-m_-xt:x*t_-D54_-A1_-G29A-A1_-m-#e-a_-A1_-._-Htp:t*p_-A1_-Hr_-XA_-A_-t:F51B:Z2\80_-A1_-i_-w_-A1_-!
+z_-wA_-A_-D54_-A1_-._-Hr:Z1_-T:n:Z2\80_-m_-Htp:t*p_-!
++lNoms des divinités 460 à 467+s-!
+US85Aa1002XT-"460"-mzH:mzH_-._-._-"461"-m_-nw*nw*nw_-wr_-._-._-"462"-i_-H_-i_-i_-._-._-"463"-h_-m_-._-._-"464"-n:D_-nw_-Aa27D_-i_-t:f_-!
+"465"-anx_-Hr_-._-._-"466"-md_-Hr_-._-._-"467"-n:D_-Aa27D_-nw:t*y_-!
++lH6,R3 Scène 2  (213-225)+s-!
+US85Aa1002XT-|6,3 213-$r-D&md#12-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a:Y1_-n_-md_-Z1:Z2\80_-nTr_-Z1:Z2\80_-D53:Z2\80_-._-W18_-n:t_-tyw:Z2\80_-niwt:t*Z1__-t:n_-._-$b-i_-Z1_-md_-Z1:Z2\80_-!
+N10:t_-3\80:3*.*3_-n:t_-z:T31_-Y1:Z2\80_-._-._-|215-n_-zA&D12_-Y1:Z2\80_-nTr_-Z1:Z2\80_-f:t_-k_-A_-Q7_-n_-Hr:Z2\80_-T:n:Z2\80_-z:p:d#24-Y1:n#1234-!
+z:f_-w_-T30:Z2\80_-T:n:Z2\80_-A_-m_-Q7_-T:n:Z2\80_-x*t:f_-tyw:Z2\80_-._-xpr:r_-i_-A40_-d:z_-T30_-T:n:Z2\80_-S36_-t:Z2\80_-z:n:Z2\80_-!
+n:t_-T:n:Z2\80_-.__-r:r:r_-H_-a:F51B*Z1:Z2\80_-S:tA:Y1_-ir:n_-nw*nw*nw:pt_-._-st_-t:Z2\80_-z:n:Z2\80#34-n:t#1234-T:n:Z2\80_-i_-imi_-mw_-tA_-T:n:n_-!
+|220-xpr:r_-i_-i_-Z2\80_-w_-m_-a:k_-Z2\80_-w_-._-xpr:r_-i_-A40_-$r-z:r:q_-Y1_-z:n:Z2\80_-m_-xrw_-ra_-._-.__-ra:nb_-ir:r:t_-z:n:Z2\80_-$b-!
+$r-p_-m_-sbA_-t:pr_-ir:t_-._-m_-a:q_-A_-T30_-m__-m_-._-i_-i_-tyw__-A14E:Z2\80_-r:a:t_-G29A\69**Z2{{69,784,55}}**Z1{{531,41,57}}_-.-$b-|225-$r-H_-st_-t_-i_-t_-i_-zA_-pr_-$b-!
++lNoms des divinités 477 à 486+s-!
+US85Aa1002XT-"477"-tA_-T:n:n_-._-._-"478"-t:tm_-._-._-"479"-xpr_-._-._-"480"-Sw_-._-._-"481"-zA_-b_-._-._-"482"-st_-ir_-._-._-"483"-G5_-!
+"484"-wp_-w_-._-._-"485"-Htp:Htp_-._-._-"486"-nw*nw*nw_-!!
+!!
++b7e HEURE +s-+ide la nuit  "Celle qui repousse le serpent-+s-+lHiou +s-+iet décapite le « Terrifiant de visage »" +s-!
++bH7 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|7,i 1-$r-Htp:t*p_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-m__-T:p_-H_-t:pr_-st_-ir_-A40_-V25_-w_-D&Y1_-md_-w__-Y1:Z2\80_-$b-!
+$r-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-r_-T:p_-H_-t:pr_-t:n_-n_-nTr_-Z1:Z2\80_-i_-imi_-w_-Z2\80:z_-i_-w_-nTr_-Z1_-p:n_-ir:f_-$b-!
+$r-k_-i_-i_-w&D12_-Y1:Z2\80_-r_-T:p_-H_-t:pr_-n_-z:T:n_-m_-D54:f_-N31:t*Z1_-r_-aA:p*p_-I86E_-m_-H_-kA_-w_-$b-!
+$r-Y1:Z2\80_-st_-t:H8_-B1_-H_-kA_-w_-Y1:Z2\80_-A19_-A40_-r:n_-n_-sbA_-A_-pr:n_-niwt:t*Z1_-T:n_-a:p*p_-w_-$b-!
+$r-++ 2 +s-$b-|2-$r-D54_-nTr_-Z1_-p:n_-Hr:r_-f:r_-w_-t:y_-O32_-st_-ir_-A40_-r:n_-n_-niwt:t*Z1_-T:n_-T:p_-H_-t:pr_-S:tA_-t:Y1_-r:n_-$b-!
+$r-n_-wn:n_-nw:t_-sbA:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-x:f_-s_-t:D54__-h_-i_-w_-I14C_-$b-!
+$r-H_-s_-q:t_-T30_-n_-H_-HA_-Aa2_-Hr*Z1_-I86E_-$b-!
+US85Aa1001XT-|3-N31:t_-S:tA_-t:Y1_-n:t_-imnt_-t_-a:p*p_-t:D54_-nTr_-Z1_-aA:a:Y1_-Hr:r_-s_-m_-P30:Z1_-f_-d:z:r_-Y1_-a:p*p_-D54:f_-!
+Hr:Z1_-N31_-t:n_-D35:t_-mw_-s_-D35:t_-sTA:D54_-Z2\80_-s_-s_-qd_-d:d:nw_-D54:f_-m_-H_-k_-A_-w_-Y1:Z2\80_-H8:t_-H_-k_-A_-!
+Y1:Z2\80_-A19_-A40_-m_-Ax_-Z2\80_-tp:y_-r:Z1_-n_-nTr_-Z1_-p:n_-D\98**z{{27,492,74}}**f{{28,720,81}}-ir:r:t_-S:a:t_-T30:Z2\80_-aA:p*p_-I86E_-m_-sbA_-t:pr_-!
+r_-q:r:r_-t:D12_-t:n_-n:h_-A_-w_-Y1:Z2\80_-f_-i_-p_-m_-p*t:pt_-$r-i_-w_-ir_-t&w_-nn:n_-mi_-qd_-d:nw:Y1_-Hr:Z1_-mH:t_-$b-!
+$r-a:t*pr_-i_-mn:n_-t:Y1_-m_-sbA_-t:pr_-$b-i_-w_-m_-p*t:pt_-m_-tA:N23*Z1_-tp:Z1_-tA:N23*Z1_-$r-i_-w_-r:x:Y1_-s_-t_-m_-$b-!
+$r-zA_-zA_-Z1:Z2\80_-x:r_-ra:Z1_-$b-!!
++bH7 Registre 1+s-!
++lH7,R1 Scène 1 (4-12)+s-!
+US85Aa1002XT-|7,1 4-$r-D&md_-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-._-$b-S:p:z_-S:a:n_-a:Z1:k_-pr:n_-N31_-._-m_-d:p_-k_-H_-k:n_-i_-i_-T_-!
+._-a:n_-xrw_-T:mAa:n_-anx_-i_-i_-t_-F10_-T_-._-wn:n_-a_-pXr:T_-._-ii_-i_-D54:n:Z1_-._-._-|10-s_-HD_-D&ra_-A1_-._-W17_-n:t*y_-!
+k:k_-t&w_-._-a_-A1_-z:x_-mw_-t:y_-m_-mH:n_-I73_-US85Aa1007XT-!
++lNoms des divinités 487 à 489+s-!
+US85Aa1002XT-"487"-S:p:z_-._-._-"488"-A26_-T_-._-._-"489"-anx_-anx_-T_-!
++lH7,R1 Scène 2 (13-27)+s-!
+US85Aa1002XT-|7,1 13-$r-i:n_-nTr_-p:n_-n_-st_-ir_-i_-imi_-mH:n_-I73_-._-$b-i_-Z1_-p_-i_-i_-p_-i_-i_-._-|15-st_-ir_-xnt_-n:t*y__-sbA_-t:pr_-!
+._-nb_-anx_-HqA_-imnt_-t_-anx_-n:k_-._-anx_-k_-anx_-n:x_-t_-zA:Y1_-n:k_-._-zA_-k_-zA_-t:Y1_-m_-tA_-!
+b_-wA_-A:Y1_-n:k_-._-r_-imi_-w_-Z2\80_-xt:x*t_-D54:k_-x:r_-A14E_-n:k_-._-._-|20-x*t:f_-tyw_-US22A13B-Z2\80:k_-Xr:r_-!
+rd_-rd_-k_-._-sxm_-m_-Y1_-n:k_-m_-ir_-w_-Z2\80_-r:k_-._-n_-s_-Q7A:Z2\80_-anx_-D12:Z2\80_-I15B_-r_-z:n:Z2\80_-!
+A__-m_-Q7A_-f_-z:n:Z2\80_-._-m_-d:n_-Q7A_-Hr:r_-z:n:Z2\80_-m_-d:z_-T30:f_-._-z:n_-m_-a:q_-a:f_-z:n:Z2\80_-!
+m_-m_-a:q_-n:f_-._-._-|25-i_-p:T_-F51B_-w_-r_-m_-ra:nb_-._-i_-w_-A1_-a:p_-D54_-A1_-._-Hr:r_-k_-m_-Htp:t*p_-!
++lNoms des divinités 490 à 495+s-!
+US85Aa1008XT-"490"-F51B_-F51B_-F51B_-F51B_-._-$r-i_-f:F51B*F51B*F51B_-st_-ir_-._-._-$b-US85Aa1002XT-"491"-anx_-zA&D12:Z2\80_-._-$r-anx_-ir_-w_-Y1_-$b-!
+US85Aa1009XT-"492-494"-x*t:f_-tyw_-F51B:r_-N33\70_-N33\70_-N33\70_-N33\70_-N33\70_-N33\70_-._-$r-x*t:f_-tyw_-A14E_-Z2\80_-st_-ir_-A40_-._-._-$b-US85Aa1007XT-"495"-m_-T30_-Q7A_-Hr_-!
++lH7,R1 Scène 3 (28-38)+s-!
+US85Aa1002XT-|7,1 28-$r-i:n_-Hm*Z1:n_-nTr_-Z1_-p:n_-._-$b-zA&D12:Z2\80_-t&w_-a_-._-._-|30-r_-st_-ir_-XA:k_-Z2\80_-w_-._-r_-xnt_-n:t*y_-!
+sbA_-t:pr_-._-n:T:T_-V1:n_-a:a_-Z1:Z1_-T:n:Z2\80_-._-U7:r_-D40:n_-A&q_-z_-w_-V1:Z2\80_-T:n:Z2\80_-._-zA_-n_-zA_-Z2\80_-!
+T:n:Z2\80_-i_-s_-q:n_-S36_-t:Z2\80_-T:n:Z2\80_-._-._-|35-n_-i_-k:G37_-T:n:Z2\80_-n_-i_-k_-w_-._-m_-n_-i_-k:t_-V1:f_-D35_-!
+pr:r_-D54_-._-T:n:Z2\80_-m_-z_-zA_-A_-t&w_-V1:Z2\80:f_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
++lNoms des divinités 496 à 499+s-!
+US85Aa1002XT-"496-498"-w_-t:y_-._-._-._-"499"-n_-i_-k_-w_-!
++lH7,R1 Scène 4 (39-45)+s-!
+US85Aa1002XT-|7,1 39-$r-i:n_-nTr_-Z1_-p:n_-aA:a:Y1_-._-._-$b-|40-i_-Z1_-G29A-Z1:Z2\80_-anx_-n:x_-Z2\80_-w_-._-anx_-n:x:Z2\80_-S:tA_-w:Z2\80_-Hr_-T:n_-!
+n_-w:Z2\80_-tp*Z1:Z2\80_-xpr:r_-w:Z2\80_-._-m_-xpr:r_-i_-m_-A1_-n:t_-tyw:Z2\80_-._-m_-xt:x*t_-D54_-F51B*F51B*F51B_-i_-T:n_-i_-i_-Z2\80_-w_-!
+|45-D\98**t{{65,639,88}}**Z1{{606,487,89}}-f_-m_-sbA_-t:pr_-._-!
++lNoms des divinités 500 à 502+s-!
+US85Aa1002XT-"500"-U2:T_-._-._-"501"-xpr_-xpr_-._-._-"502"-zA_-tA_-T:n:n_-!
++lH7,R1 Scène 5 (45 suite-49)+s-!
+US85Aa1002XT-|45 (suite)-anx_-n:x_-n_-zA_-k_-._-i_-T_-m_-z:mn:n_-Y1_-t&w_-._-Z1_-G29A-"sic"-!
+q_-i_-imi_-._-m_-tA:N23*Z1_-._-|49-a:f_-n_-H_-Q7A_-f_-m_-XA:k_-w:Z2\80_-r:k_-!
++lNoms des divinités 503 à 504+s-!
+"503"-F51B*F51B*F51B_-i_-T_-._-$r-i_-f:F51B_-t:tm_-m_-._-._-$b-"504"-zA_-q:Y1_-._-._-$r-Aa18\_-A_-q:Y1_-$b-!!
++bH7 Registre 2+s-!
++lH7,R2 Scène 1 (68)+s-!
+US85Aa1002XT-|7,2 68-$r-s_-qd_-d:d_-D54_-nTr_-Z1_-p:n_-aA:a:Y1_-m_-niwt_-t:n_-m_-N31_-n:t_-q:r:r_-t:D12_-._-F51B_:r_-Hr:Z1_-z:T_-sTA_-Z2\80_-$b-!
+$r-w_-m_-H_-k_-A_-Y1:Z2\80_-H_-kA_-A19_-._-r:z_-T:n_-m_-N31:r_-n:HA_-Hr_-I86E_-._-i_-w_-ir:t_-nn:n_-$b-!
+$r-H_-kA:Z2\80_-H8:t_-._-H_-kA_-A19_-n_-x:z:f_-D40_-._-aA:p*p_-I86E_-Hr:ra_-._-m_-imnt_-t_-._-m_-i_-mn:n:t_-n:t_-sbA_-t:pr_-$b-!
+$r-i_-w_-ir:t_-tp:Z1_-tA_-m_-._-mi_-t*t:Y1_-i_-w_-ir:r_-z:t_-._-m_-i_-imi_-P30:n_-ra:Z1_-._-m_-p*t:n_-m_-$b-!
+$r-tA:N23*Z1_-._-a:n:d_-G37_-._-r:x:Y1_-._-z:T31:Z2\80_-p_-._-D35:t_-r:x:Y1_-f_-._-n_-U35_-n_-HA_-Hr_-I86E_-$b-!
++lNoms des divinités 505 à 514+s-!
+US85Aa1004XT-"505"-st_-t_-._-._-"506"-siA_-._-._-"507"-H_-kA_-A19_-._-._-"508"-m_-H_-n_-._-$r-mH:n_-._-._-$b-"509"-F51B*F51B*F51B_-._-._-"510"-N31_-H_-k:nw_-!
+"511"-kA_-Sw_-._-._-"512"-n:h_-s_-._-._-"513"-H_-w_-._-._-"514"-D43:P30_-!
++lH7,R2 Scène 2 (69-83)+s-!
+US85Aa1001XT-|7,2 69-$r-Tz:z_-n_-H_-HA_-Hr:I86E_-m_-sbA_:t_-mH:a_-100:10_-100:10_-100:10_-100:10_-3_-m_-Aw:f_-i_-f_-mH:Y1_-f__-sw_-m_-pXr:Z2\80_-$b-!
+$r-f_-ir:t:n_-Z2\80:t:f_-r:f_-D35:t_-a:p*p_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-Hr:r_-f_-z:T_-m_-D54:f__-N31:t*Z1_-r:f_-$b-!
+$r-r_-T:p_-H_-t:pr_-F51B:r_-s_-qd_-d:d_-D54_-nTr_-Z1_-p:n_-m_-niwt:t*Z1_-t:n_-m_-z:T31_-m__-Y1:Z2\80:n_-mH:n_-I73_-$b-!
+US85Aa1002XT-|70-wn:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-r_-Tz:z_-N23:Z1_-f_-i_-imi_-m_-sbA_-t:pr_-._-z_-DA_-A_-w_-!
+mw_-S_-r:n_-n_-Tz:N23*Z1_-p:n_-D41_-100*100:100*100_-10:10_-10:10_-._-m_-Aw_-w_-f_-D41_-100*100:100*100_-10:10_-10:10_-m_-W10:f_-!
+i:n_-xrw_-w_-f_-z:T31_-m_-D54_-nTr_-Z1:Z2\80_-r:f_-._-i_-w_-f_-n_-i_-m_-Y1:f_-m_-xt:x*t_-D54_-!
+|75-a:q*D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-._-niwt:t*Z1_-t:n_-a_-m_-Y1_-x:r_-F51B*F51B*F51B_-A40_-ra:f_-"sic"-m_-tA:N23*Z1_-!
+r_-a:p*p_-D54:f_-Hr:r_-f_-._-d_-w_-x:r_-z:q_-r:t_-H_-t:t_-B1_-m_-._-tp:pt_-d:z_-T30:Z2\80_-f_-A40_-!
+a:f_-z:p_-H_-W:n_-._-._-|80-i_-k:t_-G37_-m_-rd_-rd_-f:y_-m_-xt:x*t_-n:N104_-D40_-._-H8:t_-H_-kA_-A19_-pH:t*y_-!
+D40:f_-m_-H_-kA:Z2\80_-z:n:Z2\80_-._-$r-i_-w_-r:x:Y1_-s_-t_-tp_-tA:N23*Z1_-m_-D35:t*y_-._-z:wr:r_-i_-n_-HA_-A_-Hr_-I86E_-mw_-Z2\80:f_-$b-!
++lNoms des divinités 515 à 517+s-!
+US85Aa1003XT-"515"-a:p*p_-._-._-"516"-z:r:q_-t_-F10_-t_-._-._-"517"-$r-Hr:r_-d:z_-T30:Z2\80_-f_-._-$b-Hr_-T30:Z2\80_-f_-!
++lH7,R2 Scène 3 (84-89)+s-!
+US85Aa1002XT-|7,2 84-$r-nTr_-n:t:r_-t:Z2\80_-p:n_-k_-i_-i_-t:Z2\80_-aA:p*p_-I86E_-m_-._-._-$b-|85-$r-sbA_-t:pr_-U35_-t:Z2\80_-x*t:Z2\80_-n_-x*t:f_-$b-!
+$r-tyw_-D12:Z2\80_-._-nw:Z1_-ra:Z1_-A40_-$b-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-._-Y1:Z2\80_-p:n_-Xr:r_-n_-i_-k_-t&w_-T30:Z2\80_-._-z:n:Z2\80_-!
+n_-i_-k:G37_-z:n:Z2\80_-aA:p*p_-I86E_-m_-._-sbA_-t:pr_-r:a_-ra*Z1:nb_-!
++lNoms des divinités 518 à 521+s-!
+US85Aa1003XT-"518"-$r-dmD:d_-i_-t_-i_-Y1_-._-$b-d_-m_-d_-i_-i_-T__-._-._-"519"-$r-d:n_-i_-i_-t_-T30_-._-$b-d:n_-i_-i_-t_-!
+"520"-$r-n:i*k_-i_-i_-t:G37_-._-$b-n:i*k_-i_-i_-t_-._-._-"521"-$r-H_-st_-t_-i_-i_-t_-zA_-._-$b-zA_-i_-i_-t_-!
++lH7,R2 Scène 4 (90-107)+s-!
+US85Aa1002XT-|7,2 90-$r-zA&D12_-Y1:Z2\80_-p_-S:tA:Y1_-._-n_-sbA:t_-pr_-h:n_-Q37:Z2\80_-n:t_-._-tp:Z2\80_-S:tA_-t:Y1:Z2\80_-$b-wn:n:n_-z:n:Z2\80_-._-m_-pH_-!
+Tz:z_-p:n_-pr:r_-D54_-._-tp*Z1:Z2\80_-T30:Z2\80_-i_-imi_-w_-Z2\80_-._-._-|95-z:n:Z2\80_-sDm_-m_-z:n:Z2\80_-H_-kA:Y1_-n_-._-HA_-Hr_-I86E_-!
+a_-m_-Y1_-._-x:r_-z:n:Z2\80_-z:T31_-m_-Y1:Z2\80_-z:n:Z2\80_-._-m_-xt:x*t_-D54_-a:p*p_-D54_-._-nTr_-Z1_-p:n_-niwt:t*Z1_-t:n_-!
+|100-wn:n:n_-nb_-wAs_-A40_-._-zA_-t:ib_-B1_-._-m_-r:r:r_-._-z:T31_-m_-Y1:Z2\80_-._-p:n_-S:tA:Y1__-._-._-!
+|105-$r-D35_-O35_-n_-zA&Z1_-._-n_-r:x:Y1_-s_-t_-._-n_-q:n:t_-T30:Z2\80_-n:t_-._-z:f_-w_-T30:Z2\80_-z:n:Z2\80_-$b-!
++lNoms des divinités 522 à 527+s-!
+US85Aa1008XT-"522"-wp_-T31_-i_-T_-._-$r-Xr:r_-z:T31_-Y1:Z2\80_-t:tm_-._-._-$b-"523"-wp_-T31_-xpr_-._-$r-Xr:r_-z:T31_-Y1:Z2\80_-xpr:r_-i_-$b-!
+US85Aa1006XT-"524"-wp_-T31:ra_-._-$r-Xr:r_-z:T31_-Y1:Z2\80_-r:a_-ra:Z1_-._-._-$b-"525"-wp_-T31:S_-._-._-$r-Xr:r_-z:T31_-Y1:Z2\80_-st_-ir_-$b-!
+US85Aa1003XT-"526"-nb_-wAs_-._-._-"527"-$r-H_-st_-t_-zA_-ib_-._-$b-zA_-T:ib_-!!
++bH7 Registre 3+s-!
++lH7,R3 Scène 1 (142)+s-!
+US85Aa1001XT-|7,3 142-$r-z:T31_-m_-Y1:Z2\80_-p:n_-N31_-Hr:Z1_-x:n_-d:Dw_-f_-$b-wn:n:n_-z:T31_-m_-Y1:Z2\80_-p:n_-m_-z:x:r_-Y1:Z2\80_-!
+p:n_-ir:r_-t:f_-p_-m_-sbA_-t:pr_-z:n_-h:p_-D54_-sbA_-i_-i_-w_-sbA:Z2\80_-ir:t_-a_-H_-w_-D54:Z2\80_-wn:n_-nw:t_-sbA:ra:Z2\80_-m_-sbA:t_-pr_-!
++lNoms de la divinité 528+s-!
+US85Aa1002XT-"528"-G5_-pt:Q12_-f_-._-$r-G5_-Hr:r_-pt_-x:n:d_-w_-Q12_-f_-$b-!
++lH7,R3 Scène 2 (142 suite-143)+s-!
+US85Aa1001XT-|7,3 142 suite-$r-i:n_-Hm_-Z1:n_-G5_-sbA_-t:y_-pr_-n_-nTr_-Z1:Z2\80_-sbA_-i_-i_-w_-sbA:Z2\80_-$b-U4:a_-Y1:n_-i_-f:F51B:Z2\80_-T:n:Z2\80_-x:p:r_-Y1:n_-!
+zA&D12_-Y1_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-m_-s_-b_-w_-sbA:Z2\80_-T:n:Z2\80_-._-._-|143-a_-aHa_-a:D54_-T:n:Z2\80_-r_-T:n:Z2\80_-n_-r:a_-!
+ra_-Z1_-A40_-p:n_-Axt:t*y_-i_-imi_-m_-sbA_-t:pr_-ra:nb_-T:n:Z2\80_-n_-m_-xt:x*t_-D54:f_-s_-b_-sbA_-Z2\80_-w_-T:n:Z2\80_-!
+tp:p_-Z2\80_-w_-a:a_-Z1:Z1_-f:y_-r_-a:p*t_-D54_-A1_-imnt_-t:xAst_-nfr_-f:r:t_-m_-Htp:t*p_-n:t_-T:n:Z2\80_-aHa_-w_-D54_-A40:Z2\80_-!
+i_-imi_-Z2\80_-w_-tA:N23*Z1_-T:n:Z2\80_-r_-T:n:Z2\80_-n:A1_-sbA:Z2\80_-T:n:Z2\80_-i_-imi_-m_-p*t:pt_-sw_-t&w_-i_-s__-Htp:t*p_-nb_-Axt:t*pr_-!
++lNoms des divinités 529 à 540+s-!
+US85Aa1003XT-"529"-wr:r_-Xr:r_-t:Z2\80_-._-._-"530"-nb_-Xr:r_-t:Z2\80_-._-._-"531"-$r-nb_-x:r_-t:Y1:Z2\80_-tA:N23*Z1_-._-$b-nb_-x:r:t_-tA_-!
+"532"-$r-sbA_-A_-y:t_-pr_-._-$b-sbA_-y:t_-._-._-"533"-$r-H_-i_-i_-a:sbA:Z2\80_-._-$b-H_-i_-i_-sbA:Z2\80_-._-._-"534"-$r-H_-i_-i_-a_-Ax:Z2\80_-._-$b-H_-i_-i_-Ax:Z2\80_-!
+"535"-$r-T:n_-T14_-xn_-a:Z1_-._-$b-T:n_-a:Z1_-._-._-"536"-$r-d:z:r_-Dsr:Y1_-a:Z1_-._-$b-d:z:r_-a:Z1_-!
+"537"-$r-T:U2_-A:Y1_-a:Z1_-._-$b-T:U2_-a:Z1_-._-._-"538"-$r-d_-s_-T30_-m_-ns&Z1:f_-._-$b-T30_-m_-ns&Z1:f_-!
+"539"-$r-d_-s_-T30_-m_-ir:t*Z1_-f_-._-$b-T30_-m_-D12:f_-._-._-"540"-$r-z:q:r_-a_-tp:Z2\80_-._-$b-z:q:r_-tp*Z1:Z2\80_-!
++lH7,R3 Scène 3 (144-146)+s-!
+US85Aa1001XT-|7,3 144-$r-i:n_-Hm_-Z1:n_-N31_-sbA_-t:y_-n_-wn:n_-nw:t_-sbA:Z2\80_-i_-imi_-t:Z2\80_-niwt:t*Z1_-t:n_-$b-i_-Z1_-wn:n_-nw:t_-sbA:ra:Z2\80_-x:p:r_-i_-i_-t:Y1:Z2\80_-!
+i_-Z1_-wn:n_-nw:t_-sbA*ra:Z2\80_-s_-b_-i_-i_-t:sbA:Z2\80_-i_-Z1_-wn:n_-nw:t_-sbA*ra:Z2\80_-n:D_-Aa27D_-nw:t:t_-Y1:Z2\80_-r:a_-ra_-A40_-D34_-t:D40:Z2\80_-Hr:Z1_-i_-imi_-!
+Axt:t*pr_-A40_-._-|145-O42B_-p:D40:Z2\80_-n_-T:n:Z2\80_-ir_-w_-Y1:Z2\80_-T:n:Z2\80_-r:mn:n_-D41:Z2\80_-n_-T:n:Z2\80_-z:T31_-m_-Y1:Z2\80_-T:n:Z2\80_-!
+f_-A__-D40:Z2\80_-n_-T:n:Z2\80_-tp*Z1:Z2\80_-T:n:Z2\80_-z:T31_-D54_-T:n:Z2\80_-r:a_-ra:Z1_-p:n_-i_-imi_-Axt:t*pr_-r_-imnt_-t:xAst_-nfr_-f:r:t_-!
+m_-Htp:t*p_-$r-i:n_-nn:n_-nTr_-Z1:Z2\80_-nTr_-n:T:r_-._-._-$b-US85Aa1008XT-|146-$r-i_-i_-t_-B1_-Z2\80_-z:T31_-m_-D54_-nTr-Z1-p:n-aA:a-A-Y1_-$b-!
+$r-r_-wA_-A_-t:N31_-S:tA_-t:Y1_-n:t_-niwt:t*Z1_-t:n_-$b-!
++lNoms des divinités 541 à 552+s-!
+US85Aa1001XT-"541"-H_-k:nw_-T:T_-._-._-"542"-nb:t_-tA_-._-._-"543"-nb:t_-nb:t:Z2\80_-._-._-"544"-sbA:T:T_-pr_-._-$r-sbA_-A_-t*t:pr_-$b-!
+"545"-imnt_-t:t_-D41_-._-$r-imnt_-t:t:D41_-._-._-$b-"546"-Hr:r_-t_-tp*Z1:Z2\80_-._-._-"547"-ini_-i_-i_-T_-._-._-"548"-i_-wn:n_-i_-i_-T_-!
+"549"-t:U30_-i_-T:T_-._-$r-t:U30_-A_-i_-t:t_-S28_-._-._-$b-"550"-ir:t_-N8_-w__-._-$r-ir:t_-Ax_-x_-w_-N8_-$b-!
+"551"-ir:t_-ir_-w_-._-$r-ir:t_-ir_-w_-Y1:Z2\80_-._-._-$b-US85Aa1008XT-"552"-wHa:t_-O30\\R180:Z2\80_-._-$r-wHa_-a:t_-s_-d:b_-O30\\R180:Z2\80_-$b-!
++lH7,R3 Scène 4 (147-152)+s-!
+US85Aa1002XT-|7,3 147-wn:n:n_-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-Hr:Z1_-N21:n_-S:a:Z2\80_-._-n:t:f_-z_-zA_-A_-D40_-z:T31:Z2\80_-n_-niwt:t*Z1_-!
+T:n_-sDm_-m_-f_-xrw_-w__-._-Y1_-qd_-t:Z2\80_-P30:n_-ra:Z1_-A40_-pr:r_-ir:t*Z1_-m_-b_-q_-s_-F51B_-w_-f_-!
+|150-pr:r_-x:r_-tp:Z1_-i_-imi_-N21:N23*Z1_-f:a_-m_-x:r_-f_-z:T31_-Y1:f_-._-m_-xt:x*t_-D54_-a:p*p_-D54_-nTr_-Z1_-p:n_-!
+aA:a_-Hr:r_-f_-._-US85Aa1006XT-$r-r:x:Y1_-s_-t_-m_-t:tm_-w_-F16:S_-a_-m_-zA&Z1_-f_-$b-!
++lNoms des divinités 553 à 555+s-!
+US85Aa1008XT-"553"-$r-i_-w_-ir_-st_-ir:t*Z1_-._-$b-N33:F51C-$r-wDAt_-._-._-$b-"554"-F16:S_-i_-imi_-sbA:t_-._-._-"555"-tp_-F51C-._-$r-tp_-st_-ir_-$b-!!
+!!
++b8e HEURE +s-+ide la nuit  "La Maîtresse de la nuit profonde" +s-!
++bH8 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|8,i 1-$r-Htp:t*p_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a_-A_-Y1:r_-q:r:t_-pr:Z2\80_-nTr_-Z1_-A40:Z2\80_-S:tA_-Z2\80_-w_-S:a_-D12:Z2\80_-z:n:Z2\80_-$b-!
+$r-V25_-w_-D&Y1_-f:n_-z:n:Z2\80_-md_-w_-Y1:Z2\80_-m_-w_-i_-A_-P30:f_-nTr_-Z1_-A40_-Z2\80:f_-z:T_-A_-sTA:D54_-sw_-w_-m_-$b-!
+$r-niwt:t*Z1_-t:n_-m_-w&D12_-Y1:Z2\80_-d:z:r_-Y1:n_-mH:n_-I73_-r:n_-n_-sbA_-A_-pr:n_-niwt:t*Z1_-t:n_-a_-aHa_-a:D54_-n_-$b-!
+$r-wr:r_-d:f_-O31_-r:n_-n_-niwt:t*Z1_-t:n_-d_-b_-G29A-A_-t:N23:Z2\80_-nTr_-Z1:Z2\80_-s_-pr_-r:n_-n_-wn:n_-nw:t_-$b-!
+|2-$r-sbA:ra_-n:t_-g:r_-H_-N2_-z:sSm_-m_-t:D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-nb:t_-w_-SA_-A_-w_-N2_-sbA_-B1_-$b-!
+|3-q:r:t_-pr:Z2\80_-S:tA_-t:Y1:Z2\80_-n:t_-imnt_-t:xAst_-a:p*p_-w_-D54_-nTr_-aA\R90_-Hr:Z1_-z:n:Z2\80_-m_-P30:Z1_-f_-m_-sTA:D54:Z2\80_-nTr_-Z1:Z2\80_-!
+f_-i_-imi_-Z2\80_-w_-sbA_-t:pr_-$r-w_-$b-"sic"-$r-i_-ir:t_-n:n_-mi_-z:sSm:Z2\80_-p:n_-Hr_-mH:t*y_-a:t*pr_-i_-mn:n_-t:Y1_-m_-sbA_-t:pr_-$b-!
+w_-"sic"-i_-r:x:Y1_-s_-t_-sw_-t:n_-<-ra_-mn:n_-xpr->-U4_-mAa:xrw\R90_-m_-r:n:Z2\80_-Z2\80_-m_-r_-S27:Z2\80_-m_-tA:N23*Z1_-D35:t_-!
+x:z:f_-D54:f_-Hr:Z1_-sbA:pr:Z2\80_-S:tA_-w_-Y1:Z2\80_-d:r_-p:t_-D40:f_-r_-aHa_-t:Z1_-aA:a:t_-V6*Z1:Y1_-U5_-a:Y1_-!!
++bH8 Registre 1 +s-!
++lH8,R1 - Première caverne (C1) +s-!
+US85Aa1002XT-|Porte 1-T30:nb_-T30:rw_-._-._-$r-d:z_-T30_-nb_-d:z:r_-w_-Y1:Z2\80_-$b-!
+|8,1 4-wn:n:n_-z:n:Z2\80_-m_-._-._-|5-z:x:r_-Y1:Z2\80_-._-p:n_-Hr:Z1_-S27:Z2\80_-._-z:n:Z2\80_-m_-z:S_-._-Y1:Z2\80:n_-N31_-E9_-!
+a:Y1_-S:r_-nTr_-Z1_-p:n_-._-._-|10-Dw:f_-n_-G29A:Z2\80-z:n:Z2\80_-._-m_-xt:x*t_-D54_-._-a:q*D54_-f_-m_-._-niwt:t*Z1_-T:n_-!
+n:t_-nTr_-Z1:Z2\80_-._-pt:Z2\80_-S:a_-D12:Z2\80_-z:n:Z2\80_-._-._-|15-$r-i_-w_-sDm:t_-xrw_-x:t_-m_-._-$b-US85Aa1006XT-$r-q:r:r_-t:D12_-t:n_-mi_-i_-a:f:f_-bit:Z2\80_-aSA:Z2\80_-$b-!
+$r-n_-$b-"?"-$r-bit:t_-zA:Z2\80_-z:n:Z2\80_-Dw:n_-ra_-Z1_-A40_-$b-S:tA_-t:Y1_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 556 à 558 +s-!
+"556"-sSm_-i_-T_-._-$r-sSm_-Y1:Z2\80_-t:tm_-._-._-$b-"557"-sSm_-xpr_-._-$r-sSm:Y1_-xpr:r_-i_-$b-!
+"558"-sSm_-Sw_-._-$r-sSm_-Y1:Z2\80_-S_-Sw_-w_-$b-!
++lH8,R1 - Deuxième caverne (C2) +s-!
+US85Aa1002XT-|Porte P2-$r-T30_-a_-aHa_-a_-w_-tA_-T:n:n_-._-._-d:z_-T30_-a_-aHa_-a_-w_-A19_-tA_-T:n:n_-A40_-$b-!
+|8,1 17-wn:n:n_-z:n:Z2\80_-m_-._-._-z:x:r_-Y1:Z2\80_-p:n_-._-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-._-._-|20-mn:n:Y1_-Hr:Z1_-S:a:Z2\80_-._-z:n:Z2\80_-m_-!
+z:S:tA__-ir:n_-._-N31_-nTr_-Z1_-p:n_-Dw:f_-n_-._-._-G29A-Z1:Z2\80_-z:n:Z2\80_-r_-._-z:n:Z2\80_-r_-h_-A_-w_-!
+|25-Y1:Z2\80_-z:n:Z2\80_-$r-i_-w_-sDm:t_-w_-xrw_-x:t_-m_-._-q:r:r_-t:D12_-t:n_-mi_-i_-xrw_-w_-a_-m__-._-._-W21_-$b-"?"-$r-G29A-Z1:Z2\80_-z:n:Z2\80_-$b-!
+$r-Dw_-i_-Y1:n_-.__-r:a_-ra:Z1_-$b-sbA:t_-r:n:n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 559-561 +s-!
+"559"-sSm_-T:f_-niwt_-._-$r-sSm:Y1:Z2\80_-t:f_-n:t_-._-._-$b-"560"-sSm_-zA_-b_-._-$r-sSm:Y1:Z2\80_-zA_-b_-$b-!
+"561"-sSm_-nw*nw:T_-._-$r-sSm:Y1:Z2\80_-nw*t:pt_-$b-!
++lH8,R1 - Troisième caverne (C3) +s-!
+US85Aa1002XT-|Porte P3-T30_-a:pr_-zA_-zA_-zA_-._-._-$r-d:z_-T30_-a:x_-m_-G29A\98**R7{{8,520,56}}:Z2\80-Z2\80_-$b-!
+|8,1 29-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-._-._-|30-p:n_-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-mn:n:Y1_-._-Hr:Z1_-S:a:Z2\80_-D12:Z2\80_-z:n:Z2\80_-m_-z:S_-!
+tA_-._-ir:n_-N31_-nTr_-Z1_-p:n_-Dw:f_-n_-G29A:Z2\80-._-z:n:Z2\80_-r_-z:n:Z2\80_-r_-h_-A_-w_-._-Y1:Z2\80_-z:n:Z2\80_-!
+$r-i_-w_-sDm:t_-w_-xrw_-x:t_-._-._-$b-|35-$r-m_-q:r:r_-t:D12_-t:n_-mi_-i_-xrw_-w_-._-r:T:Z2\80_-i_-A_-k_-b_-D3_-z:n:Z2\80_-$b-!
+$r-G29A-Z2\80_-z:n:Z2\80_-Dw_-i_-n:ra*Z1_-._-$b-i_-i_-z:pr_-nTr_-Z1:Z2\80_-r:n_-._-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 562 à 564 +s-!
+"562"-sSm_-S:r_-._-$r-sSm_-Y1:Z2\80_-st_-ir_-._-._-$b-"563"-sSm_-S:T_-._-$r-sSm:Y1:Z2\80_-st_-t_-._-._-$b-"564"-sSm:N31_-._-$r-sSm:Y1:Z2\80_-G5_-$b-!
++lH8,R1 - Quatrième caverne (C4) +s-!
+US85Aa1002XT-|Porte P4-T30_-S:tA_-zA__-W17_-nTrw_-._-._-$r-d:z_-T30_-S:tA_-m_-W17:Y1_-nTrw_-$b-!
+|8,1 40-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-._-Hr:Z1_-S27_-z:n:Z2\80_-mn:Y1_-Hr:Z1_-S:a_-D12:Z2\80_-._-z:n:Z2\80_-m_-z:S_-tA:Z2\80_-!
+ir:n_-N31_-nTr_-Z1_-p:n_-._-Dw_-i_-f:n_-G29A-Z2\80_-z:n:Z2\80_-r_-h_-A_-._-w_-Z2\80_-z:n:Z2\80_-$r-i_-w_-sDm_-t&w_-$b-!
+|45-$r-xrw_-x:t_-m_-q:r:r_-t:D12_-t:n_-._-mi_-i_-xrw_-w_-n_-i_-m_-._-Y1:n_-kA:D53:Z2\80_-D53:Z2\80_-w_-._-G29A-Z2\80-$b-!
+$r-z:n:Z2\80_-Dw_-i_-Y1:n_-._-r:a_-ra_-Z1_-A40_-._-._-$b-|50-i_-k_-"sic"-i_-i_-t:D3_-pr_-._-r:n_-n_-q:r:r_-t:D12_-t:n-!
++lNoms des divinités 565 à 567 +s-!
+"565"-sSm_-kA_-imnt_-._-$r-sSm:Y1:Z2\80_-kA:D53_-imnt_-t:xAst_-._-._-$b-"566"-sSm_-xtm_-nTr:Z2\80_-._-$r-sSm:Y1:Z2\80_-z:a_-H_-E31_-nTr_-Z1:Z2\80_-$b-!
+"567"-sSm_-D9_-nTr:Z2\80_-._-$r-sSm:Y1:Z2\80_-r_-m_-D9_-nTr:Z2\80_-$b-!
++lH8,R1 - Cinquième caverne (C5) +s-!
+US85Aa1002XT-|Porte P5-T30_-z:U2_-zmA_-Y1_-k:k_-w_-N2_-._-._-$r-d:z_-T30_-s_-mA_-zmA_-Y1_-k:k_-w_-N2_-$b-!
+US85Aa1001XT-|8,1 52-wn:n:n_-Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-mn:n:Y1_-Hr:Z1_-S:a_-D12:Z2\80_-z:n:Z2\80_-ir:n_-N31_-nTr_-Z1_-p:n_-!
+Dw_-i_-f:n_-bA_-Z1:Z2\80_-z:n:Z2\80_-r_-h_-A_-Z2\80_-w_-z:n:Z2\80_-!
+|53-$r-i_-w_-sDm:t_-xrw_-x:t_-m_-q:r:r_-t:D12_-t:n_-mi_-i_-xrw_-w_-n_-H_-w_-A2_-aA:a_-A_-Y1:n_-S:n_-E21:f_-$b-!
+$r-G29A-Z1:Z2\80_-z:n:Z2\80_-Dw_-i_-Y1:n_-ra:Z1_-$b-nb:t_-TAw_-._-US85Aa1006XT-w:Z2\80_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 568 à 570 +s-!
+US85Aa1002XT-"568"-sSm_-xA_-ti_-r_-i_-i_-._-$r-sSm:Y1:Z2\80_-xA_-A_-t:r_-i_-i_-._-._-$b-"569"-sSm_-i_-f:f_-i_-i_-._-$r-sSm:Y1:Z2\80_-i_-f:f_-i_-i_-K2_-$b-!
+"570"-sSm:r_-a:n_-b_-Hn\*Hn\:f_-._-$r-sSm:Y1:Z2\80_-i_-r_-a:n_-b_-Hn\:f_-$b-!
+!
+|Porte P6-T30_-S36_-S36_-S36_-sbA:sbA_-sbA\80_-tyw_-pr_-A40:Z2\80_-._-$r-d:z_-T30_-S36_-t:Z2\80_-sbA_-tyw_-pr_-A40:Z2\80_-$b-!!
++bH8 Registre 2 +s-!
++lH8,R2 Scène 1 (96-103) +s-!
+US85Aa1002XT-|8,2 96-$r-s_-qd_-d:d_-D54_-nTr_-Z1_-p:n_-m_-niwt:Z1*t_-t:n_-m_-sTA_-w__-D54:Z2\80_-._-nTr_-Z1:Z2\80_-sbA_-tyw_-pr_-A40:Z2\80_-m__-z:sSm_-$b-!
+$r-Y1:Z2\80:f_-S:tA_-n_-._-mH:n_-I73_-i_-w_-nTr_-Z1_-p:n_-Dw_-i_-Y1:f_-r_-h_-A_-w_-$b-!
+US85Aa1001XT-|99-$r-Y1:Z2\80_-q:r:r_-t:D12_-nb:t_-n:t_-niwt:t*Z1_-t:n_-n_-nTr_-Z1:Z2\80_-n:t_-tyw_-Z3_-i_-m_-s_-xrw_-w_-i_-r:Z2\80_-p_-w_-sDm_-w_-$b-!
+$r-nTr_-Z1_-p:n_-m_-xt:x*t_-D54_-Dw_-i_-f:r_-z:n:Z2\80_-i_-w_-z:sSm_-Y1:Z2\80_-z:n:Z2\80_-n_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-mn:n:Y1_-Hr:Z1_-XA_-A_-$b-!
+$r-t&w_-Aa2:Z2\80_-z:n:Z2\80_-Xr:r_-t:Z2\80_-S:a_-D12:Z2\80_-z:n:Z2\80_-i_-w_-._-._-$b-US85Aa1002XT-$r-sbA:Z2\80_-z:n:Z2\80_-wn:n_-O31_-._-n_-xrw_-w_-nTr_-Z1_-p:n_-$b-!
+$r-++ 100-103 début +s-$b-|100-$r-ra*Z1:nb_-H_-HA_-p:D40_-._-x:r_-z:n:Z2\80_-m_-._-xt:x*t_-a:p*p_-D54:f_-._-Hr:Z1_-z:n:Z2\80_-$b-!
++lNoms des divinités 571 à 580 +s-!
+US85Aa1004XT-"571"-wp_-N31:t*Z2\80_-._-._-"572"-siA_-._-._-"573"-nb:t_-P30_-._-._-"575"-F51B*F51B*F51B_-._-$r-i_-f:F51B_-._-._-$b-"576"-N31_-H_-k:nw_-!
+"577"-kA_-Sw_-._-._-"578"-n:h_-s_-._-._-"579"-H_-w_-._-._-"580"-D43:P30_-!
++lH8,R2 Scène 2 (103 suite-132) +s-!
+US85Aa1002XT-|8,2 103 suite-ir:r:t_-._-z:n:Z2\80_-p_-m_-._-._-|105-sbA_-t:pr_-z:T_-._-sTA:D54_-ra:Z1_-r_-N31:t*Z2\80_-._-niwt:t*Z1_-t:n_-a_-aHa_-._-a:D54_-!
+z:n:Z2\80_-m_-._-xt:x*t_-D54_-z:T_-A_-._-._-|110-w_-sTA:D54_-Z2\80_-z:n:Z2\80_-._-r_-a:r:r_-i_-i_-t_-._-pr_-t:n_-$r-z:n:Z2\80_-$b-!
+$r-n_-nTr_-Z1_-p:n_-._-sTA:D54_-z:n:Z2\80_-sw_-w_-$b-m_-._-a:r_-k:D54_-n_-z:sSm_-m_-._-._-|115-Y1:Z2\80_-k_-nTr_-Z1:n:Z2\80_-!
+n_-i*i:z_-._-w_-Y1:Z2\80:k_-xnt__-n:t_-._-tyw:Z2\80_-imnt_-t:xAst_-Htp:t*p_-._-k_-i_-ir_-w_-Y1:Z2\80:k_-._-m_-niwt:t*Z1_-wr:r_-t_-!
+sw_-t&w_-._-._-|120-i_-s_-z_-wA_-A_-S:Y1_-q:r_-tyw_-pr_-A40:Z2\80_-s_-HD_-D&N8_-k_-k:k_-Z2\80_-w_-._-Hr:Z1_-r_-!
+w_-Z2\80_-S:a_-D12:Z2\80_-z:n:Z2\80_-m_-a:r_-k:D54_-r:k_-Htp:t*p_-k_-ra:Z1_-._-sTA_-i_-i_-D54_-nb_-sTA_-w:Z2\80_-!
+US85Aa1001XT-|8,2 132-nTrw_-sbA_-tyw_-pr_-A40:Z2\80_-sTA_-i_-i_-w_-D54:Z2\80_-r:a_-ra:Z1_-A40_-m_-d_-b_-G29A-t:N23_-nTr_-Z1:Z2\80_-s_-pr_-!
++lH8,R2 Scène 3 (123-133) +s-!
+US85Aa1002XT-|8,2 123-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-Hr:Z1_-N31:t*Z1_-sTA:t_-D54_-nTr_-Z1_-p:n_-Hr*Z1:z_-._-S27_-Z2\80_-z:n:Z2\80_-m_-D53:Y1_-!
+z:n:Z2\80_-m_-z:sSm_-Y1:Z2\80_-n_-nTr_-Z1_-D&z_-f:Dw_-._-._-|125-i_-Y1_-nTr_-Z1_-p:n_-aA:a:Y1_-r_-z:n:Z2\80_-anx_-n:x_-i_-imi_-t_-!
+z:n:Z2\80_-pr:r_-tp*Z1:Z2\80_-._-m_-z:sSm_-Y1:Z2\80_-z:n:Z2\80_-i_-w_-nTr_-Z1_-p:n_-Dw:f_-z:n:Z2\80_-m_-r:n:Z2\80_-z:n:Z2\80_-._-ir:r:t_-z:n:Z2\80_-p_-!
+r:a:t_-d:z_-T30:Z2\80_-m_-A14E:Z2\80_-ra:Z1_-A40_-!
+++ 128 +s-US85Aa1001XT-|128-r:h_-A_-Y1:Z2\80_-niwt:t*Z1_-t:n_-r:t:z_-n:a_-m_-x:r_-z:n:Z2\80_-._-tp:Z2\80_-z:n_-n:f_-T30:Z2\80_-z:n_-m_-xt:x*t_-!
+D54_-a:a_-"sic"-D54_-nTr_-Z1_-p:n_-Hr:Z1_-s-n:Z2\80_-!
+|133-i_-iz_-s_-i_-i_-w_-O39:Z2\80_-ra:Z1_-i_-imi_-Z2\80_-w_-niwt:t*Z1_-t:n_-z:sSm_-Y1:Z2\80_-S:tA_-Y1:n_-tA_-T:n:n_-A4_-n:N31_-nTr_-Z1:Z2\80_-x:r_-z:n:Z2\80_-!
++lNoms des divinités 589 à 597 +s-!
+US85Aa1002XT-"589"-Htp:tA_-._-$r-Htp:t*p_-Y1_-tA:N23*Z1_-._-._-$b-"590"-i_-zA:n_-._-$r-i_-mn:n:Y1_-._-._-$b-"591"-z:S:tA_-zA:Z2\80_-._-._-"592"-z:x:n_-Y1_-S36_-t:Z1:Z2\80_-!
+"593"-nb:r_-Dr:r_-._-._-"594"-mn:n_-nw&w_-W23_-._-._-"595"-m_-a_-T:n_-nw&w_-!
+"596"-mwt_-r_-w_-Y1_-._-$r-mAa:r_-w_-i_-i_-._-._-$b-"597"-sDm_-m_-w_-!
++lH8,R2 Scène 4 (130-135) +s-!
+US85Aa1001XT-|8,2 130-wn:n:n_-Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-sbA_-t:pr_-S27_-Z2\80_-z:n:Z2\80_-m_-D53:Y1_-Z2\80_-m_-z:sSm_-!
+Y1:Z2\80:n_-nTr_-Z1_-D\98**z{{27,492,74}}**f{{28,720,81}}_-nTr_-Z1_-p:n_-Dw:f_-r_-z:n:Z2\80_-m_-xt:x*t_-N12:r_-D54:f_-z:n:Z2\80_-z:n:Z2\80_-Dw_-i_-z:n:Z2\80_-n_-nTr_-Z1_-p:n_-!
+m_-xrw_-w_-Y1_-z:n:Z2\80_-n:z:r_-Z2\80_-w_-._-|131-S:tA_-w_-Y1:Z2\80_-nTr_-Z1_-p:n_-H_-k:n_-Y1:f_-m_-xrw_-w_-Y1_-z:n:Z2\80_-!
+i_-r_-m_-xt:x*t_-a:p*p_-D54:f_-Hr:Z1_-z:n:Z2\80_-H_-HA_-p:a_-x:r_-s_-t_-k:k_-Z2\80_-w_-$r-O42B:p_-z:n:Z2\80_-xa:a_-w_-I12_-Z2\80:n_-$b-!
+$r-ra:Z1_-Htp_-zA_-tA_-T:n:n_-A40_-m_-tA:N23*Z1_-$b-!
+|134-z:sSm_-Y1:Z2\80_-S:tA_-Y1:n_-tA_-T:n:n_-.-|135-xpr:r_-w_-Y1:Z2\80_-tp_-z:r_-Z2\80_-w_-w_-"sic"-imi_-tA_-i_-mn:n_-Y1:n_-!
+G5_-nTr_-Z1:Z2\80_-x:r_-z:n:Z2\80_-!
++lNoms des divinités 598 à 601 +s-!
+US85Aa1002XT-"598"-$r-xpr_-r_-w_-Y1:Z2\80_-tp:p_-._-$b-xpr_-tp__-._-sSm:tA_-T:n:n_-._-$r-sSm:Y1:Z2\80_-tA_-T:n:n_-A40_-$b-!
+"599"-$r-xpr:r_-w_-Y1:Z2\80_-._-$b-xpr_-xpr__-._-sSm:tA_-T:n:n_-._-$r-sSm:Y1:Z2\80_-tA_-T:n:n_-A40_-$b-!
+"600"-sSm:tA_-T:n:n_-._-$r-sSm:Y1:Z2\80_-tA_-T:n:n_-A40_-._-._-$b-"601"-sSm:tA_-T:n:n_-._-$r-sSm:Y1:Z2\80_-tA_-T:n:n_-A40_-$b-!!
++bH8 Registre 3 +s-!
++lH8,R3 - Sixième caverne (C6) +s-!
+US85Aa1002XT-|Porte 7-T30:r_-zA_-n:D41_-tA_-._-._-$r-d:z_-T30_-r:mn:n_-D41_-tA:N23*Z1_-$b-!
+|8,3 171-wn:n:n_-z:n:Z2\80_-m_-._-._-z:x:r_-Y1:Z2\80_-p:n_-._-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-._-m_-z:S_-tA:Y1:Z2\80_-n:N31_-._-._-|175-E9_-!
+a:Y1_-S:r_-nTr_-Z1_-p:n_-._-._-aA:a:Y1_-Dw_-i_-f:n_-G29A:Z2\80-._-z:n:Z2\80_-m_-xt:x*t_-a:q*D54_-f_-._-m_-niwt:t*Z1_-t:n_-!
+n:t_-nTr_-Z1:Z2\80_-._-Hr:r_-w:Z2\80_-S:a_-D12:Z2\80_-._-._-|180-z:n:Z2\80_-Dw_-i_-nTr_-Z1_-p:n_-._-r_-z:n:Z2\80__-m_-._-i_-t:r_-t:y_-pr_-!
+tA:N23*Z1_-$r-i_-w_-sDm:t_-xrw_-w_-x:t_-m_-q:r:r_-t:D12_-t:n_-mi_-i_-s_-b_-H_-N21:n_-mi_-i_-w_-D53_-i_-i_-zA:Z2\80_-z:n:Z2\80_-Dw_-i_-.__-$b-!
+US85Aa1006XT-|183-$r-n:ra*Z1_-$b-Htp:t*p_-t:nb_-s_-pr_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 602 à 605 +s-!
+US85Aa1001XT-"602"-H_-M42:T_-._-._-"603"-mH:n_-tA_-._-._-"604"-V6*Z1:Z2\80_-ra:Z1_-._-$r-V6_-s_-r_-w_-T11:Z2\80_-r:a_-ra:Z1_-A40_-$b-..-US85Aa1006XT-"605"-nb_-r:x:t_-G24_-Z1:Z2\80_-!
+US85Aa1002XT-|Porte 8-T30_-d:r:a_-x*t:f_-D12:Z2\80:f_-._-$r-d:z_-T30_-d:r_-a_-x*t:f_-tyw_-D12:Z2\80_-f_-$b-!
++lH8,R3 - Septième caverne (C7) +s-!
+US85Aa1002XT-|Porte 9-T30_-d:r:a_-x*t:f_-D12:Z2\80:f_-._-$r-d:z_-T30_-d:r_-D40_-x*t:f_-tyw_-D12:Z2\80_-f_-$b-!
+|8,3 184-$r-++ 184 +s-$b-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-._-._-|185-mn:n:Y1_-Hr:Z1_-S:a_-D12:Z2\80_-z:n:Z2\80_-m_-z:S_-tA:Y1_-!
+ir:n_-N31_-._-nTr_-Z1_-p:n_-Dw_-i_-w_-f:n_-G29A:Z2\80-z:n:Z2\80_-r_-h_-._-A_-w_-Y1:Z2\80_-z:n:Z2\80_-m_-i_-t:r_-t:y_-pr:Z2\80_-z:n:Z2\80_-._-!
+$r-i_-w_-sDm:t_-xrw_-w_-x:t_-m_-q:r:r_-t:D12_-t:n_-mi_-i_-._-h_-m_-h_-m_-t:Z2\80_-n:t_-anx_-w:Z2\80_-zA:Z2\80_-z:n:Z2\80_-$b-!
+|190-$r-Dw_-i_-w_-Y1:n_-ra:Z1_-$b-zA_-t:G37_-x_-m_-i_-i_-w_-D35:Z2\80_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 606 à 608 +s-!
+"606"-niwt:t*Z1_-._-._-"607"-tA:N23_-._-._-"608"-rd_-Hr_-._-$r-s_-b_-q:Y1_-Hr:Z1_-$b-!
++lH8,R3 - Huitième caverne (C8) +s-!
+US85Aa1002XT-|Porte 10-T30_-z:x_-m_-Y1_-zA&D12_-Y1:Z2\80_-._-$r-d:z_-T30_-s_-sxm_-m_-Y1_-ir_-w_-Y1:Z2\80_-$b-!
+|8,3 191-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-S27:Z2\80_-z:n:Z2\80_-m_-D53:Y1_-._-z:n:Z2\80_-mn:n:Y1_-Hr:Z1_-S:a_-D12:Z2\80_-z:n:Z2\80_-!
+m_-z:S_-tA:Y1:Z2\80_-ir:n_-N31_-._-nTr_-Z1_-p:n_-Dw_-i_-f:n_-bA:Z2\80_-z:n:Z2\80_-r_-h_-A_-._-w_-Y1:Z2\80_-z:n:Z2\80_-m_-!
+i_-t:r_-t:y_-pr:Z2\80_-Z2\80_-._-$r-i_-w_-sDm:t_-xrw_-w_-x*t:Y1:Z2\80_-m_-q:r:r_-t:D12:t_-$b-"sic"-$r-._-._-$b-|195-$r-t:n_-mi_-i_-xrw_-w_-h_-A_-A_-D54_-$b-!
+$r-n:p_-._-r:t_-N23:Z2\80_-m_-3_-$b-"sic"-$r-zA:Z2\80_-z:n:Z2\80_-Dw_-i_-n:ra_-$b-HA_-p:t_-D40_-z:sSm_-m_-Y1:Z2\80_-z:pr_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 609 à 612 +s-!
+"609"-S28_-t_-._-$r-H_-b_-z:t_-S28_-._-._-$b-"610"-z:n:k_-t:ra_-._-._-"611"-d_-zA_-t:Y1_-._-$r-d:b_-G29A-t:Y1_-$b-!
+"612"-d_-zA_-d:t_-._-$r-dmD_-d:t:Y1_-$b-!
++lH8,R3 - Neuvième caverne (C9) +s-!
+US85Aa1002XT-|Porte 11-T30_-z:p_-d:Y1_-n:z_-t&w_-Q7A:Z2\80_-._-$r-d:z_-T30_-s_-p:d_-M44_-Y1_-n:ns_-s_-w_-t_-Q7A:Z2\80_-$b-!
+|8,3 197-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-S27:Z2\80_-z:n:Z2\80_-m_-D53:Y1_-z:n:Z2\80_-._-mn:n:Y1_-Hr:Z1_-S:a_-D12:Z2\80_-z:n:Z2\80_-m_-!
+z:S_-tA:Y1:Z2\80_-ir:n_-N31_-._-nTr_-Z1_-p:n_-Dw_-i_-f:n_-G29A:Z2\80-z:n:Z2\80_-r:h_-._-._-|20-w_-Y1:Z2\80_-Z2\80_-m_-i_-t:r_-t:pr:Z2\80_-!
+s-n:Z2\80-$r-i_-w_-sDm:t_-xrw_-w_-x*t:Y1:Z2\80_-._-m_-q:r:r_-t:D12_-t:n_-mi_-i_-xrw_-w_-n:g*g_-A2_-._-n_-b_-i_-k_-$b-!
+$r-nTr_-n:T:r_-Y1_-G5_-G29A-Z1:Z2\80_-z:n:Z2\80_-i_-Dw_-n_-._-r:a_-ra:Z1_-$b-z:Hr_-r:t_-N31_-G29A-Z1:Z2\80_-z:pr_-r:n_-!
+n_-q:r:r_-t_-._-._-|205-D12_-t:n_-!
++lNoms des divinités 613 à 616 +s-!
+"613"-k:k_-w_-N2_-._-._-"614"-mn:n_-H_-i_-i_-._-._-"615"-Dr:r_-Ax__-._-._-"616"-U8:tA_-._-$r-x_-b_-s_-U8_-tA:N23*Z1_-$b-!
++lH8,R3 - Dixième caverne (C10) +s-!
+US85Aa1002XT-|Porte 12-T30_-Ax_-Z1_-Ax_-x_-w_-Y1_-A40:Z2\80_-._-$r-d:z_-T30_-Ax_-Z1_-Ax_-x_-w_-Y1_-A40:Z2\80_-$b-!
+|8,3 206-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-mn:n:Y1_-._-Hr:Z1_-S:a_-D12:Z2\80_-z:n:Z2\80_-i_-w__-nTr_-Z1_-p:n_-Dw_-._-i_-Y1:f_-!
+n_-z:n:Z2\80_-r_-h_-A_-w_-._-Y1:Z2\80_-z:n:Z2\80_-HD_-D&ra_-x:r_-z:n:k_-t:ra:Z2\80_-._-._-|210-z:n:Z2\80_-m_-imi_-t_-r:Z1_-z:n:Z2\80_-!
+D35:t_-pr_-._-r:D54_-z:n:Z2\80_-m_-q:r:r_-t:pr_-z:n:Z2\80_-._-._-$r-i_-w_-sDm:t_-xrw_-w_-x*t:Y1:Z2\80_-m_-q:r:r_-t:D12_-t:n_-mi_-i_-s_-b_-$b-!
+$r-H_-N21:n_-z:S_-G48_-dmD_-._-Dw_-i_-Y1_-z:n:Z2\80_-r:a_-ra:Z1_-$b-aA:t:Y1_-t:k_-A_-w_-Q7A:Z2\80_-pr_-r:n_-n_-q:r:r_-t:D12_-t:n_-!
++lNoms des divinités 617 à 620 +s-!
+"617"-i_-a:r:t__-._-._-"618"-pXr\\R180_-i_-i_-t_-._-._-"619"-n_-s_-r:t_-._-._-"620"-s_-p:d_-t_-A_-t:ra_-!
+|Porte 13-T30_-z_-A_-m_-Q7A_-m_-i_-i_-tyw_-D12:Z2\80_-m_-M:Y1_-Z2\80:f_-!
+$r-d:z_-T30_-z_-A_-m_-Q7A_-m_-i_-i_-tyw_-D12:Z2\80_-m_-i_-M:Y1_-Z2\80:f_-$b-!!
+!!
++b9e HEURE +s-+ide la nuit  "L'Adoratrice, qui protège son maître" +s-!
++bH9 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|9,i 1-$r-Htp:t*p_-i:n_-Hm_-Z1:n_-nTr-Z1-p:n-aA:a-A-Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-md_-Y1:f_-m_-P30:Z1_-f:n_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-$b-!
+$r-w_-z_-Htp:t*p_-Aa28_-t:Z1_-A40:Z2\80_-P30_-nTr_-Z1_-p:n_-r_-niwt:t*Z1_-t:n_-a:q_-w_-D54_-nTr-Z1-p:n-aA:a-A-Y1_-Hr:r_-f_-Htp:t*p_-f_-$b-!
+$r-n:t_-n:n:n_-i_-imi_-m_-t_-niwt:t*Z1_-t:n_-z_-zA_-A__-D40_-A_-g_-b_-n:n:n_-A40_-r:n_-n_-niwt:t*Z1_-t:n_-b_-s_-t:K5_-$b-!
+$r-ir_-w_-Y1:Z2\80_-anx_-n:x*t_-xpr_-r_-w_-Y1:Z2\80_-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-._-._-$b-|2-$r-g:r_-H__-N2_-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-$b-!
+$r-aA:a:Y1_-N14:t*t_-m_-a:k_-t:t_-nb_-A40_-z_-N14:ra__-B1_-$b-wn:n:n_-zA&Z1_-f_-G5_-E1_-n:xt_-x:t_-A24_-xa:a_-m_-wAs_-t:niwt_-nbty_-!
+V29_-H_-Y1_-sw_-i_-i_-t:Y1:Z2\80_-mi_-i_-r:a_-ra:Z1_-m_-p*t:pt_-G8_-D44:Y1_-xa:a_-w_-Y1:Z2\80_-I12:Z2\80_-S42:D40_-F9:F9_-sw_-bit_-<-ra_-mn:n_-xpr_->-zA&ra_-!
+<-G26A_-ms_-s_-nfr_-xpr:Z2\80_->-U5_-P8_-A2_-m_-T18_-s_-D54:f_-m_-p*t:pt_-m_-N14*t:pr_-!
+US85Aa1001XT-|3-$r-q:r:r_-t:D12_-S:tA_-t:Y1_-n:t_-R14_-t_-Htp:t*p_-Y1_-nTr_-Z1_-aA:a:Y1_-Aa28_-t:Z2\80:f_-r:z_-m_-N14_-t:pr_-$b-i_-w_-ir:t_-n:n_-m_-r:n:Z2\80_-!
+z:n:Z2\80_-mi_-i_-z:T31_-Y1:Z2\80_-p:n_-n:t*Z4_-m_-Y4_-Y1:Z2\80_-Hr:Z1_-R15_-tyw_-N25_-a:t*pr_-i_-mn:n_-t:Y1_-n:t_-N14_-t:pr_-$r-i_-w_-r:x:Y1_-r:n:Z2\80_-$b-!
+$r-z:n:Z2\80_-tp:tA_-r:x:Y1_-n:z:t_-pr:Z2\80_-s_-n:Z2\80_-m_-R14_-t_-m_-Htp:t*p_-n:z:t_-pr:f_-m_-N14_-t:pr_-a_-aHa_-a:D54_-m_-m_-nb_-w:Z2\80_-$b-!
+$r-x:r_-t:Z2\80_-Y1:Z2\80_-A40:Z2\80_-m_-U5:a_-P8_-w_-m__-U28_-U28_-t:Z2\80_-ra:Z1_-Z9:t_-aA:aA:aA_-pr_-i_-w_-G25_-n:f_-tp:Z1_-tA:N23*Z1_-$b-!
+sw_-t:n_-<-ra_-mn:n_-xpr_->-zA&ra_-<-G26_-ms_-s_-nfr_-xpr:Z2\80_->-U5:a_-P8_-w_-m_-nTr_-Xr:r_-N25_-x:r_-nb_-imnt_-t:N25_-nTr_-Z1_-aA:a:Y1_-S38_-q:N14_-t:pr_-!!
++bH9 Registre 1+s-!
++lH9,R1 Scène 1  (4-5)+s-!
+++ H9 R1 - § 4-5 \+ noms 633-64+s-US85Aa1001XT-|9,1 4-wn:n:n_-s_-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-n:t_-N14_-t:pr_-m_-z:T31_-m_-Y1:Z2\80_-ir:n_-N31_-i_-w_-!
+nTr_-Z1_-p:n_-Dw_-i_-w_-f:r_-z:n:Z2\80_-m_-._-._-US85Aa1006XT-|5-xt:x*t_-N12:r_-D54:f_-r_-z:n:Z2\80_-z:r:q_-Y1_-z:n:Z2\80_-sDm_-m_-z:n:Z2\80_-md_-w_-Y1:f_-!
++lNoms des divinités 633 à 640 +s-!
+US85Aa1002XT-"633"-pr:r_-i_-i_-t_-._-._-"634"-S:U2_-G25_-Z2\80_-._-._-"635"-nb:t_-S:a:t_-T31:Z2\80_-._-._-"636"-nb:t_-S:f_-S:f_-t:Z2\80_-!
+"637"-aA:a:t_-N4:Z2\80_-._-$r-aA:a_-t:Y1_-i_-d_-w_-N4_-._-._-$b-"638"-nb:t_-n:d_-A_-Z2\80_-w_-._-._-"639"-H_-U8:n:t_-niwt:t*Z1_-s_-!
+"640"-nb:t_-d_-mi_-w_-N23:Z2\80_-!
++lH9,R1 Scène 2  (6-9)+s-!
+US85Aa1002XT-|9,1 6-$r-Htp:t*p_-p:n_-nTr_-Z1_-aA:a_-A:Y1_-m_-D33:n_-nw_-A40:Z2\80_-f:r_-niwt:t*Z1_-t:n_-._-$b-|7-$r-Aa28_-t:Z2\80_-f_-Htp:t*p_-Y1:z_-w_-i_-w_-$b-"sic"-$r-P30_-f_-$b-!
+$r-m_-z:sSm_-Y1:Z2\80:f_-S:tA:Y1_-n_-._-._-$b-|8-$r-mH:n_-I73_-i_-w_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-V25_-w_-D&Y1_-f_-._-$b-US85Aa1001XT-|9-$r-md_-w_-Y1:Z2\80_-n_-$b-!
+$r-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-niwt:t*Z1_-t:n_-$b-!
++lNoms des divinités 645 à 654 +s-!
+US85Aa1004XT-"645"-F13_-N31:Z2\80_-._-._-"646"-siA_-._-._-"647"-nb:t_-P30_-._-._-"648"-V22:n_-._-._-"649"-i_-f:F51B:Z2\80_-._-._-"650"-N31_-H_-k:nw_-._-._-!
+"651"-kA_-Sw_-._-._-"652"-n:h_-z_-._-._-"653"-H_-w_-._-._-"654"-D45_-P30_-!
++lH9,R1 Scène 3  (9 suite-12)+s-!
+US85Aa1001XT-|9,1 9-nTr_-Z1:Z2\80_-p_-w_-Aa28_-t:Z1_-A40_-Z2\80_-w_-i_-A_-P30_-n_-r:a_-ra:Z1_-A40_-D33:n:n_-i_-i_-w_-D40:Z2\80_-i_-imi_-m_-Axt:t*pr_-r_-!
+Htp:t*p_-f_-m_-a:r_-i_-i_-t:pr_-iAb_-b_-t:t_-n:t_-p*t:pt_-!
+|12-m_-i_-ir_-w_-Y1:Z2\80:f_-m_-md_-d_-w_-Y1:Z2\80_-z:n:Z2\80_-S:tA:Y1_-ra*Z1:nb_-!
++lNoms des divinités 661 à 664 +s-!
+US85Aa1002XT-"661"-D33_-wn:n_-nw:t_-N14:f_-._-$r-D33:n_-D40_-wn:n_-nw:t_-N14:f_-._-._-$b-"662"-Aa5:t*Z4_-tA:f_-._-$r-H_-p:t:Z4_-Aa5_-tA:N23*Z1_-f_-$b-!
+"663"-Htp_-P30:Z1_-._-$r-Htp:t*p_-w_-i_-A_-P30_-._-$b-"664"-nTr_-nTr:Z2\80_-!
++lH9,R1 Scène 4  (57-57a)+s-!
+US85Aa1001XT-|9,1 57-Xr:r_-anx_-z:n:Z2\80_-t_-wA_-A_-D40_-z:n:Z2\80_-Hr:Z1_-D&a_-m_-t&w_-O30\R180_-Z2\80_-z:n:Z2\80_-i_-w_-nTr_-Z1_-p:n_-aA:a:Y1_-Dw_-i_-A366_-f:n_-!
+s_-n:Z2\80_-$r-n:t_-z:n:Z2\80_-z:n_-m_-Y1:Z2\80_-md_-Z1:Z2\80_-n_-nTr_-A40:Z2\80_-i_-imi_-Z2\80_-._-$b-|57a-$r-Z2\80_-w_-N14_-A_-t:pr_-r_-niwt:t*Z2\80_-t:n_-n:t_-z:n:Z2\80_-$b-!
+$r-z:x_-p:r:Y1_-xt:t*Z1_-nb_-r:d_-i_-i_-t:M2\:Z2\80_-nb:t_-n_-niwt:t*Z1_-t:n_-$b-N31:pt_-S:Z1*N23:Z2\80_-nTr_-Z1:Z2\80_-m_-z:zA_-A_-A_-D40_-z:T31:Y1_-n_-M20_-t:n_-!
++lNoms des divinités 683 à 692 +s-!
+US85Aa1002XT-"683"-M20_-M20_-._-$r-M20_-t:Z4_-N23:Z1_-._-._-$b-"684"-imi_-i_-M20_-f_-._-$r-i_-imi_-M20_-t:N23_-f_-$b-!
+"685"-n_-H_-b_-t:Z4_-._-$r-n:nH_-H_-b_-t:Z4_-S38_-._-._-$b-"686"-D&a_-m_-t:Z4_-w_-._-$r-D&a_-m_-t:Z4_-w_-wAs_-$b-!
+"692"-N31:pt_-S:Z2\80_-N14_-tyw_-Z2\80_-._-$r-G5_-Hr:r_-pt_-S:N23*Z1:Z2\80_-N14_-tyw_-pr_-A40:Z2\80_-$b-!!
++bH9 Registre 2+s-!
++lH8,R2 Scène 1  (49-55)+s-!
+US85Aa1002XT-|9,2 49-ir:r_-t:Z2\80_-s_-#b-n:Z2\80_-p_-m_-N14_-t:pr_-#e-._-._-|50-ir:t_-z:T_-z:w_-#b-Y1:Z2\80_-st_-ir_-A40_-z:x:n_-Y1_-G29A-Z1_-#e-S:tA_-m_-!
+md_-d_-w_-#b-Y1:z:n:Z2\80_-n:t_-z:n:Z2\80_-z:r_-D54_-anx_-wAs_-#e-._-m_-xa:a_-w_-#b-Y1:Z2\80_-N14_-t:Z4*pr_-A40_-n:D_-#e-._-Aa27D_-nw:Y1_-f_-N14:t_-pr_-!
+m_-#b-r:ra*Z1_-nb-#e-._-$r-nTr_-n:T_-r:Z2\80_-p_-w_-O35_-w_-i_-i_-t:D54:Z2\80_-._-._-$b-|55-$r-m_-xt:x*t_-st_-ir_-A40_-m_-q:a:D54_-f_-m_-N14*t:pr_-$b-55-!
++lNoms des divinités 641 à 643 +s-!
+US85Aa1002XT-"641"-#b-d:z:r_-t:Y1_-i_-n:t_-xAst_-#e-._-._-"642"-#b-aA:a:t_-N8_-w_-#e-._-#b-$r-aA:a_-t_-G25_-$b-#e-$r-x_-w_-N8_-$b-!
+"643"-S42_-#b-x:t_-#e-md*w:Y1_-._-._-"644"-x:n:t*t_-ra_-._-$r-x:n:t*t__-A239_-r:a_-ra_-$b-!
++lH9,R2 Scène 2  (10-11)+s-!
+US85Aa1001XT-|9,2 10-$r-ir:r_-t:Z2\80_-z:n:Z2\80_-p_-w_-m_-N14_-t:pr_-D33_-t:D40_-r:a_-ra:Z1_-r_-niwt:t*Z1#34-t:n#1234-ra*Z1:nb_-a_-aHa_-a:D54_-z:n:Z2\80_-r:n:t_-n:n:n_-$b-!
+$r-P30:Z1_-i_-imi_-t_-niwt:t*Z1_-t:n_-$b-n:t_-z:n:Z2\80_-D37:D37_-n:n:n_-m_-m_-i_-H_-w_-P8\R270:Z2\80_-z:n:Z2\80_-n_-G25_-Z1:Z2\80_-i_-n:n:n_-niwt:t*Z1_-t:n_-!
+|11-H_-k:n_-i_-i_-Z2\80_-w_-n:nb_-i_-t:n_-ra_-A40_-n:t_-z:n:Z2\80_-s_-xa:a_-a:Y1_-G53A_-Z1_-!
++lNoms des divinités 655 à 660 +s-!
+US85Aa1002XT-"655"-D33:n_-nw_-._-._-"656"-i_-x_-m_-z:k:f_-._-._-"657"-i_-x_-m_-wr:r_-d:f_-!
+"658"-i_-x_-m_-N104_-i_-i_-f_-._-$r-i_-x_-m_-N104_-m_-i_-i_-D54\:f_-._-._-$b-"659"-i_-x_-m_-H_-p:f_-._-$r-i_-x_-m_-H_-p_-i_-i_-D54:f_-$b-!
+"660"-i_-x_-m_-x_-m_-z:f_-._-$r-i_-x_-m_-x_-m_-z:D54_-f_-$b-!
++lH9,R2 Scène 3  - divinités 681 à 682+s-!
+US85Aa1002XT-"681"-nb:t_-wA_-wA_-#b-t:Z2\80_-#e-._-$r-nb:t_-wA_-A_-#b-wA_-A_-t_-Q7A:Z2\80-#e-$b-!
+"682"-nb:t_-r:k_-H_-Q7A:Z2\80_-._-$r-nb:t_-r:k_-H_-w_-Q7A:Z2\80_-$b-!
++lH9,R2 Scène 4  (56)+s-!
+US85Aa1001XT-|9,2 56-nTr_-Z2\80:p_-M21_-Z2\80_-tyw_-niwt:t*Z1_-t:n_-nb:Z2\80_-w_-Xr:r_-anx_-Z2\80_-w_-D&a_-m_-t&w_-O30\R180_-wn:n:n_-s_-n:Z2\80_-!
+m_-s_-x:r_-Y1:Z2\80_-p:n_-a_-aHa_-a:D54_-s_-n:Z2\80_-!
++lH9,R2 Scène 3  - divinités 687 à 691+s-!
+US85Aa1002XT-"687"-nb_-i_-A_-A_-t_-._-$r-nb#1234-i_-A_-t_-A_-xt_-._-._-$b-"688"-S38_-q_-nTr_-Z1:Z2\80_-f_-!
+"689"-p:a:n_-D12_-i_-i_-Y1_-._-$r-p_-a:n:Y1_-ir_-i_-i_-Y1_-._-._-$b-"690"-d:z:r_-D12_-i_-i_-Y1_-._-$r-d:z:r_-ir_-i_-i_-Y1_-$b-!
+"691"-a_-aHa_-a_-M20_-!!
++bH9 Registre 3+s-!
++lH9,R3 Scène 1  (85-94)+s-!
+US85Aa1001XT-|9,3 85-#b-wn:n_-s_-#e-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-N14_-t:pr_-mn:n:Y1_-Hr:Z1__-S27:Z2\80_-z:n:Z2\80_-m_-i_-ir_-tyw:Z2\80_-!
+|86-m_-z:T31_-m_-Y1:Z2\80_-ir:n_-N31_-$r-i_-n:n_-s_-n:Z2\80_-r:a_-ra:Z1_-$b-d_-G29A-Y1_-T:n:Z2\80_-._-._-US85Aa1002XT-|87-m_-S27:Z2\80_-T:n:Z2\80_-d:z:r_-!
+Y1:Z2\80_-T:n:Z2\80_-m_-H_-b_-z:Z2\80_-S28:Z2\80_-T:n:Z2\80_-._-d_-b_-G29A-A_-Y1:n_-T:n:Z2\80_-N31_-i_-m_-m_-i_-mn:n_-Y1:f_-i_-t:f_-!
+._-A40_-f_-m_-N14_-t:pr_-i_-mn:n_-t:Y1_-nTr_-Z1:Z2\80_-k:f:t_-D40:n_-tp:Z1_-T:n:Z2\80_-._-._-|90-nTr_-Z1:Z2\80_-wn:n_-O31:D40_-n_-Hr*Z1:Z2\80_-T:n:Z2\80_-ir_-!
+T:n:Z2\80_-zA&D12_-Y1:Z2\80_-T:n:Z2\80_-n_-._-st_-ir_-A40_-z_-wA_-S:Y1_-T:n:Z2\80_-nb_-imnt_-t:N25_-z:U4_-a:Y1_-T:n:Z2\80_-._-md_-w_-Y1:f_-!
+r_-x*t:f_-tyw_-D12:Z2\80:f_-ra*Z1:nb_-$r-U28_-U28_-t:Aa8:Z2\80_-p_-n:t_-nTr_-Z1:Z2\80_-._-._-Aa27D_-nw*t:Y1_-md_-w_-Y1:Z2\80_-Hr:Z1_-st_-ir_-ra*Z1:nb_-ir:r:t_-z:n:Z2\80_-p_-m_-$b-!
+|94-$r-N14_-t:pr_-z:x:r_-t_-A15_-x*t:f_-tyw_-A14E:Z2\80_-st_-ir_-A40_-$b-!
++lNoms des divinités 621 à 632+s-!
+US85Aa1002XT-"621"-n:h_-A_-tA_-._-$r-n:h_-A_-A24_-tA:N23*Z1_-._-._-$b-"622"-d_-b_-zA_-Y1_-._-$r-d_-b_-G29A-Y1_-$b-!
+"623"-zA&D12_-i_-i_-S28_-._-$r-ir_-tyw_-i_-i_-S28_-._-._-$b-"624"-S27_-S27_-._-$r-mn:n_-x:t*Z4_-S27_-._-._-$b-"625"-H_-b_-z:S28_-!
+"626"-nb:nb_-._-$r-nb:t*Z4_-._-._-$b-"627"-Q1_-Q1_-nTr_-Z1_-._-$r-Q1_-t:Z4_-pr_-nTr_-Z1_-._-._-$b-"628"-Q1_-Q1_-N10:t_-3*.*3:3\80_-._-$r-Q1_-t:Z4_-pr_-N9:t_-3*.*3:3\80_-$b-!
+"629"-zA_-Ax_-Z2\80_-._-$r-H_-Q1_-t_-zA_-Ax_-Z2\80_-._-._-$b-"630"-nb:H8*t:Z2\80_-._-$r-nb_-p:a:t_-H8:Z2\80_-$b-!
+"631"-d_-m_-S23:d_-._-$r-S23:d_-w_-Y1_-._-._-$b-"632"-i_-mn:n_-Y1:a_-!
++lH9,R3 Scène 2  - noms des rameurs+s-!
+US85Aa1002XT-"665"-U28_-N14*t:pr_-._-$r-U28_-A_-P30_-N14_-t:pr_-._-._-$b-"666"-d:p_-i_-i_-!
++lH9,R3 Scène 3  (95-96)+s-!
+US85Aa1001XT-|9,3 95-$r-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-niwt:t*Z1_-t:n_-$b-n:t_-z:n:Z2\80_-D37:D37_-Aw:t_-X2*W22:Z2\80:n_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-N14_-t:pr_-!
+V25_-w_-D&Y1_-n_-z:n:Z2\80_-r:a_-ra:Z1_-t:X2_-W22:Z2\80_-._-._-|96-a:p*p_-D54_-nTr_-Z1:Z2\80_-m_-xt:x*t_-D54_-nTr_-Z1_-p:n_-aA:a_-Y1:r_-N27:t*pr_-R15_-b_-t:t_-!
+n:t_-p*t:pt_-m_-xt:x*t_-D12:r:f_-Htp_-nTr_-Z1:Z2\80_-N14_-t:pr_-!
++lNoms des divinités 667 à 670+s-!
+US85Aa1002XT-"667"-A_-t&w__-W17_-n:t\80*Z4_-N14_-t:pr_-._-._-"668"-Xr:t*Z4_-W17_-n:t*Z4_-N14_-t:pr_-._-._-"669"-nb:t_-Aw:t_-Z2\80_-W17_-n:t*t_-N14_-pr:t_-!
+"670"-Htp_-N135:Z2\80_-nTr_-Z1:Z2\80_-._-$r-R4:t*p_-Z1_-N135:Z2\80_-nTr_-Z1:Z2\80_-$b-!
++lH9,R3 Scène 4  (97-100)+s-!
+US85Aa1001XT-|9,3 97-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-N14_-t:pr_-mn:n:Y1_-z:n:Z2\80_-Hr:Z1_-S27:Z2\80_-z:n:Z2\80_-m_-F51C*F51C*F51C_-z:n:Z2\80_-D&z_-z:n:Z2\80_-!
+$r-n:t_-z:n:Z2\80_-s_-HD_-D&N8_-k:k_-Z2\80_-w_-N2_-m_-a:t*pr_-Xr:r:t_-st_-ir_-A40_-$b-i_-n_-n:F20:z_-Q7A_-tp:p*Z4_-r:Z1_-z:n:Z2\80_-z_-x*p:r_-!
+x:r_-i_-i_-t:A15:Z2\80_-m_-N14_-t:pr_-._-._-|98-n:t_-z:n:Z2\80_-x:z:f_-H_-f_-A_-t:I14A:Z2\80_-nb:t_-i_-imi_-m_-t_-tA:N23*Z1_-i_-x_-m_-t:D35_-!
+N14_-t:Z4_-pr_-A40_-i_-ir_-w_-Z2\80:z_-anx_-n:x_-z:n:Z2\80_-m_-z:n:f_-w_-n:n:n_-Z2\80:n_-H_-s_-q:t_-D40_-s-n:Z2\80_-ra*Z1:nb_-n_-"sic"-a:p*D54_-n:z:t_-!
+G25_-Z2\80_-m_-t_-tyw_-D12:Z2\80_-z:S_-tA:Y1_-n_-._-|99-n_-zA&D12_-Y1:Z2\80_-z:n:Z2\80_-i_-w_-sw_-t:n_-<-ra_-mn:n_-xpr_-Aa11\R270_-P8_->-r:x:Y1_-!
+z:t_-$r-i_-w_-f_-U2:ir_-A_-f_-zA&D12_-Y1:Z2\80_-z:n:Z2\80_-D35:n_-t:U15_-m_-f:n_-n:z_-Q7A_-z:n:Z2\80_-$b-!
+$r-++ H9 R3 - § 100 \+ noms 671-680 +s-$b-|100-r:n_-Z2\80_-w_-nw:Z1_-i_-a:r_-t&w_-I12:Z2\80_-z:t:t_-i_-i_-Q7A_-Z2\80:n_-st_-ir_-W17_-n:t*Z4_-N14_-t:pr_-m_-n:z_-Q7A_-i_-imi_-r:Z1_-!
+z:n:Z2\80_-a_-m_-Y1_-z:n:Z2\80_-b_-s_-w_-Q7A:Z2\80_-s_-n:Z2\80_-m_-xt:x*t_-a:p*p_-D54_-._-US85Aa1006XT-nTr_-p:n_-aA:a:Y1_-Hr:Z1_-z:n:Z2\80_-!
++lNoms des divinités 671 à 680+s-!
+US85Aa1002XT-"671"-U23_-r:t_-n_-s_-._-$r-U23_-m_-r:t_-n:ns:z_-Q7A_-._-._-$b-"672"-t:k_-A_-i_-i_-t_-._-$r-t:kA_-A_-i_-i_-t_-Q7A_-$b-!
+"673"-n_-b_-i_-i_-t_-Q7A_-._-._-"674"-D43:t_-N14:t_-pr_-._-$r-x:D43_-t:Y1_-N14_-t:pr_-._-._-$b-"675"-d:r:t_-n:S:n_-D40:Z2\80_-._-._-"676"-F13_-S:t_-N14:Z2\80_-!
+"677"-S34_-n:x*t_-D2_-._-._-"678"-T:n_-T:Y1_-M_-Z1:Y1_-._-$r-T:n_-G81_-Y1_-i_-Aa15_-m_-Y1_-$b-!
+"679"-#b-nfr_-t:N28:Z2\80_-#e-._-$r-nfr#1234-r:t_-N28:a_-w_-Y1:Z2\80_-._-._-$b-"680"-aA:a:t_-Y1_-zA&D12_-Y1:Z2\80_-._-$r-aA:a_-t:Y1_-ir_-w_-Y1:Z2\80_-$b-!!
+!!
++b10e HEURE +s-+ide la nuit  "La Furieuse, qui tue les rebelles" +s-!
++bH10 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|10,i 1-$r-R4:t*p_-i:n__-Hm_-Z1:n_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-md_-Y1:f_-n_-nTr_-Z1:Z2\80__-i__-Z11_-Z2\80_-w_-z_-r:n_-$b-!
+$r-n_-N14_-A_-pr:n_-O49:t*Z1_-t:n_-a:q_-w_-D54_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-D2:r_-f_-x*p:r_-w_-Y1:Z2\80_-ms_-s_-Y1_-i_-ir_-w_-Y1:Z2\80_-$b-!
+$r-O31_-r:n_-n_-O49:t*Z1_-t:n_-m_-d:t_-Aa19_-n:n:n_-q_-A_-t_-A28_-w_-D_-b_-w__-N21:pr_-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-$b-!
+$r-g:r_-H_-N2_-z:T31_-m_-t:D54_-._-._-$b-|2-$r-nTr_-Z1_-p:n_-aA:a_-A_-Y1:r_-V4_-A_-t:N31:Z2\80_-S:U30*t_-A_-t:Y1:Z2\80_-n:t_-O49:t*Z1_-t:n_-d:n:d_-$b-!
+$r-i_-i_-t_-A24_-w_-H_-s_-t:T31_-A24_-XA_-A_-k_-A24_-ib:Z1_-US22A13B-N14:ra_-B1_-$b-!
+US85Aa1001XT-|3-q:r:r_-t:pr_-S:tA_-t:Y1_-n:T_-R14_-t:N25_-Htp:t*p_-t:Y1_-x*p:r_-A40_-r:z_-x:r_-r:a_-ra_-A40_-k:n_-i_-t:Y1_-nTr_-Z1_-A40:Z2\80_-!
+Ax_-Z1:Z2\80_-D12:Z1:Z2\80_-"sic"-r:z_-Hr:Z1_-z:T31:Z2\80_-S:tA_-Y1:n_-i_-g:r:t_-N25_-$r-i_-w_-ir_-t&w_-n:n_-mi_-i_-z:T30:Z2\80_-p:n_-n:t*Z4_-m_-Y4_-Y1:Z2\80_-Hr:Z1_-$b-!
+$r-R15_-b_-tyw_-a:t*pr_-i_-mn:n_-t:Y1_-n:t_-N14_-t:pr_-$b-i_-w_-sw_-t:n_-<-ra_-mn:n_-xpr_->-U5:a_-xrw_-w_-x:r_-nTr_-Z1_-aA:a:Y1_-S38_-q:Y1_-N14_-t:pr_-!
+r:x:Y1_-z:t_-m_-r:n:Z2\80_-z:n:Z2\80_-m_-x:n:z_-D54:N14_-t:pr_-r_-s_-U28_-A_-D54:z_-D35:t_-x:z:f_-D54:f_-r_-H_-s_-pt_-x:r_-r:a_-ra:Z1_-A40_-!!
++bH10 Registre 1+s-!
++lH10,R1 Scène 1  (4)+s-!
+US85Aa1001XT-|10,1 4-wn:n:n_-s_-n:Z2\80_-m_-z:x:r#34-#b-Y1:Z2\80_-#e-p:n_-m_-N14_-t:pr_-m_-zA&D12_-Y1:Z2\80_-ms_-z:t:Z2\80_-xpr_-r_-A40_-A9_-f:n_-nw*t:N135_-!
+f:r_-O49_-t:n_-r_-pr:r:t_-D54_-m_-xt:x*t_-r:N27_-t:pr_-R15_-b_-t:t_-n:t_-p*t:pt_-!
++lNoms des divinités 693 à 694+s-!
+US85Aa1002XT-"693"-p:a:n_-nw_-i_-i_-._-._-"694"-x*p:r_-anx_-!
++lH10,R1 Scène 2  (4 fin-7)+s-!
+US85Aa1001XT-|10,1 4 fin-$r-wn:n:n_-nn:n_-nTr_-Z1:Z2\80_-._-._-$b-|5-$r-m_-z:x:r_-Y1:Z2\80_-p:n_-$b-R15_-b_-t_-pr:r_-D54:z#12-m_-a:n:n_-Z4_-w_-I14A:I14A_-R14_-t:pr_-m_-z:d_-!
+f_-i_-i_-t_-nTr\_-k:n_-i_-Y1:n_-z:n:Z2\80_-Z2\80_-G29A-m_-tA:N23*Z1_-z:d:f_-Y1:n_-z:n:Z2\80_-Z2\80_-Ax_-t_-r:T_-Y1_-m_-N14_-t:D12_-Hr:Z1_-!
+z:T31_-m_-Y1:Z2\80_-S:tA:Y1_-._-._-|7 sic-i_-imi_-m_-aA:a_-A:Y1_-x:r_-z:n:Z2\80_-zA&D12_-Y1:Z2\80_-z:n:Z2\80_-m_-xt:t_-a:p*p_-nTr_-Z1_-p:n_-aA:a_-Hr:Z1_-z:n:Z2\80_-!
++lNoms des divinités 695 à 700+s-!
+US85Aa1006XT-"695"-N_-._-._-US85Aa1009XT-"696"-m_-a_-nn_-zA_-Z4_-._-._-US85Aa1007XT-"697"-S1_-._-._-US85Aa1006XT-"698"-z:T:T_-"sic"-._-._-US85Aa1007XT-"700"-k:n_-i_-t:Z2\80_-nTr_-!
++lH10,R1 Scène 3  (8-9)+s-!
+US85Aa1001XT-|10,1 8-$r-nTr_-t:Z2\80_-i_-p:p_-t:Y1:Z2\80_-ir:t*Z1_-G5_-n:f_-m_-N14_-t:D12_-i_-n:n_-z:n:Z2\80_-ra:Z1_-A40_-$b-S42_-m_-Y1:n_-zA&D12_-Y1:Z2\80_-T:n:Z2\80_-S42_-m_-t:Z2\80_-!
+i_-p:Y1_-T:n:Z2\80_-D12:N31_-n:f_-z:mn:n_-Y1_-T:n:Z2\80_-D12:N31_-n:f_-z:Htp:t*p_-T:n:Z2\80_-N31_-m_-D17:f_-z_-wA_-m_-S:Y1_-T:n:Z2\80_-N31_-m_-!
+D12:f_-z:mn:n_-Y1_-T:n:Z2\80_-n:f_-tp:t*D12_-f_-US85Aa1006XT-imi_-m_-t_-a:a_-Z1:Z1_-F51C:D41_-D12:f_-A40_-._-._-US85Aa1001XT-|9-n:t_-T:n:Z2\80_-n:D_-Aa27D_-nw:t_-Y1:Z2\80_-Hr:Z1__-N31_-!
+x*p:r_-i_-i_-t:Z2\80_-x*p:r_-t:Y1:Z2\80_-xpr_-r_-w_-Y1:Z2\80_-$r-ir:r:t_-z:n:Z2\80_-p_-w_-m_-N14_-t:pr_-n:D_-Aa27D_-nw:Y1_-D12:N31_-n:f_-r:a:t_-Ax_-$b-!
+$r-x:t_-ir:r_-s_-U28_-A_-Y1:z_-m_-r:a_-ra:nb_-$b-!
++lNoms des divinités 701 à 709+s-!
+US85Aa1002XT-"701"-S42_-t_-._-._-"702"-mn:n_-k:r:t_-._-._-"703"-H_-M42_-T:T_-._-._-"704"-wAs_-i_-i_-t_-._-._-"705"-F16:t_-nTr__-Z3:z_-._-._-"706"-ir:t_-tA_-T:n:n_-!
+"707"-a__-aHa_-a:t_-._-._-"708"-T_-T_-mA_-D41_-._-._-US85Aa1007XT-"709"-F51C:D41_-D12:f_-!
++lH10,R1 Scène 4  (10-11)+s-!
+US85Aa1001XT-|10,1 10-wn:n:n_-s_-n:Z2\80_-m_-z:x:r__-Y1:Z2\80_-p:n_-m_-z:T31_-m_-Y1:Z2\80_-ir:n_-N31_-i_-w__-nTr_-Z1_-p:n_-aA:a_-A:Y1__-Dw_-w_-i_-Y1:f_-!
+r_-z:n:Z2\80_-m_-r:n:Z2\80_-z:n:Z2\80_-Htp:t*p_-Y1_-z:n:Z2\80_-z:r:q_-Y1__-F10:Z2\80_-z:n:Z2\80_-m_-P5_-Z2\80_-w_-i_-imi_-m_-r:Z1:n_-._-._-|11-nTr_-Z1_-!
+p:n_-aA:a_-A:Y1__-G29A-Z1:Z2\80_-z:n:Z2\80_-a:p*D54_-z:n:Z2\80_-xt:x*t_-w_-D54:Z2\80:f_-r__-N27:t*pr_-$r-n:t_-z:n:Z2\80_-s__-M16_-A_-S28_-XA_-A_-w_-t:Aa3:Z2\80_-$b-!
+$r-z_-w_-S:W_-D40_-Aa2*t:Z2\80_-n_-x*t:f_-A_-$b-"sic"-$r-D12:Z2\80_-V25_-w_-Y1:n_-i_-k:G37_-s_-t_-m_-N14_-t:pr_-$b-!
++lNoms des divinités 710 à 717+s-!
+US85Aa1002XT-"710"-D41:D41_-._-._-"711"-nb_-a:q*t_-._-.__-"712"-A4_-zA_-D12:Z2\80_-._-._-"713"-pt:S_-tA:tA:tA_-._-._-"714"-T30_-G5_-._-._-"715"-A30_-G5_-!
+"716"-I3_-st_-f_-._-._-"717"-I3_-mn:t_-Z2\80:f_-!!
++bH10 Registre 2+s-!
++lH10,R2 Scène 1  (36-40)+s-!
+US85Aa1001XT-|10,2 36-$r-s_-Aa28_-d:d_-D54_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-niwt:t*Z1_-t:n_-._-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-P30:Z1_-f_-Aa28_-t:Z2\80_-f_-n:t_-$b-!
+$r-nTr_-Z1:Z2\80_-._-D33:n__-D40_-z:n:Z2\80_-M23_-w_-Htp:t*p_-._-nTr_-Z1:Z2\80_-imi_-w:Z2\80_-niwt:t*Z1_-t:n_-._-._-$b-|40-$r-m_-mw_-i_-imi_-._-w_-Z2\80_-m_-._-$b-!
+$r-mw_-i_-H_-w_-._-V1\R90:Z2\80_-s_-n:Z2\80_-._-s_-r:q_-Y1_-._-s_-n:Z2\80_-m_-._-xrw_-w_-Y1_-i_-H_-._-i_-H_-Y1:n_-Aa28_-t:Z2\80_-._-t:n_-n:t_-nTr_-Z1:Z2\80_-$b-!
++lNoms des divinités 718 à727+s-!
+US85Aa1004XT-"718"-F13_-N31:Z2\80_-._-._-"719"-siA_-._-._-"720"-nb:P30_-._-._-"721"-mH:n_-._-._-"722"-F51B*F51B*F51B_-._-._-"723"-N31_-H_-k:nw_-._-._-"724"-kA_-Sw_-._-.__-!
+"725"-n:h:z_-._-._-"726"-H_-w_-._-._-"727"-D43_-P30_-!
++lH10,R2 Scène 2  (41-42)+s-!
+US85Aa1001XT-|10,2 41-wn:n:n_-z:n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-D41:T:Z4_-Tz:z_-Hr:Z1_-#b-I14A:Z2\80_-#e-$r-G29A-p_-w_-n_-z:k:r_-A40_-xnt_-n:t*Z4_-N14_-t:pr_-$b-!
+|42-$r-a:p*p_-D54_-z:T31_-m#34-Y1:Z2\80#3-p:n_-mi_-Aa28_-d:nw:f_-m_-#b-xt:x*t_-D54_-nTr_-Z1_-p:n_-aA:a:Y1_-#e-r_-Axt_-t:pr_-a:q_-D54:f_-x:r_-f_-$b-!
+$r-m_-._-$b-US85Aa1006XT-$r-tA:N23*Z1_-r:a_-ra:nb_-$b-!
++lNoms des divinités 728 à 731+s-!
+US85Aa1002XT-"728"-pD\R90_-pD\R270_-._-._-"729"-xnt_-pt_-._-._-"730"-Tz:z_-Hr:Z2\80_-._-._-US85Aa1007XT-"731"-pt:t_-D41_-!
++lH10,R2 Scène 3  (43-45)+s-!
+US85Aa1001XT-|10,2 43-wn:n:n_-f_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-P30_:f_-a_-aHa_-a:D54_-f:r_-k:k_-Z2\80_-w_-F36_-Z2\80_-w_-!
+|44-r_-a:r:r_-i_-i_-t:pr_-n:t_-Axt:t*pr_-R15_-b_-t:t_-Htp:t*p_-x:r_-f_-st_-t:pr_-f_-ra*Z1:nb_-$r-a_-aHa_-a:w_-I14A_-$b-!
+|45-$r-p_-w_-n_-N14_-t:pr_-G29A-d:z:r_-Y1:n_-xnt_-tyw_-R14_-tyw_-A40_-$b-!
+US85Aa1008XT-"serpent 732"-anx_-Z1_-tA_-!
++lH10,R2 Scène 4  (46-51)+s-!
+US85Aa1001XT-|10,2 46-wn:n:n_-s_-n:Z2\80_-m_-z:x:r_-Y1:Z2\80_-p:n_-Xr:r_-S:z:r_-w__-T11:Z2\80_-z:n:Z2\80_-Xr:r_-._-p:d:t_-pD:Z2\80_-z:n:Z2\80_-m_-HAt:t*Z1_-nTr_-Z1_-p:n_-!
+aA:a_-A:Y1_-pr:r_-D54_-z:n:Z2\80_-._-x:r:f_-r_-Axt:t*pr_-R15_-b_-t:t_-n_-p*t:pt_-$r-i_-n:n_-z:n:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-._-$b-|49-x_-A_-x_-!
+A_-D54:n__-V6:z:r_-w_-T11:Z2\80_-T:n:Z2\80_-z:p:d_-Y1:n_-a_-b_-b_-t&w_-Z2\80_-T:n:Z2\80_-p:d:n_-S:U7_-r:t_-pD:Z2\80_-T:n:Z2\80_-n_-i_-k:G37_-T:n:Z2\80_-!
+n:A1_-x*t:f_-tyw__-A14E:Z2\80_-A1_-i_-imi_-m_-Z2\80_-w_-k:k_-w_-Z2\80_-N2_-r:r_-w_-t:Z4_-O32_-._-._-|50-Axt:t*pr_-T:n:Z2\80_-n:A1_-m_-!
+xt:x*t_-D54_-A1_-Htp:t*p_-A1_-nn_-n:n:t_-N26_-wA_-A_-S_-A28_-Y1_-i_-f:F51B:Z2\80_-A1_-m_-m_-a:n:d_-i_-i_-t_-P46_-$r-n:t_-$b-!
+$r-z:n:Z2\80_-x:z:f_-A24_-s_-b_-i_-T14_-I86E_-n:H*HA_-A_-Aa2\_-Hr:Z1_-I86E_-._-._-$b-|51-$r-m_-k:k_-w_-Z2\80_-N2_-s_-F36_-Z2\80_-w_-n_-a:p*t_-D54_-$b-!
+$r-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-a:r:r_-i_-i_-t:pr_-R15_-b_-t:t_-n:t_-Axt:t*pr_-a:p*p_-D54_-z:n:Z2\80_-x:r_-nTr_-Z1_-p:n_-m_-xt:x*t_-D54_-$b-!
++lNoms des divinités 733 à 744+s-!
+US85Aa1002XT-"733"-tp_-T:r_-i_-._-._-"734"-S:z:r_-i_-._-._-"735"-d:U2_-w_-._-._-"736"-w_-d_-w_-._-._-"737"-z:t_-w_-._-._-"738"-r:a_-w_-!
+"739"-x:z:f_-w_-._-._-"740"-n:k:n_-nw_-._-._-"741"-p:d_-T:Z4_-._-._-"742"-S:U7:r_-T:Z4_-._-._-"743"-Tz:z_-w_-Y1_-._-._-"744"-xa:a:Y1_-a:Z1_-!!
++bH10 Registre 3+s-!
++lH10,R3 Scène 1  (79-80)+s-!
+US85Aa1001XT-|10,3 79-$r-D&md_-i:n_-N31:n_-mH_-H_-i_-i_-Z2\80_-w_-i_-g_-i_-i_-w_-n:n:n_-Z3_-z:V14_-A_-s_-i_-i_-Z2\80_-w_-i_-imi_-m_-Z2\80_-w_-nw*nw*nw:pt_-$b-!
+$r-n:n:n_-N14_-tyw_-pr:Z2\80_-$b-i_-Z1_-mH_-w_-n:n:n_-Z3_-z:n:k_-ra_-m_-nw*nw*nw:pt_-n:n:n_-a:a_-Z1:Z1_-z:n:Z2\80_-m_-r:k_-ra_-Hr*Z1:Z2\80_-z:n:Z2\80_-i_-Z1_-i_-g_-!
+i_-i_-Z2\80_-w_-Hr:Z1_-m_-N14_-t:pr_-b_-q_-s_-w_-F51C:Z2\80_-z:n:Z2\80_-n_-n:t_-n:n:n_-i_-Z1_-D33:n_-nw_-w_-n:n:n_-Z3_-nw*nw*nw:pt_-m_-z:V14_-A_-s_-i_-!
+i_-Hr*Z1:Z2\80_-z:n:Z2\80_-m_-xt:x*t_-D54_-G29A_-Z2\80_-s_-n:Z2\80__-P5_-w_-Z2\80:n_-G29A-Z1:Z2\80_-T:n:Z2\80_-D35:g_-A__-Aa2_-z:n:Z2\80_-D33:n_-t:a_-n_-a:a_-Z1:Z1_-!
+T:n:Z2\80_-D35_-H_-p_-w_-D54_-z:n:Z2\80__-U5:a_-Y1_-T:n:Z2\80_-nw*nw*nw:pt_-m_-r:d_-D56_-D56_-T:n:Z2\80_-pr:r_-D54_-T:n:Z2\80_-n_-n:t_-n:n:n_-h_-A_-!
+w_-D54_-T:n:Z2\80_-!
+|80-n:h_-n_-n:h_-n:nw_-mH_-w_-n:n:n_-T:n:Z2\80_-n_-H_-a:p_-n:n:n_-wr:r_-A40_-mn:n_-i_-T14_-D54_-T:n:Z2\80_-n_-!
+V25_-b__-N21:Z2\80_-f:D35_-H_-wA_-A_-#b-Aa2_-H_-#e-a:F51B*Z1:Z2\80_-T:n:Z2\80_-D35_-i_-m_-k:Aa2_-i_-f:F51B:Z2\80_-T:n:Z2\80_-s_-sxm_-x_-m_-Y1:Z2\80:n_-T:n:Z2\80_-m_-mw_-T:n:Z2\80_-!
+z:q:r_-Y1_-T:n:Z2\80_-V25_-w_-D&Y1_-n:A1_-n_-T:n:Z2\80_-n_-T:n:Z2\80_-nn:n_-i_-imi_-m_-Z2\80_-w_-nw*nw*nw:pt_-mw_-A40_-mH_-H_-w_-mw_-Z3_-!
+m_-xt:x*t_-D54_-i_-f_-i_-g:r_-anx_-n_-G29A-Z1:Z2\80_-T:n:Z2\80_-!
++lNoms des divinités 745 à 748+s-!
+US85Aa1001XT-"745"-N31_-._-._-"746"-mH_-H_-i_-i_-w_-n:n:n_-Z3_-i_-imi_-m_-Z2\80_-w_-N14_-t:pr_-!
+"747"-i_-g_-i_-i_-w_-n:n:n_-Z2\80_-i_-imi_-m_-Z2\80_-w_-N14_-t:pr_-!
+"748"-z:V14_-A_-s_-i_-i_-w_-Z2\80_-i_-imi_-m_-w_-Z2\80_-N14_-t:pr_-!
++lH10,R3 Scène 2  (207-222 d'après AmenHotep II)+s-!
+US85Aa1002XT-|207\-222-$r-wn:n:n_-z:n:Z2\80_-m_-._-z:x:r_-Y1:Z2\80_-p:n_-._-z:sSm_-m_-Y1:Z2\80_-.__-z:n:Z2\80_-anx_-n:x_-.__-m_-tp*Z1:Z2\80_-z:n:Z2\80_-._-._-$b-!
+n:t_-z:n:Z2\80_-s_-HD_-D&ra_-._-wA_-A_-t:N31_-n_-._-r:a_-ra:Z1_-A40_-._-m_-k:k_-N2_-w_-Z2\80_-._-s_-U2_-zmA_-w_-Y1:Z2\80_-._-!
+pr:r_-D54:f_-a:r:r_-._-i_-i_-t:pr_-._-iAb_-b_-t:t_-n:t_-HqA_-._-n:h_-s_-._-a:p*D54_-f_-._-x:r_-f_-!
++lNoms des divinités 749 à 753+s-!
+US85Aa1002XT-"749"-zA_-i_-i_-t_-._-._-"750"-b_-x:x_-t_-._-._-"751"-D&d_-m_-i__-i_-T_-._-._-"752"-a:r:t_-._-._-"753"-z:t_-n:h_-s_-!!
+!!
++b11e HEURE +s-+ide la nuit  "La Stellaire, maîtresse de la barque, qui repousse l'ennemi quand il apparaît " +s-!
++bH11 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|11,i 1-$r-Htp:t*p_-i:n_-Hm_-Z1:n_-nTr&Z1_-p:n_-aA:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-w_-D&Y1_-f_-md_-w_-Y1:Z2\80_-n_-nTr_-Z1:Z2\80_-i_-Z11_-w_-$b-!
+$r-Z2\80:z_-r:n_-n_-s_-b_-N14_-pr:n__-O49:t_-Z1_-t:n_-a:q_-w_-D54_-nTr_-Z1_-p:n_-aA:a:Y1_-Hr:r_-f_-z:x:n_-Y1:sbA_-tyw_-pr_-A40:Z2\80_-O31_-$b-!
+$r-r:n_-n_-niwt:t_-Z1_-t:n_-r:Z1:n_-q:r:r_-t:pr_-i_-p:t_-Y1_-XA_-A_-t:Aa2_-w:Z2\80_-pr__-r:n_-n_-wn:n_-nw:t_-sbA:ra_-n:t_-g:r_-H_-N2_-$b-!
+$r-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-O29:D36_-A:Y1_-s_-b_-sbA_-i_-i_-t_-sbA:ra_-nb:t_-w_-$b-!
+|2-$r-i_-A_-P30_-x_-s_-xsf_-f:t_-D54_-s_-b_-i_-T14_-A13_-m_-pr:r:t_-D54:Z2\80:f_-N14:ra_-A40_-$b-!
+US85Aa1001XT-|3-$r-q:r:r_-t:pr_-S:tA_-t:Y1_-n:t_-sbA_-t:pr_-D36:p*p_-t:D54_-nTr_-p:n_-O29:D36_-A:Y1_-D2:Z1_-r:z_-r_-pr:r:t_-D54_-m__-N26:Z1_-iAb_-n_-$b-!
+$r-p*t:pt_-D36_-m_-Y1_-D&t_-z:sSm:Z2\80_-z_-m_-D53:Y1_-p*t:r:D12__-A40_-i_-Z11_-O49:t*Z1_-V13:n_-D36:n_-z:n_-m_-M3:x*t_-D54:r_-ms_-t:Z2\80_-L1:r_-m_-$b-!
+$r-tA:N23*Z1_-$b-i_-w_-ir:t_-n:n_-mi_-Aa28_-d:nw:Y1_-mi_-i_-z:T31:Y1_-Z2\80:p:n_-n:t*y_-m_-Y4_-Y1:Z2\80_-Hr:Z1_-iAb_-a:t*pr_-i_-mn:n_-T_-A4_-n:t_-sbA_-t:pr_-!
+i_-w_-sw_-t:n__-A43E_-nb_-tA:tA_-N23:N23_-<-ra_-mn:n_-xpr->-zA&ra_-n_-F32:t*Z1_-f_-N36:Z1_-f_-<-G26_-ms_-s_-nfr_-xpr:Z2\80->-U4_-D36:Y1_-!
+P8*w:Y1_-$r-r:x:Y1_-s_-t_-m_-p:z_-S:Y1:f_-m_-Ax_-Y1_-a:p:r_-m_-p*t:pt_-tA:N23*Z1_-V6:Z1_-U4_-a:Y1_-$b-!!
++bH11 Registre 1+s-!
++lH11,R1 Scène 1  (4-5)+s-!
+US85Aa1001XT-|11,1 4-wn:n:n_-f_-m_-s_-r:x_-Y1:Z2\80_-p:n_-a_-aHa_-a:D54_-f_-._-._-|5-n_-r:a_-ra:Z1_-D35:t_-D54_-n:f_-r_-st_-f_-n:t_-sbA_-t:pr_-!
++lNom du dieu +s-!
+US85Aa1006XT-"754"-a:p:r_-Hr_-nb_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
++lH11,R1 Scène 2  (6-7)+s-!
+US85Aa1001XT-|11,1 6-$r-wn:n:n_-f_-m_-s_-x:r_-Y1:Z2\80_-p:n_-$b-N26_-i_-nTr_-p:n_-r:f_-pr:r_-z:T31:Z2\80_-n_-t:tm_-A40_-!
+|7-m_-F37A_:f__-a_-m_-Y1_-x:r_-f_-z:T31_-Z2\80:f_-m_-M3:x*t_-D54_-anx_-f_-m_-S36_-t:Z2\80_-D12:Z2\80_-._-._-K4:f_-tp:f_-!
++lH11,R1 Scène 3  (8-10)+s-!
+US85Aa1003XT-|11,1 8-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z_-D\98**z{{0,788,78}}**z{{21,459,73}}_-wn:n:z_-m_-pt:t_-S:d_-sbA:Z2\80_-ir:r_-t:z_-!
+|9-p_-anx*xrw:Z2\80_-r:a_-ra*ra:nb__-a_-m_-Y1:z__-z:T31_-Z2\80:z_-r:O49_-t:n_-wn:n_-nw:t_-ra:10*Z1_-!
+|10-p_-wa:a_-t_-m_-xt:t*D12_-Y1:Z2\80_-nTr_-!
++lNoms des divinités 757 à 758 +s-!
+US85Aa1007XT-"757"-D\98**t{{164,445,98}}**tA{{45,861,69}}_-._-._-"758"-S:d_-sbA:Z2\80_-!
++lH11,R1 Scène 4  (11-13)+s-!
+US85Aa1001XT-|11,1 11-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-i_-w_-nTr_-Z1_-p:n_-O29:a_-A:Y1_-N26:f_-r_-z:n:Z2\80_-m_-r:n:Z2\80_-z:n:Z2\80_-pr:Z2\80_-n:A1_-!
+i_-mn:n_-nw:Y1:Z2\80_-M16_-i_-i_-ra:n_-A1_-S:tA_-w_-Y1:Z2\80_-a:Z1_-anx_-n_-G29A\98**R7{{8,520,56}}-Z2\80_-T:n:Z2\80_-z:x:n_-D54_-z:n:Z2\80_-Hr:Z1_-S36_-t:Z2\80_-T:n:Z2\80_-n_-!
+t:n:Z2\80_-._-._-|12-z:S_-w_-Y1:Z2\80_-i_-mn:n_-t:Y1:Z2\80_-r:a_-Z2\80_-w_-z:T31_-Y1:Z2\80_-r_-b_-Z2\80:f_-d:z:r__-P5_-w_-Z2\80_-T:n:Z2\80_-tp:p_-r:Z1_-!
+A1_-z:r:q_-w_-Y1:f_-n_-N26:Z2\80_-T:n:Z2\80_-i_-m_-f_-Htp:t*p_-N135:Z2\80_-n_-T:n:Z2\80_-tp_-P30_-A1_-anx_-Z2\80_-w_-G29A_-Z2\80_-T:n:Z2\80_-!
+i_-m_-f_-!
+US85Aa1001XT-|13-mw_-Z2\80:n_-T:n:Z2\80_-n_-aHa_-t:Z1_-nw_-nw_-nw_-mw_-A40_-a:a_-t:Z2\80_-mw_-Z3_-n:sbA_-tyw_-A40:Z2\80_-r:z_-i_-h_-i_-i_-Y1_-U5:a:Y1_-zA&D12_-!
+Y1:Z2\80_-T:n:Z2\80_-G29A\98**R7{{8,520,56}}-Z1:Z2\80_-T:n:Z2\80_-n_-m_-M3:x*t_-D54_-xpr_-r_-w_-Y1:Z2\80_-A1_-$r-ir:r:t*Z2\80_-z:n:Z2\80_-p_-m_-sbA_-t:D12_-z:a_-r:t_-D54_-$b-!
+$r-z:S_-Y1:Z2\80_-n_-nTr_-Z1_-p:n_-O29:a_-A_-Y1:r_-Hr:r_-t:pt_-$b-!
++lNoms des divinités 759 à 770 +s-!
+US85Aa1002XT-"759"-tp_-tp_-._-._-._-"760"-Xnm_-r:n_-i_-i_-t_-._-._-._-"761"-n:r_-tA_-._-._-._-"762"-a:a_-f_-m_-P8\R90:n:f_-._-._-._-"763"-wp:t_-tA:tA_-!
+"764"-U8:n_-a:a_-f_-._-._-._-"765"-i_-zA_-n_-a:a_-f_-._-._-._-"766"-sw_-t:F51B:Z2\80_-._-._-._-"767"-sbA_-G5_-._-._-._-"768"-U4:a_-!
+"769"-ms_-x_-tyw_-._-._-._-"770"-H_-p:a_-!
++lH11,R1 Scène 5  (14-16)+s-!
+US85Aa1001XT-|11,1 14-wn:n:n_-s-n:Z2\80__-m_-s_-x:r_-Y1:Z2\80_-p:n_-mn:n_-nw*t:Z2\80_-z:n:Z2\80_-m_-tA:N23*Z1_-D56_-D56_-z:n:Z2\80_-m_-k:k_-F36_-w_-Y1:Z2\80_-i_-w_-nTr_-Z1_-!
+p:n_-aA:a_-N26:f_-r_-s-n:Z2\80_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-D\98**z{{0,788,78}}**z{{21,459,73}}_-"sic"-z:n:Z2\80_-._-._-|15-h_-w_-t:Y1_-x:r_-z:n:Z2\80_-D35:t:D54_-n_-z:n:Z2\80_-m_-st:Z2\80_-!
+z:n:Z2\80_-anx_-G29A\98**R7{{8,520,56}}:Z2\80-z:n:Z2\80_-m_-P8_-w_-z:T31:Z2\80_-pr:r:r_-D54_-m_-D56_-D56_-z:n:Z2\80_-r:a_-ra:Z1_-nb_-$r-pr:r:r_-D54_-s_-b_-i_-i_-t_-P5_-Z2\80:z_-h_-$b-!
+$r-A_-D40_-._-._-$b-|16-$r-P5_-Z2\80_-w_-x*p:r_-m_-sbA_-t:pr_-m_-Hr*Z1:Z2\80_-nn:n_-nTr_-n:T:r_-i_-i_-t_-B1:Z2\80_-$b-!
++lNoms des divinités 771 à 774 +s-!
+US85Aa1002XT-"771"-nb:t_-anx:Z2\80_-._-._-._-"772"-nb:t_-Ax_-Z2\80_-._-._-._-"773"-n:r:t_-N21:N21_-._-._-._-"775"-U8:n:t_-nTr_-Z1:Z2\80_-!!
++bH11 Registre 2+s-!
++lH11,R2 Scène 1  (36-36a)+s-!
+US85Aa1001XT-|11,2 36-$r-s_-Aa28_-d:d_-D54_-nTr_-Z1_-p:n_-O29:a_-A:Y1_-m_-niwt:t*Z1_-t:n_-m_-s_-x:r_-Y1:Z2\80_-p:n_-Aa28_-t_-A40_-Z2\80:f_-n:t_-nTr_-Z1:Z2\80_-D33:n_-D40_-$b-!
+$r-s-n:Z2\80_-sw_-w_-r_-N27:t*pr_-t_-iAb_-t_-n:t_-p*t:pt_-p:z:d_-t:sbA_-I14_-tp:t_-P30_-z:T30_-Y1:z_-._-._-$b-US85Aa1006XT-$r-nTr_-Z1_-p:n_-aA:a_-A:Y1_-$b-!
+|36a-$r-r_-N31:Z2\80_-k:k_-Z2\80_-w_-N2_-m_-M:Y1_-Z2\80:n_-s_-HD_-D&N8_-i_-imi_-m_-Z2\80_-w_-tA:N23_-Z1_-A40:Z2\80_-$b-!
++lNoms des divinités 785 - 775 à 784 +s-!
+US85Aa1004XT-"785"-p:z:d_-t:sbA_-t:pr_-._-._-"775"-F13_-N31:Z2\80_-._-._-"776"-siA_-._-._-"777"-nb:P30_-._-._-"778"-mH:n_-._-._-"779"-F51B*F51B*F51B_-._-._-"780"-N31_-H_-k:n:nw_-!
+"781"-kA_-Sw_-._-.__-"782"-n:h:z_-._-._-"783"-H_-w_-._-._-"784"-D43_-P30_-!
++lH11,R2 Scène 2  (37-39)+s-!
+US85Aa1001XT-|11,2 37-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-F4:t*Z1_-nTr_-p:n_-O29:a:Y1_-f_-A_-A_-D40_-z:n:Z2\80_-mH:n_-I73_-n_-!
+tp:Z2\80_-z:n:Z2\80_-r_-niwt:t*Z1_-t:n_-a:p*p_-D54_-z:n:Z2\80_-m_-M3:x*t_-r:a_-ra:Z1_-A40_-r_-N27:t*pr_-iAb_-t:t_-n:t_-p*t:pt_-i_-w_-nTr_-Z1_-p:n_-N26_-i_-!
+f:r_-z:n:Z2\80_-m_-r:n:Z2\80_-z:n:Z2\80_-V25_-w_-D&Y1_-f:n_-z:n:Z2\80_-zA&D12_-Y1:Z2\80_-z:n:Z2\80_-._-._-|38-$r-i_-n:n_-z:n:Z2\80_-r:a_-ra:Z1_-A40_-$b-z_-zA_-!
+A_-D40:Z2\80:n_-T:n:Z2\80_-z:T31_-Y1:Z2\80_-T:n:Z2\80_-f_-A_-D40:Z2\80:n_-T:n:Z2\80_-tp*Z1:Z2\80_-T:n:Z2\80_-r:d_-Y1:n_-a:a_-Z1:Z1_-T:n:Z2\80_-mn:n:Y1_-r:d_-D56_-D56_-T:n:Z2\80_-U4:a_-!
+Y1:n_-N40_-m_-t:D54:Z2\80_-T:n:Z2\80_-p:d_-D54:n_-n_-m_-t:t_-D54:Z2\80_-T:n:Z2\80_-Htp:t*p_-T:n:Z2\80_-m_-Htp:t*p_-X4A:Z2\80_-T:n:Z2\80_-r:a_-r:r_-i_-i_-t:pr_-!
+n:t_-N27:t*pr_-iAb_-t:t_-!
+|39-$r-ir:r:t_-z:n:Z2\80_-p_-m_-sbA_-t:D12_-r:a:t_-mH:n_-I73_-r_-N40_-m_-t:D54:Z2\80_-f_-r:a_-r:r_-i_-i_-t:pr_-n:t_-N27:t*pr_-iAb_-t:t_-$b-!
+$r-Htp:t*p_-Y1_-x:r_-z:n:Z2\80_-n:F20:z_-t:pr:Z2\80_-z:n:Z2\80_-m_-M3:x*t_-D54_-zb_-b_-b_-nTr_-Z1_-p:n_-O29:a_-A:Y1_-k:k_-w_-N2_-Htp:f_-N27:t*pr_-$b-!
++lNoms des divinités 786 à 797 +s-!
+US85Aa1002XT-"786"-A9_-._-._-"787"-r_-m_-nw:Z1_-._-._-"788"-A_-T:p_-i_-i_-._-._-"789"-n:d:r_-w_-._-._-"790"-O42A_-p_-w_-._-._-"791"-r:d_-a:Z1_-!
+"792"-A_-m_-w_-._-._-"793"-i_-m_-tyw_-._-._-"794"-S:d_-w_-._-._-"795"-z:x_-nw_-._-._-"796"-z_-T31:T31_-._-._-"797"-mH:n_-i_-i_-!
++lH11,R2 Scène 3  (40-42)+s-!
+US85Aa1002XT-|11,2 40-z:T31_-Y1:Z2\80_-p_-w_-S:tA_-Y1:n_-N31_-wn:n:n_-z:n:Z2\80_-r_-sbA:pr_-2:nw_-n_-k:k_-Z2\80_-w_-._-._-|41-F36_-w_-Y1:Z2\80_-N31:t*Z1_-d:z:r_-!
+t:Y1_-z_-zA_-i_-i_-t:niwt_-$r-i_-w_-nTr_-Z1_-p:n_-N26:f_-._-._-$b-|42-$r-r_-z:n:Z2\80_-pr:r_-D54_-x:r_-tp*Z1:Z2\80_-z:n:Z2\80_-S:tA_-Y1:Z2\80_-a_-m_-Y1_-$b-!
+$r-x:r_-z:n:Z2\80_-z:sSm:Z2\80_-z:n:Z2\80_-m_-M3:x*t_-D54_-$b-!
++lNoms des divinités 798 à 799 +s-!
+US85Aa1002XT-"798"-T31-S:t_-.._-"799"-T31_-O9-!
++lH11,R2 Scène 4  (43-46)+s-!
+US85Aa1001XT-|11,2 43-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-r:sbA*pr_-p:n_-m_-z:T31_-m_-Y1:Z2\80_-ir:n_-._-._-|44-N31_-i_-w_-nTr_-Z1_-p:n_-N26:f_-!
+r_-z:n:Z2\80_-m_-r:n:Z2\80_-z:n:Z2\80_-z:n:Z2\80_-z:r:q_-Y1_-z:n:Z2\80_-m_-sDm:f_-P8_-._-._-|45-$r-n:t_-z:n:Z2\80_-z_-zA_-A_-A_-D40_-sbA:pr_-$b-!
+$r-d:z:r_-Y1_-zA_-i_-i_-D12_-D35:t_-._-._-$b-|46-$r-r:x_-Y1:f_-D35:D12*D12_-D35:p*t_-r:D12_-$b-!
++lNoms des divinités 800 à 803 +s-!
+US85Aa1002XT-"800"-n:t_-D53:t_-._-._-._-"801"-n:t_-N_-._-._-._-"802"-n:t_-S1_-._-._-._-"803"-n:t_-S:r_-!!
++bH11 Registre 3+s-!
++lH11,R3 Scène 1  (76-78)+s-!
+US85Aa1001XT-|11,3 76-$r-T3_-md_-Y1:Z2\80_-i:n_-Hm_-Z1:n_-nTr_-Z1_-p:n_-ir:t_-S:a_-t:T31:Z2\80_-H_-w_-D40:Z2\80_-t:f_-A40_-st_-ir_-A40_-$b-K4_-w_-t:F51B:Z2\80_-x:f:t_-tyw_-D12:Z2\80_-!
+H_-a:w_-F51B:Z2\80_-m_-i_-i_-tyw_-Z2\80_-z:x:d_-i_-i_-w_-D54:Z2\80_-i_-n:t_-w_-N40_-m_-t:Z2\80_-Z2\80_-w&D12_-zA&t_-A24_-Z2\80_-!
+pr:r_-D54:n_-A1_-i_-m_-f_-H_-A24_-i_-t:f_-A40_-m_-M3:x*t_-b_-G29A_-g__-B12_-f:n_-i_-k:G37_-n_-XA:F51B*Z2\80_-w_-t_-T:n:Z2\80_-!
+m_-n__-i_-k_-i_-i_-t:T30_-zA_-G37:n__-G29A\98**R7{{8,520,56}}-Z2\80_-T:n:Z2\80_-h_-b_-t:D54_-n_-S36_-t:Z1:Z2\80_-T:n:Z2\80_-s_-i_-q:T31_-n_-tp:Z2\80_-T:n:Z2\80_-!
+|77-D35_-x*p:r_-Y1_-T:n:Z2\80_-z:x:d_-D54_-T:n:Z2\80_-n_-V14:n:Y1_-T:n:Z2\80_-x:r_-A15:n_-T:n:Z2\80_-m_-M16_-H_-N26:Z2\80_-T:n:Z2\80_-D35_-b:n_-D54_-!
+T:n:Z2\80_-D35:d_-A_-D54_-T:n:Z2\80_-A_-m_-t&w_-Q7A_-Z2\80_-i_-Z11*t_-z:t_-A73_-Z2\80_-I14:r_-T:n:Z2\80_-V4_-V4_-A_-t_-Q7A_-Z3_-pt:t_-!
+k:t_-w_-t:Q37:Z2\80__-s_-r_-T:n:Z2\80_-n:z_-t&w_-Q7A:Z2\80_-pt_:t_-M16_-N26:Z2\80_-s_-B1__-r_-T:n:Z2\80_-b_-x:x_-w_-Q7A_-i_-Z11_-m_-r:Z1:n_-Hr__-r:t_-T29_-!
+t:pr_-Z2\80:z_-B1_-r_-T:n:Z2\80_-d:z_-T30_-i_-m_-T:n:Z2\80_-n_-Hr:r_-t:pt_-z:f_-w_-T30:Z2\80_-s_-B1_-!
+|78-ir_:z_-a:d_-t:Aa8_-T30:Z2\80_-T:n:Z2\80_-w_-d:Z9_-s_-S:a_-t:T30:Z2\80_-T:n:Z2\80_-D35:N33*N33_-T:n:Z2\80_-anx_-n:x_-Z2\80_-w_-tp:Z2\80_-tA:N23*Z1_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+$r-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-sbA_-t:pr_-i_-w_-V25_-w_-d:t:Y1_-S24:t_-T30:Z2\80_-z:n:Z2\80_-r:a_-ra:Z1_-nb_-i:n_-Hm_-Z1:n_-$b-!
+$r-G5_-sbA_-t:y_-pr_-A40_-$b-!
++lNoms des divinités, des fosses et des ennemis - 804 à 816 +s-!
+US85Aa1002XT-"804"-G5_-._-._-"805"-z:t_-A73_-!
+US85Aa1003XT-"806"-HA_-d_-._-._-A14_-A14_-A14_-._-._-"807"-pt:t_-k\:t_-i_-i_-t:Z2\80_-s_-!
+"808"-HA_-d_-._-._-A14_-A14_-A14_-._-._-"809"-pt:t_-M16_-d:Z2\80_-s_-!
+"810"-HA_-d_-._-._-bA_-bA_-bA_-._-G29A:Z2\80_-._-._-._-"811"-n:k_-i_-i_-t:T30_-._-.__-!
+"812"-HA_-d_-._-._-S36_-S36_-S36_-._-._-"813"-pt:t_-T29:N25_-t:Z2\80_-s_-!
+"814"-HA_-d_-._-._-tp_-tp_-tp_-._-._-"815"-pt:t_-z:f_-T30:Z2\80_-s_-!
+"816"-i_-n:t:xAst__-z:x:d_-w_-Z2\80_-._-._-A29_-z:x_-A29_-d_-A29_-w_-Z2\80_-A29_-!
++lH11,R3 Scène 2  (79-81)+s-!
+US85Aa1001XT-|11,3 79-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-n:t_-z:n:Z2\80_-D12:r_-"sic"-T_-m_-s_-Z2\80_-w_-Y4_-m_-x*t:f_-tyw_-N33:Z2\80_-st_-ir_-A40_-!
+m_-sbA_-t:pr_-Hr:r_-pt_-US85Aa1006XT-Aa2:t_-nb:Z2\80_-f_-B1_-._-._-US85Aa1001XT-|80-m_-z_-zA_-A_-A_-D40_-q:r:r_-t:pr_-t:n_-$r-anx_-n:x_-z:n:Z2\80_-$b-!
+$r-m_-x:r_-P8_-w_-Y1_-x*t:f_-tyw_-N33:Z2\80_-m_-s_-b_-H_-N21:n_-._-._-$b-|81-$r-n_-$b-"sic"-$r-G29A\98**R7{{8,520,56}}:Z2\80__-S36_-t:Z2\80_-a:a_-w_-n_-z:n:Z2\80_-$b-!
+$r-r_-M16_-H_-N26_-Q37_-Z2\80_-z:n:Z2\80_-$b-!
++lNoms des divinités 817 à 821 +s-!
+US85Aa1003XT-"817"-p:z_-i_-i_-t_-._-._-"818"-r:k\_-H_-i_-i_-t_-._-._-"819"-pt:t_-S:a_-Z2\80:z_-._-._-"820"-zA_-i_-i_-t_-._-._-"821"-pt_-Aa2:t_-nb:Z2\80_-f_-!!
+!!
++b12e HEURE +s-+ide la nuit  "Celle qui voit la beauté de Rê" +s-!
++bH12 Introduction  +s-+l(1-3)+s-!
+US85Aa1002XT-|12,i 1-$r-Htp:t*p_-i:n_-Hm*Z1:n_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-n:t_-pH_-y&w_-k:k_-w_-N2_-Z2\80_-$b-!
+$r-z:U2_-A_-zmA_-Y1:Z2\80_-ms_-s_-z:t:Y1_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-x*p:r_-w_-Y1:Z2\80:f_-n_-xpr:r_-A40_-r_-q:r:r_-t:pr_-$b-!
+$r-t:n_-x:p_-r:Y1_-nw*nw*nw_-mw_-A40_-nw*nw*nw:t_-mw_-B1_-H_-H_-w_-A40_-H_-H_-t&w_-B1_-r_-q:r:r_-t:pr_-t:n_-$b-!
+|2-$r-r_-ms_-s_-t:Z2\80_-nTr_-Z1_-p:n_-aA:a:Y1_-pr:r_-D54:f_-m_-sbA_-t:pr_-Htp:t*p_-f_-m_-V27:t_-P46_-xa:a_-Y1:f_-$b-!
+$r-m_-i_-H_-t:y_-F44:F44_-nw*t:pt_-r:n_-n_-s_-b_-sbA_-pr:n_-niwt:t*Z1_-t:n_-T:n:n_-Y1_-nTr_-Z1:Z2\80_-O31_-r:n_-n_-niwt:t*Z1_-t:n_-$b-!
+$r-x:p:r_-t:Y1_-k:k_-w_-N2_-Z2\80_-xa:a_-t:Y1_-ms_-s_-t&w_-Y1:Z2\80_-pr_-r:n_-n_-wn:n_-nw:t_-sbA:ra_-n:t_-g:r_-H_-N2_-$b-!
+$r-x:p:r_-t:Y1_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-r:z_-U2:ir_-t_-A_-nfr_-Z1:Z2\80_-ra:Z1_-A40_-sbA:ra_-B1_-$b-!
+$r-++ 12e Heure. Introduction +s-$b-US85Aa1001XT-|3-q:r:r_-t:pr_-S:tA_-t:Y1_-n:t_-sbA_-t:pr_-ms_-z:z_-t:Y1_-nTr_-Z1_-p:n_-aA:a_-A_-Y1:r_-s_-pr:r_-D54:f_-!
+m_-nw*nw*nw_-mw_-Htp:t*p_-f_-m_-X:t*Z1_-nw*t:pt_-B1_-$r-i_-w_-ir:t_-n:n_-mi_-i_-z:T31:Y1_-p:n_-n:t*y_-m_-zS_-Y1:Z2\80_-$b-!
+$r-Hr:Z1_-iAb_-tyw_-Dw_-a:t*pr_-i_-mn:n_-t:Y1_-m_-sbA_-t:pr_-$b-i_-w_-Ax_-x:Y1_-n_-r:x:Y1_-s_-t_-tp:Z1_-tA:N23*Z1_-m_-!
+p*t:pt_-m_-tA:N23*Z1_-i_-w_-sw_-t:n_-p:n_-G5_-E2_-n:xt:x*t-A24_-xa:a_-Y1_-m_-R19_-niwt:t_-nbty_-wAH_-H_-!
+sw_-t:n_-i_-i_-t:Y1:Z2\80_-mi_-i_-r:a_-ra:Z1_-m_-p*t:pt_-G8_-Dsr:r_-xa:Z2\80_-sxm_-m_-F9_-F9_-sw_-bit_-<-ra_-mn:n_-xpr->-!
+G39&N5_-<-G26_-ms_-nfr_-xpr:Z2\80->-U5_-a:xrw\R90_-r:x:Y1_-s_-t_-!!
++bH12  Registre 1 +s-!
++lH12,R1 Scène 1  (4-7)+s-!
+US85Aa1001XT-|12,1 4-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m__-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-s-n:Z2\80_-D&z_-z:n:Z2\80_-pr:r:r_-D54_-i_-a:r_-t&w_-!
+I12_-Z2\80_-z:n:Z2\80_-m_-D41:Z2\80_-z:n:Z2\80_-m_-xt:x*t_-D54_-N12:r_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1:r_-niwt:t*Z1_-t:n_-wn:n:n_-s-n:Z2\80_-!
+m_-xt:x*t_-D54_-nTr_-Z1_-p:n_-i_-n:n_-s_-t&w_-Q7:Z2\80_-tp:p*t_-r:Z1:n_-I12:Z2\80_-s-n:Z2\80_-!
+++ 5 +s-|5-x:z:f_-D54_-aA:p*p_-I86A_-Hr:Z1_-r:a_-ra_-A40_-r:a_-r:r_-i_-i_-t:pr_-iAb_-b_-t:t_-Axt:t*pr_-x:n:z_-D54_-z:n:Z2\80_-!
+H_-Hr:r_-t:pr_-m_-xt:x*t_-D54:f_-m_-st_-t:pr:Z2\80_-z:n:Z2\80_-n:t_-V27:d:t_-P46_-D54\_-s_-t_-nn:n_-nTr_-Z1_-A40_-Z2\80_-m_-xt:x*t_-!
+z:n:n_-D54_-nTr_-Z1_-p:n_-|6-aA:a_-A:Y1_-Tz:z_-S_-S:tA_-Y1:n_-p*t:pt_-Htp:t*p_-x:r_-s-n:Z2\80_-m_-n:z:t_-pr:Z2\80_-z:n:Z2\80_-$r-n:t_-z:n:Z2\80_-$b-!
+$r-s_-nDm_-n:D_-m:Y1_-ib:n_-nTr_-Z1:Z2\80_-imnt_-t_-m_-r:a_-ra_-N31:Axt_-t:y_-pr_-A40_-ir:r:t_-z:n:Z2\80_-p_-w_-m_-tA:N21*Z1_-r:a:t_-$b-!
+$r-s_-f:x_-D54:n_-n_-tyw_-Z2\80_-m_-k:k_-Z2\80_-w_-N2_-m_-t:k_-A_-Q7:Z2\80_-$b-!
+US85Aa1002XT-|7-$r-n_-I12_-t:Z1_-s-n:Z2\80_-m_-xt:x*t_-D54_-w_-z:n:Z2\80_-s_-b_-z:n:Z2\80_-r:a_-ra:Z1_-A40_-$b-!
+|8-$r-n_-i_-k:G37_-n_-z:n:Z2\80_-n:f_-aA:p*p_-I86A_-m_-p*t:pt_-$b-!
++lNoms des divinités 822 à 833  +s-!
+US85Aa1002XT-"822"-nfr_-t:xa_-N8:Z2\80_-._-._-"823"-D12:t_-N31:n_-ra_-._-._-"824"-nb:t_-sxm_-tA_-._-._-"825"-wAD_-t_-Hr:t_-tp:Z2\80_-._-._-"826"-s_-wAD_-t_-N21:N21_-pt:t_-!
+"827"-H_-a:t_-m_-tA:tA_-s_-._-._-"828"-A28_-t_-m_-D12:Z2\80:z_-._-._-"829"-sxm_-x:t_-m_-Ax_-Z2\80:z_-._-._-"830"-H_-a:a_-t:Y1_-m_-x*D12:Z2\80:f_-!
+"831"-D12:t_-XA:Y1_-aHa_-P30:f_-._-._-"832"-pr:t_-m_-wp:ra_-._-._-"833"-nb_-a:r_-Z2\80_-w_-m_-P30:n_-A73:Z2\80_-!
++lH12,R1 Scène 2  (9-12)+s-!
+US85Aa1001XT-|12,1 9-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-sbA_-A:Y1_-z:n:Z2\80_-sbA_-A:Y1_-z:n:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-n:h_-!
+p_-w_-ra:Z2\80_-Htp:t*p_-f_-m_-a:r:r_-i_-i_-t:pr_-iAb_-b_-t:t_-n:t_-p*t:pt_-$r-i_-n:n_-z:n:Z2\80_-ra:Z1_-$b-ms_-ms_-xpr_-xpr_-imAx:tA_-!
+G53A_-nb_-N31:t_-pt_-++ 10 +s-._-._-|10-n_-G53A_-Z1:k_-Htp:t*p_-f_-i_-m_-f_-tA:n_-XA_-A_-t*F51B:Z2\80:k_-nb_-!
+imAx:Z1_-iTi:t_-D40:k_-Axt:t*pr_-Htp:t*p_-k_-kA:r_-pr:k_-t_-wA_-A:Y1_-T_-w_-nTr_-t:y_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-h_-i_-i_-Y1_-!
+n:k_-G53A_-i_-imi_-m_-N31:t_-pt_-Szp:p_-D40:T_-w_-zA&t_-B1_-B1_-k:y_-m_-zA&D12_-Y1:Z2\80_-k_-!
+US85Aa1001XT-|11-$r-ir:r:t_-z:n:Z2\80_-p_-w_-m_-sbA_-t:pr_-sbA_-A:Y1_-nTr_-Z1_-p:n_-aA:a_-A_-Y1:a_-aHa_-a:D54_-z:n:Z2\80_-r_-niwt:t*Z1_-t:n_-$b-!
+$r-s_-i_-p:Y1_-s-n:Z2\80_-n_-nTr_-Z1:Z2\80_-m_-f_-A_-k_-i_-i_-tyw_-xAst:Z2\80_-a:a_-m_-f_-A_-k_-$b-!
+$r-i_-i_-tyw_-xAst:Z2\80_-h:n_-nw:Z1_-Y1:Z2\80_-n_-ra:Z1_-A40_-m_-xt:x*t_-D54_-Htp:t*p_-f_-m_-pt_-$b-!
+|12-$r-xa:f_-m_-ir:ir_-N8_-t:Z2\80_-Htp:t*p_-x:r_-nn:n_-nTr_-Z1:Z2\80_-m_-q:r:r_-t:D12_-z:n:Z2\80_-$b-!
++lNoms des divinités 834 à 845  +s-!
+US85Aa1002XT-"834"-nb_-anx_-._-._-"835"-h_-i_-i_-Y1_-._-._-"836"-nb_-i_-A_-Y1_-._-._-"837"-nb_-sbA:t_-Y1:Z2\80_-._-._-"838"-nDm_-Y1:ib_-!
+"839"-H_-a_-m_-ra_-._-._-"840"-wA_-A_-S:Y1_-ib_-._-._-"841"-M42_-Xrd_-._-._-"842"-tA:tA:tA_-iAb_-b_-t_-._-._-"843"-U2_-tp:Z2\80_-nTr_-!
+"844"-Tz:tp*Z1:Z2\80_-nTr_-Z1:Z2\80_-._-._-"845"-H_-k:nw_-xpr_-!!
++bH12  Registre 2 +s-!
++lH12,R2 Scène 1  (37-41a)+s-!
+US85Aa1001XT-|12,2 37-$r-s_-qd_-d:d_-D54_-nTr_-Z1_-p:n_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-niwt:t*Z1_-t:n_-m_-imAx:n_-z:T31_-Y1:Z2\80_-p:n_-S:tA_-$b-!
+$r-n_-anx_-nTr_-Z2\80:I14_-nTr_-Z1:Z2\80_-f_-sTA:D54_-sw_-w_-a:q*D54_-f_-m_-z:d:f_-pr:r:r_-D54:f_-m_-r:Z1_-f_-$b-!
+|38-$r-ms_-m_-x*p:r_-w_-Y1:Z2\80:f_-n_-xpr_-A40_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-P30_-Z1:f_-mi_-i_-Y1_-Htp:t*p_-f_-$b-!
+$r-Hr:tp_-z:T31_-Y1:Z2\80_-S:tA_-Y1:n_-Sw_-wp:p*p_-pt_-r:tA_-k:k_-Z2\80_-w_-zmA_-Z2\80_-w_-$b-!
+US85Aa1002XT-|39-$r-i:n_-a:a_-f_-x:t_-xtm:sbA_-t:pr_-Htp:t*p_-x:r_-++40+s-._-._-$b-|40-$r-nTr_-Z1_-p:n_-m_-Axt:t*pr_-iAb_-t:t_-n:t_-p*t:pt_-$b-!
+|41-$r-Szp_-p:D40_-sw_-w_-Sw_-x*p:r_-w_-Y1:Z2\80:f_-++41a+s-._-._-$b-|41a-$r-r:N21_-iAb_-b_-t:y_-$b-!
++lNoms des divinités 856 \+ 846 à 855 +s-!
+US85Aa1004XT-"856"-x*p:r_-i_-._-._-"846"-wp:N31_-._-._-"847"-siA_-._-._-"848"-nb_-P30_-._-._-"849"-mH:n_-._-._-"850"-F51B_-F51B_-F51B_-!
+"851"-N31_-H_-k:nw_-._-._-"852"-n:h:z_-._-._-"853"-kA_-Sw_-._-._-"854"-H_-w_-._-._-"855"-D43_-P30_-!
++lH12,R2 Scène 2  (42-49)+s-!
+US85Aa1001XT-|12,2 42-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-sTA:D54_-s-n:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-b_-q_-s_-w_-F51B_-!
+anx_-nTr_-Z2\80:I14_-imAx_-i_-i_-Z2\80_-w_-n_-r:a_-ra:Z1_-i_-imi_-w:Z2\80_-xt:x*t_-f_-tp:p_-w:Z2\80_-a:a_-Z1:Z1_-f:y_-!
+|43-ms_-s_-t_-z:n:Z2\80_-m_-tA_-ra*Z1:nb_-m_-xt:t_-ms_-s_-t:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-iAb_-b_-t_-p*t:pt_-!
+q:a:D54_-z:n:Z2\80_-m_-z:T31_-m_-Y1:Z2\80_-S:tA_-Y1:n_-anx_-nTr_-Z2\80:I14_-m_-imAx:x_-i_-i_-Z2\80_-w_-pr:r_-D54_-z:n:Z2\80_-!
+|44-"sic"-pr:r_-D54_-z:n:Z2\80_-m_-H_-M42_-D12:Z2\80_-r:a_-ra_-A40_-ra*Z1:nb_-b_-w&t_-K2:Z2\80_-z:n:Z2\80_-p_-w_-k:n_-i_-Y1:tp_-tA:N23*Z1_-!
+d_-m_-Y1_-r:n_-n_-nTr_-Z1_-aA:a:Y1_-$r-wn:n:n_-s-n:Z2\80_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-D&z_-z:n:Z2\80_-pr:r:r_-D54_-$b-!
+US85Aa1001XT-|45-$r-pr:r:r_-$b-"sic"-$r-D54_-m_-xt:x*t_-D54_-nTr_-Z1_-aA:a_-A_-Y1:r_-p*t:pt_-wn:n:n_-z:T31_-Y1:Z2\80_-p:n_-S:tA:Y1_-$b-!
+$r-n_-anx_-nTr_-Z2\80:I14_-r_-n:ns:z_-t:pr_-d:t_-$b-"sic"-$r-sbA_-t:pr_-D35:t_-D54_-n:f_-r_-st_-t_-nb:t_-ra*Z1:nb_-$b-!
+|46-md_-d_-w_-Y1_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-r:f_-m_-r:n:f_-n:n:a_-w_-I14:n_-a:a_-f:n_-ms_-t:Z2\80_-nTr_-Z1_-!
+n:ns:z_-sw_-w_-Aw_-xA_-100*100:100_-m_-Aw:f_-m_-mH:D41_-d:z:r_-Y1:n_-nTr_-Z1_-anx_-f_-m_-xrw_-w_-Y1_-!
+|47-h_-m_-h_-m_-t:Z2\80_-imAx:x_-i_-i_-Z2\80_-w_-._-._-|48-i_-imi_-w_-Z1:Z2\80_-._-._-US85Aa1002XT-Aw_-f_-pr:r:r_-D54_-!
+|49-Z2\80_-w_-m_-r:Z1_-f:r_-ra*Z1:nb_-!
++lNoms des divinités 857 à 869 +s-!
+US85Aa1002XT-"857"-wr:r_-._-._-"858"-A19_-._-._-"859"-T:n_-i_-._-._-"860"-q_-rd_-._-._-"861"-H_-w_-anx_-Z2\80:f_-._-._-"862"-s_-b_-rnp_-t:Z2\80:f_-!
+"863"-sxm_-r:r_-M5_-._-._-"864"-imAx_-imAx_-._-._-"865"-nb_-imAx_-._-._-"866"-z:k_-mw_-i_-i_-._-._-"867"-w_-n:z:k_-mw_-._-._-!
+"868"-anx_-._-._-"869"-kA:n_-a_-anx_-nTr_-Z1:Z2\80_-!
++lH12,R2 Scène 3  (50-53)+s-!
+US85Aa1001XT-|12,2 50-$r-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-$b-n:t_-z:n:Z2\80_-Szp_-p:D40_-nfr_-f:r:t_-V1_-n:t_-P30:n_-r:a_-ra:Z1_-A40_-!
+pr:r_-D54:f_-m_-imAx:Z1_-n_-anx_-nTr_-Z1:Z2\80_-I14_-._-._-++ 51 +s-|51-n:t_-z:n:Z2\80_-sTA:D54_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-p*t:pt_-!
+z:T31_-m_-D54:Z2\80_-sw_-w_-r_-wA_-A_-t:N31:Z2\80_-H_-Hr:r_-t:pt_-$r-n:t_-z:n:Z2\80_-ir:r_-xpr_-r:t_-$b-!
+|52-$r-m_-p*t:pt_-m_-TAw_-Z2\80_-w_-m_-Htp:t*p_-Z2\80_-w_-m_-D&a_-TAw_-m_-H_-t:mw_-V25_-w_-D&t:Y1_-z:n:Z2\80_-$b-!
+$r-p_-w_-m_-anx_-w_-Z2\80_-++ 53 +s-._-._-$b-|53-$r-ir:r:t_-w_-i_-A_-P30_-aA:a_-A:Y1_-m_-p*t:pt_-$b-!
++lNoms des divinités 870 à 882 +s-!
+$r-++ Noms des 13 déesses tirant la barque jusqu'à Chou (870 à 884)+s-$b-US85Aa1002XT-"870"-sTA:t_-._-._-"871"-wDAt_-nfr_-Z2\80:ra_-._-._-"872"-D12:t_-xpr_-._-._-"873"-D12:t_-XA_-nTr_-s_-._-._-"874"-nb_-i_-M42_-Z2\80_-._-._-"875"-nb_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!
+"876"-n_-H_-i_-i_-t:ra_-._-._-"877"-anx_-t:D41:Z1_-._-._-"878"-md_-t:tp_-P30_-._-._-"879"-H_-a:t_-m_-Axt:t_-s_-._-._-"880"-Htp:t_-m_-Axt:t_-s_-!
+"881"-ini_-t_-nTr_-s_-._-._-"882"-d:z:r_-t_-iAb_-b_-t_-._-._-!
++lH12,R2 Scène 4  - divinités 883 et 884+s-!
+US85Aa1008XT-"883"-x:p_-xpr_-._-._-US85Aa1006XT-"884"-T31_-Sw_-!!
++bH12  Registre 3 +s-!
++lH12,R3 Scène 1  (93-96)+s-!
+US85Aa1001XT-|12,3 93-$r-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-D&z_-z:n:Z2\80_-Htp:t*p_-Z2\80_-x:r_-$b-!
+|94-$r-ra:Z1_-m_-p*t:pt_-n:t_-z:n:Z2\80_-Szp_-p:D40_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-m_-pr:r_-t:D54_-Z2\80:f_-$b-!
+|95-$r-i_-m_-z:n:Z2\80_-m_-iAb_-t_-p*t:pt_-ra:nb_-wn:n:n_-z:n:Z2\80_-r:a_-r:r_-i_-i_-t:pr_-z:n_-n:t_-Axt:t_-$b-!
+|96-$r-z:T31:z_-n:n_-sbA_-t:D12_-r_-q:r_-r:t_-D12_-t:n_-$b-!
++lNoms des divinités 885 à 888 +s-!
+US85Aa1002XT-"885"-nw\80_-nw\80_-nw\80_-._-._-"886"-nw*nw*nw:T_-._-._-"887"-H_-H_-w_-._-._-"888"-H_-H_-t&w_-!
++lH12,R3 Scène 2  (97-99)+s-!
+US85Aa1001XT-|12,3 97-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-Xr:r_-m_-i_-H_-w_-xrw\R270:Z2\80_-z:n:Z2\80_-n:t_-z:n:Z2\80_-x:z:f_-D54_-!
+aA:p*p_-I86A_-m_-HA_-t_-p*t:pt_-m_-xt:x*t_-ms_-t:Z2\80_-nTr_-Z1_-$r-ir:r:t_-z:n_-p_-w_-++ 98 +s-._-._-$b-|98-$r-ir:t_-z:V14_-s_-w_-U39_-Z2\80:n_-$b-!
+$r-i_-t:n:ra_-aA:a_-A:Y1_-A40_-m_-Axt:t*pr_-iAb_-t:t_-n:t_-p*t:pt_-r:a_-ra*Z1:nb_-i_-n:n_-s_-m_-D12:f_-I14_-p:z_-s_-Q7_-$b-!
+$r-x*t:f_-tyw_-D12:Z2\80_-r:a_-ra:Z1_-A40_-._-._-++ 99 +s-$b-|99-$r-m_-n:h_-p:N8_-x:n:z_-D54_-nn:n_-nTr_-Z1:Z2\80_-H_-Hr:r_-t:pt_-m_-xt:x*t_-D54_-nTr_-Z1_-$b-!
+$r-p:n_-aA:a_-A:Y1_-ra*Z1:nb_-Szp_-p:a_-s-n:Z2\80_-zA&D12_-Y1:Z2\80_-z:n:Z2\80_-r_-q:r:r_-t:pr_-t:n_-r:a_-ra*Z1:nb_-$b-!
++lNoms des divinités 889 à 897 +s-!
+US85Aa1001XT-"889"-d:b_-G29A-i_-i_-._-._-"890"-A28_-S:f_-S:f_-t_-._-._-"891"-n:h_-A_-i_-i_-._-._-"892"-n_-H_-i_-!
+US85Aa1006XT-"893"-n:z_-m_-D12:f_-._-._-US85Aa1002XT-"894"-n_-b_-i_-Q7_-Ax_-Z2\80_-._-._-"895"-xnt_-n:t*y_-h_-T:T_-f_-._-._-!
+"896"-sxm_-ib_-..-"897"-sbA:t*y_-pr_-._-!
++lH12,R3 Scène 3  (103 \+ 100-102)+s-!
+US85Aa1001XT-|12,3 103-$r-nTr_-A40:Z2\80_-p_-w_-i_-imi_-m_-w_-Z2\80_-xt:x*t_-D54_-st_-ir_-A40_-xpr_-r_-w_-Z2\80_-x:r_-f_-z:p*zp_-tp:p*y_-$b-!
+$r-wn:n:n_-z:n:Z2\80_-H_-HA_-A_-tp_-z:T31_-Y1:Z2\80_-p:n_-S:tA:Y1_-r_-q:t_-r:r_-pr_-$b-"sic"-$r-t:n_-anx_-n:x_-z:n:Z2\80_-m_-$b-!
+$r-anx_-n:x*t_-f_-i_-m_-z:r:q_-Y1_-z:n:Z2\80_-m_-md_-w_-Y1:Z2\80_-nTr_-Z1_-p:n_-m_-sbA_-t&w_-Y1:Z2\80_-z:n:Z2\80_-D&z_-z:n:Z2\80_-$b-!
+US85Aa1001XT-|12,3 100-wn:n:n_-s-n:Z2\80_-m_-s_-x:r_-Y1:Z2\80_-p:n_-H_-HA_-A_-tp:Z1_-D12:y_-z:T31_-Y1:Z2\80:n_-st_-ir_-A40_-xnt_-n:t*y_-k:k_-!
+Z2\80_-w_-zmA_-Z2\80_-w_-$r-md_-w_-Y1:Z2\80_-D&d_-w_-n_-z:n:Z2\80_-nTr_-Z1_-p:n_-aA:a_-A:Y1_-._-._-$b-!
+US85Aa1006XT-|101-$r-++ 101 +s-m_-xt:x*t_-D54_-a:p*p_-D54_-nTr_-Z1_-p:n_-aA:a_-A_-Y1_-Hr*Z1:r_-f_-$b-!
+US85Aa1001XT-|102-anx_-n:x_-zp:y_-xnt_-n:t*y_-k:k_-w_-Z2\80:f_-anx_-n:x_-aA:a_-A:Y1_-xnt_-n:t*y_-k:k_-w_-Z2\80:f_-nb_-!
+anx_-n:x_-HqA_-imnt_-t_-st_-ir_-A40_-xnt_-n:t_-imnt_-tyw_-A40_-anx_-n:x_-zp:y_-xnt_-n:t*y_-sbA_-t:pr_-TAw_-Z2\80_-w_-ra*Z1:n_-!
+f:n:d_-k_-z:r_-q_-w_-Y1:Z2\80_-xpr_-r_-A40_-x:r_-k_-anx_-n:x_-k_-anx_-n:x_-t:Z2\80_-!
++lNoms des divinités 898 à 907 +s-!
+US85Aa1002XT-"898"-F16_-Ax_-._-._-"899"-T:U2_-r:Z1_-._-._-"900"-i_-a:iab_-b_-w__-._-._-"901"-z:x:n_-nw_-._-._-"902"-D41_-w_-!
+"903"-x:n:nw_-D41_-._-._-"904"-b_-w_-n:a:Z1_-._-._-"905"-Ax_-r:Z1_-._-._-"906"-i_-T:p_-._-._-"907"-imi_-nTr_-!
++lH12,R3 Scène 4  (102a  \+ 104-106)+s-!
+US85Aa1001XT-|12,3 102a-i_-h_-i_-i_-Y1_-st_-ir:nb_-anx_-n:x_-!
+US85Aa1002XT-|104-wn:n:n__-f_-m_-z:x:r_-Y1:Z2\80_-p:n_-m_-z:T31_-m_-Y1:Z2\80_-i_-mn:n:Y1_-n:N31_-m_-k:k_-Z2\80_-w_-zmA_-w:Z2\80_-!
+|105-i_-n_-z:T31:Z2\80_-p:n_-S:tA:Y1_-t_-wA_-A_-D40_-Sw_-Xr:r_-nw*t:pt_-pr:r:r_-D54_-A_-g_-b_-!
+|106-wr:r_-m_-tA:N23*Z1_-m_-z:T31_-m_-Y1:Z2\80_-p:n_-!
++lNom de la divinité 908 +s-!
+US85Aa1006XT-"908"-T31:F51B_-!!
+!!
++bPILIER 1, face a - 2e partie de l'Abrégé  +s-+l(la 1ère partie est sur le pilier 2)+s-!
++bP1,a H6  +s-+l(27-33)+s-!
+US85Aa1008XT-|P1,a 27-$r-Htp:t*p_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-aA:a_-A:Y1_-m_-V21_-t_-n:n:n_-Y1_-n:n:n_-nb:t*Z1_-N14_-tyw_-pr:Z2\80_-A40_-V25_-w_-D&Y1_-f_-md_-w_-$b-!
+$r-Y1:Z2\80:n_-nTr_-Z1:Z2\80_-i_-imi_-w_-Z2\80:z_-V25_-D&w_-Y1:f_-s_-S42_-x_-m:Y1_-z:n:Z2\80_-m_-nTr_-Htp:t*p_-N135:Z2\80_-z:n:Z2\80_-r_-niwt:t*Z1_-t:n_-$b-!
+|28-$r-s_-Aa28_-d:d_-D54:f_-m_-t:n_-a_-p:r:Y1_-m_-w_-i_-A_-P30_-V25_-f:n_-z:n:Z2\80_-A_-H_-t:N23:Z2\80_-z:n:Z2\80_-r_-Htp:t*p_-w_-$b-!
+$r-N135:Z2\80_-z:n:Z2\80_-a:f:n_-s_-n:Z2\80_-n:n:n_-z:n:Z2\80_-r:a:p_-w_-D54:Z2\80_-N14_-t:pr_-m_-ra*Z1:nb_-r:n_-n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-s_-p:d_-M44_-$b-!
+|29-$r-m_-d_-t&w_-T31:Z2\80_-pr:n_-._-$b-n:t_-mw_-._-wA_-A_-t:N31_-S:tA_-t:Y1_-n:t_-imnt_-t:xAst_-D33:n:n_-P30_-nTr_-Z1:p:n_-aA:a:Y1_-!
+mw_-i_-m_-s_-m_-w_-i_-A_-P30:Z1_-f:r_-ir:t_-z:x:r_-w_-Y1:Z2\80_-N14_-A_-pr_-A40:Z2\80_-d:m_-d:Aa6_-Y1_-m_-r:n_-w:Z2\80_-!
+z:n:Z2\80_-r:x:Y1_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-z:n:Z2\80_-._-._-|30-m_-a:T:n_-Y1_-m_-i_-ir_-w_-A53_-Y1:Z2\80_-z:n:Z2\80_-wn:n_-nw:t_-N14:ra:Z2\80_-S:tA:t_-Y1:Z2\80_-x:r:t_-Y1:Z2\80_-!
+$r-D35:t_-G37_-r:x:Y1_-s_-T31_-m_-Y1:Z2\80_-p:n_-S:tA:Y1_-n_-N14*t:pr_-i:n_-r:T_-A1*B1:Z2\80_-nb:t_-$b-i_-w_-ir:t_-w_-z:T31_-m_-Y1:Z2\80_-p:n_-!
+m_-Y4_-Y1_-mi_-i_-Aa28_-d:nw_-Y1:Z2\80_-p:n_-m_-i_-mn:n:t_-Y1:Z2\80_-n:t_-N14*t:pr_-._-._-|31-Hr:Z1_-sw_-N23:Z1_-a:t:pr_-i_-mn:n:t:Y1_-$r-i_-w_-r:x:Y1_-s_-t_-$b-!
+$r-m_-i_-r_-F40_-t&w_-Y1:Z2\80_-m_-N14*t:pr_-Htp:t*p_-f_-m_-Htp:t*p_-N135:Z2\80_-nTr_-Z1:Z2\80_-i_-imi_-m_-w:Z2\80_-xt:x*t_-D54_-st_-ir_-A40_-$b-!
+$r-i_-w_-U4:a_-t:Y1_-n:f_-R15_-b_-t_-A1_-B1_-Z2\80:f_-m_-tA:N23*Z1_-$b-[[_-._-]]_-!
+|32-V25_-D&Y1_-md_-w_-Y1:Z2\80_-i:n_-nTr_-Z1:p:n_-r:a:t_-nTr_-Htp:t*p_-N135:Z2\80:n_-nTr_-Z1:Z2\80_-N14_-tyw_-pr_-A40:Z2\80_-a_-aHa_-D54:a_-f:r_-z:n:Z2\80_-U2:ir_-!
+A_-A_-z:n:Z2\80_-sw_-w_-s_-S42_-x_-m_-Y1:z:n:Z2\80_-m_-M20_-t:N23:Z2\80_-z:n:Z2\80_-F40:t_-w_-N135:Z2\80_-z:n:Z2\80_-xpr_-r_-z:n:Z2\80_-m_-V25_-w_-D&Y1_-!
+n:z:n:Z2\80_-nTr_-Z1:p:n_-aA:a:Y1_-._-._-|33-$r-V21_-t:n:n:n_-nb:t*Z1_-N14_-tyw_-pr_-A40:Z2\80_-r:n_-n_-M20_-t:N23_-t:n_-$b-wA_-A_-t:N31_-p_-w_-n:t_-!
+P30:Z1_-r:a_-ra:Z1_-A40_-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-m_-M20_-t:N23_-t:n_-m_-s_-p:r_-!
+i_-i_-t_-i_-r:a:t_-U4:a_-D54:Z2\80_-N14_-!
++bP1,a H7  +s-+l(34-44)+s-!
+US85Aa1008XT-|P1a,34-$r-Htp:t*p_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-aA:a_-A:Y1_-m_-t:p_-H_-t:pr_-st:ir_-A40_-V25_-w_-D&Y1_-md_-w_-Y1:Z2\80_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-r_-T:p_-H_-$b-!
+$r-t:pr_-t:n_-n_-nn:n_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-s_-i_-w_-nTr_-Z1:p:n_-ir:f_-k:i*i_-i_-ir_-w_-A53_-Y1:Z2\80_-r_-T:p_-H_-t:pr_-t:n_-$b-[[_-._-]]_-!
+|35-$r-z:T:n_-m_-D54\:f_-wA_-A_-t:N31:Z2\80_-r_-aA:p*p_-i_-I86A_-m_-H_-k:A_-w_-Y1:Z2\80_-st:t_-B1_-H_-k_-A:Y1_-s_-m_-z:w__-A19_-$b-!
+$r-A40_-r:n_-n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a:p*p_-w_-D54_-nTr_-Z1:p:n_-Hr:r:f_-r_-w_-t:Z4_-O32_-st:ir_-A40_-pr_-r:n:f_-r:n_-n_-niwt:t*Z1_-$b-!
+$r-t:n_-._-._-$b-|36-$r-T:p_-H_-t:pr_-S:tA_-t:Y1_-pr_-$b-wA_-A_-t:N31_-S:tA_-t:Y1_-n:t_-i_-mn:n_-t:xAst_-a:p*p_-D54_-nTr_-Z1:p:n_-aA:a_-A:Y1_-!
+Hr:r_-s_-m_-w_-i_-A_-P30:Z1_-f_-d:z_-r:Y1_-a:p*p_-D54:f_-Hr:Z1_-wA_-A_-t:N31_-t:n_-D35:t_-G37_-mw_-z_-D35:t_-G37_-!
+s_-T_-A_-w_-V2:Z2\80_-s_-s_-Aa28_-d:d_-nw:D54_-f_-m_-H_-k:A_-w_-Y1:Z2\80_-st_-t_-B1_-!
+|37-H_-k:A_-Y1:Z2\80_-z:m_-z:w_-A19_-A40_-m_-Ax&x_-w_-Y1:Z2\80_-tp:p_-Z4_-r:Z1_-n_-nTr_-Z1:p:n_-D\98**z{{27,492,74}}**f{{28,720,81}}_-ir:r:t_-S:a:t_-T30:Z2\80_-n:t_-!
+aA:p*p_-i_-I86A_-m_-N14*t:pr_-r_-q:r:r_-t:pr_-t:n_-h_-A_-w_-Y1:Z2\80:f_-p_-w_-m_-p*t:pt_-$r-i_-w_-ir:t_-w_-nn:n_-._-._-$b-|38-$r-mi_-i_-$b-!
+$r-Aa28_-d:nw_-Y1:Z2\80_-p:n_-m__-Y4:Y1_-Hr:Z1_-F30A:t*Z4_-a:t*pr_-i_-mn:n_-t:Y1_-m_-N14*t:pr_-$b-i_-w_-G25_-x_-Y1:n_-ir:r_-w_-n:f_-z:t_-m_-!
+p*t:pt_-m_-tA:N23*Z1_-$r-i_-w_-r:x:Y1_-z:t_-m_-G29A-G29A:Z2\80-x:r_-r:a_-ra:Z1_-A40_-i_-w_-ir:t_-w_-nn:n_-._-._-$b-|39-$r-H_-k_-A_-w_-Y1:Z2\80_-$b-!
+$r-st:t_-B1_-H_-k_-G1_-Y1:Z2\80_-z:m_-z:w_-Y1_-A40_-ir:r_-w_-z:n:Z2\80_-m_-x_-s_-U35_-A24_-O29:p*p_-i_-I86A_-Hr:Z1_-r:a_-ra:Z1_-m_-R14_-t:N25_-$b-!
+$r-i_-w_-ir:t_-w_-m_-i_-mn:n_-t:Y1:Z2\80_-n:t_-N14*t:pr_-i_-w_-ir:t_-w_-tp_-tA:N23_-Z1_-m_-mi_-t*t:Y1_-._-._-$b-|40-$r-i_-w_-r:x:Y1_-z:t_-m_-i_-$b-!
+$r-imi_-m_-w_-i_-G1_-P30_-n_-r:a_-ra:Z1_-A40_-m_-p*t:pt_-m_-tA:N23_-Z1_-i:n_-a:n_-d:G37_-r:x:Y1_-z:T31_-m_-Y1:Z2\80_-p:n_-D35:t*y_-$b-!
+$r-G37_-r:x:Y1_-f:n_-x:z_-f:D54_-n:H*M16_-G1_-Aa2_-Hr:Z1_-I86A_-$b-i_-r:S24_-tA:N23*Z1_-n:n_-!
+|41-H_-M16_-G1_-Aa2_-Hr:Z1_-I86A_-p:n_-m_-N14*t:pr_-mH:D41_-200:200_-30:20_-p_-w_-m_-F40_-w_-f_-i_-w_-f_-mH:H_-Y1:f_-!
+sw_-w_-m_-q_-G1_-b_-w_-F48:Z2\80:f_-ir:t_-w_-a:D&t_-Aa8:Z2\80:f_-r:f_-D35:t_-G37_-a:p*p_-D54_-nTr_-Z1:p:n_-Hr*Z1:r_-f_-z:T:n_-!
+|42-m_-D54:f_-V4_-G1_-t:N31_-r:f_-r_-T:p_-H_-t:pr_-st:ir_-A40_-s_-Aa28_-d:d_-D54_-nTr_-Z1:p:n_-m_-niwt:t_-Z1_-t:n_-m_-z:T30_-m_-!
+Y1:Z2\80:n_-mH:n_-I73_-$r-i_-w_-r:x:Y1_-s_-t:tp_-tA:N23*Z1_-D35:t*y_-G37_-s_-wr:r_-i_-mw_-A2_-n:H*M16_-G1_-Aa2_-Hr:Z1_-I86A_-mw_-f_-$b-!
+|43-$r-D35:O35_-D54:n_-G29A-n_-r:x:Y1_-s_-t:n_-q:n:t_-G37:Z2\80_-n:t_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-q:r:r_-t:pr_-t:n_-i_-w_-r:x:Y1_-s_-t_-m_-$b-!
+$r-t:tm_-m_-w_-a_-b_-F16_-I3:a_-m_-A2_-G29A&Z1-f_-$b-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T30_-m_-t:D54_-!
+nTr_-Z1:p:n_-O29:a:Y1_-._-._-|44-m_-q:r:r_-t:pr_-t:n_-x:z:f_-t:D54_-h_-i_-w_-D53:I86E_-H_-s_-q:t_-T31_-n:H*M16_-G1_-Aa2_-Hr:Z1_-I86E:N14_-4-!
++bP1,a H8  +s-+l(..44-48)+s-!
+US85Aa1008XT-|..44-$r-R4:t*p_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-O29:a:Y1_-q:r_-t:pr_-nTr_-Z1:Z2\80_-S:tA_-w_-Y1:Z2\80_-Hr:r_-w_-Z2\80_-S:a:N33*Z2\80_-z:n:Z2\80_-V25_-w_-D&Y1_-f:n_-$b-!
+$r-s_-n:Z2\80_-S43_-d_-w_-Y1:Z2\80_-._-._-$b-|45-$r-m_-w_-i_-G1_-P30_-f_-nTr_-Z1:Z2\80_-f_-z:T_-G1_-V2:D54_-M23_-w_-m_-z:x:n_-nw_-w_-$b-!
+$r-Y1:Z2\80_-d:z:r_-Y1:n_-mH:n_-I73_-$b-r:n_-n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a_-aHa_-a:D54_-n_-wr:r_-d:G37_-f:O31_-r:n__-n_-niwt:t*Z1_-!
+t:n_-d:b__-t_-G29A-N23_-nTr_-Z1:Z2\80_-z:pr_-[[_-._-]]_-!
+|46-$r-q:r:t_-pr:Z2\80_-S:tA:t_-Y1:Z2\80_-n:t_-R14_-t:N25_-a:p*p_-w_-D54_-nTr_-O29\R90_-Hr:Z1_-z:n:Z2\80_-m_-w_-i_-G1_-P30__-f_-m_-z:T_-G1_-$b-!
+$r-w__-V2:Z2\80_-nTr_-Z1:Z2\80:f_-i_-imi_-m_-w_-Z2\80_-N14*t:pr_-$b-i_-w_-ir:t_-w_-M22_-M22_-mi_-i_-z:T31_-m_-Y1:Z2\80_-p:n_-n:t*y_-m_-Y4_-Y1:Z2\80_-Hr:Z1_-!
+mH:t*y_-N23_-._-._-|47-a:t*pr_-i_-Y5:n_-t:N25_-m_-d:V4_-G1_-t*N14:pr_-$r-i_-w_-r:x:Y1_-z:t_-m_-r:n:Z2\80_-z:n:Z2\80_-m_-Y5:n_-x:t_-S27_-m_-$b-!
+$r-tA:N23*Z1_-D35:t_-G37_-x:z:f_-Hr:Z1_-N14_-w_-pr:Z2\80_-S:tA_-w_-Y1:Z2\80_-d:r:p_-t:D40_-f:r_-aHa_-t*Z1:pr_-O29:t:Y1_-V6:Z1_-U4_-a:Y1_-$b-!
+|48-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-m&t_-nTr_-Z1:p:n_-O29:a:Y1_-nb:t_-w_-M8_-A_-w_-N2_-N14_-!
++bP1,a H9  +s-+l(..48-52)+s-!
+US85Aa1008XT-|..48-$r-R4:t*p_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-O29:a:Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-w_-D&Y1_-f_-S43_-d_-w_-Y1:Z2\80:Z2\80_-$b-"sic"-$r-m_-w_-i_-A_-P30:f_-$b-!
+$r-n_-nTr_-Z1:Z2\80_-i_-imi_-._-._-$b-|49-$r-m#13-w_-Z2\80:z_-R4:t*p_-Y1_-Aa28_-t:Z1_-A40:Z2\80_-w_-i_-G1_-P30_-nTr_-Z1:p:n_-O29:a:n_-r_-niwt:t*Z1_-t:n_-$b-r:n_-!
+n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a:p*p_-w_-D54_-nTr_-Z1:p:n_-O29:a:Y1_-Hr:Z1_-r:f_-R4:t*p_-f_-n:t_-mw_-i_-imi_-m_-t_-niwt:t*Z1_-t:n_-z:zA_-!
+G1_-D40_-G1_-g_-b_-mw_-O31_-[[_-._-]]_-._-._-|50-r:n_-n_-niwt:t*Z1_-t:n_-b_-s_-t:K18_-i_-ir_-w_-A53_-Y1:Z2\80:pr_-$r-q:r:r_-t:pr_-S:tA:t_-$b-!
+$r-Y1:n:t_-R14_-t:N25_-R4:t*p_-t:Y1_-nTr_-Z1_-O29:a_-G1:Y1_-Aa28_-t:Z1_-A40:Z2\80_-f_-r:z_-m_-N14*t:pr_-$b-i_-w_-ir:t_-w_-nn_-mi_-i_-z:T31_-m_-Y1:Z2\80_-!
+p:n_-n:t*y_-m_-Y3_-Y1:Z2\80_-!
+|51-Hr:Z1_-iAb_-b_-tyw_-N25_-a:t*pr_-i_-Y5:n_-t:N25_-n:t_-N14*t:pr_-$r-i_-w_-r:x:Y1_-r:n:Z2\80_-z:n:Z2\80_-tp:Z1_-tA:N23*Z1_-r:x:Y1_-n:F20:t_-pr:Z2\80_-z:n:Z2\80_-m_-$b-!
+$r-R14_-t:N25_-m_-R4:t*p_-n:F20:z_-t:pr_-f_-m_-N14*t:pr_-a_-aHa_-a:D54_-m_-m_-a_-nb:Z2\80_-w_-r:x:t_-Y1:Z2\80_-A40_-Z2\80_-m_-U4_-a:Y1_-$b-!
+|52-$r-x:r#1234-P8_-w:Y1_-m_-U28:nw_-U28:t_-Aa8_-A40:Z2\80_-h:r_-w_-ra:Z1_-H_-s_-b_-t:Aa2:Y1_-O29:O29:O29_-pr_-i_-w_-Ax_-x:Y1_-n_-r:x:Y1_-s_-t:tp_-tA:N23*Z1_-$b-!
+r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-O29:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-N14_-G1_-t*t:pr_-B1_-!
+m_-a:k:t_-A24_-nb:z_-N14_-!
++bP1,a H10  +s-+l(53-56)+s-!
+US85Aa1008XT-|P1a 53-$r-R4:t*p#12-i:n_-U36__-Z1:n_-nTr_-Z1:p:n_-O29:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-D&w_-Y1:f_-S43_-d:w_-Y1:Z2\80_-n_-i_-imi_-m_-w_-Z2\80:z_-$b-!
+r:n_-n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a:p*p_-D54_-nTr_-Z1:p:n_-O29:a_-A:Y1_-Hr:Z1_-r:f_-O29:a_-G1:Y1_-xpr_-w:Z2\80_-A53_-Y1:Z2\80_-ms_-s_-B3:Z2\80_-i_-ir_-w_-!
+A53_-Y1:Z2\80:O31_-._-._-|54-r:n:n#13-niwt:t*Z1_-t:n_-V21_-t:Y1_-mw_-q_-G1_-t_-A28_-V25_-b_-w_-N21_-N23*Z1:Z2\80_-niwt_-$r-q:r:r_-t:pr_-S:tA_-t:pr_-n:t_-$b-!
+$r-R14_-t:N25_-R4:t*p_-t:Y1_-xpr:r_-i_-A40_-r:z_-x:r_-r:a_-ra:Z1_-A40_-k:n_-i_-t_-A2_-nTr_-Z1:Z2\80_-Ax_-Z2\80_-m_-t_-tyw_-A14:Z2\80_-r:z_-Hr:Z1_-$b-!
+$r-z:T31_-m_-Y1:Z2\80_-S:tA_-Y1:n_-i_-g:r_-t:N25_-$b-[[_-._-]]_-!
+|55-i_-w_-ir_-t&w_-nn_-mi_-i_-z:T31_-m_-Y1:Z2\80_-p:n_-n:t*y_-m_-Y4:Y1_-Hr:Z1_-iAb_-b_-tyw_-N25_-a:t*pr_-i_-Y5:n_-t:Y1_-n:t_-!
+N14*t:pr_-$r-i_-w_-r:x:Y1_-s_-t_-m_-r:n:Z2\80_-z:n:Z2\80_-m_-x:n_-z:D54_-N14*t:pr_-r_-s_-U29_-G1_-D54:z_-D35:t_-G37_-x:z:f_-D54:f_-r_-s_-HD_-D&w_-$b-!
+$r-pt_-x:r_-r:a_-ra:Z1_-A40_-$b-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-._-._-|56-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-O29:a:Y1_-r_-V4_-G1_-!
+t:N31:Z2\80_-S:tA_-t:Y1:Z2\80_-n:t_-niwt:t*Z1_-t:n_-d:n:d_-i_-i_-t_-A24_-w_-H_-s_-t:T30_-K4_-G1_-k_-A24_-ib:Z1_-US22A13B-N14_-!
++bP1,a H11  +s-+l(..56-60)+s-!
+US85Aa1008XT-|..56-$r-R4:t*p_-i:n_-U36_-Z1:n_-nTr_-Z1:p:n_-O29:a:Y1_-m_-q:r:r_-t:pr_-t:n_-V25_-w_-D_-Y1:f_-md_-d:w_-Y1:Z2\80:n_-nTr_-Z1:Z2\80_-i_-imi_-m_-w_-Z2\80:z_-$b-!
+[[_-._-]]_-._-._-|57-r:n_-n_-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a:p*p_-w_-D54_-nTr&Z1_-p:n_-O29:a_-A:Y1_-Hr:Z1_-r:f_-z:x_-n:Y1_-N14_-tyw_-pr_-!
+A40_-Z2\80:O31_-r:n_-n_-niwt:t*Z1_-t:n_-r:Z1:n_-q:r:r_-t:pr_-i_-p*t:Y1_-K4_-A_-t_-F51B:Z2\80_-niwt_-$r-q:r:r_-t:pr_-S:tA_-t:Y1_-n:t_-N14*t:pr_-a:p*p_-$b-!
+$r-t:D54_-nTr_-Z1:p:n_-O29:a_-A:Y1_-Hr:Z1_-r:z_-r_-pr:r:t_-D54_-m_-N26:Z1_-$b-!
+|58-$r-iAb_-b_-n_-p*t:pt_-m_-a_-A2_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-z:T31_-m_-Y1:Z2\80:z_-m_-b_-G29A-G1_-H_-D53:Y1_-p*t:r_-i_-ir:I14A_-i_-Z11_-m_-$b-!
+$r-niwt:t*Z1_-t:n_-a:z_-z:n:Z2\80_-m_-M3:x*t_-D54:r_-ms_-s_-t&w_-Y1:Z2\80_-xpr:r_-A40_-m_-tA:N23*Z1_-$b-i_-w_-ir_-w&t_-nn_-m_-Aa28_-d:nw_-Y1:Z2\80_-!
+p:n_-mi_-i_-z:T31_-m_-Y1:Z2\80_-p:n_-n:t*y_-._-._-m_-Y4_-Y1:Z2\80_-m_-i_-mn:n_-t:Y1:Z2\80_-n:t_-N14*t:pr_-Hr:Z1_-iAb_-b_-tyw_-N25_-!
+a:t*pr_-i_-mn:n_-t:N25_-$r-i_-w_-r:x:Y1_-s_-t_-m_-p:z_-S:Z9:Y1_-R4:t*p_-f_-m_-Ax_-x:Y1_-A40_-a:p_-r:Y1_-m_-p*t:pt_-m_-$b-!
+$r-tA:N23*Z1_-V6:Z1_-U4_-a:Y1_-$b-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-O29:a_-A:Y1_-._-._-|60-m_-q:r:r_-t:pr_-!
+t:n_-s_-b_-G1_-N14_-i_-i_-t:N14_-ra_-nb:t_-w_-i_-G1_-P30_-x:z_-U35_-t_-A24_-s_-b_-i_-T14_-US22A13B-m_-pr:r:t_-D54:Z2\80_-f_-N14:ra_-B1_-!
++bP1,a H12  +s-+l(..60-64)+s-!
+US85Aa1008XT-|P1a,..60-$r-R4:t*p_-i:n_-U36_-Z1:n_-nTr_-Z1:p:n_-O29:a_-A:Y1_-m_-q:r:r_-t:pr_-t:n_-$b-F22_-w_-y_-k:k_-w_-N2:Z2\80_-z:U2_-G1_-F36_-Y1:Z2\80_-ms_-s_-s_-!
+|61-B3_-nTr_-Z1:p:n_-O29:a_-A:Y1_-xpr_-r:w_-A53_-Y1:Z2\80:f_-n_-xpr_-r:i_-A40_-r_-q:r:r_-t:pr_-t:n_-xpr_-r_-nw*nw*nw:mw_-A40_-M22*M22:n_-nw_-w_-!
+t:mw_-A40_-H_-H_-w_-mw_-A40_-H_-H_-t&w_-mw_-B1_-r_-q:r:r_-t:pr_-t:n_-r_-ms_-t&w_-B3_-nTr_-Z1:p:n_-O29:a_-A:Y1_-pr:r:f_-m_-N14*t:pr_-!
+R4:t*p_-f_-._-._-|62-m_-m_-a:n:d_-i_-i_-t_-P38_-N28:a_-Y1:f_-m_-i_-H_-t:y_-F44\80:F44\80_-nw*t:pt_-$r-r:n_-n_-s_-b_-N14_-G1_-pr:n_-$b-!
+$r-niwt:t*Z1_-t:n_-$b-T:n_-n:Y1_-nTr_-Z1_-A40_-Z3_-$r-r:n_-n_-niwt:t*Z1_-t:n_-$b-xpr_-r:t_-k:k_-w_-N2:Z2\80_-N28:a_-t:Y1_-ms_-s_-t&w_-B3_-Z2\80:niwt_-[[_-._-]]_-!
+|63-$r-q:r:r_-t:pr_-S:tA_-t:Y1_-n:t_-N14_-A_-t:pr_-ms_-z:z:t_-B3_-nTr_-Z1_-p:n_-O29:a_-A:Y1_-r:z_-pr:r_-D54:f_-m_-nw*nw*nw:mw_-A40_-$b-!
+$r-R4:t*p_-f_-m_-F32:t*Z1_-nw*t:pt_-B1_-$b-i_-w_-ir_-t&w_-nn:n_-mi_-i_-z:T31_-m_-Y1:Z2\80_-p:n_-n:t*y_-m_-Y4_-Y1:Z2\80_-Hr:Z1_-iAb_-b_-!
+tyw_-N25_-a:t*pr_-._-._-|64-i#1234-Y5:n_-t:N25_-n:t_-N14*t:pr_-$r-i_-w_-Ax_-x:Y1_-n_-r:x:Y1_-s_-t_-tp:tA_-m_-p*t:pt_-m_-tA:N23*Z1_-$b-!
++bP1,a Conclusion  +s-+l(..64-67)+s-!
+US85Aa1008XT-|P1a,..64-F4:t*Z1_-T3_-D&w&t_-N8_-F22_-y_-w_-k:k_-w_-N2_-Z3_-s_-U2_-G1_-w__-F36_-Y1:Z2\80_-N40__-t_-m_-D54:Z2\80_-r:a_-ra:Z1_-A40_-m_-imnt_-!
+t:N25_-s_-x:r_-w_-Y1:Z2\80_-S:tA:Y1_-._-._-|65-ir:r#13-w_-nTr_-Z1:p:n_-i_-m_-s_-$r-a:f:t*t_-Y1:a:n_-d:t_-G37_-Y4_-Y1:Z2\80_-S:tA_-Y1:Z2\80_-N14*t:pr_-D35:t*y_-$b-!
+$r-G37_-r:x:Y1_-f_-i:n_-r:T_-A1*B1:Z2\80_-nb:t_-wp:p_-Z9_-w:Y1_-Hr:Z1_-a:n:d_-G37_-A1_-$b-i_-w_-ir_-t&w_-z:T31_-m_-Y1:Z2\80_-p:n_-mi_-i_-!
+Aa28_-d:nw:Y1_-p:n_-m_-i_-Y5:n_-t:Y1_-n:t_-N14*t:pr_-!
+|..65-$r-D35_-U3_-G1_-._-._-$b-|66-$r-D35:p*t#13-ir:r_-$b-i_-w_-r:x:Y1_-nn_-z:T31_-m_-Y1:Z2\80_-S:tA:Y1__-m_-Ax*Z1_-a:p_-r:Y1_-i_-w_-f_-!
+pr:r_-D54:f_-h_-A_-D54:f_-m_-N14*t:pr_-i_-w_-f_-S43_-d_-w_-A2_-f_-anx_-n:x_-w_-A1:Z2\80_-$r-V6*Z1:Y1__-U4_-a:Y1_-A73_-n_-$b-!
+$r-z:p*O50_-$b-i_-w_-sw_-t:n_-A44_-<-ra_-mn:n_-xpr->-zA&ra_-<-G26A_-ms_-s_-nfr_-xpr:Z2\80->-._-._-|67-U4:a#1234-xrw_-w_-A2_-r:x:Y1_-nn_-z:T31_-m_-Y1:Z2\80_-!
+i_-w_-f:r:Z1_-Ax_-a:p_-r:Y1_-i_-w_-f_-pr:r_-D54:f_-h_-G1_-D54:f_-m_-N14*t:pr_-i_-w_-f_-md_-d:w_-A2_-f:n_-anx_-n:x_-!
+w_-A1:Z2\80_-r:n_-nH_-H_-ra_-H_-H_-n:a_-D\98**t{{164,445,98}}**tA{{45,861,69}}_-!!
++bPILIER 1, face b +s-!
++bP1,b Registre 1   +s-+l(90-94)+s-!
++lPersonnages+s-++ Pilier 1, face b, R1 +s-._-._-|P1b 90-s_-Ab_-._-._-|91-G5_-!
+|92-G5_-S1_-A28_-C1_-mr_-i_-i_-._-._-|93-<-ra_-mn_-xpr_->-U5:a_-xrw_-w_-..-|94-M22__-t&mwt_-st_-t:H8_-!
++bP1,b Registre 2   +s-+l(95-100)+s-!
+|P1,b 95-<-ra_-mn_-xpr_->-z:n:q_-D27:f_-t&mwt_-f_-st_-t_-!
+|96-<-G26_-ms_-s_-nfr_-xpr:Z2\80_->-U5:a_-xrw_-w_-!
+|97-sw_-N42:t__-<-ra_-mr_-i_-i_-t_->-anx_-ti_-!
+|98-sw_-N42:t_-<-N12_-zA_-t_->-U5_-a:t_-xrw_-w_-!
+|99-sw_-N42:t_-nb:t_-ti_-"?"-w_-Y1_-"?"-!
+|100-sw_-t&zA_-nfr_-f:r:t_-i_-r:Z2\80_-U5_-a:t_-xrw_-w_-!!
++bPILIER 1, face c +s-!
++lCette face est nue+s-!!
++bPILIER 1, face d +s-!
++bP1,d Registre 1 - Version brève des "Litanies de Rê"  +s-+l(1-7)+s-!
++lP1,d R1 - Les 7 colonnes de droite  (1-7)+s-!
+US85Aa1004XT-|P1d,1-h_-i_-i_-Y1_-n:k_-p:n_-d_-G29A:Y1_-D_-m_-D&Y1_-A40_-wA_-S:Y1_-G29A_-k_-z:r_-q:Y1_-XA_-!
+A_-t:F51B:Z2\80_-k_-i_-w_-sw_-t:n_-<-ra_-mn_-xpr_->-SA_-A_-z_-._-._-|2-D54:f_-q:r:r_-t:pr:Z2\80_-k_-S:tA_-t:Y1_-!
+i_-w_-f_-x:n:z_-D54:f_-S:tA:t_-imi_-t&w:Z2\80_-sw_-t:n_-<-G26A_-ms_-s_-nfr_-xpr:Z2\80_->-Dw_-i_-Y1:f_-n:k_-mi_-i_-n:t:Y1:Z2\80_-G53A_-ra:Z1_-!
+Dw_-i_-Y1:k_-n_-._-._-|3-sw_-t:n_-<-ra_-mn_-xpr_->-mi_-i_-n:t:Y1_-G53A_-C1_-G29A_-f_-G29A_-k_-XA:t*D12_-Z2\80:f_-!
+XA_-t&G1_-D12:Z2\80_-k_-i_-w_-f_-a:p_-D54:f_-xt:x_-t&w:Z2\80_-G53A_-r:a_-ra:Z1_-A40_-!
+|4-r_-b_-w_-S:tA:Y1_-n_-q:r_-tyw_-pr:Z2\80_-T:f_-H_-k:Y1_-"sic"-f_-m_-Ax_-x_-w_-Y1:Z2\80:f_-T_-!
+<-G26A_-ms_-s_->-H_-k:n_-Y1:f_-m_-Ax_-._-._-|5-x_-w_-Y1:Z2\80_-f_-mi_-i_-n:t:Z2\80_-A1_-s_-T22A:n_-i_-i_-A1_-D&z_-A1_-!
+i:n_-r:a_-C1_-r_-sw_-t:n_-<-ra_-mn:n_-xpr_->-mi_-i_-n:t_-Y1:Z2\80_-A1_-s_-T22A:n_-i_-i_-._-._-|6-A1_-D&z_-A1_-i:n_-!
+d_-G29A_-Y1_-D_-m_-D_-Y1_-A40_-r_-sw_-t:n_-<-G26A_-ms_-s_->-U5:a_-xrw_-w&x_-i_-Z1_-z:T31_-m_-D54:k_-!
+sw_-w_-xnt_-._-._-|7-n:t*y_-q:r:r_-t:pr_-f_-A40_-z:p*zp_-4_-!
++lP1,d R1 - Les 4 colonnes de gauche  (8-11)+s-!
+US85Aa1004XT-|P1,d 8-$r-D&d_-r:Z1_-p:n_-n_-nTr&Z1_-nb_-z:S_-A_-zS\_-Y1_-nn:n_-m_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-s-n:Z2\80_-Hr:Z1_-p_-D\98**t{{16,692,78}}**y{{433,631,68}}_-pd:pd_-n:t*y_-$b-!
+$r-d_-wA_-._-._-$b-|9-$r-A_-t*sbA:pr_-a:a_-tp:Z1_-s-n:Z2\80_-m_-nTr&Z1_-x*t:Y1:Z2\80_-T_-t&w_-Y1_-G29A-A40_-m_-s_-T22A:n_-nw&w_-$b-!
+|10-$r-t:y_-A40_-A40_-r:a_-C1_-E9_-w_-a_-A40_-n:d_-G29A-Y1_-D_-m_-D&Y1_-A40_-i_-w_-Sd:d_-w_-$b-!
+$r-Y1:t*Z1_-._-._-$b-|11-$r-T:n_-m_-Xr:r_-t:Y1_-ra:Z1_-x:f:t_-r:a_-C1_-Htp:t*p_-f_-m_-i_-mn:n_-t:xAst_-V6:Z1_-U5:a_-$b-!
++bP1,d Registre 2 - 10 aspects solaires de Rê  +s-+l(L,2 à L,20)+s-!
+US85Aa1004XT-|P1d L,2-xpr_-i_-i_-._-._-|4-r:a_-ra_-i_-t:n_-i_-i_-._-._-|6-s_-sxm_-m_-Hr:Z1_-._-._-|8-n_-i_-k_-i_-i_-w_-mn:n_-i_-t_-!
+|10-s_-HD_-XA_-A_-t:D12:Z2\80_-._-._-|12-xpr:r_-i__-._-._-|14-t:f_-n:t_-._-._-|16-nw*t:pt_-._-.__-|18-O93_-._-._-|20-nw*nw*nw:pt_-!
++bP1,d Registre 3 - 10 aspects solaires de Rê  +s-+l(L,22 à L,40)+s-!
+US85Aa1004XT-|P1,D L,22-H_-wA_-A_-A_-i_-i_-t:y_-._-._-|24-nTr_-n:T:r_-t_-._-._-|26-z:r_-aA:a:Y1_-._-._-|28-q:r:r_-t*y:pr_-!
+|30-i_-mn:n_-H_-a:F51B*Z1:Z2\80_-._-._-|32-xpr_-r:r_-._-._-|34-aA:a_-A_-i_-i_-mt_-._-._-|36-z:r:q_-i_-i_-Y1_-!
+|38-z:x:n_-Y1_-G29A_-._-._-|40-k_-"sic"-H_-i_-i_-!
++bP1,d Registre 4 - 10 aspects de Rê qui auraient dû être "solaires" +s-+l: Inversions erronnées encadrées de +s-[?-+let de +s-?]-+l (L,42 à L,61)+s-!
+US85Aa1004XT-|P1,d L,42-O42B_-p_-i_-i_-._-._-|44-z:S:tA_-i_-i_-._-._-H_-|46-a_-i*i:Y1_-._-._-|48-U5:a_-N31:t:Z2\80_-._-._-|50-HD_-w_-t:y_-!
+|53-[?-w_-b_-n:ra_-F16_-?]-._-._-|54-T:n:Y1_-ir_-w_-Y1:Z2\80_-._-._-|58-Hr:r_-N31_-bA_-._-._-|59-[?-q_-A_-A28_-G29A_-?]-!
+|61-[?-s_-D_-t:y_-?]-!
++bP1,d Registre 5 - 7 aspects de Rê qui auraient dû être "solaires" +s-+l: (L,63 à L,75)  Tous sont des inversions erronnées+s-!
+US85Aa1004XT-|P1,d L,63-[?-A_-m_-i_-imi_-tA_-._-._-|65-k:t_-w_-i_-i_-t:y_-._-._-|67-wr:r:S_-i_-i_-w_-._-._-|69-i_-a:n:a_-sbA_-t:y_-pr_-!
+|71-n_-nH_-H_-i_-i_-._-._-|73-nb_-G30_-._-._-|75-nb_-z:n:k_-ra*w:Z2\80_-?]-!!
+!!
++bPILIER 2, face a +s-!
++bP2,a  Registre 1 : 6 aspects osiriens de Rê (sur 74)  +s-+l(L,27 à L,37)+s-!
+US85Aa1008XT-|P2,a L,27-i_-mn:n_-t:xAst_-._-._-|29-i_-A_-k_-b_-i_-i_-D3_-._-._-|31-xnt_-n:t*y_-i_-mn:n_-tyw_-!
+|33-mi_-t:y_-w_-._-.__-|35-d_-G29A_-t:y_-._-._-|37-SA_-A_-i_-i_-!
++bP2,a  Registre 2 : Première partie de l'Abrégé+s-!
++lP2,a  +s-+bTitre  +s-+l(1-2)+s-!
+US85Aa1008XT-|P2,a 1-$r-s_-H_-y_-w_-G41_-Y1:Z2\80:n#34-S:f_-d_-w_-V12_-p:n_-$b-[[-.-]]_-!
+|2-F4:t*Z1_-F13:t*Z1_-n:t_-imnt#1234-t:N25#13-F22_-y_-w_-k:k_-w_-F36_-w_-Y1:Z2\80_-[[-.-]]_-!
++lP2,a  +s-+bH1  +s-+l(3-6)+s-!
+US85Aa1008XT-|P2,a 3-#b-$r-q_-G35_-nTr_-Z1:p:n_-$b-#e-$r-m_-tA:N23*Z1_-m_-a:r:r_-i_-i_-t:pr_-n:t_-N27_-t:pr_-imnt_-t:t_-i_-t:r_-w_-S:V1*V20*V20_-p_-w_-Hr:Z1_-s_-Aa28_-d:t:D54_-w_-$b-!
+$r-m_-a:r:r_-i_-i_-t:pr_-t:n_-D35:z:p_-r:t_-N12:D54_-f:r_-nTr_-Z1:Z2\80_-N14_-A_-pr_-A40_-Z3_-$b-n:t_-n:n:n_-r:a:ra*Z1_-A40_-r:n_-n_-M20_-t:N23_-!
+tp_-p:t_-._-._-|4-#b-n:t_-N14_-t:pr_-H_-M2\:n_-b_-#e-Y1:f_-A_-H_-t:N23:Z2\80_-r:z:n_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-xt:x*t_-D54:f__-M8_-A_-a:Y1:f_-!
+V25_-w_-Y1_-md_-w_-Y1:Z2\80_-ir:t_-s_-x:r_-w_-Y1:Z2\80_-[?-ir:t:z_-x:r_-w_-Y1:Z2\80_-?]-"sic"-N14_-tyw_-pr_-A40_-Z3_-r:M20_-t:N23_-t:n_-!
+|..4-$r-i_-w_-ir:t_-w_-._-._-$b-|5-#b-$r-nn_-mi_-i_-z:T31_-$b-#e-$r-m#13-Y1:Z2\80_-p:n_-m_-i_-mn:n:t_-Y1:Z2\80_-n:t*N14_-t:pr_-i_-r_-r:x:Y1_-n:U20_-nw_-w_-$b-!
+$r-n:z:T31_-m_-Y1:Z2\80_-mi_-t*y:Y1_-nTr_-Z1_-aA:a:Y1_-D\98**z{{27,492,74}}**f{{28,720,81}}_-i_-w_-G25_-x:Y1_-n:f_-tp:Z1_-tA:N23*Z1_-V6:Z1_-U2:a:Y1_-i_-w_-G25_-x:Y1_-n:f_-m_-N14_-$b-!
+$r-A_-t:pr_-wr:r_-t_-[[_-._-]]_-._-._-$b-|6-w#1234-S:t#13-m_-A24_-F4:t*Z1:Z2\80_-x_-t:f_-tyw_-A14:Z2\80_-r:a_-ra*Z1:N14_-r:n_-n_-wn:n:nw*t_-N14:ra_-tp:t_-n:t_-!
+g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1_-p:n_-m_-a:r:r_-i_-i_-t:pr_-t:n_-!
++lP2,a  +s-+bH2  +s-+l(..6-11)+s-._-!
+US85Aa1008XT-|P2,a ..6-$r-Htp:t*p_-m_-xt:x*t_-D54_-i:n_-nTr_-Z1:p:n_-aA:a:Y1_-m_-wr:r_-n:z:S_-i_-t:r_-w_-S:V1*V1*V1_-3*.*3:3\80_-._-._-$b-|7-#b-$r-p_-w-$b-#e-$r-m_-F40:n_-M20:t*N23_-$b-!
+$r-t:n_-i_-t:r_-S_-w_-100:10:10_-m__-W10_-w_-$b-G30A_-N14_-tyw_-pr:Z2\80_-A40_-r:n:n_-nTr_-Z1:Z2\80_-imi_-Z2\80_-w_-M20:t*N23_-t:n_-$r-i:r_-r:x:Y1_-r:n:Z2\80_-$b-!
+$r-z:n:Z2\80_-wn:n:n_-f_-x:r_-z:n:Z2\80_-H_-U8:n_-b_-Y1:n:f_-nTr_-Z1:p:n_-aA:a_-A:Y1_-A_-H_-t:N23:Z2\80_-r:b_-w_-._-._-$b-|8-#b-$r-z:n:Z2\80_-n-$b-#e-$r-M20:t*N23#13-wr:r:n_-$b-!
+$r-s_-S:a_-aHa:a_-D54:f_-x:r_-aHa_-a:w_-A40_-a:p*p_-D54:f_-m_-xt:x*t_-D54_-nTr_-Z1:p:n_-aA:a:Y1_-a:q*D54:f_-tA:N23*Z1_-U27_-A_-Y1:f_-N14_-t:pr_-F13:p_-Y1:f_-$b-!
+$r-zb_-t:D3A_-m_-H_-M2\:n:z_-k:tyw_-A40:Z2\80_-a:p*p_-f:D54_-Hr:Z1_-a_-m_-w_-A2_-aA:D53_-A40:Z2\80_-$b-!
+|9-#b-$r-m_-xt:x*t_-D54-$b-#e-$r-Sw#34-t:Z1#34-H#34-U8:n_-b_-i_-i_-t:Y1_-i_-w_-f_-q:q_-A2_-f_-t:X2_-X4A:Z2\80:r_-w_-i_-A_-P30_-tA:N23*Z1_-a:t_-w_-$b-!
+$r-n:f_-F4:t*t_-W_-tA:N23*Z1_-t&w_-b_-i_-A40_-$b-i_-w_-ir:t&w_-nn:n_-G30A_-N14_-tyw_-pr_-A40:Z2\80_-m_-Y4:Y1_-Z3_-m_-Aa28_-d:nw_-Y1:Z2\80_-z:n:Z2\80_-!
+m_-i_-mn:n:t:Y1_-Z3_-._-._-|10-#b-n:t_-N14:pr-$r-F4:t*Z1_-Y4_-Y1:Z2\80_-imnt-$b-#e-$r-r:tyw#13-$b-"sic"-$r-xAst_-i_-w_-w_-d:n_-t:F47_-Y1:n_-z:n:Z2\80_-tp_-tA:N23*Z1_-m_-r:n:Z2\80_-z:n:Z2\80_-$b-!
+$r-i_-w_-G25_-x:Y1_-n:z_-A1_-tp_-tA:N23*Z1_-V6:Z1_-U4_-a:Y1_-A73_-n_-z:p*zp_-i_-w_-r:x:Y1_-nn:n_-md_-w_-Y1:Z2\80_-D&d_-w_-nTr_-Z1:Z2\80_-N14:pr_-$b-!
+$r-A_-A40_-Z3_-n_-nTr_-Z1_-p:n_-md_-w_-Y1:Z2\80_-D&d_-._-._-$b-|11-#b-$r-w_-z:n:Z2\80_-nTr_-Z1:p:n-$b-#e-$r-m#13-a:r:N31_-w_-x:r_-N14_-A_-pr_-A40_-Z3_-i_-w_-$b-!
+$r-G25_-x:Y1_-n:f_-tp_-tA:N23*Z1_-V6:Z1_-U4_-a:Y1_-$b-r:n:n_-wn:n:nw*t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-m_-M20:t*N23_-t:n_-S:z_-!
+Aa18_-A_-t:Y1_-m_-a:k:t_-A24_-nb_-A40_-z:N14_-!
++lP2,a  +s-+bH3  +s-+l(..11-17)+s-._-!
+US85Aa1008XT-|P2,a ..11-$r-Htp:t*p_-m_-xt:x*t_-D54_-i:n_-._-._-$b-|12-#b-$r-nTr_-Z1:p:n_-aA:a:Y1_-m_-$b-#e-$r-M20:t*N23_-n:p:r_-tyw_-N23:Z1_-A40:Z2\80_-ir:t_-H_-p:t_-w_-P8_-Z3_-i:n_-nTr_-Z1:p:n_-m_-$b-!
+$r-n:t_-n:n:n_-st:ir_-i_-t:r_-w_-100*100*100_-3*.*3:3\80_-m_-F40:n_-M20:t*N23_-t:n_-W10_-w_-100:10:10_-V25_-w_-d:Y1_-nTr_-Z1:p:n_-aA:a:Y1_-md_-d:w_-Y1:Z2\80:n_-i_-imi_-m_-Z2\80_-$b-!
+$r-w_-xt:x*t_-D54_-._-._-$b-|13-#b-$r-st:ir_-r_-niwt:t_-Z1_-t:n_-$b-#e-$r-H_-U8:n_-b_-Y1:f:n_-z:n:Z2\80_-A_-H_-t:N23:Z2\80_-r_-M20_-t:N23_-t:n_-$b-G30A_-S:tA_-w:Y1_-A40:Z2\80_-!
+r:n:n_-nTr_-Z1:Z2\80_-i_-imi_-Z2\80_-w_-M20_-t:N23_-t:n_-$r-i_-r_-r:x:Y1_-r:n:Z2\80_-z:n:Z2\80_-tp_-tA:N23*Z1_-i_-w_-f_-a:r:D54_-f:r_-b_-w_-Xr:r_-st:ir_-$b-!
+$r-i_-m_-a:t_-w_-n:f_-n:n:n_-r_-M20_-t:N23_-f_-._-._-$b-|14-#b-$r-t_-w_-$b-n:t_-n:n:n-#e-nb:T21_-a:Z1_-A40_-xpr_-r:t_-F40_-t&w_-Y1:Z2\80_-!
+r:n_-n_-M20_-t:N23_-t:n_-$r-i_-w_-ir:t_-w_-nn:n_-z:T31_-m_-Y1:Z2\80_-S:tA_-Y1:n_-G30A_-S:tA_-Y1:Z2\80_-w_-m_-Aa28_-d:nw:Y1_-p:n_-$b-!
+$r-n:t*Z4_-m_-Y4_-Y1:Z2\80_-m_-i_-mn:n:t_-Y1:Z2\80_-n:t_-N14_-t:pr_-$b-F4:t*Z1_-Y4_-Y1:Z2\80_-r_-imnt_-A_-N25#24-!
+|P2,a 15-#b-$r-i_-w-$b-#e-$r-G25#12-x:Y1_-n_-z:A1_-tp_-tA:N23*Z1_-m_-R49_-r:N25_-V6:Z1_-U4_-a:Y1_-i_-w_-r:x:Y1_-z:n:Z2\80__-m_-a:p*p_-D54_-Hr:Z1_-z:n:Z2\80_-$b-!
+$r-n:O35_-n:f_-n:h_-m_-t:h_-m_-t_-A2:Z2\80_-z:n:Z2\80_-D35:h_-A_-D54:n:f_-r_-H_-M16_-A_-d_-w_-T92:Z2\80_-z:n:Z2\80_-i_-w_-r:x:Y1_-z:t#24-$b-!
+|16-$r-m_-i_-r:st_-t:pr:Z2\80_-p_-pA_-d:x_-f:r_-Hr:Z1_-H_-n:a_-r:a_-ra:Z1_-A40_-i_-w_-r:x:Y1_-s_-t_-m_-G29A&Z1_-G25_-x:Y1_-s_-abA_-m_-Y1_-$b-!
+$r-m_-r:d_-D56_-D56_-f_-D35:t*Z4_-G37_-G35&N29_-f_-m_-H_-st_-t:U15_-m_-m_-zA_-G37:z_-pr_-i_-w_-f_-pr:r_-D54:f_-$b-!
+$r-m_-i_-ir_-._-._-$b-|17-$r-w_-A53_-Y1:Z2\80_-m_-T:p_-i_-A2_-f_-P5_-Z3_-w_-r_-wn:n_-nw:t_-N14:ra_-f_-$b-r:n_-n_-wn:n_-nw:t_-N14:ra_-!
+z:T31_-m_-t:D54_-nTr_-Z1:p:n_-m_-M20_-t:N23_-t:n_-d:n:t_-T30_-G29A_-Z1:Z2\80_-N14_-!
++lP2,a  +s-+bH4  +s-+l(..17-21)+s-!
+US85Aa1008XT-|P2,a ..17-$r-Htp:t*p_-m_-xt:x*t_-D54_-m_-V2_-w_-D54:Z2\80_-i:n_-Hm*Z1:n_-nTr_-Z1:p:n_-m_-q:r:r_-t:pr_-S:tA_-t:Y1_-n:t_-imnt_-t:t_-xAst_-$b-!
+|18-$r-ir:t_-z:x:r_-w_-Y1:Z2\80_-n:t_-tyw_-Z2\80_-A40_-i_-m_-s_-m_-x:r_-P8_-w_-A2_-f_-D35:t_-G37_-U2:ir_-A_-A_-f_-$b-!
+$r-s_-n:Z2\80_-$b-r:n_-n_-q:r:r_-t:pr_-t:n_-anx_-n:x:t_-xpr_-r:w_-A53_-Y1:Z2\80_-pr_-r:n_-n_-s_-b_-N14:pr_-n_-q:r:r_-t:pr_-t:n_-i_-mn:n:Y1_-!
+z:T_-A_-V2_-w_-D54:Z2\80_-pr_-$r-i_-w_-r:x:Y1_-s_-._-._-$b-|19-$r-m_-T31:Y1:Z2\80_-p:n:n_-wA_-A_-t:N31:Z2\80_-S:tA:t_-Y1:Z2\80_-n:t_-r:Z1_-V2:Z2\80_-xAst_-$b-!
+$r-m_-a:T:n_-nw_-w_-N31:Z2\80_-d:z:r_-w_-Y1:Z2\80:n_-i_-M_-m_-H_-t:pr_-s_-b_-N14_-w_-pr:Z2\80_-i_-mn:n_-nw_-w_-Y1:Z2\80_-i_-imi_-w:Z2\80_-tA:N23*Z1_-$b-!
+$r-z:k:r_-A40_-Hr:r:pt_-S:a_-N33:Z2\80:f_-$b-m_-q:q_-A2_-t:X2_-X4A:Z2\80_-r_-r:Z1_-anx_-w_-A40_-Z2\80_-m_-!
+|20-O7\#1234-t:pr#13-t:U15_-m_-A40_-i_-w_-r:x:Y1_-s_-t_-m_-U4_-a:Y1_-wA_-A_-t:N31:Z2\80_-N40_-m__-D54_-m_-T:n_-nw_-w_-N31:Z2\80_-!
+n_-r:Z1_-z:T_-A_-w_-V2:Z2\80:xAst_-U2:ir_-A_-A_-z:T31_-m_-Y1:Z2\80_-m_-i_-M_-m_-H_-t:pr_-r:n_-n_-wn:n_-nw:t_-N14:ra_-!
+n:t_-g:r_-H_-N2_-z:T31_-m_-t:D54_-nTr_-Z1:p:n_-aA:a:Y1_-A:Y1_-._-._-|21-wr:r:t#13-m_-s_-S42_-x_-m_-w_-Z2\80_-A24_-z:N14_-!
++lP2,a  +s-+bH5  +s-+l(..21-26)+s-!
+US85Aa1008XT-|P2,a ..21-$r-z:T_-A_-w_-V2:Z2\80_-nTr_-Z1:p:n_-aA:a_-A:Y1_-Hr:Z1_-wA_-A_-t:N31:Z2\80_-U4:a_-t:Y1:Z2\80_-n:t_-N14_-t:pr_-m_-M:Z1_-Hr:r_-pt_-q:r_-$b-!
+$r-r:t:pr_-S:tA_-t:Y1_-n:t_-z:k:r_-A40_-Hr:r:pt_-S:a:D12*Z2\80_-f:D35_-U3_-._-._-$b-|22-$r-A_-D35:p*t_-r:ir_-z:T31:Y1_-m:Z2\80_-p:n_-S:tA_-Y1:n_-tA:N23*Z1_-Xr:r_-$b-!
+$r-i_-w_-f:F51B*Z1:Z2\80_-nTr_-Z1_-p:n_-i_-w_-nTr_-Z1:Z2\80_-imi_-Z2\80_-w_-nTr_-Z1_-p:n_-sDm_-m:Y1_-z:n:Z2\80_-x:r_-w_-Y1:r:a_-ra_-A40_-Dw_-w_-i_-A2_-f:r_-h_-$b-!
+$r-A_-w_-Y1:Z2\80_-nTr_-Z1:p:n_-$b-r:n_-n_-._-._-|23-s_-b_-N14_-pr:n_-niwt:t*Z1_-t:n_-a_-aHa_-a_-nTr_-Z1:Z2\80_-pr_-r:n_-n_-q:r:r_-t:pr_-nTr_-Z1:p:n_-!
+i_-mn:n_-t:xAst_-$r-wA_-A_-t:N31:Z2\80_-S:tA_-t:Y1:Z2\80_-n:t_-imnt_-t:xAst_-N14_-w_-pr:Z2\80_-n_-a:t*pr_-i_-mn:n:t_-Y1_-b_-w_-d:z:r_-Y1:n_-tA:N23*Z1_-z:k:r_-A40_-$b-!
+$r-i_-w_-f:F51B*Z1:Z2\80_-H_-a:F51B*Z1:Z2\80_-D\98**t{{65,639,88}}**Z1{{606,487,89}}_-m_-x*p:r#2-._-._-$b-|24-$r-w_-A53_-Y1:Z2\80_-tp:p*Z4_-$b-!
+r:n_-n_-nTr_-Z1:Z2\80_-imi_-Z2\80_-w_-q:r:r_-t:pr_-t:n_-G30A_-B1:Z2\80_-imi_-Z2\80_-w_-N14:t:pr_-i_-ir:w_-A53_-Y1:Z2\80_-z:n:Z2\80_-i_-imi_-t_-m:Y1_-!
+wn:n_-nw:t_-N14:ra:Z2\80_-z:n:Z2\80_-xpr_-r:w_-A53_-Y1:Z2\80_-z:n:Z2\80_-S:tA_-Y1:Z2\80_-w_-$r-D35:t_-G37_-r:x:Y1_-D35:U3_-A_-D35:p*t_-r:ir_-z:T31_-m_-Y1:Z2\80_-p:n_-$b-!
+$r-n_-._-._-$b-|25-$r-G5_-A40_-D\98**z{{27,492,74}}**f{{28,720,81}}_-$b-i_-w_-ir:t_-w_-nn:n_-mi_-i_-z:T31_-m_-Y1:Z2\80_-p:n_-n:t*Z4_-m_-Y4_-Y1:Z2\80_-m_-i_-mn:n:t_-Y1:n:t_-!
+N14*t:pr_-Hr:Z1_-sw:N23*Z1_-a:t_-pr_-i_-mn:n:t_-Y1_-$r-i_-w_-r:x:Y1_-z:t_-m_-Htp:t*p_-G29A_-Z1:f_-Htp:t*p_-f_-m_-Htp:t*p_-t:N135:Z2\80_-z:k:r_-A40#1234-$b-!
+|25-$r-D35:d:n_-T30_-D40:n_-x_-m_-i_-i_-t_-A40:pt_-XA:A_-t:F51B_-Z2\80:f_-z:wA_-A_-D54:f_-Hr:r_-s_-m_-Htp:t*p_-$b-i_-w_-w_-d:n:t_-F48:Y1_-!
+n_-nn:n_-nTr_-Z1:Z2\80_-tp_-tA:N23*Z1_-r:n_-n_-wn:n_-nw:t_-N14:ra_-n:t_-g:r_-H_-N2_-z:T31_-t:D54_-m_-nTr_-Z1:p:n_-aA:a_-Y1_-"sic"-A_-!
+m_-q:r_-r:t_-pr_-t:n_-z:T31_-m_-i_-i_-t:D54_-Hr:ib#34-#b-t_-w_-i_-A_-P30_-s_-N14-#e-!
++bH6 à H12 +s-+l: voir le pilier 1, face a+s-!!
+#b-++ Pilier 2 - face b - R1 - 70-75 +s-#e-+bPILIER 2, face b+s-!
++bP2,a  Registre 1 : 6 aspects osiriens de Rê (sur 74)  +s-+l(L,39 à L,49) - Autres aspects : pilier 1, face d+s-!
+US85Aa1004XT-|P2,b L,39-i-mn:n:Y1_-XA:t*D12:Z2\80_-._-._-|41-sbA:t*y_-pr_-._-._-|43-D_-m_-D&Y1_-H_-a:F51B*Z2\80_-!
+|45-Aa20:r_-tA_-._-._-|47-T:n_-t*y:Y1_-._-._-|49-x:p_-i_-i_-!!
++bPILIER 2, face c+s-!
++bP2,c Registre 1 - 8 aspects osiriens de Rê  +s-+l(L,1 à L,13)+s-!
+US85Aa1004XT-|P2,c L,1-d_-bA_-D_-m_-D_-._-._-|3-xnt_-n:t*y_-q:r:r_-t:D12:f_-._-._-|5-n:D_-Aa27D_-nw:Y1_-G29A:Z2\80_-!
+|7-n:f_-TAw_-m_-G29A:Z2\80_-._-._-|9-z:n:k_-i_-i_-._-._-|11a-G29A_-r:a:ra_-._-._-|11b-t:tm_-._-._-|13-S_-Sw_-w_-!
++bP2,c Registre 2 - 6 aspects de Rê qui auraient dû être "osiriens" +s-+l: Inversions erronnées encadrées de +s-[?-+let de +s-?]-+l (L,51 à L,60)+s-!
+US85Aa1004XT-|P2,c L,51-z:xpr_-XA_-(t:D12)*w:Z2\80_-._-._-|52-[?-i_-mn:n_-i_-i_-?]-._-._-|55-i_-a_-i_-i_-!
+|56-[?-mi_-i_-w_-aA:a_-A:Y1_-?]-._-._-|57-md_-w_-Ax_-x:t_-D12:f_-._-._-|60-[?-i_-w_-tyw_-i_-i_-?]-!!
++bPILIER 2, face d+s-!
++bP2,d Registre 1 - 6 des 74 aspects de Rê  +s-+l(L,15 à L,25)+s-!
+US85Aa1004XT-|P2,d L,15-gb_-b_-._-._-|17-st_-t_-._-._-|19-G5_-!
+|21-r_-m_-i_-i__-D143_-._-._-|23-aA:a:d_-i_-i_-w_-._-._-|15-n_-t&w_-t:y_-!
++bP2,d Registre 2 - 5 aspects de Rê qui auraient dû être "osiriens" +s-+l: (L,62 à L,70/74)  Tous sont des inversions erronnées+s-!
+US85Aa1004XT-|P2,d L,62-[?-z:n:k_-ra_-Hr_-._-._-|64-i_-n:T_-t:y_-V1:V1_-._-._-|66-tA:T_-nn_-!
+|68/72-b_-s_-i_-i_-Sm_-t:y_-._-._-|70/74-s_-U2:tA_-H_-w_-t:y_-w_-?]-!
+!
