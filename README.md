@@ -174,7 +174,9 @@ jre for 1.8 which was included in JSesh previously. This is not yet the master v
 4. same for the file signInfo-bundler.xml
 5. run Inno Setup on jsesh-inno.iss. Generate a new ID for the build before building.
 
-*Note : we will probably use jlink as above to generate the JRE*
+- *Note : we will probably use jlink as above to generate the JRE*
+- **Important** : check if launch4j wants a JDK or a 64bit executable.
+
 
 
 ## Note about github distribution (for personnal use mainly)
