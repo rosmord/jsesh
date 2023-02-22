@@ -74,6 +74,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     private boolean smallBodyUsed = false;
 
     public SVGFontHieroglyphicDrawer() {
+        // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
         // IMPORTANT : I don't know it this absolutely needs to be a singleton.
         // If it's not, we might think of using prototypes.
         this.fontManager = DefaultHieroglyphicFontManager.getInstance();

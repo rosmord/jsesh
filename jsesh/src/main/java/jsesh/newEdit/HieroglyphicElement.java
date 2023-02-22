@@ -23,6 +23,7 @@ public class HieroglyphicElement extends GraphicalElement {
     @Override
     public void drawElement(Graphics2D g) {
         // We will replace the code by the shape at some point...
+        // TODO : Don't use DefaultHieroglyphicFontManager!!!!   we may want to get the signs from another source.
         ShapeChar shape = DefaultHieroglyphicFontManager.getInstance().get(mdcProperty.getValue());
         g.draw(shape.getShape());
     }

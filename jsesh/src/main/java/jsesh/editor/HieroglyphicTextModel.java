@@ -313,9 +313,11 @@ public class HieroglyphicTextModel extends Observable implements
 	}
 
 	/**
-	 * @param pos1
-	 * @param pos2
-	 * @param newElements a list of TopItems
+	 * replace text.
+	 * Note that the order of pos1 and pos2 is not important.
+	 * @param pos1 one of the limits of the text to replace
+	 * @param pos2 the other limit  of the text to replace
+	 * @param newElements the text to insert instead of the current text.
 	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
 							   List<TopItem> newElements) {
@@ -324,6 +326,12 @@ public class HieroglyphicTextModel extends Observable implements
 		undoManager.doCommand(command);
 	}
 
+	/**
+	 * Replace the text between pos1 and pos2 by a single element.
+	 * @param pos1
+	 * @param pos2
+	 * @param element
+	 */
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
 							   TopItem element) {
 		replaceElement(pos1, pos2, Collections.singletonList(element));

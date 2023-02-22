@@ -103,15 +103,14 @@ public class MDCPosition implements Cloneable, Serializable, Comparable<MDCPosit
 
 	/**
 	 * Returns the ith position after this one, at top level. if the position
-	 * would fall outside of the possible bounds, it will either be the last
+	 * would fall outside the possible bounds, it will either be the last
 	 * position or the first.
 	 * 
-	 * @param i :
-	 *            the delta between the two positions. Might be negative.
+	 * @param delta the delta between the two positions. Might be negative.
 	 * @return ith position after this one.
 	 */
-	public MDCPosition getNextPosition(int i) {
-		int k = getIndex() + i;
+	public MDCPosition getNextPosition(int delta) {
+		int k = getIndex() + delta;
 		return getPositionAt(k);
 	}
 

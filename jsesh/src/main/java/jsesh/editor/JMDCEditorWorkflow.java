@@ -930,15 +930,31 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      */
     // UNDO/REDO
     public void explodeGroup() {
+        // Check if there is something to explode...
         if (caret.getInsert().getIndex() < 1) {
             return;
         }
-        GroupExploder f = new GroupExploder();
-        TopItem topItem = getCurrentItem();
-        if (topItem != null) {
-            List<TopItem> result = f.explode((TopItem) topItem.deepCopy());
-            hieroglyphicTextModel.replaceElementBefore(
-                    caret.getInsertPosition(), result);
+        if (caret.hasSelection()) {
+            GroupExploder groupExploder = new GroupExploder();
+            MDCPosition pos1 = caret.getMinPosition();
+            MDCPosition pos2 = caret.getMaxPosition();
+
+            List<TopItem> elements = new ArrayList<>();
+            MDCPosition p = pos1;
+            while (! p.equals(pos2)) {
+                TopItem currentItem = p.getElementAfter().deepCopy();
+                elements.addAll(groupExploder.explode(currentItem));
+                p = p.getNextPosition(1);
+            }
+            hieroglyphicTextModel.replaceElement(pos1, pos2, elements);
+        } else {
+            GroupExploder groupExploder = new GroupExploder();
+            TopItem topItem = getCurrentItem();
+            if (topItem != null) {
+                List<TopItem> result = groupExploder.explode((TopItem) topItem.deepCopy());
+                hieroglyphicTextModel.replaceElementBefore(
+                        caret.getInsertPosition(), result);
+            }
         }
         clearSeparator();
         possibilitiesHandler.clear();
@@ -1129,7 +1145,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * be null)
      * @param tail the 'new' items (usually, one, but glossary entry might be
      * whole words).
-     * @param key one of ' ' ; '*' , ':' or '&'.
+     * @param sep one of ' ' ; '*' , ':' or '&'.
      * @return the list of items which should replace head (or head and tail, it
      * depends).
      */

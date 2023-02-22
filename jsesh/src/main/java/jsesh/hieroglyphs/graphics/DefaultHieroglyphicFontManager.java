@@ -54,7 +54,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	@Override
 	public ShapeChar get(String code) {
 		String newCode = code;
-		// TODO Awfull patch for now. This should move to another class. The
+		// TODO Awful patch for now. This should move to another class. The
 		// font manager should
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
@@ -67,7 +67,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
         @Override
 	public ShapeChar getSmallBody(String code) {
 		String newCode = code;
-		// TODO Awfull patch for now. This should move to another class. The
+		// TODO Awful patch for now. This should move to another class. The
 		// font manager should
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.

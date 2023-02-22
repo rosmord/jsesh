@@ -97,6 +97,10 @@ public class ManuelDeCodage {
      * fill data.
      */
     private void fillMap() {
+        // new (non official MdC) mappings
+        putCanon("nTrw", "R8A");
+        putCanon("nn", "M22B");
+        //
         putCanon("mSa", "A12");
         putCanon("xr", "A15");
         putCanon("Xrd", "A17");

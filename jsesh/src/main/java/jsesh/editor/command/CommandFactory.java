@@ -48,6 +48,15 @@ import jsesh.mdc.model.TopItemList;
  */
 public class CommandFactory {
 
+	/**
+	 * Build a replace element command.
+	 * @param topItemList the text where replacement will occur.
+	 * @param newTopItems the items to insert
+	 * @param pos1 the start position for replacement
+	 * @param pos2 the end element for replacement
+	 * @param clean is the original text clean (i.e. not modified).
+	 * @return
+	 */
 	public MDCCommand buildReplaceCommand(TopItemList topItemList,
 			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
 			boolean clean) {
