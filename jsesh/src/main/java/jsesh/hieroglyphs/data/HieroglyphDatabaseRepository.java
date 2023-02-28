@@ -87,6 +87,11 @@ public class HieroglyphDatabaseRepository {
             if (f.exists()) {
 
                 // First, a dummy run to check the content is ok...
+                // Note that this dummy run is more or less useless.
+                // We stop JSesh if there is a problem anyway
+                // (the reason is that we don't know what to do with
+                //  the broken file).
+
                 try (InputStream in2 = new FileInputStream(f)) {
                     SignDescriptionReader dummyReader
                             = new SignDescriptionReader(new DummyAdapter());
@@ -98,7 +103,7 @@ public class HieroglyphDatabaseRepository {
                 }
             }
         } catch (IOException | RuntimeException | SAXException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Your sign definition file " + getUserSignDefinitionFile().getAbsolutePath() + " is corrupt. Move it to another place.", e);
         }
     }
 
@@ -153,7 +158,5 @@ public class HieroglyphDatabaseRepository {
         @Override
         public void addTagCategory(String tag) {
         }
-
     }
-
 }

@@ -59,6 +59,7 @@ import jsesh.editor.actions.edit.PasteAction;
 import jsesh.editor.actions.edit.RedoAction;
 import jsesh.editor.actions.edit.SetModeAction;
 import jsesh.editor.actions.edit.UndoAction;
+import jsesh.editor.actions.group.CenterGroupAction;
 import jsesh.editor.actions.move.GoDownAction;
 import jsesh.editor.actions.move.GoLeftAction;
 import jsesh.editor.actions.move.GoRightAction;
@@ -174,6 +175,8 @@ class MDCEditorKeyManager extends KeyAdapter {
 
             addDelegateAction(ActionsID.EXPLODE_GROUP, editor,
                     "explodeGroup", editorEnabler);
+
+            addAction(CenterGroupAction.ID, new CenterGroupAction(editor));
 
             addDelegateAction(ActionsID.INSERT_SPACE, editor, "insertSpace", editorEnabler);
             addDelegateAction(ActionsID.INSERT_HALF_SPACE, editor, "insertHalfSpace", editorEnabler);

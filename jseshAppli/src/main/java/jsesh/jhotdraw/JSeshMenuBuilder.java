@@ -1,5 +1,6 @@
 package jsesh.jhotdraw;
 
+import jsesh.editor.actions.group.CenterGroupAction;
 import jsesh.jhotdraw.viewClass.JSeshView;
 
 import java.awt.GridLayout;
@@ -106,6 +107,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(textMenu, a, v, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
                 addToMenu(textMenu, a, v, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
                 addToMenu(textMenu, a, v, ActionsID.EXPLODE_GROUP);
+                addToMenu(textMenu, a, v, CenterGroupAction.ID);
                 textMenu.addSeparator();
                 addToMenu(textMenu, a, v, EditGroupAction.ID);
                 textMenu.addSeparator();

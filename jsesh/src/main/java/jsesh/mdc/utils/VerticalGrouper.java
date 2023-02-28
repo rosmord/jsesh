@@ -8,14 +8,7 @@ package jsesh.mdc.utils;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItem;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.SubCadrat;
+import jsesh.mdc.model.*;
 
 /**
  * @author S. Rosmorduc
@@ -26,13 +19,15 @@ public class VerticalGrouper {
 	/**
 	 * Build a cadrat from a list of elements.
 	 * If some of them can't be stacked, return null.
-	 * @param elts
+	 * @param elements the elements to combine in a cadrant.
 	 * @return a cadrat or null.
 	 */
-	public Cadrat buildCadrat(List elts) {
+	public Cadrat buildCadrat(List<TopItem> elements) {
 		CadratBuilderAux aux = new CadratBuilderAux();
-		for (Iterator i = elts.iterator(); aux.correct && i.hasNext();) {
-			ModelElement e = (ModelElement) i.next();
+		for (TopItem e : elements) {
+			if (! aux.correct) {
+				break;
+			}
 			e.accept(aux);
 		}
 		if (aux.correct) {
@@ -62,7 +57,7 @@ public class VerticalGrouper {
 		 */
 		public void visitCadrat(Cadrat c) {
 			for (int i = 0; i < c.getNumberOfHBoxes(); i++) {
-				HBox box = (HBox) c.getHBox(i).deepCopy();
+				HBox box = c.getHBox(i).deepCopy();
 				cadrat.addHBox(box);
 			}
 		}
@@ -75,7 +70,7 @@ public class VerticalGrouper {
 		public void visitAlphabeticText(AlphabeticText t) {
 			HBox box = new HBox();
 			BasicItemList l = new BasicItemList();
-			l.addBasicItem((BasicItem) t.deepCopy());
+			l.addBasicItem(t.deepCopy());
 			box.addHorizontalListElement(new SubCadrat(l));
 		}
 

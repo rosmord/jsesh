@@ -355,6 +355,9 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      */
     public static String getCodeForFileName(String fname) {
         // We put the code in upper case.
+        // Note : toUpperCase was problematic for some locale (e.g. Turkish one)
+        //        where a dotless "i" exists.
+        // Thanks to tahacelik20181 for the suggested fix.
         fname = fname.toUpperCase(Locale.ENGLISH);
         // suppress file extensions.
         int stopIndex = fname.indexOf('.');
