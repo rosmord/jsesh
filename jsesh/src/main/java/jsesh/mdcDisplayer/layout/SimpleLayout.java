@@ -806,9 +806,7 @@ public class SimpleLayout extends AbstractLayout {
      * Layout the top item list.
      *
      * @param t the list of items to lay out.
-     * @see
-     * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.
-     * TopItemList)
+     *
      */
     @Override
     public void visitTopItemList(TopItemList t) {

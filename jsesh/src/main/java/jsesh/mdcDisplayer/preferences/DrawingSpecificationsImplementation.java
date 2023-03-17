@@ -458,13 +458,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
     /**
-     * @param gardinerQofUsed the gardinerQofUsed to set
-     */
-    public void setGardinerQofUsed(boolean gardinerQofUsed) {
-        this.gardinerQofUsed = gardinerQofUsed;
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @return

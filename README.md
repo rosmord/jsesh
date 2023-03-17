@@ -39,6 +39,19 @@ Contains the following folders and modules:
 * codeDumper : a small software to create a dump of JSesh files, 
   as simple lists of codes.
 
+#### Weird compilation behaviour
+
+I have just lost a few hours because JSesh wasn't compiling correctly anymore. It seems that the problem was
+due to some IDE project files with a wrong path (in particular, with a wrong path regarding to the generated files.
+
+If you have the following behaviour :
+
+- initial compile is ok, and build files from the CUP and JFlex folder ;
+- further builds complain that `MDCParse` doesn't exist
+
+it might be worthwhile deleting `.classpath` and `.project` files in your JSesh folder, and trying again.
+
+
 ## Files and Folders not part of the general maven architecture
 
 * README.md : this file

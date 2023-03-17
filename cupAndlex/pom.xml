@@ -18,33 +18,7 @@
 		<myMavenVersion>3.8.4</myMavenVersion>
 	</properties>
 
-	<dependencies>
-		<!--
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-project</artifactId>
-			<version>3.0-alpha-2</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.sonatype.plexus</groupId>
-			<artifactId>plexus-build-api</artifactId>
-			<version>0.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>${myMavenVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
-
+	<dependencies>		
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
@@ -67,13 +41,6 @@
 			<version>3.6.2</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>${myMavenVersion}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-core</artifactId>
@@ -116,16 +83,19 @@
 							<goal>descriptor</goal>
 						</goals>
 					</execution>
-				</executions>
-		
+				</executions>		
 			</plugin>
+							<!--			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>	
 				<configuration>
 					<release>8</release>
 				</configuration>
+			
 			</plugin>
+			-->
 		</plugins>
 	</build>
 

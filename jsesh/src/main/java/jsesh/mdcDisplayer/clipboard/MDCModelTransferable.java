@@ -4,6 +4,22 @@
  */
 package jsesh.mdcDisplayer.clipboard;
 
+import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
+import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
+import jsesh.graphics.export.pdfExport.PDFDataSaver;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.graphics.export.rtf.RTFExporter;
+import jsesh.mdc.model.ListOfTopItems;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
+import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
+import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -14,22 +30,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
-import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
-import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.graphics.export.rtf.RTFExporter;
-import jsesh.graphics.export.pdfExport.PDFDataSaver;
-import jsesh.mdc.model.ListOfTopItems;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-
-import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
-import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
 /**
  *

@@ -78,16 +78,6 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 	private float getBaseWidth(String code) {
 		return specificDrawers.get(code).getBaseWidth();
 	}
-	
-	public double getGroupUnitLength() {
-		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
-		return 0;
-	}
-
-	public double getHeightOfA1() {
-		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
-		return 0;
-	}
 
         @Override
 	public Optional<LigatureZone> getLigatureZone(int i, String code) {
@@ -117,7 +107,19 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 	public void setSmallBodyUsed(boolean smallBody) {
 		// Should not be in this class...
 	}
-	
+
+
+	public double getGroupUnitLength() {
+		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
+		return 0;
+	}
+
+	public double getHeightOfA1() {
+		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
+		return 0;
+	}
+
+
 	public static SpecialSymbolDrawer getInstance() {
 		return instance;
 	}

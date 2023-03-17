@@ -6,7 +6,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +42,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      */
     private static final String DEFAULT_CODE = "A1";
 
-    private static HashMap<String, String> normalizedCodesMap = new HashMap<String, String>();
+    private static HashMap<String, String> normalizedCodesMap = new HashMap<>();
 
     static {
         normalizedCodesMap.put("[[", "BEGINERASE");
@@ -67,7 +66,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     /**
      * A map code for signs not managed by FontManager.
      */
-    private Map<String, Float> nonHieroglyphic;
+    private Map<String, Rectangle2D.Float> nonHieroglyphic;
 
     private float heightOfA1 = 0;
 
@@ -102,9 +101,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      * @param code
      * @param angle
      * @param view
-     * @see
-     * jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer#draw(Graphics2D,
-     * String, int, MDCView)
      */
     public void draw(Graphics2D g, String code, int angle, ViewBox view) {
         Graphics2D tmpG = (Graphics2D) g.create();
@@ -143,9 +139,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         tmpG.dispose();
     }
 
-    /**
-     * @see jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer#getBBox(String)
-     */
     public Rectangle2D getBBox(String code, int angle, boolean fixed) {
         Rectangle2D result = null;
 

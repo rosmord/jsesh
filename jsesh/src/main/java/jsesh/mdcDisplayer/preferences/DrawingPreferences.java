@@ -365,6 +365,13 @@ public interface DrawingPreferences {
      */
     YODChoice getYodChoice();
 
+
+    /**
+     * Is "q" rendered as k with dot below (like in Gardiner's grammar) or as a plain "q".
+     * @return
+     */
+    boolean isGardinerQofUsed();
+
     /**
      * Returns the size (in points) below which we will start using small body
      * fonts. For instance, if we set it to 10, any sign drawn with a scale such
@@ -433,4 +440,5 @@ public interface DrawingPreferences {
      * @param justified
      */
     void setJustified(boolean justified);
+
 }

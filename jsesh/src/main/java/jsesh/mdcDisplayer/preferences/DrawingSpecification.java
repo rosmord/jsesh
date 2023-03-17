@@ -1,6 +1,5 @@
 package jsesh.mdcDisplayer.preferences;
 
-import com.lowagie.text.pdf.CMYKColor;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
@@ -66,10 +65,6 @@ public interface DrawingSpecification extends DrawingPreferences {
      * @return  the size of the text.
      */
     Rectangle2D getTextDimensions(char scriptCode, String text);
-
-    boolean isGardinerQofUsed();
-
-    void setGardinerQofUsed(boolean useGardinerQof);
 
     /**
      * Gets the document preferences which corresponds to those drawing

@@ -383,17 +383,12 @@ public final class GroupEditor extends JPanel {
      */
     public void move(double dx, double dy) {
         if (selected != -1) {
-            DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications();
-            MDCView v = getView().getSubView(selected);
-            Point2D p = getViewPosition(v);
-            double x = p.getX() + dx;
-            double y = p.getY() + dy;
-            // Convert to integers :
-            double unitSize = specs.getHieroglyphsDrawer()
+            DrawingSpecification drawingSpecifications = groupEditorDrawingPreferences.getDrawingSpecifications();
+            Hieroglyph h = group.getHieroglyphAt(selected);            
+            double unitLength = drawingSpecifications.getHieroglyphsDrawer()
                     .getGroupUnitLength();
-            x = x / unitSize;
-            y = y / unitSize;
-            Hieroglyph h = group.getHieroglyphAt(selected);
+            double x = h.getX() + dx/unitLength;
+            double y = h.getY() + dy/unitLength;
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
             revalidate();
             repaint();
