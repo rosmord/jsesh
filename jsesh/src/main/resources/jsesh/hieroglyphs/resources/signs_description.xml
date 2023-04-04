@@ -15004,7 +15004,6 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="D197" tag="arms"/>
     <variantOf baseSign="D32" isSimilar="y" linguistic="unspecified" sign="D197"/>
     <hasTransliteration sign="D197" transliteration="sxn" type="ideogram" use="palette"/>
-    <contains partCode="D32" sign="D197"/>
   </sign>
   <sign sign="D198">
     <hasTag sign="D198" tag="arms"/>
@@ -36721,7 +36720,6 @@ U22-m-D17</signDescription>
   <sign sign="V98">
     <hasTag sign="V98" tag="receptacle"/>
     <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V98"/>
-    <contains partCode="V36" sign="V98"/>
   </sign>
   <sign sign="V99">
     <contains partCode="V98" sign="V99"/>
@@ -38211,7 +38209,6 @@ Y2-+l is the old shape, used until the end of the+s-!
     <signDescription lang="en" sign="Y2">+lO.K. shape of +s-Y1-+l. See Y1 for more information.+s-!
 </signDescription>
     <hasTag sign="Y2" tag="writing implement"/>
-    <contains partCode="Y1" sign="Y2"/>
   </sign>
   <sign sign="Y2v">
     <hasTag sign="Y2v" tag="writing implement"/>
@@ -38636,7 +38633,6 @@ Y2-+l is the old shape, used until the end of the+s-!
   <sign alwaysDisplay="y" sign="Aa17">
     <hasTransliteration sign="Aa17" transliteration="sA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa17" transliteration="zA" type="phonogram" use="keyboard"/>
-    <contains partCode="Aa18" sign="Aa17"/>
   </sign>
   <sign alwaysDisplay="y" sign="Aa18">
     <hasTransliteration sign="Aa18" transliteration="sA" type="phonogram" use="keyboard"/>
