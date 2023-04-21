@@ -6,6 +6,93 @@ This journal should only be edited and modified in the Development branch.
 
 Working on cleaning up the mess of Singletons. 
 
+### Hieroglyphic fonts and database
+
+Currently, we have the following system :
+
+~~~plantuml
+@startuml
+skin rose
+interface HieroglyphDatabaseInterface {
+    getCanonicalCode(code)
+    getCodesForFamily(family, includeVariants)            
+    getDescriptionFor(String code)
+    getFamilies()
+    getPossibilityFor(phoneticValue, level)
+    getSignsContaining(code)
+    getSignsIn(code)
+    getSignsWithTagInFamily(currentTag, familyName)
+    getSignsWithoutTagInFamily(familyName);
+    getTagsForFamily(familyName)
+    getTagsForSign(gardinerCode)
+    getValuesFor(gardinerCode)
+    getVariants(String code)
+    getVariants(String code, variantTypeForSearches)
+    getTransitiveVariants(String code, variantTypeForSearches)
+    isAlwaysDisplayed(code)
+    getCodesStartingWith(code)
+    getSuitableSignsForCode(code)
+}
+
+class ManuelDeCodage <<singleton>> {
+    getTallNarrowSigns()
+    getLowBroadSigns()
+    getLowNarrowSigns()
+    getCanonicalCode(code)
+    isKnownCode(code)
+    getBasicGardinerCodesForFamily(familyCode)
+
+}
+
+class SimpleHieroglyphDatabase extends HieroglyphDatabaseInterface {
+  SimpleHieroglyphDatabase(HieroglyphicFontManager, ManuelDeCodage)
+}
+
+HieroglyphicFontManager <- SimpleHieroglyphDatabase
+SimpleHieroglyphDatabase -> ManuelDeCodage
+
+
+interface HieroglyphicFontManager {
+	get(code) : ShapeChar
+  getSmallBody(code)  : ShapeChar
+  getCodes()	
+	hasNewSigns()
+} 
+
+HieroglyphicFontManager <|-- DefaultHieroglyphicFontManager 
+HieroglyphicFontManager <|-- DirectoryHieroglyphicFontManager
+HieroglyphicFontManager <|-- CompositeHieroglyphicFontManager
+HieroglyphicFontManager <|-- ResourcesHieroglyphicFontManager 
+
+
+class DefaultHieroglyphicFontManager <<singleton>> {}
+@enduml
+~~~
+
+Possible changes :
+
+- replace `SimpleHieroglyphicDatabase`, or hide it behind a factory method  ;
+- it seems that `SimpleHieroglyphicDatabase` only uses `HieroglyphicFontManager` for its list of codes ; create an interface `CodeRepository` and implement it ?
+
+Make code a class :
+
+~~~plantuml
+@startuml
+skin rose
+
+abstract class Code {
+  {static} Code buildCode(string)
+  {abstract} accept(visitor)
+}
+
+class GardinerCode extends Code {}
+class PhoneticCode extends Code {}
+class NumericCode extends Code {}
+class OtherCode extends Code {}
+
+@enduml
+~~~
+
 ## 2020/02/14
 
 - Note for the future : the current package organization of JSesh is illogical.   

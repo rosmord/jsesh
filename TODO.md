@@ -7,6 +7,12 @@ Franglish file, mainly for personnal use.
 ## In work
 
 
+- Removing Singleton for preferences
+- Removing most singletons for MDCEditorKit.
+- replace arrays of String by list of Strings in ligature definitions ? See `LigatureComparator` and `	Map<String[], ExplicitPosition[]> ligaturesMap;`
+- replace "directory" by "folder" when possible
+- see if Layout (different from TopItemLayout) must use an interface ? There is only one interface currently : refactoring to perform after the others, to see.
+
 ## Next version
 - introduce more sub-menus in the edit menu, to shorten it (it causes problems on small screens)
 - Add export to XML/JSON for MdC documents
