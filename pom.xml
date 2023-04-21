@@ -77,5 +77,6 @@
     <module>signInfoAppli</module>
     <module>jseshDemos</module>
     <module>jseshLabels</module>
+    <module>softwares</module>
   </modules>
 </project>

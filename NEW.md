@@ -23,3 +23,11 @@
 - hieroglyphica shape for S44 is now S44VARA 
 - some library improvement.
 - (other font cleanup)
+
+### Code cleaning
+
+Normally without interest for users. Might break some code if linked on latest JSesh libraries.
+
+- class renaming :
+- removing the dependency on `jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager` as a **singleton** in most places ; this makes the code a bit more complex to use, but cleaner.
+

@@ -114,20 +114,28 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
 
     // NOTE : each method which has been reread for undo/redo capability will be
     // associated with a // UNDO/REDO comment
+
     /**
-     * The data from the last cut or copy. Should move somewhere else, and be
-     * integrated in the normal java copy/paste scheme;
+     * Cursor position and selection.
      */
-    // static private List copyBuffer;
     private MDCCaret caret;
+
+    /**
+     * The code being typed
+     */
     private final StringBuffer currentCode;
+    
     private char currentSeparator = ' ';
+    
     private HieroglyphicTextModel hieroglyphicTextModel;
+    
     private final List<MDCModelEditionListener> listeners;
+    
     /**
      * Is it possible to modify this text, or is this simply a view?
      */
     private boolean readWrite = true;
+    
     /**
      * Mode is one of 's', 'l', 'i', 'b', 't', 'T', '|' for respectively
      * "hieroglyphs", "latin", "italic", "bold", "transliteration", "uppercase
@@ -1434,6 +1442,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         }
         if (caret.hasSelection()) {
             List<TopItem> elts = getSelection();
+            ERROR;
             // FIXME : drawing specifications alert !!!
             AbsoluteGroup g = AbsoluteGroupBuilder.createAbsoluteGroupFrom(
                     elts, MDCEditorKit.getBasicMDCEditorKit()

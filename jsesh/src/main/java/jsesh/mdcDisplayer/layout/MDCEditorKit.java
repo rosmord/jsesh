@@ -10,12 +10,17 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 /**
+ * Shared default values for JSesh widget preferences.
  * 
- * TODO : change this class into an "abstract" factory.
- * This class is used as a repository of default options for the various objects used while building a view.
- * Default implementations can be retrieved with the static method provided.
+ *  When a programmer wants a quick and simple way to create JSesh objects, without proceeding to the whole
+ *  configuration business, the EditorKit is the place to use.
+ *  
+ *  It should be the only actual singleton used by JSesh, and it should only be used by top level components,
+ *  except if the application programmer wants to manage everything on his own.
+ *  
  * Note that any modification made to the object returned by these methods will be global.
  * If you want to be more specific, provide custom made versions of these objects.
+ * 
  * @author Serge Rosmorduc
  *
  * This file is free software under the Gnu Lesser Public License.
@@ -26,11 +31,15 @@ abstract public class MDCEditorKit
 	private DrawingSpecification drawingSpecifications;
 	
 
-	private static MDCEditorKit basicMDCEditorKit= new MDCEditorKit(new DrawingSpecificationsImplementation()) {
-		public Layout createLayout() {
-			return new SimpleLayout();
-		}
-	};
+	private static MDCEditorKit basicMDCEditorKit = buildMDCEditorKit();
+	
+	private static MDCEditorKit buildMDCEditorKit() {
+		 return new MDCEditorKit(new DrawingSpecificationsImplementation()) {
+				public Layout createLayout() {
+					return new SimpleLayout();
+				}
+			};
+	}
 	
 	public static MDCEditorKit getBasicMDCEditorKit() {
 			return basicMDCEditorKit;

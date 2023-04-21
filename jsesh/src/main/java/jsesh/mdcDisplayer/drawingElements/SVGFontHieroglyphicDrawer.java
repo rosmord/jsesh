@@ -61,7 +61,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     /**
      * The manager which associates codes with actual glyphs.
      */
-    private HieroglyphicFontManager fontManager;
+    // private HieroglyphicFontManager fontManager;
 
     /**
      * A map code for signs not managed by FontManager.
@@ -76,7 +76,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
         // IMPORTANT : I don't know it this absolutely needs to be a singleton.
         // If it's not, we might think of using prototypes.
-        this.fontManager = DefaultHieroglyphicFontManager.getInstance();
+        //this.fontManager = DefaultHieroglyphicFontManager.getInstance();
 
         nonHieroglyphic = new HashMap<>();
 

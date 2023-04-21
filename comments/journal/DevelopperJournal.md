@@ -1,5 +1,21 @@
 # JSesh developer journal
 
+This journal should only be edited and modified in the Development branch.
+
+## 2023/04/20
+
+Working on cleaning up the mess of Singletons. 
+
+## 2020/02/14
+
+- Note for the future : the current package organization of JSesh is illogical.   
+   For future versions, we could have :
+  - a package for the model (mdc and sundries)
+  - a "component" package, with all components
+  - each component having its own package.
+  - functions which communicate with jhotdraw should do so through a neutral interface
+  - "heavy" functions, like "advanced searches", should take advantage of 
+  
 ## 2019/02/22
 
 The git archive is a bit of a mess, as I performed changes on an old version.

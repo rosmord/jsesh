@@ -28,7 +28,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 
 	private ResourcesHieroglyphicFontManager resourcesHieroglyphicFontManager;
 
-	private DefaultHieroglyphicFontManager() {
+	public DefaultHieroglyphicFontManager() {
 		composite = new CompositeHieroglyphicFontManager();
 		directoryManager = new DirectoryHieroglyphicFontManager(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
@@ -40,11 +40,13 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		initDirectory();
 	}
 
+	/*
 	public static synchronized DefaultHieroglyphicFontManager getInstance() {
 		if (instance == null)
 			instance = new DefaultHieroglyphicFontManager();
 		return instance;
 	}
+	*/
 
 	
 	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {

@@ -2,7 +2,7 @@ package jsesh.utilitysoftwares.signinfoeditor.ui;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
 
 /**
  * Renders <em>one</em> sign
@@ -28,7 +28,7 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 		String code= (String) value;
 		setText(code);
 		if (code != null && ! "".equals(code))
-			setIcon(HieroglyphicBitmapBuilder.createHieroglyphIcon(code, bitmapSize-2*bitmapBorder, bitmapBorder, this));
+			setIcon(HieroglyphPictureBuilder.createHieroglyphIcon(code, bitmapSize-2*bitmapBorder, bitmapBorder, this));
 		else
 			setIcon(null);
 	}

@@ -12,13 +12,12 @@ import jsesh.swing.utils.GraphicsUtils;
 import jsesh.swing.utils.ImageIconFactory;
 
 /**
- * An helper class to create bitmap versions of the signs.
+ * An helper class to create bitmap versions of single signs.
  * 
- * @see ImageIconFactory for a similar class.
  * @author rosmord
  * 
  */
-public class HieroglyphicBitmapBuilder {
+public class HieroglyphPictureBuilder {
 
 	/**
 	 * The size of the bitmap
@@ -47,13 +46,12 @@ public class HieroglyphicBitmapBuilder {
 
 	private int border;
 
-	public HieroglyphicBitmapBuilder() {
+	private HieroglyphicFontManager fontManager;
 
-		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
-				.getInstance();
-		// ShapeChar glyph = manager.get(code);
-		ShapeChar A1 = manager.get("A1");
-		maxSize = A1.getBbox().getHeight();
+	public HieroglyphPictureBuilder(HieroglyphicFontManager hieroglyphicFontManager) {
+		this.fontManager = hieroglyphicFontManager;
+		// ShapeChar A1 = fontManager.get("A1");
+		// maxSize = A1.getBbox().getHeight();
 		size = 50;
 		transparent = false;
 		border = 4;
@@ -68,19 +66,26 @@ public class HieroglyphicBitmapBuilder {
 	 * @param transparent
 	 *            should the picture be transparent.
 	 */
-	public HieroglyphicBitmapBuilder(double maxSize, int imageSize,
-			boolean transparent) {
-		super();
-		// TODO Auto-generated constructor stub
-
+	public HieroglyphPictureBuilder(
+			HieroglyphicFontManager hieroglyphicFontManager,
+			double maxSize, int imageSize,
+			boolean transparent) {		
+		this.fontManager = hieroglyphicFontManager;
 		this.maxSize = maxSize;
 		this.size = imageSize;
 		this.transparent = transparent;
 	}
 
-	public BufferedImage buildSignBitmap(ShapeChar glyph) {
-		// Compute the scale
 
+	public boolean hasCode(String code) {
+		return fontManager.get(code) != null;
+	}
+	
+	public BufferedImage buildSignBitmap(String code) {
+	}
+	
+	private BufferedImage buildSignBitmap(ShapeChar glyph) {
+		// Compute the scale
 		float scale = (float) (size / maxSize);
 
 		int colorModel = BufferedImage.TYPE_BYTE_GRAY;
@@ -232,24 +237,19 @@ public class HieroglyphicBitmapBuilder {
 	 */
 	public static Icon createHieroglyphIcon(String code, int size, int border,
 			Component container) {
-
-		// HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder(20,
-		// 30, false);
-		HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder();
+		HieroglyphPictureBuilder builder = new HieroglyphPictureBuilder();
 		builder.setSize(size);
 		builder.setTransparent(false);
 		builder.setBorder(border);
 		builder.setFit(true);
 		builder.setComponent(container);
 
-		HieroglyphicFontManager manager = DefaultHieroglyphicFontManager
-				.getInstance();
-		jsesh.hieroglyphs.graphics.ShapeChar glyph = manager.get(code);
-		if (glyph == null) {
-			System.err.println("Could not build "+ code);
-			return createHieroglyphIcon("A1", size, border, container);
+		BufferedImage img;
+		if (builder.hasCode(code)) {
+			 img = builder.buildSignBitmap(code);
+		} else {
+			img = builder.buildSignBitmap("A1");
 		}
-		BufferedImage img = builder.buildSignBitmap(glyph);
 		return new ImageIcon(img);
 	}
 
