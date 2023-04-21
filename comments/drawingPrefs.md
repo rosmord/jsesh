@@ -97,29 +97,24 @@ Organise properties :
 - smallSignCentered
 - smallSkip
 
-#### Skips (outside cadrats)
+#### Sign oriented information
 - largeSignSizeRatio
 - smallSignSizeRatio
+- smallBodyScaleLimit
+- graphicDeviceScale (see doc) : only used to compute A1 theoretical height, and decide if we should use *small body* hieroglyphic fonts or normal ones. Perhaps not relevant and out of place. It might be a good idea to separate such properties
+  (i.e. description of output device) from actual preferences.
+
+#### Skips (outside cadrats)
 - lineSkip
 - columnSkip
 - tabUnitWidth
 
+#### Pagination
 - pageLayout
 - isPaged
 - justified (to be deprecated)
-
 - textDirection should be an area attribute.
 - textOrientation
-
-#### Other
-- smallBodyScaleLimit
-
-
-- graphicDeviceScale (see doc)
-  only used to compute A1 theoretical height, and decide if we should use *small body* hieroglyphic fonts or normal ones.
-
-  perhaps not relevant, and perhaps out of place. It might be a good idea to separate such properties
-  (i.e. description of output device) from actual preferences.
 
 ### Line drawing properties
 
@@ -185,10 +180,14 @@ topMargin;
 It's used :
 
 - To change smallBodyUsed: should not be done at this level !!!!
+  - either the drawer itself chooses sign body, or it's an attribute passed to the method.
+
 - to get the height of A1
+
 - retrieved directly from VisitComplexLigatures from SimpleLayout and visitHieroglyph (quite logical)!
 
 - to draw (normal!)
+
 - to check that a sign is drawable
 
 - to get the Area occupied by a sign (for group editor clicks)
@@ -196,7 +195,7 @@ It's used :
 - to get the ligatureZone (messed up!)
 - to get the "groupUnitLength" (i.e. 1/1000 of A1 size)
 
-TO DO:
+## TO DO:
 
 1. create a class which represent a HieroglyphDrawing (or something similar) :
   - it should have a BBox ;

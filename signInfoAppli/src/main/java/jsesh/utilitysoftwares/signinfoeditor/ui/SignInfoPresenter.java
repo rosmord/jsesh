@@ -46,7 +46,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import jsesh.hieroglyphs.data.GardinerCode;
-import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
@@ -338,7 +338,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             view.getSignCodeField().setText(code);
             JLabel signIconLabel = view.getSignGlyphLabel();
             // update sign display
-            signIconLabel.setIcon(HieroglyphicBitmapBuilder.createHieroglyphIcon(code, signIconLabel.getHeight() - 2 * LABEL_PADDING, LABEL_PADDING, signIconLabel));
+            signIconLabel.setIcon(HieroglyphPictureBuilder.createHieroglyphIcon(code, signIconLabel.getHeight() - 2 * LABEL_PADDING, LABEL_PADDING, signIconLabel));
 
             // table of signs of whom we are a variant.
 

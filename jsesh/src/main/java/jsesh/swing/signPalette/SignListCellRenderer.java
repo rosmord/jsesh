@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import jsesh.hieroglyphs.graphics.HieroglyphicBitmapBuilder;
+import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {
@@ -39,7 +39,7 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 				setText(code);
 			else
 				setText("");
-			setIcon(HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
+			setIcon(HieroglyphPictureBuilder.createHieroglyphIcon(code,
 					bitmapHeight, border, parent));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());

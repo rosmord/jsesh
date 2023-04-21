@@ -3,6 +3,8 @@ package jsesh.newEdit;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.Cadrat;
@@ -28,17 +30,22 @@ import org.qenherkhopeshef.viewToolKit.drawing.element.RectangleElement;
  * primitives. Afterwards, a proper management system will be created.
  *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ * 
+ * TODO : aggregate font manager in a preference object, which will fire changed events to trigger new layouts.
  *
  */
 public class MDCDrawingManager {
 
     private TopItemList items;
     private PlainDrawing drawing;
+    private HieroglyphicFontManager fontManager;
 
-    public MDCDrawingManager(TopItemList items, PlainDrawing drawing) {
+    public MDCDrawingManager(TopItemList items, PlainDrawing drawing, HieroglyphicFontManager fontManager) {
         super();
+        this.fontManager = fontManager;
         this.items = items;
         this.drawing = drawing;
+        this.fontManager = fontManager;
     }
 
     public void layout() {
@@ -65,12 +72,9 @@ public class MDCDrawingManager {
         }
     }
 
-    private static class DrawingElementsFactory extends ModelElementDeepAdapter {
+    private  class DrawingElementsFactory extends ModelElementDeepAdapter {
 
         ArrayList<GraphicalElement> elements = new ArrayList<GraphicalElement>();
-
-        public DrawingElementsFactory() {
-        }
 
         /**
          * Returns the graphical elements created by this factory.
@@ -135,7 +139,7 @@ public class MDCDrawingManager {
 
         @Override
         public void visitHieroglyph(Hieroglyph h) {
-            elements.add(new HieroglyphicElement(h.getCode()));
+            elements.add(new HieroglyphicElement(h.getCode(), fontManager));
         }
 
     }

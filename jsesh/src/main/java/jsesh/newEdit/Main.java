@@ -5,12 +5,17 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+
 public class Main {
 	private final JFrame frame= new JFrame("display");
-	private final NewMDCEditor newMDCEditor= new  NewMDCEditor();
+	private final NewMDCEditor newMDCEditor; 
 	private final JTextField mdcTextField= new JTextField();
 	
-	public Main() {		
+	public Main() {	
+		HieroglyphicFontManager fontManager = new DefaultHieroglyphicFontManager();
+		newMDCEditor = new NewMDCEditor(fontManager);
 		Container panel = frame.getContentPane();
 		panel.setLayout(new BorderLayout());
 		JScrollPane scroll= new JScrollPane(newMDCEditor);

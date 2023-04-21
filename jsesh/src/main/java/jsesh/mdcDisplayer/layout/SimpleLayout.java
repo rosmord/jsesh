@@ -37,8 +37,8 @@ public class SimpleLayout extends AbstractLayout {
     protected LigatureManager ligatureManager;
     private boolean inAbsoluteGroup = false;
 
-    public SimpleLayout() {
-        ligatureManager = LigatureManager.getInstance();
+    public SimpleLayout(LigatureManager ligatureManager) {
+        this.ligatureManager = ligatureManager;
     }
 
     /*
@@ -605,7 +605,7 @@ public class SimpleLayout extends AbstractLayout {
         for (int i = 0; i < codes.length; i++) {
             codes[i] = l.getHieroglyphAt(i).getCode();
         }
-        ExplicitPosition pos[] = LigatureManager.getInstance().getPositions(
+        ExplicitPosition pos[] = ligatureManager.getPositions(
                 codes);
 
         if (pos != null) {
