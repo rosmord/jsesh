@@ -83,9 +83,9 @@ DrawingSpecification mainly adds computed methods, and, most importantly, the Hi
 
 ## Improvements
 
-Almost easy : separate getters and setter...
+One is almost easy : separate getters and setter...
 
-Organise properties :
+Also, organise properties by theme :
 
 ### Layout properties
 
@@ -158,7 +158,7 @@ Organise properties :
 
 - serekhDoorSize
 
-### Fonts
+### Fonts and latin script
 
 - getFont(code) (non hieroglyphic fonts)
 - getSuperScriptFont()
@@ -177,12 +177,15 @@ topMargin;
 
 ## About HieroglyphsDrawer
 
-It's used :
+Note : we use preferences there, but what is actually in the preferences might be the **folder** containing the signs,
+not the whole object.
+
+`HieroglyphsDrawer` is currently used :
 
 - To change smallBodyUsed: should not be done at this level !!!!
   - either the drawer itself chooses sign body, or it's an attribute passed to the method.
 
-- to get the height of A1
+- to get the current height of A1
 
 - retrieved directly from VisitComplexLigatures from SimpleLayout and visitHieroglyph (quite logical)!
 
@@ -191,8 +194,11 @@ It's used :
 - to check that a sign is drawable
 
 - to get the Area occupied by a sign (for group editor clicks)
+
 - to get the BBox of a sign
+
 - to get the ligatureZone (messed up!)
+
 - to get the "groupUnitLength" (i.e. 1/1000 of A1 size)
 
 ## TO DO:
@@ -231,3 +237,25 @@ See :
 
 It might be a good idea to use Points2D as coordinates in Graphics2D,
 and another type to designate points in model Space. 
+
+## Some problems
+
+### Relatively illogical code
+
+In group editor, we have :
+
+~~~java
+public void setDrawingSpecification(DrawingSpecification drawingSpecifications) {
+    // Ensure drawing specs are left to right.
+    // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
+    DrawingSpecification specs = drawingSpecifications.copy();
+    specs.setTextDirection(TextDirection.LEFT_TO_RIGHT.LEFT_TO_RIGHT);
+    groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+    repaint();
+    revalidate();
+}
+~~~
+
+1. we would like the whole repaint/revalidate stuff to be somehow automated ; an **event** might convey the notion of having some effect on the layout or not (or possibly, we consider any change can alter the layout)
+2. the whole stuff on textdirection is weird.
+

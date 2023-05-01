@@ -7,6 +7,7 @@ Franglish file, mainly for personnal use.
 ## In work
 
 
+- flatten the current *Layout* class/hierarchy. It has only one implementation, and we should probably simplify it, which would allow us to clarify its relationship with drawing preferences.
 - Removing Singleton for preferences
 - Removing most singletons for MDCEditorKit.
 - replace arrays of String by list of Strings in ligature definitions ? See `LigatureComparator` and `	Map<String[], ExplicitPosition[]> ligaturesMap;`

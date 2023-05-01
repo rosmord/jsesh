@@ -2,6 +2,20 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2023/04/25
+
+Well, the mess of singleton is also linked to the question of preferences (not preference files, but in-memory preferences) in the software. 
+
+- investigate variants of Observable and Reactive patterns outside of Swing
+- look how it's done in other softwares...
+
+The current question is the granularity of preferences. Should it be large (say, setPreferences/getPreferences, with an immutable 
+preferenceValue object, and possibly a preferenceProperty which could be shared), or fine-grained (with a mutable preference object).
+
+
+**anyway, the first step will be to make everything explicit at constructor level**. We will only use `new` when absolutely mandatory.
+
+
 ## 2023/04/20
 
 Working on cleaning up the mess of Singletons. 

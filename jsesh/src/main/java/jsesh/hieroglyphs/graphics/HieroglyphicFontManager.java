@@ -19,6 +19,15 @@ public interface HieroglyphicFontManager {
 
 
 	/**
+	 * Does this font manager know about a certain code.
+	 * @param code the code to search
+	 * @return if the code is known by the font manager.
+	 */
+	default boolean hasCode(String code) {
+		return get(code) != null;
+	}
+	
+	/**
 	 * Returns the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
 	 * @param code
 	 * @return the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.

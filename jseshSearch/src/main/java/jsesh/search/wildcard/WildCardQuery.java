@@ -46,18 +46,18 @@ public class WildCardQuery implements MdCSearchQuery {
     /**
      * Code in the MdC String to introduce the start of a set of searched signs.
      */
-    private static final String QUERY_SET_BEGIN = "QUERYSETB";
+    public static final String QUERY_SET_BEGIN = "QUERYSETB";
 
     /**
      * Code in the MdC String to introduce the end of a set of searched signs.
      */
-    private static final String QUERY_SET_END = "QUERYSETE";
+    public static final String QUERY_SET_END = "QUERYSETE";
 
     /**
      * Code in the MdC String for a skip (a undefined number of signs, possibly
      * 0).
      */
-    private static final String QUERY_SKIP = "QUERYSKIP";
+    public static final String QUERY_SKIP = "QUERYSKIP";
 
     private RegularExtractor<HieroglyphOccurrence> extractor;
     /**

@@ -35,10 +35,6 @@ public class SimpleViewBuilder implements ViewBuilder {
 
     private Layout layout;
 
-    public SimpleViewBuilder() {
-        this(MDCEditorKit.getBasicMDCEditorKit().createLayout());
-    }
-
     public SimpleViewBuilder(Layout layout) {
         currentView = null;
         this.layout = layout;

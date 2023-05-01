@@ -22,6 +22,8 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
+
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 import jsesh.mdcDisplayer.preferences.PageLayout;
@@ -153,5 +155,10 @@ public class JMDCField extends JMDCEditor {
         }
 
     }
+
+	public void setFontManager(HieroglyphicFontManager fontManager) {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("WRITE ME!!!!");
+	}
 
 }

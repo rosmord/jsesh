@@ -18,7 +18,12 @@ import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
  */
 public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 
-	private final SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer = new SVGFontHieroglyphicDrawer();
+	private final SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer;
+
+	public HieroglyphicDrawerDispatcher(SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer) {
+		super();
+		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
+	}
 
 	private HieroglyphsDrawer getDrawer(String code) {
 		if (SpecialSymbolDrawer.getInstance().isSpecial(code)) {

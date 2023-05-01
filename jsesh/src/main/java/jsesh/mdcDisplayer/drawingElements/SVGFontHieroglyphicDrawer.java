@@ -1,3 +1,13 @@
+/*
+ * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
+ * serge.rosmorduc@cnam.fr
+
+ * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
+ * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
+
+ * This software is governed by the CeCILL-C license 
+ * under French law : "http://www.cecill.info". 
+ */
 package jsesh.mdcDisplayer.drawingElements;
 
 import java.awt.Graphics2D;
@@ -18,14 +28,6 @@ import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.swing.utils.ShapeHelper;
 
-/**
- * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
- *
- * (c) Serge Rosmorduc
- *
- * @author Serge Rosmorduc
- *
- */
 /**
  * A Hieroglyphic drawer which takes its input from (SVG) fonts. Our default
  * implementation of hieroglyphs drawing and measuring.
@@ -61,7 +63,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     /**
      * The manager which associates codes with actual glyphs.
      */
-    // private HieroglyphicFontManager fontManager;
+    private final HieroglyphicFontManager fontManager;
 
     /**
      * A map code for signs not managed by FontManager.
@@ -72,7 +74,8 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 
     private boolean smallBodyUsed = false;
 
-    public SVGFontHieroglyphicDrawer() {
+    public SVGFontHieroglyphicDrawer(HieroglyphicFontManager hieroglyphicFontManager) {
+    	this.fontManager = hieroglyphicFontManager;
         // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
         // IMPORTANT : I don't know it this absolutely needs to be a singleton.
         // If it's not, we might think of using prototypes.
