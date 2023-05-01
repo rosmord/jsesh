@@ -28,7 +28,7 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
@@ -277,7 +277,7 @@ public final class GroupEditor extends JPanel {
         MDCView view;
         if (group != null) {
         	
-            SimpleViewBuilder builder = new SimpleViewBuilder();
+            ViewBuilder builder = new ViewBuilder();
             view = builder.buildView(group,
                     groupEditorDrawingPreferences.getDrawingSpecifications());
         } else {

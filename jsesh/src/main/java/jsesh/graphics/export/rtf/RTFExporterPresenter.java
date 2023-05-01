@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import javax.swing.DefaultComboBoxModel;
 
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
@@ -47,7 +47,7 @@ public class RTFExporterPresenter {
         RTFExporter exporter = new RTFExporter();
         exporter.setDrawingSpecifications(drawingSpecifications);
         exporter.setRtfPreferences(rtfPreferences);
-        exporter.setViewBuilder(new SimpleViewBuilder());
+        exporter.setViewBuilder(new ViewBuilder());
         try {
             OutputStream out = new FileOutputStream(file);
             exporter.ExportModelTo(model, out);

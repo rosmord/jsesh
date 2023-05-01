@@ -27,7 +27,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
@@ -201,7 +201,7 @@ public class PDFExporter {
 
         DrawingSpecification drawingSpecifications;
 
-        SimpleViewBuilder builder;
+        ViewBuilder builder;
 
         public IPDFExporterAux(String comment) throws IOException,
                 DocumentException {
@@ -215,7 +215,7 @@ public class PDFExporter {
             prepareFonts();
 
             // Classes used to draw the cadrats.
-            builder = new SimpleViewBuilder();
+            builder = new ViewBuilder();
 
             PDFExportHelper.ensureCMYKColorSpace(drawingSpecifications);
 

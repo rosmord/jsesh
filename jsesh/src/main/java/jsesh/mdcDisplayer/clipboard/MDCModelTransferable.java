@@ -13,8 +13,8 @@ import jsesh.mdc.model.ListOfTopItems;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
@@ -118,7 +118,7 @@ public class MDCModelTransferable implements Transferable {
      */
     private ByteArrayInputStream getEMFData() throws IOException {
     	EmbeddableEMFSimpleDrawer drawer=
-                new EmbeddableEMFSimpleDrawer(new SimpleViewBuilder(),
+                new EmbeddableEMFSimpleDrawer(new ViewBuilder(),
                         getDrawingSpecifications(),
                         rtfPreferences.getCadratHeight(),
                         topItemList.toMdC());
@@ -149,7 +149,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getMacPictData() {
         DrawingSpecification currentSpecifications = createEmbeddedDrawingSpecifications();
         MacPictGraphics2D g = new MacPictGraphics2D();
-        MDCView view = new SimpleViewBuilder().buildView(topItemList,
+        MDCView view = new ViewBuilder().buildView(topItemList,
                 currentSpecifications);
         new ViewDrawer().draw(g, view, currentSpecifications);
         g.dispose();
@@ -199,7 +199,7 @@ public class MDCModelTransferable implements Transferable {
         if (topItemList.getNumberOfChildren() < 5000) {
             RTFExporter rtfExporter = new RTFExporter();
             rtfExporter.setDrawingSpecifications(getDrawingSpecifications());
-            rtfExporter.setViewBuilder(new SimpleViewBuilder());
+            rtfExporter.setViewBuilder(new ViewBuilder());
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());

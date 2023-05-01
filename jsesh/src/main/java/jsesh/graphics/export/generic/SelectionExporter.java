@@ -18,7 +18,7 @@ import java.io.IOException;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
@@ -58,7 +58,7 @@ public class SelectionExporter {
      */
     public void exportSelection() throws IOException {
         // Build the view :
-        SimpleViewBuilder builder = new SimpleViewBuilder();
+        ViewBuilder builder = new ViewBuilder();
         actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
         PageLayout pageLayout = actualDrawingSpecifications.getPageLayout();
         pageLayout.setLeftMargin(0f);
@@ -74,7 +74,7 @@ public class SelectionExporter {
      */
     public void exportToPages() throws IOException {
         // Build the view :
-        SimpleViewBuilder builder = new SimpleViewBuilder();
+        ViewBuilder builder = new ViewBuilder();
         actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
         actualDrawingSpecifications.setPaged(true);
 
@@ -100,7 +100,7 @@ public class SelectionExporter {
      * @param end
      * @throws IOException
      */
-    private void exportZone(SimpleViewBuilder builder, int start, int end) throws IOException {
+    private void exportZone(ViewBuilder builder, int start, int end) throws IOException {
         MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
         graphicsFactory.setDimension(getScaledDimensions(view));
         // Build the graphic file and initialize it :
