@@ -1442,7 +1442,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
         }
         if (caret.hasSelection()) {
             List<TopItem> elts = getSelection();
-            ERROR;
+            REMOVE_MDCEditorKit;
             // FIXME : drawing specifications alert !!!
             AbsoluteGroup g = AbsoluteGroupBuilder.createAbsoluteGroupFrom(
                     elts, MDCEditorKit.getBasicMDCEditorKit()

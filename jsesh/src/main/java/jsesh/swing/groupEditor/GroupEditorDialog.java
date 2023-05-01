@@ -21,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -32,6 +30,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  *
  * @author S. Rosmorduc
  */
+@SuppressWarnings("serial")
 public final class GroupEditorDialog extends JPanel {
 
     private final JButton next;
@@ -46,9 +45,9 @@ public final class GroupEditorDialog extends JPanel {
 
     private final GroupEditor editor;
 
-    public GroupEditorDialog() {
+    public GroupEditorDialog(DrawingSpecification drawingSpecification) {
         setBackground(Color.WHITE);
-        editor = new GroupEditor();
+        editor = new GroupEditor(drawingSpecification);
         next = new JButton("next");
         previous = new JButton("previous");
         reset = new JButton("reset");
@@ -66,7 +65,6 @@ public final class GroupEditorDialog extends JPanel {
         buttonGroup.add(rotate);
         buttonGroup.add(resize);
         buttonGroup.add(move);
-        //JToolBar sub = new JToolBar(SwingConstants.HORIZONTAL);
         JPanel sub = new JPanel();
         sub.setLayout(new BoxLayout(sub, BoxLayout.LINE_AXIS));
         sub.add(previous);
@@ -103,4 +101,5 @@ public final class GroupEditorDialog extends JPanel {
     public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
         editor.setDrawingSpecification(drawingSpecifications);
     }
+
 }

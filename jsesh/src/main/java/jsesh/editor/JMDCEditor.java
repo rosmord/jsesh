@@ -130,6 +130,7 @@ public class JMDCEditor extends JPanel {
      */
     private boolean caretChanged = true;
     private boolean editable = true;
+    REMOVE_MDCEditorKit // ??;
     // FIXME : choose a reasonable method to share drawing specifications.
     private DrawingSpecification drawingSpecifications = MDCEditorKit
             .getBasicMDCEditorKit().getDrawingSpecifications().copy();

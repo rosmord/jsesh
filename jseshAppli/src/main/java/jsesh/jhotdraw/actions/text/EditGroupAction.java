@@ -23,11 +23,9 @@ public class EditGroupAction extends EditorAction {
 		AbsoluteGroup g = editor.getWorkflow().buildAbsoluteGroup();
 
 		if (g != null) {
-			GroupEditorDialog d = new GroupEditorDialog();
-                        d.setDrawingSpecifications(editor.getDrawingSpecifications());
+			GroupEditorDialog d = new GroupEditorDialog(editor.getDrawingSpecifications());			
 			d.setGroup(g);
-			int choice = JOptionPane.showConfirmDialog(editor, d,
-					"Group editor", JOptionPane.OK_CANCEL_OPTION,
+			int choice = JOptionPane.showConfirmDialog(editor, d, "Group editor", JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.PLAIN_MESSAGE);
 			if (choice == JOptionPane.OK_OPTION) {
 				editor.getWorkflow().replaceSelectionByAbsoluteGroup(g);

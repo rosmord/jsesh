@@ -31,6 +31,7 @@ import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 /**
  * Editor for groups and ligatures.
@@ -51,6 +52,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  *
  * @author rosmord
  */
+@SuppressWarnings("serial")
 public final class GroupEditor extends JPanel {
 
     /**
@@ -102,14 +104,16 @@ public final class GroupEditor extends JPanel {
 
     private GroupEditorListener groupEditorListener = new DoNothingEditorListener();
 
-    private GroupEditorDrawingPreferences groupEditorDrawingPreferences = new GroupEditorDrawingPreferences();
+    private GroupEditorDrawingPreferences groupEditorDrawingPreferences;
 
     // the selected sign.
     private int selected = -1;
 
     private GroupEditorMode groupEditorMode = new DoNothingGroupEditorMode();
 
-    public GroupEditor() {
+    public GroupEditor(DrawingSpecification drawingSpecification) {
+    	groupEditorDrawingPreferences = new GroupEditorDrawingPreferences(new DrawingSpecificationsImplementation());
+    	setDrawingSpecification(drawingSpecification);
         setBackground(Color.WHITE);
         LowLevelControl control = new LowLevelControl();
         addMouseListener(control);
@@ -272,6 +276,7 @@ public final class GroupEditor extends JPanel {
     private MDCView getView() {
         MDCView view;
         if (group != null) {
+        	
             SimpleViewBuilder builder = new SimpleViewBuilder();
             view = builder.buildView(group,
                     groupEditorDrawingPreferences.getDrawingSpecifications());
@@ -456,9 +461,6 @@ public final class GroupEditor extends JPanel {
         return groupEditorDrawingPreferences;
     }
 
-    public void setGroupEditorDrawingPreferences(GroupEditorDrawingPreferences groupEditorDrawingPreferences) {
-        this.groupEditorDrawingPreferences = groupEditorDrawingPreferences;
-    }
 
     public void resetSign() {
         if (selected != -1) {

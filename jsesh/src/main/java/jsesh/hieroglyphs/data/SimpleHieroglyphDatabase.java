@@ -13,6 +13,8 @@
 package jsesh.hieroglyphs.data;
 
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -55,13 +57,13 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     /**
      * List of available families.
      */
-    private ArrayList<HieroglyphFamily> families = null;
+    private final ArrayList<HieroglyphFamily> families;
 
     /**
      * Deal with the core manuel de codage, which can't be extended. (will
      * probably be suppressed anyway).
      */
-    private ManuelDeCodage basicManuelDeCodageManager = null;
+    private final ManuelDeCodage manuelDeCodageManager;
     private final HashMap<String, ArrayList<String>> signsValues;
     private final HashMap<String, PossibilitiesList> possibilitiesLists;
 
@@ -73,14 +75,25 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      */
     private boolean inDistributionMode = true;
 
-    public SimpleHieroglyphDatabase(ManuelDeCodage basicManuelDeCodageManager) {
-        this.basicManuelDeCodageManager = basicManuelDeCodageManager;
+    /**
+     * Current fonts.
+     * 
+     * Used to compute a full list of codes.
+     * 
+     * Shouldn't be there ??
+     */
+	private HieroglyphicFontManager fontManager;
+
+    public SimpleHieroglyphDatabase(ManuelDeCodage manuelDeCodage, HieroglyphicFontManager fontManager) {
+    	this.families = fillFamilyList();
+        this.manuelDeCodageManager = manuelDeCodage;
+        this.fontManager = fontManager;        
         signsValues = new HashMap<>();
         possibilitiesLists = new HashMap<>();
         fillFamilyList();
     }
 
-    private void fillFamilyList() {
+    private static ArrayList<HieroglyphFamily> fillFamilyList() {
         final String[] familyCodes = {"A", "B", "C", "D", "E", "F", "G", "H",
             "I", "K", "L", "M", "N", "O", "P", "Q", "" + "R", "S", "T",
             "U", "V", "W", "X", "Y", "Z", "Aa", "Ff", "NU", "NL"};
@@ -104,10 +117,11 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             "Lower Egypt Nomes"};
 
         assert (familyCodes.length == familyNames.length);
-        families = new ArrayList<>();
+        ArrayList<HieroglyphFamily> families = new ArrayList<>();
         for (int i = 0; i < familyCodes.length; i++) {
             families.add(new HieroglyphFamily(familyCodes[i], familyNames[i]));
         }
+        return families;
     }
 
     /**
@@ -118,10 +132,10 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     @Override
     public Set<String> getCodesSet() {
         // NOTE THAT THE CODES SHOULD NOT BE STORED IN THE FONT MANAGER.
-        // THIS IS A TEMPORARY SOLUTION.
+        // THIS IS A TEMPORARY SOLUTION (since 2004 ? gee, 20 years temporary solution !)
         // Well, sort of, as the font manager knows of all the glyphs we
         // have created, and those define signs.
-        return DefaultHieroglyphicFontManager.getInstance().getCodes();
+        return fontManager.getCodes();
     }
 
     /**
@@ -179,7 +193,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         if (!possibilitiesLists.containsKey(value)) {
             PossibilitiesList l = new PossibilitiesList(value);
             // Ensure the "official" manuel de codage value comes first.
-            if (basicManuelDeCodageManager.isKnownCode(value)) {
+            if (manuelDeCodageManager.isKnownCode(value)) {
                 // For readability, we want to have the "official" phonetic code
                 // available.
                 l.addSign(value);
@@ -538,7 +552,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
 
     @Override
     public String getCanonicalCode(String code) {
-        return basicManuelDeCodageManager.getCanonicalCode(code);
+        return manuelDeCodageManager.getCanonicalCode(code);
     }
 
     /**

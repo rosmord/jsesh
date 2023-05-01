@@ -82,6 +82,8 @@ public class HieroglyphPictureBuilder {
 	}
 	
 	public BufferedImage buildSignBitmap(String code) {
+		ShapeChar shape = fontManager.get(code);
+		return buildSignBitmap(shape);
 	}
 	
 	private BufferedImage buildSignBitmap(ShapeChar glyph) {

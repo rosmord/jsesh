@@ -180,10 +180,6 @@ public class MDCDrawingFacade {
 	}
 
 	public DrawingSpecification getDrawingSpecifications() {
-		if (drawingSpecifications == null)
-			return MDCEditorKit.getBasicMDCEditorKit()
-					.getDrawingSpecifications();
-		else
 			return drawingSpecifications;
 	}
 

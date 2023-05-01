@@ -32,9 +32,14 @@ public class GroupEditorDrawingPreferences {
      * The drawing specifications. TODO find a good policy for drawing
      * specifications !!!!
      */
-    private DrawingSpecification drawingSpecifications = MDCEditorKit.getBasicMDCEditorKit().getDrawingSpecifications();
+    private DrawingSpecification drawingSpecifications;
     
-    /**
+    
+    public GroupEditorDrawingPreferences(DrawingSpecification drawingSpecifications) {
+		this.drawingSpecifications = drawingSpecifications;
+	}
+
+	/**
      * Handle sizes
      */
     private int handleSize = 10;
