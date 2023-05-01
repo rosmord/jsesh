@@ -96,8 +96,10 @@ public class CupMojo extends AbstractMojo {
 			File targetParserFile = new File(createParserDir(), parserName + ".java");
 
 			// Test the creation date
-			if (sourceFile.lastModified() < targetParserFile.lastModified())
+			if (sourceFile.lastModified() < targetParserFile.lastModified()) {
+				project.addCompileSourceRoot(getJavaSourcePath().getPath());
 				return;
+			}
 
 			java_cup.Main.main(args);
 			if (targetParserFile.exists()) {
