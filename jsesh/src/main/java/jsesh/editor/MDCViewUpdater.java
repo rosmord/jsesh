@@ -47,7 +47,7 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 
@@ -73,7 +73,7 @@ class MDCViewUpdater implements ModelOperationVisitor {
         @Override
 	public void visitChildOperation(ChildOperation operation) {
 		int k;
-		SimpleViewBuilder builder= new SimpleViewBuilder();
+		ViewBuilder builder= new ViewBuilder();
 		// Find the index for the element which was modified...
 		for (k = 0; k < getView().getNumberOfSubviews()
 				&& getView().getSubView(k).getModel() != operation
@@ -95,13 +95,13 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	public void visitDeletion(Deletion deletion) {
 		// Remove the modified views, and update page layout.
 		getView().remove(deletion.getStart(), deletion.getEnd());
-		new SimpleViewBuilder().reLayout(getView(),editor.getDrawingSpecifications());
+		new ViewBuilder().reLayout(getView(),editor.getDrawingSpecifications());
 	}
 
 	
         @Override
 	public void visitInsertion(Insertion insertion) {
-		SimpleViewBuilder builder= new SimpleViewBuilder();
+		ViewBuilder builder= new ViewBuilder();
 		int index= insertion.getIndex();
 		// Create and insert views at the proper position.
 		for (Iterator i= insertion.getChildren().iterator(); i.hasNext();) {
@@ -127,7 +127,7 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	
         @Override
 	public void visitZoneModification(ZoneModification modification) {
-		SimpleViewBuilder builder= new SimpleViewBuilder();
+		ViewBuilder builder= new ViewBuilder();
 		for (int i= modification.getStart(); i< modification.getEnd(); i++) {
 			TopItem it= this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
 			MDCView v= builder.buildView(it,editor.getDrawingSpecifications());

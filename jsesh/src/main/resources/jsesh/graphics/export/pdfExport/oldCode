@@ -2,7 +2,7 @@
             ByteArrayOutputStream imageArray = new ByteArrayOutputStream();
             // If this works, we will need to move this code elsewhere as it
             // might be useful.
-            ViewBuilder builder = new SimpleViewBuilder();
+            ViewBuilder builder = new ViewBuilder();
             MDCView view = builder.buildView(topItemList, drawingSpecification);
             Document document = new Document();
             // Font stuff...

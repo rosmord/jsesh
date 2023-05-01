@@ -15,7 +15,7 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -214,7 +214,7 @@ public class MDCDrawingFacade {
 		public Rectangle2D bounds;
 
 		public ViewAndBounds(TopItemList t, double x, double y) {
-			ViewBuilder viewBuilder = new SimpleViewBuilder();
+			ViewBuilder viewBuilder = new ViewBuilder();
 			view = viewBuilder.buildView(t, drawingSpecifications);
 			double scale = getScale();
 

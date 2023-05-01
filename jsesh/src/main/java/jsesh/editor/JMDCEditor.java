@@ -85,7 +85,7 @@ public class JMDCEditor extends JPanel {
      * Strategy to build a view.
      *
      */
-    // SimpleViewBuilder builder;
+    // ViewBuilder builder;
     /**
      * Debugging of view placement.
      */
@@ -234,7 +234,7 @@ public class JMDCEditor extends JPanel {
     }
 
     private MDCView recomputeDocumentView() {
-         documentView = new SimpleViewBuilder().buildView(
+         documentView = new ViewBuilder().buildView(
                     getHieroglyphicTextModel().getModel(),
                     getDrawingSpecifications());                   
          revalidate();

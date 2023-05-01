@@ -37,7 +37,7 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
+import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
@@ -326,7 +326,7 @@ public class HTMLExporter {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addAll(elements);
 
-                SimpleViewBuilder builder = new SimpleViewBuilder();
+                ViewBuilder builder = new ViewBuilder();
 
                 // scale Compute
                 double scale = (double) lineHeight
