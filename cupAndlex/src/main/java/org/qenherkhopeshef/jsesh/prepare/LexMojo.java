@@ -75,8 +75,10 @@ public class LexMojo extends AbstractMojo {
 			File finalResultFile = new File(createPackage(lexerPackage), finalResultName);
 
 			// Avoid unnecessary processing
-			if (finalResultFile.lastModified() > sourceFile.lastModified())
+			if (finalResultFile.lastModified() > sourceFile.lastModified()) {
+				project.addCompileSourceRoot(getJavaSourcePath().getAbsolutePath());
 				return;
+			}
 			JLex.Main.main(args);
 			if (finalResultFile.exists()) {
 				finalResultFile.delete();
