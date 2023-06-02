@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -95,7 +95,7 @@ public class SVGFontExporter {
                     // GardinerCode class:
                     glyphCode = GardinerCode.getCodeForFileName(mdcCode);
                 } else {
-                    HieroglyphDatabaseInterface manager = HieroglyphDatabaseRepository.getHieroglyphDatabase();
+                    HieroglyphDatabaseInterface manager = HieroglyphDatabaseFactory.getHieroglyphDatabase();
                     glyphCode = manager.getCanonicalCode(mdcCode);
                 }
                 // End of code = capital letters

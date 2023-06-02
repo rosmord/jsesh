@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.GardinerCode;
 
 /**
@@ -61,7 +61,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
 		if (!GardinerCode.isCanonicalCode(code))
-			newCode = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+			newCode = HieroglyphDatabaseFactory.getHieroglyphDatabase()
 					.getCanonicalCode(code);
 		return composite.get(newCode);
 	}
@@ -74,7 +74,7 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 		// associate glyphs codes to drawings ;
 		// a code manager should associate mdc codes to glyphs codes.
 		if (!GardinerCode.isCanonicalCode(code))
-			newCode = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+			newCode = HieroglyphDatabaseFactory.getHieroglyphDatabase()
 					.getCanonicalCode(code);
 		return composite.getSmallBody(newCode);
 	}

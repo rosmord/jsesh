@@ -26,9 +26,9 @@ public class EmbeddableEMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	 * @param cadratHeight the desired quadrant height
 	 * @param comment a comment to include in the files.
 	 */
-	public EmbeddableEMFSimpleDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecification, double cadratHeight,
+	public EmbeddableEMFSimpleDrawer(DrawingSpecification drawingSpecification, double cadratHeight,
 									 String comment) {
-		super(viewBuilder, drawingSpecification, cadratHeight);
+		super(drawingSpecification, cadratHeight);
 		setShadeAfter(false);
 		this.comment = comment;
 	}

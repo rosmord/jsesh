@@ -68,7 +68,6 @@ public class RTFExporter {
     public static final int WMF = 2;
     
     private int pictureType = EMF;
-    private ViewBuilder viewBuilder;
     private DrawingSpecification drawingSpecifications;
     private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
     private SimpleRTFWriter rtfWriter;
@@ -143,12 +142,6 @@ public class RTFExporter {
         simpleDrawer.writeToRTF(rtfWriter);
     }
 
-    /**
-     * @param viewBuilder The viewBuilder to set.
-     */
-    public void setViewBuilder(ViewBuilder viewBuilder) {
-        this.viewBuilder = viewBuilder;
-    }
 
     /**
      * @param drawingSpecifications The drawingSpecifications to set.
@@ -177,15 +170,15 @@ public class RTFExporter {
         AbstractRTFEmbeddableDrawer result = null;
         switch (pictureType) {
             case MAC_PICT:
-                result = new EmbeddableMacPictSimpleDrawer(viewBuilder, drawingSpecifications,
+                result = new EmbeddableMacPictSimpleDrawer(drawingSpecifications,
                         rtfPreferences.getCadratHeight());
                 break;
             case EMF:
-                result = new EmbeddableEMFSimpleDrawer(viewBuilder,  drawingSpecifications,
+                result = new EmbeddableEMFSimpleDrawer(drawingSpecifications,
                         rtfPreferences.getCadratHeight(), comment);
                 break;
             case WMF:
-                result = new EmbeddableWMFSimpleDrawer(viewBuilder, drawingSpecifications,
+                result = new EmbeddableWMFSimpleDrawer(drawingSpecifications,
                         rtfPreferences.getCadratHeight());
                 break;
         }

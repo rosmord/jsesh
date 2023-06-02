@@ -18,7 +18,7 @@ import javax.swing.Timer;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.caret.MDCCaret;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
@@ -264,7 +264,7 @@ public final class JSeshViewModel {
      */
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
-        List<HieroglyphFamily> families = HieroglyphDatabaseRepository
+        List<HieroglyphFamily> families = HieroglyphDatabaseFactory
                 .getHieroglyphDatabase().getFamilies();
         BundleHelper bundle = BundleHelper.getInstance();
 

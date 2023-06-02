@@ -82,12 +82,12 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      * 
      * Shouldn't be there ??
      */
-	private HieroglyphicFontManager fontManager;
+	private HieroglyphCodesSource fontManager;
 
-    public SimpleHieroglyphDatabase(ManuelDeCodage manuelDeCodage, HieroglyphicFontManager fontManager) {
+    public SimpleHieroglyphDatabase(ManuelDeCodage manuelDeCodage, HieroglyphCodesSource hieroglyphCodesSource) {
     	this.families = fillFamilyList();
         this.manuelDeCodageManager = manuelDeCodage;
-        this.fontManager = fontManager;        
+        this.fontManager = hieroglyphCodesSource;        
         signsValues = new HashMap<>();
         possibilitiesLists = new HashMap<>();
         fillFamilyList();

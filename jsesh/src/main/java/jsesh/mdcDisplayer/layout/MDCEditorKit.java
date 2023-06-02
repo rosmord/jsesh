@@ -34,7 +34,7 @@ abstract public class MDCEditorKit
 	private static MDCEditorKit buildMDCEditorKit() {
 		 return new MDCEditorKit(new DrawingSpecificationsImplementation()) {
 				public Layout createLayout() {
-					return new SimpleLayout();
+					return new Layout();
 				}
 			};
 	}

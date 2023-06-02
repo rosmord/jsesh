@@ -46,7 +46,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.resources.ResourcesManager;

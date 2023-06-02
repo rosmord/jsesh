@@ -12,10 +12,10 @@ package jsesh.hieroglyphs.graphics;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
-import java.util.Set;
+import jsesh.hieroglyphs.data.HieroglyphCodesSource;
 
 
-public interface HieroglyphicFontManager {
+public interface HieroglyphicFontManager extends HieroglyphCodesSource {
 
 
 	/**
@@ -29,7 +29,7 @@ public interface HieroglyphicFontManager {
 	
 	/**
 	 * Returns the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
-	 * @param code
+	 * @param code : the <em>canonical code</em> for a sign. 
 	 * @return the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
 	 */
 	ShapeChar get(String code);
@@ -41,11 +41,6 @@ public interface HieroglyphicFontManager {
 	 */
 	ShapeChar getSmallBody(String code);
 
-	/**
-	 * Gets the set of the codes for the signs defined by this manager.
-	 * @return a immutable set of codes.
-	 */
-	Set<String> getCodes();
 	
 	/**
 	 * Returns true if new signs are known to have been added since the last call to getCodes.

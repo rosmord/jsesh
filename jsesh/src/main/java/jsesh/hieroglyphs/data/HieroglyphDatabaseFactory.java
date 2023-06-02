@@ -39,22 +39,18 @@ import org.xml.sax.SAXException;
  *
  * @author rosmord
  */
-public class HieroglyphDatabaseRepository {
+public class HieroglyphDatabaseFactory {
 
     private ManuelDeCodage basicManuelDeCodageManager = ManuelDeCodage
             .getInstance();
 
-    private static SimpleHieroglyphDatabase instance = buildInstance();
 
-    private static SimpleHieroglyphDatabase buildInstance() {
-        SimpleHieroglyphDatabase database = new SimpleHieroglyphDatabase(ManuelDeCodage.getInstance());
+    private  SimpleHieroglyphDatabase buildInstance(HieroglyphCodesSource hieroglyphCodesSource) {
+        SimpleHieroglyphDatabase database = new SimpleHieroglyphDatabase(ManuelDeCodage.getInstance(), hieroglyphCodesSource );
         readFiles(database);
         return database;
     }
 
-    public static HieroglyphDatabaseInterface getHieroglyphDatabase() {
-        return instance;
-    }
 
     /**
      * Read the XML files containing the signs descriptions.

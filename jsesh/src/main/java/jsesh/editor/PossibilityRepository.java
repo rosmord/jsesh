@@ -43,7 +43,7 @@ import jsesh.glossary.GlossaryEntryAdded;
 import jsesh.glossary.GlossaryEntryRemoved;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JSeshGlossary;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
@@ -76,10 +76,10 @@ public class PossibilityRepository {
 			PossibilitiesList possibilities;
 
 			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
-				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+				possibilities = HieroglyphDatabaseFactory.getHieroglyphDatabase()
 						.getSuitableSignsForCode(code);
 			} else {
-				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+				possibilities = HieroglyphDatabaseFactory.getHieroglyphDatabase()
 						.getPossibilityFor(code,
 								SignDescriptionConstants.KEYBOARD);
 			}

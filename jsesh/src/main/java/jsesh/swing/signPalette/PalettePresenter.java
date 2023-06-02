@@ -39,7 +39,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
@@ -839,7 +839,8 @@ public class PalettePresenter {
             iconLabel.setIcon(null);
             infoView.setText("");
         } else {
-            iconLabel.setIcon(HieroglyphPictureBuilder.createHieroglyphIcon(
+        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager);
+            iconLabel.setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(
                     code, iconLabel.getHeight() - 4, 4, simplePalette));
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {

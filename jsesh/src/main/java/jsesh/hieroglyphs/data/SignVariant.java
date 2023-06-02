@@ -11,7 +11,6 @@
  */
 package jsesh.hieroglyphs.data;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 /**

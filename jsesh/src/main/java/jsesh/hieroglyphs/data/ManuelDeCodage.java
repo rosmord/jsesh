@@ -31,6 +31,7 @@ import jsesh.hieroglyphs.resources.HieroglyphResources;
 public class ManuelDeCodage {
 
     private HashMap<String, String> canonical;
+    
     /**
      * Map family codes to the signs in the corresponding Gardiner "basic"
      * repertoire.
@@ -509,10 +510,17 @@ public class ManuelDeCodage {
 
     /**
      * Returns the canonical code for a sign.
-     *
-     * @param code
+     * <p> Will transform an official phonetic code into a Gardiner number, and leave Gardiner codes as-is.
+     * <p> Pre-requisite : the code code given as a parameter should be correct.
+     * <p> Returns the canonical Gardiner code for the sign, if possible.    
+     * 
+     * <p> If the code is not correct (for instance, is malformed) it will be sent back as if it were a Gardiner code.
+     * @param code : a correct Manuel de Codage Code.
+     * 
      * @return the canonical code for the sign code, or the code if no canonical
      * code is known.
+     * 
+     * 
      */
     public String getCanonicalCode(String code) {
         String result = canonical.get(code);

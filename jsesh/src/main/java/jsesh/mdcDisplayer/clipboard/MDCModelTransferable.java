@@ -13,6 +13,7 @@ import jsesh.mdc.model.ListOfTopItems;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -118,7 +119,7 @@ public class MDCModelTransferable implements Transferable {
      */
     private ByteArrayInputStream getEMFData() throws IOException {
     	EmbeddableEMFSimpleDrawer drawer=
-                new EmbeddableEMFSimpleDrawer(new ViewBuilder(),
+                new EmbeddableEMFSimpleDrawer(
                         getDrawingSpecifications(),
                         rtfPreferences.getCadratHeight(),
                         topItemList.toMdC());
@@ -149,7 +150,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getMacPictData() {
         DrawingSpecification currentSpecifications = createEmbeddedDrawingSpecifications();
         MacPictGraphics2D g = new MacPictGraphics2D();
-        MDCView view = new ViewBuilder().buildView(topItemList,
+        MDCView view = new ViewBuilder(new Layout()).buildView(topItemList,
                 currentSpecifications);
         new ViewDrawer().draw(g, view, currentSpecifications);
         g.dispose();
@@ -199,7 +200,6 @@ public class MDCModelTransferable implements Transferable {
         if (topItemList.getNumberOfChildren() < 5000) {
             RTFExporter rtfExporter = new RTFExporter();
             rtfExporter.setDrawingSpecifications(getDrawingSpecifications());
-            rtfExporter.setViewBuilder(new ViewBuilder());
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());
