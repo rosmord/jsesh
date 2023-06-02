@@ -21,7 +21,6 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 	private final SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer;
 
 	public HieroglyphicDrawerDispatcher(SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer) {
-		super();
 		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
 	}
 

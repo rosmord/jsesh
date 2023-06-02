@@ -16,8 +16,8 @@ public class EmbeddableWMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	private RandomAccessByteArray out;
 	private double deviceScale = 1.0;
 
-	public EmbeddableWMFSimpleDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecification, double cadratHeight) {
-		super(viewBuilder, drawingSpecification, cadratHeight);
+	public EmbeddableWMFSimpleDrawer(DrawingSpecification drawingSpecification, double cadratHeight) {
+		super(drawingSpecification, cadratHeight);
 		setShadeAfter(false);
 	}
 

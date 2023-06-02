@@ -9,6 +9,7 @@ import java.util.prefs.Preferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.constants.JSeshInfoConstants;
@@ -75,6 +76,8 @@ public class JSeshApplicationBase {
     private final HTMLExporter htmlExporter = new HTMLExporter();
 
     private ExportPreferences exportPreferences;
+    
+    
 
     public JSeshApplicationBase() {
         loadPreferences();
@@ -112,8 +115,6 @@ public class JSeshApplicationBase {
      * @param preferences
      */
     private void loadDrawingSpecificationPreferences(Preferences preferences) {
-//        defaultDrawingSpecifications.setColorForProperty("det", Color.YELLOW);
-//        defaultDrawingSpecifications.setColorForProperty("blue", Color.BLUE);
         // Dimensions...
         defaultDrawingSpecifications.setStandardSignHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, 18.0));
         defaultDrawingSpecifications.setLineSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_LINE_SKIP, 6));
@@ -298,4 +299,5 @@ public class JSeshApplicationBase {
         defaultDrawingSpecifications = drawingSpecifications.copy();
     }
 
+    
 }

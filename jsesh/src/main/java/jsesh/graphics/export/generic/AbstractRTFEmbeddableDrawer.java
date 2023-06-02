@@ -14,12 +14,12 @@ import java.io.IOException;
 public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
-	protected AbstractRTFEmbeddableDrawer(ViewBuilder viewBuilder,
+	protected AbstractRTFEmbeddableDrawer(
 										  DrawingSpecification drawingSpecifications, double cadratHeight) {
-		super(viewBuilder, prepareDrawingSpecifications(drawingSpecifications), cadratHeight);
+		super(prepareDrawingSpecifications(drawingSpecifications), cadratHeight);
 	}
 
-	private static DrawingSpecification prepareDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+	private static final DrawingSpecification prepareDrawingSpecifications(DrawingSpecification drawingSpecifications) {
 		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
 	}
 

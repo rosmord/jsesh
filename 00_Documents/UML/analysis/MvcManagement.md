@@ -24,6 +24,10 @@ The main problem would be for instance to :
 - react to preferences modifications ;
 - be able to share preferences as we like ;
 - and even, to be able to link the preferences used by a certain dialog to « the preferences of the selected window » or something like that.
+- if possible, be independant of 3rd party libraries, except if they are somehow a standard (which, given the state of Java for desktop, is somehow unlikely).
+
+
+
 
 ## Study of various systems
 
@@ -55,6 +59,11 @@ The preference object is passed to the *actions* when they are built (hence, it'
 This would not be usable for JSesh, as JSesh editor can be either used in JSesh itself (which tends to share preferences), and 
 in other softwares (which might differ).
 
+### RxJava et al.
+
+Found this [interesting blog](https://github.com/Petikoch/Java_MVVM_with_Swing_and_RxJava_Examples) about using RxJava for Swing apps.
+
+- lots of interesting [ideas about GUI and reactive ](https://continuously.dev/blog/2015/02/10/val-a-better-observablevalue.html)
 
 ## The issue for Preferences
 

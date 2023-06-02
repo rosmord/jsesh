@@ -24,7 +24,7 @@ import java.util.Locale;
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.ManuelDeCodage;
@@ -71,7 +71,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
     }
 
     private void preloadHieroglyphicIcons() {       
-        List<HieroglyphFamily> families = HieroglyphDatabaseRepository
+        List<HieroglyphFamily> families = HieroglyphDatabaseFactory
                 .getHieroglyphDatabase().getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);

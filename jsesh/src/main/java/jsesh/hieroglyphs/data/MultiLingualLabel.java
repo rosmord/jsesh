@@ -6,7 +6,7 @@ import java.util.Map;
 public class MultiLingualLabel {
 
     private String labelKey = "";
-    private final Map translations = new HashMap();
+    private final Map<String, TranslationInfo> translations = new HashMap<String, TranslationInfo>();
 
     public MultiLingualLabel(String labelKey) {
         super();
@@ -24,14 +24,14 @@ public class MultiLingualLabel {
 
     public String getLabel(String lang) {
         if (translations.containsKey(lang)) {
-            return ((TranslationInfo) translations.get(lang)).getLabel();
+            return translations.get(lang).getLabel();
         } else {
             return getDefaultLabel();
         }
     }
 
     public String getDefaultLabel() {
-        return (String) getLabel("en");
+        return getLabel("en");
     }
 
     /**
@@ -41,16 +41,10 @@ public class MultiLingualLabel {
         return labelKey;
     }
 
-    /**
-     * @param labelKey the labelKey to set
-     */
-    public void setLabelKey(String labelKey) {
-        this.labelKey = labelKey;
-    }
-
+  
 
     public TranslationInfo[] getAllTranslations() {
-        return (TranslationInfo[]) translations.values().toArray(new TranslationInfo[translations.values().size()]);
+        return translations.values().toArray(new TranslationInfo[translations.values().size()]);
     }
 
     /* (non-Javadoc)

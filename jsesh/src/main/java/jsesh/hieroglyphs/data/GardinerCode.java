@@ -64,13 +64,14 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Aa",
         "Ff", "NU", "NL"});
 
+    /**
+     * Optional user id. 0 means no user (i.e. "standard" sign.
+     */
+    private int userId = 0;    
     private String family;
     private int number;
     private String variantPart;
-    /**
-     * Optionnal user id. 0 means no user (i.e. "standard" sign.
-     */
-    private int userId = 0;
+  
 
     /**
      * Create a Gardiner code object from a string. Send a triplet (family,
@@ -85,48 +86,51 @@ public final class GardinerCode implements Comparable<GardinerCode> {
             code = "";
         }
         Matcher matcher = jseshPattern.matcher(code);
-
-        if (matcher.matches()) {
-            result = new GardinerCode();
+        int userId = 0;
+        
+        if (matcher.matches()) {            
             if (matcher.group(2) != null) {
-                result.userId = Integer.parseInt(matcher.group(2));
-            } else {
-                result.userId = 0;
+            	userId = Integer.parseInt(matcher.group(2));
             }
-            result.family = matcher.group(3);
-            result.number = Integer.parseInt(matcher.group(4));
-            result.setVariantPart(matcher.group(5));
+            String family = matcher.group(3);
+            int number = Integer.parseInt(matcher.group(4));
+            String variantPart = matcher.group(5);
+            result = new GardinerCode(userId, family, number, variantPart);
         }
         return result;
     }
 
-    public GardinerCode() {
-        family = "";
-        number = 0;
-        userId = 0;
-        variantPart = "";
-    }
 
     /**
      * Constructor for user defined signs.
      *
-     * @param userId
-     * @param family
-     * @param number
-     * @param variantNumber
+     * @param userId (0 means "standard" sign).
+     * @param family : A, B... Aa, Ff, NL, NU
+     * @param number : sign number in family
+     * @param variantNumber variant extension (A, EXTA, VARA, etc.)
      */
     public GardinerCode(int userId, String family, int number, String variantNumber) {
-        super();
+        this.userId = userId;
         this.family = family;
         this.number = number;
         setVariantPart(variantNumber);
     }
 
+    /**
+     * Constructor for "standard" signs.
+     * @param family
+     * @param number
+     * @param variantNumber
+     */
     public GardinerCode(String family, int number, String variantNumber) {
-        super();
-        this.family = family;
-        this.number = number;
-        setVariantPart(variantNumber);
+    	this(0, family,  number, variantNumber);
+    }
+    
+    private void setVariantPart(String v) {
+        variantPart = v.toUpperCase(Locale.ENGLISH);
+        if ("H".equals(variantPart) || "V".equals(variantPart)) {
+            variantPart = variantPart.toLowerCase(Locale.ENGLISH);
+        }
     }
 
     /**
@@ -136,12 +140,6 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return family;
     }
 
-    /**
-     * @param family the family to set
-     */
-    public void setFamily(String family) {
-        this.family = family;
-    }
 
     /**
      * @return the number
@@ -150,13 +148,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return number;
     }
 
-    /**
-     * @param number the number to set
-     */
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
+    
     /**
      * @return the variantNumber
      */
@@ -164,12 +156,6 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return variantPart;
     }
 
-    public void setVariantPart(String v) {
-        variantPart = v.toUpperCase(Locale.ENGLISH);
-        if ("H".equals(variantPart) || "V".equals(variantPart)) {
-            variantPart = variantPart.toLowerCase(Locale.ENGLISH);
-        }
-    }
 
     /**
      * Returns the id of the user who created this sign, or 0 for standard
@@ -179,10 +165,6 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      */
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     /**
@@ -231,7 +213,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
 
     /**
      * Return the names of the "Gardiner" families, in the usual order. Includes
-     * the additionnal Ff family.
+     * the additional "Ff" family.
      *
      * @return a list of Strings.
      */
@@ -239,6 +221,9 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return FAMILIES;
     }
 
+    /**
+     * Returns the string version of the code (e.g. G17A).
+     */
     @Override
     public String toString() {
         if (userId == 0) {
@@ -335,22 +320,23 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * Returns the Manuel de codage code corresponding to a given file name, or
      * null if the file name does not fit.
      *
+     * <p> It will return null for files which corresponds to phonetic codes.
+     * 
      * <p>
      * Can also be used to normalise codes which don't respect the MdC
      * capitalisation rules.
-     *
      *
      * <p>
      * This function can be used when a file name is supposed to correspond to a
      * gardiner code. The problem in this case is that not all file systems are
      * case sensitives, hence the need to process the file name.
-     *
+     * <p>
+     * This method understands Gardiner codes, and MdC specificities (nn and nTrw
+     * codes) and Jsesh extensions.
+     * 
      * @param fname a file name (with a mandatory extensions, ".svg", ".png",
      * whatever).
-     *
-     * <p>
-     * This method understands Gardiner codes, MdC specificities (nn and nTrw
-     * codes) and Jsesh extensions.
+     * 
      * @return a code or null if no code can be created.
      */
     public static String getCodeForFileName(String fname) {
@@ -377,23 +363,28 @@ public final class GardinerCode implements Comparable<GardinerCode> {
             Matcher matcher;
             matcher = jseshUpperCasePattern.matcher(code);
             if (matcher.matches()) {
-                GardinerCode gardinerCode = new GardinerCode();
+            	Integer userId = 0;
+            	String family;
+            	int number;
+            	String varExtension = "";
+                
                 if (matcher.group(2) != null) {
-                    gardinerCode.setUserId(Integer.parseInt(matcher.group(2)));
+                	userId = Integer.parseInt(matcher.group(2));
                 }
-                gardinerCode.setFamily(matcher.group(3));
-                if ("AA".equals(gardinerCode.getFamily())) {
-                    gardinerCode.setFamily("Aa");
-                } else if ("FF".equals(gardinerCode.getFamily())) {
-                    gardinerCode.setFamily("Ff");
-                } else if ("NU".equals(gardinerCode.getFamily())) {
-                    gardinerCode.setFamily("NU");
-                } else if ("NL".equals(gardinerCode.getFamily())) {
-                    gardinerCode.setFamily("NL");
-                }
-
-                gardinerCode.setNumber(Integer.parseInt(matcher.group(4)));
-                gardinerCode.setVariantPart(matcher.group(5));
+                family = matcher.group(3);
+                switch (family) {
+				case "AA":
+					family = "Aa";
+					break;
+				case "FF":
+					family = "Ff";
+					break;				
+				default:
+					break;
+				}
+                number = Integer.parseInt(matcher.group(4));
+                varExtension = matcher.group(5);
+                GardinerCode gardinerCode = new GardinerCode(userId, family, number, varExtension);
                 code = gardinerCode.toString();
             } else if (code.matches("[0-9]+")) {
                 // do nothing
@@ -405,9 +396,5 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         }
         return code;
     }
-
-    public static void main(String[] args) {
-        System.out.println(getCodeForFileName("aAv.svg"));
-        System.out.println(getCodeForFileName("O29v.svg"));
-    }
+    
 }

@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
@@ -90,7 +91,7 @@ public class PDFDataSaver {
 
         myDrawingSpecification.setPageLayout(pageLayout);
 
-        ViewBuilder builder = new ViewBuilder();
+        ViewBuilder builder = new ViewBuilder(new Layout());
         MDCView view = builder.buildView(topItemList, myDrawingSpecification);
 
         PDFDocumentWriterAux documentWriterAux = new PDFDocumentWriterAux(

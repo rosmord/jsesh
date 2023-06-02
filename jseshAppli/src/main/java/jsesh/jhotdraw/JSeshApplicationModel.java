@@ -177,15 +177,21 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * Everything which is a) application-level and b) non specific to JHotdraw
      * is delegated to {@link JSeshApplicationBase}.
      */
-    private final JSeshApplicationBase jseshBase = new JSeshApplicationBase();
+    private final JSeshApplicationBase jseshApplicationBase = new JSeshApplicationBase();
 
     /**
      * Deals with copy/paste. Needs to know the current view to work correctly.
      */
     private final MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
+    /**
+     * Currently, dialogs are here.
+     * Should they be in JSeshApplicationBase ? 
+     * Given its current definition, it would be reasonable.
+     */
     private PalettePresenter palettePresenter;
 
+    // same remark as palettePresenter.
     private JGlossaryEditor glossaryEditor;
     
     private boolean canOpenNewView = true;
@@ -208,7 +214,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     @Override
     public void initView(Application a, View v) {
         super.initView(a, v);
-        DrawingSpecification drawingSpecifications = jseshBase
+        DrawingSpecification drawingSpecifications = jseshApplicationBase
                 .getDefaultDrawingSpecifications();
         JSeshView jSeshView = (JSeshView) v;
         jSeshView.setDrawingSpecifications(drawingSpecifications);
@@ -257,8 +263,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(FindInFolderAction.ID, new FindInFolderAction((ActiveViewAwareApplication) a, hit -> showCorpusSearchHit(hit)));
 
             // palette ...
-            palettePresenter = new PalettePresenter();
-            palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+            createDialog();
 
             map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
 
@@ -359,6 +364,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         return map;
     }
 
+	private void createDialog() {
+		glossaryEditor = new JGlossaryEditor();
+		palettePresenter = new PalettePresenter(jseshApplicationBase.get);
+		palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+	}
+
     @Override
     protected MenuBuilder createMenuBuilder() {
         return new JSeshMenuBuilder();
@@ -428,11 +439,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(ExportType)
      */
     public void selectCopyPasteConfiguration(ExportType exportType) {
-        jseshBase.selectCopyPasteConfiguration(exportType);
+        jseshApplicationBase.selectCopyPasteConfiguration(exportType);
     }
 
     public File getCurrentDirectory() {
-        return jseshBase.getCurrentDirectory();
+        return jseshApplicationBase.getCurrentDirectory();
     }
 
     public void setCurrentDirectory(File directory) {
@@ -440,27 +451,27 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             throw new RuntimeException("Bug : " + directory.getAbsolutePath()
                     + " should be a directory");
         }
-        jseshBase.setCurrentDirectory(directory);
+        jseshApplicationBase.setCurrentDirectory(directory);
     }
 
     public PDFExportPreferences getPDFExportPreferences() {
-        return jseshBase.getPDFExportPreferences();
+        return jseshApplicationBase.getPDFExportPreferences();
     }
 
     public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
-        return jseshBase.getRTFExportPreferences(exportType);
+        return jseshApplicationBase.getRTFExportPreferences(exportType);
     }
 
     public HTMLExporter getHTMLExporter() {
-        return jseshBase.getHTMLExporter();
+        return jseshApplicationBase.getHTMLExporter();
     }
 
     public File getQuickPDFExportFolder() {
-        return jseshBase.getQuickPDFExportFolder();
+        return jseshApplicationBase.getQuickPDFExportFolder();
     }
 
     public void setQuickPDFExportFolder(File folder) {
-        jseshBase.setQuickPDFExportFolder(folder);
+        jseshApplicationBase.setQuickPDFExportFolder(folder);
     }
 
     public void setMessage(String string) {
@@ -487,7 +498,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     public FontInfo getFontInfo() {
-        return jseshBase.getFontInfo();
+        return jseshApplicationBase.getFontInfo();
     }
 
     /**
@@ -496,7 +507,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        jseshBase.setFontInfo(fontInfo);
+        jseshApplicationBase.setFontInfo(fontInfo);
         for (View v : application.views()) {
             JSeshView view = (JSeshView) v;
             view.setFontInfo(fontInfo);
@@ -504,11 +515,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     public MDCClipboardPreferences getClipboardPreferences() {
-        return jseshBase.getClipboardPreferences();
+        return jseshApplicationBase.getClipboardPreferences();
     }
 
     public void setClipboardPreferences(MDCClipboardPreferences prefs) {
-        jseshBase.setClipboardPreferences(prefs);
+        jseshApplicationBase.setClipboardPreferences(prefs);
     }
 
     /**
@@ -517,17 +528,17 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * @return
      */
     public ExportPreferences getExportPreferences() {
-        return jseshBase.getExportPreferences();
+        return jseshApplicationBase.getExportPreferences();
     }
 
     public void setExportPreferences(ExportPreferences exportPreferences) {
-        jseshBase.setExportPreferences(exportPreferences);
+        jseshApplicationBase.setExportPreferences(exportPreferences);
     }
 
     @Override
     public void destroyApplication(Application a) {
         palettePresenter.getDialog().savePreferences();
-        jseshBase.savePreferences();
+        jseshApplicationBase.savePreferences();
     }
 
     private class MyTransferableBroker implements MDCModelTransferableBroker {
@@ -549,15 +560,15 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             DrawingSpecification currentDrawingSpecifications = ((JSeshView) application
                     .getActiveView()).getDrawingSpecifications();
             result.setDrawingSpecifications(currentDrawingSpecifications);
-            result.setRtfPreferences(jseshBase.getCurrentRTFPreferences());
-            result.setClipboardPreferences(jseshBase.getClipboardPreferences());
+            result.setRtfPreferences(jseshApplicationBase.getCurrentRTFPreferences());
+            result.setClipboardPreferences(jseshApplicationBase.getClipboardPreferences());
             return result;
         }
     }
 
     public void setDefaultDrawingSpecifications(
             DrawingSpecification drawingSpecifications) {
-        jseshBase.setDefaultDrawingSpecifications(drawingSpecifications);
+        jseshApplicationBase.setDefaultDrawingSpecifications(drawingSpecifications);
     }
 
     /**
@@ -566,13 +577,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * @return
      */
     public DrawingSpecification getDefaultDrawingSpecifications() {
-        return jseshBase.getDefaultDrawingSpecifications();
+        return jseshApplicationBase.getDefaultDrawingSpecifications();
     }
 
-    public JGlossaryEditor getGlossaryEditor() {
-        if (glossaryEditor == null) {
-            glossaryEditor = new JGlossaryEditor();
-        }
+    public JGlossaryEditor getGlossaryEditor() {    
         return glossaryEditor;
     }
 

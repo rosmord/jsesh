@@ -2,6 +2,20 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2023/05/19
+
+We might introduce the notion of BasicMdC codes for codes :
+
+- which appear in Gardiner's grammar ;
+- or which have an official phonetic code.
+
+## 2023/05/15
+
+Back to JSesh. Considering :
+
+- simplifying HieroglyphFontManager (which might be a simple code to shape repository), to remove its possible dependency on HieroglyphDatabase ?
+- think of introducing a Facade to the whole hieroglyph system in this case.
+
 ## 2023/04/25
 
 Well, the mess of singleton is also linked to the question of preferences (not preference files, but in-memory preferences) in the software. 

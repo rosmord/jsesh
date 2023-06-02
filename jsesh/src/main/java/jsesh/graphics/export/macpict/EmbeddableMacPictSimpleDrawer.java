@@ -18,9 +18,9 @@ public class EmbeddableMacPictSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	 * @param cadratHeight
 	 *
 	 */
-	public EmbeddableMacPictSimpleDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecification,
+	public EmbeddableMacPictSimpleDrawer(DrawingSpecification drawingSpecification,
 											double cadratHeight) {
-		super(viewBuilder, drawingSpecification, cadratHeight);
+		super(drawingSpecification, cadratHeight);
 		setShadeAfter(false);
 	}
 

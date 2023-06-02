@@ -1,5 +1,13 @@
 # What's new in JSesh (VERSION NUMBER HERE)
 
+Changes between fontManager and database for getCode() : 
+
+~~~
+	 *  <p> You should provide the <strong>canonical code</strong> for a sign ? 
+~~~
+
+Is that necessary ???
+
 
 ## Software modifications
 

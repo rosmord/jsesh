@@ -6,6 +6,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
 import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {
@@ -14,10 +15,11 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 	private int bitmapHeight = 20;
 	private Component parent = null;
 	private boolean displaySignsCodes = false;
+	private HieroglyphicFontManager hieroglyphicFontManager;
 
-	public SignListCellRenderer(Component parent) {
-		super();
+	public SignListCellRenderer(Component parent, HieroglyphicFontManager hieroglyphicFontManager) {		
 		this.parent = parent;
+		this.hieroglyphicFontManager = hieroglyphicFontManager;
 	}
 
 	public Component getListCellRendererComponent(JList list, Object value,
@@ -35,11 +37,13 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 		if (value instanceof String) {
 
 			String code = (String) value;
-			if (displaySignsCodes)
+			if (displaySignsCodes) {
 				setText(code);
-			else
+			} else {
 				setText("");
-			setIcon(HieroglyphPictureBuilder.createHieroglyphIcon(code,
+			}
+			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager);
+			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code,
 					bitmapHeight, border, parent));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());

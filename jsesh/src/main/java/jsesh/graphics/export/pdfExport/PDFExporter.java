@@ -27,13 +27,13 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
+import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.resources.ResourcesManager;
 
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 import com.lowagie.text.BadElementException;
@@ -201,8 +201,6 @@ public class PDFExporter {
 
         DrawingSpecification drawingSpecifications;
 
-        ViewBuilder builder;
-
         public IPDFExporterAux(String comment) throws IOException,
                 DocumentException {
 
@@ -214,9 +212,7 @@ public class PDFExporter {
             imageCache = new TreeMap<TopItem, TemplateInfo>();
             prepareFonts();
 
-            // Classes used to draw the cadrats.
-            builder = new ViewBuilder();
-
+     
             PDFExportHelper.ensureCMYKColorSpace(drawingSpecifications);
 
             // TODO : fix fonts passed to graphics2D.
@@ -536,6 +532,7 @@ public class PDFExporter {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
+                ViewBuilder builder = new ViewBuilder(new Layout());
                 MDCView view = builder.buildView(smallModel,
                         drawingSpecifications);
 

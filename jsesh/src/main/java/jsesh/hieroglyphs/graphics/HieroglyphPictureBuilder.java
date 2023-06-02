@@ -50,8 +50,6 @@ public class HieroglyphPictureBuilder {
 
 	public HieroglyphPictureBuilder(HieroglyphicFontManager hieroglyphicFontManager) {
 		this.fontManager = hieroglyphicFontManager;
-		// ShapeChar A1 = fontManager.get("A1");
-		// maxSize = A1.getBbox().getHeight();
 		size = 50;
 		transparent = false;
 		border = 4;
@@ -237,20 +235,19 @@ public class HieroglyphPictureBuilder {
 	 *            known. May speed up display if correctly set.
 	 * @return an icon for the glyph.
 	 */
-	public static Icon createHieroglyphIcon(String code, int size, int border,
+	public  Icon createHieroglyphIcon(String code, int size, int border,
 			Component container) {
-		HieroglyphPictureBuilder builder = new HieroglyphPictureBuilder();
-		builder.setSize(size);
-		builder.setTransparent(false);
-		builder.setBorder(border);
-		builder.setFit(true);
-		builder.setComponent(container);
+		this.setSize(size);
+		this.setTransparent(false);
+		this.setBorder(border);
+		this.setFit(true);
+		this.setComponent(container);
 
 		BufferedImage img;
-		if (builder.hasCode(code)) {
-			 img = builder.buildSignBitmap(code);
+		if (this.hasCode(code)) {
+			 img = this.buildSignBitmap(code);
 		} else {
-			img = builder.buildSignBitmap("A1");
+			img = this.buildSignBitmap("A1");
 		}
 		return new ImageIcon(img);
 	}

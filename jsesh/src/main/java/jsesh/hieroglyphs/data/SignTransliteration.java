@@ -11,7 +11,6 @@ public class SignTransliteration {
     private SignValueType type;
 
     public SignTransliteration(String translitteration, String use, SignValueType type) {
-        super();
         this.translitteration = translitteration;
         this.use = use;
         setType(type);

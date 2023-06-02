@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -36,7 +37,6 @@ public abstract class AbtractExportDrawer {
     private MDCView currentView;
     private float scaledWidth, scaledHeight;
     private double cadratHeight;
-    private final ViewBuilder viewBuilder;
     private final DrawingSpecification drawingSpecifications;
     private boolean shadeAfter;
 
@@ -45,8 +45,7 @@ public abstract class AbtractExportDrawer {
      * @param drawingSpecifications the general drawing specifications
      * @param cadratHeight the actual quadrant height we want.
      */
-    protected AbtractExportDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecifications, double cadratHeight) {
-        this.viewBuilder = viewBuilder;
+    protected AbtractExportDrawer(DrawingSpecification drawingSpecifications, double cadratHeight) {
         this.drawingSpecifications = drawingSpecifications.copy();
         this.drawingSpecifications.setGraphicDeviceScale(1);
         this.cadratHeight = cadratHeight;
@@ -63,7 +62,8 @@ public abstract class AbtractExportDrawer {
         double scale = (double) getCadratHeight()
                 / getDrawingSpecifications().getMaxCadratHeight();
 
-        currentView = getBuilder().buildView(list, getDrawingSpecifications());
+        ViewBuilder builder = new ViewBuilder(new Layout());
+        currentView = builder.buildView(list, getDrawingSpecifications());
 
         if (currentView.getWidth() == 0 || currentView.getHeight() == 0) {
             return;
@@ -110,9 +110,6 @@ public abstract class AbtractExportDrawer {
      */
     protected abstract Graphics2D buildGraphics();
 
-    public ViewBuilder getBuilder() {
-        return viewBuilder;
-    }
 
     public DrawingSpecification getDrawingSpecifications() {
         return drawingSpecifications;
