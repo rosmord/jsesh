@@ -2,6 +2,13 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2023/06/07
+
+## 2023/06/06
+
+Analysis and classification of current problem. Planning. See TODO about removing singletons.
+
+
 ## 2023/05/19
 
 We might introduce the notion of BasicMdC codes for codes :

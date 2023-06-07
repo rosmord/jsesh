@@ -8,5 +8,5 @@
 - journal : developper journal, with my personnal notes
 - notes : things I don't know where to store
 - variousCode : some bits of example code ; will move to the project https://github.com/rosmord/jseshDemos
-
-
+- UML : UML analysis of the current architecture.
+- 

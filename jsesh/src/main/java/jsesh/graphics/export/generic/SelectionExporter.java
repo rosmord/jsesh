@@ -8,8 +8,6 @@
  */
 package jsesh.graphics.export.generic;
 
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
@@ -18,8 +16,8 @@ import java.io.IOException;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.utils.DoubleDimensions;

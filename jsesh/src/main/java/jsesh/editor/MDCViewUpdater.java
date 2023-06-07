@@ -47,8 +47,8 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 
 
 /**

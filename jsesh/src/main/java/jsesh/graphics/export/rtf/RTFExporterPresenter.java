@@ -4,7 +4,6 @@
  */
 package jsesh.graphics.export.rtf;
 
-import jsesh.graphics.export.generic.ExportOptionPanel;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,8 +12,9 @@ import java.io.OutputStream;
 
 import javax.swing.DefaultComboBoxModel;
 
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.layout.ViewBuilder;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;

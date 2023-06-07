@@ -286,7 +286,7 @@ package jsesh {
 @enduml
 ~~~
 
-## Problems and solutions
+## Problems
 
 - the dependency to `TopItemList` induces a circular dependency between packages.
 - for `SignTransliteration`, `use` should have an `enum` value (`KEYBOARD`, `PALETTE` or `INFORMATIVE`)
@@ -294,4 +294,12 @@ package jsesh {
 - replace « `Directory` » by « `Folder` »  in names (e.g. `FolderHieroglyphicFontManager` instead of `DirectoryHieroglyphicFontManager`)
 - replace HorizontalGravity and VerticalGravity by enums
 - The `data` package covers two concerns : representing signs codes **and** the internal, gui-related system of `PossibilityLists`. Those might be separated.
+
+## Solutions
+
+- move the generation of PossibilityLists out of `jsesh.hieroglyphs.data` ; 
+- isolate the classes to design a clean interface with facades ;
+- yet ensure customization is possible ;
+- move `HieroglyphCodesSource` to a `jsesh.hieroglyphs.common` package in order to remove dependency between Graphics and packages ;
+
 
