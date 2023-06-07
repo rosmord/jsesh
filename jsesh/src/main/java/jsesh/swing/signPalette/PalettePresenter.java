@@ -207,7 +207,7 @@ public class PalettePresenter {
             filterFromContainsCB();
         });
         // Sign table
-        SignListCellRenderer renderer = new SignListCellRenderer(simplePalette);
+        SignListCellRenderer renderer = new SignListCellRenderer(simplePalette, this.hieroglyphicFontManager);
         final int bitmapHeight = 40;
         renderer.setBitmapHeight(bitmapHeight);
 
@@ -232,7 +232,7 @@ public class PalettePresenter {
         signTable.setInputMap(JComponent.WHEN_FOCUSED, newInputMap);
 
         SignListCellRenderer smallListRenderer = new SignListCellRenderer(
-                simplePalette);
+                simplePalette, hieroglyphicFontManager);
         smallListRenderer.setDisplaySignsCodes(true);
         smallListRenderer.setBitmapHeight(20);
         simplePalette.getContainsCB().setRenderer(smallListRenderer);
