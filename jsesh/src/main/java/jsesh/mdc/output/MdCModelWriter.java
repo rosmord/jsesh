@@ -12,7 +12,7 @@ import java.util.Locale;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
-import jsesh.hieroglyphs.data.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.WordEndingCode;
@@ -214,7 +214,7 @@ public class MdCModelWriter {
 			// Well I would write something for SMALLTEXT, but it already works !
 			String code;
 			if (normalized)
-				code=	HieroglyphDatabaseFactory.getHieroglyphDatabase().getCanonicalCode(h.getCode());
+				code=	ManuelDeCodage.getInstance().getCanonicalCode(h.getCode());
 			else
 				code= h.getCode();
  

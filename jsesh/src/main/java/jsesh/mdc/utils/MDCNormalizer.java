@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.Hieroglyph;
@@ -28,7 +29,7 @@ public class MDCNormalizer {
 
 	private class NormalizerAux extends ModelElementDeepAdapter {
 		public void visitHieroglyph(Hieroglyph h) {
-			String code = HieroglyphDatabaseFactory.getHieroglyphDatabase()
+			String code = ManuelDeCodage.getInstance()
 					.getCanonicalCode(h.getCode());
 			h.setCode(code);
             

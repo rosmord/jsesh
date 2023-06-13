@@ -2,6 +2,7 @@ package jsesh.mdc.model;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
@@ -406,9 +407,8 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
 
     @Override
     protected boolean equalsIgnoreIdAux(ModelElement other) {
-        Hieroglyph o = (Hieroglyph) other;
-        HieroglyphDatabaseInterface manager = HieroglyphDatabaseFactory.getHieroglyphDatabase();
-        return manager.getCanonicalCode(this.code).equals(manager.getCanonicalCode(o.code))
+        Hieroglyph o = (Hieroglyph) other;        
+        return ManuelDeCodage.getInstance().equalsCanonical(this.code, o.code)
                 && this.endingCode.equals(o.endingCode)
                 && this.grammar == o.grammar
                 && this.type == o.type

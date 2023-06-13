@@ -32,16 +32,7 @@ import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
  */
 public interface HieroglyphDatabaseInterface {
 
-    /**
-     * Gets the canonical code for a sign. In most cases, this is the Gardiner
-     * code (for instance "xpr" gives "L1"). for unknown codes, the function
-     * will return its argument as is.
-     *
-     * @param code
-     * @return
-     */
-    String getCanonicalCode(String code);
-
+  
     /**
      * Returns the codes for a given family of signs.
      * <p>

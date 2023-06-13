@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilder;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 

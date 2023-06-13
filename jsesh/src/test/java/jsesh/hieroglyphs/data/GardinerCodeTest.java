@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+
 public class GardinerCodeTest {
 
 	@Test

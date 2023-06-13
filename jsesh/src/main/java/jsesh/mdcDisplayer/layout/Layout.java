@@ -28,6 +28,7 @@ import jsesh.mdc.model.Ligature;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
+import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdc.model.Overwrite;
@@ -45,17 +46,10 @@ import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
- * This file is free Software 
- * under the GNU LESSER GENERAL PUBLIC LICENCE.
- * 
- * (c) Serge Rosmorduc
- * @author Serge Rosmorduc
- *
- */
-
-/**
  * Elements of this class are responsible for computing the position and
  * dimensions of view elements.
+ * 
+ * <b> This class should probably not be part of the visible API of JSesh</b>
  * 
  * <p>
  * A layout can change a view's width and height and it can also change the
@@ -66,12 +60,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * ViewBuilder.
  * 
  * 
- * 
- * @see jsesh.mdcDisplayer.mdcView.ViewBuilder
- * @see jsesh.mdcDisplayer.layout.SimpleLayout (c) Serge Rosmorduc
- * @author Serge Rosmorduc
- *
- *         <p>
+ *  <p>
  *         Note that layout is not supposed to be called recursively. The
  *         recursion is done through ViewBuilder.
  * 
@@ -93,42 +82,46 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  *         <p>
  *         However, the position of the currentview is supposed to be set from
  *         its parentview, so don't change it.
+ *         
  * @see Layout
  * @see SimpleLayout
+ * @see jsesh.mdcDisplayer.mdcView.ViewBuilder
+ * @see jsesh.mdcDisplayer.layout.SimpleLayout (c) Serge Rosmorduc
+ * @author Serge Rosmorduc
+ *
  */
 
-// TODO : make the ModelElementAdapter an inner class.
-public class Layout extends ModelElementAdapter {
+public  class Layout  {
 
 	/**
 	 * The view which is currently built.
 	 */
-	protected MDCView currentView;
+	private MDCView currentView;
 
 	/**
 	 * The drawing specifications in use. Only set during the view building.
 	 */
-	protected DrawingSpecification drawingSpecifications = null;
+	private DrawingSpecification drawingSpecifications = null;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
 	 * layout (for instance, become true in cartouches).
 	 */
-	protected boolean centerSigns = false;
+	private boolean centerSigns = false;
 
 	/**
 	 * Current text orientation : columns or lines. This variable may change during
 	 * layout.
 	 */
 
-	protected TextOrientation currentTextOrientation;
+	private TextOrientation currentTextOrientation;
 
 	/**
 	 * Current text direction. This variable may change during layout.
 	 */
-	protected TextDirection currentTextDirection;
+	private TextDirection currentTextDirection;
 
-	protected int depth;
+	private int depth;
 
 	protected LigatureManager ligatureManager;
 
@@ -152,8 +145,9 @@ public class Layout extends ModelElementAdapter {
 		currentView = view;
 		this.depth = depth;
 		commonLayoutHook();
+		LayoutAux visitor = new LayoutAux();
 		// Actual layout :
-		view.getModel().accept(this);
+		view.getModel().accept(visitor);
 		// Reset everything, to avoid keeping unnecessary references.
 		currentView = null;
 	}
@@ -229,6 +223,8 @@ public class Layout extends ModelElementAdapter {
 		drawingSpecifications = null;
 	}
 
+	
+	private class LayoutAux extends ModelElementAdapter {
 	@Override
 	public void visitAbsoluteGroup(AbsoluteGroup g) {
 		// Fix the position for all subviews.
@@ -868,12 +864,7 @@ public class Layout extends ModelElementAdapter {
 			subView.getModel().accept(this);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitSubCadrat(jsesh.mdc.model
-		 * .SubCadrat)
-		 */
+		@Override
 		public void visitSubCadrat(SubCadrat c) {
 			MDCView basicElementsListView = view.getFirstSubView();
 			boolean changed = false;
@@ -892,10 +883,12 @@ public class Layout extends ModelElementAdapter {
 
 		}
 
+		@Override
 		public void visitHieroglyph(Hieroglyph h) {
 			if (view.isYStretchable()) {
 				view.setHeight(height);
 			}
 		}
+	}
 	}
 }

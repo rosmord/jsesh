@@ -3,8 +3,9 @@ package jsesh.graphics.glyphs.model;
 import jsesh.hieroglyphs.graphics.VerticalGravity;
 import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.graphics.HorizontalGravity;
-import jsesh.hieroglyphs.data.GardinerCode;
+
 import java.awt.BasicStroke;
 import java.awt.geom.*;
 import java.io.*;

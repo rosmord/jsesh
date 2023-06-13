@@ -2,8 +2,8 @@ package jsesh.hieroglyphs;
 
 import org.junit.Test;
 
+import static jsesh.hieroglyphs.data.coreMdC.GardinerCode.*;
 import static org.junit.Assert.*;
-import static jsesh.hieroglyphs.data.GardinerCode.*;
 
 public class GardinerCodeTest {
 

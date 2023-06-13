@@ -12,6 +12,8 @@
  */
 package jsesh.hieroglyphs.data;
 
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 
@@ -161,7 +163,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             if (family.length() > 0) {
                 keepCode = code.matches("(US[0-9]+)?" + family + "[0-9]+[a-zA-Z]*");
             } else {
-                keepCode = GardinerCode.isCorrectGardinerCode(code); // No specific family needed
+                keepCode = GardinerCode.isWellFormedGardinerCode(code); // No specific family needed
             }
 
             if (keepCode) {
@@ -260,7 +262,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
                 .compile("^(US[0-9]+)?" + protectedCode + ".*");
         TreeSet<String> codes = new TreeSet<>();
         for (String signCode : getCodesSet()) {
-            if (GardinerCode.isCorrectGardinerCode(signCode)) {
+            if (GardinerCode.isWellFormedGardinerCode(signCode)) {
                 // Protect code for insertion in a regexp.
                 if (pattern.matcher(signCode).matches()) {
                     codes.add(signCode);
@@ -285,7 +287,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         // Build a sorted list of codes.
         TreeSet<String> codes = new TreeSet<>();
         for (String signCode : getCodesSet()) {
-            if (GardinerCode.isCorrectGardinerCode(signCode)) {
+            if (GardinerCode.isWellFormedGardinerCode(signCode)) {
                 // The exact code should come first, if possible.
                 if (signCode.equalsIgnoreCase(code)) {
                     p.addSign(signCode);
@@ -550,10 +552,6 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         return inDistributionMode;
     }
 
-    @Override
-    public String getCanonicalCode(String code) {
-        return manuelDeCodageManager.getCanonicalCode(code);
-    }
 
     /**
      * Explicitly mark sign as being always displayed.
