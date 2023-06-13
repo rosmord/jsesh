@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 
 /**
  * Place holder for the default hieroglyphic font manager. The default system
@@ -55,28 +56,14 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 
 	@Override
 	public ShapeChar get(String code) {
-		String newCode = code;
-		// TODO Awful patch for now. This should move to another class. The
-		// font manager should
-		// associate glyphs codes to drawings ;
-		// a code manager should associate mdc codes to glyphs codes.
-		if (!GardinerCode.isCanonicalCode(code))
-			newCode = HieroglyphDatabaseFactory.getHieroglyphDatabase()
-					.getCanonicalCode(code);
-		return composite.get(newCode);
+		String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+		return composite.get(canonicalCode);
 	}
 
         @Override
 	public ShapeChar getSmallBody(String code) {
-		String newCode = code;
-		// TODO Awful patch for now. This should move to another class. The
-		// font manager should
-		// associate glyphs codes to drawings ;
-		// a code manager should associate mdc codes to glyphs codes.
-		if (!GardinerCode.isCanonicalCode(code))
-			newCode = HieroglyphDatabaseFactory.getHieroglyphDatabase()
-					.getCanonicalCode(code);
-		return composite.getSmallBody(newCode);
+    	String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+		return composite.getSmallBody(canonicalCode);
 	}
 
 	@Override

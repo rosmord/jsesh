@@ -13,7 +13,9 @@ import java.util.regex.Pattern;
  * <p>
  * The class also contains a number of helper functions which work on strings.
  *
- * @author rosmord
+ *
+ * @author Serge Rosmorduc
+ * @apiNote the notion of canonical codes has been simplified.
  */
 public final class GardinerCode implements Comparable<GardinerCode> {
 
@@ -251,6 +253,9 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * where the same signs, but as a version of "3" was made for groups like 3:2, we had introduced a new sign without
      * canonical code.
      *
+     *<p> This method is now simpler than it used to be, with only two cases left.
+     * I believe nobody is using TKsesh (not JSesh) sign codes, and if it were the case, editing the corresponding files and fixing them will 
+     * probably simpler. Signs "nn" and "nTrw" now have Gardiner Codes, so the only domain outside of Gardiner codes for standard codes is numbers.
      * @param code
      * @return
      * @see #isWellFormedGardinerCode(String)

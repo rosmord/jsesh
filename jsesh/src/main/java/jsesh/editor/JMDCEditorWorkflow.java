@@ -84,7 +84,7 @@ import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
 
 /**
- * An abstract represention of the editing process of a hieroglyphic text.
+ * An abstract representation of the editing process of a hieroglyphic text.
  * <p>
  * far too large a class.
  * <p>

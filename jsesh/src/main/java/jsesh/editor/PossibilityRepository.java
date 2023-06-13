@@ -44,9 +44,9 @@ import jsesh.glossary.GlossaryEntryRemoved;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JSeshGlossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains
@@ -75,7 +75,7 @@ public class PossibilityRepository {
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
-			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
+			if (GardinerCode.isWellFormedCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
 				possibilities = HieroglyphDatabaseFactory.getHieroglyphDatabase()
 						.getSuitableSignsForCode(code);
 			} else {

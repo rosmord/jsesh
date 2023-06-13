@@ -40,16 +40,16 @@ import javax.swing.event.ListSelectionListener;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.data.ManuelDeCodage;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.Possibility;
 import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 
 /**
  * Control and data feed for the simple palette.
@@ -466,7 +466,7 @@ public class PalettePresenter {
         while (it.hasNext()) {
             Possibility c = it.next();
             if (c.isSingleSign()
-                    && GardinerCode.isCorrectGardinerCode(c.getCode())) {
+                    && GardinerCode.isWellFormedGardinerCode(c.getCode())) {
                 content.add(c.getCode());
             }
         }

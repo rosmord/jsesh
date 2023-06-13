@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
@@ -26,7 +26,7 @@ import jsesh.mdc.model.TopItemList;
  */
 public class HieroglyphCodesExtractor {
 
-    private final HieroglyphDatabaseInterface mdcInfo;
+    private final ManuelDeCodage manuelDeCodage;
     private final boolean normalise;
 
     /**
@@ -36,7 +36,7 @@ public class HieroglyphCodesExtractor {
      * @param normalise should we normalise the codes toward Gardiner codes ?
      */
     public HieroglyphCodesExtractor(boolean normalise) {
-        mdcInfo = HieroglyphDatabaseFactory.getHieroglyphDatabase();
+        manuelDeCodage = ManuelDeCodage.getInstance();
         this.normalise = normalise;
     }
 
@@ -104,7 +104,7 @@ public class HieroglyphCodesExtractor {
         public void visitHieroglyph(Hieroglyph h) {
             String code;
             if (normalise) {
-                code = mdcInfo.getCanonicalCode(h.getCode());
+                code = manuelDeCodage.getCanonicalCode(h.getCode());
             } else {
                 code = h.getCode();
             }

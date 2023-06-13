@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
@@ -79,7 +80,7 @@ public class LigatureManager {
 	public ExplicitPosition[] getPositions(String codes[]) {
 		String c[] = new String[codes.length];
 		for (int i = 0; i < codes.length; i++)
-			c[i] = hieroglyphDatabase.getCanonicalCode(codes[i]);
+			c[i] = getCanonicalCode(codes[i]);
 		return ligaturesMap.get(c);
 	}
 
@@ -104,7 +105,7 @@ public class LigatureManager {
 			String codes[] = parts[0].split("&");
 			// replace codes by their canonical equivalents.
 			for (i = 0; i < codes.length; i++)
-				codes[i] =hieroglyphDatabase.getCanonicalCode(codes[i]);
+				codes[i] =getCanonicalCode(codes[i]);
 
 			String pos[] = parts[1].split(" ");
 			// pos[0] holds the number of signs in the ligature.
@@ -125,6 +126,10 @@ public class LigatureManager {
 			}
 			put(codes, positions);
 		}
+	}
+	
+	private String getCanonicalCode(String code) {
+		return ManuelDeCodage.getInstance().getCanonicalCode(code);
 	}
 
 	private static class LigatureComparator implements Comparator {

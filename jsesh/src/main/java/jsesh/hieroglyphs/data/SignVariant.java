@@ -13,6 +13,8 @@ package jsesh.hieroglyphs.data;
 
 import java.util.Objects;
 
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+
 /**
  * Information about a possible variant for a sign.
  * @author rosmord
