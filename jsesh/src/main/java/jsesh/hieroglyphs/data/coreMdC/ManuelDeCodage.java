@@ -6,9 +6,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.hieroglyphs.data;
+package jsesh.hieroglyphs.data.coreMdC;
 
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;
@@ -17,15 +16,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 
 /**
- * A class representing the manuel de codage and providing information about
- * some of the standard codes.
+ * A Singleton class representing the core Manuel de Codage.
+ * 
+ *  It knows about what is a standard code, what is a phonetic code, 
+ *  relations about standard signs.
+ *  
+ *  It doesn't deal with extended lists and general sign values.
+ *  
+ *  <p>Difference with 1988 MdC :
+ *  <p> We have added a few codes, mainly to ensure a text can be normalized with only phonetic codes and possibly numbers.
+ *  
+ *  <ul>
+ *   <li> R8A for nTrw;
+ *   <li> M22B for nn
+ *  </ul>
+ * 
  *
- * TODO : merge with HieroglypsManager.
- *
- * @author rosmord
+ * @author Serge Rosmorduc
  *
  */
 public class ManuelDeCodage {
@@ -48,10 +59,132 @@ public class ManuelDeCodage {
 
     private ManuelDeCodage() {
         canonical = new HashMap<>();
-        fillMap();
+        fillPhoneticToGardinerMap();
         fillSignShapeList();
     }
 
+    /**
+     * Returns the Standard Gardiner list of Tall Narrow signs.
+     * @return
+     */
+    public List<String> getTallNarrowSigns() {
+        return Collections.unmodifiableList(tallNarrowSigns);
+    }
+
+    /**
+     * Returns the Standard Gardiner list of Low Broad Signs.
+     * @return
+     */
+    public List<String> getLowBroadSigns() {
+        return Collections.unmodifiableList(lowBroadSigns);
+    }
+
+    /**
+     * Returns the Standard Gardiner list of Low Narrow signs.
+     * @return
+     */
+    public List<String> getLowNarrowSigns() {
+        return Collections.unmodifiableList(lowNarrowSigns);
+    }
+
+  
+    /**
+     * Returns the canonical code for a sign.
+     * In most cases, this is the Gardiner code (for instance "xpr" gives "L1"). 
+     * <p> Will transform an official phonetic code into a Gardiner number, and leave any other code (Gardiner or not) as-is.
+     * <p> Pre-requisite : the code code given as a parameter should be correct.
+     * <p> Returns the canonical Gardiner code for the sign, if possible.    
+     * <p> If the code is not correct (for instance, is malformed) it will be sent back as if it were a Gardiner code.
+     * @param code : a correct Manuel de Codage Code.
+     * 
+     * @return the canonical code for the sign code, or the code if no canonical
+     * code is known.
+     * 
+     * 
+     */
+    public String getCanonicalCode(String code) {
+    	return canonical.getOrDefault(code, code);
+    }
+
+    /**
+     * Returns true if the sign is either a sign in Gardiner's grammar list, or
+     * if the sign code corresponds to a standard translitteration.
+     *
+     * @param code
+     * @return
+     */
+    public boolean isKnownCode(String code) {
+        return canonical.containsKey(code);
+    }
+
+    /**
+     * Returns the list of basic Gardiner codes for a sign family.
+     *
+     * @return a list of strings.
+     */
+    public List<String> getBasicGardinerCodesForFamily(String familyCode) {
+        if (basicGardinerCodeMap == null) {
+            fillBasicGardinerCodeMap();
+        }
+        List<String> result = basicGardinerCodeMap.get(familyCode);
+        if (result == null) {
+            return Collections.emptyList();
+        } else {
+            return result;
+        }
+    }
+
+    /**
+     * Compare two codes, and return true if they canonically correspond to the same sign.
+     *  <p> It means that the canonical code they refer too is the same.
+     * @param code1
+     * @param code2
+     * @return
+     */
+    public boolean equalsCanonical(String code1, String code2) {
+    		return getCanonicalCode(code1).equals(getCanonicalCode(code2));
+    }
+    
+    
+    /**
+     * reads the ressource which contains the list of "standard" Gardiner signs (for short menus).
+     */
+    private void fillBasicGardinerCodeMap() {
+        basicGardinerCodeMap = new HashMap<>();
+        try (Reader in = HieroglyphResources.getBasicGardinerCodes();) {
+            // Read and build the map if necessary
+            
+            StreamTokenizer tok = new StreamTokenizer(in);
+            // Read and store the codes according to their families.
+            while (tok.nextToken() != StreamTokenizer.TT_EOF) {
+                GardinerCode code = GardinerCode
+                        .createGardinerCode(tok.sval);
+                if (code == null) {
+                    System.err.println(tok.sval);
+                    continue;
+                }
+                if (!basicGardinerCodeMap.containsKey(code.getFamily())) {
+                    basicGardinerCodeMap.put(code.getFamily(),
+                            new ArrayList<>());
+                }
+                basicGardinerCodeMap.get(code.getFamily())
+                        .add(tok.sval);
+            }
+            // Now, sort the code lists.
+            Iterator<List<String>> it = basicGardinerCodeMap.values().iterator();
+            while (it.hasNext()) {
+                List<String> l = it.next();
+                Collections.sort(l, GardinerCode.getCodeComparator());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+
+    /**
+     * Creates the lists of signs by shape.
+     */
     private void fillSignShapeList() {
         String[] tallNarrow = {
             "M40", "Aa28", "Aa29", "P11", "D16", "T34", "T35", "U28", "U29", "U32", "U33", "S43", "U36", "T8", "T8A", "M13", "M17", "H6", "H6A", "M4", "M12", "S29", "M29",
@@ -82,26 +215,16 @@ public class ManuelDeCodage {
         lowNarrowSigns = Arrays.asList(lowNarrow);
     }
 
-    public List<String> getTallNarrowSigns() {
-        return Collections.unmodifiableList(tallNarrowSigns);
-    }
 
-    public List<String> getLowBroadSigns() {
-        return Collections.unmodifiableList(lowBroadSigns);
-    }
-
-    public List<String> getLowNarrowSigns() {
-        return Collections.unmodifiableList(lowNarrowSigns);
-    }
-
+    
     /**
      * fill data.
      */
-    private void fillMap() {
+    private void fillPhoneticToGardinerMap() {
         // new (non official MdC) mappings
         putCanon("nTrw", "R8A");
         putCanon("nn", "M22B");
-        //
+        // Original 1988 codes
         putCanon("mSa", "A12");
         putCanon("xr", "A15");
         putCanon("Xrd", "A17");
@@ -508,85 +631,4 @@ public class ManuelDeCodage {
         canonical.put(code, canonicalCode);
     }
 
-    /**
-     * Returns the canonical code for a sign.
-     * <p> Will transform an official phonetic code into a Gardiner number, and leave Gardiner codes as-is.
-     * <p> Pre-requisite : the code code given as a parameter should be correct.
-     * <p> Returns the canonical Gardiner code for the sign, if possible.    
-     * 
-     * <p> If the code is not correct (for instance, is malformed) it will be sent back as if it were a Gardiner code.
-     * @param code : a correct Manuel de Codage Code.
-     * 
-     * @return the canonical code for the sign code, or the code if no canonical
-     * code is known.
-     * 
-     * 
-     */
-    public String getCanonicalCode(String code) {
-        String result = canonical.get(code);
-        if (result == null) {
-            result = code;
-        }
-        return result;
-    }
-
-    /**
-     * Returns true if the sign is either a sign in Gardiner's grammar list, or
-     * if the sign code corresponds to a standard translitteration.
-     *
-     * @param code
-     * @return
-     */
-    public boolean isKnownCode(String code) {
-        return canonical.containsKey(code);
-    }
-
-    /**
-     * Returns the list of basic Gardiner codes for a sign family.
-     *
-     * @return a list of strings.
-     */
-    public List<String> getBasicGardinerCodesForFamily(String familyCode) {
-        if (basicGardinerCodeMap == null) {
-            fillBasicGardinerCodeMap();
-        }
-        List<String> result = basicGardinerCodeMap.get(familyCode);
-        if (result == null) {
-            return Collections.emptyList();
-        } else {
-            return result;
-        }
-    }
-
-    private void fillBasicGardinerCodeMap() {
-        basicGardinerCodeMap = new HashMap<>();
-        try (Reader in = HieroglyphResources.getBasicGardinerCodes();) {
-            // Read and build the map if necessary
-            
-            StreamTokenizer tok = new StreamTokenizer(in);
-            // Read and store the codes according to their families.
-            while (tok.nextToken() != StreamTokenizer.TT_EOF) {
-                GardinerCode code = GardinerCode
-                        .createGardinerCode(tok.sval);
-                if (code == null) {
-                    System.err.println(tok.sval);
-                    continue;
-                }
-                if (!basicGardinerCodeMap.containsKey(code.getFamily())) {
-                    basicGardinerCodeMap.put(code.getFamily(),
-                            new ArrayList<>());
-                }
-                basicGardinerCodeMap.get(code.getFamily())
-                        .add(tok.sval);
-            }
-            // Now, sort the code lists.
-            Iterator<List<String>> it = basicGardinerCodeMap.values().iterator();
-            while (it.hasNext()) {
-                List<String> l = it.next();
-                Collections.sort(l, GardinerCode.getCodeComparator());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

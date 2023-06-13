@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.data;
+package jsesh.hieroglyphs.data.coreMdC;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -34,16 +34,10 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     private static final String TKSESH_USER_REGEXP_STRING = "UG(\\d+)M(\\d+)N(\\d+)";
 
     /**
-     * special unique translitteration codes, not linked with a specific
-     * Gardiner code.
-     */
-    private static final String TRANSLITTERATION_STRING = "nTrw|nn";
-
-    /**
      * Pattern for testing if a code is a possible canonical code.
      */
     private static final Pattern testCanonicalPattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING + "|"
-            + NUMBER_REGEXP_STRING + "|" + TKSESH_USER_REGEXP_STRING + "|" + TRANSLITTERATION_STRING);
+            + NUMBER_REGEXP_STRING) ;
 
     /**
      * Pattern for testing for codes which are "Gardiner-like", i.e. with a
@@ -250,41 +244,28 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * We define canonical MdC codes as:
      * <ul>
      * <li> Gardiner codes (see isCorrectGardinerCode)
-     * <li> Codes documented in the manuel de codage for the few signs wich
-     * haven't got a Gardiner code.
-     * <ul>
-     * <li> "nn" or "nTrw"
-     * <li> numbers 2, 3, 4, 5, 6, 7, 8, 9, 20, ..., 90, 200..900, 2000..9000 etc...</li>
-     * <li> tksesh user sign code of the form
-     * UG<em>n0</em>M<em>n1</em>N<em>n2</em>
-     * where
-     * <ul>
-     * <li> n0 is the user id (an integer)
-     * <li> n1 is an arbitrary machine id (usually 0)
-     * <li> n2 is the sign id (an integer)
-     * </ul>
-     * </ul>
+     * <li> numbers 2, 3, 4, 5, 6, 7, 8, 9, 20, ..., 90, 200..900, 2000..9000 etc...
      * </ul>
      *
-     * Note that translitteration codes (except nTrw and nn) are not dealt with
-     * here. "3" as a code is a new addition - I think originally an inscribe code. Originally, "3" and "Z2"
+     * "3" as a code is a new addition - I think originally an inscribe code. Originally, "3" and "Z2"
      * where the same signs, but as a version of "3" was made for groups like 3:2, we had introduced a new sign without
      * canonical code.
      *
      * @param code
      * @return
-     * @see #isCorrectGardinerCode(String)
+     * @see #isWellFormedGardinerCode(String)
      */
     public static boolean isCanonicalCode(String code) {
         return GardinerCode.testCanonicalPattern.matcher(code).matches();
     }
 
     /**
-     * Returns true if the sign has the form of a "Gardiner" code. Basically,
-     * Gardiner codes contain a family and a number.
-     * <p>This is different from "isCanonicalCode". For historical reasons, the MdC contains a number of signs
+     * Returns true if the sign has the form of a "Gardiner" code, with a family and a number. 
+     * <p>This is different from @{link {@link #isCanonicalCode(String)}.
+     * 
+     * For historical reasons, the MdC contains a number of signs
      * which have no Gardiner code.
-     * </p>
+     * 
      * <p>
      * As a result for accepting AA and FF as family names (in addition to Aa
      * and Ff), the following holds true : if <code>X</code> is a correct code,
@@ -296,22 +277,22 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * <li> JSesh extended signs, with "US" + user id in front of a gardiner
      * code
      * <li> TODO : add @ as a prefix.
-     * <li> We accept signs with both uppercase and lower case letters after the
-     * sign number, as a variant indicator. Note that the manuel distinguishes
+     * <li> We accept signs with both upper case and lower case letters after the
+     * sign number, as a variant indicator. Note that the <em>manuel</em> distinguishes
      * the two, but most software don't.
      * <li> for families Aa and Ff, the family names AA and FF are also
      * accepted.
-     * <li>
+     * 
      * </ul>
      *
      * @param code
      * @return
      */
-    public static boolean isCorrectGardinerCode(String code) {
+    public static boolean isWellFormedGardinerCode(String code) {
         return Pattern.matches(GARDINER_CODE_REGEXP_STRING, code);
     }
 
-    public static boolean isCorrectGardinerCodeIgnoreCase(String code) {
+    public static boolean isWellFormedCodeIgnoreCase(String code) {
         Pattern pattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING, Pattern.CASE_INSENSITIVE);
         return pattern.matcher(code).matches();
     }
