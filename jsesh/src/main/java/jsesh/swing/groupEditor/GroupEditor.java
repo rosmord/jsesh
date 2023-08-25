@@ -278,7 +278,7 @@ public final class GroupEditor extends JPanel {
         MDCView view;
         if (group != null) {
         	
-            ViewBuilder builder = new ViewBuilder(new Layout());
+            ViewBuilder builder = new ViewBuilder();
             view = builder.buildView(group,
                     groupEditorDrawingPreferences.getDrawingSpecifications());
         } else {

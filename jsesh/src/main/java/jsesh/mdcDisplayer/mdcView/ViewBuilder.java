@@ -38,12 +38,19 @@ public class ViewBuilder {
      * returning.
      */
     private MDCView currentView;
-
+    
+    /**
+     * The layout, which is mostly the actual logic for the view builder...
+     */
     private Layout layout;
 
-    public ViewBuilder(Layout layout) {
-        currentView = null;
-        this.layout = layout;
+
+    /**
+     * Create a view builder.
+     */
+    public ViewBuilder() {
+        this.currentView = null;
+        this.layout = new Layout();
     }
 
     public MDCView buildView(ModelElement elt, DrawingSpecification drawingSpecifications) {

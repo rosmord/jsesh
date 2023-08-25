@@ -41,4 +41,20 @@ It might be annoying if we store an  object which follows pattern (1.), but othe
 Mixing this approach with a mutable object would be a mess, as there would be up to three ways of changing the values, and the mutable object would ne
 
 
+### A few use cases
+
+#### Composite models
+
+#### Shared/Unshared property
+
+Suppose we want :
+
+- a immutable Preference object (but maybe think twice about it. it's not the way we do it at all currently)
+- graphic components should be able to share the same preference (and they should all change at the same time)
+- a graphic component should be able to have its own version of the preferences
+
+Use the JavaFx vocabulary :
+
+- `setPreferenceProperty(ObjectProperty<Preference>)` to set the preference for a given object ;
+- observe the corresponding `ObjectProperty`
 

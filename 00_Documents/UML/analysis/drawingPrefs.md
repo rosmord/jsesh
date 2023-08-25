@@ -175,6 +175,223 @@ textHeight; // In fact, text height.
 leftMargin;
 topMargin;
 
+
+## As a UML View
+
+**Note : here, a red square doesn't mean *private* but *problematic***
+~~~plantuml
+@startuml
+skin rose
+hide empty members
+
+class GroupLayoutSpecifications {
+  standardSignHeight
+  maxCadratHeight
+  maxCadratWidth
+  smallSignCentered
+  smallSkip  
+}
+
+class OutOfCadratSkipsSpecifications {
+  lineSkip
+  columnSkip
+  tabUnitWidth
+}
+
+class PaginationSpecification {
+  pageLayout
+  isPaged
+  justified
+  textDirection
+  textOrientation
+}
+
+
+class PageLayout {
+  PageFormat
+  textWidth
+  textHeight
+  leftMargin
+  topMargin
+}
+
+PaginationSpecification -> PageLayout
+
+
+class EcdoticSpecifications {
+  philologyWidth  
+}
+
+class CartoucheSpecifications {
+    cartoucheKnotLength
+    cartoucheLineWidth
+    cartoucheLoopLength
+    cartoucheMargin
+    cartoucheLineWidth
+}
+
+class EnclosureSpecifications {
+    enclosureBastionDepth
+    enclosureBastionLenght
+}
+
+class HwtSignSpecifications {
+    HwtSmallMargin
+    HwtSquareSize
+}
+
+class SerekhSpecifications {
+  serekhDoorSize
+}
+
+class NonHieroglyphicFontSpecifications {
+    - getFont(code) (non hieroglyphic fonts)
+    -getSuperScriptFont()
+    translitUnicode
+    yodChoice
+    gardinerQofUsed
+}
+
+class LineDrawingProperties {
+  fineStroke
+  wideStroke
+  fineLineWidth
+  wideLineWidth
+}
+
+class ColorSpecifications {
+    blackColor
+    cursorColor
+    grayColor
+    redColor
+    backgroundColor    
+    shadingStyle
+    -tagColor(String tag)
+}
+
+class SignSpecifications {
+  largeSignSizeRatio
+  smallSignSizeRatio
+  smallBodyScaleLimit
+  -graphicDeviceScale
+}
+@enduml
+~~~
+
+## Changing specifications
+
+If we decide to use *records* for most specifications, changing them requires us to keep them in small groups, for we will need to copy each field when creating a new record.
+
+- for Preference editors, we only need to isolate the data which is likely to be edited from the data which is not. That way, we will minimize work. But usually, in preference editions, all values are copied back, so we don't really have a problem here
+
+- for other cases, we need to see what's up.
+
+## New organisation
+
+
+**Note : Unfinished**
+
+~~~plantuml
+@startuml
+title TODO 
+skin rose
+hide empty members
+
+class GroupLayoutSpecifications {
+  standardSignHeight
+  maxCadratHeight
+  maxCadratWidth
+  smallSignCentered
+  smallSkip  
+}
+
+class OutOfCadratSkipsSpecifications {
+  lineSkip
+  columnSkip
+  tabUnitWidth
+}
+
+class PaginationSpecification {
+  pageLayout
+  isPaged
+  justified
+  textDirection
+  textOrientation
+}
+
+
+class PageLayout {
+  PageFormat
+  textWidth
+  textHeight
+  leftMargin
+  topMargin
+}
+
+PaginationSpecification -> PageLayout
+
+
+class EcdoticSpecifications {
+  philologyWidth  
+}
+
+class CartoucheSpecifications {
+    cartoucheKnotLength
+    cartoucheLineWidth
+    cartoucheLoopLength
+    cartoucheMargin
+    cartoucheLineWidth
+}
+
+class EnclosureSpecifications {
+    enclosureBastionDepth
+    enclosureBastionLenght
+}
+
+class HwtSignSpecifications {
+    HwtSmallMargin
+    HwtSquareSize
+}
+
+class SerekhSpecifications {
+  serekhDoorSize
+}
+
+class NonHieroglyphicFontSpecifications {
+    - getFont(code) (non hieroglyphic fonts)
+    -getSuperScriptFont()
+    translitUnicode
+    yodChoice
+    gardinerQofUsed
+}
+
+class LineDrawingProperties {
+  fineStroke
+  wideStroke
+  fineLineWidth
+  wideLineWidth
+}
+
+class ColorSpecifications {
+    blackColor
+    cursorColor
+    grayColor
+    redColor
+    backgroundColor    
+    shadingStyle
+    -tagColor(String tag)
+}
+
+class SignSpecifications {
+  largeSignSizeRatio
+  smallSignSizeRatio
+  smallBodyScaleLimit
+  -graphicDeviceScale
+}
+@enduml
+~~~
+
+
 ## About HieroglyphsDrawer
 
 Note : we use preferences there, but what is actually in the preferences might be the **folder** containing the signs,

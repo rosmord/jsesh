@@ -43,7 +43,7 @@ class PictureCache {
 
 	private Element elements[];
 
-	private TreeMap viewMap;
+	private TreeMap<ModelElement, Integer> viewMap;
 
 	private int maxSize;
 

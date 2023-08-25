@@ -82,6 +82,7 @@ import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.utils.*;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
+import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * An abstract representation of the editing process of a hieroglyphic text.
@@ -92,12 +93,16 @@ import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
  * model. We would only keep what is relevant for us (e.g. possibility lists for
  * signs, undo, etc...)
  * <p>
- * TODO : current version: sign insertion should be done in two steps: a) find
- * what text needs to be written b) replace the "old text" by this new text TODO
- * : in a second step, try to implement the "events contain undo commands"
- * system. It's likely that the current system is too precise. We always go
- * through TextModel, and the events can be generated at that level (and not at
- * the model element actual level, which is probably too fine ?)
+ * TODO : current version: sign insertion should be done in two steps. 
+ * <ol>
+ * <li> find what text needs to be written 
+ * <li> replace the "old text" by this new text
+ *  <li> in a second step, try to implement the "events contain undo commands"
+ *         system. It's likely that the current system is too precise. We always go
+ *         through TextModel, and the events can be generated at that level (and not at
+ *          the model element actual level, which is probably too fine ?)
+ * </ol>
+ * TODO : check if we didn't implement the previous TODO !!!
  * <p>
  * TODO : cleanup. find unused methods from previous versions, and suppress
  * them.
@@ -1430,23 +1435,22 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * <p>
      * Note that this method doesn't change the text itself.
      *
+     * 
      * @return Returns a <em>working copy</em> of the created group, or null if
      * nothing was created.
      */
     // UNDO/REDO
-    public AbsoluteGroup buildAbsoluteGroup() {
+    public AbsoluteGroup buildAbsoluteGroup(DrawingSpecification drawingSpecification) {
+    	AbsoluteGroupBuilder groupBuilder = new AbsoluteGroupBuilder();
         AbsoluteGroup result = null;
         // ensure there is a selection if possible.
         if (!caret.hasSelection() && getInsertPosition() >= 1) {
             caret.setMarkAt(getInsertPosition() - 1);
         }
         if (caret.hasSelection()) {
-            List<TopItem> elts = getSelection();
-            REMOVE_MDCEditorKit;
-            // FIXME : drawing specifications alert !!!
-            AbsoluteGroup g = AbsoluteGroupBuilder.createAbsoluteGroupFrom(
-                    elts, MDCEditorKit.getBasicMDCEditorKit()
-                            .getDrawingSpecifications());
+            List<TopItem> elts = getSelection();            
+            AbsoluteGroup g = groupBuilder.createAbsoluteGroupFrom(
+                    elts, drawingSpecification);
             result = g;
         }
         return result;

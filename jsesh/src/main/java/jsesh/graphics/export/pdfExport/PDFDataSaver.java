@@ -90,7 +90,7 @@ public class PDFDataSaver {
 
         myDrawingSpecification.setPageLayout(pageLayout);
 
-        ViewBuilder builder = new ViewBuilder(new Layout());
+        ViewBuilder builder = new ViewBuilder();
         MDCView view = builder.buildView(topItemList, myDrawingSpecification);
 
         PDFDocumentWriterAux documentWriterAux = new PDFDocumentWriterAux(
