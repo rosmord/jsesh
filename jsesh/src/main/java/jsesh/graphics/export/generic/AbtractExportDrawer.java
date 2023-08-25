@@ -62,7 +62,7 @@ public abstract class AbtractExportDrawer {
         double scale = (double) getCadratHeight()
                 / getDrawingSpecifications().getMaxCadratHeight();
 
-        ViewBuilder builder = new ViewBuilder(new Layout());
+        ViewBuilder builder = new ViewBuilder();
         currentView = builder.buildView(list, getDrawingSpecifications());
 
         if (currentView.getWidth() == 0 || currentView.getHeight() == 0) {

@@ -20,6 +20,7 @@ import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.ShapeChar;
 
@@ -95,8 +96,7 @@ public class SVGFontExporter {
                     // GardinerCode class:
                     glyphCode = GardinerCode.getCodeForFileName(mdcCode);
                 } else {
-                    HieroglyphDatabaseInterface manager = HieroglyphDatabaseFactory.getHieroglyphDatabase();
-                    glyphCode = manager.getCanonicalCode(mdcCode);
+                    glyphCode = ManuelDeCodage.getInstance().getCanonicalCode(mdcCode);
                 }
                 // End of code = capital letters
                 ShapeChar sign = fontManager.get(glyphCode);
@@ -235,12 +235,9 @@ public class SVGFontExporter {
         writeHeader(writer);
         DefaultHieroglyphicFontManager fontManager = DefaultHieroglyphicFontManager
                 .getInstance();
-        Iterator<String> it = codeMap.keySet().iterator();
-        while (it.hasNext()) {
-            String codePoint = it.next();
+        for (String codePoint : codeMap.keySet()) {        	
             GlyphData glyph = codeMap.get(codePoint);
             glyph.generateFontGlyph(writer, fontManager);
-
         }
         writeFooter(writer);
         writer.close();

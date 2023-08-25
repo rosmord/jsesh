@@ -22,12 +22,8 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  */
 public class AbsoluteGroupBuilder {
 
-	private final Layout layout;
-	
-	
-	public AbsoluteGroupBuilder(Layout layout) {
+	public AbsoluteGroupBuilder() {
 		super();
-		this.layout = layout;
 	}
 
 	/**
@@ -83,7 +79,7 @@ public class AbsoluteGroupBuilder {
 		 */
 		public AbsoluteGroup createAbsoluteGroupFrom(List topItems, DrawingSpecification drawingSpecifications) {
 			result = new AbsoluteGroup();
-			ViewBuilder builder = new ViewBuilder(layout);
+			ViewBuilder builder = new ViewBuilder();
 			sizeOfGroupUnit= drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength();
 			origx = 0;
 			origy = 0;

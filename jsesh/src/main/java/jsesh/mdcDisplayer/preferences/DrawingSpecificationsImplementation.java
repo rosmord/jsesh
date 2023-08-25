@@ -319,7 +319,6 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
     public float getCartoucheknotLength() {
-        // return cartoucheknotLength;
         return cartoucheLineWidth;
     }
 

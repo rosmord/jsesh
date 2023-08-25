@@ -79,13 +79,10 @@ public class JMDCEditor extends JPanel {
      *
      */
     private static final long serialVersionUID = -5312716856062578743L;
-    private static final int BOTTOM_MARGIN = 5;
+    private static final int BOTTOM_MARGIN = 5; 
+    
     private JMDCModelEditionListener mdcModelEditionListener;
-    /**
-     * Strategy to build a view.
-     *
-     */
-    // ViewBuilder builder;
+   
     /**
      * Debugging of view placement.
      */
@@ -103,25 +100,30 @@ public class JMDCEditor extends JPanel {
     /**
      * Display scale for this window.
      */
-    private double scale;
+    private double scale; // Should be a property !
+    
     /**
      * Updates the view.
      *
      */
     private MDCViewUpdater viewUpdater;
+    
     /**
      * Deals with events that occur on this object :
      */
     MDCEditorEventsListener eventListener;
+    
     /**
      * Basic Information about drawing : fonts to use, line width, etc...
      *
      */
     JMDCEditorWorkflow workflow;
+    
     /**
      * The object responsible for building transferable for the clipboard.
      */
     MDCModelTransferableBroker mdcModelTransferableBroker = new SimpleMDCModelTransferableBroker();
+    
     /**
      * States that the caret has changed since last redraw.
      * <p>
@@ -130,21 +132,22 @@ public class JMDCEditor extends JPanel {
      */
     private boolean caretChanged = true;
     private boolean editable = true;
-    REMOVE_MDCEditorKit // ??;
-    // FIXME : choose a reasonable method to share drawing specifications.
-    private DrawingSpecification drawingSpecifications = MDCEditorKit
-            .getBasicMDCEditorKit().getDrawingSpecifications().copy();
+    // FIXME : choose a reasonable method to share drawing specifications.    
+    // Remark : once the drawing specifications are set here, we copy them so only us change them.
+    // Think about that.
+    private DrawingSpecification drawingSpecifications;
 
     private final boolean drawLimits = false;
 
     public JMDCEditor() {
-        this(new HieroglyphicTextModel());
+        this(new HieroglyphicTextModel(), MDCEditorKit
+                .getBasicMDCEditorKit().getDrawingSpecifications().copy() );
     }
 
-    public JMDCEditor(HieroglyphicTextModel data) {
+    public JMDCEditor(HieroglyphicTextModel data, DrawingSpecification drawingSpecification) {
         setBackground(Color.WHITE);
+        this.drawingSpecifications = drawingSpecification;
         drawer = new ViewDrawer();
-        //drawer.setCached(true);
         drawer.setCached(false);
         setScale(2.0);
         workflow = new JMDCEditorWorkflow(data);

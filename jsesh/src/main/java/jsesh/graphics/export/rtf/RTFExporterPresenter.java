@@ -47,7 +47,7 @@ public class RTFExporterPresenter {
         RTFExporter exporter = new RTFExporter();
         exporter.setDrawingSpecifications(drawingSpecifications);
         exporter.setRtfPreferences(rtfPreferences);
-        exporter.setViewBuilder(new ViewBuilder());
+        // exporter.setViewBuilder(new ViewBuilder()); (REMOVE ??)
         try {
             OutputStream out = new FileOutputStream(file);
             exporter.ExportModelTo(model, out);

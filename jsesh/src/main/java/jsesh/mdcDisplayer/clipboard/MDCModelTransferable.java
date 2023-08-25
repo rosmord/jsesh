@@ -150,7 +150,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getMacPictData() {
         DrawingSpecification currentSpecifications = createEmbeddedDrawingSpecifications();
         MacPictGraphics2D g = new MacPictGraphics2D();
-        MDCView view = new ViewBuilder(new Layout()).buildView(topItemList,
+        MDCView view = new ViewBuilder().buildView(topItemList,
                 currentSpecifications);
         new ViewDrawer().draw(g, view, currentSpecifications);
         g.dispose();

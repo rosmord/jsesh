@@ -213,7 +213,7 @@ public class MDCDrawingFacade {
 		public Rectangle2D bounds;
 
 		public ViewAndBounds(TopItemList t, double x, double y) {
-			ViewBuilder viewBuilder = new ViewBuilder(new Layout());
+			ViewBuilder viewBuilder = new ViewBuilder();
 			view = viewBuilder.buildView(t, drawingSpecifications);
 			double scale = getScale();
 

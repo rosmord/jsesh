@@ -532,7 +532,7 @@ public class PDFExporter {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
-                ViewBuilder builder = new ViewBuilder(new Layout());
+                ViewBuilder builder = new ViewBuilder();
                 MDCView view = builder.buildView(smallModel,
                         drawingSpecifications);
 
