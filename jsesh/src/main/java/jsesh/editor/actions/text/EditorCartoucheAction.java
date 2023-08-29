@@ -38,10 +38,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.Action;
+import javax.swing.KeyStroke;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.KeyUtils;
 
 /**
  * Action for adding a cartouche to a JSesh editor.
@@ -66,6 +68,10 @@ public class EditorCartoucheAction extends EditorAction {
 		this.end = end;
 		putValue(Action.SMALL_ICON, 
                         ImageIconFactory.getInstance().buildImage(mdcText));
+		if (type == 'c' && start == 1 && end == 2) {
+			KeyStroke stroke = KeyUtils.buildCommandShortCut('C', java.awt.event.InputEvent.SHIFT_DOWN_MASK);
+			putValue(Action.ACCELERATOR_KEY, stroke);			
+		}
 	}
 
 	/**
