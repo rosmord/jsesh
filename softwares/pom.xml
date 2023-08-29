@@ -1,71 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.qenherkhopeshef.jsesh</groupId>
+		<artifactId>JSesh-all</artifactId>
+		<version>7.8.0-SNAPSHOT</version>
+	</parent>
+	<description>
+		A number of utility software have been made, for instance to manage font
+		creation and naming in a sane way.
+		We don't want to include them in JSesh distribution, as they are of
+		limited use.${basedir}
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <description>Secondary softwares we intend to move out of the JSesh main archive</description>
-    <parent>
-        <groupId>org.qenherkhopeshef.jsesh</groupId>
-        <artifactId>JSesh-all</artifactId>
-        <version>7.8.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>jseshAppli</artifactId>
-    <packaging>jar</packaging>
-    <name>jseshSoftwares</name>
-    <build>
-        <!--
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>jsesh.jhotdraw.JSeshMain</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-        -->
-    </build>
-    <dependencies>        
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jsesh</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jseshGlyphs</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jhotdrawfw</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jseshSearch</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>3.7.4</version>
-            <type>jar</type>
-            <classifier>swing</classifier>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>qenherkhopeshefUtils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies> 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+		Hence this module.
+	</description>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>softwares</artifactId>
+	<packaging>pom</packaging>
+	<name>Sundry softwares using JSesh or Utilities for JSesh</name>
+	<modules>
+		<module>rtfCleaner</module>
+		<module>glyphIndex</module>
+		<module>svgIndex</module>
+		<module>largeFontImporter</module>
+		<module>svgFontImporter</module>
+		<module>svgFontExporter</module>
+	</modules>
 </project>
