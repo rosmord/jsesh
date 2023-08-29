@@ -3,10 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.qenherkhopeshef.jsesh</groupId>
   <artifactId>JSesh-all</artifactId>
-  <version>7.8.0-SNAPSHOT</version>
+  <version>7.8.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>JSesh complete distribution</name>
   <properties>
+    <maven.plugin.validation>BRIEF</maven.plugin.validation>
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

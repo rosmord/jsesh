@@ -5,7 +5,7 @@
     <parent>
         <artifactId>JSesh-all</artifactId>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
-        <version>7.8.0-SNAPSHOT</version>
+        <version>7.8.1-SNAPSHOT</version>
     </parent>
     <artifactId>prepareJSeshRelease</artifactId> 
     <description>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-project</artifactId>
-            <version>3.0-alpha-2</version>
+            <version>2.2.1</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
