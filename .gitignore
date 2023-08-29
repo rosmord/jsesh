@@ -25,3 +25,4 @@ nb-configuration.xml
 target
 nbactions.xml
 .sdkmanrc
+.DS_Store
