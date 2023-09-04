@@ -292,7 +292,7 @@ public abstract class ModelElement implements ModelElementObserver,
      *
      * @return a recursive copy of this ModelElement.
      */
-    abstract public ModelElement deepCopy();
+    public abstract ModelElement deepCopy();
 
     /**
      * Disable updates forwarding. If updates are enables, modifications to sub
