@@ -44,7 +44,7 @@
             <!-- copy various files (fix this) -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4.2</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resources-mac</id>
