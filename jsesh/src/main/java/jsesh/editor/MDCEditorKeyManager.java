@@ -314,6 +314,13 @@ class MDCEditorKeyManager extends KeyAdapter {
             addAction(actionID, action);
         }
 
+        /**
+         * Add and configure an action, knowing its unique string ID, and the action itself.
+         * 
+         * Post-condition: all action properties (such as label, accelerator keys, etc.) will be set.
+         * @param actionID
+         * @param action
+         */
         private void addAction(String actionID, Action action) {
             actionMap.put(actionID, action);
             BundledActionFiller.initActionProperties(action, actionID,
