@@ -40,7 +40,7 @@ import java.util.Locale;
 
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -105,7 +105,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
     public AbstractGraphicalExporter(String extensions[], String description) {
         this.extensions = extensions;
         this.description = description;
-        fileName = I18n.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
+        fileName = JSeshMessages.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
     }
 
     public File getExportFile() {
@@ -135,7 +135,7 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
     @Override
     public void setOriginalDocumentFile(URI uri) {
         if (uri == null) {
-            fileName = I18n.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
+            fileName = JSeshMessages.getString("AbstractGraphicalExporter.unnamed") + "." + extensions[0]; //$NON-NLS-1$
         } else if (uri.getScheme() == null || uri.getScheme().equals("file")) {
             fileName = new File(uri).getName();
             fileName = fileName.substring(0, fileName.lastIndexOf(".")) + "." + extensions[0];

@@ -35,10 +35,14 @@ package jsesh.editor.actions;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 
+import jsesh.resources.JSeshMessages;
+
 public class AppDefaultFactory {
 	public static AppDefaults getAppDefaults() {
 		AppDefaults appDefaults= new AppDefaults();
-		appDefaults.addResourceBundle("jsesh.editor.labels");
+		// Weakness of the system here : JSeshMessages
+		// is a bit too talkative about itself.
+		appDefaults.addResourceBundle(JSeshMessages.getBundleName());
 		return appDefaults;
 	}
 }

@@ -48,7 +48,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import jsesh.graphics.export.generic.SelectionExporter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 
 import org.qenherkhopeshef.graphics.eps.EncapsulatedPostscriptGraphics2D;
 
@@ -70,7 +70,7 @@ public class EPSExporter extends AbstractGraphicalExporter {
 
 	// private MDCView view;
     public EPSExporter(Component parent) {
-        super("eps", I18n.getString("EPSExporter.description"));
+        super("eps", JSeshMessages.getString("EPSExporter.description"));
         this.parent = parent;
     }
 

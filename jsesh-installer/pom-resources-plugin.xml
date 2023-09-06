@@ -43,7 +43,8 @@
             </plugin>
             <!-- copy various files (fix this) -->
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>                
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resources-mac</id>

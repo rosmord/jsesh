@@ -29,7 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
-import jsesh.i18n.I18n;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
@@ -42,6 +41,7 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.GraphicsUtils;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -548,43 +548,44 @@ public class HTMLExporter {
 
             // Title :
             titleField = new JTextField(HTMLExporter.this.title, 40);
-            titleField.setToolTipText(I18n.getString("HTMLExporter.title.toolTip")); //$NON-NLS-1$
+            titleField.setToolTipText(JSeshMessages.getString("HTMLExporter.title.toolTip")); //$NON-NLS-1$
 
             // Directory
             directoryField = new JFormattedTextField();
             directoryField.setValue(directory);
             directoryField.setColumns(40);
-            browse = new JButton(I18n.getString("HTMLExporter.browse.label")); //$NON-NLS-1$
+            browse = new JButton(JSeshMessages.getString("HTMLExporter.browse.label")); //$NON-NLS-1$
             browse.addActionListener(e -> browse());
 
             // Base name.
             baseNameField = new JTextField(baseName, 20);
             baseNameField
-                    .setToolTipText(I18n.getString("HTMLExporter.baseName.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.baseName.toolTip")); //$NON-NLS-1$
             // Respect pages :
-            respectPageField = new JCheckBox(I18n.getString("HTMLExporter.respectPage.label"), respectPages); //$NON-NLS-1$
+            respectPageField = new JCheckBox(JSeshMessages.getString("HTMLExporter.respectPage.label"), respectPages); //$NON-NLS-1$
             respectPageField
-                    .setToolTipText(I18n.getString("HTMLExporter.respectPage.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.respectPage.toolTip")); //$NON-NLS-1$
 
             // line height.
             // NOTE : I use a java 1.4 specific class.
             lineHeightField = new JFormattedTextField();
             lineHeightField.setValue(lineHeight);
             lineHeightField
-                    .setToolTipText(I18n.getString("HTMLExporter.lineHeight.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.lineHeight.toolTip")); //$NON-NLS-1$
 
             // Picture top and bottom margin
             pictureMarginField = new JFormattedTextField();
             pictureMarginField.setValue(pictureMargin);
             pictureMarginField
-                    .setToolTipText(I18n.getString("HTMLExporter.margin.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.margin.toolTip")); //$NON-NLS-1$
 
-            protectSpecialField = new JCheckBox(I18n.getString("HTMLExporter.protectHTML.label")); //$NON-NLS-1$
+            protectSpecialField = new JCheckBox(JSeshMessages.getString("HTMLExporter.protectHTML.label")); //$NON-NLS-1$
             protectSpecialField
-                    .setToolTipText(I18n.getString("HTMLExporter.protectHTML.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.protectHTML.toolTip")); //$NON-NLS-1$
             protectSpecialField.setSelected(htmlSpecialProtected);
 
-            newLineReplacementField = new JComboBox(new String[]{I18n.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
+            newLineReplacementField = new JComboBox(new String[]{
+                JSeshMessages.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
                 "<br>", "<p>"}); //$NON-NLS-1$ //$NON-NLS-2$
             newLineReplacementField.setSelectedIndex(newLinesReplacement);
 
@@ -596,16 +597,16 @@ public class HTMLExporter {
             pictureScaleField.setColumns(4);
 
             pictureScaleField
-                    .setToolTipText(I18n.getString("HTMLExporter.scale.toolTip"));
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.scale.toolTip"));
 
-            generatePictureSizeField = new JCheckBox(I18n.getString("HTMLExporter.pictureSize.label")); //$NON-NLS-1$
+            generatePictureSizeField = new JCheckBox(JSeshMessages.getString("HTMLExporter.pictureSize.label")); //$NON-NLS-1$
             generatePictureSizeField
-                    .setToolTipText(I18n.getString("HTMLExporter.pictureSize.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.pictureSize.toolTip")); //$NON-NLS-1$
             generatePictureSizeField.setSelected(generatePictureSize);
 
-            centerPictureField = new JCheckBox(I18n.getString("HTMLExporter.centerPictures.label")); //$NON-NLS-1$
+            centerPictureField = new JCheckBox(JSeshMessages.getString("HTMLExporter.centerPictures.label")); //$NON-NLS-1$
             centerPictureField
-                    .setToolTipText(I18n.getString("HTMLExporter.centerPictures.toolTip")); //$NON-NLS-1$
+                    .setToolTipText(JSeshMessages.getString("HTMLExporter.centerPictures.toolTip")); //$NON-NLS-1$
             centerPictureField.setSelected(centerPictures);
 
             // OK, This layout is UGLY. REALLY.
@@ -618,29 +619,29 @@ public class HTMLExporter {
             c.insets = new Insets(3, 3, 3, 3);
             c.gridwidth = 1;
             c.anchor = GridBagConstraints.WEST;
-            add(new LabeledField(I18n.getString("HTMLExporter.documentTitle.label"), titleField), c); //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.documentTitle.label"), titleField), c); //$NON-NLS-1$
             c.gridy++;
-            add(new LabeledField(I18n.getString("HTMLExporter.directory.label"), directoryField), c); //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.directory.label"), directoryField), c); //$NON-NLS-1$
             c.gridx = 1;
             add(browse, c);
             c.gridx = 0;
             c.gridy++;
-            add(new LabeledField(I18n.getString("HTMLExporter.baseName.label"), baseNameField), c); //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.baseName.label"), baseNameField), c); //$NON-NLS-1$
             c.gridy++;
             add(respectPageField, c);
             c.gridy++;
-            add(new LabeledField(I18n.getString("HTMLExporter.lineHeight.label"), lineHeightField), c); //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.lineHeight.label"), lineHeightField), c); //$NON-NLS-1$
             c.gridy++;
             Insets oldInset = c.insets;
             c.insets = new Insets(20, 0, 0, 0);
-            add(new JLabel(I18n.getString("HTMLExporter.advancedSettings.label")), c); //$NON-NLS-1$
+            add(new JLabel(JSeshMessages.getString("HTMLExporter.advancedSettings.label")), c); //$NON-NLS-1$
             c.insets = oldInset;
             c.gridy++;
             add(
-                    new LabeledField(I18n.getString("HTMLExporter.verticalMargin.label"), //$NON-NLS-1$
+                    new LabeledField(JSeshMessages.getString("HTMLExporter.verticalMargin.label"), //$NON-NLS-1$
                             pictureMarginField), c);
             c.gridy++;
-            add(new LabeledField(I18n.getString("HTMLExporter.scale.label"), pictureScaleField), c); //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.scale.label"), pictureScaleField), c); //$NON-NLS-1$
             c.gridy++;
             add(protectSpecialField, c);
             c.gridy++;
@@ -649,7 +650,7 @@ public class HTMLExporter {
             add(centerPictureField, c);
             c.gridy++;
 
-            add(new LabeledField(I18n.getString("HTMLExporter.newLine.label"), //$NON-NLS-1$
+            add(new LabeledField(JSeshMessages.getString("HTMLExporter.newLine.label"), //$NON-NLS-1$
                     newLineReplacementField), c);
         }
 
@@ -672,11 +673,10 @@ public class HTMLExporter {
         private void browse() {
             PortableFileDialog portableFileDialog = PortableFileDialogFactory.createDirectorySaveDialog(getPopupParent());
             portableFileDialog.setCurrentDirectory(directory);
-            //chooser.setApproveButtonText(I18n.getString("HTMLExporter.chooseDirectory.label")); //$NON-NLS-1$
             portableFileDialog.setFileFilter(new FileFilter() {
                 @Override
                 public String getDescription() {
-                    return I18n.getString("HTMLExporter.directoryDescription.label"); //$NON-NLS-1$
+                    return JSeshMessages.getString("HTMLExporter.directoryDescription.label"); //$NON-NLS-1$
                 }
 
                 @Override

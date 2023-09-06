@@ -47,7 +47,7 @@ import java.util.Locale;
 
 import jsesh.graphics.export.generic.SelectionExporter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
@@ -67,7 +67,7 @@ public class EMFExporter extends AbstractGraphicalExporter {
     private String comment = "";
 
     public EMFExporter(Component parent) {
-        super("emf", I18n.getString("EMFExporter.description"));
+        super("emf", JSeshMessages.getString("EMFExporter.description"));
         this.parent = parent;
     }
 

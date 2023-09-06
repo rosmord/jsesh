@@ -49,7 +49,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import jsesh.editor.JMDCField;
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.renderers.MdCTableCellRenderer;
 
 /**
@@ -82,7 +82,7 @@ public class JGlossaryEditor extends JPanel {
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fixTable();
 
-		okButton = new JButton(I18n.getString("JGlossaryEditor.add.label"));
+		okButton = new JButton(JSeshMessages.getString("JGlossaryEditor.add.label"));
 		okButton.addActionListener(EventHandler.create(ActionListener.class,
 				this, "addEntry"));
 		mdcField.getHieroglyphicTextModel().addObserver(
