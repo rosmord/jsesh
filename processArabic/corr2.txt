@@ -1,0 +1,6 @@
+Yod uses U0313 accent (accent over capital yod - should work everywhere)	استخدم Yod كود U0313 (دمج علامة comma فوق حرف yod الكبير - يجب أن تعمل في كل مكان)
+Yod uses U0486 accent (accent in front of capital yod)	استخدم Yod كود U0486 (وضع علامة سِّيريلية أمام حرف yod الكبير)
+Yod uses U0A7BD (new standard Unicode code for egyptological yod)	 استخدم Yod كود U0A7BD (رمز يونيكود القياسي الجديد الخاص بعلم المصريات لتكويد yod)
+Ligature Elements	دمج العناصر
+Ligature group with Hieroglyph	دمج مجموعة العلامات مع الهيروغليفية
+Ligature hieroglyph with group	دمج الهيروغليفية مع مجموعة العلامات
