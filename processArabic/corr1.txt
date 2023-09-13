@@ -1,0 +1,27 @@
+Base name	الاسم الأساسي
+Deselect All	إلغاء تحديد الكل
+Exit	خروج
+Extended variants	مع بدائل مختلفة متعددة
+Full variants	البدائل المختلفة الكاملة
+If checked, the HTML code IMG tags will align='center' declaration\n	إذا تم تحديده، فستتم محاذاة وسوم IMG الخاصة بكود HTML = مُحدِّد/معرف "توسيط"\n
+If you don't save, your changes will be lost.	إذا لم تقم بالحفظ، فسيتم فقدان التغييرات التي أجريتها.
+Line Numbers	ترقيم الأسطر
+Load Recent	تحميل الأخير/الحديث
+Max number of signs skipped by '*'	عدد العلامات الأقصى التي سيتم تخطيها بواسطة "*"
+Max. Skip Length	الطول الأقصى الذي سيتم تخطيه
+No variant	بدون بديل مختلف
+Non-hieroglyphic Font	الخط غير الهيروغليفي
+Open Recent	فتح الأخير/الحديث
+Quarter Shading	تظليل الربع
+Quit	خروج
+Select All	تحديد الكل
+Select the formats which will be used for cut and paste <p><em>Some of them might not work on your particular machine</em></p>	حدد الصيغ التي سيتم استخدامها للقص واللصق <p><em>قد لا يعمل بعضها على جهازك الخاص</em></p>
+Set as Model	عَيَّنَ/تخصيص كنموذج اِفتراضيّ [للمستندات الجديدة]
+Should Sign be stretched if needed to fill the available width	سوف تمتد العلامة إذا لزم الأمر لملء العرض المتاح
+Small Font Body	هيئة/قوام الخط الصغير
+Started	بدأ
+Text omited by the Scribe	النص الذي أغفله/سها عنه الكاتب
+Text previously readable	كان النص قابل للقراءة مسبقًا
+Toggle Ignored Sign	التبديل للعلامة المتجاهلة
+Yod uses U0313 accent (accent over capital yod - should work everywhere)	استخدم Yod لهجة U0313 ( لهجة فوق yod الحروف الكبيرة - يجب أن تعمل في كل مكان)
+Yod uses U0486 accent (accent in front of capital yod)	استخدم Yod لهجة U0486 ( لهجة أمام الحرف الكبير yod)
