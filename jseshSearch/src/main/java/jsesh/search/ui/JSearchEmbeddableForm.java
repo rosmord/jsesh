@@ -18,9 +18,8 @@ import javax.swing.JPanel;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
-import jsesh.search.ui.specifications.SearchType;
-import jsesh.search.ui.specifications.JSearchFormModelIF;
 import jsesh.search.ui.specifications.JSelectableSearchIF;
+import jsesh.search.ui.specifications.SearchType;
 import jsesh.search.ui.specifications.JTextSearchFormModelIF;
 
 /**
@@ -29,7 +28,7 @@ import jsesh.search.ui.specifications.JTextSearchFormModelIF;
  *
  * @author rosmord
  */
-class JSearchEmbeddableForm extends JPanel implements JSearchFormModelIF, JSelectableSearchIF {
+class JSearchEmbeddableForm extends JPanel implements JSelectableSearchIF {
 
     private final JComboBox<SearchType> chooseSearchTypeCB;
     private final JMdCSearchEmbeddableForm mdCSearchForm;

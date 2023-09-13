@@ -73,7 +73,6 @@ file.documentProperties.text=خصائص المستند
 file.export.bitmap.text=تصدير بصيغة JPEG أو PNG ...
 file.export.pdf.text=تصدير بصيغة PDF
 file.export.rtf.text=تصدير بصيغة RTF
-file.export.text=Export
 file.exportEMF.text=تصدير بصيغة EMF
 file.exportEPS.text=تصدير بصيغة EPS
 file.exportHTML.text=تصدير بصيغة HTML
