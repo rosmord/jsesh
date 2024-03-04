@@ -5,7 +5,7 @@
     <parent>
         <artifactId>JSesh-all</artifactId>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
-        <version>7.8.0-SNAPSHOT</version>
+        <version>7.8.3-SNAPSHOT</version>
     </parent>
     <artifactId>prepareJSeshRelease</artifactId> 
     <description>
@@ -21,14 +21,17 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
             <version>3.3.9</version>
+            <scope>provided</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-project</artifactId>
-            <version>3.0-alpha-2</version>
+            <version>2.2.1</version>
             <type>jar</type>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
+    -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jsesh</artifactId>
@@ -40,7 +43,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.9.0</version>
                 <executions>
                     <execution>
                         <id>default-descriptor</id>
@@ -85,5 +88,4 @@
         	</plugins>
         </pluginManagement>
     </build>
-
 </project>

@@ -24,21 +24,18 @@ import jsesh.mdc.model.TopItemList;
 public class InnerGroupExtractor {
 
 	private boolean foundOtherElements;
-	private List innerGroups;
+	private List<InnerGroup> innerGroups;
 	/**
 	 * Extract Inner groups from a list of TopItems.
 	 * @param list
 	 */
-	public void extract(List list) {
+	public void extract(List<? extends ModelElement> list) {
 		foundOtherElements= false;
-		innerGroups= new ArrayList();
+		innerGroups= new ArrayList<>();
 		InnerGroupExtractorAux aux= new InnerGroupExtractorAux();
-		Iterator iterator= list.iterator();
-		while (iterator.hasNext()) {
-			ModelElement elt= (ModelElement) iterator.next();
+		for (ModelElement elt: list) {
 			elt.accept(aux);
-		}
-		
+		}		
 	}
 
 	/**
@@ -60,6 +57,7 @@ public class InnerGroupExtractor {
 		/* (non-Javadoc)
 		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitInnerGroup(jsesh.mdc.model.InnerGroup)
 		 */
+		@Override
 		public void visitInnerGroup(InnerGroup g) {
 			innerGroups.add(g.deepCopy());
 		}

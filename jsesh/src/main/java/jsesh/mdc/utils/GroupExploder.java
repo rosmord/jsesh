@@ -26,25 +26,21 @@ import jsesh.mdc.model.TopItem;
  */
 public class GroupExploder {
 
-	List result = null;
+	List<TopItem> result = null;
 
 	/**
 	 * @param item
 	 * @return the list of BasicItems contained in the group. 
 	 */
-	public List explode(TopItem item) {
-		result = new ArrayList();
+	public List<TopItem> explode(TopItem item) {
+		result = new ArrayList<>();
 		GroupExploderAux aux = new GroupExploderAux();
 		item.accept(aux);
 		return result;
 	}
 
 	private class GroupExploderAux extends ModelElementDeepAdapter {
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitCadrat(jsesh.mdc.model.Cadrat)
-		 */
+		@Override
 		public void visitCadrat(Cadrat c) {
 			if (c.getNumberOfHBoxes() == 0) {
 				// Should not happen !
@@ -64,21 +60,13 @@ public class GroupExploder {
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitCartouche(jsesh.mdc.model.Cartouche)
-		 */
+		@Override
 		public void visitCartouche(Cartouche c) {
 			for (int i = 0; i < c.getBasicItemList().getNumberOfChildren(); i++)
-				result.add(c.getBasicItemList().getChildAt(i).deepCopy());
+				result.add(c.getBasicItemList().getChildAt(i).buildTopItem());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitHBox(jsesh.mdc.model.HBox)
-		 */
+		@Override
 		public void visitHBox(HBox hbox) {
 			int nb = hbox.getNumberOfChildren();
 			if (nb == 0) {
@@ -93,24 +81,21 @@ public class GroupExploder {
 			}
 		}
 
-		
-		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitTopItem(jsesh.mdc.model.TopItem)
-		 */
+		@Override
 		public void visitTopItem(TopItem t) {
 			result.add(t.deepCopy());
 		}
 		
-		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitSubCadrat(jsesh.mdc.model.SubCadrat)
-		 */
+		@Override
 		public void visitSubCadrat(SubCadrat c) {
 			c.getBasicItemList().accept(this);
 		}
+
 		/** 
 		 * Only hieroglyphs among innergroups can't be broken into smaller parts.
 		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
 		 */
+		@Override
 		public void visitHieroglyph(Hieroglyph h) {
 			result.add(h.buildTopItem());
 		}
@@ -119,6 +104,7 @@ public class GroupExploder {
 		 * (non-Javadoc)
 		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitDefault(jsesh.mdc.model.ModelElement)
 		 */
+		@Override
 		public void visitDefault(ModelElement t) {
 			for (int i=0; i< t.getNumberOfChildren(); i++) {
 				TopItem item= t.getChildAt(i).buildTopItem();
@@ -130,15 +116,14 @@ public class GroupExploder {
 		/* (non-Javadoc)
          * @see jsesh.mdc.model.ModelElementDeepAdapter#visitAbsoluteGroup(jsesh.mdc.model.AbsoluteGroup)
          */
+		@Override
         public void visitAbsoluteGroup(AbsoluteGroup g) {
             for (int i= 0; i< g.getNumberOfChildren(); i++)
             {
-                Hieroglyph h= (Hieroglyph) g.getHieroglyphAt(i).deepCopy();
+                Hieroglyph h= g.getHieroglyphAt(i).deepCopy();
                 h.setExplicitPosition(0,0,100);
                 result.add(h.buildTopItem());
             }
         }
-		
-		
 	}
 }

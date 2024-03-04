@@ -39,7 +39,7 @@ public class BundledActionFiller {
 	 * Property to control the content of a menu depending on the platform. Some
 	 * actions won't appear on certain menus.
 	 */
-	public final static String actionKeys[] = { Action.NAME,
+	private static final String[] ACTION_KEYS = { Action.NAME,
 			Action.SHORT_DESCRIPTION, Action.LONG_DESCRIPTION,
 			Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,		
 			Action.ACCELERATOR_KEY, Action.MNEMONIC_KEY,
@@ -65,9 +65,7 @@ public class BundledActionFiller {
 			Field field = clazz.getField("ID");
 			String id = (String) field.get(null);
 			initActionProperties(action, id, appDefaults);
-		} catch (NoSuchFieldException e) {
-			throw (new RuntimeException(e));
-		} catch (IllegalAccessException e) {
+		} catch (NoSuchFieldException|IllegalAccessException e) {
 			throw (new RuntimeException(e));
 		}
 	}
@@ -92,14 +90,14 @@ public class BundledActionFiller {
 		// An hashmap-oriented system would be better.
 		
 		
-		for (String propertyName : BundledActionFiller.actionKeys) {
+		for (String propertyName : BundledActionFiller.ACTION_KEYS) {
 			// The key in the property file for this particular action for this
 			// particular entry.
 			String actionPropertyKey = id + "." + propertyName;
-			if (propertyName == Action.MNEMONIC_KEY) {
+			if (propertyName.equals(Action.MNEMONIC_KEY)) {
 				action.putValue(propertyName,
 						defaults.getKeyCode(actionPropertyKey));
-			} else if (propertyName == Action.ACCELERATOR_KEY || propertyName == Action.ACCELERATOR_KEY + "[mac]") {
+			} else if (propertyName.equals(Action.ACCELERATOR_KEY) || propertyName.equals(Action.ACCELERATOR_KEY + "[mac]")) {
 				// Now, we want to deal with accelerator keys
 				// differently on macs and on other system.
 				// for this we introduce the "shortcut"
@@ -132,7 +130,7 @@ public class BundledActionFiller {
 					action.putValue(propertyName,
 							defaults.getKeyStroke(actionPropertyKey));
 				}
-			} else if (propertyName == Action.SMALL_ICON) {
+			} else if (propertyName.equals(Action.SMALL_ICON)) {
 				// If we don't get an icon straight from the UIDefault..
 				if (defaults.getIcon(actionPropertyKey) == null) {
 					// we consider the data as a string...
@@ -150,7 +148,7 @@ public class BundledActionFiller {
 					action.putValue(propertyName,
 							defaults.getIcon(actionPropertyKey));
 				}
-			} else if (propertyName == PRECONDITIONS) {
+			} else if (propertyName.equals(PRECONDITIONS)) {
 				if (defaults.getString(actionPropertyKey) != null) {
 					// if precondition string is empty, remove existing ones.
 					if ("".equals(defaults.getString(actionPropertyKey))) {
@@ -161,7 +159,7 @@ public class BundledActionFiller {
 						action.putValue(propertyName, s);
 					}
 				}
-			} else if (propertyName == NUMBER_OF_COLUMNS) {
+			} else if (propertyName.equals(NUMBER_OF_COLUMNS)) {
 				if (defaults.getString(actionPropertyKey) != null) {
 					int ncols = Integer.parseInt(defaults
 							.getString(actionPropertyKey));

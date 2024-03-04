@@ -43,7 +43,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 
 /**
  * Very specific class for 'remove' button in our glossary.
@@ -60,7 +60,7 @@ public class JRemoveButtonCell extends AbstractCellEditor implements TableCellEd
 	
 	public JRemoveButtonCell(GlossaryTableModel model) {
 		this.model= model;
-		this.active= new JButton(I18n.getString("JRemoveButtonCell.remove.label"));
+		this.active= new JButton(JSeshMessages.getString("JRemoveButtonCell.remove.label"));
 		active.addActionListener(EventHandler.create(ActionListener.class, this, "remove"));
 		active.setMaximumSize(active.getMinimumSize());
 	}
@@ -86,7 +86,7 @@ public class JRemoveButtonCell extends AbstractCellEditor implements TableCellEd
 	}
 
 	public static double getMaxWidth() {
-		JButton button = new JButton(I18n.getString("JRemoveButtonCell.remove.label"));
+		JButton button = new JButton(JSeshMessages.getString("JRemoveButtonCell.remove.label"));
 		return button.getPreferredSize().getWidth();
 	}
 }

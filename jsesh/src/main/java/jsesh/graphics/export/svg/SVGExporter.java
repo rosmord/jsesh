@@ -12,7 +12,7 @@ import java.util.Locale;
 
 import jsesh.graphics.export.generic.SelectionExporter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
@@ -29,7 +29,7 @@ public class SVGExporter extends AbstractGraphicalExporter {
     private Dimension2D scaledDimension;
 
     public SVGExporter(final Component frame) {
-        super("svg", I18n.getString("SVGExporter.description"));
+        super("svg", JSeshMessages.getString("SVGExporter.description"));
         this.frame = frame;
     }
 

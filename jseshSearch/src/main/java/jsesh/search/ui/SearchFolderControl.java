@@ -59,9 +59,9 @@ class SearchFolderControl {
 
     private void activateButtons() {
         ui.getFolderField().setValue(JSeshWorkingDirectory.getWorkingDirectory());
-        ui.getSearchButton().addActionListener((e) -> this.doSearch());
-        ui.getChooseFolderButton().addActionListener((e) -> this.chooseFolder());
-        ui.getCancelButton().addActionListener((e) -> {
+        ui.getSearchButton().addActionListener(e -> this.doSearch());
+        ui.getChooseFolderButton().addActionListener(e -> this.chooseFolder());
+        ui.getCancelButton().addActionListener(e -> {
             ui.getMessageField().setText(JSeshMessages.getString("jsesh.search.folder.canceled"));
             this.stopSearch();
         });
@@ -190,7 +190,7 @@ class SearchFolderControl {
         }
 
         public void addAll(Collection<CorpusSearchHit> newHits) {
-            if (newHits.size() > 0) {
+            if (!newHits.isEmpty()) {
                 int oldSize = getRowCount();
                 resultData.addAll(newHits);
                 fireTableRowsInserted(oldSize, oldSize + newHits.size() - 1);
