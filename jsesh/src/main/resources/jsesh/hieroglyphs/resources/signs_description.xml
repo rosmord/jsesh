@@ -32443,39 +32443,51 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="S35" transliteration="sryt" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="S35" transliteration="Swt" type="phonogram" use="keyboard"/>
     <hasTag sign="S35" tag="staff"/>
+    <hasTag sign="S35" tag="sunshade"/>
   </sign>
   <sign alwaysDisplay="y" sign="S36">
     <hasTransliteration sign="S36" transliteration="Hpwi" type="phonogram" use="keyboard"/>
     <hasTag sign="S36" tag="staff"/>
     <hasTransliteration sign="S36" transliteration="Hp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="S36">+lOld Kingdom shape of +s-S35-+l S35, also known in the Middle Kingdom.+s-!
+!
+</signDescription>
+    <hasTag sign="S36" tag="sunshade"/>
+    <variantOf baseSign="S35" isSimilar="y" linguistic="full" sign="S36"/>
   </sign>
   <sign sign="S36A">
     <hasTag sign="S36A" tag="staff"/>
     <variantOf baseSign="S36" isSimilar="y" linguistic="unspecified" sign="S36A"/>
+    <hasTag sign="S36A" tag="sunshade"/>
   </sign>
   <sign sign="S36B">
-    <hasTag sign="S36B" tag="staff"/>
     <variantOf baseSign="S36" isSimilar="y" linguistic="unspecified" sign="S36B"/>
+    <hasTag sign="S36B" tag="staff"/>
+    <hasTag sign="S36B" tag="sunshade"/>
   </sign>
   <sign sign="S36C">
-    <hasTag sign="S36C" tag="staff"/>
     <variantOf baseSign="S36" isSimilar="y" linguistic="unspecified" sign="S36C"/>
+    <hasTag sign="S36C" tag="staff"/>
+    <hasTag sign="S36C" tag="sunshade"/>
   </sign>
   <sign sign="S36D">
-    <hasTag sign="S36D" tag="staff"/>
     <variantOf baseSign="S36" isSimilar="y" linguistic="unspecified" sign="S36D"/>
+    <hasTag sign="S36D" tag="staff"/>
+    <hasTag sign="S36D" tag="sunshade"/>
   </sign>
   <sign alwaysDisplay="y" sign="S37">
     <hasTransliteration sign="S37" transliteration="xw" type="phonogram" use="keyboard"/>
     <hasTag sign="S37" tag="scepter"/>
     <contains partCode="H6" sign="S37"/>
     <contains partCode="M13" sign="S37"/>
+    <hasTag sign="S37" tag="fan"/>
   </sign>
   <sign sign="S37A">
     <hasTag sign="S37A" tag="scepter"/>
     <variantOf baseSign="S37" isSimilar="y" linguistic="unspecified" sign="S37A"/>
     <contains partCode="H6" sign="S37A"/>
     <contains partCode="M13" sign="S37A"/>
+    <hasTag sign="S37A" tag="fan"/>
   </sign>
   <sign sign="S37B">
     <hasTag sign="S37B" tag="scepter"/>
@@ -32483,16 +32495,19 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="H6" sign="S37B"/>
     <contains partCode="H6B" sign="S37B"/>
     <contains partCode="S12" sign="S37B"/>
+    <hasTag sign="S37B" tag="fan"/>
   </sign>
   <sign sign="S37C">
     <hasTag sign="S37C" tag="scepter"/>
     <variantOf baseSign="S37" isSimilar="y" linguistic="unspecified" sign="S37C"/>
+    <hasTag sign="S37C" tag="fan"/>
   </sign>
   <sign sign="S37D">
     <hasTag sign="S37D" tag="scepter"/>
     <variantOf baseSign="S37" isSimilar="y" linguistic="unspecified" sign="S37D"/>
     <contains partCode="H6" sign="S37D"/>
     <contains partCode="S12" sign="S37D"/>
+    <hasTag sign="S37D" tag="fan"/>
   </sign>
   <sign alwaysDisplay="y" sign="S38">
     <hasTransliteration sign="S38" transliteration="HqA" type="phonogram" use="keyboard"/>
@@ -32510,6 +32525,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign alwaysDisplay="y" sign="S39">
     <hasTransliteration sign="S39" transliteration="awt" type="phonogram" use="keyboard"/>
     <hasTag sign="S39" tag="staff"/>
+    <signDescription lang="en" sign="S39">+lpeasant's crook.+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="S40">
     <hasTransliteration sign="S40" transliteration="Dam" type="phonogram" use="keyboard"/>
@@ -36059,14 +36076,17 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V2" transliteration="As" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V2" transliteration="sTA" type="phonogram" use="keyboard"/>
     <hasTag sign="V2" tag="rope"/>
+    <contains partCode="V1" sign="V2"/>
   </sign>
   <sign sign="V2A">
     <hasTag sign="V2A" tag="rope"/>
     <variantOf baseSign="V2" isSimilar="y" linguistic="unspecified" sign="V2A"/>
+    <contains partCode="V1" sign="V2A"/>
   </sign>
   <sign sign="V2B">
     <hasTag sign="V2B" tag="rope"/>
     <variantOf baseSign="V2" isSimilar="y" linguistic="unspecified" sign="V2B"/>
+    <contains partCode="V1" sign="V2B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V3">
     <hasTransliteration sign="V3" transliteration="sTAw" type="phonogram" use="keyboard"/>
@@ -36089,6 +36109,8 @@ U22-m-D17</signDescription>
   <sign sign="V5A">
     <hasTag sign="V5A" tag="rope"/>
     <hasTag sign="V5A" tag="loop"/>
+    <contains partCode="V5" sign="V5A"/>
+    <variantOf baseSign="V5" isSimilar="y" linguistic="unspecified" sign="V5A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V6">
     <hasTransliteration sign="V6" transliteration="g" type="phonogram" use="keyboard"/>
@@ -36100,6 +36122,8 @@ U22-m-D17</signDescription>
   <sign sign="V6A">
     <hasTag sign="V6A" tag="rope"/>
     <hasTag sign="V6A" tag="loop"/>
+    <contains partCode="V6" sign="V6A"/>
+    <variantOf baseSign="V6" isSimilar="y" linguistic="unspecified" sign="V6A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V7">
     <hasTransliteration sign="V7" transliteration="Sn" type="phonogram" use="keyboard"/>
@@ -36111,6 +36135,9 @@ U22-m-D17</signDescription>
     <hasTag sign="V8" tag="rope"/>
     <hasTag sign="V8" tag="loop"/>
     <hasTag sign="V8" tag="cartouche"/>
+    <contains partCode="V7" sign="V8"/>
+    <contains partCode="X1" sign="V8"/>
+    <variantOf baseSign="V7" isSimilar="y" linguistic="unspecified" sign="V8"/>
   </sign>
   <sign alwaysDisplay="y" sign="V9">
     <hasTransliteration sign="V9" transliteration="Snw" type="phonogram" use="keyboard"/>
@@ -36131,6 +36158,7 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V11A">
     <hasTag sign="V11A" tag="cartouche"/>
+    <variantOf baseSign="V11" isSimilar="y" linguistic="unspecified" sign="V11A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V12">
     <hasTransliteration sign="V12" transliteration="arq" type="phonogram" use="keyboard"/>
@@ -36170,11 +36198,13 @@ U22-m-D17</signDescription>
     <hasTag sign="V16A" tag="fetters"/>
     <hasTag sign="V16A" tag="loop"/>
     <hasTag sign="V16A" tag="rope"/>
+    <variantOf baseSign="V16" isSimilar="y" linguistic="unspecified" sign="V16A"/>
   </sign>
   <sign sign="V16B">
     <hasTag sign="V16B" tag="fetters"/>
     <hasTag sign="V16B" tag="loop"/>
     <hasTag sign="V16B" tag="rope"/>
+    <variantOf baseSign="V16" isSimilar="y" linguistic="unspecified" sign="V16B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V17">
     <hasTransliteration sign="V17" transliteration="sA" type="phonogram" use="keyboard"/>
@@ -36182,13 +36212,16 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V17A">
     <hasTag sign="V17A" tag="papyrus shelter"/>
+    <variantOf baseSign="V17" isSimilar="y" linguistic="unspecified" sign="V17A"/>
   </sign>
   <sign sign="V17B">
     <hasTag sign="V17B" tag="papyrus shelter"/>
+    <variantOf baseSign="V17" isSimilar="y" linguistic="unspecified" sign="V17B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V18">
     <hasTransliteration sign="V18" transliteration="sA" type="phonogram" use="keyboard"/>
     <hasTag sign="V18" tag="papyrus shelter"/>
+    <variantOf baseSign="V17" isSimilar="y" linguistic="full" sign="V18"/>
   </sign>
   <sign alwaysDisplay="y" sign="V19">
     <hasTransliteration sign="V19" transliteration="mDt" type="phonogram" use="keyboard"/>
@@ -36205,6 +36238,7 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V20h">
     <hasTag sign="V20h" tag="fetters"/>
+    <variantOf baseSign="V20" isSimilar="y" linguistic="partial" sign="V20h"/>
   </sign>
   <sign alwaysDisplay="y" sign="V21">
     <hasTransliteration sign="V21" transliteration="mD" type="phonogram" use="keyboard"/>
@@ -36212,12 +36246,17 @@ U22-m-D17</signDescription>
     <hasTag sign="V21" tag="cobra"/>
     <hasTag sign="V21" tag="sign combination"/>
     <hasTag sign="V21" tag="feather"/>
+    <contains partCode="V20" sign="V21"/>
+    <contains partCode="I10" sign="V21"/>
+    <variantOf baseSign="V20" isSimilar="y" linguistic="unspecified" sign="V21"/>
   </sign>
   <sign sign="V21A">
     <hasTag sign="V21A" tag="fetters"/>
     <hasTag sign="V21A" tag="cobra"/>
     <hasTag sign="V21A" tag="sign combination"/>
     <variantOf baseSign="V21" isSimilar="y" linguistic="unspecified" sign="V21A"/>
+    <contains partCode="V20" sign="V21A"/>
+    <contains partCode="I10" sign="V21A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V22">
     <hasTransliteration sign="V22" transliteration="mH" type="phonogram" use="keyboard"/>
@@ -36226,12 +36265,16 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="V23">
     <hasTransliteration sign="V23" transliteration="mH" type="phonogram" use="keyboard"/>
     <hasTag sign="V23" tag="whip"/>
+    <variantOf baseSign="V22" isSimilar="y" linguistic="full" sign="V23"/>
   </sign>
   <sign sign="V23A">
     <hasTag sign="V23A" tag="whip"/>
+    <variantOf baseSign="V22" isSimilar="y" linguistic="full" sign="V23A"/>
+    <hasTransliteration sign="V23A" transliteration="mH" type="phonogram" use="palette"/>
   </sign>
   <sign sign="V23B">
     <hasTag sign="V23B" tag="whip"/>
+    <variantOf baseSign="V23" isSimilar="y" linguistic="full" sign="V23B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V24">
     <hasTransliteration sign="V24" transliteration="wd" type="phonogram" use="keyboard"/>
@@ -36242,6 +36285,7 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V25" transliteration="wd" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V25" transliteration="wD" type="phonogram" use="keyboard"/>
     <hasTag sign="V25" tag="varia"/>
+    <variantOf baseSign="V24" isSimilar="y" linguistic="unspecified" sign="V25"/>
   </sign>
   <sign alwaysDisplay="y" sign="V26">
     <hasTransliteration sign="V26" transliteration="ad" type="phonogram" use="keyboard"/>
@@ -36255,9 +36299,11 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V27A">
     <hasTag sign="V27A" tag="shuttle"/>
+    <variantOf baseSign="V27" isSimilar="y" linguistic="full" sign="V27A"/>
   </sign>
   <sign sign="V27B">
     <hasTag sign="V27B" tag="shuttle"/>
+    <variantOf baseSign="V27" isSimilar="y" linguistic="full" sign="V27B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V28">
     <hasTransliteration sign="V28" transliteration="H" type="phonogram" use="keyboard"/>
@@ -36267,22 +36313,27 @@ U22-m-D17</signDescription>
   <sign sign="V28A">
     <hasTag sign="V28A" tag="rope"/>
     <hasTag sign="V28A" tag="wick"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="full" sign="V28A"/>
   </sign>
   <sign sign="V28B">
     <hasTag sign="V28B" tag="rope"/>
     <hasTag sign="V28B" tag="wick"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="full" sign="V28B"/>
   </sign>
   <sign sign="V28C">
     <hasTag sign="V28C" tag="rope"/>
     <hasTag sign="V28C" tag="wick"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="unspecified" sign="V28C"/>
   </sign>
   <sign sign="V28D">
     <hasTag sign="V28D" tag="rope"/>
     <hasTag sign="V28D" tag="wick"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="full" sign="V28D"/>
   </sign>
   <sign sign="V28E">
     <hasTag sign="V28E" tag="rope"/>
     <hasTag sign="V28E" tag="wick"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="full" sign="V28E"/>
   </sign>
   <sign alwaysDisplay="y" sign="V29">
     <hasTransliteration sign="V29" transliteration="sk" type="phonogram" use="keyboard"/>
@@ -36292,6 +36343,8 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V29A">
     <hasTag sign="V29A" tag="broom"/>
+    <contains partCode="V28" sign="V29A"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="unspecified" sign="V29A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V30">
     <hasTransliteration sign="V30" transliteration="nb" type="phonogram" use="keyboard"/>
@@ -36304,6 +36357,12 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="V31A">
     <hasTransliteration sign="V31A" transliteration="k" type="phonogram" use="keyboard"/>
     <hasTag sign="V31A" tag="basket"/>
+    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V31A"/>
+    <contains partCode="V31" sign="V31A"/>
+  </sign>
+  <sign sign="V31B">
+    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V31B"/>
+    <contains partCode="V31" sign="V31B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V32">
     <hasTransliteration sign="V32" transliteration="gAw" type="phonogram" use="keyboard"/>
@@ -36312,18 +36371,23 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V32A">
     <hasTag sign="V32A" tag="net or trap"/>
+    <variantOf baseSign="V32" isSimilar="y" linguistic="full" sign="V32A"/>
   </sign>
   <sign sign="V32B">
     <hasTag sign="V32B" tag="net or trap"/>
+    <variantOf baseSign="V32" isSimilar="y" linguistic="full" sign="V32B"/>
   </sign>
   <sign sign="V32C">
     <hasTag sign="V32C" tag="net or trap"/>
+    <variantOf baseSign="V32" isSimilar="y" linguistic="full" sign="V32C"/>
   </sign>
   <sign sign="V32D">
     <hasTag sign="V32D" tag="net or trap"/>
+    <variantOf baseSign="V32" isSimilar="y" linguistic="full" sign="V32D"/>
   </sign>
   <sign sign="V32E">
     <hasTag sign="V32E" tag="net or trap"/>
+    <variantOf baseSign="V32" isSimilar="y" linguistic="full" sign="V32E"/>
   </sign>
   <sign alwaysDisplay="y" sign="V33">
     <hasTransliteration sign="V33" transliteration="g" type="phonogram" use="keyboard"/>
@@ -36331,17 +36395,37 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V33" transliteration="sSr" type="phonogram" use="keyboard"/>
     <hasTag sign="V33" tag="bag"/>
   </sign>
+  <sign sign="US1V33AEXTU">
+    <variantOf baseSign="V33" isSimilar="y" linguistic="partial" sign="US1V33AEXTU"/>
+    <signDescription lang="en" sign="US1V33AEXTU">+lapproximate shape for the +s-+tqAr +s-+lsign. See +s-+lUS12V33VARA for the correct sign.+s-!
+</signDescription>
+  </sign>
+  <sign alwaysDisplay="y" sign="US12V33VARA">
+    <hasTransliteration sign="US12V33VARA" transliteration="qAr" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="US12V33VARA">+lbasket with handle+s-!
++lvalue : det. for « +s-+tqAr+s-+l »+s-!
++lAfter the Middle Kingdom, the sign is replaced by +s-V33-+l, which is a more generic determinative.+s-!
+!
++bBibliography+s-!
+?100-+lCollombert, Philippe. 2010. *Le Tombeau de Mérérouka: Paléographie.*  p. 158, §308 (with references to other occurrences)+s-!
+!
++lNote that this shape is more or less the standard shape for this sign, but there are many other variants,+s-!
++lfor instance Berlin 32186, formerly 1/70, which displays a less regular bag. +s</signDescription>
+    <variantOf baseSign="V33" isSimilar="y" linguistic="partial" sign="US12V33VARA"/>
+  </sign>
   <sign alwaysDisplay="y" sign="V34">
     <hasTransliteration sign="V34" transliteration="g" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V34" transliteration="Ss" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V34" transliteration="sSr" type="phonogram" use="keyboard"/>
     <hasTag sign="V34" tag="bag"/>
+    <variantOf baseSign="V33" isSimilar="y" linguistic="full" sign="V34"/>
   </sign>
   <sign alwaysDisplay="y" sign="V35">
     <hasTransliteration sign="V35" transliteration="g" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V35" transliteration="Ss" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V35" transliteration="sSr" type="phonogram" use="keyboard"/>
     <hasTag sign="V35" tag="bag"/>
+    <variantOf baseSign="V33" isSimilar="y" linguistic="full" sign="V35"/>
   </sign>
   <sign alwaysDisplay="y" sign="V36">
     <hasTransliteration sign="V36" transliteration="Hn" type="phonogram" use="keyboard"/>
@@ -36402,6 +36486,9 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V39A">
     <hasTag sign="V39A" tag="rope"/>
+    <variantOf baseSign="V39" isSimilar="y" linguistic="unspecified" sign="V39A"/>
+    <contains partCode="S34" sign="V39A"/>
+    <variantOf baseSign="S34" isSimilar="y" linguistic="no" sign="V39A"/>
   </sign>
   <sign sign="V40">
     <signDescription lang="en" sign="V40">+lIs this Z7 \+ D36 ? in which case this is illogical ? It looks it is.+s-!
@@ -36479,9 +36566,20 @@ U22-m-D17</signDescription>
     <contains partCode="P58" sign="V47A"/>
     <hasTag sign="V47A" tag="ship"/>
   </sign>
-  <sign sign="V48">
+  <sign alwaysDisplay="y" sign="V48">
     <hasTag sign="V48" tag="rope"/>
     <hasTag sign="V48" tag="dress"/>
+    <contains partCode="S29" sign="V48"/>
+    <contains partCode="V6" sign="V48"/>
+    <signDescription lang="en" sign="V48">+lDeterminative for the verb +s-S29-G43-D46-G43-D46-V48\_-+b, +s-+tswdwd, ^^+s-+l"to bandage".+s-!
++bBibliography+s-!
++lFaulkner, Raymond O. 1962. +s-+iA Concise Dictionary of Middle Egyptian+s-+l, p. 218+s-!
++lZÄS 57, 7+s-!
+!
++l(I would have put this sign in category S...)+s-!
+!
+!
+</signDescription>
   </sign>
   <sign sign="V49">
     <variantOf baseSign="V7" isSimilar="y" linguistic="unspecified" sign="V49"/>
@@ -36525,6 +36623,7 @@ U22-m-D17</signDescription>
   <sign sign="V51">
     <hasTag sign="V51" tag="rope"/>
     <hasTag sign="V51" tag="with dots"/>
+    <contains partCode="V7" sign="V51"/>
   </sign>
   <sign sign="V52">
     <hasTag sign="V52" tag="skin"/>
@@ -36587,6 +36686,7 @@ U22-m-D17</signDescription>
     <contains partCode="S76" sign="V56A"/>
     <contains partCode="S73" sign="V56A"/>
     <contains partCode="S9" sign="V56A"/>
+    <variantOf baseSign="V56" isSimilar="y" linguistic="full" sign="V56A"/>
   </sign>
   <sign sign="V57">
     <variantOf baseSign="V10" isSimilar="y" linguistic="unspecified" sign="V57"/>
@@ -36625,9 +36725,11 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V65A">
     <hasTag sign="V65A" tag="fetters"/>
+    <variantOf baseSign="V65" isSimilar="y" linguistic="unspecified" sign="V65A"/>
   </sign>
   <sign sign="V65B">
     <hasTag sign="V65B" tag="fetters"/>
+    <variantOf baseSign="V65" isSimilar="y" linguistic="unspecified" sign="V65B"/>
   </sign>
   <sign sign="V66">
     <hasTag sign="V66" tag="fetters"/>
@@ -36636,22 +36738,35 @@ U22-m-D17</signDescription>
     <hasTag sign="V67" tag="group"/>
     <hasTag sign="V67" tag="rush"/>
     <hasTag sign="V67" tag="whip"/>
+    <contains partCode="M23" sign="V67"/>
+    <contains partCode="V23" sign="V67"/>
+    <contains partCode="V22" sign="V67"/>
   </sign>
   <sign sign="V68">
     <hasTag sign="V68" tag="whip"/>
     <hasTag sign="V68" tag="group"/>
     <hasTag sign="V68" tag="rope"/>
     <hasTag sign="V68" tag="wick"/>
+    <contains partCode="V23A" sign="V68"/>
+    <contains partCode="V28" sign="V68"/>
+    <contains partCode="V22" sign="V68"/>
+    <variantOf baseSign="V22" isSimilar="y" linguistic="full" sign="V68"/>
   </sign>
   <sign sign="V69">
     <hasTag sign="V69" tag="group"/>
     <hasTag sign="V69" tag="mace"/>
     <hasTag sign="V69" tag="feather"/>
+    <contains partCode="V25" sign="V69"/>
+    <contains partCode="H27" sign="V69"/>
+    <contains partCode="V24" sign="V69"/>
   </sign>
   <sign sign="V69A">
     <hasTag sign="V69A" tag="group"/>
     <hasTag sign="V69A" tag="mace"/>
     <hasTag sign="V69A" tag="feather"/>
+    <contains partCode="V24" sign="V69A"/>
+    <contains partCode="V25" sign="V69A"/>
+    <contains partCode="H27" sign="V69A"/>
   </sign>
   <sign sign="V70">
     <hasTag sign="V70" tag="group"/>
@@ -36660,12 +36775,17 @@ U22-m-D17</signDescription>
     <hasTag sign="V70" tag="horned viper"/>
     <hasTag sign="V70" tag="rope"/>
     <hasTag sign="V70" tag="wick"/>
+    <contains partCode="V25" sign="V70"/>
+    <contains partCode="H27" sign="V70"/>
+    <contains partCode="I9" sign="V70"/>
   </sign>
   <sign sign="V71">
     <hasTag sign="V71" tag="rope"/>
     <hasTag sign="V71" tag="wick"/>
     <hasTag sign="V71" tag="group"/>
     <hasTag sign="V71" tag="arms"/>
+    <contains partCode="D36" sign="V71"/>
+    <contains partCode="V28" sign="V71"/>
   </sign>
   <sign sign="V72">
     <hasTag sign="V72" tag="rope"/>
@@ -36673,6 +36793,8 @@ U22-m-D17</signDescription>
     <hasTag sign="V72" tag="group"/>
     <hasTag sign="V72" tag="arms"/>
     <hasTag sign="V72" tag="group of same sign"/>
+    <contains partCode="D36" sign="V72"/>
+    <contains partCode="V28" sign="V72"/>
   </sign>
   <sign sign="V73">
     <hasTag sign="V73" tag="rope"/>
@@ -36680,24 +36802,32 @@ U22-m-D17</signDescription>
     <hasTag sign="V73" tag="group"/>
     <hasTag sign="V73" tag="arms"/>
     <hasTag sign="V73" tag="claw, paw"/>
+    <contains partCode="V28" sign="V73"/>
+    <contains partCode="H31" sign="V73"/>
   </sign>
   <sign sign="V74">
     <hasTag sign="V74" tag="rope"/>
     <hasTag sign="V74" tag="wick"/>
     <hasTag sign="V74" tag="group"/>
     <hasTag sign="V74" tag="arms"/>
+    <contains partCode="V28" sign="V74"/>
+    <contains partCode="D40" sign="V74"/>
   </sign>
   <sign sign="V75">
     <hasTag sign="V75" tag="rope"/>
     <hasTag sign="V75" tag="wick"/>
     <hasTag sign="V75" tag="group"/>
     <hasTag sign="V75" tag="horned viper"/>
+    <contains partCode="V28" sign="V75"/>
+    <contains partCode="I9" sign="V75"/>
   </sign>
   <sign sign="V76">
     <hasTag sign="V76" tag="rope"/>
     <hasTag sign="V76" tag="wick"/>
     <hasTag sign="V76" tag="group"/>
     <hasTag sign="V76" tag="water"/>
+    <contains partCode="V28" sign="V76"/>
+    <contains partCode="N35" sign="V76"/>
   </sign>
   <sign sign="V77">
     <hasTag sign="V77" tag="rope"/>
@@ -36713,23 +36843,33 @@ U22-m-D17</signDescription>
     <hasTag sign="V78" tag="wick"/>
     <hasTag sign="V78" tag="group"/>
     <hasTag sign="V78" tag="sickle"/>
+    <contains partCode="V28" sign="V78"/>
+    <contains partCode="U1" sign="V78"/>
+    <contains partCode="U2" sign="V78"/>
   </sign>
   <sign sign="V79">
     <hasTag sign="V79" tag="rope"/>
     <hasTag sign="V79" tag="wick"/>
     <hasTag sign="V79" tag="group"/>
     <hasTag sign="V79" tag="private parts"/>
+    <contains partCode="V28" sign="V79"/>
+    <contains partCode="D53" sign="V79"/>
   </sign>
   <sign sign="V80">
     <hasTag sign="V80" tag="rope"/>
     <hasTag sign="V80" tag="wick"/>
     <hasTag sign="V80" tag="group"/>
     <hasTag sign="V80" tag="sledge"/>
+    <contains partCode="V28" sign="V80"/>
+    <contains partCode="U15" sign="V80"/>
   </sign>
   <sign sign="V81">
     <hasTag sign="V81" tag="basket"/>
     <hasTag sign="V81" tag="broom"/>
     <hasTag sign="V81" tag="group"/>
+    <contains partCode="V29" sign="V81"/>
+    <contains partCode="V31" sign="V81"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="partial" sign="V81"/>
   </sign>
   <sign sign="V82">
     <hasTag sign="V82" tag="rope"/>
@@ -36737,12 +36877,19 @@ U22-m-D17</signDescription>
     <hasTag sign="V82" tag="group"/>
     <hasTag sign="V82" tag="arms"/>
     <hasTag sign="V82" tag="with standard"/>
+    <contains partCode="V28" sign="V82"/>
+    <contains partCode="D29" sign="V82"/>
   </sign>
   <sign sign="V83">
     <hasTag sign="V83" tag="rope"/>
     <hasTag sign="V83" tag="wick"/>
     <hasTag sign="V83" tag="group"/>
     <hasTag sign="V83" tag="branch"/>
+    <contains partCode="V28" sign="V83"/>
+    <contains partCode="M3" sign="V83"/>
+    <signDescription lang="en" sign="V83">+l? (to check, but I guess the value should be : det. or log. for +s-+tHwi, +s-+ito strike.+s-!
+</signDescription>
+    <hasTransliteration sign="V83" transliteration="Hw" type="phonogram" use="palette"/>
   </sign>
   <sign sign="V84">
     <variantOf baseSign="V29" isSimilar="y" linguistic="unspecified" sign="V84"/>
@@ -36795,10 +36942,13 @@ U22-m-D17</signDescription>
     <hasTag sign="V88" tag="wick"/>
     <hasTag sign="V88" tag="group"/>
     <hasTag sign="V88" tag="basket"/>
+    <contains partCode="V28" sign="V88"/>
+    <contains partCode="V30" sign="V88"/>
   </sign>
   <sign sign="V89">
     <hasTag sign="V89" tag="rope"/>
     <hasTag sign="V89" tag="wick"/>
+    <contains partCode="V28" sign="V89"/>
   </sign>
   <sign sign="V90">
     <hasTag sign="V90" tag="rope"/>
@@ -36806,11 +36956,15 @@ U22-m-D17</signDescription>
     <hasTag sign="V90" tag="broom"/>
     <hasTag sign="V90" tag="basket"/>
     <hasTag sign="V90" tag="group"/>
+    <variantOf baseSign="V81" isSimilar="y" linguistic="unspecified" sign="V90"/>
+    <contains partCode="V29" sign="V90"/>
+    <contains partCode="V31" sign="V90"/>
   </sign>
   <sign sign="V91">
     <hasTag sign="V91" tag="rope"/>
     <hasTag sign="V91" tag="wick"/>
     <hasTag sign="V91" tag="broom"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="full" sign="V91"/>
   </sign>
   <sign sign="V92">
     <hasTag sign="V92" tag="rope"/>
@@ -36818,6 +36972,8 @@ U22-m-D17</signDescription>
     <hasTag sign="V92" tag="broom"/>
     <hasTag sign="V92" tag="group"/>
     <hasTag sign="V92" tag="arms"/>
+    <contains partCode="V29" sign="V92"/>
+    <contains partCode="D40" sign="V92"/>
   </sign>
   <sign sign="V93">
     <hasTag sign="V93" tag="rope"/>
@@ -36825,6 +36981,8 @@ U22-m-D17</signDescription>
     <hasTag sign="V93" tag="broom"/>
     <hasTag sign="V93" tag="group"/>
     <hasTag sign="V93" tag="horned viper"/>
+    <contains partCode="V29" sign="V93"/>
+    <contains partCode="I9" sign="V93"/>
   </sign>
   <sign sign="V94">
     <hasTag sign="V94" tag="basket"/>
@@ -36837,6 +36995,9 @@ U22-m-D17</signDescription>
   <sign sign="V95">
     <hasTag sign="V95" tag="basket"/>
     <hasTag sign="V95" tag="sign combination"/>
+    <contains partCode="V31" sign="V95"/>
+    <contains partCode="W10" sign="V95"/>
+    <contains partCode="N33A" sign="V95"/>
   </sign>
   <sign sign="V96">
     <hasTag sign="V96" tag="basket"/>
@@ -36869,7 +37030,7 @@ U22-m-D17</signDescription>
     <contains partCode="N37" sign="V101"/>
     <contains partCode="V98" sign="V101"/>
   </sign>
-  <sign sign="V102">
+  <sign alwaysDisplay="y" sign="V102">
     <hasTag sign="V102" tag="vessel"/>
     <signDescription lang="en" sign="V102"/>
     <signDescription lang="en" sign="V102">+idescription to be written... looks like a measure to me, in which case it should perhaps be in W????+s-!
@@ -36986,6 +37147,9 @@ U22-m-D17</signDescription>
     <hasTag sign="V116" tag="basket"/>
     <hasTag sign="V116" tag="sign combination"/>
     <hasTag sign="V116" tag="broom"/>
+    <contains partCode="V29" sign="V116"/>
+    <contains partCode="V31" sign="V116"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="partial" sign="V116"/>
   </sign>
   <sign sign="V117">
     <hasTag sign="V117" tag="rope"/>
@@ -36993,15 +37157,21 @@ U22-m-D17</signDescription>
     <hasTag sign="V117" tag="with standard"/>
     <contains partCode="R12" sign="V117"/>
     <contains partCode="V58" sign="V117"/>
+    <contains partCode="N24" sign="V117"/>
   </sign>
   <sign sign="V117A">
     <hasTag sign="V117A" tag="rope"/>
     <hasTag sign="V117A" tag="loop"/>
     <hasTag sign="V117A" tag="with standard"/>
+    <contains partCode="V58" sign="V117A"/>
+    <contains partCode="R12" sign="V117A"/>
+    <contains partCode="N24" sign="V117A"/>
   </sign>
   <sign sign="V118">
     <hasTag sign="V118" tag="broom"/>
     <hasTag sign="V118" tag="sign combination"/>
+    <contains partCode="V29" sign="V118"/>
+    <contains partCode="D21" sign="V118"/>
   </sign>
   <sign sign="V119">
     <hasTag sign="V119" tag="rope"/>
@@ -37017,8 +37187,13 @@ U22-m-D17</signDescription>
     <contains partCode="D54" sign="V120"/>
     <variantOf baseSign="W25" isSimilar="y" linguistic="unspecified" sign="V120"/>
   </sign>
+  <sign sign="V121">
+    <contains partCode="N37" sign="V121"/>
+  </sign>
   <sign sign="V122">
     <hasTag sign="V122" tag="cartouche"/>
+    <contains partCode="V10" sign="V122"/>
+    <contains partCode="X1" sign="V122"/>
   </sign>
   <sign sign="V123">
     <hasTag sign="V123" tag="cartouche"/>
@@ -37027,74 +37202,113 @@ U22-m-D17</signDescription>
     <contains partCode="I64" sign="V123"/>
     <variantOf baseSign="V10" isSimilar="y" linguistic="unspecified" sign="V123"/>
   </sign>
+  <sign sign="V124">
+    <contains partCode="N37" sign="V124"/>
+  </sign>
   <sign sign="V125">
     <hasTag sign="V125" tag="basket"/>
     <hasTag sign="V125" tag="vessel"/>
     <hasTag sign="V125" tag="sign combination"/>
+    <contains partCode="V102" sign="V125"/>
+    <contains partCode="X1" sign="V125"/>
   </sign>
   <sign sign="V126">
     <variantOf baseSign="O42" isSimilar="y" linguistic="unspecified" sign="V126"/>
     <hasTag sign="V126" tag="loop"/>
     <hasTag sign="V126" tag="rope"/>
+    <contains partCode="V1" sign="V126"/>
+    <contains partCode="Aa15" sign="V126"/>
   </sign>
   <sign sign="V127">
     <hasTag sign="V127" tag="cartouche"/>
     <hasTag sign="V127" tag="sign combination"/>
+    <contains partCode="V10" sign="V127"/>
+    <contains partCode="I9" sign="V127"/>
   </sign>
   <sign sign="V128">
     <hasTag sign="V128" tag="cartouche"/>
     <hasTag sign="V128" tag="sign combination"/>
+    <contains partCode="V10" sign="V128"/>
+    <contains partCode="O34" sign="V128"/>
   </sign>
   <sign sign="V129">
     <hasTag sign="V129" tag="cartouche"/>
+    <contains partCode="V10" sign="V129"/>
   </sign>
   <sign sign="V130">
     <hasTag sign="V130" tag="broom"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="unspecified" sign="V130"/>
+    <variantOf baseSign="M30" isSimilar="y" linguistic="unspecified" sign="V130"/>
   </sign>
   <sign sign="V131">
     <hasTag sign="V131" tag="basket"/>
+    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V131"/>
   </sign>
   <sign sign="V132">
     <hasTag sign="V132" tag="basket"/>
+    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V132"/>
   </sign>
   <sign sign="V133">
     <hasTag sign="V133" tag="basket"/>
     <hasTag sign="V133" tag="vessel"/>
     <hasTag sign="V133" tag="sign combination"/>
+    <contains partCode="V102" sign="V133"/>
+    <contains partCode="R23" sign="V133"/>
+    <contains partCode="D17" sign="V133"/>
+    <contains partCode="D13" sign="V133"/>
   </sign>
   <sign sign="V134">
     <hasTag sign="V134" tag="basket"/>
     <hasTag sign="V134" tag="vessel"/>
     <hasTag sign="V134" tag="sign combination"/>
+    <contains partCode="V102" sign="V134"/>
+    <contains partCode="R23" sign="V134"/>
+    <contains partCode="D13" sign="V134"/>
   </sign>
   <sign sign="V135">
     <hasTag sign="V135" tag="basket"/>
     <hasTag sign="V135" tag="vessel"/>
     <hasTag sign="V135" tag="sign combination"/>
+    <contains partCode="V102" sign="V135"/>
+    <contains partCode="N33" sign="V135"/>
   </sign>
   <sign sign="V136">
     <hasTag sign="V136" tag="basket"/>
     <hasTag sign="V136" tag="vessel"/>
     <hasTag sign="V136" tag="sign combination"/>
+    <contains partCode="V102" sign="V136"/>
+    <contains partCode="D13" sign="V136"/>
+    <contains partCode="N33" sign="V136"/>
   </sign>
   <sign sign="V137">
     <hasTag sign="V137" tag="basket"/>
     <hasTag sign="V137" tag="vessel"/>
     <hasTag sign="V137" tag="sign combination"/>
+    <contains partCode="V102" sign="V137"/>
+    <contains partCode="D13" sign="V137"/>
+    <contains partCode="N33" sign="V137"/>
   </sign>
   <sign sign="V138">
     <hasTag sign="V138" tag="broom"/>
     <hasTag sign="V138" tag="loop"/>
+    <contains partCode="V29" sign="V138"/>
+    <contains partCode="V12" sign="V138"/>
   </sign>
   <sign sign="V139">
     <hasTag sign="V139" tag="broom"/>
     <hasTag sign="V139" tag="wick"/>
     <hasTag sign="V139" tag="sign combination"/>
+    <contains partCode="V29" sign="V139"/>
+    <contains partCode="T30" sign="V139"/>
+    <contains partCode="T31" sign="V139"/>
   </sign>
   <sign sign="V140">
     <hasTag sign="V140" tag="basket"/>
     <hasTag sign="V140" tag="vessel"/>
     <hasTag sign="V140" tag="sign combination"/>
+    <contains partCode="V102" sign="V140"/>
+    <contains partCode="D10" sign="V140"/>
+    <contains partCode="N33A" sign="V140"/>
   </sign>
   <sign alwaysDisplay="y" sign="W1">
     <hasTransliteration sign="W1" transliteration="mrHt" type="phonogram" use="keyboard"/>
@@ -39461,6 +39675,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagLabel label="faucon" lang="fr" tag="falcon"/>
   <tagCategory tag="fallen"/>
   <tagLabel label="fallen" lang="en" tag="fallen"/>
+  <tagCategory tag="fan"/>
+  <tagLabel label="fan" lang="en" tag="fan"/>
+  <tagLabel label="éventail" lang="fr" tag="fan"/>
   <tagCategory tag="feather"/>
   <tagLabel label="feather" lang="en" tag="feather"/>
   <tagLabel label="plume" lang="fr" tag="feather"/>
@@ -40079,6 +40296,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="sun"/>
   <tagLabel label="sun" lang="en" tag="sun"/>
   <tagLabel label="soleil" lang="fr" tag="sun"/>
+  <tagCategory tag="sunshade"/>
+  <tagLabel label="sunshade" lang="en" tag="sunshade"/>
+  <tagLabel label="flabellum" lang="fr" tag="sunshade"/>
   <tagCategory tag="swallow"/>
   <tagLabel label="swallow" lang="en" tag="swallow"/>
   <tagLabel label="hirondelle" lang="en" tag="swallow"/>
