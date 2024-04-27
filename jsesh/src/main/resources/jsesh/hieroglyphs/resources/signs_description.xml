@@ -1129,6 +1129,11 @@
     <hasTag sign="A33C" tag="standing"/>
     <hasTag sign="A33C" tag="hieratic sign"/>
     <hasTag sign="A33C" tag="holding stick"/>
+    <signDescription lang="en" sign="A33C">+lCursive rendering of +s-A33-+l.+s-!
++lin title +s-m:r-x-A33C-A33C-A33C-+l, +s-+ioverseer of porters, +s-+lOld kingdom inscription in Wadi Hammamat.+s-!
++bBibliography+s-!
++lFischer, +s-+iVaria I, +s-+lp. 11+s-!
++lGoyon, +s-+iNouvelles inscriptions, +s-+lp. 75 (n. 51)+s</signDescription>
   </sign>
   <sign sign="A33D">
     <variantOf baseSign="A33" isSimilar="y" linguistic="unspecified" sign="A33D"/>
@@ -1782,6 +1787,24 @@
     <hasTag sign="A51" tag="holding something"/>
     <hasTag sign="A51" tag="seated on chair"/>
     <hasTag sign="A51" tag="mummyform"/>
+    <contains partCode="A50" sign="A51"/>
+    <signDescription lang="en" sign="A51">+lDeterminative for revered persons, and ideogram for +s-+tSpsi +s-+l"be noble".+s-!
++lAccording to Fischer, +s-+io.c., +s-+lthe normal ideogram for +s-+tSpsi+s-+l is +s-A50-+l,+s-!
++land +s-A51-+l was originaly a name determinative for kings (beginning of dyn. XII),+s-!
++lthen individuals. It then could be used for +s-+tSpsi+s-+l as well (early example under Sesostris III).+s-!
+!
++lThe description given by Gardiner +s-+io.c. +s-+lgives +s-+tSpsi +s-+las primary value, and the determinative as+s-!
++la secondary development, which doesn't fit the available data.+s-!
+!
++lA line example with value +s-+tSpsi-+s-+l (probably FIP) can be found in  Callender, +s-+io.c.+s-+l p. 25 (§ 38).+s-!
++lNote that the example in Callender is quite peculiar, and is in fact closer to +s-A51C-+l, and comes in a specific setting.+s-!
+!
++bBibliography+s-!
++lV. G. Callender, +s-+iEl-hawawish, Tombs, Sarcophagi, Stelae Palaeography +s-+lPalHier 8, p. 25+s-!
++lH. G. Fischer, +s-+iAncient Egyptian Calligraphy, +s-+lp. 17+s-!
++lA. H.+s-+lGardiner +s-+iEgyptian Grammar,+s-+l p. 447+s-!
+!
+</signDescription>
   </sign>
   <sign sign="A51A">
     <contains partCode="S45" sign="A51A"/>
@@ -2345,6 +2368,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
 +l(to be continued)+s-!
 !
 </signDescription>
+    <hasTag sign="A88" tag="mourner"/>
   </sign>
   <sign sign="A89">
     <contains partCode="A86" sign="A89"/>
@@ -2361,6 +2385,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90" tag="wounded, killed"/>
     <variantOf baseSign="A88" isSimilar="y" linguistic="unspecified" sign="A90"/>
     <signDescription lang="en" sign="A90">+lsee doc. for A88.+s</signDescription>
+    <hasTag sign="A90" tag="mourner"/>
   </sign>
   <sign sign="A90A">
     <variantOf baseSign="A90" isSimilar="y" linguistic="unspecified" sign="A90A"/>
@@ -2370,6 +2395,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90A" tag="ennemy"/>
     <contains partCode="H6" sign="A90A"/>
     <hasTag sign="A90A" tag="foreigner"/>
+    <hasTag sign="A90A" tag="mourner"/>
   </sign>
   <sign sign="A90B">
     <variantOf baseSign="A24" isSimilar="y" linguistic="unspecified" sign="A90B"/>
@@ -2378,6 +2404,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90B" tag="standing"/>
     <hasTag sign="A90B" tag="armed character"/>
     <contains partCode="V28" sign="A90B"/>
+    <hasTag sign="A90B" tag="mourner"/>
   </sign>
   <sign sign="A90C">
     <variantOf baseSign="A90" isSimilar="y" linguistic="unspecified" sign="A90C"/>
@@ -2385,6 +2412,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90C" tag="ennemy"/>
     <hasTag sign="A90C" tag="holding nothing"/>
     <hasTag sign="A90C" tag="wounded, killed"/>
+    <hasTag sign="A90C" tag="mourner"/>
   </sign>
   <sign sign="A90D">
     <variantOf baseSign="A90" isSimilar="y" linguistic="unspecified" sign="A90D"/>
@@ -2393,6 +2421,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90D" tag="bent"/>
     <hasTag sign="A90D" tag="holding something"/>
     <contains partCode="V28" sign="A90D"/>
+    <hasTag sign="A90D" tag="mourner"/>
   </sign>
   <sign alwaysDisplay="y" sign="A91">
     <variantOf baseSign="A35" isSimilar="y" linguistic="unspecified" sign="A91"/>
@@ -5417,6 +5446,10 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A351" tag="seated on nothing"/>
     <hasTag sign="A351" tag="holding something"/>
     <hasTag sign="A351" tag="working"/>
+    <contains partCode="P8" sign="A351"/>
+    <hasTransliteration sign="A351" transliteration="Xn" type="phonogram" use="palette"/>
+    <variantOf baseSign="A10" isSimilar="y" linguistic="unspecified" sign="A351"/>
+    <variantOf baseSign="D33" isSimilar="y" linguistic="full" sign="A351"/>
   </sign>
   <sign sign="A352">
     <hasTag sign="A352" tag="kneeled"/>
@@ -14317,6 +14350,13 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="D101" tag="head-and-arms"/>
     <hasTag sign="D101" tag="mutilated glyphs"/>
     <contains partCode="S42" sign="D101"/>
+    <signDescription lang="en" sign="D101">+lCharacter holding a sistrum and an offering ? basket.+s-!
++ldet. for +s-x:n-D101-+l, +s-+txn, +s-+ito chime (in music and dance).+s-!
++lPyr. 557c [M,N] +s-!
++bBibliography+s-!
++l- Fischer, +s-+iVaria I, +s-+lp. 11-12.+s-!
+!
+</signDescription>
   </sign>
   <sign sign="D102">
     <hasTag sign="D102" tag="head-and-arms"/>
@@ -14516,6 +14556,14 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   <sign sign="D134">
     <variantOf baseSign="D4" isSimilar="y" linguistic="unspecified" sign="D134"/>
     <hasTag sign="D134" tag="eye(s)"/>
+    <signDescription lang="en" sign="D134">+lpupilless eye+s-!
+!
++lDeterminative for +s-+tSp, +s-+ito be blind, +s-+tqd, +s-+ito sleep, +s-+tBAxw +s-+l(toponyme).+s-!
+!
++lOther eye-signs, like +s-.\1:ir:.\1-+l or +s-.\1:D7:.\1-+l are often used instead.+s-!
+!
++bBibliography+s-!
++lCollombert, Philippe. 2010. +s-+iLe Tombeau de Mérérouka: Paléographie.+s-+l, § 37+s</signDescription>
   </sign>
   <sign sign="D135">
     <variantOf baseSign="D4" isSimilar="y" linguistic="unspecified" sign="D135"/>
@@ -17966,15 +18014,50 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="E240">
     <hasTag sign="E240" tag="lion, panthera"/>
+    <signDescription lang="en" sign="E240">+lUnsure value and reading, Dilwyn Jones (o.c.) proposes +s-+tmHyt+s-+l, in the relatively well attested+s-!
++lbut obscure title +s-T7:E240-+tmDH mHy.t+s-+l?, +s-+ifashioner/overseer of  the cult image of the goddess Mehyt?.+s-!
+!
++bThe actual sign seems not to have a mane. It should probably be redrawn. +s-!
++lAccording to Godron, it's a lionness.+s-!
+!
++lIn Thinite versions, the tail can take many forms.+s-!
++lFischer, (o.c.) has a beautiful +s-+ifacsimile+s-+l of a composite variant of the sign, which includes the axe. He states "reading uncertain".+s-!
++lAccording to Godron, the most usual shape has three "poles" instead of one : +s-E240B-+l (E240B).+s-!
+!
++lGodron lists the proposed readings : +s-+tmHyt +s-+lfor Montet, Dunand, Junker ; "Matit" by Weill, +s-+tmnt +s-+lby Junker, rwty by Murray.+s-!
++lHe suggests a reading +s-+tH.t, +s-+lbased on two seals, with the title +s-Hm:t-H:t-E240-!
+!
++tHsy-ra, +s-+lwho holds this title, also hold the title (Jones, o.c. p. 494) +s-h:k-A-mH&amp;&amp;&amp;(t:rw)-!
++l(the sign below is a lionness), +s-+thkA mHy.t +s-+iHeka-priest of the goddess Mehyt.+s-!
++lThe two titles are attested in the same panel (Cairo, CG. 1426) and are different.+s-!
+!
++lFound in titles +s-T7:E240-+l, +s-m-xt:t-T7:T7:T7-E240-+l, +s-Hm:t-H:t-E240-+l.+s-!
++bBibliography+s-!
++b- +s-+lJones, Dilwyn. +s-+iAn Index of Ancient Egyptian Titles, Epithets and Phrases of the Old Kingdom.+s-+l BAR International Series 866. Oxford, England: Archaeopress, 2000. +s-+b +s-+lp. 459+s-!
++l- Fischer, Henry-Georges, +s-+iVaria I +s-+l(1976), p. 29, n. 9 and fig. 2.+s-!
++l- Godron, Gérard, "deux notes d'épigraphie thinite", +s-+iRdE 8, +s-+lpp. 91-99+s-!
++l- Curto, Silvio, ÄZ 94 (1967), pp. 15-20+s-!
++l- +s-+lRegulski, Ilona. +s-+iA Palaeographic Study of Early Writing in Egypt.+s-+l OLA 195 (2010) , pp. 107 and 388-389+s-!
+!
+!
+</signDescription>
+    <hasTransliteration sign="E240" transliteration="mHyt" type="phonogram" use="palette"/>
   </sign>
   <sign sign="E240A">
     <hasTag sign="E240A" tag="lion, panthera"/>
+    <variantOf baseSign="E240" isSimilar="y" linguistic="unspecified" sign="E240A"/>
+    <signDescription lang="en" sign="E240A">+lSee E240 for details.+s</signDescription>
   </sign>
   <sign sign="E240B">
     <hasTag sign="E240B" tag="lion, panthera"/>
+    <variantOf baseSign="E240" isSimilar="y" linguistic="unspecified" sign="E240B"/>
+    <signDescription lang="en" sign="E240B">+lSee E240 for details.+s</signDescription>
   </sign>
   <sign sign="E240C">
     <hasTag sign="E240C" tag="lion, panthera"/>
+    <variantOf baseSign="E240" isSimilar="y" linguistic="unspecified" sign="E240C"/>
+    <signDescription lang="en" sign="E240C">+lMost common shape of E240 +s-E240-+l.+s-!
++lSee E240 for details.+s</signDescription>
   </sign>
   <sign sign="E241">
     <hasTag sign="E241" tag="lion, panthera"/>
@@ -24133,6 +24216,10 @@ U2:ir-A-A-n:A1-r:a-C2B-ms-s-B3-G17A-s-f:N5-r-x:p-D46:t-K23\red:F51B*F51B-n-mH&am
   <sign alwaysDisplay="y" sign="L2">
     <hasTransliteration sign="L2" transliteration="bit" type="phonogram" use="keyboard"/>
     <hasTag sign="L2" tag="bee"/>
+    <hasTransliteration sign="L2" transliteration="kAt" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="L2">+lusual value +s-+tbit.+s-!
++tkA.t +s-+lis a late value.+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="L3">
     <hasTransliteration sign="L3" transliteration="aff" type="phonogram" use="keyboard"/>
@@ -25295,14 +25382,18 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="M111" transliteration="x" type="phonogram" use="palette"/>
     <hasTransliteration sign="M111" transliteration="xA" type="phonogram" use="palette"/>
     <hasTransliteration sign="M111" transliteration="srpt" type="phonogram" use="palette"/>
+    <variantOf baseSign="M12" isSimilar="y" linguistic="other" sign="M111"/>
   </sign>
   <sign sign="M111A">
     <hasTag sign="M111A" tag="lotus"/>
     <hasTag sign="M111A" tag="leaf"/>
+    <hasTransliteration sign="M111A" transliteration="xA" type="phonogram" use="palette"/>
+    <variantOf baseSign="M111" isSimilar="y" linguistic="full" sign="M111A"/>
   </sign>
   <sign sign="M111B">
     <hasTag sign="M111B" tag="lotus"/>
     <hasTag sign="M111B" tag="leaf"/>
+    <variantOf baseSign="M111" isSimilar="y" linguistic="unspecified" sign="M111B"/>
   </sign>
   <sign sign="M112">
     <hasTag sign="M112" tag="lotus"/>
@@ -28638,6 +28729,10 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="O196" tag="sign combination"/>
     <hasTag sign="O196" tag="cobra"/>
     <hasTransliteration sign="O196" transliteration="itrt" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="O196">+lValue +s-+titr.t +s-+las early as the Middle Kingdom, Weill, o.c. p. 141+s-!
++lSee Weill, o.c. p. 141+s-!
++bBibliography+s-!
++lWeill R. +s-+iRecherches sur la Ire dynastie et les temps prépharaoniques+s-+l, vol II+s-+l Le Caire : Institut français d’Archéologie orientale, 1961. (Bibliothèque d’étude).  +s</signDescription>
   </sign>
   <sign sign="O196A">
     <hasTag sign="O196A" tag="stela"/>
@@ -29177,6 +29272,17 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="O314">
     <hasTag sign="O314" tag="palace"/>
     <hasTag sign="O314" tag="sign combination"/>
+    <contains partCode="T3" sign="O314"/>
+    <contains partCode="O11" sign="O314"/>
+    <hasTransliteration sign="O314" transliteration="HD" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="O314">+lWhite chapel ?+s-!
++lReading +s-+tHD +s-+lin +s-O314-wr-wr-wr-+l, +s-+tHD-wr.w, +s-+lknown from Tomb U at Abydos, and PT 949 among others.+s-!
++lSee Weill, o.c. p. 96-97.+s-!
++bBibliography+s-!
++lWeill R. +s-+iRecherches sur la Ire dynastie et les temps prépharaoniques.+s-+l Le Caire : Institut français d’Archéologie orientale, 1961. (Bibliothèque d’étude).  +s-+lWhite chapel ?+s-!
++bBibliography+s-!
++lWeill R. Recherches sur la Ire dynastie et les temps prépharaoniques. Le Caire : Institut français d’Archéologie orientale, 1961. (Bibliothèque d’étude). 
++s</signDescription>
   </sign>
   <sign sign="O315">
     <hasTag sign="O315" tag="palace"/>
@@ -32998,6 +33104,22 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="S105">
     <hasTag sign="S105" tag="jewel"/>
+    <variantOf baseSign="R5" isSimilar="y" linguistic="partial" sign="S105"/>
+    <hasTransliteration sign="S105" transliteration="kp" type="phonogram" use="palette"/>
+    <hasTransliteration sign="S105" transliteration="kAp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="S105">!
++lBracelet.+s-!
++l(Cauville 2001, p. 203)+s-!
++l(Kurth 2007+s-+b, +s-+lpp. 378, n°34; p.385, n. 113, 114, 115)+s-!
++llogogram for various bracelets (see Cauville, loc. cit.).+s-!
++lLate confusion with R5 +s-R5-+l for value +s-+tkp, kAp ?+s-!
+!
++bBibliography+s-!
++lCauville, Sylvie. 2001. +s-+iDendara, Le Fonds Hiéroglyphique Au Temps de Cléopâtre.+s-+t Cybèle. +s-!
++lKurth, Dieter. 2007. +s-+iEinführung ins Ptolemäische: eine Grammatik mit Zeichenliste und Übungsstücken.+s-+l Hützel: Backe-Verlag. +s</signDescription>
+    <hasTransliteration sign="S105" transliteration="mnfty" type="phonogram" use="informative"/>
+    <hasTransliteration sign="S105" transliteration="hAdrty" type="phonogram" use="informative"/>
+    <hasTransliteration sign="S105" transliteration="snty" type="phonogram" use="informative"/>
   </sign>
   <sign sign="S106">
     <hasTag sign="S106" tag="varia"/>
@@ -35025,6 +35147,7 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="U23">
     <hasTransliteration sign="U23" transliteration="Ab" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="U23" transliteration="mr" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="U23" transliteration="mHr" type="phonogram" use="keyboard"/>
     <hasTag sign="U23" tag="chisel"/>
     <signDescription lang="en" sign="U23">+bBibliography+s-!
 +lS.D. Schweitzer "Zum Lautwert einiger Hieroglyphen", ZÄS 138, p. 132-149+s</signDescription>
@@ -38570,6 +38693,10 @@ Y2-+l is the old shape, used until the end of the+s-!
     <hasTag sign="Aa7B" tag="legs"/>
   </sign>
   <sign alwaysDisplay="y" sign="Aa8">
+    <signDescription lang="en" sign="Aa8">+bBibliography+s-!
+!
++lJoachim Friedrich Quack, "Zur Lesung von Gardiner Sign-List Aa8", +s-+iLingua Aegyptia +s-+l7, 2000, pp. 219-224+s-!
+</signDescription>
     <hasTransliteration sign="Aa8" transliteration="DA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa8" transliteration="DAt" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa8" transliteration="qn" type="phonogram" use="keyboard"/>
