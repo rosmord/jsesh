@@ -4,11 +4,11 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.qenherkhopeshef.jsesh</groupId>
-		<artifactId>JSesh-all</artifactId>
-		<version>7.8.0-SNAPSHOT</version>
-	</parent>
+	 <parent>
+        <groupId>org.qenherkhopeshef.jsesh</groupId>
+        <artifactId>JSesh-all</artifactId>
+        <version>7.8.3-SNAPSHOT</version>
+    </parent>
 	<artifactId>cupAndlex</artifactId>
 	<description>
 		Generic plugin to run FLEX AND CUP in maven.
