@@ -6,7 +6,8 @@ import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
+
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 
 public class FileSaveConfirmDialog {
@@ -18,11 +19,11 @@ public class FileSaveConfirmDialog {
      * @return a FileOperationResult, OK or CANCEL.
      */
 	public static FileOperationResult showDialog(Component parentComponent, File fileToSave) {
-		String message = I18n.getString("FileSaveConfirmDialog.text");
+		String message = JSeshMessages.getString("FileSaveConfirmDialog.text");
 		Object[] args = { fileToSave.getName() };
 		String formattedMessage = MessageFormat.format(message, args);                
 		int res= JOptionPane.showConfirmDialog(parentComponent, formattedMessage,
-				I18n.getString("FileSaveConfirm.title"),
+				JSeshMessages.getString("FileSaveConfirm.title"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (res == JOptionPane.OK_OPTION)
                     return FileOperationResult.OK;
@@ -32,8 +33,8 @@ public class FileSaveConfirmDialog {
 
 	public static void showCantOpenDialog(Component frame) {
 		JOptionPane.showMessageDialog(frame,
-				I18n.getString("FileSaveConfirmDialog.cantOpen"),
-				I18n.getString("FileSaveConfirmDialog.error"),
+				JSeshMessages.getString("FileSaveConfirmDialog.cantOpen"),
+				JSeshMessages.getString("FileSaveConfirmDialog.error"),
 				JOptionPane.ERROR_MESSAGE);
 	}
 

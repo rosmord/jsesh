@@ -17,7 +17,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import jsesh.graphics.export.generic.SelectionExporter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 
 import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
@@ -35,7 +35,7 @@ public class WMFExporter extends AbstractGraphicalExporter {
     private Dimension2D scaledDimension;
 
     public WMFExporter() {
-        super("wmf", I18n.getString("WMFExporter.description"));
+        super("wmf", JSeshMessages.getString("WMFExporter.description"));
         frame = null;
     }
 

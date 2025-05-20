@@ -1492,7 +1492,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             p1 = caret.getMinPosition();
             p2 = caret.getMaxPosition();
         } else if (caret.getInsertPosition().hasPrevious()) {
-            p1 = caret.getInsertPosition().getPreviousPosition(-1);
+            p1 = caret.getInsertPosition().getPreviousPosition(1);
             p2 = caret.getInsertPosition();
         } else {
             return; // DO NOTHING.

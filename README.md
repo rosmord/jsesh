@@ -190,7 +190,19 @@ jre for 1.8 which was included in JSesh previously. This is not yet the master v
 - *Note : we will probably use jlink as above to generate the JRE*
 - **Important** : check if launch4j wants a JDK or a 64bit executable.
 
+## Starting JSesh a different language for menus...
 
+This should obviously move to a menu. But meanwhile:
+
+JSesh chooses the menu languages depending on your computer setting. Sometimes, you might want a different language than the one used by your computer. For instance, as most of the tutorials, discusssions, etc. are in English, you might want to swich to the English version of JSesh.
+
+To do this, you currently need to start JSesh on the command line, which is a bit technical.
+
+The command would be :
+
+    java -Duser.language=en -jar jseshAppli-7.8.1-SNAPSHOT.jar
+
+(replace "en" by the two-letters code for your language)
 
 ## Note about github distribution (for personnal use mainly)
 

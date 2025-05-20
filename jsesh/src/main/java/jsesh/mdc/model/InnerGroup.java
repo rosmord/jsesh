@@ -16,7 +16,8 @@ abstract public class InnerGroup extends HorizontalListElement implements InnerG
 
 	private static final long serialVersionUID = 7046828734218909370L;
 
-
+	@Override
+	public abstract InnerGroup deepCopy();
 } // end InnerGroup
 
 

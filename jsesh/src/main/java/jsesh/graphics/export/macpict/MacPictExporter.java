@@ -16,7 +16,7 @@ import java.util.Locale;
 
 import jsesh.graphics.export.generic.SelectionExporter;
 
-import jsesh.i18n.I18n;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
@@ -35,7 +35,7 @@ public class MacPictExporter extends AbstractGraphicalExporter {
     private MacPictGraphics2D currentGraphics;
 
     public MacPictExporter() {
-        super(new String[]{"pct", "pict"}, I18n.getString("MacPictExporter.description"));
+        super(new String[]{"pct", "pict"}, JSeshMessages.getString("MacPictExporter.description"));
         frame = null;
     }
 
