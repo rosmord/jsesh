@@ -107,7 +107,7 @@ public class FWDemo {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FWDemo demo = new FWDemo();
+					new FWDemo();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
