@@ -1,7 +1,5 @@
 package jsesh.mdc.lex;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-
 public class MDCHRule implements MDCSymbols {
 	private char lineType;
 	private int startPos;

@@ -7,6 +7,7 @@ package org.qenherkhopeshef.swingUtils.errorHandler;
  * @author rosmord
  */
 
+@SuppressWarnings("serial")
 public class UserMessage extends RuntimeException {
 	private String messageKey;
 	

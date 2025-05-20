@@ -1,7 +1,6 @@
 package jsesh.mdc.interfaces;
 
 import jsesh.mdc.constants.ToggleType;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * An abstract builder used to build the components of a MDC Result.

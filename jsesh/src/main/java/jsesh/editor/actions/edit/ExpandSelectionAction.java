@@ -49,7 +49,7 @@ public class ExpandSelectionAction extends EditorAction  {
 	/**
 	 * Action that expand the selection in the direction dir.
 	 * @param editor : the editor.
-	 * @param dir : -1 for left, 1 for right ; -2 for left and -1 for right.
+	 * @param dir : -1 for left, 1 for right ; -2 for up and -1 for down.
 	 */
 	public ExpandSelectionAction(JMDCEditor editor, int dir) {
 		super(editor);

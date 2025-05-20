@@ -166,6 +166,10 @@ public class AwtPortableFileDialog extends PortableFileDialog {
     public void setTitle(String title) {
         delegate.setTitle(title);
     }
+    
+    public Component getParent() {
+		return parent;
+	}
 
     @Override
     public void setParent(Component parent) {

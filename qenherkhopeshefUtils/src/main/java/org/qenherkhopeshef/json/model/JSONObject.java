@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.HashMap;
 
 public class JSONObject extends JSONData{
-	HashMap map= new HashMap();
+	HashMap<String, JSONData> map= new HashMap<>();
 	
 	public void setProperty(String name, JSONData value) {
 		map.put(name, value);

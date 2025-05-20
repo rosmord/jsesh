@@ -1,7 +1,5 @@
 package jsesh.mdc.model;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-
 /**
  * This file is free Software (c) Serge Rosmorduc
  * 

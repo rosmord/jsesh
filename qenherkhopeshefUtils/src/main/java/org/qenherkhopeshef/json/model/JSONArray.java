@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class JSONArray extends JSONData {
-	private List list= new ArrayList();
+	private List<JSONData> list= new ArrayList<>();
 	
 	
 	public void accept(JSONVisitor visitor) {
@@ -34,7 +34,7 @@ public class JSONArray extends JSONData {
 	}
 
 
-	public boolean containsAll(Collection c) {
+	public boolean containsAll(Collection<? extends JSONData> c) {
 		return list.containsAll(c);
 	}
 
@@ -64,7 +64,7 @@ public class JSONArray extends JSONData {
 	}
 
 
-	public boolean removeAll(Collection c) {
+	public boolean removeAll(Collection<? extends JSONData> c) {
 		return list.removeAll(c);
 	}
 
