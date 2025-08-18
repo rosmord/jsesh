@@ -23,7 +23,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * SignSource, and then, rewrite the batch system for this sign source (or for
  * any ?)
  * 
- * @author admin
+ * TODO: move SVG production out of this file and factor it with the one of shapechar?
+ * @author Serge Rosmorduc
  * 
  */
 public class SVGFontBatchImporter {
