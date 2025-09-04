@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
+import jsesh.drawingspecifications.ShadingStyle;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
@@ -17,7 +18,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.output.MdCModelWriter;
-import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
 

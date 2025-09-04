@@ -1,6 +1,7 @@
 package jsesh.jhotdraw;
 
 import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.drawingspecifications.ShadingStyle;
 import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
@@ -16,7 +17,6 @@ import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
