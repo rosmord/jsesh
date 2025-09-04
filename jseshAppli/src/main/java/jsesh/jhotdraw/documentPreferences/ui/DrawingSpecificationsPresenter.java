@@ -38,10 +38,10 @@ import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
+import jsesh.drawingspecifications.ShadingStyle;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.ShadingStyle;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;

@@ -3,6 +3,7 @@ package jsesh.mdcDisplayer.draw;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import jsesh.drawingspecifications.ShadingStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -31,7 +32,6 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.ShadingStyle;
 
 /**
  * This file is free Software 

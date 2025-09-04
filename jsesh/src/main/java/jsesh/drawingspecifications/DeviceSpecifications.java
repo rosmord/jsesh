@@ -1,7 +1,5 @@
 package jsesh.drawingspecifications;
 
-import java.lang.module.ModuleDescriptor.Builder;
-
 public record DeviceSpecifications(
 		/**
 		 * Returns the scale of the graphic device, in graphic units per typographical

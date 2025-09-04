@@ -1,13 +1,16 @@
 package jsesh.drawingspecifications;
 
+/**
+ * Specifications for the layout of hieroglyphic groups.
+ * 
+ * @author rosmord
+ */
+
 public record GroupsLayoutSpecifications(
 		float maxCadratHeight,
 		float maxCadratWidth,
 		float smallSkip,
-		float standardSignHeight, // Should it be there ?
-		float lineSkip,
-		float columnSkip,
-		float tabUnitWidth) {
+		float standardSignHeight) {
 
 	public Builder copy() {
 		return new Builder(this);
@@ -18,18 +21,12 @@ public record GroupsLayoutSpecifications(
 		private float maxCadratWidth;
 		private float smallSkip;
 		private float standardSignHeight;
-		private float lineSkip;
-		private float columnSkip;
-		private float tabUnitWidth;
 
 		public Builder(GroupsLayoutSpecifications spec) {
 			this.maxCadratHeight = spec.maxCadratHeight;
 			this.maxCadratWidth = spec.maxCadratWidth;
 			this.smallSkip = spec.smallSkip;
-			this.standardSignHeight = spec.standardSignHeight;
-			this.lineSkip = spec.lineSkip;
-			this.columnSkip = spec.columnSkip;
-			this.tabUnitWidth = spec.tabUnitWidth;
+			this.standardSignHeight = spec.standardSignHeight;			
 		}
 
 		public Builder maxCadratHeight(float maxCadratHeight) {
@@ -52,24 +49,9 @@ public record GroupsLayoutSpecifications(
 			return this;
 		}
 
-		public Builder lineSkip(float lineSkip) {
-			this.lineSkip = lineSkip;
-			return this;
-		}
-
-		public Builder columnSkip(float columnSkip) {
-			this.columnSkip = columnSkip;
-			return this;
-		}
-
-		public Builder tabUnitWidth(float tabUnitWidth) {
-			this.tabUnitWidth = tabUnitWidth;
-			return this;
-		}
-
+		
 		public GroupsLayoutSpecifications build() {
-			return new GroupsLayoutSpecifications(maxCadratHeight, maxCadratWidth, smallSkip, standardSignHeight,
-					lineSkip, columnSkip, tabUnitWidth);
+			return new GroupsLayoutSpecifications(maxCadratHeight, maxCadratWidth, smallSkip, standardSignHeight);
 		}
 	}
 }

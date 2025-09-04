@@ -11,6 +11,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.drawingspecifications.ShadingStyle;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
@@ -33,8 +34,6 @@ import jsesh.mdc.model.ZoneStart;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.ShadingStyle;
 
 /**
  * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
