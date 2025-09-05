@@ -1,70 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   width="11.63"
+   height="17.98"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="US22S65.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1800"
-   height="1800"
-   id="svg2"
-   sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docname="US248S65.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.0">
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">US22S65</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4460512"
+     inkscape:cx="5.5323076"
+     inkscape:cy="8.6442305"
+     inkscape:window-width="1232"
+     inkscape:window-height="822"
+     inkscape:window-x="1759"
+     inkscape:window-y="203"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <path
+     style="fill:#000000; stroke:none"
+     d=" M 5.81 16.19  Q 6.87 16.19 7.61 15.48  Q 8.35 14.77 8.35 13.65  Q 8.35 12.66 7.68 11.93  Q 7 11.2 5.81 11.2  Q 4.63 11.2 3.95 11.93  Q 3.27 12.66 3.27 13.65  Q 3.25 14.77 3.99 15.48  Q 4.74 16.19 5.81 16.19  Z  M 8.7 12.19  L 8.03 1.4  Q 7.94 0.5 7.2 0.47  Q 6.46 0.45 6.46 1.4  L 6.46 10.55  Q 7.45 10.61 8.07 11.32  Q 8.46 11.76 8.7 12.19  Z  M 2.95 12.21  Q 3.1 11.82 3.55 11.32  Q 4.22 10.61 5.17 10.55  L 5.17 1.4  Q 5.17 0.45 4.42 0.47  Q 3.68 0.5 3.6 1.4  L 2.95 12.21  Z  M 4.74 17.44  Q 4.74 17.05 4.45 16.95  Q 4.16 16.86 3.25 16.1  Q 2.35 15.35 1.86 13.27  Q 1.38 11.2 0.8 10.23  Q 0.22 9.26 0 8.74  L 0.17 8.74  Q 0.6 8.93 1.32 9.6  Q 2.05 10.27 2.41 11.91  L 3.08 1.4  Q 3.19 0 4.44 0  Q 5.71 0 5.71 1.42  L 5.71 10.53  L 5.92 10.53  L 5.92 1.42  Q 5.92 0 7.19 0  Q 8.46 0 8.55 1.4  L 9.21 11.93  Q 9.49 10.4 10.26 9.66  Q 11.02 8.91 11.48 8.74  L 11.63 8.74  Q 11.35 9.24 10.8 10.22  Q 10.25 11.2 9.76 13.27  Q 9.28 15.35 8.38 16.1  Q 7.47 16.86 7.18 16.94  Q 6.89 17.03 6.89 17.44  Q 6.89 17.85 7.26 17.98  L 4.39 17.98  Q 4.74 17.85 4.74 17.44  Z  M 5.6 17.7  L 5.6 17.12  L 5.17 17.05  Q 5.32 17.18 5.32 17.36  Q 5.32 17.55 5.23 17.7  L 5.6 17.7  Z  M 6.39 17.7  Q 6.31 17.55 6.31 17.36  Q 6.31 17.18 6.46 17.05  L 6.03 17.12  L 6.03 17.7  L 6.39 17.7  Z "
+     id="path1" />
   <metadata
-     id="metadata9">
+     id="metadata1">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>S65</dc:title>
         <dc:creator>
           <cc:Agent>
-            <dc:title>S. Rosmorduc, d'après un fragment de signe de S. Thomas</dc:title>
+            <dc:title>S. P. Thomas</dc:title>
           </cc:Agent>
         </dc:creator>
-        <dc:description>Version temporaire de S65.</dc:description>
+        <dc:title>US22S65</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <defs
-     id="defs7">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 8.9887228 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="12.287004 : 8.9887228 : 1"
-       inkscape:persp3d-origin="6.1435022 : 5.9924819 : 1"
-       id="perspective11" />
-  </defs>
-  <sodipodi:namedview
-     inkscape:window-height="701"
-     inkscape:window-width="940"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     guidetolerance="10.0"
-     gridtolerance="10.0"
-     objecttolerance="10.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
-     pagecolor="#ffffff"
-     id="base"
-     showgrid="false"
-     inkscape:zoom="0.23490053"
-     inkscape:cx="-708.3312"
-     inkscape:cy="897.97943"
-     inkscape:window-x="193"
-     inkscape:window-y="32"
-     inkscape:current-layer="svg2" />
-  <path
-     style="fill:#000000;stroke:none"
-     d="M 704.17145,-3.6144578 C 627.91233,-3.6144578 564.1166,41.608159 545.60012,139.51042 C 492.2094,421.80346 471.09709,712.68839 438.98231,999.89412 C 426.66531,1110.0463 417.41804,1179.1617 417.41804,1207.8353 C 383.96574,1136.1518 338.57616,1066.799 281.22943,999.89412 C 223.88264,932.98971 171.26563,892.41851 123.47654,878.08167 C 142.59197,921.09183 182.08694,985.62632 241.82329,1071.6466 C 301.55948,1157.6667 348.15394,1275.8946 381.60595,1426.4301 C 415.05854,1576.9655 469.95632,1690.5034 546.41857,1766.966 C 541.09918,1767.754 535.93201,1768.7029 530.75881,1769.6614 L 599.17401,1807.6556 L 1304.505,1805.5551 C 1327.8215,1786.5318 1358.0974,1745.1655 1395.8965,1709.5895 C 1436.5165,1671.3582 1473.6025,1576.9655 1507.0555,1426.4301 C 1540.5076,1275.8947 1587.1017,1157.6667 1646.8379,1071.6466 C 1706.5743,985.62632 1745.9408,921.09179 1765.0562,878.08167 C 1717.2677,892.41854 1664.779,932.98971 1607.4316,999.89412 C 1550.0851,1066.799 1504.6953,1136.1518 1471.2433,1207.8353 C 1466.4642,1169.6042 1459.2367,1097.9704 1449.6789,992.83437 L 1326.1708,141.06075 C 1311.8343,42.189474 1253.6859,-3.6144578 1177.3017,-3.6144578 C 1053.0503,-3.6144578 974.18869,34.675777 940.73659,111.13825 C 907.28429,34.675781 828.42278,-3.6144578 704.17145,-3.6144578 z M 1140.9765,112.55019 C 1174.2979,112.3402 1229.1236,128.71172 1234.6778,182.76243 C 1265.5691,483.38142 1310.9866,791.00046 1335.0548,1100.2706 C 1344.6126,1200.6273 1346.893,1258.0627 1342.1143,1272.3997 C 1281.4953,1129.9357 1176.3953,1032.226 1019.5489,1021.4584 L 1019.5489,204.32669 C 1019.5489,129.6586 1103.2114,112.78819 1140.9765,112.55019 z M 737.54471,117.68454 C 776.85864,115.66847 869.11242,130.74251 869.11242,211.38642 L 869.11242,1021.4584 C 711.29644,1016.2768 605.48141,1142.1235 539.35884,1272.3997 L 546.41857,1100.2706 L 653.98319,182.76243 C 659.66126,134.32948 706.96721,119.2526 737.54471,117.68454 z M 947.92469,1100.2706 C 1048.2812,1100.2706 1128.3475,1133.7427 1188.0839,1200.6471 C 1247.8202,1267.5518 1277.6782,1344.004 1277.6782,1430.0242 C 1277.6782,1525.6022 1253.7144,1597.3643 1205.9255,1645.1534 C 1158.1366,1692.9424 1119.9744,1721.596 1091.3014,1731.1539 L 797.35989,1731.1539 C 763.9076,1716.8172 724.54113,1686.959 679.14149,1641.5594 C 633.74197,1596.1596 610.98313,1525.6022 610.98301,1430.0242 C 610.98301,1344.004 640.84119,1267.5518 700.5774,1200.6471 C 760.31388,1133.7428 842.78866,1100.2706 947.92469,1100.2706 z"
-     id="path4"
-     sodipodi:nodetypes="csscccscccccccsccccsscccscccsscscccssccsscccccc" />
 </svg>

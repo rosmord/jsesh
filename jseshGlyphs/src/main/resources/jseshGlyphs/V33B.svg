@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="811.40076"
+   height="1094.9003"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="V33B.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><title
+     id="title1">V33B</title><defs
+     id="defs1" /><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.57943472"
+     inkscape:cx="317.55087"
+     inkscape:cy="220.90495"
+     inkscape:window-width="1920"
+     inkscape:window-height="1147"
+     inkscape:window-x="1024"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer2" /><metadata
+     id="metadata1"><rdf:RDF><cc:Work
+         rdf:about=""><dc:title>V33B</dc:title><dc:creator><cc:Agent><dc:title>Serge Rosmorduc</dc:title></cc:Agent></dc:creator><dc:description>Sign V33B, corresponding to the variant of V33 described by A. H. Gardiner in BIFAO 30, p. 170.
+The example itself is taken from Clère/Vandier &quot;stèles de la PPI&quot;, p. 18, from the stela of Megegi in the Metropolitan Museum.
+
+</dc:description></cc:Work></rdf:RDF></metadata><g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 1"
+     style="display:inline"
+     transform="translate(-617.95445,25.328182)"><path
+       id="path5"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       d="m 1047.3509,-25.32037 c -68.58585,-0.257134 -136.20903,5.678378 -125.35153,22.4199224 72.51971,111.8205676 81.56323,221.2827376 79.28903,333.0292976 -9.12373,0.71722 -18.06928,1.77975 -26.86715,3.11914 C 962.00852,311.01382 870.82107,151.07335 793.6107,112.03705 748.62084,89.290876 689.90374,55.861102 642.47398,106.44135 c -48.22023,51.42323 -16.47871,123.23305 19.5918,154.94141 67.52646,59.36022 224.85743,75.16912 277.63672,78.92382 -67.5525,17.30521 -123.79271,53.25927 -165.58008,100.83594 -62.22358,70.84414 -93.61735,165.61021 -93.49024,261.95313 0.25673,194.57699 148.52573,366.72055 364.72262,366.47655 215.135,-0.2428 361.2953,-164.86816 358.0821,-364.2871 -1.58,-98.05414 -31.1472,-190.01681 -91.3184,-259.01563 -51.2468,-58.76526 -124.7106,-99.352 -216.2031,-112.64843 52.0632,-35.36102 124.698,-55.0971 168.8672,-69.14844 52.1757,-16.59845 104.4684,-31.48081 136.5918,-73.94141 25.634,-33.88313 37.7461,-77.18692 18.58,-105.410153 -19.1298,-28.169838 -94.3685,-22.040421 -139.3496,-3.869141 -69.7401,28.173274 -138.9013,90.761474 -186.6152,148.906254 -14.738,17.95994 -26.5188,47.44057 -44.5312,88.51757 19.9098,-117.15726 48.4749,-236.942149 129.0195,-329.257808 7.0074,-8.031472 -62.5411,-14.481147 -131.127,-14.738282 z m -3.2793,424.39063 c 98.5615,3.50516 167.9465,38.91663 215.2911,93.20703 47.3444,54.29039 72.7188,129.41587 74.0839,214.13476 2.6768,166.12693 -107.3511,292.95612 -288.1699,293.16016 -179.75698,0.20284 -294.43332,-136.54166 -294.64452,-296.56836 -0.10675,-80.95904 26.71821,-159.46297 76.08399,-215.66797 65.69589,-74.79754 150.32554,-90.64941 217.35543,-88.26562 z"
+       sodipodi:nodetypes="ssccssscssssscssssscsssssssss" /></g></svg>

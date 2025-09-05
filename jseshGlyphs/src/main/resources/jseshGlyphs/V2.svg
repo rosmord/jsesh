@@ -1,3 +1,59 @@
-<?xml version="1.0" encoding ="US-ASCII" standalone="yes"?>
-<svg width="16.858799" height="9.12">
-<path style="fill:#000000; stroke:none" d=" M 9.688731 2.843652  Q 9.56686 3.453007 8.896571 3.453007  Q 8.246594 3.453007 8.023162 2.843652  L 9.688731 2.843652  Z  M 9.729355 1.970245  L 6.540402 1.970245  Q 6.987261 0.792161 8.175503 0.792161  Q 9.363743 0.792161 9.729355 1.970245  Z  M 10.602768 1.970245  Q 10.135592 0 8.15519 0  Q 6.174789 0 5.626371 1.970245  L 0 1.970245  L 0 2.843652  L 5.606059 2.843652  Q 5.646682 3.14833 5.72793 3.534255  Q 6.357596 5.382632 8.246594 6.601337  Q 10.663704 8.104409 11.008998 9.12  L 11.943343 9.079376  Q 11.537107 7.75911 8.124722 5.524811  Q 6.621649 4.245168 6.479466 2.843652  L 7.170067 2.843652  Q 7.474746 4.245168 8.886415 4.245168  Q 10.298085 4.245168 10.582457 2.843652  L 16.858799 2.843652  L 16.858799 1.970245  L 10.602768 1.970245  Z "/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1795.582"
+   height="910.42383"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="V2.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">V2</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.45917469"
+     inkscape:cx="899.43983"
+     inkscape:cy="429.03062"
+     inkscape:window-width="1920"
+     inkscape:window-height="1147"
+     inkscape:window-x="1440"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     id="path1"
+     style="fill:#000000;stroke:none;stroke-width:71.5741"
+     d="m 851.25782,0 c -83.02613,0.71574 -163.90537,45.09192 -209.71289,118.09766 -57.78024,91.73356 -50.43858,206.16706 5.98828,292.76172 H 0 v 80 h 718.70508 l 419.56442,419.56444 55.8282,-55.8281 L 830.36133,490.85938 H 1795.582 v -80 H 921.39649 c 48.47979,-8.72723 93.99971,-37.46719 122.39651,-79.4707 C 1111.0728,232.61619 1073.8529,99.48835 977.94336,37.21875 939.29327,12.16776 895.63312,0 853.4043,0 Z m 1.43164,79.44727 c 28.6297,0 57.25955,7.8728 82.31054,23.61914 60.12237,39.36584 83.7417,123.82293 43.66016,183.94531 -20.0408,29.34543 -54.39721,46.52344 -88.03711,46.52344 -18.60931,0 -36.50172,-5.01101 -52.24805,-16.46289 -30.06119,-21.47228 -41.51314,-67.2794 -18.60937,-95.19336 l -60.83984,-50.10156 c -55.11218,67.27981 -30.77621,163.18964 33.64062,209.71289 21.11291,15.58334 44.00855,25.04574 67.66016,29.36914 H 750.36133 l -5.75,-5.75 c -66.56405,-62.26959 -85.17244,-167.48406 -36.50195,-245.5 31.49268,-50.10197 88.03642,-80.16211 144.58008,-80.16211 z" />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>V2</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge J. Paul THOMAS</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Version of the original V2 sign by S.J.P Thomas modified by S. Rosmorduc to fit Gardiner Shape
+(after a remark by Peter Dils). 
+In the Gardiner fonts, the loop is above the line, not centered on the line.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

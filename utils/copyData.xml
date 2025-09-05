@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="JSesh" default="updateGlyphsAndTextResources" basedir=".">
     <property name="fontRoot" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/jsesh-fonts"/>
-    <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/HieroFinal/JSesh-texts/texts"/>
+    <property name="textRoot" value="/Users/rosmord/Documents/MesDocuments/Prog/jsesh-texts/texts"/>
     <property name="fontDest" value="../jseshGlyphs/src/main/resources/jseshGlyphs"/>
     <property name="textDest" value="../jsesh-installer/src/binary/texts"/>
-
+    <!-- signs description -->
+    <property name="glyphDocSrc" value="/Users/rosmord/Documents/MesDocuments/Egypto/Gsigns/jsesh-fonts/signs_description.xml"/>
+    <property name="glyphDocDest"
+	      value="../jsesh/src/main/resources/jsesh/hieroglyphs/resources/signs_description.xml"/>
+    
     <target name="updateGlyphsAndTextResources" description="-->update glyphs and texts libraries">
         <description>
             Import a number of data files into the JSesh project.
@@ -161,6 +165,10 @@
                 <include name="*.SVG" />
             </fileset>
         </copy>
+
+	<copy file="${glyphDocSrc}" tofile="${glyphDocDest}"/>
+
+	
     </target>
 
     <target name="clean" description="erase imported resources">

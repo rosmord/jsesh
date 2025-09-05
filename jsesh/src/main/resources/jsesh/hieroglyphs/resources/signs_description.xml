@@ -561,6 +561,9 @@
     <variantOf baseSign="A14" isSimilar="y" linguistic="unspecified" sign="A14A"/>
     <contains partCode="T7" sign="A14A"/>
     <hasTag sign="A14A" tag="wounded, killed"/>
+    <signDescription lang="en" sign="A14A">+lDet. Death, enemy, Medînet Habu, Dyn. XX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s</signDescription>
   </sign>
   <sign sign="A14B">
     <variantOf baseSign="A14" isSimilar="y" linguistic="unspecified" sign="A14B"/>
@@ -1421,6 +1424,17 @@
     <contains partCode="S57" sign="A42B"/>
     <contains partCode="S38" sign="A42B"/>
     <hasTag sign="A42B" tag="king or god"/>
+    <signDescription lang="en" sign="A42B">+lSeated king holding the scepters +s-+tHqA +s-+land +s-+tnxAxA+s-+l.+s-!
++ldetails :+s-!
++l- king's beard+s-!
++lDet. king. Abydos, Sethos Temple, Dyn. XIX+s-!
++l(listed as A 42* in Gardiner's addition to his fonts)+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
++lDet. king. Abydos, Sethos Temple, Dyn. XIX+s-!
++l(listed as A 42* in Gardiner's addition to his fonts)+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s</signDescription>
   </sign>
   <sign sign="A42C">
     <contains partCode="D156" sign="A42C"/>
@@ -1714,10 +1728,16 @@
     <hasTag sign="A48B" tag="holding something"/>
   </sign>
   <sign alwaysDisplay="y" sign="A49">
-    <hasTransliteration sign="A49" transliteration="aAmw" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="A49" transliteration="aAmw" type="typical" use="keyboard"/>
     <hasTag sign="A49" tag="holding something"/>
     <hasTag sign="A49" tag="seated"/>
     <contains partCode="T14" sign="A49"/>
+    <signDescription lang="en" sign="A49">+lSeated syrian holding a stick.+s-!
++ldeterminative for foreigners+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 447.+s-!
++lFischer, Henry George. 1983. +s-+iAncient Egyptian Calligraphy+s-+l p. 17+s-!
+</signDescription>
   </sign>
   <sign sign="A49A">
     <variantOf baseSign="A49" isSimilar="y" linguistic="unspecified" sign="A49A"/>
@@ -2099,12 +2119,26 @@
     <hasTag sign="A61" tag="holding nothing"/>
     <hasTag sign="A61" tag="looking backward"/>
     <variantOf baseSign="A31" isSimilar="y" linguistic="unspecified" sign="A61"/>
+    <hasTransliteration sign="A61" transliteration="an" type="typical" use="palette"/>
+    <hasTransliteration sign="A61" transliteration="msnH" type="typical" use="palette"/>
+    <signDescription lang="en" sign="A61">+lDet. +s-+tan, +s-+lto turn back, and +s-+tmsnH +s-+iturn away+s-!
++lMedînet Habu, dyn. XX.+s-!
++linscr. year 5, l. 4 and year 11, lines 17 and 30.+s-!
+!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s</signDescription>
   </sign>
   <sign sign="A62">
     <hasTag sign="A62" tag="standing"/>
     <hasTag sign="A62" tag="foreigner"/>
     <hasTag sign="A62" tag="holding nothing"/>
     <variantOf baseSign="A19" isSimilar="y" linguistic="unspecified" sign="A62"/>
+    <hasTransliteration sign="A62" transliteration="wr" type="ideogram" use="palette"/>
+    <signDescription lang="en" sign="A62">+lIdeog. +s-+twr, +s-+l(Syrian or Asiatic) +s-+iprince, Dyn. XIX+s-!
++lHittite treaty.+s-!
++lThe current JSesh shape is at odd with the Gardiner fonts.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s</signDescription>
   </sign>
   <sign sign="A62A">
     <variantOf baseSign="A62" isSimilar="y" linguistic="unspecified" sign="A62A"/>
@@ -2119,18 +2153,30 @@
     <hasTag sign="A63" tag="seated on chair"/>
     <hasTag sign="A63" tag="holding stick"/>
     <hasTag sign="A63" tag="king or god"/>
-    <signDescription lang="en" sign="A63">+lKing seated on a throne and holding the +s-+tmdw +s-+lstick.+s-!
+    <signDescription lang="en" sign="A63">+bNOTE: +s-+lwe have two different signs here. This notice should be cut in two, and another sign +s-!
++lshould be created.+s-!
+!
++lKing seated on a throne and holding the +s-+tmdw +s-+lstick.+s-!
++lThe Gardiner shape has a little guard in the middle of the stick.+s-!
++lAttested already in the Old Kingdom, but known afterwards. The sign came in the Gardiner fonts because +s-!
++lof the edition of the Abydos Temple.+s-!
+!
 +lSeems to be the sign discussed in Farout, o.c., but with a different scepter (a +s-+tHD +s-+lmace instead of a+s-!
-+tHkA +s-+lsign) and no triangular apron.+s-!
++tHkA +s-+lsign) and no triangular apron. +s-!
++bThe apron does not appear in Gardiner's version of the sign+s-+l,+s-!
++lbut was in the Hieroglyphica.+s-!
+!
 +lFurther inquiry is needed to see if we have more than one sign here (maybe diachronic evolution).+s-!
 +lFor Farout, the sign, (which holds  +s-S43-+l and +s-HD-+l in the O.K. versions he discusses), is often found after the king's name+s-!
 +lin the particular context of royal decrees.+s-!
++lDet. +s-+tHms, +s-+ito sit, +s-+lfor a king. (or +s-+tsnDm)+s-!
++lAbydos, Sethos Temple, stairway passage, dyn. XIX.+s-!
 !
-+bBibliography:+s-!
-+lFarout, D. "les déclarations du roi Ounas", +s-+iin +s-+lRdE 65, p. 54.+s-!
++lGardiner notes that the insignia may vary.+s-!
 !
-!
-</signDescription>
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
++lFarout, D. "les déclarations du roi Ounas", +s-+iin +s-+lRdE 65, p. 54.+s</signDescription>
     <variantOf baseSign="A22" isSimilar="y" linguistic="unspecified" sign="A63"/>
     <variantOf baseSign="A51B" isSimilar="y" linguistic="unspecified" sign="A63"/>
   </sign>
@@ -4053,7 +4099,21 @@ A199A-G26A-nw:t-Hm-nw:N6-+i +s-+tmnhwy? rx n{.t} Hm n ra +s-+l(before the king s
   <sign alwaysDisplay="y" sign="A234">
     <hasTag sign="A234" tag="group"/>
     <hasTransliteration sign="A234" transliteration="sHnt" type="phonogram" use="palette"/>
-    <signDescription lang="en" sign="A234">+lA pole with people climbing on it.+s</signDescription>
+    <signDescription lang="en" sign="A234">+lA234, IFAO 30,5+s-!
++lPeople climbing a pole.+s-!
++lThis is part of the ritual of +s-+iraising the pole for Min.+s-!
++lSometimes, the climbers wear feathers. They are called +s-+twr.w n xAs.wt nb.t +s-+lin Dendera.+s-!
+!
++lSee variants : Esna VIII, 120 (n° 35) with only the bottom part+s-!
++land Esna VIII, 167, (n° 266), the chapel on top of the pole.+s-!
+!
++bBibliography+s-!
++lMinas-Nerpel, Martina, and Marleen De Meyer. 2013. ‘Raising the Pole for Min in the Temple of Isis at Shanhūr’. +s-+iZÄS+s-+l 140 (2): 150–66. https://doi.org/10.1524/zaes.2013.0015. +s-!
+?1000-+lespecially n. 37 and 82+s-!
+!
+</signDescription>
+    <hasTransliteration sign="A234" transliteration="s" type="phonogram" use="informative"/>
+    <hasTag sign="A234" tag="chanting, dancing, playing instrument"/>
   </sign>
   <sign sign="A235">
     <hasTag sign="A235" tag="chanting, dancing, playing instrument"/>
@@ -6401,6 +6461,109 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="A73" sign="A511"/>
     <variantOf baseSign="A73" isSimilar="y" linguistic="unspecified" sign="A511"/>
   </sign>
+  <sign sign="A600">
+    <hasTransliteration sign="A600" transliteration="wh" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="A600">+lMan standing over a dog+s-!
++bValue: +s-+twh+s-!
++lSource: CT I, 80+s</signDescription>
+    <hasTag sign="A600" tag="with animals"/>
+    <hasTag sign="A600" tag="standing"/>
+    <hasTag sign="A600" tag="holding stick"/>
+    <hasTag sign="A600" tag="canid"/>
+    <contains partCode="A21" sign="A600"/>
+    <contains partCode="E14" sign="A600"/>
+  </sign>
+  <sign sign="A601">
+    <signDescription lang="en" sign="A601">+lwasherman (ḥwty)+s-!
++lA washerman striking a linen on a stone.+s-!
++lSource: Brovarski E. « The Washerman of the God, Senenu ». In: Hawass Z., Daoud K., Abd El-Fattah S. (éd.). The Realm of the Pharaohs, Essays in Honor of Tohfa Handoussa. Cairo, 2008.+s-!
+?1000-+lp. 145‑176. p. 154, fig 4 p. 172.+s-!
+</signDescription>
+    <hasTransliteration sign="A601" transliteration="Hwty" type="phonogram" use="palette"/>
+    <hasTag sign="A601" tag="standing"/>
+    <hasTag sign="A601" tag="bent"/>
+    <hasTag sign="A601" tag="working"/>
+    <hasTag sign="A601" tag="holding something"/>
+  </sign>
+  <sign sign="A602">
+    <signDescription lang="en" sign="A602">+lstanding man chopping wood with an axe+s-!
++lSource: Drenkhahn R. Die handwerker und ihre tatigheit im alten agypten. Harassowitz, 1976, p. 77.+s</signDescription>
+    <hasTag sign="A602" tag="standing"/>
+    <hasTag sign="A602" tag="bent"/>
+    <hasTag sign="A602" tag="working"/>
+    <hasTag sign="A602" tag="holding something"/>
+    <hasTag sign="A602" tag="axe"/>
+    <hasTag sign="A602" tag="branch"/>
+    <contains partCode="T7" sign="A602"/>
+    <contains partCode="M3" sign="A602"/>
+  </sign>
+  <sign sign="A603">
+    <signDescription lang="en" sign="A603">+lseated man chopping wood with an adze.+s-!
++lSource: Drenkhahn R. Die handwerker und ihre tatigheit im alten agypten. Harassowitz, 1976, p. 77.+s</signDescription>
+    <variantOf baseSign="A602" isSimilar="y" linguistic="unspecified" sign="A603"/>
+    <contains partCode="M3" sign="A603"/>
+    <contains partCode="U19" sign="A603"/>
+    <hasTag sign="A603" tag="working"/>
+    <hasTag sign="A603" tag="holding something"/>
+    <hasTag sign="A603" tag="branch"/>
+    <hasTag sign="A603" tag="adze"/>
+    <hasTag sign="A603" tag="kneeled"/>
+  </sign>
+  <sign sign="A604">
+    <signDescription lang="en" sign="A604">+lblacksmith fanning a kiln+s-!
++lSource: Drenkhahn R. Die handwerker und ihre tatigheit im alten agypten. Harassowitz, 1976, p. 77.+s</signDescription>
+    <contains partCode="U30" sign="A604"/>
+    <hasTag sign="A604" tag="working"/>
+    <hasTag sign="A604" tag="holding something"/>
+    <hasTag sign="A604" tag="kneeled"/>
+  </sign>
+  <sign sign="A605">
+    <signDescription lang="en" sign="A605">+lman killing a fowl+s-!
++lValue: determinative for wšn "strangle ?" (a bird).+s-!
++lSource: H.G. Fischer « Five Inscriptions of the Old Kingdom », ZÄS 105, 57; Reisner, tomb G2191.+s-!
+!
+</signDescription>
+    <hasTransliteration sign="A605" transliteration="wnS" type="typical" use="palette"/>
+    <hasTag sign="A605" tag="standing"/>
+    <hasTag sign="A605" tag="holding something"/>
+    <hasTag sign="A605" tag="with animals"/>
+    <hasTag sign="A605" tag="working"/>
+    <contains partCode="G41A" sign="A605"/>
+    <contains partCode="G40" sign="A605"/>
+  </sign>
+  <sign sign="A606">
+    <signDescription lang="en" sign="A606">+lman under a sunshade+s-!
++lValue: +s-+tsb(A)+s-+l, sunshade.+s-!
++lSource: H.G. Fischer, “Quelques particuliers à Saqqâra”+s-!
++l
+
+Tomb of Nikare; p. 179 ; p. 185, Fig. 5
++s-!
++l
+
+See also MMJ 6, 1972, p. 151-156 for representations.
++s-!
+!
+!
+!
+</signDescription>
+    <contains partCode="A1" sign="A606"/>
+    <hasTag sign="A606" tag="seated"/>
+    <hasTag sign="A606" tag="holding nothing"/>
+    <hasTag sign="A606" tag="carrying something"/>
+  </sign>
+  <sign sign="A607">
+    <signDescription lang="en" sign="A607">+lcryptographic scene, man on a bull+s-!
++lSource: : CGC 1696+s-!
++bBibliography+s-!
+?500-+lCapart, Jean. 1929. « Un Hiéroglyphe Mystérieux. » In Mélanges Loret, II:1–2. Kémi. +s-!
+</signDescription>
+    <hasTag sign="A607" tag="group"/>
+    <hasTag sign="A607" tag="bovid"/>
+    <hasTag sign="A607" tag="holding something"/>
+    <hasTag sign="A607" tag="with animals"/>
+    <contains partCode="E2" sign="A607"/>
+  </sign>
   <sign alwaysDisplay="y" sign="B1">
     <hasTransliteration sign="B1" transliteration="st" type="phonogram" use="keyboard"/>
     <hasTag sign="B1" tag="seated"/>
@@ -6704,6 +6867,13 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="M9" sign="B8"/>
     <variantOf baseSign="B1" isSimilar="n" linguistic="unspecified" sign="B8"/>
     <contains partCode="B8A" sign="B8"/>
+    <signDescription lang="en" sign="B8">+lDet. woman's name. Cairo Mus 298, sarcophagus of Takhos, Ptolemaic period.+s-!
+!
++lThe breast of this sign is represented, due to its date.+s-!
+!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="B8A">
     <hasTag sign="B8A" tag="kneeled"/>
@@ -6983,6 +7153,10 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="B28" tag="holding nothing"/>
     <hasTag sign="B28" tag="praying"/>
     <variantOf baseSign="B15" isSimilar="y" linguistic="unspecified" sign="B28"/>
+    <hasTag sign="B28" tag="mourner"/>
+    <signDescription lang="en" sign="B28">+lStanding mourning woman, with the hands turned toward her face.+s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="B29">
     <hasTag sign="B29" tag="seated"/>
@@ -8184,6 +8358,17 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C11" tag="holding nothing"/>
     <hasTag sign="C11" tag="heh"/>
     <contains partCode="M4" sign="C11"/>
+    <signDescription lang="en" sign="C11">+lAccording to Griffith:+s-!
++lA bearded figure, seated, i.e. kneeling on one knee, arms extended and hands raised,+s-!
++lperhaps to symbolize counting by tens ; on his head the symbol of a year or season.+s-!
+!
++lIdeogram for the god +s-H-H-HH-+l, and phon. in +s-+tHH, +s-+imillions.+s-!
++lThe shape in Gardiner's font is the same as the one of a detailled sign+s-!
++lin Griffith, +s-+iA Collection of Hieroglyphs,+s-+l pl. 2.+s-!
+!
+!
+!
+</signDescription>
   </sign>
   <sign sign="C11B">
     <hasTag sign="C11B" tag="human-headed"/>
@@ -8225,6 +8410,10 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C11E" tag="holding something"/>
     <contains partCode="M4A" sign="C11E"/>
     <variantOf baseSign="C11" isSimilar="y" linguistic="unspecified" sign="C11E"/>
+    <signDescription lang="en" sign="C11E">+lA seated deity holding two palm-leaf ribs.+s-!
++lShape of the +s-+tHH +s-+lsign found in Siut, tomb I, l. 227 (Griffith, +s-+iA Collection of Hieroglyphs, +s-+lp. 13).+s-!
+!
+</signDescription>
   </sign>
   <sign sign="C11G">
     <hasTag sign="C11G" tag="human-headed"/>
@@ -8293,6 +8482,11 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S40" sign="C12"/>
     <contains partCode="C12A" sign="C12"/>
     <hasTransliteration sign="C12" transliteration="nb" type="phonogram" use="informative"/>
+    <signDescription lang="en" sign="C12">+lIdeo. or det. Amun.+s-!
++lLeps. +s-+iDenkm. +s-+lIII, 180, Wâdi Es-Sebua, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C12A">
     <hasTag sign="C12A" tag="amun"/>
@@ -8433,6 +8627,15 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S72A" sign="C14"/>
     <contains partCode="T16" sign="C14"/>
     <variantOf baseSign="C12" isSimilar="y" linguistic="unspecified" sign="C14"/>
+    <hasTransliteration sign="C14" transliteration="Imn-Hr-xpS-f" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="C14">+lMonogram for the name +s-+timn-Hr-xpS=f.+s-!
++lAccording to Gardiner, o.c. in Theinhardt fount, the scimitar faces the wrong way.+s-!
++lit might be interesting to look, because it would be possible for it to be reversed if Amun+s-!
++lis in fact giving a scimitar to the King?+s-!
++bBibliography+s-!
++lLepsius, +s-+iDenkm. +s-+lIII, 224 b.+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C16">
     <hasTag sign="C16" tag="male"/>
@@ -8442,6 +8645,10 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S5" sign="C16"/>
     <contains partCode="S34" sign="C16"/>
     <variantOf baseSign="A304" isSimilar="y" linguistic="unspecified" sign="C16"/>
+    <signDescription lang="en" sign="C16">+lIdeog. +s-+ttm, +s-+iAtum, +s-+lMedînet Habu, dyn. XX, year 5 inscr. l. 39+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="C17">
     <hasTransliteration sign="C17" transliteration="mnTw" type="phonogram" use="keyboard"/>
@@ -8452,6 +8659,11 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S9" sign="C17"/>
     <variantOf baseSign="C2" isSimilar="y" linguistic="no" sign="C17"/>
     <contains partCode="C39" sign="C17"/>
+    <signDescription lang="en" sign="C17">+lIdeog. +s-+t^mnTw, +s-+iMontu, +s-!
++lMedînet Habu, dyn. XX.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C17A">
     <hasTag sign="C17A" tag="hawk-headed"/>
@@ -8497,6 +8709,11 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C18" tag="holding nothing"/>
     <contains partCode="S73" sign="C18"/>
     <variantOf baseSign="A311" isSimilar="y" linguistic="unspecified" sign="C18"/>
+    <signDescription lang="en" sign="C18">+lIdeog. +s-+t^tnn, +s-+iTanen, +s-!
++lAbydos, Sethos Temple, staircase passage, N. wall, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C18A">
     <hasTag sign="C18A" tag="human-headed"/>
@@ -8568,6 +8785,11 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C19" tag="with ptah-cap"/>
     <contains partCode="S40" sign="C19"/>
     <contains partCode="Aa11" sign="C19"/>
+    <signDescription lang="en" sign="C19">+lIdeog. or det. +s-+tptH, +s-+iPtah+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C19A">
     <hasTag sign="C19A" tag="standing"/>
@@ -8611,6 +8833,11 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="O18" sign="C20"/>
     <contains partCode="Aa11" sign="C20"/>
     <variantOf baseSign="C19" isSimilar="y" linguistic="unspecified" sign="C20"/>
+    <signDescription lang="en" sign="C20">+lIdeog. or det. +s-+tptH, +s-+iPtah+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="C20A">
     <hasTransliteration sign="C20A" transliteration="ptH" type="phonogram" use="keyboard"/>
@@ -11885,6 +12112,22 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="G14" sign="C183A"/>
     <contains partCode="S5" sign="C183A"/>
     <variantOf baseSign="C183" isSimilar="y" linguistic="unspecified" sign="C183A"/>
+    <hasTag sign="C183A" tag="with uraeus"/>
+    <hasTag sign="C183A" tag="with crown"/>
+    <hasTag sign="C183A" tag="with vulture headdress"/>
+  </sign>
+  <sign sign="C183VARA">
+    <signDescription lang="en" sign="C183VARA"/>
+    <contains partCode="B1" sign="C183VARA"/>
+    <signDescription lang="en" sign="C183VARA">+lWoman with vulture headdress.+s-!
+</signDescription>
+    <variantOf baseSign="C183" isSimilar="y" linguistic="unspecified" sign="C183VARA"/>
+    <hasTag sign="C183VARA" tag="female"/>
+    <hasTag sign="C183VARA" tag="human-headed"/>
+    <hasTag sign="C183VARA" tag="seated"/>
+    <hasTag sign="C183VARA" tag="holding nothing"/>
+    <hasTag sign="C183VARA" tag="with uraeus"/>
+    <hasTag sign="C183VARA" tag="with vulture headdress"/>
   </sign>
   <sign sign="C184">
     <hasTag sign="C184" tag="female"/>
@@ -11895,6 +12138,8 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S5" sign="C184"/>
     <contains partCode="S40" sign="C184"/>
     <variantOf baseSign="C183" isSimilar="y" linguistic="unspecified" sign="C184"/>
+    <hasTag sign="C184" tag="with crown"/>
+    <hasTag sign="C184" tag="with vulture headdress"/>
   </sign>
   <sign sign="C185">
     <hasTag sign="C185" tag="female"/>
@@ -11902,6 +12147,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C185" tag="seated"/>
     <hasTag sign="C185" tag="holding nothing"/>
     <contains partCode="S3" sign="C185"/>
+    <hasTag sign="C185" tag="with crown"/>
   </sign>
   <sign sign="C185A">
     <hasTag sign="C185A" tag="female"/>
@@ -11913,6 +12159,7 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C185A"/>
     <hasTransliteration sign="C185A" transliteration="n" type="phonogram" use="palette"/>
     <hasTransliteration sign="C185A" transliteration="nt" type="phonogram" use="palette"/>
+    <hasTag sign="C185A" tag="with crown"/>
   </sign>
   <sign sign="C185B">
     <hasTag sign="C185B" tag="female"/>
@@ -11922,6 +12169,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S40" sign="C185B"/>
     <contains partCode="S3" sign="C185B"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C185B"/>
+    <hasTag sign="C185B" tag="with crown"/>
   </sign>
   <sign sign="C185C">
     <hasTag sign="C185C" tag="female"/>
@@ -11930,6 +12178,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C185C" tag="kneeled"/>
     <contains partCode="S3" sign="C185C"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C185C"/>
+    <hasTag sign="C185C" tag="with crown"/>
   </sign>
   <sign sign="C185D">
     <hasTag sign="C185D" tag="female"/>
@@ -11938,6 +12187,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C185D" tag="holding nothing"/>
     <contains partCode="S3" sign="C185D"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C185D"/>
+    <hasTag sign="C185D" tag="with crown"/>
   </sign>
   <sign sign="C185E">
     <hasTag sign="C185E" tag="female"/>
@@ -11949,6 +12199,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="T10" sign="C185E"/>
     <contains partCode="T11" sign="C185E"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C185E"/>
+    <hasTag sign="C185E" tag="with crown"/>
   </sign>
   <sign sign="C186">
     <hasTag sign="C186" tag="female"/>
@@ -11975,6 +12226,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S3" sign="C188"/>
     <contains partCode="M13" sign="C188"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C188"/>
+    <hasTag sign="C188" tag="with crown"/>
   </sign>
   <sign sign="C188A">
     <hasTag sign="C188A" tag="female"/>
@@ -11985,6 +12237,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="M13" sign="C188A"/>
     <contains partCode="S45" sign="C188A"/>
     <variantOf baseSign="C188" isSimilar="y" linguistic="unspecified" sign="C188A"/>
+    <hasTag sign="C188A" tag="with crown"/>
   </sign>
   <sign sign="C188B">
     <hasTag sign="C188B" tag="female"/>
@@ -11995,6 +12248,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S40" sign="C188B"/>
     <contains partCode="S34" sign="C188B"/>
     <variantOf baseSign="C188" isSimilar="y" linguistic="unspecified" sign="C188B"/>
+    <hasTag sign="C188B" tag="with crown"/>
   </sign>
   <sign sign="C188C">
     <hasTag sign="C188C" tag="female"/>
@@ -12004,6 +12258,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S3" sign="C188C"/>
     <contains partCode="S40" sign="C188C"/>
     <variantOf baseSign="C188" isSimilar="y" linguistic="unspecified" sign="C188C"/>
+    <hasTag sign="C188C" tag="with crown"/>
   </sign>
   <sign sign="C189">
     <hasTag sign="C189" tag="female"/>
@@ -12012,6 +12267,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C189" tag="seated"/>
     <contains partCode="S1" sign="C189"/>
     <contains partCode="M22" sign="C189"/>
+    <hasTag sign="C189" tag="with crown"/>
   </sign>
   <sign sign="C190">
     <hasTag sign="C190" tag="female"/>
@@ -12298,6 +12554,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C210" tag="holding nothing"/>
     <contains partCode="N14" sign="C210"/>
     <contains partCode="S1" sign="C210"/>
+    <hasTag sign="C210" tag="with crown"/>
   </sign>
   <sign sign="C211">
     <hasTag sign="C211" tag="female"/>
@@ -12323,6 +12580,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C214" tag="seated"/>
     <hasTag sign="C214" tag="holding nothing"/>
     <contains partCode="F1" sign="C214"/>
+    <hasTag sign="C214" tag="bovid"/>
   </sign>
   <sign sign="C214A">
     <hasTag sign="C214A" tag="female"/>
@@ -12331,6 +12589,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="F1" sign="C214A"/>
     <contains partCode="M13" sign="C214A"/>
     <variantOf baseSign="C214" isSimilar="y" linguistic="unspecified" sign="C214A"/>
+    <hasTag sign="C214A" tag="bovid"/>
   </sign>
   <sign sign="C215">
     <hasTag sign="C215" tag="female"/>
@@ -12344,6 +12603,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C216" tag="seated"/>
     <hasTag sign="C216" tag="holding nothing"/>
     <contains partCode="S8" sign="C216"/>
+    <hasTag sign="C216" tag="with crown"/>
   </sign>
   <sign sign="C216A">
     <hasTag sign="C216A" tag="female"/>
@@ -12352,6 +12612,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S8" sign="C216A"/>
     <contains partCode="M13" sign="C216A"/>
     <variantOf baseSign="C216" isSimilar="y" linguistic="unspecified" sign="C216A"/>
+    <hasTag sign="C216A" tag="with crown"/>
   </sign>
   <sign sign="C216B">
     <hasTag sign="C216B" tag="female"/>
@@ -12360,6 +12621,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S8" sign="C216B"/>
     <contains partCode="S34" sign="C216B"/>
     <variantOf baseSign="C216" isSimilar="y" linguistic="unspecified" sign="C216B"/>
+    <hasTag sign="C216B" tag="with crown"/>
   </sign>
   <sign sign="C217">
     <hasTag sign="C217" tag="female"/>
@@ -12396,6 +12658,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C220" tag="holding something"/>
     <contains partCode="I12" sign="C220"/>
     <contains partCode="M13" sign="C220"/>
+    <contains partCode="I64" sign="C220"/>
   </sign>
   <sign sign="C221">
     <hasTag sign="C221" tag="female"/>
@@ -12440,6 +12703,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C223" tag="holding something"/>
     <contains partCode="S73" sign="C223"/>
     <contains partCode="U22" sign="C223"/>
+    <hasTag sign="C223" tag="with crown"/>
   </sign>
   <sign sign="C223A">
     <hasTag sign="C223A" tag="female"/>
@@ -12448,6 +12712,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S73" sign="C223A"/>
     <contains partCode="S40" sign="C223A"/>
     <variantOf baseSign="C223" isSimilar="y" linguistic="unspecified" sign="C223A"/>
+    <hasTag sign="C223A" tag="with crown"/>
   </sign>
   <sign sign="C224">
     <hasTag sign="C224" tag="female"/>
@@ -12456,6 +12721,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S5" sign="C224"/>
     <contains partCode="M13" sign="C224"/>
     <contains partCode="S34" sign="C224"/>
+    <hasTag sign="C224" tag="with crown"/>
   </sign>
   <sign sign="C225">
     <hasTag sign="C225" tag="female"/>
@@ -12472,6 +12738,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S73" sign="C226"/>
     <contains partCode="S34" sign="C226"/>
     <contains partCode="M13" sign="C226"/>
+    <hasTag sign="C226" tag="with crown"/>
   </sign>
   <sign sign="C227">
     <hasTag sign="C227" tag="female"/>
@@ -12588,6 +12855,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="M13" sign="C236"/>
     <contains partCode="S78" sign="C236"/>
     <variantOf baseSign="C149" isSimilar="y" linguistic="unspecified" sign="C236"/>
+    <hasTag sign="C236" tag="with crown"/>
   </sign>
   <sign sign="C237">
     <hasTag sign="C237" tag="female"/>
@@ -12657,6 +12925,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S3" sign="C243"/>
     <contains partCode="U22" sign="C243"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C243"/>
+    <hasTag sign="C243" tag="with crown"/>
   </sign>
   <sign sign="C244">
     <hasTag sign="C244" tag="female"/>
@@ -12693,6 +12962,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C248" tag="holding something"/>
     <contains partCode="F107" sign="C248"/>
     <contains partCode="S40" sign="C248"/>
+    <hasTag sign="C248" tag="with uraeus"/>
   </sign>
   <sign sign="C249">
     <hasTag sign="C249" tag="ram-headed"/>
@@ -12716,6 +12986,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C251" tag="holding something"/>
     <contains partCode="S77" sign="C251"/>
     <contains partCode="S40" sign="C251"/>
+    <hasTag sign="C251" tag="with crown"/>
   </sign>
   <sign sign="C252">
     <hasTag sign="C252" tag="crocodile-headed"/>
@@ -12724,6 +12995,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S77" sign="C252"/>
     <contains partCode="S40" sign="C252"/>
     <variantOf baseSign="C107" isSimilar="y" linguistic="unspecified" sign="C252"/>
+    <hasTag sign="C252" tag="with crown"/>
   </sign>
   <sign sign="C253">
     <hasTag sign="C253" tag="crocodile-headed"/>
@@ -12732,6 +13004,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S64" sign="C253"/>
     <contains partCode="S40" sign="C253"/>
     <variantOf baseSign="C107" isSimilar="y" linguistic="unspecified" sign="C253"/>
+    <hasTag sign="C253" tag="with crown"/>
   </sign>
   <sign sign="C254">
     <hasTag sign="C254" tag="nile"/>
@@ -12765,6 +13038,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C255B" tag="holding nothing"/>
     <contains partCode="N6" sign="C255B"/>
     <variantOf baseSign="C255" isSimilar="y" linguistic="unspecified" sign="C255B"/>
+    <hasTag sign="C255B" tag="with uraeus"/>
   </sign>
   <sign sign="C255C">
     <hasTag sign="C255C" tag="female"/>
@@ -12774,6 +13048,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N6" sign="C255C"/>
     <contains partCode="M127" sign="C255C"/>
     <variantOf baseSign="C255" isSimilar="y" linguistic="unspecified" sign="C255C"/>
+    <hasTag sign="C255C" tag="with uraeus"/>
   </sign>
   <sign sign="C256">
     <hasTag sign="C256" tag="djed-pilar-headed"/>
@@ -12824,6 +13099,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C261" tag="holding something"/>
     <contains partCode="N6" sign="C261"/>
     <contains partCode="S40" sign="C261"/>
+    <hasTag sign="C261" tag="with uraeus"/>
   </sign>
   <sign sign="C262">
     <hasTag sign="C262" tag="holding something"/>
@@ -12849,6 +13125,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C263" tag="holding nothing"/>
     <contains partCode="S3" sign="C263"/>
     <contains partCode="N14" sign="C263"/>
+    <hasTag sign="C263" tag="with crown"/>
   </sign>
   <sign sign="C264">
     <hasTag sign="C264" tag="holding nothing"/>
@@ -12897,6 +13174,7 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="C2" isSimilar="y" linguistic="unspecified" sign="C268"/>
     <contains partCode="S34" sign="C268"/>
     <contains partCode="N6" sign="C268"/>
+    <hasTag sign="C268" tag="with uraeus"/>
   </sign>
   <sign sign="C268A">
     <hasTag sign="C268A" tag="hawk-headed"/>
@@ -12904,6 +13182,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C268A" tag="holding nothing"/>
     <contains partCode="N6" sign="C268A"/>
     <variantOf baseSign="C268" isSimilar="y" linguistic="unspecified" sign="C268A"/>
+    <hasTag sign="C268A" tag="with uraeus"/>
   </sign>
   <sign sign="C268B">
     <hasTag sign="C268B" tag="hawk-headed"/>
@@ -12912,6 +13191,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N6" sign="C268B"/>
     <contains partCode="S40" sign="C268B"/>
     <variantOf baseSign="C268" isSimilar="y" linguistic="unspecified" sign="C268B"/>
+    <hasTag sign="C268B" tag="with uraeus"/>
   </sign>
   <sign sign="C268C">
     <hasTag sign="C268C" tag="hawk-headed"/>
@@ -12920,6 +13200,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N6" sign="C268C"/>
     <contains partCode="T19" sign="C268C"/>
     <variantOf baseSign="C268" isSimilar="y" linguistic="unspecified" sign="C268C"/>
+    <hasTag sign="C268C" tag="with uraeus"/>
   </sign>
   <sign sign="C268D">
     <hasTag sign="C268D" tag="hawk-headed"/>
@@ -12928,6 +13209,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N6" sign="C268D"/>
     <contains partCode="S42" sign="C268D"/>
     <variantOf baseSign="C268" isSimilar="y" linguistic="unspecified" sign="C268D"/>
+    <hasTag sign="C268D" tag="with uraeus"/>
   </sign>
   <sign sign="C268E">
     <hasTag sign="C268E" tag="hawk-headed"/>
@@ -12936,6 +13218,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C268E" tag="holding something"/>
     <contains partCode="N6" sign="C268E"/>
     <contains partCode="W14A" sign="C268E"/>
+    <hasTag sign="C268E" tag="with uraeus"/>
   </sign>
   <sign sign="C268F">
     <hasTag sign="C268F" tag="hawk-headed"/>
@@ -12944,6 +13227,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C268F" tag="holding something"/>
     <contains partCode="N6" sign="C268F"/>
     <contains partCode="S38" sign="C268F"/>
+    <hasTag sign="C268F" tag="with uraeus"/>
   </sign>
   <sign sign="C268G">
     <hasTag sign="C268G" tag="hawk-headed"/>
@@ -12954,6 +13238,7 @@ sxm-U20:W24-w-A248B-!
     <hasTransliteration sign="C268G" transliteration="irt-ra" type="phonogram" use="palette"/>
     <variantOf baseSign="C2" isSimilar="y" linguistic="unspecified" sign="C268G"/>
     <contains partCode="C2A" sign="C268G"/>
+    <hasTag sign="C268G" tag="with uraeus"/>
   </sign>
   <sign sign="C268h">
     <hasTag sign="C268h" tag="hawk-headed"/>
@@ -12962,6 +13247,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C268h" tag="holding something"/>
     <contains partCode="N6" sign="C268h"/>
     <contains partCode="T30" sign="C268h"/>
+    <hasTag sign="C268h" tag="with uraeus"/>
   </sign>
   <sign sign="C268I">
     <hasTag sign="C268I" tag="hawk-headed"/>
@@ -12970,6 +13256,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C268I" tag="holding something"/>
     <contains partCode="N6" sign="C268I"/>
     <contains partCode="H6" sign="C268I"/>
+    <hasTag sign="C268I" tag="with uraeus"/>
   </sign>
   <sign sign="C269">
     <hasTag sign="C269" tag="crocodile-headed"/>
@@ -12978,6 +13265,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S1" sign="C269"/>
     <contains partCode="S40" sign="C269"/>
     <variantOf baseSign="C107" isSimilar="y" linguistic="unspecified" sign="C269"/>
+    <hasTag sign="C269" tag="with crown"/>
   </sign>
   <sign sign="C270">
     <hasTag sign="C270" tag="vulture-headed"/>
@@ -13088,6 +13376,7 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="C283" tag="standing"/>
     <contains partCode="M23" sign="C283"/>
     <contains partCode="S77" sign="C283"/>
+    <hasTag sign="C283" tag="with crown"/>
   </sign>
   <sign sign="C284">
     <hasTag sign="C284" tag="ibis-headed"/>
@@ -13107,6 +13396,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S34" sign="C285"/>
     <contains partCode="S68" sign="C285"/>
     <variantOf baseSign="C95" isSimilar="y" linguistic="unspecified" sign="C285"/>
+    <hasTag sign="C285" tag="with crown"/>
   </sign>
   <sign sign="C286">
     <hasTag sign="C286" tag="male"/>
@@ -13120,6 +13410,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S77" sign="C287"/>
     <contains partCode="S40" sign="C287"/>
     <variantOf baseSign="C4" isSimilar="y" linguistic="unspecified" sign="C287"/>
+    <hasTag sign="C287" tag="with crown"/>
   </sign>
   <sign sign="C288">
     <hasTag sign="C288" tag="holding something"/>
@@ -13152,6 +13443,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N6" sign="C289"/>
     <variantOf baseSign="C164" isSimilar="y" linguistic="unspecified" sign="C289"/>
     <hasTransliteration sign="C289" transliteration="sxmt" type="phonogram" use="palette"/>
+    <hasTag sign="C289" tag="with uraeus"/>
   </sign>
   <sign sign="C290">
     <hasTag sign="C290" tag="canine-headed"/>
@@ -13169,6 +13461,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="R12" sign="C291"/>
     <contains partCode="S5" sign="C291"/>
     <variantOf baseSign="C43" isSimilar="y" linguistic="unspecified" sign="C291"/>
+    <hasTag sign="C291" tag="with crown"/>
   </sign>
   <sign sign="C292">
     <hasTag sign="C292" tag="hawk-headed"/>
@@ -13178,6 +13471,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S40" sign="C292"/>
     <contains partCode="N36" sign="C292"/>
     <variantOf baseSign="C43" isSimilar="y" linguistic="unspecified" sign="C292"/>
+    <hasTag sign="C292" tag="with crown"/>
   </sign>
   <sign sign="C293">
     <hasTag sign="C293" tag="hawk-headed"/>
@@ -13194,6 +13488,7 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="C67" isSimilar="y" linguistic="unspecified" sign="C294"/>
     <contains partCode="C67" sign="C294"/>
     <contains partCode="C43" sign="C294"/>
+    <hasTag sign="C294" tag="with crown"/>
   </sign>
   <sign sign="C295">
     <hasTag sign="C295" tag="seated"/>
@@ -13202,6 +13497,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S77" sign="C295"/>
     <contains partCode="S40" sign="C295"/>
     <variantOf baseSign="C3" isSimilar="y" linguistic="unspecified" sign="C295"/>
+    <hasTag sign="C295" tag="with crown"/>
   </sign>
   <sign sign="C296">
     <hasTag sign="C296" tag="sky-goddess"/>
@@ -13265,6 +13561,9 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="C107" isSimilar="y" linguistic="unspecified" sign="C303"/>
     <hasTransliteration sign="C303" transliteration="rst-Hwwts" type="phonogram" use="palette"/>
     <contains partCode="C107" sign="C303"/>
+    <hasTag sign="C303" tag="with crown"/>
+    <contains partCode="I3" sign="C303"/>
+    <hasTag sign="C303" tag="with animals"/>
   </sign>
   <sign sign="C304">
     <hasTag sign="C304" tag="amun"/>
@@ -13275,6 +13574,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S72A" sign="C304"/>
     <variantOf baseSign="C12" isSimilar="y" linguistic="unspecified" sign="C304"/>
     <contains partCode="S72" sign="C304"/>
+    <hasTag sign="C304" tag="with crown"/>
   </sign>
   <sign sign="C305">
     <hasTag sign="C305" tag="hawk-headed"/>
@@ -13283,6 +13583,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="N26" sign="C305"/>
     <contains partCode="N6" sign="C305"/>
     <variantOf baseSign="C64" isSimilar="y" linguistic="unspecified" sign="C305"/>
+    <hasTag sign="C305" tag="with uraeus"/>
   </sign>
   <sign sign="C306">
     <hasTag sign="C306" tag="female"/>
@@ -13291,6 +13592,7 @@ sxm-U20:W24-w-A248B-!
     <contains partCode="S3" sign="C306"/>
     <contains partCode="D10" sign="C306"/>
     <variantOf baseSign="C185" isSimilar="y" linguistic="unspecified" sign="C306"/>
+    <hasTag sign="C306" tag="with crown"/>
   </sign>
   <sign sign="C307">
     <hasTag sign="C307" tag="male"/>
@@ -13332,6 +13634,7 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="C12G" isSimilar="y" linguistic="unspecified" sign="C311"/>
     <variantOf baseSign="B6" isSimilar="y" linguistic="unspecified" sign="C311"/>
     <contains partCode="S72" sign="C311"/>
+    <hasTag sign="C311" tag="with crown"/>
   </sign>
   <sign alwaysDisplay="y" sign="D1">
     <hasTransliteration sign="D1" transliteration="DADA" type="phonogram" use="keyboard"/>
@@ -13542,6 +13845,9 @@ sxm-U20:W24-w-A248B-!
 +bBibliography+s-!
 +lGardiner, +s-+iEG, +s-+lp. 452+s-!
 +lRanke, +s-+iPN. +s-+lp. 227+s-!
++lRelats Montserrat, Félix. 2014. “Le Signe D19, à La Recherche Des Sens d’un Déterminatif (I): La Forme d’un Signe.” Nehet 1:129–67.
++s-!
+!
 </signDescription>
     <hasTransliteration sign="D19" transliteration="sty" type="phonogram" use="informative"/>
     <hasTransliteration sign="D19" transliteration="xn" type="phonogram" use="palette"/>
@@ -13628,6 +13934,14 @@ sxm-U20:W24-w-A248B-!
     <variantOf baseSign="D26" isSimilar="y" linguistic="unspecified" sign="D26B"/>
     <contains partCode="D153" sign="D26B"/>
     <hasTag sign="D26B" tag="mouth, lips..."/>
+  </sign>
+  <sign sign="D26VARA">
+    <hasTransliteration sign="D26VARA" transliteration="pw" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="D26VARA">+lSpitting mouth+s-!
++bValue: +s-+tpw+s-!
++bBibliography+s-!
++lMunro, I. Untersuchungen zu den Totenbuch-Papyris der 18. Dynastie, 1987, p. 183+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="D27">
     <hasTransliteration sign="D27" transliteration="mnai" type="phonogram" use="keyboard"/>
@@ -13921,11 +14235,16 @@ sxm-U20:W24-w-A248B-!
 s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in existence in the lake"+s-!
 +i(Bremmer-Rhind 19,16)+s-!
 +lmight be the origin of the sign.+s-!
++lSee Meeks, p. 227, Fig. 1+s-+b, +s-+l p. Z29, Fig. 2, for various variants of the sign.+s-!
+!
 +bBibliography+s-!
 +lWb III, 105+s-!
 +iValeurs Phonétiques, +s-+lI, p. 193 (909)+s-!
 +lFairman, "+s-+lOn the Origin of ϨⲒⲰⲘⲈ"+s-+iJEA 54, +s-+l1968, p. 236-238.+s-!
 +lFaulkner, "The Bremner-Rhind Papyrus: II"+s-+i, JEA 23+s-+l, p. 15 (19, 16)+s-!
++lMeeks, Dimitri. 2023. “Le Signe de La « hôné ». Étude Grammatologique Ou Comment Déchiffrer Le Non-Dit.”+s-!
++lBomhard, Anne-Sophie von. 2012. +s-+iThe Decree of Sais: the Stelae of Thonis-Heracleion and Naukratis+s-+l. p. 77, 120-121.+s-!
+!
 !
 </signDescription>
     <hasTransliteration sign="D48A" transliteration="Hn" type="phonogram" use="palette"/>
@@ -15181,6 +15500,29 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <variantOf baseSign="D36" isSimilar="y" linguistic="unspecified" sign="D218"/>
     <contains partCode="D36" sign="D218"/>
     <contains partCode="Z2" sign="D218"/>
+    <hasTransliteration sign="D218" transliteration="Ssp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="D218">+lArm holding three strokes.+s-!
++lSimplified version of D218A (not very logical, but the code D218 was there first).+s-!
++lP. Dils has given us the following attestation: Mery, Louvre C3. l. 20. +s-+lhttps://collections.louvre.fr/ark:/53355/cl010022809+s-!
++lPhon. +s-+tSsp.+s-!
++lOld variant of +s-+tSsp, +s-O42-+l, +s-+lalso found in more recent texts.+s-!
++bBibliography+s-!
++lWB IV, 530, 537+s-!
+</signDescription>
+  </sign>
+  <sign sign="D218A">
+    <hasTransliteration sign="D218A" transliteration="Ssp" type="phonogram" use="palette"/>
+    <variantOf baseSign="D218" isSimilar="y" linguistic="unspecified" sign="D218A"/>
+    <signDescription lang="en" sign="D218A">+lArm holding a simplified +s-+tSsp +s-+lsign.+s-!
++lPhon. +s-+tSsp.+s-!
++lOld variant of +s-+tSsp, +s-O42-+l, +s-+lalso found in more recent texts.+s-!
++bBibliography+s-!
++lJunker, Hermann. 1938. +s-+iDie Mastabas Der Vorgeschrittenen V. Dynastie Auf Dem Westfriedhof.+s-+l Gîza, III. p. 212+s-!
+</signDescription>
+    <contains partCode="D36" sign="D218A"/>
+    <contains partCode="O42" sign="D218A"/>
+    <contains partCode="O43" sign="D218A"/>
+    <hasTag sign="D218A" tag="arms"/>
   </sign>
   <sign sign="D219">
     <hasTag sign="D219" tag="arms"/>
@@ -16467,6 +16809,17 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <contains partCode="V31" sign="D416"/>
     <hasTag sign="D416" tag="legs"/>
   </sign>
+  <sign sign="D500">
+    <signDescription lang="en" sign="D500">+lhead surrounded by dots.+s-!
++bValue: +s-+tHr=f m sD.t+s-!
++bBibliography+s-!
++lV. Rondot, « Une monographie bubastite », BIFAO 89, 1989, 265+s-!
+</signDescription>
+    <hasTransliteration sign="D500" transliteration="Hrf_m_sDt" type="phonogram" use="palette"/>
+    <contains partCode="D2" sign="D500"/>
+    <hasTag sign="D500" tag="with dots"/>
+    <hasTag sign="D500" tag="head"/>
+  </sign>
   <sign alwaysDisplay="y" sign="E1">
     <hasTransliteration sign="E1" transliteration="iH" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="E1" transliteration="kA" type="phonogram" use="keyboard"/>
@@ -16543,11 +16896,25 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTransliteration sign="E8" transliteration="ib" type="phonogram" use="keyboard"/>
     <hasTag sign="E8" tag="goat"/>
     <hasTag sign="E8" tag="child"/>
+    <signDescription lang="en" sign="E8">+lKid.+s-!
++ldet. for +s-+tib, +s-+ikid+s-+l and phon. +s-+tib.+s-!
++lMöller has various nice examples.+s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="E8A">
     <hasTransliteration sign="E8A" transliteration="ib" type="phonogram" use="keyboard"/>
     <hasTag sign="E8A" tag="goat"/>
     <hasTag sign="E8A" tag="child"/>
+    <signDescription lang="en" sign="E8A">+lDet. of +s-i-b-w-E8A-Z3-+l, kids. From Deir-el-Bahari,+s-!
++lUpper Central Court,+s-!
++lRamesside scene of women acrobats.+s-!
++lThis form replaces +s-E8-+lE8 after dyn. XVIII.+s-!
++lSee also, Kanais, text B, col. 3.+s-!
+!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="E8B">
     <hasTag sign="E8B" tag="goat"/>
@@ -16788,17 +17155,34 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <variantOf baseSign="E186" isSimilar="y" linguistic="unspecified" sign="E31"/>
     <contains partCode="E186" sign="E31"/>
     <contains partCode="S20" sign="E31"/>
-    <signDescription lang="en" sign="E31">+llogogram for +s-+tsaH, +s-+idignitary.+s-!
-+lNote that the determinative for "goat" is not this sign. It's E186, +s-E186-+l.+s-!
-+l(ok, not clear, because there is also E187. Check differences.)+s-!
+    <signDescription lang="en" sign="E31">+lgoat with a collar carrying a cylinder seal.+s-!
++llogogram for +s-+tsaH, +s-+idignitary.+s-!
 !
-+iit seems that +s-E187-+iexists because of the precise shape of E31 in the hieroglyphica font, more than because of a real difference. In Gardiner+s-!
-+iand in Hieroglyphica, the seal sign migh be confused with an +s-+tanx.+s-!
++lNote that the determinative for "goat" is not this sign. It's E186, +s-E186-+l.+s-!
+!
++bNote on the shape chosen for this code:+s-!
++lWinglyph/Hieroglyphica have this shape as E187 +s-E187-+l. The reason for this is the+s-!
++lchoice of the shape +s-E31B-+l, with an +s-+tanx +s-+linstead of a seal, for the Hieroglyphica version of E31.+s-!
++lBut Gardiner description +s-+lstates the sign has a seal as a collar, which is coherent with the sign meaning.+s-!
+!
++bBibliography+s-!
++lFischer, Henry George. (1979). Ancient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs. p. 22+s-!
++lGardiner, Alan H. 1957. Egyptian Grammar: Being an Introduction to the Study of Hieroglyphs. 3d ed. p. 461 +s-!
 !
 </signDescription>
   </sign>
   <sign sign="E31A">
     <hasTag sign="E31A" tag="goat"/>
+  </sign>
+  <sign sign="E31B">
+    <signDescription lang="en" sign="E31B">+lgoat with an +s-+tanx +s-+lcollar.+s-!
++llogogram for +s-+tsaH, +s-+idignitary.+s-!
+!
++lThis is the shape used in Hieroglyphica for E31. If you have texts written with Winglyph or Macscribe,+s-!
++lsubsequently transfered to JSesh and you want this exact shape, you should search for E31 and decide between+s-!
+E31-+l and +s-E31B-!
+!
+</signDescription>
   </sign>
   <sign sign="US1E31VARA">
     <variantOf baseSign="E31" isSimilar="y" linguistic="no" sign="US1E31VARA"/>
@@ -18017,8 +18401,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <signDescription lang="en" sign="E240">+lUnsure value and reading, Dilwyn Jones (o.c.) proposes +s-+tmHyt+s-+l, in the relatively well attested+s-!
 +lbut obscure title +s-T7:E240-+tmDH mHy.t+s-+l?, +s-+ifashioner/overseer of  the cult image of the goddess Mehyt?.+s-!
 !
-+bThe actual sign seems not to have a mane. It should probably be redrawn. +s-!
-+lAccording to Godron, it's a lionness.+s-!
++lThe sign has no mane, and is probably a lionness (Godron, o.c.)+s-!
 !
 +lIn Thinite versions, the tail can take many forms.+s-!
 +lFischer, (o.c.) has a beautiful +s-+ifacsimile+s-+l of a composite variant of the sign, which includes the axe. He states "reading uncertain".+s-!
@@ -18149,6 +18532,19 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="E265">
     <hasTag sign="E265" tag="lion, panthera"/>
+    <variantOf baseSign="E240" isSimilar="y" linguistic="other" sign="E265"/>
+    <signDescription lang="en" sign="E265">+lComposite sign E240A +s-E240A-+l with +s-+tmDH+s-+l axe +s-T7-+l.+s-!
++lTypical of Old Kingdom composite signs.+s-!
++lThe reading of the group is unsure.+s-!
++lit might be: +s-+tmDH mHy.t+s-!
++bBibliography+s-!
++b- +s-+lJones, Dilwyn. +s-+iAn Index of Ancient Egyptian Titles, Epithets and Phrases of the Old Kingdom.+s-+l BAR International Series 866. Oxford, England: Archaeopress, 2000. +s-+b +s-+lp. 459+s-!
++l- Fischer, Henry-Georges, +s-+iVaria I +s-+l(1976), p. 29, n. 9 and fig. 2.+s-!
++l- Godron, Gérard, "deux notes d'épigraphie thinite", +s-+iRdE 8, +s-+lpp. 91-99+s-!
++l- Curto, Silvio, ÄZ 94 (1967), pp. 15-20+s-!
++l- +s-+lRegulski, Ilona. +s-+iA Palaeographic Study of Early Writing in Egypt.+s-+l OLA 195 (2010) , pp. 107 and 388-389+s-!
+!
+</signDescription>
   </sign>
   <sign sign="E266">
     <hasTag sign="E266" tag="lion, panthera"/>
@@ -18250,10 +18646,34 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   <sign sign="E294">
     <hasTag sign="E294" tag="canid"/>
   </sign>
+  <sign sign="E295">
+    <hasTag sign="E295" tag="lion, panthera"/>
+  </sign>
+  <sign sign="E296">
+    <variantOf baseSign="E122" isSimilar="y" linguistic="unspecified" sign="E296"/>
+    <contains partCode="E122" sign="E296"/>
+    <contains partCode="N6" sign="E296"/>
+    <contains partCode="H6" sign="E296"/>
+    <contains partCode="E23" sign="E296"/>
+    <hasTag sign="E296" tag="lion, panthera"/>
+  </sign>
+  <sign sign="E297">
+    <hasTag sign="E297" tag="ape, monkey"/>
+    <hasTag sign="E297" tag="with crown"/>
+  </sign>
   <sign alwaysDisplay="y" sign="F1">
     <hasTransliteration sign="F1" transliteration="iH" type="phonogram" use="keyboard"/>
     <hasTag sign="F1" tag="bovid"/>
     <hasTag sign="F1" tag="head"/>
+    <hasTransliteration sign="F1" transliteration="kA" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="F1">+lHead of a bull or ox, mainly used in offering formula.+s-!
++bValue: +s-+tkA +s-+l(or +s-+tiH?)+s-!
++lNote that the actual shape can vary quite a bit. The sign can have short horns, or even no horn at all (e.g. Louvre C14).+s-!
++lAllen (Middle Egyptian) considers that the hornless variant is +s-F63-+l. However, F63 orientation is a bit different, and+s-!
++lthe hornless variant would be rotated like +s-F63\R340-+l. I have also the impression that the hornless variant of E1 is more slander.+s-!
++lThere are also variants with lyra shaped horns.+s-!
+!
+</signDescription>
   </sign>
   <sign sign="F1A">
     <hasTag sign="F1A" tag="bovid"/>
@@ -18861,18 +19281,20 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="F53" tag="head"/>
     <hasTransliteration sign="F53" transliteration="hrw" type="phonogram" use="palette"/>
   </sign>
-  <sign sign="US1F53VARA">
+  <sign alwaysDisplay="y" sign="US1F53VARA">
     <hasTransliteration sign="US1F53VARA" transliteration="sS" type="phonogram" use="informative"/>
     <variantOf baseSign="F53" isSimilar="y" linguistic="unspecified" sign="US1F53VARA"/>
     <signDescription lang="en" sign="US1F53VARA">+l(= IFAO 146,1)+s-!
 +lappears in +s-s-US1F53VARA-S116-+l, a word probably corresponding to a piece of fabric.+s-!
 +lVarious translitteration have been proposed: +s-+tswSw, sSm.+s-!
 +bBibliography+s-!
++lGoedicke, Hans. 1965. “The Phonetic Value of the Sign +s-US1F53VARA-+l.” +s-+iJEA 51:+s-+l200–202+s-!
 +lPosener, G. +s-+iRdE +s-+l27, 1975, p. 220+s-!
 +lZiegler, C. +s-+iLe mastaba d'Akhethetep, +s-+lp. 122, n. a+s-!
 </signDescription>
     <hasTag sign="US1F53VARA" tag="ass"/>
     <hasTag sign="US1F53VARA" tag="head"/>
+    <hasTransliteration sign="US1F53VARA" transliteration="sSm" type="phonogram" use="informative"/>
   </sign>
   <sign sign="F54">
     <hasTag sign="F54" tag="ass"/>
@@ -18924,8 +19346,10 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="F63">
     <signDescription lang="en" sign="F63">+lvariant of +s-D19-!
++lDet. +s-+trSw, +s-+irejoice, +s-+tssn, +s-+ibreathe, +s-+tfnd, +s-+inose +s-+lin dyn. XIX-XX.+s-!
++lMedînet Habu, dyn. XX.+s-!
 +bBibliography+s-!
-+lGardiner, +s-+iJEA 17, +s-+lp. 246+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 246+s-!
 +lThe original code given by Gardiner is F1*+s-!
 !
 </signDescription>
@@ -19355,6 +19779,14 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="F118B">
     <hasTag sign="F118B" tag="claw, paw"/>
+    <hasTransliteration sign="F118B" transliteration="kAp" type="phonogram" use="palette"/>
+    <hasTransliteration sign="F118B" transliteration="kp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="F118B">+lpaw+s-!
++lreinterpretation of  R5,+s-R5-+l, with phon. value +s-+tkAp, kp+s-+l in ptolemaic temples.+s-!
++bBibliography+s-!
++lWB V, 103, 8+s-!
+</signDescription>
+    <variantOf baseSign="R5" isSimilar="y" linguistic="partial" sign="F118B"/>
   </sign>
   <sign sign="F118C">
     <hasTag sign="F118C" tag="claw, paw"/>
@@ -19780,6 +20212,17 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="F184" tag="group"/>
     <hasTag sign="F184" tag="ram"/>
   </sign>
+  <sign sign="F200">
+    <hasTransliteration sign="F200" transliteration="ms_nswt" type="phonogram" use="palette"/>
+    <hasTag sign="F200" tag="group"/>
+    <signDescription lang="en" sign="F200">+lCombination of +s-ms-+l and +s-sw-+l to write +s-+tms-nsw.t, +s-+iroyal child.+s-!
++lAs early as the Old Kingdom.+s-!
+</signDescription>
+    <contains partCode="F31" sign="F200"/>
+    <contains partCode="M23" sign="F200"/>
+    <hasTag sign="F200" tag="rush"/>
+    <hasTag sign="F200" tag="skin"/>
+  </sign>
   <sign alwaysDisplay="y" sign="G1">
     <hasTransliteration sign="G1" transliteration="A" type="phonogram" use="keyboard"/>
     <hasTag sign="G1" tag="percnopterus"/>
@@ -19853,6 +20296,13 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <contains partCode="G5" sign="G7A"/>
     <hasTag sign="G7A" tag="standing on something"/>
     <hasTransliteration sign="G7A" transliteration="anty" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="G7A">+lIdeog. for +s-+tanty.+s-!
++ldyn. XII.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
++lGardiner-Peet, +s-+iInscriptions of Sinai, +s-+lPt. I, Pl. 23, n°85.+s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="G7B">
     <hasTransliteration sign="G7B" transliteration="nmty" type="phonogram" use="keyboard"/>
@@ -19862,6 +20312,13 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <variantOf baseSign="G7A" isSimilar="y" linguistic="unspecified" sign="G7B"/>
     <hasTag sign="G7B" tag="standing on something"/>
     <hasTransliteration sign="G7B" transliteration="anty" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="G7B">+lIdeog. for +s-+tanty.+s-!
++ldyn. XII+s-!
++lStela of +s-+tSn, +s-+lSotheby 1. 12. 1930+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
++lSchäfer-Lange, +s-+iGrab- und Deksteine, +s-+lIndex, pp. 148-9+s-!
+</signDescription>
   </sign>
   <sign sign="G7C">
     <hasTag sign="G7C" tag="falcon"/>
@@ -19944,6 +20401,12 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="G11A" tag="mummyform"/>
     <hasTag sign="G11A" tag="with standard"/>
     <variantOf baseSign="G11" isSimilar="y" linguistic="unspecified" sign="G11A"/>
+    <signDescription lang="en" sign="G11A">+lDet. +s-+taSm, +s-+idivine image+s-!
++lAbydos, Sethos temple, stairway passage, dyn. XIX.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
+    <hasTransliteration sign="G11A" transliteration="aSm" type="typical" use="palette"/>
   </sign>
   <sign alwaysDisplay="y" sign="G12">
     <hasTransliteration sign="G12" transliteration="aSm" type="phonogram" use="keyboard"/>
@@ -20809,6 +21272,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <contains partCode="D40" sign="G87A"/>
     <hasTag sign="G87A" tag="olw"/>
     <hasTag sign="G87A" tag="hieratic sign"/>
+    <contains partCode="G17A" sign="G87A"/>
   </sign>
   <sign sign="G88">
     <contains partCode="G17" sign="G88"/>
@@ -20878,22 +21342,65 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   <sign sign="G96A">
     <contains partCode="T30A" sign="G96A"/>
     <contains partCode="G17A" sign="G96A"/>
-    <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G96A"/>
+    <variantOf baseSign="G96" isSimilar="y" linguistic="full" sign="G96A"/>
     <hasTag sign="G96A" tag="olw"/>
     <hasTag sign="G96A" tag="hieratic sign"/>
+    <contains partCode="G17B" sign="G96A"/>
+    <hasTransliteration sign="G96A" transliteration="Hsq" type="phonogram" use="palette"/>
   </sign>
   <sign sign="G96B">
     <contains partCode="T30A" sign="G96B"/>
     <contains partCode="G17D" sign="G96B"/>
-    <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G96B"/>
+    <variantOf baseSign="G96" isSimilar="y" linguistic="full" sign="G96B"/>
     <hasTag sign="G96B" tag="olw"/>
     <hasTag sign="G96B" tag="human-headed"/>
+  </sign>
+  <sign sign="G96C">
+    <hasTransliteration sign="G96C" transliteration="Hsq" type="phonogram" use="palette"/>
+    <contains partCode="G17" sign="G96C"/>
+    <contains partCode="T30" sign="G96C"/>
+    <contains partCode="T30A" sign="G96C"/>
+    <signDescription lang="en" sign="G96C">+lA knife cutting the head of a owl.+s-!
++lAbbreviation for the word +s-H-s-q-T30-+l, +s-+ito behead.+s-!
++lThe sign is known as early as the Pyramid texts (WB, o.c.),+s-!
++land is a variant of the group +s-m{{0,81,98}}**T30\R344{{253,0,82}}-+l.+s-!
++lThe following occurrences quoted by the WB are ptolemaic.+s-!
++lA cursive version of the sign can be found in Sauneron, +s-!
++iLa porte ptolémaïque de l'enceinte de Mout à Karnak, +s-+lpl. 12, texte 14.+s-!
+!
++bBibliography+s-!
++lWB III, 168-169+s-!
++lKurth, +s-+iEinführung +s-+lI, p. 251 (59)+s-!
+!
+</signDescription>
+  </sign>
+  <sign sign="G96D">
+    <contains partCode="G17A" sign="G96D"/>
+    <contains partCode="T30A" sign="G96D"/>
+    <hasTransliteration sign="G96D" transliteration="Hsq" type="phonogram" use="palette"/>
+    <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G96D"/>
+    <variantOf baseSign="G96C" isSimilar="y" linguistic="unspecified" sign="G96D"/>
+    <signDescription lang="en" sign="G96D">+lA cursive-like rendering of a knife cutting the head of a owl.+s-!
++lAbbreviation for the word +s-H-s-q-T30-+l, +s-+ito behead.+s-!
++lThe sign is known as early as the Pyramid texts (WB, o.c.),+s-!
++land is a variant of the group +s-m{{0,81,98}}**T30\R344{{253,0,82}}-+l.+s-!
++lThe following occurrences quoted by the WB are ptolemaic.+s-!
++lThis particular version of the sign can be found in Sauneron, +s-!
++iLa porte ptolémaïque de l'enceinte de Mout à Karnak, +s-+lpl. 12, texte 14.+s-!
++bBibliography+s-!
++lWB III, 168-169+s-!
++lKurth, +s-+iEinführung +s-+lI, p. 251 (59)+s-!
++lLeitz, +s-+iQuellentexte zur Ägyptischen Religion, +s-+lp. 20+s-!
+!
+!
+</signDescription>
   </sign>
   <sign sign="G97">
     <contains partCode="G17" sign="G97"/>
     <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G97"/>
     <contains partCode="T30" sign="G97"/>
     <hasTag sign="G97" tag="olw"/>
+    <hasTransliteration sign="G97" transliteration="Hsq" type="abbreviation" use="palette"/>
   </sign>
   <sign sign="G98">
     <variantOf baseSign="G17" isSimilar="y" linguistic="unspecified" sign="G98"/>
@@ -20932,6 +21439,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <variantOf baseSign="G5" isSimilar="y" linguistic="unspecified" sign="G103"/>
     <variantOf baseSign="G21" isSimilar="y" linguistic="unspecified" sign="G103"/>
     <hasTag sign="G103" tag="falcon"/>
+    <contains partCode="G5" sign="G103"/>
   </sign>
   <sign sign="G104">
     <contains partCode="S34" sign="G104"/>
@@ -21165,6 +21673,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <contains partCode="M127" sign="G125A"/>
     <hasTag sign="G125A" tag="falcon"/>
     <hasTag sign="G125A" tag="standing on something"/>
+    <contains partCode="G125" sign="G125A"/>
   </sign>
   <sign sign="G126">
     <contains partCode="G5" sign="G126"/>
@@ -22232,58 +22741,70 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="G232" tag="child"/>
     <hasTag sign="G232" tag="in nest"/>
     <hasTag sign="G232" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G232"/>
   </sign>
   <sign sign="G232A">
     <hasTag sign="G232A" tag="child"/>
     <hasTag sign="G232A" tag="in nest"/>
     <hasTag sign="G232A" tag="group"/>
+    <variantOf baseSign="G232" isSimilar="y" linguistic="full" sign="G232A"/>
   </sign>
   <sign sign="G233">
     <hasTag sign="G233" tag="child"/>
     <hasTag sign="G233" tag="in nest"/>
     <hasTag sign="G233" tag="falcon"/>
     <hasTag sign="G233" tag="group"/>
+    <variantOf baseSign="G232" isSimilar="y" linguistic="full" sign="G233"/>
   </sign>
   <sign sign="G234">
     <hasTag sign="G234" tag="child"/>
     <hasTag sign="G234" tag="in nest"/>
     <hasTag sign="G234" tag="duck or goose"/>
     <hasTag sign="G234" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G234"/>
   </sign>
   <sign sign="G235">
     <hasTag sign="G235" tag="child"/>
     <hasTag sign="G235" tag="in nest"/>
     <hasTag sign="G235" tag="heron"/>
     <hasTag sign="G235" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G235"/>
   </sign>
   <sign sign="G236">
     <hasTag sign="G236" tag="child"/>
     <hasTag sign="G236" tag="in nest"/>
     <hasTag sign="G236" tag="duck or goose"/>
     <hasTag sign="G236" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G236"/>
   </sign>
   <sign sign="G237">
     <hasTag sign="G237" tag="child"/>
     <hasTag sign="G237" tag="in nest"/>
     <hasTag sign="G237" tag="duck or goose"/>
     <hasTag sign="G237" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G237"/>
   </sign>
   <sign sign="G237A">
     <hasTag sign="G237A" tag="child"/>
     <hasTag sign="G237A" tag="in nest"/>
     <hasTag sign="G237A" tag="duck or goose"/>
     <hasTag sign="G237A" tag="group"/>
+    <variantOf baseSign="G237" isSimilar="y" linguistic="full" sign="G237A"/>
+    <contains partCode="N1" sign="G237A"/>
+    <contains partCode="H1" sign="G237A"/>
   </sign>
   <sign sign="G238">
     <hasTag sign="G238" tag="child"/>
     <hasTag sign="G238" tag="in nest"/>
     <hasTag sign="G238" tag="duck or goose"/>
     <hasTag sign="G238" tag="group"/>
+    <variantOf baseSign="G48" isSimilar="y" linguistic="full" sign="G238"/>
   </sign>
   <sign sign="G239">
     <hasTag sign="G239" tag="child"/>
     <hasTag sign="G239" tag="group"/>
     <hasTag sign="G239" tag="quail"/>
+    <contains partCode="G43" sign="G239"/>
   </sign>
   <sign sign="G240">
     <hasTag sign="G240" tag="child"/>
@@ -22423,6 +22944,8 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="G268">
     <hasTag sign="G268" tag="olw"/>
+    <contains partCode="G17" sign="G268"/>
+    <contains partCode="N1" sign="G268"/>
   </sign>
   <sign sign="G269">
     <hasTag sign="G269" tag="ibis"/>
@@ -22490,6 +23013,7 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   <sign sign="G281">
     <hasTag sign="G281" tag="olw"/>
     <hasTag sign="G281" tag="group"/>
+    <contains partCode="G17" sign="G281"/>
   </sign>
   <sign sign="G282">
     <hasTag sign="G282" tag="vulture"/>
@@ -22638,6 +23162,17 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTag sign="G314" tag="human-headed"/>
     <contains partCode="G53C" sign="G314"/>
     <contains partCode="F26" sign="G314"/>
+  </sign>
+  <sign alwaysDisplay="y" sign="G1000">
+    <hasTransliteration sign="G1000" transliteration="pw" type="phonogram" use="palette"/>
+    <contains partCode="G43" sign="G1000"/>
+    <variantOf baseSign="G43" isSimilar="y" linguistic="other" sign="G1000"/>
+    <signDescription lang="en" sign="G1000">+lQuail chick with dripping liquid.+s-!
++lPhon. +s-+tpw+s-!
++bBibliography+s-!
++lMunro, I. +s-+iUntersuchungen zu den Totenbuch-Papyris der 18. Dynastie,+s-+l 1987, p. 183+s-!
+</signDescription>
+    <hasTag sign="G1000" tag="quail"/>
   </sign>
   <sign alwaysDisplay="y" sign="H1">
     <hasTransliteration sign="H1" transliteration="Apd" type="phonogram" use="keyboard"/>
@@ -22887,6 +23422,16 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
   </sign>
   <sign sign="H32">
     <hasTag sign="H32" tag="talon"/>
+    <hasTransliteration sign="H32" transliteration="kAp" type="phonogram" use="palette"/>
+    <hasTransliteration sign="H32" transliteration="kp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="H32">+lbird claw.+s-!
++lreinterpretation of  R5,+s-R5-+l, with phon. value +s-+tkAp, kp.+s-!
++l(New Kingdom onwards)+s-!
++bBibliography+s-!
++lKurth, +s-+iEinführung ins Ptolemäische, +s-+lTeil 1, p. 270 (19)+s-!
++lWB V, 103, 8+s-!
+</signDescription>
+    <variantOf baseSign="R5" isSimilar="y" linguistic="partial" sign="H32"/>
   </sign>
   <sign sign="H33">
     <hasTag sign="H33" tag="egg"/>
@@ -24048,6 +24593,17 @@ I3-+l, see Collombert, "Un étrange antroponyme de l'Ancien Empire", S+s-!
     <hasTag sign="I137" tag="crocodile"/>
     <hasTag sign="I137" tag="in-circle"/>
   </sign>
+  <sign sign="I200">
+    <variantOf baseSign="I14" isSimilar="y" linguistic="unspecified" sign="I200"/>
+    <signDescription lang="en" sign="I200">+lsnake+s-!
++bValue: +s-+lideogram for +s-+tHfAw.+s-!
++bBibliography+s-!
++lCT III, 24a, B17C+s-!
+!
+</signDescription>
+    <hasTransliteration sign="I200" transliteration="HfAw" type="phonogram" use="palette"/>
+    <hasTag sign="I200" tag="snake"/>
+  </sign>
   <sign alwaysDisplay="y" sign="K1">
     <hasTransliteration sign="K1" transliteration="in" type="phonogram" use="keyboard"/>
     <signDescription lang="en" sign="K1">+iTilapia nilotica, perche du Nil, chromis, boulti. Phon :+s-+tin+s-!
@@ -24811,9 +25367,11 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
 +lThe sign is found for instance in Sethy the 1st temple in Abydos (ref. forthcoming).+s-!
 +lIt was documented in 1953 supplement of Gardiner's fonts, and is discussed in Collombert, +s-!
 +lo.c.+s-!
++lAbydos, Sethos Temple, Re-Harakhti chapel, dyn. XIX.+s-!
++lIn Gardiner fonts, code M31*.+s-!
 +bBibliography+s-!
 +lCollombert, "le toponyme +s-&lt;H-G31-&gt;-+l et la géographie des 17e et 18e nomes de haute Égypte", RDE 65 (2014), p. 6+s-!
-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
 </signDescription>
     <hasTag sign="US1M31AEXTU" tag="root"/>
     <hasTag sign="US1M31AEXTU" tag="lotus"/>
@@ -24977,14 +25535,31 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="M43" transliteration="spd" type="phonogram" use="keyboard"/>
     <hasTag sign="M43" tag="vine"/>
     <hasTag sign="M43" tag="pole"/>
+    <signDescription lang="en" sign="M43">+lvine.+s-!
+</signDescription>
   </sign>
   <sign sign="M43A">
     <hasTag sign="M43A" tag="vine"/>
     <hasTag sign="M43A" tag="pole"/>
+    <variantOf baseSign="M43" isSimilar="y" linguistic="full" sign="M43A"/>
   </sign>
   <sign sign="M43B">
     <hasTag sign="M43B" tag="vine"/>
     <hasTag sign="M43B" tag="pole"/>
+    <variantOf baseSign="M43" isSimilar="y" linguistic="full" sign="M43B"/>
+  </sign>
+  <sign sign="M43VARA">
+    <signDescription lang="en" sign="M43VARA">+lOld Kingdom shape of M43 vine, standardized version+s-!
++bValue+s-+l: as M43+s-!
++lSign without vessel, and with only two grapes. Actually, Gardiner, Egyptian Grammar, lists almost this shape p. 484, +s-!
++lbut doesn't give it a code (Gardiner's shape has three grapes, and is indeed described as Old Kingdom variant).+s-!
++bSource:+s-+l JSesh fonts, modified to match the features of the sign in +s-!
++lVerner, M. 1928. Abusir I: The Mastaba of Ptahshepses : Reliefs. p. 158 +s-!
+!
++lA +s-+ifacsimile +s-+lversion is available as US1M43VARC from JSesh web site.+s-!
+!
+</signDescription>
+    <variantOf baseSign="M43" isSimilar="y" linguistic="unspecified" sign="M43VARA"/>
   </sign>
   <sign sign="M44">
     <hasTransliteration sign="M44" transliteration="spd" type="phonogram" use="keyboard"/>
@@ -25487,7 +26062,11 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign alwaysDisplay="y" sign="M127">
     <signDescription lang="en" sign="M127">+lLily of Upper Egypt, as opposed to +s-M13-+l, symbol of+s-!
 +lLower Egypt. The group +s-M127-wAD-+l has the value +s-+ttA.wy+s-!
-+lfor instance in the titelature of Sethy the first.+s</signDescription>
++lfor instance in the titelature of Sethy the first.+s-!
++lNote that sign has code M24* in Gardiner's fonts.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
     <hasTransliteration sign="M127" transliteration="Sma" type="abbreviation" use="palette"/>
     <hasTag sign="M127" tag="papyrus or lily"/>
   </sign>
@@ -25557,6 +26136,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="M139B" tag="sign combination"/>
     <hasTag sign="M139B" tag="bush"/>
     <hasTag sign="M139B" tag="papyrus or lily"/>
+    <signDescription lang="en" sign="M139B">+lIdeog. +s-+ttA-mHw, +s-+iLower Egypt+s-!
++lAbydos, Sethos temple, dyn. XIX.+s-!
++lSign has code M16* in Gardiner publication.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
+    <hasTransliteration sign="M139B" transliteration="tA-mHw" type="phonogram" use="palette"/>
   </sign>
   <sign sign="M139C">
     <hasTag sign="M139C" tag="sign combination"/>
@@ -25577,6 +26163,12 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="M140B" tag="sign combination"/>
     <hasTag sign="M140B" tag="bush"/>
     <hasTag sign="M140B" tag="papyrus or lily"/>
+    <hasTransliteration sign="M140B" transliteration="tA-Sma" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="M140B">+lIdeog. +s-+ttA-Sma, +s-+iUpper Egypt,+s-!
++lAbydos, Sethos temple, dyn. XIX.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="M141">
     <hasTag sign="M141" tag="bouquet"/>
@@ -26291,15 +26883,27 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="N16A">
     <hasTag sign="N16A" tag="land"/>
     <hasTransliteration sign="N16A" transliteration="tA" type="phonogram" use="palette"/>
-    <variantOf baseSign="N16" isSimilar="y" linguistic="unspecified" sign="N16A"/>
+    <variantOf baseSign="N16" isSimilar="y" linguistic="full" sign="N16A"/>
   </sign>
   <sign sign="N16B">
     <hasTag sign="N16B" tag="land"/>
-    <variantOf baseSign="N16" isSimilar="y" linguistic="unspecified" sign="N16B"/>
+    <variantOf baseSign="N16" isSimilar="y" linguistic="full" sign="N16B"/>
   </sign>
   <sign sign="N16C">
     <hasTag sign="N16C" tag="land"/>
-    <variantOf baseSign="N16" isSimilar="y" linguistic="unspecified" sign="N16C"/>
+    <variantOf baseSign="N16" isSimilar="y" linguistic="full" sign="N16C"/>
+  </sign>
+  <sign sign="N16D">
+    <variantOf baseSign="N16" isSimilar="y" linguistic="full" sign="N16D"/>
+    <signDescription lang="en" sign="N16D">+lN16 with two dots instead of three.+s-!
++lFound in some cursive hieroglyphic texts, notably Books of the Dead.+s-!
++le.g.+s-!
++lBM +s-+lEA10470,36 (=Ani Papyrus), spell 148+s-!
++lP. Havana (MNBA Cuba 94-47), spell 99+s-!
++iNote to self: in some cases, it might just be that the scribe was a bit too hasty drawing the sign...+s-!
+!
+</signDescription>
+    <hasTransliteration sign="N16D" transliteration="tA" type="phonogram" use="palette"/>
   </sign>
   <sign alwaysDisplay="y" sign="N17">
     <hasTransliteration sign="N17" transliteration="Dt" type="phonogram" use="keyboard"/>
@@ -26512,9 +27116,11 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="N34" transliteration="biA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="N34" transliteration="Hmt" type="phonogram" use="keyboard"/>
     <hasTag sign="N34" tag="ingot"/>
+    <hasTag sign="N34" tag="metal"/>
   </sign>
   <sign sign="N34A">
     <hasTag sign="N34A" tag="ingot"/>
+    <hasTag sign="N34A" tag="metal"/>
   </sign>
   <sign alwaysDisplay="y" sign="N35">
     <hasTransliteration sign="N35" transliteration="n" type="phonogram" use="keyboard"/>
@@ -26599,6 +27205,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="N44" tag="sky"/>
     <hasTransliteration sign="N44" transliteration="qrrt" type="phonogram" use="palette"/>
     <variantOf baseSign="pt" isSimilar="y" linguistic="unspecified" sign="N44"/>
+    <signDescription lang="en" sign="N44">+lLimit of the sky. Also exists as +s-N44**N89{{409,168,60}}-+l.+s-!
+!
++lFound in +s-+tHb-sd+s-+l scenes, where they are the celestial equivalent of the +s-US12O500-!
++lboundary markers.+s-!
+!
++bBibliography+s-!
++l- +s-+lSpencer, A. J. 1978. “Two Enigmatic Hieroglyphs and Their Relation to the Sed-Festival.” +s-+iJEA +s-+l 64: 52-55+s-!
+</signDescription>
   </sign>
   <sign sign="N45">
     <hasTag sign="N45" tag="sky"/>
@@ -27242,6 +27856,15 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="N102" sign="N144A"/>
     <contains partCode="T14" sign="N144A"/>
   </sign>
+  <sign sign="N200">
+    <hasTransliteration sign="N200" transliteration="Hmt" type="phonogram" use="palette"/>
+    <hasTag sign="N200" tag="metal"/>
+    <variantOf baseSign="N34" isSimilar="y" linguistic="partial" sign="N200"/>
+    <signDescription lang="en" sign="N200">+lOvoid copper object.+s-!
++bValue: +s-+lideogram/abbreviation for +s-+icopper +s-+las a material in lists.+s-!
++bBibliography+s-!
++l Goedicke, Hans. 1994. “A Cult Inventory of the Eighth Dynasty from Coptos (Cairo JE 43290).” +s-+iMDAIK +s-+l50: 71–84. pp. 76, 77, 79.+s</signDescription>
+  </sign>
   <sign alwaysDisplay="y" sign="O1">
     <hasTransliteration sign="O1" transliteration="p" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="O1" transliteration="pr" type="phonogram" use="keyboard"/>
@@ -27338,6 +27961,7 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="O10" transliteration="Hwt-Hr" type="phonogram" use="keyboard"/>
     <hasTag sign="O10" tag="castle"/>
     <hasTransliteration sign="O10" transliteration="Hwt-Hr" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="O10" transliteration="Hwt_Hr" type="phonogram" use="keyboard"/>
   </sign>
   <sign sign="O10A">
     <hasTag sign="O10A" tag="castle"/>
@@ -27347,6 +27971,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="US248O10CEXTU" tag="face"/>
     <contains partCode="O18" sign="US248O10CEXTU"/>
     <contains partCode="D2" sign="US248O10CEXTU"/>
+    <variantOf baseSign="O10" isSimilar="y" linguistic="full" sign="US248O10CEXTU"/>
+    <hasTransliteration sign="US248O10CEXTU" transliteration="Hwt_Hr" type="phonogram" use="palette"/>
   </sign>
   <sign alwaysDisplay="y" sign="O11">
     <hasTransliteration sign="O11" transliteration="aH" type="phonogram" use="keyboard"/>
@@ -27593,6 +28219,15 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="O24A">
     <hasTag sign="O24A" tag="pyramid"/>
+    <signDescription lang="en" sign="O24A">+bNote: is there one sign here, or two, one for sun-obelisks, the other for mastabas?+s-!
++lDet. names of sun-obelisks+s-!
++lIn Gardiner font, O24* comes from+s-!
++lSteindorff, +s-+iGrab des Ti, +s-+lPl. 18. dyn. V.+s-!
++lThe surrounding wall is also fully drawn.+s-!
++lThis shape of O24A (with only the outline) corresponds to the shape in the Hieroglyphica.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="O25">
     <hasTransliteration sign="O25" transliteration="txn" type="phonogram" use="keyboard"/>
@@ -28701,6 +29336,12 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="O190">
     <hasTag sign="O190" tag="obelisk"/>
+    <signDescription lang="en" sign="O190">+lDet. names of sun-obelisks.+s-!
++lFrom Borchardt, Re-Heligtum, p. 39, dyn. V.+s-!
++lGardiner fonts use code O25* for this sign.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="O191">
     <hasTag sign="O191" tag="obelisk"/>
@@ -29457,6 +30098,28 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="O353">
     <hasTag sign="O353" tag="column, post, etc."/>
   </sign>
+  <sign sign="O500">
+    <hasTag sign="O500" tag="stone"/>
+    <hasTag sign="O500" tag="stela"/>
+    <signDescription lang="en" sign="O500">+lHeb festival race boundary-marker+s-!
++bValue: +s-+lideogram for the Heb festival race boundary-marker (ḏnb)+s-!
++bBibliography+s-!
++lSpencer, A. J. 1978. “Two Enigmatic Hieroglyphs and Their Relation to the Sed-Festival.” +s-+iJEA+s-+l 64: 52.+s</signDescription>
+    <hasTransliteration sign="O500" transliteration="Dnb" type="phonogram" use="palette"/>
+  </sign>
+  <sign sign="O501">
+    <signDescription lang="en" sign="O501">+lVault.+s-!
++bValue: +s-+ldeterminative for +s-+twrm.t, +s-+ivault.+s-!
++bSource: +s-+l WB I, 133 et Faulkner Concise Dictionary p. 64+s</signDescription>
+    <hasTag sign="O501" tag="vault"/>
+  </sign>
+  <sign sign="O501A">
+    <hasTag sign="O501A" tag="vault"/>
+    <signDescription lang="en" sign="O501A">+lVault.+s-!
++bValue: +s-+ldeterminative for +s-+twrm.t, +s-+ivault.+s-!
++lcopied from +s-+bIsabelle Pierre-Croisiau, +s-+iLes textes de la pyramide de Pépy Ier, Fac-similés,+s-+l pl. IIB (= Pepi I, P/F/Se, col. 84).+s-!
+</signDescription>
+  </sign>
   <sign alwaysDisplay="y" sign="P1">
     <hasTransliteration sign="P1" transliteration="aHaw" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="P1" transliteration="dpt" type="phonogram" use="keyboard"/>
@@ -29550,6 +30213,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P3" tag="ship"/>
     <hasTag sign="P3" tag="with oar"/>
     <hasTag sign="P3" tag="without sail"/>
+    <signDescription lang="en" sign="P3">+lIdeogram or determinative for +s-+twiA, +s-+l'sacred bark' and other divine boats ; +s-!
++lcan be used for verbs if the boat is a divine boat.+s-!
+!
++lThe sign has many different possible shapes.+s-!
++bBibliography+s-!
++lGardiner, +s-+iEgyptian Grammar, +s-+lp. 499+s-!
+</signDescription>
   </sign>
   <sign sign="P3A">
     <hasTag sign="P3A" tag="ship"/>
@@ -30723,6 +31393,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="Q15">
     <hasTag sign="Q15" tag="seat"/>
+    <signDescription lang="en" sign="Q15">+lSeat.+s-!
++lIFAO 340, 11+s</signDescription>
   </sign>
   <sign sign="Q16">
     <hasTag sign="Q16" tag="seat"/>
@@ -30735,28 +31407,45 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="Q18">
     <hasTag sign="Q18" tag="bed"/>
+    <signDescription lang="en" sign="Q18">+lBed+s-!
++lIFAO 340, 14+s-!
+</signDescription>
   </sign>
   <sign sign="Q18A">
     <hasTag sign="Q18A" tag="bed"/>
+    <signDescription lang="en" sign="Q18A">+lBed.+s-!
++lIFAO 341, 1+s-!
+</signDescription>
   </sign>
   <sign sign="Q19">
     <hasTag sign="Q19" tag="bed"/>
     <variantOf baseSign="A55" isSimilar="y" linguistic="unspecified" sign="Q19"/>
+    <signDescription lang="en" sign="Q19">+lBed.+s-!
++lIFAO 341, 3+s-!
+</signDescription>
   </sign>
   <sign sign="Q20">
     <hasTag sign="Q20" tag="bed"/>
     <variantOf baseSign="Q19" isSimilar="y" linguistic="unspecified" sign="Q20"/>
+    <signDescription lang="en" sign="Q20">+lBed.+s-!
++lIFAO 341, 5+s</signDescription>
   </sign>
   <sign sign="Q21">
     <hasTag sign="Q21" tag="bed"/>
     <hasTag sign="Q21" tag="sign combination"/>
     <variantOf baseSign="Q19" isSimilar="y" linguistic="unspecified" sign="Q21"/>
+    <signDescription lang="en" sign="Q21">+lBed.+s-!
++lIFAO 341, 7+s-!
+</signDescription>
   </sign>
   <sign sign="Q22">
     <hasTag sign="Q22" tag="bed"/>
     <hasTag sign="Q22" tag="sign combination"/>
     <variantOf baseSign="Q19" isSimilar="y" linguistic="unspecified" sign="Q22"/>
     <hasTransliteration sign="Q22" transliteration="Hnkyt" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="Q22">+lBed.+s-!
++lIFAO 341, 8+s-!
+</signDescription>
   </sign>
   <sign sign="Q23">
     <hasTag sign="Q23" tag="bed"/>
@@ -30774,7 +31463,10 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="Q26">
     <hasTag sign="Q26" tag="varia"/>
-    <signDescription lang="en" sign="Q26">+lThis is a mirror in a case.+s-!
+    <signDescription lang="en" sign="Q26">+lA mirror in its case.+s-!
++lIdeog. for +s-+tXkrt, +s-+iornament+s-!
++bBibliography+s-!
++lCallender, V. G. 2019. +s-+iPal. Hiero+s-+l 8, p. 307, § 455+s-!
 </signDescription>
     <hasTag sign="Q26" tag="in-circle"/>
   </sign>
@@ -31154,6 +31846,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="R5" transliteration="kAp" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="R5" transliteration="kp" type="phonogram" use="keyboard"/>
     <hasTag sign="R5" tag="censer"/>
+    <signDescription lang="en" sign="R5">+lCenser for fumigations+s-!
++ldet. or ideog.+s-!
++lPhon. +s-+tkAp, kp+s-+l.+s-!
++lIn the NK, often reinterpreted as +s-H32-+l (H32)+s-+l or +s-F118B-+l (F188B)+s-!
++bBibliography+s-!
++lGardiner, +s-+iEgyptian Grammar, +s-+lp. 501+s-!
++lWB V, 103, 8+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="R6">
     <hasTransliteration sign="R6" transliteration="kAp" type="phonogram" use="keyboard"/>
@@ -31315,6 +32015,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="R16B">
     <hasTag sign="R16B" tag="emblem"/>
     <hasTag sign="R16B" tag="wekh-sign"/>
+    <hasTransliteration sign="R16B" transliteration="nfrtm" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="R16B">+lIdeog. or det. +s-+tnfrtm+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++lGardiner fonts use code R16*.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="R17">
     <hasTransliteration sign="R17" transliteration="tA-wr" type="phonogram" use="keyboard"/>
@@ -31458,6 +32165,11 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="R26">
     <hasTag sign="R26" tag="sema-tawy"/>
     <hasTransliteration sign="R26" transliteration="smA-tAwy" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="R26">+lIdeog. +s-+tsmA, +s-+iunite,+s-!
++lAbydos, Sethos temple, King's chapel, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="R26A">
     <hasTag sign="R26A" tag="sema-tawy"/>
@@ -32324,6 +33036,28 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="S45" sign="S23"/>
     <contains partCode="N89" sign="S23"/>
     <hasTag sign="S23" tag="group of same sign"/>
+    <signDescription lang="en" sign="S23">+lAccording to Meeks, o.c. a +s-+tSn +s-+lsign with two crossed +s-+tnxAxA +s-+lscepter;+s-!
++lGardiner: +s-+iknotted strip of cloth+s-!
++loriginally an amulet hung from a ribbon. (Fischer, Meeks, Schäffer)+s-!
++bvalue : +s-+tdmD.+s-!
++l(classed as Ideog., det. or phon. depending on authors)+s-!
++bBibliography+s-!
++lFischer, Henry George. (1979) 1983. Ancient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs. 2nd ed. p. 40+s-!
++lGardiner, Alan H. 1957. +s-+iEgyptian Grammar: Being an Introduction to the Study of Hieroglyphs.+s-+l p. 506+s-!
++lMeeks, Dimitri. 2004. +s-+iLes Architraves Du Temple d’Esna: Paléographie.+s-+l Paléographie Hiéroglyphique I. p. 175 +s-!
++lSchäffer, Heinrich. 1901. ‘Das Zeichen für dmdi »verbinden«’. +s-+iZÄS+s-+l 39, 83–84. +s-!
+!
+</signDescription>
+  </sign>
+  <sign sign="S23A">
+    <hasTransliteration sign="S23A" transliteration="dmD" type="phonogram" use="palette"/>
+    <variantOf baseSign="S23" isSimilar="y" linguistic="full" sign="S23A"/>
+    <signDescription lang="en" sign="S23A">+lOriginal (Old and Middle Kingdom) shape of S23, +s-S23-+l, +s-+tdmD+s-!
++lband of fabric tied around an amulet.+s-!
+!
++bBibliography+s-!
++lFischer, Henry George. (1979) 1999. +s-+iAncient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs.+s-+l 4th edn: 40 +s-!
++lSchäffer, Heinrich. 1901. ‘Das Zeichen für dmdi »verbinden«’. ZÄS 39: 83–84. +s</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="S24">
     <hasTransliteration sign="S24" transliteration="Ts" type="phonogram" use="keyboard"/>
@@ -32347,6 +33081,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
 +bBibliography:+s-!
 +lGEG p. 506+s-!
 +iPSBA, +s-+l37, 117, 246+s</signDescription>
+  </sign>
+  <sign sign="US22S25A">
+    <signDescription lang="en" sign="US22S25A">+lmantle or mantel-like garment+s-!
++lSource: : shape in « Covington’s Tomb ».+s-!
++bBibliography+s-!
++lBrovarski, Edward. 1996. “An Inventory List from ‘Covington’s Tomb’ and Nomenclature for Furniture in the Old Kingdom.”+s-!
+?500-+l In +s-+iStudies in Honor of William Kelly Simpson;+s-+l p. 119, 122; fig. 1+s</signDescription>
+    <hasTag sign="US22S25A" tag="dress"/>
   </sign>
   <sign alwaysDisplay="y" sign="S26">
     <hasTransliteration sign="S26" transliteration="Sndyt" type="phonogram" use="keyboard"/>
@@ -33410,8 +34152,9 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="S143">
     <signDescription lang="en" sign="S143">+bBibliography:+s-!
 +lMeeks, +s-+iEsna, +s-+lp. vi. thinks this sign is a determinative for +s-+tSfdw, +s-+ispoon +s-+land has a different shape.+s-!
-+lHowever +s-+lJ. Hallof stated in I&amp;E, Oxford 2006, that he add genuine +s-!
-+lexamples for this sign.+s</signDescription>
++lHowever +s-+lJ. Hallof gave genuine sources in I&amp;E, Oxford 2006.+s-!
+!
+</signDescription>
     <hasTag sign="S143" tag="varia"/>
   </sign>
   <sign sign="S144">
@@ -33849,6 +34592,20 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="S203" transliteration="msxnt" type="phonogram" use="palette"/>
     <variantOf baseSign="S98" isSimilar="y" linguistic="unspecified" sign="S203"/>
   </sign>
+  <sign sign="S204">
+    <hasTag sign="S204" tag="necklace"/>
+  </sign>
+  <sign sign="S205">
+    <hasTag sign="S205" tag="necklace"/>
+  </sign>
+  <sign sign="S206">
+    <hasTag sign="S206" tag="with standard"/>
+    <hasTag sign="S206" tag="group"/>
+    <contains partCode="S78A" sign="S206"/>
+    <contains partCode="S79A" sign="S206"/>
+    <variantOf baseSign="S79A" isSimilar="y" linguistic="unspecified" sign="S206"/>
+    <contains partCode="H6" sign="S206"/>
+  </sign>
   <sign alwaysDisplay="y" sign="T1">
     <hasTransliteration sign="T1" transliteration="mn" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="T1" transliteration="mnw" type="phonogram" use="keyboard"/>
@@ -34042,6 +34799,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="T16A">
     <hasTag sign="T16A" tag="knife, dagger, sword"/>
     <variantOf baseSign="T16" isSimilar="y" linguistic="unspecified" sign="T16A"/>
+    <signDescription lang="en" sign="T16A">+lIdeog. or det. +s-+txpS, +s-+iscimitar,+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++lIn the Theinhardt fonts, the sign faces the wrong direction.+s-!
++lcode T16* in Gardiner's fonts.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="T17">
     <hasTransliteration sign="T17" transliteration="wrrt" type="phonogram" use="keyboard"/>
@@ -34249,8 +35013,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="T30A">
     <variantOf baseSign="T30" isSimilar="y" linguistic="unspecified" sign="T30A"/>
     <hasTag sign="T30A" tag="knife, dagger, sword"/>
-    <hasTransliteration sign="T30A" transliteration="dm" type="phonogram" use="palette"/>
-    <hasTransliteration sign="T30A" transliteration="ds" type="phonogram" use="palette"/>
+    <hasTransliteration sign="T30A" transliteration="dm" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="T30A" transliteration="ds" type="phonogram" use="keyboard"/>
     <contains partCode="T30" sign="T30A"/>
   </sign>
   <sign sign="T30B">
@@ -34301,6 +35065,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="T36">
     <hasTag sign="T36" tag="shield"/>
+    <signDescription lang="en" sign="T36">+lDet. +s-+tikm, +s-+ishield+s-!
++lMedînet Habu, inscr. year 8, l. 37.+s-!
++bNote that Gardiner's font shape is significantly different+s-!
++b(and Hieroglyphica too)+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="T37">
     <hasTag sign="T37" tag="mace"/>
@@ -34986,6 +35757,15 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="T33" sign="T140"/>
     <contains partCode="D54" sign="T140"/>
     <hasTag sign="T140" tag="varia"/>
+  </sign>
+  <sign sign="T200">
+    <hasTag sign="T200" tag="net or trap"/>
+    <hasTransliteration sign="T200" transliteration="sqt" type="typical" use="palette"/>
+    <signDescription lang="en" sign="T200">+lFish trap+s-!
++bValue:+s-+l determinative for +s-+tsq.t,+s-+i fish-trap.+s-!
++lThe sign was created from the photography of the tomb wall. The font shape used in the running text of the publication is slightly different.+s-!
++bBibliography+s-!
++lH. Altenmüller, Die Wanddarstellungen im Grab des Mehu in Saqqara (Archäologische Veröffentlichung 42), 1988+s</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="U1">
     <hasTransliteration sign="U1" transliteration="mA" type="phonogram" use="keyboard"/>
@@ -36066,6 +36846,26 @@ U22-m-D17</signDescription>
     <contains partCode="F12" sign="U133"/>
     <hasTag sign="U133" tag="perfume jar"/>
   </sign>
+  <sign sign="U200">
+    <signDescription lang="en" sign="U200">+lbarber case+s-!
++bValue:+s-+l ideogram for barber ; maybe +s-+tXaq +s-!
++bBibliography+s-!
++lP. Montet, « Contributions à l’étude des mastabas de l’Ancien Empire », +s-+iKêmi+s-+l 2, 1931, 178-189. (= Mélanges Loret, vol 2). +s-!
+</signDescription>
+    <hasTransliteration sign="U200" transliteration="Xaq" type="ideogram" use="palette"/>
+    <hasTag sign="U200" tag="razor"/>
+  </sign>
+  <sign sign="U200A">
+    <signDescription lang="en" sign="U200A">+lbarber case, inspired by hieratic shape.+s-!
++bValue:+s-+l ideogram for barber ; maybe +s-+tXaq +s-!
++lThis sign, first known in Middle Kingdom coffins, would be a cursive hieroglyphic rendering of a hieratic shape for +s-U200-!
++bBibliography+s-!
++lP. Montet, « Contributions à l’étude des mastabas de l’Ancien Empire », +s-+iKêmi+s-+l 2, 1931, 178-189. (= Mélanges Loret, vol 2). +s-!
+</signDescription>
+    <hasTransliteration sign="U200A" transliteration="Xaq" type="ideogram" use="palette"/>
+    <variantOf baseSign="U200" isSimilar="y" linguistic="full" sign="U200A"/>
+    <hasTag sign="U200A" tag="razor"/>
+  </sign>
   <sign alwaysDisplay="y" sign="V1">
     <hasTransliteration sign="V1" transliteration="100" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V1" transliteration="Snt" type="phonogram" use="keyboard"/>
@@ -36074,9 +36874,18 @@ U22-m-D17</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="V2">
     <hasTransliteration sign="V2" transliteration="As" type="phonogram" use="keyboard"/>
-    <hasTransliteration sign="V2" transliteration="sTA" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="V2" transliteration="sTA" type="typical" use="keyboard"/>
     <hasTag sign="V2" tag="rope"/>
     <contains partCode="V1" sign="V2"/>
+    <signDescription lang="en" sign="V2">+lideogram and phonogram for +s-+tsTA.+s-!
++ldet. for +s-+tAs, +s-+ihasten.+s-!
++laccording to Gardiner "bolt +s-.\1:z:.\1-+lcombined with the cord used for drawing it". +s-!
++laccording to de Spens, the rope is a measuring rope for an aroura (+s-+tsTA)+s-+l. The horizontal line+s-!
++lwould, in this case, represent +s-+iland, +s-+lwhich is indeed the case in some examples.+s-!
++bBibliography+s-!
++lG+s-+iEG+s-+l p. 521+s-!
++lSpens, Renaud de. 2022. +s-+iGlyphologie égyptienne: couleur, identification et évolution des hiéroglyphes de l’Ancien Empire à la XIXe dynastie.+s-+l p. 215+s-!
+</signDescription>
   </sign>
   <sign sign="V2A">
     <hasTag sign="V2A" tag="rope"/>
@@ -36085,8 +36894,13 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V2B">
     <hasTag sign="V2B" tag="rope"/>
-    <variantOf baseSign="V2" isSimilar="y" linguistic="unspecified" sign="V2B"/>
+    <variantOf baseSign="V2" isSimilar="y" linguistic="full" sign="V2B"/>
     <contains partCode="V1" sign="V2B"/>
+    <signDescription lang="en" sign="V2B">+lVariant of V2; the loop is centered on the horizontal line.+s-!
++lfound for instance in TT192 (the JSesh library has a facsimile of this variant).+s-!
++bBibliography+s-!
++lSpens, Renaud de. 2022. +s-+iGlyphologie égyptienne: couleur, identification et évolution des hiéroglyphes de l’Ancien Empire à la XIXe dynastie.+s-+l p. 215+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="V3">
     <hasTransliteration sign="V3" transliteration="sTAw" type="phonogram" use="keyboard"/>
@@ -36271,6 +37085,12 @@ U22-m-D17</signDescription>
     <hasTag sign="V23A" tag="whip"/>
     <variantOf baseSign="V22" isSimilar="y" linguistic="full" sign="V23A"/>
     <hasTransliteration sign="V23A" transliteration="mH" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="V23A">+lPhon. +s-+tmH+s-!
++lAbydos, Sethos Temple, dyn. XIX.+s-!
++l(I know, it's a large temple. But it's the reference given by Gardiner)+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="V23B">
     <hasTag sign="V23B" tag="whip"/>
@@ -36394,6 +37214,9 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V33" transliteration="Ss" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V33" transliteration="sSr" type="phonogram" use="keyboard"/>
     <hasTag sign="V33" tag="bag"/>
+    <signDescription lang="en" sign="V33">+bBibliography+s-!
++lGardiner, Alan. 1931. “Two Hieroglyphic Signs and the Egyptian Words for «Alabaster» and «Linen», Etc.” BIFAO 30:161–83. +s-!
+</signDescription>
   </sign>
   <sign sign="US1V33AEXTU">
     <variantOf baseSign="V33" isSimilar="y" linguistic="partial" sign="US1V33AEXTU"/>
@@ -36483,6 +37306,11 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="V39">
     <hasTransliteration sign="V39" transliteration="tit" type="phonogram" use="keyboard"/>
     <hasTag sign="V39" tag="rope"/>
+    <signDescription lang="en" sign="V39">+lideog. or det. +s-+ttit, +s-+iknot-amulet of Isis+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign sign="V39A">
     <hasTag sign="V39A" tag="rope"/>
@@ -37002,6 +37830,22 @@ U22-m-D17</signDescription>
   <sign sign="V96">
     <hasTag sign="V96" tag="basket"/>
   </sign>
+  <sign sign="V97">
+    <signDescription lang="en" sign="V97">+lpalm leaf basket, used to carry offerings+s-!
++lValue +s-+tHnq+s-+l (according to Jéquier, 1910)+s-!
++lDeterminative for a number of feast names, (Collombert, 2010)+s-!
+!
++lAccording to Collombert, the lid can be flat or curved.+s-!
++bBibliography+s-!
++lJéquier, Gustave. 1910. ‘Note Sur Deux Hiéroglyphes’. +s-+iBIFAO +s-+l 7: 89–96. +s-!
++lCollombert, Philippe. 2010. +s-+iLe Tombeau de Mérérouka: Paléographie.+s-+l Vol. 4., p. 158, § 307+s-!
++lJunker, Hermann. 1938. +s-+iGîza +s-+lIII, p. 108-109+s-!
+!
+!
+</signDescription>
+    <hasTransliteration sign="V97" transliteration="Hnq" type="phonogram" use="palette"/>
+    <hasTag sign="V97" tag="basket"/>
+  </sign>
   <sign sign="V98">
     <hasTag sign="V98" tag="receptacle"/>
     <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V98"/>
@@ -37309,6 +38153,26 @@ U22-m-D17</signDescription>
     <contains partCode="V102" sign="V140"/>
     <contains partCode="D10" sign="V140"/>
     <contains partCode="N33A" sign="V140"/>
+  </sign>
+  <sign sign="V300">
+    <variantOf baseSign="V33" isSimilar="y" linguistic="partial" sign="V300"/>
+    <hasTransliteration sign="V300" transliteration="qar" type="phonogram" use="keyboard"/>
+    <hasTag sign="V300" tag="basket"/>
+    <hasTag sign="V300" tag="bag"/>
+    <signDescription lang="en" sign="V300">+lbasket with handle, « +s-+tqꜣr+s-+l » sign+s-!
+!
++bValue: +s-+ldeterminative of +s-+tqAr, +s-+ibag, +s-+lmostly in names.+s-!
+!
++lQuite usual in the Old Kingdom (VIth dyn.), and probably first intermediate period. +s-+lLater replaced by +s-V33-+l, V33.+s-!
+!
++lShould replace +s-US1V33AEXTU-+l, +s-+lwhose shape is incorrect. I keep the old one, in case someone wants to discuss its shape.+s-!
+!
++lNote that this shape is more or less the standard shape for this sign, but there are many other variants, for instance Berlin 32186, formerly 1/70, which displays a less regular bag.+s-!
++lThis sign is a slightly modified version of an original created by Peter Dils.+s-!
++bBibliography+s-!
++lCollombert, Philippe. 2010. +s-+iLe Tombeau de Mérérouka: Paléographie.+s-+l  PalHiero 4 p. 158, §308 (with references to other occurrences)+s-!
++lCallender, Vivienne G. 2019+s-+i. El-Hawawish, tombs, sarcophagi, stelae palaeography. +s-+lPalHiero 8 p413, § 623.+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="W1">
     <hasTransliteration sign="W1" transliteration="mrHt" type="phonogram" use="keyboard"/>
@@ -38360,6 +39224,73 @@ U22-m-D17</signDescription>
     <hasTag sign="W126" tag="group"/>
     <hasTag sign="W126" tag="vessel"/>
   </sign>
+  <sign sign="W200">
+    <signDescription lang="en" sign="W200">+lvase W1 pouring liquid+s-!
++lA +s-W1-+l vase, opened and pouring liquid.+s-!
++lOne of the case where a sign represents an action and not an object, as demonstrated by Lacau, o.c..+s-!
++bValue: +s-+ldet for +s-+twrH, +s-+ianoint+s-+l and +s-+twdH.+s-!
++bBibliography+s-!
++lLacau, Pierre. 1954. +s-+iSur Le Système Hiéroglyphique.+s-+l Bibliothèque d’étude 25. Institut Français d’Archéologie Orientale, p. 57-58.+s-0-!
+!
++l
+
+PT 816 (N) and (P)
++s-!
++l
+
+In PT 816 (M) and 50a (N), the same sign is draw upright. As it can can done with the rotation system of JSesh, and that the meaning is the same, we won't add this upright variant to this distribution.
++s</signDescription>
+    <hasTransliteration sign="W200" transliteration="wrH" type="phonogram" use="palette"/>
+    <hasTransliteration sign="W200" transliteration="wdH" type="phonogram" use="palette"/>
+    <hasTag sign="W200" tag="vessel"/>
+    <hasTag sign="W200" tag="perfume jar"/>
+    <hasTag sign="W200" tag="pouring water"/>
+    <hasTag sign="W200" tag="without lid"/>
+    <hasTag sign="W200" tag="without handle"/>
+  </sign>
+  <sign sign="W200A">
+    <signDescription lang="en" sign="W200A">+lvase W1 pouring liquid+s-!
++lThe liquid is represented as a long string of dots.+s-!
++lA +s-W1-+l vase, opened and pouring liquid.+s-!
++lOne of the case where a sign represents an action and not an object, as demonstrated by Lacau, o.c..+s-!
++bValue: +s-+ldet for +s-+twrH, +s-+ianoint+s-+l and +s-+twdH.+s-!
++bBibliography+s-!
++lLacau, Pierre. 1954. +s-+iSur Le Système Hiéroglyphique.+s-+l Bibliothèque d’étude 25. Institut Français d’Archéologie Orientale, p. 57-58.+s-!
++lshape from Neit Pyramid (803) and Jéquier, +s-+itombeaux de particuliers,+s-+l p. 112.+s-!
+</signDescription>
+    <variantOf baseSign="W200" isSimilar="y" linguistic="full" sign="W200A"/>
+    <hasTransliteration sign="W200A" transliteration="wrH" type="typical" use="palette"/>
+    <hasTransliteration sign="W200A" transliteration="wdH" type="typical" use="palette"/>
+    <hasTag sign="W200A" tag="vessel"/>
+    <hasTag sign="W200A" tag="perfume jar"/>
+    <hasTag sign="W200A" tag="pouring water"/>
+    <hasTag sign="W200A" tag="without lid"/>
+    <hasTag sign="W200A" tag="without handle"/>
+  </sign>
+  <sign sign="W201">
+    <signDescription lang="en" sign="W201">+lcauldron or cooking pot+s-!
++bValue: +s-+ldet. for +s-+twHA.t +s-+lor +s-+tktw.t+s-!
++lShape from Wenis, 405b, PT 274.+s-!
++bBibliography+s-!
++l
+
+Giddy, Lisa L. 1981. « A Note on the Word Wḥꜣ.t. » BIFAO 81.1: 19–28. p. 20 ;
++s-!
++l
+
+Roquet, Gérard. 1978. « Wḥm, Verbe Plein et Semi-Auxiliaire. À Propos d’une Inscription d’Ancien Empire. » BIFAO 78, p. 489 ; gives multiple variants of this sign (Pyr 405, James HTBM I, pl. 2; Lepsius, Denkemäller II, pl. 28).
++s-!
++l
+
+U. Verhoeven « Grillen , Kochen, Backen im Alltag und im Ritual Altägyptens. Ein lexicographisch Beitrag » (Rites égyptiens IV), Bruxelles 1984 , p. 107;
++s-!
+</signDescription>
+    <hasTag sign="W201" tag="vessel"/>
+    <hasTag sign="W201" tag="without handle"/>
+    <hasTag sign="W201" tag="without lid"/>
+    <hasTransliteration sign="W201" transliteration="wHAt" type="typical" use="palette"/>
+    <hasTransliteration sign="W201" transliteration="ktwt" type="typical" use="palette"/>
+  </sign>
   <sign alwaysDisplay="y" sign="X1">
     <hasTransliteration sign="X1" transliteration="t" type="phonogram" use="keyboard"/>
     <hasTag sign="X1" tag="bread"/>
@@ -38821,6 +39752,12 @@ Y2-+l is the old shape, used until the end of the+s-!
     <contains partCode="R12" sign="Z25A"/>
   </sign>
   <sign alwaysDisplay="y" sign="Z30"/>
+  <sign sign="Z40">
+    <signDescription lang="en" sign="Z40">+lSign added for compatibility with Vector Office X+s</signDescription>
+  </sign>
+  <sign sign="Z41">
+    <signDescription lang="en" sign="Z41">+lSign added for compatibility with Vector Office X+s</signDescription>
+  </sign>
   <sign sign="US1Z100EXT">
     <hasTransliteration sign="US1Z100EXT" transliteration="n" type="phonogram" use="palette"/>
     <hasTransliteration sign="US1Z100EXT" transliteration="z" type="phonogram" use="palette"/>
@@ -38839,12 +39776,28 @@ Y2-+l is the old shape, used until the end of the+s-!
     <hasTransliteration sign="Aa1" transliteration="x" type="phonogram" use="keyboard"/>
     <hasTag sign="Aa1" tag="body-part"/>
   </sign>
+  <sign sign="Aa1B">
+    <variantOf baseSign="Aa1" isSimilar="y" linguistic="full" sign="Aa1B"/>
+    <signDescription lang="en" sign="Aa1B">+llate variant of +s-.\1:x:.\1-+l. Aa1B +s-.\1:Aa1B:.\1-+l is the shape used for Aa1 in the CCER fonts.+s-!
++lThis shape is progressively used from the Ramesside times onwards,+s-!
++land is the rule in the Late Period.+s-!
++bBibliography+s-!
++lMeeks, Dimitri. 2004. +s-+iLes Architraves Du Temple d’Esna: Paléographie.+s-+l Vol. 1. Paléographie Hiéroglyphique. p. 232, §629+s-!
++lSpens, Renaud de. 2022. Glyphologie égyptienne: couleur, identification et évolution des hiéroglyphes de l’Ancien Empire à la XIXe dynastie. p. 232-233+s-!
++bPractical note+s-!
++lThis shape can be created by rotating +s-.\1:x:.\1-+l. But, for the convenience of users typing Late Texts, we believe it's convenient to+s-!
++ladd it to the JSesh fonts.+s-!
+!
+</signDescription>
+  </sign>
   <sign alwaysDisplay="y" sign="Aa2">
     <hasTransliteration sign="Aa2" transliteration="gA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa2" transliteration="Hsb" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa2" transliteration="wHA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa2" transliteration="Xpw" type="phonogram" use="keyboard"/>
     <hasTag sign="Aa2" tag="body-part"/>
+    <signDescription lang="en" sign="Aa2">+bBibliography+s-!
++lPezin, Michel, and Francis Janot. 1995. ‘La “Pustule” et Les Deux Doigts’. +s-+iBIFAO+s-+l 95: 361–65. +s</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="Aa3">
     <hasTransliteration sign="Aa3" transliteration="Hsb" type="phonogram" use="keyboard"/>
@@ -38905,6 +39858,13 @@ Y2-+l is the old shape, used until the end of the+s-!
   <sign sign="Aa7B">
     <variantOf baseSign="Aa7" isSimilar="y" linguistic="unspecified" sign="Aa7B"/>
     <hasTag sign="Aa7B" tag="legs"/>
+    <hasTransliteration sign="Aa7B" transliteration="sqr" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="Aa7B">+lDet. or phon. det. +s-+tsqr,+s-!
++llater equivalent of Aa7 +s-Aa7-+l.+s-!
++lAbydos, Sethos temple, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="Aa8">
     <signDescription lang="en" sign="Aa8">+bBibliography+s-!
@@ -38952,6 +39912,15 @@ Y2-+l is the old shape, used until the end of the+s-!
     <hasTag sign="Aa13" tag="bones"/>
     <hasTag sign="Aa13" tag="body-part"/>
   </sign>
+  <sign sign="Aa13VARA">
+    <hasTransliteration sign="Aa13VARA" transliteration="im" type="phonogram" use="palette"/>
+    <variantOf baseSign="Aa13" isSimilar="y" linguistic="unspecified" sign="Aa13VARA"/>
+    <hasTag sign="Aa13VARA" tag="bones"/>
+    <hasTag sign="Aa13VARA" tag="body-part"/>
+    <signDescription lang="en" sign="Aa13VARA">+bValue: +s-+tim+s-!
++bBibliography+s-!
++lClère, « Notes sur l’inscription de Sarenpout Ie », RdE 22, 1970, 44-45+s</signDescription>
+  </sign>
   <sign alwaysDisplay="y" sign="Aa14">
     <hasTransliteration sign="Aa14" transliteration="gs" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="Aa14" transliteration="im" type="phonogram" use="keyboard"/>
@@ -38994,15 +39963,50 @@ Y2-+l is the old shape, used until the end of the+s-!
   </sign>
   <sign alwaysDisplay="y" sign="Aa20">
     <hasTransliteration sign="Aa20" transliteration="apr" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="Aa20">+lBag or unidentified object.+s-!
++lIdentification as a scribe bag by Jones, JEA 75.+s-!
++lIn some instances, Fischer thinks it might be a kind of bag. Meeks, pal. hiero. lists interpretations as some ornaments.+s-!
++lde Spens, p. 237, also suggest a bag or basket, whether basketry or leather (according to colours).+s-!
++bBibliography+s-!
++lFischer, Henry George. (1979) 1999. +s-+iAncient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs+s-+b +s-+lp. 52.+s-!
++lJones, P. M. E. 1989. ‘The Nature of the Hieroglyph +s-apr-+l’. The Journal of Egyptian Archaeology 75: 245--246.+s-!
++lSpens, Renaud de. 2022. Glyphologie égyptienne: couleur, identification et évolution des hiéroglyphes de l’Ancien Empire à la XIXe dynastie. Version 2.0. Paris.
++s-!
+!
+!
+</signDescription>
+    <hasTag sign="Aa20" tag="bag"/>
   </sign>
   <sign sign="Aa20A">
-    <variantOf baseSign="Aa20" isSimilar="y" linguistic="unspecified" sign="Aa20A"/>
+    <variantOf baseSign="Aa20" isSimilar="y" linguistic="full" sign="Aa20A"/>
+    <hasTag sign="Aa20A" tag="bag"/>
   </sign>
   <sign sign="Aa20B">
-    <variantOf baseSign="Aa20" isSimilar="y" linguistic="unspecified" sign="Aa20B"/>
+    <variantOf baseSign="Aa20" isSimilar="y" linguistic="full" sign="Aa20B"/>
+    <hasTag sign="Aa20B" tag="bag"/>
   </sign>
   <sign sign="Aa20C">
-    <variantOf baseSign="Aa20" isSimilar="y" linguistic="unspecified" sign="Aa20C"/>
+    <variantOf baseSign="Aa20" isSimilar="y" linguistic="full" sign="Aa20C"/>
+    <hasTag sign="Aa20C" tag="bag"/>
+  </sign>
+  <sign sign="Aa20D">
+    <hasTransliteration sign="Aa20D" transliteration="apr" type="phonogram" use="palette"/>
+    <variantOf baseSign="Aa20" isSimilar="y" linguistic="full" sign="Aa20D"/>
+    <signDescription lang="en" sign="Aa20D">+lBag or unidentified object.+s-!
++lAn old kingdom shape.+s-!
++lIdentification as a scribe bag by Jones, JEA 75.+s-!
++lIn some instances, Fischer thinks it might be a kind of bag. Meeks, pal. hiero. lists interpretations as some ornaments.+s-!
++lde Spens, p. 237, also suggest a bag or basket, whether basketry or leather (according to colours).+s-!
++bBibliography+s-!
++lFischer, Henry George. (1979) 1999. +s-+iAncient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs+s-+b +s-+lp. 52.+s-!
++lJones, P. M. E. 1989. ‘The Nature of the Hieroglyph +s-apr-+l’. The Journal of Egyptian Archaeology 75: 245--246.+s-!
++lJunker, Hermann. 1941. Die Mastaba Des Snb (Seneb) Und Die Umliegenden Gräber. Gîza, V, p. 15+s-!
++lSpens, Renaud de. 2022. Glyphologie égyptienne: couleur, identification et évolution des hiéroglyphes de l’Ancien Empire à la XIXe dynastie. Version 2.0. Paris.
++s-!
+!
+!
+</signDescription>
+    <hasTag sign="Aa20D" tag="bag"/>
   </sign>
   <sign alwaysDisplay="y" sign="Aa21">
     <hasTransliteration sign="Aa21" transliteration="sTS" type="phonogram" use="keyboard"/>
@@ -39369,6 +40373,13 @@ Y2-+l is the old shape, used until the end of the+s-!
     <variantOf baseSign="Aa56" isSimilar="y" linguistic="unspecified" sign="Aa77"/>
     <contains partCode="D40" sign="Aa77"/>
   </sign>
+  <sign sign="Aa81">
+    <signDescription lang="en" sign="Aa81">+lSign added for compatibility with Vector Office X+s</signDescription>
+    <contains partCode="Q1" sign="Aa81"/>
+    <contains partCode="G5" sign="Aa81"/>
+    <variantOf baseSign="R60" isSimilar="y" linguistic="unspecified" sign="Aa81"/>
+    <contains partCode="Z1" sign="Aa81"/>
+  </sign>
   <sign alwaysDisplay="y" sign="Ff1"/>
   <sign sign="Ff2">
     <hasTransliteration sign="Ff2" transliteration="Sn" type="phonogram" use="keyboard"/>
@@ -39384,8 +40395,24 @@ Y2-+l is the old shape, used until the end of the+s-!
   </sign>
   <sign sign="Ff6">
     <hasTag sign="Ff6" tag="canine-headed"/>
-    <hasTransliteration sign="Ff6" transliteration="sTA" type="phonogram" use="keyboard"/>
+    <hasTransliteration sign="Ff6" transliteration="sTA" type="ideogram" use="keyboard"/>
     <variantOf baseSign="V2" isSimilar="y" linguistic="full" sign="Ff6"/>
+    <signDescription lang="en" sign="Ff6">+lIdeog. in +s-Ff6:D54-+tsTA, +s-+idrag.+s-!
++lFrom hieratic shape of +s-V2-+l. +s-!
++lMedînet Habu, dyn. XX.+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
+  </sign>
+  <sign sign="Ff7">
+    <hasTransliteration sign="Ff7" transliteration="smn" type="phonogram" use="palette"/>
+    <hasTransliteration sign="Ff7" transliteration="mn" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="Ff7">+lPhon. det. +s-+tsmn, mn+s-!
++lfrom hieratic form of U32 +s-U32-+l.+s-!
++lAbydos, Sethos Temple, dyn. XIX+s-!
++bBibliography+s-!
++lGardiner, Alan H. 1931. “Additions to the Hieroglyphic Fount (1931).” +s-+iJEA+s-+l 17 (3/4): 245+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="Ff8">
     <variantOf baseSign="O50" isSimilar="y" linguistic="full" sign="Ff8"/>
@@ -39974,6 +41001,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="measuring instrument"/>
   <tagLabel label="measuring instrument" lang="en" tag="measuring instrument"/>
   <tagLabel label="instrument de mesure" lang="fr" tag="measuring instrument"/>
+  <tagCategory tag="metal"/>
+  <tagLabel label="metal" lang="en" tag="metal"/>
+  <tagLabel label="métal" lang="fr" tag="metal"/>
   <tagCategory tag="min"/>
   <tagLabel label="Min" lang="en" tag="min"/>
   <tagCategory tag="mirror"/>
@@ -39985,6 +41015,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="mountain"/>
   <tagLabel label="mountain" lang="en" tag="mountain"/>
   <tagLabel label="montagne" lang="fr" tag="mountain"/>
+  <tagCategory tag="mourner"/>
+  <tagLabel label="mourner" lang="en" tag="mourner"/>
+  <tagLabel label="pleureur/pleureuse" lang="fr" tag="mourner"/>
   <tagCategory tag="mouse"/>
   <tagLabel label="mouse" lang="en" tag="mouse"/>
   <tagLabel label="souris" lang="fr" tag="mouse"/>
@@ -40246,6 +41279,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="small bird"/>
   <tagLabel label="small bird" lang="en" tag="small bird"/>
   <tagLabel label="petit oiseau" lang="fr" tag="small bird"/>
+  <tagCategory tag="snake"/>
+  <tagLabel label="snake" lang="en" tag="snake"/>
+  <tagLabel label="serpent" lang="fr" tag="snake"/>
   <tagCategory tag="snake-headed"/>
   <tagLabel label="snake-headed" lang="en" tag="snake-headed"/>
   <tagLabel label="à tête de serpent" lang="fr" tag="snake-headed"/>
@@ -40346,6 +41382,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="varia"/>
   <tagLabel label="varia" lang="en" tag="varia"/>
   <tagLabel label="varia" lang="fr" tag="varia"/>
+  <tagCategory tag="vault"/>
+  <tagLabel label="vault" lang="en" tag="vault"/>
+  <tagLabel label="voûte" lang="en" tag="vault"/>
   <tagCategory tag="vegetable"/>
   <tagLabel label="vegetable" lang="en" tag="vegetable"/>
   <tagLabel label="légume" lang="fr" tag="vegetable"/>
@@ -40442,6 +41481,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="with uraeus"/>
   <tagLabel label="with uraeus" lang="en" tag="with uraeus"/>
   <tagLabel label="avec uraeus" lang="fr" tag="with uraeus"/>
+  <tagCategory tag="with vulture headdress"/>
+  <tagLabel label="with vulture headdress" lang="en" tag="with vulture headdress"/>
+  <tagLabel label="avec dépouille de vautour" lang="fr" tag="with vulture headdress"/>
   <tagCategory tag="without handle"/>
   <tagLabel label="without handle" lang="en" tag="without handle"/>
   <tagLabel label="sans anse" lang="fr" tag="without handle"/>

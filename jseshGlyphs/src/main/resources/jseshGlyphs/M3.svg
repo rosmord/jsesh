@@ -1,103 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="M3.svg"
-   sodipodi:docbase="/home/rosmord/Travail/Gsigns/Ramessides/Fontes"
-   inkscape:version="0.41.1"
+   width="1777.6"
+   height="499.29999"
+   id="svg3575"
    sodipodi:version="0.32"
-   id="svg1290"
-   height="18.000000px"
-   width="18.000000px">
-  <defs
-     id="defs3" />
-  <sodipodi:namedview
-     inkscape:window-y="49"
-     inkscape:window-x="5"
-     inkscape:window-height="541"
-     inkscape:window-width="840"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="px"
-     inkscape:cy="6.2217690"
-     inkscape:cx="11.447968"
-     inkscape:zoom="15.389597"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
-     pagecolor="#ffffff"
-     id="base" />
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="M3.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title5">M3</title>
   <metadata
-     id="metadata4">
-    <rdf:RDF
-       id="RDF5">
+     id="metadata3582">
+    <rdf:RDF>
       <cc:Work
-         id="Work6"
          rdf:about="">
-        <dc:format
-           id="format7">image/svg+xml</dc:format>
+        <dc:format>image/svg+xml</dc:format>
         <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-           id="type9" />
-        <cc:license
-           rdf:resource="http://creativecommons.org/licenses/by/2.0/"
-           id="license1300" />
-        <dc:subject
-           id="subject1316">
-          <rdf:Bag
-             id="Bag1318">
-            <rdf:li
-               id="li1350">JSesh hieroglyph</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <dc:creator
-           id="creator2199">
-          <cc:Agent
-             id="Agent2201">
-            <dc:title
-               id="title2203">Serge Rosmorduc</dc:title>
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>M3</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
           </cc:Agent>
         </dc:creator>
-        <dc:description
-           id="description2205">Karnak Hypostyle walls.</dc:description>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>SIL licence</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:description>M3 sign, free-hand drawing close to the version in Gardiner fonts.
+</dc:description>
+        <cc:license
+           rdf:resource="http://scripts.sil.org/OFL" />
       </cc:Work>
       <cc:License
-         id="License1302"
-         rdf:about="http://creativecommons.org/licenses/by/2.0/">
+         rdf:about="http://scripts.sil.org/OFL">
         <cc:permits
-           id="permits1304"
-           rdf:resource="http://web.resource.org/cc/Reproduction" />
+           rdf:resource="http://scripts.sil.org/pub/OFL/Reproduction" />
         <cc:permits
-           id="permits1306"
-           rdf:resource="http://web.resource.org/cc/Distribution" />
-        <cc:requires
-           id="requires1308"
-           rdf:resource="http://web.resource.org/cc/Notice" />
-        <cc:requires
-           id="requires1310"
-           rdf:resource="http://web.resource.org/cc/Attribution" />
+           rdf:resource="http://scripts.sil.org/pub/OFL/Distribution" />
         <cc:permits
-           id="permits1312"
-           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+           rdf:resource="http://scripts.sil.org/pub/OFL/Embedding" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeWorks" />
         <cc:requires
-           id="requires1314"
-           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+           rdf:resource="http://scripts.sil.org/pub/OFL/Notice" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Attribution" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeRenaming" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/BundlingWhenSelling" />
       </cc:License>
     </rdf:RDF>
   </metadata>
-  <g
-     id="layer1"
-     inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
-    <path
-       id="path2175"
-       d="M 0.67825603,14.164746 C 0.45808702,14.213693 0.23762695,14.261717 0.017244711,14.309833 C 0.11164544,15.092064 0.41579382,15.851903 0.92096895,16.459657 C 1.3733883,17.010978 2.0069645,17.449548 2.7240130,17.549788 C 3.2222274,17.596851 3.7246804,17.582895 4.2239712,17.561633 C 5.1569807,17.512900 6.0901580,17.261153 6.8783097,16.749808 C 7.3476579,16.449547 7.7557571,16.061041 8.1070450,15.629761 C 8.1900991,15.552520 8.3162215,15.609827 8.4186832,15.589943 C 10.344469,15.572190 12.271173,15.525768 14.196525,15.584192 C 14.320234,15.556272 14.152236,15.682273 14.129309,15.722101 C 13.623032,16.295994 13.127826,16.879716 12.604231,17.437855 C 12.958061,17.637886 13.311860,17.837988 13.665935,18.037584 C 14.242142,17.468780 14.679582,16.745331 15.386033,16.319058 C 16.051852,15.978407 16.820150,16.017791 17.545457,15.953710 C 17.718862,15.938519 17.892333,15.924032 18.065697,15.908413 C 18.065697,15.431423 18.065697,14.954433 18.065697,14.477443 C 14.988598,14.485772 11.911352,14.485155 8.8345807,14.536662 C 7.2727341,14.579675 5.7258028,14.312974 4.1692863,14.238536 C 3.7226615,14.221992 3.2727534,14.227771 2.8296997,14.283518 C 2.5255324,14.357513 2.4004401,14.676928 2.2542464,14.918801 C 2.1828706,15.044873 2.1064331,15.167830 2.0275169,15.289304 C 2.1753264,15.363454 2.2924874,15.209238 2.4198412,15.161274 C 2.7000939,15.001613 3.0095714,14.839459 3.3432435,14.886353 C 4.4885142,14.905763 5.6241737,15.069998 6.7630229,15.177215 C 6.5286988,15.686919 6.0011283,15.967124 5.4992273,16.155706 C 4.6059236,16.503508 3.6449132,16.667196 2.6887622,16.682285 C 2.1686242,16.643383 1.7524488,16.262870 1.4584066,15.861362 C 1.0810348,15.358527 0.88032172,14.754125 0.69344641,14.161079 L 0.67825603,14.164746 z "
-       style="color:#000000;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:0.36888990;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" />
-  </g>
+  <defs
+     id="defs3580">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 496.80339 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="17.775585 : 496.80339 : 1"
+       inkscape:persp3d-origin="8.8877926 : 495.97119 : 1"
+       id="perspective3584" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="1039"
+     inkscape:window-width="1376"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.33812713"
+     inkscape:cx="869.49545"
+     inkscape:cy="0"
+     inkscape:window-x="1864"
+     inkscape:window-y="25"
+     inkscape:current-layer="svg3575"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:window-maximized="0" />
+  <path
+     id="path1"
+     style="stroke-linejoin:round"
+     d="m 522.52148,47.890625 -6.28515,89.781255 c 59.79586,4.18677 123.53169,12.84738 189.52929,24.00195 C 592.39557,219.89838 455.79833,278.7567 316.22656,316.58984 279.72394,302.80616 224.63058,277.58408 179.57422,244.36133 129.62898,207.5337 96.378906,164.58585 96.378906,120.13086 H 6.3789062 c 0,86.49804 58.5102268,151.48578 119.7832038,196.66602 15.08462,11.12279 30.58711,21.24942 46.01758,30.43554 -45.01658,6.72943 -89.577136,10.52344 -132.957034,10.52344 v 90 c 294.049384,0 607.781874,-145.53841 806.699224,-259.66992 54.76259,11.19785 110.46872,23.31477 166.36912,35.59375 -47.245,29.81509 -98.7651,55.2995 -159.4453,64.71093 l 13.79492,88.9375 c 123.966,-19.22699 212.63768,-88.70509 280.15428,-136.66992 l 628.0801,-5.63281 -0.8086,-89.99609 -672.6094,6.0332 C 904.21011,107.92969 702.54315,60.495329 522.52148,47.890625 Z" />
 </svg>

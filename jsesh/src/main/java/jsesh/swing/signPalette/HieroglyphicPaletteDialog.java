@@ -22,7 +22,7 @@ public class HieroglyphicPaletteDialog extends JFrame {
 		super("Hieroglyphic Palette");
 		this.presenter = presenter;
 		getContentPane().add(presenter.createComplexPalette());
-		setAlwaysOnTop(true);
+		setAlwaysOnTop(false);
 		pack();
 		initFromPreferences();
 	}
