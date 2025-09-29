@@ -11,7 +11,7 @@ public record RenderingSpecifications(
 		boolean smallSignsCentered,
 		PageSpecifications pageSpecifications,
 		GroupsLayoutSpecifications groupsLayoutSpecifications,
-		TextLayoutSpecification textLayoutSpecification,
+		TextLayoutSpecifications textLayoutSpecification,
 		ElementDrawingSpecifications elementDrawingSpecifications,
 		StrokeSpecifications strokeSpecifications) {
 
@@ -26,7 +26,7 @@ public record RenderingSpecifications(
 		private boolean smallSignsCentered;
 		private PageSpecifications pageSpecifications;
 		private GroupsLayoutSpecifications groupsLayoutSpecifications;
-		private TextLayoutSpecification textLayoutSpecification;
+		private TextLayoutSpecifications textLayoutSpecification;
 		private ElementDrawingSpecifications elementDrawingSpecifications;
 		private StrokeSpecifications strokeSpecifications;
 
@@ -54,7 +54,7 @@ public record RenderingSpecifications(
 			return this;
 		}
 
-		public Builder textLayoutSpecification(TextLayoutSpecification textLayoutSpecification) {
+		public Builder textLayoutSpecification(TextLayoutSpecifications textLayoutSpecification) {
 			this.textLayoutSpecification = textLayoutSpecification;
 			return this;
 		}
