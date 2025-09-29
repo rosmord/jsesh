@@ -5,7 +5,7 @@ package jsesh.drawingspecifications;
  * 
  * @author rosmord
  */
-public record TextLayoutSpecification(
+public record TextLayoutSpecifications(
         float lineSkip,
         float columnSkip,
         float tabUnitWidth) {
@@ -20,14 +20,14 @@ public record TextLayoutSpecification(
     }
 
     /**
-     * Builder for {@link TextLayoutSpecification}.
+     * Builder for {@link TextLayoutSpecifications}.
      */
     public static class Builder {
         private float lineSkip;
         private float columnSkip;
         private float tabUnitWidth;
 
-        public Builder(TextLayoutSpecification spec) {
+        public Builder(TextLayoutSpecifications spec) {
             this.lineSkip = spec.lineSkip;
             this.columnSkip = spec.columnSkip;
             this.tabUnitWidth = spec.tabUnitWidth;
@@ -48,8 +48,8 @@ public record TextLayoutSpecification(
             return this;
         }
 
-        public TextLayoutSpecification build() {
-            return new TextLayoutSpecification(lineSkip, columnSkip, tabUnitWidth);
+        public TextLayoutSpecifications build() {
+            return new TextLayoutSpecifications(lineSkip, columnSkip, tabUnitWidth);
         }
     }
 }
