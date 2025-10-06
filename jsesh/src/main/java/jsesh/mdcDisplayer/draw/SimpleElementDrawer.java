@@ -11,7 +11,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.drawingspecifications.ShadingStyle;
+import jsesh.drawingspecifications.graphical.ShadingStyle;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;

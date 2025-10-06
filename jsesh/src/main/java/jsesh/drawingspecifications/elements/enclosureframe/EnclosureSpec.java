@@ -1,8 +1,14 @@
-package jsesh.drawingspecifications.elementspecification;
+package jsesh.drawingspecifications.elements.enclosureframe;
 
-public record EnclosureSpecifications(
+/**
+ * Square Fortified town enclosure specifications.
+ */
+public record EnclosureSpec(
 		float bastionDepth,
 		float bastionLength) {
+
+	public static final EnclosureSpec DEFAULT =	 new EnclosureSpec(3, 4);
+	
 
 	/** Create a copy. */
 	public Builder copy() {
@@ -14,7 +20,8 @@ public record EnclosureSpecifications(
 		private float bastionDepth;
 		private float bastionLength;
 
-		public Builder(EnclosureSpecifications specs) {
+		
+		public Builder(EnclosureSpec specs) {
 			this.bastionDepth = specs.bastionDepth;
 			this.bastionLength = specs.bastionLength;
 		}
@@ -30,8 +37,8 @@ public record EnclosureSpecifications(
 			return this;
 		}
 
-		public EnclosureSpecifications build() {
-			return new EnclosureSpecifications(bastionDepth, bastionLength);
+		public EnclosureSpec build() {
+			return new EnclosureSpec(bastionDepth, bastionLength);
 		}
 	}
 }

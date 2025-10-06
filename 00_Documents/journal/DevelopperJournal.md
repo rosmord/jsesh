@@ -2,6 +2,14 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2025/10/06
+
+- We freeze the structure of the display preferences (`RenderingParameters`) ;
+- we will then proceed to write the code ;
+- and then, we will refactor them if needed.
+- we have removed computed data from the drawingspecifications. They will be provided by helper functions when needed.
+-  In the current version, the defaults for pagespec are computed from the other specifications. The whole specification system should be rethought to use independent values.
+
 ## 2023/06/07
 
 ## 2023/06/06

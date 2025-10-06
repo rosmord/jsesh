@@ -1,7 +1,12 @@
-package jsesh.drawingspecifications.elementspecification;
+package jsesh.drawingspecifications.elements.enclosureframe;
 
-public record SerekhSpecifications(
+/**
+ * Serekh specifications.
+ */
+public record SerekhSpec(
 		float doorSize) {
+
+	public static final SerekhSpec DEFAULT = new SerekhSpec(20);
 
 	/** Create a copy. */
 	public Builder copy() {
@@ -12,7 +17,7 @@ public record SerekhSpecifications(
 	public static class Builder {
 		private float doorSize;
 
-		public Builder(SerekhSpecifications specs) {
+		public Builder(SerekhSpec specs) {
 			this.doorSize = specs.doorSize;
 		}
 
@@ -21,8 +26,8 @@ public record SerekhSpecifications(
 			return this;
 		}
 
-		public SerekhSpecifications build() {
-			return new SerekhSpecifications(doorSize);
+		public SerekhSpec build() {
+			return new SerekhSpec(doorSize);
 		}
 	}
 }

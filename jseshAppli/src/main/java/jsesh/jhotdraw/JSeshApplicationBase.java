@@ -1,7 +1,7 @@
 package jsesh.jhotdraw;
 
 import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.drawingspecifications.ShadingStyle;
+import jsesh.drawingspecifications.graphical.ShadingStyle;
 import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
 import java.util.prefs.BackingStoreException;

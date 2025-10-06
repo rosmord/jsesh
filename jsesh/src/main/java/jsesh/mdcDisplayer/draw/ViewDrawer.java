@@ -766,7 +766,7 @@ public class ViewDrawer {
      * @return true if we are in paging mode.
      */
     public boolean isPaged() {
-        return drawingSpecifications.isPaged();
+        return drawingSpecifications.paged();
     }
 
     public boolean isShadeAfter() {

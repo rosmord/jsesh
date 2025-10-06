@@ -1,9 +1,15 @@
-package jsesh.drawingspecifications.elementspecification;
+package jsesh.drawingspecifications.elements.enclosureframe;
 
-public record HwtSignSpecifications(
+/**
+ * Hwt sign specifications.
+ */
+public record HwtSignSpec(
 		float smallMargin,
 		float squareSize
 		) {
+
+	public static final HwtSignSpec DEFAULT = 
+			new HwtSignSpec(3, 10);
 
 	/** Create a copy. */
 	public Builder copy() {
@@ -13,7 +19,7 @@ public record HwtSignSpecifications(
 	public static class Builder {
 		private float smallMargin;
 		private float squareSize;
-		public Builder(HwtSignSpecifications specs) {
+		public Builder(HwtSignSpec specs) {
 			this.smallMargin = specs.smallMargin;
 			this.squareSize = specs.squareSize;
 		}
@@ -25,8 +31,8 @@ public record HwtSignSpecifications(
 			this.squareSize = squareSize;
 			return this;
 		}
-		public HwtSignSpecifications build() {
-			return new HwtSignSpecifications(smallMargin, squareSize);
+		public HwtSignSpec build() {
+			return new HwtSignSpec(smallMargin, squareSize);
 		}
 	}
 }

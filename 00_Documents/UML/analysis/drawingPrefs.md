@@ -408,83 +408,21 @@ possibly problematic uses :
 - Editor Drawer uses drawer.getPositionForPoint() which expects a drawing specification
 - paintComponent uses 
 
+
+Placer
+/*   smallSignCentered */
 ~~~plantuml
 @startuml
 title Work in progress 
 skin rose
 hide empty members
 
-class RenderingSpecifications {
-		smallSignsCentered : boolean		
-}
-
-class PageSpecifications {
-  PageFormat
-  textWidth
-  textHeight
-  leftMargin
-  topMargin
-}
-
-note left of PageSpecifications::PageFormat
-We should probably use something 
-not based on `java.awt`
-end note
 
 class LayoutSpecifications {
   isPaged
   justified
   textDirection
   textOrientation
-}
-
-
-class GroupsLayoutSpecifications {
-  standardSignHeight
-  maxCadratHeight
-  maxCadratWidth
-  smallSignCentered
-  smallSkip  
-}
-
-class StrokeSpecifications {
-		fineLineWidth
-		fineLigneHeight
-		shadingStyle : ShadingStyle
-}
-
-
-class OutOfCadratSkipsSpecifications {
-  lineSkip
-  columnSkip
-  tabUnitWidth
-}
-
-
-class EcdoticSpecifications {
-  philologyWidth  
-}
-
-class CartoucheSpecifications {
-    cartoucheKnotLength
-    cartoucheLineWidth
-    cartoucheLoopLength
-    cartoucheMargin
-    cartoucheLineWidth
-}
-
-class EnclosureSpecifications {
-    enclosureBastionDepth
-    enclosureBastionLenght
-}
-
-class HwtSignSpecifications {
-    HwtSmallMargin
-    HwtSquareSize
-}
-
-class SerekhSpecifications {
-  serekhDoorSize
 }
 
 class FontsSpecifications {
@@ -517,17 +455,99 @@ class DeviceSpecifications {
   graphicDeviceScale
 }
 
-RenderingSpecifications --> GroupsLayoutSpecifications
-RenderingSpecifications --> ElementDrawingSpecifications
-RenderingSpecifications --> PageSpecifications 
-RenderingSpecifications --> StrokeSpecifications 
+class RenderingParameters {
+		PageSpec pageSpec
+		GroupsLayoutSpec groupsLayoutSpec
+		TextLayoutSpec textLayoutSpec
+		FrameSpec elementDrawingSpec
+		StrokeSpec strokeSpec
+}
+
+RenderingParameters --> PageSpec
+RenderingParameters --> GroupsLayoutSpec
+RenderingParameters --> TextLayoutSpec
+RenderingParameters --> FrameSpec
+RenderingParameters --> StrokeSpec
 
 
-ElementDrawingSpecifications --> CartoucheSpecifications
-ElementDrawingSpecifications --> EcdoticSpecifications
-ElementDrawingSpecifications --> EnclosureSpecifications
-ElementDrawingSpecifications --> HwtSignSpecifications
-ElementDrawingSpecifications --> SerekhSpecifications
+class PageSpec {
+    float textWidth
+		float textHeight
+		float leftMargin
+		float rightMargin
+		PageFormat format
+}
+
+
+class GroupsLayoutSpec {
+  	float maxCadratHeight
+		float maxCadratWidth
+		float smallSkip
+		float standardSignHeight
+}
+
+note left of PageSpec::PageFormat
+We should probably use something 
+not based on `java.awt`
+end note
+
+class TextLayoutSpec {
+        float lineSkip
+        float columnSkip
+        float tabUnitWidth
+}
+
+
+class FrameSpec {
+  CartoucheSpec cartoucheSpecifications
+  EcdoticSpec ecdoticSpecifications
+  EnclosureSpec enclosureSpecifications
+  HwtSignSpec hwtSignSpecifications
+  SerekhSpec serekhSpecifications
+}
+
+
+FrameSpec --> CartoucheSpec
+FrameSpec --> EcdoticSpec
+FrameSpec --> EnclosureSpec
+FrameSpec --> HwtSignSpec
+FrameSpec --> SerekhSpec
+
+class StrokeSpec {
+    float fineLineWidth
+		float fineLigneHeight
+		ShadingStyle shadingStyle
+}
+
+class EcdoticSpec {
+  philologyWidth  
+}
+
+class CartoucheSpec {
+    cartoucheKnotLength
+    cartoucheLineWidth
+    cartoucheLoopLength
+    cartoucheMargin
+    cartoucheLineWidth
+}
+
+class EnclosureSpec {
+    enclosureBastionDepth
+    enclosureBastionLenght
+}
+
+class HwtSignSpec {
+    HwtSmallMargin
+    HwtSquareSize
+}
+
+class SerekhSpec {
+  serekhDoorSize
+}
+
+
+
+
 
 @enduml
 ~~~

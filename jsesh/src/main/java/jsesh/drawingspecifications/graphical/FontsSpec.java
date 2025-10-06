@@ -1,4 +1,4 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.graphical;
 
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.YODChoice;
@@ -9,7 +9,7 @@ import java.awt.Font;
  * 
  * @see ScriptCodes (will probably change)
  */
-public record FontsSpecifications(
+public record FontsSpec(
 		/**
 		 * Use Unicode for translitteration or MdC 256 char font ?
 		 */
@@ -39,7 +39,7 @@ public record FontsSpecifications(
 		private Font italicFont;
 		private Font translitterationFont;
 
-		public Builder(FontsSpecifications specs) {
+		public Builder(FontsSpec specs) {
 			this.translitUnicode = specs.translitUnicode;
 			this.yodChoice = specs.yodChoice;
 			this.gardinerQofUsed = specs.gardinerQofUsed;
@@ -84,8 +84,8 @@ public record FontsSpecifications(
 			return this;
 		}
 
-		public FontsSpecifications build() {
-			return new FontsSpecifications(translitUnicode, yodChoice, gardinerQofUsed, plainFont, boldFont, italicFont,
+		public FontsSpec build() {
+			return new FontsSpec(translitUnicode, yodChoice, gardinerQofUsed, plainFont, boldFont, italicFont,
 					translitterationFont);
 		}
 	}

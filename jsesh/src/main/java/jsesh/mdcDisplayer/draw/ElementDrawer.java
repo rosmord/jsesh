@@ -3,7 +3,7 @@ package jsesh.mdcDisplayer.draw;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import jsesh.drawingspecifications.ShadingStyle;
+import jsesh.drawingspecifications.graphical.ShadingStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -326,7 +326,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	public boolean isPaged() {
-		return drawingSpecifications.isPaged();
+		return drawingSpecifications.paged();
 	}
 
 	public boolean isShadeAfter() {

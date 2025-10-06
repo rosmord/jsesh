@@ -1,14 +1,22 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.elements;
 
 /**
  * Specifications for the layout of lines and columns.
  * 
+ * @param lineSkip    distance between two lines (in points).
+ * @param columnSkip  distance between two columns (in points).
+ * @param tabUnitWidth get the width of the unit used in MdC tabulation (in points).
  * @author rosmord
  */
-public record TextLayoutSpecifications(
+public record TextLayoutSpec(
         float lineSkip,
         float columnSkip,
         float tabUnitWidth) {
+
+    public static final TextLayoutSpec DEFAULT = new TextLayoutSpec(
+            6.0f,
+            10.0f,
+            (18f / 200f));
 
     /**
      * Create a copy builder.
@@ -20,14 +28,14 @@ public record TextLayoutSpecifications(
     }
 
     /**
-     * Builder for {@link TextLayoutSpecifications}.
+     * Builder for {@link TextLayoutSpec}.
      */
     public static class Builder {
         private float lineSkip;
         private float columnSkip;
         private float tabUnitWidth;
 
-        public Builder(TextLayoutSpecifications spec) {
+        public Builder(TextLayoutSpec spec) {
             this.lineSkip = spec.lineSkip;
             this.columnSkip = spec.columnSkip;
             this.tabUnitWidth = spec.tabUnitWidth;
@@ -48,8 +56,8 @@ public record TextLayoutSpecifications(
             return this;
         }
 
-        public TextLayoutSpecifications build() {
-            return new TextLayoutSpecifications(lineSkip, columnSkip, tabUnitWidth);
+        public TextLayoutSpec build() {
+            return new TextLayoutSpec(lineSkip, columnSkip, tabUnitWidth);
         }
     }
 }

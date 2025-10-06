@@ -2,7 +2,7 @@
  * Specifications for the rendering of manuel de codage texts.
  * 
  * 
- * The most fundamental class is {@link RenderingSpecifications}, which points to the others.
+ * The most fundamental class is {@link RenderingParameters}, which points to the others.
  * 
  * <p>Reorganized:
  * 

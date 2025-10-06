@@ -1,14 +1,23 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.elements;
 
 import java.awt.print.PageFormat;
 
-public record PageSpecifications(
+/**
+ * Specification for page layout.
+ * In the current version, the default are computed from the other specifications.
+ * The whole specification system should be rethought to use independent values.
+ * Note clean at all. Should be replaced.
+ * 
+ * <p>This class has no default value, as it is computed from other specifications.
+ */
+public record PageSpec(
 		float textWidth,
 		float textHeight,
 		float leftMargin,
-		float rightMargin,
-		PageFormat format // Maybe replace with something not java.awt related.
+		float topMargin,
+		PageFormat format // Maybe replace with something not java.awt related. Can be null.
 ) {
+
 
 	public Builder copy() {
 		return new Builder(this);
@@ -22,14 +31,14 @@ public record PageSpecifications(
 		private float textWidth;
 		private float textHeight;
 		private float leftMargin;
-		private float rightMargin;
+		private float topMargin;
 		private PageFormat format;
 
-		public Builder(PageSpecifications specs) {
+		public Builder(PageSpec specs) {
 			this.textWidth = specs.textWidth;
 			this.textHeight = specs.textHeight;
 			this.leftMargin = specs.leftMargin;
-			this.rightMargin = specs.rightMargin;
+			this.topMargin = specs.topMargin;
 			this.format = specs.format;
 		}
 
@@ -48,8 +57,8 @@ public record PageSpecifications(
 			return this;
 		}
 
-		public Builder rightMargin(float rightMargin) {
-			this.rightMargin = rightMargin;
+		public Builder topMargin(float topMargin) {
+			this.topMargin = topMargin;
 			return this;
 		}
 
@@ -58,8 +67,8 @@ public record PageSpecifications(
 			return this;
 		}
 
-		public PageSpecifications build() {
-			return new PageSpecifications(textWidth, textHeight, leftMargin, rightMargin, format);
+		public PageSpec build() {
+			return new PageSpec(textWidth, textHeight, leftMargin, topMargin, format);
 		}
 	}
 }

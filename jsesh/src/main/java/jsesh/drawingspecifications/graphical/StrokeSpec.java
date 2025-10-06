@@ -1,9 +1,9 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.graphical;
 
 /**
- * Note : should probably be renamed as drawing specifications ?
+ * Specification for rendering strokes.
  */
-public record StrokeSpecifications(
+public record StrokeSpec(
 		float fineLineWidth,
 		float fineLigneHeight,
 		ShadingStyle shadingStyle
@@ -19,7 +19,7 @@ public record StrokeSpecifications(
 		private float fineLigneHeight;
 		private ShadingStyle shadingStyle;
 
-		public Builder(StrokeSpecifications specs) {
+		public Builder(StrokeSpec specs) {
 			this.fineLineWidth = specs.fineLineWidth;
 			this.fineLigneHeight = specs.fineLigneHeight;
 			this.shadingStyle = specs.shadingStyle;
@@ -40,8 +40,8 @@ public record StrokeSpecifications(
 			return this;
 		}
 
-		public StrokeSpecifications build() {
-			return new StrokeSpecifications(fineLineWidth, fineLigneHeight, shadingStyle);
+		public StrokeSpec build() {
+			return new StrokeSpec(fineLineWidth, fineLigneHeight, shadingStyle);
 		}
 	}
 }

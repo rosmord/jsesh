@@ -1,6 +1,6 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.graphical;
 
-public record DeviceSpecifications(
+public record DeviceSpec(
 		/**
 		 * Returns the scale of the graphic device, in graphic units per typographical
 		 * point. This is the scale used by the device if g.getXScale() returns 1.0, not
@@ -19,7 +19,7 @@ public record DeviceSpecifications(
 		/** Copy Builder class */
 		public static class Builder {
 			private double graphicDeviceScale;
-			public Builder(DeviceSpecifications specs) {
+			public Builder(DeviceSpec specs) {
 				this.graphicDeviceScale = specs.graphicDeviceScale;
 			}
 			public Builder graphicDeviceScale(double graphicDeviceScale) {
@@ -27,8 +27,8 @@ public record DeviceSpecifications(
 				return this;
 			}
 
-			public DeviceSpecifications build() {
-				return new DeviceSpecifications(graphicDeviceScale);
+			public DeviceSpec build() {
+				return new DeviceSpec(graphicDeviceScale);
 			}
 		}
 }

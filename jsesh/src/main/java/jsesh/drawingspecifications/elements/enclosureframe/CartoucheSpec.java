@@ -1,10 +1,20 @@
-package jsesh.drawingspecifications.elementspecification;
+package jsesh.drawingspecifications.elements.enclosureframe;
 
-public record CartoucheSpecifications(
-		float knotLength,
+/**
+ * Specifications for cartouches.
+ * 
+ * (done)
+ * @author rosmord
+ */
+public record CartoucheSpec(
 		float lineWidth,
 		float loopLength,
 		float margin) {
+
+
+	public static final CartoucheSpec DEFAULT = 
+			new CartoucheSpec(1, 10, 2);
+		
 	/**
 	 * Create a copy
 	 * 
@@ -16,21 +26,14 @@ public record CartoucheSpecifications(
 
 	/** copy builder class */
 	public static class Builder {
-		private float knotLength;
 		private float lineWidth;
 		private float loopLength;
 		private float margin;
 
-		public Builder(CartoucheSpecifications specs) {
-			this.knotLength = specs.knotLength;
+		public Builder(CartoucheSpec specs) {
 			this.lineWidth = specs.lineWidth;
 			this.loopLength = specs.loopLength;
 			this.margin = specs.margin;
-		}
-
-		public Builder knotLength(float knotLength) {
-			this.knotLength = knotLength;
-			return this;
 		}
 
 		public Builder lineWidth(float lineWidth) {
@@ -48,8 +51,8 @@ public record CartoucheSpecifications(
 			return this;
 		}
 
-		public CartoucheSpecifications build() {
-			return new CartoucheSpecifications(knotLength, lineWidth, loopLength, margin);
+		public CartoucheSpec build() {
+			return new CartoucheSpec(lineWidth, loopLength, margin);
 		}
 
 	}

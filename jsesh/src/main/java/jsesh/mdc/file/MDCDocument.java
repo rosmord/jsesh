@@ -10,7 +10,8 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import jsesh.drawingspecifications.ShadingStyle;
+import jsesh.drawingspecifications.RenderingParameters;
+import jsesh.drawingspecifications.graphical.ShadingStyle;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
@@ -52,28 +53,29 @@ public class MDCDocument {
 	 * Create a document from a top item list and specifications.
 	 * 
 	 * @param topItemList
-	 * @param drawingSpecifications
+	 * @param renderingParam
 	 */
 	public MDCDocument(TopItemList topItemList,
-			DrawingSpecification drawingSpecifications) {
+			RenderingParameters renderingParam) {
 		this();
 		hieroglyphicTextModel = new HieroglyphicTextModel();
 		hieroglyphicTextModel.setTopItemList(topItemList);
 		// This will be simpler if DocumentPreferences becomes a part of drawing specifications...
 		DocumentPreferences prefs = new DocumentPreferences()
-				.withTextDirection(drawingSpecifications.getTextDirection())
-				.withTextOrientation(drawingSpecifications.getTextOrientation())
+				.withTextDirection(						
+				renderingParam.getTextDirection())
+				.withTextOrientation(renderingParam.getTextOrientation())
 				.withCartoucheLineWidth(
-						drawingSpecifications.getCartoucheLineWidth())
-				.withColumnSkip(drawingSpecifications.getColumnSkip())
-				.withLineSkip(drawingSpecifications.getLineSkip())
+						renderingParam.getCartoucheLineWidth())
+				.withColumnSkip(renderingParam.getColumnSkip())
+				.withLineSkip(renderingParam.getLineSkip())
 				.withMaxQuadrantHeight(
-						drawingSpecifications.getMaxCadratHeight())
-				.withMaxQuadrantWidth(drawingSpecifications.getMaxCadratWidth())
-				.withSmallSignCentered(drawingSpecifications.isSmallSignsCentered())
-				.withSmallBodyScaleLimit(drawingSpecifications.getSmallBodyScaleLimit())
-				.withStandardSignHeight(drawingSpecifications.getStandardSignHeight())
-				.withUseLinesForShading(drawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING))
+						renderingParam.getMaxCadratHeight())
+				.withMaxQuadrantWidth(renderingParam.getMaxCadratWidth())
+				.withSmallSignCentered(renderingParam.isSmallSignsCentered())
+				.withSmallBodyScaleLimit(renderingParam.getSmallBodyScaleLimit())
+				.withStandardSignHeight(renderingParam.getStandardSignHeight())
+				.withUseLinesForShading(renderingParam.getShadingStyle().equals(ShadingStyle.LINE_HATCHING))
 				;
 		setDocumentPreferences(prefs);
 	}

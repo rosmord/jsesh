@@ -1,9 +1,9 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.graphical;
 
 import java.awt.Color;
 import java.util.Map;
 
-public record ColorSpecifications(
+public record ColorSpec(
 		Color blackColor,
 		Color redColor,
 		Color cursorColor,
@@ -27,7 +27,7 @@ public record ColorSpecifications(
 		private Color backgroundColor;
 		private Map<String, Color> colorMap;
 
-		public Builder(ColorSpecifications specs) {
+		public Builder(ColorSpec specs) {
 			this.blackColor = specs.blackColor;
 			this.redColor = specs.redColor;
 			this.cursorColor = specs.cursorColor;
@@ -66,8 +66,8 @@ public record ColorSpecifications(
 			return this;
 		}
 
-		public ColorSpecifications build() {
-			return new ColorSpecifications(blackColor, redColor, cursorColor, grayColor, backgroundColor, colorMap);
+		public ColorSpec build() {
+			return new ColorSpec(blackColor, redColor, cursorColor, grayColor, backgroundColor, colorMap);
 		}
 	}
 }

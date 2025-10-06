@@ -316,7 +316,7 @@ public class LineLayout extends TopItemLayout {
             // flush the current line.
             flushZone();
             // If the page break starts a new page, we won't draw anything.
-            if (!drawingSpecifications.isPaged()) {
+            if (!drawingSpecifications.paged()) {
 
                 // build a zone containing only the page break.
                 zone = new Zone(0f, 0f);

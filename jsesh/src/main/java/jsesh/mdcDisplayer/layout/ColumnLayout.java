@@ -199,7 +199,7 @@ public class ColumnLayout extends TopItemLayout {
                 @Override
 		public void visitPageBreak(PageBreak b) {
 			// TEMPORARY.
-			if (!drawingSpecifications.isPaged())
+			if (!drawingSpecifications.paged())
 				visitLineBreak(new LineBreak());
 		}
 

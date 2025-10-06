@@ -1,17 +1,29 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.elements;
 
 /**
  * Specifications for the layout of hieroglyphic groups.
  * 
+ * @param maxCadratHeight the maximum height of a cadrat in horizontal text
+ * @param maxCadratWidth the maximum width of a cadrat in vertical text
+ * @param smallSkip skip between elements in a group
+ * @param standardSignHeight the expected height of A1.
+ * 
  * @author rosmord
  */
 
-public record GroupsLayoutSpecifications(
+public record GroupsSpec(
 		float maxCadratHeight,
 		float maxCadratWidth,
 		float smallSkip,
 		float standardSignHeight) {
 
+	public static final GroupsSpec DEFAULT = 
+		new GroupsSpec(
+			18f,
+			 22f, 
+			2f, 
+			18f);
+			
 	public Builder copy() {
 		return new Builder(this);
 	}
@@ -22,7 +34,7 @@ public record GroupsLayoutSpecifications(
 		private float smallSkip;
 		private float standardSignHeight;
 
-		public Builder(GroupsLayoutSpecifications spec) {
+		public Builder(GroupsSpec spec) {
 			this.maxCadratHeight = spec.maxCadratHeight;
 			this.maxCadratWidth = spec.maxCadratWidth;
 			this.smallSkip = spec.smallSkip;
@@ -50,8 +62,8 @@ public record GroupsLayoutSpecifications(
 		}
 
 		
-		public GroupsLayoutSpecifications build() {
-			return new GroupsLayoutSpecifications(maxCadratHeight, maxCadratWidth, smallSkip, standardSignHeight);
+		public GroupsSpec build() {
+			return new GroupsSpec(maxCadratHeight, maxCadratWidth, smallSkip, standardSignHeight);
 		}
 	}
 }

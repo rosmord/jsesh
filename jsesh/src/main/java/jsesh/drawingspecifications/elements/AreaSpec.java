@@ -1,13 +1,18 @@
-package jsesh.drawingspecifications;
+package jsesh.drawingspecifications.elements;
 
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 
-public record LayoutSpecifications(
-		boolean isPaged,
+/**
+ * Global layout specifications.
+ */
+public record AreaSpec(
+		boolean paged,
 		boolean justified, // will be removed
 		TextDirection textDirection,
 		TextOrientation textOrientation) {
+
+	public static final AreaSpec DEFAULT = new AreaSpec(false, false, TextDirection.LEFT_TO_RIGHT, TextOrientation.HORIZONTAL);
 
 	public Builder copy() {
 		return new Builder(this);
@@ -23,15 +28,15 @@ public record LayoutSpecifications(
 		private TextDirection textDirection;
 		private TextOrientation textOrientation;
 
-		public Builder(LayoutSpecifications specs) {
-			this.isPaged = specs.isPaged;
+		public Builder(AreaSpec specs) {
+			this.isPaged = specs.paged;
 			this.justified = specs.justified;
 			this.textDirection = specs.textDirection;
 			this.textOrientation = specs.textOrientation;
 		}
 
-		public Builder paged(boolean isPaged) {
-			this.isPaged = isPaged;
+		public Builder paged(boolean paged) {
+			this.isPaged = paged;
 			return this;
 		}
 
@@ -50,8 +55,8 @@ public record LayoutSpecifications(
 			return this;
 		}
 
-		public LayoutSpecifications build() {
-			return new LayoutSpecifications(isPaged, justified, textDirection, textOrientation);
+		public AreaSpec build() {
+			return new AreaSpec(isPaged, justified, textDirection, textOrientation);
 		}
 	}
 
