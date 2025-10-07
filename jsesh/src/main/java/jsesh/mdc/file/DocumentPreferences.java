@@ -12,7 +12,6 @@ import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.jseshInfo.JSeshInfoReader;
-import jsesh.utils.EnumBase;
 
 /**
  * Immutable (?) representation of document preferences.

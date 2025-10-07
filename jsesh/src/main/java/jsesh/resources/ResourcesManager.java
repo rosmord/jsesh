@@ -31,9 +31,16 @@ public class ResourcesManager {
 
     static private ResourcesManager instance;
 
-    private Font transliterationFont;
+    /**
+     * the default Mdc Compatible transliteration font.
+     */
+    private Font mdcTransliterationFont;
 
-    private Font unicodeFont;
+    /**
+     * The default unicode font with transliteration characters.
+     */
+    private Font unicodeTransliterationFont;
+
     /**
      * Name of the file (in the package ResourcesManager) which contains the
      * definitions for the various icons. A global convention shall be that
@@ -75,11 +82,11 @@ public class ResourcesManager {
     }
 
     private void loadFonts() {
-        transliterationFont = loadStreamFont("/jseshResources/fonts/MDCTranslitLC.ttf", Font.ITALIC);
-        transliterationFont = transliterationFont.deriveFont(12f);
+        mdcTransliterationFont = loadStreamFont("/jseshResources/fonts/MDCTranslitLC.ttf", Font.ITALIC);
+        mdcTransliterationFont = mdcTransliterationFont.deriveFont(12f);
 
-        unicodeFont = loadStreamFont("/jseshResources/fonts/EgyptoSerif.ttf", Font.PLAIN);
-        unicodeFont = unicodeFont.deriveFont(12f);
+        unicodeTransliterationFont = loadStreamFont("/jseshResources/fonts/EgyptoSerif.ttf", Font.PLAIN);
+        unicodeTransliterationFont = unicodeTransliterationFont.deriveFont(12f);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -126,8 +133,8 @@ public class ResourcesManager {
     /**
      * @return the font for translitteration.
      */
-    public Font getTransliterationFont() {
-        return transliterationFont;
+    public Font getMdcTransliterationFont() {
+        return mdcTransliterationFont;
     }
 
     public Reader getLigatureData() {
@@ -182,12 +189,12 @@ public class ResourcesManager {
     }
 
     /**
-     * Return the unicode font. (this is a testing feature)
+     * Return the unicode font.
      *
      * @return the unicodeFont
      */
-    public Font getUnicodeFont() {
-        return unicodeFont;
+    public Font getUnicodeTransliterationFont() {
+        return unicodeTransliterationFont;
     }
 
 }

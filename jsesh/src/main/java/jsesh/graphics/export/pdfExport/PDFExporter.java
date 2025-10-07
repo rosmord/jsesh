@@ -264,7 +264,7 @@ public class PDFExporter {
                     .getFont(ScriptCodes.TRANSLITERATION)
                     .getName()
                     .equals(ResourcesManager.getInstance()
-                            .getTransliterationFont().getName())) {
+                            .getMdcTransliterationFont().getName())) {
                 // Build fonts to use
 
                 BaseFont bf = BaseFont.createFont(

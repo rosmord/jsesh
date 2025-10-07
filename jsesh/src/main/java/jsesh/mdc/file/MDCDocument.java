@@ -60,22 +60,25 @@ public class MDCDocument {
 		this();
 		hieroglyphicTextModel = new HieroglyphicTextModel();
 		hieroglyphicTextModel.setTopItemList(topItemList);
-		// This will be simpler if DocumentPreferences becomes a part of drawing specifications...
+		
 		DocumentPreferences prefs = new DocumentPreferences()
-				.withTextDirection(						
-				renderingParam.getTextDirection())
-				.withTextOrientation(renderingParam.getTextOrientation())
+				.withTextDirection(		
+					renderingParam.elementsSpec().areaSpec().textDirection())
+				.withTextOrientation(renderingParam.elementsSpec().areaSpec().textOrientation())
 				.withCartoucheLineWidth(
-						renderingParam.getCartoucheLineWidth())
-				.withColumnSkip(renderingParam.getColumnSkip())
-				.withLineSkip(renderingParam.getLineSkip())
+						renderingParam.elementsSpec().framesSpec().cartoucheSpecifications().lineWidth()
+				)										
+				.withColumnSkip(
+					renderingParam.elementsSpec().areaSpec().columnSkip()
+				)
+				.withLineSkip(renderingParam.elementsSpec().areaSpec().lineSkip())
 				.withMaxQuadrantHeight(
-						renderingParam.getMaxCadratHeight())
-				.withMaxQuadrantWidth(renderingParam.getMaxCadratWidth())
-				.withSmallSignCentered(renderingParam.isSmallSignsCentered())
-				.withSmallBodyScaleLimit(renderingParam.getSmallBodyScaleLimit())
-				.withStandardSignHeight(renderingParam.getStandardSignHeight())
-				.withUseLinesForShading(renderingParam.getShadingStyle().equals(ShadingStyle.LINE_HATCHING))
+						renderingParam.elementsSpec().groupsSpec().maxCadratHeight())
+				.withMaxQuadrantWidth(renderingParam.elementsSpec().groupsSpec().maxCadratWidth())
+				.withSmallSignCentered(renderingParam.elementsSpec().groupsSpec().smallSignCentered())
+				.withSmallBodyScaleLimit(renderingParam.elementsSpec().signSpec().smallBodyScaleLimit())
+				.withStandardSignHeight(renderingParam.elementsSpec().signSpec().standardSignHeight())
+				.withUseLinesForShading(renderingParam.graphicalSpecs().strokeSpec().shadingStyle().equals(ShadingStyle.LINE_HATCHING))
 				;
 		setDocumentPreferences(prefs);
 	}

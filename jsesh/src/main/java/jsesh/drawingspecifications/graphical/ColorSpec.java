@@ -3,17 +3,40 @@ package jsesh.drawingspecifications.graphical;
 import java.awt.Color;
 import java.util.Map;
 
+/**
+ * Color specifications.
+ * 
+ * @param blackColor the color to use for normal text.
+ * @param redColor the color to use for red text.
+ * @param cursorColor the color to use for the cursor.
+ * @param grayColor the color to use for shading.
+ * @param backgroundColor the color to use for the background.
+ * @param colorMap a color map (which should not be modifiable).
+ * @author Serge Rosmorduc
+ */
 public record ColorSpec(
 		Color blackColor,
 		Color redColor,
 		Color cursorColor,
 		Color grayColor,
 		Color backgroundColor,
-		/**
-		 * An unmodifiable map (should really be immutable).
-		 */
 		Map<String, Color> colorMap) {
 
+	// Record constructor, which ensures the map is unmodifiable.
+	public ColorSpec {
+		colorMap = Map.copyOf(colorMap);
+	}
+
+	public static final ColorSpec DEFAULT = new ColorSpec(
+			Color.BLACK,
+			Color.RED,
+			Color.BLUE,
+			Color.LIGHT_GRAY,
+			Color.WHITE,
+			Map.of()
+			);
+
+	
 	public Builder copy() {
 		return new Builder(this);
 	}

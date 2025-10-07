@@ -1,13 +1,18 @@
 package jsesh.drawingspecifications;
 
 import jsesh.drawingspecifications.graphical.ColorSpec;
-import jsesh.drawingspecifications.graphical.DeviceSpec;
 import jsesh.drawingspecifications.graphical.FontsSpec;
 import jsesh.drawingspecifications.graphical.StrokeSpec;
 
+/**
+ * Specifications not related to layout.
+ * 
+ * @param colorSpec colors the various colours used in rendering
+ * @param fontsSpec fonts the fonts for non-hieroglyphic text
+ * @param strokeSpec stroke specifications line width and shading style.
+ */
 public record GraphicalSpecs (
     ColorSpec colorSpec,
-    DeviceSpec deviceSpec,
     FontsSpec fontsSpec,
     StrokeSpec strokeSpec
 ){
@@ -18,13 +23,11 @@ public record GraphicalSpecs (
     
     public static class Builder {
         private ColorSpec colorSpec;
-        private DeviceSpec deviceSpec;
         private FontsSpec fontsSpec;
         private StrokeSpec strokeSpec;
 
         public Builder(GraphicalSpecs specs) {
             this.colorSpec = specs.colorSpec;
-            this.deviceSpec = specs.deviceSpec;
             this.fontsSpec = specs.fontsSpec;
             this.strokeSpec = specs.strokeSpec;
         }
@@ -34,10 +37,6 @@ public record GraphicalSpecs (
             return this;
         }
 
-        public Builder deviceSpec(DeviceSpec deviceSpec) {
-            this.deviceSpec = deviceSpec;
-            return this;
-        }
 
         public Builder fontsSpec(FontsSpec fontsSpec) {
             this.fontsSpec = fontsSpec;
@@ -50,7 +49,7 @@ public record GraphicalSpecs (
         }
 
         public GraphicalSpecs build() {
-            return new GraphicalSpecs(colorSpec, deviceSpec, fontsSpec, strokeSpec);
+            return new GraphicalSpecs(colorSpec, fontsSpec, strokeSpec);
         }
     }
 }

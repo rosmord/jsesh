@@ -6,6 +6,17 @@ import jsesh.drawingspecifications.elements.GroupsSpec;
 import jsesh.drawingspecifications.elements.PageSpec;
 import jsesh.drawingspecifications.elements.SignSpec;
 
+/**
+ * A record grouping all specifications related to the elements of a drawing.
+ * 
+ * @param areaSpec global text areas (text direction, etc.)
+ * @param groupsSpec hieroglyphic groups
+ * @param pageSpec page layout
+ * @param signSpec specification for sign drawing
+ * @param framesSpec frames (cartouches, etc.)
+ * 
+ * @author Serge Rosmorduc
+ */
 public record ElementsSpec (
     AreaSpec areaSpec,
     GroupsSpec groupsSpec,

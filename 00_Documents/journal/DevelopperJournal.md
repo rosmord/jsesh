@@ -2,6 +2,15 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2025/10/07
+
+Problem to solve: should the drawing specifications depend on Swing? or should they be stand alone?
+
+- in the first case, some things are easier to write and probably more efficient.
+- in the second case, we can more easily move to non-swing rendering if needed later.
+- we keep the newEdit package for now. It will probably move to a branch of its own once we have finished this update.
+- our new architecture for specification doesn't play very well with DocumentPreferences. It might be interesting to try to fit the two. Currently, it's a blatant violation of the Demeter principle.
+
 ## 2025/10/06
 
 - We freeze the structure of the display preferences (`RenderingParameters`) ;
@@ -9,6 +18,7 @@ This journal should only be edited and modified in the Development branch.
 - and then, we will refactor them if needed.
 - we have removed computed data from the drawingspecifications. They will be provided by helper functions when needed.
 -  In the current version, the defaults for pagespec are computed from the other specifications. The whole specification system should be rethought to use independent values.
+-  DocumentPreferences are using an outdated architecture. We should move to a record based one.
 
 ## 2023/06/07
 

@@ -6,7 +6,7 @@ package jsesh.drawingspecifications.elements;
  * @param maxCadratHeight the maximum height of a cadrat in horizontal text
  * @param maxCadratWidth the maximum width of a cadrat in vertical text
  * @param smallSkip skip between elements in a group
- * @param standardSignHeight the expected height of A1.
+ * @param smallSignCentered should small signs be vertically centered.
  * 
  * @author rosmord
  */
@@ -15,14 +15,15 @@ public record GroupsSpec(
 		float maxCadratHeight,
 		float maxCadratWidth,
 		float smallSkip,
-		float standardSignHeight) {
+		boolean smallSignCentered
+		) {
 
 	public static final GroupsSpec DEFAULT = 
 		new GroupsSpec(
 			18f,
 			 22f, 
 			2f, 
-			18f);
+			false);
 			
 	public Builder copy() {
 		return new Builder(this);
@@ -32,13 +33,13 @@ public record GroupsSpec(
 		private float maxCadratHeight;
 		private float maxCadratWidth;
 		private float smallSkip;
-		private float standardSignHeight;
+		private boolean smallSignCentered;
 
 		public Builder(GroupsSpec spec) {
 			this.maxCadratHeight = spec.maxCadratHeight;
 			this.maxCadratWidth = spec.maxCadratWidth;
 			this.smallSkip = spec.smallSkip;
-			this.standardSignHeight = spec.standardSignHeight;			
+			this.smallSignCentered = spec.smallSignCentered;	
 		}
 
 		public Builder maxCadratHeight(float maxCadratHeight) {
@@ -56,14 +57,14 @@ public record GroupsSpec(
 			return this;
 		}
 
-		public Builder standardSignHeight(float standardSignHeight) {
-			this.standardSignHeight = standardSignHeight;
+
+		public Builder smallSignCentered(boolean smallSignCentered) {
+			this.smallSignCentered = smallSignCentered;
 			return this;
 		}
-
 		
 		public GroupsSpec build() {
-			return new GroupsSpec(maxCadratHeight, maxCadratWidth, smallSkip, standardSignHeight);
+			return new GroupsSpec(maxCadratHeight, maxCadratWidth, smallSkip, smallSignCentered);
 		}
 	}
 }
