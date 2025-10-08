@@ -54,7 +54,7 @@ public interface DrawingSpecification extends DrawingPreferences {
     /**
      * @param context
      */
-    void setFontRenderContext(FontRenderContext context);
+    //void setFontRenderContext(FontRenderContext context);
 
     Dimension2D getSuperScriptDimensions(String text);
 

@@ -1,0 +1,47 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading true +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 10.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bPapyrus Harris I+s-!
++bPart 01 : Introduction+s-!
++iTyped by Raymond Montfort+s-!
+!
++lFrom Erichsen's transcription. Some changes have been made to modernise it (+s-G7-+l instead of +s-A40-+l for instance), but some parts of the text+s-!
++lstill use the spellings in the original transcription.+s-!
+!
++lNote : the arrows, like +s-PF4-+l or +s-PF2-+l, follow the conventions used by the IFAO. They indicate+s-!
++lthe orientation of the signs. Thus, +s-PF4-+l means : signs in column, looking toward the left (+s-A-+l),+s-!
++lwhereas +s-PF5-+l means : signs in columns, looking toward the right (+s-A\-+l).+s-!
++bBibliography+s-!
++lthis text follows mainly:+s-!
++l W. Erichsen, +s-+iPapyrus Harris I: Hieroglyphische Transkription+s-+lBibliotheca Aegyptiaca V, Bruxelles, 1933.  +s-!
++lThe standard study, with translation, commentary, and photographies of the papyrus, is :+s-!
++l P. Grandet, +s-+iLe Papyrus Harris I (BM 9999),+s-+l Bibliothèque d’Étude 109, 2 vols., Le Caire, 1994.  +s-!
+!
++lSome of the plates, in particular the vignettes, are available on the British Museum web site:+s-!
++lhttps://www.britishmuseum.org/collection+s-!
++lSearch "Great Harris Papyrus".+s-!
+!
++lNote: due to the size of the text, it's quite likely that there are typos. Feel free to signal those.+s-!
++lDue to JSesh limitation with mixing left-to-right and right-to-left orientation, I have used left-to-right.+s-!
++lR. Montfort original version (available in the archives) is righ-to-left.+s-!
++btodo: +s-+luse Grandet's section names.+s-!
++bIntroduction, Sommaire, titre+s-!
+PF2-|1,1-rnp-t:ra-10*10:10-Ff301-Ff301-$r-Abd:3-N37A-mw-ra-Z3A-Z3A-$b-x:r-Hm-Ff301-G7-sw-L2-<-ra-wsr-U5:a-.:t-C10-mr:r-i-i-A2-i-mn:n-G7->-G7-anx-DA-s-G39&ra-Ff301-G7-<-ra-ms-s-s-HqA-q-iwn->-G7-anx-DA-s-mr:r-i-i-A2-nTrw-G7-Z3-nTr-t:r-i-i-t:H8-G7-nb:W*3-!
+|1,2-sw-t:n-G7-xa:a*W-G7-m-wD\98**t{{226,306,100}}-S1-mi-i-U40-ra-G7-HqA-q-G7-W{{0,134,100}}**b{{111,0,97}}-n:ra-G7-i-g:r-t:N25-mi-i-t:tm:M-G7-nb-bH:d-Z5:pr-pr-wr:r-pr-m-Xn:n-nw-W-pr-tA:Z1*N23-Dsr:r-t:N25-O35-b-b-H:D54-ra-H-D\98**t{{208,453,83}}**tA{{28,797,67}}-m-sw-t:n-G7-dwA-A-W-t:pr-sw-L2-<-ra-wsr-Sw-i-mn:n:U7-G7->-G7-zA&ra-Z1-G7-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-G41-A-nTr-G7-aA:Y1-!
+|1,3-$r-D&d-f-$b-m-s-wA-A-N37A-A30-A2-dwA-A-W-A30-A2-z:n-s-A30-A2-Z3A-Ax-x-W-Y1:Z2-ti-n:Z2-r-Ff301-A24-aSA:t*3-i-A2-ir:r-f-m-sw-t:n-G7-m-HqA-q-G7-Z3-Hr-Ff301-tp-Ff301-tA:Z1*N23-[[\70-r-]]\70-pr-Ff301-i-t:f-G7-f-A51-s-y:Y1-G7-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-Z3-!
+|1,4-mwt:t-t:H8-I12-x:n-sw-W-G7#12-nTrw-G7-Z3-nb:W*3-R19-t:O49-G7-pr-Ff301-i-t:f-G7-f-A51-s-y:Y1-G7-t:tm:M-G7-nb:tA:tA:N23*N23-iwn-nw:O49-G7-ra:r:a-G7-G5-G7-Axt:t-pr-pr-G7-G7-D54-W-s-aA:a-A-s-t:H8-I12-nb:t-Htp:t-p-t:H8-I12-nTrw-G7-Z3-nb:W*3-iwn-nw:O49-G7-pr-Ff301-i-t:f-G7-f-A51-s-y:Y1-G7-!
+|1,5-p:t-H-G7-aA:Y1-M24-inb-f-nb#34-anx-n:x-N17:tA:N23*N23-sxm-x:t*H8-I12-aA:t*Y1-mr:r-i-i-A2-p:t-H-G7-#b-nfr-#e-f:r-t:tm#34-m-G7-x:D243-S37-Ff301-G7-N17:tA:N23*N23-nTrw-G7-nb:W*3-Hwt-t:O1-p:t-H-G7-kA-Ff301-O49-O1-Ff301-i-t:f-G7-G7-A51-s-y:Y1-G7-Z3-nTrw-G7-G7-nTr-t:r-i-i-#b-t:H8-#e-]]\-G7-Z3-]]-nb:W*3-Sma-a:t#24-!
+|1,6-V23A-H-i-i-M15-Hn-Hn-O49:O49-m-n:A#4-Ax-x-W-Y1:Z2-nfr-f:r-W-Y1:Z2-i#12-#b-]]\-A2-ir:r-f{{0,342,100}}**]]{{681,0,82}}-]]\-n-#e-n:A-]]-r:T-A1:Z2-n-G41-A-tA:Z1*N23-n-km-m-t:O49-tA:Z1*N23-nb-r-s-H-W:y-G41:Y1-Z3A-W-Z3A-r-Dr:r-W-Y1:Z2-m-z:p*zp-wa:a*Z1-r-D37:t-a:U2-A-m-W-D6-!
+|1,7-i-t:f-G7-Z3-nTrw-G7-Z3-nTr-t:r-i-i-t:H8-G7-Z3-nb:W*3-Sma-"sic":a:O*Z5-V23A-H-i-i-M15-Hn-Hn-O49:O49-#b-]]\-r:T-A1*B1:Z2-r{{0,426,100}}**]]{{435,0,100}}-#e-p:a-t:H8-"sic":A1*B1:Z2-r:x-i-i-t-rxyt:A1*B1-Z3A-nb-N8-m-m-A1*B1:Z2-nb-m-n:A-Ax-x-W-Y1:Z2-q:n-nw-W-Y1:Z2-ti-n:Z2-r-Ff301-#b-A24-#e-aSA:t*3-!
+|1,8-i-A2-ir:r-f-Hr-Ff301-tp-Ff301-tA:Z1*N23-m-HqA-q-G7-aA:Y1:n-km-m-t:O49-!
+!

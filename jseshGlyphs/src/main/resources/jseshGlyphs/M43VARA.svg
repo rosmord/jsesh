@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="2449"
+   height="1800"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="US1M43VARA.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">US12M43VARA</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.20486111"
+     inkscape:cx="1161.7627"
+     inkscape:cy="7.3220339"
+     inkscape:window-width="1744"
+     inkscape:window-height="1068"
+     inkscape:window-x="1594"
+     inkscape:window-y="54"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <path
+     d="M 364.11068,229.41072 298.8654,410.4138 235.72478,229.41072 Z m 1342.78952,0 -65.245,181.00308 -65.2454,-181.00308 z m -450.4246,374.63396 c 60.3343,0 90.5014,58.22963 90.5014,174.6889 0,116.45951 -30.1671,174.68926 -90.5014,174.68926 -50.5125,0 -75.7688,-58.22975 -75.7688,-174.68926 0,-116.45927 25.2563,-174.6889 75.7688,-174.6889 z m -540.32607,0 c 60.33428,0 90.50142,58.93124 90.50142,176.79373 0,116.45936 -30.16714,174.68904 -90.50142,174.68904 -50.51243,0 -75.76865,-58.22968 -75.76865,-174.68904 0,-117.86249 25.25622,-176.79373 75.76865,-176.79373 z M 86.292124,0 138.90928,141.01394 H 0 v 88.39678 h 164.16544 l 88.39687,265.19045 V 1797.4015 h 92.60618 V 494.60117 l 90.50145,-265.19045 h 242.59512 v 296.76084 c -79.97799,0 -119.96699,84.88895 -119.96699,254.66685 0,168.37513 52.61715,252.56269 157.85146,252.56269 105.23423,0 157.50065,-84.53833 156.79925,-253.61499 C 872.24713,610.70974 831.90728,526.17156 751.92924,526.17156 V 229.41072 h 468.76646 v 294.656 c -81.381,0 -122.0715,84.88895 -122.0715,254.66686 0,168.37501 52.6171,252.56252 157.8514,252.56252 106.6375,0 159.6053,-84.53818 158.9035,-253.61455 -0.7016,-169.07655 -41.0413,-253.61483 -121.0192,-253.61483 v -294.656 h 212.5955 l 88.3967,265.19045 V 1797.4015 h 90.5015 V 494.60117 l 92.606,-265.19045 h 77.8732 c 1.4259,-0.0407 2.8465,-0.0611 4.2618,-0.0611 193.4945,0 356.4975,786.12098 342.5684,1548.05768 l 116.1632,2.7773 C 2338.1795,1154.112 2197.1441,630.61537 2135.4066,443.99996 2073.669,257.38448 2008.3054,151.50779 1856.3328,141.01395 h -52.617 L 1858.4377,0 h -71.5593 l -54.722,141.01394 H 1553.2581 L 1498.5363,0 h -71.5593 l 54.7218,141.01394 H 460.9262 L 515.6481,0 H 444.08876 L 391.47158,141.01394 H 210.46863 L 157.85146,0 Z"
+     style="fill:#000000;stroke:none;stroke-width:99.8556"
+     id="path1"
+     sodipodi:nodetypes="ccccccccssssssssssccccccccccccsscccccssscccccccccsccscccccccccccccccc" />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>US12M43VARA</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Thomas, modified by Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Standardized sign, from S. Thomas M43, copying features from Old Kingdom sign in Verner, M.,  Abusir I: The Mastaba of Ptahshepses : Reliefs. Excavations of the Czech Institute of Egyptology. Charles University.  n° 78</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

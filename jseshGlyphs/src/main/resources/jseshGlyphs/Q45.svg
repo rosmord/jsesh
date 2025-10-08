@@ -1,3 +1,200 @@
-<?xml version='1.0' encoding ='UTF-8' standalone='yes'?>
-<svg width='16.14' height='17.98' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'>
-<path style='fill:#000000; stroke:none' d=' M 4.23 7.49  L 3.94 11.02  L 12.18 11.02  L 11.89 7.49  L 4.23 7.49  Z  M 3.89 11.63  L 3.73 13.19  L 10.08 11.63  L 3.89 11.63  Z  M 5.9 13.35  L 12.39 13.35  L 12.25 11.79  L 5.9 13.35  Z  M 3.69 13.93  L 3.37 17.37  L 12.75 17.37  L 12.43 13.93  L 3.69 13.93  Z  M 1.9 5.01  Q 2.63 4.85 3.28 5.17  L 1.75 1.08  Q 1.45 0.29 0.78 0.54  Q 0.35 0.69 0.48 1.03  Q 0.62 1.37 1.2 1.46  L 1.9 5.01  Z  M 11.71 6.88  L 13.95 0.88  Q 14.24 0.15 14.64 0.04  Q 15.03 -0.07 15.51 0.11  Q 16.36 0.42 16.07 1.21  Q 15.89 1.69 15.28 1.8  L 14.69 5.66  Q 13.54 5.37 13.13 5.69  Q 12.75 5.96 12.5 6.88  L 12.5 6.88  L 13.45 17.98  L 2.67 17.98  L 3.64 6.88  Q 3.4 5.98 3.01 5.71  Q 2.63 5.39 1.45 5.66  L 0.87 1.8  Q 0.26 1.71 0.07 1.21  Q -0.22 0.45 0.64 0.13  Q 1.11 -0.05 1.51 0.06  Q 1.9 0.18 2.2 0.9  L 4.44 6.88  L 11.71 6.88  Z  M 14.94 1.46  Q 15.53 1.37 15.66 1.03  Q 15.8 0.69 15.37 0.54  Q 14.69 0.27 14.4 1.08  L 12.86 5.17  Q 13.52 4.85 14.24 5.01  L 14.94 1.46  Z '/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1614"
+   height="1798"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="Q45.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">Q45</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.35827268"
+     inkscape:cx="806.64817"
+     inkscape:cy="657.32056"
+     inkscape:window-width="1904"
+     inkscape:window-height="1130"
+     inkscape:window-x="1462"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1"
+     showguides="true"
+     showgrid="true">
+    <inkscape:grid
+       type="axonomgrid"
+       id="grid9"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="3.7795276"
+       spacingy="3.7795276"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       type="modular"
+       id="grid10"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="151.1811"
+       spacingy="151.1811"
+       empcolor="#0047cb"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="0"
+       marginx="0"
+       marginy="0"
+       gapx="37.795276"
+       gapy="37.795276"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       type="axonomgrid"
+       id="grid11"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="3.7795276"
+       spacingy="3.7795276"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       type="axonomgrid"
+       id="grid12"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="3.7795276"
+       spacingy="3.7795276"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       type="modular"
+       id="grid13"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="151.1811"
+       spacingy="151.1811"
+       empcolor="#0047cb"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="0"
+       marginx="0"
+       marginy="0"
+       gapx="37.795276"
+       gapy="37.795276"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       id="grid14"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       id="grid15"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="false"
+       visible="true" />
+    <inkscape:grid
+       type="modular"
+       id="grid18"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="151.1811"
+       spacingy="151.1811"
+       empcolor="#0047cb"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="0"
+       marginx="0"
+       marginy="0"
+       gapx="37.795276"
+       gapy="37.795276"
+       enabled="false"
+       visible="true" />
+  </sodipodi:namedview>
+  <path
+     id="path1"
+     style="fill:#000000;stroke:none;stroke-width:100.049"
+     d="M 389.94727 0 C 386.39335 -0.010430938 382.80258 0.130065 379.17578 0.421875 C 364.66858 1.589115 349.5787 5.1747746 333.9043 11.177734 C 276.5426 32.521594 257.5321 68.538786 276.875 119.23047 C 289.5479 152.58026 316.22922 172.2568 356.91602 178.25977 L 414.94336 564.45117 C 493.64886 546.44229 545.67568 548.10925 571.02148 569.45312 C 597.03438 587.462 618.04493 626.4821 634.05273 686.51172 L 634.07812 688.51172 L 443.78906 688.51172 L 219.67773 90.216797 C 199.66786 42.1931 176.65737 14.179731 150.64453 6.1757812 C 123.9647 -1.1611725 94.950368 1.1737632 63.601562 13.179688 C 6.2399252 34.523553 -12.770612 70.540745 6.5722656 121.23242 C 19.245185 154.58221 45.926538 174.25875 86.613281 180.26172 L 144.64062 566.45117 C 223.34613 548.44229 275.37291 550.11121 300.71875 571.45508 C 326.73158 589.46396 347.7421 628.4821 363.75 688.51172 L 266.70117 1799.0605 L 1345.2344 1799.0605 L 1250.1875 688.51172 C 1266.8624 627.14811 1287.8709 587.46201 1313.2168 569.45312 C 1340.5636 548.10926 1392.5904 547.10829 1469.2949 566.45117 L 1528.3242 180.26172 C 1569.011 172.92477 1595.3573 153.24822 1607.3633 121.23242 C 1626.7061 68.539758 1608.0305 31.854604 1551.3359 11.177734 C 1519.3201 -0.82818949 1490.3058 -3.1631255 1464.293 4.1738281 C 1437.6132 11.510782 1414.6007 39.526104 1395.2578 88.216797 L 1171.1484 688.51172 L 979.54883 688.51172 C 996.22369 627.14811 1017.2342 587.46006 1042.5801 569.45117 C 1069.9269 548.10731 1121.9537 547.10829 1198.6582 566.45117 L 1257.6875 180.25977 C 1298.3742 172.92281 1324.7206 153.24627 1336.7266 121.23047 C 1356.0694 68.537802 1337.3938 31.852661 1280.6992 11.175781 C 1264.6913 5.172821 1249.433 1.589115 1234.9258 0.421875 C 1220.4186 -0.745365 1206.6627 0.50537854 1193.6562 4.1738281 C 1166.9764 11.510778 1143.964 39.524144 1124.6211 88.214844 L 900.50977 688.51172 L 714.03906 688.51172 L 714.0918 686.51172 L 489.98047 88.214844 C 469.97057 40.191144 446.96007 12.177778 420.94727 4.1738281 C 410.94227 1.4224681 400.60901 0.031292813 389.94727 0 z M 379.11523 46.195312 C 408.00453 46.695563 429.95354 66.705106 444.96094 106.22461 L 598.03516 515.42578 C 554.68046 494.08192 508.65945 488.74604 459.96875 499.41797 L 389.93359 144.24414 C 351.24769 138.24118 327.23634 123.90052 317.89844 101.22266 C 309.22744 78.544793 319.23121 62.202206 347.91211 52.197266 C 359.08421 48.028536 369.48543 46.028572 379.11523 46.195312 z M 1235.1133 47.445312 C 1244.8264 47.445312 1255.3525 49.695046 1266.6914 54.197266 C 1295.3722 64.202206 1305.043 80.544799 1295.7051 103.22266 C 1287.0342 125.90052 1263.0227 140.24118 1223.6699 146.24414 L 1153.6348 501.41797 C 1105.611 490.74604 1059.5901 496.08192 1015.5684 517.42578 L 1169.6445 108.22461 C 1184.1517 67.704622 1205.9739 47.445312 1235.1133 47.445312 z M 1505.75 47.445312 C 1515.4631 47.445313 1525.9892 49.696997 1537.3281 54.199219 C 1566.0089 64.204155 1575.6797 80.544805 1566.3418 103.22266 C 1557.6709 125.90052 1533.6594 140.24118 1494.3066 146.24414 L 1424.2734 501.41992 C 1376.2497 490.74799 1330.2268 496.08387 1286.2051 517.42773 L 1440.2812 108.22656 C 1454.7884 67.706571 1476.6106 47.445311 1505.75 47.445312 z M 108.81055 48.195312 C 137.6998 48.695558 159.64884 68.707065 174.65625 108.22656 L 327.73242 517.42773 C 284.3777 496.08387 238.35476 490.74799 189.66406 501.41992 L 119.62891 146.24414 C 80.94315 140.24118 56.931691 125.90052 47.59375 103.22266 C 38.922805 80.544805 48.926603 64.204155 77.607422 54.199219 C 88.779601 50.030495 99.180795 48.028564 108.81055 48.195312 z M 422.7793 749.54297 L 1189.1562 749.54297 L 1218.1699 1102.7168 L 393.76367 1102.7168 L 422.7793 749.54297 z M 388.76172 1163.7461 L 1008.0664 1163.7461 L 372.75391 1319.8242 L 388.76172 1163.7461 z M 1225.1738 1179.7539 L 1239.1816 1335.832 L 589.86133 1335.832 L 1225.1738 1179.7539 z M 368.75195 1393.8594 L 1243.1836 1393.8594 L 1275.1992 1738.0293 L 336.73633 1738.0293 L 368.75195 1393.8594 z " />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Q45</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge J. Paul Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Modified to S. Rosmorduc according to a remark by P. Dils : four feathers, not two.
+</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

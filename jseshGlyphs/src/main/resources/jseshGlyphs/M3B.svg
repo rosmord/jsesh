@@ -1,3 +1,100 @@
-<?xml version='1.0' encoding ='UTF-8' standalone='yes'?>
-<svg width='5.806542' height='17.977583' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'>
-<path style='fill:#000000; stroke:none' d=' M 0.435018 1.219941  Q 2.042692 0.444475 2.855986 0.79438  Q 3.669281 1.144286 3.971902 2.364227  Q 4.274523 3.584168 3.707108 5.012161  Q 3.139693 6.440155 2.950555 8.085657  Q 2.685762 5.778171 1.172657 3.678737  L 0.529587 4.132669  Q 1.853554 6.11862 2.042692 7.603354  Q 2.23183 9.088089 2.742503 12.152127  L 0.79438 9.542021  L 0 9.920297  Q 2.534451 13.286957 2.543908 14.790605  Q 2.553365 16.294252 2.610107 17.977583  L 3.934074 17.315599  Q 3.593625 16.710358 3.593625 16.048374  Q 3.593625 15.38639 3.669281 13.589578  Q 4.331264 11.925161 5.768714 10.544453  L 5.428266 9.920297  Q 4.085384 11.244265 3.499056 11.925161  Q 3.555798 10.676849 3.650367 9.797358  Q 3.744936 8.917865 5.806542 5.778171  L 5.35261 5.267498  Q 4.16104 6.629293 3.744936 7.877605  Q 3.91516 6.534724 4.539316 4.605515  Q 5.163472 2.676305 4.454204 1.333424  Q 3.744936 -0.009457 2.47771 0  Q 1.210484 0.009457 0.435018 1.219941  Z '/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="546.09607"
+   height="1793.6475"
+   id="svg3575"
+   sodipodi:version="0.32"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="M3B.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">M3B</title>
+  <metadata
+     id="metadata3582">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>M3B</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>Freehand drawing of the shape in Hieroglyphica
+</dc:description>
+        <cc:license
+           rdf:resource="http://scripts.sil.org/OFL" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://scripts.sil.org/OFL">
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Reproduction" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Distribution" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Embedding" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Notice" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Attribution" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeRenaming" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/BundlingWhenSelling" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3580">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 1791.1509 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="17.775585 : 1791.1509 : 1"
+       inkscape:persp3d-origin="8.8877926 : 1790.3187 : 1"
+       id="perspective3584" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="1039"
+     inkscape:window-width="1376"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.23909199"
+     inkscape:cx="752.84831"
+     inkscape:cy="1493.1491"
+     inkscape:window-x="1864"
+     inkscape:window-y="25"
+     inkscape:current-layer="svg3575"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:window-maximized="0"
+     showguides="false" />
+  <path
+     id="path2"
+     style="stroke-linejoin:round"
+     d="m 186.41215,0.00683204 c -26.09219,0.6127753 -26.10317,42.27808296 -6.30664,48.87109396 84.23295,28.052826 128.0267,90.272374 158.2461,143.462894 30.21939,53.19051 41.38549,121.09097 41.8418,189.54687 0.42466,63.70947 -24.1702,111.14915 -53.48438,143.8125 -14.65709,16.33168 -30.56248,28.67829 -43.99023,36.42578 -13.42776,7.7475 -25.47625,9.9739 -24.84375,9.9668 -5.82867,0.0655 -16.87001,-3.76966 -29.83985,-17.13672 -12.96983,-13.36706 -26.2727,-35.02806 -35.21289,-61.20508 -17.88039,-52.35404 -27.5924,-129.78628 6.60547,-190.70508 0,0 10.51222,-33.8243 -5.39648,-43.29101 -15.90871,-9.46672 -46.61719,18.91797 -46.61719,18.91797 -46.81964,83.40276 -54.774268,169.26343 -30.29688,240.93359 12.2387,35.83508 30.2651,67.10806 53.50391,91.05859 13.31446,13.72224 28.92777,25.29848 46.33789,32.73633 l -2.65039,712.57614 C 150.94027,1309.1108 84.647242,1245.5169 43.398482,1171.6338 28.931422,1145.721 -6.3568776,1159.5693 0.99614242,1181.1475 40.316382,1296.5369 126.9606,1391.713 213.95317,1451.7158 l -1.16016,312.0332 c -0.1481,39.84 108.84798,39.0303 108.09375,2.5469 l -6.41796,-310.418 c 92.13967,-59.0985 185.74358,-160.0187 230.59765,-282.1445 6.50261,-17.7049 -19.30786,-35.0065 -35.00586,-6.5566 -45.31898,82.1328 -126.088,149.7177 -197.49414,196.625 L 297.68364,643.87207 c 8.28371,-3.34328 16.51184,-7.54469 25.01562,-12.45118 21.28933,-12.28343 43.22911,-29.64801 63.54688,-52.28711 C 426.88168,533.8556 460.75776,466.31307 460.19145,381.35449 459.68178,304.89358 448.09969,223.56061 407.9102,152.82128 367.72072,82.081962 298.10662,19.096398 191.98051,0.45409774 c -1.97317,-0.3466118 -3.82888,-0.4881173 -5.56836,-0.4472657 z" />
+</svg>

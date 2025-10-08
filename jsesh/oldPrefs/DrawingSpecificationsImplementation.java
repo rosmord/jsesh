@@ -625,10 +625,11 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     }
 
 
-    @Override
+/*    @Override
     public void setFontRenderContext(FontRenderContext context) {
         fontRenderContext = context;
     }
+*/
 
     @Override
     public void setHutSmallMargin(float hutSmallMargin) {

@@ -1,7 +1,7 @@
 # JSesh sources
 Welcome to JSesh sources! 
 
-**JAVA 9+ (actually Java 11) version:**
+**Java 11**
 
 
 JSesh is a Java hieroglyphic editor 
@@ -179,7 +179,26 @@ The resulting jre folder should be placed in Contents. The corresponding JRE is 
 jre for 1.8 which was included in JSesh previously. This is not yet the master version, as I need to fix bugs.
 
 ------------------------------------
-### Windows distribution
+
+### Windows distribution (modern)
+
+
+
+1. copy the files from target/windows into a Windows machine
+2. copy a 64 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
+3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
+4. same for the file signInfo-bundler.xml
+5. run Inno Setup on jsesh-inno.iss. **Generate a new ID for the build before building.**
+
+- *Note : we will probably use jlink as above to generate the JRE*
+- **Important** : check if launch4j wants a JDK or a 64bit executable.
+
+An easy way to find a good JRE for Java is to install the previous version of JSesh, and to get the JRE there.
+
+
+------------------------------------
+
+### Windows distribution (obsolete)
 
 1. copy the files from target/windows into a Windows machine
 2. copy a 32 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".

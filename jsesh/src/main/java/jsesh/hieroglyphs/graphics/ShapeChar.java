@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import jsesh.swing.utils.ShapeHelper;
@@ -280,6 +281,10 @@ public class ShapeChar implements Cloneable {
      * This namespace is currently used for informations which are not plain
      * SVG. This includes author and the like.
      *
+     * TODO: add the possibility to add a viewport.
+     * BEWARE: this is not the place used to export drawings to SVG. The actual SVG export is performed in SVGGraphics2D.
+     * which is in jvectclipboard.
+     * 
      * @param o
      * @param encoding the name of the encoding to use. We suggest "UTF-8".
      * @param pictureOnly : if true, will only save the drawing of the sign, and
@@ -295,15 +300,16 @@ public class ShapeChar implements Cloneable {
         if (!"".equals(encoding)) {
             out.write("encoding ='" + encoding + "' ");
         }
-        out.write("standalone='no'?>\n");
+        out.write("?>\n"); // removed standalone='no'
         out.write("<svg width='");
         formatter.writeTo(out, bbox.getWidth());
         out.write("' height='");
         formatter.writeTo(out, bbox.getHeight());
         out.write("' ");
+        out.write("version='1.0'");
         // Necessary according to firefox site.
         out.write("xmlns='http://www.w3.org/2000/svg' ");
-        out.write("xmlns:xlink='http://www.w3.org/1999/xlink' ");
+        // out.write("xmlns:xlink='http://www.w3.org/1999/xlink' ");
         out.write("version='1.1' ");
         if (!pictureOnly) {
             out
@@ -312,7 +318,7 @@ public class ShapeChar implements Cloneable {
         out.write(">\n");
         out.write("<path style='fill:black; stroke:none' d='");
         writeSVGPath(out, PRECISION);
-        out.write("'/>");
+        out.write("'/>\n");
         // The ligature zones.
         if (!pictureOnly && zones != null) {
             for (int i = 0; i < zones.length; i++) {
@@ -343,7 +349,7 @@ public class ShapeChar implements Cloneable {
                     if (gravity.length() > 0) {
                         out.write("inkscape:label='gravity:" + gravity + "'");
                     }
-                    out.write("/>");
+                    out.write("/>\n");
                 }
             }
         }
@@ -380,37 +386,39 @@ public class ShapeChar implements Cloneable {
     public void writeSVGPath(Writer out, int precision) throws IOException {
         DoubleFormatter formatter = new DoubleFormatter(precision);
         PathIterator iter = shape.getPathIterator(null);
+        StringWriter outWriter = new StringWriter();
 
         while (!iter.isDone()) {
             float coords[] = new float[6];
             int type = iter.currentSegment(coords);
             switch (type) {
                 case PathIterator.SEG_CLOSE:
-                    out.write(" Z ");
+                    outWriter.write(" Z ");
                     break;
                 case PathIterator.SEG_CUBICTO:
-                    out.write(" C ");
-                    formatter.outputNumbers(out, coords, 6);
+                    outWriter.write(" C ");
+                    formatter.outputNumbers(outWriter, coords, 6);
                     // outputNumbers(out, coords, 6,precision);
                     break;
                 case PathIterator.SEG_LINETO:
-                    out.write(" L ");
+                    outWriter.write(" L ");
                     // outputNumbers(out, coords, 2, precision);
-                    formatter.outputNumbers(out, coords, 2);
+                    formatter.outputNumbers(outWriter, coords, 2);
                     break;
                 case PathIterator.SEG_MOVETO:
-                    out.write(" M ");
+                    outWriter.write(" M ");
                     // outputNumbers(out, coords, 2, precision);
-                    formatter.outputNumbers(out, coords, 2);
+                    formatter.outputNumbers(outWriter, coords, 2);
                     break;
                 case PathIterator.SEG_QUADTO:
-                    out.write(" Q ");
+                    outWriter.write(" Q ");
                     // outputNumbers(out, coords, 4, precision);
-                    formatter.outputNumbers(out, coords, 4);
+                    formatter.outputNumbers(outWriter, coords, 4);
                     break;
             }
             iter.next();
         }
+        out.write(outWriter.toString().trim());
     }
 
     public void setZone(int i, LigatureZone z) {

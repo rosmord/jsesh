@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1807.2969"
+   height="1117.9961"
+   id="svg2214"
+   sodipodi:version="0.32"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="Z41.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:modified="true"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title12">Z41</title>
+  <metadata
+     id="metadata2221">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license
+           rdf:resource="http://scripts.sil.org/OFL" />
+        <dc:title>Z41</dc:title>
+        <dc:description>Sign from Vector Office X
+</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://scripts.sil.org/OFL">
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Reproduction" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Distribution" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Embedding" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Notice" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Attribution" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeRenaming" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/BundlingWhenSelling" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2219" />
+  <sodipodi:namedview
+     inkscape:window-height="730"
+     inkscape:window-width="1392"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.12476405"
+     inkscape:cx="1274.4056"
+     inkscape:cy="204.3858"
+     inkscape:window-x="1817"
+     inkscape:window-y="321"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2214" />
+  <path
+     id="path5"
+     style="stroke-linecap:round"
+     d="m 903.64844,0 a 30,30 0 0 0 -30,30 V 308.99805 H 30 a 30,30 0 0 0 -30,30 30,30 0 0 0 30,30 h 843.64844 v 160 H 30 a 30,30 0 0 0 -30,30 30,30 0 0 0 30,30 h 843.64844 v 160 H 30 a 30,30 0 0 0 -30,30 30,30 0 0 0 30,30 h 843.64844 v 278.99805 a 30,30 0 0 0 30,30 30,30 0 0 0 30,-30 V 808.99805 h 843.64836 a 30,30 0 0 0 30,-30 30,30 0 0 0 -30,-30 H 933.64844 v -160 h 843.64836 a 30,30 0 0 0 30,-30 30,30 0 0 0 -30,-30 H 933.64844 v -160 h 843.64836 a 30,30 0 0 0 30,-30 30,30 0 0 0 -30,-30 H 933.64844 V 30 a 30,30 0 0 0 -30,-30 z" />
+</svg>

@@ -177,6 +177,6 @@ public abstract class AbstractGraphicalExporter implements GraphicalExporter {
                 }
             }
         }
-        return FileOperationResult.OK;
+        return returnval;
     }
 }

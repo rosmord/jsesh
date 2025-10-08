@@ -1,0 +1,46 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading true +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 10.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bSobekherheb stela in Serabit el-Khadim+s-!
++lcopied from a fac-simile in :+s-!
++lTallet and Lehner, +s-+iLes papyrus de la Mer Rouge,+s-+l p. 65+s-!
++lPhotography in Valbelle, Bonnet, +s-+iLe sanctuaire d'Hathor maîtresse de la turquoise, +s-+lp. 122.+s-!
++lPeet, Gardiner, Cerny, +s-+iThe inscription of Sinai, p. ??? +s-+l(in particular for variants)+s-!
++lcopied by Serge Rosmorduc+s-!
++bLicence : Creative commons CC-BY+s-!
+|1-wn-n:O31:a-H-t:t:pr-r:tp-nfr-f:r-s-t-[?-V24-?]-mSa-Z3-s-r:a:t-n:t*t:i*m-s-r:n-s-!
+|2-M4-t:zp-20:20-2:2-x:r-Hm-1:n-sw:t-bit:t-nbty-V15*t:E9-iwa:tA:tA-G106-aA:G30-<-ra-n:U4-a:t->-O10-nb:t:m-f:kA-t:Z3-!
+|3-U7:i&i-di*anx:ra*mi-D&&&(t:N17)-i-A2-anx-w-A1:Z2-tp:Z2-D54:w-t:s-n:Z2:r-b-i-A-w-O39:Z2:p:n-!
+|4-wAH-H-Y1:n-T:n:Z2-sw-t:n-T:n:Z2-H#34-W14-T:n-nTrw-T:n:Z2-pH-T:n:Z2-m-Htp:t-!
+|5-D&d-T:n-xA-m-X2*W23:X4-F1-H1-Z3-nTr-sn-T:r-Z3-W1-t:Z2-x:t-Y1:Z2-nb:t-!
+|6-anx-n:x:t-nTr-i-m-n:kA-n:F20&&&r-a:Xn-nw:ti-n-pr:T4-sbk-Hr-W4-Sps-wHm-anx-nfr-!
+|7-ir:n-nb:t:pr-H-nw:W10:t-B1-Aa11:t:P8\R90-F20&&&r-a:Xn-nw:ti-sbk-Hr-W4-A1-D&d:f-i-w-!
+|8-n:x-b-Z9:n:A1-H-t:t:pr-n:nb:1-A1-ii-i-n:mi*t-w-A1:Z2-mH:Y1:r-Dr:r-s-n:Z2-D35:z:p*zp-xpr-h^^^w:i&M17-!
+|9-M17-m-s-r:sr-p:n-D&&&(d:f)-sw-t:n:Z2-Sps-s-U23*sr:Z2-aH:pr-M17-M:a:Z2-M17-A-A30-n:sw*(t:n)-s:q-A28-G30:f-!
+|10-dwA-A-A30-sw-t:n-U2:ir-xpr:r-t:Z2-n:f-Dw:Z2-Hr-s-T32:t-D54:n:t*t-M17-m-s-T4-D&&&N8-s-n:Z2-!
+|11-M17-mn:n:t-M17*imi:t-s-n:Z2-Dw:xAst:Z2-xAst:Z2-Xr:r-Aw:t-s-n:Z2-M17-f:X1-gb-b-A40-D37:f-s-X1:Hr-!
+|12-nb#1234-tA\shading1234:T:n:n#34-A40-[?*mt*?]:X1:a-f:M17*imi#124-X1:f#1234-nTr-[?-S19-?]-m-r:1-a:Xn-nw:ti-n:pr:T4-sbk-Hr-W4-A1-!
+|13-ir:k#12-[?-mi-?]-M17-M17-O10-nb:X1-m-f:kA-X1:N33AV-D&&&(d:f)-M17-w-W25-n:n:A1-n:s-V24-w-R3-m-ms:n-X1:O39:Z2-!
+|14-[?-H2:X1-?]-S28-T4#1234-D:X1#1234-S28:Z2#1234-S:b*(n:Z9)#1234-Hr#1234-M17-in:n:z-S28-x:r-p:D40-n:A1-n:s-nTr-Htp:X1-X2*Hnqt:Z2-mt:E1-Z3-!
+|15-r:TA#34-Z3-nTr#1234-sn#1234-T:r:N33A#1234-Hr*s:d#1234-X1:Q7#1234-r:n:A1#1234-n:s#12-W4:M17*M17*X1-s-D&&&f:[?*G42*?]-n:A1-R1E:X1:Z2-s-O35:n-s-w-A1-m-O35:X1-s-nfr-f:r:X1-q:A-!
+|16-b#1234-F46:n#1234-A1#1234-O39#1234-ii#1234-M17-D54:nb-r-O40-X1:n-D35:O29-A-X1:Y1:n-ir:X1:n-A1-n:s-anx-A1-D&&&(d:n)-A1-m-C10-!
+!
++bNotes on encoding and glyphs+s-!
++ll. 2 : JSesh does not allow vertical cartouche in horizontal text. In l. 2, the cartouche is vertical.+s-!
++ll. 6 and 7 : note the determinative change between +s-sbk-Hr-W4-Sps-+l and +s-sbk-Hr-W4-A1-+l : funerary formula vs. autobiography.+s-+l +s-!
++ll.13, nice example of the problems met with large fonts: I chose the "standard" R3 code for+s-R3-+l.+s-!
++lThe actual sign has got two libation vases, much like R1F, +s-R1F-+l, but two feet. Using R1F might give+s-!
++la closer approximation, but at the same time it would give a deceptive impression of accuracy.+s-!
++ll.15 +s-+lI might be reading too much in the choice of sign, but the offering table written with R1E +s-R1E-+l (the shape is really close) is interesting, +s-!
++lbecause it's empty... and Seberherheb is indeed saying that he is going to provide it with offerings.+s-!
+!

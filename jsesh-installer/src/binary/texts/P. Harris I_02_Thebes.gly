@@ -1,0 +1,482 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading true +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bPapyrus Harris I+s-!
++bPart 02 : Thebes+s-!
++iTyped by Raymond Montfort+s-!
+!
++lNote : the arrows, like +s-PF4-+l or +s-PF2-+l, follow the conventions used by the IFAO. They indicate+s-!
++lthe orientation of the signs. Thus, +s-PF4-+l means : signs in column, looking toward the left (+s-A-+l),+s-!
++lwhereas +s-PF5-+l means : signs in columns, looking toward the right (+s-A\-+l).+s-!
+!
++bVignette+s-!
++lAmon-Rê+s-!
+PF5-i-mn:n-ra:Z1-sw-nTr-t:Z2A-nb:pt-HqA-q-R19-!
++lMout+s-!
+PF5-mwt-t:H8\70-wr:r-nb-i-r:S-Z1:rw-!
++lKhonsou+s-!
+PF5-x:n-sw-A40{{128,0,98}}**W{{0,8,77}}-m-R19-nfr-Htp:t*p-!
++lLe roi+s-!
+PF4-|1 -nb:tA:tA-<-ra-wsr-C10-N36-i-mn:n->-|2 -nb:xa:Z2-<-C2A-ms-z:z-HqA-iwn->-!
++lDiscours du roi+s-!
+PF4-|1-D&d-A42-N-A-z:n:Z2-nm-m-H-A4-A2-s-t{{0,539,67}}**Ax{{28,0,100}}**x{{735,44,64}}-Y1:Z2-dwA-A-A4-z:n:Z2-A4-A2-T:n-!
+PF4-|2-Z2:r*1-D40-t{{0,539,67}}**Ax{{28,0,100}}**x{{735,44,64}}-Y1:Z2-i-A2-ir:r-A42A-n:k-M:D53-k-pA-nb-nTrw-!
+!
++bDiscours aux dieux+s-!
+PF2-|3,1-$r-s-Ax-x-W-A2-Z3-$b-z:n-s-A30-A2-Z3A-ti-n:Z2-r-Ff301-A24-Ax-x-W-Y1:Z2-i-A2-ir:r-f-r-pr-Ff301-i-t:f-G7-f-A51-s-y:Y1-G7-i-mn:n-G7-ra-G7-sw-G7-nTrw-G7-Z3-mwt:t-t:H8-I64-x:n-sw-W-G7-nTrw-G7-Z3-nb:W*3-R19-t:O49-G7-!
+|3,2-$r-D&d-i-n-$b-sw-t:n-G7-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-s-zA&ra-Ff301-G7-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-s-G41-A-nTr-G7-aA:Y1-m-s-wA-A-N37A-A30-A2-i-t:f-G7-f-nTr-G7-p:n-A51-s-y:Y1-G7-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-Z3-G41-A-W:t-X6:X6-G7-xpr:r-W-Xr:r-HAt:t*Z1-!
+|3,3-nTr-G7-nTr-t:r-y:Y1-G7-W-t:t-D53:Y1-sw-W-D\98**z{{44,447,60}}**f{{45,738,72}}-f:A-A9-A24-a-Ff301-G7-s-q-A-W-A28-Y1-A-t:f-Atf-ir-n:t-Y1:Z2-q{{0,19,100}}**U1{{270,0,98}}-A-m-T14-G41:Y1-wn:n:n-t:Y1-Z3A-N37A:tA-Z5:Y1-sw-W-r-r:V14-A1:Z2-nTrw-G7-Z3-$r-i-m-m:a-$b-n:A42A-anx-anx-w:y-sDm:sDm-G7:k\-nb-nTrw-G7-Z3-!
+|3,4-sDm\70-m-Y1-n:A-i-i-A42A-z:n-A30-A2-Z3A-ir-i-i-G7:k\-m-a:k\-y:Y1-A42A-D54*W:k\-x:r:k\-r-R19-t:O49-G7-O49:t*Z1:k\-N37A:tA-t:Y1-nTr-t:r-y:Y1-G7:k\-m-X6:t-nTrw-G7-Z3-n:t*y-m-S123-m-W-G7:k\-Htp:t-p-A42A:k\-m-nb-anx-n:x-t:N25-st-t:pr:k\-Dsr:r-t:Y1-G7-!
+|3,5-r-x:f*t-Hr-Ff301-G7-A51-s-y:Y1-G7-n-wbA-G41-b-A-D6:pr-G7:k\-N37A{{0,247,100}}**b{{777,0,97}}-n:nw*W-Z9:Y1-A42A-n:A-nTrw-G7-Z3-nb:W*3-dwA-A-W-t:pr-mi-i-i-t:f-G7-A42A-U40-ra{{0,265,89}}**G7{{487,0,98}}-nb-tA:Z1*N23-Dsr:r-t:N25-i-m-m:a-bA-Ff301-A42A-mi-i-bA-Ff301-Z3-n:t-X6:t-nTrw-G7-Z3-n:t*y-Htp:t-p-Y1-r:Aa16-Z1:k\-!
+|3,6-m-Axt:t-pr-G7-nH-H-ra-H-i-m-m:a-TAw-W-Z2:n-f:n:d-D20-Ff301-G7-A42A-mw-n-bA-Ff301-G7-z:a-m-W-F10-F51B-A42A-G41-A-W:t-X6:X6-Z3A-D&f-A-W-rxyt:Y1-Z3A-n-nTr-Htp:t-p-iw:k\-i-m-m:a-A51-s-y:Y1-G7-Hm-Ff301-A42A-mn:n-U32:Y1-m-D53:Y1:k\-!
+|3,7-mi-i-nTrw-G7-Z3-aA:a-A-i-i-Y1:Z2-nb:W*3-i-g:r-t:N25-aq-q-t:D54-A42A-pr:r-i-i-y:D54-A42A-x:r:k\-mi-i-ir:n-s-n:Z2-V25-W-Y1:k\-G30-Ff301-Z3A-A42A-mi-i-qd-d:nw*W-Y1-s-n:Z2-r-x:f*t-i-i-A14:Z2-A42A-s-mn:n-U32:Y1-Htp:t-p-A42A-U5:a-W-Y1-n-!
+|3,8-kA-Ff301-A42A-mn:n-U32:Y1-m-i-mn:n-i-i-t:Y1-r-SA-A-a:Y1-nH-H-ra-H-wn:n-A42A-m-sw-t:n-G7-Hr-Ff301-tp-Ff301-tA:Z1*N23-m-HqA-q-G7-anx-n:x-A1:Z2-s-mn:n-U32:Y1:k\-xa:a*y-G7-Hr-Ff301-tp-Ff301-A42A-mi-i-ir:n-G7:k\-b-s-K18A:k-m-Htp:t-p-Y1-r-aH-a:pr-A51-s-y:Y1-G7-!
+|3,9-s-nDm-m-A17A:V31A-Hr-Ff301-g:t*y-pr-pr-G7:k\-Xr:r-Aw-W:t-ib-Ff301-n:t:k\-s-mn:n-U32:Y1:k\-A42A-Hr-Ff301-st-t:pr-n-i-t:f-G7-A42A-mi-i-i-A2-ir:r:k\-n-G5-G7-r-st-t:pr-U40-ra{{0,265,89}}**G7{{487,0,98}}-b-W-aA:Y1-SA-A-q-Z9-A24-A42A-b-W-H-W-r:a-Ff301-A24-A42A-!
+|3,10-k\-i-i-A1-m-st-t:pr-t-W-f-D35:n-t:h-A-D57-A24-A42A-V25-W-Y1:n:k\-n:t*y-m-Hr-Ff301-G7-a*W:k\-Htp:t-p-W-Y1-h:r-i-i-ib-Ff301-m-t:A-i-i-A42A-N8-m-m-A1*B1:Z2-tA:Z1*N23-nb-m-i-A-w:t-A30-n-Hr:r-Ff301-G7-a:U2-A-m-D6-A42A-m-n:A-s-mn:n-x:t-mnx-Y1-A42A-!
+|3,11-i-A2-ir:r:k\-m-sw-t:n-G7-q&b-F48:Y1-A42A-n:k\-Ax-x-W-Y1:Z2-ti-n:Z2-r-Ff301-A24-q:n-nw-W-Y1:Z2-ir-i-i-A42A-n:k\-O6-t:pr-A51-s-y:Y1-G7-m-HH-Ff301-Z2:n-rnp-rnp-rnp-t:3-mn:n-U32:Y1-ti-Hr-Ff301-Dw-Ff301-O49-O39:n-nb-anx-n:x-t:N25-n-x:f-t-Hr-Ff301-G7:k\-!!
+|4,1-A35-A24-ti-m-i-n:r-O39:n-r:d-W-rwD-O39-b-i-A-i-i-t:Z5-O39-i-n:r-O39-k\m-m-t:O39-ti-y:r-Ff301-i-A-xt:pr-m-wAs-nbw-a-W-N33:Z2-N34-Ff301-N33:3-m-q&U1-A-m-W-D51:D40-n:A-i-i-s-b-x:n-pr-Z3-m-i-n:r-O39-Hr-Ff301-q-A-q-A-D6:r-Hr:r-t:pt-!
+|4,2-m:a-t:n-nw-W-D51:D40-TA-A-w:t-D51:D40-m-Y1:t*Z1-N34-Hr-Ff301-r:n-A2-wr:r-Hm-Ff301-G7:k\-A35-A24-A42A-s-b-t:y-inb-N23-m-Aa28-d:D54-s-s-mn:n-x:t-mnx-Y1-m-ir:r-Xr:r-aA:Y1-y:r-Ff301-ti-i-pr-Z3-TA-Z1-k\:A-y:r-Ff301-pr-Z3-m-i-n:r-O39:n-r:d-W-rwD-!
+|4,3-Sd:d-Y1-A24-A42A-N36:Z1*N23-Ff301-m-D52:Y1-s-b:a-G32-mw-N36:Z1*N23-m-nw*nw*nw:pt-mw-N36:Z1*N23-d:g-D51:D40-m-mn:n-nw-W-M1A-Hr-Ff301-A:x-A:x-Hn-Z3A-mi-i-tA:V23A-H-i-i-M15-Hn-Z3A-V23A:Y1-A42A-M-Ff301-HD-pr-Z3A-s-m-x:t-Y1:Z2-tA:tA:tA:N23*N23*N23-k\m-m-t:O49-!
+|4,4-nbw-HD-nbw-aA:t*Z5-O39:3-nb-mi-i-Hfn:3-Snwt-W:t-pr-Z3A-s-n:A-M:z-M:z-Z9-A24-m-nfr-Ff301-it**3{{643,759,68}}-sk\-H-i-i-it**3{{643,759,68}}-A-H-t:N23-Z3A-mn:n-mn:n-E1:Z2-s-aSA:t*3-s-n:Z2-mi-i-N37A:a-t:N23-nw-Ff301-V25-b-W-mw-N36:Z1*N23-H-t:y-i-rnp-Y1-A42A-n:z-!
+|4,5-tA:Z1*N23-M27-a:Z5*O49-mi-i-tA:V23A-H-i-i-M15-Hn-O49:O49-tA:Z1*N23-D20-t:N25-DA-h-T14-N25-n:z-Xr:r-bA:k\-W-Y1:Z2-s-n:Z2-V23A:Y1-ti-m-HA-A-q-Z9-A24-a*W:k\-n:A42A-m-t:A-pD{{50,0,95}}**t{{0,240,77}}**Z1{{155,541,68}}**3{{922,313,49}}**3{{535,324,49}}**3{{696,638,57}}-T14-A1*B1:Z2:N25-DA-A-m-W-A17-A1:Z2-n:t-s-xpr:r-W-A42A-mi-i-T14-Ff301-Z3-!
+|4,6-ms-s-i-i-Z5-A42A-s{{371,0,98}}**T30{{0,368,100}}-m-W-G7:k\-sr-Htp:t-p-Y1-m-Xn:n-nw-W-pr-s-i-mn:n-G7-Xnm-m-Y1-H-ra-H-r:n-A2-f-A51-s-y:Y1-s-X:k\-r-W-V6-m-aA:t*Z5-O39:3-U5:a-t-Sw-Y1-mi-i-Axt:t-pr-pr-G7-G7-xa:a:a-G7-f-r:N37A-N37A-D20-Y1:t*W-n-G41-A-U2:N33*N33-f-!
+|4,7-ir-i-i-A42A-n:f-H-Hn:n-nw-W-W22-Z2:n-V25-H-W-W22-Z2:n-nbw-nfr-k\:t*x-W-Y1:Z2-m-HD-nbw-N34-Ff301-N33:3-D35:n-r:a-Z1-s-n:Z2-s-aSA:t*3-A42A-nTr-Htp:t-p-iw:Z2-U5:a-W-Y1-x:f-t-Hr-Ff301-G7:k\-m-t:X2-iw:Z2-i-r:p-W-W22-Z3A-H-q:t-W22-Z3A-r-Ff301-w:t-G41:Z2-Aa2:Z2-!
+|4,8-i-wA-A-E1:Z2-r:n:n-Z5:Z2-imi:Dw-W-E1:Z2-E1:Z2-aSA:t*3-U1-A-i-W-F27-HD-ra-g-A-H-s-y-F27-Z3-U5:a-W-Y1-m-s-x-wn:n-T30A:pr-f-i-t-H-W-Y1-A24-A42A-mn:n-n:nw*W-A53-aA:a-A-i-i-Y1:Z2-mi-i-Dw-W-W-O39:3-V6:z-t:O39-bH:z-qs-O39-!
+|4,9-s-anx-n:x-D51:D40-m-ir:r-Htp:t-p-Y1-Hr-Ff301-imnt-m-y:D41-s-m-H-y:D41-n-G41-A-i-i-s-r-Ff301-i-d:pr-xt:x*t-i-i-D51:D40-Hr-Ff301-r:n-A2-wr:r-Hm-Ff301-G7:k\-SA-A-a:Y1-nH-H-ra-H-k\:t*x-W-Y1:Z2-t-t:W-A53-G7-Z3-m-U1-A-S25-t:O39-b-i-A-i-i-t:Z5-O39-!
+|4,10-xpr-r:r-O39:3-m-i-n:r-O39-k\m-m-O39-Htp:t-p-Y1-m-Xn:n-nw-W-pr-ms-s-i-i-Z5-A42A-p:t-H-G7-z:k\:r*Z5-G7-nfr-f:r-t:tm-m-G7-X6:t-nTrw-G7-Z3-nb:W*3-pt:tA-Htp:t-p-Y1-m-k\A:r-i-pr-s-bA:k\-W-Y1-A24-m-nbw-nfr-!
+|4,11-HD-nbw-m-q:U2-A-A-W-D51:D40-m-V23A:N33-Z3A-m-aA:t*Z5-O39:3-U5:a-t-Sw-mn:n-x:t-mnx-Y1-m-ir:r-ir-i-i-A42A-n:k\-aH-a:pr-A51-s-y:Y1-G7-n-sw-t:n-G7-m-Xn:n-nw-W-pr-s-mi-O6{{454,0,98}}**a{{0,142,100}}-t:pr-t:tm:M-G7-n:t*y-m-Hr:r-t:pt-W-xA-A-i-i-O39:3-!
+|4,12-H-t:y-i-rnp-O39:3-s-b-sbA-A-w:t-xt:Z2:n-wAs-nbw-m-N33:3-s-Sd:d-V12:pr-aA:Y1:n-xa:a-y-i-i-G7-n-nbw-nfr-ir-i-i-A42A-n:z-q-W-y:r-Ff301-P1-A24-Z3A-A-t:p-A9-A24-m-nfr-Ff301-it**3{{643,759,68}}-sk\-H-i-i-it**3{{643,759,68}}-r-D33:n-t:P1-A24-r-!!
+|5,1-Snwt-t:pr-s-D35:n-n:W*3-wr:r-d-W-A7-ir-i-i-A42A-n:z-r-Ff301-HD-pr-P1-Z3-aA:a-A-i-i-Y1:Z2-Hr-Ff301-tp-Ff301-i-t*W:r-mw-N36:Z1*N23-A-t:p-A9-A24-Xr:r-x:t-Y1:Z2-aSA:t*3-r-r-Ff301-HD-pr-s-A51-s-y:Y1-G7-!
+|5,2-F48:r-y:D54-s-m-k\A-A-m-W-M1A-pr-Z3-st-w:t-pr-Z3-a:t-pr-n:t-xt:t*Z1-M1A-pr-Z3-A-t:p-A9-A24-Xr:r-d:g-A-D51:N33-Z3A-bH:Y1-rw-Ff301-rw-Ff301-Hn-Z2:n-HAt-W-t:t-y-G7*G7:k\-A35-A24-A42A-n:A-i-i-W-Z3A-pr-U1-pr-Z3-Xr:r-!
+|5,3-q-A-HA-A-w:t-N8-pr-Z3-Sd:d-Y1-A24-A42A-N36:Z1*N23-m-D52:Y1-s-n:Z2-apr-r:Y1-Xr:r-z:N37A-n:y-M9-Hn-Z3A-!
+|5,4-ir-i-i-A42A-n:k\-Axt:t-pr-G7-N37A:tA-t:Y1-m-O49:t*Z1:k\-R19-t:O49-G7-x:f*t-Hr-Ff301-G7-n-wbA-b-bA-A-D6:pr:k\-nb-G7-nTrw-G7-Z3-pr-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-s-m-pr-Ff301-i-mn:n-G7-mn:n-U32:Y1-m-p-t:pt-Xr:r-i-t:n-ra-G7-!
+|5,5-A35-A24-A42A-sw-W-n:nm*m-a-A55-A24-A42A-sw-W-m-i-n:r-O39:n-r:d-W-rwD-O39-Xr:r-ti-y:r-Z1-i-A-xt:Z2-aA:a-A-i-i-Y1:Z2:n-nbw-nfr-V23A:Y1-A42A-r-Ff301-HD-pr-Z3-f-m-x:t-Y1:Z2-W25-n:n-a:a-Z1-W:y-A42A-r-m:a-O35-t:D54-W-Z3A-!
+|5,6-r-x:f-t-Hr-Ff301-G7:k\-m-Xr:r_-t:Y1-h-r:W*ra-s-H-b-Hb:ra-Z3A-A42A-n:k\-i-p-t:pr-M24-t:N23-Z1-m-mn:n-nw-W-A53-G7-Z3-wr:r-3-A35-G7-A42A-n:k\-Hwt-t:pr-i-m-s-mi-i-g:t*y-pr-G7-nb:r-Dr:r-G7-nTr-O6-t:pr-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-s-!
+|5,7-Xnm-m-Y1-r:N37A-w:t-D20-Y1-m-i-p-t:pr-st-st-st-t:pr-wHm-m-A42A-s-mn:n-x:t-mnx-Y1-mn:n-n:nw*W-A53-G7*Z3:k\-m-R19-t:O49-G7-n:xt:x*t-W-A24-ti-st-t:pr-Htp:t-p-Y1:n-ib-Ff301-G7:k\-r-Aa16-Ff301-W:y-Hr:r-G39\64**t{{394,34,65}}**G7{{711,46,52}}**k{{84,773,100}}-pr-Z1-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-s-m-pr-Ff301-i-mn:n-G7-!
+|5,8-mi-t:y-Y1-kA:r-k\A:r-i-pr-nb:r-Dr:r-G7-A35-A24-m-i-n:r-O39-i-b-A-i-i-t:Z5-Y1:Z2-s-mn:n-x:t-mnx-Y1-m-kA:t*Z5-Y1:Z2-r:n-nH-H-ra-H-ti-y:r-Ff301-A-i-xt:Z2-Hr-Ff301-Hr-Ff301-W-Z3A-m-i-n:r-O39:n-U1-A-S25-O39-s-b-sbA-A-w:t-xt:Z2-!
+|5,9-H-t:y-i-rnp-xt:Z2-m-nbw-apr-r:Y1-A42A-sw-W-m-DA-A-m-W-A17-A1:Z2-s-xpr:r-n-A42A-Xr:r-x:t-Y1:Z2-m-H-f:n-nw-W-Hfn:Z2-!
+|5,10-ir-i-i-A42A-n:k\-k\A:r-i-pr-N37A:tA-Y1-m-a:t*1*N33-wa:a-Ff301-t-m-i-n:r-O39-nfr-f:r-n-U1-A-S25-t:O39-O31:O31-w:t-xt:Z2-Hr-Ff301-Hr-Ff301-f-m-N34-1-N33:3-m-q&U1-A-m-W-D51:D40-xt:x*t-i-i-D51:D40-Hr-Ff301-r:n-A2:k\-nTr-t:r-y:Y1-G7-!
+|5,11-s{{371,0,98}}**T30{{0,368,100}}-W-G7:k\-sr-Htp:t-p-Y1-F26:N35-nw-W-pr-f-mi-i-ra:r:a-G7-Axt:t-pr-pr-G7-G7-t-W-f-s-mn:N35-U32:Y1-Hr-Ff301-st-t:pr-f-r-SA-A-a:Y1-r:N35-nH-H-ra-H-G7-wbA-b-bA-A-D6:pr:k\-aA:Y1-A51-s-y:Y1-G7-!
+|5,12-ir-i-i-A42-N35:k\-Htp:t-p-xt-aA:Y1-N35-HD-nbw-G7-q&U1-A-m-W-D51:D40-bH:Y1-TA-Ff301-D51:D40-m-nbw-nfr-X:p*W-A53-G7-Z3-m-kA-Ff301-t-m:t-N33:3-Xr:r-t-w:t-A53-G7-Z3-N35:nb-G7-anx-DA-s-m-nbw-m-q&U1-A-m-D51:D40-a-b-aHa-Y1:Z2-Xr:r-nTr-Htp:t-p-iw:Z2:k\-U5:a-Y1-x:f-t-Hr-Ff301-G7:k\-!!
+|6,1-ir-i-i-A42A-N35:k\-W17-N35:t*y-D20-xt:pr-aA:Y1:N35-G41-A-i*i:k\-wbA-b-A-A-D6:pr-bH:Y1-TA-Ff301-D51:D40-m-nbw-nfr-m-V23A:N33-Z3A-G7-i-N35:r-O39-N35:A-i-i-Z3-f-F29-t:y-i-i-W22-Z2:N35-nbw-Xr:r-i-r:p-W-W22-Z3A-H-q:t-W22-Z3A-r-H-Hn:N35:k\-D39:D40-W-Z3A-r-x:f-t-Hr-Ff301-G7:k\-r-t:N35-y-T14-G41:Y1-dwA-A-w-t:ra-!
+|6,2-ir-i-i-A41-N35:k\-rw:a-pr-Z2:N35-wn:N35-O31:D40-Hr-Ff301-Hb:ra-Z3A-G7-Hm-Ff301-W-A1:Z2-Hm-t-A1:3-apr-r:Y1-A42A-s-t:3-G7-t:X2-iw:Z2-H-q:t-W22-Z3A-E1:Z2-A-p:d-W-G41:Z2-i-r:p-W-W22-nTr-sn-t:y-i-rnp-N33:3-d:g-A-D51:N33-Z3A-s-y:F37A-G7-W-Hn-Z3A-r:N35-p-i-M4-Hn-Z3A-U5:a-Y1-D60-mw-m-D53:Y1:k\-m-Xr:r-h-r:W*ra-Ff301-m-HA-A-w-Y1-i-mn:N35-i-i-t:Y1-wn:N35-W-m-D53:Y1-G7-!
+|6,3-ir-i-i-A42A-N35:k\-W-DA-A-Z5:N33-Z3A-A51-s-y:Y1-G7-N35-nbw-G7-V23A:N33-Z3A-W-s-x:y-wsx-N33:3-aA:a-A-i-i-Y1:Z2-apr-r-W-N33:3-N35-k\A-1-t-m:t-N33:3-Aa8:N35-Y1-r-Tz:z-Y1-A24-W-Z3A-r-V49A-b-t:N33-G7:k\-r-t:N35-y-G41:Y1-xa:a:a-Y1-G7:k\-m-st-t:pr-G7:k\-aA:t*Y1-Dsr:r-t:Y1-G7-m-i-p-t:pr-st-st-st-O49-!
+|6,4-ir-i-i-A42A-N35:k\-t-w:t-A53-G7-N35:nb-G7-m-nbw-N35-q&U1-A-m-W-D51:D40-Htp:t-p-Y1-m-st-t:pr-r:x-Y1:N35-f-m-kA:r-i-pr:k\-A51-s-y:Y1-G7-!
+|6,5-ir-i-i-A42A-N35:k\-a-W-t:y-V12:Z2-aA:a-A-i-i-Y1:Z2-N35-nbw-m-q-H-q-H-D51:D40-xt:x*t-i-i-D51:D40-Hr-Ff301-r:N35-A2-wr:r-Hm-Ff301-G7:k\-Xr:r-N35:A-i-i-Z3-A42A-z:N35-s-A30-A2-Z3A-!
+|6,6-ir-i-i-A42A-N35:k\-k\:t*x-W-Y1:Z2-a-W-t:y-V12:Z2-m-HD-nbw-m-q-H-q-H-D51:D40-xt:x*t-i-i-D51:D40-Hr-Ff301-r:N35-A2-wr:r-Hm-Ff301-G7:k\-m-V25-w:t-V12:1-t:A-O6-t:pr-!
+|6,7-ir-i-i-A42A-N35:k\-a:N35-nw-W-xt:Z2-aA:a-A-i-i-Y1:Z2-G17-HD-nbw-G17-q-H-q-H-D51:D40-xt:x*t-i-i-D51:D40-Hr-Ff301-r:N35-A2-wr:r-Hm-Ff301-G7:k\-TA-A-w:t-D51:D40-G17-bA-Ff301-Aa18-Ff301-N35:t*Z5-N34-Xr:r-V25-w:t-V12:Z2-imi-G17:t-pr-1-V12:1-O6-w:t-pr-Z3-r:Z2-1{{0,26,100}}**pr{{268,168,100}}**1{{1434,0,100}}-Z3-O49:3-i-A2-ir:r-A42A-G17-tA:U7-i-rnp-O49:O49-!
+|6,8-G17-sw-t:N35-i-i-t:Y1-G7-Z3-A42A-Hr-Ff301-tp-Ff301-tA:1*N23-r-H-Hn:N35-nw-W-U39-A2-W-Z2:N35-r:N35-A2:nb-r:N35-nH-H-ra-H-D\99**tA{{38,754,67}}**t{{207,424,67}}-N35:t:k\-G41-A-i-M17-W-Z3A-N35:b-M17-M17-Z9-A24-Hr-Ff301-W-N37A{{0,339,100}}**b{{836,0,97}}-t:Z9-A2-Hr-Ff301-Hr-Ff301-W-Z3A-!
+|6,9-ir-M17-M17-A42A-N35:k\-k\:t*x-W-Y1:Z2-a:N35-nw-W-xt:Z2-G17-N34-Ff301-N33:3-G17-q-H-q-H-D51:D40-M17-W-Z3A-G17-F36-A-G17-W-Y1-N35:t-3:3-G17-M17-in:N35-nw-W-D3-nbw-xt:x*t-M17-M17-D51:D40-TA-A-w:t-D51:D40-G17-bA-Ff301-Aa18-Ff301-N35:t*Z5-N34-Hr-1-r:N35-A2-wr:r-Hm-Ff301-G7:k\-G17-V25-w:t-V12:Z2-t:A-O6-t:pr-r:Z2-1{{0,26,100}}**pr{{268,168,100}}**1{{1434,0,100}}-Z3-O49:3-G17-mi-t:t-Y1-!
+|6,10-s-Ax-x-W-A2-Z3-dwA-A-W-A30-A2-Z3A-aSA:t*3-M17-A2-ir:r-W-A42A-N35-r:N35-A2-G7:k\-h:r-M17-M17-ib*1:k\-N35-G41-A-sDm-G17-Y1-W-Z3A-G41-A-nb-nTrw-G7-Z3-!
+|6,11-ir-M17-M17-A42A-N35:k\-kA-Ff301-Hr-1-kA-Ff301-W22-aA:Y1:N35-HD-nbw-D60-mw-Abd:t*1-t-W-f-G17-nbw-xt:x*t-M17-M17-D51:D40-Hr-1-r:N35-A2:k\-H-b-s-V6-W22-Hr-Ff301-Hr-Ff301-f-G17-q-H-q-H-D51:D40-G17-HD-nbw-D60-mw-s-X:N35:k\-t-W22-aA:t*Y1-N35-HD-nbw-Xr:r-H-b-s-V6-W22-r:d-W-rd-rd-F51B:O-!
+|6,12-bA:k\-W-Y1-A24-A42A-N35-N35:A-s{{371,0,98}}**T30{{0,368,100}}-G17-W-G7-S37-G7-N35-mwt:t-t:H8-I64-x:N35-sw-W-G7-ms-s-M17-M17-Z5-ir-W-G17-U1-A-W:t-Y1-G17-O6-w:t-pr-Z3-nbw-pr-ir-W-G17-nbw-nfr-G17-bH:Y1-TA-Ff301-D51:D40-W-D52:t*Z5-Y1-G17-V23A:1-Z3A-G17-aA:t*Z5-O39:3-nb-ir:N35-p:t-H-G7-W-s-x:t*Z5-wsx-N33:3-N35-HAt:t*1-pH-W:y-!
+|6,13-apr-r-W-N33:3-G17-kA-Ff301-t-G17:t-N33:3-s-t:3-Htp:t-p-Y1-h:r-W-ib-Ff301-Hr-Ff301-N35:A-ti-N35:Z2-r-Ff301-A24-M17-A2-ir:r-W-A42A-N35:W*3-!!
+|7,1-ir-M17-M17-A42A-N35:k\-V25-W-O39:3-aA:a-A-M17-M17-Y1:Z2:N35-G41-A-M17*M17:k\-r-Ff301-M17-d:pr-d:g-A-D51:D40-G17-nbw-nfr-X:p*W-M17-M17-A53-G7-Z2:N35-kA-Ff301-G17:t-N33:3-Abd:t*1-O39-Z3A-aA:a-A-M17-M17-Y1:Z2-Xr:r-W-Z3A-Hw:Y1-TA-Ff301-D51:D40-G17-HD-nbw-Xr:r-X:p-M17-M17-N34-Z3-G17-nbw-r-h-A-N35:D41-A24-zA_:t*N23-Ff301-!
+|7,2-D36-W-A42A-N35:k\-10\70-N35-T14-N35-V19:N35-it**3{{643,759,68}}-r-s-D&f-A-W-rxyt:Y1-Z3A-nTr-Htp:t-p-iw:Z2:k\-G17-M17-mn:N35-M17-M17-t:Y1-r-D33:n-t:P1-A24-W-Z3A-r-R19-t:O49-G7-r-t:N35-y{{0,614,100}}**T14{{422,0,98}}-G41:Y1-rnp-t-Ff301-r-s-aSA:t*3-O51-w:t-pr*Z3:k\-G17-nfr-it**3{{643,759,68}}-sk-H-M17-M17-it**3{{643,759,68}}-!
+|7,3-G17:a-O35-t:D54-A42A-N35:k\-N35:A-HA-A-q-Z9-A24-A1:Z2:N35-t:A-pD{{80,0,95}}**t{{0,450,77}}**Z1{{446,430,68}}**3{{952,313,49}}**3{{565,324,49}}**3{{726,638,57}}-T14-A1*B1:Z2:N25-bA-Ff301-y:r-Ff301-kA-Ff301-Y1:Z2-tA:tA:tA:N23*N23*N23-N25:t*1-Z3A-N35-G41-A-M17*M17:k\-wbA-b-G41-A-D6:pr-D36-W-A42A-t:A-N31:t*1-r-R19-t:O49-G7-mi-M17-r:d-t:F51B-r-s-t:U30-A-V2:D54-x:f-t-Hr-Ff301-G7:k\-Xr-kA-Ff301-w:t-iw:Z2-aSA:t*3-!
+|7,4-sk-H-Y1-A42A-N35:k\-a{{0,378,58}}**b{{435,0,97}}-t:Z5-Hb:ra-Z3A-G17-H-b-Hb:ra-Z3A-tp-p-t:Z4-M17-rnp-Hb:ra-Z3A-r-U5:a-W-Y1-r-x:f*t-Hr-Ff301-G7:k\-r-y{{0,614,100}}**T14{{422,0,98}}-G41:Y1-xa:a:a-Y1-G7:k\-M17-W-Z3-apr-r:Y1-G17-t:X2-iw:Z2-H-q:t-W22-Z3A-E1:Z2-A-p:d-W-G41:Z2-M17-r:p-W-W22-Z3A-nTr-sn-t:y-M17-rnp-N33:3-d:g-A-D51:N33-Z3A-D35:N35-r:a-s-N35:Z2-M17-W-s-N35:Z2-H-t:y-M17-rnp-Y1-G17-U1-A-W:t-Y1-Hr-Ff301-sr-W-A1:3-rwD-W-Y1-A24-A1:3-G17-HA-A-w-Y1-Ax-x-W-Y1:Z2-nb-M17-A2-ir:r-W-A42A-N35-kA-Ff301-G7:k\-!
+|7,5-S10A-H-W-Y1-A24-A42A-N35:k\-W-M17-A-P1-G7:k\-A51-s-y:Y1-G7-wsr-s-HAt:t*1-P1-N35-V23A:a-W-10*10:10-Hr-Ff301-tp-Ff301-M17-r*W:r-mw-N36:X1*N23-G17-a:N37A-Aa2-M1A-Z3A-aA:a-A-M17-M17-Y1:Z2-x:N35-t:N37A-M1A-Z3A-N35-b-M17-A-M17-M17-t:Z5-Y1:Z2-d:g-A-D51:D40-G17-nbw-nfr-r-h-A-N35:D41-A24-nw*nw*nw:pt-mw-N36:X1*N23-mi-M17-s-sk:k\-t:y-P1-r:a-ra-G7-N35:a-M17-M17-rd-y:D54-f-b-X:D6-t:N25-anx-N35:x-Y1-ir:t*Z1-F51B-nb:A1*B1-Z3A-N35-!
+|7,6-G41-A-p-t:y-M17-rnp-D6-f-pr-wr:r-pr-aA:Y1-G17-F26:N35-nw-W-pr-f-N35-nbw-nfr-G17-V23A:N33-Z3A-G17-aA:t*Z5-O39:3-nb-mi-M17-O91-t:pr-Hr-Ff301-N37A:f-M17-M17-t:Z5-F7-Z3A-G17-nbw-G17-HAt:t*Z1-r-pH-W:y-U1-A-V25-W-D41:D40-G17-M17-a:r-a-w:t-t:H8-I14-Z3A-Xr:r-A-t:f-Atf-G7-!
+|7,7-s-t:U30-A-V2:D54-A42A-N35:k\-p-wn:N35-t:N25-G17-a:N35-t-G4A-N8-N33:3-r-F48\:r-y:D54-nTr-O6-t:pr:k\-Hr-Ff301-tp-Ff301-dwA-A-M17-M17-t:ra-d:g-A-D51:D40-A42A-N35:h-A-w:t-M1A-Z3A-nTr-sn-t:y-M17-rnp-N33:3-G17-G41-A-M17*M17:k\-wbA-b-G41-A-D6:pr-b-W-p-t:y-M17-rnp-D6-W-Z3A-a:N35-D55-Dr:r-r:k\-X-ra-nTr-G7-!
+|7,8-ir-M17-M17-A42A-N35:k\-q-A-r-Ff301-r-Ff301-P1-Z3-mn:N35-N37A-P1-Z3-G41-A-M17-M17-y:r-Ff301-P1-Z3-G17-pD:t*3-s-d:bH-b-H-Y1:Z2-G17-xa:a-W-xt:Z2-s-N35:Z2-tp-Ff301-M14-wr:r-M17-mw-N36:X1*N23-D36-W-A42A-N35:W*3-pt-W-Z3-pD:t*3-pt-W-Z3-mn:N35-N37A-P1-Z3-apr-r:Y1-G17-iz-t:1-w:t-A1:Z2-q:N35-nw-W-Y1:Z2-D35:N35-r:a-Z1-s-N35:Z2-r-D33:N35-t:P1-A24-x:t-Y1:Z2-tA:1*N23-DA-h-T14-N25-N25:t*1-Z3-pH-W-W-N23-tA:1*N23-r-N35:A-M17*M17*Z3:k\-r-Ff301-HD-pr-Z3-aA:a-A-M17-M17-Y1:Z2-G17-R19-t:O49-G7-N35:xt:x*t-W-A24-ti-!
+|7,9-ir-M17-M17-A42A-N35:k\-mn:N35-mn:N35-E1:Z2-G17-Sma-V23A-H-M17-M17-M15-Hn-O49:O49-Xr:r-E1:Z2-A-p:d-W-G41:Z2-M17-A:t-O44-F27-Z3-G17-Hfn:3-Xr:r-G17:r-E1:Z2-Y4-A1:Z2-G17:r-F16-Ff301-A24-A1:Z2-rwD-W-W-Y1-A24-A1:Z2-iry-M17-W-W-A24-A1:Z2-q:N35-nw-W-Y1:Z2-G17-Aa18-Ff301-s-N35:Z2-Xr:r-s-y:F37A-G17-W-Hn-Z2:N35-E1:Z2-r-s-U5:a-Y1-W-Z2:N35-kA-Ff301-G7:k\-G17-H-b-Hb:ra-G7:k\-nb:W*3-Htp:t-p-W-Y1-ib-1-G7:k\-Hr-Ff301-Hr-Ff301-s-N35:Z2-G41-A-HqA-q-G7-X6:t-nTrw-G7-Z3-!
+|7,10-ir-M17-M17-A42A-N35:k\-kA-A-G17-W-M1A-pr-Z3-N35-M17-r:p*W-W22-Z3A-G17-Aa2:t*1-T14-N25-M24-t:N23-Ff301-T14-N25-V23A:t*N23-1-G17-mi-t:y-Y1-D35:N35-r:a-Ff301-s-N35:Z2-k\:t*x-W-Y1:Z2-G17-a-1-M24-t:N23-Ff301-G17-r:x-t:Y1-aSA:t*3-s-aSA:t*3-s-t:3-G17-tA:V23A-H-M17-M17-M15-Hn-Hn-O49:O49-mi-M17-Hfn:3-apr-r:Y1-A42A-s-t:3-G17-kA-A-G17-W-A24-A1:Z2-G17-HA-A-q-Z9-A24-A1:Z2-N25:t*Z1-Z3A-Xr:r-N36:X1*N23-Z3A-G17-Sd:d:d-A24-A42A-!
+|7,11-apr-r:Y1-Xr:r-z:N37A-N35:y-M9-Hn-Z3A-Xr:r-Sd:d-H-W-W22-Z3A-mi-M17-r:p-W-W22-Z3A-mi-M17-s-t:U30-A-V2:D54-mw-r-H-Hn:N35:k\-D39:D40-W-Z3A-r-x:f-t-Hr-1-G7:k\-G17-R19-t:O49-G7-N35:xt:x*t-W-A24-!
+|7,12-d:g-A-D51:D40-A42A-O49:t*Z1:k\-R19-t:O49-G7-G17-mn:N35-N35:nw*W-M1A-Z3A-A:x-A:x-Hn-Z3A-M17-iz-s-y-M17-M17-Hn-Z3A-bH:Y1-y:r-Hn-mn:N35-H-t-Hn-Z3A-r-r:N37A-M17-t:y-D20-D20-G7:k\-!
+|7,13-A35-A24-A42A-pr-Ff301-N35-zA-1-G7:k\-x:N35-sw-W-G7-G17-R19-t:O49-G7-G17-M17-N35:r-O39-nfr-f:r-N35-r:d-W-rwD-O39-b-M17-A-M17-M17-t:O39-M17-N35:r-p-km-G17-O39-d:g-A-D51:D40-A42A-N35:A-M17-M17-Z3-f-H-t:y-M17-rnp-O39:3-s-b-dwA-A-w:t-xt:Z2-G17-nbw-X:p*W-M17-M17-A53-N35-wAs-nbw-G17-W-N33:3-mi-M17-Axt:t-pr-G7-N35:t-p-t:pt-G7-!!
+|8,1-bA:k\-W-Y1-A24-A42A-N35-N35:A-M17*M17*Z3:k\-s{{371,0,98}}**T30{{0,368,100}}-G17-W-G7-Z3-G17-O6-w:t-pr-Z3-nbw-pr-G17-aA:t*Z5-O39:3-nb-A51-s-t:Y1-G7-W25-N35:N35-a:a-W:y-A42A-!
+|8,2-ir-M17-M17-A42A-N35:k\-Aa8:t*Z1-O49-A51-s-t:Y1-G7-G17-O49:t*Z1-tA:V23A-H-M17-M17-M15-Hn-Hn-O49:O49-s-mn:N35-U32:Y1-ti-G17-imi-G17:y-pr-Ff301-N35:k\-r:N35-nH-H-ra-H-pr-Z1-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-s-aA:Y1-N35:xt:x*t-W-A24:3-x:r-t-W-G7-N35:f-r-r:N35-A2-r-SA-A-a:Y1-r:N35-nH-H-ra-H-!
+|8,3-d:h-N35:y-Y4-bH:D40-A42A-N35:f-tA:U7-M17-rnp-O49:O49-Xr:r-W25-N35:nw-W-Y1:Z2-s-N35:Z2-N8-G17-G17-A1*B1:Z2-tA:Z1*N23-nb-t-w:t-A53-Y1-G17-F26:N35-nw-W-pr-f-apr-r:Y1-G17-kA-A-G17-W-M1A-pr-Z3-aA:a-A-M17-M17-Y1:Z2-st-w:t-pr-Z3-s-w:t-w:t-rd-t:D54-G17-SA:N23-M1A-Z3A-nb-b-N35:r-M17-bnr-Y1-A-t:p-A9-A24-!
+|8,4-Xr:r-d:g-A-D51:N33-Z3A-s-N35:Z2-nTr-N31:t*pr-s-ti-H-N35:pt-M1A-Z3A-G17-bH:Y1-rw-Ff301-rw-Ff301-Hn-Z3A-tA:Z1*N23-nb-M17-iz-s-y-M17-M17-Hn-Z3A-T-W-f:y-Hn-Z3A-r:r-G17:t-N33:3-mi-t:2-Y1-N37A:a-N23-Z3-!
+|8,5-ir-M17-M17-A42A-N35:f-kA-Ff301-iw:Z2:N35-km-G17-t:O49-b:a-H-G32-mw-N36:X1*N23-G17-tA:tA:N23*N23-Z3A-G17-tA:Z1*N23-W-Z3A-aA:a-A-M17-M17-Y1:Z2:n-D&d-t-W-M1A-Z3A-Xr:r-M17-ir:r-t-M1A-N33:3-M17-in:N35-H-W-D51:D40-G17-s-b-t:y-O36-N23-G17-Aa28-d:D54-W-Z3A-mi-M17-M17-t*W:r-mw-rd-D54:3-d:g-A-D51:D40-G17-mn:N35-nw-W-M1A-N33:3-!
+|8,6-aA:a-A-M17-M17-Y1:Z2-Hr-Ff301-N31:t*Z1-W-Z3A-nb-aSA:t*3-nH-H-ra-H-W22-M17-G17-s-N35:Z2-r-N37A:a-t:N23-Z3-nw-Z1-V25-b-W-mw-N36:X1*N23-r-G17:a-O35-y:D54-W-Z2:N35-kA-Z1-G7:k\-r-R19-t:O49-G7-N35:xt:x*t-W-A24-ti-M17-r:p-W-W22-Z3A-mi-M17-s-t:U30-A-V2:D54-mw-D35:N35-r:a-Ff301-s-N35:Z2-r-!
+|8,7-H-Hn:N35:k\-D39:D40-W-Z3A-r-x:f-t-Hr-Ff301-G7:k\-G17-M17-mn:N35-M17-M17-t:Y1-!
+|8,8-A35-A24-G7-N35:k\-nTr-O6*(t:pr):k\-G17-F26:N35-nw-W-pr-zA:t*N23-Ff301-f-s-mn:N35-x:t-mnx-Y1-G17-ir:r-mn:N35-x:t-mnx-Y1-G17-M17-N35:r-O39:N35-a:y-M17-M17-N35:A-O39-s-b-sbA-A-xt:f-H-t:y-M17-xt:Z2-f-G17-nbw-Hw:Y1-TA-Ff301-D51:D40-G17-N34-Z1-N33:3-X:p*W-A53-G7-Z3-G17-aA:t*Z5-O39:3-nb-mi-M17-O31:O31-W:y-xt:Z2-p-t:pt-!
+|8,9-ms-s-M17-M17-Z5-A42A-s{{371,0,98}}**T30{{0,368,100}}-G17-W-G7:k\-A51-s-y:Y1-G7-s-xa:a-Z5-M17-M17-G7-M17-G17-f-mi-M17-ra:r:a-G7-s-HD-D&ra-N35:f-tA:Z1*N23-G17-F29-w:t-N8:f-M17-mn:N35-G7-N35-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-s-r:N35-A2-f-wr:r-A51-s-y:Y1-G7-V23A:Y1-A42A-pr-Ff301-f-G17-Hm-Z1-W-A1:Z2-Hm-t-Ff301-B1:Z2-W25-N35:N35-A42A-G17-tA:tA:tA:N23*N23*N23-F29-t:y-G4A-T14-A1:Z2-!
+|8,10-nTr-O6-t:pr-wn:N35-nw:t-dwA-A24-A1:Z2-G17-TA-A-D51:D40-t:k\-G17-D51:D40-A1:Z2-ms-s-w:t-Z5:A1-Z3A-b-W-wA-A-A30-A1:Z2-s-xpr:r-W-N35-A42A-r-Ff301-HD-pr-Z3-f-b:a-H-G32-mw-N36:X1*N23-Z3A-G17-x:t-Y1:Z2-tA:Z1*N23-nb-O51-w:t-pr-pr-Z3-t-W-f-t:k\:N35-y:D54-W-Z2:r-Hr:r-t:pt-mn:N35-mn:N35-E1:Z2-t-W-f-!
+|8,11-s-aSA:t*3-W-Z2:r-N37A:a-N23-Z3-V21-w:t-pr-Z3-M17-wA-A-E1:Z2-s-U5:a-W-Y1-N35-kA-Ff301-Y1:Z2-f-nTr-Htp:t-p-iw:Z2-G17-M17-mn:N35-M17-M17-t:Y1-V23A:Y1-D60-mw-G17-D53:Y1-f-rw:a-pr-Z2:N35-W-SA-A-D51:D40-G41:Z2-Xr:r-r-Ff301-w:t-G41:Z2-x:p-N35:Aa2\80-Z3A-h-A-G17-W-pr-Z3-Xr:r-M17-r:y-iry-p-t:pt-G41:Z2-!
+|8,12-kA-A-G17-W-M1A-pr-Z3-Xr:r-M17-r:p-W-W22-Z3A-apr-r:Y1-Xr:r-d:g-A-D51:N33-Z3A-s-N35:Z2-r:N35-p-M17-rnp-Hn-Z3A-bH:Y1-rw-Ff301-rw-Ff301-Hn-Z3A-nb-!
+|8,13-ir-M17-M17-A42A-N35:k\-pr-Ff301-A51-s-y:Y1-G7-G17-tA:Z1*N23-D20-t:N25-xt:x*t-M17-M17-D51:D40-Hr-Ff301-r:N35-A2:k\-A51-s-y:Y1-G7-mi-t:y-Y1-Hr:r-t:pt-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-s-aA:Y1-N35:xt:x*t-W-A24:Z2-mn:N35-U32:Y1-Xr:r-r:N35-A2:k\-r:N35-nH-H-ra-H-!
+|9,1-A35-A24-A42A-N35:k\-O6-t:pr-N37A:tA-t:Y1-G17-tA:Z1*N23-N35-DA-h-A-T14-N25-mi-t:y-Y1-Axt:t-pr-G7-N35:t-p-t:pt-G7-N35:t*y-G17-Hr:r-t:pt-G7-t:A-O6-t:pr-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-s-G17-G41-A-k\:A-N35:a-N35:A-T14-N25-!
+|9,2-G17-imi-G17:y-pr-Ff301-N35-r:N35-A2-G7:k\-ms-s-M17-M17-Z5-A42A-s{{371,0,98}}**T30{{0,368,100}}-G17-W-G7:k\-sr-Htp:t-p-Y1-G17-F26:N35-nw-W-pr-f-M17-mn:N35-G7-N35-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-s-G17-D54-W-N35:f-N25:t*Z1-G4A-T14-A1:Z2-nw-Ff301-r-t:N35-nw-W-T14-A1:Z2:N25-!
+|9,3-Xr:r-W25-N35:nw*W-Y1:Z2-s-N35:Z2-N35-Hr-Ff301-G7-f-mi-M17-nTr-t:r-y:Y1-G7-f-s-t:U30-A-V2:D54-A42A-tA:Z1*N23-Y1:d-y:Y1-N35:k\-Xr:r-bA:k\-W-s-Y1:Z2-s-N35:Z2-r-G17:a-O35-y:D54-W-Z2:r-R19-t:O49-O49:t*Z1:k\-N37A:tA-!
+|9,4-ir-M17-M17-A42A-N35:k\-ib-ib-Ff301-Z2-G17-Aa8:t*Z1*O49-Z3A-tA:U7-M17-M4-O49:O49-M17-W-Z3-N35:r-N10:t-nTrw-G7-Z3-S29-W-U28-A-Y1-tA:Z1*N23-p:N35-A35-A24-A42A-N35:W*3-r:3-Ff301-pr-Ff301-Z3-O49:3-kA-A-G17-W-M1A-pr-Z3-Xr:r-SA:N23-M1A-S29-N35:Z2-!
+|9,5-A-H-t:N23-Z3A-M17-A:t-O44-F27-Z3A-mn:N35-mn:N35-E1:Z2-Hm-Z1-W-A1:3-aSA:t*3-M17-W-Z3-N35:k\-nH-H-ra-H-ir:t*Z1-F51B-G7:k\-Hr-Ff301-Hr-Ff301-S29-N35:Z2-N35:t:k\-G41-A-M17-M17-W-Z3-N35:b-M17-M17-A24-SA-A-a:Y1-D\99**tA{{38,754,67}}**t{{207,424,67}}-!
+|9,6-bA:k\-W-Y1-A24-A42A-N35-N35:A-M17*M17*Z3:k\-s{{371,0,98}}**T30{{0,368,100}}-G17-W-G7-Z3-aA:a-A-M17-M17-Y1:Z2-wr:r-Z3-N35:t*y-G17-N35:A-M17-M17-W-Z3A-Aa8:t*Z1-O49-Z3A-G17-tA:tA:tA:N23*N23*N23-km-G17-t:O49-ir-M17-M17-A42A-S29-W-r:d-rwD-D51:D40-nTr-O6-t:pr-W-Z3A-!
+|9,7-wn:N35-W-wAs-G17-W-G37-q&b-F48:Y1-A42A-nTr-Htp:t-p-iw:Z2-U5:a-W-Y1-N35-kA-Ff301-Y1:Z2-S29-N35:Z2-G17-HA-A-W-Y1-M17-mn:N35-M17-M17-t:Y1-wn:N35-W-G17-D53:Y1-S29-N35:Z2-!
+|9,8-p-t:y-M17-M4-D6-S29-H-W:y-G41:Y1-N35-A42A-ir:N35-A42A-nb-G17-D53:Y1:k\-M17-t:f-G7-A42A-A51-S29-y:Y1-G7-nTr-t:r-y:Y1-G7-nb-nTrw-G7-Z3-a:U2-A-G17-W-D6-r:T-A1:Z2-nTrw-G7-Z3-G17-N35:A-M17-M17-Z3-A42A-Ax-x-W-Y1:Z2-!
+|9,9-M17-A2-ir:r-W-A42A-N35:k\-G17-ti-N35:Z2-r-Ff301-A24-M17-W-A1-Hr-Ff301-tp-Ff301-tA:Z1*N23-!!
++bListes, Vermögen des Tempels, Richesse du Temple +s-!
+|10,1-S29-H-W:y-G41:Y1-Z3A-x:t-Y1:Z2-M17-A:t-O44-F28-Z3A-kA-A-G17-M17-M17-M1A-pr-Z3-A-H-t:N23-Z3A-mn:N35-N37A-P1-Z3-W-x:r-w:t-pr-Z3-d:mi*M17-O49:3-M17-A2-D36-W-aA:pr*pr-G7-G7-anx-DA-S29-r-pr-Ff301-M17-t:f-G7-f-A51-S29-y:Y1-G7-!
+|10,2-M17-mn:N35-G7-ra-G7-sw-t:N35-G7-nTrw-G7-Z3-mwt:t-t:H8-I14-x:N35-sw-W-G7-nTrw-G7-Z3-nb:W*3-R19-t:O49-G7-G17-imi-G17:y-pr-Ff301-A1:Z2-r:N35-nH-H-ra-H-D\99**tA{{38,754,67}}**t{{207,424,67}}-!
+|10,3-t:A-O6-t:pr-sw-L2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-S29-G17-O1-Z1-M17-mn:N35-G7-G17-a-M24-y:N23-V23A:t*N23-Ff301-.-r:xt:t*Z1-sr-W-A1:Z2-r:3-Ff301-O1-Z1-Z3-O49:3-O1-Ff301-p:N35-apr-r:Y1-ti-G17-x*t:Y1:Z2-S29-nb-..-..-tp-Ff301-W-A1:Z2-.-+l62626+s-!
+|10,4-O1-Ff301-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-S29-G17-O1-Ff301-M17-mn:N35-G7-N35:a-M24-y:N23-V23A:t*N23-r-xt-..-sr-W-A1:Z2-apr-r:Y1-G17-x:t-Y1:Z2-f-nb-..-..-..-..-..-..-+l- +s-..-+l970 +s-!
+|10,5-O1-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-G17-O1-Ff301-M17-mn:N35-G7-N35:a-M24-y:N23-V23A:t*N23-r-xt:t*Z1-..-r:xt:t*Z1-G41-A-nTr-Hm-Ff301-A1-tp-p:y-apr-r:Y1-ti-M17-G17-x:t-Y1:Z2-S29-nb-..-..-..-+l-+s-..-+l2623+s-!
+|10,6-O1-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-Xnm-G17-W-Y1-r:N37A-w:t-D20-Y1-G17-O1-Ff301-M17-mn:N35-G7-..-r:xt:t*Z1-G41-A-nTr-Hm-Ff301-A1-tp-p:y-apr-r:Y1-ti-M17-G17-x:t-Y1:Z2-S29-nb-..-..-..-+l-+s-..-+l49+s-!
+|10,7-mn:N35-mn:N35-E1:Z2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-S29-G17-O1-Ff301-M17-mn:N35-G7-N35:t*y-G17-..-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-S29-HA-A-q-A24-b-N37A:d-D20-A14:Z2-..-G17-M17-r*W:N36-aA:Y1-..-..-..-..-..-..-..-..-..-+l- +s-..-+l113+s-!
+|10,8-mn:N35-mn:N35-E1:Z2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-S29-x:f-V12:D40-m:a-SA-A-wA-A-SA-A-T14-A1:3-..-m-G41-A-mw-n-G41-A-ra-G7-r:xt:t*1-m:r-pr-Ff301-p:y-i-A-i-i-A1-..-m:a-SA-A-wA-A-SA-A-T14-A1:3-..-+t(ty.w)+s-..-..-+l-+s-..-+l971+s-!
+|10,9-mn:N35-mn:N35-E1:Z2-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-G17-O1-Z1-M17-mn:N35-G7-m-i-t*W:r-mw-N36:X1*N23-aA:Y1-..-+l-+s-..-+l1867+s-..-..-G17:a-SA-A-wA-A-SA-A-T14-A1:Z2-..-..-..-..-..-+l-+s-..-+l971+s-!
+|10,10-mn:N35-mn:N35-E1:Z2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-S29-G17-O1-Ff301-M17-mn:N35-G7-ir:r-M17-M17-t:Y1-..-G17-N35:A-r:T-A1:Z2:N35-M17-t*W:r-mw-N36:X1*N23-aA:Y1-r:xt:t*Z1-TA-t:Z1-A1-..-N35:a-Z1-M24-y:N23-Ff301-..-..-..-..-..-..-..-..-..-+l- +s-..-+l34+s-!
+|10,11-mn:N35-mn:N35-E1:Z2-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-G17-O1-Z1-M17-mn:N35-G7-r:xt:r*Z1-G17:r-E1:Z2-kA-Ff301-M17-M17-..-+l- +s-..-+l279+s-!
+|10,12-O1:Z1-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-aA:Y1-N35:xt:x*t-W-A24:Z2-G41-A-d:mi*M17-O49-M17-A2-ir:r-W-N35:k\-..-aA:O1*O1-G7-G7-anx-DA-S29-G17-a-Z1-V23A:t*N23-Ff301-Hr-Ff301-S29-d:f-M44-1-N23-O1-Ff301-M17-mn:N35-G7-..-ra-G7-sw-t:N35-G7-nTrw-G7-Z3-r\98**D{{83,288,65}}**d{{145,635,37}}-n:xt:x-t-W-A24:k\-i-W-D36:k\-mn:n-U32:Y1-f-..-r:n-H-ra-H-D\99**tA{{38,754,67}}**t{{207,424,67}}-..-..-..-..-..-..-..-..-..-..-+l-+s-..-+l7872+s-!
+|10,13-pr-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-anx-DA-S29-m-pr-Ff301-x:n-sw-W-..-..-..-..-..-+l-+s-..-+l294+s-!
+|10,14-r:T-A1:Z2-i-A2-D36-W-f-r-pr-Ff301-x:n-sw-W-G7-m-R19-t:O49-G7-nfr-f:r-Htp:t-p-Y1-..-G5-G7-nb-Aw-w:t-ib-Ff301-z:p*O50-..-..-..-..-..-..-..-+l-+s-..-+l247+s-!
+|10,15-xA-A-rw-Ff301-T14-A1:Z2-nH-H-s-y-i-i-T14-A1:Z2-n-HA-A-q-Z9-A24-Hm-Ff301-G7-f-anx-DA-s-..-r:D36:n-f-r-pr-Ff301-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-Z3-..-pr-Ff301-mwt:t-t:H8-I14-pr-Ff301-x:n-sw-W-G7-z:p*O50-..-..-..-..-..-..-..-+l-+s-..-+l2607+s-!
+|10,16-pD:t*3-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-G7-anx-DA-S29-s-mn:n-x:t-mnx-Y1-O6-t:pr-t-W-f-m-pr-Ff301-i-mn:n-G7-..-..-r:T-A1:Z2-g:r-grg:r-r:D36:n-f-r-pr-Ff301-p:n-..-..-..-..-..-..-+l-+s-..-+l770+s-!!
+|11,1-s{{371,0,98}}**T30{{0,368,100}}-m-W-G7-S37A-Ff301-G7-t-w:t-A53-G7-Z3-ib-ib-1-Z3-bA:k\-W-Y1-A24-n:W*3-n:A-sr-W-A1:Z2-TA-A-i-i-D51:D40-s-y:r-Ff301-w:t-N34-A1:3-..-rwD-Ff301-W-W-sr-A1:3-r:T-A1:Z2:n-G41-A-tA:1*N23-!
+|11,2-i-A2-D36-aA:pr*pr-G7-G7-anx-DA-s-Hr-Ff301-s-d:f-M44-1-N23-..-pr-Ff301-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-Z3-r-n:xt:x*t-A24-W-Z3A-r-W-N37A&b-Z9-A2-Hr-Ff301-Hr-Ff301-W-Z3A-..-r:n-nH-H-ra-H-D\99**tA{{38,754,67}}**t{{207,424,67}}-!
+|11,3-nTr-G7-..-+l2856+s-..-..-..-..-..-ir:n-tp-Ff301-W-Y1:Z2-..-..-..-..-..-+l5164+s-!
+|11,4-$r-Y1-$b-tp-Ff301-W-A1:Z2-..-..-..-+l86486+s-..-!
+|11,5-E1:Z2-i-A:t-O44-F27-Z3A-Z9:n-Y1-..-+l421362+s-..-!
+|11,6-kA-Ff301-m-W-M1A-pr-Z3-V49A-nw-i-i-w:t-M1A-pr-Z3-..-+l433 +s-!
+|11,7-A-H-t:N23-Z3-V2:t*N23-..-..-..-+l864168 1/4 +s-..-!
+|11,8-q-A-r-Ff301-r-Ff301-P1-mn:n-N37A-P1-..-+l83+s-!
+|11,9-W-x:r-pr-a:N37A-Aa2-M1A-V49A-t:y-M1A-Z3A-..-+l46+s-!
+|11,10-d-mi-i-N23:3-n-km-m-t:O49-..-..-+l56+s-!
+|11,11-d-mi-i-N23:O49-Z2:n-xA-A-rw-Ff301-T14-N25-k\:N37A-y-T14-N25-.-+l9+s-$r-Y1-$b-..-+l65+s-!!
++bTaxes sur les personnes+s-!
+|12a,1-$r-x:t-Y1:Z2-$b-SA-A-i-i-t:Z5-Y1:Z2-bA:k\-W-Y1:Z2-r:T-A1:Z2-s-m-d:t*Z5-A1:Z2-nb:n-t:A-O6-t:pr-sw-L2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-s-m-pr-Ff301-i-mn:n-G7-!
+|12a,2-m-a-1-M24-t:N23-1-V23A:t*N23-r:xt:t*1-sr-W-A1:Z2-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-s-m-pr-Ff301-i-mn:n-G7-m-O49:t*1-pr-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-m-pr-Ff301-i-mn:n-G7-!
+|12a,3-t:A-O6-t:pr-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-anx-DA-S29-Xnm-m-W-G7-r:N37A-w:t-D20-Y1-m-pr-1-i-mn:n-G7-n-i-p-t:pr-pr-Ff301-<-ra{{0,250,100}}**ms{{514,0,99}}-s-s-HqA-iwn->-G7-G7-anx-DA-S29-m-pr-1-x:n-sw-W-G7-t:A-3:2*t-mn:n-mn:n-w:t-E1:Z2-!
+|12a,4-ir:r-i-i-t:Y1-r-pr-Ff301-p:n-i-A2-D36-W-sw-t:n-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-s-G41-A-nTr-G7-aA:Y1-r-n:A-i-i-W-Z3A-r-Ff301-HD-pr-Z3-W-DA-A-pr-Z3-O51-w:t-pr-Z3-!
+|12a,5-m-G41-A-i-i-s-n:Z2-H-t:r-i-M4-Y1-M4-t-Ff301-!
+|12a,6-nbw-nfr-..-..-F48\:n-O39-..-..-..-+l217,5+s-..-..-..-..-..-!
+|12a,7-nbw-n-N25:t*1-V33-b-t:y-O49-..-F48\:n-O39-..-+l61,3+s-!
+|12a,8-nbw-n-k\:N37A-y-T14-N25-..-.-F48\:n-O39-..-+l290, 8 1/8+s-..-!
+|12a,9-$r-Y1-$b-nbw-nfr-nbw-n-N25:t*1-..-F48\:n-O39-..-+l569, 6 1/8+s-!
+|12a,10-HD-nbw-..-..-..-..-.-F48\:n-O39-..-+l10964,9+s-!
+|12a,11-$r-Y1-$b-nbw-HD-nbw-..-..-.-F48\:n-O39-..-+l546,8+s-!
+|12a,12-N34-Ff301-N33:3-..-..-..-..-F48\:n-O39-..-+l26320+s-!
+|12a,13-sw-t:n-V33-Ff301-V6-m-a:k\-W-V6-M26-nfr-M26-Y4-H-b-s-V6-Z9:n-Y1-..-..-..-+l3722+s-!
+|12a,14-nw:t*Z5-V6-..-..-..-..-F48\:n-O39-..-+l3795+s-!
+|12a,15-nTr-sn-t:r-i-M4-N33:3-L2-W-W22-Z3A-nH-H-ra-H-W22-A-a:a-W22-Z9:n-t:Y1-..-..-..-+l1047+s-!
+|12b,1-Sd:d-H-W-W22-i-r:p-W-W22-Z3A-A-a:a-t-W22-Z9:n-Y1-+l25405+s-!
+|12b,2-HD-nbw-m-x:t-Y1:Z2-m-bA:k\-W-Y1:Z2-r:T-A1:Z2-..-r:D36-i-i-t:Y1-r-G41-A-nTr-Htp:t-p-iw:Z2-..-F48\:n-O39-..-+l3606,1+s-!
+|12b,3-V6-1-it**3{{643,759,68}}-HqA-n-bA:k\-W-Y1-A24-+t +s-T58A-W-t:y-A24-V19\70-..-..-..-+l309950+s-!
+|12b,4-M14-t:F37B\-Hn-mr:r-W-D51:D40-..-..-..-..-..-..-+l24650+s-!
+|12b,5-V23A:D41-H-t:F37B\-Hn-n:a-x-W-D51:D40-..-..-..-..-+l64000+s-!
+|12b,6-A-p:d-W-zA:Z2:n-mw-m-bA:k\-W-Y1:Z2-n-n:A-..-k\:A-p-W-Y1-A24-A1:Z2-P4B:a-W-zA{{13,0,59}}**k{{0,465,55}}-A24-A1:Z2-..-..-..-+l289530+s-!
+|12b,7-i-wA-A-E1:Z2-r:n:n-Z5:n-i-wA-E1:Z2-..-Z9:n:t*Z5-imi:Dw-W-E1:Z2-E1:Z2-E1:Z2:n-..-qd-t:O39-Z3-E1:Z2-r*1:n-mn:n-mn:n-E1**t{{649,62,69}}:Z2-..-km-m-t:O49-..-..-..-..-..-+l847+s-!
+|12b,8-i-wA-A-E1:Z2-r:n:n-Z5:n-i-wA-E1:Z2-..-n:g-A-E1-Z9:n:t*Z5-Z3A-imi:Dw-W-E1:Z2-..-E1:Z2-m-bA:k\-W-Y1:Z2:n-n:A-tA:Z1*N23-W-Z2:n-..-xA-A-rw-1-T14-N25-..-..-..-..-+l19+s-!
+|12b,9-r-1-zA-anx-Z5\70-n-SA-A-i-i-W-Y1:Z2-..-+l744+s-!
+|12b,10-a:N37A-Aa2-M1A-s-V84:k\-P1-DA-A-i-i-P1-!
+|12b,11-V49A-t:y-s-V84:k\-P1-i-A2-h-A-i-i-t:pr-..-U7:r-W-mw-N36:X1*N23-P1-x:P1-Z3A-D33:n-t:P1-A24-E1-..-TA-1-y:r-1-ti-i-P1-kA-1-y:r-1-P1-..-+l71+s-..-!
+|12b,12-$r-Y1-$b-a:N37A-Aa2-M1A-V49A-t:y-M1A-Z3A-P1-..-..-+l82+s-!
+|12b,13-$r-x:t-Y1:Z2-$b-Aa2:t*1-T14-N25-m-r:x-t:Y1-aSA:t*3-r-G41-A-nTr-Htp:t-p-iw:Z2-!!
++bCadeaux du roi+s-!
+|13a,1-$r-nbw-HD-nbw-$b-x:z-b-d:N33-Z3A-U5:a-t-Sw-Y1-m:a-f:k\-N33:3-U5:a-t-Sw-Y1-aA:t*Z5-O39:3-nb-U5:a-N34-Z1-N33:3-H-b-s-V6:n-sw-t:n-V33-1-V6-m-a:k\-W-V6-!
+|13a,2-Sma-nfr-Sma-H-b-s-V6-Y4-Y1:Z2-A-a:a-w:t-W22-Z3A-A-p:d-G38:Z2-x:t-Y1:Z2-nb-i-A2-D36-W-sw-t:n-G7-<-ra-wsr-U5:a_-.:t-Sw-mr-i-mn:n-G7->-anx-DA-s-G41-A-nTr-G7-aA:Y1-!
+|13a,3-m-W25-n:nw*W-Y1:Z2:n-nb-G7-anx-DA-s-r-s-D&f-A-W-G38:Y1-Z3A-pr-1-i-t:f-G7-Z3-A51-s-y:Y1-G7-i-mn:n-ra-sw-t:n-G7-nTrw-G7-Z3-mwt:t-t:H8-I14-x:n-sw-W-G7-SA-A-a:Y1-!
+|13a,4-m-M4-t:ra-1-r-M4-t:ra-10:10*10-1-ir:n-10:10*10-1-n-rnp-t-!
+|13a,5-nbw-nfr-kA-1-ti-m:t-N33:3-dmD:d-t:N33-+l72+s-ir:n-F48\:n-O39-+l21+s-..-..-!
+|13a,6-nbw-nfr-m-s-aHa-a:D54-g-A-Aa18-1-rw-1-N33:3-..-..-n-T14-Z5-+l22+s-ir:n-F48\:n-O39-..-+l3,3 +s-..-..-..-!
+|13a,7-nbw-nfr-m-V23A:N33-Z3A-q-A-Aa18-1-rw-1-N33:3-..-..-..-n-T14-Z5-+l9+s-ir:n-F48\:n-O39-..-+l1,3 1/2+s-..-..-!
+|13a,8-nbw-nfr-m-s-aHa-a:D54-m-V23A:N33-Z3A-m-aA:t*Z5-O39:3-..-nb-Sw-SA-A-q-W-xt:n-W-xA-A-xt:n-..-i-mn:n-G7-+l.1+s-ir:n-F48\:n-O39-..-+l22.5+s-..-..-!
+|13a,9-nbw-nfr-m-q-H-q-H-D51:D40-a-W-t:y-V23A:1-..-..-+l.1+s-ir:n-F48\:n-O39-..-..-+l9,5 1/2+s-!
+|13a,10-$r-Y1-$b-nbw-nfr-m-apr-r-W-N33:3-F48\:n-O39-..-..-+l57,5+s-!
+|13a,11-nbw-n-O48:2-m-s-aHa-a:D54-m-V23A:N33-Z3A-..-g-A-Aa18-1-rw-1-N33:3-n-T14-Z5-..-+l42+s-ir:n-F48\:n-O39-!
+|13a,12-nbw-n-O48:2-kA-1-Hr-1-kA-1-W22-+l2+s-..-ir:n-F48\:n-O39-..-..-..-..-..-+l30,5+s-!
+|13a,13-$r-Y1-$b-nbw-n-O48:2-F48\:n-O39-..-..-..-+l35, 1/2+s-!
+|13a,14-nbw-HD-ra-g-A-Aa18-1-rw-1-N33:3-n-..-T14-Z5-+l310+s-ir:n-F48\:n-O39-..-+l16,31/2+s-!
+|13b,1-nbw-HD-ra-r:n-A2-sw-W-N33:3-..-+l264+s-..-ir:n-F48\:n-O39-..-+l48,4+s-!
+|13b,2-nbw-HD-ra-m-q&U1-A-A-W-D51:D40-..-..-g-A-Aa18-1-rw-1-N33:3-n-T14-Z5-n-.-nTr-G7-+l108+s-ir:n-F48\:n-O39-..-..-..-.-+l19,8+s-!
+|13b,3-nbw-HD-ra-H-s-Aa18-A-W-V6-n-W-DA-A-Z5:N33-..-+l155+s-ir:n-F48\:n-O39-..-..-..-..-+l6,2+s-!
+|13b,4-$r-Y1-$b-nbw-HD-ra-F48\:n-O39-..-..-..-..-+l90,7 1/2+s-!
+|13b,5-$r-Y1-$b-nbw-nfr-nbw-n-O48:2-nbw-HD-ra-F48\:n-O39-..-+l183,5+s-!
+|13b,6-HD-nbw-kA-1-Hr-1-kA-1-W22-N12:t*1-m-nbw-..-m-s-aHa-a:D54-+l1+s-ir:n-F48\:n-O39-..-+l112.5+s-!
+|13b,7-HD-nbw-H-b-s-V6-W22:n-kA-1-Hr-1-kA-1-W22-+l1+s-..-..-ir:n-F48\:n-O39-..-..-..-+l12.3+s-!
+|13b,8-nbw-s-X:n:k\-t-W22-n-kA-1-Hr-1-kA-1-W22-+l1+s-..-..-ir:n-F48\:n-O39-..-..-..-+l27.7+s-!
+|13b,9-HD-nbw-kA-1-Hr-1-kA-1-W22-+l4+s-ir:n-F48\:n-O39-..-+l57.4 1/2 +s-!
+|13b,10-HD-nbw-g-A-w:t-t:xt-aA:t*Y1-Xr:r-..-H-b-s-V6-W22-+l31+s-ir:n-F48\:n-O39-..-+l105,4 +s-!
+|13b,11-HD-nbw-a:f-d:t*xt-Xr:r-H-b-s-V6-W22-+l31+s-..-..-ir:n-F48\:n-O39-..-+l74,4 +s-!
+|13b,12-HD-nbw-a:r-q-W-V19\70-+l6+s-ir:n-F48\:n-O39-..-+l30,3 +s-!
+|13b,13-HD-nbw-m-q-H-q-H-D51:D40-a-W-t:y-V23A:1-..-.-+l1+s-ir:n-F48\:n-O39-..-+l19,3 1/2 +s-!
+|13b,14-HD-nbw-m-q-H-q-H-D51:D40-a:n-nw-W-xt-+l2+s-..-.-ir:n-F48\:n-O39-..-+l287, 1/2 +s-!
+|13b,15-HD-nbw-m-q:n-q:n-Z9-Y1-F48\:n-O39-..-+l100 +s-!
+|13b,16-$r-Y1-$b-..-HD-nbw-m-H-Hn:n-nw-W-W22-Z3A-..-..-q:n-q:n-Z9:Y1-F48\:n-O39-..-+l827, 1 1/4 +s-!!
+|14a,1-$r-Y1-$b-nbw-HD-nbw-m-H-Hn:n-nw-W-W22-Z3A-..-..-q:n-q:n-Z9:Y1-F48\:n-O39-..-+l1010, 6 1/4 +s-!
+|14a,2-x:z-b-d:N33-Z3A-U5:a-t-Sw-Y1-i-n:r-O39-..-..-+l2+s-ir:n_-F48\:n-O39-..-+l14 1/2 +s-!
+|14a,3-N34-1-N33:3-m-q-H-q-H-D51:D40-a:n-nw-W-xt-..-..-+l4+s-ir:n_-F48\:n-O39-..-+l822 +s-!
+|14a,4-a:n-t-G4A-N8-F48\:n-O39-..-+l5140 +s-!
+|14a,5-a:n-t-G4A-N8-N33:3-U9-..-..-+l3 +s-!
+|14a,6-a:n-t-G4A-N8-h-A-n:nw*W-W22-..-..-+l20 +s-!
+|14a,7-xt:t*1:n-a:n-t-G4A-N8-N33:3-..-..-..-..-+l15 +s-!
+|14a,8-pr-r:t*Z5-N33:3-a:n-t-G4A-N33:3-m-i-p:t*Y1-..-+l100+s-!
+|14a,9-sw-t:n-V33-1-V6-d-W-V6-..-..-..-..-.-+l37+s-!
+|14a,10-sw-t:n-V33-1-V6-d-W-V6-pt-..-..-..-.-+l94+s-!
+|14a,11-sw-t:n-V33-1-V6-h-A-W-mn:n-U32:Y1-..-..-..-.-+l55+s-!
+|14a,12-sw-t:n-V33-1-V6-DA-A-W-V6-..-..-..-..-.-+l11+s-!
+|14a,13-sw-t:n-V33-1-V6-N37A:t-U30-Z9:Y1-G5-G7-..-..-.-+l2+s-!
+|14a,14-sw-t:n-V33-1-V6-Z9:Dw-W-V6-..-..-..-..-.-+l1+s-!
+|14a,15-sw-t:n-V33-1-V6-i-d:g-A-sDm-1-V6-..-..-.-+l690+s-!
+|14a,16-sw-t:n-V33-1-V6-ms-s-s-t-V6-..-..-..-..-.-+l489+s-!
+|14a,17-sw-t:n-V33-1-V6-H-b-s-V6:n-G41-A-A53-1-A51-s-y:Y1-G7-..-n-i-mn:n-G7-..-..-..-..-..-.-+l4+s-!
+|14b,1-$r-Y1-$b-sw-t:n-V33-1-V6-H-b-s-V6-Z9:n-Y1-..-..-.-+l1383+s-!
+|14b,2-m-a:k\-W-V6-s-W-H-W-..-..-..-..-..-+l1+s-!
+|14b,3-m-a:k\-W-V6-DA-A-i-W-..-..-..-..-..-+l1+s-!
+|14b,4-m-a:k\-W-V6-m-kA-1-TA-1-ti-i-Hn:Z2-H-b-s-i-i-t-V6:n-..-G41-A-A53-G7-A51-s-y:Y1-G7-n-i-mn:n-G7-..-+l1+s-!
+|14b,5-$r-Y1-$b-m-a:k\-W-V6-s-W-H-b-s-W-Z9:n-Y1-..-..-+l1+s-!
+|14b,6-Sma-nfr-d-W-V6-..-..-..-..-..-..-..-+l2+s-!
+|14b,7-Sma-nfr-Z9:Dw-W-V6-..-..-..-..-..-..-..-+l4+s-!
+|14b,8-Sma-nfr-d-W-V6-pt-..-..-..-..-..-..-+l5+s-!
+|14b,9-Sma-nfr-i-d:g-A-sDm-1-V6-..-..-..-..-..-+l31+s-!
+|14b,10-Sma-nfr-ms-s-s-t-V6-..-..-..-..-..-..-+l29+s-!
+|14b,11-Sma-nfr-V49A-nw-d-i-i-V6-..-..-..-..-..-..-+l4+s-!
+|14b,12-$r-Y1-$b-Sma-nfr-H-b-s-V6-Z9:n-..-..-..-..-..-+l75+s-!
+|14b,13-Y4-t:Y1-DA-A-i-t-V6-..-..-..-..-..-+l876+s-!
+|14b,14-Y4-t:Y1-ms-s-s-t-V6-..-..-..-..-..-+l6779+s-!
+|14b,15-$r-Y1-$b-Y4-H-b-s-V6-Z9:n-Y1-..-..-..-..-+l7125+s-!
+|14b,16-$r-Y1-$b-sw-t:n-V33-1-V6-m-a:k\-W-V6-Sma-nfr-..-Sma-Y4-H-b-s-V6-Z9:n-Y1-..-..-..-..-+l8586+s-!!
+|15a,1-nTr-sn-t:r-rnp-N33:3-V25-Z5-mn:n-t:Z9-W22-..-..-..-..-+l2159+s-!
+|15a,2-nTr-sn-t:r-rnp-N33:3-V25-Z5-mn:n-W-W22-..-..-..-..-+l12+s-!
+|15a,3-L2-t:Z5-W22-mn:n-t:Z9-W22-..-..-..-..-..-+l1065+s-!
+|15a,4-nH-H-ra-H-W22-n-km-m-t:O49-mn:n-t:Z9-W22-..-..-+l2743+s-!
+|15a,5-nH-H-ra-H-W22:n-xA-rw-1-T14-N25-mn:n-t:Z9-W22-..-..-+l53+s-!
+|15a,6-nH-H-ra-H-W22-n-xA-rw-1-T14-N25-mn:n-t:Z9-W22-..-..-+l1757+s-!
+|15a,7-aD:d-W-W22-V25-Z5-mn:n-t:Z9-W22-..-..-..-..-..-+l911+s-!
+|15a,8-aD:d-W-W22-r-1-zA-mn:n-t:Z9-W22-..-..-..-..-+l385+s-!
+|15a,9-s-mi-i-i-W22-mn:n-t:Z9-W22-..-..-..-..-..-..-+l20+s-!
+|15a,10-$r-Y1-$b-A-a:a-t-W22-d:n-s-mn:n-U32:O39-..-..-..-+l9125+s-!
+|15a,11-Sd:d-H-W-W22-mn:n-t:Z9-nw-Y4-..-..-..-..-..-+l1377+s-!
+|15a,12-Sd:d-H-W-W22-kA-1-b-W-W22-..-..-..-..-..-+l1111+s-!
+|15a,13-i-r:p-W-W22-mn:n-t:Z9-W22-..-..-..-..-..-+l20078+s-!
+|15a,14-$r-Y1-$b-Sd:d-H-W-W22-i-r:p-W-W22-mn:n-t:Z9-W22-kA-1-b-W-W22-.-+l22556+s-!
+|15a,15-Hr:r-s-t:N33-Z3A-W-DA-A-Z5:N33-..-..-..-..-.-+l185+s-!
+|15a,16-x:z-b-d:N33-Z3A-W-DA-A-Z5:N33-..-..-..-..-+l217+s-..-!
+|15b,1-x:n-m:t-N33:3-xpr-r:r-i-zA-..-..-..-..-+l62+s-!
+|15b,2-m:a-f:k\-N33:3-xpr-r:r-i-zA-..-..-..-..-+l224+s-!
+|15b,3-H-s-mn:n-U32:N33-Z3A-mi-i-n:U19-W24-W-N33:3-xpr-r:r-i-zA-..-+l224+s-!
+|15b,4-x:z-b-d:N33-Z3A-xpr-r:r-i-zA-..-..-..-+l62+s-!
+|15b,5-aA:t*Z5-O39:3-Z9:n-Y1-W-DA-A-Z5:N33-..-..-..-+l165+s-!
+|15b,6-aA:t*Z5-O39:3-Z9:n-Y1-x:t-m-xtm-O39-m-ti-i-t-D17-.-+l162+s-!
+|15b,7-ti-H-n:pt-N33:3-x:t-m-xtm-O39-..-..-..-+l1550+s-!
+|15b,8-ti-H-n:pt-N33:3-r:n-A2-sw-W-N33:3-.-..-..-+l155000+s-!
+|15b,9-ti-H-n:pt-N33:3-F37B\:t*Z5-h-A-n:W24-W-W22-..-+l155+s-!
+|15b,10-xt:t*1-s-q-H-D51:D40-mn:n-N37A-V10\R90-xt-..-..-+l31+s-!
+|15b,11-V6:z-t:O39-i-p-i-p-O39-..-..-..-..-+l1+s-!
+|15b,12-a:N37A-Aa2-M1A-b-G41-A-n:y-n:y-xt-.-+l6+s-!
+|15b,13-a:N37A-Aa2-M1A-tp-p:t*xt-..-..-..-.-.-+l1+s-!
+|15b,14-n:n:Z2-i-i-b-W-M1A-xt:t*1-+l3+s-ir:n-F48\:n-O39-..-..-+l610+s-!
+|15b,15-qd-d:y-M1A-xt:t*1-+l1+s-ir:n-F48\:n-O39-..-..-+l800+s-!
+|15b,16-q:n:n:i-qs-Hn-U5:r-W-D51:D40-..-..-..-..-+l17+s-!
+|16a,1-ti-A51-s-y:Y1-M1A-Z3A-ms-s-ti-i-V19\70-..-..-.-+l246+s-!
+|16a,2-ti-A51-s-y:Y1-M1A-U5:r-W-D51:D40-..-..-.-+l82+s-!
+|16a,3-i_-ir:r*r_-N33:3_-ms-s_-ti-i-V19\70-..-..-.-..-+l52+s-!
+|16a,4-n:k\-G41-A-ti-i-Hn-ms-s_-ti-i-V19\70-..-..-.-..-+l125+s-!
+|16a,5-E9-W-f:y-t:F37B\-ti-i-ms-s_-ti-i-V19\70-..-..-.-..-+l101+s-!
+|16a,6-bH-1-q-W-q-W-N33:3-m:a-h-A-i-W-T14-N25-ms-s_-ti-i-V19\70-..-+l26+s-!
+|16a,7-d:g-A-D51:N33-Z3A-it-..-..-..-..-+l46+s-!
+|16a,8-i-ir:r*r-N33:3-p:g-y:r-1-T9:V19\70-..-..-..-..-+l1809+s-!
+|16a,9-i-ir:r*r-U1-A-H-Hn-..-..-..-..-+l1869+s-!
+|16a,10-iwn-1-n:Z2-r-1-h-A-U2:ir-A-A-M1A-N33:3-p:d-y:r-1-T9:V19\70-..-+l375+s-!
+|16a,11-bA-1-k\-A-i-A-Hn-m-i-p:t*Z5-..-..-+l1668+s-!
+|16a,12-E1:Z2-S9:n-Y1-..-..-..-..-..-..-$r-+l297-+s-$b-!
+|16a,13-r-1-zA-anx-Z5-..-..-..-..-..-+l2940+s-!
+|16a,14-t*W:r-p-W-zA-anx-Z5-..-..-..-..-+l5200+s-!
+|16a,15-A-p:d-W-zA:Z2:n-mw-anx-Z5-..-..-..-+l126300+s-!
+|16b,1-D21-Z1-zA-x:p-n:Aa2-m-s-T:t*Z9-A24-..-..-+l20+s-!
+|16b,2-H-s-mn:n-U32:N33-Z3A-d{{0,354,80}}**b{{534,0,97}}-t:O39-..-..-..-.-+l44000+s-!
+|16b,3-H-U1-A-A-W-U32:N33-Z3A-d{{0,354,80}}**b{{534,0,97}}-t:O39-..-..-+l44000+s-!
+|16b,4-V25-W-Hn-n:U19-W24-W-H-Hn-..-..-..-.-+l180+s-!
+|16b,5-V25-W-Hn-f:A-i-i-A9-Hn-..-..-..-.-+l50+s-!
+|16b,6-V25-W-Hn-s-y:D21-1-HAt:t*1-ti-i-Hn-..-..-..-.-+l77+s-!
+|16b,7-V25-W-Hn-wA-A-wA-A-t-Hn-..-..-+l2+s-!
+|16b,8-s-b-x:n-V11-Hn-..-..-..-..-..-+l60+s-!
+|16b,9-p:N37A-t-Hn-b-x:n-Z5-..-..-..-+l1150+s-!
+|16b,10-sDm:n-i-n-i-W-V19\70-..-..-..-..-+l60+s-!
+|16b,11-V25-t-Hn-ms-s-ti-i-V19\70-..-..-..-..-+l50+s-!
+|16b,12-D52:t-D21:t-V19\70-D60-mw-F48\:n-O39-..-..-+l750+s-!
+|16,13-$r-V6-1-it**3{{643,759,68}}-$b-n-nTr-Htp:t-p-iw:Z2-H-b-Hb:ra-Z3A-nw-1-p-t:pt-H-b-Hb:ra-Z3A-tp-p-t:r-M4-Hb:ra-Z3A-sk-H-Y1:n-sw-t:n-<-ra-wsr-Sw-mr-i-mn:n-G7->-anx-DA-s-G41-A-nTr-G7-aA:Y1-n-!
+|16,14-i-t:f-G7-f-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-Z3-mwt:t-t:H8-I14-x:n-sw-W-G7-nTrw-G7-Z3-nb:W*3-R19-t:O49-G7-m-HA-A-W-Y1-nTr-Htp:t-p-iw:Z2-m-HA-G1-W-Y1-i-mn:n-i-i-t:Y1-!
+r-q&b-F48:Y1-wn:n-W-m-D53:Y1-G7-!
+|16,15-r-q&b-F48:Y1-wn:n-W-m-D53:Y1-G7-SA-G1-a:Y1-m-M4-t:ra-1-r-M4-t:ra-10*10:10-1-n-M4-t-1-V19-+l2981674+s-+lG41rie+s-!!
+|17a,1-$r-W-d:n-nw-W-U32-iw:Z2-$b-a{{0,367,78}}**b{{721,0,97}}-t:Z5-Hb:ra-Z3A-sk-H-Y1:n-sw-t:n-G7-<-ra-wsr-U5:a-t-Sw-mr-i-mn:n-G7->-G7-anx-DA-s-G41-G1-nTr-G7-aA:Y1-n-i-t:f-G7-f-!
+|17a,2-i-mn:n-G7-ra-G7-sw-t:n-G7-nTrw-G7-mwt:t-t:H8-I64-x:n-sw-W-G7-nTrw-G7-Z3-nb:W*3-R19-t:O49-G7-m-G41-G1-10:10-n-h-r:W*ra-1-n-W-d:n-nw-W-U32-a:b-t:Z5-Z3A-!
+|17a,3-<-ra-wsr-U5:a-t-Sw-mr-i-mn:n-G7->-anx-DA-s-s-H-b-Hb:ra-Z3A-R19-t:O49-G7-n-i-mn:n-G7-m-N12:1-N37A-mw-ra-10\70\R270-10\70\R270-Z3A-Z3A-N12:r*2-N37A_-mw-ra-Z3A:1\R90-!
+|17a,4-ir:n-h-r:W*ra-10:10-SA-G1-a:Y1-m-M4-t:ra-10:10-2-r-M4-t:ra-10:10-10:2-ir:n-10\70-1-n-M4-t-H-n:a-n:G1-W-d:n-nw-W-U32-iw:Z2-n-!
+|17a,5-H-b-Hb:ra-Z3A-i-p-t:pr-M24-t:N23-1-m-N12:2-SA:t*ra-10\70\R270-Z3A-Z3A-Z3A-r-N12:3-SA:t*ra-10\70\R270-2\R90-Z3A-ir:n-h:r-W-ra-4:3-SA-G1-a:Y1-!
+|17a,6-m-M4-t:ra-1-r-M4-t:ra-10*10:10-1-ir:n-10*10:10-1-n-M4-t-!
+|17a,7-t:X2-iw:Z2-nfr-W-d:n-nw-W-U32-V19\70-aA:t*Y1-..-..-+l1057+s-!
+|17a,8-t:X2-iw:Z2-nfr-s-i-d:idn-Y1-aA:Y1-..-..-..-+l1277+s-!
+|17a,9-t:X2-iw:Z2-nfr-b-H-D53:Y1-V19\70-aA:t*Y1-..-..-+l1277+s-!
+|17a,10-t:X2-iw:Z2-nfr-D&d-m:t-iw:Z2-Hr-1-tA:1*N23-..-..-+l440+s-!
+|17a,11-t:X2-N18:Z2-W-d:n-W24-W-U32-V19\70-aA:Y1-..-..-+l43620+s-!
+|17a,12-DA-A-U5:a-V19\70-Dr:D21-W-W-N33:3-pr-1-n-nTr-sn-t:D21-i-tr-N33:3-..-+l685+s-!
+|17a,13-H-q:t-W22-Z3A-a:t*pr-H-q:t-W22-..-..-+l4401+s-..-..-..-..-..-ir:n-!
+|17a,14-t:X2-N18:Z2-nfr-i-W-f-F51B:3-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-..-Htp:t-p-V19\70:n-U2:ir-A-A-D6:pr-O-..-..-..-+l165+s-!
+|17a,15-t:X2-N18:Z2-nfr-i-W-f-F51B:3-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-..-..-Htp:t-p-V19\70:n-nbw-..-..-..-..-+l485+s-!
+|17b,1-t:X2-N18:Z2-nfr-i-W-f-F51B:3-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-..-..-Htp:t-p-V19\70:n-imi-m-W-A2-..-..-..-..-+l11120+s-!
+|17b,2-t:X2-N18:Z2-nfr-i-W-f-F51B:3-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-..-TA-1-i-i-V19\70:n-r:a-imi-m-W-A2-..-..-+l9845+s-!
+|17b,3-t:X2-N18:Z2-nfr-i-W-f-F51B:3-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-..-g-A-i-i-W22-n-sr-..-..-..-..-+l3720+s-!
+|17b,4-t:X2-N18:Z2-nfr-n-nTr-Htp:t-p-N18:Z2-d:n-i-A-W22-..-n-nbw-apr-r:Y1-..-..-+l375+s-!
+|17b,5-t:X2-N18:Z2-nfr-n-nTr-Htp:t-p-N18:Z2-b-i-A-t:N18-..-..-+l62540+s-!
+|17b,6-t:X2-N18:Z2-nfr-n-nTr-Htp:t-p-N18:Z2-pr-1-s-N18-..-..-+l106992+s-!
+|17b,7-t:X2-N18:Z2-nfr-n-nTr-Htp:t-p-N18:Z2-t:X2-N18:Z2-HD-M44-1-Y1-..-+l13020+s-!
+|17b,8-t:X2-N18:Z2-nfr-aq-q-N18:Z2-aA:Y1:n-imi-m-W-A2-..-+l6200+s-!
+|17b,9-t:X2-N18:Z2-nfr-s-a{{0,347,80}}**b{{750,0,97}}-sxm-1-N18:Z2-m:a-r:d-bnr-Y1-..-+l24800+s-!
+|17b,10-t:X2-N18:Z2-nfr-aq-q-N18:Z2:n-h-A-W-Q7-..-..-+l16665+s-!
+|17b,11-t:X2-N18:Z2-nfr-aq-q-N18:Z2-aA:Y1-..-..-+l992750+s-!
+|17b,12-t:X2-N18:Z2-nfr-p-W-Aa18-1-N18-G35-N18:Z2:n-it**3{{963,713,52}}-..-+l17340+s-!
+|17b,13-t:X2-N18:Z2-nfr-t:X2-N18:Z2-HD-M44-1-Y1:n-W-d:n-W24-W-U32-Y1-..-+l572000+s-!
+|17b,14-t:X2-N18:Z2-nfr-t:X2-N18:Z2-b:r-b:r-Z5-..-..-..-..-+l46500+s-!
+|17b,15-t:X2-N18:Z2-nfr-t:X2-k\:r*1-N37A-ti-i-N18-..-..-..-+l127400+s-!!
+|18a,1-t:X2-N18:Z2-nfr-t:X2-W-d:n-nw-W-U32-n:t*Ff1-N18-!
+|18a,2-q-W-n:k\-N33:3-t:X2-iw:Z2-HD-M44-1-iw-..-..-..-+l116400+s-!
+|18a,3-t:X2-iw:Z2-nfr-p:a-t:N33-Z3A-..-..-..-+l262000+s-!
+|18a,4-$r-Y1-$b-t:X2-iw:Z2-nfr-aq-q-iw:Z2-Z9:n-Y1-..-+l2844357+s-!
+|18a,5-N37A:a-i-i-N33:3-r-1-bH:Y1-sw-W-N33:3-T-m-T-m-V19\70-..-+l344+s-!
+|18a,6-N37A:a-i-i-N33:3-i-p:t*Z5-..-..-..-..-+l48420+s-!
+|18a,7-r:1-bH:Y1-sw-W-N33:3-i-p:t*Z5-..-..-..-+l28420+s-!
+|18a,8-s-sk:k\-iw:Z2-a-1-W22-..-..-..-..-+l3130+s-!
+|18a,9-Sd:d-H-W-W22-mn:n-t:Z9-W22-..-..-..-+l2210+s-!
+|18a,10-Sd:d-H-W-W22-kA-1-b-W-W22-..-..-..-+l310+s-!
+|18a,11-i-r:p-W-W22-mn:n-t:Z9-W22-..-..-..-+l39510+s-!
+|18a,12-$r-Y1-$b-Sd:d-H-W-W22-i-r:p-W-W22-t:Z9-kA-1-b-W-W22-..-+l42030+s-!
+|18a,13-H-q:t-W22-H-Hn:n-nw-W-W22-Z9:n-Y1-..-..-..-+l219215+s-!
+|18a,14-b-q-M1A-W22-nDm-m-Y1-mn:n-t:Z9-W22-..-..-..-+l93+s-!
+|18a,15-b-q-M1A-W22-nDm-m-Y1-h-A-n:nw*W-W22-..-..-+l1100+s-!
+|18b,1-nTr-sn-t:r-i-rnp-N33:3-V25-Z5\70-mn:n-t:Z9-W22-..-..-..-..-+l62+s-!
+|18b,2-nTr-sn-t:r-M4-N33:3-i-p:t*Z5-Z9:n-Y1-..-..-+l304093+s-..-..-..-..-..-..-..-..-ir:n-!
+|18b,3-nTr-sn-t:r-i-M4-N33:3-s-q-W-Z9-Q7-mn:n-t:Z9-W22-..-+l778+s-!
+|18b,4-b-q-M1A-W22-d:N37A-Z5\70-mn:n-t:Z9-W22-..-..-..-+l31+s-!
+|18b,5-nH-H-ra-H-W22-mn:n-t:Z9-W22-..-..-+l93+s-!
+|18b,6-nH-H-ra-H-W22-h-A-n:nw-W-W22-..-..-+l110000+s-!
+|18b,7-L2-t:Z5-W22-mn:n-t:Z9-W22-..-..-..-..-+l310+s-!
+|18b,8-aD:d-W-W22-V25-Z5\70-mn:n-t:Z9-W22-..-..-..-+l93+s-!
+|18b,9-D&d-t-W-M1A-N33:3-mn:n-t:Z9-..-..-..-+l62+s-!
+|18b,10-Sma-d-W-V6-..-..-..-..-+l155+s-!
+|18b,11-Sma-r:d-W-rwD-V6-..-..-..-..-+l31+s-!
+|18b,12-Y4-i-f:d-A55-V6-..-..-..-..-+l31+s-!
+|18b,13-Y4-t:Y1-ms-s-s-t-V6-..-..-..-..-+l44+s-..-..-..-..-$r-Y1-$b-..-..-..-+l261+s-!
+|18b,14-mn:n-H-t-N33:3-F48\:n-O39-..-..-..-..-+l3100+s-!
+|18b,15-d:g-A-D51:N33-Z3A-nb-nfr-f:r-t:Y1-kA-1-b-W-Aa18-i-V19\70-..-+l620+s-!
+|18b,16-d:g-A-D51:N33-Z3A-nb-nfr-f:r-t:Y1-TA-1-i-i-V19\70-..-..-+l620+s-!!
+|19a,1-d:g-A-D51:N33-Z3A-Htp:t-p-V19\70-..-..-+l559500+s-!
+|19a,2-d:g-A-D51:N33-Z3A-d:n-i-V11-V19\70-..-..-+l78550+s-!
+|19a,3-d{{0,344,78}}**b{{507,0,97}}-Z5:N33-bA:k\-W-Y1-A24-i-p:t*Z5-..-..-+l310+s-!
+|19a,4-d{{0,344,78}}**b{{507,0,97}}-Z5:N33-Z3A-bA:k\-W-Y1-A24-m:a-xA-A-D51:D40-..-..-+l1410+s-!
+|19a,5-d{{0,344,78}}**b{{507,0,97}}-Z5:N33-Z3A-bA:k\-W-Y1-A24-ms-s-ti-i-V19\70-..-..-+l55+s-!
+|19a,6-d{{0,344,78}}**b{{507,0,97}}-Z5:N33-Z3A-m-i-p:t*Z5-..-..-..-+l15500+s-!
+|19a,7-d{{0,344,78}}**b{{507,0,97}}-Z5:N33-Z3A-TA-1-i-i-V19\70-..-..-+l310+s-!
+|19a,8-m:a-h-i-w:t-N33:3-Aa18-1-t:X2-iw:Z2-..-..-+l3100+s-!
+|19a,9-ti-A51-s-y-M1A-Z3A-Htp:t-p-V19\70-..-..-+l220+s-!
+|19a,10-ti-A51-s-y-M1A-Z3A-ms-s-ti-i-V19\70-..-..-+l155+s-!
+|19a,11-z:a-m-W-Hn-Htp:t-p-V19\70-..-..-+l1550+s-!
+|19a,12-SA-A-w:t-Hn-it-..-..-..-+l620+s-!
+|19a,13-x:y-TA-1-n:A-Hn-Z3A-it-..-..-..-+l310+s-!
+|19a,14-x:y-G47-1-n:A-Hn-a:n-b-W-Hn-..-..-..-+l6200+s-!
+|19a,15-i-ir:r*t-N33:3-ms-s-ti-i-V19\70-..-..-..-+l117+s-!
+|19a,16-i-ir:r*t-N33:3-G47-1-i-i-V19\70-..-..-+l1550+s-!
+|19b,1-pr:r-t:Z5\70-N33:3-Sma-a:t*Z5-it-..-..-+l8985+s-!
+|19b,2-a:n-b-W-D51:D40-t:U1-A-A-W-V19\70-..-..-+l620+s-!
+|19b,3-DA-A-U5:a-ti-w:t-S33-S33-F27-V19\70-..-..-+l15110+s-!
+|19b,4-H-U1-A-m-W-U32:N33-Z3A-V19\70-..-..-+l155+s-!
+|19b,5-[[-H-U1-]]-A-m-W-U32:N33-Z3A-V19\70-d{{0,344,78}}**b{{507,0,97}}-t:O39-..-..-+l69200+s-!
+|19b,6-H-s-mn:n-U32:N33-Z3A-V19\70-d{{0,344,78}}**b{{507,0,97}}-t:O39-..-..-+l75400+s-!
+|19b,7-W-D52:t*Z5-V6:3-D46-W-V6-..-..-+l150+s-!
+|19b,8-p:N37A-Hn-s-b-x:n-V11-V19\70-..-..-+l265+s-!
+|19b,9-N36:X1*N23-s-y:r-1-Hn-U7:r-W-D51:D40-..-..-+l3270+s-!
+|19b,10-g-A-N37A-i-qs-Hn-U7:r-W-D51:D40-..-..-+l4200+s-!
+|19b,11-D46-Hr:r-i-F27-ti-W:t-S33-S33-F27-a-..-..-+l3720+s-!
+|19b,12-D51:1-q-W-q-W-N33:3-m-i-p:t-Y1-..-..-+l449500+s-!
+|19b,13-iwn-1-n:Z2-r-1-h-A-U2:ir-A-A-M1A-N33:3-m-i-p:t*Y1-..-..-+l15500+s-!
+|19b,14-iwn-1-n:Z2-r-1-h-A-U2:ir-A-A-M1A-N33:3-..-..-..-p:D46-y:D21-T9:V19\70-..-..-+l1240+s-!
+|19b,15-D&D46-t-W-M1A-N33:3-g-A-i-i-W22-..-..-+l310+s-!
+|19b,16-q:D21-H-W22-H-Hn:n-nw-W-W22-Z2:n-D21*1:n-..-..-N36:X1*N23-G4A-mw-N36:X1*N23-..-..-+l9610+s-!!
+|20a,1-DA-A-U5:a-W-V19\70-Dr:D21-W-W-N33:3-i-p:t*Z5-..-+l3782+s-!
+|20a,2-n:b-D46-W-V19\70-i-p:t*Z5-..-..-..-..-+l930+s-!
+|20a,3-i-wA-A-E1-..-..-..-..-$r-+l419+s-$b-!
+|20a,4-r:N35:N35-Z5\70:n-i-wA-A-E1-..-..-$r-+l290+s-$b-!
+|20a,5-N35:g-A-E1-..-..-..-..-$r-+l18+s-$b-!
+|20a,6-Z9:N35:t*Z5-..-..-..-..-..-$r-+l281+s-$b-!
+|20a,7-Hr:r-Aa18-1-Z5\70-..-..-..-..-$r-+l3+s-$b-!
+|20a,8-imi:Dw-W-E1-..-..-..-..-$r-+l740+s-$b-!
+|20a,9-t:p-W-D20-Z5\70-..-..-..-..-$r-+l19+s-$b-!
+|20a,10-E1-..-..-..-..-..-$r-+l122+s-$b-!
+|20a,11-$r-Y1-$b-E1:Z2-Z9:N35-Y1-..-..-..-$r-+l2892+s-$b-!
+|20a,12-i-wA-A-E1:n-U1-A-i-W-F27-HD-ra-..-..-+l1+s-!
+|20a,13-U1-A-i-W-F27-HD-ra-..-..-..-+l54+s-!
+|20a,14-n:r-Aw-W-F27-..-..-+l1+s-!
+|20a,15-g-A-H-s-Ff100-F27-..-..-+l81+s-!
+|20a,16-$r-Y1-$b-..-..-..-..-+l137+s-!
+|20a,17-$r-Y1-$b-i-A:t-O44-F27-Z9:n-Y1-..-..-+l3029+s-!
+|20b,1-r-1-zA-anx-Z5-..-..-..-+l6820+s-!
+|20b,2-xt:aA-zA-anx-Z5-..-..-..-+l1410+s-!
+|20b,3-t*W:r-p-W-zA-anx-Z5-..-..-..-+l1534+s-!
+|20b,4-DA-A-i-W-zA-anx-Z5-..-..-..-+l150+s-!
+|20b,5-ms-s-t-zA-anx-Z5-..-..-..-+l4060+s-!
+|20b,6-A-p:d-W-zA:Z2:n-mw-anx-Z5-..-..-..-+l25020+s-!
+|20b,7-m:n-i-t:zA-..-..-..-+l59810+s-!
+|20b,8-p:a-r:t*zA-anx-t:Z5-..-..-..-+l21700+s-!
+|20b,9-zA:aSA-zA-anx-Z5-..-..-..-+l1240+s-!
+|20b,10-g-A-y:r-1-p-t:pt-zA-..-..-+l6510+s-!
+|20b,11-$r-Y1-$b-a-p:d-W-zA:Z2-Z9:n-Y1-..-..-+l126250+s-!
+|20b,12-q:r-H-W22-N36:X1*N23-1-V23A:Y1-m-r-m-W-k\5:Z2-..-..-Xr:r-xt:t*1-TAw-W-xt-..-..-..-+l440+s-!
+|20b,13-r-m-W-k\5:Z2-V25-Z5\70-..-..-..-+l2200+s-!
+|20b,14-rw:a-k\5:Z2-m:a-SA-A-T30A:D40-..-..-+l15500+s-!
+|20b,15-r-m-W-k\5:Z2-W-g-A-T30A:D40-..-..-+l15500+s-!!
+|21a,1-r-m-W-k\5:Z2-t:tm-m-Y1-..-..-+l441000+s-!
+|21a,2-r:n-p-i-rnp-Hn-bA:k\-W-Y1-A24-m-..-bH:Y1-rw-1-rw-1-Hn-b-h-A-S35{{250,0,98}}**xt{{0,544,100}}-..-+l124+s-!
+|21a,3-r:n-p-i-rnp-Hn-m:a-O35-Hn-q-A-A28-Y1-..-+l3100+s-!
+|21a,4-r:n-p-i-rnp-Hn-bA:k\-W-Y1-A24-m-..-bH:Y1-rw-1-rw-1-Hn-s-t:y-Aa2:3-SA:N23-M1A-..-+l15500+s-!
+|21a,5-i-iz-s-y-i-i-Hn-i-p:t*Z5-..-..-..-+l124351+s-!
+|21a,6-bH:Y1-rw-1-rw-1-Hn-U1-A-H-W-Hn-..-+l60450+s-!
+|21a,7-bH:Y1-rw-1-rw-1-Hn-k\:A-y:r-1-bH:Y1-ti-i-Hn-..-+l620+s-!
+|21a,8-bH:Y1-rw-1-rw-1-Hn-x:z-b-d:N33-Z3A-H-s-Aa18-W-V6-..-+l12400+s-!
+|21a,9-bH:Y1-rw-1-rw-1-Hn-d:t*1-..-..-+l46500+s-!
+|21a,10-bH:Y1-rw-1-rw-1-Hn-D&d-m:t-Hn-..-+l110+s-!
+|21a,11-z:N37A-n:y-M9-Hn-Z3A-d:t*1-..-+l144720+s-!
+|21a,12-z:N37A-n:y-M9-Hn-Z3A-m:a-O35-Hn-..-+l3410+s-!
+|21a,13-z:N37A-n:y-n:y-M9-Hn-d:t*1-..-+l110000+s-!
+|21a,14-T-W-f:y-Hn-m:a-O35-Hn-..-+l68200+s-!
+|21a,15-T-W-f:y-Hn-a-1-Hn-..-+l349000+s-!
+|21b,1-a{{0,390,69}}**b{{595,0,97}}-W-Hn-Z3-aA:Y1-bA:k\-W-Y1-A24-m-..-Hw:Y1-rw-1-rw-1-Hn-..-..-+l19150+s-!
+|21b,2-b-n:r-i-bnr-it**3{{643,759,68}}-m:a-DA-A-i-W-F37B\-Hn-..-..-+l65480+s-!
+|21b,3-b-n:r-i-bnr-M1A-N33:3-Hn:n:k\-T30A-Hn-..-+l3100+s-!
+|21b,4-s-y:F37B\-m-W-Hn-D&d-m:t-Hn-Z3A-..-..-+l2170+s-!
+|21b,5-s-y:F37B\-m-W-Hn-x:r-N37A-D51:D40-..-..-+l770200+s-!
+|21b,6-i-iz-s-y-i-i-Hn-d:t*1-..-..-+l128650+s-!
+|21b,7-it**3{{643,759,68}}-m-it**3{{643,759,68}}-m:a-O35-Hn-..-..-+l11000+s-!
+|21b,8-X-ms-s-Hn-d:t*1-..-..-+l3100+s-!
+|21b,9-r:n-p-i-rnp-Hn-m:a-O35-y:D54-Hn-..-..-+l1975800+s-!
+|21b,10-r:n-p-i-rnp-Hn-Htp:t-p-V19\70-..-..-..-+l1975800+s-!
++bImages divines+s-!
+|21b,11-$r-G41-A-$b-h-A-i-i-t:D54-i-r:f-n-G41-A-y-xA-xA-W:.-W*W*W:W*W*W-3:3-n-t-w:t-A53-G7-Z3-ib\70-ib\70-1-Z3-!
+n:t*y-m-t:A-HAt:t*1-!
+|21b,12-nbw-nfr-HD-nbw-F48\R180:n-O39-..-..-..-+l18252,11/4+s-!
+|21b,13-aA:t*Z5-O39:3-Sw-aA:t*Z5-O39:3-Z9:n-Y1-F48\R180:n-O39-..-..-+l18214,3+s-!
+|21b,14-N34-1-N33:3-km-m-D3-N34-1-N33:3-d-H-t:N33-Z3-..-..-D-H-i-i-N33:3-F48\R180:n-O39-..-..-+l112132+s-!
+|21b,15-a:N37A-Aa2-M1A-xt:t*1-Z9:n-Y1-..-..-+l928+s-!
+|21b,16-SA-A-wA-A-b-W-M1A-Z3A-xt:t*Z1-Z9:n-Y1-..-..-+l4415+s-!!
++bPrière finale+s-!
+|22,1-r:N37A-W:t-D20-Y1-n:t*y-h-A-n:D41-A24-f-n:k\-nTr-G7-p:n-i-mn:n-G7-G41-A-kA-D53:E1-G7-mwt:t*H8-G7-f-HqA-q-G7-R19-t:O49-G7-D36*W:k\-spr:r*D54-A42A-s-W-DA-A-Y1:k\-mn:n-i-T14-A24-A42A:k\-m-Htp:t-p-Y1-!
+|22,2-Htp:t-p-Y1:k\-m-tA:1*N23-Dsr:r-t:N25-mi-i-N10:t-nTrw-G7-Z3-N37A{{0,460,70}}**b{{455,0,97}}-n:nw*W-Z9:Y1-A42A-bA-1-W:y-G7-Z3-i-q:r-A53-G7-Z3-n:t-U2:nw*nw*nw-t:N25-U2:N33*N33-F29-w:t-N8-G7-t*W:k\-Hr-1-tp-1-dwA-A-W-t:ra*1-!
+|22,3-sDm-m-Y1-spr:r*W-A2-Z3A-A42A-i-t:f-G7-A42A-nb-G7-A42A-i-nw:k\-A42A-wa:a*1-m-N10:t-nTrw-G7-Z3-n:t*y-r:Aa16*y-G7:k\-s-xa:a-Y1-G7-zA-1-G7-A42A-m-sw-t:n-G7-r-st-t:pr-t:tm:M-G7-s-mn:n-x:t-mnx-Y1-sw-W-!
+|22,4-m-kA-D53:E1-n:xt:x*t-W-A24-nb-G7-anx-DA-s-N21*N21:N23*N23-Z3A-sw-L2-nb:tA:tA:N23*N23-<-ra-wsr-U5:a-.:t-Sw-stp:n_-i-mn:n-G7->-anx-DA-s-zA&ra-1-G7-nb:xa-W-G7-Z3-<-ra-ms-s-s-HqA-q-G7-U5:a-t-Sw-mr-i-mn:n-G7->-anx-DA-s-m:a-i-i-D53:Y1-G7-!
+|22,5-pr-r:D54-m-H-a:t*1-F51B-G7:k\-n:t:k\-G7-s-r:Z5-A2-sw-W-r-sw-t:n-G7-i-W-f-m-i-H-wn:n-A17-G7-D36*W:k\-sw-W-r-<-HqA-q-G7->-anx-DA-s-tA:tA:N23*N23-Hr-1-tp-1-r:x-i-i-t-rxyt:A1*B1-Z3A-i-m-m:a-n:f-sw-t:n-i-i-t:Y1-G7-Z3-m-HH-1-Z2:n-rnp-rnp-rnp-t:3-!
+|22,6-H-a:t*1-F51B-G7-f-nb-t:tm-m-Y1-m-w-DA-A-Y1-s-n:b-Y1-s-mn:n-U32:Y1-xa:a-Y1-G7-k\-Hr-1-tp-1-G7-f-s-nDm-m-A17-Hr-1-st-t:pr-G7:k\-wr:r-H-kA:t*H8-I64-sn-sn-n:y-n:z-imi-m:y-i-in:n-H-W:y-D13**D13{{30,223,100}}-G7-f-i-m-m:a-nTr-t:r-y:Y1-G7-f-!
+|22,7-m-HA-A-W-Y1:r-sw-t:n-G7-nb-aA:a-A-i-i-Y1:Z2-f-mi-i-t:n-i-sr*Z3:k\-m-nb-G7-pD\97**t{{0,375,58}}**1{{354,279,58}}**3{{461,278,58}}**3{{840,278,58}}**3{{647,614,61}}-A1*B1:Z2:N25-i-m-m:a-r:n-p-i-rnp-H-a:t*1-F51-G7-f-X:r*d-W-A17-A1-m-mn:n-t:ra-i-w:k\-m-i-km-m-T36-F27-HA-A-tp-1-f-!
+|22,8-n-ra*1:nb-i-m-m:a-F24:D40-G7-f-HD-1-xt:f-Hr-1-tp-1-F29-t:y-G4A-T14-A1*B1:Z2-xA-A-b-W-A15-W-Z2:n-N37A:f-i-i-t:Z5-F7-t-W-f-mi-t:y-b:a-y:r-1-E21-G7-s-W-s-x:W10-n:f-t:U30-A-N37A:t*N23-1-Z3-r-U7:r-r-A2-n:f-!
+|22,9-s-n:d-W-snD-A2-tA:tA:tA:N23*N23*N23-N25:t*1-Z3A-n-Hr-r-i-i-Aa19-A24:t*W-f-i-m-m:a-n:f-tA:U7-i-rnp-O49:O49-Xr:r-i-A2-h-A-h-A-i-i-A2-s-Hr:r-A59-A24-Dw-W-G37-Z3A-x:r-i-i-t-A14:Z2-s-sk:k\-i-i-T30-A24-nb-!
+|22,10-i-m-m:a-n:f-Aw-w:t-ib\70-Z1-Y1:Z2-mn:n-U32:Y1-m-ib\70-Z1-G7-f-n:h-A-m-W-A2-H-W14-s-y-A2-Aa1-b-bA-A-A15\-A24:n-Hr-Z1-G7-f-nfr-Z1-G7-i-m-m:a-U7:r-w:t-A2-f-m-ib\70-Z1-W:y-Z3-nTrw-G7-Z3-nTr-t:r-t:H8-G7-Z3-b-n:r-i-bnr-Y1-f-N37A:f-N37A:f-Y1:Z2-t:W-f-!
+|22,11-m-HAt:t*y-ib\70-Z1-Z3-p:a-t:H8-A1*B1:Z2-mn:n-q-W-Z9-A24-n:A-nfr-f:r-W-Y1:Z2-i-A2-D{{6,0,70}}**d{{8,292,51}}**k\{{0,583,49}}-n:A42A-Hr-Z1-tp-Z1-tA:Z1*N23-n-gb-Z1-G7-A42A-n:t*y-Hr-Z1-g:t*y-pr-G7-A42A-n:t:k\-s-xpr:r-sw-W-i-A2-Tz:z-Y1-A24-t:A-i-i-G7-f-!
+|22,12-sw-t:n-i-i-t:Y1-G7-Z3-n-gb-Z1-G7-n-gb-Z1-G7-f-i-w:k\-n:W*3-m-Aa27D-nw-Aa27D-nw-A2-Hr-Z1-W-N37A{{0,460,70}}**b{{455,0,97}}-t:Z9-A2-Hr-Z1-Hr-Z1-W-Z3-i-w-Z3-n:k\-m-bA:k\-i-G7-Z3-ir:t*1-F51B-W-Z3-Hr-1-Hr*1:k\-ir-i-i-W-Z3A-Ax-x-W-Y1:Z2-n-!
+|23,1-kA-1-G7:k\-r:n-nH-H-ra-H-D\99**tA{{38,754,67}}**t{{207,424,67}}-n:A-s-r:Z5-A2:k\-s-t:3-xpr:r-W-mn:n-U32:Y1-mn:n-x:t-mnx-Y1-D&d-d:t*3-G7:k\-sw-W-ir-W-mn:n-U32:Y1-m-b-i-A-t:Hw-N33:3-!
+|23,2-W-D&a-T14-N21-A2:k\-n-A42A-sw-t:n-i-i-t:Y1-G7-Z3-n-W-W-n-rnp-t-1-s-mn:n-x:t-mnx-Y1-s-t:3-n-zA-1-G7-n:t*y-Hr-1-tp-1-tA:1*N23-i-m-m:a-q-A-i-i-A28-Y1-!
+|23,3-aHa-a:W*ra-G7-f-r-sw-t:n-G7-nb-r-DA-A-n:Z2-r-1-Z9-A24-n-n:A-Ax-x-W-Y1:Z2-i-A2-ir:r-W-A42A-n-kA-1-G7:k\-i-A2-ir:r-f-sw-t:n-G7-Hr-1-V25-W-Y1:k\-!
+|23,4-n:t:k\-s-xa:a-Y1-sw-W-D35:n-z:h-D55-f-ir:n:k\-nb-G7-nTrw-G7-Z3-i-m-m:a-H-a:p-y:O36-mw-N36:X1*N23-Z3A-sr-Z3-wsr-s-r:Y1-Z3A-m-h-A-W-Y1:f-r-!
+|23,5-s-D&f-A-W-G38:Y1-Z3A-sw-t:n-i-i-t:Y1-G7-Z3-t-W-f-m-kA-1-w:t-iw:Z2-aSA:t*3-i-m-m:a-sr-W-A1:Z2-x-p-i-i-D35:Z2-km-m-t:O49-A-t:p-A9-A24-!
+|23,6-Hr-1-d:F37B\-F51B-s-n:Z2-r-aH-a:pr-f-A51-s-y:Y1-A42-sw-L2-nb:tA:tA:N23*N23-<-ra-wsr-U5:a-.:t-Sw-stp:n_-i-mn:n-G7->-anx-DA-s-zA&ra-1-G7-nb:xa-W-G7-Z3-<-ra-ms-s-s-HqA-q-G7-Sw-mr-i-mn:n-G7->-anx-DA-s-!
+!
+!
+!

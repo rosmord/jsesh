@@ -1,3 +1,104 @@
-<?xml version='1.0' encoding ='UTF-8' standalone='yes'?>
-<svg width='16.962078' height='15.84' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'>
-<path style='fill:#000000; stroke:none' d=' M 4.432208 15.84  Q 4.114286 13.277922 6.526753 10.977662  Q 8.93922 8.677402 9.481559 6.882078  Q 6.844676 6.508052 5.816104 7.723636  Q 4.787532 8.93922 0.486234 9.892987  L 0 9.032727  Q 3.684156 8.284676 5.105454 7.069091  Q 6.526753 5.853507 8.574546 5.806753  Q 10.622337 5.76 14.512208 1.739221  L 16.027014 0  L 16.962078 1.084675  L 12.829091 5.273766  Q 12.174545 6.321039 12.492468 8.957922  L 11.837922 10.790649  L 11.463896 6.134026  Q 9.668571 9.575065 7.405715 11.389091  Q 5.142857 13.203116 5.423377 14.699221  L 4.432208 15.84  Z '/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1528.3702"
+   height="1105.9005"
+   id="svg3575"
+   sodipodi:version="0.32"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="M3C.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">M3C</title>
+  <metadata
+     id="metadata3582">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>M3C</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>SIL Licence</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:description>Freehand drawing of the shape in Hieroglyphica.</dc:description>
+        <cc:license
+           rdf:resource="http://scripts.sil.org/OFL" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://scripts.sil.org/OFL">
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Reproduction" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Distribution" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/Embedding" />
+        <cc:permits
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Notice" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/Attribution" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/DerivativeRenaming" />
+        <cc:requires
+           rdf:resource="http://scripts.sil.org/pub/OFL/BundlingWhenSelling" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3580">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 1103.4039 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="17.775585 : 1103.4039 : 1"
+       inkscape:persp3d-origin="8.8877926 : 1102.5717 : 1"
+       id="perspective3584" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-height="1039"
+     inkscape:window-width="1376"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.33812714"
+     inkscape:cx="745.28179"
+     inkscape:cy="535.3016"
+     inkscape:window-x="1864"
+     inkscape:window-y="25"
+     inkscape:current-layer="svg3575"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:window-maximized="0" />
+  <path
+     id="path1"
+     style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1"
+     d="M 1466.1007,0 C 1301.5336,123.95909 1180.2721,186.78399 1053.419,213.18945 986.83402,227.04964 931.26682,237.803 846.89366,289.42773 758.98757,343.21415 597.70473,410.46089 462.08897,459.17187 301.90091,516.70883 140.08773,496.81201 63.684673,468.64843 26.414293,454.90988 -36.892505,466.39598 27.955613,511.95834 71.091963,542.266 193.79283,576.99696 320.59007,563.32403 471.77396,547.02141 624.92666,506.72706 633.7628,523.96484 645.08202,546.04667 544.8635,637.87271 452.36436,689.27929 367.88959,736.22625 278.33769,804.24345 203.79014,872.95895 129.2426,941.67455 82.664873,1003.026 58.376083,1062.1875 c 0,0 -7.79771,34.7545 6.68359,42.3223 14.48131,7.5678 44.318357,-18.2148 44.318357,-18.2148 13.05256,-31.7927 78.31308,-89.69345 148.63477,-154.51375 70.32169,-64.8203 156.58065,-129.9857 233.21289,-172.5742 89.32489,-49.6425 173.76065,-112.59002 220.80925,-170.52953 57.21343,-70.45731 319.51356,-283.43513 362.00386,-231.96803 16.0811,19.47857 -5.1033,56.36087 -22.5796,131.19676 -7.4747,32.00793 6.7748,77.7058 29.577,86.62304 28.6088,8.3582 30.5494,-40.70974 33.0293,-74.2539 2.3365,-18.03446 11.3183,-43.26355 24.2969,-69.83399 22.1865,-45.42142 54.5092,-93.53338 77.6211,-134.21679 98.1276,-56.80852 201.6334,-121.32306 312.3867,-190.66797 z"
+     sodipodi:nodetypes="cssssssssscscsssssccsccc" />
+</svg>

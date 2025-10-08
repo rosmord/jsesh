@@ -1,3 +1,42 @@
-<?xml version='1.0' encoding ='UTF-8' standalone='yes'?>
-<svg width='5.54' height='17.98' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'>
-<path style='fill:#000000; stroke:none' d=' M 4.58 6.33  L 1.13 6.33  Q 1.75 6.8 1.89 7.45  Q 2.04 8.1 2.44 8.21  Q 2.85 8.31 3.26 8.21  Q 3.67 8.1 3.82 7.45  Q 3.96 6.8 4.58 6.33  Z  M 0.58 5.84  L 1.26 5.84  Q 1.26 2.07 0 0  Q 2.54 1.75 2.92 4.5  L 1.79 4.96  L 1.79 5.84  L 5.13 5.84  L 5.13 6.78  Q 4.47 6.78 4.27 7.75  Q 4.07 8.71 3.43 8.74  L 3.67 17.04  L 5.14 17.41  Q 5.54 17.54 5.54 17.98  L 2.85 17.98  L 2.85 17.64  L 4.82 17.64  L 3.2 17.34  L 3.02 8.78  Q 2.85 8.86 2.69 8.78  L 2.51 17.34  L 0.87 17.64  L 2.85 17.64  L 2.85 17.98  L 0.15 17.98  Q 0.15 17.54 0.57 17.41  L 2.04 17.04  L 2.28 8.74  Q 1.64 8.71 1.44 7.75  Q 1.24 6.78 0.58 6.78  L 0.58 5.84  Z  M 1.56 4.54  L 2.45 4.24  Q 1.83 1.75 0.73 0.94  Q 1.56 2.39 1.56 4.54  Z '/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="619.3385"
+   height="1799.5138"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="T130.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"><title
+     id="title1">T130</title><defs
+     id="defs1" /><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.01"
+     inkscape:cx="400"
+     inkscape:cy="250"
+     inkscape:window-width="1320"
+     inkscape:window-height="670"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1"
+     showguides="true" /><path
+     id="path1"
+     style="fill:#000000;stroke:none;stroke-width:93.0483"
+     d="M 30.076786,8.3791332e-5 A 30.003,30.003 0 0 0 22.420536,0.97469314 30.003,30.003 0 0 0 8.0103755,50.412193 C 151.20281,204.60117 297.80196,460.84186 296.00843,660.48641 a 30,30 0 0 0 1.54687,8.16602 H 157.30725 v 87.5625 c 40.98674,0 67.68916,30.11934 80.10938,90.35742 12.42023,59.61705 38.50335,90.35765 78.24805,92.2207 l -22.35547,773.15825 -136.9336,34.4668 c -26.08247,8.0731 -39.12305,25.7713 -39.12305,53.0957 H 619.3385 c 0,-27.3244 -12.41929,-45.0226 -37.25976,-53.0957 L 445.14515,1711.9513 422.78968,938.79305 c 39.74471,-1.86305 65.82585,-32.60365 78.24609,-92.2207 12.42019,-60.23808 39.12458,-90.35742 80.11133,-90.35742 v -87.5625 H 354.41663 a 30,30 0 0 0 1.58789,-7.62696 c 0.11677,-12.99798 -0.33678,-26.10974 -1.20703,-39.29101 68.90479,-24.29464 130.27866,-42.40755 208.83398,-41.63867 a 30.003,30.003 0 0 0 28.41016,-40.46094 C 502.472,298.93155 257.89813,59.760663 37.727176,1.0118025 A 30.003,30.003 0 0 0 30.076786,8.3791332e-5 Z M 131.60608,104.50204 c 152.76599,84.05564 312.75216,251.26113 388.04688,417.08984 -63.22931,4.73808 -117.85028,20.4136 -172.14258,39.12695 C 320.47461,401.26943 231.83352,235.8091 131.60608,104.50204 Z m 76.93359,609.79492 h 321.37305 c -38.50268,29.18754 -62.10077,63.96437 -70.79492,104.33008 -9.31516,40.36575 -26.7026,63.96381 -52.16406,70.79492 -12.73074,3.10506 -25.46264,4.6582 -38.19336,4.6582 -12.73071,0 -25.46068,-1.55314 -38.19141,-4.6582 -24.84045,-6.83111 -41.91727,-30.42917 -51.23242,-70.79492 -8.69415,-40.36571 -32.29419,-75.14254 -70.79688,-104.33008 z m 145.31641,228.2207 c 4.96809,2.48396 10.01535,3.72656 15.13868,3.72656 5.12335,0 10.32296,-1.2426 15.60156,-3.72656 l 16.76758,797.37894 150.90625,27.9453 H 184.32092 l 152.76954,-27.9453 z" /><metadata
+     id="metadata1"><rdf:RDF><cc:Work
+         rdf:about=""><dc:title>T130</dc:title><dc:creator><cc:Agent><dc:title>S. J. P Thomas</dc:title></cc:Agent></dc:creator><dc:description>Modified by S. Rosmorduc to match the position of the xpS? on the small altar or column.
+</dc:description></cc:Work></rdf:RDF></metadata></svg>

@@ -1,3 +1,57 @@
-<?xml version="1.0" encoding ="US-ASCII" standalone="yes"?>
-<svg width="8.419698" height="8.4">
-<path style="fill:#000000; stroke:none" d=" M 5.402967 2.286162  L 4.484002 2.404301  L 4.978114 5.751359  L 5.933843 5.577325  L 5.402967 2.286162  Z  M 3.574457 2.35114  L 2.57355 2.509382  L 3.081213 5.898663  L 4.043443 5.750816  L 3.574457 2.35114  Z  M 4.24651 0.951997  C 4.391274 0.951997 4.538142 0.960184 4.686561 0.976913  C 5.601484 1.08004 6.224627 1.471951 6.909636 2.489787  C 7.923358 3.996043 7.559734 5.983091 5.771309 7.120827  C 5.224973 7.39733 4.670839 7.522599 4.141351 7.522599  C 2.064055 7.522599 0.366127 5.594535 1.00668 3.306696  C 1.406999 1.876881 2.708056 0.951997 4.24651 0.951997  Z  M 4.363882 0  C 3.68323 0 2.977095 0.160591 2.303853 0.489975  C 1.1215 1.068444 0.401437 1.998504 0.102807 3.332916  C -0.409827 5.623618 1.028241 7.815403 3.388687 8.340961  C 3.569314 8.38118 3.780885 8.4 4.008322 8.4  C 4.787055 8.4 5.751883 8.179397 6.29819 7.841914  C 8.685145 6.367331 9.126406 3.482169 7.287157 1.303276  C 6.564464 0.447135 5.499645 0 4.363882 0  Z "/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="842"
+   height="840"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="O48.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">O48</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.27358299"
+     inkscape:cx="3.655198"
+     inkscape:cy="3.655198"
+     inkscape:window-width="1440"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     id="path1"
+     style="fill:#000000;stroke:none;stroke-width:99.9604"
+     d="M 436.2832 0.16796875 C 368.24511 0.16796875 297.65871 16.219256 230.36133 49.144531 C 112.17314 106.96838 40.196805 199.93814 10.345703 333.32617 C -40.897272 562.3051 102.85219 781.39678 338.80273 833.93164 C 356.85824 837.95195 378.00559 839.83203 400.74023 839.83203 C 478.58251 839.83203 575.02778 817.78174 629.63672 784.04688 C 868.23712 636.64733 912.34576 348.24584 728.49414 130.44336 C 656.25363 44.863378 549.81423 0.16796875 436.2832 0.16796875 z M 424.55078 95.330078 C 439.02141 95.330078 453.70113 96.14808 468.53711 97.820312 C 559.99296 108.1289 622.2842 147.30383 690.75781 249.04688 C 792.08962 399.61246 755.73998 598.23854 576.96875 711.9668 C 522.35691 739.60609 466.96676 752.12695 414.03906 752.12695 C 206.39223 752.12695 36.667495 559.39782 100.69727 330.70508 C 140.71322 187.78055 270.76668 95.330078 424.55078 95.330078 z M 278.00195 246.37891 L 278.00195 593.62109 L 358.00195 593.62109 L 358.00195 246.37891 L 278.00195 246.37891 z M 479.03906 246.37891 L 479.03906 593.62109 L 559.03906 593.62109 L 559.03906 246.37891 L 479.03906 246.37891 z " />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>O48</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>S. J. P. Thomas</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>strokes made like in Gardiner, with vertical strokes (not obliques)</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
