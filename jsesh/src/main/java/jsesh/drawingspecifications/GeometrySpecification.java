@@ -113,11 +113,11 @@ public record GeometrySpecification(
 			12f,
 			18f);
 
-	public Stroke getFineStroke() {
+	public Stroke fineStroke() {
 		return new BasicStroke(fineLineWidth);
 	}
 
-	public Stroke getWideStroke() {
+	public Stroke wideStroke() {
 		return new BasicStroke(wideLineWidth);
 	}
 

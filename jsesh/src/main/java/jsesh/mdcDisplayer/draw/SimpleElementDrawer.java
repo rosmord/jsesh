@@ -307,9 +307,9 @@ public class SimpleElementDrawer extends ElementDrawer {
             return;
         }
         if (h.getType() == 'L') {
-            g.setStroke(drawingSpecifications.getWideStroke());
+            g.setStroke(drawingSpecifications.wideStroke());
         } else {
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
         }
         g.draw(new Line2D.Float(h.getStartPos()
                 * drawingSpecifications.getTabUnitWidth(), 0, h.getEndPos()
@@ -329,7 +329,7 @@ public class SimpleElementDrawer extends ElementDrawer {
             return;
         }
         if (!isPaged()) {
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
             g.draw(new Line2D.Float(-10000f, 0, 10000f, 0));
         }
     }
@@ -393,7 +393,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(text);
         g.setFont(drawingSpecifications.getSuperScriptFont());
         g.drawString(text, 0, g.getFontMetrics().getAscent());
-        g.setStroke(drawingSpecifications.getFineStroke());
+        g.setStroke(drawingSpecifications.fineStroke());
         g
                 .draw(new Line2D.Float((float) dims.getWidth() / 2.0f,
                         (float) dims.getHeight()

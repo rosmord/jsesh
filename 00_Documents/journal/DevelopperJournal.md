@@ -2,9 +2,45 @@
 
 This journal should only be edited and modified in the Development branch.
 
+**TODO**
+
+When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+
 ## 2025/10/08
 
-I feel the current organisation of drawingspecification is not really helpful. It's not obvious to find a given information, 
+
+The current organisation of drawingspecification was not really helpful. It's not obvious to find a given information.
+We have made larger groups.
+
+- we keep drawingSpecifications as a name until everything compiles, then it will be jseshStyle.
+- we need to replace the lines:
+
+  ~~~java
+  drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength();
+  ~~~
+
+  Basically, HieroglyphsDrawer should not be stored in drawingSpecifications (or should they)?
+
+
+- we have to solve the problem of FontRenderContext. Originaly, it's stored in drawingspecification:
+
+~~~java
+FontRenderContext fontRenderContext = drawingSpecifications.getFontRenderContext();
+~~~
+
+Now :
+
+- it's initialized with :
+
+~~~java
+fontRenderContext = new FontRenderContext(null, true, true);
+~~~
+
+So all FontRenderContexts are currently the same.
+
+We **might** want to change it, but it's not probably not correctly placed in drawingSpecifications.
+
+Generally, it's requested from the `Graphics2D` object.
 
 
 ## 2025/10/07

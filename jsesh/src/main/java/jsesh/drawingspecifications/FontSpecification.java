@@ -1,6 +1,7 @@
 package jsesh.drawingspecifications;
 
 import jsesh.mdc.constants.ScriptCodes;
+import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
 
@@ -9,21 +10,41 @@ import java.awt.Font;
 /**
  * Specifications related to fonts and non-hieroglyphic text.
  * 
- * @param translitUnicode true if transliteration is in Unicode, false if it is in classical ASCII Manuel de Codage.
- * @param yodChoice how to render yod in transliteration (only used if the font is a Unicode Font)
- * @param gardinerQofUsed true if "q" is rendered as k with dot below (like in Gardiner's grammar) or as a plain "q" (if false).
- * @param plainFont the font to use for normal text.
- * @param boldFont the font to use for bold text.
- * @param italicFont the font to use for italic text.
+ * @param translitUnicode      true if transliteration is in Unicode, false if
+ *                             it is in classical ASCII Manuel de Codage.
+ * @param yodChoice            how to render yod in transliteration (only used
+ *                             if the font is a Unicode Font)
+ * @param gardinerQofUsed      true if "q" is rendered as k with dot below (like
+ *                             in Gardiner's grammar) or as a plain "q" (if
+ *                             false).
+ * @param plainFont            the font to use for normal text.
+ * @param boldFont             the font to use for bold text.
+ * @param italicFont           the font to use for italic text.
  * @param translitterationFont the font to use for transliteration.
  * 
- * This class is not perfect. Some information relates only to the case of Unicode transliteration fonts.
+ *                             This class is not perfect. Some information
+ *                             relates only to the case of Unicode
+ *                             transliteration fonts.
  * 
- * <p>An important change from the previous system: it is the programmer responsability to provide a correct transliteration font,
- * i.e. a MdC font if translitUnicode is false, a Unicode font if it is true.
+ *                             <p>
+ *                             An important change from the previous system: it
+ *                             is the programmer responsability to provide a
+ *                             correct transliteration font,
+ *                             i.e. a MdC font if translitUnicode is false, a
+ *                             Unicode font if it is true.
+ * 
+ * @param translitUnicode      is the transliteration font a Unicode font?
+ * @param yodChoice            if translitUnicode is true, how to render yod.
+ * @param gardinerQofUsed      if translitUnicode is true, should we use k with
+ *                             dot below for Gardiner's qof?
+ * @param plainFont            the font to use for normal text (+l in MdC)
+ * @param boldFont             the font to use for bold text (+b in MdC)
+ * @param italicFont           the font to use for italic text (+i in MdC)
+ * @param translitterationFont the font to use for transliteration text (+t in
+ *                             MdC)
  * @see ScriptCodes (will probably change)
  */
-public record FontSpecification(		
+public record FontSpecification(
 		boolean translitUnicode,
 		YODChoice yodChoice,
 		boolean gardinerQofUsed,
@@ -42,13 +63,36 @@ public record FontSpecification(
 			new Font("Serif", Font.PLAIN, 12),
 			new Font("Serif", Font.BOLD, 12),
 			new Font("Serif", Font.ITALIC, 12),
-			ResourcesManager.getInstance().getUnicodeTransliterationFont()
-			);
+			ResourcesManager.getInstance().getUnicodeTransliterationFont());
+
+	public TransliterationEncoding transliterationEncoding() {
+		return new TransliterationEncoding(translitUnicode, yodChoice, gardinerQofUsed);
+	}
+
+	/**
+	 * Returns the font for a given script code.
+	 * @param scriptCode
+	 * @return
+	 */
+	public Font getFont(char scriptCode) {
+		return switch (scriptCode) {
+		case ScriptCodes.LATIN ->
+			plainFont;
+		case ScriptCodes.BOLD ->
+			boldFont;
+		case ScriptCodes.ITALIC ->
+			italicFont;
+		case ScriptCodes.TRANSLITERATION ->
+			translitterationFont;
+		default ->
+			 plainFont;
+		};
+	}
 
 	public Builder copy() {
 		return new Builder(this);
 	}
-	
+
 	/** copy builder class */
 	public static class Builder {
 		private boolean translitUnicode;

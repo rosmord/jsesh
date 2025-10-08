@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 
@@ -22,6 +23,11 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 
 	public HieroglyphicDrawerDispatcher(SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer) {
 		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
+	}
+
+
+	public HieroglyphicDrawerDispatcher(HieroglyphicFontManager fontManager) {
+		this(new SVGFontHieroglyphicDrawer(fontManager));
 	}
 
 	private HieroglyphsDrawer getDrawer(String code) {

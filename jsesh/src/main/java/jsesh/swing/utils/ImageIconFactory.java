@@ -7,15 +7,14 @@ import java.util.HashMap;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 
 /**
  * Static icons repository.
@@ -39,7 +38,13 @@ public class ImageIconFactory {
 
     private ImageIconFactory() {
         mdcDrawingFacade = new MDCDrawingFacade();
-        DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
+        JSeshStyle drawingSpecifications = 
+            JSeshStyle.DEFAULT.copy()
+            .geometry(
+                g -> g.topMargin(0)
+                    .leftMargin(0)
+            ))
+        
         PageLayout pageLayout = drawingSpecifications.getPageLayout();
         pageLayout.setLeftMargin(0);
         pageLayout.setTopMargin(0);

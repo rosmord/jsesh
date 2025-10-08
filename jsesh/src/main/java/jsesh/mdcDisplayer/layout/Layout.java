@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
@@ -42,8 +43,6 @@ import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Elements of this class are responsible for computing the position and
@@ -101,7 +100,7 @@ public  class Layout  {
 	/**
 	 * The drawing specifications in use. Only set during the view building.
 	 */
-	private DrawingSpecification drawingSpecifications = null;
+	private JSeshStyle drawingSpecifications = null;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
@@ -208,11 +207,11 @@ public  class Layout  {
 	 * @param drawingSpecifications TODO
 	 *
 	 */
-	public void reset(DrawingSpecification drawingSpecifications) {
+	public void reset(JSeshStyle drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
-		currentTextOrientation = drawingSpecifications.getTextOrientation();
-		currentTextDirection = drawingSpecifications.getTextDirection();
-		centerSigns = drawingSpecifications.isSmallSignsCentered();
+		currentTextOrientation = drawingSpecifications.options().textOrientation();
+		currentTextDirection = drawingSpecifications.options().textDirection();
+		centerSigns = drawingSpecifications.options().smallSignCentered();
 	}
 
 	/**
@@ -254,7 +253,7 @@ public  class Layout  {
 		String text = t.getText();
 		if (t.getScriptCode() == 't') {
 			text = TranslitterationUtilities.getActualTransliterationString(text,
-					drawingSpecifications.getTransliterationEncoding());
+					drawingSpecifications.fonts().transliterationEncoding());
 		}
 		// Compute the text dimensions :
 		Rectangle2D dims;
@@ -267,7 +266,7 @@ public  class Layout  {
 		if ("".equals(text)) {
 			// Do nothing => empty view.
 		} else {
-			Font f = drawingSpecifications.getFont(t.getScriptCode());
+			Font f = drawingSpecifications.fonts().getFont(t.getScriptCode());
 
 			FontRenderContext fontRenderContext = drawingSpecifications.getFontRenderContext();
 

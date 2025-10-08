@@ -12,6 +12,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import jsesh.drawingspecifications.ColorSpecification;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.RenderingOptions;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -20,7 +24,6 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Knows how to draw a view and its subviews.
@@ -57,7 +60,7 @@ public class ViewDrawer {
 
     private ElementDrawer elementDrawer;
 
-    private DrawingSpecification drawingSpecifications;
+    private JSeshStyle jseshStyles;
 
     /**
      * Draws a view element.
@@ -115,7 +118,7 @@ public class ViewDrawer {
     public ViewDrawer(ElementDrawer e) {
         setClip(false);
         elementDrawer = e;
-        drawingSpecifications = null;
+        jseshStyles = null;
         setCached(false);
     }
 
@@ -126,7 +129,7 @@ public class ViewDrawer {
      * @param view
      * @param ds
      */
-    public void draw(Graphics2D g, MDCView view, DrawingSpecification ds) {
+    public void draw(Graphics2D g, MDCView view, JSeshStyle ds) {
         drawViewAndCursor(g, view, null, ds);
     }
 
@@ -140,9 +143,9 @@ public class ViewDrawer {
      * @param view
      * @param ds
      * @param start First position
-     * @param end last position
+     * @param end   last position
      */
-    public void draw(Graphics2D g, MDCView view, DrawingSpecification ds,
+    public void draw(Graphics2D g, MDCView view, JSeshStyle ds,
             MDCPosition start, MDCPosition end) {
         drawViewAndCursor(g, view, null, ds, start, end);
     }
@@ -233,12 +236,12 @@ public class ViewDrawer {
                 float h = v.getHeight();
 
                 // h and w are OK, but the inter-cadrat space is not filled.
-                if (drawingSpecifications.getTextOrientation().isHorizontal()) {
+                if (jseshStyles.options().textOrientation().isHorizontal()) {
                     if (v.nextIsHorizontallyAdjacent()) {
-                        w += drawingSpecifications.getSmallSkip();
+                        w += jseshStyles.geometry().smallSkip();
                     }
                 } else {
-                    h += drawingSpecifications.getSmallSkip();
+                    h += jseshStyles.geometry().smallSkip();
                 }
                 // TODO : take into account vertical text ???
                 // AND right-to-left text also. Basically, use
@@ -297,7 +300,8 @@ public class ViewDrawer {
 
                 if (temporaryRectangle != null
                         && (v.getHeight() < temporaryRectangle.getMinY() || 0 > temporaryRectangle
-                        .getMaxY()) || 0 > temporaryRectangle.getMaxX()
+                                .getMaxY())
+                        || 0 > temporaryRectangle.getMaxX()
                         || v.getWidth() < temporaryRectangle.getMinX()) {
                     return false;
                 }
@@ -360,7 +364,7 @@ public class ViewDrawer {
                 // (ok, we might as well systematically save and restore the BG
                 // and the FG before and after drawing).
 
-                // currentG.setBackground(drawingSpecifications.getGrayColor());
+                // currentG.setBackground(jseshStyles.getGrayColor());
                 // shadeView(currentG, v);
                 // shadedItem= true;
             }
@@ -375,9 +379,9 @@ public class ViewDrawer {
         }
 
         if (elementDrawer.getDrawingState().isRed()) {
-            currentG.setColor(drawingSpecifications.getRedColor());
+            currentG.setColor(jseshStyles.colors().redColor());
         } else {
-            currentG.setColor(drawingSpecifications.getBlackColor());
+            currentG.setColor(jseshStyles.colors().blackColor());
         }
 
         // Part of the element drawn before the element's subviews
@@ -426,11 +430,11 @@ public class ViewDrawer {
     /**
      * Draws the views contained in a parent view.
      *
-     * @param v the parent view
+     * @param v        the parent view
      * @param startPos the first sub view to draw
-     * @param endPos the last
-     * @param depth the depth of the view.
-     * @param g where to draw ?
+     * @param endPos   the last
+     * @param depth    the depth of the view.
+     * @param g        where to draw ?
      */
     private void drawSubViews(MDCView v, int startPos, int endPos, int depth,
             Graphics2D g) {
@@ -438,8 +442,9 @@ public class ViewDrawer {
         // we draw them
         if (v.getNumberOfSubviews() != 0) {
 
-            int end = (endPos < v.getNumberOfSubviews() ? endPos : v
-                    .getNumberOfSubviews());
+            int end = (endPos < v.getNumberOfSubviews() ? endPos
+                    : v
+                            .getNumberOfSubviews());
 
             for (int i = startPos; i < endPos && i < end; i++) {
                 MDCView subv = v.getSubView(i);
@@ -477,7 +482,7 @@ public class ViewDrawer {
      * @param ds
      */
     public void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, DrawingSpecification ds) {
+            MDCCaret cursor, JSeshStyle ds) {
         drawViewAndCursor(g2d, view, cursor, ds, 0, view.getNumberOfSubviews());
     }
 
@@ -490,22 +495,22 @@ public class ViewDrawer {
      * @param g2d
      * @param view
      * @param cursor : the cursor position. If it's null, the cursor is not
-     * drawn.
+     *               drawn.
      * @param ds
      * @param start
      * @param end
      */
     public void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, DrawingSpecification ds, MDCPosition start,
+            MDCCaret cursor, JSeshStyle ds, MDCPosition start,
             MDCPosition end) {
         drawViewAndCursor(g2d, view, cursor, ds, start.getIndex(), end
                 .getIndex());
     }
 
     private void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, DrawingSpecification ds, int start, int end) {
-        drawingSpecifications = ds;
-        elementDrawer.prepareDrawing(drawingSpecifications);
+            MDCCaret cursor, JSeshStyle ds, int start, int end) {
+        jseshStyles = ds;
+        elementDrawer.prepareDrawing(jseshStyles);
         this.cursor = cursor;
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
         // conceptual hack (patch) : if cursor is not empty, and text is empty,
@@ -557,17 +562,20 @@ public class ViewDrawer {
     /**
      * Mapping from display space to model space, mostly to manage mouse clicks.
      *
-     * @param v a view for a <em>TopItemList</em> (this might and should change
-     * ?)
+     * @param v          a view for a <em>TopItemList</em> (this might and should
+     *                   change
+     *                   ?)
      * @param clickPoint : a point, its coordinates expressed in display space.
-     * Note that in the case of JMDCDisplayer, display space scaling should be
-     * applied before calling this function, as the drawer knows nothing of it.
-     * @param ds DrawingSpecifications
+     *                   Note that in the case of JMDCDisplayer, display space
+     *                   scaling should be
+     *                   applied before calling this function, as the drawer knows
+     *                   nothing of it.
+     * @param ds         JSeshStyles
      * @return the position corresponding to the point, or null if the click
-     * corresponded to nothing..
+     *         corresponded to nothing..
      */
     public MDCPosition getPositionForPoint(MDCView v, Point clickPoint,
-            DrawingSpecification ds) {
+            JSeshStyle ds) {
         int pos = -1;
         // The main idea is that we visit all positions until
         // we see we are too far.
@@ -609,21 +617,24 @@ public class ViewDrawer {
                 }
                 y = subv.getPosition().y;
 
+                GeometrySpecification geometry = ds.geometry();
+                RenderingOptions options = ds.options();
+
                 // First test, the same in all cases : does the point fall
                 // inside a view ?
                 if (point.x >= x && point.y >= y
-                        && point.x < x + subv.getWidth() + ds.getSmallSkip()
-                        && point.y < y + subv.getHeight() + ds.getSmallSkip()) {
+                        && point.x < x + subv.getWidth() + geometry.smallSkip()
+                        && point.y < y + subv.getHeight() + geometry.smallSkip()) {
                     // TODO : the exact position choosed depends on the text
                     // orientation.
-                    if (ds.getTextOrientation().isHorizontal()) {
+                    if (options.textOrientation().isHorizontal()) {
                         if (point.x < x + subv.getWidth() / 2.0f) {
-                            if (ds.getTextDirection().isLeftToRight()) {
+                            if (options.textDirection().isLeftToRight()) {
                                 pos = i;
                             } else {
                                 pos = i + 1;
                             }
-                        } else if (ds.getTextDirection().isLeftToRight()) {
+                        } else if (options.textDirection().isLeftToRight()) {
                             pos = i + 1;
                         } else {
                             pos = i;
@@ -636,7 +647,7 @@ public class ViewDrawer {
                         }
 
                     }
-                } else if (ds.getTextOrientation().isHorizontal()) {
+                } else if (options.textOrientation().isHorizontal()) {
                     // Text for end of line.
                     // if (ds.getTextDirection().isLeftToRight()) {
                     if (y > point.y) {
@@ -644,12 +655,12 @@ public class ViewDrawer {
                     }
                     // }
                 } else {
-                    if (ds.getTextDirection().isLeftToRight()) {
+                    if (options.textDirection().isLeftToRight()) {
                         if (x > point.x) {
                             pos = i;
                         }
                     } else {
-                        if (x + ds.getMaxCadratWidth() < point.x) {
+                        if (x + geometry.maxCadratWidth() < point.x) {
                             pos = i;
                         }
                     }
@@ -675,34 +686,39 @@ public class ViewDrawer {
      *
      * @param v
      * @param position
-     * @param specs
+     * @param jseshStyle
      * @return A rectangle that contains the signs which surround position.
      */
     public Rectangle2D getRectangleAroundPosition(MDCView v,
-            MDCPosition position, DrawingSpecification specs) {
+            MDCPosition position, JSeshStyle jseshStyle) {
+
+        GeometrySpecification geometry = jseshStyle.geometry();
         // position is the next index. The rectangle should include both
         // views i-1 and i (if they exist).
 
         int index = position.getIndex();
-        Rectangle2D result = new Rectangle2D.Float(0, 0, specs.getSmallSkip(),
-                specs.getMaxCadratHeight());
+        Rectangle2D result = new Rectangle2D.Float(0, 0, geometry.smallSkip(),
+                geometry.maxCadratHeight());
 
         // non empty view :
         if (v.getNumberOfSubviews() != 0) {
             boolean previousIsBreak = false;
             boolean nextIsBreak = false;
 
-            Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0, specs
-                    .getSmallSkip(), specs.getMaxCadratHeight());
+            Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0, geometry
+                    .smallSkip(), geometry.maxCadratHeight());
             Rectangle2D nextRectangle = new Rectangle2D.Float(0, v.getHeight()
-                    - specs.getMaxCadratHeight(), specs.getSmallSkip(), specs
-                    .getMaxCadratHeight());
+                    - geometry.maxCadratHeight(), geometry.smallSkip(),
+                    geometry
+                            .maxCadratHeight());
 
             if (index > 0) {
                 previousRectangle = new Rectangle2D.Double(v.getSubView(
                         index - 1).getPosition().x
-                        + v.getSubView(index - 1).getWidth(), v.getSubView(
-                        index - 1).getPosition().y, 1, v.getSubView(index - 1)
+                        + v.getSubView(index - 1).getWidth(),
+                        v.getSubView(
+                                index - 1).getPosition().y,
+                        1, v.getSubView(index - 1)
                                 .getHeight());
             }
             if (index < v.getNumberOfSubviews()) {
@@ -766,7 +782,7 @@ public class ViewDrawer {
      * @return true if we are in paging mode.
      */
     public boolean isPaged() {
-        return drawingSpecifications.paged();
+        return jseshStyles.options().paged();
     }
 
     public boolean isShadeAfter() {
@@ -774,10 +790,10 @@ public class ViewDrawer {
     }
 
     /*
-	 * Empties the cache. Should be called, in particular, when the scale is
-	 * changed.
-	 * 
-	 * void resetCache() { setCached(isCached()); System.gc(); }
+     * Empties the cache. Should be called, in particular, when the scale is
+     * changed.
+     * 
+     * void resetCache() { setCached(isCached()); System.gc(); }
      */
     /**
      * Request or prevent image and view caching. Image caching is only possible
@@ -841,17 +857,20 @@ public class ViewDrawer {
      * @param v
      */
     private void testAndDrawCursor(Graphics2D g, MDCView v) {
+        RenderingOptions options = jseshStyles.options();
+        GeometrySpecification geometry = jseshStyles.geometry();
+        ColorSpecification colors = jseshStyles.colors();
         // Will perhaps be passed as arguments or taken from fields like
         // currentTextDirection.
-        TextDirection textDirection = drawingSpecifications.getTextDirection();
-        TextOrientation textOrientation = drawingSpecifications
-                .getTextOrientation();
+        TextDirection textDirection = options.textDirection();
+        TextOrientation textOrientation = options
+                .textOrientation();
 
         if (cursor != null && cursor.getInsert() != null) {
 
             /*
-			 * A cursor stands between two views. Should we draw the cursor
-			 * after or before the view ???
+             * A cursor stands between two views. Should we draw the cursor
+             * after or before the view ???
              */
             boolean drawAfterView;
             boolean drawBeforeView;
@@ -871,8 +890,8 @@ public class ViewDrawer {
                 if (v.getModel() != null
                         && v.getModel().isBreak()
                         && (v.getPrevious() != null
-                        && v.getPrevious().getModel() != null && !v
-                        .getPrevious().getModel().isBreak())) {
+                                && v.getPrevious().getModel() != null && !v
+                                        .getPrevious().getModel().isBreak())) {
                     drawBeforeView = false;
                 }
             }
@@ -886,8 +905,8 @@ public class ViewDrawer {
 
             if (drawAfterView || drawBeforeView) {
                 Color currentColor = g.getColor();
-                g.setColor(drawingSpecifications.getCursorColor());
-                g.setStroke(drawingSpecifications.getWideStroke());
+                g.setColor(colors.cursorColor());
+                g.setStroke(geometry.wideStroke());
 
                 if (drawAfterView) {
 
@@ -895,31 +914,33 @@ public class ViewDrawer {
                         if (textDirection.isLeftToRight()) {
                             g
                                     .draw(new Line2D.Double(v.getWidth(), 0, v
-                                            .getWidth(), drawingSpecifications
-                                                    .getMaxCadratHeight()));
+                                            .getWidth(),
+                                            geometry
+                                                    .maxCadratHeight()));
                         } else {
-                            g.draw(new Line2D.Double(0, 0, 0, drawingSpecifications
-                                    .getMaxCadratHeight()));
+                            g.draw(new Line2D.Double(0, 0, 0, geometry
+                                    .maxCadratHeight()));
                         }
                     } else {
                         g.draw(new Line2D.Double(0, v.getHeight(),
-                                drawingSpecifications.getMaxCadratWidth(), v
-                                .getHeight()));
+                                geometry.maxCadratWidth(), v
+                                        .getHeight()));
                     }
                 } else if (drawBeforeView) {
                     if (textOrientation.isHorizontal()) {
                         if (textDirection.isLeftToRight()) {
-                            g.draw(new Line2D.Double(0, 0, 0, drawingSpecifications
-                                    .getMaxCadratHeight()));
+                            g.draw(new Line2D.Double(0, 0, 0, geometry
+                                    .maxCadratHeight()));
                         } else {
                             g
                                     .draw(new Line2D.Double(v.getWidth(), 0, v
-                                            .getWidth(), drawingSpecifications
-                                                    .getMaxCadratHeight()));
+                                            .getWidth(),
+                                            geometry.
+                                                    maxCadratHeight()));
                         }
                     } else { // columns
-                        g.draw(new Line2D.Double(0, 0, drawingSpecifications
-                                .getMaxCadratWidth(), 0));
+                        g.draw(new Line2D.Double(0, 0, geometry
+                                .maxCadratWidth(), 0));
 
                     }
                 }
@@ -931,28 +952,7 @@ public class ViewDrawer {
         }
     }
 
-    /**
-     * Draw the cursor (NOT USED).
-     *
-     * @param g2d
-     * @param documentMdcView
-     * @param mdcCaret
-     * @param drawingSpecifications2
-     */
-    private void drawCursor(Graphics2D g2d, MDCView documentMdcView, MDCCaret mdcCaret,
-            DrawingSpecification drawingSpecifications2) {
-        // First, decide which element will be used to determine the cursor position (if any)
-        // At the same time, decide which position (before or after the view will be used)
-        // Find the view used as basis for the position
-        // compute the cursor characteristics from there (note that it's a bit tricky after new pages)
-        // if there is no element at all around the cursor, draw the cursor at the beginning of the text.
-        MDCPosition insert = mdcCaret.getInsertPosition();
-        //ERROR
-        // Try to find the element in the hash table
-        // if not, perform a recursive search ???
-
-        // To be continued...
-    }
+   
 
     /**
      * Simple hack used to draw cursors when there is no text. It's not nice and
@@ -962,19 +962,18 @@ public class ViewDrawer {
      * @param view
      */
     private void drawCursorAtFirstPosition(Graphics2D g, MDCView view) {
-        TextDirection textDirection = drawingSpecifications.getTextDirection();
-        TextOrientation textOrientation = drawingSpecifications
-                .getTextOrientation();
+        TextOrientation textOrientation = jseshStyles.options()
+                .textOrientation();
         Color currentColor = g.getColor();
-        g.setColor(drawingSpecifications.getCursorColor());
-        g.setStroke(drawingSpecifications.getWideStroke());
+        g.setColor(jseshStyles.colors().cursorColor());
+        g.setStroke(jseshStyles.geometry().wideStroke());
 
         if (textOrientation.isHorizontal()) {
-            g.draw(new Line2D.Double(0, 0, 0, drawingSpecifications
-                    .getMaxCadratHeight()));
+            g.draw(new Line2D.Double(0, 0, 0, jseshStyles.geometry()
+                    .maxCadratHeight()));
         } else {
             g.draw(new Line2D.Double(0, 0,
-                    drawingSpecifications.getMaxCadratWidth(), 0));
+                    jseshStyles.geometry().maxCadratWidth(), 0));
         }
         // Only restore color. The stroke should be set by all those who
         // want to draw, anyway

@@ -81,16 +81,6 @@ public class HieroglyphicMenu extends JMenu {
 	 */
 	public static String LOW_NARROW = "LOW NARROW";
 	
-	/**
-	 * The dimensions of a basic icon
-	 */
-	private int size = 30;
-
-	/**
-	 * the dimensions of the margin around the glyphs.
-	 */
-	private int border = 2;
-
 	private int ncols;
 
 	private String family;

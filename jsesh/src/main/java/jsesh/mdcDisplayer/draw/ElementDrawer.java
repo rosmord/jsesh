@@ -3,6 +3,7 @@ package jsesh.mdcDisplayer.draw;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -31,7 +32,6 @@ import jsesh.mdc.model.TabbingClear;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * This file is free Software 
@@ -79,7 +79,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	protected boolean postfix;
 
 	// only the ViewDrawer can write here
-	protected DrawingSpecification drawingSpecifications;
+	protected JSeshStyle drawingSpecifications;
 
 	// /**
 	// * True if pagination is on, in which case no line will be drawn for new
@@ -118,7 +118,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 *            TODO
 	 */
 
-	public void prepareDrawing(DrawingSpecification drawingSpecifications) {
+	public void prepareDrawing(JSeshStyle drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
 	}
 
@@ -156,8 +156,8 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		if (elt == null)
 			return;
 		currentView = e;
-		currentTextDirection = drawingSpecifications.getTextDirection();
-		currentTextOrientation = drawingSpecifications.getTextOrientation();
+		currentTextDirection = drawingSpecifications.options().textDirection();
+		currentTextOrientation = drawingSpecifications.options().textOrientation();
 		this.g = g;
 		elt.accept(this);
                 currentView= null;
@@ -305,7 +305,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * @param specifications
 	 */
 
-	void setDrawingSpecifications(DrawingSpecification specifications) {
+	void setDrawingSpecifications(JSeshStyle specifications) {
 		drawingSpecifications = specifications;
 	}
 
@@ -326,13 +326,13 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	public boolean isPaged() {
-		return drawingSpecifications.paged();
+		return drawingSpecifications.options().paged();
 	}
 
 	public boolean isShadeAfter() {
 		// shading lines are always drawn after the rest of the cadrat.
 		return shadeAfter
-				|| drawingSpecifications.getShadingStyle().equals(
+				|| drawingSpecifications.options().shadingStyle().equals(
 						ShadingMode.LINE_HATCHING);
 	}
 

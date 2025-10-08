@@ -11,14 +11,18 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.StringReader;
 
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.swing.utils.GraphicsUtils;
 
 
@@ -37,12 +41,23 @@ public class MDCDrawingFacade {
 
 	private boolean philologySign = true;
 
-	private DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
+	private final HieroglyphsDrawer hieroglyphsDrawer;
+	
+	private JSeshStyle drawingSpecifications = JSeshStyle.DEFAULT;
 
 	private int maxWidth = 2000;
 	private int maxHeight = 2000;
 
 	private int cadratHeight = 20;
+
+	public MDCDrawingFacade() {
+		this.hieroglyphsDrawer = new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicFontManager());
+	}
+
+	public MDCDrawingFacade(HieroglyphsDrawer hieroglyphsDrawer) {
+		super();
+		this.hieroglyphsDrawer = hieroglyphsDrawer;
+	}
 
 	/**
 	 * Generate a picture for the manuel de codage text passed as argument.
@@ -162,8 +177,9 @@ public class MDCDrawingFacade {
 	}
 
 	private double getScale() {
+		// Uses the actual font to compute scale. We need it.
 		return cadratHeight
-				/ drawingSpecifications.getHieroglyphsDrawer().getHeightOfA1();
+				/ hieroglyphsDrawer.getHeightOfA1();
 	}
 
 	/**
@@ -178,12 +194,12 @@ public class MDCDrawingFacade {
 		this.philologySign = philologySign;
 	}
 
-	public DrawingSpecification getDrawingSpecifications() {
+	public JSeshStyle getDrawingSpecifications() {
 			return drawingSpecifications;
 	}
 
 	public void setDrawingSpecifications(
-			DrawingSpecification drawingSpecifications) {
+			JSeshStyle drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
 	}
 

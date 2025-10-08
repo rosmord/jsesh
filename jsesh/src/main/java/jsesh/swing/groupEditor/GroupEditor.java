@@ -23,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -192,7 +193,7 @@ public final class GroupEditor extends JPanel {
      * @return
      */
     private Area getGlyphArea(MDCView subv, Hieroglyph h) {
-        DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications();
+        JSeshStyle specs = groupEditorDrawingPreferences.getDrawingSpecifications();
         Area area;
         if (h.getType() == SymbolCodes.SMALLTEXT) {
             Dimension2D dims = specs.getSuperScriptDimensions(h.getSmallText());

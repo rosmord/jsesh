@@ -219,12 +219,12 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
             g.draw(new Line2D.Double(p2, pb));
             g.draw(new Line2D.Double(line1x, p1.getY(), line1x, p2.getY()));
 
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
             g.draw(new Line2D.Double(line2x, p1.getY(), line2x, p2.getY()));
             g.draw(new Line2D.Double(line3x, p1.getY(), line3x, p2.getY()));
 
             // Vertical positions for inner lines :
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
 
             // recesses
             // inner recesses
@@ -262,11 +262,11 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
 
             g.draw(new Line2D.Double(p1.getX(), line1y, p2.getX(), line1y));
 
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
             g.draw(new Line2D.Double(p1.getX(), line2y, p2.getX(), line2y));
             g.draw(new Line2D.Double(p1.getX(), line3y, p2.getX(), line3y));
 
-            g.setStroke(drawingSpecifications.getFineStroke());
+            g.setStroke(drawingSpecifications.fineStroke());
 
             // recesses
             // inner recesses base line

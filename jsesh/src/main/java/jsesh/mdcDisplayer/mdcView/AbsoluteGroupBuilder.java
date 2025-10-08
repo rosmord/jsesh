@@ -7,6 +7,7 @@ package jsesh.mdcDisplayer.mdcView;
 
 import java.util.List;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.InnerGroup;
@@ -15,7 +16,6 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.utils.InnerGroupLister;
 import jsesh.mdcDisplayer.layout.Layout;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * @author Serge Rosmorduc
@@ -77,7 +77,7 @@ public class AbsoluteGroupBuilder {
 		 * @param specs
 		 * @return
 		 */
-		public AbsoluteGroup createAbsoluteGroupFrom(List topItems, DrawingSpecification drawingSpecifications) {
+		public AbsoluteGroup createAbsoluteGroupFrom(List topItems, JSeshStyle drawingSpecifications) {
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
 			sizeOfGroupUnit= drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength();

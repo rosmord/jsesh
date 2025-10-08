@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 
 /**
@@ -21,7 +19,6 @@ import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 	private static final String GLYPH_DIRECTORY = "glyphDirectory";
 
-	static private DefaultHieroglyphicFontManager instance = null;
 
 	private CompositeHieroglyphicFontManager composite;
 
@@ -40,15 +37,6 @@ public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
 				.addHieroglyphicFontManager(new MemoryHieroglyphicFontManager());
 		initDirectory();
 	}
-
-	/*
-	public static synchronized DefaultHieroglyphicFontManager getInstance() {
-		if (instance == null)
-			instance = new DefaultHieroglyphicFontManager();
-		return instance;
-	}
-	*/
-
 	
 	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {
 		composite.addHieroglyphicFontManager(manager);

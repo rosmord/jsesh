@@ -6,13 +6,13 @@
  */
 package jsesh.mdcDisplayer.mdcView;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdcDisplayer.layout.Layout;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 
 /**
@@ -53,8 +53,8 @@ public class ViewBuilder {
         this.layout = new Layout();
     }
 
-    public MDCView buildView(ModelElement elt, DrawingSpecification drawingSpecifications) {
-        return buildView(elt, 0, elt.getNumberOfChildren(), drawingSpecifications);
+    public MDCView buildView(ModelElement elt, JSeshStyle jseshStyles) {
+        return buildView(elt, 0, elt.getNumberOfChildren(), jseshStyles);
     }
 
 
@@ -71,9 +71,9 @@ public class ViewBuilder {
      * @param end
      * @return the view built for this element part.
      */
-    public MDCView buildView(ModelElement elt, int start, int end, DrawingSpecification drawingSpecifications) {
+    public MDCView buildView(ModelElement elt, int start, int end, JSeshStyle jseshStyles) {
         // prepare for work :
-        getLayout().reset(drawingSpecifications);
+        getLayout().reset(jseshStyles);
         // lay out the element.
         ViewBuilderAux visitor = new ViewBuilderAux(start, end);
         elt.accept(visitor);
@@ -89,9 +89,9 @@ public class ViewBuilder {
      *
      * @param v
      */
-    public void reLayout(MDCView view, DrawingSpecification drawingSpecifications) {
+    public void reLayout(MDCView view, JSeshStyle jseshStyles) {
         //	  prepare for work :
-        getLayout().reset(drawingSpecifications);
+        getLayout().reset(jseshStyles);
         getLayout().layout(view, 0);
         getLayout().cleanup();
     }
