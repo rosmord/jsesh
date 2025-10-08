@@ -182,7 +182,7 @@ public class FontInfo {
         result.useEmbeddedFont = useEmbeddedFont;
         if (useEmbeddedFont) {
             result.translitUnicode = false;
-            result.transliterationFont = ResourcesManager.getInstance().getTransliterationFont();
+            result.transliterationFont = ResourcesManager.getInstance().getMdcTransliterationFont();
         }
         return result;
     }

@@ -2,6 +2,11 @@
 
 This journal should only be edited and modified in the Development branch.
 
+## 2025/10/08
+
+I feel the current organisation of drawingspecification is not really helpful. It's not obvious to find a given information, 
+
+
 ## 2025/10/07
 
 Problem to solve: should the drawing specifications depend on Swing? or should they be stand alone?

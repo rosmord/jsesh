@@ -1,4 +1,4 @@
-package jsesh.drawingspecifications.graphical;
+package jsesh.drawingspecifications;
 
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.YODChoice;
@@ -23,7 +23,7 @@ import java.awt.Font;
  * i.e. a MdC font if translitUnicode is false, a Unicode font if it is true.
  * @see ScriptCodes (will probably change)
  */
-public record FontsSpec(		
+public record FontSpecification(		
 		boolean translitUnicode,
 		YODChoice yodChoice,
 		boolean gardinerQofUsed,
@@ -35,7 +35,7 @@ public record FontsSpec(
 	/**
 	 * A reasonnable default.
 	 */
-	public static final FontsSpec DEFAULT = new FontsSpec(
+	public static final FontSpecification DEFAULT = new FontSpecification(
 			true,
 			YODChoice.UA7BD,
 			true,
@@ -59,7 +59,7 @@ public record FontsSpec(
 		private Font italicFont;
 		private Font translitterationFont;
 
-		public Builder(FontsSpec specs) {
+		public Builder(FontSpecification specs) {
 			this.translitUnicode = specs.translitUnicode;
 			this.yodChoice = specs.yodChoice;
 			this.gardinerQofUsed = specs.gardinerQofUsed;
@@ -104,8 +104,8 @@ public record FontsSpec(
 			return this;
 		}
 
-		public FontsSpec build() {
-			return new FontsSpec(translitUnicode, yodChoice, gardinerQofUsed, plainFont, boldFont, italicFont,
+		public FontSpecification build() {
+			return new FontSpecification(translitUnicode, yodChoice, gardinerQofUsed, plainFont, boldFont, italicFont,
 					translitterationFont);
 		}
 	}

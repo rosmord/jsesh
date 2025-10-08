@@ -2,16 +2,15 @@
  * Specifications for the rendering of manuel de codage texts.
  * 
  * 
- * The most fundamental class is {@link RenderingParameters}, which points to the others.
+ * The most fundamental class is {@link JSeshStyle}, which points to the others.
  * 
- * <p>Reorganized:
+ * We group the specifications in four groups:
  * 
- * JSeshSpecifications with :
  * <ul>
- * <li> layout specifications for for everything dedicated to spacing and layout;
- * <li> font specifications for everything dedicated to non-hieroglyphic fonts;
- * <li> 
- * <li> drawing specifications for everything dedicated to the drawing of signs and strokes.
+ * <li>GeometrySpecification: everything related to dimensions, from line width to page size</li>
+ * <li>ColorSpecification: colors the various colours used in rendering</li>
+ * <li>FontSpecification: fonts the fonts for non-hieroglyphic text</li>
+ * <li>RenderingOptions: rendering options (shading style, etc.)</li>
  * </ul>
  * 
  * @author rosmord

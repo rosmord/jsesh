@@ -185,7 +185,7 @@ public class JFontPreferences {
      * Use the old JSesh MDC-compatible font, taken from software resources.
      */
     protected void useOldDefaultFont() {
-        Font trl = ResourcesManager.getInstance().getTransliterationFont();
+        Font trl = ResourcesManager.getInstance().getMdcTransliterationFont();
         setTranslitFont(trl);
         useMdCRadioButton.setSelected(true);
         useDefaultJSeshFont = true;

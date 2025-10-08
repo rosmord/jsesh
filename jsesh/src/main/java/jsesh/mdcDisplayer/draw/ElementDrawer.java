@@ -3,7 +3,7 @@ package jsesh.mdcDisplayer.draw;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import jsesh.drawingspecifications.graphical.ShadingStyle;
+import jsesh.drawingspecifications.ShadingMode;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -333,7 +333,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		// shading lines are always drawn after the rest of the cadrat.
 		return shadeAfter
 				|| drawingSpecifications.getShadingStyle().equals(
-						ShadingStyle.LINE_HATCHING);
+						ShadingMode.LINE_HATCHING);
 	}
 
 	/**

@@ -11,7 +11,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.drawingspecifications.graphical.ShadingStyle;
+import jsesh.drawingspecifications.ShadingMode;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
@@ -524,7 +524,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         // Prevent us from messing with the area (not that important currently,
         // but who knows ?)
         if (drawingSpecifications.getShadingStyle().equals(
-                ShadingStyle.GRAY_SHADING)) {
+                ShadingMode.GRAY_SHADING)) {
             Color col = g.getColor();
             g.setColor(drawingSpecifications.getGrayColor());
             g.fill(area);

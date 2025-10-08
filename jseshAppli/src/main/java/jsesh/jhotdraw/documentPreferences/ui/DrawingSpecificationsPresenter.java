@@ -38,7 +38,7 @@ import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
-import jsesh.drawingspecifications.graphical.ShadingStyle;
+import jsesh.drawingspecifications.ShadingMode;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
@@ -110,7 +110,7 @@ public class DrawingSpecificationsPresenter {
                 drawingSpecification.getSmallBodyScaleLimit());
         form.getUseLinesForShadingCheckBox().setSelected(
                 drawingSpecification.getShadingStyle().equals(
-                        ShadingStyle.LINE_HATCHING));
+                        ShadingMode.LINE_HATCHING));
     }
 
     /**
@@ -135,9 +135,9 @@ public class DrawingSpecificationsPresenter {
         double limit = ((Double) form.getSmallFontBodyLimitField().getValue());
         drawingSpecifications.setSmallBodyScaleLimit(limit);
         if (form.getUseLinesForShadingCheckBox().isSelected()) {
-            drawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
+            drawingSpecifications.setShadingStyle(ShadingMode.LINE_HATCHING);
         } else {
-            drawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
+            drawingSpecifications.setShadingStyle(ShadingMode.GRAY_SHADING);
         }
     }
 

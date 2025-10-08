@@ -1,7 +1,7 @@
 package jsesh.jhotdraw;
 
 import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.drawingspecifications.graphical.ShadingStyle;
+import jsesh.drawingspecifications.ShadingMode;
 import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
@@ -130,9 +130,9 @@ public class JSeshApplicationBase {
 
         // Shading
         if (preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)) {
-            defaultDrawingSpecifications.setShadingStyle(ShadingStyle.LINE_HATCHING);
+            defaultDrawingSpecifications.setShadingStyle(ShadingMode.LINE_HATCHING);
         } else {
-            defaultDrawingSpecifications.setShadingStyle(ShadingStyle.GRAY_SHADING);
+            defaultDrawingSpecifications.setShadingStyle(ShadingMode.GRAY_SHADING);
         }
     }
 
@@ -145,7 +145,7 @@ public class JSeshApplicationBase {
         preferences.putDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, defaultDrawingSpecifications.getMaxCadratWidth());//ok
         preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, defaultDrawingSpecifications.isSmallSignsCentered());//ok
         preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, defaultDrawingSpecifications.getSmallBodyScaleLimit());//ok
-        preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, defaultDrawingSpecifications.getShadingStyle().equals(ShadingStyle.LINE_HATCHING));//ok
+        preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, defaultDrawingSpecifications.getShadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
         preferences.putDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, defaultDrawingSpecifications.getCartoucheLineWidth());	//ok
     }
 

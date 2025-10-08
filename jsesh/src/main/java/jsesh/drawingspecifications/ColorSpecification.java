@@ -1,4 +1,4 @@
-package jsesh.drawingspecifications.graphical;
+package jsesh.drawingspecifications;
 
 import java.awt.Color;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @param colorMap a color map (which should not be modifiable).
  * @author Serge Rosmorduc
  */
-public record ColorSpec(
+public record ColorSpecification(
 		Color blackColor,
 		Color redColor,
 		Color cursorColor,
@@ -23,11 +23,11 @@ public record ColorSpec(
 		Map<String, Color> colorMap) {
 
 	// Record constructor, which ensures the map is unmodifiable.
-	public ColorSpec {
+	public ColorSpecification {
 		colorMap = Map.copyOf(colorMap);
 	}
 
-	public static final ColorSpec DEFAULT = new ColorSpec(
+	public static final ColorSpecification DEFAULT = new ColorSpecification(
 			Color.BLACK,
 			Color.RED,
 			Color.BLUE,
@@ -50,7 +50,7 @@ public record ColorSpec(
 		private Color backgroundColor;
 		private Map<String, Color> colorMap;
 
-		public Builder(ColorSpec specs) {
+		public Builder(ColorSpecification specs) {
 			this.blackColor = specs.blackColor;
 			this.redColor = specs.redColor;
 			this.cursorColor = specs.cursorColor;
@@ -89,8 +89,8 @@ public record ColorSpec(
 			return this;
 		}
 
-		public ColorSpec build() {
-			return new ColorSpec(blackColor, redColor, cursorColor, grayColor, backgroundColor, colorMap);
+		public ColorSpecification build() {
+			return new ColorSpecification(blackColor, redColor, cursorColor, grayColor, backgroundColor, colorMap);
 		}
 	}
 }

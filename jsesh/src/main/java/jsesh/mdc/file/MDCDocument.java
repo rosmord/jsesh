@@ -10,13 +10,11 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import jsesh.drawingspecifications.RenderingParameters;
-import jsesh.drawingspecifications.graphical.ShadingStyle;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.ShadingMode;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.output.MdCModelWriter;
 import jsesh.utils.FileUtils;
@@ -53,33 +51,31 @@ public class MDCDocument {
 	 * Create a document from a top item list and specifications.
 	 * 
 	 * @param topItemList
-	 * @param renderingParam
+	 * @param jseshStyle
 	 */
 	public MDCDocument(TopItemList topItemList,
-			RenderingParameters renderingParam) {
+			JSeshStyle jseshStyle) {
 		this();
 		hieroglyphicTextModel = new HieroglyphicTextModel();
 		hieroglyphicTextModel.setTopItemList(topItemList);
-		
+
 		DocumentPreferences prefs = new DocumentPreferences()
-				.withTextDirection(		
-					renderingParam.elementsSpec().areaSpec().textDirection())
-				.withTextOrientation(renderingParam.elementsSpec().areaSpec().textOrientation())
+				.withTextDirection(
+						jseshStyle.options().textDirection())
+				.withTextOrientation(jseshStyle.options().textOrientation())
 				.withCartoucheLineWidth(
-						renderingParam.elementsSpec().framesSpec().cartoucheSpecifications().lineWidth()
-				)										
+						jseshStyle.geometry().cartoucheLineWidth())
 				.withColumnSkip(
-					renderingParam.elementsSpec().areaSpec().columnSkip()
-				)
-				.withLineSkip(renderingParam.elementsSpec().areaSpec().lineSkip())
+						jseshStyle.geometry().columnSkip())
+				.withLineSkip(jseshStyle.geometry().lineSkip())
 				.withMaxQuadrantHeight(
-						renderingParam.elementsSpec().groupsSpec().maxCadratHeight())
-				.withMaxQuadrantWidth(renderingParam.elementsSpec().groupsSpec().maxCadratWidth())
-				.withSmallSignCentered(renderingParam.elementsSpec().groupsSpec().smallSignCentered())
-				.withSmallBodyScaleLimit(renderingParam.elementsSpec().signSpec().smallBodyScaleLimit())
-				.withStandardSignHeight(renderingParam.elementsSpec().signSpec().standardSignHeight())
-				.withUseLinesForShading(renderingParam.graphicalSpecs().strokeSpec().shadingStyle().equals(ShadingStyle.LINE_HATCHING))
-				;
+						jseshStyle.geometry().maxCadratHeight())
+				.withMaxQuadrantWidth(jseshStyle.geometry().maxCadratWidth())
+				.withSmallSignCentered(jseshStyle.options().smallSignCentered())
+				.withSmallBodyScaleLimit(jseshStyle.geometry().smallBodyScaleLimit())
+				.withStandardSignHeight(jseshStyle.geometry().standardSignHeight())
+				.withUseLinesForShading(
+						jseshStyle.options().shadingStyle().equals(ShadingMode.LINE_HATCHING));
 		setDocumentPreferences(prefs);
 	}
 
