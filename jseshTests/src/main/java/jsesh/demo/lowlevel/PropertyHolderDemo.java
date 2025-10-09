@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.demos;
+package jsesh.demo.lowlevel;
 
 import java.beans.PropertyChangeSupport;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
@@ -10,7 +10,7 @@ import org.qenherkhopeshef.guiFramework.PropertyHolder;
  * @author rosmord
  *
  */
-public class Essai implements PropertyHolder {
+public class PropertyHolderDemo implements PropertyHolder {
 	
 	public static final String INDICATEUR= "indicateur";
 	public static final String VALUE= "value";

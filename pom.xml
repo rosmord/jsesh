@@ -76,7 +76,7 @@
     <module>jseshSearch</module>
     <module>jseshAppli</module>
     <module>signInfoAppli</module>
-    <module>jseshDemos</module>
     <module>jseshLabels</module>
+    <module>jseshTests</module>
   </modules>
 </project>

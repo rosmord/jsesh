@@ -1,4 +1,4 @@
-package jsesh.swing.groupEditor;
+package jsesh.demo;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,21 +16,23 @@ import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
+import jsesh.swing.groupEditor.GroupEditorDialog;
 
 /**
  * Demonstration of the Group editor (mainly for development purposes).
  * 
- * I use it when writing code for the group editor.
+ * We use it when writing code for the group editor to check it works correctly,
+ * The advantage is that it starts faster than the whole JSesh software.
  * @author rosmord
  */
-class Main extends JFrame{
+class GroupEditorDemo extends JFrame{
      
     JMDCField editor;
     GroupEditorDialog groupEditor;
     JButton validateButton;
     
     
-    public Main() throws HeadlessException {
+    public GroupEditorDemo() throws HeadlessException {
         editor = new JMDCField();
         groupEditor = new GroupEditorDialog();
         validateButton = new JButton("ok");
@@ -54,7 +56,7 @@ class Main extends JFrame{
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Main());
+        SwingUtilities.invokeLater(() -> new GroupEditorDemo());
     }
 
     private void editGroup() {
@@ -77,7 +79,7 @@ class Main extends JFrame{
         try {
             editor.getWorkflow().setMDCCode("");
         } catch (MDCSyntaxError ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GroupEditorDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         editor.getWorkflow().insertElement(g);
     }

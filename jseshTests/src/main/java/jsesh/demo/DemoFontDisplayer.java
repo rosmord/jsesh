@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.demos;
+package jsesh.demo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,11 +27,12 @@ import jsesh.swing.utils.GraphicsUtils;
 /**
  * DemoFontDisplayer.java
  * 
+ * Displays a font in the Bzr format, which was the GNU format used for the first JSesh fonts.
  * 
+ * <p> It's there for sentimental reasons.
  * Created: Fri Jun 7 12:49:16 2002
  * 
- * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC
- *         </a>
+ * @author Serge Rosmorduc
  * 
  */
 

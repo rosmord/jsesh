@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.demos;
+package jsesh.demo.lowlevel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +16,13 @@ import org.qenherkhopeshef.guiFramework.PropertyButtonModel;
 
 public class TestPropertyButtons {
 	
-	private Essai essai;
+	private PropertyHolderDemo essai;
 	
 	public TestPropertyButtons() {
 		JToolBar toolbar= new JToolBar();
 		
 		
-		essai= new Essai();
+		essai= new PropertyHolderDemo();
 		PropertyButtonModel modelx= new PropertyButtonModel(essai,"value", "x");
 		PropertyButtonModel modely= new PropertyButtonModel(essai,"value", "y");
 		PropertyButtonModel boolTrue= new PropertyButtonModel(essai,"indicateur",Boolean.TRUE);

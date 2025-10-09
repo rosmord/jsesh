@@ -9,7 +9,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.demo;
+package jsesh.demo.bugs;
 
 import java.awt.FlowLayout;
 import java.util.logging.Level;
@@ -26,7 +26,7 @@ import jsesh.mdc.model.TopItemList;
  * A demo for a bug we have currently. It should move to a test file at some
  * point, but we need to isolate it first.
  *
- * 
+ * (note to self... I can't remind what the problem was. It works correctly now)
  * Expected behaviour : 
  * @author rosmord
  */
@@ -39,7 +39,7 @@ public class ViewUpdateBug {
     public ViewUpdateBug() {
         frame = new JFrame("demo");
         editor = new JMDCEditor();
-        replaceWithG1Button = new JButton("replace with G1 and insert A1");
+        replaceWithG1Button = new JButton("replace with B1 and insert A1");
         frame.setLayout(new FlowLayout());
         JScrollPane scroll = new JScrollPane(editor);
         scroll.setSize(400, 300);
@@ -57,13 +57,10 @@ public class ViewUpdateBug {
 
     public void replace() {
         try {
-            // editor.getWorkflow().setHieroglyphicTextModel(new HieroglyphicTextModel());
             TopItemList topItemList = new TopItemList();
             topItemList.addTopItem(new Hieroglyph("A1").buildTopItem());
             editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(topItemList);
             editor.getWorkflow().cursorToEndOfLine();
-            // editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(new TopItemList());
-            //editor.getWorkflow().setMDCCode("m-n-x");
             editor.getWorkflow().insertElement(new Hieroglyph("B1")); // g is some kind of element...
         } catch (Exception ex) {
             Logger.getLogger(ViewUpdateBug.class.getName()).log(Level.SEVERE, null, ex);
