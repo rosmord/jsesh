@@ -260,23 +260,6 @@ public class XMLElement implements IXMLElement, Serializable {
     
     
     /**
-     * Cleans up the object when it's destroyed.
-     * /
-    protected void finalize() throws Throwable {
-        this.attributes.clear();
-        this.attributes = null;
-        this.children = null;
-        this.fullName = null;
-        this.name = null;
-        this.namespace = null;
-        this.content = null;
-        this.systemID = null;
-        this.parent = null;
-        super.finalize();
-    }*/
-    
-    
-    /**
      * Returns the parent element. This method returns null for the root
      * element.
      */

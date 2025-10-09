@@ -75,16 +75,6 @@ class CDATAReader
    }
 
 
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.reader = null;
-      super.finalize();
-   }
-    
 
    /**
     * Reads a block of data.

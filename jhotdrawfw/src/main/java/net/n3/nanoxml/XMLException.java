@@ -186,19 +186,6 @@ public class XMLException
       return str;
    }
 
-
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.systemID = null;
-      this.encapsulatedException = null;
-      super.finalize();
-   }
-
-
    /**
     * Returns the system ID of the XML data where the exception occurred.
     * If there is no system ID known, null is returned.

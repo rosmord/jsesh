@@ -85,20 +85,6 @@ class ContentReader
       this.bufferIndex = 0;
    }
 
-
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.reader = null;
-      this.resolver = null;
-      this.buffer = null;
-      super.finalize();
-   }
-
-
    /**
     * Reads a block of data.
     *

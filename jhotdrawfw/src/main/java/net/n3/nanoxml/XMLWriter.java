@@ -82,16 +82,6 @@ public class XMLWriter
    }
 
 
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.writer = null;
-      super.finalize();
-   }
-
 
    /**
     * Writes an XML element.

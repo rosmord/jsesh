@@ -58,16 +58,6 @@ public class ValidatorPlugin
    }
 
 
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.delegate = null;
-      super.finalize();
-   }
-
 
    /**
     * Returns the delegate.
