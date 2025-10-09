@@ -1,48 +1,40 @@
-/*
- * Copyright ou © ou Copr. Serge Rosmorduc (2004-2020) 
- * serge.rosmorduc@cnam.fr
-
- * Ce logiciel est régi par la licence CeCILL-C soumise au droit français et
- * respectant les principes de diffusion des logiciels libres : "http://www.cecill.info".
-
- * This software is governed by the CeCILL-C license 
- * under French law : "http://www.cecill.info". 
- */
-package jsesh.demo;
+package jsesh.swing.groupEditor;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
 import jsesh.editor.JMDCField;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.layout.MDCEditorKit;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
-import jsesh.swing.groupEditor.GroupEditorDialog;
 
 /**
- * Demo of the Group editor (mainly for development purposes).
+ * Demonstration of the Group editor (mainly for development purposes).
+ * 
+ * I use it when writing code for the group editor.
  * @author rosmord
  */
-public final class GroupEditorDemo extends JFrame{
-    
+class Main extends JFrame{
+     
     JMDCField editor;
     GroupEditorDialog groupEditor;
     JButton validateButton;
     
     
-    public GroupEditorDemo() throws HeadlessException {
+    public Main() throws HeadlessException {
         editor = new JMDCField();
         groupEditor = new GroupEditorDialog();
         validateButton = new JButton("ok");
         validateButton.addActionListener(e -> getBackGroup());
-        // groupEditor.setDrawingSpecifications(editor.getDrawingSpecifications().copy());
         setLayout(new GridBagLayout());
         GridBagConstraints cc = new GridBagConstraints();
         cc.fill = GridBagConstraints.HORIZONTAL;
@@ -62,7 +54,7 @@ public final class GroupEditorDemo extends JFrame{
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GroupEditorDemo());
+        SwingUtilities.invokeLater(() -> new Main());
     }
 
     private void editGroup() {
@@ -85,9 +77,8 @@ public final class GroupEditorDemo extends JFrame{
         try {
             editor.getWorkflow().setMDCCode("");
         } catch (MDCSyntaxError ex) {
-            Logger.getLogger(GroupEditorDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         editor.getWorkflow().insertElement(g);
     }
-
 }
