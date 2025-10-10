@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.ui;
+package jsesh.swing.signimportdialog.ui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;

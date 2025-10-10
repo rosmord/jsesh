@@ -1,4 +1,4 @@
-package jsesh.swing.externalsignimporter.model;
+package jsesh.swing.signimportdialog.model;
 
 import java.io.File;
 import java.io.FileReader;

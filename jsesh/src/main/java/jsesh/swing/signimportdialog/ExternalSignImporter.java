@@ -1,12 +1,12 @@
-package jsesh.swing.externalsignimporter;
+package jsesh.swing.signimportdialog;
 
 import java.io.File;
 
 import javax.swing.JPanel;
 
-import jsesh.swing.externalsignimporter.control.ExternalSignImporterPresenter;
-import jsesh.swing.externalsignimporter.model.ExternalSignImporterModel;
-import jsesh.swing.externalsignimporter.ui.ExternalSignImporterUI;
+import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
+import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
+import jsesh.swing.signimportdialog.ui.ExternalSignImporterUI;
 
 
 public class ExternalSignImporter {

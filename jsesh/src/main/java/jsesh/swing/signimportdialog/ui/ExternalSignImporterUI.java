@@ -1,4 +1,4 @@
-package jsesh.swing.externalsignimporter.ui;
+package jsesh.swing.signimportdialog.ui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -18,11 +18,10 @@ import javax.swing.event.DocumentListener;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import jsesh.graphics.glyphs.ui.ShapeDisplayer;
-import jsesh.graphics.glyphs.ui.UIEventListener;
 import jsesh.resources.ResourcesManager;
-import jsesh.swing.externalsignimporter.control.ExternalSignImporterPresenter;
-import jsesh.swing.externalsignimporter.model.ExternalSignImporterModel;
+import jsesh.swing.shapedisplayer.ShapeDisplayer;
+import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
+import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 
 public class ExternalSignImporterUI {
 

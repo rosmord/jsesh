@@ -2,7 +2,7 @@ package jsesh.hieroglyphs.graphics;
 
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.swing.externalsignimporter.model.SVGSignSource;
+import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 import java.io.BufferedReader;
 import java.io.File;

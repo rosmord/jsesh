@@ -1,4 +1,4 @@
-package jsesh.swing.externalsignimporter.model;
+package jsesh.swing.signimportdialog.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;

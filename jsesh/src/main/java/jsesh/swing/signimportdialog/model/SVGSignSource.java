@@ -1,4 +1,4 @@
-package jsesh.swing.externalsignimporter.model;
+package jsesh.swing.signimportdialog.model;
 
 import jsesh.hieroglyphs.graphics.VerticalGravity;
 import jsesh.hieroglyphs.graphics.ShapeChar;

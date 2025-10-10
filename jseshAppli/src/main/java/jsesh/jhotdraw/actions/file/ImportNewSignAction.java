@@ -12,7 +12,7 @@ import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.externalsignimporter.ExternalSignImporter;
+import jsesh.swing.signimportdialog.ExternalSignImporter;
 
 /**
  * Add a new sign in the user's own hieroglyphic folder.

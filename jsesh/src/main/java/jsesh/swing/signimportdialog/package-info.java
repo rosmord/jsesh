@@ -3,4 +3,4 @@
  * 
  * Not of much use currently. I tend to add them directly to the font folder.
  */
-package jsesh.swing.externalsignimporter;
+package jsesh.swing.signimportdialog;
