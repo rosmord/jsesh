@@ -64,19 +64,6 @@ public class XMLEntityResolver
       this.entities.put("gt", "&#62;");
    }
 
-
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.entities.clear();
-      this.entities = null;
-      super.finalize();
-   }
-
-
    /**
     * Adds an internal entity.
     *

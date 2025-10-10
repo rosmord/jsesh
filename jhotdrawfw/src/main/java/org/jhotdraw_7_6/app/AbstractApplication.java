@@ -42,7 +42,6 @@ import org.jhotdraw_7_6.gui.URIChooser;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
-import org.qenherkhopeshef.jhotdrawChanges.Nullable;
 
 /**
  * This abstract class can be extended to implement an {@link Application}.

@@ -5,14 +5,14 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import jsesh.graphics.glyphs.ExternalSignImporter;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
+
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.resources.JSeshMessages;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
+import jsesh.swing.signimportdialog.ExternalSignImporter;
 
 /**
  * Add a new sign in the user's own hieroglyphic folder.

@@ -79,22 +79,6 @@ public class NonValidator
       this.parameterEntityResolver = new XMLEntityResolver();
    }
 
-
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.parameterEntityResolver = null;
-      this.attributeDefaultValues.clear();
-      this.attributeDefaultValues = null;
-      this.currentElements.clear();
-      this.currentElements = null;
-      super.finalize();
-   }
-
-
    /**
     * Sets the parameter entity resolver.
     *

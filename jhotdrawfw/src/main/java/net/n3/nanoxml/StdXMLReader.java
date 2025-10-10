@@ -190,22 +190,6 @@ public class StdXMLReader
 
 
    /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.currentReader.lineReader = null;
-      this.currentReader.pbReader = null;
-      this.currentReader.systemId = null;
-      this.currentReader.publicId = null;
-      this.currentReader = null;
-      this.readers.clear();
-      super.finalize();
-   }
-
-
-   /**
     * Scans the encoding from an &lt;?xml...?&gt; tag.
     *
     * @param str the first tag in the XML data.

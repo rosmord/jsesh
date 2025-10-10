@@ -21,23 +21,36 @@ Contains the following folders and modules:
 ### Maven modules for JSesh
 
 #### Libraries
-* cupAndlex : a bundle with CUP and LEX. Probably usable for other projects as a maven MOJO.
-* cupruntime : the CUP runtime, used by JSesh
-* jsesh : the main jsesh library (we will remove the application part from it)
-* jseshDoc : the module for JSesh documentation
-* jseshGlyphs : the main hieroglyphic font
-* jvect : vectorial copy/paste library.
-* prepareJSeshRelease: a maven mojo for preparing the release (mostly indexing the fonts)
-* utils : utilities to update some data files. nothing of interest.
-* jhotdrawfw : the "application framework" part of JHOTDRAW 7.
+
+codeDumper
+
+* cupAndlex: bundle with CUP and LEX. Probably usable for other projects as a maven MOJO; those are used to parse Manuel de Codage files;
+* cupruntime: the runtime for CUP;
+* jhotdrawfw: the "application framework" part of JHOTDRAW 7, adapted from [JHotDraw 7 by Walter Randelshofer](https://www.randelshofer.ch/oop/jhotdraw/);
+* jsesh: the main jsesh library;
+* jseshGlyphs: the main hieroglyphic font;
+* jseshLabels: the labels for menus, buttons, etc. in Jsesh all in one place to ease translation of the software;
+* jseshSearch: the search module;
+* jseshTests: various small softwares used to check JSesh runs correctly. Only interesting if you develop JSesh.
+* prepareJSeshRelease: software to prepare JSesh for release (mostly to copy stuff in the right place and create index of signs);
+* qenherkhopeshefUtils: sundry utilities to help writing JSesh and Swing softwares. Some are outdated (the guiFramework has been replaced by jHotdraw);
+* signInfoAppli: the editor for sign information.
 
 #### Softwares
 
-* jseshAppli : a module containing
-  the JSesh application (using JHotdraw)
-* jsesh-installer : everthing related to installing JSesh
+* jseshAppli: the main application for JSesh;
+
+* jsesh-installer : everthing related to  JSesh installation.
+
 * codeDumper : a small software to create a dump of JSesh files, 
   as simple lists of codes.
+
+## Things removed from JSesh
+
+- All demonstrations for programmers have moved to the project [jseshDemos](https://github.com/rosmord/jseshDemos);
+- utilities softwares belongs to the project [jseshUtils](https://github.com/rosmord/jseshUtils);
+- the texts are available in [MDC-texts](https://github.com/rosmord/MDC-texts) (but there is a copy of them in JSesh).
+
 
 #### Weird compilation behaviour
 

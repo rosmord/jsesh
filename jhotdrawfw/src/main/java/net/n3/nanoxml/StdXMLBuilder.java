@@ -51,7 +51,7 @@ public class StdXMLBuilder
    /**
     * This stack contains the current element and its parents.
     */
-   private Stack stack;
+   private Stack<IXMLElement> stack;
 
 
    /**
@@ -85,20 +85,6 @@ public class StdXMLBuilder
       this.stack = null;
       this.root = null;
       this.prototype = prototype;
-   }
-
-
-   /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.prototype = null;
-      this.root = null;
-      this.stack.clear();
-      this.stack = null;
-      super.finalize();
    }
 
 

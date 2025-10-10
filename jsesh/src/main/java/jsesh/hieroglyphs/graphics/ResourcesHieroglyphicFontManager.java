@@ -2,6 +2,8 @@ package jsesh.hieroglyphs.graphics;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.swing.signimportdialog.model.SVGSignSource;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -13,8 +15,6 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
-
-import jsesh.graphics.glyphs.model.SVGSignSource;
 
 /**
  * Font manager which takes its data from a resource bundle. The signs will be

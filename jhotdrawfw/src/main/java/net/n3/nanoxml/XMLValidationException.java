@@ -146,19 +146,6 @@ public class XMLValidationException
 
 
    /**
-    * Cleans up the object when it's destroyed.
-    */
-   protected void finalize()
-      throws Throwable
-   {
-      this.elementName = null;
-      this.attributeName = null;
-      this.attributeValue = null;
-      super.finalize();
-   }
-
-
-   /**
     * Returns the name of the element in which the validation is violated.
     * If there is no current element, null is returned.
     */

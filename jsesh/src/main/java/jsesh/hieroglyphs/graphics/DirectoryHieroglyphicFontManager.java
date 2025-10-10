@@ -10,8 +10,8 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 
-import jsesh.graphics.glyphs.model.SVGSignSource;
-import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 /**
  * A font manager which stores the signs as files in a directory. The codes for
