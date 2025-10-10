@@ -11,8 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import jsesh.graphics.glyphs.model.SVGSignSource;
 import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.swing.externalsignimporter.model.SVGSignSource;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

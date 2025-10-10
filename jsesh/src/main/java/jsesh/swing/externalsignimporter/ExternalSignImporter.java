@@ -1,12 +1,13 @@
-package jsesh.graphics.glyphs;
+package jsesh.swing.externalsignimporter;
 
 import java.io.File;
 
 import javax.swing.JPanel;
 
-import jsesh.graphics.glyphs.control.ExternalSignImporterPresenter;
-import jsesh.graphics.glyphs.model.ExternalSignImporterModel;
-import jsesh.graphics.glyphs.ui.ExternalSignImporterUI;
+import jsesh.swing.externalsignimporter.control.ExternalSignImporterPresenter;
+import jsesh.swing.externalsignimporter.model.ExternalSignImporterModel;
+import jsesh.swing.externalsignimporter.ui.ExternalSignImporterUI;
+
 
 public class ExternalSignImporter {
 	

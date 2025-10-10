@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.model;
+package jsesh.swing.externalsignimporter.model;
 
 import java.io.File;
 import java.io.FileReader;
@@ -81,7 +81,7 @@ public class ExternalSignImporterModel {
 
 	/**
 	 * @param shapeScale
-	 *            the shapeScale to set
+	 *                   the shapeScale to set
 	 */
 	public void setShapeScale(double shapeScale) {
 		this.shapeScale = shapeScale;
@@ -185,7 +185,7 @@ public class ExternalSignImporterModel {
 
 	/**
 	 * @param sourceDirectory
-	 *            The sourceDirectory to set.
+	 *                        The sourceDirectory to set.
 	 */
 	public void setSourceDirectory(File sourceDirectory) {
 		this.sourceDirectory = sourceDirectory;

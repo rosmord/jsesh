@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.model;
+package jsesh.swing.externalsignimporter.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;

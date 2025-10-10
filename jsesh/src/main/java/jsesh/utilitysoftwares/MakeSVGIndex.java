@@ -26,9 +26,9 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import jsesh.graphics.glyphs.model.SVGSignSource;
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.swing.externalsignimporter.model.SVGSignSource;
 import jsesh.utils.FileUtils;
 
 import org.xml.sax.EntityResolver;

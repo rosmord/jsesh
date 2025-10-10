@@ -128,16 +128,6 @@ public class LargeFontImporter implements PropertyHolder {
 		return ge.getAvailableFontFamilyNames();
 	}
 
-	public static void main(String[] args) throws InterruptedException,
-			InvocationTargetException {
-		SwingUtilities.invokeAndWait(() -> {
-                    try {
-                        new LargeFontImporter();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-	}
 
 	public void exportFontIntoJSesh() {
 		try {
@@ -216,5 +206,17 @@ public class LargeFontImporter implements PropertyHolder {
 		public void mouseMoved(MouseEvent e) {
 		}
 
+	}
+
+
+	public static void main(String[] args) throws InterruptedException,
+			InvocationTargetException {
+		SwingUtilities.invokeAndWait(() -> {
+                    try {
+                        new LargeFontImporter();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 	}
 }

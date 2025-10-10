@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.ui;
+package jsesh.swing.externalsignimporter.ui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -15,12 +15,14 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import jsesh.graphics.glyphs.control.ExternalSignImporterPresenter;
-import jsesh.graphics.glyphs.model.ExternalSignImporterModel;
-import jsesh.resources.ResourcesManager;
-
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
+
+import jsesh.graphics.glyphs.ui.ShapeDisplayer;
+import jsesh.graphics.glyphs.ui.UIEventListener;
+import jsesh.resources.ResourcesManager;
+import jsesh.swing.externalsignimporter.control.ExternalSignImporterPresenter;
+import jsesh.swing.externalsignimporter.model.ExternalSignImporterModel;
 
 public class ExternalSignImporterUI {
 
@@ -141,17 +143,6 @@ public class ExternalSignImporterUI {
 		builder.append(navPanel);
 
 		return builder.getPanel();
-	}
-
-	public static void main(String[] args) {
-		JFrame jf = new JFrame();
-		ExternalSignImporterModel model = new ExternalSignImporterModel();
-		ExternalSignImporterUI ui = new ExternalSignImporterUI();
-		jf.getContentPane().add(ui.getPanel());
-		ui.addEventListener(new ExternalSignImporterPresenter(model, ui));
-		jf.pack();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
 	}
 
 	public void addEventListener(UIEventListener listener) {
@@ -293,6 +284,22 @@ public class ExternalSignImporterUI {
 		public void mouseMoved(MouseEvent e) {
 
 		}
-
 	}
+
+	/**
+	 * Test method.
+	 * @param args
+	 */
+
+	public static void main(String[] args) {
+		JFrame jf = new JFrame();
+		ExternalSignImporterModel model = new ExternalSignImporterModel();
+		ExternalSignImporterUI ui = new ExternalSignImporterUI();
+		jf.getContentPane().add(ui.getPanel());
+		ui.addEventListener(new ExternalSignImporterPresenter(model, ui));
+		jf.pack();
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setVisible(true);
+	}
+
 }

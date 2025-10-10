@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.control;
+package jsesh.swing.externalsignimporter.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
@@ -7,13 +7,14 @@ import java.io.File;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.graphics.glyphs.model.ExternalSignImporterModel;
-import jsesh.graphics.glyphs.ui.ExternalSignImporterUI;
-import jsesh.graphics.glyphs.ui.UIEventListener;
-import jsesh.hieroglyphs.data.GardinerCode;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
+
+import jsesh.graphics.glyphs.ui.UIEventListener;
+import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.swing.externalsignimporter.model.ExternalSignImporterModel;
+import jsesh.swing.externalsignimporter.ui.ExternalSignImporterUI;
 
 /**
  * Presenter for the external font importer. Gets events, update GUI, modify

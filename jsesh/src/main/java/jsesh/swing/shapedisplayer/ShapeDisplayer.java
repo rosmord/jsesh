@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.ui;
+package jsesh.swing.shapedisplayer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
