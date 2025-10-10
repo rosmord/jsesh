@@ -297,9 +297,9 @@ public  class Layout  {
 	}
 
 	/**
-	 * lay out a quadrant. This method is way too long.
+	 * lay out a quadrat. This method is way too long.
 	 *
-	 * This method is currently quite complex, as the ultimate quadrant shape
+	 * This method is currently quite complex, as the ultimate quadrat shape
 	 * depends on its environment.
 	 * <p>
 	 * besides, many parts have been added when they were needed.
@@ -316,7 +316,7 @@ public  class Layout  {
 	 */
 	@Override
 	public void visitCadrat(Cadrat c) {
-		new QuadrantLayout(drawingSpecifications, centerSigns, currentTextOrientation).layout(currentView, c);
+		new QuadratLayout(drawingSpecifications, centerSigns, currentTextOrientation).layout(currentView, c);
 	}
 
 	/**
@@ -566,12 +566,12 @@ public  class Layout  {
 		case SymbolCodes.ENDSCRIBEADDITION:
 		case SymbolCodes.BEGINDUBIOUS:
 		case SymbolCodes.ENDDUBIOUS: {
-			// Two cases: either we have a base fixed shape (one quadrant
+			// Two cases: either we have a base fixed shape (one quadrat
 			// high-sign, typically)
 			// or we will take our shape from the surrounding signs.
 			// In the last case, we choose an arbitrary small size.
 
-			boolean fixed = (h.getRelativeSize() != 100 || inAbsoluteGroup || h.isAloneInQuadrant()
+			boolean fixed = (h.getRelativeSize() != 100 || inAbsoluteGroup || h.isAloneInQuadrat()
 					|| h.getAngle() != 0);
 
 			if (!fixed) {

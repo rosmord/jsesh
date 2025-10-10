@@ -68,9 +68,9 @@ public class MDCDocument {
 				.withColumnSkip(
 						jseshStyle.geometry().columnSkip())
 				.withLineSkip(jseshStyle.geometry().lineSkip())
-				.withMaxQuadrantHeight(
+				.withMaxQuadratHeight(
 						jseshStyle.geometry().maxCadratHeight())
-				.withMaxQuadrantWidth(jseshStyle.geometry().maxCadratWidth())
+				.withMaxQuadratWidth(jseshStyle.geometry().maxCadratWidth())
 				.withSmallSignCentered(jseshStyle.options().smallSignCentered())
 				.withSmallBodyScaleLimit(jseshStyle.geometry().smallBodyScaleLimit())
 				.withStandardSignHeight(jseshStyle.geometry().standardSignHeight())

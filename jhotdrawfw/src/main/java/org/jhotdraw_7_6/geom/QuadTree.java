@@ -26,7 +26,7 @@ import java.util.Map;
  * QuadTree recursively subdivides a space into four rectangles. 
  * Each node of a QuadTree subdivides the space covered by the rectangle of its 
  * parent node into four smaller rectangles covering the upper left, upper right, 
- * lower left and lower right quadrant of the parent rectangle. 
+ * lower left and lower right quadrat of the parent rectangle. 
  *
  * @author  Werner Randelshofer
  * @version $Id: QuadTree.java 717 2010-11-21 12:30:57Z rawcoder $

@@ -339,7 +339,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         }
 
         /**
-         * Build a menu for shading quadrants.
+         * Build a menu for shading quadrats.
          *
          * @param v
          * @param a

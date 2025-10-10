@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search.quadrant;
+package jsesh.search.quadrat;
 
 import jsesh.editor.MdCSearchQuery;
 import java.util.ArrayList;
@@ -42,13 +42,13 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.MDCNormalizer;
 
 /**
- * Search for the exact appearance of a given quadrant.
+ * Search for the exact appearance of a given quadrat.
  * @author rosmord
  */
-public class QuadrantSearchQuery implements MdCSearchQuery {
+public class QuadratSearchQuery implements MdCSearchQuery {
     private final TopItemList search;
 
-    public QuadrantSearchQuery(TopItemList search) {        
+    public QuadratSearchQuery(TopItemList search) {        
         this.search =search.deepCopy();
         MDCNormalizer normalizer= new MDCNormalizer();
         normalizer.normalize(this.search);

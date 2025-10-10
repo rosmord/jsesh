@@ -220,19 +220,19 @@ public class JSeshApplicationBase {
         switch (exportType) {
             case SMALL:
                 result.setCadratHeight((int) exportPreferences
-                        .getquadrantHeightSmall());
+                        .getquadratHeightSmall());
                 break;
             case LARGE:
                 result.setCadratHeight((int) exportPreferences
-                        .getquadrantHeightLarge());
+                        .getquadratHeightLarge());
                 break;
             case FILE:
                 result.setCadratHeight((int) exportPreferences
-                        .getquadrantHeightFile());
+                        .getquadratHeightFile());
                 break;
             case WYSIWYG:
                 result.setCadratHeight((int) exportPreferences
-                        .getquadrantHeightWysiwyg());
+                        .getquadratHeightWysiwyg());
                 break;
         }
 

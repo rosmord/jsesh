@@ -60,10 +60,10 @@ public class JExportPreferences {
     private JComboBox exportModeCB;
     private JComboBox unitCB;
     private JComboBox graphicFormatCB;
-    private JFormattedTextField quadrantHeightLargeField;
-    private JFormattedTextField quadrantHeightSmallField;
-    private JFormattedTextField quadrantHeightFileField;
-    private JFormattedTextField quadrantHeightWysiwygField;
+    private JFormattedTextField quadratHeightLargeField;
+    private JFormattedTextField quadratHeightSmallField;
+    private JFormattedTextField quadratHeightFileField;
+    private JFormattedTextField quadratHeightWysiwygField;
     private JCheckBox respectTextLayoutCB;
 
     private UnitMediator unitMediator = new UnitMediator();
@@ -80,10 +80,10 @@ public class JExportPreferences {
     private void animate() {
         unitMediator.attachToComboBox(unitCB);
         for (JFormattedTextField f: Arrays.asList(
-                quadrantHeightFileField,
-                quadrantHeightSmallField,
-                quadrantHeightLargeField,
-                quadrantHeightWysiwygField                
+                quadratHeightFileField,
+                quadratHeightSmallField,
+                quadratHeightLargeField,
+                quadratHeightWysiwygField                
                 )) {
             unitMediator.managedTextField(f);
         }
@@ -107,14 +107,14 @@ public class JExportPreferences {
         respectTextLayoutCB.setSelected(exportPreferences
                 .isTextLayoutRespected());
 
-        quadrantHeightSmallField.setValue(exportPreferences
-                .getquadrantHeightSmall());
-        quadrantHeightLargeField.setValue(exportPreferences
-                .getquadrantHeightLarge());
-        quadrantHeightFileField.setValue(exportPreferences
-                .getquadrantHeightFile());
-        quadrantHeightWysiwygField.setValue(exportPreferences
-                .getquadrantHeightWysiwyg());
+        quadratHeightSmallField.setValue(exportPreferences
+                .getquadratHeightSmall());
+        quadratHeightLargeField.setValue(exportPreferences
+                .getquadratHeightLarge());
+        quadratHeightFileField.setValue(exportPreferences
+                .getquadratHeightFile());
+        quadratHeightWysiwygField.setValue(exportPreferences
+                .getquadratHeightWysiwyg());
     }
 
     private void init() {
@@ -127,10 +127,10 @@ public class JExportPreferences {
 
         respectTextLayoutCB = new JCheckBox(
                 JSeshMessages.getString("exportPrefs.respectTextLayout"));
-        quadrantHeightLargeField = new JFormattedTextField(20d);
-        quadrantHeightSmallField = new JFormattedTextField(20d);
-        quadrantHeightFileField = new JFormattedTextField(20d);
-        quadrantHeightWysiwygField = new JFormattedTextField(20d);
+        quadratHeightLargeField = new JFormattedTextField(20d);
+        quadratHeightSmallField = new JFormattedTextField(20d);
+        quadratHeightFileField = new JFormattedTextField(20d);
+        quadratHeightWysiwygField = new JFormattedTextField(20d);
 
     }
 
@@ -139,15 +139,15 @@ public class JExportPreferences {
         PanelBuilder helper = new PanelBuilder(panel);
         helper.addLabel("exportPrefs.exportMode");
         panel.add(exportModeCB, "span, grow, wrap");
-        helper.addLabel("exportPrefs.quadrantHeightLarge");
-        panel.add(quadrantHeightLargeField, "w 40pt, sg a");
+        helper.addLabel("exportPrefs.quadratHeightLarge");
+        panel.add(quadratHeightLargeField, "w 40pt, sg a");
         panel.add(unitCB, "span, grow, wrap");
-        helper.addLabel("exportPrefs.quadrantHeightSmall");
-        panel.add(quadrantHeightSmallField, "sg a, wrap");
-        helper.addLabel("exportPrefs.quadrantHeightWysiwyg");
-        panel.add(quadrantHeightWysiwygField, "sg a, wrap");
-        helper.addLabel("exportPrefs.quadrantHeightFile");
-        panel.add(quadrantHeightFileField, "sg a,wrap");
+        helper.addLabel("exportPrefs.quadratHeightSmall");
+        panel.add(quadratHeightSmallField, "sg a, wrap");
+        helper.addLabel("exportPrefs.quadratHeightWysiwyg");
+        panel.add(quadratHeightWysiwygField, "sg a, wrap");
+        helper.addLabel("exportPrefs.quadratHeightFile");
+        panel.add(quadratHeightFileField, "sg a,wrap");
         helper.addLabel("exportPrefs.graphicFormat");
         panel.add(graphicFormatCB, "span, grow, wrap");
         panel.add(respectTextLayoutCB, "span,grow, wrap");
@@ -171,10 +171,10 @@ public class JExportPreferences {
         newPreferences.setRTFExportGraphicFormat((RTFExportGraphicFormat) this.graphicFormatCB.getSelectedItem());
         newPreferences.setTextLayoutRespected(this.respectTextLayoutCB.isSelected());
         
-        newPreferences.setQuadrantHeightSmall(lengthFromField(quadrantHeightSmallField));
-        newPreferences.setQuadrantHeightLarge(lengthFromField(quadrantHeightLargeField));
-        newPreferences.setQuadrantHeightFile(lengthFromField(quadrantHeightFileField));
-        newPreferences.setQuadrantHeightWysiwyg(lengthFromField(quadrantHeightWysiwygField));
+        newPreferences.setQuadratHeightSmall(lengthFromField(quadratHeightSmallField));
+        newPreferences.setQuadratHeightLarge(lengthFromField(quadratHeightLargeField));
+        newPreferences.setQuadratHeightFile(lengthFromField(quadratHeightFileField));
+        newPreferences.setQuadratHeightWysiwyg(lengthFromField(quadratHeightWysiwygField));
         app.setExportPreferences(newPreferences);
     }
 }

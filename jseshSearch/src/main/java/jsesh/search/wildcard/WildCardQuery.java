@@ -100,7 +100,7 @@ public class WildCardQuery implements MdCSearchQuery {
     public List<MDCPosition> doSearch(TopItemList items) {
         List<MDCPosition> result = Collections.emptyList();
         if (extractor != null) {
-            List<HieroglyphOccurrence> text = new OccurrenceStringBuilder().analyzeQuadrant(items);
+            List<HieroglyphOccurrence> text = new OccurrenceStringBuilder().analyzeQuadrat(items);
             result = extractor.search(text).stream()
                     .map(m -> extractPosition(text, m))
                     .map(pos -> new MDCPosition(items, pos))

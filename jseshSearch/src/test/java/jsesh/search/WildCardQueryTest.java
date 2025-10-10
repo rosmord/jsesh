@@ -97,8 +97,8 @@ public class WildCardQueryTest {
     }
 
     @Test
-    public void testInQuadrant() {
-        doSearch("test In Quadrants", "i-n:n:n:k:w-m", "n n k", VariantLevelForSearch.EXACT_SEARCH, 1);
+    public void testInQuadrat() {
+        doSearch("test In Quadrats", "i-n:n:n:k:w-m", "n n k", VariantLevelForSearch.EXACT_SEARCH, 1);
     }
 
     @Test

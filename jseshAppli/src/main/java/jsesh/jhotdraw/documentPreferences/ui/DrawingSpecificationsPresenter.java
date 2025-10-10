@@ -71,7 +71,7 @@ public class DrawingSpecificationsPresenter {
                 form.getCartoucheLineWidthField(),
                 form.getColumnSkipField(),
                 form.getLineSkipField(),
-                form.getInterQuadrantSkipField(),
+                form.getInterQuadratSkipField(),
                 form.getMaxCadratHeightField(),
                 form.getMaxCadratWidthField(),
                 form.getNormalSignHeightField(),
@@ -98,7 +98,7 @@ public class DrawingSpecificationsPresenter {
                 drawingSpecification.getColumnSkip());
         form.getLineSkipField().setValue(
                 drawingSpecification.getLineSkip());
-        form.getInterQuadrantSkipField().setValue(
+        form.getInterQuadratSkipField().setValue(
                 drawingSpecification.getSmallSkip());
         form.getMaxCadratHeightField().setValue(
                 drawingSpecification.getMaxCadratHeight());
@@ -131,7 +131,7 @@ public class DrawingSpecificationsPresenter {
         drawingSpecifications.setStandardSignHeight(getLength(form
                 .getNormalSignHeightField()));
         drawingSpecifications.setSmallSkip(getLength(form
-                .getInterQuadrantSkipField()));
+                .getInterQuadratSkipField()));
         double limit = ((Double) form.getSmallFontBodyLimitField().getValue());
         drawingSpecifications.setSmallBodyScaleLimit(limit);
         if (form.getUseLinesForShadingCheckBox().isSelected()) {

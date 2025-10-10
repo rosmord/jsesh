@@ -26,7 +26,7 @@ import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.quadrant.QuadrantSearchQuery;
+import jsesh.search.quadrat.QuadratSearchQuery;
 import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
@@ -61,7 +61,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     private HieroglyphicFontManager fontManager;
    
     /**
-     * Buttons which are meaningless for whole quadrant search...
+     * Buttons which are meaningless for whole quadrat search...
      */
     private final JComponent signOriented[];
 
@@ -100,7 +100,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     private void enableControls() {
         addSetButton.addActionListener(e -> addSet());
         addSkipButton.addActionListener(e -> addSkip());
-        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadrantSelect());
+        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadratSelect());
     }
 
     private void prepareLayout() {
@@ -128,7 +128,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     public MdCSearchQuery getQuery() {
         MdCSearchQuery result;
         if (matchLayoutCheckBox.isSelected()) {
-            result = new QuadrantSearchQuery(getSearchFieldContent());
+            result = new QuadratSearchQuery(getSearchFieldContent());
         } else {
             result = new WildCardQuery(getSearchFieldContent(), 
                     (Integer) matchLengthSpinner.getValue(),
@@ -140,7 +140,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
 
 
 
-    private void wholeQuadrantSelect() {
+    private void wholeQuadratSelect() {
         for (JComponent b : this.signOriented) {
             b.setEnabled(!this.matchLayoutCheckBox.isSelected());
         }

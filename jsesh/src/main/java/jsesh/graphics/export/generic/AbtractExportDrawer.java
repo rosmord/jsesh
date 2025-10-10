@@ -43,7 +43,7 @@ public abstract class AbtractExportDrawer {
     /**
      * @param viewBuilder the builder used to create views.
      * @param drawingSpecifications the general drawing specifications
-     * @param cadratHeight the actual quadrant height we want.
+     * @param cadratHeight the actual quadrat height we want.
      */
     protected AbtractExportDrawer(DrawingSpecification drawingSpecifications, double cadratHeight) {
         this.drawingSpecifications = drawingSpecifications.copy();

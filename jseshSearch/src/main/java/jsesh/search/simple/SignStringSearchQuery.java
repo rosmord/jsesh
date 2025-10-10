@@ -99,7 +99,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
     public List<MDCPosition> doSearch(TopItemList items) {
         ArrayList<MDCPosition> result= new ArrayList<>();
         OccurrenceStringBuilder codeExtractors= new OccurrenceStringBuilder();
-        List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrant(items);
+        List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrat(items);
         for (int i= 0; i < l.size(); i++) {
             if (match(l, i))
                 result.add(new MDCPosition(items, l.get(i).getPosition()));

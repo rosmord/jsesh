@@ -1877,7 +1877,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             result.addAll(tail);
             return result;
         } else {
-            // A) try to group tail as one quadrant.
+            // A) try to group tail as one quadrat.
             //
             if (head == null) {
                 return tail;
@@ -1898,7 +1898,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
             // we now have two elements.
             switch (sep) {
                 case '*':
-                    return buildCombinedQuadrant(head, secondElement);
+                    return buildCombinedQuadrat(head, secondElement);
                 case ':':
                     return buildVerticalStack(head, secondElement);
                 case '&': {
@@ -1947,10 +1947,10 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
     }
 
     /**
-     * group two quadrants, inserting the second in the <em>lower</em> row of
+     * group two quadrats, inserting the second in the <em>lower</em> row of
      * the first.
      */
-    private List<TopItem> buildCombinedQuadrant(TopItem head,
+    private List<TopItem> buildCombinedQuadrat(TopItem head,
                                                 TopItem secondElement) {
         ArrayList<TopItem> result = new ArrayList<>();
         CadratStarInserter f = new CadratStarInserter();

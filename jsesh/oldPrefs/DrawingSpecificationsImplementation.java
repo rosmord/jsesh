@@ -164,7 +164,7 @@ public class DrawingSpecificationsImplementation implements Cloneable,
     private boolean justified = false;
 
     /**
-     * Skip between adjacent quadrants.
+     * Skip between adjacent quadrats.
      */
     private float smallSkip;
 
@@ -831,8 +831,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
                 .withCartoucheLineWidth(cartoucheLineWidth)
                 .withColumnSkip(columnSkip)
                 .withLineSkip(lineSkip)
-                .withMaxQuadrantHeight(getMaxCadratHeight())
-                .withMaxQuadrantWidth(getMaxCadratWidth())
+                .withMaxQuadratHeight(getMaxCadratHeight())
+                .withMaxQuadratWidth(getMaxCadratWidth())
                 .withSmallBodyScaleLimit(smallBodyScaleLimit)
                 .withSmallSignCentered(isSmallSignsCentered())
                 .withStandardSignHeight(standardSignHeight)
@@ -855,8 +855,8 @@ public class DrawingSpecificationsImplementation implements Cloneable,
         setCartoucheLineWidth((float) prefs.getCartoucheLineWidth());
         setColumnSkip((float) prefs.getColumnSkip());
         setLineSkip((float) prefs.getLineSkip());
-        setMaxCadratHeight((float) prefs.getMaxQuadrantHeight());
-        setMaxCadratWidth((float) prefs.getMaxQuadrantWidth());
+        setMaxCadratHeight((float) prefs.getMaxQuadratHeight());
+        setMaxCadratWidth((float) prefs.getMaxQuadratWidth());
         setSmallBodyScaleLimit(prefs.getSmallBodyScaleLimit());
         setStandardSignHeight((float) prefs.getStandardSignHeight());
         setSmallSignsCentered(prefs.isSmallSignCentered());

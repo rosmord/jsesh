@@ -22,7 +22,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * @author rosmord
  */
 
-public class QuadrantLayout {
+public class QuadratLayout {
 
 	// Note : drawingSpecifications, centerSigns, and currentTextOrientation
 	// should probably be stored in an object. "LayoutSpecification" might
@@ -33,7 +33,7 @@ public class QuadrantLayout {
 	private boolean centerSigns;
 	private TextOrientation currentTextOrientation;
 
-	public QuadrantLayout(DrawingSpecification drawingSpecifications,
+	public QuadratLayout(DrawingSpecification drawingSpecifications,
 			boolean centerSigns, TextOrientation currentTextOrientation) {
 		super();
 		this.drawingSpecifications = drawingSpecifications;

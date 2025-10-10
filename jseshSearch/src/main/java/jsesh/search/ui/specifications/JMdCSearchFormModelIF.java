@@ -47,7 +47,7 @@ public interface JMdCSearchFormModelIF extends JSearchFormModelIF {
     /**
      * Do we match the layout of the signs.
      * If yes, no wildcards will be used, and an exact search for
-     * a quadrant with the corresponding layout will be done.
+     * a quadrat with the corresponding layout will be done.
      * @param matchLayout 
      */
     void setMatchLayout(boolean matchLayout);

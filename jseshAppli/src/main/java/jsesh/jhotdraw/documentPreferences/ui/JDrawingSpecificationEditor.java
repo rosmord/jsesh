@@ -89,10 +89,10 @@ public class JDrawingSpecificationEditor {
 		h.addWithLabel("drawingPrefs.a1SignHeight", normalSignHeightField, "w 40pt, sg a, gapright unrelated");
 		h.addWithLabel("drawingPrefs.units", unitField, "wrap");
 		h.addWithLabel("drawingPrefs.lineSkip", lineSkipField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.interQuadrantSkip", interQuadrantSkipField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.interQuadratSkip", interQuadratSkipField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.columnSkip", columnSkipField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.maximalQuadrantHeight", maxCadratHeightField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.maximalQuadrantWidth", maxCadratWidthField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.maximalQuadratHeight", maxCadratHeightField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.maximalQuadratWidth", maxCadratWidthField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.smallFontBodyLimit", smallFontBodyLimitField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.cartoucheLineWidth", cartoucheLineWidthField, "sg a, wrap");
 		h.add(useLinesForShadingCheckBox, "wrap");
@@ -102,7 +102,7 @@ public class JDrawingSpecificationEditor {
 	private JFormattedTextField cartoucheLineWidthField= new JFormattedTextField();
 	private JFormattedTextField columnSkipField=new JFormattedTextField();
 	private JFormattedTextField lineSkipField=new JFormattedTextField();
-	private JFormattedTextField interQuadrantSkipField= new JFormattedTextField();
+	private JFormattedTextField interQuadratSkipField= new JFormattedTextField();
 	private JFormattedTextField maxCadratHeightField=new JFormattedTextField();
 	private JFormattedTextField maxCadratWidthField=new JFormattedTextField();
 	private JFormattedTextField normalSignHeightField=new JFormattedTextField();
@@ -118,8 +118,8 @@ public class JDrawingSpecificationEditor {
 		return columnSkipField;
 	}
 
-	public JFormattedTextField getInterQuadrantSkipField() {
-		return interQuadrantSkipField;
+	public JFormattedTextField getInterQuadratSkipField() {
+		return interQuadratSkipField;
 	}
 	
 	public JFormattedTextField getLineSkipField() {

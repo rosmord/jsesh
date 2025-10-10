@@ -145,7 +145,7 @@ public abstract class ModelElement implements ModelElementObserver,
     /**
      * Build a <em>copy</em> of this object, embedded in an
      * HorizontalListElement. May return null if it's not possible. The result
-     * may then (if not null) be used as part of a new quadrant, in an
+     * may then (if not null) be used as part of a new quadrat, in an
      * {@link HBox}.
      *
      * @return a {@link HorizontalListElement} or null.
@@ -487,7 +487,7 @@ public abstract class ModelElement implements ModelElementObserver,
 
     /**
      * Returns true if the element contains exactly one sign and nothing else. A
-     * quadrant might contain a single sign, but a cartouche is not considered
+     * quadrat might contain a single sign, but a cartouche is not considered
      * as containing a single sign, as it also contains the cartouche lines.
      *
      * <p>

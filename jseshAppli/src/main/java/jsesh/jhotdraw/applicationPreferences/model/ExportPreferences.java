@@ -43,10 +43,10 @@ public final class ExportPreferences implements Cloneable {
 	private RTFExportGranularity rtfExportGranularity = RTFExportGranularity.GROUPED_CADRATS;
 	private RTFExportGraphicFormat rtfExportGraphicFormat = RTFExportGraphicFormat.DEFAULT;
 	private boolean textLayoutRespected = false;
-	private double quadrantHeightSmall = 12;
-	private double quadrantHeightFile = 12;
-	private double quadrantHeightLarge = 18;
-	private double quadrantHeightWysiwyg = 12;
+	private double quadratHeightSmall = 12;
+	private double quadratHeightFile = 12;
+	private double quadratHeightLarge = 18;
+	private double quadratHeightWysiwyg = 12;
 
 	@Override
 	public final ExportPreferences clone() {
@@ -70,20 +70,20 @@ public final class ExportPreferences implements Cloneable {
 		return textLayoutRespected;
 	}
 
-	public double getquadrantHeightSmall() {
-		return quadrantHeightSmall;
+	public double getquadratHeightSmall() {
+		return quadratHeightSmall;
 	}
 
-	public double getquadrantHeightLarge() {
-		return quadrantHeightLarge;
+	public double getquadratHeightLarge() {
+		return quadratHeightLarge;
 	}
 
-	public double getquadrantHeightFile() {
-		return quadrantHeightFile;
+	public double getquadratHeightFile() {
+		return quadratHeightFile;
 	}
 
-	public double getquadrantHeightWysiwyg() {
-		return quadrantHeightWysiwyg;
+	public double getquadratHeightWysiwyg() {
+		return quadratHeightWysiwyg;
 	}
 
 	/**
@@ -113,42 +113,42 @@ public final class ExportPreferences implements Cloneable {
 	}
 
 	/**
-	 * @param quadrantHeightSmall
-	 *            the quadrantHeightSmall to set
+	 * @param quadratHeightSmall
+	 *            the quadratHeightSmall to set
 	 */
-	public void setQuadrantHeightSmall(double quadrantHeightSmall) {
-		this.quadrantHeightSmall = quadrantHeightSmall;
+	public void setQuadratHeightSmall(double quadratHeightSmall) {
+		this.quadratHeightSmall = quadratHeightSmall;
 	}
 
 	/**
-	 * @param quadrantHeightFile
-	 *            the quadrantHeightFile to set
+	 * @param quadratHeightFile
+	 *            the quadratHeightFile to set
 	 */
-	public void setQuadrantHeightFile(double quadrantHeightFile) {
-		this.quadrantHeightFile = quadrantHeightFile;
+	public void setQuadratHeightFile(double quadratHeightFile) {
+		this.quadratHeightFile = quadratHeightFile;
 	}
 
 	/**
-	 * @param quadrantHeightLarge
-	 *            the quadrantHeightLarge to set
+	 * @param quadratHeightLarge
+	 *            the quadratHeightLarge to set
 	 */
-	public void setQuadrantHeightLarge(double quadrantHeightLarge) {
-		this.quadrantHeightLarge = quadrantHeightLarge;
+	public void setQuadratHeightLarge(double quadratHeightLarge) {
+		this.quadratHeightLarge = quadratHeightLarge;
 	}
 
 	/**
-	 * @param quadrantHeightWysiwyg
-	 *            the quadrantHeightWysiwyg to set
+	 * @param quadratHeightWysiwyg
+	 *            the quadratHeightWysiwyg to set
 	 */
-	public void setQuadrantHeightWysiwyg(double quadrantHeightWysiwyg) {
-		this.quadrantHeightWysiwyg = quadrantHeightWysiwyg;
+	public void setQuadratHeightWysiwyg(double quadratHeightWysiwyg) {
+		this.quadratHeightWysiwyg = quadratHeightWysiwyg;
 	}
 
 	public void saveToPrefs(Preferences preferences) {
-		preferences.putDouble("quadrantHeightFile", quadrantHeightFile);
-		preferences.putDouble("quadrantHeightLarge", quadrantHeightLarge);
-		preferences.putDouble("quadrantHeightSmall", quadrantHeightSmall);
-		preferences.putDouble("quadrantHeightWysiwyg", quadrantHeightWysiwyg);
+		preferences.putDouble("quadratHeightFile", quadratHeightFile);
+		preferences.putDouble("quadratHeightLarge", quadratHeightLarge);
+		preferences.putDouble("quadratHeightSmall", quadratHeightSmall);
+		preferences.putDouble("quadratHeightWysiwyg", quadratHeightWysiwyg);
 		preferences
 				.putInt("rtfExportGranularity", rtfExportGranularity.getId());
 		preferences.putInt("rtfExportGraphicFormat",
@@ -159,10 +159,10 @@ public final class ExportPreferences implements Cloneable {
 	public static ExportPreferences getFromPreferences(Preferences prefs) {
 		ExportPreferences r = new ExportPreferences();
 
-		r.quadrantHeightFile = prefs.getDouble("quadrantHeightFile", 12);
-		r.quadrantHeightLarge = prefs.getDouble("quadrantHeightLarge", 20);
-		r.quadrantHeightSmall = prefs.getDouble("quadrantHeightSmall", 12);
-		r.quadrantHeightWysiwyg = prefs.getDouble("quadrantHeightWysiwyg", 12);
+		r.quadratHeightFile = prefs.getDouble("quadratHeightFile", 12);
+		r.quadratHeightLarge = prefs.getDouble("quadratHeightLarge", 20);
+		r.quadratHeightSmall = prefs.getDouble("quadratHeightSmall", 12);
+		r.quadratHeightWysiwyg = prefs.getDouble("quadratHeightWysiwyg", 12);
 
 		r.rtfExportGranularity = RTFExportGranularity.getGranularity(prefs
 				.getInt("rtfExportGranularity", 0));

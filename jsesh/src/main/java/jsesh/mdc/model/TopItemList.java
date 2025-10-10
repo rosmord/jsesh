@@ -353,7 +353,7 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
     }
 
     /**
-     * Gets a MdC representation for the quadrants between start and end, with
+     * Gets a MdC representation for the quadrats between start and end, with
      * possible normalization.
      *
      * @param start

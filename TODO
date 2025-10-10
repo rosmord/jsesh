@@ -63,7 +63,7 @@ A "copy from LaTeX" will also be useful !
 ## High priority
 * full regular expression language.
 * Define document dimensions
-* Redefine MDCPosition to point to anywhere in the text, not just quadrant limits.
+* Redefine MDCPosition to point to anywhere in the text, not just quadrat limits.
 * Automate installer building again.
 
 ## Easy to do
@@ -124,8 +124,8 @@ et on empile les ordres de mise en page (ou, alternativement, on remet en page d
 * (message from N.S.) OK, I've tried it and I see how to do it. 
 You might want to find more accurate descriptive terms for it, since "line spacing"
 makes no sense in English for vertical text. The effect of changing current "Line Spacing"
-is actually, in vertical texts, reducing the space between quadrants, and can thus be confused 
-with "Space between quadrants".
+is actually, in vertical texts, reducing the space between quadrats, and can thus be confused 
+with "Space between quadrats".
 * ALSO: the undo command seems not to apply to Document Properties.
 * Suggestion: any chance of an "Apply" button in the Document Properties box so 
   that one doesn't have to keep closing and opening it to see the effects of the changes?

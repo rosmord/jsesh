@@ -17,15 +17,15 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.quadrant.QuadrantSearchQuery;
+import jsesh.search.quadrat.QuadratSearchQuery;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Test of searches for Specific quadrants.
+ * Test of searches for Specific quadrats.
  * @author rosmord
  */
-public class QuadrantSearcherTest {
+public class QuadratSearcherTest {
     
     private TopItemList parse(String mdc) {
         try {
@@ -45,7 +45,7 @@ public class QuadrantSearcherTest {
     private void doSearch(String message, String mdc, String mdcToSearch, Integer... expected) {
         TopItemList text = parse(mdc);
         TopItemList toSearch= parse(mdcToSearch);
-        QuadrantSearchQuery searcher = new QuadrantSearchQuery(toSearch);
+        QuadratSearchQuery searcher = new QuadratSearchQuery(toSearch);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult
                 = Arrays.asList(expected).stream()
@@ -60,7 +60,7 @@ public class QuadrantSearcherTest {
     }
 
     @Test
-    public void testSearchQuadrant() {
+    public void testSearchQuadrat() {
         doSearch("Simple search", "i-w-r:a-C1-r-ir:t", "D21", 4);
     }
     
@@ -72,8 +72,8 @@ public class QuadrantSearcherTest {
     // The following specification is not yet implemented.
     // (case pending).
 //    @Test
-//    public void testSubQuadrant() {
-//        doSearch("testSubQuadrant", 
+//    public void testSubQuadrat() {
+//        doSearch("testSubQuadrat", 
 //                "G40-tA:N23*1-n:km:niwt*t-m-anx-DA-s",
 //                "km:niwt*X1", 2
 //                );

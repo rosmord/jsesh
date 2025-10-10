@@ -23,7 +23,7 @@ public class EmbeddableEMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	 * Creates the drawer.
 	 * @param viewBuilder the view builder to use
 	 * @param drawingSpecification the drawing specifications
-	 * @param cadratHeight the desired quadrant height
+	 * @param cadratHeight the desired quadrat height
 	 * @param comment a comment to include in the files.
 	 */
 	public EmbeddableEMFSimpleDrawer(DrawingSpecification drawingSpecification, double cadratHeight,

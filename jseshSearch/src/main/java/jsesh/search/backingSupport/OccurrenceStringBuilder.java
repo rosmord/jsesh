@@ -18,7 +18,7 @@ public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 	private int position = -1;
 	
 
-	public List<HieroglyphOccurrence> analyzeQuadrant(TopItemList list) {
+	public List<HieroglyphOccurrence> analyzeQuadrat(TopItemList list) {
 		this.codes = new ArrayList<>();
 		for (int i = 0; i < list.getNumberOfChildren(); i++) {
 			this.position = i;

@@ -8,6 +8,17 @@ When the software compiles, replace all variable named "drawingSpecifications" b
 
 ## 2025/10/10
 
+- (cleaned up master branch), probably not the good time to do this; merged both.
+- how to proceed now:
+  - start with `mdcDisplayer`
+    - fix `layout`, `draw` and `drawingElements`
+      - LineLayout and ColumnLayout
+      - QuadratLayout
+      - 
+    - then move to components and clipboard
+  - then fix the rest of jsesh module
+  - then the rest of the world.
+
 ## 2025/10/08
 
 
@@ -237,7 +248,7 @@ export a selection.
 ## 2018/10/16
 
 I'm trying to clean the graphical export system.
-Many things (like quadrant sizes) are computed 
+Many things (like quadrat sizes) are computed 
 in various places, and it hurts. 
 
 Now, I was looking at the classes in RTFSimpleExporter
@@ -257,7 +268,7 @@ so bad. The names of classes need to be updated
 to fit their actual use. Also, the scaling/sizing
 system is flawed. We have two things called CadratHeight
 which behave differently : an "inner" height, which
-is a question of proportion between signs and quadrant height,
+is a question of proportion between signs and quadrat height,
 and the actual height in the resulting file.
 
 While renaming, I guess I should rename setShadeAfter, which 

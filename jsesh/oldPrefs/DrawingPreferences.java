@@ -138,7 +138,7 @@ public interface DrawingPreferences {
     boolean isSmallSignsCentered();
 
     /**
-     * Choose if quadrants made of a "low sign" like "X1" should be vertically
+     * Choose if quadrats made of a "low sign" like "X1" should be vertically
      * centered.
      *
      * @param centered
@@ -178,14 +178,14 @@ public interface DrawingPreferences {
     void setLineSkip(float f);
 
     /**
-     * gets the separation between adjacent quadrants.
+     * gets the separation between adjacent quadrats.
      *
      * @return the separation, in points.
      */
     float getSmallSkip();
 
     /**
-     * sets the separation between adjacent quadrants.
+     * sets the separation between adjacent quadrats.
      *
      * @param smallSkip the skip, in points.
      */

@@ -35,12 +35,12 @@ public class AbsoluteGroupBuilder {
 	 * @return a new AbsoluteGroup.
 	 */
 	
-	public AbsoluteGroup createAbsoluteGroupFrom(List topItems,
+	public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems,
 			DrawingSpecification specs) {
 		AbsoluteGroup result = null;
 
 		if (topItems.size() == 1) {
-			TopItem item = (TopItem) topItems.get(0);
+			TopItem item = topItems.get(0);
 			InnerGroup groups[] = InnerGroupLister.getInnerGroups(item);
 			if (groups.length == 1 && groups[0] instanceof AbsoluteGroup) {
 				result = (AbsoluteGroup) groups[0].deepCopy();

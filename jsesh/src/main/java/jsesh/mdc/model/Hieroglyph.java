@@ -371,11 +371,11 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     }
 
     /**
-     * Returns true if this sign stands alone in a quadrant.
+     * Returns true if this sign stands alone in a quadrat.
      *
      * @return
      */
-    public boolean isAloneInQuadrant() {
+    public boolean isAloneInQuadrat() {
         ModelElement elt = getParent();
         while (elt != null && !(elt instanceof Cadrat)) {
             elt = elt.getParent();

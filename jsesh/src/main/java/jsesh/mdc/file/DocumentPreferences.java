@@ -43,9 +43,9 @@ public class DocumentPreferences {
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH)
 	private double cartoucheLineWidth = 1;
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH)
-	private double maxQuadrantWidth = 22;
+	private double maxQuadratWidth = 22;
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT)
-	private double maxQuadrantHeight = 18;
+	private double maxQuadratHeight = 18;
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_LINE_SKIP)
 	private double lineSkip = 6;
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_COLUMN_SKIP)
@@ -229,22 +229,22 @@ public class DocumentPreferences {
 	}
 
 	/**
-	 * @param maxQuadrantWidth
-	 *            the maxQuadrantWidth to set
+	 * @param maxQuadratWidth
+	 *            the maxQuadratWidth to set
 	 */
-	public DocumentPreferences withMaxQuadrantWidth(double maxQuadrantWidth) {
+	public DocumentPreferences withMaxQuadratWidth(double maxQuadratWidth) {
 		DocumentPreferences result = this.copy();
-		result.maxQuadrantWidth = maxQuadrantWidth;
+		result.maxQuadratWidth = maxQuadratWidth;
 		return result;
 	}
 
 	/**
-	 * @param maxQuadrantHeight
-	 *            the maxQuadrantHeight to set
+	 * @param maxQuadratHeight
+	 *            the maxQuadratHeight to set
 	 */
-	public DocumentPreferences withMaxQuadrantHeight(double maxQuadrantHeight) {
+	public DocumentPreferences withMaxQuadratHeight(double maxQuadratHeight) {
 		DocumentPreferences result = this.copy();
-		result.maxQuadrantHeight = maxQuadrantHeight;
+		result.maxQuadratHeight = maxQuadratHeight;
 		return result;
 	}
 
@@ -345,17 +345,17 @@ public class DocumentPreferences {
 	}
 
 	/**
-	 * @return the maxQuadrantWidth
+	 * @return the maxQuadratWidth
 	 */
-	public double getMaxQuadrantWidth() {
-		return maxQuadrantWidth;
+	public double getMaxQuadratWidth() {
+		return maxQuadratWidth;
 	}
 
 	/**
-	 * @return the maxQuadrantHeight
+	 * @return the maxQuadratHeight
 	 */
-	public double getMaxQuadrantHeight() {
-		return maxQuadrantHeight;
+	public double getMaxQuadratHeight() {
+		return maxQuadratHeight;
 	}
 
 	/**

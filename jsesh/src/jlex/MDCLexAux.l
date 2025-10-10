@@ -259,7 +259,7 @@ TRUESPACE=([ \t\n\015_])
 	
 		return buildMDCSymbol(ZONE);
 	}
-<YYINITIAL>"quadrant" {
+<YYINITIAL>"quadrat" {
 	
 		return buildMDCSymbol(CADRAT);
 	}

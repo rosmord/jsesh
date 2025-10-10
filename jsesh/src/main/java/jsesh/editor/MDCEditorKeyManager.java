@@ -220,7 +220,7 @@ class MDCEditorKeyManager extends KeyAdapter {
             addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
             addEditingModeAction(ActionsID.SET_MODE_UPPERCASE_TRANSLIT, 'T');
 
-            // Quadrant Shading 
+            // Quadrat Shading 
             for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
