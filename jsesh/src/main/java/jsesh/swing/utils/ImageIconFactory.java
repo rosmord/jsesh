@@ -43,12 +43,9 @@ public class ImageIconFactory {
             .geometry(
                 g -> g.topMargin(0)
                     .leftMargin(0)
-            ))
-        
-        PageLayout pageLayout = drawingSpecifications.getPageLayout();
-        pageLayout.setLeftMargin(0);
-        pageLayout.setTopMargin(0);
-        drawingSpecifications.setPageLayout(pageLayout);
+            )            
+            .build();
+                    
         mdcDrawingFacade.setDrawingSpecifications(drawingSpecifications);
         mdcDrawingFacade.setPhilologySign(true);
         setCadratHeight(30);

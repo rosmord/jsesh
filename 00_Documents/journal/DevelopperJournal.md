@@ -6,6 +6,8 @@ This journal should only be edited and modified in the Development branch.
 
 When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 
+## 2025/10/10
+
 ## 2025/10/08
 
 
