@@ -8,12 +8,18 @@ When the software compiles, replace all variable named "drawingSpecifications" b
 
 ## 2025/10/10
 
+TODO : add a RenderingContext parameter, which should **not** be part of JSeshStyle.
+
+  - `JSeshStyle` : the way you want the text to be drawn;
+  - `RenderingContext` : the technical constraints you meet.
+
 - (cleaned up master branch), probably not the good time to do this; merged both.
 - how to proceed now:
   - start with `mdcDisplayer`
     - fix `layout`, `draw` and `drawingElements`
       - LineLayout and ColumnLayout
       - QuadratLayout
+      - anxnb
       - 
     - then move to components and clipboard
   - then fix the rest of jsesh module

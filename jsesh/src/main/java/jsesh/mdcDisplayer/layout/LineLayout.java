@@ -9,6 +9,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
@@ -17,8 +19,6 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 
 /**
  * Expert for laying out text organised in lines.
@@ -68,7 +68,7 @@ public class LineLayout extends TopItemLayout {
 
     private Point2D.Double zoneOriginPosition;
 
-    private final DrawingSpecification drawingSpecifications;
+    private final JSeshStyle jseshStyle;
 
     /**
      * The relative position given by the previous subview.
@@ -91,16 +91,16 @@ public class LineLayout extends TopItemLayout {
 
     /**
      * @param documentView
-     * @param drawingSpecifications
+     * @param jseshStyle
      */
     public LineLayout(MDCView documentView,
-            DrawingSpecification drawingSpecifications) {
+            JSeshStyle jseshStyle) {
         super();
         this.documentView = documentView;
         documentArea = new Rectangle2D.Double();
         insertionPoint = new Point2D.Double();
-        this.drawingSpecifications = drawingSpecifications;
-        currentTextDirection = drawingSpecifications.getTextDirection();
+        this.jseshStyle = jseshStyle;
+        currentTextDirection = jseshStyle.options().textDirection();
     }
 
     /*
@@ -128,7 +128,7 @@ public class LineLayout extends TopItemLayout {
         if (!zone.isEmpty()) {
             flushZone();
         }
-        if (drawingSpecifications.isJustified()) {
+        if (jseshStyle.options().justified()) {
             // Compute the maximal width of zones.
             double width = 0;
             for (Zone z : allZones) {
@@ -137,7 +137,7 @@ public class LineLayout extends TopItemLayout {
                 }
             }
             width = width
-                    - drawingSpecifications.getPageLayout().getLeftMargin();
+                    - jseshStyle.geometry().leftMargin();
             // Justify all zones to this width.
             for (int i = 0; i < allZones.size(); i++) {
                 Zone z = allZones.get(i);
@@ -145,8 +145,8 @@ public class LineLayout extends TopItemLayout {
                 // This is a temporary fix. 
                 // We should get somehow the information that the zone "would be centered".
                 if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {
-                    z.justifyWidthTo(drawingSpecifications.getPageLayout()
-                            .getLeftMargin(), width);
+                    z.justifyWidthTo(jseshStyle.geometry()
+                            .leftMargin(), width);
                 }
             }
         }
@@ -154,11 +154,11 @@ public class LineLayout extends TopItemLayout {
         documentArea
                 .add(new Point2D.Double(
                                 documentArea.getMaxX()
-                                + drawingSpecifications.getPageLayout()
-                                .getLeftMargin(), documentArea
+                                + jseshStyle.geometry()
+                                .leftMargin(), documentArea
                                 .getMinY()
-                                + drawingSpecifications.getPageLayout()
-                                .getTopMargin()));
+                                + jseshStyle.geometry()
+                                .topMargin()));
     }
 
     /**
@@ -189,7 +189,7 @@ public class LineLayout extends TopItemLayout {
     }
 
     private void initZoneForPage() {
-        zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+        zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
         zoneOriginPosition = new Point2D.Double();
     }
 
@@ -216,14 +216,14 @@ public class LineLayout extends TopItemLayout {
         // Now, we don't want this to cause problems, such as very small line
         // skips, or, worse
         // parts of cartouches being cut.
-        PageLayout pageLayout = drawingSpecifications.getPageLayout();
+        GeometrySpecification pageLayout = jseshStyle.geometry();
 
         // Compute the margins we want.
-        float marginx = pageLayout.getLeftMargin();
+        float marginx = pageLayout.leftMargin();
         float marginy = 0f;
 
         if (addTopMargin) {
-            marginy = pageLayout.getTopMargin();
+            marginy = pageLayout.topMargin();
         }
 
         // change the zoneStart for this zone, so that the real top
@@ -242,7 +242,7 @@ public class LineLayout extends TopItemLayout {
                 .add(new Rectangle2D.Double(zoneOriginPosition.x + minx,
                                 zoneOriginPosition.y + miny, zone.getWidth(), zone
                                 .getHeight()));
-        if (drawingSpecifications.isJustified()) {
+        if (jseshStyle.options().justified()) {
             allZones.add(zone);
         }
         zone = null;
@@ -285,8 +285,8 @@ public class LineLayout extends TopItemLayout {
             // zone).
             // that is : this line's height, plus the necessary skip, plus extra
             // spacing for -!=...% notation.
-            double verticalSkip = (zone.getHeight() + zone.getMinY() + drawingSpecifications
-                    .getLineSkip());
+            double verticalSkip = (zone.getHeight() + zone.getMinY() + jseshStyle.geometry()
+                    .lineSkip());
             if (b.getSpacing() != 100) {
                 verticalSkip = verticalSkip * b.getSpacing() / 100f;
             }
@@ -297,7 +297,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
 
             // create a new zone.
-            zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+            zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
             zoneOriginPosition.y += verticalSkip;
             addTopMargin = false;
 
@@ -316,21 +316,21 @@ public class LineLayout extends TopItemLayout {
             // flush the current line.
             flushZone();
             // If the page break starts a new page, we won't draw anything.
-            if (!drawingSpecifications.paged()) {
+            if (!jseshStyle.options().paged()) {
 
                 // build a zone containing only the page break.
                 zone = new Zone(0f, 0f);
-                zoneOriginPosition.y += drawingSpecifications.getLineSkip() + dh;
+                zoneOriginPosition.y += jseshStyle.geometry().lineSkip() + dh;
 
                 subView.setWidth(32f);
-                subView.setHeight(drawingSpecifications.getLineSkip());
+                subView.setHeight(jseshStyle.geometry().lineSkip());
                 zone.add(subView);
                 // We cheat : the subview's dimension is very large, but its width
                 // for computation purposes
                 // was 0.
                 flushZone();
                 // Zone for first line of the next page
-                zone = new Zone(0, drawingSpecifications.getMaxCadratHeight());
+                zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
             } else {
                 initZoneForPage();
             }
@@ -352,7 +352,7 @@ public class LineLayout extends TopItemLayout {
         @Override
         public void visitTabStop(TabStop tab) {
             float pos = tab.getStopPos()
-                    * drawingSpecifications.getTabUnitWidth();
+                    * jseshStyle.geometry().tabUnitWidth();
             zone.getCurrentPoint().setLocation(pos, 0);
             zone.add(subView);
         }
@@ -390,7 +390,7 @@ public class LineLayout extends TopItemLayout {
             // the skip is "integrated" in v,
 
             if (subView.getWidth() != 0) {
-                dx = subView.getWidth() + drawingSpecifications.getSmallSkip();
+                dx = subView.getWidth() + jseshStyle.geometry().smallSkip();
             }
             // nextViewPosition = subView.getNextViewPosition();
             zone.add(subView);

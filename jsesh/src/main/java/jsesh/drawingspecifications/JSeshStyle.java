@@ -16,6 +16,7 @@ public record JSeshStyle(
         ColorSpecification colors,
         FontSpecification fonts,
         RenderingOptions options) {
+            
     public static final JSeshStyle DEFAULT = new JSeshStyle(
             GeometrySpecification.DEFAULT,
             ColorSpecification.DEFAULT,
@@ -28,6 +29,32 @@ public record JSeshStyle(
 
     /**
      * A builder for JSeshStyle objects.
+     * 
+     * <p> As the JSeshStyle contains nested records, we use a nice pattern, the functional builder pattern.
+     * <code>JSeshStyle</code> has a Builder, but so does, for example, <code>ColorSpecification</code>.
+     * 
+     * In theory, to change a color, we should write something like:
+     * 
+     * <pre>
+     * jseshStyle = jseshStyle.copy().
+     *                colors(
+     *                   jseshStyle.colors().builder().
+     *                      blackColor(Color.GRAY)
+     *                      .build()
+     *                ).build();
+     * </pre>
+     * which is a bit cumbersome to write, which much boilerplate.
+     * 
+     * The <em>functional builder pattern</em> will take a function as argument.
+     * this function will take a builder initialized with the current colors, and its task will be
+     * to use this builder to modify those colors. The above code becomes:
+     * <pre>
+     * jseshStyle = jseshStyle.copy()
+     *              .colors( cBuild ->  cBuild.blackColor(Color.GRAY))
+     *              .build();
+     * </pre>
+     *
+     *         
      */
     public static class Builder {
         private GeometrySpecification geometry;
@@ -48,6 +75,11 @@ public record JSeshStyle(
             return this;
         }
 
+        /**
+         * Functional builder pattern for geometry.
+         * @param g a function which takes a builder use it to prepare a modified copy of the current object, and returns it.
+         * @return
+         */
         public Builder geometry(Function<GeometrySpecification.Builder,GeometrySpecification.Builder> g) {
             this.geometry = g.apply(this.geometry.copy()).build();
             return this;
@@ -58,6 +90,11 @@ public record JSeshStyle(
             return this;
         }
 
+        /**
+         * Functional builder pattern for colors.
+         * @param c
+         * @return
+         */
         public Builder colors(Function<ColorSpecification.Builder, ColorSpecification.Builder> c) {
             this.colors = c.apply(this.colors.copy()).build();
             return this;
@@ -68,6 +105,11 @@ public record JSeshStyle(
             return this;
         }
 
+        /**
+         * Functional builder pattern for Fonts.
+         * @param f
+         * @return
+         */
         public Builder fonts(Function<FontSpecification.Builder, FontSpecification.Builder> f) {
             this.fonts = f.apply(this.fonts.copy()).build();
             return this;

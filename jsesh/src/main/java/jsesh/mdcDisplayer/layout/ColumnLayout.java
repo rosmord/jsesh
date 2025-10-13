@@ -8,6 +8,7 @@ package jsesh.mdcDisplayer.layout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.AlphabeticText;
@@ -17,7 +18,6 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Expert for laying out text organised in columns.
@@ -46,7 +46,7 @@ public class ColumnLayout extends TopItemLayout {
 
 	Point2D.Double zoneStart;
 
-	DrawingSpecification drawingSpecifications;
+	JSeshStyle jseshStyle;
 
 	TextDirection currentTextDirection;
 
@@ -58,16 +58,15 @@ public class ColumnLayout extends TopItemLayout {
 
 	/**
 	 * @param documentView
-	 * @param drawingSpecifications
+	 * @param jseshStyle
 	 */
 	public ColumnLayout(MDCView documentView,
-			DrawingSpecification drawingSpecifications) {
-		super();
+			JSeshStyle jseshStyle) {
 		this.documentView = documentView;
 		documentArea = new Rectangle2D.Double();
 		insertionPoint = new Point2D.Double();
-		this.drawingSpecifications = drawingSpecifications;
-		currentTextDirection = drawingSpecifications.getTextDirection();
+		this.jseshStyle = jseshStyle;
+		currentTextDirection = jseshStyle.options().textDirection();
 	}
 
 	/*
@@ -77,7 +76,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * jsesh.mdcDisplayer.draw.TopItemLayout#layoutElement(jsesh.mdcDisplayer
 	 * .mdcView.MDCView)
 	 */
-        @Override
+	@Override
 	public void layoutElement(MDCView subView) {
 		this.subView = subView;
 		subView.getModel().accept(aux);
@@ -89,14 +88,14 @@ public class ColumnLayout extends TopItemLayout {
 	 * 
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#endLayout()
 	 */
-        @Override
+	@Override
 	public void endLayout() {
 		if (!zone.isEmpty()) {
 			flushZone();
 		}
 		// add a margin
 		documentArea.add(new Point2D.Double(documentArea.getMaxX()
-				+ drawingSpecifications.getPageLayout().getLeftMargin(),
+				+ jseshStyle.geometry().leftMargin(),
 				documentArea.getMinY()));
 	}
 
@@ -106,7 +105,7 @@ public class ColumnLayout extends TopItemLayout {
 	 * @return the area for the complete document.
 	 */
 
-        @Override
+	@Override
 	public Rectangle2D getDocumentArea() {
 		return this.documentArea;
 	}
@@ -116,20 +115,22 @@ public class ColumnLayout extends TopItemLayout {
 	 * 
 	 * @see jsesh.mdcDisplayer.draw.TopItemLayout#initState()
 	 */
-        @Override
+	@Override
 	public void startLayout() {
 		documentView.reset();
 		// Pseudo relative position for first element.
-		drawingSpecifications.setTextOrientation(TextOrientation.VERTICAL);
+		// Note : this is somehow problematic...
+		jseshStyle = jseshStyle.copy()
+				.options(opt -> opt.textOrientation(TextOrientation.VERTICAL)).build();
 		documentView.setDirection(currentTextDirection);
 		zone = createNewZone();
-		zoneStart = new Point2D.Double(drawingSpecifications.getPageLayout()
-				.getLeftMargin(), 0);
+		zoneStart = new Point2D.Double(jseshStyle.geometry()
+				.leftMargin(), 0);
 	}
 
 	private Zone createNewZone() {
 		Zone z = new Zone(0, 0);
-		z.moveCurrentPoint(0, drawingSpecifications.getPageLayout().getTopMargin());
+		z.moveCurrentPoint(0, jseshStyle.geometry().topMargin());
 		return z;
 	}
 
@@ -171,10 +172,10 @@ public class ColumnLayout extends TopItemLayout {
 		 * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
 		 */
 
-                @Override
+		@Override
 		public void visitLineBreak(LineBreak b) {
 			subView.setHeight(0.1f);
-			subView.setWidth(drawingSpecifications.getMaxCadratWidth());
+			subView.setWidth(jseshStyle.geometry().maxCadratWidth());
 			// Add a minimal line break height to the current zone
 			// (else empty lines would be 0 height)
 			// Write
@@ -183,7 +184,7 @@ public class ColumnLayout extends TopItemLayout {
 			flushZone();
 
 			zoneStart.x += zone.getWidth()
-					+ drawingSpecifications.getColumnSkip();
+					+ jseshStyle.geometry().columnSkip();
 
 			// create a new zone ?
 			zone = createNewZone();
@@ -196,10 +197,10 @@ public class ColumnLayout extends TopItemLayout {
 		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
 		 * .PageBreak)
 		 */
-                @Override
+		@Override
 		public void visitPageBreak(PageBreak b) {
 			// TEMPORARY.
-			if (!drawingSpecifications.paged())
+			if (!jseshStyle.options().paged())
 				visitLineBreak(new LineBreak());
 		}
 
@@ -210,7 +211,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
 		 * TabStop)
 		 */
-                @Override
+		@Override
 		public void visitTabStop(TabStop t) {
 			visitDefault(t);
 		}
@@ -225,7 +226,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * 
 		 * @param t
 		 */
-                @Override
+		@Override
 		public void visitAlphabeticText(AlphabeticText t) {
 			subView.setDeltaBaseY(0); // No y alignment required !
 			visitDefault(t);
@@ -242,7 +243,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
 		 */
 
-                @Override
+		@Override
 		public void visitDefault(ModelElement t) {
 			// add the new view's bounding box to the current column.
 			zone.add(subView);
@@ -251,7 +252,7 @@ public class ColumnLayout extends TopItemLayout {
 			// the skip is "integrated" in v,
 			if (subView.getHeight() != 0) {
 				zone.moveCurrentPoint(0, subView.getHeight()
-						+ drawingSpecifications.getLineSkip());
+						+ jseshStyle.geometry().lineSkip());
 			}
 		}
 	}
