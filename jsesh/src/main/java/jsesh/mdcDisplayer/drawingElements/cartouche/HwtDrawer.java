@@ -14,13 +14,14 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import jsesh.drawingspecifications.CartoucheSizeHelper;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-
 /**
  * A drawer for Hwt-signs.
  *
@@ -28,13 +29,14 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  */
 public class HwtDrawer extends AbstractCartoucheDrawer {
 
-    public HwtDrawer(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        super(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+    public HwtDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
     }
 
     @Override
     public void drawHorizontal(Cartouche cartouche) {
-        Stroke s = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+        Stroke s = geometry.cartoucheStroke();
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
@@ -49,14 +51,14 @@ public class HwtDrawer extends AbstractCartoucheDrawer {
         }
 
         // Compute horizontal space before and after the cartouche's body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), leftElement);
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), rightElement);
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         // The respective limits of this cartouche's parts.
         //
@@ -74,10 +76,6 @@ public class HwtDrawer extends AbstractCartoucheDrawer {
         p4 = new Point2D.Float(currentView.getWidth() - w2, currentView
                 .getHeight()
                 - dy);
-
-        // The necessary skip to get a nice bezier curve for our cartouche
-        // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
 
         g.setStroke(s);
         // Start
@@ -105,17 +103,18 @@ public class HwtDrawer extends AbstractCartoucheDrawer {
 
     @Override
     public void drawVertical(Cartouche cartouche) {
-        Stroke s = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+        Stroke s = geometry.cartoucheStroke();
         float w1, w2;
         // Compute vertical space before and after the cartouche's body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getStartPart());
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getEndPart());
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         Point2D.Float p1, p2, p3, p4;
 
@@ -126,10 +125,7 @@ public class HwtDrawer extends AbstractCartoucheDrawer {
                 - dy - w2);
         p4 = new Point2D.Float(dx, currentView.getHeight() - dy - w2);
 
-        // The necessary skip to get a nice bezier curve for our cartouche
-        // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
-
+       
         g.setStroke(s);
         // Start
         if (cartouche.getStartPart() != 0) {

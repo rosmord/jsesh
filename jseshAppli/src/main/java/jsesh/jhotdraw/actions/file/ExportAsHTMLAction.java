@@ -36,7 +36,7 @@ public class ExportAsHTMLAction extends AbstractViewAction {
 			htmlExporter.setBaseName(jSeshView.getBaseFileName());
 			if (htmlExporter.getOptionPanel(jSeshView, "Export as HTML")
 					.askAndSet() == JOptionPane.OK_OPTION) {
-				htmlExporter.setDrawingSpecifications(jSeshView
+				htmlExporter.setJseshStyle(jSeshView
 						.getDrawingSpecifications());
 				htmlExporter.exportModel(jSeshView.getTopItemList());
 			}

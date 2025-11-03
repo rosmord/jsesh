@@ -67,7 +67,7 @@ public class RTFExporter {
     public static final int WMF = 2;
     
     private int pictureType = EMF;
-    private DrawingSpecification drawingSpecifications;
+    private PaintingSpecifications drawingSpecifications;
     private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
     private SimpleRTFWriter rtfWriter;
 
@@ -146,7 +146,7 @@ public class RTFExporter {
      * @param drawingSpecifications The drawingSpecifications to set.
      */
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications.copy();
         this.drawingSpecifications.setGrayColor(new Color(200, 200, 200));
     }

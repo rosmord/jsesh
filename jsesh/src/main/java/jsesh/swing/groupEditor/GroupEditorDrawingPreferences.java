@@ -32,10 +32,10 @@ public class GroupEditorDrawingPreferences {
      * The drawing specifications. TODO find a good policy for drawing
      * specifications !!!!
      */
-    private DrawingSpecification drawingSpecifications;
+    private PaintingSpecifications drawingSpecifications;
     
     
-    public GroupEditorDrawingPreferences(DrawingSpecification drawingSpecifications) {
+    public GroupEditorDrawingPreferences(PaintingSpecifications drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
 	}
 
@@ -76,11 +76,11 @@ public class GroupEditorDrawingPreferences {
         this.sideMargin = sideMargin;
     }
 
-    public DrawingSpecification getDrawingSpecifications() {
+    public PaintingSpecifications getDrawingSpecifications() {
         return drawingSpecifications;
     }
 
-    public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+    public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications;
     }
 

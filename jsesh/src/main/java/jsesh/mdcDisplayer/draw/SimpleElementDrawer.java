@@ -50,7 +50,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      * {@inheritDoc}
      */
     @Override
-    public void prepareDrawing(DrawingSpecification drawingSpecifications) {
+    public void prepareDrawing(PaintingSpecifications drawingSpecifications) {
         super.prepareDrawing(drawingSpecifications);
         // shading = false;
         setDrawingState(new TopItemState());

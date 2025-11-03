@@ -14,7 +14,7 @@ class PDFExportHelper {
 	 * @param model
 	 * @return
 	 */
-	public static String buildCommentText(DrawingSpecification specification,
+	public static String buildCommentText(PaintingSpecifications specification,
 			TopItemList model) {
 
 		MDCDocument doc = new MDCDocument(model, specification);
@@ -31,7 +31,7 @@ class PDFExportHelper {
 	 * @param drawingSpecifications
 	 */
 	public static void ensureCMYKColorSpace(
-			DrawingSpecification drawingSpecifications) {
+			PaintingSpecifications drawingSpecifications) {
 
 		// Use PANTONE COLOR
 		PdfSpotColor redSpot = new PdfSpotColor("PANTONE 187 C", 1,

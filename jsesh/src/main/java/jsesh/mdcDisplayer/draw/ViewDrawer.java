@@ -12,10 +12,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import jsesh.drawingspecifications.ColorSpecification;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.RenderingOptions;
+import jsesh.drawingspecifications.LayoutOptions;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -618,7 +618,7 @@ public class ViewDrawer {
                 y = subv.getPosition().y;
 
                 GeometrySpecification geometry = ds.geometry();
-                RenderingOptions options = ds.options();
+                LayoutOptions options = ds.options();
 
                 // First test, the same in all cases : does the point fall
                 // inside a view ?
@@ -857,9 +857,9 @@ public class ViewDrawer {
      * @param v
      */
     private void testAndDrawCursor(Graphics2D g, MDCView v) {
-        RenderingOptions options = jseshStyles.options();
+        LayoutOptions options = jseshStyles.options();
         GeometrySpecification geometry = jseshStyles.geometry();
-        ColorSpecification colors = jseshStyles.colors();
+        PaintingSpecifications colors = jseshStyles.colors();
         // Will perhaps be passed as arguments or taken from fields like
         // currentTextDirection.
         TextDirection textDirection = options.textDirection();

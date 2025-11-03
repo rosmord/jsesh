@@ -14,12 +14,14 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import jsesh.drawingspecifications.CartoucheSizeHelper;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * A drawer for Serekh.
@@ -28,13 +30,15 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  */
 public class SerekhDrawer extends AbstractCartoucheDrawer {
 
-    public SerekhDrawer(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        super(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+    public SerekhDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
     }
 
     @Override
     public void drawHorizontal(Cartouche cartouche) {
-        Stroke s = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+
+        Stroke s = geometry.cartoucheStroke();
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
@@ -49,14 +53,14 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
         }
 
         // Compute horizontal space before and after the cartouche's body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), leftElement);
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), rightElement);
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         // The respective limits of this cartouche's parts.
         //
@@ -74,10 +78,6 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
         p4 = new Point2D.Float(currentView.getWidth() - w2, currentView
                 .getHeight()
                 - dy);
-
-        // The necessary skip to get a nice bezier curve for our cartouche
-        // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
 
         g.setStroke(s);
         // Start
@@ -116,8 +116,8 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
 
     @Override
     public void drawVertical(Cartouche cartouche) {
-
-        Stroke s = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+        Stroke s = geometry.cartoucheStroke();
         /*
 		 * float w1 = drawingSpecifications.getCartoucheStartWidth(c.getType(),
 		 * c .getStartPart()); float w2 =
@@ -131,14 +131,14 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
         }
 
         // Compute vertical space before and after the cartouche's body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getStartPart());
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getEndPart());
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         // The respective limits of this cartouche's parts.
         //
@@ -157,10 +157,6 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
                 .getHeight()
                 - dy - w2);
         p4 = new Point2D.Float(dx, currentView.getHeight() - dy - w2);
-
-        // The necessary skip to get a nice bezier curve for our cartouche
-        // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
 
         g.setStroke(s);
         // Start
@@ -206,6 +202,7 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
      * @param pb bottom corner of the end of the palace facade
      */
     private void drawSerekhEnd(Point2D p1, Point2D p2, Point2D pa, Point2D pb) {
+        GeometrySpecification geometry = jseshStyle.geometry();
         if (currentTextOrientation.isHorizontal()) {
             // The width of this part :
             double dx = pa.getX() - p1.getX();
@@ -219,12 +216,12 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
             g.draw(new Line2D.Double(p2, pb));
             g.draw(new Line2D.Double(line1x, p1.getY(), line1x, p2.getY()));
 
-            g.setStroke(drawingSpecifications.fineStroke());
+            g.setStroke(geometry.fineStroke());
             g.draw(new Line2D.Double(line2x, p1.getY(), line2x, p2.getY()));
             g.draw(new Line2D.Double(line3x, p1.getY(), line3x, p2.getY()));
 
             // Vertical positions for inner lines :
-            g.setStroke(drawingSpecifications.fineStroke());
+            g.setStroke(geometry.fineStroke());
 
             // recesses
             // inner recesses
@@ -262,11 +259,11 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
 
             g.draw(new Line2D.Double(p1.getX(), line1y, p2.getX(), line1y));
 
-            g.setStroke(drawingSpecifications.fineStroke());
+            g.setStroke(geometry.fineStroke());
             g.draw(new Line2D.Double(p1.getX(), line2y, p2.getX(), line2y));
             g.draw(new Line2D.Double(p1.getX(), line3y, p2.getX(), line3y));
 
-            g.setStroke(drawingSpecifications.fineStroke());
+            g.setStroke(geometry.fineStroke());
 
             // recesses
             // inner recesses base line
@@ -287,7 +284,7 @@ public class SerekhDrawer extends AbstractCartoucheDrawer {
             }
 
         }
-        g.setStroke(drawingSpecifications.buildCartoucheStroke('s'));
+        g.setStroke(geometry.cartoucheStroke());
 
     }
 }

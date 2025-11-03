@@ -1440,7 +1440,7 @@ public class JMDCEditorWorkflow implements Observer, MDCCaretChangeListener {
      * nothing was created.
      */
     // UNDO/REDO
-    public AbsoluteGroup buildAbsoluteGroup(DrawingSpecification drawingSpecification) {
+    public AbsoluteGroup buildAbsoluteGroup(PaintingSpecifications drawingSpecification) {
     	AbsoluteGroupBuilder groupBuilder = new AbsoluteGroupBuilder();
         AbsoluteGroup result = null;
         // ensure there is a selection if possible.

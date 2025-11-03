@@ -117,9 +117,9 @@ public final class JSeshViewModel {
         mdcDocument = newDocument;
         mdcDocument.getHieroglyphicTextModel().addObserver(delegatingObserver);
         DocumentPreferences prefs = mdcDocument.getDocumentPreferences();
-        DrawingSpecification ds = getEditor().getDrawingSpecifications();
+        PaintingSpecifications ds = getEditor().getDrawingSpecifications();
         ds.applyDocumentPreferences(prefs);
-        getEditor().setDrawingSpecifications(ds);
+        getEditor().setJseshStyle(ds);
         getEditor().setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
     }
 
@@ -338,8 +338,8 @@ public final class JSeshViewModel {
     }
 
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
-        getEditor().setDrawingSpecifications(drawingSpecifications);
+            PaintingSpecifications drawingSpecifications) {
+        getEditor().setJseshStyle(drawingSpecifications);
         getMdcDocument().setDocumentPreferences(drawingSpecifications.extractDocumentPreferences());
     }
 

@@ -119,7 +119,7 @@ public class HTMLExporter {
      */
     private int newLinesReplacement;
 
-    private DrawingSpecification drawingSpecifications;
+    private PaintingSpecifications drawingSpecifications;
 
     public HTMLExporter() {
         setDefaults();
@@ -137,14 +137,14 @@ public class HTMLExporter {
         pictureScale = 100;
         centerPictures = true;
 
-        setDrawingSpecifications(new DrawingSpecificationsImplementation());
+        setJseshStyle(new DrawingSpecificationsImplementation());
     }
 
     /**
      * @param drawingSpecifications The drawingSpecifications to set.
      */
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications.copy();
         PageLayout pageLayout = this.drawingSpecifications.getPageLayout();
         pageLayout.setTopMargin(0);
@@ -155,7 +155,7 @@ public class HTMLExporter {
     /**
      * @return Returns the drawingSpecifications.
      */
-    public DrawingSpecification getDrawingSpecifications() {
+    public PaintingSpecifications getDrawingSpecifications() {
         return drawingSpecifications;
     }
 

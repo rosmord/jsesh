@@ -86,7 +86,7 @@ public class PDFExporter {
     public void exportModel(TopItemList model, MDCCaret caret)
             throws IOException {
         if (pdfExportPreferences.isEncapsulated()) {
-            DrawingSpecification specs = pdfExportPreferences
+            PaintingSpecifications specs = pdfExportPreferences
                     .getDrawingSpecifications().copy();
             //  PDFDataSaver is somehow redundant with PDFExporter...  
             PDFDataSaver pdfDataSaver = new PDFDataSaver(specs,
@@ -112,7 +112,7 @@ public class PDFExporter {
                 caret = MDCCaret.buildWholeTextCaret(model);
             }
 
-            DrawingSpecification actualDrawingSpecification = pdfExportPreferences
+            PaintingSpecifications actualDrawingSpecification = pdfExportPreferences
                     .getDrawingSpecifications().copy();
 
             // TODO : do something better here..
@@ -199,7 +199,7 @@ public class PDFExporter {
          */
         TreeMap<TopItem, TemplateInfo> imageCache;
 
-        DrawingSpecification drawingSpecifications;
+        PaintingSpecifications drawingSpecifications;
 
         public IPDFExporterAux(String comment) throws IOException,
                 DocumentException {

@@ -61,14 +61,14 @@ public class EditDocumentPreferencesAction extends AbstractViewAction {
 		if (v != null) {
 			// TODO : ok, enought with current drawing specifications system...
 			// we are going to use the old, simpler system with only a class...
-			DrawingSpecification d = (DrawingSpecification) v
+			PaintingSpecifications d = (PaintingSpecifications) v
 					.getDrawingSpecifications();
 			DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
 			presenter
 					.loadPreferences(v.getDrawingSpecifications());
 			if (presenter.showDialog(v) == JOptionPane.OK_OPTION) {
 				presenter.updatePreferences(d);
-				v.setDrawingSpecifications(d);
+				v.setJseshStyle(d);
 			}
 		}
 	}

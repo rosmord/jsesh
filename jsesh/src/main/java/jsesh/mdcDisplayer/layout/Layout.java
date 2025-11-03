@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.drawingspecifications.CartoucheSizeHelper;
+import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdc.constants.ScriptCodes;
@@ -100,7 +102,7 @@ public  class Layout  {
 	/**
 	 * The drawing specifications in use. Only set during the view building.
 	 */
-	private JSeshStyle drawingSpecifications = null;
+	private JSeshStyle jseshStyle = null;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
@@ -208,7 +210,7 @@ public  class Layout  {
 	 *
 	 */
 	public void reset(JSeshStyle drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
+		this.jseshStyle = drawingSpecifications;
 		currentTextOrientation = drawingSpecifications.options().textOrientation();
 		currentTextDirection = drawingSpecifications.options().textDirection();
 		centerSigns = drawingSpecifications.options().smallSignCentered();
@@ -219,7 +221,7 @@ public  class Layout  {
 	 *
 	 */
 	public void cleanup() {
-		drawingSpecifications = null;
+		jseshStyle = null;
 	}
 
 	
@@ -253,22 +255,20 @@ public  class Layout  {
 		String text = t.getText();
 		if (t.getScriptCode() == 't') {
 			text = TranslitterationUtilities.getActualTransliterationString(text,
-					drawingSpecifications.fonts().transliterationEncoding());
+					jseshStyle.fonts().transliterationEncoding());
 		}
 		// Compute the text dimensions :
 		Rectangle2D dims;
 
-		// TODO : remove getTextDimensions and create a better system.
-		// = drawingSpecifications.getTextDimensions(t.getScriptCode(), text);
 		// Ok now what we really want to do is
 		// a) get the "actual" text we want to display.
 		// b) get the correct font for this.
 		if ("".equals(text)) {
 			// Do nothing => empty view.
 		} else {
-			Font f = drawingSpecifications.fonts().getFont(t.getScriptCode());
+			Font f = jseshStyle.fonts().getFont(t.getScriptCode());
 
-			FontRenderContext fontRenderContext = drawingSpecifications.getFontRenderContext();
+			FontRenderContext fontRenderContext = jseshStyle.getFontRenderContext();
 
 			TextLayout layout = new TextLayout(text, f, fontRenderContext);
 
@@ -282,16 +282,18 @@ public  class Layout  {
 			// /2.0
 			// with some stored data.
 			// Align the text base with the hieroglyphs...
-			currentView.setDeltaBaseY(+drawingSpecifications.getMaxCadratHeight() / 2.0 - layout.getAscent());
+			currentView.setDeltaBaseY(
+				jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent()
+				);
 		}
 
 	}
 
 	public void visitBasicItemList(BasicItemList l) {
-		if (drawingSpecifications.getTextOrientation().equals(TextOrientation.HORIZONTAL)) {
+		if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
 			visitDefault(l);
 		} else {
-			currentView.stackTop(drawingSpecifications.getSmallSkip());
+			currentView.stackTop(jseshStyle.geometry().smallSkip());
 			currentView.centerSubViewHorizontally();
 		}
 	}
@@ -316,7 +318,7 @@ public  class Layout  {
 	 */
 	@Override
 	public void visitCadrat(Cadrat c) {
-		new QuadratLayout(drawingSpecifications, centerSigns, currentTextOrientation).layout(currentView, c);
+		new QuadratLayout(jseshStyle, centerSigns, currentTextOrientation).layout(currentView, c);
 	}
 
 	/**
@@ -336,33 +338,33 @@ public  class Layout  {
 		// horizontal ones, height for vertical)
 		float longDim = 0;
 		// the other dimension.
-		float smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(drawingSpecifications, c.getType());
-		;
+		float smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
+		
 
 		/**
 		 * cartouche inner part translation (reference and signs will be computed later)
 		 */
 		float dLong, dSmall;
-		dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(drawingSpecifications, c.getType());
+		dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
 
-		longDim += CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications, c.getType(), c.getStartPart());
+		longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getStartPart());
 
 		dLong = longDim;
 
-		longDim += CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications, c.getType(), c.getEndPart());
+		longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getEndPart());
 
 		if (currentTextOrientation.isHorizontal()) {
 			currentView.setWidth(subView.getWidth() + longDim);
 			currentView.setHeight(
-					Math.max(subView.getHeight() + smallDim, drawingSpecifications.getMaxCadratHeight() + smallDim));
+					Math.max(subView.getHeight() + smallDim, jseshStyle.geometry().maxCadratHeight() + smallDim));
 			// Position the cartouche's inner part :
 			subView.getPosition().setLocation(dLong, dSmall);
 
 		} else {
 			currentView.setHeight(subView.getHeight() + longDim);
 			// Maybe temporary :
-			if (subView.getWidth() < drawingSpecifications.getMaxCadratWidth() + smallDim) {
-				currentView.setWidth(drawingSpecifications.getMaxCadratWidth() + smallDim);
+			if (subView.getWidth() < jseshStyle.geometry().maxCadratWidth() + smallDim) {
+				currentView.setWidth(jseshStyle.geometry().maxCadratWidth() + smallDim);
 			} else {
 				currentView.setWidth(subView.getWidth() + smallDim);
 			}
@@ -387,25 +389,26 @@ public  class Layout  {
 		}
 
 		// Reset centering conditions (potentially changed in preLayoutHook)
-		centerSigns = drawingSpecifications.isSmallSignsCentered();
+		centerSigns = jseshStyle.options().smallSignCentered();
 
 	}
 
 	@Override
 	public void visitComplexLigature(ComplexLigature ligature) {
 		List<Optional<LigatureZone>> zones = new ArrayList<>(3);
-		HieroglyphsDrawer d = drawingSpecifications.getHieroglyphsDrawer();
+		HieroglyphsDrawer hieroglyphsDrawer = jseshStyle.getHieroglyphsDrawer();
 
 		// TODO attach ligature zones to final (rotated, scaled) shapes
 		// TODO not to hieroglyphic codes !!!
+
 		for (int i = 0; i < 3; i++) {
-			float scale = drawingSpecifications.getSignScale();
+			float scale = jseshStyle.getSignScale();
 			final float scale1; // we need a final var for map argument.
 			if (ligature.getHieroglyph().getRelativeSize() != 100)
 				scale1 = scale * ligature.getHieroglyph().getFLoatScale();
 			else
 				scale1 = scale;
-			Optional<LigatureZone> ligatureZone = d.getLigatureZone(i, ligature.getHieroglyph().getCode())
+			Optional<LigatureZone> ligatureZone = hieroglyphsDrawer.getLigatureZone(i, ligature.getHieroglyph().getCode())
 					.map(z -> z.scale(scale1));
 			zones.add(ligatureZone);
 		}
@@ -447,10 +450,10 @@ public  class Layout  {
 	@Override
 	public void visitDefault(ModelElement t) {
 		if (currentView.getNumberOfSubviews() != 0) {
-			if (drawingSpecifications.getTextOrientation().equals(TextOrientation.HORIZONTAL)) {
+			if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
 				/* stick elements one after another */
 				float width = currentView.getSumOfSubViewsWidths();
-				width = width + drawingSpecifications.getSmallSkip() * (currentView.getNumberOfSubviews() - 1);
+				width = width + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
 				currentView.setWidth(width);
 				currentView.setHeight(currentView.getMaximalHeightOfSubView());
 				currentView.distributeHorizontally();
@@ -458,7 +461,7 @@ public  class Layout  {
 				/* vertical text orientation */
 				/* stick elements one on top of the other */
 				float height = currentView.getSumOfSubViewsHeights();
-				height = height + drawingSpecifications.getSmallSkip() * (currentView.getNumberOfSubviews() - 1);
+				height = height + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
 				currentView.setWidth(currentView.getMaximalWidthOfSubView());
 				currentView.setHeight(height);
 				currentView.distributeFromTopToBottom();
@@ -487,8 +490,8 @@ public  class Layout  {
 			// version.
 			boolean shouldEnlarge = false;
 			if (group.containsOnlyOneSign()) {
-				if (subView.getHeight() > drawingSpecifications.getLargeSignSizeRatio()
-						* drawingSpecifications.getHieroglyphsDrawer().getHeightOfA1()) {
+				if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
+						* jseshStyle.getHieroglyphsDrawer().getHeightOfA1()) {
 					shouldEnlarge = true;
 				}
 			}
@@ -507,7 +510,7 @@ public  class Layout  {
 
 		// Compute the correct box dimensions
 		float w = currentView.getSumOfSubViewsWidths();
-		w += (currentView.getNumberOfSubviews() - 1) * drawingSpecifications.getSmallSkip();
+		w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().smallSkip();
 
 		currentView.setHeight(h);
 		currentView.setWidth(w);
@@ -522,33 +525,34 @@ public  class Layout  {
 
 	@Override
 	public void visitHieroglyph(Hieroglyph h) {
+		GeometrySpecification geometry = jseshStyle.geometry();
 		// IMPORTANT : signs type should be a secure enum class.
 		switch (h.getType()) {
 		case SymbolCodes.SMALLTEXT: {
 			// Temporary hack as proof of concept.
 			String smallText = h.getSmallText();
-			Dimension2D r = drawingSpecifications.getSuperScriptDimensions(smallText);
+			Dimension2D r = jseshStyle.getSuperScriptDimensions(smallText);
 			currentView.setHeight((float) r.getHeight());
 			currentView.setWidth((float) r.getWidth());
 		}
 			break;
 		case SymbolCodes.FULLSHADE:
 		case SymbolCodes.FULLSPACE:
-			currentView.setWidth(drawingSpecifications.getMaxCadratWidth());
-			currentView.setHeight(drawingSpecifications.getMaxCadratHeight());
+			currentView.setWidth(geometry.maxCadratWidth());
+			currentView.setHeight(geometry.maxCadratHeight());
 			break;
 		case SymbolCodes.QUATERSHADE:
 		case SymbolCodes.HALFSPACE:
-			currentView.setWidth(drawingSpecifications.getMaxCadratWidth() / 2.0f);
-			currentView.setHeight(drawingSpecifications.getMaxCadratHeight() / 2.0f);
+			currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
+			currentView.setHeight(geometry.maxCadratHeight() / 2.0f);
 			break;
 		case SymbolCodes.VERTICALSHADE:
-			currentView.setWidth(drawingSpecifications.getMaxCadratWidth() / 2.0f);
-			currentView.setHeight(drawingSpecifications.getMaxCadratHeight());
+			currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
+			currentView.setHeight(geometry.maxCadratHeight());
 			break;
 		case SymbolCodes.HORIZONTALSHADE:
-			currentView.setWidth(drawingSpecifications.getMaxCadratWidth());
-			currentView.setHeight(drawingSpecifications.getMaxCadratHeight() / 2f);
+			currentView.setWidth(geometry.maxCadratWidth());
+			currentView.setHeight(geometry.maxCadratHeight() / 2f);
 			break;
 		case SymbolCodes.BEGINERASE:
 		case SymbolCodes.ENDERASE:
@@ -578,14 +582,14 @@ public  class Layout  {
 				currentView.setYStretchable(true);
 			}
 
-			Rectangle2D rect = drawingSpecifications.getHieroglyphsDrawer().getBBox(h.getCode(), h.getAngle(), fixed);
+			Rectangle2D rect = jseshStyle.getHieroglyphsDrawer().getBBox(h.getCode(), h.getAngle(), fixed);
 			currentView.setWidth((float) rect.getWidth());
 			currentView.setHeight((float) rect.getHeight());
 		}
 			break;
 
 		case SymbolCodes.MDCCODE: {
-			HieroglyphsDrawer d = drawingSpecifications.getHieroglyphsDrawer();
+			HieroglyphsDrawer d = jseshStyle.getHieroglyphsDrawer();
 
 			String code = h.getCode();
 
@@ -594,10 +598,10 @@ public  class Layout  {
 				Rectangle2D s = d.getBBox(code, angle, true);
 
 				// Take the font size into account.
-				currentView.setHeight((float) (s.getHeight() * drawingSpecifications.getSignScale()));
-				currentView.setWidth((float) (s.getWidth() * drawingSpecifications.getSignScale()));
+				currentView.setHeight((float) (s.getHeight() * geometry.getSignScale()));
+				currentView.setWidth((float) (s.getWidth() * jseshStyle.getSignScale()));
 			} else {
-				Dimension2D r = drawingSpecifications.getSuperScriptDimensions(code);
+				Dimension2D r = jseshStyle.getSuperScriptDimensions(code);
 				currentView.setHeight((float) r.getHeight());
 				currentView.setWidth((float) r.getWidth());
 			}
@@ -621,8 +625,8 @@ public  class Layout  {
 		// sizing should be better described (for instance, we could
 		// use some "fill power" dimension, as is done in (La)TeX).
 
-		currentView.setWidth(drawingSpecifications.getPageLayout().getTextWidth());
-		currentView.setHeight(drawingSpecifications.getWideLineWidth());
+		currentView.setWidth(jseshStyle.geometry().textWidth());
+		currentView.setHeight(jseshStyle.geometry().wideLineWidth());
 	}
 
 	@Override
@@ -642,7 +646,7 @@ public  class Layout  {
 				float x, y;
 				// So, the ligature coordinates suppose unscaled signs.
 				// We scale them...
-				float signScale = drawingSpecifications.getSignScale();
+				float signScale = jseshStyle.getSignScale();
 				x = (float) (pos[k].getX() * signScale * getGroupUnitScale());
 				y = (float) (pos[k].getY() * signScale * getGroupUnitScale());
 				subv.resetPos();
@@ -669,12 +673,12 @@ public  class Layout  {
 				}
 				// In case the second ligature zone is missing from the first
 				// element, try zone 1.
-				if (ligatureZonePosition == 2 && !drawingSpecifications.getHieroglyphsDrawer()
+				if (ligatureZonePosition == 2 && !jseshStyle.getHieroglyphsDrawer()
 						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode())
 						.isPresent()) {
 					ligatureZonePosition = 1;
 				}
-				Optional<LigatureZone> ligatureZone = drawingSpecifications.getHieroglyphsDrawer()
+				Optional<LigatureZone> ligatureZone = jseshStyle.getHieroglyphsDrawer()
 						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode());
 
 				// Build the ligature.
@@ -683,7 +687,7 @@ public  class Layout  {
 					LigatureZone z = ligatureZone.get();
 					currentView.getSubView(largerSignIndex).resetPos();
 					// Take into account the sign scale..
-					z = z.scale(drawingSpecifications.getSignScale());
+					z = z.scale(jseshStyle.getSignScale());
 					// NEW code for the new complex ligature system.
 					z.placeView(currentView.getSubView(smallerSignIndex));
 					// End of new code.
@@ -692,11 +696,11 @@ public  class Layout  {
 				// We try a ligature centered around the 2nd sign.
 				String code = l.getHieroglyphAt(1).getCode();
 				Optional<LigatureZone> r1, r2;
-				r1 = drawingSpecifications.getHieroglyphsDrawer().getLigatureZone(0, code);
-				r2 = drawingSpecifications.getHieroglyphsDrawer().getLigatureZone(1, code);
+				r1 = jseshStyle.getHieroglyphsDrawer().getLigatureZone(0, code);
+				r2 = jseshStyle.getHieroglyphsDrawer().getLigatureZone(1, code);
 				if (r1.isPresent() && r2.isPresent()) {
-					LigatureZone z1 = r1.get().scale(drawingSpecifications.getSignScale());
-					LigatureZone z2 = r2.get().scale(drawingSpecifications.getSignScale());
+					LigatureZone z1 = r1.get().scale(jseshStyle.getSignScale());
+					LigatureZone z2 = r2.get().scale(jseshStyle.getSignScale());
 					currentView.getSubView(1).resetPos();
 					z1.placeView(currentView.getSubView(0));
 					z2.placeView(currentView.getSubView(2));
@@ -711,7 +715,7 @@ public  class Layout  {
 		// The actual layout is done in TopItemList, because we need a global
 		// view to decide LineBreak skips.
 		currentView.setWidth(0.0f);
-		currentView.setHeight(drawingSpecifications.getMaxCadratHeight());
+		currentView.setHeight(jseshStyle.geometry().maxCadratHeight());
 	}
 
 	@Override
@@ -737,13 +741,7 @@ public  class Layout  {
 
 	@Override
 	public void visitPageBreak(PageBreak b) {
-		/*
-		 * currentView.getStartPoint().setValues( 0f, RelativePosition.WEST,
-		 * drawingSpecifications.getMaxCadratHeight(), RelativePosition.PREVIOUS);
-		 * currentView.getNextViewPosition().setValues( 0, RelativePosition.WEST,
-		 * drawingSpecifications.getMaxCadratHeight() * 2 +
-		 * drawingSpecifications.getLineSkip() * 2, RelativePosition.PREVIOUS);
-		 */
+		// DO NOTHING HERE.
 	}
 
 	@Override
@@ -751,7 +749,7 @@ public  class Layout  {
 		// visitDefault(p.getBasicItemList());
 		MDCView subView = currentView.getFirstSubView();
 
-		float margin = drawingSpecifications.getPhilologyWidth(p.getType()) + drawingSpecifications.getSmallSkip();
+		float margin = jseshStyle.getPhilologyWidth(p.getType()) + jseshStyle.getSmallSkip();
 
 		currentView.getFirstSubView().getPosition().setLocation(margin, 0);
 		currentView.setWidth(margin * 2 + subView.getWidth());
@@ -767,10 +765,10 @@ public  class Layout  {
 
 	@Override
 	public void visitSuperScript(Superscript s) {
-		Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(s.getText());
+		Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
 		currentView.setWidth((float) dims.getWidth());
-		currentView.setHeight((float) Math.max(drawingSpecifications.getMaxCadratHeight(),
-				dims.getHeight() + drawingSpecifications.getSmallSkip() * 2));
+		currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
+				dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
 	}
 
 	@Override
@@ -811,9 +809,9 @@ public  class Layout  {
 
 		// using a factory at this point would be overkill.
 		if (currentTextOrientation.equals(TextOrientation.HORIZONTAL)) {
-			topItemLayout = new LineLayout(currentView, drawingSpecifications);
+			topItemLayout = new LineLayout(currentView, jseshStyle);
 		} else {
-			topItemLayout = new ColumnLayout(currentView, drawingSpecifications);
+			topItemLayout = new ColumnLayout(currentView, jseshStyle);
 		}
 
 		ViewIterator i = currentView.iterator();
@@ -836,8 +834,8 @@ public  class Layout  {
 	}
 
 	private double getGroupUnitScale() {
-		return drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength()
-				* (drawingSpecifications.getStandardSignHeight() / 18.0);
+		return jseshStyle.getHieroglyphsDrawer().getGroupUnitLength()
+				* (jseshStyle.geometry().standardSignHeight() / 18.0);
 	}
 
 	/**

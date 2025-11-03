@@ -19,7 +19,7 @@ import java.awt.BasicStroke;
  * @param fineLineWidth       the width for fine lines (drawn with {lx1,x2})
  * @param wideLineWidth       the width for wide lines (drawn with {lx1,x2})
  * @param lineSkip            space between text lines
- * @param lineSkip            space between text columns (in column orientation)
+ * @param columnSkip          space between text columns (in column orientation)
  * @param tabUnitWidth        the size of a unit in mdc tabulation (?x-)
  * @param cartoucheLineWidth  the width of the cartouche line
  * @param cartoucheLoopLength the size of the cartouche loop
@@ -113,12 +113,28 @@ public record GeometrySpecification(
 			12f,
 			18f);
 
+	/**
+	 * Auxiliary method to build a stroke for fine lines.
+	 * @return a stroke for fine lines.
+	 */
 	public Stroke fineStroke() {
 		return new BasicStroke(fineLineWidth);
 	}
 
+	/**
+	 * Auxiliary method to build a stroke for wide lines.
+	 * @return a stroke for wide lines.
+	 */
 	public Stroke wideStroke() {
 		return new BasicStroke(wideLineWidth);
+	}
+
+	/**
+	 * Auxiliary method to build a stroke for cartouches.
+	 * @return a stroke for cartouches.
+	 */
+	public Stroke cartoucheStroke() {
+		return new BasicStroke(cartoucheLineWidth);
 	}
 
 	public Builder copy() {

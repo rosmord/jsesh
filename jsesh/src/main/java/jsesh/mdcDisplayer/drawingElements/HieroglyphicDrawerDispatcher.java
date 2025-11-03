@@ -25,7 +25,6 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
 	}
 
-
 	public HieroglyphicDrawerDispatcher(HieroglyphicFontManager fontManager) {
 		this(new SVGFontHieroglyphicDrawer(fontManager));
 	}
@@ -38,58 +37,46 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 		}
 	}
 
-        @Override
-	public void draw(Graphics2D g, String code, int angle, ViewBox view) {
-		getDrawer(code).draw(g, code, angle, view);
+	@Override
+	public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
+		getDrawer(code).draw(g, code, angle, view, bodySize);
 	}
 
-        @Override
+	@Override
 	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
 		return getDrawer(code).getBBox(code, angle, fixed);
 	}
 
-        @Override
+	@Override
 	public double getGroupUnitLength() {
 		return svgFontHieroglyphicDrawer.getGroupUnitLength();
 	}
 
-        @Override
+	@Override
 	public double getHeightOfA1() {
 		return svgFontHieroglyphicDrawer.getHeightOfA1();
 	}
 
-        @Override
+	@Override
 	public Optional<LigatureZone> getLigatureZone(int i, String code) {
 		return getDrawer(code).getLigatureZone(i, code);
 	}
 
-        @Override
+	@Override
 	public Shape getShape(String code) {
 		return getDrawer(code).getShape(code);
 	}
 
-        @Override
+	@Override
 	public Area getSignArea(String code, double x, double y, double xscale,
 			double yscale, int angle, boolean reversed) {
 		return getDrawer(code).getSignArea(code, x, y, xscale, yscale, angle,
 				reversed);
 	}
 
-	
-
-        @Override
+	@Override
 	public boolean isKnown(String code) {
 		return getDrawer(code).isKnown(code);
-	}
-
-        @Override
-	public boolean isSmallBodyUsed() {
-		return svgFontHieroglyphicDrawer.isSmallBodyUsed();
-	}
-
-        @Override
-	public void setSmallBodyUsed(boolean smallBody) {
-		svgFontHieroglyphicDrawer.setSmallBodyUsed(smallBody);
 	}
 
 }

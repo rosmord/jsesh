@@ -65,7 +65,7 @@ class GroupEditorDemo extends JFrame{
         // The absolute group builder has a problem when using alternate specifications,
         // especially specs.setStandardSignHeight(textHeight);
         AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(),MDCEditorKit.getBasicMDCEditorKit()
-                            .getDrawingSpecifications());
+                            .getJseshStyle());
         groupEditor.setGroup(group);
         TopItemList top = new TopItemList();
         top.addTopItem(group.buildTopItem());

@@ -15,11 +15,11 @@ public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
 	protected AbstractRTFEmbeddableDrawer(
-										  DrawingSpecification drawingSpecifications, double cadratHeight) {
+										  PaintingSpecifications drawingSpecifications, double cadratHeight) {
 		super(prepareDrawingSpecifications(drawingSpecifications), cadratHeight);
 	}
 
-	private static final DrawingSpecification prepareDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+	private static final PaintingSpecifications prepareDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
 		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
 	}
 

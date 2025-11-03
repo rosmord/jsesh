@@ -60,11 +60,11 @@ public class ScaledAbsolutePlacementTest {
         drawingSpecification.setMaxCadratHeight(30);
         drawingSpecification.setStandardSignHeight(30);
         //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
-        editor1.setDrawingSpecifications(drawingSpecification);
+        editor1.setJseshStyle(drawingSpecification);
         editor1.setMDCText(mdc);
         drawingSpecification = new DrawingSpecificationsImplementation();
         drawingSpecification.setMaxCadratHeight(30);
-        editor2.setDrawingSpecifications(drawingSpecification);
+        editor2.setJseshStyle(drawingSpecification);
         editor2.setMDCText(mdc);
         editor3.setMDCText(mdc);
         frame.setLayout(new FlowLayout());

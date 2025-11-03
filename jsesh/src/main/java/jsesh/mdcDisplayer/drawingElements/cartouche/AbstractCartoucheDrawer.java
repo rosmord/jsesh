@@ -13,11 +13,13 @@ package jsesh.mdcDisplayer.drawingElements.cartouche;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Base class for implementing drawers.
@@ -27,7 +29,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 public abstract class AbstractCartoucheDrawer {
 
     // preferences
-    protected final DrawingSpecification drawingSpecifications;
+    protected final JSeshStyle jseshStyle;
     // arguments
     protected final TextDirection currentTextDirection;
     protected final TextOrientation currentTextOrientation;
@@ -35,8 +37,8 @@ public abstract class AbstractCartoucheDrawer {
     protected final MDCView currentView;
     protected final Graphics2D g;
 
-    public AbstractCartoucheDrawer(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        this.drawingSpecifications = drawingSpecifications;
+    public AbstractCartoucheDrawer(JSeshStyle jSeshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        this.jseshStyle = jSeshStyle;
         this.currentTextDirection = currentTextDirection;
         this.currentTextOrientation = currentTextOrientation;
         this.currentView = currentView;
@@ -71,8 +73,8 @@ public abstract class AbstractCartoucheDrawer {
 
             // squareSize is either negative or positive :
             // it's positive for start of hut-sign, and negative for end.
-            double squareSize = drawingSpecifications.getHwtSquareSize()
-                    - drawingSpecifications.getCartoucheLineWidth() / 2f;
+            double squareSize = jseshStyle.geometry().hwtSquareSize()
+                    - jseshStyle.geometry().cartoucheLineWidth() / 2f;
 
             if (currentTextOrientation.isHorizontal()) {
                 if (p1.getX() < pa.getX()) {

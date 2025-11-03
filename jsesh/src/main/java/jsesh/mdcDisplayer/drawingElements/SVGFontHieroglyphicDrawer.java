@@ -20,12 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.hieroglyphs.graphics.LigatureZoneBuilder;
 import jsesh.hieroglyphs.graphics.ShapeChar;
-import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.swing.utils.ShapeHelper;
 
 /**
@@ -60,6 +58,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         normalizedCodesMap.put("[?", "BEGINDUBIOUS");
         normalizedCodesMap.put("?]", "ENDDUBIOUS");
     }
+    
     /**
      * The manager which associates codes with actual glyphs.
      */
@@ -72,7 +71,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 
     private float heightOfA1 = 0;
 
-    private boolean smallBodyUsed = false;
 
     public SVGFontHieroglyphicDrawer(HieroglyphicFontManager hieroglyphicFontManager) {
     	this.fontManager = hieroglyphicFontManager;
@@ -96,19 +94,14 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         nonHieroglyphic.put("v/", new Rectangle2D.Float(0, 0, w / 2f, h));
     }
 
-    /**
-     * @param g
-     * @param code
-     * @param angle
-     * @param view
-     */
-    public void draw(Graphics2D g, String code, int angle, ViewBox view) {
+    @Override
+    public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
         Graphics2D tmpG = (Graphics2D) g.create();
 
         code = normalizeCode(code);
         ShapeChar glyph = null;
         // If we want to use a small body font, try to find the glyph.
-        if (isSmallBodyUsed()) {
+        if (bodySize == HieroglyphBodySize.SMALL) {
             glyph = fontManager.getSmallBody(code);
         }
         // If we don't want a small body font, or the glyph was not available
@@ -139,6 +132,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         tmpG.dispose();
     }
 
+    @Override
     public Rectangle2D getBBox(String code, int angle, boolean fixed) {
         Rectangle2D result = null;
 
@@ -168,7 +162,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 
         return result;
     }
-
+    
     private Shape getNonHieroglyphic(String code) {
         return nonHieroglyphic.get(code);
     }
@@ -178,6 +172,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 	 * 
 	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getShape(java.lang.String)
      */
+    @Override
     public Shape getShape(String code) {
         code = normalizeCode(code);
         Shape result = null;
@@ -197,6 +192,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
 	 * jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getSignArea(java.lang.String,
 	 * double, double, double, double, float, boolean)
      */
+    @Override
     public Area getSignArea(String code, double x, double y, double xscale,
             double yscale, int angle, boolean reversed) {
         code = normalizeCode(code);
@@ -254,16 +250,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     @Override
     public double getGroupUnitLength() {
         return getHeightOfA1() / 1000f; // Why was it 10000 ????????????
-    }
-
-    @Override
-    public void setSmallBodyUsed(boolean smallBody) {
-        this.smallBodyUsed = smallBody;
-    }
-
-    @Override
-    public boolean isSmallBodyUsed() {
-        return smallBodyUsed;
     }
 
     /**

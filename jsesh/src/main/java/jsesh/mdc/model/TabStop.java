@@ -23,7 +23,7 @@ public class TabStop extends TopItem {
 	/**
 	 * Returns the stopPos.
 	 * @return int the position, in tab units.
-	 * @see DrawingSpecification#getTabUnitWidth()
+	 * @see PaintingSpecifications#getTabUnitWidth()
 	 */
 	
 	public int getStopPos() {

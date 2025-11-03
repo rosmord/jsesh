@@ -41,12 +41,12 @@ public interface HieroglyphsDrawer {
      *
      * @param g : where we are going to draw
      * @param code the hieroglyph code in Manuel de Codage
-     * @param angle angle applied to the glyph, in degrees.
-     *
+     * @param angle angle applied to the glyph, in degrees.     
      * @param box gives information about the desired geometry for the symbol.
+     * @param bodySize should we use small body size ?
      *
      */
-    void draw(Graphics2D g, String code, int angle, ViewBox box);
+    void draw(Graphics2D g, String code, int angle, ViewBox box, HieroglyphBodySize bodySize);
 
     /**
      * Gets a sign bounding box, or null if ! isKnown(code). The bounding box is
@@ -67,7 +67,7 @@ public interface HieroglyphsDrawer {
     Rectangle2D getBBox(String code, int angle, boolean fixed);
 
     /**
-     * A try to test replacing bounding boxes by actual shapes. Should only be
+     * An attempt to replace bounding boxes by actual shapes. Should only be
      * called if needed (rotations, complex sign placement). The shape needs not
      * to be the real sign shape. It can be some sort of "bounding shape".
      *
@@ -121,19 +121,6 @@ public interface HieroglyphsDrawer {
      * @return
      */
     double getHeightOfA1();
-
-    /**
-     * Select the use (if possible) of a bolder, small body font.
-     *
-     * @param smallBody
-     */
-    void setSmallBodyUsed(boolean smallBody);
-
-    /**
-     * Are we requesting the use of a "small body" font.
-     * @return 
-     */
-    boolean isSmallBodyUsed();
 
     /**
      * Returns the length of 1 "group" unit. Groups units are relative to the

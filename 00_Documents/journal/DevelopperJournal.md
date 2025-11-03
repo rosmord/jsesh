@@ -5,6 +5,77 @@ This journal should only be edited and modified in the Development branch.
 **TODO**
 
 When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+## 2025/11/03
+
+- renamed `ColorSpecifications` to `PaintingSpecifications` (see next entry);
+- moved `shadingStyle` to `PaintingSpecifications` (more logical);
+- in `HieroglyphsDrawer`, `smallBodyUsed` makes the class stateful. It can be removed safely if we add an argument to `HieroglyphsDrawer.draw`.
+
+- **TODO** (cleanup): remove `depth` in Layout. It's not used.
+- pass `HieroglyphsDrawer` **and** `RenderingContext` ?
+
+
+Note:
+
+- `getGroupUnitLength` in `HieroglyphsDrawer` is not very logical, as signs are scaled to fit the Geometry;
+
+
+
+## 2025/10/13
+
+- When updating `QuadratLayout`, we have a problem as `HieroglyphsDrawer` is no longer part of the specifications.
+  we need to solve this.
+
+- If we introduce `RenderingContext`, we will need to decide how we pass it, and what it contains.
+- I don't see the hieroglyphic fonts being a part of rendering context.
+
+
+In `Layout`, for small text, we had:
+
+~~~java
+	Dimension2D r = drawingSpecification.getSuperScriptDimensions(smallText);
+~~~
+
+Now, I'm not sure that the new JSeshStyle class is the right place to have this method, whose old implementation was:
+
+~~~java
+public Dimension2D getSuperScriptDimensions(String text) {
+    Rectangle2D r = superScriptFont.getStringBounds(text,
+            fontRenderContext);
+    return new DoubleDimensions(r.getWidth(), r.getHeight());
+}
+~~~
+
+Technically, it might be done, if we pass the `FontRenderContext` as parameter. But `records` are mostly *pure data holders,* and adding behaviour in records is not a very good idea.
+
+
+~~~java
+record FontSpecification .... {
+  public Dimension2D getSuperScriptDimensions(FontRenderContext fontRender, String text) {
+    Rectangle2D r = superScriptFont.getStringBounds(text,
+            fontRender);
+    return new DoubleDimensions(r.getWidth(), r.getHeight());
+  }
+}
+~~~
+
+### Current problems
+
+When fixing the classes in the `layout` package, we find the following problems:
+
+- hieroglyphic font related problem: the method `getHeightOfA1` returns the actual size of the `A1` sign in the current font; this is not supported by `JSeshStyle`;
+- we need the `FontRenderContext`;
+- we need to compile text size (e.g. getSuperScriptDimensions)
+- we need to compile `signScale()`, which depends on the current font **and** on the target size we want in `JSeshStyle`;
+- we need the `HieroglyphsDrawer` to find `ligatureZones`, `heightOfA1`;
+- we need to compute the bounding boxes of hieroglyphs: `getBBox`;
+- we need to compute the width of ecdotic symbols: `getPhilologyWidth`;
+- we have `getGroupUnitLength()` which is 1/1000f of the size of `A1`. Currently, it's a bit weird, as it's in `HieroglyphicDrawer`, but if it appears in the `MdC` code, it should probably be computed from `JSeshStyle` and be independant of the font.
+
+
+
+
+
 
 ## 2025/10/10
 

@@ -41,11 +41,11 @@ public class RTFExporterPresenter {
      * @param drawingSpecifications
      * @param model
      */
-    public void exportModel(DrawingSpecification drawingSpecifications,
+    public void exportModel(PaintingSpecifications drawingSpecifications,
             TopItemList model) {
 
         RTFExporter exporter = new RTFExporter();
-        exporter.setDrawingSpecifications(drawingSpecifications);
+        exporter.setJseshStyle(drawingSpecifications);
         exporter.setRtfPreferences(rtfPreferences);
         // exporter.setViewBuilder(new ViewBuilder()); (REMOVE ??)
         try {

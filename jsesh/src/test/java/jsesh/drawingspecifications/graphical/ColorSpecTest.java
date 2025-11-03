@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import jsesh.drawingspecifications.ColorSpecification;
+import jsesh.drawingspecifications.PaintingSpecifications;
 
 public class ColorSpecTest {
 
@@ -15,7 +15,7 @@ public class ColorSpecTest {
     public void testImmutabilityA() {
         // Check that the color map is unmodifiable.
         HashMap<String, Color> map = new HashMap<>();
-        ColorSpecification s = new ColorSpecification(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE,
+        PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE,
                 map);
 
         map.put("yellow", Color.YELLOW);
@@ -28,7 +28,7 @@ public class ColorSpecTest {
         // Check that the color map is unmodifiable.
         HashMap<String, Color> map = new HashMap<>();
         map.put("yellow", Color.YELLOW);
-        ColorSpecification s = new ColorSpecification(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE,
+        PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE,
                 map);
 
         s.colorMap().put("green", Color.GREEN);       

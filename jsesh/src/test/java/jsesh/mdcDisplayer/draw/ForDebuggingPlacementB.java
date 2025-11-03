@@ -66,7 +66,7 @@ public class ForDebuggingPlacementB {
         drawingSpecification.setMaxCadratHeight(30);
         drawingSpecification.setStandardSignHeight(30);
         //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
-        editor.setDrawingSpecifications(drawingSpecification);
+        editor.setJseshStyle(drawingSpecification);
         editor.setMDCText(mdc);
         frame.add(editor);
         frame.pack();

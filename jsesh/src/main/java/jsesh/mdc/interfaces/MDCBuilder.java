@@ -83,7 +83,7 @@ public interface MDCBuilder {
      * 	(in "tab units")
      * @param endPos an absolute integer position from left edge of the page (?). 
      * 	(in "tab units")
-     * @see DrawingSpecification#getTabUnitWidth()
+     * @see PaintingSpecifications#getTabUnitWidth()
      */
 
     public void addHRuleToTopItemList(TopItemListInterface l, char lineType, int startPos, int endPos);

@@ -45,7 +45,7 @@ public final class GroupEditorDialog extends JPanel {
 
     private final GroupEditor editor;
 
-    public GroupEditorDialog(DrawingSpecification drawingSpecification) {
+    public GroupEditorDialog(PaintingSpecifications drawingSpecification) {
         setBackground(Color.WHITE);
         editor = new GroupEditor(drawingSpecification);
         next = new JButton("next");
@@ -98,7 +98,7 @@ public final class GroupEditorDialog extends JPanel {
         return editor.getGroup();
     }
     
-    public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+    public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
         editor.setDrawingSpecification(drawingSpecifications);
     }
 

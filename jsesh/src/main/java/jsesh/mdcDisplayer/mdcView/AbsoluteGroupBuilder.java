@@ -36,7 +36,7 @@ public class AbsoluteGroupBuilder {
 	 */
 	
 	public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems,
-			DrawingSpecification specs) {
+			PaintingSpecifications specs) {
 		AbsoluteGroup result = null;
 
 		if (topItems.size() == 1) {
@@ -77,7 +77,7 @@ public class AbsoluteGroupBuilder {
 		 * @param specs
 		 * @return
 		 */
-		public AbsoluteGroup createAbsoluteGroupFrom(List topItems, JSeshStyle drawingSpecifications) {
+		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshStyle drawingSpecifications) {
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
 			sizeOfGroupUnit= drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength();

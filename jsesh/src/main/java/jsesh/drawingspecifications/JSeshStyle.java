@@ -13,15 +13,15 @@ import java.util.function.Function;
  */
 public record JSeshStyle(
         GeometrySpecification geometry,
-        ColorSpecification colors,
+        PaintingSpecifications colors,
         FontSpecification fonts,
-        RenderingOptions options) {
+        LayoutOptions options) {
             
     public static final JSeshStyle DEFAULT = new JSeshStyle(
             GeometrySpecification.DEFAULT,
-            ColorSpecification.DEFAULT,
+            PaintingSpecifications.DEFAULT,
             FontSpecification.DEFAULT,
-            RenderingOptions.DEFAULT);
+            LayoutOptions.DEFAULT);
 
     public Builder copy() {
         return new Builder(this);
@@ -58,9 +58,9 @@ public record JSeshStyle(
      */
     public static class Builder {
         private GeometrySpecification geometry;
-        private ColorSpecification colors;
+        private PaintingSpecifications colors;
         private FontSpecification fonts;
-        private RenderingOptions options;
+        private LayoutOptions options;
 
 
         public Builder(JSeshStyle style) {
@@ -85,7 +85,7 @@ public record JSeshStyle(
             return this;
         }
 
-        public Builder colors(ColorSpecification colors) {
+        public Builder colors(PaintingSpecifications colors) {
             this.colors = colors;
             return this;
         }
@@ -95,7 +95,7 @@ public record JSeshStyle(
          * @param c
          * @return
          */
-        public Builder colors(Function<ColorSpecification.Builder, ColorSpecification.Builder> c) {
+        public Builder colors(Function<PaintingSpecifications.Builder, PaintingSpecifications.Builder> c) {
             this.colors = c.apply(this.colors.copy()).build();
             return this;
         }
@@ -115,12 +115,12 @@ public record JSeshStyle(
             return this;
         }
 
-        public Builder options(RenderingOptions options) {
+        public Builder options(LayoutOptions options) {
             this.options = options;
             return this;
         }
 
-        public Builder options(Function<RenderingOptions.Builder, RenderingOptions.Builder> o) {
+        public Builder options(Function<LayoutOptions.Builder, LayoutOptions.Builder> o) {
             this.options = o.apply(this.options.copy()).build();
             return this;
         }

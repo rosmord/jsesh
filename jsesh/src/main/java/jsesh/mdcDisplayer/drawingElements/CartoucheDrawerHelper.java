@@ -40,6 +40,9 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
@@ -49,8 +52,6 @@ import jsesh.mdcDisplayer.drawingElements.cartouche.HwtDrawer;
 import jsesh.mdcDisplayer.drawingElements.cartouche.NormalCartoucheDrawer;
 import jsesh.mdcDisplayer.drawingElements.cartouche.SerekhDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Utility class for drawing cartouches and the like. This is not a fine example
@@ -63,7 +64,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 public class CartoucheDrawerHelper {
 
     // preferences
-    private final DrawingSpecification drawingSpecifications;
+    private final JSeshStyle jseshStyle;
     // arguments
     private final TextDirection currentTextDirection;
     private final TextOrientation currentTextOrientation;
@@ -71,8 +72,8 @@ public class CartoucheDrawerHelper {
     private final MDCView currentView;
     private final Graphics2D g;
 
-    public CartoucheDrawerHelper(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        this.drawingSpecifications = drawingSpecifications;
+    public CartoucheDrawerHelper(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        this.jseshStyle = jseshStyle;
         this.currentTextDirection = currentTextDirection;
         this.currentTextOrientation = currentTextOrientation;
         this.currentView = currentView;
@@ -100,16 +101,16 @@ public class CartoucheDrawerHelper {
         switch (c.getType()) {
             case 'f':
             case 'F':
-                delegate = new EnclosureDrawer(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+                delegate = new EnclosureDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
             case 's':
-                delegate = new SerekhDrawer(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+                delegate = new SerekhDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
             case 'h':
-                delegate = new HwtDrawer(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+                delegate = new HwtDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
             default:
-                delegate = new NormalCartoucheDrawer(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+                delegate = new NormalCartoucheDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
         }
         return delegate;
     }

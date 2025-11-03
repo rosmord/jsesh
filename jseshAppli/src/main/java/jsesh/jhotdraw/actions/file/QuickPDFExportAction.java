@@ -58,7 +58,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		PDFExportPreferences quickExportPreferences = new PDFExportPreferences();
 
 		PDFExporter pdfExporter = new PDFExporter();
-		quickExportPreferences.setDrawingSpecifications(jSeshView
+		quickExportPreferences.setJseshStyle(jSeshView
 				.getDrawingSpecifications());
 
 		// Find the next file name...

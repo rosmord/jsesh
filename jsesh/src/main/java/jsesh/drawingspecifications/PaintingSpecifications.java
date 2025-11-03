@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Map;
 
 /**
- * Color specifications.
+ * Specifications for actual drawing; mainly colors but also shading.
  * 
  * @param blackColor the color to use for normal text.
  * @param redColor the color to use for red text.
@@ -14,25 +14,27 @@ import java.util.Map;
  * @param colorMap a color map (which should not be modifiable).
  * @author Serge Rosmorduc
  */
-public record ColorSpecification(
+public record PaintingSpecifications(
 		Color blackColor,
 		Color redColor,
 		Color cursorColor,
 		Color grayColor,
 		Color backgroundColor,
+		ShadingMode shadingStyle,
 		Map<String, Color> colorMap) {
 
 	// Record constructor, which ensures the map is unmodifiable.
-	public ColorSpecification {
+	public PaintingSpecifications {
 		colorMap = Map.copyOf(colorMap);
 	}
 
-	public static final ColorSpecification DEFAULT = new ColorSpecification(
+	public static final PaintingSpecifications DEFAULT = new PaintingSpecifications(
 			Color.BLACK,
 			Color.RED,
 			Color.BLUE,
 			Color.LIGHT_GRAY,
 			Color.WHITE,
+			ShadingMode.GRAY_SHADING,
 			Map.of()
 			);
 
@@ -48,14 +50,16 @@ public record ColorSpecification(
 		private Color cursorColor;
 		private Color grayColor;
 		private Color backgroundColor;
+		private ShadingMode shadingStyle;
 		private Map<String, Color> colorMap;
-
-		public Builder(ColorSpecification specs) {
+		
+		public Builder(PaintingSpecifications specs) {
 			this.blackColor = specs.blackColor;
 			this.redColor = specs.redColor;
 			this.cursorColor = specs.cursorColor;
 			this.grayColor = specs.grayColor;
 			this.backgroundColor = specs.backgroundColor;
+			this.shadingStyle = specs.shadingStyle;
 			this.colorMap = specs.colorMap;
 		}
 
@@ -89,8 +93,13 @@ public record ColorSpecification(
 			return this;
 		}
 
-		public ColorSpecification build() {
-			return new ColorSpecification(blackColor, redColor, cursorColor, grayColor, backgroundColor, colorMap);
+		public Builder shadingStyle(ShadingMode shadingStyle) {
+			this.shadingStyle = shadingStyle;
+			return this;
+		}
+
+		public PaintingSpecifications build() {
+			return new PaintingSpecifications(blackColor, redColor, cursorColor, grayColor, backgroundColor, shadingStyle, colorMap);
 		}
 	}
 }

@@ -135,16 +135,16 @@ public class JMDCEditor extends JPanel {
     // FIXME : choose a reasonable method to share drawing specifications.    
     // Remark : once the drawing specifications are set here, we copy them so only us change them.
     // Think about that.
-    private DrawingSpecification drawingSpecifications;
+    private PaintingSpecifications drawingSpecifications;
 
     private final boolean drawLimits = false;
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), MDCEditorKit
-                .getBasicMDCEditorKit().getDrawingSpecifications().copy() );
+                .getBasicMDCEditorKit().getJseshStyle().copy() );
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, DrawingSpecification drawingSpecification) {
+    public JMDCEditor(HieroglyphicTextModel data, PaintingSpecifications drawingSpecification) {
         setBackground(Color.WHITE);
         this.drawingSpecifications = drawingSpecification;
         drawer = new ViewDrawer();
@@ -499,8 +499,8 @@ public class JMDCEditor extends JPanel {
      * Returns the specifications attached to the current window.
      * @return the current drawing specifications (live object).
      */
-    public DrawingSpecification getDrawingSpecifications() {
-        DrawingSpecification result = drawingSpecifications;
+    public PaintingSpecifications getDrawingSpecifications() {
+        PaintingSpecifications result = drawingSpecifications;
         return result;
     }
 
@@ -508,7 +508,7 @@ public class JMDCEditor extends JPanel {
      * @param drawingSpecifications The drawingSpecifications to set.
      */
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications;
         drawingSpecifications.setGraphicDeviceScale(scale);
         // TODO : remove me after... (after what ???)

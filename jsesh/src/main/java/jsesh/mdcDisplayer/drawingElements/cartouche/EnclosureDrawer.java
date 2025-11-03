@@ -10,19 +10,18 @@
  */
 package jsesh.mdcDisplayer.drawingElements.cartouche;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingPreferences;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Drawer for enclosures.
@@ -52,8 +51,8 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  */
 public class EnclosureDrawer extends AbstractCartoucheDrawer {
 
-    public EnclosureDrawer(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        super(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+    public EnclosureDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
     }
 
     @Override
@@ -99,13 +98,14 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
      */
     public void drawEnclosure(Point2D.Float topLeftCorner, float outerWidth, float outerHeight,
             boolean drawTop, boolean drawBottom, boolean drawLeft, boolean drawRight) {
-        Stroke lineStroke = drawingSpecifications.buildCartoucheStroke('f');
-        float bLength = drawingSpecifications.getEnclosureBastionLength();
-        float bWidth = drawingSpecifications.getEnclosureBastionDepth();
+        //Stroke lineStroke = jseshStyle.buildCartoucheStroke('f');
+        Stroke lineStroke = jseshStyle.geometry().cartoucheStroke();
+        float bLength = jseshStyle.geometry().bastionLength();
+        float bWidth = jseshStyle.geometry().bastionDepth();
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = jseshStyle.geometry().cartoucheLineWidth() / 2f;
+        float dx = jseshStyle.geometry().cartoucheLineWidth() / 2f;
 
         // Account for the  bastion depth.
         // dy = drawingSpecifications.getEnclosureBastionDepth();
@@ -210,38 +210,38 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
     }
 
     private void drawHorizontalBastions(BastionDrawingInfo info, float startX, float startY, BastionPosition bastionPosition) {
-        float x = startX + info.getInterBastionSkip() + drawingSpecifications.getEnclosureBastionLength();
+        float x = startX + info.getInterBastionSkip() + jseshStyle.geometry().bastionLength();
         float bastionY;
         if (bastionPosition == BastionPosition.BEFORE) {
-            bastionY = startY - drawingSpecifications.getEnclosureBastionDepth();
+            bastionY = startY - jseshStyle.geometry().bastionDepth();
         } else {
             bastionY = startY;
         }
         for (int i = 0; i < info.getNumberOfBastions(); i++) {
             fillRect(x, bastionY,
-                    drawingSpecifications.getEnclosureBastionLength(),
-                    drawingSpecifications.getEnclosureBastionDepth());
-            x += drawingSpecifications.getEnclosureBastionLength()
+                    jseshStyle.geometry().bastionLength(),
+                    jseshStyle.geometry().bastionDepth());
+            x += jseshStyle.geometry().bastionLength()
                     + info.getInterBastionSkip();
         }
     }
 
     private void drawVerticalBastions(BastionDrawingInfo info, float x, float startY, BastionPosition bastionPosition) {
-        float y = startY + info.getInterBastionSkip() + drawingSpecifications.getEnclosureBastionLength();
+        float y = startY + info.getInterBastionSkip() + jseshStyle.geometry().bastionLength();
         float bastionX;
         if (bastionPosition == BastionPosition.BEFORE) {
-            bastionX = x - drawingSpecifications.getEnclosureBastionDepth();
+            bastionX = x - jseshStyle.geometry().bastionDepth();
         } else {
             bastionX = x;
         }
 
         for (int i = 0; i < info.getNumberOfBastions(); i++) {
             fillRect(bastionX, y,
-                    drawingSpecifications.getEnclosureBastionDepth(),
-                    drawingSpecifications.getEnclosureBastionLength()
+                    jseshStyle.geometry().bastionDepth(),
+                    jseshStyle.geometry().bastionLength()
             );
 
-            y += drawingSpecifications.getEnclosureBastionLength()
+            y += jseshStyle.geometry().bastionLength()
                     + info.getInterBastionSkip();
         }
     }
@@ -255,7 +255,7 @@ public class EnclosureDrawer extends AbstractCartoucheDrawer {
         private float interBastionSkip;
 
         public BastionDrawingInfo(float availableRealEstate) {
-            float bastionWidth = drawingSpecifications.getEnclosureBastionLength();
+            float bastionWidth = jseshStyle.geometry().bastionLength();
             this.numberOfBastions = (int) ((availableRealEstate - 3.0 * bastionWidth) / (2 * bastionWidth));
             this.interBastionSkip = (availableRealEstate - (this.numberOfBastions + 2) * bastionWidth)
                     / (this.numberOfBastions + 1);

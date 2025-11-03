@@ -321,7 +321,7 @@ public class JSeshView extends AbstractView {
             // TODO save PDF prefs in pdf files...
             PDFExportPreferences prefs = new PDFExportPreferences();
             prefs.setFile(document.getFile());
-            prefs.setDrawingSpecifications(getDrawingSpecifications().copy());
+            prefs.setJseshStyle(getDrawingSpecifications().copy());
             prefs.getDrawingSpecifications().setTextDirection(
                     documentPreferences.getTextDirection());
             prefs.getDrawingSpecifications().setTextOrientation(
@@ -404,7 +404,7 @@ public class JSeshView extends AbstractView {
      *
      * @return a caret.
      */
-    public DrawingSpecification getDrawingSpecifications() {
+    public PaintingSpecifications getDrawingSpecifications() {
         return viewModel.getEditor().getDrawingSpecifications();
     }
 
@@ -421,8 +421,8 @@ public class JSeshView extends AbstractView {
     }
 
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
-        viewModel.setDrawingSpecifications(drawingSpecifications);
+            PaintingSpecifications drawingSpecifications) {
+        viewModel.setJseshStyle(drawingSpecifications);
     }
 
     /**
@@ -544,9 +544,9 @@ public class JSeshView extends AbstractView {
          * document.addEventLink(FormatEvent.class, menuManager,
          * updateMenuItems); )
          */
-        DrawingSpecification specs = getDrawingSpecifications().copy();
+        PaintingSpecifications specs = getDrawingSpecifications().copy();
         specs.setSmallSignsCentered(selected);
-        viewModel.setDrawingSpecifications(specs);
+        viewModel.setJseshStyle(specs);
         // getEditor().setSmallSignsCentered(selected);
         /*
          * getMdcDocument().setDocumentPreferences(
@@ -562,24 +562,24 @@ public class JSeshView extends AbstractView {
      * @param selected
      */
     public void setJustify(boolean selected) {
-        DrawingSpecification specs = getDrawingSpecifications().copy();
+        PaintingSpecifications specs = getDrawingSpecifications().copy();
         specs.setJustified(selected);
-        viewModel.setDrawingSpecifications(specs);
+        viewModel.setJseshStyle(specs);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextOrientation(TextOrientation textOrientation) {
-        DrawingSpecification specs = getDrawingSpecifications().copy();
+        PaintingSpecifications specs = getDrawingSpecifications().copy();
         specs.setTextOrientation(textOrientation);
-        viewModel.setDrawingSpecifications(specs);
+        viewModel.setJseshStyle(specs);
         // getEditor().setTextOrientation(textOrientation);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextDirection(TextDirection textDirection) {
-        DrawingSpecification specs = getDrawingSpecifications().copy();
+        PaintingSpecifications specs = getDrawingSpecifications().copy();
         specs.setTextDirection(textDirection);
-        viewModel.setDrawingSpecifications(specs);
+        viewModel.setJseshStyle(specs);
         // getEditor().setTextDirection(textDirection);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
@@ -590,10 +590,10 @@ public class JSeshView extends AbstractView {
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        DrawingSpecification drawingSpecification = getDrawingSpecifications()
+        PaintingSpecifications drawingSpecification = getDrawingSpecifications()
                 .copy();
         fontInfo.applyToDrawingSpecifications(drawingSpecification);
-        setDrawingSpecifications(drawingSpecification);
+        setJseshStyle(drawingSpecification);
     }
 
     /* (non-Javadoc)

@@ -35,7 +35,7 @@ public class MDCHRule implements MDCSymbols {
 	 * 
 	 * @return an absolute integer position from left edge of the page (?), in
 	 *         tab units.
-	 * @see DrawingSpecification#getTabUnitWidth()
+	 * @see PaintingSpecifications#getTabUnitWidth()
 	 */
 	public int getStartPos() {
 		return this.startPos;
@@ -55,7 +55,7 @@ public class MDCHRule implements MDCSymbols {
 	 * Gets the ending position for this horizontal rule
 	 * 
 	 * @return an absolute integer position from left edge of the page (?).
-	 * @see DrawingSpecification#getTabUnitWidth()
+	 * @see PaintingSpecifications#getTabUnitWidth()
 	 */
 	public int getEndPos() {
 		return this.endPos;

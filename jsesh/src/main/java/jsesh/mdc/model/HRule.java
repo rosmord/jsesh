@@ -25,7 +25,7 @@ public class HRule extends TopItem {
 	 * @param type type of line. 'l' for single, 'L' for double.
      * @param startPos start of the rule, as an absolute integer position from left edge of the page (?). 
      * @param endPos an absolute integer position from left edge of the page (?). 
-     * @see DrawingSpecification#getTabUnitWidth()
+     * @see PaintingSpecifications#getTabUnitWidth()
      */
 	public HRule(char type, int startPos, int endPos) {
 		this.type = type;

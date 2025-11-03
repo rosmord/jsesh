@@ -15,12 +15,14 @@ import java.awt.Stroke;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import jsesh.drawingspecifications.CartoucheSizeHelper;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.CartoucheSizeHelper;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * A drawer for "regular" cartouches.
@@ -29,13 +31,14 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  */
 public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
-    public NormalCartoucheDrawer(DrawingSpecification drawingSpecifications, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
-        super(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+    public NormalCartoucheDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
+        super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
     }
 
     @Override
     public void drawHorizontal(Cartouche cartouche) {
-        Stroke stroke = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+        Stroke stroke = geometry.cartoucheStroke();
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
@@ -50,14 +53,14 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         }
 
         // Compute horizontal space before and after the cartouche'stroke body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), leftElement);
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), rightElement);
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         Point2D.Float p1, p2, p3, p4;
 
@@ -70,7 +73,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
         // The necessary skip to get a nice bezier curve for our cartouche
         // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
+        float loopSkip = geometry.cartoucheLoopLength() / 3;
 
         g.setStroke(stroke);
         // Start
@@ -78,7 +81,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
             float p0x = dx;
             if (leftElement == 2) {
-                p0x += drawingSpecifications.getCartoucheknotLength();
+                p0x += geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(dx * 1.5, p1.getY(), dx * 1.5, p2
                         .getY()));
             }
@@ -97,7 +100,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
             float p0x = -dx;
             if (rightElement == 2) {
-                p0x += -drawingSpecifications.getCartoucheknotLength();
+                p0x += -geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(currentView.getWidth() - dx * 1.5,
                         p3.getY(), currentView.getWidth() - dx * 1.5, p4
                         .getY()));
@@ -114,7 +117,8 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
     @Override
     public void drawVertical(Cartouche cartouche) {
 
-        Stroke s = drawingSpecifications.buildCartoucheStroke(cartouche.getType());
+        GeometrySpecification geometry = jseshStyle.geometry();
+        Stroke s = geometry.cartoucheStroke();
         /*
 		 * float w1 = drawingSpecifications.getCartoucheStartWidth(cartouche.getType(),
 		 * cartouche .getStartPart()); float w2 =
@@ -124,14 +128,14 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         float w1, w2;
 
         // Compute vertical space before and after the cartouche's body :
-        w1 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w1 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getStartPart());
-        w2 = CartoucheSizeHelper.computeCartouchePartLength(drawingSpecifications,
+        w2 = CartoucheSizeHelper.computeCartouchePartLength(jseshStyle,
                 cartouche.getType(), cartouche.getEndPart());
 
         // Half line width : allows to have a close bounding box.
-        float dy = drawingSpecifications.getCartoucheLineWidth() / 2f;
-        float dx = drawingSpecifications.getCartoucheLineWidth() / 2f;
+        float dy = geometry.cartoucheLineWidth() / 2f;
+        float dx = geometry.cartoucheLineWidth() / 2f;
 
         // The respective limits of this cartouche's parts.
         //
@@ -153,7 +157,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
         // The necessary skip to get a nice bezier curve for our cartouche
         // loops.
-        float loopSkip = drawingSpecifications.getCartoucheLoopLength() / 3;
+        float loopSkip = geometry.cartoucheLineWidth() / 3;
 
         g.setStroke(s);
         // Start
@@ -161,7 +165,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
             float p0x = dx;
             if (cartouche.getStartPart() == 2) {
-                p0x += drawingSpecifications.getCartoucheknotLength();
+                p0x += geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(p2.getX(), dy, p1.getX(), dy));
             }
 
@@ -179,7 +183,7 @@ public class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
             float p0x = -dx;
             if (cartouche.getEndPart() == 2) {
-                p0x += -drawingSpecifications.getCartoucheknotLength();
+                p0x += -geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(p4.getX(), currentView.getHeight()
                         - dy * 1.5, p3.getX(), currentView.getHeight() - dy
                         * 1.5));

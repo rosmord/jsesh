@@ -58,7 +58,7 @@ public class JSeshApplicationBase {
     /**
      * Base drawing specifications for <em>new</em> documents.
      */
-    private DrawingSpecification defaultDrawingSpecifications = new DrawingSpecificationsImplementation();
+    private PaintingSpecifications defaultDrawingSpecifications = new DrawingSpecificationsImplementation();
 
     /**
      * Other information for copy/paste (file formats, for instance).
@@ -173,7 +173,7 @@ public class JSeshApplicationBase {
      *
      * @return
      */
-    public DrawingSpecification getDefaultDrawingSpecifications() {
+    public PaintingSpecifications getDefaultDrawingSpecifications() {
         return defaultDrawingSpecifications.copy();
     }
 
@@ -289,13 +289,13 @@ public class JSeshApplicationBase {
         this.fontInfo = fontInfo;
         // TODO : use a better system here... Meanwhile, we will stay with the current one.
         DefaultHieroglyphicFontManager.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
-        DrawingSpecification d = defaultDrawingSpecifications.copy();
+        PaintingSpecifications d = defaultDrawingSpecifications.copy();
         fontInfo.applyToDrawingSpecifications(d);
         defaultDrawingSpecifications = d;
     }
 
     public void setDefaultDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         defaultDrawingSpecifications = drawingSpecifications.copy();
     }
 

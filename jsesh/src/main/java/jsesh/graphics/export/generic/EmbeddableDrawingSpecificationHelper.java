@@ -12,8 +12,8 @@ import java.awt.*;
 
 public class EmbeddableDrawingSpecificationHelper {
 
-	public static DrawingSpecification createEmbeddedDrawingSpecifications(DrawingSpecification originalSpecifications) {
-		DrawingSpecification newDrawingSpecifications = originalSpecifications.copy();
+	public static PaintingSpecifications createEmbeddedDrawingSpecifications(PaintingSpecifications originalSpecifications) {
+		PaintingSpecifications newDrawingSpecifications = originalSpecifications.copy();
         PageLayout pageLayout = newDrawingSpecifications.getPageLayout();
         pageLayout.setLeftMargin(01);
         pageLayout.setTopMargin(01);

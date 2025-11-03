@@ -214,10 +214,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     @Override
     public void initView(Application a, View v) {
         super.initView(a, v);
-        DrawingSpecification drawingSpecifications = jseshApplicationBase
+        PaintingSpecifications drawingSpecifications = jseshApplicationBase
                 .getDefaultDrawingSpecifications();
         JSeshView jSeshView = (JSeshView) v;
-        jSeshView.setDrawingSpecifications(drawingSpecifications);
+        jSeshView.setJseshStyle(drawingSpecifications);
         jSeshView.setMDCModelTransferableBroker(transferableBroker);
         jSeshView.setFontInfo(getFontInfo());
     }
@@ -557,9 +557,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
             MDCModelTransferable result = new MDCModelTransferable(dataFlavors,
                     top);
-            DrawingSpecification currentDrawingSpecifications = ((JSeshView) application
+            PaintingSpecifications currentDrawingSpecifications = ((JSeshView) application
                     .getActiveView()).getDrawingSpecifications();
-            result.setDrawingSpecifications(currentDrawingSpecifications);
+            result.setJseshStyle(currentDrawingSpecifications);
             result.setRtfPreferences(jseshApplicationBase.getCurrentRTFPreferences());
             result.setClipboardPreferences(jseshApplicationBase.getClipboardPreferences());
             return result;
@@ -567,7 +567,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     public void setDefaultDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         jseshApplicationBase.setDefaultDrawingSpecifications(drawingSpecifications);
     }
 
@@ -576,7 +576,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      *
      * @return
      */
-    public DrawingSpecification getDefaultDrawingSpecifications() {
+    public PaintingSpecifications getDefaultDrawingSpecifications() {
         return jseshApplicationBase.getDefaultDrawingSpecifications();
     }
 

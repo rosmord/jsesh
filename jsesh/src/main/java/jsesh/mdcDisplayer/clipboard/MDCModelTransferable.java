@@ -56,7 +56,7 @@ public class MDCModelTransferable implements Transferable {
 
     private RTFExportPreferences rtfPreferences;
 
-    private DrawingSpecification drawingSpecifications;
+    private PaintingSpecifications drawingSpecifications;
 
     private MDCClipboardPreferences clipboardPreferences = new MDCClipboardPreferences();
 
@@ -134,7 +134,7 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getPDFData() throws IOException {
-        DrawingSpecification drawingSpecification = getDrawingSpecifications()
+        PaintingSpecifications drawingSpecification = getDrawingSpecifications()
                 .copy();
         // Target Cadrat height, in points.
         float targetHeight = rtfPreferences.getCadratHeight();
@@ -148,7 +148,7 @@ public class MDCModelTransferable implements Transferable {
      * @return
      */
     private ByteArrayInputStream getMacPictData() {
-        DrawingSpecification currentSpecifications = createEmbeddedDrawingSpecifications();
+        PaintingSpecifications currentSpecifications = createEmbeddedDrawingSpecifications();
         MacPictGraphics2D g = new MacPictGraphics2D();
         MDCView view = new ViewBuilder().buildView(topItemList,
                 currentSpecifications);
@@ -163,7 +163,7 @@ public class MDCModelTransferable implements Transferable {
     private BufferedImage getImageData() {
         BufferedImage result;
         MDCDrawingFacade facade = new MDCDrawingFacade();
-        facade.setDrawingSpecifications(createEmbeddedDrawingSpecifications());
+        facade.setJseshStyle(createEmbeddedDrawingSpecifications());
         facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
         facade.setCadratHeight(rtfPreferences.getCadratHeight());
         result = facade.createImage(topItemList);
@@ -199,7 +199,7 @@ public class MDCModelTransferable implements Transferable {
 
         if (topItemList.getNumberOfChildren() < 5000) {
             RTFExporter rtfExporter = new RTFExporter();
-            rtfExporter.setDrawingSpecifications(getDrawingSpecifications());
+            rtfExporter.setJseshStyle(getDrawingSpecifications());
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());
@@ -215,11 +215,11 @@ public class MDCModelTransferable implements Transferable {
     /**
      * @return Returns the drawingSpecifications.
      */
-    public DrawingSpecification getDrawingSpecifications() {
+    public PaintingSpecifications getDrawingSpecifications() {
         return drawingSpecifications;
     }
 
-    private DrawingSpecification createEmbeddedDrawingSpecifications() {
+    private PaintingSpecifications createEmbeddedDrawingSpecifications() {
        return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(this.drawingSpecifications);
     }
 
@@ -227,7 +227,7 @@ public class MDCModelTransferable implements Transferable {
      * @param drawingSpecifications The drawingSpecifications to set.
      */
     public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
+            PaintingSpecifications drawingSpecifications) {
         this.drawingSpecifications = drawingSpecifications.copy();
     }
 

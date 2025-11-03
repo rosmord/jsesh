@@ -37,7 +37,7 @@ public abstract class AbtractExportDrawer {
     private MDCView currentView;
     private float scaledWidth, scaledHeight;
     private double cadratHeight;
-    private final DrawingSpecification drawingSpecifications;
+    private final PaintingSpecifications drawingSpecifications;
     private boolean shadeAfter;
 
     /**
@@ -45,7 +45,7 @@ public abstract class AbtractExportDrawer {
      * @param drawingSpecifications the general drawing specifications
      * @param cadratHeight the actual quadrat height we want.
      */
-    protected AbtractExportDrawer(DrawingSpecification drawingSpecifications, double cadratHeight) {
+    protected AbtractExportDrawer(PaintingSpecifications drawingSpecifications, double cadratHeight) {
         this.drawingSpecifications = drawingSpecifications.copy();
         this.drawingSpecifications.setGraphicDeviceScale(1);
         this.cadratHeight = cadratHeight;
@@ -111,7 +111,7 @@ public abstract class AbtractExportDrawer {
     protected abstract Graphics2D buildGraphics();
 
 
-    public DrawingSpecification getDrawingSpecifications() {
+    public PaintingSpecifications getDrawingSpecifications() {
         return drawingSpecifications;
     }
 

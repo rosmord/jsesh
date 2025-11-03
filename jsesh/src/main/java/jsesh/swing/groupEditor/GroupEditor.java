@@ -113,7 +113,7 @@ public final class GroupEditor extends JPanel {
 
     private GroupEditorMode groupEditorMode = new DoNothingGroupEditorMode();
 
-    public GroupEditor(DrawingSpecification drawingSpecification) {
+    public GroupEditor(PaintingSpecifications drawingSpecification) {
     	groupEditorDrawingPreferences = new GroupEditorDrawingPreferences(new DrawingSpecificationsImplementation());
     	setDrawingSpecification(drawingSpecification);
         setBackground(Color.WHITE);
@@ -390,7 +390,7 @@ public final class GroupEditor extends JPanel {
      */
     public void move(double dx, double dy) {
         if (selected != -1) {
-            DrawingSpecification drawingSpecifications = groupEditorDrawingPreferences.getDrawingSpecifications();
+            PaintingSpecifications drawingSpecifications = groupEditorDrawingPreferences.getDrawingSpecifications();
             Hieroglyph h = group.getHieroglyphAt(selected);            
             double unitLength = drawingSpecifications.getHieroglyphsDrawer()
                     .getGroupUnitLength();
@@ -496,7 +496,7 @@ public final class GroupEditor extends JPanel {
         }
     }
 
-    public void setDrawingSpecification(DrawingSpecification drawingSpecifications) {
+    public void setDrawingSpecification(PaintingSpecifications drawingSpecifications) {
         // Ensure drawing specs are left to right.
         // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
 
@@ -504,9 +504,9 @@ public final class GroupEditor extends JPanel {
         // specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
         // groupEditorDrawingPreferences.setDrawingSpecifications(specs);
         // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
-        DrawingSpecification specs = drawingSpecifications.copy();
+        PaintingSpecifications specs = drawingSpecifications.copy();
         specs.setTextDirection(TextDirection.LEFT_TO_RIGHT.LEFT_TO_RIGHT);
-        groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        groupEditorDrawingPreferences.setJseshStyle(specs);
         // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
         repaint();
         revalidate();

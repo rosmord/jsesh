@@ -61,7 +61,7 @@ public class TestPartialCartoucheDrawingsWithOrientation {
         DrawingSpecificationsImplementation drawingSpecifications = new DrawingSpecificationsImplementation();
         drawingSpecifications.setTextDirection(direction);
         drawingSpecifications.setTextOrientation(orientation);
-        facade.setDrawingSpecifications(drawingSpecifications);
+        facade.setJseshStyle(drawingSpecifications);
         BufferedImage image = facade.createImage(partial);
         ImageIO.write(image, "png", getFile(testName));
     }

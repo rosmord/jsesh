@@ -39,7 +39,7 @@ public class SelectionExporter {
 
     private boolean clearBeforeDrawing = true;
 
-    private DrawingSpecification actualDrawingSpecifications;
+    private PaintingSpecifications actualDrawingSpecifications;
 
     /**
      * @param exportData

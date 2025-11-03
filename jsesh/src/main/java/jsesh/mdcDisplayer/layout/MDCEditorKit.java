@@ -4,8 +4,7 @@
  */
 package jsesh.mdcDisplayer.layout;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
+import jsesh.drawingspecifications.JSeshStyle;
 
 /**
  * Shared default values for JSesh widget preferences.
@@ -26,13 +25,13 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 abstract public class MDCEditorKit
 {
 
-	private DrawingSpecification drawingSpecifications;
+	private JSeshStyle jseshStyle;
 	
 
 	private static MDCEditorKit basicMDCEditorKit = buildMDCEditorKit();
 	
 	private static MDCEditorKit buildMDCEditorKit() {
-		 return new MDCEditorKit(new DrawingSpecificationsImplementation()) {
+		 return new MDCEditorKit(JSeshStyle.DEFAULT) {
 				public Layout createLayout() {
 					return new Layout();
 				}
@@ -44,8 +43,8 @@ abstract public class MDCEditorKit
 	}
 
 	
-	public MDCEditorKit(DrawingSpecification drawingSpecifications) {
-		this.drawingSpecifications= drawingSpecifications;
+	public MDCEditorKit(JSeshStyle jseshStyle) {
+		this.jseshStyle= jseshStyle;
 	}
 
 	/**
@@ -58,16 +57,16 @@ abstract public class MDCEditorKit
 	/**
 	 * @return drawing specifications.
 	 */
-	public DrawingSpecification getDrawingSpecifications()
+	public JSeshStyle getJseshStyle()
 	{
-		return drawingSpecifications;
+		return jseshStyle;
 	}
 	
 	/**
-	 * @param specifications
+	 * @param jseshStyle
 	 */
-	public void setDrawingSpecifications(DrawingSpecification specifications)
+	public void setJseshStyle(JSeshStyle jseshStyle)
 	{
-		drawingSpecifications = specifications;
+		this.jseshStyle = jseshStyle;
 	}
 }

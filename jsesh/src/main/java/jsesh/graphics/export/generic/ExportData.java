@@ -20,7 +20,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * @author rosmord
  */
 public class ExportData {
-	private DrawingSpecification drawingSpecifications;
+	private PaintingSpecifications drawingSpecifications;
 
 	private TopItemList topItemList;
 
@@ -38,7 +38,7 @@ public class ExportData {
 	 * @param data data to export (partially)
 	 * @param scale scaling information.
 	 */
-	public ExportData(DrawingSpecification drawingSpecifications,
+	public ExportData(PaintingSpecifications drawingSpecifications,
 			MDCPosition start, MDCPosition end, TopItemList data, double scale) {
 		super();
 		init(drawingSpecifications, start, end, data, scale);
@@ -52,7 +52,7 @@ public class ExportData {
 	 * @param text the text, as a list of cadrats.
 	 * @param scale the export scale. scale 1 means that a cadrat is 18 point high.
 	 */
-	public ExportData(DrawingSpecification drawingSpecifications,
+	public ExportData(PaintingSpecifications drawingSpecifications,
 			MDCCaret caret, TopItemList text, double scale) {	
 		MDCPosition start;
 		MDCPosition end;
@@ -66,7 +66,7 @@ public class ExportData {
 		init(drawingSpecifications, start, end, text, scale);
 	}
 	
-	private void init(DrawingSpecification drawingSpecifications, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
+	private void init(PaintingSpecifications drawingSpecifications, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
 		this.drawingSpecifications = drawingSpecifications;
 		this.topItemList = data;
 		this.scale = scale;
@@ -86,7 +86,7 @@ public class ExportData {
 		return topItemList;
 	}
 
-	public DrawingSpecification getDrawingSpecifications() {
+	public PaintingSpecifications getDrawingSpecifications() {
 		return drawingSpecifications;
 	}
 

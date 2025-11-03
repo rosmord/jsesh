@@ -1,5 +1,6 @@
 package jsesh.mdcDisplayer.layout;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Hieroglyph;
@@ -7,7 +8,6 @@ import jsesh.mdc.model.HorizontalListElement;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
 import jsesh.mdcDisplayer.mdcView.ViewSide;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Expert for laying out a Cadrat content.
@@ -28,15 +28,15 @@ public class QuadratLayout {
 	// should probably be stored in an object. "LayoutSpecification" might
 	// be a good class name for this one.
 
-	private DrawingSpecification drawingSpecifications;
+	private JSeshStyle jseshStyle;
 	private MDCView currentView;
 	private boolean centerSigns;
 	private TextOrientation currentTextOrientation;
 
-	public QuadratLayout(DrawingSpecification drawingSpecifications,
+	public QuadratLayout(JSeshStyle jseshStyle,
 			boolean centerSigns, TextOrientation currentTextOrientation) {
 		super();
-		this.drawingSpecifications = drawingSpecifications;
+		this.jseshStyle = jseshStyle;
 		this.centerSigns = centerSigns;
 		this.currentTextOrientation = currentTextOrientation;
 	}
@@ -83,7 +83,7 @@ public class QuadratLayout {
 			honourMaxWidth = false;
 		}
 
-		float maxWidth = drawingSpecifications.getMaxCadratWidth();
+		float maxWidth = jseshStyle.geometry().maxCadratWidth();
 
 		// First, we make sure that no hbox is too wide.
 		// Except when there is only one hbox ; in this case,
@@ -133,7 +133,7 @@ public class QuadratLayout {
 		float h = currentView.getSumOfSubViewsHeights();
 		// add the interline spaces
 		h += (currentView.getNumberOfSubviews() - 1)
-				* drawingSpecifications.getSmallSkip();
+				* jseshStyle.geometry().smallSkip();
 
 		// If the cadrat is not high enough, we add some space to set its height
 		// (if it's too large, it will be scaled anyway).
@@ -141,8 +141,8 @@ public class QuadratLayout {
 		// This should be done in a number of cases :
 		// a) generally in line composition
 
-		if ((honourMaxHeight) && h < drawingSpecifications.getMaxCadratHeight())
-			h = drawingSpecifications.getMaxCadratHeight();
+		if ((honourMaxHeight) && h < jseshStyle.geometry().maxCadratHeight())
+			h = jseshStyle.geometry().maxCadratHeight();
 
 		currentView.setHeight(h);
 
@@ -188,11 +188,10 @@ public class QuadratLayout {
 			}
 		}
 		// Now, if needed, we scale the cadrat :
-		if (honourMaxHeight && h > drawingSpecifications.getMaxCadratHeight()) {
-			currentView.reScale(drawingSpecifications.getMaxCadratHeight() / h);
+		if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
+			currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
 		}
 	}
-
 
 	private void fitLoneSignsToColumnWidth(Cadrat c, float width) {
 		for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
@@ -206,21 +205,22 @@ public class QuadratLayout {
 					Hieroglyph hiero = elt.getLoneSign();
 					MDCView subSubView = currentView.getSubView(k)
 							.getSubView(0);
-					// Ok. Now we have the lone sign. Is it an unscaled wide
+					// Ok. Now we have a lone sign. Is it an unscaled wide
 					// narrow sign ?
 					// (large "square" signs can probably be small and
 					// centered).
+					double heightOfA1 = jseshStyle
+							.getHieroglyphsDrawer()
+							.getHeightOfA1();
 					if (hiero.getRelativeSize() == 100
-							&& subSubView.getInternalWidth() >= drawingSpecifications
-									.getLargeSignSizeRatio()
-									* drawingSpecifications
-											.getHieroglyphsDrawer()
-											.getHeightOfA1()
-							&& subSubView.getInternalHeight() <= drawingSpecifications
-									.getSmallSignSizeRatio()
-									* drawingSpecifications
-											.getHieroglyphsDrawer()
-											.getHeightOfA1()) {
+							&& subSubView.getInternalWidth() >= jseshStyle
+									.geometry().largeSignSizeRatio()
+
+									* heightOfA1
+							&& subSubView.getInternalHeight() <= jseshStyle
+									.geometry()
+									.smallSignSizeRatio()
+									* heightOfA1) {
 						// The sign is a narrow broad sign. Good. Enlarge
 						// it, and enlarge the hbox view.
 						subSubView.reScale(width / subSubView.getWidth());

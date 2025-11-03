@@ -26,7 +26,7 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
  */
 public class PDFDataSaver {
 
-    private DrawingSpecification drawingSpecification;
+    private PaintingSpecifications drawingSpecification;
     private PDFExportPreferences pdfExportPreferences;
     private float scale = 1.0f;
 
@@ -38,7 +38,7 @@ public class PDFDataSaver {
      * @param pdfExportPreferences pdf-specific preferences.
      *
      */
-    public PDFDataSaver(DrawingSpecification drawingSpecification,
+    public PDFDataSaver(PaintingSpecifications drawingSpecification,
             PDFExportPreferences pdfExportPreferences) {
         this.drawingSpecification = drawingSpecification.copy();
         this.pdfExportPreferences = pdfExportPreferences;
@@ -49,7 +49,7 @@ public class PDFDataSaver {
      *
      * @param drawingSpecification
      */
-    public PDFDataSaver(DrawingSpecification drawingSpecification) {
+    public PDFDataSaver(PaintingSpecifications drawingSpecification) {
         this(drawingSpecification, new PDFExportPreferences());
     }
 
@@ -77,7 +77,7 @@ public class PDFDataSaver {
     public void writeSinglePagePDF(OutputStream out, TopItemList topItemList)
             throws IOException {
         // Dirty code which needs to be cleaned up.
-        DrawingSpecification myDrawingSpecification = this.drawingSpecification
+        PaintingSpecifications myDrawingSpecification = this.drawingSpecification
                 .copy();
 
         PDFExportHelper.ensureCMYKColorSpace(myDrawingSpecification);

@@ -28,7 +28,7 @@ public class ApplyModelAction extends AbstractViewAction {
 	public void actionPerformed(ActionEvent e) {
 		JSeshView view= (JSeshView) getActiveView();
 		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
-		view.setDrawingSpecifications(app.getDefaultDrawingSpecifications().copy());
+		view.setJseshStyle(app.getDefaultDrawingSpecifications().copy());
 	}
 	
 }

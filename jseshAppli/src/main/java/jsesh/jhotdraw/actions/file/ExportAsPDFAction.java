@@ -36,7 +36,7 @@ public class ExportAsPDFAction extends AbstractViewAction {
 					.getPDFExportPreferences();			
 			PDFExporter pdfExporter = new PDFExporter();			
 			pdfExporter.setPdfExportPreferences(pdfExportPreferences);
-			pdfExportPreferences.setDrawingSpecifications(jSeshView
+			pdfExportPreferences.setJseshStyle(jSeshView
 					.getDrawingSpecifications());
 
 			// WE SHOULD REMOVE FILE FROM THE PDF PREFERENCES. MEANWHILE...

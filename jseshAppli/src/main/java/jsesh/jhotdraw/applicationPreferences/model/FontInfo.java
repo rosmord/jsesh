@@ -217,7 +217,7 @@ public class FontInfo {
      * @param drawingSpecification
      */
     public void applyToDrawingSpecifications(
-            DrawingSpecification drawingSpecification) {
+            PaintingSpecifications drawingSpecification) {
         drawingSpecification.setFont('*', getBaseFont());
         drawingSpecification.setFont(ScriptCodes.TRANSLITERATION,
                 getTransliterationFont());

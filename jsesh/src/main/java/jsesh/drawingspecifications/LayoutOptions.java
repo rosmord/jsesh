@@ -3,19 +3,20 @@ package jsesh.drawingspecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 
-public record RenderingOptions(
+/**
+ * Options which are related neither to geometry nor to fonts.
+ */
+public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,
-        ShadingMode shadingStyle,
         boolean paged,
         boolean smallSignCentered,
         boolean justified // will be removed
 ) {
 
-    public static final RenderingOptions DEFAULT = new RenderingOptions(
+    public static final LayoutOptions DEFAULT = new LayoutOptions(
             TextDirection.LEFT_TO_RIGHT,
             TextOrientation.HORIZONTAL,
-            ShadingMode.GRAY_SHADING,
             false,
             false,
             false);
@@ -28,15 +29,13 @@ public record RenderingOptions(
     public static class Builder {
         private TextDirection textDirection;
         private TextOrientation textOrientation;
-        private ShadingMode shadingStyle;
         private boolean paged;
         private boolean smallSignCentered;
         private boolean justified;
 
-        public Builder(RenderingOptions specs) {
+        public Builder(LayoutOptions specs) {
             this.textDirection = specs.textDirection;
             this.textOrientation = specs.textOrientation;
-            this.shadingStyle = specs.shadingStyle;
             this.paged = specs.paged;
             this.smallSignCentered = specs.smallSignCentered;
             this.justified = specs.justified;
@@ -52,10 +51,6 @@ public record RenderingOptions(
             return this;
         }
 
-        public Builder shadingStyle(ShadingMode shadingStyle) {
-            this.shadingStyle = shadingStyle;
-            return this;
-        }
 
         public Builder paged(boolean paged) {
             this.paged = paged;
@@ -72,11 +67,10 @@ public record RenderingOptions(
             return this;
         }
 
-        public RenderingOptions build() {
-            return new RenderingOptions(
+        public LayoutOptions build() {
+            return new LayoutOptions(
                     textDirection,
                     textOrientation,
-                    shadingStyle,
                     paged,
                     smallSignCentered,
                     justified);

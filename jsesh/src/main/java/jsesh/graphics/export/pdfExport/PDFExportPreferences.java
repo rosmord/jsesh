@@ -33,7 +33,7 @@ public class PDFExportPreferences {
 
 	private boolean showPageNumbers;
 
-	private DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
+	private PaintingSpecifications drawingSpecifications = new DrawingSpecificationsImplementation();
 
 	private Color backgroundColor = Color.WHITE;
 
@@ -186,14 +186,14 @@ public class PDFExportPreferences {
 	/**
 	 * @return the drawingSpecifications
 	 */
-	public DrawingSpecification getDrawingSpecifications() {
+	public PaintingSpecifications getDrawingSpecifications() {
 		return drawingSpecifications;
 	}
 
 	/**
 	 * @param drawingSpecifications the drawingSpecifications to set
 	 */
-	public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
+	public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
 		this.drawingSpecifications = drawingSpecifications;
 	}
 

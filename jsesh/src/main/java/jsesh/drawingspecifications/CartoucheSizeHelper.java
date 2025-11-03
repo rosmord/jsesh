@@ -1,11 +1,11 @@
-package jsesh.mdcDisplayer.preferences;
+package jsesh.drawingspecifications;
 
 public class CartoucheSizeHelper {
 
 	/**
 	 * Compute the size needed for cartouches starts and ends along the main
 	 * axis. Use the basic sizes values declared in this class.
-	 * @param drawingSpecification the corresponding {@link DrawingSpecification}
+	 * @param jseshStyle the corresponding {@link JSeshStyle}
 	 * @param type
 	 *            the type of cartouche ('c', 's', 'h', 'f' or 'F')
 	 * @param element :
@@ -15,7 +15,8 @@ public class CartoucheSizeHelper {
 
 	//public abstract float computeCartouchePartLength(int type, int element);
 
-	public static float computeCartouchePartLength(DrawingSpecification drawingSpecification, int type, int element) {
+	public static float computeCartouchePartLength(JSeshStyle jseshStyle, int type, int element) {
+		GeometrySpecification geometry = jseshStyle.geometry();
 	    float result = 0;
 	    switch (type) {
 	    case 'c':
@@ -24,10 +25,10 @@ public class CartoucheSizeHelper {
 	            result = 0;
 	            break;
 	        case 1:
-	            result = drawingSpecification.getCartoucheLoopLength();
+	            result = geometry.cartoucheLoopLength();
 	            break;
 	        case 2:
-	            result = drawingSpecification.getCartoucheLoopLength() + drawingSpecification.getCartoucheknotLength();
+	            result = geometry.cartoucheLoopLength() + geometry.cartoucheLineWidth();
 	            break;
 	        default:
 	            throw new RuntimeException("bad value for element " + element);
@@ -36,13 +37,13 @@ public class CartoucheSizeHelper {
 	    case 's':
 	        switch (element) {
 	        case 1:
-	            result = drawingSpecification.getHwtSmallMargin()
-	                    + drawingSpecification.getCartoucheLineWidth();
+	            result = geometry.hwtSmallMargin()
+	                    + geometry.cartoucheLineWidth();
 	            break;
 	        case 2:
-	            result = drawingSpecification.getHwtSmallMargin()
-	                    + drawingSpecification.getCartoucheLineWidth()
-	                    + drawingSpecification.getSerekhDoorSize();
+	            result = geometry.hwtSmallMargin()
+	                    + geometry.cartoucheLineWidth()
+	                    + geometry.serekhDoorSize();
 	            break;
 	        }
 	        break;
@@ -51,12 +52,12 @@ public class CartoucheSizeHelper {
 	        case 0:
 	            break;
 	        case 1:
-	            result = drawingSpecification.getHwtSmallMargin() + drawingSpecification.getCartoucheLineWidth();
+	            result = geometry.hwtSmallMargin() + geometry.cartoucheLineWidth();
 	            break;
 	        case 2:
 	        case 3:
-	            result = drawingSpecification.getHwtSmallMargin() + drawingSpecification.getCartoucheLineWidth()
-	                    + drawingSpecification.getHwtSquareSize();
+	            result = geometry.hwtSmallMargin() + geometry.cartoucheLineWidth()
+	                    + geometry.hwtSquareSize();
 	            break;
 	        default:
 	            throw new RuntimeException("bad value for element " + element);
@@ -65,9 +66,9 @@ public class CartoucheSizeHelper {
 	    case 'F':                
 	    case 'f':
 	        if (element != 0) {
-	            result = drawingSpecification.getHwtSmallMargin()
-	                    + drawingSpecification.getEnclosureBastionDepth()
-	                    + drawingSpecification.getCartoucheLineWidth();
+	            result = geometry.hwtSmallMargin()
+	                    + geometry.bastionDepth()
+	                    + geometry.cartoucheLineWidth();
 	        }
 	        break;
 	    }
@@ -77,23 +78,24 @@ public class CartoucheSizeHelper {
 	/**
 	 * length along the secondary axis of a cartouche from the cartouche
 	 * external side to the text inside.
-	 * @param drawingSpecification the corresponding drawing specifications.
+	 * @param jseshStyle the corresponding drawing specifications.
 	 * @param type
 	 * @return the length along the secondary axis of a cartouche from the
 	 *         cartouche external side to the text inside.
 	 */
-	public static float computeCartoucheSecondaryLength(DrawingSpecification drawingSpecification, int type) {
+	public static float computeCartoucheSecondaryLength(JSeshStyle jseshStyle, int type) {
 	    float result = 0;
+		GeometrySpecification geometry = jseshStyle.geometry();
 	    switch (type) {
 	    case 'c':
 	    case 's':
 	    case 'h':
-	        result = drawingSpecification.getCartoucheMargin() + drawingSpecification.getCartoucheLineWidth();
+	        result = geometry.cartoucheMargin() + geometry.cartoucheLineWidth();
 	        break;
             case 'F':                	                    
 	    case 'f':
-	        result = drawingSpecification.getCartoucheMargin() + drawingSpecification.getCartoucheLineWidth()
-	                + drawingSpecification.getEnclosureBastionDepth();
+	        result = geometry.cartoucheMargin() + geometry.cartoucheLineWidth()
+	                + geometry.bastionDepth();
 	        break;
 	    }
 	    return result;
