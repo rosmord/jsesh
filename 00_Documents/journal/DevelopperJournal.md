@@ -2,10 +2,14 @@
 
 This journal should only be edited and modified in the Development branch.
 
-**TODO**
+## Long Term TODO
 
-When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+- When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+- when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
+
 ## 2025/11/03
+
+- TODO : look more closely at the uses of `groupUnitLength`, and consider expressing it in the model space, not the inner font space.
 
 - renamed `ColorSpecifications` to `PaintingSpecifications` (see next entry);
 - moved `shadingStyle` to `PaintingSpecifications` (more logical);
@@ -13,7 +17,16 @@ When the software compiles, replace all variable named "drawingSpecifications" b
 
 - **TODO** (cleanup): remove `depth` in Layout. It's not used.
 - pass `HieroglyphsDrawer` **and** `RenderingContext` ?
+- the `reset()` method in layout is used to set up the JSeshStyle to use. It seems the style could be set elsewhere.
 
+- **check if the following code is correct** : 
+  
+  ~~~java
+  if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
+						* hieroglyphsDrawer.getHeightOfA1()) {
+  ~~~
+
+  I think we should use `jseshStyle.geometry().standardSignHeight()` instead of `hieroglyphsDrawer.getHeightOfA1`
 
 Note:
 

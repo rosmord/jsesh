@@ -42,12 +42,14 @@ import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdcDisplayer.context.RenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
 
 /**
- * Elements of this class are responsible for computing the position and
+ * Instances of this class are responsible for computing the position and
  * dimensions of view elements.
  * 
  * <b> This class should probably not be part of the visible API of JSesh</b>
@@ -62,10 +64,10 @@ import jsesh.mdcDisplayer.mdcView.ViewIterator;
  * 
  * 
  *  <p>
- *         Note that layout is not supposed to be called recursively. The
- *         recursion is done through ViewBuilder.
+ *   Note that layout is not supposed to be called recursively. The
+ *   recursion is done through ViewBuilder.
  * 
- *         <p>
+ *  <p>
  *         When layout is called on a view, the following conditions can be
  *         supposed to be fullfilled :
  *         <ul>
@@ -91,8 +93,7 @@ import jsesh.mdcDisplayer.mdcView.ViewIterator;
  * @author Serge Rosmorduc
  *
  */
-
-public  class Layout  {
+public class Layout {
 
 	/**
 	 * The view which is currently built.
@@ -103,6 +104,19 @@ public  class Layout  {
 	 * The drawing specifications in use. Only set during the view building.
 	 */
 	private JSeshStyle jseshStyle = null;
+
+	/**
+	 * The Render context which should be used.
+	 * 
+	 * Might become somehow obsolete when the actual Graphics2D context is known.
+	 */
+
+	 private RenderContext renderContext = null;
+
+	/**
+	 * The hieroglyphs drawer to use.
+	 */
+	 private HieroglyphsDrawer hieroglyphsDrawer = null;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
@@ -206,14 +220,16 @@ public  class Layout  {
 	/**
 	 * Reset the internal state of the Layout before working on a new text chunk.
 	 * 
-	 * @param drawingSpecifications TODO
+	 * @param jseshStyle the current specifications for layout.
 	 *
 	 */
-	public void reset(JSeshStyle drawingSpecifications) {
-		this.jseshStyle = drawingSpecifications;
-		currentTextOrientation = drawingSpecifications.options().textOrientation();
-		currentTextDirection = drawingSpecifications.options().textDirection();
-		centerSigns = drawingSpecifications.options().smallSignCentered();
+	public void reset(JSeshStyle jseshStyle, RenderContext renderContext, HieroglyphsDrawer hieroglyphsDrawer) {
+		this.jseshStyle = jseshStyle;
+		this.renderContext = renderContext;
+		this.hieroglyphsDrawer = hieroglyphsDrawer;
+		currentTextOrientation = jseshStyle.options().textOrientation();
+		currentTextDirection = jseshStyle.options().textDirection();
+		centerSigns = jseshStyle.options().smallSignCentered();
 	}
 
 	/**
@@ -222,6 +238,7 @@ public  class Layout  {
 	 */
 	public void cleanup() {
 		jseshStyle = null;
+		renderContext = null;
 	}
 
 	
@@ -268,7 +285,7 @@ public  class Layout  {
 		} else {
 			Font f = jseshStyle.fonts().getFont(t.getScriptCode());
 
-			FontRenderContext fontRenderContext = jseshStyle.getFontRenderContext();
+			FontRenderContext fontRenderContext = renderContext.fontRenderContext();
 
 			TextLayout layout = new TextLayout(text, f, fontRenderContext);
 
@@ -318,7 +335,7 @@ public  class Layout  {
 	 */
 	@Override
 	public void visitCadrat(Cadrat c) {
-		new QuadratLayout(jseshStyle, centerSigns, currentTextOrientation).layout(currentView, c);
+		new QuadratLayout(jseshStyle, hieroglyphsDrawer, centerSigns, currentTextOrientation).layout(currentView, c);
 	}
 
 	/**
@@ -396,13 +413,12 @@ public  class Layout  {
 	@Override
 	public void visitComplexLigature(ComplexLigature ligature) {
 		List<Optional<LigatureZone>> zones = new ArrayList<>(3);
-		HieroglyphsDrawer hieroglyphsDrawer = jseshStyle.getHieroglyphsDrawer();
 
 		// TODO attach ligature zones to final (rotated, scaled) shapes
 		// TODO not to hieroglyphic codes !!!
 
 		for (int i = 0; i < 3; i++) {
-			float scale = jseshStyle.getSignScale();
+			float scale = computeScale();
 			final float scale1; // we need a final var for map argument.
 			if (ligature.getHieroglyph().getRelativeSize() != 100)
 				scale1 = scale * ligature.getHieroglyph().getFLoatScale();
@@ -491,8 +507,8 @@ public  class Layout  {
 			boolean shouldEnlarge = false;
 			if (group.containsOnlyOneSign()) {
 				if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
-						* jseshStyle.getHieroglyphsDrawer().getHeightOfA1()) {
-					shouldEnlarge = true;
+						* hieroglyphsDrawer.getHeightOfA1()) {
+					shouldEnlarge = true;					
 				}
 			}
 
@@ -531,7 +547,7 @@ public  class Layout  {
 		case SymbolCodes.SMALLTEXT: {
 			// Temporary hack as proof of concept.
 			String smallText = h.getSmallText();
-			Dimension2D r = jseshStyle.getSuperScriptDimensions(smallText);
+			Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), smallText);
 			currentView.setHeight((float) r.getHeight());
 			currentView.setWidth((float) r.getWidth());
 		}
@@ -582,26 +598,25 @@ public  class Layout  {
 				currentView.setYStretchable(true);
 			}
 
-			Rectangle2D rect = jseshStyle.getHieroglyphsDrawer().getBBox(h.getCode(), h.getAngle(), fixed);
+			Rectangle2D rect = hieroglyphsDrawer.getBBox(h.getCode(), h.getAngle(), fixed);
 			currentView.setWidth((float) rect.getWidth());
 			currentView.setHeight((float) rect.getHeight());
 		}
 			break;
 
 		case SymbolCodes.MDCCODE: {
-			HieroglyphsDrawer d = jseshStyle.getHieroglyphsDrawer();
 
 			String code = h.getCode();
 
-			if (d.isKnown(code)) {
+			if (hieroglyphsDrawer.isKnown(code)) {
 				int angle = h.getAngle();
-				Rectangle2D s = d.getBBox(code, angle, true);
+				Rectangle2D s = hieroglyphsDrawer.getBBox(code, angle, true);
 
 				// Take the font size into account.
-				currentView.setHeight((float) (s.getHeight() * geometry.getSignScale()));
-				currentView.setWidth((float) (s.getWidth() * jseshStyle.getSignScale()));
+				currentView.setHeight((float) (s.getHeight() * computeScale()));
+				currentView.setWidth((float) (s.getWidth() * computeScale()));
 			} else {
-				Dimension2D r = jseshStyle.getSuperScriptDimensions(code);
+				Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), code);
 				currentView.setHeight((float) r.getHeight());
 				currentView.setWidth((float) r.getWidth());
 			}
@@ -646,7 +661,7 @@ public  class Layout  {
 				float x, y;
 				// So, the ligature coordinates suppose unscaled signs.
 				// We scale them...
-				float signScale = jseshStyle.getSignScale();
+				float signScale = computeScale();
 				x = (float) (pos[k].getX() * signScale * getGroupUnitScale());
 				y = (float) (pos[k].getY() * signScale * getGroupUnitScale());
 				subv.resetPos();
@@ -673,12 +688,12 @@ public  class Layout  {
 				}
 				// In case the second ligature zone is missing from the first
 				// element, try zone 1.
-				if (ligatureZonePosition == 2 && !jseshStyle.getHieroglyphsDrawer()
+				if (ligatureZonePosition == 2 && !hieroglyphsDrawer
 						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode())
 						.isPresent()) {
 					ligatureZonePosition = 1;
 				}
-				Optional<LigatureZone> ligatureZone = jseshStyle.getHieroglyphsDrawer()
+				Optional<LigatureZone> ligatureZone = hieroglyphsDrawer
 						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode());
 
 				// Build the ligature.
@@ -687,7 +702,7 @@ public  class Layout  {
 					LigatureZone z = ligatureZone.get();
 					currentView.getSubView(largerSignIndex).resetPos();
 					// Take into account the sign scale..
-					z = z.scale(jseshStyle.getSignScale());
+					z = z.scale(computeScale());
 					// NEW code for the new complex ligature system.
 					z.placeView(currentView.getSubView(smallerSignIndex));
 					// End of new code.
@@ -696,11 +711,11 @@ public  class Layout  {
 				// We try a ligature centered around the 2nd sign.
 				String code = l.getHieroglyphAt(1).getCode();
 				Optional<LigatureZone> r1, r2;
-				r1 = jseshStyle.getHieroglyphsDrawer().getLigatureZone(0, code);
-				r2 = jseshStyle.getHieroglyphsDrawer().getLigatureZone(1, code);
+				r1 = hieroglyphsDrawer.getLigatureZone(0, code);
+				r2 = hieroglyphsDrawer.getLigatureZone(1, code);
 				if (r1.isPresent() && r2.isPresent()) {
-					LigatureZone z1 = r1.get().scale(jseshStyle.getSignScale());
-					LigatureZone z2 = r2.get().scale(jseshStyle.getSignScale());
+					LigatureZone z1 = r1.get().scale(computeScale());
+					LigatureZone z2 = r2.get().scale(computeScale());
 					currentView.getSubView(1).resetPos();
 					z1.placeView(currentView.getSubView(0));
 					z2.placeView(currentView.getSubView(2));
@@ -709,6 +724,7 @@ public  class Layout  {
 		}
 		currentView.fitToSubViews(true);
 	}
+
 
 	@Override
 	public void visitLineBreak(LineBreak b) {
@@ -749,7 +765,7 @@ public  class Layout  {
 		// visitDefault(p.getBasicItemList());
 		MDCView subView = currentView.getFirstSubView();
 
-		float margin = jseshStyle.getPhilologyWidth(p.getType()) + jseshStyle.getSmallSkip();
+		float margin = PhilologyHelper.philologyWidth(p.getType()) + jseshStyle.geometry().smallSkip();
 
 		currentView.getFirstSubView().getPosition().setLocation(margin, 0);
 		currentView.setWidth(margin * 2 + subView.getWidth());
@@ -765,7 +781,8 @@ public  class Layout  {
 
 	@Override
 	public void visitSuperScript(Superscript s) {
-		Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
+		//Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
+		Dimension2D dims = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), s.getText());
 		currentView.setWidth((float) dims.getWidth());
 		currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
 				dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
@@ -833,9 +850,20 @@ public  class Layout  {
 		currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
 	}
 
+	// Weird code, which supposes that the reference font has a scale of 18.0 for A1
+	// It could be moved to geometry specifications, and the scaling removed.
 	private double getGroupUnitScale() {
-		return jseshStyle.getHieroglyphsDrawer().getGroupUnitLength()
-				* (jseshStyle.geometry().standardSignHeight() / 18.0);
+		return hieroglyphsDrawer.getGroupUnitLength()
+				* computeScale();
+	}
+
+
+	/**
+	 * Compute the scale from the "font" space to the current drawing space.
+	 * @return
+	 */
+	private float computeScale() {
+		return hieroglyphsDrawer.signScale(jseshStyle);
 	}
 
 	/**

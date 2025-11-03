@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 
 /**
@@ -122,6 +123,24 @@ public interface HieroglyphsDrawer {
      */
     double getHeightOfA1();
 
+
+    /**
+     * Returns the scale to apply to a sign in this font to use the target height defined in the style.
+     * @param targetA1Height the desired height of sign A1 in the final rendering.
+     * @return
+     */
+    default float signScale(double targetA1Height) {
+        return (float) (targetA1Height / getHeightOfA1());                    
+    }
+
+    /**
+     * Easier version of signScale, getting targetA1Height from the style.
+     * @param jseshStyle
+     * @return
+     */
+    default float signScale(JSeshStyle jseshStyle) {
+        return (float) (jseshStyle.geometry().standardSignHeight() / getHeightOfA1());                    
+    }
     /**
      * Returns the length of 1 "group" unit. Groups units are relative to the
      * size of the fonts. More precisely, they are 1/1000 of the height of the

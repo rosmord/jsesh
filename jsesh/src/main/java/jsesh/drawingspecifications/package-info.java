@@ -13,6 +13,7 @@
  * <li>RenderingOptions: rendering options (shading style, etc.)</li>
  * </ul>
  * 
+ * Regarding technical specifications, we use the RenderingContext class to pass them. 
  * @author rosmord
  */
 package jsesh.drawingspecifications;

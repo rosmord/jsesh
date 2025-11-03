@@ -15,7 +15,8 @@ import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.utils.InnerGroupLister;
-import jsesh.mdcDisplayer.layout.Layout;
+import jsesh.mdcDisplayer.context.RenderContext;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 /**
  * @author Serge Rosmorduc
@@ -31,12 +32,13 @@ public class AbsoluteGroupBuilder {
 	 * be as close as possible to the original top items disposition.
 	 * 
 	 * @param topItems
-	 * @param specs
+	 * @param jseshStyle
+	 * @param hieroglyphsDrawer
 	 * @return a new AbsoluteGroup.
 	 */
 	
 	public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems,
-			PaintingSpecifications specs) {
+			JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphsDrawer, RenderContext renderContext) {
 		AbsoluteGroup result = null;
 
 		if (topItems.size() == 1) {
@@ -48,7 +50,7 @@ public class AbsoluteGroupBuilder {
 		}
 		if (result == null) {
 			AbsoluteGroupComposer composer = new AbsoluteGroupComposer();
-			composer.createAbsoluteGroupFrom(topItems, specs);
+			composer.createAbsoluteGroupFrom(topItems, jseshStyle, hieroglyphsDrawer, renderContext);
 			result = composer.result;
 
 		}
@@ -77,16 +79,16 @@ public class AbsoluteGroupBuilder {
 		 * @param specs
 		 * @return
 		 */
-		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshStyle drawingSpecifications) {
+		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphsDrawer, RenderContext renderContext) {
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
-			sizeOfGroupUnit= drawingSpecifications.getHieroglyphsDrawer().getGroupUnitLength();
+			sizeOfGroupUnit= hieroglyphsDrawer.getGroupUnitLength();
 			origx = 0;
 			origy = 0;
 			for (int i = 0; i < topItems.size(); i++) {
 				scale = 1;
 				// Build a view of this item
-				MDCView v = builder.buildView((ModelElement) topItems.get(i),drawingSpecifications);
+				MDCView v = builder.buildView((ModelElement) topItems.get(i),jseshStyle, hieroglyphsDrawer, renderContext);
 				// extract the actual coordinates of the view elements
 				scanView(v);                                
 				origx += v.getWidth();

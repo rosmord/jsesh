@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.ViewBox;
 import jsesh.swing.utils.ShapeHelper;
@@ -52,7 +53,8 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 
 	}
 	
-	public void draw(Graphics2D g2d, String code, int angle, ViewBox currentView) {
+	@Override
+	public void draw(Graphics2D g2d, String code, int angle, ViewBox currentView, HieroglyphBodySize bodySize) {
 		Stroke oldStroke = g2d.getStroke();
 		float strokeWidth= PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
 		g2d.setStroke(new BasicStroke(strokeWidth));

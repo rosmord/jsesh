@@ -4,13 +4,18 @@ import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
+import jsesh.utils.DoubleDimensions;
 
 import java.awt.Font;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Specifications related to fonts and non-hieroglyphic text.
  * 
- * <p> This class is not perfect. Some information
+ * <p>
+ * This class is not perfect. Some information
  * relates only to the case of Unicode
  * 
  * <p>
@@ -20,7 +25,8 @@ import java.awt.Font;
  * i.e. a MdC font if translitUnicode is false, a
  * Unicode font if it is true.
  * 
- * @param translitUnicode      true if transliteration font uses Unicode, false if
+ * @param translitUnicode      true if transliteration font uses Unicode, false
+ *                             if
  *                             it is in classical ASCII Manuel de Codage.
  * @param yodChoice            how to render yod in transliteration (only used
  *                             if the font is a Unicode Font)
@@ -82,6 +88,23 @@ public record FontSpecification(
 			default ->
 				plainFont;
 		};
+	}
+
+	/**
+	 * Computes actual dimensions for a given superScript text.
+	 * 
+	 * NOTE: this method might move to a helper class if we want to avoid adding a dependency
+	 * between this class and AWT (but it's aready there because of Font), or if we want to avoid putting logic
+	 * in a record.
+	 * 
+	 * @param fontRenderContext the rendering context to use.
+	 * @param text the text to measure
+	 * @return the dimensions of the text in superScript font.
+	 */
+	public Dimension2D superScriptDimensions(FontRenderContext fontRenderContext, String text) {
+		Rectangle2D r = superScriptFont.getStringBounds(text,
+				fontRenderContext);
+		return new DoubleDimensions(r.getWidth(), r.getHeight());
 	}
 
 	public Builder copy() {
