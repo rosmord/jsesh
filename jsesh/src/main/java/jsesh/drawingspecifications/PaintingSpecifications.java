@@ -6,6 +6,9 @@ import java.util.Map;
 /**
  * Specifications for actual drawing; mainly colors but also shading.
  * 
+ * The colormap is used to map from tag names to colors. Tags are added to signs with the notation <code>SIGNCODE\TAGNAME</code>, for instance
+ * <code>A1\det</code> to mark that A1 is a determinative.
+ * 
  * @param blackColor the color to use for normal text.
  * @param redColor the color to use for red text.
  * @param cursorColor the color to use for the cursor.
@@ -38,7 +41,15 @@ public record PaintingSpecifications(
 			Map.of()
 			);
 
-	
+	/**
+	 * Returns the color for a given tag, as stored in the color map.
+	 * @param tagName name of the tag
+	 * @return the color, if any
+	 */
+	public java.util.Optional<Color> tagColor(String tagName) {
+		return java.util.Optional.ofNullable(colorMap.get(tagName));
+	}
+
 	public Builder copy() {
 		return new Builder(this);
 	}

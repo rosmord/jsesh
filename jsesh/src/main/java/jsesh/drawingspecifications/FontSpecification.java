@@ -3,6 +3,7 @@ package jsesh.drawingspecifications;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
 
@@ -93,18 +94,33 @@ public record FontSpecification(
 	/**
 	 * Computes actual dimensions for a given superScript text.
 	 * 
-	 * NOTE: this method might move to a helper class if we want to avoid adding a dependency
-	 * between this class and AWT (but it's aready there because of Font), or if we want to avoid putting logic
+	 * NOTE: this method might move to a helper class if we want to avoid adding a
+	 * dependency
+	 * between this class and AWT (but it's aready there because of Font), or if we
+	 * want to avoid putting logic
 	 * in a record.
 	 * 
-	 * @param fontRenderContext the rendering context to use.
-	 * @param text the text to measure
+	 * @param JSeshRenderContext the rendering context to use.
+	 * @param text               the text to measure
 	 * @return the dimensions of the text in superScript font.
 	 */
-	public Dimension2D superScriptDimensions(FontRenderContext fontRenderContext, String text) {
+	public Dimension2D superScriptDimensions(JSeshRenderContext renderContext, String text) {
 		Rectangle2D r = superScriptFont.getStringBounds(text,
-				fontRenderContext);
+				renderContext.fontRenderContext());
 		return new DoubleDimensions(r.getWidth(), r.getHeight());
+	}
+
+	/**
+	 * Get the dimensions of a text in a given script.
+	 * @param renderContext
+	 * @param scriptCode
+	 * @param text
+	 * @return
+	 */
+	public Rectangle2D textDimensions(JSeshRenderContext renderContext, char scriptCode, String text) {
+		Rectangle2D r = getFont(scriptCode).getStringBounds(text,
+				renderContext.fontRenderContext());
+		return r;
 	}
 
 	public Builder copy() {

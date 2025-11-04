@@ -13,7 +13,7 @@ import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
-import jsesh.mdcDisplayer.context.RenderContext;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 
@@ -56,8 +56,8 @@ public class ViewBuilder {
         this.layout = new Layout();
     }
 
-    public MDCView buildView(ModelElement elt, JSeshStyle jseshStyles, HieroglyphsDrawer hieroglyphsDrawer,  RenderContext renderContext) {
-        return buildView(elt, 0, elt.getNumberOfChildren(), jseshStyles, hieroglyphsDrawer, renderContext);
+    public MDCView buildView(ModelElement elt, JSeshRenderContext renderContext) {
+        return buildView(elt, 0, elt.getNumberOfChildren(), renderContext);
     }
 
 
@@ -74,9 +74,9 @@ public class ViewBuilder {
      * @param end
      * @return the view built for this element part.
      */
-    public MDCView buildView(ModelElement elt, int start, int end, JSeshStyle jseshStyles,  HieroglyphsDrawer hieroglyphsDrawer, RenderContext renderContext) {
+    public MDCView buildView(ModelElement elt, int start, int end, JSeshRenderContext renderContext) {
         // prepare for work :
-        getLayout().reset(jseshStyles, renderContext, hieroglyphsDrawer);
+        getLayout().reset(renderContext);
         // lay out the element.
         ViewBuilderAux visitor = new ViewBuilderAux(start, end);
         elt.accept(visitor);
@@ -92,9 +92,9 @@ public class ViewBuilder {
      *
      * @param v
      */
-    public void reLayout(MDCView view, JSeshStyle jseshStyles, HieroglyphsDrawer hieroglyphsDrawer, RenderContext renderContext) {
+    public void reLayout(MDCView view, JSeshRenderContext renderContext) {
         //	  prepare for work :
-        getLayout().reset(jseshStyles, renderContext, hieroglyphsDrawer);
+        getLayout().reset(renderContext);
         getLayout().layout(view, 0);
         getLayout().cleanup();
     }

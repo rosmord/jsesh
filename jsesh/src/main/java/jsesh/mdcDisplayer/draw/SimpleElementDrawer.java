@@ -11,6 +11,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.ScriptCodes;
@@ -32,7 +33,11 @@ import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
 import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
@@ -50,31 +55,33 @@ public class SimpleElementDrawer extends ElementDrawer {
      * {@inheritDoc}
      */
     @Override
-    public void prepareDrawing(PaintingSpecifications drawingSpecifications) {
-        super.prepareDrawing(drawingSpecifications);
-        // shading = false;
+    public void prepareDrawing(JSeshRenderContext renderContext) {
+        super.prepareDrawing(renderContext);
+        // Sets the drawing state to its default: no shading, no red color.
         setDrawingState(new TopItemState());
     }
 
     /*
-     * jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+     * jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.
+     * AlphabeticText)
      */
     @Override
     public void visitAlphabeticText(AlphabeticText t) {
+        JSeshStyle jseshStyle = getJseshStyle();
         if (!postfix) {
             return;
         }
         if (t.getScriptCode() != ScriptCodes.COMMENT) {
             String text = t.getText();
-            // TODO : support uppercase signs.
             if (t.getScriptCode() == 't') {
-                text = TranslitterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
+                text = TranslitterationUtilities.getActualTransliterationString(text,
+                        jseshStyle.fonts().transliterationEncoding());
             }
 
             if ("".equals(text)) {
                 return;
             }
-            g.setFont(drawingSpecifications.getFont(t.getScriptCode()));
+            g.setFont(jseshStyle.fonts().getFont(t.getScriptCode()));
 
             // g.drawString(text, 0, g.getFontMetrics().getAscent());
             FontRenderContext fontRenderContext = new FontRenderContext(
@@ -89,14 +96,14 @@ public class SimpleElementDrawer extends ElementDrawer {
             // layout.draw(g, 0, g.getFontMetrics().getAscent());
             // IN THEORY, THIS IS THE CORRECT LINE.
             layout.draw(g, 0, layout.getAscent());
-            //g.drawString(text, 0, layout.getAscent());
+            // g.drawString(text, 0, layout.getAscent());
 
             // One day we might propose a caret drawing system ?
         }
     }
 
     /*
-    * jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
+     * jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
      *
      * NOTE: Cartouches are drawn larger than the typical cadrat Height, so that
      * the signs in the cartouche be as tall as the ones outside. The cartouche
@@ -113,10 +120,12 @@ public class SimpleElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitCartouche(Cartouche c) {
+        JSeshStyle jseshStyle = getJseshStyle();
         if (!postfix) {
             return;
         }
-        CartoucheDrawerHelper helper = new CartoucheDrawerHelper(drawingSpecifications, currentTextDirection, currentTextOrientation, currentView, g);
+        CartoucheDrawerHelper helper = new CartoucheDrawerHelper(jseshStyle, currentTextDirection,
+                currentTextOrientation, currentView, g);
 
         if (currentTextOrientation.isHorizontal()) {
             helper.visitHorizontalCartouche(c);
@@ -128,10 +137,14 @@ public class SimpleElementDrawer extends ElementDrawer {
     /**
      * @param h
      * @see
-     * jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+     *      jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
      */
     @Override
     public void visitHieroglyph(Hieroglyph h) {
+        JSeshRenderContext renderContext = getRenderContext();
+        JSeshStyle jseshStyle = getJseshStyle();
+        HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+
         if (!postfix) {
             if (h.getModifiers().hasInteger("shading")) {
                 MDCShading shading = new MDCShading(""
@@ -144,50 +157,41 @@ public class SimpleElementDrawer extends ElementDrawer {
             return;
         }
         for (Modifier m : h.getModifiers().asIterable()) {
-            drawingSpecifications.getTagColor(m.getName()).ifPresent(
+            jseshStyle.painting().tagColor(m.getName()).ifPresent(
                     (c) -> {
                         g.setColor(c);
-                    }
-            );
+                    });
         }
 
         if (h.getModifiers().getBoolean("red")) {
-            g.setColor(drawingSpecifications.getRedColor());
+            g.setColor(jseshStyle.painting().redColor());
         }
         if (h.getModifiers().getBoolean("i")) {
-            g.setColor(drawingSpecifications.getGrayColor());
+            g.setColor(jseshStyle.painting().grayColor());
         }
-        for (int i = 0; i < h.getModifiers().getNumberOfChildren(); i++) {
-            Modifier mod = h.getModifiers().getModifierAt(i);
-            Color c = drawingSpecifications.getColorForProperty(mod.getName());
-            if (c != null) {
-                g.setColor(c);
-            }
 
-        }
         switch (h.getType()) {
             case SymbolCodes.SMALLTEXT: {
-                g.setFont(drawingSpecifications.getSuperScriptFont());
+                g.setFont(jseshStyle.fonts().superScriptFont());
 
                 String smallText = h.getSmallText();
-                Dimension2D r = drawingSpecifications
-                        .getSuperScriptDimensions(smallText);
+                Dimension2D r = jseshStyle.fonts()
+                        .superScriptDimensions(renderContext, smallText);
                 g.drawString(smallText, 0, (float) r.getHeight());
             }
-            break;
+                break;
             // Note : the only "special" codes are red points and probably
             // shades.
             // The other codes are dealt with by the HieroglyphsDrawer.
             case SymbolCodes.REDPOINT: {
-                Color col = g.getColor();
-                g.setColor(drawingSpecifications.getRedColor());
-                g.scale(drawingSpecifications.getSignScale(), drawingSpecifications
-                        .getSignScale());
-                drawingSpecifications.getHieroglyphsDrawer().draw(g, h.getCode(),
-                        0, currentView);
-                g.setColor(col);
+                Graphics2D tempG = (Graphics2D) g.create();
+                float scale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
+                tempG.setColor(jseshStyle.painting().redColor());
+                tempG.scale(scale, scale);
+                hieroglyphsDrawer.draw(tempG, h.getCode(), 0, currentView, HieroglyphBodySize.STANDARD);
+                tempG.dispose();
             }
-            break;
+                break;
             case SymbolCodes.HALFSPACE:
             case SymbolCodes.FULLSPACE:
                 break;
@@ -200,7 +204,7 @@ public class SimpleElementDrawer extends ElementDrawer {
                 Area area = new Area(r);
                 shadeArea(area);
             }
-            break;
+                break;
             // NOTE : Obviously, it would be better to create some kind of "symbol"
             // class for signs which are not hieroglyphs.
 
@@ -222,8 +226,8 @@ public class SimpleElementDrawer extends ElementDrawer {
                 drawSign(h, 1);
                 break;
             default:
-                // Ok, now the baseSignScale stuff should not be there...
-                float baseSignScale = drawingSpecifications.getSignScale();
+                // Ok, now the baseSignScale stuff should not be there...                
+                float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
                 drawSign(h, baseSignScale);
                 break;
 
@@ -237,11 +241,14 @@ public class SimpleElementDrawer extends ElementDrawer {
      * build view elements with all drawing information b) we draw them
      * mecanically.
      *
-     * @param h : the sign to draw
+     * @param h             : the sign to draw
      * @param baseSignScale a basic scale to apply to the original sign. This
-     * could be considered as a font size, in a way.
+     *                      could be considered as a font size, in a way.
      */
     private void drawSign(Hieroglyph h, float baseSignScale) {
+        HieroglyphsDrawer hieroglyphsDrawer = getRenderContext().hieroglyphDrawer();
+        JSeshStyle jseshStyle = getJseshStyle();
+
         Graphics2D tmpG = (Graphics2D) g.create();
         boolean reversed = (h.isReversed() ^ currentTextDirection
                 .equals(TextDirection.RIGHT_TO_LEFT));
@@ -255,7 +262,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         }
 
         // Actual drawing of the sign.
-        if (drawingSpecifications.getHieroglyphsDrawer().isKnown(h.getCode())) {
+        if (hieroglyphsDrawer.isKnown(h.getCode())) {
             // scale the sign if needed.
             // Note that not all signs are scaled
             tmpG.scale(baseSignScale,
@@ -263,34 +270,30 @@ public class SimpleElementDrawer extends ElementDrawer {
 
             // if the final scale is smaller than the selected
             // "smallBodyLimit", use the "small body font".
-            double resultingA1Height = drawingSpecifications
-                    .getHieroglyphsDrawer().getHeightOfA1()
+            double resultingA1Height = hieroglyphsDrawer.getHeightOfA1()
                     * tmpG.getTransform().getScaleY()
-                    / drawingSpecifications.getGraphicDeviceScale();
-            if (resultingA1Height < drawingSpecifications
-                    .getSmallBodyScaleLimit()) {
-                drawingSpecifications.getHieroglyphsDrawer()
-                        .setSmallBodyUsed(true);
+                    / getRenderContext().graphicDeviceScale();
+
+            HieroglyphBodySize bodySize;
+            if (resultingA1Height < jseshStyle.geometry()
+                    .smallBodyScaleLimit()) {
+                bodySize = HieroglyphBodySize.SMALL;
             } else {
-                drawingSpecifications.getHieroglyphsDrawer()
-                        .setSmallBodyUsed(false);
+                bodySize = HieroglyphBodySize.STANDARD;
             }
 
             // Actual drawing.
-            drawingSpecifications.getHieroglyphsDrawer().draw(tmpG, h.getCode(),
-                    h.getAngle(), currentView);
-            // Restore environment.
-            drawingSpecifications.getHieroglyphsDrawer().setSmallBodyUsed(
-                    false);
+            hieroglyphsDrawer.draw(tmpG, h.getCode(),
+                    h.getAngle(), currentView, bodySize);
             tmpG.scale(1 / baseSignScale,
                     1 / baseSignScale);
         } else {
             // Sign not found : draw its code.
-            tmpG.setFont(drawingSpecifications.getSuperScriptFont());
+            tmpG.setFont(jseshStyle.fonts().superScriptFont());
             Color color = tmpG.getColor();
-            tmpG.setColor(drawingSpecifications.getRedColor());
-            Dimension2D r = drawingSpecifications
-                    .getSuperScriptDimensions(h.getCode());
+            tmpG.setColor(jseshStyle.painting().redColor());
+            Dimension2D r = jseshStyle.fonts()
+                    .superScriptDimensions(getRenderContext(),h.getCode());
             tmpG.drawString(h.getCode(), 0, (float) r.getHeight());
             tmpG.setColor(color);
         }
@@ -303,33 +306,37 @@ public class SimpleElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitHRule(HRule h) {
+        JSeshStyle jseshStyle = getJseshStyle();
         if (!postfix) {
             return;
         }
         if (h.getType() == 'L') {
-            g.setStroke(drawingSpecifications.wideStroke());
+            g.setStroke(jseshStyle.geometry().wideStroke());
         } else {
-            g.setStroke(drawingSpecifications.fineStroke());
+            g.setStroke(jseshStyle.geometry().fineStroke());
         }
         g.draw(new Line2D.Float(h.getStartPos()
-                * drawingSpecifications.getTabUnitWidth(), 0, h.getEndPos()
-                * drawingSpecifications.getTabUnitWidth(), 0));
+                * jseshStyle.geometry().tabUnitWidth(), 0,
+                h.getEndPos()
+                        * jseshStyle.geometry().tabUnitWidth(),
+                0));
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.ElementDrawer#visitPageBreak(jsesh.mdc.model.
-	 * PageBreak)
+     * (non-Javadoc)
+     * 
+     * @see
+     * jsesh.mdcDisplayer.draw.ElementDrawer#visitPageBreak(jsesh.mdc.model.
+     * PageBreak)
      */
     @Override
-    public void visitPageBreak(PageBreak b) {
+    public void visitPageBreak(PageBreak b) {        
         if (!postfix) {
             return;
         }
-        if (!isPaged()) {
-            g.setStroke(drawingSpecifications.fineStroke());
+        JSeshStyle jseshStyle = getJseshStyle();
+        if (! jseshStyle.options().paged()) {
+            g.setStroke(jseshStyle.geometry().fineStroke());
             g.draw(new Line2D.Float(-10000f, 0, 10000f, 0));
         }
     }
@@ -346,7 +353,8 @@ public class SimpleElementDrawer extends ElementDrawer {
         try {
 
             drawBracket(p.getType() * 2 + 1, currentView.getWidth()
-                    - drawingSpecifications.getPhilologyWidth(p.getType()), 0);
+                    -
+                    PhilologyHelper.philologyWidth(p.getType()), 0);
             drawBracket(p.getType() * 2, 0, 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -354,7 +362,8 @@ public class SimpleElementDrawer extends ElementDrawer {
     }
 
     private void drawBracket(int code, float x, float y) {
-        Font f = drawingSpecifications.getFont('l');
+        JSeshStyle jseshStyle = getJseshStyle();        
+        Font f = jseshStyle.fonts().getFont('l');
 
         // Save current transformation.
         // AffineTransform old= g.getTransform();
@@ -362,9 +371,9 @@ public class SimpleElementDrawer extends ElementDrawer {
         tmpG.setFont(f);
         tmpG.translate(x, y);
         String s = LexicalSymbolsUtils.getStringForPhilology(code);
-        Rectangle2D d = drawingSpecifications.getTextDimensions('l', s);
+        Rectangle2D d = jseshStyle.fonts().textDimensions(getRenderContext(),'l', s);
 
-        double scalex = drawingSpecifications.getPhilologyWidth(code)
+        double scalex = PhilologyHelper.philologyWidth(code)
                 / d.getWidth();
 
         double scaley = currentView.getHeight() / d.getHeight();
@@ -373,38 +382,36 @@ public class SimpleElementDrawer extends ElementDrawer {
 
         tmpG.drawString(s, (float) (-d.getMinX() * scalex), (float) ((d
                 .getHeight() - d.getMaxY()) * scaley));
-
-        // tmpG.drawString(s, 0, g.getFontMetrics().getAscent());
-        // Restore :
-        // g.setTransform(old);
         tmpG.dispose();
     }
 
     /*
      *
-     * jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.Superscript)
+     * jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.
+     * Superscript)
      */
     @Override
     public void visitSuperScript(Superscript s) {
         if (!postfix) {
             return;
         }
+        JSeshStyle jseshStyle = getJseshStyle();
         String text = s.getText();
-        Dimension2D dims = drawingSpecifications.getSuperScriptDimensions(text);
-        g.setFont(drawingSpecifications.getSuperScriptFont());
+        Dimension2D dims = jseshStyle.fonts().superScriptDimensions(getRenderContext(), text);
+        g.setFont(jseshStyle.fonts().superScriptFont());
         g.drawString(text, 0, g.getFontMetrics().getAscent());
-        g.setStroke(drawingSpecifications.fineStroke());
+        g.setStroke(jseshStyle.geometry().fineStroke());
         g
                 .draw(new Line2D.Float((float) dims.getWidth() / 2.0f,
                         (float) dims.getHeight()
-                        + drawingSpecifications.getSmallSkip(),
+                                + jseshStyle.geometry().smallSkip(),
                         (float) dims.getWidth() / 2.0f, currentView
-                        .getInternalHeight()));
+                                .getInternalHeight()));
 
     }
 
     /*
-	 * Note that the coordinate system in any of these methods is scaled !
+     * Note that the coordinate system in any of these methods is scaled !
      */
     @Override
     public void visitCadrat(Cadrat c) {
@@ -434,7 +441,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         }
 
         boolean fillTopLeft;
-        boolean fillTopRight ;
+        boolean fillTopRight;
         boolean fillBottomLeft;
         boolean fillBottomRight;
 
@@ -518,15 +525,16 @@ public class SimpleElementDrawer extends ElementDrawer {
      * @param area
      */
     private void shadeArea(Area area) {
+        JSeshStyle jseshStyle = getJseshStyle();
         // Easy way: paint the area in grey...
         // Complex way : intersect the area with line hatching...
 
         // Prevent us from messing with the area (not that important currently,
         // but who knows ?)
-        if (drawingSpecifications.getShadingStyle().equals(
+        if (jseshStyle.painting().shadingStyle().equals(
                 ShadingMode.GRAY_SHADING)) {
             Color col = g.getColor();
-            g.setColor(drawingSpecifications.getGrayColor());
+            g.setColor(jseshStyle.painting().grayColor());
             g.fill(area);
             g.setColor(col);
         } else {
@@ -547,27 +555,13 @@ public class SimpleElementDrawer extends ElementDrawer {
     }
 
     public void visitComplexLigature(ComplexLigature ligature) {
-
     }
-
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdc.model.ModelElementVisitor#visitZoneStart(jsesh.mdc.model.ZoneStart
-	 * )
-     */
+   
     @Override
     public void visitZoneStart(ZoneStart start) {
 
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @seejsesh.mdc.model.ModelElementVisitor#visitOptionList(jsesh.mdc.model.
-	 * OptionsMap)
-     */
     public void visitOptionList(OptionsMap list) {
 
     }

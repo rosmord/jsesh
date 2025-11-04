@@ -42,7 +42,7 @@ import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
-import jsesh.mdcDisplayer.context.RenderContext;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
@@ -63,29 +63,29 @@ import jsesh.mdcDisplayer.mdcView.ViewIterator;
  * ViewBuilder.
  * 
  * 
- *  <p>
- *   Note that layout is not supposed to be called recursively. The
- *   recursion is done through ViewBuilder.
+ * <p>
+ * Note that layout is not supposed to be called recursively. The
+ * recursion is done through ViewBuilder.
  * 
- *  <p>
- *         When layout is called on a view, the following conditions can be
- *         supposed to be fullfilled :
- *         <ul>
- *         <it> the subview for the current view exist. <it> layout has been
- *         already called on these subviews.
- *         </ul>
+ * <p>
+ * When layout is called on a view, the following conditions can be
+ * supposed to be fullfilled :
+ * <ul>
+ * <it> the subview for the current view exist. <it> layout has been
+ * already called on these subviews.
+ * </ul>
  * 
- *         <p>
- *         The visitor you write should do the following :
- *         <ul>
- *         <it> compute and set currentView's dimensions (using the subviews and
- *         the associated element) ; <it> setting the scale and position of
- *         subviews. <it> it is possible to change the scale of currentview.
- *         </ul>
- *         <p>
- *         However, the position of the currentview is supposed to be set from
- *         its parentview, so don't change it.
- *         
+ * <p>
+ * The visitor you write should do the following :
+ * <ul>
+ * <it> compute and set currentView's dimensions (using the subviews and
+ * the associated element) ; <it> setting the scale and position of
+ * subviews. <it> it is possible to change the scale of currentview.
+ * </ul>
+ * <p>
+ * However, the position of the currentview is supposed to be set from
+ * its parentview, so don't change it.
+ * 
  * @see Layout
  * @see SimpleLayout
  * @see jsesh.mdcDisplayer.mdcView.ViewBuilder
@@ -100,23 +100,7 @@ public class Layout {
 	 */
 	private MDCView currentView;
 
-	/**
-	 * The drawing specifications in use. Only set during the view building.
-	 */
-	private JSeshStyle jseshStyle = null;
-
-	/**
-	 * The Render context which should be used.
-	 * 
-	 * Might become somehow obsolete when the actual Graphics2D context is known.
-	 */
-
-	 private RenderContext renderContext = null;
-
-	/**
-	 * The hieroglyphs drawer to use.
-	 */
-	 private HieroglyphsDrawer hieroglyphsDrawer = null;
+	private JSeshRenderContext renderContext = null;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
@@ -220,13 +204,12 @@ public class Layout {
 	/**
 	 * Reset the internal state of the Layout before working on a new text chunk.
 	 * 
-	 * @param jseshStyle the current specifications for layout.
+	 * @param renderContext the current specifications for layout.
 	 *
 	 */
-	public void reset(JSeshStyle jseshStyle, RenderContext renderContext, HieroglyphsDrawer hieroglyphsDrawer) {
-		this.jseshStyle = jseshStyle;
+	public void reset(JSeshRenderContext renderContext) {
 		this.renderContext = renderContext;
-		this.hieroglyphsDrawer = hieroglyphsDrawer;
+		JSeshStyle jseshStyle = renderContext.jseshStyle();
 		currentTextOrientation = jseshStyle.options().textOrientation();
 		currentTextDirection = jseshStyle.options().textDirection();
 		centerSigns = jseshStyle.options().smallSignCentered();
@@ -237,683 +220,703 @@ public class Layout {
 	 *
 	 */
 	public void cleanup() {
-		jseshStyle = null;
 		renderContext = null;
 	}
 
-	
 	private class LayoutAux extends ModelElementAdapter {
-	@Override
-	public void visitAbsoluteGroup(AbsoluteGroup g) {
-		// Fix the position for all subviews.
-		for (int i = 0; i < currentView.getNumberOfSubviews(); i++) {
-			MDCView subv = currentView.getSubView(i);
-			Hieroglyph h = g.getHieroglyphAt(i);
-			subv.resetPos();
-			double x, y;
-			x = h.getX() * getGroupUnitScale();
-			y = h.getY() * getGroupUnitScale();
-			subv.getPosition().setLocation(x, y);
-		}
-		currentView.fitToSubViews(false);
-		inAbsoluteGroup = false;
-	}
-
-	@Override
-	public void visitAlphabeticText(AlphabeticText t) {
-
-		// Comments are not displayed.
-		if (t.getScriptCode() == ScriptCodes.COMMENT) {
-			currentView.reset();
-			currentView.resetPos();
-			return;
-		}
-
-		String text = t.getText();
-		if (t.getScriptCode() == 't') {
-			text = TranslitterationUtilities.getActualTransliterationString(text,
-					jseshStyle.fonts().transliterationEncoding());
-		}
-		// Compute the text dimensions :
-		Rectangle2D dims;
-
-		// Ok now what we really want to do is
-		// a) get the "actual" text we want to display.
-		// b) get the correct font for this.
-		if ("".equals(text)) {
-			// Do nothing => empty view.
-		} else {
-			Font f = jseshStyle.fonts().getFont(t.getScriptCode());
-
-			FontRenderContext fontRenderContext = renderContext.fontRenderContext();
-
-			TextLayout layout = new TextLayout(text, f, fontRenderContext);
-
-			dims = layout.getBounds();
-
-			currentView.setHeight((float) dims.getHeight());
-
-			currentView.setWidth(layout.getAdvance());
-
-			// centered hieroglyphs (later we will propose a system replacing
-			// /2.0
-			// with some stored data.
-			// Align the text base with the hieroglyphs...
-			currentView.setDeltaBaseY(
-				jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent()
-				);
-		}
-
-	}
-
-	public void visitBasicItemList(BasicItemList l) {
-		if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
-			visitDefault(l);
-		} else {
-			currentView.stackTop(jseshStyle.geometry().smallSkip());
-			currentView.centerSubViewHorizontally();
-		}
-	}
-
-	/**
-	 * lay out a quadrat. This method is way too long.
-	 *
-	 * This method is currently quite complex, as the ultimate quadrat shape
-	 * depends on its environment.
-	 * <p>
-	 * besides, many parts have been added when they were needed.
-	 *
-	 * TODO : re-interpret this method as a modular list of layout processes. (or
-	 * something like that).
-	 *
-	 * NOTE : It appears that "lone" elements on a line, on a cadrat, lone lines,
-	 * etc... tend to deserve specific processing. We might consider this when we
-	 * refactor the code.
-	 *
-	 * @param c
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
-	 */
-	@Override
-	public void visitCadrat(Cadrat c) {
-		new QuadratLayout(jseshStyle, hieroglyphsDrawer, centerSigns, currentTextOrientation).layout(currentView, c);
-	}
-
-	/**
-	 * Lay out a cartouche. Lay out its internal parts, and also provide space for
-	 * the cartouche frame.
-	 * <p>
-	 * Remember that a cartouche contains only one subview.
-	 *
-	 * @param c
-	 */
-	@Override
-	public void visitCartouche(Cartouche c) {
-		// layout the cartouche's internals :
-		MDCView subView = currentView.getFirstSubView();
-
-		// the dimension along the principal axis of the cartouche (width for
-		// horizontal ones, height for vertical)
-		float longDim = 0;
-		// the other dimension.
-		float smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
-		
-
-		/**
-		 * cartouche inner part translation (reference and signs will be computed later)
-		 */
-		float dLong, dSmall;
-		dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
-
-		longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getStartPart());
-
-		dLong = longDim;
-
-		longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getEndPart());
-
-		if (currentTextOrientation.isHorizontal()) {
-			currentView.setWidth(subView.getWidth() + longDim);
-			currentView.setHeight(
-					Math.max(subView.getHeight() + smallDim, jseshStyle.geometry().maxCadratHeight() + smallDim));
-			// Position the cartouche's inner part :
-			subView.getPosition().setLocation(dLong, dSmall);
-
-		} else {
-			currentView.setHeight(subView.getHeight() + longDim);
-			// Maybe temporary :
-			if (subView.getWidth() < jseshStyle.geometry().maxCadratWidth() + smallDim) {
-				currentView.setWidth(jseshStyle.geometry().maxCadratWidth() + smallDim);
-			} else {
-				currentView.setWidth(subView.getWidth() + smallDim);
-			}
-
-			float innerMargin = (currentView.getWidth() - subView.getWidth()) / 2f;
-
-			// Position the cartouche's inner part :
-			subView.getPosition().setLocation(innerMargin, dLong);
-
-		}
-
-		// Move the cartouche so that its inner part is
-		// aligned
-		// with
-		// the main text.
-		if (currentTextOrientation.isHorizontal()) {
-			currentView.setDeltaBaseY(-dSmall);
-			currentView.setDeltaBaseX(0);
-		} else {
-			currentView.setDeltaBaseY(0);
-			currentView.setDeltaBaseX(-dSmall);
-		}
-
-		// Reset centering conditions (potentially changed in preLayoutHook)
-		centerSigns = jseshStyle.options().smallSignCentered();
-
-	}
-
-	@Override
-	public void visitComplexLigature(ComplexLigature ligature) {
-		List<Optional<LigatureZone>> zones = new ArrayList<>(3);
-
-		// TODO attach ligature zones to final (rotated, scaled) shapes
-		// TODO not to hieroglyphic codes !!!
-
-		for (int i = 0; i < 3; i++) {
-			float scale = computeScale();
-			final float scale1; // we need a final var for map argument.
-			if (ligature.getHieroglyph().getRelativeSize() != 100)
-				scale1 = scale * ligature.getHieroglyph().getFLoatScale();
-			else
-				scale1 = scale;
-			Optional<LigatureZone> ligatureZone = hieroglyphsDrawer.getLigatureZone(i, ligature.getHieroglyph().getCode())
-					.map(z -> z.scale(scale1));
-			zones.add(ligatureZone);
-		}
-
-		int index = 0;
-		// The order of subviews will be view for : beforegroup,
-		// hieroglyph, and aftergroup
-		// beforegroup and aftergroup can influence the size and position of
-		// the whole view (well, a simple fit will do)
-		if (ligature.getBeforeGroup() != null) {
-			MDCView beforeGroupView = currentView.getSubView(index);
-			if (zones.get(0).isPresent()) {
-				zones.get(0).ifPresent(z -> z.placeView(beforeGroupView));
-			} else {
-				// No zone : ^^^ operator has then the same value as "*".
-			}
-			// Update index for hieroglyph view
-			index++;
-		}
-		// The hieroglyph is placed at 0,0, with scale 1.
-		// (basically, we do nothing)
-		index++;
-		if (ligature.getAfterGroup() != null) {
-			MDCView afterGroupView = currentView.getSubView(index);
-			// If there is a "bottom" zone, we prefer it to the "after" zone.
-			if (zones.get(2).isPresent()) {
-				zones.get(2).ifPresent(z -> z.placeView(afterGroupView));
-			} else if (zones.get(1).isPresent()) {
-				zones.get(1).ifPresent(z -> z.placeView(afterGroupView));
-			} else {
-				// No zone : &&& operator has then the same value as "*".
-			}
-		}
-		// Now, zone1 might for instance have negative coordinates. We correct
-		// this :
-		currentView.fitToSubViews(true);
-	}
-
-	@Override
-	public void visitDefault(ModelElement t) {
-		if (currentView.getNumberOfSubviews() != 0) {
-			if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
-				/* stick elements one after another */
-				float width = currentView.getSumOfSubViewsWidths();
-				width = width + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
-				currentView.setWidth(width);
-				currentView.setHeight(currentView.getMaximalHeightOfSubView());
-				currentView.distributeHorizontally();
-			} else {
-				/* vertical text orientation */
-				/* stick elements one on top of the other */
-				float height = currentView.getSumOfSubViewsHeights();
-				height = height + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
-				currentView.setWidth(currentView.getMaximalWidthOfSubView());
-				currentView.setHeight(height);
-				currentView.distributeFromTopToBottom();
-			}
-		}
-	}
-
-	@Override
-	public void visitHBox(HBox b) {
-
-		float h = currentView.getMaximalHeightOfSubView();
-
-		// First, enlarge high signs which stand alone. The
-		// idea, especially in vertical texts, is to deal with
-		// cases like sw*(i*i:Z2)
-		// in this example, we want the "sw" sign to be as high as
-		// the whole cadrat.
-		for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
-
-			MDCView subView = iter.next();
-			HorizontalListElement group = (HorizontalListElement) subView.getModel();
-			// If the group is a lone hight sign, scale it to match the
-			// height.
-
-			// Something might also be done for subcadrats in a later
-			// version.
-			boolean shouldEnlarge = false;
-			if (group.containsOnlyOneSign()) {
-				if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
-						* hieroglyphsDrawer.getHeightOfA1()) {
-					shouldEnlarge = true;					
-				}
-			}
-
-			if (shouldEnlarge) {
-				// we limit scaling to the cases where the sign is not
-				// explicitely scaled.
-				Hieroglyph hiero = group.getLoneSign();
-				if (hiero.getRelativeSize() == 100) {
-					float scale = h / subView.getHeight();
-					subView.reScale(scale);
-				}
-			}
-			new ViewVerticalEnlarger().enlarge(subView, h);
-		}
-
-		// Compute the correct box dimensions
-		float w = currentView.getSumOfSubViewsWidths();
-		w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().smallSkip();
-
-		currentView.setHeight(h);
-		currentView.setWidth(w);
-
-		// The task of setting the positions of this view's subviews is dealt
-		// with in the cadrat.
-		for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
-			MDCView subView = iter.next();
-			new ViewVerticalEnlarger().enlarge(subView, h);
-		}
-	}
-
-	@Override
-	public void visitHieroglyph(Hieroglyph h) {
-		GeometrySpecification geometry = jseshStyle.geometry();
-		// IMPORTANT : signs type should be a secure enum class.
-		switch (h.getType()) {
-		case SymbolCodes.SMALLTEXT: {
-			// Temporary hack as proof of concept.
-			String smallText = h.getSmallText();
-			Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), smallText);
-			currentView.setHeight((float) r.getHeight());
-			currentView.setWidth((float) r.getWidth());
-		}
-			break;
-		case SymbolCodes.FULLSHADE:
-		case SymbolCodes.FULLSPACE:
-			currentView.setWidth(geometry.maxCadratWidth());
-			currentView.setHeight(geometry.maxCadratHeight());
-			break;
-		case SymbolCodes.QUATERSHADE:
-		case SymbolCodes.HALFSPACE:
-			currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
-			currentView.setHeight(geometry.maxCadratHeight() / 2.0f);
-			break;
-		case SymbolCodes.VERTICALSHADE:
-			currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
-			currentView.setHeight(geometry.maxCadratHeight());
-			break;
-		case SymbolCodes.HORIZONTALSHADE:
-			currentView.setWidth(geometry.maxCadratWidth());
-			currentView.setHeight(geometry.maxCadratHeight() / 2f);
-			break;
-		case SymbolCodes.BEGINERASE:
-		case SymbolCodes.ENDERASE:
-		case SymbolCodes.REDPOINT:
-		case SymbolCodes.BLACKPOINT:
-		case SymbolCodes.BEGINEDITORADDITION:
-		case SymbolCodes.ENDEDITORADDITION:
-		case SymbolCodes.BEGINEDITORSUPERFLUOUS:
-		case SymbolCodes.ENDEDITORSUPERFLUOUS:
-		case SymbolCodes.BEGINPREVIOUSLYREADABLE:
-		case SymbolCodes.ENDPREVIOUSLYREADABLE:
-		case SymbolCodes.BEGINMINORADDITION:
-		case SymbolCodes.ENDMINORADDITION:
-		case SymbolCodes.BEGINSCRIBEADDITION:
-		case SymbolCodes.ENDSCRIBEADDITION:
-		case SymbolCodes.BEGINDUBIOUS:
-		case SymbolCodes.ENDDUBIOUS: {
-			// Two cases: either we have a base fixed shape (one quadrat
-			// high-sign, typically)
-			// or we will take our shape from the surrounding signs.
-			// In the last case, we choose an arbitrary small size.
-
-			boolean fixed = (h.getRelativeSize() != 100 || inAbsoluteGroup || h.isAloneInQuadrat()
-					|| h.getAngle() != 0);
-
-			if (!fixed) {
-				currentView.setYStretchable(true);
-			}
-
-			Rectangle2D rect = hieroglyphsDrawer.getBBox(h.getCode(), h.getAngle(), fixed);
-			currentView.setWidth((float) rect.getWidth());
-			currentView.setHeight((float) rect.getHeight());
-		}
-			break;
-
-		case SymbolCodes.MDCCODE: {
-
-			String code = h.getCode();
-
-			if (hieroglyphsDrawer.isKnown(code)) {
-				int angle = h.getAngle();
-				Rectangle2D s = hieroglyphsDrawer.getBBox(code, angle, true);
-
-				// Take the font size into account.
-				currentView.setHeight((float) (s.getHeight() * computeScale()));
-				currentView.setWidth((float) (s.getWidth() * computeScale()));
-			} else {
-				Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), code);
-				currentView.setHeight((float) r.getHeight());
-				currentView.setWidth((float) r.getWidth());
-			}
-		}
-			break;
-		}
-		if (h.getRelativeSize() != 100) {
-			/*
-			 * currentView.setWidth(currentView.getWidth() * h.getRelativeSize() / 100f);
-			 * currentView.setHeight(currentView.getHeight() * h.getRelativeSize() / 100f);
-			 */
-			currentView.reScale(h.getRelativeSize() / 100f);
-		}
-
-	}
-
-	@Override
-	public void visitHRule(HRule h) {
-		// NOTE : some views have a size which is a function of their
-		// parent's size. For instance, some signs can fill an empty space
-		// sizing should be better described (for instance, we could
-		// use some "fill power" dimension, as is done in (La)TeX).
-
-		currentView.setWidth(jseshStyle.geometry().textWidth());
-		currentView.setHeight(jseshStyle.geometry().wideLineWidth());
-	}
-
-	@Override
-	public void visitLigature(Ligature l) {
-		// Find the ligature
-		String codes[] = new String[l.getNumberOfChildren()];
-		for (int i = 0; i < codes.length; i++) {
-			codes[i] = l.getHieroglyphAt(i).getCode();
-		}
-		ExplicitPosition pos[] = ligatureManager.getPositions(codes);
-
-		if (pos != null) {
-			// Now, place the signs and compute the width :
-
-			for (int k = 0; k < pos.length; k++) {
-				MDCView subv = currentView.getSubView(k);
-				float x, y;
-				// So, the ligature coordinates suppose unscaled signs.
-				// We scale them...
-				float signScale = computeScale();
-				x = (float) (pos[k].getX() * signScale * getGroupUnitScale());
-				y = (float) (pos[k].getY() * signScale * getGroupUnitScale());
+		@Override
+		public void visitAbsoluteGroup(AbsoluteGroup g) {
+			// Fix the position for all subviews.
+			for (int i = 0; i < currentView.getNumberOfSubviews(); i++) {
+				MDCView subv = currentView.getSubView(i);
+				Hieroglyph h = g.getHieroglyphAt(i);
 				subv.resetPos();
-				subv.reScale(pos[k].getScale() / 100f);
-
+				double x, y;
+				x = h.getX() * getGroupUnitScale();
+				y = h.getY() * getGroupUnitScale();
 				subv.getPosition().setLocation(x, y);
-
 			}
-		} else {
-			// Use complex ligature if l has two elements :
-			if (l.getNumberOfChildren() == 2) {
-				// a) compute the larger element...
-				// b) select which area to use
-				// We consider first that the first element is larger, and that
-				// we put the second "below" the sign.
-				int largerSignIndex = 0; // Index of the "larger" sign
-				int smallerSignIndex = 1; // Index of the "smaller" sign
-				int ligatureZonePosition = 2; // position of ligature zone (0, 1 or 2)
-				// If the second element is larger, use it and link *before*
-				if (currentView.getSubView(1).getHeight() * 0.8 > currentView.getSubView(0).getHeight()) {
-					largerSignIndex = 1;
-					smallerSignIndex = 0;
-					ligatureZonePosition = 0;
-				}
-				// In case the second ligature zone is missing from the first
-				// element, try zone 1.
-				if (ligatureZonePosition == 2 && !hieroglyphsDrawer
-						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode())
-						.isPresent()) {
-					ligatureZonePosition = 1;
-				}
-				Optional<LigatureZone> ligatureZone = hieroglyphsDrawer
-						.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode());
-
-				// Build the ligature.
-				// Make it better ???
-				if (ligatureZone.isPresent()) {
-					LigatureZone z = ligatureZone.get();
-					currentView.getSubView(largerSignIndex).resetPos();
-					// Take into account the sign scale..
-					z = z.scale(computeScale());
-					// NEW code for the new complex ligature system.
-					z.placeView(currentView.getSubView(smallerSignIndex));
-					// End of new code.
-				}
-			} else if (l.getNumberOfChildren() == 3) {
-				// We try a ligature centered around the 2nd sign.
-				String code = l.getHieroglyphAt(1).getCode();
-				Optional<LigatureZone> r1, r2;
-				r1 = hieroglyphsDrawer.getLigatureZone(0, code);
-				r2 = hieroglyphsDrawer.getLigatureZone(1, code);
-				if (r1.isPresent() && r2.isPresent()) {
-					LigatureZone z1 = r1.get().scale(computeScale());
-					LigatureZone z2 = r2.get().scale(computeScale());
-					currentView.getSubView(1).resetPos();
-					z1.placeView(currentView.getSubView(0));
-					z2.placeView(currentView.getSubView(2));
-				}
-			}
-		}
-		currentView.fitToSubViews(true);
-	}
-
-
-	@Override
-	public void visitLineBreak(LineBreak b) {
-		// The actual layout is done in TopItemList, because we need a global
-		// view to decide LineBreak skips.
-		currentView.setWidth(0.0f);
-		currentView.setHeight(jseshStyle.geometry().maxCadratHeight());
-	}
-
-	@Override
-	public void visitModifier(Modifier mod) {
-		super.visitModifier(mod);
-	}
-
-	@Override
-	public void visitModifierList(ModifiersList l) {
-		super.visitModifierList(l);
-	}
-
-	@Override
-	public void visitOverwrite(Overwrite o) {
-		double wmax, hmax;
-		wmax = Math.max(currentView.getSubView(0).getWidth(), currentView.getSubView(1).getWidth());
-		hmax = Math.max(currentView.getSubView(0).getHeight(), currentView.getSubView(1).getHeight());
-		currentView.setWidth((float) wmax);
-		currentView.setHeight((float) hmax);
-		currentView.centerSubViewHorizontally();
-		currentView.centerSubViewsVertically();
-	}
-
-	@Override
-	public void visitPageBreak(PageBreak b) {
-		// DO NOTHING HERE.
-	}
-
-	@Override
-	public void visitPhilology(Philology p) {
-		// visitDefault(p.getBasicItemList());
-		MDCView subView = currentView.getFirstSubView();
-
-		float margin = PhilologyHelper.philologyWidth(p.getType()) + jseshStyle.geometry().smallSkip();
-
-		currentView.getFirstSubView().getPosition().setLocation(margin, 0);
-		currentView.setWidth(margin * 2 + subView.getWidth());
-		currentView.setHeight(subView.getHeight());
-	}
-
-	@Override
-	public void visitSubCadrat(SubCadrat c) {
-		currentView.setWidth(currentView.getSumOfSubViewsWidths());
-		currentView.setHeight(currentView.getMaximalHeightOfSubView());
-		currentView.distributeHorizontally();
-	}
-
-	@Override
-	public void visitSuperScript(Superscript s) {
-		//Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
-		Dimension2D dims = jseshStyle.fonts().superScriptDimensions(renderContext.fontRenderContext(), s.getText());
-		currentView.setWidth((float) dims.getWidth());
-		currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
-				dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
-	}
-
-	@Override
-	public void visitTabStop(TabStop t) {
-		// Empty method. Tab stops are handled when laying out the TopItemList.
-	}
-
-	/**
-	 * Layout the top item list.
-	 *
-	 * @param t the list of items to lay out.
-	 *
-	 */
-	@Override
-	public void visitTopItemList(TopItemList t) {
-		// monoliticVisitTopItemList(t);
-		compositeVisitTopItemList(t);
-	}
-
-	/**
-	 * Layout a top item list using a strategy class.
-	 *
-	 * @param t
-	 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
-	 */
-	public void compositeVisitTopItemList(TopItemList t) {
-
-		// currentView contains the content for all pages.
-		// we need
-		// a) to extract the individual page content
-		// b) to layout this content as individual lines
-		// c) to dispatch these lines in individual pages, and layout them
-		// again.
-		// (althought it might be interesting to retrieve the work done in b,
-		// but this requires a notion of "line".
-		// LineLayout topItemLayout= null;
-		TopItemLayout topItemLayout = null;
-
-		// using a factory at this point would be overkill.
-		if (currentTextOrientation.equals(TextOrientation.HORIZONTAL)) {
-			topItemLayout = new LineLayout(currentView, jseshStyle);
-		} else {
-			topItemLayout = new ColumnLayout(currentView, jseshStyle);
-		}
-
-		ViewIterator i = currentView.iterator();
-		topItemLayout.startLayout();
-		// Ok. Currently, even for long texts, the
-		// layout time is very short
-		// between 71 and 21ms for Horus and Seth, which is a really long text
-		// (by ancient egyptian standards)
-		// on a eeepc, which is not specially the fastest computer in the world.
-		// So we don't bother for efficiency too much at that time.
-		while (i.hasNext()) {
-			MDCView v = i.next();
-			v.resetPos();
-			topItemLayout.layoutElement(v);
-			// TODO : add here something to change the current layout if needed.
-		}
-		topItemLayout.endLayout();
-		currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
-		currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
-	}
-
-	// Weird code, which supposes that the reference font has a scale of 18.0 for A1
-	// It could be moved to geometry specifications, and the scaling removed.
-	private double getGroupUnitScale() {
-		return hieroglyphsDrawer.getGroupUnitLength()
-				* computeScale();
-	}
-
-
-	/**
-	 * Compute the scale from the "font" space to the current drawing space.
-	 * @return
-	 */
-	private float computeScale() {
-		return hieroglyphsDrawer.signScale(jseshStyle);
-	}
-
-	/**
-	 * Auxiliary expert, able to enlarge view vertically. This is used in an hbox,
-	 * to set subcadrats to the hbox's height.
-	 *
-	 * @author rosmord
-	 *
-	 */
-	class ViewVerticalEnlarger extends ModelElementAdapter {
-
-		float height;
-
-		MDCView view;
-
-		/**
-		 * @param subView
-		 * @param h
-		 */
-		public void enlarge(MDCView subView, float h) {
-			height = h;
-			view = subView;
-			subView.getModel().accept(this);
+			currentView.fitToSubViews(false);
+			inAbsoluteGroup = false;
 		}
 
 		@Override
-		public void visitSubCadrat(SubCadrat c) {
-			MDCView basicElementsListView = view.getFirstSubView();
-			boolean changed = false;
-			for (int i = 0; i < basicElementsListView.getNumberOfSubviews(); i++) {
-				MDCView elementView = basicElementsListView.getSubView(i);
-				if (elementView.isYStretchable()) {
-					elementView.setHeight(height);
-					elementView.distributeFromTopToBottom();
-					changed = true;
-				}
-			}
-			if (changed) {
-				basicElementsListView.fitToSubViews(false);
-				view.fitToSubViews(false);
+		public void visitAlphabeticText(AlphabeticText t) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+
+			// Comments are not displayed.
+			if (t.getScriptCode() == ScriptCodes.COMMENT) {
+				currentView.reset();
+				currentView.resetPos();
+				return;
 			}
 
+			String text = t.getText();
+			if (t.getScriptCode() == 't') {
+				text = TranslitterationUtilities.getActualTransliterationString(text,
+						jseshStyle.fonts().transliterationEncoding());
+			}
+			// Compute the text dimensions :
+			Rectangle2D dims;
+
+			// Ok now what we really want to do is
+			// a) get the "actual" text we want to display.
+			// b) get the correct font for this.
+			if ("".equals(text)) {
+				// Do nothing => empty view.
+			} else {
+				Font f = jseshStyle.fonts().getFont(t.getScriptCode());
+
+				FontRenderContext fontRenderContext = renderContext.fontRenderContext();
+
+				TextLayout layout = new TextLayout(text, f, fontRenderContext);
+
+				dims = layout.getBounds();
+
+				currentView.setHeight((float) dims.getHeight());
+
+				currentView.setWidth(layout.getAdvance());
+
+				// centered hieroglyphs (later we will propose a system replacing
+				// /2.0
+				// with some stored data.
+				// Align the text base with the hieroglyphs...
+				currentView.setDeltaBaseY(
+						jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent());
+			}
+
+		}
+
+		public void visitBasicItemList(BasicItemList l) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+
+			if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
+				visitDefault(l);
+			} else {
+				currentView.stackTop(jseshStyle.geometry().smallSkip());
+				currentView.centerSubViewHorizontally();
+			}
+		}
+
+		/**
+		 * lay out a quadrat. This method is way too long.
+		 *
+		 * This method is currently quite complex, as the ultimate quadrat shape
+		 * depends on its environment.
+		 * <p>
+		 * besides, many parts have been added when they were needed.
+		 *
+		 * TODO : re-interpret this method as a modular list of layout processes. (or
+		 * something like that).
+		 *
+		 * NOTE : It appears that "lone" elements on a line, on a cadrat, lone lines,
+		 * etc... tend to deserve specific processing. We might consider this when we
+		 * refactor the code.
+		 *
+		 * @param c
+		 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
+		 */
+		@Override
+		public void visitCadrat(Cadrat c) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+			new QuadratLayout(jseshStyle, hieroglyphsDrawer, centerSigns, currentTextOrientation).layout(currentView,
+					c);
+		}
+
+		/**
+		 * Lay out a cartouche. Lay out its internal parts, and also provide space for
+		 * the cartouche frame.
+		 * <p>
+		 * Remember that a cartouche contains only one subview.
+		 *
+		 * @param c
+		 */
+		@Override
+		public void visitCartouche(Cartouche c) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+
+			// layout the cartouche's internals :
+			MDCView subView = currentView.getFirstSubView();
+
+			// the dimension along the principal axis of the cartouche (width for
+			// horizontal ones, height for vertical)
+			float longDim = 0;
+			// the other dimension.
+			float smallDim = 2 * CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
+
+			/**
+			 * cartouche inner part translation (reference and signs will be computed later)
+			 */
+			float dLong, dSmall;
+			dSmall = CartoucheSizeHelper.computeCartoucheSecondaryLength(jseshStyle, c.getType());
+
+			longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getStartPart());
+
+			dLong = longDim;
+
+			longDim += CartoucheSizeHelper.computeCartouchePartLength(jseshStyle, c.getType(), c.getEndPart());
+
+			if (currentTextOrientation.isHorizontal()) {
+				currentView.setWidth(subView.getWidth() + longDim);
+				currentView.setHeight(
+						Math.max(subView.getHeight() + smallDim, jseshStyle.geometry().maxCadratHeight() + smallDim));
+				// Position the cartouche's inner part :
+				subView.getPosition().setLocation(dLong, dSmall);
+
+			} else {
+				currentView.setHeight(subView.getHeight() + longDim);
+				// Maybe temporary :
+				if (subView.getWidth() < jseshStyle.geometry().maxCadratWidth() + smallDim) {
+					currentView.setWidth(jseshStyle.geometry().maxCadratWidth() + smallDim);
+				} else {
+					currentView.setWidth(subView.getWidth() + smallDim);
+				}
+
+				float innerMargin = (currentView.getWidth() - subView.getWidth()) / 2f;
+
+				// Position the cartouche's inner part :
+				subView.getPosition().setLocation(innerMargin, dLong);
+
+			}
+
+			// Move the cartouche so that its inner part is
+			// aligned
+			// with
+			// the main text.
+			if (currentTextOrientation.isHorizontal()) {
+				currentView.setDeltaBaseY(-dSmall);
+				currentView.setDeltaBaseX(0);
+			} else {
+				currentView.setDeltaBaseY(0);
+				currentView.setDeltaBaseX(-dSmall);
+			}
+
+			// Reset centering conditions (potentially changed in preLayoutHook)
+			centerSigns = jseshStyle.options().smallSignCentered();
+
+		}
+
+		@Override
+		public void visitComplexLigature(ComplexLigature ligature) {
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+			List<Optional<LigatureZone>> zones = new ArrayList<>(3);
+
+			// TODO attach ligature zones to final (rotated, scaled) shapes
+			// TODO not to hieroglyphic codes !!!
+
+			for (int i = 0; i < 3; i++) {
+				float scale = computeScale();
+				final float scale1; // we need a final var for map argument.
+				if (ligature.getHieroglyph().getRelativeSize() != 100)
+					scale1 = scale * ligature.getHieroglyph().getFLoatScale();
+				else
+					scale1 = scale;
+				Optional<LigatureZone> ligatureZone = hieroglyphsDrawer
+						.getLigatureZone(i, ligature.getHieroglyph().getCode())
+						.map(z -> z.scale(scale1));
+				zones.add(ligatureZone);
+			}
+
+			int index = 0;
+			// The order of subviews will be view for : beforegroup,
+			// hieroglyph, and aftergroup
+			// beforegroup and aftergroup can influence the size and position of
+			// the whole view (well, a simple fit will do)
+			if (ligature.getBeforeGroup() != null) {
+				MDCView beforeGroupView = currentView.getSubView(index);
+				if (zones.get(0).isPresent()) {
+					zones.get(0).ifPresent(z -> z.placeView(beforeGroupView));
+				} else {
+					// No zone : ^^^ operator has then the same value as "*".
+				}
+				// Update index for hieroglyph view
+				index++;
+			}
+			// The hieroglyph is placed at 0,0, with scale 1.
+			// (basically, we do nothing)
+			index++;
+			if (ligature.getAfterGroup() != null) {
+				MDCView afterGroupView = currentView.getSubView(index);
+				// If there is a "bottom" zone, we prefer it to the "after" zone.
+				if (zones.get(2).isPresent()) {
+					zones.get(2).ifPresent(z -> z.placeView(afterGroupView));
+				} else if (zones.get(1).isPresent()) {
+					zones.get(1).ifPresent(z -> z.placeView(afterGroupView));
+				} else {
+					// No zone : &&& operator has then the same value as "*".
+				}
+			}
+			// Now, zone1 might for instance have negative coordinates. We correct
+			// this :
+			currentView.fitToSubViews(true);
+		}
+
+		@Override
+		public void visitDefault(ModelElement t) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			if (currentView.getNumberOfSubviews() != 0) {
+				if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
+					/* stick elements one after another */
+					float width = currentView.getSumOfSubViewsWidths();
+					width = width + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
+					currentView.setWidth(width);
+					currentView.setHeight(currentView.getMaximalHeightOfSubView());
+					currentView.distributeHorizontally();
+				} else {
+					/* vertical text orientation */
+					/* stick elements one on top of the other */
+					float height = currentView.getSumOfSubViewsHeights();
+					height = height + jseshStyle.geometry().smallSkip() * (currentView.getNumberOfSubviews() - 1);
+					currentView.setWidth(currentView.getMaximalWidthOfSubView());
+					currentView.setHeight(height);
+					currentView.distributeFromTopToBottom();
+				}
+			}
+		}
+
+		@Override
+		public void visitHBox(HBox b) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+
+			float h = currentView.getMaximalHeightOfSubView();
+
+			// First, enlarge high signs which stand alone. The
+			// idea, especially in vertical texts, is to deal with
+			// cases like sw*(i*i:Z2)
+			// in this example, we want the "sw" sign to be as high as
+			// the whole cadrat.
+			for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
+
+				MDCView subView = iter.next();
+				HorizontalListElement group = (HorizontalListElement) subView.getModel();
+				// If the group is a lone hight sign, scale it to match the
+				// height.
+
+				// Something might also be done for subcadrats in a later
+				// version.
+				boolean shouldEnlarge = false;
+				if (group.containsOnlyOneSign()) {
+					if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
+							* hieroglyphsDrawer.getHeightOfA1()) {
+						shouldEnlarge = true;
+					}
+				}
+
+				if (shouldEnlarge) {
+					// we limit scaling to the cases where the sign is not
+					// explicitely scaled.
+					Hieroglyph hiero = group.getLoneSign();
+					if (hiero.getRelativeSize() == 100) {
+						float scale = h / subView.getHeight();
+						subView.reScale(scale);
+					}
+				}
+				new ViewVerticalEnlarger().enlarge(subView, h);
+			}
+
+			// Compute the correct box dimensions
+			float w = currentView.getSumOfSubViewsWidths();
+			w += (currentView.getNumberOfSubviews() - 1) * jseshStyle.geometry().smallSkip();
+
+			currentView.setHeight(h);
+			currentView.setWidth(w);
+
+			// The task of setting the positions of this view's subviews is dealt
+			// with in the cadrat.
+			for (ViewIterator iter = currentView.iterator(); iter.hasNext();) {
+				MDCView subView = iter.next();
+				new ViewVerticalEnlarger().enlarge(subView, h);
+			}
 		}
 
 		@Override
 		public void visitHieroglyph(Hieroglyph h) {
-			if (view.isYStretchable()) {
-				view.setHeight(height);
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+
+			GeometrySpecification geometry = jseshStyle.geometry();
+			// IMPORTANT : signs type should be a secure enum class.
+			switch (h.getType()) {
+				case SymbolCodes.SMALLTEXT: {
+					// Temporary hack as proof of concept.
+					String smallText = h.getSmallText();
+					Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext, smallText);
+					currentView.setHeight((float) r.getHeight());
+					currentView.setWidth((float) r.getWidth());
+				}
+					break;
+				case SymbolCodes.FULLSHADE:
+				case SymbolCodes.FULLSPACE:
+					currentView.setWidth(geometry.maxCadratWidth());
+					currentView.setHeight(geometry.maxCadratHeight());
+					break;
+				case SymbolCodes.QUATERSHADE:
+				case SymbolCodes.HALFSPACE:
+					currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
+					currentView.setHeight(geometry.maxCadratHeight() / 2.0f);
+					break;
+				case SymbolCodes.VERTICALSHADE:
+					currentView.setWidth(geometry.maxCadratWidth() / 2.0f);
+					currentView.setHeight(geometry.maxCadratHeight());
+					break;
+				case SymbolCodes.HORIZONTALSHADE:
+					currentView.setWidth(geometry.maxCadratWidth());
+					currentView.setHeight(geometry.maxCadratHeight() / 2f);
+					break;
+				case SymbolCodes.BEGINERASE:
+				case SymbolCodes.ENDERASE:
+				case SymbolCodes.REDPOINT:
+				case SymbolCodes.BLACKPOINT:
+				case SymbolCodes.BEGINEDITORADDITION:
+				case SymbolCodes.ENDEDITORADDITION:
+				case SymbolCodes.BEGINEDITORSUPERFLUOUS:
+				case SymbolCodes.ENDEDITORSUPERFLUOUS:
+				case SymbolCodes.BEGINPREVIOUSLYREADABLE:
+				case SymbolCodes.ENDPREVIOUSLYREADABLE:
+				case SymbolCodes.BEGINMINORADDITION:
+				case SymbolCodes.ENDMINORADDITION:
+				case SymbolCodes.BEGINSCRIBEADDITION:
+				case SymbolCodes.ENDSCRIBEADDITION:
+				case SymbolCodes.BEGINDUBIOUS:
+				case SymbolCodes.ENDDUBIOUS: {
+					// Two cases: either we have a base fixed shape (one quadrat
+					// high-sign, typically)
+					// or we will take our shape from the surrounding signs.
+					// In the last case, we choose an arbitrary small size.
+
+					boolean fixed = (h.getRelativeSize() != 100 || inAbsoluteGroup || h.isAloneInQuadrat()
+							|| h.getAngle() != 0);
+
+					if (!fixed) {
+						currentView.setYStretchable(true);
+					}
+
+					Rectangle2D rect = hieroglyphsDrawer.getBBox(h.getCode(), h.getAngle(), fixed);
+					currentView.setWidth((float) rect.getWidth());
+					currentView.setHeight((float) rect.getHeight());
+				}
+					break;
+
+				case SymbolCodes.MDCCODE: {
+
+					String code = h.getCode();
+
+					if (hieroglyphsDrawer.isKnown(code)) {
+						int angle = h.getAngle();
+						Rectangle2D s = hieroglyphsDrawer.getBBox(code, angle, true);
+
+						// Take the font size into account.
+						currentView.setHeight((float) (s.getHeight() * computeScale()));
+						currentView.setWidth((float) (s.getWidth() * computeScale()));
+					} else {
+						Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext, code);
+						currentView.setHeight((float) r.getHeight());
+						currentView.setWidth((float) r.getWidth());
+					}
+				}
+					break;
+			}
+			if (h.getRelativeSize() != 100) {
+				/*
+				 * currentView.setWidth(currentView.getWidth() * h.getRelativeSize() / 100f);
+				 * currentView.setHeight(currentView.getHeight() * h.getRelativeSize() / 100f);
+				 */
+				currentView.reScale(h.getRelativeSize() / 100f);
+			}
+
+		}
+
+		@Override
+		public void visitHRule(HRule h) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			// NOTE : some views have a size which is a function of their
+			// parent's size. For instance, some signs can fill an empty space
+			// sizing should be better described (for instance, we could
+			// use some "fill power" dimension, as is done in (La)TeX).
+
+			currentView.setWidth(jseshStyle.geometry().textWidth());
+			currentView.setHeight(jseshStyle.geometry().wideLineWidth());
+		}
+
+		@Override
+		public void visitLigature(Ligature l) {
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+
+			// Find the ligature
+			String codes[] = new String[l.getNumberOfChildren()];
+			for (int i = 0; i < codes.length; i++) {
+				codes[i] = l.getHieroglyphAt(i).getCode();
+			}
+			ExplicitPosition pos[] = ligatureManager.getPositions(codes);
+
+			if (pos != null) {
+				// Now, place the signs and compute the width :
+
+				for (int k = 0; k < pos.length; k++) {
+					MDCView subv = currentView.getSubView(k);
+					float x, y;
+					// So, the ligature coordinates suppose unscaled signs.
+					// We scale them...
+					float signScale = computeScale();
+					x = (float) (pos[k].getX() * signScale * getGroupUnitScale());
+					y = (float) (pos[k].getY() * signScale * getGroupUnitScale());
+					subv.resetPos();
+					subv.reScale(pos[k].getScale() / 100f);
+
+					subv.getPosition().setLocation(x, y);
+
+				}
+			} else {
+				// Use complex ligature if l has two elements :
+				if (l.getNumberOfChildren() == 2) {
+					// a) compute the larger element...
+					// b) select which area to use
+					// We consider first that the first element is larger, and that
+					// we put the second "below" the sign.
+					int largerSignIndex = 0; // Index of the "larger" sign
+					int smallerSignIndex = 1; // Index of the "smaller" sign
+					int ligatureZonePosition = 2; // position of ligature zone (0, 1 or 2)
+					// If the second element is larger, use it and link *before*
+					if (currentView.getSubView(1).getHeight() * 0.8 > currentView.getSubView(0).getHeight()) {
+						largerSignIndex = 1;
+						smallerSignIndex = 0;
+						ligatureZonePosition = 0;
+					}
+					// In case the second ligature zone is missing from the first
+					// element, try zone 1.
+					if (ligatureZonePosition == 2 && !hieroglyphsDrawer
+							.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode())
+							.isPresent()) {
+						ligatureZonePosition = 1;
+					}
+					Optional<LigatureZone> ligatureZone = hieroglyphsDrawer
+							.getLigatureZone(ligatureZonePosition, l.getHieroglyphAt(largerSignIndex).getCode());
+
+					// Build the ligature.
+					// Make it better ???
+					if (ligatureZone.isPresent()) {
+						LigatureZone z = ligatureZone.get();
+						currentView.getSubView(largerSignIndex).resetPos();
+						// Take into account the sign scale..
+						z = z.scale(computeScale());
+						// NEW code for the new complex ligature system.
+						z.placeView(currentView.getSubView(smallerSignIndex));
+						// End of new code.
+					}
+				} else if (l.getNumberOfChildren() == 3) {
+					// We try a ligature centered around the 2nd sign.
+					String code = l.getHieroglyphAt(1).getCode();
+					Optional<LigatureZone> r1, r2;
+					r1 = hieroglyphsDrawer.getLigatureZone(0, code);
+					r2 = hieroglyphsDrawer.getLigatureZone(1, code);
+					if (r1.isPresent() && r2.isPresent()) {
+						LigatureZone z1 = r1.get().scale(computeScale());
+						LigatureZone z2 = r2.get().scale(computeScale());
+						currentView.getSubView(1).resetPos();
+						z1.placeView(currentView.getSubView(0));
+						z2.placeView(currentView.getSubView(2));
+					}
+				}
+			}
+			currentView.fitToSubViews(true);
+		}
+
+		@Override
+		public void visitLineBreak(LineBreak b) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			// The actual layout is done in TopItemList, because we need a global
+			// view to decide LineBreak skips.
+			currentView.setWidth(0.0f);
+			currentView.setHeight(jseshStyle.geometry().maxCadratHeight());
+		}
+
+		@Override
+		public void visitModifier(Modifier mod) {
+			super.visitModifier(mod);
+		}
+
+		@Override
+		public void visitModifierList(ModifiersList l) {
+			super.visitModifierList(l);
+		}
+
+		@Override
+		public void visitOverwrite(Overwrite o) {
+			double wmax, hmax;
+			wmax = Math.max(currentView.getSubView(0).getWidth(), currentView.getSubView(1).getWidth());
+			hmax = Math.max(currentView.getSubView(0).getHeight(), currentView.getSubView(1).getHeight());
+			currentView.setWidth((float) wmax);
+			currentView.setHeight((float) hmax);
+			currentView.centerSubViewHorizontally();
+			currentView.centerSubViewsVertically();
+		}
+
+		@Override
+		public void visitPageBreak(PageBreak b) {
+			// DO NOTHING HERE.
+		}
+
+		@Override
+		public void visitPhilology(Philology p) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			// visitDefault(p.getBasicItemList());
+			MDCView subView = currentView.getFirstSubView();
+
+			float margin = PhilologyHelper.philologyWidth(p.getType()) + jseshStyle.geometry().smallSkip();
+
+			currentView.getFirstSubView().getPosition().setLocation(margin, 0);
+			currentView.setWidth(margin * 2 + subView.getWidth());
+			currentView.setHeight(subView.getHeight());
+		}
+
+		@Override
+		public void visitSubCadrat(SubCadrat c) {
+			currentView.setWidth(currentView.getSumOfSubViewsWidths());
+			currentView.setHeight(currentView.getMaximalHeightOfSubView());
+			currentView.distributeHorizontally();
+		}
+
+		@Override
+		public void visitSuperScript(Superscript s) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			// Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
+			Dimension2D dims = jseshStyle.fonts().superScriptDimensions(renderContext, s.getText());
+			currentView.setWidth((float) dims.getWidth());
+			currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
+					dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
+		}
+
+		@Override
+		public void visitTabStop(TabStop t) {
+			// Empty method. Tab stops are handled when laying out the TopItemList.
+		}
+
+		/**
+		 * Layout the top item list.
+		 *
+		 * @param t the list of items to lay out.
+		 *
+		 */
+		@Override
+		public void visitTopItemList(TopItemList t) {
+			// monoliticVisitTopItemList(t);
+			compositeVisitTopItemList(t);
+		}
+
+		/**
+		 * Layout a top item list using a strategy class.
+		 *
+		 * @param t
+		 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
+		 */
+		public void compositeVisitTopItemList(TopItemList t) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			// currentView contains the content for all pages.
+			// we need
+			// a) to extract the individual page content
+			// b) to layout this content as individual lines
+			// c) to dispatch these lines in individual pages, and layout them
+			// again.
+			// (althought it might be interesting to retrieve the work done in b,
+			// but this requires a notion of "line".
+			// LineLayout topItemLayout= null;
+			TopItemLayout topItemLayout = null;
+
+			// using a factory at this point would be overkill.
+			if (currentTextOrientation.equals(TextOrientation.HORIZONTAL)) {
+				topItemLayout = new LineLayout(currentView, jseshStyle);
+			} else {
+				topItemLayout = new ColumnLayout(currentView, jseshStyle);
+			}
+
+			ViewIterator i = currentView.iterator();
+			topItemLayout.startLayout();
+			// Ok. Currently, even for long texts, the
+			// layout time is very short
+			// between 71 and 21ms for Horus and Seth, which is a really long text
+			// (by ancient egyptian standards)
+			// on a eeepc, which is not specially the fastest computer in the world.
+			// So we don't bother for efficiency too much at that time.
+			while (i.hasNext()) {
+				MDCView v = i.next();
+				v.resetPos();
+				topItemLayout.layoutElement(v);
+				// TODO : add here something to change the current layout if needed.
+			}
+			topItemLayout.endLayout();
+			currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
+			currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
+		}
+
+		// Weird code, which supposes that the reference font has a scale of 18.0 for A1
+		// It could be moved to geometry specifications, and the scaling removed.
+		private double getGroupUnitScale() {
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+			return hieroglyphsDrawer.getGroupUnitLength()
+					* computeScale();
+		}
+
+		/**
+		 * Compute the scale from the "font" space to the current drawing space.
+		 * 
+		 * @return
+		 */
+		private float computeScale() {
+			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			return hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
+		}
+
+		/**
+		 * Auxiliary expert, able to enlarge view vertically. This is used in an hbox,
+		 * to set subcadrats to the hbox's height.
+		 *
+		 * @author rosmord
+		 *
+		 */
+		class ViewVerticalEnlarger extends ModelElementAdapter {
+
+			float height;
+
+			MDCView view;
+
+			/**
+			 * @param subView
+			 * @param h
+			 */
+			public void enlarge(MDCView subView, float h) {
+				height = h;
+				view = subView;
+				subView.getModel().accept(this);
+			}
+
+			@Override
+			public void visitSubCadrat(SubCadrat c) {
+				MDCView basicElementsListView = view.getFirstSubView();
+				boolean changed = false;
+				for (int i = 0; i < basicElementsListView.getNumberOfSubviews(); i++) {
+					MDCView elementView = basicElementsListView.getSubView(i);
+					if (elementView.isYStretchable()) {
+						elementView.setHeight(height);
+						elementView.distributeFromTopToBottom();
+						changed = true;
+					}
+				}
+				if (changed) {
+					basicElementsListView.fitToSubViews(false);
+					view.fitToSubViews(false);
+				}
+
+			}
+
+			@Override
+			public void visitHieroglyph(Hieroglyph h) {
+				if (view.isYStretchable()) {
+					view.setHeight(height);
+				}
 			}
 		}
-	}
 	}
 }

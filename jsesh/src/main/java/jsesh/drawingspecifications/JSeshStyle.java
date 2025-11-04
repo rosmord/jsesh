@@ -13,7 +13,7 @@ import java.util.function.Function;
  */
 public record JSeshStyle(
         GeometrySpecification geometry,
-        PaintingSpecifications colors,
+        PaintingSpecifications painting,
         FontSpecification fonts,
         LayoutOptions options) {
             
@@ -37,8 +37,8 @@ public record JSeshStyle(
      * 
      * <pre>
      * jseshStyle = jseshStyle.copy().
-     *                colors(
-     *                   jseshStyle.colors().builder().
+     *                painting(
+     *                   jseshStyle.painting().builder().
      *                      blackColor(Color.GRAY)
      *                      .build()
      *                ).build();
@@ -50,7 +50,7 @@ public record JSeshStyle(
      * to use this builder to modify those colors. The above code becomes:
      * <pre>
      * jseshStyle = jseshStyle.copy()
-     *              .colors( cBuild ->  cBuild.blackColor(Color.GRAY))
+     *              .painting( pBuild ->  pBuild.blackColor(Color.GRAY))
      *              .build();
      * </pre>
      *
@@ -58,14 +58,14 @@ public record JSeshStyle(
      */
     public static class Builder {
         private GeometrySpecification geometry;
-        private PaintingSpecifications colors;
+        private PaintingSpecifications painting;
         private FontSpecification fonts;
         private LayoutOptions options;
 
 
         public Builder(JSeshStyle style) {
             this.geometry = style.geometry();
-            this.colors = style.colors();
+            this.painting = style.painting();
             this.fonts = style.fonts();
             this.options = style.options();
         }
@@ -85,18 +85,18 @@ public record JSeshStyle(
             return this;
         }
 
-        public Builder colors(PaintingSpecifications colors) {
-            this.colors = colors;
+        public Builder painting(PaintingSpecifications colors) {
+            this.painting = colors;
             return this;
         }
 
         /**
          * Functional builder pattern for colors.
-         * @param c
+         * @param p
          * @return
          */
-        public Builder colors(Function<PaintingSpecifications.Builder, PaintingSpecifications.Builder> c) {
-            this.colors = c.apply(this.colors.copy()).build();
+        public Builder colors(Function<PaintingSpecifications.Builder, PaintingSpecifications.Builder> p) {
+            this.painting = p.apply(this.painting.copy()).build();
             return this;
         }
 
@@ -126,7 +126,7 @@ public record JSeshStyle(
         }
 
         public JSeshStyle build() {
-            return new JSeshStyle(geometry, colors, fonts, options);
+            return new JSeshStyle(geometry, painting, fonts, options);
         }
 
     }

@@ -31,6 +31,7 @@ import jsesh.mdc.model.Tabbing;
 import jsesh.mdc.model.TabbingClear;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.TopItemState;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
@@ -78,14 +79,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 */
 	protected boolean postfix;
 
-	// only the ViewDrawer can write here
-	protected JSeshStyle drawingSpecifications;
-
-	// /**
-	// * True if pagination is on, in which case no line will be drawn for new
-	// * pages.
-	// */
-	// private boolean paged = false;
+	private JSeshRenderContext renderContext;
 
 	private boolean shadeAfter = true;
 
@@ -108,18 +102,19 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 
 	private PageCoordinateSystem pageCoordinateSystem = new PageCoordinateSystem();
 
+
 	/**
 	 * Initialize the drawer before drawing the text. This method is called once
 	 * before drawing a whole MDC text. implementations of ElementDrawer can
 	 * override this method ; if so, they should call
-	 * super.prepareDrawing(drawingSpecifications) at some time.
+	 * super.prepareDrawing(jseshStyle) at some time.
 	 * 
-	 * @param drawingSpecifications
+	 * @param jseshStyle
 	 *            TODO
 	 */
 
-	public void prepareDrawing(JSeshStyle drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
+	public void prepareDrawing(JSeshRenderContext renderContext) {
+		this.renderContext = renderContext;
 	}
 
 	/**
@@ -129,7 +124,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * 
 	 */
 	public void cleanup() {
-		this.drawingSpecifications = null;
+		this.renderContext = null;
 	}
 
 	/**
@@ -151,13 +146,14 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 */
 
 	public void drawElement(MDCView e, Graphics2D g, boolean postfix) {
+		JSeshStyle jseshStyle = renderContext.jseshStyle();
 		ModelElement elt = e.getModel();
 		this.postfix = postfix;
 		if (elt == null)
 			return;
 		currentView = e;
-		currentTextDirection = drawingSpecifications.options().textDirection();
-		currentTextOrientation = drawingSpecifications.options().textOrientation();
+		currentTextDirection = jseshStyle.options().textDirection();
+		currentTextOrientation = jseshStyle.options().textOrientation();
 		this.g = g;
 		elt.accept(this);
                 currentView= null;
@@ -303,11 +299,12 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * ElementDrawers can be shared too.
 	 * 
 	 * @param specifications
-	 */
 
-	void setDrawingSpecifications(JSeshStyle specifications) {
-		drawingSpecifications = specifications;
+
+	void setJseshStyle(JSeshStyle specifications) {
+		jseshStyle = specifications;
 	}
+	*/
 
 	/**
 	 * @return the current drawing state.
@@ -326,13 +323,15 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	public boolean isPaged() {
-		return drawingSpecifications.options().paged();
+		JSeshStyle jseshStyle = renderContext.jseshStyle();
+		return jseshStyle.options().paged();
 	}
 
 	public boolean isShadeAfter() {
+		JSeshStyle jseshStyle = renderContext.jseshStyle();
 		// shading lines are always drawn after the rest of the cadrat.
 		return shadeAfter
-				|| drawingSpecifications.options().shadingStyle().equals(
+				|| jseshStyle.painting().shadingStyle().equals(
 						ShadingMode.LINE_HATCHING);
 	}
 
@@ -374,6 +373,22 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 
 	public PageCoordinateSystem getPageCoordinateSystem() {
 		return pageCoordinateSystem;
+	}
+
+	/**
+	 * Access to the render context by the subclasses.
+	 * @return
+	 */
+	protected JSeshRenderContext getRenderContext() {
+		return renderContext;
+	}
+
+	/**
+	 * Access to the JSeshStyle by the subclasses.
+	 * @return
+	 */
+	protected JSeshStyle getJseshStyle() {
+		return renderContext.jseshStyle();
 	}
 
 }

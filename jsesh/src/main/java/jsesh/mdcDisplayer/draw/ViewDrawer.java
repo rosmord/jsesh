@@ -23,6 +23,7 @@ import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
@@ -59,8 +60,6 @@ public class ViewDrawer {
     private boolean debug = false;
 
     private ElementDrawer elementDrawer;
-
-    private JSeshStyle jseshStyles;
 
     /**
      * Draws a view element.
@@ -118,7 +117,6 @@ public class ViewDrawer {
     public ViewDrawer(ElementDrawer e) {
         setClip(false);
         elementDrawer = e;
-        jseshStyles = null;
         setCached(false);
     }
 
@@ -129,8 +127,8 @@ public class ViewDrawer {
      * @param view
      * @param ds
      */
-    public void draw(Graphics2D g, MDCView view, JSeshStyle ds) {
-        drawViewAndCursor(g, view, null, ds);
+    public void draw(Graphics2D g, MDCView view,  JSeshRenderContext renderContext) {
+        drawViewAndCursor(g, renderContext, view, null);
     }
 
     /**
@@ -141,13 +139,14 @@ public class ViewDrawer {
      *
      * @param g
      * @param view
-     * @param ds
+     * @param jseshStyle
      * @param start First position
      * @param end   last position
      */
-    public void draw(Graphics2D g, MDCView view, JSeshStyle ds,
+    public void draw(Graphics2D g, MDCView view, 
+            JSeshRenderContext renderContext,
             MDCPosition start, MDCPosition end) {
-        drawViewAndCursor(g, view, null, ds, start, end);
+        drawViewAndCursor(g, renderContext, view, null, start, end);
     }
 
     /**
@@ -225,8 +224,9 @@ public class ViewDrawer {
      * @param y y position of the view
      * @param v the view
      */
-    private void drawSelection(Graphics2D g, int i, MDCView v) {
+    private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
         if (cursor != null && cursor.hasMark()) {
+            JSeshStyle jseshStyles = renderContext.jseshStyle();
             int a = Math.min(cursor.getInsert().getIndex(), cursor.getMark()
                     .getIndex());
             int b = Math.max(cursor.getInsert().getIndex(), cursor.getMark()
@@ -261,17 +261,18 @@ public class ViewDrawer {
      * @param v
      * @param depth
      */
-    private boolean drawView(Graphics2D g, MDCView v, int depth) {
-        return drawView(g, v, 0, v.getNumberOfSubviews(), depth);
+    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int depth) {
+        return drawView(g, renderContext, v, 0, v.getNumberOfSubviews(), depth);
     }
 
     // TODO : this method is too complex and messy.
     // Really move the caching system out. It doesn't belong here.
-    private boolean drawView(Graphics2D g, MDCView v, int startPos, int endPos,
+    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos,
             int depth) {
 
+        JSeshStyle jseshStyles = renderContext.jseshStyle();
         // Is safer...
-        // Graphics2D currentG = (Graphics2D) g.create();
+        // Graphics2D currentG = (Graphics2D) g.create(); // so why was it commented??
         Graphics2D currentG = (Graphics2D) g;
 
         // For top level items, with bitmap output, we may use caching.
@@ -311,7 +312,7 @@ public class ViewDrawer {
             if (isCached() && drawFromCache(g, v)) {
                 // Conditional cursor drawing : if the current position
                 // corresponds to the cursor, draw it:
-                testAndDrawCursor(g, v);
+                testAndDrawCursor(g, renderContext,v);
                 return true;
             }
 
@@ -379,9 +380,9 @@ public class ViewDrawer {
         }
 
         if (elementDrawer.getDrawingState().isRed()) {
-            currentG.setColor(jseshStyles.colors().redColor());
+            currentG.setColor(jseshStyles.painting().redColor());
         } else {
-            currentG.setColor(jseshStyles.colors().blackColor());
+            currentG.setColor(jseshStyles.painting().blackColor());
         }
 
         // Part of the element drawn before the element's subviews
@@ -396,7 +397,7 @@ public class ViewDrawer {
         tmpG.transform(v.getAffineTransform());
 
         // Draw the element's subviews.
-        drawSubViews(v, startPos, endPos, depth, tmpG);
+        drawSubViews(tmpG, renderContext, v, startPos, endPos, depth);
         // restore old coordinate system.
         tmpG.dispose();
 
@@ -410,7 +411,7 @@ public class ViewDrawer {
         }
 
         // Draw the cursor if needed.
-        testAndDrawCursor(g, v);
+        testAndDrawCursor(g, renderContext, v);
 
         // Dispose the graphic from the cache...
         if (img != null) {
@@ -430,14 +431,14 @@ public class ViewDrawer {
     /**
      * Draws the views contained in a parent view.
      *
+     * @param g        where to draw ?
+     * @param renderContext rendering context and style
      * @param v        the parent view
      * @param startPos the first sub view to draw
      * @param endPos   the last
      * @param depth    the depth of the view.
-     * @param g        where to draw ?
      */
-    private void drawSubViews(MDCView v, int startPos, int endPos, int depth,
-            Graphics2D g) {
+    private void drawSubViews(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos, int depth) {
         // If this element contains sub-views
         // we draw them
         if (v.getNumberOfSubviews() != 0) {
@@ -462,10 +463,10 @@ public class ViewDrawer {
                 }
                 g.translate(subvx, subvy);
                 // Draw the subview.
-                boolean wasDrawn = drawView(g, subv, depth + 1);
+                boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
                 // If the subview was selected, outline it.
                 if (wasDrawn && v.getModel() instanceof TopItemList) {
-                    drawSelection(g, i, subv);
+                    drawSelection(g, renderContext, i, subv);
                 }
                 g.translate(-subvx, -subvy);
             }
@@ -481,9 +482,9 @@ public class ViewDrawer {
      * @param cursor
      * @param ds
      */
-    public void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, JSeshStyle ds) {
-        drawViewAndCursor(g2d, view, cursor, ds, 0, view.getNumberOfSubviews());
+    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
+            MDCCaret cursor) {
+        drawViewAndCursor(g2d, renderContext, view, cursor, 0, view.getNumberOfSubviews());
     }
 
     /**
@@ -493,32 +494,34 @@ public class ViewDrawer {
      * stands between positions 0 and 1.
      *
      * @param g2d
+     * @param renderContext
      * @param view
      * @param cursor : the cursor position. If it's null, the cursor is not
      *               drawn.
-     * @param ds
+     * @param jseshStyle
      * @param start
      * @param end
      */
-    public void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, JSeshStyle ds, MDCPosition start,
+    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
+            MDCCaret cursor, 
+            MDCPosition start,
             MDCPosition end) {
-        drawViewAndCursor(g2d, view, cursor, ds, start.getIndex(), end
-                .getIndex());
+        drawViewAndCursor(g2d, renderContext, view, cursor,  
+            start.getIndex(), 
+            end.getIndex());
     }
 
-    private void drawViewAndCursor(Graphics2D g2d, MDCView view,
-            MDCCaret cursor, JSeshStyle ds, int start, int end) {
-        jseshStyles = ds;
-        elementDrawer.prepareDrawing(jseshStyles);
+    private void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
+            MDCCaret cursor,  int start, int end) {
+        elementDrawer.prepareDrawing(renderContext);
         this.cursor = cursor;
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
         // conceptual hack (patch) : if cursor is not empty, and text is empty,
         // draws a cursor.
         if (start == end && cursor != null) {
-            drawCursorAtFirstPosition(g2d, view);
+            drawCursorAtFirstPosition(g2d, renderContext, view);
         }
-        drawView(g2d, view, start, end, 0);
+        drawView(g2d, renderContext, view,  start, end, 0);
         this.cursor = null; // To avoid short-term memory leak.
         this.pageCoordinateSystem = null;
         elementDrawer.cleanup();
@@ -778,13 +781,6 @@ public class ViewDrawer {
         return debug;
     }
 
-    /**
-     * @return true if we are in paging mode.
-     */
-    public boolean isPaged() {
-        return jseshStyles.options().paged();
-    }
-
     public boolean isShadeAfter() {
         return elementDrawer.isShadeAfter();
     }
@@ -856,10 +852,11 @@ public class ViewDrawer {
      * @param g
      * @param v
      */
-    private void testAndDrawCursor(Graphics2D g, MDCView v) {
+    private void testAndDrawCursor(Graphics2D g, JSeshRenderContext renderContext, MDCView v) {
+        JSeshStyle jseshStyles = renderContext.jseshStyle();
         LayoutOptions options = jseshStyles.options();
         GeometrySpecification geometry = jseshStyles.geometry();
-        PaintingSpecifications colors = jseshStyles.colors();
+        PaintingSpecifications colors = jseshStyles.painting();
         // Will perhaps be passed as arguments or taken from fields like
         // currentTextDirection.
         TextDirection textDirection = options.textDirection();
@@ -961,11 +958,12 @@ public class ViewDrawer {
      * @param g
      * @param view
      */
-    private void drawCursorAtFirstPosition(Graphics2D g, MDCView view) {
+    private void drawCursorAtFirstPosition(Graphics2D g, JSeshRenderContext renderContext, MDCView view) {
+        JSeshStyle jseshStyles = renderContext.jseshStyle();
         TextOrientation textOrientation = jseshStyles.options()
                 .textOrientation();
         Color currentColor = g.getColor();
-        g.setColor(jseshStyles.colors().cursorColor());
+        g.setColor(jseshStyles.painting().cursorColor());
         g.setStroke(jseshStyles.geometry().wideStroke());
 
         if (textOrientation.isHorizontal()) {

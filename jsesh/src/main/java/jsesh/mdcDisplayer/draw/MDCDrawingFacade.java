@@ -13,14 +13,12 @@ import java.io.StringReader;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
-import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.swing.utils.GraphicsUtils;
@@ -87,7 +85,12 @@ public class MDCDrawingFacade {
 	 * @return a new bufferedImage.
 	 */
 	public BufferedImage createImage(TopItemList t) {
-		ViewAndBounds viewAndBounds= new ViewAndBounds(t,0,0);
+		// dummy picture for fontRenderContext evaluation.
+		BufferedImage dummy = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g0 = (Graphics2D) dummy.getGraphics();
+		JSeshRenderContext renderContext0 = JSeshRenderContext.buildSimpleContext(g0);
+
+		ViewAndBounds viewAndBounds= new ViewAndBounds(t,0,0, renderContext0);
 		
 		BufferedImage result;
 
@@ -106,6 +109,7 @@ public class MDCDrawingFacade {
 		GraphicsUtils.antialias(g);
 		viewAndBounds.draw(g);
 		g.dispose();
+		g0.dispose();
 		return result;
 
 	}
@@ -139,7 +143,8 @@ public class MDCDrawingFacade {
 	public Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
 
 		Graphics2D g1 = (Graphics2D) g.create();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y);
+		JSeshRenderContext renderContext = JSeshRenderContext.buildSimpleContext(g1);
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, renderContext);
 		viewAndBounds.draw(g1);
 		g1.dispose();
 		return viewAndBounds.bounds;
@@ -154,7 +159,9 @@ public class MDCDrawingFacade {
 	 * @return
 	 */
 	public Rectangle2D getBounds(TopItemList t, double x, double y) {
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y);
+		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, JSeshRenderContext.buildSimpleContext(g0));
+		g0.dispose();
 		return viewAndBounds.bounds;
 	}
 	
@@ -168,7 +175,9 @@ public class MDCDrawingFacade {
 	 * @throws MDCSyntaxError 
 	 */
 	public Rectangle2D getBounds(String mdc, double x, double y) throws MDCSyntaxError {
-		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y);
+		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
+		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y, JSeshRenderContext.buildSimpleContext(g0));
+		g0.dispose();
 		return viewAndBounds.bounds;
 	}
 
@@ -228,9 +237,9 @@ public class MDCDrawingFacade {
 		public MDCView view;
 		public Rectangle2D bounds;
 
-		public ViewAndBounds(TopItemList t, double x, double y) {
+		public ViewAndBounds(TopItemList t, double x, double y, JSeshRenderContext renderContext) {
 			ViewBuilder viewBuilder = new ViewBuilder();
-			view = viewBuilder.buildView(t, drawingSpecifications);
+			view = viewBuilder.buildView(t, drawingSpecifications, hieroglyphsDrawer, renderContext);
 			double scale = getScale();
 
 			int width = (int) Math.ceil(view.getWidth() * scale) + 2;

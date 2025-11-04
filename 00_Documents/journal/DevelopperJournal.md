@@ -7,6 +7,33 @@ This journal should only be edited and modified in the Development branch.
 - When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
 
+## 2025/11/04
+
+- renamed `RenderContext` as `JSeshRenderContext` to avoid importing wrong class;
+- it seems that we **always** need `RenderContext` (there are fonts), `HieroglyphsDrawer` and `JSeshStyle` after all. The simplest solution is to move all of them in `JSeshRenderContext`.
+
+### Notes
+
+- `superScriptDimensions` and `textDimensions` returns respectively a `Rectangle2D` and `Dimensions2D`. This is **not** logical. Think about it.
+- I'm not fully convinced of the interest of `PhilologyHelper`.
+
+We have to fit `graphicDeviceScale` somewhere. In the original `DrawingPreferences`, we described it as:
+
+~~~java
+ /**
+     * Returns the scale of the graphic device, in graphic units per
+     * typographical point. This is the scale used by the device if
+     * g.getXScale() returns 1.0, not the current scale. Note that we could be
+     * lying. In the case of a screen zoom, for instance, we will still provide
+     * the original scale.
+     * @return 
+     */
+~~~
+
+Basically, it's the size of a typographical point (`pt`) unit in a *Graphics2D* space whose base scale is 1.0f.
+
+Its **only** use is to decide if we use the **small font** shapes or the **normal shape**, as it depends on the actual rendered size. Its logical place is in the root of the `RenderContext` Object, along with the `FontRenderContext`.
+
 ## 2025/11/03
 
 - TODO : look more closely at the uses of `groupUnitLength`, and consider expressing it in the model space, not the inner font space.
@@ -19,6 +46,7 @@ This journal should only be edited and modified in the Development branch.
 - pass `HieroglyphsDrawer` **and** `RenderingContext` ?
 - the `reset()` method in layout is used to set up the JSeshStyle to use. It seems the style could be set elsewhere.
 
+- **check**: what is the best place to apply tag colors ?
 - **check if the following code is correct** : 
   
   ~~~java

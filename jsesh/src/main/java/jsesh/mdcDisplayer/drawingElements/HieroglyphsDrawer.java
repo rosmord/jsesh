@@ -136,9 +136,9 @@ public interface HieroglyphsDrawer {
     /**
      * Easier version of signScale, getting targetA1Height from the style.
      * @param jseshStyle
-     * @return
+     * @return the scale to apply to a sign in the font so that it gets the target size in the style.
      */
-    default float signScale(JSeshStyle jseshStyle) {
+    default float scaleFromFontToStyle(JSeshStyle jseshStyle) {
         return (float) (jseshStyle.geometry().standardSignHeight() / getHeightOfA1());                    
     }
     /**
