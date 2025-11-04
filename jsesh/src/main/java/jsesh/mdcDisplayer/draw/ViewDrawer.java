@@ -127,7 +127,7 @@ public class ViewDrawer {
      * @param view
      * @param ds
      */
-    public void draw(Graphics2D g, MDCView view,  JSeshRenderContext renderContext) {
+    public void draw(Graphics2D g, JSeshRenderContext renderContext,  MDCView view) {
         drawViewAndCursor(g, renderContext, view, null);
     }
 
@@ -139,12 +139,12 @@ public class ViewDrawer {
      *
      * @param g
      * @param view
-     * @param jseshStyle
      * @param start First position
      * @param end   last position
+     * @param jseshStyle
      */
-    public void draw(Graphics2D g, MDCView view, 
-            JSeshRenderContext renderContext,
+    public void draw(Graphics2D g, JSeshRenderContext renderContext, 
+            MDCView view,
             MDCPosition start, MDCPosition end) {
         drawViewAndCursor(g, renderContext, view, null, start, end);
     }

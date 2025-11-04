@@ -106,7 +106,7 @@ public class PDFDataSaver {
         g.setStroke(new BasicStroke(0));
         ViewDrawer drawer = new ViewDrawer();
         drawer.setShadeAfter(false);
-        drawer.draw(g, view, myDrawingSpecification);
+        drawer.draw(g, myDrawingSpecification, view);
 
         g.dispose();
         documentWriterAux.close();

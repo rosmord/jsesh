@@ -354,7 +354,7 @@ public class HTMLExporter {
                 g.translate(1, 1 + pictureMargin);
 
                 g.scale(scale, scale);
-                drawer.draw(g, view, drawingSpecifications);
+                drawer.draw(g, drawingSpecifications, view);
                 g.dispose();
 
                 File fic = getImageFile(imageNumber);

@@ -9,7 +9,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
+
+import javax.imageio.ImageIO;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
@@ -41,9 +45,15 @@ public class MDCDrawingFacade {
 
 	private final HieroglyphsDrawer hieroglyphsDrawer;
 	
-	private JSeshStyle drawingSpecifications = JSeshStyle.DEFAULT;
+	private JSeshStyle jseshStyle = JSeshStyle.DEFAULT;
+
+	/**
+	 * How many pixels on the device to make a typographical point?
+	 */
+	private double deviceScale = 1.0;
 
 	private int maxWidth = 2000;
+
 	private int maxHeight = 2000;
 
 	private int cadratHeight = 20;
@@ -85,10 +95,11 @@ public class MDCDrawingFacade {
 	 * @return a new bufferedImage.
 	 */
 	public BufferedImage createImage(TopItemList t) {
-		// dummy picture for fontRenderContext evaluation.
+		// First, create a dummy picture to compute the target image size.
+
 		BufferedImage dummy = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g0 = (Graphics2D) dummy.getGraphics();
-		JSeshRenderContext renderContext0 = JSeshRenderContext.buildSimpleContext(g0);
+		JSeshRenderContext renderContext0 = buildContext(g0);
 
 		ViewAndBounds viewAndBounds= new ViewAndBounds(t,0,0, renderContext0);
 		
@@ -102,16 +113,17 @@ public class MDCDrawingFacade {
 		if (height > maxHeight)
 			height = maxHeight;
 
+		// Now, build the actual image.		
 		result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) result.getGraphics();
+		JSeshRenderContext renderContext = buildContext(g);
 		g.setBackground(Color.WHITE);
 		g.clearRect(0, 0, width, height);
 		GraphicsUtils.antialias(g);
-		viewAndBounds.draw(g);
+		viewAndBounds.draw(g, renderContext);
 		g.dispose();
 		g0.dispose();
 		return result;
-
 	}
 
 	/**
@@ -143,9 +155,9 @@ public class MDCDrawingFacade {
 	public Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
 
 		Graphics2D g1 = (Graphics2D) g.create();
-		JSeshRenderContext renderContext = JSeshRenderContext.buildSimpleContext(g1);
+		JSeshRenderContext renderContext = buildContext(g1);
 		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, renderContext);
-		viewAndBounds.draw(g1);
+		viewAndBounds.draw(g1, renderContext);
 		g1.dispose();
 		return viewAndBounds.bounds;
 	}
@@ -160,7 +172,7 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D getBounds(TopItemList t, double x, double y) {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, JSeshRenderContext.buildSimpleContext(g0));
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, buildContext(g0));
 		g0.dispose();
 		return viewAndBounds.bounds;
 	}
@@ -176,7 +188,7 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D getBounds(String mdc, double x, double y) throws MDCSyntaxError {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y, JSeshRenderContext.buildSimpleContext(g0));
+		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y, buildContext(g0));
 		g0.dispose();
 		return viewAndBounds.bounds;
 	}
@@ -203,13 +215,29 @@ public class MDCDrawingFacade {
 		this.philologySign = philologySign;
 	}
 
-	public JSeshStyle getDrawingSpecifications() {
-			return drawingSpecifications;
+	public JSeshStyle getJseshStyle() {
+			return jseshStyle;
 	}
 
-	public void setDrawingSpecifications(
+	public void setJseshStyle(
 			JSeshStyle drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
+		this.jseshStyle = drawingSpecifications;
+	}
+
+	public void setDeviceScale(double deviceScale) {
+		this.deviceScale = deviceScale;
+	}
+
+	/**
+     * Returns the scale of the graphic device, in graphic units per
+     * typographical point. This is the scale used by the device if
+     * g.getXScale() returns 1.0, not the current scale. Note that we could be
+     * lying. In the case of a screen zoom, for instance, we will still provide
+     * the original scale.
+     * @return 
+     */
+	public double getDeviceScale() {
+		return deviceScale;
 	}
 
 	/**
@@ -233,13 +261,17 @@ public class MDCDrawingFacade {
 		this.cadratHeight = cadratHeight;
 	}
 
+	private JSeshRenderContext buildContext(Graphics2D g) {
+		return new JSeshRenderContext(g.getFontRenderContext(), deviceScale, jseshStyle, hieroglyphsDrawer);
+	}
+
 	private class ViewAndBounds {
 		public MDCView view;
 		public Rectangle2D bounds;
 
 		public ViewAndBounds(TopItemList t, double x, double y, JSeshRenderContext renderContext) {
 			ViewBuilder viewBuilder = new ViewBuilder();
-			view = viewBuilder.buildView(t, drawingSpecifications, hieroglyphsDrawer, renderContext);
+			view = viewBuilder.buildView(t, renderContext);
 			double scale = getScale();
 
 			int width = (int) Math.ceil(view.getWidth() * scale) + 2;
@@ -248,7 +280,7 @@ public class MDCDrawingFacade {
 			bounds = new Rectangle2D.Double(x, y, width, height);
 		}
 
-		public void draw(Graphics2D g) {
+		public void draw(Graphics2D g, JSeshRenderContext renderContext) {
 			double scale = getScale();
 
 			g.setBackground(Color.WHITE);
@@ -257,7 +289,20 @@ public class MDCDrawingFacade {
 			g.scale(scale, scale);
 			g.setColor(Color.BLACK);
 			ViewDrawer drawer = new ViewDrawer();
-			drawer.draw(g, view, drawingSpecifications);
+			drawer.draw(g, renderContext, view);
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Test of MDCDrawingFacade");
+		MDCDrawingFacade facade = new MDCDrawingFacade();
+		String mdc = "i-w-r:a-ra-m-p*t:pt";
+		try {
+			BufferedImage img = facade.createImage(mdc);
+			ImageIO.write(img, "png", new File("testPict.png"));
+			System.out.println("Image created : " + img.getWidth() + " x " + img.getHeight());
+		} catch (MDCSyntaxError| IOException e) {
+			e.printStackTrace();
 		}
 	}
 

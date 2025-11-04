@@ -46,7 +46,7 @@ public class ImageIconFactory {
             )            
             .build();
                     
-        mdcDrawingFacade.setDrawingSpecifications(drawingSpecifications);
+        mdcDrawingFacade.setJseshStyle(drawingSpecifications);
         mdcDrawingFacade.setPhilologySign(true);
         setCadratHeight(30);
     }

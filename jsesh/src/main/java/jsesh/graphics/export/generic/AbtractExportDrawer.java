@@ -8,7 +8,6 @@ import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Base utility class which can be extended when one needs to draw a specific
@@ -80,7 +79,7 @@ public abstract class AbtractExportDrawer {
         g.setColor(getDrawingSpecifications().getBlackColor());
         g.setBackground(getDrawingSpecifications().getBackgroundColor());
         g.scale(scale, scale);
-        drawer.draw(g, currentView, getDrawingSpecifications());
+        drawer.draw(g, getDrawingSpecifications(), currentView);
         g.dispose();
     }
 

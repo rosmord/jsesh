@@ -398,7 +398,7 @@ public class JMDCEditor extends JPanel {
      */
     public void print(Graphics g) {
         drawer.setClip(false);
-        drawer.draw((Graphics2D) g, getView(), getDrawingSpecifications());
+        drawer.draw((Graphics2D) g, getDrawingSpecifications(), getView());
     }
 
     /**

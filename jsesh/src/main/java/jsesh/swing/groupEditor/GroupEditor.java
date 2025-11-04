@@ -32,8 +32,6 @@ import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 /**
  * Editor for groups and ligatures.
@@ -306,7 +304,7 @@ public final class GroupEditor extends JPanel {
         if (group != null) {
             // draw the signs
             ViewDrawer drawer = new ViewDrawer();
-            drawer.draw(g2d, view, groupEditorDrawingPreferences.getDrawingSpecifications());
+            drawer.draw(g2d, groupEditorDrawingPreferences.getDrawingSpecifications(), view);
             // Draw the frame around the selected sign.
             if (selected >= 0) {
                 // The view for this sign :

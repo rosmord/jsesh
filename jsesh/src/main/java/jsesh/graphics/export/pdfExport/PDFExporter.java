@@ -559,7 +559,7 @@ public class PDFExporter {
                 g.setColor(drawingSpecifications.getBlackColor());
                 g.scale(scale, scale);
                 drawer.setShadeAfter(false);
-                drawer.draw(g, view, drawingSpecifications);
+                drawer.draw(g, drawingSpecifications, view);
                 // g.setColor(Color.RED);
                 // g.draw(new Rectangle2D.Float(0, 0, view.getWidth(),
                 // view.getHeight()));

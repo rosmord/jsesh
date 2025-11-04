@@ -116,7 +116,7 @@ public class SelectionExporter {
         drawer.setShadeAfter(false);
 
         // draw !
-        drawer.draw(g, view, actualDrawingSpecifications);
+        drawer.draw(g, actualDrawingSpecifications, view);
         g.dispose();
         graphicsFactory.writeGraphics();
     }
