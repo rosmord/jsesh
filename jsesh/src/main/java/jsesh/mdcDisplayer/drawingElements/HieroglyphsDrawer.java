@@ -4,10 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 import java.util.Optional;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.mdcDisplayer.layout.ExplicitPosition;
 
 /**
  * This class is responsible for everything which concerns the graphical
@@ -149,4 +151,13 @@ public interface HieroglyphsDrawer {
      * @return
      */
     double getGroupUnitLength();
+
+    /** 
+     * A legacy method returning the positions defined by a fixed ligature.
+     * E.g. <code>stp&amp;n&amp;ra</code>. Those ligatures were defined in
+     * tksesh and are probably to be removed one day.
+     * For compatibility reasons, we will need to accomodate them anyway,     
+     * 
+    */
+    List<ExplicitPosition> getPositions(List<String> codes);
 }

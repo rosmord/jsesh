@@ -16,14 +16,23 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.hieroglyphs.graphics.LigatureZoneBuilder;
 import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.mdcDisplayer.layout.ExplicitPosition;
+import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ShapeHelper;
 
 /**
@@ -43,7 +52,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     private static final String DEFAULT_CODE = "A1";
 
     private static HashMap<String, String> normalizedCodesMap = new HashMap<>();
-
+    
     static {
         normalizedCodesMap.put("[[", "BEGINERASE");
         normalizedCodesMap.put("]]", "ENDERASE");
@@ -63,6 +72,13 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      * The manager which associates codes with actual glyphs.
      */
     private final HieroglyphicFontManager fontManager;
+
+    /**
+     * Manages old-fashion tksesh ligatures.
+     */
+
+    private final Map<List<String>, List<ExplicitPosition>> ligaturesMap = new HashMap<>();
+
 
     /**
      * A map code for signs not managed by FontManager.
@@ -92,6 +108,12 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
         nonHieroglyphic.put("//", new Rectangle2D.Float(0, 0, w, h));
         nonHieroglyphic.put("h/", new Rectangle2D.Float(0, 0, w, h / 2f));
         nonHieroglyphic.put("v/", new Rectangle2D.Float(0, 0, w / 2f, h));
+
+        try (Reader reader = ResourcesManager.getInstance().getLigatureData()) {
+			readTksesh(reader);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
     }
 
     @Override
@@ -266,4 +288,60 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
             return code;
         }
     }
+
+    @Override
+    public List<ExplicitPosition> getPositions(List<String> codes) {
+        ManuelDeCodage manuelDeCodage = ManuelDeCodage.getInstance();
+        List<String> normalizedCodes = codes.stream().map(c -> manuelDeCodage.getCanonicalCode(c))
+            .toList();
+        return ligaturesMap.get(normalizedCodes);
+    }
+
+    /**
+	 * Reads a ligature description file.
+     * 
+     * We have decided to use a JSesh-friendly format now.
+	 * 
+     * The format is :
+     * <pre>
+     * lig::= ligname '|' ligdef ligdef*
+     * ligname ::= CODE ('&' code)*
+     * ligdef ::= CODE X Y SCALE
+     * <pre>
+     * 
+     * <ul>
+     * <li> X 
+     * <li> Y
+     * <li> SCALE
+     * </ul>
+     * 
+	 * @param in
+	 * @throws IOException
+	 * 
+	 */
+	private void readTksesh(Reader in) throws IOException {
+        ManuelDeCodage manuelDeCodage = ManuelDeCodage.getInstance();
+		BufferedReader r = new BufferedReader(in);
+
+		String s;
+		while ((s = r.readLine()) != null) {
+			int i;
+			String parts[] = s.split("\\|");
+			List<String> codes = Arrays.stream(parts[0].split("&"))
+                .map(c -> manuelDeCodage.getCanonicalCode(c)).toList();
+
+            // Split the second part
+            String pos[] = parts[1].strip().split(" ");
+
+            List<ExplicitPosition> positions = new ArrayList<>();
+			for (i = 0; i < pos.length; i += 4) {
+				// i : sign code
+				float x = Float.parseFloat(pos[i + 1]);
+				float y = Float.parseFloat(pos[i + 2]);
+				int scale = Integer.parseInt(pos[i + 3]);
+                positions.add(new ExplicitPosition(x, y, scale));
+			}
+			ligaturesMap.put(codes, positions);
+		}
+	}
 }

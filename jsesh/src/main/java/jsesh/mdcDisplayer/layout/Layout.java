@@ -31,7 +31,6 @@ import jsesh.mdc.model.Ligature;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdc.model.Overwrite;
@@ -120,9 +119,8 @@ public class Layout {
 	 */
 	private TextDirection currentTextDirection;
 
+	
 	private int depth;
-
-	protected LigatureManager ligatureManager;
 
 	private boolean inAbsoluteGroup = false;
 
@@ -645,25 +643,27 @@ public class Layout {
 			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
 
 			// Find the ligature
-			String codes[] = new String[l.getNumberOfChildren()];
-			for (int i = 0; i < codes.length; i++) {
-				codes[i] = l.getHieroglyphAt(i).getCode();
+			List<String> codes = new ArrayList<>();
+			for (int i = 0; i < l.getNumberOfChildren(); i++) {
+				codes.add(l.getHieroglyphAt(i).getCode());
 			}
-			ExplicitPosition pos[] = ligatureManager.getPositions(codes);
+			
+			List<ExplicitPosition> pos = hieroglyphsDrawer.getPositions(codes);
 
 			if (pos != null) {
 				// Now, place the signs and compute the width :
 
-				for (int k = 0; k < pos.length; k++) {
+				for (int k = 0; k < pos.size(); k++) {
 					MDCView subv = currentView.getSubView(k);
 					float x, y;
 					// So, the ligature coordinates suppose unscaled signs.
 					// We scale them...
 					float signScale = computeScale();
-					x = (float) (pos[k].getX() * signScale * getGroupUnitScale());
-					y = (float) (pos[k].getY() * signScale * getGroupUnitScale());
+					ExplicitPosition posAtk = pos.get(k);
+					x = (float) (posAtk.getX() * signScale * getGroupUnitScale());
+					y = (float) (posAtk.getY() * signScale * getGroupUnitScale());
 					subv.resetPos();
-					subv.reScale(pos[k].getScale() / 100f);
+					subv.reScale(posAtk.getScale() / 100f);
 
 					subv.getPosition().setLocation(x, y);
 

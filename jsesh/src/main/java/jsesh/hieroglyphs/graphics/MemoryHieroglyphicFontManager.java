@@ -12,7 +12,6 @@ package jsesh.hieroglyphs.graphics;
  * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
  */
 
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;

@@ -4,11 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
+import jsesh.mdcDisplayer.layout.ExplicitPosition;
 
 /**
  * This hieroglyphic drawer is able to dispatch the drawings of signs according
@@ -79,4 +81,8 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 		return getDrawer(code).isKnown(code);
 	}
 
+	@Override
+	public List<ExplicitPosition> getPositions(List<String> codes) {
+		return svgFontHieroglyphicDrawer.getPositions(codes);
+	}
 }

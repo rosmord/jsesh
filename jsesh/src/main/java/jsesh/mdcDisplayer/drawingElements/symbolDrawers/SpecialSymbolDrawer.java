@@ -9,12 +9,14 @@ import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.swing.utils.ShapeHelper;
 
 public class SpecialSymbolDrawer implements HieroglyphsDrawer {
@@ -124,5 +126,10 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 
 	public static SpecialSymbolDrawer getInstance() {
 		return instance;
+	}
+
+	@Override
+	public List<ExplicitPosition> getPositions(List<String> codes) {
+		return null;
 	}
 }

@@ -5,7 +5,134 @@ This journal should only be edited and modified in the Development branch.
 ## Long Term TODO
 
 - When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+- consider removing `depth` in layout;
 - when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
+- rename`HieroglyphicFontManager` into **ShapeCatalog** ;
+
+- Note about singletons
+
+  - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
+  
+## 2025/11/06
+
+Done : replaced `LigatureManager` by code in `SVGFontHieroglyphicDrawer`. Simplified the system by using JSesh-based coordinates, not the old Tksesh system (which had a different reference system altogether)
+
+Actual use of `LigatureManager` :
+
+only in `Layout`; used in `visitLigature`; calls only one method, which is `ligatureManager.getPositions(codes)`;
+
+- the `LigatureManager` needs the `HieroglyphicFontManager`;
+- the `Layout` knows reasonably well the `HieroglyphsDrawer`.
+
+### Inheritance hierarchies of HieroglyphsDrawer and HieroglyphicFontManager
+
+```plantuml
+@startuml
+skin rose
+hide empty member
+title Inheritance hierarchies
+interface HieroglyphsDrawer {
+    draw(Graphics2D g,...)
+    getBBox(String code, int angle, boolean fixed)
+    getShape(String code)
+    getSignArea(...)
+    isKnown(String code)
+    getLigatureZone(...)
+    getHeightOfA1()
+    signScale(...)
+    scaleFromFontToStyle(...)
+    getGroupUnitLength()
+}
+
+note left of HieroglyphsDrawer
+This class is responsible for everything
+which concerns the graphical
+appearance of symbols 
+(hieroglyphs, editorial markup...)
+end note
+
+interface HieroglyphicFontManager {
+  	hasCode(String code)
+	  getCodes()
+    get(String code): ShapeChar
+    getSmallBody(String code): ShapeChar 
+  	hasNewSigns()
+}
+
+note right of HieroglyphicFontManager
+HieroglyphicFontManager associates
+glyphs with codes.
+end note
+
+
+interface HieroglyphsDrawer{}
+HieroglyphsDrawer <|.. HieroglyphicDrawerDispatcher
+HieroglyphsDrawer <|.. SVGFontHieroglyphicDrawer
+HieroglyphsDrawer <|.. SpecialSymbolDrawer
+HieroglyphicDrawerDispatcher -> SVGFontHieroglyphicDrawer
+SpecialSymbolDrawer <.. HieroglyphicDrawerDispatcher 
+
+interface HieroglyphCodesSource {
+	hasCode(String code): boolean 	
+	getCodes() : Set<String> 
+}
+
+interface HieroglyphicFontManager extends HieroglyphCodesSource {}
+
+HieroglyphicFontManager <|.. CompositeHieroglyphicFontManager
+HieroglyphicFontManager <|.. DefaultHieroglyphicFontManager
+HieroglyphicFontManager <|.. DirectoryHieroglyphicFontManager
+HieroglyphicFontManager <|.. MemoryHieroglyphicFontManager
+HieroglyphicFontManager <|.. ResourcesHieroglyphicFontManager
+
+note bottom of DefaultHieroglyphicFontManager
+Could perhaps be a Composite manager.
+knows of the three sources used by JSesh:
+- user-defined signs
+- jsesh sign library
+- old tksesh Gardiner-like signs
+end note
+
+@enduml
+```
+
+The class `SVGFontHieroglyphicDrawer` draws its signs from a `HieroglyphicFontManager`.
+
+
+In fact:
+
+- `HieroglyphicFontManager` could be called **ShapeCatalog** ;
+- `HieroglyphsDrawer` has a reasonable name.
+
+
+A note about bounding box returned by `HieroglyphsDrawer`: the `getBBox` methods can handle both fixed a stretchable signs. The current interface is:
+
+~~~java
+getBBox(String code, int angle, boolean fixed);
+~~~
+
+But it would be more logical if the possible quality of the bbox would be stored in the return value itself.
+
+## 2025/11/05
+
+
+### Done
+
+- written some tests;
+
+### to consider
+
+- simplify HieroglyphsManager, HieroglyphsDrawer, etc.
+
+### Notes
+
+- bug with ligatures as ligatureManager is null in layout. **It was originally a singleton**
+- Consider removing "depth" in layout ?
+
+Concerning the **LigatureManager**: its only use is currently to deal with the **old** tksesh-based ligature (i.e. predefined ligatures like `stp&n&ra`).
+It reads a specific file, and is more a dinosaur than anything else. Can it be a singleton? It uses the `HieroglyphicFontManager` to know the sign's bounding boxes. Hence it's linked to the font manager. 
+
+
 
 ## 2025/11/04
 

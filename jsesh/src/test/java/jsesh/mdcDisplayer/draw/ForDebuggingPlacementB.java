@@ -36,8 +36,9 @@ package jsesh.mdcDisplayer.draw;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 /**
  * A small test for debugging placement when signs are scaled (or when the
@@ -62,11 +63,14 @@ public class ForDebuggingPlacementB {
                 + "t^^^A-t^^^A\\R180+i (unexpectedly --- seems to work)+s-!"
                 + "F20\\R180&&&x-+i (doesn't work; it's more or less expected)+s!"
                 + "t^^^A\\200\\R180+i (this one is not expected to work now)+s-!";
-        DrawingSpecificationsImplementation drawingSpecification = new DrawingSpecificationsImplementation();
-        drawingSpecification.setMaxCadratHeight(30);
-        drawingSpecification.setStandardSignHeight(30);
+
+        JSeshStyle jSeshStyle = JSeshStyle.DEFAULT.copy()
+            .geometry(g -> 
+                g.maxCadratHeight(30)
+                    .standardSignHeight(30)
+            ).build();
         //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
-        editor.setJseshStyle(drawingSpecification);
+        editor.setJseshStyle(jSeshStyle);
         editor.setMDCText(mdc);
         frame.add(editor);
         frame.pack();
