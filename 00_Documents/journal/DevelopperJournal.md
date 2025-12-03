@@ -15,6 +15,7 @@ This journal should only be edited and modified in the Development branch.
 
 ## 2025/12/03
 
+
 ## 2025/11/28
 
 Currently, the class JSeshRenderContext has the following structure:

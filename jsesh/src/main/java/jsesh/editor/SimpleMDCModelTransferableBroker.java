@@ -35,10 +35,10 @@ package jsesh.editor;
 
 import java.awt.datatransfer.DataFlavor;
 
+import jsesh.clipboard.JSeshPasteFlavors;
+import jsesh.clipboard.MDCClipboardPreferences;
+import jsesh.clipboard.MDCModelTransferable;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
-import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
-import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
 
 /**
  * Trivial implementation of a MDCModelTransferableBroker.

@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.clipboard;
+package jsesh.clipboard;
 
 import java.awt.datatransfer.DataFlavor;
 import java.util.ArrayList;

@@ -48,6 +48,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.editor.actions.AppDefaultFactory;
 import jsesh.editor.actions.edit.CopyAction;
 import jsesh.editor.actions.edit.CopyAsAction;
@@ -78,7 +79,6 @@ import jsesh.editor.actionsUtils.Enabler;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
 import jsesh.swing.utils.ImageIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;

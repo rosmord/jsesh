@@ -49,6 +49,9 @@ import java.awt.print.*;
 import java.io.*;
 import java.util.logging.Logger;
 import javax.swing.*;
+
+import jsesh.clipboard.JSeshPasteFlavors;
+import jsesh.clipboard.MDCModelTransferable;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
 import jsesh.mdc.*;
