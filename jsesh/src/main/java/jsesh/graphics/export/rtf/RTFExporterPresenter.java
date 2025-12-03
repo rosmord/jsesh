@@ -12,10 +12,11 @@ import java.io.OutputStream;
 
 import javax.swing.DefaultComboBoxModel;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
 import jsesh.swing.utils.FileButtonMapper;
@@ -41,13 +42,11 @@ public class RTFExporterPresenter {
      * @param drawingSpecifications
      * @param model
      */
-    public void exportModel(PaintingSpecifications drawingSpecifications,
+    public void exportModel(JSeshStyle jseshStyle,
+            HieroglyphsDrawer hieroglyphsDrawer,
             TopItemList model) {
 
-        RTFExporter exporter = new RTFExporter();
-        exporter.setJseshStyle(drawingSpecifications);
-        exporter.setRtfPreferences(rtfPreferences);
-        // exporter.setViewBuilder(new ViewBuilder()); (REMOVE ??)
+        RTFExporter exporter = new RTFExporter(jseshStyle, hieroglyphsDrawer, rtfPreferences);
         try {
             OutputStream out = new FileOutputStream(file);
             exporter.ExportModelTo(model, out);

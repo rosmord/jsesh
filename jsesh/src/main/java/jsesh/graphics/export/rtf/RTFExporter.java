@@ -6,10 +6,13 @@ package jsesh.graphics.export.rtf;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
 import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
@@ -18,13 +21,15 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
@@ -32,8 +37,9 @@ import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 /**
  * Exports a MDC model into a RTF file (or byte array).
  * 
- * <p> RTF is very basic, but can be used in copy/paste, which is nice. 
- * It's the only copy/paste system for vector graphics which works 
+ * <p>
+ * RTF is very basic, but can be used in copy/paste, which is nice.
+ * It's the only copy/paste system for vector graphics which works
  * on all platforms.
  * It also provides an export format which can be edited later in a
  * word processor.
@@ -54,24 +60,29 @@ public class RTFExporter {
      * Constant for mac pict pictures.
      */
     public static final int MAC_PICT = 0;
-    
+
     /**
      * Constant for EMF pictures, which is the most sophisticated
-     * format for RTF embedding. 
+     * format for RTF embedding.
      */
     public static final int EMF = 1;
-    
+
     /**
      * Constants for WMF pictures.
      */
     public static final int WMF = 2;
-    
-    private int pictureType = EMF;
-    private PaintingSpecifications drawingSpecifications;
-    private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
-    private SimpleRTFWriter rtfWriter;
 
-    public RTFExporter() {
+    private int pictureType = EMF;    
+    private RTFExportPreferences rtfPreferences;
+    private SimpleRTFWriter rtfWriter;
+    private JSeshStyle jseshStyle;
+    private HieroglyphsDrawer hieroglyphsDrawer;
+
+    public RTFExporter(JSeshStyle style, HieroglyphsDrawer hieroglyphsDrawer,
+            RTFExportPreferences preferences) {
+        this.jseshStyle = style.copy().colors(col -> col.grayColor(new Color(200, 200, 200))).build();
+        this.rtfPreferences = preferences;
+        this.hieroglyphsDrawer = hieroglyphsDrawer;
     }
 
     public void ExportModelTo(TopItemList model, OutputStream outputStream)
@@ -89,18 +100,22 @@ public class RTFExporter {
         rtfWriter = new SimpleRTFWriter(outputStream);
         rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
         rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
-        Font f = drawingSpecifications.getFont('t');
-        rtfWriter.declareFont(drawingSpecifications.getFont('t').getName(), RTFFontFamily.ROMAN);
+        Font translitterationFont = jseshStyle.fonts()
+                .getFont('t');
+        rtfWriter.declareFont(translitterationFont.getName(), RTFFontFamily.ROMAN);
         // Actual export, using a visitor.
         rtfWriter.writeHeader();
         if (shouldExportAsOnePicture()) {
             exportAsPicture(model);
         } else {
-            // Will change...
-            drawingSpecifications.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-            // Won't
-            drawingSpecifications
-                    .setTextOrientation(TextOrientation.HORIZONTAL);
+            // @formatter:off
+            jseshStyle = jseshStyle.copy().options(
+                        opt -> 
+                            opt
+                                .textDirection(TextDirection.LEFT_TO_RIGHT)
+                                .textOrientation(TextOrientation.HORIZONTAL)
+                    ).build();                    
+            // @formatter:on
             RTFExporterAux aux = new RTFExporterAux();
             model.accept(aux);
             aux.close();
@@ -121,10 +136,11 @@ public class RTFExporter {
                 RTFExportGranularity.ONE_LARGE_PICTURE)) {
             return true;
         } else if (rtfPreferences.respectOriginalTextLayout()) {
-            return drawingSpecifications.getTextDirection().equals(
+            var opt = jseshStyle.options();
+            return opt.textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
-                    || drawingSpecifications.getTextOrientation().equals(
-                    TextOrientation.VERTICAL);
+                    || opt.textOrientation().equals(
+                            TextOrientation.VERTICAL);
         } else {
             return false;
         }
@@ -141,16 +157,7 @@ public class RTFExporter {
         simpleDrawer.writeToRTF(rtfWriter);
     }
 
-
-    /**
-     * @param drawingSpecifications The drawingSpecifications to set.
-     */
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications.copy();
-        this.drawingSpecifications.setGrayColor(new Color(200, 200, 200));
-    }
-
+   
     /**
      * @param rtfPreferences The rtfPreferences to set.
      */
@@ -162,22 +169,24 @@ public class RTFExporter {
      * Build a drawer for creating a picture.
      *
      * @param comment a comment placed in the picture (if possible and
-     * supported).
+     *                supported).
      * @return
      */
     private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {
+        JSeshRenderContext renderContext = JSeshRenderContext.buildBadDefault(
+                jseshStyle, hieroglyphsDrawer);
         AbstractRTFEmbeddableDrawer result = null;
         switch (pictureType) {
             case MAC_PICT:
-                result = new EmbeddableMacPictSimpleDrawer(drawingSpecifications,
+                result = new EmbeddableMacPictSimpleDrawer(renderContext,
                         rtfPreferences.getCadratHeight());
                 break;
             case EMF:
-                result = new EmbeddableEMFSimpleDrawer(drawingSpecifications,
+                result = new EmbeddableEMFSimpleDrawer(renderContext,
                         rtfPreferences.getCadratHeight(), comment);
                 break;
             case WMF:
-                result = new EmbeddableWMFSimpleDrawer(drawingSpecifications,
+                result = new EmbeddableWMFSimpleDrawer(renderContext,
                         rtfPreferences.getCadratHeight());
                 break;
         }
@@ -185,7 +194,7 @@ public class RTFExporter {
     }
 
     private String buildMdCForExport(TopItemList t) {
-        MDCDocument doc = new MDCDocument(t, drawingSpecifications);
+        MDCDocument doc = new MDCDocument(t, jseshStyle);
         return doc.getMdC();
     }
 
@@ -234,9 +243,9 @@ public class RTFExporter {
                         rtfWriter.setItalic(false); // italic choosen in the font itself.
                         text = TranslitterationUtilities
                                 .getActualTransliterationString(text,
-                                        drawingSpecifications
-                                        .getTransliterationEncoding());
-                        fontName = drawingSpecifications.getFont('t').getFontName();
+                                        jseshStyle.fonts().
+                                                transliterationEncoding());
+                        fontName = jseshStyle.fonts().getFont('t').getFontName();
                         break;
                     case '+':
                     default:
@@ -285,14 +294,14 @@ public class RTFExporter {
 
         @Override
         public void visitTopItem(TopItem t) {
-            if (drawingSpecifications.getTextDirection().equals(
+            if (jseshStyle.options().textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
                     || rtfPreferences.getExportGranularity().equals(
                             RTFExportGranularity.GROUPED_CADRATS)) {
                 if (toDraw == null) {
                     toDraw = new TopItemList();
                 }
-				// TODO : We should modify the drawing methods, so that it's
+                // TODO : We should modify the drawing methods, so that it's
                 // possible to draw any list of top items. Then
                 // we would need to create fewer copies of our items.
                 toDraw.addTopItem((TopItem) t.deepCopy());
@@ -306,7 +315,7 @@ public class RTFExporter {
          */
         private void flushElements() {
             try {
-                if (drawingSpecifications.getTextDirection().equals(
+                if (jseshStyle.options().textDirection().equals(
                         TextDirection.RIGHT_TO_LEFT)
                         || rtfPreferences.getExportGranularity().equals(
                                 RTFExportGranularity.GROUPED_CADRATS)) {
@@ -334,7 +343,7 @@ public class RTFExporter {
             try {
                 // float deltay = 0;
                 if (simpleDrawer.getCurrentView().getFirstSubView() != null) {
-					// deltay = (float) simpleDrawer.getCurrentView()
+                    // deltay = (float) simpleDrawer.getCurrentView()
                     // .getFirstSubView().getDeltaBaseY();
                 }
                 simpleDrawer.writeToRTF(rtfWriter);

@@ -4,6 +4,7 @@
  */
 package jsesh.mdcDisplayer.clipboard;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
 import jsesh.graphics.export.pdfExport.PDFDataSaver;
@@ -16,8 +17,6 @@ import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
@@ -56,21 +55,35 @@ public class MDCModelTransferable implements Transferable {
 
     private RTFExportPreferences rtfPreferences;
 
-    private PaintingSpecifications drawingSpecifications;
+    private JSeshStyle jseshStyle;
 
-    private MDCClipboardPreferences clipboardPreferences = new MDCClipboardPreferences();
+    private MDCClipboardPreferences clipboardPreferences;
 
     private final int maxBitmapWidth;
     private final int maxBitmapHeight;
 
     private final DataFlavor dataFlavors[];
 
-    public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list) {
+    /**
+     * Create a MDCModelTransferable.
+     * Note that there are a lot of parameters.
+     * We need 
+     * @param dataFlavors
+     * @param list
+     * @param mdcClipboardPreferences
+     * @param rtfExportPreferences
+     * @param jSeshStyle
+     */
+    public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list, 
+        MDCClipboardPreferences mdcClipboardPreferences,
+        RTFExportPreferences rtfExportPreferences,
+        JSeshStyle jSeshStyle
+    ) {
         this.topItemList = list;
         maxBitmapWidth = 2000;
         maxBitmapHeight = 2000;
-        rtfPreferences = new RTFExportPreferences();
-        this.drawingSpecifications = new DrawingSpecificationsImplementation();
+        this.rtfPreferences = rtfExportPreferences;
+        this.jseshStyle = jSeshStyle;
         this.dataFlavors = dataFlavors;
     }
 
@@ -120,7 +133,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getEMFData() throws IOException {
     	EmbeddableEMFSimpleDrawer drawer=
                 new EmbeddableEMFSimpleDrawer(
-                        getDrawingSpecifications(),
+                        jseshStyle,
                         rtfPreferences.getCadratHeight(),
                         topItemList.toMdC());
         drawer.drawTopItemList(topItemList);
@@ -134,7 +147,7 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getPDFData() throws IOException {
-        PaintingSpecifications drawingSpecification = getDrawingSpecifications()
+        PaintingSpecifications drawingSpecification = getJseshStyle()
                 .copy();
         // Target Cadrat height, in points.
         float targetHeight = rtfPreferences.getCadratHeight();
@@ -199,7 +212,7 @@ public class MDCModelTransferable implements Transferable {
 
         if (topItemList.getNumberOfChildren() < 5000) {
             RTFExporter rtfExporter = new RTFExporter();
-            rtfExporter.setJseshStyle(getDrawingSpecifications());
+            rtfExporter.setJseshStyle(getJseshStyle());
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());
@@ -215,12 +228,12 @@ public class MDCModelTransferable implements Transferable {
     /**
      * @return Returns the drawingSpecifications.
      */
-    public PaintingSpecifications getDrawingSpecifications() {
-        return drawingSpecifications;
+    public PaintingSpecifications getJseshStyle() {
+        return jseshStyle;
     }
 
     private PaintingSpecifications createEmbeddedDrawingSpecifications() {
-       return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(this.drawingSpecifications);
+       return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(this.jseshStyle);
     }
 
     /**
@@ -228,7 +241,7 @@ public class MDCModelTransferable implements Transferable {
      */
     public void setDrawingSpecifications(
             PaintingSpecifications drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications.copy();
+        this.jseshStyle = drawingSpecifications.copy();
     }
 
     /**

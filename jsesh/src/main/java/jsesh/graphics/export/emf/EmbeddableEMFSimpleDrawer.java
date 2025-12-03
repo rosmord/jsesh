@@ -1,8 +1,9 @@
 package jsesh.graphics.export.emf;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
@@ -22,13 +23,13 @@ public class EmbeddableEMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	/**
 	 * Creates the drawer.
 	 * @param viewBuilder the view builder to use
-	 * @param drawingSpecification the drawing specifications
+	 * @param renderContext the JSeshRenderContext
 	 * @param cadratHeight the desired quadrat height
 	 * @param comment a comment to include in the files.
 	 */
-	public EmbeddableEMFSimpleDrawer(PaintingSpecifications drawingSpecification, double cadratHeight,
+	public EmbeddableEMFSimpleDrawer(JSeshRenderContext renderContext, double cadratHeight,
 									 String comment) {
-		super(drawingSpecification, cadratHeight);
+		super(renderContext, cadratHeight);
 		setShadeAfter(false);
 		this.comment = comment;
 	}

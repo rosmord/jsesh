@@ -75,7 +75,7 @@ public class MDCDocument {
 				.withSmallBodyScaleLimit(jseshStyle.geometry().smallBodyScaleLimit())
 				.withStandardSignHeight(jseshStyle.geometry().standardSignHeight())
 				.withUseLinesForShading(
-						jseshStyle.options().shadingStyle().equals(ShadingMode.LINE_HATCHING));
+						jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING));
 		setDocumentPreferences(prefs);
 	}
 

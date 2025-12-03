@@ -13,13 +13,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.utils.DoubleDimensions;
 
 /**
@@ -39,7 +39,7 @@ public class SelectionExporter {
 
     private boolean clearBeforeDrawing = true;
 
-    private PaintingSpecifications actualDrawingSpecifications;
+    private JSeshRenderContext renderContext;
 
     /**
      * @param exportData
@@ -57,13 +57,12 @@ public class SelectionExporter {
     public void exportSelection() throws IOException {
         // Build the view :
         ViewBuilder builder = new ViewBuilder();
-        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
-        PageLayout pageLayout = actualDrawingSpecifications.getPageLayout();
-        pageLayout.setLeftMargin(0f);
-        pageLayout.setTopMargin(0f);
-        actualDrawingSpecifications.setPageLayout(pageLayout);
+        renderContext = exportData.getRenderContext()
+            .copy().jseshStyle(s -> s.geometry(
+                g -> g.leftMargin(0f).topMargin(0f)
+            )).build();
         exportZone(builder, exportData.getStart().getIndex(), exportData.getEnd().getIndex());
-        actualDrawingSpecifications = null;
+        renderContext = null;
     }
 
     /**
@@ -73,8 +72,8 @@ public class SelectionExporter {
     public void exportToPages() throws IOException {
         // Build the view :
         ViewBuilder builder = new ViewBuilder();
-        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
-        actualDrawingSpecifications.setPaged(true);
+        renderContext = exportData.getRenderContext()
+            .copy().jseshStyle(style -> style.options(opts -> opts.paged(true))).build();        
 
         int start = 0;
         TopItemList l = exportData.getTopItemList();
@@ -89,7 +88,7 @@ public class SelectionExporter {
             graphicsFactory.newPage();
             start = end;
         }
-        actualDrawingSpecifications = null;
+        renderContext = null;
     }
 
     /**
@@ -99,13 +98,14 @@ public class SelectionExporter {
      * @throws IOException
      */
     private void exportZone(ViewBuilder builder, int start, int end) throws IOException {
-        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
+        JSeshStyle style = renderContext.jseshStyle();
+        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, renderContext);
         graphicsFactory.setDimension(getScaledDimensions(view));
         // Build the graphic file and initialize it :
         Graphics2D g = graphicsFactory
                 .buildGraphics();
 
-        g.setColor(actualDrawingSpecifications.getBlackColor());
+        g.setColor(style.painting().blackColor());
         g.setBackground(background);
         if (clearBeforeDrawing) {
             g.clearRect(0, 0, (int) getScaledDimensions(view).getWidth() + 1, (int) getScaledDimensions(view).getHeight() + 1);
@@ -116,7 +116,7 @@ public class SelectionExporter {
         drawer.setShadeAfter(false);
 
         // draw !
-        drawer.draw(g, actualDrawingSpecifications, view);
+        drawer.draw(g, renderContext, view);
         g.dispose();
         graphicsFactory.writeGraphics();
     }

@@ -1,8 +1,7 @@
 package jsesh.graphics.export.wmf;
 
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 import org.qenherkhopeshef.graphics.wmf.WMFGraphics2D;
@@ -16,8 +15,8 @@ public class EmbeddableWMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	private RandomAccessByteArray out;
 	private double deviceScale = 1.0;
 
-	public EmbeddableWMFSimpleDrawer(PaintingSpecifications drawingSpecification, double cadratHeight) {
-		super(drawingSpecification, cadratHeight);
+	public EmbeddableWMFSimpleDrawer(JSeshRenderContext renderContext, double cadratHeight) {
+		super(renderContext, cadratHeight);
 		setShadeAfter(false);
 	}
 
@@ -29,8 +28,11 @@ public class EmbeddableWMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 			wmfGraphics2D = new WMFGraphics2D(out,
 					(int) getScaledWidth() + 1, (int) getScaledHeight() + 1);
 			wmfGraphics2D.setPrecision(1);
+			// The following code is somehow weird.
+			// We might need to think the drawing workflow again.
 			deviceScale = wmfGraphics2D.getTransform().getScaleX();
-			getDrawingSpecifications().setGraphicDeviceScale(deviceScale);
+			setRenderContext(getRenderContext()
+					.copy().graphicDeviceScale(deviceScale).build());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

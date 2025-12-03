@@ -8,10 +8,11 @@
  */
 package jsesh.graphics.export.generic;
 
+
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * Data needed for text exportation.
@@ -20,7 +21,7 @@ import jsesh.mdcDisplayer.preferences.DrawingSpecification;
  * @author rosmord
  */
 public class ExportData {
-	private PaintingSpecifications drawingSpecifications;
+	private JSeshRenderContext renderContext;
 
 	private TopItemList topItemList;
 
@@ -32,16 +33,16 @@ public class ExportData {
 
 	/**
 	 * Select export between two positions.
-	 * @param drawingSpecifications the drawing specifications.
+	 * @param renderContext the drawing specifications.
 	 * @param start beginning of the zone to export in data
 	 * @param end  end of the zone to export in data
 	 * @param data data to export (partially)
 	 * @param scale scaling information.
 	 */
-	public ExportData(PaintingSpecifications drawingSpecifications,
+	public ExportData(JSeshRenderContext renderContext,
 			MDCPosition start, MDCPosition end, TopItemList data, double scale) {
 		super();
-		init(drawingSpecifications, start, end, data, scale);
+		init(renderContext, start, end, data, scale);
 
 	}
 
@@ -52,7 +53,7 @@ public class ExportData {
 	 * @param text the text, as a list of cadrats.
 	 * @param scale the export scale. scale 1 means that a cadrat is 18 point high.
 	 */
-	public ExportData(PaintingSpecifications drawingSpecifications,
+	public ExportData(JSeshRenderContext renderContext,
 			MDCCaret caret, TopItemList text, double scale) {	
 		MDCPosition start;
 		MDCPosition end;
@@ -63,11 +64,11 @@ public class ExportData {
 			start= caret.getInsert().getPosition();
 			end= caret.getMark().getPosition();
 		}
-		init(drawingSpecifications, start, end, text, scale);
+		init(renderContext, start, end, text, scale);
 	}
 	
-	private void init(PaintingSpecifications drawingSpecifications, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
-		this.drawingSpecifications = drawingSpecifications;
+	private void init(JSeshRenderContext renderContext, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
+		this.renderContext = renderContext;
 		this.topItemList = data;
 		this.scale = scale;
 
@@ -81,14 +82,14 @@ public class ExportData {
 	}
 
 
+	public JSeshRenderContext getRenderContext() {
+		return renderContext;
+	}
 
 	public TopItemList getTopItemList() {
 		return topItemList;
 	}
 
-	public PaintingSpecifications getDrawingSpecifications() {
-		return drawingSpecifications;
-	}
 
 	/**
 	 * @return Returns the scale.

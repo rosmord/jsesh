@@ -6,9 +6,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
@@ -32,8 +29,6 @@ public class PDFExportPreferences {
 	private String keywords;
 
 	private boolean showPageNumbers;
-
-	private PaintingSpecifications drawingSpecifications = new DrawingSpecificationsImplementation();
 
 	private Color backgroundColor = Color.WHITE;
 
@@ -181,20 +176,6 @@ public class PDFExportPreferences {
 	 */
 	public void setShowPageNumbers(boolean showPageNumbers) {
 		this.showPageNumbers = showPageNumbers;
-	}
-
-	/**
-	 * @return the drawingSpecifications
-	 */
-	public PaintingSpecifications getDrawingSpecifications() {
-		return drawingSpecifications;
-	}
-
-	/**
-	 * @param drawingSpecifications the drawingSpecifications to set
-	 */
-	public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
 	}
 
 	/**

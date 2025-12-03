@@ -4,7 +4,6 @@
  */
 package jsesh.graphics.export.html;
 
-import jsesh.graphics.export.generic.ExportOptionPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -12,12 +11,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.awt.image.renderable.RenderContext;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -29,18 +30,17 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.GraphicsUtils;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
@@ -119,7 +119,7 @@ public class HTMLExporter {
      */
     private int newLinesReplacement;
 
-    private PaintingSpecifications drawingSpecifications;
+    private JSeshRenderContext renderContext;
 
     public HTMLExporter() {
         setDefaults();
@@ -141,22 +141,20 @@ public class HTMLExporter {
     }
 
     /**
-     * @param drawingSpecifications The drawingSpecifications to set.
+     * @param renderContext The drawingSpecifications to set.
      */
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications.copy();
-        PageLayout pageLayout = this.drawingSpecifications.getPageLayout();
-        pageLayout.setTopMargin(0);
-        pageLayout.setLeftMargin(0);
-        this.drawingSpecifications.setPageLayout(pageLayout);
+    public void setJSeshRenderContext(
+            JSeshRenderContext renderContext) {
+        this.renderContext = renderContext
+                .copy().jseshStyle(s -> s.geometry(g -> g.topMargin(0).leftMargin(0))).build();
+        ;
     }
 
     /**
      * @return Returns the drawingSpecifications.
      */
-    public PaintingSpecifications getDrawingSpecifications() {
-        return drawingSpecifications;
+    public JSeshRenderContext getRenderContext() {
+        return renderContext;
     }
 
     /**
@@ -187,9 +185,10 @@ public class HTMLExporter {
         int pageNumber = 0;
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
+         * (non-Javadoc)
+         * 
+         * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.
+         * TopItemList)
          */
         public void visitTopItemList(TopItemList t) {
             try {
@@ -207,9 +206,10 @@ public class HTMLExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+         * (non-Javadoc)
+         * 
+         * @see jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc.model.
+         * AlphabeticText)
          */
         public void visitAlphabeticText(AlphabeticText t) {
             flushElements();
@@ -249,9 +249,10 @@ public class HTMLExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
          */
         public void visitPageBreak(PageBreak b) {
             flushElements();
@@ -268,9 +269,10 @@ public class HTMLExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
          */
         public void visitLineBreak(LineBreak b) {
             flushElements();
@@ -289,9 +291,10 @@ public class HTMLExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+         * (non-Javadoc)
+         * 
+         * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.
+         * ModelElement)
          */
         public void visitDefault(ModelElement t) {
             getElements().add(t);
@@ -310,7 +313,7 @@ public class HTMLExporter {
             write("\n"); //$NON-NLS-1$
         }
 
-        private java.util.List getElements() {
+        private List getElements() {
             if (elements == null) {
                 elements = new ArrayList();
             }
@@ -330,10 +333,10 @@ public class HTMLExporter {
 
                 // scale Compute
                 double scale = (double) lineHeight
-                        / drawingSpecifications.getMaxCadratHeight();
+                        / renderContext.getMaxCadratHeight();
 
                 MDCView view = builder.buildView(smallModel,
-                        drawingSpecifications);
+                        renderContext);
 
                 if (view.getWidth() == 0 || view.getHeight() == 0) {
                     return;
@@ -343,18 +346,19 @@ public class HTMLExporter {
                 BufferedImage image = new BufferedImage((int) Math.ceil(view
                         .getWidth()
                         * scale + 1), (int) Math.ceil(view.getHeight() * scale
-                                + 2 * pictureMargin + 1), BufferedImage.TYPE_INT_ARGB);
+                                + 2 * pictureMargin + 1),
+                        BufferedImage.TYPE_INT_ARGB);
 
                 Graphics2D g = image.createGraphics();
                 GraphicsUtils.antialias(g);
 
                 g.setColor(backgroundColor);
                 g.fillRect(0, 0, image.getWidth(), image.getHeight());
-                g.setColor(drawingSpecifications.getBlackColor());
+                g.setColor(renderContext.getBlackColor());
                 g.translate(1, 1 + pictureMargin);
 
                 g.scale(scale, scale);
-                drawer.draw(g, drawingSpecifications, view);
+                drawer.draw(g, renderContext, view);
                 g.dispose();
 
                 File fic = getImageFile(imageNumber);
@@ -584,14 +588,14 @@ public class HTMLExporter {
                     .setToolTipText(JSeshMessages.getString("HTMLExporter.protectHTML.toolTip")); //$NON-NLS-1$
             protectSpecialField.setSelected(htmlSpecialProtected);
 
-            newLineReplacementField = new JComboBox(new String[]{
-                JSeshMessages.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
-                "<br>", "<p>"}); //$NON-NLS-1$ //$NON-NLS-2$
+            newLineReplacementField = new JComboBox(new String[] {
+                    JSeshMessages.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
+                    "<br>", "<p>" }); //$NON-NLS-1$ //$NON-NLS-2$
             newLineReplacementField.setSelectedIndex(newLinesReplacement);
 
             NumberFormatter formatter = new NumberFormatter(new DecimalFormat(
                     "###")); //$NON-NLS-1$
-          
+
             pictureScaleField = new JFormattedTextField(formatter);
             pictureScaleField.setValue(pictureScale);
             pictureScaleField.setColumns(4);
@@ -639,7 +643,8 @@ public class HTMLExporter {
             c.gridy++;
             add(
                     new LabeledField(JSeshMessages.getString("HTMLExporter.verticalMargin.label"), //$NON-NLS-1$
-                            pictureMarginField), c);
+                            pictureMarginField),
+                    c);
             c.gridy++;
             add(new LabeledField(JSeshMessages.getString("HTMLExporter.scale.label"), pictureScaleField), c); //$NON-NLS-1$
             c.gridy++;
@@ -671,7 +676,8 @@ public class HTMLExporter {
         }
 
         private void browse() {
-            PortableFileDialog portableFileDialog = PortableFileDialogFactory.createDirectorySaveDialog(getPopupParent());
+            PortableFileDialog portableFileDialog = PortableFileDialogFactory
+                    .createDirectorySaveDialog(getPopupParent());
             portableFileDialog.setCurrentDirectory(directory);
             portableFileDialog.setFileFilter(new FileFilter() {
                 @Override
@@ -705,7 +711,7 @@ public class HTMLExporter {
      * Sets the vertical margin to draw above and below pictures.
      *
      * @param pictureMargin a margin, in pixels, to draw above and below
-     * pictures.
+     *                      pictures.
      */
     public void setPictureMargin(int pictureMargin) {
         this.pictureMargin = pictureMargin;

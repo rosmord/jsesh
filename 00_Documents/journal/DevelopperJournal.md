@@ -12,7 +12,40 @@ This journal should only be edited and modified in the Development branch.
 - Note about singletons
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
-  
+
+## 2025/12/03
+
+## 2025/11/28
+
+Currently, the class JSeshRenderContext has the following structure:
+
+```plantuml
+@startuml
+class JSeshRenderContext {
+    fontRenderContext
+    graphicDeviceScale
+    jseshStyle
+    hieroglyphDrawer
+}
+@enduml
+```
+
+- fontRenderContext: depends on the rendering context, Swing specific, but needed **even for layout,** as text measurement depends on it;
+- graphicDeviceScale: depends on the ultimate output;
+- jseshStyle: options and the like;
+- hieroglyphDrawer: hieroglyphic font source.
+
+In the **external** API, the first two make little sense. It's quite likely that the system will be able to provide them. 
+
+Should we modify the API of `EmbeddableMacPictSimpleDrawer` for instance ?
+
+- Working on `MDCModelTransferable`: lots of parameters if we avoid creating stuff with `new`. We need to figure a cleaner way to use them ;
+- `AbtractExportDrawer` : `MDCModelTransferable`, which is in `mdcDisplayer`, depends on it (for copy/paste). In turn, `AbtractExportDrawer` depends on `mdcDisplayer` (because of views). We should do something here (maybe at the level of packages)
+
+- added `setRenderContext` to `AbstractRTFEmbeddableDrawer`, because we need to recompute it at some point. It's not very nice. We should probably have a shorter-lived object for this.
+- still about `EmbeddableWMFSimpleDrawer` : the drawing workflow is somehow weird. We should probably polish it to make it stateless ;
+- same problem with `RTFExporter` (in this case, the modified rendercontext should be passed to the visitor)
+- move `ensureCMYKColorSpace` to JSeshStyle.colors ???
 ## 2025/11/06
 
 Done : replaced `LigatureManager` by code in `SVGFontHieroglyphicDrawer`. Simplified the system by using JSesh-based coordinates, not the old Tksesh system (which had a different reference system altogether)

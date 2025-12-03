@@ -1,10 +1,6 @@
 package jsesh.graphics.export.generic;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-import jsesh.mdcDisplayer.preferences.PageLayout;
-
-import java.awt.*;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * Helper class for creating drawing specifications for embedded pictures.
@@ -12,12 +8,15 @@ import java.awt.*;
 
 public class EmbeddableDrawingSpecificationHelper {
 
-	public static PaintingSpecifications createEmbeddedDrawingSpecifications(PaintingSpecifications originalSpecifications) {
-		PaintingSpecifications newDrawingSpecifications = originalSpecifications.copy();
-        PageLayout pageLayout = newDrawingSpecifications.getPageLayout();
-        pageLayout.setLeftMargin(01);
-        pageLayout.setTopMargin(01);
-        newDrawingSpecifications.setPageLayout(pageLayout);
-        return newDrawingSpecifications;
-	}
+    private EmbeddableDrawingSpecificationHelper() {
+    }
+
+    public static JSeshRenderContext createEmbeddedDrawingSpecifications(JSeshRenderContext originalRenderContext) {
+        return originalRenderContext.copy()
+                .jseshStyle(style -> style.geometry(g -> g
+                        .leftMargin(01)
+                        .topMargin(01)))
+                .build();
+
+    }
 }

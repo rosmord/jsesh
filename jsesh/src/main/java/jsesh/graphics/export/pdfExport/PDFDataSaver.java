@@ -7,13 +7,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 
 // TODO : use EXPORTDATA !!
 // TODO : mix with PDFExporter to avoid code duplication.
@@ -26,9 +27,10 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
  */
 public class PDFDataSaver {
 
-    private PaintingSpecifications drawingSpecification;
+    private JSeshStyle jSeshStyle;
     private PDFExportPreferences pdfExportPreferences;
     private float scale = 1.0f;
+    private HieroglyphsDrawer hieroglyphsDrawer;
 
     /**
      * Create a new {@link PDFDataSaver}.
@@ -38,10 +40,12 @@ public class PDFDataSaver {
      * @param pdfExportPreferences pdf-specific preferences.
      *
      */
-    public PDFDataSaver(PaintingSpecifications drawingSpecification,
+    public PDFDataSaver(JSeshStyle jSeshStyle,
+            HieroglyphsDrawer hieroglyphsDrawer,
             PDFExportPreferences pdfExportPreferences) {
-        this.drawingSpecification = drawingSpecification.copy();
+        this.jSeshStyle = jSeshStyle;
         this.pdfExportPreferences = pdfExportPreferences;
+        this.hieroglyphsDrawer = hieroglyphsDrawer;
     }
 
     /**
@@ -49,8 +53,8 @@ public class PDFDataSaver {
      *
      * @param drawingSpecification
      */
-    public PDFDataSaver(PaintingSpecifications drawingSpecification) {
-        this(drawingSpecification, new PDFExportPreferences());
+    public PDFDataSaver(JSeshStyle jSeshStyle, HieroglyphsDrawer hieroglyphsDrawer) {
+        this(jSeshStyle, hieroglyphsDrawer, new PDFExportPreferences());
     }
 
     /**
@@ -77,21 +81,21 @@ public class PDFDataSaver {
     public void writeSinglePagePDF(OutputStream out, TopItemList topItemList)
             throws IOException {
         // Dirty code which needs to be cleaned up.
-        PaintingSpecifications myDrawingSpecification = this.drawingSpecification
-                .copy();
-
-        PDFExportHelper.ensureCMYKColorSpace(myDrawingSpecification);
-
-        // Always allow a 0.5-point margin for the document ?
-        PageLayout pageLayout = myDrawingSpecification.getPageLayout();
         float margin = 1f;
-        pageLayout.setLeftMargin(margin * 0.5f / scale);
-        pageLayout.setTopMargin(margin * 0.5f / scale);
+        JSeshStyle myDrawingSpecification = 
+            PDFExportHelper.ensureCMYKColorSpace(this.jSeshStyle)
+            .copy()
+            .geometry(geom ->
+                geom
+                    .leftMargin(margin* 0.5f / scale)
+                    .topMargin(margin* 0.5f / scale)
+            ).build()
+            ;
 
-        myDrawingSpecification.setPageLayout(pageLayout);
+        JSeshRenderContext renderContext = JSeshRenderContext.buildBadDefault(myDrawingSpecification, hieroglyphsDrawer);
 
         ViewBuilder builder = new ViewBuilder();
-        MDCView view = builder.buildView(topItemList, myDrawingSpecification);
+        MDCView view = builder.buildView(topItemList, renderContext);
 
         PDFDocumentWriterAux documentWriterAux = new PDFDocumentWriterAux(
                 pdfExportPreferences, out, margin + scale * view.getWidth(),
@@ -106,7 +110,7 @@ public class PDFDataSaver {
         g.setStroke(new BasicStroke(0));
         ViewDrawer drawer = new ViewDrawer();
         drawer.setShadeAfter(false);
-        drawer.draw(g, myDrawingSpecification, view);
+        drawer.draw(g, renderContext, view);
 
         g.dispose();
         documentWriterAux.close();
