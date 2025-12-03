@@ -23,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Dialog panel for editing groups.

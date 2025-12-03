@@ -28,6 +28,7 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
@@ -111,7 +112,7 @@ public final class GroupEditor extends JPanel {
 
     private GroupEditorMode groupEditorMode = new DoNothingGroupEditorMode();
 
-    public GroupEditor(PaintingSpecifications drawingSpecification) {
+    public GroupEditor(JSeshRenderContext jSeshRenderContext) {
     	groupEditorDrawingPreferences = new GroupEditorDrawingPreferences(new DrawingSpecificationsImplementation());
     	setDrawingSpecification(drawingSpecification);
         setBackground(Color.WHITE);

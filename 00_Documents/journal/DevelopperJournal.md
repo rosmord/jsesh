@@ -15,6 +15,13 @@ This journal should only be edited and modified in the Development branch.
 
 ## 2025/12/03
 
+I definitly don't like the current structure of `JSeshRenderContext`. For instance, the component for `GroupEditor` needs it. But it's not logical at all. Technically, it can be done, by passing mock or default values for `fontRenderContext` and `graphicDeviceScale`, but it's not very nice.
+
+We could consider splitting `JSeshRenderContext` into two parts:
+- `JSeshConfiguration`, containing `jseshStyle` and `hieroglyphDrawer`;
+- `JSeshRenderContext`, containing `fontRenderContext` and `graphicDeviceScale`.
+
+- regarding the `GroupEditor` : a new `GroupEditor` is created each time a user edits a group. It's fine, but on the architectural level, it's a bit dangerous, as programmers might think that the `GroupEditor` can be long-lived object. We could change its interface to allow reuse. 
 
 ## 2025/11/28
 

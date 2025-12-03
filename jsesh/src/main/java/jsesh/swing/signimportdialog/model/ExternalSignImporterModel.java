@@ -20,10 +20,9 @@ public class ExternalSignImporterModel {
 
 	private double shapeScale;
 
-	public ExternalSignImporterModel() {
-		HieroglyphicFontManager db = DefaultHieroglyphicFontManager
-				.getInstance();
-		referenceShape = db.get("A1");
+
+	public ExternalSignImporterModel(HieroglyphicFontManager hieroglyphicFontManager) {		
+		referenceShape = hieroglyphicFontManager.get("A1");
 		sourceDirectory = new File(".");
 		shapeScale = 1.0;
 	}
@@ -53,10 +52,10 @@ public class ExternalSignImporterModel {
 		return referenceShape;
 	}
 
-	public void insertSign(String text) {
+	public void insertSign(String text, DefaultHieroglyphicFontManager hieroglyphicFontManager) {
 		ShapeChar insertedShape = (ShapeChar) getShapeChar().clone();
 		insertedShape.scaleGlyph(shapeScale);
-		DefaultHieroglyphicFontManager.getInstance().insertNewSign(text,
+		hieroglyphicFontManager.insertNewSign(text,
 				insertedShape);
 	}
 
