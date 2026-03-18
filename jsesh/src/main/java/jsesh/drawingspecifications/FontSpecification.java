@@ -4,6 +4,7 @@ import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
 
@@ -104,22 +105,22 @@ public record FontSpecification(
 	 * @param text               the text to measure
 	 * @return the dimensions of the text in superScript font.
 	 */
-	public Dimension2D superScriptDimensions(JSeshRenderContext renderContext, String text) {
+	public Dimension2D superScriptDimensions(JSeshTechRenderContext techRenderContext, String text) {
 		Rectangle2D r = superScriptFont.getStringBounds(text,
-				renderContext.fontRenderContext());
+				techRenderContext.fontRenderContext());
 		return new DoubleDimensions(r.getWidth(), r.getHeight());
 	}
 
 	/**
 	 * Get the dimensions of a text in a given script.
-	 * @param renderContext
+	 * @param techRenderContext
 	 * @param scriptCode
 	 * @param text
 	 * @return
 	 */
-	public Rectangle2D textDimensions(JSeshRenderContext renderContext, char scriptCode, String text) {
+	public Rectangle2D textDimensions(JSeshTechRenderContext techRenderContext, char scriptCode, String text) {
 		Rectangle2D r = getFont(scriptCode).getStringBounds(text,
-				renderContext.fontRenderContext());
+				techRenderContext.fontRenderContext());
 		return r;
 	}
 

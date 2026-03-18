@@ -32,6 +32,7 @@ import jsesh.mdc.model.TabbingClear;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
@@ -81,6 +82,8 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 
 	private JSeshRenderContext renderContext;
 
+	private JSeshTechRenderContext techRenderContext;
+
 	private boolean shadeAfter = true;
 
 	private TopItemState drawingState;
@@ -103,6 +106,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	private PageCoordinateSystem pageCoordinateSystem = new PageCoordinateSystem();
 
 
+
 	/**
 	 * Initialize the drawer before drawing the text. This method is called once
 	 * before drawing a whole MDC text. implementations of ElementDrawer can
@@ -113,8 +117,9 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 *            TODO
 	 */
 
-	public void prepareDrawing(JSeshRenderContext renderContext) {
+	public void prepareDrawing(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 		this.renderContext = renderContext;
+		this.techRenderContext = techRenderContext;
 	}
 
 	/**
@@ -381,6 +386,10 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 */
 	protected JSeshRenderContext getRenderContext() {
 		return renderContext;
+	}
+
+	protected JSeshTechRenderContext getTechRenderContext() {
+		return techRenderContext;
 	}
 
 	/**

@@ -13,7 +13,20 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## 2026/03/18
+
+We should avoid letting the code alone for too long. We forgot what we were doing.
+
+updated `ViewDrawer` with `JTechRenderContext`. Some further refactoring would be nice :
+
+- either create records to group most arguments of `drawViewAndCursor` (all of them, in a `DrawRequest` record, simpler groupings.)
+- it could also be a good idea to avoid using instance variables of `ViewDrawer` to store what is really function arguments. Grouping them in a record would allow one to pass the easily, and make everything much more explicit.
+
+
+**What** is `getPointForPosition` doing in `ViewDrawer`? It should somehow be a method of `View`? **Edit**: it's the case in the current system, but in fact, it's brittle, as we depend on position and subviews to be aligned.
+
 ## 2025/12/03
+
 
 I definitly don't like the current structure of `JSeshRenderContext`. For instance, the component for `GroupEditor` needs it. But it's not logical at all. Technically, it can be done, by passing mock or default values for `fontRenderContext` and `graphicDeviceScale`, but it's not very nice.
 
@@ -22,6 +35,10 @@ We could consider splitting `JSeshRenderContext` into two parts:
 - `JSeshRenderContext`, containing `fontRenderContext` and `graphicDeviceScale`.
 
 - regarding the `GroupEditor` : a new `GroupEditor` is created each time a user edits a group. It's fine, but on the architectural level, it's a bit dangerous, as programmers might think that the `GroupEditor` can be long-lived object. We could change its interface to allow reuse. 
+
+**Trying to split JSeshRenderContext**
+
+- in a number of places, we know the `Graphics` object (for instance, in the drawer). Hence, the `FontRenderContext` should be available without too much trouble. Currently, we pass it. We will not change this immediately, but we must remember to perform an update if possible later. 
 
 ## 2025/11/28
 

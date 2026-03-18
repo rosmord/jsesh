@@ -34,6 +34,7 @@ import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
@@ -55,8 +56,8 @@ public class SimpleElementDrawer extends ElementDrawer {
      * {@inheritDoc}
      */
     @Override
-    public void prepareDrawing(JSeshRenderContext renderContext) {
-        super.prepareDrawing(renderContext);
+    public void prepareDrawing(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
+        super.prepareDrawing(renderContext, techRenderContext);
         // Sets the drawing state to its default: no shading, no red color.
         setDrawingState(new TopItemState());
     }
@@ -176,7 +177,7 @@ public class SimpleElementDrawer extends ElementDrawer {
 
                 String smallText = h.getSmallText();
                 Dimension2D r = jseshStyle.fonts()
-                        .superScriptDimensions(renderContext, smallText);
+                        .superScriptDimensions(getTechRenderContext(), smallText);
                 g.drawString(smallText, 0, (float) r.getHeight());
             }
                 break;
@@ -272,7 +273,7 @@ public class SimpleElementDrawer extends ElementDrawer {
             // "smallBodyLimit", use the "small body font".
             double resultingA1Height = hieroglyphsDrawer.getHeightOfA1()
                     * tmpG.getTransform().getScaleY()
-                    / getRenderContext().graphicDeviceScale();
+                    / getTechRenderContext().graphicDeviceScale();
 
             HieroglyphBodySize bodySize;
             if (resultingA1Height < jseshStyle.geometry()
@@ -293,7 +294,7 @@ public class SimpleElementDrawer extends ElementDrawer {
             Color color = tmpG.getColor();
             tmpG.setColor(jseshStyle.painting().redColor());
             Dimension2D r = jseshStyle.fonts()
-                    .superScriptDimensions(getRenderContext(),h.getCode());
+                    .superScriptDimensions(getTechRenderContext(),h.getCode());
             tmpG.drawString(h.getCode(), 0, (float) r.getHeight());
             tmpG.setColor(color);
         }
@@ -371,7 +372,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         tmpG.setFont(f);
         tmpG.translate(x, y);
         String s = LexicalSymbolsUtils.getStringForPhilology(code);
-        Rectangle2D d = jseshStyle.fonts().textDimensions(getRenderContext(),'l', s);
+        Rectangle2D d = jseshStyle.fonts().textDimensions(getTechRenderContext(),'l', s);
 
         double scalex = PhilologyHelper.philologyWidth(code)
                 / d.getWidth();
@@ -397,7 +398,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         }
         JSeshStyle jseshStyle = getJseshStyle();
         String text = s.getText();
-        Dimension2D dims = jseshStyle.fonts().superScriptDimensions(getRenderContext(), text);
+        Dimension2D dims = jseshStyle.fonts().superScriptDimensions(getTechRenderContext(), text);
         g.setFont(jseshStyle.fonts().superScriptFont());
         g.drawString(text, 0, g.getFontMetrics().getAscent());
         g.setStroke(jseshStyle.geometry().fineStroke());

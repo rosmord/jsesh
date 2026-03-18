@@ -15,6 +15,7 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.utils.InnerGroupLister;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 /**
@@ -36,7 +37,7 @@ public class AbsoluteGroupBuilder {
 	 * @return a new AbsoluteGroup.
 	 */
 	
-	public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext) {
+	public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 		AbsoluteGroup result = null;
 
 		if (topItems.size() == 1) {
@@ -48,7 +49,7 @@ public class AbsoluteGroupBuilder {
 		}
 		if (result == null) {
 			AbsoluteGroupComposer composer = new AbsoluteGroupComposer();
-			composer.createAbsoluteGroupFrom(topItems, renderContext);
+			composer.createAbsoluteGroupFrom(topItems, renderContext, techRenderContext);
 			result = composer.result;
 
 		}
@@ -77,7 +78,7 @@ public class AbsoluteGroupBuilder {
 		 * @param specs
 		 * @return
 		 */
-		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext) {
+		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
@@ -87,7 +88,7 @@ public class AbsoluteGroupBuilder {
 			for (int i = 0; i < topItems.size(); i++) {
 				scale = 1;
 				// Build a view of this item
-				MDCView v = builder.buildView((ModelElement) topItems.get(i), renderContext);
+				MDCView v = builder.buildView((ModelElement) topItems.get(i), renderContext, techRenderContext);
 				// extract the actual coordinates of the view elements
 				scanView(v);                                
 				origx += v.getWidth();

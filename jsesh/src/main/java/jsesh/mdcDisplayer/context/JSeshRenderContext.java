@@ -29,31 +29,10 @@ import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
  * @param jseshStyle the style in use.
  * @param hieroglyphDrawer the hieroglyph drawer in use.
  */
-public record JSeshRenderContext(FontRenderContext fontRenderContext, double graphicDeviceScale, JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphDrawer) {
+public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphDrawer) {
 
 
-    /**
-     * Returns an inaccurate default render context, which doens't really know where the text is printed.
-     * @return
-     */
-    public static final JSeshRenderContext buildBadDefault(JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphDrawer) {
-        return new JSeshRenderContext(
-                new FontRenderContext(null, true, true), 1.0,
-                jseshStyle,
-                 hieroglyphDrawer);
-    }
-
-    /**
-     * Returns a render context for a known Graphics.
-     * @return
-     */
-    public static final JSeshRenderContext buildSimpleContext(Graphics g, double graphicDeviceScale, JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphDrawer) {
-        Graphics2D g2 = (Graphics2D) g;
-        return 
-            new JSeshRenderContext(
-                g2.getFontRenderContext()
-                , graphicDeviceScale, jseshStyle, hieroglyphDrawer);
-    }
+   
 
     /**
      * Returns a copy builder.
@@ -67,27 +46,14 @@ public record JSeshRenderContext(FontRenderContext fontRenderContext, double gra
      * @author rosmord
      *
      */    public static class Builder {
-        private FontRenderContext fontRenderContext;
-        private double graphicDeviceScale;
         private JSeshStyle jseshStyle;
         private HieroglyphsDrawer hieroglyphDrawer; 
        
         public Builder(JSeshRenderContext original) {
-            this.fontRenderContext = original.fontRenderContext();
-            this.graphicDeviceScale = original.graphicDeviceScale();
             this.jseshStyle = original.jseshStyle();
             this.hieroglyphDrawer = original.hieroglyphDrawer();
         }
 
-        public Builder fontRenderContext(FontRenderContext fontRenderContext) {
-            this.fontRenderContext = fontRenderContext;
-            return this;
-        }
-
-        public Builder graphicDeviceScale(double graphicDeviceScale) {
-            this.graphicDeviceScale = graphicDeviceScale;
-            return this;
-        }
 
         public Builder jseshStyle(Function<JSeshStyle.Builder, JSeshStyle.Builder>  styleFuntion) {
             this.jseshStyle = styleFuntion.apply(this.jseshStyle.copy()).build();
@@ -100,7 +66,7 @@ public record JSeshRenderContext(FontRenderContext fontRenderContext, double gra
         }
 
         public JSeshRenderContext build() {
-            return new JSeshRenderContext(fontRenderContext, graphicDeviceScale, jseshStyle, hieroglyphDrawer);
+            return new JSeshRenderContext(jseshStyle, hieroglyphDrawer);
         }
     }
 }

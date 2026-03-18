@@ -10,7 +10,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.GeometrySpecification;
@@ -24,6 +23,7 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
@@ -38,57 +38,35 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  */
 public class ViewDrawer {
 
-
+    /**
+     * Should we clip the drawing to the visible area?
+     */
     private boolean clip;
+
+    /**
+     * Should we draw the limits of subviews for debugging purposes?
+     */
+    private boolean debug = false;
 
     /**
      * A caret to draw, if wanted.
      */
     private MDCCaret cursor = null;
 
-    private boolean debug = false;
-
+    /**
+     * The class used to draw individual elements.
+     */
     private ElementDrawer elementDrawer;
 
     /**
-     * Draws a view element.
-     *
-     * <P>
-     * This recursive method does the actual drawing. Normally, we don't do any
-     * computation at that stage. All necessary information is stored in the
-     * ContainerView element. The ModelElement specific part of the code should
-     * in most cases do nothing, except for elements which actually have a
-     * drawing associated with them. For instance, the Cadrat element's specific
-     * code is empty, and the Cartouche's code does only draw the cartouche
-     * itself.
-     *
-     * <p>
-     * As the upper level of painting is just a little different from the lower
-     * ones, we choosed to implement it here as well.
-     *
-     * <p>
-     * a supler system should be provided to redraw only <em> part </em> of a
-     * view.
-     *
-     * @param g
-     * @param v
-     * @param startPos
-     * @param endPos
-     * @param depth
-     */
-    /**
      * This rectangle is in fact a local variable of drawView. We have placed it
      * here, because we want to avoid garbage collection of rectangles.
+     * 
+     * TODO: this is probably an outdated hack.
      */
     transient Rectangle temporaryRectangle = new Rectangle();
 
-    /**
-     * Temporary affine transformation for the following method (to avoid gc).
-     * (I don't know if it's useful any more. It might have been one day). TODO
-     * SUPPRESS THIS VARIABLE..
-     */
-    private AffineTransform temporaryTransform = null;
-
+   
     /**
      * The original coordinate system. We need to keep the original
      * transformation, for certain computation are done in the page's
@@ -115,8 +93,9 @@ public class ViewDrawer {
      * @param view
      * @param ds
      */
-    public void draw(Graphics2D g, JSeshRenderContext renderContext,  MDCView view) {
-        drawViewAndCursor(g, renderContext, view, null);
+    public void draw(Graphics2D g, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext,
+            MDCView view) {
+        drawViewAndCursor(g, renderContext, techRenderContext, view, null);
     }
 
     /**
@@ -127,254 +106,15 @@ public class ViewDrawer {
      *
      * @param g
      * @param view
-     * @param start First position
-     * @param end   last position
+     * @param start      First position
+     * @param end        last position
      * @param jseshStyle
      */
-    public void draw(Graphics2D g, JSeshRenderContext renderContext, 
+    public void draw(Graphics2D g, JSeshRenderContext renderContext,
+            JSeshTechRenderContext techRenderContext,
             MDCView view,
             MDCPosition start, MDCPosition end) {
-        drawViewAndCursor(g, renderContext, view, null, start, end);
-    }
-
-    /**
-     * Draws colored rectangle showing the structure of a view for debugging
-     * purporses.
-     *
-     * @param g
-     * @param v
-     */
-    private void drawDebug(Graphics2D g, MDCView v) {
-        Graphics2D tmpg = (Graphics2D) g.create();
-        if (v.getSubViews() != null && v.getSubViews().size() != 0) {
-            if (v.getModel() instanceof Cadrat) {
-                tmpg.setColor(Color.GREEN);
-                tmpg.setStroke(new BasicStroke(0.4f));
-                tmpg.draw(new Line2D.Double(0, v.getHeight(), v.getWidth(), 0));
-            } else if (v.getModel() instanceof TopItemList) {
-                tmpg.setStroke(new BasicStroke(1f));
-                tmpg.setColor(Color.MAGENTA);
-
-            } else {
-
-                tmpg.setStroke(new BasicStroke(0.1f));
-                tmpg.setColor(Color.RED);
-            }
-            tmpg
-                    .draw(new Rectangle2D.Double(0, 0, v.getWidth(), v
-                            .getHeight()));
-
-        } else {
-            tmpg.setColor(Color.ORANGE);
-            tmpg.setStroke(new BasicStroke(0.3f, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND, (float) 0.5));
-            tmpg.draw(new Line2D.Double(0, 0, v.getWidth(), v.getHeight()));
-            tmpg
-                    .draw(new Rectangle2D.Double(0, 0, v.getWidth(), v
-                            .getHeight()));
-        }
-        tmpg.dispose();
-    }
-
-   
-
-    /**
-     * Highlight the view v if it belongs to the selection.
-     *
-     * @param g a graphics2D, whose origin should be v's top left corner.
-     * @param i the position in the current TopItemList
-     * @param x x position of the view
-     * @param y y position of the view
-     * @param v the view
-     */
-    private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
-        if (cursor != null && cursor.hasMark()) {
-            JSeshStyle jseshStyles = renderContext.jseshStyle();
-            int a = Math.min(cursor.getInsert().getIndex(), cursor.getMark()
-                    .getIndex());
-            int b = Math.max(cursor.getInsert().getIndex(), cursor.getMark()
-                    .getIndex());
-            if (a <= i && i < b) {
-                float w = v.getWidth();
-                float h = v.getHeight();
-
-                // h and w are OK, but the inter-cadrat space is not filled.
-                if (jseshStyles.options().textOrientation().isHorizontal()) {
-                    if (v.nextIsHorizontallyAdjacent()) {
-                        w += jseshStyles.geometry().smallSkip();
-                    }
-                } else {
-                    h += jseshStyles.geometry().smallSkip();
-                }
-                // TODO : take into account vertical text ???
-                // AND right-to-left text also. Basically, use
-                // the values of dx and dy.
-                // h= h+ v.getNextViewPosition().getDy();
-
-                g.setColor(new Color(0, 0, 255, 50));
-                g.fill(new Rectangle2D.Double(0, 0, w, h));
-            }
-        }
-    }
-
-    /**
-     * actual drawing of a whole view.
-     *
-     * @param g
-     * @param v
-     * @param depth
-     */
-    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int depth) {
-        return drawView(g, renderContext, v, 0, v.getNumberOfSubviews(), depth);
-    }
-
-    // TODO : this method is too complex and messy.
-    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos,
-            int depth) {
-
-        JSeshStyle jseshStyles = renderContext.jseshStyle();
-        // Is safer...
-        // Graphics2D currentG = (Graphics2D) g.create(); // so why was it commented??
-        Graphics2D currentG = (Graphics2D) g;
-
-        // Will probably be removed. Was used for caching.
-        Color oldBackground = g.getBackground();
-
-        // boolean shadedItem= false;
-        // TODO : move this code up, in a drawing loop for TopItemList ?
-        // (this would be better anyway, for the test would be simpler,
-        // without need for "depth")
-        // Code for TopItemLists elements.
-        if (depth == 1 && v.getModel() instanceof TopItem) {
-
-            // The clipping functions allow us not to draw the text which is not
-            // visible.
-            if (clip) {
-                temporaryRectangle = g.getClipBounds(temporaryRectangle);
-                // If the view stands before the visible area, do nothing.
-                // If the view stands after the visible area, do nothing.
-
-                if (temporaryRectangle != null
-                        && (v.getHeight() < temporaryRectangle.getMinY() || 0 > temporaryRectangle
-                                .getMaxY())
-                        || 0 > temporaryRectangle.getMaxX()
-                        || v.getWidth() < temporaryRectangle.getMinX()) {
-                    return false;
-                }
-            }
-
-            TopItem topItem = (TopItem) v.getModel();
-            elementDrawer.setDrawingState(topItem.getState());
-            // For all Top Items, and only for them :
-            if (topItem.getState().isShaded()) {
-                // Set background to grey = hence, the content of the glyphs
-                // will be shaded,
-                // Which alleviate the limitations of systems like WMF or PICT
-                // (which have no transparency)
-                // Note that we leave this code here, and don't put it in
-                // shadeview,
-                // as we want to remember that we must restore the BG
-                // afterwards.
-                // (ok, we might as well systematically save and restore the BG
-                // and the FG before and after drawing).
-
-                // currentG.setBackground(jseshStyles.getGrayColor());
-                // shadeView(currentG, v);
-                // shadedItem= true;
-            }
-        }
-
-        // If we are not using the cache system, provide the correct
-        // transform to g.
-        // (BTW, the best way to do this would be to embed g in a class
-        // containing the original transform).
-        
-        elementDrawer.setPageCoordinateSystem(pageCoordinateSystem);
-        
-
-        if (elementDrawer.getDrawingState().isRed()) {
-            currentG.setColor(jseshStyles.painting().redColor());
-        } else {
-            currentG.setColor(jseshStyles.painting().blackColor());
-        }
-
-        // Part of the element drawn before the element's subviews
-        // This is mainly used for shading : shading can be done before or after
-        // the sign has been drawn.
-        elementDrawer.drawElement(v, currentG, false);
-
-        // Temporary graphic state :
-        Graphics2D tmpG = (Graphics2D) currentG.create();
-
-        // Move, scale, etc... according to the current view
-        tmpG.transform(v.getAffineTransform());
-
-        // Draw the element's subviews.
-        drawSubViews(tmpG, renderContext, v, startPos, endPos, depth);
-        // restore old coordinate system.
-        tmpG.dispose();
-
-        // Part of the element drawn after the subviews ("post" mode).
-        elementDrawer.drawElement(v, currentG, true);
-
-
-        // Draw the cursor if needed.
-        testAndDrawCursor(g, renderContext, v);
-
-
-        if (g.getBackground() != oldBackground) {
-            g.setBackground(oldBackground);
-        }
-        // Temporary : draw a red rectangle around the view
-        if (debug) {
-            drawDebug(g, v);
-        }
-        return true;
-    }
-
-    /**
-     * Draws the views contained in a parent view.
-     *
-     * @param g        where to draw ?
-     * @param renderContext rendering context and style
-     * @param v        the parent view
-     * @param startPos the first sub view to draw
-     * @param endPos   the last
-     * @param depth    the depth of the view.
-     */
-    private void drawSubViews(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos, int depth) {
-        // If this element contains sub-views
-        // we draw them
-        if (v.getNumberOfSubviews() != 0) {
-
-            int end = (endPos < v.getNumberOfSubviews() ? endPos
-                    : v
-                            .getNumberOfSubviews());
-
-            for (int i = startPos; i < endPos && i < end; i++) {
-                MDCView subv = v.getSubView(i);
-
-                // Graphics2D subViewG = (Graphics2D) g;
-                // Find the position of the subview's top-left point.
-                double subvx, subvy;
-                if (v.getDirection().isLeftToRight()) {
-                    subvx = subv.getPosition().x;
-                    subvy = subv.getPosition().y;
-                } else {
-                    subvx = v.getInternalWidth() - subv.getPosition().x
-                            - subv.getWidth();
-                    subvy = subv.getPosition().y;
-                }
-                g.translate(subvx, subvy);
-                // Draw the subview.
-                boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
-                // If the subview was selected, outline it.
-                if (wasDrawn && v.getModel() instanceof TopItemList) {
-                    drawSelection(g, renderContext, i, subv);
-                }
-                g.translate(-subvx, -subvy);
-            }
-        }
+        drawViewAndCursor(g, renderContext, techRenderContext, view, null, start, end);
     }
 
     /**
@@ -386,9 +126,10 @@ public class ViewDrawer {
      * @param cursor
      * @param ds
      */
-    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
+    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
+            JSeshTechRenderContext techRenderContext, MDCView view,
             MDCCaret cursor) {
-        drawViewAndCursor(g2d, renderContext, view, cursor, 0, view.getNumberOfSubviews());
+        drawViewAndCursor(g2d, renderContext, techRenderContext, view, cursor, 0, view.getNumberOfSubviews());
     }
 
     /**
@@ -400,39 +141,24 @@ public class ViewDrawer {
      * @param g2d
      * @param renderContext
      * @param view
-     * @param cursor : the cursor position. If it's null, the cursor is not
-     *               drawn.
+     * @param cursor        : the cursor position. If it's null, the cursor is not
+     *                      drawn.
      * @param jseshStyle
      * @param start
      * @param end
      */
-    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
-            MDCCaret cursor, 
+    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
+            JSeshTechRenderContext textRenderContext, MDCView view,
+            MDCCaret cursor,
             MDCPosition start,
             MDCPosition end) {
-        drawViewAndCursor(g2d, renderContext, view, cursor,  
-            start.getIndex(), 
-            end.getIndex());
-    }
-
-    private void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext, MDCView view,
-            MDCCaret cursor,  int start, int end) {
-        elementDrawer.prepareDrawing(renderContext);
-        this.cursor = cursor;
-        this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
-        // conceptual hack (patch) : if cursor is not empty, and text is empty,
-        // draws a cursor.
-        if (start == end && cursor != null) {
-            drawCursorAtFirstPosition(g2d, renderContext, view);
-        }
-        drawView(g2d, renderContext, view,  start, end, 0);
-        this.cursor = null; // To avoid short-term memory leak.
-        this.pageCoordinateSystem = null;
-        elementDrawer.cleanup();
+        drawViewAndCursor(g2d, renderContext, textRenderContext, view, cursor,
+                start.getIndex(),
+                end.getIndex());
     }
 
 
-    /**
+     /**
      * Returns the display coordinates of a given text position.
      *
      * @param v
@@ -674,7 +400,6 @@ public class ViewDrawer {
         return elementDrawer.isShadeAfter();
     }
 
-
     /**
      * Ask for clipping to be used to speed the drawing.
      *
@@ -703,6 +428,272 @@ public class ViewDrawer {
         elementDrawer.setShadeAfter(shadeAfter);
     }
 
+    /**
+     * Draws colored rectangle showing the structure of a view for debugging
+     * purporses.
+     *
+     * @param g
+     * @param v
+     */
+    private void drawDebug(Graphics2D g, MDCView v) {
+        Graphics2D tmpg = (Graphics2D) g.create();
+
+        if (v.getSubViews() != null && v.getSubViews().size() != 0) {
+            if (v.getModel() instanceof Cadrat) {
+                tmpg.setColor(Color.GREEN);
+                tmpg.setStroke(new BasicStroke(0.4f));
+                tmpg.draw(new Line2D.Double(0, v.getHeight(), v.getWidth(), 0));
+            } else if (v.getModel() instanceof TopItemList) {
+                tmpg.setStroke(new BasicStroke(1f));
+                tmpg.setColor(Color.MAGENTA);
+
+            } else {
+
+                tmpg.setStroke(new BasicStroke(0.1f));
+                tmpg.setColor(Color.RED);
+            }
+            tmpg
+                    .draw(new Rectangle2D.Double(0, 0, v.getWidth(), v
+                            .getHeight()));
+
+        } else {
+            tmpg.setColor(Color.ORANGE);
+            tmpg.setStroke(new BasicStroke(0.3f, BasicStroke.CAP_ROUND,
+                    BasicStroke.JOIN_ROUND, (float) 0.5));
+            tmpg.draw(new Line2D.Double(0, 0, v.getWidth(), v.getHeight()));
+            tmpg
+                    .draw(new Rectangle2D.Double(0, 0, v.getWidth(), v
+                            .getHeight()));
+        }
+        tmpg.dispose();
+    }
+
+    /**
+     * Highlight the view v if it belongs to the selection.
+     *
+     * @param g a graphics2D, whose origin should be v's top left corner.
+     * @param i the position in the current TopItemList
+     * @param x x position of the view
+     * @param y y position of the view
+     * @param v the view
+     */
+    private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
+        if (cursor != null && cursor.hasMark()) {
+            JSeshStyle jseshStyles = renderContext.jseshStyle();
+            int a = Math.min(cursor.getInsert().getIndex(), cursor.getMark()
+                    .getIndex());
+            int b = Math.max(cursor.getInsert().getIndex(), cursor.getMark()
+                    .getIndex());
+            if (a <= i && i < b) {
+                float w = v.getWidth();
+                float h = v.getHeight();
+
+                // h and w are OK, but the inter-cadrat space is not filled.
+                if (jseshStyles.options().textOrientation().isHorizontal()) {
+                    if (v.nextIsHorizontallyAdjacent()) {
+                        w += jseshStyles.geometry().smallSkip();
+                    }
+                } else {
+                    h += jseshStyles.geometry().smallSkip();
+                }
+                // TODO : take into account vertical text ???
+                // AND right-to-left text also. Basically, use
+                // the values of dx and dy.
+                // h= h+ v.getNextViewPosition().getDy();
+
+                g.setColor(new Color(0, 0, 255, 50));
+                g.fill(new Rectangle2D.Double(0, 0, w, h));
+            }
+        }
+    }
+
+    /**
+     * actual drawing of a whole view.
+     *
+     * @param g
+     * @param v
+     * @param depth
+     */
+    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int depth) {
+        return drawView(g, renderContext, v, 0, v.getNumberOfSubviews(), depth);
+    }
+
+    /**
+     * Draws a view element.
+     *
+     * <P>
+     * This recursive method does the actual drawing. Normally, we don't do any
+     * computation at that stage. All necessary information is stored in the
+     * ContainerView element. The ModelElement specific part of the code should
+     * in most cases do nothing, except for elements which actually have a
+     * drawing associated with them. For instance, the Cadrat element's specific
+     * code is empty, and the Cartouche's code does only draw the cartouche
+     * itself.
+     *
+     * <p>
+     * As the upper level of painting is just a little different from the lower
+     * ones, we choosed to implement it here as well.
+     *
+     * <p>
+     * a supler system should be provided to redraw only <em> part </em> of a
+     * view.
+     *
+     * TODO : this method is too complex and messy.
+     * 
+     * @param g
+     * @param v
+     * @param startPos
+     * @param endPos
+     * @param depth    depth of the view, used to identify upper level groups.
+     */
+    private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos,
+            int depth) {
+
+        JSeshStyle jseshStyles = renderContext.jseshStyle();
+        // Is safer...
+        // Graphics2D currentG = (Graphics2D) g.create(); // so why was it commented??
+        Graphics2D currentG = (Graphics2D) g;
+
+        // Will probably be removed. Was used for caching.
+        Color oldBackground = g.getBackground();
+
+        // boolean shadedItem= false;
+        // TODO : move this code up, in a drawing loop for TopItemList ?
+        // (this would be better anyway, for the test would be simpler,
+        // without need for "depth")
+        // Code for TopItemLists elements.
+        if (depth == 1 && v.getModel() instanceof TopItem) {
+
+            // The clipping functions allow us not to draw the text which is not
+            // visible.
+            if (clip) {
+                temporaryRectangle = g.getClipBounds(temporaryRectangle);
+                // If the view stands before the visible area, do nothing.
+                // If the view stands after the visible area, do nothing.
+
+                if (temporaryRectangle != null
+                        && (v.getHeight() < temporaryRectangle.getMinY() || 0 > temporaryRectangle
+                                .getMaxY())
+                        || 0 > temporaryRectangle.getMaxX()
+                        || v.getWidth() < temporaryRectangle.getMinX()) {
+                    return false;
+                }
+            }
+
+            TopItem topItem = (TopItem) v.getModel();
+            elementDrawer.setDrawingState(topItem.getState());
+        }
+
+        // provide the correct
+        // transform to g.
+        // (BTW, the best way to do this would be to embed g in a class
+        // containing the original transform).
+
+        elementDrawer.setPageCoordinateSystem(pageCoordinateSystem);
+
+        if (elementDrawer.getDrawingState().isRed()) {
+            currentG.setColor(jseshStyles.painting().redColor());
+        } else {
+            currentG.setColor(jseshStyles.painting().blackColor());
+        }
+
+        // Part of the element drawn before the element's subviews
+        // This is mainly used for shading : shading can be done before or after
+        // the sign has been drawn.
+        elementDrawer.drawElement(v, currentG, false);
+
+        // Temporary graphic state :
+        Graphics2D tmpG = (Graphics2D) currentG.create();
+
+        // Move, scale, etc... according to the current view
+        tmpG.transform(v.getAffineTransform());
+
+        // Draw the element's subviews.
+        drawSubViews(tmpG, renderContext, v, startPos, endPos, depth);
+        // restore old coordinate system.
+        tmpG.dispose();
+
+        // Part of the element drawn after the subviews ("post" mode).
+        elementDrawer.drawElement(v, currentG, true);
+
+        // Draw the cursor if needed.
+        testAndDrawCursor(g, renderContext, v);
+
+        if (g.getBackground() != oldBackground) {
+            g.setBackground(oldBackground);
+        }
+        // Temporary : draw a red rectangle around the view
+        if (debug) {
+            drawDebug(g, v);
+        }
+        return true;
+    }
+
+    /**
+     * Draws the views contained in a parent view.
+     *
+     * @param g             where to draw ?
+     * @param renderContext rendering context and style
+     * @param v             the parent view
+     * @param startPos      the first sub view to draw
+     * @param endPos        the last
+     * @param depth         the depth of the view.
+     */
+    private void drawSubViews(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos,
+            int depth) {
+        // If this element contains sub-views
+        // we draw them
+        if (v.getNumberOfSubviews() != 0) {
+
+            int end = (endPos < v.getNumberOfSubviews() ? endPos
+                    : v
+                            .getNumberOfSubviews());
+
+            for (int i = startPos; i < endPos && i < end; i++) {
+                MDCView subv = v.getSubView(i);
+
+                // Graphics2D subViewG = (Graphics2D) g;
+                // Find the position of the subview's top-left point.
+                double subvx, subvy;
+                if (v.getDirection().isLeftToRight()) {
+                    subvx = subv.getPosition().x;
+                    subvy = subv.getPosition().y;
+                } else {
+                    subvx = v.getInternalWidth() - subv.getPosition().x
+                            - subv.getWidth();
+                    subvy = subv.getPosition().y;
+                }
+                g.translate(subvx, subvy);
+                // Draw the subview.
+                boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
+                // If the subview was selected, outline it.
+                if (wasDrawn && v.getModel() instanceof TopItemList) {
+                    drawSelection(g, renderContext, i, subv);
+                }
+                g.translate(-subvx, -subvy);
+            }
+        }
+    }
+
+    private void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
+            JSeshTechRenderContext techRenderContext,
+            MDCView view,
+            MDCCaret cursor, int start, int end) {
+        elementDrawer.prepareDrawing(renderContext, techRenderContext);
+        this.cursor = cursor;
+        this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
+        // conceptual hack (patch) : if cursor is not empty, and text is empty,
+        // draws a cursor.
+        if (start == end && cursor != null) {
+            drawCursorAtFirstPosition(g2d, renderContext, view);
+        }
+        drawView(g2d, renderContext, view, start, end, 0);
+        this.cursor = null; // To avoid short-term memory leak.
+        this.pageCoordinateSystem = null;
+        elementDrawer.cleanup();
+    }
+
+   
     /**
      * Conditional cursor drawing : if the current position corresponds to the
      * cursor, draw it. When the cursor is at the last position, the first test
@@ -798,8 +789,7 @@ public class ViewDrawer {
                             g
                                     .draw(new Line2D.Double(v.getWidth(), 0, v
                                             .getWidth(),
-                                            geometry.
-                                                    maxCadratHeight()));
+                                            geometry.maxCadratHeight()));
                         }
                     } else { // columns
                         g.draw(new Line2D.Double(0, 0, geometry
@@ -814,8 +804,6 @@ public class ViewDrawer {
             }
         }
     }
-
-   
 
     /**
      * Simple hack used to draw cursors when there is no text. It's not nice and

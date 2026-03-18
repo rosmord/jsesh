@@ -14,6 +14,7 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 
@@ -56,8 +57,8 @@ public class ViewBuilder {
         this.layout = new Layout();
     }
 
-    public MDCView buildView(ModelElement elt, JSeshRenderContext renderContext) {
-        return buildView(elt, 0, elt.getNumberOfChildren(), renderContext);
+    public MDCView buildView(ModelElement elt, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
+        return buildView(elt, 0, elt.getNumberOfChildren(), renderContext, techRenderContext);
     }
 
 
@@ -74,9 +75,9 @@ public class ViewBuilder {
      * @param end
      * @return the view built for this element part.
      */
-    public MDCView buildView(ModelElement elt, int start, int end, JSeshRenderContext renderContext) {
+    public MDCView buildView(ModelElement elt, int start, int end, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
         // prepare for work :
-        getLayout().reset(renderContext);
+        getLayout().reset(renderContext, techRenderContext);
         // lay out the element.
         ViewBuilderAux visitor = new ViewBuilderAux(start, end);
         elt.accept(visitor);
@@ -92,9 +93,9 @@ public class ViewBuilder {
      *
      * @param v
      */
-    public void reLayout(MDCView view, JSeshRenderContext renderContext) {
+    public void reLayout(MDCView view, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
         //	  prepare for work :
-        getLayout().reset(renderContext);
+        getLayout().reset(renderContext, techRenderContext);
         getLayout().layout(view, 0);
         getLayout().cleanup();
     }

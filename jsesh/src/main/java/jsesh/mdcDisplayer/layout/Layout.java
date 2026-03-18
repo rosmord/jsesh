@@ -42,6 +42,7 @@ import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
@@ -124,6 +125,8 @@ public class Layout {
 
 	private boolean inAbsoluteGroup = false;
 
+	private JSeshTechRenderContext techRenderContext;
+
 	/**
 	 * compute the view size (width and height). If the view has subviews, layout
 	 * should compute their position in the parent view and scale them if required.
@@ -205,8 +208,9 @@ public class Layout {
 	 * @param renderContext the current specifications for layout.
 	 *
 	 */
-	public void reset(JSeshRenderContext renderContext) {
+	public void reset(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 		this.renderContext = renderContext;
+		this.techRenderContext = techRenderContext;
 		JSeshStyle jseshStyle = renderContext.jseshStyle();
 		currentTextOrientation = jseshStyle.options().textOrientation();
 		currentTextDirection = jseshStyle.options().textDirection();
@@ -265,7 +269,7 @@ public class Layout {
 			} else {
 				Font f = jseshStyle.fonts().getFont(t.getScriptCode());
 
-				FontRenderContext fontRenderContext = renderContext.fontRenderContext();
+				FontRenderContext fontRenderContext = techRenderContext.fontRenderContext();
 
 				TextLayout layout = new TextLayout(text, f, fontRenderContext);
 
@@ -540,7 +544,7 @@ public class Layout {
 				case SymbolCodes.SMALLTEXT: {
 					// Temporary hack as proof of concept.
 					String smallText = h.getSmallText();
-					Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext, smallText);
+					Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, smallText);
 					currentView.setHeight((float) r.getHeight());
 					currentView.setWidth((float) r.getWidth());
 				}
@@ -609,7 +613,7 @@ public class Layout {
 						currentView.setHeight((float) (s.getHeight() * computeScale()));
 						currentView.setWidth((float) (s.getWidth() * computeScale()));
 					} else {
-						Dimension2D r = jseshStyle.fonts().superScriptDimensions(renderContext, code);
+						Dimension2D r = jseshStyle.fonts().superScriptDimensions(techRenderContext, code);
 						currentView.setHeight((float) r.getHeight());
 						currentView.setWidth((float) r.getWidth());
 					}
@@ -782,7 +786,7 @@ public class Layout {
 		public void visitSuperScript(Superscript s) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// Dimension2D dims = jseshStyle.getSuperScriptDimensions(s.getText());
-			Dimension2D dims = jseshStyle.fonts().superScriptDimensions(renderContext, s.getText());
+			Dimension2D dims = jseshStyle.fonts().superScriptDimensions(techRenderContext, s.getText());
 			currentView.setWidth((float) dims.getWidth());
 			currentView.setHeight((float) Math.max(jseshStyle.geometry().maxCadratHeight(),
 					dims.getHeight() + jseshStyle.geometry().smallSkip() * 2));
