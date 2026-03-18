@@ -38,18 +38,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  */
 public class ViewDrawer {
 
-    /**
-     * A map of bitmaps, which serves as a cache for already drawn signs.
-     */
-    private PictureCache imageCache;
 
-    /**
-     * A map of views, which links an element to its view (and reciprocally).
-     *
-     * REMOVED : it belongs in the document view, which should be created as a
-     * class. WeakHashMap<TopItem, MDCView> viewMap= new
-     * WeakHashMap<TopItem, MDCView>();
-     */
     private boolean clip;
 
     /**
@@ -117,7 +106,6 @@ public class ViewDrawer {
     public ViewDrawer(ElementDrawer e) {
         setClip(false);
         elementDrawer = e;
-        setCached(false);
     }
 
     /**
@@ -188,32 +176,7 @@ public class ViewDrawer {
         tmpg.dispose();
     }
 
-    /**
-     * Draws a view from the cache, if available.
-     *
-     * @param g
-     * @param v
-     * @return true if the view was in cache.
-     */
-    private boolean drawFromCache(Graphics2D g, MDCView v) {
-        boolean result;
-        BufferedImage img = imageCache.get(v.getModel());
-        result = (img != null);
-        if (result) {
-            AffineTransform t = g.getTransform();
-            if (temporaryTransform == null) {
-                temporaryTransform = new AffineTransform();
-            }
-            temporaryTransform.setToTranslation(t.getTranslateX(), t
-                    .getTranslateY());
-            // g.setTransform(AffineTransform.getTranslateInstance(t
-            // .getTranslateX(), t.getTranslateY()));
-            g.setTransform(temporaryTransform);
-            g.drawImage(img, -1, -1, null);
-            g.setTransform(t);
-        }
-        return result;
-    }
+   
 
     /**
      * Highlight the view v if it belongs to the selection.
@@ -266,7 +229,6 @@ public class ViewDrawer {
     }
 
     // TODO : this method is too complex and messy.
-    // Really move the caching system out. It doesn't belong here.
     private boolean drawView(Graphics2D g, JSeshRenderContext renderContext, MDCView v, int startPos, int endPos,
             int depth) {
 
@@ -275,14 +237,7 @@ public class ViewDrawer {
         // Graphics2D currentG = (Graphics2D) g.create(); // so why was it commented??
         Graphics2D currentG = (Graphics2D) g;
 
-        // For top level items, with bitmap output, we may use caching.
-        // with caching, the picture of a view is drawn into a bitmap,
-        // which is then copied to g.
-        // this doesn't speed up the initial drawing, but it gives a
-        // definite boost for small modifications, given that the actual drawing
-        // of splines and the like is much more time consuming in practice than
-        // anything else.
-        BufferedImage img = null;
+        // Will probably be removed. Was used for caching.
         Color oldBackground = g.getBackground();
 
         // boolean shadedItem= false;
@@ -305,48 +260,6 @@ public class ViewDrawer {
                         || 0 > temporaryRectangle.getMaxX()
                         || v.getWidth() < temporaryRectangle.getMinX()) {
                     return false;
-                }
-            }
-
-            // draw from the cache, if available.
-            if (isCached() && drawFromCache(g, v)) {
-                // Conditional cursor drawing : if the current position
-                // corresponds to the cursor, draw it:
-                testAndDrawCursor(g, renderContext,v);
-                return true;
-            }
-
-            // If we are caching, fetch a bitmap to draw to.
-            if (isCached()) {
-                Point2D o = new Point2D.Float();
-                Point2D p = new Point2D.Float();
-                currentG.getTransform().transform(new Point2D.Float(0, 0), o);
-                currentG.getTransform().transform(
-                        new Point2D.Float(v.getWidth(), v.getHeight()), p);
-                int x = (int) Math.ceil(p.getX() - o.getX());
-                int y = (int) Math.ceil(p.getY() - o.getY());
-                if (x > 0 && y > 0) {
-                    // Create the image
-                    img = imageCache.createImage(x + 2, y + 2);
-                    // If got one, we will draw in it.
-                    // if we couldn't get one, we will draw into the old graphic
-                    // context.
-                    if (img != null) {
-                        // Compute a "mock" original transform...
-                        elementDrawer
-                                .setPageCoordinateSystem(pageCoordinateSystem
-                                        .createZeroTranslationCoordinateSystem());
-
-                        currentG = img.createGraphics();
-                        currentG.setRenderingHints(g.getRenderingHints());
-                        // currentG.setBackground(g.getBackground());
-                        currentG.setBackground(new Color(255, 255, 255, 0));
-                        currentG.clearRect(0, 0, img.getWidth(), img
-                                .getHeight());
-                        currentG.translate(1, 1);
-                        currentG.scale(g.getTransform().getScaleX(), g
-                                .getTransform().getScaleY());
-                    }
                 }
             }
 
@@ -375,9 +288,9 @@ public class ViewDrawer {
         // transform to g.
         // (BTW, the best way to do this would be to embed g in a class
         // containing the original transform).
-        if (img == null) {
-            elementDrawer.setPageCoordinateSystem(pageCoordinateSystem);
-        }
+        
+        elementDrawer.setPageCoordinateSystem(pageCoordinateSystem);
+        
 
         if (elementDrawer.getDrawingState().isRed()) {
             currentG.setColor(jseshStyles.painting().redColor());
@@ -404,19 +317,10 @@ public class ViewDrawer {
         // Part of the element drawn after the subviews ("post" mode).
         elementDrawer.drawElement(v, currentG, true);
 
-        // Save the image in the cache and draws it...
-        if (img != null) {
-            imageCache.put(v.getModel(), img);
-            drawFromCache(g, v);
-        }
 
         // Draw the cursor if needed.
         testAndDrawCursor(g, renderContext, v);
 
-        // Dispose the graphic from the cache...
-        if (img != null) {
-            currentG.dispose();
-        }
 
         if (g.getBackground() != oldBackground) {
             g.setBackground(oldBackground);
@@ -527,17 +431,6 @@ public class ViewDrawer {
         elementDrawer.cleanup();
     }
 
-    /**
-     * flushes the cache if there is one.
-     * <p>
-     * should be called if the case contents becomes obsolete, e.g. if the
-     * drawing scale is changed.
-     */
-    public void flushCache() {
-        if (isCached()) {
-            imageCache.reset();
-        }
-    }
 
     /**
      * Returns the display coordinates of a given text position.
@@ -763,10 +656,6 @@ public class ViewDrawer {
         return result;
     }
 
-    public boolean isCached() {
-        return (imageCache != null);
-    }
-
     /**
      * @return true if clipping is enabled.
      */
@@ -785,29 +674,6 @@ public class ViewDrawer {
         return elementDrawer.isShadeAfter();
     }
 
-    /*
-     * Empties the cache. Should be called, in particular, when the scale is
-     * changed.
-     * 
-     * void resetCache() { setCached(isCached()); System.gc(); }
-     */
-    /**
-     * Request or prevent image and view caching. Image caching is only possible
-     * for raster output. In practice, its only use is for interactive displays
-     * of hieroglyphs.
-     *
-     * View caching is needed for caret to be found and interactive edition in
-     * general. We will probably separate the two issues.
-     *
-     * @param c
-     */
-    public void setCached(boolean c) {
-        if (c) {
-            imageCache = new PictureCache(1000);
-        } else {
-            imageCache = null;
-        }
-    }
 
     /**
      * Ask for clipping to be used to speed the drawing.
