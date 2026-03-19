@@ -13,6 +13,12 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## 2026/03/19
+
+- reread what we do with graphicsDeviceScale from TechRenderContext. It might be important when we draw on 4K screens for instance.
+
+Regarding `JSeshRenderContext` and `JSeshTechRenderContext`. Using `JSeshRenderContext`  tends to violate the Demeter principle quite a lot. It's convenient when we need to modify something, but for **reading**, it's somehow cumbersome.
+
 ## 2026/03/18
 
 We should avoid letting the code alone for too long. We forgot what we were doing.
@@ -24,6 +30,9 @@ updated `ViewDrawer` with `JTechRenderContext`. Some further refactoring would b
 
 
 **What** is `getPointForPosition` doing in `ViewDrawer`? It should somehow be a method of `View`? **Edit**: it's the case in the current system, but in fact, it's brittle, as we depend on position and subviews to be aligned.
+
+- We start working on `GroupEditor`;
+- why is `JSeshTechRenderContext` outside of `JSeshRenderContext`? 
 
 ## 2025/12/03
 

@@ -117,8 +117,8 @@ public class BitmapExporter {
 
     public void export(ExportData data) {
         try {
-            double length = data.getRenderContext()
-                    .getHieroglyphsDrawer().getHeightOfA1();
+            double length = data.getRenderContext().hieroglyphDrawer()
+                    .getHeightOfA1();
             data.setScale(this.cadratHeight / length);
             if (multiFile) {
                 exportAll(data);

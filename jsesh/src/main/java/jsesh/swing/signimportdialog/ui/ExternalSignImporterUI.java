@@ -285,20 +285,5 @@ public class ExternalSignImporterUI {
 		}
 	}
 
-	/**
-	 * Test method.
-	 * @param args
-	 */
-
-	public static void main(String[] args) {
-		JFrame jf = new JFrame();
-		ExternalSignImporterModel model = new ExternalSignImporterModel();
-		ExternalSignImporterUI ui = new ExternalSignImporterUI();
-		jf.getContentPane().add(ui.getPanel());
-		ui.addEventListener(new ExternalSignImporterPresenter(model, ui));
-		jf.pack();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
-	}
-
+	
 }

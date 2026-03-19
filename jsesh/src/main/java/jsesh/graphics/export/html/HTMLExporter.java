@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
@@ -38,6 +39,7 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
@@ -126,8 +128,8 @@ public class HTMLExporter {
     }
 
     public final void setDefaults() {
-        directory = new File("."); //$NON-NLS-1$
-        baseName = "egyptian"; //$NON-NLS-1$
+        directory = new File("."); //-NLS-1$
+        baseName = "egyptian"; //-NLS-1$
         respectPages = true;
         lineHeight = 30;
         pictureMargin = 0;
@@ -215,35 +217,35 @@ public class HTMLExporter {
             flushElements();
             switch (t.getScriptCode()) {
                 case 'b':
-                    write("<b>"); //$NON-NLS-1$
+                    write("<b>"); //-NLS-1$
                     break;
                 case 'i':
-                    write("<i>"); //$NON-NLS-1$
+                    write("<i>"); //-NLS-1$
                     break;
                 case 't':
-                    write("<font face=\"MDCTranslitLC,TransliterationItalic\">"); //$NON-NLS-1$
+                    write("<font face=\"MDCTranslitLC,TransliterationItalic\">"); //-NLS-1$
                     break;
                 case '+':
-                    write("<!--"); //$NON-NLS-1$
+                    write("<!--"); //-NLS-1$
             }
             if (htmlSpecialProtected) {
-                write(t.getText().toString().replaceAll("&", "&amp;") //$NON-NLS-1$ //$NON-NLS-2$
-                        .replaceAll("<", "&lt;").replaceAll(">", "&gt;")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                write(t.getText().toString().replaceAll("&", "&amp;") //-NLS-1$ //-NLS-2$
+                        .replaceAll("<", "&lt;").replaceAll(">", "&gt;")); //-NLS-1$ //-NLS-2$ //-NLS-3$ //-NLS-4$
             } else {
                 write(t.getText());
             }
             switch (t.getScriptCode()) {
                 case 'b':
-                    write("</b>"); //$NON-NLS-1$
+                    write("</b>"); //-NLS-1$
                     break;
                 case 'i':
-                    write("</i>"); //$NON-NLS-1$
+                    write("</i>"); //-NLS-1$
                     break;
                 case 't':
-                    write("</font>"); //$NON-NLS-1$
+                    write("</font>"); //-NLS-1$
                     break;
                 case '+':
-                    write("-->"); //$NON-NLS-1$
+                    write("-->"); //-NLS-1$
                     break;
             }
         }
@@ -264,7 +266,7 @@ public class HTMLExporter {
                     e.printStackTrace();
                 }
             } else {
-                write("<br/>\n<hrule/>\n"); //$NON-NLS-1$
+                write("<br/>\n<hrule/>\n"); //-NLS-1$
             }
         }
 
@@ -278,13 +280,13 @@ public class HTMLExporter {
             flushElements();
             switch (newLinesReplacement) {
                 case SPACE:
-                    writeln(""); //$NON-NLS-1$
+                    writeln(""); //-NLS-1$
                     break;
                 case BREAK:
-                    writeln("<br/>"); //$NON-NLS-1$
+                    writeln("<br/>"); //-NLS-1$
                     break;
                 case PARAGRAPH:
-                    writeln("<p>"); //$NON-NLS-1$
+                    writeln("<p>"); //-NLS-1$
                     break;
             }
 
@@ -310,7 +312,7 @@ public class HTMLExporter {
 
         private void writeln(String s) {
             write(s);
-            write("\n"); //$NON-NLS-1$
+            write("\n"); //-NLS-1$
         }
 
         private List getElements() {
@@ -326,6 +328,8 @@ public class HTMLExporter {
          */
         private void flushElements() {
             if (elements != null) {
+                JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildSimpleContext(g, 1.0);
+
                 TopItemList smallModel = new TopItemList();
                 smallModel.addAll(elements);
 
@@ -333,10 +337,10 @@ public class HTMLExporter {
 
                 // scale Compute
                 double scale = (double) lineHeight
-                        / renderContext.getMaxCadratHeight();
+                        / renderContext.jseshStyle().geometry().maxCadratHeight();
 
                 MDCView view = builder.buildView(smallModel,
-                        renderContext);
+                        renderContext, techRenderContext);
 
                 if (view.getWidth() == 0 || view.getHeight() == 0) {
                     return;
@@ -351,14 +355,15 @@ public class HTMLExporter {
 
                 Graphics2D g = image.createGraphics();
                 GraphicsUtils.antialias(g);
+                PaintingSpecifications paintingContext = renderContext.jseshStyle().painting();
 
                 g.setColor(backgroundColor);
                 g.fillRect(0, 0, image.getWidth(), image.getHeight());
-                g.setColor(renderContext.getBlackColor());
+                g.setColor(paintingContext.blackColor());
                 g.translate(1, 1 + pictureMargin);
 
                 g.scale(scale, scale);
-                drawer.draw(g, renderContext, view);
+                drawer.draw(g, renderContext, techRenderContext, view);
                 g.dispose();
 
                 File fic = getImageFile(imageNumber);

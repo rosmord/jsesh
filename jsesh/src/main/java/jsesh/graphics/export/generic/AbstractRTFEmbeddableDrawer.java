@@ -3,6 +3,7 @@ package jsesh.graphics.export.generic;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 
 /**
@@ -13,8 +14,8 @@ public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
 	protected AbstractRTFEmbeddableDrawer(
-										  JSeshRenderContext renderContext, double cadratHeight) {
-		super(prepareDrawingSpecifications(renderContext), cadratHeight);
+										  JSeshRenderContext renderContext, FontRenderContext fontRenderContext, double cadratHeight) {
+		super(prepareDrawingSpecifications(renderContext), fontRenderContext, cadratHeight);
 	}
 
 	private static final JSeshRenderContext prepareDrawingSpecifications(JSeshRenderContext context) {

@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.search.quadrat;
+package jsesh.search.quadrant;
 
 import jsesh.editor.MdCSearchQuery;
 import java.util.ArrayList;

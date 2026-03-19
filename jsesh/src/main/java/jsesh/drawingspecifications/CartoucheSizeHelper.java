@@ -2,6 +2,9 @@ package jsesh.drawingspecifications;
 
 public class CartoucheSizeHelper {
 
+	// Prevents instantiation of helper class.
+	private CartoucheSizeHelper() {}
+
 	/**
 	 * Compute the size needed for cartouches starts and ends along the main
 	 * axis. Use the basic sizes values declared in this class.
@@ -12,9 +15,6 @@ public class CartoucheSizeHelper {
 	 *            0,1,2,3, depending on the type of cartouche.
 	 * @return a size.
 	 */
-
-	//public abstract float computeCartouchePartLength(int type, int element);
-
 	public static float computeCartouchePartLength(JSeshStyle jseshStyle, int type, int element) {
 		GeometrySpecification geometry = jseshStyle.geometry();
 	    float result = 0;

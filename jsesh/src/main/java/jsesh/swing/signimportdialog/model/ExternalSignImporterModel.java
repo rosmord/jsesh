@@ -20,8 +20,11 @@ public class ExternalSignImporterModel {
 
 	private double shapeScale;
 
+	private DefaultHieroglyphicFontManager hieroglyphicFontManager;
 
-	public ExternalSignImporterModel(HieroglyphicFontManager hieroglyphicFontManager) {		
+
+	public ExternalSignImporterModel(DefaultHieroglyphicFontManager hieroglyphicFontManager) {		
+		this.hieroglyphicFontManager = hieroglyphicFontManager;
 		referenceShape = hieroglyphicFontManager.get("A1");
 		sourceDirectory = new File(".");
 		shapeScale = 1.0;
@@ -52,7 +55,7 @@ public class ExternalSignImporterModel {
 		return referenceShape;
 	}
 
-	public void insertSign(String text, DefaultHieroglyphicFontManager hieroglyphicFontManager) {
+	public void insertSign(String text) {
 		ShapeChar insertedShape = (ShapeChar) getShapeChar().clone();
 		insertedShape.scaleGlyph(shapeScale);
 		hieroglyphicFontManager.insertNewSign(text,
@@ -113,7 +116,6 @@ public class ExternalSignImporterModel {
 		// scale to cadrat height.
 		while (newSigns.hasNext()) {
 			newSigns.next();
-			// newSigns.getCurrentShape().scaleToHeight(referenceShape.getBbox().getHeight());
 		}
 		newSigns.beforeFirst();
 	}

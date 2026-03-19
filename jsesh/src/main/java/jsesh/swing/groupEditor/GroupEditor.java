@@ -8,11 +8,6 @@
 package jsesh.swing.groupEditor;
 
 import java.awt.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
@@ -24,15 +19,19 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.LayoutOptions;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.swing.utils.GraphicsUtils;
 
 /**
  * Editor for groups and ligatures.
@@ -45,10 +44,10 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
  * <p>
  * Ergonomics of the handles :
  * <ul>
- * <li> If we keep the aspect ratio of the glyph (which is currently the case),
+ * <li>If we keep the aspect ratio of the glyph (which is currently the case),
  * the handle can't be placed at mouse position. Some extra visual feedback is
  * probably needed.
- * <li> The same goes for rotation.
+ * <li>The same goes for rotation.
  * </ul>
  *
  * @author rosmord
@@ -57,51 +56,15 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 public final class GroupEditor extends JPanel {
 
     /**
-     * At this level, the group editor control's function is just to build
-     * events.
-     *
-     * @author rosmord
+     * The group we are editing.
      */
-    class LowLevelControl implements MouseInputListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            groupEditorListener.mouseClicked(buildEvent(e));
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            groupEditorListener.mouseDragged(buildEvent(e));
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            groupEditorListener.mouseEntered(buildEvent(e));
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            groupEditorListener.mouseExited(buildEvent(e));
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            groupEditorListener.mouseMoved(buildEvent(e));
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            groupEditorListener.mousePressed(buildEvent(e));
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            groupEditorListener.mouseReleased(buildEvent(e));
-        }
-    }
-
-    // The group we are editing.
     private AbsoluteGroup group;
+
+    /**
+     * The current rendering context. This is used to build the view, and to draw
+     * it.
+     */
+    private JSeshRenderContext jSeshRenderContext;
 
     private GroupEditorListener groupEditorListener = new DoNothingEditorListener();
 
@@ -113,18 +76,19 @@ public final class GroupEditor extends JPanel {
     private GroupEditorMode groupEditorMode = new DoNothingGroupEditorMode();
 
     public GroupEditor(JSeshRenderContext jSeshRenderContext) {
-    	groupEditorDrawingPreferences = new GroupEditorDrawingPreferences(new DrawingSpecificationsImplementation());
-    	setDrawingSpecification(drawingSpecification);
+        groupEditorDrawingPreferences = new GroupEditorDrawingPreferences();
+        setRenderContext(jSeshRenderContext);
         setBackground(Color.WHITE);
         LowLevelControl control = new LowLevelControl();
         addMouseListener(control);
         addMouseMotionListener(control);
         // TODO : fix the system so that it handle right-to-left signs.
         // Currently, we simply force left-to-right order
-        //        
-        //DrawingSpecification specs = groupEditorDrawingPreferences.getDrawingSpecifications().copy();
-        //specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-        //groupEditorDrawingPreferences.setDrawingSpecifications(specs);
+        //
+        // DrawingSpecification specs =
+        // groupEditorDrawingPreferences.getDrawingSpecifications().copy();
+        // specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
+        // groupEditorDrawingPreferences.setDrawingSpecifications(specs);
     }
 
     public void setGroupEditorEventListener(GroupEditorListener groupEditorControl) {
@@ -192,15 +156,17 @@ public final class GroupEditor extends JPanel {
      * @return
      */
     private Area getGlyphArea(MDCView subv, Hieroglyph h) {
-        JSeshStyle specs = groupEditorDrawingPreferences.getDrawingSpecifications();
+        JSeshStyle specs = jSeshRenderContext.jseshStyle();
         Area area;
         if (h.getType() == SymbolCodes.SMALLTEXT) {
-            Dimension2D dims = specs.getSuperScriptDimensions(h.getSmallText());
+            // Doesn't need to be very accurate.
+            JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildForComponent(this);
+            Dimension2D dims = specs.fonts().superScriptDimensions(techRenderContext, h.getSmallText());
             double height = h.getRelativeSize() / 100.0 * dims.getHeight();
             double width = h.getRelativeSize() / 100.0 * dims.getWidth();
             area = new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));
         } else {
-            area = specs.getHieroglyphsDrawer().getSignArea(
+            area = jSeshRenderContext.hieroglyphDrawer().getSignArea(
                     h.getCode(), subv.getPosition().x, subv.getPosition().y,
                     h.getRelativeSize() / 100.0, h.getRelativeSize() / 100.0,
                     h.getAngle(), h.isReversed());
@@ -234,7 +200,8 @@ public final class GroupEditor extends JPanel {
      * @return a point in model coordinates
      */
     private Point2D getModelPoint(Point p) {
-        double x = (p.getX() / groupEditorDrawingPreferences.getScale() - groupEditorDrawingPreferences.getSideMargin());
+        double x = (p.getX() / groupEditorDrawingPreferences.getScale()
+                - groupEditorDrawingPreferences.getSideMargin());
         double y = (p.getY() / groupEditorDrawingPreferences.getScale() - groupEditorDrawingPreferences.getTopMargin());
         return new Point2D.Double(x, y);
     }
@@ -244,7 +211,7 @@ public final class GroupEditor extends JPanel {
         if (group == null) {
             return new Dimension(640, 480);
         } else {
-            MDCView v = getView();
+            MDCView v = getView(); // Probably the first call to getView().
             int w = (int) ((v.getWidth() + 2 * groupEditorDrawingPreferences.getSideMargin())
                     * groupEditorDrawingPreferences.getScale());
             int h = (int) ((v.getHeight() + 2 * groupEditorDrawingPreferences.getTopMargin())
@@ -277,10 +244,9 @@ public final class GroupEditor extends JPanel {
     private MDCView getView() {
         MDCView view;
         if (group != null) {
-        	
             ViewBuilder builder = new ViewBuilder();
-            view = builder.buildView(group,
-                    groupEditorDrawingPreferences.getDrawingSpecifications());
+            JSeshTechRenderContext jSeshTechRenderContext = JSeshTechRenderContext.buildForComponent(this);
+            view = builder.buildView(group, jSeshRenderContext, jSeshTechRenderContext);
         } else {
             view = new MDCView(null);
         }
@@ -291,55 +257,56 @@ public final class GroupEditor extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // The view is rebuilt for each redraw, as it's very simple.
-        MDCView view = getView();
-        // Sets the graphics environment
-        Graphics2D g2d = (Graphics2D) g.create();
-        // We want antialiasing !!!
-        jsesh.swing.utils.GraphicsUtils.antialias(g2d);
+        GraphicsUtils.doWithTemporaryGraphics(
+                () -> g.create(),
+                g2d -> {
+                    // The view is rebuilt for each redraw, as it's very simple.
+                    MDCView view = getView();
+                    JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildSimpleContext(g, 1.0);
 
-        g2d.scale(getScale(), getScale());
-        g2d.translate(getSideMargin(), getTopMargin());
-        double wd = (getLineWidth() / g2d.getTransform().getScaleX());
+                    g2d.scale(getScale(), getScale());
+                    g2d.translate(getSideMargin(), getTopMargin());
+                    double wd = (getLineWidth() / g2d.getTransform().getScaleX());
 
-        if (group != null) {
-            // draw the signs
-            ViewDrawer drawer = new ViewDrawer();
-            drawer.draw(g2d, groupEditorDrawingPreferences.getDrawingSpecifications(), view);
-            // Draw the frame around the selected sign.
-            if (selected >= 0) {
-                // The view for this sign :
-                MDCView v = view.getSubView(selected);
-                // For absolute groups, the view placement is ... absolute
-                // (This could be a bug source, if we changed the layout for
-                // this element)
-                Point2D orig = getViewPosition(v);
-                double w = v.getWidth();
-                double h = v.getHeight();
+                    if (group != null) {
+                        // draw the signs
+                        ViewDrawer drawer = new ViewDrawer();
+                        drawer.draw(g2d, jSeshRenderContext, techRenderContext, view);
+                        // Draw the frame around the selected sign.
+                        if (selected >= 0) {
+                            // The view for this sign :
+                            MDCView v = view.getSubView(selected);
+                            // For absolute groups, the view placement is ... absolute
+                            // (This could be a bug source, if we changed the layout for
+                            // this element)
+                            Point2D orig = getViewPosition(v);
+                            double w = v.getWidth();
+                            double h = v.getHeight();
 
-                g2d.setColor(Color.RED);
-                g2d.setStroke(new BasicStroke((float) wd));
-                // Draw the frame
-                g2d
-                        .draw(new Rectangle2D.Double(orig.getX(), orig.getY(),
-                                w, h));
-                // Draw the handles
-                GroupEditorHandle handles[] = groupEditorMode.getHandles(this, v);
-                for (int i = 0; i < handles.length; i++) {
-                    g2d.draw(handles[i].getShape());
-                }
+                            g2d.setColor(Color.RED);
+                            g2d.setStroke(new BasicStroke((float) wd));
+                            // Draw the frame
+                            g2d
+                                    .draw(new Rectangle2D.Double(orig.getX(), orig.getY(),
+                                            w, h));
+                            // Draw the handles
+                            GroupEditorHandle handles[] = groupEditorMode.getHandles(this, v);
+                            for (int i = 0; i < handles.length; i++) {
+                                g2d.draw(handles[i].getShape());
+                            }
 
-            }
-        }
-        g2d.setColor(Color.RED);
-        // Sets the actual width for drawing :
-        float f[] = {0.5f, 1};
-        g2d.setStroke(new BasicStroke((float) (wd / 2), BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_MITER, 2, f, 0));
+                        }
+                    }
+                    g2d.setColor(Color.RED);
+                    // Sets the actual width for drawing :
+                    float f[] = { 0.5f, 1 };
+                    g2d.setStroke(new BasicStroke((float) (wd / 2), BasicStroke.CAP_ROUND,
+                            BasicStroke.JOIN_MITER, 2, f, 0));
 
-        g2d.draw(new Line2D.Double(0, 0, 1000, 0));
-        g2d.draw(new Line2D.Double(0, 0, 0, 1000));
-        g2d.dispose();
+                    g2d.draw(new Line2D.Double(0, 0, 1000, 0));
+                    g2d.draw(new Line2D.Double(0, 0, 0, 1000));
+                });
+
     }
 
     /**
@@ -389,12 +356,10 @@ public final class GroupEditor extends JPanel {
      */
     public void move(double dx, double dy) {
         if (selected != -1) {
-            PaintingSpecifications drawingSpecifications = groupEditorDrawingPreferences.getDrawingSpecifications();
-            Hieroglyph h = group.getHieroglyphAt(selected);            
-            double unitLength = drawingSpecifications.getHieroglyphsDrawer()
-                    .getGroupUnitLength();
-            double x = h.getX() + dx/unitLength;
-            double y = h.getY() + dy/unitLength;
+            Hieroglyph h = group.getHieroglyphAt(selected);
+            double unitLength = jSeshRenderContext.hieroglyphDrawer().getGroupUnitLength();
+            double x = h.getX() + dx / unitLength;
+            double y = h.getY() + dy / unitLength;
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
             revalidate();
             repaint();
@@ -404,18 +369,19 @@ public final class GroupEditor extends JPanel {
     /**
      * Set selected sign position and scale.
      * If scale is below 5, it will be set at 5 anyway.
-     * @param positionAndScale the new values of position and scale for the selected sign.
+     * 
+     * @param positionAndScale the new values of position and scale for the selected
+     *                         sign.
      */
     public void setPositionAndSize(PositionAndScale positionAndScale) {
         Hieroglyph h = getSelectedSign();
-        if (h != null) {          
-            h.setExplicitPosition(positionAndScale.getX(), positionAndScale.getY(), 
-                    (positionAndScale.getScale() < 5)? 5 : positionAndScale.getScale());
+        if (h != null) {
+            h.setExplicitPosition(positionAndScale.getX(), positionAndScale.getY(),
+                    (positionAndScale.getScale() < 5) ? 5 : positionAndScale.getScale());
             repaint();
             invalidate();
         }
     }
-
 
     public void rotate(int angle) {
         if (selected != -1) {
@@ -462,7 +428,6 @@ public final class GroupEditor extends JPanel {
         return groupEditorDrawingPreferences;
     }
 
-
     public void resetSign() {
         if (selected != -1) {
             Hieroglyph h = group.getHieroglyphAt(selected);
@@ -495,20 +460,70 @@ public final class GroupEditor extends JPanel {
         }
     }
 
-    public void setDrawingSpecification(PaintingSpecifications drawingSpecifications) {
+    public void setRenderContext(JSeshRenderContext jSeshRenderContext) {
         // Ensure drawing specs are left to right.
-        // A better system for drawingSpecs (with immutable and DrawingSpecificationProperty) would be nice.
-
-        // DrawingSpecification specs = drawingSpecifications.copy();
-        // specs.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-        // groupEditorDrawingPreferences.setDrawingSpecifications(specs);
-        // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
-        PaintingSpecifications specs = drawingSpecifications.copy();
-        specs.setTextDirection(TextDirection.LEFT_TO_RIGHT.LEFT_TO_RIGHT);
-        groupEditorDrawingPreferences.setJseshStyle(specs);
-        // groupEditorDrawingPreferences.setDrawingSpecifications(drawingSpecifications);
+        // A better system for drawingSpecs (with immutable and
+        // DrawingSpecificationProperty) would be nice.
+        this.jSeshRenderContext = jSeshRenderContext.copy()
+                .jseshStyle(s -> s.options(opt -> opt.textDirection(TextDirection.LEFT_TO_RIGHT))).build();
         repaint();
         revalidate();
     }
 
+    /// Scale a coordinate in the object's coordinate system to a coordinate in the
+    /// MDC Group.
+    ///
+    /// Coordinates in MdC are expressed as 1/1000 of A1 length.
+    /// @param coord a coordinate in the Graphics2D 
+    /// @returns the coordinate scaled to the JSesh MDC coordinate system.
+    public int screenUnitToGroupUnit(Double coord) {
+        
+        double unitLength =  jSeshRenderContext.hieroglyphDrawer().getGroupUnitLength();
+        
+        return (int) (coord / unitLength);
+    }
+
+    /**
+     * At this level, the group editor control's function is just to build
+     * events.
+     *
+     * @author rosmord
+     */
+    class LowLevelControl implements MouseInputListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            groupEditorListener.mouseClicked(buildEvent(e));
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            groupEditorListener.mouseDragged(buildEvent(e));
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            groupEditorListener.mouseEntered(buildEvent(e));
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            groupEditorListener.mouseExited(buildEvent(e));
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            groupEditorListener.mouseMoved(buildEvent(e));
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            groupEditorListener.mousePressed(buildEvent(e));
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            groupEditorListener.mouseReleased(buildEvent(e));
+        }
+    }
 }

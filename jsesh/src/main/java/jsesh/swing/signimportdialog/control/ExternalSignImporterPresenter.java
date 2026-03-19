@@ -11,6 +11,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 import jsesh.swing.signimportdialog.ui.ExternalSignImporterUI;
 import jsesh.swing.signimportdialog.ui.UIEventListener;
@@ -25,6 +26,7 @@ import jsesh.swing.signimportdialog.ui.UIEventListener;
  * often practical for forms.
  *
  * TODO this is ugly, antiquated code, especially the listener.
+ * 
  * @author rosmord
  *
  */
@@ -67,11 +69,11 @@ public class ExternalSignImporterPresenter implements UIEventListener {
         } else if (src == ui.getFlipVerticallyButton()) {
             model.flipVertically();
         } else if (src == ui.getFullCadratHeightButton()) {
-            //model.resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
+            // model.resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
             resizeVerticallyTo(model.getReferenceShape().getBbox().getHeight());
         }
         if (signChanged) {
-            //ui.getCodeField().setText("");
+            // ui.getCodeField().setText("");
             ui.getCodeField().setText(model.getDefaultSignCode());
         }
         refreshUI();
@@ -105,7 +107,9 @@ public class ExternalSignImporterPresenter implements UIEventListener {
                     model.setSourceDirectory(selected);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(ui.getPanel(), "Could not load file " + fileChooser.getSelectedFile().getPath() + "\nbecause: " + e.getMessage(), "File not loaded", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(ui.getPanel(), "Could not load file "
+                        + fileChooser.getSelectedFile().getPath() + "\nbecause: " + e.getMessage(), "File not loaded",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }

@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import jsesh.mdc.model.AbsoluteGroup;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * Dialog panel for editing groups.
@@ -44,9 +45,9 @@ public final class GroupEditorDialog extends JPanel {
 
     private final GroupEditor editor;
 
-    public GroupEditorDialog(PaintingSpecifications drawingSpecification) {
+    public GroupEditorDialog(JSeshRenderContext renderContext) {
         setBackground(Color.WHITE);
-        editor = new GroupEditor(drawingSpecification);
+        editor = new GroupEditor(renderContext);
         next = new JButton("next");
         previous = new JButton("previous");
         reset = new JButton("reset");
@@ -97,8 +98,4 @@ public final class GroupEditorDialog extends JPanel {
         return editor.getGroup();
     }
     
-    public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
-        editor.setDrawingSpecification(drawingSpecifications);
-    }
-
 }

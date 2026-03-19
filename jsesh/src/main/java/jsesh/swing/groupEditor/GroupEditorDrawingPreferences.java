@@ -11,8 +11,6 @@
  */
 package jsesh.swing.groupEditor;
 
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  *
@@ -28,16 +26,7 @@ public class GroupEditorDrawingPreferences {
     private double topMargin = 5;
     private double sideMargin = 5;
    
-    /**
-     * The drawing specifications. TODO find a good policy for drawing
-     * specifications !!!!
-     */
-    private PaintingSpecifications drawingSpecifications;
-    
-    
-    public GroupEditorDrawingPreferences(PaintingSpecifications drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
-	}
+   
 
 	/**
      * Handle sizes
@@ -76,13 +65,7 @@ public class GroupEditorDrawingPreferences {
         this.sideMargin = sideMargin;
     }
 
-    public PaintingSpecifications getDrawingSpecifications() {
-        return drawingSpecifications;
-    }
-
-    public void setDrawingSpecifications(PaintingSpecifications drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications;
-    }
+   
 
     public int getHandleSize() {
         return handleSize;

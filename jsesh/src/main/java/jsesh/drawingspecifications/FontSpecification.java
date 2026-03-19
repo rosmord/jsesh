@@ -1,17 +1,15 @@
 package jsesh.drawingspecifications;
 
+import java.awt.Font;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
-
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Specifications related to fonts and non-hieroglyphic text.
