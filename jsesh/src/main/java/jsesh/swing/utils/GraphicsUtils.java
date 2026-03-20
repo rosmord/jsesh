@@ -35,13 +35,14 @@ public class GraphicsUtils {
 		g2d.setRenderingHints(h);
 	}
 
-	/// Run some code with a temporary graphics and dispose of it at the end.
-	/// 
-	/// The graphics2D used will be antialiased.
-	/// It's important that the graphics object is **new**, as it will be distroyed at the end of the method.
-	/// 
-	/// @param supplier creates a **new** graphics object
-	/// @param consumer	uses this graphics object.	
+	/**
+	 * Run some code with a temporary graphics and dispose of it at the end.
+	 * 
+	 * The graphics2D used will be <b>antialiased</b>.
+	 * 
+	 * @param supplier  creates a **new** graphics object 
+	 * @param consumer	uses this graphics object.	
+	 */
 	public static void doWithTemporaryGraphics(Supplier<Graphics> supplier, Consumer<Graphics2D> consumer) {
 		Graphics g = supplier.get();
 		try {

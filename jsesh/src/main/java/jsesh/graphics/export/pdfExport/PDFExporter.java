@@ -30,6 +30,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
@@ -86,12 +87,11 @@ public class PDFExporter {
         return new JPDFOptionPanel(parent, title, pdfExportPreferences);
     }
 
-    public void exportModel(TopItemList model, MDCCaret caret, JSeshStyle jseshStyle,
-            HieroglyphsDrawer hieroglyphsDrawer)
+    public void exportModel(TopItemList model, MDCCaret caret, JSeshRenderContext renderContext)
             throws IOException {
         if (pdfExportPreferences.isEncapsulated()) {
             // PDFDataSaver is somehow redundant with PDFExporter...
-            PDFDataSaver pdfDataSaver = new PDFDataSaver(jseshStyle, hieroglyphsDrawer,
+            PDFDataSaver pdfDataSaver = new PDFDataSaver(renderContext,
                     pdfExportPreferences);
             FileOutputStream out = new FileOutputStream(
                     pdfExportPreferences.getFile());
@@ -114,14 +114,13 @@ public class PDFExporter {
                 caret = MDCCaret.buildWholeTextCaret(model);
             }
 
-            JSeshStyle actualStyle = jseshStyle
-                    .copy()
+            JSeshStyle actualStyle = renderContext.jseshStyle().copy()
                     .geometry(g -> g
                             .leftMargin(32f)
                             .topMargin(32f))
                     .build();
 
-            JSeshRenderContext renderContext = JSeshRenderContext.buildBadDefault(actualStyle, hieroglyphsDrawer);
+            renderContext = new JSeshRenderContext(actualStyle, renderContext.hieroglyphDrawer());
 
             ExportData exportData = new ExportData(renderContext,
                     caret, model, scale);
@@ -142,9 +141,9 @@ public class PDFExporter {
                 // It would be way better to initialize drawingSpecifications
                 // once and for all for this class, and to get them when needed.
                 String mdcText = PDFExportHelper.buildCommentText(
-                        jseshStyle,
+                        renderContext.jseshStyle(),
                         model);
-                IPDFExporterAux visitor = new IPDFExporterAux(mdcText, jseshStyle, hieroglyphsDrawer);
+                IPDFExporterAux visitor = new IPDFExporterAux(mdcText, renderContext);
 
                 model.accept(visitor);
                 visitor.close();
@@ -201,23 +200,19 @@ public class PDFExporter {
          */
         TreeMap<TopItem, TemplateInfo> imageCache;
 
-        JSeshStyle jSeshStyle;
-        HieroglyphsDrawer hieroglyphsDrawer;
+        JSeshRenderContext renderContext;
 
-        public IPDFExporterAux(String comment, JSeshStyle jSeshStyle, HieroglyphsDrawer hieroglyphsDrawer) throws IOException,
+        public IPDFExporterAux(String comment, JSeshRenderContext renderContext) throws IOException,
                 DocumentException {
 
+            this.renderContext = new JSeshRenderContext(fixStyle(renderContext.jseshStyle()),
+                    renderContext.hieroglyphDrawer());
             /*
              * Create various utilitary objects.
              */
             imageCache = new TreeMap<TopItem, TemplateInfo>();
             prepareFonts();
 
-            this.jSeshStyle = PDFExportHelper.ensureCMYKColorSpace(jSeshStyle)
-                    .copy()
-                    .geometry(g -> g.leftMargin(0.1f)).build();
-
-            this.hieroglyphsDrawer = hieroglyphsDrawer;
             /*
              * Create the PDF document itself :
              */
@@ -248,6 +243,17 @@ public class PDFExporter {
         }
 
         /**
+         * Fix a style - ensure CMYK color space, and zero margins.
+         * 
+         * @param jseshStyle a style to fix.
+         * @return the fixed style.
+         */
+        private JSeshStyle fixStyle(JSeshStyle jseshStyle) {
+            return PDFExportHelper.ensureCMYKColorSpace(jseshStyle)
+                    .geometry(g -> g.leftMargin(0.1f)).build();
+        }
+
+        /**
          * Initialize the objects which represent the various fonts used in the
          * document.
          *
@@ -256,7 +262,8 @@ public class PDFExporter {
          */
         private void prepareFonts() throws DocumentException, IOException {
             fontMapper = new DefaultFontMapper();
-            FontSpecification jseshFonts = jSeshStyle.fonts();
+
+            FontSpecification jseshFonts = renderContext.jseshStyle().fonts();
 
             if (jseshFonts
                     .getFont(ScriptCodes.TRANSLITERATION)
@@ -276,13 +283,6 @@ public class PDFExporter {
             } else {
                 java.awt.Font g2dTranslitFont = jseshFonts
                         .getFont(ScriptCodes.TRANSLITERATION);
-                // translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
-                // g2dTranslitFont.getSize(), Font.NORMAL);
-                // BaseFont bf = BaseFont.createFont(g2dTranslitFont.getName() +
-                // ".ttf",""
-                // , true);
-                // translitFont = new Font(bf, drawingSpecifications.getFont(
-                // ScriptCodes.TRANSLITERATION).getSize());
                 translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
                         BaseFont.IDENTITY_H, true, g2dTranslitFont.getSize());
 
@@ -339,7 +339,7 @@ public class PDFExporter {
          */
         @Override
         public void visitHRule(HRule h) {
-            GeometrySpecification geom = jSeshStyle.geometry();
+            GeometrySpecification geom = renderContext.jseshStyle().geometry();
             PdfContentByte cb = writer.getDirectContent();
 
             // float lineWidth;
@@ -389,7 +389,7 @@ public class PDFExporter {
          */
         @Override
         public void visitAlphabeticText(AlphabeticText t) {
-            FontSpecification fontInfo = jSeshStyle.fonts();
+            FontSpecification fontInfo = renderContext.jseshStyle().fonts();
             Font f;
             String text = t.getText();
 
@@ -472,7 +472,7 @@ public class PDFExporter {
          */
         @Override
         public void visitTabStop(TabStop t) {
-            var geom = jSeshStyle.geometry();
+            var geom = renderContext.jseshStyle().geometry();
             // IText has no tabulation system. Hence, we simply draw a white
             // space
             // It's currently false, but better than nothing.
@@ -498,7 +498,7 @@ public class PDFExporter {
         }
 
         public void flushParagraph() {
-            var geom = jSeshStyle.geometry();
+            var geom = renderContext.jseshStyle().geometry();
             if (currentParagraph != null) {
                 try {
                     float space = geom.lineSkip();
@@ -524,8 +524,7 @@ public class PDFExporter {
          * @param elt
          */
         private void drawElement(TopItem elt) {
-            var geom = jSeshStyle.geometry();
-            var jseshRender = JSeshRenderContext.buildBadDefault(jSeshStyle, hieroglyphsDrawer);
+            var geom = renderContext.jseshStyle().geometry();
 
             TemplateInfo templateInfo = imageCache.get(elt);
             // scale Compute
@@ -537,13 +536,16 @@ public class PDFExporter {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
-                ViewBuilder builder = new ViewBuilder();
-                MDCView view = builder.buildView(smallModel,
-                        jseshRender);
+                MDCView view = JSeshTechRenderContext.applyWithDefaultTechContext(techContext -> {
+                    ViewBuilder builder = new ViewBuilder();
+                    return builder.buildView(smallModel,
+                            renderContext, techContext);
+                });
 
                 if (view.getWidth() == 0 || view.getHeight() == 0) {
                     return;
                 }
+
                 ViewDrawer drawer = new ViewDrawer();
 
                 PdfContentByte cb = writer.getDirectContent();
@@ -561,10 +563,12 @@ public class PDFExporter {
                 Graphics2D g = templateInfo.template.createGraphics(width,
                         height, fontMapper);
 
-                g.setColor(jSeshStyle.painting().blackColor());
+                JSeshTechRenderContext techContext = JSeshTechRenderContext.buildSimpleContext(g);
+
+                g.setColor(renderContext.jseshStyle().painting().blackColor());
                 g.scale(scale, scale);
                 drawer.setShadeAfter(false);
-                drawer.draw(g, jseshRender, view);
+                drawer.draw(g, renderContext, techContext, view);
                 // g.setColor(Color.RED);
                 // g.draw(new Rectangle2D.Float(0, 0, view.getWidth(),
                 // view.getHeight()));

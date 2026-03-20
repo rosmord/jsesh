@@ -59,6 +59,11 @@ public abstract class AbtractExportDrawer {
         this.shadeAfter = true;
     }
 
+
+    protected void setTechRenderContext(JSeshTechRenderContext techRenderContext) {
+        this.techRenderContext = techRenderContext;
+    }
+    
     /**
      * Utility method to draw a list of model elements.
      * <p>

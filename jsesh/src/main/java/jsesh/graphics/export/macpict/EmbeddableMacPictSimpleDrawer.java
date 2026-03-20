@@ -7,6 +7,7 @@ import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 
 public class EmbeddableMacPictSimpleDrawer extends AbstractRTFEmbeddableDrawer {

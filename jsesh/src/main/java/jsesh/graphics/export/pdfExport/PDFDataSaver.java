@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
@@ -27,10 +28,10 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
  */
 public class PDFDataSaver {
 
-    private JSeshStyle jSeshStyle;
+
+    private JSeshRenderContext renderContext;    
     private PDFExportPreferences pdfExportPreferences;
     private float scale = 1.0f;
-    private HieroglyphsDrawer hieroglyphsDrawer;
 
     /**
      * Create a new {@link PDFDataSaver}.
@@ -40,12 +41,10 @@ public class PDFDataSaver {
      * @param pdfExportPreferences pdf-specific preferences.
      *
      */
-    public PDFDataSaver(JSeshStyle jSeshStyle,
-            HieroglyphsDrawer hieroglyphsDrawer,
+    public PDFDataSaver(JSeshRenderContext renderContext,
             PDFExportPreferences pdfExportPreferences) {
-        this.jSeshStyle = jSeshStyle;
-        this.pdfExportPreferences = pdfExportPreferences;
-        this.hieroglyphsDrawer = hieroglyphsDrawer;
+        this.renderContext = renderContext;
+        this.pdfExportPreferences = pdfExportPreferences;        
     }
 
     /**
@@ -53,8 +52,8 @@ public class PDFDataSaver {
      *
      * @param drawingSpecification
      */
-    public PDFDataSaver(JSeshStyle jSeshStyle, HieroglyphsDrawer hieroglyphsDrawer) {
-        this(jSeshStyle, hieroglyphsDrawer, new PDFExportPreferences());
+    public PDFDataSaver(JSeshRenderContext renderContext) {
+        this(renderContext, new PDFExportPreferences());
     }
 
     /**
@@ -83,8 +82,7 @@ public class PDFDataSaver {
         // Dirty code which needs to be cleaned up.
         float margin = 1f;
         JSeshStyle myDrawingSpecification = 
-            PDFExportHelper.ensureCMYKColorSpace(this.jSeshStyle)
-            .copy()
+            PDFExportHelper.ensureCMYKColorSpace(this.renderContext.jseshStyle())            
             .geometry(geom ->
                 geom
                     .leftMargin(margin* 0.5f / scale)
@@ -92,16 +90,17 @@ public class PDFDataSaver {
             ).build()
             ;
 
-        JSeshRenderContext renderContext = JSeshRenderContext.buildBadDefault(myDrawingSpecification, hieroglyphsDrawer);
+        JSeshRenderContext localRenderContext = new JSeshRenderContext(myDrawingSpecification, renderContext.hieroglyphDrawer());
 
         ViewBuilder builder = new ViewBuilder();
-        MDCView view = builder.buildView(topItemList, renderContext);
+        MDCView view = builder.buildView(topItemList, localRenderContext, JSeshTechRenderContext.VECTOR_CONTEXT);
 
         PDFDocumentWriterAux documentWriterAux = new PDFDocumentWriterAux(
                 pdfExportPreferences, out, margin + scale * view.getWidth(),
                 margin + scale * view.getHeight(),
                 PDFExportHelper.buildCommentText(myDrawingSpecification,
                         topItemList));
+
         documentWriterAux.open();
 
         Graphics2D g = documentWriterAux.createGraphics();
@@ -110,7 +109,7 @@ public class PDFDataSaver {
         g.setStroke(new BasicStroke(0));
         ViewDrawer drawer = new ViewDrawer();
         drawer.setShadeAfter(false);
-        drawer.draw(g, renderContext, view);
+        drawer.draw(g, localRenderContext, JSeshTechRenderContext.VECTOR_CONTEXT, view);
 
         g.dispose();
         documentWriterAux.close();

@@ -11,7 +11,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import java.awt.image.renderable.RenderContext;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,6 +29,11 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
+
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.AlphabeticText;
@@ -37,17 +41,16 @@ import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
+import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.GraphicsUtils;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * Expert for exporting a Manuel de codage file to HTML.
@@ -123,13 +126,16 @@ public class HTMLExporter {
 
     private JSeshRenderContext renderContext;
 
-    public HTMLExporter() {
+    private HieroglyphsDrawer hieroglyphicDrawer;
+
+    public HTMLExporter(HieroglyphsDrawer hieroglyphicDrawer) {
+        this.hieroglyphicDrawer = hieroglyphicDrawer;
         setDefaults();
     }
 
     public final void setDefaults() {
-        directory = new File("."); //-NLS-1$
-        baseName = "egyptian"; //-NLS-1$
+        directory = new File("."); // -NLS-1$
+        baseName = "egyptian"; // -NLS-1$
         respectPages = true;
         lineHeight = 30;
         pictureMargin = 0;
@@ -139,7 +145,8 @@ public class HTMLExporter {
         pictureScale = 100;
         centerPictures = true;
 
-        setJseshStyle(new DrawingSpecificationsImplementation());
+        setJSeshRenderContext(
+                new JSeshRenderContext(JSeshStyle.DEFAULT, hieroglyphicDrawer));
     }
 
     /**
@@ -178,7 +185,7 @@ public class HTMLExporter {
 
     private class HTMLExporterAux extends ModelElementAdapter {
 
-        ArrayList elements;
+        ArrayList<TopItem> elements;
 
         Writer writer;
 
@@ -217,35 +224,35 @@ public class HTMLExporter {
             flushElements();
             switch (t.getScriptCode()) {
                 case 'b':
-                    write("<b>"); //-NLS-1$
+                    write("<b>"); // -NLS-1$
                     break;
                 case 'i':
-                    write("<i>"); //-NLS-1$
+                    write("<i>"); // -NLS-1$
                     break;
                 case 't':
-                    write("<font face=\"MDCTranslitLC,TransliterationItalic\">"); //-NLS-1$
+                    write("<font face=\"MDCTranslitLC,TransliterationItalic\">"); // -NLS-1$
                     break;
                 case '+':
-                    write("<!--"); //-NLS-1$
+                    write("<!--"); // -NLS-1$
             }
             if (htmlSpecialProtected) {
-                write(t.getText().toString().replaceAll("&", "&amp;") //-NLS-1$ //-NLS-2$
-                        .replaceAll("<", "&lt;").replaceAll(">", "&gt;")); //-NLS-1$ //-NLS-2$ //-NLS-3$ //-NLS-4$
+                write(t.getText().toString().replaceAll("&", "&amp;") // -NLS-1$ //-NLS-2$
+                        .replaceAll("<", "&lt;").replaceAll(">", "&gt;")); // -NLS-1$ //-NLS-2$ //-NLS-3$ //-NLS-4$
             } else {
                 write(t.getText());
             }
             switch (t.getScriptCode()) {
                 case 'b':
-                    write("</b>"); //-NLS-1$
+                    write("</b>"); // -NLS-1$
                     break;
                 case 'i':
-                    write("</i>"); //-NLS-1$
+                    write("</i>"); // -NLS-1$
                     break;
                 case 't':
-                    write("</font>"); //-NLS-1$
+                    write("</font>"); // -NLS-1$
                     break;
                 case '+':
-                    write("-->"); //-NLS-1$
+                    write("-->"); // -NLS-1$
                     break;
             }
         }
@@ -266,7 +273,7 @@ public class HTMLExporter {
                     e.printStackTrace();
                 }
             } else {
-                write("<br/>\n<hrule/>\n"); //-NLS-1$
+                write("<br/>\n<hrule/>\n"); // -NLS-1$
             }
         }
 
@@ -280,13 +287,13 @@ public class HTMLExporter {
             flushElements();
             switch (newLinesReplacement) {
                 case SPACE:
-                    writeln(""); //-NLS-1$
+                    writeln(""); // -NLS-1$
                     break;
                 case BREAK:
-                    writeln("<br/>"); //-NLS-1$
+                    writeln("<br/>"); // -NLS-1$
                     break;
                 case PARAGRAPH:
-                    writeln("<p>"); //-NLS-1$
+                    writeln("<p>"); // -NLS-1$
                     break;
             }
 
@@ -299,7 +306,7 @@ public class HTMLExporter {
          * ModelElement)
          */
         public void visitDefault(ModelElement t) {
-            getElements().add(t);
+            getElements().add(t.buildTopItem());
         }
 
         private void write(String s) {
@@ -312,12 +319,12 @@ public class HTMLExporter {
 
         private void writeln(String s) {
             write(s);
-            write("\n"); //-NLS-1$
+            write("\n"); // -NLS-1$
         }
 
-        private List getElements() {
+        private List<TopItem> getElements() {
             if (elements == null) {
-                elements = new ArrayList();
+                elements = new ArrayList<>();
             }
             return elements;
         }
@@ -328,24 +335,27 @@ public class HTMLExporter {
          */
         private void flushElements() {
             if (elements != null) {
-                JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildSimpleContext(g, 1.0);
+                // Precompute the view to compute the picture size.
 
-                TopItemList smallModel = new TopItemList();
-                smallModel.addAll(elements);
+                MDCView view = JSeshTechRenderContext.applyWithDefaultTechContext(
+                        techRenderContext -> {
+                            TopItemList smallModel = new TopItemList();
+                            smallModel.addAll(elements);
 
-                ViewBuilder builder = new ViewBuilder();
+                            ViewBuilder builder = new ViewBuilder();
 
-                // scale Compute
-                double scale = (double) lineHeight
-                        / renderContext.jseshStyle().geometry().maxCadratHeight();
-
-                MDCView view = builder.buildView(smallModel,
-                        renderContext, techRenderContext);
+                            return builder.buildView(smallModel,
+                                    renderContext, techRenderContext);
+                        });
 
                 if (view.getWidth() == 0 || view.getHeight() == 0) {
                     return;
                 }
                 ViewDrawer drawer = new ViewDrawer();
+
+                // Compute scale
+                double scale = (double) lineHeight
+                        / renderContext.jseshStyle().geometry().maxCadratHeight();
 
                 BufferedImage image = new BufferedImage((int) Math.ceil(view
                         .getWidth()
@@ -355,16 +365,20 @@ public class HTMLExporter {
 
                 Graphics2D g = image.createGraphics();
                 GraphicsUtils.antialias(g);
-                PaintingSpecifications paintingContext = renderContext.jseshStyle().painting();
+                try {
+                    JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.buildSimpleContext(g, 1.0);
+                    PaintingSpecifications paintingContext = renderContext.jseshStyle().painting();
 
-                g.setColor(backgroundColor);
-                g.fillRect(0, 0, image.getWidth(), image.getHeight());
-                g.setColor(paintingContext.blackColor());
-                g.translate(1, 1 + pictureMargin);
+                    g.setColor(backgroundColor);
+                    g.fillRect(0, 0, image.getWidth(), image.getHeight());
+                    g.setColor(paintingContext.blackColor());
+                    g.translate(1, 1 + pictureMargin);
 
-                g.scale(scale, scale);
-                drawer.draw(g, renderContext, techRenderContext, view);
-                g.dispose();
+                    g.scale(scale, scale);
+                    drawer.draw(g, renderContext, techRenderContext, view);
+                } finally {
+                    g.dispose();
+                }
 
                 File fic = getImageFile(imageNumber);
                 try {

@@ -6,13 +6,13 @@ package jsesh.graphics.export.rtf;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
+import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
+import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
+
+import jsesh.drawingspecifications.FontSpecification;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
 import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
@@ -21,7 +21,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
@@ -29,10 +28,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
-import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
-import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 /**
  * Exports a MDC model into a RTF file (or byte array).
@@ -72,17 +68,18 @@ public class RTFExporter {
      */
     public static final int WMF = 2;
 
-    private int pictureType = EMF;    
+    private int pictureType = EMF;
     private RTFExportPreferences rtfPreferences;
     private SimpleRTFWriter rtfWriter;
-    private JSeshStyle jseshStyle;
-    private HieroglyphsDrawer hieroglyphsDrawer;
+    private JSeshRenderContext renderContext;
 
-    public RTFExporter(JSeshStyle style, HieroglyphsDrawer hieroglyphsDrawer,
+    public RTFExporter(JSeshRenderContext renderContext,
             RTFExportPreferences preferences) {
-        this.jseshStyle = style.copy().colors(col -> col.grayColor(new Color(200, 200, 200))).build();
+        // Use the same style as the one we are given, but use a gray color for shading.
+        this.renderContext = renderContext.copy().jseshStyle(s -> s.colors(
+                col -> col.grayColor(new Color(200, 200, 200)))).build();
         this.rtfPreferences = preferences;
-        this.hieroglyphsDrawer = hieroglyphsDrawer;
+
     }
 
     public void ExportModelTo(TopItemList model, OutputStream outputStream)
@@ -100,7 +97,7 @@ public class RTFExporter {
         rtfWriter = new SimpleRTFWriter(outputStream);
         rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
         rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
-        Font translitterationFont = jseshStyle.fonts()
+        Font translitterationFont = renderContext.jseshStyle().fonts()
                 .getFont('t');
         rtfWriter.declareFont(translitterationFont.getName(), RTFFontFamily.ROMAN);
         // Actual export, using a visitor.
@@ -109,12 +106,10 @@ public class RTFExporter {
             exportAsPicture(model);
         } else {
             // @formatter:off
-            jseshStyle = jseshStyle.copy().options(
-                        opt -> 
-                            opt
-                                .textDirection(TextDirection.LEFT_TO_RIGHT)
-                                .textOrientation(TextOrientation.HORIZONTAL)
-                    ).build();                    
+            renderContext = renderContext.copy().jseshStyle(s -> s.options(opt -> opt
+                    .textDirection(TextDirection.LEFT_TO_RIGHT)
+                    .textOrientation(TextOrientation.HORIZONTAL))
+                    ).build();            
             // @formatter:on
             RTFExporterAux aux = new RTFExporterAux();
             model.accept(aux);
@@ -136,7 +131,7 @@ public class RTFExporter {
                 RTFExportGranularity.ONE_LARGE_PICTURE)) {
             return true;
         } else if (rtfPreferences.respectOriginalTextLayout()) {
-            var opt = jseshStyle.options();
+            var opt = renderContext.jseshStyle().options();
             return opt.textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
                     || opt.textOrientation().equals(
@@ -157,7 +152,6 @@ public class RTFExporter {
         simpleDrawer.writeToRTF(rtfWriter);
     }
 
-   
     /**
      * @param rtfPreferences The rtfPreferences to set.
      */
@@ -172,9 +166,7 @@ public class RTFExporter {
      *                supported).
      * @return
      */
-    private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {
-        JSeshRenderContext renderContext = JSeshRenderContext.buildBadDefault(
-                jseshStyle, hieroglyphsDrawer);
+    private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {        
         AbstractRTFEmbeddableDrawer result = null;
         switch (pictureType) {
             case MAC_PICT:
@@ -194,7 +186,7 @@ public class RTFExporter {
     }
 
     private String buildMdCForExport(TopItemList t) {
-        MDCDocument doc = new MDCDocument(t, jseshStyle);
+        MDCDocument doc = new MDCDocument(t, renderContext.jseshStyle());
         return doc.getMdC();
     }
 
@@ -222,6 +214,7 @@ public class RTFExporter {
         @Override
         public void visitAlphabeticText(AlphabeticText t) {
             try {
+                FontSpecification fontSpecs = renderContext.jseshStyle().fonts();
                 flushElements();
                 String text = t.getText();
                 String fontName = TIMES;
@@ -243,9 +236,8 @@ public class RTFExporter {
                         rtfWriter.setItalic(false); // italic choosen in the font itself.
                         text = TranslitterationUtilities
                                 .getActualTransliterationString(text,
-                                        jseshStyle.fonts().
-                                                transliterationEncoding());
-                        fontName = jseshStyle.fonts().getFont('t').getFontName();
+                                        fontSpecs.transliterationEncoding());
+                        fontName = fontSpecs.getFont('t').getFontName();
                         break;
                     case '+':
                     default:
@@ -294,7 +286,7 @@ public class RTFExporter {
 
         @Override
         public void visitTopItem(TopItem t) {
-            if (jseshStyle.options().textDirection().equals(
+            if (renderContext.jseshStyle().options().textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
                     || rtfPreferences.getExportGranularity().equals(
                             RTFExportGranularity.GROUPED_CADRATS)) {
@@ -315,7 +307,7 @@ public class RTFExporter {
          */
         private void flushElements() {
             try {
-                if (jseshStyle.options().textDirection().equals(
+                if (renderContext.jseshStyle().options().textDirection().equals(
                         TextDirection.RIGHT_TO_LEFT)
                         || rtfPreferences.getExportGranularity().equals(
                                 RTFExportGranularity.GROUPED_CADRATS)) {

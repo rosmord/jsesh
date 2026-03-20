@@ -24,7 +24,7 @@ public class EMFDeviceContextTests {
 		//emf.setWindowOrg( 0,  0);
 		//emf.setWindowExt( 1000, 1000);
 		short a = emf.createBrush(0, 0xFF, WMFConstants.BS_SOLID);
-		///short a = emf.createBrush(0, 0, WMFConstants.BS_SOLID);
+		//short a = emf.createBrush(0, 0, WMFConstants.BS_SOLID);
 		//long a= emf.createBrush(0,0,0);
 		emf.selectObject(a);
 		
@@ -67,7 +67,7 @@ public class EMFDeviceContextTests {
 		emf.setWindowOrg( 0,  0);
 		emf.setWindowExt( 1000, 1000);
 		short a = emf.createBrush(0, 0xFF, WMFConstants.BS_SOLID);
-		///short a = emf.createBrush(0, 0, WMFConstants.BS_SOLID);
+		//short a = emf.createBrush(0, 0, WMFConstants.BS_SOLID);
 		//long a= emf.createBrush(0,0,0);
 		emf.selectObject(a);
 		

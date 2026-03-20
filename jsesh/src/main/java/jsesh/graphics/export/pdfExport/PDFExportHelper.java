@@ -1,6 +1,7 @@
 package jsesh.graphics.export.pdfExport;
 
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.JSeshStyle.Builder;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.TopItemList;
 
@@ -10,7 +11,9 @@ import com.lowagie.text.pdf.SpotColor;
 
 class PDFExportHelper {
 
-	private PDFExportHelper() {}
+	private PDFExportHelper() {
+	}
+
 	/**
 	 * @param model
 	 * @return
@@ -32,19 +35,18 @@ class PDFExportHelper {
 	 * @param jseshStyle the current style
 	 * @return a copy of the style, with colors set to CMYK standards.
 	 */
-	public static JSeshStyle ensureCMYKColorSpace(
+	public static JSeshStyle.Builder ensureCMYKColorSpace(
 			JSeshStyle jseshStyle) {
 
 		// Use PANTONE COLOR
 		PdfSpotColor redSpot = new PdfSpotColor("PANTONE 187 C", 1,
 				new CMYKColor(0, 1, 0.8f, 0.2f));
 		return jseshStyle.copy()
-				.colors(colors ->
-					colors
+				.colors(colors -> colors
 						.redColor(new SpotColor(redSpot))
 						.blackColor(new CMYKColor(0, 0, 0, 255))
-						.grayColor(new CMYKColor(0, 0, 0, 60)))
-				.build();
+						.grayColor(new CMYKColor(0, 0, 0, 60)));
+
 	}
 
 }

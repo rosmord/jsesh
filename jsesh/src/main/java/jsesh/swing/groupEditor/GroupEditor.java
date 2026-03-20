@@ -470,12 +470,13 @@ public final class GroupEditor extends JPanel {
         revalidate();
     }
 
-    /// Scale a coordinate in the object's coordinate system to a coordinate in the
-    /// MDC Group.
-    ///
-    /// Coordinates in MdC are expressed as 1/1000 of A1 length.
-    /// @param coord a coordinate in the Graphics2D 
-    /// @returns the coordinate scaled to the JSesh MDC coordinate system.
+    /**
+     * Scale a coordinate in the object's coordinate system to a coordinate in the MDC Group.
+     * 
+     * Coordinates in MdC are expressed as 1/1000 of A1 length.
+     * @param coord a coordinate in the Graphics2D space
+     * @returns the coordinate scaled to the JSesh MDC coordinate system.
+     */
     public int screenUnitToGroupUnit(Double coord) {
         
         double unitLength =  jSeshRenderContext.hieroglyphDrawer().getGroupUnitLength();

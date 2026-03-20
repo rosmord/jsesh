@@ -18,6 +18,10 @@ public abstract class AbstractRTFEmbeddableDrawer extends
 		super(prepareDrawingSpecifications(renderContext), fontRenderContext, cadratHeight);
 	}
 
+	protected AbstractRTFEmbeddableDrawer(JSeshRenderContext renderContext, double cadratHeight) {
+		this(renderContext, new FontRenderContext(null, true, true), cadratHeight);
+	}
+
 	private static final JSeshRenderContext prepareDrawingSpecifications(JSeshRenderContext context) {
 		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(context);
 	}
