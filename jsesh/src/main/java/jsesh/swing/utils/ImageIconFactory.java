@@ -37,16 +37,14 @@ public class ImageIconFactory {
     private final MDCDrawingFacade mdcDrawingFacade;
 
     private ImageIconFactory() {
-        mdcDrawingFacade = new MDCDrawingFacade();
-        JSeshStyle drawingSpecifications = 
+        JSeshStyle jseshStyle = 
             JSeshStyle.DEFAULT.copy()
             .geometry(
                 g -> g.topMargin(0)
                     .leftMargin(0)
             )            
             .build();
-                    
-        mdcDrawingFacade.setJseshStyle(drawingSpecifications);
+        mdcDrawingFacade = new MDCDrawingFacade();                    
         mdcDrawingFacade.setPhilologySign(true);
         setCadratHeight(30);
     }

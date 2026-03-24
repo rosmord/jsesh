@@ -43,9 +43,7 @@ public class MDCDrawingFacade {
 
 	private boolean philologySign = true;
 
-	private final HieroglyphsDrawer hieroglyphsDrawer;
-
-	private JSeshStyle jseshStyle = JSeshStyle.DEFAULT;
+	private final JSeshRenderContext jSeshRenderContext;;
 
 	/**
 	 * How many pixels on the device to make a typographical point?
@@ -59,12 +57,12 @@ public class MDCDrawingFacade {
 	private int cadratHeight = 20;
 
 	public MDCDrawingFacade() {
-		this.hieroglyphsDrawer = new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicFontManager());
+		this.jSeshRenderContext = new JSeshRenderContext(
+			JSeshStyle.DEFAULT, new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicFontManager()));
 	}
 
-	public MDCDrawingFacade(HieroglyphsDrawer hieroglyphsDrawer) {
-		super();
-		this.hieroglyphsDrawer = hieroglyphsDrawer;
+	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {
+		this.jSeshRenderContext = jSeshRenderContext;
 	}
 
 	/**
@@ -99,10 +97,9 @@ public class MDCDrawingFacade {
 
 		BufferedImage dummy = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g0 = (Graphics2D) dummy.getGraphics();
-		JSeshRenderContext renderContext0 = new JSeshRenderContext(jseshStyle, hieroglyphsDrawer);
 		JSeshTechRenderContext techRenderContext = buildTechContext(g0);
 
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, 0, 0, renderContext0, techRenderContext);
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, 0, 0, jSeshRenderContext, techRenderContext);
 
 		BufferedImage result;
 
@@ -117,11 +114,10 @@ public class MDCDrawingFacade {
 		// Now, build the actual image.
 		result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) result.getGraphics();
-		JSeshRenderContext renderContext = new JSeshRenderContext(jseshStyle, hieroglyphsDrawer);
 		g.setBackground(Color.WHITE);
 		g.clearRect(0, 0, width, height);
 		GraphicsUtils.antialias(g);
-		viewAndBounds.draw(g, renderContext, techRenderContext);
+		viewAndBounds.draw(g, jSeshRenderContext, techRenderContext);
 		g.dispose();
 		g0.dispose();
 		return result;
@@ -156,10 +152,9 @@ public class MDCDrawingFacade {
 	public Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
 
 		Graphics2D g1 = (Graphics2D) g.create();
-		JSeshRenderContext renderContext = new JSeshRenderContext(jseshStyle, hieroglyphsDrawer);
 		JSeshTechRenderContext techRenderContext = buildTechContext(g1);
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, renderContext, techRenderContext);
-		viewAndBounds.draw(g1, renderContext, techRenderContext);
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext, techRenderContext);
+		viewAndBounds.draw(g1, jSeshRenderContext, techRenderContext);
 		g1.dispose();
 		return viewAndBounds.bounds;
 	}
@@ -174,7 +169,7 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D getBounds(TopItemList t, double x, double y) {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, new JSeshRenderContext(jseshStyle, hieroglyphsDrawer),
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext,
 				buildTechContext(g0));
 		g0.dispose();
 		return viewAndBounds.bounds;
@@ -191,10 +186,9 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D getBounds(String mdc, double x, double y) throws MDCSyntaxError {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y, 
-		new JSeshRenderContext(jseshStyle, hieroglyphsDrawer),
-		buildTechContext(g0)
-	);
+		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y,
+				jSeshRenderContext,
+				buildTechContext(g0));
 		g0.dispose();
 		return viewAndBounds.bounds;
 	}
@@ -210,7 +204,7 @@ public class MDCDrawingFacade {
 	private double getScale() {
 		// Uses the actual font to compute scale. We need it.
 		return cadratHeight
-				/ hieroglyphsDrawer.getHeightOfA1();
+				/ jSeshRenderContext.hieroglyphDrawer().getHeightOfA1();
 	}
 
 	/**
@@ -223,15 +217,6 @@ public class MDCDrawingFacade {
 
 	public void setPhilologySign(boolean philologySign) {
 		this.philologySign = philologySign;
-	}
-
-	public JSeshStyle getJseshStyle() {
-		return jseshStyle;
-	}
-
-	public void setJseshStyle(
-			JSeshStyle drawingSpecifications) {
-		this.jseshStyle = drawingSpecifications;
 	}
 
 	public void setDeviceScale(double deviceScale) {
@@ -279,7 +264,7 @@ public class MDCDrawingFacade {
 
 		public ViewAndBounds(TopItemList t, double x, double y, JSeshRenderContext renderContext,
 				JSeshTechRenderContext techRenderContext) {
-			ViewBuilder viewBuilder = new ViewBuilder();			
+			ViewBuilder viewBuilder = new ViewBuilder();
 			view = viewBuilder.buildView(t, renderContext, techRenderContext);
 			double scale = getScale();
 

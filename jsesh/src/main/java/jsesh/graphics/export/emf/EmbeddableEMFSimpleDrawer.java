@@ -1,15 +1,14 @@
 package jsesh.graphics.export.emf;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
-import java.awt.*;
-import java.io.IOException;
+import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * A drawer which can be used to generate EMF pictures for embedding.

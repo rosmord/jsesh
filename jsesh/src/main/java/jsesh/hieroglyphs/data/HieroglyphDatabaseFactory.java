@@ -8,32 +8,19 @@
  */
 package jsesh.hieroglyphs.data;
 
-import jsesh.hieroglyphs.data.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
-import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
+
+import org.xml.sax.SAXException;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilder;
+import jsesh.hieroglyphs.data.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
+import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
-
 import jsesh.resources.ResourcesManager;
-
-import org.xml.sax.SAXException;
 
 /**
  * A static repository for the database about hieroglyphic sources. Aggregates

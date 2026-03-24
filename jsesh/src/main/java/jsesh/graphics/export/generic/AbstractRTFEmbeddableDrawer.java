@@ -23,7 +23,7 @@ public abstract class AbstractRTFEmbeddableDrawer extends
 	}
 
 	private static final JSeshRenderContext prepareDrawingSpecifications(JSeshRenderContext context) {
-		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(context);
+		return context.marginLessContext();
 	}
 
 	public abstract void writeToRTF(SimpleRTFWriter rtfWriter)

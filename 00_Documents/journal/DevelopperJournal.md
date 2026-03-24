@@ -13,6 +13,17 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## 2026/03/24
+
+I consider doing some renaming **(probably after everything compiles), not now**
+
+- The current `JSeshRenderContext` could be renamed to `JSeshProperties` or something like that - in a way, `JSeshStyle` would be a good name ;
+- `JSeshRenderContext` would then contain both those information and the `JSeshTechRenderContext`.
+
+The most problematic part is `HieroglyphsDrawer`, because this class is not immutable.
+
+In some cases (for short-lived objects), it's not a problem. For others, notably the editor, we do need to keep track of changes.
+
 ## 2026/03/19
 
 - reread what we do with graphicsDeviceScale from TechRenderContext. It might be important when we draw on 4K screens for instance.

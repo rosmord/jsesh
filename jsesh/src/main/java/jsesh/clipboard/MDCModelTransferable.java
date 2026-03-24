@@ -4,22 +4,6 @@
  */
 package jsesh.clipboard;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
-import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
-import jsesh.graphics.export.pdfExport.PDFDataSaver;
-import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.graphics.export.rtf.RTFExporter;
-import jsesh.mdc.model.ListOfTopItems;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.Layout;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
-import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -30,9 +14,23 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
+import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
+
+import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
+import jsesh.graphics.export.pdfExport.PDFDataSaver;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.graphics.export.rtf.RTFExporter;
+import jsesh.mdc.model.ListOfTopItems;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
+import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 
 /**
- *
  * Transfert handler for Manuel de Codage texts. Can provide manuel de codage
  * structured data (ListOfTopItems), RTF text, images, plain text. One problem
  * is that some of these can be way too large. For instance, bitmap pictures can
@@ -42,11 +40,12 @@ import java.util.Arrays;
  * Thus we have to restrict what is copied.
  *
  * @author rosmord
- 
- 
- TODO: RtfPreferences should be something like "export preferences".
- TODO: It should be responsible for building the export specifications.
- TODO: The graphical drawers in RTFExporter should be reused.
+ * 
+ * 
+ *         TODO: RtfPreferences should be something like "export preferences".
+ *         TODO: It should be responsible for building the export
+ *         specifications.
+ *         TODO: The graphical drawers in RTFExporter should be reused.
  *
  */
 public class MDCModelTransferable implements Transferable {
@@ -55,7 +54,7 @@ public class MDCModelTransferable implements Transferable {
 
     private RTFExportPreferences rtfPreferences;
 
-    private JSeshStyle jseshStyle;
+    private JSeshRenderContext jseshRenderContext;
 
     private MDCClipboardPreferences clipboardPreferences;
 
@@ -67,23 +66,23 @@ public class MDCModelTransferable implements Transferable {
     /**
      * Create a MDCModelTransferable.
      * Note that there are a lot of parameters.
-     * We need 
+     * We need
+     * 
      * @param dataFlavors
      * @param list
      * @param mdcClipboardPreferences
      * @param rtfExportPreferences
-     * @param jSeshStyle
+     * @param renderContext
      */
-    public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list, 
-        MDCClipboardPreferences mdcClipboardPreferences,
-        RTFExportPreferences rtfExportPreferences,
-        JSeshStyle jSeshStyle
-    ) {
+    public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list,
+            MDCClipboardPreferences mdcClipboardPreferences,
+            RTFExportPreferences rtfExportPreferences,
+            JSeshRenderContext renderContext) {
         this.topItemList = list;
         maxBitmapWidth = 2000;
         maxBitmapHeight = 2000;
         this.rtfPreferences = rtfExportPreferences;
-        this.jseshStyle = jSeshStyle;
+        this.jseshRenderContext = renderContext;
         this.dataFlavors = dataFlavors;
     }
 
@@ -131,11 +130,10 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getEMFData() throws IOException {
-    	EmbeddableEMFSimpleDrawer drawer=
-                new EmbeddableEMFSimpleDrawer(
-                        jseshStyle,
-                        rtfPreferences.getCadratHeight(),
-                        topItemList.toMdC());
+        JSeshRenderContext marginLessContext = createEmbeddedRenderContext();
+        EmbeddableEMFSimpleDrawer drawer = new EmbeddableEMFSimpleDrawer(marginLessContext,
+                rtfPreferences.getCadratHeight(),
+                topItemList.toMdC());
         drawer.drawTopItemList(topItemList);
         return new ByteArrayInputStream(drawer.getBytes());
     }
@@ -147,12 +145,12 @@ public class MDCModelTransferable implements Transferable {
      * @throws IOException
      */
     private ByteArrayInputStream getPDFData() throws IOException {
-        PaintingSpecifications drawingSpecification = getJseshStyle()
-                .copy();
+       
         // Target Cadrat height, in points.
         float targetHeight = rtfPreferences.getCadratHeight();
-        float scale = targetHeight / drawingSpecification.getMaxCadratHeight();
-        PDFDataSaver pdfDataSaver = new PDFDataSaver(drawingSpecification);
+        float maxCadratHeight = jseshRenderContext.jseshStyle().geometry().maxCadratHeight();        
+        float scale = targetHeight / maxCadratHeight;
+        PDFDataSaver pdfDataSaver = new PDFDataSaver(jseshRenderContext);
         pdfDataSaver.setScale(scale);
         return pdfDataSaver.createPDFContent(topItemList);
     }
@@ -161,11 +159,11 @@ public class MDCModelTransferable implements Transferable {
      * @return
      */
     private ByteArrayInputStream getMacPictData() {
-        PaintingSpecifications currentSpecifications = createEmbeddedDrawingSpecifications();
         MacPictGraphics2D g = new MacPictGraphics2D();
-        MDCView view = new ViewBuilder().buildView(topItemList,
-                currentSpecifications);
-        new ViewDrawer().draw(g, currentSpecifications, view);
+        JSeshTechRenderContext tmp = JSeshTechRenderContext.buildSimpleContext(g);
+        JSeshRenderContext marginLessRenderContext = createEmbeddedRenderContext();
+        MDCView view = new ViewBuilder().buildView(topItemList, marginLessRenderContext, tmp);        
+        new ViewDrawer().draw(g, marginLessRenderContext, tmp, view);
         g.dispose();
         return new ByteArrayInputStream(g.getAsArray());
     }
@@ -175,8 +173,7 @@ public class MDCModelTransferable implements Transferable {
      */
     private BufferedImage getImageData() {
         BufferedImage result;
-        MDCDrawingFacade facade = new MDCDrawingFacade();
-        facade.setJseshStyle(createEmbeddedDrawingSpecifications());
+        MDCDrawingFacade facade = new MDCDrawingFacade(createEmbeddedRenderContext());
         facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
         facade.setCadratHeight(rtfPreferences.getCadratHeight());
         result = facade.createImage(topItemList);
@@ -211,8 +208,7 @@ public class MDCModelTransferable implements Transferable {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         if (topItemList.getNumberOfChildren() < 5000) {
-            RTFExporter rtfExporter = new RTFExporter();
-            rtfExporter.setJseshStyle(getJseshStyle());
+            RTFExporter rtfExporter = new RTFExporter(jseshRenderContext, rtfPreferences);            
             rtfExporter.setRtfPreferences(rtfPreferences);
             rtfExporter.ExportModelTo(topItemList, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());
@@ -226,22 +222,11 @@ public class MDCModelTransferable implements Transferable {
     }
 
     /**
-     * @return Returns the drawingSpecifications.
+     * Adapt the render context, mainly to remove margins.
+     * @return
      */
-    public PaintingSpecifications getJseshStyle() {
-        return jseshStyle;
-    }
-
-    private PaintingSpecifications createEmbeddedDrawingSpecifications() {
-       return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(this.jseshStyle);
-    }
-
-    /**
-     * @param drawingSpecifications The drawingSpecifications to set.
-     */
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        this.jseshStyle = drawingSpecifications.copy();
+    private JSeshRenderContext createEmbeddedRenderContext() {
+        return this.jseshRenderContext.marginLessContext();
     }
 
     /**

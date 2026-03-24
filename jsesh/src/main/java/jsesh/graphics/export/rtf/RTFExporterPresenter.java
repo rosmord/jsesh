@@ -87,7 +87,7 @@ public class RTFExporterPresenter {
             form.getCadratHeightField().setValue(rtfPreferences.getCadratHeight());
 
 
-            form.getExportModeCB().setModel(new DefaultComboBoxModel(RTFExportGranularity.GRANULARITIES));
+            form.getExportModeCB().setModel(new DefaultComboBoxModel<>(RTFExportGranularity.GRANULARITIES));
             form.getExportModeCB().setSelectedItem(RTFExportGranularity.GROUPED_CADRATS);
             add(form);
         }

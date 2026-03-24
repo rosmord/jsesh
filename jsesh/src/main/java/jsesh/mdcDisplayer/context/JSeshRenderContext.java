@@ -70,4 +70,17 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphsDrawer hierog
             return new JSeshRenderContext(jseshStyle, hieroglyphDrawer);
         }
     }
+
+    /**
+     * Create a margin-less copy of this context for use in embedded graphics.
+     * @return a copy of this context with margins set to 1 pixel.
+     */
+    public  JSeshRenderContext marginLessContext() {
+        return this.copy()
+                .jseshStyle(style -> style.geometry(g -> g
+                        .leftMargin(01)
+                        .topMargin(01)))
+                .build();
+
+    }
 }
