@@ -35,30 +35,39 @@ package jsesh.editor;
 
 import java.awt.datatransfer.DataFlavor;
 
-import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * Trivial implementation of a MDCModelTransferableBroker.
  */
 public class SimpleMDCModelTransferableBroker implements
         MDCModelTransferableBroker {
+   
+    private RTFExportPreferences rtfPrefs = new RTFExportPreferences();
 
-    /* (non-Javadoc)
-	 * @see jsesh.editor.MDCModelTransferableBroker#buildTransferable(jsesh.mdc.model.TopItemList)
+    /**
+     * Change the RTF export preferences to use for the transferables created by this broker.
+     * <p> Note that this will not change the preferences of already created transferables.
+     * @param rtfPrefs the rtfPrefs to set      
      */
-    @Override
-    public MDCModelTransferable buildTransferable(TopItemList top) {
-        return buildTransferable(top, JSeshPasteFlavors.getTransferDataFlavors(new MDCClipboardPreferences()));
+
+    public void setRTFExportPreferences(RTFExportPreferences rtfPrefs) {
+        this.rtfPrefs = rtfPrefs;
     }
 
     @Override
-    public MDCModelTransferable buildTransferable(TopItemList top,
-            DataFlavor[] dataFlavors) {
-        return new MDCModelTransferable(dataFlavors, top);
+    public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext) {
+        return buildTransferable(top, renderContext, new MDCClipboardPreferences().getTransferDataFlavors());
+    }
 
+    @Override
+    public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
+            DataFlavor[] dataFlavors) {
+        return new MDCModelTransferable(dataFlavors, top, rtfPrefs, renderContext);        
     }
 
 }

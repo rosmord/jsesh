@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.fonts;
 
 /**
  * HieroglyphicFontManager associates glyphs with codes. Test version
@@ -19,6 +19,7 @@ import java.util.Set;
 import jsesh.graphics.glyphs.bzr.BzrFontReader;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 
 /**
  * The old fonts used by JSesh and tksesh.

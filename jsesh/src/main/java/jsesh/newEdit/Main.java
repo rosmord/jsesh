@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 
 public class Main {
 	private final JFrame frame= new JFrame("display");

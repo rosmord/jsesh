@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.fonts;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 /**
@@ -52,7 +53,6 @@ public class DirectoryHieroglyphicFontManager implements
 		hasNewSigns = true;
 		lastRefreshed = System.currentTimeMillis();
 		refresh();
-
 	}
 
 	public void refresh() {

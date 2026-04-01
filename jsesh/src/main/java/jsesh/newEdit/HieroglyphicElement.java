@@ -3,9 +3,9 @@ package jsesh.newEdit;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.ShapeChar;
 
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.utils.DoubleDimensions;
 import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;

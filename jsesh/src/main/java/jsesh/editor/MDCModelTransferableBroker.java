@@ -37,6 +37,7 @@ import java.awt.datatransfer.DataFlavor;
 
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * Interface for objects which can provide transferable for use with the clipboard.
@@ -58,17 +59,19 @@ public interface MDCModelTransferableBroker {
          * external authority (e.g. application preferences).
          *
 	 * @param top the itemlist to use.
+         * @param renderContext the render context to use for rendering the text. Individual flavors may use modified versions of this context.
 	 * @return
 	 */
-	MDCModelTransferable buildTransferable(TopItemList top);
+	MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext);
 
         /**
          * Create a transferable object for the given text.
          * @param top the text (as a TopItemList)
+         * @param renderContext the render context to use for rendering the text. Individual flavors may use modified versions of this context.
          * @param dataFlavors the export formats we want.
          * @return a transferable.
          */
-	MDCModelTransferable buildTransferable(TopItemList top,
+	MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
 			DataFlavor[] dataFlavors);
 
 }

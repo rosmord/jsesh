@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.fonts;
 
 /**
  * HieroglyphicFontManager associates glyphs with codes. Test version
@@ -9,10 +9,17 @@ package jsesh.hieroglyphs.graphics;
  *
  * Created: Mon Jun 10 17:59:58 2002
  *
- * @author <a href="mailto:rosmord@djedefhor.iut.univ-paris8.fr">Serge ROSMORDUC</a>
+ * <ul>
+ * <li> !! this is probably one of the oldest java files in JSesh. 24 years old today !!
+ * <li> JSesh was not even called JSesh at that time, and was simply an experiment to see if Java 2.0 was fast enough to
+ * draw a hieroglyphic text.
+ * <li> there are probably some older codes, but they were translated from tksesh and HieroTeX.
+ * </ul>
+ * @author <a href="mailto:serge.rosmorduc@qenherkhopeshef.org">Serge ROSMORDUC</a>
  */
 
 import jsesh.hieroglyphs.data.HieroglyphCodesSource;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 
 
 public interface HieroglyphicFontManager extends HieroglyphCodesSource {
@@ -49,4 +56,4 @@ public interface HieroglyphicFontManager extends HieroglyphCodesSource {
 	 */
 	boolean hasNewSigns();
 	
-} // HieroglyphicFontManager
+}

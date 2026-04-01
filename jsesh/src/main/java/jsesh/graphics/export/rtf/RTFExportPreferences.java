@@ -9,7 +9,11 @@ package jsesh.graphics.export.rtf;
  * @author rosmord
  *
  */
-public class RTFExportPreferences {
+public record RTFExportPreferences(
+        int cadratHeight,
+        RTFExportGranularity exportGranularity,
+        boolean respectOriginalTextLayout,
+        RTFExportGraphicFormat exportGraphicFormat) {
 
 
     /**
@@ -21,68 +25,74 @@ public class RTFExportPreferences {
         RTFExportGranularity.ONE_PICTURE_PER_CADRAT
     };
 
-    private RTFExportGranularity exportGranularity;
-    private int cadratHeight;
-    private boolean respectOriginalTextLayout = true;
-    private RTFExportGraphicFormat exportGraphicFormat= RTFExportGraphicFormat.DEFAULT;
+    // Simpler constructors
     
     /**
      * @param height
      * @param granularity
      */
     public RTFExportPreferences(int height, RTFExportGranularity granularity) {
-        cadratHeight = height;
-        exportGranularity = granularity;
+        this(height, granularity, true, RTFExportGraphicFormat.DEFAULT);        
     }
 
+    /**
+     * Creates a default RTF export preferences object.
+     * 
+     * The default values are :
+     * <ul>
+     * <li>cadrat height : 20
+     * <li>granularity : one picture per cadrat
+     * <li>respect original text layout : true
+     * <li>export graphic format : default format for the current platform.
+     * </ul>
+     */
     public RTFExportPreferences() {
-        exportGranularity = RTFExportGranularity.ONE_PICTURE_PER_CADRAT;
-        cadratHeight = 20; // 20 points
+        this(20, RTFExportGranularity.ONE_PICTURE_PER_CADRAT);
+    }
+     
+    public Builder copy() {
+        return new Builder(this);
     }
 
-    /**
-     * @return Returns the cadratHeight (in points).
-     */
-    public int getCadratHeight() {
-        return cadratHeight;
-    }
+    // Builder
+    public static final class Builder {
+        private int cadratHeight = 20;
+        private RTFExportGranularity exportGranularity = RTFExportGranularity.ONE_PICTURE_PER_CADRAT;
+        private boolean respectOriginalTextLayout = true;
+        private RTFExportGraphicFormat exportGraphicFormat = RTFExportGraphicFormat.DEFAULT;
 
-    /**
-     * @param cadratHeight The cadratHeight to set (in points).
-     */
-    public void setCadratHeight(int cadratHeight) {
-        this.cadratHeight = cadratHeight;
-    }
+        private Builder(RTFExportPreferences original) {
+            this.cadratHeight = original.cadratHeight;
+            this.exportGranularity = original.exportGranularity;
+            this.respectOriginalTextLayout = original.respectOriginalTextLayout;
+            this.exportGraphicFormat = original.exportGraphicFormat;
+        }
 
-    /**
-     * @return Returns the exportGranularity.
-     */
-    public RTFExportGranularity getExportGranularity() {
-        return exportGranularity;
-    }
+        
+        public Builder cadratHeight(int height) {
+            this.cadratHeight = height;
+            return this;
+        }
 
-    /**
-     * @param exportGranularity The exportGranularity to set.
-     */
-    public void setExportGranularity(RTFExportGranularity exportGranularity) {
-        this.exportGranularity = exportGranularity;
-    }
+        public Builder exportGranularity(RTFExportGranularity granularity) {
+            this.exportGranularity = granularity;
+            return this;
+        }
 
-    public void setRespectOriginalTextLayout(boolean respectOriginalTextLayout) {
-        this.respectOriginalTextLayout = respectOriginalTextLayout;
-    }
+        public Builder respectOriginalTextLayout(boolean respectOriginalTextLayout) {
+            this.respectOriginalTextLayout = respectOriginalTextLayout;
+            return this;
+        }
 
-    public boolean respectOriginalTextLayout() {
-        return respectOriginalTextLayout;
-    }
+        public Builder exportGraphicFormat(RTFExportGraphicFormat exportGraphicFormat) {
+            this.exportGraphicFormat = exportGraphicFormat;
+            return this;
+        }
 
-    public RTFExportGraphicFormat getExportGraphicFormat() {
-        return exportGraphicFormat;
+        public RTFExportPreferences build() {
+            return new RTFExportPreferences(cadratHeight, exportGranularity, respectOriginalTextLayout, exportGraphicFormat);
+        }
     }
-
-    public void setExportGraphicFormat(RTFExportGraphicFormat exportGraphicFormat) {
-        this.exportGraphicFormat =  exportGraphicFormat;
-    }
-
+   
     
 }

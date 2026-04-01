@@ -19,9 +19,9 @@ import javax.swing.SwingUtilities;
 
 import jsesh.editor.JMDCField;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicFontManager;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 import jsesh.search.ui.specifications.JSearchFormModelIF;

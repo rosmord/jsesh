@@ -1,7 +1,7 @@
 package jsesh.newEdit;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.mdc.model.TopItemList;
 import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
 import org.qenherkhopeshef.viewToolKit.drawing.PlainDrawing;

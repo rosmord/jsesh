@@ -25,9 +25,9 @@ import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.ManuelDeCodage;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ImageIconFactory;
 

@@ -18,7 +18,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It

@@ -12,7 +12,7 @@ import java.util.Optional;
 import jsesh.drawingspecifications.CartoucheSizeHelper;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 
 /**

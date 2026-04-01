@@ -1,7 +1,8 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.fonts;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 import java.io.BufferedReader;

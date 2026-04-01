@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.signshape;
 
 import jsesh.utils.EnumBase;
 

@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;

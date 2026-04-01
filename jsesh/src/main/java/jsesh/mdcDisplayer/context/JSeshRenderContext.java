@@ -27,8 +27,6 @@ import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
  * rendering of glyphs would be small.
  * 
  * 
- * @param fontRenderContext  the FontRenderContext to use for font measurements.
- * @param graphicDeviceScale the scale factor of the graphic device.
  * @param jseshStyle         the style in use.
  * @param hieroglyphDrawer   the hieroglyph drawer in use.
  */

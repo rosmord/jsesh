@@ -1,6 +1,8 @@
 package jsesh.jhotdraw;
 
 import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
@@ -9,8 +11,6 @@ import java.util.prefs.Preferences;
 
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.constants.JSeshInfoConstants;

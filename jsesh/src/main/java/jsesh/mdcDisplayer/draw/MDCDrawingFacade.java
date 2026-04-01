@@ -16,7 +16,7 @@ import java.io.StringReader;
 import javax.imageio.ImageIO;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;

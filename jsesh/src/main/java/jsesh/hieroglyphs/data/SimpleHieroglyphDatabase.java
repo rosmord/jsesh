@@ -14,8 +14,8 @@ package jsesh.hieroglyphs.data;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 
 import java.util.ArrayList;
 import java.util.Collection;

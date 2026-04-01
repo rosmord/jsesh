@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 

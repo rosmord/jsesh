@@ -42,14 +42,14 @@ import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.Possibility;
-import jsesh.hieroglyphs.graphics.ShapeChar;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 
 /**
  * Control and data feed for the simple palette.

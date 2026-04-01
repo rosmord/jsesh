@@ -13,7 +13,7 @@ package jsesh.search.ui;
 import java.io.File;
 import javax.swing.*;
 
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 

@@ -46,12 +46,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import jsesh.hieroglyphs.data.GardinerCode;
-import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.SimpleStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;

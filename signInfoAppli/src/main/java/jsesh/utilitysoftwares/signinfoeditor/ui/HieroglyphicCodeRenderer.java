@@ -2,7 +2,7 @@ package jsesh.utilitysoftwares.signinfoeditor.ui;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.hieroglyphs.graphics.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 
 /**
  * Renders <em>one</em> sign

@@ -33,8 +33,11 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.clipboard;
 
+import java.awt.datatransfer.DataFlavor;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
+import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
@@ -71,7 +74,7 @@ public class MDCClipboardPreferences {
 	private boolean rtfWanted = true;
 	private boolean textWanted = true;
 	private boolean imageWanted = false;
-	private boolean emfWanted= false;
+	private boolean emfWanted = false;
 
 	public MDCClipboardPreferences() {
 	}
@@ -81,7 +84,7 @@ public class MDCClipboardPreferences {
 		this.rtfWanted = orig.rtfWanted;
 		this.textWanted = orig.textWanted;
 		this.imageWanted = orig.imageWanted;
-		this.emfWanted= orig.emfWanted;
+		this.emfWanted = orig.emfWanted;
 	}
 
 	public boolean isImageWanted() {
@@ -127,13 +130,13 @@ public class MDCClipboardPreferences {
 	public boolean isEmfWanted() {
 		return emfWanted;
 	}
-	
+
 	public MDCClipboardPreferences withEmfWanted(boolean emfWanted) {
 		MDCClipboardPreferences result = new MDCClipboardPreferences(this);
 		result.emfWanted = emfWanted;
 		return result;
 	}
-	
+
 	public void saveToPrefs(Preferences prefs) {
 		prefs.putBoolean("rtfWanted", rtfWanted);
 		prefs.putBoolean("pdfWanted", pdfWanted);
@@ -152,5 +155,51 @@ public class MDCClipboardPreferences {
 								PlatformDetection.getPlatform() == PlatformDetection.MACOSX))
 				.withImageWanted(prefs.getBoolean("imageWanted", false))
 				.withTextWanted(prefs.getBoolean("textWanted", false));
+	}
+
+	/**
+	 * Returns the possible data flavours, depending on preferences. 
+	 * 
+	 * <p>The set of
+	 * ALL possible data flavors is currently :  
+	 * <ul>
+	 * <li>{@link JSeshPasteFlavors#PDFFlavor};
+	 * <li>{@link JSeshPasteFlavors#RTFFlavor};
+	 * <li>{@link DataFlavor#imageFlavor};
+	 * <li>{@link JSeshPasteFlavors#ListOfTopItemsFlavor};
+	 * <li>{@link DataFlavor#stringFlavor}.
+	 * </ul>
+	 *
+	 * @param clipboardPreferences
+	 * @return
+	 */
+	public DataFlavor[] getTransferDataFlavors() {
+		ArrayList<DataFlavor> list = new ArrayList<>();
+
+		list.add(JSeshPasteFlavors.ListOfTopItemsFlavor);
+
+		if (isPdfWanted()) {
+			list.add(JSeshPasteFlavors.PDFFlavor);
+		}
+
+		if (isRtfWanted()) {
+			list.add(JSeshPasteFlavors.RTFFlavor);
+		}
+
+		if (isImageWanted()) {
+			list.add(DataFlavor.imageFlavor);
+		}
+
+		if (isTextWanted()) {
+			list.add(DataFlavor.stringFlavor);
+		}
+
+		if (isEmfWanted()) {
+			// Direct-to-clipboard Window Copy/paste.
+			// note that loading the class EMFTransferable will perform some
+			// static magic with SystemFlavorMap
+			list.add(EMFTransferable.EMF_FLAVOR);
+		}
+		return list.toArray(new DataFlavor[list.size()]);
 	}
 }

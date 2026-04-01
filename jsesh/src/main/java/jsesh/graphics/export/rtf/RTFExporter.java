@@ -84,13 +84,13 @@ public class RTFExporter {
 
     public void ExportModelTo(TopItemList model, OutputStream outputStream)
             throws IOException {
-        if (rtfPreferences.getExportGraphicFormat().equals(
+        if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.WMF)) {
             pictureType = WMF;
-        } else if (rtfPreferences.getExportGraphicFormat().equals(
+        } else if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.EMF)) {
             pictureType = EMF;
-        } else if (rtfPreferences.getExportGraphicFormat().equals(
+        } else if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.MACPICT)) {
             pictureType = MAC_PICT;
         }
@@ -127,7 +127,7 @@ public class RTFExporter {
      * @return
      */
     private boolean shouldExportAsOnePicture() {
-        if (rtfPreferences.getExportGranularity().equals(
+        if (rtfPreferences.exportGranularity().equals(
                 RTFExportGranularity.ONE_LARGE_PICTURE)) {
             return true;
         } else if (rtfPreferences.respectOriginalTextLayout()) {
@@ -171,15 +171,15 @@ public class RTFExporter {
         switch (pictureType) {
             case MAC_PICT:
                 result = new EmbeddableMacPictSimpleDrawer(renderContext,
-                        rtfPreferences.getCadratHeight());
+                        rtfPreferences.cadratHeight());
                 break;
             case EMF:
                 result = new EmbeddableEMFSimpleDrawer(renderContext,
-                        rtfPreferences.getCadratHeight(), comment);
+                        rtfPreferences.cadratHeight(), comment);
                 break;
             case WMF:
                 result = new EmbeddableWMFSimpleDrawer(renderContext,
-                        rtfPreferences.getCadratHeight());
+                        rtfPreferences.cadratHeight());
                 break;
         }
         return result;
@@ -288,7 +288,7 @@ public class RTFExporter {
         public void visitTopItem(TopItem t) {
             if (renderContext.jseshStyle().options().textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
-                    || rtfPreferences.getExportGranularity().equals(
+                    || rtfPreferences.exportGranularity().equals(
                             RTFExportGranularity.GROUPED_CADRATS)) {
                 if (toDraw == null) {
                     toDraw = new TopItemList();
@@ -309,7 +309,7 @@ public class RTFExporter {
             try {
                 if (renderContext.jseshStyle().options().textDirection().equals(
                         TextDirection.RIGHT_TO_LEFT)
-                        || rtfPreferences.getExportGranularity().equals(
+                        || rtfPreferences.exportGranularity().equals(
                                 RTFExportGranularity.GROUPED_CADRATS)) {
                     if (toDraw != null) {
                         AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(toDraw));

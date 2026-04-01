@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.LigatureZone;
-import jsesh.hieroglyphs.graphics.LigatureZoneBuilder;
-import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.LigatureZoneBuilder;
+import jsesh.hieroglyphs.signshape.LigatureZone;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ShapeHelper;

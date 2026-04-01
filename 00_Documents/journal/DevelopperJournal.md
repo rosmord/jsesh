@@ -13,7 +13,101 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## 2026/04/01
+
+- Renamed package `jsesh.hieroglyphs.graphics` into `jsesh.hieroglyphs.fonts`, which is much adequate. 
+
+
+The changes in the `jsesh` module are almost done. A few new problem appears. We had foreseen them at some point:
+
+~~~java
+    // FIXME : choose a reasonable method to share drawing specifications.    
+    // Remark : once the drawing specifications are set here, we copy them so only us change them.
+    // Think about that.
+~~~
+
+The `FIXME` remark was already there in 2012, when we moved the archive from sourceforge to git!
+
+What should we do?
+
+- Introduce a JSeshPreferenceHolder?
+- use the MDCEditorKit?
+
+A real problem is that we might want to **share** preferences in some cases, and not in others.
+
+After thinking about this:
+
+- sharing should probably be done mostly when the editors are **created**. Having a default set of preferences, which can be individualy modified afterwards;
+- for hieroglyphic fonts, it's a bit more complicated.
+
+We would like:
+
+- in some cases, to have a generic, all-encompassing change.
+- for instance, when a user-defined sign is **modified** or **added**, we would like to hear about it;
+- in other cases, we could be happy to have two different font sets.
+
+### How are font changes handled in the current system?
+
+Currently, when the preferences dialog is modified, the following code is executed:
+
+~~~java
+ /**
+     * Sets the application preferences.
+     * @param app
+     */
+    public void updatePreferences(JSeshApplicationModel app) {
+        clipboardFormatSelector.updatePreferences(app);
+        exportPreferences.updatePreferences(app);
+        app.setFontInfo(fontPreferences.getFontInfo());
+        otherPreferences.savePreferences();
+    }
+~~~
+
+Then, `app.setFontInfo` will do :
+
+~~~java
+/**
+ * Change the fonts used by JSesh.
+ *
+ * @param fontInfo
+ */
+public void setFontInfo(FontInfo fontInfo) {
+    jseshApplicationBase.setFontInfo(fontInfo);
+    for (View v : application.views()) {
+        JSeshView view = (JSeshView) v;
+        view.setFontInfo(fontInfo);
+    }
+}
+~~~
+
+It will tell each view that its font has been modified.
+
+Finally,  each `JSeshView` (a class in the `jseshAppli`) module, will call:
+
+~~~java
+public void setDrawingSpecifications(
+        PaintingSpecifications drawingSpecifications) {
+    getEditor().setJseshStyle(drawingSpecifications);
+    getMdcDocument().setDocumentPreferences(drawingSpecifications.extractDocumentPreferences());
+}
+~~~
+
+It could be done in an MVC way.
+
+### Current system for characters updates in `DirectoryHieroglyphicFontManager`
+
+Currently, nothing is really done. Modern Java/IO would allow us to watch for file changes.
+
+
+
+
+
+
+
+
 ## 2026/03/24
+
+Regarding the editor part: continue the great hunt for singletons, and pass the objects we need as parameters. 
 
 I consider doing some renaming **(probably after everything compiles), not now**
 

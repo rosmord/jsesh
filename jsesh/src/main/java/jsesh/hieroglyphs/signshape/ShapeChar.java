@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.signshape;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;

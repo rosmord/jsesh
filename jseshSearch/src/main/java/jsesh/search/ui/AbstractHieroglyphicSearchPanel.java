@@ -3,9 +3,9 @@ package jsesh.search.ui;
 import javax.swing.JPanel;
 
 import jsesh.editor.JMDCField;
-import jsesh.hieroglyphs.graphics.CompositeHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.CompositeHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicFontManager;
 import jsesh.search.wildcard.WildCardQuery;
 
 /**

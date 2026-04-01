@@ -16,7 +16,7 @@ import java.awt.CardLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.ui.specifications.JSelectableSearchIF;
 import jsesh.search.ui.specifications.SearchType;

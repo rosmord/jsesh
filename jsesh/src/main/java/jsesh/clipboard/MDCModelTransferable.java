@@ -39,14 +39,7 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
  *
  * Thus we have to restrict what is copied.
  *
- * @author rosmord
- * 
- * 
- *         TODO: RtfPreferences should be something like "export preferences".
- *         TODO: It should be responsible for building the export
- *         specifications.
- *         TODO: The graphical drawers in RTFExporter should be reused.
- *
+ * @author Serge Rosmorduc
  */
 public class MDCModelTransferable implements Transferable {
 
@@ -55,8 +48,6 @@ public class MDCModelTransferable implements Transferable {
     private RTFExportPreferences rtfPreferences;
 
     private JSeshRenderContext jseshRenderContext;
-
-    private MDCClipboardPreferences clipboardPreferences;
 
     private final int maxBitmapWidth;
     private final int maxBitmapHeight;
@@ -75,7 +66,6 @@ public class MDCModelTransferable implements Transferable {
      * @param renderContext
      */
     public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list,
-            MDCClipboardPreferences mdcClipboardPreferences,
             RTFExportPreferences rtfExportPreferences,
             JSeshRenderContext renderContext) {
         this.topItemList = list;
@@ -101,7 +91,6 @@ public class MDCModelTransferable implements Transferable {
     public Object getTransferData(DataFlavor flavor)
             throws UnsupportedFlavorException, IOException {
         Object result;
-        // Temporiser pour tester...
 
         if (JSeshPasteFlavors.RTFFlavor.equals(flavor)) {
             result = getRtfData();
@@ -132,7 +121,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getEMFData() throws IOException {
         JSeshRenderContext marginLessContext = createEmbeddedRenderContext();
         EmbeddableEMFSimpleDrawer drawer = new EmbeddableEMFSimpleDrawer(marginLessContext,
-                rtfPreferences.getCadratHeight(),
+                rtfPreferences.cadratHeight(),
                 topItemList.toMdC());
         drawer.drawTopItemList(topItemList);
         return new ByteArrayInputStream(drawer.getBytes());
@@ -147,7 +136,7 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getPDFData() throws IOException {
        
         // Target Cadrat height, in points.
-        float targetHeight = rtfPreferences.getCadratHeight();
+        float targetHeight = rtfPreferences.cadratHeight();
         float maxCadratHeight = jseshRenderContext.jseshStyle().geometry().maxCadratHeight();        
         float scale = targetHeight / maxCadratHeight;
         PDFDataSaver pdfDataSaver = new PDFDataSaver(jseshRenderContext);
@@ -175,7 +164,7 @@ public class MDCModelTransferable implements Transferable {
         BufferedImage result;
         MDCDrawingFacade facade = new MDCDrawingFacade(createEmbeddedRenderContext());
         facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
-        facade.setCadratHeight(rtfPreferences.getCadratHeight());
+        facade.setCadratHeight(rtfPreferences.cadratHeight());
         result = facade.createImage(topItemList);
         return result;
     }
@@ -241,15 +230,6 @@ public class MDCModelTransferable implements Transferable {
      */
     public void setRtfPreferences(RTFExportPreferences rtfPreferences) {
         this.rtfPreferences = rtfPreferences;
-    }
-
-    public void setClipboardPreferences(
-            MDCClipboardPreferences clipboardPreferences) {
-        this.clipboardPreferences = clipboardPreferences;
-    }
-
-    public MDCClipboardPreferences getClipboardPreferences() {
-        return clipboardPreferences;
     }
 
 }

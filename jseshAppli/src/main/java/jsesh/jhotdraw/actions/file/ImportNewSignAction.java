@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.resources.JSeshMessages;

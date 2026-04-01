@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.graphics.LigatureZone;
+import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.drawingElements.ViewBox;

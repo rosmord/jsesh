@@ -8,7 +8,7 @@ import jsesh.graphics.glyphs.bzr.BzrFontReader;
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
-import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 
 public class BZRSignSource implements SimpleSignSourceModel {
 

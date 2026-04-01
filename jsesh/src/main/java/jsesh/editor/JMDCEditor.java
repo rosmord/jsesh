@@ -63,7 +63,6 @@ import jsesh.mdcDisplayer.clipboard.*;
 import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
-import jsesh.mdcDisplayer.preferences.*;
 import jsesh.swing.shadingMenuBuilder.*;
 import jsesh.swing.utils.*;
 
@@ -78,10 +77,11 @@ import jsesh.swing.utils.*;
  */
 public class JMDCEditor extends JPanel {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5312716856062578743L;
+    
+    /**
+     * Bottom margin of the editor.
+     */
     private static final int BOTTOM_MARGIN = 5; 
     
     private JMDCModelEditionListener mdcModelEditionListener;
@@ -90,24 +90,26 @@ public class JMDCEditor extends JPanel {
      * Debugging of view placement.
      */
     private boolean debug = false;
+    
     /**
      * Strategy to draw a view. (we have just decided to build the view builder
      * on demand, and not to keep it. But the drawer contains some information,
      * and in particular a cache of views).
      */
     protected ViewDrawer drawer;
+    
     /**
      * The current view we maintain.
      */
     private MDCView documentView;
+    
     /**
      * Display scale for this window.
      */
     private double scale; // Should be a property !
     
     /**
-     * Updates the view.
-     *
+     * Updates the view - will receive events asking for view updates.
      */
     private MDCViewUpdater viewUpdater;
     
@@ -134,10 +136,12 @@ public class JMDCEditor extends JPanel {
      * position are only done <em>after</em> view updates.
      */
     private boolean caretChanged = true;
+
+    /**
+     * Is this editor editable or read-only ?
+     */
     private boolean editable = true;
-    // FIXME : choose a reasonable method to share drawing specifications.    
-    // Remark : once the drawing specifications are set here, we copy them so only us change them.
-    // Think about that.
+
     private PaintingSpecifications drawingSpecifications;
 
     private final boolean drawLimits = false;
@@ -150,8 +154,7 @@ public class JMDCEditor extends JPanel {
     public JMDCEditor(HieroglyphicTextModel data, PaintingSpecifications drawingSpecification) {
         setBackground(Color.WHITE);
         this.drawingSpecifications = drawingSpecification;
-        drawer = new ViewDrawer();
-        drawer.setCached(false);
+        drawer = new ViewDrawer();        
         setScale(2.0);
         workflow = new JMDCEditorWorkflow(data);
 
@@ -522,10 +525,7 @@ public class JMDCEditor extends JPanel {
         invalidateView();
     }
 
-    public void invalidateView() {
-        if (drawer.isCached()) {
-            drawer.flushCache();
-        }
+    public void invalidateView() {        
         documentView = recomputeDocumentView();        
         revalidate();
         repaint();
@@ -676,9 +676,14 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
-     * Sets a class which will be used to build model transferable for cut and
-     * paste.
+     * Sets a broker will be used to manage copy/paste operations.
      *
+     * <p> A default broker is provided. It uses default values, and is not suitable for customization.
+     * 
+     * <p> The JSesh application uses its own broker, which is initialized with the application preferences.
+     * 
+     * TODO : provide a factory method which will allow one to share preferences in a consistent way when one wants it.
+     * 
      * @param mdcModelTransferableBroker The mdcModelTransferableBroker to set.
      */
     public void setMdcModelTransferableBroker(
@@ -724,24 +729,6 @@ public class JMDCEditor extends JPanel {
         this.editable = editable;
     }
 
-    /**
-     * Does the component keep a cache of rendered groups, sacrifying memory for
-     * speed ?
-     *
-     * @return
-     */
-    public boolean isCached() {
-        return drawer.isCached();
-    }
-
-    /**
-     * Chose if the component will sacrifice memory for speed.
-     *
-     * @param c
-     */
-    public final void setCached(boolean c) {
-        drawer.setCached(c);
-    }
 
     public void showShadingPopup() {
         ShadingMenuBuilder menuBuilder = new ShadingMenuBuilder() {

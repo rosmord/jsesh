@@ -84,7 +84,7 @@ public class RTFExporterPresenter {
             unitMediator.attachToComboBox(form.getUnitCB());
             unitMediator.managedTextField(form.getCadratHeightField());
             
-            form.getCadratHeightField().setValue(rtfPreferences.getCadratHeight());
+            form.getCadratHeightField().setValue(rtfPreferences.cadratHeight());
 
 
             form.getExportModeCB().setModel(new DefaultComboBoxModel<>(RTFExportGranularity.GRANULARITIES));
@@ -92,15 +92,11 @@ public class RTFExporterPresenter {
             add(form);
         }
 
-        /* (non-Javadoc)
-		 * @see jsesh.graphics.export.ExportOptionPanel#setOptions()
-         */
         @Override
         public void setOptions() {
-            file = (File) form.getFileField().getValue();
-            rtfPreferences.setCadratHeight(getCadratHeight());
-            rtfPreferences.setExportGranularity((RTFExportGranularity) form.getExportModeCB().getSelectedItem());
-            rtfPreferences.setRespectOriginalTextLayout(false); // Normally false. If we want better handling, we will use something else than RTF.
+            file = (File) form.getFileField().getValue();            
+            RTFExportGranularity granularity = (RTFExportGranularity) form.getExportModeCB().getSelectedItem();
+            rtfPreferences = new RTFExportPreferences(getCadratHeight(), granularity, false, RTFExportGraphicFormat.DEFAULT);
         }
 
         /**

@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.graphics;
+package jsesh.hieroglyphs.utils;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -7,9 +7,11 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.utils.GraphicsUtils;
 
-import jsesh.swing.utils.ImageIconFactory;
 
 /**
  * An helper class to create bitmap versions of single signs.
