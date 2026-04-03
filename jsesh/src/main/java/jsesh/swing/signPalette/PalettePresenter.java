@@ -184,8 +184,8 @@ public class PalettePresenter {
             selectVariants();
         });
 
-        simplePalette.getTranslitterationFilterField().addActionListener(e -> {
-            selectFromTranslitterationOrCode();
+        simplePalette.getTransliterationFilterField().addActionListener(e -> {
+            selectFromTransliterationOrCode();
         });
 
         simplePalette.getContainsCB().addActionListener(e -> {
@@ -428,8 +428,8 @@ public class PalettePresenter {
      * get all signs whose transliteration or code contain the text in the text
      * field.
      */
-    protected void selectFromTranslitterationOrCode() {
-        String trl = simplePalette.getTranslitterationFilterField().getText();
+    protected void selectFromTransliterationOrCode() {
+        String trl = simplePalette.getTransliterationFilterField().getText();
         PossibilitiesList l;
         // If it looks like a code...
         if (trl.matches(".*[0-9].*")) {
@@ -764,32 +764,6 @@ public class PalettePresenter {
             hieroglyphPaletteListener.signSelected(code);
         }
 
-        // We should change the listener pattern, to include information about the way the sign was found.
-        // Using this information, the main JSesh widget may use the possibility *repository*,
-        // in particular add the sign in the corresponding list if a) a transliteration was used
-        // and b) this transliteration's scope was PALETTE and not KEYBOARD.
-        //String trl = simplePalette.getTranslitterationFilterField().getText();
-        // If we got the sign from a transliteration, add it...
-        // In a way, I am really not sure that this code should be there...
-        // Maybe the event about selected signs could contain info about HOW the sign was selected.
-        // Allowing us to deal with it in the right place.
-        //
-        // I'm not even sure the code does something useful.
-//		
-//		if (!"".equals(trl)
-//				&& hieroglyphsManager.getValuesFor(code).contains(trl)) {
-//			{
-//				PossibilitiesList possibilities = hieroglyphsManager
-//						.getPossibilityFor(trl,
-//								SignDescriptionConstants.KEYBOARD);
-//				possibilities.addSign(code);
-//				// Loop until we find the new code...
-//				// Loop alsways ends because of the previous line (addSign).
-//				while (!possibilities.getCurrentSign().hasCode(code)) {
-//					possibilities.next();
-//				}
-//			}
-//		}
         lastUsed.add(code);
     }
 
@@ -909,8 +883,8 @@ public class PalettePresenter {
         for (String code : displayedSigns) {
             tags.addAll(hieroglyphsManager.getTagsForSign(code));
         }
-        DefaultComboBoxModel secondaryCBModel = new DefaultComboBoxModel(
-                tags.toArray());
+        DefaultComboBoxModel<String> secondaryCBModel = new DefaultComboBoxModel<>(
+                tags.toArray(new String[tags.size()]));
         simplePalette.getSecondaryTagCB().setModel(secondaryCBModel);
     }
 

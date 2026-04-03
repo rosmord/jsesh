@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import jsesh.mdc.translitteration.MDCTranslitterationComparator;
-import static jsesh.mdc.translitteration.TranslitterationUtilities.removeHyphens;
+import static jsesh.mdc.translitteration.TransliterationUtilities.removeHyphens;
 
 public class JSeshGlossary implements Iterable<GlossaryEntry> {
 

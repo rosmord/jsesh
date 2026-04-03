@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 
+import jsesh.hieroglyphs.data.HieroglyphFamily;
+
 /**
  * Simple palette window.
  * @author  rosmord
@@ -29,12 +31,10 @@ public class JSimplePalette extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        buttonGroup1 = new javax.swing.ButtonGroup();
         showContainingButtons = new javax.swing.JButton();
         inUserPaletteCheckBox = new javax.swing.JCheckBox();
         showVariantsButton = new javax.swing.JButton();
-        categoryChooserCB = new javax.swing.JComboBox();
+        categoryChooserCB = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         glyphInfoText = new javax.swing.JEditorPane();
         showAllCheckBox = new javax.swing.JCheckBox();
@@ -43,16 +43,16 @@ public class JSimplePalette extends javax.swing.JPanel {
         glyphCodeLabel = new javax.swing.JLabel();
         glyphPictureLabel = new javax.swing.JLabel();
         translitterationFilterField = new javax.swing.JTextField();
-        tagChooserCB = new javax.swing.JComboBox();
+        tagChooserCB = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        signTable = new javax.swing.JList();
+        signTable = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
-        secondaryTagCB = new javax.swing.JComboBox();
+        secondaryTagCB = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
         backButton = new javax.swing.JButton();
-        containsCB = new javax.swing.JComboBox();
+        containsCB = new javax.swing.JComboBox<>();
 
         showContainingButtons.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/partof.png"))); // NOI18N
         showContainingButtons.setToolTipText("Display signs which contain the selected sign");
@@ -63,7 +63,6 @@ public class JSimplePalette extends javax.swing.JPanel {
         showVariantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/var.png"))); // NOI18N
         showVariantsButton.setToolTipText("Display variants of sign");
 
-        categoryChooserCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         glyphInfoText.setEditable(false);
         jScrollPane1.setViewportView(glyphInfoText);
@@ -99,30 +98,22 @@ public class JSimplePalette extends javax.swing.JPanel {
         translitterationFilterField.setColumns(5);
         translitterationFilterField.setToolTipText("Filter for translitteration\n");
 
-        tagChooserCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         tagChooserCB.setToolTipText("Allows to select a sub-category of a hieroglyph family.");
 
         jLabel2.setText("Family");
 
         jLabel3.setText("Sub-Family");
 
-        signTable.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         signTable.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
         signTable.setVisibleRowCount(-1);
         jScrollPane2.setViewportView(signTable);
 
         jLabel4.setText("Sub-Sub-Family");
 
-        secondaryTagCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
         backButton.setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
 
-        containsCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -211,9 +202,8 @@ public class JSimplePalette extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox categoryChooserCB;
-    private javax.swing.JComboBox containsCB;
+    private javax.swing.JComboBox<HieroglyphFamily> categoryChooserCB;
+    private javax.swing.JComboBox<CharSequence> containsCB;
     private javax.swing.JLabel glyphCodeLabel;
     private javax.swing.JEditorPane glyphInfoText;
     private javax.swing.JLabel glyphPictureLabel;
@@ -226,16 +216,16 @@ public class JSimplePalette extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JComboBox secondaryTagCB;
+    private javax.swing.JComboBox<String> secondaryTagCB;
     private javax.swing.JCheckBox showAllCheckBox;
     private javax.swing.JButton showContainingButtons;
     private javax.swing.JButton showVariantsButton;
-    private javax.swing.JList signTable;
-    private javax.swing.JComboBox tagChooserCB;
+    private javax.swing.JList<String> signTable;
+    private javax.swing.JComboBox<String> tagChooserCB;
     private javax.swing.JTextField translitterationFilterField;
     // End of variables declaration//GEN-END:variables
     
-	public javax.swing.JComboBox getCategoryChooserCB() {
+	public javax.swing.JComboBox<HieroglyphFamily> getCategoryChooserCB() {
 		return categoryChooserCB;
 	}
 
@@ -251,7 +241,7 @@ public class JSimplePalette extends javax.swing.JPanel {
 		return glyphPictureLabel;
 	}
 
-    public JList getSignTable() {
+    public JList<String> getSignTable() {
         return signTable;
     }
     
@@ -267,7 +257,7 @@ public class JSimplePalette extends javax.swing.JPanel {
 		return showVariantsButton;
 	}
 
-	public javax.swing.JTextField getTranslitterationFilterField() {
+	public javax.swing.JTextField getTransliterationFilterField() {
 		return translitterationFilterField;
 	}
     
@@ -275,11 +265,11 @@ public class JSimplePalette extends javax.swing.JPanel {
 		return inUserPaletteCheckBox;
 	}
 	
-	public javax.swing.JComboBox getTagChooserCB() {
+	public javax.swing.JComboBox<String> getTagChooserCB() {
 		return tagChooserCB;
 	}
 
-    public JComboBox getSecondaryTagCB() {
+    public JComboBox<String> getSecondaryTagCB() {
         return secondaryTagCB;
     }
 
@@ -287,14 +277,7 @@ public class JSimplePalette extends javax.swing.JPanel {
         return backButton;
     }
 
-    public JComboBox getContainsCB() {
+    public JComboBox<CharSequence> getContainsCB() {
         return containsCB;
     }
-
-    
-  
-
-    
-
-    
 }

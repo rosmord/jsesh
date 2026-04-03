@@ -30,7 +30,7 @@ import jsesh.mdc.model.ShadingCode;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
-import jsesh.mdc.translitteration.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TransliterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
@@ -69,7 +69,7 @@ public class SimpleElementDrawer extends ElementDrawer {
             String text = t.getText();
             // TODO : support uppercase signs.
             if (t.getScriptCode() == 't') {
-                text = TranslitterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
+                text = TransliterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
             }
 
             if ("".equals(text)) {

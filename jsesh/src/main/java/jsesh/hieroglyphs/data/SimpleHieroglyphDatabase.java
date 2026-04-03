@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import jsesh.mdc.translitteration.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TransliterationUtilities;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -178,7 +178,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     private PossibilitiesList getOrCreatePossibilityList(final String translitteration) {
         // PossibilityLists can't work for values with hyphens.
         // Normalize the value.
-        String normalizedValue = TranslitterationUtilities.removeHyphens(translitteration);
+        String normalizedValue = TransliterationUtilities.removeHyphens(translitteration);
         // If there is no sign list for this value, create one
         if (!possibilitiesLists.containsKey(normalizedValue)) {
             PossibilitiesList l = new PossibilitiesList(normalizedValue);
@@ -205,13 +205,14 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      * @see HieroglyphDatabaseInterface#getPossibilityFor(String, String)
      */
     @Override
-    public PossibilitiesList getPossibilityFor(String phoneticValue,
+    public PossibilitiesList getPossibilityFor(String transliteration,
             String level) {
         PossibilitiesList result;
+        String filteredValue = TransliterationUtilities.removeHyphens(transliteration);
         // Keyboard access...
 
         result = new PossibilitiesList(
-                getOrCreatePossibilityList(phoneticValue));
+                getOrCreatePossibilityList(filteredValue));
 
         // Palette or informative access is not currently indexed ,
         // so we look at each registered sign. It's still reasonable.
@@ -222,9 +223,9 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
                 // Look at all the known values for the sign...
                 for (SignTransliteration trl : info.getTranslitterationList()) {
                     // Normalize translitteration
-                    String normalizedTrl = TranslitterationUtilities.removeHyphens(trl.getTranslitteration());
+                    String normalizedTrl = TransliterationUtilities.removeHyphens(trl.getTranslitteration());
                     // If the value is the correct one...
-                    if (normalizedTrl.equals(phoneticValue)) {
+                    if (normalizedTrl.equals(filteredValue)) {
                         // Depending on its level, add it to the result.
                         if (SignDescriptionConstants.PALETTE.equals(level)) {
                             if (SignDescriptionConstants.PALETTE.equals(trl

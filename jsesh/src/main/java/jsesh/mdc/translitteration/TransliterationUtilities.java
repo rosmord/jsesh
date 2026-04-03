@@ -11,7 +11,7 @@ import jsesh.utils.StringUtils;
  * @author rosmord
  *
  */
-public class TranslitterationUtilities {
+public class TransliterationUtilities {
 
     /**
      * Converts a translitteration written using the mapping used in the Utrecht

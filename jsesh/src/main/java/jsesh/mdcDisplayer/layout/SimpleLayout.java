@@ -16,7 +16,7 @@ import java.util.Optional;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
-import jsesh.mdc.translitteration.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TransliterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
@@ -163,7 +163,7 @@ public class SimpleLayout extends AbstractLayout {
 
         String text = t.getText();
         if (t.getScriptCode() == 't') {
-            text = TranslitterationUtilities.getActualTransliterationString(text,
+            text = TransliterationUtilities.getActualTransliterationString(text,
                     drawingSpecifications.getTransliterationEncoding());
         }
         // Compute the text dimensions :

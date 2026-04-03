@@ -23,7 +23,7 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.translitteration.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TransliterationUtilities;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
@@ -240,7 +240,7 @@ public class RTFExporter {
                     case 't':
                         rtfWriter.setBold(false);
                         rtfWriter.setItalic(false); // italic choosen in the font itself.
-                        text = TranslitterationUtilities
+                        text = TransliterationUtilities
                                 .getActualTransliterationString(text,
                                         drawingSpecifications
                                         .getTransliterationEncoding());

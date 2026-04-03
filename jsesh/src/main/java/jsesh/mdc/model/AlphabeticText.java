@@ -1,6 +1,6 @@
 package jsesh.mdc.model;
 
-import jsesh.mdc.translitteration.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TransliterationUtilities;
 
 /**
  * AlphabeticText represents text written in an alphabetic system, as Coptic,
@@ -33,7 +33,7 @@ public class AlphabeticText extends BasicItem implements TextContainer {
 
     private void setTextAux(String text) {
         if (scriptCode == 't') {
-            this.text = TranslitterationUtilities
+            this.text = TransliterationUtilities
                     .convertWindowsTranslitteration(text);
         } else {
             this.text = text;

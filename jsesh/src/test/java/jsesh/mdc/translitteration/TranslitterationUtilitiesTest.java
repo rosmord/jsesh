@@ -24,7 +24,7 @@ public class TranslitterationUtilitiesTest {
         String entry = "";
         String expected = "";
         
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -32,7 +32,7 @@ public class TranslitterationUtilitiesTest {
     public void testSimplifyKeyAllOk() {
         String entry = "sxmnṯrꜥꜣ𓐍";
         String expected = "sxmnṯrꜥꜣ𓐍";
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -40,7 +40,7 @@ public class TranslitterationUtilitiesTest {
     public void testSimplifyKeyWithHyphen() {
         String entry = "Hwt-Hr";
         String expected = "HwtHr";
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -48,7 +48,7 @@ public class TranslitterationUtilitiesTest {
     public void testSimplifyKeyWithHyphens() {
         String entry = "Hr-m-Ax-bit";
         String expected = "HrmAxbit";
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -56,7 +56,7 @@ public class TranslitterationUtilitiesTest {
     public void testSimplifyKeyWithSpaces() {
         String entry = "Hwt Hr";
         String expected = "HwtHr";
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -64,7 +64,7 @@ public class TranslitterationUtilitiesTest {
     public void testSimplifyKeyWithSUnderscores() {
         String entry = "Hwt_Hr";
         String expected = "HwtHr";
-        String actual = TranslitterationUtilities.removeHyphens(entry);
+        String actual = TransliterationUtilities.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 }
