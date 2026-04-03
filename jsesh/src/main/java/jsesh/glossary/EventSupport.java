@@ -39,12 +39,19 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
 
 /**
  * Support class for event handling, Buoy-style. When an event listener
  * disappear, it will be removed from the support (weak references are used).
+ * 
+ * 
+ * The Buoy logic uses an uniform interface for events, and is normally able to use events inheritance too.
+ * In the present implementation, inheritance is not supported.
+ * 
+ * <p> This being said, It would be possible to use introspection to support it, perhaps with a preliminary declaration of relevant events.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
@@ -93,27 +100,14 @@ public class EventSupport {
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Object#hashCode()
-		 */
+		
 		@Override
 		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result
-					+ ((method == null) ? 0 : method.hashCode());
-			result = prime * result
-					+ ((object == null) ? 0 : object.hashCode());
-			return result;
+			return Objects.hash(
+				method, object
+			);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)

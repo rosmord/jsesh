@@ -58,7 +58,7 @@ public class PossibilityRepository {
 
 	private static PossibilityRepository instance= new PossibilityRepository();
 	
-	private HashMap<String, PossibilitiesList> map = new HashMap<String, PossibilitiesList>();
+	private HashMap<String, PossibilitiesList> map = new HashMap<>();
 
 	private PossibilityRepository() {
 		getGlossary().addEventLink(GlossaryEntryAdded.class, this, "update");
@@ -75,10 +75,12 @@ public class PossibilityRepository {
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
+			// Gardiner code or translitteration?
 			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
 				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 						.getSuitableSignsForCode(code);
 			} else {
+                            // translitteration
 				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
 						.getPossibilityFor(code,
 								SignDescriptionConstants.KEYBOARD);

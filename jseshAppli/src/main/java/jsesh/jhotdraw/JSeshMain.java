@@ -11,7 +11,7 @@
  * accordance with the license agreement you entered into with  
  * the copyright holders. For details see accompanying license terms. 
  */
-package jsesh.jhotdraw;
+package jsesh.jhotdraw; 
 
 import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Color;

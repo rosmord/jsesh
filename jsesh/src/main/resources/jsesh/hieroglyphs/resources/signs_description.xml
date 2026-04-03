@@ -17,10 +17,18 @@
     <hasTransliteration sign="A1" transliteration="z" type="ideogram" use="palette"/>
   </sign>
   <sign sign="A1A">
-    <variantOf baseSign="A1" isSimilar="y" linguistic="full" sign="A1A"/>
+    <variantOf baseSign="A1" isSimilar="y" linguistic="partial" sign="A1A"/>
     <hasTag sign="A1A" tag="seated"/>
     <hasTag sign="A1A" tag="holding nothing"/>
-    <signDescription lang="en" sign="A1A">+l= IFAO 1,9+s</signDescription>
+    <signDescription lang="en" sign="A1A">+lAccording to D. Meeks (o.c., p. 17-18), a man with a sherden warrior helmet.+s-!
++lOriginal from (Kuentz, 1928, pl. VI 3).+s-!
++lNot a direct variant of A1.+s-!
++l= IFAO 1,9+s-!
++bBibliography+s-!
++lKuentz, Charles. 1928. +s-+iLa Bataille de Qadech+s-+l MIFAO 55 +s-!
++lMeeks, Dimitri. 2023. ‘An Egypto-Grammatology: Why and How’. +s-+iHieroglyphs,+s-+l no. 1: 7–30. +s-!
+</signDescription>
+    <hasTag sign="A1A" tag="foreigner"/>
   </sign>
   <sign sign="A1B">
     <variantOf baseSign="A1" isSimilar="y" linguistic="unspecified" sign="A1B"/>
@@ -2430,7 +2438,15 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90" tag="drops"/>
     <hasTag sign="A90" tag="wounded, killed"/>
     <variantOf baseSign="A88" isSimilar="y" linguistic="unspecified" sign="A90"/>
-    <signDescription lang="en" sign="A90">+lsee doc. for A88.+s</signDescription>
+    <signDescription lang="en" sign="A90">A88-+l,+s-A90-!
++lMan swinging his hairs, as dance or mourning ritual ?+s-!
++ldet. in +s-+tiAkby, +s-+imourner+s-!
++ldet. in +s-+iwnw, to sway to and fro+s-!
++ldet in +s-+ttwtj, +s-+lP.T. 591, Rekhmire, II, pl. CII.+s-!
+S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
++l(to be continued)+s-!
+!
+</signDescription>
     <hasTag sign="A90" tag="mourner"/>
   </sign>
   <sign sign="A90A">
@@ -2442,6 +2458,8 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <contains partCode="H6" sign="A90A"/>
     <hasTag sign="A90A" tag="foreigner"/>
     <hasTag sign="A90A" tag="mourner"/>
+    <signDescription lang="en" sign="A90A">+lsee A90 for documentation.+s-!
+</signDescription>
   </sign>
   <sign sign="A90B">
     <variantOf baseSign="A24" isSimilar="y" linguistic="unspecified" sign="A90B"/>
@@ -2451,6 +2469,8 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90B" tag="armed character"/>
     <contains partCode="V28" sign="A90B"/>
     <hasTag sign="A90B" tag="mourner"/>
+    <signDescription lang="en" sign="A90B">+lsee A90 for documentation.+s-!
+</signDescription>
   </sign>
   <sign sign="A90C">
     <variantOf baseSign="A90" isSimilar="y" linguistic="unspecified" sign="A90C"/>
@@ -2459,6 +2479,8 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90C" tag="holding nothing"/>
     <hasTag sign="A90C" tag="wounded, killed"/>
     <hasTag sign="A90C" tag="mourner"/>
+    <signDescription lang="en" sign="A90C">+lsee A90 for documentation.+s-!
+</signDescription>
   </sign>
   <sign sign="A90D">
     <variantOf baseSign="A90" isSimilar="y" linguistic="unspecified" sign="A90D"/>
@@ -2468,6 +2490,8 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A90D" tag="holding something"/>
     <contains partCode="V28" sign="A90D"/>
     <hasTag sign="A90D" tag="mourner"/>
+    <signDescription lang="en" sign="A90D">+lsee A90 for documentation.+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="A91">
     <variantOf baseSign="A35" isSimilar="y" linguistic="unspecified" sign="A91"/>
@@ -2848,7 +2872,7 @@ S43-D-DbA:n-sw-w-G5-m-S197-t:f-n:nm*m*(t:t)-f-Hr-1-tA:1*N21-f-m-t-w-ti-A90-!
     <hasTag sign="A119A" tag="carrying something"/>
     <hasTag sign="A119A" tag="standing"/>
     <hasTag sign="A119A" tag="with raised arms"/>
-    <variantOf baseSign="A119" isSimilar="y" linguistic="unspecified" sign="A119A"/>
+    <variantOf baseSign="A119" isSimilar="y" linguistic="full" sign="A119A"/>
     <contains partCode="I9" sign="A119A"/>
     <hasTransliteration sign="A119A" transliteration="fAi" type="phonogram" use="palette"/>
     <hasTransliteration sign="A119A" transliteration="fA" type="phonogram" use="palette"/>
@@ -6252,6 +6276,9 @@ sxm-U20:W24-w-A248B-!
     <hasTag sign="A476" tag="seated on nothing"/>
     <hasTag sign="A476" tag="in boat"/>
     <hasTransliteration sign="A476" transliteration="ws" type="phonogram" use="palette"/>
+    <hasTag sign="A476" tag="sacred bark"/>
+    <hasTag sign="A476" tag="group"/>
+    <hasTag sign="A476" tag="ship"/>
   </sign>
   <sign sign="A477">
     <hasTag sign="A477" tag="king or god"/>
@@ -7219,6 +7246,21 @@ See also MMJ 6, 1972, p. 151-156 for representations.
   </sign>
   <sign sign="B37">
     <hasTag sign="B37" tag="chanting, dancing, playing instrument"/>
+    <signDescription lang="en" sign="B37">+lAcrobatic dancer.+s-!
++bValue: +s-+ldet. of +s-+txb.t +s-x:t-b-B37-!
++lThe example in JSesh font is not a hieroglyph, it imitates the ostracon Torino +s-+l7052,+s-!
++lbut the original hieroglyph, copied by Nina M. Davies, is quite close to this shape.+s-!
++lIt can be found in the tomb of Kenanum (vol. I, pl. IX).+s-!
+!
++lNote that the same text has an interesting determinative for singer, a seated woman with outstretched arm,+s-!
++lwhich doesn't seem to have a MdC code yet.+s-!
+!
++bBibliography+s-!
++lDavies, Nina M. 1958. +s-+iPicture Writing in Ancient Egypt.+s-+lp. 22+s-!
++lDavies, Norman de Garis. 1930. +s-+iThe Tomb of Ḳen-Amūn at Thebes.+s-+l pl. IX+s-!
+!
+</signDescription>
+    <hasTransliteration sign="B37" transliteration="xbt" type="typical" use="palette"/>
   </sign>
   <sign sign="B38">
     <hasTag sign="B38" tag="seated"/>
@@ -13942,6 +13984,8 @@ See also MMJ 6, 1972, p. 151-156 for representations.
 +bBibliography+s-!
 +lMunro, I. Untersuchungen zu den Totenbuch-Papyris der 18. Dynastie, 1987, p. 183+s-!
 </signDescription>
+    <hasTag sign="D26VARA" tag="mouth, lips..."/>
+    <variantOf baseSign="D26" isSimilar="y" linguistic="unspecified" sign="D26VARA"/>
   </sign>
   <sign alwaysDisplay="y" sign="D27">
     <hasTransliteration sign="D27" transliteration="mnai" type="phonogram" use="keyboard"/>
@@ -16824,6 +16868,13 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
     <hasTransliteration sign="E1" transliteration="iH" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="E1" transliteration="kA" type="phonogram" use="keyboard"/>
     <hasTag sign="E1" tag="bovid"/>
+    <signDescription lang="en" sign="E1">+lIdeog in +s-+tkA, +s-+ibull+s-+l, and Det. for various cattle.+s-!
++lThe shape of the horn in Gardiner font is slightly lyra shaped, hence the present choice in JSesh.+s-!
++lGardiner states:+s-!
++iThis sign is apt to vary in form according to the sex and species demanded in the particular case.+s-!
++bBibliography+s-!
++lG+s-+iEG+s-+l p. 458+s-!
+</signDescription>
   </sign>
   <sign sign="E1A">
     <hasTag sign="E1A" tag="bovid"/>
@@ -17183,6 +17234,10 @@ s-W-H-t:F51\R150-xpr-r:Y1-m-H-Hn:n-mw-N36:N23-+t ^+s-+i"the egg has come in exis
 E31-+l and +s-E31B-!
 !
 </signDescription>
+    <hasTag sign="E31B" tag="goat"/>
+    <contains partCode="E186" sign="E31B"/>
+    <variantOf baseSign="E31" isSimilar="y" linguistic="unspecified" sign="E31B"/>
+    <contains partCode="S34" sign="E31B"/>
   </sign>
   <sign sign="US1E31VARA">
     <variantOf baseSign="E31" isSimilar="y" linguistic="no" sign="US1E31VARA"/>
@@ -17858,45 +17913,71 @@ E31-+l and +s-E31B-!
   </sign>
   <sign sign="E147A">
     <hasTag sign="E147A" tag="sethian animal"/>
+    <hasTag sign="E147A" tag="wounded, killed"/>
   </sign>
   <sign sign="E148">
     <hasTag sign="E148" tag="sethian animal"/>
+    <hasTag sign="E148" tag="wounded, killed"/>
   </sign>
   <sign sign="E148A">
     <hasTag sign="E148A" tag="sethian animal"/>
+    <hasTag sign="E148A" tag="wounded, killed"/>
   </sign>
   <sign sign="E148B">
     <hasTag sign="E148B" tag="sethian animal"/>
+    <hasTag sign="E148B" tag="wounded, killed"/>
   </sign>
   <sign sign="E148C">
     <hasTag sign="E148C" tag="sethian animal"/>
+    <hasTag sign="E148C" tag="wounded, killed"/>
   </sign>
   <sign sign="E148D">
     <hasTag sign="E148D" tag="sethian animal"/>
+    <hasTag sign="E148D" tag="wounded, killed"/>
   </sign>
   <sign sign="E148E">
     <hasTag sign="E148E" tag="sethian animal"/>
+    <hasTag sign="E148E" tag="wounded, killed"/>
   </sign>
   <sign sign="E148F">
     <hasTag sign="E148F" tag="sethian animal"/>
+    <hasTag sign="E148F" tag="wounded, killed"/>
   </sign>
   <sign sign="E148G">
     <hasTag sign="E148G" tag="sethian animal"/>
+    <hasTag sign="E148G" tag="wounded, killed"/>
   </sign>
   <sign sign="E148h">
     <hasTag sign="E148h" tag="sethian animal"/>
+    <hasTag sign="E148h" tag="wounded, killed"/>
   </sign>
   <sign sign="E148I">
     <hasTag sign="E148I" tag="sethian animal"/>
+    <hasTag sign="E148I" tag="wounded, killed"/>
   </sign>
   <sign sign="E148J">
     <hasTag sign="E148J" tag="sethian animal"/>
+    <hasTag sign="E148J" tag="wounded, killed"/>
   </sign>
   <sign sign="E148K">
     <hasTag sign="E148K" tag="sethian animal"/>
+    <hasTag sign="E148K" tag="wounded, killed"/>
   </sign>
   <sign sign="E148L">
     <hasTag sign="E148L" tag="sethian animal"/>
+    <hasTag sign="E148L" tag="wounded, killed"/>
+  </sign>
+  <sign sign="E148M">
+    <hasTag sign="E148M" tag="sethian animal"/>
+    <hasTag sign="E148M" tag="wounded, killed"/>
+    <variantOf baseSign="E148" isSimilar="y" linguistic="unspecified" sign="E148M"/>
+    <contains partCode="E21A" sign="E148M"/>
+  </sign>
+  <sign sign="E148N">
+    <hasTag sign="E148N" tag="sethian animal"/>
+    <hasTag sign="E148N" tag="wounded, killed"/>
+    <hasTag sign="E148N" tag="with standard"/>
+    <variantOf baseSign="E148" isSimilar="y" linguistic="unspecified" sign="E148N"/>
   </sign>
   <sign sign="E149">
     <hasTag sign="E149" tag="sethian animal"/>
@@ -18215,6 +18296,13 @@ E31-+l and +s-E31B-!
     <hasTag sign="E207" tag="bovid"/>
     <hasTransliteration sign="E207" transliteration="xAsww" type="phonogram" use="palette"/>
   </sign>
+  <sign sign="E207A">
+    <variantOf baseSign="E207" isSimilar="y" linguistic="unspecified" sign="E207A"/>
+    <hasTag sign="E207A" tag="bovid"/>
+    <contains partCode="N25" sign="E207A"/>
+    <contains partCode="E1" sign="E207A"/>
+    <contains partCode="R12A" sign="E207A"/>
+  </sign>
   <sign sign="E208">
     <hasTag sign="E208" tag="bovid"/>
   </sign>
@@ -18415,6 +18503,9 @@ E31-+l and +s-E31B-!
 +lThe two titles are attested in the same panel (Cairo, CG. 1426) and are different.+s-!
 !
 +lFound in titles +s-T7:E240-+l, +s-m-xt:t-T7:T7:T7-E240-+l, +s-Hm:t-H:t-E240-+l.+s-!
+!
++lto the best of our knowledge, the "pole" is not identified. It looks like P11A +s-P11A-+l, though.+s-!
+!
 +bBibliography+s-!
 +b- +s-+lJones, Dilwyn. +s-+iAn Index of Ancient Egyptian Titles, Epithets and Phrases of the Old Kingdom.+s-+l BAR International Series 866. Oxford, England: Archaeopress, 2000. +s-+b +s-+lp. 459+s-!
 +l- Fischer, Henry-Georges, +s-+iVaria I +s-+l(1976), p. 29, n. 9 and fig. 2.+s-!
@@ -18425,6 +18516,9 @@ E31-+l and +s-E31B-!
 !
 </signDescription>
     <hasTransliteration sign="E240" transliteration="mHyt" type="phonogram" use="palette"/>
+    <variantOf baseSign="E23" isSimilar="y" linguistic="no" sign="E240"/>
+    <contains partCode="P11A" sign="E240"/>
+    <contains partCode="E23" sign="E240"/>
   </sign>
   <sign sign="E240A">
     <hasTag sign="E240A" tag="lion, panthera"/>
@@ -18998,6 +19092,13 @@ E31-+l and +s-E31B-!
     <hasTransliteration sign="F31" transliteration="ms" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="F31" transliteration="msi" type="phonogram" use="keyboard"/>
     <hasTag sign="F31" tag="skin"/>
+    <signDescription lang="en" sign="F31">+lThree foxes' skins tied together+s-!
++lword: +s-+tms.t, +s-+iapron of foxes' skins., +s-+land phon. +s-+tms.+s-!
+!
++bBibliography+s-!
++lGardiner, +s-+iEgyptian Grammar+s-+l, p. 465+s-!
++lde Spens, +s-+iGlyphologie Égyptienne, +s-+lp. 151-152 and 378-379+s-!
+</signDescription>
   </sign>
   <sign sign="F31A">
     <hasTag sign="F31A" tag="skin"/>
@@ -19006,6 +19107,19 @@ E31-+l and +s-E31B-!
   <sign sign="US22F31AEXTU">
     <hasTag sign="US22F31AEXTU" tag="skin"/>
     <variantOf baseSign="F31" isSimilar="y" linguistic="unspecified" sign="US22F31AEXTU"/>
+  </sign>
+  <sign sign="F31VARA">
+    <variantOf baseSign="F31" isSimilar="y" linguistic="full" sign="F31VARA"/>
+    <signDescription lang="en" sign="F31VARA">+lSingle fox skin? from Louvre C65 stela+s-!
++lThis sign occurs in the cryptographic part of Louvre C65, in the name+s-!
++lof the wife of +s-+tpA-nHsy:+s-G14A-S1-F31VARA-S3-H8:X2-ra-+l: +s-+tmw.t-nsw.t ms n sA.t-ra+s-+l.+s-!
++lThe reading is secured by non cryptographic texts elsewhere.+s-!
++lAs +s-F31-+l represents three fox skins tied together, it seems that this sign is+s-!
++la third of +s-F31-+l. Obviously, the identification is far less secure than the reading.+s-!
++bBibliography+s-!
++lDrioton, E. 1933. “Essais sur la cryptographie privée de la fin de la XVIIIe dynastie”, +s-+iRdE+s-+l 1, pp. 1-50. +s-!
+</signDescription>
+    <hasTag sign="F31VARA" tag="skin"/>
   </sign>
   <sign alwaysDisplay="y" sign="F32">
     <hasTransliteration sign="F32" transliteration="X" type="phonogram" use="keyboard"/>
@@ -20383,9 +20497,18 @@ E31-+l and +s-E31B-!
     <hasTransliteration sign="G10" transliteration="Hnw" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="G10" transliteration="skr" type="phonogram" use="keyboard"/>
     <hasTag sign="G10" tag="falcon"/>
-    <contains partCode="P60" sign="G10"/>
     <contains partCode="G5" sign="G10"/>
     <hasTag sign="G10" tag="standing on something"/>
+    <signDescription lang="en" sign="G10">+lSacred bark of Sokar.+s-!
++l(weirdly, the variants are in category P)+s-!
++bValue+s-!
++lDet for Sokar and for +s-+tHnw, +s-+lthe Henou-bark (of Sokar)+s-!
++bBibliography+s-!
++lG+s-+iEG+s-+l p. 468+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357+s-!
+!
+</signDescription>
+    <hasTag sign="G10" tag="bark of Sokar"/>
   </sign>
   <sign alwaysDisplay="y" sign="G11">
     <hasTransliteration sign="G11" transliteration="aSm" type="phonogram" use="keyboard"/>
@@ -20589,6 +20712,10 @@ E31-+l and +s-E31B-!
     <hasTransliteration sign="G23" transliteration="rxyt" type="phonogram" use="keyboard"/>
     <hasTag sign="G23" tag="lapwing"/>
   </sign>
+  <sign sign="G23A">
+    <variantOf baseSign="G23" isSimilar="y" linguistic="unspecified" sign="G23A"/>
+    <hasTag sign="G23A" tag="lapwing"/>
+  </sign>
   <sign alwaysDisplay="y" sign="G24">
     <hasTransliteration sign="G24" transliteration="rxyt" type="phonogram" use="keyboard"/>
     <hasTag sign="G24" tag="lapwing"/>
@@ -20709,6 +20836,12 @@ E31-+l and +s-E31B-!
     <variantOf baseSign="G31" isSimilar="y" linguistic="unspecified" sign="G31E"/>
     <hasTag sign="G31E" tag="with standard"/>
   </sign>
+  <sign sign="G31F">
+    <hasTag sign="G31F" tag="heron"/>
+    <variantOf baseSign="G31" isSimilar="y" linguistic="unspecified" sign="G31F"/>
+    <contains partCode="G31" sign="G31F"/>
+    <contains partCode="S45" sign="G31F"/>
+  </sign>
   <sign alwaysDisplay="y" sign="G32">
     <hasTransliteration sign="G32" transliteration="baHi" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="G32" transliteration="baH" type="phonogram" use="keyboard"/>
@@ -20767,6 +20900,17 @@ E31-+l and +s-E31B-!
     <hasTag sign="G39A" tag="duck or goose"/>
     <hasTransliteration sign="G39A" transliteration="bA" type="phonogram" use="palette"/>
     <variantOf baseSign="G29" isSimilar="y" linguistic="unspecified" sign="G39A"/>
+  </sign>
+  <sign sign="G39VARA">
+    <variantOf baseSign="G39" isSimilar="y" linguistic="full" sign="G39VARA"/>
+    <signDescription lang="en" sign="G39VARA">+l= IFAO, 482, 10+s-!
++lCursive variant of +s-G39-+l, especially found in the +s-+iJenseitsführer, +s-+lespecially in the so-called "cryptographic texts",+s-!
++lwhere it can stand for almost any bird sign.+s-!
+!
++bBibliography+s-!
++lRoberson, Joshua Aaron. 2020. +s-+iA Lexicon of Ancient Egyptian Cryptography of the New Kingdom.+s-+b +s-+lp.  94+s-!
+</signDescription>
+    <hasTransliteration sign="G39VARA" transliteration="zA" type="phonogram" use="palette"/>
   </sign>
   <sign alwaysDisplay="y" sign="G40">
     <hasTransliteration sign="G40" transliteration="pA" type="phonogram" use="keyboard"/>
@@ -21373,13 +21517,14 @@ E31-+l and +s-E31B-!
 +lKurth, +s-+iEinführung +s-+lI, p. 251 (59)+s-!
 !
 </signDescription>
+    <hasTag sign="G96C" tag="olw"/>
+    <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G96C"/>
   </sign>
   <sign sign="G96D">
     <contains partCode="G17A" sign="G96D"/>
     <contains partCode="T30A" sign="G96D"/>
     <hasTransliteration sign="G96D" transliteration="Hsq" type="phonogram" use="palette"/>
     <variantOf baseSign="G96" isSimilar="y" linguistic="unspecified" sign="G96D"/>
-    <variantOf baseSign="G96C" isSimilar="y" linguistic="unspecified" sign="G96D"/>
     <signDescription lang="en" sign="G96D">+lA cursive-like rendering of a knife cutting the head of a owl.+s-!
 +lAbbreviation for the word +s-H-s-q-T30-+l, +s-+ito behead.+s-!
 +lThe sign is known as early as the Pyramid texts (WB, o.c.),+s-!
@@ -21394,6 +21539,7 @@ E31-+l and +s-E31B-!
 !
 !
 </signDescription>
+    <hasTag sign="G96D" tag="olw"/>
   </sign>
   <sign sign="G97">
     <contains partCode="G17" sign="G97"/>
@@ -21776,6 +21922,12 @@ E31-+l and +s-E31B-!
     <contains partCode="S45" sign="G129C"/>
     <hasTag sign="G129C" tag="falcon"/>
     <hasTag sign="G129C" tag="standing on something"/>
+  </sign>
+  <sign sign="G129D">
+    <hasTag sign="G129D" tag="falcon"/>
+    <hasTag sign="G129D" tag="standing on something"/>
+    <contains partCode="G5" sign="G129D"/>
+    <variantOf baseSign="G129" isSimilar="y" linguistic="unspecified" sign="G129D"/>
   </sign>
   <sign sign="G130">
     <variantOf baseSign="G5" isSimilar="y" linguistic="unspecified" sign="G130"/>
@@ -22424,6 +22576,15 @@ E31-+l and +s-E31B-!
     <contains partCode="S1" sign="G185"/>
     <hasTag sign="G185" tag="vulture"/>
     <hasTag sign="G185" tag="standing on something"/>
+    <hasTag sign="G185" tag="with crown"/>
+  </sign>
+  <sign sign="G185A">
+    <variantOf baseSign="G185" isSimilar="y" linguistic="unspecified" sign="G185A"/>
+    <contains partCode="G16A" sign="G185A"/>
+    <contains partCode="S1" sign="G185A"/>
+    <hasTag sign="G185A" tag="vulture"/>
+    <hasTag sign="G185A" tag="standing on something"/>
+    <hasTag sign="G185A" tag="with crown"/>
   </sign>
   <sign sign="G186">
     <variantOf baseSign="G14" isSimilar="y" linguistic="unspecified" sign="G186"/>
@@ -22937,6 +23098,14 @@ E31-+l and +s-E31B-!
     <contains partCode="G5" sign="G266"/>
     <contains partCode="R12" sign="G266"/>
     <contains partCode="N24" sign="G266"/>
+  </sign>
+  <sign sign="G266A">
+    <hasTag sign="G266A" tag="falcon"/>
+    <hasTag sign="G266A" tag="group"/>
+    <hasTag sign="G266A" tag="with standard"/>
+    <variantOf baseSign="G266" isSimilar="y" linguistic="unspecified" sign="G266A"/>
+    <contains partCode="G5" sign="G266A"/>
+    <contains partCode="R12" sign="G266A"/>
   </sign>
   <sign sign="G267">
     <hasTag sign="G267" tag="percnopterus"/>
@@ -24593,6 +24762,15 @@ I3-+l, see Collombert, "Un étrange antroponyme de l'Ancien Empire", S+s-!
     <hasTag sign="I137" tag="crocodile"/>
     <hasTag sign="I137" tag="in-circle"/>
   </sign>
+  <sign sign="I138">
+    <hasTag sign="I138" tag="uraeus"/>
+    <hasTag sign="I138" tag="with crown"/>
+    <hasTag sign="I138" tag="standing on something"/>
+    <contains partCode="I56" sign="I138"/>
+    <contains partCode="I59" sign="I138"/>
+    <variantOf baseSign="I60" isSimilar="y" linguistic="full" sign="I138"/>
+    <variantOf baseSign="G16" isSimilar="y" linguistic="full" sign="I138"/>
+  </sign>
   <sign sign="I200">
     <variantOf baseSign="I14" isSimilar="y" linguistic="unspecified" sign="I200"/>
     <signDescription lang="en" sign="I200">+lsnake+s-!
@@ -24638,18 +24816,33 @@ I3-+l, see Collombert, "Un étrange antroponyme de l'Ancien Empire", S+s-!
     <hasTransliteration sign="K5" transliteration="bs" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="K5" transliteration="bz" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="K5" transliteration="rmw" type="phonogram" use="keyboard"/>
-    <signDescription lang="en" sign="K5">+i Petrocephalus bane +s-+t. +s-+iPhon. : +s-+tbs, rm, bw, ad, aD.+s-!
-+iSinouhé B197 (+s-+tbs)+s-+b +s-D35:n-wn-n:m-t:Z6:k-Hr*Z1-N25:t*Z1-D35:n-b\98**s{{582,0,100}}**K5\R13\red{{898,184,82}}-t-W-T14-D37-A1:Z2</signDescription>
+    <signDescription lang="en" sign="K5">+i Petrocephalus bane +s-+t. +s-+iPhon. : +s-+tbs,+s-!
++lalso, generic fish determinative (Gardiner says: +s-+ia very similar fish is used as generic det. fish)+s-!
++le.g. +s-+trmw, xnS+s-+l.+s-!
++iSinouhé B197 (+s-+tbs)+s-+b +s-D35:n-wn-n:m-t:Z6:k-Hr*Z1-N25:t*Z1-D35:n-b\98**s{{582,0,100}}**K5\R13\red{{898,184,82}}-t-W-T14-D37-A1:Z2-!
++bBibliography+s-!
++bGEG +s-+lp. 477+s</signDescription>
     <hasTag sign="K5" tag="fish"/>
   </sign>
   <sign alwaysDisplay="y" sign="K6">
     <hasTransliteration sign="K6" transliteration="nSmt" type="phonogram" use="keyboard"/>
-    <signDescription lang="en" sign="K6">K6-+i  Phon :+s-+t  nSm.t +s-+i(+s-+i different from L6 )+s</signDescription>
+    <signDescription lang="en" sign="K6">+lfish-scale, also +s-K6\R90-+l. +s-!
+K6-+l ideog. or+s-+i  Phon :+s-+t  nSm.t +s-+i(+s-+i different from L6 )+s-+l +s-+ifish-scale.+s-!
++lDon't confuse with L6 +s-.\1:L6:.\1-+l. +s</signDescription>
     <hasTag sign="K6" tag="part-of-fish"/>
   </sign>
   <sign sign="K6A">
-    <signDescription lang="en" sign="K6A">+i Urk.IV, 90,6-7+s-+l +s-F25-m-t-x:K6A\red-t-w-R1-n-U7:r-N36:T-n-t&amp;zA&amp;ra-&lt;-+iHatschepsowet+s-&gt;#1234-X8-S34</signDescription>
+    <signDescription lang="en" sign="K6A">+lAccording to D. Meeks (o.c., p. 17-18), a copper ingot (Abydos temple of Sethy I, Calverley &amp; Broome. 1958, pl. 62D)+s-!
++lThis sign would have been misclassed in the IFAO font.+s-!
++l= IFAO 228,14+s-!
++bBibliography+s-!
++lMeeks, Dimitri. 2023. ‘An Egypto-Grammatology: Why and How’. +s-+iHieroglyphs,+s-+l no. 1: 7–30. +s-!
+</signDescription>
     <hasTag sign="K6A" tag="part-of-fish"/>
+    <variantOf baseSign="K6" isSimilar="y" linguistic="unspecified" sign="K6A"/>
+    <variantOf baseSign="N34" isSimilar="y" linguistic="full" sign="K6A"/>
+    <hasTag sign="K6A" tag="ingot"/>
+    <hasTag sign="K6A" tag="metal"/>
   </sign>
   <sign alwaysDisplay="y" sign="K7">
     <hasTransliteration sign="K7" transliteration="Spt" type="phonogram" use="keyboard"/>
@@ -24803,6 +24996,11 @@ U2:ir-A-A-n:A1-r:a-C2B-ms-s-B3-G17A-s-f:N5-r-x:p-D46:t-K23\red:F51B*F51B-n-mH&am
   <sign sign="L6">
     <hasTransliteration sign="L6" transliteration="xA" type="phonogram" use="keyboard"/>
     <hasTag sign="L6" tag="varia"/>
+    <signDescription lang="en" sign="L6">+lBivalve shell. Don't confuse with K6, +s-K6-+l.+s-!
++txa, +s-+lonly in +s-+txA.t, +s-L6:t-R1-+l, +s-+itable of offering.+s-!
+!
++i Urk.IV, 290,6-7+s-+l +s-F25-m-t-x:L6-t-w-R1-n-U7:r-N36:T-n-t&amp;zA&amp;ra-&lt;-+iHatschepsowet+s-&gt;#1234-X8-S34-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="L7">
     <hasTransliteration sign="L7" transliteration="srqt" type="phonogram" use="keyboard"/>
@@ -25857,6 +26055,10 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="M94" tag="flower"/>
     <hasTag sign="M94" tag="bouquet"/>
     <hasTransliteration sign="M94" transliteration="ms" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="M94">!
++iTemporary note: +s-+lthe variant of +s-ms-+l found on Louvre C65, which might be a single fox skin, is not that+s-!
++lfar from this sign, graphically speaking. Could this be an example of shape similarity in cryptographic spellings?+s-!
+</signDescription>
   </sign>
   <sign sign="M95">
     <hasTag sign="M95" tag="lotus"/>
@@ -26040,6 +26242,16 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="M122" transliteration="Ax-bit" type="phonogram" use="palette"/>
     <contains partCode="M13" sign="M122"/>
     <contains partCode="P106" sign="M122"/>
+    <signDescription lang="en" sign="M122">+bValues+s-!
++twAD +s-+lor +s-+tAx-bit.+s-!
++bBibliography+s-!
++lFairman, +s-+iBIFAO+s-+l 43, p. 130+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357; notes 39 and 40+s-!
+!
+</signDescription>
+    <hasTransliteration sign="M122" transliteration="wAD" type="phonogram" use="palette"/>
+    <hasTag sign="M122" tag="sacred bark"/>
+    <hasTag sign="M122" tag="ship"/>
   </sign>
   <sign sign="M123">
     <hasTag sign="M123" tag="papyrus or lily"/>
@@ -27873,6 +28085,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="O1B">
     <hasTag sign="O1B" tag="house"/>
   </sign>
+  <sign sign="O1VARA">
+    <hasTransliteration sign="O1VARA" transliteration="pr" type="phonogram" use="keyboard"/>
+    <variantOf baseSign="O1" isSimilar="y" linguistic="full" sign="O1VARA"/>
+    <signDescription lang="en" sign="O1VARA">+lVariant of O1 +s-pr-+l with a square aspect ratio. Uses absolutely similar.+s-!
++lUse depends of available space and text layout.+s-!
+</signDescription>
+    <hasTag sign="O1VARA" tag="house"/>
+  </sign>
   <sign alwaysDisplay="y" sign="O2">
     <hasTransliteration sign="O2" transliteration="pr-HD" type="phonogram" use="keyboard"/>
     <hasTag sign="O2" tag="house"/>
@@ -27960,8 +28180,6 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign alwaysDisplay="y" sign="O10">
     <hasTransliteration sign="O10" transliteration="Hwt-Hr" type="phonogram" use="keyboard"/>
     <hasTag sign="O10" tag="castle"/>
-    <hasTransliteration sign="O10" transliteration="Hwt-Hr" type="phonogram" use="keyboard"/>
-    <hasTransliteration sign="O10" transliteration="Hwt_Hr" type="phonogram" use="keyboard"/>
   </sign>
   <sign sign="O10A">
     <hasTag sign="O10A" tag="castle"/>
@@ -28830,6 +29048,9 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="O104" tag="sign combination"/>
     <hasTag sign="O104" tag="plan"/>
     <hasTag sign="O104" tag="palace"/>
+    <variantOf baseSign="O314" isSimilar="y" linguistic="unspecified" sign="O104"/>
+    <contains partCode="T3" sign="O104"/>
+    <signDescription lang="en" sign="O104">+lProbably a variant of O314 +s-O314-+l. Needs to be checked+s</signDescription>
   </sign>
   <sign sign="O105">
     <hasTag sign="O105" tag="enclosure"/>
@@ -29910,7 +30131,7 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="O313">
     <hasTag sign="O313" tag="shrine"/>
   </sign>
-  <sign sign="O314">
+  <sign alwaysDisplay="y" sign="O314">
     <hasTag sign="O314" tag="palace"/>
     <hasTag sign="O314" tag="sign combination"/>
     <contains partCode="T3" sign="O314"/>
@@ -29919,11 +30140,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <signDescription lang="en" sign="O314">+lWhite chapel ?+s-!
 +lReading +s-+tHD +s-+lin +s-O314-wr-wr-wr-+l, +s-+tHD-wr.w, +s-+lknown from Tomb U at Abydos, and PT 949 among others.+s-!
 +lSee Weill, o.c. p. 96-97.+s-!
++iMany variants. +s-O324-+l O324, +s-O337-+lO337+s-!
++lSee +s-+lDZA 27.574.040, +s-+lDZA 27.574.030, +s-+lDZA 27.574.440,+s-!
++lDZA 27.574.770, +s-+lDZA 27.574.880, for other variants.+s-!
 +bBibliography+s-!
++lWb 3, 209.1-8 +s-!
 +lWeill R. +s-+iRecherches sur la Ire dynastie et les temps prépharaoniques.+s-+l Le Caire : Institut français d’Archéologie orientale, 1961. (Bibliothèque d’étude).  +s-+lWhite chapel ?+s-!
-+bBibliography+s-!
-+lWeill R. Recherches sur la Ire dynastie et les temps prépharaoniques. Le Caire : Institut français d’Archéologie orientale, 1961. (Bibliothèque d’étude). 
-+s</signDescription>
+</signDescription>
   </sign>
   <sign sign="O315">
     <hasTag sign="O315" tag="palace"/>
@@ -29965,6 +30188,17 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="O324">
     <hasTag sign="O324" tag="tent or kiosk"/>
+    <hasTransliteration sign="O324" transliteration="HD" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="O324">+lChapel, divine housing/+s-!
++lWB quotes the expression +s-+tHD n gbb, +s-O314-Z1-n-gb-b-A40-!
++lSign O324 is more specially linked with the title +s-+trpa.t r +s-O324-+tn gbb;+s-!
++lwith occurrences in Dyn. 18.+s-!
+!
++bBibliography+s-!
++bWB +s-+lIII, p. 209+s-!
+</signDescription>
+    <variantOf baseSign="O314" isSimilar="y" linguistic="full" sign="O324"/>
+    <contains partCode="T3" sign="O324"/>
   </sign>
   <sign sign="O325">
     <hasTag sign="O325" tag="shrine"/>
@@ -30030,6 +30264,20 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="O337">
     <hasTag sign="O337" tag="palace"/>
     <hasTag sign="O337" tag="serekh"/>
+    <variantOf baseSign="O314" isSimilar="y" linguistic="unspecified" sign="O337"/>
+    <contains partCode="D10C" sign="O337"/>
+    <contains partCode="O11" sign="O337"/>
+    <signDescription lang="en" sign="O337">+lA palace with two +s-+twDA.t +s-+leyes.+s-!
++bValue: +s-+lideog. for +s-+tHD, +s-+ichapel, +s-+lin the expression +s-+tHD n gb, +s-+ichapel of Geb,+s-!
++lfor the royal palace.+s-!
++lVariant of O314 +s-O314-+l found in Stela Berlin 1204 (Ikhernofret). MK.+s-!
++lA close variant, with a serekh instead of +s-aH-+l O11, can be found on +s-+lDZA 27.574.030.+s-!
+!
++bBibliography+s-!
++lWb 3, 209.1-8 +s-!
++lWörterbuch Zettel :+s-+lDZA 27.574.020+s-!
+!
+</signDescription>
   </sign>
   <sign sign="O338">
     <hasTag sign="O338" tag="varia"/>
@@ -30118,7 +30366,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <signDescription lang="en" sign="O501A">+lVault.+s-!
 +bValue: +s-+ldeterminative for +s-+twrm.t, +s-+ivault.+s-!
 +lcopied from +s-+bIsabelle Pierre-Croisiau, +s-+iLes textes de la pyramide de Pépy Ier, Fac-similés,+s-+l pl. IIB (= Pepi I, P/F/Se, col. 84).+s-!
-</signDescription>
+!
++lopen question: relation with Aa5B +s-Aa5B-+l?+s</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="P1">
     <hasTransliteration sign="P1" transliteration="aHaw" type="phonogram" use="keyboard"/>
@@ -30127,22 +30376,46 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P1" tag="ship"/>
     <hasTag sign="P1" tag="without sail"/>
     <hasTag sign="P1" tag="with oar"/>
+    <signDescription lang="en" sign="P1">+lBoat on water.+s-!
++bValues+s-!
++l- det. boat, sail...+s-!
++l- ideogram or abbreviation for +s-+tdp.t, imw...+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 498+s-!
+!
+</signDescription>
+    <contains partCode="P8" sign="P1"/>
+    <contains partCode="P20" sign="P1"/>
   </sign>
   <sign alwaysDisplay="y" sign="P1A">
     <hasTransliteration sign="P1A" transliteration="pna" type="phonogram" use="keyboard"/>
     <hasTag sign="P1A" tag="ship"/>
     <hasTag sign="P1A" tag="without sail"/>
     <hasTag sign="P1A" tag="with oar"/>
+    <signDescription lang="en" sign="P1A">+lBoat turned upside-down+s-!
++bValues+s-!
++l- det. for +s-+tpna, +s-+iupset, overturn+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 498+s-!
+!
+</signDescription>
+    <contains partCode="P8" sign="P1A"/>
+    <contains partCode="P20" sign="P1A"/>
   </sign>
   <sign sign="P1B">
     <hasTag sign="P1B" tag="ship"/>
     <hasTag sign="P1B" tag="without sail"/>
     <hasTag sign="P1B" tag="with oar"/>
+    <variantOf baseSign="P1" isSimilar="y" linguistic="full" sign="P1B"/>
+    <contains partCode="P1" sign="P1B"/>
   </sign>
   <sign sign="P1C">
     <hasTag sign="P1C" tag="ship"/>
     <hasTag sign="P1C" tag="without sail"/>
     <hasTag sign="P1C" tag="without oar"/>
+    <variantOf baseSign="P1" isSimilar="y" linguistic="full" sign="P1C"/>
+    <signDescription lang="en" sign="P1C">+lSame sign as P20?+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="P2">
     <hasTransliteration sign="P2" transliteration="xnti" type="phonogram" use="keyboard"/>
@@ -30150,60 +30423,87 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P2" tag="ship"/>
     <hasTag sign="P2" tag="with sail"/>
     <hasTag sign="P2" tag="with oar"/>
+    <signDescription lang="en" sign="P2"/>
+    <signDescription lang="en" sign="P2">+lShip under sail+s-!
++ldet. in +s-+txnti, +s-+isail upstream/to the south+s-!
++bValues+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P2A">
     <hasTag sign="P2A" tag="ship"/>
     <hasTag sign="P2A" tag="with sail"/>
     <hasTag sign="P2A" tag="with oar"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2A"/>
+    <contains partCode="P23" sign="P2A"/>
   </sign>
   <sign sign="P2B">
     <hasTag sign="P2B" tag="ship"/>
     <hasTag sign="P2B" tag="with sail"/>
     <hasTag sign="P2B" tag="without oar"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2B"/>
+    <contains partCode="P13" sign="P2B"/>
   </sign>
   <sign sign="P2C">
     <hasTag sign="P2C" tag="ship"/>
     <hasTag sign="P2C" tag="with sail"/>
     <hasTag sign="P2C" tag="with oar"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2C"/>
+    <contains partCode="P23" sign="P2C"/>
   </sign>
   <sign sign="P2D">
     <hasTag sign="P2D" tag="ship"/>
     <hasTag sign="P2D" tag="with oar"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2D"/>
+    <contains partCode="P13" sign="P2D"/>
   </sign>
   <sign sign="P2E">
     <hasTag sign="P2E" tag="ship"/>
     <hasTag sign="P2E" tag="without oar"/>
     <hasTag sign="P2E" tag="without sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2E"/>
+    <contains partCode="P13" sign="P2E"/>
   </sign>
   <sign sign="P2F">
     <hasTag sign="P2F" tag="ship"/>
     <hasTag sign="P2F" tag="with oar"/>
     <hasTag sign="P2F" tag="without sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2F"/>
+    <contains partCode="P23" sign="P2F"/>
   </sign>
   <sign sign="P2G">
     <hasTag sign="P2G" tag="ship"/>
     <hasTag sign="P2G" tag="with oar"/>
     <hasTag sign="P2G" tag="with sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2G"/>
+    <contains partCode="P28" sign="P2G"/>
   </sign>
   <sign sign="P2h">
     <hasTag sign="P2h" tag="ship"/>
     <hasTag sign="P2h" tag="with oar"/>
     <hasTag sign="P2h" tag="with sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2h"/>
+    <contains partCode="P23" sign="P2h"/>
   </sign>
   <sign sign="P2I">
     <hasTag sign="P2I" tag="ship"/>
     <hasTag sign="P2I" tag="with oar"/>
     <hasTag sign="P2I" tag="with sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2I"/>
   </sign>
   <sign sign="P2J">
     <hasTag sign="P2J" tag="ship"/>
     <hasTag sign="P2J" tag="with oar"/>
     <hasTag sign="P2J" tag="with sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2J"/>
   </sign>
   <sign sign="P2K">
     <hasTag sign="P2K" tag="ship"/>
     <hasTag sign="P2K" tag="with oar"/>
     <hasTag sign="P2K" tag="with sail"/>
+    <variantOf baseSign="P2" isSimilar="y" linguistic="full" sign="P2K"/>
   </sign>
   <sign alwaysDisplay="y" sign="P3">
     <hasTransliteration sign="P3" transliteration="DAi" type="phonogram" use="keyboard"/>
@@ -30213,55 +30513,111 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P3" tag="ship"/>
     <hasTag sign="P3" tag="with oar"/>
     <hasTag sign="P3" tag="without sail"/>
-    <signDescription lang="en" sign="P3">+lIdeogram or determinative for +s-+twiA, +s-+l'sacred bark' and other divine boats ; +s-!
-+lcan be used for verbs if the boat is a divine boat.+s-!
+    <signDescription lang="en" sign="P3">+lSacred bark+s-!
++bValues+s-!
++lIdeogram in +s-+twiA+s-!
++lDet. divine barks+s-!
++lex. +s-!
+V26\R90-m-t:P3-+t manD.t, +s-+imorning-bark+s-!
+n:S-m&amp;&amp;&amp;t-+t nSm.t, +s-+isacred bark of Abydos+s-!
 !
-+lThe sign has many different possible shapes.+s-!
++lReplacement for P1 as determinative for navigation when a divinity is involved.+s-!
+!
++lThere are lots of variations. The JSesh variant corresponds to a Ramesside version.+s-!
 +bBibliography+s-!
-+lGardiner, +s-+iEgyptian Grammar, +s-+lp. 499+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
 </signDescription>
+    <hasTag sign="P3" tag="sacred bark"/>
   </sign>
   <sign sign="P3A">
     <hasTag sign="P3A" tag="ship"/>
     <hasTag sign="P3A" tag="with oar"/>
     <hasTag sign="P3A" tag="without sail"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="partial" sign="P3A"/>
+    <hasTag sign="P3A" tag="sacred bark"/>
+    <contains partCode="M23" sign="P3A"/>
   </sign>
   <sign alwaysDisplay="y" sign="P4">
     <hasTransliteration sign="P4" transliteration="wHa" type="phonogram" use="keyboard"/>
     <hasTag sign="P4" tag="ship"/>
     <hasTag sign="P4" tag="without oar"/>
     <hasTag sign="P4" tag="without sail"/>
+    <signDescription lang="en" sign="P4">+lFisherman's boat, with a net on top.+s-!
++bValues+s-!
++lideog. +s-+twHa+s-+l, +s-+ito fish+s-+l and related words.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P4A">
     <hasTag sign="P4A" tag="ship"/>
     <hasTag sign="P4A" tag="without sail"/>
     <hasTag sign="P4A" tag="with oar"/>
+    <variantOf baseSign="P4" isSimilar="y" linguistic="no" sign="P4A"/>
   </sign>
   <sign sign="P4B">
     <hasTag sign="P4B" tag="ship"/>
     <hasTag sign="P4B" tag="without oar"/>
     <hasTag sign="P4B" tag="without sail"/>
+    <variantOf baseSign="P4" isSimilar="y" linguistic="full" sign="P4B"/>
   </sign>
   <sign sign="P4C">
     <hasTag sign="P4C" tag="ship"/>
     <hasTag sign="P4C" tag="without oar"/>
     <hasTag sign="P4C" tag="without sail"/>
+    <signDescription lang="en" sign="P4C">+lFisherman's boat, with a net on top.+s-!
++lOld Kingdom variant, with a detailled version of the net.+s-!
++lSee Montet.+s-!
++bValues+s-!
++lideog. +s-+twHa+s-+l, +s-+ito fish+s-+l and related words.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
++lMontet, +s-+iScènes de la vie privée dans les mastabas de l'Ancien empire,+s-+lp. 11+s-!
+</signDescription>
+    <variantOf baseSign="P4" isSimilar="y" linguistic="full" sign="P4C"/>
+    <contains partCode="P4" sign="P4C"/>
   </sign>
   <sign sign="P4D">
     <hasTag sign="P4D" tag="ship"/>
     <hasTag sign="P4D" tag="without sail"/>
     <hasTag sign="P4D" tag="with oar"/>
+    <variantOf baseSign="P4" isSimilar="y" linguistic="full" sign="P4D"/>
+    <contains partCode="P4" sign="P4D"/>
+    <contains partCode="P10" sign="P4D"/>
   </sign>
   <sign sign="P4E">
     <hasTag sign="P4E" tag="ship"/>
     <hasTag sign="P4E" tag="without sail"/>
     <hasTag sign="P4E" tag="with oar"/>
+    <signDescription lang="en" sign="P4E">+lFisherman's boat, with a net on top.+s-!
++lOld Kingdom variant, with a detailled version of the net.+s-!
++lSee Montet.+s-!
++bValues+s-!
++lideog. +s-+twHa+s-+l, +s-+ito fish+s-+l and related words.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
++lMontet, +s-+iScènes de la vie privée dans les mastabas de l'Ancien empire,+s-+lp. 11+s-!
+</signDescription>
+    <contains partCode="P10" sign="P4E"/>
+    <variantOf baseSign="P4C" isSimilar="y" linguistic="unspecified" sign="P4E"/>
+    <contains partCode="P4C" sign="P4E"/>
   </sign>
   <sign alwaysDisplay="y" sign="P5">
     <hasTransliteration sign="P5" transliteration="nfw" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="P5" transliteration="TAw" type="phonogram" use="keyboard"/>
     <hasTag sign="P5" tag="mast"/>
     <hasTag sign="P5" tag="with sail"/>
+    <signDescription lang="en" sign="P5">+lSail+s-!
++bValues+s-!
++lIdeog./det. in +s-+tTAw, +s-+iwind+s-+l, +s-+ibreath.+s-!
++lIdeog. +s-TAw-D40-+l, +s-+tnfw, +s-+iskipper, captain.+s-!
++ldet. for sailing, winds, storms+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P5A">
     <hasTag sign="P5A" tag="mast"/>
@@ -30352,6 +30708,13 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="P6" transliteration="aHa" type="phonogram" use="keyboard"/>
     <hasTag sign="P6" tag="mast"/>
     <hasTag sign="P6" tag="without sail"/>
+    <signDescription lang="en" sign="P6">+lMast+s-!
++bValues+s-!
++lPhon. +s-+taHa.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P6A">
     <hasTag sign="P6A" tag="mast"/>
@@ -30366,58 +30729,123 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P7" tag="mast"/>
     <hasTag sign="P7" tag="without sail"/>
     <hasTag sign="P7" tag="sign combination"/>
+    <contains partCode="P6" sign="P7"/>
+    <contains partCode="D36" sign="P7"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="full" sign="P7"/>
   </sign>
   <sign sign="P7A">
     <hasTag sign="P7A" tag="mast"/>
     <hasTag sign="P7A" tag="sign combination"/>
     <hasTag sign="P7A" tag="with sail"/>
+    <variantOf baseSign="P7" isSimilar="y" linguistic="full" sign="P7A"/>
   </sign>
   <sign sign="P7B">
     <hasTag sign="P7B" tag="mast"/>
     <hasTag sign="P7B" tag="sign combination"/>
     <hasTag sign="P7B" tag="without sail"/>
+    <variantOf baseSign="P7" isSimilar="y" linguistic="full" sign="P7B"/>
   </sign>
   <sign alwaysDisplay="y" sign="P8">
     <hasTransliteration sign="P8" transliteration="wsr" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="P8" transliteration="xrw" type="phonogram" use="keyboard"/>
     <hasTag sign="P8" tag="oar"/>
+    <signDescription lang="en" sign="P8">+lOar+s-!
++bValues+s-!
++lPhon. +s-+txrw+s-!
++lIdeo. or Det. for +s-+twsr.w, +s-+ioars+s-+t, Hp.t, +s-+ioar.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P8A">
     <hasTag sign="P8A" tag="oar"/>
+    <variantOf baseSign="P8" isSimilar="y" linguistic="full" sign="P8A"/>
   </sign>
   <sign sign="P8h">
     <hasTag sign="P8h" tag="oar"/>
+    <variantOf baseSign="P8" isSimilar="y" linguistic="full" sign="P8h"/>
   </sign>
   <sign alwaysDisplay="y" sign="P9">
     <hasTransliteration sign="P9" transliteration="xrwi-fi" type="phonogram" use="keyboard"/>
     <hasTag sign="P9" tag="oar"/>
     <hasTag sign="P9" tag="sign combination"/>
+    <contains partCode="P8" sign="P9"/>
+    <contains partCode="I9" sign="P9"/>
+    <signDescription lang="en" sign="P9">+txrw=f, +s-+ihe says+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="P10">
     <hasTransliteration sign="P10" transliteration="Hmw" type="phonogram" use="keyboard"/>
     <hasTag sign="P10" tag="oar"/>
+    <signDescription lang="en" sign="P10">+lSteering oar+s-!
++bValues+s-!
++lDet. in +s-+tHmw +s-+isteering oar.+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+</signDescription>
+    <signDescription lang="en" sign="P10">+lStearing oar+s-!
++bValues+s-!
++lDet. in +s-+tHmw, +s-+istearing oar+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
+    <hasTag sign="P10" tag="steering oar"/>
   </sign>
   <sign sign="P10A">
     <hasTag sign="P10A" tag="oar"/>
     <hasTag sign="P10A" tag="hawk-headed"/>
     <hasTag sign="P10A" tag="with uraeus"/>
+    <variantOf baseSign="P10" isSimilar="y" linguistic="full" sign="P10A"/>
+    <hasTag sign="P10A" tag="steering oar"/>
+    <contains partCode="H10" sign="P10A"/>
+    <contains partCode="I64" sign="P10A"/>
+    <contains partCode="P8" sign="P10A"/>
   </sign>
   <sign sign="P10B">
     <hasTag sign="P10B" tag="oar"/>
     <hasTag sign="P10B" tag="hawk-headed"/>
+    <variantOf baseSign="P10" isSimilar="y" linguistic="full" sign="P10B"/>
+    <hasTag sign="P10B" tag="steering oar"/>
+    <contains partCode="P8" sign="P10B"/>
+    <contains partCode="H10" sign="P10B"/>
   </sign>
   <sign alwaysDisplay="y" sign="P11">
     <hasTransliteration sign="P11" transliteration="mnit" type="phonogram" use="keyboard"/>
     <hasTag sign="P11" tag="varia"/>
+    <signDescription lang="en" sign="P11">+lMooring post+s-!
++bValues+s-!
++lDet. in +s-+tmni.t, +s-+imooring post+s-+l.+s-!
++lOften confused with +s-T14-+l (T14) in hieratic and transcribed as such+s-!
++bBibliography+s-!
++lG+s-+iEG. +s-+lp. 499+s-!
+!
+</signDescription>
+    <hasTag sign="P11" tag="mooring post"/>
   </sign>
   <sign sign="P11A">
     <hasTag sign="P11A" tag="varia"/>
+    <hasTag sign="P11A" tag="mooring post"/>
+    <signDescription lang="en" sign="P11A">+lVariant of +s-P11-+l P11, found in a spelling of +s-+tHw mni.t+s-+l: +s-Z12-P11A-!
++lThe +s-+ibelegstellen +s-+llist example II, 73,6,+s-!
++lDendera +s-+lDüm. Baugesch 32+s-!
+A26-XA:k-ib:Aa2-Z3-ms-d-G37-US1O124VARA-Z12*W:t-P11A-r-x*x:F51B-f-!
++lSee also Zettelarchiv +s-+lDZA 24.049.960+s-!
++lIn MdC 88, p. 168, the sign is hand-drawn, which usually points+s-!
++lto signs specifically taken from the WB +s-+lZettelarchiv. Thus, it might be an hapax.+s-!
++bBibliography+s-!
++lWB II, 73+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P11B">
     <hasTag sign="P11B" tag="varia"/>
+    <hasTag sign="P11B" tag="mooring post"/>
   </sign>
   <sign sign="P11C">
     <hasTag sign="P11C" tag="varia"/>
+    <hasTag sign="P11C" tag="mooring post"/>
   </sign>
   <sign sign="P13">
     <hasTag sign="P13" tag="ship"/>
@@ -30433,16 +30861,26 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P15" tag="ship"/>
     <hasTag sign="P15" tag="without sail"/>
     <hasTag sign="P15" tag="without oar"/>
+    <hasTransliteration sign="P15" transliteration="im" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="P15">+bValue+s-!
++lPhonogram +s-+tim+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357+s</signDescription>
   </sign>
   <sign sign="P15A">
     <hasTag sign="P15A" tag="ship"/>
     <hasTag sign="P15A" tag="without sail"/>
     <hasTag sign="P15A" tag="without oar"/>
+    <signDescription lang="en" sign="P15A">+bValue+s-!
++lPhonogram +s-+tim+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357+s</signDescription>
   </sign>
   <sign sign="P16">
     <hasTag sign="P16" tag="ship"/>
     <hasTag sign="P16" tag="without sail"/>
     <hasTag sign="P16" tag="without oar"/>
+    <signDescription lang="en" sign="P16">+bValue+s-!
++lPhonogram +s-+tim+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357+s</signDescription>
   </sign>
   <sign sign="P16A">
     <hasTag sign="P16A" tag="ship"/>
@@ -30526,11 +30964,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="P27A" transliteration="w" type="phonogram" use="palette"/>
     <hasTransliteration sign="P27A" transliteration="wiA" type="phonogram" use="palette"/>
     <variantOf baseSign="P106" isSimilar="y" linguistic="unspecified" sign="P27A"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P27A"/>
   </sign>
   <sign sign="P28">
     <hasTag sign="P28" tag="ship"/>
     <hasTag sign="P28" tag="without sail"/>
     <hasTag sign="P28" tag="with oar"/>
+    <hasTag sign="P28" tag="sacred bark"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="full" sign="P28"/>
   </sign>
   <sign sign="P29">
     <hasTag sign="P29" tag="ship"/>
@@ -30547,6 +30988,7 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P30A" tag="ship"/>
     <hasTag sign="P30A" tag="without sail"/>
     <hasTag sign="P30A" tag="without oar"/>
+    <variantOf baseSign="P30" isSimilar="y" linguistic="unspecified" sign="P30A"/>
   </sign>
   <sign sign="P31">
     <hasTag sign="P31" tag="ship"/>
@@ -30572,41 +31014,56 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P35" tag="ship"/>
     <hasTag sign="P35" tag="without sail"/>
     <hasTag sign="P35" tag="without oar"/>
+    <hasTag sign="P35" tag="sacred bark"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P35"/>
   </sign>
   <sign sign="P35A">
     <hasTag sign="P35A" tag="ship"/>
     <hasTag sign="P35A" tag="without sail"/>
     <hasTag sign="P35A" tag="without oar"/>
+    <hasTag sign="P35A" tag="sacred bark"/>
+    <variantOf baseSign="P35" isSimilar="y" linguistic="unspecified" sign="P35A"/>
   </sign>
   <sign sign="P35B">
     <hasTag sign="P35B" tag="ship"/>
     <hasTag sign="P35B" tag="without sail"/>
     <hasTag sign="P35B" tag="without oar"/>
+    <hasTag sign="P35B" tag="sacred bark"/>
+    <variantOf baseSign="P35" isSimilar="y" linguistic="unspecified" sign="P35B"/>
   </sign>
   <sign sign="P36">
     <hasTag sign="P36" tag="ship"/>
     <hasTag sign="P36" tag="without sail"/>
     <hasTag sign="P36" tag="with oar"/>
+    <hasTag sign="P36" tag="sacred bark"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P36"/>
   </sign>
   <sign sign="P36A">
     <hasTag sign="P36A" tag="ship"/>
     <hasTag sign="P36A" tag="without sail"/>
     <hasTag sign="P36A" tag="with oar"/>
+    <hasTag sign="P36A" tag="sacred bark"/>
+    <variantOf baseSign="P36" isSimilar="y" linguistic="unspecified" sign="P36A"/>
   </sign>
   <sign sign="P36B">
     <hasTag sign="P36B" tag="ship"/>
     <hasTag sign="P36B" tag="without sail"/>
     <hasTag sign="P36B" tag="without oar"/>
+    <hasTag sign="P36B" tag="sacred bark"/>
+    <variantOf baseSign="P36" isSimilar="y" linguistic="unspecified" sign="P36B"/>
   </sign>
   <sign sign="P37">
     <hasTag sign="P37" tag="ship"/>
     <hasTag sign="P37" tag="without sail"/>
     <hasTag sign="P37" tag="without oar"/>
+    <hasTag sign="P37" tag="sacred bark"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P37"/>
   </sign>
   <sign sign="P38">
     <hasTag sign="P38" tag="ship"/>
     <hasTag sign="P38" tag="without sail"/>
     <hasTag sign="P38" tag="with oar"/>
+    <hasTag sign="P38" tag="sacred bark"/>
   </sign>
   <sign sign="P39">
     <hasTag sign="P39" tag="ship"/>
@@ -30614,27 +31071,36 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P39" tag="with oar"/>
     <hasTransliteration sign="P39" transliteration="wiA" type="phonogram" use="palette"/>
     <hasTransliteration sign="P39" transliteration="wTs-nfrw" type="phonogram" use="palette"/>
+    <hasTag sign="P39" tag="sacred bark"/>
   </sign>
   <sign sign="P39A">
     <hasTag sign="P39A" tag="ship"/>
     <hasTag sign="P39A" tag="without sail"/>
     <hasTag sign="P39A" tag="with oar"/>
     <variantOf baseSign="P39" isSimilar="y" linguistic="unspecified" sign="P39A"/>
+    <hasTag sign="P39A" tag="sacred bark"/>
   </sign>
   <sign sign="P40">
     <hasTag sign="P40" tag="ship"/>
     <hasTag sign="P40" tag="without sail"/>
     <hasTag sign="P40" tag="with oar"/>
+    <hasTag sign="P40" tag="sacred bark"/>
+    <variantOf baseSign="P39" isSimilar="y" linguistic="unspecified" sign="P40"/>
   </sign>
   <sign sign="P41">
     <hasTag sign="P41" tag="ship"/>
     <hasTag sign="P41" tag="without sail"/>
     <hasTag sign="P41" tag="without oar"/>
+    <hasTag sign="P41" tag="sacred bark"/>
+    <hasTag sign="P41" tag="ram-headed"/>
   </sign>
   <sign sign="P41A">
     <hasTag sign="P41A" tag="ship"/>
     <hasTag sign="P41A" tag="without sail"/>
     <hasTag sign="P41A" tag="with oar"/>
+    <hasTag sign="P41A" tag="sacred bark"/>
+    <hasTag sign="P41A" tag="ram-headed"/>
+    <variantOf baseSign="P41" isSimilar="y" linguistic="unspecified" sign="P41A"/>
   </sign>
   <sign sign="P42">
     <hasTag sign="P42" tag="ship"/>
@@ -30642,11 +31108,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P42" tag="with oar"/>
     <hasTransliteration sign="P42" transliteration="wiA" type="phonogram" use="palette"/>
     <hasTransliteration sign="P42" transliteration="wTs-nfrw" type="phonogram" use="palette"/>
+    <hasTag sign="P42" tag="sacred bark"/>
+    <hasTag sign="P42" tag="hathorian goddess"/>
   </sign>
   <sign sign="P43">
     <hasTag sign="P43" tag="ship"/>
     <hasTag sign="P43" tag="without sail"/>
     <hasTag sign="P43" tag="with oar"/>
+    <hasTag sign="P43" tag="sacred bark"/>
   </sign>
   <sign sign="P44">
     <hasTag sign="P44" tag="ship"/>
@@ -30654,61 +31123,86 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P44" tag="with oar"/>
     <hasTransliteration sign="P44" transliteration="imn" type="phonogram" use="palette"/>
     <hasTransliteration sign="P44" transliteration="msktt" type="phonogram" use="palette"/>
+    <hasTag sign="P44" tag="sacred bark"/>
+    <signDescription lang="en" sign="P44">+lSolar bark.+s-!
++ldet +s-+twiA+s-!
++lSportive writing: +s-+timw-n-ra +s-+lfor +s-+timn-ra+s-!
++las early as the third intermediate period.+s-!
++l(numerous examples in Janssen-Winkeln, +s-+iInschriften der Spätzeit+s-+l)+s-!
+!
+</signDescription>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="partial" sign="P44"/>
   </sign>
   <sign sign="P44A">
     <hasTag sign="P44A" tag="ship"/>
     <hasTag sign="P44A" tag="without sail"/>
     <hasTag sign="P44A" tag="without oar"/>
+    <hasTag sign="P44A" tag="sacred bark"/>
+    <variantOf baseSign="P44" isSimilar="y" linguistic="unspecified" sign="P44A"/>
   </sign>
   <sign sign="P44B">
     <hasTag sign="P44B" tag="ship"/>
     <hasTag sign="P44B" tag="without sail"/>
     <hasTag sign="P44B" tag="with oar"/>
+    <hasTag sign="P44B" tag="sacred bark"/>
+    <variantOf baseSign="P44" isSimilar="y" linguistic="unspecified" sign="P44B"/>
   </sign>
   <sign sign="P44C">
     <hasTag sign="P44C" tag="ship"/>
     <hasTag sign="P44C" tag="without sail"/>
     <hasTag sign="P44C" tag="without oar"/>
+    <hasTag sign="P44C" tag="sacred bark"/>
+    <variantOf baseSign="P44" isSimilar="y" linguistic="unspecified" sign="P44C"/>
   </sign>
   <sign sign="P44D">
     <hasTag sign="P44D" tag="ship"/>
     <hasTag sign="P44D" tag="without sail"/>
     <hasTag sign="P44D" tag="without oar"/>
+    <hasTag sign="P44D" tag="sacred bark"/>
+    <variantOf baseSign="P44" isSimilar="y" linguistic="unspecified" sign="P44D"/>
   </sign>
   <sign sign="P45">
     <hasTag sign="P45" tag="ship"/>
     <hasTag sign="P45" tag="without sail"/>
     <hasTag sign="P45" tag="with oar"/>
+    <hasTag sign="P45" tag="sacred bark"/>
   </sign>
   <sign sign="P46">
     <hasTag sign="P46" tag="ship"/>
     <hasTag sign="P46" tag="without sail"/>
     <hasTag sign="P46" tag="with oar"/>
+    <hasTag sign="P46" tag="sacred bark"/>
   </sign>
   <sign sign="P47">
     <hasTag sign="P47" tag="ship"/>
     <hasTag sign="P47" tag="without sail"/>
     <hasTag sign="P47" tag="with oar"/>
+    <hasTag sign="P47" tag="sacred bark"/>
   </sign>
   <sign sign="P47A">
     <hasTag sign="P47A" tag="ship"/>
     <hasTag sign="P47A" tag="without sail"/>
     <hasTag sign="P47A" tag="without oar"/>
+    <hasTag sign="P47A" tag="sacred bark"/>
+    <variantOf baseSign="P47" isSimilar="y" linguistic="unspecified" sign="P47A"/>
   </sign>
   <sign sign="P48">
     <hasTag sign="P48" tag="ship"/>
     <hasTag sign="P48" tag="without sail"/>
     <hasTag sign="P48" tag="with oar"/>
+    <hasTag sign="P48" tag="sacred bark"/>
   </sign>
   <sign sign="P49">
     <hasTag sign="P49" tag="ship"/>
     <hasTag sign="P49" tag="without sail"/>
     <hasTag sign="P49" tag="without oar"/>
+    <hasTag sign="P49" tag="sacred bark"/>
   </sign>
   <sign sign="P50">
     <hasTag sign="P50" tag="ship"/>
     <hasTag sign="P50" tag="without sail"/>
     <hasTag sign="P50" tag="without oar"/>
+    <hasTag sign="P50" tag="sacred bark"/>
   </sign>
   <sign sign="P51">
     <hasTag sign="P51" tag="ship"/>
@@ -30717,12 +31211,14 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P51" tag="sign combination"/>
     <hasTag sign="P51" tag="group of same sign"/>
     <hasTransliteration sign="P51" transliteration="manDt" type="phonogram" use="palette"/>
+    <hasTag sign="P51" tag="scene"/>
   </sign>
   <sign sign="P52">
     <hasTag sign="P52" tag="ship"/>
     <hasTag sign="P52" tag="without sail"/>
     <hasTag sign="P52" tag="without oar"/>
     <hasTag sign="P52" tag="sign combination"/>
+    <hasTag sign="P52" tag="sacred bark"/>
   </sign>
   <sign sign="P53">
     <hasTag sign="P53" tag="ship"/>
@@ -30730,30 +31226,59 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P53" tag="without oar"/>
     <hasTag sign="P53" tag="sign combination"/>
     <hasTransliteration sign="P53" transliteration="spdt" type="phonogram" use="palette"/>
+    <hasTag sign="P53" tag="sacred bark"/>
+    <contains partCode="N14" sign="P53"/>
+    <contains partCode="E100" sign="P53"/>
+    <contains partCode="P106" sign="P53"/>
   </sign>
   <sign sign="P53A">
     <hasTag sign="P53A" tag="ship"/>
     <hasTag sign="P53A" tag="without sail"/>
     <hasTag sign="P53A" tag="without oar"/>
     <hasTag sign="P53A" tag="sign combination"/>
+    <hasTag sign="P53A" tag="sacred bark"/>
+    <variantOf baseSign="P53" isSimilar="y" linguistic="full" sign="P53A"/>
+    <contains partCode="P106" sign="P53A"/>
+    <contains partCode="E100" sign="P53A"/>
   </sign>
   <sign sign="P53B">
     <hasTag sign="P53B" tag="ship"/>
     <hasTag sign="P53B" tag="without sail"/>
     <hasTag sign="P53B" tag="without oar"/>
     <hasTag sign="P53B" tag="sign combination"/>
+    <hasTag sign="P53B" tag="sacred bark"/>
+    <contains partCode="P106" sign="P53B"/>
+    <contains partCode="E1" sign="P53B"/>
+    <variantOf baseSign="P53" isSimilar="y" linguistic="unspecified" sign="P53B"/>
   </sign>
   <sign sign="P54">
     <hasTag sign="P54" tag="ship"/>
     <hasTag sign="P54" tag="without sail"/>
     <hasTag sign="P54" tag="without oar"/>
     <hasTag sign="P54" tag="sign combination"/>
+    <hasTag sign="P54" tag="sacred bark"/>
+    <contains partCode="P106" sign="P54"/>
+    <contains partCode="N36" sign="P54"/>
+    <contains partCode="C257" sign="P54"/>
+    <contains partCode="C153" sign="P54"/>
+    <contains partCode="C9" sign="P54"/>
+    <contains partCode="C2A" sign="P54"/>
+    <signDescription lang="en" sign="P54">+lCat. IFAO 330, 1+s-!
++bValue+s-!
++ldet. +s-+twiA+s-+l +s-w-E35-A-P54-!
++lDendera IV, 231, 12+s-!
++bBibliography+s-+l +s-!
++lCauville, +s-+iDendara, le fond hiéroglyphique au temps de Cléopâtre+s-+l. p. 178+s-!
+!
++lNote: this sign looks suspiciously like the one used for cryptographic writing+s-!
++lof Ramesside Kings names.+s</signDescription>
   </sign>
   <sign sign="P55">
     <hasTag sign="P55" tag="ship"/>
     <hasTag sign="P55" tag="with oar"/>
     <hasTag sign="P55" tag="with sail"/>
     <hasTag sign="P55" tag="scene"/>
+    <hasTag sign="P55" tag="sacred bark"/>
   </sign>
   <sign sign="P56">
     <hasTag sign="P56" tag="ship"/>
@@ -30764,23 +31289,45 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="P1" sign="P56"/>
     <contains partCode="H6" sign="P56"/>
     <contains partCode="P23" sign="P56"/>
+    <hasTag sign="P56" tag="sacred bark"/>
+    <hasTransliteration sign="P56" transliteration="gs-dp" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="P56">+lComposite sign +s-Sw-+l= +s-+tgs;+s-+l +s-P23-+l= +s-+tdp.t+s-+l for writing +s-+tgs-dp, +s-+iprotection.+s-!
+!
++lKurth, +s-+iEinführung+s-+l, I. p. 356; WB V, 200-201+s-!
+!
+</signDescription>
   </sign>
   <sign sign="P56A">
     <hasTag sign="P56A" tag="ship"/>
     <hasTag sign="P56A" tag="with oar"/>
     <hasTag sign="P56A" tag="without sail"/>
     <hasTag sign="P56A" tag="sign combination"/>
+    <hasTag sign="P56A" tag="sacred bark"/>
   </sign>
   <sign sign="P57">
     <hasTag sign="P57" tag="ship"/>
     <hasTag sign="P57" tag="without sail"/>
     <hasTag sign="P57" tag="group"/>
     <hasTag sign="P57" tag="without oar"/>
+    <hasTag sign="P57" tag="scene"/>
+    <hasTransliteration sign="P57" transliteration="wTs-nfrw" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="P57">+lSacred bark of Hathor on its stand.+s-!
++bValue+s-!
++twTs-nfr.w+s-!
++bBibliography+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 357+s</signDescription>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P57"/>
+    <contains partCode="O18A" sign="P57"/>
+    <contains partCode="C9" sign="P57"/>
+    <hasTag sign="P57" tag="sacred bark"/>
   </sign>
   <sign sign="P58">
     <hasTag sign="P58" tag="ship"/>
     <hasTag sign="P58" tag="without sail"/>
     <hasTag sign="P58" tag="without oar"/>
+    <hasTag sign="P58" tag="sacred bark"/>
+    <hasTag sign="P58" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P58"/>
   </sign>
   <sign sign="P59">
     <hasTag sign="P59" tag="ship"/>
@@ -30791,6 +31338,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <contains partCode="G10" sign="P59"/>
     <contains partCode="N36" sign="P59"/>
     <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P59"/>
+    <hasTag sign="P59" tag="sacred bark"/>
+    <hasTag sign="P59" tag="bark of Sokar"/>
   </sign>
   <sign sign="P59A">
     <hasTag sign="P59A" tag="ship"/>
@@ -30798,6 +31347,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P59A" tag="sign combination"/>
     <hasTag sign="P59A" tag="without oar"/>
     <variantOf baseSign="P59" isSimilar="y" linguistic="unspecified" sign="P59A"/>
+    <hasTag sign="P59A" tag="sacred bark"/>
+    <hasTag sign="P59A" tag="bark of Sokar"/>
   </sign>
   <sign sign="P59B">
     <hasTag sign="P59B" tag="ship"/>
@@ -30805,6 +31356,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P59B" tag="sign combination"/>
     <hasTag sign="P59B" tag="with oar"/>
     <variantOf baseSign="P59" isSimilar="y" linguistic="unspecified" sign="P59B"/>
+    <hasTag sign="P59B" tag="sacred bark"/>
+    <hasTag sign="P59B" tag="bark of Sokar"/>
   </sign>
   <sign sign="P59C">
     <hasTag sign="P59C" tag="ship"/>
@@ -30812,6 +31365,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P59C" tag="sign combination"/>
     <hasTag sign="P59C" tag="without oar"/>
     <variantOf baseSign="P59" isSimilar="y" linguistic="unspecified" sign="P59C"/>
+    <hasTag sign="P59C" tag="sacred bark"/>
+    <hasTag sign="P59C" tag="bark of Sokar"/>
   </sign>
   <sign sign="P60">
     <hasTag sign="P60" tag="ship"/>
@@ -30820,138 +31375,194 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P60" tag="without oar"/>
     <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P60"/>
     <hasTransliteration sign="P60" transliteration="Hnw" type="phonogram" use="palette"/>
+    <hasTag sign="P60" tag="sacred bark"/>
+    <hasTag sign="P60" tag="bark of Sokar"/>
   </sign>
   <sign sign="P60A">
     <hasTag sign="P60A" tag="ship"/>
     <hasTag sign="P60A" tag="without sail"/>
     <hasTag sign="P60A" tag="sign combination"/>
     <hasTag sign="P60A" tag="with oar"/>
+    <hasTag sign="P60A" tag="sacred bark"/>
+    <hasTag sign="P60A" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P60A"/>
+    <variantOf baseSign="P60" isSimilar="y" linguistic="unspecified" sign="P60A"/>
   </sign>
   <sign sign="P60B">
     <hasTag sign="P60B" tag="ship"/>
     <hasTag sign="P60B" tag="without sail"/>
     <hasTag sign="P60B" tag="with oar"/>
+    <hasTag sign="P60B" tag="sacred bark"/>
+    <hasTag sign="P60B" tag="bark of Sokar"/>
+    <variantOf baseSign="P60" isSimilar="y" linguistic="unspecified" sign="P60B"/>
   </sign>
   <sign sign="P60C">
     <hasTag sign="P60C" tag="ship"/>
     <hasTag sign="P60C" tag="without sail"/>
     <hasTag sign="P60C" tag="with oar"/>
     <hasTag sign="P60C" tag="sign combination"/>
+    <hasTag sign="P60C" tag="sacred bark"/>
+    <hasTag sign="P60C" tag="bark of Sokar"/>
+    <variantOf baseSign="P60" isSimilar="y" linguistic="unspecified" sign="P60C"/>
   </sign>
   <sign sign="P61">
     <hasTag sign="P61" tag="ship"/>
     <hasTag sign="P61" tag="without sail"/>
     <hasTag sign="P61" tag="with oar"/>
     <hasTag sign="P61" tag="sign combination"/>
+    <hasTag sign="P61" tag="sacred bark"/>
+    <hasTag sign="P61" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P61"/>
   </sign>
   <sign sign="P61A">
     <hasTag sign="P61A" tag="ship"/>
     <hasTag sign="P61A" tag="without sail"/>
     <hasTag sign="P61A" tag="with oar"/>
     <hasTag sign="P61A" tag="sign combination"/>
+    <hasTag sign="P61A" tag="sacred bark"/>
+    <hasTag sign="P61A" tag="bark of Sokar"/>
+    <variantOf baseSign="P61" isSimilar="y" linguistic="unspecified" sign="P61A"/>
   </sign>
   <sign sign="P61B">
     <hasTag sign="P61B" tag="ship"/>
     <hasTag sign="P61B" tag="without sail"/>
     <hasTag sign="P61B" tag="with oar"/>
     <hasTag sign="P61B" tag="sign combination"/>
+    <hasTag sign="P61B" tag="sacred bark"/>
+    <hasTag sign="P61B" tag="bark of Sokar"/>
+    <variantOf baseSign="P61" isSimilar="y" linguistic="unspecified" sign="P61B"/>
   </sign>
   <sign sign="P62">
     <hasTag sign="P62" tag="ship"/>
     <hasTag sign="P62" tag="without sail"/>
     <hasTag sign="P62" tag="sign combination"/>
     <hasTag sign="P62" tag="without oar"/>
+    <hasTag sign="P62" tag="sacred bark"/>
+    <hasTag sign="P62" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P62"/>
   </sign>
   <sign sign="P63">
     <hasTag sign="P63" tag="ship"/>
     <hasTag sign="P63" tag="without sail"/>
     <hasTag sign="P63" tag="sign combination"/>
     <hasTag sign="P63" tag="with oar"/>
+    <hasTag sign="P63" tag="sacred bark"/>
+    <hasTag sign="P63" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P63"/>
   </sign>
   <sign sign="P64">
     <hasTag sign="P64" tag="ship"/>
     <hasTag sign="P64" tag="without sail"/>
     <hasTag sign="P64" tag="sign combination"/>
     <hasTag sign="P64" tag="with oar"/>
+    <hasTag sign="P64" tag="sacred bark"/>
   </sign>
   <sign sign="P64A">
     <hasTag sign="P64A" tag="ship"/>
     <hasTag sign="P64A" tag="without sail"/>
     <hasTag sign="P64A" tag="sign combination"/>
     <hasTag sign="P64A" tag="without oar"/>
+    <hasTag sign="P64A" tag="sacred bark"/>
   </sign>
   <sign sign="P65">
     <hasTag sign="P65" tag="ship"/>
     <hasTag sign="P65" tag="without sail"/>
     <hasTag sign="P65" tag="sign combination"/>
     <hasTag sign="P65" tag="with oar"/>
+    <hasTag sign="P65" tag="sacred bark"/>
   </sign>
   <sign sign="P65A">
     <hasTag sign="P65A" tag="ship"/>
     <hasTag sign="P65A" tag="without sail"/>
     <hasTag sign="P65A" tag="sign combination"/>
     <hasTag sign="P65A" tag="with oar"/>
+    <hasTag sign="P65A" tag="sacred bark"/>
+    <hasTag sign="P65A" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P65A"/>
   </sign>
   <sign sign="P66">
     <hasTag sign="P66" tag="ship"/>
     <hasTag sign="P66" tag="without sail"/>
     <hasTag sign="P66" tag="sign combination"/>
     <hasTag sign="P66" tag="with oar"/>
+    <hasTag sign="P66" tag="sacred bark"/>
+    <hasTag sign="P66" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P66"/>
   </sign>
   <sign sign="P66A">
     <hasTag sign="P66A" tag="ship"/>
     <hasTag sign="P66A" tag="without sail"/>
     <hasTag sign="P66A" tag="sign combination"/>
     <hasTag sign="P66A" tag="with oar"/>
+    <hasTag sign="P66A" tag="sacred bark"/>
+    <hasTag sign="P66A" tag="bark of Sokar"/>
+    <variantOf baseSign="P66" isSimilar="y" linguistic="unspecified" sign="P66A"/>
   </sign>
   <sign sign="P66B">
     <hasTag sign="P66B" tag="ship"/>
     <hasTag sign="P66B" tag="without sail"/>
     <hasTag sign="P66B" tag="sign combination"/>
     <hasTag sign="P66B" tag="with oar"/>
+    <hasTag sign="P66B" tag="sacred bark"/>
+    <hasTag sign="P66B" tag="bark of Sokar"/>
+    <variantOf baseSign="P66" isSimilar="y" linguistic="unspecified" sign="P66B"/>
   </sign>
   <sign sign="P67">
     <hasTag sign="P67" tag="ship"/>
     <hasTag sign="P67" tag="without sail"/>
     <hasTag sign="P67" tag="sign combination"/>
     <hasTag sign="P67" tag="with oar"/>
+    <hasTag sign="P67" tag="sacred bark"/>
+    <hasTag sign="P67" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P67"/>
   </sign>
   <sign sign="P68">
     <hasTag sign="P68" tag="ship"/>
     <hasTag sign="P68" tag="without sail"/>
     <hasTag sign="P68" tag="sign combination"/>
     <hasTag sign="P68" tag="with oar"/>
+    <hasTag sign="P68" tag="sacred bark"/>
+    <hasTag sign="P68" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P68"/>
   </sign>
   <sign sign="P69">
     <hasTag sign="P69" tag="ship"/>
     <hasTag sign="P69" tag="without sail"/>
     <hasTag sign="P69" tag="sign combination"/>
     <hasTag sign="P69" tag="with oar"/>
+    <hasTag sign="P69" tag="sacred bark"/>
+    <hasTag sign="P69" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P69"/>
   </sign>
   <sign sign="P70">
     <hasTag sign="P70" tag="ship"/>
     <hasTag sign="P70" tag="without sail"/>
     <hasTag sign="P70" tag="without oar"/>
+    <hasTag sign="P70" tag="sacred bark"/>
   </sign>
   <sign sign="P71">
     <hasTag sign="P71" tag="ship"/>
     <hasTag sign="P71" tag="without sail"/>
     <hasTag sign="P71" tag="without oar"/>
+    <hasTag sign="P71" tag="sacred bark"/>
   </sign>
   <sign sign="P71A">
     <hasTag sign="P71A" tag="ship"/>
     <hasTag sign="P71A" tag="without sail"/>
     <hasTag sign="P71A" tag="without oar"/>
+    <hasTag sign="P71A" tag="sacred bark"/>
   </sign>
   <sign sign="P71B">
     <hasTag sign="P71B" tag="ship"/>
     <hasTag sign="P71B" tag="without sail"/>
     <hasTag sign="P71B" tag="without oar"/>
+    <hasTag sign="P71B" tag="sacred bark"/>
   </sign>
   <sign sign="P72">
     <hasTag sign="P72" tag="ship"/>
     <hasTag sign="P72" tag="without sail"/>
     <hasTag sign="P72" tag="without oar"/>
+    <hasTag sign="P72" tag="sacred bark"/>
   </sign>
   <sign sign="P73">
     <hasTag sign="P73" tag="ship"/>
@@ -30962,82 +31573,130 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P74" tag="ship"/>
     <hasTag sign="P74" tag="with oar"/>
     <hasTag sign="P74" tag="with sail"/>
+    <signDescription lang="en" sign="P74">+lLarge merchant ship.+s-!
++bValue+s-!
++lDet. +s-+tmnS, +s-+imenesh-ship+s</signDescription>
+    <hasTransliteration sign="P74" transliteration="mnS" type="typical" use="palette"/>
   </sign>
   <sign sign="US1P74VARA">
     <hasTag sign="US1P74VARA" tag="ship"/>
     <hasTag sign="US1P74VARA" tag="with oar"/>
     <hasTag sign="US1P74VARA" tag="without sail"/>
+    <signDescription lang="en" sign="US1P74VARA">+lLarge merchant ship.+s-!
++lDeterminative of mnS, from the Karnak version of Pentaour. The official P74 is the version from Abu Simbel.+s-!
++bValue+s-!
++lDet. +s-+tmnS, +s-+imenesh-ship+s</signDescription>
+    <hasTransliteration sign="US1P74VARA" transliteration="mnS" type="typical" use="palette"/>
   </sign>
   <sign sign="P75">
     <hasTag sign="P75" tag="ship"/>
     <hasTag sign="P75" tag="with sail"/>
     <hasTag sign="P75" tag="without oar"/>
+    <hasTag sign="P75" tag="mast"/>
+    <variantOf baseSign="P5" isSimilar="y" linguistic="unspecified" sign="P75"/>
   </sign>
   <sign sign="P76">
     <hasTag sign="P76" tag="mast"/>
     <hasTag sign="P76" tag="without sail"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="full" sign="P76"/>
   </sign>
   <sign sign="P76A">
     <hasTag sign="P76A" tag="mast"/>
     <hasTag sign="P76A" tag="without sail"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="full" sign="P76A"/>
   </sign>
   <sign sign="P77">
     <hasTag sign="P77" tag="mast"/>
     <hasTag sign="P77" tag="without sail"/>
+    <variantOf baseSign="P77" isSimilar="y" linguistic="full" sign="P77"/>
   </sign>
   <sign sign="P78">
     <hasTag sign="P78" tag="mast"/>
     <hasTag sign="P78" tag="with sail"/>
+    <contains partCode="P5" sign="P78"/>
+    <contains partCode="P6" sign="P78"/>
   </sign>
   <sign sign="P79">
     <hasTag sign="P79" tag="mast"/>
     <hasTag sign="P79" tag="without sail"/>
     <hasTag sign="P79" tag="sign combination"/>
+    <contains partCode="P5" sign="P79"/>
+    <contains partCode="D54" sign="P79"/>
+    <contains partCode="D36" sign="P79"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="full" sign="P79"/>
   </sign>
   <sign sign="P80">
     <hasTag sign="P80" tag="mast"/>
     <hasTag sign="P80" tag="without sail"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="unspecified" sign="P80"/>
   </sign>
   <sign sign="P81">
     <hasTag sign="P81" tag="mast"/>
     <hasTag sign="P81" tag="without sail"/>
     <hasTag sign="P81" tag="sign combination"/>
     <hasTransliteration sign="P81" transliteration="Hr-aHA" type="phonogram" use="palette"/>
+    <contains partCode="P6" sign="P81"/>
+    <contains partCode="K3" sign="P81"/>
   </sign>
   <sign sign="P82">
     <hasTag sign="P82" tag="mast"/>
     <hasTag sign="P82" tag="without sail"/>
     <hasTag sign="P82" tag="sign combination"/>
+    <contains partCode="P6" sign="P82"/>
+    <contains partCode="I9A" sign="P82"/>
   </sign>
   <sign sign="P83">
     <hasTag sign="P83" tag="mast"/>
     <hasTag sign="P83" tag="without sail"/>
     <hasTag sign="P83" tag="sign combination"/>
     <hasTag sign="P83" tag="with uraeus"/>
+    <contains partCode="P6" sign="P83"/>
+    <contains partCode="I64" sign="P83"/>
   </sign>
   <sign sign="P84">
     <hasTag sign="P84" tag="mast"/>
     <hasTag sign="P84" tag="without sail"/>
     <hasTag sign="P84" tag="sign combination"/>
+    <contains partCode="P6" sign="P84"/>
+    <contains partCode="V31" sign="P84"/>
   </sign>
   <sign sign="P85">
     <hasTag sign="P85" tag="oar"/>
     <hasTag sign="P85" tag="sign combination"/>
+    <contains partCode="P8" sign="P85"/>
+    <contains partCode="Aa15" sign="P85"/>
   </sign>
   <sign sign="P86">
     <hasTag sign="P86" tag="varia"/>
     <hasTag sign="P86" tag="sign combination"/>
+    <hasTag sign="P86" tag="steering oar"/>
   </sign>
   <sign sign="P87">
     <hasTag sign="P87" tag="varia"/>
     <hasTag sign="P87" tag="sign combination"/>
+    <hasTag sign="P87" tag="steering oar"/>
+    <hasTag sign="P87" tag="plough"/>
+    <signDescription lang="en" sign="P87">+lAccording to D. Meeks (o.c., p. 17-18), a plough.+s-!
++lThe sign is listed in the +s-+iManuel de Codage, +s-+lp. 168, and IFAO, 337, 10 in the+s-!
++lcategory +s-+ibateau - rame-gouvernail.+s-!
++lD. Meeks refers to Ay (Hawass, 2006, +s-+iRoyal Tombs of Egypt, +s-+lp. 238) as source and to the shape of the plough in Nakht (Davies 1917, pl. XIX).+s-!
++lNote: the original JSesh sign is not pointy enough. It should be fixed from the IFAO original.+s-!
++bBibliography+s-!
++lKuentz, Charles. 1928. +s-+iLa Bataille de Qadech+s-+l MIFAO 55 +s-!
++lMeeks, Dimitri. 2023. ‘An Egypto-Grammatology: Why and How’. +s-+iHieroglyphs,+s-+l no. 1: 7–30. +s-!
+</signDescription>
+    <variantOf baseSign="U13" isSimilar="y" linguistic="full" sign="P87"/>
   </sign>
   <sign sign="P88">
     <hasTag sign="P88" tag="varia"/>
     <hasTag sign="P88" tag="sign combination"/>
+    <hasTag sign="P88" tag="mooring post"/>
+    <contains partCode="P11" sign="P88"/>
+    <contains partCode="M3" sign="P88"/>
   </sign>
   <sign sign="P89">
     <hasTag sign="P89" tag="embankment"/>
+    <hasTag sign="P89" tag="mooring post"/>
   </sign>
   <sign sign="P90">
     <hasTag sign="P90" tag="varia"/>
@@ -31062,30 +31721,45 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P96" tag="with oar"/>
     <hasTag sign="P96" tag="without sail"/>
     <hasTag sign="P96" tag="sign combination"/>
+    <hasTag sign="P96" tag="sacred bark"/>
+    <hasTag sign="P96" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P96"/>
   </sign>
   <sign sign="P97">
     <hasTag sign="P97" tag="ship"/>
     <hasTag sign="P97" tag="with oar"/>
     <hasTag sign="P97" tag="without sail"/>
     <hasTag sign="P97" tag="sign combination"/>
+    <hasTag sign="P97" tag="sacred bark"/>
+    <hasTag sign="P97" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P97"/>
   </sign>
   <sign sign="P97A">
     <hasTag sign="P97A" tag="ship"/>
     <hasTag sign="P97A" tag="with oar"/>
     <hasTag sign="P97A" tag="without sail"/>
     <hasTag sign="P97A" tag="sign combination"/>
+    <hasTag sign="P97A" tag="sacred bark"/>
+    <hasTag sign="P97A" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P97A"/>
   </sign>
   <sign sign="P97B">
     <hasTag sign="P97B" tag="ship"/>
     <hasTag sign="P97B" tag="with oar"/>
     <hasTag sign="P97B" tag="without sail"/>
     <hasTag sign="P97B" tag="sign combination"/>
+    <hasTag sign="P97B" tag="sacred bark"/>
+    <hasTag sign="P97B" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P97B"/>
   </sign>
   <sign sign="P97C">
     <hasTag sign="P97C" tag="ship"/>
     <hasTag sign="P97C" tag="with oar"/>
     <hasTag sign="P97C" tag="without sail"/>
     <hasTag sign="P97C" tag="sign combination"/>
+    <hasTag sign="P97C" tag="sacred bark"/>
+    <hasTag sign="P97C" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P97C"/>
   </sign>
   <sign sign="P98">
     <hasTag sign="P98" tag="ship"/>
@@ -31094,23 +31768,33 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P98" tag="sign combination"/>
     <hasTag sign="P98" tag="group of same sign"/>
     <hasTag sign="P98" tag="with standard"/>
+    <hasTag sign="P98" tag="sacred bark"/>
+    <hasTransliteration sign="P98" transliteration="nTrwy" type="phonogram" use="palette"/>
+    <contains partCode="P27A" sign="P98"/>
+    <contains partCode="G122" sign="P98"/>
+    <contains partCode="R12" sign="P98"/>
   </sign>
   <sign sign="P99">
     <hasTag sign="P99" tag="ship"/>
     <hasTag sign="P99" tag="with oar"/>
     <hasTag sign="P99" tag="without sail"/>
+    <hasTag sign="P99" tag="sacred bark"/>
+    <hasTag sign="P99" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P99"/>
   </sign>
   <sign sign="P100">
     <hasTag sign="P100" tag="ship"/>
     <hasTag sign="P100" tag="without sail"/>
     <hasTag sign="P100" tag="without oar"/>
     <hasTag sign="P100" tag="group of same sign"/>
+    <hasTag sign="P100" tag="sacred bark"/>
   </sign>
   <sign sign="P101">
     <hasTag sign="P101" tag="ship"/>
     <hasTag sign="P101" tag="without sail"/>
     <hasTag sign="P101" tag="with oar"/>
     <hasTag sign="P101" tag="sign combination"/>
+    <hasTag sign="P101" tag="sacred bark"/>
   </sign>
   <sign sign="P102">
     <hasTag sign="P102" tag="varia"/>
@@ -31120,16 +31804,21 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P103" tag="mast"/>
     <hasTag sign="P103" tag="with sail"/>
     <hasTag sign="P103" tag="sign combination"/>
+    <contains partCode="P5" sign="P103"/>
+    <contains partCode="I9" sign="P103"/>
   </sign>
   <sign sign="P104">
     <hasTag sign="P104" tag="ship"/>
     <hasTag sign="P104" tag="without sail"/>
     <hasTag sign="P104" tag="without oar"/>
+    <variantOf baseSign="P1" isSimilar="y" linguistic="unspecified" sign="P104"/>
   </sign>
   <sign sign="P104A">
     <hasTag sign="P104A" tag="ship"/>
     <hasTag sign="P104A" tag="without sail"/>
     <hasTag sign="P104A" tag="with oar"/>
+    <variantOf baseSign="P1" isSimilar="y" linguistic="unspecified" sign="P104A"/>
+    <contains partCode="P104" sign="P104A"/>
   </sign>
   <sign sign="P105">
     <hasTag sign="P105" tag="ship"/>
@@ -31142,12 +31831,17 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P106" tag="without sail"/>
     <hasTransliteration sign="P106" transliteration="w" type="phonogram" use="palette"/>
     <hasTransliteration sign="P106" transliteration="wiA" type="phonogram" use="palette"/>
-    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P106"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="full" sign="P106"/>
+    <hasTag sign="P106" tag="sacred bark"/>
   </sign>
   <sign sign="P107">
     <hasTag sign="P107" tag="ship"/>
     <hasTag sign="P107" tag="without sail"/>
     <hasTag sign="P107" tag="with oar"/>
+    <hasTag sign="P107" tag="sacred bark"/>
+    <variantOf baseSign="P106" isSimilar="y" linguistic="full" sign="P107"/>
+    <contains partCode="P10" sign="P107"/>
+    <contains partCode="P106" sign="P107"/>
   </sign>
   <sign sign="P108">
     <hasTag sign="P108" tag="ship"/>
@@ -31155,12 +31849,24 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P108" tag="with oar"/>
     <hasTag sign="P108" tag="sign combination"/>
     <hasTransliteration sign="P108" transliteration="sAH" type="phonogram" use="palette"/>
+    <hasTag sign="P108" tag="sacred bark"/>
+    <signDescription lang="en" sign="P108">+lOrion+s-!
++lValue: +s-+tsAH+s-!
+</signDescription>
+    <contains partCode="P106" sign="P108"/>
+    <contains partCode="N14" sign="P108"/>
+    <contains partCode="S1" sign="P108"/>
+    <contains partCode="P10" sign="P108"/>
   </sign>
   <sign sign="P109">
     <hasTag sign="P109" tag="ship"/>
     <hasTag sign="P109" tag="without sail"/>
     <hasTag sign="P109" tag="with oar"/>
     <hasTag sign="P109" tag="sign combination"/>
+    <hasTag sign="P109" tag="sacred bark"/>
+    <contains partCode="P106" sign="P109"/>
+    <contains partCode="P107" sign="P109"/>
+    <contains partCode="C2" sign="P109"/>
   </sign>
   <sign sign="P110">
     <hasTag sign="P110" tag="ship"/>
@@ -31168,69 +31874,117 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTag sign="P110" tag="with oar"/>
     <hasTag sign="P110" tag="sign combination"/>
     <hasTag sign="P110" tag="scene"/>
+    <hasTag sign="P110" tag="sacred bark"/>
+    <hasTransliteration sign="P110" transliteration="wsir" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="P110">+lIsis and Nephtys protecting Horus in a boat+s-!
++lThe sign value is explained in Sauneron, +s-+io.c.+s-!
+P27A-+l = +s-+tw(iA)/w+s-!
+A17-+l = +s-+ts(A)+s-!
+C159-C190-+l = +s-+tr(s)+s-!
++lHence, +s-+twsr.+s-!
++bValue+s-!
++lLogogram +s-+twsir, +s-+iOsiris+s-!
++bBibliography+s-!
++lSauneron, "à propos de deux signes 'Ptolémaïques'", +s-+iBIFAO +s-+l53, 1953, p. 79+s-!
++lKurth, +s-+iEinführung+s-+l, I. p. 356+s-!
+</signDescription>
+    <contains partCode="P27A" sign="P110"/>
+    <contains partCode="C159" sign="P110"/>
+    <contains partCode="C190" sign="P110"/>
+    <contains partCode="A17" sign="P110"/>
   </sign>
   <sign sign="P111">
     <hasTag sign="P111" tag="ship"/>
     <hasTag sign="P111" tag="without sail"/>
     <hasTag sign="P111" tag="with oar"/>
+    <hasTag sign="P111" tag="sacred bark"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P111"/>
   </sign>
   <sign sign="P112">
     <hasTag sign="P112" tag="ship"/>
     <hasTag sign="P112" tag="without sail"/>
     <hasTag sign="P112" tag="without oar"/>
     <hasTag sign="P112" tag="sign combination"/>
+    <hasTag sign="P112" tag="sacred bark"/>
+    <contains partCode="R8" sign="P112"/>
+    <contains partCode="P106" sign="P112"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P112"/>
   </sign>
   <sign sign="P113">
     <hasTag sign="P113" tag="ship"/>
     <hasTag sign="P113" tag="without sail"/>
     <hasTag sign="P113" tag="without oar"/>
     <hasTag sign="P113" tag="sign combination"/>
+    <hasTag sign="P113" tag="sacred bark"/>
+    <contains partCode="P106" sign="P113"/>
+    <contains partCode="T19" sign="P113"/>
+    <contains partCode="R11" sign="P113"/>
+    <variantOf baseSign="P3" isSimilar="y" linguistic="unspecified" sign="P113"/>
   </sign>
   <sign sign="P114">
     <hasTag sign="P114" tag="ship"/>
     <hasTag sign="P114" tag="without sail"/>
     <hasTag sign="P114" tag="without oar"/>
     <hasTag sign="P114" tag="sign combination"/>
+    <hasTag sign="P114" tag="sacred bark"/>
+    <hasTag sign="P114" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P114"/>
   </sign>
   <sign sign="P115">
     <hasTag sign="P115" tag="ship"/>
     <hasTag sign="P115" tag="without sail"/>
     <hasTag sign="P115" tag="sign combination"/>
     <hasTag sign="P115" tag="with oar"/>
+    <hasTag sign="P115" tag="sacred bark"/>
+    <hasTag sign="P115" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P115"/>
   </sign>
   <sign sign="P115A">
     <hasTag sign="P115A" tag="ship"/>
     <hasTag sign="P115A" tag="without sail"/>
     <hasTag sign="P115A" tag="sign combination"/>
     <hasTag sign="P115A" tag="with oar"/>
+    <hasTag sign="P115A" tag="sacred bark"/>
+    <hasTag sign="P115A" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P115A"/>
   </sign>
   <sign sign="P116">
     <hasTag sign="P116" tag="ship"/>
     <hasTag sign="P116" tag="without sail"/>
     <hasTag sign="P116" tag="sign combination"/>
     <hasTag sign="P116" tag="with oar"/>
+    <hasTag sign="P116" tag="sacred bark"/>
+    <hasTag sign="P116" tag="bark of Sokar"/>
+    <variantOf baseSign="G10" isSimilar="y" linguistic="unspecified" sign="P116"/>
   </sign>
   <sign sign="P117">
     <hasTag sign="P117" tag="mast"/>
     <hasTag sign="P117" tag="without sail"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="unspecified" sign="P117"/>
   </sign>
   <sign sign="P118">
     <hasTag sign="P118" tag="mast"/>
     <hasTag sign="P118" tag="without sail"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="full" sign="P118"/>
   </sign>
   <sign sign="P119">
     <hasTag sign="P119" tag="varia"/>
+    <variantOf baseSign="P6" isSimilar="y" linguistic="unspecified" sign="P119"/>
   </sign>
   <sign sign="P120">
     <hasTag sign="P120" tag="sign combination"/>
     <hasTag sign="P120" tag="ship"/>
     <hasTag sign="P120" tag="without oar"/>
     <hasTag sign="P120" tag="without sail"/>
+    <contains partCode="P4" sign="P120"/>
+    <contains partCode="M17" sign="P120"/>
   </sign>
   <sign sign="P121">
     <hasTag sign="P121" tag="ship"/>
     <hasTag sign="P121" tag="without sail"/>
     <hasTag sign="P121" tag="with oar"/>
+    <hasTag sign="P121" tag="sacred bark"/>
+    <hasTag sign="P121" tag="hawk-headed"/>
   </sign>
   <sign alwaysDisplay="y" sign="Q1">
     <hasTransliteration sign="Q1" transliteration="As" type="phonogram" use="keyboard"/>
@@ -31841,6 +32595,16 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign alwaysDisplay="y" sign="R4">
     <hasTransliteration sign="R4" transliteration="Htp" type="phonogram" use="keyboard"/>
     <hasTag sign="R4" tag="bread on mat"/>
+  </sign>
+  <sign sign="R4VARA">
+    <variantOf baseSign="R4" isSimilar="y" linguistic="full" sign="R4VARA"/>
+    <hasTag sign="R4VARA" tag="bread on mat"/>
+    <hasTag sign="R4VARA" tag="vessel"/>
+    <signDescription lang="en" sign="R4VARA">+lShape of +s-.\1:R4:.\1-+lin Louvre C65. +s-!
++bBibliography+s-!
++lDrioton, E. 1933. "Essais sur la cryptographie privée de la fin de la XVIIIe dynastie"+s-+i, RDE+s-+l 1, 1-50+s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="R5">
     <hasTransliteration sign="R5" transliteration="kAp" type="phonogram" use="keyboard"/>
@@ -35980,90 +36744,103 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="U24C">
     <hasTag sign="U24C" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24C"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24C"/>
   </sign>
   <sign sign="U24D">
     <hasTag sign="U24D" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24D"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24D"/>
   </sign>
   <sign sign="U24E">
     <hasTag sign="U24E" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24E"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24E"/>
   </sign>
   <sign sign="U24F">
     <hasTag sign="U24F" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24F"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24F"/>
   </sign>
   <sign sign="U24G">
     <hasTag sign="U24G" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24G"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24G"/>
   </sign>
   <sign sign="U24h">
     <hasTag sign="U24h" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24h"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24h"/>
   </sign>
   <sign sign="U24I">
     <hasTag sign="U24I" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24I"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24I"/>
   </sign>
   <sign sign="U24J">
     <hasTag sign="U24J" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24J"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24J"/>
   </sign>
   <sign sign="U24K">
     <hasTag sign="U24K" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24K"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24K"/>
   </sign>
   <sign sign="U24L">
     <hasTag sign="U24L" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24L"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24L"/>
   </sign>
   <sign sign="U24M">
     <hasTag sign="U24M" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24M"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24M"/>
   </sign>
   <sign sign="U24N">
     <hasTag sign="U24N" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U24N"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U24N"/>
   </sign>
   <sign alwaysDisplay="y" sign="U25">
     <hasTransliteration sign="U25" transliteration="Hmt" type="phonogram" use="keyboard"/>
     <hasTag sign="U25" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U25"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="full" sign="U25"/>
     <hasTransliteration sign="U25" transliteration="Hm" type="phonogram" use="palette"/>
     <hasTransliteration sign="U25" transliteration="Hmw" type="phonogram" use="palette"/>
   </sign>
   <sign sign="U25A">
     <hasTag sign="U25A" tag="drill"/>
-    <variantOf baseSign="U25" isSimilar="y" linguistic="unspecified" sign="U25A"/>
+    <variantOf baseSign="U25" isSimilar="y" linguistic="full" sign="U25A"/>
   </sign>
   <sign sign="U25B">
     <hasTag sign="U25B" tag="drill"/>
-    <variantOf baseSign="U25" isSimilar="y" linguistic="unspecified" sign="U25B"/>
+    <variantOf baseSign="U25" isSimilar="y" linguistic="full" sign="U25B"/>
   </sign>
   <sign sign="U25C">
     <hasTag sign="U25C" tag="drill"/>
-    <variantOf baseSign="U25" isSimilar="y" linguistic="unspecified" sign="U25C"/>
+    <variantOf baseSign="U25" isSimilar="y" linguistic="full" sign="U25C"/>
   </sign>
   <sign alwaysDisplay="y" sign="U26">
     <hasTransliteration sign="U26" transliteration="wbA" type="phonogram" use="keyboard"/>
     <hasTag sign="U26" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U26"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="other" sign="U26"/>
   </sign>
   <sign sign="U26A">
     <hasTag sign="U26A" tag="drill"/>
-    <variantOf baseSign="U26" isSimilar="y" linguistic="unspecified" sign="U26A"/>
+    <variantOf baseSign="U26" isSimilar="y" linguistic="full" sign="U26A"/>
   </sign>
   <sign alwaysDisplay="y" sign="U27">
     <hasTransliteration sign="U27" transliteration="wbA" type="phonogram" use="keyboard"/>
     <hasTag sign="U27" tag="drill"/>
-    <variantOf baseSign="U24" isSimilar="y" linguistic="unspecified" sign="U27"/>
+    <variantOf baseSign="U24" isSimilar="y" linguistic="other" sign="U27"/>
+    <variantOf baseSign="U25" isSimilar="y" linguistic="full" sign="U27"/>
   </sign>
   <sign sign="U27A">
     <hasTag sign="U27A" tag="drill"/>
+    <variantOf baseSign="U27" isSimilar="y" linguistic="unspecified" sign="U27A"/>
   </sign>
   <sign sign="U27B">
     <hasTag sign="U27B" tag="drill"/>
+    <variantOf baseSign="U27" isSimilar="y" linguistic="partial" sign="U27B"/>
+    <signDescription lang="en" sign="U27B">+lChisel or drill?+s-!
++bValue: +s-+tmDA.t ?+s-!
++laccording to Kurth, maybe a chisel and not a drill, although the note indicates that the identification+s-!
++lis not certain.+s-!
++bBibliography+s-!
++lKurth, Dieter. 2007. Einführung ins Ptolemäische: eine Grammatik mit Zeichenliste und Übungsstücken. Backe-Verlag.
+ p. 407, 411+s-!
+</signDescription>
+    <variantOf baseSign="U22" isSimilar="y" linguistic="unspecified" sign="U27B"/>
+    <hasTag sign="U27B" tag="chisel"/>
   </sign>
   <sign alwaysDisplay="y" sign="U28">
     <hasTransliteration sign="U28" transliteration="DA" type="phonogram" use="keyboard"/>
@@ -36074,7 +36851,7 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="U29" transliteration="DA" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="U29" transliteration="wDA" type="phonogram" use="keyboard"/>
     <hasTag sign="U29" tag="fire-drill"/>
-    <variantOf baseSign="U28" isSimilar="y" linguistic="unspecified" sign="U29"/>
+    <variantOf baseSign="U28" isSimilar="y" linguistic="full" sign="U29"/>
   </sign>
   <sign sign="U29A">
     <hasTag sign="U29A" tag="fire-drill"/>
@@ -36090,9 +36867,11 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="U30A">
     <hasTag sign="U30A" tag="kiln"/>
+    <variantOf baseSign="U30" isSimilar="y" linguistic="full" sign="U30A"/>
   </sign>
   <sign sign="U30B">
     <hasTag sign="U30B" tag="kiln"/>
+    <variantOf baseSign="U30" isSimilar="y" linguistic="full" sign="U30B"/>
   </sign>
   <sign alwaysDisplay="y" sign="U31">
     <hasTransliteration sign="U31" transliteration="itH" type="phonogram" use="keyboard"/>
@@ -36103,7 +36882,7 @@ U22-m-D17</signDescription>
     <hasTag sign="U31" tag="varia"/>
     <signDescription lang="en" sign="U31">+lplease note that the sign +s-Aa56-+l, with value "m" has the code Aa56.+s-!
 </signDescription>
-    <variantOf baseSign="Aa56" isSimilar="y" linguistic="unspecified" sign="U31"/>
+    <variantOf baseSign="Aa56" isSimilar="y" linguistic="no" sign="U31"/>
   </sign>
   <sign alwaysDisplay="y" sign="U32">
     <hasTransliteration sign="U32" transliteration="dns" type="phonogram" use="keyboard"/>
@@ -36118,9 +36897,11 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="U32B">
     <hasTag sign="U32B" tag="pestle"/>
+    <variantOf baseSign="U32" isSimilar="y" linguistic="full" sign="U32B"/>
   </sign>
   <sign sign="U32C">
     <hasTag sign="U32C" tag="pestle"/>
+    <variantOf baseSign="U32" isSimilar="y" linguistic="full" sign="U32C"/>
   </sign>
   <sign alwaysDisplay="y" sign="U33">
     <hasTransliteration sign="U33" transliteration="ti" type="phonogram" use="keyboard"/>
@@ -36803,12 +37584,36 @@ U22-m-D17</signDescription>
     <hasTag sign="U126" tag="sledge"/>
   </sign>
   <sign sign="U127">
-    <hasTag sign="U127" tag="drill"/>
     <hasTag sign="U127" tag="group"/>
+    <signDescription lang="en" sign="U127">+lU27B +s-U27B-+l over O39 +s-O39-!
++ldrill or chisel?+s-!
++lFor the drill shape, see IFAO 396, 15 ? or +s-U27B-+l U27B.+s-!
++lAccording to Roberson, in cryptographic texts, +s-+tw, wbA +s-+lor +s-+tT+s-+l.+s-!
++lValue +s-+tT +s-+lwould come from the verb +s-+tTAi+s-+l, +s-+ito engrave, +s-+lby consonnantal principle.+s-!
++lIt might be the sign found on Louvre C65, l. 6+s-!
++bBibliography+s-!
++lRoberson, Joshua Aaron. 2020. +s-+iA Lexicon of Ancient Egyptian Cryptography of the New Kingdom.+s-+l p. 164 +s-!
++lKurth, Dieter. 2007. Einführung ins Ptolemäische: eine Grammatik mit Zeichenliste und Übungsstücken. Backe-Verlag.
+ p. 407, 411+s-!
+</signDescription>
+    <contains partCode="O39" sign="U127"/>
+    <hasTransliteration sign="U127" transliteration="wbA" type="phonogram" use="informative"/>
+    <hasTransliteration sign="U127" transliteration="w" type="phonogram" use="informative"/>
+    <hasTransliteration sign="U127" transliteration="T" type="phonogram" use="informative"/>
+    <contains partCode="U27" sign="U127"/>
+    <hasTag sign="U127" tag="chisel"/>
+    <variantOf baseSign="U27B" isSimilar="y" linguistic="other" sign="U127"/>
   </sign>
   <sign sign="U128">
-    <hasTag sign="U128" tag="drill"/>
     <hasTag sign="U128" tag="group"/>
+    <variantOf baseSign="U26" isSimilar="y" linguistic="partial" sign="U128"/>
+    <contains partCode="U26" sign="U128"/>
+    <contains partCode="O39" sign="U128"/>
+    <signDescription lang="en" sign="U128">+lU26 +s-U26-+l over O39 +s-O39-!
+!
++lSee U127+s-!
+</signDescription>
+    <hasTag sign="U128" tag="chisel"/>
   </sign>
   <sign sign="U129">
     <hasTag sign="U129" tag="writing implement"/>
@@ -36989,7 +37794,7 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V14" transliteration="T" type="phonogram" use="keyboard"/>
     <hasTag sign="V14" tag="fetters"/>
     <hasTag sign="V14" tag="rope"/>
-    <variantOf baseSign="V13" isSimilar="y" linguistic="unspecified" sign="V14"/>
+    <variantOf baseSign="V13" isSimilar="y" linguistic="full" sign="V14"/>
     <contains partCode="V13" sign="V14"/>
   </sign>
   <sign alwaysDisplay="y" sign="V15">
@@ -37000,7 +37805,7 @@ U22-m-D17</signDescription>
     <hasTag sign="V15" tag="sign combination"/>
     <contains partCode="D54" sign="V15"/>
     <contains partCode="V13" sign="V15"/>
-    <variantOf baseSign="V13" isSimilar="y" linguistic="unspecified" sign="V15"/>
+    <variantOf baseSign="V13" isSimilar="y" linguistic="no" sign="V15"/>
   </sign>
   <sign alwaysDisplay="y" sign="V16">
     <hasTransliteration sign="V16" transliteration="sA" type="phonogram" use="keyboard"/>
@@ -37012,13 +37817,13 @@ U22-m-D17</signDescription>
     <hasTag sign="V16A" tag="fetters"/>
     <hasTag sign="V16A" tag="loop"/>
     <hasTag sign="V16A" tag="rope"/>
-    <variantOf baseSign="V16" isSimilar="y" linguistic="unspecified" sign="V16A"/>
+    <variantOf baseSign="V16" isSimilar="y" linguistic="full" sign="V16A"/>
   </sign>
   <sign sign="V16B">
     <hasTag sign="V16B" tag="fetters"/>
     <hasTag sign="V16B" tag="loop"/>
     <hasTag sign="V16B" tag="rope"/>
-    <variantOf baseSign="V16" isSimilar="y" linguistic="unspecified" sign="V16B"/>
+    <variantOf baseSign="V16" isSimilar="y" linguistic="full" sign="V16B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V17">
     <hasTransliteration sign="V17" transliteration="sA" type="phonogram" use="keyboard"/>
@@ -37026,11 +37831,11 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V17A">
     <hasTag sign="V17A" tag="papyrus shelter"/>
-    <variantOf baseSign="V17" isSimilar="y" linguistic="unspecified" sign="V17A"/>
+    <variantOf baseSign="V17" isSimilar="y" linguistic="full" sign="V17A"/>
   </sign>
   <sign sign="V17B">
     <hasTag sign="V17B" tag="papyrus shelter"/>
-    <variantOf baseSign="V17" isSimilar="y" linguistic="unspecified" sign="V17B"/>
+    <variantOf baseSign="V17" isSimilar="y" linguistic="full" sign="V17B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V18">
     <hasTransliteration sign="V18" transliteration="sA" type="phonogram" use="keyboard"/>
@@ -37049,10 +37854,11 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V20" transliteration="mD" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V20" transliteration="mDw" type="phonogram" use="keyboard"/>
     <hasTag sign="V20" tag="fetters"/>
+    <contains partCode="V20" sign="V20"/>
   </sign>
   <sign sign="V20h">
     <hasTag sign="V20h" tag="fetters"/>
-    <variantOf baseSign="V20" isSimilar="y" linguistic="partial" sign="V20h"/>
+    <variantOf baseSign="V20" isSimilar="y" linguistic="full" sign="V20h"/>
   </sign>
   <sign alwaysDisplay="y" sign="V21">
     <hasTransliteration sign="V21" transliteration="mD" type="phonogram" use="keyboard"/>
@@ -37062,13 +37868,13 @@ U22-m-D17</signDescription>
     <hasTag sign="V21" tag="feather"/>
     <contains partCode="V20" sign="V21"/>
     <contains partCode="I10" sign="V21"/>
-    <variantOf baseSign="V20" isSimilar="y" linguistic="unspecified" sign="V21"/>
+    <variantOf baseSign="V20" isSimilar="y" linguistic="partial" sign="V21"/>
   </sign>
   <sign sign="V21A">
     <hasTag sign="V21A" tag="fetters"/>
     <hasTag sign="V21A" tag="cobra"/>
     <hasTag sign="V21A" tag="sign combination"/>
-    <variantOf baseSign="V21" isSimilar="y" linguistic="unspecified" sign="V21A"/>
+    <variantOf baseSign="V21" isSimilar="y" linguistic="full" sign="V21A"/>
     <contains partCode="V20" sign="V21A"/>
     <contains partCode="I10" sign="V21A"/>
   </sign>
@@ -37105,7 +37911,7 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V25" transliteration="wd" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="V25" transliteration="wD" type="phonogram" use="keyboard"/>
     <hasTag sign="V25" tag="varia"/>
-    <variantOf baseSign="V24" isSimilar="y" linguistic="unspecified" sign="V25"/>
+    <variantOf baseSign="V24" isSimilar="y" linguistic="full" sign="V25"/>
   </sign>
   <sign alwaysDisplay="y" sign="V26">
     <hasTransliteration sign="V26" transliteration="ad" type="phonogram" use="keyboard"/>
@@ -37116,6 +37922,7 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="V27">
     <hasTransliteration sign="V27" transliteration="aD" type="phonogram" use="keyboard"/>
     <hasTag sign="V27" tag="shuttle"/>
+    <variantOf baseSign="V26" isSimilar="y" linguistic="full" sign="V27"/>
   </sign>
   <sign sign="V27A">
     <hasTag sign="V27A" tag="shuttle"/>
@@ -37143,7 +37950,7 @@ U22-m-D17</signDescription>
   <sign sign="V28C">
     <hasTag sign="V28C" tag="rope"/>
     <hasTag sign="V28C" tag="wick"/>
-    <variantOf baseSign="V28" isSimilar="y" linguistic="unspecified" sign="V28C"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="full" sign="V28C"/>
   </sign>
   <sign sign="V28D">
     <hasTag sign="V28D" tag="rope"/>
@@ -37164,7 +37971,7 @@ U22-m-D17</signDescription>
   <sign sign="V29A">
     <hasTag sign="V29A" tag="broom"/>
     <contains partCode="V28" sign="V29A"/>
-    <variantOf baseSign="V29" isSimilar="y" linguistic="unspecified" sign="V29A"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="full" sign="V29A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V30">
     <hasTransliteration sign="V30" transliteration="nb" type="phonogram" use="keyboard"/>
@@ -37177,11 +37984,11 @@ U22-m-D17</signDescription>
   <sign alwaysDisplay="y" sign="V31A">
     <hasTransliteration sign="V31A" transliteration="k" type="phonogram" use="keyboard"/>
     <hasTag sign="V31A" tag="basket"/>
-    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V31A"/>
+    <variantOf baseSign="V31" isSimilar="y" linguistic="full" sign="V31A"/>
     <contains partCode="V31" sign="V31A"/>
   </sign>
   <sign sign="V31B">
-    <variantOf baseSign="V31" isSimilar="y" linguistic="unspecified" sign="V31B"/>
+    <variantOf baseSign="V31" isSimilar="y" linguistic="full" sign="V31B"/>
     <contains partCode="V31" sign="V31B"/>
   </sign>
   <sign alwaysDisplay="y" sign="V32">
@@ -37220,7 +38027,18 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="US1V33AEXTU">
     <variantOf baseSign="V33" isSimilar="y" linguistic="partial" sign="US1V33AEXTU"/>
-    <signDescription lang="en" sign="US1V33AEXTU">+lapproximate shape for the +s-+tqAr +s-+lsign. See +s-+lUS12V33VARA for the correct sign.+s-!
+    <signDescription lang="en" sign="US1V33AEXTU">+lapproximate shape for the +s-+tqAr +s-+lsign. Use V300, which is the correct shape, instead.+s-!
+</signDescription>
+    <variantOf baseSign="V300" isSimilar="y" linguistic="full" sign="US1V33AEXTU"/>
+  </sign>
+  <sign sign="V33B">
+    <variantOf baseSign="V33" isSimilar="y" linguistic="full" sign="V33B"/>
+    <signDescription lang="en" sign="V33B">+lA variant of V33, relatively common in the First intermediate Period and early Middle Kingdom.+s-!
++lSign V33B, corresponding to the variant of V33 described by A. H. Gardiner in BIFAO 30, p. 170.+s-!
++lThe example itself is taken from Clère/Vandier +s-+istèles de la PPI,+s-+l p. 18 +s-!
++lfrom the stela of Megegi in the Metropolitan Museum.+s-!
++bBibliography+s-!
++lGardiner, Alan. 1931. ‘Two Hieroglyphic Signs and the Egyptian Words for «Alabaster» and «Linen», Etc.’ BIFAO 30: 161–83. +s-!
 </signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="US12V33VARA">
@@ -37257,32 +38075,34 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V36A">
     <hasTag sign="V36A" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36A"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36A"/>
   </sign>
   <sign sign="V36B">
     <hasTag sign="V36B" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36B"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36B"/>
   </sign>
   <sign sign="V36C">
     <hasTag sign="V36C" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36C"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36C"/>
+    <signDescription lang="en" sign="V36C">+l(need information)+s-!
+</signDescription>
   </sign>
   <sign sign="V36D">
     <hasTag sign="V36D" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36D"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36D"/>
   </sign>
   <sign sign="V36E">
     <hasTag sign="V36E" tag="receptacle"/>
     <hasTag sign="V36E" tag="door"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36E"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36E"/>
   </sign>
   <sign sign="V36G">
     <hasTag sign="V36G" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36G"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36G"/>
   </sign>
   <sign sign="V36h">
     <hasTag sign="V36h" tag="receptacle"/>
-    <variantOf baseSign="V36" isSimilar="y" linguistic="unspecified" sign="V36h"/>
+    <variantOf baseSign="V36" isSimilar="y" linguistic="full" sign="V36h"/>
   </sign>
   <sign alwaysDisplay="y" sign="V37">
     <hasTransliteration sign="V37" transliteration="idr" type="phonogram" use="keyboard"/>
@@ -37314,7 +38134,7 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V39A">
     <hasTag sign="V39A" tag="rope"/>
-    <variantOf baseSign="V39" isSimilar="y" linguistic="unspecified" sign="V39A"/>
+    <variantOf baseSign="V39" isSimilar="y" linguistic="full" sign="V39A"/>
     <contains partCode="S34" sign="V39A"/>
     <variantOf baseSign="S34" isSimilar="y" linguistic="no" sign="V39A"/>
   </sign>
@@ -37362,7 +38182,7 @@ U22-m-D17</signDescription>
     <contains partCode="V1" sign="V43A"/>
     <contains partCode="Z7" sign="V43A"/>
     <hasTransliteration sign="V43A" transliteration="AHt" type="phonogram" use="palette"/>
-    <variantOf baseSign="V43" isSimilar="y" linguistic="unspecified" sign="V43A"/>
+    <variantOf baseSign="V43" isSimilar="y" linguistic="full" sign="V43A"/>
     <hasTransliteration sign="V43A" transliteration="sTA" type="phonogram" use="palette"/>
   </sign>
   <sign sign="V44">
@@ -37375,7 +38195,7 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V46">
     <hasTag sign="V46" tag="rope"/>
-    <variantOf baseSign="V2" isSimilar="y" linguistic="unspecified" sign="V46"/>
+    <variantOf baseSign="V2" isSimilar="y" linguistic="partial" sign="V46"/>
     <contains partCode="V2" sign="V46"/>
     <contains partCode="D54" sign="V46"/>
     <hasTag sign="V46" tag="legs"/>
@@ -37393,6 +38213,7 @@ U22-m-D17</signDescription>
     <hasTag sign="V47A" tag="rope"/>
     <contains partCode="P58" sign="V47A"/>
     <hasTag sign="V47A" tag="ship"/>
+    <variantOf baseSign="V47" isSimilar="y" linguistic="full" sign="V47A"/>
   </sign>
   <sign alwaysDisplay="y" sign="V48">
     <hasTag sign="V48" tag="rope"/>
@@ -37408,10 +38229,10 @@ U22-m-D17</signDescription>
 !
 !
 </signDescription>
+    <hasTransliteration sign="V48" transliteration="swdwd" type="typical" use="palette"/>
   </sign>
   <sign sign="V49">
-    <variantOf baseSign="V7" isSimilar="y" linguistic="unspecified" sign="V49"/>
-    <hasTransliteration sign="V49" transliteration="Sn" type="phonogram" use="palette"/>
+    <variantOf baseSign="V7" isSimilar="y" linguistic="partial" sign="V49"/>
     <signDescription lang="en" sign="V49">+lAccording to Gardiner, "The transcription of New Kingdom Hieratic", this sign+s-!
 +lis a chimera. "+s-+lProfessors Sethe and Grapow were good enough to search the Berlin Material for me, +s-!
 +land were no less surprised than myself to discover that  +s-V49-!
@@ -37426,6 +38247,7 @@ U22-m-D17</signDescription>
     <hasTag sign="V49" tag="loop"/>
     <hasTag sign="V49" tag="cartouche"/>
     <contains partCode="V9" sign="V49"/>
+    <variantOf baseSign="V49A" isSimilar="y" linguistic="unspecified" sign="V49"/>
   </sign>
   <sign sign="V49A">
     <variantOf baseSign="V7" isSimilar="y" linguistic="unspecified" sign="V49A"/>
@@ -37540,7 +38362,7 @@ U22-m-D17</signDescription>
     <variantOf baseSign="V12" isSimilar="y" linguistic="unspecified" sign="V62"/>
   </sign>
   <sign sign="V63">
-    <variantOf baseSign="V62" isSimilar="y" linguistic="unspecified" sign="V63"/>
+    <variantOf baseSign="V62" isSimilar="y" linguistic="full" sign="V63"/>
     <hasTag sign="V63" tag="rope"/>
     <hasTag sign="V63" tag="with dots"/>
   </sign>
@@ -37554,13 +38376,16 @@ U22-m-D17</signDescription>
   <sign sign="V65A">
     <hasTag sign="V65A" tag="fetters"/>
     <variantOf baseSign="V65" isSimilar="y" linguistic="unspecified" sign="V65A"/>
+    <variantOf baseSign="V23A" isSimilar="y" linguistic="unspecified" sign="V65A"/>
+    <contains partCode="V23A" sign="V65A"/>
   </sign>
   <sign sign="V65B">
     <hasTag sign="V65B" tag="fetters"/>
-    <variantOf baseSign="V65" isSimilar="y" linguistic="unspecified" sign="V65B"/>
+    <variantOf baseSign="V65" isSimilar="y" linguistic="full" sign="V65B"/>
   </sign>
   <sign sign="V66">
     <hasTag sign="V66" tag="fetters"/>
+    <variantOf baseSign="M30" isSimilar="y" linguistic="unspecified" sign="V66"/>
   </sign>
   <sign sign="V67">
     <hasTag sign="V67" tag="group"/>
@@ -37720,11 +38545,11 @@ U22-m-D17</signDescription>
     <hasTransliteration sign="V83" transliteration="Hw" type="phonogram" use="palette"/>
   </sign>
   <sign sign="V84">
-    <variantOf baseSign="V29" isSimilar="y" linguistic="unspecified" sign="V84"/>
+    <variantOf baseSign="V29" isSimilar="y" linguistic="full" sign="V84"/>
     <hasTransliteration sign="V84" transliteration="wAH" type="phonogram" use="palette"/>
     <hasTransliteration sign="V84" transliteration="sk" type="phonogram" use="palette"/>
     <contains partCode="V28" sign="V84"/>
-    <variantOf baseSign="V28" isSimilar="y" linguistic="unspecified" sign="V84"/>
+    <variantOf baseSign="V28" isSimilar="y" linguistic="no" sign="V84"/>
     <signDescription lang="en" sign="V84">+lLate variant of +s-wAH-!
 +bBibliography+s-!
 +lMeeks, +s-+iArchitraves, +s-+lp. 205 (§ 560).+s-!
@@ -37784,9 +38609,10 @@ U22-m-D17</signDescription>
     <hasTag sign="V90" tag="broom"/>
     <hasTag sign="V90" tag="basket"/>
     <hasTag sign="V90" tag="group"/>
-    <variantOf baseSign="V81" isSimilar="y" linguistic="unspecified" sign="V90"/>
+    <variantOf baseSign="V81" isSimilar="y" linguistic="partial" sign="V90"/>
     <contains partCode="V29" sign="V90"/>
     <contains partCode="V31" sign="V90"/>
+    <hasTransliteration sign="V90" transliteration="sk" type="phonogram" use="palette"/>
   </sign>
   <sign sign="V91">
     <hasTag sign="V91" tag="rope"/>
@@ -37968,7 +38794,7 @@ U22-m-D17</signDescription>
   </sign>
   <sign sign="V110A">
     <hasTag sign="V110A" tag="basket"/>
-    <variantOf baseSign="V110" isSimilar="y" linguistic="unspecified" sign="V110A"/>
+    <variantOf baseSign="V110" isSimilar="y" linguistic="full" sign="V110A"/>
   </sign>
   <sign sign="V113">
     <hasTag sign="V113" tag="basket"/>
@@ -37979,6 +38805,7 @@ U22-m-D17</signDescription>
     <hasTag sign="V114" tag="cartouche"/>
     <contains partCode="V10" sign="V114"/>
     <variantOf baseSign="V10" isSimilar="y" linguistic="unspecified" sign="V114"/>
+    <variantOf baseSign="V57" isSimilar="y" linguistic="unspecified" sign="V114"/>
   </sign>
   <sign sign="V115">
     <hasTag sign="V115" tag="basket"/>
@@ -37994,6 +38821,7 @@ U22-m-D17</signDescription>
     <contains partCode="V29" sign="V116"/>
     <contains partCode="V31" sign="V116"/>
     <variantOf baseSign="V29" isSimilar="y" linguistic="partial" sign="V116"/>
+    <variantOf baseSign="V81" isSimilar="y" linguistic="full" sign="V116"/>
   </sign>
   <sign sign="V117">
     <hasTag sign="V117" tag="rope"/>
@@ -38463,6 +39291,11 @@ U22-m-D17</signDescription>
     <hasTag sign="W17D" tag="group of same sign"/>
     <hasTag sign="W17D" tag="vessel"/>
     <variantOf baseSign="W17" isSimilar="y" linguistic="unspecified" sign="W17D"/>
+    <signDescription lang="en" sign="W17D">+lSimplified shape of +s-W17-+l, known from the Old Kingdom onwards.+s-!
++lStill quite usual in the New Kingdom.+s-!
++bBibliography+s-!
++lFischer, Henry George. (1979) 1983. +s-+iAncient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs.+s-+l 2nd ed p. 50. +s-!
++lServajean, Frédéric, and Jean-François Gout. 2011. Le tombeau de Nakhtamon (TT 335) à Deir al-Medina: paléographie. Paléographie hiéroglyphique 5. p. 117 +s</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="W18">
     <hasTransliteration sign="W18" transliteration="xnt" type="phonogram" use="keyboard"/>
@@ -39761,13 +40594,35 @@ Y2-+l is the old shape, used until the end of the+s-!
   <sign sign="US1Z100EXT">
     <hasTransliteration sign="US1Z100EXT" transliteration="n" type="phonogram" use="palette"/>
     <hasTransliteration sign="US1Z100EXT" transliteration="z" type="phonogram" use="palette"/>
-    <signDescription lang="en" sign="US1Z100EXT">+lThis is what the Thot sign list calls a Token, more than an actual sign.+s-!
+    <signDescription lang="en" sign="US1Z100EXT">+lPlain horizontal line ; hieroglyphic equivalent of Ff101 ;+s-!
+!
++lThis is what the Thot sign list calls a Token, more than an actual sign.+s-!
 +lThis code is intended for cases where the text doesn't differenciate signs such as +s-n-!
-+land +s-z-+land uses a single simplified line +s-US1Z100EXT-+l instead.+s-!
++land +s-z-+land uses a single simplified line +s-US1Z100EXT-+l instead or even space filler.+s-!
+!
++lFound for instance in Katimala Stela (KJW III, 354sq).+s-!
+!
++bBibliography+s-!
++lJansen-Winkeln, Karl. 2009. +s-+iInschriften der Spätzeit.+s-+l Teil 3. Vol. 3. p. 354 sq.+s-!
+!
+!
 </signDescription>
     <variantOf baseSign="N35" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
     <variantOf baseSign="D35" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
     <variantOf baseSign="O34" isSimilar="y" linguistic="unspecified" sign="US1Z100EXT"/>
+  </sign>
+  <sign sign="Z102">
+    <signDescription lang="en" sign="Z102">+lDotted oval. Found in cryptographic texts, alongside other oval or egg-shaped signs, to write +s-+t^^^+s-+l"+s-+tim+s-+l". +s-!
++lKnown occurrences are followed by a +s-+t^^+s-+l"+s-+tn+s-+l" and write +s-+timn+s-+l.+s-!
+!
++lfound in Stela Louvre C65, l. 5.+s-!
++bBibliography+s-!
++lDrioton, Étienne. 1933. ‘Essai Sur La Cryptographie Privée de La Fin de La XVIIIe Dynastie’. RdE 1: 1–50. p. 49+s-!
++lRoberson, Joshua Aaron. 2020. +s-+iA Lexicon of Ancient Egyptian Cryptography of the New Kingdom.+s-+l p. 182+s</signDescription>
+    <variantOf baseSign="Z8" isSimilar="y" linguistic="partial" sign="Z102"/>
+    <hasTransliteration sign="Z102" transliteration="imn" type="phonogram" use="informative"/>
+    <hasTransliteration sign="Z102" transliteration="im" type="phonogram" use="informative"/>
+    <hasTransliteration sign="Z102" transliteration="m" type="phonogram" use="informative"/>
   </sign>
   <sign sign="Z202">
     <hasTransliteration sign="Z202" transliteration="2" type="phonogram" use="keyboard"/>
@@ -39841,6 +40696,9 @@ Y2-+l is the old shape, used until the end of the+s-!
   </sign>
   <sign sign="Aa5B">
     <variantOf baseSign="Aa5" isSimilar="y" linguistic="unspecified" sign="Aa5B"/>
+    <signDescription lang="en" sign="Aa5B">!
++lQuestion: is this the same sign as +s-O501A-+l, O501A.+s-!
+</signDescription>
   </sign>
   <sign sign="Aa5C">
     <variantOf baseSign="Aa5" isSimilar="y" linguistic="unspecified" sign="Aa5C"/>
@@ -40382,7 +41240,15 @@ Y2-+l is the old shape, used until the end of the+s-!
   </sign>
   <sign alwaysDisplay="y" sign="Ff1"/>
   <sign sign="Ff2">
-    <hasTransliteration sign="Ff2" transliteration="Sn" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="Ff2">+lSign introduced by Gardiner in Additions to the New Hieroglyphic Font (1928), JEA 15, 1928+s-!
++lThis sign is strictly the same as V49A +s-V49A-+l, which should be prefered.+s-!
++bSee V49A for more details.+s-!
+!
+</signDescription>
+    <variantOf baseSign="V49A" isSimilar="y" linguistic="full" sign="Ff2"/>
+    <hasTag sign="Ff2" tag="rope"/>
+    <hasTag sign="Ff2" tag="sign combination"/>
+    <hasTag sign="Ff2" tag="hieratic sign"/>
   </sign>
   <sign alwaysDisplay="y" sign="Ff4">
     <hasTransliteration sign="Ff4" transliteration="sDm" type="phonogram" use="keyboard"/>
@@ -40497,6 +41363,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="bandage"/>
   <tagLabel label="bandage" lang="en" tag="bandage"/>
   <tagLabel label="bandage" lang="fr" tag="bandage"/>
+  <tagCategory tag="bark of Sokar"/>
+  <tagLabel label="bark of Sokar" lang="en" tag="bark of Sokar"/>
+  <tagLabel label="Barque de Sokaris" lang="fr" tag="bark of Sokar"/>
   <tagCategory tag="basket"/>
   <tagLabel label="basket" lang="en" tag="basket"/>
   <tagLabel label="panier" lang="fr" tag="basket"/>
@@ -41012,6 +41881,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="moon"/>
   <tagLabel label="moon" lang="en" tag="moon"/>
   <tagLabel label="lune" lang="fr" tag="moon"/>
+  <tagCategory tag="mooring post"/>
+  <tagLabel label="mooring post" lang="en" tag="mooring post"/>
+  <tagLabel label="pieu d'amarrage" lang="fr" tag="mooring post"/>
   <tagCategory tag="mountain"/>
   <tagLabel label="mountain" lang="en" tag="mountain"/>
   <tagLabel label="montagne" lang="fr" tag="mountain"/>
@@ -41190,6 +42062,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="rush"/>
   <tagLabel label="rush" lang="en" tag="rush"/>
   <tagLabel label="jonc" lang="fr" tag="rush"/>
+  <tagCategory tag="sacred bark"/>
+  <tagLabel label="sacred bark" lang="en" tag="sacred bark"/>
+  <tagLabel label="barque divine" lang="fr" tag="sacred bark"/>
   <tagCategory tag="sail"/>
   <tagLabel label="sail" lang="en" tag="sail"/>
   <tagLabel label="voile" lang="fr" tag="sail"/>
@@ -41317,6 +42192,9 @@ Z1-+land the unit digits, the later being much larger. If carelessly rendering t
   <tagCategory tag="statue"/>
   <tagLabel label="statue" lang="en" tag="statue"/>
   <tagLabel label="statue" lang="fr" tag="statue"/>
+  <tagCategory tag="steering oar"/>
+  <tagLabel label="steering oar" lang="en" tag="steering oar"/>
+  <tagLabel label="gouvernail" lang="fr" tag="steering oar"/>
   <tagCategory tag="stela"/>
   <tagLabel label="stela" lang="en" tag="stela"/>
   <tagLabel label="stèle" lang="fr" tag="stela"/>

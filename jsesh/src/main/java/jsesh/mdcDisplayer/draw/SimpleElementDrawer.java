@@ -30,7 +30,7 @@ import jsesh.mdc.model.ShadingCode;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TopItemState;
 import jsesh.mdc.model.ZoneStart;
-import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TranslitterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;

@@ -33,6 +33,8 @@
  */
 package jsesh.glossary;
 
+import java.util.Objects;
+
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AlphabeticText;
@@ -104,6 +106,29 @@ public class GlossaryEntry {
 	 */
 	public static boolean isCorrectKey(String key) {
 		return key.matches("^[a-zA-Z0-9]+$");
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		if (obj instanceof GlossaryEntry other) {
+			if (! Objects.equals(this.key, other.key)) {
+				return false;
+			}
+			return Objects.equals(this.mdc, other.mdc);
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(key,mdc);
 	}
 
 }
