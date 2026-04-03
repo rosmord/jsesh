@@ -2,7 +2,7 @@ package jsesh.mdc.translitteration;
 
 import java.util.Comparator;
 
-public class MDCTranslitterationComparator implements Comparator<String> {
+public class MDCTransliterationComparator implements Comparator<String> {
 
 	/**
 	 * Compare two translitterations.

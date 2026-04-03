@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import jsesh.mdc.translitteration.MDCTranslitterationComparator;
+import jsesh.mdc.translitteration.MDCTransliterationComparator;
 import static jsesh.mdc.translitteration.TransliterationUtilities.removeHyphens;
 
 public class JSeshGlossary implements Iterable<GlossaryEntry> {
@@ -173,7 +173,7 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 
 		public GlossaryMap() {
 			map = new TreeMap<>(
-					new MDCTranslitterationComparator());
+					new MDCTransliterationComparator());
 		}
 
 		public List<GlossaryEntry> get(String key) {
