@@ -50,7 +50,7 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
-import jsesh.mdc.utils.TransliterationEncoding;
+import jsesh.mdc.translitteration.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;

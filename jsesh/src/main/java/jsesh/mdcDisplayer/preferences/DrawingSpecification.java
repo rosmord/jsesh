@@ -7,7 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.mdc.file.DocumentPreferences;
-import jsesh.mdc.utils.TransliterationEncoding;
+import jsesh.mdc.translitteration.TransliterationEncoding;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 
 /**

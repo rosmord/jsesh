@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import jsesh.mdc.translitteration.TranslitterationUtilities;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -168,31 +169,38 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         if (!signsValues.containsKey(gardinerCode)) {
             signsValues.put(gardinerCode, new ArrayList<>());
         }
-        getOrCreatePossibilityList(value);
         // Now add the actual data
         signsValues.get(gardinerCode).add(value);
-        possibilitiesLists.get(value).addSign(gardinerCode);
+        PossibilitiesList list = getOrCreatePossibilityList(value);
+        list.addSign(gardinerCode);
     }
 
-    private PossibilitiesList getOrCreatePossibilityList(String value) {
+    private PossibilitiesList getOrCreatePossibilityList(final String translitteration) {
+        // PossibilityLists can't work for values with hyphens.
+        // Normalize the value.
+        String normalizedValue = TranslitterationUtilities.removeHyphens(translitteration);
         // If there is no sign list for this value, create one
-        if (!possibilitiesLists.containsKey(value)) {
-            PossibilitiesList l = new PossibilitiesList(value);
+        if (!possibilitiesLists.containsKey(normalizedValue)) {
+            PossibilitiesList l = new PossibilitiesList(normalizedValue);
             // Ensure the "official" manuel de codage value comes first.
-            if (basicManuelDeCodageManager.isKnownCode(value)) {
+            if (basicManuelDeCodageManager.isKnownCode(normalizedValue)) {
                 // For readability, we want to have the "official" phonetic code
                 // available.
-                l.addSign(value);
+                l.addSign(normalizedValue);
             }
-            possibilitiesLists.put(value, l);
+            possibilitiesLists.put(normalizedValue, l);
         }
-        return possibilitiesLists.get(value);
+        return possibilitiesLists.get(normalizedValue);
     }
 
     /**
      * Returns all possible signs for a given value.
      *
-     * @param phoneticValue
+     * @param phoneticValue the translitteration of the sign in MdC (can also be
+     * a number)
+     * @param level one of the values in SignDescriptionConstants corresponding
+     * to the scope of the value (PALETTE, KEYBOARD, INFORMATIVE). Should now be
+     * an enum.
      * @return a PossibilitiesList, or null if the value corresponds to nothing.
      * @see HieroglyphDatabaseInterface#getPossibilityFor(String, String)
      */
@@ -209,16 +217,14 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         // so we look at each registered sign. It's still reasonable.
         if (SignDescriptionConstants.PALETTE.equals(level)
                 || SignDescriptionConstants.INFORMATIVE.equals(level)) {
-            Iterator<SignInfo> signIter = signInfoMap.values().iterator();
-            // For each sign...
-            while (signIter.hasNext()) {
-                SignInfo info = signIter.next();
+            // For each sign...            
+            for (SignInfo info : signInfoMap.values()) {
                 // Look at all the known values for the sign...
-                for (int i = 0; i < info.getTranslitterationList().size(); i++) {
-                    SignTransliteration trl = (SignTransliteration) info
-                            .getTranslitterationList().get(i);
+                for (SignTransliteration trl : info.getTranslitterationList()) {
+                    // Normalize translitteration
+                    String normalizedTrl = TranslitterationUtilities.removeHyphens(trl.getTranslitteration());
                     // If the value is the correct one...
-                    if (trl.getTranslitteration().equals(phoneticValue)) {
+                    if (normalizedTrl.equals(phoneticValue)) {
                         // Depending on its level, add it to the result.
                         if (SignDescriptionConstants.PALETTE.equals(level)) {
                             if (SignDescriptionConstants.PALETTE.equals(trl
@@ -347,7 +353,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         SignInfo baseSignInfo = getSignInfo(baseSign);
         baseSignInfo.addVariant(sign, type);
         SignInfo variantSignInfo = getSignInfo(sign);
-        variantSignInfo.addVariant(baseSign, type); 
+        variantSignInfo.addVariant(baseSign, type);
         // Not completely reflexive in theory :
         variantSignInfo.markAsVariant(true);
     }
@@ -543,7 +549,8 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
 
     /**
      * Explicitly mark sign as being always displayed.
-     * @param sign 
+     *
+     * @param sign
      */
     public void setSignAlwaysDisplay(String sign) {
         getSignInfo(sign).setAlwaysDisplayed(true);
@@ -552,7 +559,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     @Override
     public boolean isAlwaysDisplayed(String code) {
         SignInfo signInfo = getSignInfo(code);
-        return signInfo.isAlwaysDisplayed() || ! signInfo.isVariant();
+        return signInfo.isAlwaysDisplayed() || !signInfo.isVariant();
     }
 
 }

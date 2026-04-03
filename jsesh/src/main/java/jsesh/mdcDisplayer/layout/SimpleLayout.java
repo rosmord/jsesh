@@ -16,7 +16,7 @@ import java.util.Optional;
 import jsesh.hieroglyphs.graphics.LigatureZone;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
-import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TranslitterationUtilities;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;

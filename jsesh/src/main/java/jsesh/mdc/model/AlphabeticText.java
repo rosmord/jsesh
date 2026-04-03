@@ -1,6 +1,6 @@
 package jsesh.mdc.model;
 
-import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TranslitterationUtilities;
 
 /**
  * AlphabeticText represents text written in an alphabetic system, as Coptic,

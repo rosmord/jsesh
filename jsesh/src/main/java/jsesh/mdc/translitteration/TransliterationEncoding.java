@@ -1,4 +1,6 @@
-package jsesh.mdc.utils;
+package jsesh.mdc.translitteration;
+
+import jsesh.mdc.utils.YODChoice;
 
 /**
  * The way transliteration can be encoded for output.

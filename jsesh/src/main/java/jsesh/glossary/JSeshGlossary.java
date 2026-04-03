@@ -36,23 +36,19 @@ package jsesh.glossary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 
-import jsesh.mdc.utils.MDCTranslitterationComparator;
+import jsesh.mdc.translitteration.MDCTranslitterationComparator;
+import static jsesh.mdc.translitteration.TranslitterationUtilities.removeHyphens;
 
 public class JSeshGlossary implements Iterable<GlossaryEntry> {
 
-	private EventSupport eventSupport = new EventSupport();
-	private TreeMap<String, ArrayList<GlossaryEntry>> map;
-	// private Set<Object> observers = Collections.newSetFromMap(
-	// new WeakHashMap<Object, Boolean>());
-	//
+	private final EventSupport eventSupport = new EventSupport();
+
+	private GlossaryMap map = new GlossaryMap();
+
 	/**
 	 * A list of entries, used to present a list-like representation of the
 	 * glossary for editing purposes. Built (and rebuilt) on demand, as
@@ -61,39 +57,31 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 	private List<GlossaryEntry> entryList = null;
 
 	public JSeshGlossary() {
-		map = new TreeMap<String, ArrayList<GlossaryEntry>>(
-				new MDCTranslitterationComparator());
+		map = new GlossaryMap();
 	}
 
 	/**
 	 * Insert a new text in the glossary.
 	 * 
 	 * @param key
-	 *            an MdC transliteration used as key (no space allowed, as it
-	 *            won't be possible to retrieve the text).
-	 * @param text
-	 *            an mdc text (the glossary will have its own copy of it).
+	 *             an MdC transliteration used as key (no space allowed, as it
+	 *             won't be possible to retrieve the text).
+	 * @param mdc a mdc text (the glossary will have its own copy of it).
 	 */
 	public void add(String key, String mdc) {
-		if (!map.containsKey(key)) {
-			map.put(key, new ArrayList<GlossaryEntry>());
-		}
 		GlossaryEntry entry = new GlossaryEntry(key, mdc);
-		map.get(key).add(entry);
-		eventSupport.fireEvent(new GlossaryEntryAdded(this, entry));
-		invalidateList();
+		if (map.add(entry)) {
+			eventSupport.fireEvent(new GlossaryEntryAdded(this, entry));
+			invalidateList();
+		}
 	}
 
 	public void remove(GlossaryEntry entry) {
-		ArrayList<GlossaryEntry> l = map.get(entry.getKey());
-		if (l != null) {
-			l.remove(entry);
-			if (l.isEmpty()) {
-				map.remove(entry.getKey());
-			}
+		if (map.remove(entry)) {
 			eventSupport.fireEvent(new GlossaryEntryRemoved(this, entry));
+			invalidateList();
+
 		}
-		invalidateList();
 	}
 
 	public List<GlossaryEntry> get(String key) {
@@ -104,9 +92,6 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 			return result;
 	}
 
-	public Set<String> getKeys() {
-		return map.keySet();
-	}
 
 	/**
 	 * @param eventClass
@@ -136,6 +121,7 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 		return getEntryList().size();
 	}
 
+        @Override
 	public Iterator<GlossaryEntry> iterator() {
 		return getEntryList().iterator();
 	}
@@ -155,13 +141,7 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 
 	private List<GlossaryEntry> getEntryList() {
 		if (entryList == null) {
-			ArrayList<GlossaryEntry> result = new ArrayList<GlossaryEntry>();
-			for (Entry<String, ArrayList<GlossaryEntry>> e : map.entrySet()) {
-				for (GlossaryEntry g : e.getValue()) {
-					result.add(g);
-				}
-			}
-			entryList = result;
+			entryList = map.allEntries();
 		}
 		return entryList;
 	}
@@ -172,4 +152,77 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 	private void invalidateList() {
 		entryList = null;
 	}
+
+	
+
+	/**
+	 * Low level class to encapsulate access to the glossary internals.
+	 * 
+	 * The keys used are always simplified keys.
+	 */
+	private static class GlossaryMap {
+		
+
+		/**
+		 * The map actually used when searching for entries.
+		 * 
+		 * We could replace list with a LinkedHashSet.
+		 */
+
+		private final TreeMap<String, ArrayList<GlossaryEntry>> map;
+
+		public GlossaryMap() {
+			map = new TreeMap<>(
+					new MDCTranslitterationComparator());
+		}
+
+		public List<GlossaryEntry> get(String key) {
+			return map.get(removeHyphens(key));
+		}
+
+		/**
+		 * Attempts to remove an entry.
+		 * @param entry
+		 * @return true iff the glossary was modified (i.e. if the entry was actually removed).
+		 */
+		public boolean remove(GlossaryEntry entry) {
+			String simplifiedKey = removeHyphens(entry.getKey());
+			ArrayList<GlossaryEntry> l = map.get(simplifiedKey);
+			if (l != null) {
+				boolean removed = l.remove(entry);
+				if (l.isEmpty()) {
+					map.remove(simplifiedKey);
+				}
+				return removed;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Add a new entry in the glossary.
+		 * If the glossary was not modified, returns false. Otherwise, returns true.
+		 * 
+		 * @param entry
+		 * @return true iff the glossary was modified.
+		 */
+		public boolean add(GlossaryEntry entry) {
+			String simplifiedKey = removeHyphens(entry.getKey());
+			if (!map.containsKey(simplifiedKey)) {
+				map.put(simplifiedKey, new ArrayList<>());
+			}
+			ArrayList<GlossaryEntry> list = map.get(simplifiedKey);
+			if (list.contains(entry)) {
+				return false;
+			} else {
+				list.add(entry);
+				return true;
+			}
+		}
+
+		public List<GlossaryEntry> allEntries() {
+			return map.values().stream().flatMap(list -> list.stream()).toList();
+		}
+	}
+
 }

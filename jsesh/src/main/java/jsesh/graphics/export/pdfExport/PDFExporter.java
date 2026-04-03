@@ -25,7 +25,7 @@ import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.TranslitterationUtilities;
+import jsesh.mdc.translitteration.TranslitterationUtilities;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
