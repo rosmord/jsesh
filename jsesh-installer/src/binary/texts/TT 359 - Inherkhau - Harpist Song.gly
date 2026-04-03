@@ -1,0 +1,41 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bIL CANTO DELL'ARPISTA INHERKHAU   +s-!
++lTrascrizione geroglifica by Nico Pollone   +s-!
++l dalla tomba (TT359) a  Deir el Medina di +s-+b Inherkhau   +s-!
++lPhoto : https://www.ifao.egnet.net/bases/archives/ttdem/docs/vues/NB_1969_02014.jpg+s-!
++l Testo originale in colonne verticali e lettura da destra a sinistra.+s-!
++l- grouping done according to the original. Should be relatively faithful in columns.+s-!
++bLicence : Creative commons CC-BY+s-!
++ltext checked and proofread.+s-!
+PF5-|1-I10&D46:N35_-G40_-V28_*W14_*S29_-M17*A2:Z2_-N35_-D4:Q2_-O29:Y1:n_-M40-X1*1:3_-Aa15_-Q1_*(X1:O1_)-Aa11:X1_-W25_-S3_-N1:N28:D36_-Y1:Z7*Z4_-!
+|2-A52*H6_:P8h_-I10&&&D46_-A52-W24:V31_-A1_-A21_*(Q3:Z7_)-O34:A76A*Z1_-Q3_*Z7_-E34&&&W:N35_-U5:D36:X1_-Aa11:Y1_-Aa15_-G1_&&&M16-Z7:D40_-F35_-I9:D21-!
+|3-D4:N35_-R8_*A40_-D21:I9_-G1_&&&N29_-M17_*A53_-Y1_-L1_-D21:Aa15_-F32:X1*Z1_-D2_-Z1_-O35_-D58_-Z4:D54_-M36:D36_-D21:V31_-R8_-A40_-G1_&&&U28_-Aa15_:A17&&&3_-D54A:Z7-!
+|4-D54:D21_-Q1_*(X1:O1_)-O34:N35:Z2_-W10A{{0,645,51}}**G29{{45,0,98}}_**Z1{{802,0,98}}**3{{847,733,67}}_-G25_&&&Aa1_-A51_*Z3_-N35:X1*2_-Aa15:N14_*(X1:O1_)-O34_:A&&&Aa18_-V28_*A53_*Z3_-Aa15_:W19_*(X1:X1_):Y1_-M17_*(D21:Z4A)-A35_-D40:Z2-!
+|5-O6_*(X1^^^G43_)-O1_*3_-M17_*M40_*S29_-2*O1:Z2_-Aa15_-W19_*(X1:X1_):Y1_-O34:X1_:Aa15_-A76A*Z3_-R4:X1*Q3_-Aa15_:U23_*(Aa15:D21_)-O24_*(O1:Z2_)-O34:N35:Z2_-D4:N35:V31_-O6_*(X1:O1_)-Aa15:N16-!
+|6-D45:D21_-X1:N25-Y5:N35_-U32*Y1v-D21:N35:V31_-M17_*(Aa15:O34_)-M17_*(Q3*X1:Y1_)-D28_*t-A9-Y1:Z2_-V31_-N35:X1_-R10A-Y5:N35_:Aa1_*X1_-mnx*Y1v_-Q1_*(X1:O1_):V31_-N35:X1-!
+|7-R14_*(X1:X1_)-N25_:W24*W24*W24:N1-N35:N35:N35_-Aa1:D46_-P1-mH-V28_*M17_*M17_-W{{0,581,100}}**P5{{21,0,98}}_**3{{792,602,100}}_-US22W17BVARE-N35:X1*2_-U33_*M17_*M17_-P1:O34_-A76A_*Z1_-V30:D21_-E34:N35_-W24*X1:N14*N5_-Z1_-I9:D4_-!
+|8-O4:D21_-N5*Z1_-F35_-I9:D21_-D4_:Q1_*A40_-O29:Y1:N35_-M40*(X1*1:Z2_)-Aa15_-Q1_*(X1:O1_)-Aa11:X1_-W25_-S3_-N1:N28:D36_-Y1:W*2_-Aa11:P8h_-Aa15_-G36:D21:D46_-A7_-G37\-!
+|9-F34*Z1:V31_-D21_-G36:D21_-zp*2-V28*(n:D36_)-Z11_*(Aa15:Z4A)-F34*Z1:V31_-Aa15_:ir-T5_-Z9:G37\_-F34*Z1:V31_-Aa15_-X1:D21_-M17_-M7_-N5_-E34:N35_:N35-V31-!
+|10-D4:O4-D21:N5*Z1_-F35_-I9:D21_-D21_-G36:D21_-zp*2-M17_*G17_-Aa15:D36_-N29_*mi-i*i-W59_*Z1*Z1*Z1-D1*Q3_-W59_*Z2B_-X1_^^^G43_-A53_*Y1v_-X1*Z7:D21_-Aa16*Z1:V31_-U2-!
+|11-G1_-V28_*(2:M2\_)-Z2_-O34:N37_:N35:Z4A-M9_-M2\_*Z3-D21:D21_-D&&&M2_-Z2:D21_-V7:N35_-D58_*(X1:F51B)-V31-O34_:X1*A76A-Q3-Z7_-Z11_*(Aa15:Z4A)-F34*Z1:V31_-O34_-!
+|12-M29_*(Aa15:Y1_)-X1*Z7:D21_-Aa16*Z1:V31_-i*(Aa15:k)-V28_*(I10&&&N35_)-W24*W:Z9_-G37\-F34*Z1:V31_-D2_-Z1_-L1:D21_-t*Z1*Z1*Z1:V30_-M17_*(Aa15:Aa15_):D36_-V28_*W14_*S29_-M17_*A2_*M17_-Z2:D21_-Aa1*X1:I9-!
+|13-D2*Z1:V31_-Aa15:D4_-S29_*M12_-G1_-A2_-N26:Z7*X1_-G37\:Z2_-w\*D58\_-X1\_*Z7\:K2-Z2_-R8_*A40_-S29_*M12_-G1_-A2_-N35:V31_-D21:N37-!
+|14-Z7*X1_-F63:Y1:Z2_-G40_-D36:N29_-D50*D50:Y1_-F34*Z1_-G40_-O34:A76A*Z1_-D52:X1_-D50*D50:Y1_-U5:D36_-Aa11:X1_-N29_-D58_-V28_-W15_-Y1:Z2_-!
+|15-V29*V28:Y1_-F34_-Z1_-O4:D21:Y1_-O34_:D21:I9_-A2:Z2_-E34:N35_-I9:F18_-A2_-X1:U15_-Aa15:Y1_-I10&&&d-(D58_*M17_)-N35:G37\-M17_-Aa15:Aa15_-D36-t*x-W59-!
+|16-D40:n-F34*Z1:V31_-Aa15_-W11:D21_-Z4:Y1:Z2_-O4:D21_-N5*Z1:D21_-M18_*M17_-Z4-D54-O4:D21_-N5_*Z1_-G40_-I9:Z4A-N31:N35_-Y5:N35_-M17_*T14_-P1_-M17_-Aa15:I9-!
+!
+!
+!
+++s-! +s-!
