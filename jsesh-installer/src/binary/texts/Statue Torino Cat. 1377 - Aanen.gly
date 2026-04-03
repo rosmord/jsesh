@@ -11,23 +11,15 @@
 ++JSesh_page_direction LEFT_TO_RIGHT +s
 ++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
-+b      Statua del sacerdote Aanen Torino - Cat. 1377.   +s-!
-+l      Trascrizione geroglifica by Nico Pollone.    +s-!
++bStatua del sacerdote Aanen Torino - Cat. 1377.   +s-!
++lTrascrizione geroglifica by Nico Pollone.    +s-!
 +bLicence : Creative commons CC-BY+s-!
-+l   https://collezioni.museoegizio.it/it-IT/material/Cat_1377+s-!
-!
++lhttps://collezioni.museoegizio.it/it-IT/material/Cat_1377+s-!
++ltext checked and proofread.+s-!
 +b   Colonna frontale   +s-!
-L2:S20*t-s-U23-T21v-t:Z4-nTr-Hm-2:W24:n-i-mn:n-aA:nn-A51-mAa:xrw-!
-!
+PF5-L2:S20*t-s*U23*T21v:t*Z4-nTr*Hm*(2:W24):n-i*(mn:n)-aA:nn-A51-mAa:xrw\R270-!
 +b   Colonna a destra  +s-!
-r:p:a-F4:a-L2:S20*t-t:k:n-D54:M-nb:Z1:f-wr:r-U7:r:t-m-O64-mn-W14\99**W14{{338,0,99}}**W14{{680,6,99}}-M:U21-V16-nTr-X1-i-W54-a:a-H-T28-b-r:x:Y1-s-T32-Y1:n-p*t:pt-!
-!
+PF5-r:p:a-F4:a-L2:S20*t-t:k:n-D54:M-nb:Z1:f-wr:r-U7:r:t-m-O64-mn-W14\99**W14{{338,0,99}}**W14{{680,6,99}}-M:U21-V16-nTr*X1*i-W54&&&(a:a)-H*(T28^^^b)-r:x:Y1-s*(T32:Y1)-n-p*t:pt-!
 +b   Colonna a sinistra  +s-!
-wr:r-Z2*U2:M-<h1-A21-h3>-s*m:n-O28-W24:O49-M17_-D37:D37_-x*t:Y1_-Z2:r_-st_-t:pr_-i_-r:Z4:z__-Htp:t*p-nTr-nTr-nTr-m-xrw*w:f-nTr-Hm-2:W24:n-i-mn:n-aA:nn-A51-mAa:xrw-!
-!
-!
-!
-!
-!
-!
+PF5-wr:r-(Z1*Z1*Z1)^^^mA-M-<h1-A21-h3>-s*m:n-O28*(W24:O49)-M27-D37:D37_-x*t:Y1_-Z2:r_-st_*(t:pr_)-i_*(r:Z4A)-z__:Htp:t*p-nTr-nTr-nTr-m-xrw*w:f-nTr*Hm*(2:W24:n)-i*(mn:n)-aA:nn-A51-mAa:xrw\R270-!
 !

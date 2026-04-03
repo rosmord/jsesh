@@ -1,0 +1,68 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 8.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered true +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bStele Louvre C65 - Paser  +s-!
++iAile Sully, niv. 1, salle 637+s-!
++lTrascrizione-geroglifica by Nico Pollone    +s-!
++lhttps://collections.louvre.fr/en/ark:/53355/cl010025026+s-!
++bLicence : Creative commons CC-BY+s-!
++ltext checked and proofread+s-!
++bBibliography+s-!
++lDrioton, E. 1933. "Essais sur la cryptographie privée de la fin de la XVIIIe dynastie"+s-+i, RDE+s-+l 1, 1-50+s-!
++lRoberson, Joshua Aaron. 2020. +s-+iA Lexicon of Ancient Egyptian Cryptography of the New Kingdom.+s-+l https://doi.org/10.1515/9783110683851. +s-!
++lMeeks, Dimitri. 2021. ‘L’écriture Énigmatique Égyptienne Est-Elle Énigmatique?’ Bibliotheca Orientalis, no. 5: 552–67.+s-!
+!
++b    Lunetta superiore.   +s-!
++l  Sopra una coppia seduta davanti a un tavolo imbandito.    +s-!
+PF5-!
+|a,1-imi-W17D#1234-#b-..-..-#e-!
+|a,2-N42*X1_:f-nb:t:pr-!
+|a,3-O28-Z1-n:A-B1-!
+!
++lSopra un personaggio in piedi di fronte alla coppia.  +s-!
+PF4-!
+|b,1-ir:t-sw-di-Htp:t*p-D60*(zp:y)-n:kA-t:n-!
+|b,2-Z2:O3-F1:H1-x*t:nb:t-!
+|b,3-nfr:t-D60:t-i-n:D60-n-!
+|b,4-#b-p:t-H-pA-A21-#e-"tr"-!
+!
++l A destra sopra una coppia seduta davanti a un tavolo imbandito.  +s-!
+PF4-!
+|c,1-pr:r:r-t*Z2:nb:t-M-!
+|c,2-D52:Z1:Y1_-D4:Q2-nb-U23-N26-b-!
+|c,3-m-tp:Z1-t:r-i-M4B{{227,0,76}}**r{{0,751,71}}-ra-!
+|c,4-nb-xpr-r:M-r*Z1:pr*Z1-p:n-!
+|c,5-["-N42*X1_:f-"]-nb:t:pr*Z1-ti-2-!
+|c,6-i-i-B1-!
+!
++l Testo principale registro inferiore    +s-!
+|1)-.-sw-di-Htp:t*p-ir:st*A40-W17D-R14-tyw&&&Z2-nb:U23*N26*b-w&O49-O10-nb:t:Aa8:t*N25-i-n:t&w-E16-W17D-nTr-O21-F13:N31:t*Z1-M26-M16-O3-M:x*t:nb:t-nfr:t-D60:t-m-H*(W3:ra)*b:nb-W24:Z1-R10-!
+|2)-.-tp*Z1:t:r__-i-M6-ra:nb-n:anx*w-Z3-G32:f-M:D&&&(f:F51*F51*F51_)-ra*Z1:nb-ir:t&w-n:f:pr*Z1-N14-A-t:pr-S24:z:t*W-z:D40:H*W-E31:Y1:Z2-r:tp*Z1:f-n:kA*Z1:n-F20&&&(imi*W17D)-nTr-Hm-G36&t:r-H-kA:Z2-G47-S37-Hr:Z1-!
+|3-.-R14-m-D41:n-sw-t:n-imi-ib:Z1:n-nTr-nfr-pr:r:Y1-t&w-Hr:Z1-S43-d:t:Z2-tp*p:t-r:Z1:f-s-a:r-N31:D54-ra*Z1:nb:n-sw-t:n-s-U23_-M:r-A21A_-wn:n:n-r:Aa16:Z1-nb:Z1-A42:f-s-Htp:t*p-!
+|4)-.-i-ti-i-i-A21-n:M3:x*t:D40-i-r:2-A49-D56*D56:n-nb:tA:tA-A49-A-i-t:D54:f-M:V8*i*i:n-A21A-G36:r-r:G36&Z2-E31:Z1-s-a:H*w-Z3-D&&&(d:t*W)-n:f:n:t*t:M-ib:Z1-n:aA:t:a:n-mn:n:Aa1*U22:f-imi-F20&&&W17D-#b-..-..-..-#e-!
+|5)-.-N41*t:f-nb:t:pr*Z1-O28-n:Z1*A-B1-G39&Z1:f-sw-Y4-F20&&&(O51*O51:t*pr)-#b-i-mn:n-#e-M:O45*t#3-A52-D&&&(d:n:f)-pA-T14-s-Z4-A52-N41*t:f-nb:t:pr*Z1-sw-t^^^G14A-B1-ms*s:n-nb:t:pr*Z1-G39&t-ra*Z1:A40-!
+|6)-.-H8:F63A-H5:E134A:I14-I14:I14-A26-M12*M12*M12:M12*M12*M12-R24:R7-L4:K6\R90:D49-O44:D26A-G47:I14-ib{{361,0,60}}**D382{{0,216,100}}:T14*T14*T14-W:Hr-D13:Z102-S43-ra-M64-U127-ra:F51*F51*F51-D49:ra:ra*ra-N-R7-E10\200-Q7A-ib-O37:I14-A26-Aa18:T30-F18:K4-Z8:N-X6:O45-!
+|7)-.-A42-T30:D-ra:ra-O211-M8:D37-X2:M2-W*M2:M2:N26-D26:Z102-ra:X2*W-C185-X6:ra-G30-S28-M64-M4-T30:M3-I117:M2*M2-N36:G39-G25:f-M4\\R90:E31-D41:d-A391-A9B-R24:M8-O36h:D26-A359-!
+|8)-.-G25-A54:B64-E35-M2:M2-tp:xpr-I14:S-I14:ra-Aa18-D10:L4-N36:f:N36-E17-M8:ra-z:p*ra-M15-b-S28-N18:I14-N26-A26-N-M2-R4VARA:a-S1-pr:I14:X2-A26{{200,0,98}}**D53{{0,12,49}}-A41-A45-A43-S77:F51-!
+|9)-.-R24:a:a\-N36:T30:F63A-H5:V16:f-N41-E13-O28:O49-H8-A9B-K5:M12*S1-T30:G39-O229-pA-nH&&&Dd-G51-D26:I14-G14A-S1-F31VARA-S3-H8:X2-ra-i-n:G39&&&Z1-n:G39&&&t:f-s-anx-n:x-r:n:f-sw-Y4-!
+|10)-.-U5:a-U6-i*i:f-U21:p:Y1-V17-sw-t:n-L2:t-s-H-b-W3:Y1-V8*b:n-t:F51-n:nb:tA:tA-A42-W17D_-n:t*Z4:F63A*pr-st-t:pr-m-sw-t:n-A42-pr:Z1-anx-U28-s-Hr:r-z:S:t*U30-!
+|11)-.-M:pr*Z1-Y1:t*Z1-W5A-s-T32:M-D54-H-b-w-t:W3:Z2-a:r-N31:D54-M:nb-A42:f-M:N7*t-xpr-r:n:x-n:nw^^^w-A17:r-b-w-Xr:r:Z4-Y1v-Hm-Z1*A42:f-anx-U28-s-!
+|12)-.-r:x:Y1-n:sw*w-i-ti-i-i-A21-Hr:Z1-b-i-t*W10:F18:f-s-T32:M-W3:n-O10-nb:t-O28-n:t:O49-sw-Y4-#b-pA-A21-A52-#e-G39&&&Z1-D60:n-F4:t*Z1:n-p:t-H-t*W:n:Z2-r:Z1-ms:n-G39&&&t-[[-ra:Z1-]]-!
+!
++bTranscription notes:+s-!
++lsee +s-+lhttps://www.qenherkhopeshef.org/encodingnotes/louvrec65+s-!
+!
++ll.1 the shape of +s-R10-+l is different. See ref above.+s-!
++ll. 5 the shape of the +s-+tmw.t +s-+lvulture corresponds to MdC+s-G14A-+l more than +s-mwt-+l. See the legs.+s-!
++ll. 6 I'm unsure about this sign:+s-D13-+l. Drioton thinks it's +s-F16-+l, rotated 270°.+s-!
+!

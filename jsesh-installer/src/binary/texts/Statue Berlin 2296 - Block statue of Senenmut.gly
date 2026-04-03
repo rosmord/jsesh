@@ -7,11 +7,11 @@
 ++JSesh_standard_sign_height 18.0 +s
 ++JSesh_small_body_scale_limit 12.0 +s
 ++JSesh_cartouche_line_width 1.0 +s
-++JSesh_small_sign_centered false +s
+++JSesh_small_sign_centered true +s
 ++JSesh_page_direction LEFT_TO_RIGHT +s
 ++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
-+b          Statua cubo di Senenmut Berlino 2296   +s-!
++bStatua cubo di Senenmut Berlino 2296   +s-!
 +l   Trascrizione geroglifica by Nico Pollone.   +s-!
 +bLicence : Creative commons CC-BY+s-!
 +b                Dati del reperto  +s-!
@@ -41,47 +41,82 @@
 +l il nome del dio Amon. I segni cha sovrastano, si leggono+s-+t sp swt +s-+l "coperto da oggetti sacri" : +s-+thAt +s-!
 +l è la testa che non c'è. Così il tutto porta alla lettura citata prima e ricavata da:+s-+i Hat-Shepswt  khnemet Amon. +s-.-!
 !
++iÄgyptische Inschriften Aus Den Königlichen Museen Zu Berlin.+s-+l 1924. Vol. 2. p. 35-38+s-!
++iUrk.+s-+l IV, 403-406+s-!
++lThe text has been checked on +s-+iAeg. Inschriften+s-+l. it would be worth checking on the original.+s-!
++lThe numbering uses the one found in the original.+s-!
++lThe arrows follow the IFAO convention. +s-PF5-+l means : signs in column, looking to the right.+s-!
++lHence the normal reading order goes +s-+itoward +s-+lthe arrow.+s-!
+!
++lThe reading order follows the column numbering+s-!
+!
+!
 +b    parte superiore (in piano), lato viso destro  +s-!
-t:f-mn:n-D27A:a-wr:n-sw-G39&t-W10:t-tA:tA-D17:Z2-ir:n-m:nb-t:ib-i-m-ir-m-M20-t-!
+PF4-|1-t:f-mn:n-D27A:a-wr:n-sw*G39&t-W10-t:tA:tA-!
+PF4-|3-+l(cryptographic composition)\++s-D17:Z2-ir:n-m-k-(t:ib)*i-!
+PF4-|4-m-ir-m-M20:t-!
 !
 +b     parte superiore (in piano), lato viso sinistro  +s-!
-nTr_-N41:X1-<-ra_-nfr_-nfr_-nfr->-#b-sn-n:t&G14-#e-Aa11:a:P8\R90-D35:G26A-m-Y4-tp:a-Z3-A51-Z3-!
-t:f-mn:n-D27A:a-wr:n-sw-G39&t-W10:t-tA:tA-!
-nTr_-N41:X1-<-ra_-nfr_-nfr_-nfr->-#b-sn-n:t&G14-#e-Aa11:a:P8\R90-!
-D17:Z2-ir:n-m:nb-t:ib-i-m-ir-m-M20-t-!
+PF5-|2-nTr_-N41:X1-<-ra_-nfr_-nfr_-nfr->-#b-sn-n:t&G14-#e-Aa11:a:P8\R90-!
+PF5-|5-+l(cryptographic composition)\++s-D35:G26A-m-Y4-tp*Z1:a*Z1-A51*Z3-!
+!
+G26A-+l: for +s-gm-+l. but check if the sign is correctly copied (quite likely).+s-!
 !
 +b     Parte frontale  +s-!
-|1)-.-sw__-t:Htp-di-i-mn:n:ra*Z1-sw:t-L2:t-#b-<-ra_-C10_-kA->-#e-di-s-O3-F1*H1:Z2-S113-R7-W2-!
-|2)-.-di-w-m-W14-t&w&Z4A-n:t:x:r-sw-t:n-r:p:a-F4:a-s-U23-aA:n:U7:t-F20:pr:n-i-mn:n-sn-n:mwt&t-!
-|3)-.-sw-t:Htp-di-Q2:ir-nb:U23_*b-N26:O49-D37:f-pr:r:r-t:nb:t-Hr:Z1-R3:f-m-N8:n:t-ra*Z1:nb-!
-|4)-.-n:kA:n-r:p:a-r:O324-n:G39*b-F30:ib:f-n:nb:tA:tA-W14-i-i-S3-nTr-nfr-F20:O51*O51:n-i-mn:n-sn-n:mwt&t-!
-|5)-.-D:d:f-W24:k-E31-U7:nb:f-aq&q-D54:Hr-b-i-W10*t:F18:z:n-nb:t:tA:tA-s-aA:D36:n:f-w-W17:tA:tA-r:D36:n:f-w-!
-|6)-.-r:r*Z1:pt-n:pr*Z1:f-Aa21:r-i_-t-i-m-N21:Z1-mi*D12*qd:f-i-w-ir:n-A1-Hr:tp-n:Hr:r-pt:A1*Z2A-F20:n-!
-|7)-.-F20:F20:F20-kA:t-A9-i-w-tA:N21*Z1-p:n-T28_:r-V25_-Y1:f-W24:r-xpr:t-mn:n-i-A54:tp*Z1-!
-|8)-.-a:a:z-i-w-A1-m-anx-x:r-nb:t:tA:tA-sw:t-L2:t-<-ra_-C10_-kA->-anx-ti-D:t:tA-!
+PF2-|6-.-sw__-t:Htp-di-i-mn:n:ra*Z1-sw:t-L2:t-#b-<-ra_-C10_-kA->-#e-di-s-O3-S113-F1*H1:Z2-R7-W2-!
+PF2-|7-.-di-w-m-W14-t-w&&&Z2B-n:t:x:r-sw-t:n-r:p:a-F4:a-s-U23-aA:n:U7:t-F20&&&pr:n-i-mn:n-sn-n:mwt&t-!
+PF2-|8-.-sw-t:Htp-di-Q2:ir-nb:iAb*b-N26:O49-D37:f-pr:r:r-t:nb:t-Hr:Z1-R3:f-m-N8:n:t-ra*Z1:nb-!
+PF2-|9-.-n:kA:n-r:p:a-r:O324-n:gb*b-F30&&&ib:aA-n:nb:tA:tA-W14-i-i-S3-nTr-nfr-F20&&&O229:n-i-mn:n-sn-n:mwt&t-!
+PF2-|10-.-D&&&d:f-W24:k-E31-U7:nb:f-aq\98**q{{861,0,84}}**D54{{592,898,77}}-Hr^^^b-i-W10*t:F18:Y1:n-nb:t:tA:tA-s-aA:D36:n:f-w-W17:tA:tA-r:D36:n:f-w-!
+PF2-|11-.-r:r*Z1:pt-n:pr*Z1:f-wDa{{308,0,98}}**r{{0,772,100}}-nfr:r-i_-t-i-m-N21:Z1-mi*nw*qd:f-i-w-ir:n-A1-Hr:tp-n:Hr:r-pt:A1*Z2A-F20:n-!
+PF2-|12-.-F20&&&(F20&&&F20)-kA:t-A9-i-w-A1-m-tA:N21:Z1-p:n-T28_:r-V25_-Y1:f-Dr:r-xpr:t-mn:n-i-A54:tp*Z1-!
+PF2-|13-.-a:a:f#34-i-w-A1-m-anx-x:r-nb:t:tA:tA-sw:t-L2:t-<-ra_-C10_-kA->-anx-ti-D&&&(t:tA)-!
 !
++ll. 6: +s-wDa{{308,0,98}}**r{{0,772,100}}-+l: the sign actually has a cross at the top, like +s-nfr-+l.+s-!
++l according to Schäffer, a correction over +s-nfr:r-+l. Sethe thinks the reading should+s-!
++lbe +s-+twDa rjjt+s-+l.+s-!
 +b        colonne posizionate sui piedi  +s-!
-F20:pr:n-i-mn:n-sn-n:mwt&t-Aa11:P8\R270-!
-F20-W17-G1-S:N21-n-i-mn:n-sn-n:mwt&t-!
-F20:T24-t*N21:Z2:n-i-mn:n-sn-n:mwt&t-!
-pt:N36-A1*B1:Z2:n_-i_-mn:n_-sn-n:mwt&t#34-!
-nTr-U36-n-i-mn:n-F12-F4-P3-sn-n:mwt&t#34-Aa11:P8\R270-!
-F20-a:F26-W24:t-pr:pr-#b-sn-n:mwt&t-#e-w-Aa11v\R180-P8-!
+PF5-|14-F20&&&pr:n-i*(mn:n)-#b-sn-n:mwt-Aa11:P8\R270-#e-!
+PF5-|15-F20&&&W17-G1*(S:N21)-n-i*(mn:n)-sn*(n:mwt)#4-!
+PF5-|16-F20&&&(T24*(t:N21))-Z2:n-i*(mn:n)-sn*(n:mwt)#34-!
+PF5-|17-pt:N36-A1*B1:Z2:n_-i_*(mn:n_)-sn-n:mwt#34-!
+PF5-|18-nTr*U36-n-i*(mn:n)-F12*F4-P41A-sn-n:mwt#1234-!
+PF5-|19-F20&&&a-F26-W24*t:pr*pr-#b-sn-n:mwt-#e-Aa11v\R180*P8*w\shading12-!
 !
++lThe determinative of +s-+twsr-HA.t +s-+lseems to have two rudders, and no sun-disks.+s-!
 +b           Lato destro della statua (sin. di chi la guarda)  +s-!
 +b      tratto dal Capitolo CVI L.d.Morti  +s-!
 !
-|1-.-i-A26_-D:f-A40-i-A26-G36:r-A40-W18-t:pr*pr:pr-Hr:r-W:Z2-!
-|2-.-D37:D37-w-Z2A\\R180-t*X2:N18:n-p:t-H-D37:t*X2:N18:n-F20:pr*Z1-A20-sw-n:mwt&t-!
-|3-.-D37:Z2-H-q:t*W22-n:r:Z1-O49*p:nb__-Hr:tp-m-<h1-N-h3>-F20:O51*O51:n-i-mn:n-#b-sn-n:mwt&t-#e-!
-|4-.-i:a-w-n:n:n-N18:Z2-f:x:n-d:F23-m:a-b-S42-z:S-r:t*x-i-A26-!
-|5-.-m:D37-t&D33-P1-p&w:n-M20-i-A-r-w&M2_-O49-ini:n-F20:pr-!
-|6-.-#b-sn-n:mwt&t-#e-r:n-U19:W24:n-t*X2:N18:r-D56-t:N21:k-mi-t:f-G36:r-O35-i-i-d:p*t-P112-!
+PF5-|1-.-i-A26_-D:f-A40-i-A26-G36:r-A40-W18-t:pr*pr:pr\70-Hr*r:W*Z2-!
+PF5-|2-.-D37:D37-w-Z2A\\R180-t*X2:N18:n-(p:t)*H-D37:Z2-t*X2:N18-n-F20&&&(pr*Z1)-A20-sn*(n:mwt)#2-!
+PF5-|3-.-D37:Z2-H*(q:t*W22)-n:r:Z1-p*O49:nb__-Hr*tp-m-<h1-N-h3>-F20&&&O229:n-i*(mn:n)-#b-sn-#e-n:mwt#1234-!
+PF5-|4-.-i*(a:w)-n:n:n-N18:Z2:f-x:n:d-F23-m:a-b-S42-z:S-r:t*x-i-A26-!
+PF5-|5-.-m:D37-t^^^D33-P1-p^^^w:n-M20-i-A-r-w&&&M2_-O49-ini:n-F20&&&pr-!
+PF5-|6-.-#b-sn-#e-n:mwt#1234-r:n-U19:W24:n-t*X2:N18:r-D56*(t:N21:k)-mi*(t:f)-G36&&&r-O35*i*i-d:p*t-P112-!
+!
+!
++lcol. 4: the determinative of +s-+txnd +s-+lis not that clear. it's a long and slim sign, which might be+s-!
++la variant of +s-F51-+l, something like +s-F147-+l instead of +s-xpS-+l.+s-!
++lcol. 6: +s-P112-+l has a rudder, and a different prow and stern.+s-!
 !
 +b           Lato sinistro della statua (Des. di chi la guarda)  +s-!
 +b      tratto dal Capitolo LVI L.d.Morti  +s-!
-i-A2-t:U15-A40-D37-P5-M29_-i-imi-S:r-t*D19:k:n-S42-O13-t-!
-m-<h1-A21-h3>-sn-n:t&mwt-n:t:f-z:x:n-D32-st-t:pr-t&w-i-i-!
-Hr-t:ib-NU15-i-w-A47:n-F20:pr*Z1-sn-n:mwt-S25:X1-H8-t&w-i-i-!
-n:t-n:g_-n:g-wr:r-A40-T12:Y1-F20:pr*Z1-sn-n:mwt-A51-Aa11:P8h-!
+PF4-|1-i*A2-t:U15-A40-D37-P5*M29_-i*imi-S:r-t*D19:k:n-S42*O13-t-!
+PF4-|2-m-<h1-A21-h3>-sn*(n:t&mwt)-n:t:f-z:x:n-D199##/-st*(t:pr)-t^^^w-i-i-!
+PF4-|3-Hr**t{{445,383,87}}**ib{{831,21,73}}-NU15-i-w-A47:n-F20&&&(pr*Z1)-sn*(n:mwt)-iwa:X1*H8-t^^^w-i-i-!
+PF4-|4-n:t-n:g_-n:g-wr:r-A40-T12:Y1-F20&&&(pr*Z1)-sn*(n:mwt)#1234-A51#1234-Aa11:P8h-!
+PF4-|5-r:d-rwd:Y1-z:S24:pXr-anx*(n:x)-F20&&&(pr*Z1):n-i*(mn:n)-sn*(n:mwt\shading1234)-anx*(n:x)#1-z:S24:pXr-!
+PF4-|6-z:z-D19:n-sn*(n:mwt\shading1234)-A51#1234-Aa11:P8h-TAw-z:z-D19:z-TAw-S24:pXr-!
+!
++lcol. 3: the sign rendered as +s-iwa-+l might be something else entirely.+s-!
++lIt looks like S105,+s-S105-+l but the central part would be lenticular.+s-!
++lThe choice of +s-iwa-+l for rendering the sign is mostly based on the semantic context.+s-!
++lcol. 5, 6 : the shape of the (likely) +s-S24-+l sign is weird.+s-!
++lIt's a case were embedded facsimile signs might be useful.+s-!
++lthe sign is most probably quite clearly written (thrice).+s-!
+!
++bBack pillar+s-!
+PF5-imAx&&&x-i*i-x:r-Q2:ir-A40-nb-iAb*(Dw^^^b)-niwt-F20&&&(pr*Z1):n-i*(mn:n)-sn*(n:mwt)#1234-!
+!
++l +s-!
 +t +s-!

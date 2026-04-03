@@ -27,12 +27,12 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.14291648"
-     inkscape:cx="363.84886"
-     inkscape:cy="188.92152"
+     inkscape:cx="363.84887"
+     inkscape:cy="188.92153"
      inkscape:window-width="1728"
      inkscape:window-height="1107"
-     inkscape:window-x="1633"
-     inkscape:window-y="65"
+     inkscape:window-x="1216"
+     inkscape:window-y="37"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg1"
      showguides="true"
@@ -68,7 +68,10 @@
             <dc:title>S. J. P. Thomas</dc:title>
           </cc:Agent>
         </dc:creator>
-        <dc:description>E1 sign. Modified by S. Rosmorduc to a) keep the relatively simple style of this sign and b) use lyra shaped horns which are more usual for this sign.++</dc:description>
+        <dc:description>E1 sign. Modified by S. Rosmorduc to a) keep the relatively simple style of this sign and b) use lyra shaped horns which are more usual for this sign.
+
+The horns are closer to those used in Gardiner's font, which are slightly lyra shaped.
+</dc:description>
       </cc:Work>
     </rdf:RDF>
   </metadata>
