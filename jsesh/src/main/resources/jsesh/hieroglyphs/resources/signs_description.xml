@@ -23343,6 +23343,26 @@ E31-+l and +s-E31B-!
 </signDescription>
     <hasTag sign="G1000" tag="quail"/>
   </sign>
+  <sign sign="G1001">
+    <variantOf baseSign="G31" isSimilar="y" linguistic="other" sign="G1001"/>
+    <hasTransliteration sign="G1001" transliteration="bn" type="phonogram" use="palette"/>
+    <hasTag sign="G1001" tag="small bird"/>
+    <signDescription lang="en" sign="G1001">+lWagtail? chipping sparrow+s-+i?+s-!
++lPhon. det. +s-+tbn ?+s-!
++lBird found in PT. 269 1-2; Allen, A Grammar of the Ancient Egyptian Pyramid Texts, vol. I, p. 231.
++s-!
+!
+w-b-n-G1001-n:k-m-G1001-n-b-n-O191A-m-&lt;H-G1001-&gt;-m-iwn-nw:niwt-!
++inote that the det. of +s-+tbnbn +s-+iwould deserve a specific sign as well.+s-!
+!
++lAlso in +s-b-G1001-n-w-+l, +s-+tbnw, +s-+ito flee+s-+l.+s-!
+!
++bBibliography+s-!
++lAllen, J. +s-+iA Grammar of the Ancient Egyptian Pyramid Texts, +s-+lvol. I, p. 231+s-!
++lHannig, R. +s-+iÄgyptisches Wörterbuch +s-+lI, p. 421+s-!
++lHannig, R+s-+l. 1995. +s-+iGroßes Handwörterbuch Deutsch-Ägyptisch+s-+l p. 252+s-!
+</signDescription>
+  </sign>
   <sign alwaysDisplay="y" sign="H1">
     <hasTransliteration sign="H1" transliteration="Apd" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="H1" transliteration="wSn" type="phonogram" use="keyboard"/>
