@@ -131,16 +131,17 @@ build the whole project: "mvn install".
 1. all files are in jsesh-installer/target/mac. cd there.
 
 5. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
-~~~
-$ find . -name main.sh -exec chmod a+x {} \;
-~~~
+
+  ~~~bash
+  find . -name main.sh -exec chmod a+x {} \;
+  ~~~
 
 3. build a jre for JSesh (check if your path is correct before).
 
 ~~~
-$ cd JSesh.app/Contents
-$ MODULES=java.base,java.desktop,java.naming,java.prefs,java.sql
-$ jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output jre
+cd JSesh.app/Contents
+MODULES=java.base,java.desktop,java.naming,java.prefs,java.sql
+jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output jre
 ~~~
   (we should identify why on earth java.sql is needed. This being said, it's very small,
    so no harm done.)

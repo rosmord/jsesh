@@ -12,14 +12,14 @@
 ++JSesh_max_quadrantHeight 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
 +bPapyrus Prisse+s-!
-+bEnseignements de Gemnikai et de Ptahotep+s-!
++bEnseignements de Gemnikai et de Ptahhotep+s-!
 +bSaisi par Émil Joubert+s-!
 +bLicence : Creative commons CC-BY+s-!
 +lDans cadre de la publication électronique du papyrus Prisse+s-!
 +lhttps://prisse.ifao.egnet.net/+s-!
 +lProjet +s-+iÉcritures +s-+l(Sorbonne Université et IFAO) et Bibliothèque nationale de France +s-!
 !
-+lCurrently, the reference system gives verse number in Gemikai/Kagemni (G) and Ptahotep (P).+s-!
++lCurrently, the reference system gives verse number in Gemikai/Kagemni (G) and Ptahhotep (P).+s-!
 +lTODO : add positions (column, line) in the document.+s-!
 +lsmall changes by S. Rosmorduc :+s-!
 +l- the document was created for the Prisse site and organised by verse number+s-!
