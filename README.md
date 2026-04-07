@@ -151,22 +151,27 @@ $ jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output 
 7. make a package (.pkg) using the application "Packages" by Stéphane Sudre.
     A config file is provided : JSesh-dist.pkgproj.
 
+#### For Java 21 distributions
 
-#### For Java 11 distributions
+Recent versions of JSesh have their own JRE, as Mac no longer allows the use of a common JRE. It's a waste of drive space, but it's also simpler and safer.
 
-A branch of JSesh is being developped to use Java 11. What I currently do is :
+Version 7.11 of JSesh is developped for Java 21.
 
-- get sure the PATH is correct (includes the jdk for java 11, and not a former one);
+What I currently do is :
+
+- get sure the PATH is correct (includes the jdk for java 21, and not a former one);
 - get sure JAVA_HOME is correct (it's used by Maven).
 
 Once JSesh is built, I have played with `jdeps` and `jlinks` to create the correct jre.
 
 I go to folder `jsesh-installer/target/mac/JSesh-7.5.0-SNAPSHOT/JSesh.app/Contents/lib`, and
 I build a shell script for jdeps:
-~~~sh
+
+~~~bash
 JARS=bcmail-jdk14-138.jar:....:signInfoAppli-7.5.0-SNAPSHOT.jar:swing-layout-1.0.3.jar
 jdeps --ignore-missing-deps --list-deps -cp $JARS jseshAppli-7.5.0-SNAPSHOT.jar
 ~~~
+
 where JARS is made from all jars in the folder. There are some missing dependencies related to mail, but JSesh doesn't use 
 mail, so it's not an issue.
 
@@ -183,7 +188,7 @@ It gives me the list of modules needed by JSesh:
 ~~~
 
 I use this list to build and run the following script:
-~~~sh
+~~~bash
 MODULES=java.base,java.datatransfer,java.desktop,java.logging,java.naming,java.prefs,java.sql,java.xml
 jlink --no-header-files --no-man-pages --add-modules  $MODULES --output jre
 ~~~
