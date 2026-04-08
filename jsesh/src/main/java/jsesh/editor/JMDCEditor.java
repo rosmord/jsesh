@@ -31,27 +31,31 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
- /*
- * Created on 30 sept. 2004 by rosmord* 
- * NOTE I have noticed a bad behaviour for the focus with 
- * linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
- * The problem doesn't appear with jdk1.4, nor with gnome and its default WM, 
- * even in focus followmouse mode. So I don't know if this is java 1.5 or 
- * fvwm's fault, I suppose it will eventually be solved.  
- * See jsesh.misc.tests.TestFocus for a simple example. 
- **/
+/*
+* Created on 30 sept. 2004 by rosmord* 
+* NOTE I have noticed a bad behaviour for the focus with 
+* linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
+* The problem doesn't appear with jdk1.4, nor with gnome and its default WM, 
+* even in focus followmouse mode. So I don't know if this is java 1.5 or 
+* fvwm's fault, I suppose it will eventually be solved.  
+* See jsesh.misc.tests.TestFocus for a simple example. 
+**/
 package jsesh.editor;
 
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.geom.*;
 import java.awt.print.*;
+import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.util.Objects;
 import java.util.logging.Logger;
 import javax.swing.*;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
 import jsesh.mdc.*;
@@ -77,58 +81,39 @@ import jsesh.swing.utils.*;
  */
 public class JMDCEditor extends JPanel {
 
-    private static final long serialVersionUID = -5312716856062578743L;
-    
     /**
      * Bottom margin of the editor.
      */
-    private static final int BOTTOM_MARGIN = 5; 
-    
-    private JMDCModelEditionListener mdcModelEditionListener;
-   
-    /**
-     * Debugging of view placement.
-     */
-    private boolean debug = false;
-    
+    private static final int BOTTOM_MARGIN = 5;
+
     /**
      * Strategy to draw a view. (we have just decided to build the view builder
      * on demand, and not to keep it. But the drawer contains some information,
      * and in particular a cache of views).
      */
     protected ViewDrawer drawer;
-    
+
     /**
      * The current view we maintain.
      */
     private MDCView documentView;
-    
+
     /**
      * Display scale for this window.
      */
     private double scale; // Should be a property !
-    
-    /**
-     * Updates the view - will receive events asking for view updates.
-     */
-    private MDCViewUpdater viewUpdater;
-    
-    /**
-     * Deals with events that occur on this object :
-     */
-    MDCEditorEventsListener eventListener;
-    
+
     /**
      * Basic Information about drawing : fonts to use, line width, etc...
      *
      */
     JMDCEditorWorkflow workflow;
-    
+
     /**
      * The object responsible for building transferable for the clipboard.
      */
     MDCModelTransferableBroker mdcModelTransferableBroker = new SimpleMDCModelTransferableBroker();
-    
+
     /**
      * States that the caret has changed since last redraw.
      * <p>
@@ -142,32 +127,78 @@ public class JMDCEditor extends JPanel {
      */
     private boolean editable = true;
 
-    private PaintingSpecifications drawingSpecifications;
+    /**
+     * Shareable style reference for this editor.
+     */
+    private JSeshStyleReference styleReference;
 
+    /**
+     * Do we want to draw page limits?
+     */
     private final boolean drawLimits = false;
 
+    /**
+     * Debugging of view placement.
+     * Will draw a red rectangle around each quadrat.
+     */
+    private boolean debug = false;
+
+    // ------------- Event listeners -----------------
+
+    /**
+     * Updates the view - will receive events asking for view updates.
+     */
+    private MDCViewUpdater viewUpdater;
+
+    /**
+     * Edition events (mouse and keyboard events)
+     * This is in fact a controller.
+     * 
+     * N.B. We could separate mouse and focus events.
+     */
+    private final MDCEditorMouseAndFocusController mouseAndFocusController;
+
+    /**
+     * Listener for model changes.
+     * Classical MVC implementation.
+     */
+    private final JMDCModelEditionListener mdcModelEditionListener;
+
+    /**
+     * Listener for changes in the style reference.
+     */
+    private PropertyChangeListener styleChangeListener = evt -> invalidateView();
+
     public JMDCEditor() {
-        this(new HieroglyphicTextModel(), MDCEditorKit
-                .getBasicMDCEditorKit().getJseshStyle().copy() );
+        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT);
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, PaintingSpecifications drawingSpecification) {
-        setBackground(Color.WHITE);
-        this.drawingSpecifications = drawingSpecification;
-        drawer = new ViewDrawer();        
-        setScale(2.0);
-        workflow = new JMDCEditorWorkflow(data);
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style) {
+        this(data, new JSeshStyleReference(Style));
+    }
 
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference) {
+        this.setBackground(Color.WHITE);
+        drawer = new ViewDrawer();
+        this.setScale(2.0);
+        workflow = new JMDCEditorWorkflow(data);
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
-        // setRequestFocusEnabled(true);
+        this.setStyleReference(styleReference);
+
         setFocusable(true);
         viewUpdater = new MDCViewUpdater(this);
-        eventListener = new MDCEditorEventsListener(this);
-        documentView = recomputeDocumentView();       
+        mouseAndFocusController = new MDCEditorMouseAndFocusController();
+        mouseAndFocusController.attachTo(this);
+        documentView = recomputeDocumentView();
         new MDCEditorKeyManager(this);
     }
 
+    /**
+     * Changes the hieroglyphic text model containing the text to edit.
+     * 
+     * @param hieroglyphicTextModel
+     */
     public void setHieroglyphiTextModel(
             HieroglyphicTextModel hieroglyphicTextModel) {
         workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
@@ -180,6 +211,57 @@ public class JMDCEditor extends JPanel {
 
     public void deleteCodeChangeListener(MDCModelEditionListener l) {
         workflow.deleteCodeChangeListener(l);
+    }
+
+    /**
+     * Returns the style reference, which can be shared with other components.
+     * 
+     * @return the styleReference
+     */
+    public JSeshStyleReference getStyleReference() {
+        return styleReference;
+    }
+
+    /**
+     * Sets the style reference for this editor. This reference can be shared with
+     * other components, which will then share the same style.
+     * 
+     * @param styleReference the styleReference to set
+     */
+
+    public void setStyleReference(JSeshStyleReference styleReference) {
+        Objects.requireNonNull(styleReference);
+        // If the operation doesn't change anything, do nothing.
+        if (this.styleReference == styleReference) {
+            return;
+        }
+        // Now, remove the previous configuration and install the new one.
+        if (this.styleReference != null) {
+            this.styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        this.styleReference = styleReference;
+        this.styleReference.addPropertyChangeListener(styleChangeListener);
+        invalidateView();
+    }
+
+    /**
+     * Returns the current style for this editor.
+     * 
+     * @return
+     */
+    public JSeshStyle getStyle() {
+        return styleReference.getStyle();
+    }
+
+    /**
+     * Sets the style for this editor.
+     * If the style reference is shared, it will change the style for all editors
+     * using the same reference.
+     * 
+     * @param style the style to set.
+     */
+    public void setStyle(JSeshStyle style) {
+        styleReference.setStyle(style);
     }
 
     /**
@@ -238,18 +320,18 @@ public class JMDCEditor extends JPanel {
      *
      * @return the view for the model.
      */
-    public MDCView getView() {       
+    public MDCView getView() {
         return documentView;
     }
 
     private MDCView recomputeDocumentView() {
-         documentView = new ViewBuilder().buildView(
-                    getHieroglyphicTextModel().getModel(),
-                    getDrawingSpecifications());                   
-         revalidate();
-         return documentView;
+        documentView = new ViewBuilder().buildView(
+                getHieroglyphicTextModel().getModel(),
+                getDrawingSpecifications());
+        revalidate();
+        return documentView;
     }
-    
+
     /**
      * Return the workflow, which allows manipulation of the underlaying
      * hieroglyphicTextModel.
@@ -359,7 +441,7 @@ public class JMDCEditor extends JPanel {
      *
      * @param position technical position in the JSesh document.
      * @return the position in the original document, or the empty string if
-     * none is found.
+     *         none is found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
         return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);
@@ -430,7 +512,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void setInsertPosition(int insertPosition) {
-        // TODO : this is WAAYYY too convoluted. 
+        // TODO : this is WAAYYY too convoluted.
         MDCPosition mdcPosition = getHieroglyphicTextModel().buildPosition(insertPosition);
         getWorkflow().setCursor(mdcPosition);
     }
@@ -503,6 +585,7 @@ public class JMDCEditor extends JPanel {
 
     /**
      * Returns the specifications attached to the current window.
+     * 
      * @return the current drawing specifications (live object).
      */
     public PaintingSpecifications getDrawingSpecifications() {
@@ -525,8 +608,8 @@ public class JMDCEditor extends JPanel {
         invalidateView();
     }
 
-    public void invalidateView() {        
-        documentView = recomputeDocumentView();        
+    public void invalidateView() {
+        documentView = recomputeDocumentView();
         revalidate();
         repaint();
     }
@@ -562,7 +645,6 @@ public class JMDCEditor extends JPanel {
             repaint();
         }
 
-       
         @Override
         public void codeChanged(StringBuffer code) {
             // NO-OP.
@@ -573,13 +655,11 @@ public class JMDCEditor extends JPanel {
             // NO-OP
         }
 
-       
         @Override
         public void focusGained(StringBuffer code) {
             // NO-OP.
         }
 
-       
         @Override
         public void focusLost() {
             // NO-OP.
@@ -678,11 +758,16 @@ public class JMDCEditor extends JPanel {
     /**
      * Sets a broker will be used to manage copy/paste operations.
      *
-     * <p> A default broker is provided. It uses default values, and is not suitable for customization.
+     * <p>
+     * A default broker is provided. It uses default values, and is not suitable for
+     * customization.
      * 
-     * <p> The JSesh application uses its own broker, which is initialized with the application preferences.
+     * <p>
+     * The JSesh application uses its own broker, which is initialized with the
+     * application preferences.
      * 
-     * TODO : provide a factory method which will allow one to share preferences in a consistent way when one wants it.
+     * TODO : provide a factory method which will allow one to share preferences in
+     * a consistent way when one wants it.
      * 
      * @param mdcModelTransferableBroker The mdcModelTransferableBroker to set.
      */
@@ -692,7 +777,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void clearText() {
-        getWorkflow().clear();        
+        getWorkflow().clear();
     }
 
     /**
@@ -728,7 +813,6 @@ public class JMDCEditor extends JPanel {
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
-
 
     public void showShadingPopup() {
         ShadingMenuBuilder menuBuilder = new ShadingMenuBuilder() {

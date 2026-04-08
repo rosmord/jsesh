@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**

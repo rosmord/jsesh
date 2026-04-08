@@ -28,8 +28,8 @@ import java.util.Optional;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.LigatureZoneBuilder;
 import jsesh.hieroglyphs.signshape.LigatureZone;
+import jsesh.hieroglyphs.signshape.LigatureZoneBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.resources.ResourcesManager;

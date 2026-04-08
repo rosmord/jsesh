@@ -41,9 +41,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import org.qenherkhopeshef.observable.ObservableEventSupport;
+
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.command.CommandFactory;
 import jsesh.editor.command.MDCCommand;
+import jsesh.editor.events.NewTextEvent;
+import jsesh.editor.events.TextEvent;
+import jsesh.editor.events.TextOperationEvent;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.Dialect;
@@ -85,22 +90,24 @@ import jsesh.mdc.output.MdCModelWriter;
  *
  * @author rosmord
  */
-public class HieroglyphicTextModel extends Observable implements
-		ModelElementObserver {
+public class HieroglyphicTextModel {
 
 	private TopItemList model;
 	private boolean philologyIsSign;
 	private boolean debug;
 	private UndoManager undoManager;
+	private ObservableEventSupport<TextEvent> eventSupport = new ObservableEventSupport<>();
+
+	/**
+	 * Internal observer for model components.
+	 */
+	private final ModelElementObserver modelElementObserver = this::internalElementChanged;
 
 	public HieroglyphicTextModel() {
 		undoManager = new UndoManager();
-		// TODO : we create an empty TopItemList. Is that right ?
 		setTopItemList(new TopItemList());
-		// signsManager = new HieroglyphicFontManager();
 		philologyIsSign = true;
 		debug = false;
-
 	}
 
 	/**
@@ -123,14 +130,13 @@ public class HieroglyphicTextModel extends Observable implements
 		undoManager.clear();
 		// Detach the ancient model.
 		if (this.model != null) {
-			this.model.deleteObserver(this);
+			this.model.deleteObserver(modelElementObserver);
 		}
 		this.model = model;
 		if (model != null) {
-			model.addObserver(this);
+			model.addObserver(modelElementObserver);
 		}
-		setChanged();
-		notifyObservers();
+		eventSupport.fireEvent(new NewTextEvent());		
 	}
 
 	public void clear() {
@@ -231,10 +237,12 @@ public class HieroglyphicTextModel extends Observable implements
 		this.philologyIsSign = philologyIsSign;
 	}
 
-	@Override
-	public void observedElementChanged(ModelOperation operation) {
-		setChanged();
-		notifyObservers(operation);
+	/**
+	 * Called when a sub element of the model is changed.
+	 * @param operation
+	 */
+	private void internalElementChanged(ModelOperation operation) {
+		eventSupport.fireEvent(new TextOperationEvent(operation));		
 	}
 
 	/**

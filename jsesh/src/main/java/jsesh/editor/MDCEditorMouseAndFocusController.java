@@ -52,29 +52,23 @@ import javax.swing.event.MouseInputAdapter;
  *  
  */
 
-final class MDCEditorEventsListener extends MouseInputAdapter implements
+final class MDCEditorMouseAndFocusController extends MouseInputAdapter implements
 		FocusListener {
-	private final JMDCEditor editor;
+	private JMDCEditor editor;
 
 	private boolean dragging;
 
-	/**
-	 * @param editor
-	 */
-	MDCEditorEventsListener(JMDCEditor editor) {
+	MDCEditorMouseAndFocusController() {		
+	}
+
+	public void attachTo(JMDCEditor editor) {
 		this.editor = editor;
-		dragging = false;
 		editor.addMouseListener(this);
 		editor.addMouseMotionListener(this);
 		editor.addFocusListener(this);
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-	 */
+	
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 3 && e.getButton() == MouseEvent.BUTTON1) {
 			this.editor.moveCursorToMouse(e.getPoint());
@@ -83,24 +77,18 @@ final class MDCEditorEventsListener extends MouseInputAdapter implements
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.event.MouseInputAdapter#mouseDragged(java.awt.event.MouseEvent)
-	 */
+
 	public void mouseDragged(MouseEvent e) {
 		if (!dragging) {
 			editor.getWorkflow().setMarkToCursor();
 		}
-		Point p = (Point) e.getPoint();
+		Point p =  e.getPoint();
 		this.editor.moveCursorToMouse(p);
 		editor.requestFocusInWindow();
 		dragging = true;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.event.MouseInputAdapter#mousePressed(java.awt.event.MouseEvent)
-	 */
+	
 	public void mousePressed(MouseEvent e) {
 		int action = 0;
 		if (dragging) {
@@ -115,23 +103,18 @@ final class MDCEditorEventsListener extends MouseInputAdapter implements
 			action = 2;
 		}
 		if (action == 1) {
-			Point p = (Point) e.getPoint();
+			Point p =  e.getPoint();
 			this.editor.moveCursorToMouse(p);
 			getWorkflow().clearMark();
 			editor.requestFocusInWindow();
 		} else if (action == 2) {
-			Point p = (Point) e.getPoint();
+			Point p =  e.getPoint();
 			this.editor.moveMarkToMouse(p);
 			editor.requestFocusInWindow();
 		}
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.swing.event.MouseInputAdapter#mouseReleased(java.awt.event.MouseEvent)
-	 */
+	
 	public void mouseReleased(MouseEvent e) {
-		//dragging = false;
 	}
 
 	public void focusGained(FocusEvent e) {

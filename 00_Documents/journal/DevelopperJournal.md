@@ -13,6 +13,14 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## 2026/04/08
+
+### TODO
+
+- TODO: introduce a class for Combobox and lists elements which would allow:
+  - stand-in, label only elements (for the first entry)
+  - active elements, holding a “true” object. 
+
 ## 2026/04/01
 
 - Renamed package `jsesh.hieroglyphs.graphics` into `jsesh.hieroglyphs.fonts`, which is much adequate. 

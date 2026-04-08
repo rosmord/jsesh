@@ -152,7 +152,6 @@ public class PalettePresenter {
 
         signDescriptionField = new JMDCEditor();
         signDescriptionField.setScale(1);
-        signDescriptionField.setCached(false);
         signDescriptionField.setEditable(false);
 
         glyphDescriptionField = new JTextArea();
