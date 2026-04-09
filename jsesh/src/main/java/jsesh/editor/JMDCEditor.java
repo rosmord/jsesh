@@ -181,8 +181,9 @@ public class JMDCEditor extends JPanel {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT);
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style) {
-        this(data, new JSeshStyleReference(Style));
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphsDrawer hieroglyphsDrawer,
+            PossibilityRepository possibilityRepository) {
+        this(data, new JSeshStyleReference(Style), hieroglyphsDrawer, possibilityRepository);
     }
 
     /**

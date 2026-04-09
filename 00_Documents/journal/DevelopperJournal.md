@@ -7,7 +7,8 @@ This journal should only be edited and modified in the Development branch.
 - When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - consider removing `depth` in layout;
 - when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
-- rename`HieroglyphicFontManager` into **ShapeCatalog** ;
+- rename `HieroglyphicFontManager` into **ShapeCatalog** ;
+- refactor the whole business around hieroglyphs to make it more logical.
 
 - Note about singletons
 
@@ -19,7 +20,41 @@ This journal should only be edited and modified in the Development branch.
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
 - [ ] parametrize each ModelElement class with the type of its possible children.
 
+
 ## 2026/04/09
+
+**Decision** : don't pass `HieroglyphsDrawer`, pass `HieroglyphicFontManager` instead. 
+
+The problem we are going to face is the following. A `JMDCEDitor` draws the data it needs from a variety of sources.
+
+- `HieroglyphsDrawer` for hieroglyphic fonts (as far as geometry is concerned) ;
+- `JSeshStyle` for the way we want to draw things (e.g. size of quadrats, etc.) ;
+- `PossibilityRepository` which links translitteration and codes.
+
+The question are : who creates those objects, are they shared, and what are good default values for them? Concerning `JMDCEditor`, it would be nice to have a default constructor with reasonnable default values. It would also be nice to have a **Factory** for creating editors with more advanced values.
+
+Logically, the default constructor should build an instance:
+
+- which uses the standard JSesh font if possible (not the old limited tksesh font) ;
+- should be independant of the preferences of the user for JSesh itself.
+
+Specific factories should allow one to create editors using either the user's preference, or to specify what they want.
+
+The current view of the system is available in to file [jsesh.hieroglyphs-V1.md](../UML/jsesh/jsesh.hieroglyphs-V1.md). 
+
+Basically:
+
+- `HieroglyphicFontManager` is the source for glyph shapes; the `DefaultHieroglyphicFontManager` currently uses all possible sources.
+- `HieroglyphsDrawer` is in fact used to 
+  1. draw signs from a `HieroglyphicFontManager` ;
+  2. draw ecdotic symbols ;
+  3. choose the size of signs.
+   
+In the case of HieroglyphsDrawer we have a composite, actual implementation. The only real parameter is the `HieroglyphicFontManager` it uses. Hence, the parameter to pass in the constructor should be a `HieroglyphicFontManager`.
+
+The `JSeshRenderContext` should also hold a `HieroglyphicFontManager`, not a `HieroglyphsDrawer`.
+
+
 
 - in `MDCViewUpdater` : should we use a scale which is not $1.0$ for the TechRenderContext? 
 
