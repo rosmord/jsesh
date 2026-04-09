@@ -35,6 +35,7 @@ package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.drawingspecifications.LayoutOptions;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 
@@ -63,9 +64,10 @@ public class ExpandSelectionAction extends EditorAction  {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		int actualDir= 0;
+		LayoutOptions options = editor.getStyle().options();
 		// Transform "dir" into the correct value.
-		if (editor.getDrawingSpecifications().getTextDirection().isLeftToRight()) {
-			if (editor.getDrawingSpecifications().getTextOrientation().isHorizontal()) {
+		if (options.textDirection().isLeftToRight()) {
+			if (options.textOrientation().isHorizontal()) {
 					// dir is already correct.
 				actualDir= dir;
 			} else {
@@ -77,7 +79,7 @@ public class ExpandSelectionAction extends EditorAction  {
 				}
 			}
 		} else {
-			if (editor.getDrawingSpecifications().getTextOrientation().isHorizontal()) {
+			if (options.textOrientation().isHorizontal()) {
 				if (dir == 1 || dir == -1)
 					actualDir= -dir;
 				else 

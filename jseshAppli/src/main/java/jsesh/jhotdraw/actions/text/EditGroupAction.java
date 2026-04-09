@@ -6,6 +6,8 @@ import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.mdc.model.AbsoluteGroup;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
 @SuppressWarnings("serial")
@@ -19,11 +21,12 @@ public class EditGroupAction extends EditorAction {
 	}
 
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
-
-		AbsoluteGroup g = editor.getWorkflow().buildAbsoluteGroup();
+		JSeshRenderContext renderContext = editor.getRenderContext();
+		JSeshTechRenderContext techContext = JSeshTechRenderContext.buildForComponent(editor);
+		AbsoluteGroup g = editor.getWorkflow().buildAbsoluteGroup(renderContext,techContext);
 
 		if (g != null) {
-			GroupEditorDialog d = new GroupEditorDialog(editor.getDrawingSpecifications());			
+			GroupEditorDialog d = new GroupEditorDialog(renderContext);
 			d.setGroup(g);
 			int choice = JOptionPane.showConfirmDialog(editor, d, "Group editor", JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.PLAIN_MESSAGE);

@@ -55,12 +55,11 @@ import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
  */
 public class PossibilityRepository {
 
-	
 	private HashMap<String, PossibilitiesList> map = new HashMap<String, PossibilitiesList>();
 	private HieroglyphDatabaseInterface hieroglyphDatabase;
 	private JSeshGlossary glossary;
 
-	private PossibilityRepository(HieroglyphDatabaseInterface hieroglyphDatabase, JSeshGlossary glossary) {
+	public PossibilityRepository(HieroglyphDatabaseInterface hieroglyphDatabase, JSeshGlossary glossary) {
 		this.hieroglyphDatabase = hieroglyphDatabase;
 		this.glossary = glossary;
 		glossary.addEventLink(GlossaryEntryAdded.class, this, "update");

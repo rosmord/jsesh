@@ -39,8 +39,9 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 
+import org.qenherkhopeshef.observable.ObservableEventListener;
+import org.qenherkhopeshef.observable.ObservableEventPublisher;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
 
 import jsesh.editor.caret.MDCCaret;
@@ -90,7 +91,7 @@ import jsesh.mdc.output.MdCModelWriter;
  *
  * @author rosmord
  */
-public class HieroglyphicTextModel {
+public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent> {
 
 	private TopItemList model;
 	private boolean philologyIsSign;
@@ -552,4 +553,14 @@ public class HieroglyphicTextModel {
     public String getOriginalDocumentCoordinates(MDCPosition position) {
         return model.getOriginalDocumentCoordinates(position.getIndex());
     }
+
+	@Override
+	public void addListener(ObservableEventListener<TextEvent> listener) {
+		eventSupport.addListener(listener);				
+	}
+
+	@Override
+	public void removeListener(ObservableEventListener<TextEvent> listener) {
+		eventSupport.removeListener(listener);
+	}
 }

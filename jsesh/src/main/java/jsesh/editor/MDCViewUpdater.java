@@ -47,94 +47,96 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 
-
 /**
  * Updates an editor's view to keep it synchronized with its model.
+ * 
  * @author S. Rosmorduc
  */
 class MDCViewUpdater implements ModelOperationVisitor {
 
 	private final JMDCEditor editor;
+	private final JSeshTechRenderContext techRenderContext;
+	private final JSeshRenderContext renderContext;
 
 	/**
 	 * @param editor
 	 */
 	MDCViewUpdater(JMDCEditor editor) {
 		this.editor = editor;
+		this.renderContext = editor.getRenderContext();
+		this.techRenderContext = JSeshTechRenderContext.buildForComponent(editor);
 	}
 
-        private MDCView getView() {
-            return editor.getView();
-        }
-	
-        @Override
+	private MDCView getView() {
+		return editor.getView();
+	}
+
+	@Override
 	public void visitChildOperation(ChildOperation operation) {
 		int k;
-		ViewBuilder builder= new ViewBuilder();
+		ViewBuilder builder = new ViewBuilder();
 		// Find the index for the element which was modified...
 		for (k = 0; k < getView().getNumberOfSubviews()
 				&& getView().getSubView(k).getModel() != operation
 						.getChildOperation().getElement(); k++)
-			/*empty*/;
+			/* empty */;
 		// This is k. rebuild view for k, and replace it.
 		if (this.getView().getSubView(k).getModel() == operation
 				.getChildOperation().getElement()) {
 			MDCView subv = builder.buildView(operation.getChildOperation()
-					.getElement(), editor.getDrawingSpecifications());
+					.getElement(), renderContext, techRenderContext);
 			this.getView().replaceSubView(k, subv);
 		}
 		// update the page layout.
-		builder.reLayout(getView(), editor.getDrawingSpecifications());
+		builder.reLayout(getView(), renderContext, techRenderContext);
 	}
 
-	
-        @Override
+	@Override
 	public void visitDeletion(Deletion deletion) {
 		// Remove the modified views, and update page layout.
 		getView().remove(deletion.getStart(), deletion.getEnd());
-		new ViewBuilder().reLayout(getView(),editor.getDrawingSpecifications());
+		new ViewBuilder().reLayout(getView(), renderContext, techRenderContext);
 	}
 
-	
-        @Override
+	@Override
 	public void visitInsertion(Insertion insertion) {
-		ViewBuilder builder= new ViewBuilder();
-		int index= insertion.getIndex();
+		ViewBuilder builder = new ViewBuilder();
+		int index = insertion.getIndex();
 		// Create and insert views at the proper position.
-		for (Iterator i= insertion.getChildren().iterator(); i.hasNext();) {
-			MDCView subView = builder.buildView((ModelElement) i.next(),editor.getDrawingSpecifications());
+		for (Iterator i = insertion.getChildren().iterator(); i.hasNext();) {
+			MDCView subView = builder.buildView((ModelElement) i.next(), renderContext, techRenderContext);
 			getView().addAt(index++, subView);
 		}
-		builder.reLayout(getView(),editor.getDrawingSpecifications());
+		builder.reLayout(getView(), renderContext, techRenderContext);
 	}
 
-	
-        @Override
+	@Override
 	public void visitModification(Modification modification) {
-		// Huge change: we suppress the whole view, which will cause the complete recomputation of the page.		
-                editor.invalidateView();
+		// Huge change: we suppress the whole view, which will cause the complete
+		// recomputation of the page.
+		editor.invalidateView();
 	}
 
-	
-        @Override
+	@Override
 	public void visitReplacement(Replacement replacement) {
 		editor.invalidateView();
 	}
 
-	
-        @Override
+	@Override
 	public void visitZoneModification(ZoneModification modification) {
-		ViewBuilder builder= new ViewBuilder();
-		for (int i= modification.getStart(); i< modification.getEnd(); i++) {
-			TopItem it= this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
-			MDCView v= builder.buildView(it,editor.getDrawingSpecifications());
-			getView().replaceSubView(i,v);
+		ViewBuilder builder = new ViewBuilder();
+		for (int i = modification.getStart(); i < modification.getEnd(); i++) {
+			TopItem it = this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
+			MDCView v = builder.buildView(it, renderContext, techRenderContext);
+			getView().replaceSubView(i, v);
 		}
-		
-		builder.reLayout(getView(),editor.getDrawingSpecifications());
+
+		builder.reLayout(getView(), renderContext, techRenderContext);
 	}
 
 }

@@ -13,6 +13,16 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
+## Simple TODO
+
+- [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
+- [ ] Document what is the scale in `JSeshTechRenderContext`.
+- [ ] parametrize each ModelElement class with the type of its possible children.
+
+## 2026/04/09
+
+- in `MDCViewUpdater` : should we use a scale which is not $1.0$ for the TechRenderContext? 
+
 ## 2026/04/08
 
 ### TODO

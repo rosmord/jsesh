@@ -58,13 +58,16 @@ import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
+import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.mdc.*;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
 import jsesh.mdc.model.operations.*;
 import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.clipboard.*;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.*;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
 import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
 import jsesh.swing.shadingMenuBuilder.*;
@@ -133,6 +136,11 @@ public class JMDCEditor extends JPanel {
     private JSeshStyleReference styleReference;
 
     /**
+     * The source for hieroglyphic signs used by this editor.
+     */
+    private HieroglyphsDrawer hieroglyphsDrawer;
+
+    /**
      * Do we want to draw page limits?
      */
     private final boolean drawLimits = false;
@@ -177,21 +185,39 @@ public class JMDCEditor extends JPanel {
         this(data, new JSeshStyleReference(Style));
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference) {
-        this.setBackground(Color.WHITE);
-        drawer = new ViewDrawer();
-        this.setScale(2.0);
-        workflow = new JMDCEditorWorkflow(data);
-        mdcModelEditionListener = new JMDCModelEditionListener();
-        workflow.addMDCModelListener(mdcModelEditionListener);
-        this.setStyleReference(styleReference);
+    /**
+     * Full constructor for the editor, which lets the user choose every possible
+     * parameter.
+     * 
+     * @param data                  the original text to edit.
+     * @param styleReference        a reference to the style (which allows sharing
+     *                              styles among editors and synchronizing them ).
+     * @param hieroglyphsDrawer     source for hieroglyphs
+     * @param possibilityRepository the system which will propose signs codes when a
+     *                              transliteration is typed. It uses both the
+     *                              hieroglyph
+     *                              database and the glossary.
+     */
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
+            HieroglyphsDrawer hieroglyphsDrawer,
+            PossibilityRepository possibilityRepository) {
 
+        this.hieroglyphsDrawer = hieroglyphsDrawer;
+        this.setStyleReference(styleReference);
+        this.setBackground(Color.WHITE);
+        this.setScale(2.0);
+        
+        mdcModelEditionListener = new JMDCModelEditionListener();
+        workflow.addMDCModelListener(mdcModelEditionListener);        
         setFocusable(true);
+        workflow = new JMDCEditorWorkflow(data, possibilityRepository);
+        drawer = new ViewDrawer(); // Is there any need to keep it in memory?
         viewUpdater = new MDCViewUpdater(this);
         mouseAndFocusController = new MDCEditorMouseAndFocusController();
         mouseAndFocusController.attachTo(this);
         documentView = recomputeDocumentView();
         new MDCEditorKeyManager(this);
+
     }
 
     /**
@@ -886,5 +912,14 @@ public class JMDCEditor extends JPanel {
 
     public TopItemList getSelection() {
         return workflow.getSelectionAsTopItemList();
+    }
+
+    /**
+     * Returns the current render context.
+     * 
+     * @return
+     */
+    public JSeshRenderContext getRenderContext() {
+        return new JSeshRenderContext(getStyle(), hieroglyphsDrawer);
     }
 }
