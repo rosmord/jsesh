@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
+package jsesh.mdcDisplayer.drawingElements.internal.symboldrawers;
 
 import java.awt.geom.GeneralPath;
 

@@ -13,11 +13,11 @@ import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 /**
  * Simple interface for basic sign drawing.
- * Mostly for internal use. If we go for modules, won't be exported.
+ * For internal use. If we go for modules, won't be exported.
  * 
  * Basically: knows the specific geometry of a sign.
  */
-public interface BasicSignDrawer {
+interface BasicSignDrawer {
 
     /**
      * Draws the sign.

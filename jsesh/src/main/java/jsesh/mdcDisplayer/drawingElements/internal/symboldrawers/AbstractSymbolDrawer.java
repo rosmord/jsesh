@@ -1,10 +1,11 @@
-package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
+package jsesh.mdcDisplayer.drawingElements.internal.symboldrawers;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
+import jsesh.mdcDisplayer.drawingElements.ElementSizeConstants;
 import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
@@ -57,7 +58,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 			//
 			CombinedPath combinedPath= buildShapeForDrawing(getBaseWidth()
 					* viewBox.getXScale(),
-					SpecialSymbolDrawer.EDITOR_MARKUP_HEIGHT
+					ElementSizeConstants.EDITOR_MARKUP_HEIGHT
 							* viewBox.getYScale());
 			
 			GeneralPath pol = combinedPath.getActualPath();

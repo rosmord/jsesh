@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
+package jsesh.mdcDisplayer.drawingElements;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -13,9 +13,21 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.signshape.LigatureZone;
-import jsesh.mdcDisplayer.drawingElements.BasicSignDrawer;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseDubiousSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseEditorAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseErasedSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseMinorAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.ClosePreviouslyReadableSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseScribeAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.CloseSuperfluousSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenDubiousSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenEditorAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenErasedSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenMinorAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenPreviouslyReadableSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenScribeAdditionSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.OpenSuperfluousSymbolDelegate;
+import jsesh.mdcDisplayer.drawingElements.internal.symboldrawers.SymbolDrawerDelegate;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.mdcDisplayer.mdcView.ViewBox;
 import jsesh.swing.utils.ShapeHelper;
@@ -26,7 +38,7 @@ import jsesh.swing.utils.ShapeHelper;
  * 
  * It is stateless, and costly to create, so we use a singleton.
  */
-public class SpecialSymbolDrawer implements BasicSignDrawer {
+class SpecialSymbolDrawer implements BasicSignDrawer {
 
 	private static final SpecialSymbolDrawer instance = new SpecialSymbolDrawer();
 
@@ -34,11 +46,6 @@ public class SpecialSymbolDrawer implements BasicSignDrawer {
 		return instance;
 	}
 
-	public static final float PARENTHESIS_STROKE_WIDTH = 0.75f;
-	public static final float EDITOR_MARKUP_SMALL_HEIGHT = 2f;
-	public static final float EDITOR_MARKUP_HEIGHT = 18f;
-
-	
 	private final HashMap<String, SymbolDrawerDelegate> specificDrawers = new HashMap<String, SymbolDrawerDelegate>();
 
 	public boolean isSpecial(String code) {
@@ -66,7 +73,7 @@ public class SpecialSymbolDrawer implements BasicSignDrawer {
 	@Override
 	public void draw(Graphics2D g2d, String code, int angle, ViewBox currentView, HieroglyphBodySize bodySize) {
 		Stroke oldStroke = g2d.getStroke();
-		float strokeWidth = PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
+		float strokeWidth = ElementSizeConstants.PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
 		g2d.setStroke(new BasicStroke(strokeWidth));
 		specificDrawers.get(code).draw(g2d, angle, currentView, strokeWidth);
 		g2d.setStroke(oldStroke);
@@ -74,9 +81,9 @@ public class SpecialSymbolDrawer implements BasicSignDrawer {
 
 	@Override
 	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
-		Rectangle2D result = new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_SMALL_HEIGHT);
+		Rectangle2D result = new Rectangle2D.Double(0, 0, getBaseWidth(code), ElementSizeConstants.EDITOR_MARKUP_SMALL_HEIGHT);
 		if (angle != 0 || fixed) {
-			result = new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_HEIGHT);
+			result = new Rectangle2D.Double(0, 0, getBaseWidth(code), ElementSizeConstants.EDITOR_MARKUP_HEIGHT);
 			if (angle != 0) {
 				GeneralPath path = new GeneralPath(result);
 				path.transform(AffineTransform.getRotateInstance(angle
@@ -98,7 +105,7 @@ public class SpecialSymbolDrawer implements BasicSignDrawer {
 
 	@Override
 	public Shape getShape(String code) {
-		return new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_HEIGHT);
+		return new Rectangle2D.Double(0, 0, getBaseWidth(code), ElementSizeConstants.EDITOR_MARKUP_HEIGHT);
 	}
 
 	@Override

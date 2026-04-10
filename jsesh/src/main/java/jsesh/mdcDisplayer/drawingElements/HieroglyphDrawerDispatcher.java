@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
-import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.mdcDisplayer.mdcView.ViewBox;
 

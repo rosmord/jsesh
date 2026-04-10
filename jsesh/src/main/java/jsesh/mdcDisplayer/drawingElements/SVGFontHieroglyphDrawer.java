@@ -55,13 +55,6 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
    
 
     /**
-     * A map code for signs not managed by FontManager.
-     * 
-     * Those are not ecdotic symbols, but shading. We might use something else for them.
-     */
-    private Map<String, Rectangle2D.Float> nonHieroglyphic;
-
-    /**
      * The height of the A1 sign, used as a reference for scaling.
      */
     private float heightOfA1 = 0;
@@ -71,10 +64,13 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
      */
     private final TkseshLigatureCatalogue tkseshLigatureCatalogue = TkseshLigatureCatalogue.getInstance();
 
+    /**
+     * Shading code sizes     
+     */
+    private final ShadingCodeCatalogue shadingCodeCatalogue;
 
     public SVGFontHieroglyphDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
     	this.fontManager = hieroglyphicFontManager;        
-        this.nonHieroglyphic = new HashMap<>();
 
         // Use The A1 sign as base
         // TODO : perhaps give the HieroglyphicDrawer some informations about
@@ -85,11 +81,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         float w = (float) specA1.getWidth();
         float h = (float) specA1.getHeight();
         heightOfA1 = h;
-
-        nonHieroglyphic.put("/", new Rectangle2D.Float(0, 0, w / 2f, h / 2f));
-        nonHieroglyphic.put("//", new Rectangle2D.Float(0, 0, w, h));
-        nonHieroglyphic.put("h/", new Rectangle2D.Float(0, 0, w, h / 2f));
-        nonHieroglyphic.put("v/", new Rectangle2D.Float(0, 0, w / 2f, h));
+        shadingCodeCatalogue = new ShadingCodeCatalogue(w,h);
 
        
     }
@@ -139,7 +131,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
             ShapeChar glyph = fontManager.get(code);
             if (glyph != null) {
                 result = glyph.getBbox();
-            } else if (nonHieroglyphic.containsKey(code)) {
+            } else if (shadingCodeCatalogue.containsCode(code)) {
                 result = getNonHieroglyphic(code).getBounds2D();
             }
         } else if (angle != 0) {
@@ -154,7 +146,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     }
     
     private Shape getNonHieroglyphic(String code) {
-        return nonHieroglyphic.get(code);
+        return shadingCodeCatalogue.getSizeForCode(code);
     }
 
 
@@ -180,7 +172,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         {
             result = glyph.getSignArea(x, y, xscale, yscale, angle * Math.PI
                     / 180.0);
-        } else if (nonHieroglyphic.containsKey(code)) {
+        } else if (shadingCodeCatalogue.containsCode(code)) {
             Shape s = ShapeHelper.transformShape(x, y, xscale, yscale, angle
                     * Math.PI / 180.0, getNonHieroglyphic(code));
             result = new Area(s);
@@ -194,8 +186,8 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
   
     @Override
     public boolean isKnown(String code) {
-        return (fontManager.get(code) != null || nonHieroglyphic
-                .containsKey(code));
+        return (fontManager.get(code) != null || shadingCodeCatalogue
+                .containsCode(code));
     }
 
     @Override
