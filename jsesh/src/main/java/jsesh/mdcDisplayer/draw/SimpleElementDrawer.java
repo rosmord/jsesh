@@ -35,10 +35,10 @@ import jsesh.mdc.model.ZoneStart;
 import jsesh.mdc.utils.TranslitterationUtilities;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
+import jsesh.mdcDisplayer.drawingElements.cartouche.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**

@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.mdcDisplayer.drawingElements;
+package jsesh.mdcDisplayer.drawingElements.cartouche;
 
 import java.awt.Graphics2D;
 
@@ -40,11 +40,6 @@ import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
-import jsesh.mdcDisplayer.drawingElements.cartouche.AbstractCartoucheDrawer;
-import jsesh.mdcDisplayer.drawingElements.cartouche.EnclosureDrawer;
-import jsesh.mdcDisplayer.drawingElements.cartouche.HwtDrawer;
-import jsesh.mdcDisplayer.drawingElements.cartouche.NormalCartoucheDrawer;
-import jsesh.mdcDisplayer.drawingElements.cartouche.SerekhDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
