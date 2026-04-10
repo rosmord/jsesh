@@ -7,169 +7,80 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 /**
- * This class is responsible for everything which concerns the graphical
- * appearance of symbols (hieroglyphs, editorial markup...)
- *
- * It doesn't deal with scaling and the like, as scaling is provided by the
- * graphics environment.
- *
- * <p>
- * This interface should probably not contain methods like getHeightOfA1 or
- * isKnown, which is really very specific to hieroglyphs.
- * <p>
- * The reason is historical: this interface was in the beginning only devoted to
- * glyphs. But now, the environment for hieroglyphs has been extended (to
- * philological markup and even text recently).
- * <p>
- * It doesn't deal with unkown or undefined codes.
- *
- * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
- *
- *
- * (c) Serge Rosmorduc
- *
- * @author Serge Rosmorduc
- *
+ * A hieroglyph drawer is able to draw signs (hieroglyphs, ecdotic symbols, etc) on a graphic context, and to provide geometric information about them.
+ * 
+ * @author rosmord
+ * 
  */
-public interface HieroglyphDrawer {
+public class HieroglyphDrawer  {
 
-    /**
-     * draws a hieroglyph, described by its code, on the drawing surface g. The
-     * view contains information about the scale, etc...
-     *
-     * @param g : where we are going to draw
-     * @param code the hieroglyph code in Manuel de Codage
-     * @param angle angle applied to the glyph, in degrees.     
-     * @param box gives information about the desired geometry for the symbol.
-     * @param bodySize should we use small body size ?
-     *
-     */
-    void draw(Graphics2D g, String code, int angle, ViewBox box, HieroglyphBodySize bodySize);
+	private final SVGFontHieroglyphDrawer svgFontHieroglyphicDrawer;
 
-    /**
-     * Gets a sign bounding box, or null if ! isKnown(code). The bounding box is
-     * the "natural" box for this sign. In some cases, the sign will be larger.
-     *
-     * <p>
-     * Note about "fixed" : a few signs (currently, mainly editor markup) may
-     * have two size: an elastic one (which is very small, but can grow), and a
-     * "natural" one, which is fixed size, and used when the sign is more or
-     * less alone. Most signs won't care about the value of fixed.
-     *
-     * @param code
-     * @param angle the rotation angle applied to this sign (in degree,
-     * clockward).
-     * @param fixed Should the box be prepared for a fixed size sign.
-     * @return sign bounding box, or null if ! isKnown(code).
-     */
-    Rectangle2D getBBox(String code, int angle, boolean fixed);
+	public HieroglyphDrawer(HieroglyphShapeRepository fontManager) {
+		this.svgFontHieroglyphicDrawer = new SVGFontHieroglyphDrawer(fontManager);		
+	}
 
-    /**
-     * An attempt to replace bounding boxes by actual shapes. Should only be
-     * called if needed (rotations, complex sign placement). The shape needs not
-     * to be the real sign shape. It can be some sort of "bounding shape".
-     *
-     * @param code : the sign code.
-     * @return a bounding shape, or null if ! isKnown(code)
-     */
-    Shape getShape(String code);
+	/**
+	 * This method uses the right drawer for a specific code.
+	 * Either it will look for SVG versions of hieroglyphs, or specific drawers for ecdotic symbols.
+	 * @param code
+	 * @return
+	 */
+	private BasicSignDrawer getDrawerForCode(String code) {
+		if (SpecialSymbolDrawer.getInstance().isSpecial(code)) {
+			return SpecialSymbolDrawer.getInstance();
+		} else {
+			return svgFontHieroglyphicDrawer;
+		}
+	}
 
-    /**
-     * Get the sign area. The area of a sign is the region enclosed in its outer
-     * boundaries.
-     *
-     * @param code
-     *
-     * @param x
-     * @param y
-     * @param xscale
-     * @param yscale
-     * @param angle
-     * @param reversed
-     * @return the global area occupied by this sign.
-     */
-    Area getSignArea(String code, double x, double y, double xscale, double yscale,
-            int angle, boolean reversed);
+	public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
+		getDrawerForCode(code).draw(g, code, angle, view, bodySize);
+	}
 
-    /**
-     * Does this code correspond to a known sign ?
-     *
-     * @param code
-     * @return true if the sign is known.
-     */
-    boolean isKnown(String code);
+	
+	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
+		return getDrawerForCode(code).getBBox(code, angle, fixed);
+	}
 
-    /**
-     * Return areas fit for inserting ligatured groups in this sign.
-     * <b>The area coordinates are set for an unscaled sign.</b>
-     * <p>
-     * Typical case : G1 sign, with two areas, one in the bottom-start corner of
-     * the sign, the other in the top-end corner. We might actually propose an
-     * half automated system.
-     *
-     * @param i the number of the area : 0 or 1 or 2
-     * @param code the code of the sign.
-     * @return an optional rectangle if an area is available.
-     */
-    Optional<LigatureZone> getLigatureZone(int i, String code);
+	
+	public double getGroupUnitLength() {
+		return svgFontHieroglyphicDrawer.getGroupUnitLength();
+	}
 
-    /**
-     * Returns the height of A1 in this font set.
-     *
-     * @return
-     */
-    double getHeightOfA1();
+	
+	public double getHeightOfA1() {
+		return svgFontHieroglyphicDrawer.getHeightOfA1();
+	}
+
+	
+	public Optional<LigatureZone> getLigatureZone(int i, String code) {
+		return getDrawerForCode(code).getLigatureZone(i, code);
+	}
+
+	
+	public Shape getShape(String code) {
+		return getDrawerForCode(code).getShape(code);
+	}
+
+	public Area getSignArea(String code, double x, double y, double xscale,
+			double yscale, int angle, boolean reversed) {
+		return getDrawerForCode(code).getSignArea(code, x, y, xscale, yscale, angle,
+				reversed);
+	}
+
+	public boolean isKnown(String code) {
+		return getDrawerForCode(code).isKnown(code);
+	}
 
 
-    /**
-     * Returns the scale to apply to a sign in this font to use the target height defined in the style.
-     * @param targetA1Height the desired height of sign A1 in the final rendering.
-     * @return
-     */
-    default float signScale(double targetA1Height) {
-        return (float) (targetA1Height / getHeightOfA1());                    
-    }
-
-    /**
-     * Easier version of signScale, getting targetA1Height from the style.
-     * @param jseshStyle
-     * @return the scale to apply to a sign in the font so that it gets the target size in the style.
-     */
-    default float scaleFromFontToStyle(JSeshStyle jseshStyle) {
-        return (float) (jseshStyle.geometry().standardSignHeight() / getHeightOfA1());                    
-    }
-    /**
-     * Returns the length of 1 "group" unit. Groups units are relative to the
-     * size of the fonts. More precisely, they are 1/1000 of the height of the
-     * A1 sign.
-     *
-     * @return
-     */
-    double getGroupUnitLength();
-
-    /** 
-     * A legacy method returning the positions defined by a fixed ligature.
-     * E.g. <code>stp&amp;n&amp;ra</code>. Those ligatures were defined in
-     * tksesh and are probably to be removed one day.
-     * For compatibility reasons, we will need to accomodate them anyway,     
-     * 
-    */
-    List<ExplicitPosition> getPositions(List<String> codes);
-
-
-    /**
-     * Public factory method for creating a hieroglyph drawer.
-     * @param shapeRepository source for hieroglyph shapes.
-     * @return a new instance of a hieroglyph drawer.
-     */
-    public static HieroglyphDrawer createHieroglyphDrawer(HieroglyphShapeRepository shapeRepository) {
-        return new HieroglyphDrawerDispatcher(shapeRepository);
-    }
+	public List<ExplicitPosition> getPositions(List<String> codes) {
+		return svgFontHieroglyphicDrawer.getPositions(codes);
+	}
 }

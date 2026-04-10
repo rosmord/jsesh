@@ -24,7 +24,9 @@ This journal should only be edited and modified in the Development branch.
 
 **Note**: in JSesh 7.x,  `HieroglyphsDrawer` is simply created by calling its default constructor, which will automatically use the user preferences. 
 
-- [ ] we want to hide most of the content of the `jsesh.mdcDisplayer.drawingElements` package. We are currently annoyed by `symbolDrawers` being visible. After considering moving everything to the parent package, we resort as a dirty trick to renaming. The package will be  moved `jsesh.mdcDisplayer.drawingElements.internal`. When (if!) we introduce **modules**, a clean solution will be available.
+The name of the class `HieroglyphsDrawer` is not very good. 
+
+- [x] we want to hide most of the content of the `jsesh.mdcDisplayer.drawingElements` package. We are currently annoyed by `symbolDrawers` being visible. After considering moving everything to the parent package, we resort as a dirty trick to renaming. The package will be  moved `jsesh.mdcDisplayer.drawingElements.internal`. When (if!) we introduce **modules**, a clean solution will be available.
 - [x] currently, some methods of `HieroglyphsDrawer` have only a meaning for hieroglyphs. The symbol font does not handle them. We could split the interface.
 
 ## 2026/04/09
