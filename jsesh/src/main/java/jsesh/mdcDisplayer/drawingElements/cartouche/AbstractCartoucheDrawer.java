@@ -15,7 +15,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
@@ -26,7 +25,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  *
  * @author rosmord
  */
-public abstract class AbstractCartoucheDrawer {
+abstract class AbstractCartoucheDrawer {
 
     // preferences
     protected final JSeshStyle jseshStyle;

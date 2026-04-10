@@ -28,7 +28,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  *
  * @author rosmord
  */
-public class SerekhDrawer extends AbstractCartoucheDrawer {
+class SerekhDrawer extends AbstractCartoucheDrawer {
 
     public SerekhDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
         super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);

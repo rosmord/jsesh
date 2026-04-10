@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cartouche;
@@ -49,7 +48,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  * @see DrawingPreferences#getEnclosureBastionDepth()
  * @author rosmord
  */
-public class EnclosureDrawer extends AbstractCartoucheDrawer {
+class EnclosureDrawer extends AbstractCartoucheDrawer {
 
     public EnclosureDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection, TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
         super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
