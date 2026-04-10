@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.signshape.LigatureZone;
+import jsesh.mdcDisplayer.drawingElements.BasicSignDrawer;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
@@ -25,7 +26,7 @@ import jsesh.swing.utils.ShapeHelper;
  * 
  * It is stateless, and costly to create, so we use a singleton.
  */
-public class SpecialSymbolDrawer implements HieroglyphDrawer {
+public class SpecialSymbolDrawer implements BasicSignDrawer {
 
 	private static final SpecialSymbolDrawer instance = new SpecialSymbolDrawer();
 
@@ -71,6 +72,7 @@ public class SpecialSymbolDrawer implements HieroglyphDrawer {
 		g2d.setStroke(oldStroke);
 	}
 
+	@Override
 	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
 		Rectangle2D result = new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_SMALL_HEIGHT);
 		if (angle != 0 || fixed) {
@@ -94,10 +96,12 @@ public class SpecialSymbolDrawer implements HieroglyphDrawer {
 		return Optional.empty();
 	}
 
+	@Override
 	public Shape getShape(String code) {
 		return new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_HEIGHT);
 	}
 
+	@Override
 	public Area getSignArea(String code, double x, double y, double xscale,
 			double yscale, int angle, boolean reversed) {
 		Shape s = ShapeHelper.transformShape(x, y, xscale, yscale, angle
@@ -105,29 +109,10 @@ public class SpecialSymbolDrawer implements HieroglyphDrawer {
 		return new Area(s);
 	}
 
+		@Override
 	public boolean isKnown(String code) {
 		return isSpecial(code);
 	}
-
-	public boolean isSmallBodyUsed() {
-		// Should not be in this class...
-		return false;
-	}
-
-	public void setSmallBodyUsed(boolean smallBody) {
-		// Should not be in this class...
-	}
-
-	public double getGroupUnitLength() {
-		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
-		return 0;
-	}
-
-	public double getHeightOfA1() {
-		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
-		return 0;
-	}
-
 	
 
 	@Override

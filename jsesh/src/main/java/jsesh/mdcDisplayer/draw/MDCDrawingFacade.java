@@ -22,7 +22,6 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawerDispatcher;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;

@@ -25,20 +25,17 @@ class HieroglyphDrawerDispatcher implements HieroglyphDrawer {
 
 	private final SVGFontHieroglyphDrawer svgFontHieroglyphicDrawer;
 
-	public HieroglyphDrawerDispatcher(SVGFontHieroglyphDrawer svgFontHieroglyphicDrawer) {
-		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
-	}
-
 	public HieroglyphDrawerDispatcher(HieroglyphShapeRepository fontManager) {
-		this(new SVGFontHieroglyphDrawer(fontManager));
+		this.svgFontHieroglyphicDrawer = new SVGFontHieroglyphDrawer(fontManager);		
 	}
 
 	/**
 	 * This method uses the right drawer for a specific code.
+	 * Either it will look for SVG versions of hieroglyphs, or specific drawers for ecdotic symbols.
 	 * @param code
 	 * @return
 	 */
-	private HieroglyphDrawer getDrawerForCode(String code) {
+	private BasicSignDrawer getDrawerForCode(String code) {
 		if (SpecialSymbolDrawer.getInstance().isSpecial(code)) {
 			return SpecialSymbolDrawer.getInstance();
 		} else {

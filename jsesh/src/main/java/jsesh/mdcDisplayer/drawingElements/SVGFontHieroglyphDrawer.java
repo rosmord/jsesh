@@ -16,11 +16,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,14 +28,13 @@ import jsesh.hieroglyphs.signshape.LigatureZoneBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.mdcDisplayer.mdcView.ViewBox;
-import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ShapeHelper;
 
 /**
  * A Hieroglyphic drawer which takes its input from (SVG) fonts. Our default
  * implementation of hieroglyphs drawing and measuring.
  */
-public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
+class SVGFontHieroglyphDrawer implements BasicSignDrawer {
 
     /*
 	 * IMPORTANT IMPLEMENTATION NOTE: this implementation of the hieroglyphic
@@ -53,32 +47,34 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
     private static final String DEFAULT_CODE = "A1";
 
     
-    
     /**
      * The manager which associates codes with actual glyphs.
      */
     private final HieroglyphShapeRepository fontManager;
 
-    /**
-     * Manages old-fashion tksesh ligatures.
-     */
-
-    private final Map<List<String>, List<ExplicitPosition>> ligaturesMap = new HashMap<>();
-
+   
 
     /**
      * A map code for signs not managed by FontManager.
+     * 
+     * Those are not ecdotic symbols, but shading. We might use something else for them.
      */
     private Map<String, Rectangle2D.Float> nonHieroglyphic;
 
+    /**
+     * The height of the A1 sign, used as a reference for scaling.
+     */
     private float heightOfA1 = 0;
+
+    /**
+     * The catalogue of predefined ligatures inherited from tksesh.
+     */
+    private final TkseshLigatureCatalogue tkseshLigatureCatalogue = TkseshLigatureCatalogue.getInstance();
 
 
     public SVGFontHieroglyphDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
-    	this.fontManager = hieroglyphicFontManager;
-        // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
-        
-        nonHieroglyphic = new HashMap<>();
+    	this.fontManager = hieroglyphicFontManager;        
+        this.nonHieroglyphic = new HashMap<>();
 
         // Use The A1 sign as base
         // TODO : perhaps give the HieroglyphicDrawer some informations about
@@ -95,11 +91,7 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
         nonHieroglyphic.put("h/", new Rectangle2D.Float(0, 0, w, h / 2f));
         nonHieroglyphic.put("v/", new Rectangle2D.Float(0, 0, w / 2f, h));
 
-        try (Reader reader = ResourcesManager.getInstance().getLigatureData()) {
-			readTksesh(reader);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+       
     }
 
     @Override
@@ -143,10 +135,6 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
     public Rectangle2D getBBox(String code, int angle, boolean fixed) {
         Rectangle2D result = null;
 
-
-        // TODO : maybe use the bounding box x and y as dx,dy for the
-        // sign ?
-        // TODO : clean this a lot...
         if (angle == 0) {
             ShapeChar glyph = fontManager.get(code);
             if (glyph != null) {
@@ -155,10 +143,6 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
                 result = getNonHieroglyphic(code).getBounds2D();
             }
         } else if (angle != 0) {
-            // TODO : centralize decisions about the rotations.
-            // (rotation is found both here and in the drawing class).
-            // Other point : getShape may call us, but only with angle = 0, so
-            // there is no infinite recursion...
             Shape shape = getShape(code);
             AffineTransform rot = AffineTransform.getRotateInstance(angle
                     * Math.PI / 180f);
@@ -173,11 +157,7 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
         return nonHieroglyphic.get(code);
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getShape(java.lang.String)
-     */
+
     @Override
     public Shape getShape(String code) {
         Shape result = null;
@@ -190,13 +170,7 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
         return result;
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * jsesh.mdcDisplayer.draw.HieroglyphsDrawer#getSignArea(java.lang.String,
-	 * double, double, double, double, float, boolean)
-     */
+  
     @Override
     public Area getSignArea(String code, double x, double y, double xscale,
             double yscale, int angle, boolean reversed) {        
@@ -244,12 +218,10 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
         return result;
     }
 
-    @Override
     public double getHeightOfA1() {
         return heightOfA1;
     }
 
-    @Override
     public double getGroupUnitLength() {
         return getHeightOfA1() / 1000f; // Why was it 10000 ????????????
     }
@@ -259,54 +231,7 @@ public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
         ManuelDeCodage manuelDeCodage = ManuelDeCodage.getInstance();
         List<String> normalizedCodes = codes.stream().map(c -> manuelDeCodage.getCanonicalCode(c))
             .toList();
-        return ligaturesMap.get(normalizedCodes);
+        return tkseshLigatureCatalogue.get(normalizedCodes);
     }
 
-    /**
-	 * Reads a ligature description file.
-     * 
-     * We have decided to use a JSesh-friendly format now.
-	 * 
-     * The format is :
-     * <pre>
-     * lig::= ligname '|' ligdef ligdef*
-     * ligname ::= CODE ('&' code)*
-     * ligdef ::= CODE X Y SCALE
-     * <pre>
-     * 
-     * <ul>
-     * <li> X 
-     * <li> Y
-     * <li> SCALE
-     * </ul>
-     * 
-	 * @param in
-	 * @throws IOException
-	 * 
-	 */
-	private void readTksesh(Reader in) throws IOException {
-        ManuelDeCodage manuelDeCodage = ManuelDeCodage.getInstance();
-		BufferedReader r = new BufferedReader(in);
-
-		String s;
-		while ((s = r.readLine()) != null) {
-			int i;
-			String parts[] = s.split("\\|");
-			List<String> codes = Arrays.stream(parts[0].split("&"))
-                .map(c -> manuelDeCodage.getCanonicalCode(c)).toList();
-
-            // Split the second part
-            String pos[] = parts[1].strip().split(" ");
-
-            List<ExplicitPosition> positions = new ArrayList<>();
-			for (i = 0; i < pos.length; i += 4) {
-				// i : sign code
-				float x = Float.parseFloat(pos[i + 1]);
-				float y = Float.parseFloat(pos[i + 2]);
-				int scale = Integer.parseInt(pos[i + 3]);
-                positions.add(new ExplicitPosition(x, y, scale));
-			}
-			ligaturesMap.put(codes, positions);
-		}
-	}
 }
