@@ -58,7 +58,7 @@ import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.actions.text.*;
 import jsesh.editor.caret.*;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.*;
 import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;

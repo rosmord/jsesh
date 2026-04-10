@@ -17,29 +17,29 @@ import jsesh.hieroglyphs.signshape.ShapeChar;
  * @author rosmord
  * 
  */
-public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {
+public class DefaultHieroglyphicShapeRepository implements HieroglyphShapeRepository {
 	private static final String GLYPH_DIRECTORY = "glyphDirectory";
 
 
-	private CompositeHieroglyphicFontManager composite;
+	private CompositeHieroglyphShapeRepository composite;
 
-	private DirectoryHieroglyphicFontManager directoryManager;
+	private DirectoryHieroglyphShapeRepository directoryManager;
 
-	private ResourcesHieroglyphicFontManager resourcesHieroglyphicFontManager;
+	private ResourcesHieroglyphicShapeRepository resourcesHieroglyphicFontManager;
 
-	public DefaultHieroglyphicFontManager() {
-		composite = new CompositeHieroglyphicFontManager();
-		directoryManager = new DirectoryHieroglyphicFontManager(new File(""));
+	public DefaultHieroglyphicShapeRepository() {
+		composite = new CompositeHieroglyphShapeRepository();
+		directoryManager = new DirectoryHieroglyphShapeRepository(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
-		resourcesHieroglyphicFontManager = new ResourcesHieroglyphicFontManager(
+		resourcesHieroglyphicFontManager = new ResourcesHieroglyphicShapeRepository(
 				"/jseshGlyphs");
 		composite.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);
 		composite
-				.addHieroglyphicFontManager(new MemoryHieroglyphicFontManager());
+				.addHieroglyphicFontManager(new GnutraceHieroglyphShapeRepository());
 		initDirectory();
 	}
 	
-	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {
+	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
 		composite.addHieroglyphicFontManager(manager);
 	}
 

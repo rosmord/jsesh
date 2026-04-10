@@ -3,10 +3,9 @@ package jsesh.hieroglyphs.data;
 import java.util.Set;
 
 /**
- * Something which knows about a collection of hieroglyph codes.
+ * A catalogue of hieroglyph codes.
  * 
  * @author rosmord
- *
  */
 public interface HieroglyphCodesSource {
 

@@ -34,7 +34,7 @@
  */
 package jsesh.search.ui;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 
@@ -62,7 +62,7 @@ public class SearchPanelFactory {
      * @param target
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanel(SearchTarget target, HieroglyphicFontManager fontManager) {
+    public static JWildcardPanel createWildCardPanel(SearchTarget target, HieroglyphShapeRepository fontManager) {
         return new JWildcardPanel(target, fontManager);
     }
 
@@ -74,11 +74,11 @@ public class SearchPanelFactory {
      * @param target
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, HieroglyphicFontManager fontManager) {
+    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, HieroglyphShapeRepository fontManager) {
         return new JWildcardPanel(target, false, fontManager);
     }
 
-    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget, HieroglyphicFontManager fontManager) {
+    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget, HieroglyphShapeRepository fontManager) {
         SearchFolderControl control = new SearchFolderControl(corpusSearchTarget, fontManager);
         return control.getPanel();
     }

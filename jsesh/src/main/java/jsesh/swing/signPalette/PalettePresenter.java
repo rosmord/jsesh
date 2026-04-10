@@ -47,7 +47,7 @@ import jsesh.hieroglyphs.data.Possibility;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 
@@ -117,7 +117,7 @@ public class PalettePresenter {
     /**
      * Font manager (knows about sign drawings).
      */
-    private final HieroglyphicFontManager hieroglyphicFontManager;
+    private final HieroglyphShapeRepository hieroglyphicFontManager;
     
     /**
      * Signs already got from the palette, for faster retrieval.
@@ -145,7 +145,7 @@ public class PalettePresenter {
      */
     private HieroglyphicPaletteDialog dialog;
 
-    public PalettePresenter(HieroglyphicFontManager hieroglyphicFontManager, HieroglyphDatabaseInterface hieroglyphDatabase) {
+    public PalettePresenter(HieroglyphShapeRepository hieroglyphicFontManager, HieroglyphDatabaseInterface hieroglyphDatabase) {
         this.hieroglyphsDatabase = hieroglyphDatabase;
         this.hieroglyphicFontManager = hieroglyphicFontManager;
         simplePalette = new JSimplePalette();

@@ -24,8 +24,8 @@ import jsesh.swing.signimportdialog.model.SVGSignSource;
  * @author rosmord
  * 
  */
-public class DirectoryHieroglyphicFontManager implements
-		HieroglyphicFontManager {
+public class DirectoryHieroglyphShapeRepository implements
+		HieroglyphShapeRepository {
 
 	FolderProxy directory;
 
@@ -45,7 +45,7 @@ public class DirectoryHieroglyphicFontManager implements
 	 * @param directory
 	 *            . May be null.
 	 */
-	public DirectoryHieroglyphicFontManager(File directory) {
+	public DirectoryHieroglyphShapeRepository(File directory) {
 		super();
 		this.directory = new FolderProxy(directory);
 

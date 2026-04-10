@@ -1,7 +1,7 @@
 package jsesh.newEdit;
 
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
 import org.qenherkhopeshef.viewToolKit.drawing.PlainDrawing;
@@ -20,7 +20,7 @@ public class NewMDCEditor extends JGraphicalElementDisplayer<PlainDrawing> {
 
     private MDCDrawingManager drawingManager;
 
-    public NewMDCEditor(HieroglyphicFontManager fontManager) {
+    public NewMDCEditor(HieroglyphShapeRepository fontManager) {
         super(new PlainDrawing());        
         drawingManager = new MDCDrawingManager(new TopItemList(), getDrawing(), fontManager);
     }

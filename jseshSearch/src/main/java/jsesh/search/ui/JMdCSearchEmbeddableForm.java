@@ -21,9 +21,9 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import jsesh.editor.JMDCField;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrat.QuadratSearchQuery;
@@ -58,7 +58,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     private final JLabel matchLengthSpinnerLabel;
     private final JComboBox<VariantLevelForSearch> variantLevel;
     
-    private HieroglyphicFontManager fontManager;
+    private HieroglyphShapeRepository fontManager;
    
     /**
      * Buttons which are meaningless for whole quadrat search...
@@ -69,7 +69,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm(HieroglyphicFontManager fontManager) {
+    JMdCSearchEmbeddableForm(HieroglyphShapeRepository fontManager) {
     	super(fontManager);
        
         // MdC Search

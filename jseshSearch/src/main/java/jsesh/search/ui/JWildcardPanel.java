@@ -19,9 +19,9 @@ import javax.swing.SwingUtilities;
 
 import jsesh.editor.JMDCField;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 import jsesh.search.ui.specifications.JSearchFormModelIF;
@@ -52,7 +52,7 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
 
     private final boolean hasInsets;
     
-    public JWildcardPanel(SearchTarget target, HieroglyphicFontManager fontManager) {
+    public JWildcardPanel(SearchTarget target, HieroglyphShapeRepository fontManager) {
         this(target, true, fontManager);
     }
 
@@ -63,7 +63,7 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
      * @param hasInsets : choose if we want an inner margin. Sets to false if we
      * embed the panel in a larger one.
      */
-    public JWildcardPanel(SearchTarget target, boolean hasInsets, HieroglyphicFontManager fontManager) {
+    public JWildcardPanel(SearchTarget target, boolean hasInsets, HieroglyphShapeRepository fontManager) {
         this.hasInsets = hasInsets;
         this.searchTarget = target;
         this.embeddableForm = new JSearchEmbeddableForm(fontManager);

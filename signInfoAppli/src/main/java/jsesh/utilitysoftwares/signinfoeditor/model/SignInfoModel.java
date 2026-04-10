@@ -14,7 +14,7 @@ import java.util.TreeSet;
 
 import jsesh.hieroglyphs.data.GardinerCode;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
@@ -64,7 +64,7 @@ public class SignInfoModel {
 	PropertyChangeListener propertyChangeListener= new PropertyChangeListener();
 	
 	public SignInfoModel() {
-		Iterator it = DefaultHieroglyphicFontManager.getInstance().getCodes()
+		Iterator it = DefaultHieroglyphicShapeRepository.getInstance().getCodes()
 				.iterator();
 		while (it.hasNext()) {
 			String code = (String) it.next();

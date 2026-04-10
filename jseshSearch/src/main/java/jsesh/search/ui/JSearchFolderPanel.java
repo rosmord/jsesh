@@ -13,7 +13,7 @@ package jsesh.search.ui;
 import java.io.File;
 import javax.swing.*;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 
@@ -33,12 +33,12 @@ public final class JSearchFolderPanel extends JPanel {
     private JLabel messageField;
     private JTable resultTable;
 
-    public JSearchFolderPanel(HieroglyphicFontManager fontManager) {
+    public JSearchFolderPanel(HieroglyphShapeRepository fontManager) {
         createFields(fontManager);
         layoutFields();
     }
 
-    private void createFields(HieroglyphicFontManager fontManager) {
+    private void createFields(HieroglyphShapeRepository fontManager) {
         this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
         this.searchForm = new JSearchEmbeddableForm(fontManager);

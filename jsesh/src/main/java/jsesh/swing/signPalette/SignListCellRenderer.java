@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 
 @SuppressWarnings("serial")
@@ -15,9 +15,9 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 	private int bitmapHeight = 20;
 	private Component parent = null;
 	private boolean displaySignsCodes = false;
-	private HieroglyphicFontManager hieroglyphicFontManager;
+	private HieroglyphShapeRepository hieroglyphicFontManager;
 
-	public SignListCellRenderer(Component parent, HieroglyphicFontManager hieroglyphicFontManager) {		
+	public SignListCellRenderer(Component parent, HieroglyphShapeRepository hieroglyphicFontManager) {		
 		this.parent = parent;
 		this.hieroglyphicFontManager = hieroglyphicFontManager;
 	}

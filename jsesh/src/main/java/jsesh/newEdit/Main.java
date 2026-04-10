@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 public class Main {
 	private final JFrame frame= new JFrame("display");
@@ -14,7 +14,7 @@ public class Main {
 	private final JTextField mdcTextField= new JTextField();
 	
 	public Main() {	
-		HieroglyphicFontManager fontManager = new DefaultHieroglyphicFontManager();
+		HieroglyphShapeRepository fontManager = new DefaultHieroglyphicShapeRepository();
 		newMDCEditor = new NewMDCEditor(fontManager);
 		Container panel = frame.getContentPane();
 		panel.setLayout(new BorderLayout());

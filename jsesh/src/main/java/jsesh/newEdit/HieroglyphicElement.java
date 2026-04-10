@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 import jsesh.utils.DoubleDimensions;
@@ -16,9 +16,9 @@ public class HieroglyphicElement extends GraphicalElement {
     private ObjectProperty<String> mdcProperty;
     
     // Possibly makes it a property too ?
-	private HieroglyphicFontManager fontManager;
+	private HieroglyphShapeRepository fontManager;
 
-    public HieroglyphicElement(String mdc, HieroglyphicFontManager fontManager) {
+    public HieroglyphicElement(String mdc, HieroglyphShapeRepository fontManager) {
         super();
         this.fontManager = fontManager;
         this.mdcProperty = new ObjectProperty<String>("mdc", this, mdc, true);

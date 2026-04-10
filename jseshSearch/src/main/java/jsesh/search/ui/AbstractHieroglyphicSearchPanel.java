@@ -3,9 +3,9 @@ package jsesh.search.ui;
 import javax.swing.JPanel;
 
 import jsesh.editor.JMDCField;
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.search.wildcard.WildCardQuery;
 
 /**
@@ -21,11 +21,11 @@ public abstract class AbstractHieroglyphicSearchPanel extends JPanel {
 	 */
     private static final String FONT_PATH = "/jsesh/search/wildcard";
 
-	protected HieroglyphicFontManager fontManager;
+	protected HieroglyphShapeRepository fontManager;
 	
 	
 	
-    public AbstractHieroglyphicSearchPanel(HieroglyphicFontManager fontManager) {
+    public AbstractHieroglyphicSearchPanel(HieroglyphShapeRepository fontManager) {
 		super();
 		setupFont(fontManager);
 	}
@@ -34,18 +34,18 @@ public abstract class AbstractHieroglyphicSearchPanel extends JPanel {
      * Sets the font manager, and ensure  the additional signs for wildcards (*, [ and ]) are known.
      * @param fontManager : an original font manager.
      */
-    private final void setupFont(HieroglyphicFontManager fontManager) {    	
+    private final void setupFont(HieroglyphShapeRepository fontManager) {    	
         if (fontManager.hasCode(WildCardQuery.QUERY_SKIP) ) {
         	this.fontManager = fontManager;
         } else {
-        	CompositeHieroglyphicFontManager compositeManager = new CompositeHieroglyphicFontManager();
+        	CompositeHieroglyphShapeRepository compositeManager = new CompositeHieroglyphShapeRepository();
         	compositeManager.addHieroglyphicFontManager(fontManager);
-        	compositeManager.addHieroglyphicFontManager(new ResourcesHieroglyphicFontManager(FONT_PATH));
+        	compositeManager.addHieroglyphicFontManager(new ResourcesHieroglyphicShapeRepository(FONT_PATH));
         	this.fontManager = compositeManager;
         } 
     }
     
-    protected HieroglyphicFontManager getFontManager() {
+    protected HieroglyphShapeRepository getFontManager() {
 		return fontManager;
 	}
 	

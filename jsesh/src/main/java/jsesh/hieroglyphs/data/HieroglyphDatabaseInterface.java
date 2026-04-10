@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -27,7 +27,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
  * HieroglyphicFontManager.
  *
  * @see CompositeHieroglyphsManager for default implementation.
- * @see HieroglyphicFontManager
+ * @see HieroglyphShapeRepository
  * @author S. Rosmorduc
  *
  */

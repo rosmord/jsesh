@@ -23,7 +23,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.swing.utils.GraphicsUtils;
 
 /**
@@ -153,7 +153,7 @@ public class JMDCField extends JMDCEditor {
 
     }
 
-	public void setFontManager(HieroglyphicFontManager fontManager) {
+	public void setFontManager(HieroglyphShapeRepository fontManager) {
 		// TODO Auto-generated method stub
 		throw new RuntimeException("WRITE ME!!!!");
 	}

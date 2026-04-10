@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.Cadrat;
@@ -38,9 +38,9 @@ public class MDCDrawingManager {
 
     private TopItemList items;
     private PlainDrawing drawing;
-    private HieroglyphicFontManager fontManager;
+    private HieroglyphShapeRepository fontManager;
 
-    public MDCDrawingManager(TopItemList items, PlainDrawing drawing, HieroglyphicFontManager fontManager) {
+    public MDCDrawingManager(TopItemList items, PlainDrawing drawing, HieroglyphShapeRepository fontManager) {
         super();
         this.fontManager = fontManager;
         this.items = items;

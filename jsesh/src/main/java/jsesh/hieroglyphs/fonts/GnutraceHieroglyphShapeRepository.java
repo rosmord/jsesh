@@ -22,19 +22,18 @@ import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
 /**
- * The old fonts used by JSesh and tksesh.
- * @author rosmord
- *
+ * The old fonts used by tksesh and the first versions of JSesh.
+ * @author Serge Rosmorduc
  */
-public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
+public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeRepository {
 
-	static MemoryHieroglyphicFontManager instance = null;
+	static GnutraceHieroglyphShapeRepository instance = null;
 
-	HashMap codes;
+	HashMap<String, ShapeChar> codes;
 	BzrSimpleFont fonts[];
 	boolean hasNewSigns= false;
 
-	public MemoryHieroglyphicFontManager() {
+	public GnutraceHieroglyphShapeRepository() {
 		String fontNames[] =
 			{
 				"A.bzr",
@@ -85,7 +84,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 				e.printStackTrace();
 			}
 
-		codes = new HashMap();
+		codes = new HashMap<>();
 		// Now fill the map. ugly code !
 		set("A", fonts['G' - 'A'].getChar(1 + 31));
 		//set("i", fonts['M' - 'A'].getChar(17 + 31));
@@ -1255,7 +1254,7 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 	}
 
 	public ShapeChar get(String code) {
-		return (ShapeChar) codes.get(code);
+		return codes.get(code);
 	}
 
 	public void set(String code, ShapeChar s) {
@@ -1273,10 +1272,10 @@ public class MemoryHieroglyphicFontManager implements HieroglyphicFontManager {
 	 * IMPORTANT : CHANGE THE FONT HANDLING SYSTEM.
 	 * @return the set of codes.
 	 */
-	public Set getCodes()
+	public Set<String> getCodes()
 	{
 		hasNewSigns= false;
-		return codes.keySet();
+		return Set.copyOf(codes.keySet());
 	}
 	
 	public boolean hasNewSigns() {	

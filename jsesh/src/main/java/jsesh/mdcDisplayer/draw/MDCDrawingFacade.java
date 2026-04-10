@@ -16,7 +16,7 @@ import java.io.StringReader;
 import javax.imageio.ImageIO;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
@@ -58,7 +58,7 @@ public class MDCDrawingFacade {
 
 	public MDCDrawingFacade() {
 		this.jSeshRenderContext = new JSeshRenderContext(
-			JSeshStyle.DEFAULT, new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicFontManager()));
+			JSeshStyle.DEFAULT, new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicShapeRepository()));
 	}
 
 	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {

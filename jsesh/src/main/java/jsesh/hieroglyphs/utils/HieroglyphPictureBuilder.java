@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.utils.GraphicsUtils;
 
@@ -48,9 +48,9 @@ public class HieroglyphPictureBuilder {
 
 	private int border;
 
-	private HieroglyphicFontManager fontManager;
+	private HieroglyphShapeRepository fontManager;
 
-	public HieroglyphPictureBuilder(HieroglyphicFontManager hieroglyphicFontManager) {
+	public HieroglyphPictureBuilder(HieroglyphShapeRepository hieroglyphicFontManager) {
 		this.fontManager = hieroglyphicFontManager;
 		size = 50;
 		transparent = false;
@@ -67,7 +67,7 @@ public class HieroglyphPictureBuilder {
 	 *            should the picture be transparent.
 	 */
 	public HieroglyphPictureBuilder(
-			HieroglyphicFontManager hieroglyphicFontManager,
+			HieroglyphShapeRepository hieroglyphicFontManager,
 			double maxSize, int imageSize,
 			boolean transparent) {		
 		this.fontManager = hieroglyphicFontManager;

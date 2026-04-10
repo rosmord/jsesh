@@ -1,8 +1,8 @@
 package jsesh.jhotdraw;
 
 import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
@@ -288,7 +288,7 @@ public class JSeshApplicationBase {
     public void setFontInfo(FontInfo fontInfo) {
         this.fontInfo = fontInfo;
         // TODO : use a better system here... Meanwhile, we will stay with the current one.
-        DefaultHieroglyphicFontManager.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
+        DefaultHieroglyphicShapeRepository.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
         PaintingSpecifications d = defaultDrawingSpecifications.copy();
         fontInfo.applyToDrawingSpecifications(d);
         defaultDrawingSpecifications = d;

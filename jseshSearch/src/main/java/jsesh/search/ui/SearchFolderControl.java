@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;
@@ -50,7 +50,7 @@ class SearchFolderControl {
 
     
 
-    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, HieroglyphicFontManager fontManager) {
+    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, HieroglyphShapeRepository fontManager) {
         this.ui = new JSearchFolderPanel(fontManager);
         this.corpusSearchTarget = corpusSearchTarget;
         clearTable();

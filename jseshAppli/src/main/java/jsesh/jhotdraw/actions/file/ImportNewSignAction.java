@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.resources.JSeshMessages;
@@ -30,7 +30,7 @@ public class ImportNewSignAction extends AbstractApplicationAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		File outputFolder = DefaultHieroglyphicFontManager.getInstance()
+		File outputFolder = DefaultHieroglyphicShapeRepository.getInstance()
 				.getDirectory();
 		if (outputFolder != null && outputFolder.isDirectory()
 				&& outputFolder.canWrite()) {

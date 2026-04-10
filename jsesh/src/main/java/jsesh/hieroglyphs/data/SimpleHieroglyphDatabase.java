@@ -14,8 +14,8 @@ package jsesh.hieroglyphs.data;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  *
  * TODO : merge with ManueDeCodage (relatively close meaning).
  *
- * @see HieroglyphicFontManager
+ * @see HieroglyphShapeRepository
  * @author S. Rosmorduc
  *
  */

@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.hieroglyphs.signshape.LigatureZoneBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
@@ -71,7 +71,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     /**
      * The manager which associates codes with actual glyphs.
      */
-    private final HieroglyphicFontManager fontManager;
+    private final HieroglyphShapeRepository fontManager;
 
     /**
      * Manages old-fashion tksesh ligatures.
@@ -88,7 +88,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     private float heightOfA1 = 0;
 
 
-    public SVGFontHieroglyphicDrawer(HieroglyphicFontManager hieroglyphicFontManager) {
+    public SVGFontHieroglyphicDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
     	this.fontManager = hieroglyphicFontManager;
         // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
         

@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
@@ -27,7 +27,7 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
 	}
 
-	public HieroglyphicDrawerDispatcher(HieroglyphicFontManager fontManager) {
+	public HieroglyphicDrawerDispatcher(HieroglyphShapeRepository fontManager) {
 		this(new SVGFontHieroglyphicDrawer(fontManager));
 	}
 

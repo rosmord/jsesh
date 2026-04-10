@@ -1,7 +1,6 @@
 package jsesh.hieroglyphs.fonts;
 
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
-import jsesh.hieroglyphs.fonts.HieroglyphicFontManager;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 
@@ -26,8 +25,8 @@ import java.util.Set;
  * @author rosmord
  * 
  */
-public class ResourcesHieroglyphicFontManager extends Object implements
-		HieroglyphicFontManager {
+public class ResourcesHieroglyphicShapeRepository implements
+		HieroglyphShapeRepository {
 
 	private String resourcePath;
 
@@ -35,7 +34,7 @@ public class ResourcesHieroglyphicFontManager extends Object implements
 
 	HashMap signs;
 
-	public ResourcesHieroglyphicFontManager(String resourcePath) {
+	public ResourcesHieroglyphicShapeRepository(String resourcePath) {
 		this.resourcePath = resourcePath;
 		signs = new HashMap();
 		try {

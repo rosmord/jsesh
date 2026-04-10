@@ -19,17 +19,17 @@ import jsesh.hieroglyphs.signshape.ShapeChar;
  * 
  */
 
-public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager {
-	List<HieroglyphicFontManager> managers;
+public class CompositeHieroglyphShapeRepository implements HieroglyphShapeRepository {
+	List<HieroglyphShapeRepository> managers;
 
 	SortedSet<String> codes;
 
-	public CompositeHieroglyphicFontManager() {
-		managers = new ArrayList<HieroglyphicFontManager>();
+	public CompositeHieroglyphShapeRepository() {
+		managers = new ArrayList<HieroglyphShapeRepository>();
 		codes = null;
 	}
 
-	public void addHieroglyphicFontManager(HieroglyphicFontManager manager) {
+	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
 		managers.add(manager);
 	}
 
@@ -37,7 +37,7 @@ public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager
 		ShapeChar result = null;
 		int i = 0;
 		while (result == null && i < managers.size()) {
-			HieroglyphicFontManager m = managers
+			HieroglyphShapeRepository m = managers
 					.get(i);
 			result = m.get(code);
 			i++;
@@ -59,7 +59,7 @@ public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager
 		ShapeChar result = null;
 		int i = 0;
 		while (result == null && i < managers.size()) {
-			HieroglyphicFontManager m = managers
+			HieroglyphShapeRepository m = managers
 					.get(i);
 			result = m.getSmallBody(code);
 			i++;
@@ -81,7 +81,7 @@ public class CompositeHieroglyphicFontManager implements HieroglyphicFontManager
 			codes = new TreeSet<>();
 			int i = 0;
 			while (i < managers.size()) {
-				HieroglyphicFontManager m = managers
+				HieroglyphShapeRepository m = managers
 						.get(i);
 				codes.addAll(m.getCodes());
 				i++;
