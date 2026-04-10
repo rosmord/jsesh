@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 /**
  * This class is responsible for everything which concerns the graphical
@@ -36,7 +38,7 @@ import jsesh.mdcDisplayer.layout.ExplicitPosition;
  * @author Serge Rosmorduc
  *
  */
-public interface HieroglyphsDrawer {
+public interface HieroglyphDrawer {
 
     /**
      * draws a hieroglyph, described by its code, on the drawing surface g. The
@@ -160,4 +162,14 @@ public interface HieroglyphsDrawer {
      * 
     */
     List<ExplicitPosition> getPositions(List<String> codes);
+
+
+    /**
+     * Public factory method for creating a hieroglyph drawer.
+     * @param shapeRepository source for hieroglyph shapes.
+     * @return a new instance of a hieroglyph drawer.
+     */
+    public static HieroglyphDrawer createHieroglyphDrawer(HieroglyphShapeRepository shapeRepository) {
+        return new HieroglyphDrawerDispatcher(shapeRepository);
+    }
 }

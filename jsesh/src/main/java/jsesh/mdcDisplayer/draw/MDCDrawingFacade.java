@@ -22,8 +22,8 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphicDrawerDispatcher;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawerDispatcher;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.swing.utils.GraphicsUtils;
@@ -43,7 +43,8 @@ public class MDCDrawingFacade {
 
 	private boolean philologySign = true;
 
-	private final JSeshRenderContext jSeshRenderContext;;
+	private final JSeshRenderContext jSeshRenderContext;
+	private final HieroglyphDrawer hieroglyphDrawer;
 
 	/**
 	 * How many pixels on the device to make a typographical point?
@@ -57,12 +58,13 @@ public class MDCDrawingFacade {
 	private int cadratHeight = 20;
 
 	public MDCDrawingFacade() {
-		this.jSeshRenderContext = new JSeshRenderContext(
-			JSeshStyle.DEFAULT, new HieroglyphicDrawerDispatcher(new DefaultHieroglyphicShapeRepository()));
+		this(new JSeshRenderContext(
+			JSeshStyle.DEFAULT, new DefaultHieroglyphicShapeRepository()));		
 	}
 
 	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {
 		this.jSeshRenderContext = jSeshRenderContext;
+		this.hieroglyphDrawer = new HieroglyphDrawerDispatcher(jSeshRenderContext.hieroglyphShapeRepository());
 	}
 
 	/**
@@ -201,10 +203,10 @@ public class MDCDrawingFacade {
 		return philologySign;
 	}
 
-	private double getScale() {
+	private double getScale() {		
 		// Uses the actual font to compute scale. We need it.
 		return cadratHeight
-				/ jSeshRenderContext.hieroglyphDrawer().getHeightOfA1();
+				/ hieroglyphDrawer.getHeightOfA1();
 	}
 
 	/**

@@ -11,27 +11,34 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.symbolDrawers.SpecialSymbolDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 /**
  * This hieroglyphic drawer is able to dispatch the drawings of signs according
  * to their codes and other features.
  * 
+ * We hide this class behind the factory method of HieroglyphDrawer.
  * @author rosmord
  * 
  */
-public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
+class HieroglyphDrawerDispatcher implements HieroglyphDrawer {
 
-	private final SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer;
+	private final SVGFontHieroglyphDrawer svgFontHieroglyphicDrawer;
 
-	public HieroglyphicDrawerDispatcher(SVGFontHieroglyphicDrawer svgFontHieroglyphicDrawer) {
+	public HieroglyphDrawerDispatcher(SVGFontHieroglyphDrawer svgFontHieroglyphicDrawer) {
 		this.svgFontHieroglyphicDrawer = svgFontHieroglyphicDrawer;
 	}
 
-	public HieroglyphicDrawerDispatcher(HieroglyphShapeRepository fontManager) {
-		this(new SVGFontHieroglyphicDrawer(fontManager));
+	public HieroglyphDrawerDispatcher(HieroglyphShapeRepository fontManager) {
+		this(new SVGFontHieroglyphDrawer(fontManager));
 	}
 
-	private HieroglyphsDrawer getDrawer(String code) {
+	/**
+	 * This method uses the right drawer for a specific code.
+	 * @param code
+	 * @return
+	 */
+	private HieroglyphDrawer getDrawerForCode(String code) {
 		if (SpecialSymbolDrawer.getInstance().isSpecial(code)) {
 			return SpecialSymbolDrawer.getInstance();
 		} else {
@@ -41,12 +48,12 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 
 	@Override
 	public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
-		getDrawer(code).draw(g, code, angle, view, bodySize);
+		getDrawerForCode(code).draw(g, code, angle, view, bodySize);
 	}
 
 	@Override
 	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
-		return getDrawer(code).getBBox(code, angle, fixed);
+		return getDrawerForCode(code).getBBox(code, angle, fixed);
 	}
 
 	@Override
@@ -61,24 +68,24 @@ public class HieroglyphicDrawerDispatcher implements HieroglyphsDrawer {
 
 	@Override
 	public Optional<LigatureZone> getLigatureZone(int i, String code) {
-		return getDrawer(code).getLigatureZone(i, code);
+		return getDrawerForCode(code).getLigatureZone(i, code);
 	}
 
 	@Override
 	public Shape getShape(String code) {
-		return getDrawer(code).getShape(code);
+		return getDrawerForCode(code).getShape(code);
 	}
 
 	@Override
 	public Area getSignArea(String code, double x, double y, double xscale,
 			double yscale, int angle, boolean reversed) {
-		return getDrawer(code).getSignArea(code, x, y, xscale, yscale, angle,
+		return getDrawerForCode(code).getSignArea(code, x, y, xscale, yscale, angle,
 				reversed);
 	}
 
 	@Override
 	public boolean isKnown(String code) {
-		return getDrawer(code).isKnown(code);
+		return getDrawerForCode(code).isKnown(code);
 	}
 
 	@Override

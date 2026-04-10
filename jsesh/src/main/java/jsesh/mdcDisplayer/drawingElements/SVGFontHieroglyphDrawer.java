@@ -32,6 +32,7 @@ import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.hieroglyphs.signshape.LigatureZoneBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ShapeHelper;
 
@@ -39,7 +40,7 @@ import jsesh.swing.utils.ShapeHelper;
  * A Hieroglyphic drawer which takes its input from (SVG) fonts. Our default
  * implementation of hieroglyphs drawing and measuring.
  */
-public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
+public class SVGFontHieroglyphDrawer implements HieroglyphDrawer {
 
     /*
 	 * IMPORTANT IMPLEMENTATION NOTE: this implementation of the hieroglyphic
@@ -51,22 +52,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      */
     private static final String DEFAULT_CODE = "A1";
 
-    private static HashMap<String, String> normalizedCodesMap = new HashMap<>();
     
-    static {
-        normalizedCodesMap.put("[[", "BEGINERASE");
-        normalizedCodesMap.put("]]", "ENDERASE");
-        normalizedCodesMap.put("[{", "BEGINEDITORSUPERFLUOUS");
-        normalizedCodesMap.put("}]", "ENDEDITORSUPERFLUOUS");
-        normalizedCodesMap.put("[&", "BEGINEDITORADDITION");
-        normalizedCodesMap.put("&]", "ENDEDITORADDITION");
-        normalizedCodesMap.put("[\"", "BEGINPREVIOUSLYREADABLE");
-        normalizedCodesMap.put("\"]", "ENDPREVIOUSLYREADABLE");
-        normalizedCodesMap.put("[(", "BEGINMINORADDITION");
-        normalizedCodesMap.put(")]", "ENDMINORADDITION");
-        normalizedCodesMap.put("[?", "BEGINDUBIOUS");
-        normalizedCodesMap.put("?]", "ENDDUBIOUS");
-    }
     
     /**
      * The manager which associates codes with actual glyphs.
@@ -88,7 +74,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     private float heightOfA1 = 0;
 
 
-    public SVGFontHieroglyphicDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
+    public SVGFontHieroglyphDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
     	this.fontManager = hieroglyphicFontManager;
         // TODO revamp the hieroglyphic font management. It should <strong>not</strong> use singleton.
         
@@ -120,7 +106,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
         Graphics2D tmpG = (Graphics2D) g.create();
 
-        code = normalizeCode(code);
         ShapeChar glyph = null;
         // If we want to use a small body font, try to find the glyph.
         if (bodySize == HieroglyphBodySize.SMALL) {
@@ -158,7 +143,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     public Rectangle2D getBBox(String code, int angle, boolean fixed) {
         Rectangle2D result = null;
 
-        code = normalizeCode(code);
 
         // TODO : maybe use the bounding box x and y as dx,dy for the
         // sign ?
@@ -196,7 +180,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      */
     @Override
     public Shape getShape(String code) {
-        code = normalizeCode(code);
         Shape result = null;
         ShapeChar glyph = fontManager.get(code);
         if (glyph != null) {
@@ -216,8 +199,7 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
      */
     @Override
     public Area getSignArea(String code, double x, double y, double xscale,
-            double yscale, int angle, boolean reversed) {
-        code = normalizeCode(code);
+            double yscale, int angle, boolean reversed) {        
         Area result = null;
         ShapeChar glyph = fontManager.get(code);
         if (glyph != null) // FIXME : use reversed !
@@ -238,14 +220,12 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
   
     @Override
     public boolean isKnown(String code) {
-        code = normalizeCode(code);
         return (fontManager.get(code) != null || nonHieroglyphic
                 .containsKey(code));
     }
 
     @Override
     public Optional<LigatureZone> getLigatureZone(int i, String code) {
-        code = normalizeCode(code);
         ShapeChar glyph = fontManager.get(code);
         Optional<LigatureZone> result = Optional.empty();
         if (glyph != null) {
@@ -272,21 +252,6 @@ public class SVGFontHieroglyphicDrawer implements HieroglyphsDrawer {
     @Override
     public double getGroupUnitLength() {
         return getHeightOfA1() / 1000f; // Why was it 10000 ????????????
-    }
-
-    /**
-     * Returns a normalized version of code. In particular, deals with codes
-     * like '[[' and ']]'.
-     *
-     * @param code
-     * @return
-     */
-    private String normalizeCode(String code) {
-        if (normalizedCodesMap.containsKey(code)) {
-            return normalizedCodesMap.get(code);
-        } else {
-            return code;
-        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package jsesh.search.backingSupport;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 
 import java.util.ArrayList;
 import java.util.List;

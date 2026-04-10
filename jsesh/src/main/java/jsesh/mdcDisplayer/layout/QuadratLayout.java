@@ -5,7 +5,7 @@ import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.model.Cadrat;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.HorizontalListElement;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewIterator;
 import jsesh.mdcDisplayer.mdcView.ViewSide;
@@ -33,9 +33,9 @@ public class QuadratLayout {
 	private MDCView currentView;
 	private boolean centerSigns;
 	private TextOrientation currentTextOrientation;
-	private HieroglyphsDrawer hieroglyphsDrawer;
+	private HieroglyphDrawer hieroglyphsDrawer;
 
-	public QuadratLayout(JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphsDrawer,
+	public QuadratLayout(JSeshStyle jseshStyle, HieroglyphDrawer hieroglyphsDrawer,
 			boolean centerSigns, TextOrientation currentTextOrientation) {
 		super();
 		this.jseshStyle = jseshStyle;

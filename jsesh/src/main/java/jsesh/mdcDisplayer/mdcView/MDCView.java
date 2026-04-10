@@ -10,7 +10,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.SubCadrat;
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
 
 /**
  * Base class for all view elements. A view element is a view of an MDC model

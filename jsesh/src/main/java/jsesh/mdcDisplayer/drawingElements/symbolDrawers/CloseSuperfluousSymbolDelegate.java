@@ -3,7 +3,7 @@ package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 public class CloseSuperfluousSymbolDelegate implements SymbolDrawerDelegate {
 
@@ -52,7 +52,6 @@ public class CloseSuperfluousSymbolDelegate implements SymbolDrawerDelegate {
 		float halfStroke = strokeWidth / 2f;
 		float centerY = (height) / 2f;
 		GeneralPath pol = new GeneralPath();
-		final float pw = width - halfStroke;
 
 		pol.moveTo(halfStroke, halfStroke);
 		pol.curveTo(width - halfStroke, halfStroke, halfStroke, centerY,

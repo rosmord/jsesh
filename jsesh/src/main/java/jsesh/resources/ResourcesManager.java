@@ -22,14 +22,29 @@ import javax.swing.ImageIcon;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
- * A container for various resources (like fonts).
+ * A container for various internal resources like fonts and icons.
  *
+ * <p> This is legitimately a singleton. We can have many fonts, but this class deals only with fonts which are embedded in the 
+ * application jars.
  * @author rosmord
  *
  */
 public class ResourcesManager {
 
     static private ResourcesManager instance;
+
+    /**
+     * Access to the singleton instance.
+     * Should be called on the event dispatch thread if we are using JSesh as a GUI library.
+     * <p> It can be called from another thread if we are using JSesh for building pictures in an headless environment.
+     * @return
+     */
+    static public ResourcesManager getInstance() {
+        if (instance == null) {
+            instance = new ResourcesManager();
+        }
+        return instance;
+    }
 
     /**
      * the default Mdc Compatible transliteration font.
@@ -123,12 +138,7 @@ public class ResourcesManager {
         return result;
     }
 
-    static public ResourcesManager getInstance() {
-        if (instance == null) {
-            instance = new ResourcesManager();
-        }
-        return instance;
-    }
+    
 
     /**
      * @return the font for translitteration.

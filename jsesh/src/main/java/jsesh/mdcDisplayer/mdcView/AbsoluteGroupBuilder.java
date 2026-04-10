@@ -16,7 +16,7 @@ import jsesh.mdc.model.TopItem;
 import jsesh.mdc.utils.InnerGroupLister;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 
 /**
  * @author Serge Rosmorduc
@@ -79,7 +79,7 @@ public class AbsoluteGroupBuilder {
 		 * @return
 		 */
 		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
-			HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
 			sizeOfGroupUnit= hieroglyphsDrawer.getGroupUnitLength();

@@ -3,7 +3,8 @@ package jsesh.mdcDisplayer.context;
 import java.util.function.Function;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 
 /**
  * A place to store rendering context technical information.
@@ -27,10 +28,10 @@ import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
  * rendering of glyphs would be small.
  * 
  * 
- * @param jseshStyle         the style in use.
- * @param hieroglyphDrawer   the hieroglyph drawer in use.
+ * @param jseshStyle the style in use.
+ * @param hieroglyphShapeRepository the current font catalogue.
  */
-public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphsDrawer hieroglyphDrawer) {
+public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepository hieroglyphShapeRepository) {
 
     /**
      * Returns a copy builder.
@@ -47,11 +48,11 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphsDrawer hierog
      */
     public static class Builder {
         private JSeshStyle jseshStyle;
-        private HieroglyphsDrawer hieroglyphDrawer;
+        private HieroglyphShapeRepository hieroglyphShapeRepository;
 
         public Builder(JSeshRenderContext original) {
             this.jseshStyle = original.jseshStyle();
-            this.hieroglyphDrawer = original.hieroglyphDrawer();
+            this.hieroglyphShapeRepository = original.hieroglyphShapeRepository();
         }
 
         public Builder jseshStyle(Function<JSeshStyle.Builder, JSeshStyle.Builder> styleFuntion) {
@@ -59,13 +60,13 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphsDrawer hierog
             return this;
         }
 
-        public Builder HieroglyphsDrawer(HieroglyphsDrawer hieroglyphDrawer) {
-            this.hieroglyphDrawer = hieroglyphDrawer;
+        public Builder HieroglyphsDrawer(HieroglyphShapeRepository hieroglyphShapeRepository) {
+            this.hieroglyphShapeRepository = hieroglyphShapeRepository;
             return this;
         }
 
         public JSeshRenderContext build() {
-            return new JSeshRenderContext(jseshStyle, hieroglyphDrawer);
+            return new JSeshRenderContext(jseshStyle, hieroglyphShapeRepository);
         }
     }
 

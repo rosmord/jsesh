@@ -67,7 +67,7 @@ import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.clipboard.*;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.*;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
 import jsesh.swing.shadingMenuBuilder.*;
@@ -138,7 +138,7 @@ public class JMDCEditor extends JPanel {
     /**
      * The source for hieroglyphic signs used by this editor.
      */
-    private HieroglyphsDrawer hieroglyphsDrawer;
+    private HieroglyphDrawer hieroglyphsDrawer;
 
     /**
      * Do we want to draw page limits?
@@ -181,7 +181,7 @@ public class JMDCEditor extends JPanel {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT);
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphsDrawer hieroglyphsDrawer,
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphDrawer hieroglyphsDrawer,
             PossibilityRepository possibilityRepository) {
         this(data, new JSeshStyleReference(Style), hieroglyphsDrawer, possibilityRepository);
     }
@@ -200,7 +200,7 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-            HieroglyphsDrawer hieroglyphsDrawer,
+            HieroglyphDrawer hieroglyphsDrawer,
             PossibilityRepository possibilityRepository) {
 
         this.hieroglyphsDrawer = hieroglyphsDrawer;

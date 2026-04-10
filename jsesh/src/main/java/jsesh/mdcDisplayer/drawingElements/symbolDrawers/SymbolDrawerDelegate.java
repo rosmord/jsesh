@@ -2,7 +2,7 @@ package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
 
 import java.awt.Graphics2D;
 
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 public interface SymbolDrawerDelegate {
 

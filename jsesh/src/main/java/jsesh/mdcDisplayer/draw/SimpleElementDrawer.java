@@ -37,7 +37,7 @@ import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.drawingElements.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.drawingElements.PhilologyHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
@@ -144,7 +144,7 @@ public class SimpleElementDrawer extends ElementDrawer {
     public void visitHieroglyph(Hieroglyph h) {
         JSeshRenderContext renderContext = getRenderContext();
         JSeshStyle jseshStyle = getJseshStyle();
-        HieroglyphsDrawer hieroglyphsDrawer = renderContext.hieroglyphDrawer();
+        HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 
         if (!postfix) {
             if (h.getModifiers().hasInteger("shading")) {
@@ -247,7 +247,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      *                      could be considered as a font size, in a way.
      */
     private void drawSign(Hieroglyph h, float baseSignScale) {
-        HieroglyphsDrawer hieroglyphsDrawer = getRenderContext().hieroglyphDrawer();
+        HieroglyphDrawer hieroglyphsDrawer = getRenderContext().hieroglyphShapeRepository();
         JSeshStyle jseshStyle = getJseshStyle();
 
         Graphics2D tmpG = (Graphics2D) g.create();

@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.drawingElements;
+package jsesh.mdcDisplayer.mdcView;
 
 /**
  * Geometric Informations useful when drawing a sign.

@@ -14,25 +14,32 @@ import java.util.Optional;
 
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphBodySize;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 import jsesh.swing.utils.ShapeHelper;
 
-public class SpecialSymbolDrawer implements HieroglyphsDrawer {
+/**
+ * This class is responsible for drawing special symbols, which are not handled
+ * by the normal hieroglyphic fonts.
+ * 
+ * It is stateless, and costly to create, so we use a singleton.
+ */
+public class SpecialSymbolDrawer implements HieroglyphDrawer {
 
-	// TODO move those constants to specifications .
-	
+	private static final SpecialSymbolDrawer instance = new SpecialSymbolDrawer();
+
+	public static SpecialSymbolDrawer getInstance() {
+		return instance;
+	}
+
 	public static final float PARENTHESIS_STROKE_WIDTH = 0.75f;
-	public static final float EDITOR_MARKUP_SMALL_HEIGHT= 2f;
-	public static final float EDITOR_MARKUP_HEIGHT= 18f;
+	public static final float EDITOR_MARKUP_SMALL_HEIGHT = 2f;
+	public static final float EDITOR_MARKUP_HEIGHT = 18f;
+
 	
-	
-	private static SpecialSymbolDrawer instance= new SpecialSymbolDrawer();
-	
-	private HashMap<String, SymbolDrawerDelegate> specificDrawers= new HashMap<String, SymbolDrawerDelegate>();
-	
-	
+	private final HashMap<String, SymbolDrawerDelegate> specificDrawers = new HashMap<String, SymbolDrawerDelegate>();
+
 	public boolean isSpecial(String code) {
 		return specificDrawers.containsKey(code);
 	}
@@ -54,36 +61,35 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 		specificDrawers.put(")]", new CloseMinorAdditionSymbolDelegate());
 
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g2d, String code, int angle, ViewBox currentView, HieroglyphBodySize bodySize) {
 		Stroke oldStroke = g2d.getStroke();
-		float strokeWidth= PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
+		float strokeWidth = PARENTHESIS_STROKE_WIDTH; // * currentView.getXScale();
 		g2d.setStroke(new BasicStroke(strokeWidth));
-		specificDrawers.get(code).draw( g2d, angle,  currentView, strokeWidth);
+		specificDrawers.get(code).draw(g2d, angle, currentView, strokeWidth);
 		g2d.setStroke(oldStroke);
 	}
 
 	public Rectangle2D getBBox(String code, int angle, boolean fixed) {
-		Rectangle2D result= new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_SMALL_HEIGHT);
+		Rectangle2D result = new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_SMALL_HEIGHT);
 		if (angle != 0 || fixed) {
-			result= new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_HEIGHT);
+			result = new Rectangle2D.Double(0, 0, getBaseWidth(code), EDITOR_MARKUP_HEIGHT);
 			if (angle != 0) {
-				GeneralPath path= new GeneralPath(result);
+				GeneralPath path = new GeneralPath(result);
 				path.transform(AffineTransform.getRotateInstance(angle
-					* Math.PI / 180f));
-				result= path.getBounds2D();
+						* Math.PI / 180f));
+				result = path.getBounds2D();
 			}
 		}
 		return result;
 	}
 
-	
 	private float getBaseWidth(String code) {
 		return specificDrawers.get(code).getBaseWidth();
 	}
 
-        @Override
+	@Override
 	public Optional<LigatureZone> getLigatureZone(int i, String code) {
 		return Optional.empty();
 	}
@@ -112,7 +118,6 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 		// Should not be in this class...
 	}
 
-
 	public double getGroupUnitLength() {
 		// NORMALLY NOT CALLED HERE. SHOULD MOVE OUT OF HIEROGLYPHICDRAWER.
 		return 0;
@@ -123,13 +128,10 @@ public class SpecialSymbolDrawer implements HieroglyphsDrawer {
 		return 0;
 	}
 
-
-	public static SpecialSymbolDrawer getInstance() {
-		return instance;
-	}
+	
 
 	@Override
 	public List<ExplicitPosition> getPositions(List<String> codes) {
-		return null;
+		return List.of();
 	}
 }

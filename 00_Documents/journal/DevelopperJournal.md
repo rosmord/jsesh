@@ -22,6 +22,9 @@ This journal should only be edited and modified in the Development branch.
 
 ## 2026/04/10
 
+**Note**: in JSesh 7.x,  `HieroglyphsDrawer` is simply created by calling its default constructor, which will automatically use the user preferences. 
+
+- [ ] currently, some methods of `HieroglyphsDrawer` have only a meaning for hieroglyphs. The symbol font does not handle them. We could split the interface.
 
 ## 2026/04/09
 

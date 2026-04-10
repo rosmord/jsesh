@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 
 public class OpenPreviouslyReadableSymbolDelegate implements SymbolDrawerDelegate {

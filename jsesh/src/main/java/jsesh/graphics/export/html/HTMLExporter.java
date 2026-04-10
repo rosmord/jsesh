@@ -46,7 +46,7 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.resources.JSeshMessages;
@@ -126,9 +126,9 @@ public class HTMLExporter {
 
     private JSeshRenderContext renderContext;
 
-    private HieroglyphsDrawer hieroglyphicDrawer;
+    private HieroglyphDrawer hieroglyphicDrawer;
 
-    public HTMLExporter(HieroglyphsDrawer hieroglyphicDrawer) {
+    public HTMLExporter(HieroglyphDrawer hieroglyphicDrawer) {
         this.hieroglyphicDrawer = hieroglyphicDrawer;
         setDefaults();
     }

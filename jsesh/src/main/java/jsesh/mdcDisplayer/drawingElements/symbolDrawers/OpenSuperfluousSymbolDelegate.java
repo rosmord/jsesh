@@ -3,7 +3,7 @@ package jsesh.mdcDisplayer.drawingElements.symbolDrawers;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 /**
  * Draw the curly bracket.

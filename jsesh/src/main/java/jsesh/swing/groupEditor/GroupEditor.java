@@ -166,7 +166,7 @@ public final class GroupEditor extends JPanel {
             double width = h.getRelativeSize() / 100.0 * dims.getWidth();
             area = new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));
         } else {
-            area = jSeshRenderContext.hieroglyphDrawer().getSignArea(
+            area = jSeshRenderContext.hieroglyphShapeRepository().getSignArea(
                     h.getCode(), subv.getPosition().x, subv.getPosition().y,
                     h.getRelativeSize() / 100.0, h.getRelativeSize() / 100.0,
                     h.getAngle(), h.isReversed());
@@ -357,7 +357,7 @@ public final class GroupEditor extends JPanel {
     public void move(double dx, double dy) {
         if (selected != -1) {
             Hieroglyph h = group.getHieroglyphAt(selected);
-            double unitLength = jSeshRenderContext.hieroglyphDrawer().getGroupUnitLength();
+            double unitLength = jSeshRenderContext.hieroglyphShapeRepository().getGroupUnitLength();
             double x = h.getX() + dx / unitLength;
             double y = h.getY() + dy / unitLength;
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
@@ -479,7 +479,7 @@ public final class GroupEditor extends JPanel {
      */
     public int screenUnitToGroupUnit(Double coord) {
         
-        double unitLength =  jSeshRenderContext.hieroglyphDrawer().getGroupUnitLength();
+        double unitLength =  jSeshRenderContext.hieroglyphShapeRepository().getGroupUnitLength();
         
         return (int) (coord / unitLength);
     }

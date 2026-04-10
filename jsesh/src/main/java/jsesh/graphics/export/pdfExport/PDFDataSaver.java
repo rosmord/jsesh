@@ -12,7 +12,7 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphsDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
@@ -90,7 +90,7 @@ public class PDFDataSaver {
             ).build()
             ;
 
-        JSeshRenderContext localRenderContext = new JSeshRenderContext(myDrawingSpecification, renderContext.hieroglyphDrawer());
+        JSeshRenderContext localRenderContext = new JSeshRenderContext(myDrawingSpecification, renderContext.hieroglyphShapeRepository());
 
         ViewBuilder builder = new ViewBuilder();
         MDCView view = builder.buildView(topItemList, localRenderContext, JSeshTechRenderContext.VECTOR_CONTEXT);

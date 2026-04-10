@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
+import jsesh.mdcDisplayer.mdcView.ViewBox;
 
 public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 
