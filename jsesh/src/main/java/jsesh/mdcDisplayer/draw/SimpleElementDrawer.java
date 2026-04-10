@@ -51,15 +51,21 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
  *
  */
 public class SimpleElementDrawer extends ElementDrawer {
+    HieroglyphDrawer hieroglyphsDrawer;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void prepareDrawing(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
         super.prepareDrawing(renderContext, techRenderContext);
         // Sets the drawing state to its default: no shading, no red color.
         setDrawingState(new TopItemState());
+        this.hieroglyphsDrawer = new HieroglyphDrawer(renderContext.hieroglyphShapeRepository());
+    }
+
+    @Override
+    public void cleanup() {        
+        super.cleanup();
+        // Ensure we need to call prepareDrawing before drawing again.
+        this.hieroglyphsDrawer = null;
     }
 
     /*
@@ -144,7 +150,6 @@ public class SimpleElementDrawer extends ElementDrawer {
     public void visitHieroglyph(Hieroglyph h) {
         JSeshRenderContext renderContext = getRenderContext();
         JSeshStyle jseshStyle = getJseshStyle();
-        HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 
         if (!postfix) {
             if (h.getModifiers().hasInteger("shading")) {
@@ -247,7 +252,6 @@ public class SimpleElementDrawer extends ElementDrawer {
      *                      could be considered as a font size, in a way.
      */
     private void drawSign(Hieroglyph h, float baseSignScale) {
-        HieroglyphDrawer hieroglyphsDrawer = getRenderContext().hieroglyphShapeRepository();
         JSeshStyle jseshStyle = getJseshStyle();
 
         Graphics2D tmpG = (Graphics2D) g.create();

@@ -22,6 +22,11 @@ This journal should only be edited and modified in the Development branch.
 
 ## 2026/04/10
 
+**TODO**: 
+
+- [ ] ensure that `ViewDrawer` is created only when we need it - or make it stateless. In particular, it's created in the constructor of `JMDCEditor`.
+- [ ] fix the problem of `float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);`
+
 **Note**: in JSesh 7.x,  `HieroglyphsDrawer` is simply created by calling its default constructor, which will automatically use the user preferences. 
 
 The name of the class `HieroglyphsDrawer` is not very good. 

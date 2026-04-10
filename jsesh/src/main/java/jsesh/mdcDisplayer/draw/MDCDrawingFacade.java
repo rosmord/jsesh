@@ -63,7 +63,7 @@ public class MDCDrawingFacade {
 
 	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {
 		this.jSeshRenderContext = jSeshRenderContext;
-		this.hieroglyphDrawer = new HieroglyphDrawerDispatcher(jSeshRenderContext.hieroglyphShapeRepository());
+		this.hieroglyphDrawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
 	}
 
 	/**
