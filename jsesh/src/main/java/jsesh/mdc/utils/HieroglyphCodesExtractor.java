@@ -7,8 +7,6 @@ package jsesh.mdc.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.LineBreak;

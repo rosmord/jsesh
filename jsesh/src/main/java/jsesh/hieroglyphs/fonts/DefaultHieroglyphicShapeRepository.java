@@ -35,7 +35,7 @@ public class DefaultHieroglyphicShapeRepository implements HieroglyphShapeReposi
 				"/jseshGlyphs");
 		composite.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);
 		composite
-				.addHieroglyphicFontManager(new GnutraceHieroglyphShapeRepository());
+				.addHieroglyphicFontManager(GnutraceHieroglyphShapeRepository.getInstance());
 		initDirectory();
 	}
 	

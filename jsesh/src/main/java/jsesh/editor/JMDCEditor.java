@@ -54,6 +54,7 @@ import javax.swing.*;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
+import jsesh.defaults.SharedDefaults;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.actions.text.*;
@@ -64,7 +65,6 @@ import jsesh.mdc.constants.*;
 import jsesh.mdc.model.*;
 import jsesh.mdc.model.operations.*;
 import jsesh.mdc.unicode.MdCToUnicodeConverter;
-import jsesh.mdcDisplayer.clipboard.*;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
@@ -91,8 +91,7 @@ public class JMDCEditor extends JPanel {
 
     /**
      * Strategy to draw a view. (we have just decided to build the view builder
-     * on demand, and not to keep it. But the drawer contains some information,
-     * and in particular a cache of views).
+     * on demand, and not to keep it.).
      */
     protected ViewDrawer drawer;
 
@@ -178,12 +177,13 @@ public class JMDCEditor extends JPanel {
     private PropertyChangeListener styleChangeListener = evt -> invalidateView();
 
     public JMDCEditor() {
-        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT);
+        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT, 
+        SharedDefaults.getInstance().getHieroglyphShapeRepository(), SharedDefaults.getInstance().getPossibilityRepository());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphDrawer hieroglyphsDrawer,
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphShapeRepository hieroglyphShapeRepository,
             PossibilityRepository possibilityRepository) {
-        this(data, new JSeshStyleReference(Style), hieroglyphsDrawer, possibilityRepository);
+        this(data, new JSeshStyleReference(Style), hieroglyphShapeRepository, possibilityRepository);
     }
 
     /**
@@ -200,10 +200,11 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-            HieroglyphDrawer hieroglyphsDrawer,
+            HieroglyphShapeRepository hieroglyphShapeRepository,
             PossibilityRepository possibilityRepository) {
 
-        this.hieroglyphsDrawer = hieroglyphsDrawer;
+        this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
+
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);
         this.setScale(2.0);
@@ -933,6 +934,7 @@ public class JMDCEditor extends JPanel {
         super.addNotify();
         // Re-register listeners
         if (styleReference != null) {
+            styleReference.hasP
             if (!styleReference.getPropertyChangeListeners().contains(styleChangeListener)) {
                 styleReference.addPropertyChangeListener(styleChangeListener);
             }

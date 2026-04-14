@@ -27,13 +27,17 @@ import jsesh.hieroglyphs.signshape.ShapeChar;
  */
 public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeRepository {
 
-	static GnutraceHieroglyphShapeRepository instance = null;
+	private static final GnutraceHieroglyphShapeRepository INSTANCE = null;
+
+	public static GnutraceHieroglyphShapeRepository getInstance() {
+		return INSTANCE;
+	}
 
 	HashMap<String, ShapeChar> codes;
 	BzrSimpleFont fonts[];
 	boolean hasNewSigns= false;
 
-	public GnutraceHieroglyphShapeRepository() {
+	private GnutraceHieroglyphShapeRepository() {
 		String fontNames[] =
 			{
 				"A.bzr",

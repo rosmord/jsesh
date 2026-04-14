@@ -86,9 +86,9 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      */
 	private HieroglyphCodesSource fontManager;
 
-    public SimpleHieroglyphDatabase(ManuelDeCodage manuelDeCodage, HieroglyphCodesSource hieroglyphCodesSource) {
+    public SimpleHieroglyphDatabase(HieroglyphCodesSource hieroglyphCodesSource) {
     	this.families = fillFamilyList();
-        this.manuelDeCodageManager = manuelDeCodage;
+        this.manuelDeCodageManager = ManuelDeCodage.getInstance();
         this.fontManager = hieroglyphCodesSource;        
         signsValues = new HashMap<>();
         possibilitiesLists = new HashMap<>();

@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
-
 /**
  * A font managers that delegates its jobs to a list of other font managers.
  * <p>
@@ -42,11 +41,11 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 			result = m.get(code);
 			i++;
 		}
-		// TODO : suppress this part and create a SANE system for signs of the form "A23H".
+		// TODO : suppress this part and create a SANE system for signs of the form
+		// "A23H".
 		// TODO : differentiate A23h from A23H...
-		if (result == null && code.endsWith("H"))
-		{
-			String otherCode= code.substring(0, code.length() -1) + "h";
+		if (result == null && code.endsWith("H")) {
+			String otherCode = code.substring(0, code.length() - 1) + "h";
 			return get(otherCode);
 		}
 		return result;
@@ -64,19 +63,19 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 			result = m.getSmallBody(code);
 			i++;
 		}
-		// TODO : suppress this part and create a SANE system for signs of the form "A23H".
+		// TODO : suppress this part and create a SANE system for signs of the form
+		// "A23H".
 		// TODO : differentiate A23h from A23H...
-		if (result == null && code.endsWith("H"))
-		{
-			String otherCode= code.substring(0, code.length() -1) + "h";
+		if (result == null && code.endsWith("H")) {
+			String otherCode = code.substring(0, code.length() - 1) + "h";
 			return getSmallBody(otherCode);
 		}
 		return result;
 	}
-	
-        @Override
+
+	@Override
 	public Set<String> getCodes() {
-		
+
 		if (codes == null || hasNewSigns()) {
 			codes = new TreeSet<>();
 			int i = 0;

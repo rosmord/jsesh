@@ -21,9 +21,13 @@ This journal should only be edited and modified in the Development branch.
 - [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
 - [ ] parametrize each ModelElement class with the type of its possible children.
+- [ ] merge `SimpleHieroglyphDatabase` and its interface `HieroglyphDatabase`, as it's the only existing implementation ;
+- [ ] remove the `ViewDrawer` from `JMDCEditor`; it shouldn't be an instance variable.
 
 ## 2026/04/14
 
+- [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
+ 
 ### The method `scaleFromFontToStyle` (FIXED)
 
 In JSesh 7, we have things like:
