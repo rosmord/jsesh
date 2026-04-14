@@ -16,9 +16,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
@@ -69,6 +67,12 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
      */
     private final ShadingCodeCatalogue shadingCodeCatalogue;
 
+    /**
+     * Builds a new SVGFontHieroglyphDrawer with the given font manager.
+     * 
+     * The font manager should provide at least the A1 sign, which is used as a reference for scaling.
+     * @param hieroglyphicFontManager
+     */
     public SVGFontHieroglyphDrawer(HieroglyphShapeRepository hieroglyphicFontManager) {
     	this.fontManager = hieroglyphicFontManager;        
 
@@ -225,5 +229,6 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
             .toList();
         return tkseshLigatureCatalogue.get(normalizedCodes);
     }
+    
 
 }

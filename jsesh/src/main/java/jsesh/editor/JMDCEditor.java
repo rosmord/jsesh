@@ -923,4 +923,33 @@ public class JMDCEditor extends JPanel {
     public JSeshRenderContext getRenderContext() {
         return new JSeshRenderContext(getStyle(), hieroglyphsDrawer);
     }
+
+    /**
+     * Lifecycle method (don't call it!) to ensure internal observers don't create memory leaks.
+     * 
+     */
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        // Re-register listeners
+        if (styleReference != null) {
+            if (!styleReference.getPropertyChangeListeners().contains(styleChangeListener)) {
+                styleReference.addPropertyChangeListener(styleChangeListener);
+            }
+            styleReference.addPropertyChangeListener(styleChangeListener);
+        }
+    }
+
+    /**
+     * * Lifecycle method (don't call it!) to ensure internal observers don't create memory leaks.
+     */
+    @Override
+    public void removeNotify() {
+        // Unregister listeners
+        if (styleReference != null) {
+            styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        // TODO Auto-generated method stub
+        super.removeNotify();
+    }
 }

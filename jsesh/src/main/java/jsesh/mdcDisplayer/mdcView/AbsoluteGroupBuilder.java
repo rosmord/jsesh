@@ -48,8 +48,8 @@ public class AbsoluteGroupBuilder {
 			}
 		}
 		if (result == null) {
-			AbsoluteGroupComposer composer = new AbsoluteGroupComposer();
-			composer.createAbsoluteGroupFrom(topItems, renderContext, techRenderContext);
+			AbsoluteGroupComposer composer = new AbsoluteGroupComposer(renderContext, techRenderContext);
+			composer.createAbsoluteGroupFrom(topItems);
 			result = composer.result;
 
 		}
@@ -59,6 +59,9 @@ public class AbsoluteGroupBuilder {
 	private  class AbsoluteGroupComposer extends ModelElementAdapter {
 
 		AbsoluteGroup result;
+		JSeshRenderContext renderContext;
+		JSeshTechRenderContext techRenderContext;
+		HieroglyphDrawer hieroglyphsDrawer;
 
 		/**
 		 * Current view origin position.
@@ -71,6 +74,12 @@ public class AbsoluteGroupBuilder {
 		
 		double sizeOfGroupUnit;
 
+		AbsoluteGroupComposer(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
+			this.techRenderContext = techRenderContext;
+			this.renderContext = renderContext;
+			this.hieroglyphsDrawer = new HieroglyphDrawer(renderContext.hieroglyphShapeRepository());
+		}
+
 		/**
 		 * Build an absolute group from a list of top items.
 		 * 
@@ -78,8 +87,7 @@ public class AbsoluteGroupBuilder {
 		 * @param specs
 		 * @return
 		 */
-		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
+		public AbsoluteGroup createAbsoluteGroupFrom(List<TopItem> topItems) {
 			result = new AbsoluteGroup();
 			ViewBuilder builder = new ViewBuilder();
 			sizeOfGroupUnit= hieroglyphsDrawer.getGroupUnitLength();

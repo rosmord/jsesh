@@ -52,6 +52,8 @@ import jsesh.mdcDisplayer.mdcView.ViewIterator;
  * Instances of this class are responsible for computing the position and
  * dimensions of view elements.
  * 
+ * Not a long-lived object. Throw after usage.
+ * 
  * <b> This class should probably not be part of the visible API of JSesh</b>
  * 
  * <p>
@@ -101,6 +103,8 @@ public class Layout {
 	private MDCView currentView;
 
 	private JSeshRenderContext renderContext = null;
+	private JSeshTechRenderContext techRenderContext;
+	private HieroglyphDrawer hieroglyphsDrawer;
 
 	/**
 	 * If true, small signs are currently centered. This variable may change during
@@ -125,7 +129,7 @@ public class Layout {
 
 	private boolean inAbsoluteGroup = false;
 
-	private JSeshTechRenderContext techRenderContext;
+	
 
 	/**
 	 * compute the view size (width and height). If the view has subviews, layout
@@ -211,6 +215,7 @@ public class Layout {
 	public void reset(JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
 		this.renderContext = renderContext;
 		this.techRenderContext = techRenderContext;
+		this.hieroglyphsDrawer = new HieroglyphDrawer(renderContext.hieroglyphShapeRepository());
 		JSeshStyle jseshStyle = renderContext.jseshStyle();
 		currentTextOrientation = jseshStyle.options().textOrientation();
 		currentTextDirection = jseshStyle.options().textDirection();
@@ -321,7 +326,6 @@ public class Layout {
 		@Override
 		public void visitCadrat(Cadrat c) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 			new QuadratLayout(jseshStyle, hieroglyphsDrawer, centerSigns, currentTextOrientation).layout(currentView,
 					c);
 		}
@@ -401,7 +405,6 @@ public class Layout {
 
 		@Override
 		public void visitComplexLigature(ComplexLigature ligature) {
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 			List<Optional<LigatureZone>> zones = new ArrayList<>(3);
 
 			// TODO attach ligature zones to final (rotated, scaled) shapes
@@ -480,7 +483,6 @@ public class Layout {
 		@Override
 		public void visitHBox(HBox b) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 
 			float h = currentView.getMaximalHeightOfSubView();
 
@@ -536,7 +538,6 @@ public class Layout {
 		@Override
 		public void visitHieroglyph(Hieroglyph h) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 
 			GeometrySpecification geometry = jseshStyle.geometry();
 			// IMPORTANT : signs type should be a secure enum class.
@@ -644,7 +645,6 @@ public class Layout {
 
 		@Override
 		public void visitLigature(Ligature l) {
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 
 			// Find the ligature
 			List<String> codes = new ArrayList<>();
@@ -857,7 +857,6 @@ public class Layout {
 		// Weird code, which supposes that the reference font has a scale of 18.0 for A1
 		// It could be moved to geometry specifications, and the scaling removed.
 		private double getGroupUnitScale() {
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 			return hieroglyphsDrawer.getGroupUnitLength()
 					* computeScale();
 		}
@@ -868,7 +867,6 @@ public class Layout {
 		 * @return
 		 */
 		private float computeScale() {
-			HieroglyphDrawer hieroglyphsDrawer = renderContext.hieroglyphShapeRepository();
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			return hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
 		}

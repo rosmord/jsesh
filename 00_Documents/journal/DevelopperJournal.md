@@ -4,11 +4,13 @@ This journal should only be edited and modified in the Development branch.
 
 ## Long Term TODO
 
+- make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
 - When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - consider removing `depth` in layout;
 - when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
 - rename `HieroglyphicFontManager` into **ShapeCatalog** ;
 - refactor the whole business around hieroglyphs to make it more logical.
+- try to use `doubles` instead of `floats` to avoid rounding errors.
 
 - Note about singletons
 
@@ -20,12 +22,59 @@ This journal should only be edited and modified in the Development branch.
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
 - [ ] parametrize each ModelElement class with the type of its possible children.
 
+## 2026/04/14
+
+### The method `scaleFromFontToStyle` (FIXED)
+
+In JSesh 7, we have things like:
+
+~~~java
+case SymbolCodes.REDPOINT: {
+    Color col = g.getColor();
+    g.setColor(drawingSpecifications.getRedColor());
+    g.scale(drawingSpecifications.getSignScale(), drawingSpecifications
+            .getSignScale());
+    drawingSpecifications.getHieroglyphsDrawer().draw(g, h.getCode(),
+            0, currentView);
+    g.setColor(col);
+}
+~~~
+
+Which are replaced in the current code by:
+
+~~~java
+case SymbolCodes.REDPOINT: {
+Graphics2D tempG = (Graphics2D) g.create();
+float scale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);
+tempG.setColor(jseshStyle.painting().redColor());
+tempG.scale(scale, scale);
+hieroglyphsDrawer.draw(tempG, h.getCode(), 0, currentView, HieroglyphBodySize.STANDARD);
+tempG.dispose();
+}
+~~~
+
+So, the method replaces `drawingSpecifications.getSignScale()`, whose original code was:
+
+~~~java
+public float getSignScale() {
+  return (float) (getStandardSignHeight() / getHieroglyphsDrawer()
+          .getHeightOfA1());
+}
+~~~
+
+
 ## 2026/04/10
 
 **TODO**: 
 
 - [ ] ensure that `ViewDrawer` is created only when we need it - or make it stateless. In particular, it's created in the constructor of `JMDCEditor`.
-- [ ] fix the problem of `float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);`
+- [x] fix the problem of `float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);`.
+
+  
+
+
+
+
 
 **Note**: in JSesh 7.x,  `HieroglyphsDrawer` is simply created by calling its default constructor, which will automatically use the user preferences. 
 

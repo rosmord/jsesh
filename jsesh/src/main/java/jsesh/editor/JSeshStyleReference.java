@@ -70,10 +70,18 @@ public final class JSeshStyleReference {
 
     /**
      * Adds a property change listener to this object.
-     *
+     * 
+     * <p> If the listener was already there, nothing will change.
      * @param listener the listener to be added.
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
+        PropertyChangeListener[] listeners = pcs.getPropertyChangeListeners();
+        // Check if the listener is already registered
+        for (PropertyChangeListener l : listeners) {
+            if (l == listener) {
+                return; // Listener already registered, do nothing
+            }
+        }
         pcs.addPropertyChangeListener(listener);
     }
 

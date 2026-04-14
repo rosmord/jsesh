@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
@@ -83,4 +84,15 @@ public class HieroglyphDrawer  {
 	public List<ExplicitPosition> getPositions(List<String> codes) {
 		return svgFontHieroglyphicDrawer.getPositions(codes);
 	}
+
+	/**
+	 * Returns the scale to apply to the current font to get the expected size of signs according to the given style.
+	 * @param style the style for which the scale should be computed.
+	 * @return the scale to apply to the current font to get the expected size of signs according to the given style.
+	 */
+	public float scaleFromFontToStyle(JSeshStyle style) {
+		float a1Height = style.geometry().standardSignHeight();
+		return (float) (a1Height / getHeightOfA1());
+	}
+
 }
