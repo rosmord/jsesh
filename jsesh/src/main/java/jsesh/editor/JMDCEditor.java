@@ -55,6 +55,7 @@ import javax.swing.*;
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.SharedDefaults;
+import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.actions.text.*;
@@ -66,6 +67,7 @@ import jsesh.mdc.model.*;
 import jsesh.mdc.model.operations.*;
 import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.*;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.*;
@@ -137,6 +139,13 @@ public class JMDCEditor extends JPanel {
     /**
      * The source for hieroglyphic signs used by this editor.
      */
+    private HieroglyphShapeRepository hieroglyphShapeRepository;
+
+    /**
+     * The code to draw the glyphs from the hieroglyphShapeRepository.
+     * 
+     * Note: should probably be either merged or moved to local variables.
+     */
     private HieroglyphDrawer hieroglyphsDrawer;
 
     /**
@@ -176,9 +185,11 @@ public class JMDCEditor extends JPanel {
      */
     private PropertyChangeListener styleChangeListener = evt -> invalidateView();
 
+
     public JMDCEditor() {
-        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT, 
-        SharedDefaults.getInstance().getHieroglyphShapeRepository(), SharedDefaults.getInstance().getPossibilityRepository());
+        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
+                SharedDefaults.getInstance().getHieroglyphShapeRepository(),
+                SharedDefaults.getInstance().getPossibilityRepository());
     }
 
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphShapeRepository hieroglyphShapeRepository,
@@ -202,15 +213,15 @@ public class JMDCEditor extends JPanel {
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
             HieroglyphShapeRepository hieroglyphShapeRepository,
             PossibilityRepository possibilityRepository) {
-
+        this.hieroglyphShapeRepository = hieroglyphShapeRepository;
         this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
 
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);
         this.setScale(2.0);
-        
+
         mdcModelEditionListener = new JMDCModelEditionListener();
-        workflow.addMDCModelListener(mdcModelEditionListener);        
+        workflow.addMDCModelListener(mdcModelEditionListener);
         setFocusable(true);
         workflow = new JMDCEditorWorkflow(data, possibilityRepository);
         drawer = new ViewDrawer(); // Is there any need to keep it in memory?
@@ -353,11 +364,13 @@ public class JMDCEditor extends JPanel {
     }
 
     private MDCView recomputeDocumentView() {
-        documentView = new ViewBuilder().buildView(
-                getHieroglyphicTextModel().getModel(),
-                getDrawingSpecifications());
+        documentView = new ViewBuilder().buildView(getSelection(), getRenderContext(), createTechRenderContext());
         revalidate();
         return documentView;
+    }
+
+    private JSeshTechRenderContext createTechRenderContext() {
+        return JSeshTechRenderContext.buildForComponent(this);
     }
 
     /**
@@ -384,7 +397,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getDrawingSpecifications());
+                getStyle());
         if (pos != null) {
             workflow.setCursor(pos);
         }
@@ -403,7 +416,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getDrawingSpecifications());
+                getStyle());
         workflow.setMark(pos);
     }
 
@@ -429,7 +442,8 @@ public class JMDCEditor extends JPanel {
         // Either there are no page format specification (in which case there is
         // only
         // one infinitie page).
-        PageLayout pageLayout = getDrawingSpecifications().getPageLayout();
+        // Used for debugging purposes.
+        GeometrySpecification pageLayout = getStyle().geometry();
         if (drawLimits && pageLayout.hasPageFormat()) {
             // IMPROVE THIS...
             g2d.setColor(Color.RED);
@@ -437,14 +451,14 @@ public class JMDCEditor extends JPanel {
         }
 
         drawer.setClip(true);
-        drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(),
-                getDrawingSpecifications());
+
+        drawer.drawViewAndCursor(g2d, getRenderContext(), createTechRenderContext(), getView(), getMDCCaret());
 
         if (caretChanged) {
             // Disarm caret change updates.
             caretChanged = false;
             // Show the cursor.
-            Rectangle r = getPointerRectangle();
+            Rectangle r = getCursorRectangle();
             if (!g.getClipBounds().contains(r)) {
                 r.height += 4;
                 r.width += 4;
@@ -508,13 +522,17 @@ public class JMDCEditor extends JPanel {
     }
 
     /*
-     * (non-Javadoc)
+     * Prints the content of this editor.
+     * <p> Mostly obsolete by now. It's way better to export to specific graphical
+     * formats.
      * 
      * @see javax.swing.JComponent#print(java.awt.Graphics)
      */
     public void print(Graphics g) {
-        drawer.setClip(false);
-        drawer.draw((Graphics2D) g, getDrawingSpecifications(), getView());
+        // Probably: build a drawer here.
+        ViewDrawer printDrawer = new ViewDrawer();
+        printDrawer.setClip(false);
+        printDrawer.draw((Graphics2D) g, getRenderContext(), createTechRenderContext(), getView());
     }
 
     /**
@@ -526,17 +544,17 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
+     * Changes the scale of the drawing.
+     * Doesn't touch the style, but pretends we have zoomed in or out.
+     * 
      * @param d
-     *
      */
     public void setScale(double d) {
-        scale = d;
-        if (drawer.isCached()) {
-            drawer.flushCache();
+        if (d > 0.0) {
+            scale = d;
+            repaint();
+            revalidate();
         }
-        getDrawingSpecifications().setGraphicDeviceScale(scale);
-        repaint();
-        revalidate();
     }
 
     public void setInsertPosition(int insertPosition) {
@@ -560,10 +578,10 @@ public class JMDCEditor extends JPanel {
      *
      * @return a rectangle describing the current cursor position.
      */
-    Rectangle getPointerRectangle() {
+    private Rectangle getCursorRectangle() {
         Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
                 .getCaret().getInsert().getPosition(),
-                getDrawingSpecifications());
+                getStyle());
         int w = (int) (r1.getWidth() * getScale());
         int h = (int) (r1.getHeight() * getScale());
         if (w < 2) {
@@ -584,8 +602,7 @@ public class JMDCEditor extends JPanel {
      * @param orientation
      */
     public void setTextOrientation(TextOrientation orientation) {
-        drawingSpecifications.setTextOrientation(orientation);
-        invalidateView();
+        setStyle(getStyle().copy().options(opts -> opts.textOrientation(orientation)).build());
     }
 
     /**
@@ -594,12 +611,11 @@ public class JMDCEditor extends JPanel {
      * @param direction the new TextDirection
      */
     public void setTextDirection(TextDirection direction) {
-        drawingSpecifications.setTextDirection(direction);
-        invalidateView();
+        setStyle(getStyle().copy().options(o -> o.textDirection(direction)).build());        
     }
 
     public TextOrientation getTextOrientation() {
-        return getDrawingSpecifications().getTextOrientation();
+        return getStyle().options().textOrientation();
     }
 
     /**
@@ -608,32 +624,7 @@ public class JMDCEditor extends JPanel {
      * @return current TextDirection
      */
     public TextDirection getTextDirection() {
-        return getDrawingSpecifications().getTextDirection();
-    }
-
-    /**
-     * Returns the specifications attached to the current window.
-     * 
-     * @return the current drawing specifications (live object).
-     */
-    public PaintingSpecifications getDrawingSpecifications() {
-        PaintingSpecifications result = drawingSpecifications;
-        return result;
-    }
-
-    /**
-     * @param drawingSpecifications The drawingSpecifications to set.
-     */
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications;
-        drawingSpecifications.setGraphicDeviceScale(scale);
-        // TODO : remove me after... (after what ???)
-        PageLayout p = drawingSpecifications.getPageLayout();
-        p.setPageFormat(new PageFormat()); // what for ???
-        drawingSpecifications.setPageLayout(p);
-
-        invalidateView();
+        return getStyle().options().textDirection();
     }
 
     public void invalidateView() {
@@ -738,7 +729,7 @@ public class JMDCEditor extends JPanel {
     public void copy() {
         TopItemList top = getWorkflow().getSelectionAsTopItemList();
         MDCModelTransferable transferable = mdcModelTransferableBroker
-                .buildTransferable(top);
+                .buildTransferable(top, getRenderContext());                
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
     }
@@ -746,7 +737,7 @@ public class JMDCEditor extends JPanel {
     public void copy(DataFlavor[] dataFlavors) {
         TopItemList top = getWorkflow().getSelectionAsTopItemList();
         MDCModelTransferable transferable = mdcModelTransferableBroker
-                .buildTransferable(top, dataFlavors);
+                .buildTransferable(top, getRenderContext(), dataFlavors);
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
 
@@ -857,7 +848,7 @@ public class JMDCEditor extends JPanel {
         shadingPopup.add(getActionMap().get(ActionsID.SHADE_ZONE));
         shadingPopup.add(getActionMap().get(ActionsID.UNSHADE_ZONE));
 
-        Rectangle r = getPointerRectangle();
+        Rectangle r = getCursorRectangle();
 
         shadingPopup.show(this, (int) r.getCenterX(), (int) r.getCenterY());
 
@@ -891,7 +882,7 @@ public class JMDCEditor extends JPanel {
      * @param center
      */
     public void setSmallSignsCentered(boolean center) {
-        getDrawingSpecifications().setSmallSignsCentered(center);
+        setStyle(getStyle().copy().options(o -> o.smallSignCentered(center)).build());
     }
 
     /**
@@ -900,7 +891,7 @@ public class JMDCEditor extends JPanel {
      * @return true if it is the case.
      */
     public boolean isSmallSignsCentered() {
-        return getDrawingSpecifications().isSmallSignsCentered();
+        return getStyle().options().smallSignCentered();
     }
 
     /**
@@ -909,7 +900,7 @@ public class JMDCEditor extends JPanel {
      * @return true if lines are justified.
      */
     public boolean isJustified() {
-        return getDrawingSpecifications().isJustified();
+        return getStyle().options().justified();
     }
 
     public TopItemList getSelection() {
@@ -922,7 +913,7 @@ public class JMDCEditor extends JPanel {
      * @return
      */
     public JSeshRenderContext getRenderContext() {
-        return new JSeshRenderContext(getStyle(), hieroglyphsDrawer);
+        return new JSeshRenderContext(getStyle(), hieroglyphShapeRepository);
     }
 
     /**
@@ -934,16 +925,15 @@ public class JMDCEditor extends JPanel {
         super.addNotify();
         // Re-register listeners
         if (styleReference != null) {
-            styleReference.hasP
-            if (!styleReference.getPropertyChangeListeners().contains(styleChangeListener)) {
-                styleReference.addPropertyChangeListener(styleChangeListener);
-            }
+            // Note that the version of addPropertyChangeListener used by JSeshStyleReference doesn't create duplicates
+            // so we don't need to check if the listener is already registered.
             styleReference.addPropertyChangeListener(styleChangeListener);
         }
     }
 
     /**
-     * * Lifecycle method (don't call it!) to ensure internal observers don't create memory leaks.
+     * * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * memory leaks.
      */
     @Override
     public void removeNotify() {
@@ -951,7 +941,6 @@ public class JMDCEditor extends JPanel {
         if (styleReference != null) {
             styleReference.removePropertyChangeListener(styleChangeListener);
         }
-        // TODO Auto-generated method stub
         super.removeNotify();
     }
 }

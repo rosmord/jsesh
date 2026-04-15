@@ -1,6 +1,7 @@
 package jsesh.drawingspecifications;
 
 import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
 import java.awt.print.PageFormat;
 import java.awt.BasicStroke;
 
@@ -76,6 +77,12 @@ public record GeometrySpecification(
 		float textHeight, // 760
 		float leftMargin, // 6
 		float topMargin, // 5
+		/**
+		 * The page format.
+		 * It's for printing, etc. Basically, corresponds to A4, A3, etc. formats.
+		 * 
+		 * Part of the java printing API.
+		 */
 		PageFormat format, // null
 		float maxCadratHeight, // 18f,
 		float maxCadratWidth, // 22f,
@@ -135,6 +142,25 @@ public record GeometrySpecification(
 	 */
 	public Stroke cartoucheStroke() {
 		return new BasicStroke(cartoucheLineWidth);
+	}
+
+	public boolean hasPageFormat() {
+		return format != null;
+	}
+
+	/**
+	 * Returns the area where the main text content is supposed to be written.
+	 * <p><b>Precondition:</b> {@code hasPageFormat()} must be true.</p>
+	 * @return a rectangle representing the are in that page where text can be written.
+	 * @throws NullPointerException if {@code hasPageFormat()} is false.
+	 */
+	public Rectangle2D getDrawingRectangle() {
+		if (hasPageFormat()) {
+			Rectangle2D rect= new Rectangle2D.Float(leftMargin, topMargin, textWidth, textHeight);
+			return rect;
+		} else {
+			throw new NullPointerException("No drawing rectangle available");
+		}
 	}
 
 	public Builder copy() {

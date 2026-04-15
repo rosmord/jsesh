@@ -4,17 +4,43 @@ This journal should only be edited and modified in the Development branch.
 
 ## Long Term TODO
 
-- make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
-- When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
-- consider removing `depth` in layout;
-- when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
-- rename `HieroglyphicFontManager` into **ShapeCatalog** ;
-- refactor the whole business around hieroglyphs to make it more logical.
-- try to use `doubles` instead of `floats` to avoid rounding errors.
+- [ ] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
+- [ ] When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+- [ ] consider removing `depth` in layout;
+- [ ] when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
+- [ ] rename `HieroglyphicFontManager` into **ShapeCatalog** ;
+- [ ] refactor the whole business around hieroglyphs to make it more logical.
+- [ ] try to use `doubles` instead of `floats` to avoid rounding errors.
+- [ ] separate JSeshStyle into two parts: one with the features which are likely to be shared, and one with features which are probably specific to a particular document. I'm not sure it's that useful, this being said.
 
 - Note about singletons
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
+
+## Test TODO
+
+- [ ] `JMDCEditor` 
+  - [ ] when everything works, ensure that scaling works ;
+  - [ ] TODO : check that when the style is modified, the editor is notified and repainted.
+
+    in the old code, we had:
+    ~~~java
+    /**
+     * @param drawingSpecifications The drawingSpecifications to set.
+     */
+    public void setDrawingSpecifications(
+            PaintingSpecifications drawingSpecifications) {
+        this.drawingSpecifications = drawingSpecifications;
+        drawingSpecifications.setGraphicDeviceScale(scale);
+        // TODO : remove me after... (after what ???)
+        PageLayout p = drawingSpecifications.getPageLayout();
+        p.setPageFormat(new PageFormat()); // what for ???
+        drawingSpecifications.setPageLayout(p);
+
+        invalidateView();
+    }
+    ~~~
+
 
 ## Simple TODO
 
@@ -23,10 +49,19 @@ This journal should only be edited and modified in the Development branch.
 - [ ] parametrize each ModelElement class with the type of its possible children.
 - [ ] merge `SimpleHieroglyphDatabase` and its interface `HieroglyphDatabase`, as it's the only existing implementation ;
 - [ ] remove the `ViewDrawer` from `JMDCEditor`; it shouldn't be an instance variable.
+- [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
+- [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 
+## 2026/04/15
+
+- [x] work on JMDCEditor.
+  - About style : currently, style contains data which is not very compatible with the idea of sharing style. For instance, it contains textOrientation.
+  - ... some boring stuff
+  - mostly replacing drawingSpecifications by `getStyle()` ;
+  - [x] TODO : rename `getPointerRectangle` to `getCursorRectangle` or something like that.
+  
 ## 2026/04/14
 
-- [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
  
 ### The method `scaleFromFontToStyle` (FIXED)
 
