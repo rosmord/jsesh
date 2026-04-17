@@ -70,7 +70,6 @@ public class JGlossaryEditor extends JPanel {
 	private JTable table;
 	private JButton okButton;
 	private GlossaryTableModel model;
-	private ButtonUpdater buttonUpdater = new ButtonUpdater();
 
 	public JGlossaryEditor() {
 		model = new GlossaryTableModel();
@@ -83,12 +82,7 @@ public class JGlossaryEditor extends JPanel {
 		fixTable();
 
 		okButton = new JButton(JSeshMessages.getString("JGlossaryEditor.add.label"));
-		okButton.addActionListener(EventHandler.create(ActionListener.class,
-				this, "addEntry"));
-		mdcField.getHieroglyphicTextModel().addObserver(
-				EventHandler.create(Observer.class, buttonUpdater, "run"));
-		codeField.addActionListener(EventHandler.create(ActionListener.class,
-				buttonUpdater, "run"));
+		okButton.addActionListener(e -> addEntry());		
 		prepareLayout();
 	}
 
@@ -149,10 +143,6 @@ public class JGlossaryEditor extends JPanel {
 		codeField.requestFocusInWindow();		
 	}
 
-	private class ButtonUpdater implements Runnable {
-		public void run() {
-		}
-	}
 	
 	public JFrame getFrame() {
 		if (frame== null) {

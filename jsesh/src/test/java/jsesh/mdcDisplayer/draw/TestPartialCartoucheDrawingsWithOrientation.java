@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import javax.imageio.ImageIO;
+
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -58,10 +59,9 @@ public class TestPartialCartoucheDrawingsWithOrientation {
     public void testPartialCartouchesInLines() throws MDCSyntaxError, IOException {
         String partial = "<1--0>-ra-mn:n-xpr-<0--2>";
         MDCDrawingFacade facade = new MDCDrawingFacade();
-        DrawingSpecificationsImplementation drawingSpecifications = new DrawingSpecificationsImplementation();
-        drawingSpecifications.setTextDirection(direction);
-        drawingSpecifications.setTextOrientation(orientation);
-        facade.setJseshStyle(drawingSpecifications);
+        JSeshStyle style = JSeshStyle.DEFAULT.copy().options(o -> o.textDirection(direction).textOrientation(orientation)
+        ).build();
+        facade.setStyle(style);
         BufferedImage image = facade.createImage(partial);
         ImageIO.write(image, "png", getFile(testName));
     }

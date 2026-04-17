@@ -37,8 +37,9 @@ package jsesh.mdcDisplayer.draw;
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 
 /**
  * Demonstrate/test absolute positioning in a context where sign dimensions are
@@ -56,16 +57,23 @@ public class ScaledAbsolutePlacementTest {
 
     public ScaledAbsolutePlacementTest() {
         String mdc = "wD**t**x{{1057,554,100}}**wD{{1583,11,98}}**n{{9,787,100}}";
-        DrawingSpecificationsImplementation drawingSpecification = new DrawingSpecificationsImplementation();
-        drawingSpecification.setMaxCadratHeight(30);
-        drawingSpecification.setStandardSignHeight(30);
-        //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
-        editor1.setJseshStyle(drawingSpecification);
+        // We create a style with maxCadratHeight and standardSignHeight set to 30, 
+        // we use it in editor1
+        JSeshStyle style1 = JSeshStyle.DEFAULT.copy().geometry(
+            g -> g.maxCadratHeight(30)
+                    .standardSignHeight(30) 
+        ).build();                
+        editor1.setStyle(style1);
         editor1.setMDCText(mdc);
-        drawingSpecification = new DrawingSpecificationsImplementation();
-        drawingSpecification.setMaxCadratHeight(30);
-        editor2.setJseshStyle(drawingSpecification);
+
+        // We use a style with simply maxCadratHeight set to 30 in editor2
+        JSeshStyle style2 = JSeshStyle.DEFAULT.copy().geometry(
+            g -> g.maxCadratHeight(30)                    
+        ).build();
+        editor2.setStyle(style2);
         editor2.setMDCText(mdc);
+        editor2.setMDCText(mdc);
+        // We use the default style in editor3
         editor3.setMDCText(mdc);
         frame.setLayout(new FlowLayout());
         frame.add(editor1);

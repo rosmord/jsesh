@@ -42,7 +42,7 @@ public class MDCDrawingFacade {
 
 	private boolean philologySign = true;
 
-	private final JSeshRenderContext jSeshRenderContext;
+	private JSeshRenderContext jSeshRenderContext;
 	private final HieroglyphDrawer hieroglyphDrawer;
 
 	/**
@@ -66,6 +66,10 @@ public class MDCDrawingFacade {
 		this.hieroglyphDrawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
 	}
 
+
+	public void setStyle(JSeshStyle jSeshStyle) {
+		this.jSeshRenderContext = new JSeshRenderContext(jSeshStyle, jSeshRenderContext.hieroglyphShapeRepository());		
+	}
 	/**
 	 * Generate a picture for the manuel de codage text passed as argument.
 	 * 

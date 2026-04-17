@@ -36,6 +36,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;
@@ -46,7 +47,6 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.resources.JSeshMessages;
@@ -126,10 +126,10 @@ public class HTMLExporter {
 
     private JSeshRenderContext renderContext;
 
-    private HieroglyphDrawer hieroglyphicDrawer;
+    private HieroglyphShapeRepository hieroglyphShapeRepository;
 
-    public HTMLExporter(HieroglyphDrawer hieroglyphicDrawer) {
-        this.hieroglyphicDrawer = hieroglyphicDrawer;
+    public HTMLExporter(HieroglyphShapeRepository hieroglyphShapeRepository) {
+        this.hieroglyphShapeRepository = hieroglyphShapeRepository;
         setDefaults();
     }
 
@@ -146,7 +146,7 @@ public class HTMLExporter {
         centerPictures = true;
 
         setJSeshRenderContext(
-                new JSeshRenderContext(JSeshStyle.DEFAULT, hieroglyphicDrawer));
+                new JSeshRenderContext(JSeshStyle.DEFAULT, hieroglyphShapeRepository));
     }
 
     /**

@@ -23,6 +23,8 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
+import jsesh.defaults.SharedDefaults;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.swing.utils.GraphicsUtils;
 
@@ -38,9 +40,10 @@ public class JMDCField extends JMDCEditor {
     private Dimension preferedSize;
     // Drawing margin to move.
     private float drawingHorizontalOrigin = 0;
-    
+
+    private static final int DEFAULT_MARGIN = 5;
     // Should probably change.
-    private int margin = 5;
+    private int margin = DEFAULT_MARGIN;
 
     /**
      * Name of the action called to validate input (when enter is typed)
@@ -53,30 +56,19 @@ public class JMDCField extends JMDCEditor {
     private final ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
     /**
-     * Create a hieroglyphic field with the given dimensions, in pixels.
-     *
-     * @param width
-     * @param height
+     * Build a JMDCField, passing all relevant parameters.
+     * <p>
+     * The width of the field can be chosen, but the height is determined by the
+     * style.
+     * the style is shared, and can be used by other components.
+     * 
+     * @param styleReference            a style reference which can be shared
+     * @param hieroglyphShapeRepository source for hieroglyph shapes.
+     * @param possibilityRepository     source for automated completion.
      */
-    public JMDCField(int width, int height) {
-        setCached(false);
-        preferedSize = new Dimension(width, height);
-        PaintingSpecifications specs = getDrawingSpecifications().copy();
-        int textHeight = height - 2 * margin;       
-        
-        specs.setMaxCadratHeight(textHeight);
-        // Perhaps not the best system...
-        specs.setStandardSignHeight(textHeight);
-        specs.setMaxCadratWidth(textHeight*1.1f);
-        
-        PageLayout pageLayout = specs.getPageLayout();
-        pageLayout.setTopMargin(margin);
-        pageLayout.setLeftMargin(0);
-
-        specs.setLineSkip(0);
-        setScale(1.0);
-        
-        setJseshStyle(specs); 
+    public JMDCField(int width, JSeshStyleReference styleReference,
+            HieroglyphShapeRepository hieroglyphShapeRepository, PossibilityRepository possibilityRepository) {
+        super(new HieroglyphicTextModel(), styleReference, hieroglyphShapeRepository, possibilityRepository);
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.
@@ -86,6 +78,57 @@ public class JMDCField extends JMDCEditor {
         inputMap.put(KeyStroke.getKeyStroke("ENTER"), VALIDATE_INPUT);
         setActionMap(actionMap);
         setInputMap(WHEN_FOCUSED, inputMap);
+    }
+
+    /**
+     * Build a JMDCField with a specific style.
+     * <p>
+     * The width and the height of the field can be chosen, and the actual style
+     * will be modified to fit the height.
+     * 
+     * @param width                     the width of the field, in pixels.
+     * @param height                    the height of the field, in pixels.
+     * @param style                     a specific style, not shared with other
+     *                                  components.
+     * @param hieroglyphShapeRepository source for hieroglyph shapes.
+     * @param possibilityRepository     source for automated completion.
+     */
+    public JMDCField(int width, int height, JSeshStyle style, HieroglyphShapeRepository hieroglyphShapeRepository,
+            PossibilityRepository possibilityRepository) {
+        this(width, new JSeshStyleReference(adaptStyleToHeight(style, height, DEFAULT_MARGIN)),
+                hieroglyphShapeRepository,
+                possibilityRepository);
+    }
+
+    /**
+     * Create a hieroglyphic field with the given dimensions, in pixels, using
+     * reasonnable defaults.
+     * 
+     * @param width
+     * @param height
+     */
+    public JMDCField(int width, int height) {
+        this(width, height, JSeshStyle.DEFAULT, SharedDefaults.getInstance().getHieroglyphShapeRepository(),
+                SharedDefaults.getInstance().getPossibilityRepository());
+    }
+
+    /**
+     * Compute the actual style modified to fit the height of the field.
+     * 
+     * @param style  the original style.
+     * @param height the target total height of the field, in pixels (including
+     *               margins).
+     * @return the modified style.
+     */
+    private final static JSeshStyle adaptStyleToHeight(JSeshStyle style, int height, int margin) {
+        int textHeight = height - 2 * margin;
+        return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
+                .standardSignHeight(textHeight)
+                .maxCadratWidth(textHeight * 1.1f)
+                .topMargin(margin)
+                .leftMargin(0)
+                .lineSkip(0)).build();
+        // Why was setScale(1.0); called here ?
     }
 
     public JMDCField() {
@@ -114,7 +157,7 @@ public class JMDCField extends JMDCEditor {
         Graphics2D g2d = (Graphics2D) g;
         GraphicsUtils.antialias(g2d);
 
-        Rectangle r = getPointerRectangle();
+        Rectangle r = getCursorRectangle();
 
         double lastX = drawingHorizontalOrigin + getWidth();
 
@@ -126,7 +169,10 @@ public class JMDCField extends JMDCEditor {
         g2d.translate(-drawingHorizontalOrigin, 0);
         g2d.scale(getScale(), getScale());
         drawer.setClip(true);
-        drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(), getDrawingSpecifications());
+        drawer.drawViewAndCursor(g2d, 
+            getRenderContext(),
+            buildTechRenderContext(),
+            getView(), getMDCCaret());
     }
 
     public void addActionListener(ActionListener l) {
@@ -153,9 +199,5 @@ public class JMDCField extends JMDCEditor {
 
     }
 
-	public void setFontManager(HieroglyphShapeRepository fontManager) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("WRITE ME!!!!");
-	}
 
 }

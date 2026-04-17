@@ -35,6 +35,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.graphics.export.generic.SelectionExporter;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
+
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -117,8 +119,8 @@ public class BitmapExporter {
 
     public void export(ExportData data) {
         try {
-            double length = data.getRenderContext().hieroglyphShapeRepository()
-                    .getHeightOfA1();
+            HieroglyphDrawer drawer = new HieroglyphDrawer(data.getRenderContext().hieroglyphShapeRepository());
+            double length = drawer.getHeightOfA1();
             data.setScale(this.cadratHeight / length);
             if (multiFile) {
                 exportAll(data);

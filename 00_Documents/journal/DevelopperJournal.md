@@ -12,6 +12,7 @@ This journal should only be edited and modified in the Development branch.
 - [ ] refactor the whole business around hieroglyphs to make it more logical.
 - [ ] try to use `doubles` instead of `floats` to avoid rounding errors.
 - [ ] separate JSeshStyle into two parts: one with the features which are likely to be shared, and one with features which are probably specific to a particular document. I'm not sure it's that useful, this being said.
+- [ ] **We should perhaps move some of the responsabilities of `HieroglyphsDrawer` to `JSeshStyle`.**
 
 - Note about singletons
 
@@ -40,7 +41,27 @@ This journal should only be edited and modified in the Development branch.
         invalidateView();
     }
     ~~~
+- [ ] `JGlossaryEditor` checks that we can ch
 
+## Low priority TODO
+
+- [ ] improve the mechanism for margins of components, which is not well defined.
+- [ ] improve `getPreferredSize` for `JMDCField` ?
+- [ ] find a better organisation for text size. The following code:
+  ~~~java
+  public void export(ExportData data) {
+        try {
+            HieroglyphDrawer drawer = new HieroglyphDrawer(data.getRenderContext().hieroglyphShapeRepository());
+            double length = drawer.getHeightOfA1();
+            data.setScale(this.cadratHeight / length);
+            if (multiFile) {
+                exportAll(data);
+            } else {
+                exportSelection(data);
+            }
+  ~~~
+
+  is somehow cumbersome.
 
 ## Simple TODO
 
@@ -51,7 +72,17 @@ This journal should only be edited and modified in the Development branch.
 - [ ] remove the `ViewDrawer` from `JMDCEditor`; it shouldn't be an instance variable.
 - [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
+- [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
 
+## 2026/04/17
+
+- [x] work on `JMDCField`.
+  - add constructors. See their Javadoc for the decisions which were taken.
+  - why do I call setScale() in the constructor of `JMDCField` ? 
+- [x] work on actions (goright, etc.)
+- the whole `editor` package compiles!
+- `JGlossaryEditor` : removed some dead code.
+- the whole `jsesh` module compiles!
 ## 2026/04/15
 
 - [x] work on JMDCEditor.

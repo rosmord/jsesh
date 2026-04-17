@@ -28,6 +28,7 @@ import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
@@ -157,6 +158,7 @@ public final class GroupEditor extends JPanel {
      */
     private Area getGlyphArea(MDCView subv, Hieroglyph h) {
         JSeshStyle specs = jSeshRenderContext.jseshStyle();
+        HieroglyphDrawer drawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
         Area area;
         if (h.getType() == SymbolCodes.SMALLTEXT) {
             // Doesn't need to be very accurate.
@@ -166,7 +168,7 @@ public final class GroupEditor extends JPanel {
             double width = h.getRelativeSize() / 100.0 * dims.getWidth();
             area = new Area(new Rectangle2D.Double(subv.getPosition().x, subv.getPosition().y, width, height));
         } else {
-            area = jSeshRenderContext.hieroglyphShapeRepository().getSignArea(
+            area = drawer.getSignArea(
                     h.getCode(), subv.getPosition().x, subv.getPosition().y,
                     h.getRelativeSize() / 100.0, h.getRelativeSize() / 100.0,
                     h.getAngle(), h.isReversed());
@@ -356,8 +358,9 @@ public final class GroupEditor extends JPanel {
      */
     public void move(double dx, double dy) {
         if (selected != -1) {
+            HieroglyphDrawer drawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
             Hieroglyph h = group.getHieroglyphAt(selected);
-            double unitLength = jSeshRenderContext.hieroglyphShapeRepository().getGroupUnitLength();
+            double unitLength = drawer.getGroupUnitLength();
             double x = h.getX() + dx / unitLength;
             double y = h.getY() + dy / unitLength;
             h.setExplicitPosition((int) x, (int) y, h.getRelativeSize());
@@ -478,8 +481,8 @@ public final class GroupEditor extends JPanel {
      * @returns the coordinate scaled to the JSesh MDC coordinate system.
      */
     public int screenUnitToGroupUnit(Double coord) {
-        
-        double unitLength =  jSeshRenderContext.hieroglyphShapeRepository().getGroupUnitLength();
+        HieroglyphDrawer drawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
+        double unitLength =  drawer.getGroupUnitLength();
         
         return (int) (coord / unitLength);
     }

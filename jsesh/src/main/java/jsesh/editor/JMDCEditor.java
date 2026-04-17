@@ -141,12 +141,12 @@ public class JMDCEditor extends JPanel {
      */
     private HieroglyphShapeRepository hieroglyphShapeRepository;
 
-    /**
-     * The code to draw the glyphs from the hieroglyphShapeRepository.
-     * 
-     * Note: should probably be either merged or moved to local variables.
-     */
-    private HieroglyphDrawer hieroglyphsDrawer;
+    // /**
+    // * The code to draw the glyphs from the hieroglyphShapeRepository.
+    // *
+    // * Note: should probably be either merged or moved to local variables.
+    // */
+    // private HieroglyphDrawer hieroglyphsDrawer;
 
     /**
      * Do we want to draw page limits?
@@ -185,7 +185,6 @@ public class JMDCEditor extends JPanel {
      */
     private PropertyChangeListener styleChangeListener = evt -> invalidateView();
 
-
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
                 SharedDefaults.getInstance().getHieroglyphShapeRepository(),
@@ -214,7 +213,7 @@ public class JMDCEditor extends JPanel {
             HieroglyphShapeRepository hieroglyphShapeRepository,
             PossibilityRepository possibilityRepository) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
-        this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
+        // this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
 
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);
@@ -364,12 +363,12 @@ public class JMDCEditor extends JPanel {
     }
 
     private MDCView recomputeDocumentView() {
-        documentView = new ViewBuilder().buildView(getSelection(), getRenderContext(), createTechRenderContext());
+        documentView = new ViewBuilder().buildView(getSelection(), getRenderContext(), buildTechRenderContext());
         revalidate();
         return documentView;
     }
 
-    private JSeshTechRenderContext createTechRenderContext() {
+    protected JSeshTechRenderContext buildTechRenderContext() {
         return JSeshTechRenderContext.buildForComponent(this);
     }
 
@@ -452,7 +451,7 @@ public class JMDCEditor extends JPanel {
 
         drawer.setClip(true);
 
-        drawer.drawViewAndCursor(g2d, getRenderContext(), createTechRenderContext(), getView(), getMDCCaret());
+        drawer.drawViewAndCursor(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
 
         if (caretChanged) {
             // Disarm caret change updates.
@@ -532,7 +531,7 @@ public class JMDCEditor extends JPanel {
         // Probably: build a drawer here.
         ViewDrawer printDrawer = new ViewDrawer();
         printDrawer.setClip(false);
-        printDrawer.draw((Graphics2D) g, getRenderContext(), createTechRenderContext(), getView());
+        printDrawer.draw((Graphics2D) g, getRenderContext(), buildTechRenderContext(), getView());
     }
 
     /**
@@ -578,7 +577,7 @@ public class JMDCEditor extends JPanel {
      *
      * @return a rectangle describing the current cursor position.
      */
-    private Rectangle getCursorRectangle() {
+    protected Rectangle getCursorRectangle() {
         Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
                 .getCaret().getInsert().getPosition(),
                 getStyle());
@@ -611,15 +610,29 @@ public class JMDCEditor extends JPanel {
      * @param direction the new TextDirection
      */
     public void setTextDirection(TextDirection direction) {
-        setStyle(getStyle().copy().options(o -> o.textDirection(direction)).build());        
+        setStyle(getStyle().copy().options(o -> o.textDirection(direction)).build());
     }
 
+    /**
+     * Returns the current text orientation.
+     * <p>
+     * Note: currently, an editor has a single text orientation. We could consider
+     * having
+     * a contextual text orientation depending on the position of the cursor.
+     * 
+     * @return
+     */
     public TextOrientation getTextOrientation() {
         return getStyle().options().textOrientation();
     }
 
     /**
-     * Choose between right-to-left and left-to-right text direction.
+     * Returns the current text direction.
+     * 
+     * <p>
+     * Note: currently, an editor has a single text direction. We could consider
+     * having
+     * a contextual text direction depending on the position of the cursor.
      *
      * @return current TextDirection
      */
@@ -729,7 +742,7 @@ public class JMDCEditor extends JPanel {
     public void copy() {
         TopItemList top = getWorkflow().getSelectionAsTopItemList();
         MDCModelTransferable transferable = mdcModelTransferableBroker
-                .buildTransferable(top, getRenderContext());                
+                .buildTransferable(top, getRenderContext());
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
     }
@@ -917,7 +930,8 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
-     * Lifecycle method (don't call it!) to ensure internal observers don't create memory leaks.
+     * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * memory leaks.
      * 
      */
     @Override
@@ -925,7 +939,8 @@ public class JMDCEditor extends JPanel {
         super.addNotify();
         // Re-register listeners
         if (styleReference != null) {
-            // Note that the version of addPropertyChangeListener used by JSeshStyleReference doesn't create duplicates
+            // Note that the version of addPropertyChangeListener used by
+            // JSeshStyleReference doesn't create duplicates
             // so we don't need to check if the listener is already registered.
             styleReference.addPropertyChangeListener(styleChangeListener);
         }

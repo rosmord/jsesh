@@ -47,7 +47,7 @@ public class MDCDrawingFacadeIntegrationTest {
         new File(outputDir).mkdirs();
         MDCDrawingFacade facade = new MDCDrawingFacade();
         if (jSeshStyle != null) {
-            facade.setJseshStyle(jSeshStyle);
+            facade.setStyle(jSeshStyle);
         }
         if (cadratHeight != null) {
             facade.setCadratHeight(cadratHeight);
