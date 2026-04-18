@@ -14,23 +14,6 @@
         We separate them from the original JSesh widget, as they require some 
         external libraries.
     </description>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>jsesh.jhotdraw.JSeshMain</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>        
         <dependency>
             <groupId>${project.groupId}</groupId>

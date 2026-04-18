@@ -23,6 +23,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
+import jsesh.defaults.JseshFontKit;
 import jsesh.defaults.SharedDefaults;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
@@ -67,8 +68,8 @@ public class JMDCField extends JMDCEditor {
      * @param possibilityRepository     source for automated completion.
      */
     public JMDCField(int width, JSeshStyleReference styleReference,
-            HieroglyphShapeRepository hieroglyphShapeRepository, PossibilityRepository possibilityRepository) {
-        super(new HieroglyphicTextModel(), styleReference, hieroglyphShapeRepository, possibilityRepository);
+            JseshFontKit fontKit) {
+        super(new HieroglyphicTextModel(), styleReference, fontKit);
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.
@@ -93,11 +94,9 @@ public class JMDCField extends JMDCEditor {
      * @param hieroglyphShapeRepository source for hieroglyph shapes.
      * @param possibilityRepository     source for automated completion.
      */
-    public JMDCField(int width, int height, JSeshStyle style, HieroglyphShapeRepository hieroglyphShapeRepository,
-            PossibilityRepository possibilityRepository) {
+    public JMDCField(int width, int height, JSeshStyle style, JseshFontKit fontKit) {
         this(width, new JSeshStyleReference(adaptStyleToHeight(style, height, DEFAULT_MARGIN)),
-                hieroglyphShapeRepository,
-                possibilityRepository);
+                fontKit);
     }
 
     /**
@@ -108,8 +107,7 @@ public class JMDCField extends JMDCEditor {
      * @param height
      */
     public JMDCField(int width, int height) {
-        this(width, height, JSeshStyle.DEFAULT, SharedDefaults.getInstance().getHieroglyphShapeRepository(),
-                SharedDefaults.getInstance().getPossibilityRepository());
+        this(width, height, JSeshStyle.DEFAULT, JseshFontKit.defaultFontKit());
     }
 
     /**

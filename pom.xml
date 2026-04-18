@@ -64,7 +64,7 @@
     </dependency>
   </dependencies>
   <modules>
-    <module>cupAndlex</module>
+    <module>cupandlex</module>
     <module>cupruntime</module>
     <module>qenherkhopeshefUtils</module>
     <module>jsesh</module>

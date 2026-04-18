@@ -73,7 +73,10 @@ This journal should only be edited and modified in the Development branch.
 - [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
+## 2026/04/18
 
+- todo: remove codeDumper. It should go in another project;
+- rename module `prepareJSeshRelease` to comply with maven modules naming conventions.
 ## 2026/04/17
 
 - [x] work on `JMDCField`.

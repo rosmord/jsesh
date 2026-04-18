@@ -15,7 +15,7 @@
         <plugins>
             <plugin>
                 <groupId>org.qenherkhopeshef.jsesh</groupId>
-                <artifactId>cupAndlex</artifactId>
+                <artifactId>cupandlex-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>
                     <!-- expect a warning here from the eclipse plugin which doesn't know what to do here. -->

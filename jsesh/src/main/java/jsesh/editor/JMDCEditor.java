@@ -54,6 +54,7 @@ import javax.swing.*;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
+import jsesh.defaults.JseshFontKit;
 import jsesh.defaults.SharedDefaults;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
@@ -69,8 +70,6 @@ import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.*;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
-import jsesh.mdcDisplayer.layout.*;
 import jsesh.mdcDisplayer.mdcView.*;
 import jsesh.swing.shadingMenuBuilder.*;
 import jsesh.swing.utils.*;
@@ -187,13 +186,11 @@ public class JMDCEditor extends JPanel {
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
-                SharedDefaults.getInstance().getHieroglyphShapeRepository(),
-                SharedDefaults.getInstance().getPossibilityRepository());
+                JseshFontKit.defaultFontKit());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphShapeRepository hieroglyphShapeRepository,
-            PossibilityRepository possibilityRepository) {
-        this(data, new JSeshStyleReference(Style), hieroglyphShapeRepository, possibilityRepository);
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, JseshFontKit fontKit) {
+        this(data, new JSeshStyleReference(Style),fontKit);
     }
 
     /**
@@ -210,9 +207,8 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-            HieroglyphShapeRepository hieroglyphShapeRepository,
-            PossibilityRepository possibilityRepository) {
-        this.hieroglyphShapeRepository = hieroglyphShapeRepository;
+           JseshFontKit fontKit) {
+        this.hieroglyphShapeRepository = fontKit.hieroglyphShapeRepository();
         // this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
 
         this.setStyleReference(styleReference);
@@ -222,7 +218,7 @@ public class JMDCEditor extends JPanel {
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
         setFocusable(true);
-        workflow = new JMDCEditorWorkflow(data, possibilityRepository);
+        workflow = new JMDCEditorWorkflow(data, fontKit.possibilityRepository());
         drawer = new ViewDrawer(); // Is there any need to keep it in memory?
         viewUpdater = new MDCViewUpdater(this);
         mouseAndFocusController = new MDCEditorMouseAndFocusController();

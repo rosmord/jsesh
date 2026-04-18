@@ -4,10 +4,7 @@ import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.JSeshGlossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.GnutraceHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 
 /**
  * Shared defaults for commonly used resources.
@@ -27,7 +24,7 @@ import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
  * 
  * <p> A class which will reuse the settings from the user preferences is also available.
  */
-public class SharedDefaults {
+public class SharedDefaults implements JseshFontKit {
 
     // Singleton implementation
     private static final SharedDefaults INSTANCE = new SharedDefaults();
@@ -42,7 +39,7 @@ public class SharedDefaults {
 
     
     private SharedDefaults() {
-        hieroglyphShapeRepository = createHieroglyphShapeRepository();
+        hieroglyphShapeRepository = PredefinedFonts.compositeFont();
         
         // Empty glossary.
         JSeshGlossary glossary = new JSeshGlossary();
@@ -52,30 +49,21 @@ public class SharedDefaults {
 		possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossary);
     }
 
-    private final HieroglyphShapeRepository createHieroglyphShapeRepository() {
-        CompositeHieroglyphShapeRepository result = new CompositeHieroglyphShapeRepository();
-        ResourcesHieroglyphicShapeRepository resourcesHieroglyphicFontManager = new ResourcesHieroglyphicShapeRepository(
-				"/jseshGlyphs");
-		result.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);	
-        // Fallback to the old gnu trace font.
-        result.addHieroglyphicFontManager(GnutraceHieroglyphShapeRepository.getInstance());
-        return result;
-    }
-
+    
     /**
      * @return the hieroglyphDatabase
      */
-    public HieroglyphDatabaseInterface getHieroglyphDatabase() {
+    public HieroglyphDatabaseInterface hieroglyphDatabase() {
         return hieroglyphDatabase;
     }
 
 
-    public HieroglyphShapeRepository getHieroglyphShapeRepository() {
+    public HieroglyphShapeRepository hieroglyphShapeRepository() {
         return hieroglyphShapeRepository;
     }
 
 
-    public PossibilityRepository getPossibilityRepository() {
+    public PossibilityRepository possibilityRepository() {
         return possibilityRepository;
     }
 
