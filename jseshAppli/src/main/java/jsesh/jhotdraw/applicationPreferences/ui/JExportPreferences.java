@@ -33,18 +33,23 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
+import java.util.Arrays;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
+import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
 import net.miginfocom.swing.MigLayout;
-
-import javax.swing.*;
-import java.util.Arrays;
-import jsesh.resources.JSeshMessages;
 
 /**
  * Panel for export preferences. The graphical part should be separated from the

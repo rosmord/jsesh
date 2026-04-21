@@ -38,25 +38,32 @@ import javax.swing.table.AbstractTableModel;
 @SuppressWarnings("serial")
 public class GlossaryTableModel extends AbstractTableModel {
 
-	private JSeshGlossary glossary = GlossaryManager.getInstance()
-			.getGlossary();
+	private GlossaryManager glossaryManager;
+
+	public GlossaryTableModel(GlossaryManager glossaryManager) {
+		this.glossaryManager = glossaryManager;		
+	}
+
+	private JSeshGlossary getGlossary() {
+		return glossaryManager.getGlossary();
+	}
 
 	public int getColumnCount() {
 		return 3;
 	}
 
 	public int getRowCount() {
-		return glossary.getNumberOfEntries();
+		return getGlossary().getNumberOfEntries();
 	}
 
 	public Object getValueAt(int row, int col) {
-		if (row < 0 || row >= glossary.getNumberOfEntries())
+		if (row < 0 || row >= getGlossary().getNumberOfEntries())
 			return null;
 		switch (col) {
 		case 0:
-			return glossary.getEntry(row).getKey();
+			return getGlossary().getEntry(row).getKey();
 		case 1:
-			return glossary.getEntry(row).getMdc();
+			return getGlossary().getEntry(row).getMdc();
 		case 2:
 			return ""; // "remove" button.
 		default:
@@ -70,16 +77,16 @@ public class GlossaryTableModel extends AbstractTableModel {
 	}
 
 	public void delete(int pos) {
-		if (0 <= pos && pos < glossary.getNumberOfEntries()) {
-			glossary.remove(glossary.getEntry(pos));
-			GlossaryManager.getInstance().save();
+		if (0 <= pos && pos < getGlossary().getNumberOfEntries()) {
+			getGlossary().remove(getGlossary().getEntry(pos));
+			glossaryManager.save();
 			fireTableRowsDeleted(pos, pos);
 		}
 	}
 
 	public void addEntry(String name, String mdc) {
-		glossary.add(name, mdc);
-		GlossaryManager.getInstance().save();		
+		getGlossary().add(name, mdc);
+		glossaryManager.save();		
 		fireTableStructureChanged(); // as elements are sorted, it's easier to redraw everything.
 	}
 

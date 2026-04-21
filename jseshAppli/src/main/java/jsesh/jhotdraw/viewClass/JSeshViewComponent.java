@@ -36,6 +36,7 @@ package jsesh.jhotdraw.viewClass;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -46,6 +47,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+
 import jsesh.editor.JMDCEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 
@@ -53,10 +55,11 @@ import jsesh.jhotdraw.actions.BundleHelper;
  * The actual Swing component with all fixed elements for the JSesh view. As
  * usual, this component is passive (it's kind of a drawing). The JSeshViewModel
  * adds the logic.
- *
  * @author rosmord
+ * 
+ * @param <ZOOMINFO>  the type of elements in the zoomComboBox.
  */
-public final class JSeshViewComponent extends JPanel {
+public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
     /**
      * The editor to edit the document's text.
@@ -95,7 +98,7 @@ public final class JSeshViewComponent extends JPanel {
     /**
      * A menu to choose the zoom factor.
      */
-    private final JComboBox zoomComboBox;
+    private final JComboBox<ZOOMINFO> zoomComboBox;
 
     /**
      * The menu to show Gardiner basic glyphs.
@@ -109,7 +112,7 @@ public final class JSeshViewComponent extends JPanel {
         separatorField = new JTextField(1);
         mdcField = new JTextField();
         messageField= new JTextField();
-        zoomComboBox= new JComboBox();
+        zoomComboBox= new JComboBox<>();
         hieroglyphsButton= new JButton();
         // Panels layout
         topPanel = prepareTopPanel();
@@ -199,7 +202,7 @@ public final class JSeshViewComponent extends JPanel {
         return messageField;
     }
 
-    public JComboBox getZoomComboBox() {
+    public JComboBox<ZOOMINFO> getZoomComboBox() {
         return zoomComboBox;
     }
 

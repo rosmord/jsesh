@@ -16,7 +16,7 @@ import java.util.prefs.Preferences;
  *
  * @author rosmord
  */
-public class ApplicationPreferences {
+public class ApplicationUIPreferences {
 
     public static final String ICON_HEIGHT = "ICON_HEIGHT";
 
@@ -31,13 +31,13 @@ public class ApplicationPreferences {
     }
 
     public void savetoPreferences() {
-        Preferences preferences = Preferences.userNodeForPackage(ApplicationPreferences.class);
+        Preferences preferences = Preferences.userNodeForPackage(ApplicationUIPreferences.class);
         preferences.putInt(ICON_HEIGHT, iconHeight);
     }
 
-    public static ApplicationPreferences getFromPreferences() {
-        Preferences preferences = Preferences.userNodeForPackage(ApplicationPreferences.class);
-        ApplicationPreferences applicationPreferences = new ApplicationPreferences();
+    public static ApplicationUIPreferences getFromPreferences() {
+        Preferences preferences = Preferences.userNodeForPackage(ApplicationUIPreferences.class);
+        ApplicationUIPreferences applicationPreferences = new ApplicationUIPreferences();
         applicationPreferences.setIconHeight(preferences.getInt(ICON_HEIGHT, 30));
         return applicationPreferences;
     }

@@ -38,9 +38,9 @@ import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.jhotdraw.utils.JSimpleDialog;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;

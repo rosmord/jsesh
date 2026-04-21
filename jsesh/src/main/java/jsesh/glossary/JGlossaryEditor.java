@@ -36,9 +36,6 @@ package jsesh.glossary;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
-import java.beans.EventHandler;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -71,8 +68,8 @@ public class JGlossaryEditor extends JPanel {
 	private JButton okButton;
 	private GlossaryTableModel model;
 
-	public JGlossaryEditor() {
-		model = new GlossaryTableModel();
+	public JGlossaryEditor(GlossaryManager glossaryManager) {
+		model = new GlossaryTableModel(glossaryManager);
 		codeField = new JTextField(10);
 		mdcField = new JMDCField();
 		table = new JTable(model);
@@ -155,8 +152,9 @@ public class JGlossaryEditor extends JPanel {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
+					GlossaryManager glossaryManager = new GlossaryManager();
                     JFrame demo = new JFrame();
-                    JGlossaryEditor editor = new JGlossaryEditor();
+                    JGlossaryEditor editor = new JGlossaryEditor(glossaryManager);
                     demo.add(editor);
                     demo.pack();
                     demo.setVisible(true);

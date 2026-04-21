@@ -22,7 +22,7 @@ public class SimpleFontKit implements JseshFontKit {
     private HieroglyphDatabaseInterface hieroglyphDatabase;
 
     /**
-     * Shared default font kit using only embedded fonts and no user definitions.
+     * Shared default font kit using only embedded fonts, no user font, and no glossary.
      */
     public static JseshFontKit embeddedOnlyInstance() {
         return EmbeddedOnlyHolder.INSTANCE;
@@ -30,59 +30,53 @@ public class SimpleFontKit implements JseshFontKit {
 
     private static final class EmbeddedOnlyHolder {
         private static final JseshFontKit INSTANCE = buildFontWithoutUserDefinitions(
-                List.of(PredefinedFonts.standardJSeshFont(), PredefinedFonts.gnuTraceFont()),
-                Optional.empty());
+                buildCompositeFont(List.of(PredefinedFonts.standardJSeshFont(), PredefinedFonts.gnuTraceFont())),
+                new JSeshGlossary());
 
         private EmbeddedOnlyHolder() {
         }
     }
 
     /**
-     * Build a font kit with the given fonts and glossary.
+     * Build a font kit with the given font and glossary.
      * <p>
      * Won't use user definitions for signs (created with SignInfo), only the
      * embedded ones.
-     * <p>
-     * The fonts will be used in the order they are given, which means that the
-     * first one will be used as the main font, and the others as fallbacks.
      * <p>
      * the glossary allows the user to access predefined groups (or words) with a
      * simple transliteration. Passing an empty glossary is fine.
      * 
      * <p>
-     * We strongly suggest that the last two fonts be the standard JSesh font and
+     * We strongly suggest to use a composite font, the last two fonts being the standard JSesh font and
      * the GnuTrace font. Use {@link PredefinedFonts#standardJSeshFont()} and
      * {@link PredefinedFonts#gnuTraceFont()}
      * to acccess them.
+    
      * <p>
      * If you want to add fonts from a given folder, use
      * {@link DirectoryHieroglyphShapeRepository}.
      * 
      * @param fonts       a list of fonts.
-     * @param optGlossary an optional glossary.
+     * @param glossary an glossary (can be empty, but should not be null).
      */
-    public static SimpleFontKit buildFontWithoutUserDefinitions(List<HieroglyphShapeRepository> fonts,
-            Optional<JSeshGlossary> optGlossary) {
-        HieroglyphShapeRepository compositeFont = buildCompositeFont(fonts);
-        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildPlainDefault(compositeFont);
-        return new SimpleFontKit(compositeFont, optGlossary, database);
+    public static SimpleFontKit buildFontWithoutUserDefinitions(HieroglyphShapeRepository font,
+            JSeshGlossary glossary) {
+        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildPlainDefault(font);
+        return new SimpleFontKit(font, glossary, database);
     }
 
     /**
-     * Build a font kit with the given fonts, glossary, using users sign
+     * Build a font kit with the given font, glossary, using users sign
      * descriptions.
      * <p>
      * will use the descriptions created by the user with SignInfo, in addition to
      * the embedded ones.
      * <p>
-     * The fonts will be used in the order they are given, which means that the
-     * first one will be used as the main font, and the others as fallbacks.
-     * <p>
      * the glossary allows the user to access predefined groups (or words) with a
      * simple transliteration. Passing an empty glossary is fine.
      * 
      * <p>
-     * We strongly suggest that the last two fonts be the standard JSesh font and
+     * We strongly suggest to use a composite font, the last two fonts being the standard JSesh font and
      * the GnuTrace font. Use {@link PredefinedFonts#standardJSeshFont()} and
      * {@link PredefinedFonts#gnuTraceFont()}
      * to acccess them.
@@ -91,34 +85,31 @@ public class SimpleFontKit implements JseshFontKit {
      * {@link DirectoryHieroglyphShapeRepository}.
      * 
      * @param fonts       a list of fonts.
-     * @param optGlossary an optional glossary.
+     * @param glossary a glossary (may be empty)
      */
-    public static SimpleFontKit buildFontWithUserDescriptions(List<HieroglyphShapeRepository> fonts,
-            Optional<JSeshGlossary> optGlossary) {
-        HieroglyphShapeRepository compositeFont = buildCompositeFont(fonts);
-        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildWithUserDefinitions(compositeFont);
-        return new SimpleFontKit(compositeFont, optGlossary, database);
+    public static SimpleFontKit buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
+            JSeshGlossary glossary) {        
+        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildWithUserDefinitions(fonts);
+        return new SimpleFontKit(fonts, glossary, database);
     }
 
     /**
      * Creates a font kit with the given font, an optional glossary and database.
      * @param hieroglyphShapeRepository
-     * @param optGlossary
+     * @param glossary
      * @param database
      */
-    private SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, Optional<JSeshGlossary> optGlossary,
+    private SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary glossary,
             HieroglyphDatabaseInterface database) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
 
         this.hieroglyphDatabase = database;
 
-        JSeshGlossary glossary = optGlossary.orElseGet(() -> new JSeshGlossary());
 
         possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossary);
     }
 
     
-
     /**
      * Creates a font kit with the given font, possibility repository and database.
      * <p> In theory, they should be associated. 
@@ -133,19 +124,7 @@ public class SimpleFontKit implements JseshFontKit {
         this.hieroglyphDatabase = hieroglyphDatabase;
     }
 
-    /**
-     * Creates a font kit with the given font, a glossary and database.
-     * 
-     * <p> None of them can be null. They can be empty, however.
-     * @param hieroglyphShapeRepository
-     * @param glossary 
-     * @param database
-     */
-    public SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary optGlossary,
-            HieroglyphDatabaseInterface database) {
-        this(hieroglyphShapeRepository, Optional.of(optGlossary), database);
-
-    }
+    
 
     private static HieroglyphShapeRepository buildCompositeFont(List<HieroglyphShapeRepository> fonts) {
         CompositeHieroglyphShapeRepository result = new CompositeHieroglyphShapeRepository();

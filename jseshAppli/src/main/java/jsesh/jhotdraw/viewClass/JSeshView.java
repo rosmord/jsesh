@@ -15,10 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.editor.caret.MDCCaret;
+import jsesh.editor.events.TextEvent;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
@@ -35,7 +37,6 @@ import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.resources.JSeshMessages;
@@ -50,22 +51,21 @@ import org.jhotdraw_7_6.app.action.edit.RedoAction;
 import org.jhotdraw_7_6.app.action.edit.UndoAction;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
+import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 /**
  * A view of a JSesh editor instance, as used by the jhotdraw framework.
  * <p>
- * NOTE : I have tried to isolate JHotdraw code and generic Swing code by
- * creating a JSeshViewModel class. However my current code has many
- * architectural problems dealing with DEMETER law.</p>
+ * JHotdraw-specific code is somehow limited to this class, as most of
+ * the work is performed by the JSeshViewModel.
+ * 
  * <p>
- * The problems might be: a) outright violation of DEMETER law (often quite
- * deep...) or b) attempts to solve it which results in endless duplications of
- * delegating methods.</p>
- * <p>
- * As a result, I'm not always secure about <strong>where</strong>
- * the code should go.
- *
+ * This is a good thing, as it allows to keep the coupling with jhotdraw low,
+ * and to reuse the view model in other contexts if needed.
+ * It also makes it easier to test the view model without having to deal with
+ * jhotdraw.
+ * 
  * @author rosmord
  */
 @SuppressWarnings("serial")
@@ -76,21 +76,42 @@ public class JSeshView extends AbstractView {
      */
     public static final String DOCUMENT_INFO_PROPERTY = "documentInfo";
 
-    private final JSeshViewModel viewModel;
+    /**
+     * The view model. Should be final, but we wait until the call to init() to
+     * initialize it.
+     */
+    private JSeshViewModel viewModel;
+
+    private ObservableEventListener<TextEvent> viewModelListener = e -> updateViewData();
 
     public JSeshView() {
-        viewModel = new JSeshViewModel();
     }
 
     @Override
     public void init() {
+        // We wait for initWithResources() call to perform actual initialization.
+    }
+
+    /**
+     * Type-safe initialization method, called by the application.
+     */
+    public void initWithResources() {
+        viewModel = new JSeshViewModel();
         setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());
         add(viewModel.getViewComponent(), BorderLayout.CENTER);
-        viewModel.setObserver(new MyObserver());
+        viewModel.setOwner(viewModelListener);
         initActions();
     }
 
+    /**
+     * React to changes in the model.
+     */
+    private void updateViewData() {
+    setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
+                    .isClean());
+    }
+    
     @Override
     public void start() {
         super.start();
@@ -106,7 +127,6 @@ public class JSeshView extends AbstractView {
         // The document model might be disposable, it would be cleaner.
         // anyway:
         viewModel.getEditor().clearText();
-        viewModel.getEditor().setCached(false);
         super.dispose();
 
     }
@@ -144,12 +164,11 @@ public class JSeshView extends AbstractView {
     @Override
     public void clear() {
         try {
-            SwingUtilities.invokeAndWait(()
-                    -> {
+            SwingUtilities.invokeAndWait(() -> {
                 getEditor().clearText();
                 setHasUnsavedChanges(false);
-                            });
-        } catch (RuntimeException |InterruptedException | InvocationTargetException e) {
+            });
+        } catch (RuntimeException | InterruptedException | InvocationTargetException e) {
             throw new UserMessage(e.getMessage());
         }
     }
@@ -173,7 +192,7 @@ public class JSeshView extends AbstractView {
      *
      * Normally <em>Not</em> called on the EDT.
      *
-     * @param uri uri for the file ; may be null.
+     * @param uri     uri for the file ; may be null.
      * @param chooser chooser to find an uri if uri is null.
      * @throws java.io.IOException
      * @see View#read(URI, URIChooser)
@@ -200,9 +219,7 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = RTFImporter
                         .createRTFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument();
-                SwingUtilities.invokeLater(()
-                        -> viewModel.setCurrentDocument(document)
-                );
+                SwingUtilities.invokeLater(() -> viewModel.setCurrentDocument(document));
             } catch (RTFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -211,8 +228,7 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = (PDFImporter
                         .createPDFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument());
-                SwingUtilities.invokeLater(()
-                        -> viewModel.setCurrentDocument(document));
+                SwingUtilities.invokeLater(() -> viewModel.setCurrentDocument(document));
             } catch (PDFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -236,7 +252,7 @@ public class JSeshView extends AbstractView {
                 document.setFile(new File(JSeshWorkingDirectory
                         .getWorkingDirectory(), "Unnamed.gly"));
                 SwingUtilities.invokeLater(
-                        ()->viewModel.setCurrentDocument(document));
+                        () -> viewModel.setCurrentDocument(document));
             } else {
                 MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
                 final MDCDocument document = mdcDocumentReader.loadFile(file);
@@ -262,10 +278,8 @@ public class JSeshView extends AbstractView {
     }
 
     private void displayErrorInEdt(final String title, final String message) {
-        SwingUtilities.invokeLater(()
-                -> JOptionPane.showMessageDialog(getParent(), message, title,
-                        JOptionPane.ERROR_MESSAGE)
-        );
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(getParent(), message, title,
+                JOptionPane.ERROR_MESSAGE));
     }
 
     @Override
@@ -348,11 +362,14 @@ public class JSeshView extends AbstractView {
 
     /**
      * Gets original line number coordinates of a certain point in the text.
-     * <p> If the document contains line-number indications, like (vo, 3) which 
-     * reference the actual source document (ostracon, papyrus...), this 
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
      * function will return the coordinates for a given point in text.
+     * 
      * @param position technical position in the JSesh document.
-     * @return the position in the original document, or the empty string if none is found.
+     * @return the position in the original document, or the empty string if none is
+     *         found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
         return viewModel.getOriginalDocumentCoordinates(position);
@@ -360,22 +377,11 @@ public class JSeshView extends AbstractView {
 
     /**
      * insert a line number at current insert position.
-     * @param line 
+     * 
+     * @param line
      */
     public void insertLineNumber(String line) {
         viewModel.insertLineNumber(line);
-    }
-
-    /**
-     * This observer keeps tracks of unsaved changes.
-     */
-    private class MyObserver implements Observer {
-
-        @Override
-        public void update(Observable o, Object arg) {
-            setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
-                    .isClean());
-        }
     }
 
     public void insertCode(String code) {
@@ -399,16 +405,6 @@ public class JSeshView extends AbstractView {
     }
 
     /**
-     * Returns the current drawing specifications. TODO : we should simplify
-     * this... the inner code should not use so many layers.
-     *
-     * @return a caret.
-     */
-    public PaintingSpecifications getDrawingSpecifications() {
-        return viewModel.getEditor().getDrawingSpecifications();
-    }
-
-    /**
      * Returns the inner text representation. TODO : we should probably simplify
      * this... or return the HieroglyphicTextModel. getModel() should probably
      * be called getText().
@@ -418,11 +414,6 @@ public class JSeshView extends AbstractView {
     public TopItemList getTopItemList() {
         return viewModel.getEditor().getWorkflow().getHieroglyphicTextModel()
                 .getModel();
-    }
-
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        viewModel.setJseshStyle(drawingSpecifications);
     }
 
     /**
@@ -506,7 +497,7 @@ public class JSeshView extends AbstractView {
      * This method could be moved (or delegated to JSeshViewModel)
      *
      * @param extension the extension to use (without "."). Exemply gratia :
-     * "rtf" or "png".
+     *                  "rtf" or "png".
      * @return
      */
     public File buildDefaultExportFile(String extension) {
@@ -596,21 +587,27 @@ public class JSeshView extends AbstractView {
         setJseshStyle(drawingSpecification);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#delete()
      */
     public void delete() {
         getEditor().getWorkflow().doBackspace();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#duplicate()
      */
     public void duplicate() {
         // Currently no-op.
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#selectAll()
      */
     public void selectAll() {
@@ -620,18 +617,23 @@ public class JSeshView extends AbstractView {
     public void selectCurrentLine() {
         getEditor().getWorkflow().selectCurrentLine();
     }
-    
-     public void selectCurrentPage() {
+
+    public void selectCurrentPage() {
         getEditor().getWorkflow().selectCurrentPage();
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#clearSelection()
      */
     public void clearSelection() {
         getEditor().getWorkflow().clearSelection();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#isSelectionEmpty()
      */
     public boolean isSelectionEmpty() {

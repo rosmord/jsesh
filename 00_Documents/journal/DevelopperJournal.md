@@ -8,6 +8,7 @@ This journal should only be edited and modified in the Development branch.
 
 ### Long Term TODO
 
+- [ ] ❗️ try to use `doubles` instead of `floats` to avoid rounding errors.
 - [ ] design a coherent naming system for interfaces and implementations.
 - [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons. **DOCUMENT IT** (as a way to ensure it's coherent).
 - [ ] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
@@ -16,7 +17,6 @@ This journal should only be edited and modified in the Development branch.
 - [ ] when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
 - [ ] rename `HieroglyphicFontManager` into **ShapeCatalog** ;
 - [ ] refactor the whole business around hieroglyphs to make it more logical.
-- [ ] try to use `doubles` instead of `floats` to avoid rounding errors.
 - [ ] separate JSeshStyle into two parts: one with the features which are likely to be shared, and one with features which are probably specific to a particular document. I'm not sure it's that useful, this being said.
 - [ ] **We should perhaps move some of the responsabilities of `HieroglyphsDrawer` to `JSeshStyle`.**
 
@@ -52,6 +52,7 @@ This journal should only be edited and modified in the Development branch.
 ### Low priority TODO
 
 - [ ] improve the mechanism for margins of components, which is not well defined.
+- [ ] use i18n for texts in the JSesh Palette
 - [ ] improve `getPreferredSize` for `JMDCField` ?
 - [ ] find a better organisation for text size. The following code:
   ~~~java
@@ -93,15 +94,19 @@ Regarding **standard** codes:
 - [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
-
+- [ ] separate constructor call for the glossary manager and reading user glossary from file, mainly to simplify testing and debugging. 
 
 
 ## Daily log
 ### 2026/04/21
+- [ ] have a closer look at the problem of keeping both fontKit (even with a new name) and an instance of `JSeshFullHieroglyphShapeRepository`. It's somehow redundant, but `JSeshFullHieroglyphShapeRepository` has methods to add news signs, wereas you can't do it through fontKit. 
 
 - [x] the `jseshSearch` module compiles. It still needs to pass the tests;
 - [x] tests of `jseshSearch` ok.
 - `pom.xml/vscode` problem: fixed by running `mvn install` can be a good idea.
+- working on `JSeshAppli`
+  - look at the way the glossary is initialized in the old system.
+  - it's the GlossaryManager, which is originaly a singleton. It's relatively standalone, being referenced then by `GlossaryTableModel` and `PossibilityRepository`.
 
 
 ### 2026/04/20

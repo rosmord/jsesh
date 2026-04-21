@@ -13,23 +13,13 @@
  */
 package jsesh.jhotdraw;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.SystemFlavorMap;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
-
-import jsesh.Version;
-import jsesh.editor.actions.text.EditorCartoucheAction;
-import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.hieroglyphs.data.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphShapeRepository;
-import jsesh.resources.ResourcesManager;
-import jsesh.swing.utils.ImageIconFactory;
 
 import org.jhotdraw_7_6.app.Application;
 import org.qenherkhopeshef.guiFramework.AppStartup;
@@ -37,8 +27,18 @@ import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
-import java.awt.datatransfer.SystemFlavorMap;
-import jsesh.jhotdraw.applicationPreferences.model.ApplicationPreferences;
+import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.Version;
+import jsesh.editor.actions.text.EditorCartoucheAction;
+import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphFamily;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
+import jsesh.jhotdraw.applicationPreferences.model.ApplicationUIPreferences;
+import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.resources.ResourcesManager;
+import jsesh.swing.utils.ImageIconFactory;
 import net.miginfocom.layout.PlatformDefaults;
 
 /**
@@ -54,25 +54,30 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
 
     private String args[];
 
+    /**
+     * Preloading of data before starting the actual application.
+     */
     @Override
     public JSeshApplicationStartingData initApplicationData() {
         // Prepare icon factory...
-        ApplicationPreferences applicationPreferences = ApplicationPreferences.getFromPreferences();
-        ImageIconFactory.getInstance().setCadratHeight(applicationPreferences.getIconHeight());
+        ApplicationUIPreferences applicationPreferences = ApplicationUIPreferences.getFromPreferences();
+
         
+        JSeshUserSignLibraryConfiguration applicationDefaults = new JSeshUserSignLibraryConfiguration();
+        // Dirty architecture.
         // Pre-load a number of objects so that they are ready when graphic
         // stuff starts.
         ResourcesManager.getInstance();
-        JSeshApplicationStartingData data = new JSeshApplicationStartingData();
-        //new DrawingSpecificationsImplementation(); Why ????
-        DefaultHieroglyphShapeRepository.getInstance();
-        preloadHieroglyphicIcons();
+        // Preload icons. Bad architecture.
+        preloadHieroglyphicIcons(applicationDefaults); 
+
+        JSeshApplicationStartingData data = new JSeshApplicationStartingData(applicationPreferences.getIconHeight(), applicationDefaults);        
         return data;
     }
 
-    private void preloadHieroglyphicIcons() {       
-        List<HieroglyphFamily> families = HieroglyphDatabaseFactory
-                .getHieroglyphDatabase().getFamilies();
+    private void preloadHieroglyphicIcons(JSeshUserSignLibraryConfiguration applicationDefaults) { 
+        HieroglyphDatabaseInterface database = applicationDefaults.fontKit().hieroglyphDatabase();      
+        List<HieroglyphFamily> families = database.getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);
             for (String code : ManuelDeCodage.getInstance()
@@ -88,7 +93,11 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
     public void startApplication(JSeshApplicationStartingData data) {
         // Force creation of the hieroglyphic font manager and loading of the
         // fonts (do it elsewhere).
-        JSeshApplicationModel applicationModel = new JSeshApplicationModel();
+
+        // Move this to startApplication (using data from JSeshApplicationStartingData)
+        ImageIconFactory.getInstance().setCadratHeight(data.iconHeight());
+
+        JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.applicationDefaults());
         applicationModel.setCopyright(COPYRIGHT);
         applicationModel.setName(NAME);
         applicationModel.setVersion(Version.getVersion());

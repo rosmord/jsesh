@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,37 +13,49 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import org.qenherkhopeshef.observable.ObservableEventListener;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.editor.caret.MDCCaret;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
+import jsesh.editor.events.TextEvent;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.editor.MdCSearchQuery;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
+import jsesh.utils.JSeshStyleHelper;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing
  * session of a JSesh document. It might be better to merge it with JSeshView.
- *
- * <p>
- * TODO this class is a bit too heavy for my taste... nothing as awful as the
- * old JSesh application, but still...
  *
  * @author rosmord
  */
 public final class JSeshViewModel {
 
     /**
+     * Predefined zoom factors for the zoom combo box.
+     */
+    private static final int[] ZOOMFACTORS = new int[]{25, 50, 75, 100, 112, 128, 150, 200, 300, 400,
+        600, 800, 1600, 3200, 6400, 12800};
+
+    /**
      * The main graphical component.
      */
-    private final JSeshViewComponent viewComponent;
+    private final JSeshViewComponent<ZoomInfo> viewComponent;
+
+    /**
+     * Information about fonts and glyphs.
+     */
+
+    private JseshFontKit fontKit;
 
     /**
      * The document we are working on.
@@ -56,17 +66,26 @@ public final class JSeshViewModel {
      * An object which will learn when the view is modified (typically for us
      * the JSeshView).
      */
-    private Observer observer;
+    private ObservableEventListener<TextEvent> owner;
+
+    private final ObservableEventListener<TextEvent> delegatingObserver = e -> {
+        // Tells the parent observer that the document has changed.
+        if (owner != null) {
+            owner.eventOccurred(e);
+        }
+    };
+
 
     /**
      * Possible list of search results.
+     *      
      */
     private List<MDCPosition> lastSearchResults = null;
 
-    private final DelegatingObserver delegatingObserver = new DelegatingObserver();
 
-    public JSeshViewModel() {
-        viewComponent = new JSeshViewComponent();
+    public JSeshViewModel(JseshFontKit fontKit) {
+        this.fontKit = fontKit;
+        viewComponent = new JSeshViewComponent<ZoomInfo>();
         setCurrentDocument(new MDCDocument());
 
         // Activate the objects
@@ -79,9 +98,8 @@ public final class JSeshViewModel {
         viewComponent.getMdcField().addActionListener(mdcLineManager);
 
         // Zoom combobox
-        DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-        for (int zoom : new int[]{25, 50, 75, 100, 112, 128, 150, 200, 400,
-            600, 800, 1600, 3200, 6400, 12800}) {
+        DefaultComboBoxModel<ZoomInfo> comboBoxModel = new DefaultComboBoxModel<>();
+        for (int zoom : ZOOMFACTORS) {
             comboBoxModel.addElement(new ZoomInfo(zoom));
         }
         viewComponent.getZoomComboBox().setModel(comboBoxModel);
@@ -111,14 +129,13 @@ public final class JSeshViewModel {
 
     public final void setCurrentDocument(MDCDocument newDocument) {
         if (mdcDocument != null) {
-            mdcDocument.getHieroglyphicTextModel().deleteObserver(delegatingObserver);
+            mdcDocument.getHieroglyphicTextModel().removeListener(delegatingObserver);
         }
         mdcDocument = newDocument;
-        mdcDocument.getHieroglyphicTextModel().addObserver(delegatingObserver);
+        mdcDocument.getHieroglyphicTextModel().addListener(delegatingObserver);
         DocumentPreferences prefs = mdcDocument.getDocumentPreferences();
-        PaintingSpecifications ds = getEditor().getDrawingSpecifications();
-        ds.applyDocumentPreferences(prefs);
-        getEditor().setJseshStyle(ds);
+        JSeshStyle newStyle = JSeshStyleHelper.applyDocumentPreferences(prefs, getEditor().getStyle());
+        getEditor().setStyle(newStyle);
         getEditor().setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
     }
 
@@ -126,7 +143,7 @@ public final class JSeshViewModel {
         getEditor().setEnabled(enabled);
     }
 
-    public JSeshViewComponent getViewComponent() {
+    public JSeshViewComponent<ZoomInfo> getViewComponent() {
         return viewComponent;
     }
 
@@ -263,10 +280,8 @@ public final class JSeshViewModel {
      */
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
-        List<HieroglyphFamily> families = HieroglyphDatabaseFactory
-                .getHieroglyphDatabase().getFamilies();
-        BundleHelper bundle = BundleHelper.getInstance();
-
+        List<HieroglyphFamily> families = fontKit.hieroglyphDatabase().getFamilies();
+        
         JPopupMenu hieroglyphs = new JPopupMenu();
 
         hieroglyphs.setLayout(new GridLayout(14, 2));
@@ -336,28 +351,14 @@ public final class JSeshViewModel {
         }
     }
 
-    public void setDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        getEditor().setJseshStyle(drawingSpecifications);
-        getMdcDocument().setDocumentPreferences(drawingSpecifications.extractDocumentPreferences());
-    }
-
     /**
      * Sets the parent observer which will receive information when the view is
      * modified
      *
      * @param observer
      */
-    public void setObserver(Observer observer) {
-        this.observer = observer;
-    }
-
-    private class DelegatingObserver implements Observer {
-
-        @Override
-        public void update(Observable o, Object arg) {
-            observer.update(o, arg);
-        }
+    public void setOwner(ObservableEventListener<TextEvent> observer) {
+        this.owner = observer;
     }
 
     public void doSearch(MdCSearchQuery query) {

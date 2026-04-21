@@ -12,14 +12,15 @@ import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
 /**
  * The full hieroglyph shape repository, used by the JSesh software, including user defined signs and standard JSesh fonts.
  * 
- * <p> Will typically be used as a unique resource.
+ * <p> Will typically be used as a unique resource (as of today).
+ * 
+ * <p> it is possible to change the directory.
  */
 public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeRepository {
     
 	private CompositeHieroglyphShapeRepository composite;
 
 	private DirectoryHieroglyphShapeRepository directoryManager;
-
 
 	public JSeshFullHieroglyphShapeRepository() {
 		composite = new CompositeHieroglyphShapeRepository();
@@ -31,6 +32,7 @@ public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeReposi
 		initDirectory();
 	}
 	
+
 	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
 		composite.addHieroglyphicFontManager(manager);
 	}

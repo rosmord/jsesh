@@ -1,19 +1,29 @@
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
-import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
-import jsesh.jhotdraw.utils.PanelBuilder;
-import jsesh.mdc.utils.YODChoice;
-import jsesh.resources.ResourcesManager;
-import net.miginfocom.swing.MigLayout;
+import java.awt.Font;
+import java.awt.Window;
+import java.io.File;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
+
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
+import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
+import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
+import jsesh.jhotdraw.utils.PanelBuilder;
+import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.JSeshMessages;
+import jsesh.resources.ResourcesManager;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * font preferences chooser.

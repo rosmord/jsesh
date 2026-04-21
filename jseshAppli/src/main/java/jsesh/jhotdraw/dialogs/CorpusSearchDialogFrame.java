@@ -34,8 +34,8 @@
  */
 package jsesh.jhotdraw.dialogs;
 
-import java.awt.HeadlessException;
 import javax.swing.JFrame;
+
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.ui.JSearchFolderPanel;
 import jsesh.search.ui.SearchPanelFactory;

@@ -46,6 +46,11 @@ import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.clipboard.JSeshPasteFlavors;
+import jsesh.clipboard.MDCClipboardPreferences;
+import jsesh.clipboard.MDCModelTransferable;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.glossary.JGlossaryEditor;
@@ -97,10 +102,6 @@ import jsesh.jhotdraw.jhotdrawCustom.QenherkhURIChooser;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
-import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
-import jsesh.mdcDisplayer.clipboard.MDCModelTransferable;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.PalettePresenter;
@@ -177,7 +178,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * Everything which is a) application-level and b) non specific to JHotdraw
      * is delegated to {@link JSeshApplicationBase}.
      */
-    private final JSeshApplicationBase jseshApplicationBase = new JSeshApplicationBase();
+    private final JSeshApplicationBase jseshApplicationBase;
 
     /**
      * Deals with copy/paste. Needs to know the current view to work correctly.
@@ -195,6 +196,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     private JGlossaryEditor glossaryEditor;
     
     private boolean canOpenNewView = true;
+
+    public JSeshApplicationModel(JSeshUserSignLibraryConfiguration applicationDefaults) {
+        this.jseshApplicationBase = new JSeshApplicationBase(applicationDefaults);    
+    }
 
     @Override
     public void initApplication(Application a) {
@@ -214,9 +219,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     @Override
     public void initView(Application a, View v) {
         super.initView(a, v);
+        JSeshView jSeshView = (JSeshView) v;
+        jSeshView.initWithResources();
         PaintingSpecifications drawingSpecifications = jseshApplicationBase
                 .getDefaultDrawingSpecifications();
-        JSeshView jSeshView = (JSeshView) v;
+        
         jSeshView.setJseshStyle(drawingSpecifications);
         jSeshView.setMDCModelTransferableBroker(transferableBroker);
         jSeshView.setFontInfo(getFontInfo());

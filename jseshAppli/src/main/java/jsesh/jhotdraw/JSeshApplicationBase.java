@@ -1,30 +1,32 @@
 package jsesh.jhotdraw;
 
-import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.drawingspecifications.ShadingMode;
-import jsesh.graphics.export.html.HTMLExporter;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import jsesh.graphics.export.rtf.RTFExportGranularity;
+import com.apple.eawt.Application;
+
+import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.clipboard.MDCClipboardPreferences;
+import jsesh.defaults.JseshFontKit;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
+import jsesh.drawingspecifications.ShadingMode;
+import jsesh.editor.PossibilityRepository;
+import jsesh.glossary.GlossaryManager;
+import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
+import jsesh.graphics.export.rtf.RTFExportGranularity;
+import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdcDisplayer.clipboard.MDCClipboardPreferences;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
  * Framework-agnostic part of the JSesh application. Deals with all information
  * which is not specific to the JHotdraw framework.
- *
- * TODO : fix the export preferences system. Using annotation might be a good
- * idea for this.
  *
  * @author rosmord
  */
@@ -56,9 +58,9 @@ public class JSeshApplicationBase {
     private final PDFExportPreferences pdfExportPreferences = new PDFExportPreferences();
 
     /**
-     * Base drawing specifications for <em>new</em> documents.
+     * Base style for <em>new</em> documents.
      */
-    private PaintingSpecifications defaultDrawingSpecifications = new DrawingSpecificationsImplementation();
+    private JSeshStyle defaultDrawingSpecifications = JSeshStyle.DEFAULT;
 
     /**
      * Other information for copy/paste (file formats, for instance).
@@ -70,16 +72,21 @@ public class JSeshApplicationBase {
      */
     private FontInfo fontInfo;
 
+    
     /**
      * Information about the HTML export.
      */
-    private final HTMLExporter htmlExporter = new HTMLExporter();
+    private final HTMLExporter htmlExporter;
 
     private ExportPreferences exportPreferences;
     
     
 
-    public JSeshApplicationBase() {
+    public JSeshApplicationBase(GlossaryManager glossaryManager,  JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository) {
+        JSeshUserSignLibraryConfiguration appdef = new JSeshUserSignLibraryConfiguration();
+        appdef.fontKit().hieroglyphDatabase();
+        appdef.glossary();
+        appdef.
         loadPreferences();
     }
 
@@ -109,46 +116,7 @@ public class JSeshApplicationBase {
         clipboardPreferences = MDCClipboardPreferences.getFromPreferences(preferences);
     }
 
-    /**
-     * Save the part related to drawing preferences...
-     *
-     * @param preferences
-     */
-    private void loadDrawingSpecificationPreferences(Preferences preferences) {
-        // Dimensions...
-        defaultDrawingSpecifications.setStandardSignHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, 18.0));
-        defaultDrawingSpecifications.setLineSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_LINE_SKIP, 6));
-        defaultDrawingSpecifications.setColumnSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_COLUMN_SKIP, 10));
-        defaultDrawingSpecifications.setMaxCadratHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT, 18));
-        defaultDrawingSpecifications.setMaxCadratWidth((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, 22));
-        defaultDrawingSpecifications.setSmallSignsCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false));
-
-        defaultDrawingSpecifications.setSmallBodyScaleLimit(preferences.getDouble(
-                JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, 12.0));
-        defaultDrawingSpecifications.setCartoucheLineWidth((float) preferences
-                .getDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, 1.0));
-
-        // Shading
-        if (preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)) {
-            defaultDrawingSpecifications.setShadingStyle(ShadingMode.LINE_HATCHING);
-        } else {
-            defaultDrawingSpecifications.setShadingStyle(ShadingMode.GRAY_SHADING);
-        }
-    }
-
-    private void saveDrawingSpecificationPreferences(Preferences preferences) {
-        // From default document...
-        preferences.putDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, defaultDrawingSpecifications.getStandardSignHeight()); //ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_LINE_SKIP, defaultDrawingSpecifications.getLineSkip());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_COLUMN_SKIP, defaultDrawingSpecifications.getColumnSkip());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT, defaultDrawingSpecifications.getMaxCadratHeight());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, defaultDrawingSpecifications.getMaxCadratWidth());//ok
-        preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, defaultDrawingSpecifications.isSmallSignsCentered());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, defaultDrawingSpecifications.getSmallBodyScaleLimit());//ok
-        preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, defaultDrawingSpecifications.getShadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, defaultDrawingSpecifications.getCartoucheLineWidth());	//ok
-    }
-
+   
     public void savePreferences() {
         Preferences preferences = Preferences.userNodeForPackage(this
                 .getClass());
