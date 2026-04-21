@@ -14,7 +14,11 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.search.ui.JWildcardPanel;
@@ -31,7 +35,7 @@ import jsesh.search.ui.specifications.JSearchFormModelIF;
 public class WildCardMain {
 
     JFrame frame = new JFrame("Test Wildcard");
-    JWildcardPanel panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget());
+    JWildcardPanel panel;
     JMDCEditor editor = new JMDCEditor();
     List<MDCPosition> answers;
     
@@ -41,6 +45,9 @@ public class WildCardMain {
     "G1";
     
     public WildCardMain() {
+        JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
+        JseshFontKit fontKit = JseshFontKit.embeddedOnlyFontKit();
+        panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), styleRef, fontKit);
         mettreEnPage();
         editor.setMDCText(mdc);    
         // Separated interfaces.

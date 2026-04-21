@@ -13,6 +13,9 @@ package jsesh.search;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
@@ -45,7 +48,8 @@ public class SignStringSearcherTest {
     private void doSearch(String message, String mdc, String codes, Integer... expected) {
         TopItemList text = parse(mdc);
         List<String> toSearch = Arrays.asList(codes.split(" "));
-        SignStringSearchQuery searcher = new SignStringSearchQuery(toSearch);
+        HieroglyphDatabaseInterface database = JseshFontKit.embeddedOnlyFontKit().hieroglyphDatabase();
+        SignStringSearchQuery searcher = new SignStringSearchQuery(database, toSearch);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult
                 = Arrays.asList(expected).stream()

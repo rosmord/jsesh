@@ -34,14 +34,16 @@
  */
 package jsesh.search.simple;
 
-import jsesh.search.backingSupport.HieroglyphOccurrence;
-import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
+
+import jsesh.editor.MdCSearchQuery;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
+import jsesh.search.backingSupport.HieroglyphOccurrence;
+import jsesh.search.backingSupport.OccurrenceStringBuilder;
 
 /**
  * Simple Search for sign strings.
@@ -53,17 +55,6 @@ import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
  * @author rosmord
  */
 public class SignStringSearchQuery implements MdCSearchQuery {
-
-    /**
-     * Should the search be done on one line only.
-     */
-    private boolean onSameLine= true;
-
-    /**
-     * Maximum width of match.
-     * 0 means unlimited.
-     */
-    private int maxWidth = 0;
 
     private final List<String> search;
 
@@ -77,10 +68,10 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      * </ul>
      * @param search
      */
-    public SignStringSearchQuery(List<String> search) {
+    public SignStringSearchQuery(HieroglyphDatabaseInterface hieroglyphDatabase, List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
-            String normalized = HieroglyphDatabaseFactory.getHieroglyphDatabase()
+            String normalized = ManuelDeCodage.getInstance()
                     .getCanonicalCode(rawCode);
             this.search.add(normalized);
         }

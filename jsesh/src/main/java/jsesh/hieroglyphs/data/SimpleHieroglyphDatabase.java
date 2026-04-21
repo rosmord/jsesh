@@ -12,11 +12,6 @@
  */
 package jsesh.hieroglyphs.data;
 
-import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
-import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +22,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It

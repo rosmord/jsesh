@@ -27,7 +27,7 @@ import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
+import jsesh.hieroglyphs.fonts.DefaultHieroglyphShapeRepository;
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.utils.ImageIconFactory;
 
@@ -65,7 +65,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         ResourcesManager.getInstance();
         JSeshApplicationStartingData data = new JSeshApplicationStartingData();
         //new DrawingSpecificationsImplementation(); Why ????
-        DefaultHieroglyphicShapeRepository.getInstance();
+        DefaultHieroglyphShapeRepository.getInstance();
         preloadHieroglyphicIcons();
         return data;
     }

@@ -34,32 +34,15 @@ import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.*;
  *
  * Implementation uses my finiteState library.
  *
- * <p>
- * Note : this class has a hidden dependency on
- * {@link CompositeHieroglyphsManager} We should replace it by a more explicit
- * one through dependency injection at some point.
  *
  * @author rosmord
  */
 public class WildCardQuery implements MdCSearchQuery {
 
-    /**
-     * Code in the MdC String to introduce the start of a set of searched signs.
-     */
-    public static final String QUERY_SET_BEGIN = "QUERYSETB";
-
-    /**
-     * Code in the MdC String to introduce the end of a set of searched signs.
-     */
-    public static final String QUERY_SET_END = "QUERYSETE";
-
-    /**
-     * Code in the MdC String for a skip (a undefined number of signs, possibly
-     * 0).
-     */
-    public static final String QUERY_SKIP = "QUERYSKIP";
-
     private RegularExtractor<HieroglyphOccurrence> extractor;
+
+    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+
     /**
      * Is this query correct or erroneous ?
      */
@@ -74,11 +57,13 @@ public class WildCardQuery implements MdCSearchQuery {
     /**
      * Build a wildcard query from a top item list.
      *
-     * @param items : items to search
-     * @param maxLength : maximum length of individual results, 0 meaning "no length limit".
-     * @param variantLevel
+     * @param items items to search
+     * @param maxLength maximum length of individual results, 0 meaning "no length limit".
+     * @param hieroglyphDatabase sign database, used to find variants.
+     * @param variantLevel to what extend sign variants should match.
      */
-    public WildCardQuery(TopItemList items, int maxLength, VariantLevelForSearch variantLevel) {
+    public WildCardQuery(TopItemList items, int maxLength, HieroglyphDatabaseInterface hieroglyphDatabase, VariantLevelForSearch variantLevel) {
+        this.hieroglyphDatabase = hieroglyphDatabase;
         this.maxLength = maxLength;
         if (items.getNumberOfChildren() == 0) {
             correct = false;
@@ -139,13 +124,13 @@ public class WildCardQuery implements MdCSearchQuery {
             nextPos();
             while (correct && currentCode != null) {
                 switch (currentCode) {
-                    case QUERY_SKIP:
+                    case WildCardConstants.QUERY_SKIP:
                         processSkip();
                         break;
-                    case QUERY_SET_BEGIN:
+                    case WildCardConstants.QUERY_SET_BEGIN:
                         processSet();
                         break;
-                    case QUERY_SET_END:
+                    case WildCardConstants.QUERY_SET_END:
                         throw new IncorrectQueryException();
                     default:
                         processStandardCode(currentCode);
@@ -160,9 +145,8 @@ public class WildCardQuery implements MdCSearchQuery {
             } else {
                 // TO MODIFY.. redundant types, in a way (but FULL != EXACT...)
                 VariantTypeForSearches variantTypeForSearches = VariantTypeForSearches.UNSPECIFIED;
-                HieroglyphDatabaseInterface hieroglyphsManager = HieroglyphDatabaseFactory.getHieroglyphDatabase();
 
-                Collection<String> variantCodes = hieroglyphsManager.getTransitiveVariants(code, variantTypeForSearches);
+                Collection<String> variantCodes = hieroglyphDatabase.getTransitiveVariants(code, variantTypeForSearches);
                 seq.add(label(new CodeSetLabel(variantCodes)));
             }
 
@@ -180,7 +164,7 @@ public class WildCardQuery implements MdCSearchQuery {
         private void processSet() {
             nextPos(); // skips [...
             HashSet<String> codes = new HashSet<>();
-            while (currentCode != null && !currentCode.equals(QUERY_SET_END)) {
+            while (currentCode != null && !currentCode.equals(WildCardConstants.QUERY_SET_END)) {
                 codes.add(currentCode);
                 nextPos();
             }

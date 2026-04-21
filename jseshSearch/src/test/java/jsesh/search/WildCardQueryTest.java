@@ -13,6 +13,9 @@ package jsesh.search;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
@@ -45,7 +48,8 @@ public class WildCardQueryTest {
     private void doSearch(String message, String mdc, String codes, VariantLevelForSearch variantLevel, Integer... expected) {
         TopItemList text = parse(mdc);
         TopItemList toSearch = parse(codes);
-        WildCardQuery searcher = new WildCardQuery(toSearch, 0, variantLevel);
+        HieroglyphDatabaseInterface database = JseshFontKit.embeddedOnlyFontKit().hieroglyphDatabase();
+        WildCardQuery searcher = new WildCardQuery(toSearch, 0, database, variantLevel);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult
                 = Arrays.asList(expected).stream()

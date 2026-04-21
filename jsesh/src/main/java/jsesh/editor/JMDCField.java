@@ -24,9 +24,7 @@ import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
 import jsesh.defaults.JseshFontKit;
-import jsesh.defaults.SharedDefaults;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.swing.utils.GraphicsUtils;
 
 /**
@@ -107,7 +105,7 @@ public class JMDCField extends JMDCEditor {
      * @param height
      */
     public JMDCField(int width, int height) {
-        this(width, height, JSeshStyle.DEFAULT, JseshFontKit.defaultFontKit());
+        this(width, height, JSeshStyle.DEFAULT, JseshFontKit.embeddedOnlyFontKit());
     }
 
     /**

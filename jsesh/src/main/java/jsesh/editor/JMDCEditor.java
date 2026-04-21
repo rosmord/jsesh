@@ -42,37 +42,54 @@
 **/
 package jsesh.editor;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.geom.*;
-import java.awt.print.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
-import javax.swing.*;
+
+import javax.swing.Action;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.JseshFontKit;
-import jsesh.defaults.SharedDefaults;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
-import jsesh.editor.actions.text.*;
-import jsesh.editor.caret.*;
+import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editor.caret.MDCCaret;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.*;
-import jsesh.mdc.constants.*;
-import jsesh.mdc.model.*;
-import jsesh.mdc.model.operations.*;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.ListOfTopItems;
+import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.unicode.MdCToUnicodeConverter;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.draw.*;
-import jsesh.mdcDisplayer.mdcView.*;
-import jsesh.swing.shadingMenuBuilder.*;
-import jsesh.swing.utils.*;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
+import jsesh.swing.utils.GraphicsUtils;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you
@@ -186,7 +203,7 @@ public class JMDCEditor extends JPanel {
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
-                JseshFontKit.defaultFontKit());
+                JseshFontKit.embeddedOnlyFontKit());
     }
 
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, JseshFontKit fontKit) {
@@ -209,7 +226,6 @@ public class JMDCEditor extends JPanel {
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
            JseshFontKit fontKit) {
         this.hieroglyphShapeRepository = fontKit.hieroglyphShapeRepository();
-        // this.hieroglyphsDrawer = new HieroglyphDrawer(hieroglyphShapeRepository);
 
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);

@@ -23,6 +23,9 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.resources.JSeshMessages;
@@ -50,8 +53,8 @@ class SearchFolderControl {
 
     
 
-    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, HieroglyphShapeRepository fontManager) {
-        this.ui = new JSearchFolderPanel(fontManager);
+    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, JseshFontKit fontKit) {
+        this.ui = new JSearchFolderPanel(styleRef, fontKit);
         this.corpusSearchTarget = corpusSearchTarget;
         clearTable();
         activateButtons();

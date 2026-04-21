@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
 public class ExternalSignImporterModel {
@@ -20,10 +19,10 @@ public class ExternalSignImporterModel {
 
 	private double shapeScale;
 
-	private DefaultHieroglyphicShapeRepository hieroglyphicFontManager;
+	private JSeshFullHieroglyphShapeRepository hieroglyphicFontManager;
 
 
-	public ExternalSignImporterModel(DefaultHieroglyphicShapeRepository hieroglyphicFontManager) {		
+	public ExternalSignImporterModel(JSeshFullHieroglyphShapeRepository hieroglyphicFontManager) {		
 		this.hieroglyphicFontManager = hieroglyphicFontManager;
 		referenceShape = hieroglyphicFontManager.get("A1");
 		sourceDirectory = new File(".");

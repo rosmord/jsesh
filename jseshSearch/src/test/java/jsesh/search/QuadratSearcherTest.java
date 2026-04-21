@@ -17,7 +17,8 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.quadrat.QuadratSearchQuery;
+import jsesh.search.quadrant.QuadratSearchQuery;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 

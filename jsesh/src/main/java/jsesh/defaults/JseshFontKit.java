@@ -5,9 +5,20 @@ import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
- * Repositories giving coordinated access to hieroglyphic fonts resources, including automated completion.
+ * A repository giving coordinated access to hieroglyphic fonts resources, including automated completion.
  */
 public interface JseshFontKit {
+
+    /**
+     * Shared default font kit using only embedded font resources and no user definitions.
+     * <p>Avoid weird side effects if one hosts a server <strong>and</strong> has her or his own font definitions for
+     * interactive work with JSesh.
+     * @return default shared font kit.
+     */
+    static JseshFontKit embeddedOnlyFontKit() {
+        return SimpleFontKit.embeddedOnlyInstance();
+    }
+
     /**
      * Graphical definition of the fonts.
      * @return a HieroglyphShapeRepository
@@ -25,11 +36,5 @@ public interface JseshFontKit {
      */
     HieroglyphDatabaseInterface hieroglyphDatabase();
 
-    /**
-     * The default font kit, which doesn't rely on user preferences.
-     * @return
-     */
-    public static JseshFontKit defaultFontKit() {
-        return SharedDefaults.getInstance();
-    }
+   
 }

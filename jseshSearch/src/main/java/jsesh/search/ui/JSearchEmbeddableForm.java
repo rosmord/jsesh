@@ -13,14 +13,17 @@ package jsesh.search.ui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.ui.specifications.JSelectableSearchIF;
-import jsesh.search.ui.specifications.SearchType;
 import jsesh.search.ui.specifications.JTextSearchFormModelIF;
+import jsesh.search.ui.specifications.SearchType;
 
 /**
  * Full search panel, including all possible searches, and allowing navigation
@@ -36,9 +39,9 @@ class JSearchEmbeddableForm extends JPanel implements JSelectableSearchIF {
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
 
-    public JSearchEmbeddableForm(HieroglyphShapeRepository fontManager) {
+    public JSearchEmbeddableForm(JSeshStyleReference styleRef, JseshFontKit fontKit) {
         chooseSearchTypeCB = new JComboBox<>(SearchType.values());
-        mdCSearchForm = new JMdCSearchEmbeddableForm(fontManager);
+        mdCSearchForm = new JMdCSearchEmbeddableForm(styleRef, fontKit);
         textSearchForm = new JTextSearchEmbeddableForm();
         mainPanel = new JPanel();
         cardLayout = new CardLayout();

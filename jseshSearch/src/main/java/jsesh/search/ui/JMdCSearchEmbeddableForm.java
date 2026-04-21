@@ -19,19 +19,26 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.SimpleFontKit;
 import jsesh.editor.JMDCField;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
+import jsesh.editor.PossibilityRepository;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.quadrat.QuadratSearchQuery;
 import jsesh.search.wildcard.WildCardQuery;
 import net.miginfocom.swing.MigLayout;
+import jsesh.search.quadrant.QuadratSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.wildcard.VariantLevelForSearch;
+import jsesh.search.wildcard.WildCardConstants;
 
 /**
  * Search fields used by dialogs for JSesh searches. Used both for in-document
@@ -44,7 +51,7 @@ import jsesh.search.wildcard.VariantLevelForSearch;
  * @author rosmord
  */
 @SuppressWarnings("serial")
-class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implements JMdCSearchEmbeddableFormFieldsIF, JMdCSearchFormModelIF {
+class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFormFieldsIF, JMdCSearchFormModelIF {
 
 
     /*
@@ -57,8 +64,6 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     private final JSpinner matchLengthSpinner;
     private final JLabel matchLengthSpinnerLabel;
     private final JComboBox<VariantLevelForSearch> variantLevel;
-    
-    private HieroglyphShapeRepository fontManager;
    
     /**
      * Buttons which are meaningless for whole quadrat search...
@@ -66,15 +71,24 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     private final JComponent signOriented[];
 
     /**
+     * Some query need fine access to information about sign variants.
+     */
+    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+
+    /**
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm(HieroglyphShapeRepository fontManager) {
-    	super(fontManager);
-       
+    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, JseshFontKit fontKit) {               
+        JseshFontKit newFontKit = new SimpleFontKit(WildcardFont.getInstance().addToFont(fontKit.hieroglyphShapeRepository()),
+             fontKit.possibilityRepository(), fontKit.hieroglyphDatabase());
+        this.hieroglyphDatabase = newFontKit.hieroglyphDatabase();
+
         // MdC Search
-        this.searchField = new JMDCField();
-        this.searchField.setFontManager(this.fontManager);
+        this.searchField = new JMDCField(100, styleReference,newFontKit);
+
+        
+        
         this.addSkipButton = new JButton("*");
         this.addSetButton = new JButton("[...]");
         this.matchLengthSpinner = new JSpinner();
@@ -132,6 +146,7 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
         } else {
             result = new WildCardQuery(getSearchFieldContent(), 
                     (Integer) matchLengthSpinner.getValue(),
+                    hieroglyphDatabase,
                     (VariantLevelForSearch)variantLevel.getSelectedItem()
             );
         }
@@ -198,14 +213,14 @@ class JMdCSearchEmbeddableForm extends AbstractHieroglyphicSearchPanel implement
     
 
     public void addSet() {        
-    	getSearchField().insert(WildCardQuery.QUERY_SET_BEGIN);
-    	getSearchField().insert(WildCardQuery.QUERY_SET_END);
+    	getSearchField().insert(WildCardConstants.QUERY_SET_BEGIN);
+    	getSearchField().insert(WildCardConstants.QUERY_SET_END);
     	getSearchField().getWorkflow().cursorPrevious();
     	getSearchField().requestFocusInWindow();
     }
 
     public void addSkip() {
-    	getSearchField().insert(WildCardQuery.QUERY_SKIP);
+    	getSearchField().insert(WildCardConstants.QUERY_SKIP);
     	getSearchField().requestFocusInWindow();
     }
 

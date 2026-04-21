@@ -4,6 +4,7 @@ This journal should only be edited and modified in the Development branch.
 
 ## Long Term TODO
 
+- [ ] design a coherent naming system for interfaces and implementations.
 - [ ] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
 - [ ] When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - [ ] consider removing `depth` in layout;
@@ -63,8 +64,22 @@ This journal should only be edited and modified in the Development branch.
 
   is somehow cumbersome.
 
+- [ ] ❗️rename `HieroglyphDatabaseInterface` into `HieroglyphDatabase`, and name implementations instead.
+- [ ] ❗️rename `SimpleHieroglyphDatabase` into `DefaultHieroglyphDatabase`.
+
+
+
+## TODO / MANDATORY
+
+Regarding **standard** codes:
+
+- [ ] ❗️add a test checking that nTrw is mapped to `R8A`;
+- [ ] ❗️add a test checking that nn is mapped to `M22B`.
+- [ ] write a documentation about using JSesh as a library with and without user-defined signs.
+
 ## Simple TODO
 
+- [ ] rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
 - [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
 - [ ] parametrize each ModelElement class with the type of its possible children.
@@ -73,10 +88,23 @@ This journal should only be edited and modified in the Development branch.
 - [ ] find what to do with `HieroglyphDatabaseFactory`. It builds the database, but also reads sign descriptions from XML files. Most of the code it contains could move to `SimpleHieroglyphDatabase` as *named constructors*.
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
+
+## 2026/04/20
+
+- removed `codeDumper`, and moved it to the [jseshUtils](https://github.com/rosmord/jseshUtils) project.
+- [x] ensure the tests of the `jsesh` module pass;
+  - but we removed two tests about `nTrw` and `nn`. See the **Mandatory TODO** section for replacing them.
+- [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons.
+- rename module `prepareJSeshRelease` to comply with maven modules naming conventions.
+- Working on `jseshSearch`.
+  - we have a problem here. We need to pass a `JseshFontKit` to the `JMDCField` constructor, because the font repository is expanded with specific glyphs which render the search language operators. However, we need to pass the standard possibilityRepository (those glyphs should not be accessible for completion) and `hieroglyphDatabase`.
+  - solution: propose a basic, simple implementation of the kit, with a record.
+
+
 ## 2026/04/18
 
-- todo: remove codeDumper. It should go in another project;
-- rename module `prepareJSeshRelease` to comply with maven modules naming conventions.
+- [x] remove codeDumper. It should go in another project;
+
 ## 2026/04/17
 
 - [x] work on `JMDCField`.
@@ -86,6 +114,7 @@ This journal should only be edited and modified in the Development branch.
 - the whole `editor` package compiles!
 - `JGlossaryEditor` : removed some dead code.
 - the whole `jsesh` module compiles!
+
 ## 2026/04/15
 
 - [x] work on JMDCEditor.

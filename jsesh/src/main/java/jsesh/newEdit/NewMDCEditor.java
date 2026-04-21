@@ -1,10 +1,10 @@
 package jsesh.newEdit;
 
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.model.TopItemList;
 import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
 import org.qenherkhopeshef.viewToolKit.drawing.PlainDrawing;
+
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.mdc.model.TopItemList;
 
 
 /**

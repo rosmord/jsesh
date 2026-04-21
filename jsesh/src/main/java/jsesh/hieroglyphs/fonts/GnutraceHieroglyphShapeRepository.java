@@ -27,7 +27,7 @@ import jsesh.hieroglyphs.signshape.ShapeChar;
  */
 public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeRepository {
 
-	private static final GnutraceHieroglyphShapeRepository INSTANCE = null;
+	private static final GnutraceHieroglyphShapeRepository INSTANCE = new GnutraceHieroglyphShapeRepository();
 
 	public static GnutraceHieroglyphShapeRepository getInstance() {
 		return INSTANCE;

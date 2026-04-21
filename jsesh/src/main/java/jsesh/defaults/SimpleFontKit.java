@@ -22,6 +22,22 @@ public class SimpleFontKit implements JseshFontKit {
     private HieroglyphDatabaseInterface hieroglyphDatabase;
 
     /**
+     * Shared default font kit using only embedded fonts and no user definitions.
+     */
+    public static JseshFontKit embeddedOnlyInstance() {
+        return EmbeddedOnlyHolder.INSTANCE;
+    }
+
+    private static final class EmbeddedOnlyHolder {
+        private static final JseshFontKit INSTANCE = buildFontWithoutUserDefinitions(
+                List.of(PredefinedFonts.standardJSeshFont(), PredefinedFonts.gnuTraceFont()),
+                Optional.empty());
+
+        private EmbeddedOnlyHolder() {
+        }
+    }
+
+    /**
      * Build a font kit with the given fonts and glossary.
      * <p>
      * Won't use user definitions for signs (created with SignInfo), only the
@@ -84,17 +100,51 @@ public class SimpleFontKit implements JseshFontKit {
         return new SimpleFontKit(compositeFont, optGlossary, database);
     }
 
+    /**
+     * Creates a font kit with the given font, an optional glossary and database.
+     * @param hieroglyphShapeRepository
+     * @param optGlossary
+     * @param database
+     */
     private SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, Optional<JSeshGlossary> optGlossary,
             HieroglyphDatabaseInterface database) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
 
-        // hieroglyphDatabase =
-        // HieroglyphDatabaseFactory.buildPlainDefault(hieroglyphShapeRepository);
         this.hieroglyphDatabase = database;
 
         JSeshGlossary glossary = optGlossary.orElseGet(() -> new JSeshGlossary());
 
         possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossary);
+    }
+
+    
+
+    /**
+     * Creates a font kit with the given font, possibility repository and database.
+     * <p> In theory, they should be associated. 
+     * @param hieroglyphShapeRepository
+     * @param possibilityRepository
+     * @param hieroglyphDatabase
+     */
+    public SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository,
+            PossibilityRepository possibilityRepository, HieroglyphDatabaseInterface hieroglyphDatabase) {
+        this.hieroglyphShapeRepository = hieroglyphShapeRepository;
+        this.possibilityRepository = possibilityRepository;
+        this.hieroglyphDatabase = hieroglyphDatabase;
+    }
+
+    /**
+     * Creates a font kit with the given font, a glossary and database.
+     * 
+     * <p> None of them can be null. They can be empty, however.
+     * @param hieroglyphShapeRepository
+     * @param glossary 
+     * @param database
+     */
+    public SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary optGlossary,
+            HieroglyphDatabaseInterface database) {
+        this(hieroglyphShapeRepository, Optional.of(optGlossary), database);
+
     }
 
     private static HieroglyphShapeRepository buildCompositeFont(List<HieroglyphShapeRepository> fonts) {
@@ -119,5 +169,7 @@ public class SimpleFontKit implements JseshFontKit {
     public PossibilityRepository possibilityRepository() {
         return possibilityRepository;
     }
+
+    
 
 }

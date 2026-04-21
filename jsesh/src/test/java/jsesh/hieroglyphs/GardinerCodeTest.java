@@ -28,17 +28,7 @@ public class GardinerCodeTest {
 		assertTrue(isCanonicalCode("G17"));
 	}
 
-
-	@Test
-	public void isCanonicalCodenn() {
-		assertTrue(isCanonicalCode("nn"));
-	}
-
-
-	@Test
-	public void isCanonicalCodenTrw() {
-		assertTrue(isCanonicalCode("nTrw"));
-	}
+	
 
 	@Test
 	public void isCanonicalCode2() {

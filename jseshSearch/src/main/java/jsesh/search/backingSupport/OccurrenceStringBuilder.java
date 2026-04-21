@@ -1,15 +1,12 @@
 package jsesh.search.backingSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
-
-import java.util.ArrayList;
-import java.util.List;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 
 /**
  * Extract a normalised list of couples codes/position, usable for a number of searches.
@@ -22,8 +19,10 @@ public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 
 	private ManuelDeCodage manuelDeCodage;
 	
-	public OccurrenceStringBuilder(ManuelDeCodage manuelDeCodage) {		
-		this.manuelDeCodage = manuelDeCodage;
+	public OccurrenceStringBuilder() {		
+		// Can be a singleton. There is only ONE manuel de codage (it holds only standard codes),
+		// and it is costly to build.
+		this.manuelDeCodage = ManuelDeCodage.getInstance();
 	}
 
 	public List<HieroglyphOccurrence> analyzeQuadrat(TopItemList list) {

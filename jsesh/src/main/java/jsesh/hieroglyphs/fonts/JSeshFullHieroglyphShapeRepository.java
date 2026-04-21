@@ -4,36 +4,28 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
+
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
+import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
 
 /**
- * Place holder for the default hieroglyphic font manager. The default system
- * currently uses both internal hieroglyphic fonts and a directory based system.
+ * The full hieroglyph shape repository, used by the JSesh software, including user defined signs and standard JSesh fonts.
  * 
- * <p>
- * Could perhaps be observable.
- * 
- * @author rosmord
- * 
+ * <p> Will typically be used as a unique resource.
  */
-public class DefaultHieroglyphicShapeRepository implements HieroglyphShapeRepository {
-	private static final String GLYPH_DIRECTORY = "glyphDirectory";
-
-
+public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeRepository {
+    
 	private CompositeHieroglyphShapeRepository composite;
 
 	private DirectoryHieroglyphShapeRepository directoryManager;
 
-	private ResourcesHieroglyphicShapeRepository resourcesHieroglyphicFontManager;
 
-	public DefaultHieroglyphicShapeRepository() {
+	public JSeshFullHieroglyphShapeRepository() {
 		composite = new CompositeHieroglyphShapeRepository();
 		directoryManager = new DirectoryHieroglyphShapeRepository(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
-		resourcesHieroglyphicFontManager = new ResourcesHieroglyphicShapeRepository(
-				"/jseshGlyphs");
-		composite.addHieroglyphicFontManager(resourcesHieroglyphicFontManager);
+		composite.addHieroglyphicFontManager(new ResourcesHieroglyphicShapeRepository(Constants.STANDARD_JSESH_FONT_RESOURCE_PATH));
 		composite
 				.addHieroglyphicFontManager(GnutraceHieroglyphShapeRepository.getInstance());
 		initDirectory();

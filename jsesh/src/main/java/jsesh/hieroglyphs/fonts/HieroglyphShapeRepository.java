@@ -54,5 +54,20 @@ public interface HieroglyphShapeRepository extends HieroglyphCodesSource {
 	 * @return true if new signs are known to have been added since the last call to getCodes.
 	 */
 	boolean hasNewSigns();
+
+	/**
+	 * Get the singleton instance of the standard shapes repository.
+	 * This font library only uses standard shapes embedded with the JSesh software,
+	 * and no user fonts.
+	 * 
+	 * <p> It's a relatively standard way of getting a stable font set with no surprise. Good if you have a server 
+	 * and want to control which signs are available.
+	 * 
+	 * See {@link JSeshFullHieroglyphShapeRepository} for a font repository that also includes user defined signs.
+	 * @return
+	 */
+	public static HieroglyphShapeRepository getStandardShapeRepository() {
+		return StandardFontShapeRepository.getInstance();
+	}
 	
 }

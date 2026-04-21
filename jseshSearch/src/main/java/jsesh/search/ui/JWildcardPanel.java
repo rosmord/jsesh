@@ -10,21 +10,17 @@
  */
 package jsesh.search.ui;
 
-import jsesh.search.clientApi.SearchTarget;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import jsesh.editor.JMDCField;
+import jsesh.defaults.JseshFontKit;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.DefaultHieroglyphicShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.resources.JSeshMessages;
-import net.miginfocom.swing.MigLayout;
+import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.specifications.JSearchFormModelIF;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * UI for wildcard search functions.
@@ -52,8 +48,8 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
 
     private final boolean hasInsets;
     
-    public JWildcardPanel(SearchTarget target, HieroglyphShapeRepository fontManager) {
-        this(target, true, fontManager);
+    public JWildcardPanel(SearchTarget target, JSeshStyleReference styleRef, JseshFontKit fontKit) {
+        this(target, true, styleRef, fontKit);
     }
 
     /**
@@ -62,11 +58,13 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
      * @param target
      * @param hasInsets : choose if we want an inner margin. Sets to false if we
      * embed the panel in a larger one.
+     * @param styleRef 
+     * @param fontKit 
      */
-    public JWildcardPanel(SearchTarget target, boolean hasInsets, HieroglyphShapeRepository fontManager) {
+    public JWildcardPanel(SearchTarget target, boolean hasInsets, JSeshStyleReference styleRef, JseshFontKit fontKit) {
         this.hasInsets = hasInsets;
         this.searchTarget = target;
-        this.embeddableForm = new JSearchEmbeddableForm(fontManager);
+        this.embeddableForm = new JSearchEmbeddableForm(styleRef, fontKit);
         this.searchButton = new JButton(JSeshMessages.getString("jsesh.search.search.text"));
         this.nextButton = new JButton(JSeshMessages.getString("jsesh.search.findNext.text"));
         prepareLayout();
