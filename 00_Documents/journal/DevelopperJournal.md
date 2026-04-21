@@ -2,9 +2,14 @@
 
 This journal should only be edited and modified in the Development branch.
 
-## Long Term TODO
+## TODO
+
+- [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
+
+### Long Term TODO
 
 - [ ] design a coherent naming system for interfaces and implementations.
+- [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons. **DOCUMENT IT** (as a way to ensure it's coherent).
 - [ ] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
 - [ ] When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - [ ] consider removing `depth` in layout;
@@ -19,7 +24,7 @@ This journal should only be edited and modified in the Development branch.
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
 
-## Test TODO
+### Test TODO
 
 - [ ] `JMDCEditor` 
   - [ ] when everything works, ensure that scaling works ;
@@ -44,7 +49,7 @@ This journal should only be edited and modified in the Development branch.
     ~~~
 - [ ] `JGlossaryEditor` checks that we can ch
 
-## Low priority TODO
+### Low priority TODO
 
 - [ ] improve the mechanism for margins of components, which is not well defined.
 - [ ] improve `getPreferredSize` for `JMDCField` ?
@@ -66,10 +71,10 @@ This journal should only be edited and modified in the Development branch.
 
 - [ ] ❗️rename `HieroglyphDatabaseInterface` into `HieroglyphDatabase`, and name implementations instead.
 - [ ] ❗️rename `SimpleHieroglyphDatabase` into `DefaultHieroglyphDatabase`.
+- [ ] rename mojos using the standard maven scheme.
 
 
-
-## TODO / MANDATORY
+### TODO / MANDATORY
 
 Regarding **standard** codes:
 
@@ -77,9 +82,9 @@ Regarding **standard** codes:
 - [ ] ❗️add a test checking that nn is mapped to `M22B`.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
 
-## Simple TODO
+### Simple TODO
 
-- [ ] rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
+- [ ] ❗️rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
 - [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
 - [ ] parametrize each ModelElement class with the type of its possible children.
@@ -89,23 +94,32 @@ Regarding **standard** codes:
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
 
-## 2026/04/20
+
+
+## Daily log
+### 2026/04/21
+
+- [x] the `jseshSearch` module compiles. It still needs to pass the tests;
+- [x] tests of `jseshSearch` ok.
+- `pom.xml/vscode` problem: fixed by running `mvn install` can be a good idea.
+
+
+### 2026/04/20
 
 - removed `codeDumper`, and moved it to the [jseshUtils](https://github.com/rosmord/jseshUtils) project.
 - [x] ensure the tests of the `jsesh` module pass;
   - but we removed two tests about `nTrw` and `nn`. See the **Mandatory TODO** section for replacing them.
-- [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons.
 - rename module `prepareJSeshRelease` to comply with maven modules naming conventions.
 - Working on `jseshSearch`.
   - we have a problem here. We need to pass a `JseshFontKit` to the `JMDCField` constructor, because the font repository is expanded with specific glyphs which render the search language operators. However, we need to pass the standard possibilityRepository (those glyphs should not be accessible for completion) and `hieroglyphDatabase`.
-  - solution: propose a basic, simple implementation of the kit, with a record.
+  - ok, now we pass everything. See suggestions for naming in **Simple TODO**.
 
 
-## 2026/04/18
+### 2026/04/18
 
 - [x] remove codeDumper. It should go in another project;
 
-## 2026/04/17
+### 2026/04/17
 
 - [x] work on `JMDCField`.
   - add constructors. See their Javadoc for the decisions which were taken.
@@ -115,7 +129,7 @@ Regarding **standard** codes:
 - `JGlossaryEditor` : removed some dead code.
 - the whole `jsesh` module compiles!
 
-## 2026/04/15
+### 2026/04/15
 
 - [x] work on JMDCEditor.
   - About style : currently, style contains data which is not very compatible with the idea of sharing style. For instance, it contains textOrientation.
@@ -123,7 +137,7 @@ Regarding **standard** codes:
   - mostly replacing drawingSpecifications by `getStyle()` ;
   - [x] TODO : rename `getPointerRectangle` to `getCursorRectangle` or something like that.
   
-## 2026/04/14
+### 2026/04/14
 
  
 ### The method `scaleFromFontToStyle` (FIXED)
@@ -165,7 +179,7 @@ public float getSignScale() {
 ~~~
 
 
-## 2026/04/10
+### 2026/04/10
 
 **TODO**: 
 
@@ -185,7 +199,7 @@ The name of the class `HieroglyphsDrawer` is not very good.
 - [x] we want to hide most of the content of the `jsesh.mdcDisplayer.drawingElements` package. We are currently annoyed by `symbolDrawers` being visible. After considering moving everything to the parent package, we resort as a dirty trick to renaming. The package will be  moved `jsesh.mdcDisplayer.drawingElements.internal`. When (if!) we introduce **modules**, a clean solution will be available.
 - [x] currently, some methods of `HieroglyphsDrawer` have only a meaning for hieroglyphs. The symbol font does not handle them. We could split the interface.
 
-## 2026/04/09
+### 2026/04/09
 
 **Decision** : don't pass `HieroglyphsDrawer`, pass `HieroglyphicFontManager` instead. 
 
@@ -222,7 +236,7 @@ The `JSeshRenderContext` should also hold a `HieroglyphicFontManager`, not a `Hi
 
 - in `MDCViewUpdater` : should we use a scale which is not $1.0$ for the TechRenderContext? 
 
-## 2026/04/08
+### 2026/04/08
 
 ### TODO
 
@@ -230,7 +244,7 @@ The `JSeshRenderContext` should also hold a `HieroglyphicFontManager`, not a `Hi
   - stand-in, label only elements (for the first entry)
   - active elements, holding a “true” object. 
 
-## 2026/04/01
+### 2026/04/01
 
 - Renamed package `jsesh.hieroglyphs.graphics` into `jsesh.hieroglyphs.fonts`, which is much adequate. 
 
@@ -322,7 +336,7 @@ Currently, nothing is really done. Modern Java/IO would allow us to watch for fi
 
 
 
-## 2026/03/24
+### 2026/03/24
 
 Regarding the editor part: continue the great hunt for singletons, and pass the objects we need as parameters. 
 
@@ -335,13 +349,13 @@ The most problematic part is `HieroglyphsDrawer`, because this class is not immu
 
 In some cases (for short-lived objects), it's not a problem. For others, notably the editor, we do need to keep track of changes.
 
-## 2026/03/19
+### 2026/03/19
 
 - reread what we do with graphicsDeviceScale from TechRenderContext. It might be important when we draw on 4K screens for instance.
 
 Regarding `JSeshRenderContext` and `JSeshTechRenderContext`. Using `JSeshRenderContext`  tends to violate the Demeter principle quite a lot. It's convenient when we need to modify something, but for **reading**, it's somehow cumbersome.
 
-## 2026/03/18
+### 2026/03/18
 
 We should avoid letting the code alone for too long. We forgot what we were doing.
 
@@ -356,7 +370,7 @@ updated `ViewDrawer` with `JTechRenderContext`. Some further refactoring would b
 - We start working on `GroupEditor`;
 - why is `JSeshTechRenderContext` outside of `JSeshRenderContext`? 
 
-## 2025/12/03
+### 2025/12/03
 
 
 I definitly don't like the current structure of `JSeshRenderContext`. For instance, the component for `GroupEditor` needs it. But it's not logical at all. Technically, it can be done, by passing mock or default values for `fontRenderContext` and `graphicDeviceScale`, but it's not very nice.
@@ -371,7 +385,7 @@ We could consider splitting `JSeshRenderContext` into two parts:
 
 - in a number of places, we know the `Graphics` object (for instance, in the drawer). Hence, the `FontRenderContext` should be available without too much trouble. Currently, we pass it. We will not change this immediately, but we must remember to perform an update if possible later. 
 
-## 2025/11/28
+### 2025/11/28
 
 Currently, the class JSeshRenderContext has the following structure:
 
@@ -402,7 +416,7 @@ Should we modify the API of `EmbeddableMacPictSimpleDrawer` for instance ?
 - still about `EmbeddableWMFSimpleDrawer` : the drawing workflow is somehow weird. We should probably polish it to make it stateless ;
 - same problem with `RTFExporter` (in this case, the modified rendercontext should be passed to the visitor)
 - move `ensureCMYKColorSpace` to JSeshStyle.colors ???
-## 2025/11/06
+### 2025/11/06
 
 Done : replaced `LigatureManager` by code in `SVGFontHieroglyphicDrawer`. Simplified the system by using JSesh-based coordinates, not the old Tksesh system (which had a different reference system altogether)
 
@@ -502,7 +516,7 @@ getBBox(String code, int angle, boolean fixed);
 
 But it would be more logical if the possible quality of the bbox would be stored in the return value itself.
 
-## 2025/11/05
+### 2025/11/05
 
 
 ### Done
@@ -523,7 +537,7 @@ It reads a specific file, and is more a dinosaur than anything else. Can it be a
 
 
 
-## 2025/11/04
+### 2025/11/04
 
 - renamed `RenderContext` as `JSeshRenderContext` to avoid importing wrong class;
 - it seems that we **always** need `RenderContext` (there are fonts), `HieroglyphsDrawer` and `JSeshStyle` after all. The simplest solution is to move all of them in `JSeshRenderContext`.
@@ -550,7 +564,7 @@ Basically, it's the size of a typographical point (`pt`) unit in a *Graphics2D* 
 
 Its **only** use is to decide if we use the **small font** shapes or the **normal shape**, as it depends on the actual rendered size. Its logical place is in the root of the `RenderContext` Object, along with the `FontRenderContext`.
 
-## 2025/11/03
+### 2025/11/03
 
 - TODO : look more closely at the uses of `groupUnitLength`, and consider expressing it in the model space, not the inner font space.
 
@@ -578,7 +592,7 @@ Note:
 
 
 
-## 2025/10/13
+### 2025/10/13
 
 - When updating `QuadratLayout`, we have a problem as `HieroglyphsDrawer` is no longer part of the specifications.
   we need to solve this.
@@ -634,7 +648,7 @@ When fixing the classes in the `layout` package, we find the following problems:
 
 
 
-## 2025/10/10
+### 2025/10/10
 
 TODO : add a RenderingContext parameter, which should **not** be part of JSeshStyle.
 
@@ -653,7 +667,7 @@ TODO : add a RenderingContext parameter, which should **not** be part of JSeshSt
   - then fix the rest of jsesh module
   - then the rest of the world.
 
-## 2025/10/08
+### 2025/10/08
 
 
 The current organisation of drawingspecification was not really helpful. It's not obvious to find a given information.
@@ -690,7 +704,7 @@ We **might** want to change it, but it's not probably not correctly placed in dr
 Generally, it's requested from the `Graphics2D` object.
 
 
-## 2025/10/07
+### 2025/10/07
 
 Problem to solve: should the drawing specifications depend on Swing? or should they be stand alone?
 
@@ -699,7 +713,7 @@ Problem to solve: should the drawing specifications depend on Swing? or should t
 - we keep the newEdit package for now. It will probably move to a branch of its own once we have finished this update.
 - our new architecture for specification doesn't play very well with DocumentPreferences. It might be interesting to try to fit the two. Currently, it's a blatant violation of the Demeter principle.
 
-## 2025/10/06
+### 2025/10/06
 
 - We freeze the structure of the display preferences (`RenderingParameters`) ;
 - we will then proceed to write the code ;
@@ -708,28 +722,28 @@ Problem to solve: should the drawing specifications depend on Swing? or should t
 -  In the current version, the defaults for pagespec are computed from the other specifications. The whole specification system should be rethought to use independent values.
 -  DocumentPreferences are using an outdated architecture. We should move to a record based one.
 
-## 2023/06/07
+### 2023/06/07
 
-## 2023/06/06
+### 2023/06/06
 
 Analysis and classification of current problem. Planning. See TODO about removing singletons.
 
 
-## 2023/05/19
+### 2023/05/19
 
 We might introduce the notion of BasicMdC codes for codes :
 
 - which appear in Gardiner's grammar ;
 - or which have an official phonetic code.
 
-## 2023/05/15
+### 2023/05/15
 
 Back to JSesh. Considering :
 
 - simplifying HieroglyphFontManager (which might be a simple code to shape repository), to remove its possible dependency on HieroglyphDatabase ?
 - think of introducing a Facade to the whole hieroglyph system in this case.
 
-## 2023/04/25
+### 2023/04/25
 
 Well, the mess of singleton is also linked to the question of preferences (not preference files, but in-memory preferences) in the software. 
 
@@ -743,7 +757,7 @@ preferenceValue object, and possibly a preferenceProperty which could be shared)
 **anyway, the first step will be to make everything explicit at constructor level**. We will only use `new` when absolutely mandatory.
 
 
-## 2023/04/20
+### 2023/04/20
 
 Working on cleaning up the mess of Singletons. 
 
@@ -834,7 +848,7 @@ class OtherCode extends Code {}
 @enduml
 ~~~
 
-## 2020/02/14
+### 2020/02/14
 
 - Note for the future : the current package organization of JSesh is illogical.   
    For future versions, we could have :
@@ -844,7 +858,7 @@ class OtherCode extends Code {}
   - functions which communicate with jhotdraw should do so through a neutral interface
   - "heavy" functions, like "advanced searches", should take advantage of 
   
-## 2019/02/22
+### 2019/02/22
 
 The git archive is a bit of a mess, as I performed changes on an old version.
 
@@ -863,7 +877,7 @@ The git archive is a bit of a mess, as I performed changes on an old version.
 
   
 
-## 2018/10/17
+### 2018/10/17
 
 Classes dealt with in our modifications :
 
@@ -879,7 +893,7 @@ export a selection.
 
    
 
-## 2018/10/16
+### 2018/10/16
 
 I'm trying to clean the graphical export system.
 Many things (like quadrat sizes) are computed 
