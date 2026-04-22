@@ -1,4 +1,4 @@
-package jsesh.utils;
+package jsesh.jhotdraw.preferences;
 
 import java.util.prefs.Preferences;
 
@@ -8,11 +8,11 @@ import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.file.DocumentPreferences;
 
 /**
- * Utility class to convert document preferences to JSesh styles.
+ * Utility class to extract JSeshStyle objects from various sources.
  * 
- * Could be in of of the two classes DocumentPreferences and JSeshStyle, but I
- * think the coupling
- * is lower if I put it here.
+ * <p> We could also create a specific module for all the preferences 
+ * a third party software might want to use.
+ * 
  */
 public class JSeshStyleHelper {
 

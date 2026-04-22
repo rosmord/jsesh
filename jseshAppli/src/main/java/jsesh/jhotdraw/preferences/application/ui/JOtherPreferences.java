@@ -31,9 +31,9 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.jhotdraw.applicationPreferences.ui;
+package jsesh.jhotdraw.preferences.application.ui;
 
-import jsesh.jhotdraw.applicationPreferences.model.ApplicationUIPreferences;
+import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
 

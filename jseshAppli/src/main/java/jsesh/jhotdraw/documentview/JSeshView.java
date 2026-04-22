@@ -62,7 +62,7 @@ import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
+import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;

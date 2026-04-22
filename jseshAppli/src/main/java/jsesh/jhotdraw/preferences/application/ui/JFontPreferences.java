@@ -1,4 +1,4 @@
-package jsesh.jhotdraw.applicationPreferences.ui;
+package jsesh.jhotdraw.preferences.application.ui;
 
 import java.awt.Font;
 import java.awt.Window;
@@ -17,7 +17,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
+import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.mdc.utils.YODChoice;

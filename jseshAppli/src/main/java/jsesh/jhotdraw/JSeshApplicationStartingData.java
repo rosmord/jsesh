@@ -36,10 +36,9 @@ package jsesh.jhotdraw;
 import jsesh.JSeshUserSignLibraryConfiguration;
 
 /**
- * Data which must be created before starting the application for real.
- * Currently, the preloading step doesn't return anything.
+ * Data which must be loaded before creating the GUI.
+ * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- *
  */
 public record JSeshApplicationStartingData(
     /**

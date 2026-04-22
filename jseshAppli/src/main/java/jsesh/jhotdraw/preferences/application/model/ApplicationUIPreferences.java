@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.jhotdraw.applicationPreferences.model;
+package jsesh.jhotdraw.preferences.application.model;
 
 import java.util.prefs.Preferences;
 

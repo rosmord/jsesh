@@ -31,7 +31,7 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.jhotdraw.applicationPreferences.ui;
+package jsesh.jhotdraw.preferences.application.ui;
 
 import java.util.Arrays;
 
@@ -44,7 +44,7 @@ import javax.swing.JPanel;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
+import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;

@@ -57,13 +57,13 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.events.TextEvent;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
+import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
-import jsesh.utils.JSeshStyleHelper;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing

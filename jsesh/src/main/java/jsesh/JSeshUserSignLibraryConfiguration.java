@@ -1,7 +1,6 @@
 package jsesh;
 
 import jsesh.glossary.GlossaryManager;
-import jsesh.glossary.JSeshGlossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
@@ -22,8 +21,11 @@ public class JSeshUserSignLibraryConfiguration {
         hieroglyphDatabase  = HieroglyphDatabaseFactory.buildWithUserDefinitions(hieroglyphShapeRepository);
     }
 
-    public JSeshGlossary glossary() {
-        return glossaryManager.getGlossary();
+    /**
+     * @return the glossaryManager
+     */
+    public GlossaryManager glossaryManager() {
+        return glossaryManager;
     }
 
     public JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository() {

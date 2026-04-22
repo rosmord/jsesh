@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.jhotdraw.applicationPreferences.ui.search;
+package jsesh.jhotdraw.preferences.application.ui.search;
 
 /**
  * Form for searching an element.

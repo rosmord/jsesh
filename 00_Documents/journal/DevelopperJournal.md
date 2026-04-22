@@ -95,6 +95,7 @@ Regarding **standard** codes:
 - [ ] consider if `HieroglyphDrawer` could be moved to local variables instead of being an instance variable. The “true”  instance variable is the `HieroglyphShapeRepository`.
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
 - [ ] separate constructor call for the glossary manager and reading user glossary from file, mainly to simplify testing and debugging. 
+- [ ] reorganise the packages of `jseshAppli`, which have really been designed on the fly.
 
 
 ## Daily log
@@ -115,7 +116,7 @@ class Main {
     main(String[] args)
 }
 
-note right of Main
+note left of Main
 Starts the application.
 Loads resources and instanciate the main panel elements.
 implements AppStartup from 
@@ -123,21 +124,32 @@ org.qenherkhopeshef.guiFramework
 end note
 
 Main --> JSeshApplicationModel
+Main .> JSeshApplicationStartingData
 
+note bottom of JSeshApplicationStartingData
+Data passed from the main thread to the EDT thread.
+Purely technical and should be hidden.
+Which means we should probably have a Main class the programmmer can see, and a non public one which implements AppStartup and is called by the true main method.
+end note
+
+together {
 class JSeshApplicationModel <<jhotdraw>> {
     
 }
 
 class JSeshApplicationBase  {
-    
+    jseshStyle JSeshStyle    
 }
 
+
 JSeshApplicationModel --> JSeshApplicationBase
+
 class JSeshMenuBuilder <<jhotdraw>> {
     
 }
 
 JSeshApplicationModel --> JSeshMenuBuilder
+}
 
 package documentview {
 
@@ -159,11 +171,40 @@ JSeshView --> JSeshViewModel
 JSeshViewModel --> JSeshViewComponent
 
 JSeshViewComponent --> JMDCEditor
+JSeshApplicationModel ..> JSeshView
 
+note bottom of JSeshApplicationBase
+Everything which is 
+# application-level
+# and non specific to JHotdraw
+
+is delegated to JSeshApplicationBase.
+
+It knows about all defaults, and currently
+holds the whole hieroglyphic font system.
+end note
 @enduml
 ```
 
+Currently, the class `JSeshStyleHelper` is in the `jsesh.utils` package. Logically, it's part of `jsesh.jhotdraw` (the main application), but it's relatively likely that some library users will want to use the JSesh **application** preferences for some of their own softwares.
+
 ### 2026/04/21
+
+- [x] **TODO** introduce the following packages :
+
+  ```plantuml
+  @startsalt
+  {
+  {T
+   +jsesh
+   ++ jhotdraw
+   +++ preferences
+   ++++ application
+   ++++ document
+  }
+  }
+  @endsalt
+  ```
 
 - working on `JSeshAppli`
   - look at the way the glossary is initialized in the old system.

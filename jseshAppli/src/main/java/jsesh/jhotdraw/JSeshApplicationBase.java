@@ -43,6 +43,7 @@ import jsesh.defaults.JseshFontKit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.ShadingMode;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.graphics.export.html.HTMLExporter;
@@ -59,8 +60,10 @@ import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
- * Framework-agnostic part of the JSesh application. Deals with all information
- * which is not specific to the JHotdraw framework.
+ * Framework-agnostic part of the JSesh application.
+ * 
+ * <p>
+ * Deals with all information which is not specific to the JHotdraw framework.
  *
  * @author rosmord
  */
@@ -89,22 +92,36 @@ public class JSeshApplicationBase {
     /**
      * Specific export information for PDF Files.
      */
-    private final PDFExportPreferences pdfExportPreferences = new PDFExportPreferences();
+    private final PDFExportPreferences pdfExportPreferences;
 
     /**
      * Base style for <em>new</em> documents.
+     * <p> We use a style reference here, because it allows us to share it 
+     * with menus (possibly) and fields in general.
      */
-    private JSeshStyle defaultDrawingSpecifications = JSeshStyle.DEFAULT;
+    private JSeshStyleReference baseStyleReference;
+
+    /**
+     * JSesh Glossary Manager.
+     */
+
+    private final GlossaryManager glossaryManager;
+
+    /**
+     * Hieroglyphic database.
+     */
+    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+
+    /**
+     * Hieroglyphic fonts
+     */
+
+    private final JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
 
     /**
      * Other information for copy/paste (file formats, for instance).
      */
     private MDCClipboardPreferences clipboardPreferences = new MDCClipboardPreferences();
-
-    /**
-     * Information about fonts (used to build DrawingSpecifications).
-     */
-    private FontInfo fontInfo;
 
     /**
      * Information about the HTML export.
@@ -114,25 +131,23 @@ public class JSeshApplicationBase {
     private ExportPreferences exportPreferences;
 
     public JSeshApplicationBase(JSeshUserSignLibraryConfiguration appDef) {
-        JSeshUserSignLibraryConfiguration appdef = new JSeshUserSignLibraryConfiguration();
-        appdef.hieroglyphDatabase();
-        appdef.glossary();
-        appdef.hieroglyphShapeRepository();
+        this.glossaryManager = appDef.glossaryManager();
+        this.hieroglyphDatabase = appDef.hieroglyphDatabase();
+        this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
+        this.baseStyleReference = = new JSeshStyleReference(JSeshStyle.DEFAULT);
+        // derived fields.
+        this.pdfExportPreferences = new PDFExportPreferences();
+        this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
+
     }
 
     /**
-     * Change a number of preferences for this program according to the user
-     * preferences.
+     * Change a number of preferences for this program according to the user preferences.
      *
-     * <p>
-     * Changes since the "old" JSesh version :
-     * <ul>
-     * <li>Instead of keeping an exhaustive list of file name for each format,
-     * the file name will be built using the current document name. This will
-     * lead to a simpler (and more usual) system.</li>
-     * </ul>
+     * <p> Most preferences are only applied to NEW documents, save for Hieroglyphic font changes.
      */
     public final void loadPreferences() {
+        // Access to Java preferences.
         Preferences preferences = Preferences.userNodeForPackage(this
                 .getClass());
         // extract geometry and the like from the preferences.
@@ -146,8 +161,14 @@ public class JSeshApplicationBase {
         clipboardPreferences = MDCClipboardPreferences.getFromPreferences(preferences);
     }
 
+    /**
+     * Update JSesh style from the saved preferences.
+     * 
+     * <p> Note that this will only modify NEW documents.
+     * @param preferences
+     */
     private void updateJSeshStyleFromPreferences(Preferences preferences) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateJSeshStyleFromPreferences'");
+        
     }
 
     public void savePreferences() {
