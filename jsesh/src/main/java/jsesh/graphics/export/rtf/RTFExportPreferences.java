@@ -25,16 +25,6 @@ public record RTFExportPreferences(
         RTFExportGranularity.ONE_PICTURE_PER_CADRAT
     };
 
-    // Simpler constructors
-    
-    /**
-     * @param height
-     * @param granularity
-     */
-    public RTFExportPreferences(int height, RTFExportGranularity granularity) {
-        this(height, granularity, true, RTFExportGraphicFormat.DEFAULT);        
-    }
-
     /**
      * Creates a default RTF export preferences object.
      * 
@@ -47,7 +37,7 @@ public record RTFExportPreferences(
      * </ul>
      */
     public RTFExportPreferences() {
-        this(20, RTFExportGranularity.ONE_PICTURE_PER_CADRAT);
+        this(20, RTFExportGranularity.ONE_PICTURE_PER_CADRAT, true, RTFExportGraphicFormat.DEFAULT);
     }
      
     public Builder copy() {

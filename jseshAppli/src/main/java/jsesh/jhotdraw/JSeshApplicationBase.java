@@ -17,6 +17,7 @@ import jsesh.glossary.GlossaryManager;
 import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
+import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
@@ -72,22 +73,19 @@ public class JSeshApplicationBase {
      */
     private FontInfo fontInfo;
 
-    
     /**
      * Information about the HTML export.
      */
     private final HTMLExporter htmlExporter;
 
     private ExportPreferences exportPreferences;
-    
-    
 
-    public JSeshApplicationBase(GlossaryManager glossaryManager,  JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository) {
+    public JSeshApplicationBase(GlossaryManager glossaryManager,
+            JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository) {
         JSeshUserSignLibraryConfiguration appdef = new JSeshUserSignLibraryConfiguration();
         appdef.fontKit().hieroglyphDatabase();
         appdef.glossary();
-        appdef.
-        loadPreferences();
+        appdef.loadPreferences();
     }
 
     /**
@@ -116,7 +114,6 @@ public class JSeshApplicationBase {
         clipboardPreferences = MDCClipboardPreferences.getFromPreferences(preferences);
     }
 
-   
     public void savePreferences() {
         Preferences preferences = Preferences.userNodeForPackage(this
                 .getClass());
@@ -134,15 +131,6 @@ public class JSeshApplicationBase {
         } catch (BackingStoreException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Returns a copy of the current default drawing specifications.
-     *
-     * @return
-     */
-    public PaintingSpecifications getDefaultDrawingSpecifications() {
-        return defaultDrawingSpecifications.copy();
     }
 
     RTFExportPreferences getCurrentRTFPreferences() {
@@ -184,36 +172,17 @@ public class JSeshApplicationBase {
      * @return
      */
     public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
-        RTFExportPreferences result = new RTFExportPreferences(0, null);
-        switch (exportType) {
-            case SMALL:
-                result.setCadratHeight((int) exportPreferences
-                        .getquadratHeightSmall());
-                break;
-            case LARGE:
-                result.setCadratHeight((int) exportPreferences
-                        .getquadratHeightLarge());
-                break;
-            case FILE:
-                result.setCadratHeight((int) exportPreferences
-                        .getquadratHeightFile());
-                break;
-            case WYSIWYG:
-                result.setCadratHeight((int) exportPreferences
-                        .getquadratHeightWysiwyg());
-                break;
-        }
+        int cadratHeight = switch (exportType) {
+            case SMALL -> (int) exportPreferences.getquadratHeightSmall();
+            case LARGE -> (int) exportPreferences.getquadratHeightLarge();
+            case FILE -> (int) exportPreferences.getquadratHeightFile();
+            case WYSIWYG -> (int) exportPreferences.getquadratHeightWysiwyg();
+        };
 
-        if (exportType != ExportType.WYSIWYG) {
-            result.setExportGranularity(exportPreferences.getGranularity());
-        } else {
-            result.setExportGranularity(RTFExportGranularity.ONE_LARGE_PICTURE);
-        }
-
-        result.setExportGraphicFormat(exportPreferences.getGraphicFormat());
-        result.setRespectOriginalTextLayout(exportPreferences
-                .isTextLayoutRespected() || exportType == ExportType.WYSIWYG);
-        return result;
+        RTFExportGranularity granularity = exportType == ExportType.WYSIWYG ? RTFExportGranularity.ONE_LARGE_PICTURE
+                : exportPreferences.getGranularity();
+        boolean respectOriginalTextLayout = exportType == ExportType.WYSIWYG || exportPreferences.isTextLayoutRespected();        
+        return new RTFExportPreferences(cadratHeight, granularity, respectOriginalTextLayout, exportPreferences.getGraphicFormat());
     }
 
     public HTMLExporter getHTMLExporter() {
@@ -255,7 +224,8 @@ public class JSeshApplicationBase {
 
     public void setFontInfo(FontInfo fontInfo) {
         this.fontInfo = fontInfo;
-        // TODO : use a better system here... Meanwhile, we will stay with the current one.
+        // TODO : use a better system here... Meanwhile, we will stay with the current
+        // one.
         DefaultHieroglyphShapeRepository.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
         PaintingSpecifications d = defaultDrawingSpecifications.copy();
         fontInfo.applyToDrawingSpecifications(d);
@@ -267,5 +237,4 @@ public class JSeshApplicationBase {
         defaultDrawingSpecifications = drawingSpecifications.copy();
     }
 
-    
 }

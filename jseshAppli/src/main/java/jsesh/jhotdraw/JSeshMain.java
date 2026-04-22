@@ -76,7 +76,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
     }
 
     private void preloadHieroglyphicIcons(JSeshUserSignLibraryConfiguration applicationDefaults) { 
-        HieroglyphDatabaseInterface database = applicationDefaults.fontKit().hieroglyphDatabase();      
+        HieroglyphDatabaseInterface database = applicationDefaults.hieroglyphDatabase();
         List<HieroglyphFamily> families = database.getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);
