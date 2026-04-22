@@ -38,7 +38,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentPreferences.ui.DrawingSpecificationsPresenter;
+import jsesh.jhotdraw.documentprefs.ui.DrawingSpecificationsPresenter;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 

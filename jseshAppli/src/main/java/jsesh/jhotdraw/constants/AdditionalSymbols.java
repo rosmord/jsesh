@@ -31,14 +31,18 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.jhotdraw;
+package jsesh.jhotdraw.constants;
 
 /**
- * Types of possible export preferences.
- * 
- * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- * 
+ * Convenience class for additional symbols for which we want a menu in JSesh.
+ * @author rosmord
  */
-public enum ExportType {
-	SMALL, LARGE, WYSIWYG, FILE
+public class AdditionalSymbols {
+
+    private AdditionalSymbols() {        
+    }
+    /**
+     * Arrows for text orientation.
+     */
+    public static final String ARROWS[]= {"PF1", "PF2", "PF3", "PF4", "PF5"};
 }

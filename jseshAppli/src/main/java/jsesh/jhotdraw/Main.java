@@ -51,7 +51,6 @@ import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
@@ -67,7 +66,7 @@ import net.miginfocom.layout.PlatformDefaults;
  * @author Serge Rosmorduc.
  * @version $Id: JSeshMain.java 604 2010-01-09 12:00:29Z rawcoder $
  */
-public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
+public class Main extends AppStartup<JSeshApplicationStartingData> {
 
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
@@ -127,8 +126,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
         applicationModel.setViewClass(JSeshView.class);
 
         Application app;
-        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")) {
-            //app = new CustomApplicationBaseOSX();
+        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")) {            
             app = new QenherOSXApplication();
         } else if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
                 .startsWith("win")) {
@@ -155,7 +153,7 @@ public class JSeshMain extends AppStartup<JSeshApplicationStartingData> {
             ClassNotFoundException {
         ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
                 .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
-        JSeshMain jseshMain = new JSeshMain();
+        Main jseshMain = new Main();
         jseshMain.args = args;
         jseshMain.setSplashPicture("/jseshResources/images/splash.png");
         SplashMessageText message = new SplashMessageText(50, 172, "Version "

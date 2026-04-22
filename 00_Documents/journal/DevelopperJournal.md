@@ -111,6 +111,19 @@ A bit of structure. In the following diagram, the stereotype `<<jhotdraw>>` is u
 skin rose
 hide empty members
 
+class Main {
+    main(String[] args)
+}
+
+note right of Main
+Starts the application.
+Loads resources and instanciate the main panel elements.
+implements AppStartup from 
+org.qenherkhopeshef.guiFramework
+end note
+
+Main --> JSeshApplicationModel
+
 class JSeshApplicationModel <<jhotdraw>> {
     
 }
@@ -120,6 +133,11 @@ class JSeshApplicationBase  {
 }
 
 JSeshApplicationModel --> JSeshApplicationBase
+class JSeshMenuBuilder <<jhotdraw>> {
+    
+}
+
+JSeshApplicationModel --> JSeshMenuBuilder
 
 package documentview {
 

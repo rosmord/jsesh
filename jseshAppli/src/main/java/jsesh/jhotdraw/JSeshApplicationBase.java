@@ -54,6 +54,7 @@ import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
+import jsesh.jhotdraw.constants.ExportType;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.utils.JSeshWorkingDirectory;
 

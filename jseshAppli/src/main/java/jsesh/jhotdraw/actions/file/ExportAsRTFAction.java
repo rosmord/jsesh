@@ -6,9 +6,9 @@ import java.io.File;
 import javax.swing.JOptionPane;
 
 import jsesh.graphics.export.rtf.RTFExporterPresenter;
-import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.resources.JSeshMessages;
 

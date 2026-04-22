@@ -1,4 +1,4 @@
-package jsesh.jhotdraw.jhotdrawCustom;
+package jsesh.jhotdraw.filechooser;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
