@@ -33,7 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.applicationPreferences.ui;
 
-import jsesh.jhotdraw.applicationPreferences.model.ApplicationPreferences;
+import jsesh.jhotdraw.applicationPreferences.model.ApplicationUIPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
 
@@ -79,12 +79,12 @@ public class JOtherPreferences {
 
 
     public void loadPreferences() {
-        ApplicationPreferences prefs = ApplicationPreferences.getFromPreferences();
+        ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
         iconHeight.setValue(prefs.getIconHeight());
     }
 
     void savePreferences() {
-        ApplicationPreferences prefs = new ApplicationPreferences();
+        ApplicationUIPreferences prefs = new ApplicationUIPreferences();
         prefs.setIconHeight((Integer)iconHeight.getValue());
         prefs.savetoPreferences();
     }

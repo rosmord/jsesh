@@ -42,7 +42,7 @@ class PDFExportHelper {
 		PdfSpotColor redSpot = new PdfSpotColor("PANTONE 187 C", 1,
 				new CMYKColor(0, 1, 0.8f, 0.2f));
 		return jseshStyle.copy()
-				.colors(colors -> colors
+				.painting(colors -> colors
 						.redColor(new SpotColor(redSpot))
 						.blackColor(new CMYKColor(0, 0, 0, 255))
 						.grayColor(new CMYKColor(0, 0, 0, 60)));

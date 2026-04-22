@@ -40,6 +40,7 @@ import javax.swing.event.AncestorListener;
 
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.resources.JSeshMessages;
+import jsesh.swing.units.LengthUnit;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -107,7 +108,7 @@ public class JDrawingSpecificationEditor {
 	private JFormattedTextField maxCadratWidthField=new JFormattedTextField();
 	private JFormattedTextField normalSignHeightField=new JFormattedTextField();
 	private JFormattedTextField smallFontBodyLimitField=new JFormattedTextField();
-	private JComboBox unitField= new JComboBox();
+	private JComboBox<LengthUnit> unitField= new JComboBox<>();
 	private JCheckBox useLinesForShadingCheckBox;
 
 	public JFormattedTextField getCartoucheLineWidthField() {
@@ -142,7 +143,7 @@ public class JDrawingSpecificationEditor {
 		return smallFontBodyLimitField;
 	}
 
-	public JComboBox getUnitField() {
+	public JComboBox<LengthUnit> getUnitField() {
 		return unitField;
 	}
 

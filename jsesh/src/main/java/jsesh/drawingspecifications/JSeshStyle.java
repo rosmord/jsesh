@@ -95,7 +95,7 @@ public record JSeshStyle(
          * @param p
          * @return
          */
-        public Builder colors(Function<PaintingSpecifications.Builder, PaintingSpecifications.Builder> p) {
+        public Builder painting(Function<PaintingSpecifications.Builder, PaintingSpecifications.Builder> p) {
             this.painting = p.apply(this.painting.copy()).build();
             return this;
         }

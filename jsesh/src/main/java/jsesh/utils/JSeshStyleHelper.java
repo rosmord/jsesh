@@ -37,7 +37,7 @@ public class JSeshStyleHelper {
                 .options(o -> o.smallSignCentered(preferences.isSmallSignCentered())
                         .textOrientation(preferences.getTextOrientation())
                         .textDirection(preferences.getTextDirection()))
-                .colors(c -> c
+                .painting(c -> c
                         .shadingStyle(preferences.isUseLinesForShading() ? ShadingMode.LINE_HATCHING
                                 : ShadingMode.GRAY_SHADING))
                 .build();
@@ -61,7 +61,7 @@ public class JSeshStyleHelper {
                         .smallBodyScaleLimit((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, 12.0)) // ok
                         .smallSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, 4)))
                 .options(o -> o.smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false)))
-                .colors(c -> c
+                .painting(c -> c
                         .shadingStyle(preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)
                                 ? ShadingMode.LINE_HATCHING
                                 : ShadingMode.GRAY_SHADING))

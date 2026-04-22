@@ -52,6 +52,38 @@ public record FontSpecification(
 		Font superScriptFont,
 		Font translitterationFont) {
 
+
+	/**
+	 * Build a font specification with a base font and derived bold, italic and superscript.
+	 * @param translitUnicode should the transliteration be unicode
+	 * @param yodChoice how to encode yod?
+	 * @param gardinerQofUsed should we use pointed k for qof in +t...+s blocks ?
+	 * @param baseFont base font
+	 * @param superscriptRatio ratio from base font to superscript (e.g. 0.5f)
+	 * @param translitterationFont font to use for transliteration.
+	 */
+	public FontSpecification(boolean translitUnicode,
+		YODChoice yodChoice,
+		boolean gardinerQofUsed,
+		Font baseFont,
+		float superscriptRatio,
+		Font translitterationFont
+	) {
+			// We use Java 25 flexible constructors.
+			Font bold = baseFont.deriveFont(Font.BOLD);
+			Font italic = baseFont.deriveFont(Font.ITALIC);
+			Font superScript = baseFont.deriveFont(baseFont.getSize()*superscriptRatio);
+
+		this(
+			translitUnicode, yodChoice, gardinerQofUsed,
+			baseFont,
+			bold,
+			italic,
+			superScript,
+			translitterationFont
+		);
+	}
+
 	/**
 	 * A reasonnable default.
 	 */

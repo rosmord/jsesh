@@ -98,15 +98,26 @@ Regarding **standard** codes:
 
 
 ## Daily log
+
+
+### 2026/04/22
+
+Work on  `JSeshAppli`.
+
+
 ### 2026/04/21
+
+- working on `JSeshAppli`
+  - look at the way the glossary is initialized in the old system.
+  - it's the GlossaryManager, which is originaly a singleton. It's relatively standalone, being referenced then by `GlossaryTableModel` and `PossibilityRepository`.
+  - we need to decide how to manage `FontInfo` **and** `JSeshFullHieroglyphShapeRepository` (BTW, we might add an interface to differentiate using the font and changing it). 
+    `FontInfo` is in a way a glorified **DTO**, a model for the font preferences dialog. We should probably keep it, but use another class to manage the fonts themselves (actually, we have such a class in JSeshStyle).
+
 - [ ] have a closer look at the problem of keeping both fontKit (even with a new name) and an instance of `JSeshFullHieroglyphShapeRepository`. It's somehow redundant, but `JSeshFullHieroglyphShapeRepository` has methods to add news signs, wereas you can't do it through fontKit. 
 
 - [x] the `jseshSearch` module compiles. It still needs to pass the tests;
 - [x] tests of `jseshSearch` ok.
-- `pom.xml/vscode` problem: fixed by running `mvn install` can be a good idea.
-- working on `JSeshAppli`
-  - look at the way the glossary is initialized in the old system.
-  - it's the GlossaryManager, which is originaly a singleton. It's relatively standalone, being referenced then by `GlossaryTableModel` and `PossibilityRepository`.
+- [x] `pom.xml/vscode` problem: fixed by running `mvn install` can be a good idea.
 
 
 ### 2026/04/20

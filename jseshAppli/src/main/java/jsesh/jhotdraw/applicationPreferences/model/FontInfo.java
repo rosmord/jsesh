@@ -37,16 +37,21 @@ import java.awt.Font;
 import java.io.File;
 import java.util.prefs.Preferences;
 
+import jsesh.drawingspecifications.FontSpecification;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
 
 /**
- * Font-related information to set (Immutable object).
- * <p>
- * This will be transformed into a parameter for DrawingSpecification at some
- * point, which is the reason for this class to be immutable.
- *
+ * Model for the font preferences.
+ * 
+ * <ul>
+ * <li>Can be saved to preferences
+ * <li>Can be loaded from preferences
+ * <li>Can be used to update JSesh style and hieroglyphic fonts.
+ * </ul>
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 public class FontInfo {
@@ -61,7 +66,9 @@ public class FontInfo {
     private static final String CURRENT_HIEROGLYPHS_SOURCE = "CURRENT_HIEROGLYPHS_SOURCE";
 
     private File hieroglyphsFolder;
+
     private Font baseFont, transliterationFont;
+    
     /**
      * Should we use the embedded ASCII MdC Font ?
      */
@@ -117,6 +124,10 @@ public class FontInfo {
         return yodChoice;
     }
 
+    /**
+     * Save this font information to user preferences.
+     * @param preferences
+     */
     public void savetoPrefs(Preferences preferences) {
         if (hieroglyphsFolder == null) {
             preferences.remove(CURRENT_HIEROGLYPHS_SOURCE);
@@ -136,6 +147,11 @@ public class FontInfo {
         preferences.put(YOD_CHOICE, yodChoice.name());
     }
 
+    /**
+     * Load font information from user preferences.
+     * @param preferences
+     * @return
+     */
     public static FontInfo getFromPreferences(Preferences preferences) {
         FontInfo fontInfo;
 
@@ -208,20 +224,25 @@ public class FontInfo {
                 + yodChoice + "]";
     }
 
+    
     /**
-     * Apply those font information to a given drawing specification object.
-     * Temporary method. In fact, font information should be part of the drawing
-     * specifications.
-     *
+     * Transform into FontSpecification which can be added to a JSeshStyle.
+     * 
+     * Maybe not the place to do this?
      * @param drawingSpecification
      */
-    public void applyToDrawingSpecifications(
-            PaintingSpecifications drawingSpecification) {
-        drawingSpecification.setFont('*', getBaseFont());
-        drawingSpecification.setFont(ScriptCodes.TRANSLITERATION,
-                getTransliterationFont());
-        drawingSpecification.setTranslitUnicode(isTranslitUnicode());
-        drawingSpecification.setYodChoice(getYodChoice());
+    public FontSpecification toFontSpecification() {
+        return new FontSpecification(translitUnicode, yodChoice, true, baseFont, 5f/12f, transliterationFont);
+    }
+
+    /**
+     * Apply the hieroglyphic font information to a shape repository.
+     * @param shapeRepository
+     */
+    public void applyToShapeRepository(JSeshFullHieroglyphShapeRepository shapeRepository) {
+        if (hieroglyphsFolder != null) {
+            shapeRepository.setDirectory(hieroglyphsFolder);
+        }
     }
 
 }

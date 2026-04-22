@@ -76,7 +76,7 @@ public class RTFExporter {
     public RTFExporter(JSeshRenderContext renderContext,
             RTFExportPreferences preferences) {
         // Use the same style as the one we are given, but use a gray color for shading.
-        this.renderContext = renderContext.copy().jseshStyle(s -> s.colors(
+        this.renderContext = renderContext.copy().jseshStyle(s -> s.painting(
                 col -> col.grayColor(new Color(200, 200, 200)))).build();
         this.rtfPreferences = preferences;
 
