@@ -34,7 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw;
 
 import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
-import jsesh.jhotdraw.viewClass.JSeshView;
+
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
@@ -98,6 +98,7 @@ import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.applicationPreferences.ui.ApplicationPreferencesPresenter;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.jhotdrawCustom.QenherkhURIChooser;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.mdc.constants.SymbolCodes;
@@ -221,8 +222,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         super.initView(a, v);
         JSeshView jSeshView = (JSeshView) v;
         jSeshView.initWithResources();
-        PaintingSpecifications drawingSpecifications = jseshApplicationBase
-                .getDefaultDrawingSpecifications();
+       
         
         jSeshView.setJseshStyle(drawingSpecifications);
         jSeshView.setMDCModelTransferableBroker(transferableBroker);

@@ -1,10 +1,41 @@
+/*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
 package jsesh.jhotdraw;
 
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import com.apple.eawt.Application;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
@@ -19,6 +50,7 @@ import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
 import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
@@ -80,12 +112,11 @@ public class JSeshApplicationBase {
 
     private ExportPreferences exportPreferences;
 
-    public JSeshApplicationBase(GlossaryManager glossaryManager,
-            JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository) {
+    public JSeshApplicationBase(JSeshUserSignLibraryConfiguration appDef) {
         JSeshUserSignLibraryConfiguration appdef = new JSeshUserSignLibraryConfiguration();
-        appdef.fontKit().hieroglyphDatabase();
+        appdef.hieroglyphDatabase();
         appdef.glossary();
-        appdef.loadPreferences();
+        appdef.hieroglyphShapeRepository();
     }
 
     /**
@@ -101,17 +132,21 @@ public class JSeshApplicationBase {
      * </ul>
      */
     public final void loadPreferences() {
-
         Preferences preferences = Preferences.userNodeForPackage(this
                 .getClass());
-
-        loadDrawingSpecificationPreferences(preferences);
+        // extract geometry and the like from the preferences.
+        updateJSeshStyleFromPreferences(preferences);
+        // extract font information from the preferences.
         setFontInfo(FontInfo.getFromPreferences(preferences));
         quickPDFExportDirectory = new File(preferences.get(
                 QUICK_PDF_EXPORT_DIRECTORY, new File(getCurrentDirectory(),
                         "quickPdf").getAbsolutePath()));
         exportPreferences = ExportPreferences.getFromPreferences(preferences);
         clipboardPreferences = MDCClipboardPreferences.getFromPreferences(preferences);
+    }
+
+    private void updateJSeshStyleFromPreferences(Preferences preferences) {
+        throw new UnsupportedOperationException("Unimplemented method 'updateJSeshStyleFromPreferences'");
     }
 
     public void savePreferences() {
@@ -181,8 +216,10 @@ public class JSeshApplicationBase {
 
         RTFExportGranularity granularity = exportType == ExportType.WYSIWYG ? RTFExportGranularity.ONE_LARGE_PICTURE
                 : exportPreferences.getGranularity();
-        boolean respectOriginalTextLayout = exportType == ExportType.WYSIWYG || exportPreferences.isTextLayoutRespected();        
-        return new RTFExportPreferences(cadratHeight, granularity, respectOriginalTextLayout, exportPreferences.getGraphicFormat());
+        boolean respectOriginalTextLayout = exportType == ExportType.WYSIWYG
+                || exportPreferences.isTextLayoutRespected();
+        return new RTFExportPreferences(cadratHeight, granularity, respectOriginalTextLayout,
+                exportPreferences.getGraphicFormat());
     }
 
     public HTMLExporter getHTMLExporter() {
@@ -218,23 +255,25 @@ public class JSeshApplicationBase {
         return exportPreferences;
     }
 
+    /**
+     * Return the current font info configuration.
+     * 
+     * @return
+     */
     public FontInfo getFontInfo() {
         return fontInfo;
     }
 
+    /**
+     * Sets the font info configuration.
+     * 
+     * @param fontInfo
+     */
     public void setFontInfo(FontInfo fontInfo) {
         this.fontInfo = fontInfo;
-        // TODO : use a better system here... Meanwhile, we will stay with the current
-        // one.
-        DefaultHieroglyphShapeRepository.getInstance().setDirectory(fontInfo.getHieroglyphsFolder());
-        PaintingSpecifications d = defaultDrawingSpecifications.copy();
-        fontInfo.applyToDrawingSpecifications(d);
-        defaultDrawingSpecifications = d;
-    }
-
-    public void setDefaultDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        defaultDrawingSpecifications = drawingSpecifications.copy();
+        // Sets the jseshStyle
+        // and update the hieroglyphic font.
+        throw new UnsupportedOperationException("Write me!");
     }
 
 }

@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 import jsesh.graphics.export.rtf.RTFExporterPresenter;
 import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.resources.JSeshMessages;
 
 import org.jhotdraw_7_6.app.Application;

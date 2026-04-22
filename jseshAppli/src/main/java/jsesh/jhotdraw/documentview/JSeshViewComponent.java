@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.jhotdraw.viewClass;
+package jsesh.jhotdraw.documentview;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

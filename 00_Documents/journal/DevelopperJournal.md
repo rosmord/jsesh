@@ -104,6 +104,46 @@ Regarding **standard** codes:
 
 Work on  `JSeshAppli`.
 
+A bit of structure. In the following diagram, the stereotype `<<jhotdraw>>` is used to mark classes which instantiate elements of the `jhotdraw` framework.
+
+```plantuml
+@startuml
+skin rose
+hide empty members
+
+class JSeshApplicationModel <<jhotdraw>> {
+    
+}
+
+class JSeshApplicationBase  {
+    
+}
+
+JSeshApplicationModel --> JSeshApplicationBase
+
+package documentview {
+
+  class JSeshView <<jhotdraw>> {    
+  }
+  
+  class JSeshViewComponent {}
+
+  class JSeshViewModel {
+      
+  }
+}
+
+note right of JSeshViewComponent
+gui JPanel for the JSeshView
+end note
+
+JSeshView --> JSeshViewModel
+JSeshViewModel --> JSeshViewComponent
+
+JSeshViewComponent --> JMDCEditor
+
+@enduml
+```
 
 ### 2026/04/21
 

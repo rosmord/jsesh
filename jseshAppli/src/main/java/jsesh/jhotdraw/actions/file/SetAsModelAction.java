@@ -3,8 +3,8 @@ package jsesh.jhotdraw.actions.file;
 import java.awt.event.ActionEvent;
 
 import jsesh.jhotdraw.JSeshApplicationModel;
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

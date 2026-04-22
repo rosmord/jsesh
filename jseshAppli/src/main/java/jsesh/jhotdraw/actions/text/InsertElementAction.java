@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import static javax.swing.Action.SMALL_ICON;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;

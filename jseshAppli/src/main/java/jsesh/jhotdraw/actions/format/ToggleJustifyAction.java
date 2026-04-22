@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

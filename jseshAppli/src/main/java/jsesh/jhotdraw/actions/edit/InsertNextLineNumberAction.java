@@ -7,7 +7,7 @@ package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.utils.LineNumberHelper;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

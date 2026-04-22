@@ -38,7 +38,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.SearchPanelFactory;
