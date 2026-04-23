@@ -45,8 +45,10 @@ import jsesh.defaults.SimpleFontKit;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
+import jsesh.editor.MdCSearchQuery;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
+import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
@@ -54,9 +56,16 @@ import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.constants.ExportType;
+import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
+import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
+import jsesh.search.clientApi.CorpusSearchTarget;
+import jsesh.search.clientApi.SearchTarget;
+import jsesh.search.ui.JWildcardPanel;
+import jsesh.search.ui.SearchPanelFactory;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
@@ -95,15 +104,15 @@ public class JSeshApplicationCore {
     private final PDFExportPreferences pdfExportPreferences;
 
     /**
-     * Base style for <em>new</em> documents.     
+     * Base style for <em>new</em> documents.
      */
     private JSeshStyle newDocumentStyle;
-
 
     /**
      * Style for dialogs and widgets.
      * 
-     * <p> Shared between all components.
+     * <p>
+     * Shared between all components.
      */
 
     private JSeshStyleReference jseshComponentsStyle = new JSeshStyleReference(JSeshStyle.DEFAULT);
@@ -130,7 +139,6 @@ public class JSeshApplicationCore {
 
     private final JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
 
-
     /**
      * the Possibility repository, allowing one to use autocompletion on signs.
      */
@@ -148,6 +156,13 @@ public class JSeshApplicationCore {
 
     private ExportPreferences exportPreferences;
 
+    /**
+     * The glossary editor.
+     */
+    private JGlossaryEditor glossaryEditor;
+
+   
+
     public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
         this.glossaryManager = appDef.glossaryManager();
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
@@ -158,6 +173,8 @@ public class JSeshApplicationCore {
         this.pdfExportPreferences = new PDFExportPreferences();
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
 
+        // Dialogs
+        glossaryEditor = new JGlossaryEditor(glossaryManager);
     }
 
     /**
@@ -205,7 +222,6 @@ public class JSeshApplicationCore {
         }
     }
 
-   
     /**
      * The style to use for new documents.
      * 
@@ -215,11 +231,14 @@ public class JSeshApplicationCore {
         return newDocumentStyle;
     }
 
-
     /**
      * The style to use for hieroglyphic dialogs and the like.
-     * <p> This is used, for instance, in the glossary and the search dialog. They all share the same style.
-     * <p> It's not used for jsesh documents.
+     * <p>
+     * This is used, for instance, in the glossary and the search dialog. They all
+     * share the same style.
+     * <p>
+     * It's not used for jsesh documents.
+     * 
      * @return the jseshComponentsStyle
      */
     public JSeshStyleReference jseshComponentsStyle() {
@@ -414,7 +433,6 @@ public class JSeshApplicationCore {
         return hieroglyphShapeRepository;
     }
 
-    
     // ---------- private methods
 
     /**
@@ -431,11 +449,53 @@ public class JSeshApplicationCore {
 
     /**
      * Returns the hieroglyph compendium needed by most JSesh components.
-     * <p> They will find everything they need to draw and search hieroglyphs.
+     * <p>
+     * They will find everything they need to draw and search hieroglyphs.
+     * 
      * @return a hieroglyph compendium.
      */
     public JseshFontKit getFontKit() {
         return new SimpleFontKit(hieroglyphShapeRepository, possibilityRepository, hieroglyphDatabase);
+    }
+
+    /**
+     * Apply the new document style to an existing view.
+     * 
+     * @param viewCore the view whose style should change.
+     */
+    public void applyNewDocumentStyleTo(JSeshViewCore viewCore) {
+        viewCore.setJSeshStyle(newDocumentStyle());
+    }
+
+    /**
+     * Use the style of an existing view as the new document style.
+     * @param viewCore
+     */
+    public void updateNewDocumentStyleFrom(JSeshViewCore viewCore) {
+        this.newDocumentStyle = viewCore.getJSeshStyle();
+    }
+
+    /**
+     * The glossary editor.
+     * 
+     * @return
+     */
+    public JGlossaryEditor glossaryEditor() {
+        return glossaryEditor;
+    }
+
+
+    /**
+     * Initialize a Search panel with a given search adapter.
+     * @param searchAdapter
+     * @return
+     */
+    public JWildcardPanel createSearchPanel(SearchTarget searchAdapter) {
+        return SearchPanelFactory.createWildCardPanel(searchAdapter, jseshComponentsStyle, getFontKit());        
+    }
+
+    public CorpusSearchDialogFrame createCorpusSearchDialog(CorpusSearchTarget corpusSearchTarget) {
+        return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getFontKit());
     }
 
 }

@@ -108,7 +108,7 @@ import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
-import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
@@ -186,7 +186,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * Everything which is a) application-level and b) non specific to JHotdraw
      * is delegated to {@link JSeshApplicationCore}.
      */
-    private final JSeshApplicationCore jseshApplicationBase;
+    private final JSeshApplicationCore jseshApplicationCore;
 
     /**
      * Deals with copy/paste. Needs to know the current view to work correctly.
@@ -195,26 +195,23 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     /**
      * Currently, dialogs are here.
-     * Should they be in JSeshApplicationBase ?
+     * Should they be in JSeshCoreApplication ?
      * Given its current definition, it would be reasonable.
      */
     private PalettePresenter palettePresenter;
 
-    // same remark as palettePresenter.
-    private JGlossaryEditor glossaryEditor;
-
     private boolean canOpenNewView = true;
 
     public JSeshApplicationModel(JSeshUserSignLibraryConfiguration applicationDefaults) {
-        this.jseshApplicationBase = new JSeshApplicationCore(applicationDefaults);
+        this.jseshApplicationCore = new JSeshApplicationCore(applicationDefaults);
     }
 
     @Override
     public void initApplication(Application a) {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
-        JSeshStyleReference commonStyle = jseshApplicationBase.jseshComponentsStyle();
-        JseshFontKit fontKit = jseshApplicationBase.getFontKit();
+        JSeshStyleReference commonStyle = jseshApplicationCore.jseshComponentsStyle();
+        JseshFontKit fontKit = jseshApplicationCore.getFontKit();
 
         this.application.initSecondaryWindow(palettePresenter.getDialog());
         this.application.initSecondaryWindow(
@@ -232,10 +229,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     public void initView(Application a, View v) {
         super.initView(a, v);
         JSeshView jSeshView = (JSeshView) v;
-        jSeshView.initWithResources(jseshApplicationBase);
+        jSeshView.initWithResources(jseshApplicationCore);
         // TODO: the following should be handled by initWithResources.
         // TODO: Which means moving the corresponding data to JSeshApplicationBase.
-        jSeshView.setMDCModelTransferableBroker(transferableBroker); // Might be performed by initWithResources        
+        jSeshView.setMDCModelTransferableBroker(transferableBroker); // Might be performed by initWithResources
     }
 
     /*
@@ -285,9 +282,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
 
             Action glossaryEditorAction = new ToggleGlossaryEditorAction(a);
-            // Links the glossaryEditorAction and the glossary editor frame.
-            getGlossaryEditor().getFrame()
-                    .addComponentListener(new ComponentMenuActionChecker(glossaryEditorAction));
 
             map.put(ToggleGlossaryEditorAction.ID, glossaryEditorAction);
 
@@ -313,7 +307,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
             map.put(EditDocumentPreferencesAction.ID,
                     new EditDocumentPreferencesAction(a, v));
-            map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
+            map.put(UpdateNewDocumentStyleAction.ID, new UpdateNewDocumentStyleAction(a, v));
             map.put(ApplySavedStyleAction.ID, new ApplySavedStyleAction(a, jseshView));
             map.put(JSeshApplicationActionsID.EXPORT_WMF,
                     new GenericExportAction(a, jseshView, new WMFExporter(),
@@ -382,9 +376,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     private void createDialog() {
-        glossaryEditor = new JGlossaryEditor(jseshApplicationBase.getGlossaryManager());
-        palettePresenter = new PalettePresenter(jseshApplicationBase.getHieroglyphShapeRepository(),
-                jseshApplicationBase.getHieroglyphDatabase());
+        palettePresenter = new PalettePresenter(jseshApplicationCore.getHieroglyphShapeRepository(),
+                jseshApplicationCore.getHieroglyphDatabase());
         palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
     }
 
@@ -443,7 +436,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             if (application.getActiveView() != null
                     && application.getActiveView() instanceof JSeshView) {
                 JSeshView currentView = (JSeshView) application.getActiveView();
-                currentView.insertCode(code);
+                currentView.core().insertCode(code);
             } else {
                 System.err.println(application.getActiveView());
             }
@@ -456,11 +449,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      *      jsesh.jhotdraw.JSeshApplicationCore#selectCopyPasteConfiguration(ExportType)
      */
     public void selectCopyPasteConfiguration(ExportType exportType) {
-        jseshApplicationBase.selectCopyPasteConfiguration(exportType);
+        jseshApplicationCore.selectCopyPasteConfiguration(exportType);
     }
 
     public File getCurrentDirectory() {
-        return jseshApplicationBase.getCurrentDirectory();
+        return jseshApplicationCore.getCurrentDirectory();
     }
 
     public void setCurrentDirectory(File directory) {
@@ -468,27 +461,27 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             throw new RuntimeException("Bug : " + directory.getAbsolutePath()
                     + " should be a directory");
         }
-        jseshApplicationBase.setCurrentDirectory(directory);
+        jseshApplicationCore.setCurrentDirectory(directory);
     }
 
     public PDFExportPreferences getPDFExportPreferences() {
-        return jseshApplicationBase.getPDFExportPreferences();
+        return jseshApplicationCore.getPDFExportPreferences();
     }
 
     public RTFExportPreferences getRTFExportPreferences(ExportType exportType) {
-        return jseshApplicationBase.getRTFExportPreferences(exportType);
+        return jseshApplicationCore.getRTFExportPreferences(exportType);
     }
 
     public HTMLExporter getHTMLExporter() {
-        return jseshApplicationBase.getHTMLExporter();
+        return jseshApplicationCore.getHTMLExporter();
     }
 
     public File getQuickPDFExportFolder() {
-        return jseshApplicationBase.getQuickPDFExportFolder();
+        return jseshApplicationCore.getQuickPDFExportFolder();
     }
 
     public void setQuickPDFExportFolder(File folder) {
-        jseshApplicationBase.setQuickPDFExportFolder(folder);
+        jseshApplicationCore.setQuickPDFExportFolder(folder);
     }
 
     public void setMessage(String string) {
@@ -515,7 +508,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     public FontInfo getFontInfo() {
-        return jseshApplicationBase.getFontInfo();
+        return jseshApplicationCore.getFontInfo();
     }
 
     /**
@@ -524,7 +517,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        jseshApplicationBase.setFontInfo(fontInfo);
+        jseshApplicationCore.setFontInfo(fontInfo);
         for (View v : application.views()) {
             JSeshView view = (JSeshView) v;
             view.setFontInfo(fontInfo);
@@ -532,11 +525,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     }
 
     public MDCClipboardPreferences getClipboardPreferences() {
-        return jseshApplicationBase.getClipboardPreferences();
+        return jseshApplicationCore.getClipboardPreferences();
     }
 
     public void setClipboardPreferences(MDCClipboardPreferences prefs) {
-        jseshApplicationBase.setClipboardPreferences(prefs);
+        jseshApplicationCore.setClipboardPreferences(prefs);
     }
 
     /**
@@ -545,17 +538,17 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      * @return
      */
     public ExportPreferences getExportPreferences() {
-        return jseshApplicationBase.getExportPreferences();
+        return jseshApplicationCore.getExportPreferences();
     }
 
     public void setExportPreferences(ExportPreferences exportPreferences) {
-        jseshApplicationBase.setExportPreferences(exportPreferences);
+        jseshApplicationCore.setExportPreferences(exportPreferences);
     }
 
     @Override
     public void destroyApplication(Application a) {
         palettePresenter.getDialog().savePreferences();
-        jseshApplicationBase.savePreferences();
+        jseshApplicationCore.savePreferences();
     }
 
     private class MyTransferableBroker implements MDCModelTransferableBroker {
@@ -570,19 +563,16 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
                 DataFlavor[] dataFlavors) {
 
-            RTFExportPreferences rtfExportPreferences = jseshApplicationBase.getCurrentRTFPreferences();
-            MDCModelTransferable result =
-                    new MDCModelTransferable(dataFlavors, top, rtfExportPreferences, renderContext);
-            // Check if this is needed (I think not - the rendercontext contains the style of the view).
-            //JSeshStyle style = ((JSeshView) application
-            //        .getActiveView()).getJSeshStyle();
-            //result.setJseshStyle(style);            
+            RTFExportPreferences rtfExportPreferences = jseshApplicationCore.getCurrentRTFPreferences();
+            MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top, rtfExportPreferences,
+                    renderContext);
+            // Check if this is needed (I think not - the rendercontext contains the style
+            // of the view).
+            // JSeshStyle style = ((JSeshView) application
+            // .getActiveView()).getJSeshStyle();
+            // result.setJseshStyle(style);
             return result;
         }
-    }
-
-    public JGlossaryEditor getGlossaryEditor() {
-        return glossaryEditor;
     }
 
     /**
@@ -639,4 +629,14 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             }
         }
     }
+
+    /**
+     * Returns the framework-independant core the application logic.
+     * 
+     * @return the jseshApplicationCore
+     */
+    public JSeshApplicationCore core() {
+        return jseshApplicationCore;
+    }
+
 }

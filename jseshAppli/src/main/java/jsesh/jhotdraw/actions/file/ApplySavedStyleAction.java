@@ -2,9 +2,12 @@ package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.jhotdraw.JSeshApplicationCore;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -15,7 +18,7 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
-public class ApplySavedStyleAction extends AbstractViewAction {
+public class ApplySavedStyleAction extends AbstractCoreViewAction {
 
 	public static final String ID="file.applyModel";
 
@@ -26,9 +29,7 @@ public class ApplySavedStyleAction extends AbstractViewAction {
 
         @Override
 	public void actionPerformed(ActionEvent e) {
-		JSeshView view= (JSeshView) getActiveView();
-		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
-		//view.setJseshStyle(app.);
+		appCore().applyNewDocumentStyleTo(viewCore());		
 	}
 	
 }

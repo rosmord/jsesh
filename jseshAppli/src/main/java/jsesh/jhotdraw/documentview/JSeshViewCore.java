@@ -56,6 +56,7 @@ import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.events.TextEvent;
+import jsesh.graphics.export.generic.ExportData;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
@@ -65,6 +66,7 @@ import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
@@ -76,7 +78,7 @@ import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
  *
  * @author rosmord
  */
-public final class JSeshViewController {
+public final class JSeshViewCore {
 
     /**
      * Predefined zoom factors for the zoom combo box.
@@ -125,7 +127,7 @@ public final class JSeshViewController {
      * @param fontKit information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
-    public JSeshViewController(JseshFontKit fontKit, JSeshStyle style) {
+    public JSeshViewCore(JseshFontKit fontKit, JSeshStyle style) {
         this.fontKit = fontKit;
         viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);
         setCurrentDocument(new MDCDocument());
@@ -206,6 +208,28 @@ public final class JSeshViewController {
 
     public void insertLineNumber(String line) {
         getEditor().insertLineNumber(line);
+    }
+
+    /**
+     * Returns the current caret.
+     * <p>
+     * TODO : we should simplify this... the inner
+     * code should not use so many layers.
+     *
+     * @return a caret.
+     */
+    public MDCCaret getCaret() {
+        return getEditor().getWorkflow().getCaret();
+    }
+
+    /**
+     * Returns the inner text representation.
+     *
+     * @return
+     */
+    public TopItemList getTopItemList() {
+        return getEditor().getHieroglyphicTextModel()
+                .getModel();
     }
 
     /**
@@ -442,7 +466,7 @@ public final class JSeshViewController {
     }
 
     public void setFontInfo(FontInfo fontInfo) {
-        JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());        
+        JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());
         setJSeshStyle(newStyle);
     }
 
@@ -460,5 +484,21 @@ public final class JSeshViewController {
     public void setTextDirection(TextDirection textDirection) {
         setJSeshStyle(
                 getJSeshStyle().copy().options(o -> o.textDirection(textDirection)).build());
+    }
+
+    /**
+     * Returns the data needed for the graphical export of a selection.
+     *
+     * @return
+     */
+    public ExportData getExportData() {
+        // Note : there is some doubt over which drawing specifications should
+        // be used ?
+        return new ExportData(getRenderContext(), getCaret(), 
+                getTopItemList(), 1f);
+    }
+
+    public void insertCode(String code) {
+        getEditor().insert(code);
     }
 }

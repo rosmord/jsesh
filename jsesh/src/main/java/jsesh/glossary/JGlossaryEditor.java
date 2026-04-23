@@ -150,6 +150,14 @@ public class JGlossaryEditor extends JPanel {
 		return frame;
 	}
 
+	public boolean isVisible() {
+		return getFrame().isVisible();
+	}
+
+	public void setVisible(boolean visible) {
+		getFrame().setVisible(visible);
+	}
+	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 					GlossaryManager glossaryManager = new GlossaryManager();

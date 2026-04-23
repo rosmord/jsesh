@@ -7,19 +7,19 @@ import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 @SuppressWarnings("serial")
-public class QuickPDFExportAction extends AbstractViewAction {
+public class QuickPDFExportAction extends AbstractCoreViewAction {
 
 	public static final String ID = "file.quickPDFExport";
 
@@ -28,7 +28,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
-        @Override
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		BundleHelper bundleHelper = BundleHelper.getInstance();
 		JSeshView jSeshView = (JSeshView) getActiveView();
@@ -37,7 +37,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 
 		if (jSeshView == null)
 			return;
-		
+
 		// Ensures the folder exists :
 		if (!applicationModel.getQuickPDFExportFolder().exists()) {
 			applicationModel.getQuickPDFExportFolder().mkdir();
@@ -58,8 +58,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		PDFExportPreferences quickExportPreferences = new PDFExportPreferences();
 
 		PDFExporter pdfExporter = new PDFExporter();
-		quickExportPreferences.setJseshStyle(jSeshView
-				.getDrawingSpecifications());
+		quickExportPreferences.setJseshStyle(jSeshView.core().getJSeshStyle());
 
 		// Find the next file name...
 		int maxNum = 0;
@@ -76,7 +75,7 @@ public class QuickPDFExportAction extends AbstractViewAction {
 				} catch (NumberFormatException numberFormatException) {
 					// DO NOTHING ? DON'T STOP PROCESSING, but WARN JUST IN
 					// CASE.
-                                        throw new UserMessage(numberFormatException);
+					throw new UserMessage(numberFormatException);
 				}
 			}
 		}
@@ -88,14 +87,14 @@ public class QuickPDFExportAction extends AbstractViewAction {
 		quickExportPreferences.setEncapsulated(true);
 
 		pdfExporter.setPdfExportPreferences(quickExportPreferences);
-                
-                // Ensure there is a selection
-                if (! jSeshView.hasSelection()) {
-                    jSeshView.selectCurrentLine();
-                }              
+
+		// Ensure there is a selection
+		if (!jSeshView.hasSelection()) {
+			jSeshView.selectCurrentLine();
+		}
 		try {
-			pdfExporter.exportModel(jSeshView.getTopItemList(),
-					jSeshView.getCaret());
+			pdfExporter.exportModel(jSeshView.core().getTopItemList(),
+					jSeshView.core().getCaret(), jSeshView.core().getRenderContext());
 			String okMessage = MessageFormat.format(
 					bundleHelper.getLabel("file.quickPDFExport.ok"),
 					new Object[] { pdfFile.getAbsolutePath() });

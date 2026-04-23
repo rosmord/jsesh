@@ -8,6 +8,8 @@ package jsesh.jhotdraw.actions.edit;
 import java.awt.event.ActionEvent;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.utils.LineNumberHelper;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -15,18 +17,22 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
  * This action inserts a computed line number.
- * <p> The line number is computed in the following way:
+ * <p>
+ * The line number is computed in the following way:
  * <ul>
- * <li> if there is no existing line number, line number |1- is inserted.
- * <li> if there is a line number indication X <em>before</em> the current position,
- *      the next line number is computed, by incremented the last number which appears
- *      in X. For instance, if X is <code>|col 12, l. 13-</code>, the inserted 
- *      line number will be <code>|col 12, l. 14-</code>.
+ * <li>if there is no existing line number, line number |1- is inserted.
+ * <li>if there is a line number indication X <em>before</em> the current
+ * position,
+ * the next line number is computed, by incremented the last number which
+ * appears
+ * in X. For instance, if X is <code>|col 12, l. 13-</code>, the inserted
+ * line number will be <code>|col 12, l. 14-</code>.
  * </ul>
+ * 
  * @author rosmord
  */
-public class InsertNextLineNumberAction extends AbstractViewAction{
-    
+public class InsertNextLineNumberAction extends AbstractCoreViewAction {
+
 	public static final String ID = "edit.insertNextLineNumber";
 
 	public InsertNextLineNumberAction(Application app, View view) {
@@ -35,13 +41,11 @@ public class InsertNextLineNumberAction extends AbstractViewAction{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JSeshView v = (JSeshView) getActiveView();
-		if (v != null) {
-                    	String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
-                        String nextLine = "".equals(textPos)?
-                                "1"
-                                :LineNumberHelper.incrementLineNumber(textPos);
-                        v.insertLineNumber(nextLine);
-		}
-	}       
+		JSeshViewCore v = viewCore();
+		String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
+		String nextLine = "".equals(textPos) ? "1"
+				: LineNumberHelper.incrementLineNumber(textPos);
+		v.insertLineNumber(nextLine);
+	}
+
 }

@@ -10,7 +10,9 @@ This journal should only be edited and modified in the Development branch.
 
 ## TODO
 
+
 - [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
+- [ ] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
 
 ### Long Term TODO
 
@@ -64,6 +66,7 @@ This journal should only be edited and modified in the Development branch.
 
 ### Test TODO
 
+- [ ] Check that all actual changes to a document mark it as modified.
 - [ ] `JMDCEditor` 
   - [ ] when everything works, ensure that scaling works ;
   - [ ] TODO : check that when the style is modified, the editor is notified and repainted.
@@ -138,9 +141,54 @@ Regarding **standard** codes:
 - [ ] reorganise the packages of `jseshAppli`, which have really been designed on the fly.
 - [ ] manage  `USE_J` in `YodChoice`
 
+
+### Cleanup
+
+List of classes which need some cleanup:
+
+- `QuickPDFExportAction`
+
 ## Daily log
 
 ### 2026/04/23
+
+- making ViewCore visible can be problematic in some cases. For instance:
+
+  ~~~java
+  @Override
+  public void setEnabled(boolean enabled) {
+        viewCore.setEnabled(enabled);
+        super.setEnabled(enabled);
+  }
+  ~~~
+
+  is supposed to can `setEnabled` both on viewCore and on the JHotDraw view component. Making viewCore visible makes the code more difficult to read, as we might forget to call the method on the JHotDraw component.
+
+- problem with the "core" model. In some cases, we need access to the **active view**. This is managed by the application.
+  - so, for the moment, we move the search panel back into the application model.
+- instead of delegating methods and having a heavy interface in `JSeshApplicationModel`, we could decide to forward what should be forwarded to the **core** components. It would transform the action into:
+
+~~~java
+public class ApplySavedStyleAction extends AbstractViewAction {
+
+	public static final String ID="file.applyModel";
+
+	public ApplySavedStyleAction(Application app, View view) {
+		super(app, view);
+		BundleHelper.getInstance().configure(this);
+	}
+
+        @Override
+	public void actionPerformed(ActionEvent e) {
+    // Standard JHotdraw stuff
+		JSeshView view= (JSeshView) getActiveView();
+		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
+    // out stuff
+		app.core().applyNewDocumentStyleTo(view.core());	
+	}
+	
+}
+~~~
 
 Nice suggestion from whatever LLM vscode is using right now:
 
@@ -163,7 +211,7 @@ app.applyNewDocumentStyleTo(view);
 Which is more **responsability** focused.
 
 - [x] renamed `JSeshApplicationBase` into `JSeshApplicationCore`, because `Base` in java suggests inheritance;
-- [x] renamed `JSeshViewModel` into `JSeshViewController`, to clarify its role;
+- [x] renamed `JSeshViewModel` into `JSeshViewCore`, to clarify the structure of the application.
 - [ ] in `PdfExportPreferences`, the `drawingSpecifications` where... not used!
 - [ ] We have added a chain of `getJseshStyle` methods in the view part of the application in `MyTransferableBroker`. But is it needed? The information needed might be available in the `JSeshApplicationModel`. 
 - [ ] we have removed the method `setClipboardPreferences` from `MDCModelTransferable` : clipboardPreferences were **not** used at that point!

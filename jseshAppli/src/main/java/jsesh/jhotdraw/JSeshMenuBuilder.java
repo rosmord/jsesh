@@ -72,7 +72,7 @@ import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
-import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
@@ -249,7 +249,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 fileMenu.add(importMenu);
                 fileMenu.add(exportMenu);
                 fileMenu.addSeparator();
-                addToMenu(fileMenu, app, jSeshView, SetAsModelAction.ID);
+                addToMenu(fileMenu, app, jSeshView, UpdateNewDocumentStyleAction.ID);
                 addToMenu(fileMenu, app, jSeshView, ApplySavedStyleAction.ID);
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, EditDocumentPreferencesAction.ID);

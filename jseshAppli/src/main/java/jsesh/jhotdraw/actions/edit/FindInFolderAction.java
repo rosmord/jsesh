@@ -43,6 +43,7 @@ import jsesh.defaults.JseshFontKit;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
+import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 import jsesh.search.clientApi.CorpusSearchTarget;
 
 
@@ -53,15 +54,15 @@ import jsesh.search.clientApi.CorpusSearchTarget;
  *
  * @author rosmord
  */
-public final class FindInFolderAction extends AbstractApplicationAction {
+public final class FindInFolderAction extends AbstractCoreApplicationAction {
 
     public static final String ID = "edit.findInFolder";
     
     private final CorpusSearchDialogFrame corpusSearchDialogFrame;
         
-    public FindInFolderAction(ActiveViewAwareApplication app, CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, JseshFontKit fontKit) {
+    public FindInFolderAction(ActiveViewAwareApplication app, CorpusSearchTarget corpusSearchTarget) {
         super(app);
-        this.corpusSearchDialogFrame = new CorpusSearchDialogFrame(corpusSearchTarget, styleRef, fontKit) ;
+        this.corpusSearchDialogFrame = appCore().createCorpusSearchDialog(corpusSearchTarget);        
         BundleHelper.getInstance().configure(this);        
     }
     

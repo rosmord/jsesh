@@ -40,22 +40,27 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
+import org.jhotdraw_7_6.app.AbstractView;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.edit.CopyAction;
+import org.jhotdraw_7_6.app.action.edit.CutAction;
+import org.jhotdraw_7_6.app.action.edit.PasteAction;
+import org.jhotdraw_7_6.app.action.edit.RedoAction;
+import org.jhotdraw_7_6.app.action.edit.UndoAction;
+import org.jhotdraw_7_6.gui.JFileURIChooser;
+import org.jhotdraw_7_6.gui.URIChooser;
+import org.qenherkhopeshef.observable.ObservableEventListener;
+import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
+
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
-import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.events.TextEvent;
-import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.io.importer.pdf.PDFImportException;
@@ -71,24 +76,10 @@ import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.utils.JSeshWorkingDirectory;
-
-import org.jhotdraw_7_6.app.AbstractView;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.edit.CopyAction;
-import org.jhotdraw_7_6.app.action.edit.CutAction;
-import org.jhotdraw_7_6.app.action.edit.PasteAction;
-import org.jhotdraw_7_6.app.action.edit.RedoAction;
-import org.jhotdraw_7_6.app.action.edit.UndoAction;
-import org.jhotdraw_7_6.gui.JFileURIChooser;
-import org.jhotdraw_7_6.gui.URIChooser;
-import org.qenherkhopeshef.observable.ObservableEventListener;
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
 /**
  * A view of a JSesh editor instance, as used by the jhotdraw framework.
@@ -116,7 +107,7 @@ public class JSeshView extends AbstractView {
      * The view model. Should be final, but we wait until the call to init() to
      * initialize it.
      */
-    private JSeshViewController viewModel;
+    private JSeshViewCore viewCore;
 
     private ObservableEventListener<TextEvent> viewModelListener = e -> updateViewData();
 
@@ -132,13 +123,13 @@ public class JSeshView extends AbstractView {
      * Type-safe initialization method, called by the application.
      */
     public void initWithResources(JSeshApplicationCore appBase) {
-        viewModel = new JSeshViewController(appBase.getFontKit(), appBase.newDocumentStyle());
+        viewCore = new JSeshViewCore(appBase.getFontKit(), appBase.newDocumentStyle());
         setFontInfo(appBase.getFontInfo()); // Moved from JSeshApplicationModel.initView, which was not the right place
                                             // for it.
         setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());
-        add(viewModel.getViewComponent(), BorderLayout.CENTER);
-        viewModel.setOwner(viewModelListener);
+        add(viewCore.getViewComponent(), BorderLayout.CENTER);
+        viewCore.setOwner(viewModelListener);
         initActions();
     }
 
@@ -153,18 +144,18 @@ public class JSeshView extends AbstractView {
     @Override
     public void start() {
         super.start();
-        viewModel.getEditor().requestFocusInWindow();
+        viewCore.getEditor().requestFocusInWindow();
     }
 
     public JMDCEditor getEditor() {
-        return viewModel.getEditor();
+        return viewCore.getEditor();
     }
 
     @Override
     public void dispose() {
         // The document model might be disposable, it would be cleaner.
         // anyway:
-        viewModel.getEditor().clearText();
+        viewCore.getEditor().clearText();
         super.dispose();
 
     }
@@ -173,7 +164,7 @@ public class JSeshView extends AbstractView {
      * @return @see jsesh.jhotdraw.JSeshViewModel#getMdcDocument()
      */
     public MDCDocument getMdcDocument() {
-        return viewModel.getMdcDocument();
+        return viewCore.getMdcDocument();
     }
 
     private void initActions() {
@@ -257,7 +248,7 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = RTFImporter
                         .createRTFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument();
-                SwingUtilities.invokeLater(() -> viewModel.setCurrentDocument(document));
+                SwingUtilities.invokeLater(() -> viewCore.setCurrentDocument(document));
             } catch (RTFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -266,7 +257,7 @@ public class JSeshView extends AbstractView {
                 final MDCDocument document = (PDFImporter
                         .createPDFPasteImporter(new File("Unnamed.gly"))
                         .getMdcDocument());
-                SwingUtilities.invokeLater(() -> viewModel.setCurrentDocument(document));
+                SwingUtilities.invokeLater(() -> viewCore.setCurrentDocument(document));
             } catch (PDFImportException e) {
                 throw new UserMessage(e.getMessage());
             }
@@ -274,9 +265,12 @@ public class JSeshView extends AbstractView {
     }
 
     /**
-     * Read a JSesh file in the current view. TODO : improve this code, which is
+     * Read a JSesh file in the current view. 
+     * 
+     * <p>TODO : improve this code, which is
      * not correct regarding the EDT.
      *
+     * <p> Move it to viewCore (at least).
      * @param uri
      */
     private void readFromFile(URI uri) {
@@ -290,13 +284,13 @@ public class JSeshView extends AbstractView {
                 document.setFile(new File(JSeshWorkingDirectory
                         .getWorkingDirectory(), "Unnamed.gly"));
                 SwingUtilities.invokeLater(
-                        () -> viewModel.setCurrentDocument(document));
+                        () -> viewCore.setCurrentDocument(document));
             } else {
                 MDCDocumentReader mdcDocumentReader = new MDCDocumentReader();
                 final MDCDocument document = mdcDocumentReader.loadFile(file);
                 // Observe changes to this document in the future.
                 SwingUtilities.invokeLater(() -> {
-                    viewModel.setCurrentDocument(document);
+                    viewCore.setCurrentDocument(document);
                     // Fire the corresponding event, with dummy
                     // properties...
                     // We might decide to use "real" property at some point.
@@ -323,7 +317,7 @@ public class JSeshView extends AbstractView {
     @Override
     public void write(URI uri, URIChooser chooser) throws IOException {
         File file = new File(uri);
-        MDCDocument document = viewModel.getMdcDocument();
+        MDCDocument document = viewCore.getMdcDocument();
         document.setFile(file);
 
         // TODO : create a sane system for dealing with text orientation and
@@ -373,24 +367,17 @@ public class JSeshView extends AbstractView {
             // TODO save PDF prefs in pdf files...
             PDFExportPreferences prefs = new PDFExportPreferences();
             prefs.setFile(document.getFile());
-            prefs.setJseshStyle(getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render context!
+            prefs.setJseshStyle(viewCore.getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render context!
             PDFExporter exporter = new PDFExporter();
             exporter.setPdfExportPreferences(prefs);
             TopItemList model = document.getHieroglyphicTextModel().getModel();            
-            exporter.exportModel(model, getCaret(), viewModel.getRenderContext());
+            exporter.exportModel(model, viewCore.getCaret(), viewCore.getRenderContext());
         } else {
             document.save();
         }
         // currentMDCDirectory = currentDocument.getFile().getParentFile();
     }
 
-    public void doSearch(MdCSearchQuery query) {
-        viewModel.doSearch(query);
-    }
-
-    public void nextSearch() {
-        viewModel.nextSearch();
-    }
 
     /**
      * Gets original line number coordinates of a certain point in the text.
@@ -404,49 +391,16 @@ public class JSeshView extends AbstractView {
      *         found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
-        return viewModel.getOriginalDocumentCoordinates(position);
+        return viewCore.getOriginalDocumentCoordinates(position);
     }
 
-    /**
-     * insert a line number at current insert position.
-     * 
-     * @param line
-     */
-    public void insertLineNumber(String line) {
-        viewModel.insertLineNumber(line);
-    }
-
-    public void insertCode(String code) {
-        getEditor().insert(code);
-    }
 
     @Override
     public void setEnabled(boolean enabled) {
-        viewModel.setEnabled(enabled);
+        viewCore.setEnabled(enabled);
         super.setEnabled(enabled);
     }
 
-    /**
-     * Returns the current caret. TODO : we should simplify this... the inner
-     * code should not use so many layers.
-     *
-     * @return a caret.
-     */
-    public MDCCaret getCaret() {
-        return viewModel.getEditor().getWorkflow().getCaret();
-    }
-
-    /**
-     * Returns the inner text representation. TODO : we should probably simplify
-     * this... or return the HieroglyphicTextModel. getModel() should probably
-     * be called getText().
-     *
-     * @return
-     */
-    public TopItemList getTopItemList() {
-        return viewModel.getEditor().getWorkflow().getHieroglyphicTextModel()
-                .getModel();
-    }
 
     /**
      * Sets the object which will be used to generate copy/paste information.
@@ -456,12 +410,13 @@ public class JSeshView extends AbstractView {
      */
     public void setMDCModelTransferableBroker(
             MDCModelTransferableBroker mdcModelTransferableBroker) {
-        viewModel.getEditor().setMdcModelTransferableBroker(
+        viewCore.getEditor().setMdcModelTransferableBroker(
                 mdcModelTransferableBroker);
     }
 
+    // TODO : move to core.
     public void insertMDC(String mdcText) {
-        viewModel.getEditor().getWorkflow().insertMDC(mdcText);
+        viewCore.getEditor().getWorkflow().insertMDC(mdcText);
     }
 
     @Override
@@ -478,20 +433,10 @@ public class JSeshView extends AbstractView {
      * @return
      */
     public boolean hasSelection() {
-        return viewModel.getEditor().hasSelection();
+        return viewCore.getEditor().hasSelection();
     }
 
-    /**
-     * Returns the data needed for the graphical export of a selection.
-     *
-     * @return
-     */
-    public ExportData getExportData() {
-        // Note : there is some doubt over which drawing specifications should
-        // be used ?
-        return new ExportData(viewModel.getRenderContext(), getCaret(), viewModel
-                .getMdcDocument().getHieroglyphicTextModel().getModel(), 1f);
-    }
+   
 
     /**
      * Returns a <em>name</em> suitable for use as basis for export files (as
@@ -546,11 +491,11 @@ public class JSeshView extends AbstractView {
      * @param message the message to display.
      */
     public void setMessage(String message) {
-        viewModel.setMessage(message);
+        viewCore.setMessage(message);
     }
 
     public void setOrientation(TextOrientation orientation) {
-        viewModel.getEditor().setTextOrientation(orientation);
+        viewCore.getEditor().setTextOrientation(orientation);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
@@ -567,7 +512,7 @@ public class JSeshView extends AbstractView {
          * document.addEventLink(FormatEvent.class, menuManager,
          * updateMenuItems); )
          */
-        viewModel.setJSeshStyle(viewModel.getJSeshStyle().copy().options(o -> o.smallSignCentered(selected)).build());
+        viewCore.setJSeshStyle(viewCore.getJSeshStyle().copy().options(o -> o.smallSignCentered(selected)).build());
         // getEditor().setSmallSignsCentered(selected);
         /*
          * getMdcDocument().setDocumentPreferences(
@@ -583,18 +528,18 @@ public class JSeshView extends AbstractView {
      * @param selected
      */
     public void setJustify(boolean selected) {
-        viewModel.setJustify(selected);
+        viewCore.setJustify(selected);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextOrientation(TextOrientation textOrientation) {
-        viewModel.setTextOrientation(textOrientation);
+        viewCore.setTextOrientation(textOrientation);
         // getEditor().setTextOrientation(textOrientation);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextDirection(TextDirection textDirection) {
-        viewModel.setTextDirection(textDirection);
+        viewCore.setTextDirection(textDirection);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
@@ -610,11 +555,7 @@ public class JSeshView extends AbstractView {
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        viewModel.setFontInfo(fontInfo);
-    }
-
-    public JSeshStyle getJSeshStyle() {
-        return viewModel.getJSeshStyle();
+        viewCore.setFontInfo(fontInfo);
     }
 
     /*
@@ -668,6 +609,14 @@ public class JSeshView extends AbstractView {
      */
     public boolean isSelectionEmpty() {
         return getEditor().hasSelection();
+    }
+
+    /**
+     * Returns the frame-independant core of the view.
+     * @return the viewCore
+     */
+    public JSeshViewCore core() {
+        return viewCore;
     }
 
 }
