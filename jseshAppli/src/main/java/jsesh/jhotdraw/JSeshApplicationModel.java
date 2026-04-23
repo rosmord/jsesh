@@ -96,7 +96,7 @@ import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.JSeshClearSelectionAction;
 import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
-import jsesh.jhotdraw.actions.file.ApplyModelAction;
+import jsesh.jhotdraw.actions.file.ApplySavedStyleAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
@@ -184,9 +184,9 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     /**
      * Everything which is a) application-level and b) non specific to JHotdraw
-     * is delegated to {@link JSeshApplicationBase}.
+     * is delegated to {@link JSeshApplicationCore}.
      */
-    private final JSeshApplicationBase jseshApplicationBase;
+    private final JSeshApplicationCore jseshApplicationBase;
 
     /**
      * Deals with copy/paste. Needs to know the current view to work correctly.
@@ -206,7 +206,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     private boolean canOpenNewView = true;
 
     public JSeshApplicationModel(JSeshUserSignLibraryConfiguration applicationDefaults) {
-        this.jseshApplicationBase = new JSeshApplicationBase(applicationDefaults);
+        this.jseshApplicationBase = new JSeshApplicationCore(applicationDefaults);
     }
 
     @Override
@@ -314,7 +314,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(EditDocumentPreferencesAction.ID,
                     new EditDocumentPreferencesAction(a, v));
             map.put(SetAsModelAction.ID, new SetAsModelAction(a, v));
-            map.put(ApplyModelAction.ID, new ApplyModelAction(a, jseshView));
+            map.put(ApplySavedStyleAction.ID, new ApplySavedStyleAction(a, jseshView));
             map.put(JSeshApplicationActionsID.EXPORT_WMF,
                     new GenericExportAction(a, jseshView, new WMFExporter(),
                             JSeshApplicationActionsID.EXPORT_WMF));
@@ -453,7 +453,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     /**
      * @param exportType
      * @see
-     *      jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(ExportType)
+     *      jsesh.jhotdraw.JSeshApplicationCore#selectCopyPasteConfiguration(ExportType)
      */
     public void selectCopyPasteConfiguration(ExportType exportType) {
         jseshApplicationBase.selectCopyPasteConfiguration(exportType);

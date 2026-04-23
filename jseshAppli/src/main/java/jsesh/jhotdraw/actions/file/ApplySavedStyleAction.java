@@ -15,11 +15,11 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
-public class ApplyModelAction extends AbstractViewAction {
+public class ApplySavedStyleAction extends AbstractViewAction {
 
 	public static final String ID="file.applyModel";
 
-	public ApplyModelAction(Application app, View view) {
+	public ApplySavedStyleAction(Application app, View view) {
 		super(app, view);
 		BundleHelper.getInstance().configure(this);
 	}
@@ -28,7 +28,7 @@ public class ApplyModelAction extends AbstractViewAction {
 	public void actionPerformed(ActionEvent e) {
 		JSeshView view= (JSeshView) getActiveView();
 		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
-		view.setJseshStyle(app.);
+		//view.setJseshStyle(app.);
 	}
 	
 }

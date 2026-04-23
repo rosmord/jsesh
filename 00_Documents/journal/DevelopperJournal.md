@@ -142,6 +142,28 @@ Regarding **standard** codes:
 
 ### 2026/04/23
 
+Nice suggestion from whatever LLM vscode is using right now:
+
+Replace:
+
+~~~java
+JSeshView view= (JSeshView) getActiveView();
+JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
+view.setJseshStyle(app.getNewDocumentStyle());
+~~~
+
+by:
+
+~~~java
+JSeshView view= (JSeshView) getActiveView();
+JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
+app.applyNewDocumentStyleTo(view);
+~~~
+
+Which is more **responsability** focused.
+
+- [x] renamed `JSeshApplicationBase` into `JSeshApplicationCore`, because `Base` in java suggests inheritance;
+- [x] renamed `JSeshViewModel` into `JSeshViewController`, to clarify its role;
 - [ ] in `PdfExportPreferences`, the `drawingSpecifications` where... not used!
 - [ ] We have added a chain of `getJseshStyle` methods in the view part of the application in `MyTransferableBroker`. But is it needed? The information needed might be available in the `JSeshApplicationModel`. 
 - [ ] we have removed the method `setClipboardPreferences` from `MDCModelTransferable` : clipboardPreferences were **not** used at that point!
@@ -208,12 +230,12 @@ class JSeshApplicationModel <<jhotdraw>> {
     
 }
 
-class JSeshApplicationBase  {
+class JSeshApplicationCore  {
     jseshStyle JSeshStyle    
 }
 
 
-JSeshApplicationModel --> JSeshApplicationBase
+JSeshApplicationModel --> JSeshApplicationCore
 
 class JSeshMenuBuilder <<jhotdraw>> {
     
@@ -229,12 +251,12 @@ package documentview {
   
   class JSeshViewComponent {}
 
-  class JSeshViewModel {
+  class JSeshViewController {
       
   }
 }
 
-note top of JSeshViewModel
+note top of JSeshViewController
 Presenter/controller 
 for the "JSeshViewComponent"
 end note
@@ -244,18 +266,18 @@ gui JPanel for the JSeshView
   end note
 
 
-JSeshView --> JSeshViewModel
-JSeshViewModel --> JSeshViewComponent
+JSeshView --> JSeshViewController
+JSeshViewController --> JSeshViewComponent
 
 JSeshViewComponent --> JMDCEditor
 JSeshApplicationModel ..> JSeshView
 
-note bottom of JSeshApplicationBase
+note bottom of JSeshApplicationCore
 Everything which is 
 # application-level
 # and non specific to JHotdraw
 
-is delegated to JSeshApplicationBase.
+is delegated to JSeshApplicationCore.
 
 It knows about all defaults, and currently
 holds the whole hieroglyphic font system.

@@ -62,7 +62,7 @@ import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
-import jsesh.jhotdraw.JSeshApplicationBase;
+import jsesh.jhotdraw.JSeshApplicationCore;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
@@ -116,7 +116,7 @@ public class JSeshView extends AbstractView {
      * The view model. Should be final, but we wait until the call to init() to
      * initialize it.
      */
-    private JSeshViewModel viewModel;
+    private JSeshViewController viewModel;
 
     private ObservableEventListener<TextEvent> viewModelListener = e -> updateViewData();
 
@@ -131,8 +131,8 @@ public class JSeshView extends AbstractView {
     /**
      * Type-safe initialization method, called by the application.
      */
-    public void initWithResources(JSeshApplicationBase appBase) {
-        viewModel = new JSeshViewModel(appBase.getFontKit(), appBase.newDocumentStyle());
+    public void initWithResources(JSeshApplicationCore appBase) {
+        viewModel = new JSeshViewController(appBase.getFontKit(), appBase.newDocumentStyle());
         setFontInfo(appBase.getFontInfo()); // Moved from JSeshApplicationModel.initView, which was not the right place
                                             // for it.
         setFocusable(false); // Focus should go to the editor, not to the view.

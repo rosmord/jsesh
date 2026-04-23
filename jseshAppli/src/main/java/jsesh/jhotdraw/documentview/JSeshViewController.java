@@ -76,7 +76,7 @@ import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
  *
  * @author rosmord
  */
-public final class JSeshViewModel {
+public final class JSeshViewController {
 
     /**
      * Predefined zoom factors for the zoom combo box.
@@ -125,7 +125,7 @@ public final class JSeshViewModel {
      * @param fontKit information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
-    public JSeshViewModel(JseshFontKit fontKit, JSeshStyle style) {
+    public JSeshViewController(JseshFontKit fontKit, JSeshStyle style) {
         this.fontKit = fontKit;
         viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);
         setCurrentDocument(new MDCDocument());

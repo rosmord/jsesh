@@ -67,7 +67,7 @@ import jsesh.utils.JSeshWorkingDirectory;
  *
  * @author rosmord
  */
-public class JSeshApplicationBase {
+public class JSeshApplicationCore {
 
     /**
      * pdf export folder property name for preferences.
@@ -148,7 +148,7 @@ public class JSeshApplicationBase {
 
     private ExportPreferences exportPreferences;
 
-    public JSeshApplicationBase(JSeshUserSignLibraryConfiguration appDef) {
+    public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
         this.glossaryManager = appDef.glossaryManager();
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
