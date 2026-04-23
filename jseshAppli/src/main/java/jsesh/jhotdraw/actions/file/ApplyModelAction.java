@@ -11,7 +11,7 @@ import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
- * This action uses the current view's defaults as generic defaults for new views.
+ * Apply the standard default preferences to the current view.
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
@@ -28,7 +28,7 @@ public class ApplyModelAction extends AbstractViewAction {
 	public void actionPerformed(ActionEvent e) {
 		JSeshView view= (JSeshView) getActiveView();
 		JSeshApplicationModel app = (JSeshApplicationModel) getApplication().getModel();
-		view.setJseshStyle(app.getDefaultDrawingSpecifications().copy());
+		view.setJseshStyle(app.);
 	}
 	
 }

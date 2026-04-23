@@ -36,6 +36,9 @@ package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+
+import jsesh.defaults.JseshFontKit;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
@@ -61,9 +64,9 @@ public final class FindAction extends AbstractApplicationAction {
     private final JWildcardPanel searchPanel;
     private final SearchTarget searchAdapter = new MyTarget();
 
-    public FindAction(Application app) {
+    public FindAction(Application app, JSeshStyleReference styleRef, JseshFontKit fontKit) {
         super(app);
-        searchPanel = SearchPanelFactory.createWildCardPanel(searchAdapter);
+        searchPanel = SearchPanelFactory.createWildCardPanel(searchAdapter,styleRef, fontKit);
         frame = new JFrame();
         frame.add(searchPanel);
         frame.pack();

@@ -124,6 +124,7 @@ Regarding **standard** codes:
 
 ### Simple TODO
 
+- [ ] consider grouping `styleRef` and `fontKit` in a single element (e.g. JSeshComponentConfigSource) to use when creating secondary windows and dialogs. See what needs to be passed and when.
 - [ ] ❗️rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
 - [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
 - [ ] Document what is the scale in `JSeshTechRenderContext`.
