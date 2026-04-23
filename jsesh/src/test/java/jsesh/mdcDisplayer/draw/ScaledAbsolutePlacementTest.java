@@ -63,14 +63,14 @@ public class ScaledAbsolutePlacementTest {
             g -> g.maxCadratHeight(30)
                     .standardSignHeight(30) 
         ).build();                
-        editor1.setStyle(style1);
+        editor1.setJSeshStyle(style1);
         editor1.setMDCText(mdc);
 
         // We use a style with simply maxCadratHeight set to 30 in editor2
         JSeshStyle style2 = JSeshStyle.DEFAULT.copy().geometry(
             g -> g.maxCadratHeight(30)                    
         ).build();
-        editor2.setStyle(style2);
+        editor2.setJSeshStyle(style2);
         editor2.setMDCText(mdc);
         editor2.setMDCText(mdc);
         // We use the default style in editor3

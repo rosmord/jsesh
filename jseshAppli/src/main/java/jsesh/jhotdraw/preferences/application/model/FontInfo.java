@@ -40,7 +40,6 @@ import java.util.prefs.Preferences;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
-import jsesh.mdc.constants.ScriptCodes;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.resources.ResourcesManager;
 
@@ -90,6 +89,28 @@ public class FontInfo {
         this.useEmbeddedFont = fontInfo.useEmbeddedFont;
         this.translitUnicode = fontInfo.translitUnicode;
         this.yodChoice = fontInfo.yodChoice;
+    }
+
+    
+
+    /**
+     * Full constructor.
+     * 
+     * @param hieroglyphsFolder
+     * @param baseFont
+     * @param transliterationFont
+     * @param useEmbeddedFont
+     * @param translitUnicode
+     * @param yodChoice
+     */
+    public FontInfo(File hieroglyphsFolder, Font baseFont, Font transliterationFont, boolean useEmbeddedFont,
+            boolean translitUnicode, YODChoice yodChoice) {
+        this.hieroglyphsFolder = hieroglyphsFolder;
+        this.baseFont = baseFont;
+        this.transliterationFont = transliterationFont;
+        this.useEmbeddedFont = useEmbeddedFont;
+        this.translitUnicode = translitUnicode;
+        this.yodChoice = yodChoice;
     }
 
     public File getHieroglyphsFolder() {
@@ -202,6 +223,7 @@ public class FontInfo {
         return result;
     }
 
+    
     /**
      * Should we use the embedded ASCII MdC Font ?
      * @return true if we use the embedded font.
@@ -223,7 +245,6 @@ public class FontInfo {
                 + ", translitUnicode=" + translitUnicode + ", yodChoice="
                 + yodChoice + "]";
     }
-
     
     /**
      * Transform into FontSpecification which can be added to a JSeshStyle.
@@ -233,6 +254,16 @@ public class FontInfo {
      */
     public FontSpecification toFontSpecification() {
         return new FontSpecification(translitUnicode, yodChoice, true, baseFont, 5f/12f, transliterationFont);
+    }
+
+    /**
+     * Apply to a JSeshStyle.
+     * Basically, utility method calling {@link toFontSpecification}.
+     * @param original the base JSesh style
+     * @return the jsesh style, using the new font specifications.
+     */
+    public JSeshStyle applyApplyToJSeshStyle(JSeshStyle original) {
+        return original.copy().fonts(toFontSpecification()).build();
     }
 
     /**

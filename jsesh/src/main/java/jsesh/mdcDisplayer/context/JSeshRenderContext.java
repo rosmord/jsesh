@@ -60,6 +60,11 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
             return this;
         }
 
+        public Builder jseshStyle(JSeshStyle newStyle) {
+            this.jseshStyle = newStyle;
+            return this;
+        }
+
         public Builder HieroglyphsDrawer(HieroglyphShapeRepository hieroglyphShapeRepository) {
             this.hieroglyphShapeRepository = hieroglyphShapeRepository;
             return this;

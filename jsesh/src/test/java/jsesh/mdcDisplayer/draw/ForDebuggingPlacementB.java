@@ -70,7 +70,7 @@ public class ForDebuggingPlacementB {
                     .standardSignHeight(30)
             ).build();
         //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
-        editor.setStyle(jSeshStyle);
+        editor.setJSeshStyle(jSeshStyle);
         editor.setMDCText(mdc);
         frame.add(editor);
         frame.pack();

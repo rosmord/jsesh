@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -40,23 +41,22 @@ import java.util.prefs.Preferences;
 import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.SimpleFontKit;
+import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
-import jsesh.drawingspecifications.ShadingMode;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
-import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
-import jsesh.jhotdraw.applicationPreferences.model.ExportPreferences;
-import jsesh.jhotdraw.applicationPreferences.model.FontInfo;
 import jsesh.jhotdraw.constants.ExportType;
-import jsesh.mdc.constants.JSeshInfoConstants;
+import jsesh.jhotdraw.preferences.JSeshStyleHelper;
+import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
+import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
@@ -95,11 +95,23 @@ public class JSeshApplicationBase {
     private final PDFExportPreferences pdfExportPreferences;
 
     /**
-     * Base style for <em>new</em> documents.
-     * <p> We use a style reference here, because it allows us to share it 
-     * with menus (possibly) and fields in general.
+     * Base style for <em>new</em> documents.     
      */
-    private JSeshStyleReference baseStyleReference;
+    private JSeshStyle newDocumentStyle;
+
+
+    /**
+     * Style for dialogs and widgets.
+     * 
+     * <p> Shared between all components.
+     */
+
+    private JSeshStyleReference jseshComponentsStyle = new JSeshStyleReference(JSeshStyle.DEFAULT);
+
+    /**
+     * Should we use the embedded transliteration font?
+     */
+    private boolean useEmbeddedTransliterationFont = true;
 
     /**
      * JSesh Glossary Manager.
@@ -118,6 +130,12 @@ public class JSeshApplicationBase {
 
     private final JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
 
+
+    /**
+     * the Possibility repository, allowing one to use autocompletion on signs.
+     */
+    private final PossibilityRepository possibilityRepository;
+
     /**
      * Other information for copy/paste (file formats, for instance).
      */
@@ -134,7 +152,8 @@ public class JSeshApplicationBase {
         this.glossaryManager = appDef.glossaryManager();
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
-        this.baseStyleReference = = new JSeshStyleReference(JSeshStyle.DEFAULT);
+        this.possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossaryManager.getGlossary());
+        this.newDocumentStyle = JSeshStyle.DEFAULT;
         // derived fields.
         this.pdfExportPreferences = new PDFExportPreferences();
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
@@ -142,9 +161,12 @@ public class JSeshApplicationBase {
     }
 
     /**
-     * Change a number of preferences for this program according to the user preferences.
+     * Load preferences (from the java preferences system) and apply them to the
+     * application.
      *
-     * <p> Most preferences are only applied to NEW documents, save for Hieroglyphic font changes.
+     * <p>
+     * the application settings will mostly be applied to <b>new</b> documents,
+     * except for hieroglyphic font source.
      */
     public final void loadPreferences() {
         // Access to Java preferences.
@@ -162,24 +184,17 @@ public class JSeshApplicationBase {
     }
 
     /**
-     * Update JSesh style from the saved preferences.
-     * 
-     * <p> Note that this will only modify NEW documents.
-     * @param preferences
+     * Save the current preferences to the java preferences system.
      */
-    private void updateJSeshStyleFromPreferences(Preferences preferences) {
-        
-    }
-
     public void savePreferences() {
         Preferences preferences = Preferences.userNodeForPackage(this
                 .getClass());
+        // save the creator software version.
+        preferences.put("prefversion", "8.0");
 
-        // Also save the creator software version.
-        preferences.put("prefversion", "5.1");
-
+        FontInfo fontInfo = getFontInfo();
         fontInfo.savetoPrefs(preferences);
-        saveDrawingSpecificationPreferences(preferences);
+        JSeshStyleHelper.saveJSeshStyleToPreferences(newDocumentStyle(), preferences);
         preferences.put(QUICK_PDF_EXPORT_DIRECTORY, quickPDFExportDirectory.getAbsolutePath());
         exportPreferences.saveToPrefs(preferences);
         clipboardPreferences.saveToPrefs(preferences);
@@ -190,13 +205,32 @@ public class JSeshApplicationBase {
         }
     }
 
-    RTFExportPreferences getCurrentRTFPreferences() {
-        return getRTFExportPreferences(exportType);
+   
+    /**
+     * The style to use for new documents.
+     * 
+     * @return the current style.
+     */
+    public JSeshStyle newDocumentStyle() {
+        return newDocumentStyle;
+    }
+
+
+    /**
+     * The style to use for hieroglyphic dialogs and the like.
+     * <p> This is used, for instance, in the glossary and the search dialog. They all share the same style.
+     * <p> It's not used for jsesh documents.
+     * @return the jseshComponentsStyle
+     */
+    public JSeshStyleReference jseshComponentsStyle() {
+        return jseshComponentsStyle;
     }
 
     /**
-     * Choose which copy/paste configuration to use. {@link ExportType#FILE}
-     * should not be used for copy/paste.
+     * Choose which copy/paste configuration to use.
+     * 
+     * <p>
+     * {@link ExportType#FILE} should not be used for copy/paste.
      * <p>
      * (it should probably not be an exportype ?)
      *
@@ -210,16 +244,40 @@ public class JSeshApplicationBase {
         this.exportType = exportType;
     }
 
+    /**
+     * Get the working directory for the application.
+     * 
+     * @return
+     */
     public synchronized File getCurrentDirectory() {
         return JSeshWorkingDirectory.getWorkingDirectory();
     }
 
+    /**
+     * Sets the working directory for the application.
+     * 
+     * @param currentDirectory
+     */
     public synchronized void setCurrentDirectory(File currentDirectory) {
         JSeshWorkingDirectory.setWorkingDirectory(currentDirectory);
     }
 
+    /**
+     * Returns the PDF export preferences.
+     * 
+     * @return the PDF export preferences.
+     */
     public PDFExportPreferences getPDFExportPreferences() {
         return pdfExportPreferences;
+    }
+
+    /**
+     * Preferences for RTF exportation.
+     * 
+     * @return the RTF export preferences.
+     */
+    public RTFExportPreferences getCurrentRTFPreferences() {
+        return getRTFExportPreferences(exportType);
     }
 
     /**
@@ -244,29 +302,9 @@ public class JSeshApplicationBase {
                 exportPreferences.getGraphicFormat());
     }
 
-    public HTMLExporter getHTMLExporter() {
-        return htmlExporter;
-    }
-
-    public File getQuickPDFExportFolder() {
-        return quickPDFExportDirectory;
-    }
-
-    public void setQuickPDFExportFolder(File exportFolder) {
-        this.quickPDFExportDirectory = exportFolder;
-    }
-
-    public MDCClipboardPreferences getClipboardPreferences() {
-        return this.clipboardPreferences;
-    }
-
-    public void setClipboardPreferences(MDCClipboardPreferences prefs) {
-        this.clipboardPreferences = prefs;
-    }
-
     /**
      * Sets the export preferences for copy/paste.
-     *
+     * 
      * @param exportPreferences
      */
     public void setExportPreferences(ExportPreferences exportPreferences) {
@@ -278,12 +316,68 @@ public class JSeshApplicationBase {
     }
 
     /**
+     * Gets the HTML exporter.
+     * <p>
+     * It's a persistent object, to keep the current configuration.
+     * 
+     * @return
+     */
+    public HTMLExporter getHTMLExporter() {
+        return htmlExporter;
+    }
+
+    /**
+     * Returns the folder used for quick PDF export.
+     * 
+     * @return the folder used for quick PDF export.
+     */
+    public File getQuickPDFExportFolder() {
+        return quickPDFExportDirectory;
+    }
+
+    /**
+     * Sets the folder used for quick PDF export.
+     * 
+     * @param exportFolder the folder used for quick PDF export.
+     */
+    public void setQuickPDFExportFolder(File exportFolder) {
+        this.quickPDFExportDirectory = exportFolder;
+    }
+
+    /**
+     * Gets the clipboard preferences for copy/paste.
+     * 
+     * @return the clipboard preferences for copy/paste.
+     */
+    public MDCClipboardPreferences getClipboardPreferences() {
+        return this.clipboardPreferences;
+    }
+
+    /**
+     * Sets the clipboard preferences for copy/paste.
+     * 
+     * @param prefs the clipboard preferences for copy/paste.
+     */
+    public void setClipboardPreferences(MDCClipboardPreferences prefs) {
+        this.clipboardPreferences = prefs;
+    }
+
+    /**
      * Return the current font info configuration.
      * 
      * @return
      */
     public FontInfo getFontInfo() {
-        return fontInfo;
+        FontSpecification specifications = newDocumentStyle().fonts();
+        Font baseFont = specifications.plainFont();
+        Font transliterationFont = specifications.translitterationFont();
+        return new FontInfo(
+                hieroglyphShapeRepository.getDirectory(),
+                baseFont,
+                transliterationFont,
+                this.useEmbeddedTransliterationFont,
+                specifications.translitUnicode(),
+                specifications.yodChoice());
     }
 
     /**
@@ -292,10 +386,56 @@ public class JSeshApplicationBase {
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        this.fontInfo = fontInfo;
+        this.useEmbeddedTransliterationFont = fontInfo.isUseEmbeddedFont();
         // Sets the jseshStyle
+        this.newDocumentStyle = fontInfo.applyApplyToJSeshStyle(newDocumentStyle());
         // and update the hieroglyphic font.
-        throw new UnsupportedOperationException("Write me!");
+        fontInfo.applyToShapeRepository(hieroglyphShapeRepository);
+    }
+
+    /**
+     * @return the glossaryManager
+     */
+    public GlossaryManager getGlossaryManager() {
+        return glossaryManager;
+    }
+
+    /**
+     * @return the hieroglyphDatabase
+     */
+    public HieroglyphDatabaseInterface getHieroglyphDatabase() {
+        return hieroglyphDatabase;
+    }
+
+    /**
+     * @return the hieroglyphShapeRepository
+     */
+    public JSeshFullHieroglyphShapeRepository getHieroglyphShapeRepository() {
+        return hieroglyphShapeRepository;
+    }
+
+    
+    // ---------- private methods
+
+    /**
+     * Update JSesh style from the saved preferences.
+     * 
+     * <p>
+     * Note that this will only modify NEW documents.
+     * 
+     * @param preferences
+     */
+    private void updateJSeshStyleFromPreferences(Preferences preferences) {
+        this.newDocumentStyle = JSeshStyleHelper.javaPreferencesToJSeshStyle(preferences, newDocumentStyle);
+    }
+
+    /**
+     * Returns the hieroglyph compendium needed by most JSesh components.
+     * <p> They will find everything they need to draw and search hieroglyphs.
+     * @return a hieroglyph compendium.
+     */
+    public JseshFontKit getFontKit() {
+        return new SimpleFontKit(hieroglyphShapeRepository, possibilityRepository, hieroglyphDatabase);
     }
 
 }

@@ -98,7 +98,8 @@ public class ApplicationPreferencesPresenter {
 
     /**
      * Fetches the preferences from the application.
-     * @param app
+     * // TODO : consider depending on JSeshApplicationBase instead of JSeshApplicationModel, which is specific to the JHotDraw app framework.
+     * @param app the application model
      */
     public void loadPreferences(JSeshApplicationModel app) {
         clipboardFormatSelector.loadPreferences(app);

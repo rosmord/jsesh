@@ -48,8 +48,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
+import jsesh.defaults.JseshFontKit;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.editor.HieroglyphicTextModel;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * The actual Swing component with all fixed elements for the JSesh view. As
@@ -105,9 +110,9 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
      */
     private final JButton hieroglyphsButton;
 
-    public JSeshViewComponent() {
+    public JSeshViewComponent(JseshFontKit fontKit, JSeshStyle style) {
         // simple components.
-        editor = new JMDCEditor();
+        editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
         codeField = new JTextField(5);
         separatorField = new JTextField(1);
         mdcField = new JTextField();
@@ -208,6 +213,22 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
     public JButton getHieroglyphsButton() {
         return hieroglyphsButton;
+    }
+
+    public JSeshStyle getJSeshStyle() {
+        return editor.getJSeshStyle();
+    }
+
+    /**
+     * The RenderContext of the current editor.
+     * @return
+     */
+    public JSeshRenderContext getRenderContext() {
+        return editor.getRenderContext();
+    }
+
+    public void setJSeshStyle(JSeshStyle jSeshStyle) {
+        editor.setJSeshStyle(jSeshStyle);
     }
 
 }

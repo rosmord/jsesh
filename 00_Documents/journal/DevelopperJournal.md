@@ -2,12 +2,20 @@
 
 This journal should only be edited and modified in the Development branch.
 
+🍰
+: easy task
+
+❗️
+: important task
+
 ## TODO
 
 - [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
 
 ### Long Term TODO
 
+- [ ] ❗️systematicaly use MVC for **preferences** and **fonts** ; ensure that there is no memory leak.
+- [ ] 🍰 **TODO** the organisation of the various preferences in JSesh Appli is not optimal. They are difficult to sort and understand. Improve this (when the software runs!) (relatively simple). 
 - [ ] ❗️ try to use `doubles` instead of `floats` to avoid rounding errors.
 - [ ] design a coherent naming system for interfaces and implementations.
 - [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons. **DOCUMENT IT** (as a way to ensure it's coherent).
@@ -19,10 +27,40 @@ This journal should only be edited and modified in the Development branch.
 - [ ] refactor the whole business around hieroglyphs to make it more logical.
 - [ ] separate JSeshStyle into two parts: one with the features which are likely to be shared, and one with features which are probably specific to a particular document. I'm not sure it's that useful, this being said.
 - [ ] **We should perhaps move some of the responsabilities of `HieroglyphsDrawer` to `JSeshStyle`.**
+- [ ] In the JHotdraw linked part, move **down** (to JSeshViewModel) what can be moved down, possibly keeping `JSeshView` as a facade.
 
 - Note about singletons
 
   - `ManuelDeCodage` is a singleton. It *could* be annoying if we had different versions of the *Manuel*, but in fact, it does only deal with the basic Gardiner List. We can continue to use a singleton here.
+
+- review the following problem in `JSeshView`:
+
+  ~~~java
+  public void setSmallSignsCentered(boolean selected) {
+        // Rather bad design: the info is kept both in drawingspecs
+        // and in the document.
+        /*
+         * TODO CLEANUP THIS MESS (well we do have this mess since we introduced
+         * this capability in JSesh and we still have it now, including the
+         * "bad design" comment...
+         * 
+         * There should be some kind of "document event" system there... (better
+         * still, have a look at Buoy, and propose something on the lines of...
+         * document.addEventLink(FormatEvent.class, menuManager,
+         * updateMenuItems); )
+         */
+        PaintingSpecifications specs = getDrawingSpecifications().copy();
+        specs.setSmallSignsCentered(selected);
+        viewModel.setJseshStyle(specs);
+        // getEditor().setSmallSignsCentered(selected);
+        /*
+         * getMdcDocument().setDocumentPreferences(
+         * getMdcDocument().getDocumentPreferences()
+         * .withSmallSignCentered(selected)); getEditor().invalidateView();
+         */
+        firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
+    }
+  ~~~
 
 ### Test TODO
 
@@ -47,7 +85,8 @@ This journal should only be edited and modified in the Development branch.
         invalidateView();
     }
     ~~~
-- [ ] `JGlossaryEditor` checks that we can ch
+- [ ] `JGlossaryEditor` 
+- [ ] checks that copy/paste correctly uses the preferences we have.
 
 ### Low priority TODO
 
@@ -73,7 +112,7 @@ This journal should only be edited and modified in the Development branch.
 - [ ] ❗️rename `HieroglyphDatabaseInterface` into `HieroglyphDatabase`, and name implementations instead.
 - [ ] ❗️rename `SimpleHieroglyphDatabase` into `DefaultHieroglyphDatabase`.
 - [ ] rename mojos using the standard maven scheme.
-
+- [ ] move `showCorpusSearchHit` out of `JSeshApplicationModel`.
 
 ### TODO / MANDATORY
 
@@ -96,15 +135,46 @@ Regarding **standard** codes:
 - [ ] ❗️❗️For the default glyph source, we should probably propose a system with two defaults sources : with or without user-defined signs.
 - [ ] separate constructor call for the glossary manager and reading user glossary from file, mainly to simplify testing and debugging. 
 - [ ] reorganise the packages of `jseshAppli`, which have really been designed on the fly.
-
+- [ ] manage  `USE_J` in `YodChoice`
 
 ## Daily log
 
+### 2026/04/23
+
+- [ ] in `PdfExportPreferences`, the `drawingSpecifications` where... not used!
+- [ ] We have added a chain of `getJseshStyle` methods in the view part of the application in `MyTransferableBroker`. But is it needed? The information needed might be available in the `JSeshApplicationModel`. 
+- [ ] we have removed the method `setClipboardPreferences` from `MDCModelTransferable` : clipboardPreferences were **not** used at that point!
+- [ ] **TODO**  `JSeshView` should not have a `setMDCModelTransferableBroker` method. the broker comes from the application. It should either be passed in the constructor or set at init time. No need to have a **public** setter for it!
+- [ ] as a matter of fact, the method:
+  ~~~java
+  @Override
+      public void initView(Application a, View v) {
+          super.initView(a, v);
+          JSeshView jSeshView = (JSeshView) v;
+          jSeshView.initWithResources(jseshApplicationBase);
+          jSeshView.setMDCModelTransferableBroker(transferableBroker); // Might be performed by initWithResources
+          jSeshView.setFontInfo(getFontInfo());
+      }
+  ~~~
+
+  should probably be:
+
+  ~~~java
+  @Override
+      public void initView(Application a, View v) {
+          super.initView(a, v);
+          JSeshView jSeshView = (JSeshView) v;
+          jSeshView.initWithResources(jseshApplicationBase);          
+      }
+  ~~~
+
+  with both the `transferableBroker` and the `fontInfo` being held by `jseshApplicationBase`. Actually, fontInfo is already there.
 
 ### 2026/04/22
 
 Work on  `JSeshAppli`.
 
+#### Code structure
 A bit of structure. In the following diagram, the stereotype `<<jhotdraw>>` is used to mark classes which instantiate elements of the `jhotdraw` framework.
 
 ```plantuml
@@ -163,9 +233,15 @@ package documentview {
   }
 }
 
+note top of JSeshViewModel
+Presenter/controller 
+for the "JSeshViewComponent"
+end note
+
 note right of JSeshViewComponent
 gui JPanel for the JSeshView
-end note
+  end note
+
 
 JSeshView --> JSeshViewModel
 JSeshViewModel --> JSeshViewComponent
@@ -188,7 +264,19 @@ end note
 
 Currently, the class `JSeshStyleHelper` is in the `jsesh.utils` package. Logically, it's part of `jsesh.jhotdraw` (the main application), but it's relatively likely that some library users will want to use the JSesh **application** preferences for some of their own softwares.
 
+#### Work log
+
+- consider adding logging to the application, to improve debugging;
+- we have added the boolean property `useEmbeddedTransliterationFont` to `JSeshApplicationBase`. It looks like a hack, and we should try to improve it.
+
 ### 2026/04/21
+
+- Problem with JSeshFontKit and SimpleFontKit. We want to have only **one** glossary, **one** possibilityRepository, etc. The constructors of SimpleFontKit may lead to the creation of multiple instances of those objects.
+- [ ] **TODO** improve naming. The `JSeshApplicationBase` uses both `RTFExportPreferences` which are used by the actual graphical layer, and `exportType` and `ExportPreferences` which come from preference dialogs. `RTFExportPreferences` is built using both `exportType` and `ExportPreferences`, but the naming scheme is not very good.
+
+- [ ] **TODO** find why `getCurrentDirectory` is synchronized. Choose between the names `getCurrentDirectory` and `getWorkingDirectory`.
+`
+- [ ] **TODO** (very soon) rename `selectCopyPasteConfiguration` into `setCopyPasteConfiguration` or something like that. 
 
 - [x] **TODO** introduce the following packages :
 

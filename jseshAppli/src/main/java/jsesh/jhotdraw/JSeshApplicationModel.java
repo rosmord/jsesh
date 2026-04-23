@@ -33,35 +33,56 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
-import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
-
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.DefaultApplicationModel;
+import org.jhotdraw_7_6.app.MenuBuilder;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.app.AboutAction;
+import org.jhotdraw_7_6.app.action.app.OpenApplicationFileAction;
+import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
+import org.jhotdraw_7_6.app.action.edit.CopyAction;
+import org.jhotdraw_7_6.app.action.edit.CutAction;
+import org.jhotdraw_7_6.app.action.edit.DeleteAction;
+import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
+import org.jhotdraw_7_6.app.action.edit.PasteAction;
+import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
+import org.jhotdraw_7_6.gui.URIChooser;
+import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
+import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
+
 import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
+import jsesh.defaults.JseshFontKit;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.emf.EMFExporter;
 import jsesh.graphics.export.eps.EPSExporter;
 import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.macpict.MacPictExporter;
+import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.graphics.export.svg.SVGExporter;
 import jsesh.graphics.export.wmf.WMFExporter;
-import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
@@ -102,30 +123,14 @@ import jsesh.jhotdraw.filechooser.QenherkhURIChooser;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter;
+import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.PalettePresenter;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.DefaultApplicationModel;
-import org.jhotdraw_7_6.app.MenuBuilder;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.app.AboutAction;
-import org.jhotdraw_7_6.app.action.app.OpenApplicationFileAction;
-import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
-import org.jhotdraw_7_6.app.action.edit.CopyAction;
-import org.jhotdraw_7_6.app.action.edit.CutAction;
-import org.jhotdraw_7_6.app.action.edit.DeleteAction;
-import org.jhotdraw_7_6.app.action.edit.DuplicateAction;
-import org.jhotdraw_7_6.app.action.edit.PasteAction;
-import org.jhotdraw_7_6.app.action.edit.SelectAllAction;
-import org.jhotdraw_7_6.gui.URIChooser;
-import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
-import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
 /**
  * JHotdraw-specific model for the application.
@@ -190,61 +195,63 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     /**
      * Currently, dialogs are here.
-     * Should they be in JSeshApplicationBase ? 
+     * Should they be in JSeshApplicationBase ?
      * Given its current definition, it would be reasonable.
      */
     private PalettePresenter palettePresenter;
 
     // same remark as palettePresenter.
     private JGlossaryEditor glossaryEditor;
-    
+
     private boolean canOpenNewView = true;
 
     public JSeshApplicationModel(JSeshUserSignLibraryConfiguration applicationDefaults) {
-        this.jseshApplicationBase = new JSeshApplicationBase(applicationDefaults);    
+        this.jseshApplicationBase = new JSeshApplicationBase(applicationDefaults);
     }
 
     @Override
     public void initApplication(Application a) {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
+        JSeshStyleReference commonStyle = jseshApplicationBase.jseshComponentsStyle();
+        JseshFontKit fontKit = jseshApplicationBase.getFontKit();
+
         this.application.initSecondaryWindow(palettePresenter.getDialog());
-        this.application.initSecondaryWindow(new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit)));
+        this.application.initSecondaryWindow(
+                new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit), commonStyle, fontKit));
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jhotdraw_7_6.app.DefaultApplicationModel#initView(org.jhotdraw_7_6
-	 * .app.Application, org.jhotdraw_7_6.app.View)
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.jhotdraw_7_6.app.DefaultApplicationModel#initView(org.jhotdraw_7_6
+     * .app.Application, org.jhotdraw_7_6.app.View)
      */
     @Override
     public void initView(Application a, View v) {
         super.initView(a, v);
         JSeshView jSeshView = (JSeshView) v;
-        jSeshView.initWithResources();
-       
-        
-        jSeshView.setJseshStyle(drawingSpecifications);
-        jSeshView.setMDCModelTransferableBroker(transferableBroker);
-        jSeshView.setFontInfo(getFontInfo());
+        jSeshView.initWithResources(jseshApplicationBase);
+        // TODO: the following should be handled by initWithResources.
+        // TODO: Which means moving the corresponding data to JSeshApplicationBase.
+        jSeshView.setMDCModelTransferableBroker(transferableBroker); // Might be performed by initWithResources        
     }
 
     /*
-	 * Note that createActionMap is in the application model and not in the view
-	 * model, because for Mac OS X, all actions are supposed to be created, even
-	 * if there is no view.
-	 * 
-	 * <p> We don't follow this exactly. Currently, some actions are fetched
-	 * from our editor object, which doesn't follow the JHotdraw framework.
-	 * Anyway, if we want to respect the system, we will need to create an
-	 * action factory for the JMDCEditor object. The action factory will be able
-	 * to create actions for both an existing editor and a null one. </p>
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jhotdraw_7_6.app.DefaultApplicationModel#createActionMap(org.
-	 * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_6.app.View)
+     * Note that createActionMap is in the application model and not in the view
+     * model, because for Mac OS X, all actions are supposed to be created, even
+     * if there is no view.
+     * 
+     * <p> We don't follow this exactly. Currently, some actions are fetched
+     * from our editor object, which doesn't follow the JHotdraw framework.
+     * Anyway, if we want to respect the system, we will need to create an
+     * action factory for the JMDCEditor object. The action factory will be able
+     * to create actions for both an existing editor and a null one. </p>
+     * (non-Javadoc)
+     * 
+     * @see org.jhotdraw_7_6.app.DefaultApplicationModel#createActionMap(org.
+     * jhotdraw_7_4_1.app.Application, org.jhotdraw_7_6.app.View)
      */
     @Override
     public ActionMap createActionMap(Application a, View v) {
@@ -269,7 +276,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
             // Corpus search...
-            map.put(FindInFolderAction.ID, new FindInFolderAction((ActiveViewAwareApplication) a, hit -> showCorpusSearchHit(hit)));
+            map.put(FindInFolderAction.ID,
+                    new FindInFolderAction((ActiveViewAwareApplication) a, hit -> showCorpusSearchHit(hit)));
 
             // palette ...
             createDialog();
@@ -296,8 +304,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(FindAction.ID, new FindAction(a));
 
         } else {
-            // Note : many actions are in fact defined in the MDCEditor 
-            // object itself. 
+            // Note : many actions are in fact defined in the MDCEditor
+            // object itself.
             // View level actions
             map.put(SelectAllAction.ID, new JSeshSelectAllAction(a, jseshView));
             map.put(ClearSelectionAction.ID, new JSeshClearSelectionAction(a, jseshView));
@@ -373,11 +381,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         return map;
     }
 
-	private void createDialog() {
-		glossaryEditor = new JGlossaryEditor();
-		palettePresenter = new PalettePresenter(jseshApplicationBase.get);
-		palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
-	}
+    private void createDialog() {
+        glossaryEditor = new JGlossaryEditor(jseshApplicationBase.getGlossaryManager());
+        palettePresenter = new PalettePresenter(jseshApplicationBase.getHieroglyphShapeRepository(),
+                jseshApplicationBase.getHieroglyphDatabase());
+        palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+    }
 
     @Override
     protected MenuBuilder createMenuBuilder() {
@@ -397,11 +406,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         String pdfDescription = BundleHelper.getInstance().getLabel(
                 "file.pdfFile.text");
         chooser.setOpenFileFilters(
-                new FileFilter[]{
-                    new FileExtensionFilter(new String[]{"pdf"}, pdfDescription),
-                    new FileExtensionFilter(new String[]{"gly", "hie", "GLY"}, description)
-                }
-        );
+                new FileFilter[] {
+                        new FileExtensionFilter(new String[] { "pdf" }, pdfDescription),
+                        new FileExtensionFilter(new String[] { "gly", "hie", "GLY" }, description)
+                });
         return chooser;
     }
 
@@ -414,11 +422,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         String description = BundleHelper.getInstance().getLabel(
                 "file.glyphFile.text");
         QenherkhURIChooser chooser = new QenherkhURIChooser();
-        chooser.setAllowedSaveExtensions(new String[] {"gly"});
+        chooser.setAllowedSaveExtensions(new String[] { "gly" });
         chooser.setSelectedURI(v.getURI());
-        chooser.setCloseFileFilters(new FileFilter[]{
-            new ExtensionFileFilter(description, "gly"),
-            new FileExtensionFilter(new String[]{"pdf"}, pdfDescription)
+        chooser.setCloseFileFilters(new FileFilter[] {
+                new ExtensionFileFilter(description, "gly"),
+                new FileExtensionFilter(new String[] { "pdf" }, pdfDescription)
         });
         return chooser;
     }
@@ -445,7 +453,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     /**
      * @param exportType
      * @see
-     * jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(ExportType)
+     *      jsesh.jhotdraw.JSeshApplicationBase#selectCopyPasteConfiguration(ExportType)
      */
     public void selectCopyPasteConfiguration(ExportType exportType) {
         jseshApplicationBase.selectCopyPasteConfiguration(exportType);
@@ -553,53 +561,44 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     private class MyTransferableBroker implements MDCModelTransferableBroker {
 
         @Override
-        public MDCModelTransferable buildTransferable(TopItemList top) {
-            return buildTransferable(top,
-                    JSeshPasteFlavors
-                            .getTransferDataFlavors(getClipboardPreferences()));
-
+        public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext) {
+            return buildTransferable(top, renderContext,
+                    getClipboardPreferences().getTransferDataFlavors());
         }
 
         @Override
-        public MDCModelTransferable buildTransferable(TopItemList top,
+        public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
                 DataFlavor[] dataFlavors) {
 
-            MDCModelTransferable result = new MDCModelTransferable(dataFlavors,
-                    top);
-            PaintingSpecifications currentDrawingSpecifications = ((JSeshView) application
-                    .getActiveView()).getDrawingSpecifications();
-            result.setJseshStyle(currentDrawingSpecifications);
-            result.setRtfPreferences(jseshApplicationBase.getCurrentRTFPreferences());
-            result.setClipboardPreferences(jseshApplicationBase.getClipboardPreferences());
+            RTFExportPreferences rtfExportPreferences = jseshApplicationBase.getCurrentRTFPreferences();
+            MDCModelTransferable result =
+                    new MDCModelTransferable(dataFlavors, top, rtfExportPreferences, renderContext);
+            // Check if this is needed (I think not - the rendercontext contains the style of the view).
+            //JSeshStyle style = ((JSeshView) application
+            //        .getActiveView()).getJSeshStyle();
+            //result.setJseshStyle(style);            
             return result;
         }
     }
 
-    public void setDefaultDrawingSpecifications(
-            PaintingSpecifications drawingSpecifications) {
-        jseshApplicationBase.setDefaultDrawingSpecifications(drawingSpecifications);
-    }
-
-    /**
-     * Returns a copy of the current default drawing specifications.
-     *
-     * @return
-     */
-    public PaintingSpecifications getDefaultDrawingSpecifications() {
-        return jseshApplicationBase.getDefaultDrawingSpecifications();
-    }
-
-    public JGlossaryEditor getGlossaryEditor() {    
+    public JGlossaryEditor getGlossaryEditor() {
         return glossaryEditor;
     }
 
+    /**
+     * Display the corpus search hit.
+     * <p>
+     * Should not be in the application model.
+     * 
+     * @param hit
+     */
     private void showCorpusSearchHit(final CorpusSearchHit hit) {
         Path hitPath = hit.getFile();
         JSeshView selectedView = null;
         for (View view : application.views()) {
             if (view.getURI() == null) {
-                continue; // We don't try (for the moment) to load the document 
-            } // in the existing view... it might contain unsaved data. 
+                continue; // We don't try (for the moment) to load the document
+            } // in the existing view... it might contain unsaved data.
             Path viewPath = Paths.get(view.getURI());
             try {
                 if (Files.isSameFile(viewPath, hitPath)) {
@@ -613,8 +612,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         if (selectedView == null) {
             if (canOpenNewView) { // Else, nothing... do it later.
                 canOpenNewView = false;
-                View newView
-                        = application.createView();
+                View newView = application.createView();
                 application.add(newView);
                 newView.setEnabled(false);
                 application.show(newView);
@@ -626,13 +624,12 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                         super.done(value);
                         JSeshView v = (JSeshView) newView;
                         v.getEditor().setInsertPosition(hit.getPosition());
-                        canOpenNewView
-                                = true;
+                        canOpenNewView = true;
                     }
                 });
             }
         } else {
-// TODO : reorganize MDCPosition. It's too tightly coupled to the text. 
+            // TODO : reorganize MDCPosition. It's too tightly coupled to the text.
             if (selectedView.isEnabled()) {
                 selectedView.setEnabled(false);
                 application.show(selectedView);

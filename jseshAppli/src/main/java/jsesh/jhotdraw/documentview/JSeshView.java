@@ -48,6 +48,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
@@ -61,6 +62,7 @@ import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
 import jsesh.io.importer.rtf.RTFImporter;
+import jsesh.jhotdraw.JSeshApplicationBase;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
@@ -70,6 +72,7 @@ import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.resources.JSeshMessages;
@@ -128,8 +131,10 @@ public class JSeshView extends AbstractView {
     /**
      * Type-safe initialization method, called by the application.
      */
-    public void initWithResources() {
-        viewModel = new JSeshViewModel();
+    public void initWithResources(JSeshApplicationBase appBase) {
+        viewModel = new JSeshViewModel(appBase.getFontKit(), appBase.newDocumentStyle());
+        setFontInfo(appBase.getFontInfo()); // Moved from JSeshApplicationModel.initView, which was not the right place
+                                            // for it.
         setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());
         add(viewModel.getViewComponent(), BorderLayout.CENTER);
@@ -141,10 +146,10 @@ public class JSeshView extends AbstractView {
      * React to changes in the model.
      */
     private void updateViewData() {
-    setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
-                    .isClean());
+        setHasUnsavedChanges(!getEditor().getHieroglyphicTextModel()
+                .isClean());
     }
-    
+
     @Override
     public void start() {
         super.start();
@@ -335,13 +340,13 @@ public class JSeshView extends AbstractView {
 
         documentPreferences = documentPreferences
                 .withTextDirection(
-                        getEditor().getDrawingSpecifications()
+                        getEditor()
                                 .getTextDirection())
                 .withTextOrientation(
-                        getEditor().getDrawingSpecifications()
+                        getEditor()
                                 .getTextOrientation())
                 .withSmallSignCentered(
-                        getEditor().getDrawingSpecifications()
+                        getEditor()
                                 .isSmallSignsCentered());
 
         // TODO END OF TEMPORARY PATCH
@@ -368,17 +373,11 @@ public class JSeshView extends AbstractView {
             // TODO save PDF prefs in pdf files...
             PDFExportPreferences prefs = new PDFExportPreferences();
             prefs.setFile(document.getFile());
-            prefs.setJseshStyle(getDrawingSpecifications().copy());
-            prefs.getDrawingSpecifications().setTextDirection(
-                    documentPreferences.getTextDirection());
-            prefs.getDrawingSpecifications().setTextOrientation(
-                    documentPreferences.getTextOrientation());
-            prefs.getDrawingSpecifications().setSmallSignsCentered(
-                    documentPreferences.isSmallSignCentered());
+            prefs.setJseshStyle(getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render context!
             PDFExporter exporter = new PDFExporter();
             exporter.setPdfExportPreferences(prefs);
-            TopItemList model = document.getHieroglyphicTextModel().getModel();
-            exporter.exportModel(model, MDCCaret.buildWholeTextCaret(model));
+            TopItemList model = document.getHieroglyphicTextModel().getModel();            
+            exporter.exportModel(model, getCaret(), viewModel.getRenderContext());
         } else {
             document.save();
         }
@@ -490,7 +489,7 @@ public class JSeshView extends AbstractView {
     public ExportData getExportData() {
         // Note : there is some doubt over which drawing specifications should
         // be used ?
-        return new ExportData(getDrawingSpecifications(), getCaret(), viewModel
+        return new ExportData(viewModel.getRenderContext(), getCaret(), viewModel
                 .getMdcDocument().getHieroglyphicTextModel().getModel(), 1f);
     }
 
@@ -568,9 +567,7 @@ public class JSeshView extends AbstractView {
          * document.addEventLink(FormatEvent.class, menuManager,
          * updateMenuItems); )
          */
-        PaintingSpecifications specs = getDrawingSpecifications().copy();
-        specs.setSmallSignsCentered(selected);
-        viewModel.setJseshStyle(specs);
+        viewModel.setJSeshStyle(viewModel.getJSeshStyle().copy().options(o -> o.smallSignCentered(selected)).build());
         // getEditor().setSmallSignsCentered(selected);
         /*
          * getMdcDocument().setDocumentPreferences(
@@ -586,38 +583,38 @@ public class JSeshView extends AbstractView {
      * @param selected
      */
     public void setJustify(boolean selected) {
-        PaintingSpecifications specs = getDrawingSpecifications().copy();
-        specs.setJustified(selected);
-        viewModel.setJseshStyle(specs);
+        viewModel.setJustify(selected);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextOrientation(TextOrientation textOrientation) {
-        PaintingSpecifications specs = getDrawingSpecifications().copy();
-        specs.setTextOrientation(textOrientation);
-        viewModel.setJseshStyle(specs);
+        viewModel.setTextOrientation(textOrientation);
         // getEditor().setTextOrientation(textOrientation);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     public void setTextDirection(TextDirection textDirection) {
-        PaintingSpecifications specs = getDrawingSpecifications().copy();
-        specs.setTextDirection(textDirection);
-        viewModel.setJseshStyle(specs);
-        // getEditor().setTextDirection(textDirection);
+        viewModel.setTextDirection(textDirection);
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
     /**
      * Change the fonts JSesh uses.
-     *
+     * Used:
+     * <ul>
+     * <li> when creating the view
+     * <li> when the hieroglyphic font preferences are changed
+     * </ul>
+     * 
+     * If we move to a MVC architecture, it might become obsolete.
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
-        PaintingSpecifications drawingSpecification = getDrawingSpecifications()
-                .copy();
-        fontInfo.applyToDrawingSpecifications(drawingSpecification);
-        setJseshStyle(drawingSpecification);
+        viewModel.setFontInfo(fontInfo);
+    }
+
+    public JSeshStyle getJSeshStyle() {
+        return viewModel.getJSeshStyle();
     }
 
     /*

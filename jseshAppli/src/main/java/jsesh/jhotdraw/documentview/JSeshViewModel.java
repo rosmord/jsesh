@@ -50,6 +50,7 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.MdCSearchQuery;
@@ -58,10 +59,14 @@ import jsesh.editor.events.TextEvent;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
+import jsesh.jhotdraw.preferences.application.model.FontInfo;
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
 
@@ -76,8 +81,8 @@ public final class JSeshViewModel {
     /**
      * Predefined zoom factors for the zoom combo box.
      */
-    private static final int[] ZOOMFACTORS = new int[]{25, 50, 75, 100, 112, 128, 150, 200, 300, 400,
-        600, 800, 1600, 3200, 6400, 12800};
+    private static final int[] ZOOMFACTORS = new int[] { 25, 50, 75, 100, 112, 128, 150, 200, 300, 400,
+            600, 800, 1600, 3200, 6400, 12800 };
 
     /**
      * The main graphical component.
@@ -108,17 +113,21 @@ public final class JSeshViewModel {
         }
     };
 
-
     /**
      * Possible list of search results.
-     *      
+     * 
      */
     private List<MDCPosition> lastSearchResults = null;
 
-
-    public JSeshViewModel(JseshFontKit fontKit) {
+    /**
+     * Create a view model.
+     * 
+     * @param fontKit information about hieroglyphic fonts.
+     * @param style   the style of the new document.
+     */
+    public JSeshViewModel(JseshFontKit fontKit, JSeshStyle style) {
         this.fontKit = fontKit;
-        viewComponent = new JSeshViewComponent<ZoomInfo>();
+        viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);
         setCurrentDocument(new MDCDocument());
 
         // Activate the objects
@@ -167,8 +176,8 @@ public final class JSeshViewModel {
         mdcDocument = newDocument;
         mdcDocument.getHieroglyphicTextModel().addListener(delegatingObserver);
         DocumentPreferences prefs = mdcDocument.getDocumentPreferences();
-        JSeshStyle newStyle = JSeshStyleHelper.applyDocumentPreferences(prefs, getEditor().getStyle());
-        getEditor().setStyle(newStyle);
+        JSeshStyle newStyle = JSeshStyleHelper.applyDocumentPreferences(prefs, getEditor().getJSeshStyle());
+        getEditor().setJSeshStyle(newStyle);
         getEditor().setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
     }
 
@@ -189,7 +198,7 @@ public final class JSeshViewModel {
      *
      * @param position technical position in the JSesh document.
      * @return the position in the original document, or the empty string if
-     * none is found.
+     *         none is found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
         return getEditor().getOriginalDocumentCoordinates(position);
@@ -314,7 +323,7 @@ public final class JSeshViewModel {
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
         List<HieroglyphFamily> families = fontKit.hieroglyphDatabase().getFamilies();
-        
+
         JPopupMenu hieroglyphs = new JPopupMenu();
 
         hieroglyphs.setLayout(new GridLayout(14, 2));
@@ -335,19 +344,19 @@ public final class JSeshViewModel {
             hieroglyphs.add(fmenu);
         }
 
-        HieroglyphicMenu[] others = new HieroglyphicMenu[]{
-            new HieroglyphicMenu("Tall Narrow Signs",
-            HieroglyphicMenu.TALL_NARROW, 6),
-            new HieroglyphicMenu("Low Broad Signs",
-            HieroglyphicMenu.LOW_BROAD, 6),
-            new HieroglyphicMenu("Low Narrow Signs",
-            HieroglyphicMenu.LOW_NARROW, 6)};
+        HieroglyphicMenu[] others = new HieroglyphicMenu[] {
+                new HieroglyphicMenu("Tall Narrow Signs",
+                        HieroglyphicMenu.TALL_NARROW, 6),
+                new HieroglyphicMenu("Low Broad Signs",
+                        HieroglyphicMenu.LOW_BROAD, 6),
+                new HieroglyphicMenu("Low Narrow Signs",
+                        HieroglyphicMenu.LOW_NARROW, 6) };
         for (HieroglyphicMenu m : others) {
             hieroglyphs.add(m);
             m.setHieroglyphicMenuListener(mediator);
         }
 
-        //hieroglyphs.setMnemonic(KeyEvent.VK_H);
+        // hieroglyphs.setMnemonic(KeyEvent.VK_H);
         return hieroglyphs;
     }
 
@@ -409,5 +418,47 @@ public final class JSeshViewModel {
                 this.lastSearchResults = null;
             }
         }
+    }
+
+    /**
+     * The JSesh style of the current editor.
+     * 
+     * @return
+     */
+    public JSeshStyle getJSeshStyle() {
+        return viewComponent.getJSeshStyle();
+    }
+
+    /**
+     * The render Context of the current editor.
+     */
+
+    public JSeshRenderContext getRenderContext() {
+        return viewComponent.getRenderContext();
+    }
+
+    public void setJSeshStyle(JSeshStyle jSeshStyle) {
+        viewComponent.setJSeshStyle(jSeshStyle);
+    }
+
+    public void setFontInfo(FontInfo fontInfo) {
+        JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());        
+        setJSeshStyle(newStyle);
+    }
+
+    public void setJustify(boolean selected) {
+        setJSeshStyle(
+                getJSeshStyle().copy().options(o -> o.justified(selected)).build());
+    }
+
+    public void setTextOrientation(TextOrientation textOrientation) {
+        setJSeshStyle(
+                getJSeshStyle().copy().options(o -> o.textOrientation(textOrientation)).build());
+
+    }
+
+    public void setTextDirection(TextDirection textDirection) {
+        setJSeshStyle(
+                getJSeshStyle().copy().options(o -> o.textDirection(textDirection)).build());
     }
 }

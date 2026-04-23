@@ -1,7 +1,6 @@
 package jsesh.defaults;
 
 import java.util.List;
-import java.util.Optional;
 
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.JSeshGlossary;

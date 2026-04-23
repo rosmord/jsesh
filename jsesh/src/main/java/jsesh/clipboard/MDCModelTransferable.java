@@ -17,6 +17,7 @@ import java.util.Arrays;
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.pdfExport.PDFDataSaver;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
@@ -74,6 +75,12 @@ public class MDCModelTransferable implements Transferable {
         this.rtfPreferences = rtfExportPreferences;
         this.jseshRenderContext = renderContext;
         this.dataFlavors = dataFlavors;
+    }
+
+    public void setJseshStyle(JSeshStyle style) {
+        // A bit convoluted, a simple call to jseshRenderContext constructor would do.
+        // But we are consistent.
+        this.jseshRenderContext = this.jseshRenderContext.copy().jseshStyle(style).build();                
     }
 
     @Override

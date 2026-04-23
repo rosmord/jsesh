@@ -50,8 +50,8 @@ public class JSeshStyleHelper {
      * @param preferences standard java preferences.
      * @return the corresponding JSeshStyle.
      */
-    public static JSeshStyle javaPreferencesToJSeshStyle(Preferences preferences) {
-        JSeshStyle result = JSeshStyle.DEFAULT.copy()
+    public static JSeshStyle javaPreferencesToJSeshStyle(Preferences preferences, JSeshStyle original) {
+        JSeshStyle result = original.copy()
                 .geometry(g -> g.cartoucheLineWidth((float) preferences.getDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, 1.0)) // ok
                         .maxCadratWidth((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, 22)) // ok
                         .maxCadratHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT, 18)) // ok

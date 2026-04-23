@@ -299,7 +299,7 @@ public class JMDCEditor extends JPanel {
      * 
      * @return
      */
-    public JSeshStyle getStyle() {
+    public JSeshStyle getJSeshStyle() {
         return styleReference.getStyle();
     }
 
@@ -310,7 +310,7 @@ public class JMDCEditor extends JPanel {
      * 
      * @param style the style to set.
      */
-    public void setStyle(JSeshStyle style) {
+    public void setJSeshStyle(JSeshStyle style) {
         styleReference.setStyle(style);
     }
 
@@ -408,7 +408,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getStyle());
+                getJSeshStyle());
         if (pos != null) {
             workflow.setCursor(pos);
         }
@@ -427,7 +427,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getStyle());
+                getJSeshStyle());
         workflow.setMark(pos);
     }
 
@@ -454,7 +454,7 @@ public class JMDCEditor extends JPanel {
         // only
         // one infinitie page).
         // Used for debugging purposes.
-        GeometrySpecification pageLayout = getStyle().geometry();
+        GeometrySpecification pageLayout = getJSeshStyle().geometry();
         if (drawLimits && pageLayout.hasPageFormat()) {
             // IMPROVE THIS...
             g2d.setColor(Color.RED);
@@ -592,7 +592,7 @@ public class JMDCEditor extends JPanel {
     protected Rectangle getCursorRectangle() {
         Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
                 .getCaret().getInsert().getPosition(),
-                getStyle());
+                getJSeshStyle());
         int w = (int) (r1.getWidth() * getScale());
         int h = (int) (r1.getHeight() * getScale());
         if (w < 2) {
@@ -613,7 +613,7 @@ public class JMDCEditor extends JPanel {
      * @param orientation
      */
     public void setTextOrientation(TextOrientation orientation) {
-        setStyle(getStyle().copy().options(opts -> opts.textOrientation(orientation)).build());
+        setJSeshStyle(getJSeshStyle().copy().options(opts -> opts.textOrientation(orientation)).build());
     }
 
     /**
@@ -622,7 +622,7 @@ public class JMDCEditor extends JPanel {
      * @param direction the new TextDirection
      */
     public void setTextDirection(TextDirection direction) {
-        setStyle(getStyle().copy().options(o -> o.textDirection(direction)).build());
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.textDirection(direction)).build());
     }
 
     /**
@@ -635,7 +635,7 @@ public class JMDCEditor extends JPanel {
      * @return
      */
     public TextOrientation getTextOrientation() {
-        return getStyle().options().textOrientation();
+        return getJSeshStyle().options().textOrientation();
     }
 
     /**
@@ -649,7 +649,7 @@ public class JMDCEditor extends JPanel {
      * @return current TextDirection
      */
     public TextDirection getTextDirection() {
-        return getStyle().options().textDirection();
+        return getJSeshStyle().options().textDirection();
     }
 
     public void invalidateView() {
@@ -907,7 +907,7 @@ public class JMDCEditor extends JPanel {
      * @param center
      */
     public void setSmallSignsCentered(boolean center) {
-        setStyle(getStyle().copy().options(o -> o.smallSignCentered(center)).build());
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.smallSignCentered(center)).build());
     }
 
     /**
@@ -916,7 +916,7 @@ public class JMDCEditor extends JPanel {
      * @return true if it is the case.
      */
     public boolean isSmallSignsCentered() {
-        return getStyle().options().smallSignCentered();
+        return getJSeshStyle().options().smallSignCentered();
     }
 
     /**
@@ -925,7 +925,7 @@ public class JMDCEditor extends JPanel {
      * @return true if lines are justified.
      */
     public boolean isJustified() {
-        return getStyle().options().justified();
+        return getJSeshStyle().options().justified();
     }
 
     public TopItemList getSelection() {
@@ -938,7 +938,7 @@ public class JMDCEditor extends JPanel {
      * @return
      */
     public JSeshRenderContext getRenderContext() {
-        return new JSeshRenderContext(getStyle(), hieroglyphShapeRepository);
+        return new JSeshRenderContext(getJSeshStyle(), hieroglyphShapeRepository);
     }
 
     /**

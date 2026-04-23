@@ -1,9 +1,6 @@
 package jsesh.clipboard;
 
 import java.awt.datatransfer.DataFlavor;
-import java.util.ArrayList;
-
-import org.qenherkhopeshef.graphics.vectorClipboard.EMFTransferable;
 
 import jsesh.mdc.model.ListOfTopItems;
 

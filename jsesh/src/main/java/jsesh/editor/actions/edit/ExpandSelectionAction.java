@@ -64,7 +64,7 @@ public class ExpandSelectionAction extends EditorAction  {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		int actualDir= 0;
-		LayoutOptions options = editor.getStyle().options();
+		LayoutOptions options = editor.getJSeshStyle().options();
 		// Transform "dir" into the correct value.
 		if (options.textDirection().isLeftToRight()) {
 			if (options.textOrientation().isHorizontal()) {
