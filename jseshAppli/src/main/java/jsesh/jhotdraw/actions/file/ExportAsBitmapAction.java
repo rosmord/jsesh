@@ -14,6 +14,7 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
+
 @SuppressWarnings("serial")
 public class ExportAsBitmapAction extends AbstractViewAction {
 	public static final String ID = "file.export.bitmap";

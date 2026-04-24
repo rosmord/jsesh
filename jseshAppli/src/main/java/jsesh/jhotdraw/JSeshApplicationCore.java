@@ -35,6 +35,7 @@ package jsesh.jhotdraw;
 
 import java.awt.Font;
 import java.io.File;
+import java.util.Optional;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -45,7 +46,6 @@ import jsesh.defaults.SimpleFontKit;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.MdCSearchQuery;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JGlossaryEditor;
@@ -57,7 +57,6 @@ import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
-import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
@@ -66,6 +65,7 @@ import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
+import jsesh.swing.signimportdialog.ExternalSignImporter;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
@@ -161,6 +161,12 @@ public class JSeshApplicationCore {
      */
     private JGlossaryEditor glossaryEditor;
 
+    /**
+     * Dialog for importing new signs.
+     * A bit outdated now.
+     */
+    private ExternalSignImporter externalSignImporter;
+
    
 
     public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
@@ -175,6 +181,7 @@ public class JSeshApplicationCore {
 
         // Dialogs
         glossaryEditor = new JGlossaryEditor(glossaryManager);
+        externalSignImporter = new ExternalSignImporter(hieroglyphShapeRepository);
     }
 
     /**
@@ -497,5 +504,20 @@ public class JSeshApplicationCore {
     public CorpusSearchDialogFrame createCorpusSearchDialog(CorpusSearchTarget corpusSearchTarget) {
         return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getFontKit());
     }
+
+    /**
+     * gets the folder where custom user hieroglyphic signs are stored.
+     * @return the folder with user hieroglyphic signs, if any.
+     */
+    public Optional<File> getHieroglyphsFolder() {
+        return Optional.ofNullable(hieroglyphShapeRepository.getDirectory());
+    }
+
+    public ExternalSignImporter externalSignImporter() {
+        return externalSignImporter;
+    }
+
+
+
 
 }

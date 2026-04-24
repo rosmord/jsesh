@@ -127,6 +127,8 @@ Regarding **standard** codes:
 
 ### Simple TODO
 
+- [ ] Choose a consistent Logging scheme.
+- [ ] use **folder** instead of directory (probably less unix-centric).
 - [ ] consider grouping `styleRef` and `fontKit` in a single element (e.g. JSeshComponentConfigSource) to use when creating secondary windows and dialogs. See what needs to be passed and when.
 - [ ] ❗️rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
 - [ ] ❗️❗️Modify `MDCEditorKeyManager` to make its use more transparent. Add an `attach` method, instead of doing everything in the constructor. We don't do it immediately to avoid having one more refactoring to do. We will wait until the present refactoring is complete, and works. 
@@ -147,8 +149,14 @@ Regarding **standard** codes:
 List of classes which need some cleanup:
 
 - `QuickPDFExportAction`
+- `ExportAsRTFAction`
 
 ## Daily log
+
+### 2026/04/24
+
+- working of `jsesh.jhotdraw.actions`
+
 
 ### 2026/04/23
 

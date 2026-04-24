@@ -36,11 +36,8 @@ package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
 
-import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 
-import jsesh.defaults.JseshFontKit;
-import jsesh.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;

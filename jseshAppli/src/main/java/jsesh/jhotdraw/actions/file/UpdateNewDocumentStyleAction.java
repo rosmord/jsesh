@@ -9,13 +9,15 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 /**
- * This action uses the current view's defaults as generic defaults for new views.
+ * This action uses the current view's defaults as generic defaults for new
+ * views.
+ * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
 public class UpdateNewDocumentStyleAction extends AbstractCoreViewAction {
 
-	public static final String ID="file.setAsModel";
+	public static final String ID = "file.setAsModel";
 
 	public UpdateNewDocumentStyleAction(Application app, View view) {
 		super(app, view);
@@ -23,7 +25,9 @@ public class UpdateNewDocumentStyleAction extends AbstractCoreViewAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		appCore().updateNewDocumentStyleFrom(viewCore());
+		viewCore().ifPresent(v -> {
+			appCore().updateNewDocumentStyleFrom(v);
+		});
 	}
-	
+
 }

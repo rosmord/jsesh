@@ -7,7 +7,6 @@ import org.jhotdraw_7_6.app.View;
 
 import jsesh.glossary.JGlossaryEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 /**
@@ -26,14 +25,14 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		JSeshViewCore v = viewCore();
-		if (!v.getEditor().hasSelection())
-			return;
-		String mdc = v.getEditor().getSelection().toMdC();
-		JGlossaryEditor editor = appCore().glossaryEditor();
-		editor.getFrame().setVisible(true);
-		editor.prepareToAdd(mdc);
-
+		viewCore()
+				.filter(v -> v.getEditor().hasSelection())
+				.ifPresent(v -> {
+					String mdc = v.getEditor().getSelection().toMdC();
+					JGlossaryEditor editor = appCore().glossaryEditor();
+					editor.getFrame().setVisible(true);
+					editor.prepareToAdd(mdc);
+				});
 	}
 
 }

@@ -39,6 +39,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -50,7 +51,6 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
 import jsesh.editor.MdCSearchQuery;
@@ -79,6 +79,7 @@ import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
  * @author rosmord
  */
 public final class JSeshViewCore {
+    private static final Logger LOGGER = Logger.getLogger(JSeshViewCore.class.getName());
 
     /**
      * Predefined zoom factors for the zoom combo box.
@@ -450,6 +451,7 @@ public final class JSeshViewCore {
      * @return
      */
     public JSeshStyle getJSeshStyle() {
+        LOGGER.finer(() -> "Getting JSeshStyle from view component: " + viewComponent);
         return viewComponent.getJSeshStyle();
     }
 
@@ -462,20 +464,24 @@ public final class JSeshViewCore {
     }
 
     public void setJSeshStyle(JSeshStyle jSeshStyle) {
+        LOGGER.entering(this.getClass().getName(), "setJSeshStyle", jSeshStyle);
         viewComponent.setJSeshStyle(jSeshStyle);
     }
 
     public void setFontInfo(FontInfo fontInfo) {
+        LOGGER.entering(this.getClass().getName(), "setFontInfo", fontInfo);
         JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());
         setJSeshStyle(newStyle);
     }
 
     public void setJustify(boolean selected) {
+        LOGGER.entering(this.getClass().getName(), "setJustify", selected);
         setJSeshStyle(
                 getJSeshStyle().copy().options(o -> o.justified(selected)).build());
     }
 
     public void setTextOrientation(TextOrientation textOrientation) {
+        LOGGER.entering(this.getClass().getName(), "setTextOrientation", textOrientation);
         setJSeshStyle(
                 getJSeshStyle().copy().options(o -> o.textOrientation(textOrientation)).build());
 
@@ -494,11 +500,12 @@ public final class JSeshViewCore {
     public ExportData getExportData() {
         // Note : there is some doubt over which drawing specifications should
         // be used ?
-        return new ExportData(getRenderContext(), getCaret(), 
+        return new ExportData(getRenderContext(), getCaret(),
                 getTopItemList(), 1f);
     }
 
     public void insertCode(String code) {
+        LOGGER.entering(this.getClass().getName(), "insertCode", code);
         getEditor().insert(code);
     }
 }

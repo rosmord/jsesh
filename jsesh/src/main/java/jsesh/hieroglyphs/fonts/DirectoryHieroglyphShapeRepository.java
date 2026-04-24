@@ -42,8 +42,7 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * Create a directory font manager which will take its data from the given
 	 * directory.
 	 * 
-	 * @param directory
-	 *            . May be null.
+	 * @param directory May be null.
 	 */
 	public DirectoryHieroglyphShapeRepository(File directory) {
 		super();
@@ -120,7 +119,9 @@ public class DirectoryHieroglyphShapeRepository implements
 	}
 
 	/**
-	 * @return Returns the directory.
+	 * Returns the directory where user-defined glyphs are kept.
+	 * <p> If it's not defined, may be null.
+	 * @return Returns the directory (may be null)
 	 */
 	public File getDirectory() {
 		return directory.getFolder();

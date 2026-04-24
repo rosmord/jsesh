@@ -1,5 +1,7 @@
 package jsesh.jhotdraw.utils;
 
+import java.util.Optional;
+
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
@@ -26,8 +28,10 @@ public abstract class AbstractCoreViewAction extends AbstractViewAction{
         return ((JSeshApplicationModel) getApplication().getModel()).core();
     }
 
-    protected JSeshViewCore viewCore() {
-        return ((JSeshView) getActiveView()).core();
+    protected Optional<JSeshViewCore> viewCore() {
+        return Optional.ofNullable(getActiveView())
+                .filter(v -> v instanceof JSeshView)
+                .map(v -> ((JSeshView) v).core());
     }
     
 }

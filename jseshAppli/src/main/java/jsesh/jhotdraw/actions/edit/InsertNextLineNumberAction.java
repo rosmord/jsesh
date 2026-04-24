@@ -6,14 +6,13 @@
 package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
-import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentview.JSeshView;
-import jsesh.jhotdraw.documentview.JSeshViewCore;
-import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.utils.LineNumberHelper;
+
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
+
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.utils.LineNumberHelper;
 
 /**
  * This action inserts a computed line number.
@@ -41,11 +40,12 @@ public class InsertNextLineNumberAction extends AbstractCoreViewAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JSeshViewCore v = viewCore();
-		String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
-		String nextLine = "".equals(textPos) ? "1"
-				: LineNumberHelper.incrementLineNumber(textPos);
-		v.insertLineNumber(nextLine);
+		viewCore().ifPresent(v -> {
+			String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
+			String nextLine = "".equals(textPos) ? "1"
+					: LineNumberHelper.incrementLineNumber(textPos);
+			v.insertLineNumber(nextLine);
+		});
 	}
 
 }

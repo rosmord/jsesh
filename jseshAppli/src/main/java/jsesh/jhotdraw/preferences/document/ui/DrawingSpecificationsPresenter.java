@@ -40,7 +40,6 @@ import javax.swing.JFormattedTextField;
 
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.ShadingMode;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.resources.JSeshMessages;
