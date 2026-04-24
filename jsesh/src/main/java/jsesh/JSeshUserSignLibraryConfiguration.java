@@ -8,6 +8,14 @@ import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 /**
  * Default configuration for the application, using user settings.
  * 
+ * Gives access to:
+ * 
+ * <ul>
+ * <li> the glossary
+ * <li> the hieroglyph shape repository, with its user-specific directory
+ * <li> the hieroglyph database
+ * </ul>
+ * 
  */
 public class JSeshUserSignLibraryConfiguration {
 
@@ -15,6 +23,9 @@ public class JSeshUserSignLibraryConfiguration {
     private JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
     private HieroglyphDatabaseInterface hieroglyphDatabase;
 
+    /**
+     * Creates the default configuration for the JSesh Application, using user specific settings.
+     */
     public JSeshUserSignLibraryConfiguration() {
         glossaryManager = new GlossaryManager();
         hieroglyphShapeRepository = new JSeshFullHieroglyphShapeRepository();

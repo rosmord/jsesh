@@ -1,12 +1,36 @@
 /*
- * Main.java
- * 
- * Created on 1 oct. 2007, 11:38:26
- * 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
 
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
 package jsesh.utilitysoftwares.signinfoeditor;
 
 import java.awt.BorderLayout;
@@ -22,7 +46,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
+import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.ui.SignInfoPresenter;
@@ -36,7 +60,7 @@ import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
  * @author rosmord
  */
 public class Main implements PropertyHolder {
-    
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> new Main());
 	}
@@ -53,50 +77,53 @@ public class Main implements PropertyHolder {
 
 	public JDialog tagEditorDialog;
 
+	JSeshUserSignLibraryConfiguration jseshConfig;
+
 	public Main() {
-            try {
-		signInfoModel = new SignInfoModel();
+		try {
+			jseshConfig = new JSeshUserSignLibraryConfiguration();
+			signInfoModel = new SignInfoModel();
 
-		mainFrame = new JFrame("Sign info Editor");
-		signInfoPresenter = new SignInfoPresenter(signInfoModel);
+			mainFrame = new JFrame("Sign info Editor");
+			signInfoPresenter = new SignInfoPresenter(signInfoModel);
 
-		// Build the framework.
-		SimpleApplicationFactory framework = new SimpleApplicationFactory(
-				"definitionsI8n", "menu.txt", this);
-		framework.addActionList("action_list.txt");
-		// Prepare the main frame
-		mainFrame.setJMenuBar(framework.getJMenuBar());
-		mainFrame.getContentPane().setLayout(new BorderLayout());
-		mainFrame.getContentPane().add(signInfoPresenter.getPanel(),
-				BorderLayout.CENTER);
-		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		mainFrame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				quit();
-			}
-		});
+			// Build the framework.
+			SimpleApplicationFactory framework = new SimpleApplicationFactory(
+					"definitionsI8n", "menu.txt", this);
+			framework.addActionList("action_list.txt");
+			// Prepare the main frame
+			mainFrame.setJMenuBar(framework.getJMenuBar());
+			mainFrame.getContentPane().setLayout(new BorderLayout());
+			mainFrame.getContentPane().add(signInfoPresenter.getPanel(),
+					BorderLayout.CENTER);
+			mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			mainFrame.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					quit();
+				}
+			});
 
-		buildPalette();
-		buildTagEditor();
+			buildPalette();
+			buildTagEditor();
 
-		// Navigation Binding
-		signInfoPresenter.getPanel().getNextButton().setAction(
-				framework.getAction("nextSign"));
-		signInfoPresenter.getPanel().getPreviousButton().setAction(
-				framework.getAction("previousSign"));
-		mainFrame.pack();
-		mainFrame.setVisible(true);
+			// Navigation Binding
+			signInfoPresenter.getPanel().getNextButton().setAction(
+					framework.getAction("nextSign"));
+			signInfoPresenter.getPanel().getPreviousButton().setAction(
+					framework.getAction("previousSign"));
+			mainFrame.pack();
+			mainFrame.setVisible(true);
 
-		SwingUtilities.invokeLater(new Runnable() {
+			SwingUtilities.invokeLater(new Runnable() {
 
-			public void run() {
-				openDefault();
-			}
+				public void run() {
+					openDefault();
+				}
 
-		});
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+			});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public SignInfoPresenter getSignInfoPresenter() {
@@ -104,7 +131,8 @@ public class Main implements PropertyHolder {
 	}
 
 	public void buildPalette() {
-		PalettePresenter simplePalettePresenter = new PalettePresenter();
+		PalettePresenter simplePalettePresenter = new PalettePresenter(jseshConfig.hieroglyphShapeRepository(),
+				jseshConfig.hieroglyphDatabase());
 		paletteDialog = new JDialog(mainFrame);
 		paletteDialog.getContentPane().add(
 				simplePalettePresenter.getSimplePalette());
@@ -123,7 +151,6 @@ public class Main implements PropertyHolder {
 	public void displayTagEditor() {
 		tagEditorDialog.setVisible(!tagEditorDialog.isVisible());
 	}
-
 
 	public PropertyChangeSupport getPropertyChangeSupport() {
 		return signInfoPresenter.getPropertyChangeSupport();
@@ -195,8 +222,7 @@ public class Main implements PropertyHolder {
 				openDefault();
 		}
 	}
-	
-	
+
 	public void newFile() {
 		int answer = JOptionPane
 				.showConfirmDialog(
@@ -258,6 +284,5 @@ public class Main implements PropertyHolder {
 		if (reallyQuit)
 			System.exit(0);
 	}
-	
-	
+
 }

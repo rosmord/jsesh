@@ -26,6 +26,7 @@ Follow the following steps:
 
 - [ ] use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check.
 - when everything runs, check what code can be moved to `Core` classes and move it ; check.
+- rename JSeshFontKit using `Compendium`
 
 ### Long Term TODO
 

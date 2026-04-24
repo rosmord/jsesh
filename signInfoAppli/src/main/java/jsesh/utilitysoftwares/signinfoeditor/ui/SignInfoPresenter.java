@@ -45,10 +45,13 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import jsesh.hieroglyphs.data.GardinerCode;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
+import org.xml.sax.SAXException;
+
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
@@ -62,9 +65,6 @@ import jsesh.utilitysoftwares.signinfoeditor.helpers.SignInfoModelXMLWriter;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
-
-import org.qenherkhopeshef.guiFramework.PropertyHolder;
-import org.xml.sax.SAXException;
 
 /**
  * Control layer for the sign information editor.
