@@ -166,6 +166,14 @@ public class HTMLExporter {
         return renderContext;
     }
 
+    public void setJSeshStyle(JSeshStyle style) {
+        setJSeshRenderContext(renderContext.copy().jseshStyle(style).build());
+    }
+
+    public JSeshStyle getJSeshStyle() {
+        return renderContext.jseshStyle();
+    }
+
     /**
      * gets a panel suitable for option editing.
      *
@@ -562,7 +570,7 @@ public class HTMLExporter {
 
         JCheckBox centerPictureField;
 
-        JComboBox newLineReplacementField;
+        JComboBox<String> newLineReplacementField;
 
         JButton browse;
 
@@ -607,7 +615,7 @@ public class HTMLExporter {
                     .setToolTipText(JSeshMessages.getString("HTMLExporter.protectHTML.toolTip")); //$NON-NLS-1$
             protectSpecialField.setSelected(htmlSpecialProtected);
 
-            newLineReplacementField = new JComboBox(new String[] {
+            newLineReplacementField = new JComboBox<>(new String[] {
                     JSeshMessages.getString("HTMLExporter.newLineValue.label"), //$NON-NLS-1$
                     "<br>", "<p>" }); //$NON-NLS-1$ //$NON-NLS-2$
             newLineReplacementField.setSelectedIndex(newLinesReplacement);

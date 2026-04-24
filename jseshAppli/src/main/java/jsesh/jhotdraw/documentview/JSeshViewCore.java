@@ -493,19 +493,50 @@ public final class JSeshViewCore {
     }
 
     /**
-     * Returns the data needed for the graphical export of a selection.
+     * Creates the data needed for the graphical export of the current selection.
      *
-     * @return
+     * <p>
+     * If nothing is selected, the whole document will be exported.
+     * 
+     * @return a new ExportData object, containing the data needed for exporting the
+     *         selection.
      */
-    public ExportData getExportData() {
-        // Note : there is some doubt over which drawing specifications should
-        // be used ?
+    public ExportData createExportData(float scale) {
         return new ExportData(getRenderContext(), getCaret(),
-                getTopItemList(), 1f);
+                getTopItemList(), scale);
     }
 
+    /**
+     * Insert a new gardiner code at the
+     * 
+     * @param code
+     */
     public void insertCode(String code) {
         LOGGER.entering(this.getClass().getName(), "insertCode", code);
         getEditor().insert(code);
+    }
+
+    /**
+     * Returns true if a selection is available.
+     *
+     * @return
+     */
+    public boolean hasSelection() {
+        return getEditor().hasSelection();
+    }
+
+
+    /**
+     * Select the current page. 
+     */
+    public void selectCurrentPage() {
+        getEditor().getWorkflow().selectCurrentPage();
+    }
+
+    /**
+     * Select the current line.
+     */
+     public void selectCurrentLine() {
+        getEditor().getWorkflow().selectCurrentLine();
     }
 }

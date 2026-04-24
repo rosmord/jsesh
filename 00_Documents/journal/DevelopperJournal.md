@@ -8,11 +8,22 @@ This journal should only be edited and modified in the Development branch.
 ❗️
 : important task
 
+## Important decisions
+
+
+- When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
+
 ## TODO
 
 
 - [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
 - [ ] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
+
+### Plan
+
+Try to write tests.
+
+1. when everything runs, check what code can be moved to `Core` classes and move it ; check.
 
 ### Long Term TODO
 
@@ -127,7 +138,9 @@ Regarding **standard** codes:
 
 ### Simple TODO
 
+- [ ] Improve the structure of `QuickPDFExportAction`
 - [ ] Choose a consistent Logging scheme.
+- [ ] **Find where I used the "modern" accessors without get**, and move back to standard getters for code consistency - except when it's not really a **property**.
 - [ ] use **folder** instead of directory (probably less unix-centric).
 - [ ] consider grouping `styleRef` and `fontKit` in a single element (e.g. JSeshComponentConfigSource) to use when creating secondary windows and dialogs. See what needs to be passed and when.
 - [ ] ❗️rename `JSeshFontKit` into `HieroglyphCompendium`, and `HieroglyphDatabase` into `HieroglyphSignLexicon` (to emphasize it's not about shapes).
@@ -156,7 +169,10 @@ List of classes which need some cleanup:
 ### 2026/04/24
 
 - working of `jsesh.jhotdraw.actions`
+- important point about the JHotdraw framework. The JHotdraw views handle the `uri` properties of the documents. If we want to move code to JSeshViewCore, we need either to propose a backward link with the JHotdraw view, which kinds of defeats the purpose of the refactoring, or to explicitly pass the URI to the core when needed.
 
+  hence most methods linked with file names and file saving should stay in `JSeshView`;
+- the class `GenericExportAction` has a call to `getURI` which is a bit suspect. We can probably do better, see the other exporters. We have added a `getURI` method to `AbstractCoreViewAction` just for that case, but we should remove it if we fix it.
 
 ### 2026/04/23
 

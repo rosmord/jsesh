@@ -5,18 +5,17 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+
 import jsesh.graphics.export.bitmaps.BitmapExporter;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentview.JSeshView;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
-
+import jsesh.jhotdraw.documentview.JSeshViewCore;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 @SuppressWarnings("serial")
-public class ExportAsBitmapAction extends AbstractViewAction {
+public class ExportAsBitmapAction extends AbstractCoreViewAction {
 	public static final String ID = "file.export.bitmap";
 
 	public ExportAsBitmapAction(Application app, View view) {
@@ -25,30 +24,26 @@ public class ExportAsBitmapAction extends AbstractViewAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JSeshView v = (JSeshView) getActiveView();
-		if (v != null) {
-			BitmapExporter bitmapExporter = new BitmapExporter(getActiveView()
-					.getComponent());
+		viewCore().ifPresent(v -> exportAsBitmap(v));
+	}
 
-			boolean selectionOnly = v.getCaret().hasSelection();
-			if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
-				if (selectionOnly) {
-					ExportData exportData = new ExportData(
-							v.getDrawingSpecifications(), v.getCaret(),
-							v.getTopItemList(), 2f);
-					bitmapExporter.export(exportData);
-				} else {
-					ExportData exportData = new ExportData(
-							v.getDrawingSpecifications(), v.getCaret(),
-							v.getTopItemList(), 2f);
-					try {
-						bitmapExporter.exportAll(exportData);
-					} catch (IOException exception) {
-						throw new RuntimeException(exception);
-					}
+	private void exportAsBitmap(JSeshViewCore v) {
+		BitmapExporter bitmapExporter = new BitmapExporter(getActiveView()
+				.getComponent());
+
+		boolean selectionOnly = v.getCaret().hasSelection();
+		if (bitmapExporter.askUser(selectionOnly) == JOptionPane.OK_OPTION) {
+			ExportData exportData = v.createExportData(2f);
+			if (selectionOnly) {
+				bitmapExporter.export(exportData);
+			} else {
+				try {
+					bitmapExporter.exportAll(exportData);
+				} catch (IOException exception) {
+					throw new RuntimeException(exception);
 				}
-				bitmapExporter.savePreferences();
 			}
+			bitmapExporter.savePreferences();
 		}
 	}
 

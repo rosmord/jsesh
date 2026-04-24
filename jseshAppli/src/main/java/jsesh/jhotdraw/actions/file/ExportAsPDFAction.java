@@ -6,19 +6,21 @@ import java.text.MessageFormat;
 
 import javax.swing.JOptionPane;
 
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.resources.JSeshMessages;
 
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
-
 @SuppressWarnings("serial")
-public class ExportAsPDFAction extends AbstractViewAction {
+public class ExportAsPDFAction extends AbstractCoreViewAction {
 	public static final String ID = "file.export.pdf";
 
 	public ExportAsPDFAction(Application app, View view) {
@@ -26,39 +28,39 @@ public class ExportAsPDFAction extends AbstractViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
-        @Override
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		JSeshView jSeshView = (JSeshView) getActiveView();
-		JSeshApplicationModel applicationModel = (JSeshApplicationModel) getApplication()
-				.getModel();
-		if (jSeshView != null ) {
-			PDFExportPreferences pdfExportPreferences = applicationModel
-					.getPDFExportPreferences();			
-			PDFExporter pdfExporter = new PDFExporter();			
-			pdfExporter.setPdfExportPreferences(pdfExportPreferences);
-			pdfExportPreferences.setJseshStyle(jSeshView
-					.getDrawingSpecifications());
+		viewCore().ifPresent(v -> exportAsPDF(v));
+	}
 
-			// WE SHOULD REMOVE FILE FROM THE PDF PREFERENCES. MEANWHILE...
-			// (WHILE WE ARE THERE, WE SHOULD PROBABLY DELEGATE NEW FILES NAMES CREATION TO SOME CLASS). 
-			pdfExportPreferences.setFile(jSeshView.buildDefaultExportFile("pdf"));
-			if (pdfExporter.getOptionPanel(jSeshView, "Export as PDF")
-					.askAndSet() == JOptionPane.OK_OPTION) {
-				try {
-					pdfExporter.exportModel(jSeshView.getTopItemList(),
-							jSeshView.getCaret());
-					applicationModel.setCurrentDirectory(pdfExportPreferences
-							.getFile().getParentFile());
-				} catch (IOException e1) {
-					String message = JSeshMessages.getString("exportAsPdf.error");
-					MessageFormat.format(message,
-							new Object[] { e1.getMessage() });
-					String messageTitle = JSeshMessages
-							.getString("exportAsPdf.errorTitle");
-					JOptionPane.showMessageDialog(jSeshView, message,
-							messageTitle, JOptionPane.ERROR_MESSAGE);
-					e1.printStackTrace();
-				}
+	private void exportAsPDF(JSeshViewCore v) {
+		PDFExportPreferences pdfExportPreferences = appCore()
+				.getPDFExportPreferences();
+		PDFExporter pdfExporter = new PDFExporter();
+		pdfExporter.setPdfExportPreferences(pdfExportPreferences);
+		pdfExportPreferences.setJseshStyle(v
+				.getJSeshStyle());
+
+		// WE SHOULD REMOVE FILE FROM THE PDF PREFERENCES. MEANWHILE...
+		// (WHILE WE ARE THERE, WE SHOULD PROBABLY DELEGATE NEW FILES NAMES CREATION TO
+		// SOME CLASS).
+		pdfExportPreferences.setFile(createDefaultExportFile("pdf"));
+		if (pdfExporter.getOptionPanel(referenceComponent(), "Export as PDF")
+				.askAndSet() == JOptionPane.OK_OPTION) {
+			try {
+				pdfExporter.exportModel(v.getTopItemList(),
+						v.getCaret(), v.getRenderContext());
+				appCore().setCurrentDirectory(pdfExportPreferences
+						.getFile().getParentFile());
+			} catch (IOException e1) {
+				String message = JSeshMessages.getString("exportAsPdf.error");
+				MessageFormat.format(message,
+						new Object[] { e1.getMessage() });
+				String messageTitle = JSeshMessages
+						.getString("exportAsPdf.errorTitle");
+				JOptionPane.showMessageDialog(referenceComponent(), message,
+						messageTitle, JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		}
 	}

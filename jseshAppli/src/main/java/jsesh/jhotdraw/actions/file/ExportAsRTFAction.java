@@ -29,25 +29,23 @@ public class ExportAsRTFAction extends AbstractCoreViewAction {
 		BundleHelper.getInstance().configure(this);
 	}
 
-	public void actionPerformed(ActionEvent arg0) {
-		
-		JSeshView jSeshView = (JSeshView) getActiveView();
-		JSeshApplicationModel applicationModel = (JSeshApplicationModel) app.getModel();•
-		
-		if (jSeshView != null) {
-			 JSeshViewCore core = jSeshView.core();
-			RTFExporterPresenter rtfExporterUI;
-			File exportFile = jSeshView.buildDefaultExportFile("rtf");
-			rtfExporterUI = new RTFExporterPresenter(exportFile,
-					appCore().getRTFExportPreferences(ExportType.FILE));
+	public void actionPerformed(ActionEvent event) {
+		viewCore().ifPresent(v -> exportAsRTF(v));
+	}
 
-			if (rtfExporterUI.getOptionPanel(getActiveView().getComponent(),
-					JSeshMessages.getString("exportAsRTF.title")).askAndSet() == JOptionPane.OK_OPTION) {
-				rtfExporterUI.exportModel(core.getRenderContext(),
-						core.getTopItemList());
-				applicationModel.setCurrentDirectory(rtfExporterUI.getFile()
-						.getParentFile());
-			}
+	private void exportAsRTF(JSeshViewCore v) {
+		RTFExporterPresenter rtfExporterUI;
+		File exportFile = createDefaultExportFile("rtf");
+		rtfExporterUI = new RTFExporterPresenter(exportFile,
+				appCore().getRTFExportPreferences(ExportType.FILE));
+
+		if (rtfExporterUI.getOptionPanel(getActiveView().getComponent(),
+				JSeshMessages.getString("exportAsRTF.title")).askAndSet() == JOptionPane.OK_OPTION) {
+			rtfExporterUI.exportModel(v.getRenderContext(),
+					v.getTopItemList());
+			setCurrentDirectory(rtfExporterUI.getFile()
+					.getParentFile());
 		}
 	}
+
 }

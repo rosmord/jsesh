@@ -2,20 +2,20 @@ package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
 
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.GraphicalExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 @SuppressWarnings("serial")
-public class GenericExportAction extends AbstractViewAction {
+public class GenericExportAction extends AbstractCoreViewAction {
 
     private final GraphicalExporter exporter;
 
@@ -28,19 +28,19 @@ public class GenericExportAction extends AbstractViewAction {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        JSeshView jSeshView = (JSeshView) getActiveView();
-        JSeshApplicationModel applicationModel = (JSeshApplicationModel) getApplication().getModel();
-        if (jSeshView != null) {
-            if (!jSeshView.hasSelection()) {
-                jSeshView.selectCurrentPage();
+        viewCore().ifPresent(v -> genericExport(v));
+    }
+
+    private void genericExport(JSeshViewCore v) {
+        if (!v.hasSelection()) {
+                v.selectCurrentPage();
             }
-            exporter.setDirectory(applicationModel.getCurrentDirectory());
-            exporter.setOriginalDocumentFile(jSeshView.getURI());
+            exporter.setDirectory(getCurrentDirectory());
+            exporter.setOriginalDocumentFile(getURI());
             if (exporter.askUser(getActiveView().getComponent()) == FileOperationResult.OK) {
-                ExportData exportData = jSeshView.getExportData();
+                ExportData exportData = v.createExportData(1.0f);
                 exporter.export(exportData);
-                applicationModel.setCurrentDirectory(exporter.getDirectory());
+                setCurrentDirectory(exporter.getDirectory());
             }
-        }
     }
 }

@@ -16,6 +16,7 @@ import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 @SuppressWarnings("serial")
@@ -30,23 +31,21 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		viewCore().ifPresent(v -> quickPdfExport(v));
+	}
+
+	public void quickPdfExport(JSeshViewCore jSeshView) {
 		BundleHelper bundleHelper = BundleHelper.getInstance();
-		JSeshView jSeshView = (JSeshView) getActiveView();
-		JSeshApplicationModel applicationModel = (JSeshApplicationModel) getApplication()
-				.getModel();
-
-		if (jSeshView == null)
-			return;
-
+		
 		// Ensures the folder exists :
-		if (!applicationModel.getQuickPDFExportFolder().exists()) {
-			applicationModel.getQuickPDFExportFolder().mkdir();
+		if (!appCore().getQuickPDFExportFolder().exists()) {
+			appCore().getQuickPDFExportFolder().mkdir();
 		}
 		// Check if it is correct.
-		if (!(applicationModel.getQuickPDFExportFolder().exists() && applicationModel
+		if (!(appCore().getQuickPDFExportFolder().exists() && appCore()
 				.getQuickPDFExportFolder().isDirectory())) {
 			String msg = bundleHelper.getFormatedLabel(
-					"file.quickPDFExport.error", applicationModel
+					"file.quickPDFExport.error", appCore()
 							.getQuickPDFExportFolder().getAbsolutePath());
 			JOptionPane.showMessageDialog(null, msg,
 					bundleHelper.getLabel("file.quickPDFExport.errorTitle"),
@@ -58,12 +57,12 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 		PDFExportPreferences quickExportPreferences = new PDFExportPreferences();
 
 		PDFExporter pdfExporter = new PDFExporter();
-		quickExportPreferences.setJseshStyle(jSeshView.core().getJSeshStyle());
+		quickExportPreferences.setJseshStyle(jSeshView.getJSeshStyle());
 
 		// Find the next file name...
 		int maxNum = 0;
 
-		for (File f : applicationModel.getQuickPDFExportFolder().listFiles()) {
+		for (File f : appCore().getQuickPDFExportFolder().listFiles()) {
 			String fname = f.getName();
 			// File names : jsesh + number + .pdf
 			if (fname.matches("jsesh[0-9]*\\.pdf")) {
@@ -81,7 +80,7 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 		}
 		String numAsString = String.format("%06d", maxNum + 1);
 
-		File pdfFile = new File(applicationModel.getQuickPDFExportFolder(),
+		File pdfFile = new File(appCore().getQuickPDFExportFolder(),
 				"jsesh" + numAsString + ".pdf");
 		quickExportPreferences.setFile(pdfFile);
 		quickExportPreferences.setEncapsulated(true);
@@ -93,15 +92,15 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 			jSeshView.selectCurrentLine();
 		}
 		try {
-			pdfExporter.exportModel(jSeshView.core().getTopItemList(),
-					jSeshView.core().getCaret(), jSeshView.core().getRenderContext());
+			pdfExporter.exportModel(jSeshView.getTopItemList(),
+					jSeshView.getCaret(), jSeshView.getRenderContext());
 			String okMessage = MessageFormat.format(
 					bundleHelper.getLabel("file.quickPDFExport.ok"),
 					new Object[] { pdfFile.getAbsolutePath() });
 			jSeshView.setMessage(okMessage);
 		} catch (IOException e1) {
 			JOptionPane.showMessageDialog(
-					jSeshView,
+					referenceComponent(),
 					bundleHelper.getFormatedLabel("exportAsPdf.error",
 							e1.getMessage()),
 					bundleHelper.getLabel("exportAsPdf.errorTitle"),

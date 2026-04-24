@@ -265,12 +265,16 @@ public class JSeshView extends AbstractView {
     }
 
     /**
-     * Read a JSesh file in the current view. 
+     * Read a JSesh file in the current view.
      * 
-     * <p>TODO : improve this code, which is
+     * <p>
+     * TODO : improve this code, which is
      * not correct regarding the EDT.
      *
-     * <p> Move it to viewCore (at least).
+     * <p>
+     * Given its strong coupling with the JHotdraw framework logic, we keep it in
+     * view.
+     * 
      * @param uri
      */
     private void readFromFile(URI uri) {
@@ -367,17 +371,16 @@ public class JSeshView extends AbstractView {
             // TODO save PDF prefs in pdf files...
             PDFExportPreferences prefs = new PDFExportPreferences();
             prefs.setFile(document.getFile());
-            prefs.setJseshStyle(viewCore.getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render context!
+            prefs.setJseshStyle(viewCore.getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render
+                                                           // context!
             PDFExporter exporter = new PDFExporter();
             exporter.setPdfExportPreferences(prefs);
-            TopItemList model = document.getHieroglyphicTextModel().getModel();            
+            TopItemList model = document.getHieroglyphicTextModel().getModel();
             exporter.exportModel(model, viewCore.getCaret(), viewCore.getRenderContext());
         } else {
             document.save();
         }
-        // currentMDCDirectory = currentDocument.getFile().getParentFile();
     }
-
 
     /**
      * Gets original line number coordinates of a certain point in the text.
@@ -394,13 +397,11 @@ public class JSeshView extends AbstractView {
         return viewCore.getOriginalDocumentCoordinates(position);
     }
 
-
     @Override
     public void setEnabled(boolean enabled) {
         viewCore.setEnabled(enabled);
         super.setEnabled(enabled);
     }
-
 
     /**
      * Sets the object which will be used to generate copy/paste information.
@@ -427,15 +428,6 @@ public class JSeshView extends AbstractView {
         return super.canSaveTo(uri);
     }
 
-    /**
-     * Returns true if a selection is available.
-     *
-     * @return
-     */
-    public boolean hasSelection() {
-        return viewCore.getEditor().hasSelection();
-    }
-
    
 
     /**
@@ -444,12 +436,9 @@ public class JSeshView extends AbstractView {
      * be "Sinuhe". If there is no file, the name will be equals to the scheme,
      * or, in despair, to "untitled".
      *
-     * <p>
-     * This method could be moved (or delegated to JSeshViewModel)
-     *
      * @return a string
      */
-    public String getBaseFileName() {
+    public String baseFileName() {
         if (uri == null) {
             return "untitled";
         } else if (uri.getScheme() == null || "file".equals(uri.getScheme())) {
@@ -463,25 +452,20 @@ public class JSeshView extends AbstractView {
         } else {
             return uri.getScheme();
         }
-
     }
 
     /**
      * Create a File object suitable for saving (parts of) the current document
      * in a certain format.
      *
-     * <p>
-     * This method could be moved (or delegated to JSeshViewModel)
      *
      * @param extension the extension to use (without "."). Exemply gratia :
      *                  "rtf" or "png".
      * @return
      */
-    public File buildDefaultExportFile(String extension) {
-        String name = getBaseFileName();
-        JSeshApplicationModel applicationModel = (jsesh.jhotdraw.JSeshApplicationModel) getApplication()
-                .getModel();
-        return new File(applicationModel.getCurrentDirectory(), name + "."
+    public File createDefaultExportFile(String extension) {
+        String name = baseFileName();        
+        return new File(getApplicationModel().getCurrentDirectory(), name + "."
                 + extension);
     }
 
@@ -547,11 +531,12 @@ public class JSeshView extends AbstractView {
      * Change the fonts JSesh uses.
      * Used:
      * <ul>
-     * <li> when creating the view
-     * <li> when the hieroglyphic font preferences are changed
+     * <li>when creating the view
+     * <li>when the hieroglyphic font preferences are changed
      * </ul>
      * 
      * If we move to a MVC architecture, it might become obsolete.
+     * 
      * @param fontInfo
      */
     public void setFontInfo(FontInfo fontInfo) {
@@ -571,7 +556,7 @@ public class JSeshView extends AbstractView {
      * (non-Javadoc)
      * 
      * @see org.jhotdraw_7_6.gui.EditableComponent#duplicate()
-     */
+     */    
     public void duplicate() {
         // Currently no-op.
     }
@@ -589,9 +574,7 @@ public class JSeshView extends AbstractView {
         getEditor().getWorkflow().selectCurrentLine();
     }
 
-    public void selectCurrentPage() {
-        getEditor().getWorkflow().selectCurrentPage();
-    }
+    
 
     /*
      * (non-Javadoc)
@@ -613,10 +596,15 @@ public class JSeshView extends AbstractView {
 
     /**
      * Returns the frame-independant core of the view.
+     * 
      * @return the viewCore
      */
     public JSeshViewCore core() {
         return viewCore;
+    }
+
+    private JSeshApplicationModel getApplicationModel() {
+        return (JSeshApplicationModel) getApplication().getModel();
     }
 
 }
