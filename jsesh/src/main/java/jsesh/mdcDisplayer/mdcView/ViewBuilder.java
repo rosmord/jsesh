@@ -7,7 +7,6 @@
 package jsesh.mdcDisplayer.mdcView;
 
 
-import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.ModelElementAdapter;
@@ -15,7 +14,6 @@ import jsesh.mdc.model.Modifier;
 import jsesh.mdc.model.ModifiersList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 import jsesh.mdcDisplayer.layout.Layout;
 
 

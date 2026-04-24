@@ -21,9 +21,11 @@ This journal should only be edited and modified in the Development branch.
 
 ### Plan
 
-Try to write tests.
+Follow the following steps:
 
-1. when everything runs, check what code can be moved to `Core` classes and move it ; check.
+
+- [ ] use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check.
+- when everything runs, check what code can be moved to `Core` classes and move it ; check.
 
 ### Long Term TODO
 
@@ -168,6 +170,7 @@ List of classes which need some cleanup:
 
 ### 2026/04/24
 
+- moving back to java 21. Currently, the m2e plugin in vscode uses java 21, so maven plugin compiled with java 25 don't work. The `jseshGlyphs` modules depends on java code which knows how to normalize the sign codes. This code is domain code, and part of the application. We could move it to a specific module, but it's a weird solution to solve a technical problem. We might solve this with Gradle, or simply by waiting until m2e uses java 25. Meanwhile, we move the code back to java 21. We had used *flexible constructors*, we need to revert to standard ones. We had also used the anonymous variable `_`.
 - working of `jsesh.jhotdraw.actions`
 - important point about the JHotdraw framework. The JHotdraw views handle the `uri` properties of the documents. If we want to move code to JSeshViewCore, we need either to propose a backward link with the JHotdraw view, which kinds of defeats the purpose of the refactoring, or to explicitly pass the URI to the core when needed.
 

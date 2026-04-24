@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -20,8 +19,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.shapedisplayer.ShapeDisplayer;
-import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
-import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 
 public class ExternalSignImporterUI {
 

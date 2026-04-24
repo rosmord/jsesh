@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import org.qenherkhopeshef.swingUtils.GraphicsUtils;
-
 public class SplashMessageText {
 
     private int x, y;

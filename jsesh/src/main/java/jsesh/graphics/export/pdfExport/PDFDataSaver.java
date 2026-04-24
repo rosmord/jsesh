@@ -12,8 +12,6 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
-import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 

@@ -69,17 +69,12 @@ public record FontSpecification(
 		float superscriptRatio,
 		Font translitterationFont
 	) {
-			// We use Java 25 flexible constructors.
-			Font bold = baseFont.deriveFont(Font.BOLD);
-			Font italic = baseFont.deriveFont(Font.ITALIC);
-			Font superScript = baseFont.deriveFont(baseFont.getSize()*superscriptRatio);
-
-		this(
+			this(
 			translitUnicode, yodChoice, gardinerQofUsed,
 			baseFont,
-			bold,
-			italic,
-			superScript,
+			baseFont.deriveFont(Font.BOLD),
+			baseFont.deriveFont(Font.ITALIC),
+			baseFont.deriveFont(baseFont.getSize()*superscriptRatio),
 			translitterationFont
 		);
 	}

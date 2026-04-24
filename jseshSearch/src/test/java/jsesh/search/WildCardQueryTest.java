@@ -10,9 +10,13 @@
  */
 package jsesh.search;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.Test;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -20,12 +24,8 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.simple.SignStringSearchQuery;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardQuery;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class WildCardQueryTest {
 

@@ -3,7 +3,6 @@ package jsesh.mdc.utils;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;

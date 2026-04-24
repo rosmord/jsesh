@@ -25,20 +25,16 @@ import jsesh.defaults.SimpleFontKit;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.editor.PossibilityRepository;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.wildcard.WildCardQuery;
-import net.miginfocom.swing.MigLayout;
 import jsesh.search.quadrant.QuadratSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardConstants;
+import jsesh.search.wildcard.WildCardQuery;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Search fields used by dialogs for JSesh searches. Used both for in-document

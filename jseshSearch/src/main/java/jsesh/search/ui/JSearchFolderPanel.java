@@ -11,11 +11,16 @@
 package jsesh.search.ui;
 
 import java.io.File;
-import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 

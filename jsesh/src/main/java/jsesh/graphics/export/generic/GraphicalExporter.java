@@ -1,10 +1,9 @@
 package jsesh.graphics.export.generic;
 
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Component;
 import java.io.File;
 import java.net.URI;
+
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 
 public interface GraphicalExporter extends BaseGraphics2DFactory {

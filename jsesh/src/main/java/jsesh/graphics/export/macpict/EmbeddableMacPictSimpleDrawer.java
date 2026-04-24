@@ -1,14 +1,13 @@
 package jsesh.graphics.export.macpict;
 
-import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
-import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.io.IOException;
+import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 public class EmbeddableMacPictSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 

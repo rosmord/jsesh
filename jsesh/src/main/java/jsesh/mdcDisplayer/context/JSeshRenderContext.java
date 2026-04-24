@@ -4,7 +4,6 @@ import java.util.function.Function;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
 
 /**
  * A place to store rendering context technical information.

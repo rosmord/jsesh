@@ -21,22 +21,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
+
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.corpus.CorpusSearch;
 import jsesh.search.corpus.PartialResults;
 import jsesh.utils.JSeshWorkingDirectory;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * Control class for JSearchFolderPanel.

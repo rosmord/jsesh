@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;

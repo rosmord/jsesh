@@ -11,7 +11,6 @@
  */
 package jsesh.search.wildcard;
 
-import java.time.LocalDate;
 import java.util.Locale;
 
 import jsesh.resources.JSeshMessages;

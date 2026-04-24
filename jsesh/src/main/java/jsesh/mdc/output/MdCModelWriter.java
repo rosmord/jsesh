@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.LexicalSymbolsUtils;

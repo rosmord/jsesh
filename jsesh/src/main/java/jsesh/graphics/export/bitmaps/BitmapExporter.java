@@ -306,7 +306,7 @@ public class BitmapExporter {
         /**
          * The output format.
          */
-        JComboBox outputFormatField;
+        JComboBox<String> outputFormatField;
 
         /**
          * Height of a cadrat, in pixels.
@@ -363,7 +363,7 @@ public class BitmapExporter {
             cadratHeightField
                     .setToolTipText("height of a typical line of hieroglyphs");
 
-            outputFormatField = new JComboBox(OUTPUT_FORMATS);
+            outputFormatField = new JComboBox<>(OUTPUT_FORMATS);
             outputFormatField.setSelectedIndex(outputFormatIndex);
             outputFormatField
                     .setToolTipText("Format of the saved images.\n Explicit extensions like .jpg or .png will have precedence over this field.");

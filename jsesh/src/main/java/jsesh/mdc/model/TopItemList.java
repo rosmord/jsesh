@@ -11,7 +11,6 @@ import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.model.operations.ZoneModification;
 import jsesh.mdc.output.MdCModelWriter;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
-import jsesh.mdc.utils.MDCCodeExtractor;
 
 /**
  *

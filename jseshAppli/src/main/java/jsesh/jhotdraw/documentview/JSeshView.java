@@ -570,9 +570,7 @@ public class JSeshView extends AbstractView {
         getEditor().getWorkflow().selectAll();
     }
 
-    public void selectCurrentLine() {
-        getEditor().getWorkflow().selectCurrentLine();
-    }
+   
 
     
 

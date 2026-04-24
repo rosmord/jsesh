@@ -4,7 +4,6 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.MDCParserFacade;

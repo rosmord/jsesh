@@ -51,7 +51,6 @@ import java.util.function.Consumer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
 import jsesh.editor.events.NewTextEvent;
@@ -1356,7 +1355,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     private void textChanged(TextEvent e) {
 
         switch (e) {
-            case NewTextEvent _ -> {
+            case NewTextEvent _tmp_ -> {
                 // A new Text has been loaded.
                 // We set up the caret, but this should be placed in the caret
                 // itself !

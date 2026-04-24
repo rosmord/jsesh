@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.qenherkhopeshef.jsesh</groupId>
@@ -17,8 +19,8 @@
 	<properties>
 		<myMavenVersion>3.9.11</myMavenVersion>
 	</properties>
-	
-	<dependencies>		
+
+	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
@@ -31,10 +33,10 @@
 			<version>2.16.2</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.codehaus.plexus</groupId>
-		    <artifactId>plexus-build-api</artifactId>
-		    <version>1.2.0</version>
-		    <scope>compile</scope>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-build-api</artifactId>
+			<version>1.2.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
@@ -65,17 +67,24 @@
 	<build>
 		<resources>
 			<resource>
-			  <directory>src/main/resources</directory>
+				<directory>src/main/resources</directory>
 			</resource>
-		  </resources>	  
+		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
 				<version>3.15.2</version>
 				<configuration>
 					<skipErrorNoDescriptorsFound>false</skipErrorNoDescriptorsFound>
-				</configuration>				
+				</configuration>
 				<executions>
 					<execution>
 						<id>mojo-descriptor</id>
@@ -83,8 +92,8 @@
 							<goal>descriptor</goal>
 						</goals>
 					</execution>
-				</executions>		
-			</plugin>					
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

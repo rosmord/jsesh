@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.mdc.model.Hieroglyph;
 
 /**
  * Link between MdC codes and Unicode codes.

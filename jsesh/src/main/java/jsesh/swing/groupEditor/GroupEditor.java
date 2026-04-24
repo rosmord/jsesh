@@ -7,7 +7,11 @@
  */
 package jsesh.swing.groupEditor;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
@@ -19,8 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.LayoutOptions;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.AbsoluteGroup;
@@ -29,7 +31,6 @@ import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
-import jsesh.mdcDisplayer.layout.Layout;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.swing.utils.GraphicsUtils;

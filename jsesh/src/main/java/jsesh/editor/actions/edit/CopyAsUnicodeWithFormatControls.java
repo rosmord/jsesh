@@ -10,7 +10,6 @@
  */
 package jsesh.editor.actions.edit;
 
-import java.awt.datatransfer.DataFlavor;
 import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;

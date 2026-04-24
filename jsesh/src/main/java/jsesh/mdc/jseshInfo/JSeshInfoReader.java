@@ -3,8 +3,6 @@ package jsesh.mdc.jseshInfo;
 import java.util.HashMap;
 
 import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
 import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.utils.StringBufferUtils;

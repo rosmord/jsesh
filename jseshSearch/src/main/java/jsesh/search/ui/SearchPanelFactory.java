@@ -36,7 +36,6 @@ package jsesh.search.ui;
 
 import jsesh.defaults.JseshFontKit;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 

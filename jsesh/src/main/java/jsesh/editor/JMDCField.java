@@ -41,8 +41,7 @@ public class JMDCField extends JMDCEditor {
     private float drawingHorizontalOrigin = 0;
 
     private static final int DEFAULT_MARGIN = 5;
-    // Should probably change.
-    private int margin = DEFAULT_MARGIN;
+   
 
     /**
      * Name of the action called to validate input (when enter is typed)

@@ -10,6 +10,10 @@
  */
 package jsesh.search.wildcard;
 
+import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.label;
+import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.maxLength;
+import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.skip;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,8 +21,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.qenherkhopeshef.finitestate.lazy.LazyLabelIF;
+import org.qenherkhopeshef.finitestate.lazy.MatchResult;
+import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
+import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
+
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.VariantTypeForSearches;
 import jsesh.mdc.model.MDCPosition;
@@ -26,8 +35,6 @@ import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
-import org.qenherkhopeshef.finitestate.lazy.*;
-import static org.qenherkhopeshef.finitestate.lazy.RegularLanguageFactory.*;
 
 /**
  * Wildcard implementation.
