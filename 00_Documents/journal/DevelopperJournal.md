@@ -13,6 +13,57 @@ This journal should only be edited and modified in the Development branch.
 
 - When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
 
+### How to build resources
+
+Regarding the available resources and preferences, here is a documentation about how we can access them.
+
+- *Note that a revision of this system could be useful, in order to make is more cohesive*.
+- *names are liable to change*.
+
+
+The current philosophy is:
+
+- immutable values can be accessed through a singleton ;
+- other values can be created, but should normally be shared. The best way would be either to use *dependency injection* or to create a single instance of them at the *top level* of the application. Component should not need to decide whence they take their data.
+
+#### Defaults (without access to user preferences)
+
+`JSeshStyle`
+: A default value is available as a static field in the class, `JSeshStyle.DEFAULT`. Note that the class is immutable.
+
+`HieroglyphShapeRepository`
+: the interface has a static method called  `getStandardShapeRepository` which returns a singleton instance of a font based on old Gardiner-like tksesh font and the modern JSesh font (if its jar is available). Fine-grained access is available through the class `PredefinedFonts`, with static methods to create instances of the various fonts. The `HieroglyphShapeRepository.getStandardShapeRepository()` method is more convenient.
+
+`HieroglyphDatabaseInterface`
+: a call to `HieroglyphDatabaseFactory.buildPlainDefault(...)` will give you a database with only the JSesh embedded data.
+
+  The following code would do:
+  ~~~java
+  var shapeRepository = HieroglyphShapeRepository.getStandardShapeRepository()
+  var database = HieroglyphDatabaseFactory.buildPlainDefault(shapeRepository);
+  ~~~
+
+`JseshFontKit`
+: an interface which represents a coordinated n-uplet of  `PossibilityRepository`,  `HieroglyphShapeRepository` and `HieroglyphDatabaseInterface`. The class `SimpleFontKit` provides a singleton `embeddedOnlyInstance` and convenient named constructor for more versatile instances.
+
+`JSeshRenderContext`
+: used as argument of **drawing operations.**. Can be built on the fly. It's a couple of `HieroglyphShapeRepository` and `JSeshStyle`. It can be built with its very simple constructor.
+
+#### With user preferences
+
+`HieroglyphShapeRepository`
+: `JSeshFullHieroglyphShapeRepository`, which can be instanciated using its constructor; 
+
+`JseshFontKit`
+: use the various named constructors of `SimpleFontKit` to create an instance with the user preferences.
+
+
+`Glossary`
+: available through the `GlossaryManager`, which is a singleton. It will automatically load the user glossary.
+
+`JSeshUserSignLibraryConfiguration`
+: this is a **singleton**, used when creating **top-level** components of the JSesh application. It gives access to `JSeshFullHieroglyphShapeRepository`, `GlossaryManager`, and `HieroglyphDatabaseInterface`; the difference with `JseshFontKit` is that a) it's a singleton, and b) it gives access to the glossary manager. We may decide that `JSeshFontKit` should provide the same service.
+
 ## TODO
 
 
@@ -171,6 +222,7 @@ List of classes which need some cleanup:
 
 ### 2026/04/24
 
+- **TODO** : urgent and simple. The `GlossaryManager` instance will always load the user glossary. If we want an empty glossary, we need either to create other implementations, or to remove the call to `read()` from the constructor. 
 - moving back to java 21. Currently, the m2e plugin in vscode uses java 21, so maven plugin compiled with java 25 don't work. The `jseshGlyphs` modules depends on java code which knows how to normalize the sign codes. This code is domain code, and part of the application. We could move it to a specific module, but it's a weird solution to solve a technical problem. We might solve this with Gradle, or simply by waiting until m2e uses java 25. Meanwhile, we move the code back to java 21. We had used *flexible constructors*, we need to revert to standard ones. We had also used the anonymous variable `_`.
 - working of `jsesh.jhotdraw.actions`
 - important point about the JHotdraw framework. The JHotdraw views handle the `uri` properties of the documents. If we want to move code to JSeshViewCore, we need either to propose a backward link with the JHotdraw view, which kinds of defeats the purpose of the refactoring, or to explicitly pass the URI to the core when needed.

@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCField;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
@@ -39,7 +41,7 @@ class GroupEditorDemo extends JFrame {
     
     public GroupEditorDemo() throws HeadlessException {
         editor = new JMDCField();
-        groupEditor = new GroupEditorDialog(new JSeshRenderContext());
+        groupEditor = new GroupEditorDialog(new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));
         validateButton = new JButton("ok");
         validateButton.addActionListener(e -> getBackGroup());
         setLayout(new GridBagLayout());

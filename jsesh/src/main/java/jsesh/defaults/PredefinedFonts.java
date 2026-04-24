@@ -8,7 +8,9 @@ import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 /**
  * Access to individual Predefined hieroglyphic fonts.
  * 
- * This will actual create fonts. If you want to use them, see SharedDefaults.
+ * This will actual create fonts. If you want to use them, see {@link StandardFontShapeRepository}.
+ * 
+ * @see StandardFontShapeRepository
  */
 public class PredefinedFonts {
     

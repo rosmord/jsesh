@@ -77,7 +77,7 @@ public class Main implements PropertyHolder {
 
 	public JDialog tagEditorDialog;
 
-	JSeshUserSignLibraryConfiguration jseshConfig;
+	private JSeshUserSignLibraryConfiguration jseshConfig;
 
 	public Main() {
 		try {

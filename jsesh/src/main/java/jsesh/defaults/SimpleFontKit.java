@@ -93,7 +93,7 @@ public class SimpleFontKit implements JseshFontKit {
     }
 
     /**
-     * Creates a font kit with the given font, an optional glossary and database.
+     * Creates a font kit with the given font, a glossary and database.
      * @param hieroglyphShapeRepository
      * @param glossary
      * @param database
