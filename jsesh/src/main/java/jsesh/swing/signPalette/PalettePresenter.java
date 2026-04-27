@@ -49,6 +49,7 @@ import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.utils.IconRenderOptions;
 
 /**
  * Control and data feed for the simple palette.
@@ -837,9 +838,10 @@ public class PalettePresenter {
             iconLabel.setIcon(null);
             infoView.setText("");
         } else {
-        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager);
+        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);
+            IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().size(iconLabel.getHeight() - 4).border(4).build();
             iconLabel.setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(
-                    code, iconLabel.getHeight() - 4, 4, simplePalette));
+                    code, renderOptions));
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {
                 values = new ArrayList<>();

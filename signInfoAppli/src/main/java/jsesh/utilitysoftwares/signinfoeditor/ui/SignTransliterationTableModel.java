@@ -37,8 +37,8 @@ class SignTransliterationTableModel extends SignPropertyTableModel {
 
 
         @Override
-	protected XMLInfoProperty buildDefaultSignProperty(String code) {
-		XMLInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.HAS_TRANSLITERATION, true);
+	protected SignInfoProperty buildDefaultSignProperty(String code) {
+		SignInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.HAS_TRANSLITERATION, true);
 		prop.setAttribute(SignDescriptionConstants.SIGN, editableSignInfo.getCode());
 		prop.setAttribute(SignDescriptionConstants.TRANSLITERATION, code);
 		prop.setAttribute(SignDescriptionConstants.USE, SignDescriptionConstants.PALETTE);

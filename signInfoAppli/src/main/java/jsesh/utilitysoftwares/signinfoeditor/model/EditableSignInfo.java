@@ -16,7 +16,7 @@ public class EditableSignInfo {
 	private String code;
 	private boolean alwaysDisplay= false;
 	private boolean alwaysDisplayProvidedByUser= false;
-	private List signInfoPropertyList = new ArrayList();
+	private List<SignInfoProperty> signInfoPropertyList = new ArrayList<>();
 	private ChildListener parent= null;
 	/**
 	 * Object used to listen to this sign's attributes modifications.
@@ -34,12 +34,10 @@ public class EditableSignInfo {
 	 */
 	public EditableSignInfo(EditableSignInfo other) {
 		code = other.code;
-		for (int i = 0; i < other.signInfoPropertyList.size(); i++) {
-			SignInfoProperty newProp = new SignInfoProperty(
-					(SignInfoProperty) other.signInfoPropertyList.get(i));
+		for (SignInfoProperty p: other.signInfoPropertyList) {
+			SignInfoProperty newProp = new SignInfoProperty(p);
 			add(newProp);
-			
-		}
+		}		
 	}
 
 	public String getCode() {
@@ -55,15 +53,10 @@ public class EditableSignInfo {
 	 * @return a list of live properties.
      * @see SignDescriptionConstants
 	 */
-	public List getPropertyList(String propertyLabel) {
-		ArrayList l = new ArrayList();
-		java.util.Iterator it = signInfoPropertyList.iterator();
-		while (it.hasNext()) {
-			XMLInfoProperty prop = (XMLInfoProperty) it.next();
-			if (prop.getName().equals(propertyLabel))
-				l.add(prop);
-		}
-		return l;
+	public List<SignInfoProperty> getPropertyList(String propertyLabel) {
+		// XMLInfoProperty ??
+		return signInfoPropertyList.stream().filter(prop -> propertyLabel.equals(prop.getName()))
+			.toList();		
 	}
 
 
@@ -72,11 +65,15 @@ public class EditableSignInfo {
 	 * @return a list of SignInfoProperty
 	 * @see SignInfoProperty
 	 */
-	public List getPropertyList() {
-		return new ArrayList(signInfoPropertyList);
+	public List<SignInfoProperty> getPropertyList() {
+		return new ArrayList<>(signInfoPropertyList);
 	}
 	
-	public void add(XMLInfoProperty signInfoProperty) {
+	/**
+	 * Add a property to this sign.
+	 * @param signInfoProperty
+	 */
+	public void add(SignInfoProperty signInfoProperty) {
 		signInfoPropertyList.add(signInfoProperty);
 		signInfoProperty.setAttribute("sign", getCode());
 		// Register as the parent of the new property...
@@ -101,12 +98,9 @@ public class EditableSignInfo {
 	 * @param other
 	 */
 	public void addAttributesOf(EditableSignInfo other) {
-		// TODO Auto-generated method stub
-		for (int i= 0; i < other.signInfoPropertyList.size(); i++) {
-			SignInfoProperty prop= (SignInfoProperty) other.signInfoPropertyList.get(i);
-			// Add a copy.
+		for (SignInfoProperty prop : other.signInfoPropertyList) {
 			add(new SignInfoProperty(prop));
-		}
+		}		
 	}
 
 	public boolean isAlwaysDisplay() {

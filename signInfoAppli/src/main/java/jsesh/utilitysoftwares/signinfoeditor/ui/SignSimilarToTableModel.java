@@ -20,8 +20,8 @@ public class SignSimilarToTableModel extends SignPropertyTableModel {
 		});
 	}
 
-	protected XMLInfoProperty buildDefaultSignProperty(String code) {
-		XMLInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.SIMILAR_TO, true);
+	protected SignInfoProperty buildDefaultSignProperty(String code) {
+		SignInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.SIMILAR_TO, true);
 		prop.setAttribute(SignDescriptionConstants.BASE_SIGN, code);
 		return prop;
 	}

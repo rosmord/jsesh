@@ -1,3 +1,36 @@
+/*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+*/
 package jsesh.hieroglyphs.utils;
 
 import java.awt.Color;
@@ -12,9 +45,10 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.utils.GraphicsUtils;
 
-
 /**
- * An helper class to create bitmap versions of single signs.
+ * An helper class to create bitmap/icons versions of single signs.
+ * 
+ * TODO : rename as HieroglyphIconCreator.
  * 
  * @author rosmord
  * 
@@ -22,89 +56,107 @@ import jsesh.swing.utils.GraphicsUtils;
 public class HieroglyphPictureBuilder {
 
 	/**
-	 * The size of the bitmap
-	 */
-	private int size;
-
-	/**
-	 * the size of the hightest sign, in model coordinate.
-	 */
-	private double maxSize;
-
-	/**
-	 * Do we want a transparent picture ?
-	 */
-	private boolean transparent;
-
-	/**
-	 * Are the bitmaps fitted to the signs ?
-	 */
-	private boolean fit;
-
-	/**
 	 * A component which can be used to build compatible images.
 	 */
-	private Component component = null;
+	private Component referenceComponent = null;
 
-	private int border;
+	/**
+	 * A reference component used to build picture which fit with the current
+	 * display.
+	 */
+	private HieroglyphShapeRepository shapeRepository;
 
-	private HieroglyphShapeRepository fontManager;
+	/**
+	 * Height of A1.
+	 */
+	private double a1Height;
 
-	public HieroglyphPictureBuilder(HieroglyphShapeRepository hieroglyphicFontManager) {
-		this.fontManager = hieroglyphicFontManager;
-		size = 50;
-		transparent = false;
-		border = 4;
+	/**
+	 * The scale from sign space to bitmap space.
+	 * 
+	 * @return the scale to apply to sign coordinate to get bitmap coordinates.
+	 */
+	public double scaleForSize(double size) {
+		return size / a1Height;
 	}
+
+	// The old code for fixing and chosing the right constructor.
+
+	// public static Icon createHieroglyphIcon(String code, int size, int border,
+	// Component container) {
+	// // HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder(20,
+	// // 30, false);
+	// HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder();
+	// builder.setSize(size);
+	// builder.setTransparent(false);
+	// builder.setBorder(border);
+	// builder.setFit(true);
+	// builder.setComponent(container);
 
 	/**
 	 * 
-	 * @param maxSize
-	 *            size of the hightest sign, in model coordinates.
-	 * @param imageSize
-	 *            size of the bitmap.
-	 * @param transparent
-	 *            should the picture be transparent.
+	 * @param shapeRepository
+	 * @param referenceComponent the container that will display the icons, or null
+	 *                           if none is known. May speed up display if correctly
+	 *                           set.
 	 */
-	public HieroglyphPictureBuilder(
-			HieroglyphShapeRepository hieroglyphicFontManager,
-			double maxSize, int imageSize,
-			boolean transparent) {		
-		this.fontManager = hieroglyphicFontManager;
-		this.maxSize = maxSize;
-		this.size = imageSize;
-		this.transparent = transparent;
+	public HieroglyphPictureBuilder(HieroglyphShapeRepository shapeRepository, Component referenceComponent) {
+		this.shapeRepository = shapeRepository;
+		ShapeChar a1 = shapeRepository.get("A1");
+		a1Height = a1.getBbox().getHeight();
+		this.referenceComponent = referenceComponent;
 	}
 
+	/**
+	 * Build a bitmap for a given sign.
+	 * 
+	 * @param code
+	 * @param options
+	 * @return
+	 */
+	public BufferedImage buildSignBitmap(String code,
+			IconRenderOptions options) {
+		String actualCode = hasCode(code) ? code : "A1";
+		ShapeChar shape = shapeRepository.get(actualCode);
+		return buildSignBitmap(shape, options);
+	}
 
-	public boolean hasCode(String code) {
-		return fontManager.get(code) != null;
+	/**
+	 * Creates an icon for a particular hieroglyph.
+	 * 
+	 * @param code
+	 * @return an icon for the glyph.
+	 */
+	public Icon createHieroglyphIcon(String code, IconRenderOptions options) {
+		BufferedImage img = buildSignBitmap(code, options);
+		return new ImageIcon(img);
 	}
-	
-	public BufferedImage buildSignBitmap(String code) {
-		ShapeChar shape = fontManager.get(code);
-		return buildSignBitmap(shape);
+
+	private boolean hasCode(String code) {
+		return shapeRepository.get(code) != null;
 	}
-	
-	private BufferedImage buildSignBitmap(ShapeChar glyph) {
+
+	private BufferedImage buildSignBitmap(ShapeChar glyph, IconRenderOptions options) {
+		// NOTE: maxSize = A1.getBbox().getHeight();
+
 		// Compute the scale
-		float scale = (float) (size / maxSize);
+		double scale = scaleForSize(options.size());
 
 		int colorModel = BufferedImage.TYPE_BYTE_GRAY;
 		Color backGroundColor = Color.WHITE;
 
-		if (transparent) {
+		if (options.transparent()) {
 			colorModel = BufferedImage.TYPE_INT_ARGB;
 			backGroundColor = new Color(0, 0, 0, 1);
 		}
 
-		int actualWidth = size;
-		int actualHeight = size;
+		int actualWidth = options.size();
+		int actualHeight = options.size();
 
-		if (isFit()) {
-			actualWidth = border
+		if (options.fit()) {
+			actualWidth = options.border()
 					+ (int) (1 + glyph.getBbox().getWidth() * scale);
-			actualHeight = border
+			actualHeight = options.border()
 					+ (int) (1 + glyph.getBbox().getHeight() * scale);
 		}
 
@@ -112,8 +164,8 @@ public class HieroglyphPictureBuilder {
 		double my = (actualHeight - scale * glyph.getBbox().getHeight()) / 2.0;
 
 		BufferedImage img;
-		if (component != null && component.getGraphicsConfiguration() != null ) {
-			img = component.getGraphicsConfiguration().createCompatibleImage(
+		if (referenceComponent != null && referenceComponent.getGraphicsConfiguration() != null) {
+			img = referenceComponent.getGraphicsConfiguration().createCompatibleImage(
 					actualWidth, actualHeight);
 		} else
 			img = new BufferedImage(actualWidth, actualHeight, colorModel);
@@ -127,131 +179,4 @@ public class HieroglyphPictureBuilder {
 		g.dispose();
 		return img;
 	}
-
-	/**
-	 * @return Returns the maxSize.
-	 */
-	public double getMaxSize() {
-		return maxSize;
-	}
-
-	/**
-	 * the size of the hightest sign, in model coordinate.
-	 * 
-	 * @param maxSize
-	 *            The maxSize to set.
-	 */
-	public void setMaxSize(double maxSize) {
-		this.maxSize = maxSize;
-	}
-
-	/**
-	 * The size of the bitmap
-	 * 
-	 * @return Returns the size.
-	 */
-	public int getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size
-	 *            The size to set.
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
-	/**
-	 * Do we want a transparent picture ?
-	 * 
-	 * @return Returns the transparent.
-	 */
-	public boolean isTransparent() {
-		return transparent;
-	}
-
-	/**
-	 * @param transparent
-	 *            The transparent to set.
-	 */
-	public void setTransparent(boolean transparent) {
-		this.transparent = transparent;
-	}
-
-	/**
-	 * requires that the bitmaps will be fitted to the signs.
-	 * 
-	 * @param fit
-	 */
-	public void setFit(boolean fit) {
-		this.fit = fit;
-	}
-
-	/**
-	 * Are the bitmaps fitted the the signs ?
-	 * 
-	 * @return a boolean
-	 */
-	public boolean isFit() {
-		return fit;
-	}
-
-	/**
-	 * declare that the icon will be used in a given component. If this is used,
-	 * the icon will get the correct depth for the component, and rendering will
-	 * be faster.
-	 * 
-	 * @param component
-	 */
-	public void setComponent(Component component) {
-		this.component = component;
-
-	}
-
-	/**
-	 * @return Returns the border.
-	 */
-	public int getBorder() {
-		return border;
-	}
-
-	/**
-	 * @param border
-	 *            The border to set.
-	 */
-	public void setBorder(int border) {
-		this.border = border;
-	}
-
-	/**
-	 * Creates an icon for a particular hieroglyph.
-	 * 
-	 * @param code
-	 * @param size :
-	 *            the icon size
-	 * @param border :
-	 *            the size of the icon's border
-	 * @param container
-	 *            the container that will display the icons, or null if none is
-	 *            known. May speed up display if correctly set.
-	 * @return an icon for the glyph.
-	 */
-	public  Icon createHieroglyphIcon(String code, int size, int border,
-			Component container) {
-		this.setSize(size);
-		this.setTransparent(false);
-		this.setBorder(border);
-		this.setFit(true);
-		this.setComponent(container);
-
-		BufferedImage img;
-		if (this.hasCode(code)) {
-			 img = this.buildSignBitmap(code);
-		} else {
-			img = this.buildSignBitmap("A1");
-		}
-		return new ImageIcon(img);
-	}
-
 }

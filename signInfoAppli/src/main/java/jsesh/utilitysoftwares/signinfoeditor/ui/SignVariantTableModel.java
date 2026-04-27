@@ -53,8 +53,8 @@ public class SignVariantTableModel extends SignPropertyTableModel {
 		}
 	}
 	
-	public Class getColumnClass(int columnIndex) {
-		Class clazz= null;
+	public Class<?> getColumnClass(int columnIndex) {
+		Class<?> clazz= null;
 		switch (columnIndex) {
 		case 0:
 			clazz= String.class;
@@ -72,8 +72,8 @@ public class SignVariantTableModel extends SignPropertyTableModel {
 	
 
         @Override
-	protected XMLInfoProperty buildDefaultSignProperty(String code) {
-		XMLInfoProperty property= new SignInfoProperty(SignDescriptionConstants.VARIANT_OF,true);
+	protected SignInfoProperty buildDefaultSignProperty(String code) {
+		SignInfoProperty property= new SignInfoProperty(SignDescriptionConstants.VARIANT_OF,true);
 		property.setAttribute(SignDescriptionConstants.BASE_SIGN, code);
 		property.setAttribute(SignDescriptionConstants.LINGUISTIC, SignDescriptionConstants.UNSPECIFIED);
 		property.setAttribute(SignDescriptionConstants.IS_SIMILAR, "y");

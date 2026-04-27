@@ -7,6 +7,7 @@ import javax.swing.JList;
 
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.utils.IconRenderOptions;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {
@@ -42,9 +43,9 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 			} else {
 				setText("");
 			}
-			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager);
-			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code,
-					bitmapHeight, border, parent));
+			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager, parent);
+			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().size(bitmapHeight).border(border).build();
+			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code, renderOptions));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());
 			setIcon(null);

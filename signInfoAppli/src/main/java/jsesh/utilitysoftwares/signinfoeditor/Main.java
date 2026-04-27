@@ -47,6 +47,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.SimpleFontKit;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.ui.SignInfoPresenter;
@@ -56,6 +59,16 @@ import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 /**
+ * 
+ * Main class for the SignInfoEditor application.
+ * <p> It builds the application, installs the presenters and some of the menus.
+ * 
+ * The application needs a full access to JSesh configuration:
+ * 
+ * <ul>
+ * <li> to draw glyphs and search them in the palette</li>
+ * <li> the <b>edited</b> database is loaded separately by the application
+ * </ul>
  * 
  * @author rosmord
  */
@@ -81,8 +94,8 @@ public class Main implements PropertyHolder {
 
 	public Main() {
 		try {
-			jseshConfig = new JSeshUserSignLibraryConfiguration();
-			signInfoModel = new SignInfoModel();
+			jseshConfig = new JSeshUserSignLibraryConfiguration();			
+			signInfoModel = new SignInfoModel(jseshConfig);
 
 			mainFrame = new JFrame("Sign info Editor");
 			signInfoPresenter = new SignInfoPresenter(signInfoModel);
@@ -196,8 +209,7 @@ public class Main implements PropertyHolder {
 		if (signInfoPresenter.isExpertMode()) {
 			signInfoPresenter.openExpertFile();
 		} else {
-			signInfoPresenter.openFile(HieroglyphDatabaseRepository
-					.getUserSignDefinitionFile());
+			signInfoPresenter.openFile(HieroglyphDatabaseFactory.getUserSignDefinitionFile());
 		}
 
 		tagEditorPresenter.setSignInfoModel(signInfoPresenter

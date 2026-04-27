@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import jsesh.hieroglyphs.data.SignValueType;
 
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
+import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
 import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
 /**
@@ -17,8 +18,8 @@ import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
  * setValueAt and getValueAt, maybe using the methods from this class in cases
  * where a String does the job.
  *
+ * 
  * @author rosmord
- *
  */
 public abstract class SignPropertyTableModel extends AbstractTableModel
         implements GrowableModel {
@@ -29,9 +30,9 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
     /**
      * A list of SignInfoProperty.
      */
-    protected List signProperties;
+    protected List<SignInfoProperty> signProperties;
 
-    protected List attributeNames;
+    protected List<String> attributeNames;
 
     /**
      * Create a table model for a certain property of this sign
@@ -72,8 +73,8 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
         return attributeName.indexOf(attributeName);
     }
 
-    protected XMLInfoProperty getRow(int rowIndex) {
-        return (XMLInfoProperty) signProperties.get(rowIndex);
+    protected SignInfoProperty getRow(int rowIndex) {
+        return signProperties.get(rowIndex);
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -86,7 +87,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
 	 * @see jsesh.utilitysoftwares.signinfoeditor.GrowableModel#removeRow(int)
      */
     public boolean removeRow(int row) {
-        XMLInfoProperty property = getRow(row);
+        SignInfoProperty property = getRow(row);
         if (property.isUserDefinition()) {
             signProperties.remove(row);
             editableSignInfo.remove(property);
@@ -102,7 +103,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
         if (row == -1) {
             return false;
         } else {
-            XMLInfoProperty property = getRow(row);
+            SignInfoProperty property = getRow(row);
             return property.isUserDefinition();
         }
     }
@@ -112,7 +113,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        XMLInfoProperty p = getRow(rowIndex);
+        SignInfoProperty p = getRow(rowIndex);
         String attributeName = getAttributeName(columnIndex);
         return p.get(attributeName);
     }
@@ -124,7 +125,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
      */
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        XMLInfoProperty p = getRow(rowIndex);
+        SignInfoProperty p = getRow(rowIndex);
         if (!p.isUserDefinition()) {
             return;
         }
@@ -143,7 +144,7 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
 	 * @see jsesh.utilitysoftwares.signinfoeditor.GrowableModel#addRow(java.lang.String)
      */
     public final void addRow(String code) {
-        XMLInfoProperty property = buildDefaultSignProperty(code);
+        SignInfoProperty property = buildDefaultSignProperty(code);
         editableSignInfo.add(property);
         signProperties.add(property);
         fireTableRowsInserted(getRowCount() - 1, getColumnCount() - 1);
@@ -155,9 +156,9 @@ public abstract class SignPropertyTableModel extends AbstractTableModel
      * @param value
      * @return
      */
-    abstract protected XMLInfoProperty buildDefaultSignProperty(String value);
+    abstract protected SignInfoProperty buildDefaultSignProperty(String value);
 
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
         return String.class;
     }
 }

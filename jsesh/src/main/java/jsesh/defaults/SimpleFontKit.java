@@ -148,6 +148,4 @@ public class SimpleFontKit implements JseshFontKit {
         return possibilityRepository;
     }
 
-    
-
 }

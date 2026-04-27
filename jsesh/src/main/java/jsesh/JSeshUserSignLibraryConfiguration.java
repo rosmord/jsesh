@@ -1,5 +1,7 @@
 package jsesh;
 
+import jsesh.defaults.JseshFontKit;
+import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -17,11 +19,12 @@ import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
  * </ul>
  * 
  */
-public class JSeshUserSignLibraryConfiguration {
+public class JSeshUserSignLibraryConfiguration implements JseshFontKit {
 
     private GlossaryManager glossaryManager;
     private JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
     private HieroglyphDatabaseInterface hieroglyphDatabase;
+    private PossibilityRepository possibilityRepository;
 
     /**
      * Creates the default configuration for the JSesh Application, using user specific settings.
@@ -30,6 +33,7 @@ public class JSeshUserSignLibraryConfiguration {
         glossaryManager = new GlossaryManager();
         hieroglyphShapeRepository = new JSeshFullHieroglyphShapeRepository();
         hieroglyphDatabase  = HieroglyphDatabaseFactory.buildWithUserDefinitions(hieroglyphShapeRepository);
+        possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossaryManager.getGlossary());
     }
 
     /**
@@ -45,6 +49,11 @@ public class JSeshUserSignLibraryConfiguration {
 
     public HieroglyphDatabaseInterface hieroglyphDatabase() {
         return hieroglyphDatabase;
+    }
+
+    @Override
+    public PossibilityRepository possibilityRepository() {
+        return possibilityRepository;
     }
 
 }

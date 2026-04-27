@@ -525,7 +525,7 @@ public class JSignInfo extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDescriptionButton;
     private javax.swing.JCheckBox alwaysDisplayCheckBox;
-    private javax.swing.JList availableTagList;
+    private javax.swing.JList<String> availableTagList;
     private javax.swing.JButton copyPreviousSignTagsButton;
     private jsesh.editor.JMDCEditor descriptionField;
     private javax.swing.JLabel jLabel1;
@@ -549,7 +549,7 @@ public class JSignInfo extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JComboBox langSelectCB;
+    private javax.swing.JComboBox<String> langSelectCB;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton nextDescriptionButton;
     private javax.swing.JButton partAddButton;
@@ -682,7 +682,7 @@ public class JSignInfo extends javax.swing.JPanel {
 		return descriptionField;
 	}
 
-	public javax.swing.JComboBox getLangSelectCB() {
+	public javax.swing.JComboBox<String> getLangSelectCB() {
 		return langSelectCB;
 	}
 
@@ -693,7 +693,7 @@ public class JSignInfo extends javax.swing.JPanel {
 	/**
 	 * @return the availableTagList
 	 */
-	public javax.swing.JList getAvailableTagList() {
+	public javax.swing.JList<String> getAvailableTagList() {
 		return availableTagList;
 	}
 

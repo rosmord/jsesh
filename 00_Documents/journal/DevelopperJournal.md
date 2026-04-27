@@ -44,25 +44,30 @@ The current philosophy is:
   ~~~
 
 `JseshFontKit`
-: an interface which represents a coordinated n-uplet of  `PossibilityRepository`,  `HieroglyphShapeRepository` and `HieroglyphDatabaseInterface`. The class `SimpleFontKit` provides a singleton `embeddedOnlyInstance` and convenient named constructor for more versatile instances.
+: an interface which represents a <strong>coordinated</strong> n-uplet of  `PossibilityRepository`,  `HieroglyphShapeRepository` and `HieroglyphDatabaseInterface`. The class `SimpleFontKit` provides a singleton `embeddedOnlyInstance` and convenient named constructor for more versatile instances.
 
 `JSeshRenderContext`
 : used as argument of **drawing operations.**. Can be built on the fly. It's a couple of `HieroglyphShapeRepository` and `JSeshStyle`. It can be built with its very simple constructor.
 
 #### With user preferences
 
+The simplest way to access font resources is to use `JSeshUserSignLibraryConfiguration`.
+
+`JSeshUserSignLibraryConfiguration`
+: An instance of this class, created by calling its default constructor, is a `JSeshFontKit`. It also gives access to `JSeshFullHieroglyphShapeRepository`, `GlossaryManager`, and `HieroglyphDatabaseInterface`. In most cases, only one instance of this class should be created. That is, it should be a singleton in the **Spring** meaning of the term, even if it's not one in the GoF sense.
+
 `HieroglyphShapeRepository`
-: `JSeshFullHieroglyphShapeRepository`, which can be instanciated using its constructor; 
+: has an implementation which provides access to the user folder, `JSeshFullHieroglyphShapeRepository`. It can be instanciated using its constructor; 
 
 `JseshFontKit`
-: use the various named constructors of `SimpleFontKit` to create an instance with the user preferences.
-
+: use the various named constructors of `SimpleFontKit` to create an instance with the user preferences. The simplest way is to use `JSeshUserSignLibraryConfiguration`.
 
 `Glossary`
 : available through the `GlossaryManager`, which is a singleton. It will automatically load the user glossary.
 
-`JSeshUserSignLibraryConfiguration`
-: this is a **singleton**, used when creating **top-level** components of the JSesh application. It gives access to `JSeshFullHieroglyphShapeRepository`, `GlossaryManager`, and `HieroglyphDatabaseInterface`; the difference with `JseshFontKit` is that a) it's a singleton, and b) it gives access to the glossary manager. We may decide that `JSeshFontKit` should provide the same service.
+
+User sign database source
+: The XML file which may contain user-defined sign properties is found at `HieroglyphDatabaseFactory.getUserSignDefinitionFile()`.
 
 ## TODO
 
@@ -78,6 +83,7 @@ Follow the following steps:
 - [ ] use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check.
 - when everything runs, check what code can be moved to `Core` classes and move it ; check.
 - rename JSeshFontKit using `Compendium`
+- check and debug the SignInfo editor.
 
 ### Long Term TODO
 
@@ -192,6 +198,8 @@ Regarding **standard** codes:
 
 ### Simple TODO
 
+- [ ] rename `HieroglyphPictureBuilder` into `HieroglyphIconBuilder`, because it's its function.
+- [ ] when the code is ok, check the sign editor to be sure all the constructors are needed. There are an awful lot of them, for instance for `SignInfoProperty`;
 - [ ] Improve the structure of `QuickPDFExportAction`
 - [ ] Choose a consistent Logging scheme.
 - [ ] **Find where I used the "modern" accessors without get**, and move back to standard getters for code consistency - except when it's not really a **property**.
@@ -219,6 +227,41 @@ List of classes which need some cleanup:
 - `ExportAsRTFAction`
 
 ## Daily log
+
+### 2026/04/27
+
+- In the sign info property, we use `XMLInfoProperty` and `SignInfoProperty`, which is a subclass of the first, with a `sign` attribute. The problem is that the code we wrote initialy is old and sometimes ignored the actual class of the elements (collections were pre-java 1.5).
+
+- Rethink `JSeshFontKit`. In particular :
+
+  USes of `JSeshUserSignLibraryConfiguration` and of some implementations of `JSeshFontKit` uses intersect. In fact, we could consider having `JSeshUserSignLibraryConfiguration` as an implementation of `JSeshFontKit`.
+
+- **Once everything compiles,** review uses of `SimpleFontKit` methods and see what constructors are actually used, and remove the others.
+
+**historical reminder** : for a long time, Mac OS X used to provide its own version of Java. In theory, it was nice, but those version tended to lag behind the official java version. And old mac did not get updates if they didn't upgrade to newer Mac OS X version. A consequence of this was that JSesh could not use java 1.5 generic collection until a very late date.
+
+#### About XMLInfoProperty and SignInfoProperty
+
+`XMLInfoProperty`
+: a class which represent data which will be serialized as an XML element, with a simple string value, and various attributes. It's used as such to describe  tag lables (see `TagEditorPresenter`) and tag categories (`<tagCategory>`), see `SignInfoModel`.
+
+`SignInfoProperty`
+: a subclass of `XMLInfoProperty` which has a `sign` attribute, which is the sign code of the sign described by the property.
+
+
+Currently, `SignPropertyTableModel` has methods which refer to `XMLInfoProperty`, but in fact, all implementations use `SignInfoProperty`. In the worst case, the type of the element could be a generic parameter.
+
+
+
+
+### 2026/04/25
+
+- [ ] **TODO** working on the sign info editor. I notice that there are two classes used for producing sign icons:
+  - `ImageIconFactory`
+  - `HieroglyphPictureBuilder`
+  
+  sort this out and find if both are needed. Well, the `ImageIconFactory` is not a factory, it's a repository/cache. It should probably use `HieroglyphPictureBuilder` and not contain its own icon building code.
+
 
 ### 2026/04/24
 

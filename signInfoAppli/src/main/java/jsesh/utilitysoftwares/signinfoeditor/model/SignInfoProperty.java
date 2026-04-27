@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 /**
  * An entry related to a sign in SignInfo.
+ * 
+ * <p> Specifically, an XMLInfoProperty with a sign code attribute.
  * @see SignInfoModel
  * @author rosmord
  *
