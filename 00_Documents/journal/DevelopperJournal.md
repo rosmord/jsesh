@@ -161,6 +161,7 @@ Follow the following steps:
     ~~~
 - [ ] `JGlossaryEditor` 
 - [ ] checks that copy/paste correctly uses the preferences we have.
+- [ ] test the sign info editor, both in expert and user mode.
 
 ### Low priority TODO
 
@@ -229,6 +230,8 @@ List of classes which need some cleanup:
 ## Daily log
 
 ### 2026/04/27
+
+TODO next: see how I handle the opening of sign info file in normal and expert mode in the original app, and get sure the behaviour is the same.
 
 - In the sign info property, we use `XMLInfoProperty` and `SignInfoProperty`, which is a subclass of the first, with a `sign` attribute. The problem is that the code we wrote initialy is old and sometimes ignored the actual class of the elements (collections were pre-java 1.5).
 
