@@ -107,24 +107,7 @@ public class JMDCField extends JMDCEditor {
         this(width, height, JSeshStyle.DEFAULT, JseshFontKit.embeddedOnlyFontKit());
     }
 
-    /**
-     * Compute the actual style modified to fit the height of the field.
-     * 
-     * @param style  the original style.
-     * @param height the target total height of the field, in pixels (including
-     *               margins).
-     * @return the modified style.
-     */
-    private final static JSeshStyle adaptStyleToHeight(JSeshStyle style, int height, int margin) {
-        int textHeight = height - 2 * margin;
-        return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
-                .standardSignHeight(textHeight)
-                .maxCadratWidth(textHeight * 1.1f)
-                .topMargin(margin)
-                .leftMargin(0)
-                .lineSkip(0)).build();
-        // Why was setScale(1.0); called here ?
-    }
+    
 
     public JMDCField() {
         this(320, 50);
@@ -194,5 +177,23 @@ public class JMDCField extends JMDCEditor {
 
     }
 
+    /**
+     * Compute the actual style modified to fit the height of the field.
+     * 
+     * @param style  the original style.
+     * @param height the target total height of the field, in pixels (including
+     *               margins).
+     * @return the modified style.
+     */
+    private final static JSeshStyle adaptStyleToHeight(JSeshStyle style, int height, int margin) {
+        int textHeight = height - 2 * margin;
+        return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
+                .standardSignHeight(textHeight)
+                .maxCadratWidth(textHeight * 1.1f)
+                .topMargin(margin)
+                .leftMargin(0)
+                .lineSkip(0)).build();
+        // Why was setScale(1.0); called here ?
+    }
 
 }

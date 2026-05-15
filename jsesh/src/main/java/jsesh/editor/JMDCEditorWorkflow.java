@@ -184,10 +184,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public JMDCEditorWorkflow(HieroglyphicTextModel data, PossibilityRepository possibilityRepository) {
         listeners = new ArrayList<>();
+        possibilitiesHandler = new PossibilitiesHandler(possibilityRepository);
         setHieroglyphicTextModel(data);
         currentCode = new StringBuffer();
-        mode = 's';
-        possibilitiesHandler = new PossibilitiesHandler(possibilityRepository);
+        mode = 's';        
     }
 
     /**

@@ -1,14 +1,5 @@
-/*
- * SignInfoPresenter.java
- * 
- * Created on 1 oct. 2007, 11:46:32
- * 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jsesh.utilitysoftwares.signinfoeditor.ui;
 
-import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
@@ -22,10 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.prefs.Preferences;
@@ -33,7 +21,6 @@ import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JComboBox;
@@ -47,6 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
+import org.qenherkhopeshef.swingUtils.LabelDelegateListCellRenderer;
 import org.xml.sax.SAXException;
 
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
@@ -56,6 +44,7 @@ import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.utils.IconRenderOptions;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.SimpleStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
@@ -65,10 +54,14 @@ import jsesh.utilitysoftwares.signinfoeditor.helpers.SignInfoModelBuilder;
 import jsesh.utilitysoftwares.signinfoeditor.helpers.SignInfoModelXMLWriter;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
+import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
 
 /**
  * Control layer for the sign information editor.
+ * 
+ * WAY TOO LARGE
+ * 
  * The model is in fact a rather plain representation of the XML data,
  * with everything represented as "properties".
  * 
@@ -81,16 +74,29 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     private static final int bitmapBorder = 2;
     private static final int bitmapSize = 30;
     private static final int LABEL_PADDING = 3;
+
+    /**
+     * The actual model this presenter is working on.
+     */
+    private SignInfoModel signInfoModel;
+
     private DefaultListModel<String> availableTagListModel;
+
+    /**
+     * Copied sign info, kept in memory for pasting operations.
+     */
     private EditableSignInfo copiedSignInfo;
+
     /**
      * The file being edited.
      */
     private File currentFile = null;
+
     /**
      * The "expert mode" file.
      */
     private File expertFile = null;
+
     private EditableSignInfo currentSign;
     /**
      * Are we editing data. true if the user can edit data, false if we are in
@@ -102,9 +108,21 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
      * load from is a single XML file.
      */
     private boolean expertMode = false;
+
+    /**
+     * Support for Observable pattern, used to notify changes in the "expert mode"
+     * property.
+     * 
+     * TODO: probably create a specific domain event?
+     */
     private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
             this);
+
+    /**
+     * The table model for the description of a sign as containing other signs.
+     */
     private SignContainsTableModel signContainsTableModel;
+
     /**
      * Index of the current sign description.
      */
@@ -113,16 +131,69 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
      * The list of available descriptions for this sign.
      */
     private List<SignInfoProperty> signDescriptionsList = new ArrayList<>();
-    private SignInfoModel signInfoModel;
+
+    /**
+     * The object which can create new SignInfoModel instances.
+     */
+    private final SignInfoModelFactory signInfoModelFactory;
+
+    /**
+     * List of tags.
+     */
     private DefaultListModel<SignInfoProperty> signTagListModel;
+
+    /**
+     * Table model for displaying sign values.
+     */
     private SignTransliterationTableModel signTransliterationTableModel;
+
+    /**
+     * Table model for displaying the signs of which the current sign is a variant.
+     */
     private SignVariantTableModel signVariantTableModel;
+
+    /**
+     * View for sign information.
+     */
     private JSignInfo view = new JSignInfo();
+
+    /**
+     * The previous sign in the list (used to copy tags from it).
+     */
     private EditableSignInfo previousSign;
 
-    public SignInfoPresenter(SignInfoModel signInfoModel) {
+    /**
+     * The builder used to create icons for the hieroglyphs.
+     */
+    HieroglyphPictureBuilder pictureBuilder;
 
-        this.setSignInfoModel(signInfoModel);
+    /**
+     * Listener for changes in the model.
+     * 
+     * @param signInfoModelFactory
+     * @param pictureBuilder
+     */
+
+    SignInfoModelEventListener modelListener = new SignInfoModelEventListener() {
+
+        public void signInfoModelChanged(SignInfoModelEvent event) {           
+            if (event instanceof TagEvent) {
+                bindAvailableTagList();
+            }
+
+        }
+    };
+
+    /**
+     * Constructor for the presenter.
+     * 
+     * @param signInfoModel global model for set of sign information.
+     */
+    public SignInfoPresenter(SignInfoModelFactory signInfoModelFactory, HieroglyphPictureBuilder pictureBuilder) {
+
+        this.signInfoModelFactory = signInfoModelFactory;
+        this.pictureBuilder = pictureBuilder;
+        this.setSignInfoModel(signInfoModelFactory.buildDefaultModel());
 
         // Init "expert file" from preferences...
         Preferences preferences = Preferences.userNodeForPackage(this.getClass());
@@ -168,9 +239,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     public void copy() {
         copiedSignInfo = new EditableSignInfo(currentSign);
-        Iterator it = copiedSignInfo.getPropertyList().iterator();
-        while (it.hasNext()) {
-            SignInfoProperty prop = (SignInfoProperty) it.next();
+        for (SignInfoProperty prop : copiedSignInfo.getPropertyList()) {
             prop.setUserDefinition(true);
         }
     }
@@ -251,17 +320,15 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         SignInfoModel newSignInfoModel;
         // In expert mode, all data come from this file...
         if (expertMode) {
-            newSignInfoModel = new SignInfoModel()
-
-        } else // In "user mode", we first read the system data.
-        {
+            newSignInfoModel = signInfoModelFactory.buildDefaultModel();
+        } else {
+            // In "user mode", we first read the system data.
             newSignInfoModel = readSystemInfoModel();
         }
         try {
             currentFile = userSignDefinitionFile;
             if (currentFile == null) {
                 return;
-
             }
             SignInfoModelBuilder signInfoModelBuilder = new SignInfoModelBuilder(
                     newSignInfoModel);
@@ -339,9 +406,11 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             // update sign display
             // HieroglyphPictureBuilder.createHieroglyphIcon(code,
 
-            HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(null);
-            Icon newIcon = pictureBuilder.createHieroglyphIcon(code, signIconLabel.getHeight() - 2 * LABEL_PADDING,
-                    LABEL_PADDING, signIconLabel);
+            IconRenderOptions iconRenderOptions = IconRenderOptions.DEFAULT.copy()
+                    .size(signIconLabel.getHeight() - 2 * LABEL_PADDING)
+                    .border(LABEL_PADDING)
+                    .build();
+            Icon newIcon = pictureBuilder.createHieroglyphIcon(code, iconRenderOptions);
             signIconLabel.setIcon(newIcon);
 
             // table of signs of whom we are a variant.
@@ -411,9 +480,8 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
         if (previousSignCode != null) {
             previousSign = signInfoModel.getSign(previousSignCode);
-            List tags = previousSign.getPropertyList(SignDescriptionConstants.HAS_TAG);
-            for (Iterator it = tags.iterator(); it.hasNext();) {
-                SignInfoProperty oldTag = (SignInfoProperty) it.next();
+            List<SignInfoProperty> tags = previousSign.getPropertyList(SignDescriptionConstants.HAS_TAG);
+            for (SignInfoProperty oldTag : tags) {
                 SignInfoProperty newTag = new SignInfoProperty(SignDescriptionConstants.HAS_TAG, true);
                 newTag.setAttribute(SignDescriptionConstants.SIGN, currentSign.getCode());
                 newTag.setAttribute(SignDescriptionConstants.TAG, oldTag.get(SignDescriptionConstants.TAG));
@@ -540,9 +608,9 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         l.removeAll(tagsForFamily);
 
         availableTagListModel = new DefaultListModel<>();
-        // Add all tags in for this family to the table model.        
+        // Add all tags in for this family to the table model.
         availableTagListModel.addAll(tagsForFamily);
-        // add Other tags.        
+        // add Other tags.
         availableTagListModel.addAll(l);
 
         view.getAvailableTagList().setModel(availableTagListModel);
@@ -567,7 +635,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // First column. Has a renderer, but the editor is the normal string
         // editor.
         table.getColumnModel().getColumn(0).setCellRenderer(
-                new HieroglyphicCodeRenderer(bitmapSize, bitmapBorder));
+                new HieroglyphicCodeRenderer(bitmapSize, bitmapBorder, table));
         // Drag and drop support:
         table.setTransferHandler(new SignCodeToTableTransfertHandler(
                 tableModel));
@@ -582,28 +650,22 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     private void bindTags() {
-        JList tagList = view.getTagList();
-        signTagListModel = new DefaultListModel();
-        List propertyList = currentSign.getPropertyList(SignDescriptionConstants.HAS_TAG);
+        JList<SignInfoProperty> tagList = view.getTagList();
+        signTagListModel = new DefaultListModel<>();
+        List<SignInfoProperty> propertyList = currentSign.getPropertyList(SignDescriptionConstants.HAS_TAG);
         for (int i = 0; i < propertyList.size(); i++) {
             signTagListModel.addElement(propertyList.get(i));
         }
         tagList.setModel(signTagListModel);
         // Ask for tags to be rendered only as their tag name.
-        tagList.setCellRenderer(new DefaultListCellRenderer() {
 
-            public Component getListCellRendererComponent(JList list,
-                    Object value, int index, boolean isSelected,
-                    boolean cellHasFocus) {
-                // We will in fact trick the default into rendering another
-                // value
-                SignInfoProperty prop = (SignInfoProperty) value;
+        tagList.setCellRenderer(
+            new LabelDelegateListCellRenderer<>((label, data) -> {
+                SignInfoProperty prop = data.value();
                 String newValue = prop.get("tag");
-                return super.getListCellRendererComponent(list, newValue,
-                        index, isSelected, cellHasFocus);
-            }
-        });
-
+                label.setText(newValue);
+            })
+        );        
     }
 
     private void bindTransliterationTable() {
@@ -615,14 +677,14 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         transliterationTable.setModel(signTransliterationTableModel);
         // adapt display for second and third columns.
 
-        JComboBox<SignValueType> typeCB = new JComboBox();
+        JComboBox<SignValueType> typeCB = new JComboBox<>();
         for (SignValueType valueType : SignValueType.values())
             typeCB.addItem(valueType);
 
         transliterationTable.getColumnModel().getColumn(1).setCellEditor(
                 new DefaultCellEditor(typeCB));
 
-        JComboBox useCB = new JComboBox();
+        JComboBox<String> useCB = new JComboBox<>();
         useCB.addItem(SignDescriptionConstants.KEYBOARD);
         useCB.addItem(SignDescriptionConstants.PALETTE);
         useCB.addItem(SignDescriptionConstants.INFORMATIVE);
@@ -648,7 +710,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         //
         // third column: use a combobox. Content is ListOption
         //
-        JComboBox combobox = new JComboBox();
+        JComboBox<String> combobox = new JComboBox<>();
         for (SignVariantType variantType : SignVariantType.values()) {
             combobox.addItem(variantType.toString());
         }
@@ -677,14 +739,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     private void prepareDescriptionControls() {
         // Current Description update...
-
-        view.getDescriptionField().getHieroglyphicTextModel().addObserver(
-                new Observer() {
-
-                    public void update(Observable o, Object arg) {
-                        changeDescriptionText();
-                    }
-                });
+        view.getDescriptionField().getHieroglyphicTextModel().addListener(e -> changeDescriptionText());
         // Change in the displayed description.
         view.getNextDescriptionButton().addActionListener(new ActionListener() {
 
@@ -727,7 +782,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     private void prepareTagControls() {
-        signTagListModel = new DefaultListModel();
+        signTagListModel = new DefaultListModel<>();
 
         view.getTagList().setModel(signTagListModel);
         // Too bad... we are using lists, not tables
@@ -813,7 +868,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     private SignInfoModel readSystemInfoModel() {
-        SignInfoModel newSignInfoModel = new SignInfoModel();
+        SignInfoModel newSignInfoModel = signInfoModelFactory.buildDefaultModel();
         SignInfoModelBuilder signInfoModelBuilder = new SignInfoModelBuilder(
                 newSignInfoModel);
         SignDescriptionReader signDescriptionReader = new SignDescriptionReader(
@@ -832,21 +887,14 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         return newSignInfoModel;
     }
 
-    private void setSignInfoModel(SignInfoModel signInfoModel) {
-        this.signInfoModel = signInfoModel;
-        signInfoModel.addSignInfoModelEventListener(new SignInfoModelEventListener() {
+    private void setSignInfoModel(SignInfoModel newSignInfoModel) {
+        if (this.signInfoModel != null) {
+            this.signInfoModel.removeSignInfoModelEventListener(modelListener);
+        }
+        this.signInfoModel = newSignInfoModel;
 
-            public void signInfoModelChanged(SignInfoModelEvent event) {
-                // TODO: when the model improves (if it does improve
-                // here), create a proper listener.
-                // and use a visitor pattern
-                if (event instanceof TagEvent) {
-                    bindAvailableTagList();
-                }
-            }
-        });
+        newSignInfoModel.addSignInfoModelEventListener(modelListener);
         SwingUtilities.invokeLater(new Runnable() {
-
             public void run() {
                 goToFirstSign();
             }

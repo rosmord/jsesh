@@ -225,16 +225,15 @@ public class JMDCEditor extends JPanel {
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
            JseshFontKit fontKit) {
+        workflow = new JMDCEditorWorkflow(data, fontKit.possibilityRepository());
         this.hieroglyphShapeRepository = fontKit.hieroglyphShapeRepository();
-
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);
         this.setScale(2.0);
 
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
-        setFocusable(true);
-        workflow = new JMDCEditorWorkflow(data, fontKit.possibilityRepository());
+        setFocusable(true);        
         drawer = new ViewDrawer(); // Is there any need to keep it in memory?
         viewUpdater = new MDCViewUpdater(this);
         mouseAndFocusController = new MDCEditorMouseAndFocusController();

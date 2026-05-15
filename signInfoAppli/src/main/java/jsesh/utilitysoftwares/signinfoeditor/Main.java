@@ -50,8 +50,10 @@ import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.defaults.JseshFontKit;
 import jsesh.defaults.SimpleFontKit;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
+import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.ui.SignInfoPresenter;
 import jsesh.utilitysoftwares.signinfoeditor.ui.TagEditorPresenter;
 
@@ -95,11 +97,21 @@ public class Main implements PropertyHolder {
 	public Main() {
 		try {
 			jseshConfig = new JSeshUserSignLibraryConfiguration();			
-			signInfoModel = new SignInfoModel(jseshConfig);
-
+			
 			mainFrame = new JFrame("Sign info Editor");
-			signInfoPresenter = new SignInfoPresenter(signInfoModel);
+			SignInfoModelFactory signInfoModelFactory = new SignInfoModelFactory() {
 
+				@Override
+				public SignInfoModel buildDefaultModel() {
+					return new SignInfoModel(jseshConfig);
+				}
+			};
+			
+			
+			HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(
+				jseshConfig.hieroglyphShapeRepository(), mainFrame);
+			
+			signInfoPresenter = new SignInfoPresenter(signInfoModelFactory, pictureBuilder);
 			// Build the framework.
 			SimpleApplicationFactory framework = new SimpleApplicationFactory(
 					"definitionsI8n", "menu.txt", this);
