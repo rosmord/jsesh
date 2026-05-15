@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
@@ -46,7 +46,7 @@ public class WildCardMain {
     
     public WildCardMain() {
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        JseshFontKit fontKit = JseshFontKit.embeddedOnlyFontKit();
+        HieroglyphToolkit fontKit = HieroglyphToolkit.embeddedHieroglyphToolKit();
         panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), styleRef, fontKit);
         mettreEnPage();
         editor.setMDCText(mdc);    

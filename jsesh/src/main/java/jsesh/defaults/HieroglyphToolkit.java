@@ -7,7 +7,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 /**
  * A repository giving coordinated access to hieroglyphic fonts resources, including automated completion.
  */
-public interface JseshFontKit {
+public interface HieroglyphToolkit {
 
     /**
      * Shared default font kit using only embedded font resources and no user definitions.
@@ -15,8 +15,8 @@ public interface JseshFontKit {
      * interactive work with JSesh.
      * @return default shared font kit.
      */
-    static JseshFontKit embeddedOnlyFontKit() {
-        return SimpleFontKit.embeddedOnlyInstance();
+    static HieroglyphToolkit embeddedHieroglyphToolKit() {
+        return SimpleHieroglyphToolkit.embeddedOnlyInstance();
     }
 
     /**

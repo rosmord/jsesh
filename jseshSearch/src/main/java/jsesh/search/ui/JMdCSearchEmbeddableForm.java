@@ -20,8 +20,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import jsesh.defaults.JseshFontKit;
-import jsesh.defaults.SimpleFontKit;
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
@@ -75,8 +75,8 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, JseshFontKit fontKit) {               
-        JseshFontKit newFontKit = new SimpleFontKit(WildcardFont.getInstance().addToFont(fontKit.hieroglyphShapeRepository()),
+    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphToolkit fontKit) {               
+        HieroglyphToolkit newFontKit = new SimpleHieroglyphToolkit(WildcardFont.getInstance().addToFont(fontKit.hieroglyphShapeRepository()),
              fontKit.possibilityRepository(), fontKit.hieroglyphDatabase());
         this.hieroglyphDatabase = newFontKit.hieroglyphDatabase();
 

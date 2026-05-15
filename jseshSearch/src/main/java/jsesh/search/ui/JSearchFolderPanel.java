@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
@@ -40,12 +40,12 @@ public final class JSearchFolderPanel extends JPanel {
     private JLabel messageField;
     private JTable resultTable;
 
-    public JSearchFolderPanel(JSeshStyleReference styleRef, JseshFontKit fontKit) {
+    public JSearchFolderPanel(JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
         createFields(styleRef, fontKit);
         layoutFields();
     }
 
-    private void createFields(JSeshStyleReference styleRef, JseshFontKit fontKit) {
+    private void createFields(JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
         this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
         this.searchForm = new JSearchEmbeddableForm(styleRef, fontKit);

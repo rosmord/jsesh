@@ -23,7 +23,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.swing.utils.GraphicsUtils;
 
@@ -65,7 +65,7 @@ public class JMDCField extends JMDCEditor {
      * @param possibilityRepository     source for automated completion.
      */
     public JMDCField(int width, JSeshStyleReference styleReference,
-            JseshFontKit fontKit) {
+            HieroglyphToolkit fontKit) {
         super(new HieroglyphicTextModel(), styleReference, fontKit);
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
@@ -91,7 +91,7 @@ public class JMDCField extends JMDCEditor {
      * @param hieroglyphShapeRepository source for hieroglyph shapes.
      * @param possibilityRepository     source for automated completion.
      */
-    public JMDCField(int width, int height, JSeshStyle style, JseshFontKit fontKit) {
+    public JMDCField(int width, int height, JSeshStyle style, HieroglyphToolkit fontKit) {
         this(width, new JSeshStyleReference(adaptStyleToHeight(style, height, DEFAULT_MARGIN)),
                 fontKit);
     }
@@ -104,7 +104,7 @@ public class JMDCField extends JMDCEditor {
      * @param height
      */
     public JMDCField(int width, int height) {
-        this(width, height, JSeshStyle.DEFAULT, JseshFontKit.embeddedOnlyFontKit());
+        this(width, height, JSeshStyle.DEFAULT, HieroglyphToolkit.embeddedHieroglyphToolKit());
     }
 
     

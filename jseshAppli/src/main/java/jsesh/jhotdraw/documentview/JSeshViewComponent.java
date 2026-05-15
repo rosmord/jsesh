@@ -48,7 +48,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.editor.JMDCEditor;
@@ -110,7 +110,7 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
      */
     private final JButton hieroglyphsButton;
 
-    public JSeshViewComponent(JseshFontKit fontKit, JSeshStyle style) {
+    public JSeshViewComponent(HieroglyphToolkit fontKit, JSeshStyle style) {
         // simple components.
         editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
         codeField = new JTextField(5);

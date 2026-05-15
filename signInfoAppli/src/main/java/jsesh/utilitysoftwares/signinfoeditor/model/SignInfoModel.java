@@ -11,7 +11,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
@@ -67,7 +67,7 @@ public class SignInfoModel {
 	 */
 	PropertyChangeListener propertyChangeListener = new PropertyChangeListener();
 
-	public SignInfoModel(JseshFontKit fontKit) {
+	public SignInfoModel(HieroglyphToolkit fontKit) {
 		// Loop on all signs in the font.
 		fontKit.hieroglyphShapeRepository().getCodes().forEach(code -> {
 			if (GardinerCode.isWellFormedGardinerCode(code)) {

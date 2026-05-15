@@ -68,7 +68,7 @@ import javax.swing.SwingUtilities;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.actions.text.EditorShadeAction;
@@ -203,10 +203,10 @@ public class JMDCEditor extends JPanel {
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
-                JseshFontKit.embeddedOnlyFontKit());
+                HieroglyphToolkit.embeddedHieroglyphToolKit());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, JseshFontKit fontKit) {
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphToolkit fontKit) {
         this(data, new JSeshStyleReference(Style),fontKit);
     }
 
@@ -224,7 +224,7 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-           JseshFontKit fontKit) {
+           HieroglyphToolkit fontKit) {
         workflow = new JMDCEditorWorkflow(data, fontKit.possibilityRepository());
         this.hieroglyphShapeRepository = fontKit.hieroglyphShapeRepository();
         this.setStyleReference(styleReference);

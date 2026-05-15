@@ -68,7 +68,7 @@ import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
@@ -211,7 +211,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
         JSeshStyleReference commonStyle = jseshApplicationCore.jseshComponentsStyle();
-        JseshFontKit fontKit = jseshApplicationCore.getFontKit();
+        HieroglyphToolkit fontKit = jseshApplicationCore.getFontKit();
 
         this.application.initSecondaryWindow(palettePresenter.getDialog());
         this.application.initSecondaryWindow(

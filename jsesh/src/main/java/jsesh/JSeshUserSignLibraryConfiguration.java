@@ -1,6 +1,6 @@
 package jsesh;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
@@ -19,7 +19,7 @@ import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
  * </ul>
  * 
  */
-public class JSeshUserSignLibraryConfiguration implements JseshFontKit {
+public class JSeshUserSignLibraryConfiguration implements HieroglyphToolkit {
 
     private GlossaryManager glossaryManager;
     private JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;

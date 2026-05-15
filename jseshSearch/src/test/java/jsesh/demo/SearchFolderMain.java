@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchHit;
@@ -26,7 +26,7 @@ public class SearchFolderMain {
 
         frame = new JFrame();
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        JseshFontKit fontKit = JseshFontKit.embeddedOnlyFontKit();
+        HieroglyphToolkit fontKit = HieroglyphToolkit.embeddedHieroglyphToolKit();
         searchFolderPanel = SearchPanelFactory.createSearchFolderPanel(this::showCorpusSearchHit, styleRef, fontKit);
         frame.add(searchFolderPanel);
         frame.pack();

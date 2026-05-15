@@ -14,7 +14,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
  * A simple implementation of the JseshFontKit interface, which gives access to
  * a set of default resources, including a composite font and an empty glossary.
  */
-public class SimpleFontKit implements JseshFontKit {
+public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
 
     private HieroglyphShapeRepository hieroglyphShapeRepository;
     private PossibilityRepository possibilityRepository;
@@ -23,12 +23,12 @@ public class SimpleFontKit implements JseshFontKit {
     /**
      * Shared default font kit using only embedded fonts, no user font, and no glossary.
      */
-    public static JseshFontKit embeddedOnlyInstance() {
+    public static HieroglyphToolkit embeddedOnlyInstance() {
         return EmbeddedOnlyHolder.INSTANCE;
     }
 
     private static final class EmbeddedOnlyHolder {
-        private static final JseshFontKit INSTANCE = buildFontWithoutUserDefinitions(
+        private static final HieroglyphToolkit INSTANCE = buildFontWithoutUserDefinitions(
                 buildCompositeFont(List.of(PredefinedFonts.standardJSeshFont(), PredefinedFonts.gnuTraceFont())),
                 new JSeshGlossary());
 
@@ -58,10 +58,10 @@ public class SimpleFontKit implements JseshFontKit {
      * @param fonts       a list of fonts.
      * @param glossary an glossary (can be empty, but should not be null).
      */
-    public static SimpleFontKit buildFontWithoutUserDefinitions(HieroglyphShapeRepository font,
+    public static SimpleHieroglyphToolkit buildFontWithoutUserDefinitions(HieroglyphShapeRepository font,
             JSeshGlossary glossary) {
         HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildPlainDefault(font);
-        return new SimpleFontKit(font, glossary, database);
+        return new SimpleHieroglyphToolkit(font, glossary, database);
     }
 
     /**
@@ -86,10 +86,10 @@ public class SimpleFontKit implements JseshFontKit {
      * @param fonts       a list of fonts.
      * @param glossary a glossary (may be empty)
      */
-    public static SimpleFontKit buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
+    public static SimpleHieroglyphToolkit buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
             JSeshGlossary glossary) {        
         HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildWithUserDefinitions(fonts);
-        return new SimpleFontKit(fonts, glossary, database);
+        return new SimpleHieroglyphToolkit(fonts, glossary, database);
     }
 
     /**
@@ -98,7 +98,7 @@ public class SimpleFontKit implements JseshFontKit {
      * @param glossary
      * @param database
      */
-    private SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary glossary,
+    private SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary glossary,
             HieroglyphDatabaseInterface database) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
 
@@ -116,7 +116,7 @@ public class SimpleFontKit implements JseshFontKit {
      * @param possibilityRepository
      * @param hieroglyphDatabase
      */
-    public SimpleFontKit(HieroglyphShapeRepository hieroglyphShapeRepository,
+    public SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository,
             PossibilityRepository possibilityRepository, HieroglyphDatabaseInterface hieroglyphDatabase) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
         this.possibilityRepository = possibilityRepository;

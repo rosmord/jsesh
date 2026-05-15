@@ -13,7 +13,7 @@ package jsesh.search.ui;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import jsesh.defaults.JseshFontKit;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
@@ -47,7 +47,7 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
 
     private final boolean hasInsets;
     
-    public JWildcardPanel(SearchTarget target, JSeshStyleReference styleRef, JseshFontKit fontKit) {
+    public JWildcardPanel(SearchTarget target, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
         this(target, true, styleRef, fontKit);
     }
 
@@ -60,7 +60,7 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
      * @param styleRef 
      * @param fontKit 
      */
-    public JWildcardPanel(SearchTarget target, boolean hasInsets, JSeshStyleReference styleRef, JseshFontKit fontKit) {
+    public JWildcardPanel(SearchTarget target, boolean hasInsets, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
         this.hasInsets = hasInsets;
         this.searchTarget = target;
         this.embeddableForm = new JSearchEmbeddableForm(styleRef, fontKit);
