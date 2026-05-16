@@ -272,6 +272,8 @@ app.show(p);
 
 Now, the existence of both `v.init()` and `model.initView(this, v)` suggest that the view is not complete when `createView` returns. In this respect, calling `v.setActionMap(createViewActionMap(v));` might be problematic. We can move it *after* calling `model.initView(this, v)`, but it remains that the view creation sequence is fragile and left to the programmer to manage.
 
+More recent versions of JHotdraw improve the system, using a factory instead of introspection, but the ordering problem remains. Our current solution is somehow a patch, but not perfect. The right thing to do would be to improve the life cycle and simplify it for the programmer. Basically, a creation method which would take a the application and the view as arguments would be reasonnable. Another point is that `Application` and `View` could be generic, with a parameter which would be their respective models.
+
 ### 2026/05/15
 
 - The whole software compiles.

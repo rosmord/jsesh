@@ -10,6 +10,12 @@ import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
+/**
+ * The action used to edit a group.
+ * 
+ * It will open a dialog to edit the group, and then replace the current selection by the edited group.
+ * @author rosmord
+ */
 @SuppressWarnings("serial")
 public class EditGroupAction extends EditorAction {
 

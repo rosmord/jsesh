@@ -39,10 +39,9 @@ import javax.swing.Icon;
 import jsesh.editor.JMDCEditor;
 
 /**
- * Base action for applied to a JMDCEditor.
+ * Base action applied to a JMDCEditor.
  * the action object can be created without editor, in which case it will be disabled.
- * This allows one to use the actions when no editor is available.
- * (in particular for JHotdraw). 
+ * This allows one to use the actions when no editor is available (in particular for JHotdraw) menus.
  * @author rosmord
  */
 @SuppressWarnings("serial")
