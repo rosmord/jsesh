@@ -167,7 +167,7 @@ public class JMDCEditor extends JPanel {
     /**
      * Do we want to draw page limits?
      */
-    private final boolean drawLimits = false;
+    private boolean drawLimits = false;
 
     /**
      * Debugging of view placement.
@@ -969,4 +969,13 @@ public class JMDCEditor extends JPanel {
         }
         super.removeNotify();
     }
+
+    /**
+     * Draw quadrat limits for debugging purposes.
+     * @param drawLimits true if we want to draw the quadrats limits, false otherwise.
+     */
+    public void setDrawLimits(boolean drawLimits) {
+        this.drawLimits = drawLimits;
+        repaint();
+    }   
 }
