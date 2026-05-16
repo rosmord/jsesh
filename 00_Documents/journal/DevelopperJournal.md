@@ -229,6 +229,14 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/05/15
+
+- The whole software compiles.
+- I have had a discussion with Claude about the design of some parts, which might lead to some changes.
+- running the software is a bit more complex than anticipated. The singletons did hide some initialization problems, and I have a few NullPointerExceptions to solve.
+- [ ] I have tried to create a `JMDCEditor` and interact with it, but it seems to have problems passed the first steps. codes like `A1`, `mn` or `nfr` work, but not unilitary values like `n`.
+- [ ] `MDCFieldDemo` creates a `JMDCField` and displays it. But it throws a NullPointerException.
+
 ### 2026/04/27
 
 TODO next: see how I handle the opening of sign info file in normal and expert mode in the original app, and get sure the behaviour is the same.

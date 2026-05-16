@@ -173,7 +173,7 @@ public class JSeshApplicationCore {
         this.glossaryManager = appDef.glossaryManager();
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
-        this.possibilityRepository = new PossibilityRepository(hieroglyphDatabase, glossaryManager.getGlossary());
+        this.possibilityRepository = appDef.possibilityRepository();
         this.newDocumentStyle = JSeshStyle.DEFAULT;
         // derived fields.
         this.pdfExportPreferences = new PDFExportPreferences();

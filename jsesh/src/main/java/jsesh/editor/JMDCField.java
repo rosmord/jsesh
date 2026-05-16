@@ -24,6 +24,7 @@ import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
 import jsesh.defaults.HieroglyphToolkit;
+import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.swing.utils.GraphicsUtils;
 
@@ -67,6 +68,12 @@ public class JMDCField extends JMDCEditor {
     public JMDCField(int width, JSeshStyleReference styleReference,
             HieroglyphToolkit fontKit) {
         super(new HieroglyphicTextModel(), styleReference, fontKit);
+        
+        // Compute the prefered size from width and style.
+        preferedSize = computePreferedSize(width, styleReference.getStyle());
+        // To ease reading, the MDCEditor has a default scale of 2.
+        // for a field, we decide of the exact height in pixels, so we want a scale of 1.
+        setScale(1.0);
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.
@@ -191,9 +198,20 @@ public class JMDCField extends JMDCEditor {
                 .standardSignHeight(textHeight)
                 .maxCadratWidth(textHeight * 1.1f)
                 .topMargin(margin)
-                .leftMargin(0)
+                .leftMargin(margin)                
                 .lineSkip(0)).build();
         // Why was setScale(1.0); called here ?
     }
 
+    /**
+     * Compute the prefered size from width and style.
+     * @param width
+     * @param style
+     * @return
+     */
+    private final Dimension computePreferedSize(int width, JSeshStyle style) {        
+        GeometrySpecification geom = style.geometry();
+        int height = (int) Math.ceil(geom.topMargin() * 2 + geom.maxCadratHeight());
+        return new Dimension(width, height);
+    }
 }
