@@ -18,7 +18,6 @@ import javax.swing.JToolBar;
 import org.jhotdraw_7_6.beans.AbstractBean;
 import org.jhotdraw_7_6.gui.JFileURIChooser;
 import org.jhotdraw_7_6.gui.URIChooser;
-import org.qenherkhopeshef.jhotdrawChanges.Nullable;
 
 /**
  * This abstract class can be extended to implement an {@link ApplicationModel}.

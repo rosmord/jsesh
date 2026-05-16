@@ -65,16 +65,12 @@ import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
-import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.HieroglyphToolkit;
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MDCModelTransferableBroker;
-import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.emf.EMFExporter;
 import jsesh.graphics.export.eps.EPSExporter;
 import jsesh.graphics.export.html.HTMLExporter;
@@ -123,7 +119,6 @@ import jsesh.jhotdraw.filechooser.QenherkhURIChooser;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter;
-import jsesh.jhotdraw.utils.ComponentMenuActionChecker;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
@@ -218,13 +213,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                 new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit), commonStyle, fontKit));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jhotdraw_7_6.app.DefaultApplicationModel#initView(org.jhotdraw_7_6
-     * .app.Application, org.jhotdraw_7_6.app.View)
-     */
+
     @Override
     public void initView(Application a, View v) {
         super.initView(a, v);

@@ -124,8 +124,7 @@ public class JSeshView extends AbstractView {
      */
     public void initWithResources(JSeshApplicationCore appBase) {
         viewCore = new JSeshViewCore(appBase.getFontKit(), appBase.newDocumentStyle());
-        setFontInfo(appBase.getFontInfo()); // Moved from JSeshApplicationModel.initView, which was not the right place
-                                            // for it.
+        setFontInfo(appBase.getFontInfo());
         setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());
         add(viewCore.getViewComponent(), BorderLayout.CENTER);

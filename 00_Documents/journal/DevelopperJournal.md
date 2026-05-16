@@ -229,6 +229,49 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/05/16
+
+- [x] fixed NPE when creating a `JMDCField` and `JMDCEditor`. It was basically a problem with preferredSize not being set.
+
+Identified a problem with the current approach in `JHotDraw`.
+
+Currently, we have:
+
+~~~java
+class AbstractApplication ... {
+  public final View createView() {
+    View v = basicCreateView();
+    v.setActionMap(createViewActionMap(v));
+    return v;
+  }
+
+  protected View basicCreateView() {
+    return model.createView();
+  }
+    
+  public void add(View v) {
+      if (v.getApplication() != this) {
+          int oldCount = views.size();
+          views.add(v);
+          v.setApplication(this);
+          v.init();
+          model.initView(this, v);
+          firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
+      }
+  }
+
+~~~
+
+And a typical example of view creation is:
+
+~~~java
+p = app.createView();
+app.add(p);
+app.show(p);
+~~~
+
+Now, the existence of both `v.init()` and `model.initView(this, v)` suggest that the view is not complete when `createView` returns. In this respect, calling `v.setActionMap(createViewActionMap(v));` might be problematic. We can move it *after* calling `model.initView(this, v)`, but it remains that the view creation sequence is fragile and left to the programmer to manage.
+
 ### 2026/05/15
 
 - The whole software compiles.
