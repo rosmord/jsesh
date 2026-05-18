@@ -61,7 +61,7 @@ import jsesh.swing.utils.ImageIconFactory;
 import net.miginfocom.layout.PlatformDefaults;
 
 /**
- * JSeshMain class.
+ * Main class.
  *
  * @author Serge Rosmorduc.
  * @version $Id: JSeshMain.java 604 2010-01-09 12:00:29Z rawcoder $
