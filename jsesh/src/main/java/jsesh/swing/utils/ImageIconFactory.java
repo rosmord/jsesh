@@ -43,7 +43,8 @@ public class ImageIconFactory {
                     .leftMargin(0)
             )            
             .build();
-        mdcDrawingFacade = new MDCDrawingFacade();                    
+        mdcDrawingFacade = new MDCDrawingFacade();
+        mdcDrawingFacade.setStyle(jseshStyle);                    
         mdcDrawingFacade.setPhilologySign(true);
         setCadratHeight(30);
     }

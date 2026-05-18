@@ -3,16 +3,15 @@ package jsesh.jhotdraw.actions.windows;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import jsesh.jhotdraw.actions.BundleHelper;
-
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.jhotdraw_7_6.app.action.ActionUtil;
+
+import jsesh.jhotdraw.actions.BundleHelper;
 
 @SuppressWarnings("serial")
 public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
@@ -53,8 +52,7 @@ public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
 		}
 	}
 	
-	public class PaletteListener extends WindowAdapter implements
-			WindowListener {
+	public class PaletteListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {

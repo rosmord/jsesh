@@ -241,11 +241,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      */
     @Override
     public ActionMap createActionMap(Application a, View v) {
-        JMDCEditor editor = null;
+        //JMDCEditor editor = null;
         JSeshView jseshView = (JSeshView) v;
-        if (jseshView != null) {
+        /*if (jseshView != null) {
             editor = jseshView.getEditor();
-        }
+        }*/
 
         ActionMap map = super.createActionMap(a, v);
 
@@ -336,7 +336,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                 map.put(action.getID(), action);
             }
 
-            map.put(EditGroupAction.ID, new EditGroupAction(editor));
+            map.put(EditGroupAction.ID, new EditGroupAction(a, v));
 
             addInsertAction(map, a, v,
                     JSeshApplicationActionsID.INSERT_FULL_SHADING,

@@ -239,6 +239,11 @@ List of classes which need some cleanup:
 
 ### 2026/05/18
 
+- [x] Problem with actionMap creation. We have moved `v.setActionMap(createViewActionMap(v));` *after* `model.initView(this, v);`, because we wanted to have a fully initialized view when creating the action map. But if the view itself creates its own actions, this will erase them. The solutions would be either to add a view-specific step *after* `v.setActionMap(createViewActionMap(v));` (which is in this case badly named), to replace creation with **update**, or to revert to the original organization. Currently, the only problematic entry is `EditorAction` which needs an editor as argument. It's placed in the application model mainly because we probably thought it had nothing to do in the view itself, and was too "application-level", as it opened a dialog. **Fixed by reverting to the original organization and making *edit group action* an AbstractViewAction**
+
+- Note that the previous problem would not exist if we had a factory method for creating the view instead of using introspection. 
+
+
 - `GnutraceHieroglyphShapeRepository` worked with biliteral signs and not with uniliteral signs: at some point, I started removing phonetic codes from the map, but I stopped before it was complete. Hence, some signs had phonetic codes built-in the `GnutraceHieroglyphShapeRepository` and other did not.
 
 - When running the `MDCEditorDemo`, using only the old font, unilitary signs are not correctly displayed. In the old version, we had the following code:

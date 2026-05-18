@@ -279,7 +279,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 "format");
 
                 /**
-                 * TODO Add the actions to the map...
+                 * Add the actions to the map...
                  */
                 ButtonGroup orientationGroup = new ButtonGroup();
 

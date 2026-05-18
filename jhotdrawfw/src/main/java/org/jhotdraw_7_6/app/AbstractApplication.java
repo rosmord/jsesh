@@ -269,10 +269,11 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v.getApplication() != this) {
             int oldCount = views.size();
             views.add(v);
+            v.setActionMap(createViewActionMap(v));
+
             v.setApplication(this);
             v.init();
             model.initView(this, v);
-            v.setActionMap(createViewActionMap(v));
             firePropertyChange(VIEW_COUNT_PROPERTY, oldCount, views.size());
         }
     }

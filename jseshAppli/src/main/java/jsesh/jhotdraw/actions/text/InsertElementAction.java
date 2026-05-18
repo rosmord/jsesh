@@ -1,7 +1,10 @@
 package jsesh.jhotdraw.actions.text;
 
 import java.awt.event.ActionEvent;
-import static javax.swing.Action.SMALL_ICON;
+
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
@@ -11,10 +14,6 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.swing.utils.ImageIconFactory;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
 /**
  * A simple class for easy text addition.

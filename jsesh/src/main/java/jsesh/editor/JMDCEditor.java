@@ -239,7 +239,7 @@ public class JMDCEditor extends JPanel {
         mouseAndFocusController = new MDCEditorMouseAndFocusController();
         mouseAndFocusController.attachTo(this);
         documentView = recomputeDocumentView();
-        new MDCEditorKeyManager(this);
+        new MDCEditorKeyManager().addActionsTo(this);
 
     }
 
