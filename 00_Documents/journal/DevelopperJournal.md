@@ -180,6 +180,7 @@ Regarding **standard** codes:
 
 ### Low priority TODO
 
+- [ ] use the type system to differenciate between the various updates of the view (e.g replace `updateView()` by `updateDocumentView()`, `updateSelectionView()`, etc. Make `Selection` a type, an not a particular case of `TopItemList`.
 - [ ] improve the mechanism for margins of components, which is not well defined.
 - [ ] use i18n for texts in the JSesh Palette
 - [ ] improve `getPreferredSize` for `JMDCField` ?

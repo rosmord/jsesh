@@ -60,26 +60,38 @@ import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 class MDCViewUpdater implements ModelOperationVisitor {
 
 	private final JMDCEditor editor;
-	private final JSeshTechRenderContext techRenderContext;
-	private final JSeshRenderContext renderContext;
 
 	/**
 	 * @param editor
 	 */
 	MDCViewUpdater(JMDCEditor editor) {
 		this.editor = editor;
-		this.renderContext = editor.getRenderContext();
-		this.techRenderContext = JSeshTechRenderContext.buildForComponent(editor);
 	}
 
 	private MDCView getView() {
 		return editor.getView();
 	}
 
+	/**
+	 * Returns the render context from the editor.
+	 */
+	private JSeshRenderContext renderContext() {
+		return editor.getRenderContext();
+	}
+
+	/**
+	 * Returns the tech render context from the editor.
+	 */
+	private JSeshTechRenderContext techRenderContext() {
+		return editor.buildTechRenderContext();
+	}
+
 	@Override
 	public void visitChildOperation(ChildOperation operation) {
 		int k;
 		ViewBuilder builder = new ViewBuilder();
+		JSeshRenderContext renderContext = renderContext();
+		JSeshTechRenderContext techRenderContext = techRenderContext();
 		// Find the index for the element which was modified...
 		for (k = 0; k < getView().getNumberOfSubviews()
 				&& getView().getSubView(k).getModel() != operation
@@ -100,16 +112,18 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	public void visitDeletion(Deletion deletion) {
 		// Remove the modified views, and update page layout.
 		getView().remove(deletion.getStart(), deletion.getEnd());
-		new ViewBuilder().reLayout(getView(), renderContext, techRenderContext);
+		new ViewBuilder().reLayout(getView(), renderContext(), techRenderContext());
 	}
 
 	@Override
 	public void visitInsertion(Insertion insertion) {
 		ViewBuilder builder = new ViewBuilder();
+		JSeshRenderContext renderContext = renderContext();
+		JSeshTechRenderContext techRenderContext = techRenderContext();
 		int index = insertion.getIndex();
 		// Create and insert views at the proper position.
-		for (Iterator i = insertion.getChildren().iterator(); i.hasNext();) {
-			MDCView subView = builder.buildView((ModelElement) i.next(), renderContext, techRenderContext);
+		for (Iterator<ModelElement> i = insertion.getChildren().iterator(); i.hasNext();) {
+			MDCView subView = builder.buildView(i.next(), renderContext, techRenderContext);
 			getView().addAt(index++, subView);
 		}
 		builder.reLayout(getView(), renderContext, techRenderContext);
@@ -130,6 +144,8 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	@Override
 	public void visitZoneModification(ZoneModification modification) {
 		ViewBuilder builder = new ViewBuilder();
+		JSeshRenderContext renderContext = renderContext();
+		JSeshTechRenderContext techRenderContext = techRenderContext();
 		for (int i = modification.getStart(); i < modification.getEnd(); i++) {
 			TopItem it = this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
 			MDCView v = builder.buildView(it, renderContext, techRenderContext);

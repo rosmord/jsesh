@@ -374,7 +374,10 @@ public class JMDCEditor extends JPanel {
     }
 
     private MDCView recomputeDocumentView() {
-        documentView = new ViewBuilder().buildView(getSelection(), getRenderContext(), buildTechRenderContext());
+        documentView = new ViewBuilder().buildView(
+                getHieroglyphicTextModel().getModel(),
+                getRenderContext(),
+                buildTechRenderContext());
         revalidate();
         return documentView;
     }
