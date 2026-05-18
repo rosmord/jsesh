@@ -1,9 +1,5 @@
 package jsesh.hieroglyphs.fonts;
 
-import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
-import jsesh.hieroglyphs.signshape.ShapeChar;
-import jsesh.swing.signimportdialog.model.SVGSignSource;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -12,9 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 /**
  * Font manager which takes its data from a resource bundle. The signs will be
@@ -28,27 +28,36 @@ import java.util.Set;
 public class ResourcesHieroglyphicShapeRepository implements
 		HieroglyphShapeRepository {
 
-	private String resourcePath;
+	private final String resourcePath;
 
 	public static final String LIST_FILE = "list.txt";
 
-	HashMap signs;
+	/**
+	 * Map from code to either resource path (String) or ShapeChar.
+	 * This is OLD dirty code, we should create something clearner, using for
+	 * instance a proxy.
+	 * 
+	 * <p>
+	 * The idea is that we did not want to load all SVG signs in memory - which is
+	 * quite reasonnable.
+	 */
+	private final ConcurrentHashMap<String, ShapeProxy> signs;
 
 	public ResourcesHieroglyphicShapeRepository(String resourcePath) {
 		this.resourcePath = resourcePath;
-		signs = new HashMap();
+		signs = new ConcurrentHashMap<>();
 		try {
 			InputStream ins = getClass().getResourceAsStream(
 					resourcePath + "/" + LIST_FILE);
 			if (ins != null) {
-				BufferedReader r = new BufferedReader(new InputStreamReader(
-						ins, "US-ASCII"));
-				String line;
-				while ((line = r.readLine()) != null) {
-					String fields[] = line.split("\t");
-					signs.put(fields[0], fields[1]);
+				try (BufferedReader r = new BufferedReader(new InputStreamReader(
+						ins, "US-ASCII"));) {
+					String line;
+					while ((line = r.readLine()) != null) {
+						String fields[] = line.split("\t");
+						signs.put(fields[0], new ShapeCodeProxy(fields[1]));
+					}
 				}
-				r.close();
 			} else {
 				System.err.println("Could not load" + resourcePath);
 			}
@@ -105,31 +114,38 @@ public class ResourcesHieroglyphicShapeRepository implements
 		}
 	}
 
-	public ShapeChar get(String code) {
-		ShapeChar result = null;
-		if (signs.containsKey(code)) {
-			Object data = signs.get(code);
-			if (data instanceof String) {
-				String path = resourcePath + "/" + data;
-				SVGSignSource src = new SVGSignSource(getClass().getResource(
-						path));
-				if (src.hasNext()) {
-					src.next();
-					result = src.getCurrentShape();
-					// Store in data.
-					signs.put(code, result);
+	public ShapeChar get(String filename) {
+		return switch (signs.compute(filename, this::mapProxy)) {
+			case ActualShape s -> s.shape();
+			case null -> null;
+			case ShapeCodeProxy c -> null; // Should not happen, because of mapProxy.
+		};
+	}
+
+	private ShapeProxy mapProxy(String code, ShapeProxy currentValue) {
+		if (currentValue == null) {
+			return null;
+		} else
+			return (switch (currentValue) {
+				case ShapeCodeProxy c -> {
+					String path = resourcePath + "/" + c.filename();
+					SVGSignSource src = new SVGSignSource(getClass().getResource(
+							path));
+					if (src.hasNext()) {
+						src.next();
+						yield new ActualShape(c.filename(), src.getCurrentShape());
+					} else
+						yield null; // should not happen. Consider throwing an exception instead.
 				}
-			} else
-				result = (ShapeChar) data;
-		}
-		return result;
+				case ActualShape s -> s;
+			});
 	}
 
 	public ShapeChar getSmallBody(String code) {
 		return get(code + "_BOLD");
 	}
-	
-	public Set getCodes() {
+
+	public Set<String> getCodes() {
 		return signs.keySet();
 	}
 
@@ -147,4 +163,17 @@ public class ResourcesHieroglyphicShapeRepository implements
 		System.err.println(new File(args[0]));
 		initDirectory(new File(args[0]));
 	}
+
+	/**
+	 * Just in case, let's make this class thread safe?
+	 */
+	private sealed interface ShapeProxy permits ShapeCodeProxy, ActualShape {
+	}
+
+	private final record ShapeCodeProxy(String filename) implements ShapeProxy {
+	}
+
+	private final record ActualShape(String filename, ShapeChar shape) implements ShapeProxy {
+	}
+
 }

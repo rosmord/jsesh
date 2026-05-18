@@ -85,6 +85,21 @@ Follow the following steps:
 - rename JSeshFontKit using `Compendium`
 - check and debug the SignInfo editor.
 
+### TODO / MANDATORY
+
+Regarding **standard** codes:
+
+- [ ] ❗️add a test checking that nTrw is mapped to `R8A`;
+- [ ] ❗️add a test checking that nn is mapped to `M22B`.
+- [ ] write a documentation about using JSesh as a library with and without user-defined signs.
+- [ ] solve the problem of signs canonization.
+  - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
+  - canonicalization would be performed by a factory method, which would cache the codes;
+  - to enforce use of the factory method, the class can't be a record, for it would need a public constructor. But it should be a value class;
+  - the cache would be a `ConcurrentHashMap<String, HieroglyphCode>`, because Manuel de Codage code manipulation can be performed by code outside of JSesh GUI (e.g. in the search engine).
+  - we don't make this modification right now, because it's moderately complex. Meanwhile, we had the canonicalization in each implementation of `HieroglyphShapeRepository`, with a TODO comment to the effect that it must be removed later.
+  - consider the existence of `_BOLD` codes in the process.
+
 ### Long Term TODO
 
 - [ ] ❗️systematicaly use MVC for **preferences** and **fonts** ; ensure that there is no memory leak.
@@ -189,14 +204,6 @@ Follow the following steps:
 - [ ] rename mojos using the standard maven scheme.
 - [ ] move `showCorpusSearchHit` out of `JSeshApplicationModel`.
 
-### TODO / MANDATORY
-
-Regarding **standard** codes:
-
-- [ ] ❗️add a test checking that nTrw is mapped to `R8A`;
-- [ ] ❗️add a test checking that nn is mapped to `M22B`.
-- [ ] write a documentation about using JSesh as a library with and without user-defined signs.
-
 ### Simple TODO
 
 - [ ] rename `HieroglyphPictureBuilder` into `HieroglyphIconBuilder`, because it's its function.
@@ -229,6 +236,46 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/05/18
+
+- `GnutraceHieroglyphShapeRepository` worked with biliteral signs and not with uniliteral signs: at some point, I started removing phonetic codes from the map, but I stopped before it was complete. Hence, some signs had phonetic codes built-in the `GnutraceHieroglyphShapeRepository` and other did not.
+
+- When running the `MDCEditorDemo`, using only the old font, unilitary signs are not correctly displayed. In the old version, we had the following code:
+
+  ~~~java
+  public class DefaultHieroglyphicFontManager implements HieroglyphicFontManager {}
+  
+    ...
+  
+  	@Override
+  	public ShapeChar get(String code) {
+  		String newCode = code;
+  		// TODO Awful patch for now. This should move to another class. The
+  		// font manager should
+  		// associate glyphs codes to drawings ;
+  		// a code manager should associate mdc codes to glyphs codes.
+  		if (!GardinerCode.isCanonicalCode(code))
+  			newCode = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+  					.getCanonicalCode(code);
+  		return composite.get(newCode);
+  	}
+  }
+  ~~~
+  
+  The corresponding code is now in `JSeshFullHieroglyphShapeRepository`:
+  
+  ~~~java
+  @Override
+  	public ShapeChar get(String code) {
+  		String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+  		return composite.get(canonicalCode);
+  	}
+  ~~~
+  
+  But the new system does not install this repository as the default one, hence the problem.
+  
+  In all cases, there is a logical problem here, as the function of `HieroglyphicFontManager` is ill defined. Some of its implementation expect canonical codes, other can perform the canonicalization themselves. 
+  
 ### 2026/05/16
 
 - [x] fixed NPE when creating a `JMDCField` and `JMDCEditor`. It was basically a problem with preferredSize not being set.

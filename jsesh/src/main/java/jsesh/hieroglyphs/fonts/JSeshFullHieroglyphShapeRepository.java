@@ -39,6 +39,7 @@ public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeReposi
 
 	@Override
 	public ShapeChar get(String code) {
+		// This canonicalization should be performed elsewhere. See `DevelopperJournal.md` for details (2026/05/18)
 		String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
 		return composite.get(canonicalCode);
 	}
