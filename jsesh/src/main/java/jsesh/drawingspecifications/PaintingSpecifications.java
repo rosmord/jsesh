@@ -26,6 +26,12 @@ public record PaintingSpecifications(
 		ShadingMode shadingStyle,
 		Map<String, Color> colorMap) {
 
+	/**
+	 * Default gray suitable for shading.
+	 */
+	public static final Color DEFAULT_GRAY_COLOR = new Color(0.6f, 0.6f, 0.6f, 0.3f);
+
+
 	// Record constructor, which ensures the map is unmodifiable.
 	public PaintingSpecifications {
 		colorMap = Map.copyOf(colorMap);
@@ -35,7 +41,7 @@ public record PaintingSpecifications(
 			Color.BLACK,
 			Color.RED,
 			Color.BLUE,
-			Color.LIGHT_GRAY,
+			DEFAULT_GRAY_COLOR,
 			Color.WHITE,
 			ShadingMode.GRAY_SHADING,
 			Map.of()

@@ -237,6 +237,26 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/05/26
+
+Checking the software:
+
+- [x] “gray” shading is not transparent; (fix: add transparency back)
+- [ ] when opening "" one gets the exception:
+
+  ~~~
+  java.lang.NullPointerException: Cannot invoke "jsesh.jhotdraw.preferences.application.model.ExportPreferences.getGranularity()" because "exportPreferences" is null
+  	at jsesh.jhotdraw.preferences.application.ui.JExportPreferences.setExportPreferences(JExportPreferences.java:110)
+  ~~~
+
+- [ ] when closing document properties, one gets 
+  ~~~
+  java.lang.ClassCastException: class java.lang.Float cannot be cast to class java.lang.Double (java.lang.Float and java.lang.Double are in module java.base of loader 'bootstrap')
+    at jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter.updatePreferences(DrawingSpecificationsPresenter.java:119)
+  ~~~
+
+
+
 ### 2026/05/18
 
 - [x] Problem with actionMap creation. We have moved `v.setActionMap(createViewActionMap(v));` *after* `model.initView(this, v);`, because we wanted to have a fully initialized view when creating the action map. But if the view itself creates its own actions, this will erase them. The solutions would be either to add a view-specific step *after* `v.setActionMap(createViewActionMap(v));` (which is in this case badly named), to replace creation with **update**, or to revert to the original organization. Currently, the only problematic entry is `EditorAction` which needs an editor as argument. It's placed in the application model mainly because we probably thought it had nothing to do in the view itself, and was too "application-level", as it opened a dialog. **Fixed by reverting to the original organization and making *edit group action* an AbstractViewAction**
