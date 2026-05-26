@@ -241,19 +241,35 @@ List of classes which need some cleanup:
 
 Checking the software:
 
+- [x] added call to `loadPreferences()` in `JSeshApplicationCore` constructor.
+
+- [x] `JSeshApplicationCore.loadPreferences` is not called, hence the `this.exportPreferences` is null exception. It was called in the class constructor.
+
 - [x] “gray” shading is not transparent; (fix: add transparency back)
-- [ ] when opening "" one gets the exception:
+
+- [x] when quitting JSesh, one gets:
+  ~~~
+  java.lang.NullPointerException: Cannot invoke "jsesh.jhotdraw.preferences.application.model.ExportPreferences.saveToPrefs(java.util.prefs.Preferences)" because "this.exportPreferences" is null
+    at jsesh.jhotdraw.JSeshApplicationCore.savePreferences(JSeshApplicationCore.java:223)
+    at jsesh.jhotdraw.JSeshApplicationModel.destroyApplication(JSeshApplicationModel.java:540)
+  ~~~
+
+- [x] when opening "preferences" one gets the exception:
 
   ~~~
   java.lang.NullPointerException: Cannot invoke "jsesh.jhotdraw.preferences.application.model.ExportPreferences.getGranularity()" because "exportPreferences" is null
   	at jsesh.jhotdraw.preferences.application.ui.JExportPreferences.setExportPreferences(JExportPreferences.java:110)
   ~~~
 
+  (fixed by calling `loadPreferences()` in the constructor of `JSeshApplicationCore`)
+
 - [ ] when closing document properties, one gets 
   ~~~
   java.lang.ClassCastException: class java.lang.Float cannot be cast to class java.lang.Double (java.lang.Float and java.lang.Double are in module java.base of loader 'bootstrap')
     at jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter.updatePreferences(DrawingSpecificationsPresenter.java:119)
   ~~~
+
+- [ ] on the mac (at least), iconified window are not deiconified easily. After using **command-M** (menu Window/reduce), the window is iconified, but clicking on the app icon on the deck doesn't do anything. One needs to select the iconified window in the Window list, or to right-click on it on the JSesh icon. 
 
 
 

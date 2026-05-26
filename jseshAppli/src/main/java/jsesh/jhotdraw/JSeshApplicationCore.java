@@ -175,6 +175,7 @@ public class JSeshApplicationCore {
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
         this.possibilityRepository = appDef.possibilityRepository();
         this.newDocumentStyle = JSeshStyle.DEFAULT;
+        loadPreferences();
         // derived fields.
         this.pdfExportPreferences = new PDFExportPreferences();
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
