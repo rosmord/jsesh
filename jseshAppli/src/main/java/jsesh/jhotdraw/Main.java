@@ -68,6 +68,22 @@ import net.miginfocom.layout.PlatformDefaults;
  */
 public class Main extends AppStartup<JSeshApplicationStartingData> {
 
+    public static void main(String[] args) throws InterruptedException,
+            InvocationTargetException,
+            ClassNotFoundException {
+        ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
+                .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
+        Main jseshMain = new Main();
+        jseshMain.args = args;
+        jseshMain.setSplashPicture("/jseshResources/images/splash.png");
+        SplashMessageText message = new SplashMessageText(50, 172, "Version "
+                + Version.getVersion());
+        message.setColor(Color.WHITE);
+        jseshMain.addSplashMessage(message);
+        jseshMain.setTickTimer();
+        jseshMain.run();
+    }
+
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
@@ -147,21 +163,4 @@ public class Main extends AppStartup<JSeshApplicationStartingData> {
         app.setModel(applicationModel);
         app.launch(args);
     }
-
-    public static void main(String[] args) throws InterruptedException,
-            InvocationTargetException,
-            ClassNotFoundException {
-        ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
-                .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
-        Main jseshMain = new Main();
-        jseshMain.args = args;
-        jseshMain.setSplashPicture("/jseshResources/images/splash.png");
-        SplashMessageText message = new SplashMessageText(50, 172, "Version "
-                + Version.getVersion());
-        message.setColor(Color.WHITE);
-        jseshMain.addSplashMessage(message);
-        jseshMain.setTickTimer();
-        jseshMain.run();
-    }
-
 }

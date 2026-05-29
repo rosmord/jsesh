@@ -237,9 +237,47 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/28
+
+- [ ] when changing document properties, the change is visible in rendering, but is not saved in the document.
+- [ ] the glossary use the basic font, not the actual one.
+- [ ] file encoding problem for labels in the search window.
+- [ ] currently, changing the hieroglyphic font folder changes a mere *field* of `JSeshFullHieroglyphShapeRepository`, and `JSeshFullHieroglyphShapeRepository` is not observable. Hence the lack of updates when it's changed.
+
+
+  ~~~java
+   /**
+     * Apply the hieroglyphic font information to a shape repository.
+     * @param shapeRepository
+     */
+    public void applyToShapeRepository(JSeshFullHieroglyphShapeRepository shapeRepository) {
+        if (hieroglyphsFolder != null) {
+            shapeRepository.setDirectory(hieroglyphsFolder);
+        }
+    }
+  ~~~
+
+  - possible solutions : make it observable, being careful about memory leaks;
+  - add ad-hoc methods to force re-computation.
+
+- [x] checked changing JSesh settings: the fonts changes are visible in all windows, and are correctly saved ;
+- [ ] changing the hieroglyphic font source doesn't update the display of the windows, until we click in them. It should not be the case.
+- [x] copy/paste and copy/paste preferences seems ok.
+
 ### 2026/05/26
 
 Checking the software:
+
+
+- [x] when closing document properties, one gets 
+  ~~~
+  java.lang.ClassCastException: class java.lang.Float cannot be cast to class java.lang.Double (java.lang.Float and java.lang.Double are in module java.base of loader 'bootstrap')
+    at jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter.updatePreferences(DrawingSpecificationsPresenter.java:119)
+  ~~~
+
+  **TODO** : either try to use double everywhere (which will be the best choice in the long run), or fix to use floats there. As the short-term goal is to get the software up and running, it's probably the best choice.
+
+  fixed by replacing `Double` by `Float` in cast.
 
 - [x] added call to `loadPreferences()` in `JSeshApplicationCore` constructor.
 
@@ -262,12 +300,6 @@ Checking the software:
   ~~~
 
   (fixed by calling `loadPreferences()` in the constructor of `JSeshApplicationCore`)
-
-- [ ] when closing document properties, one gets 
-  ~~~
-  java.lang.ClassCastException: class java.lang.Float cannot be cast to class java.lang.Double (java.lang.Float and java.lang.Double are in module java.base of loader 'bootstrap')
-    at jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter.updatePreferences(DrawingSpecificationsPresenter.java:119)
-  ~~~
 
 - [ ] on the mac (at least), iconified window are not deiconified easily. After using **command-M** (menu Window/reduce), the window is iconified, but clicking on the app icon on the deck doesn't do anything. One needs to select the iconified window in the Window list, or to right-click on it on the JSesh icon. 
 

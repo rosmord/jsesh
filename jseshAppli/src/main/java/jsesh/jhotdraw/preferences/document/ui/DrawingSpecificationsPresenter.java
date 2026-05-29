@@ -116,7 +116,7 @@ public class DrawingSpecificationsPresenter {
          */
         public JSeshStyle updatePreferences(JSeshStyle original) {
                 unitMediator.setCurrentUnit(LengthUnit.POINT);
-                double limit = ((Double) form.getSmallFontBodyLimitField().getValue());
+                double limit = ((Float) form.getSmallFontBodyLimitField().getValue());
                 ShadingMode shadingMode = form.getUseLinesForShadingCheckBox().isSelected() ? ShadingMode.LINE_HATCHING
                                 : ShadingMode.GRAY_SHADING;
 
