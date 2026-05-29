@@ -73,7 +73,6 @@ import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.file.DocumentPreferences;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.file.MDCDocumentReader;
 import jsesh.mdc.model.MDCPosition;
@@ -323,30 +322,6 @@ public class JSeshView extends AbstractView {
         MDCDocument document = viewCore.getMdcDocument();
         document.setFile(file);
 
-        // TODO : create a sane system for dealing with text orientation and
-        // direction.
-        // Currently, the "document" data is not synchronized with the
-        // content of the editor.
-        // CHECK IF THIS IS TRUE.... I DON'T BELIEVE IT ?
-        // NOW, MOST METHODS LIKE THE ACTION TO CENTER DO CHANGE THE DOCUMENT.
-        // HOWEVER,
-        // THERE ARE SMALL PROBLEMS... SOLUTION : store document preferences in
-        // the drawing specifications ?
-        DocumentPreferences documentPreferences = document
-                .getDocumentPreferences();
-
-        documentPreferences = documentPreferences
-                .withTextDirection(
-                        getEditor()
-                                .getTextDirection())
-                .withTextOrientation(
-                        getEditor()
-                                .getTextOrientation())
-                .withSmallSignCentered(
-                        getEditor()
-                                .isSmallSignsCentered());
-
-        // TODO END OF TEMPORARY PATCH
         // Check if the file is PDF or MdC
         boolean isPdfFile = false;
         if (document.getFile() != null) {

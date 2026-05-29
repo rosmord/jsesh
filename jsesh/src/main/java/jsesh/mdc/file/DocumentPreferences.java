@@ -34,26 +34,55 @@ import jsesh.mdc.jseshInfo.JSeshInfoReader;
  */
 public class DocumentPreferences {
 
+	/**
+	 * Move this method contents to tests.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		DocumentPreferences prefs = new DocumentPreferences();
+		System.out.println(prefs.getStringRepresentation());
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, "10.4");
+		map.put(JSeshInfoConstants.JSESH_PAGE_DIRECTION, "RIGHT_TO_LEFT");
+		map.put(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, "true");
+		DocumentPreferences prefs1 = DocumentPreferences.fromStringMap(map);
+		System.out.println(prefs1.getStringRepresentation());
+		System.out
+				.println(prefs1.withTextOrientation(TextOrientation.VERTICAL));
+
+	}
+
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED)
 	private boolean smallSignCentered = false;
+
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_ORIENTATION)
 	private TextOrientation textOrientation = TextOrientation.HORIZONTAL;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_DIRECTION)
 	private TextDirection textDirection = TextDirection.LEFT_TO_RIGHT;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH)
 	private double cartoucheLineWidth = 1;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH)
 	private double maxQuadratWidth = 22;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT)
 	private double maxQuadratHeight = 18;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_LINE_SKIP)
 	private double lineSkip = 6;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_COLUMN_SKIP)
 	private double columnSkip = 8;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING)
 	private boolean useLinesForShading = false;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT)
 	private double standardSignHeight = 18;
+	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT)
 	private double smallBodyScaleLimit = 12;
 	
@@ -161,25 +190,7 @@ public class DocumentPreferences {
 		}
 	}
 
-	/**
-	 * Move this method contents to tests.
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		DocumentPreferences prefs = new DocumentPreferences();
-		System.out.println(prefs.getStringRepresentation());
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, "10.4");
-		map.put(JSeshInfoConstants.JSESH_PAGE_DIRECTION, "RIGHT_TO_LEFT");
-		map.put(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, "true");
-		DocumentPreferences prefs1 = DocumentPreferences.fromStringMap(map);
-		System.out.println(prefs1.getStringRepresentation());
-		System.out
-				.println(prefs1.withTextOrientation(TextOrientation.VERTICAL));
-
-	}
-
+	
 	// Pseudo-setters...
 
 	/**

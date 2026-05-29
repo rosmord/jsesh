@@ -237,11 +237,17 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/29
+
+- fixed the problem of document preferences. We need to check, however, that if we share jseshStyleReferences between document, document preferences are correctly handled.
+
+
+
 ### 2026/06/28
 
-- [ ] when changing document properties, the change is visible in rendering, but is not saved in the document.
+- [x] when changing document properties, the change is visible in rendering, but is not saved in the document.
 - [ ] the glossary use the basic font, not the actual one.
-- [ ] file encoding problem for labels in the search window.
+- [ ] file encoding problem for labels in the search window.  
 - [ ] currently, changing the hieroglyphic font folder changes a mere *field* of `JSeshFullHieroglyphShapeRepository`, and `JSeshFullHieroglyphShapeRepository` is not observable. Hence the lack of updates when it's changed.
 
 

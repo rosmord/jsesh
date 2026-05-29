@@ -71,6 +71,29 @@ public class JSeshStyleHelper {
     }
 
     /**
+     * Creates a DocumentPreferences from a JSeshStyle, converting all fields.
+     *
+     * @param jseshStyle the style to convert
+     * @return a new DocumentPreferences with values from the style
+     */
+    public static DocumentPreferences jseshStyleToDocumentPreferences(JSeshStyle jseshStyle) {
+        return new DocumentPreferences()
+                .withTextDirection(jseshStyle.options().textDirection())
+                .withTextOrientation(jseshStyle.options().textOrientation())
+                .withSmallSignCentered(jseshStyle.options().smallSignCentered())
+                .withCartoucheLineWidth(jseshStyle.geometry().cartoucheLineWidth())
+                .withColumnSkip(jseshStyle.geometry().columnSkip())
+                .withLineSkip(jseshStyle.geometry().lineSkip())
+                .withMaxQuadratHeight(jseshStyle.geometry().maxCadratHeight())
+                .withMaxQuadratWidth(jseshStyle.geometry().maxCadratWidth())
+                .withSmallBodyScaleLimit(jseshStyle.geometry().smallBodyScaleLimit())
+                .withStandardSignHeight(jseshStyle.geometry().standardSignHeight())
+                .withUseLinesForShading(
+                        jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING))
+                .withSmallSkip(jseshStyle.geometry().smallSkip());
+    }
+
+    /**
      * Saves data from a JSeshStyle into Java preferences.
      * @param jseshStyle
      * @param preferences

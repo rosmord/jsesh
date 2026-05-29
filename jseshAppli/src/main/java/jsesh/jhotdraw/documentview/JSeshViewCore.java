@@ -466,6 +466,7 @@ public final class JSeshViewCore {
     public void setJSeshStyle(JSeshStyle jSeshStyle) {
         LOGGER.entering(this.getClass().getName(), "setJSeshStyle", jSeshStyle);
         viewComponent.setJSeshStyle(jSeshStyle);
+        mdcDocument.setDocumentPreferences(JSeshStyleHelper.jseshStyleToDocumentPreferences(jSeshStyle));
     }
 
     public void setFontInfo(FontInfo fontInfo) {
