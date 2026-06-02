@@ -26,7 +26,7 @@ public class SearchFolderMain {
 
         frame = new JFrame();
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        HieroglyphToolkit fontKit = HieroglyphToolkit.embeddedHieroglyphToolKit();
+        HieroglyphToolkit fontKit = HieroglyphToolkit.standardHieroglyphToolKit();
         searchFolderPanel = SearchPanelFactory.createSearchFolderPanel(this::showCorpusSearchHit, styleRef, fontKit);
         frame.add(searchFolderPanel);
         frame.pack();

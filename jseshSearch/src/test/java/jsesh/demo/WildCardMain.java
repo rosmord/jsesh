@@ -46,7 +46,7 @@ public class WildCardMain {
     
     public WildCardMain() {
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        HieroglyphToolkit fontKit = HieroglyphToolkit.embeddedHieroglyphToolKit();
+        HieroglyphToolkit fontKit = HieroglyphToolkit.standardHieroglyphToolKit();
         panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), styleRef, fontKit);
         mettreEnPage();
         editor.setMDCText(mdc);    

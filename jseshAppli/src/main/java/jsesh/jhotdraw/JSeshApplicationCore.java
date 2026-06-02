@@ -66,6 +66,7 @@ import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
 import jsesh.swing.signimportdialog.ExternalSignImporter;
+import jsesh.swing.utils.MDCIconFactory;
 import jsesh.utils.JSeshWorkingDirectory;
 
 /**
@@ -167,6 +168,11 @@ public class JSeshApplicationCore {
      */
     private ExternalSignImporter externalSignImporter;
 
+    /**
+     * The factory for icons defined from Manuel de Codage code.
+     */
+    private MDCIconFactory mdcIconFactory;
+
    
 
     public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
@@ -174,6 +180,7 @@ public class JSeshApplicationCore {
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
         this.possibilityRepository = appDef.possibilityRepository();
+        this.mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
         this.newDocumentStyle = JSeshStyle.DEFAULT;
         loadPreferences();
         // derived fields.
@@ -181,7 +188,7 @@ public class JSeshApplicationCore {
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
 
         // Dialogs
-        glossaryEditor = new JGlossaryEditor(glossaryManager);
+        glossaryEditor = new JGlossaryEditor(glossaryManager, JSeshStyle.DEFAULT, appDef);
         externalSignImporter = new ExternalSignImporter(hieroglyphShapeRepository);
     }
 
@@ -519,6 +526,13 @@ public class JSeshApplicationCore {
     }
 
 
+    /**
+     * Access a factory that will generate (and cache) pictures of MdC code, mainly for labels and GUI elements.
+     * @return the mdcIconFactory
+     */
+    public MDCIconFactory getMdcIconFactory() {
+        return mdcIconFactory;
+    }
 
 
 }

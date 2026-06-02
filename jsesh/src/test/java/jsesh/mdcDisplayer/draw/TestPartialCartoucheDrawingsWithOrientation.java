@@ -58,7 +58,7 @@ public class TestPartialCartoucheDrawingsWithOrientation {
     @Test
     public void testPartialCartouchesInLines() throws MDCSyntaxError, IOException {
         String partial = "<1--0>-ra-mn:n-xpr-<0--2>";
-        MDCDrawingFacade facade = new MDCDrawingFacade();
+        MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
         JSeshStyle style = JSeshStyle.DEFAULT.copy().options(o -> o.textDirection(direction).textOrientation(orientation)
         ).build();
         facade.setStyle(style);

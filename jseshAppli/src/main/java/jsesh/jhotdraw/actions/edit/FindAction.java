@@ -45,6 +45,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Find an element action.
@@ -67,7 +68,7 @@ public final class FindAction extends AbstractCoreApplicationAction {
         frame = new JFrame();
         frame.add(searchPanel);
         frame.pack();
-        BundleHelper.getInstance().configure(this);
+        BundleHelper.getInstance().configure(this, ID);
     }
 
     @Override

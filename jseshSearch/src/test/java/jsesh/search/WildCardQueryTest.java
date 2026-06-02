@@ -48,7 +48,7 @@ public class WildCardQueryTest {
     private void doSearch(String message, String mdc, String codes, VariantLevelForSearch variantLevel, Integer... expected) {
         TopItemList text = parse(mdc);
         TopItemList toSearch = parse(codes);
-        HieroglyphDatabaseInterface database = HieroglyphToolkit.embeddedHieroglyphToolKit().hieroglyphDatabase();
+        HieroglyphDatabaseInterface database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
         WildCardQuery searcher = new WildCardQuery(toSearch, 0, database, variantLevel);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult

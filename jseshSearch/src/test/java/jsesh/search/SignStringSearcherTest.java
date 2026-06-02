@@ -48,7 +48,7 @@ public class SignStringSearcherTest {
     private void doSearch(String message, String mdc, String codes, Integer... expected) {
         TopItemList text = parse(mdc);
         List<String> toSearch = Arrays.asList(codes.split(" "));
-        HieroglyphDatabaseInterface database = HieroglyphToolkit.embeddedHieroglyphToolKit().hieroglyphDatabase();
+        HieroglyphDatabaseInterface database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
         SignStringSearchQuery searcher = new SignStringSearchQuery(database, toSearch);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult

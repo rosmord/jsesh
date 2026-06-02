@@ -55,7 +55,7 @@ public class FindNextAction extends AbstractCoreViewAction {
 
     public FindNextAction(Application app, View view) {
         super(app, view);
-        BundleHelper.getInstance().configure(this);
+        BundleHelper.getInstance().configure(this, ID);
     }
 
     @Override

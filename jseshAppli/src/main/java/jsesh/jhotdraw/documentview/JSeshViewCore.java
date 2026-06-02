@@ -71,6 +71,7 @@ import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing
@@ -104,6 +105,12 @@ public final class JSeshViewCore {
     private MDCDocument mdcDocument;
 
     /**
+     * Possible list of search results.
+     * 
+     */
+    private List<MDCPosition> lastSearchResults = null;
+
+    /**
      * An object which will learn when the view is modified (typically for us
      * the JSeshView).
      */
@@ -116,11 +123,7 @@ public final class JSeshViewCore {
         }
     };
 
-    /**
-     * Possible list of search results.
-     * 
-     */
-    private List<MDCPosition> lastSearchResults = null;
+    private MDCIconFactory iconFactory;
 
     /**
      * Create a view model.
@@ -128,8 +131,9 @@ public final class JSeshViewCore {
      * @param fontKit information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
-    public JSeshViewCore(HieroglyphToolkit fontKit, JSeshStyle style) {
+    public JSeshViewCore(HieroglyphToolkit fontKit, JSeshStyle style, MDCIconFactory iconFactory) {
         this.fontKit = fontKit;
+        this.iconFactory = iconFactory;
         viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);
         setCurrentDocument(new MDCDocument());
 
@@ -356,7 +360,7 @@ public final class JSeshViewCore {
             HieroglyphFamily family = (HieroglyphFamily) families.get(i);
 
             HieroglyphicMenu fmenu = new HieroglyphicMenu(family.getCode()
-                    + ". " + family.getDescription(), family.getCode(), 6);
+                    + ". " + family.getDescription(), family.getCode(), 6, iconFactory);
 
             fmenu.setHieroglyphicMenuListener(mediator);
             if (i < 25) {
@@ -371,11 +375,11 @@ public final class JSeshViewCore {
 
         HieroglyphicMenu[] others = new HieroglyphicMenu[] {
                 new HieroglyphicMenu("Tall Narrow Signs",
-                        HieroglyphicMenu.TALL_NARROW, 6),
+                        HieroglyphicMenu.TALL_NARROW, 6, iconFactory),
                 new HieroglyphicMenu("Low Broad Signs",
-                        HieroglyphicMenu.LOW_BROAD, 6),
+                        HieroglyphicMenu.LOW_BROAD, 6, iconFactory),
                 new HieroglyphicMenu("Low Narrow Signs",
-                        HieroglyphicMenu.LOW_NARROW, 6) };
+                        HieroglyphicMenu.LOW_NARROW, 6, iconFactory) };
         for (HieroglyphicMenu m : others) {
             hieroglyphs.add(m);
             m.setHieroglyphicMenuListener(mediator);

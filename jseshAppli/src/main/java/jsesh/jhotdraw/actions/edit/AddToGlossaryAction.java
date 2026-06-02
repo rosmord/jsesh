@@ -8,6 +8,7 @@ import org.jhotdraw_7_6.app.View;
 import jsesh.glossary.JGlossaryEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * An action which adds the current selection to the so-called glossary.
@@ -18,9 +19,9 @@ import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 public class AddToGlossaryAction extends AbstractCoreViewAction {
 	public static final String ID = "edit.addToGlossary";
 
-	public AddToGlossaryAction(Application app, View view) {
+	public AddToGlossaryAction(Application app, View view, MDCIconFactory mdcIconFactory) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, mdcIconFactory);
 	}
 
 	@Override

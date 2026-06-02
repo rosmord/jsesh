@@ -79,7 +79,7 @@ import jsesh.editor.actionsUtils.Enabler;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;
@@ -92,8 +92,11 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  * @author rosmord
  */
 class MDCEditorKeyManager {
-
-    public MDCEditorKeyManager() {
+    
+    private MDCIconFactory mdcIconFactory;
+    
+    public MDCEditorKeyManager(MDCIconFactory mdcIconFactory) {
+        this.mdcIconFactory = mdcIconFactory;
     }
 
     public void addActionsTo(JMDCEditor jmdcEditor) {
@@ -144,7 +147,8 @@ class MDCEditorKeyManager {
     /**
      * Build action and input map.
      */
-    private static class ActionMapper {
+    private  class ActionMapper {
+
 
         private ActionMap actionMap;
 
@@ -154,7 +158,12 @@ class MDCEditorKeyManager {
 
         private AppDefaults appDefaults;
 
-        ActionMapper() {
+        
+
+        /**
+         * @param mdcIconFactory
+         */
+        public ActionMapper() {
         }
 
         void mapEditor(JMDCEditor editor) {
@@ -275,15 +284,15 @@ class MDCEditorKeyManager {
             addEditingModeAction(ActionsID.SET_MODE_UPPERCASE_TRANSLIT, 'T');
 
             // Quadrat Shading
-            for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
             // Cartouches
-            for (Entry<String, Action> e : EditorCartoucheAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorCartoucheAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
             // Philological markup
-            for (Entry<String, Action> e : AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults)
+            for (Entry<String, Action> e : AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults, mdcIconFactory)
                     .entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
@@ -302,11 +311,11 @@ class MDCEditorKeyManager {
             for (Entry<String, Action> e : EditorSignSizeAction.generateActionMap(editor).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
-            for (Entry<String, Action> e : EditorSignRotationAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorSignRotationAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
             // Sign Shading
-            for (Entry<String, Action> e : EditorSignShadeAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorSignShadeAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
         }
@@ -393,7 +402,7 @@ class MDCEditorKeyManager {
             // Bind the Icon according to the IconMdC property
             String iconMdcCode = appDefaults.getString(actionID + "." + "IconMdC");
             if (iconMdcCode != null) {
-                ImageIcon icon = ImageIconFactory.getInstance().buildImage((String) iconMdcCode);
+                ImageIcon icon = mdcIconFactory.buildImage((String) iconMdcCode);
                 action.putValue(Action.SMALL_ICON, icon);
             }
         }

@@ -57,7 +57,7 @@ import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.resources.ResourcesManager;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 import net.miginfocom.layout.PlatformDefaults;
 
 /**
@@ -103,34 +103,36 @@ public class Main extends AppStartup<JSeshApplicationStartingData> {
         // Pre-load a number of objects so that they are ready when graphic
         // stuff starts.
         ResourcesManager.getInstance();
-        // Preload icons. Bad architecture.
-        preloadHieroglyphicIcons(applicationDefaults); 
 
-        JSeshApplicationStartingData data = new JSeshApplicationStartingData(applicationPreferences.getIconHeight(), applicationDefaults);        
+        MDCIconFactory mdcIconFactory = new MDCIconFactory(applicationDefaults.hieroglyphShapeRepository());
+        mdcIconFactory.setCadratHeight(applicationPreferences.getIconHeight());
+
+
+        JSeshApplicationStartingData data = new JSeshApplicationStartingData(applicationDefaults, mdcIconFactory);        
+        preloadHieroglyphicIcons(data); 
+
         return data;
     }
 
-    private void preloadHieroglyphicIcons(JSeshUserSignLibraryConfiguration applicationDefaults) { 
-        HieroglyphDatabaseInterface database = applicationDefaults.hieroglyphDatabase();
+    private void preloadHieroglyphicIcons(JSeshApplicationStartingData data) { 
+        HieroglyphDatabaseInterface database = data.applicationDefaults().hieroglyphDatabase();
+        MDCIconFactory mdcIconFactory = data.mdcIconFactory();
         List<HieroglyphFamily> families = database.getFamilies();
         for (int i = 0; i < families.size(); i++) {
             HieroglyphFamily family = families.get(i);
             for (String code : ManuelDeCodage.getInstance()
                     .getBasicGardinerCodesForFamily(family.getCode())) {
-                ImageIconFactory.getInstance().buildGlyphImage(code);
+                mdcIconFactory.buildGlyphImage(code);
             }
         }
-        EditorCartoucheAction.preloadCartoucheIcons();
-        EditorShadeAction.preloadIcons();
+        EditorCartoucheAction.preloadCartoucheIcons(mdcIconFactory);
+        EditorShadeAction.preloadIcons(mdcIconFactory);
     }
 
     @Override
     public void startApplication(JSeshApplicationStartingData data) {
         // Force creation of the hieroglyphic font manager and loading of the
         // fonts (do it elsewhere).
-
-        // Move this to startApplication (using data from JSeshApplicationStartingData)
-        ImageIconFactory.getInstance().setCadratHeight(data.iconHeight());
 
         JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.applicationDefaults());
         applicationModel.setCopyright(COPYRIGHT);

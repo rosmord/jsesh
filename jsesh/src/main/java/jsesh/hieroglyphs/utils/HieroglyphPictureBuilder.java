@@ -80,19 +80,6 @@ public class HieroglyphPictureBuilder {
 		return size / a1Height;
 	}
 
-	// The old code for fixing and chosing the right constructor.
-
-	// public static Icon createHieroglyphIcon(String code, int size, int border,
-	// Component container) {
-	// // HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder(20,
-	// // 30, false);
-	// HieroglyphicBitmapBuilder builder = new HieroglyphicBitmapBuilder();
-	// builder.setSize(size);
-	// builder.setTransparent(false);
-	// builder.setBorder(border);
-	// builder.setFit(true);
-	// builder.setComponent(container);
-
 	/**
 	 * 
 	 * @param shapeRepository

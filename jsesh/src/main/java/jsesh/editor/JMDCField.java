@@ -111,7 +111,7 @@ public class JMDCField extends JMDCEditor {
      * @param height
      */
     public JMDCField(int width, int height) {
-        this(width, height, JSeshStyle.DEFAULT, HieroglyphToolkit.embeddedHieroglyphToolKit());
+        this(width, height, JSeshStyle.DEFAULT, HieroglyphToolkit.standardHieroglyphToolKit());
     }
 
     

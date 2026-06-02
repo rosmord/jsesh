@@ -8,11 +8,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 
 /**
@@ -20,13 +22,8 @@ import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
  *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
-public class ImageIconFactory {
+public class MDCIconFactory {
 
-    private static final ImageIconFactory INSTANCE = new ImageIconFactory();
-
-    public static ImageIconFactory getInstance() {
-        return INSTANCE;
-    }
 
     /**
      * Cache for icons. Note that the cache will leak a bit of memory, but only
@@ -35,7 +32,7 @@ public class ImageIconFactory {
     private final HashMap<String, SoftReference<ImageIcon>> iconMap = new HashMap<>();
     private final MDCDrawingFacade mdcDrawingFacade;
 
-    private ImageIconFactory() {
+    public MDCIconFactory(HieroglyphShapeRepository hieroglyphShapeRepository) {
         JSeshStyle jseshStyle = 
             JSeshStyle.DEFAULT.copy()
             .geometry(
@@ -43,8 +40,8 @@ public class ImageIconFactory {
                     .leftMargin(0)
             )            
             .build();
-        mdcDrawingFacade = new MDCDrawingFacade();
-        mdcDrawingFacade.setStyle(jseshStyle);                    
+        JSeshRenderContext ctx = new JSeshRenderContext(jseshStyle, hieroglyphShapeRepository);
+        mdcDrawingFacade = new MDCDrawingFacade(ctx);
         mdcDrawingFacade.setPhilologySign(true);
         setCadratHeight(30);
     }

@@ -56,11 +56,12 @@ public class MDCDrawingFacade {
 
 	private int cadratHeight = 20;
 
-	public MDCDrawingFacade() {
-		this(new JSeshRenderContext(
-			JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));		
-	}
-
+	/**
+	 * Build a MDCDrawingFacade for easy rendering of hieroglyphs.
+	 * <p> If you need a MDCDrawing facade for quick rendering of glyphs, and if you are sure you
+	 * don't need to specific adjustments, you can use the static method buildDefault().
+	 * @param jSeshRenderContext
+	 */
 	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {
 		this.jSeshRenderContext = jSeshRenderContext;
 		this.hieroglyphDrawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
@@ -292,9 +293,19 @@ public class MDCDrawingFacade {
 		}
 	}
 
+	/**
+	 * Builds a default MDCDrawingFacade - READ the documentation for what it implies. 
+	 * <p> The rendered hieroglyphs will have default settings, and <b>the hieroglyphic font won't contain the users' additions.</b> 
+	 * @return a new default instance of MDCDrawingFacade.
+	 */
+	public static MDCDrawingFacade buildDefault() {
+		return new MDCDrawingFacade(new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Test of MDCDrawingFacade");
-		MDCDrawingFacade facade = new MDCDrawingFacade();
+		JSeshRenderContext ctx = new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository());
+		MDCDrawingFacade facade = new MDCDrawingFacade(ctx);
 		String mdc = "i-w-r:a-ra-m-p*t:pt";
 		try {
 			BufferedImage img = facade.createImage(mdc);

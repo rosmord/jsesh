@@ -90,6 +90,7 @@ import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
 import jsesh.swing.utils.GraphicsUtils;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you
@@ -201,9 +202,18 @@ public class JMDCEditor extends JPanel {
      */
     private PropertyChangeListener styleChangeListener = evt -> invalidateView();
 
+    /**
+     * Icon factory for building menus.
+     * 
+     * <p> Currently specific to each instance, which is a small waste of memory.
+     */
+    private MDCIconFactory mdcIconFactory;
+
+    
+
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
-                HieroglyphToolkit.embeddedHieroglyphToolKit());
+                HieroglyphToolkit.standardHieroglyphToolKit());
     }
 
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphToolkit fontKit) {
@@ -224,13 +234,14 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-           HieroglyphToolkit fontKit) {
-        workflow = new JMDCEditorWorkflow(data, fontKit.possibilityRepository());
-        this.hieroglyphShapeRepository = fontKit.hieroglyphShapeRepository();
+           HieroglyphToolkit hieroglyphToolkit) {
+        workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
+        this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();
         this.setStyleReference(styleReference);
         this.setBackground(Color.WHITE);
         this.setScale(2.0);
 
+        mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
         setFocusable(true);        
@@ -239,7 +250,7 @@ public class JMDCEditor extends JPanel {
         mouseAndFocusController = new MDCEditorMouseAndFocusController();
         mouseAndFocusController.attachTo(this);
         documentView = recomputeDocumentView();
-        new MDCEditorKeyManager().addActionsTo(this);
+        new MDCEditorKeyManager(mdcIconFactory).addActionsTo(this);
 
     }
 
@@ -864,7 +875,7 @@ public class JMDCEditor extends JPanel {
         ShadingMenuBuilder menuBuilder = new ShadingMenuBuilder() {
             protected Action buildAction(int shadingCode, String mdcLabel) {
                 return new EditorShadeAction(JMDCEditor.this, shadingCode,
-                        mdcLabel);
+                        mdcLabel, mdcIconFactory);
             }
         };
         JPopupMenu shadingPopup = menuBuilder.buildPopup();

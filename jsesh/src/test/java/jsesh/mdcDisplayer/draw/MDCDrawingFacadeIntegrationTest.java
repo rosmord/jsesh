@@ -45,7 +45,7 @@ public class MDCDrawingFacadeIntegrationTest {
     private void buildAndSaveImage(String mdc, String fileName, JSeshStyle jSeshStyle, Integer cadratHeight)
             throws Exception {
         new File(outputDir).mkdirs();
-        MDCDrawingFacade facade = new MDCDrawingFacade();
+        MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
         if (jSeshStyle != null) {
             facade.setStyle(jSeshStyle);
         }

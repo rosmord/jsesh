@@ -11,6 +11,7 @@ import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
@@ -25,11 +26,11 @@ import jsesh.swing.groupEditor.GroupEditorDialog;
  * @author rosmord
  */
 @SuppressWarnings("serial")
-public class EditGroupAction extends AbstractViewAction {
+public class EditGroupAction extends AbstractCoreViewAction {
 
 	public EditGroupAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, appCore().getMdcIconFactory());
 	}
 
 	public static final String ID = "text.editGroup";

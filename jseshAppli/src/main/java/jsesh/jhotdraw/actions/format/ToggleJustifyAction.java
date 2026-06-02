@@ -27,7 +27,7 @@ public class ToggleJustifyAction extends AbstractViewAction {
 
 	public ToggleJustifyAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 		//
 		setPropertyName(JSeshView.DOCUMENT_INFO_PROPERTY);
 	}

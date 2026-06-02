@@ -42,7 +42,7 @@ import javax.swing.Action;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.constants.SymbolCodes;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;
@@ -77,7 +77,7 @@ public class AddPhilologicalMarkupAction extends EditorAction {
 	 * @param appDefaults 
 	 * @return
 	 */
-	public static Map<String, Action> generateActionMap(JMDCEditor editor, AppDefaults appDefaults) {
+	public static Map<String, Action> generateActionMap(JMDCEditor editor, AppDefaults appDefaults, MDCIconFactory iconFactory) {
 		int[] codes = { SymbolCodes.EDITORADDITION, SymbolCodes.ERASEDSIGNS,
 				SymbolCodes.PREVIOUSLYREADABLE, SymbolCodes.SCRIBEADDITION,
 				SymbolCodes.EDITORSUPERFLUOUS, SymbolCodes.MINORADDITION,
@@ -91,7 +91,7 @@ public class AddPhilologicalMarkupAction extends EditorAction {
 			String mdcText=appDefaults.getString(philologyActionNames[i]+ ".iconMdC");
 			if (mdcText!= null)
 				action.putValue(Action.SMALL_ICON, 
-                                        ImageIconFactory.getInstance().buildImage(mdcText));
+                                        iconFactory.buildImage(mdcText));
 		}
 		return map;
 	}

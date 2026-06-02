@@ -45,7 +45,7 @@ import javax.swing.Action;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.model.ShadingCode;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Action for shading. Applies on an editor.
@@ -73,9 +73,9 @@ public final class EditorSignShadeAction extends EditorAction {
 	};
 	
 	
-	public EditorSignShadeAction(JMDCEditor editor, int shade, String mdcLabel) {
+	public EditorSignShadeAction(JMDCEditor editor, int shade, String mdcLabel, MDCIconFactory iconFactory) {
 		super(editor, ""+ mnemonicChars[shade]+ ". ",
-                        ImageIconFactory.getInstance().buildImage(mdcLabel));
+                        iconFactory.buildImage(mdcLabel));
 		this.shade = shade;
 		this.putValue(EditorSignShadeAction.MNEMONIC_KEY, mnemonicCodes[shade]);
 	}
@@ -94,11 +94,11 @@ public final class EditorSignShadeAction extends EditorAction {
 	 * @param editor
 	 * @return a map of action id, action.
 	 */
-	public static Map<String,Action> generateActionMap(JMDCEditor editor) {
+	public static Map<String,Action> generateActionMap(JMDCEditor editor, MDCIconFactory mdcIconFactory) {
 		TreeMap<String, Action> result = new TreeMap<String, Action>();
 		for (int i = 0; i < 16; i++) {
 			String iconMdC = "G1"+ ShadingCode.toString("#", i);
-			result.put(getActionName(i), new EditorSignShadeAction(editor, i, iconMdC));
+			result.put(getActionName(i), new EditorSignShadeAction(editor, i, iconMdC, mdcIconFactory));
 		}
 		return result;
 	}

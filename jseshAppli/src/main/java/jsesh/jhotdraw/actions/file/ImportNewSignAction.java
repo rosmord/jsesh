@@ -25,7 +25,7 @@ public class ImportNewSignAction extends AbstractCoreApplicationAction {
 
 	public ImportNewSignAction(Application app) {
 		super(app);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 	}
 
 	public void actionPerformed(ActionEvent e) {

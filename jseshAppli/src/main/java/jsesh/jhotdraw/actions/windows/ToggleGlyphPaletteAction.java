@@ -8,13 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.jhotdraw_7_6.app.action.ActionUtil;
 
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 
 @SuppressWarnings("serial")
-public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
+public class ToggleGlyphPaletteAction extends AbstractCoreApplicationAction {
 
 	public static final String ID = "windows.toggleGlyphPalette";
 	private JFrame palette;
@@ -32,7 +32,7 @@ public class ToggleGlyphPaletteAction extends AbstractApplicationAction {
 	public ToggleGlyphPaletteAction(Application app, JFrame palette,
 			Runnable onFirstDisplay) {
 		super(app);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, appCore().getMdcIconFactory());
 		this.palette = palette;
 		this.doOnFirstDisplay = onFirstDisplay;
 		palette.addWindowListener(new PaletteListener());

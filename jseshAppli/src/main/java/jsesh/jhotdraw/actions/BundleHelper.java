@@ -5,9 +5,10 @@ import java.lang.reflect.Field;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
 import jsesh.resources.JSeshMessages;
 
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**
@@ -28,7 +29,7 @@ public class BundleHelper {
 	}
 
 	/**
-	 * Configures an action.
+	 * Configures an action with potentially a Manuel de Codage built icon.
 	 * <p>
 	 * Dev note: it would be cool for actions to have a getID method, specified
 	 * in an interface. This way, it would be possible to extract the ID from
@@ -41,14 +42,32 @@ public class BundleHelper {
 	 *            the action class.
 	 * @return the configured action.
 	 */
-	public Action configure(Action action, String ID) {
+	public Action configure(Action action, String ID, MDCIconFactory mdcIconFactory) {
 		resourceBundleUtil.configureAction(action, ID);
 		// Mdc Icon if available :
 		String mdcIcon= resourceBundleUtil.getString(ID + ".mdcIcon");
 		if (mdcIcon != null && ! "".equals(mdcIcon) && ! (ID+".mdcIcon").equals(mdcIcon)) {
-			action.putValue(Action.SMALL_ICON, ImageIconFactory.getInstance().buildImage(mdcIcon));
+			if (mdcIconFactory != null)
+				action.putValue(Action.SMALL_ICON, mdcIconFactory.buildImage(mdcIcon));
+			else
+				throw new RuntimeException("A non-null MDCIconFactory was needed here");
 		}
 		return action;
+	}
+
+	/**
+	 * Configures an action.
+	 * @param action the action object
+	 * @param id the action class unique string id. Usually a static field in
+	 *            the action class.
+	 * 
+	 * <p>If the action defines an "mdcIcon" field, this method will throw a RuntimeException to warn the programmer a mdcIconFactory
+	 * was needed.
+	 * 
+	 * @return the configured action
+	 */
+	public Action configure(Action action, String id) {
+		return configure(action, id, null);
 	}
 
 	/**
@@ -96,12 +115,12 @@ public class BundleHelper {
 	 * @param action
          * @return the action which has just been configured.
 	 */
-	public Action configure(Action action) {
+	public Action configure(Action action, MDCIconFactory mdcIconFactory) {
 		try {
 			Class<? extends Action> clazz = action.getClass();
 			Field field = clazz.getField("ID");
 			String id = (String) field.get(null);
-			configure(action, id);
+			configure(action, id, mdcIconFactory);
 			return action;
 		} catch (NoSuchFieldException e) {
 			throw new RuntimeException("Action class needs an ID "
@@ -115,6 +134,16 @@ public class BundleHelper {
 		}
 	}
 
+
+
+	/**
+	 * Configure an action, when we are sure it doesn't need an MdC icon.
+	 * @param jSeshHelpAction
+	 */
+	public void configureNoIcon(Action action) {
+		configure(action, null, null);
+	}
+	
 	public String getLabel(String code) {
 		return resourceBundleUtil.getString(code);
 	}
@@ -126,4 +155,5 @@ public class BundleHelper {
 	public static BundleHelper getInstance() {
 		return instance;
 	}
+
 }

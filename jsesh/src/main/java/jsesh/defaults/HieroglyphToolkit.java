@@ -10,15 +10,17 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 public interface HieroglyphToolkit {
 
     /**
-     * Shared default font kit using only embedded font resources and no user definitions.
+     * Shared default font kit using only standard font resources and no user definitions.
+     * <p> will include : the standard jsesh fonts if the jar jseshGlyphs.jar is in the path, and the default legacy Gnutrace fonts if not.
      * <p>Avoid weird side effects if one hosts a server <strong>and</strong> has her or his own font definitions for
      * interactive work with JSesh.
      * @return default shared font kit.
      */
-    static HieroglyphToolkit embeddedHieroglyphToolKit() {
+    static HieroglyphToolkit standardHieroglyphToolKit() {
         return SimpleHieroglyphToolkit.embeddedOnlyInstance();
     }
 
+  
     /**
      * Graphical definition of the fonts.
      * @return a HieroglyphShapeRepository

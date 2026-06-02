@@ -42,7 +42,7 @@ import javax.swing.KeyStroke;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 import jsesh.swing.utils.KeyUtils;
 
 /**
@@ -61,13 +61,13 @@ public class EditorCartoucheAction extends EditorAction {
 	private int type;
 
 	public EditorCartoucheAction(JMDCEditor editor, int type, int start,
-			int end, String mdcText) {
+			int end, String mdcText, MDCIconFactory iconFactory) {
 		super(editor);
 		this.type = type;
 		this.start = start;
 		this.end = end;
 		putValue(Action.SMALL_ICON, 
-                        ImageIconFactory.getInstance().buildImage(mdcText));
+                        iconFactory.buildImage(mdcText));
 		if (type == 'c' && start == 1 && end == 2) {
 			KeyStroke stroke = KeyUtils.buildCommandShortCut('C', java.awt.event.InputEvent.SHIFT_DOWN_MASK);
 			putValue(Action.ACCELERATOR_KEY, stroke);			
@@ -141,12 +141,12 @@ public class EditorCartoucheAction extends EditorAction {
 	 * @param editor
 	 * @return an action map
 	 */
-	public static Map<String, Action> generateActionMap(JMDCEditor editor) {
+	public static Map<String, Action> generateActionMap(JMDCEditor editor, MDCIconFactory iconFactory) {
 		TreeMap<String, Action> map = new TreeMap<String, Action>();
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
 			map.put(actionNames[i], new EditorCartoucheAction(editor, c.c,
-					c.start, c.end, c.sample));
+					c.start, c.end, c.sample, iconFactory));
 		}
 		return map;
 	}
@@ -156,10 +156,10 @@ public class EditorCartoucheAction extends EditorAction {
 	 * started.
 	 * <p> 
 	 */
-	public static void preloadCartoucheIcons() {
+	public static void preloadCartoucheIcons(MDCIconFactory iconFactory) {
 		for (int i = 0; i < allCartouches.length; i++) {
 			CartoucheParameters c = allCartouches[i];
-			ImageIconFactory.getInstance().buildImage(c.sample);
+			iconFactory.buildImage(c.sample);
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class ExportAsHTMLAction extends AbstractCoreViewAction {
 
 	public ExportAsHTMLAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 	}
 
 	public void actionPerformed(ActionEvent arg0) {

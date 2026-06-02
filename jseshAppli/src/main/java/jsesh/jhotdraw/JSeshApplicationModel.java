@@ -126,6 +126,7 @@ import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.PalettePresenter;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * JHotdraw-specific model for the application.
@@ -327,7 +328,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(QuickPDFSelectExportFolderAction.ID,
                     new QuickPDFSelectExportFolderAction(a));
 
-            map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView));
+            map.put(AddToGlossaryAction.ID, new AddToGlossaryAction(a, jseshView, jseshApplicationCore.getMdcIconFactory()));
             map.put(InsertShortTextAction.ID, new InsertShortTextAction(a, v));
             map.put(InsertNextLineNumberAction.ID, new InsertNextLineNumberAction(a, v));
 
@@ -355,10 +356,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             for (int i = 100; i <= 113; i++) {
                 map.put(INSERT_CODE + i, InsertElementAction
                         .buildInsertElementActionWithIcon(a, jseshView,
-                                INSERT_CODE + i, i));
+                                INSERT_CODE + i, i, iconFactory()));
             }
             for (String s : AdditionalSymbols.ARROWS) {
-                map.put(INSERT_CODE + s, InsertElementAction.buildInsertElementActionWithIcon(a, jseshView, s));
+                map.put(INSERT_CODE + s, InsertElementAction.buildInsertElementActionWithIcon(a, jseshView, s, iconFactory()));
             }
         }
         return map;
@@ -377,7 +378,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     private void addInsertAction(ActionMap map, Application a, View jseshView,
             String id, int code) {
-        map.put(id, new InsertElementAction(a, jseshView, id, code));
+        map.put(id, new InsertElementAction(a, jseshView, id, code, iconFactory()));
     }
 
     @Override
@@ -617,6 +618,15 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
                 selectedView.setEnabled(true);
             }
         }
+    }
+
+
+    /**
+     * Access to the icon factory.
+     * @return
+     */
+    private MDCIconFactory iconFactory() {
+        return jseshApplicationCore.getMdcIconFactory();
     }
 
     /**

@@ -34,21 +34,22 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Data which must be loaded before creating the GUI.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
-public record JSeshApplicationStartingData(
-    /**
-     * Preferred height for icons.
-     */
-    int iconHeight,
+public record JSeshApplicationStartingData(   
     /**
      * JSesh configuration, mostly about fonts.
      */
-    JSeshUserSignLibraryConfiguration applicationDefaults    
+    JSeshUserSignLibraryConfiguration applicationDefaults,
+    /**
+     * Icon factory, shared for caching.
+     */
+    MDCIconFactory mdcIconFactory
 ) {
 
 }

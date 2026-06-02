@@ -53,7 +53,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
@@ -89,7 +89,7 @@ public class HieroglyphicMenu extends JMenu {
 
 	private boolean menuFilled = false;
 
-	public HieroglyphicMenu(String title, String family, int ncols) {
+	public HieroglyphicMenu(String title, String family, int ncols, MDCIconFactory iconFactory) {
 		super(title);
 		this.ncols = ncols;
 		this.family = family;
@@ -104,7 +104,7 @@ public class HieroglyphicMenu extends JMenu {
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX
 				&& "true".equals(System
 						.getProperty("apple.laf.useScreenMenuBar"))) {
-			fillMenu();
+			fillMenu(iconFactory);
 		} else {
 			getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
 
@@ -117,7 +117,7 @@ public class HieroglyphicMenu extends JMenu {
 				}
 
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-					fillMenu();
+					fillMenu(iconFactory);
 				}
 
 			});
@@ -140,7 +140,7 @@ public class HieroglyphicMenu extends JMenu {
 
 	}
 
-	private void fillMenu() {
+	private void fillMenu(MDCIconFactory iconFactory) {
 
 		if (menuFilled)
 			return;
@@ -163,7 +163,7 @@ public class HieroglyphicMenu extends JMenu {
 		JPopupMenu pm = getPopupMenu();
 		pm.setLayout(new GridLayout(0, ncols));
 		for (int i = 0; i < codes.size(); i++) {
-			Action a = new HieroglyphAction(codes.get(i));
+			Action a = new HieroglyphAction(codes.get(i), iconFactory);
 			JMenuItem jm = new JMenuItem(a);
 			jm.addMouseListener(menuEnter);
 			add(jm);
@@ -194,10 +194,8 @@ public class HieroglyphicMenu extends JMenu {
 		 * @param code
 		 * 
 		 */
-		public HieroglyphAction(String code) {
-			super(code, ImageIconFactory.getInstance().buildGlyphImage(code));
-			/*super(code, HieroglyphicBitmapBuilder.createHieroglyphIcon(code,
-					size, border, HieroglyphicMenu.this));*/		
+		public HieroglyphAction(String code, MDCIconFactory iconFactory) {
+			super(code, iconFactory.buildGlyphImage(code));
 			this.code = code;
 		}
 
