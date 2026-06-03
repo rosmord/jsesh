@@ -46,6 +46,11 @@ class PossibilitiesHandler {
 	private char separator = ' ';
 
 	private PossibilitiesList possibilities = null;
+	private final PossibilityRepository possibilityRepository;
+
+	public PossibilitiesHandler(PossibilityRepository possibilityRepository) {
+		this.possibilityRepository = possibilityRepository;
+	}
 
 	public void clear() {
 		possibilities = null;
@@ -59,7 +64,7 @@ class PossibilitiesHandler {
 	 * @param separator
 	 */
 	public void init(String code, char separator) {
-		this.possibilities = PossibilityRepository.getInstance()
+		this.possibilities = possibilityRepository
 				.getPossibilityListFor(code);
 		this.separator = separator;
 	}

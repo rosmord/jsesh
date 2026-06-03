@@ -4,8 +4,8 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
-import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.interfaces.HieroglyphInterface;
@@ -62,7 +62,7 @@ public class MDCCodeExtractor {
             if (GardinerCode.isCanonicalCode(code)) {
                 result.add(actualCode);
             } else {
-                String canonicalCode = HieroglyphDatabaseRepository.getHieroglyphDatabase().getCanonicalCode(code);
+                String canonicalCode =ManuelDeCodage.getInstance().getCanonicalCode(code);
                 if (!suppressNonGlyphs || GardinerCode.isCanonicalCode(canonicalCode)) {
                     result.add(canonicalCode);
                 }

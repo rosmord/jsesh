@@ -15,10 +15,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 
 /**
- * Helper class to access various embedded resources about glyphs.
+ * Helper class to access embedded resources about glyphs.
  *
  * @author rosmord
  */
@@ -27,16 +26,29 @@ public class HieroglyphResources {
     private HieroglyphResources() {
     }
 
+    /**
+     * Reads a list of basic Gardiner codes.
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public static Reader getBasicGardinerCodes() throws UnsupportedEncodingException {
         return new InputStreamReader(HieroglyphResources.class
                 .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
     }
 
+    /**
+     * Reads the DTD of the signs description files.
+     * @return
+     */
     public static InputStream getSignDescriptionDTD() {
         InputStream inputStream = HieroglyphResources.class.getResourceAsStream("sign_description.dtd");
         return inputStream;
     }
     
+    /**
+     * The embedded XML files containing official JSesh signs descriptions.
+     * @return
+     */
     public static InputStream getSignsDescriptionXML() {
         InputStream in1 = HieroglyphResources.class.getResourceAsStream(
                 "signs_description.xml");

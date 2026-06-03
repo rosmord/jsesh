@@ -1,38 +1,12 @@
 package jsesh.jhotdraw.actions.generic;
 
-/*
- * @(#)OpenFileAction.java
- *
- * Copyright (c) 1996-2010 by the original authors of JHotDraw
- * and all its contributors.
- * All rights reserved.
- *
- * The copyright of this software is owned by the authors and  
- * contributors of the JHotDraw project ("the copyright holders").  
- * You may not use, copy or modify this software, except in  
- * accordance with the license agreement you entered into with  
- * the copyright holders. For details see accompanying license terms. 
- */
-
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractApplicationAction;
 import org.jhotdraw_7_6.app.action.file.OpenFileAction;
-import org.jhotdraw_7_6.gui.JSheet;
-import org.jhotdraw_7_6.gui.Worker;
-import org.jhotdraw_7_6.net.URIUtil;
-import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.qenherkhopeshef.jhotdrawChanges.ApplicationHelper;
 
 /**

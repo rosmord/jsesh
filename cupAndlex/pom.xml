@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.qenherkhopeshef.jsesh</groupId>
 		<artifactId>JSesh-all</artifactId>
-		<version>7.11</version>
+		<version>8.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>cupAndlex</artifactId>
+	<artifactId>cupandlex-maven-plugin</artifactId>
 	<description>
         Generic plugin to run FLEX AND CUP in maven.
     </description>
@@ -15,10 +17,10 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<myMavenVersion>3.9.2</myMavenVersion>
+		<myMavenVersion>3.9.11</myMavenVersion>
 	</properties>
-	
-	<dependencies>		
+
+	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
@@ -28,17 +30,18 @@
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-compiler-api</artifactId>
-			<version>2.13.0</version>
+			<version>2.16.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.sonatype.plexus</groupId>
+			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-build-api</artifactId>
-			<version>0.0.7</version>
+			<version>1.2.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
-			<version>3.9.0</version>
+			<version>3.15.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -64,17 +67,24 @@
 	<build>
 		<resources>
 			<resource>
-			  <directory>src/main/resources</directory>
+				<directory>src/main/resources</directory>
 			</resource>
-		  </resources>	  
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.9.0</version>
+				<version>3.15.2</version>
 				<configuration>
 					<skipErrorNoDescriptorsFound>false</skipErrorNoDescriptorsFound>
-				</configuration>				
+				</configuration>
 				<executions>
 					<execution>
 						<id>mojo-descriptor</id>
@@ -82,8 +92,8 @@
 							<goal>descriptor</goal>
 						</goals>
 					</execution>
-				</executions>		
-			</plugin>					
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

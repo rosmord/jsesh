@@ -9,7 +9,10 @@ import java.awt.Font;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import jsesh.graphics.export.generic.EmbeddableDrawingSpecificationHelper;
+import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
+import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
+
+import jsesh.drawingspecifications.FontSpecification;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
 import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
@@ -23,18 +26,16 @@ import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.translitteration.TransliterationUtilities;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
-import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
-import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 /**
  * Exports a MDC model into a RTF file (or byte array).
  * 
- * <p> RTF is very basic, but can be used in copy/paste, which is nice. 
- * It's the only copy/paste system for vector graphics which works 
+ * <p>
+ * RTF is very basic, but can be used in copy/paste, which is nice.
+ * It's the only copy/paste system for vector graphics which works
  * on all platforms.
  * It also provides an export format which can be edited later in a
  * word processor.
@@ -55,54 +56,61 @@ public class RTFExporter {
      * Constant for mac pict pictures.
      */
     public static final int MAC_PICT = 0;
-    
+
     /**
      * Constant for EMF pictures, which is the most sophisticated
-     * format for RTF embedding. 
+     * format for RTF embedding.
      */
     public static final int EMF = 1;
-    
+
     /**
      * Constants for WMF pictures.
      */
     public static final int WMF = 2;
-    
-    private int pictureType = EMF;
-    private ViewBuilder viewBuilder;
-    private DrawingSpecification drawingSpecifications;
-    private RTFExportPreferences rtfPreferences = new RTFExportPreferences();
-    private SimpleRTFWriter rtfWriter;
 
-    public RTFExporter() {
+    private int pictureType = EMF;
+    private RTFExportPreferences rtfPreferences;
+    private SimpleRTFWriter rtfWriter;
+    private JSeshRenderContext renderContext;
+
+    public RTFExporter(JSeshRenderContext renderContext,
+            RTFExportPreferences preferences) {
+        // Use the same style as the one we are given, but use a gray color for shading.
+        this.renderContext = renderContext.copy().jseshStyle(s -> s.painting(
+                col -> col.grayColor(new Color(200, 200, 200)))).build();
+        this.rtfPreferences = preferences;
+
     }
 
     public void ExportModelTo(TopItemList model, OutputStream outputStream)
             throws IOException {
-        if (rtfPreferences.getExportGraphicFormat().equals(
+        if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.WMF)) {
             pictureType = WMF;
-        } else if (rtfPreferences.getExportGraphicFormat().equals(
+        } else if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.EMF)) {
             pictureType = EMF;
-        } else if (rtfPreferences.getExportGraphicFormat().equals(
+        } else if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.MACPICT)) {
             pictureType = MAC_PICT;
         }
         rtfWriter = new SimpleRTFWriter(outputStream);
         rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
         rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
-        Font f = drawingSpecifications.getFont('t');
-        rtfWriter.declareFont(drawingSpecifications.getFont('t').getName(), RTFFontFamily.ROMAN);
+        Font transliterationFont = renderContext.jseshStyle().fonts()
+                .getFont('t');
+        rtfWriter.declareFont(transliterationFont.getName(), RTFFontFamily.ROMAN);
         // Actual export, using a visitor.
         rtfWriter.writeHeader();
         if (shouldExportAsOnePicture()) {
             exportAsPicture(model);
         } else {
-            // Will change...
-            drawingSpecifications.setTextDirection(TextDirection.LEFT_TO_RIGHT);
-            // Won't
-            drawingSpecifications
-                    .setTextOrientation(TextOrientation.HORIZONTAL);
+            // @formatter:off
+            renderContext = renderContext.copy().jseshStyle(s -> s.options(opt -> opt
+                    .textDirection(TextDirection.LEFT_TO_RIGHT)
+                    .textOrientation(TextOrientation.HORIZONTAL))
+                    ).build();            
+            // @formatter:on
             RTFExporterAux aux = new RTFExporterAux();
             model.accept(aux);
             aux.close();
@@ -119,14 +127,15 @@ public class RTFExporter {
      * @return
      */
     private boolean shouldExportAsOnePicture() {
-        if (rtfPreferences.getExportGranularity().equals(
+        if (rtfPreferences.exportGranularity().equals(
                 RTFExportGranularity.ONE_LARGE_PICTURE)) {
             return true;
         } else if (rtfPreferences.respectOriginalTextLayout()) {
-            return drawingSpecifications.getTextDirection().equals(
+            var opt = renderContext.jseshStyle().options();
+            return opt.textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
-                    || drawingSpecifications.getTextOrientation().equals(
-                    TextOrientation.VERTICAL);
+                    || opt.textOrientation().equals(
+                            TextOrientation.VERTICAL);
         } else {
             return false;
         }
@@ -144,22 +153,6 @@ public class RTFExporter {
     }
 
     /**
-     * @param viewBuilder The viewBuilder to set.
-     */
-    public void setViewBuilder(ViewBuilder viewBuilder) {
-        this.viewBuilder = viewBuilder;
-    }
-
-    /**
-     * @param drawingSpecifications The drawingSpecifications to set.
-     */
-    public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications.copy();
-        this.drawingSpecifications.setGrayColor(new Color(200, 200, 200));
-    }
-
-    /**
      * @param rtfPreferences The rtfPreferences to set.
      */
     public void setRtfPreferences(RTFExportPreferences rtfPreferences) {
@@ -170,30 +163,30 @@ public class RTFExporter {
      * Build a drawer for creating a picture.
      *
      * @param comment a comment placed in the picture (if possible and
-     * supported).
+     *                supported).
      * @return
      */
-    private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {
+    private AbstractRTFEmbeddableDrawer buildSimpleDrawer(String comment) {        
         AbstractRTFEmbeddableDrawer result = null;
         switch (pictureType) {
             case MAC_PICT:
-                result = new EmbeddableMacPictSimpleDrawer(viewBuilder, drawingSpecifications,
-                        rtfPreferences.getCadratHeight());
+                result = new EmbeddableMacPictSimpleDrawer(renderContext,
+                        rtfPreferences.cadratHeight());
                 break;
             case EMF:
-                result = new EmbeddableEMFSimpleDrawer(viewBuilder,  drawingSpecifications,
-                        rtfPreferences.getCadratHeight(), comment);
+                result = new EmbeddableEMFSimpleDrawer(renderContext,
+                        rtfPreferences.cadratHeight(), comment);
                 break;
             case WMF:
-                result = new EmbeddableWMFSimpleDrawer(viewBuilder, drawingSpecifications,
-                        rtfPreferences.getCadratHeight());
+                result = new EmbeddableWMFSimpleDrawer(renderContext,
+                        rtfPreferences.cadratHeight());
                 break;
         }
         return result;
     }
 
     private String buildMdCForExport(TopItemList t) {
-        MDCDocument doc = new MDCDocument(t, drawingSpecifications);
+        MDCDocument doc = new MDCDocument(t, renderContext.jseshStyle());
         return doc.getMdC();
     }
 
@@ -221,6 +214,7 @@ public class RTFExporter {
         @Override
         public void visitAlphabeticText(AlphabeticText t) {
             try {
+                FontSpecification fontSpecs = renderContext.jseshStyle().fonts();
                 flushElements();
                 String text = t.getText();
                 String fontName = TIMES;
@@ -242,9 +236,8 @@ public class RTFExporter {
                         rtfWriter.setItalic(false); // italic choosen in the font itself.
                         text = TransliterationUtilities
                                 .getActualTransliterationString(text,
-                                        drawingSpecifications
-                                        .getTransliterationEncoding());
-                        fontName = drawingSpecifications.getFont('t').getFontName();
+                                        fontSpecs.transliterationEncoding());
+                        fontName = fontSpecs.getFont('t').getFontName();
                         break;
                     case '+':
                     default:
@@ -293,14 +286,14 @@ public class RTFExporter {
 
         @Override
         public void visitTopItem(TopItem t) {
-            if (drawingSpecifications.getTextDirection().equals(
+            if (renderContext.jseshStyle().options().textDirection().equals(
                     TextDirection.RIGHT_TO_LEFT)
-                    || rtfPreferences.getExportGranularity().equals(
+                    || rtfPreferences.exportGranularity().equals(
                             RTFExportGranularity.GROUPED_CADRATS)) {
                 if (toDraw == null) {
                     toDraw = new TopItemList();
                 }
-				// TODO : We should modify the drawing methods, so that it's
+                // TODO : We should modify the drawing methods, so that it's
                 // possible to draw any list of top items. Then
                 // we would need to create fewer copies of our items.
                 toDraw.addTopItem((TopItem) t.deepCopy());
@@ -314,9 +307,9 @@ public class RTFExporter {
          */
         private void flushElements() {
             try {
-                if (drawingSpecifications.getTextDirection().equals(
+                if (renderContext.jseshStyle().options().textDirection().equals(
                         TextDirection.RIGHT_TO_LEFT)
-                        || rtfPreferences.getExportGranularity().equals(
+                        || rtfPreferences.exportGranularity().equals(
                                 RTFExportGranularity.GROUPED_CADRATS)) {
                     if (toDraw != null) {
                         AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(toDraw));
@@ -342,7 +335,7 @@ public class RTFExporter {
             try {
                 // float deltay = 0;
                 if (simpleDrawer.getCurrentView().getFirstSubView() != null) {
-					// deltay = (float) simpleDrawer.getCurrentView()
+                    // deltay = (float) simpleDrawer.getCurrentView()
                     // .getFirstSubView().getDeltaBaseY();
                 }
                 simpleDrawer.writeToRTF(rtfWriter);

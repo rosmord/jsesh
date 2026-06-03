@@ -4,7 +4,6 @@
 package jsesh.utilitysoftwares.signinfoeditor.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -12,9 +11,9 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.defaults.HieroglyphToolkit;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
@@ -23,9 +22,13 @@ import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
  * Editing model for sign informations. As the currently used model for sign
  * information is not complete, we have decided to create another one for
  * editing purposes.
- * 
+ *
+ * <p> A bit of code archeology... this comment (at least from the 2008 version of JSesh and probably older):
+ *  
+ * <blockquote>
  * Note: we have a lot of type unsecure stuff here, because we will eventually
  * move it to JDK1.5.
+ * </blockquote>
  * 
  * @author rosmord
  */
@@ -35,46 +38,45 @@ public class SignInfoModel {
 	/**
 	 * We could use a weak HashSet for this.
 	 */
-	private List listeners= new ArrayList();
-	
+	private List<SignInfoModelEventListener> listeners = new ArrayList<>();
+
 	/**
-	 * A map from sign codes to sign info datas. Should be Map<String,EditableSignInfo>.
+	 * A map from sign codes to sign info datas. Should be
+	 * Map<String,EditableSignInfo>.
 	 */
-	private Map signInfoDataList = new TreeMap(GardinerCode.getCodeComparator());
+	private Map<String, EditableSignInfo> signInfoDataList = new TreeMap<>(GardinerCode.getCodeComparator());
 
 	/**
 	 * The tags. A map String -> TagInfo
 	 */
 
-	private Map tags = new TreeMap();
+	private Map<String, TagInfo> tags = new TreeMap<>();
 
 	/**
 	 * All know signs.
 	 */
-	private TreeSet codes = new TreeSet(GardinerCode.getCodeComparator());
+	private TreeSet<String> codes = new TreeSet<>(GardinerCode.getCodeComparator());
 
 	/**
 	 * Has the model been changed since the last save ?
 	 */
-	private boolean dirty= false;
-	
+	private boolean dirty = false;
+
 	/**
 	 * Keep track of changes in the various data..
 	 */
-	PropertyChangeListener propertyChangeListener= new PropertyChangeListener();
-	
-	public SignInfoModel() {
-		Iterator it = DefaultHieroglyphicFontManager.getInstance().getCodes()
-				.iterator();
-		while (it.hasNext()) {
-			String code = (String) it.next();
-			if (GardinerCode.isCorrectGardinerCode(code)) {
+	PropertyChangeListener propertyChangeListener = new PropertyChangeListener();
+
+	public SignInfoModel(HieroglyphToolkit fontKit) {
+		// Loop on all signs in the font.
+		fontKit.hieroglyphShapeRepository().getCodes().forEach(code -> {
+			if (GardinerCode.isWellFormedGardinerCode(code)) {
 				codes.add(code);
 				EditableSignInfo editableSignInfo = new EditableSignInfo(code);
 				editableSignInfo.setParent(propertyChangeListener);
 				signInfoDataList.put(code, editableSignInfo);
 			}
-		}
+		});
 		clearDirtyFlag();
 	}
 
@@ -102,7 +104,7 @@ public class SignInfoModel {
 	 * Add a new tagCategory information.
 	 * 
 	 * @param property :
-	 *            a tag, having tagCategory as class.
+	 *                 a tag, having tagCategory as class.
 	 */
 
 	public void addTagLabel(XMLInfoProperty property) {
@@ -129,10 +131,11 @@ public class SignInfoModel {
 	 * Returns the available translations for a tag.
 	 * 
 	 * @param tag
+	 * @return 
 	 * @return
 	 */
-	public List getLabelListFor(String tag) {
-		return ((TagInfo) tags.get(tag)).labels;
+	public List<XMLInfoProperty> getLabelListFor(String tag) {
+		return tags.get(tag).labels;
 	}
 
 	/**
@@ -142,19 +145,20 @@ public class SignInfoModel {
 	 * @return
 	 */
 	public boolean isUserTag(String tag) {
-		return ((TagInfo) tags.get(tag)).userDefined;
+		return tags.get(tag).userDefined;
 	}
+
 
 	/**
 	 * Returns a list of Strings representing the available tags.
 	 * 
 	 * @return
 	 */
-	public List getTags() {
-		return new ArrayList(tags.keySet());
+	public List<String> getTags() {
+		return new ArrayList<>(tags.keySet());
 	}
 
-	public TreeSet getCodes() {
+	public TreeSet<String> getCodes() {
 		return codes;
 	}
 
@@ -165,7 +169,7 @@ public class SignInfoModel {
 	 * @throws NoSuchElementException
 	 */
 	public String getFirstCode() {
-		return (String) codes.first();
+		return codes.first();
 	}
 
 	/**
@@ -177,13 +181,11 @@ public class SignInfoModel {
 	 */
 	public String getCodeAfter(String currentCode) {
 		String result = null;
-		SortedSet tailSet = codes.tailSet(currentCode);
+		SortedSet<String> tailSet = codes.tailSet(currentCode);
 		// Iterates in the set until a value different from currentCode is
 		// found.
 		// normally takes only two iterations.
-		Iterator it = tailSet.iterator();
-		while (it.hasNext()) {
-			String code = (String) it.next();
+		for (String code : tailSet) {
 			if (!currentCode.equals(code)) {
 				result = code;
 				break;
@@ -194,7 +196,7 @@ public class SignInfoModel {
 
 	public String getCodeBefore(String currentCode) {
 		String result = null;
-		SortedSet s = codes.headSet(currentCode);
+		SortedSet<String> s = codes.headSet(currentCode);
 		if (!s.isEmpty()) {
 			result = (String) s.last();
 		}
@@ -214,21 +216,19 @@ public class SignInfoModel {
 	 * Returns the tags used for a given sign family
 	 * 
 	 * @param family
-	 *            a family of signs, as per Gardiner (A, B...)
+	 *               a family of signs, as per Gardiner (A, B...)
 	 * @return a set of strings corresponding to the available tags.
 	 */
-	public SortedSet getTagsForFamily(String family) {
-		TreeSet set = new TreeSet();
+	public SortedSet<String> getTagsForFamily(String family) {
+		TreeSet<String> set = new TreeSet<>();
 		// Let's be stupid.
-		SortedSet s = codes.tailSet(family + "1");
-		Iterator it = s.iterator();
-		while (it.hasNext()) {
-			String code = (String) it.next();
+		SortedSet<String> s = codes.tailSet(family + "1");
+		for (String code : s) {
 			// Stop if we have finished looking at the sign's family.
 			if (!family.equals(GardinerCode.createGardinerCode(code)
 					.getFamily()))
 				break;
-			List usedTags = getSign(code).getPropertyList(
+			List<SignInfoProperty> usedTags = getSign(code).getPropertyList(
 					SignDescriptionConstants.HAS_TAG);
 			for (int i = 0; i < usedTags.size(); i++) {
 				SignInfoProperty prop = (SignInfoProperty) usedTags.get(i);
@@ -237,18 +237,20 @@ public class SignInfoModel {
 		}
 		return set;
 	}
-	
-	public SortedSet getUsedTags() {
-		TreeSet set = new TreeSet();
-		// Let's be stupid.
-		SortedSet s = codes;
-		Iterator it = s.iterator();
-		while (it.hasNext()) {
-			String code = (String) it.next();
-			List usedTags = getSign(code).getPropertyList(
+
+	/**
+	 * Returns the tags used by the sign definitions.
+	 * 
+	 * @return
+	 */
+	public SortedSet<String> getUsedTags() {
+		TreeSet<String> set = new TreeSet<>();
+		SortedSet<String> s = codes;
+		for (String code : codes) {
+			List<SignInfoProperty> usedTags = getSign(code).getPropertyList(
 					SignDescriptionConstants.HAS_TAG);
 			for (int i = 0; i < usedTags.size(); i++) {
-				SignInfoProperty prop = (SignInfoProperty) usedTags.get(i);
+				SignInfoProperty prop = usedTags.get(i);
 				set.add(prop.get(SignDescriptionConstants.TAG));
 			}
 		}
@@ -261,8 +263,8 @@ public class SignInfoModel {
 	 * @return a list of EditableSignInfo
 	 * @see EditableSignInfo
 	 */
-	public List getSignInfoList() {
-		return new ArrayList(signInfoDataList.values());
+	public List<EditableSignInfo> getSignInfoList() {
+		return new ArrayList<>(signInfoDataList.values());
 	}
 
 	/**
@@ -270,7 +272,7 @@ public class SignInfoModel {
 	 * 
 	 * @param code
 	 * @param inUserPart
-	 *            is this a userPart declaration ?
+	 *                   is this a userPart declaration ?
 	 */
 	public void setSignAlwaysDisplay(String code, boolean inUserPart) {
 		EditableSignInfo sign = getOrCreateSign(code);
@@ -292,7 +294,7 @@ public class SignInfoModel {
 	private static class TagInfo {
 		String tagName;
 		boolean userDefined;
-		ArrayList labels = new ArrayList();
+		ArrayList<XMLInfoProperty> labels = new ArrayList<>();
 
 		public TagInfo(String tagName, boolean userDefined) {
 			this.userDefined = userDefined;
@@ -307,8 +309,8 @@ public class SignInfoModel {
 	 * @return a List of XMLInfoProperty
 	 * @see XMLInfoProperty
 	 */
-	public List getLabelsForTag(String currentTag) {
-		return new ArrayList(((TagInfo) tags.get(currentTag)).labels);
+	public List<XMLInfoProperty> getLabelsForTag(String currentTag) {
+		return new ArrayList<>(tags.get(currentTag).labels);
 	}
 
 	public void removeLabel(XMLInfoProperty prop) {
@@ -324,7 +326,8 @@ public class SignInfoModel {
 	}
 
 	/**
-	 * Is a tag called <code>tag</code> defined here ? 
+	 * Is a tag called <code>tag</code> defined here ?
+	 * 
 	 * @param tag
 	 * @return
 	 */
@@ -336,13 +339,13 @@ public class SignInfoModel {
 	 * Removes a tag from the list.
 	 * 
 	 * @param tag
-	 * @return true if removal succeeded 
+	 * @return true if removal succeeded
 	 */
 	public boolean removeTag(String tag) {
-		boolean result= true;
+		boolean result = true;
 		// Check if the tag is used somewhere !
 		if (getUsedTags().contains(tag)) {
-			result= false;
+			result = false;
 		} else {
 			setDirtyFlag();
 			tags.remove(tag);
@@ -352,9 +355,8 @@ public class SignInfoModel {
 	}
 
 	private void notifyListeners(SignInfoModelEvent event) {
-		for (int i= 0; i< listeners.size(); i++)
-		{
-			SignInfoModelEventListener l= (SignInfoModelEventListener) listeners.get(i);
+		for (int i = 0; i < listeners.size(); i++) {
+			SignInfoModelEventListener l = (SignInfoModelEventListener) listeners.get(i);
 			l.signInfoModelChanged(event);
 		}
 	}
@@ -362,29 +364,29 @@ public class SignInfoModel {
 	public void addSignInfoModelEventListener(SignInfoModelEventListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void removeSignInfoModelEventListener(SignInfoModelEventListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * Has the model been changed since the last save ?
 	 */
 	public boolean isDirty() {
 		return dirty;
 	}
-	
+
 	public void clearDirtyFlag() {
-		dirty= false;
+		dirty = false;
 	}
-	
+
 	public void setDirtyFlag() {
-		dirty= true;
+		dirty = true;
 	}
-	
+
 	private class PropertyChangeListener implements ChildListener {
 		public void childChanged() {
 			setDirtyFlag();
-		}	
+		}
 	}
 }

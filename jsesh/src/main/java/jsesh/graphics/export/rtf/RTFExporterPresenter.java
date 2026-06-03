@@ -4,7 +4,6 @@
  */
 package jsesh.graphics.export.rtf;
 
-import jsesh.graphics.export.generic.ExportOptionPanel;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,9 +12,9 @@ import java.io.OutputStream;
 
 import javax.swing.DefaultComboBoxModel;
 
+import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
 import jsesh.swing.utils.FileButtonMapper;
@@ -41,13 +40,10 @@ public class RTFExporterPresenter {
      * @param drawingSpecifications
      * @param model
      */
-    public void exportModel(DrawingSpecification drawingSpecifications,
+    public void exportModel(JSeshRenderContext renderContext,
             TopItemList model) {
 
-        RTFExporter exporter = new RTFExporter();
-        exporter.setDrawingSpecifications(drawingSpecifications);
-        exporter.setRtfPreferences(rtfPreferences);
-        exporter.setViewBuilder(new SimpleViewBuilder());
+        RTFExporter exporter = new RTFExporter(renderContext, rtfPreferences);
         try {
             OutputStream out = new FileOutputStream(file);
             exporter.ExportModelTo(model, out);
@@ -88,23 +84,19 @@ public class RTFExporterPresenter {
             unitMediator.attachToComboBox(form.getUnitCB());
             unitMediator.managedTextField(form.getCadratHeightField());
             
-            form.getCadratHeightField().setValue(rtfPreferences.getCadratHeight());
+            form.getCadratHeightField().setValue(rtfPreferences.cadratHeight());
 
 
-            form.getExportModeCB().setModel(new DefaultComboBoxModel(RTFExportGranularity.GRANULARITIES));
+            form.getExportModeCB().setModel(new DefaultComboBoxModel<>(RTFExportGranularity.GRANULARITIES));
             form.getExportModeCB().setSelectedItem(RTFExportGranularity.GROUPED_CADRATS);
             add(form);
         }
 
-        /* (non-Javadoc)
-		 * @see jsesh.graphics.export.ExportOptionPanel#setOptions()
-         */
         @Override
         public void setOptions() {
-            file = (File) form.getFileField().getValue();
-            rtfPreferences.setCadratHeight(getCadratHeight());
-            rtfPreferences.setExportGranularity((RTFExportGranularity) form.getExportModeCB().getSelectedItem());
-            rtfPreferences.setRespectOriginalTextLayout(false); // Normally false. If we want better handling, we will use something else than RTF.
+            file = (File) form.getFileField().getValue();            
+            RTFExportGranularity granularity = (RTFExportGranularity) form.getExportModeCB().getSelectedItem();
+            rtfPreferences = new RTFExportPreferences(getCadratHeight(), granularity, false, RTFExportGraphicFormat.DEFAULT);
         }
 
         /**

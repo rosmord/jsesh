@@ -17,7 +17,7 @@ public class JSeshHelpAction extends AboutAction {
 
 	public JSeshHelpAction(Application app) {
 		super(app);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configureNoIcon(this);
 	}
 
 	@Override

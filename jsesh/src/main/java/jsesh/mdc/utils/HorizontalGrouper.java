@@ -52,7 +52,7 @@ import jsesh.mdc.model.SubCadrat;
 public class HorizontalGrouper {
 
 	/**
-	 * Return a quadrant made of possible InnerGroup elements in elts, where elts
+	 * Return a quadrat made of possible InnerGroup elements in elts, where elts
 	 * is a list of ModelElements.
 	 * <p>
 	 * For elements that can be stored into a subcadrat, a subcadrat will be

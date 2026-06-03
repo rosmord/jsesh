@@ -1,7 +1,6 @@
 package jsesh.mdc.model;
 
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;
@@ -370,11 +369,11 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
     }
 
     /**
-     * Returns true if this sign stands alone in a quadrant.
+     * Returns true if this sign stands alone in a quadrat.
      *
      * @return
      */
-    public boolean isAloneInQuadrant() {
+    public boolean isAloneInQuadrat() {
         ModelElement elt = getParent();
         while (elt != null && !(elt instanceof Cadrat)) {
             elt = elt.getParent();
@@ -406,9 +405,8 @@ public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
 
     @Override
     protected boolean equalsIgnoreIdAux(ModelElement other) {
-        Hieroglyph o = (Hieroglyph) other;
-        HieroglyphDatabaseInterface manager = HieroglyphDatabaseRepository.getHieroglyphDatabase();
-        return manager.getCanonicalCode(this.code).equals(manager.getCanonicalCode(o.code))
+        Hieroglyph o = (Hieroglyph) other;        
+        return ManuelDeCodage.getInstance().equalsCanonical(this.code, o.code)
                 && this.endingCode.equals(o.endingCode)
                 && this.grammar == o.grammar
                 && this.type == o.type

@@ -31,38 +31,66 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
- /*
- * Created on 30 sept. 2004 by rosmord* 
- * NOTE I have noticed a bad behaviour for the focus with 
- * linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
- * The problem doesn't appear with jdk1.4, nor with gnome and its default WM, 
- * even in focus followmouse mode. So I don't know if this is java 1.5 or 
- * fvwm's fault, I suppose it will eventually be solved.  
- * See jsesh.misc.tests.TestFocus for a simple example. 
- **/
+/*
+* Created on 30 sept. 2004 by rosmord* 
+* NOTE I have noticed a bad behaviour for the focus with 
+* linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
+* The problem doesn't appear with jdk1.4, nor with gnome and its default WM, 
+* even in focus followmouse mode. So I don't know if this is java 1.5 or 
+* fvwm's fault, I suppose it will eventually be solved.  
+* See jsesh.misc.tests.TestFocus for a simple example. 
+**/
 package jsesh.editor;
 
-import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.geom.*;
-import java.awt.print.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Logger;
-import javax.swing.*;
-import jsesh.editor.actions.text.*;
-import jsesh.editor.caret.*;
-import jsesh.mdc.*;
-import jsesh.mdc.constants.*;
-import jsesh.mdc.model.*;
-import jsesh.mdc.model.operations.*;
+
+import javax.swing.Action;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+
+import jsesh.clipboard.JSeshPasteFlavors;
+import jsesh.clipboard.MDCModelTransferable;
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.editor.caret.MDCCaret;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.mdc.MDCSyntaxError;
+import jsesh.mdc.constants.TextDirection;
+import jsesh.mdc.constants.TextOrientation;
+import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.ListOfTopItems;
+import jsesh.mdc.model.MDCPosition;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.unicode.MdCToUnicodeConverter;
-import jsesh.mdcDisplayer.clipboard.*;
-import jsesh.mdcDisplayer.draw.*;
-import jsesh.mdcDisplayer.layout.*;
-import jsesh.mdcDisplayer.mdcView.*;
-import jsesh.mdcDisplayer.preferences.*;
-import jsesh.swing.shadingMenuBuilder.*;
-import jsesh.swing.utils.*;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
+import jsesh.swing.utils.GraphicsUtils;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you
@@ -76,52 +104,37 @@ import jsesh.swing.utils.*;
 public class JMDCEditor extends JPanel {
 
     /**
-     *
+     * Bottom margin of the editor.
      */
-    private static final long serialVersionUID = -5312716856062578743L;
     private static final int BOTTOM_MARGIN = 5;
-    private JMDCModelEditionListener mdcModelEditionListener;
-    /**
-     * Strategy to build a view.
-     *
-     */
-    // SimpleViewBuilder builder;
-    /**
-     * Debugging of view placement.
-     */
-    private boolean debug = false;
+
     /**
      * Strategy to draw a view. (we have just decided to build the view builder
-     * on demand, and not to keep it. But the drawer contains some information,
-     * and in particular a cache of views).
+     * on demand, and not to keep it.).
      */
     protected ViewDrawer drawer;
+
     /**
      * The current view we maintain.
      */
     private MDCView documentView;
+
     /**
      * Display scale for this window.
      */
-    private double scale;
-    /**
-     * Updates the view.
-     *
-     */
-    private MDCViewUpdater viewUpdater;
-    /**
-     * Deals with events that occur on this object :
-     */
-    MDCEditorEventsListener eventListener;
+    private double scale; // Should be a property !
+
     /**
      * Basic Information about drawing : fonts to use, line width, etc...
      *
      */
     JMDCEditorWorkflow workflow;
+
     /**
      * The object responsible for building transferable for the clipboard.
      */
     MDCModelTransferableBroker mdcModelTransferableBroker = new SimpleMDCModelTransferableBroker();
+
     /**
      * States that the caret has changed since last redraw.
      * <p>
@@ -129,35 +142,123 @@ public class JMDCEditor extends JPanel {
      * position are only done <em>after</em> view updates.
      */
     private boolean caretChanged = true;
-    private boolean editable = true;
-    // FIXME : choose a reasonable method to share drawing specifications.
-    private DrawingSpecification drawingSpecifications = MDCEditorKit
-            .getBasicMDCEditorKit().getDrawingSpecifications().copy();
 
-    private final boolean drawLimits = false;
+    /**
+     * Is this editor editable or read-only ?
+     */
+    private boolean editable = true;
+
+    /**
+     * Shareable style reference for this editor.
+     */
+    private JSeshStyleReference styleReference;
+
+    /**
+     * The source for hieroglyphic signs used by this editor.
+     */
+    private HieroglyphShapeRepository hieroglyphShapeRepository;
+
+    // /**
+    // * The code to draw the glyphs from the hieroglyphShapeRepository.
+    // *
+    // * Note: should probably be either merged or moved to local variables.
+    // */
+    // private HieroglyphDrawer hieroglyphsDrawer;
+
+    /**
+     * Do we want to draw page limits?
+     */
+    private boolean drawLimits = false;
+
+    /**
+     * Debugging of view placement.
+     * Will draw a red rectangle around each quadrat.
+     */
+    private boolean debug = false;
+
+    // ------------- Event listeners -----------------
+
+    /**
+     * Updates the view - will receive events asking for view updates.
+     */
+    private MDCViewUpdater viewUpdater;
+
+    /**
+     * Edition events (mouse and keyboard events)
+     * This is in fact a controller.
+     * 
+     * N.B. We could separate mouse and focus events.
+     */
+    private final MDCEditorMouseAndFocusController mouseAndFocusController;
+
+    /**
+     * Listener for model changes.
+     * Classical MVC implementation.
+     */
+    private final JMDCModelEditionListener mdcModelEditionListener;
+
+    /**
+     * Listener for changes in the style reference.
+     */
+    private PropertyChangeListener styleChangeListener = evt -> invalidateView();
+
+    /**
+     * Icon factory for building menus.
+     * 
+     * <p> Currently specific to each instance, which is a small waste of memory.
+     */
+    private MDCIconFactory mdcIconFactory;
+
+    
 
     public JMDCEditor() {
-        this(new HieroglyphicTextModel());
+        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
+                HieroglyphToolkit.standardHieroglyphToolKit());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data) {
-        setBackground(Color.WHITE);
-        drawer = new ViewDrawer();
-        //drawer.setCached(true);
-        drawer.setCached(false);
-        setScale(2.0);
-        workflow = new JMDCEditorWorkflow(data);
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphToolkit fontKit) {
+        this(data, new JSeshStyleReference(Style),fontKit);
+    }
 
+    /**
+     * Full constructor for the editor, which lets the user choose every possible
+     * parameter.
+     * 
+     * @param data                  the original text to edit.
+     * @param styleReference        a reference to the style (which allows sharing
+     *                              styles among editors and synchronizing them ).
+     * @param hieroglyphsDrawer     source for hieroglyphs
+     * @param possibilityRepository the system which will propose signs codes when a
+     *                              transliteration is typed. It uses both the
+     *                              hieroglyph
+     *                              database and the glossary.
+     */
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
+           HieroglyphToolkit hieroglyphToolkit) {
+        workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
+        this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();
+        this.setStyleReference(styleReference);
+        this.setBackground(Color.WHITE);
+        this.setScale(2.0);
+
+        mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
-        // setRequestFocusEnabled(true);
-        setFocusable(true);
+        setFocusable(true);        
+        drawer = new ViewDrawer(); // Is there any need to keep it in memory?
         viewUpdater = new MDCViewUpdater(this);
-        eventListener = new MDCEditorEventsListener(this);
-        documentView = recomputeDocumentView();       
-        new MDCEditorKeyManager(this);
+        mouseAndFocusController = new MDCEditorMouseAndFocusController();
+        mouseAndFocusController.attachTo(this);
+        documentView = recomputeDocumentView();
+        new MDCEditorKeyManager(mdcIconFactory).addActionsTo(this);
+
     }
 
+    /**
+     * Changes the hieroglyphic text model containing the text to edit.
+     * 
+     * @param hieroglyphicTextModel
+     */
     public void setHieroglyphiTextModel(
             HieroglyphicTextModel hieroglyphicTextModel) {
         workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
@@ -170,6 +271,57 @@ public class JMDCEditor extends JPanel {
 
     public void deleteCodeChangeListener(MDCModelEditionListener l) {
         workflow.deleteCodeChangeListener(l);
+    }
+
+    /**
+     * Returns the style reference, which can be shared with other components.
+     * 
+     * @return the styleReference
+     */
+    public JSeshStyleReference getStyleReference() {
+        return styleReference;
+    }
+
+    /**
+     * Sets the style reference for this editor. This reference can be shared with
+     * other components, which will then share the same style.
+     * 
+     * @param styleReference the styleReference to set
+     */
+
+    public void setStyleReference(JSeshStyleReference styleReference) {
+        Objects.requireNonNull(styleReference);
+        // If the operation doesn't change anything, do nothing.
+        if (this.styleReference == styleReference) {
+            return;
+        }
+        // Now, remove the previous configuration and install the new one.
+        if (this.styleReference != null) {
+            this.styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        this.styleReference = styleReference;
+        this.styleReference.addPropertyChangeListener(styleChangeListener);
+        invalidateView();
+    }
+
+    /**
+     * Returns the current style for this editor.
+     * 
+     * @return
+     */
+    public JSeshStyle getJSeshStyle() {
+        return styleReference.getStyle();
+    }
+
+    /**
+     * Sets the style for this editor.
+     * If the style reference is shared, it will change the style for all editors
+     * using the same reference.
+     * 
+     * @param style the style to set.
+     */
+    public void setJSeshStyle(JSeshStyle style) {
+        styleReference.setStyle(style);
     }
 
     /**
@@ -228,18 +380,23 @@ public class JMDCEditor extends JPanel {
      *
      * @return the view for the model.
      */
-    public MDCView getView() {       
+    public MDCView getView() {
         return documentView;
     }
 
     private MDCView recomputeDocumentView() {
-         documentView = new SimpleViewBuilder().buildView(
-                    getHieroglyphicTextModel().getModel(),
-                    getDrawingSpecifications());                   
-         revalidate();
-         return documentView;
+        documentView = new ViewBuilder().buildView(
+                getHieroglyphicTextModel().getModel(),
+                getRenderContext(),
+                buildTechRenderContext());
+        revalidate();
+        return documentView;
     }
-    
+
+    protected JSeshTechRenderContext buildTechRenderContext() {
+        return JSeshTechRenderContext.buildForComponent(this);
+    }
+
     /**
      * Return the workflow, which allows manipulation of the underlaying
      * hieroglyphicTextModel.
@@ -264,7 +421,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getDrawingSpecifications());
+                getJSeshStyle());
         if (pos != null) {
             workflow.setCursor(pos);
         }
@@ -283,7 +440,7 @@ public class JMDCEditor extends JPanel {
         clickPoint.y = (int) (clickPoint.y / getScale());
         // drawer.getPositionForPoint(getView(), clickPoint);
         MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getDrawingSpecifications());
+                getJSeshStyle());
         workflow.setMark(pos);
     }
 
@@ -309,7 +466,8 @@ public class JMDCEditor extends JPanel {
         // Either there are no page format specification (in which case there is
         // only
         // one infinitie page).
-        PageLayout pageLayout = getDrawingSpecifications().getPageLayout();
+        // Used for debugging purposes.
+        GeometrySpecification pageLayout = getJSeshStyle().geometry();
         if (drawLimits && pageLayout.hasPageFormat()) {
             // IMPROVE THIS...
             g2d.setColor(Color.RED);
@@ -317,14 +475,14 @@ public class JMDCEditor extends JPanel {
         }
 
         drawer.setClip(true);
-        drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(),
-                getDrawingSpecifications());
+
+        drawer.drawViewAndCursor(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
 
         if (caretChanged) {
             // Disarm caret change updates.
             caretChanged = false;
             // Show the cursor.
-            Rectangle r = getPointerRectangle();
+            Rectangle r = getCursorRectangle();
             if (!g.getClipBounds().contains(r)) {
                 r.height += 4;
                 r.width += 4;
@@ -349,7 +507,7 @@ public class JMDCEditor extends JPanel {
      *
      * @param position technical position in the JSesh document.
      * @return the position in the original document, or the empty string if
-     * none is found.
+     *         none is found.
      */
     public String getOriginalDocumentCoordinates(MDCPosition position) {
         return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);
@@ -388,13 +546,17 @@ public class JMDCEditor extends JPanel {
     }
 
     /*
-     * (non-Javadoc)
+     * Prints the content of this editor.
+     * <p> Mostly obsolete by now. It's way better to export to specific graphical
+     * formats.
      * 
      * @see javax.swing.JComponent#print(java.awt.Graphics)
      */
     public void print(Graphics g) {
-        drawer.setClip(false);
-        drawer.draw((Graphics2D) g, getView(), getDrawingSpecifications());
+        // Probably: build a drawer here.
+        ViewDrawer printDrawer = new ViewDrawer();
+        printDrawer.setClip(false);
+        printDrawer.draw((Graphics2D) g, getRenderContext(), buildTechRenderContext(), getView());
     }
 
     /**
@@ -406,21 +568,21 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
+     * Changes the scale of the drawing.
+     * Doesn't touch the style, but pretends we have zoomed in or out.
+     * 
      * @param d
-     *
      */
     public void setScale(double d) {
-        scale = d;
-        if (drawer.isCached()) {
-            drawer.flushCache();
+        if (d > 0.0) {
+            scale = d;
+            repaint();
+            revalidate();
         }
-        getDrawingSpecifications().setGraphicDeviceScale(scale);
-        repaint();
-        revalidate();
     }
 
     public void setInsertPosition(int insertPosition) {
-        // TODO : this is WAAYYY too convoluted. 
+        // TODO : this is WAAYYY too convoluted.
         MDCPosition mdcPosition = getHieroglyphicTextModel().buildPosition(insertPosition);
         getWorkflow().setCursor(mdcPosition);
     }
@@ -440,10 +602,10 @@ public class JMDCEditor extends JPanel {
      *
      * @return a rectangle describing the current cursor position.
      */
-    Rectangle getPointerRectangle() {
+    protected Rectangle getCursorRectangle() {
         Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
                 .getCaret().getInsert().getPosition(),
-                getDrawingSpecifications());
+                getJSeshStyle());
         int w = (int) (r1.getWidth() * getScale());
         int h = (int) (r1.getHeight() * getScale());
         if (w < 2) {
@@ -464,8 +626,7 @@ public class JMDCEditor extends JPanel {
      * @param orientation
      */
     public void setTextOrientation(TextOrientation orientation) {
-        drawingSpecifications.setTextOrientation(orientation);
-        invalidateView();
+        setJSeshStyle(getJSeshStyle().copy().options(opts -> opts.textOrientation(orientation)).build());
     }
 
     /**
@@ -474,52 +635,38 @@ public class JMDCEditor extends JPanel {
      * @param direction the new TextDirection
      */
     public void setTextDirection(TextDirection direction) {
-        drawingSpecifications.setTextDirection(direction);
-        invalidateView();
-    }
-
-    public TextOrientation getTextOrientation() {
-        return getDrawingSpecifications().getTextOrientation();
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.textDirection(direction)).build());
     }
 
     /**
-     * Choose between right-to-left and left-to-right text direction.
+     * Returns the current text orientation.
+     * <p>
+     * Note: currently, an editor has a single text orientation. We could consider
+     * having
+     * a contextual text orientation depending on the position of the cursor.
+     * 
+     * @return
+     */
+    public TextOrientation getTextOrientation() {
+        return getJSeshStyle().options().textOrientation();
+    }
+
+    /**
+     * Returns the current text direction.
+     * 
+     * <p>
+     * Note: currently, an editor has a single text direction. We could consider
+     * having
+     * a contextual text direction depending on the position of the cursor.
      *
      * @return current TextDirection
      */
     public TextDirection getTextDirection() {
-        return getDrawingSpecifications().getTextDirection();
-    }
-
-    /**
-     * Returns the specifications attached to the current window.
-     * @return the current drawing specifications (live object).
-     */
-    public DrawingSpecification getDrawingSpecifications() {
-        DrawingSpecification result = drawingSpecifications;
-        return result;
-    }
-
-    /**
-     * @param drawingSpecifications The drawingSpecifications to set.
-     */
-    public void setDrawingSpecifications(
-            DrawingSpecification drawingSpecifications) {
-        this.drawingSpecifications = drawingSpecifications;
-        drawingSpecifications.setGraphicDeviceScale(scale);
-        // TODO : remove me after... (after what ???)
-        PageLayout p = drawingSpecifications.getPageLayout();
-        p.setPageFormat(new PageFormat()); // what for ???
-        drawingSpecifications.setPageLayout(p);
-
-        invalidateView();
+        return getJSeshStyle().options().textDirection();
     }
 
     public void invalidateView() {
-        if (drawer.isCached()) {
-            drawer.flushCache();
-        }
-        documentView = recomputeDocumentView();        
+        documentView = recomputeDocumentView();
         revalidate();
         repaint();
     }
@@ -555,7 +702,6 @@ public class JMDCEditor extends JPanel {
             repaint();
         }
 
-       
         @Override
         public void codeChanged(StringBuffer code) {
             // NO-OP.
@@ -566,13 +712,11 @@ public class JMDCEditor extends JPanel {
             // NO-OP
         }
 
-       
         @Override
         public void focusGained(StringBuffer code) {
             // NO-OP.
         }
 
-       
         @Override
         public void focusLost() {
             // NO-OP.
@@ -623,7 +767,7 @@ public class JMDCEditor extends JPanel {
     public void copy() {
         TopItemList top = getWorkflow().getSelectionAsTopItemList();
         MDCModelTransferable transferable = mdcModelTransferableBroker
-                .buildTransferable(top);
+                .buildTransferable(top, getRenderContext());
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
     }
@@ -631,7 +775,7 @@ public class JMDCEditor extends JPanel {
     public void copy(DataFlavor[] dataFlavors) {
         TopItemList top = getWorkflow().getSelectionAsTopItemList();
         MDCModelTransferable transferable = mdcModelTransferableBroker
-                .buildTransferable(top, dataFlavors);
+                .buildTransferable(top, getRenderContext(), dataFlavors);
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(transferable, null);
 
@@ -669,9 +813,19 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
-     * Sets a class which will be used to build model transferable for cut and
-     * paste.
+     * Sets a broker will be used to manage copy/paste operations.
      *
+     * <p>
+     * A default broker is provided. It uses default values, and is not suitable for
+     * customization.
+     * 
+     * <p>
+     * The JSesh application uses its own broker, which is initialized with the
+     * application preferences.
+     * 
+     * TODO : provide a factory method which will allow one to share preferences in
+     * a consistent way when one wants it.
+     * 
      * @param mdcModelTransferableBroker The mdcModelTransferableBroker to set.
      */
     public void setMdcModelTransferableBroker(
@@ -680,7 +834,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void clearText() {
-        getWorkflow().clear();        
+        getWorkflow().clear();
     }
 
     /**
@@ -717,30 +871,11 @@ public class JMDCEditor extends JPanel {
         this.editable = editable;
     }
 
-    /**
-     * Does the component keep a cache of rendered groups, sacrifying memory for
-     * speed ?
-     *
-     * @return
-     */
-    public boolean isCached() {
-        return drawer.isCached();
-    }
-
-    /**
-     * Chose if the component will sacrifice memory for speed.
-     *
-     * @param c
-     */
-    public final void setCached(boolean c) {
-        drawer.setCached(c);
-    }
-
     public void showShadingPopup() {
         ShadingMenuBuilder menuBuilder = new ShadingMenuBuilder() {
             protected Action buildAction(int shadingCode, String mdcLabel) {
                 return new EditorShadeAction(JMDCEditor.this, shadingCode,
-                        mdcLabel);
+                        mdcLabel, mdcIconFactory);
             }
         };
         JPopupMenu shadingPopup = menuBuilder.buildPopup();
@@ -751,7 +886,7 @@ public class JMDCEditor extends JPanel {
         shadingPopup.add(getActionMap().get(ActionsID.SHADE_ZONE));
         shadingPopup.add(getActionMap().get(ActionsID.UNSHADE_ZONE));
 
-        Rectangle r = getPointerRectangle();
+        Rectangle r = getCursorRectangle();
 
         shadingPopup.show(this, (int) r.getCenterX(), (int) r.getCenterY());
 
@@ -785,7 +920,7 @@ public class JMDCEditor extends JPanel {
      * @param center
      */
     public void setSmallSignsCentered(boolean center) {
-        getDrawingSpecifications().setSmallSignsCentered(center);
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.smallSignCentered(center)).build());
     }
 
     /**
@@ -794,7 +929,7 @@ public class JMDCEditor extends JPanel {
      * @return true if it is the case.
      */
     public boolean isSmallSignsCentered() {
-        return getDrawingSpecifications().isSmallSignsCentered();
+        return getJSeshStyle().options().smallSignCentered();
     }
 
     /**
@@ -803,10 +938,58 @@ public class JMDCEditor extends JPanel {
      * @return true if lines are justified.
      */
     public boolean isJustified() {
-        return getDrawingSpecifications().isJustified();
+        return getJSeshStyle().options().justified();
     }
 
     public TopItemList getSelection() {
         return workflow.getSelectionAsTopItemList();
     }
+
+    /**
+     * Returns the current render context.
+     * 
+     * @return
+     */
+    public JSeshRenderContext getRenderContext() {
+        return new JSeshRenderContext(getJSeshStyle(), hieroglyphShapeRepository);
+    }
+
+    /**
+     * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * memory leaks.
+     * 
+     */
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        // Re-register listeners
+        if (styleReference != null) {
+            // Note that the version of addPropertyChangeListener used by
+            // JSeshStyleReference doesn't create duplicates
+            // so we don't need to check if the listener is already registered.
+            styleReference.addPropertyChangeListener(styleChangeListener);
+        }
+    }
+
+    /**
+     * * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * memory leaks.
+     */
+    @Override
+    public void removeNotify() {
+        // Unregister listeners
+        if (styleReference != null) {
+            styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        super.removeNotify();
+    }
+
+    /**
+     * Draw quadrat limits for debugging purposes.
+     * @param drawLimits true if we want to draw the quadrats limits, false otherwise.
+     */
+    public void setDrawLimits(boolean drawLimits) {
+        this.drawLimits = drawLimits;
+        repaint();
+    }   
 }

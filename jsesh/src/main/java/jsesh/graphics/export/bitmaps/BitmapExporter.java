@@ -35,6 +35,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.graphics.export.generic.SelectionExporter;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
+
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
@@ -117,8 +119,8 @@ public class BitmapExporter {
 
     public void export(ExportData data) {
         try {
-            double length = data.getDrawingSpecifications()
-                    .getHieroglyphsDrawer().getHeightOfA1();
+            HieroglyphDrawer drawer = new HieroglyphDrawer(data.getRenderContext().hieroglyphShapeRepository());
+            double length = drawer.getHeightOfA1();
             data.setScale(this.cadratHeight / length);
             if (multiFile) {
                 exportAll(data);
@@ -304,7 +306,7 @@ public class BitmapExporter {
         /**
          * The output format.
          */
-        JComboBox outputFormatField;
+        JComboBox<String> outputFormatField;
 
         /**
          * Height of a cadrat, in pixels.
@@ -361,7 +363,7 @@ public class BitmapExporter {
             cadratHeightField
                     .setToolTipText("height of a typical line of hieroglyphs");
 
-            outputFormatField = new JComboBox(OUTPUT_FORMATS);
+            outputFormatField = new JComboBox<>(OUTPUT_FORMATS);
             outputFormatField.setSelectedIndex(outputFormatIndex);
             outputFormatField
                     .setToolTipText("Format of the saved images.\n Explicit extensions like .jpg or .png will have precedence over this field.");

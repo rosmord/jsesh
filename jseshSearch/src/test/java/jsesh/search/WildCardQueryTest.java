@@ -10,19 +10,22 @@
  */
 package jsesh.search;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.Test;
+
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.search.simple.SignStringSearchQuery;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardQuery;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class WildCardQueryTest {
 
@@ -45,7 +48,8 @@ public class WildCardQueryTest {
     private void doSearch(String message, String mdc, String codes, VariantLevelForSearch variantLevel, Integer... expected) {
         TopItemList text = parse(mdc);
         TopItemList toSearch = parse(codes);
-        WildCardQuery searcher = new WildCardQuery(toSearch, 0, variantLevel);
+        HieroglyphDatabaseInterface database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
+        WildCardQuery searcher = new WildCardQuery(toSearch, 0, database, variantLevel);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult
                 = Arrays.asList(expected).stream()
@@ -97,8 +101,8 @@ public class WildCardQueryTest {
     }
 
     @Test
-    public void testInQuadrant() {
-        doSearch("test In Quadrants", "i-n:n:n:k:w-m", "n n k", VariantLevelForSearch.EXACT_SEARCH, 1);
+    public void testInQuadrat() {
+        doSearch("test In Quadrats", "i-n:n:n:k:w-m", "n n k", VariantLevelForSearch.EXACT_SEARCH, 1);
     }
 
     @Test

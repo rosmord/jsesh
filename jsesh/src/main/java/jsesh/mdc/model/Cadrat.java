@@ -8,7 +8,7 @@ import jsesh.mdc.interfaces.CadratInterface;
 import jsesh.mdc.interfaces.VBoxInterface;
 
 /**
- * <p> A quadrant.
+ * <p> A quadrat.
  * <p>The current name of the class is not English at all, and refers to the French name for the "ideal squares" found
  * in hieroglyphic texts. 
  * @author Rosmorduc
@@ -34,7 +34,7 @@ public class Cadrat
 	}
 
 	/**
-	 * Creates a quadrant containing one item.
+	 * Creates a quadrat containing one item.
 	 * @param item
 	 * @throws IllegalArgumentException if the construction is not possible.
 	 */
@@ -44,7 +44,7 @@ public class Cadrat
 	}
 	
 	/**
-	 * Creates a quadrant containing one item.
+	 * Creates a quadrat containing one item.
 	 * @param item
 	 * @throws IllegalArgumentException if the construction is not possible.
 	 */
@@ -172,12 +172,12 @@ public class Cadrat
 	}
 	
 	/**
-	 * Is this quadrant embedded in a larger quadrant as a sub-quadrant.
+	 * Is this quadrat embedded in a larger quadrat as a sub-quadrat.
 	 * For instance, in 
 	 * <pre>
 	 * 	n:(x:t)*U30
 	 * </pre>
-	 * (x:t) is an embedded quadrant.
+	 * (x:t) is an embedded quadrat.
 	 * @return
 	 */
 	public boolean isEmbedded() {

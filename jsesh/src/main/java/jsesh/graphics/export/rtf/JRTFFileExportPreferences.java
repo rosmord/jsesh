@@ -3,11 +3,6 @@
  * Author: Serge Rosmorduc
  */
 
-/*
- * JRTFExportPreferences.java
- *
- * Created on 2 févr. 2009, 14:43:08
- */
 
 package jsesh.graphics.export.rtf;
 
@@ -15,8 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 
+import jsesh.swing.units.LengthUnit;
+
 /**
- *
+ * Graphical panel for choosing RTF export preferences.
  * @author rosmord
  */
 public class JRTFFileExportPreferences extends javax.swing.JPanel {
@@ -38,9 +35,9 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         browseButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        exportModeCB = new javax.swing.JComboBox();
+        exportModeCB = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        unitCB = new javax.swing.JComboBox();
+        unitCB = new javax.swing.JComboBox<>();
         fileField = new javax.swing.JFormattedTextField();
         cadratHeightField = new javax.swing.JFormattedTextField();
 
@@ -50,12 +47,10 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
 
         jLabel2.setText("Export mode");
 
-        exportModeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Cadrat Height");
 
-        unitCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
+        // TODO : use miglayout instead of GroupLayout.
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,12 +97,12 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.JFormattedTextField cadratHeightField;
-    private javax.swing.JComboBox exportModeCB;
+    private javax.swing.JComboBox<RTFExportGranularity> exportModeCB;
     private javax.swing.JFormattedTextField fileField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JComboBox unitCB;
+    private javax.swing.JComboBox<LengthUnit> unitCB;
     // End of variables declaration//GEN-END:variables
 
     public JButton getBrowseButton() {
@@ -122,7 +117,7 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
         return cadratHeightField;
     }
 
-    public JComboBox getExportModeCB() {
+    public JComboBox<RTFExportGranularity> getExportModeCB() {
         return exportModeCB;
     }
 
@@ -130,7 +125,7 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
         return fileField;
     }
     
-    public JComboBox getUnitCB() {
+    public JComboBox<LengthUnit> getUnitCB() {
         return unitCB;
     }
 

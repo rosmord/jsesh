@@ -1,7 +1,7 @@
 package jsesh.mdc.model;
 
 /**
- * Constants which define which part of a quadrant is shaded.
+ * Constants which define which part of a quadrat is shaded.
  * 
  * <p>
  * Basically, a simple "or" on the following values :

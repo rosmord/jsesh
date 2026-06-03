@@ -37,39 +37,34 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
-import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentPreferences.ui.DrawingSpecificationsPresenter;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
+
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 @SuppressWarnings("serial")
-public class EditDocumentPreferencesAction extends AbstractViewAction {
+public class EditDocumentPreferencesAction extends AbstractCoreViewAction {
 
 	public EditDocumentPreferencesAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 	}
 
 	public static final String ID = "file.documentProperties";
 
-	public void actionPerformed(ActionEvent arg0) {
-		JSeshView v = (JSeshView) getActiveView();
-		if (v != null) {
-			// TODO : ok, enought with current drawing specifications system...
-			// we are going to use the old, simpler system with only a class...
-			DrawingSpecification d = (DrawingSpecification) v
-					.getDrawingSpecifications();
-			DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
-			presenter
-					.loadPreferences(v.getDrawingSpecifications());
-			if (presenter.showDialog(v) == JOptionPane.OK_OPTION) {
-				presenter.updatePreferences(d);
-				v.setDrawingSpecifications(d);
-			}
-		}
+	public void actionPerformed(ActionEvent event) {
+		viewCore().ifPresent(
+				v -> {
+					DrawingSpecificationsPresenter presenter = new DrawingSpecificationsPresenter();
+					presenter
+							.loadPreferences(v.getJSeshStyle());
+					if (presenter.showDialog(v.getViewComponent()) == JOptionPane.OK_OPTION) {
+						JSeshStyle newStyle = presenter.updatePreferences(v.getJSeshStyle());
+						v.setJSeshStyle(newStyle);
+					}
+				});
 	}
 }

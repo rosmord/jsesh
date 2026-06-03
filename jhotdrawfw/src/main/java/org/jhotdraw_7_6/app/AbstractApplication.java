@@ -148,8 +148,7 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     
     public final View createView() {
-        View v = basicCreateView();
-        v.setActionMap(createViewActionMap(v));
+        View v = basicCreateView();        
         return v;
     }
 
@@ -270,6 +269,8 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
         if (v.getApplication() != this) {
             int oldCount = views.size();
             views.add(v);
+            v.setActionMap(createViewActionMap(v));
+
             v.setApplication(this);
             v.init();
             model.initView(this, v);

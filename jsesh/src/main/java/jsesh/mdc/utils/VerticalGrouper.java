@@ -5,10 +5,16 @@
  */
 package jsesh.mdc.utils;
 
-import java.util.Iterator;
 import java.util.List;
 
-import jsesh.mdc.model.*;
+import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.BasicItemList;
+import jsesh.mdc.model.Cadrat;
+import jsesh.mdc.model.HBox;
+import jsesh.mdc.model.ModelElement;
+import jsesh.mdc.model.ModelElementAdapter;
+import jsesh.mdc.model.SubCadrat;
+import jsesh.mdc.model.TopItem;
 
 /**
  * @author S. Rosmorduc

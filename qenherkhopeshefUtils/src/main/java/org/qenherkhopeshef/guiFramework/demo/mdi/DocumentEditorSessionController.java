@@ -63,7 +63,8 @@ public class DocumentEditorSessionController implements PropertyHolder, MDIFrame
     public void closeDocument() {
         int result;
         // Close the current document editor if possible ?
-        if (isDirty() || 1 == 1) {
+        // We had a 1 == 1 comparison in the test to make it look like if (true). Why ?
+        if (isDirty()) {
             result= JOptionPane.showConfirmDialog(getFrame(),"MESSAGE", "title", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             switch (result) {
                 case JOptionPane.YES_OPTION:

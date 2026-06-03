@@ -1,10 +1,9 @@
 package jsesh.graphics.export.generic;
 
-import jsesh.graphics.export.generic.AbtractExportDrawer;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
+import java.awt.font.FontRenderContext;
 import java.io.IOException;
 
 /**
@@ -14,13 +13,17 @@ import java.io.IOException;
 public abstract class AbstractRTFEmbeddableDrawer extends
 		AbtractExportDrawer {
 
-	protected AbstractRTFEmbeddableDrawer(ViewBuilder viewBuilder,
-										  DrawingSpecification drawingSpecifications, double cadratHeight) {
-		super(viewBuilder, prepareDrawingSpecifications(drawingSpecifications), cadratHeight);
+	protected AbstractRTFEmbeddableDrawer(
+										  JSeshRenderContext renderContext, FontRenderContext fontRenderContext, double cadratHeight) {
+		super(prepareDrawingSpecifications(renderContext), fontRenderContext, cadratHeight);
 	}
 
-	private static DrawingSpecification prepareDrawingSpecifications(DrawingSpecification drawingSpecifications) {
-		return EmbeddableDrawingSpecificationHelper.createEmbeddedDrawingSpecifications(drawingSpecifications);
+	protected AbstractRTFEmbeddableDrawer(JSeshRenderContext renderContext, double cadratHeight) {
+		this(renderContext, new FontRenderContext(null, true, true), cadratHeight);
+	}
+
+	private static final JSeshRenderContext prepareDrawingSpecifications(JSeshRenderContext context) {
+		return context.marginLessContext();
 	}
 
 	public abstract void writeToRTF(SimpleRTFWriter rtfWriter)

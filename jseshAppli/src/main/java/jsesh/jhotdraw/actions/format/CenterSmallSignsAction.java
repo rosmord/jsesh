@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
-import jsesh.jhotdraw.actions.BundleHelper;
-
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
+
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 /**
  * Action used to toggle the centering of small signs.
@@ -21,12 +21,12 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
-public class CenterSmallSignsAction extends AbstractViewAction {
+public class CenterSmallSignsAction extends AbstractCoreViewAction {
 	public static final String ID = "format.centerSmallSigns";
 
 	public CenterSmallSignsAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 		//
 		setPropertyName(JSeshView.DOCUMENT_INFO_PROPERTY);
 	}

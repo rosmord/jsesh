@@ -1,7 +1,5 @@
 package jsesh.mdc.model;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-
 /*
  * This file is free Software
  * (c) Serge Rosmorduc
@@ -25,7 +23,7 @@ public class TabStop extends TopItem {
 	/**
 	 * Returns the stopPos.
 	 * @return int the position, in tab units.
-	 * @see DrawingSpecification#getTabUnitWidth()
+	 * @see PaintingSpecifications#getTabUnitWidth()
 	 */
 	
 	public int getStopPos() {

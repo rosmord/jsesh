@@ -8,9 +8,6 @@ import javax.swing.JPopupMenu;
 
 import jsesh.jhotdraw.actions.BundleHelper;
 
-import org.jhotdraw_7_6.app.action.edit.ClearSelectionAction;
-import org.jhotdraw_7_6.util.ResourceBundleUtil;
-
 @SuppressWarnings("serial")
 public class OpenHieroglyphicMenuAction extends AbstractAction {
 	public static String ID= "hieroglyphicMenu";
@@ -19,7 +16,7 @@ public class OpenHieroglyphicMenuAction extends AbstractAction {
 	private JButton parent;
 	
 	public OpenHieroglyphicMenuAction(JButton parent, JPopupMenu hieroglyphicMenu) {
-		BundleHelper.getInstance().configure(this);
+		BundleHelper.getInstance().configure(this, ID);
 		this.menu= hieroglyphicMenu;
 		this.parent= parent;
 	}

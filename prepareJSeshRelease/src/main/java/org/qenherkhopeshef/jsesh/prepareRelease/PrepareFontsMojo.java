@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+
+import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 
 /**
  * Process JSesh fonts for release
@@ -46,7 +48,7 @@ public class PrepareFontsMojo extends AbstractMojo {
                         + fontPath.getAbsolutePath() + " must exist.");
 
             }
-            ResourcesHieroglyphicFontManager.initDirectory(fontPath);
+            ResourcesHieroglyphicShapeRepository.initDirectory(fontPath);
         } catch (IOException ex) {
             throw new MojoExecutionException("error", ex);
         }

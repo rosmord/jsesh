@@ -1,13 +1,13 @@
 package jsesh.graphics.export.macpict;
 
-import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
-import java.awt.*;
-import java.io.IOException;
+import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 public class EmbeddableMacPictSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 
@@ -18,9 +18,9 @@ public class EmbeddableMacPictSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	 * @param cadratHeight
 	 *
 	 */
-	public EmbeddableMacPictSimpleDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecification,
+	public EmbeddableMacPictSimpleDrawer(JSeshRenderContext renderContext,
 											double cadratHeight) {
-		super(viewBuilder, drawingSpecification, cadratHeight);
+		super(renderContext, cadratHeight);
 		setShadeAfter(false);
 	}
 

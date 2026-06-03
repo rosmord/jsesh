@@ -22,9 +22,10 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
-import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.swing.utils.GraphicsUtils;
 
 /**
@@ -39,9 +40,9 @@ public class JMDCField extends JMDCEditor {
     private Dimension preferedSize;
     // Drawing margin to move.
     private float drawingHorizontalOrigin = 0;
-    
-    // Should probably change.
-    private int margin = 5;
+
+    private static final int DEFAULT_MARGIN = 5;
+   
 
     /**
      * Name of the action called to validate input (when enter is typed)
@@ -54,30 +55,25 @@ public class JMDCField extends JMDCEditor {
     private final ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
     /**
-     * Create a hieroglyphic field with the given dimensions, in pixels.
-     *
-     * @param width
-     * @param height
+     * Build a JMDCField, passing all relevant parameters.
+     * <p>
+     * The width of the field can be chosen, but the height is determined by the
+     * style.
+     * the style is shared, and can be used by other components.
+     * 
+     * @param styleReference            a style reference which can be shared
+     * @param hieroglyphShapeRepository source for hieroglyph shapes.
+     * @param possibilityRepository     source for automated completion.
      */
-    public JMDCField(int width, int height) {
-        setCached(false);
-        preferedSize = new Dimension(width, height);
-        DrawingSpecification specs = getDrawingSpecifications().copy();
-        int textHeight = height - 2 * margin;       
+    public JMDCField(int width, JSeshStyleReference styleReference,
+            HieroglyphToolkit fontKit) {
+        super(new HieroglyphicTextModel(), styleReference, fontKit);
         
-        specs.setMaxCadratHeight(textHeight);
-        // Perhaps not the best system...
-        specs.setStandardSignHeight(textHeight);
-        specs.setMaxCadratWidth(textHeight*1.1f);
-        
-        PageLayout pageLayout = specs.getPageLayout();
-        pageLayout.setTopMargin(margin);
-        pageLayout.setLeftMargin(0);
-
-        specs.setLineSkip(0);
+        // Compute the prefered size from width and style.
+        preferedSize = computePreferedSize(width, styleReference.getStyle());
+        // To ease reading, the MDCEditor has a default scale of 2.
+        // for a field, we decide of the exact height in pixels, so we want a scale of 1.
         setScale(1.0);
-        
-        setDrawingSpecifications(specs); 
         // Build an input map using the default MDCEditor inputmap as parent.
         InputMap inputMap = new InputMap();
         inputMap.setParent(getInputMap()); // Normally, the MDCEditor inputMap is already set.
@@ -88,6 +84,37 @@ public class JMDCField extends JMDCEditor {
         setActionMap(actionMap);
         setInputMap(WHEN_FOCUSED, inputMap);
     }
+
+    /**
+     * Build a JMDCField with a specific style.
+     * <p>
+     * The width and the height of the field can be chosen, and the actual style
+     * will be modified to fit the height.
+     * 
+     * @param width                     the width of the field, in pixels.
+     * @param height                    the height of the field, in pixels.
+     * @param style                     a specific style, not shared with other
+     *                                  components.
+     * @param hieroglyphShapeRepository source for hieroglyph shapes.
+     * @param possibilityRepository     source for automated completion.
+     */
+    public JMDCField(int width, int height, JSeshStyle style, HieroglyphToolkit fontKit) {
+        this(width, new JSeshStyleReference(adaptStyleToHeight(style, height, DEFAULT_MARGIN)),
+                fontKit);
+    }
+
+    /**
+     * Create a hieroglyphic field with the given dimensions, in pixels, using
+     * reasonnable defaults.
+     * 
+     * @param width
+     * @param height
+     */
+    public JMDCField(int width, int height) {
+        this(width, height, JSeshStyle.DEFAULT, HieroglyphToolkit.standardHieroglyphToolKit());
+    }
+
+    
 
     public JMDCField() {
         this(320, 50);
@@ -115,7 +142,7 @@ public class JMDCField extends JMDCEditor {
         Graphics2D g2d = (Graphics2D) g;
         GraphicsUtils.antialias(g2d);
 
-        Rectangle r = getPointerRectangle();
+        Rectangle r = getCursorRectangle();
 
         double lastX = drawingHorizontalOrigin + getWidth();
 
@@ -127,7 +154,10 @@ public class JMDCField extends JMDCEditor {
         g2d.translate(-drawingHorizontalOrigin, 0);
         g2d.scale(getScale(), getScale());
         drawer.setClip(true);
-        drawer.drawViewAndCursor(g2d, getView(), getMDCCaret(), getDrawingSpecifications());
+        drawer.drawViewAndCursor(g2d, 
+            getRenderContext(),
+            buildTechRenderContext(),
+            getView(), getMDCCaret());
     }
 
     public void addActionListener(ActionListener l) {
@@ -154,4 +184,34 @@ public class JMDCField extends JMDCEditor {
 
     }
 
+    /**
+     * Compute the actual style modified to fit the height of the field.
+     * 
+     * @param style  the original style.
+     * @param height the target total height of the field, in pixels (including
+     *               margins).
+     * @return the modified style.
+     */
+    private final static JSeshStyle adaptStyleToHeight(JSeshStyle style, int height, int margin) {
+        int textHeight = height - 2 * margin;
+        return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
+                .standardSignHeight(textHeight)
+                .maxCadratWidth(textHeight * 1.1f)
+                .topMargin(margin)
+                .leftMargin(margin)                
+                .lineSkip(0)).build();
+        // Why was setScale(1.0); called here ?
+    }
+
+    /**
+     * Compute the prefered size from width and style.
+     * @param width
+     * @param style
+     * @return
+     */
+    private final Dimension computePreferedSize(int width, JSeshStyle style) {        
+        GeometrySpecification geom = style.geometry();
+        int height = (int) Math.ceil(geom.topMargin() * 2 + geom.maxCadratHeight());
+        return new Dimension(width, height);
+    }
 }

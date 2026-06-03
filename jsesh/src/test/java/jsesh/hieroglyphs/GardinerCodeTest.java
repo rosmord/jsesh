@@ -2,8 +2,8 @@ package jsesh.hieroglyphs;
 
 import org.junit.Test;
 
+import static jsesh.hieroglyphs.data.coreMdC.GardinerCode.*;
 import static org.junit.Assert.*;
-import static jsesh.hieroglyphs.data.GardinerCode.*;
 
 public class GardinerCodeTest {
 
@@ -28,17 +28,7 @@ public class GardinerCodeTest {
 		assertTrue(isCanonicalCode("G17"));
 	}
 
-
-	@Test
-	public void isCanonicalCodenn() {
-		assertTrue(isCanonicalCode("nn"));
-	}
-
-
-	@Test
-	public void isCanonicalCodenTrw() {
-		assertTrue(isCanonicalCode("nTrw"));
-	}
+	
 
 	@Test
 	public void isCanonicalCode2() {

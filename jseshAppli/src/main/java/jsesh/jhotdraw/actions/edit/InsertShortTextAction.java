@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
@@ -18,7 +18,7 @@ public class InsertShortTextAction extends AbstractViewAction {
 
     public InsertShortTextAction(Application app, View view) {
         super(app, view);
-        BundleHelper.getInstance().configure(this);
+        BundleHelper.getInstance().configure(this, ID);
     }
 
     public void actionPerformed(ActionEvent e) {

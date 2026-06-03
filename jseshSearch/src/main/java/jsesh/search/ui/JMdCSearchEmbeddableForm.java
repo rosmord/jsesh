@@ -19,18 +19,22 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.editor.JMDCField;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.ResourcesHieroglyphicFontManager;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.search.quadrant.QuadrantSearchQuery;
-import jsesh.search.wildcard.WildCardQuery;
-import net.miginfocom.swing.MigLayout;
+import jsesh.search.quadrant.QuadratSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.wildcard.VariantLevelForSearch;
+import jsesh.search.wildcard.WildCardConstants;
+import jsesh.search.wildcard.WildCardQuery;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Search fields used by dialogs for JSesh searches. Used both for in-document
@@ -42,9 +46,9 @@ import jsesh.search.wildcard.VariantLevelForSearch;
  *
  * @author rosmord
  */
+@SuppressWarnings("serial")
 class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFormFieldsIF, JMdCSearchFormModelIF {
 
-    private static final String FONT_PATH = "/jsesh/search/wildcard";
 
     /*
      * Fields for MdC search
@@ -58,19 +62,29 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     private final JComboBox<VariantLevelForSearch> variantLevel;
    
     /**
-     * Buttons which are meaningless for whole quadrant search...
+     * Buttons which are meaningless for whole quadrat search...
      */
     private final JComponent signOriented[];
+
+    /**
+     * Some query need fine access to information about sign variants.
+     */
+    private final HieroglyphDatabaseInterface hieroglyphDatabase;
 
     /**
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm() {
-        setupFont();
-       
+    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphToolkit fontKit) {               
+        HieroglyphToolkit newFontKit = new SimpleHieroglyphToolkit(WildcardFont.getInstance().addToFont(fontKit.hieroglyphShapeRepository()),
+             fontKit.possibilityRepository(), fontKit.hieroglyphDatabase());
+        this.hieroglyphDatabase = newFontKit.hieroglyphDatabase();
+
         // MdC Search
-        this.searchField = new JMDCField();
+        this.searchField = new JMDCField(100, styleReference,newFontKit);
+
+        
+        
         this.addSkipButton = new JButton("*");
         this.addSetButton = new JButton("[...]");
         this.matchLengthSpinner = new JSpinner();
@@ -96,7 +110,7 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     private void enableControls() {
         addSetButton.addActionListener(e -> addSet());
         addSkipButton.addActionListener(e -> addSkip());
-        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadrantSelect());
+        this.matchLayoutCheckBox.addActionListener(e -> wholeQuadratSelect());
     }
 
     private void prepareLayout() {
@@ -124,39 +138,20 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     public MdCSearchQuery getQuery() {
         MdCSearchQuery result;
         if (matchLayoutCheckBox.isSelected()) {
-            result = new QuadrantSearchQuery(getSearchFieldContent());
+            result = new QuadratSearchQuery(getSearchFieldContent());
         } else {
             result = new WildCardQuery(getSearchFieldContent(), 
                     (Integer) matchLengthSpinner.getValue(),
+                    hieroglyphDatabase,
                     (VariantLevelForSearch)variantLevel.getSelectedItem()
             );
         }
         return result;
     }
 
-    /**
-     * Add the additional signs for wildcards (*, [ and ]).
-     */
-    private void setupFont() {
-        DefaultHieroglyphicFontManager manager = DefaultHieroglyphicFontManager.getInstance();
-        if (manager.get("QUERYSKIP") == null) {
-            manager.addHieroglyphicFontManager(new ResourcesHieroglyphicFontManager(FONT_PATH));
-        }
-    }
 
-    private void addSet() {
-        searchField.insert("QUERYSETB");
-        searchField.insert("QUERYSETE");
-        searchField.getWorkflow().cursorPrevious();
-        searchField.requestFocusInWindow();
-    }
 
-    private void addSkip() {
-        searchField.insert("QUERYSKIP");
-        searchField.requestFocusInWindow();
-    }
-
-    private void wholeQuadrantSelect() {
+    private void wholeQuadratSelect() {
         for (JComponent b : this.signOriented) {
             b.setEnabled(!this.matchLayoutCheckBox.isSelected());
         }
@@ -210,6 +205,19 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     @Override
     public boolean isMatchLayout() {
         return this.matchLayoutCheckBox.isSelected();
+    }
+    
+
+    public void addSet() {        
+    	getSearchField().insert(WildCardConstants.QUERY_SET_BEGIN);
+    	getSearchField().insert(WildCardConstants.QUERY_SET_END);
+    	getSearchField().getWorkflow().cursorPrevious();
+    	getSearchField().requestFocusInWindow();
+    }
+
+    public void addSkip() {
+    	getSearchField().insert(WildCardConstants.QUERY_SKIP);
+    	getSearchField().requestFocusInWindow();
     }
 
 }

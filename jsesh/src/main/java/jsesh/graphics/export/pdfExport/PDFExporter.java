@@ -12,28 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import jsesh.editor.caret.MDCCaret;
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.ExportOptionPanel;
-import jsesh.graphics.export.generic.SelectionExporter;
-import jsesh.mdc.constants.ScriptCodes;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.translitteration.TransliterationUtilities;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
-import jsesh.resources.ResourcesManager;
-
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 import com.lowagie.text.BadElementException;
@@ -51,6 +29,30 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+
+import jsesh.drawingspecifications.FontSpecification;
+import jsesh.drawingspecifications.GeometrySpecification;
+import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.editor.caret.MDCCaret;
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.ExportOptionPanel;
+import jsesh.graphics.export.generic.SelectionExporter;
+import jsesh.mdc.constants.ScriptCodes;
+import jsesh.mdc.model.AlphabeticText;
+import jsesh.mdc.model.HRule;
+import jsesh.mdc.model.LineBreak;
+import jsesh.mdc.model.ModelElementDeepAdapter;
+import jsesh.mdc.model.PageBreak;
+import jsesh.mdc.model.TabStop;
+import jsesh.mdc.model.TopItem;
+import jsesh.mdc.model.TopItemList;
+import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
+import jsesh.mdcDisplayer.draw.ViewDrawer;
+import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.resources.ResourcesManager;
 
 /**
  * Expert for exporting a Manuel de codage file to PDF, using the IText library.
@@ -83,13 +85,11 @@ public class PDFExporter {
         return new JPDFOptionPanel(parent, title, pdfExportPreferences);
     }
 
-    public void exportModel(TopItemList model, MDCCaret caret)
+    public void exportModel(TopItemList model, MDCCaret caret, JSeshRenderContext renderContext)
             throws IOException {
         if (pdfExportPreferences.isEncapsulated()) {
-            DrawingSpecification specs = pdfExportPreferences
-                    .getDrawingSpecifications().copy();
-            //  PDFDataSaver is somehow redundant with PDFExporter...  
-            PDFDataSaver pdfDataSaver = new PDFDataSaver(specs,
+            // PDFDataSaver is somehow redundant with PDFExporter...
+            PDFDataSaver pdfDataSaver = new PDFDataSaver(renderContext,
                     pdfExportPreferences);
             FileOutputStream out = new FileOutputStream(
                     pdfExportPreferences.getFile());
@@ -112,21 +112,20 @@ public class PDFExporter {
                 caret = MDCCaret.buildWholeTextCaret(model);
             }
 
-            DrawingSpecification actualDrawingSpecification = pdfExportPreferences
-                    .getDrawingSpecifications().copy();
+            JSeshStyle actualStyle = renderContext.jseshStyle().copy()
+                    .geometry(g -> g
+                            .leftMargin(32f)
+                            .topMargin(32f))
+                    .build();
 
-            // TODO : do something better here..
-            PageLayout pageLayout = actualDrawingSpecification.getPageLayout();
-            pageLayout.setLeftMargin(32);
-            pageLayout.setTopMargin(32);
-            actualDrawingSpecification.setPageLayout(pageLayout);
+            renderContext = new JSeshRenderContext(actualStyle, renderContext.hieroglyphShapeRepository());
 
-            ExportData exportData = new ExportData(actualDrawingSpecification,
+            ExportData exportData = new ExportData(renderContext,
                     caret, model, scale);
 
             PDFGraphics2DFactory graphicFactory = new PDFGraphics2DFactory(
                     pdfExportPreferences, PDFExportHelper.buildCommentText(
-                            actualDrawingSpecification, model));
+                            actualStyle, model));
 
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, graphicFactory);
@@ -140,9 +139,9 @@ public class PDFExporter {
                 // It would be way better to initialize drawingSpecifications
                 // once and for all for this class, and to get them when needed.
                 String mdcText = PDFExportHelper.buildCommentText(
-                        pdfExportPreferences.getDrawingSpecifications().copy(),
+                        renderContext.jseshStyle(),
                         model);
-                IPDFExporterAux visitor = new IPDFExporterAux(mdcText);
+                IPDFExporterAux visitor = new IPDFExporterAux(mdcText, renderContext);
 
                 model.accept(visitor);
                 visitor.close();
@@ -159,7 +158,7 @@ public class PDFExporter {
      *
      * @author rosmord
      *
-     * TODO document the type TemplateInfo
+     *         TODO document the type TemplateInfo
      */
     static private class TemplateInfo {
 
@@ -199,34 +198,21 @@ public class PDFExporter {
          */
         TreeMap<TopItem, TemplateInfo> imageCache;
 
-        DrawingSpecification drawingSpecifications;
+        JSeshRenderContext renderContext;
 
-        SimpleViewBuilder builder;
-
-        public IPDFExporterAux(String comment) throws IOException,
+        public IPDFExporterAux(String comment, JSeshRenderContext renderContext) throws IOException,
                 DocumentException {
 
-            drawingSpecifications = pdfExportPreferences
-                    .getDrawingSpecifications().copy();
+            this.renderContext = new JSeshRenderContext(fixStyle(renderContext.jseshStyle()),
+                    renderContext.hieroglyphShapeRepository());
             /*
-			 * Create various utilitary objects.
+             * Create various utilitary objects.
              */
             imageCache = new TreeMap<TopItem, TemplateInfo>();
             prepareFonts();
 
-            // Classes used to draw the cadrats.
-            builder = new SimpleViewBuilder();
-
-            PDFExportHelper.ensureCMYKColorSpace(drawingSpecifications);
-
-            // TODO : fix fonts passed to graphics2D.
-            // specs.setTranslitterationFont(translitFont);
-            PageLayout pageLayout = drawingSpecifications.getPageLayout();
-            pageLayout.setLeftMargin(0.1f);
-            drawingSpecifications.setPageLayout(pageLayout);
-
             /*
-			 * Create the PDF document itself :
+             * Create the PDF document itself :
              */
             pdfDocument = new Document();
 
@@ -239,8 +225,8 @@ public class PDFExporter {
                 writer.setPageEvent(new PDFPageNumberHandler());
             }
             /*
-			 * Headers can be added only <em>after</em> the getInstance call,
-			 * but before the call to open().
+             * Headers can be added only <em>after</em> the getInstance call,
+             * but before the call to open().
              */
 
             pdfDocument.addTitle(pdfExportPreferences.getTitle());
@@ -255,6 +241,17 @@ public class PDFExporter {
         }
 
         /**
+         * Fix a style - ensure CMYK color space, and zero margins.
+         * 
+         * @param jseshStyle a style to fix.
+         * @return the fixed style.
+         */
+        private JSeshStyle fixStyle(JSeshStyle jseshStyle) {
+            return PDFExportHelper.ensureCMYKColorSpace(jseshStyle)
+                    .geometry(g -> g.leftMargin(0.1f)).build();
+        }
+
+        /**
          * Initialize the objects which represent the various fonts used in the
          * document.
          *
@@ -264,31 +261,26 @@ public class PDFExporter {
         private void prepareFonts() throws DocumentException, IOException {
             fontMapper = new DefaultFontMapper();
 
-            if (drawingSpecifications
+            FontSpecification jseshFonts = renderContext.jseshStyle().fonts();
+
+            if (jseshFonts
                     .getFont(ScriptCodes.TRANSLITERATION)
                     .getName()
                     .equals(ResourcesManager.getInstance()
-                            .getTransliterationFont().getName())) {
+                            .getMdcTransliterationFont().getName())) {
                 // Build fonts to use
 
                 BaseFont bf = BaseFont.createFont(
                         "/jseshResources/fonts/MDCTranslitLC.ttf",
                         BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-                translitFont = new Font(bf, drawingSpecifications.getFont(
+                translitFont = new Font(bf, jseshFonts.getFont(
                         ScriptCodes.TRANSLITERATION).getSize());
                 fontMapper.putName("MDCTranslitLC",
                         new DefaultFontMapper.BaseFontParameters(
                                 "/jseshResources/fonts/MDCTranslitLC.ttf"));
             } else {
-                java.awt.Font g2dTranslitFont = drawingSpecifications
+                java.awt.Font g2dTranslitFont = jseshFonts
                         .getFont(ScriptCodes.TRANSLITERATION);
-                // translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
-                // g2dTranslitFont.getSize(), Font.NORMAL);
-                // BaseFont bf = BaseFont.createFont(g2dTranslitFont.getName() +
-                // ".ttf",""
-                // , true);
-                // translitFont = new Font(bf, drawingSpecifications.getFont(
-                // ScriptCodes.TRANSLITERATION).getSize());
                 translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
                         BaseFont.IDENTITY_H, true, g2dTranslitFont.getSize());
 
@@ -315,11 +307,11 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model
-		 * .TopItemList)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model
+         * .TopItemList)
          */
         @Override
         public void visitTopItemList(TopItemList t) {
@@ -337,63 +329,65 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementDeepAdapter#visitHRule(jsesh.mdc.model
-		 * .HRule)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementDeepAdapter#visitHRule(jsesh.mdc.model
+         * .HRule)
          */
         @Override
         public void visitHRule(HRule h) {
+            GeometrySpecification geom = renderContext.jseshStyle().geometry();
             PdfContentByte cb = writer.getDirectContent();
 
             // float lineWidth;
             float x1;
             float x2;
 
-            x1 = h.getStartPos() * drawingSpecifications.getTabUnitWidth();
-            x2 = h.getEndPos() * drawingSpecifications.getTabUnitWidth();
+            x1 = h.getStartPos() * geom.tabUnitWidth();
+            x2 = h.getEndPos() * geom.tabUnitWidth();
 
             float y = writer.getVerticalPosition(false);
             if (h.getType() == 'l') {
-                cb.setLineWidth(drawingSpecifications.getFineLineWidth());
+                cb.setLineWidth(geom.fineLineWidth());
             } else {
-                cb.setLineWidth(drawingSpecifications.getWideLineWidth());
+                cb.setLineWidth(geom.wideLineWidth());
             }
             cb.moveTo(x1, y);
             cb.lineTo(x2, y);
             cb.stroke();
 
             /*
-			 * Graphic pdfGraphics= new Graphic();
-			 * 
-			 * //float lineWidth; float x1; float x2;
-			 * 
-			 * x1= h.getStartPos() drawingSpecifications.getTabUnitWidth(); x2=
-			 * h.getEndPos() drawingSpecifications.getTabUnitWidth();
-			 * 
-			 * float y= writer.getVerticalPosition(false); if (h.getType()==
-			 * 'l')
-			 * pdfGraphics.setLineWidth(drawingSpecifications.getFineLineWidth
-			 * ()); else
-			 * pdfGraphics.setLineWidth(drawingSpecifications.getWideLineWidth
-			 * ()); pdfGraphics.moveTo(x1, y); pdfGraphics.lineTo(x2, y);
-			 * pdfGraphics.stroke(); try {
-			 * 
-			 * pdfDocument.add(pdfGraphics); } catch (DocumentException
-			 * exception) { exception.printStackTrace(); }
+             * Graphic pdfGraphics= new Graphic();
+             * 
+             * //float lineWidth; float x1; float x2;
+             * 
+             * x1= h.getStartPos() drawingSpecifications.getTabUnitWidth(); x2=
+             * h.getEndPos() drawingSpecifications.getTabUnitWidth();
+             * 
+             * float y= writer.getVerticalPosition(false); if (h.getType()==
+             * 'l')
+             * pdfGraphics.setLineWidth(drawingSpecifications.getFineLineWidth
+             * ()); else
+             * pdfGraphics.setLineWidth(drawingSpecifications.getWideLineWidth
+             * ()); pdfGraphics.moveTo(x1, y); pdfGraphics.lineTo(x2, y);
+             * pdfGraphics.stroke(); try {
+             * 
+             * pdfDocument.add(pdfGraphics); } catch (DocumentException
+             * exception) { exception.printStackTrace(); }
              */
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
-		 * .model.AlphabeticText)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
+         * .model.AlphabeticText)
          */
         @Override
         public void visitAlphabeticText(AlphabeticText t) {
+            FontSpecification fontInfo = renderContext.jseshStyle().fonts();
             Font f;
             String text = t.getText();
 
@@ -409,7 +403,8 @@ public class PDFExporter {
                     break;
                 case 't':
                     f = translitFont;
-                    text = TransliterationUtilities.getActualTransliterationString(text, drawingSpecifications.getTransliterationEncoding());
+                    text = TransliterationUtilities.getActualTransliterationString(text,
+                            fontInfo.transliterationEncoding());
                     break;
                 case '+':
                 default:
@@ -420,11 +415,11 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
-		 * .PageBreak)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+         * .PageBreak)
          */
         @Override
         public void visitPageBreak(PageBreak b) {
@@ -437,11 +432,11 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model
-		 * .LineBreak)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model
+         * .LineBreak)
          */
         @Override
         public void visitLineBreak(LineBreak b) {
@@ -455,11 +450,11 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementDeepAdapter#visitTopItem(jsesh.mdc.model
-		 * .TopItem)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementDeepAdapter#visitTopItem(jsesh.mdc.model
+         * .TopItem)
          */
         @Override
         public void visitTopItem(TopItem t) {
@@ -467,14 +462,15 @@ public class PDFExporter {
         }
 
         /*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * jsesh.mdc.model.ModelElementDeepAdapter#visitTabStop(jsesh.mdc.model
-		 * .TabStop)
+         * (non-Javadoc)
+         * 
+         * @see
+         * jsesh.mdc.model.ModelElementDeepAdapter#visitTabStop(jsesh.mdc.model
+         * .TabStop)
          */
         @Override
         public void visitTabStop(TabStop t) {
+            var geom = renderContext.jseshStyle().geometry();
             // IText has no tabulation system. Hence, we simply draw a white
             // space
             // It's currently false, but better than nothing.
@@ -487,7 +483,7 @@ public class PDFExporter {
 
             currentParagraph = new Paragraph();
             currentParagraph.setIndentationLeft(t.getStopPos()
-                    * drawingSpecifications.getTabUnitWidth());
+                    * geom.tabUnitWidth());
         }
 
         /**
@@ -500,9 +496,10 @@ public class PDFExporter {
         }
 
         public void flushParagraph() {
+            var geom = renderContext.jseshStyle().geometry();
             if (currentParagraph != null) {
                 try {
-                    float space = drawingSpecifications.getLineSkip();
+                    float space = geom.lineSkip();
                     // if (currentParagraph.getMultipliedLeading() < space)
                     // currentParagraph.setLeading(space);
                     // currentParagraph.setLeading(0,1);
@@ -525,23 +522,28 @@ public class PDFExporter {
          * @param elt
          */
         private void drawElement(TopItem elt) {
+            var geom = renderContext.jseshStyle().geometry();
 
             TemplateInfo templateInfo = imageCache.get(elt);
             // scale Compute
 
             double scale = (double) pdfExportPreferences.getLineHeight()
-                    / drawingSpecifications.getMaxCadratHeight();
+                    / geom.maxCadratHeight();
 
             if (templateInfo == null) {
                 TopItemList smallModel = new TopItemList();
                 smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
-                MDCView view = builder.buildView(smallModel,
-                        drawingSpecifications);
+                MDCView view = JSeshTechRenderContext.applyWithDefaultTechContext(techContext -> {
+                    ViewBuilder builder = new ViewBuilder();
+                    return builder.buildView(smallModel,
+                            renderContext, techContext);
+                });
 
                 if (view.getWidth() == 0 || view.getHeight() == 0) {
                     return;
                 }
+
                 ViewDrawer drawer = new ViewDrawer();
 
                 PdfContentByte cb = writer.getDirectContent();
@@ -559,10 +561,12 @@ public class PDFExporter {
                 Graphics2D g = templateInfo.template.createGraphics(width,
                         height, fontMapper);
 
-                g.setColor(drawingSpecifications.getBlackColor());
+                JSeshTechRenderContext techContext = JSeshTechRenderContext.buildSimpleContext(g);
+
+                g.setColor(renderContext.jseshStyle().painting().blackColor());
                 g.scale(scale, scale);
                 drawer.setShadeAfter(false);
-                drawer.draw(g, view, drawingSpecifications);
+                drawer.draw(g, renderContext, techContext, view);
                 // g.setColor(Color.RED);
                 // g.draw(new Rectangle2D.Float(0, 0, view.getWidth(),
                 // view.getHeight()));
@@ -590,7 +594,8 @@ public class PDFExporter {
                 // The actual "good" size is next to impossible to compute. We
                 // should create a special drawing for it
                 // addChunck(new
-                // Chunk(' ').setHorizontalScaling((float)(drawingSpecifications.getSmallSkip()*scale)));
+                // Chunk('
+                // ').setHorizontalScaling((float)(drawingSpecifications.getSmallSkip()*scale)));
                 if (templateInfo.template.getLeading() > currentParagraph
                         .getLeading()) {
                     currentParagraph.setLeading(templateInfo.template

@@ -1,0 +1,40 @@
+++JSesh_Info 1.0 +s
+++JSesh_use_lines_for_shading true +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_small_skip 2.0 +s
+++JSesh_column_skip 10.0 +s
+++JSesh_standard_sign_height 18.0 +s
+++JSesh_small_body_scale_limit 12.0 +s
+++JSesh_cartouche_line_width 1.0 +s
+++JSesh_small_sign_centered false +s
+++JSesh_page_direction LEFT_TO_RIGHT +s
+++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_page_orientation HORIZONTAL +s
++bOld Tksesh ligatures in current JSesh+s-!
++lThose ligatures are defined through a file format designed for tksesh, my old software from the 90's.+s-!
++lSome of them are correct, others, no.+s-!
++lGiven their small number, we might decide to choose another system at some point.+s-!
+i&i__-?800-+ishould be closer than two yod+s-!
+Z1&Z1__-?800-?800-+lshould give +s-Z1-Z1-!
+F12&D28__-?800-?800-+lshould give +s-wsr{{74,0,99}}**kA{{0,371,100}}-!
+U36&D28__-?800-?800-+lshould give +s-Hm{{271,0,97}}**kA{{0,383,100}}-!
+E10&Z1__-?800-?800-+lshould give +s-E10{{0,50,100}}**Z1{{916,0,52}}-!
+F20&z__-?800-+lshould give +s-ns**z{{0,729,78}}-?800-!
+F39&Z1__-?800-+lshould give +s-imAx**Z1{{290,577,100}}-!
+H&a__-?800-+lshould give +s-H{{592,0,98}}**a{{0,210,100}}-!
+q&mA__-?800-+lshould give +s-q{{0,223,100}}**mA{{23,0,98}}-?800-!
+S&mA__-?800-+lshould give +s-S{{0,411,70}}**mA{{34,0,98}}-?800-!
+nTr&Z1__-?800-+lshould give +s-Z1{{118,596,100}}**nTr\97-!
+G36&X1&r__-?800-+lshould give +s-wr&&&t:r-wr\83**t{{591,0,83}}**r{{0,736,101}}-!
+H&b&Xr__-?800-+lshould give +s-H\98**Xr{{283,174,97}}**b{{527,0,97}}-!
+H&a&a__-?800-+lshould give +s-H{{537,0,125}}**a{{0,504,100}}**a{{3,129,100}}-?800-!
+M27&t&Z1__-?800-+lshould give +s-M27\98**t{{677,844,66}}-!
+R8&i&t__-?800-+lshould give +s-nTr\97**t{{505,763,100}}**i{{863,5,98}}-?800-!
+r&p&a__-?800-+lshould give +s-r{{4,0,90}}**p{{350,329,72}}**a{{0,562,67}}-!
+D&md&N__-?800-+lshould give +s-md{{0,151,85}}**D{{51,0,93}}**N{{299,404,58}}-!
+D&md&Z1__-?800-+lshould give +s-md{{0,151,85}}**D{{51,0,93}}**Z1{{464,602,93}}-!
+D&md&md&md_-?800-+lshould give +s-md{{0,151,85}}**D{{51,0,93}}**N{{299,404,58}}-!
+stp&n&ra__-?800-+lshould give +s-stp{{8,246,100}}**n{{0,772,100}}**ra{{542,0,100}}-!
+s&mt__-?800-+lshould give +s-s{{404,0,98}}**mt{{0,375,98}}-!
+G26&t&y__-?800-+lshould give +s-G26{{31,0,98}}**t{{0,840,75}}**y{{722,822,47}}-!

@@ -74,5 +74,6 @@ public class TestPropertyButtons {
 	
 	public static void main(String[] args) {
 		TestPropertyButtons t= new TestPropertyButtons();
+		System.out.println(t); // Simply to remove the warning.
 	}
 }

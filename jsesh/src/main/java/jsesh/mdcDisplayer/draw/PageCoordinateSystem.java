@@ -10,7 +10,7 @@ import java.awt.geom.NoninvertibleTransformException;
  * <p>Objects of this class can be used when one wants to convert back the coordinates 
  * of a given shape, currently expressed in a relative reference system, and get them 
  * in the original page system. 
- * <p> This is usefull when it comes to alignment and the like.
+ * <p> This is useful when it comes to alignment and the like.
  * @author rosmord
  *
  */

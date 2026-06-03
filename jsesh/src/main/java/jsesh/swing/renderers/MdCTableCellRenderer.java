@@ -2,7 +2,7 @@ package jsesh.swing.renderers;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Renders mdc codes as hieroglyphic texts in tables.
@@ -13,11 +13,18 @@ import jsesh.swing.utils.ImageIconFactory;
 @SuppressWarnings("serial")
 public class MdCTableCellRenderer extends DefaultTableCellRenderer {
 
+	private MDCIconFactory mdcIconFactory;
+
+	public MdCTableCellRenderer(MDCIconFactory mdcIconFactory) {
+		this.mdcIconFactory = mdcIconFactory;
+	}
+
 	@Override
 	protected void setValue(Object value) {
+		
 		if (value instanceof String) {
 			String mdc= (String) value;
-			setIcon(ImageIconFactory.getInstance().buildImage(mdc));
+			setIcon(mdcIconFactory.buildImage(mdc));
 		}
 	}
 

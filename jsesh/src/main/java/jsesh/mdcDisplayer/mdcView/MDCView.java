@@ -10,7 +10,6 @@ import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElement;
 import jsesh.mdc.model.SubCadrat;
-import jsesh.mdcDisplayer.drawingElements.ViewBox;
 
 /**
  * Base class for all view elements. A view element is a view of an MDC model
@@ -420,7 +419,7 @@ public class MDCView implements ViewBox {
 	 * When computing the layout, we use the notion of current point (somehow as
 	 * in HTML layout), which is where the current algorithm would want to place
 	 * this view. However, some views have they own idea about their placement. For instance,
-	 * latin text will not have the same vertical alignment as quadrants.  So {@link #deltaBaseX} and {@link #deltaBaseY}
+	 * latin text will not have the same vertical alignment as quadrats.  So {@link #deltaBaseX} and {@link #deltaBaseY}
 	 * are somehow similar to the notion of relative position in HTML.
 	 * 
 	 * <p> Note that this is actually only used for latin text (as of 2013/2/25).

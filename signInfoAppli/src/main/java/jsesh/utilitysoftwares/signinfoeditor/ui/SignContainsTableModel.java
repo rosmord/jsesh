@@ -3,7 +3,6 @@ package jsesh.utilitysoftwares.signinfoeditor.ui;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
-import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
 
 public class SignContainsTableModel extends SignPropertyTableModel {
@@ -20,8 +19,8 @@ public class SignContainsTableModel extends SignPropertyTableModel {
 		});
 	}
 
-	protected XMLInfoProperty buildDefaultSignProperty(String code) {
-		XMLInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.CONTAINS, true);
+	protected SignInfoProperty buildDefaultSignProperty(String code) {
+		SignInfoProperty prop= new SignInfoProperty(SignDescriptionConstants.CONTAINS, true);
 		prop.setAttribute(SignDescriptionConstants.PART_CODE, code);
 		return prop;
 	}

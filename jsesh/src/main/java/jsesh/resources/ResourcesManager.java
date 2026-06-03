@@ -22,8 +22,10 @@ import javax.swing.ImageIcon;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
 /**
- * A container for various resources (like fonts).
+ * A container for various internal resources like fonts and icons.
  *
+ * <p> This is legitimately a singleton. We can have many fonts, but this class deals only with fonts which are embedded in the 
+ * application jars.
  * @author rosmord
  *
  */
@@ -31,9 +33,29 @@ public class ResourcesManager {
 
     static private ResourcesManager instance;
 
-    private Font transliterationFont;
+    /**
+     * Access to the singleton instance.
+     * Should be called on the event dispatch thread if we are using JSesh as a GUI library.
+     * <p> It can be called from another thread if we are using JSesh for building pictures in an headless environment.
+     * @return
+     */
+    static public ResourcesManager getInstance() {
+        if (instance == null) {
+            instance = new ResourcesManager();
+        }
+        return instance;
+    }
 
-    private Font unicodeFont;
+    /**
+     * the default Mdc Compatible transliteration font.
+     */
+    private Font mdcTransliterationFont;
+
+    /**
+     * The default unicode font with transliteration characters.
+     */
+    private Font unicodeTransliterationFont;
+
     /**
      * Name of the file (in the package ResourcesManager) which contains the
      * definitions for the various icons. A global convention shall be that
@@ -75,11 +97,11 @@ public class ResourcesManager {
     }
 
     private void loadFonts() {
-        transliterationFont = loadStreamFont("/jseshResources/fonts/MDCTranslitLC.ttf", Font.ITALIC);
-        transliterationFont = transliterationFont.deriveFont(12f);
+        mdcTransliterationFont = loadStreamFont("/jseshResources/fonts/MDCTranslitLC.ttf", Font.ITALIC);
+        mdcTransliterationFont = mdcTransliterationFont.deriveFont(12f);
 
-        unicodeFont = loadStreamFont("/jseshResources/fonts/EgyptoSerif.ttf", Font.PLAIN);
-        unicodeFont = unicodeFont.deriveFont(12f);
+        unicodeTransliterationFont = loadStreamFont("/jseshResources/fonts/EgyptoSerif.ttf", Font.PLAIN);
+        unicodeTransliterationFont = unicodeTransliterationFont.deriveFont(12f);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -116,18 +138,13 @@ public class ResourcesManager {
         return result;
     }
 
-    static public ResourcesManager getInstance() {
-        if (instance == null) {
-            instance = new ResourcesManager();
-        }
-        return instance;
-    }
+    
 
     /**
      * @return the font for translitteration.
      */
-    public Font getTransliterationFont() {
-        return transliterationFont;
+    public Font getMdcTransliterationFont() {
+        return mdcTransliterationFont;
     }
 
     public Reader getLigatureData() {
@@ -182,12 +199,12 @@ public class ResourcesManager {
     }
 
     /**
-     * Return the unicode font. (this is a testing feature)
+     * Return the unicode font.
      *
      * @return the unicodeFont
      */
-    public Font getUnicodeFont() {
-        return unicodeFont;
+    public Font getUnicodeTransliterationFont() {
+        return unicodeTransliterationFont;
     }
 
 }

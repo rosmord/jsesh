@@ -1,7 +1,7 @@
 # JSesh sources
 Welcome to JSesh sources! 
 
-**Java 11**
+**Java 21**
 
 
 JSesh is a Java hieroglyphic editor 
@@ -93,9 +93,15 @@ That's it.
 
 ## Working with VSCode
 
-Interaction between VSCode and Maven is not that easy (again, because of generated files). I'm not sure I will spend the time to do it.
+Interaction between VSCode and Maven is not that easy (again, because of generated files).
 
+I have had problems with java versions. I tend to have **multiple** java version on my machine, and vscode plus maven don't use the same one if the **default** java version is not the one I need. It's pretty annoying.
 
+Also, vscode doesn't understand it needs to run `mvn install` for the plugins. So you must do it yourself.
+
+Either run `./mvnw install` in the root of the project on the command line, or use the vscode maven interface, selecting *maven/JSesh Complete distribution/Lifecycle/install*.
+
+The use the vscode command **Java: Clean Java Language Server Workspace** to get vscode to understand the generated files.
 
 ## Building distributions
 

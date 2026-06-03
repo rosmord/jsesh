@@ -1,13 +1,16 @@
 package jsesh.graphics.export.generic;
 
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * Base utility class which can be extended when one needs to draw a specific
@@ -36,23 +39,30 @@ public abstract class AbtractExportDrawer {
     private MDCView currentView;
     private float scaledWidth, scaledHeight;
     private double cadratHeight;
-    private final ViewBuilder viewBuilder;
-    private final DrawingSpecification drawingSpecifications;
+    private JSeshRenderContext renderContext;
+    private JSeshTechRenderContext techRenderContext;
+    /**
+     * Ask for the shading operations to be performed after all drawings.
+     */
     private boolean shadeAfter;
 
     /**
      * @param viewBuilder the builder used to create views.
-     * @param drawingSpecifications the general drawing specifications
-     * @param cadratHeight the actual quadrant height we want.
+     * @param renderContext the general drawing specifications
+     * @param cadratHeight the actual quadrat height we want.
      */
-    protected AbtractExportDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecifications, double cadratHeight) {
-        this.viewBuilder = viewBuilder;
-        this.drawingSpecifications = drawingSpecifications.copy();
-        this.drawingSpecifications.setGraphicDeviceScale(1);
+    protected AbtractExportDrawer(JSeshRenderContext renderContext, FontRenderContext fontRenderContext, double cadratHeight) {
+        this.techRenderContext = new JSeshTechRenderContext(fontRenderContext, 1.0);
+        this.renderContext = renderContext;                
         this.cadratHeight = cadratHeight;
         this.shadeAfter = true;
     }
 
+
+    protected void setTechRenderContext(JSeshTechRenderContext techRenderContext) {
+        this.techRenderContext = techRenderContext;
+    }
+    
     /**
      * Utility method to draw a list of model elements.
      * <p>
@@ -60,10 +70,14 @@ public abstract class AbtractExportDrawer {
      * @param list
      */
     public void drawTopItemList(TopItemList list) {
-        double scale = (double) getCadratHeight()
-                / getDrawingSpecifications().getMaxCadratHeight();
+        JSeshStyle style = renderContext.jseshStyle();
 
-        currentView = getBuilder().buildView(list, getDrawingSpecifications());
+        double scale = (double) getCadratHeight()
+                / style.geometry().maxCadratHeight();
+
+
+        ViewBuilder builder = new ViewBuilder();
+        currentView = builder.buildView(list, renderContext, techRenderContext);
 
         if (currentView.getWidth() == 0 || currentView.getHeight() == 0) {
             return;
@@ -77,10 +91,10 @@ public abstract class AbtractExportDrawer {
 
         Graphics2D g = buildGraphics();
 
-        g.setColor(getDrawingSpecifications().getBlackColor());
-        g.setBackground(getDrawingSpecifications().getBackgroundColor());
+        g.setColor(style.painting().blackColor());
+        g.setBackground(style.painting().backgroundColor());
         g.scale(scale, scale);
-        drawer.draw(g, currentView, getDrawingSpecifications());
+        drawer.draw(g, renderContext, techRenderContext, currentView);
         g.dispose();
     }
 
@@ -110,14 +124,6 @@ public abstract class AbtractExportDrawer {
      */
     protected abstract Graphics2D buildGraphics();
 
-    public ViewBuilder getBuilder() {
-        return viewBuilder;
-    }
-
-    public DrawingSpecification getDrawingSpecifications() {
-        return drawingSpecifications;
-    }
-
     /**
      * @param cadratHeight The cadratHeight to set.
      */
@@ -137,12 +143,6 @@ public abstract class AbtractExportDrawer {
      */
     public MDCView getCurrentView() {
         return currentView;
-        /*
-	     * (non-Javadoc)
-	     * 
-	     * @see java.awt.Graphics2D#draw(java.awt.Shape)
-         */
-
     }
 
     /**
@@ -174,6 +174,15 @@ public abstract class AbtractExportDrawer {
      */
     public final void setShadeAfter(boolean shadeAfter) {
         this.shadeAfter = shadeAfter;
+    }
+
+
+    public void setRenderContext(JSeshRenderContext renderContext) {
+        this.renderContext = renderContext;
+    }
+
+    public JSeshRenderContext getRenderContext() {
+        return renderContext;
     }
 
 }

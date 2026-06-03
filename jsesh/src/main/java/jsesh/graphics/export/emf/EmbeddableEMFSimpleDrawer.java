@@ -1,14 +1,14 @@
 package jsesh.graphics.export.emf;
 
-import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
+import java.awt.Graphics2D;
+import java.io.IOException;
+
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
-import java.awt.*;
-import java.io.IOException;
+import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
 
 /**
  * A drawer which can be used to generate EMF pictures for embedding.
@@ -22,13 +22,13 @@ public class EmbeddableEMFSimpleDrawer extends AbstractRTFEmbeddableDrawer {
 	/**
 	 * Creates the drawer.
 	 * @param viewBuilder the view builder to use
-	 * @param drawingSpecification the drawing specifications
-	 * @param cadratHeight the desired quadrant height
+	 * @param renderContext the JSeshRenderContext
+	 * @param cadratHeight the desired quadrat height
 	 * @param comment a comment to include in the files.
 	 */
-	public EmbeddableEMFSimpleDrawer(ViewBuilder viewBuilder, DrawingSpecification drawingSpecification, double cadratHeight,
+	public EmbeddableEMFSimpleDrawer(JSeshRenderContext renderContext, double cadratHeight,
 									 String comment) {
-		super(viewBuilder, drawingSpecification, cadratHeight);
+		super(renderContext, cadratHeight);
 		setShadeAfter(false);
 		this.comment = comment;
 	}

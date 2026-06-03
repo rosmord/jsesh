@@ -20,8 +20,8 @@ import jsesh.mdc.model.SubCadrat;
 import jsesh.mdc.model.TopItem;
 
 /**
- * Expert able to build a quadrant from a list of two elements. The result is a
- * new quadrant, in which the second element is inserted in the lower row of the
+ * Expert able to build a quadrat from a list of two elements. The result is a
+ * new quadrat, in which the second element is inserted in the lower row of the
  * first.
  * 
  * @author S. Rosmorduc
@@ -30,14 +30,14 @@ import jsesh.mdc.model.TopItem;
 public class CadratStarInserter {
 
 	/**
-	 * build a new quadrant, in which the second element is inserted in the
+	 * build a new quadrat, in which the second element is inserted in the
 	 * lower row of the first.
 	 * 
 	 * @param c1
-	 *            the container quadrant.
+	 *            the container quadrat.
 	 * @param c2
-	 *            the quadrant to insert.
-	 * @return a quadrant, or null if it couldn't build one.
+	 *            the quadrat to insert.
+	 * @return a quadrat, or null if it couldn't build one.
 	 */
 	public Cadrat buildCadrat(TopItem c1, TopItem c2) {
 		Cadrat result = null;
@@ -53,7 +53,7 @@ public class CadratStarInserter {
 	}
 
 	/**
-	 * Visitor that build a quadrant from a TopItem, if possible.
+	 * Visitor that build a quadrat from a TopItem, if possible.
 	 * <p>
 	 * <p>
 	 * Note : with the current structure, which is a bit convoluted simply
@@ -91,10 +91,10 @@ public class CadratStarInserter {
 
 	/**
 	 * Visitor which adds elements of the second top item inside the new
-	 * quadrant.
+	 * quadrat.
 	 * <p>
 	 * If the second element is basically a list of items (i.e. a one level
-	 * quadrant), we take its elements, and add them.
+	 * quadrat), we take its elements, and add them.
 	 * <p>
 	 * If the second element is more complex, we make a
 	 * 
@@ -104,7 +104,7 @@ public class CadratStarInserter {
 	private class CadratInserterAux extends ModelElementAdapter {
 
 		/**
-		 * The result quadrant.
+		 * The result quadrat.
 		 */
 		Cadrat result;
 		boolean noChange = true;
@@ -113,7 +113,7 @@ public class CadratStarInserter {
 		 * insert c2 in c.
 		 * 
 		 * @param c
-		 *            the target quadrant (will be modified)
+		 *            the target quadrat (will be modified)
 		 * @param c2
 		 * @return the corresponding cadrat.
 		 */

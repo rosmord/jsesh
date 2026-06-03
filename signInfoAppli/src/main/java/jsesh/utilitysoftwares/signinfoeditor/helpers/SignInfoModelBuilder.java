@@ -127,4 +127,9 @@ public class SignInfoModelBuilder implements SignDescriptionBuilder {
 	public void setSignAlwaysDisplay(String currentSign) {
 		signInfoModel.setSignAlwaysDisplay(currentSign,inUserPart);
 	}
+
+    public SignInfoModel buildEmptyModel() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buildEmptyModel'");
+    }
 }

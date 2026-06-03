@@ -2,7 +2,7 @@ package jsesh.jhotdraw.actions;
 
 import javax.swing.Action;
 
-import jsesh.jhotdraw.viewClass.JSeshView;
+import jsesh.jhotdraw.documentview.JSeshView;
 
 /**
  * Extracts an action from a view, or create one if no view is available.

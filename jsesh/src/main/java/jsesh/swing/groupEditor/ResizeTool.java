@@ -7,9 +7,8 @@ package jsesh.swing.groupEditor;
 
 import java.awt.geom.Point2D;
 import java.util.Optional;
-import jsesh.mdc.model.Hieroglyph;
+
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 import jsesh.swing.utils.GeometryHelper;
 
 /**
@@ -179,11 +178,11 @@ public class ResizeTool implements GroupEditorListener {
             int scale = (int) (ratio * 100.0);
             // Now, position...
             Point2D newPos = GeometryHelper.homotheticImage(centerPoint, ratio, originalGlyphPosition);
-            // Transform this position in picture space into a position in group space...
-            double unitLength = editor.getGroupEditorDrawingPreferences().getDrawingSpecifications().getHieroglyphsDrawer()
-                    .getGroupUnitLength();
+            // Transform this position in picture space into a position in group space...           
+            int x = editor.screenUnitToGroupUnit(newPos.getX());
+            int y = editor.screenUnitToGroupUnit(newPos.getY());
             return Optional.of(
-                    new PositionAndScale((int) (newPos.getX() / unitLength), (int) (newPos.getY() / unitLength), scale)
+                    new PositionAndScale(x, y, scale)
             );
         } else {
             return Optional.empty();

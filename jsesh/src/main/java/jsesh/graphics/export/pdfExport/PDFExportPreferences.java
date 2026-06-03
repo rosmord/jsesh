@@ -6,11 +6,10 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.DrawingSpecificationsImplementation;
-
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
+
+import jsesh.drawingspecifications.JSeshStyle;
 
 public class PDFExportPreferences {
 	
@@ -33,9 +32,9 @@ public class PDFExportPreferences {
 
 	private boolean showPageNumbers;
 
-	private DrawingSpecification drawingSpecifications = new DrawingSpecificationsImplementation();
-
 	private Color backgroundColor = Color.WHITE;
+
+	private JSeshStyle jseshStyle = JSeshStyle.DEFAULT;
 
 	/**
 	 * The possible page sizes. keys are formats, values are rectangles. Could
@@ -170,6 +169,21 @@ public class PDFExportPreferences {
 	}
 
 	/**
+	 * @param jseshStyle the jseshStyle to set
+	 */
+	public void setJseshStyle(JSeshStyle jseshStyle) {
+		this.jseshStyle = jseshStyle;
+	}
+
+	/**
+	 * @return the jseshStyle
+	 */
+	public JSeshStyle getJseshStyle() {
+		return jseshStyle;
+	}
+
+	
+	/**
 	 * @return the showPageNumbers
 	 */
 	public boolean isShowPageNumbers() {
@@ -181,20 +195,6 @@ public class PDFExportPreferences {
 	 */
 	public void setShowPageNumbers(boolean showPageNumbers) {
 		this.showPageNumbers = showPageNumbers;
-	}
-
-	/**
-	 * @return the drawingSpecifications
-	 */
-	public DrawingSpecification getDrawingSpecifications() {
-		return drawingSpecifications;
-	}
-
-	/**
-	 * @param drawingSpecifications the drawingSpecifications to set
-	 */
-	public void setDrawingSpecifications(DrawingSpecification drawingSpecifications) {
-		this.drawingSpecifications = drawingSpecifications;
 	}
 
 	/**
@@ -219,9 +219,10 @@ public class PDFExportPreferences {
 	}
 
 	/**
+	 * Sets the page formats.
 	 * @param pageFormats the pageFormats to set
 	 */
-	public void setPageFormats(TreeMap pageFormats) {
+	public void setPageFormats(Map<String, Rectangle> pageFormats) {
 		this.pageFormats = pageFormats;
 	}
 
@@ -276,6 +277,7 @@ public class PDFExportPreferences {
 	public void setEncapsulated(boolean embedded) {
 		this.encapsulated = embedded;
 	}
+	
 	
 	/**
 	 * We fill a table mapping names of page dimensions to actual values. this

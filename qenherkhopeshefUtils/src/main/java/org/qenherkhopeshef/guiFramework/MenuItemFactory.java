@@ -22,7 +22,7 @@ public class MenuItemFactory {
 	 * Map from group names to groups.
 	 * <String,ButtonGroup>
 	 */
-	private HashMap groupMap= new HashMap();
+	private HashMap<String,ButtonGroup> groupMap= new HashMap<>();
 	
 	/**
 	 * Create a menu item for a given action.
@@ -67,7 +67,7 @@ public class MenuItemFactory {
 		
 		if (! groupMap.containsKey(groupName))
 			groupMap.put(groupName, new ButtonGroup());
-		ButtonGroup group= (ButtonGroup)groupMap.get(groupName);
+		ButtonGroup group= groupMap.get(groupName);
 		group.add(result);
 		return result;
 	}

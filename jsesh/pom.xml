@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.11</version>
+        <version>8.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>jsesh</artifactId>
     <packaging>jar</packaging>
@@ -15,7 +16,7 @@
         <plugins>
             <plugin>
                 <groupId>org.qenherkhopeshef.jsesh</groupId>
-                <artifactId>cupAndlex</artifactId>
+                <artifactId>cupandlex-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>
                     <!-- expect a warning here from the eclipse plugin which doesn't know what to do here. -->
@@ -79,6 +80,36 @@
                 </executions>
               </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <!-- Eclipse m2e lifecycle mapping only; no effect on Maven CLI build. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.qenherkhopeshef.jsesh</groupId>
+                                        <artifactId>cupandlex-maven-plugin</artifactId>
+                                        <versionRange>[1,)</versionRange>
+                                        <goals>
+                                            <goal>cup</goal>
+                                            <goal>lex</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

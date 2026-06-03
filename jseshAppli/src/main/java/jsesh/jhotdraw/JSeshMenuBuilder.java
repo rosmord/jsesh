@@ -1,7 +1,39 @@
+/*
+Copyright Serge Rosmorduc
+contributor(s) : Serge J. P. Thomas for the fonts
+serge.rosmorduc@qenherkhopeshef.org
+
+This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software.  You can  use, 
+modify and/ or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info". 
+
+As a counterpart to the access to the source code and  rights to copy,
+modify and redistribute granted by the license, users are provided only
+with a limited warranty  and the software's author,  the holder of the
+economic rights,  and the successive licensors  have only  limited
+liability. 
+
+In this respect, the user's attention is drawn to the risks associated
+with loading,  using,  modifying and/or developing or reproducing the
+software by the user in light of its specific status of free software,
+that may mean  that it is complicated to manipulate,  and  that  also
+therefore means  that it is reserved for developers  and  experienced
+professionals having in-depth computer knowledge. Users are therefore
+encouraged to load and test the software's suitability as regards their
+requirements in conditions enabling the security of their systems and/or 
+data to be ensured and,  more generally, to use and operate it in the 
+same conditions as regards security. 
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+ */
 package jsesh.jhotdraw;
 
 import jsesh.editor.actions.group.CenterGroupAction;
-import jsesh.jhotdraw.viewClass.JSeshView;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -29,7 +61,7 @@ import jsesh.jhotdraw.actions.edit.FindInFolderAction;
 import jsesh.jhotdraw.actions.edit.InsertNextLineNumberAction;
 import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
-import jsesh.jhotdraw.actions.file.ApplyModelAction;
+import jsesh.jhotdraw.actions.file.ApplySavedStyleAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
@@ -40,12 +72,14 @@ import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
 import jsesh.jhotdraw.actions.file.QuickPDFExportAction;
 import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
-import jsesh.jhotdraw.actions.file.SetAsModelAction;
+import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
+import jsesh.jhotdraw.constants.AdditionalSymbols;
+import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
 
@@ -215,8 +249,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 fileMenu.add(importMenu);
                 fileMenu.add(exportMenu);
                 fileMenu.addSeparator();
-                addToMenu(fileMenu, app, jSeshView, SetAsModelAction.ID);
-                addToMenu(fileMenu, app, jSeshView, ApplyModelAction.ID);
+                addToMenu(fileMenu, app, jSeshView, UpdateNewDocumentStyleAction.ID);
+                addToMenu(fileMenu, app, jSeshView, ApplySavedStyleAction.ID);
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, EditDocumentPreferencesAction.ID);
 
@@ -245,7 +279,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 "format");
 
                 /**
-                 * TODO Add the actions to the map...
+                 * Add the actions to the map...
                  */
                 ButtonGroup orientationGroup = new ButtonGroup();
 
@@ -339,7 +373,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         }
 
         /**
-         * Build a menu for shading quadrants.
+         * Build a menu for shading quadrats.
          *
          * @param v
          * @param a

@@ -35,11 +35,12 @@
 package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
-import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.viewClass.JSeshView;
+
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
+
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 
 /**
  * Find an element action.
@@ -48,19 +49,18 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
  *
  * @author rosmord
  */
-public class FindNextAction extends AbstractViewAction {
+public class FindNextAction extends AbstractCoreViewAction {
 
     public static final String ID = "edit.findNext";
 
     public FindNextAction(Application app, View view) {
         super(app, view);
-        BundleHelper.getInstance().configure(this);
+        BundleHelper.getInstance().configure(this, ID);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JSeshView jseshView= (JSeshView) getActiveView();
-        jseshView.nextSearch();
+        viewCore().ifPresent(v ->v.nextSearch());
     }
 
 }

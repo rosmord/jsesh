@@ -33,12 +33,10 @@
  */
 package jsesh.glossary;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
-import java.beans.EventHandler;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,9 +46,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCField;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.renderers.MdCTableCellRenderer;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Graphical glossary editor for JSesh.
@@ -64,37 +67,41 @@ public class JGlossaryEditor extends JPanel {
 	 * Optional JFrame, if we want to create a separate editor.
 	 */
 	private JFrame frame;
-	
+
 	private JTextField codeField;
 	private JMDCField mdcField;
 	private JTable table;
 	private JButton okButton;
 	private GlossaryTableModel model;
-	private ButtonUpdater buttonUpdater = new ButtonUpdater();
+	private MDCIconFactory mdcIconFactory;
 
-	public JGlossaryEditor() {
-		model = new GlossaryTableModel();
+	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyle jSeshStyle,
+			HieroglyphToolkit hieroglyphToolKit) {
+		this(glossaryManager, new JSeshStyleReference(jSeshStyle), hieroglyphToolKit);
+	}
+
+	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyleReference styleRef,
+			HieroglyphToolkit hieroglyphToolKit) {
+		model = new GlossaryTableModel(glossaryManager);
 		codeField = new JTextField(10);
-		mdcField = new JMDCField();
+		mdcField = new JMDCField(WIDTH, styleRef, hieroglyphToolKit);
+
 		table = new JTable(model);
-	    table.setTableHeader(null);
+		table.setTableHeader(null);
+
+		mdcIconFactory = new MDCIconFactory(hieroglyphToolKit.hieroglyphShapeRepository());
 
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fixTable();
 
 		okButton = new JButton(JSeshMessages.getString("JGlossaryEditor.add.label"));
-		okButton.addActionListener(EventHandler.create(ActionListener.class,
-				this, "addEntry"));
-		mdcField.getHieroglyphicTextModel().addObserver(
-				EventHandler.create(Observer.class, buttonUpdater, "run"));
-		codeField.addActionListener(EventHandler.create(ActionListener.class,
-				buttonUpdater, "run"));
+		okButton.addActionListener(e -> addEntry());
 		prepareLayout();
 	}
 
 	private void fixTable() {
 		table.getColumnModel().getColumn(1)
-				.setCellRenderer(new MdCTableCellRenderer());
+				.setCellRenderer(new MdCTableCellRenderer(mdcIconFactory));
 		JRemoveButtonCell removeButton = new JRemoveButtonCell(model);
 		table.getColumnModel().getColumn(2).setCellRenderer(removeButton);
 		table.getColumnModel().getColumn(2).setCellEditor(removeButton);
@@ -107,7 +114,8 @@ public class JGlossaryEditor extends JPanel {
 	public void addEntry() {
 		String code = codeField.getText().replaceAll("[^a-zA-Z0-9]", "");
 		String mdc = mdcField.getMDCText();
-		if ("".equals(mdc) || "".equals(code)) return;
+		if ("".equals(mdc) || "".equals(code))
+			return;
 		model.addEntry(code, mdc);
 		codeField.setText("");
 		mdcField.clearText();
@@ -146,31 +154,38 @@ public class JGlossaryEditor extends JPanel {
 
 	public void prepareToAdd(String mdc) {
 		mdcField.setMDCText(mdc);
-		codeField.requestFocusInWindow();		
+		codeField.requestFocusInWindow();
 	}
 
-	private class ButtonUpdater implements Runnable {
-		public void run() {
-		}
-	}
-	
 	public JFrame getFrame() {
-		if (frame== null) {
-			frame= new JFrame();
+		if (frame == null) {
+			frame = new JFrame();
 			frame.add(this);
 			frame.pack();
 		}
 		return frame;
 	}
 
+	public boolean isVisible() {
+		return getFrame().isVisible();
+	}
+
+	public void setVisible(boolean visible) {
+		getFrame().setVisible(visible);
+	}
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
-                    JFrame demo = new JFrame();
-                    JGlossaryEditor editor = new JGlossaryEditor();
-                    demo.add(editor);
-                    demo.pack();
-                    demo.setVisible(true);
-                    demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                });
+			GlossaryManager glossaryManager = new GlossaryManager();
+			JFrame demo = new JFrame();
+			JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
+			HieroglyphToolkit toolKit = new JSeshUserSignLibraryConfiguration();
+			JGlossaryEditor editor = new JGlossaryEditor(glossaryManager, styleRef, toolKit);
+			demo.setLayout(new BorderLayout());
+			demo.add(editor, BorderLayout.CENTER);
+			demo.pack();
+			demo.setVisible(true);
+			demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		});
 	}
 }

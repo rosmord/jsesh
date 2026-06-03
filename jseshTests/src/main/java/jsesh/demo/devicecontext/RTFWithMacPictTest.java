@@ -12,7 +12,7 @@ import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 public class RTFWithMacPictTest {
 
 	public static void main(String[] args) throws Exception {
-		MDCDrawingFacade drawingFacade= new MDCDrawingFacade();
+		MDCDrawingFacade drawingFacade= MDCDrawingFacade.buildDefault();
 		MacPictGraphics2D macPictGraphics2D= new MacPictGraphics2D();
 		Rectangle2D r = drawingFacade.draw("i-w-r:a-ra-m-p*t:pt", macPictGraphics2D, 0, 0);
 		macPictGraphics2D.dispose();

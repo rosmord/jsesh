@@ -17,7 +17,7 @@ import jsesh.mdc.model.ModelElement;
 public class Insertion extends ModelOperation {
 	
 	private int index;
-	private List children;
+	private List<ModelElement> children;
 
 	/**
 	 * 
@@ -38,9 +38,9 @@ public class Insertion extends ModelOperation {
 	 * @param children the elements to add.
 	 */
 	
-	public Insertion(ModelElement element, int index, List children) {
+	public Insertion(ModelElement element, int index, List<ModelElement> children) {
 		super(element);
-		this.index= index;
+		this.index= index;		
 		this.children= children;
 	}
 	
@@ -48,7 +48,7 @@ public class Insertion extends ModelOperation {
 	/**
 	 * @return Returns the children.
 	 */
-	public List getChildren() {
+	public List<ModelElement> getChildren() {
 		return children;
 	}
 	

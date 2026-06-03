@@ -45,7 +45,7 @@ import javax.swing.Action;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.mdc.model.ShadingCode;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Action for shading. Applies on an editor.
@@ -66,9 +66,9 @@ public class EditorShadeAction extends EditorAction {
         KeyEvent.VK_A, KeyEvent.VK_B, KeyEvent.VK_C, KeyEvent.VK_D,
         KeyEvent.VK_E, KeyEvent.VK_F};
 
-    public EditorShadeAction(JMDCEditor editor, int shade, String mdcLabel) {
+    public EditorShadeAction(JMDCEditor editor, int shade, String mdcLabel, MDCIconFactory iconFactory) {
         super(editor, "" + mnemonicChars[shade] + ". ", 
-                ImageIconFactory.getInstance().buildImage(mdcLabel));
+                iconFactory.buildImage(mdcLabel));
         this.shade = shade;
         this.putValue(EditorShadeAction.MNEMONIC_KEY, mnemonicCodes[shade]);
     }
@@ -87,11 +87,11 @@ public class EditorShadeAction extends EditorAction {
      * @param editor
      * @return a map of action id, action.
      */
-    public static Map<String, Action> generateActionMap(JMDCEditor editor) {
+    public static Map<String, Action> generateActionMap(JMDCEditor editor, MDCIconFactory iconFactory) {
         TreeMap<String, Action> result = new TreeMap<String, Action>();
         for (int i = 0; i < 16; i++) {
             String iconMdC = "G1" + ShadingCode.toString("#", i);
-            result.put(getActionName(i), new EditorShadeAction(editor, i, iconMdC));
+            result.put(getActionName(i), new EditorShadeAction(editor, i, iconMdC, iconFactory));
         }
         return result;
     }
@@ -113,10 +113,10 @@ public class EditorShadeAction extends EditorAction {
         return id;
     }
 
-    public static void preloadIcons() {
+    public static void preloadIcons(MDCIconFactory iconFactory) {
     		for (int i = 0; i < 16; i++) {
             String iconMdC = "G1" + ShadingCode.toString("#", i);
-            ImageIconFactory.getInstance().buildImage(iconMdC);
+            iconFactory.buildImage(iconMdC);
         }
     }
 }

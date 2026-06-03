@@ -33,6 +33,8 @@
  */
 package jsesh.glossary;
 
+import static jsesh.mdc.transliteration.TransliterationUtilities.removeHyphens;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -40,8 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import jsesh.mdc.translitteration.MDCTransliterationComparator;
-import static jsesh.mdc.translitteration.TransliterationUtilities.removeHyphens;
+import jsesh.mdc.transliteration.MDCTransliterationComparator;
 
 public class JSeshGlossary implements Iterable<GlossaryEntry> {
 

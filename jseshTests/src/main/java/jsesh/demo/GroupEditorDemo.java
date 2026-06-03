@@ -10,11 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCField;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.layout.MDCEditorKit;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
@@ -25,8 +28,12 @@ import jsesh.swing.groupEditor.GroupEditorDialog;
  * The advantage is that it starts faster than the whole JSesh software.
  * @author rosmord
  */
-class GroupEditorDemo extends JFrame{
+class GroupEditorDemo extends JFrame {
      
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GroupEditorDemo());
+    }
+
     JMDCField editor;
     GroupEditorDialog groupEditor;
     JButton validateButton;
@@ -34,7 +41,7 @@ class GroupEditorDemo extends JFrame{
     
     public GroupEditorDemo() throws HeadlessException {
         editor = new JMDCField();
-        groupEditor = new GroupEditorDialog();
+        groupEditor = new GroupEditorDialog(new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));
         validateButton = new JButton("ok");
         validateButton.addActionListener(e -> getBackGroup());
         setLayout(new GridBagLayout());
@@ -55,17 +62,14 @@ class GroupEditorDemo extends JFrame{
         editor.setMDCText("p*t:pt");
     }
     
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GroupEditorDemo());
-    }
-
     private void editGroup() {
         TopItemList topItems = editor.getHieroglyphicTextModel().getModel();
         // AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(), editor.getDrawingSpecifications());
         // The absolute group builder has a problem when using alternate specifications,
         // especially specs.setStandardSignHeight(textHeight);
-        AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(),MDCEditorKit.getBasicMDCEditorKit()
-                            .getDrawingSpecifications());
+        AbsoluteGroupBuilder groupBuilder = new AbsoluteGroupBuilder();
+        JSeshRenderContext renderContext = new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository());  
+        AbsoluteGroup group = groupBuilder.createAbsoluteGroupFrom(topItems.asList(), renderContext, JSeshTechRenderContext.VECTOR_CONTEXT);
         groupEditor.setGroup(group);
         TopItemList top = new TopItemList();
         top.addTopItem(group.buildTopItem());

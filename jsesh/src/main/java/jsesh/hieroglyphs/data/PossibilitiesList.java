@@ -39,8 +39,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import jsesh.mdc.model.TopItemList;
-
 /**
  * A list of possible signs for a given phonetic phonCode. Created and updated
  * only by the hieroglyphsManager. In each list, a sign is selected as the

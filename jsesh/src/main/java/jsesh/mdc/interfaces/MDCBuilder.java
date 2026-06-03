@@ -1,7 +1,6 @@
 package jsesh.mdc.interfaces;
 
 import jsesh.mdc.constants.ToggleType;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
 
 /**
  * An abstract builder used to build the components of a MDC Result.
@@ -84,7 +83,7 @@ public interface MDCBuilder {
      * 	(in "tab units")
      * @param endPos an absolute integer position from left edge of the page (?). 
      * 	(in "tab units")
-     * @see DrawingSpecification#getTabUnitWidth()
+     * @see PaintingSpecifications#getTabUnitWidth()
      */
 
     public void addHRuleToTopItemList(TopItemListInterface l, char lineType, int startPos, int endPos);

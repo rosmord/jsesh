@@ -151,7 +151,7 @@ public class BundledAction extends AbstractAction {
      */
     private void callMethod(Object actualTarget) throws SecurityException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Class<? extends Object> cls = actualTarget.getClass();
-        Class[] argsClasses;
+        Class<?>[] argsClasses;
         argsClasses = new Class[this.methodArguments.length];
         Arrays.fill(argsClasses, String.class);
         Method m = cls.getMethod(methodName, argsClasses);

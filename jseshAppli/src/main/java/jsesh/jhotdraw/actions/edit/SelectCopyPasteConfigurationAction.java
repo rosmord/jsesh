@@ -6,9 +6,9 @@ package jsesh.jhotdraw.actions.edit;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.jhotdraw.ExportType;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.constants.ExportType;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

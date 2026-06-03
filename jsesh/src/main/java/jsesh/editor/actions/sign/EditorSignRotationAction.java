@@ -41,10 +41,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Action for rotating a sign.
@@ -58,11 +59,11 @@ public class EditorSignRotationAction extends EditorAction {
 
 	private int angle;
 
-	public EditorSignRotationAction(JMDCEditor editor, int angle) {
+	public EditorSignRotationAction(JMDCEditor editor, int angle, MDCIconFactory iconFactory) {
 		super(editor);
 		putValue(NAME, angle + "°");
 		String mdcText= "A\\R" + angle;
-		putValue(Action.SMALL_ICON, ImageIconFactory.getInstance().buildImage(mdcText));
+		putValue(Action.SMALL_ICON, iconFactory.buildImage(mdcText));
 		this.angle= angle;
 	}
 
@@ -105,10 +106,11 @@ public class EditorSignRotationAction extends EditorAction {
 		return result;
 	}
 	
-	public static Map<String, Action> generateActionMap(JMDCEditor editor) {
+	public static Map<String, Action> generateActionMap(JMDCEditor editor, MDCIconFactory iconFactory) {
 		TreeMap<String, Action> map = new TreeMap<String, Action>();
 		for (RotationInfo info: rotationInfos) {
-			map.put(info.id,		new EditorSignRotationAction(editor, info.angle));
+			map.put(info.id,
+				new EditorSignRotationAction(editor, info.angle, iconFactory));
 		}
 		return map;
 	}

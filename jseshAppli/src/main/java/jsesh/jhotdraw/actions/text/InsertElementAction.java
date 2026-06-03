@@ -1,20 +1,19 @@
 package jsesh.jhotdraw.actions.text;
 
 import java.awt.event.ActionEvent;
-import static javax.swing.Action.SMALL_ICON;
-
-import jsesh.editor.JMDCEditor;
-import jsesh.jhotdraw.viewClass.JSeshView;
-import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
-import jsesh.swing.utils.ImageIconFactory;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
+
+import jsesh.editor.JMDCEditor;
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.jhotdraw.documentview.JSeshView;
+import jsesh.mdc.constants.LexicalSymbolsUtils;
+import jsesh.mdc.constants.SymbolCodes;
+import jsesh.mdc.model.Hieroglyph;
+import jsesh.mdc.model.ModelElement;
+import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * A simple class for easy text addition.
@@ -37,11 +36,12 @@ public class InsertElementAction extends AbstractViewAction {
      * @param element a prototype of the element to addAll.
      * @param mdcTextForIcon the text of the icon which should be displayed
      * (which can be more than the element).
+     * @param iconFactory 
      */
-    public InsertElementAction(Application app, View view, ModelElement element, String mdcTextForIcon) {
+    public InsertElementAction(Application app, View view, ModelElement element, String mdcTextForIcon, MDCIconFactory iconFactory) {
         super(app, view);
         this.element = element.deepCopy();
-        putValue(SMALL_ICON, ImageIconFactory.getInstance().buildImage(mdcTextForIcon));
+        putValue(SMALL_ICON, iconFactory.buildImage(mdcTextForIcon));
     }
 
     /**
@@ -53,8 +53,8 @@ public class InsertElementAction extends AbstractViewAction {
      * @param glyphCode see {@link SymbolCodes}
      * @param mdcTextForIcon the mdc for the icon to display.
      */
-    public InsertElementAction(Application app, View view, int glyphCode, String mdcTextForIcon) {
-        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode));
+    public InsertElementAction(Application app, View view, int glyphCode, String mdcTextForIcon, MDCIconFactory iconFactory) {
+        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode), iconFactory);
     }
 
     /**
@@ -64,10 +64,11 @@ public class InsertElementAction extends AbstractViewAction {
      * @param view
      * @param id the action id, used to configure the action.
      * @param glyphCode see {@link SymbolCodes}
+     * @param iconFactory 
      */
-    public InsertElementAction(Application app, View view, String id, int glyphCode) {
-        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode));
-        BundleHelper.getInstance().configure(this, id);
+    public InsertElementAction(Application app, View view, String id, int glyphCode, MDCIconFactory iconFactory) {
+        this(app, view, new Hieroglyph(glyphCode), LexicalSymbolsUtils.getCodeForLexicalItem(glyphCode), iconFactory);
+        BundleHelper.getInstance().configure(this, id, iconFactory);
     }
 
     /**
@@ -77,11 +78,12 @@ public class InsertElementAction extends AbstractViewAction {
      * @param view
      * @param id the action id, used to configure the action.
      * @param symbolCode see {@link SymbolCodes}
+     * @param iconFactory 
      * @return an action for inserting this element.
      */
-    public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String id, int symbolCode) {
-        InsertElementAction action = new InsertElementAction(app, view, id, symbolCode);
-        action.putValue(SMALL_ICON, ImageIconFactory.getInstance().buildImage(symbolCode));
+    public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String id, int symbolCode, MDCIconFactory iconFactory) {
+        InsertElementAction action = new InsertElementAction(app, view, id, symbolCode, iconFactory);
+        action.putValue(SMALL_ICON, iconFactory.buildImage(symbolCode));
         return action;
     }
 
@@ -91,11 +93,12 @@ public class InsertElementAction extends AbstractViewAction {
      * @param app
      * @param view
      * @param mdc the manuel de codage code for the glyph we want.
+     * @param iconFactory 
      * @return 
      */
-    public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String mdc) {
+    public static InsertElementAction buildInsertElementActionWithIcon(Application app, View view, String mdc, MDCIconFactory iconFactory) {
         ModelElement elt = new Hieroglyph(mdc);
-        InsertElementAction action = new InsertElementAction(app, view, elt, mdc);
+        InsertElementAction action = new InsertElementAction(app, view, elt, mdc, iconFactory);
         return action;
     }
 

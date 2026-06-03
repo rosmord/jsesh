@@ -18,7 +18,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
+
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -26,22 +27,13 @@ import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
  * HieroglyphicFontManager.
  *
  * @see CompositeHieroglyphsManager for default implementation.
- * @see HieroglyphicFontManager
+ * @see HieroglyphShapeRepository
  * @author S. Rosmorduc
  *
  */
 public interface HieroglyphDatabaseInterface {
 
-    /**
-     * Gets the canonical code for a sign. In most cases, this is the Gardiner
-     * code (for instance "xpr" gives "L1"). for unknown codes, the function
-     * will return its argument as is.
-     *
-     * @param code
-     * @return
-     */
-    String getCanonicalCode(String code);
-
+  
     /**
      * Returns the codes for a given family of signs.
      * <p>

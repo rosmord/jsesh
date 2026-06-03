@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
-import jsesh.mdc.model.Hieroglyph;
+
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 
 /**
  * Link between MdC codes and Unicode codes.
@@ -55,8 +54,7 @@ public enum MdcUnicodeTable {
      * equivalent.
      */
     public String getUnicodeFor(String signCode) {
-        HieroglyphDatabaseInterface mdcInfo = HieroglyphDatabaseRepository.getHieroglyphDatabase();
-        String canonicalCode = mdcInfo.getCanonicalCode(signCode);
+        String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode);
         return codeMap.getOrDefault(canonicalCode, signCode);
     }
 
@@ -67,8 +65,7 @@ public enum MdcUnicodeTable {
      * @return true or false.
      */
     public boolean hasUnicode(String signCode) {
-        HieroglyphDatabaseInterface mdcInfo = HieroglyphDatabaseRepository.getHieroglyphDatabase();
-        String canonicalCode = mdcInfo.getCanonicalCode(signCode);
+    	String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode);
         return codeMap.containsKey(canonicalCode);
     }
 

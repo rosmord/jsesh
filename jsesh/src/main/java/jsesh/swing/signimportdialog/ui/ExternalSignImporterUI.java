@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -20,8 +19,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.shapedisplayer.ShapeDisplayer;
-import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
-import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 
 public class ExternalSignImporterUI {
 
@@ -285,20 +282,5 @@ public class ExternalSignImporterUI {
 		}
 	}
 
-	/**
-	 * Test method.
-	 * @param args
-	 */
-
-	public static void main(String[] args) {
-		JFrame jf = new JFrame();
-		ExternalSignImporterModel model = new ExternalSignImporterModel();
-		ExternalSignImporterUI ui = new ExternalSignImporterUI();
-		jf.getContentPane().add(ui.getPanel());
-		ui.addEventListener(new ExternalSignImporterPresenter(model, ui));
-		jf.pack();
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setVisible(true);
-	}
-
+	
 }

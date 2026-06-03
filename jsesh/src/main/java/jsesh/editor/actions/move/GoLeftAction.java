@@ -58,14 +58,14 @@ public class GoLeftAction extends EditorAction {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (editor.getDrawingSpecifications().getTextDirection().isLeftToRight()) {
-			if (editor.getDrawingSpecifications().getTextOrientation()
+		if (editor.getTextDirection().isLeftToRight()) {
+			if (editor.getTextOrientation()
 					.isHorizontal())
 				editor.getWorkflow().cursorPrevious();
 			else
 				editor.getWorkflow().cursorUp();
 		} else {
-			if (editor.getDrawingSpecifications().getTextOrientation()
+			if (editor.getTextOrientation()
 					.isHorizontal()) {
 				editor.getWorkflow().cursorNext();
 			} else {

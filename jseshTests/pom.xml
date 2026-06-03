@@ -7,9 +7,9 @@
     <parent>
         <groupId>org.qenherkhopeshef.jsesh</groupId>
         <artifactId>JSesh-all</artifactId>
-        <version>7.11</version>
+        <version>8.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>jseshDemos</artifactId>
+    <artifactId>jseshTests</artifactId>
     <packaging>jar</packaging>
     <name>jseshTests</name>
     <dependencies>        

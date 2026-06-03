@@ -108,6 +108,17 @@ public class GlossaryEntry {
 		return key.matches("^[a-zA-Z0-9]+$");
 	}
 
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(key, mdc);		
+	}
+
+
+	/**
+	 * Two entries are equal iff they have both the same key and the same mdc value.
+	 * <p> The key is not a unique identifier!
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -116,19 +127,20 @@ public class GlossaryEntry {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		if (obj instanceof GlossaryEntry other) {
-			if (! Objects.equals(this.key, other.key)) {
+		GlossaryEntry other = (GlossaryEntry) obj;
+		if (key == null) {
+			if (other.key != null)
 				return false;
-			}
-			return Objects.equals(this.mdc, other.mdc);
-		} else {
+		} else if (!key.equals(other.key))
 			return false;
-		}
+		if (mdc == null) {
+			if (other.mdc != null)
+				return false;
+		} else if (!mdc.equals(other.mdc))
+			return false;
+		return true;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(key,mdc);
-	}
 
+	
 }

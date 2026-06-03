@@ -25,5 +25,5 @@ LIB="$CONTENTS/lib"
 JRE="$CONTENTS/jre/bin/java"
 
 # Starts java
-"$JRE" -Xmx512m  -cp "$LIB/*" -Xdock:icon="$CONTENTS/Resources/hibou.icns" -Xdock:name="JSesh" jsesh.jhotdraw.JSeshMain
+"$JRE" -Xmx512m  -cp "$LIB/*" -Xdock:icon="$CONTENTS/Resources/hibou.icns" -Xdock:name="JSesh" jsesh.jhotdraw.Main
 

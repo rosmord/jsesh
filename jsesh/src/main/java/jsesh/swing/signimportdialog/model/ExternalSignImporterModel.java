@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.util.Locale;
 
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.HieroglyphicFontManager;
-import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 
 public class ExternalSignImporterModel {
 
@@ -20,10 +19,12 @@ public class ExternalSignImporterModel {
 
 	private double shapeScale;
 
-	public ExternalSignImporterModel() {
-		HieroglyphicFontManager db = DefaultHieroglyphicFontManager
-				.getInstance();
-		referenceShape = db.get("A1");
+	private JSeshFullHieroglyphShapeRepository hieroglyphicFontManager;
+
+
+	public ExternalSignImporterModel(JSeshFullHieroglyphShapeRepository hieroglyphicFontManager) {		
+		this.hieroglyphicFontManager = hieroglyphicFontManager;
+		referenceShape = hieroglyphicFontManager.get("A1");
 		sourceDirectory = new File(".");
 		shapeScale = 1.0;
 	}
@@ -56,7 +57,7 @@ public class ExternalSignImporterModel {
 	public void insertSign(String text) {
 		ShapeChar insertedShape = (ShapeChar) getShapeChar().clone();
 		insertedShape.scaleGlyph(shapeScale);
-		DefaultHieroglyphicFontManager.getInstance().insertNewSign(text,
+		hieroglyphicFontManager.insertNewSign(text,
 				insertedShape);
 	}
 
@@ -114,7 +115,6 @@ public class ExternalSignImporterModel {
 		// scale to cadrat height.
 		while (newSigns.hasNext()) {
 			newSigns.next();
-			// newSigns.getCurrentShape().scaleToHeight(referenceShape.getBbox().getHeight());
 		}
 		newSigns.beforeFirst();
 	}

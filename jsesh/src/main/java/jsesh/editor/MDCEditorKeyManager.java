@@ -31,9 +31,9 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
- /*
- * Created on 1 oct. 2004 by rosmord
- */
+/*
+* Created on 1 oct. 2004 by rosmord
+*/
 package jsesh.editor;
 
 import java.awt.datatransfer.DataFlavor;
@@ -48,6 +48,7 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.editor.actions.AppDefaultFactory;
 import jsesh.editor.actions.edit.CopyAction;
 import jsesh.editor.actions.edit.CopyAsAction;
@@ -78,8 +79,7 @@ import jsesh.editor.actionsUtils.Enabler;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdcDisplayer.clipboard.JSeshPasteFlavors;
-import jsesh.swing.utils.ImageIconFactory;
+import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;
@@ -88,12 +88,67 @@ import org.qenherkhopeshef.utils.PlatformDetection;
 /**
  * Manages input for an MDC Editor.
  *
+ * TODO : make two classes, simpler and more readable.
  * @author rosmord
  */
-class MDCEditorKeyManager extends KeyAdapter {
+class MDCEditorKeyManager {
+    
+    private MDCIconFactory mdcIconFactory;
+    
+    public MDCEditorKeyManager(MDCIconFactory mdcIconFactory) {
+        this.mdcIconFactory = mdcIconFactory;
+    }
 
-    //private List<Action> signShadingActions= new ArrayList<Action>();
-    private static class ActionMapper {
+    public void addActionsTo(JMDCEditor jmdcEditor) {
+        new ActionMapper().mapEditor(jmdcEditor);
+        jmdcEditor.addKeyListener(new MDCEditorKeyAdapter());
+    }
+
+    private static class MDCEditorKeyAdapter extends KeyAdapter {
+
+        /*
+         * Control direct key typing (not shortcuts).
+         * 
+         * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
+         */
+        public void keyTyped(KeyEvent e) {
+            // On the mac, the "Alt" key is used to generate a number of characters
+            // (e.g. square []).
+            // On other architectures, it is used as a shortcut for menus. So we
+            // behave differently.
+
+            if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+                if (e.isActionKey() || e.isControlDown() || e.isMetaDown()) {
+                    return;
+                }
+            } else if (e.isActionKey() || e.isControlDown() || e.isMetaDown()
+                    || e.isAltDown()) {
+                return;
+            }
+
+            // Codes handled by actions.
+            if (e.getKeyChar() == '\n') {
+                return;
+            }
+            if (e.getSource() instanceof JMDCEditor) {
+                JMDCEditor editor = (JMDCEditor) e.getSource();
+                if (!editor.isEditable()) {
+                    return;
+                }
+                if (editor.getWorkflow().getMode() == 's' && e.getKeyChar() == '#') {
+                    editor.showShadingPopup();
+                    return;
+                }
+                editor.getWorkflow().keyTyped(e.getKeyChar());
+            }
+        }
+    }
+
+    /**
+     * Build action and input map.
+     */
+    private  class ActionMapper {
+
 
         private ActionMap actionMap;
 
@@ -103,8 +158,16 @@ class MDCEditorKeyManager extends KeyAdapter {
 
         private AppDefaults appDefaults;
 
-        ActionMapper(JMDCEditor editor) {
-            this.editor = editor;          
+        
+
+        /**
+         * @param mdcIconFactory
+         */
+        public ActionMapper() {
+        }
+
+        void mapEditor(JMDCEditor editor) {
+            this.editor = editor;
             appDefaults = AppDefaultFactory.getAppDefaults();
             inputMap = new InputMap();
             actionMap = new ActionMap();
@@ -136,7 +199,7 @@ class MDCEditorKeyManager extends KeyAdapter {
             addAction(ActionsID.COPY_AS_MDC, new CopyAsAction(editor,
                     DataFlavor.stringFlavor));
             addAction(ActionsID.COPY_AS_UNICODE, new CopyAsUnicodeAction(editor));
-            addAction(ActionsID.COPY_AS_UNICODE_WITH_FORMAT_CONTROLS, 
+            addAction(ActionsID.COPY_AS_UNICODE_WITH_FORMAT_CONTROLS,
                     new CopyAsUnicodeWithFormatControls(editor));
 
             // DELEGATE ACTIONS...
@@ -220,16 +283,17 @@ class MDCEditorKeyManager extends KeyAdapter {
             addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
             addEditingModeAction(ActionsID.SET_MODE_UPPERCASE_TRANSLIT, 'T');
 
-            // Quadrant Shading 
-            for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor).entrySet()) {
+            // Quadrat Shading
+            for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
             // Cartouches
-            for (Entry<String, Action> e : EditorCartoucheAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorCartoucheAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
             // Philological markup
-            for (Entry<String, Action> e : AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults).entrySet()) {
+            for (Entry<String, Action> e : AddPhilologicalMarkupAction.generateActionMap(editor, appDefaults, mdcIconFactory)
+                    .entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
 
@@ -247,11 +311,11 @@ class MDCEditorKeyManager extends KeyAdapter {
             for (Entry<String, Action> e : EditorSignSizeAction.generateActionMap(editor).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
-            for (Entry<String, Action> e : EditorSignRotationAction.generateActionMap(editor).entrySet()) {
+            for (Entry<String, Action> e : EditorSignRotationAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
-            // Sign Shading 
-            for (Entry<String, Action> e : EditorSignShadeAction.generateActionMap(editor).entrySet()) {
+            // Sign Shading
+            for (Entry<String, Action> e : EditorSignShadeAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
                 actionMap.put(e.getKey(), e.getValue());
             }
         }
@@ -279,14 +343,15 @@ class MDCEditorKeyManager extends KeyAdapter {
         /**
          * Add an action linked to a method of JMDCEditor.
          *
-         * @param ID the ID used to identify the action in both map and property
-         * files.
-         * @param editor the editor which will receive the action.
-         * @param methodName the method of the action (called on the editor's
-         * workflow).
+         * @param ID          the ID used to identify the action in both map and
+         *                    property
+         *                    files.
+         * @param editor      the editor which will receive the action.
+         * @param methodName  the method of the action (called on the editor's
+         *                    workflow).
          * @param appDefaults the application default for action properties
-         * (shortcut, names, icons...)
-         * @param enabler an optional enabler (may be null).
+         *                    (shortcut, names, icons...)
+         * @param enabler     an optional enabler (may be null).
          */
         private void addDelegateAction(String ID, JMDCEditor editor,
                 String methodName, Enabler enabler) {
@@ -299,7 +364,7 @@ class MDCEditorKeyManager extends KeyAdapter {
          *
          * @param id
          * @param editor
-         * @param symbolCode see {@link SymbolCodes}
+         * @param symbolCode    see {@link SymbolCodes}
          * @param editorEnabler
          */
         private void addInsertAction(String id,
@@ -315,9 +380,12 @@ class MDCEditorKeyManager extends KeyAdapter {
         }
 
         /**
-         * Add and configure an action, knowing its unique string ID, and the action itself.
+         * Add and configure an action, knowing its unique string ID, and the action
+         * itself.
          * 
-         * Post-condition: all action properties (such as label, accelerator keys, etc.) will be set.
+         * Post-condition: all action properties (such as label, accelerator keys, etc.)
+         * will be set.
+         * 
          * @param actionID
          * @param action
          */
@@ -334,53 +402,11 @@ class MDCEditorKeyManager extends KeyAdapter {
             // Bind the Icon according to the IconMdC property
             String iconMdcCode = appDefaults.getString(actionID + "." + "IconMdC");
             if (iconMdcCode != null) {
-                ImageIcon icon = ImageIconFactory.getInstance().buildImage((String) iconMdcCode);
+                ImageIcon icon = mdcIconFactory.buildImage((String) iconMdcCode);
                 action.putValue(Action.SMALL_ICON, icon);
             }
         }
 
-    }
-
-    public MDCEditorKeyManager(JMDCEditor editor) {
-        new ActionMapper(editor);
-        editor.addKeyListener(this);
-    }
-
-    /*
-	 * Control direct key typing (not shortcuts).
-	 * 
-	 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
-     */
-    public void keyTyped(KeyEvent e) {
-        // On the mac, the "Alt" key is used to generate a number of characters
-        // (e.g. square []).
-        // On other architectures, it is used as a shortcut for menus. So we
-        // behave differently.
-
-        if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
-            if (e.isActionKey() || e.isControlDown() || e.isMetaDown()) {
-                return;
-            }
-        } else if (e.isActionKey() || e.isControlDown() || e.isMetaDown()
-                || e.isAltDown()) {
-            return;
-        }
-
-        // Codes handled by actions.
-        if (e.getKeyChar() == '\n') {
-            return;
-        }
-        if (e.getSource() instanceof JMDCEditor) {
-            JMDCEditor editor = (JMDCEditor) e.getSource();
-            if (!editor.isEditable()) {
-                return;
-            }
-            if (editor.getWorkflow().getMode() == 's' && e.getKeyChar() == '#') {
-                editor.showShadingPopup();
-                return;
-            }
-            editor.getWorkflow().keyTyped(e.getKeyChar());
-        }
     }
 
 }

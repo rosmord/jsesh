@@ -21,8 +21,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
+
+import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
+import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
+
+import jsesh.defaults.HieroglyphToolkit;
+import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
@@ -30,9 +38,6 @@ import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.corpus.CorpusSearch;
 import jsesh.search.corpus.PartialResults;
 import jsesh.utils.JSeshWorkingDirectory;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
-import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
 /**
  * Control class for JSearchFolderPanel.
@@ -47,63 +52,10 @@ class SearchFolderControl {
 
     private SearchWorker currentSearchWorker = null;
 
-    private class SearchWorker extends SwingWorker<List<CorpusSearchHit>, PartialResults> {
+    
 
-        private Path rootPath;
-        private CorpusSearch corpusSearch;
-
-        public SearchWorker(MdCSearchQuery query, Path rootPath) {
-            corpusSearch = new CorpusSearch(rootPath, query);
-            this.rootPath = rootPath;
-        }
-
-        @Override
-        protected List<CorpusSearchHit> doInBackground() {
-            try {
-                int fileCount = 0;
-                while (corpusSearch.hasNext()) {
-                    fileCount++;
-                    // This sleep method allows one to call interrupt().
-                    Thread.sleep(1);
-                    List<CorpusSearchHit> hits = corpusSearch.searchNext();
-                    publish(new PartialResults(fileCount, hits));
-                }
-                return corpusSearch.getResult();
-            } catch (InterruptedException e) {
-                // System.err.println("Interrupted");
-                return corpusSearch.getResult();
-            }
-        }
-
-        @Override
-        protected void process(List<PartialResults> partialResultList) {
-            ResultTableModel tableModel = (ResultTableModel) ui.getResultTable().getModel();
-            int currentCount = 0;
-            for (PartialResults partialResult : partialResultList) {
-                tableModel.addAll(partialResult.getHits());
-                currentCount = Math.max(currentCount, partialResult.getFileCount());
-            }
-            String countText = JSeshMessages.format("jsesh.search.folder.files_searched", Integer.toString(currentCount));
-            ui.getMessageField().setText(countText);
-        }
-
-        @Override
-        protected void done() {
-            try {
-                List<CorpusSearchHit> res = get();
-                ResultTableModel model = new ResultTableModel(rootPath, res);
-                ui.getResultTable().setModel(model);
-                ui.getMessageField().setText(JSeshMessages.format("jsesh.search.folder.done", Integer.toString(res.size())));
-            } catch (CancellationException e) {
-                // DO NOTHING. It's cancelled, that's it.
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget) {
-        this.ui = new JSearchFolderPanel();
+    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+        this.ui = new JSearchFolderPanel(styleRef, fontKit);
         this.corpusSearchTarget = corpusSearchTarget;
         clearTable();
         activateButtons();
@@ -282,6 +234,62 @@ class SearchFolderControl {
                 return Optional.of(resultData.get(row));
             } else {
                 return Optional.empty();
+            }
+        }
+    }
+    
+    
+    private class SearchWorker extends SwingWorker<List<CorpusSearchHit>, PartialResults> {
+
+        private Path rootPath;
+        private CorpusSearch corpusSearch;
+
+        public SearchWorker(MdCSearchQuery query, Path rootPath) {
+            corpusSearch = new CorpusSearch(rootPath, query);
+            this.rootPath = rootPath;
+        }
+
+        @Override
+        protected List<CorpusSearchHit> doInBackground() {
+            try {
+                int fileCount = 0;
+                while (corpusSearch.hasNext()) {
+                    fileCount++;
+                    // This sleep method allows one to call interrupt().
+                    Thread.sleep(1);
+                    List<CorpusSearchHit> hits = corpusSearch.searchNext();
+                    publish(new PartialResults(fileCount, hits));
+                }
+                return corpusSearch.getResult();
+            } catch (InterruptedException e) {
+                // System.err.println("Interrupted");
+                return corpusSearch.getResult();
+            }
+        }
+
+        @Override
+        protected void process(List<PartialResults> partialResultList) {
+            ResultTableModel tableModel = (ResultTableModel) ui.getResultTable().getModel();
+            int currentCount = 0;
+            for (PartialResults partialResult : partialResultList) {
+                tableModel.addAll(partialResult.getHits());
+                currentCount = Math.max(currentCount, partialResult.getFileCount());
+            }
+            String countText = JSeshMessages.format("jsesh.search.folder.files_searched", Integer.toString(currentCount));
+            ui.getMessageField().setText(countText);
+        }
+
+        @Override
+        protected void done() {
+            try {
+                List<CorpusSearchHit> res = get();
+                ResultTableModel model = new ResultTableModel(rootPath, res);
+                ui.getResultTable().setModel(model);
+                ui.getMessageField().setText(JSeshMessages.format("jsesh.search.folder.done", Integer.toString(res.size())));
+            } catch (CancellationException e) {
+                // DO NOTHING. It's cancelled, that's it.
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -41,12 +41,11 @@ import java.util.Locale;
 import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryEntryAdded;
 import jsesh.glossary.GlossaryEntryRemoved;
-import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JSeshGlossary;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseRepository;
-import jsesh.hieroglyphs.data.GardinerCode;
+import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains
@@ -56,13 +55,15 @@ import jsesh.hieroglyphs.data.SignDescriptionConstants;
  */
 public class PossibilityRepository {
 
-	private static PossibilityRepository instance= new PossibilityRepository();
-	
-	private HashMap<String, PossibilitiesList> map = new HashMap<>();
+	private HashMap<String, PossibilitiesList> map = new HashMap<String, PossibilitiesList>();
+	private HieroglyphDatabaseInterface hieroglyphDatabase;
+	private JSeshGlossary glossary;
 
-	private PossibilityRepository() {
-		getGlossary().addEventLink(GlossaryEntryAdded.class, this, "update");
-		getGlossary().addEventLink(GlossaryEntryRemoved.class, this, "update");
+	public PossibilityRepository(HieroglyphDatabaseInterface hieroglyphDatabase, JSeshGlossary glossary) {
+		this.hieroglyphDatabase = hieroglyphDatabase;
+		this.glossary = glossary;
+		glossary.addEventLink(GlossaryEntryAdded.class, this, "update");
+		glossary.addEventLink(GlossaryEntryRemoved.class, this, "update");
 	}
 
 	public PossibilitiesList getPossibilityListFor(String code) {
@@ -71,17 +72,15 @@ public class PossibilityRepository {
 		} else {
 			// compute the actual list, combining the signs values and the
 			// glossary.
-			List<GlossaryEntry> fromGlossary = getGlossary().get(code);
+			List<GlossaryEntry> fromGlossary = glossary.get(code);
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
-			// Gardiner code or translitteration?
-			if (GardinerCode.isCorrectGardinerCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
-				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+			if (GardinerCode.isWellFormedCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
+				possibilities = hieroglyphDatabase
 						.getSuitableSignsForCode(code);
 			} else {
-                            // translitteration
-				possibilities = HieroglyphDatabaseRepository.getHieroglyphDatabase()
+				possibilities = hieroglyphDatabase
 						.getPossibilityFor(code,
 								SignDescriptionConstants.KEYBOARD);
 			}
@@ -117,11 +116,4 @@ public class PossibilityRepository {
 		map.remove(code);
 	}
 
-	private final JSeshGlossary getGlossary() {
-		return GlossaryManager.getInstance().getGlossary();
-	}
-
-	public static PossibilityRepository getInstance() {
-		return instance;
-	}
 }

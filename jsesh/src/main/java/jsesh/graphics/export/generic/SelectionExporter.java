@@ -8,20 +8,19 @@
  */
 package jsesh.graphics.export.generic;
 
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
+import jsesh.mdcDisplayer.mdcView.ViewBuilder;
 import jsesh.utils.DoubleDimensions;
 
 /**
@@ -41,8 +40,6 @@ public class SelectionExporter {
 
     private boolean clearBeforeDrawing = true;
 
-    private DrawingSpecification actualDrawingSpecifications;
-
     /**
      * @param exportData
      * @param graphicsFactory
@@ -58,82 +55,38 @@ public class SelectionExporter {
      */
     public void exportSelection() throws IOException {
         // Build the view :
-        SimpleViewBuilder builder = new SimpleViewBuilder();
-        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
-        PageLayout pageLayout = actualDrawingSpecifications.getPageLayout();
-        pageLayout.setLeftMargin(0f);
-        pageLayout.setTopMargin(0f);
-        actualDrawingSpecifications.setPageLayout(pageLayout);
-        exportZone(builder, exportData.getStart().getIndex(), exportData.getEnd().getIndex());
-        actualDrawingSpecifications = null;
+        ViewBuilder builder = new ViewBuilder();
+        JSeshRenderContext renderContext = exportData.getRenderContext()
+                .copy().jseshStyle(s -> s.geometry(
+                        g -> g.leftMargin(0f).topMargin(0f)))
+                .build();
+        exportZone(builder, renderContext, exportData.getStart().getIndex(), exportData.getEnd().getIndex());        
     }
 
     /**
      * Export to a system where pages actually exist.
-     * @throws IOException 
+     * 
+     * @throws IOException
      */
     public void exportToPages() throws IOException {
         // Build the view :
-        SimpleViewBuilder builder = new SimpleViewBuilder();
-        actualDrawingSpecifications = exportData.getDrawingSpecifications().copy();
-        actualDrawingSpecifications.setPaged(true);
+        ViewBuilder builder = new ViewBuilder();
+        JSeshRenderContext renderContext = exportData.getRenderContext()
+                .copy().jseshStyle(style -> style.options(opts -> opts.paged(true))).build();
 
         int start = 0;
         TopItemList l = exportData.getTopItemList();
         // export all pages.
         while (start < l.getNumberOfChildren()) {
-            //          Now, loop through the model to find page limits	
+            // Now, loop through the model to find page limits
             int end = start + 1;
             while (end < l.getNumberOfChildren() && !(l.getChildAt(end) instanceof PageBreak)) {
                 end++;
             }
-            exportZone(builder, start, end);
+            exportZone(builder, renderContext, start, end);
             graphicsFactory.newPage();
             start = end;
         }
-        actualDrawingSpecifications = null;
-    }
-
-    /**
-     * @param builder
-     * @param start
-     * @param end
-     * @throws IOException
-     */
-    private void exportZone(SimpleViewBuilder builder, int start, int end) throws IOException {
-        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, actualDrawingSpecifications);
-        graphicsFactory.setDimension(getScaledDimensions(view));
-        // Build the graphic file and initialize it :
-        Graphics2D g = graphicsFactory
-                .buildGraphics();
-
-        g.setColor(actualDrawingSpecifications.getBlackColor());
-        g.setBackground(background);
-        if (clearBeforeDrawing) {
-            g.clearRect(0, 0, (int) getScaledDimensions(view).getWidth() + 1, (int) getScaledDimensions(view).getHeight() + 1);
-        }
-        g.scale(exportData.getScale(), exportData.getScale());
-        // Prepare to draw.
-        ViewDrawer drawer = new ViewDrawer();
-        drawer.setShadeAfter(false);
-
-        // draw !
-        drawer.draw(g, view, actualDrawingSpecifications);
-        g.dispose();
-        graphicsFactory.writeGraphics();
-    }
-
-    /**
-     * returns the scaled dimensions for the view.
-     *
-     * @param view
-     * @return the scaled dimensions for the view.
-     */
-    private Dimension2D getScaledDimensions(MDCView view) {
-        double w = view.getWidth() * exportData.getScale();
-        double h = view.getHeight() * exportData.getScale();
-        //return new Dimension((int) Math.ceil(w), (int) Math.ceil(h));
-        return new DoubleDimensions(w, h);
     }
 
     public BaseGraphics2DFactory getGraphicsFactory() {
@@ -185,6 +138,53 @@ public class SelectionExporter {
      */
     public void setClearBeforeDrawing(boolean clearBeforeDrawing) {
         this.clearBeforeDrawing = clearBeforeDrawing;
+    }
+
+    // -------------------------------------------------------------------------------------------------
+    // Private methods.
+
+    /**
+     * @param builder
+     * @param start
+     * @param end
+     * @throws IOException
+     */
+    private void exportZone(ViewBuilder builder, JSeshRenderContext renderContext, int start, int end) throws IOException {
+        JSeshStyle style = renderContext.jseshStyle();
+        JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.APPROXIMATIVE_CONTEXT;
+        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, renderContext, techRenderContext);
+        graphicsFactory.setDimension(getScaledDimensions(view));
+        // Build the graphic file and initialize it :
+        Graphics2D g2d = graphicsFactory
+                .buildGraphics();
+
+        g2d.setColor(style.painting().blackColor());
+        g2d.setBackground(background);
+        if (clearBeforeDrawing) {
+            g2d.clearRect(0, 0, (int) getScaledDimensions(view).getWidth() + 1,
+                    (int) getScaledDimensions(view).getHeight() + 1);
+        }
+        g2d.scale(exportData.getScale(), exportData.getScale());
+        // Prepare to draw.
+        ViewDrawer drawer = new ViewDrawer();
+        drawer.setShadeAfter(false);
+
+        // draw !
+        drawer.draw(g2d, renderContext, techRenderContext, view);
+        g2d.dispose(); // In some cases, dispose will add some metadata to the graphical file (e.g. for EMF).
+        graphicsFactory.writeGraphics();
+    }
+
+    /**
+     * returns the scaled dimensions for the view.
+     *
+     * @param view
+     * @return the scaled dimensions for the view.
+     */
+    private Dimension2D getScaledDimensions(MDCView view) {
+        double w = view.getWidth() * exportData.getScale();
+        double h = view.getHeight() * exportData.getScale();
+        return new DoubleDimensions(w, h);
     }
 
 }

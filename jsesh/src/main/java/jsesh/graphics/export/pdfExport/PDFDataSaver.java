@@ -7,13 +7,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.model.TopItemList;
+import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
 import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.layout.SimpleViewBuilder;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 import jsesh.mdcDisplayer.mdcView.ViewBuilder;
-import jsesh.mdcDisplayer.preferences.DrawingSpecification;
-import jsesh.mdcDisplayer.preferences.PageLayout;
 
 // TODO : use EXPORTDATA !!
 // TODO : mix with PDFExporter to avoid code duplication.
@@ -26,7 +26,8 @@ import jsesh.mdcDisplayer.preferences.PageLayout;
  */
 public class PDFDataSaver {
 
-    private DrawingSpecification drawingSpecification;
+
+    private JSeshRenderContext renderContext;    
     private PDFExportPreferences pdfExportPreferences;
     private float scale = 1.0f;
 
@@ -38,10 +39,10 @@ public class PDFDataSaver {
      * @param pdfExportPreferences pdf-specific preferences.
      *
      */
-    public PDFDataSaver(DrawingSpecification drawingSpecification,
+    public PDFDataSaver(JSeshRenderContext renderContext,
             PDFExportPreferences pdfExportPreferences) {
-        this.drawingSpecification = drawingSpecification.copy();
-        this.pdfExportPreferences = pdfExportPreferences;
+        this.renderContext = renderContext;
+        this.pdfExportPreferences = pdfExportPreferences;        
     }
 
     /**
@@ -49,8 +50,8 @@ public class PDFDataSaver {
      *
      * @param drawingSpecification
      */
-    public PDFDataSaver(DrawingSpecification drawingSpecification) {
-        this(drawingSpecification, new PDFExportPreferences());
+    public PDFDataSaver(JSeshRenderContext renderContext) {
+        this(renderContext, new PDFExportPreferences());
     }
 
     /**
@@ -77,27 +78,27 @@ public class PDFDataSaver {
     public void writeSinglePagePDF(OutputStream out, TopItemList topItemList)
             throws IOException {
         // Dirty code which needs to be cleaned up.
-        DrawingSpecification myDrawingSpecification = this.drawingSpecification
-                .copy();
-
-        PDFExportHelper.ensureCMYKColorSpace(myDrawingSpecification);
-
-        // Always allow a 0.5-point margin for the document ?
-        PageLayout pageLayout = myDrawingSpecification.getPageLayout();
         float margin = 1f;
-        pageLayout.setLeftMargin(margin * 0.5f / scale);
-        pageLayout.setTopMargin(margin * 0.5f / scale);
+        JSeshStyle myDrawingSpecification = 
+            PDFExportHelper.ensureCMYKColorSpace(this.renderContext.jseshStyle())            
+            .geometry(geom ->
+                geom
+                    .leftMargin(margin* 0.5f / scale)
+                    .topMargin(margin* 0.5f / scale)
+            ).build()
+            ;
 
-        myDrawingSpecification.setPageLayout(pageLayout);
+        JSeshRenderContext localRenderContext = new JSeshRenderContext(myDrawingSpecification, renderContext.hieroglyphShapeRepository());
 
-        ViewBuilder builder = new SimpleViewBuilder();
-        MDCView view = builder.buildView(topItemList, myDrawingSpecification);
+        ViewBuilder builder = new ViewBuilder();
+        MDCView view = builder.buildView(topItemList, localRenderContext, JSeshTechRenderContext.VECTOR_CONTEXT);
 
         PDFDocumentWriterAux documentWriterAux = new PDFDocumentWriterAux(
                 pdfExportPreferences, out, margin + scale * view.getWidth(),
                 margin + scale * view.getHeight(),
                 PDFExportHelper.buildCommentText(myDrawingSpecification,
                         topItemList));
+
         documentWriterAux.open();
 
         Graphics2D g = documentWriterAux.createGraphics();
@@ -106,7 +107,7 @@ public class PDFDataSaver {
         g.setStroke(new BasicStroke(0));
         ViewDrawer drawer = new ViewDrawer();
         drawer.setShadeAfter(false);
-        drawer.draw(g, view, myDrawingSpecification);
+        drawer.draw(g, localRenderContext, JSeshTechRenderContext.VECTOR_CONTEXT, view);
 
         g.dispose();
         documentWriterAux.close();

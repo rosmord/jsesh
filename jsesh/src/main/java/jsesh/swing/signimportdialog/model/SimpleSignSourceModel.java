@@ -1,6 +1,6 @@
 package jsesh.swing.signimportdialog.model;
 
-import jsesh.hieroglyphs.graphics.ShapeChar;
+import jsesh.hieroglyphs.signshape.ShapeChar;
 
 /**
  * Simple model for a source of hieroglyphic signs drawing.

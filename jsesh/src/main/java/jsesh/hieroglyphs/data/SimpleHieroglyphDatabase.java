@@ -12,7 +12,6 @@
  */
 package jsesh.hieroglyphs.data;
 
-import jsesh.hieroglyphs.graphics.DefaultHieroglyphicFontManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +22,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import jsesh.mdc.translitteration.TransliterationUtilities;
+
+import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.mdc.transliteration.TransliterationUtilities;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It
@@ -32,7 +35,7 @@ import jsesh.mdc.translitteration.TransliterationUtilities;
  *
  * TODO : merge with ManueDeCodage (relatively close meaning).
  *
- * @see HieroglyphicFontManager
+ * @see HieroglyphShapeRepository
  * @author S. Rosmorduc
  *
  */
@@ -56,13 +59,13 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     /**
      * List of available families.
      */
-    private ArrayList<HieroglyphFamily> families = null;
+    private final ArrayList<HieroglyphFamily> families;
 
     /**
      * Deal with the core manuel de codage, which can't be extended. (will
      * probably be suppressed anyway).
      */
-    private ManuelDeCodage basicManuelDeCodageManager = null;
+    private final ManuelDeCodage manuelDeCodageManager;
     private final HashMap<String, ArrayList<String>> signsValues;
     private final HashMap<String, PossibilitiesList> possibilitiesLists;
 
@@ -74,14 +77,25 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      */
     private boolean inDistributionMode = true;
 
-    public SimpleHieroglyphDatabase(ManuelDeCodage basicManuelDeCodageManager) {
-        this.basicManuelDeCodageManager = basicManuelDeCodageManager;
+    /**
+     * Current fonts.
+     * 
+     * Used to compute a full list of codes.
+     * 
+     * Shouldn't be there ??
+     */
+	private HieroglyphCodesSource fontManager;
+
+    public SimpleHieroglyphDatabase(HieroglyphCodesSource hieroglyphCodesSource) {
+    	this.families = fillFamilyList();
+        this.manuelDeCodageManager = ManuelDeCodage.getInstance();
+        this.fontManager = hieroglyphCodesSource;        
         signsValues = new HashMap<>();
         possibilitiesLists = new HashMap<>();
         fillFamilyList();
     }
 
-    private void fillFamilyList() {
+    private static ArrayList<HieroglyphFamily> fillFamilyList() {
         final String[] familyCodes = {"A", "B", "C", "D", "E", "F", "G", "H",
             "I", "K", "L", "M", "N", "O", "P", "Q", "" + "R", "S", "T",
             "U", "V", "W", "X", "Y", "Z", "Aa", "Ff", "NU", "NL"};
@@ -105,10 +119,11 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             "Lower Egypt Nomes"};
 
         assert (familyCodes.length == familyNames.length);
-        families = new ArrayList<>();
+        ArrayList<HieroglyphFamily> families = new ArrayList<>();
         for (int i = 0; i < familyCodes.length; i++) {
             families.add(new HieroglyphFamily(familyCodes[i], familyNames[i]));
         }
+        return families;
     }
 
     /**
@@ -119,10 +134,10 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     @Override
     public Set<String> getCodesSet() {
         // NOTE THAT THE CODES SHOULD NOT BE STORED IN THE FONT MANAGER.
-        // THIS IS A TEMPORARY SOLUTION.
+        // THIS IS A TEMPORARY SOLUTION (since 2004 ? gee, 20 years temporary solution !)
         // Well, sort of, as the font manager knows of all the glyphs we
         // have created, and those define signs.
-        return DefaultHieroglyphicFontManager.getInstance().getCodes();
+        return fontManager.getCodes();
     }
 
     /**
@@ -148,7 +163,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
             if (family.length() > 0) {
                 keepCode = code.matches("(US[0-9]+)?" + family + "[0-9]+[a-zA-Z]*");
             } else {
-                keepCode = GardinerCode.isCorrectGardinerCode(code); // No specific family needed
+                keepCode = GardinerCode.isWellFormedGardinerCode(code); // No specific family needed
             }
 
             if (keepCode) {
@@ -183,7 +198,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         if (!possibilitiesLists.containsKey(normalizedValue)) {
             PossibilitiesList l = new PossibilitiesList(normalizedValue);
             // Ensure the "official" manuel de codage value comes first.
-            if (basicManuelDeCodageManager.isKnownCode(normalizedValue)) {
+            if (manuelDeCodageManager.isKnownCode(normalizedValue)) {
                 // For readability, we want to have the "official" phonetic code
                 // available.
                 l.addSign(normalizedValue);
@@ -253,7 +268,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
                 .compile("^(US[0-9]+)?" + protectedCode + ".*");
         TreeSet<String> codes = new TreeSet<>();
         for (String signCode : getCodesSet()) {
-            if (GardinerCode.isCorrectGardinerCode(signCode)) {
+            if (GardinerCode.isWellFormedGardinerCode(signCode)) {
                 // Protect code for insertion in a regexp.
                 if (pattern.matcher(signCode).matches()) {
                     codes.add(signCode);
@@ -278,7 +293,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         // Build a sorted list of codes.
         TreeSet<String> codes = new TreeSet<>();
         for (String signCode : getCodesSet()) {
-            if (GardinerCode.isCorrectGardinerCode(signCode)) {
+            if (GardinerCode.isWellFormedGardinerCode(signCode)) {
                 // The exact code should come first, if possible.
                 if (signCode.equalsIgnoreCase(code)) {
                     p.addSign(signCode);
@@ -543,10 +558,6 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
         return inDistributionMode;
     }
 
-    @Override
-    public String getCanonicalCode(String code) {
-        return basicManuelDeCodageManager.getCanonicalCode(code);
-    }
 
     /**
      * Explicitly mark sign as being always displayed.

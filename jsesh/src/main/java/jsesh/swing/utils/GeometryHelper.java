@@ -11,7 +11,6 @@
  */
 package jsesh.swing.utils;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.Optional;
 
