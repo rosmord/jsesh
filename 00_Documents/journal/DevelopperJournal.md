@@ -241,6 +241,15 @@ List of classes which need some cleanup:
 
 ### 2026/06/03
 
+Todo at the end of the merge:
+
+- Classes to check in both branches:
+  - `EventSupport`
+  - `GlossaryEntry`
+  - `JSeshGlossary`
+  - `TranslitterationUtilities`
+  - `TranslitterationUtilitiesTest`
+
 - Started merging with master branch
   - removal of font-related utilities (moved elsewhere). Removed file `MdC2Unicode-table.txt`. We need to keep track of this if we want to reuse the file (but more sophisticated Unicode integration is planned).
 - [ ] menu-based SVG sign import result in a black square instead of the sign. 
