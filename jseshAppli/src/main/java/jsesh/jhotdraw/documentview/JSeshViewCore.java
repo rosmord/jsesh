@@ -477,6 +477,9 @@ public final class JSeshViewCore {
         LOGGER.entering(this.getClass().getName(), "setFontInfo", fontInfo);
         JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());
         setJSeshStyle(newStyle);
+        // TODO : ensure that the hieroglyphic font manager is observable.
+        // Hack !!!
+        viewComponent.getEditor().invalidateView();
     }
 
     public void setJustify(boolean selected) {

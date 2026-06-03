@@ -91,6 +91,7 @@ Regarding **standard** codes:
 
 - [ ] ❗️add a test checking that nTrw is mapped to `R8A`;
 - [ ] ❗️add a test checking that nn is mapped to `M22B`.
+- [ ] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
 - [ ] solve the problem of signs canonization.
   - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
@@ -237,6 +238,32 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+
+### 2026/06/03
+
+- [x] changing the hieroglyphic font source doesn't update the display of the windows, until we click in them. It should not be the case.
+
+  ok. The problem is that we process the font information change in two steps.
+
+  ~~~java
+  public class JSeshApplicationModel ... {
+
+   public void setFontInfo(FontInfo fontInfo) {
+        jseshApplicationCore.setFontInfo(fontInfo); // a) change globally
+        for (View v : application.views()) {
+            JSeshView view = (JSeshView) v;
+            view.setFontInfo(fontInfo); // change locally
+        }
+    }
+  ~~~
+
+  But the local change ends up modifying the `jseshStyle`, which doesn't know about the hieroglyphic font at all. In fact, formally, the hieroglyphic font is the same; **one** of its fields has been modified.
+
+  The correct solution would be to make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur.
+
+
+- [x] file encoding problem for labels in the search window.  **Encoding is now UTF-8 by default.**
+
 ### 2026/06/02
 
 - TODO: by default, **if the standard JSesh font is available**, it should be used. Programmers will be disapointed to get the embedded font instead.
@@ -260,8 +287,7 @@ List of classes which need some cleanup:
 ### 2026/05/28
 
 - [x] when changing document properties, the change is visible in rendering, but is not saved in the document.
-- [ ] the glossary uses the basic font, not the actual one.
-- [ ] file encoding problem for labels in the search window.  
+- [x] the glossary uses the basic font, not the actual one.
 - [ ] currently, changing the hieroglyphic font folder changes a mere *field* of `JSeshFullHieroglyphShapeRepository`, and `JSeshFullHieroglyphShapeRepository` is not observable. Hence the lack of updates when it's changed.
 
 
@@ -281,7 +307,6 @@ List of classes which need some cleanup:
   - add ad-hoc methods to force re-computation.
 
 - [x] checked changing JSesh settings: the fonts changes are visible in all windows, and are correctly saved ;
-- [ ] changing the hieroglyphic font source doesn't update the display of the windows, until we click in them. It should not be the case.
 - [x] copy/paste and copy/paste preferences seems ok.
 
 ### 2026/05/26
