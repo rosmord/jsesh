@@ -241,6 +241,9 @@ List of classes which need some cleanup:
 
 ### 2026/06/03
 
+- [ ] menu-based SVG sign import result in a black square instead of the sign. 
+- [ ] icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
+
 - [x] changing the hieroglyphic font source doesn't update the display of the windows, until we click in them. It should not be the case.
 
   ok. The problem is that we process the font information change in two steps.
