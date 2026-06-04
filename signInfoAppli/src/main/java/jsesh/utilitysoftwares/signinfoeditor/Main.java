@@ -47,8 +47,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
-import jsesh.defaults.HieroglyphToolkit;
-import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.PalettePresenter;

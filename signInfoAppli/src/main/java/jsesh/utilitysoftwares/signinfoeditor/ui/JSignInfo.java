@@ -9,6 +9,7 @@ package jsesh.utilitysoftwares.signinfoeditor.ui;
 import javax.swing.JButton;
 
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Display for editing signs information.
@@ -114,22 +115,9 @@ public class JSignInfo extends javax.swing.JPanel {
 
         nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
 
-        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(signGlyphLabel, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(signGlyphLabel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        // jPanel2: glyph display
+        jPanel2.setLayout(new MigLayout("insets dialog, fill"));
+        jPanel2.add(signGlyphLabel, "grow, h 100!");
 
         jTabbedPane1.setToolTipText("Free text description of the sign"); // NOI18N
 
@@ -137,17 +125,7 @@ public class JSignInfo extends javax.swing.JPanel {
 
         variantRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
-        variantTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        
         variantTable.setToolTipText("<html>\nFor an explanation of variants in JSesh, see the documentation. \n<p>It's a bit tricky.\n</html>");
         jScrollPane4.setViewportView(variantTable);
 
@@ -157,17 +135,7 @@ public class JSignInfo extends javax.swing.JPanel {
 
         variantOfLabel.setText("Variant of"); // NOI18N
 
-        partsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+ 
         partsTable.setToolTipText("<html>\nList signs which are part of this one.\n<p>this sign contains a complex sign, don't list the latter's parts.</p>\n<p>Consider for instance a C98 Osiris figure, wearing the Atef crown ; <p>\n<p> you can list S8 (the Atef) as part of C98, but you should not list the Maat feather, which is part\nof S8 anyway.</p>\n<p>If it's useful, JSesh has enough information for retrieving it.</p>\n</html>");
         jScrollPane3.setViewportView(partsTable);
 
@@ -183,75 +151,22 @@ public class JSignInfo extends javax.swing.JPanel {
         partRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
         jPanel9.add(partRemoveButton);
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(partsLabel)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(partField, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                    .add(jScrollPane3, 0, 223, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(variantOfLabel)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(variantField, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
-                    .add(jScrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(variantRemoveButton, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(variantAddButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jPanel1Layout.linkSize(new java.awt.Component[] {variantAddButton, variantRemoveButton}, GroupLayout.HORIZONTAL);
-
-        jPanel1Layout.linkSize(new java.awt.Component[] {partsLabel, variantOfLabel}, GroupLayout.HORIZONTAL);
-
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(16, 16, 16)
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(partsLabel)
-                    .add(partField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(variantOfLabel)
-                    .add(variantAddButton)
-                    .add(variantField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.CENTER)
-                    .add(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane3, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                    .add(jScrollPane4, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
-                .addContainerGap())
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(51, 51, 51)
-                .add(variantRemoveButton)
-                .add(131, 131, 131))
-        );
+        // jPanel1: Relationships tab — parts (left) and variants (right), each with label+field row and scrollpane row
+        jPanel1.setLayout(new MigLayout("insets dialog", "[][grow,fill][pref][][grow,fill][pref]", "[][grow]"));
+        jPanel1.add(partsLabel);
+        jPanel1.add(partField, "growx");
+        jPanel1.add(jPanel9, "spany 2, top");
+        jPanel1.add(variantOfLabel);
+        jPanel1.add(variantField, "growx");
+        jPanel1.add(variantAddButton, "wrap");
+        jPanel1.add(jScrollPane3, "span 2, grow");
+        jPanel1.add(jScrollPane4, "span 2, grow");
+        jPanel1.add(variantRemoveButton, "top");
 
         jTabbedPane1.addTab("Relationships", jPanel1);
 
         descriptionField.setToolTipText("Sign Description in Manuel de codage format. May contain any kind of information: sign values, bibliography..."); // NOI18N
         descriptionField.setScale(1.0);
-
-        GroupLayout descriptionFieldLayout = new GroupLayout(descriptionField);
-        descriptionField.setLayout(descriptionFieldLayout);
-        descriptionFieldLayout.setHorizontalGroup(
-            descriptionFieldLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(0, 513, Short.MAX_VALUE)
-        );
-        descriptionFieldLayout.setVerticalGroup(
-            descriptionFieldLayout.createParallelGroup(GroupLayout.LEADING)
-            .add(0, 82, Short.MAX_VALUE)
-        );
 
         jScrollPane6.setViewportView(descriptionField);
 
@@ -269,63 +184,20 @@ public class JSignInfo extends javax.swing.JPanel {
 
         addDescriptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
 
-        GroupLayout jPanel8Layout = new GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel8Layout.createSequentialGroup()
-                .add(previousDescriptionButton)
-                .addPreferredGap(LayoutStyle.UNRELATED)
-                .add(nextDescriptionButton)
-                .addPreferredGap(LayoutStyle.RELATED, 143, Short.MAX_VALUE)
-                .add(addDescriptionButton)
-                .addPreferredGap(LayoutStyle.UNRELATED)
-                .add(removeDescriptionButton))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel8Layout.createParallelGroup(GroupLayout.BASELINE)
-                .add(previousDescriptionButton)
-                .add(nextDescriptionButton)
-                .add(removeDescriptionButton)
-                .add(addDescriptionButton))
-        );
+        // jPanel8: description navigation — prev/next on left, add/remove pushed to right
+        jPanel8.setLayout(new MigLayout("insets 0"));
+        jPanel8.add(previousDescriptionButton);
+        jPanel8.add(nextDescriptionButton, "gapafter unrelated");
+        jPanel8.add(addDescriptionButton, "gapleft push, gapafter unrelated");
+        jPanel8.add(removeDescriptionButton);
 
-        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel3Layout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, jScrollPane6, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(jPanel3Layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(jPanel3Layout.createSequentialGroup()
-                                .add(jLabel7)
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(langSelectCB, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
-                            .add(jLabel8))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(jPanel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel3Layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(jPanel3Layout.createSequentialGroup()
-                        .add(jPanel3Layout.createParallelGroup(GroupLayout.BASELINE)
-                            .add(jLabel7)
-                            .add(langSelectCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .add(18, 18, 18)
-                        .add(jLabel8))
-                    .add(jPanel8, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jScrollPane6, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        // jPanel3: Description tab — lang selector + nav buttons on top, description editor below
+        jPanel3.setLayout(new MigLayout("insets dialog", "[][pref][grow,fill]", "[]18[]6[grow]"));
+        jPanel3.add(jLabel7);
+        jPanel3.add(langSelectCB, "wmax 187");
+        jPanel3.add(jPanel8, "spany 2, top, wrap");
+        jPanel3.add(jLabel8, "span 2, wrap");
+        jPanel3.add(jScrollPane6, "span 3, grow");
 
         jTabbedPane1.addTab("Description", jPanel3);
 
@@ -333,182 +205,64 @@ public class JSignInfo extends javax.swing.JPanel {
 
         jScrollPane7.setViewportView(tagList);
 
-        GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane7, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane7, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        // jPanel6: sign's current tags list
+        jPanel6.setLayout(new MigLayout("insets dialog, fill"));
+        jPanel6.add(jScrollPane7, "grow");
 
         tagAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
 
         tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
 
-        GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(tagAddButton)
-            .add(tagRemoveButton)
-        );
-
-        jPanel7Layout.linkSize(new java.awt.Component[] {tagAddButton, tagRemoveButton}, GroupLayout.HORIZONTAL);
-
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel7Layout.createSequentialGroup()
-                .add(tagAddButton)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(tagRemoveButton))
-        );
+        // jPanel7: tag transfer buttons (stacked vertically)
+        jPanel7.setLayout(new MigLayout("insets 0, wrap 1"));
+        jPanel7.add(tagAddButton, "growx");
+        jPanel7.add(tagRemoveButton, "growx");
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Available tags"));
 
         jScrollPane2.setViewportView(availableTagList);
 
-        GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        // jPanel5: available tags list
+        jPanel5.setLayout(new MigLayout("insets dialog, fill"));
+        jPanel5.add(jScrollPane2, "grow");
 
-        GroupLayout jPanel10Layout = new GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel10Layout.createSequentialGroup()
-                .add(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jPanel10Layout.createParallelGroup(GroupLayout.CENTER)
-                    .add(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jPanel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        // jPanel10: [available tags] [transfer buttons] [sign's tags]
+        jPanel10.setLayout(new MigLayout("insets dialog", "[grow,fill][pref][grow,fill]", "[grow]"));
+        jPanel10.add(jPanel5, "grow");
+        jPanel10.add(jPanel7, "aligny center");
+        jPanel10.add(jPanel6, "grow");
 
         copyPreviousSignTagsButton.setText("Copy Previous Sign Tags");
 
-        GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.CENTER, copyPreviousSignTagsButton)
-            .add(GroupLayout.CENTER, jPanel10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
-                .add(jPanel10, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(copyPreviousSignTagsButton))
-        );
+        // jPanel4: Tags tab — tag selector at top, copy button at bottom
+        jPanel4.setLayout(new MigLayout("insets dialog, wrap 1, fill", "[grow]", "[grow][]"));
+        jPanel4.add(jPanel10, "grow");
+        jPanel4.add(copyPreviousSignTagsButton, "al center");
 
         jTabbedPane1.addTab("tags", jPanel4);
 
         alwaysDisplayCheckBox.setText("basic sign");
         alwaysDisplayCheckBox.setToolTipText("<html>\n<p>States if the sign is part of the \"basic\" palette or the extended one.</p>\n<p>\nIf unchecked, the sign will be displayed in the palette <em>only</em> if\n\"display all\" is selected.\n</p>\n<p>\nCurrently, signs in the Gardiner list, as well as extended signs which are <em>not</em> variant\nof other signs are supposed to be basic signs.\n</p>\n</html>");
 
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(layout.createSequentialGroup()
-                        .add(previousButton)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(nextButton)
-                        .add(531, 531, 531))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel2)
-                                .add(6, 6, 6)
-                                .add(signCodeField, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                .add(14, 14, 14))
-                            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                                    .add(GroupLayout.LEADING, alwaysDisplayCheckBox, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                                    .add(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(LayoutStyle.RELATED)))
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(jLabel1)
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(transliterationField, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
-                            .add(jScrollPane1, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(transliterationAddButton, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(transliterationRemoveButton))
-                        .addContainerGap())))
-        );
-
-        layout.linkSize(new java.awt.Component[] {transliterationAddButton, transliterationRemoveButton}, GroupLayout.HORIZONTAL);
-
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(jLabel2)
-                    .add(jLabel1)
-                    .add(signCodeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(transliterationField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(transliterationAddButton))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(transliterationRemoveButton)
-                    .add(layout.createSequentialGroup()
-                        .add(jPanel2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(alwaysDisplayCheckBox))
-                    .add(jScrollPane1, 0, 0, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.UNRELATED)
-                .add(jTabbedPane1, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                .add(18, 18, 18)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(previousButton)
-                    .add(nextButton))
-                .addContainerGap())
-        );
-    }// </editor-fold>//GEN-END:initComponents
+        // Main layout: [code label][code field] 14px gap [translit label][translit field][add/remove buttons]
+        // Row 1: labels + fields; row 2: glyph panel + translit table (with remove button); row 3: checkbox;
+        // row 4: tabbed pane (full width); row 5: prev/next navigation
+        setLayout(new MigLayout("insets dialog", "[][grow,fill]14[][grow,fill][]", ""));
+        add(jLabel2);
+        add(signCodeField, "growx");
+        add(jLabel1);
+        add(transliterationField, "growx");
+        add(transliterationAddButton, "wrap");
+        add(jPanel2, "span 2, grow");
+        add(jScrollPane1, "span 2, spany 2, grow");
+        add(transliterationRemoveButton, "spany 2, top, wrap");
+        add(alwaysDisplayCheckBox, "span 2, wrap");
+        add(jTabbedPane1, "span 5, grow, gapy unrelated, wrap");
+        add(previousButton);
+        add(nextButton);
+    }
     
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDescriptionButton;
     private javax.swing.JCheckBox alwaysDisplayCheckBox;
     private javax.swing.JList<String> availableTagList;
@@ -560,7 +314,7 @@ public class JSignInfo extends javax.swing.JPanel {
     private javax.swing.JLabel variantOfLabel;
     private javax.swing.JButton variantRemoveButton;
     private javax.swing.JTable variantTable;
-    // End of variables declaration//GEN-END:variables
+
 	/**
 	 * @return the nextButton
 	 */

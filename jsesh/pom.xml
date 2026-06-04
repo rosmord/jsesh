@@ -152,5 +152,10 @@
             <artifactId>forms</artifactId>
             <version>1.0.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <classifier>swing</classifier>
+        </dependency>
     </dependencies>
 </project>

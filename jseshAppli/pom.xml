@@ -50,11 +50,9 @@
         </dependency>
         <dependency>
             <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>3.7.4</version>
+            <artifactId>miglayout</artifactId>            
             <type>jar</type>
             <classifier>swing</classifier>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

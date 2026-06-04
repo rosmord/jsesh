@@ -36,7 +36,6 @@
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-build-api</artifactId>
 			<version>1.2.0</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>

@@ -6,11 +6,10 @@
 
 package jsesh.swing.signPalette;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
-import javax.swing.LayoutStyle;
+import net.miginfocom.swing.MigLayout;
 
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 
@@ -77,22 +76,9 @@ public class JSimplePalette extends javax.swing.JPanel {
         glyphPictureLabel.setBackground(java.awt.Color.white);
         glyphPictureLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(glyphCodeLabel)
-                .add(70, 70, 70))
-            .add(glyphPictureLabel, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(glyphPictureLabel, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(glyphCodeLabel))
-        );
+        jPanel1.setLayout(new MigLayout("insets 0", "[grow, fill]", ""));
+        jPanel1.add(glyphPictureLabel, "growx, h 74!, wrap");
+        jPanel1.add(glyphCodeLabel);
 
         translitterationFilterField.setColumns(5);
         translitterationFilterField.setToolTipText("Filter for translitteration\n");
@@ -100,102 +86,43 @@ public class JSimplePalette extends javax.swing.JPanel {
         tagChooserCB.setToolTipText("Allows to select a sub-category of a hieroglyph family.");
 
         jLabel2.setText("Family");
-
         jLabel3.setText("Sub-Family");
+        jLabel4.setText("Sub-Sub-Family");
 
         signTable.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
         signTable.setVisibleRowCount(-1);
         jScrollPane2.setViewportView(signTable);
 
-        jLabel4.setText("Sub-Sub-Family");
-
-
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
         backButton.setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
 
+        setLayout(new MigLayout("insets dialog", "[trailing][grow, fill]", ""));
 
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(jSeparator1, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                    .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .add(layout.createSequentialGroup()
-                                .add(showVariantsButton)
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(inUserPaletteCheckBox)))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(backButton)
-                                .addPreferredGap(LayoutStyle.RELATED, 216, Short.MAX_VALUE)
-                                .add(showContainingButtons))
-                            .add(jScrollPane1)))
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(GroupLayout.LEADING)
-                            .add(jLabel4)
-                            .add(jLabel2)
-                            .add(showAllCheckBox)
-                            .add(jLabel3))
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                            .add(GroupLayout.LEADING, categoryChooserCB, 0, 352, Short.MAX_VALUE)
-                            .add(GroupLayout.LEADING, tagChooserCB, 0, 352, Short.MAX_VALUE)
-                            .add(GroupLayout.LEADING, secondaryTagCB, 0, 352, Short.MAX_VALUE)
-                            .add(layout.createSequentialGroup()
-                                .add(containsCB, 0, 190, Short.MAX_VALUE)
-                                .add(18, 18, 18)
-                                .add(jLabel1)
-                                .addPreferredGap(LayoutStyle.RELATED)
-                                .add(translitterationFilterField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
-        );
+        add(jLabel2, "sg lbl");
+        add(categoryChooserCB, "growx, wrap");
 
-        layout.linkSize(new java.awt.Component[] {jLabel2, jLabel3, jLabel4}, GroupLayout.HORIZONTAL);
+        add(jLabel3, "sg lbl");
+        add(tagChooserCB, "growx, wrap");
 
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(jLabel2)
-                    .add(categoryChooserCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(tagChooserCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel3))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(jLabel4)
-                    .add(secondaryTagCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(showAllCheckBox)
-                    .add(translitterationFilterField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel1)
-                    .add(containsCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.UNRELATED)
-                .add(jSeparator1, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane1, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
-                .add(9, 9, 9)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(showVariantsButton)
-                    .add(showContainingButtons)
-                    .add(inUserPaletteCheckBox)
-                    .add(backButton))
-                .addContainerGap())
-        );
+        add(jLabel4, "sg lbl");
+        add(secondaryTagCB, "growx, wrap");
+
+        add(showAllCheckBox);
+        add(containsCB, "split 3, growx");
+        add(jLabel1);
+        add(translitterationFilterField, "wrap");
+
+        add(jScrollPane2, "span 2, grow, push, wrap");
+
+        add(jSeparator1, "span 2, growx, wrap");
+
+        add(jPanel1, "aligny top");
+        add(jScrollPane1, "grow, h 108!, wrap");
+
+        add(showVariantsButton, "span 2, split 4");
+        add(inUserPaletteCheckBox);
+        add(backButton);
+        add(showContainingButtons, "gapleft push");
     }
 
     private javax.swing.JButton backButton;

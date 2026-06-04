@@ -208,6 +208,7 @@ Regarding **standard** codes:
 
 ### Simple TODO
 
+- [ ] improve i18n for `JSignInfo`
 - [ ] rename `HieroglyphPictureBuilder` into `HieroglyphIconBuilder`, because it's its function.
 - [ ] when the code is ok, check the sign editor to be sure all the constructors are needed. There are an awful lot of them, for instance for `SignInfoProperty`;
 - [ ] Improve the structure of `QuickPDFExportAction`
@@ -238,13 +239,23 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/04
+
+- [ ] check the SignInfo app.
+- [ ]❗️ icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
+- [ ] fix the sign palette display.
+- [ ] backport the support of hyphens in transliteration which was used in the former master branch, but deleted when merging with the development branch. 
+- [ ] menu-based SVG sign import result in a black square instead of the sign. 
 
 ### 2026/06/03
 
-- Started merging with master branch
+- SimplePalette : 
+  - (modified to use MigLayout)
+    - the starting height of the palette is too large ;
+    - the area for displaying the current sign is too small
+- [x] Merge with master branch
   - removal of font-related utilities (moved elsewhere). Removed file `MdC2Unicode-table.txt`. We need to keep track of this if we want to reuse the file (but more sophisticated Unicode integration is planned).
-- [ ] menu-based SVG sign import result in a black square instead of the sign. 
-- [ ] icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
+
 
 - [x] changing the hieroglyphic font source doesn't update the display of the windows, until we click in them. It should not be the case.
 

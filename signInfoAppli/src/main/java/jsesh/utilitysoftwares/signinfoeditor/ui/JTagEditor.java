@@ -6,6 +6,8 @@
 
 package jsesh.utilitysoftwares.signinfoeditor.ui;
 
+import net.miginfocom.swing.MigLayout;
+
 /**
  *
  * @author  rosmord
@@ -72,57 +74,19 @@ public class JTagEditor extends javax.swing.JPanel {
 
         tagRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
 
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(tagNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .add(jScrollPane1, GroupLayout.PREFERRED_SIZE, 161, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.LEADING, false)
-                    .add(tagRemoveButton, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(tagAddButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .add(18, 18, 18)
-                .add(layout.createParallelGroup(GroupLayout.TRAILING)
-                    .add(GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(jLabel2)
-                        .addPreferredGap(LayoutStyle.RELATED)
-                        .add(labelField, GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
-                    .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(labelAddButton)
-                    .add(labelRemoveButton))
-                .addContainerGap())
-        );
-
-        layout.linkSize(new java.awt.Component[] {labelAddButton, labelRemoveButton, tagAddButton, tagRemoveButton}, GroupLayout.HORIZONTAL);
-
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
-                    .add(jLabel1)
-                    .add(tagNameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(tagAddButton)
-                    .add(jLabel2)
-                    .add(labelField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .add(labelAddButton))
-                .addPreferredGap(LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(GroupLayout.LEADING)
-                    .add(jScrollPane2, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                    .add(tagRemoveButton)
-                    .add(jScrollPane1, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                    .add(labelRemoveButton))
-                .addContainerGap())
-        );
+        setLayout(new MigLayout("insets dialog, wrap 6", "[][][][][grow,fill][]", "[][grow]"));
+        // Row 1: input row
+        add(jLabel1);
+        add(tagNameField);
+        add(tagAddButton, "gapright 18");
+        add(jLabel2);
+        add(labelField, "growx");
+        add(labelAddButton);
+        // Row 2: scrollpane row (grows vertically)
+        add(jScrollPane1, "span 2, grow");
+        add(tagRemoveButton, "top, gapright 18");
+        add(jScrollPane2, "span 2, grow");
+        add(labelRemoveButton, "top");
     }// </editor-fold>//GEN-END:initComponents
     
     
