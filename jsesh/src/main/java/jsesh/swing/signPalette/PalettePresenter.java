@@ -551,9 +551,9 @@ public class PalettePresenter {
      * Method called when a new cell is focused.
      */
     protected void selectedCellChanged() {
-        JList signTable = simplePalette.getSignTable();
+        JList<String> signTable = simplePalette.getSignTable();
 
-        String code = (String) signTable.getSelectedValue();
+        String code = signTable.getSelectedValue();
         if (code != null) {
             setSelectedCode(code);
         }
@@ -588,14 +588,14 @@ public class PalettePresenter {
      * @param family
      */
     private void selectCategory(HieroglyphFamily family) {
-        simplePalette.getTagChooserCB().setModel(new DefaultComboBoxModel());
+        simplePalette.getTagChooserCB().setModel(new DefaultComboBoxModel<String>());
         // Allow two special families :
         // last signs : the signs chosen from the palette by the user
         // user palette: a user-specific palette.
         Collection<String> signs = getCompatibleSignsForTag(ALL);
         setDisplayedSigns(signs);
         // Prepare the content of the tag selectors...
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(ALL);
 
         /* Compute the tags associated with all displayed signs */
@@ -610,7 +610,7 @@ public class PalettePresenter {
         }
         model.addElement(OTHERS);
         simplePalette.getTagChooserCB().setModel(model);
-        simplePalette.getSecondaryTagCB().setModel(new DefaultComboBoxModel());
+        simplePalette.getSecondaryTagCB().setModel(new DefaultComboBoxModel<>());
     }
 
     /**
@@ -623,7 +623,7 @@ public class PalettePresenter {
         String[] l = new String[signsCodes.size()];
         signsCodes.toArray(l);
 
-        DefaultListModel model = new DefaultListModel();
+        DefaultListModel<String> model = new DefaultListModel<>();
         // add the signs to the list model for general display.
         for (String code : signsCodes) {
             model.addElement(code);
@@ -646,7 +646,7 @@ public class PalettePresenter {
             }
         }
 
-        DefaultComboBoxModel subSignListModel = new DefaultComboBoxModel();
+        DefaultComboBoxModel<CharSequence> subSignListModel = new DefaultComboBoxModel<>();
         // add the title as a string buffer. This way, it won't be rendered :-)
         subSignListModel
                 .addElement(new StringBuffer("filter signs containing"));
@@ -673,9 +673,9 @@ public class PalettePresenter {
         TreeSet<String> result = new TreeSet<>(
                 GardinerCode.getCodeComparator());
         // run through the possible signs...
-        ListModel listModel = simplePalette.getSignTable().getModel();
+        ListModel<String> listModel = simplePalette.getSignTable().getModel();
         for (int i = 0; i < listModel.getSize(); i++) {
-            String code = (String) listModel.getElementAt(i);
+            String code = listModel.getElementAt(i);
             result.add(code);
         }
         return result;
@@ -748,8 +748,8 @@ public class PalettePresenter {
         @Override
         public void mouseClicked(MouseEvent e) {
             // Retrieve the code corresponding to the clicked cell.
-            JList table = simplePalette.getSignTable();
-            String code = (String) table.getSelectedValue();
+            JList<String> table = simplePalette.getSignTable();
+            String code =  table.getSelectedValue();
 
             if (code == null || "".equals(code)) {
                 return;
@@ -813,7 +813,9 @@ public class PalettePresenter {
             infoView.setText("");
         } else {
         	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);
-            IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().size(iconLabel.getHeight() - 4).border(4).build();
+            IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
+                .size(iconLabel.getHeight() - 4)
+                .border(4).build();
             iconLabel.setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(
                     code, renderOptions));
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
@@ -901,15 +903,6 @@ public class PalettePresenter {
         DefaultComboBoxModel<String> secondaryCBModel = new DefaultComboBoxModel<>(
                 tags.toArray(new String[tags.size()]));
         simplePalette.getSecondaryTagCB().setModel(secondaryCBModel);
-    }
-
-    private void setUserPalette(Collection<String> newUserPalette) {
-        userPalette.clear();
-        userPalette.addAll(newUserPalette);
-    }
-
-    private Set<String> getUserPalette() {
-        return userPalette;
     }
 
     private JMDCEditor getSignDescriptionField() {

@@ -345,7 +345,7 @@ public class JSeshView extends AbstractView {
             // TODO save PDF prefs in pdf files...
             PDFExportPreferences prefs = new PDFExportPreferences();
             prefs.setFile(document.getFile());
-            prefs.setJseshStyle(viewCore.getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render
+            prefs.setJSeshStyle(viewCore.getJSeshStyle()); // Check if jseshStyle is needed here... We pass a render
                                                            // context!
             PDFExporter exporter = new PDFExporter();
             exporter.setPdfExportPreferences(prefs);

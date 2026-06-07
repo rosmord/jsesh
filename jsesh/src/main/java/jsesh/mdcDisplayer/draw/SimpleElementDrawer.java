@@ -74,7 +74,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitAlphabeticText(AlphabeticText t) {
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         if (!postfix) {
             return;
         }
@@ -127,7 +127,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitCartouche(Cartouche c) {
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         if (!postfix) {
             return;
         }
@@ -149,7 +149,7 @@ public class SimpleElementDrawer extends ElementDrawer {
     @Override
     public void visitHieroglyph(Hieroglyph h) {
         JSeshRenderContext renderContext = getRenderContext();
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
 
         if (!postfix) {
             if (h.getModifiers().hasInteger("shading")) {
@@ -252,7 +252,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      *                      could be considered as a font size, in a way.
      */
     private void drawSign(Hieroglyph h, float baseSignScale) {
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
 
         Graphics2D tmpG = (Graphics2D) g.create();
         boolean reversed = (h.isReversed() ^ currentTextDirection
@@ -311,7 +311,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitHRule(HRule h) {
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         if (!postfix) {
             return;
         }
@@ -339,7 +339,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         if (!postfix) {
             return;
         }
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         if (! jseshStyle.options().paged()) {
             g.setStroke(jseshStyle.geometry().fineStroke());
             g.draw(new Line2D.Float(-10000f, 0, 10000f, 0));
@@ -367,7 +367,7 @@ public class SimpleElementDrawer extends ElementDrawer {
     }
 
     private void drawBracket(int code, float x, float y) {
-        JSeshStyle jseshStyle = getJseshStyle();        
+        JSeshStyle jseshStyle = getJSeshStyle();        
         Font f = jseshStyle.fonts().getFont('l');
 
         // Save current transformation.
@@ -400,7 +400,7 @@ public class SimpleElementDrawer extends ElementDrawer {
         if (!postfix) {
             return;
         }
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         String text = s.getText();
         Dimension2D dims = jseshStyle.fonts().superScriptDimensions(getTechRenderContext(), text);
         g.setFont(jseshStyle.fonts().superScriptFont());
@@ -530,7 +530,7 @@ public class SimpleElementDrawer extends ElementDrawer {
      * @param area
      */
     private void shadeArea(Area area) {
-        JSeshStyle jseshStyle = getJseshStyle();
+        JSeshStyle jseshStyle = getJSeshStyle();
         // Easy way: paint the area in grey...
         // Complex way : intersect the area with line hatching...
 

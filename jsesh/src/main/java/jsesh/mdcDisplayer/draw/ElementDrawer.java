@@ -298,18 +298,6 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		// This method intentionnaly left blank.
 	}
 
-	/**
-	 * The ViewDrawer is responsible for setting the drawing specifications
-	 * before drawing. Thus, drawing specifications can be shared, and
-	 * ElementDrawers can be shared too.
-	 * 
-	 * @param specifications
-
-
-	void setJseshStyle(JSeshStyle specifications) {
-		jseshStyle = specifications;
-	}
-	*/
 
 	/**
 	 * @return the current drawing state.
@@ -396,7 +384,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * Access to the JSeshStyle by the subclasses.
 	 * @return
 	 */
-	protected JSeshStyle getJseshStyle() {
+	protected JSeshStyle getJSeshStyle() {
 		return renderContext.jseshStyle();
 	}
 

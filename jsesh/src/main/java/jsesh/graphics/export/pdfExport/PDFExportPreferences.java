@@ -171,14 +171,14 @@ public class PDFExportPreferences {
 	/**
 	 * @param jseshStyle the jseshStyle to set
 	 */
-	public void setJseshStyle(JSeshStyle jseshStyle) {
+	public void setJSeshStyle(JSeshStyle jseshStyle) {
 		this.jseshStyle = jseshStyle;
 	}
 
 	/**
 	 * @return the jseshStyle
 	 */
-	public JSeshStyle getJseshStyle() {
+	public JSeshStyle getJSeshStyle() {
 		return jseshStyle;
 	}
 

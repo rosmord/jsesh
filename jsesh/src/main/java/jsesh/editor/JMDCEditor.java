@@ -216,8 +216,8 @@ public class JMDCEditor extends JPanel {
                 HieroglyphToolkit.standardHieroglyphToolKit());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle Style, HieroglyphToolkit fontKit) {
-        this(data, new JSeshStyleReference(Style),fontKit);
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle style, HieroglyphToolkit fontKit) {
+        this(data, new JSeshStyleReference(style),fontKit);
     }
 
     /**

@@ -29,11 +29,8 @@ import jsesh.swing.utils.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.
- * TODO: make it possible to avoid computing a drawing twice in all cases
  * a) create code for generating SVG
  * b) create code taking a graphic2D factory as argument.
- * TODO : reuse this class in all image creating soft.
- * TODO : move it in a more logical (?) place.
  * 
  * @author S. Rosmorduc
  * 
@@ -218,6 +215,8 @@ public class MDCDrawingFacade {
 	 * true, they will be considered as mere signs. If false, they will be
 	 * considered as parenthesis (and thus will require matching).
 	 * 
+	 * You won't need to call this method in most cases.
+	 * It only handles old TkSesh texts... and by now, you would have transformed them if you are a former user of TkSesh.
 	 * @param philologySign
 	 */
 

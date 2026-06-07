@@ -11,7 +11,7 @@ import jsesh.hieroglyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
- * A simple implementation of the JseshFontKit interface, which gives access to
+ * A simple implementation of the HieroglyphToolkit interface, which gives access to
  * a set of default resources, including a composite font and an empty glossary.
  */
 public class SimpleHieroglyphToolkit implements HieroglyphToolkit {

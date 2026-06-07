@@ -68,7 +68,6 @@ import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.HieroglyphToolkit;
-import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.graphics.export.emf.EMFExporter;
@@ -555,12 +554,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
             RTFExportPreferences rtfExportPreferences = jseshApplicationCore.getCurrentRTFPreferences();
             MDCModelTransferable result = new MDCModelTransferable(dataFlavors, top, rtfExportPreferences,
-                    renderContext);
-            // Check if this is needed (I think not - the rendercontext contains the style
-            // of the view).
-            // JSeshStyle style = ((JSeshView) application
-            // .getActiveView()).getJSeshStyle();
-            // result.setJseshStyle(style);
+                    renderContext);            
             return result;
         }
     }

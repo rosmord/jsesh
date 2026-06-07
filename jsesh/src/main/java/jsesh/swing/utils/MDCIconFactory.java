@@ -18,7 +18,9 @@ import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
 
 /**
- * Static icons repository.
+ * Icons Factory and Cache.
+ * 
+ * Will build icons for Mdc text, and cache them for later use.
  *
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
@@ -48,7 +50,7 @@ public class MDCIconFactory {
 
     public synchronized final void setCadratHeight(int cadratHeight) {
         this.iconMap.clear();
-        this.mdcDrawingFacade.setCadratHeight(cadratHeight);
+        this.mdcDrawingFacade.setCadratHeight(cadratHeight);        
     }
 
     /**
@@ -87,9 +89,7 @@ public class MDCIconFactory {
 
     /**
      * Build a picture for a given glyph.
-     *
-     * TODO : cleanup to avoid pasted code.
-     *
+     * 
      * @param code
      * @return
      */
@@ -112,4 +112,8 @@ public class MDCIconFactory {
         return imageIcon;
     }
 
+    /**
+     * Options for icon creation.
+     */
+    public static record IconOption() {}
 }

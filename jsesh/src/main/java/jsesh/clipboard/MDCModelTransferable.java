@@ -77,7 +77,7 @@ public class MDCModelTransferable implements Transferable {
         this.dataFlavors = dataFlavors;
     }
 
-    public void setJseshStyle(JSeshStyle style) {
+    public void setJSeshStyle(JSeshStyle style) {
         // A bit convoluted, a simple call to jseshRenderContext constructor would do.
         // But we are consistent.
         this.jseshRenderContext = this.jseshRenderContext.copy().jseshStyle(style).build();                

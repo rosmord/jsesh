@@ -2,23 +2,61 @@
  * JSimplePalette.java
  *
  * Created on 2 juillet 2007, 15:10
+ * 
+ * ported to miglayout.
+ * 
+ * TODO: internationalize the labels.
+ * @author Serge Rosmorduc
  */
 
 package jsesh.swing.signPalette;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 
 import jsesh.hieroglyphs.data.HieroglyphFamily;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Simple palette window.
  * @author  rosmord
  */
 @SuppressWarnings("serial")
-public class JSimplePalette extends javax.swing.JPanel {
+public class JSimplePalette extends JPanel {
+
+
+    private JButton backButton;
+    private JComboBox<HieroglyphFamily> categoryChooserCB;
+    private JComboBox<CharSequence> containsCB;
+    private JLabel glyphCodeLabel;
+    private JEditorPane glyphInfoText;
+    private JLabel glyphPictureLabel;
+    private JCheckBox inUserPaletteCheckBox;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JPanel jPanel1;
+    private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane2;
+    private JSeparator jSeparator1;
+    private JComboBox<String> secondaryTagCB;
+    private JCheckBox showAllCheckBox;
+    private JButton showContainingButtons;
+    private JButton showVariantsButton;
+    private JList<String> signTable;
+    private JComboBox<String> tagChooserCB;
+    private JTextField translitterationFilterField;
     
     /** Creates new form JSimplePalette */
     public JSimplePalette() {
@@ -29,36 +67,36 @@ public class JSimplePalette extends javax.swing.JPanel {
      * initialize the form.
      */
     private void initComponents() {
-        showContainingButtons = new javax.swing.JButton();
-        inUserPaletteCheckBox = new javax.swing.JCheckBox();
-        showVariantsButton = new javax.swing.JButton();
-        categoryChooserCB = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        glyphInfoText = new javax.swing.JEditorPane();
-        showAllCheckBox = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        glyphCodeLabel = new javax.swing.JLabel();
-        glyphPictureLabel = new javax.swing.JLabel();
-        translitterationFilterField = new javax.swing.JTextField();
-        tagChooserCB = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        signTable = new javax.swing.JList<>();
-        jLabel4 = new javax.swing.JLabel();
-        secondaryTagCB = new javax.swing.JComboBox<>();
-        jSeparator1 = new javax.swing.JSeparator();
-        backButton = new javax.swing.JButton();
-        containsCB = new javax.swing.JComboBox<>();
+        showContainingButtons = new JButton();
+        inUserPaletteCheckBox = new JCheckBox();
+        showVariantsButton = new JButton();
+        categoryChooserCB = new JComboBox<>();
+        jScrollPane1 = new JScrollPane();
+        glyphInfoText = new JEditorPane();
+        showAllCheckBox = new JCheckBox();
+        jLabel1 = new JLabel();
+        jPanel1 = new JPanel();
+        glyphCodeLabel = new JLabel();
+        glyphPictureLabel = new JLabel();
+        translitterationFilterField = new JTextField();
+        tagChooserCB = new JComboBox<>();
+        jLabel2 = new JLabel();
+        jLabel3 = new JLabel();
+        jScrollPane2 = new JScrollPane();
+        signTable = new JList<>();
+        jLabel4 = new JLabel();
+        secondaryTagCB = new JComboBox<>();
+        jSeparator1 = new JSeparator();
+        backButton = new JButton();
+        containsCB = new JComboBox<>();
 
-        showContainingButtons.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/partof.png"))); // NOI18N
+        showContainingButtons.setIcon(new ImageIcon(getClass().getResource("/jsesh/swing/signPalette/partof.png"))); // NOI18N
         showContainingButtons.setToolTipText("Display signs which contain the selected sign");
 
         inUserPaletteCheckBox.setText("user Pal.");
         inUserPaletteCheckBox.setToolTipText("sign should appear in user palette.");
 
-        showVariantsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/var.png"))); // NOI18N
+        showVariantsButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/swing/signPalette/var.png"))); // NOI18N
         showVariantsButton.setToolTipText("Display variants of sign");
 
 
@@ -70,14 +108,14 @@ public class JSimplePalette extends javax.swing.JPanel {
 
         jLabel1.setText("Search");
 
-        glyphCodeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18));
+        glyphCodeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // Or take standard and change size.
         glyphCodeLabel.setText("        ");
 
         glyphPictureLabel.setBackground(java.awt.Color.white);
-        glyphPictureLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
+        glyphPictureLabel.setBorder(BorderFactory.createEtchedBorder());
+        
         jPanel1.setLayout(new MigLayout("insets 0", "[grow, fill]", ""));
-        jPanel1.add(glyphPictureLabel, "growx, h 74!, wrap");
+        jPanel1.add(glyphPictureLabel, "growx, w 200!, h 74!, wrap");
         jPanel1.add(glyphCodeLabel);
 
         translitterationFilterField.setColumns(5);
@@ -89,11 +127,11 @@ public class JSimplePalette extends javax.swing.JPanel {
         jLabel3.setText("Sub-Family");
         jLabel4.setText("Sub-Sub-Family");
 
-        signTable.setLayoutOrientation(javax.swing.JList.HORIZONTAL_WRAP);
+        signTable.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         signTable.setVisibleRowCount(-1);
         jScrollPane2.setViewportView(signTable);
 
-        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
+        backButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
         backButton.setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
 
         setLayout(new MigLayout("insets dialog", "[trailing][grow, fill]", ""));
@@ -125,42 +163,20 @@ public class JSimplePalette extends javax.swing.JPanel {
         add(showContainingButtons, "gapleft push");
     }
 
-    private javax.swing.JButton backButton;
-    private javax.swing.JComboBox<HieroglyphFamily> categoryChooserCB;
-    private javax.swing.JComboBox<CharSequence> containsCB;
-    private javax.swing.JLabel glyphCodeLabel;
-    private javax.swing.JEditorPane glyphInfoText;
-    private javax.swing.JLabel glyphPictureLabel;
-    private javax.swing.JCheckBox inUserPaletteCheckBox;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JComboBox<String> secondaryTagCB;
-    private javax.swing.JCheckBox showAllCheckBox;
-    private javax.swing.JButton showContainingButtons;
-    private javax.swing.JButton showVariantsButton;
-    private javax.swing.JList<String> signTable;
-    private javax.swing.JComboBox<String> tagChooserCB;
-    private javax.swing.JTextField translitterationFilterField;
     
-	public javax.swing.JComboBox<HieroglyphFamily> getCategoryChooserCB() {
+	public JComboBox<HieroglyphFamily> getCategoryChooserCB() {
 		return categoryChooserCB;
 	}
 
-	public javax.swing.JLabel getGlyphCodeLabel() {
+	public JLabel getGlyphCodeLabel() {
 		return glyphCodeLabel;
 	}
 
-	public javax.swing.JEditorPane getGlyphInfoText() {
+	public JEditorPane getGlyphInfoText() {
 		return glyphInfoText;
 	}
 
-	public javax.swing.JLabel getGlyphPictureLabel() {
+	public JLabel getGlyphPictureLabel() {
 		return glyphPictureLabel;
 	}
 
@@ -168,27 +184,27 @@ public class JSimplePalette extends javax.swing.JPanel {
         return signTable;
     }
     
-    public javax.swing.JCheckBox getShowAllCheckBox() {
+    public JCheckBox getShowAllCheckBox() {
 		return showAllCheckBox;
 	}
 
-	public javax.swing.JButton getShowContainingButtons() {
+	public JButton getShowContainingButtons() {
 		return showContainingButtons;
 	}
 
-	public javax.swing.JButton getShowVariantsButton() {
+	public JButton getShowVariantsButton() {
 		return showVariantsButton;
 	}
 
-	public javax.swing.JTextField getTransliterationFilterField() {
+	public JTextField getTransliterationFilterField() {
 		return translitterationFilterField;
 	}
     
-	public javax.swing.JCheckBox getInUserPaletteCheckBox() {
+	public JCheckBox getInUserPaletteCheckBox() {
 		return inUserPaletteCheckBox;
 	}
 	
-	public javax.swing.JComboBox<String> getTagChooserCB() {
+	public JComboBox<String> getTagChooserCB() {
 		return tagChooserCB;
 	}
 

@@ -318,7 +318,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * case sensitives, hence the need to process the file name.
      * <p>
      * This method understands Gardiner codes, and MdC specificities (nn and nTrw
-     * codes) and Jsesh extensions.
+     * codes) and JSesh extensions.
      * 
      * @param fname a file name (with a mandatory extensions, ".svg", ".png",
      * whatever).

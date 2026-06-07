@@ -18,6 +18,7 @@ public record IconRenderOptions(
     
   
         public static final IconRenderOptions DEFAULT = new IconRenderOptions(50, false, false, 4);
+        
         /**
          * Create a builder initialized with the current values.
          */

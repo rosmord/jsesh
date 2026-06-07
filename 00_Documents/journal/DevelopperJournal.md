@@ -241,6 +241,38 @@ List of classes which need some cleanup:
 
 ### 2026/06/04
 
+- **note** we have multiple classes for creating pictures: `HieroglyphPictureBuilder`, `MDCIconFactory` and `MDCDrawingFacade`. We should either document this or rationalise it.
+
+  we should certainly move them to the same package.
+ 
+  - `jsesh.hieroglyphs.utils.HieroglyphPictureBuilder`;
+  - `jsesh.swing.utils.MDCIconFactory`;
+  - `jsesh.mdcDisplayer.draw.MDCDrawingFacade`.
+
+- [ ] **TODO** replace the size argument of `IconRenderOptions` by a dimension object (or something like that, read-only).
+- [ ] introduce a generic adapter class, `ListItem<G>` or something like that, which could hold either :
+  - a particular object of class `G`
+  - or a label, typically something like "choose a town", etc... which would be used mainly for the first item.
+
+- some warnings in starting mvn:
+
+  ~~~
+  $./mvnw package
+  
+  WARNING: A restricted method in java.lang.System has been called
+  WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/Users/rosmord/.m2/wrapper/dists/apache-maven-3.9.9/3477a4f1/lib/jansi-2.4.1.jar)
+  WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+  WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+  
+  WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+  WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/Users/rosmord/.m2/wrapper/dists/apache-maven-3.9.9/3477a4f1/lib/guava-33.2.1-jre.jar)
+  WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+  WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+  [INFO] Scanning for projects...
+  ~~~
+
+  Linked to modules and maven code (not JSesh code). It's supposed to be fixed in maven 4. But we might also move to gradle at some point...
+
 - [ ] check the SignInfo app.
 - [ ]❗️ icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
 - [ ] fix the sign palette display.

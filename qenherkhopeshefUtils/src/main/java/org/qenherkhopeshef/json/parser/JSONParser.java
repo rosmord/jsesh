@@ -207,6 +207,7 @@ public class JSONParser {
 		}
 	}
 	
+// TODO : transform the following main into actual tests.
 //	public static void main(String[] args) throws IOException {
 //		StringReader reader= new StringReader("{\"a\": 34, \"b\" : [3,4,5], \"toto\": \"un \\ttableau avec des \\\"dedans\"}");
 //		JSONParser parser= new JSONParser();

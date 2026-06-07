@@ -57,10 +57,10 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
         add(jLabel3, "right");
         add(cadratHeightField, "growx");
         add(unitCB);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    
     private javax.swing.JButton browseButton;
     private javax.swing.JFormattedTextField cadratHeightField;
     private javax.swing.JComboBox<RTFExportGranularity> exportModeCB;
@@ -69,7 +69,7 @@ public class JRTFFileExportPreferences extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JComboBox<LengthUnit> unitCB;
-    // End of variables declaration//GEN-END:variables
+    
 
     public JButton getBrowseButton() {
         return browseButton;

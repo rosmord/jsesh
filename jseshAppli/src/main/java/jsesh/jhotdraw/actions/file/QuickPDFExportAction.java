@@ -57,7 +57,7 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 		PDFExportPreferences quickExportPreferences = new PDFExportPreferences();
 
 		PDFExporter pdfExporter = new PDFExporter();
-		quickExportPreferences.setJseshStyle(jSeshView.getJSeshStyle());
+		quickExportPreferences.setJSeshStyle(jSeshView.getJSeshStyle());
 
 		// Find the next file name...
 		int maxNum = 0;
