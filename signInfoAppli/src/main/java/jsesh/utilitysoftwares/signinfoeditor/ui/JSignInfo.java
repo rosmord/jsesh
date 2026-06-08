@@ -17,11 +17,6 @@ import net.miginfocom.swing.MigLayout;
  * @author  rosmord
  */
 public class JSignInfo extends javax.swing.JPanel {
-    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6732974872590584101L;
 	
 	/** Creates new form JSignInfo */
     public JSignInfo() {
@@ -29,7 +24,6 @@ public class JSignInfo extends javax.swing.JPanel {
     }
     
     private void initComponents() {
-
         jLabel2 = new javax.swing.JLabel();
         signCodeField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -87,22 +81,7 @@ public class JSignInfo extends javax.swing.JPanel {
         signCodeField.setEditable(false);
         signCodeField.setText(" ");
 
-        transliterationTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Transliteration", "Relevance"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+       
         jScrollPane1.setViewportView(transliterationTable);
 
         transliterationAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
@@ -152,7 +131,7 @@ public class JSignInfo extends javax.swing.JPanel {
         jPanel9.add(partRemoveButton);
 
         // jPanel1: Relationships tab — parts (left) and variants (right), each with label+field row and scrollpane row
-        jPanel1.setLayout(new MigLayout("insets dialog", "[][grow,fill][pref][][grow,fill][pref]", "[][grow]"));
+        jPanel1.setLayout(new MigLayout("insets dialog", "[][grow,fill][pref]unrelated*2[][grow,fill][pref]", "[][grow]"));
         jPanel1.add(partsLabel);
         jPanel1.add(partField, "growx");
         jPanel1.add(jPanel9, "spany 2, top");
@@ -258,8 +237,8 @@ public class JSignInfo extends javax.swing.JPanel {
         add(transliterationRemoveButton, "spany 2, top, wrap");
         add(alwaysDisplayCheckBox, "span 2, wrap");
         add(jTabbedPane1, "span 5, grow, gapy unrelated, wrap");
-        add(previousButton);
-        add(nextButton);
+        add(previousButton, "tag back");
+        add(nextButton, "tag next");
     }
     
     

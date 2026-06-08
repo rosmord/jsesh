@@ -31,7 +31,7 @@ public class TagEditorPresenter {
 	private TagListModel tagListModel;
 	private TagNameTableModel tagNameTableModel;
 
-	public TagEditorPresenter(SignInfoModel signInfoModel) {
+	public TagEditorPresenter() {
 
 		jTagEditor = new JTagEditor();
 		// bindings.
@@ -51,8 +51,6 @@ public class TagEditorPresenter {
 						changeTag();
 					}
 				});
-		setSignInfoModel(signInfoModel);
-
 	}
 
 	private void changeTag() {

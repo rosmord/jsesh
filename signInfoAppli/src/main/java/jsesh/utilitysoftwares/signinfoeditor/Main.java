@@ -80,8 +80,6 @@ public class Main implements PropertyHolder {
 
 	public JFrame mainFrame;
 
-	public SignInfoModel signInfoModel;
-
 	public TagEditorPresenter tagEditorPresenter;
 
 	public SignInfoPresenter signInfoPresenter;
@@ -164,7 +162,7 @@ public class Main implements PropertyHolder {
 	}
 
 	public void buildTagEditor() {
-		tagEditorPresenter = new TagEditorPresenter(signInfoModel);
+		tagEditorPresenter = new TagEditorPresenter();
 		tagEditorDialog = new JDialog(mainFrame);
 		tagEditorDialog.getContentPane()
 				.add(tagEditorPresenter.getJTagEditor());

@@ -65,6 +65,11 @@ import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
  * The model is in fact a rather plain representation of the XML data,
  * with everything represented as "properties".
  * 
+ * <p> Principle: the presenter manipulates its own lists of data, which are the source
+ * for the display. When a change is made, it is also applied to the model, mainly through
+ * the use of <code>currentSign.add(property)</code> 
+ * and <code>currentSign.remove(property)</code>. 
+ * 
  * @author rosmord
  */
 public class SignInfoPresenter implements HieroglyphPaletteListener,
@@ -406,8 +411,10 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             // update sign display
             // HieroglyphPictureBuilder.createHieroglyphIcon(code,
 
+            int iconSize = signIconLabel.getHeight() - 2 * LABEL_PADDING;
+            if (iconSize <= 0) iconSize = IconRenderOptions.DEFAULT.size();
             IconRenderOptions iconRenderOptions = IconRenderOptions.DEFAULT.copy()
-                    .size(signIconLabel.getHeight() - 2 * LABEL_PADDING)
+                    .size(iconSize)
                     .border(LABEL_PADDING)
                     .build();
             Icon newIcon = pictureBuilder.createHieroglyphIcon(code, iconRenderOptions);
@@ -575,7 +582,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     protected void updateCodeFromField() {
-        String newCode = view.getSignCodeField().getText();
+        String newCode = view.getSignCodeField().getText();        
         setCurrentSign(newCode);
     }
 
@@ -635,7 +642,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // First column. Has a renderer, but the editor is the normal string
         // editor.
         table.getColumnModel().getColumn(0).setCellRenderer(
-                new HieroglyphicCodeRenderer(bitmapSize, bitmapBorder, table));
+                new HieroglyphicCodeRenderer(bitmapSize, bitmapBorder, pictureBuilder, table));
         // Drag and drop support:
         table.setTransferHandler(new SignCodeToTableTransfertHandler(
                 tableModel));
@@ -693,8 +700,6 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     }
 
-    /**
-     */
     private void bindVariantOfTable() {
         JTable variantTable = view.getVariantTable();
         view.getVariantField().setText("");

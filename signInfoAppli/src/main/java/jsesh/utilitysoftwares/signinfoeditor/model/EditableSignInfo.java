@@ -54,9 +54,9 @@ public class EditableSignInfo {
      * @see SignDescriptionConstants
 	 */
 	public List<SignInfoProperty> getPropertyList(String propertyLabel) {
-		// XMLInfoProperty ??
-		return signInfoPropertyList.stream().filter(prop -> propertyLabel.equals(prop.getName()))
-			.toList();		
+		return new ArrayList<>(signInfoPropertyList.stream()
+		.filter(prop -> propertyLabel.equals(prop.getName()))
+		.toList());		
 	}
 
 

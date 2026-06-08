@@ -52,7 +52,7 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 
 	private int bitmapSize = 30;
 	private int bitmapBorder = 4;
-	private HieroglyphShapeRepository shapeRepository;
+	private HieroglyphPictureBuilder pictureBuilder;
 	private Component referenceComponent;
 
 	
@@ -62,8 +62,11 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 	 * @param bitmapBorder
 	 * @param referenceComponent a Swing component, probably the table, used to get information about rendering depth and so on; can be null.
 	 */
-	public HieroglyphicCodeRenderer(int bitmapSize, int bitmapBorder, Component referenceComponent) {
+	public HieroglyphicCodeRenderer(int bitmapSize, int bitmapBorder,
+			HieroglyphPictureBuilder pictureBuilder,
+		 Component referenceComponent) {
 		super();
+		this.pictureBuilder = pictureBuilder;
 		this.bitmapSize = bitmapSize;
 		this.bitmapBorder = bitmapBorder;
 		this.referenceComponent = referenceComponent;
@@ -74,9 +77,8 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 		String code= (String) value;
 		setText(code);
 		if (code != null && ! "".equals(code)) {
-			HieroglyphPictureBuilder builder = new HieroglyphPictureBuilder(shapeRepository, referenceComponent);
 			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().size(bitmapSize-2*bitmapBorder).border(bitmapBorder).build();
-			setIcon(builder.createHieroglyphIcon(code, options));
+			setIcon(pictureBuilder.createHieroglyphIcon(code, options));
 	}
 		else {
 			setIcon(null);
