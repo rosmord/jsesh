@@ -306,14 +306,11 @@ public class ShapeChar implements Cloneable {
         out.write("' height='");
         formatter.writeTo(out, bbox.getHeight());
         out.write("' ");
-        out.write("version='1.0'");
-        // Necessary according to firefox site.
         out.write("xmlns='http://www.w3.org/2000/svg' ");
         // out.write("xmlns:xlink='http://www.w3.org/1999/xlink' ");
         out.write("version='1.1' ");
         if (!pictureOnly) {
-            out
-                    .write("xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape'");
+            out.write("xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' ");
         }
         out.write(">\n");
         out.write("<path style='fill:black; stroke:none' d='");

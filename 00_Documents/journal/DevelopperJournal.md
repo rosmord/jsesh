@@ -103,6 +103,7 @@ Regarding **standard** codes:
 
 ### Long Term TODO
 
+- [ ] cleanup the parsing system, and remove the dependency of `TopItemList` to the builder;
 - [ ] ❗️systematicaly use MVC for **preferences** and **fonts** ; ensure that there is no memory leak.
 - [ ] 🍰 **TODO** the organisation of the various preferences in JSesh Appli is not optimal. They are difficult to sort and understand. Improve this (when the software runs!) (relatively simple). 
 - [ ] ❗️ try to use `doubles` instead of `floats` to avoid rounding errors.
@@ -238,6 +239,22 @@ List of classes which need some cleanup:
 - `ExportAsRTFAction`
 
 ## Daily log
+
+
+### 2026/06/08
+
+Plan for the next days:
+
+- [ ] fix bug in sign import;
+- [ ] fix bug in signinfo ;
+- [ ] fix icon building ;
+- [ ] unify icon production ;
+- [ ] backport hyphen support in transliteration ;
+- [ ] review resource access ;
+
+
+Note: it might be useful to design a `WithFolder` interface for some kinds of `HieroglyhShapeRepositories`, in order to have a consistent way to run and test our code.
+
 
 ### 2026/06/04
 

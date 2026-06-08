@@ -54,8 +54,7 @@ public class HieroglyphDatabaseFactory {
      */
     public static SimpleHieroglyphDatabase buildPlainDefault(HieroglyphCodesSource hieroglyphCodesSource) {
         SimpleHieroglyphDatabase database = new SimpleHieroglyphDatabase(hieroglyphCodesSource);
-        addEmbeddedDescriptionsTo(database);
-        addUserDescriptionsTo(database);
+        addEmbeddedDescriptionsTo(database);        
         return database;
     }
 

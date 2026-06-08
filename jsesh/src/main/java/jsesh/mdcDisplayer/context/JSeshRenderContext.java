@@ -10,22 +10,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
  * Currently, only FontRenderContext is stored here.
  * If it appears that it's always the only thing needed, we might
  * remove this class and use FontRenderContext directly.
- * 
- * <p>
- * {@link #graphicDeviceScale} is the scale of the output device, in <b>Graphics
- * units per
- * typographical point.</b> This is the scale used by the device if
- * g.getXScale() returns 1.0. It doesn't take the current scale applied to the
- * Graphics2D into account.
- * Note that lie sometimes: In the case of a screen zoom, for instance, we will
- * still provide
- * the original scale.
- * 
- * <p>
- * The current use of {@link #graphicDeviceScale} is mainly to choose if we use
- * the small body font in case the final
- * rendering of glyphs would be small.
- * 
+ * The main point of this class is to be able to pass rendering context information
  * 
  * @param jseshStyle the style in use.
  * @param hieroglyphShapeRepository the current font catalogue.
@@ -64,7 +49,7 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
             return this;
         }
 
-        public Builder HieroglyphsDrawer(HieroglyphShapeRepository hieroglyphShapeRepository) {
+        public Builder hieroglyphsDrawer(HieroglyphShapeRepository hieroglyphShapeRepository) {
             this.hieroglyphShapeRepository = hieroglyphShapeRepository;
             return this;
         }
