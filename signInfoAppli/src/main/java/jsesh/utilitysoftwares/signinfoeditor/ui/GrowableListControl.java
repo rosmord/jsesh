@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import org.qenherkhopeshef.utils.StringUtils;
+
 /**
  * Controls a list where data can be added and removed. The list model
  * should implement GrowableModel.
@@ -14,8 +16,8 @@ import javax.swing.JTextField;
  * @author rosmord
  */
 
-public class GrowableListControl {
-	JList jList;
+public class GrowableListControl<T> {
+	JList<T> jList;
 	JTextField field;
 
 	/**
@@ -23,7 +25,7 @@ public class GrowableListControl {
 	 * @param jList a JList, whose model <em>must</em> implement GrowableModel.
 	 * @see GrowableModel
 	 */
-	public GrowableListControl(JList jList, JButton addButton,
+	public GrowableListControl(JList<T> jList, JButton addButton,
 			JButton removeButton, JTextField field) {
 		super();
 		this.jList = jList;
@@ -55,8 +57,10 @@ public class GrowableListControl {
 	
 	public void add() {
 		String code= field.getText();
-		GrowableModel model = (GrowableModel) jList.getModel();
-		model.addRow(code);
+		StringUtils.doIfNotEmpty(code, s -> {
+				GrowableModel model = (GrowableModel) jList.getModel();
+				model.addRow(s);
+		});
 	}
 
 	public void remove() {

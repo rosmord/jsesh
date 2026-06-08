@@ -16,13 +16,6 @@ import javax.swing.TransferHandler;
  */
 public class SignCodeToTableTransfertHandler extends TransferHandler {
 
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9218613618596473011L;
-	
 	private SignPropertyTableModel signVariantTableModel;
 
 	public SignCodeToTableTransfertHandler(SignPropertyTableModel signVariantTableModel) {

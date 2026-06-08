@@ -12,6 +12,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.qenherkhopeshef.utils.StringUtils;
+
 /**
  * Controls a table where data can be added and removed. The table model should
  * implement GrowableModel.
@@ -28,7 +30,7 @@ public class GrowableTableControl {
 	 * Create a growable control and bind it to the corresponding components.
 	 * 
 	 * @param table
-	 *            a table, whose model <em>must</em> implement GrowableModel.
+	 *              a table, whose model <em>must</em> implement GrowableModel.
 	 * @see GrowableModel
 	 */
 	public GrowableTableControl(JTable table, JButton addButton,
@@ -43,13 +45,14 @@ public class GrowableTableControl {
 		 * An alternative is to add the following code in the remove
 		 * method:
 		 * 
-		 *	TableCellEditor cellEditor = table.getCellEditor();
-		 *	if (cellEditor != null)
-		 *		cellEditor.stopCellEditing();
+		 * TableCellEditor cellEditor = table.getCellEditor();
+		 * if (cellEditor != null)
+		 * cellEditor.stopCellEditing();
 		 *
-		¨*/
+		 * ¨
+		 */
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-		
+
 		this.field = field;
 		this.removeButton = removeButton;
 		addButton.addActionListener(new ActionListener() {
@@ -110,18 +113,21 @@ public class GrowableTableControl {
 
 	public void add() {
 		String code = field.getText();
-		GrowableModel model = (GrowableModel) table.getModel();
-		model.addRow(code);
+		StringUtils.doIfNotEmpty(code, s -> {
+			GrowableModel model = (GrowableModel) table.getModel();
+			model.addRow(s);
+		});
 	}
+
 
 	public void remove() {
 		int sel = table.getSelectedRow();
 		if (sel != -1) {
 			/*
-			TableCellEditor cellEditor = table.getCellEditor();
-			if (cellEditor != null)
-				cellEditor.stopCellEditing();
-				*/
+			 * TableCellEditor cellEditor = table.getCellEditor();
+			 * if (cellEditor != null)
+			 * cellEditor.stopCellEditing();
+			 */
 			GrowableModel model = (GrowableModel) table.getModel();
 			model.removeRow(sel);
 		}

@@ -57,7 +57,7 @@ public class TagEditorPresenter {
 		tagNameTableModel = new TagNameTableModel(getSelectedTag());
 		jTagEditor.getLabelTable().setModel(tagNameTableModel);
 
-		JComboBox langCB = new JComboBox();
+		JComboBox<String> langCB = new JComboBox<>();
 		for (int i = 0; i < SignDescriptionConstants.LANGUAGES_CODES.length; i++) {
 			langCB.addItem(SignDescriptionConstants.LANGUAGES_CODES[i]);
 		}
@@ -73,16 +73,16 @@ public class TagEditorPresenter {
 		return (String) jTagEditor.getTagNameList().getSelectedValue();
 	}
 
-	private class TagListModel extends AbstractListModel implements
+	private class TagListModel extends AbstractListModel<String> implements
 			GrowableModel {
 		private static final long serialVersionUID = 1L;
-		private List tagList;
+		private List<String> tagList;
 
 		public TagListModel() {
 			tagList = signInfoModel.getTags();
 		}
 
-		public Object getElementAt(int index) {
+		public String getElementAt(int index) {
 			return tagList.get(index);
 		}
 
@@ -119,20 +119,17 @@ public class TagEditorPresenter {
 
 		private static final long serialVersionUID = 1L;
 
-		private String currentTag;
 
-		private List properties;
+		private List<XMLInfoProperty> properties;
 
 		private String[] columnNames = { "Lang", "Label" };
 
-		private String languages[] = { "en" };
 
 		public TagNameTableModel(String currentTag) {
-			this.currentTag = currentTag;
 			if (currentTag != null) {
 				properties = signInfoModel.getLabelsForTag(currentTag);
 			} else {
-				properties = Collections.EMPTY_LIST;
+				properties = Collections.emptyList();
 			}
 		}
 

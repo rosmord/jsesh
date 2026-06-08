@@ -245,7 +245,7 @@ List of classes which need some cleanup:
 
 Plan for the next days:
 
-- [ ] check that a code is addded when defining a variant or a "part of".
+- [x] check that a code is added when defining a variant or a "part of".
 - [x] fix bug in sign import (and added a test);
 - [x] fix bug when starting signinfo ;
 - [ ] fix icon building ;

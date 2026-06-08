@@ -3,7 +3,8 @@ package jsesh.mdc.transliteration;
 import java.util.HashMap;
 import java.util.Map;
 
-import jsesh.utils.StringUtils;
+import org.qenherkhopeshef.utils.StringUtils;
+
 
 /**
  * Various utility methods to deal with transliteration strings.
