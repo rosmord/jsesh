@@ -2,7 +2,6 @@ package jsesh.utilitysoftwares.signinfoeditor.helpers;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,7 +23,6 @@ import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
 import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -58,15 +56,10 @@ public class SignInfoModelXMLWriter {
     }
 
     private void fillDocument(SignInfoModel model) {
-        Iterator it = model.getSignInfoList().iterator();
-        while (it.hasNext()) {
-            EditableSignInfo signInfo = (EditableSignInfo) it.next();
+        for (EditableSignInfo signInfo : model.getSignInfoList()) {
             writeSignInfo(signInfo);
         }
-        // Now, the tags...
-        it = model.getTags().iterator();
-        while (it.hasNext()) {
-            String tag = (String) it.next();
+        for (String tag : model.getTags()) {
             writeTagInfo(tag, model);
         }
     }
@@ -78,15 +71,11 @@ public class SignInfoModelXMLWriter {
             document.getDocumentElement().appendChild(tagElement);
         }
 
-        List l = model.getLabelsForTag(tag);
-        Iterator it = l.iterator();
-        while (it.hasNext()) {
-            XMLInfoProperty prop = (XMLInfoProperty) it.next();
+        List<XMLInfoProperty> labels = model.getLabelsForTag(tag);
+        for (XMLInfoProperty prop : labels) {
             if (prop.isUserDefinition()) {
                 Element tagLabelElement = document.createElement(SignDescriptionConstants.TAG_LABEL);
-                Iterator attrIt = prop.getAttributeNames().iterator();
-                while (attrIt.hasNext()) {
-                    String attrName = (String) attrIt.next();
+                for (String attrName : prop.getAttributeNames()) {
                     tagLabelElement.setAttribute(attrName, prop.get(attrName));
                 }
                 document.getDocumentElement().appendChild(tagLabelElement);
@@ -100,11 +89,10 @@ public class SignInfoModelXMLWriter {
         if (signInfo.isAlwaysDisplayProvidedByUser()) {
             hasUserContent = true;
         }
-        Iterator it = signInfo.getPropertyList().iterator();
-        while (it.hasNext() && !hasUserContent) {
-            SignInfoProperty prop = (SignInfoProperty) it.next();
+        for (SignInfoProperty prop : signInfo.getPropertyList()) {
             if (prop.isUserDefinition()) {
                 hasUserContent = true;
+                break;
             }
         }
 
@@ -115,14 +103,10 @@ public class SignInfoModelXMLWriter {
             if (signInfo.isAlwaysDisplay() && signInfo.isAlwaysDisplayProvidedByUser()) {
                 signElement.setAttribute(SignDescriptionConstants.ALWAYS_DISPLAY, "y");
             }
-            it = signInfo.getPropertyList().iterator();
-            while (it.hasNext()) {
-                SignInfoProperty prop = (SignInfoProperty) it.next();
+            for (SignInfoProperty prop : signInfo.getPropertyList()) {
                 if (prop.isUserDefinition()) {
                     Element propElement = document.createElement(prop.getName());
-                    Iterator attributesIterator = prop.getAttributeNames().iterator();
-                    while (attributesIterator.hasNext()) {
-                        String attrName = (String) attributesIterator.next();
+                    for (String attrName : prop.getAttributeNames()) {
                         propElement.setAttribute(attrName, prop.get(attrName));
                     }
                     if (!"".equals(prop.getContent())) {
@@ -132,7 +116,6 @@ public class SignInfoModelXMLWriter {
                 }
             }
             document.getDocumentElement().appendChild(signElement);
-
         }
 
     }
@@ -143,13 +126,6 @@ public class SignInfoModelXMLWriter {
                 .newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory
                 .newDocumentBuilder();
-        DOMImplementation domImpl = documentBuilder.getDOMImplementation();
-        // DocumentType d =
-        // domImpl.createDocumentType(SignDescriptionConstants.SIGNS, URI,
-        // SYSTEM);
-        // document = domImpl.createDocument(null,
-        // SignDescriptionConstants.SIGNS, d);
-
         document = documentBuilder.newDocument();
         document.appendChild(document
                 .createElement(SignDescriptionConstants.SIGNS));
