@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.viewmodel;
 
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;

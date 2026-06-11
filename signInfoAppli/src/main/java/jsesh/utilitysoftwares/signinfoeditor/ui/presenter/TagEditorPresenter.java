@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.presenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +13,8 @@ import javax.swing.table.AbstractTableModel;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
+import jsesh.utilitysoftwares.signinfoeditor.ui.form.JTagEditor;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
 
 /**
  * Editor logic for tags.

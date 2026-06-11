@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.utils;
 
 import javax.swing.ImageIcon;
 

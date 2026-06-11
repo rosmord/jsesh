@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.utils;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
+
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignPropertyTableModel;
 
 /**
  * TransferHandler attached to JTable.

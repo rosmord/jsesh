@@ -52,8 +52,8 @@ import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
-import jsesh.utilitysoftwares.signinfoeditor.ui.SignInfoPresenter;
-import jsesh.utilitysoftwares.signinfoeditor.ui.TagEditorPresenter;
+import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.SignInfoPresenter;
+import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.TagEditorPresenter;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;

@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.presenter;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -56,6 +56,14 @@ import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
+import jsesh.utilitysoftwares.signinfoeditor.ui.form.JSignInfo;
+import jsesh.utilitysoftwares.signinfoeditor.ui.utils.HieroglyphicCodeRenderer;
+import jsesh.utilitysoftwares.signinfoeditor.ui.utils.SignCodeToTableTransfertHandler;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignContainsTableModel;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignPropertyTableModel;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignTransliterationTableModel;
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignVariantTableModel;
 
 /**
  * Control layer for the sign information editor.

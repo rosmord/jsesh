@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.presenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +13,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.qenherkhopeshef.utils.StringUtils;
+
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
 
 /**
  * Controls a table where data can be added and removed. The table model should

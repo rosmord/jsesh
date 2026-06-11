@@ -1,4 +1,4 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.presenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 
 import org.qenherkhopeshef.utils.StringUtils;
+
+import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
 
 /**
  * Controls a list where data can be added and removed. The list model

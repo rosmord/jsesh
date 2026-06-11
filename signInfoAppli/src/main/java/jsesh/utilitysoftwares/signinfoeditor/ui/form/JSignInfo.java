@@ -4,7 +4,7 @@
  * Created on 27 septembre 2007, 19:40
  */
 
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.ui.form;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
+import jsesh.utilitysoftwares.signinfoeditor.ui.utils.IconFactory;
 import net.miginfocom.swing.MigLayout;
 
 /**

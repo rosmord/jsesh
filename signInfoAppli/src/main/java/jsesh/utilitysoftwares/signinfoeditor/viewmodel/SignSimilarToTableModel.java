@@ -1,9 +1,8 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.viewmodel;
 
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
-import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
 
 public class SignSimilarToTableModel extends SignPropertyTableModel {

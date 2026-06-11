@@ -1,14 +1,12 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.viewmodel;
 
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
-import jsesh.hieroglyphs.data.SignValueType;
 
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
-import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
 /**
  * Base class for table model linked to a specific sign property.

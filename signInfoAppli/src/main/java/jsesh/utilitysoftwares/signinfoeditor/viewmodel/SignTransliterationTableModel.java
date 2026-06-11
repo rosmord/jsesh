@@ -1,10 +1,9 @@
-package jsesh.utilitysoftwares.signinfoeditor.ui;
+package jsesh.utilitysoftwares.signinfoeditor.viewmodel;
 
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
-import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
 
 /**
  * Table model for a table which will display the transliteration information.
@@ -18,7 +17,7 @@ import jsesh.utilitysoftwares.signinfoeditor.model.XMLInfoProperty;
  * </ul>
  * @author rosmord
  */
-class SignTransliterationTableModel extends SignPropertyTableModel {
+public class SignTransliterationTableModel extends SignPropertyTableModel {
 
 	/**
 	 * 
