@@ -240,6 +240,16 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/09
+
+- [ ] fix icon building ;
+- [ ] unify icon production ;
+- [ ] backport hyphen support in transliteration ;
+- [ ] review resource access ;
+
+
+Note: it might be useful to design a `WithFolder` interface for some kinds of `HieroglyhShapeRepositories`, in order to have a consistent way to run and test our code.
+
 
 ### 2026/06/08
 
@@ -248,13 +258,7 @@ Plan for the next days:
 - [x] check that a code is added when defining a variant or a "part of".
 - [x] fix bug in sign import (and added a test);
 - [x] fix bug when starting signinfo ;
-- [ ] fix icon building ;
-- [ ] unify icon production ;
-- [ ] backport hyphen support in transliteration ;
-- [ ] review resource access ;
-
-
-Note: it might be useful to design a `WithFolder` interface for some kinds of `HieroglyhShapeRepositories`, in order to have a consistent way to run and test our code.
+- [x] menu-based SVG sign import result in a black square instead of the sign. 
 
 
 ### 2026/06/04
@@ -295,7 +299,6 @@ Note: it might be useful to design a `WithFolder` interface for some kinds of `H
 - [ ]❗️ icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
 - [ ] fix the sign palette display.
 - [ ] backport the support of hyphens in transliteration which was used in the former master branch, but deleted when merging with the development branch. 
-- [ ] menu-based SVG sign import result in a black square instead of the sign. 
 
 ### 2026/06/03
 

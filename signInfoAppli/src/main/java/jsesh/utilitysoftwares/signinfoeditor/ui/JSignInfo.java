@@ -9,7 +9,6 @@ package jsesh.utilitysoftwares.signinfoeditor.ui;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -148,15 +147,15 @@ public class JSignInfo extends JPanel {
        
         jScrollPane1.setViewportView(transliterationTable);
 
-        transliterationAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        transliterationAddButton.setIcon(IconFactory.getAddIcon()); 
 
-        transliterationRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        transliterationRemoveButton.setIcon(IconFactory.getRemoveIcon());
 
         jLabel1.setText("Transliteration"); // NOI18N
 
-        previousButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
+        previousButton.setIcon(IconFactory.getPreviousIcon());
 
-        nextButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
+        nextButton.setIcon(IconFactory.getNextIcon());
 
         // jPanel2: glyph display
         jPanel2.setLayout(new MigLayout("insets dialog, fill"));
@@ -166,13 +165,13 @@ public class JSignInfo extends JPanel {
 
         jPanel1.setToolTipText("<html>\n<p>The notion of variant used here is somehow ad-hoc.</p>\n<p>\tThe problem of variants is that there are two different notions behind it, both useful in our software.\n<p>\tThe first notion is LINGUISTIC variant. A sign is a linguistic variant of another one if it has the same uses.\n<p>\tFor instance, Y2 is a linguistic variant of Y1. Now, Y2 also \"looks like\" Y1. We will call it a \"graphical variation\".\n<p>\tBoth notions are independant, though statistically linked. For instance, Z7 is a linguistic variant of G43, but not a \n\tgraphical variation thereof.\n\t  \n<p> \tthe notion of \"looking like\" another sign is covered by the \"isSimilar\" attribute.\n\t \n<p>\tIn lots of cases, especially for determinatives, the signs are not always fully substitutable one for another.\n\tTo allow the use of 'variant' information in searches, we introduce the \"linguistic\" attribute.\n\t\n<p>\tlet B be a variant of A.\n<ul>\n<li>\t\"full\" means that all uses of B are also possible uses of A, and all uses of A are uses of B.\n<li>\t\"other\" means that B is more specific than A, or that the degree is unknown\n<li>\t\"partial\" means that the uses of A and B intersect, but they have also both significantly different uses.\n<p>\t\tFor instance, the D36 sign (ayin) is a partial variant of D37 (di), as D36 can write \"di\". However,\n\t\tin this case, I would not consider D37 as a variant of D36, because it would cause more harm than good.\n<li>\t\"no\" is used when the sign is not at all a linguistic variant. In this case, isSimilar is normally \"y\".\n</ul>\n\n</html>");
 
-        variantRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        variantRemoveButton.setIcon(IconFactory.getRemoveIcon());
 
         
         variantTable.setToolTipText("<html>\nFor an explanation of variants in JSesh, see the documentation. \n<p>It's a bit tricky.\n</html>");
         jScrollPane4.setViewportView(variantTable);
 
-        variantAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        variantAddButton.setIcon(IconFactory.getAddIcon());
 
         variantField.setColumns(5);
 
@@ -188,10 +187,10 @@ public class JSignInfo extends JPanel {
 
         jPanel9.setLayout(new BoxLayout(jPanel9, BoxLayout.PAGE_AXIS));
 
-        partAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        partAddButton.setIcon(IconFactory.getAddIcon());
         jPanel9.add(partAddButton);
 
-        partRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        partRemoveButton.setIcon(IconFactory.getRemoveIcon());
         jPanel9.add(partRemoveButton);
 
         // jPanel1: Relationships tab — parts (left) and variants (right), each with label+field row and scrollpane row
@@ -219,13 +218,13 @@ public class JSignInfo extends JPanel {
 
         jLabel8.setText("Sign Description:");
 
-        previousDescriptionButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
+        previousDescriptionButton.setIcon(IconFactory.getPreviousIcon());
 
-        nextDescriptionButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
+        nextDescriptionButton.setIcon(IconFactory.getNextIcon());
 
-        removeDescriptionButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        removeDescriptionButton.setIcon(IconFactory.getRemoveIcon());
 
-        addDescriptionButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        addDescriptionButton.setIcon(IconFactory.getAddIcon());
 
         // jPanel8: description navigation — prev/next on left, add/remove pushed to right
         jPanel8.setLayout(new MigLayout("insets 0"));
@@ -252,9 +251,9 @@ public class JSignInfo extends JPanel {
         jPanel6.setLayout(new MigLayout("insets dialog, fill"));
         jPanel6.add(jScrollPane7, "grow");
 
-        tagAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/next.png"))); // NOI18N
+        tagAddButton.setIcon(IconFactory.getNextIcon());
 
-        tagRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/previous.png"))); // NOI18N
+        tagRemoveButton.setIcon(IconFactory.getPreviousIcon());
 
         // jPanel7: tag transfer buttons (stacked vertically)
         jPanel7.setLayout(new MigLayout("insets 0, wrap 1"));

@@ -6,7 +6,6 @@
 
 package jsesh.utilitysoftwares.signinfoeditor.ui;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -66,13 +65,13 @@ public class JTagEditor extends JPanel {
 
         jScrollPane2.setViewportView(labelTable);
 
-        labelAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        labelAddButton.setIcon(IconFactory.getAddIcon());
 
-        labelRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        labelRemoveButton.setIcon(IconFactory.getRemoveIcon());
 
-        tagAddButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_add.png"))); // NOI18N
+        tagAddButton.setIcon(IconFactory.getAddIcon());
 
-        tagRemoveButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/utilitysoftwares/signinfoeditor/icons/edit_remove.png"))); // NOI18N
+        tagRemoveButton.setIcon(IconFactory.getRemoveIcon());
 
         setLayout(new MigLayout("insets dialog, wrap 6", "[][][][][grow,fill][]", "[][grow]"));
         // Row 1: input row
