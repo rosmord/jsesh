@@ -336,8 +336,15 @@ public class SignInfoModel {
 	}
 
 	/**
+	 * Returns true if the tag can be removed (user-defined and not in use).
+	 */
+	public boolean canRemoveTag(String tag) {
+		return isUserTag(tag) && !getUsedTags().contains(tag);
+	}
+
+	/**
 	 * Removes a tag from the list.
-	 * 
+	 *
 	 * @param tag
 	 * @return true if removal succeeded
 	 */

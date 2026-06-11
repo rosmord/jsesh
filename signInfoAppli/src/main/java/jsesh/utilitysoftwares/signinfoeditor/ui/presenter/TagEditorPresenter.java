@@ -103,16 +103,18 @@ public class TagEditorPresenter {
 
 		public boolean removeRow(int row) {
 			if (canRemove(row)) {
+				String tag = tagList.get(row);
+				signInfoModel.removeTag(tag);
 				tagList.remove(row);
 				fireIntervalRemoved(this, row, row);
 				return true;
 			} else
 				return false;
 		}
-		
+
 		public boolean canRemove(int row) {
-			String tag= getSelectedTag();
-			return (tag != null && signInfoModel.isUserTag(tag) && signInfoModel.removeTag(tag));
+			String tag = tagList.get(row);
+			return tag != null && signInfoModel.canRemoveTag(tag);
 		}
 	}
 
