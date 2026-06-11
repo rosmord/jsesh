@@ -18,54 +18,53 @@ import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
  * @author rosmord
  */
 
-public class GrowableListControl<T> {
-	JList<T> jList;
-	JTextField field;
+public class GrowableListControl {
+
+	private record ControlComponents<T>(JList<T> jList, JTextField field) {
+	}
+
+	private GrowableListControl() {
+	}
 
 	/**
 	 * Create a growable control and bind it to the corresponding components.
+	 * 
 	 * @param jList a JList, whose model <em>must</em> implement GrowableModel.
 	 * @see GrowableModel
 	 */
-	public GrowableListControl(JList<T> jList, JButton addButton,
+	public static <T> void bind(JList<T> jList, JButton addButton,
 			JButton removeButton, JTextField field) {
-		super();
-		this.jList = jList;
-		this.field = field;
 
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				add();
-			}
+		final ControlComponents<T> components = new ControlComponents<>(jList, field);
+
+		addButton.addActionListener(e -> {
+			add(components);
+			clearText(components);
 		});
 
-		field.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				add();
-				clearText();
-			}
+		field.addActionListener(e -> {
+			add(components);
+			clearText(components);
 		});
 
-		removeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				remove();
-			}
-		});
+		removeButton.addActionListener(e -> remove(components));
 	}
 
-	public void clearText() {
-		field.setText("");
+	private static <T> void clearText(ControlComponents<T> components) {
+		components.field().setText("");
 	}
-	
-	public void add() {
-		String code= field.getText();
+
+	private static <T> void add(ControlComponents<T> components) {
+		JList<T> jList = components.jList();
+		String code = components.field().getText();
 		StringUtils.doIfNotEmpty(code, s -> {
-				GrowableModel model = (GrowableModel) jList.getModel();
-				model.addRow(s);
+			GrowableModel model = (GrowableModel) jList.getModel();
+			model.addRow(s);
 		});
 	}
 
-	public void remove() {
+	private static <T> void remove(ControlComponents<T> components) {
+		JList<T> jList = components.jList();
 		int sel = jList.getSelectedIndex();
 		if (sel != -1) {
 			GrowableModel model = (GrowableModel) jList

@@ -38,12 +38,12 @@ public class TagEditorPresenter {
 		jTagEditor = new JTagEditor();
 		// bindings.
 		// a) for the tag list
-		new GrowableListControl(jTagEditor.getTagNameList(), jTagEditor
+		GrowableListControl.bind(jTagEditor.getTagNameList(), jTagEditor
 				.getTagAddButton(), jTagEditor.getTagRemoveButton(), jTagEditor
 				.getTagNameField());
 
 		// b) for the tag label
-		new GrowableTableControl(jTagEditor.getLabelTable(), jTagEditor
+		GrowableTableControl.bind(jTagEditor.getLabelTable(), jTagEditor
 				.getLabelAddButton(), jTagEditor.getLabelRemoveButton(),
 				jTagEditor.getLabelField());
 

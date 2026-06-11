@@ -790,7 +790,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     private void preparePartControls() {
         view.getPartsTable().setRowHeight(30);
-        new GrowableTableControl(view.getPartsTable(), view.getPartAddButton(),
+        GrowableTableControl.bind(view.getPartsTable(), view.getPartAddButton(),
                 view.getPartRemoveButton(), view.getPartField());
     }
 
@@ -868,15 +868,15 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     }
 
-    private void prepareTransliterationControls() {
-        new GrowableTableControl(view.getTransliterationTable(), view.getTransliterationAddButton(),
+    private void prepareTransliterationControls() {        
+        GrowableTableControl.bind(view.getTransliterationTable(), view.getTransliterationAddButton(),
                 view.getTransliterationRemoveButton(), view.getTransliterationField());
     }
 
     private void prepareVariantControls() {
         // Prepare and adapt elements
         view.getVariantTable().setRowHeight(30);
-        new GrowableTableControl(view.getVariantTable(), view.getVariantAddButton(), view.getVariantRemoveButton(),
+        GrowableTableControl.bind(view.getVariantTable(), view.getVariantAddButton(), view.getVariantRemoveButton(),
                 view.getVariantField());
     }
 

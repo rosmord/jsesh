@@ -24,21 +24,27 @@ import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
  */
 
 public class GrowableTableControl {
-	JTable table;
-	JTextField field;
-	JButton removeButton;
+
+	private GrowableTableControl() {
+	}
+
+	private record ControlComponents(JTable table, JButton addButton, JButton removeButton, JTextField field) {
+	}
 
 	/**
-	 * Create a growable control and bind it to the corresponding components.
+	 * Bind controls for a table whose content can be extended using String data.
+	 * Binds a table, an "add" button, a "remove" button and a text field together.
+	 * 
+	 * <p>
+	 * The string data from the field is used, but might be exploited to create
+	 * other data in the model.
 	 * 
 	 * @param table
 	 *              a table, whose model <em>must</em> implement GrowableModel.
 	 * @see GrowableModel
 	 */
-	public GrowableTableControl(JTable table, JButton addButton,
-			JButton removeButton, JTextField field) {
-		super();
-		this.table = table;
+	public static void bind(final JTable table, final JButton addButton,
+			final JButton removeButton, final JTextField field) {
 		/*
 		 * Stop editing when focus is lost.
 		 * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5007652
@@ -53,54 +59,46 @@ public class GrowableTableControl {
 		 *
 		 * ¨
 		 */
+		final ControlComponents components = new ControlComponents(table, addButton, removeButton, field);
+
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
-		this.field = field;
-		this.removeButton = removeButton;
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				add();
-				clearText();
-			}
+		addButton.addActionListener(
+				e -> {
+					add(components);
+					clearText(components);
+				});
+
+		field.addActionListener(e -> {
+			add(components);
+			clearText(components);
 		});
 
-		field.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				add();
-				clearText();
-			}
-		});
-
-		removeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				remove();
-			}
-		});
+		removeButton.addActionListener(e -> remove(components));
 
 		table.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent e) {
-						setButtonState();
-					}
-				});
-		table.addPropertyChangeListener(new PropertyChangeListener() {
+				e -> setButtonState(components));
+		table.addPropertyChangeListener(
+			evt -> propertyChange(evt, components)
+		);
+	}
 
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ("model".equals(evt.getPropertyName())) {
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							setButtonState();
-						}
-					});
+	private static void propertyChange(PropertyChangeEvent evt, ControlComponents components) {
+		if ("model".equals(evt.getPropertyName())) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					setButtonState(components);
 				}
-			}
-		});
+			});
+		}
 	}
 
 	/**
 	 * Update the "minus" button state.
 	 */
-	protected void setButtonState() {
+	private static void setButtonState(ControlComponents components) {
+		JTable table = components.table();
+		JButton removeButton = components.removeButton();
 		int sel = table.getSelectedRow();
 		if (sel != -1) {
 			GrowableModel model = (GrowableModel) table.getModel();
@@ -109,11 +107,13 @@ public class GrowableTableControl {
 			removeButton.setEnabled(false);
 	}
 
-	public void clearText() {
-		field.setText("");
+	private static void clearText(ControlComponents components) {
+		components.field().setText("");
 	}
 
-	public void add() {
+	private static void add(ControlComponents components) {
+		JTable table = components.table();
+		JTextField field = components.field();
 		String code = field.getText();
 		StringUtils.doIfNotEmpty(code, s -> {
 			GrowableModel model = (GrowableModel) table.getModel();
@@ -121,8 +121,8 @@ public class GrowableTableControl {
 		});
 	}
 
-
-	public void remove() {
+	private static void remove(ControlComponents components) {
+		JTable table = components.table();
 		int sel = table.getSelectedRow();
 		if (sel != -1) {
 			/*
