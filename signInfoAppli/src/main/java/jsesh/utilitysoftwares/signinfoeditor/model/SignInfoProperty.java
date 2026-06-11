@@ -1,8 +1,6 @@
 package jsesh.utilitysoftwares.signinfoeditor.model;
 
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 
 
@@ -33,11 +31,9 @@ public class SignInfoProperty extends XMLInfoProperty {
 
 	public SignInfoProperty(SignInfoProperty signInfoProperty) {
 		this(signInfoProperty.getName(), signInfoProperty.getContent(), signInfoProperty.isUserDefinition());
-		Iterator it= signInfoProperty.getAttributes().entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry entry= (Entry) it.next();
-			setAttribute((String)entry.getKey(),(String)entry.getValue());
-		}
+		for (Map.Entry<String,String> entry : signInfoProperty.getAttributes().entrySet()) {
+			setAttribute(entry.getKey(), entry.getValue());
+		}		
 	}
 
 

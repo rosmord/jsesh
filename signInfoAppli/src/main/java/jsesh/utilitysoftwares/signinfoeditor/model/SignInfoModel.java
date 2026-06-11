@@ -93,7 +93,7 @@ public class SignInfoModel {
 
 	private TagInfo getOrCreateTagInfo(String tag, boolean inUserPart) {
 		if (!tags.containsKey(tag)) {
-			tags.put(tag, new TagInfo(tag, inUserPart));
+			tags.put(tag, new TagInfo(inUserPart));
 			setDirtyFlag();
 			notifyListeners(new TagEvent(this));
 		}
@@ -245,7 +245,6 @@ public class SignInfoModel {
 	 */
 	public SortedSet<String> getUsedTags() {
 		TreeSet<String> set = new TreeSet<>();
-		SortedSet<String> s = codes;
 		for (String code : codes) {
 			List<SignInfoProperty> usedTags = getSign(code).getPropertyList(
 					SignDescriptionConstants.HAS_TAG);
@@ -292,13 +291,11 @@ public class SignInfoModel {
 	}
 
 	private static class TagInfo {
-		String tagName;
 		boolean userDefined;
 		ArrayList<XMLInfoProperty> labels = new ArrayList<>();
 
-		public TagInfo(String tagName, boolean userDefined) {
+		public TagInfo(boolean userDefined) {
 			this.userDefined = userDefined;
-			this.tagName = tagName;
 		}
 	}
 

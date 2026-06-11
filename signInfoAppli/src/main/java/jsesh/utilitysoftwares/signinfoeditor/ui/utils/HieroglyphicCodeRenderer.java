@@ -52,6 +52,7 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 	private int bitmapSize = 30;
 	private int bitmapBorder = 4;
 	private HieroglyphPictureBuilder pictureBuilder;
+	// Consider for removal when Icon generation is fixed.
 	private Component referenceComponent;
 
 	
