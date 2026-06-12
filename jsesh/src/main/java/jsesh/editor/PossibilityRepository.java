@@ -76,10 +76,12 @@ public class PossibilityRepository {
 			// See if we have a Gardiner code or a translitteration.
 			PossibilitiesList possibilities;
 
+			// check if Gardiner code or transliteration?
 			if (GardinerCode.isWellFormedCodeIgnoreCase(code.toUpperCase(Locale.ENGLISH))) {
 				possibilities = hieroglyphDatabase
 						.getSuitableSignsForCode(code);
 			} else {
+				// transliteration
 				possibilities = hieroglyphDatabase
 						.getPossibilityFor(code,
 								SignDescriptionConstants.KEYBOARD);

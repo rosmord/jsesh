@@ -449,10 +449,12 @@ public class PalettePresenter {
      * field.
      */
     protected void selectFromTransliterationOrCode() {
-        String trl = simplePalette.getTransliterationFilterField().getText();
+        String trl = simplePalette.getTransliterationFilterField().getText().trim();
+        if ("".equals(trl))
+            return;
         PossibilitiesList l;
         // If it looks like a code...
-        if (trl.matches(".*[0-9].*")) {
+        if (trl.matches("[a-zA-Z].*[0-9].*")) {
             l = hieroglyphsDatabase.getSuitableSignsForCode(trl).add(
                     hieroglyphsDatabase.getCodesStartingWith(trl));
 

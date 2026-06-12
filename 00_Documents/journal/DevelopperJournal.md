@@ -255,22 +255,22 @@ List of classes which need some cleanup:
 
 ### 2026/06/12
 
-- [x] renamed `JSeshGlossary` which was misleading (could suggest it was a Swing component) into `Glossary`.
-- [ ] enlarge the hieroglyphic search field
-- [ ] enlarge the hieroglyphic field in the glossary editor
+
 - [ ] fix the hyphen in transliteration problem.
+- [x] renamed `JSeshGlossary` which was misleading (could suggest it was a Swing component) into `Glossary`.
+- [x] enlarge the hieroglyphic search field
+- [x] enlarge the hieroglyphic field in the glossary editor
 - [x] see how the glyph rendering in the basic Gardiner list menu is performed, and possibly unify this (leave as is for now)
 - [x] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.
 - [x] first draft of icon generation fix. Now we pass a dimension (w x h) to the icon builder, and not an icon height;
   - sign display is correct in the sign info editor main label
   - [x] **FIXED** but it's truncated in the palette (it was simply a copy/paste induced bug problem, where I used the height instead of the width for the dimension).
-- [ ] FIXME : the menu entry for the documentation has an empty text
+- [x] FIXME : the menu entry for the documentation has an empty text
+
 ### 2026/06/09
 
-- [ ] fix icon building ;
-- [ ] unify icon production ;
-- [ ] backport hyphen support in transliteration ;
-- [ ] review resource access ;
+- [x] fix icon building ;
+- [x] unify icon production (sort of);
 
 
 Note: it might be useful to design a `WithFolder` interface for some kinds of `HieroglyhShapeRepositories`, in order to have a consistent way to run and test our code.
