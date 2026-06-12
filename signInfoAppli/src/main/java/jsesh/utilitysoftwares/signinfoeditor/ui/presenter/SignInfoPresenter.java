@@ -22,7 +22,6 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -58,7 +57,7 @@ import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
 import jsesh.utilitysoftwares.signinfoeditor.ui.form.JSignInfo;
-import jsesh.utilitysoftwares.signinfoeditor.ui.utils.HieroglyphicCodeRenderer;
+import jsesh.utilitysoftwares.signinfoeditor.ui.utils.SignTableCellRenderer;
 import jsesh.utilitysoftwares.signinfoeditor.ui.utils.SignCodeToTableTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.viewmodel.GrowableModel;
 import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignContainsTableModel;
@@ -92,9 +91,16 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     // resolution.
 
     private static final int bitmapBorder = 2;
-    private static final PictureDimension pictureDimension = new PictureDimension(
-            50, 30);
+    
     private static final int LABEL_PADDING = 3;
+    // Note:
+    // TABLE_ROW_HEIGHT is used twice:
+    // - to set the row height of the table
+    // - to set the size of the icons.
+    // We should unify this.
+    private static final int TABLE_ROW_HEIGHT = 50;
+    private static final PictureDimension PICTURE_DIMENSION = new PictureDimension(
+        (TABLE_ROW_HEIGHT*13)/10, TABLE_ROW_HEIGHT);
 
     /**
      * The actual model this presenter is working on.
@@ -186,7 +192,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     /**
      * The builder used to create icons for the hieroglyphs.
      */
-    HieroglyphPictureBuilder pictureBuilder;
+    private final HieroglyphPictureBuilder pictureBuilder;
 
     /**
      * Listener for changes in the model.
@@ -653,7 +659,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // First column. Has a renderer, but the editor is the normal string
         // editor.
         table.getColumnModel().getColumn(0).setCellRenderer(
-                new HieroglyphicCodeRenderer(pictureDimension, bitmapBorder, pictureBuilder, table));
+                new SignTableCellRenderer(PICTURE_DIMENSION, bitmapBorder, pictureBuilder));
         // Drag and drop support:
         table.setTransferHandler(new SignCodeToTableTransfertHandler(
                 tableModel));
@@ -791,7 +797,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     private void preparePartControls() {
-        view.getPartsTable().setRowHeight(30);
+        view.getPartsTable().setRowHeight(TABLE_ROW_HEIGHT);
         GrowableTableControl.bind(view.getPartsTable(), view.getPartAddButton(),
                 view.getPartRemoveButton(), view.getPartField());
     }
@@ -877,7 +883,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     private void prepareVariantControls() {
         // Prepare and adapt elements
-        view.getVariantTable().setRowHeight(30);
+        view.getVariantTable().setRowHeight(TABLE_ROW_HEIGHT);
         GrowableTableControl.bind(view.getVariantTable(), view.getVariantAddButton(), view.getVariantRemoveButton(),
                 view.getVariantField());
     }
