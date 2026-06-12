@@ -8,7 +8,7 @@ package org.qenherkhopeshef.swingUtils.lists;
  * but to handle it in a typesafe way.
  * <p> It's useful even if the list contains only Strings, as it allows to distinguish between actual content and "placeholder" content.
  */
-public sealed interface ListItem<T> permits DataListItem, StringListItem{
+public sealed interface ListItem<T> permits DataListItem, LabelListItem{
     
 
 }

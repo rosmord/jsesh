@@ -39,7 +39,7 @@ public class JSimplePalette extends JPanel {
 
     private JButton backButton;
     private JComboBox<ListItem<HieroglyphFamily>> categoryChooserCB;
-    private JComboBox<CharSequence> containsCB;
+    private JComboBox<ListItem<String>> containsCB;
     private JLabel glyphCodeLabel;
     private JEditorPane glyphInfoText;
     private JLabel glyphPictureLabel;
@@ -218,7 +218,7 @@ public class JSimplePalette extends JPanel {
         return backButton;
     }
 
-    public JComboBox<CharSequence> getContainsCB() {
+    public JComboBox<ListItem<String>> getContainsCB() {
         return containsCB;
     }
 }

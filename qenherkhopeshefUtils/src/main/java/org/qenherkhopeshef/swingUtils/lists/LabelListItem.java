@@ -3,16 +3,20 @@ package org.qenherkhopeshef.swingUtils.lists;
 import java.util.Objects;
 
 /**
- * An entry which contains basic text (as opposed to genuine content).
+ * An entry which contains a mere textual label, not a real entry.
+ * 
+ * <p> Note that if the combobox displays a list of Strings, this allows you
+ * to make a clear distinction between pseudo-entries (LabelListItem) and actual entries
+ * (DataListItem).
  */
-public final class StringListItem<T> implements ListItem<T>{
+public final class LabelListItem<T> implements ListItem<T>{
 
     private final String value;
 
     /**
      * create a new StringListItem entry.
      */
-    public StringListItem(String value) {
+    public LabelListItem(String value) {
         Objects.requireNonNull(value);
         this.value = value;
     }
@@ -42,7 +46,7 @@ public final class StringListItem<T> implements ListItem<T>{
             return true;
         if (obj == null)
             return false;
-        if (obj instanceof StringListItem other) {
+        if (obj instanceof LabelListItem other) {
             return Objects.equals(value, other.value);
         } else {
             return false;

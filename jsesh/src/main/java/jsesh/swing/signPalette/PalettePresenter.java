@@ -39,9 +39,10 @@ import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.qenherkhopeshef.swingUtils.lists.ComboboxUtils;
 import org.qenherkhopeshef.swingUtils.lists.DataListItem;
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
-import org.qenherkhopeshef.swingUtils.lists.StringListItem;
+import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -174,18 +175,18 @@ public class PalettePresenter {
     // Link the graphic component to its logic.
     private void preparePalette() {
         // Sign families
-        DefaultComboBoxModel<ListItem<HieroglyphFamily>> comboModel = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<ListItem<HieroglyphFamily>> familyCBModel = new DefaultComboBoxModel<>();
         List<HieroglyphFamily> families = hieroglyphsDatabase.getFamilies();
-        comboModel.addElement(new StringListItem<>("Select a sign family"));
-        comboModel.addElement(
+        familyCBModel.addElement(new LabelListItem<>("Select a sign family"));
+        familyCBModel.addElement(
                 new DataListItem<>(new HieroglyphFamily(LAST_USED, "Latest signs")));
-        comboModel
+        familyCBModel
                 .addElement(
                         new DataListItem<>(
                                 new HieroglyphFamily(USER_PALETTE, "User Palette")));
 
         for (int i = 0; i < families.size(); i++) {
-            comboModel.addElement(
+            familyCBModel.addElement(
                     new DataListItem<>(
                             families.get(i)));
         }
@@ -200,10 +201,10 @@ public class PalettePresenter {
         };
 
         for (HieroglyphFamily f : lastFamilies) {
-            comboModel.addElement(new DataListItem<>(f));
+            familyCBModel.addElement(new DataListItem<>(f));
         }
 
-        simplePalette.getCategoryChooserCB().setModel(comboModel);
+        simplePalette.getCategoryChooserCB().setModel(familyCBModel);
         simplePalette.getCategoryChooserCB().setMaximumRowCount(28);
 
         // activate buttons.
@@ -255,7 +256,7 @@ public class PalettePresenter {
         smallListRenderer.setDisplaySignsCodes(true);
         smallListRenderer.setBitmapHeight(20);
         simplePalette.getContainsCB().setRenderer(smallListRenderer);
-        simplePalette.getContainsCB().setPrototypeDisplayValue("A1");
+        simplePalette.getContainsCB().setPrototypeDisplayValue(new DataListItem<String>("A1"));
 
         ActionMap newActionMap = new ActionMap();
         newActionMap.setParent(signTable.getActionMap());
@@ -301,12 +302,26 @@ public class PalettePresenter {
      * @return
      */
     private Optional<HieroglyphFamily> getSelectedFamily() {
-        ListItem<HieroglyphFamily> selected = (ListItem<HieroglyphFamily>) simplePalette
-                .getCategoryChooserCB().getSelectedItem();
-        return switch (selected) {
-            case StringListItem<HieroglyphFamily> e -> Optional.empty();
-            case DataListItem<HieroglyphFamily> e1 -> Optional.of(e1.getValue());
-        };
+        // "Exercice de style" in functional programming.
+        // Nice, but probably not readable for future JSesh maintainers.
+        // I Comment it and replace it with its imperative version
+
+        // return ComboboxUtils.getSelectedItem(simplePalette.getCategoryChooserCB()).flatMap(
+        //         (ListItem<HieroglyphFamily> selected) -> switch (selected) {
+        //             case LabelListItem<HieroglyphFamily> e -> Optional.<HieroglyphFamily>empty();
+        //             case DataListItem<HieroglyphFamily> e1 -> {
+        //                 HieroglyphFamily f = e1.getValue();
+        //                 yield Optional.<HieroglyphFamily>of(f);
+        //             }
+        //         });
+        Optional<ListItem<HieroglyphFamily>> optSelectedItem = ComboboxUtils.getSelectedItem(simplePalette.getCategoryChooserCB());
+        if (optSelectedItem.isEmpty()) {
+            return Optional.empty();
+        } else if (optSelectedItem.get() instanceof DataListItem<HieroglyphFamily> dataListItem) {
+            return Optional.of(dataListItem.getValue());
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -671,20 +686,28 @@ public class PalettePresenter {
             }
         }
 
-        DefaultComboBoxModel<CharSequence> subSignListModel = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<ListItem<String>> subSignListModel = new DefaultComboBoxModel<>();
         // add the title as a string buffer. This way, it won't be rendered :-)
         subSignListModel
-                .addElement(new StringBuffer("filter signs containing"));
+                .addElement(
+                        new LabelListItem<>(
+                                "filter signs containing"));
 
         for (String oldSign : selectedSignCodes) {
             if (!oldSign.equals("")) {
-                subSignListModel.addElement(oldSign);
+                subSignListModel.addElement(
+                        new DataListItem<String>(
+                                oldSign));
             }
         }
-        subSignListModel.addElement(new StringBuffer(" "));
+        subSignListModel.addElement(
+                new LabelListItem<>(
+                        " "));
 
         for (String signIcon : containedSigns) {
-            subSignListModel.addElement(signIcon);
+            subSignListModel.addElement(
+                    new DataListItem<String>(
+                            signIcon));
         }
         simplePalette.getContainsCB().setModel(subSignListModel);
     }
@@ -894,12 +917,13 @@ public class PalettePresenter {
     }
 
     private void filterFromContainsCB() {
-        Object selected = simplePalette.getContainsCB().getSelectedItem();
-        // The list also contains text.
-        if (selected instanceof String) {
-            selectFilteredContaining((String) selected);
-            selectNoFamily();
-        }
+        Optional<ListItem<String>> optSelected = ComboboxUtils.getSelectedItem(simplePalette.getContainsCB());
+        optSelected.ifPresent(selected -> {
+            if (selected instanceof DataListItem<String> selectedFilter) {
+                selectFilteredContaining(selectedFilter.getValue());
+                selectNoFamily();
+            }
+        });        
     }
 
     /**
