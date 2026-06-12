@@ -40,6 +40,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
@@ -107,6 +108,36 @@ public class HieroglyphPictureBuilder {
 		ShapeChar shape = shapeRepository.get(actualCode);
 		return buildSignBitmap(shape, options);
 	}
+
+	/**
+	 * Utility method for drawing an icon in a label.
+	 * @param label
+	 * @param code
+	 * @param border
+	 */
+	public void drawIconInLabel(JLabel label, String code, int border) {
+		IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
+				.dimension(computeIconDimensionFor(label, border))
+				.fit(true)
+				.border(border).build();
+		label.setIcon(createHieroglyphIcon(code, renderOptions));
+	}
+
+	 /**
+     * Compute the dimension for an icon displayed in a fixed size label.
+     * 
+     * @param signIconLabel
+     * @return
+     */
+    private PictureDimension computeIconDimensionFor(JLabel signIconLabel, int padding) {
+        int height = signIconLabel.getHeight() - 2 * padding;
+        int width = signIconLabel.getWidth() - 2 * padding;
+        if (width <= 0 || height <= 0) {
+            return IconRenderOptions.DEFAULT.dimension();
+        } else {
+            return new PictureDimension(width, height);
+        }
+    }
 
 	/**
 	 * Creates an icon for a particular hieroglyph.

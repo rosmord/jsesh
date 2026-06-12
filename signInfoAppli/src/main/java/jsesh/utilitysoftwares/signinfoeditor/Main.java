@@ -59,7 +59,6 @@ import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 /**
- * 
  * Main class for the SignInfoEditor application.
  * <p> It builds the application, installs the presenters and some of the menus.
  * 

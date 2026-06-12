@@ -427,13 +427,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             // update sign display
             // HieroglyphPictureBuilder.createHieroglyphIcon(code,
 
-            PictureDimension dimension = computeIconDimensionFor(signIconLabel);
-            IconRenderOptions iconRenderOptions = IconRenderOptions.DEFAULT.copy()
-                    .dimension(dimension)
-                    .border(LABEL_PADDING)
-                    .build();
-            Icon newIcon = pictureBuilder.createHieroglyphIcon(code, iconRenderOptions);
-            signIconLabel.setIcon(newIcon);
+            pictureBuilder.drawIconInLabel(signIconLabel, code, LABEL_PADDING);
 
             // table of signs of whom we are a variant.
 
@@ -458,21 +452,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         editing = true;
     }
 
-    /**
-     * Compute the dimension for an icon displayed in a fixed size label.
-     * 
-     * @param signIconLabel
-     * @return
-     */
-    private PictureDimension computeIconDimensionFor(JLabel signIconLabel) {
-        int height = signIconLabel.getHeight() - 2 * LABEL_PADDING;
-        int width = signIconLabel.getWidth() - 2 * LABEL_PADDING;
-        if (width <= 0 || height <= 0) {
-            return IconRenderOptions.DEFAULT.dimension();
-        } else {
-            return new PictureDimension(width, height);
-        }
-    }
+   
 
     public void setExpertMode(boolean newExpertMode) {
         boolean oldMode = this.expertMode;

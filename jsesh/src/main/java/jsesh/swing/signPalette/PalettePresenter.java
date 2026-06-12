@@ -1,6 +1,5 @@
 package jsesh.swing.signPalette;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -165,6 +164,7 @@ public class PalettePresenter {
     // Link the graphic component to its logic.
     private void preparePalette() {
         // Sign families
+        // TODO: introduce a specific type for combobox elements.
         DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
         List<HieroglyphFamily> families = hieroglyphsDatabase.getFamilies();
         comboModel.addElement("Select a sign family");
@@ -211,7 +211,7 @@ public class PalettePresenter {
         final int bitmapHeight = 40;
         renderer.setBitmapHeight(bitmapHeight);
 
-        JList signTable = simplePalette.getSignTable();
+        JList<String> signTable = simplePalette.getSignTable();
         // Aspect and drawing related stuff.
         signTable.setCellRenderer(renderer);
         // signTable.setPrototypeCellValue("A248B");
@@ -813,12 +813,8 @@ public class PalettePresenter {
             iconLabel.setIcon(null);
             infoView.setText("");
         } else {
-        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);
-            IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
-                .dimension(iconLabel.getHeight() - 4, iconLabel.getHeight() - 4)
-                .border(4).build();
-            iconLabel.setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(
-                    code, renderOptions));
+        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);            
+            hieroglyphPictureBuilder.drawIconInLabel(iconLabel, code, 4);
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {
                 values = new ArrayList<>();

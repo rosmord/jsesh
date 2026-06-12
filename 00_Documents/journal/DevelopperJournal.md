@@ -242,7 +242,10 @@ List of classes which need some cleanup:
 
 ### 2026/06/12
 
+- [ ] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.
 - [x] first draft of icon generation fix. Now we pass a dimension (w x h) to the icon builder, and not an icon height;
+  - sign display is correct in the sign info editor main label
+  - [x] **FIXED** but it's truncated in the palette (it was simply a copy/paste induced bug problem, where I used the height instead of the width for the dimension).
 - [ ] FIXME : the menu entry for the documentation has an empty text
 ### 2026/06/09
 

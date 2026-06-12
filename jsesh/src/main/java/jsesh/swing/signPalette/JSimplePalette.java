@@ -111,7 +111,7 @@ public class JSimplePalette extends JPanel {
         glyphCodeLabel.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // Or take standard and change size.
         glyphCodeLabel.setText("        ");
 
-        glyphPictureLabel.setBackground(java.awt.Color.white);
+        glyphPictureLabel.setBackground(java.awt.Color.WHITE);
         glyphPictureLabel.setBorder(BorderFactory.createEtchedBorder());
         
         jPanel1.setLayout(new MigLayout("insets 0", "[grow, fill]", ""));

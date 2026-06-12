@@ -45,7 +45,9 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 				setText("");
 			}
 			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager, parent);
-			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().dimension(getIconSize()).border(border).build();
+			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
+			.fit(true)
+			.dimension(getIconSize()).border(border).build();
 			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code, renderOptions));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());
