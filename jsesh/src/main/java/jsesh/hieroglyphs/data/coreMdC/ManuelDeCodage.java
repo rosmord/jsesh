@@ -28,7 +28,8 @@ import jsesh.hieroglyphs.resources.HieroglyphResources;
  *  It doesn't deal with extended lists and general sign values.
  *  
  *  <p>Difference with 1988 MdC :
- *  <p> We have added a few codes, mainly to ensure a text can be normalized with only phonetic codes and possibly numbers.
+ *  <p> We have added a few codes, mainly to ensure a text can be normalized with only 
+ *  standard Gardiner-like codes and possibly numbers (removing phonetic codes).
  *  
  *  <ul>
  *   <li> R8A for nTrw;
