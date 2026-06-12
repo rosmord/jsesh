@@ -255,8 +255,13 @@ List of classes which need some cleanup:
 
 ### 2026/06/12
 
+- [x] **regarding lists**: introduce a generic adapter class, `ListItem<G>` or something like that, which could hold either :
+  - a particular object of class `G`
+  - or a label, typically something like "choose a town", etc... which would be used mainly for the first item.
+  - applied to the palette and sign families.∏
+  - done, but not yet applied.
 
-- [ ] fix the hyphen in transliteration problem.
+- [x] fix the hyphen in transliteration problem.
 - [x] renamed `JSeshGlossary` which was misleading (could suggest it was a Swing component) into `Glossary`.
 - [x] enlarge the hieroglyphic search field
 - [x] enlarge the hieroglyphic field in the glossary editor
@@ -299,9 +304,6 @@ Plan for the next days:
   Note that `HieroglyphPictureBuilder` does **not** analyse MDC. It draws signs directly from the font. 
 
 - [x] **TODO** replace the size argument of `IconRenderOptions` by a dimension object (or something like that, read-only).
-- [ ] introduce a generic adapter class, `ListItem<G>` or something like that, which could hold either :
-  - a particular object of class `G`
-  - or a label, typically something like "choose a town", etc... which would be used mainly for the first item.
 
 - some warnings in starting mvn:
 
@@ -322,10 +324,10 @@ Plan for the next days:
 
   Linked to modules and maven code (not JSesh code). It's supposed to be fixed in maven 4. But we might also move to gradle at some point...
 
-- [ ] check the SignInfo app.
-- [ ]❗️ icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
-- [ ] fix the sign palette display.
-- [ ] backport the support of hyphens in transliteration which was used in the former master branch, but deleted when merging with the development branch. 
+- [x] check the SignInfo app.
+- [x]❗️ icons content should either be downscaled if it doesn't fit in the icon, or the icon should be resized.
+- [x] fix the sign palette display.
+- [x] backport the support of hyphens in transliteration which was used in the former master branch, but deleted when merging with the development branch. 
 
 ### 2026/06/03
 

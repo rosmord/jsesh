@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -37,6 +38,10 @@ import javax.swing.KeyStroke;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.qenherkhopeshef.swingUtils.lists.DataListItem;
+import org.qenherkhopeshef.swingUtils.lists.ListItem;
+import org.qenherkhopeshef.swingUtils.lists.StringListItem;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -77,12 +82,10 @@ public class PalettePresenter {
     private static final String LOW_BROAD_SIGNS = "Low Broad Signs";
     private static final String LOW_NARROW_SIGNS = "Low Narrow Signs";
 
-
     /**
      * Height of glyphs in the displayed list.
      */
     private final int LIST_CELL_HEIGHT = 50;
-
 
     private class InsertSignAction extends AbstractAction {
 
@@ -109,22 +112,22 @@ public class PalettePresenter {
      * Field for glyph information.
      */
     private final JTextArea glyphDescriptionField;
-    
+
     /**
      * The object which will receive events from this palette.
      */
     private HieroglyphPaletteListener hieroglyphPaletteListener;
-    
+
     /**
      * Abstract data about codes.
      */
     private final HieroglyphDatabaseInterface hieroglyphsDatabase;
-    
+
     /**
      * Font manager (knows about sign drawings).
      */
     private final HieroglyphShapeRepository hieroglyphicFontManager;
-    
+
     /**
      * Signs already got from the palette, for faster retrieval.
      */
@@ -140,7 +143,7 @@ public class PalettePresenter {
     /**
      * Selected sign codes (may be empty strings)
      */
-    private final String[] selectedSignCodes = {"", "", "", "", "", ""};
+    private final String[] selectedSignCodes = { "", "", "", "", "", "" };
     /**
      * Index of the selected sign code in the buffer.
      */
@@ -151,7 +154,8 @@ public class PalettePresenter {
      */
     private HieroglyphicPaletteDialog dialog;
 
-    public PalettePresenter(HieroglyphShapeRepository hieroglyphicFontManager, HieroglyphDatabaseInterface hieroglyphDatabase) {
+    public PalettePresenter(HieroglyphShapeRepository hieroglyphicFontManager,
+            HieroglyphDatabaseInterface hieroglyphDatabase) {
         this.hieroglyphsDatabase = hieroglyphDatabase;
         this.hieroglyphicFontManager = hieroglyphicFontManager;
         simplePalette = new JSimplePalette();
@@ -170,24 +174,34 @@ public class PalettePresenter {
     // Link the graphic component to its logic.
     private void preparePalette() {
         // Sign families
-        // TODO: introduce a specific type for combobox elements.
-        DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
+        DefaultComboBoxModel<ListItem<HieroglyphFamily>> comboModel = new DefaultComboBoxModel<>();
         List<HieroglyphFamily> families = hieroglyphsDatabase.getFamilies();
-        comboModel.addElement("Select a sign family");
-        comboModel.addElement(new HieroglyphFamily(LAST_USED, "Latest signs"));
+        comboModel.addElement(new StringListItem<>("Select a sign family"));
+        comboModel.addElement(
+                new DataListItem<>(new HieroglyphFamily(LAST_USED, "Latest signs")));
         comboModel
-                .addElement(new HieroglyphFamily(USER_PALETTE, "User Palette"));
+                .addElement(
+                        new DataListItem<>(
+                                new HieroglyphFamily(USER_PALETTE, "User Palette")));
 
         for (int i = 0; i < families.size(); i++) {
-            comboModel.addElement(families.get(i));
+            comboModel.addElement(
+                    new DataListItem<>(
+                            families.get(i)));
         }
-        comboModel.addElement(new HieroglyphFamily(ALL_FAMILIES, "All Signs"));
-        comboModel.addElement(new HieroglyphFamily(TALL_NARROW_SIGNS,
-                "Tall Narrow Signs"));
-        comboModel.addElement(new HieroglyphFamily(LOW_BROAD_SIGNS,
-                "Low Broad Signs"));
-        comboModel.addElement(new HieroglyphFamily(LOW_NARROW_SIGNS,
-                "Low Narrow Signs"));
+        HieroglyphFamily[] lastFamilies = {
+                new HieroglyphFamily(ALL_FAMILIES, "All Signs"),
+                new HieroglyphFamily(TALL_NARROW_SIGNS,
+                        "Tall Narrow Signs"),
+                new HieroglyphFamily(LOW_BROAD_SIGNS,
+                        "Low Broad Signs"),
+                new HieroglyphFamily(LOW_NARROW_SIGNS,
+                        "Low Narrow Signs")
+        };
+
+        for (HieroglyphFamily f : lastFamilies) {
+            comboModel.addElement(new DataListItem<>(f));
+        }
 
         simplePalette.getCategoryChooserCB().setModel(comboModel);
         simplePalette.getCategoryChooserCB().setMaximumRowCount(28);
@@ -273,7 +287,7 @@ public class PalettePresenter {
         simplePalette.getShowAllCheckBox().addActionListener(
                 updateToSelectedCategoryListener);
 
-        simplePalette.getCategoryChooserCB().setSelectedItem(families.get(0));
+        simplePalette.getCategoryChooserCB().setSelectedItem(new DataListItem<>(families.get(0)));
 
         simplePalette.getShowAllCheckBox().setSelected(true);
 
@@ -282,20 +296,17 @@ public class PalettePresenter {
     }
 
     /**
-     * Returns the family currently selected.
+     * Returns the family currently selected, if any.
      *
      * @return
      */
-    private HieroglyphFamily getSelectedFamily() {
-        HieroglyphFamily hieroglyphFamily = (HieroglyphFamily) simplePalette
+    private Optional<HieroglyphFamily> getSelectedFamily() {
+        ListItem<HieroglyphFamily> selected = (ListItem<HieroglyphFamily>) simplePalette
                 .getCategoryChooserCB().getSelectedItem();
-        // In some case, there might be no selected item
-        if (hieroglyphFamily == null) {
-            hieroglyphFamily = (HieroglyphFamily) simplePalette
-                    .getCategoryChooserCB().getModel().getElementAt(0);
-            selectNoFamily();
-        }
-        return hieroglyphFamily;
+        return switch (selected) {
+            case StringListItem<HieroglyphFamily> e -> Optional.empty();
+            case DataListItem<HieroglyphFamily> e1 -> Optional.of(e1.getValue());
+        };
     }
 
     /**
@@ -358,36 +369,40 @@ public class PalettePresenter {
      * LAST_USED)
      */
     private Collection<String> getSignsCodeInPaletteFamily() {
-        Collection<String> result;
-        switch (getSelectedFamily().getCode()) {
-            case LAST_USED:
-                result = lastUsed;
-                break;
-            case USER_PALETTE:
-                result = userPalette;
-                break;
-            case ALL_FAMILIES:
-                result = hieroglyphsDatabase.getCodesForFamily("", true);
-                break;
-            case TALL_NARROW_SIGNS:
-                result = ManuelDeCodage.getInstance().getTallNarrowSigns();
-                break;
-            case LOW_BROAD_SIGNS:
-                result = ManuelDeCodage.getInstance().getLowBroadSigns();
-                break;
-            case LOW_NARROW_SIGNS:
-                result = ManuelDeCodage.getInstance().getLowNarrowSigns();
-                break;
-            default:
-                // Add a whole family...
-                boolean getAllSigns = simplePalette.getShowAllCheckBox()
-                        .isSelected();
-                // Get the list of codes for the given sign family.
-                result = hieroglyphsDatabase.getCodesForFamily(getSelectedFamily()
-                        .getCode(), getAllSigns);
-                break;
-        }
-        return result;
+        return getSelectedFamily().map(
+                family -> {
+                    Collection<String> result;
+                    switch (family.getCode()) {
+                        case LAST_USED:
+                            result = lastUsed;
+                            break;
+                        case USER_PALETTE:
+                            result = userPalette;
+                            break;
+                        case ALL_FAMILIES:
+                            result = hieroglyphsDatabase.getCodesForFamily("", true);
+                            break;
+                        case TALL_NARROW_SIGNS:
+                            result = ManuelDeCodage.getInstance().getTallNarrowSigns();
+                            break;
+                        case LOW_BROAD_SIGNS:
+                            result = ManuelDeCodage.getInstance().getLowBroadSigns();
+                            break;
+                        case LOW_NARROW_SIGNS:
+                            result = ManuelDeCodage.getInstance().getLowNarrowSigns();
+                            break;
+                        default:
+                            // Add a whole family...
+                            boolean getAllSigns = simplePalette.getShowAllCheckBox()
+                                    .isSelected();
+                            // Get the list of codes for the given sign family.
+                            result = hieroglyphsDatabase.getCodesForFamily(family
+                                    .getCode(), getAllSigns);
+                            break;
+                    }
+                    return result;
+                }).orElse(Collections.emptyList());
+
     }
 
     /**
@@ -499,8 +514,7 @@ public class PalettePresenter {
             variantSet.addAll(
                     hieroglyphsDatabase.getVariants(code).stream()
                             .map(variant -> variant.getCode())
-                            .collect(Collectors.toList())
-            );
+                            .collect(Collectors.toList()));
         }
         selectNoFamily();
         setDisplayedSigns(variantSet);
@@ -530,6 +544,7 @@ public class PalettePresenter {
 
     /**
      * Filter displayed signs to find those which contain the selected sign.
+     * 
      * @param code
      */
     protected void selectFilteredContaining(String code) {
@@ -593,32 +608,34 @@ public class PalettePresenter {
     /**
      * Select a sign category to display in the palette.
      *
-     * @param family
+     * @param optFamily
      */
-    private void selectCategory(HieroglyphFamily family) {
-        simplePalette.getTagChooserCB().setModel(new DefaultComboBoxModel<String>());
-        // Allow two special families :
-        // last signs : the signs chosen from the palette by the user
-        // user palette: a user-specific palette.
-        Collection<String> signs = getCompatibleSignsForTag(ALL);
-        setDisplayedSigns(signs);
-        // Prepare the content of the tag selectors...
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        model.addElement(ALL);
+    private void selectCategory(Optional<HieroglyphFamily> optFamily) {
+        optFamily.ifPresent(family -> {
+            simplePalette.getTagChooserCB().setModel(new DefaultComboBoxModel<String>());
+            // Allow two special families :
+            // last signs : the signs chosen from the palette by the user
+            // user palette: a user-specific palette.
+            Collection<String> signs = getCompatibleSignsForTag(ALL);
+            setDisplayedSigns(signs);
+            // Prepare the content of the tag selectors...
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+            model.addElement(ALL);
 
-        /* Compute the tags associated with all displayed signs */
-        Set<String> tagList = new TreeSet<>();
-        for (String code : getDisplayedSigns()) {
-            tagList.addAll(hieroglyphsDatabase.getTagsForSign(code));
-        }
-        /* Insert them in the combobox */
-        Iterator<String> tagListIterator = tagList.iterator();
-        while (tagListIterator.hasNext()) {
-            model.addElement(tagListIterator.next());
-        }
-        model.addElement(OTHERS);
-        simplePalette.getTagChooserCB().setModel(model);
-        simplePalette.getSecondaryTagCB().setModel(new DefaultComboBoxModel<>());
+            /* Compute the tags associated with all displayed signs */
+            Set<String> tagList = new TreeSet<>();
+            for (String code : getDisplayedSigns()) {
+                tagList.addAll(hieroglyphsDatabase.getTagsForSign(code));
+            }
+            /* Insert them in the combobox */
+            Iterator<String> tagListIterator = tagList.iterator();
+            while (tagListIterator.hasNext()) {
+                model.addElement(tagListIterator.next());
+            }
+            model.addElement(OTHERS);
+            simplePalette.getTagChooserCB().setModel(model);
+            simplePalette.getSecondaryTagCB().setModel(new DefaultComboBoxModel<>());
+        });
     }
 
     /**
@@ -757,7 +774,7 @@ public class PalettePresenter {
         public void mouseClicked(MouseEvent e) {
             // Retrieve the code corresponding to the clicked cell.
             JList<String> table = simplePalette.getSignTable();
-            String code =  table.getSelectedValue();
+            String code = table.getSelectedValue();
 
             if (code == null || "".equals(code)) {
                 return;
@@ -820,7 +837,8 @@ public class PalettePresenter {
             iconLabel.setIcon(null);
             infoView.setText("");
         } else {
-        	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);            
+            HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager,
+                    simplePalette);
             hieroglyphPictureBuilder.drawIconInLabel(iconLabel, code, 4);
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {

@@ -24,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
+import org.qenherkhopeshef.swingUtils.lists.ListItem;
+
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import net.miginfocom.swing.MigLayout;
 
@@ -36,7 +38,7 @@ public class JSimplePalette extends JPanel {
 
 
     private JButton backButton;
-    private JComboBox<HieroglyphFamily> categoryChooserCB;
+    private JComboBox<ListItem<HieroglyphFamily>> categoryChooserCB;
     private JComboBox<CharSequence> containsCB;
     private JLabel glyphCodeLabel;
     private JEditorPane glyphInfoText;
@@ -164,7 +166,7 @@ public class JSimplePalette extends JPanel {
     }
 
     
-	public JComboBox<HieroglyphFamily> getCategoryChooserCB() {
+	public JComboBox<ListItem<HieroglyphFamily>> getCategoryChooserCB() {
 		return categoryChooserCB;
 	}
 
