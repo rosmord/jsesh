@@ -58,6 +58,7 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.events.TextEvent;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
@@ -352,6 +353,7 @@ public final class JSeshViewCore {
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
         List<HieroglyphFamily> families = fontKit.hieroglyphDatabase().getFamilies();
+        HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(fontKit.hieroglyphShapeRepository(), viewComponent);
 
         JPopupMenu hieroglyphs = new JPopupMenu();
 
@@ -360,7 +362,7 @@ public final class JSeshViewCore {
             HieroglyphFamily family = (HieroglyphFamily) families.get(i);
 
             HieroglyphicMenu fmenu = new HieroglyphicMenu(family.getCode()
-                    + ". " + family.getDescription(), family.getCode(), 6, iconFactory);
+                    + ". " + family.getDescription(), family.getCode(), 6, pictureBuilder);
 
             fmenu.setHieroglyphicMenuListener(mediator);
             if (i < 25) {
@@ -375,11 +377,11 @@ public final class JSeshViewCore {
 
         HieroglyphicMenu[] others = new HieroglyphicMenu[] {
                 new HieroglyphicMenu("Tall Narrow Signs",
-                        HieroglyphicMenu.TALL_NARROW, 6, iconFactory),
+                        HieroglyphicMenu.TALL_NARROW, 6, pictureBuilder),
                 new HieroglyphicMenu("Low Broad Signs",
-                        HieroglyphicMenu.LOW_BROAD, 6, iconFactory),
+                        HieroglyphicMenu.LOW_BROAD, 6, pictureBuilder),
                 new HieroglyphicMenu("Low Narrow Signs",
-                        HieroglyphicMenu.LOW_NARROW, 6, iconFactory) };
+                        HieroglyphicMenu.LOW_NARROW, 6, pictureBuilder) };
         for (HieroglyphicMenu m : others) {
             hieroglyphs.add(m);
             m.setHieroglyphicMenuListener(mediator);

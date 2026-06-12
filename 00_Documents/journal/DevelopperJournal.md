@@ -243,7 +243,7 @@ List of classes which need some cleanup:
 ### 2026/06/12
 
 - [ ] fix the hyphen in transliteration problem.
-- [ ] see how the glyph rendering in the basic Gardiner list menu is performed, and possibly unify this.
+- [x] see how the glyph rendering in the basic Gardiner list menu is performed, and possibly unify this (leave as is for now)
 - [x] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.
 - [x] first draft of icon generation fix. Now we pass a dimension (w x h) to the icon builder, and not an icon height;
   - sign display is correct in the sign info editor main label

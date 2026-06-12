@@ -53,7 +53,8 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.hieroglyphs.utils.IconRenderOptions;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
@@ -80,7 +81,7 @@ public class HieroglyphicMenu extends JMenu {
 	 * pseudo family for low narrow signs.
 	 */
 	public static String LOW_NARROW = "LOW NARROW";
-	
+
 	private int ncols;
 
 	private String family;
@@ -89,11 +90,15 @@ public class HieroglyphicMenu extends JMenu {
 
 	private boolean menuFilled = false;
 
-	public HieroglyphicMenu(String title, String family, int ncols, MDCIconFactory iconFactory) {
+	private final IconRenderOptions iconRenderOptions;
+
+	public HieroglyphicMenu(String title, String family, int ncols, HieroglyphPictureBuilder pictureBuilder) {
 		super(title);
 		this.ncols = ncols;
 		this.family = family;
-		
+		iconRenderOptions = IconRenderOptions.DEFAULT
+				.copy().dimension(40, 40).padding(2).build();
+
 		// The popup system doesn't work on the mac if the menu is application
 		// level.
 		// In fact it's not very useful anymore, as menus are not really
@@ -104,7 +109,7 @@ public class HieroglyphicMenu extends JMenu {
 		if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX
 				&& "true".equals(System
 						.getProperty("apple.laf.useScreenMenuBar"))) {
-			fillMenu(iconFactory);
+			fillMenu(pictureBuilder);
 		} else {
 			getPopupMenu().addPopupMenuListener(new PopupMenuListener() {
 
@@ -117,7 +122,7 @@ public class HieroglyphicMenu extends JMenu {
 				}
 
 				public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-					fillMenu(iconFactory);
+					fillMenu(pictureBuilder);
 				}
 
 			});
@@ -140,7 +145,7 @@ public class HieroglyphicMenu extends JMenu {
 
 	}
 
-	private void fillMenu(MDCIconFactory iconFactory) {
+	private void fillMenu(HieroglyphPictureBuilder pictureBuilder) {
 
 		if (menuFilled)
 			return;
@@ -163,7 +168,7 @@ public class HieroglyphicMenu extends JMenu {
 		JPopupMenu pm = getPopupMenu();
 		pm.setLayout(new GridLayout(0, ncols));
 		for (int i = 0; i < codes.size(); i++) {
-			Action a = new HieroglyphAction(codes.get(i), iconFactory);
+			Action a = new HieroglyphAction(codes.get(i), pictureBuilder);
 			JMenuItem jm = new JMenuItem(a);
 			jm.addMouseListener(menuEnter);
 			add(jm);
@@ -185,7 +190,7 @@ public class HieroglyphicMenu extends JMenu {
 		this.hieroglyphicMenuListener = hieroglyphicMenuListener;
 	}
 
-	class HieroglyphAction extends AbstractAction {	
+	class HieroglyphAction extends AbstractAction {
 		String code;
 
 		/**
@@ -194,8 +199,9 @@ public class HieroglyphicMenu extends JMenu {
 		 * @param code
 		 * 
 		 */
-		public HieroglyphAction(String code, MDCIconFactory iconFactory) {
-			super(code, iconFactory.buildGlyphImage(code));
+		public HieroglyphAction(String code, HieroglyphPictureBuilder pictureBuilder) {
+			super(code, pictureBuilder.createHieroglyphIcon(code, iconRenderOptions));
+			System.out.println("Creating action for " + code);
 			this.code = code;
 		}
 
