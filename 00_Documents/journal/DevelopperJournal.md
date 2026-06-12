@@ -242,7 +242,9 @@ List of classes which need some cleanup:
 
 ### 2026/06/12
 
-- [ ] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.
+- [ ] fix the hyphen in transliteration problem.
+- [ ] see how the glyph rendering in the basic Gardiner list menu is performed, and possibly unify this.
+- [x] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.
 - [x] first draft of icon generation fix. Now we pass a dimension (w x h) to the icon builder, and not an icon height;
   - sign display is correct in the sign info editor main label
   - [x] **FIXED** but it's truncated in the palette (it was simply a copy/paste induced bug problem, where I used the height instead of the width for the dimension).
@@ -277,8 +279,10 @@ Plan for the next days:
   - `jsesh.hieroglyphs.utils.HieroglyphPictureBuilder`;
   - `jsesh.swing.utils.MDCIconFactory`;
   - `jsesh.mdcDisplayer.draw.MDCDrawingFacade`.
+  
+  Note that `HieroglyphPictureBuilder` does **not** analyse MDC. It draws signs directly from the font. 
 
-- [ ] **TODO** replace the size argument of `IconRenderOptions` by a dimension object (or something like that, read-only).
+- [x] **TODO** replace the size argument of `IconRenderOptions` by a dimension object (or something like that, read-only).
 - [ ] introduce a generic adapter class, `ListItem<G>` or something like that, which could hold either :
   - a particular object of class `G`
   - or a label, typically something like "choose a town", etc... which would be used mainly for the first item.

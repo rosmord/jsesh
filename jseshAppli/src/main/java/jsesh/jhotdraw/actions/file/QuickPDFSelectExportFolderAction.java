@@ -20,7 +20,7 @@ public class QuickPDFSelectExportFolderAction extends AbstractApplicationAction 
 
 	public QuickPDFSelectExportFolderAction(Application app) {
 		super(app);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	public void actionPerformed(ActionEvent e) {

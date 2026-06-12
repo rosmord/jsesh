@@ -21,7 +21,7 @@ public class SetDocumentOrientationAction extends AbstractViewAction {
 	public SetDocumentOrientationAction(Application app, View view, TextOrientation textOrientation) {
 		super(app, view);
 		this.textOrientation= textOrientation;
-		BundleHelper.getInstance().configure(this, getID());		
+		BundleHelper.getInstance().configureActionWithID(this, getID());		
 		setPropertyName(JSeshView.DOCUMENT_INFO_PROPERTY);
 	}
 

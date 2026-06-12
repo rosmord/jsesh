@@ -50,7 +50,7 @@ public class EditDocumentPreferencesAction extends AbstractCoreViewAction {
 
 	public EditDocumentPreferencesAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	public static final String ID = "file.documentProperties";

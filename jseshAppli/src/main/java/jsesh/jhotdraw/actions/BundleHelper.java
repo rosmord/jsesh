@@ -40,6 +40,8 @@ public class BundleHelper {
 	 * @param ID
 	 *            the action class unique string id. Usually a static field in
 	 *            the action class.
+	 * @param mdcIconFactory the factory to use to build the icon, if needed. It can be null if no icon is needed. 
+	 * 	But if an icon is needed and it is null, a RuntimeException will be thrown to warn the programmer.
 	 * @return the configured action.
 	 */
 	public Action configure(Action action, String ID, MDCIconFactory mdcIconFactory) {
@@ -56,7 +58,7 @@ public class BundleHelper {
 	}
 
 	/**
-	 * Configures an action.
+	 * Configures an action which has no associated icon.
 	 * @param action the action object
 	 * @param id the action class unique string id. Usually a static field in
 	 *            the action class.
@@ -66,31 +68,14 @@ public class BundleHelper {
 	 * 
 	 * @return the configured action
 	 */
-	public Action configure(Action action, String id) {
+	public Action configureActionWithID(Action action, String id) {
 		return configure(action, id, null);
 	}
 
-	/**
-	 * Configure a menu item. To ease on-the flight creation of menu items, this
-	 * methods retuns the item. One can thus write things like:
-	 * 
-	 * <pre>
-	 * menu.addAll(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
-	 * </pre>
-	 * 
-	 * @param menu
-	 *            the menu item to configure
-	 * @param argument
-	 *            a key string identifying the menu.
-	 */
-	public JMenuItem configure(JMenuItem menu, String argument) {
-		resourceBundleUtil.configureMenu(menu, argument);
-		return menu;
-	}
 
 	/**
 	 * Configure a menu . To ease on-the flight creation of menu items, this
-	 * methods retuns the item. One can thus write things like:
+	 * methods returns the item. One can thus write things like:
 	 * 
 	 * <pre>
 	 * menu.addAll(BundleHelper.configure(new JMenuItem(), &quot;file.send&quot;));
@@ -98,11 +83,11 @@ public class BundleHelper {
 	 * 
 	 * @param menu
 	 *            the menu item to configure
-	 * @param argument
-	 *            a key string identifying the menu.
+	 * @param resourceKey
+	 *            a key string identifying the menu in resources. e.g. <code>"file.import"</code>
 	 */
-	public JMenu configure(JMenu menu, String argument) {
-		resourceBundleUtil.configureMenu(menu, argument);
+	public JMenu configure(JMenu menu, String resourceKey) {
+		resourceBundleUtil.configureMenu(menu, resourceKey);
 		return menu;
 	}
 
@@ -115,7 +100,7 @@ public class BundleHelper {
 	 * @param action
          * @return the action which has just been configured.
 	 */
-	public Action configure(Action action, MDCIconFactory mdcIconFactory) {
+	public Action configureActionWithIcon(Action action, MDCIconFactory mdcIconFactory) {
 		try {
 			Class<? extends Action> clazz = action.getClass();
 			Field field = clazz.getField("ID");
@@ -140,8 +125,8 @@ public class BundleHelper {
 	 * Configure an action, when we are sure it doesn't need an MdC icon.
 	 * @param jSeshHelpAction
 	 */
-	public void configureNoIcon(Action action) {
-		configure(action, null, null);
+	public void configureActionNoIcon(Action action) {
+		configureActionWithIcon(action,  null);
 	}
 	
 	public String getLabel(String code) {

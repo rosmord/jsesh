@@ -38,7 +38,7 @@ public class SelectCopyPasteConfigurationAction extends AbstractViewAction {
 			ExportType exportType) {
 		super(app, view);
 		this.exportType = exportType;
-		BundleHelper.getInstance().configure(this, getID() );
+		BundleHelper.getInstance().configureActionWithID(this, getID() );
 	}
 
 	/*

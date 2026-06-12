@@ -26,7 +26,7 @@ public class CenterSmallSignsAction extends AbstractCoreViewAction {
 
 	public CenterSmallSignsAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 		//
 		setPropertyName(JSeshView.DOCUMENT_INFO_PROPERTY);
 	}

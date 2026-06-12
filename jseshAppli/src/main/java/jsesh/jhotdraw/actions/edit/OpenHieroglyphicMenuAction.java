@@ -16,7 +16,7 @@ public class OpenHieroglyphicMenuAction extends AbstractAction {
 	private JButton parent;
 	
 	public OpenHieroglyphicMenuAction(JButton parent, JPopupMenu hieroglyphicMenu) {
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 		this.menu= hieroglyphicMenu;
 		this.parent= parent;
 	}

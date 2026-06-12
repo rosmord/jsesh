@@ -26,7 +26,7 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 
 	public QuickPDFExportAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	@Override

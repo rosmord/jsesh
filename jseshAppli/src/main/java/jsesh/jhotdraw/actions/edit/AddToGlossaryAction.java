@@ -21,7 +21,7 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 
 	public AddToGlossaryAction(Application app, View view, MDCIconFactory mdcIconFactory) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, mdcIconFactory);
+		BundleHelper.getInstance().configureActionWithIcon(this, mdcIconFactory);
 	}
 
 	@Override

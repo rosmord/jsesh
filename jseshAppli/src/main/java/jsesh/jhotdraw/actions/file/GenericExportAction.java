@@ -22,7 +22,7 @@ public class GenericExportAction extends AbstractCoreViewAction {
     public GenericExportAction(Application app, View view,
             GraphicalExporter exporter, String actionID) {
         super(app, view);
-        BundleHelper.getInstance().configure(this, actionID);
+        BundleHelper.getInstance().configureActionWithID(this, actionID);
         this.exporter = exporter;
     }
 

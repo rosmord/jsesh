@@ -21,7 +21,7 @@ public class SetDocumentDirectionAction extends AbstractViewAction {
 	public SetDocumentDirectionAction(Application app, View view, TextDirection textDirection) {
 		super(app, view);
 		this.textDirection= textDirection;
-		BundleHelper.getInstance().configure(this, getID());		
+		BundleHelper.getInstance().configureActionWithID(this, getID());		
 		setPropertyName(JSeshView.DOCUMENT_INFO_PROPERTY);
 	}
 

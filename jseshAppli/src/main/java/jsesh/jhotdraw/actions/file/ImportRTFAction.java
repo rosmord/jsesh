@@ -19,7 +19,7 @@ public class ImportRTFAction extends AbstractOpenDocumentAction {
 
 	public ImportRTFAction(Application app) {
 		super(app);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	

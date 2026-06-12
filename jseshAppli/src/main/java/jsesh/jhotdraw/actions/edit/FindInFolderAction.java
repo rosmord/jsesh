@@ -60,7 +60,7 @@ public final class FindInFolderAction extends AbstractCoreApplicationAction {
     public FindInFolderAction(ActiveViewAwareApplication app, CorpusSearchTarget corpusSearchTarget) {
         super(app);
         this.corpusSearchDialogFrame = appCore().createCorpusSearchDialog(corpusSearchTarget);        
-        BundleHelper.getInstance().configure(this, ID);        
+        BundleHelper.getInstance().configureActionWithID(this, ID);        
     }
     
 

@@ -49,7 +49,6 @@ import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
-import jsesh.hieroglyphs.utils.IconRenderOptions;
 
 /**
  * Control and data feed for the simple palette.

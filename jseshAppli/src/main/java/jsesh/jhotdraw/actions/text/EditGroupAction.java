@@ -30,7 +30,7 @@ public class EditGroupAction extends AbstractCoreViewAction {
 
 	public EditGroupAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, appCore().getMdcIconFactory());
+		BundleHelper.getInstance().configureActionWithIcon(this, appCore().getMdcIconFactory());
 	}
 
 	public static final String ID = "text.editGroup";

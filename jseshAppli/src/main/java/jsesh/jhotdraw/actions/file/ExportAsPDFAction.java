@@ -25,7 +25,7 @@ public class ExportAsPDFAction extends AbstractCoreViewAction {
 
 	public ExportAsPDFAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	@Override

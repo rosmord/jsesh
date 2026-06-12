@@ -68,7 +68,7 @@ public final class FindAction extends AbstractCoreApplicationAction {
         frame = new JFrame();
         frame.add(searchPanel);
         frame.pack();
-        BundleHelper.getInstance().configure(this, ID);
+        BundleHelper.getInstance().configureActionWithID(this, ID);
     }
 
     @Override

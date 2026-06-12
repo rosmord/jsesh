@@ -32,7 +32,7 @@ public class ToggleGlyphPaletteAction extends AbstractCoreApplicationAction {
 	public ToggleGlyphPaletteAction(Application app, JFrame palette,
 			Runnable onFirstDisplay) {
 		super(app);
-		BundleHelper.getInstance().configure(this, appCore().getMdcIconFactory());
+		BundleHelper.getInstance().configureActionWithIcon(this, appCore().getMdcIconFactory());
 		this.palette = palette;
 		this.doOnFirstDisplay = onFirstDisplay;
 		palette.addWindowListener(new PaletteListener());

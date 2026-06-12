@@ -20,7 +20,7 @@ public class ExportAsBitmapAction extends AbstractCoreViewAction {
 
 	public ExportAsBitmapAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	public void actionPerformed(ActionEvent e) {

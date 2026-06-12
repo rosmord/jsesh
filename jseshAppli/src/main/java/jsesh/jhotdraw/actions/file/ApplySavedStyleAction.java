@@ -20,7 +20,7 @@ public class ApplySavedStyleAction extends AbstractCoreViewAction {
 
 	public ApplySavedStyleAction(Application app, View view) {
 		super(app, view);
-		BundleHelper.getInstance().configure(this, ID);
+		BundleHelper.getInstance().configureActionWithID(this, ID);
 	}
 
 	@Override
