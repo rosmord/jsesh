@@ -39,6 +39,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
+import jsesh.hieroglyphs.utils.PictureDimension;
 
 /**
  * A hieroglyph Renderer for JTable cells, rendering <em>one</em> sign
@@ -49,7 +50,7 @@ import jsesh.hieroglyphs.utils.IconRenderOptions;
 @SuppressWarnings("serial")
 public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 
-	private int bitmapSize = 30;
+	private PictureDimension bitmapSize = new PictureDimension(30,30);
 	private int bitmapBorder = 4;
 	private HieroglyphPictureBuilder pictureBuilder;
 	// Consider for removal when Icon generation is fixed.
@@ -62,10 +63,9 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 	 * @param bitmapBorder
 	 * @param referenceComponent a Swing component, probably the table, used to get information about rendering depth and so on; can be null.
 	 */
-	public HieroglyphicCodeRenderer(int bitmapSize, int bitmapBorder,
+	public HieroglyphicCodeRenderer(PictureDimension bitmapSize, int bitmapBorder,
 			HieroglyphPictureBuilder pictureBuilder,
 		 Component referenceComponent) {
-		super();
 		this.pictureBuilder = pictureBuilder;
 		this.bitmapSize = bitmapSize;
 		this.bitmapBorder = bitmapBorder;
@@ -77,7 +77,9 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 		String code= (String) value;
 		setText(code);
 		if (code != null && ! "".equals(code)) {
-			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().size(bitmapSize-2*bitmapBorder).border(bitmapBorder).build();
+			int width = bitmapSize.width() -2 * bitmapBorder;
+			int height = bitmapSize.height() -2 * bitmapBorder;
+			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().dimension(width,height).border(bitmapBorder).build();
 			setIcon(pictureBuilder.createHieroglyphIcon(code, options));
 	}
 		else {

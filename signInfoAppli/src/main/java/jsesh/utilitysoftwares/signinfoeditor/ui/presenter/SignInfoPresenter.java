@@ -45,6 +45,7 @@ import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
+import jsesh.hieroglyphs.utils.PictureDimension;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.SimpleStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
@@ -73,10 +74,13 @@ import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignVariantTableModel;
  * The model is in fact a rather plain representation of the XML data,
  * with everything represented as "properties".
  * 
- * <p> Principle: the presenter manipulates its own lists of data, which are the source
- * for the display. When a change is made, it is also applied to the model, mainly through
- * the use of <code>currentSign.add(property)</code> 
- * and <code>currentSign.remove(property)</code>. 
+ * <p>
+ * Principle: the presenter manipulates its own lists of data, which are the
+ * source
+ * for the display. When a change is made, it is also applied to the model,
+ * mainly through
+ * the use of <code>currentSign.add(property)</code>
+ * and <code>currentSign.remove(property)</code>.
  * 
  * @author rosmord
  */
@@ -84,8 +88,12 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         PropertyHolder {
 
     private static final String EXPERT_FILE_PATH = "EXPERT_FILE_PATH";
+    // Sizes and dimensions are fixed. They should probably depend on screen
+    // resolution.
+
     private static final int bitmapBorder = 2;
-    private static final int bitmapSize = 30;
+    private static final PictureDimension pictureDimension = new PictureDimension(
+            50, 30);
     private static final int LABEL_PADDING = 3;
 
     /**
@@ -189,7 +197,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     SignInfoModelEventListener modelListener = new SignInfoModelEventListener() {
 
-        public void signInfoModelChanged(SignInfoModelEvent event) {           
+        public void signInfoModelChanged(SignInfoModelEvent event) {
             if (event instanceof TagEvent) {
                 bindAvailableTagList();
             }
@@ -419,10 +427,9 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             // update sign display
             // HieroglyphPictureBuilder.createHieroglyphIcon(code,
 
-            int iconSize = signIconLabel.getHeight() - 2 * LABEL_PADDING;
-            if (iconSize <= 0) iconSize = IconRenderOptions.DEFAULT.size();
+            PictureDimension dimension = computeIconDimensionFor(signIconLabel);
             IconRenderOptions iconRenderOptions = IconRenderOptions.DEFAULT.copy()
-                    .size(iconSize)
+                    .dimension(dimension)
                     .border(LABEL_PADDING)
                     .build();
             Icon newIcon = pictureBuilder.createHieroglyphIcon(code, iconRenderOptions);
@@ -449,6 +456,22 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         }
         enableActiveButtons();
         editing = true;
+    }
+
+    /**
+     * Compute the dimension for an icon displayed in a fixed size label.
+     * 
+     * @param signIconLabel
+     * @return
+     */
+    private PictureDimension computeIconDimensionFor(JLabel signIconLabel) {
+        int height = signIconLabel.getHeight() - 2 * LABEL_PADDING;
+        int width = signIconLabel.getWidth() - 2 * LABEL_PADDING;
+        if (width <= 0 || height <= 0) {
+            return IconRenderOptions.DEFAULT.dimension();
+        } else {
+            return new PictureDimension(width, height);
+        }
     }
 
     public void setExpertMode(boolean newExpertMode) {
@@ -590,7 +613,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     }
 
     protected void updateCodeFromField() {
-        String newCode = view.getSignCodeField().getText();        
+        String newCode = view.getSignCodeField().getText();
         setCurrentSign(newCode);
     }
 
@@ -650,7 +673,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // First column. Has a renderer, but the editor is the normal string
         // editor.
         table.getColumnModel().getColumn(0).setCellRenderer(
-                new HieroglyphicCodeRenderer(bitmapSize, bitmapBorder, pictureBuilder, table));
+                new HieroglyphicCodeRenderer(pictureDimension, bitmapBorder, pictureBuilder, table));
         // Drag and drop support:
         table.setTransferHandler(new SignCodeToTableTransfertHandler(
                 tableModel));
@@ -675,12 +698,11 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         // Ask for tags to be rendered only as their tag name.
 
         tagList.setCellRenderer(
-            new LabelDelegateListCellRenderer<>((label, data) -> {
-                SignInfoProperty prop = data.value();
-                String newValue = prop.get("tag");
-                label.setText(newValue);
-            })
-        );        
+                new LabelDelegateListCellRenderer<>((label, data) -> {
+                    SignInfoProperty prop = data.value();
+                    String newValue = prop.get("tag");
+                    label.setText(newValue);
+                }));
     }
 
     private void bindTransliterationTable() {
@@ -868,7 +890,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     }
 
-    private void prepareTransliterationControls() {        
+    private void prepareTransliterationControls() {
         GrowableTableControl.bind(view.getTransliterationTable(), view.getTransliterationAddButton(),
                 view.getTransliterationRemoveButton(), view.getTransliterationField());
     }

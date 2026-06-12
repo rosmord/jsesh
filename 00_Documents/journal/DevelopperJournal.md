@@ -240,6 +240,10 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/12
+
+- [x] first draft of icon generation fix. Now we pass a dimension (w x h) to the icon builder, and not an icon height;
+- [ ] FIXME : the menu entry for the documentation has an empty text
 ### 2026/06/09
 
 - [ ] fix icon building ;

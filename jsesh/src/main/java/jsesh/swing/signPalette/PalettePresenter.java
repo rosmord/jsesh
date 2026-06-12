@@ -1,5 +1,6 @@
 package jsesh.swing.signPalette;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -814,7 +815,7 @@ public class PalettePresenter {
         } else {
         	HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager, simplePalette);
             IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
-                .size(iconLabel.getHeight() - 4)
+                .dimension(iconLabel.getHeight() - 4, iconLabel.getHeight() - 4)
                 .border(4).build();
             iconLabel.setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(
                     code, renderOptions));

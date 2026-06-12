@@ -8,6 +8,7 @@ import javax.swing.JList;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
+import jsesh.hieroglyphs.utils.PictureDimension;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {
@@ -23,7 +24,7 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 		this.hieroglyphicFontManager = hieroglyphicFontManager;
 	}
 
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		Component result = super.getListCellRendererComponent(list, value,
 				index, isSelected, cellHasFocus);
@@ -44,7 +45,7 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 				setText("");
 			}
 			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager, parent);
-			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().size(bitmapHeight).border(border).build();
+			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy().dimension(getIconSize()).border(border).build();
 			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code, renderOptions));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());
@@ -55,6 +56,13 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 		}
 	}
 
+	// TODO : unify the computation of icon size aspect ratio.
+	private PictureDimension getIconSize() {
+		int height = bitmapHeight - 2 * border;
+		int width = Math.ceilDiv(height*4, 3) -2 * border;
+		return new PictureDimension(width, height);
+	}
+	
 	public int getBitmapHeight() {
 		return bitmapHeight;
 	}

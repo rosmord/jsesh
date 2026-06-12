@@ -127,7 +127,7 @@ public class HieroglyphPictureBuilder {
 		// NOTE: maxSize = A1.getBbox().getHeight();
 
 		// Compute the scale
-		double scale = scaleForSize(options.size());
+		double scale = scaleForSize(options.dimension().height());
 
 		int colorModel = BufferedImage.TYPE_BYTE_GRAY;
 		Color backGroundColor = Color.WHITE;
@@ -137,8 +137,8 @@ public class HieroglyphPictureBuilder {
 			backGroundColor = new Color(0, 0, 0, 1);
 		}
 
-		int actualWidth = options.size();
-		int actualHeight = options.size();
+		int actualWidth = options.dimension().width();
+		int actualHeight = options.dimension().height();
 
 		if (options.fit()) {
 			actualWidth = options.border()
