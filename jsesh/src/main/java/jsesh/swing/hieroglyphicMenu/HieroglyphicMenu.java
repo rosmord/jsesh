@@ -201,7 +201,6 @@ public class HieroglyphicMenu extends JMenu {
 		 */
 		public HieroglyphAction(String code, HieroglyphPictureBuilder pictureBuilder) {
 			super(code, pictureBuilder.createHieroglyphIcon(code, iconRenderOptions));
-			System.out.println("Creating action for " + code);
 			this.code = code;
 		}
 

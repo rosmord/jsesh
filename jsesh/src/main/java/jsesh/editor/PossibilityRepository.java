@@ -41,7 +41,7 @@ import java.util.Locale;
 import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryEntryAdded;
 import jsesh.glossary.GlossaryEntryRemoved;
-import jsesh.glossary.JSeshGlossary;
+import jsesh.glossary.Glossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
@@ -57,9 +57,9 @@ public class PossibilityRepository {
 
 	private HashMap<String, PossibilitiesList> map = new HashMap<String, PossibilitiesList>();
 	private HieroglyphDatabaseInterface hieroglyphDatabase;
-	private JSeshGlossary glossary;
+	private Glossary glossary;
 
-	public PossibilityRepository(HieroglyphDatabaseInterface hieroglyphDatabase, JSeshGlossary glossary) {
+	public PossibilityRepository(HieroglyphDatabaseInterface hieroglyphDatabase, Glossary glossary) {
 		this.hieroglyphDatabase = hieroglyphDatabase;
 		this.glossary = glossary;
 		glossary.addEventLink(GlossaryEntryAdded.class, this, "update");

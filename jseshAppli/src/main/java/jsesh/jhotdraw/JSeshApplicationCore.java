@@ -116,7 +116,7 @@ public class JSeshApplicationCore {
      * Shared between all components.
      */
 
-    private JSeshStyleReference jseshComponentsStyle = new JSeshStyleReference(JSeshStyle.DEFAULT);
+    private final JSeshStyleReference jseshComponentsStyle;
 
     /**
      * Should we use the embedded transliteration font?
@@ -176,6 +176,11 @@ public class JSeshApplicationCore {
    
 
     public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
+        this.jseshComponentsStyle = new JSeshStyleReference(
+            JSeshStyle.DEFAULT.copy()
+                .geometry(g -> g.scaleToHeight(40.0))
+            .build()
+        );
         this.glossaryManager = appDef.glossaryManager();
         this.hieroglyphDatabase = appDef.hieroglyphDatabase();
         this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
@@ -188,7 +193,7 @@ public class JSeshApplicationCore {
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
 
         // Dialogs
-        glossaryEditor = new JGlossaryEditor(glossaryManager, JSeshStyle.DEFAULT, appDef);
+        glossaryEditor = new JGlossaryEditor(glossaryManager, jseshComponentsStyle, appDef);
         externalSignImporter = new ExternalSignImporter(hieroglyphShapeRepository);
     }
 

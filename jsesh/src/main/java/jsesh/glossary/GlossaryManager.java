@@ -59,7 +59,7 @@ public class GlossaryManager {
 	 */
 	private static final String JSESH_GLOSSARY_TXT = "jsesh_glossary.txt";
 
-	private JSeshGlossary glossary;
+	private Glossary glossary;
 
 	public GlossaryManager() {
 		read();
@@ -71,7 +71,7 @@ public class GlossaryManager {
 	}
 
 	private void read() {
-		this.glossary = new JSeshGlossary();
+		this.glossary = new Glossary();
 		if (!getJSeshGlossaryFile().exists()
 				&& !getJSeshGlossaryFile().canRead())
 			return;
@@ -132,7 +132,7 @@ public class GlossaryManager {
 	}
 
 
-	public JSeshGlossary getGlossary() {
+	public Glossary getGlossary() {
 		return glossary;
 	}
 

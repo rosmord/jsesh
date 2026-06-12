@@ -101,6 +101,19 @@ Regarding **standard** codes:
   - we don't make this modification right now, because it's moderately complex. Meanwhile, we had the canonicalization in each implementation of `HieroglyphShapeRepository`, with a TODO comment to the effect that it must be removed later.
   - consider the existence of `_BOLD` codes in the process.
 
+### Arabic localization
+
+I'd like to integrate the localisation proposed by our colleague Hany ZARIF. However, some part of it don't work very well with the Swing library, especially changing the whole application layout from left-to-right to right-to-left.
+
+
+Plan:
+
+1. [ ] allow changes in the JSesh local from **user choice** (e.g. in preferences); we might survive if it requires a restart of the application;
+2. [ ] integrate arabic localization in the application
+   1. [ ] add arabic localization files from the localization branch;
+   2. [ ] change the occurrences of text which did not render correctly in right-to-left orientation (e.g. in the search window);
+
+
 ### Long Term TODO
 
 - [ ] cleanup the parsing system, and remove the dependency of `TopItemList` to the builder;
@@ -242,6 +255,9 @@ List of classes which need some cleanup:
 
 ### 2026/06/12
 
+- [x] renamed `JSeshGlossary` which was misleading (could suggest it was a Swing component) into `Glossary`.
+- [ ] enlarge the hieroglyphic search field
+- [ ] enlarge the hieroglyphic field in the glossary editor
 - [ ] fix the hyphen in transliteration problem.
 - [x] see how the glyph rendering in the basic Gardiner list menu is performed, and possibly unify this (leave as is for now)
 - [x] improve the handling of padding in the `HieroglyphPictureBuilder`. We tend to reduce the size of the icon according to the padding, but we also pass the padding as argument to the drawing method. It's not logical.

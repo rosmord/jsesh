@@ -44,7 +44,7 @@ public class GlossaryTableModel extends AbstractTableModel {
 		this.glossaryManager = glossaryManager;		
 	}
 
-	private JSeshGlossary getGlossary() {
+	private Glossary getGlossary() {
 		return glossaryManager.getGlossary();
 	}
 

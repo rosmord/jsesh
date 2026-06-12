@@ -376,5 +376,39 @@ public record GeometrySpecification(
 					smallBodyScaleLimit,
 					standardSignHeight);
 		}
+
+		/**
+		 * Sets a new maxcadrat height, but scales all other parameters accordingly (except page format).
+		 * @param newHeight the new maxcadrat height.
+		 * @return this builder, for chaining.
+		 */
+        public Builder scaleToHeight(double newHeight) {
+			double scale = newHeight / standardSignHeight;
+			fineLineWidth *= scale;
+			wideLineWidth *= scale;
+			lineSkip *= scale;
+			columnSkip *= scale;
+			tabUnitWidth *= scale;
+			cartoucheLineWidth *= scale;
+			cartoucheLoopLength *= scale;
+			cartoucheMargin *= scale;
+			bastionDepth *= scale;
+			bastionLength *= scale;
+			hwtSmallMargin *= scale;
+			hwtSquareSize *= scale;
+			serekhDoorSize *= scale;
+			textWidth *= scale;
+			textHeight *= scale;
+			leftMargin *= scale;
+			topMargin *= scale;
+			maxCadratHeight *= scale;
+			maxCadratWidth *= scale;
+			smallSkip *= scale;
+			largeSignSizeRatio *= scale;
+			smallSignSizeRatio *= scale;
+			smallBodyScaleLimit *= scale;
+			standardSignHeight *= scale;
+			return this;
+        }
 	}
 }

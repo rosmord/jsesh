@@ -44,7 +44,12 @@ import java.util.TreeMap;
 
 import jsesh.mdc.transliteration.MDCTransliterationComparator;
 
-public class JSeshGlossary implements Iterable<GlossaryEntry> {
+/**
+ * The "glossary" is in fact a map of precomposed entries.
+ * <p>It links transliteration code to precomposed MdC text.
+ * A given key can be associated to several entries.
+ */
+public class Glossary implements Iterable<GlossaryEntry> {
 
 	private final EventSupport eventSupport = new EventSupport();
 
@@ -57,7 +62,7 @@ public class JSeshGlossary implements Iterable<GlossaryEntry> {
 	 */
 	private List<GlossaryEntry> entryList = null;
 
-	public JSeshGlossary() {
+	public Glossary() {
 		map = new GlossaryMap();
 	}
 

@@ -33,7 +33,6 @@
  */
 package jsesh.glossary;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -44,9 +43,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCField;
@@ -174,18 +171,4 @@ public class JGlossaryEditor extends JPanel {
 		getFrame().setVisible(visible);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			GlossaryManager glossaryManager = new GlossaryManager();
-			JFrame demo = new JFrame();
-			JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-			HieroglyphToolkit toolKit = new JSeshUserSignLibraryConfiguration();
-			JGlossaryEditor editor = new JGlossaryEditor(glossaryManager, styleRef, toolKit);
-			demo.setLayout(new BorderLayout());
-			demo.add(editor, BorderLayout.CENTER);
-			demo.pack();
-			demo.setVisible(true);
-			demo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		});
-	}
 }

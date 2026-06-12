@@ -3,7 +3,7 @@ package jsesh.defaults;
 import java.util.List;
 
 import jsesh.editor.PossibilityRepository;
-import jsesh.glossary.JSeshGlossary;
+import jsesh.glossary.Glossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
@@ -30,7 +30,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
     private static final class EmbeddedOnlyHolder {
         private static final HieroglyphToolkit INSTANCE = buildFontWithoutUserDefinitions(
                 buildCompositeFont(List.of(PredefinedFonts.standardJSeshFont(), PredefinedFonts.gnuTraceFont())),
-                new JSeshGlossary());
+                new Glossary());
 
         private EmbeddedOnlyHolder() {
         }
@@ -59,7 +59,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      * @param glossary an glossary (can be empty, but should not be null).
      */
     public static SimpleHieroglyphToolkit buildFontWithoutUserDefinitions(HieroglyphShapeRepository font,
-            JSeshGlossary glossary) {
+            Glossary glossary) {
         HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildPlainDefault(font);
         return new SimpleHieroglyphToolkit(font, glossary, database);
     }
@@ -87,7 +87,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      * @param glossary a glossary (may be empty)
      */
     public static SimpleHieroglyphToolkit buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
-            JSeshGlossary glossary) {        
+            Glossary glossary) {        
         HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildWithUserDefinitions(fonts);
         return new SimpleHieroglyphToolkit(fonts, glossary, database);
     }
@@ -98,7 +98,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      * @param glossary
      * @param database
      */
-    private SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository, JSeshGlossary glossary,
+    private SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository, Glossary glossary,
             HieroglyphDatabaseInterface database) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
 
