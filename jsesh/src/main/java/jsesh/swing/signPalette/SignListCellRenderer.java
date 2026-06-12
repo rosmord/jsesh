@@ -13,8 +13,8 @@ import jsesh.hieroglyphs.utils.PictureDimension;
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {
 
-	private int border = 2;
-	private int bitmapHeight = 20;
+	private int border = 3;
+	private int bitmapHeight = 28;
 	private Component parent = null;
 	private boolean displaySignsCodes = false;
 	private HieroglyphShapeRepository hieroglyphicFontManager;
@@ -47,7 +47,7 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 			HieroglyphPictureBuilder hieroglyphPictureBuilder =  new HieroglyphPictureBuilder(hieroglyphicFontManager, parent);
 			IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
 			.fit(true)
-			.dimension(getIconSize()).border(border).build();
+			.dimension(getIconSize()).padding(border).build();
 			setIcon(hieroglyphPictureBuilder.createHieroglyphIcon(code, renderOptions));
 		} else if (value instanceof StringBuffer) {
 			setText(value.toString());
@@ -60,8 +60,8 @@ public class SignListCellRenderer extends DefaultListCellRenderer {
 
 	// TODO : unify the computation of icon size aspect ratio.
 	private PictureDimension getIconSize() {
-		int height = bitmapHeight - 2 * border;
-		int width = Math.ceilDiv(height*4, 3) -2 * border;
+		int height = bitmapHeight ;
+		int width = Math.ceilDiv(height*13, 10);
 		return new PictureDimension(width, height);
 	}
 	

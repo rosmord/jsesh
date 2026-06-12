@@ -4,41 +4,64 @@ package jsesh.hieroglyphs.utils;
 /**
  * Rendering options for {@link HieroglyphPictureBuilder}.
  * 
- * <p> TODO : fit is not a good name. fixedSize would be easier to understand (and it would be !fit) 
+ * <p>Note about <code>fit</code> : Normally, the 
+ * height of the sign is scaled to fit the height of the <code>PictureDimension</code>.
+ * If the sign is too wide :
+ * <ul>
+ * <li> if <code>fit</code> is false, the system will produce a bitmap 
+ * with a <em>larger</em> width than requested.
+ * <li> if <code>fit</code> is true, the system will reduce the scale of the sign to fit the width of the bitmap.
+ * </ul>
+ * 
  * @param dimension the dimension of the bitmap, in pixels
- * @param transparent do we want a transparent picture ?
- * @param fit the dimension of the bitmap depends on the dimension of the sign.
- * @param border the size of the border to add around the sign, in pixels.
+ * @param transparent do we want a transparent background ?
+ * @param fit if the picture is too large, should its scale be reduced to fit the bitmap?
+ * @param padding the size of the border to add around the sign, in pixels.
  */
 public record IconRenderOptions(
-        PictureDimension dimension,        
+        PictureDimension dimension,
         boolean transparent,
+        /**
+         * Should the picture be resized to fit the PictureDimension?
+         */
         boolean fit,
-        int border
+        /**
+         * Inner padding, in pixels.
+         */
+        int padding
 ) {
     
   
-        public static final IconRenderOptions DEFAULT = new IconRenderOptions(new PictureDimension(50, 50), false, false, 4);
+        public static final IconRenderOptions DEFAULT = new IconRenderOptions(new PictureDimension(60, 50), false, true, 4);
         
+
+        /**
+         * Returns the actual dimension of the picture itself, considering the padding.
+         * @return
+         */
+        public PictureDimension innerDimension() {
+                return new PictureDimension(dimension.width() - 2 * padding, dimension.height() - 2 * padding); 
+        }
+
         /**
          * Create a builder initialized with the current values.
          */
 
         public Builder copy() {
-                return new Builder(dimension, transparent, fit, border);
+                return new Builder(dimension, transparent, fit, padding);
         }
 
         public static class Builder {
                 private PictureDimension dimension;
                 private boolean transparent;
                 private boolean fit;
-                private int border;
+                private int padding;
 
-                public Builder(PictureDimension dimension, boolean transparent, boolean fit, int border) {
+                public Builder(PictureDimension dimension, boolean transparent, boolean fit, int padding) {
                         this.dimension = dimension;                        
                         this.transparent = transparent;
                         this.fit = fit;
-                        this.border = border;
+                        this.padding = padding;
                 }
 
                 public Builder dimension(PictureDimension dimension) {
@@ -61,13 +84,13 @@ public record IconRenderOptions(
                         return this;
                 }
 
-                public Builder border(int border) {
-                        this.border = border;
+                public Builder padding(int padding) {
+                        this.padding = padding;
                         return this;
                 }
 
                 public IconRenderOptions build() {
-                        return new IconRenderOptions(dimension, transparent, fit, border);
+                        return new IconRenderOptions(dimension, transparent, fit, padding);
                 }
         }
 }

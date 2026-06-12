@@ -36,6 +36,8 @@ package jsesh.hieroglyphs.utils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Transparency;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
@@ -49,7 +51,17 @@ import jsesh.swing.utils.GraphicsUtils;
 /**
  * An helper class to create bitmap/icons versions of single signs.
  * 
- * TODO : rename as HieroglyphIconCreator.
+ * <p>
+ * Note about <code>fit</code> : Normally, the
+ * height of the sign is scaled to fit the height of the
+ * <code>PictureDimension</code>.
+ * If the sign is too wide :
+ * <ul>
+ * <li>if <code>fit</code> is false, the system will produce a bitmap
+ * with a <em>larger</em> width than requested.
+ * <li>if <code>fit</code> is true, the system will reduce the scale of the sign
+ * to fit the width of the bitmap.
+ * </ul>
  * 
  * @author rosmord
  * 
@@ -73,15 +85,6 @@ public class HieroglyphPictureBuilder {
 	private double a1Height;
 
 	/**
-	 * The scale from sign space to bitmap space.
-	 * 
-	 * @return the scale to apply to sign coordinate to get bitmap coordinates.
-	 */
-	public double scaleForSize(double size) {
-		return size / a1Height;
-	}
-
-	/**
 	 * 
 	 * @param shapeRepository
 	 * @param referenceComponent the container that will display the icons, or null
@@ -98,8 +101,8 @@ public class HieroglyphPictureBuilder {
 	/**
 	 * Build a bitmap for a given sign.
 	 * 
-	 * @param code
-	 * @param options
+	 * @param code    the sign code.
+	 * @param options rendering options.
 	 * @return
 	 */
 	public BufferedImage buildSignBitmap(String code,
@@ -111,33 +114,34 @@ public class HieroglyphPictureBuilder {
 
 	/**
 	 * Utility method for drawing an icon in a label.
+	 * 
 	 * @param label
 	 * @param code
-	 * @param border
+	 * @param padding
 	 */
-	public void drawIconInLabel(JLabel label, String code, int border) {
+	public void drawIconInLabel(JLabel label, String code, int padding) {
 		IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
-				.dimension(computeIconDimensionFor(label, border))
+				.dimension(computeIconDimensionFor(label, padding))
 				.fit(true)
-				.border(border).build();
+				.padding(padding).build();
 		label.setIcon(createHieroglyphIcon(code, renderOptions));
 	}
 
-	 /**
-     * Compute the dimension for an icon displayed in a fixed size label.
-     * 
-     * @param signIconLabel
-     * @return
-     */
-    private PictureDimension computeIconDimensionFor(JLabel signIconLabel, int padding) {
-        int height = signIconLabel.getHeight() - 2 * padding;
-        int width = signIconLabel.getWidth() - 2 * padding;
-        if (width <= 0 || height <= 0) {
-            return IconRenderOptions.DEFAULT.dimension();
-        } else {
-            return new PictureDimension(width, height);
-        }
-    }
+	/**
+	 * Compute the dimension for an icon displayed in a fixed size label.
+	 * 
+	 * @param signIconLabel
+	 * @return
+	 */
+	private PictureDimension computeIconDimensionFor(JLabel signIconLabel, int padding) {
+		int height = signIconLabel.getHeight();// - 2 * padding;
+		int width = signIconLabel.getWidth();// - 2 * padding;
+		if (width <= 0 || height <= 0) {
+			return IconRenderOptions.DEFAULT.dimension();
+		} else {
+			return new PictureDimension(width, height);
+		}
+	}
 
 	/**
 	 * Creates an icon for a particular hieroglyph.
@@ -155,46 +159,102 @@ public class HieroglyphPictureBuilder {
 	}
 
 	private BufferedImage buildSignBitmap(ShapeChar glyph, IconRenderOptions options) {
-		// NOTE: maxSize = A1.getBbox().getHeight();
 
-		// Compute the scale
-		double scale = scaleForSize(options.dimension().height());
-
+		// Simple stuff : colors.
 		int colorModel = BufferedImage.TYPE_BYTE_GRAY;
 		Color backGroundColor = Color.WHITE;
 
 		if (options.transparent()) {
 			colorModel = BufferedImage.TYPE_INT_ARGB;
-			backGroundColor = new Color(0, 0, 0, 1);
+			backGroundColor = new Color(0, 0, 0, 0);
 		}
 
-		int actualWidth = options.dimension().width();
-		int actualHeight = options.dimension().height();
+		// will be the actual dimensions of the bitmap in the end.
+		int bitmapWidth = options.dimension().width();
+		int bitmapHeight = options.dimension().height();
 
-		if (options.fit()) {
-			actualWidth = options.border()
-					+ (int) (1 + glyph.getBbox().getWidth() * scale);
-			actualHeight = options.border()
-					+ (int) (1 + glyph.getBbox().getHeight() * scale);
+		// the projected inner dimensions of the drawing itself (excluding padding).
+		PictureDimension innerDimensions = options.innerDimension();
+
+		// the final scale.
+		double scale;
+
+		Rectangle2D glyphBBox = glyph.getBbox();
+
+		// First, compute the starting scale, using only sign height.
+		double startingScale = innerDimensions.height() / a1Height;
+		// Compute the sign size using this scale.
+		double projectedWidth = startingScale * glyphBBox.getWidth();
+		double projectedHeight = startingScale * glyphBBox.getHeight();
+		// Now, see if it fits in the current bitmap. If not, proceed depending on the fit option.
+		if (projectedWidth > innerDimensions.width() || projectedHeight > innerDimensions.height()) {
+			if (options.fit()) {
+				// Reduce the scale to fit the dimensions, using the sign's actual bounding box.
+				// we don't care about the original scale: it was too large anyway.
+				scale = Math.min(innerDimensions.width() / glyphBBox.getWidth(), innerDimensions.height() / glyphBBox.getHeight());				
+			} else {
+				// Keep the scale, modify the bitmap dimensions to fit the sign.
+				scale = startingScale;
+				bitmapWidth = options.padding() + (int) (1 + projectedWidth);
+				bitmapHeight = options.padding() + (int) (1 + projectedHeight);
+			}
+		} else {
+			scale = startingScale;
 		}
 
-		double mx = (actualWidth - scale * glyph.getBbox().getWidth()) / 2.0;
-		double my = (actualHeight - scale * glyph.getBbox().getHeight()) / 2.0;
 
-		BufferedImage img;
-		if (referenceComponent != null && referenceComponent.getGraphicsConfiguration() != null) {
-			img = referenceComponent.getGraphicsConfiguration().createCompatibleImage(
-					actualWidth, actualHeight);
-		} else
-			img = new BufferedImage(actualWidth, actualHeight, colorModel);
+		BufferedImage img = buildCompatibleBitmap(colorModel, bitmapWidth, bitmapHeight, options.transparent());
+		drawToBitmap(img, glyph, backGroundColor, bitmapWidth, bitmapHeight, scale);
+		return img;
+	}
+
+	/**
+	 * Draws a centered glyph in a bitmap.
+	 * Basic utility method, called when everything is computed.
+	 * 
+	 * @param img             the picture to draw on.
+	 * @param glyph           the glyph to draw.
+	 * @param backGroundColor the background color to use for the bitmap.
+	 * @param bitmapWidth     the width of the bitmap to produce.
+	 * @param bitmapHeight    the height of the bitmap to produce.
+	 * @param scale           the scale to apply to the sign.
+	 * @return
+	 */
+	private BufferedImage drawToBitmap(BufferedImage img, ShapeChar glyph, Color backGroundColor, int bitmapWidth,
+			int bitmapHeight, double scale) {
+		double xOrigin = (bitmapWidth - scale * glyph.getBbox().getWidth()) / 2.0;
+		double yOrigin = (bitmapHeight - scale * glyph.getBbox().getHeight()) / 2.0;
+
 		Graphics2D g = img.createGraphics();
 		GraphicsUtils.antialias(g);
 		g.setBackground(backGroundColor);
 		g.setColor(Color.BLACK);
 		g.clearRect(0, 0, img.getWidth(), img.getHeight());
-
-		glyph.draw(g, mx, my, scale, scale, 0);
+		glyph.draw(g, xOrigin, yOrigin, scale, scale, 0);
 		g.dispose();
 		return img;
 	}
+
+	/**
+	 * Build a bitmap of a given size, compatible either with the current display or
+	 * a selected color model.
+	 * 
+	 * <p>
+	 * If a reference component is set, its color model will be used instead of the
+	 * one passed as parameter.
+	 * 
+	 * @param colorModel a color model constant (e.g. BufferedImage.TYPE_INT_ARGB)
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	private BufferedImage buildCompatibleBitmap(int colorModel, int width, int height, boolean transparent) {
+		if (referenceComponent != null && referenceComponent.getGraphicsConfiguration() != null) {			
+			return referenceComponent.getGraphicsConfiguration()
+					.createCompatibleImage(width, height, transparent?Transparency.TRANSLUCENT:Transparency.OPAQUE);
+		} else {
+			return new BufferedImage(width, height, colorModel);
+		}
+	}
+
 }

@@ -78,6 +78,13 @@ public class PalettePresenter {
     private static final String LOW_BROAD_SIGNS = "Low Broad Signs";
     private static final String LOW_NARROW_SIGNS = "Low Narrow Signs";
 
+
+    /**
+     * Height of glyphs in the displayed list.
+     */
+    private final int LIST_CELL_HEIGHT = 50;
+
+
     private class InsertSignAction extends AbstractAction {
 
         private static final long serialVersionUID = 6512709688609818997L;
@@ -151,7 +158,7 @@ public class PalettePresenter {
         simplePalette = new JSimplePalette();
 
         signDescriptionField = new JMDCEditor();
-        signDescriptionField.setScale(1);
+        signDescriptionField.setScale(2.0);
         signDescriptionField.setEditable(false);
 
         glyphDescriptionField = new JTextArea();
@@ -208,15 +215,14 @@ public class PalettePresenter {
         });
         // Sign table
         SignListCellRenderer renderer = new SignListCellRenderer(simplePalette, this.hieroglyphicFontManager);
-        final int bitmapHeight = 40;
-        renderer.setBitmapHeight(bitmapHeight);
+        renderer.setBitmapHeight(LIST_CELL_HEIGHT);
 
         JList<String> signTable = simplePalette.getSignTable();
         // Aspect and drawing related stuff.
         signTable.setCellRenderer(renderer);
         // signTable.setPrototypeCellValue("A248B");
-        signTable.setFixedCellHeight((int) (bitmapHeight * 1.2));
-        signTable.setFixedCellWidth((int) (2.5 * bitmapHeight));
+        signTable.setFixedCellHeight((int) (LIST_CELL_HEIGHT * 1.2));
+        signTable.setFixedCellWidth((int) (2.5 * LIST_CELL_HEIGHT));
 
         signTable.getSelectionModel().addListSelectionListener(
                 new PaletteRowSelectionListener());

@@ -79,7 +79,7 @@ public class HieroglyphicCodeRenderer extends DefaultTableCellRenderer {
 		if (code != null && ! "".equals(code)) {
 			int width = bitmapSize.width() -2 * bitmapBorder;
 			int height = bitmapSize.height() -2 * bitmapBorder;
-			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().dimension(width,height).border(bitmapBorder).build();
+			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().dimension(width,height).padding(bitmapBorder).build();
 			setIcon(pictureBuilder.createHieroglyphIcon(code, options));
 	}
 		else {
