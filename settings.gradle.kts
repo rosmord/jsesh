@@ -1,0 +1,15 @@
+rootProject.name = "jsesh"
+
+include("cupAndlex")
+include("cupruntime")
+include("qenherkhopeshefUtils")
+include("jsesh")
+include("jsesh-installer")
+include("jseshGlyphs")
+include("prepareJSeshRelease")
+include("jhotdrawfw")
+include("jseshSearch")
+include("jseshAppli")
+include("signInfoAppli")
+include("jseshLabels")
+include("jseshTests")
