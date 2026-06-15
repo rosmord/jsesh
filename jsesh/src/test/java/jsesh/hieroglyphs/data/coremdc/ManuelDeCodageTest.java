@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.data.coremdc1;
+package jsesh.hieroglyphs.data.coremdc;
 
 import static org.junit.Assert.assertEquals;
 
