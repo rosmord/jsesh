@@ -9,7 +9,11 @@ dependencies {
     implementation(project(":jhotdrawfw"))
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
-    implementation("com.miglayout:miglayout:3.7.4:swing")
+    implementation(libs.miglayout) {
+        artifact {
+            classifier = "swing"
+        }
+    }
 }
 
 tasks.jar {

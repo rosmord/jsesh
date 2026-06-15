@@ -18,10 +18,14 @@ dependencies {
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
     implementation(project(":cupruntime"))
-    implementation("com.lowagie:itext:2.1.5")
-    implementation("org.qenherkhopeshef:jvectclipboard:8.1.0")
-    implementation("com.jgoodies:forms:1.0.7")
-    implementation("com.miglayout:miglayout:3.7.4:swing")
+    implementation(libs.itext)
+    implementation(libs.jvectclipboard)
+    implementation(libs.forms)
+    implementation(libs.miglayout) {
+        artifact {
+            classifier = "swing"
+        }
+    }
 }
 
 // Run CUP parser generator on MDCParse.y

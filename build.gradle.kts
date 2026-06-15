@@ -1,10 +1,16 @@
+import org.gradle.api.artifacts.VersionCatalogsExtension
+
 plugins {
     base
 }
 
+val javaToolchainVersion = providers.gradleProperty("javaToolchainVersion")
+    .map(String::toInt)
+    .get()
+
 allprojects {
     group = "org.qenherkhopeshef.jsesh"
-    version = "8.0.1-SNAPSHOT"
+    version = rootProject.version
 
     repositories {
         mavenCentral()
@@ -17,13 +23,15 @@ allprojects {
 
 subprojects {
     plugins.withId("java") {
+        val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
         configure<JavaPluginExtension> {
             toolchain {
-                languageVersion.set(JavaLanguageVersion.of(21))
+                languageVersion.set(JavaLanguageVersion.of(javaToolchainVersion))
             }
         }
         dependencies {
-            "testImplementation"("junit:junit:4.13.1")
+            add("testImplementation", libs.findLibrary("junit4").get())
         }
     }
 }
