@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
 

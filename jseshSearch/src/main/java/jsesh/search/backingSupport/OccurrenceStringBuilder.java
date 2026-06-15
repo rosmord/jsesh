@@ -3,7 +3,7 @@ package jsesh.search.backingSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;

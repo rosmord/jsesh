@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 
-import jsesh.hieroglyphs.data.coremdc1.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 

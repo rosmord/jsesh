@@ -39,7 +39,7 @@ import java.util.List;
 
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.search.backingSupport.HieroglyphOccurrence;

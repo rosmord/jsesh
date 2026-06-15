@@ -1,10 +1,10 @@
-package jsesh.hieroglyphs.data.coreMdC;
+package jsesh.hieroglyphs.data.coremdc1;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 
 public class ManuelDeCodageTest {
 

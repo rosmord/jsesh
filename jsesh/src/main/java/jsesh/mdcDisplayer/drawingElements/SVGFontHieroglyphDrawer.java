@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
 import jsesh.hieroglyphs.signshape.LigatureZoneBuilder;

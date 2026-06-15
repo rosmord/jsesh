@@ -13,7 +13,7 @@ package jsesh.hieroglyphs.data;
 
 import java.util.Objects;
 
-import jsesh.hieroglyphs.data.coremdc1.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 
 /**
  * Information about a possible variant for a sign.

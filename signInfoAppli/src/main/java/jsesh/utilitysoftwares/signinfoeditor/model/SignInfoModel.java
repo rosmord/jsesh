@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 import jsesh.defaults.HieroglyphToolkit;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.data.coremdc1.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;

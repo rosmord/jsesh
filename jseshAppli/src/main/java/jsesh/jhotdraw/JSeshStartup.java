@@ -20,7 +20,7 @@ import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.resources.ResourcesManager;
