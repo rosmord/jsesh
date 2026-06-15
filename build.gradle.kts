@@ -15,8 +15,7 @@ allprojects {
     repositories {
         mavenCentral()
         maven {
-            url = uri("http://www.qenherkhopeshef.org/maven")
-            isAllowInsecureProtocol = true
+            url = uri("https://www.qenherkhopeshef.org/maven")
         }
     }
 }
