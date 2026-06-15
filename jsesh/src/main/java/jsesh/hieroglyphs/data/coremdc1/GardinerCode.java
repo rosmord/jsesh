@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.data.coreMdC;
+package jsesh.hieroglyphs.data.coremdc1;
 
 import java.util.Arrays;
 import java.util.Comparator;

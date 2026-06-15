@@ -8,6 +8,13 @@ This journal should only be edited and modified in the Development branch.
 ❗️
 : important task
 
+
+## Next pending step
+
+This is the next task for me, as soon as I start working:
+
+Make HieroglyphShapeRepository observable. All elements which use the hieroglyphic font should be notified when it changes, in particular when the folder is changed.
+
 ## Important decisions
 
 
@@ -89,8 +96,8 @@ Follow the following steps:
 
 Regarding **standard** codes:
 
-- [ ] ❗️add a test checking that nTrw is mapped to `R8A`;
-- [ ] ❗️add a test checking that nn is mapped to `M22B`.
+- [x] ❗️add a test checking that nTrw is mapped to `R8A`;
+- [x] ❗️add a test checking that nn is mapped to `M22B`.
 - [ ] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
 - [ ] solve the problem of signs canonization.
@@ -271,6 +278,7 @@ List of classes which need some cleanup:
   - sign display is correct in the sign info editor main label
   - [x] **FIXED** but it's truncated in the palette (it was simply a copy/paste induced bug problem, where I used the height instead of the width for the dimension).
 - [x] FIXME : the menu entry for the documentation has an empty text
+- [x] added tests for R8A and M22B.
 
 ### 2026/06/09
 

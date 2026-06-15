@@ -43,4 +43,12 @@ public class MDCCodeExtractorTest {
 		assertEquals(Arrays.asList("3"), codeList);
 	}
 
+	@Test
+	public void testR8AAndM22B() throws MDCSyntaxError {
+		String mdc = "nTrw nn M22B R8A";
+		MDCCodeExtractor extractor= new MDCCodeExtractor();
+		List<String> codeList = extractor.getCodesAsList(mdc);
+		assertEquals(Arrays.asList("R8A","M22B", "M22B", "R8A"), codeList);
+	}
+
 }

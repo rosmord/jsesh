@@ -45,7 +45,7 @@ import jsesh.glossary.Glossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.data.coreMdC.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc1.GardinerCode;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains

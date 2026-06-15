@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jsesh.hieroglyphs.data.coreMdC.ManuelDeCodage;
+import jsesh.hieroglyphs.data.coremdc1.ManuelDeCodage;
 import jsesh.mdcDisplayer.layout.ExplicitPosition;
 import jsesh.resources.ResourcesManager;
 

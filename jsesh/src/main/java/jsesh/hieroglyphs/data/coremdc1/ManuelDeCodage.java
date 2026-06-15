@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.hieroglyphs.data.coreMdC;
+package jsesh.hieroglyphs.data.coremdc1;
 
 import java.io.Reader;
 import java.io.StreamTokenizer;
