@@ -1,5 +1,4 @@
-description = "Java CUP runtime"
-
-plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+plugins {    
+    id("jsesh.java-conventions")
 }
+

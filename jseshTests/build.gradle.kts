@@ -1,11 +1,14 @@
-description = "Demonstrations of the uses of JSesh as a library."
-
 plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+    id("jsesh.java-conventions")
 }
 
 dependencies {
-    api(project(":jsesh"))
-    api(project(":qenherkhopeshefUtils"))
-    api("com.miglayout:miglayout:3.7.4")
+    implementation(project(":jsesh"))
+    implementation(project(":qenherkhopeshefUtils"))
+    implementation(libs.miglayout) {
+        artifact {
+            classifier = "swing"
+        }
+    }
+    implementation(libs.jvectclipboard)
 }

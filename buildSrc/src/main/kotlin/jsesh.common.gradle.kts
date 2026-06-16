@@ -1,18 +1,11 @@
-description = "JSesh complete distribution"
 
-//import org.gradle.api.artifacts.VersionCatalogsExtension
-
-plugins {
-    base
+repositories {
+    mavenLocal()
+    maven {
+        url = uri("https://www.qenherkhopeshef.org/maven")
+    }
+    mavenCentral()
 }
-
-
-tasks.named("clean") {
-    dependsOn(subprojects.map { subproject ->
-        subproject.tasks.matching { task -> task.name == "clean" }
-    })
-}
-
 
 tasks.register("distClean") {
     dependsOn("clean")

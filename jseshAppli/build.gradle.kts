@@ -1,12 +1,26 @@
 plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+    id("jsesh.java-conventions")
 }
 
 dependencies {
-    api(project(":jsesh"))
-    api(project(":jseshGlyphs"))
-    api(project(":jhotdrawfw"))
-    api(project(":jseshSearch"))
-    api(project(":qenherkhopeshefUtils"))
-    api("com.miglayout:miglayout:3.7.4")
+    implementation(project(":jsesh"))
+    implementation(project(":jseshGlyphs"))
+    implementation(project(":jhotdrawfw"))
+    implementation(project(":jseshSearch"))
+    implementation(project(":qenherkhopeshefUtils"))
+    implementation(project(":jseshLabels"))
+    implementation(libs.miglayout) {
+        artifact {
+            classifier = "swing"
+        }
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "jsesh.jhotdraw.Main",
+            "Class-Path" to configurations.runtimeClasspath.get().files.joinToString(" ") { it.name }
+        )
+    }
 }

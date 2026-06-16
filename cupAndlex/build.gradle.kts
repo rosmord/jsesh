@@ -1,14 +1,14 @@
-description = "Java CUP and JLex"
-
-plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+plugins {    
+    id("jsesh.java-conventions")
 }
 
-// Exclude Maven MOJOs
-sourceSets {
-    main {
-        java {
-            exclude("org/qenherkhopeshef/jsesh/prepare")
-        }
-    }
+dependencies {
+    // Maven API kept as compileOnly so the existing Maven Mojos (CupMojo/LexMojo) still compile.
+    // These are not included in the published jar – they are provided by Maven at plugin runtime.
+    compileOnly(libs.mavenPluginApi)
+    compileOnly(libs.mavenPluginAnnotations)
+    compileOnly(libs.mavenCore)
+    compileOnly(libs.plexusCompilerApi)
+    compileOnly(libs.plexusBuildApi)
+    compileOnly(libs.plexusUtils)
 }

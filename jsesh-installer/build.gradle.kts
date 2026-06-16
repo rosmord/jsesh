@@ -1,133 +1,74 @@
-description = """
-    New JSesh installer builder.
-
-    Due to changes in Java distribution, we must a) bundle jre with
-    JSesh and b) provide more "native" installers.
-
-    The ultimate goal of this file is to provide an easy way to
-    build the said installers.
-  
-    What we do currently: create two distinct folders, 
-""".trimIndent()
-
 plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+    base  // provides clean and build lifecycle without java compilation
+    id("jsesh.common")
 }
 
-// Skip publishing for installer module
-tasks.withType<PublishToMavenRepository> {
-    enabled = false
+val jseshVersion = rootProject.version.toString()
+val macDir = layout.buildDirectory.dir("mac/JSesh-$jseshVersion")
+val windowsDir = layout.buildDirectory.dir("windows/JSesh-$jseshVersion")
+val macInstallDir = layout.buildDirectory.dir("mac")
+val windowsInstallDir = layout.buildDirectory.dir("windows")
+
+// Collect all runtime jars from jseshAppli (includes transitive deps)
+val appJars: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+    }
 }
 
 dependencies {
-    implementation(project(":jseshAppli"))
-    implementation(project(":jsesh"))
-    implementation(project(":jseshGlyphs"))
-    implementation(project(":signInfoAppli"))
+    appJars(project(":jseshAppli"))
+    appJars(project(":jsesh"))
+    appJars(project(":jseshGlyphs"))
+    appJars(project(":signInfoAppli"))
 }
 
-// Map project properties to match Maven representation
-val props = mapOf(
-    "project.version" to project.version,
-)
-
-// Helper to expand properties
-val expandLineRegex = Regex("""\$\{([\w.]+)\}""")
-fun expandLine(line: String): String {
-    return line.replace(expandLineRegex) {
-        val varName = it.groupValues[1]
-        val value = props[varName] ?: it.groupValues[0]
-        "$value"
-    }
+// Use filter (simple string replacement) because source files use Maven-style
+// ${project.version} tokens which Groovy's template engine cannot handle with dotted keys.
+fun CopySpec.filterVersion() {
+    filter { line: String -> line.replace("\${project.version}", jseshVersion) }
 }
 
+// ── Mac bundle ──────────────────────────────────────────────────────────────
 
-// Define directories for Mac and Windows installers
-val macInstallDir = layout.buildDirectory.dir("mac")
-val macDir = macInstallDir.map { it.dir("JSesh-${project.version}") }
-val windowsInstallDir = layout.buildDirectory.dir("windows")
-val windowsDir = windowsInstallDir.map { it.dir("JSesh-${project.version}") }
-
-// Task to copy resources for Mac
-val copyResourcesMac by tasks.registering(Copy::class) {
-    into(macDir)
-    
-    from("src/filtered") {
-        filter( ::expandLine)
-    }
-    from("src/mac-filtered") {
-        filter( ::expandLine)
-    }
-    from("src/binary")
+val copyResourcesMac = tasks.register<Copy>("copyResourcesMac") {
+    from("src/mac-filtered") { filterVersion() }
     from("src/mac-binary")
-}
-
-// Task to copy resources for Windows
-val copyResourcesWindows by tasks.registering(Copy::class) {
-    into(windowsDir)
-    
-    from("src/windows-filtered") {
-        filter( ::expandLine)
-    }
-    from("src/filtered") {
-        filter( ::expandLine)
-    }
     from("src/binary")
+    into(macDir)
 }
 
-// Task to copy install files for Mac
-val copyInstallMac by tasks.registering(Copy::class) {
+val copyInstallMac = tasks.register<Copy>("copyInstallMac") {
+    from("src/mac-install") { filterVersion() }
     into(macInstallDir)
-    
-    from("src/mac-install") {
-        filter( ::expandLine)
-    }
 }
 
-// Task to copy install files for Windows
-val copyInstallWindows by tasks.registering(Copy::class) {
-    into(windowsInstallDir)
-    
-    from("src/windows-install") {
-        filter( ::expandLine)
-    }
-}
-
-// Task to copy dependencies for Mac
-val copyDependenciesMac by tasks.registering(Copy::class) {
-    dependsOn(copyResourcesMac)
-    
-    from(configurations.runtimeClasspath)
+val copyDepsMac = tasks.register<Copy>("copyDepsMac") {
+    from(appJars)
     into(macDir.map { it.dir("JSesh.app/Contents/lib") })
 }
 
-// Task to copy dependencies for Windows
-val copyDependenciesWindows by tasks.registering(Copy::class) {
-    dependsOn(copyResourcesWindows)
-    
-    from(configurations.runtimeClasspath)
+// ── Windows bundle ───────────────────────────────────────────────────────────
+
+val copyResourcesWindows = tasks.register<Copy>("copyResourcesWindows") {
+    from("src/windows-filtered") { filterVersion() }
+    from("src/binary")
+    into(windowsDir)
+}
+
+val copyInstallWindows = tasks.register<Copy>("copyInstallWindows") {
+    from("src/windows-install") { filterVersion() }
+    into(windowsInstallDir)
+}
+
+val copyDepsWindows = tasks.register<Copy>("copyDepsWindows") {
+    from(appJars)
     into(windowsDir.map { it.dir("lib") })
 }
 
-// Main assembly tasks
-val assembleMac by tasks.registering {
-    dependsOn(copyResourcesMac, copyInstallMac, copyDependenciesMac)
-    group = "build"
-    description = "Assembles Mac installer files"
-}
-
-val assembleWindows by tasks.registering {
-    dependsOn(copyResourcesWindows, copyInstallWindows, copyDependenciesWindows)
-    group = "build"
-    description = "Assembles Windows installer files"
-}
-
-val assembleInstallers by tasks.registering {
-    dependsOn(assembleMac, assembleWindows)
-    group = "build"
-    description = "Assembles both Mac and Windows installer files"
-}
-
-tasks.named("assemble") {
-    dependsOn(assembleInstallers)
+tasks.named("build") {
+    dependsOn(copyResourcesMac, copyInstallMac, copyDepsMac,
+              copyResourcesWindows, copyInstallWindows, copyDepsWindows)
 }

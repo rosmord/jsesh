@@ -1,10 +1,8 @@
-description = "A slightly modified version of Werner Randelshofer's Jhotdraw application framework (jhotdraw 7.3)."
-
 plugins {
-    id("org.qenherkhopeshef.jsesh.java-conventions")
+    id("jsesh.java-conventions")
 }
 
-// Configure resources to include .properties files from src/main/java
+// JHotDraw stores .properties files alongside Java source; include them as resources.
 tasks.processResources {
     from("src/main/java") {
         include("**/*.properties")
