@@ -15,7 +15,9 @@ tasks.named("clean") {
 
 
 tasks.register("distClean") {
-    dependsOn("clean")
+    dependsOn("clean", subprojects.map { subproject ->
+        subproject.tasks.matching { task -> task.name == "distClean" }
+    })
     doLast {
         delete("bin")
         delete(".classpath")

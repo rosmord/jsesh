@@ -291,12 +291,12 @@ topitems ::= topitems:e1 optSeparator zoneStart:e2
 
 optShading ::=
 {:
- RESULT= new Integer(0);
+ RESULT= Integer.valueOf(0);
 :};
 
 optShading ::= SHADING:e
 {:
- RESULT= new Integer(e.getShading());
+ RESULT= Integer.valueOf(e.getShading());
 :};
 
 
@@ -537,18 +537,18 @@ hieroglyph ::= optGrammar:g HIEROGLYPH:e modifiers:m optPos:pos optWordEnd:f
 
 optWordEnd ::=
 {:
- RESULT= new Integer(0);
+ RESULT= Integer.valueOf(0);
  :};
 
 optWordEnd ::= WORDEND
 {:
- RESULT= new Integer(1);
+ RESULT= Integer.valueOf(1);
  :};
 
 
 optWordEnd ::= SENTENCEEND
 {:
- RESULT= new Integer(2);
+ RESULT= Integer.valueOf(2);
  :};
 
 optPos ::= 
@@ -570,12 +570,12 @@ optPos ::= DOUBLELEFTCURLY INTEGER:i1 COMMA INTEGER:i2 COMMA INTEGER:i3 DOUBLERI
 
 optGrammar ::=
 {:
- RESULT= new Boolean(false);
+ RESULT= Boolean.FALSE;
  :};
 
 optGrammar ::= GRAMMAR
 {:
- RESULT= new Boolean(true);
+ RESULT= Boolean.TRUE;
  :};
 
 modifiers ::=

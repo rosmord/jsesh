@@ -125,31 +125,31 @@ public class lexer {
   public static void init() throws java.io.IOException
     {
       /* set up the keyword table */
-      keywords.put("package",    new Integer(sym.PACKAGE));
-      keywords.put("import",     new Integer(sym.IMPORT));
-      keywords.put("code",       new Integer(sym.CODE));
-      keywords.put("action",     new Integer(sym.ACTION));
-      keywords.put("parser",     new Integer(sym.PARSER));
-      keywords.put("terminal",   new Integer(sym.TERMINAL));
-      keywords.put("non",        new Integer(sym.NON));
-      keywords.put("nonterminal",new Integer(sym.NONTERMINAL));// [CSA]
-      keywords.put("init",       new Integer(sym.INIT));
-      keywords.put("scan",       new Integer(sym.SCAN));
-      keywords.put("with",       new Integer(sym.WITH));
-      keywords.put("start",      new Integer(sym.START));
-      keywords.put("precedence", new Integer(sym.PRECEDENCE));
-      keywords.put("left",       new Integer(sym.LEFT));
-      keywords.put("right",      new Integer(sym.RIGHT));
-      keywords.put("nonassoc",   new Integer(sym.NONASSOC));
+      keywords.put("package",    Integer.valueOf(sym.PACKAGE));
+      keywords.put("import",     Integer.valueOf(sym.IMPORT));
+      keywords.put("code",       Integer.valueOf(sym.CODE));
+      keywords.put("action",     Integer.valueOf(sym.ACTION));
+      keywords.put("parser",     Integer.valueOf(sym.PARSER));
+      keywords.put("terminal",   Integer.valueOf(sym.TERMINAL));
+      keywords.put("non",        Integer.valueOf(sym.NON));
+      keywords.put("nonterminal",Integer.valueOf(sym.NONTERMINAL));// [CSA]
+      keywords.put("init",       Integer.valueOf(sym.INIT));
+      keywords.put("scan",       Integer.valueOf(sym.SCAN));
+      keywords.put("with",       Integer.valueOf(sym.WITH));
+      keywords.put("start",      Integer.valueOf(sym.START));
+      keywords.put("precedence", Integer.valueOf(sym.PRECEDENCE));
+      keywords.put("left",       Integer.valueOf(sym.LEFT));
+      keywords.put("right",      Integer.valueOf(sym.RIGHT));
+      keywords.put("nonassoc",   Integer.valueOf(sym.NONASSOC));
 
       /* set up the table of single character symbols */
-      char_symbols.put(new Integer(';'), new Integer(sym.SEMI));
-      char_symbols.put(new Integer(','), new Integer(sym.COMMA));
-      char_symbols.put(new Integer('*'), new Integer(sym.STAR));
-      char_symbols.put(new Integer('.'), new Integer(sym.DOT));
-      char_symbols.put(new Integer('|'), new Integer(sym.BAR));
-      char_symbols.put(new Integer('['), new Integer(sym.LBRACK));
-      char_symbols.put(new Integer(']'), new Integer(sym.RBRACK));
+      char_symbols.put(Integer.valueOf(';'), Integer.valueOf(sym.SEMI));
+      char_symbols.put(Integer.valueOf(','), Integer.valueOf(sym.COMMA));
+      char_symbols.put(Integer.valueOf('*'), Integer.valueOf(sym.STAR));
+      char_symbols.put(Integer.valueOf('.'), Integer.valueOf(sym.DOT));
+      char_symbols.put(Integer.valueOf('|'), Integer.valueOf(sym.BAR));
+      char_symbols.put(Integer.valueOf('['), Integer.valueOf(sym.LBRACK));
+      char_symbols.put(Integer.valueOf(']'), Integer.valueOf(sym.RBRACK));
 
       /* read two characters of lookahead */
       next_char = System.in.read();
@@ -276,7 +276,7 @@ public class lexer {
     {
       Integer result;
 
-      result = (Integer)char_symbols.get(new Integer((char)ch));
+      result = (Integer)char_symbols.get(Integer.valueOf((char)ch));
       if (result == null) 
 	return -1;
       else

@@ -239,25 +239,25 @@ expr_part ::= expr:e
 	      ;
 
 expr      ::= expr:e1 PLUS expr:e2    
-	      {: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
+	      {: RESULT = Integer.valueOf(e1.intValue() + e2.intValue()); :} 
 	      | 
               expr:e1 MINUS expr:e2    
-              {: RESULT = new Integer(e1.intValue() - e2.intValue()); :} 
+              {: RESULT = Integer.valueOf(e1.intValue() - e2.intValue()); :} 
 	      | 
               expr:e1 TIMES expr:e2 
-	      {: RESULT = new Integer(e1.intValue() * e2.intValue()); :} 
+	      {: RESULT = Integer.valueOf(e1.intValue() * e2.intValue()); :} 
 	      | 
               expr:e1 DIVIDE expr:e2 
-	      {: RESULT = new Integer(e1.intValue() / e2.intValue()); :} 
+	      {: RESULT = Integer.valueOf(e1.intValue() / e2.intValue()); :} 
 	      | 
               expr:e1 MOD expr:e2 
-	      {: RESULT = new Integer(e1.intValue() % e2.intValue()); :} 
+	      {: RESULT = Integer.valueOf(e1.intValue() % e2.intValue()); :} 
 	      | 
               NUMBER:n                 
 	      {: RESULT = n; :} 
 	      | 
               MINUS expr:e             
-	      {: RESULT = new Integer(0 - e.intValue()); :} 
+	      {: RESULT = Integer.valueOf(0 - e.intValue()); :} 
 	      %prec UMINUS
 	      | 
               LPAREN expr:e RPAREN     
@@ -270,7 +270,7 @@ various points in the parse is included inside code strings delimited by
 <tt>{:</tt> and <tt>:}</tt>.  In addition, labels have been placed on various 
 symbols in the right hand side of productions.  For example in:<br>
 <pre>  expr:e1 PLUS expr:e2    
-	{: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
+	{: RESULT = Integer.valueOf(e1.intValue() + e2.intValue()); :} 
 </pre>
 <a name="RES_part">
 the first non-terminal <tt>expr</tt> has been labeled with <tt>e1</tt>, and 
@@ -626,7 +626,7 @@ shown in the above sample parser specification:
 	precedence left UMINUS;
 
 	expr ::=  MINUS expr:e             
-	          {: RESULT = new Integer(0 - e.intValue()); :} 
+	          {: RESULT = Integer.valueOf(0 - e.intValue()); :} 
 	          %prec UMINUS
 </tt></pre>
 
@@ -1199,7 +1199,7 @@ public class scanner {
 	        i_val = i_val * 10 + (next_char - '0');
 	        advance();
 	      } while (next_char >= '0' && next_char <= '9');
-	    return new Symbol(sym.NUMBER, new Integer(i_val));
+	    return new Symbol(sym.NUMBER, Integer.valueOf(i_val));
 
 	    case ';': advance(); return new Symbol(sym.SEMI);
 	    case '+': advance(); return new Symbol(sym.PLUS);

@@ -344,7 +344,7 @@ public class lalr_item_set {
           for (e = all(), cnt=0 ; e.hasMoreElements() /*&& cnt<5*/; cnt++)
 	    result ^= ((lalr_item)e.nextElement()).hashCode();
 
-	  hashcode_cache = new Integer(result);
+	  hashcode_cache = Integer.valueOf(result);
 	}
 
       return hashcode_cache.intValue();

@@ -358,7 +358,7 @@ class CSpec
 
 	/* Initialize hashtable for lexer states. */
 	m_states = new Hashtable();
-	m_states.put(new String("YYINITIAL"),new Integer(m_states.size()));
+	m_states.put(new String("YYINITIAL"),Integer.valueOf(m_states.size()));
 
 	/* Initialize hashtable for lexical macros. */
 	m_macros = new Hashtable();
@@ -2383,9 +2383,9 @@ class CSimplifyNfa
 	if (clsA.get(ccls[i])) // a split class
 	  if (nfa.m_edge==i ||
 	      nfa.m_edge==CNfa.CCL && nfa.m_set.contains(i)) { // on A side
-	    Integer split = new Integer(ccls[i]);
+	    Integer split = Integer.valueOf(ccls[i]);
 	    if (!h.containsKey(split))
-	      h.put(split, new Integer(nextcls++)); // make new class
+	      h.put(split, Integer.valueOf(nextcls++)); // make new class
 	    ccls[i] = ((Integer)h.get(split)).intValue();
 	  }
     }
@@ -4889,20 +4889,20 @@ class CLexGen
 
 	/* Initialize character hash table. */
 	m_tokens = new Hashtable();
-	m_tokens.put(new Character('$'),new Integer(AT_EOL));
-	m_tokens.put(new Character('('),new Integer(OPEN_PAREN));
-	m_tokens.put(new Character(')'),new Integer(CLOSE_PAREN));
-	m_tokens.put(new Character('*'),new Integer(CLOSURE));
-	m_tokens.put(new Character('+'),new Integer(PLUS_CLOSE));
-	m_tokens.put(new Character('-'),new Integer(DASH));
-	m_tokens.put(new Character('.'),new Integer(ANY));
-	m_tokens.put(new Character('?'),new Integer(OPTIONAL));
-	m_tokens.put(new Character('['),new Integer(CCL_START));
-	m_tokens.put(new Character(']'),new Integer(CCL_END));
-	m_tokens.put(new Character('^'),new Integer(AT_BOL));
-	m_tokens.put(new Character('{'),new Integer(OPEN_CURLY));
-	m_tokens.put(new Character('|'),new Integer(OR));
-	m_tokens.put(new Character('}'),new Integer(CLOSE_CURLY));
+	m_tokens.put(new Character('$'),Integer.valueOf(AT_EOL));
+	m_tokens.put(new Character('('),Integer.valueOf(OPEN_PAREN));
+	m_tokens.put(new Character(')'),Integer.valueOf(CLOSE_PAREN));
+	m_tokens.put(new Character('*'),Integer.valueOf(CLOSURE));
+	m_tokens.put(new Character('+'),Integer.valueOf(PLUS_CLOSE));
+	m_tokens.put(new Character('-'),Integer.valueOf(DASH));
+	m_tokens.put(new Character('.'),Integer.valueOf(ANY));
+	m_tokens.put(new Character('?'),Integer.valueOf(OPTIONAL));
+	m_tokens.put(new Character('['),Integer.valueOf(CCL_START));
+	m_tokens.put(new Character(']'),Integer.valueOf(CCL_END));
+	m_tokens.put(new Character('^'),Integer.valueOf(AT_BOL));
+	m_tokens.put(new Character('{'),Integer.valueOf(OPEN_CURLY));
+	m_tokens.put(new Character('|'),Integer.valueOf(OR));
+	m_tokens.put(new Character('}'),Integer.valueOf(CLOSE_CURLY));
       
 	/* Initialize spec structure. */
 	m_spec = new CSpec(this);
@@ -5961,7 +5961,7 @@ class CLexGen
 
 	index = m_spec.m_nfa_states.indexOf(state);
 	
-	return ((new Integer(index)).toString());
+	return ((Integer.valueOf(index)).toString());
       }
 
   /***************************************************************
@@ -6662,7 +6662,7 @@ class CLexGen
 
 	    /* Enter new state name, along with unique index. */
 	    m_spec.m_states.put(new String(m_input.m_line,start_state,count_state),
-				new Integer(m_spec.m_states.size()));
+				Integer.valueOf(m_spec.m_states.size()));
 	    
 	    /* Skip comma. */
 	    if (',' == m_input.m_line[m_input.m_line_index])
@@ -7731,7 +7731,7 @@ final class SparseBitSet implements Cloneable {
 	    public Object nextElement() {
 		int r = bit + (offs[idx] << LG_BITS);
 		advance();
-		return new Integer(r);
+		return Integer.valueOf(r);
 	    }
 	    private void advance() {
 		while (idx<size) {
@@ -7782,7 +7782,7 @@ final class SparseBitSet implements Cloneable {
 	java.util.Vector v = new java.util.Vector();
 	for (int n=0; n<ITER; n++) {
 	    int rr = ((r.nextInt()>>>1) % RANGE) << 1;
-	    a.set(rr); v.addElement(new Integer(rr));
+	    a.set(rr); v.addElement(Integer.valueOf(rr));
 	    // check that all the numbers are there.
 	    CUtility.ASSERT(a.get(rr) && !a.get(rr+1) && !a.get(rr-1));
 	    for (int i=0; i<v.size(); i++)

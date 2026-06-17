@@ -122,7 +122,7 @@ import java_cup.runtime.Symbol;
     
     private Symbol buildMDCIntValuedSymbol(int type, int value) {
         printDebug(type);
-        return new Symbol(type, new Integer(value));
+        return new Symbol(type, Integer.valueOf(value));
     }
 
     private Symbol buildMDCString(int type, String s) {

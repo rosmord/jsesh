@@ -154,7 +154,7 @@ public class production {
       _index = next_index++;
 
       /* put us in the global collection of productions */
-      _all.put(new Integer(_index),this);
+      _all.put(Integer.valueOf(_index),this);
 
       /* put us in the production list of the lhs non terminal */
       lhs_sym.add_production(this);
@@ -227,7 +227,7 @@ public class production {
 
     /** Lookup a production by index. */
   public static production find(int indx) {
-    return (production) _all.get(new Integer(indx));
+    return (production) _all.get(Integer.valueOf(indx));
   }
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
