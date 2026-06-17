@@ -266,6 +266,15 @@ List of classes which need some cleanup:
 - moved to gradle (done)
 - still need to integrate the replacement of `prepareJSeshRelease` by gradle code
 - [x] try to remove **nanoXML** which is probably not used (removed everything linked to xml in this jhotdraw fork).
+- [x] 🍰 added generic type parameters to all raw collections in `cupAndlex/src/main/java/JLex/Main.java`:
+  - `CSpec`: `Hashtable<String,Integer> m_states`, `Hashtable<String,String> m_macros`, `Vector<CNfa> m_nfa_states`, `Vector<CNfa>[] m_state_rules`, `Vector<CDfa> m_dfa_states`, `Hashtable<SparseBitSet,CDfa> m_dfa_sets`, `Vector<CAccept> m_accept_vector`, `Vector<CDTrans> m_dtrans_vector`
+  - `CBunch`, `CDfa`: `Vector<CNfa> m_nfa_set`
+  - `CMinimize`: `Vector<Vector<CDTrans>> m_group`
+  - `CLexGen`: `Hashtable<Character,Integer> m_tokens`
+  - all local `Vector`, `Stack`, `Enumeration`, `Hashtable` variables and method parameters parameterized accordingly
+  - all resulting redundant casts on collection element access removed
+  - `SparseBitSet.elements()` now returns `Enumeration<Integer>`
+  - two `(Vector<CNfa>)` casts on `.clone()` calls kept (unavoidable — `clone()` returns `Object`)
 
 ### 2026/06/12
 

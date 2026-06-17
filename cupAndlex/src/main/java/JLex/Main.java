@@ -1173,7 +1173,7 @@ class CEmit
 	size = m_spec.m_accept_vector.size();
 	for (elem = 0; elem < size; ++elem)
 	  {
-	    accept = (CAccept) m_spec.m_accept_vector.elementAt(elem);
+	    accept = m_spec.m_accept_vector.elementAt(elem);
 	    
 	    m_outstream.print("\t\t/* "+elem+" */ ");
 	    if (null != accept)
@@ -1233,7 +1233,7 @@ class CEmit
 	size = m_spec.m_dtrans_vector.size();
 	int[][] yy_nxt = new int[size][];
 	for (elem=0; elem<size; elem++) {
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(elem);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(elem);
 	    CUtility.ASSERT(dtrans.m_dtrans.length==m_spec.m_dtrans_ncols);
 	    yy_nxt[elem] = dtrans.m_dtrans;
 	}
@@ -1572,7 +1572,7 @@ class CEmit
 	  size = m_spec.m_accept_vector.size();
 	  for (elem = 0; elem < size; ++elem)
 	    {
-	      accept = (CAccept) m_spec.m_accept_vector.elementAt(elem);
+	      accept = m_spec.m_accept_vector.elementAt(elem);
 	      if (null != accept) 
 		{
 		  m_outstream.println(tabs + "case " + elem 
@@ -1734,10 +1734,12 @@ class CMakeNfa
 	  set(lexGen,spec,input);
 
 	  size = m_spec.m_states.size();
-	  m_spec.m_state_rules = new Vector[size];
+	  @SuppressWarnings("unchecked")
+	  Vector<CNfa>[] stateRules = new Vector[size];
+	  m_spec.m_state_rules = stateRules;
 	  for (i = 0; i < size; ++i)
 	    {
-	      m_spec.m_state_rules[i] = new Vector();
+	      m_spec.m_state_rules[i] = new Vector<>();
 	    }
 
 	  /* Initialize current token variable 
@@ -1751,7 +1753,7 @@ class CMakeNfa
 	  size = m_spec.m_nfa_states.size();
 	  for (i = 0; i < size; ++i)
 	    {
-	      elem = (CNfa) m_spec.m_nfa_states.elementAt(i);
+	      elem = m_spec.m_nfa_states.elementAt(i);
 	      elem.m_label = i;
 	    }
 
@@ -2331,8 +2333,8 @@ class CSimplifyNfa
     computeClasses(m_spec); // initialize fields.
     
     // now rewrite the NFA using our character class mapping.
-    for (Enumeration e=m_spec.m_nfa_states.elements(); e.hasMoreElements(); ) {
-      CNfa nfa = (CNfa) e.nextElement();
+    for (Enumeration<CNfa> e=m_spec.m_nfa_states.elements(); e.hasMoreElements(); ) {
+      CNfa nfa = e.nextElement();
       if (nfa.m_edge==CNfa.EMPTY || nfa.m_edge==CNfa.EPSILON)
 	continue; // no change.
       if (nfa.m_edge==CNfa.CCL) {
@@ -2359,11 +2361,11 @@ class CSimplifyNfa
 
     int nextcls = 1;
     SparseBitSet clsA = new SparseBitSet(), clsB = new SparseBitSet();
-    Hashtable h = new Hashtable();
+    Hashtable<Integer, Integer> h = new Hashtable<>();
     
     System.out.print("Working on character classes.");
-    for (Enumeration e=m_spec.m_nfa_states.elements(); e.hasMoreElements(); ) {
-      CNfa nfa = (CNfa) e.nextElement();
+    for (Enumeration<CNfa> e=m_spec.m_nfa_states.elements(); e.hasMoreElements(); ) {
+      CNfa nfa = e.nextElement();
       if (nfa.m_edge==CNfa.EMPTY || nfa.m_edge==CNfa.EPSILON)
 	continue; // no discriminatory information.
       clsA.clearAll(); clsB.clearAll();
@@ -2489,7 +2491,7 @@ class CMinimize
 	n = m_spec.m_dtrans_vector.size();
 	for (i = 0; i < n; ++i)
 	  {
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 	    dtrans.m_dtrans[dest] = dtrans.m_dtrans[src]; 
 	  }
       }	
@@ -2510,7 +2512,7 @@ class CMinimize
 	for (i = 0; i < n; ++i)
 	  {
 	    int[] ndtrans = new int[m_spec.m_dtrans_ncols];
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 	    System.arraycopy(dtrans.m_dtrans, 0, ndtrans, 0, ndtrans.length);
 	    dtrans.m_dtrans = ndtrans;
 	  }
@@ -2527,7 +2529,7 @@ class CMinimize
       {
 	CDTrans dtrans;
 
-	dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(src);
+	dtrans = m_spec.m_dtrans_vector.elementAt(src);
 	m_spec.m_dtrans_vector.setElementAt(dtrans,dest); 
       }	
 	
@@ -2548,7 +2550,7 @@ class CMinimize
 	n = m_spec.m_dtrans_vector.size();
 	for (i = 0; i < n; ++i)
 	  {
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 	    if (dtrans.m_dtrans[col1] != dtrans.m_dtrans[col2]) 
 	      {
 		return false;
@@ -2572,8 +2574,8 @@ class CMinimize
 	CDTrans dtrans1;
 	CDTrans dtrans2;
 
-	dtrans1 = (CDTrans) m_spec.m_dtrans_vector.elementAt(row1);
-	dtrans2 = (CDTrans) m_spec.m_dtrans_vector.elementAt(row2);
+	dtrans1 = m_spec.m_dtrans_vector.elementAt(row1);
+	dtrans2 = m_spec.m_dtrans_vector.elementAt(row2);
 	
 	for (i = 0; i < m_spec.m_dtrans_ncols; ++i)
 	  {
@@ -2609,10 +2611,10 @@ class CMinimize
 	/* Save accept nodes and anchor entries. */
 	size = m_spec.m_dtrans_vector.size();
 	m_spec.m_anchor_array = new int[size];
-	m_spec.m_accept_vector = new Vector();
+	m_spec.m_accept_vector = new Vector<>();
 	for (i = 0; i < size; ++i)
 	  {
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 	    m_spec.m_accept_vector.addElement(dtrans.m_accept);
 	    m_spec.m_anchor_array[i] = dtrans.m_anchor;
 	    dtrans.m_accept = null;
@@ -2798,14 +2800,14 @@ class CMinimize
     (
      )
       {
-	Vector new_vector;
+	Vector<CDTrans> new_vector;
 	int i;
 	int size;
-	Vector dtrans_group;
+	Vector<CDTrans> dtrans_group;
 	CDTrans first;
 	int c;
 
-	new_vector = new Vector();
+	new_vector = new Vector<>();
 
 	size = m_spec.m_state_dtrans.length;
 	for (i = 0; i < size; ++i)
@@ -2819,8 +2821,8 @@ class CMinimize
 	size = m_group.size();
 	for (i = 0; i < size; ++i)
 	  {
-	    dtrans_group = (Vector) m_group.elementAt(i);
-	    first = (CDTrans) dtrans_group.elementAt(0);
+	    dtrans_group = m_group.elementAt(i);
+	    first = dtrans_group.elementAt(0);
 	    new_vector.addElement(first);
 
 	    for (c = 0; c < m_spec.m_dtrans_ncols; ++c)
@@ -2844,8 +2846,8 @@ class CMinimize
     (
      )
       {
-	Vector dtrans_group;
-	Vector new_group;
+	Vector<CDTrans> dtrans_group;
+	Vector<CDTrans> new_group;
 	int i;
 	int j;
 	int old_group_count;
@@ -2874,7 +2876,7 @@ class CMinimize
 
 	    for (i = 0; i < group_count; ++i)
 	      {
-		dtrans_group = (Vector) m_group.elementAt(i);
+		dtrans_group = m_group.elementAt(i);
 
 		group_size = dtrans_group.size();
 		if (group_size <= 1)
@@ -2882,13 +2884,13 @@ class CMinimize
 		    continue;
 		  }
 
-		new_group = new Vector();
+		new_group = new Vector<>();
 		added = false;
 		
-		first = (CDTrans) dtrans_group.elementAt(0);
+		first = dtrans_group.elementAt(0);
 		for (j = 1; j < group_size; ++j)
 		  {
-		    next = (CDTrans) dtrans_group.elementAt(j);
+		    next = dtrans_group.elementAt(j);
 
 		    for (c = 0; c < m_spec.m_dtrans_ncols; ++c)
 		      {
@@ -2971,11 +2973,11 @@ class CMinimize
 	int size;
 	CAccept accept;
 	CDTrans dtrans;
-	Vector dtrans_group;
+	Vector<CDTrans> dtrans_group;
 	CDTrans first;
 	boolean group_found;
 
-	m_group = new Vector();
+	m_group = new Vector<>();
 	group_count = 0;
 	
 	size = m_spec.m_dtrans_vector.size();
@@ -2984,7 +2986,7 @@ class CMinimize
 	for (i = 0; i < size; ++i)
 	  {
 	    group_found = false;
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 
 	    if (CUtility.DEBUG)
 	      {
@@ -2995,7 +2997,7 @@ class CMinimize
 	    
 	    for (j = 0; j < group_count; ++j)
 	      {
-		dtrans_group = (Vector) m_group.elementAt(j);
+		dtrans_group = m_group.elementAt(j);
 		
 		if (CUtility.DEBUG)
 		  {
@@ -3003,7 +3005,7 @@ class CMinimize
 		    CUtility.ASSERT(0 < dtrans_group.size());
 		  }
 
-		first = (CDTrans) dtrans_group.elementAt(0);
+		first = dtrans_group.elementAt(0);
 		
 		if (CUtility.SLOW_DEBUG)
 		  {
@@ -3016,7 +3018,7 @@ class CMinimize
 
 		    for (k = 1; k < s; ++k)
 		      {
-			check = (CDTrans) dtrans_group.elementAt(k);
+			check = dtrans_group.elementAt(k);
 			CUtility.ASSERT(check.m_accept == first.m_accept);
 		      }
 		  }
@@ -3038,7 +3040,7 @@ class CMinimize
 	    
 	    if (false == group_found)
 	      {
-		dtrans_group = new Vector();
+		dtrans_group = new Vector<>();
 		dtrans_group.addElement(dtrans);
 		m_ingroup[i] = m_group.size();
 		m_group.addElement(dtrans_group);
@@ -3060,7 +3062,7 @@ class CMinimize
     **************************************************************/
   private void pset
     (
-     Vector dtrans_group
+     Vector<CDTrans> dtrans_group
      )
       {
 	int i;
@@ -3070,7 +3072,7 @@ class CMinimize
 	size = dtrans_group.size();
 	for (i = 0; i < size; ++i)
 	  {
-	    dtrans = (CDTrans) dtrans_group.elementAt(i);
+	    dtrans = dtrans_group.elementAt(i);
 	    System.out.print(dtrans.m_label + " ");
 	  }
       }
@@ -3090,7 +3092,7 @@ class CMinimize
 	for (i = 0; i < group_size; ++i)
 	  {
 	    System.out.print("\tGroup " + i + " {");
-	    pset((Vector) m_group.elementAt(i));
+	    pset(m_group.elementAt(i));
 	    System.out.println("}");
 	    System.out.println();
 	  }
@@ -3232,7 +3234,7 @@ class CNfa2Dfa
 	    */
 		
 	    /* Create start state and initialize fields. */
-	    bunch.m_nfa_set = (Vector) m_spec.m_state_rules[istate].clone();
+	    bunch.m_nfa_set = (Vector<CNfa>) m_spec.m_state_rules[istate].clone();
 	    sortStates(bunch.m_nfa_set);
 	    
 	    bunch.m_nfa_bit = new SparseBitSet();
@@ -3241,7 +3243,7 @@ class CNfa2Dfa
 	    size = bunch.m_nfa_set.size();
 	    for (i = 0; size > i; ++i)
 	      {
-		nfa = (CNfa) bunch.m_nfa_set.elementAt(i);
+		nfa = bunch.m_nfa_set.elementAt(i);
 		bunch.m_nfa_bit.set(nfa.m_label);
 	      }
 	    
@@ -3367,7 +3369,7 @@ class CNfa2Dfa
      CBunch bunch
      )
       {
-	Stack nfa_stack;
+	Stack<CNfa> nfa_stack;
 	int size;
 	int i;
 	CNfa state;
@@ -3385,11 +3387,11 @@ class CNfa2Dfa
 	bunch.m_accept_index = CUtility.INT_MAX;
 	
 	/* Create initial stack. */
-	nfa_stack = new Stack();
+	nfa_stack = new Stack<>();
 	size = bunch.m_nfa_set.size();
 	for (i = 0; i < size; ++i)
 	  {
-	    state = (CNfa) bunch.m_nfa_set.elementAt(i);
+	    state = bunch.m_nfa_set.elementAt(i);
 	    
 	    if (CUtility.DEBUG)
 	      {
@@ -3402,7 +3404,7 @@ class CNfa2Dfa
 	/* JSeshMain loop. */
 	while (false == nfa_stack.empty())
 	  {
-	    state = (CNfa) nfa_stack.pop();
+	    state = nfa_stack.pop();
 	    
 	    if (CUtility.OLD_DUMP_DEBUG)
 	      {
@@ -3489,7 +3491,7 @@ class CNfa2Dfa
     **************************************************************/
   void move
     (
-     Vector nfa_set,
+     Vector<CNfa> nfa_set,
      SparseBitSet nfa_bit,
      int b,
      CBunch bunch
@@ -3505,7 +3507,7 @@ class CNfa2Dfa
 	size = nfa_set.size();
 	for (index = 0; index < size; ++index)
 	  {
-	    state = (CNfa) nfa_set.elementAt(index);
+	    state = nfa_set.elementAt(index);
 	    
 	    if (b == state.m_edge
 		|| (CNfa.CCL == state.m_edge
@@ -3518,7 +3520,7 @@ class CNfa2Dfa
 			CUtility.ASSERT(null == bunch.m_nfa_bit);
 		      }
 		    
-		    bunch.m_nfa_set = new Vector();
+		    bunch.m_nfa_set = new Vector<>();
 		    /*bunch.m_nfa_bit 
 			= new SparseBitSet(m_spec.m_nfa_states.size());*/
 		    bunch.m_nfa_bit = new SparseBitSet();
@@ -3550,7 +3552,7 @@ class CNfa2Dfa
     **************************************************************/
   private void sortStates
     (
-     Vector nfa_set
+     Vector<CNfa> nfa_set
      )
       {
 	CNfa elem;
@@ -3565,13 +3567,13 @@ class CNfa2Dfa
 	size = nfa_set.size();
 	for (begin = 0; begin < size; ++begin)
 	  {
-	    elem = (CNfa) nfa_set.elementAt(begin);
+	    elem = nfa_set.elementAt(begin);
 	    smallest_value = elem.m_label;
 	    smallest_index = begin;
 
 	    for (index = begin + 1; index < size; ++index)
 	      {
-		elem = (CNfa) nfa_set.elementAt(index);
+		elem = nfa_set.elementAt(index);
 		value = elem.m_label;
 
 		if (value < smallest_value)
@@ -3581,8 +3583,8 @@ class CNfa2Dfa
 		  }
 	      }
 
-	    begin_elem = (CNfa) nfa_set.elementAt(begin);
-	    elem = (CNfa) nfa_set.elementAt(smallest_index);
+	    begin_elem = nfa_set.elementAt(begin);
+	    elem = nfa_set.elementAt(smallest_index);
 	    nfa_set.setElementAt(elem,begin);
 	    nfa_set.setElementAt(begin_elem,smallest_index);
 	  }
@@ -3593,7 +3595,7 @@ class CNfa2Dfa
 	    
 	    for (index = 0; index < size; ++index)
 	      {
-		elem = (CNfa) nfa_set.elementAt(index);
+		elem = nfa_set.elementAt(index);
 		System.out.print(elem.m_label + " ");
 	      }
 	    System.out.println();
@@ -3616,7 +3618,7 @@ class CNfa2Dfa
 	size = m_spec.m_dfa_states.size();
 	while (m_unmarked_dfa < size)
 	  {
-	    dfa = (CDfa) m_spec.m_dfa_states.elementAt(m_unmarked_dfa);
+	    dfa = m_spec.m_dfa_states.elementAt(m_unmarked_dfa);
 
 	    if (false == dfa.m_mark)
 	      {
@@ -3674,7 +3676,7 @@ class CNfa2Dfa
 	dfa = CAlloc.newCDfa(m_spec);
 	
 	/* Initialize fields, including the mark field. */
-	dfa.m_nfa_set = (Vector) bunch.m_nfa_set.clone();
+	dfa.m_nfa_set = (Vector<CNfa>) bunch.m_nfa_set.clone();
 	dfa.m_nfa_bit = (SparseBitSet) bunch.m_nfa_bit.clone();
 	dfa.m_accept = bunch.m_accept;
 	dfa.m_anchor = bunch.m_anchor;
@@ -3710,7 +3712,7 @@ class CNfa2Dfa
 	    m_lexGen.print_set(bunch.m_nfa_set);
 	  }
 
-	dfa = (CDfa) m_spec.m_dfa_sets.get(bunch.m_nfa_bit);
+	dfa = m_spec.m_dfa_sets.get(bunch.m_nfa_bit);
 
 	if (null != dfa)
 	  {
@@ -4677,8 +4679,8 @@ class CSet
   void map(CSet set, int[] mapping) {
     m_complement = set.m_complement;
     m_set.clearAll();
-    for (Enumeration e=set.m_set.elements(); e.hasMoreElements(); ) {
-      int old_value =((Integer)e.nextElement()).intValue();
+    for (Enumeration<Integer> e=set.m_set.elements(); e.hasMoreElements(); ) {
+      int old_value = e.nextElement().intValue();
       if (old_value<mapping.length) // skip unmapped characters
 	m_set.set(mapping[old_value]);
     }
@@ -6009,7 +6011,7 @@ class CLexGen
 	int elem;
 	CNfa nfa;
 	int size;
-	Enumeration states;
+	Enumeration<String> states;
 	Integer index;
 	int i;
 	int j;
@@ -6021,7 +6023,7 @@ class CLexGen
 	size = m_spec.m_nfa_states.size();
 	for (elem = 0; elem < size; ++elem)
 	  {
-	    nfa = (CNfa) m_spec.m_nfa_states.elementAt(elem);
+	    nfa = m_spec.m_nfa_states.elementAt(elem);
 	    
 	    System.out.print("Nfa state " + plab(nfa) + ": ");
 	    
@@ -6072,8 +6074,8 @@ class CLexGen
 	states = m_spec.m_states.keys();
 	while (states.hasMoreElements())
 	  {
-	    state = (String) states.nextElement();
-	    index = (Integer) m_spec.m_states.get(state);
+	    state = states.nextElement();
+	    index = m_spec.m_states.get(state);
 
 	    if (CUtility.DEBUG)
 	      {
@@ -6091,7 +6093,7 @@ class CLexGen
 	    
 	    for (j = 0; j < vsize; ++j)
 	      {
-		nfa = (CNfa) m_spec.m_state_rules[i].elementAt(j);
+		nfa = m_spec.m_state_rules[i].elementAt(j);
 
 		System.out.print(m_spec.m_nfa_states.indexOf(nfa) + " ");
 	      }
@@ -6231,7 +6233,7 @@ class CLexGen
 		name = new String(m_input.m_line,
 				  start_state,
 				  count_state);
-		index = (Integer) m_spec.m_states.get(name);
+		index = m_spec.m_states.get(name);
 		if (null == index)
 		  {
 		    /* Uninitialized state. */
@@ -6333,7 +6335,7 @@ class CLexGen
 
 	/* Retrieve macro definition. */
 	name = new String(m_input.m_line,start_name,count_name);
-	def = (String) m_spec.m_macros.get(name);
+	def = m_spec.m_macros.get(name);
 	if (null == def)
 	  {
 	    /*CError.impos("Undefined macro \"" + name + "\".");*/
@@ -7107,7 +7109,7 @@ class CLexGen
 	      }
 	  }
 	
-	code = (Integer) m_tokens.get(Character.valueOf(m_spec.m_lexeme));
+	code = m_tokens.get(Character.valueOf(m_spec.m_lexeme));
 	if (m_spec.m_in_quote || true == saw_escape)
 	  {
 	    m_spec.m_current_token = L;
@@ -7145,10 +7147,10 @@ class CLexGen
     (
      )
       {
-	Enumeration names;
+	Enumeration<String> names;
 	String name;
 	String def;
-	Enumeration states;
+	Enumeration<String> states;
 	String state;
 	Integer index;
 	int elem;
@@ -7159,8 +7161,8 @@ class CLexGen
 	names = m_spec.m_macros.keys();
 	while (names.hasMoreElements())
 	  {
-	    name = (String) names.nextElement();
-	    def = (String) m_spec.m_macros.get(name);
+	    name = names.nextElement();
+	    def = m_spec.m_macros.get(name);
 
 	    if (CUtility.DEBUG)
 	      {
@@ -7178,8 +7180,8 @@ class CLexGen
 	states = m_spec.m_states.keys();
 	while (states.hasMoreElements())
 	  {
-	    state = (String) states.nextElement();
-	    index = (Integer) m_spec.m_states.get(state);
+	    state = states.nextElement();
+	    index = m_spec.m_states.get(state);
 
 	    if (CUtility.DEBUG)
 	      {
@@ -7281,7 +7283,7 @@ class CLexGen
     **************************************************************/
   void print_set
     (
-     Vector nfa_set
+     Vector<CNfa> nfa_set
      )
       {
 	int size; 
@@ -7297,7 +7299,7 @@ class CLexGen
 	
 	for (elem = 0; elem < size; ++elem)
 	  {
-	    nfa = (CNfa) nfa_set.elementAt(elem);
+	    nfa = nfa_set.elementAt(elem);
 	    /*System.out.print(m_spec.m_nfa_states.indexOf(nfa) + " ");*/
 	    System.out.print(nfa.m_label + " ");
 	  }
@@ -7310,7 +7312,7 @@ class CLexGen
     (
      )
       {
-	Enumeration states;
+	Enumeration<String> states;
 	int i;
 	int j;
 	int chars_printed=0;
@@ -7326,8 +7328,8 @@ class CLexGen
 	states = m_spec.m_states.keys();
 	while (states.hasMoreElements())
 	  {
-	    state = (String) states.nextElement();
-	    index = (Integer) m_spec.m_states.get(state);
+	    state = states.nextElement();
+	    index = m_spec.m_states.get(state);
 
 	    if (CUtility.DEBUG)
 	      {
@@ -7353,7 +7355,7 @@ class CLexGen
 
 	for (i = 0; i < m_spec.m_dtrans_vector.size(); ++i)
 	  {
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(i);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(i);
 
 	    if (null == m_spec.m_accept_vector && null == m_spec.m_anchor_array)
 	      {
@@ -7382,7 +7384,7 @@ class CLexGen
 	      }
 	    else
 	      {
-		accept = (CAccept) m_spec.m_accept_vector.elementAt(i);
+		accept = m_spec.m_accept_vector.elementAt(i);
 
 		if (null == accept)
 		  {
@@ -7721,14 +7723,14 @@ final class SparseBitSet implements Cloneable {
      * Return an <code>Enumeration</code> of <code>Integer</code>s
      * which represent set bit indices in this SparseBitSet.
      */
-    public Enumeration elements() {
-	return new Enumeration() {
+    public Enumeration<Integer> elements() {
+	return new Enumeration<Integer>() {
 	    int idx=-1, bit=BITS;
 	    { advance(); }
 	    public boolean hasMoreElements() {
 		return (idx<size);
 	    }
-	    public Object nextElement() {
+	    public Integer nextElement() {
 		int r = bit + (offs[idx] << LG_BITS);
 		advance();
 		return Integer.valueOf(r);
@@ -7749,7 +7751,7 @@ final class SparseBitSet implements Cloneable {
     public String toString() {
 	StringBuffer sb = new StringBuffer();
 	sb.append('{');
-	for (Enumeration e=elements(); e.hasMoreElements(); ) {
+	for (Enumeration<Integer> e=elements(); e.hasMoreElements(); ) {
 	    if (sb.length() > 1) sb.append(", ");
 	    sb.append(e.nextElement());
 	}
@@ -7779,20 +7781,20 @@ final class SparseBitSet implements Cloneable {
 	a.clearAll();
 	CUtility.ASSERT(!a.get(0) && !a.get(1));
 	java.util.Random r = new java.util.Random();
-	java.util.Vector v = new java.util.Vector();
+	java.util.Vector<Integer> v = new java.util.Vector<>();
 	for (int n=0; n<ITER; n++) {
 	    int rr = ((r.nextInt()>>>1) % RANGE) << 1;
 	    a.set(rr); v.addElement(Integer.valueOf(rr));
 	    // check that all the numbers are there.
 	    CUtility.ASSERT(a.get(rr) && !a.get(rr+1) && !a.get(rr-1));
 	    for (int i=0; i<v.size(); i++)
-		CUtility.ASSERT(a.get(((Integer)v.elementAt(i)).intValue()));
+		CUtility.ASSERT(a.get(v.elementAt(i).intValue()));
 	}
 	SparseBitSet b = (SparseBitSet) a.clone();
 	CUtility.ASSERT(a.equals(b) && b.equals(a));
 	for (int n=0; n<ITER/2; n++) {
 	    int rr = (r.nextInt()>>>1) % v.size();
-	    int m = ((Integer)v.elementAt(rr)).intValue();
+	    int m = v.elementAt(rr).intValue();
 	    b.clear(m); v.removeElementAt(rr);
 	    // check that numbers are removed properly.
 	    CUtility.ASSERT(!b.get(m));
