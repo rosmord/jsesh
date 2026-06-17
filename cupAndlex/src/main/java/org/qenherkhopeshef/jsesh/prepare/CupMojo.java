@@ -12,7 +12,7 @@ import java.io.Writer;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.Component;
+import javax.inject.Inject;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -67,7 +67,7 @@ public class CupMojo extends AbstractMojo {
 	@Parameter(property = "cup.lexerPackage", required = true)
 	private String lexerPackage;
 
-	@Component
+	@Inject
 	private BuildContext buildContext;
 
 	public void execute() throws MojoExecutionException, MojoFailureException {

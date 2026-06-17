@@ -262,6 +262,7 @@ List of classes which need some cleanup:
 
 ### 2026/06/17
 
+- [ ] deal with deprecation in `BundledActionFiller` (later)
 - moved to gradle (done)
 - still need to integrate the replacement of `prepareJSeshRelease` by gradle code
 - [x] try to remove **nanoXML** which is probably not used (removed everything linked to xml in this jhotdraw fork).
