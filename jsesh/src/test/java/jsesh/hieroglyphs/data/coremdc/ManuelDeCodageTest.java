@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 
 public class ManuelDeCodageTest {
 

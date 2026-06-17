@@ -53,7 +53,7 @@ public class FileButtonMapper {
         // TODO Auto-generated constructor stub
         this.browseButton = browseButton;
         this.fileField = fileField;
-        browseButton.addActionListener((e) -> browse());
+        this.browseButton.addActionListener((e) -> browse());
         this.mode = SAVE;
         this.fileSelectionMode = JFileChooser.FILES_ONLY;
         fileFilters = null;

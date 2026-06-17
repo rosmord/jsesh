@@ -25,7 +25,6 @@ import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.SearchPanelFactory;
 import net.miginfocom.swing.MigLayout;
-import jsesh.search.ui.specifications.JSearchFormModelIF;
 
 /**
  * Interactive demo of Wildcard search.
@@ -51,7 +50,6 @@ public class WildCardMain {
         mettreEnPage();
         editor.setMDCText(mdc);    
         // Separated interfaces.
-        JSearchFormModelIF formModel = panel;        
         // note : give a bit more programmatic control on the interface ?
         //formModel.setMdcQuery("A-QUERYSKIP-d"); 
         frame.pack();

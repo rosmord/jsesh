@@ -262,6 +262,7 @@ List of classes which need some cleanup:
 
 ### 2026/06/17
 
+- [ ] move `FileButtonMapper` to static method style.
 - [ ] deal with deprecation in `BundledActionFiller` (later)
 - moved to gradle (done)
 - still need to integrate the replacement of `prepareJSeshRelease` by gradle code
