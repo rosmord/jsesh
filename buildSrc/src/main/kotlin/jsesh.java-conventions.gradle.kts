@@ -23,7 +23,10 @@ java {
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
+    options.compilerArgs.add("-Xlint:deprecation")
+    options.compilerArgs.add("-Xlint:removal")    
 }
+
 
 tasks.withType<Javadoc>().configureEach {
     options.encoding = "UTF-8"

@@ -61,10 +61,12 @@ tasks.compileJava {
     dependsOn(runCup, runLex)
 }
 
+val projectVersionToken = version.toString()
+
 // Filtered resources: replace ${project.version} (Maven token) with the actual version
 tasks.processResources {
     from("src/main/filtered-resources") {
-        filter { line -> line.replace("\${project.version}", project.version.toString()) }
+        filter { line -> line.replace("\${project.version}", projectVersionToken) }
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
