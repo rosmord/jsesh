@@ -366,7 +366,7 @@ public class lexer {
 	    }
 
 	  /* otherwise record the char and move on */
-	  result.append(new Character((char)next_char));
+	  result.append(Character.valueOf((char)next_char));
 	  advance();
 	}
 
@@ -531,7 +531,7 @@ public class lexer {
 
 	  /* if we get here, we have an unrecognized character */
 	  emit_warn("Unrecognized character '" + 
-	    new Character((char)next_char) + "'(" + next_char + 
+	    Character.valueOf((char)next_char) + "'(" + next_char + 
 	    ") -- ignored");
 
 	  /* advance past it */

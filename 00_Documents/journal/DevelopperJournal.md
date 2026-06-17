@@ -260,6 +260,12 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/17
+
+- moved to gradle (done)
+- still need to integrate the replacement of `prepareJSeshRelease` by gradle code
+- [x] try to remove **nanoXML** which is probably not used (removed everything linked to xml in this jhotdraw fork).
+
 ### 2026/06/12
 
 - [x] **regarding lists**: introduce a generic adapter class, `ListItem<G>` or something like that, which could hold either :

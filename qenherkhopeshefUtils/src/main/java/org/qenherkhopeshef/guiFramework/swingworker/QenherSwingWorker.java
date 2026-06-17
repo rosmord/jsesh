@@ -36,9 +36,9 @@ import javax.swing.SwingUtilities;
  * 				ex.printStackTrace();
  * 			}
  * 			// Notify about advance...
- * 			update(new Integer(i));
+ * 			update(Integer.valueOf(i));
  * 		}
- * 		return new Integer(i);
+ * 		return Integer.valueOf(i);
  * 	}
  * }
  * </pre>

@@ -4889,20 +4889,20 @@ class CLexGen
 
 	/* Initialize character hash table. */
 	m_tokens = new Hashtable();
-	m_tokens.put(new Character('$'),Integer.valueOf(AT_EOL));
-	m_tokens.put(new Character('('),Integer.valueOf(OPEN_PAREN));
-	m_tokens.put(new Character(')'),Integer.valueOf(CLOSE_PAREN));
-	m_tokens.put(new Character('*'),Integer.valueOf(CLOSURE));
-	m_tokens.put(new Character('+'),Integer.valueOf(PLUS_CLOSE));
-	m_tokens.put(new Character('-'),Integer.valueOf(DASH));
-	m_tokens.put(new Character('.'),Integer.valueOf(ANY));
-	m_tokens.put(new Character('?'),Integer.valueOf(OPTIONAL));
-	m_tokens.put(new Character('['),Integer.valueOf(CCL_START));
-	m_tokens.put(new Character(']'),Integer.valueOf(CCL_END));
-	m_tokens.put(new Character('^'),Integer.valueOf(AT_BOL));
-	m_tokens.put(new Character('{'),Integer.valueOf(OPEN_CURLY));
-	m_tokens.put(new Character('|'),Integer.valueOf(OR));
-	m_tokens.put(new Character('}'),Integer.valueOf(CLOSE_CURLY));
+	m_tokens.put(Character.valueOf('$'),Integer.valueOf(AT_EOL));
+	m_tokens.put(Character.valueOf('('),Integer.valueOf(OPEN_PAREN));
+	m_tokens.put(Character.valueOf(')'),Integer.valueOf(CLOSE_PAREN));
+	m_tokens.put(Character.valueOf('*'),Integer.valueOf(CLOSURE));
+	m_tokens.put(Character.valueOf('+'),Integer.valueOf(PLUS_CLOSE));
+	m_tokens.put(Character.valueOf('-'),Integer.valueOf(DASH));
+	m_tokens.put(Character.valueOf('.'),Integer.valueOf(ANY));
+	m_tokens.put(Character.valueOf('?'),Integer.valueOf(OPTIONAL));
+	m_tokens.put(Character.valueOf('['),Integer.valueOf(CCL_START));
+	m_tokens.put(Character.valueOf(']'),Integer.valueOf(CCL_END));
+	m_tokens.put(Character.valueOf('^'),Integer.valueOf(AT_BOL));
+	m_tokens.put(Character.valueOf('{'),Integer.valueOf(OPEN_CURLY));
+	m_tokens.put(Character.valueOf('|'),Integer.valueOf(OR));
+	m_tokens.put(Character.valueOf('}'),Integer.valueOf(CLOSE_CURLY));
       
 	/* Initialize spec structure. */
 	m_spec = new CSpec(this);
@@ -5994,7 +5994,7 @@ class CLexGen
 	    return (new String("\\ "));
 	    
 	  default:
-	    return ((new Character((char) i)).toString());
+	    return ((Character.valueOf((char) i)).toString());
 	  }
       }
 
@@ -7107,7 +7107,7 @@ class CLexGen
 	      }
 	  }
 	
-	code = (Integer) m_tokens.get(new Character(m_spec.m_lexeme));
+	code = (Integer) m_tokens.get(Character.valueOf(m_spec.m_lexeme));
 	if (m_spec.m_in_quote || true == saw_escape)
 	  {
 	    m_spec.m_current_token = L;
