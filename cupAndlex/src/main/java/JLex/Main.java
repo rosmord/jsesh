@@ -224,20 +224,20 @@ class CSpec
     **************************************************************/
     
   /* Lexical States. */
-  Hashtable m_states; /* Hashtable taking state indices (Integer) 
+  Hashtable<String, Integer> m_states; /* Hashtable taking state indices (Integer)
 			 to state name (String). */
 
-  /* Regular Expression Macros. */ 
-  Hashtable m_macros; /* Hashtable taking macro name (String)
+  /* Regular Expression Macros. */
+  Hashtable<String, String> m_macros; /* Hashtable taking macro name (String)
 				to corresponding char buffer that
 				holds macro definition. */
 
   /* NFA Machine. */
   CNfa m_nfa_start; /* Start state of NFA machine. */
-  Vector m_nfa_states; /* Vector of states, with index
+  Vector<CNfa> m_nfa_states; /* Vector of states, with index
 				 corresponding to label. */
-  
-  Vector m_state_rules[]; /* An array of Vectors of Integers.
+
+  Vector<CNfa>[] m_state_rules; /* An array of Vectors of CNfa states.
 				    The ith Vector represents the lexical state
 				    with index i.  The contents of the ith 
 				    Vector are the indices of the NFA start
@@ -248,18 +248,18 @@ class CSpec
   int m_state_dtrans[];
 
   /* DFA Machine. */
-  Vector m_dfa_states; /* Vector of states, with index
+  Vector<CDfa> m_dfa_states; /* Vector of states, with index
 				 corresponding to label. */
-  Hashtable m_dfa_sets; /* Hashtable taking set of NFA states
-				  to corresponding DFA state, 
+  Hashtable<SparseBitSet, CDfa> m_dfa_sets; /* Hashtable taking set of NFA states
+				  to corresponding DFA state,
 				  if the latter exists. */
   
   /* Accept States and Corresponding Anchors. */
-  Vector m_accept_vector;
+  Vector<CAccept> m_accept_vector;
   int m_anchor_array[];
 
   /* Transition Table. */
-  Vector m_dtrans_vector;
+  Vector<CDTrans> m_dtrans_vector;
   int m_dtrans_ncols;
   int m_row_map[];
   int m_col_map[];
@@ -357,11 +357,11 @@ class CSpec
 	m_in_ccl = false;
 
 	/* Initialize hashtable for lexer states. */
-	m_states = new Hashtable();
+	m_states = new Hashtable<>();
 	m_states.put(new String("YYINITIAL"),Integer.valueOf(m_states.size()));
 
 	/* Initialize hashtable for lexical macros. */
-	m_macros = new Hashtable();
+	m_macros = new Hashtable<>();
 
 	/* Initialize variables for lexer options. */
 	m_integer_type = false;
@@ -378,12 +378,12 @@ class CSpec
 	m_verbose = true;
 
 	m_nfa_start = null;
-	m_nfa_states = new Vector();
-	
-	m_dfa_states = new Vector();
-	m_dfa_sets = new Hashtable();
+	m_nfa_states = new Vector<>();
 
-	m_dtrans_vector = new Vector();
+	m_dfa_states = new Vector<>();
+	m_dfa_sets = new Hashtable<>();
+
+	m_dtrans_vector = new Vector<>();
 	m_dtrans_ncols = CUtility.MAX_SEVEN_BIT + 1;
 	m_row_map = null;
 	m_col_map = null;
@@ -536,7 +536,7 @@ class CEmit
 	  {
 	    System.out.print("State " + i);
 	    
-	    accept = (CAccept) m_spec.m_accept_vector.elementAt(i);
+	    accept = m_spec.m_accept_vector.elementAt(i);
 	    if (null == accept)
 	      {
 		System.out.println(" [nonaccepting]");
@@ -544,13 +544,13 @@ class CEmit
 	    else
 	      {
 		System.out.println(" [accepting, line "
-				 + accept.m_line_number 
+				 + accept.m_line_number
 				 + " <"
 				 + (new java.lang.String(accept.m_action,0,
 					       accept.m_action_read))
 				 + ">]");
 	      }
-	    dtrans = (CDTrans) m_spec.m_dtrans_vector.elementAt(m_spec.m_row_map[i]);
+	    dtrans = m_spec.m_dtrans_vector.elementAt(m_spec.m_row_map[i]);
 	    
 	    tr = false;
 	    state = dtrans.m_dtrans[m_spec.m_col_map[0]];
@@ -814,7 +814,7 @@ class CEmit
      )
       throws java.io.IOException
 	{
-	  Enumeration states;
+	  Enumeration<String> states;
 	  String state;
 	  int index;
 
@@ -822,7 +822,7 @@ class CEmit
 	  /*index = 0;*/
 	  while (states.hasMoreElements())
 	    {
-	      state = (String) states.nextElement();
+	      state = states.nextElement();
 	      
 	      if (CUtility.DEBUG)
 		{
@@ -1615,7 +1615,7 @@ class CBunch
   /***************************************************************
     Member Variables
     **************************************************************/
-  Vector m_nfa_set; /* Vector of CNfa states in dfa state. */
+  Vector<CNfa> m_nfa_set; /* Vector of CNfa states in dfa state. */
   SparseBitSet m_nfa_bit; /* BitSet representation of CNfa labels. */
   CAccept m_accept; /* Accepting actions, or null if nonaccepting state. */
   int m_anchor; /* Anchors on regular expression. */
@@ -2405,7 +2405,7 @@ class CMinimize
     Member Variables
     **************************************************************/
   CSpec m_spec;
-  Vector m_group;
+  Vector<Vector<CDTrans>> m_group;
   int m_ingroup[];
 
   /***************************************************************
@@ -3901,7 +3901,7 @@ class CDfa
   boolean m_mark;
   CAccept m_accept;
   int m_anchor;
-  Vector m_nfa_set;
+  Vector<CNfa> m_nfa_set;
   SparseBitSet m_nfa_bit;
   int m_label;
 
@@ -4803,7 +4803,7 @@ class CLexGen
 
   private CInput m_input; /* Input buffer class. */
 
-  private Hashtable m_tokens; /* Hashtable that maps characters to their 
+  private Hashtable<Character, Integer> m_tokens; /* Hashtable that maps characters to their
 				 corresponding lexical code for
 				 the internal lexical analyzer. */
   private CSpec m_spec; /* Spec class holds information
@@ -4888,7 +4888,7 @@ class CLexGen
 	m_input = new CInput(m_instream);
 
 	/* Initialize character hash table. */
-	m_tokens = new Hashtable();
+	m_tokens = new Hashtable<>();
 	m_tokens.put(Character.valueOf('$'),Integer.valueOf(AT_EOL));
 	m_tokens.put(Character.valueOf('('),Integer.valueOf(OPEN_PAREN));
 	m_tokens.put(Character.valueOf(')'),Integer.valueOf(CLOSE_PAREN));

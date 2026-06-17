@@ -154,7 +154,7 @@ public class emit {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** List of imports (Strings containing class names) to go with actions. */
-  public static Stack import_list = new Stack();
+  public static Stack<String> import_list = new Stack<>();
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
