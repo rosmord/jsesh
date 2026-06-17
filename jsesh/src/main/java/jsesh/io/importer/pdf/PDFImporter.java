@@ -32,7 +32,7 @@ public class PDFImporter {
 	private MDCDocument readStream(InputStream in) throws PDFImportException {
 		try {
 			PdfReader reader = new PdfReader(in);
-			HashMap info = reader.getInfo();
+			HashMap<?,?> info = reader.getInfo();
 			String subject = (String) info.get("Subject");
 			reader.close();
 			if (subject == null
