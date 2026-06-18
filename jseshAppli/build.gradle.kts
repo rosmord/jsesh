@@ -1,3 +1,5 @@
+description = "The JSesh application, using jhotdraw as GUI framework."
+
 plugins {
     id("jsesh.java-conventions")
 }

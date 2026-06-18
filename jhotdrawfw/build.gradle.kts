@@ -1,3 +1,5 @@
+description = "A slightly modified version of Werner Randelshofer's Jhotdraw application framework (jhotdraw 7.3)."
+
 plugins {
     id("jsesh.java-conventions")
 }

@@ -1,3 +1,8 @@
+description = """
+    Advanced search functions for JSesh.
+    We separate them from the original JSesh widget, as they require some external libraries.
+""".trimIndent()
+
 plugins {
     id("jsesh.java-conventions")
 }

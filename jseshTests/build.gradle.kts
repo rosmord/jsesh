@@ -1,3 +1,5 @@
+description = "Integration tests for JSesh."
+
 plugins {
     id("jsesh.java-conventions")
 }

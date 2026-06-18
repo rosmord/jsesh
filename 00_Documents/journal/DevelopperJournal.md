@@ -20,6 +20,12 @@ Make HieroglyphShapeRepository observable. All elements which use the hieroglyph
 
 - When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
 
+### Format of the jseshGlyph.jar file
+
+This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file.
+
+
+
 ### How to build resources
 
 Regarding the available resources and preferences, here is a documentation about how we can access them.
@@ -260,7 +266,15 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/18
+
+- added descriptions to gradle files
+- simplified the `jseshGlyphs` module
+- removed `nn` and `nTrw` as special cases. The codes are now processed just like any other phonetic code.
+  
 ### 2026/06/17
+
+Added file [[gradle-migration]] about the gradle migration built by **kyaneticblue**.
 
 - [ ] move `FileButtonMapper` to static method style.
 - [ ] deal with deprecation in `BundledActionFiller` (later)

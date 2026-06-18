@@ -34,9 +34,6 @@ public class ResourcesHieroglyphicShapeRepository implements
 
 	/**
 	 * Map from code to either resource path (String) or ShapeChar.
-	 * This is OLD dirty code, we should create something clearner, using for
-	 * instance a proxy.
-	 * 
 	 * <p>
 	 * The idea is that we did not want to load all SVG signs in memory - which is
 	 * quite reasonnable.
@@ -54,8 +51,8 @@ public class ResourcesHieroglyphicShapeRepository implements
 						ins, "US-ASCII"));) {
 					String line;
 					while ((line = r.readLine()) != null) {
-						String fields[] = line.split("\t");
-						signs.put(fields[0], new ShapeCodeProxy(fields[1]));
+						String svgFileName = line.trim();
+						signs.put(fileNameToCode(svgFileName), new ShapeCodeProxy(svgFileName));
 					}
 				}
 			} else {
@@ -64,6 +61,19 @@ public class ResourcesHieroglyphicShapeRepository implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Takes a svg file name, and returns the corresponding code.
+	 * @param svgFileName the name of the svg file
+	 * @return the corresponding code
+	 */
+	private String fileNameToCode(String svgFileName) {
+		String code = GardinerCode.getCodeForFileName(svgFileName);
+		if (code == null) {
+			code = svgFileName.substring(0, svgFileName.indexOf('.'));
+		}
+		return code;
 	}
 
 	/**

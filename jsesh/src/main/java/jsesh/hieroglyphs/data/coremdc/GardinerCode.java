@@ -39,7 +39,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * Pattern for testing if a code is a possible canonical code.
      */
     private static final Pattern testCanonicalPattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING + "|"
-            + NUMBER_REGEXP_STRING) ;
+            + NUMBER_REGEXP_STRING);
 
     /**
      * Pattern for testing for codes which are "Gardiner-like", i.e. with a
@@ -50,24 +50,24 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     /**
      * The same, but the pattern is in uppercase
      */
-    private static final Pattern jseshUpperCasePattern = Pattern.compile(GARDINER_CODE_REGEXP_STRING.toUpperCase(Locale.ENGLISH));
+    private static final Pattern jseshUpperCasePattern = Pattern
+            .compile(GARDINER_CODE_REGEXP_STRING.toUpperCase(Locale.ENGLISH));
 
     /**
      * Should move in a "code" class
      */
-    private final static List<String> FAMILIES = Arrays.asList(new String[]{
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
-        "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Aa",
-        "Ff", "NU", "NL"});
+    private final static List<String> FAMILIES = Arrays.asList(new String[] {
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
+            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Aa",
+            "Ff", "NU", "NL" });
 
     /**
      * Optional user id. 0 means no user (i.e. "standard" sign.
      */
-    private int userId = 0;    
+    private int userId = 0;
     private String family;
     private int number;
     private String variantPart;
-  
 
     /**
      * Create a Gardiner code object from a string. Send a triplet (family,
@@ -83,10 +83,10 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         }
         Matcher matcher = jseshPattern.matcher(code);
         int userId = 0;
-        
-        if (matcher.matches()) {            
+
+        if (matcher.matches()) {
             if (matcher.group(2) != null) {
-            	userId = Integer.parseInt(matcher.group(2));
+                userId = Integer.parseInt(matcher.group(2));
             }
             String family = matcher.group(3);
             int number = Integer.parseInt(matcher.group(4));
@@ -96,13 +96,12 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return result;
     }
 
-
     /**
      * Constructor for user defined signs.
      *
-     * @param userId (0 means "standard" sign).
-     * @param family : A, B... Aa, Ff, NL, NU
-     * @param number : sign number in family
+     * @param userId        (0 means "standard" sign).
+     * @param family        : A, B... Aa, Ff, NL, NU
+     * @param number        : sign number in family
      * @param variantNumber variant extension (A, EXTA, VARA, etc.)
      */
     public GardinerCode(int userId, String family, int number, String variantNumber) {
@@ -114,14 +113,15 @@ public final class GardinerCode implements Comparable<GardinerCode> {
 
     /**
      * Constructor for "standard" signs.
+     * 
      * @param family
      * @param number
      * @param variantNumber
      */
     public GardinerCode(String family, int number, String variantNumber) {
-    	this(0, family,  number, variantNumber);
+        this(0, family, number, variantNumber);
     }
-    
+
     private void setVariantPart(String v) {
         variantPart = v.toUpperCase(Locale.ENGLISH);
         if ("H".equals(variantPart) || "V".equals(variantPart)) {
@@ -136,7 +136,6 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return family;
     }
 
-
     /**
      * @return the number
      */
@@ -144,14 +143,12 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         return number;
     }
 
-    
     /**
      * @return the variantNumber
      */
     public String getVariantPart() {
         return variantPart;
     }
-
 
     /**
      * Returns the id of the user who created this sign, or 0 for standard
@@ -176,7 +173,8 @@ public final class GardinerCode implements Comparable<GardinerCode> {
             result = number - code.getNumber();
         }
         if (result == 0) {
-            result = variantPart.toLowerCase(Locale.ENGLISH).compareTo(code.getVariantPart().toLowerCase(Locale.ENGLISH));
+            result = variantPart.toLowerCase(Locale.ENGLISH)
+                    .compareTo(code.getVariantPart().toLowerCase(Locale.ENGLISH));
         }
         if (result == 0) {
             result = userId - code.userId;
@@ -234,7 +232,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * to order them.
      *
      * @return a comparator able to compare two gardiner codes and to order
-     * them.
+     *         them.
      */
     public static Comparator<String> getCodeComparator() {
         return (c1, c2) -> compareCodes(c1, c2);
@@ -245,17 +243,23 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * <p>
      * We define canonical MdC codes as:
      * <ul>
-     * <li> Gardiner codes (see isCorrectGardinerCode)
-     * <li> numbers 2, 3, 4, 5, 6, 7, 8, 9, 20, ..., 90, 200..900, 2000..9000 etc...
+     * <li>Gardiner codes (see isCorrectGardinerCode)
+     * <li>numbers 2, 3, 4, 5, 6, 7, 8, 9, 20, ..., 90, 200..900, 2000..9000 etc...
      * </ul>
      *
-     * "3" as a code is a new addition - I think originally an inscribe code. Originally, "3" and "Z2"
-     * where the same signs, but as a version of "3" was made for groups like 3:2, we had introduced a new sign without
+     * "3" as a code is a new addition - I think originally an inscribe code.
+     * Originally, "3" and "Z2"
+     * where the same signs, but as a version of "3" was made for groups like 3:2,
+     * we had introduced a new sign without
      * canonical code.
      *
-     *<p> This method is now simpler than it used to be, with only two cases left.
-     * I believe nobody is using TKsesh (not JSesh) sign codes, and if it were the case, editing the corresponding files and fixing them will 
-     * probably simpler. Signs "nn" and "nTrw" now have Gardiner Codes, so the only domain outside of Gardiner codes for standard codes is numbers.
+     * <p>
+     * This method is now simpler than it used to be, with only two cases left.
+     * I believe nobody is using TKsesh (not JSesh) sign codes, and if it were the
+     * case, editing the corresponding files and fixing them will
+     * probably simpler. Signs "nn" and "nTrw" now have Gardiner Codes, so the only
+     * domain outside of Gardiner codes for standard codes is numbers.
+     * 
      * @param code
      * @return
      * @see #isWellFormedGardinerCode(String)
@@ -265,8 +269,10 @@ public final class GardinerCode implements Comparable<GardinerCode> {
     }
 
     /**
-     * Returns true if the sign has the form of a "Gardiner" code, with a family and a number. 
-     * <p>This is different from @{link {@link #isCanonicalCode(String)}.
+     * Returns true if the sign has the form of a "Gardiner" code, with a family and
+     * a number.
+     * <p>
+     * This is different from @{link {@link #isCanonicalCode(String)}.
      * 
      * For historical reasons, the MdC contains a number of signs
      * which have no Gardiner code.
@@ -278,14 +284,15 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * <p>
      * More precisely, we consider as "gardiner codes":
      * <u>
-     * <li> Gardiner codes as defined in the manuel, plus the Ff family.
-     * <li> JSesh extended signs, with "US" + user id in front of a gardiner
+     * <li>Gardiner codes as defined in the manuel, plus the Ff family.
+     * <li>JSesh extended signs, with "US" + user id in front of a gardiner
      * code
-     * <li> TODO : add @ as a prefix.
-     * <li> We accept signs with both upper case and lower case letters after the
-     * sign number, as a variant indicator. Note that the <em>manuel</em> distinguishes
+     * <li>TODO : add @ as a prefix.
+     * <li>We accept signs with both upper case and lower case letters after the
+     * sign number, as a variant indicator. Note that the <em>manuel</em>
+     * distinguishes
      * the two, but most software don't.
-     * <li> for families Aa and Ff, the family names AA and FF are also
+     * <li>for families Aa and Ff, the family names AA and FF are also
      * accepted.
      * 
      * </ul>
@@ -306,7 +313,8 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * Returns the Manuel de codage code corresponding to a given file name, or
      * null if the file name does not fit.
      *
-     * <p> It will return null for files which corresponds to phonetic codes.
+     * <p>
+     * It will return null for files which corresponds to phonetic codes.
      * 
      * <p>
      * Can also be used to normalise codes which don't respect the MdC
@@ -317,18 +325,21 @@ public final class GardinerCode implements Comparable<GardinerCode> {
      * gardiner code. The problem in this case is that not all file systems are
      * case sensitives, hence the need to process the file name.
      * <p>
-     * This method understands Gardiner codes, and MdC specificities (nn and nTrw
-     * codes) and JSesh extensions.
+     * This method understands Gardiner codes
+     * 
+     * Remark: we used to have a problem with the "nTrw" and "nn" codes.
+     * The corresponding signs did not have a Gardiner code. However,
+     * for the sake of simplicity, we gave them one.
      * 
      * @param fname a file name (with a mandatory extensions, ".svg", ".png",
-     * whatever).
+     *              whatever).
      * 
      * @return a code or null if no code can be created.
      */
     public static String getCodeForFileName(String fname) {
         // We put the code in upper case.
         // Note : toUpperCase was problematic for some locale (e.g. Turkish one)
-        //        where a dotless "i" exists.
+        // where a dotless "i" exists.
         // Thanks to tahacelik20181 for the suggested fix.
         fname = fname.toUpperCase(Locale.ENGLISH);
         // suppress file extensions.
@@ -340,47 +351,42 @@ public final class GardinerCode implements Comparable<GardinerCode> {
 
         // Special codes "nTrw" and "nn" don't have a Gardiner code associated
         // to it.
-        if ("NTRW".equals(code)) {
-            code = "nTrw";
-        } else if ("NN".equals(code.toLowerCase(Locale.ENGLISH))) {
-            code = "nn";
-        } else {
-            // Test for a gardiner code.
-            Matcher matcher;
-            matcher = jseshUpperCasePattern.matcher(code);
-            if (matcher.matches()) {
-            	Integer userId = 0;
-            	String family;
-            	int number;
-            	String varExtension = "";
-                
-                if (matcher.group(2) != null) {
-                	userId = Integer.parseInt(matcher.group(2));
-                }
-                family = matcher.group(3);
-                switch (family) {
-				case "AA":
-					family = "Aa";
-					break;
-				case "FF":
-					family = "Ff";
-					break;				
-				default:
-					break;
-				}
-                number = Integer.parseInt(matcher.group(4));
-                varExtension = matcher.group(5);
-                GardinerCode gardinerCode = new GardinerCode(userId, family, number, varExtension);
-                code = gardinerCode.toString();
-            } else if (code.matches("[0-9]+")) {
-                // do nothing
-            } else if (code.matches(TKSESH_USER_REGEXP_STRING)) {
-                // do nothing
-            } else {
-                code = null;
+
+        // Test for a gardiner code.
+        Matcher matcher;
+        matcher = jseshUpperCasePattern.matcher(code);
+        if (matcher.matches()) {
+            Integer userId = 0;
+            String family;
+            int number;
+            String varExtension = "";
+
+            if (matcher.group(2) != null) {
+                userId = Integer.parseInt(matcher.group(2));
             }
+            family = matcher.group(3);
+            switch (family) {
+                case "AA":
+                    family = "Aa";
+                    break;
+                case "FF":
+                    family = "Ff";
+                    break;
+                default:
+                    break;
+            }
+            number = Integer.parseInt(matcher.group(4));
+            varExtension = matcher.group(5);
+            GardinerCode gardinerCode = new GardinerCode(userId, family, number, varExtension);
+            code = gardinerCode.toString();
+        } else if (code.matches("[0-9]+")) {
+            // do nothing
+        } else if (code.matches(TKSESH_USER_REGEXP_STRING)) {
+            // do nothing
+        } else {
+            code = null;
         }
         return code;
     }
-    
+
 }

@@ -1,3 +1,5 @@
+description = "Java CUP and JLex"
+
 plugins {    
     id("jsesh.java-conventions")
 }

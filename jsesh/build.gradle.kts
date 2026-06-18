@@ -1,6 +1,8 @@
 import org.qenherkhopeshef.jsesh.gradle.CupTask
 import org.qenherkhopeshef.jsesh.gradle.LexTask
 
+description = "The core JSesh library"
+
 plugins {
     java
     id("org.qenherkhopeshef.jsesh.cupandlex")

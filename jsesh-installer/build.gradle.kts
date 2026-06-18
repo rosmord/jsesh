@@ -1,3 +1,15 @@
+description = """
+    New JSesh installer builder.
+
+    Due to changes in Java distribution, we must a) bundle jre with
+    JSesh and b) provide more "native" installers.
+
+    The ultimate goal of this file is to provide an easy way to
+    build the said installers.
+  
+    What we do currently: create two distinct folders, 
+""".trimIndent()
+
 plugins {
     base  // provides clean and build lifecycle without java compilation
     id("jsesh.common")

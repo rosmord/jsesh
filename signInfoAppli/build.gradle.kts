@@ -1,3 +1,5 @@
+description = "An application to edit signs properties."
+
 plugins {
     id("jsesh.java-conventions")
 }
