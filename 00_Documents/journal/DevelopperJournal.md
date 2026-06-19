@@ -268,14 +268,20 @@ List of classes which need some cleanup:
 
 ### 2026/06/19
 
+- [ ] **TODO** ? move back to gradle/groovy. Gradle Kotlin is a pain without IDE support - and I don't want to depend on IntelliJ.
 - [x] ensure `nn` and `nTrw` are correctly processed as phonetic codes for `M22B` and `R8A` respectively. 
 - [x] checked it's the case for the legacy fonts.
 - [x] moved to Junit 5 for tests.
-- [ ] check import in various IDE
-  - [ ] VSCode (ok, it's the one I use).
-  - [ ] Netbeans
-  - [ ] Eclipse
-  - [ ] IntelliJ
+- [x] check import in various IDE
+  - [x] VSCode (**ok**, it's the one I use).
+  - [x] Netbeans 30: **ok**
+    - be sure gradle is activated in Netbeans (simply open the netbeans preferences, look for java and then gradle; il will activate its support)
+    - needs to run gradle build once first.
+  - [x] Eclipse
+    - first run `./gradlew build` and `./gradlew eclipse` to generate the eclipse project files.
+    - then, in eclipse, use “import gradle project”
+    - [x] problem with the file `version.properties` which is produced by gradle, and which is not found by eclipse.
+  - [x] IntelliJ **ok**
 
 - [ ] move `FileButtonMapper` to static method style.
 - [ ] make `HieroglyphShapeRepositories` observable.

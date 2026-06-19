@@ -1,3 +1,5 @@
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+import org.gradle.plugins.ide.eclipse.model.Classpath
 import org.qenherkhopeshef.jsesh.gradle.CupTask
 import org.qenherkhopeshef.jsesh.gradle.LexTask
 
@@ -77,4 +79,19 @@ tasks.processResources {
         filter { line -> line.replace("\${project.version}", projectVersionToken) }
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+eclipse {
+    classpath {
+        file.whenMerged (Action<Classpath> {
+            val generatedSourcesDir = layout.buildDirectory.dir("generated-sources").get().asFile
+            generatedSourcesDir.listFiles() {
+                f -> f.isDirectory
+            } .forEach {
+                d -> entries.add(SourceFolder(project.relativePath(d), null))
+            }
+            val generatedResourcesDir = layout.buildDirectory.dir("resources/main").get().asFile
+            entries.add(SourceFolder(project.relativePath(generatedResourcesDir), null))
+        })
+    }
 }

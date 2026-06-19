@@ -1,9 +1,12 @@
+import org.gradle.plugins.ide.eclipse.model.EclipseModel
+//import org.gradle.api.artifacts.VersionCatalogsExtension
+
 description = "JSesh complete distribution"
 
-//import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
     base
+    id("eclipse")
 }
 
 
@@ -28,5 +31,20 @@ tasks.register("distClean") {
         delete(".vscode")
         delete(".DS_Store")
         delete(".idea")
+    }
+}
+
+
+allprojects {
+    apply(plugin = "eclipse")
+
+    configure<EclipseModel> {
+        project {
+            name = "${rootProject.name}-${project.name}"
+        }
+        classpath {
+            isDownloadSources = true
+            isDownloadJavadoc = false
+        }
     }
 }
