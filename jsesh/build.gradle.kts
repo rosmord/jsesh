@@ -63,6 +63,12 @@ tasks.compileJava {
     dependsOn(runCup, runLex)
 }
 
+// Pass the build directory to the tests, so that they can create files there if needed.
+// used to test bitmap creation.
+tasks.test {
+    systemProperty("buildDir", layout.buildDirectory.get().asFile.absolutePath)
+}
+
 val projectVersionToken = version.toString()
 
 // Filtered resources: replace ${project.version} (Maven token) with the actual version

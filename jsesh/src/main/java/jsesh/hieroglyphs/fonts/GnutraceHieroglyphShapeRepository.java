@@ -1254,8 +1254,8 @@ public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeReposit
 		//set("5", fonts['Z' - 'A'].getChar(22 + 31));	
 		set("5", fonts['Z' - 'A'].getChar(22 + 31));		
 		//
-		set("nTrw", fonts['R' - 'A'].getChar(57));
-		set("nn", fonts['M' - 'A'].getChar(76));
+		set("R8A", fonts['R' - 'A'].getChar(57));
+		set("M22B", fonts['M' - 'A'].getChar(76));
 	}
 
 	public ShapeChar get(String code) {

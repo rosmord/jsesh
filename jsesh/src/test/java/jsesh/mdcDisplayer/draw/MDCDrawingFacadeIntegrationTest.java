@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
@@ -30,7 +32,6 @@ import jsesh.mdc.MDCSyntaxError;
  */
 public class MDCDrawingFacadeIntegrationTest {
 
-    private static final String outputDir = "target/mdcDrawingFacadeIntegrationTest/";
 
     private static final String RA_M_PT = "i-w-r:a-C1-m-p*t:pt";
 
@@ -44,7 +45,6 @@ public class MDCDrawingFacadeIntegrationTest {
 
     private void buildAndSaveImage(String mdc, String fileName, JSeshStyle jSeshStyle, Integer cadratHeight)
             throws Exception {
-        new File(outputDir).mkdirs();
         MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
         if (jSeshStyle != null) {
             facade.setStyle(jSeshStyle);
@@ -52,15 +52,17 @@ public class MDCDrawingFacadeIntegrationTest {
         if (cadratHeight != null) {
             facade.setCadratHeight(cadratHeight);
         }
-        try {
-            File outputFile = new File(outputDir, fileName + ".png");
-            BufferedImage img = facade.createImage(mdc);
-            ImageIO.write(img, "png", outputFile);
-            assertTrue(outputFile.exists());
-            System.out.println("Image created : " + img.getWidth() + " x " + img.getHeight());
-        } catch (MDCSyntaxError | IOException e) {
-            e.printStackTrace();
-        }
+        TestPictureFilesHelper.doWithPicturePath(fileName, "png", path -> {
+            try {
+                BufferedImage img = facade.createImage(mdc);
+                ImageIO.write(img, "png", path.toFile());
+                assertTrue(path.toFile().exists());
+                System.out.println("Image created : " + img.getWidth() + " x " + img.getHeight());
+            } catch (MDCSyntaxError | IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     @Test
@@ -102,13 +104,14 @@ public class MDCDrawingFacadeIntegrationTest {
         buildAndSaveImage(mdc, "testAbsolutePlacement", jSeshStyle, 14);
     }
 
-
     /**
-     * This test checks if ligatures inherited from tksesh are correctly rendered by JSesh.
+     * This test checks if ligatures inherited from tksesh are correctly rendered by
+     * JSesh.
+     * 
      * @throws Exception
      */
     @Test
-    public void testTkseshLigatures() throws Exception {        
+    public void testTkseshLigatures() throws Exception {
         String mdc = """
                 +bLigatures defined in Tksesh+s-!
                 M17&M17__-!
@@ -137,6 +140,7 @@ public class MDCDrawingFacadeIntegrationTest {
                 G26&X1&Z4__
                 """;
 
-                buildAndSaveImageWithHeight(mdc, "tksesh_ligatures", 30);
+        buildAndSaveImageWithHeight(mdc, "tksesh_ligatures", 30);
     }
+    
 }

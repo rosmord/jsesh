@@ -29,49 +29,39 @@ public class TestPartialCartoucheDrawingsWithOrientation {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         Object[][] t = {
-            {"lineL2R", TextOrientation.HORIZONTAL, TextDirection.LEFT_TO_RIGHT},
-            {"lineR2l", TextOrientation.HORIZONTAL, TextDirection.RIGHT_TO_LEFT},
-            {"columnL2R", TextOrientation.VERTICAL, TextDirection.LEFT_TO_RIGHT},
-            {"columnR2l", TextOrientation.VERTICAL, TextDirection.RIGHT_TO_LEFT}
+                { "lineL2R", TextOrientation.HORIZONTAL, TextDirection.LEFT_TO_RIGHT },
+                { "lineR2l", TextOrientation.HORIZONTAL, TextDirection.RIGHT_TO_LEFT },
+                { "columnL2R", TextOrientation.VERTICAL, TextDirection.LEFT_TO_RIGHT },
+                { "columnR2l", TextOrientation.VERTICAL, TextDirection.RIGHT_TO_LEFT }
         };
         return Arrays.asList(t);
     }
 
-    private final String testName;
+    private final String pictureName;
     private final TextOrientation orientation;
     private final TextDirection direction;
 
     /**
      * Initialize the test.
      *
-     * @param testName the test name (used as file name for the output).
+     * @param pictureName    the test name (used as file name for the output).
      * @param orientation
      * @param direction
      */
-    public TestPartialCartoucheDrawingsWithOrientation(String testName, TextOrientation orientation, TextDirection direction) {
-        this.testName = testName;
+    public TestPartialCartoucheDrawingsWithOrientation(String pictureName, TextOrientation orientation,
+            TextDirection direction) {
+        this.pictureName = pictureName;
         this.orientation = orientation;
         this.direction = direction;
-        getPictureFolder().mkdirs();
     }
 
     @Test
     public void testPartialCartouchesInLines() throws MDCSyntaxError, IOException {
-        String partial = "<1--0>-ra-mn:n-xpr-<0--2>";
-        MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
-        JSeshStyle style = JSeshStyle.DEFAULT.copy().options(o -> o.textDirection(direction).textOrientation(orientation)
-        ).build();
-        facade.setStyle(style);
-        BufferedImage image = facade.createImage(partial);
-        ImageIO.write(image, "png", getFile(testName));
+        String mdc = "<1--0>-ra-mn:n-xpr-<0--2>";
+        JSeshStyle style = JSeshStyle.DEFAULT.copy()
+                .options(o -> o.textDirection(direction).textOrientation(orientation)).build();
+
+        TestPictureFilesHelper.drawInPicture(mdc, pictureName, style);
     }
 
-    private static File getPictureFolder() {
-        return new File(new File("target"), "testPictures");
-    }
-
-    private static File getFile(String endOfFileName) {
-        String fileName = "jsesh.mdcDisplayer.draw." + "partialCartouche" + endOfFileName + ".png";
-        return new File(getPictureFolder(), fileName);
-    }
 }
