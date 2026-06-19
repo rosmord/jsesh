@@ -20681,7 +20681,14 @@ E31-+l and +s-E31B-!
   <sign alwaysDisplay="y" sign="G21">
     <hasTransliteration sign="G21" transliteration="nH" type="phonogram" use="keyboard"/>
     <hasTag sign="G21" tag="guinea-fowl"/>
-    <signDescription lang="en" sign="G21">+bBibliography+s-!
+    <signDescription lang="en" sign="G21">+lsennar guinea fowl+s-!
++bValue +s-+tnH+s-!
++lBeaux, +s-+io.c. +s-+lgives lots of examples of the sign from the pyramid of Wenis and the white chapel. The rendering+s-!
++lis very variable, with and without crest and with and without wattle. The actual wattle in the fowl is much smaller, placed+s-!
++lon the sides of the beak, but the egyptian rendering of wattles is usually a) exagerated and b) placed much lower than on the +s-!
++lreal animal.+s-!
++bBibliography+s-!
++lBeaux, Nathalie. 2004. ‘La Pintade, Le Soleil et l’éternité. À Propos Du Signe [+s-nH-+l] (G 21)’. +s-+iBIFAO+s-+l 104: 21–38. +s-!
 +lN. M. Davies, "Some Notes on the nḥ-Bird", +s-+iJEA +s-+l 26, pp. 79-81+s-!
 +lL. Keimer, "sur l'identification de l'hiéroglyphe +s-+tnH +s-nH-+l", +s-+iASAE +s-+l38, p. 253-263.+s-!
 +lR. Meffre, "Un nouveau nom d'Horus d'or de Sheshonq Ier sur le bloc Caire JE 39410", +s-+iBIFAO +s-+l110, 221-233+s-!
@@ -25512,6 +25519,9 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   <sign sign="M22A">
     <hasTag sign="M22A" tag="rush"/>
   </sign>
+  <sign sign="M22B">
+    <hasTransliteration sign="M22B" transliteration="nn" type="phonogram" use="keyboard"/>
+  </sign>
   <sign alwaysDisplay="y" sign="M23">
     <hasTransliteration sign="M23" transliteration="sw" type="phonogram" use="keyboard"/>
     <hasTag sign="M23" tag="rush"/>
@@ -27405,6 +27415,23 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <hasTransliteration sign="N38" transliteration="S" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="N38" transliteration="sn" type="phonogram" use="keyboard"/>
     <hasTag sign="N38" tag="pool"/>
+    <signDescription lang="en" sign="N38"/>
+    <signDescription lang="en" sign="N38">+lGarden pool with sloping sides.+s-!
++laccording to Gardiner, detailled example of N37 +s-S-+l.+s-!
++laccording to Meeks, o.c. originally a sign different from N37, which merges with N37 from the XIth dynasty onwards.+s-!
++lit would then represent a +s-+icanal drained to allow it to be dredged.+s-!
++bValues+s-!
++las a variant of N37, phon. +s-+tS.+s-!
++lin the Old Kingdom, it stands for +s-+tgrg.t, +s-+isettlement, +s-+tsTA.t, +s-+iaroura, +s-+lor rarely +s-+tspA.t, +s-+inome. +s-+l(Fischer, o.c.)+s-!
++lUrk. I, 2, 9: +s-di-n:f-A-H-t:N17-N38:10*10*10*10*10-sTA:E15{{15,0,98}}**100\R321{{0,295,55}}-n-t^^^mwt-n:nb-b-s-n:t-B1-!
++lConsider the original shape of the +s-+tgrg +s-+lsign U17/U18: +s-U18-!
+!
++bBibliography+s-!
++lG. +s-+iEG. +s-+lp. 491+s-!
++lMeeks, +s-+iPal. Hiero I,+s-+l p. 143, § 387+s-!
++lFischer, Henry George. 1991. ‘An Invocatory Offering Basin of the Old Kingdom’. +s-+iMDAIK+s-+l 47. p. 132+s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="N39">
     <hasTransliteration sign="N39" transliteration="S" type="phonogram" use="keyboard"/>
@@ -32631,6 +32658,7 @@ C159-C190-+l = +s-+tr(s)+s-!
     <hasTransliteration sign="R5" transliteration="kp" type="phonogram" use="keyboard"/>
     <hasTag sign="R5" tag="censer"/>
     <signDescription lang="en" sign="R5">+lCenser for fumigations+s-!
++lPost old-kingdom shape+s-!
 +ldet. or ideog.+s-!
 +lPhon. +s-+tkAp, kp+s-+l.+s-!
 +lIn the NK, often reinterpreted as +s-H32-+l (H32)+s-+l or +s-F118B-+l (F188B)+s-!
@@ -32643,6 +32671,18 @@ C159-C190-+l = +s-+tr(s)+s-!
     <hasTransliteration sign="R6" transliteration="kAp" type="phonogram" use="keyboard"/>
     <hasTransliteration sign="R6" transliteration="kp" type="phonogram" use="keyboard"/>
     <hasTag sign="R6" tag="censer"/>
+    <variantOf baseSign="R5" isSimilar="y" linguistic="full" sign="R6"/>
+    <signDescription lang="en" sign="R6">+lCenser for fumigations+s-!
++lOld kingdom shape+s-!
++lsource for sign in Gardiner font, +s-+iTi mastaba, +s-+l132+s-!
++ldet. or ideog.+s-!
++lPhon. +s-+tkAp, kp+s-+l.+s-!
++le.g. +s-k:A-p:R6-+l, +s-+tkAp, +s-+ifumigate+s-!
++lIn the NK, often reinterpreted as +s-H32-+l (H32)+s-+l or +s-F118B-+l (F188B)+s-!
++bBibliography+s-!
++lGardiner, +s-+iEgyptian Grammar, +s-+lp. 501+s-!
++lWB V, 103, 8+s-!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="R7">
     <hasTransliteration sign="R7" transliteration="snTr" type="phonogram" use="keyboard"/>
@@ -32689,6 +32729,7 @@ C159-C190-+l = +s-+tr(s)+s-!
     <hasTag sign="R8A" tag="group of same sign"/>
     <variantOf baseSign="R8" isSimilar="y" linguistic="unspecified" sign="R8A"/>
     <contains partCode="R8" sign="R8A"/>
+    <hasTransliteration sign="R8A" transliteration="nTrw" type="ideogram" use="keyboard"/>
   </sign>
   <sign alwaysDisplay="y" sign="R9">
     <hasTransliteration sign="R9" transliteration="bd" type="phonogram" use="keyboard"/>
@@ -34125,6 +34166,17 @@ C159-C190-+l = +s-+tr(s)+s-!
     <contains partCode="V12" sign="S46"/>
     <hasTransliteration sign="S46" transliteration="arq-nsw" type="phonogram" use="palette"/>
     <variantOf baseSign="V12" isSimilar="y" linguistic="unspecified" sign="S46"/>
+    <hasTransliteration sign="S46" transliteration="arq-insw" type="phonogram" use="palette"/>
+    <signDescription lang="en" sign="S46">+lPriestly title, +s-+tarq-insw, +s-+lappearing notably in what is perhaps the specific title of a Leontopolitan+s-!
++lpriest: +s-+tHm bAst.t arq-insw.+s-!
++lHowever, the title is known in many parts of the country (see Yoyotte, o.c. p. 184-195, n.8)+s-!
++lThe reading of the title has been established by Mme. Guentch-Ogloueff Doresse, according to+s-!
++lYoyotte, +s-+io.c. +s-+lI have been unable to find her publication of Louvre E. 18834.+s-!
++bBibliographie+s-!
++lYoyotte, Jean. 1953. ‘La Ville de « Taremou » (Tell El-Muqdâm)’. +s-+iBIFAO+s-+l 52: 179–92.+s-!
++lnotably: +s-!
++lp. 179, n. 2+s-!
++lp. 184, n. 8+s</signDescription>
   </sign>
   <sign sign="S47">
     <hasTag sign="S47" tag="crown"/>
