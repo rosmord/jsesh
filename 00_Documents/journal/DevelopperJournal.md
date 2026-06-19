@@ -266,6 +266,13 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/19
+
+- [ ] ensure `nn` and `nTrw` are correctly processed as phonetic codes for `M22B` and `R8A` respectively. 
+- [ ] move `FileButtonMapper` to static method style.
+- [ ] make `HieroglyphShapeRepositories` observable.
+
+
 ### 2026/06/18
 
 - added descriptions to gradle files
@@ -276,7 +283,6 @@ List of classes which need some cleanup:
 
 Added file [[gradle-migration]] about the gradle migration built by **kyaneticblue**.
 
-- [ ] move `FileButtonMapper` to static method style.
 - [ ] deal with deprecation in `BundledActionFiller` (later)
 - moved to gradle (done)
 - still need to integrate the replacement of `prepareJSeshRelease` by gradle code
