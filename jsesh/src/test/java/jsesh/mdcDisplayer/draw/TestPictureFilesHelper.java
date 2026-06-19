@@ -7,7 +7,6 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Test;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.MDCSyntaxError;

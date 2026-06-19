@@ -1,6 +1,9 @@
 package jsesh.hieroglyphs.signshape;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,7 +12,7 @@ import java.net.URL;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.helpers.DefaultHandler;
 
 import jsesh.swing.signimportdialog.model.SVGSignSource;
@@ -29,11 +32,11 @@ public class ShapeCharSVGRoundTripTest {
     /** Load quail.svg from test resources and return a ShapeChar. */
     private ShapeChar loadQuail() throws Exception {
         URL url = getClass().getResource(QUAIL_SVG);
-        assertNotNull("quail.svg not found in test resources", url);
+        assertNotNull(url, "quail.svg not found in test resources");
         SVGSignSource src = new SVGSignSource(url);
         src.next();
         ShapeChar shape = src.getCurrentShape();
-        assertNotNull("SVGSignSource failed to parse quail.svg", shape);
+        assertNotNull(shape, "SVGSignSource failed to parse quail.svg");
         return shape;
     }
 
@@ -82,20 +85,20 @@ public class ShapeCharSVGRoundTripTest {
         reRead.next();
         ShapeChar roundTripped = reRead.getCurrentShape();
 
-        assertNotNull("Re-read ShapeChar is null", roundTripped);
-        assertNotNull("Re-read ShapeChar has no bounding box", roundTripped.getBbox());
+        assertNotNull(roundTripped, "Re-read ShapeChar is null");
+        assertNotNull(roundTripped.getBbox(), "Re-read ShapeChar has no bounding box");
 
         // The error placeholder is exactly 14×14; the real sign should be larger.
         double h = roundTripped.getBbox().getHeight();
         assertTrue(
-            "Re-read sign looks like the error placeholder (height=" + h
-                + "). exportToSVG likely produced malformed XML.",
-            h > 14.01
-        );
+                h > 14.01,
+                "Re-read sign looks like the error placeholder (height=" + h
+                        + "). exportToSVG likely produced malformed XML.");
 
         // Shape must have some content
-        assertNotNull("Re-read ShapeChar has no shape", roundTripped.getShape());
-        assertFalse("Re-read shape is empty",
-            roundTripped.getShape().getBounds2D().isEmpty());
+        assertNotNull(roundTripped.getShape(), "Re-read ShapeChar has no shape");
+        assertFalse(
+                roundTripped.getShape().getBounds2D().isEmpty(),
+                "Re-read shape is empty");
     }
 }

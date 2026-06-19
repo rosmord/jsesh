@@ -266,69 +266,21 @@ List of classes which need some cleanup:
 
 ## Daily log
 
-
-1. **Verify `nn` / `nTrw` tests** — confirm the tests added on 06/12 (`R8A` / `M22B`) still pass after the 06/18 refactor that removed the special-case handling. Run `./gradlew test` and check the relevant test class. Quick sanity-check, ~15 min.
-
-2. **`FileButtonMapper` → static methods** — straightforward refactor, no dependencies change. Eliminates an unnecessary instance. ~30 min.
-
-3. **Begin `HieroglyphShapeRepository` observable** — this is the *Next pending step* at the top of the journal and is also listed as `❗️` mandatory. Start by:
-   - Adding a listener interface (e.g. `HieroglyphShapeRepositoryListener` with a single `repositoryChanged()` method).
-   - Adding `addListener` / `removeListener` to the `HieroglyphShapeRepository` interface (or a new sub-interface `ObservableHieroglyphShapeRepository`).
-   - Implementing it in `JSeshFullHieroglyphShapeRepository` (the concrete class that holds the font folder).
-   - Wiring up `JSeshApplicationModel.setFontInfo` to fire the event instead of iterating views manually.
-   - Watch for memory leaks: use `WeakReference`-based listener lists or ensure explicit deregistration.
-
----
-
-## Tuesday 2026/06/23
-
-- **Complete the observable wiring** — make `JMDCEditor` and any other sign-rendering components register as listeners. Test by changing the font folder in preferences and verifying all open windows refresh without a click.
-- **Replace `prepareJSeshRelease` Maven mojo with Gradle task** — noted as still pending on 06/17. The deleted files (`prepareJSeshRelease/build.gradle.kts`, `PrepareFontsMojo.java`) show this is in progress; finish moving font-indexing logic to a Gradle task in `buildSrc` or a dedicated module.
-
----
-
-## Wednesday 2026/06/24
-
-- **Debug and test `SignInfoEditor`** — listed in Test TODO. Start the editor in both expert and user mode, verify sign import, variant/part-of code assignment, and SVG import (black-square bug was fixed 06/08 but worth a smoke test).
-- **🍰 Rename `HieroglyphDatabaseInterface` → `HieroglyphDatabase`** and `SimpleHieroglyphDatabase` → `DefaultHieroglyphDatabase` — low-risk renames flagged as `❗️`, compilable in one pass.
-
----
-
-## Thursday 2026/06/25
-
-- **`HieroglyphCode` / canonicalization** — the journal describes the plan: introduce a `HieroglyphCode` value class with a `ConcurrentHashMap` cache; move canonicalization out of each `HieroglyphShapeRepository` implementation. The journal says "don't do this right now" but with the observable work done, this becomes the natural next step.
-- **Rename `JSeshFontKit` → `HieroglyphCompendium`** (and `HieroglyphDatabase` → `HieroglyphSignLexicon` if decided). These renames are listed as `❗️❗️` and touch many files — do as a single IDE rename-refactor pass.
-
----
-
-## Friday 2026/06/27
-
-- **Documentation** — "write documentation about using JSesh as a library with and without user-defined signs" (mandatory TODO). Now that the font/observable architecture is stable, write the doc while the design is fresh.
-- **Arabic localization — step 1** — allow locale change from user preferences (with restart). Add locale selector to the preferences dialog; wire it to `Locale.setDefault` and save to Java prefs. The actual Arabic files come in step 2 (next week).
-
-
----
-
-### next week todo
-
-- [ ] Tue: Finish observable wiring + replace the deleted prepareJSeshRelease Maven mojo with a Gradle task (still pending from 06/17)
-- [ ] Wed: SignInfo editor smoke test + safe rename of HieroglyphDatabaseInterface/SimpleHieroglyphDatabase
-- [ ] Thu: HieroglyphCode canonicalization value class + the bigger JSeshFontKit rename
-- [ ] Fri: Library usage documentation + Arabic localization step 1 (locale preference UI)
-
-The observable repository is the thread connecting most of this week — once it's solid, the renaming/documentation work builds on a stable foundation.
-
-- [ ] add tests
-
 ### 2026/06/19
 
-- [ ] ensure `nn` and `nTrw` are correctly processed as phonetic codes for `M22B` and `R8A` respectively. 
+- [x] ensure `nn` and `nTrw` are correctly processed as phonetic codes for `M22B` and `R8A` respectively. 
+- [x] checked it's the case for the legacy fonts.
+- [x] moved to Junit 5 for tests.
+- [ ] check import in various IDE
+  - [ ] VSCode (ok, it's the one I use).
+  - [ ] Netbeans
+  - [ ] Eclipse
+  - [ ] IntelliJ
+
 - [ ] move `FileButtonMapper` to static method style.
 - [ ] make `HieroglyphShapeRepositories` observable.
 Here's the summary of what I found and recommended:
 
-
-- [ ] Quick sanity check (~15 min): Run ./gradlew test to confirm the nn/nTrw → M22B/R8A tests still pass after yesterday's refactor that removed the special-case handling.
 
 - [ ] FileButtonMapper refactor (~30 min): Convert to static methods — a self-contained cleanup with no architectural ripple.
 
@@ -341,6 +293,7 @@ Here's the summary of what I found and recommended:
 - added descriptions to gradle files
 - simplified the `jseshGlyphs` module
 - removed `nn` and `nTrw` as special cases. The codes are now processed just like any other phonetic code.
+- removed the need for `prepareJSeshRelease`.
   
 ### 2026/06/17
 
@@ -348,7 +301,7 @@ Added file [[gradle-migration]] about the gradle migration built by **kyaneticbl
 
 - [ ] deal with deprecation in `BundledActionFiller` (later)
 - moved to gradle (done)
-- still need to integrate the replacement of `prepareJSeshRelease` by gradle code
+- ~~~still need to integrate the replacement of `prepareJSeshRelease` by gradle code~~~
 - [x] try to remove **nanoXML** which is probably not used (removed everything linked to xml in this jhotdraw fork).
 - [x] 🍰 added generic type parameters to all raw collections in `cupAndlex/src/main/java/JLex/Main.java`:
   - `CSpec`: `Hashtable<String,Integer> m_states`, `Hashtable<String,String> m_macros`, `Vector<CNfa> m_nfa_states`, `Vector<CNfa>[] m_state_rules`, `Vector<CDfa> m_dfa_states`, `Hashtable<SparseBitSet,CDfa> m_dfa_sets`, `Vector<CAccept> m_accept_vector`, `Vector<CDTrans> m_dtrans_vector`

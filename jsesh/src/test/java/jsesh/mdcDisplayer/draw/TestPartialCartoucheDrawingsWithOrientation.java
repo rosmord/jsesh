@@ -1,67 +1,47 @@
 package jsesh.mdcDisplayer.draw;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import javax.imageio.ImageIO;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.FieldSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 /**
  *
  * @author rosmord
  */
-@RunWith(Parameterized.class)
 /**
  * Check an bug found by O. Goelet : when a partial cartouche is used in a
  * column, there is a NullPointerException.
  */
 public class TestPartialCartoucheDrawingsWithOrientation {
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> data() {
-        Object[][] t = {
-                { "lineL2R", TextOrientation.HORIZONTAL, TextDirection.LEFT_TO_RIGHT },
-                { "lineR2l", TextOrientation.HORIZONTAL, TextDirection.RIGHT_TO_LEFT },
-                { "columnL2R", TextOrientation.VERTICAL, TextDirection.LEFT_TO_RIGHT },
-                { "columnR2l", TextOrientation.VERTICAL, TextDirection.RIGHT_TO_LEFT }
-        };
-        return Arrays.asList(t);
-    }
+    private record TestArgs(String pictureName, TextOrientation orientation, TextDirection direction) {
+    };
 
-    private final String pictureName;
-    private final TextOrientation orientation;
-    private final TextDirection direction;
+    public static Collection<TestArgs> testArgs = List.of(
+            new TestArgs("lineL2R", TextOrientation.HORIZONTAL, TextDirection.LEFT_TO_RIGHT),
+            new TestArgs("lineR2l", TextOrientation.HORIZONTAL, TextDirection.RIGHT_TO_LEFT),
+            new TestArgs("columnL2R", TextOrientation.VERTICAL, TextDirection.LEFT_TO_RIGHT),
+            new TestArgs("columnR2l", TextOrientation.VERTICAL, TextDirection.RIGHT_TO_LEFT));
 
-    /**
-     * Initialize the test.
-     *
-     * @param pictureName    the test name (used as file name for the output).
-     * @param orientation
-     * @param direction
-     */
-    public TestPartialCartoucheDrawingsWithOrientation(String pictureName, TextOrientation orientation,
-            TextDirection direction) {
-        this.pictureName = pictureName;
-        this.orientation = orientation;
-        this.direction = direction;
-    }
-
-    @Test
-    public void testPartialCartouchesInLines() throws MDCSyntaxError, IOException {
+    @ParameterizedTest
+    @FieldSource("testArgs")
+    public void testPartialCartouchesInLines(TestArgs args) throws MDCSyntaxError, IOException {
         String mdc = "<1--0>-ra-mn:n-xpr-<0--2>";
         JSeshStyle style = JSeshStyle.DEFAULT.copy()
-                .options(o -> o.textDirection(direction).textOrientation(orientation)).build();
+                .options(o -> o.textDirection(args.direction()).textOrientation(args.orientation())).build();
 
-        TestPictureFilesHelper.drawInPicture(mdc, pictureName, style);
+        TestPictureFilesHelper.drawInPicture(mdc, args.pictureName(), style);
     }
 
 }

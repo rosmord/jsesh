@@ -1,16 +1,14 @@
 package jsesh.mdcDisplayer.draw;
 
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.mdc.MDCSyntaxError;

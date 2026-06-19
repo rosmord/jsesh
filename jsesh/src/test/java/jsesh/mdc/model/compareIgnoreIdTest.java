@@ -34,10 +34,11 @@
  */
 package jsesh.mdc.model;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
@@ -62,11 +63,11 @@ public class compareIgnoreIdTest {
         TopItemList top1 = build(mdc1);
         TopItemList top2 = build(mdc2);
         if (expected) {
-            String text = mdc1 + " ~= " + mdc2;
-            assertTrue(text, top1.equalsIgnoreId(top2));
+            String message = mdc1 + " ~= " + mdc2;
+            assertTrue(top1.equalsIgnoreId(top2), message);
         } else {
-            String text = mdc1 + " =/= " + mdc2;
-            assertFalse(text, top1.equalsIgnoreId(top2));
+            String message = mdc1 + " =/= " + mdc2;
+            assertFalse(top1.equalsIgnoreId(top2), message);
         }
 
     }

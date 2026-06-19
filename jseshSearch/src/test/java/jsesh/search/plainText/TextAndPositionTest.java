@@ -10,11 +10,14 @@
  */
 package jsesh.search.plainText;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Before;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 /**
  *
@@ -24,7 +27,7 @@ public class TextAndPositionTest {
 
     TextAndPosition textAndPosition;
 
-    @Before
+    @BeforeEach    
     public void prepare() {
         textAndPosition = TextAndPosition.builder(10).
                 add("abcde").add("fg").add("hi").build();

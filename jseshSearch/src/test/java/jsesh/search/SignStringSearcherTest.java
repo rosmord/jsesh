@@ -10,9 +10,13 @@
  */
 package jsesh.search;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphToolkit;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
@@ -21,8 +25,6 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.search.simple.SignStringSearchQuery;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test of searches for sequences of signs.
@@ -55,7 +57,7 @@ public class SignStringSearcherTest {
                 = Arrays.asList(expected).stream()
                         .map(pos -> new MDCPosition(text, pos))
                         .collect(Collectors.toList());
-        assertEquals(message, expectedResult, actualResult);
+        assertEquals(expectedResult, actualResult, message);
     }
 
     @Test

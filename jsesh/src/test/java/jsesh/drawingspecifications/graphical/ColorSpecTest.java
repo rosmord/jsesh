@@ -1,11 +1,12 @@
 package jsesh.drawingspecifications.graphical;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 import java.util.HashMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import jsesh.drawingspecifications.PaintingSpecifications;
 import jsesh.drawingspecifications.ShadingMode;
@@ -16,8 +17,9 @@ public class ColorSpecTest {
     public void testImmutabilityA() {
         // Check that the color map is unmodifiable.
         HashMap<String, Color> map = new HashMap<>();
-        PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE,
-            ShadingMode.GRAY_SHADING,
+        PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY,
+                Color.WHITE,
+                ShadingMode.GRAY_SHADING,
                 map);
 
         map.put("yellow", Color.YELLOW);
@@ -25,14 +27,19 @@ public class ColorSpecTest {
         // TODO : move to JUnit 5
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testImmutabilityB() {
-        // Check that the color map is unmodifiable.
-        HashMap<String, Color> map = new HashMap<>();
-        map.put("yellow", Color.YELLOW);
-        PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE, Color.LIGHT_GRAY, Color.WHITE, ShadingMode.GRAY_SHADING,
-                map);
+        assertThrows(UnsupportedOperationException.class,
+                () -> {
+                    // Check that the color map is unmodifiable.
+                    HashMap<String, Color> map = new HashMap<>();
+                    map.put("yellow", Color.YELLOW);
+                    PaintingSpecifications s = new PaintingSpecifications(Color.BLACK, Color.RED, Color.BLUE,
+                            Color.LIGHT_GRAY, Color.WHITE, ShadingMode.GRAY_SHADING,
+                            map);
 
-        s.colorMap().put("green", Color.GREEN);       
+                    s.colorMap().put("green", Color.GREEN);
+                });
+
     }
 }
