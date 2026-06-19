@@ -38,6 +38,11 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+// Don't forget this one !!
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 
 publishing {
     publications.create<MavenPublication>("maven") {
