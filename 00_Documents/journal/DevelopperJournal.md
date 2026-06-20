@@ -266,6 +266,14 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026/06/20
+
+- created a branch (not pushed) to use an AST (Abstract Syntax Tree) for MDC parsing, separated from the editing model, and do away with the convoluted (and useless) use of interfaces for the builder.
+
+- small cleanup.
+
+
+
 ### 2026/06/19
 
 - [ ] **TODO** ? move back to gradle/groovy. Gradle Kotlin is a pain without IDE support - and I don't want to depend on IntelliJ.

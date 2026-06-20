@@ -1,8 +1,9 @@
-description = "JSesh extended glyphs library."
-
 plugins {
     id("jsesh.java-conventions")
 }
+
+description = "JSesh extended glyphs library."
+
 
 
 // Secondary task to create a list of glyphs.
