@@ -111,18 +111,18 @@ public class SimpleApplicationFactory {
 		actionCatalogue.addActionList(actionListRessourceName);
 	}
 
-	/**
-	 * Add a list of actions to create.
-	 * <p>
-	 * precondition: an action delegate must be set as well as action
-	 * descriptions.
-	 * 
-	 * @param stream
-	 * @throws IOException
-	 */
-	private void addActionList(InputStream stream) throws IOException {
-		actionCatalogue.addActionList(stream);
-	}
+	// /**
+	//  * Add a list of actions to create.
+	//  * <p>
+	//  * precondition: an action delegate must be set as well as action
+	//  * descriptions.
+	//  * 
+	//  * @param stream
+	//  * @throws IOException
+	//  */
+	//private void addActionList(InputStream stream) throws IOException {
+	//	actionCatalogue.addActionList(stream);
+	//}
 
 	/**
 	 * Returns a copy of the catalog of actions (indexed by action ids) as  map.

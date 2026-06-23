@@ -266,6 +266,30 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+## 2026-06-23
+
+###  Problem with gradle build
+
+The *cup* and *lex* tasks were running randomly when we ran `./gradlew build`, even when nothing had changed.
+In fact, it was due to alternating between command line build and IDE build. The system recognized changes in the environment, and re-ran the `buildSrc` construction.
+
+## 2026-06-22
+
+- started working on the problem of observable fonts.
+
+- In Swing components, prefer the use of `addNotify()` and `removeNotify()` to register and unregister listeners, rather than doing it in the constructor and in a `dispose()` method. 
+
+- hand made test :
+  - when changing the hieroglyphic font:
+    - the editor is correctly updated;
+    - the JMDCFields are correctly updated;
+    - so is the hieroglyphic palette;
+    - the "Gardiner" menu is not updated (it's made of icons, which are not recomputed) ;
+    - the texts in the glossary are built **once**, using the current font, and then kept as icons.
+- problem: the lex and cup tasks run every time we run `./gradlew build`. Needs fixing.
+
+- **todo** : remove the frame in `JGlossaryEditor`. It should not be there.
+  
 ### 2026/06/20
 
 - created a branch (not pushed) to use an AST (Abstract Syntax Tree) for MDC parsing, separated from the editing model, and do away with the convoluted (and useless) use of interfaces for the builder.
