@@ -116,4 +116,11 @@ public class MDCIconFactory {
      * Options for icon creation.
      */
     public static record IconOption() {}
+
+    /**
+     * Clear the cache of icons.
+     */
+    public void clearCache() {
+        iconMap.clear();
+    }
 }

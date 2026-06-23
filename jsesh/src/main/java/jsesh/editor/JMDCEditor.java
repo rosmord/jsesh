@@ -1005,6 +1005,8 @@ public class JMDCEditor extends JPanel {
         super.removeNotify();
     }
 
+   
+
     /**
      * Draw quadrat limits for debugging purposes.
      * @param drawLimits true if we want to draw the quadrats limits, false otherwise.

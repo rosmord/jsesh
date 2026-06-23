@@ -7,7 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Actual implementation to use for {@link ObservableEventPublisher}. 
  * 
- * Typically, this will be a private instance variable of the observable object, which will delegate to it the management of events.
+ * Typically, this will be a private instance variable of the observable object, 
+ * which will delegate to it the management of events.
+ * 
+ * <p> It can run outside of the Swing Event Dispatch Thread, 
+ * but listeners should take care of calling SwingUtilities.invokeLater() 
+ * if they need to update Swing components.
  * 
  */
 public class ObservableEventSupport<EVENT> {

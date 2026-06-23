@@ -36,6 +36,7 @@ package jsesh.glossary;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,11 +44,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.defaults.HieroglyphToolkit;
 import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.editor.JMDCEditor;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.renderers.MdCTableCellRenderer;
 import jsesh.swing.utils.MDCIconFactory;
@@ -55,10 +62,15 @@ import jsesh.swing.utils.MDCIconFactory;
 /**
  * Graphical glossary editor for JSesh.
  * 
+ * This class breaks my presenter/view principles, but is short enough to be
+ * acceptable.
+ * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 @SuppressWarnings("serial")
 public class JGlossaryEditor extends JPanel {
+
+	private static final Logger LOGGER = Logger.getLogger(JGlossaryEditor.class.getName());
 
 	/**
 	 * Optional JFrame, if we want to create a separate editor.
@@ -71,6 +83,11 @@ public class JGlossaryEditor extends JPanel {
 	private JButton okButton;
 	private GlossaryTableModel model;
 	private MDCIconFactory mdcIconFactory;
+
+	private HieroglyphShapeRepository shapeRepository;
+
+	private ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener = (
+			evt) -> SwingUtilities.invokeLater(() -> repositoryChanged());			
 
 	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyle jSeshStyle,
 			HieroglyphToolkit hieroglyphToolKit) {
@@ -85,6 +102,7 @@ public class JGlossaryEditor extends JPanel {
 
 		table = new JTable(model);
 		table.setTableHeader(null);
+		this.shapeRepository = hieroglyphToolKit.hieroglyphShapeRepository();
 
 		mdcIconFactory = new MDCIconFactory(hieroglyphToolKit.hieroglyphShapeRepository());
 
@@ -95,6 +113,8 @@ public class JGlossaryEditor extends JPanel {
 		okButton.addActionListener(e -> addEntry());
 		prepareLayout();
 	}
+
+	
 
 	private void fixTable() {
 		table.getColumnModel().getColumn(1)
@@ -163,6 +183,22 @@ public class JGlossaryEditor extends JPanel {
 		return frame;
 	}
 
+	@Override
+	public void addNotify() {
+		super.addNotify();
+		LOGGER.info("Calling addNotify on JGlossaryEditor");
+		shapeRepository.addListener(shapeRepositoryListener);
+
+	}
+
+	@Override
+	public void removeNotify() {
+		LOGGER.info("Calling removeNotify on JGlossaryEditor");
+		shapeRepository.removeListener(shapeRepositoryListener);
+		super.removeNotify();
+	}
+	
+
 	public boolean isVisible() {
 		return getFrame().isVisible();
 	}
@@ -170,5 +206,12 @@ public class JGlossaryEditor extends JPanel {
 	public void setVisible(boolean visible) {
 		getFrame().setVisible(visible);
 	}
+
+	private void repositoryChanged() {
+		// Force table redrawing.
+		mdcIconFactory.clearCache();
+		// Force table redrawing...
+		model.fireTableDataChanged();
+	};
 
 }
