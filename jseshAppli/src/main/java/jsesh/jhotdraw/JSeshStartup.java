@@ -7,6 +7,7 @@ import java.awt.datatransfer.SystemFlavorMap;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.jhotdraw_7_6.app.Application;
 import org.qenherkhopeshef.guiFramework.AppStartup;
@@ -37,6 +38,11 @@ import net.miginfocom.layout.PlatformDefaults;
  * </ul>
  */
 public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
+    // Logging
+    private static final Logger LOGGER = Logger.getLogger(JSeshStartup.class.getName());
+
+
+
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
@@ -107,14 +113,14 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
             app = new QenherOSXLikeApplication();
             // app= new QenherOSXApplication();
         }
-        System.err.println("getDefaultToolkit().getScreenResolution() :"+ 
+        LOGGER.info(() -> "getDefaultToolkit().getScreenResolution() :"+ 
                 Toolkit.getDefaultToolkit().getScreenResolution());
-        System.err.println("getDefaultToolkit().getScreenSize() : "+ java.awt.Toolkit.getDefaultToolkit().getScreenSize());
-        System.err.println("PlatformDefaults.getHorizontalScaleFactor(): "
-        +PlatformDefaults.getHorizontalScaleFactor());
-        System.err.println("PlatformDefaults.getVerticalScaleFactor(): "+
+        LOGGER.info(() -> "getDefaultToolkit().getScreenSize() : "+ java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+        LOGGER.info(() -> "PlatformDefaults.getHorizontalScaleFactor(): "
+        + PlatformDefaults.getHorizontalScaleFactor());
+        LOGGER.info(() -> "PlatformDefaults.getVerticalScaleFactor(): "+
                  PlatformDefaults.getVerticalScaleFactor());
-        System.err.println("PlatformDefaults.getDefaultDPI "+ PlatformDefaults.getDefaultDPI());       
+        LOGGER.info(() -> "PlatformDefaults.getDefaultDPI "+ PlatformDefaults.getDefaultDPI());       
         app.setModel(applicationModel);
         app.launch(args);
     }
@@ -122,9 +128,10 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     public void main(String[] args) throws InterruptedException,
             InvocationTargetException,
             ClassNotFoundException {
-         ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
+        ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
                 .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
         this.args = args;
+        // Print the current path (just to be sure we can find the logging.properties file).
         setSplashPicture("/jseshResources/images/splash.png");
         SplashMessageText message = new SplashMessageText(50, 172, "Version "
                 + Version.getVersion());

@@ -36,8 +36,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import org.qenherkhopeshef.swingUtils.lists.ComboboxUtils;
 import org.qenherkhopeshef.swingUtils.lists.DataListItem;
@@ -53,6 +56,7 @@ import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 
@@ -129,6 +133,9 @@ public class PalettePresenter {
      */
     private final HieroglyphShapeRepository hieroglyphicFontManager;
 
+    private final ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener =
+            e -> SwingUtilities.invokeLater(this::updateAccordingToSelectedCategory);
+
     /**
      * Signs already got from the palette, for faster retrieval.
      */
@@ -170,6 +177,11 @@ public class PalettePresenter {
 
         preparePalette();
         loadPalette();
+        hieroglyphicFontManager.addListener(shapeRepositoryListener);
+    }
+
+    public void dispose() {
+        hieroglyphicFontManager.removeListener(shapeRepositoryListener);
     }
 
     // Link the graphic component to its logic.

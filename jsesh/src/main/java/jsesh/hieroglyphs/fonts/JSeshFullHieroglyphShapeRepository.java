@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
+import org.qenherkhopeshef.observable.ObservableEventListener;
+
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
@@ -94,5 +96,15 @@ public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeReposi
 
 	public void insertNewSign(String text, ShapeChar shapeChar) {
 		directoryManager.insertNewSign(text, shapeChar);
+	}
+
+	@Override
+	public void addListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		composite.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		composite.removeListener(listener);
 	}
 }

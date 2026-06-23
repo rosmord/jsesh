@@ -13,6 +13,8 @@ import java.util.TreeMap;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
+import org.qenherkhopeshef.observable.ObservableEventListener;
+import org.qenherkhopeshef.observable.ObservableEventSupport;
 
 /**
  * A font manager which stores the signs as files in a directory. The codes for
@@ -27,16 +29,18 @@ import jsesh.swing.signimportdialog.model.SVGSignSource;
 public class DirectoryHieroglyphShapeRepository implements
 		HieroglyphShapeRepository {
 
-	FolderProxy directory;
+	private final ObservableEventSupport<HieroglyphShapeRepositoryChangedEvent> eventSupport = new ObservableEventSupport<>();
 
-	TreeMap<String, File> codeMap = new TreeMap<String, File>(
+	private FolderProxy directory;
+
+	private TreeMap<String, File> codeMap = new TreeMap<String, File>(
 			GardinerCode.getCodeComparator());
 
-	HashMap<String, ShapeChar> signsMap;
+	private HashMap<String, ShapeChar> signsMap;
 
-	long lastRefreshed;
+	private long lastRefreshed;
 
-	boolean hasNewSigns;
+	private boolean hasNewSigns;
 
 	/**
 	 * Create a directory font manager which will take its data from the given
@@ -139,6 +143,7 @@ public class DirectoryHieroglyphShapeRepository implements
 			e.printStackTrace();
 		}
 		hasNewSigns = true;
+		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
 	}
 
 	public boolean hasNewSigns() {	
@@ -150,6 +155,17 @@ public class DirectoryHieroglyphShapeRepository implements
 	public void setDirectory(File directory) {
 		this.directory = new FolderProxy(directory);
 		refresh();
+		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
+	}
+
+	@Override
+	public void addListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		eventSupport.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		eventSupport.removeListener(listener);
 	}
 
 	/**

@@ -3,10 +3,11 @@ package jsesh.hieroglyphs.fonts;
 
 import jsesh.hieroglyphs.data.HieroglyphCodesSource;
 import jsesh.hieroglyphs.signshape.ShapeChar;
+import org.qenherkhopeshef.observable.ObservableEventListener;
 
 
 /**
- * HieroglyphicFontManager associates glyph shapes with codes.
+ * HieroglyphShapeRepository associates glyph shapes with codes.
  * 
  *
  * <ul>
@@ -69,5 +70,17 @@ public interface HieroglyphShapeRepository extends HieroglyphCodesSource {
 	public static HieroglyphShapeRepository getStandardShapeRepository() {
 		return StandardFontShapeRepository.getInstance();
 	}
-	
+	/**
+	 * Add an event listener for this repository.
+	 * Allows clients to be notified when the repository changes (new signs, etc.)
+	 * @param listener
+	 */
+	default void addListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {}
+
+	/**
+	 * Remove an event listener for this repository.
+	 * @param listener
+	 */
+	default void removeListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {}
+
 }

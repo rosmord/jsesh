@@ -128,7 +128,7 @@ public final class JSeshViewCore {
 
     /**
      * Create a view model.
-     * 
+     *
      * @param fontKit information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
@@ -479,9 +479,6 @@ public final class JSeshViewCore {
         LOGGER.entering(this.getClass().getName(), "setFontInfo", fontInfo);
         JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());
         setJSeshStyle(newStyle);
-        // TODO : ensure that the hieroglyphic font manager is observable.
-        // Hack !!!
-        viewComponent.getEditor().invalidateView();
     }
 
     public void setJustify(boolean selected) {

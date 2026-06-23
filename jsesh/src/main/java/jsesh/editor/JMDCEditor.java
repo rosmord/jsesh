@@ -66,6 +66,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
+import org.qenherkhopeshef.observable.ObservableEventListener;
+
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.HieroglyphToolkit;
@@ -74,6 +76,7 @@ import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
@@ -103,6 +106,8 @@ import jsesh.swing.utils.MDCIconFactory;
  */
 public class JMDCEditor extends JPanel {
 
+    // LOGGER
+    private static final Logger LOGGER = Logger.getLogger(JMDCEditor.class.getName());
     /**
      * Bottom margin of the editor.
      */
@@ -202,6 +207,8 @@ public class JMDCEditor extends JPanel {
      */
     private PropertyChangeListener styleChangeListener = evt -> invalidateView();
 
+    private ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener = evt -> invalidateView();
+
     /**
      * Icon factory for building menus.
      * 
@@ -235,6 +242,7 @@ public class JMDCEditor extends JPanel {
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
            HieroglyphToolkit hieroglyphToolkit) {
+        LOGGER.info(() -> "Creating new JMDCEditor");
         workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
         this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();
         this.setStyleReference(styleReference);
@@ -300,7 +308,10 @@ public class JMDCEditor extends JPanel {
             this.styleReference.removePropertyChangeListener(styleChangeListener);
         }
         this.styleReference = styleReference;
-        this.styleReference.addPropertyChangeListener(styleChangeListener);
+        // Don't register a listener if the component can't be displayed.
+        if (isDisplayable()) {
+            this.styleReference.addPropertyChangeListener(styleChangeListener);
+        }
         invalidateView();
     }
 
@@ -682,7 +693,7 @@ public class JMDCEditor extends JPanel {
         @Override
         public void textEdited(ModelOperation op) {
             op.accept(viewUpdater);
-            Logger.getLogger(CLASS_FULL_NAME).fine("Text edited");
+            LOGGER.fine(() -> "Text edited");
             caretChanged = true;
             // FIXME : only call revalidate if the dimensions have changed.
             revalidate();
@@ -691,13 +702,13 @@ public class JMDCEditor extends JPanel {
 
         @Override
         public void textChanged() {
-            Logger.getLogger(CLASS_FULL_NAME).fine("Text changed");
+            LOGGER.fine(()->"Text changed");
             invalidateView();
         }
 
         @Override
         public void caretChanged(MDCCaret caret) {
-            Logger.getLogger(CLASS_FULL_NAME).fine("Caret changed");
+            LOGGER.fine(()->"Caret changed");
             caretChanged = true;
             repaint();
         }
@@ -955,12 +966,13 @@ public class JMDCEditor extends JPanel {
     }
 
     /**
-     * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * Lifecycle method to ensure internal observers don't create
      * memory leaks.
      * 
      */
     @Override
     public void addNotify() {
+        LOGGER.info(() -> "Calling addNotify on component " + this);
         super.addNotify();
         // Re-register listeners
         if (styleReference != null) {
@@ -968,6 +980,10 @@ public class JMDCEditor extends JPanel {
             // JSeshStyleReference doesn't create duplicates
             // so we don't need to check if the listener is already registered.
             styleReference.addPropertyChangeListener(styleChangeListener);
+        }
+        if (hieroglyphShapeRepository != null) {
+            LOGGER.info(() -> "registering listener " + this);
+            hieroglyphShapeRepository.addListener(shapeRepositoryListener);
         }
     }
 
@@ -977,9 +993,14 @@ public class JMDCEditor extends JPanel {
      */
     @Override
     public void removeNotify() {
+        LOGGER.info("Calling removeNotify on component " + this);
         // Unregister listeners
         if (styleReference != null) {
             styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        if (hieroglyphShapeRepository != null) {
+            LOGGER.info(() -> "unregistering listener " + this);
+            hieroglyphShapeRepository.removeListener(shapeRepositoryListener);
         }
         super.removeNotify();
     }

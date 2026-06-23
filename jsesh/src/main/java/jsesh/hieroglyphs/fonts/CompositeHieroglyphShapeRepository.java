@@ -8,6 +8,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import jsesh.hieroglyphs.signshape.ShapeChar;
+import org.qenherkhopeshef.observable.ObservableEventListener;
+import org.qenherkhopeshef.observable.ObservableEventSupport;
 
 /**
  * A font managers that delegates its jobs to a list of other font managers.
@@ -23,6 +25,9 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 
 	SortedSet<String> codes;
 
+	private final ObservableEventSupport<HieroglyphShapeRepositoryChangedEvent> eventSupport = new ObservableEventSupport<>();
+	private final ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> childListener = e -> eventSupport.fireEvent(e);
+
 	public CompositeHieroglyphShapeRepository() {
 		managers = new ArrayList<HieroglyphShapeRepository>();
 		codes = null;
@@ -30,6 +35,18 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 
 	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
 		managers.add(manager);
+		manager.addListener(childListener);
+		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
+	}
+
+	@Override
+	public void addListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		eventSupport.addListener(listener);
+	}
+
+	@Override
+	public void removeListener(ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> listener) {
+		eventSupport.removeListener(listener);
 	}
 
 	public ShapeChar get(String code) {

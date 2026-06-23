@@ -97,6 +97,8 @@ import jsesh.utils.JSeshWorkingDirectory;
 @SuppressWarnings("serial")
 public class JSeshView extends AbstractView {
 
+    private static final java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(JSeshView.class.getName());
+
     /**
      * Name of the property fired when document information change.
      */
@@ -151,11 +153,11 @@ public class JSeshView extends AbstractView {
 
     @Override
     public void dispose() {
+        LOGGER.info("disposing JSeshView");
         // The document model might be disposable, it would be cleaner.
         // anyway:
         viewCore.getEditor().clearText();
         super.dispose();
-
     }
 
     /**
