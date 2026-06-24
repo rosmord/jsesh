@@ -266,11 +266,18 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+## 2026-06-24
+
+A bit of cleanup: removed the old `utils/copyData.xml` **Ant script** and replaced it by the gradle `prepareResources` task.
+
+
 ## 2026-06-23
 
 ###  Problem with gradle build
 
-The *cup* and *lex* tasks were running randomly when we ran `./gradlew build`, even when nothing had changed.
+- finished the handling of observable fonts; improved the architecture of the system (LLM are quite useful here) ;
+- added tests for module `qenherkhopeshefUtils` (in the simple cases). Another LLM-assisted refactoring;
+- The *cup* and *lex* tasks were running randomly when we ran `./gradlew build`, even when nothing had changed.
 In fact, it was due to alternating between command line build and IDE build. The system recognized changes in the environment, and re-ran the `buildSrc` construction.
 
 ## 2026-06-22

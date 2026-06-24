@@ -119,15 +119,21 @@ I will probably try to automate everything at some point, this being said.
 
 ### Updating data
 
-This is only done if you are in charge of updating the JSesh text base or the JSesh sign base.
-That is, you most probably don't need to do it.
+This is only done if you are in charge of updating the JSesh text base or the JSesh sign base (that is, if I did stop maintaining JSesh, and you decide to take over).
 
-To update the JSesh external data, go to the `utils` folder and type :
+
+**That is, you most probably don't need to do it.**
+
+Beware if you do it, it can delete files you need in JSesh (and you can use git to restore them).
+
+
+To update the JSesh external data, run:
 
 ~~~bash
-ant -f copyData.xml
+./gradlew prepareResources
 ~~~
 
+It uses path from my own computers to find the original data.
 
 ------------------------------------
 ### Building a Mac Distribution:
