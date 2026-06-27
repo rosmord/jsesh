@@ -38,8 +38,8 @@ public class HieroglyphDatabaseFactory {
      * @param hieroglyphCodesSource
      * @return
      */
-    public static SimpleHieroglyphDatabase buildWithUserDefinitions(HieroglyphCodesSource hieroglyphCodesSource) {
-        SimpleHieroglyphDatabase database = new SimpleHieroglyphDatabase(hieroglyphCodesSource);
+    public static DefaultHieroglyphDatabase buildWithUserDefinitions(HieroglyphCodesSource hieroglyphCodesSource) {
+        DefaultHieroglyphDatabase database = new DefaultHieroglyphDatabase(hieroglyphCodesSource);
         addEmbeddedDescriptionsTo(database);
         addUserDescriptionsTo(database);
         return database;
@@ -52,8 +52,8 @@ public class HieroglyphDatabaseFactory {
      * @param hieroglyphCodesSource
      * @return
      */
-    public static SimpleHieroglyphDatabase buildPlainDefault(HieroglyphCodesSource hieroglyphCodesSource) {
-        SimpleHieroglyphDatabase database = new SimpleHieroglyphDatabase(hieroglyphCodesSource);
+    public static DefaultHieroglyphDatabase buildPlainDefault(HieroglyphCodesSource hieroglyphCodesSource) {
+        DefaultHieroglyphDatabase database = new DefaultHieroglyphDatabase(hieroglyphCodesSource);
         addEmbeddedDescriptionsTo(database);        
         return database;
     }
@@ -63,7 +63,7 @@ public class HieroglyphDatabaseFactory {
      * adds the user-defined signs descriptions to an existing database.
      * @param database
      */
-    private static void addUserDescriptionsTo(SimpleHieroglyphDatabase database) {
+    private static void addUserDescriptionsTo(DefaultHieroglyphDatabase database) {
         try {
             SignDescriptionBuilderToHieroglyphDatabaseAdapter adapter = new SignDescriptionBuilderToHieroglyphDatabaseAdapter(
                     database);
@@ -103,7 +103,7 @@ public class HieroglyphDatabaseFactory {
      * @throws SAXException
      *
      */
-    private static void addEmbeddedDescriptionsTo(SimpleHieroglyphDatabase database) {
+    private static void addEmbeddedDescriptionsTo(DefaultHieroglyphDatabase database) {
         try {
             SignDescriptionBuilderToHieroglyphDatabaseAdapter adapter = new SignDescriptionBuilderToHieroglyphDatabaseAdapter(
                     database);

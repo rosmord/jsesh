@@ -4,7 +4,7 @@ import jsesh.defaults.HieroglyphToolkit;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 
 /**
@@ -23,7 +23,7 @@ public class JSeshUserSignLibraryConfiguration implements HieroglyphToolkit {
 
     private GlossaryManager glossaryManager;
     private JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
-    private HieroglyphDatabaseInterface hieroglyphDatabase;
+    private HieroglyphDatabase hieroglyphDatabase;
     private PossibilityRepository possibilityRepository;
 
     /**
@@ -47,7 +47,7 @@ public class JSeshUserSignLibraryConfiguration implements HieroglyphToolkit {
         return hieroglyphShapeRepository;
     }
 
-    public HieroglyphDatabaseInterface hieroglyphDatabase() {
+    public HieroglyphDatabase hieroglyphDatabase() {
         return hieroglyphDatabase;
     }
 

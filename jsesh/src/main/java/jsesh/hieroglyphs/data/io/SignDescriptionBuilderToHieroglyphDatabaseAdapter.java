@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
-import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
+import jsesh.hieroglyphs.data.DefaultHieroglyphDatabase;
 
 /**
  * Adapter class for reading XML signs descriptions into HieroglyphDatabase. The
@@ -16,10 +16,10 @@ import jsesh.hieroglyphs.data.SimpleHieroglyphDatabase;
  */
 public class SignDescriptionBuilderToHieroglyphDatabaseAdapter implements SignDescriptionBuilder {
 
-    private final SimpleHieroglyphDatabase hieroglyphsManager;
+    private final DefaultHieroglyphDatabase hieroglyphsManager;
 
     public SignDescriptionBuilderToHieroglyphDatabaseAdapter(
-            SimpleHieroglyphDatabase hieroglyphsManager) {
+            DefaultHieroglyphDatabase hieroglyphsManager) {
         this.hieroglyphsManager = hieroglyphsManager;
     }
 

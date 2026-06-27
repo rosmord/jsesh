@@ -13,7 +13,8 @@ This journal should only be edited and modified in the Development branch.
 
 This is the next task for me, as soon as I start working:
 
-Make HieroglyphShapeRepository observable. All elements which use the hieroglyphic font should be notified when it changes, in particular when the folder is changed.
+- [ ] add use of `jpackage` (through the `org.beryx.runtime` plugin) to produce the JSesh distribution. As a side note, it will be difficult to incorporate the text library in all distributions. We might consider providing a way to **download it from JSesh** itself.
+
 
 ## Important decisions
 
@@ -104,7 +105,7 @@ Regarding **standard** codes:
 
 - [x] ❗️add a test checking that nTrw is mapped to `R8A`;
 - [x] ❗️add a test checking that nn is mapped to `M22B`.
-- [ ] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
+- [x] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
 - [ ] solve the problem of signs canonization.
   - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
@@ -265,6 +266,10 @@ List of classes which need some cleanup:
 - `ExportAsRTFAction`
 
 ## Daily log
+
+## 2026-06-27
+
+- [x] **Renamed `HieroglyphDatabaseInterface` → `HieroglyphDatabase`** and `SimpleHieroglyphDatabase` → `DefaultHieroglyphDatabase` 
 
 ## 2026-06-24
 

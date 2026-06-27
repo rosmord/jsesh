@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphToolkit;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
@@ -49,7 +49,7 @@ public class WildCardQueryTest {
     private void doSearch(String message, String mdc, String codes, VariantLevelForSearch variantLevel, Integer... expected) {
         TopItemList text = parse(mdc);
         TopItemList toSearch = parse(codes);
-        HieroglyphDatabaseInterface database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
+        HieroglyphDatabase database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
         WildCardQuery searcher = new WildCardQuery(toSearch, 0, database, variantLevel);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult

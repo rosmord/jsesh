@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
@@ -68,7 +68,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      * </ul>
      * @param search
      */
-    public SignStringSearchQuery(HieroglyphDatabaseInterface hieroglyphDatabase, List<String> search) {
+    public SignStringSearchQuery(HieroglyphDatabase hieroglyphDatabase, List<String> search) {
         this.search = new ArrayList<>();
         for (String rawCode : search) {
             String normalized = ManuelDeCodage.getInstance()

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphToolkit;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.MDCPosition;
@@ -50,7 +50,7 @@ public class SignStringSearcherTest {
     private void doSearch(String message, String mdc, String codes, Integer... expected) {
         TopItemList text = parse(mdc);
         List<String> toSearch = Arrays.asList(codes.split(" "));
-        HieroglyphDatabaseInterface database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
+        HieroglyphDatabase database = HieroglyphToolkit.standardHieroglyphToolKit().hieroglyphDatabase();
         SignStringSearchQuery searcher = new SignStringSearchQuery(database, toSearch);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult

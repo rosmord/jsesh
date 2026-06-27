@@ -33,13 +33,11 @@ import jsesh.mdc.transliteration.TransliterationUtilities;
  * doesn't deal with sign shapes, which are dealt with by
  * HieroglyphicFontManager.
  *
- * TODO : merge with ManueDeCodage (relatively close meaning).
- *
  * @see HieroglyphShapeRepository
  * @author S. Rosmorduc
  *
  */
-public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
+public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
 
     /**
      * Sign code to sign info
@@ -86,7 +84,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      */
 	private HieroglyphCodesSource fontManager;
 
-    public SimpleHieroglyphDatabase(HieroglyphCodesSource hieroglyphCodesSource) {
+    public DefaultHieroglyphDatabase(HieroglyphCodesSource hieroglyphCodesSource) {
     	this.families = fillFamilyList();
         this.manuelDeCodageManager = ManuelDeCodage.getInstance();
         this.fontManager = hieroglyphCodesSource;        
@@ -217,7 +215,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
      * to the scope of the value (PALETTE, KEYBOARD, INFORMATIVE). Should now be
      * an enum.
      * @return a PossibilitiesList, or null if the value corresponds to nothing.
-     * @see HieroglyphDatabaseInterface#getPossibilityFor(String, String)
+     * @see HieroglyphDatabase#getPossibilityFor(String, String)
      */
     @Override
     public PossibilitiesList getPossibilityFor(String transliteration,
@@ -282,7 +280,7 @@ public class SimpleHieroglyphDatabase implements HieroglyphDatabaseInterface {
     }
 
     /**
-     * @see HieroglyphDatabaseInterface#getSuitableSignsForCode(String)
+     * @see HieroglyphDatabase#getSuitableSignsForCode(String)
      */
     @Override
     public PossibilitiesList getSuitableSignsForCode(String code) {

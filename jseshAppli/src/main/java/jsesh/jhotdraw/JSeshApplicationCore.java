@@ -53,7 +53,7 @@ import jsesh.graphics.export.html.HTMLExporter;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
@@ -132,7 +132,7 @@ public class JSeshApplicationCore {
     /**
      * Hieroglyphic database.
      */
-    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+    private final HieroglyphDatabase hieroglyphDatabase;
 
     /**
      * Hieroglyphic fonts
@@ -442,7 +442,7 @@ public class JSeshApplicationCore {
     /**
      * @return the hieroglyphDatabase
      */
-    public HieroglyphDatabaseInterface getHieroglyphDatabase() {
+    public HieroglyphDatabase getHieroglyphDatabase() {
         return hieroglyphDatabase;
     }
 

@@ -28,7 +28,7 @@ import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
 import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.data.VariantTypeForSearches;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
@@ -48,7 +48,7 @@ public class WildCardQuery implements MdCSearchQuery {
 
     private RegularExtractor<HieroglyphOccurrence> extractor;
 
-    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+    private final HieroglyphDatabase hieroglyphDatabase;
 
     /**
      * Is this query correct or erroneous ?
@@ -69,7 +69,7 @@ public class WildCardQuery implements MdCSearchQuery {
      * @param hieroglyphDatabase sign database, used to find variants.
      * @param variantLevel to what extend sign variants should match.
      */
-    public WildCardQuery(TopItemList items, int maxLength, HieroglyphDatabaseInterface hieroglyphDatabase, VariantLevelForSearch variantLevel) {
+    public WildCardQuery(TopItemList items, int maxLength, HieroglyphDatabase hieroglyphDatabase, VariantLevelForSearch variantLevel) {
         this.hieroglyphDatabase = hieroglyphDatabase;
         this.maxLength = maxLength;
         if (items.getNumberOfChildren() == 0) {

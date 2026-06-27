@@ -25,7 +25,7 @@ import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadratSearchQuery;
@@ -69,7 +69,7 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     /**
      * Some query need fine access to information about sign variants.
      */
-    private final HieroglyphDatabaseInterface hieroglyphDatabase;
+    private final HieroglyphDatabase hieroglyphDatabase;
 
     /**
      * Create a panel for search form.

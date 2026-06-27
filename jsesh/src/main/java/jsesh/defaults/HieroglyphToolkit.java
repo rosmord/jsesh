@@ -1,7 +1,7 @@
 package jsesh.defaults;
 
 import jsesh.editor.PossibilityRepository;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 
 /**
@@ -36,7 +36,7 @@ public interface HieroglyphToolkit {
      * The hieroglyph database, which gives access to the list of signs, their properties, etc.
      * @return a HieroglyphDatabaseInterface
      */
-    HieroglyphDatabaseInterface hieroglyphDatabase();
+    HieroglyphDatabase hieroglyphDatabase();
 
    
 }

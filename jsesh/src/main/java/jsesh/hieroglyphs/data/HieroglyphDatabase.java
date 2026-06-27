@@ -31,7 +31,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
  * @author S. Rosmorduc
  *
  */
-public interface HieroglyphDatabaseInterface {
+public interface HieroglyphDatabase {
 
   
     /**

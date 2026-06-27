@@ -48,7 +48,7 @@ import org.qenherkhopeshef.swingUtils.lists.ListItem;
 import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.Possibility;
@@ -126,7 +126,7 @@ public class PalettePresenter {
     /**
      * Abstract data about codes.
      */
-    private final HieroglyphDatabaseInterface hieroglyphsDatabase;
+    private final HieroglyphDatabase hieroglyphsDatabase;
 
     /**
      * Font manager (knows about sign drawings).
@@ -163,7 +163,7 @@ public class PalettePresenter {
     private HieroglyphicPaletteDialog dialog;
 
     public PalettePresenter(HieroglyphShapeRepository hieroglyphicFontManager,
-            HieroglyphDatabaseInterface hieroglyphDatabase) {
+            HieroglyphDatabase hieroglyphDatabase) {
         this.hieroglyphsDatabase = hieroglyphDatabase;
         this.hieroglyphicFontManager = hieroglyphicFontManager;
         simplePalette = new JSimplePalette();

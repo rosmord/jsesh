@@ -19,7 +19,7 @@ import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.Version;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.jhotdraw.documentview.JSeshView;
@@ -74,7 +74,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     }
 
     private void preloadHieroglyphicIcons(JSeshApplicationStartingData data) { 
-        HieroglyphDatabaseInterface database = data.applicationDefaults().hieroglyphDatabase();
+        HieroglyphDatabase database = data.applicationDefaults().hieroglyphDatabase();
         MDCIconFactory mdcIconFactory = data.mdcIconFactory();
         List<HieroglyphFamily> families = database.getFamilies();
         for (int i = 0; i < families.size(); i++) {

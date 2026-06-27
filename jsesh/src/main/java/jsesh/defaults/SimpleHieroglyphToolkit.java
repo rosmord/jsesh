@@ -5,7 +5,7 @@ import java.util.List;
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.Glossary;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseInterface;
+import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
@@ -18,7 +18,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
 
     private HieroglyphShapeRepository hieroglyphShapeRepository;
     private PossibilityRepository possibilityRepository;
-    private HieroglyphDatabaseInterface hieroglyphDatabase;
+    private HieroglyphDatabase hieroglyphDatabase;
 
     /**
      * Shared default font kit using only embedded fonts, no user font, and no glossary.
@@ -60,7 +60,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      */
     public static SimpleHieroglyphToolkit buildFontWithoutUserDefinitions(HieroglyphShapeRepository font,
             Glossary glossary) {
-        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildPlainDefault(font);
+        HieroglyphDatabase database = HieroglyphDatabaseFactory.buildPlainDefault(font);
         return new SimpleHieroglyphToolkit(font, glossary, database);
     }
 
@@ -88,7 +88,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      */
     public static SimpleHieroglyphToolkit buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
             Glossary glossary) {        
-        HieroglyphDatabaseInterface database = HieroglyphDatabaseFactory.buildWithUserDefinitions(fonts);
+        HieroglyphDatabase database = HieroglyphDatabaseFactory.buildWithUserDefinitions(fonts);
         return new SimpleHieroglyphToolkit(fonts, glossary, database);
     }
 
@@ -99,7 +99,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      * @param database
      */
     private SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository, Glossary glossary,
-            HieroglyphDatabaseInterface database) {
+            HieroglyphDatabase database) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
 
         this.hieroglyphDatabase = database;
@@ -117,7 +117,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
      * @param hieroglyphDatabase
      */
     public SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository,
-            PossibilityRepository possibilityRepository, HieroglyphDatabaseInterface hieroglyphDatabase) {
+            PossibilityRepository possibilityRepository, HieroglyphDatabase hieroglyphDatabase) {
         this.hieroglyphShapeRepository = hieroglyphShapeRepository;
         this.possibilityRepository = possibilityRepository;
         this.hieroglyphDatabase = hieroglyphDatabase;
@@ -136,7 +136,7 @@ public class SimpleHieroglyphToolkit implements HieroglyphToolkit {
     /**
      * @return the hieroglyphDatabase
      */
-    public HieroglyphDatabaseInterface hieroglyphDatabase() {
+    public HieroglyphDatabase hieroglyphDatabase() {
         return hieroglyphDatabase;
     }
 
