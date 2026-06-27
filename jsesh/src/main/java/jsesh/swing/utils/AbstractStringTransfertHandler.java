@@ -11,9 +11,8 @@ import javax.swing.TransferHandler;
 /**
  * A base for a simple transfertHandler which will receive only strings.
  * @author rosmord
- *
  */
-public abstract class SimpleStringTransfertHandler extends TransferHandler {
+public abstract class AbstractStringTransfertHandler extends TransferHandler {
 	public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
 		for (int i = 0; i < transferFlavors.length; i++) {
 			if (DataFlavor.stringFlavor.equals(transferFlavors[i]))

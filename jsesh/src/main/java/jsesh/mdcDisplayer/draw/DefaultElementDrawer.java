@@ -1,3 +1,6 @@
+/**
+ * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
+ */
 package jsesh.mdcDisplayer.draw;
 
 import java.awt.Color;
@@ -42,15 +45,19 @@ import jsesh.mdcDisplayer.drawingElements.cartouche.CartoucheDrawerHelper;
 import jsesh.mdcDisplayer.mdcView.MDCView;
 
 /**
- * This file is free Software under the GNU LESSER GENERAL PUBLIC LICENCE.
- *
+ * The actual element drawer.
+ * <p> Defines how actual elements are draw.
+ * 
+ * <p> TODO: this is a bit clumsy. We use inheritance, were delegation would be better.
+ * Plus, this is the only actual implementation of ElementDrawer, so we could merge the two classes. The only problem is how responsabilities should be split.
+ * 
  *
  * (c) Serge Rosmorduc
  *
  * @author Serge Rosmorduc
  *
  */
-public class SimpleElementDrawer extends ElementDrawer {
+public class DefaultElementDrawer extends ElementDrawer {
     HieroglyphDrawer hieroglyphsDrawer;
 
     @Override

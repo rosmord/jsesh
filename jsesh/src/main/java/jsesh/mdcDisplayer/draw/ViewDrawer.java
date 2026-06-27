@@ -77,7 +77,7 @@ public class ViewDrawer {
      * Create a drawer
      */
     public ViewDrawer() {
-        this(new SimpleElementDrawer());
+        this(new DefaultElementDrawer());
     }
 
     public ViewDrawer(ElementDrawer e) {

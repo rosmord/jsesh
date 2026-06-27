@@ -46,7 +46,7 @@ import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
 import jsesh.hieroglyphs.utils.PictureDimension;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
-import jsesh.swing.utils.SimpleStringTransfertHandler;
+import jsesh.swing.utils.AbstractStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
@@ -962,7 +962,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
      * @author rosmord
      *
      */
-    public class TableLabelHandler extends SimpleStringTransfertHandler {
+    public class TableLabelHandler extends AbstractStringTransfertHandler {
 
         private static final long serialVersionUID = -5053910096927047598L;
         private JTable table;
@@ -986,7 +986,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         }
     }
 
-    private class SignCodeTransfertHandler extends SimpleStringTransfertHandler {
+    private class SignCodeTransfertHandler extends AbstractStringTransfertHandler {
 
         private static final long serialVersionUID = -8926546474934672791L;
 
