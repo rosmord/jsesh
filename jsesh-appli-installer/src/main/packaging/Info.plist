@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>LSMinimumSystemVersion</key>
+        <string>10.11</string>
+        <!--
+        <key>CFBundleDevelopmentRegion</key>
+        <string>English</string>
+        -->
+        <key>CFBundleAllowMixedLocalizations</key>
+        <true />
+        <key>CFBundleExecutable</key>
+        <string>JSesh-8.0.2-SNAPSHOT</string>
+        <key>CFBundleIconFile</key>
+        <string>JSesh-8.0.2-SNAPSHOT.icns</string>
+        <key>CFBundleIdentifier</key>
+        <string>org.qenherkhopeshef.jsesh</string>
+        <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+        <key>CFBundleName</key>
+        <string>JSesh-8.0.2-SNAPSHOT</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+        <key>CFBundleShortVersionString</key>
+        <string>8.0.2</string>
+        <key>CFBundleSignature</key>
+        <string>????</string>
+        <!-- See https://developer.apple.com/app-store/categories/ for list of AppStore categories -->
+        <key>LSApplicationCategoryType</key>
+        <string>public.app-category.utilities</string>
+        <key>CFBundleVersion</key>
+        <string>8.0.2</string>
+        <key>NSHumanReadableCopyright</key>
+        <string>Copyright (C) 2026</string>
+        <key>NSHighResolutionCapable</key>
+        <string>true</string>
+        <key>CFBundleDocumentTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleTypeName</key>
+                <string>Manuel de Codage File</string>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>CFBundleTypeIconFile</key>
+                <string>canard.icns</string>
+                <key>CFBundleTypeExtensions</key>
+                <array>
+                    <string>gly</string>
+                    <string>hie</string>
+                    <string>GLY</string>
+                    <string>HIE</string>
+                </array>
+            </dict>
+        </array>
+    </dict>
+</plist>

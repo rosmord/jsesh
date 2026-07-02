@@ -130,6 +130,11 @@ Plan:
 
 ### Long Term TODO
 
+- [ ] improve the structure of ElementDrawer:
+  - the separation between ElementDrawer and DefaultElementDrawer doesn't serve any useful purpose, and is a bad attribution of responsabilities;
+  - however, we should separate routing from actual drawing,
+  - and we should do away with the mutable fields passed in the drawing process;
+  - the actual drawing of each element could be performed by a dedicated and focused class.
 - [ ] cleanup the parsing system, and remove the dependency of `TopItemList` to the builder;
 - [ ] ❗️systematicaly use MVC for **preferences** and **fonts** ; ensure that there is no memory leak.
 - [ ] 🍰 **TODO** the organisation of the various preferences in JSesh Appli is not optimal. They are difficult to sort and understand. Improve this (when the software runs!) (relatively simple). 
@@ -267,6 +272,23 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+## 2026-07-02
+
+- lost lots of time because of [this bug](https://bugs.openjdk.org/browse/JDK-8372753). 
+  - file associations don't seem to work on Mac (with my current environment)
+    - I had to provide my own `Info.plist`
+    - and to add code to copy the needed resources in the JSesh.app folder.
+- work on jpackage
+  - [x] check that the binary is able to handle very large files ;
+  - [x] add auto-open for mac 
+
+- [ ] do the same for SignInfo editor.
+
+## 2026-07-01
+
+- [x] first generation of binary through jpackage for JSesh.
+
+ 
 ## 2026-06-27
 
 - [x] **Renamed `HieroglyphDatabaseInterface` → `HieroglyphDatabase`** and `SimpleHieroglyphDatabase` → `DefaultHieroglyphDatabase` 
