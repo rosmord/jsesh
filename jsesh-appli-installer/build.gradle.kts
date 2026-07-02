@@ -3,6 +3,8 @@ description = """
 
     The idea is to generate a native installer, and even to have github generate it for us.
 
+    In practice, it demands a lot of care depending on the target platform.
+
     See also https://docs.oracle.com/en/java/javase/25/jpackage/index.html
 
     Problem with files associations:
@@ -37,17 +39,66 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
-val copyResources = tasks.register<Copy>("copyResources") {
-    from("src/main/packaging")//  { filter { line: String -> line.replace("\${project.version}", project.version.toString()) } }    
-    into("build/prepackage")
-    from("src/main/packaging/hibou.icns") {
-        rename { "${applicationName}-${project.version}.icns" }
+
+// Windows MSI installer
+
+if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+    val copyResources = tasks.register<Copy>("copyResources") {
+        from("src/main/packaging/windows")
+        into("build/prepackage")        
+    }
+
+    val copyWinExtras by tasks.registering(Copy::class) {
+        dependsOn("jpackageImage")
+        from("src/main/dist")
+        into(layout.buildDirectory.dir("jpackage/${applicationName}-${project.version}"))
+    }
+
+    tasks.named("jpackage") {
+        dependsOn(copyWinExtras)
+    }
+}
+
+// MAC OS X Installer
+// PATCH !!!!
+// We might need to delete part of this later.
+// The point here is to ensure the icons are copied into the app.
+if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
+    val copyResources = tasks.register<Copy>("copyResources") {
+        from("src/main/packaging/mac/hibou.icns") {
+            rename { "${applicationName}-${project.version}.icns" }
+        }
+        into("build/prepackage")
+        doLast {
+            println("Copied resources to build/prepackage")
+        }   
+    }
+
+    tasks.named("jpackageImage") {
+        doLast {
+            val appFolder = file("build/jpackage/${applicationName}-${project.version}.app")
+            if (appFolder.exists()) {
+                copy {
+                    from("src/main/packaging/mac/canard.icns")
+                    into(appFolder.resolve("Contents/Resources"))
+                }
+            } else {
+                println("Problem : app folder not built")
+            }
+        }   
+    }
+}
+
+if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+    val copyResources = tasks.register<Copy>("copyResources") {
+        from("src/main/packaging/linux")//  { filter { line: String -> line.replace("\${project.version}", project.version.toString()) } }    
+        into("build/prepackage")                
     }
 }
 
 
 tasks.named("jpackageImage") {
-    dependsOn(copyResources)
+    dependsOn("copyResources")
 }
 
 
@@ -105,7 +156,7 @@ runtime {
 
             if (installerType == "dmg") {
                 installerOptions.addAll(listOf(
-                    "--file-associations", "${projectDir}/src/main/packaging/jsesh-file-association.properties"             
+                    // "--file-associations", "${projectDir}/src/main/packaging/mac/jsesh-file-association.properties"             
 
                     //"--icon", "${projectDir}/src/main/packaging/hibou.icns",
 
@@ -117,34 +168,3 @@ runtime {
     }
 }
 
-
-// Copy extra files for inclusion into the Windows MSI installer
-if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
-    val copyWinExtras by tasks.registering(Copy::class) {
-        dependsOn("jpackageImage")
-        from("src/main/dist")
-        into(layout.buildDirectory.dir("jpackage/${applicationName}-${project.version}"))
-    }
-    tasks.named("jpackage") {
-        dependsOn(copyWinExtras)
-    }
-}
-
-// PATCH !!!!
-// We might need to delete this later.
-// The point here is to ensure the icons are copied into the app.
-if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
-    tasks.named("jpackageImage") {
-        doLast {
-            val appFolder = file("build/jpackage/${applicationName}-${project.version}.app")
-            if (appFolder.exists()) {
-                copy {
-                    from("src/main/packaging/canard.icns")
-                    into(appFolder.resolve("Contents/Resources"))
-                }
-            } else {
-                println("Problem : app folder not built")
-            }
-        }   
-    }
-}
