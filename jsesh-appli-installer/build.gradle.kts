@@ -57,21 +57,29 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
     tasks.named("jpackage") {
         dependsOn(copyWinExtras)
     }
-}
+} else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
+    // MAC OS X Installer
+    // PATCH !!!!
+    // We might need to delete part of this later.
+    // The point here is to ensure the icons are copied into the app.
 
-// MAC OS X Installer
-// PATCH !!!!
-// We might need to delete part of this later.
-// The point here is to ensure the icons are copied into the app.
-if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
+    val fullName = "${applicationName}-${project.version}"
     val copyResources = tasks.register<Copy>("copyResources") {
         from("src/main/packaging/mac/hibou.icns") {
-            rename { "${applicationName}-${project.version}.icns" }
+            rename { "${fullName}.icns" }
         }
         into("build/prepackage")
+        from("src/main/packaging/mac-filtered") {
+            expand(
+                mapOf(
+                    "version" to project.version.toString().replace("-SNAPSHOT", ""),
+                    "fullName" to fullName
+                )
+            )
+        }
         doLast {
             println("Copied resources to build/prepackage")
-        }   
+        }
     }
 
     tasks.named("jpackageImage") {
@@ -85,11 +93,9 @@ if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
             } else {
                 println("Problem : app folder not built")
             }
-        }   
+        }
     }
-}
-
-if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+} else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
     val copyResources = tasks.register<Copy>("copyResources") {
         from("src/main/packaging/linux")//  { filter { line: String -> line.replace("\${project.version}", project.version.toString()) } }    
         into("build/prepackage")                
