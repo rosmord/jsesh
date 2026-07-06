@@ -72,7 +72,7 @@ class TkseshLigatureCatalogue {
 			int i;
 			String parts[] = s.split("\\|");
 			List<String> codes = Arrays.stream(parts[0].split("&"))
-                .map(c -> manuelDeCodage.getCanonicalCode(c)).toList();
+                .map(c -> manuelDeCodage.getCanonicalCode(c).code()).toList();
 
             // Split the second part
             String pos[] = parts[1].strip().split(" ");

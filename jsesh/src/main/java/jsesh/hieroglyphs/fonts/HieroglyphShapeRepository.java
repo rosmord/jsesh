@@ -2,6 +2,7 @@ package jsesh.hieroglyphs.fonts;
 
 
 import jsesh.hieroglyphs.data.HieroglyphCodesSource;
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
@@ -30,7 +31,7 @@ public interface HieroglyphShapeRepository extends HieroglyphCodesSource {
 	 * @param code the code to search
 	 * @return if the code is known by the font manager.
 	 */
-	default boolean hasCode(String code) {
+	default boolean hasCode(CanonicalCode code) {
 		return get(code) != null;
 	}
 	
@@ -39,14 +40,14 @@ public interface HieroglyphShapeRepository extends HieroglyphCodesSource {
 	 * @param code : the <em>canonical code</em> for a sign. 
 	 * @return the ShapeChar for the given Manuel de Codage code, or null if the code is unknown.
 	 */
-	ShapeChar get(String code);
+	ShapeChar get(CanonicalCode code);
 
 	/**
 	 * Returns the small body (bolder) shapeChar for a given manuel de codage code, or null if there is none available.
 	 * @param code
 	 * @return
 	 */
-	ShapeChar getSmallBody(String code);
+	ShapeChar getSmallBody(CanonicalCode code);
 
 	
 	/**

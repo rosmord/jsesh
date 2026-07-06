@@ -7,19 +7,23 @@ import java.util.prefs.Preferences;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
 
 /**
- * The full hieroglyph shape repository, used by the JSesh software, including user defined signs and standard JSesh fonts.
+ * The full hieroglyph shape repository, used by the JSesh software, including
+ * user defined signs and standard JSesh fonts.
  * 
- * <p> Will typically be used as a unique resource (as of today).
+ * <p>
+ * Will typically be used as a unique resource (as of today).
  * 
- * <p> it is possible to change the directory.
+ * <p>
+ * it is possible to change the directory.
  */
 public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeRepository {
-    
+
 	private CompositeHieroglyphShapeRepository composite;
 
 	private DirectoryHieroglyphShapeRepository directoryManager;
@@ -28,28 +32,25 @@ public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeReposi
 		composite = new CompositeHieroglyphShapeRepository();
 		directoryManager = new DirectoryHieroglyphShapeRepository(new File(""));
 		composite.addHieroglyphicFontManager(directoryManager);
-		composite.addHieroglyphicFontManager(new ResourcesHieroglyphicShapeRepository(Constants.STANDARD_JSESH_FONT_RESOURCE_PATH));
+		composite.addHieroglyphicFontManager(
+				new ResourcesHieroglyphicShapeRepository(Constants.STANDARD_JSESH_FONT_RESOURCE_PATH));
 		composite
 				.addHieroglyphicFontManager(GnutraceHieroglyphShapeRepository.getInstance());
 		initDirectory();
 	}
-	
 
 	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
 		composite.addHieroglyphicFontManager(manager);
 	}
 
 	@Override
-	public ShapeChar get(String code) {
-		// This canonicalization should be performed elsewhere. See `DevelopperJournal.md` for details (2026/05/18)
-		String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
-		return composite.get(canonicalCode);
+	public ShapeChar get(CanonicalCode code) {
+		return composite.get(code);
 	}
 
-        @Override
-	public ShapeChar getSmallBody(String code) {
-    	String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
-		return composite.getSmallBody(canonicalCode);
+	@Override
+	public ShapeChar getSmallBody(CanonicalCode code) {
+		return composite.getSmallBody(code);
 	}
 
 	@Override

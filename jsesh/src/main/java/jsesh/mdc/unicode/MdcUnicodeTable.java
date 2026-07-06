@@ -54,7 +54,7 @@ public enum MdcUnicodeTable {
      * equivalent.
      */
     public String getUnicodeFor(String signCode) {
-        String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode);
+        String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode).code();
         return codeMap.getOrDefault(canonicalCode, signCode);
     }
 
@@ -65,7 +65,7 @@ public enum MdcUnicodeTable {
      * @return true or false.
      */
     public boolean hasUnicode(String signCode) {
-    	String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode);
+    	String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(signCode).code();
         return codeMap.containsKey(canonicalCode);
     }
 

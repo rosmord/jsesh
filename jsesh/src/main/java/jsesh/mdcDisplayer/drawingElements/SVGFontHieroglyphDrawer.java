@@ -19,6 +19,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.LigatureZone;
@@ -81,7 +82,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
         // were it draws,
         // so that, for instance, shading can be based on expected cadrat
         // dimensions.
-        Rectangle2D specA1 = fontManager.get(DEFAULT_CODE).getBbox();
+        Rectangle2D specA1 = fontManager.get(ManuelDeCodage.getInstance().getA1Code()).getBbox();
         float w = (float) specA1.getWidth();
         float h = (float) specA1.getHeight();
         heightOfA1 = h;
@@ -93,17 +94,18 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     @Override
     public void draw(Graphics2D g, String code, int angle, ViewBox view, HieroglyphBodySize bodySize) {
         Graphics2D tmpG = (Graphics2D) g.create();
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
 
         ShapeChar glyph = null;
         // If we want to use a small body font, try to find the glyph.
         if (bodySize == HieroglyphBodySize.SMALL) {
-            glyph = fontManager.getSmallBody(code);
+            glyph = fontManager.getSmallBody(canonicalCode);
         }
         // If we don't want a small body font, or the glyph was not available
         // there,
         // try the normal shape.
         if (glyph == null) {
-            glyph = fontManager.get(code);
+            glyph = fontManager.get(canonicalCode);
         }
         tmpG.scale(view.getXScale(), view.getYScale());
         if (glyph != null) {
@@ -130,9 +132,10 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     @Override
     public Rectangle2D getBBox(String code, int angle, boolean fixed) {
         Rectangle2D result = null;
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
 
         if (angle == 0) {
-            ShapeChar glyph = fontManager.get(code);
+            ShapeChar glyph = fontManager.get(canonicalCode);
             if (glyph != null) {
                 result = glyph.getBbox();
             } else if (shadingCodeCatalogue.containsCode(code)) {
@@ -156,8 +159,9 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
 
     @Override
     public Shape getShape(String code) {
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
         Shape result = null;
-        ShapeChar glyph = fontManager.get(code);
+        ShapeChar glyph = fontManager.get(canonicalCode);
         if (glyph != null) {
             result = glyph.getShape();
         } else {
@@ -170,8 +174,9 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     @Override
     public Area getSignArea(String code, double x, double y, double xscale,
             double yscale, int angle, boolean reversed) {        
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
         Area result = null;
-        ShapeChar glyph = fontManager.get(code);
+        ShapeChar glyph = fontManager.get(canonicalCode);
         if (glyph != null) // FIXME : use reversed !
         {
             result = glyph.getSignArea(x, y, xscale, yscale, angle * Math.PI
@@ -190,13 +195,15 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
   
     @Override
     public boolean isKnown(String code) {
-        return (fontManager.get(code) != null || shadingCodeCatalogue
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+        return (fontManager.get(canonicalCode) != null || shadingCodeCatalogue
                 .containsCode(code));
     }
 
     @Override
     public Optional<LigatureZone> getLigatureZone(int i, String code) {
-        ShapeChar glyph = fontManager.get(code);
+        CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+        ShapeChar glyph = fontManager.get(canonicalCode);
         Optional<LigatureZone> result = Optional.empty();
         if (glyph != null) {
             if (!glyph.hasZones()) {
@@ -225,7 +232,7 @@ class SVGFontHieroglyphDrawer implements BasicSignDrawer {
     @Override
     public List<ExplicitPosition> getPositions(List<String> codes) {
         ManuelDeCodage manuelDeCodage = ManuelDeCodage.getInstance();
-        List<String> normalizedCodes = codes.stream().map(c -> manuelDeCodage.getCanonicalCode(c))
+        List<String> normalizedCodes = codes.stream().map(c -> manuelDeCodage.getCanonicalCode(c).code())
             .toList();
         return tkseshLigatureCatalogue.get(normalizedCodes);
     }

@@ -154,7 +154,7 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
     @Override
     public Collection<String> getCodesForFamily(String family, boolean includeVariants) {
         // Removed prefix "UG" from tksesh. I think nobody uses it.
-        TreeSet<String> l = new TreeSet<>(GardinerCode.getCodeComparator());
+        TreeSet<String> l = new TreeSet<>(ManuelDeCodage.getCodeComparator());
         for (String code : getCodesSet()) {
             boolean keepCode;
             // First filter

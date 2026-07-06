@@ -10,7 +10,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeMap;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 import org.qenherkhopeshef.observable.ObservableEventListener;
@@ -34,7 +36,7 @@ public class DirectoryHieroglyphShapeRepository implements
 	private FolderProxy directory;
 
 	private TreeMap<String, File> codeMap = new TreeMap<String, File>(
-			GardinerCode.getCodeComparator());
+			ManuelDeCodage.getCodeComparator());
 
 	private HashMap<String, ShapeChar> signsMap;
 
@@ -88,7 +90,12 @@ public class DirectoryHieroglyphShapeRepository implements
 		lastRefreshed = directory.lastModified();
 	}
 
-	public ShapeChar get(String code) {
+	@Override	
+	public ShapeChar get(CanonicalCode code) {
+		return getForStringCode(code.code());
+	}
+
+	private ShapeChar getForStringCode(String code) {
 		ShapeChar result = null;
 		refreshIfNeeded();
 		if (signsMap.containsKey(code))
@@ -101,8 +108,9 @@ public class DirectoryHieroglyphShapeRepository implements
 		return result;
 	}
 
-	public ShapeChar getSmallBody(String code) {
-		return get(code + "_BOLD");
+	@Override
+	public ShapeChar getSmallBody(CanonicalCode code) {
+		return getForStringCode(code + "_BOLD");
 	}
 
 	public Set<String> getCodes() {

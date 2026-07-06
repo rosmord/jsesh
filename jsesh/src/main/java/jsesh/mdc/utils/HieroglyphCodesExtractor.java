@@ -103,7 +103,7 @@ public class HieroglyphCodesExtractor {
         public void visitHieroglyph(Hieroglyph h) {
             String code;
             if (normalise) {
-                code = manuelDeCodage.getCanonicalCode(h.getCode());
+                code = manuelDeCodage.getCanonicalCode(h.getCode()).code();
             } else {
                 code = h.getCode();
             }

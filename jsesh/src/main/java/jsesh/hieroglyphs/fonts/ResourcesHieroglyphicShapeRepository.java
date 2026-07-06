@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
@@ -124,14 +125,32 @@ public class ResourcesHieroglyphicShapeRepository implements
 		}
 	}
 
-	public ShapeChar get(String filename) {
-		return switch (signs.compute(filename, this::mapProxy)) {
+	@Override	
+	public ShapeChar get(CanonicalCode code) {
+		return getForStringCode(code.code());
+	}
+
+	private ShapeChar getForStringCode(String code) {
+		return switch (signs.compute(code, this::mapProxy)) {
 			case ActualShape s -> s.shape();
 			case null -> null;
 			case ShapeCodeProxy c -> null; // Should not happen, because of mapProxy.
-		};
+		};		
 	}
 
+	/**
+	 * The map stores either :
+	 * <ul>
+	 * <li>a ShapeCodeProxy, which is a proxy for a resource path</li>
+	 * <li>an ActualShape, which holds the final ShapeChar</li>
+	 * </ul>
+	 * Originally, the map will contain only ShapeCodeProxy. The first time
+	 * a sign is requested, the ShapeCodeProxy will be replaced by an ActualShape, which will hold the ShapeChar.
+	 * <p> all in a type-safe way!
+	 * @param code
+	 * @param currentValue
+	 * @return
+	 */
 	private ShapeProxy mapProxy(String code, ShapeProxy currentValue) {
 		if (currentValue == null) {
 			return null;
@@ -151,8 +170,9 @@ public class ResourcesHieroglyphicShapeRepository implements
 			});
 	}
 
-	public ShapeChar getSmallBody(String code) {
-		return get(code + "_BOLD");
+	@Override
+	public ShapeChar getSmallBody(CanonicalCode code) {
+		return getForStringCode(code.code() + "_BOLD");
 	}
 
 	public Set<String> getCodes() {

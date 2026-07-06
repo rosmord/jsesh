@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import jsesh.defaults.HieroglyphToolkit;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
@@ -44,7 +45,7 @@ public class SignInfoModel {
 	 * A map from sign codes to sign info datas. Should be
 	 * Map<String,EditableSignInfo>.
 	 */
-	private Map<String, EditableSignInfo> signInfoDataList = new TreeMap<>(GardinerCode.getCodeComparator());
+	private Map<String, EditableSignInfo> signInfoDataList = new TreeMap<>(ManuelDeCodage.getCodeComparator());
 
 	/**
 	 * The tags. A map String -> TagInfo
@@ -55,7 +56,7 @@ public class SignInfoModel {
 	/**
 	 * All know signs.
 	 */
-	private TreeSet<String> codes = new TreeSet<>(GardinerCode.getCodeComparator());
+	private TreeSet<String> codes = new TreeSet<>(ManuelDeCodage.getCodeComparator());
 
 	/**
 	 * Has the model been changed since the last save ?

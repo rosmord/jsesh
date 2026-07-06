@@ -3,6 +3,7 @@ package jsesh.search.backingSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElementDeepAdapter;
@@ -36,8 +37,8 @@ public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 
 	@Override
 	public void visitHieroglyph(Hieroglyph h) {
-		String code = manuelDeCodage
+		CanonicalCode code = manuelDeCodage
 				.getCanonicalCode(h.getCode());
-		codes.add(new HieroglyphOccurrence(code, position));
+		codes.add(new HieroglyphOccurrence(code.code(), position));
 	}
 }

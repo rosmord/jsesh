@@ -19,6 +19,7 @@ import java.util.Set;
 import jsesh.graphics.glyphs.bzr.BzrFontReader;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
@@ -1258,18 +1259,20 @@ public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeReposit
 		set("M22B", fonts['M' - 'A'].getChar(76));
 	}
 
-	public ShapeChar get(String code) {
-		// This canonicalization should be performed elsewhere. See `DevelopperJournal.md` for details (2026/05/18)
-		String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);		
-		return codes.get(canonicalCode);
+
+	@Override	
+	public ShapeChar get(CanonicalCode code) {
+		return codes.get(code.code());
 	}
+	
 
 	public void set(String code, ShapeChar s) {
 		hasNewSigns= true;
 		codes.put(code, s);
 	}
 
-	public ShapeChar getSmallBody(String code) {
+	@Override	
+	public ShapeChar getSmallBody(CanonicalCode code) {
 		// No small body shape currently.
 		return null;
 	}

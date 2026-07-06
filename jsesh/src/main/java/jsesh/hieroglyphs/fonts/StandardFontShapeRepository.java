@@ -2,6 +2,7 @@ package jsesh.hieroglyphs.fonts;
 
 import java.util.Set;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
 /**
@@ -30,12 +31,12 @@ class StandardFontShapeRepository implements HieroglyphShapeRepository {
     }
 
     @Override
-    public ShapeChar get(String code) {
+    public ShapeChar get(CanonicalCode code) {
         return implementation.get(code);
     }
 
     @Override
-    public ShapeChar getSmallBody(String code) {
+    public ShapeChar getSmallBody(CanonicalCode code) {
         return implementation.getSmallBody(code);
     }
 

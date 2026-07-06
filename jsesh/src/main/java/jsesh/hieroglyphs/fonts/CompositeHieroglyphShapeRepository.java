@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
@@ -49,7 +50,8 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 		eventSupport.removeListener(listener);
 	}
 
-	public ShapeChar get(String code) {
+	@Override
+	public ShapeChar get(CanonicalCode code) {
 		ShapeChar result = null;
 		int i = 0;
 		while (result == null && i < managers.size()) {
@@ -57,21 +59,15 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 					.get(i);
 			result = m.get(code);
 			i++;
-		}
-		// TODO : suppress this part and create a SANE system for signs of the form
-		// "A23H".
-		// TODO : differentiate A23h from A23H...
-		if (result == null && code.endsWith("H")) {
-			String otherCode = code.substring(0, code.length() - 1) + "h";
-			return get(otherCode);
-		}
+		}		
 		return result;
 	}
 
 	/**
 	 * Search for a small body variant...
 	 */
-	public ShapeChar getSmallBody(String code) {
+	@Override
+	public ShapeChar getSmallBody(CanonicalCode code) {
 		ShapeChar result = null;
 		int i = 0;
 		while (result == null && i < managers.size()) {
@@ -79,14 +75,7 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 					.get(i);
 			result = m.getSmallBody(code);
 			i++;
-		}
-		// TODO : suppress this part and create a SANE system for signs of the form
-		// "A23H".
-		// TODO : differentiate A23h from A23H...
-		if (result == null && code.endsWith("H")) {
-			String otherCode = code.substring(0, code.length() - 1) + "h";
-			return getSmallBody(otherCode);
-		}
+		}		
 		return result;
 	}
 

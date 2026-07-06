@@ -39,7 +39,9 @@ import org.xml.sax.SAXException;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
 import jsesh.hieroglyphs.data.SignValueType;
 import jsesh.hieroglyphs.data.SignVariantType;
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
 import jsesh.hieroglyphs.resources.HieroglyphResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
@@ -91,7 +93,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     // resolution.
 
     private static final int bitmapBorder = 2;
-    
+
     private static final int LABEL_PADDING = 3;
     // Note:
     // TABLE_ROW_HEIGHT is used twice:
@@ -100,7 +102,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
     // We should unify this.
     private static final int TABLE_ROW_HEIGHT = 50;
     private static final PictureDimension PICTURE_DIMENSION = new PictureDimension(
-        (TABLE_ROW_HEIGHT*13)/10, TABLE_ROW_HEIGHT);
+            (TABLE_ROW_HEIGHT * 13) / 10, TABLE_ROW_HEIGHT);
 
     /**
      * The actual model this presenter is working on.
@@ -432,8 +434,9 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
             JLabel signIconLabel = view.getSignGlyphLabel();
             // update sign display
             // HieroglyphPictureBuilder.createHieroglyphIcon(code,
-
-            pictureBuilder.drawIconInLabel(signIconLabel, code, LABEL_PADDING);
+            CanonicalCode canonicalCode = ManuelDeCodage.getInstance()
+                    .getCanonicalCode(code);
+            pictureBuilder.drawIconInLabel(signIconLabel, canonicalCode, LABEL_PADDING);
 
             // table of signs of whom we are a variant.
 
@@ -457,8 +460,6 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         enableActiveButtons();
         editing = true;
     }
-
-   
 
     public void setExpertMode(boolean newExpertMode) {
         boolean oldMode = this.expertMode;

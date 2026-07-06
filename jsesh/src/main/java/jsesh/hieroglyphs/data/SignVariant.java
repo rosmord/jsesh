@@ -13,7 +13,7 @@ package jsesh.hieroglyphs.data;
 
 import java.util.Objects;
 
-import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 
 /**
  * Information about a possible variant for a sign.
@@ -69,7 +69,7 @@ public class SignVariant implements Comparable<SignVariant>{
 
     @Override
     public int compareTo(SignVariant o) {        
-        int result = GardinerCode.compareCodes(this.code, o.code);
+        int result = ManuelDeCodage.compareCodes(this.code, o.code);
         if (result != 0) return result;
         return this.type.compareTo(o.type);        
     }

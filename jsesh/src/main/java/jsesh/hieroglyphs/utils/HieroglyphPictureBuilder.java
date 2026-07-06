@@ -44,6 +44,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.utils.GraphicsUtils;
@@ -93,7 +95,8 @@ public class HieroglyphPictureBuilder {
 	 */
 	public HieroglyphPictureBuilder(HieroglyphShapeRepository shapeRepository, Component referenceComponent) {
 		this.shapeRepository = shapeRepository;
-		ShapeChar a1 = shapeRepository.get("A1");
+		ShapeChar a1 = shapeRepository.get(ManuelDeCodage.getInstance()
+				.getA1Code());
 		a1Height = a1.getBbox().getHeight();
 		this.referenceComponent = referenceComponent;
 	}
@@ -105,9 +108,9 @@ public class HieroglyphPictureBuilder {
 	 * @param options rendering options.
 	 * @return
 	 */
-	public BufferedImage buildSignBitmap(String code,
+	public BufferedImage buildSignBitmap(CanonicalCode code,
 			IconRenderOptions options) {
-		String actualCode = hasCode(code) ? code : "A1";
+		CanonicalCode actualCode = hasCode(code) ? code : ManuelDeCodage.getInstance().getA1Code();
 		ShapeChar shape = shapeRepository.get(actualCode);
 		return buildSignBitmap(shape, options);
 	}
@@ -119,7 +122,7 @@ public class HieroglyphPictureBuilder {
 	 * @param code
 	 * @param padding
 	 */
-	public void drawIconInLabel(JLabel label, String code, int padding) {
+	public void drawIconInLabel(JLabel label, CanonicalCode code, int padding) {
 		IconRenderOptions renderOptions = IconRenderOptions.DEFAULT.copy()
 				.dimension(computeIconDimensionFor(label, padding))
 				.fit(true)
@@ -149,12 +152,12 @@ public class HieroglyphPictureBuilder {
 	 * @param code
 	 * @return an icon for the glyph.
 	 */
-	public Icon createHieroglyphIcon(String code, IconRenderOptions options) {
+	public Icon createHieroglyphIcon(CanonicalCode code, IconRenderOptions options) {
 		BufferedImage img = buildSignBitmap(code, options);
 		return new ImageIcon(img);
 	}
 
-	private boolean hasCode(String code) {
+	private boolean hasCode(CanonicalCode code) {
 		return shapeRepository.get(code) != null;
 	}
 
@@ -186,12 +189,14 @@ public class HieroglyphPictureBuilder {
 		// Compute the sign size using this scale.
 		double projectedWidth = startingScale * glyphBBox.getWidth();
 		double projectedHeight = startingScale * glyphBBox.getHeight();
-		// Now, see if it fits in the current bitmap. If not, proceed depending on the fit option.
+		// Now, see if it fits in the current bitmap. If not, proceed depending on the
+		// fit option.
 		if (projectedWidth > innerDimensions.width() || projectedHeight > innerDimensions.height()) {
 			if (options.fit()) {
 				// Reduce the scale to fit the dimensions, using the sign's actual bounding box.
 				// we don't care about the original scale: it was too large anyway.
-				scale = Math.min(innerDimensions.width() / glyphBBox.getWidth(), innerDimensions.height() / glyphBBox.getHeight());				
+				scale = Math.min(innerDimensions.width() / glyphBBox.getWidth(),
+						innerDimensions.height() / glyphBBox.getHeight());
 			} else {
 				// Keep the scale, modify the bitmap dimensions to fit the sign.
 				scale = startingScale;
@@ -201,7 +206,6 @@ public class HieroglyphPictureBuilder {
 		} else {
 			scale = startingScale;
 		}
-
 
 		BufferedImage img = buildCompatibleBitmap(colorModel, bitmapWidth, bitmapHeight, options.transparent());
 		drawToBitmap(img, glyph, backGroundColor, bitmapWidth, bitmapHeight, scale);
@@ -249,9 +253,9 @@ public class HieroglyphPictureBuilder {
 	 * @return
 	 */
 	private BufferedImage buildCompatibleBitmap(int colorModel, int width, int height, boolean transparent) {
-		if (referenceComponent != null && referenceComponent.getGraphicsConfiguration() != null) {			
+		if (referenceComponent != null && referenceComponent.getGraphicsConfiguration() != null) {
 			return referenceComponent.getGraphicsConfiguration()
-					.createCompatibleImage(width, height, transparent?Transparency.TRANSLUCENT:Transparency.OPAQUE);
+					.createCompatibleImage(width, height, transparent ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
 		} else {
 			return new BufferedImage(width, height, colorModel);
 		}

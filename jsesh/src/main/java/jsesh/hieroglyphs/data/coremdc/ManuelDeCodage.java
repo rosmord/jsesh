@@ -13,6 +13,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,19 +23,22 @@ import jsesh.hieroglyphs.resources.HieroglyphResources;
 /**
  * A Singleton class representing the core Manuel de Codage.
  * 
- *  It knows about what is a standard code, what is a phonetic code, 
- *  relations about standard signs.
- *  
- *  It doesn't deal with extended lists and general sign values.
- *  
- *  <p>Difference with 1988 MdC :
- *  <p> We have added a few codes, mainly to ensure a text can be normalized with only 
- *  standard Gardiner-like codes and possibly numbers (removing phonetic codes).
- *  
- *  <ul>
- *   <li> R8A for nTrw;
- *   <li> M22B for nn
- *  </ul>
+ * It knows about what is a standard code, what is a phonetic code,
+ * relations about standard signs.
+ * 
+ * It doesn't deal with extended lists and general sign values.
+ * 
+ * <p>
+ * Difference with 1988 MdC :
+ * <p>
+ * We have added a few codes, mainly to ensure a text can be normalized with
+ * only
+ * standard Gardiner-like codes and possibly numbers (removing phonetic codes).
+ * 
+ * <ul>
+ * <li>R8A for nTrw;
+ * <li>M22B for nn
+ * </ul>
  * 
  *
  * @author Serge Rosmorduc
@@ -42,15 +46,15 @@ import jsesh.hieroglyphs.resources.HieroglyphResources;
  */
 public class ManuelDeCodage {
 
-    private HashMap<String, String> canonical;
-    
+    private HashMap<String, CanonicalCode> canonical;
+
     /**
      * Map family codes to the signs in the corresponding Gardiner "basic"
      * repertoire.
      */
-    private  HashMap<String, List<String>> basicGardinerCodeMap;
+    private HashMap<String, List<String>> basicGardinerCodeMap;
 
-    private  List<String> tallNarrowSigns, lowBroadSigns, lowNarrowSigns;
+    private List<String> tallNarrowSigns, lowBroadSigns, lowNarrowSigns;
 
     private static ManuelDeCodage instance = new ManuelDeCodage();
 
@@ -66,6 +70,7 @@ public class ManuelDeCodage {
 
     /**
      * Returns the Standard Gardiner list of Tall Narrow signs.
+     * 
      * @return
      */
     public List<String> getTallNarrowSigns() {
@@ -74,6 +79,7 @@ public class ManuelDeCodage {
 
     /**
      * Returns the Standard Gardiner list of Low Broad Signs.
+     * 
      * @return
      */
     public List<String> getLowBroadSigns() {
@@ -82,29 +88,62 @@ public class ManuelDeCodage {
 
     /**
      * Returns the Standard Gardiner list of Low Narrow signs.
+     * 
      * @return
      */
     public List<String> getLowNarrowSigns() {
         return Collections.unmodifiableList(lowNarrowSigns);
     }
 
-  
     /**
      * Returns the canonical code for a sign.
-     * In most cases, this is the Gardiner code (for instance "xpr" gives "L1"). 
-     * <p> Will transform an official phonetic code into a Gardiner number, and leave any other code (Gardiner or not) as-is.
-     * <p> Pre-requisite : the code code given as a parameter should be correct.
-     * <p> Returns the canonical Gardiner code for the sign, if possible.    
-     * <p> If the code is not correct (for instance, is malformed) it will be sent back as if it were a Gardiner code.
+     * In most cases, this is the Gardiner code (for instance "xpr" gives "L1").
+     * <p>
+     * Will transform an official phonetic code into a Gardiner number, and leave
+     * any other code (Gardiner or not) as-is.
+     * <p>
+     * Pre-requisite : the code code given as a parameter should be correct.
+     * <p>
+     * Returns the canonical Gardiner code for the sign, if possible.
+     * <p>
+     * If the code is not correct (for instance, is malformed) it will be sent back
+     * as if it were a Gardiner code.
+     * <p> If a Gardiner-like variant part is "H" or "V" it will be normalized to "h" or "v" (for instance, A23H will be normalized to A23h).
+     * This only happens for one-letter variants.
      * @param code : a correct Manuel de Codage Code.
      * 
-     * @return the canonical code for the sign code, or the code if no canonical
-     * code is known.
+     * @return the canonical code for the sign code, or the original code if no canonical
+     *         code is known.
      * 
      * 
      */
-    public String getCanonicalCode(String code) {
-    	return canonical.getOrDefault(code, code);
+    public CanonicalCode getCanonicalCode(String code) {
+        CanonicalCode res = canonical.get(code);
+        if (res == null) {
+            // no canonical code. Ensure possible variant ending is normalized.
+            String fixedCode = code;            
+            if (code.endsWith("H") || code.endsWith("V")) {
+                // Check that we have a NUMBER just before the H or V. If so, we normalize the code to a lower case variant.
+                if (code.length() > 1 && Character.isDigit(code.charAt(code.length() - 2))) {
+                    fixedCode = code.substring(0, code.length() - 1) + code.substring(code.length() - 1).toLowerCase();
+                }
+            }
+            // We know search fixed code - we could perform a recursive search, but it's not worth it.
+            res = canonical.get(fixedCode);
+            if (res == null) {
+                // no canonical code. Return the fixed code as a canonical code.
+                res = new DefaultCanonicalCode(fixedCode);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * As "A1" is somehow the "reference sign", for size in particular, we have a
+     * method to get its code.
+     */
+    public CanonicalCode getA1Code() {
+        return getCanonicalCode("A1");
     }
 
     /**
@@ -136,25 +175,28 @@ public class ManuelDeCodage {
     }
 
     /**
-     * Compare two codes, and return true if they canonically correspond to the same sign.
-     *  <p> It means that the canonical code they refer too is the same.
+     * Compare two codes, and return true if they canonically correspond to the same
+     * sign.
+     * <p>
+     * It means that the canonical code they refer too is the same.
+     * 
      * @param code1
      * @param code2
      * @return
      */
     public boolean equalsCanonical(String code1, String code2) {
-    		return getCanonicalCode(code1).equals(getCanonicalCode(code2));
+        return getCanonicalCode(code1).equals(getCanonicalCode(code2));
     }
-    
-    
+
     /**
-     * reads the ressource which contains the list of "standard" Gardiner signs (for short menus).
+     * reads the ressource which contains the list of "standard" Gardiner signs (for
+     * short menus).
      */
     private void fillBasicGardinerCodeMap() {
         basicGardinerCodeMap = new HashMap<>();
         try (Reader in = HieroglyphResources.getBasicGardinerCodes();) {
             // Read and build the map if necessary
-            
+
             StreamTokenizer tok = new StreamTokenizer(in);
             // Read and store the codes according to their families.
             while (tok.nextToken() != StreamTokenizer.TT_EOF) {
@@ -175,49 +217,56 @@ public class ManuelDeCodage {
             Iterator<List<String>> it = basicGardinerCodeMap.values().iterator();
             while (it.hasNext()) {
                 List<String> l = it.next();
-                Collections.sort(l, GardinerCode.getCodeComparator());
+                Collections.sort(l, ManuelDeCodage.getCodeComparator());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    
 
     /**
      * Creates the lists of signs by shape.
      */
     private void fillSignShapeList() {
         String[] tallNarrow = {
-            "M40", "Aa28", "Aa29", "P11", "D16", "T34", "T35", "U28", "U29", "U32", "U33", "S43", "U36", "T8", "T8A", "M13", "M17", "H6", "H6A", "M4", "M12", "S29", "M29",
-            "M30", "S37", "R14", "R15", "R16", "R17", "P6", "S40", "R19", "S41", "F10", "F11", "F12", "S38", "S39", "T14", "T15", "T13", "Aa26", "O30", "Aa21", "U39", "F45", "O44",
-            "Aa27", "R8", "R9", "T7A", "T3", "T4", "V24", "V25", "U23", "S42", "U34", "S36", "F28", "U26", "U27", "U24", "U25", "Y8", "F35", "F36", "U41", "W19", "P8", "T22", "T23",
-            "Z11", "S44", "Aa25", "M44", "V38", "Aa31", "Aa30", "Aa20", "V36", "F31", "M32", "L7", "V17", "V18", "V49A", "S34", "V39", "Q7", "T18", "T19", "T20", "R21", "R11", "O28", "O11",
-            "O36", "Aa32", "V28", "V29"
+                "M40", "Aa28", "Aa29", "P11", "D16", "T34", "T35", "U28", "U29", "U32", "U33", "S43", "U36", "T8",
+                "T8A", "M13", "M17", "H6", "H6A", "M4", "M12", "S29", "M29",
+                "M30", "S37", "R14", "R15", "R16", "R17", "P6", "S40", "R19", "S41", "F10", "F11", "F12", "S38", "S39",
+                "T14", "T15", "T13", "Aa26", "O30", "Aa21", "U39", "F45", "O44",
+                "Aa27", "R8", "R9", "T7A", "T3", "T4", "V24", "V25", "U23", "S42", "U34", "S36", "F28", "U26", "U27",
+                "U24", "U25", "Y8", "F35", "F36", "U41", "W19", "P8", "T22", "T23",
+                "Z11", "S44", "Aa25", "M44", "V38", "Aa31", "Aa30", "Aa20", "V36", "F31", "M32", "L7", "V17", "V18",
+                "V49A", "S34", "V39", "Q7", "T18", "T19", "T20", "R21", "R11", "O28", "O11",
+                "O36", "Aa32", "V28", "V29"
         };
         tallNarrowSigns = Arrays.asList(tallNarrow);
         String lowBroad[] = {
-            "N1", "N37", "N38", "N39", "S32", "N18",
-             "X4", "X5", "N17", "N16", "N20", "Aa10", "Aa11", "Aa12", "Aa13",
-            "Aa14", "Aa15", "N35", "Aa8", "Aa9", "V26", "V27", "R24", "W8", "V32",
-            "Y1", "Y2", "R4", "N11", "N12", "F42", "D24", "D25", "D13", "D15", "F20", "Z6",
-            "F33", "T2", "T7", "F30", "V22", "V23", "R5", "R6", "O34", "V2", "V3", "S24", "R22",
-            "R23", "T11", "O29", "T1", "T21", "U20", "U19", "U21", "D17", "U31", "T9", "T9A", "T10", "F32", "V13", "V14", "F46", "F47", "F48",
-            "F49", "M11", "U17", "U18", "U14", "Aa7", "F18", "D51", "U15", "U16", "Aa24", "N31", "O31", "N36", "D14", "D21", "D22", "T30", "T31", "T33", "D48",
-            "V30", "V31", "V31A", "W3", "S12", "N30", "O42", "O43", "V16"
+                "N1", "N37", "N38", "N39", "S32", "N18",
+                "X4", "X5", "N17", "N16", "N20", "Aa10", "Aa11", "Aa12", "Aa13",
+                "Aa14", "Aa15", "N35", "Aa8", "Aa9", "V26", "V27", "R24", "W8", "V32",
+                "Y1", "Y2", "R4", "N11", "N12", "F42", "D24", "D25", "D13", "D15", "F20", "Z6",
+                "F33", "T2", "T7", "F30", "V22", "V23", "R5", "R6", "O34", "V2", "V3", "S24", "R22",
+                "R23", "T11", "O29", "T1", "T21", "U20", "U19", "U21", "D17", "U31", "T9", "T9A", "T10", "F32", "V13",
+                "V14", "F46", "F47", "F48",
+                "F49", "M11", "U17", "U18", "U14", "Aa7", "F18", "D51", "U15", "U16", "Aa24", "N31", "O31", "N36",
+                "D14", "D21", "D22", "T30", "T31", "T33", "D48",
+                "V30", "V31", "V31A", "W3", "S12", "N30", "O42", "O43", "V16"
 
         };
         lowBroadSigns = Arrays.asList(lowBroad);
         String lowNarrow[] = {
-            "Q3", "O39", "Z8", "O47", "N22", "N21", "N23", "N29", "X7", "O45", "O46", "Y6", "M35", "X3", "X2", "X1", "N28", "Aa17", "I6",
-            "W10", "W10A", "Aa4", "R7", "M39", "M36", "F43", "F41", "N34", "U30", "W11", "W12", "W13", "T28", "N41", "N42", "V37", "M31", "F34", "W6", "W7", "W21", "W20", "V6", "V33",
-            "V34", "V7", "V8", "S20", "V20", "V19", "Aa19", "Aa2", "Aa3", "N32", "F52", "V35", "H8", "M41", "F51", "D11", "K6", "L6", "F21", "D26", "N33",
-            "D12", "S21", "N5", "N9", "N10", "Aa1", "O50", "O49", "O48", "X6", "V9", "S10", "N6", "N8", "S11", "N15", "M42", "F38", "V1", "Z7", "Aa16", "Z9", "Z10"
+                "Q3", "O39", "Z8", "O47", "N22", "N21", "N23", "N29", "X7", "O45", "O46", "Y6", "M35", "X3", "X2", "X1",
+                "N28", "Aa17", "I6",
+                "W10", "W10A", "Aa4", "R7", "M39", "M36", "F43", "F41", "N34", "U30", "W11", "W12", "W13", "T28", "N41",
+                "N42", "V37", "M31", "F34", "W6", "W7", "W21", "W20", "V6", "V33",
+                "V34", "V7", "V8", "S20", "V20", "V19", "Aa19", "Aa2", "Aa3", "N32", "F52", "V35", "H8", "M41", "F51",
+                "D11", "K6", "L6", "F21", "D26", "N33",
+                "D12", "S21", "N5", "N9", "N10", "Aa1", "O50", "O49", "O48", "X6", "V9", "S10", "N6", "N8", "S11",
+                "N15", "M42", "F38", "V1", "Z7", "Aa16", "Z9", "Z10"
         };
         lowNarrowSigns = Arrays.asList(lowNarrow);
     }
 
-
-    
     /**
      * fill data.
      */
@@ -615,11 +664,11 @@ public class ManuelDeCodage {
         putCanon("imi", "Z11");
         putCanon("wnm", "Z11");
         putCanon("`", "Ff1");
-        //putCanon("Ff2", "V49A");
+        // putCanon("Ff2", "V49A");
         putCanon("nr", "H4");
         putCanon("R", "D153");
         putCanon("K", "S56");
-        //putCanon("Z98A", "Ff1");
+        // putCanon("Z98A", "Ff1");
     }
 
     /**
@@ -629,7 +678,54 @@ public class ManuelDeCodage {
      * @param canonicalCode
      */
     private void putCanon(String code, String canonicalCode) {
-        canonical.put(code, canonicalCode);
+        canonical.put(code, new DefaultCanonicalCode(canonicalCode));
     }
 
+    /**
+     * Returns a comparator able to compare canonical codes (as strings) and to
+     * order them.
+     *
+     * The codes compared should be either standard Gardiner codes, or other
+     * canonical codes (number codes, some ecdotic sign codes).
+     * 
+     * @return a comparator able to compare two gardiner codes and to order them.
+     */
+    public static Comparator<String> getCodeComparator() {
+        return (c1, c2) -> compareCodes(c1, c2);
+    }
+
+    /**
+     * Compare two canonical codes, given as strings.
+     * <ul>
+     * <li>If the codes are Gardiner-like codes, they will be compared depending on
+     * their family first, and number second.
+     * <li>else: all non Gardiner codes come before Gardiner codes; and two
+     * non-Gardiner codes are compared as strings.
+     * </ul>
+     * 
+     * @param c1
+     * @param c2
+     * @return
+     */
+    public static int compareCodes(String c1, String c2) {
+        GardinerCode g1 = GardinerCode.createGardinerCode(c1);
+        GardinerCode g2 = GardinerCode.createGardinerCode(c2);
+        if (g1 == null) {
+            if (g2 == null) {
+                return c1.compareTo(c2);
+            } else {
+                return 1;
+            }
+        } else if (g2 == null) {
+            return -1;
+        } else {
+            return g1.compareTo(g2);
+        }
+    }
+
+    private static record DefaultCanonicalCode(String code) implements CanonicalCode {
+        public String toString() {
+            return code();
+        }
+    }
 }

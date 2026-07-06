@@ -1,7 +1,6 @@
 package jsesh.hieroglyphs.data.coremdc;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -122,12 +121,6 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         this(0, family, number, variantNumber);
     }
 
-    private void setVariantPart(String v) {
-        variantPart = v.toUpperCase(Locale.ENGLISH);
-        if ("H".equals(variantPart) || "V".equals(variantPart)) {
-            variantPart = variantPart.toLowerCase(Locale.ENGLISH);
-        }
-    }
 
     /**
      * @return the family
@@ -181,40 +174,7 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         }
         return result;
     }
-
-    /**
-     * Compare two gardiner codes, given as strings.
-     *
-     * @param c1
-     * @param c2
-     * @return
-     */
-    public static int compareCodes(String c1, String c2) {
-        GardinerCode g1 = createGardinerCode(c1);
-        GardinerCode g2 = createGardinerCode(c2);
-        if (g1 == null) {
-            if (g2 == null) {
-                return c1.compareTo(c2);
-            } else {
-                return 1;
-            }
-        } else if (g2 == null) {
-            return -1;
-        } else {
-            return g1.compareTo(g2);
-        }
-    }
-
-    /**
-     * Return the names of the "Gardiner" families, in the usual order. Includes
-     * the additional "Ff" family.
-     *
-     * @return a list of Strings.
-     */
-    public static List<String> getGardinerFamilies() {
-        return FAMILIES;
-    }
-
+    
     /**
      * Returns the string version of the code (e.g. G17A).
      */
@@ -227,16 +187,25 @@ public final class GardinerCode implements Comparable<GardinerCode> {
         }
     }
 
-    /**
-     * Returns a comparator able to compare two gardiner codes (as strings) and
-     * to order them.
-     *
-     * @return a comparator able to compare two gardiner codes and to order
-     *         them.
-     */
-    public static Comparator<String> getCodeComparator() {
-        return (c1, c2) -> compareCodes(c1, c2);
+    private void setVariantPart(String v) {
+        variantPart = v.toUpperCase(Locale.ENGLISH);
+        if ("H".equals(variantPart) || "V".equals(variantPart)) {
+            variantPart = variantPart.toLowerCase(Locale.ENGLISH);
+        }
     }
+
+
+    /**
+     * Return the names of the "Gardiner" families, in the usual order. Includes
+     * the additional "Ff" family.
+     *
+     * @return a list of Strings.
+     */
+    public static List<String> getGardinerFamilies() {
+        return FAMILIES;
+    }
+
+   
 
     /**
      * Is the given code a canonical Manuel de codage code ?

@@ -62,7 +62,7 @@ public class MDCCodeExtractor {
             if (GardinerCode.isCanonicalCode(code)) {
                 result.add(actualCode);
             } else {
-                String canonicalCode =ManuelDeCodage.getInstance().getCanonicalCode(code);
+                String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code).code();
                 if (!suppressNonGlyphs || GardinerCode.isCanonicalCode(canonicalCode)) {
                     result.add(canonicalCode);
                 }

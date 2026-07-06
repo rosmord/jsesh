@@ -37,6 +37,8 @@ import java.awt.Component;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
 import jsesh.hieroglyphs.utils.PictureDimension;
@@ -73,7 +75,8 @@ public class SignTableCellRenderer extends DefaultTableCellRenderer {
 		setText(code);
 		if (code != null && ! "".equals(code)) {
 			IconRenderOptions options = IconRenderOptions.DEFAULT.copy().dimension(bitmapSize).padding(bitmapBorder).build();
-			setIcon(pictureBuilder.createHieroglyphIcon(code, options));
+			CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+			setIcon(pictureBuilder.createHieroglyphIcon(canonicalCode, options));
 	}
 		else {
 			setIcon(null);

@@ -2,6 +2,8 @@ package jsesh.hieroglyphs.data;
 
 import java.util.Set;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
+
 /**
  * A catalogue of hieroglyph codes.
  * 
@@ -15,7 +17,7 @@ public interface HieroglyphCodesSource {
 	 * @param code the code to search
 	 * @return if the code is known by the source.
 	 */
-	boolean hasCode(String code);
+	boolean hasCode(CanonicalCode code);
 	
 
 	/**

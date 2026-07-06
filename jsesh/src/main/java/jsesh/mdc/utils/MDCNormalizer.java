@@ -29,7 +29,7 @@ public class MDCNormalizer {
 	private class NormalizerAux extends ModelElementDeepAdapter {
 		public void visitHieroglyph(Hieroglyph h) {
 			String code = ManuelDeCodage.getInstance()
-					.getCanonicalCode(h.getCode());
+					.getCanonicalCode(h.getCode()).code();
 			h.setCode(code);
             
 		}

@@ -13,7 +13,8 @@ This journal should only be edited and modified in the Development branch.
 
 This is the next task for me, as soon as I start working:
 
-- [ ] add use of `jpackage` (through the `org.beryx.runtime` plugin) to produce the JSesh distribution. As a side note, it will be difficult to incorporate the text library in all distributions. We might consider providing a way to **download it from JSesh** itself.
+- [x] add use of `jpackage` (through the `org.beryx.runtime` plugin) to produce the JSesh distribution. As a side note, it will be difficult to incorporate the text library in all distributions. We might consider providing a way to **download it from JSesh** itself.
+
 
 
 ## Important decisions
@@ -107,13 +108,6 @@ Regarding **standard** codes:
 - [x] ❗️add a test checking that nn is mapped to `M22B`.
 - [x] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
-- [ ] solve the problem of signs canonization.
-  - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
-  - canonicalization would be performed by a factory method, which would cache the codes;
-  - to enforce use of the factory method, the class can't be a record, for it would need a public constructor. But it should be a value class;
-  - the cache would be a `ConcurrentHashMap<String, HieroglyphCode>`, because Manuel de Codage code manipulation can be performed by code outside of JSesh GUI (e.g. in the search engine).
-  - we don't make this modification right now, because it's moderately complex. Meanwhile, we had the canonicalization in each implementation of `HieroglyphShapeRepository`, with a TODO comment to the effect that it must be removed later.
-  - consider the existence of `_BOLD` codes in the process.
 
 ### Arabic localization
 
@@ -129,6 +123,13 @@ Plan:
 
 
 ### Long Term TODO
+
+- [ ] Consider all occurrences of
+   ~~~java
+   String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code).code();
+   ~~~
+
+  and decide whether the surrounding code should be changed to use `CanonicalCode` instead of `String`.
 
 - [ ] improve the structure of ElementDrawer:
   - the separation between ElementDrawer and DefaultElementDrawer doesn't serve any useful purpose, and is a bad attribution of responsabilities;
@@ -272,6 +273,30 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+
+## 2026-07-03
+
+- [ ] consider whether or not we replace strings by `CanonicalCode` in search engine.
+- [ ] decide if `HieroglyphCodesSource.getCodes()`returns strings or canonical codes.
+- [ ] todo: check that _BOLD signs can be used.
+- [ ] temporary fix: canonical Gardiner codes with a "H" ending should be normalized with a "h" ending. e.g. A23H should be normalized A23h.
+- [ ] look closely at the responsabilities of `ManuelDeCodage` and `GardinerCode`.
+- [x] checked jpackage on windows (we still need to add a few things though)
+
+
+- [ ] - **`HieroglyphCode` / canonicalization** — the journal describes the plan: introduce a `HieroglyphCode` value class with a `ConcurrentHashMap` cache; move canonicalization out of each `HieroglyphShapeRepository` implementation. The journal says "don't do this right now" but with the observable work done, this becomes the natural next step.
+
+
+- [ ] solve the problem of signs canonization.
+  - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
+  - [x] added class `GardinerCode`
+    - canonicalization would be performed by a factory method, which could cache the codes;
+    - to enforce use of the factory method, the class can't be a record, for it would need a public constructor. But it should be a value class;
+    - the cache would be a `ConcurrentHashMap<String, HieroglyphCode>`, because Manuel de Codage code manipulation can be performed by code outside of JSesh GUI (e.g. in the search engine).
+  - we don't make this modification right now, because it's moderately complex. Meanwhile, we had the canonicalization in each implementation of `HieroglyphShapeRepository`, with a TODO comment to the effect that it must be removed later.
+  - consider the existence of `_BOLD` codes in the process.
+
+
 ## 2026-07-02
 
 - lost lots of time because of [this bug](https://bugs.openjdk.org/browse/JDK-8372753). 
@@ -281,7 +306,7 @@ List of classes which need some cleanup:
 - work on jpackage
   - [x] check that the binary is able to handle very large files ;
   - [x] add auto-open for mac 
-
+- [ ] maybe try to package more than one laucher.
 - [ ] do the same for SignInfo editor.
 
 ## 2026-07-01
@@ -1279,6 +1304,7 @@ Should we modify the API of `EmbeddableMacPictSimpleDrawer` for instance ?
 - still about `EmbeddableWMFSimpleDrawer` : the drawing workflow is somehow weird. We should probably polish it to make it stateless ;
 - same problem with `RTFExporter` (in this case, the modified rendercontext should be passed to the visitor)
 - move `ensureCMYKColorSpace` to JSeshStyle.colors ???
+
 ### 2025/11/06
 
 Done : replaced `LigatureManager` by code in `SVGFontHieroglyphicDrawer`. Simplified the system by using JSesh-based coordinates, not the old Tksesh system (which had a different reference system altogether)

@@ -212,7 +212,7 @@ public class MdCModelWriter {
 			// Well I would write something for SMALLTEXT, but it already works !
 			String code;
 			if (normalized)
-				code=	ManuelDeCodage.getInstance().getCanonicalCode(h.getCode());
+				code= ManuelDeCodage.getInstance().getCanonicalCode(h.getCode()).code();
 			else
 				code= h.getCode();
  

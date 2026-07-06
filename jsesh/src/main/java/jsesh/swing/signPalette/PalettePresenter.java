@@ -53,6 +53,7 @@ import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.PossibilitiesList;
 import jsesh.hieroglyphs.data.Possibility;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
@@ -140,12 +141,12 @@ public class PalettePresenter {
      * Signs already got from the palette, for faster retrieval.
      */
     private final Set<String> lastUsed = new TreeSet<>(
-            GardinerCode.getCodeComparator());
+            ManuelDeCodage.getCodeComparator());
     /**
      * Signs placed in the user palette.
      */
     private final Set<String> userPalette = new TreeSet<>(
-            GardinerCode.getCodeComparator());
+            ManuelDeCodage.getCodeComparator());
     private Set<String> partSet;
     private Set<String> variantSet;
     /**
@@ -360,7 +361,7 @@ public class PalettePresenter {
      */
     private Collection<String> getCompatibleSignsForTag(String tag) {
         Collection<String> signs = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+                ManuelDeCodage.getCodeComparator());
         if (tag != null) {
             switch (tag) {
                 case ALL:
@@ -528,12 +529,12 @@ public class PalettePresenter {
      */
     protected void selectVariants() {
         if (variantSet == null) {
-            variantSet = new TreeSet<>(GardinerCode.getCodeComparator());
+            variantSet = new TreeSet<>(ManuelDeCodage.getCodeComparator());
             partSet = null;
             variantSet.add(getSelectedCode());
         }
         TreeSet<String> tmp = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+                ManuelDeCodage.getCodeComparator());
         tmp.addAll(variantSet);
         Iterator<String> it = tmp.iterator();
         while (it.hasNext()) {
@@ -554,11 +555,11 @@ public class PalettePresenter {
     protected void selectContaining() {
         if (partSet == null) {
             variantSet = null;
-            partSet = new TreeSet<>(GardinerCode.getCodeComparator());
+            partSet = new TreeSet<>(ManuelDeCodage.getCodeComparator());
             partSet.add(getSelectedCode());
         }
         TreeSet<String> tmp = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+                ManuelDeCodage.getCodeComparator());
         tmp.addAll(partSet);
         Iterator<String> it = tmp.iterator();
         while (it.hasNext()) {
@@ -589,7 +590,7 @@ public class PalettePresenter {
             }
             // Closure computed. Now the list of displayed signs:
             TreeSet<String> display = new TreeSet<>(
-                    GardinerCode.getCodeComparator());
+                    ManuelDeCodage.getCodeComparator());
             display.addAll(getDisplayedSigns());
             display.retainAll(containingSign);
             selectNoFamily();
@@ -689,7 +690,7 @@ public class PalettePresenter {
     private void updateSubSignCombobox() {
 
         TreeSet<String> containedSigns = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+                ManuelDeCodage.getCodeComparator());
         // add the signs to the list model for general display.
         // add the signs parts to the list model for the sub-sign selector.
         for (String code : getDisplayedSigns()) {
@@ -731,7 +732,7 @@ public class PalettePresenter {
      */
     private Collection<String> getDisplayedSigns() {
         TreeSet<String> result = new TreeSet<>(
-                GardinerCode.getCodeComparator());
+                ManuelDeCodage.getCodeComparator());
         // run through the possible signs...
         ListModel<String> listModel = simplePalette.getSignTable().getModel();
         for (int i = 0; i < listModel.getSize(); i++) {
@@ -874,7 +875,8 @@ public class PalettePresenter {
         } else {
             HieroglyphPictureBuilder hieroglyphPictureBuilder = new HieroglyphPictureBuilder(hieroglyphicFontManager,
                     simplePalette);
-            hieroglyphPictureBuilder.drawIconInLabel(iconLabel, code, 4);
+            CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+            hieroglyphPictureBuilder.drawIconInLabel(iconLabel, canonicalCode, 4);
             List<String> values = hieroglyphsDatabase.getValuesFor(code);
             if (values == null) {
                 values = new ArrayList<>();
@@ -905,8 +907,7 @@ public class PalettePresenter {
                         + code + "+l " + code
                         + " description. Please notice or correct.");
             }
-
-            ShapeChar shape = hieroglyphicFontManager.get(code);
+            ShapeChar shape = hieroglyphicFontManager.get(canonicalCode);
             if (shape != null) {
                 glyphDescriptionField.setText(shape.getDocumentation());
             } else {

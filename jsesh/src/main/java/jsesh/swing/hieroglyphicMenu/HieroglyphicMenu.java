@@ -44,6 +44,7 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -52,6 +53,7 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
@@ -200,8 +202,13 @@ public class HieroglyphicMenu extends JMenu {
 		 * 
 		 */
 		public HieroglyphAction(String code, HieroglyphPictureBuilder pictureBuilder) {
-			super(code, pictureBuilder.createHieroglyphIcon(code, iconRenderOptions));
+			super(code, buildIt(pictureBuilder, code, iconRenderOptions));
 			this.code = code;
+		}
+
+		private static final Icon buildIt(HieroglyphPictureBuilder pictureBuilder, String code, IconRenderOptions iconRenderOptions) {
+			CanonicalCode canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code);
+			return pictureBuilder.createHieroglyphIcon(canonicalCode, iconRenderOptions);
 		}
 
 		public void actionPerformed(ActionEvent e) {
