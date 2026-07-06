@@ -48,7 +48,10 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         from("src/main/packaging/windows/tksesh.ico") {
             rename { "${fullName}.ico" }
         }
+        from("src/main/packaging/windows/jsesh-file-association.properties") {
+        }
         into("build/prepackage")
+        
     }
     /*
     val copyResources = tasks.register<Copy>("copyResources") {
@@ -151,7 +154,9 @@ runtime {
                 //"--win-per-user-install", would install in C:\Users\user-name\AppData\Local\application-name
                 "--win-dir-chooser",
                 "--win-menu",
-                "--win-shortcut"                
+                "--win-shortcut",
+                "--file-associations", "src/main/packaging/windows/jsesh-file-association.properties"             
+                
             ))            
         } else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
             installerOptions.addAll(listOf(
