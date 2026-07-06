@@ -43,6 +43,14 @@ tasks.named<Test>("test") {
 // Windows MSI installer
 
 if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+    val fullName = "${applicationName}-${project.version}"
+    val copyResources = tasks.register<Copy>("copyResources") {
+        from("src/main/packaging/windows/tksesh.ico") {
+            rename { "${fullName}.ico" }
+        }
+        into("build/prepackage")
+    }
+    /*
     val copyResources = tasks.register<Copy>("copyResources") {
         from("src/main/packaging/windows")
         into("build/prepackage")        
@@ -57,6 +65,7 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
     tasks.named("jpackage") {
         dependsOn(copyWinExtras)
     }
+    */
 } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
     // MAC OS X Installer
     // PATCH !!!!
