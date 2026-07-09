@@ -1,22 +1,22 @@
 package jsesh.hieroglyphs.fonts;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.qenherkhopeshef.observable.ObservableEventListener;
+import org.qenherkhopeshef.observable.ObservableEventSupport;
 
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
-import org.qenherkhopeshef.observable.ObservableEventListener;
-import org.qenherkhopeshef.observable.ObservableEventSupport;
+import jsesh.utils.DirectoryHolder;
 
 /**
  * A font manager which stores the signs as files in a directory. The codes for
@@ -33,7 +33,7 @@ public class DirectoryHieroglyphShapeRepository implements
 
 	private final ObservableEventSupport<HieroglyphShapeRepositoryChangedEvent> eventSupport = new ObservableEventSupport<>();
 
-	private FolderProxy directory;
+	private DirectoryProxy directoryProxy;
 
 	private TreeMap<String, File> codeMap = new TreeMap<String, File>(
 			ManuelDeCodage.getCodeComparator());
@@ -50,9 +50,8 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * 
 	 * @param directory May be null.
 	 */
-	public DirectoryHieroglyphShapeRepository(File directory) {
-		super();
-		this.directory = new FolderProxy(directory);
+	public DirectoryHieroglyphShapeRepository(DirectoryHolder directory) {
+		this.directoryProxy = new DirectoryProxy(directory);
 
 		signsMap = new HashMap<String, ShapeChar>();
 		hasNewSigns = true;
@@ -66,7 +65,7 @@ public class DirectoryHieroglyphShapeRepository implements
 		File[] contents;
 
 		// List all svg files.
-		contents = directory.listFiles(new FilenameFilter() {
+		contents = directoryProxy.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase(Locale.ENGLISH).endsWith(".svg");
 			};
@@ -87,7 +86,7 @@ public class DirectoryHieroglyphShapeRepository implements
 			}
 		}
 		hasNewSigns = true;
-		lastRefreshed = directory.lastModified();
+		lastRefreshed = directoryProxy.lastModified();
 	}
 
 	@Override	
@@ -125,7 +124,7 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * @return
 	 */
 	private void refreshIfNeeded() {
-		if (directory == null || directory.lastModified() > lastRefreshed) {
+		if (directoryProxy == null || directoryProxy.lastModified() > lastRefreshed) {
 			refresh();
 		}
 	}
@@ -135,35 +134,29 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * <p> If it's not defined, may be null.
 	 * @return Returns the directory (may be null)
 	 */
-	public File getDirectory() {
-		return directory.getFolder();
+	public Optional<File> getDirectoryProxy() {
+		return directoryProxy.getDirectoryHolder().optDirectory();
 	}
 
-	public void insertNewSign(String code, ShapeChar shapeChar) {
-		if (directory.getFolder() == null)
-			throw new NullPointerException("Can not insert files in " + null);
-		File f = new File(directory.getFolder(), code + ".svg");
-		OutputStream out;
-		try {
-			out = new FileOutputStream(f);
-			shapeChar.exportToSVG(out, "UTF-8");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		hasNewSigns = true;
-		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
-	}
+	// public void insertNewSign(String code, ShapeChar shapeChar) {
+	// 	if (directoryProxy.getDirectoryHolder() == null)
+	// 		throw new NullPointerException("Can not insert files in " + null);
+	// 	File f = new File(directoryProxy.getDirectoryHolder(), code + ".svg");
+	// 	OutputStream out;
+	// 	try {
+	// 		out = new FileOutputStream(f);
+	// 		shapeChar.exportToSVG(out, "UTF-8");
+	// 	} catch (IOException e) {
+	// 		e.printStackTrace();
+	// 	}
+	// 	hasNewSigns = true;
+	// 	eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
+	// }
 
 	public boolean hasNewSigns() {	
-		if (directory.lastModified() > lastRefreshed)
+		if (directoryProxy.lastModified() > lastRefreshed)
 			hasNewSigns = true;
 		return hasNewSigns;
-	}
-
-	public void setDirectory(File directory) {
-		this.directory = new FolderProxy(directory);
-		refresh();
-		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
 	}
 
 	@Override
@@ -178,35 +171,36 @@ public class DirectoryHieroglyphShapeRepository implements
 
 	/**
 	 * Proxy class supporting "null" folder in a gracefull way.
+	 * A DirectoryHieroglyphShapeRepository with a null folder is a valid object,
+	 * but it will not contain any sign. This avoids null checks in the code.
 	 * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
-	 *
 	 */
-	private static class FolderProxy {
-		File folder;
+
+	private class DirectoryProxy {
+		DirectoryHolder directoryHolder;
+
 		long lastModified= 0;
 
-		public FolderProxy(File folder) {
-			super();
-			this.folder = folder;
+		public DirectoryProxy(DirectoryHolder directoryHolder) {
+			this.directoryHolder = directoryHolder;
+			directoryHolder.addListener(e -> {
+				this.lastModified= System.currentTimeMillis();
+				refreshIfNeeded();
+			});
 			this.lastModified= System.currentTimeMillis();
 		}
 
-		public File getFolder() {
-			return folder;			
+		public DirectoryHolder getDirectoryHolder() {
+			return directoryHolder;			
 		}
 
 		public long lastModified() {
-			if (folder != null)
-				return folder.lastModified();
-			else
-				return lastModified;
+			return directoryHolder.optDirectory().map(File::lastModified).orElse(lastModified);
 		}
 
 		public File[] listFiles(FilenameFilter filenameFilter) {
-			if (folder != null)
-				return folder.listFiles(filenameFilter);
-			else
-				return new File[0];
+			return directoryHolder.optDirectory().
+				map(d -> d.listFiles(filenameFilter)).orElse(new File[0]);			
 		}
 
 	}

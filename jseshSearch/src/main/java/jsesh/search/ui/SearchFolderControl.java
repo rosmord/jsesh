@@ -29,7 +29,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
@@ -54,7 +54,7 @@ class SearchFolderControl {
 
     
 
-    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
         this.ui = new JSearchFolderPanel(styleRef, fontKit);
         this.corpusSearchTarget = corpusSearchTarget;
         clearTable();

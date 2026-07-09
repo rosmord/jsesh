@@ -1,6 +1,6 @@
 package jsesh.defaults;
 
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.Constants;
 import jsesh.hieroglyphs.fonts.GnutraceHieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
@@ -22,8 +22,7 @@ public class PredefinedFonts {
      * @return a new instance of the standard JSesh font.
      */
     public static HieroglyphShapeRepository standardJSeshFont() {
-        return new ResourcesHieroglyphicShapeRepository(
-				"/jseshGlyphs");
+        return new ResourcesHieroglyphicShapeRepository(Constants.STANDARD_JSESH_FONT_RESOURCE_PATH);
     }
 
     /**
@@ -34,15 +33,4 @@ public class PredefinedFonts {
         return GnutraceHieroglyphShapeRepository.getInstance();
     }
 
-    /**
-     * Create an instance of the default JSesh font, using first the standard JSesh font, and then the GnuTrace font as a fallback.
-     * <p> Doesn't use user-defined fonts.
-     * @return
-     */
-    public static CompositeHieroglyphShapeRepository compositeFont() {
-        CompositeHieroglyphShapeRepository result = new CompositeHieroglyphShapeRepository();
-        result.addHieroglyphicFontManager(standardJSeshFont());
-        result.addHieroglyphicFontManager(gnuTraceFont());
-        return result;
-    }
 }

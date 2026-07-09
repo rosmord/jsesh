@@ -8,7 +8,6 @@ import java.util.prefs.Preferences;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
 
@@ -64,7 +63,7 @@ public class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeReposi
 	}
 
 	public File getDirectory() {
-		return directoryManager.getDirectory();
+		return directoryManager.getDirectoryProxy();
 	}
 
 	public void setDirectory(File directory) {

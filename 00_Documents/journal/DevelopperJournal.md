@@ -11,11 +11,6 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
-This is the next task for me, as soon as I start working:
-
-- [x] add use of `jpackage` (through the `org.beryx.runtime` plugin) to produce the JSesh distribution. As a side note, it will be difficult to incorporate the text library in all distributions. We might consider providing a way to **download it from JSesh** itself.
-
-
 
 ## Important decisions
 
@@ -26,63 +21,6 @@ This is the next task for me, as soon as I start working:
 
 This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file.
 
-
-
-### How to build resources
-
-Regarding the available resources and preferences, here is a documentation about how we can access them.
-
-- *Note that a revision of this system could be useful, in order to make is more cohesive*.
-- *names are liable to change*.
-
-
-The current philosophy is:
-
-- immutable values can be accessed through a singleton ;
-- other values can be created, but should normally be shared. The best way would be either to use *dependency injection* or to create a single instance of them at the *top level* of the application. Component should not need to decide whence they take their data.
-
-#### Defaults (without access to user preferences)
-
-`JSeshStyle`
-: A default value is available as a static field in the class, `JSeshStyle.DEFAULT`. Note that the class is immutable.
-
-`HieroglyphShapeRepository`
-: the interface has a static method called  `getStandardShapeRepository` which returns a singleton instance of a font based on old Gardiner-like tksesh font and the modern JSesh font (if its jar is available). Fine-grained access is available through the class `PredefinedFonts`, with static methods to create instances of the various fonts. The `HieroglyphShapeRepository.getStandardShapeRepository()` method is more convenient.
-
-`HieroglyphDatabaseInterface`
-: a call to `HieroglyphDatabaseFactory.buildPlainDefault(...)` will give you a database with only the JSesh embedded data.
-
-  The following code would do:
-  ~~~java
-  var shapeRepository = HieroglyphShapeRepository.getStandardShapeRepository()
-  var database = HieroglyphDatabaseFactory.buildPlainDefault(shapeRepository);
-  ~~~
-
-`JseshFontKit`
-: an interface which represents a <strong>coordinated</strong> n-uplet of  `PossibilityRepository`,  `HieroglyphShapeRepository` and `HieroglyphDatabaseInterface`. The class `SimpleFontKit` provides a singleton `embeddedOnlyInstance` and convenient named constructor for more versatile instances.
-
-`JSeshRenderContext`
-: used as argument of **drawing operations.**. Can be built on the fly. It's a couple of `HieroglyphShapeRepository` and `JSeshStyle`. It can be built with its very simple constructor.
-
-#### With user preferences
-
-The simplest way to access font resources is to use `JSeshUserSignLibraryConfiguration`.
-
-`JSeshUserSignLibraryConfiguration`
-: An instance of this class, created by calling its default constructor, is a `JSeshFontKit`. It also gives access to `JSeshFullHieroglyphShapeRepository`, `GlossaryManager`, and `HieroglyphDatabaseInterface`. In most cases, only one instance of this class should be created. That is, it should be a singleton in the **Spring** meaning of the term, even if it's not one in the GoF sense.
-
-`HieroglyphShapeRepository`
-: has an implementation which provides access to the user folder, `JSeshFullHieroglyphShapeRepository`. It can be instanciated using its constructor; 
-
-`JseshFontKit`
-: use the various named constructors of `SimpleFontKit` to create an instance with the user preferences. The simplest way is to use `JSeshUserSignLibraryConfiguration`.
-
-`Glossary`
-: available through the `GlossaryManager`, which is a singleton. It will automatically load the user glossary.
-
-
-User sign database source
-: The XML file which may contain user-defined sign properties is found at `HieroglyphDatabaseFactory.getUserSignDefinitionFile()`.
 
 ## TODO
 
@@ -273,31 +211,30 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-09
 
-## 2026-07-03
+- **TODO** : rename `Constants` to `HieroglyphFontConstants` ;
+- still pending: where to use `CanonicalCode`;
+- work on resources factories: how can be get the `HieroglyphShapeRepository` and other resources in a **simple** way, while keeping the ability to add new sources of glyphs if we want to.
+
+### 2026-07-03
+
+
+- [x] temporary fix: canonical Gardiner codes with a "H" ending should be normalized with a "h" ending. e.g. A23H should be normalized A23h. **Wrote test for this.**
+
+- [x] add use of `jpackage` (through the `org.beryx.runtime` plugin) to produce the JSesh distribution. As a side note, it will be difficult to incorporate the text library in all distributions. We might consider providing a way to **download it from JSesh** itself.
 
 - [ ] consider whether or not we replace strings by `CanonicalCode` in search engine.
 - [ ] decide if `HieroglyphCodesSource.getCodes()`returns strings or canonical codes.
 - [ ] todo: check that _BOLD signs can be used.
-- [ ] temporary fix: canonical Gardiner codes with a "H" ending should be normalized with a "h" ending. e.g. A23H should be normalized A23h.
 - [ ] look closely at the responsabilities of `ManuelDeCodage` and `GardinerCode`.
 - [x] checked jpackage on windows (we still need to add a few things though)
 
-
-- [ ] - **`HieroglyphCode` / canonicalization** — the journal describes the plan: introduce a `HieroglyphCode` value class with a `ConcurrentHashMap` cache; move canonicalization out of each `HieroglyphShapeRepository` implementation. The journal says "don't do this right now" but with the observable work done, this becomes the natural next step.
-
-
-- [ ] solve the problem of signs canonization.
-  - instead of Strings as codes, the `HieroglyphShapeRepository` could use a specific class, `HieroglyphCode` (or `MDCCode`). It would be a simple value class ;
-  - [x] added class `GardinerCode`
-    - canonicalization would be performed by a factory method, which could cache the codes;
-    - to enforce use of the factory method, the class can't be a record, for it would need a public constructor. But it should be a value class;
-    - the cache would be a `ConcurrentHashMap<String, HieroglyphCode>`, because Manuel de Codage code manipulation can be performed by code outside of JSesh GUI (e.g. in the search engine).
-  - we don't make this modification right now, because it's moderately complex. Meanwhile, we had the canonicalization in each implementation of `HieroglyphShapeRepository`, with a TODO comment to the effect that it must be removed later.
-  - consider the existence of `_BOLD` codes in the process.
+- [x] solve the problem of signs canonization.
+  - instead of Strings as codes, the `HieroglyphShapeRepository` we use a specific class, `CanonicalCode`. It's in fact an interface hiding a record.
 
 
-## 2026-07-02
+### 2026-07-02
 
 - lost lots of time because of [this bug](https://bugs.openjdk.org/browse/JDK-8372753). 
   - file associations don't seem to work on Mac (with my current environment)
@@ -309,30 +246,30 @@ List of classes which need some cleanup:
 - [ ] maybe try to package more than one laucher.
 - [ ] do the same for SignInfo editor.
 
-## 2026-07-01
+### 2026-07-01
 
 - [x] first generation of binary through jpackage for JSesh.
 
  
-## 2026-06-27
+### 2026-06-27
 
 - [x] **Renamed `HieroglyphDatabaseInterface` → `HieroglyphDatabase`** and `SimpleHieroglyphDatabase` → `DefaultHieroglyphDatabase` 
 
-## 2026-06-24
+### 2026-06-24
 
 A bit of cleanup: removed the old `utils/copyData.xml` **Ant script** and replaced it by the gradle `prepareResources` task.
 
 
-## 2026-06-23
+### 2026-06-23
 
-###  Problem with gradle build
+####  Problem with gradle build
 
 - finished the handling of observable fonts; improved the architecture of the system (LLM are quite useful here) ;
 - added tests for module `qenherkhopeshefUtils` (in the simple cases). Another LLM-assisted refactoring;
 - The *cup* and *lex* tasks were running randomly when we ran `./gradlew build`, even when nothing had changed.
 In fact, it was due to alternating between command line build and IDE build. The system recognized changes in the environment, and re-ran the `buildSrc` construction.
 
-## 2026-06-22
+### 2026-06-22
 
 - started working on the problem of observable fonts.
 
@@ -1126,7 +1063,7 @@ The `JSeshRenderContext` should also hold a `HieroglyphicFontManager`, not a `Hi
 
 ### 2026/04/08
 
-### TODO
+####‡ TODO
 
 - TODO: introduce a class for Combobox and lists elements which would allow:
   - stand-in, label only elements (for the first entry)
@@ -1216,12 +1153,6 @@ It could be done in an MVC way.
 ### Current system for characters updates in `DirectoryHieroglyphicFontManager`
 
 Currently, nothing is really done. Modern Java/IO would allow us to watch for file changes.
-
-
-
-
-
-
 
 
 ### 2026/03/24

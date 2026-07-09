@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.hieroglyphs.resources.HieroglyphResources;
+import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
 
 /**
  * A Singleton class representing the core Manuel de Codage.
@@ -194,7 +194,7 @@ public class ManuelDeCodage {
      */
     private void fillBasicGardinerCodeMap() {
         basicGardinerCodeMap = new HashMap<>();
-        try (Reader in = HieroglyphResources.getBasicGardinerCodes();) {
+        try (Reader in = EmbeddedGlyphsPathResources.getBasicGardinerCodes();) {
             // Read and build the map if necessary
 
             StreamTokenizer tok = new StreamTokenizer(in);

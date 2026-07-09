@@ -23,7 +23,8 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.swing.utils.GraphicsUtils;
@@ -66,8 +67,8 @@ public class JMDCField extends JMDCEditor {
      * @param possibilityRepository     source for automated completion.
      */
     public JMDCField(int width, JSeshStyleReference styleReference,
-            HieroglyphToolkit fontKit) {
-        super(new HieroglyphicTextModel(), styleReference, fontKit);
+            HieroglyphResources hieroglyphResources) {
+        super(new HieroglyphicTextModel(), styleReference, hieroglyphResources);
         
         // Compute the prefered size from width and style.
         preferedSize = computePreferedSize(width, styleReference.getStyle());
@@ -98,9 +99,9 @@ public class JMDCField extends JMDCEditor {
      * @param hieroglyphShapeRepository source for hieroglyph shapes.
      * @param possibilityRepository     source for automated completion.
      */
-    public JMDCField(int width, int height, JSeshStyle style, HieroglyphToolkit fontKit) {
+    public JMDCField(int width, int height, JSeshStyle style, HieroglyphResources hieroglyphResources) {
         this(width, new JSeshStyleReference(adaptStyleToHeight(style, height, DEFAULT_MARGIN)),
-                fontKit);
+                hieroglyphResources);
     }
 
     /**
@@ -111,7 +112,7 @@ public class JMDCField extends JMDCEditor {
      * @param height
      */
     public JMDCField(int width, int height) {
-        this(width, height, JSeshStyle.DEFAULT, HieroglyphToolkit.standardHieroglyphToolKit());
+        this(width, height, JSeshStyle.DEFAULT, HieroglyphResourcesBuilder.buildEmbedded());
     }
 
     

@@ -18,11 +18,11 @@ import org.xml.sax.SAXException;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilder;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
-import jsesh.hieroglyphs.resources.HieroglyphResources;
+import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.resources.ResourcesManager;
 
 /**
- * A convenient factory to initialize a hieroglyph database.
+ * A collection of factory methods to initialize a hieroglyph database.
  * 
  * @author rosmord
  */
@@ -38,7 +38,7 @@ public class HieroglyphDatabaseFactory {
      * @param hieroglyphCodesSource
      * @return
      */
-    public static DefaultHieroglyphDatabase buildWithUserDefinitions(HieroglyphCodesSource hieroglyphCodesSource) {
+    public static HieroglyphDatabase buildWithUserDefinitions(HieroglyphCodesSource hieroglyphCodesSource) {
         DefaultHieroglyphDatabase database = new DefaultHieroglyphDatabase(hieroglyphCodesSource);
         addEmbeddedDescriptionsTo(database);
         addUserDescriptionsTo(database);
@@ -52,7 +52,7 @@ public class HieroglyphDatabaseFactory {
      * @param hieroglyphCodesSource
      * @return
      */
-    public static DefaultHieroglyphDatabase buildPlainDefault(HieroglyphCodesSource hieroglyphCodesSource) {
+    public static HieroglyphDatabase buildPlainDefault(HieroglyphCodesSource hieroglyphCodesSource) {
         DefaultHieroglyphDatabase database = new DefaultHieroglyphDatabase(hieroglyphCodesSource);
         addEmbeddedDescriptionsTo(database);        
         return database;
@@ -110,7 +110,7 @@ public class HieroglyphDatabaseFactory {
             // Read standard ressource...
             SignDescriptionReader reader = new SignDescriptionReader(
                     adapter);
-            try (InputStream in1 = HieroglyphResources.getSignsDescriptionXML();) {
+            try (InputStream in1 = EmbeddedGlyphsPathResources.getSignsDescriptionXML();) {
                 // Read "standard" signs description
 
                 if (in1 != null) {

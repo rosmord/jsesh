@@ -22,14 +22,14 @@ Roughly two-thirds of the `getInstance()` call count lives inside `jhotdrawfw` (
 
 The developer journal's stated philosophy is clear: *"immutable values can be accessed through a singleton."* The following singletons hold data that is genuinely read-only and loaded once from classpath or a fixed file — they are correctly implemented as singletons.
 
-| Singleton | Why it is acceptable |
-|-----------|----------------------|
-| `ManuelDeCodage` | Explicitly approved in the journal: *"it does only deal with the basic Gardiner List. We can continue to use a singleton here."* The data is the Gardiner code table — it never changes at runtime. |
-| `ResourcesManager` | Provides access to embedded classpath resources: transliteration fonts, icon definitions, ligature data, the user prefs directory. All read-only after construction. |
-| `SpecialSymbolDrawer` | Self-documented: *"stateless, and costly to create, so we use a singleton."* Correctly designed. |
-| `TkseshLigatureCatalogue` | Reads a fixed ligature file once; used as a lookup table. No mutable state. |
-| `WildcardFont` | Loads a classpath font resource for the search field; purely read-only. |
-| `BundleHelper` | The i18n singleton for JHotDraw action labels, called in every Action constructor. Even ignoring the JHotDraw coupling, this is the standard pattern for a resource bundle — passing it as a constructor parameter to ~30 action classes would add noise with no gain. Acceptable. |
+| Singleton                 | Why it is acceptable                                                                                                                                                                                                                                                               |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ManuelDeCodage`          | Explicitly approved in the journal: *"it does only deal with the basic Gardiner List. We can continue to use a singleton here."* The data is the Gardiner code table — it never changes at runtime.                                                                                |
+| `ResourcesManager`        | Provides access to embedded classpath resources: transliteration fonts, icon definitions, ligature data, the user prefs directory. All read-only after construction.                                                                                                               |
+| `SpecialSymbolDrawer`     | Self-documented: *"stateless, and costly to create, so we use a singleton."* Correctly designed.                                                                                                                                                                                   |
+| `TkseshLigatureCatalogue` | Reads a fixed ligature file once; used as a lookup table. No mutable state.                                                                                                                                                                                                        |
+| `WildcardFont`            | Loads a classpath font resource for the search field; purely read-only.                                                                                                                                                                                                            |
+| `BundleHelper`            | The i18n singleton for JHotDraw action labels, called in every Action constructor. Even ignoring the JHotDraw coupling, this is the standard pattern for a resource bundle — passing it as a constructor parameter to ~30 action classes would add noise with no gain. Acceptable. |
 
 **Action required: none.** Document this explicitly so future contributors don't mistake these for legacy accidents.
 
@@ -39,10 +39,10 @@ The developer journal's stated philosophy is clear: *"immutable values can be ac
 
 The following singletons are in the process of being replaced by the `JSeshFontKit` / `HieroglyphShapeRepository.getStandardShapeRepository()` pattern that the developer journal documents as the new canonical approach.
 
-| Singleton | Status |
-|-----------|--------|
+| Singleton                                         | Status                                                                                                                                               |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `GnutraceHieroglyphShapeRepository.getInstance()` | Used as a building block inside `StandardFontShapeRepository`. The public API is moving to `HieroglyphShapeRepository.getStandardShapeRepository()`. |
-| `StandardFontShapeRepository.getInstance()` | The backing implementation of `getStandardShapeRepository()`. Will eventually be hidden behind the interface. |
+| `StandardFontShapeRepository.getInstance()`       | The backing implementation of `getStandardShapeRepository()`. Will eventually be hidden behind the interface.                                        |
 
 The journal's `HieroglyphShapeRepository` / `SimpleFontKit` / `JSeshUserSignLibraryConfiguration` documentation describes the intended end state. Both of these will become implementation details once the refactoring is complete.
 
@@ -91,17 +91,17 @@ The class itself is a singleton wrapper around a `Layout` factory with a `JSeshS
 
 ## Revised Singleton Priority Table
 
-| Singleton | Category | Action |
-|-----------|----------|--------|
-| All `jhotdrawfw` singletons | Frozen framework | Ignore |
-| `ManuelDeCodage` | Static data, explicitly approved | Keep as-is, document |
-| `ResourcesManager` | Static classpath resources | Keep as-is |
-| `SpecialSymbolDrawer` | Stateless, self-documented | Keep as-is |
-| `TkseshLigatureCatalogue` | Static file, read-only | Keep as-is |
-| `WildcardFont` | Classpath font, read-only | Keep as-is |
-| `BundleHelper` | i18n bundle, JHotDraw pattern | Keep as-is |
-| `GnutraceHieroglyphShapeRepository` | Font singleton, migration in progress | Finish existing refactoring |
-| `StandardFontShapeRepository` | Font singleton, migration in progress | Finish existing refactoring |
-| `GlossaryManager` (implicit) | Needs testable constructor | Add named constructor with path arg |
-| `ImageIconFactory` | Mutable singleton — medium risk | Migrate after `HieroglyphPictureBuilder` refactor |
-| **`MDCEditorKit`** | **Dead code** | **Delete now** |
+| Singleton                           | Category                              | Action                                            |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| All `jhotdrawfw` singletons         | Frozen framework                      | Ignore                                            |
+| `ManuelDeCodage`                    | Static data, explicitly approved      | Keep as-is, document                              |
+| `ResourcesManager`                  | Static classpath resources            | Keep as-is                                        |
+| `SpecialSymbolDrawer`               | Stateless, self-documented            | Keep as-is                                        |
+| `TkseshLigatureCatalogue`           | Static file, read-only                | Keep as-is                                        |
+| `WildcardFont`                      | Classpath font, read-only             | Keep as-is                                        |
+| `BundleHelper`                      | i18n bundle, JHotDraw pattern         | Keep as-is                                        |
+| `GnutraceHieroglyphShapeRepository` | Font singleton, migration in progress | Finish existing refactoring                       |
+| `StandardFontShapeRepository`       | Font singleton, migration in progress | Finish existing refactoring                       |
+| `GlossaryManager` (implicit)        | Needs testable constructor            | Add named constructor with path arg               |
+| `ImageIconFactory`                  | Mutable singleton — medium risk       | Migrate after `HieroglyphPictureBuilder` refactor |
+| **`MDCEditorKit`**                  | **Dead code**                         | **Delete now**                                    |

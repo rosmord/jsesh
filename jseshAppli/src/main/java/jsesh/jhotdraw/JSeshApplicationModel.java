@@ -67,7 +67,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MDCModelTransferableBroker;
 import jsesh.graphics.export.emf.EMFExporter;
@@ -206,7 +206,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
         JSeshStyleReference commonStyle = jseshApplicationCore.jseshComponentsStyle();
-        HieroglyphToolkit fontKit = jseshApplicationCore.getFontKit();
+        HieroglyphResources fontKit = jseshApplicationCore.getFontKit();
 
         this.application.initSecondaryWindow(palettePresenter.getDialog());
         this.application.initSecondaryWindow(

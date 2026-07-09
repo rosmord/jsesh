@@ -20,12 +20,13 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.data.HieroglyphDatabase;
+import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadratSearchQuery;
@@ -75,13 +76,14 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphToolkit fontKit) {               
-        HieroglyphToolkit newFontKit = new SimpleHieroglyphToolkit(WildcardFont.getInstance().addToFont(fontKit.hieroglyphShapeRepository()),
-             fontKit.possibilityRepository(), fontKit.hieroglyphDatabase());
-        this.hieroglyphDatabase = newFontKit.hieroglyphDatabase();
+    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphResources originalResources) {               
+        CompositeHieroglyphShapeRepository composite = new CompositeHieroglyphShapeRepository();
+        composite.addHieroglyphicFontManager(WildcardFont.getInstance());
+        composite.addHieroglyphicFontManager(originalResources.hieroglyphShapeRepository());
+        HieroglyphResources hieroglyphResources = new HieroglyphResources(composite, originalResources.database(), originalResources.possibilityRepository());        
 
         // MdC Search
-        this.searchField = new JMDCField(100, styleReference,newFontKit);
+        this.searchField = new JMDCField(100, styleReference,hieroglyphResources);
 
         
         

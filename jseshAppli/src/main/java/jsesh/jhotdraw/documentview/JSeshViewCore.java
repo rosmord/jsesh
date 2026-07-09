@@ -49,7 +49,7 @@ import javax.swing.Timer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelEditionAdapter;
@@ -98,7 +98,7 @@ public final class JSeshViewCore {
      * Information about fonts and glyphs.
      */
 
-    private HieroglyphToolkit fontKit;
+    private HieroglyphResources fontKit;
 
     /**
      * The document we are working on.
@@ -132,7 +132,7 @@ public final class JSeshViewCore {
      * @param fontKit information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
-    public JSeshViewCore(HieroglyphToolkit fontKit, JSeshStyle style, MDCIconFactory iconFactory) {
+    public JSeshViewCore(HieroglyphResources fontKit, JSeshStyle style, MDCIconFactory iconFactory) {
         this.fontKit = fontKit;
         this.iconFactory = iconFactory;
         viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);

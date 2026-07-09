@@ -34,7 +34,7 @@
  */
 package jsesh.search.ui;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
@@ -65,7 +65,7 @@ public class SearchPanelFactory {
      * @param fontKit 
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanel(SearchTarget target, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+    public static JWildcardPanel createWildCardPanel(SearchTarget target, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
         return new JWildcardPanel(target, styleRef, fontKit);
     }
 
@@ -77,11 +77,11 @@ public class SearchPanelFactory {
      * @param target
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
         return new JWildcardPanel(target, false, styleRef, fontKit);
     }
 
-    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
         SearchFolderControl control = new SearchFolderControl(corpusSearchTarget, styleRef, fontKit);
         return control.getPanel();
     }

@@ -41,7 +41,7 @@ import java.util.prefs.Preferences;
 
 import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
@@ -474,7 +474,7 @@ public class JSeshApplicationCore {
      * 
      * @return a hieroglyph compendium.
      */
-    public HieroglyphToolkit getFontKit() {
+    public HieroglyphResources getFontKit() {
         return new SimpleHieroglyphToolkit(hieroglyphShapeRepository, possibilityRepository, hieroglyphDatabase);
     }
 

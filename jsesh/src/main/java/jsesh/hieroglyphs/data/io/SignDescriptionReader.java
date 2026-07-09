@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.resources.HieroglyphResources;
+import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
@@ -146,7 +146,7 @@ public class SignDescriptionReader {
             @Override
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
             // we shall be quite forgiving about the DTD name and such.
-            InputStream inputStream = HieroglyphResources.getSignDescriptionDTD();
+            InputStream inputStream = EmbeddedGlyphsPathResources.getSignDescriptionDTD();
             return new InputSource(inputStream);
         }
     }

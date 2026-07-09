@@ -42,4 +42,12 @@ public class ManuelDeCodageTest {
         assertEquals(expected, actual.toString());
     }
 
+    @Test
+    public void testCodeWithH() {
+        String mdc = "A23H";
+        String expected = "A23h";        
+        CanonicalCode actual = ManuelDeCodage.getInstance().getCanonicalCode(mdc);
+        assertEquals(expected, actual.code());
+        assertEquals(expected, actual.toString());
+    }
 }

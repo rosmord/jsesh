@@ -1,0 +1,113 @@
+@startuml resources
+skin rose
+hide empty members
+
+class JSeshRenderContext <<record>> {
+    jseshStyle : JSeshStyle
+    hieroglyphShapeRepository: HieroglyphShapeRepository
+}
+
+JSeshRenderContext ..> HieroglyphShapeRepository
+JSeshRenderContext ..> JSeshStyle
+
+class JSeshStyle {}
+
+interface HieroglyphCodesSource {
+    hasCode(code : String): boolean
+    getCodes() : List<String>
+}
+
+interface HieroglyphShapeRepository extends HieroglyphCodesSource{
+    get(String code): ShapeChar
+    getSmallBody(String code): ShapeChar
+    hasNewSigns(): boolean
+    {static} getStandardShapeRepository(): HieroglyphShapeRepository
+}
+
+HieroglyphShapeRepository ..> ShapeChar
+
+class ShapeChar {}
+
+class StandardFontShapeRepository <<package local>> implements HieroglyphShapeRepository {}
+
+
+interface HieroglyphToolkit {
+    {static} standardHieroglyphToolKit() : SimpleHieroglyphToolkit
+
+    hieroglyphShapeRepository() : HieroglyphShapeRepository     
+    possibilityRepository() : PossibilityRepository
+    hieroglyphDatabase() : HieroglyphDatabaseInterface;
+}
+
+
+HieroglyphToolkit ..> HieroglyphDatabaseInterface
+
+HieroglyphToolkit ..> PossibilityRepository
+
+interface PossibilityRepository {}
+
+class JSeshUserSignLibraryConfiguration implements HieroglyphToolkit{}
+
+class SimpleHieroglyphToolkit implements HieroglyphToolkit {
+    {static}  embeddedOnlyInstance() : HieroglyphToolkit
+    {static} buildFontWithoutUserDefinitions  (HieroglyphShapeRepository font,
+     JSeshGlossary glossary) : SimpleHieroglyphToolkit
+    {static} buildFontWithUserDescriptions(HieroglyphShapeRepository fonts,
+            JSeshGlossary glossary)
+    SimpleHieroglyphToolkit(HieroglyphShapeRepository hieroglyphShapeRepository,
+            PossibilityRepository possibilityRepository, HieroglyphDatabaseInterface hieroglyphDatabase)
+}
+
+class PredefinedFonts <<utility>> {
+    {static}standardJSeshFont() :  HieroglyphShapeRepository
+    {static}  gnuTraceFont() : HieroglyphShapeRepository
+    {static}  compositeFont() : CompositeHieroglyphShapeRepository
+}
+
+PredefinedFonts ..> CompositeHieroglyphShapeRepository
+
+class CompositeHieroglyphShapeRepository implements HieroglyphShapeRepository {
+    addHieroglyphicFontManager(HieroglyphShapeRepository repository)
+}
+
+
+interface HieroglyphDatabaseInterface {
+    getPossibilityFor(String phoneticValue, String level): PossibilitiesList 
+    getValuesFor(String gardinerCode) : List<String> 
+
+}
+
+class GlossaryManager {
+    getGlossary(): JSeshGlossary
+}
+
+class JSeshGlossary {
+
+}
+
+class GlossaryEntry {}
+
+JSeshGlossary --> "*" GlossaryEntry 
+
+class JMDCEditor {
+    JMDCEditor(HieroglyphicTextModel, JSeshStyle, HieroglyphToolkit)
+}
+
+JMDCEditor ..> JSeshStyle
+JMDCEditor ..> HieroglyphToolkit
+JMDCEditor ..> HieroglyphicTextModel
+
+class HieroglyphicTextModel {}
+
+SimpleHieroglyphToolkit ..> GlossaryManager
+
+JSeshUserSignLibraryConfiguration ..> GlossaryManager
+
+class JSeshFullHieroglyphShapeRepository implements HieroglyphShapeRepository  {
+    setDirectory(File directory)
+}
+
+GlossaryManager -> JSeshGlossary
+
+PredefinedFonts ..>  HieroglyphShapeRepository
+@enduml

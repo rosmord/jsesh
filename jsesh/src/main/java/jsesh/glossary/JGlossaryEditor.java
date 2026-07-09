@@ -48,7 +48,7 @@ import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JMDCField;
@@ -90,12 +90,12 @@ public class JGlossaryEditor extends JPanel {
 			evt) -> SwingUtilities.invokeLater(() -> repositoryChanged());			
 
 	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyle jSeshStyle,
-			HieroglyphToolkit hieroglyphToolKit) {
+			HieroglyphResources hieroglyphToolKit) {
 		this(glossaryManager, new JSeshStyleReference(jSeshStyle), hieroglyphToolKit);
 	}
 
 	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyleReference styleRef,
-			HieroglyphToolkit hieroglyphToolKit) {
+			HieroglyphResources hieroglyphToolKit) {
 		model = new GlossaryTableModel(glossaryManager);
 		codeField = new JTextField(10);
 		mdcField = new JMDCField(WIDTH, styleRef, hieroglyphToolKit);

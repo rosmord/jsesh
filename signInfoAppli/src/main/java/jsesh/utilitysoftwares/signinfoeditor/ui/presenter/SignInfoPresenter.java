@@ -43,7 +43,7 @@ import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
-import jsesh.hieroglyphs.resources.HieroglyphResources;
+import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
 import jsesh.hieroglyphs.utils.PictureDimension;
@@ -898,7 +898,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
         // Read the basic JSesh description.
         signInfoModelBuilder.setInUserPart(false);
-        InputStream in1 = HieroglyphResources.getSignsDescriptionXML();
+        InputStream in1 = EmbeddedGlyphsPathResources.getSignsDescriptionXML();
 
         try {
             signDescriptionReader.readSignDescription(in1);

@@ -54,11 +54,7 @@ import jsesh.resources.ResourcesManager;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 public class GlossaryManager {
-	/**
-	 * Name of the file in which the glossary is saved.
-	 */
-	private static final String JSESH_GLOSSARY_TXT = "jsesh_glossary.txt";
-
+	
 	private Glossary glossary;
 
 	public GlossaryManager() {
@@ -120,16 +116,7 @@ public class GlossaryManager {
 		}
 	}
 
-	/**
-	 * Returns the file containing the user's glossary.
-	 * 
-	 * @return
-	 */
-	public static File getUserSignDefinitionFile() {
-		File f = ResourcesManager.getInstance().getUserPrefsDirectory();
-		f = new File(f, JSESH_GLOSSARY_TXT);
-		return f;
-	}
+	
 
 
 	public Glossary getGlossary() {

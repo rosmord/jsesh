@@ -36,7 +36,7 @@ package jsesh.jhotdraw.dialogs;
 
 import javax.swing.JFrame;
 
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.ui.JSearchFolderPanel;
@@ -49,7 +49,7 @@ import jsesh.search.ui.SearchPanelFactory;
 public class CorpusSearchDialogFrame extends JFrame{
     JSearchFolderPanel jseshFolderPanel;
     
-    public CorpusSearchDialogFrame(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphToolkit fontKit) {
+    public CorpusSearchDialogFrame(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
         this.jseshFolderPanel = SearchPanelFactory.createSearchFolderPanel(corpusSearchTarget, styleRef, fontKit);
         this.add(jseshFolderPanel);
         this.pack();

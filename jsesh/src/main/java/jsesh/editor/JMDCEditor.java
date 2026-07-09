@@ -70,7 +70,8 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.clipboard.JSeshPasteFlavors;
 import jsesh.clipboard.MDCModelTransferable;
-import jsesh.defaults.HieroglyphToolkit;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.drawingspecifications.GeometrySpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.actions.text.EditorShadeAction;
@@ -220,10 +221,10 @@ public class JMDCEditor extends JPanel {
 
     public JMDCEditor() {
         this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
-                HieroglyphToolkit.standardHieroglyphToolKit());
+                HieroglyphResourcesBuilder.buildEmbedded());
     }
 
-    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle style, HieroglyphToolkit fontKit) {
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle style, HieroglyphResources fontKit) {
         this(data, new JSeshStyleReference(style),fontKit);
     }
 
@@ -241,7 +242,7 @@ public class JMDCEditor extends JPanel {
      *                              database and the glossary.
      */
     public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
-           HieroglyphToolkit hieroglyphToolkit) {
+           HieroglyphResources hieroglyphToolkit) {
         LOGGER.info(() -> "Creating new JMDCEditor");
         workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
         this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();

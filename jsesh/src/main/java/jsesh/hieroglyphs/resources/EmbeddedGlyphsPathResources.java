@@ -21,9 +21,9 @@ import java.io.UnsupportedEncodingException;
  *
  * @author rosmord
  */
-public class HieroglyphResources {
+public class EmbeddedGlyphsPathResources {
 
-    private HieroglyphResources() {
+    private EmbeddedGlyphsPathResources() {
     }
 
     /**
@@ -32,7 +32,7 @@ public class HieroglyphResources {
      * @throws UnsupportedEncodingException
      */
     public static Reader getBasicGardinerCodes() throws UnsupportedEncodingException {
-        return new InputStreamReader(HieroglyphResources.class
+        return new InputStreamReader(EmbeddedGlyphsPathResources.class
                 .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
     }
 
@@ -41,7 +41,7 @@ public class HieroglyphResources {
      * @return
      */
     public static InputStream getSignDescriptionDTD() {
-        InputStream inputStream = HieroglyphResources.class.getResourceAsStream("sign_description.dtd");
+        InputStream inputStream = EmbeddedGlyphsPathResources.class.getResourceAsStream("sign_description.dtd");
         return inputStream;
     }
     
@@ -50,7 +50,7 @@ public class HieroglyphResources {
      * @return
      */
     public static InputStream getSignsDescriptionXML() {
-        InputStream in1 = HieroglyphResources.class.getResourceAsStream(
+        InputStream in1 = EmbeddedGlyphsPathResources.class.getResourceAsStream(
                 "signs_description.xml");
         return in1;
     }
