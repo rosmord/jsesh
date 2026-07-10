@@ -483,7 +483,7 @@ public class JSeshApplicationCore {
      * 
      * @return a hieroglyph compendium.
      */
-    public HieroglyphResources getFontKit() {
+    public HieroglyphResources getHieroglyphResources() {
         return new HieroglyphResources(hieroglyphShapeRepository, hieroglyphDatabase, possibilityRepository);
     }
 
@@ -520,11 +520,11 @@ public class JSeshApplicationCore {
      * @return
      */
     public JWildcardPanel createSearchPanel(SearchTarget searchAdapter) {
-        return SearchPanelFactory.createWildCardPanel(searchAdapter, jseshComponentsStyle, getFontKit());        
+        return SearchPanelFactory.createWildCardPanel(searchAdapter, jseshComponentsStyle, getHieroglyphResources());        
     }
 
     public CorpusSearchDialogFrame createCorpusSearchDialog(CorpusSearchTarget corpusSearchTarget) {
-        return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getFontKit());
+        return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getHieroglyphResources());
     }
 
 

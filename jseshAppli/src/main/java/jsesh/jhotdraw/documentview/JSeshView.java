@@ -124,7 +124,7 @@ public class JSeshView extends AbstractView {
      * Type-safe initialization method, called by the application.
      */
     public void initWithResources(JSeshApplicationCore appBase) {
-        viewCore = new JSeshViewCore(appBase.getFontKit(), appBase.newDocumentStyle(), appBase.getMdcIconFactory());
+        viewCore = new JSeshViewCore(appBase.getHieroglyphResources(), appBase.newDocumentStyle(), appBase.getMdcIconFactory());
         setFontInfo(appBase.getFontInfo());
         setFocusable(false); // Focus should go to the editor, not to the view.
         setLayout(new BorderLayout());

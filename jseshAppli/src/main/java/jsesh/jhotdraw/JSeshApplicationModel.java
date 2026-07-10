@@ -207,7 +207,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
         JSeshStyleReference commonStyle = jseshApplicationCore.jseshComponentsStyle();
-        HieroglyphResources fontKit = jseshApplicationCore.getFontKit();
+        HieroglyphResources fontKit = jseshApplicationCore.getHieroglyphResources();
 
         this.application.initSecondaryWindow(palettePresenter.getDialog());
         this.application.initSecondaryWindow(

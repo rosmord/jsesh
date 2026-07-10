@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "JSesh application",
+            "request": "launch",
+            "mainClass": "jsesh.jhotdraw.Main",
+            "projectName": "jsesh-all-jseshAppli",
+            "preLaunchTask": "Build application classes"
+        },       
+        {
+            "type": "java",
+            "name": "Sign Info Application",
+            "request": "launch",
+            "mainClass": "jsesh.utilitysoftwares.signinfoeditor.Main",
+            "projectName": "jsesh-all-signInfoAppli",
+            "preLaunchTask": "Build application classes"
+        }
+    ]
+}

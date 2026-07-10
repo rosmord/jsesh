@@ -46,7 +46,7 @@ import jsesh.search.ui.SearchPanelFactory;
  * Dialog for corpus searches.
  * @author rosmord
  */
-public class CorpusSearchDialogFrame extends JFrame{
+public class CorpusSearchDialogFrame extends JFrame {
     JSearchFolderPanel jseshFolderPanel;
     
     public CorpusSearchDialogFrame(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {

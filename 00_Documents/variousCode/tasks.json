@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build application classes",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "classes"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },      
+    ]
+}

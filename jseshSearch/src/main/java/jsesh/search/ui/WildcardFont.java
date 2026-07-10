@@ -28,8 +28,8 @@ class WildcardFont extends ResourcesHieroglyphicShapeRepository {
      */
     public HieroglyphShapeRepository addToFont(HieroglyphShapeRepository original) {
         CompositeHieroglyphShapeRepository compositeManager = new CompositeHieroglyphShapeRepository();
-        compositeManager.addHieroglyphicFontManager(original);
         compositeManager.addHieroglyphicFontManager(this);
+        compositeManager.addHieroglyphicFontManager(original);
         return compositeManager;
     }
 

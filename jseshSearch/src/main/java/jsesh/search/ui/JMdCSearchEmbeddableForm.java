@@ -25,7 +25,10 @@ import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.hieroglyphs.data.HieroglyphDatabase;
+import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
+import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadratSearchQuery;
@@ -77,10 +80,9 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
      */
     JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphResources originalResources) {               
         hieroglyphDatabase = originalResources.database();
-        CompositeHieroglyphShapeRepository composite = new CompositeHieroglyphShapeRepository();
-        composite.addHieroglyphicFontManager(WildcardFont.getInstance());
-        composite.addHieroglyphicFontManager(originalResources.hieroglyphShapeRepository());
-        HieroglyphResources hieroglyphResources = new HieroglyphResources(composite, originalResources.database(), originalResources.possibilityRepository());        
+        WildcardFont wildcardFont = WildcardFont.getInstance();
+        HieroglyphShapeRepository enhanced = wildcardFont.addToFont(originalResources.hieroglyphShapeRepository());
+        HieroglyphResources hieroglyphResources = new HieroglyphResources(enhanced, originalResources.database(), originalResources.possibilityRepository());        
 
         // MdC Search
         this.searchField = new JMDCField(100, styleReference,hieroglyphResources);
