@@ -3,6 +3,8 @@ package jsesh.utils;
 import java.io.File;
 import java.util.prefs.Preferences;
 
+import jsesh.preferences.JSeshPreferencesRoot;
+
 public class JSeshWorkingDirectory {
 	private static final String WORKING_DIRECTORY_PREF = "workingDirectory";
 	private static File workingDirectory= null;
@@ -51,7 +53,7 @@ public class JSeshWorkingDirectory {
 	}
 
 	private static Preferences getPrefNode() {
-		return Preferences.userNodeForPackage(JSeshWorkingDirectory.class);
+		return JSeshPreferencesRoot.getPreferences();
 	}
 
 	/**

@@ -39,10 +39,9 @@ import java.util.Optional;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.SimpleHieroglyphToolkit;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
@@ -54,13 +53,14 @@ import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.rtf.RTFExportGranularity;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
+import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
@@ -138,7 +138,14 @@ public class JSeshApplicationCore {
      * Hieroglyphic fonts
      */
 
-    private final JSeshFullHieroglyphShapeRepository hieroglyphShapeRepository;
+    private final HieroglyphShapeRepository hieroglyphShapeRepository;
+
+
+    /**
+     * Folder for user-defined hieroglyphic signs.
+     */
+
+    private UserFontDirectoryManager userFontDirectoryManager;
 
     /**
      * the Possibility repository, allowing one to use autocompletion on signs.
@@ -175,16 +182,18 @@ public class JSeshApplicationCore {
 
    
 
-    public JSeshApplicationCore(JSeshUserSignLibraryConfiguration appDef) {
+    public JSeshApplicationCore(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager,
+         GlossaryManager glossaryManager) {
         this.jseshComponentsStyle = new JSeshStyleReference(
             JSeshStyle.DEFAULT.copy()
                 .geometry(g -> g.scaleToHeight(40.0))
             .build()
         );
-        this.glossaryManager = appDef.glossaryManager();
-        this.hieroglyphDatabase = appDef.hieroglyphDatabase();
-        this.hieroglyphShapeRepository = appDef.hieroglyphShapeRepository();
-        this.possibilityRepository = appDef.possibilityRepository();
+        this.userFontDirectoryManager = userFontDirectoryManager;
+        this.glossaryManager = glossaryManager;
+        this.hieroglyphDatabase = hieroglyphResources.database();
+        this.hieroglyphShapeRepository = hieroglyphResources.hieroglyphShapeRepository();
+        this.possibilityRepository = hieroglyphResources.possibilityRepository();
         this.mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
         this.newDocumentStyle = JSeshStyle.DEFAULT;
         loadPreferences();
@@ -193,8 +202,8 @@ public class JSeshApplicationCore {
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
 
         // Dialogs
-        glossaryEditor = new JGlossaryEditor(glossaryManager, jseshComponentsStyle, appDef);
-        externalSignImporter = new ExternalSignImporter(hieroglyphShapeRepository);
+        glossaryEditor = new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources);
+        externalSignImporter = new ExternalSignImporter(userFontDirectoryManager, hieroglyphResources.hieroglyphShapeRepository());
     }
 
     /**
@@ -207,12 +216,11 @@ public class JSeshApplicationCore {
      */
     public final void loadPreferences() {
         // Access to Java preferences.
-        Preferences preferences = Preferences.userNodeForPackage(this
-                .getClass());
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         // extract geometry and the like from the preferences.
         updateJSeshStyleFromPreferences(preferences);
         // extract font information from the preferences.
-        setFontInfo(FontInfo.getFromPreferences(preferences));
+        setFontInfo(FontInfo.getFromPreferences());
         quickPDFExportDirectory = new File(preferences.get(
                 QUICK_PDF_EXPORT_DIRECTORY, new File(getCurrentDirectory(),
                         "quickPdf").getAbsolutePath()));
@@ -224,13 +232,12 @@ public class JSeshApplicationCore {
      * Save the current preferences to the java preferences system.
      */
     public void savePreferences() {
-        Preferences preferences = Preferences.userNodeForPackage(this
-                .getClass());
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         // save the creator software version.
         preferences.put("prefversion", "8.0");
 
         FontInfo fontInfo = getFontInfo();
-        fontInfo.savetoPrefs(preferences);
+        fontInfo.savetoPrefs();
         JSeshStyleHelper.saveJSeshStyleToPreferences(newDocumentStyle(), preferences);
         preferences.put(QUICK_PDF_EXPORT_DIRECTORY, quickPDFExportDirectory.getAbsolutePath());
         exportPreferences.saveToPrefs(preferences);
@@ -411,7 +418,7 @@ public class JSeshApplicationCore {
         Font baseFont = specifications.plainFont();
         Font transliterationFont = specifications.transliterationFont();
         return new FontInfo(
-                hieroglyphShapeRepository.getDirectory(),
+                userFontDirectoryManager.getUserFontHolder().optDirectory(),
                 baseFont,
                 transliterationFont,
                 this.useEmbeddedTransliterationFont,
@@ -429,8 +436,10 @@ public class JSeshApplicationCore {
         // Sets the jseshStyle
         this.newDocumentStyle = fontInfo.applyApplyToJSeshStyle(newDocumentStyle());
         // and update the hieroglyphic font.
-        fontInfo.applyToShapeRepository(hieroglyphShapeRepository);
+        fontInfo.applyToUserFontDirectory(userFontDirectoryManager);
     }
+
+    
 
     /**
      * @return the glossaryManager
@@ -449,7 +458,7 @@ public class JSeshApplicationCore {
     /**
      * @return the hieroglyphShapeRepository
      */
-    public JSeshFullHieroglyphShapeRepository getHieroglyphShapeRepository() {
+    public HieroglyphShapeRepository getHieroglyphShapeRepository() {
         return hieroglyphShapeRepository;
     }
 
@@ -475,7 +484,7 @@ public class JSeshApplicationCore {
      * @return a hieroglyph compendium.
      */
     public HieroglyphResources getFontKit() {
-        return new SimpleHieroglyphToolkit(hieroglyphShapeRepository, possibilityRepository, hieroglyphDatabase);
+        return new HieroglyphResources(hieroglyphShapeRepository, hieroglyphDatabase, possibilityRepository);
     }
 
     /**
@@ -518,13 +527,6 @@ public class JSeshApplicationCore {
         return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getFontKit());
     }
 
-    /**
-     * gets the folder where custom user hieroglyphic signs are stored.
-     * @return the folder with user hieroglyphic signs, if any.
-     */
-    public Optional<File> getHieroglyphsFolder() {
-        return Optional.ofNullable(hieroglyphShapeRepository.getDirectory());
-    }
 
     public ExternalSignImporter externalSignImporter() {
         return externalSignImporter;
@@ -537,6 +539,10 @@ public class JSeshApplicationCore {
      */
     public MDCIconFactory getMdcIconFactory() {
         return mdcIconFactory;
+    }
+
+    public Optional<File> getHieroglyphsDirectory() {
+        return userFontDirectoryManager.getUserFontHolder().optDirectory();
     }
 
 

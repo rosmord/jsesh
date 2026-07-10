@@ -41,11 +41,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
-
 import org.qenherkhopeshef.swingUtils.lists.ComboboxUtils;
 import org.qenherkhopeshef.swingUtils.lists.DataListItem;
-import org.qenherkhopeshef.swingUtils.lists.ListItem;
 import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
+import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.hieroglyphs.data.HieroglyphDatabase;
@@ -60,6 +59,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.preferences.JSeshPreferencesRoot;
 
 /**
  * Control and data feed for the simple palette.
@@ -463,7 +463,7 @@ public class PalettePresenter {
 
     @SuppressWarnings("CallToPrintStackTrace")
     private void savePalette() {
-        Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+        Preferences prefs = JSeshPreferencesRoot.getPreferences();
         StringBuilder buffer = new StringBuilder();
         String sep = "";
         for (String code : userPalette) {
@@ -480,7 +480,7 @@ public class PalettePresenter {
     }
 
     private void loadPalette() {
-        Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+        Preferences prefs = JSeshPreferencesRoot.getPreferences();
         String codes[] = prefs.get(USER_PALETTE_PREF, "").split(" ");
         userPalette.clear();
         userPalette.addAll(Arrays.asList(codes));

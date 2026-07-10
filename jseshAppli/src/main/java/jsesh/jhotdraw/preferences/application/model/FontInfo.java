@@ -35,12 +35,16 @@ package jsesh.jhotdraw.preferences.application.model;
 
 import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.drawingspecifications.FontSpecification;
 import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
 import jsesh.mdc.utils.YODChoice;
+import jsesh.preferences.JSeshPreferenceKeys;
+import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.resources.ResourcesManager;
 
 /**
@@ -77,7 +81,6 @@ public class FontInfo {
 
     public FontInfo(File hieroglyphsFolder, Font baseFont,
             Font transliterationFont) {
-        super();
         this.hieroglyphsFolder = hieroglyphsFolder;
         this.baseFont = baseFont;
         this.transliterationFont = transliterationFont;
@@ -103,9 +106,9 @@ public class FontInfo {
      * @param translitUnicode
      * @param yodChoice
      */
-    public FontInfo(File hieroglyphsFolder, Font baseFont, Font transliterationFont, boolean useEmbeddedFont,
+    public FontInfo(Optional<File> hieroglyphsFolder, Font baseFont, Font transliterationFont, boolean useEmbeddedFont,
             boolean translitUnicode, YODChoice yodChoice) {
-        this.hieroglyphsFolder = hieroglyphsFolder;
+        this.hieroglyphsFolder = hieroglyphsFolder.orElse(null);
         this.baseFont = baseFont;
         this.transliterationFont = transliterationFont;
         this.useEmbeddedFont = useEmbeddedFont;
@@ -113,8 +116,8 @@ public class FontInfo {
         this.yodChoice = yodChoice;
     }
 
-    public File getHieroglyphsFolder() {
-        return hieroglyphsFolder;
+    public Optional<File> getHieroglyphsFolder() {
+        return Optional.ofNullable(hieroglyphsFolder);
     }
 
     public Font getBaseFont() {
@@ -147,16 +150,14 @@ public class FontInfo {
 
     /**
      * Save this font information to user preferences.
+     * 
+     * 
+     * 
      * @param preferences
      */
-    public void savetoPrefs(Preferences preferences) {
-        if (hieroglyphsFolder == null) {
-            preferences.remove(CURRENT_HIEROGLYPHS_SOURCE);
-        } else {
-            preferences.put(CURRENT_HIEROGLYPHS_SOURCE,
-                    hieroglyphsFolder.getAbsolutePath());
-        }
-
+    public void savetoPrefs() {
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
+        saveToPreferences(preferences);
         preferences.put(BASE_FONT, baseFont.getName());
         preferences.putInt(BASE_FONT_SIZE, baseFont.getSize());
         preferences.put(TRANSLITERATION_FONT, transliterationFont.getName());
@@ -168,12 +169,29 @@ public class FontInfo {
         preferences.put(YOD_CHOICE, yodChoice.name());
     }
 
+    private void saveToPreferences(Preferences preferences) {
+        if (hieroglyphsFolder == null) {
+            preferences.remove(JSeshPreferenceKeys.GLYPH_DIRECTORY);
+        } else {
+            if (hieroglyphsFolder.isDirectory()) {
+                try {
+                    preferences.put(JSeshPreferenceKeys.GLYPH_DIRECTORY, hieroglyphsFolder.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                preferences.remove(JSeshPreferenceKeys.GLYPH_DIRECTORY);
+            }
+        }
+    }
+
     /**
      * Load font information from user preferences.
      * @param preferences
      * @return
      */
-    public static FontInfo getFromPreferences(Preferences preferences) {
+    public static FontInfo getFromPreferences() {
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         FontInfo fontInfo;
 
         File hieroglyphsFolder;
@@ -268,11 +286,13 @@ public class FontInfo {
 
     /**
      * Apply the hieroglyphic font information to a shape repository.
-     * @param shapeRepository
+     * @param userFontDirectoryManager
      */
-    public void applyToShapeRepository(JSeshFullHieroglyphShapeRepository shapeRepository) {
+    public void applyToUserFontDirectory(UserFontDirectoryManager userFontDirectoryManager) {
         if (hieroglyphsFolder != null) {
-            shapeRepository.setDirectory(hieroglyphsFolder);
+            userFontDirectoryManager.getUserFontHolder().directory(
+                Optional.of(hieroglyphsFolder)
+            );
         }
     }
 

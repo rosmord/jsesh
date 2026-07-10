@@ -11,18 +11,20 @@
 package jsesh.demo;
 
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.mdc.model.MDCPosition;
-import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.clientApi.SearchTarget;
+import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
 import net.miginfocom.swing.MigLayout;
 
@@ -45,7 +47,7 @@ public class WildCardMain {
     
     public WildCardMain() {
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        HieroglyphResources fontKit = HieroglyphResources.standardHieroglyphToolKit();
+        HieroglyphResources fontKit = HieroglyphResourcesBuilder.buildEmbedded();
         panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), styleRef, fontKit);
         mettreEnPage();
         editor.setMDCText(mdc);    

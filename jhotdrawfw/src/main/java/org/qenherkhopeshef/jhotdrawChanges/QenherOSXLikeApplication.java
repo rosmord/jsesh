@@ -650,7 +650,6 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
             }
 
             protected void done(LinkedList<JFrame> result) {
-                @SuppressWarnings("unchecked")
                 LinkedList<JFrame> palettes = (LinkedList<JFrame>) result;
                 if (palettes != null) {
                     /*
@@ -838,17 +837,4 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
         return null;
     }
 
-    private static class QuitHandler {
-
-        /**
-         * This method is invoked, when the user has selected the Quit menu
-         * item.
-         *
-         * @return Returns true if the application has no unsaved changes and
-         * can be closed.
-         */
-        public boolean handleQuit() {
-            return false;
-        }
-    }
 }

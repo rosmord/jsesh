@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import jsesh.defaults.PredefinedFonts;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.editor.JMDCField;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
@@ -38,10 +39,13 @@ class GroupEditorDemo extends JFrame {
     GroupEditorDialog groupEditor;
     JButton validateButton;
     
+    HieroglyphShapeRepository shapeRepository;
+    
     
     public GroupEditorDemo() throws HeadlessException {
+    	shapeRepository = PredefinedFonts.buildAllEmbeddedFonts();
         editor = new JMDCField();
-        groupEditor = new GroupEditorDialog(new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));
+        groupEditor = new GroupEditorDialog(new JSeshRenderContext(JSeshStyle.DEFAULT, shapeRepository));
         validateButton = new JButton("ok");
         validateButton.addActionListener(e -> getBackGroup());
         setLayout(new GridBagLayout());
@@ -68,7 +72,7 @@ class GroupEditorDemo extends JFrame {
         // The absolute group builder has a problem when using alternate specifications,
         // especially specs.setStandardSignHeight(textHeight);
         AbsoluteGroupBuilder groupBuilder = new AbsoluteGroupBuilder();
-        JSeshRenderContext renderContext = new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository());  
+        JSeshRenderContext renderContext = new JSeshRenderContext(JSeshStyle.DEFAULT, shapeRepository);  
         AbsoluteGroup group = groupBuilder.createAbsoluteGroupFrom(topItems.asList(), renderContext, JSeshTechRenderContext.VECTOR_CONTEXT);
         groupEditor.setGroup(group);
         TopItemList top = new TopItemList();

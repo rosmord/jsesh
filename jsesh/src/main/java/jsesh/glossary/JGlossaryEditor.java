@@ -95,16 +95,16 @@ public class JGlossaryEditor extends JPanel {
 	}
 
 	public JGlossaryEditor(GlossaryManager glossaryManager, JSeshStyleReference styleRef,
-			HieroglyphResources hieroglyphToolKit) {
+			HieroglyphResources hieroglyphResources) {
 		model = new GlossaryTableModel(glossaryManager);
 		codeField = new JTextField(10);
-		mdcField = new JMDCField(WIDTH, styleRef, hieroglyphToolKit);
+		mdcField = new JMDCField(WIDTH, styleRef, hieroglyphResources);
 
 		table = new JTable(model);
 		table.setTableHeader(null);
-		this.shapeRepository = hieroglyphToolKit.hieroglyphShapeRepository();
+		this.shapeRepository = hieroglyphResources.hieroglyphShapeRepository();
 
-		mdcIconFactory = new MDCIconFactory(hieroglyphToolKit.hieroglyphShapeRepository());
+		mdcIconFactory = new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository());
 
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		fixTable();

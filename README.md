@@ -18,11 +18,13 @@ Licences for the various libraries used by JSesh can be found in resources/licen
 ## Source Content 
 Contains the following folders and modules:
 
-### Maven modules for JSesh
+### Gradle modules for JSesh
+
+
+JSesh has moved from Maven to Gradle as build system.
 
 #### Libraries
 
-codeDumper
 
 * cupAndlex: bundle with CUP and LEX. Probably usable for other projects as a maven MOJO; those are used to parse Manuel de Codage files;
 * cupruntime: the runtime for CUP;
@@ -38,12 +40,6 @@ codeDumper
 
 #### Softwares
 
-* jseshAppli: the main application for JSesh;
-
-* jsesh-installer : everthing related to  JSesh installation.
-
-* codeDumper : a small software to create a dump of JSesh files, 
-  as simple lists of codes.
 
 ## Things removed from JSesh
 
@@ -65,7 +61,7 @@ If you have the following behaviour :
 it might be worthwhile deleting `.classpath` and `.project` files in your JSesh folder, and trying again.
 
 
-## Files and Folders not part of the general maven architecture
+## Files and Folders not part of the general Gradle architecture
 
 * README.md : this file
 * TODO.md : ok, a TODO file
@@ -73,7 +69,85 @@ it might be worthwhile deleting `.classpath` and `.project` files in your JSesh 
     and some unused code (unformal tests and 
     proof-of-concept)
 
-## Working with eclipse:
+## Working with IDEs
+
+### Working with VSCode
+
+With the gradle plugin, JSesh can be edited with VSCode. I did the following to ensure the code is up to date when running the software:
+
+
+**.vscode/launch.json** file:
+
+~~~json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "JSesh application",
+            "request": "launch",
+            "mainClass": "jsesh.jhotdraw.Main",
+            "projectName": "jsesh-all-jseshAppli",
+            "preLaunchTask": "Build JSesh application classes"
+        },       
+        {
+            "type": "java",
+            "name": "Sign Info Application",
+            "request": "launch",
+            "mainClass": "jsesh.utilitysoftwares.signinfoeditor.Main",
+            "projectName": "jsesh-all-signInfoAppli",
+            "preLaunchTask": "Build SignInfo application classes"
+        }
+    ]
+}
+~~~
+
+**.vscode/tasks.json** file:
+
+~~~json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build JSesh application classes",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                ":jseshAppli:classes"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build SignInfo application classes",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                ":signInfoAppli:classes"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
+~~~
+
+### Working with eclipse:
 
 There seems to be a problem with the eclipse plugin for maven regarding generated sources:
 the "jsesh" maven module will report missing classes in eclipse.

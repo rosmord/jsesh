@@ -21,7 +21,6 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.SimpleHieroglyphToolkit;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
@@ -77,6 +76,7 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
      * @param target
      */
     JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphResources originalResources) {               
+        hieroglyphDatabase = originalResources.database();
         CompositeHieroglyphShapeRepository composite = new CompositeHieroglyphShapeRepository();
         composite.addHieroglyphicFontManager(WildcardFont.getInstance());
         composite.addHieroglyphicFontManager(originalResources.hieroglyphShapeRepository());

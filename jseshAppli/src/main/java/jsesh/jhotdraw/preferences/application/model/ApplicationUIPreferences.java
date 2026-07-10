@@ -7,6 +7,8 @@ package jsesh.jhotdraw.preferences.application.model;
 
 import java.util.prefs.Preferences;
 
+import jsesh.preferences.JSeshPreferencesRoot;
+
 /**
  * Application preferences linked to the UI.
  * <p>
@@ -31,12 +33,12 @@ public class ApplicationUIPreferences {
     }
 
     public void savetoPreferences() {
-        Preferences preferences = Preferences.userNodeForPackage(ApplicationUIPreferences.class);
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         preferences.putInt(ICON_HEIGHT, iconHeight);
     }
 
     public static ApplicationUIPreferences getFromPreferences() {
-        Preferences preferences = Preferences.userNodeForPackage(ApplicationUIPreferences.class);
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         ApplicationUIPreferences applicationPreferences = new ApplicationUIPreferences();
         applicationPreferences.setIconHeight(preferences.getInt(ICON_HEIGHT, 30));
         return applicationPreferences;

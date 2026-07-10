@@ -15,10 +15,13 @@ import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.Version;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
+import jsesh.glossary.GlossaryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabase;
 import jsesh.hieroglyphs.data.HieroglyphFamily;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
@@ -55,26 +58,33 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     public JSeshApplicationStartingData initApplicationData() {
         // Prepare icon factory...
         ApplicationUIPreferences applicationPreferences = ApplicationUIPreferences.getFromPreferences();
-
         
-        JSeshUserSignLibraryConfiguration applicationDefaults = new JSeshUserSignLibraryConfiguration();
+        UserFontDirectoryManager userFontDirectoryManager= UserFontDirectoryManager.buildUserFontManager();
+
+        HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userFontDirectoryManager.getUserFontHolder());
+
         // Dirty architecture.
         // Pre-load a number of objects so that they are ready when graphic
         // stuff starts.
         ResourcesManager.getInstance();
 
-        MDCIconFactory mdcIconFactory = new MDCIconFactory(applicationDefaults.hieroglyphShapeRepository());
+        MDCIconFactory mdcIconFactory = new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository());
         mdcIconFactory.setCadratHeight(applicationPreferences.getIconHeight());
+        GlossaryManager glossaryManager = new GlossaryManager();
+        try {
+            glossaryManager.read();
+        } catch (Exception e) {
+            LOGGER.severe("Could not read glossary : " + e.getMessage());
+        }        
 
-
-        JSeshApplicationStartingData data = new JSeshApplicationStartingData(applicationDefaults, mdcIconFactory);        
+        JSeshApplicationStartingData data = new JSeshApplicationStartingData(hieroglyphResources, userFontDirectoryManager, mdcIconFactory, glossaryManager);        
         preloadHieroglyphicIcons(data); 
 
         return data;
     }
 
     private void preloadHieroglyphicIcons(JSeshApplicationStartingData data) { 
-        HieroglyphDatabase database = data.applicationDefaults().hieroglyphDatabase();
+        HieroglyphDatabase database = data.hieroglyphResources().database();
         MDCIconFactory mdcIconFactory = data.mdcIconFactory();
         List<HieroglyphFamily> families = database.getFamilies();
         for (int i = 0; i < families.size(); i++) {
@@ -93,7 +103,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         // Force creation of the hieroglyphic font manager and loading of the
         // fonts (do it elsewhere).
 
-        JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.applicationDefaults());
+        JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.hieroglyphResources(), data.userFontDirectoryManager(), data.glossaryManager());
         applicationModel.setCopyright(COPYRIGHT);
         applicationModel.setName(NAME);
         applicationModel.setVersion(Version.getVersion());

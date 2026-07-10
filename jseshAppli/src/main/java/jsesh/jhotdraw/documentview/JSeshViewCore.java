@@ -98,7 +98,7 @@ public final class JSeshViewCore {
      * Information about fonts and glyphs.
      */
 
-    private HieroglyphResources fontKit;
+    private HieroglyphResources hieroglyphResources;
 
     /**
      * The document we are working on.
@@ -129,13 +129,13 @@ public final class JSeshViewCore {
     /**
      * Create a view model.
      *
-     * @param fontKit information about hieroglyphic fonts.
+     * @param hieroglyphResources information about hieroglyphic fonts.
      * @param style   the style of the new document.
      */
-    public JSeshViewCore(HieroglyphResources fontKit, JSeshStyle style, MDCIconFactory iconFactory) {
-        this.fontKit = fontKit;
+    public JSeshViewCore(HieroglyphResources hieroglyphResources, JSeshStyle style, MDCIconFactory iconFactory) {
+        this.hieroglyphResources = hieroglyphResources;
         this.iconFactory = iconFactory;
-        viewComponent = new JSeshViewComponent<ZoomInfo>(fontKit, style);
+        viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style);
         setCurrentDocument(new MDCDocument());
 
         // Activate the objects
@@ -352,8 +352,8 @@ public final class JSeshViewCore {
      */
     private JPopupMenu buildHieroglyphicMenus() {
         HieroglyphicMenuMediator mediator = new HieroglyphicMenuMediator();
-        List<HieroglyphFamily> families = fontKit.hieroglyphDatabase().getFamilies();
-        HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(fontKit.hieroglyphShapeRepository(), viewComponent);
+        List<HieroglyphFamily> families = hieroglyphResources.database().getFamilies();
+        HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(hieroglyphResources.hieroglyphShapeRepository(), viewComponent);
 
         JPopupMenu hieroglyphs = new JPopupMenu();
 

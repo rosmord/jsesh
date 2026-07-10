@@ -81,7 +81,8 @@ public class DocumentEditorSessionController implements PropertyHolder, MDIFrame
     }
 
     public void saveDocumentAs() {
-        PortableFileDialog dialog= PortableFileDialogFactory.createFileSaveDialog(jFrame);
+        // Commented out to avoid a warning... but it would be the beginning of a save dialog implementation.
+        //PortableFileDialog dialog= PortableFileDialogFactory.createFileSaveDialog(jFrame);
     }
 
     public void undo() {

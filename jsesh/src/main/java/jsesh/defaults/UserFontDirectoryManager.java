@@ -1,90 +1,140 @@
 package jsesh.defaults;
 
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.utils.DirectoryHolder;
-import jsesh.utils.DirectoryHolder.DirectoryEvent;
-
-import static jsesh.hieroglyphs.fonts.Constants.GLYPH_DIRECTORY;
-
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.preferences.JSeshPreferenceKeys;
+import jsesh.preferences.JSeshPreferencesRoot;
+import jsesh.utils.DirectoryHolder;
+import jsesh.utils.DirectoryHolder.DirectoryEvent;
+
 /**
  * Access to the user personal font directory.
- * <p> Can then be used to call {@link HieroglyphResourcesBuilder#buildFull(DirectoryHolder)} 
- * <p> will manage auto save of the preferences when the folder is modified.
+ * <p>
+ * Can then be used to call
+ * {@link HieroglyphResourcesBuilder#buildFull(DirectoryHolder)}
+ * <p>
+ * will manage auto save of the preferences when the folder is modified.
+ *
+ * <p>
+ * <b>Preference-node migration note:</b> the folder is persisted under
+ * {@code userNodeForPackage(HieroglyphShapeRepository.class)} with key
+ * {@link jsesh.preferences.JSeshPreferenceKeys#GLYPH_DIRECTORY}. This resolves
+ * to
+ * the <em>same</em> node the retired {@code JSeshFullHieroglyphShapeRepository}
+ * used (both classes live in {@code jsesh.hieroglyphs.fonts}), so existing
+ * users
+ * keep their configured folder. Do not move {@code GLYPH_DIRECTORY} to another
+ * package or the setting will be silently orphaned.
  */
 public class UserFontDirectoryManager {
 
+    /**
+     * Creates a new instance of User font manager.
+     * <p>
+     * It will point to the folder defined in user preferences if any.
+     * 
+     * @return
+     */
     public static UserFontDirectoryManager buildUserFontManager() {
-        return new UserFontDirectoryManager(readFromPreferences());
+        UserFontDirectoryManager res = new UserFontDirectoryManager(Optional.empty());
+        res.initialiseFromPreferences();
+        return res;
     }
 
     private DirectoryHolder userFontHolder = new DirectoryHolder();
-	private ObservableEventListener<DirectoryEvent> folderChangedListener = event -> directoryUpdated(event);
-
-    
 
     UserFontDirectoryManager(Optional<File> initialDirectory) {
         userFontHolder.directory(initialDirectory);
-        userFontHolder.addListener(folderChangedListener);
     }
 
     /**
-     * Method called when the folder is modified.
-     * @param event
+     * Returns the font holder for the user font.
+     *
+     * @return
      */
-    private void directoryUpdated(DirectoryEvent event) {
-        Preferences preferences = Preferences.userNodeForPackage(HieroglyphShapeRepository.class);
-		File newDirectory = event.newDirectory();
-        if (newDirectory == null) {
-			preferences.remove(GLYPH_DIRECTORY);
-        } else {
-            if (newDirectory.isDirectory()) {
-                try {
-                    preferences.put(GLYPH_DIRECTORY, newDirectory.getCanonicalPath());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                preferences.remove(GLYPH_DIRECTORY);
-            }
-        }
-	}
+    public DirectoryHolder getUserFontHolder() {
+        return userFontHolder;
+    }
 
-	/**
-     * reads the initial the folder holder from the preferences.
-     * @return 
+    /**
+     * Writes a new user sign into the user font folder.
+     *
+     * <p>
+     * Writing a sign only needs to know the folder, so it lives here,
+     * rather than on the read-only repository. The sign is
+     * stored as {@code <code>.svg}. After writing we call
+     * {@link DirectoryHolder#forceRefresh()}, which the
+     * {@code DirectoryHieroglyphShapeRepository} built on this holder observes,
+     * so the new sign becomes visible without reader and writer knowing each
+     * other.
+     *
+     * @param code  the Manuel de Codage code for the new sign.
+     * @param shape the shape to store.
+     * @throws IllegalStateException if no user font folder is currently configured.
      */
-    private static Optional<File> readFromPreferences() {
+    public void insertNewSign(String code, ShapeChar shape) {
+        File folder = userFontHolder.optDirectory()
+                .orElseThrow(() -> new IllegalStateException(
+                        "No user font folder configured; cannot insert sign " + code));
+        File f = new File(folder, code + ".svg");
+        try (OutputStream out = new FileOutputStream(f)) {
+            shape.exportToSVG(out, "UTF-8");
+        } catch (IOException e) {
+            throw new UncheckedIOException("Could not write sign " + code + " to " + f, e);
+        }
+        userFontHolder.forceRefresh();
+    }
+
+    /**
+     * Sets the folder to the one defined in user preferences if any.
+     */
+    public void initialiseFromPreferences() {
+        Optional<File> optFile = Optional.empty();
         try {
-            Preferences preferences = Preferences.userNodeForPackage(HieroglyphShapeRepository.class);
-            String dirPath = preferences.get(GLYPH_DIRECTORY, "");
-            Optional<File> optFile = Optional.empty();
-            if (! "".equals(dirPath)) {
+            Preferences preferences = JSeshPreferencesRoot.getPreferences();
+            String dirPath = preferences.get(JSeshPreferenceKeys.GLYPH_DIRECTORY, "");
+            if (!"".equals(dirPath)) {
                 File file = new File(dirPath);
                 if (file.isDirectory()) {
                     optFile = Optional.of(new File(dirPath));
                 }
             }
-            return optFile;
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             e.printStackTrace();
-            return Optional.empty();
+            // Let optfile be empty and that's it.
         }
+        userFontHolder.directory(optFile);
     }
 
     /**
-     * Returns the font holder for the user font.
-     * 
-     * @return
+     * Saves the current folder to user preferences.
      */
-    public DirectoryHolder getUserFontHolder() {
-        return userFontHolder;
+    public void saveToPreferences() {
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
+        File newDirectory = userFontHolder.optDirectory().orElse(null);
+        if (newDirectory == null) {
+            preferences.remove(JSeshPreferenceKeys.GLYPH_DIRECTORY);
+        } else {
+            if (newDirectory.isDirectory()) {
+                try {
+                    preferences.put(JSeshPreferenceKeys.GLYPH_DIRECTORY, newDirectory.getCanonicalPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                preferences.remove(JSeshPreferenceKeys.GLYPH_DIRECTORY);
+            }
+        }
     }
 
 }

@@ -5,9 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
 
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 
 public class ExternalSignImporterModel {
@@ -20,12 +21,20 @@ public class ExternalSignImporterModel {
 
 	private double shapeScale;
 
-	private JSeshFullHieroglyphShapeRepository hieroglyphicFontManager;
+	private UserFontDirectoryManager userFontDirectoryManager;
 
 
-	public ExternalSignImporterModel(JSeshFullHieroglyphShapeRepository hieroglyphicFontManager) {		
-		this.hieroglyphicFontManager = hieroglyphicFontManager;
-		referenceShape = hieroglyphicFontManager.get(ManuelDeCodage.getInstance().getA1Code());
+
+
+
+	/**
+	 * Create a Sign importer.
+	 * @param hieroglyphicFontManager : to be able to import signs.
+	 * @param hieroglyphShapeRepository : to find out the size of "A1" sign.
+	 */
+	public ExternalSignImporterModel(UserFontDirectoryManager userFontDirectoryManager, HieroglyphShapeRepository hieroglyphShapeRepository) {		
+		this.userFontDirectoryManager = userFontDirectoryManager;
+		referenceShape = hieroglyphShapeRepository.get(ManuelDeCodage.getInstance().getA1Code());
 		sourceDirectory = new File(".");
 		shapeScale = 1.0;
 	}
@@ -58,7 +67,7 @@ public class ExternalSignImporterModel {
 	public void insertSign(String text) {
 		ShapeChar insertedShape = (ShapeChar) getShapeChar().clone();
 		insertedShape.scaleGlyph(shapeScale);
-		hieroglyphicFontManager.insertNewSign(text,
+		userFontDirectoryManager.insertNewSign(text,
 				insertedShape);
 	}
 

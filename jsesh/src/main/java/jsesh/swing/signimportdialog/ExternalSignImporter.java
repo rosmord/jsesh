@@ -4,7 +4,8 @@ import java.io.File;
 
 import javax.swing.JPanel;
 
-import jsesh.hieroglyphs.fonts.JSeshFullHieroglyphShapeRepository;
+import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
 import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 import jsesh.swing.signimportdialog.ui.ExternalSignImporterUI;
@@ -16,8 +17,8 @@ public class ExternalSignImporter {
 	ExternalSignImporterUI ui;
 	ExternalSignImporterPresenter control;
 	
-	public ExternalSignImporter(JSeshFullHieroglyphShapeRepository hieroglyphicFontManager) {
-		model = new ExternalSignImporterModel(hieroglyphicFontManager);
+	public ExternalSignImporter( UserFontDirectoryManager userFontDirectoryManager, HieroglyphShapeRepository hieroglyphShapeRepository) {
+		model = new ExternalSignImporterModel(userFontDirectoryManager, hieroglyphShapeRepository);
 		ui = new ExternalSignImporterUI();
 		control= new ExternalSignImporterPresenter(model, ui);
 		ui.addEventListener(control);

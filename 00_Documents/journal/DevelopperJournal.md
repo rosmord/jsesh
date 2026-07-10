@@ -15,6 +15,11 @@ This journal should only be edited and modified in the Development branch.
 ## Important decisions
 
 
+- Use the handy list of abbreviations in https://tla.digital/listings/bibliography/ for the SignInfo editor.
+
+
+
+
 - When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
 
 ### Format of the jseshGlyph.jar file
@@ -212,6 +217,20 @@ List of classes which need some cleanup:
 ## Daily log
 
 ### 2026-07-09
+
+- decide how we save the preferences about external hieroglyphic font source. It used to be done **twice**, which was not a good idea.
+- This being said, if we don't use JSesh defaults, but need the user folder, separate code for saving/loading it from preferences should be written.
+- [x] Tests
+  - [x] check that changing the hieroglyph font source works
+  - [x] check that sign import works
+  - [ ] check that search works (with the extra codes and signs) **BUG**
+  - [x] ensure that the sofware can run if the user fonts points to a non-existing folder or to a file.
+
+### 2026-07-09
+
+
+- modified sign import and its relationship with `HieroglyphShapeRepository`. Now, `DirectoryHieroglyphShapeRepository` uses an observable reference to a folder, called `DirectoryHolder`. Thus, one can modify the `DirectoryHieroglyphShapeRepository` without touching it directly, just by acting on the `DirectoryHolder`. It separates nicely the responsabilities. We don't need specific modifications of `HieroglyphShapeRepository` anymore. 
+- the modification of the default user defined `DirectoryHieroglyphShapeRepository` is managed by `UserFontDirectoryManager`.
 
 - **TODO** : rename `Constants` to `HieroglyphFontConstants` ;
 - still pending: where to use `CanonicalCode`;

@@ -30,7 +30,7 @@ public class ImportNewSignAction extends AbstractCoreApplicationAction {
 
 	public void actionPerformed(ActionEvent e) {
 		// Note the use of filter to check the folder is valid before processing it.
-		appCore().getHieroglyphsFolder().filter(f -> f.isDirectory() && f.canWrite())
+		appCore().getHieroglyphsDirectory().filter(f -> f.isDirectory() && f.canWrite())
 				.ifPresentOrElse(outputFolder -> {
 					JSeshApplicationModel jSeshApplicationModel = (JSeshApplicationModel) getApplication()
 							.getModel();

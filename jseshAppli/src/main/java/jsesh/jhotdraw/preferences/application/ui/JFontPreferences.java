@@ -179,16 +179,15 @@ public class JFontPreferences {
      * Displays the selection dialog for hieroglyphs.
      */
     private void selectHieroglyphicFolder() {
-        File hieroglyphicFolder = (File) hieroglyphsFolderField.getValue();
+        File hieroglyphicFolder = getHieroglyphsFolder();
         PortableFileDialog selector = PortableFileDialogFactory.createDirectorySaveDialog(panel);
         selector.setTitle(JSeshMessages.getString("JFontPreferences.hieroglyphDialog.label"));
         if (hieroglyphicFolder != null) {
             selector.setCurrentDirectory(hieroglyphicFolder);
         }
         if (selector.show() == FileOperationResult.OK) {
-            hieroglyphsFolderField.setValue(selector.getSelectedFile());
+            setHieroglyphsFolder(selector.getSelectedFile());
         }
-
     }
 
     /**
@@ -234,7 +233,7 @@ public class JFontPreferences {
 
     public FontInfo getFontInfo() {
         FontInfo fontInfo = new FontInfo(
-                (File) hieroglyphsFolderField.getValue(),
+                getHieroglyphsFolder(),
                 alphabeticFontHelper.getSelectedFont(),
                 transliterationFontHelper.getSelectedFont());
         fontInfo = fontInfo.withTranslitUnicode(useUnicodeRadioButton
@@ -251,7 +250,8 @@ public class JFontPreferences {
     }
 
     public void setFontInfo(FontInfo fontInfo) {
-        hieroglyphsFolderField.setValue(fontInfo.getHieroglyphsFolder());
+        File fontFolder = fontInfo.getHieroglyphsFolder().orElse(null);
+        setHieroglyphsFolder(fontFolder);
         setFont(fontInfo.getBaseFont());
         setTranslitFont(fontInfo.getTransliterationFont());
         if (fontInfo.isTranslitUnicode()) {
@@ -276,6 +276,14 @@ public class JFontPreferences {
         } else {
             useDefaultJSeshFont = false;
         }
+    }
+
+    void setHieroglyphsFolder(File directory) {
+        this.hieroglyphsFolderField.setValue(directory);
+    }
+
+    File getHieroglyphsFolder() {
+        return (File) this.hieroglyphsFolderField.getValue();
     }
 
     public static void main(String[] args) {

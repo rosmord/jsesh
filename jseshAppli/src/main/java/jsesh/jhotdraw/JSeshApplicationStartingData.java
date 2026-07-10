@@ -33,23 +33,25 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.glossary.GlossaryManager;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**
  * Data which must be loaded before creating the GUI.
  * 
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+ * @param hieroglyphResources      All information about hieroglyphs.
+ * @param userFontDirectoryManager Extension point for user fonts
+ * @param mdcIconFactory           Icon factory, shared for caching.
+ * @param glossaryManager          Manager for the user glossary.
  */
-public record JSeshApplicationStartingData(   
-    /**
-     * JSesh configuration, mostly about fonts.
-     */
-    JSeshUserSignLibraryConfiguration applicationDefaults,
-    /**
-     * Icon factory, shared for caching.
-     */
-    MDCIconFactory mdcIconFactory
-) {
+public record JSeshApplicationStartingData(
+        HieroglyphResources hieroglyphResources,
+        UserFontDirectoryManager userFontDirectoryManager,
+        MDCIconFactory mdcIconFactory,
+        GlossaryManager glossaryManager
+    ) {
 
 }

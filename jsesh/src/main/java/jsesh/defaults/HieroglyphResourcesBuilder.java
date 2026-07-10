@@ -86,8 +86,8 @@ public class HieroglyphResourcesBuilder {
      */
     public static HieroglyphResources buildEmbedded() {
         return new HieroglyphResourcesBuilder()
-                .addFont(PredefinedFonts.standardJSeshFont())
-                .addFont(PredefinedFonts.gnuTraceFont()).build();
+                .addFont(PredefinedFonts.buildStandardJSeshFont())
+                .addFont(PredefinedFonts.buildGnuTraceFont()).build();
     }
 
 
@@ -98,8 +98,8 @@ public class HieroglyphResourcesBuilder {
     public static HieroglyphResources buildWithUserDefinitions() {
                 return new HieroglyphResourcesBuilder()
                 .addFont(null)
-                .addFont(PredefinedFonts.standardJSeshFont())
-                .addFont(PredefinedFonts.gnuTraceFont())
+                .addFont(PredefinedFonts.buildStandardJSeshFont())
+                .addFont(PredefinedFonts.buildGnuTraceFont())
                 .useUserDefinitions(true)
                 .build();
     }
@@ -112,8 +112,8 @@ public class HieroglyphResourcesBuilder {
     public static HieroglyphResources buildFull(DirectoryHolder userFonts) {
     return new HieroglyphResourcesBuilder()
         .userFontFolder(userFonts)                  // user signs override first...
-        .addFont(PredefinedFonts.standardJSeshFont())
-        .addFont(PredefinedFonts.gnuTraceFont())    // ...gnutrace last (fallback)
+        .addFont(PredefinedFonts.buildStandardJSeshFont())
+        .addFont(PredefinedFonts.buildGnuTraceFont())    // ...gnutrace last (fallback)
         .useUserDefinitions(true)
         .build();
 }

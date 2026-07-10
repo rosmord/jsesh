@@ -6,6 +6,8 @@ import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
 
+import jsesh.preferences.JSeshPreferencesRoot;
+
 /**
  * A full palette display, with glyph informations. Should be integrated and
  * created by PalettePresenter.
@@ -48,7 +50,7 @@ public class HieroglyphicPaletteDialog extends JFrame {
 	}
 
 	private Preferences getPreferences() {
-		return Preferences.userNodeForPackage(this.getClass());
+		return JSeshPreferencesRoot.getPreferences();
 	}
 
 	public void setHieroglyphPaletteListener(

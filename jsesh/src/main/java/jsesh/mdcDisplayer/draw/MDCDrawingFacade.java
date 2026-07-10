@@ -15,6 +15,7 @@ import java.io.StringReader;
 
 import javax.imageio.ImageIO;
 
+import jsesh.defaults.PredefinedFonts;
 import jsesh.drawingspecifications.JSeshStyle;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCParserModelGenerator;
@@ -298,12 +299,13 @@ public class MDCDrawingFacade {
 	 * @return a new default instance of MDCDrawingFacade.
 	 */
 	public static MDCDrawingFacade buildDefault() {
-		return new MDCDrawingFacade(new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository()));
+		
+		return new MDCDrawingFacade(new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts()));
 	}
 
 	public static void main(String[] args) {
 		System.out.println("Test of MDCDrawingFacade");
-		JSeshRenderContext ctx = new JSeshRenderContext(JSeshStyle.DEFAULT, HieroglyphShapeRepository.getStandardShapeRepository());
+		JSeshRenderContext ctx = new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts());
 		MDCDrawingFacade facade = new MDCDrawingFacade(ctx);
 		String mdc = "i-w-r:a-ra-m-p*t:pt";
 		try {

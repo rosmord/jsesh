@@ -47,6 +47,7 @@ import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.hieroglyphs.utils.IconRenderOptions;
 import jsesh.hieroglyphs.utils.PictureDimension;
+import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.AbstractStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
@@ -225,7 +226,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
         this.setSignInfoModel(signInfoModelFactory.buildDefaultModel());
 
         // Init "expert file" from preferences...
-        Preferences preferences = Preferences.userNodeForPackage(this.getClass());
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         String expertFileName = preferences.get(EXPERT_FILE_PATH, "");
         if (!"".equals(expertFileName)) {
             expertFile = new File(expertFileName);
@@ -283,7 +284,7 @@ public class SignInfoPresenter implements HieroglyphPaletteListener,
 
     public void setExpertFile(File expertFile) {
         this.expertFile = expertFile;
-        Preferences preferences = Preferences.userNodeForPackage(this.getClass());
+        Preferences preferences = JSeshPreferencesRoot.getPreferences();
         preferences.put(EXPERT_FILE_PATH, expertFile.getAbsolutePath());
     }
 

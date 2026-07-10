@@ -64,12 +64,13 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MDCModelTransferableBroker;
+import jsesh.glossary.GlossaryManager;
 import jsesh.graphics.export.emf.EMFExporter;
 import jsesh.graphics.export.eps.EPSExporter;
 import jsesh.graphics.export.html.HTMLExporter;
@@ -197,8 +198,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     private boolean canOpenNewView = true;
 
-    public JSeshApplicationModel(JSeshUserSignLibraryConfiguration applicationDefaults) {
-        this.jseshApplicationCore = new JSeshApplicationCore(applicationDefaults);
+    public JSeshApplicationModel(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager, GlossaryManager glossaryManager) {
+        this.jseshApplicationCore = new JSeshApplicationCore(hieroglyphResources, userFontDirectoryManager, glossaryManager);
     }
 
     @Override

@@ -134,26 +134,17 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * <p> If it's not defined, may be null.
 	 * @return Returns the directory (may be null)
 	 */
-	public Optional<File> getDirectoryProxy() {
+	public Optional<File> optDirectory() {
 		return directoryProxy.getDirectoryHolder().optDirectory();
 	}
 
-	// public void insertNewSign(String code, ShapeChar shapeChar) {
-	// 	if (directoryProxy.getDirectoryHolder() == null)
-	// 		throw new NullPointerException("Can not insert files in " + null);
-	// 	File f = new File(directoryProxy.getDirectoryHolder(), code + ".svg");
-	// 	OutputStream out;
-	// 	try {
-	// 		out = new FileOutputStream(f);
-	// 		shapeChar.exportToSVG(out, "UTF-8");
-	// 	} catch (IOException e) {
-	// 		e.printStackTrace();
-	// 	}
-	// 	hasNewSigns = true;
-	// 	eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
-	// }
+	// Note: writing new signs is no longer a repository concern. Writing only
+	// needs to know the folder, so it lives on UserFontDirectoryManager, which
+	// owns the DirectoryHolder. After a write it calls holder.forceRefresh(),
+	// which this repository observes and reloads from — reader and writer never
+	// reference each other, they rendezvous at the DirectoryHolder.
 
-	public boolean hasNewSigns() {	
+	public boolean hasNewSigns() {
 		if (directoryProxy.lastModified() > lastRefreshed)
 			hasNewSigns = true;
 		return hasNewSigns;
@@ -184,8 +175,18 @@ public class DirectoryHieroglyphShapeRepository implements
 		public DirectoryProxy(DirectoryHolder directoryHolder) {
 			this.directoryHolder = directoryHolder;
 			directoryHolder.addListener(e -> {
-				this.lastModified= System.currentTimeMillis();
-				refreshIfNeeded();
+				// A holder event means the folder *identity* changed (or a
+				// forceRefresh() was requested): reload unconditionally.
+				// We must NOT gate this on lastModified(), because the new
+				// folder may have an older mtime than the one we last read,
+				// which would silently skip the reload.
+				// Content-only changes *within* the same folder are handled
+				// lazily by refreshIfNeeded()'s mtime poll on reads.
+				this.lastModified = System.currentTimeMillis();
+				refresh();
+				// Propagate to our own listeners (e.g. the enclosing composite
+				// and, through it, the UI) so a folder change is visible.
+				eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());
 			});
 			this.lastModified= System.currentTimeMillis();
 		}

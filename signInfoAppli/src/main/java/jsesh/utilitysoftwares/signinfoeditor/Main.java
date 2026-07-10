@@ -46,7 +46,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.JSeshUserSignLibraryConfiguration;
+import org.qenherkhopeshef.guiFramework.PropertyHolder;
+import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
+
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.PalettePresenter;
@@ -54,9 +59,6 @@ import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.SignInfoPresenter;
 import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.TagEditorPresenter;
-
-import org.qenherkhopeshef.guiFramework.PropertyHolder;
-import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 /**
  * Main class for the SignInfoEditor application.
@@ -87,24 +89,25 @@ public class Main implements PropertyHolder {
 
 	public JDialog tagEditorDialog;
 
-	private JSeshUserSignLibraryConfiguration jseshConfig;
+	private HieroglyphResources hieroglyphResources;
 
 	public Main() {
 		try {
-			jseshConfig = new JSeshUserSignLibraryConfiguration();			
+			UserFontDirectoryManager userfontManager = UserFontDirectoryManager.buildUserFontManager();
+			hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userfontManager.getUserFontHolder());	
 			
 			mainFrame = new JFrame("Sign info Editor");
 			SignInfoModelFactory signInfoModelFactory = new SignInfoModelFactory() {
 
 				@Override
 				public SignInfoModel buildDefaultModel() {
-					return new SignInfoModel(jseshConfig);
+					return new SignInfoModel(hieroglyphResources);
 				}
 			};
 			
 			
 			HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(
-				jseshConfig.hieroglyphShapeRepository(), mainFrame);
+				hieroglyphResources.hieroglyphShapeRepository(), mainFrame);
 			
 			signInfoPresenter = new SignInfoPresenter(signInfoModelFactory, pictureBuilder);
 			// Build the framework.
@@ -151,8 +154,8 @@ public class Main implements PropertyHolder {
 	}
 
 	public void buildPalette() {
-		PalettePresenter simplePalettePresenter = new PalettePresenter(jseshConfig.hieroglyphShapeRepository(),
-				jseshConfig.hieroglyphDatabase());
+		PalettePresenter simplePalettePresenter = new PalettePresenter(hieroglyphResources.hieroglyphShapeRepository(),
+				hieroglyphResources.database());
 		paletteDialog = new JDialog(mainFrame);
 		paletteDialog.getContentPane().add(
 				simplePalettePresenter.getSimplePalette());

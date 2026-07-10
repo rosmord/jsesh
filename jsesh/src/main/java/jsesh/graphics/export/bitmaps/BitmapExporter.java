@@ -4,7 +4,6 @@
  */
 package jsesh.graphics.export.bitmaps;
 
-import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -24,23 +23,24 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.filechooser.FileFilter;
 
-import jsesh.swing.utils.RestrictedCharFormatter;
-import jsesh.utils.FileUtils;
-import jsesh.utils.JSeshWorkingDirectory;
-
 import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;
-
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.ExportOptionPanel;
-import jsesh.graphics.export.generic.SelectionExporter;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
-
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
+
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.FormLayout;
+
+import jsesh.graphics.export.generic.BaseGraphics2DFactory;
+import jsesh.graphics.export.generic.ExportData;
+import jsesh.graphics.export.generic.ExportOptionPanel;
+import jsesh.graphics.export.generic.SelectionExporter;
+import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
+import jsesh.preferences.JSeshPreferencesRoot;
+import jsesh.swing.utils.RestrictedCharFormatter;
+import jsesh.utils.FileUtils;
+import jsesh.utils.JSeshWorkingDirectory;
 
 /**
  * Export to graphic bitmaps.
@@ -530,7 +530,7 @@ public class BitmapExporter {
      * There should be preferences objects, with a way to see them all. later.
      */
     public void savePreferences() {
-        Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+        Preferences prefs = JSeshPreferencesRoot.getPreferences();
         prefs.putBoolean("bitmap.multiFile", multiFile);
         if (multiFile) {
             JSeshWorkingDirectory.setWorkingDirectory(directory);
@@ -549,7 +549,7 @@ public class BitmapExporter {
      * Initialize the preferences using saved values.
      */
     public final void initFromPreferences() {
-        Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+        Preferences prefs = JSeshPreferencesRoot.getPreferences();
         transparency = prefs.getBoolean("bitmap.transparent", true);
         cadratHeight = prefs.getInt("bitmap.cadratHeight", 18);
         outputFormatIndex = prefs.getInt("bitmap.outputFormatIndex", 0);
