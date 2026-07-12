@@ -95,8 +95,7 @@ public class HieroglyphResourcesBuilder {
      * @return
      */
     public static HieroglyphResources buildWithUserDefinitions() {
-                return new HieroglyphResourcesBuilder()
-                .addFont(null)
+                return new HieroglyphResourcesBuilder()                
                 .addFont(PredefinedFonts.buildStandardJSeshFont())
                 .addFont(PredefinedFonts.buildGnuTraceFont())
                 .useUserDefinitions(true)

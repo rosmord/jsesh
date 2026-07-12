@@ -26,6 +26,7 @@ import jsesh.mdc.model.MDCPosition;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
+import jsesh.search.ui.SearchUIResources;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -47,8 +48,9 @@ public class WildCardMain {
     
     public WildCardMain() {
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        HieroglyphResources fontKit = HieroglyphResourcesBuilder.buildEmbedded();
-        panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), styleRef, fontKit);
+        HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildEmbedded();
+        SearchUIResources searchUIResources = new SearchUIResources(styleRef, hieroglyphResources);
+        panel = SearchPanelFactory.createWildCardPanelForEmbedding(new LocalSearchTarget(), searchUIResources);
         mettreEnPage();
         editor.setMDCText(mdc);    
         // Separated interfaces.

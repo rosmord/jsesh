@@ -124,6 +124,7 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
+import jsesh.search.ui.SearchUIResources;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.swing.utils.MDCIconFactory;
@@ -206,12 +207,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     public void initApplication(Application a) {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
-        JSeshStyleReference commonStyle = jseshApplicationCore.jseshComponentsStyle();
-        HieroglyphResources fontKit = jseshApplicationCore.getHieroglyphResources();
+        SearchUIResources searchUIResources = jseshApplicationCore.getSearchUIResources();
 
         this.application.initSecondaryWindow(palettePresenter.getDialog());
         this.application.initSecondaryWindow(
-                new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit), commonStyle, fontKit));
+                new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit), searchUIResources));
     }
 
 

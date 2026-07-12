@@ -47,8 +47,8 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
 
     private final boolean hasInsets;
     
-    public JWildcardPanel(SearchTarget target, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        this(target, true, styleRef, fontKit);
+    public JWildcardPanel(SearchTarget target, SearchUIResources searchUIResources) {
+        this(target, true, searchUIResources);
     }
 
     /**
@@ -60,10 +60,11 @@ public final class JWildcardPanel extends JPanel implements JSearchFormModelIF {
      * @param styleRef 
      * @param fontKit 
      */
-    public JWildcardPanel(SearchTarget target, boolean hasInsets, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
+    public JWildcardPanel(SearchTarget target, boolean hasInsets,
+        SearchUIResources searchUIResources) {
         this.hasInsets = hasInsets;
         this.searchTarget = target;
-        this.embeddableForm = new JSearchEmbeddableForm(styleRef, fontKit);
+        this.embeddableForm = new JSearchEmbeddableForm(searchUIResources);
         this.searchButton = new JButton(JSeshMessages.getString("jsesh.search.search.text"));
         this.nextButton = new JButton(JSeshMessages.getString("jsesh.search.findNext.text"));
         prepareLayout();

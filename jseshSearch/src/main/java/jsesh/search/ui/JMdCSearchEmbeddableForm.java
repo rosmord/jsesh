@@ -78,14 +78,11 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
      * Create a panel for search form.
      * @param target
      */
-    JMdCSearchEmbeddableForm(JSeshStyleReference styleReference, HieroglyphResources originalResources) {               
-        hieroglyphDatabase = originalResources.database();
-        WildcardFont wildcardFont = WildcardFont.getInstance();
-        HieroglyphShapeRepository enhanced = wildcardFont.addToFont(originalResources.hieroglyphShapeRepository());
-        HieroglyphResources hieroglyphResources = new HieroglyphResources(enhanced, originalResources.database(), originalResources.possibilityRepository());        
-
+    JMdCSearchEmbeddableForm(SearchUIResources searchUIResources) {
+        hieroglyphDatabase = searchUIResources.database();                
+        
         // MdC Search
-        this.searchField = new JMDCField(100, styleReference,hieroglyphResources);
+        this.searchField = new JMDCField(100, searchUIResources.styleReference(),searchUIResources.hieroglyphResources());
 
         
         
@@ -223,5 +220,5 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
     	getSearchField().insert(WildCardConstants.QUERY_SKIP);
     	getSearchField().requestFocusInWindow();
     }
-
+    
 }

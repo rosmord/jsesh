@@ -1,11 +1,12 @@
 package jsesh.search.ui;
 
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
 
 /**
  * The font used for displaying wildcards in the search field.
+ * <p> Beware: as of now, we don't have a clean system to release
+ * listeners in a CompositeHieroglyphShapeRepository. It is suggested to create
+ * a single instance of this class.
  */
 class WildcardFont extends ResourcesHieroglyphicShapeRepository {
 
@@ -20,19 +21,6 @@ class WildcardFont extends ResourcesHieroglyphicShapeRepository {
     WildcardFont( ) {
         super(FONT_PATH);
     }
-
-    /**
-     * Adds the wildcards to an existing font. Doesn't modify the original font.
-     * @param original
-     * @return a new font, with the wildcard symbols added.
-     */
-    public HieroglyphShapeRepository addToFont(HieroglyphShapeRepository original) {
-        CompositeHieroglyphShapeRepository compositeManager = new CompositeHieroglyphShapeRepository();
-        compositeManager.addRepository(this);
-        compositeManager.addRepository(original);
-        return compositeManager;
-    }
-
     
     
 }

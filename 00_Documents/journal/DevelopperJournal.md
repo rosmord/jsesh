@@ -216,14 +216,20 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-12
+
+- [x] fixed bug in method `HieroglyphResourcesBuilder.buildFull(...)`
+- [ ] fix memory leak due to listeners when building the fonts for the search engine (the problem lies in `WildcardFont.addToFont(...)`, and somehow in the logic of `CompositeHieroglyphShapeRepository`, which has no method to release the listeners it holds.
+- [ ] TODO : while testing the search function, it occurred to us that some searched texts had "syntax error" (MdC syntax errors, not Egyptian Grammar ones!). We should write a small utility to find them easily and see whence the problem comes.
+
 ### 2026-07-09
 
-- decide how we save the preferences about external hieroglyphic font source. It used to be done **twice**, which was not a good idea.
+- decide how we save the preferences about external hieroglyphic font source. It used to be done **twice**, which was not a good idea. (done).
 - This being said, if we don't use JSesh defaults, but need the user folder, separate code for saving/loading it from preferences should be written.
 - [x] Tests
   - [x] check that changing the hieroglyph font source works
   - [x] check that sign import works
-  - [ ] check that search works (with the extra codes and signs) **BUG**
+  - [x] check that search works (with the extra codes and signs) **BUG/FIXED** (the `list.txt` was using the old format).
   - [x] ensure that the sofware can run if the user fonts points to a non-existing folder or to a file.
 
 ### 2026-07-09

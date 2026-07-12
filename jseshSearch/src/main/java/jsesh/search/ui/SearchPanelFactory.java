@@ -65,8 +65,8 @@ public class SearchPanelFactory {
      * @param fontKit 
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanel(SearchTarget target, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        return new JWildcardPanel(target, styleRef, fontKit);
+    public static JWildcardPanel createWildCardPanel(SearchTarget target, SearchUIResources searchUIResources) {
+        return new JWildcardPanel(target, searchUIResources);
     }
 
     /**
@@ -77,12 +77,13 @@ public class SearchPanelFactory {
      * @param target
      * @return a JWildcardPanel
      */
-    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        return new JWildcardPanel(target, false, styleRef, fontKit);
+    public static JWildcardPanel createWildCardPanelForEmbedding(SearchTarget target, SearchUIResources searchUIResources) {
+        return new JWildcardPanel(target, false, searchUIResources);
     }
 
-    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        SearchFolderControl control = new SearchFolderControl(corpusSearchTarget, styleRef, fontKit);
+    public static JSearchFolderPanel createSearchFolderPanel(CorpusSearchTarget corpusSearchTarget,
+             SearchUIResources searchUIResources) {
+        SearchFolderControl control = new SearchFolderControl(corpusSearchTarget, searchUIResources);
         return control.getPanel();
     }
 

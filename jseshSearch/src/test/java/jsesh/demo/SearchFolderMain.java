@@ -11,6 +11,7 @@ import jsesh.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.ui.JSearchFolderPanel;
 import jsesh.search.ui.SearchPanelFactory;
+import jsesh.search.ui.SearchUIResources;
 
 /**
  * Demo class for JSearchFolderPanel.
@@ -27,8 +28,10 @@ public class SearchFolderMain {
 
         frame = new JFrame();
         JSeshStyleReference styleRef = new JSeshStyleReference(JSeshStyle.DEFAULT);
-        HieroglyphResources fontKit = HieroglyphResourcesBuilder.buildEmbedded();
-        searchFolderPanel = SearchPanelFactory.createSearchFolderPanel(this::showCorpusSearchHit, styleRef, fontKit);
+        HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildEmbedded();
+        
+        SearchUIResources resouces = new SearchUIResources(styleRef, hieroglyphResources);
+		searchFolderPanel = SearchPanelFactory.createSearchFolderPanel(this::showCorpusSearchHit, resouces);
         frame.add(searchFolderPanel);
         frame.pack();
         frame.setVisible(true);

@@ -40,15 +40,15 @@ public final class JSearchFolderPanel extends JPanel {
     private JLabel messageField;
     private JTable resultTable;
 
-    public JSearchFolderPanel(JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        createFields(styleRef, fontKit);
+    public JSearchFolderPanel(SearchUIResources searchUIResources) {
+        createFields(searchUIResources);
         layoutFields();
     }
 
-    private void createFields(JSeshStyleReference styleRef, HieroglyphResources fontKit) {
+    private void createFields(SearchUIResources searchUIResources) {
         this.folderField = new JFormattedTextField(new File("."));
         this.folderField.setEditable(false);
-        this.searchForm = new JSearchEmbeddableForm(styleRef, fontKit);
+        this.searchForm = new JSearchEmbeddableForm(searchUIResources);
         this.chooseFolderButton = new JButton(JSeshMessages.getString("generic.browse.text"));
         this.searchButton = new JButton(JSeshMessages.getString("generic.search.text"));
         this.cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));

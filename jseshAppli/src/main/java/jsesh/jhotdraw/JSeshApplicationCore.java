@@ -65,6 +65,7 @@ import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
+import jsesh.search.ui.SearchUIResources;
 import jsesh.swing.signimportdialog.ExternalSignImporter;
 import jsesh.swing.utils.MDCIconFactory;
 import jsesh.utils.JSeshWorkingDirectory;
@@ -140,6 +141,11 @@ public class JSeshApplicationCore {
 
     private final HieroglyphShapeRepository hieroglyphShapeRepository;
 
+    /**
+     * Extended resources for the search UI (mainly exitended font with wildcards).
+     */
+    private final SearchUIResources searchUIResources;
+
 
     /**
      * Folder for user-defined hieroglyphic signs.
@@ -194,6 +200,7 @@ public class JSeshApplicationCore {
         this.hieroglyphDatabase = hieroglyphResources.database();
         this.hieroglyphShapeRepository = hieroglyphResources.hieroglyphShapeRepository();
         this.possibilityRepository = hieroglyphResources.possibilityRepository();
+        this.searchUIResources = new SearchUIResources(jseshComponentsStyle, hieroglyphResources);
         this.mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
         this.newDocumentStyle = JSeshStyle.DEFAULT;
         loadPreferences();
@@ -520,11 +527,11 @@ public class JSeshApplicationCore {
      * @return
      */
     public JWildcardPanel createSearchPanel(SearchTarget searchAdapter) {
-        return SearchPanelFactory.createWildCardPanel(searchAdapter, jseshComponentsStyle, getHieroglyphResources());        
+        return SearchPanelFactory.createWildCardPanel(searchAdapter, searchUIResources);        
     }
 
     public CorpusSearchDialogFrame createCorpusSearchDialog(CorpusSearchTarget corpusSearchTarget) {
-        return new CorpusSearchDialogFrame(corpusSearchTarget, jseshComponentsStyle, getHieroglyphResources());
+        return new CorpusSearchDialogFrame(corpusSearchTarget, searchUIResources);
     }
 
 
@@ -545,5 +552,11 @@ public class JSeshApplicationCore {
         return userFontDirectoryManager.getUserFontHolder().optDirectory();
     }
 
+    /**
+     * @return the searchUIResources
+     */
+    public SearchUIResources getSearchUIResources() {
+        return searchUIResources;
+    }
 
 }

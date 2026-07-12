@@ -17,8 +17,6 @@ import java.awt.CardLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.ui.specifications.JSelectableSearchIF;
@@ -39,9 +37,9 @@ class JSearchEmbeddableForm extends JPanel implements JSelectableSearchIF {
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
 
-    public JSearchEmbeddableForm(JSeshStyleReference styleRef, HieroglyphResources fontKit) {
+    public JSearchEmbeddableForm(SearchUIResources searchUIResources) {
         chooseSearchTypeCB = new JComboBox<>(SearchType.values());
-        mdCSearchForm = new JMdCSearchEmbeddableForm(styleRef, fontKit);
+        mdCSearchForm = new JMdCSearchEmbeddableForm(searchUIResources);
         textSearchForm = new JTextSearchEmbeddableForm();
         mainPanel = new JPanel();
         cardLayout = new CardLayout();

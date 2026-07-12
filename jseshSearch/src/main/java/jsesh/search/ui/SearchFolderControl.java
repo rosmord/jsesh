@@ -54,8 +54,8 @@ class SearchFolderControl {
 
     
 
-    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, JSeshStyleReference styleRef, HieroglyphResources fontKit) {
-        this.ui = new JSearchFolderPanel(styleRef, fontKit);
+    public SearchFolderControl(CorpusSearchTarget corpusSearchTarget, SearchUIResources searchUIResources) {
+        this.ui = new JSearchFolderPanel(searchUIResources);
         this.corpusSearchTarget = corpusSearchTarget;
         clearTable();
         activateButtons();
