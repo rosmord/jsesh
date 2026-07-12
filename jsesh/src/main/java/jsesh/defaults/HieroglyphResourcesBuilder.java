@@ -105,15 +105,19 @@ public class HieroglyphResourcesBuilder {
 
     /**
      * The whole resources, including user definitions and user fonts.
-     * @param userFonts
+     * 
+     * <p> If you don't want to access the user glossary, you can always create an empty glossary with `new Glossary()`.
+     * @param userFontsDirectoryHolder the directory containing user fonts
+     * @param glossary the glossary (used for completion)
      * @return
      */
-    public static HieroglyphResources buildFull(DirectoryHolder userFonts) {
+    public static HieroglyphResources buildFull(DirectoryHolder userFontsDirectoryHolder, Glossary glossary) {        
     return new HieroglyphResourcesBuilder()
-        .userFontFolder(userFonts)                  // user signs override first...
+        .userFontFolder(userFontsDirectoryHolder)                  // user signs override first...
         .addFont(PredefinedFonts.buildStandardJSeshFont())
         .addFont(PredefinedFonts.buildGnuTraceFont())    // ...gnutrace last (fallback)
         .useUserDefinitions(true)
+        .glossary(glossary) // add the glossary
         .build();
 }
 

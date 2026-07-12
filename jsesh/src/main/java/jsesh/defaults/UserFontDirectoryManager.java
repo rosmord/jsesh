@@ -8,20 +8,16 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
-import org.qenherkhopeshef.observable.ObservableEventListener;
-
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.signshape.ShapeChar;
 import jsesh.preferences.JSeshPreferenceKeys;
 import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.utils.DirectoryHolder;
-import jsesh.utils.DirectoryHolder.DirectoryEvent;
 
 /**
  * Access to the user personal font directory.
  * <p>
  * Can then be used to call
- * {@link HieroglyphResourcesBuilder#buildFull(DirectoryHolder)}
+ * {@link HieroglyphResourcesBuilder#buildFull(DirectoryHolder, jsesh.glossary.Glossary)}.
  * <p>
  * will manage auto save of the preferences when the folder is modified.
  *

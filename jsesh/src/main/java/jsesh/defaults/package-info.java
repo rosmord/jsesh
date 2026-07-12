@@ -33,7 +33,7 @@
  *
  * <p>A library embedder that does not want JSesh's preference tree can ignore
  * {@code UserFontDirectoryManager} entirely and call
- * {@link jsesh.defaults.HieroglyphResourcesBuilder#buildFull(jsesh.utils.DirectoryHolder)}
- * with a bare {@link jsesh.utils.DirectoryHolder}.
+ * {@link jsesh.defaults.HieroglyphResourcesBuilder#buildFull(jsesh.utils.DirectoryHolder, jsesh.glossary.Glossary)} directly with a bare
+ * with a bare {@link jsesh.utils.DirectoryHolder} and a bare {@link jsesh.glossary.Glossary}.
  */
 package jsesh.defaults;

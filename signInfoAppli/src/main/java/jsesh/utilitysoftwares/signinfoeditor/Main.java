@@ -52,6 +52,7 @@ import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.glossary.GlossaryManager;
 import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.swing.signPalette.PalettePresenter;
@@ -62,13 +63,14 @@ import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.TagEditorPresenter;
 
 /**
  * Main class for the SignInfoEditor application.
- * <p> It builds the application, installs the presenters and some of the menus.
+ * <p>
+ * It builds the application, installs the presenters and some of the menus.
  * 
  * The application needs a full access to JSesh configuration:
  * 
  * <ul>
- * <li> to draw glyphs and search them in the palette</li>
- * <li> the <b>edited</b> database is loaded separately by the application
+ * <li>to draw glyphs and search them in the palette</li>
+ * <li>the <b>edited</b> database is loaded separately by the application
  * </ul>
  * 
  * @author rosmord
@@ -94,8 +96,10 @@ public class Main implements PropertyHolder {
 	public Main() {
 		try {
 			UserFontDirectoryManager userfontManager = UserFontDirectoryManager.buildUserFontManager();
-			hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userfontManager.getUserFontHolder());	
-			
+			GlossaryManager glossaryManager = new GlossaryManager();
+			hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userfontManager.getUserFontHolder(),
+					glossaryManager.getGlossary());
+
 			mainFrame = new JFrame("Sign info Editor");
 			SignInfoModelFactory signInfoModelFactory = new SignInfoModelFactory() {
 
@@ -104,11 +108,10 @@ public class Main implements PropertyHolder {
 					return new SignInfoModel(hieroglyphResources);
 				}
 			};
-			
-			
+
 			HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(
-				hieroglyphResources.hieroglyphShapeRepository(), mainFrame);
-			
+					hieroglyphResources.hieroglyphShapeRepository(), mainFrame);
+
 			signInfoPresenter = new SignInfoPresenter(signInfoModelFactory, pictureBuilder);
 			// Build the framework.
 			SimpleApplicationFactory framework = new SimpleApplicationFactory(

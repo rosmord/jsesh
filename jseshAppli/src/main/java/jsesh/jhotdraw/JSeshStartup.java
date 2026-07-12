@@ -33,18 +33,18 @@ import net.miginfocom.layout.PlatformDefaults;
 
 /**
  * Code for starting up the JSesh application.
- * <p> Loads resources, display a splash screen, and start the application.
- * <p> Starting up the application means :
+ * <p>
+ * Loads resources, display a splash screen, and start the application.
+ * <p>
+ * Starting up the application means :
  * <ul>
- * <li> creating this object
- * <li> calling the main method, which will call the run method of this class
+ * <li>creating this object
+ * <li>calling the main method, which will call the run method of this class
  * </ul>
  */
 public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     // Logging
     private static final Logger LOGGER = Logger.getLogger(JSeshStartup.class.getName());
-
-
 
     public final static String NAME = "JSesh";
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
@@ -58,10 +58,19 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     public JSeshApplicationStartingData initApplicationData() {
         // Prepare icon factory...
         ApplicationUIPreferences applicationPreferences = ApplicationUIPreferences.getFromPreferences();
-        
-        UserFontDirectoryManager userFontDirectoryManager= UserFontDirectoryManager.buildUserFontManager();
 
-        HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userFontDirectoryManager.getUserFontHolder());
+        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
+
+        GlossaryManager glossaryManager = new GlossaryManager();
+        try {
+            glossaryManager.read();
+        } catch (Exception e) {
+            LOGGER.severe("Could not read glossary : " + e.getMessage());
+        }
+
+        HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildFull(
+                userFontDirectoryManager.getUserFontHolder(),
+                glossaryManager.getGlossary());
 
         // Dirty architecture.
         // Pre-load a number of objects so that they are ready when graphic
@@ -70,20 +79,15 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
 
         MDCIconFactory mdcIconFactory = new MDCIconFactory(hieroglyphResources.hieroglyphShapeRepository());
         mdcIconFactory.setCadratHeight(applicationPreferences.getIconHeight());
-        GlossaryManager glossaryManager = new GlossaryManager();
-        try {
-            glossaryManager.read();
-        } catch (Exception e) {
-            LOGGER.severe("Could not read glossary : " + e.getMessage());
-        }        
 
-        JSeshApplicationStartingData data = new JSeshApplicationStartingData(hieroglyphResources, userFontDirectoryManager, mdcIconFactory, glossaryManager);        
-        preloadHieroglyphicIcons(data); 
+        JSeshApplicationStartingData data = new JSeshApplicationStartingData(hieroglyphResources,
+                userFontDirectoryManager, mdcIconFactory, glossaryManager);
+        preloadHieroglyphicIcons(data);
 
         return data;
     }
 
-    private void preloadHieroglyphicIcons(JSeshApplicationStartingData data) { 
+    private void preloadHieroglyphicIcons(JSeshApplicationStartingData data) {
         HieroglyphDatabase database = data.hieroglyphResources().database();
         MDCIconFactory mdcIconFactory = data.mdcIconFactory();
         List<HieroglyphFamily> families = database.getFamilies();
@@ -103,7 +107,8 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         // Force creation of the hieroglyphic font manager and loading of the
         // fonts (do it elsewhere).
 
-        JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.hieroglyphResources(), data.userFontDirectoryManager(), data.glossaryManager());
+        JSeshApplicationModel applicationModel = new JSeshApplicationModel(data.hieroglyphResources(),
+                data.userFontDirectoryManager(), data.glossaryManager());
         applicationModel.setCopyright(COPYRIGHT);
         applicationModel.setName(NAME);
         applicationModel.setVersion(Version.getVersion());
@@ -113,7 +118,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         applicationModel.setViewClass(JSeshView.class);
 
         Application app;
-        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")) {            
+        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("mac os x")) {
             app = new QenherOSXApplication();
         } else if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH)
                 .startsWith("win")) {
@@ -123,14 +128,15 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
             app = new QenherOSXLikeApplication();
             // app= new QenherOSXApplication();
         }
-        LOGGER.info(() -> "getDefaultToolkit().getScreenResolution() :"+ 
+        LOGGER.info(() -> "getDefaultToolkit().getScreenResolution() :" +
                 Toolkit.getDefaultToolkit().getScreenResolution());
-        LOGGER.info(() -> "getDefaultToolkit().getScreenSize() : "+ java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+        LOGGER.info(
+                () -> "getDefaultToolkit().getScreenSize() : " + java.awt.Toolkit.getDefaultToolkit().getScreenSize());
         LOGGER.info(() -> "PlatformDefaults.getHorizontalScaleFactor(): "
-        + PlatformDefaults.getHorizontalScaleFactor());
-        LOGGER.info(() -> "PlatformDefaults.getVerticalScaleFactor(): "+
-                 PlatformDefaults.getVerticalScaleFactor());
-        LOGGER.info(() -> "PlatformDefaults.getDefaultDPI "+ PlatformDefaults.getDefaultDPI());       
+                + PlatformDefaults.getHorizontalScaleFactor());
+        LOGGER.info(() -> "PlatformDefaults.getVerticalScaleFactor(): " +
+                PlatformDefaults.getVerticalScaleFactor());
+        LOGGER.info(() -> "PlatformDefaults.getDefaultDPI " + PlatformDefaults.getDefaultDPI());
         app.setModel(applicationModel);
         app.launch(args);
     }
@@ -141,7 +147,8 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         ((SystemFlavorMap) SystemFlavorMap.getDefaultFlavorMap())
                 .addUnencodedNativeForFlavor(new DataFlavor("application/pdf"), "PDF");
         this.args = args;
-        // Print the current path (just to be sure we can find the logging.properties file).
+        // Print the current path (just to be sure we can find the logging.properties
+        // file).
         setSplashPicture("/jseshResources/images/splash.png");
         SplashMessageText message = new SplashMessageText(50, 172, "Version "
                 + Version.getVersion());
@@ -149,6 +156,6 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         addSplashMessage(message);
         setTickTimer();
         this.run();
-        
+
     }
 }
