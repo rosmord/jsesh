@@ -27,8 +27,7 @@ public class HieroglyphResourcesBuilder {
      * @param font
      */
     public HieroglyphResourcesBuilder addFont(HieroglyphShapeRepository font) {
-        // TODO : rename addHieroglyphicFontManager
-        shapes.addHieroglyphicFontManager(font);
+        shapes.addRepository(font);
         return this;
     }
 

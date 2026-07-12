@@ -34,7 +34,12 @@ public class CompositeHieroglyphShapeRepository implements HieroglyphShapeReposi
 		codes = null;
 	}
 
-	public void addHieroglyphicFontManager(HieroglyphShapeRepository manager) {
+	/**
+	 * Add another repository.
+	 * <p> The repositories will be searched in the order they were added.
+	 * @param manager
+	 */
+	public void addRepository(HieroglyphShapeRepository manager) {
 		managers.add(manager);
 		manager.addListener(childListener);
 		eventSupport.fireEvent(new HieroglyphShapeRepositoryChangedEvent());

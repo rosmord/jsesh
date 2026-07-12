@@ -47,8 +47,8 @@ public class PredefinedFonts {
      */
     public static HieroglyphShapeRepository buildAllEmbeddedFonts() {
         CompositeHieroglyphShapeRepository res = new CompositeHieroglyphShapeRepository();
-        res.addHieroglyphicFontManager(buildStandardJSeshFont());
-        res.addHieroglyphicFontManager(buildGnuTraceFont());
+        res.addRepository(buildStandardJSeshFont());
+        res.addRepository(buildGnuTraceFont());
         return res;
     }
 
