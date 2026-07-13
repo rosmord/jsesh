@@ -113,7 +113,6 @@ import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.constants.AdditionalSymbols;
 import jsesh.jhotdraw.constants.ExportType;
-import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.filechooser.QenherkhURIChooser;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
@@ -124,9 +123,7 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
-import jsesh.search.ui.SearchUIResources;
 import jsesh.swing.signPalette.HieroglyphPaletteListener;
-import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**
@@ -190,28 +187,23 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
      */
     private final MyTransferableBroker transferableBroker = new MyTransferableBroker();
 
-    /**
-     * Currently, dialogs are here.
-     * Should they be in JSeshCoreApplication ?
-     * Given its current definition, it would be reasonable.
-     */
-    private PalettePresenter palettePresenter;
-
     private boolean canOpenNewView = true;
 
     public JSeshApplicationModel(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager, GlossaryManager glossaryManager) {
         this.jseshApplicationCore = new JSeshApplicationCore(hieroglyphResources, userFontDirectoryManager, glossaryManager);
+        // Displaying a search hit means opening a document window, which only
+        // the JHotdraw-specific part of the application can do.
+        this.jseshApplicationCore.setCorpusSearchTarget(hit -> showCorpusSearchHit(hit));
+        this.jseshApplicationCore.palettePresenter()
+                .setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
     }
 
     @Override
     public void initApplication(Application a) {
         super.initApplication(a);
         this.application = (ActiveViewAwareApplication) a;
-        SearchUIResources searchUIResources = jseshApplicationCore.getSearchUIResources();
-
-        this.application.initSecondaryWindow(palettePresenter.getDialog());
-        this.application.initSecondaryWindow(
-                new CorpusSearchDialogFrame(hit -> showCorpusSearchHit(hit), searchUIResources));
+        this.application.initSecondaryWindow(jseshApplicationCore.palettePresenter().getDialog());
+        this.application.initSecondaryWindow(jseshApplicationCore.corpusSearchDialog());
     }
 
 
@@ -264,12 +256,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
             // Corpus search...
             map.put(FindInFolderAction.ID,
-                    new FindInFolderAction((ActiveViewAwareApplication) a, hit -> showCorpusSearchHit(hit)));
+                    new FindInFolderAction((ActiveViewAwareApplication) a));
 
-            // palette ...
-            createDialog();
-
-            map.put(ToggleGlyphPaletteAction.ID, new ToggleGlyphPaletteAction(a, palettePresenter.getDialog(), null));
+            map.put(ToggleGlyphPaletteAction.ID,
+                    new ToggleGlyphPaletteAction(a, jseshApplicationCore.palettePresenter().getDialog(), null));
 
             Action glossaryEditorAction = new ToggleGlossaryEditorAction(a);
 
@@ -363,12 +353,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
             }
         }
         return map;
-    }
-
-    private void createDialog() {
-        palettePresenter = new PalettePresenter(jseshApplicationCore.getHieroglyphShapeRepository(),
-                jseshApplicationCore.getHieroglyphDatabase());
-        palettePresenter.setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
     }
 
     @Override
@@ -537,7 +521,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     @Override
     public void destroyApplication(Application a) {
-        palettePresenter.getDialog().savePreferences();
+        jseshApplicationCore.palettePresenter().getDialog().savePreferences();
         jseshApplicationCore.savePreferences();
     }
 

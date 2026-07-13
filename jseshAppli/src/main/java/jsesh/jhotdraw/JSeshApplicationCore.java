@@ -66,6 +66,7 @@ import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
 import jsesh.search.ui.SearchUIResources;
+import jsesh.swing.signPalette.PalettePresenter;
 import jsesh.swing.signimportdialog.ExternalSignImporter;
 import jsesh.swing.utils.MDCIconFactory;
 import jsesh.utils.JSeshWorkingDirectory;
@@ -186,7 +187,29 @@ public class JSeshApplicationCore {
      */
     private MDCIconFactory mdcIconFactory;
 
-   
+    /**
+     * The hieroglyphic sign palette, shared by all views.
+     * <p>
+     * Lazily built by {@link #palettePresenter()}.
+     */
+    private PalettePresenter palettePresenter;
+
+    /**
+     * The corpus search dialog, shared by the whole application.
+     * <p>
+     * Lazily built by {@link #corpusSearchDialog()}, once
+     * {@link #setCorpusSearchTarget(CorpusSearchTarget)} has been called.
+     */
+    private CorpusSearchDialogFrame corpusSearchDialog;
+
+    /**
+     * What to do with the hits of a corpus search.
+     * <p>
+     * Displaying a hit means opening (or reusing) a document window, which is
+     * framework-specific. Hence the front-end must provide this.
+     */
+    private CorpusSearchTarget corpusSearchTarget;
+
 
     public JSeshApplicationCore(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager,
          GlossaryManager glossaryManager) {
@@ -530,8 +553,50 @@ public class JSeshApplicationCore {
         return SearchPanelFactory.createWildCardPanel(searchAdapter, searchUIResources);        
     }
 
-    public CorpusSearchDialogFrame createCorpusSearchDialog(CorpusSearchTarget corpusSearchTarget) {
-        return new CorpusSearchDialogFrame(corpusSearchTarget, searchUIResources);
+    /**
+     * Sets what should be done with the hits of a corpus search.
+     * <p>
+     * Must be called by the front-end before {@link #corpusSearchDialog()} is
+     * used.
+     *
+     * @param corpusSearchTarget the target which will display the search hits.
+     */
+    public void setCorpusSearchTarget(CorpusSearchTarget corpusSearchTarget) {
+        this.corpusSearchTarget = corpusSearchTarget;
+    }
+
+    /**
+     * The corpus search dialog.
+     * <p>
+     * There is only one for the whole application, shared by the action which
+     * displays it and by the front-end, which needs to register it as a
+     * secondary window.
+     *
+     * @return the corpus search dialog.
+     */
+    public CorpusSearchDialogFrame corpusSearchDialog() {
+        if (corpusSearchDialog == null) {
+            if (corpusSearchTarget == null) {
+                throw new IllegalStateException(
+                        "Bug : setCorpusSearchTarget should be called before using the corpus search dialog.");
+            }
+            corpusSearchDialog = new CorpusSearchDialogFrame(corpusSearchTarget, searchUIResources);
+        }
+        return corpusSearchDialog;
+    }
+
+    /**
+     * The hieroglyphic sign palette.
+     * <p>
+     * There is only one for the whole application, as it's shared by all views.
+     *
+     * @return the palette presenter.
+     */
+    public PalettePresenter palettePresenter() {
+        if (palettePresenter == null) {
+            palettePresenter = new PalettePresenter(hieroglyphShapeRepository, hieroglyphDatabase);
+        }
+        return palettePresenter;
     }
 
 
