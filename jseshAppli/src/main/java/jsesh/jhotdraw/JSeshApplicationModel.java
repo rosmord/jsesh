@@ -123,7 +123,6 @@ import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
-import jsesh.swing.signPalette.HieroglyphPaletteListener;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**
@@ -162,7 +161,7 @@ import jsesh.swing.utils.MDCIconFactory;
  *
  */
 @SuppressWarnings("serial")
-public class JSeshApplicationModel extends DefaultApplicationModel {
+public class JSeshApplicationModel extends DefaultApplicationModel implements JSeshFrontEnd {
 
     // View and Help Menu. Tools (insert new Sign ?)
     /**
@@ -191,11 +190,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
 
     public JSeshApplicationModel(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager, GlossaryManager glossaryManager) {
         this.jseshApplicationCore = new JSeshApplicationCore(hieroglyphResources, userFontDirectoryManager, glossaryManager);
-        // Displaying a search hit means opening a document window, which only
-        // the JHotdraw-specific part of the application can do.
-        this.jseshApplicationCore.setCorpusSearchTarget(hit -> showCorpusSearchHit(hit));
-        this.jseshApplicationCore.palettePresenter()
-                .setHieroglyphPaletteListener(new MyHieroglyphicPaletteListener());
+        this.jseshApplicationCore.setFrontEnd(this);
     }
 
     @Override
@@ -398,22 +393,10 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         return chooser;
     }
 
-    /**
-     * Manages the palette. This is done at application level, as the palette is
-     * used by all views.
-     */
-    private class MyHieroglyphicPaletteListener implements
-            HieroglyphPaletteListener {
-
-        @Override
-        public void signSelected(String code) {
-            if (application.getActiveView() != null
-                    && application.getActiveView() instanceof JSeshView) {
-                JSeshView currentView = (JSeshView) application.getActiveView();
-                currentView.core().insertCode(code);
-            } else {
-                System.err.println(application.getActiveView());
-            }
+    @Override
+    public void insertCodeInActiveDocument(String code) {
+        if (application.getActiveView() instanceof JSeshView currentView) {
+            currentView.core().insertCode(code);
         }
     }
 
@@ -458,6 +441,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
         jseshApplicationCore.setQuickPDFExportFolder(folder);
     }
 
+    @Override
     public void setMessage(String string) {
         JSeshView view = (JSeshView) application.getActiveView();
         if (view != null) {
@@ -547,11 +531,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel {
     /**
      * Display the corpus search hit.
      * <p>
-     * Should not be in the application model.
-     * 
+     * Opening (or reusing) a document window is JHotdraw-specific, hence the
+     * core delegates this to us through {@link JSeshFrontEnd}.
+     *
      * @param hit
      */
-    private void showCorpusSearchHit(final CorpusSearchHit hit) {
+    @Override
+    public void showCorpusSearchHit(final CorpusSearchHit hit) {
         Path hitPath = hit.getFile();
         JSeshView selectedView = null;
         for (View view : application.views()) {

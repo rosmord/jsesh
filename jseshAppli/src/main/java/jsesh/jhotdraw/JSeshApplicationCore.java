@@ -61,7 +61,6 @@ import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.preferences.JSeshPreferencesRoot;
-import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
@@ -198,17 +197,17 @@ public class JSeshApplicationCore {
      * The corpus search dialog, shared by the whole application.
      * <p>
      * Lazily built by {@link #corpusSearchDialog()}, once
-     * {@link #setCorpusSearchTarget(CorpusSearchTarget)} has been called.
+     * {@link #setFrontEnd(JSeshFrontEnd)} has been called.
      */
     private CorpusSearchDialogFrame corpusSearchDialog;
 
     /**
-     * What to do with the hits of a corpus search.
+     * The software which displays this application core.
      * <p>
-     * Displaying a hit means opening (or reusing) a document window, which is
-     * framework-specific. Hence the front-end must provide this.
+     * Everything which involves document windows (opening a file, inserting a
+     * sign in the current text...) is delegated to it.
      */
-    private CorpusSearchTarget corpusSearchTarget;
+    private JSeshFrontEnd frontEnd;
 
 
     public JSeshApplicationCore(HieroglyphResources hieroglyphResources, UserFontDirectoryManager userFontDirectoryManager,
@@ -554,15 +553,37 @@ public class JSeshApplicationCore {
     }
 
     /**
-     * Sets what should be done with the hits of a corpus search.
+     * Sets the software which displays this application.
      * <p>
-     * Must be called by the front-end before {@link #corpusSearchDialog()} is
-     * used.
+     * Must be called before any of the application-level dialogs is used, as
+     * they all need to act on documents.
      *
-     * @param corpusSearchTarget the target which will display the search hits.
+     * @param frontEnd the front-end for this core.
      */
-    public void setCorpusSearchTarget(CorpusSearchTarget corpusSearchTarget) {
-        this.corpusSearchTarget = corpusSearchTarget;
+    public void setFrontEnd(JSeshFrontEnd frontEnd) {
+        this.frontEnd = frontEnd;
+    }
+
+    /**
+     * The front-end, when we are sure it's needed.
+     *
+     * @return the front-end.
+     */
+    private JSeshFrontEnd frontEnd() {
+        if (frontEnd == null) {
+            throw new IllegalStateException(
+                    "Bug : setFrontEnd should be called before using the application dialogs.");
+        }
+        return frontEnd;
+    }
+
+    /**
+     * Display an informative message to the user.
+     *
+     * @param message the message to display.
+     */
+    public void setMessage(String message) {
+        frontEnd().setMessage(message);
     }
 
     /**
@@ -576,11 +597,7 @@ public class JSeshApplicationCore {
      */
     public CorpusSearchDialogFrame corpusSearchDialog() {
         if (corpusSearchDialog == null) {
-            if (corpusSearchTarget == null) {
-                throw new IllegalStateException(
-                        "Bug : setCorpusSearchTarget should be called before using the corpus search dialog.");
-            }
-            corpusSearchDialog = new CorpusSearchDialogFrame(corpusSearchTarget, searchUIResources);
+            corpusSearchDialog = new CorpusSearchDialogFrame(frontEnd(), searchUIResources);
         }
         return corpusSearchDialog;
     }
@@ -595,6 +612,7 @@ public class JSeshApplicationCore {
     public PalettePresenter palettePresenter() {
         if (palettePresenter == null) {
             palettePresenter = new PalettePresenter(hieroglyphShapeRepository, hieroglyphDatabase);
+            palettePresenter.setHieroglyphPaletteListener(code -> frontEnd().insertCodeInActiveDocument(code));
         }
         return palettePresenter;
     }
