@@ -29,8 +29,6 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.editor.JSeshStyleReference;
 import jsesh.editor.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;

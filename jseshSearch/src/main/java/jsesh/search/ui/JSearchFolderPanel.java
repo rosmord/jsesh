@@ -19,8 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.editor.JSeshStyleReference;
 import jsesh.resources.JSeshMessages;
 import net.miginfocom.swing.MigLayout;
 
@@ -65,8 +63,10 @@ public final class JSearchFolderPanel extends JPanel {
         this.add(new JLabel(JSeshMessages.getString("generic.query.text")));
         this.add(searchForm, "growx, wrap");        
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
+        // Part to change: use only messageField, and build the message using i18n rules.
         this.add(new JLabel(JSeshMessages.getString("jsesh.search.folder.state")));
         this.add(messageField, "span, growx 1, pushx");
+        // 
         this.add(searchButton, "tag ok, span, split 2, sizegroup bttn");
         this.add(cancelButton, "tag cancel, sizegroup bttn");
     }
