@@ -29,7 +29,23 @@ import jsesh.utils.SystemUtils;
 public class MDCDocumentReader {
 
     private String defaultEncoding = null;
-    MDCDocument document;
+    private MDCDocument document;
+    
+    /**
+     * Should we fail if we get a syntax error, not trying to fix the file.
+     */
+    private boolean failFast = false;
+
+
+    /**
+     * Cancel the attempts to fix broken files.
+     * <p> Normally, the document reader will present a readable version of a document,
+     * replacing "bad" lines by their text code. But if one wants to know if a file is not well-formed,
+     * we want to let the error propagate.
+     */
+    public void failFast() {
+        this.failFast = true;
+    }
 
     /**
      * Open a file in a given defaultEncoding.
@@ -40,7 +56,6 @@ public class MDCDocumentReader {
      * @throws MDCSyntaxError
      */
     public MDCDocument loadFile(File file) throws IOException, MDCSyntaxError {
-
         byte[] bytes = ByteArraysUtils.readFileInByteArray(file);
         return extractDocumentFrom(bytes, file);
     }
@@ -105,6 +120,8 @@ public class MDCDocumentReader {
                     TopItemList items = gen.parse(line);
                     list.addAll(items.asList());
                 } catch (MDCSyntaxError exception) {
+                    if (failFast)
+                        throw exception;                    
                     list.addTopItem(new AlphabeticText('b', "Error in file: " + exception.getMessage()));
                     list.addTopItem(new LineBreak());
                     list.addTopItem(new AlphabeticText('l', line));

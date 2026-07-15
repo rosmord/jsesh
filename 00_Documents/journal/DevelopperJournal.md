@@ -11,6 +11,9 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
+- [ ] add a system to choose JSesh application user language
+- [ ] integrate the arabic version of JSesh
+
 
 ## Important decisions
 
@@ -24,7 +27,7 @@ This journal should only be edited and modified in the Development branch.
 
 ### Format of the jseshGlyph.jar file
 
-This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file.
+This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file. for instance, the group ḥnꜥ would not be rendered as V28*(N35:D36) but more like V28\130*(N35:D36) (in fact, "short" versions of ayin and n would be used).
 
 
 ## TODO
@@ -32,6 +35,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 - [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
 - [ ] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
+- [ ] Change the **column** layout algorithm. Currently, quadrats are processed the same way in columns and lines. But, in column, vertical sign tend not to be scaled. 
 
 ### Plan
 
@@ -216,6 +220,10 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-13
+
+- possible syntax error problem in MdC. Some texts produced by the ramses corpus contains strings such as `S38\\R`
+- 
 ### 2026-07-12
 
 - [x] fixed bug in method `HieroglyphResourcesBuilder.buildFull(...)`

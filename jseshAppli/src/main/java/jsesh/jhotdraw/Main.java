@@ -45,7 +45,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Main {
 
     public static void main(String[] args)
-            throws InvocationTargetException, ClassNotFoundException, InterruptedException {
+            throws InvocationTargetException, ClassNotFoundException, InterruptedException {        
         JSeshStartup startup = new JSeshStartup();
         startup.main(args);
     }

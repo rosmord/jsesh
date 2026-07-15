@@ -294,8 +294,7 @@ TRUESPACE=([ \t\n\015_])
 	// ?!??!!!!! winglyph has introduced way too many meanings for '#', and 
 	// some of them are really not consistent.
 	// As I want to keep a maximal compatibility, I will deal with them.
-	// #- can be either SHADINGTOGGLE or full cadrat shading (normally #// or #1234).
-		System.out.println("affiche "+ justAfterSign);
+	// #- can be either SHADINGTOGGLE or full cadrat shading (normally #// or #1234).		
 		if (justAfterSign)
 			return buildMDCShading("#1234");
 		else
