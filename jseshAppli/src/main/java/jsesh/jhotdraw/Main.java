@@ -35,6 +35,8 @@ package jsesh.jhotdraw;
 
 import java.lang.reflect.InvocationTargetException;
 
+import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
+
 /**
  * Main class.
  *
@@ -45,7 +47,9 @@ import java.lang.reflect.InvocationTargetException;
 public class Main {
 
     public static void main(String[] args)
-            throws InvocationTargetException, ClassNotFoundException, InterruptedException {        
+            throws InvocationTargetException, ClassNotFoundException, InterruptedException {
+        // Apply the user-chosen locale before anything loads resource bundles.
+        ApplicationUIPreferences.applyStoredLocale();
         JSeshStartup startup = new JSeshStartup();
         startup.main(args);
     }

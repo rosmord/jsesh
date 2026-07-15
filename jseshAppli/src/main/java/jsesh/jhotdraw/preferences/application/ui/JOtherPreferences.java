@@ -33,6 +33,8 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.preferences.application.ui;
 
+import java.util.Locale;
+
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import net.miginfocom.swing.MigLayout;
@@ -46,9 +48,24 @@ import jsesh.resources.JSeshMessages;
  */
 public class JOtherPreferences {
 
+    /**
+     * Locales the user interface is available in.
+     * <p>
+     * {@code null} stands for "use the system default locale".
+     */
+    private static final Locale[] AVAILABLE_LOCALES = {
+        null,
+        Locale.ENGLISH,
+        Locale.FRENCH,
+        Locale.ITALIAN,
+        Locale.forLanguageTag("es"),
+        Locale.forLanguageTag("pt"),
+        Locale.forLanguageTag("sv")
+    };
 
     private JPanel panel;
     private JFormattedTextField iconHeight;
+    private JComboBox<LocaleItem> localeSelector;
 
 
     public JOtherPreferences() {
@@ -61,7 +78,10 @@ public class JOtherPreferences {
         panel = new JPanel();
         iconHeight= new JFormattedTextField();
         iconHeight.setValue(30);
-
+        localeSelector = new JComboBox<>();
+        for (Locale locale : AVAILABLE_LOCALES) {
+            localeSelector.addItem(new LocaleItem(locale));
+        }
     }
 
     private void layout() {
@@ -71,6 +91,10 @@ public class JOtherPreferences {
         panel.add(iconHeight, "span, grow, wrap");
         JLabel comment= new JLabel(JSeshMessages.getString("otherPrefs.iconHeight.comment"));
         panel.add(comment, "span, grow, wrap");
+        helper.addLabel("otherPrefs.locale.label");
+        panel.add(localeSelector, "span, grow, wrap");
+        JLabel localeComment= new JLabel(JSeshMessages.getString("otherPrefs.locale.comment"));
+        panel.add(localeComment, "span, grow, wrap");
     }
 
     public JPanel getPanel() {
@@ -81,11 +105,61 @@ public class JOtherPreferences {
     public void loadPreferences() {
         ApplicationUIPreferences prefs = ApplicationUIPreferences.getFromPreferences();
         iconHeight.setValue(prefs.getIconHeight());
+        localeSelector.setSelectedItem(new LocaleItem(prefs.getLocale()));
     }
 
     void savePreferences() {
         ApplicationUIPreferences prefs = new ApplicationUIPreferences();
         prefs.setIconHeight((Integer)iconHeight.getValue());
+        LocaleItem selected = (LocaleItem) localeSelector.getSelectedItem();
+        prefs.setLocale(selected == null ? null : selected.getLocale());
         prefs.savetoPreferences();
+    }
+
+    /**
+     * Wraps a locale together with a human-readable label for the combo box.
+     * <p>
+     * A {@code null} locale represents the system default.
+     */
+    private static final class LocaleItem {
+        private final Locale locale;
+
+        LocaleItem(Locale locale) {
+            this.locale = locale;
+        }
+
+        Locale getLocale() {
+            return locale;
+        }
+
+        @Override
+        public String toString() {
+            if (locale == null) {
+                return JSeshMessages.getString("otherPrefs.locale.systemDefault");
+            }
+            // Display the language name in its own language.
+            String name = locale.getDisplayLanguage(locale);
+            if (name.isEmpty()) {
+                name = locale.toLanguageTag();
+            }
+            return name;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof LocaleItem)) {
+                return false;
+            }
+            LocaleItem other = (LocaleItem) obj;
+            if (locale == null) {
+                return other.locale == null;
+            }
+            return locale.equals(other.locale);
+        }
+
+        @Override
+        public int hashCode() {
+            return locale == null ? 0 : locale.hashCode();
+        }
     }
 }
