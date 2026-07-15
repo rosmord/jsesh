@@ -51,7 +51,7 @@ public final class JSearchFolderPanel extends JPanel {
         this.searchButton = new JButton(JSeshMessages.getString("generic.search.text"));
         this.cancelButton = new JButton(JSeshMessages.getString("generic.cancel.text"));
         this.resultTable = new JTable();
-        this.messageField = new JLabel("0");
+        this.messageField = new JLabel(JSeshMessages.getString("jsesh.search.folder.state") );
     }
 
     private void layoutFields() {
@@ -64,7 +64,7 @@ public final class JSearchFolderPanel extends JPanel {
         this.add(searchForm, "growx, wrap");        
         this.add(new JScrollPane(resultTable), "span, growx, growy, push, wrap");
         // Part to change: use only messageField, and build the message using i18n rules.
-        this.add(new JLabel(JSeshMessages.getString("jsesh.search.folder.state")));
+        // new JLabel(JSeshMessages.getString("jsesh.search.folder.state")));
         this.add(messageField, "span, growx 1, pushx");
         // 
         this.add(searchButton, "tag ok, span, split 2, sizegroup bttn");
