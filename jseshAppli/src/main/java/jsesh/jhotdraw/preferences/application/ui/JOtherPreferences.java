@@ -58,6 +58,8 @@ public class JOtherPreferences {
         Locale.ENGLISH,
         Locale.FRENCH,
         Locale.ITALIAN,
+        Locale.GERMAN,
+        Locale.forLanguageTag("ar"),
         Locale.forLanguageTag("es"),
         Locale.forLanguageTag("pt"),
         Locale.forLanguageTag("sv")
