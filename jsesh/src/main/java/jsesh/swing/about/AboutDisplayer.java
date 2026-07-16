@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
+import jsesh.swing.utils.OrientationUtils;
+
 /**
  * Graphical objet used to display JSesh's "about" informations. One-use only.
  * 
@@ -62,6 +64,7 @@ public class AboutDisplayer {
 		JScrollPane sc = new JScrollPane(textPane);
 		sc.setPreferredSize(new Dimension(800, 600));
 		panel.add(sc);
+		OrientationUtils.fixComponentOrientation(panel);
 	}
 
 	/**

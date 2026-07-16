@@ -11,6 +11,9 @@
 
 package jsesh.swing.signPalette;
 
+import java.awt.ComponentOrientation;
+import java.util.Locale;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,15 +30,16 @@ import javax.swing.JTextField;
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.hieroglyphs.data.HieroglyphFamily;
+import jsesh.swing.utils.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 
 /**
  * Simple palette window.
- * @author  rosmord
+ * 
+ * @author rosmord
  */
 @SuppressWarnings("serial")
 public class JSimplePalette extends JPanel {
-
 
     private JButton backButton;
     private JComboBox<ListItem<HieroglyphFamily>> categoryChooserCB;
@@ -59,13 +63,14 @@ public class JSimplePalette extends JPanel {
     private JList<String> signTable;
     private JComboBox<String> tagChooserCB;
     private JTextField translitterationFilterField;
-    
+
     /** Creates new form JSimplePalette */
     public JSimplePalette() {
         initComponents();
     }
-    
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      */
     private void initComponents() {
@@ -101,7 +106,6 @@ public class JSimplePalette extends JPanel {
         showVariantsButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/swing/signPalette/var.png"))); // NOI18N
         showVariantsButton.setToolTipText("Display variants of sign");
 
-
         glyphInfoText.setEditable(false);
         jScrollPane1.setViewportView(glyphInfoText);
 
@@ -115,7 +119,7 @@ public class JSimplePalette extends JPanel {
 
         glyphPictureLabel.setBackground(java.awt.Color.WHITE);
         glyphPictureLabel.setBorder(BorderFactory.createEtchedBorder());
-        
+
         jPanel1.setLayout(new MigLayout("insets 0", "[grow, fill]", ""));
         jPanel1.add(glyphPictureLabel, "growx, w 200!, h 74!, wrap");
         jPanel1.add(glyphCodeLabel);
@@ -134,7 +138,8 @@ public class JSimplePalette extends JPanel {
         jScrollPane2.setViewportView(signTable);
 
         backButton.setIcon(new ImageIcon(getClass().getResource("/jsesh/swing/signPalette/stock_left-16.png"))); // NOI18N
-        backButton.setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
+        backButton
+                .setToolTipText("<html>previously selected glyphs\n(JSesh remembers the last three selected signs).\n");
 
         setLayout(new MigLayout("insets dialog", "[trailing][grow, fill]", ""));
 
@@ -163,52 +168,53 @@ public class JSimplePalette extends JPanel {
         add(inUserPaletteCheckBox);
         add(backButton);
         add(showContainingButtons, "gapleft push");
+        
+        OrientationUtils.fixComponentOrientation(this);
     }
 
-    
-	public JComboBox<ListItem<HieroglyphFamily>> getCategoryChooserCB() {
-		return categoryChooserCB;
-	}
+    public JComboBox<ListItem<HieroglyphFamily>> getCategoryChooserCB() {
+        return categoryChooserCB;
+    }
 
-	public JLabel getGlyphCodeLabel() {
-		return glyphCodeLabel;
-	}
+    public JLabel getGlyphCodeLabel() {
+        return glyphCodeLabel;
+    }
 
-	public JEditorPane getGlyphInfoText() {
-		return glyphInfoText;
-	}
+    public JEditorPane getGlyphInfoText() {
+        return glyphInfoText;
+    }
 
-	public JLabel getGlyphPictureLabel() {
-		return glyphPictureLabel;
-	}
+    public JLabel getGlyphPictureLabel() {
+        return glyphPictureLabel;
+    }
 
     public JList<String> getSignTable() {
         return signTable;
     }
-    
+
     public JCheckBox getShowAllCheckBox() {
-		return showAllCheckBox;
-	}
+        return showAllCheckBox;
+    }
 
-	public JButton getShowContainingButtons() {
-		return showContainingButtons;
-	}
+    public JButton getShowContainingButtons() {
+        return showContainingButtons;
+    }
 
-	public JButton getShowVariantsButton() {
-		return showVariantsButton;
-	}
+    public JButton getShowVariantsButton() {
+        return showVariantsButton;
+    }
 
-	public JTextField getTransliterationFilterField() {
-		return translitterationFilterField;
-	}
-    
-	public JCheckBox getInUserPaletteCheckBox() {
-		return inUserPaletteCheckBox;
-	}
-	
-	public JComboBox<String> getTagChooserCB() {
-		return tagChooserCB;
-	}
+    public JTextField getTransliterationFilterField() {
+        return translitterationFilterField;
+    }
+
+    public JCheckBox getInUserPaletteCheckBox() {
+        return inUserPaletteCheckBox;
+    }
+
+    public JComboBox<String> getTagChooserCB() {
+        return tagChooserCB;
+    }
 
     public JComboBox<String> getSecondaryTagCB() {
         return secondaryTagCB;

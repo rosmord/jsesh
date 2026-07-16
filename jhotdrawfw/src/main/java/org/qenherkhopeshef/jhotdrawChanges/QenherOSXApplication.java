@@ -81,11 +81,12 @@ import org.jhotdraw_7_6.app.action.file.SaveFileAsAction;
 import org.jhotdraw_7_6.app.action.window.FocusWindowAction;
 import org.jhotdraw_7_6.app.action.window.MaximizeWindowAction;
 import org.jhotdraw_7_6.app.action.window.MinimizeWindowAction;
-import org.jhotdraw_7_6.app.osx.OSXAdapter;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  * Application with one window by document for non-Macintosh environment. Mac OS
@@ -249,14 +250,18 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
     }
 
     protected void initLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//         try {
+//             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
-//			UIManager
-//					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
+// //			UIManager
+// //					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
+//         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+//             e.printStackTrace();
+//         }
+        FlatLightLaf.setup();
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("sun.java2d.uiScale", "1x");
+        System.setProperty("flatlaf.uiScale", "1x");
         if (UIManager.getString("OptionPane.css") == null) {
             UIManager.put("OptionPane.css", "<head>"
                     + "<style type=\"text/css\">"

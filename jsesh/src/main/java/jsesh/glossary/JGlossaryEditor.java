@@ -58,6 +58,7 @@ import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.renderers.MdCTableCellRenderer;
 import jsesh.swing.utils.MDCIconFactory;
+import jsesh.swing.utils.OrientationUtils;
 
 /**
  * Graphical glossary editor for JSesh.
@@ -167,6 +168,7 @@ public class JGlossaryEditor extends JPanel {
 		setFocusCycleRoot(true);
 		setFocusTraversalPolicy(new ExplicitFocusPolicy(okButton,
 				new Component[] { codeField, okButton, mdcField, table }));
+		OrientationUtils.fixComponentOrientation(this);
 	}
 
 	public void prepareToAdd(String mdc) {

@@ -63,10 +63,10 @@ I'd like to integrate the localisation proposed by our colleague Hany ZARIF. How
 
 Plan:
 
-1. [ ] allow changes in the JSesh local from **user choice** (e.g. in preferences); we might survive if it requires a restart of the application;
-2. [ ] integrate arabic localization in the application
-   1. [ ] add arabic localization files from the localization branch;
-   2. [ ] change the occurrences of text which did not render correctly in right-to-left orientation (e.g. in the search window);
+1. [x] allow changes in the JSesh local from **user choice** (e.g. in preferences); we might survive if it requires a restart of the application;
+2. [x] integrate arabic localization in the application
+   1. [x] add arabic localization files from the localization branch;
+   2. [x] change the occurrences of text which did not render correctly in right-to-left orientation (e.g. in the search window);
 
 
 ### Long Term TODO
@@ -219,6 +219,12 @@ List of classes which need some cleanup:
 - `ExportAsRTFAction`
 
 ## Daily log
+
+### 2026-07-15
+
+- [ ] For correct arabic localization, we need rtol support for components layout;
+  - look at https://www.javacodegeeks.com/2025/05/swing-on-steroids-modernizing-java-desktop-apps-with-flatlaf-and-jreleaser.html
+
 
 ### 2026-07-13
 

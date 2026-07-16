@@ -19,6 +19,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 import jsesh.resources.ResourcesManager;
 import jsesh.swing.shapedisplayer.ShapeDisplayer;
+import jsesh.swing.utils.OrientationUtils;
 
 public class ExternalSignImporterUI {
 
@@ -137,8 +138,9 @@ public class ExternalSignImporterUI {
 		navPanel.add(getNextButton());
 
 		builder.append(navPanel);
-
-		return builder.getPanel();
+		JPanel res = builder.getPanel();
+		OrientationUtils.fixComponentOrientation(res);
+		return res;
 	}
 
 	public void addEventListener(UIEventListener listener) {

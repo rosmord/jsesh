@@ -24,6 +24,7 @@ import javax.swing.JToggleButton;
 
 import jsesh.mdc.model.AbsoluteGroup;
 import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.swing.utils.OrientationUtils;
 
 /**
  * Dialog panel for editing groups.
@@ -76,7 +77,7 @@ public final class GroupEditorDialog extends JPanel {
         setLayout(new BorderLayout());
         add(new JScrollPane(editor), BorderLayout.CENTER);
         add(sub, BorderLayout.SOUTH);
-
+        OrientationUtils.fixComponentOrientation(this);
     }
 
     private void activateControls() {

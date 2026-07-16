@@ -4,6 +4,10 @@ plugins {
     id("jsesh.java-conventions")
 }
 
+dependencies {
+    implementation("com.formdev:flatlaf:3.7.2")
+}
+
 // JHotDraw stores .properties files alongside Java source; include them as resources.
 tasks.processResources {
     from("src/main/java") {

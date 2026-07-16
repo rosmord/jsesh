@@ -45,7 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import jsesh.resources.JSeshMessages;
-
+import jsesh.swing.utils.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -89,6 +89,7 @@ public class JSimpleDialog {
         dialog.pack();
         dialog.setResizable(false);
         dialog.getRootPane().setDefaultButton(okButton);
+        OrientationUtils.fixComponentOrientation(dialog);
     }
 
     /**
