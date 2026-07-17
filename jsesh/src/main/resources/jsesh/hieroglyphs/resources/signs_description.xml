@@ -10506,6 +10506,21 @@ See also MMJ 6, 1972, p. 151-156 for representations.
     <contains partCode="M16" sign="C93"/>
     <contains partCode="M4" sign="C93"/>
     <variantOf baseSign="C90" isSimilar="y" linguistic="unspecified" sign="C93"/>
+    <signDescription lang="en" sign="C93">+lIdeogram for +s-+trnp+s-+l-priest.+s-!
++lReligious title, linked with the 3rd nome of Lower Egypt.+s-!
++lOften linked with the +s-D190-+l (D190) +s-+tHtp-wDA.t +s-+ltitle.+s-!
++l= IFAO 73,6 ? (with vertical +s-M4-+l).+s-!
++lSign attested (with a vertical, not oblique) rendering of the +s-M4-+l (M4) sign in J-W. 2009, pp. 390 (n°86) and 391 (n°88).+s-!
++lClear photography in De Meulenaere (1964), pl. XXX (back).+s-!
++lThe article by De Meulenaere (o.c.) is devoted to the reading and the value of this sign.+s-!
+!
++bBibliography+s-!
++lJansen-Winkeln, Karl. 2009. Inschriften der Spätzeit. Teil 3. Vol. 3. Inschriften der Spätzeit. Harrassowitz.
++s-!
++lDe Meulenaere, Herman. 1964. ‘Cultes et Sacerdoces à Imaou (Kôm El-Hisn) Au Temps Des Dynasties Saïte et Perse’. +s-+iBIFAO+s-+l 62: 151–71.+s-!
++lTODO: check Guermeur, cultes d'Amon, p. 83.+s-!
+</signDescription>
+    <hasTransliteration sign="C93" transliteration="rnp" type="ideogram" use="palette"/>
   </sign>
   <sign sign="C94">
     <hasTag sign="C94" tag="nile"/>
@@ -33811,11 +33826,11 @@ C159-C190-+l = +s-+tr(s)+s-!
   </sign>
   <sign sign="S18A">
     <hasTag sign="S18A" tag="necklace"/>
-    <variantOf baseSign="S18" isSimilar="y" linguistic="unspecified" sign="S18A"/>
+    <variantOf baseSign="S18" isSimilar="y" linguistic="full" sign="S18A"/>
   </sign>
   <sign sign="S18B">
     <hasTag sign="S18B" tag="necklace"/>
-    <variantOf baseSign="S18" isSimilar="y" linguistic="unspecified" sign="S18B"/>
+    <variantOf baseSign="S18" isSimilar="y" linguistic="full" sign="S18B"/>
   </sign>
   <sign alwaysDisplay="y" sign="S19">
     <hasTransliteration sign="S19" transliteration="sDAw" type="phonogram" use="keyboard"/>
@@ -39362,12 +39377,13 @@ U22-m-D17</signDescription>
     <hasTag sign="W17D" tag="water pot"/>
     <hasTag sign="W17D" tag="group of same sign"/>
     <hasTag sign="W17D" tag="vessel"/>
-    <variantOf baseSign="W17" isSimilar="y" linguistic="unspecified" sign="W17D"/>
+    <variantOf baseSign="W17" isSimilar="y" linguistic="full" sign="W17D"/>
     <signDescription lang="en" sign="W17D">+lSimplified shape of +s-W17-+l, known from the Old Kingdom onwards.+s-!
 +lStill quite usual in the New Kingdom.+s-!
 +bBibliography+s-!
 +lFischer, Henry George. (1979) 1983. +s-+iAncient Egyptian calligraphy: a beginner’s guide to writing hieroglyphs.+s-+l 2nd ed p. 50. +s-!
 +lServajean, Frédéric, and Jean-François Gout. 2011. Le tombeau de Nakhtamon (TT 335) à Deir al-Medina: paléographie. Paléographie hiéroglyphique 5. p. 117 +s</signDescription>
+    <hasTransliteration sign="W17D" transliteration="xnt" type="phonogram" use="keyboard"/>
   </sign>
   <sign alwaysDisplay="y" sign="W18">
     <hasTransliteration sign="W18" transliteration="xnt" type="phonogram" use="keyboard"/>
