@@ -47,6 +47,20 @@ abstract class UpdateLabelsTask : DefaultTask() {
         )
     }
 
+    /**
+     * In-memory representation of lines in the property files.
+     */
+    private sealed interface LogicalLine {
+        /** A comment or a blank line. */
+        data class Verbatim(val text: String) : LogicalLine
+
+        /**
+         * A definition. [key] and [rawValue] the source text, still escaped;
+         */
+        data class Definition(val key: String, val rawValue: String) : LogicalLine
+    }
+
+
     /** The reference file: gives the structure, the keys, and the default values. */
     @get:InputFile
     abstract val referenceFile: RegularFileProperty
@@ -131,15 +145,15 @@ abstract class UpdateLabelsTask : DefaultTask() {
                                     "'$translation' is replaced by the reference value '${line.rawValue}'."
                             )
                         }
-                        result.append(line.rawKey).append('=').append(line.rawValue).append('\n')
+                        result.append(line.key).append('=').append(line.rawValue).append('\n')
                     } else if (translation != null) {
                         translated++
                         used += line.key
-                        result.append(line.rawKey).append('=').append(translation).append('\n')
+                        result.append(line.key).append('=').append(translation).append('\n')
                     } else {
                         missing++
                         result.append(TO_TRANSLATE_MARKER).append('\n')
-                        result.append(line.rawKey).append('=').append(line.rawValue).append('\n')
+                        result.append(line.key).append('=').append(line.rawValue).append('\n')
                     }
                 }
             }
@@ -187,16 +201,6 @@ abstract class UpdateLabelsTask : DefaultTask() {
     private fun globToRegex(glob: String): Regex =
         Regex(glob.split('*').joinToString(".*") { Regex.escape(it) })
 
-    private sealed interface LogicalLine {
-        /** A comment or a blank line. */
-        data class Verbatim(val text: String) : LogicalLine
-
-        /**
-         * A definition. [rawKey] and [rawValue] are the source text, still escaped;
-         * [key] is the unescaped key, used for lookups.
-         */
-        data class Definition(val rawKey: String, val rawValue: String, val key: String) : LogicalLine
-    }
 
     private fun readLogicalLines(file: File): List<LogicalLine> {
         val lines = file.readLines(Charsets.UTF_8)
@@ -241,7 +245,7 @@ abstract class UpdateLabelsTask : DefaultTask() {
         }
         val rawKey = logical.substring(0, separator).trim()
         val rawValue = logical.substring(separator + 1).trimStart()
-        return LogicalLine.Definition(rawKey, rawValue, unescape(rawKey))
+        return LogicalLine.Definition(rawKey, rawValue)
     }
 
     /** Index of the first unescaped '=' or ':'. */
@@ -257,38 +261,5 @@ abstract class UpdateLabelsTask : DefaultTask() {
             i++
         }
         return -1
-    }
-
-    /** Resolves the escapes of a key, so that "a\:b" and "a:b" are the same key. */
-    private fun unescape(text: String): String {
-        val result = StringBuilder(text.length)
-        var i = 0
-        while (i < text.length) {
-            val c = text[i]
-            if (c != '\\' || i + 1 >= text.length) {
-                result.append(c)
-                i++
-                continue
-            }
-            when (val escaped = text[i + 1]) {
-                'u' -> {
-                    val hex = text.substring(i + 2, minOf(i + 6, text.length))
-                    val code = hex.toIntOrNull(16)
-                    if (hex.length == 4 && code != null) {
-                        result.append(code.toChar())
-                        i += 6
-                    } else {
-                        result.append(escaped)
-                        i += 2
-                    }
-                }
-                't' -> { result.append('\t'); i += 2 }
-                'n' -> { result.append('\n'); i += 2 }
-                'r' -> { result.append('\r'); i += 2 }
-                'f' -> { result.append(''); i += 2 }
-                else -> { result.append(escaped); i += 2 }
-            }
-        }
-        return result.toString()
     }
 }

@@ -11,8 +11,9 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
-- [ ] add a system to choose JSesh application user language
-- [ ] integrate the arabic version of JSesh
+- [x] add a system to choose JSesh application user language
+- [x] integrate the arabic version of JSesh
+- [ ] use i18n for texts in the JSesh Palette
 
 
 ## Important decisions
@@ -34,7 +35,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 
 - [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
-- [ ] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
+- [x] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
 - [ ] Change the **column** layout algorithm. Currently, quadrats are processed the same way in columns and lines. But, in column, vertical sign tend not to be scaled. 
 
 ### Plan
@@ -42,9 +43,9 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 Follow the following steps:
 
 
-- [ ] use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check.
+-  ~~use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check~~. (**moved from maven to gradle**)
 - when everything runs, check what code can be moved to `Core` classes and move it ; check.
-- rename JSeshFontKit using `Compendium`
+- ~~rename JSeshFontKit using `Compendium`~~ used **HieroglyphResources** instead,
 - check and debug the SignInfo editor.
 
 ### TODO / MANDATORY
@@ -57,6 +58,8 @@ Regarding **standard** codes:
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
 
 ### Arabic localization
+
+**90% done**
 
 I'd like to integrate the localisation proposed by our colleague Hany ZARIF. However, some part of it don't work very well with the Swing library, especially changing the whole application layout from left-to-right to right-to-left.
 
@@ -162,6 +165,7 @@ Plan:
 
 ### Low priority TODO
 
+- [ ] move `showCorpusSearchHit` out of `JSeshApplicationModel`.
 - [ ] use the type system to differenciate between the various updates of the view (e.g replace `updateView()` by `updateDocumentView()`, `updateSelectionView()`, etc. Make `Selection` a type, an not a particular case of `TopItemList`.
 - [ ] improve the mechanism for margins of components, which is not well defined.
 - [ ] use i18n for texts in the JSesh Palette
@@ -182,10 +186,9 @@ Plan:
 
   is somehow cumbersome.
 
-- [ ] ❗️rename `HieroglyphDatabaseInterface` into `HieroglyphDatabase`, and name implementations instead.
-- [ ] ❗️rename `SimpleHieroglyphDatabase` into `DefaultHieroglyphDatabase`.
-- [ ] rename mojos using the standard maven scheme.
-- [ ] move `showCorpusSearchHit` out of `JSeshApplicationModel`.
+- [x] ❗️rename `HieroglyphDatabaseInterface` into `HieroglyphDatabase`, and name implementations instead.
+- [x] ❗️rename `SimpleHieroglyphDatabase` into `DefaultHieroglyphDatabase`.
+- ~~rename mojos using the standard maven scheme.~~
 
 ### Simple TODO
 
@@ -222,19 +225,19 @@ List of classes which need some cleanup:
 
 ### 2026-07-15
 
-- [ ] For correct arabic localization, we need rtol support for components layout;
+- [x] For correct arabic localization, we need rtol support for components layout;
   - look at https://www.javacodegeeks.com/2025/05/swing-on-steroids-modernizing-java-desktop-apps-with-flatlaf-and-jreleaser.html
 
 
 ### 2026-07-13
 
 - possible syntax error problem in MdC. Some texts produced by the ramses corpus contains strings such as `S38\\R`
-- 
+
 ### 2026-07-12
 
 - [x] fixed bug in method `HieroglyphResourcesBuilder.buildFull(...)`
-- [ ] fix memory leak due to listeners when building the fonts for the search engine (the problem lies in `WildcardFont.addToFont(...)`, and somehow in the logic of `CompositeHieroglyphShapeRepository`, which has no method to release the listeners it holds.
-- [ ] TODO : while testing the search function, it occurred to us that some searched texts had "syntax error" (MdC syntax errors, not Egyptian Grammar ones!). We should write a small utility to find them easily and see whence the problem comes.
+- [x] fix memory leak due to listeners when building the fonts for the search engine (the problem lies in `WildcardFont.addToFont(...)`, and somehow in the logic of `CompositeHieroglyphShapeRepository`, which has no method to release the listeners it holds.
+- [x] TODO : while testing the search function, it occurred to us that some searched texts had "syntax error" (MdC syntax errors, not Egyptian Grammar ones!). We should write a small utility to find them easily and see whence the problem comes.
 
 ### 2026-07-09
 
