@@ -23,7 +23,7 @@ public class FileSaveConfirmDialog {
 		Object[] args = { fileToSave.getName() };
 		String formattedMessage = MessageFormat.format(message, args);                
 		int res= JOptionPane.showConfirmDialog(parentComponent, formattedMessage,
-				JSeshMessages.getString("FileSaveConfirm.title"),
+				JSeshMessages.getString("FileSaveConfirmDialog.title"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (res == JOptionPane.OK_OPTION)
                     return FileOperationResult.OK;

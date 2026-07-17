@@ -324,6 +324,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
 
             map.put(EditGroupAction.ID, new EditGroupAction(a, v));
 
+            map.remove(DuplicateAction.ID);
+
             addInsertAction(map, a, v,
                     JSeshApplicationActionsID.INSERT_FULL_SHADING,
                     SymbolCodes.FULLSHADE);

@@ -12,3 +12,12 @@ description = """
 plugins {
     id("jsesh.java-conventions")
 }
+
+// Rewrites the localized label files so that they mirror labels.properties.
+// Run on demand: ./gradlew :jseshLabels:update-labels
+tasks.register<org.qenherkhopeshef.jsesh.gradle.UpdateLabelsTask>("update-labels") {
+    group = "labels"
+    description = "Rewrites the localized label files to mirror the structure of labels.properties."
+    labelsDirectory.set(layout.projectDirectory.dir("src/main/resources/jsesh/resources"))
+    referenceFile.set(labelsDirectory.file("labels.properties"))
+}
