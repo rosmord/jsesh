@@ -6,7 +6,7 @@
  */
 package jsesh.model;
 
-import jsesh.mdc.interfaces.AbsoluteGroupInterface;
+import jsesh.model.api.AbsoluteGroupInterface;
 
 /**
  * A group of signs with explicit placement. IMPORTANT : currently, we need at

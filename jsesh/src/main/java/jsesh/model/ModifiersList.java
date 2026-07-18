@@ -2,7 +2,7 @@ package jsesh.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import jsesh.mdc.interfaces.ModifierListInterface;
+import jsesh.model.api.ModifierListInterface;
 
 /**
  * This file is free Software (c) Serge Rosmorduc

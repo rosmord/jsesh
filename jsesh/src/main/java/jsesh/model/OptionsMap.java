@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import jsesh.mdc.interfaces.OptionListInterface;
+import jsesh.model.api.OptionListInterface;
 
 /**
  * Map of attributes given to a glyph or construct.

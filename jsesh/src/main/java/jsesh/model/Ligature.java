@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.LigatureInterface;
+import jsesh.model.api.LigatureInterface;
 /**
  * Ligature
  * @author rosmord

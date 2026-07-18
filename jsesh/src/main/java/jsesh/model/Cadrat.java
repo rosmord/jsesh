@@ -4,8 +4,8 @@
  */
 package jsesh.model;
 
-import jsesh.mdc.interfaces.CadratInterface;
-import jsesh.mdc.interfaces.VBoxInterface;
+import jsesh.model.api.CadratInterface;
+import jsesh.model.api.VBoxInterface;
 
 /**
  * <p> A quadrat.

@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.ModifierInterface;
+import jsesh.model.api.ModifierInterface;
 
 /**
  * <p>

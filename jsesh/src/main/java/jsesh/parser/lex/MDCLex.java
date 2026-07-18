@@ -73,7 +73,7 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	
 
 	/* (non-Javadoc)
-	 * @see jsesh.mdc.utils.ParserErrorManager#buildError(java.lang.String)
+	 * @see jsesh.model.tools.ParserErrorManager#buildError(java.lang.String)
 	 */
 	public MDCSyntaxError buildError(String message) {
 		return implementation.buildError(message, lastToken.toString());

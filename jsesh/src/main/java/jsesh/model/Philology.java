@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.PhilologyInterface;
+import jsesh.model.api.PhilologyInterface;
 
 /**
  * 

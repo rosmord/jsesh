@@ -7,26 +7,26 @@ import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
-import jsesh.mdc.interfaces.AbsoluteGroupInterface;
-import jsesh.mdc.interfaces.BasicItemListInterface;
-import jsesh.mdc.interfaces.CadratInterface;
-import jsesh.mdc.interfaces.CartoucheInterface;
-import jsesh.mdc.interfaces.ComplexLigatureInterface;
-import jsesh.mdc.interfaces.HBoxInterface;
-import jsesh.mdc.interfaces.HieroglyphInterface;
-import jsesh.mdc.interfaces.HorizontalListElementInterface;
-import jsesh.mdc.interfaces.InnerGroupInterface;
-import jsesh.mdc.interfaces.LigatureInterface;
-import jsesh.mdc.interfaces.MDCBuilder;
-import jsesh.mdc.interfaces.MDCFileInterface;
-import jsesh.mdc.interfaces.ModifierListInterface;
-import jsesh.mdc.interfaces.OptionListInterface;
-import jsesh.mdc.interfaces.OverwriteInterface;
-import jsesh.mdc.interfaces.PhilologyInterface;
-import jsesh.mdc.interfaces.SubCadratInterface;
-import jsesh.mdc.interfaces.TopItemListInterface;
-import jsesh.mdc.interfaces.VBoxInterface;
-import jsesh.mdc.interfaces.ZoneStartInterface;
+import jsesh.model.api.AbsoluteGroupInterface;
+import jsesh.model.api.BasicItemListInterface;
+import jsesh.model.api.CadratInterface;
+import jsesh.model.api.CartoucheInterface;
+import jsesh.model.api.ComplexLigatureInterface;
+import jsesh.model.api.HBoxInterface;
+import jsesh.model.api.HieroglyphInterface;
+import jsesh.model.api.HorizontalListElementInterface;
+import jsesh.model.api.InnerGroupInterface;
+import jsesh.model.api.LigatureInterface;
+import jsesh.model.api.MDCBuilder;
+import jsesh.model.api.MDCFileInterface;
+import jsesh.model.api.ModifierListInterface;
+import jsesh.model.api.OptionListInterface;
+import jsesh.model.api.OverwriteInterface;
+import jsesh.model.api.PhilologyInterface;
+import jsesh.model.api.SubCadratInterface;
+import jsesh.model.api.TopItemListInterface;
+import jsesh.model.api.VBoxInterface;
+import jsesh.model.api.ZoneStartInterface;
 
 /**
  * @author rosmord
@@ -66,8 +66,8 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addCadratToBasicItemList(jsesh.mdc.interfaces
-	 * .BasicItemListInterface, jsesh.mdc.interfaces.CadratInterface, int)
+	 * jsesh.model.api.MDCBuilder#addCadratToBasicItemList(jsesh.model.api
+	 * .BasicItemListInterface, jsesh.model.api.CadratInterface, int)
 	 */
 	public void addCadratToBasicItemList(BasicItemListInterface l,
 			CadratInterface c, int shading) {
@@ -78,8 +78,8 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addCadratToTopItemList(jsesh.mdc.interfaces
-	 * .TopItemListInterface, jsesh.mdc.interfaces.CadratInterface, int)
+	 * jsesh.model.api.MDCBuilder#addCadratToTopItemList(jsesh.model.api
+	 * .TopItemListInterface, jsesh.model.api.CadratInterface, int)
 	 */
 	public void addCadratToTopItemList(TopItemListInterface l,
 			CadratInterface e, int shading) {
@@ -90,7 +90,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @seejsesh.mdc.interfaces.MDCBuilder#addCartoucheToTopItemList(jsesh.mdc.
-	 * interfaces.TopItemListInterface, jsesh.mdc.interfaces.CartoucheInterface)
+	 * interfaces.TopItemListInterface, jsesh.model.api.CartoucheInterface)
 	 */
 	public void addCartoucheToTopItemList(TopItemListInterface l,
 			CartoucheInterface c) {
@@ -99,7 +99,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addHRuleToTopItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addHRuleToTopItemList(jsesh.model.api
 	 * .TopItemListInterface, char, int, int)
 	 */
 	public void addHRuleToTopItemList(TopItemListInterface l, char lineType,
@@ -119,7 +119,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToModifierList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addToModifierList(jsesh.model.api
 	 * .ModifierListInterface, java.lang.String, java.lang.Integer)
 	 */
 	public void addModifierToModifierList(ModifierListInterface mods,
@@ -145,7 +145,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addTabStopToTopItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addTabStopToTopItemList(jsesh.model.api
 	 * .TopItemListInterface, int)
 	 */
 	public void addTabStopToTopItemList(TopItemListInterface l, int stopWidth) {
@@ -154,7 +154,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addTextSuperscriptToTopItemList(jsesh
+	 * jsesh.model.api.MDCBuilder#addTextSuperscriptToTopItemList(jsesh
 	 * .mdc.interfaces.TopItemListInterface, java.lang.String)
 	 */
 	public void addTextSuperscriptToTopItemList(TopItemListInterface l,
@@ -167,7 +167,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addTextToBasicItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addTextToBasicItemList(jsesh.model.api
 	 * .BasicItemListInterface, char code, java.lang.String)
 	 */
 	public void addTextToBasicItemList(BasicItemListInterface l,
@@ -177,7 +177,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addTextToTopItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addTextToTopItemList(jsesh.model.api
 	 * .TopItemListInterface, char scriptCode, java.lang.String)
 	 */
 	public void addTextToTopItemList(TopItemListInterface l, char scriptCode,
@@ -188,7 +188,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToggleToBasicItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addToggleToBasicItemList(jsesh.model.api
 	 * .BasicItemListInterface, int)
 	 */
 	public void addToggleToBasicItemList(BasicItemListInterface l,
@@ -198,7 +198,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToggleToTopItemList(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#addToggleToTopItemList(jsesh.model.api
 	 * .TopItemListInterface, int)
 	 */
 	public void addToggleToTopItemList(TopItemListInterface l,
@@ -232,8 +232,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToHorizontalList(jsesh.mdc.interfaces
-	 * .HBoxInterface, jsesh.mdc.interfaces.HorizontalListElementInterface)
+	 * jsesh.model.api.MDCBuilder#addToHorizontalList(jsesh.model.api
+	 * .HBoxInterface, jsesh.model.api.HorizontalListElementInterface)
 	 */
 	public void addToHorizontalList(HBoxInterface h,
 			HorizontalListElementInterface elt) {
@@ -241,8 +241,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @seejsesh.mdc.interfaces.MDCBuilder#addToLigature(jsesh.mdc.interfaces.
-	 * LigatureInterface, jsesh.mdc.interfaces.HieroglyphInterface)
+	 * @seejsesh.mdc.interfaces.MDCBuilder#addToLigature(jsesh.model.api.
+	 * LigatureInterface, jsesh.model.api.HieroglyphInterface)
 	 */
 	public void addToLigature(LigatureInterface i, HieroglyphInterface h) {
 		Ligature l = ((Ligature) i);
@@ -251,22 +251,22 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToVerticalList(jsesh.mdc.interfaces
-	 * .VBoxInterface, jsesh.mdc.interfaces.HBoxInterface)
+	 * jsesh.model.api.MDCBuilder#addToVerticalList(jsesh.model.api
+	 * .VBoxInterface, jsesh.model.api.HBoxInterface)
 	 */
 	public void addToVerticalList(VBoxInterface l, HBoxInterface h) {
 		((Cadrat) l).addHBox((HBox) h);
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildBasicItemList()
+	 * @see jsesh.model.api.MDCBuilder#buildBasicItemList()
 	 */
 	public BasicItemListInterface buildBasicItemList() {
 		return new BasicItemList();
 	}
 
 	/*
-	 * @seejsesh.mdc.interfaces.MDCBuilder#buildCadrat(jsesh.mdc.interfaces.
+	 * @seejsesh.mdc.interfaces.MDCBuilder#buildCadrat(jsesh.model.api.
 	 * VBoxInterface)
 	 */
 	public CadratInterface buildCadrat(VBoxInterface e) {
@@ -274,8 +274,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildCartouche(int, int,
-	 * jsesh.mdc.interfaces.BasicItemListInterface, int)
+	 * @see jsesh.model.api.MDCBuilder#buildCartouche(int, int,
+	 * jsesh.model.api.BasicItemListInterface, int)
 	 */
 	public CartoucheInterface buildCartouche(int type, int leftPart,
 			BasicItemListInterface e, int rightPart) {
@@ -285,15 +285,15 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildHBox()
+	 * @see jsesh.model.api.MDCBuilder#buildHBox()
 	 */
 	public HBoxInterface buildHBox() {
 		return new HBox();
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildHieroglyph(java.lang.Boolean,
-	 * int, java.lang.String, jsesh.mdc.interfaces.ModifierListInterface,
+	 * @see jsesh.model.api.MDCBuilder#buildHieroglyph(java.lang.Boolean,
+	 * int, java.lang.String, jsesh.model.api.ModifierListInterface,
 	 * java.lang.Boolean)
 	 */
 	public HieroglyphInterface buildHieroglyph(boolean isGrammar, int type,
@@ -319,7 +319,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildLigature()
+	 * @see jsesh.model.api.MDCBuilder#buildLigature()
 	 */
 	public LigatureInterface buildLigature() {
 		return new Ligature();
@@ -327,7 +327,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#buildMDCFileInterface(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#buildMDCFileInterface(jsesh.model.api
 	 * .TopItemListInterface)
 	 */
 	public MDCFileInterface buildMDCFileInterface(TopItemListInterface l) {
@@ -336,15 +336,15 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildModifierList()
+	 * @see jsesh.model.api.MDCBuilder#buildModifierList()
 	 */
 	public ModifierListInterface buildModifierList() {
 		return new ModifiersList();
 	}
 
 	/*
-	 * @seejsesh.mdc.interfaces.MDCBuilder#buildOverwrite(jsesh.mdc.interfaces.
-	 * HieroglyphInterface, jsesh.mdc.interfaces.HieroglyphInterface)
+	 * @seejsesh.mdc.interfaces.MDCBuilder#buildOverwrite(jsesh.model.api.
+	 * HieroglyphInterface, jsesh.model.api.HieroglyphInterface)
 	 */
 	public OverwriteInterface buildOverwrite(HieroglyphInterface e1,
 			HieroglyphInterface e2) {
@@ -354,8 +354,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildPhilology(int,
-	 * jsesh.mdc.interfaces.BasicItemListInterface, int) remark : normally
+	 * @see jsesh.model.api.MDCBuilder#buildPhilology(int,
+	 * jsesh.model.api.BasicItemListInterface, int) remark : normally
 	 * e2=e1.
 	 */
 
@@ -365,7 +365,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @seejsesh.mdc.interfaces.MDCBuilder#buildSubCadrat(jsesh.mdc.interfaces.
+	 * @seejsesh.mdc.interfaces.MDCBuilder#buildSubCadrat(jsesh.model.api.
 	 * BasicItemListInterface)
 	 */
 	public SubCadratInterface buildSubCadrat(BasicItemListInterface e) {
@@ -375,14 +375,14 @@ public class MDCModelBuilder implements MDCBuilder {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildTopItemList()
+	 * @see jsesh.model.api.MDCBuilder#buildTopItemList()
 	 */
 	public TopItemListInterface buildTopItemList() {
 		return new TopItemList();
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildVBox()
+	 * @see jsesh.model.api.MDCBuilder#buildVBox()
 	 */
 	public VBoxInterface buildVBox() {
 		return new Cadrat();
@@ -390,7 +390,7 @@ public class MDCModelBuilder implements MDCBuilder {
 
 	/*
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#completeLigature(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#completeLigature(jsesh.model.api
 	 * .LigatureInterface)
 	 */
 	public void completeLigature(LigatureInterface i) {
@@ -410,8 +410,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addStartHieroglyphicTextToTopItemList
-	 * (jsesh.mdc.interfaces.TopItemListInterface)
+	 * jsesh.model.api.MDCBuilder#addStartHieroglyphicTextToTopItemList
+	 * (jsesh.model.api.TopItemListInterface)
 	 */
 	public void addStartHieroglyphicTextToTopItemList(TopItemListInterface l) {
 	}
@@ -420,14 +420,14 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addStartHieroglyphicTextToBasicItemList
-	 * (jsesh.mdc.interfaces.BasicItemListInterface)
+	 * jsesh.model.api.MDCBuilder#addStartHieroglyphicTextToBasicItemList
+	 * (jsesh.model.api.BasicItemListInterface)
 	 */
 	public void addStartHieroglyphicTextToBasicItemList(BasicItemListInterface l) {
 	}
 
 	/*
-	 * @see jsesh.mdc.interfaces.MDCBuilder#reset()
+	 * @see jsesh.model.api.MDCBuilder#reset()
 	 */
 	public void reset() {
 		result = null;
@@ -437,7 +437,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#setHieroglyphPosition(jsesh.mdc.interfaces
+	 * jsesh.model.api.MDCBuilder#setHieroglyphPosition(jsesh.model.api
 	 * .HieroglyphInterface, int, int, int)
 	 */
 	public void setHieroglyphPosition(HieroglyphInterface h, int x, int y,
@@ -449,7 +449,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildAbsoluteGroup()
+	 * @see jsesh.model.api.MDCBuilder#buildAbsoluteGroup()
 	 */
 	public AbsoluteGroupInterface buildAbsoluteGroup() {
 		return new AbsoluteGroup();
@@ -459,8 +459,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.interfaces.MDCBuilder#addToAbsoluteGroup(jsesh.mdc.interfaces
-	 * .AbsoluteGroupInterface, jsesh.mdc.interfaces.HieroglyphInterface)
+	 * jsesh.model.api.MDCBuilder#addToAbsoluteGroup(jsesh.model.api
+	 * .AbsoluteGroupInterface, jsesh.model.api.HieroglyphInterface)
 	 */
 	public void addHieroglyphToAbsoluteGroup(AbsoluteGroupInterface group,
 			HieroglyphInterface e) {
@@ -472,7 +472,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	 * (non-Javadoc)
 	 * 
 	 * @seejsesh.mdc.interfaces.MDCBuilder#addZoneStartToTopItemList(jsesh.mdc.
-	 * interfaces.TopItemListInterface, jsesh.mdc.interfaces.ZoneStartInterface)
+	 * interfaces.TopItemListInterface, jsesh.model.api.ZoneStartInterface)
 	 */
 	public void addZoneStartToTopItemList(TopItemListInterface e1,
 			ZoneStartInterface e2) {
@@ -483,7 +483,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.mdc.interfaces.
+	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.model.api.
 	 * OptionListInterface, java.lang.String, int)
 	 */
 	public void addOption(OptionListInterface e1, String optName, int val) {
@@ -494,7 +494,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.mdc.interfaces.
+	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.model.api.
 	 * OptionListInterface, java.lang.String, java.lang.String)
 	 */
 	public void addOption(OptionListInterface e1, String optName, String val) {
@@ -505,7 +505,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.mdc.interfaces.
+	 * @seejsesh.mdc.interfaces.MDCBuilder#addOption(jsesh.model.api.
 	 * OptionListInterface, java.lang.String)
 	 */
 	public void addOption(OptionListInterface e1, String optName) {
@@ -516,7 +516,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildOptionList()
+	 * @see jsesh.model.api.MDCBuilder#buildOptionList()
 	 */
 	public OptionListInterface buildOptionList() {
 		return new OptionsMap();
@@ -525,7 +525,7 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.interfaces.MDCBuilder#buildZone()
+	 * @see jsesh.model.api.MDCBuilder#buildZone()
 	 */
 	public ZoneStartInterface buildZone() {
 		return new ZoneStart();
@@ -534,8 +534,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.mdc.interfaces.
-	 * ZoneStartInterface, jsesh.mdc.interfaces.OptionListInterface)
+	 * @seejsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.model.api.
+	 * ZoneStartInterface, jsesh.model.api.OptionListInterface)
 	 */
 	public void setOptionList(ZoneStartInterface result, OptionListInterface e1) {
 		// TODO Auto-generated method stub
@@ -545,8 +545,8 @@ public class MDCModelBuilder implements MDCBuilder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seejsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.mdc.interfaces.
-	 * CadratInterface, jsesh.mdc.interfaces.OptionListInterface)
+	 * @seejsesh.mdc.interfaces.MDCBuilder#setOptionList(jsesh.model.api.
+	 * CadratInterface, jsesh.model.api.OptionListInterface)
 	 */
 	public void setOptionList(CadratInterface result, OptionListInterface e1) {
 		// TODO Auto-generated method stub

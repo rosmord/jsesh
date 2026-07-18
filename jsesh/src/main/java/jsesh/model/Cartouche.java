@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.CartoucheInterface;
+import jsesh.model.api.CartoucheInterface;
 
 /**
  * <p>

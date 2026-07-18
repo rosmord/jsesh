@@ -1,7 +1,7 @@
 
 package jsesh.model;
 
-import jsesh.mdc.interfaces.InnerGroupInterface;
+import jsesh.model.api.InnerGroupInterface;
 
 /**
  * 

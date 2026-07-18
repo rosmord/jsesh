@@ -2,7 +2,7 @@
  */
 package jsesh.model;
 
-import jsesh.mdc.interfaces.HBoxInterface;
+import jsesh.model.api.HBoxInterface;
 
 /**
  * An horizontal list of elements.

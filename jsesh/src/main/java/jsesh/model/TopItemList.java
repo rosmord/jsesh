@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.mdc.interfaces.MDCFileInterface;
-import jsesh.mdc.interfaces.TopItemListInterface;
+import jsesh.model.api.MDCFileInterface;
+import jsesh.model.api.TopItemListInterface;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.operations.ZoneModification;
 import jsesh.io.mdc.MdCModelWriter;
-import jsesh.mdc.utils.HieroglyphCodesExtractor;
+import jsesh.model.tools.HieroglyphCodesExtractor;
 
 /**
  *

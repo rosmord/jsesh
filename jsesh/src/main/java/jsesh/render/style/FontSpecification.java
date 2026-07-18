@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import jsesh.model.constants.ScriptCodes;
 import jsesh.model.transliteration.TransliterationEncoding;
-import jsesh.mdc.utils.YODChoice;
+import jsesh.model.tools.YODChoice;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.platform.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;

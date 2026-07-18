@@ -13,7 +13,7 @@ import jsesh.model.InnerGroup;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.TopItem;
-import jsesh.mdc.utils.InnerGroupLister;
+import jsesh.model.tools.InnerGroupLister;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;

@@ -15,7 +15,7 @@ package jsesh.parser;
 import jsesh.parser.lex.*;
 import jsesh.model.constants.*;
 import jsesh.parser.*;
-import jsesh.mdc.interfaces.*;
+import jsesh.model.api.*;
 
 /**
  * Uses The Builder design pattern

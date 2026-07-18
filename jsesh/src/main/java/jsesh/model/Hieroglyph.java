@@ -4,7 +4,7 @@ import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
-import jsesh.mdc.interfaces.HieroglyphInterface;
+import jsesh.model.api.HieroglyphInterface;
 
 /**
  *

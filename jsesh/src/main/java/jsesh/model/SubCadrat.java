@@ -2,7 +2,7 @@
 package jsesh.model;
 
 
-import jsesh.mdc.interfaces.SubCadratInterface;
+import jsesh.model.api.SubCadratInterface;
 
 /**
  * 

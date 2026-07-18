@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.BasicItemListInterface;
+import jsesh.model.api.BasicItemListInterface;
 
 /**
  * BasicItemList : an auxiliary class, used as <em>implementation</em> for all elements

@@ -3,7 +3,7 @@ package jsesh.parser;
 import java.io.Reader;
 
 import java_cup.runtime.Symbol;
-import jsesh.mdc.interfaces.MDCBuilder;
+import jsesh.model.api.MDCBuilder;
 import jsesh.parser.lex.MDCLex;
 import jsesh.parser.MDCParse;
 

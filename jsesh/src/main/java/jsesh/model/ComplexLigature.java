@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.ComplexLigatureInterface;
+import jsesh.model.api.ComplexLigatureInterface;
 
 public class ComplexLigature extends HorizontalListElement implements ComplexLigatureInterface {
 	

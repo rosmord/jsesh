@@ -1,6 +1,6 @@
 package jsesh.model;
 
-import jsesh.mdc.interfaces.OverwriteInterface;
+import jsesh.model.api.OverwriteInterface;
 
 /**
  * 
