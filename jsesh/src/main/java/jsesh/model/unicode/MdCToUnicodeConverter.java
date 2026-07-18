@@ -9,7 +9,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.mdc.unicode;
+package jsesh.model.unicode;
 
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;

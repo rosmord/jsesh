@@ -59,7 +59,7 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.tools.HieroglyphPictureBuilder;
-import jsesh.preferences.JSeshPreferencesRoot;
+import jsesh.platform.preferences.JSeshPreferencesRoot;
 
 /**
  * Control and data feed for the simple palette.

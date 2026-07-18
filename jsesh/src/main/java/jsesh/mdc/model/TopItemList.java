@@ -9,7 +9,7 @@ import jsesh.mdc.interfaces.MDCFileInterface;
 import jsesh.mdc.interfaces.TopItemListInterface;
 import jsesh.mdc.model.operations.ModelOperation;
 import jsesh.mdc.model.operations.ZoneModification;
-import jsesh.mdc.output.MdCModelWriter;
+import jsesh.io.mdc.MdCModelWriter;
 import jsesh.mdc.utils.HieroglyphCodesExtractor;
 
 /**

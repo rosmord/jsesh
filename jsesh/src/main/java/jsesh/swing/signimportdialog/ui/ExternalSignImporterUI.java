@@ -17,7 +17,7 @@ import javax.swing.event.DocumentListener;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 import jsesh.swing.shapedisplayer.ShapeDisplayer;
 import jsesh.swing.utils.OrientationUtils;
 

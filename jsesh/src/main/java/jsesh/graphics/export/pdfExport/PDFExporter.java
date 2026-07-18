@@ -46,13 +46,13 @@ import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 
 /**
  * Expert for exporting a Manuel de codage file to PDF, using the IText library.

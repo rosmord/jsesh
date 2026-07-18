@@ -1,4 +1,4 @@
-package jsesh.mdc.file;
+package jsesh.io.document;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,7 +16,7 @@ import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.MdCModelWriter;
+import jsesh.io.mdc.MdCModelWriter;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
 

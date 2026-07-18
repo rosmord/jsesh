@@ -2,7 +2,7 @@
  * Created on 1 oct. 2004 by rosmord
  * This code can be distributed under the Gnu Library Public Licence.
  **/
-package jsesh.mdc.output;
+package jsesh.io.mdc;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -2,7 +2,7 @@
  * Created on 3 oct. 2004 by rosmord
  * This code can be distributed under the Gnu Library Public Licence.
  **/
-package jsesh.resources;
+package jsesh.platform.resources;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

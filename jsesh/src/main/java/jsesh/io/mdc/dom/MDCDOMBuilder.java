@@ -4,7 +4,7 @@
 * To change the template for this generated file go to
 * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
 */
-package jsesh.mdc.output.dom;
+package jsesh.io.mdc.dom;
 import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;

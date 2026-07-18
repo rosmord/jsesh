@@ -5,10 +5,10 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.mdc.constants.ScriptCodes;
-import jsesh.mdc.transliteration.TransliterationEncoding;
+import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 import jsesh.utils.DoubleDimensions;
 
 /**

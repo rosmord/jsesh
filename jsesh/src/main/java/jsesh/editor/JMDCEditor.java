@@ -86,7 +86,7 @@ import jsesh.mdc.model.ListOfTopItems;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdc.unicode.MdCToUnicodeConverter;
+import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;

@@ -41,7 +41,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 
 /**
  * Manages, saves and load the user glossary.

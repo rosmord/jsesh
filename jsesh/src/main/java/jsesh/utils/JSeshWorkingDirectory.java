@@ -3,7 +3,7 @@ package jsesh.utils;
 import java.io.File;
 import java.util.prefs.Preferences;
 
-import jsesh.preferences.JSeshPreferencesRoot;
+import jsesh.platform.preferences.JSeshPreferencesRoot;
 
 public class JSeshWorkingDirectory {
 	private static final String WORKING_DIRECTORY_PREF = "workingDirectory";

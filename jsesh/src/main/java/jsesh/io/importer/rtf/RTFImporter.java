@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.file.MDCDocument;
-import jsesh.mdc.file.MDCDocumentReader;
+import jsesh.io.document.MDCDocument;
+import jsesh.io.document.MDCDocumentReader;
 
 /**
  * Class for importing Manuel de codage code hidden in a RTF File. In fact, the

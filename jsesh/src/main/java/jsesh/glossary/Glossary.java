@@ -33,7 +33,7 @@
  */
 package jsesh.glossary;
 
-import static jsesh.mdc.transliteration.TransliterationUtilities.removeHyphens;
+import static jsesh.model.transliteration.TransliterationUtilities.removeHyphens;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import jsesh.mdc.transliteration.MDCTransliterationComparator;
+import jsesh.model.transliteration.MDCTransliterationComparator;
 
 /**
  * The "glossary" is in fact a map of precomposed entries.

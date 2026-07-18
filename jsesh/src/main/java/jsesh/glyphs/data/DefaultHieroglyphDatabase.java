@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.model.transliteration.TransliterationUtilities;
 
 /**
  * A repository which knows about hieroglyphic codes and signs equivalence. It

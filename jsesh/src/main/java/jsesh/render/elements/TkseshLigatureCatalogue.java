@@ -11,7 +11,7 @@ import java.util.Map;
 
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.render.layout.ExplicitPosition;
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 
 /**
  * A catalogue of pre-defined ligatures inherited from tksesh.

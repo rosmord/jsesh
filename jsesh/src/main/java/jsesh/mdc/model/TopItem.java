@@ -4,7 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.output.MdCModelWriter;
+import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * 

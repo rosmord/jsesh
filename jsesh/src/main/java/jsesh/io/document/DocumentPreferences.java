@@ -1,4 +1,4 @@
-package jsesh.mdc.file;
+package jsesh.io.document;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.util.Map;
 import jsesh.mdc.constants.JSeshInfoConstants;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.jseshInfo.JSeshInfoReader;
+import jsesh.platform.metadata.JSeshInfoReader;
 
 /**
  * Immutable (?) representation of document preferences.

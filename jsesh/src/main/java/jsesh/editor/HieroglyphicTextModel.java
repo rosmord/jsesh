@@ -58,7 +58,7 @@ import jsesh.mdc.model.ModelElementObserver;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.model.operations.ModelOperation;
-import jsesh.mdc.output.MdCModelWriter;
+import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * The edition model of a hieroglyphic text.

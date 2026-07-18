@@ -1,4 +1,4 @@
-package jsesh.mdc.output;
+package jsesh.io.mdc;
 
 public class MdcDialectConversionException extends RuntimeException {
 

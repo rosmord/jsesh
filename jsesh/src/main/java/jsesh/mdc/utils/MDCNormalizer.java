@@ -9,7 +9,7 @@ import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.Hieroglyph;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.output.MdCModelWriter;
+import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * An expert able to normalize hieroglyphs in a MDC text (i.e. replace all codes by Gardiner codes for searches).

@@ -1,4 +1,4 @@
-package jsesh.mdc.unicode;
+package jsesh.model.unicode;
 
 import java.io.BufferedReader;
 import java.io.IOException;

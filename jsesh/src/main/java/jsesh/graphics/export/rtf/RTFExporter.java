@@ -19,14 +19,14 @@ import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
 import jsesh.graphics.export.wmf.EmbeddableWMFSimpleDrawer;
 import jsesh.mdc.constants.TextDirection;
 import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.file.MDCDocument;
+import jsesh.io.document.MDCDocument;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElementDeepAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 
 

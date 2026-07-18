@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.preferences.JSeshPreferenceKeys;
-import jsesh.preferences.JSeshPreferencesRoot;
+import jsesh.platform.preferences.JSeshPreferenceKeys;
+import jsesh.platform.preferences.JSeshPreferencesRoot;
 import jsesh.utils.DirectoryHolder;
 
 /**
@@ -24,7 +24,7 @@ import jsesh.utils.DirectoryHolder;
  * <p>
  * <b>Preference-node migration note:</b> the folder is persisted under
  * {@code userNodeForPackage(HieroglyphShapeRepository.class)} with key
- * {@link jsesh.preferences.JSeshPreferenceKeys#GLYPH_DIRECTORY}. This resolves
+ * {@link jsesh.platform.preferences.JSeshPreferenceKeys#GLYPH_DIRECTORY}. This resolves
  * to
  * the <em>same</em> node the retired {@code JSeshFullHieroglyphShapeRepository}
  * used (both classes live in {@code jsesh.glyphs.fonts}), so existing

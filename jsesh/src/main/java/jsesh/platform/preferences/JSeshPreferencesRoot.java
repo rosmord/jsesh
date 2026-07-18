@@ -1,4 +1,4 @@
-package jsesh.preferences;
+package jsesh.platform.preferences;
 
 import java.util.prefs.Preferences;
 

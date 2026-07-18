@@ -5,7 +5,7 @@ import com.lowagie.text.pdf.PdfSpotColor;
 import com.lowagie.text.pdf.SpotColor;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.file.MDCDocument;
+import jsesh.io.document.MDCDocument;
 import jsesh.mdc.model.TopItemList;
 
 class PDFExportHelper {

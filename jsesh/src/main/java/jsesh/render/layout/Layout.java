@@ -40,7 +40,7 @@ import jsesh.mdc.model.SubCadrat;
 import jsesh.mdc.model.Superscript;
 import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;

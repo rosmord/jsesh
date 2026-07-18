@@ -1,4 +1,4 @@
-package jsesh.mdc.file;
+package jsesh.io.document;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,7 +14,7 @@ import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdc.jseshInfo.JSeshInfoReader;
+import jsesh.platform.metadata.JSeshInfoReader;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.TopItemList;

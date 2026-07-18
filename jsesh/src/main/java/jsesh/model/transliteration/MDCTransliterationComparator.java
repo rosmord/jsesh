@@ -1,4 +1,4 @@
-package jsesh.mdc.transliteration;
+package jsesh.model.transliteration;
 
 import java.util.Comparator;
 
