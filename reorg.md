@@ -150,12 +150,42 @@ Any further move of a resource-loading class needs the same treatment.
 - **`jsesh.newmdc` is gone** from the tree, so the "experimental package
   policy" question is moot.
 
+### Orphaned package.html — resolved
+
+The old `package.html` javadoc files were **not** empty stubs; each held
+authored prose. They were sorted into two groups:
+
+- **Package renamed, docs still accurate** — converted to `package-info.java`
+  at the new location, which is the mechanism the project already uses
+  elsewhere and which keeps the text next to the code:
+  `mdc/model`→`jsesh.model`, `mdc/interfaces`→`jsesh.model.api`,
+  `mdc/utils`→`jsesh.model.tools`, `mdc`→`jsesh.parser`,
+  `mdc/lex`→`jsesh.parser.lex`, `mdc/file`→`jsesh.io.document`,
+  `mdc/output/dom`→`jsesh.io.mdc.dom`, `mdcDisplayer/draw`→`jsesh.render.draw`,
+  `mdcDisplayer/clipboard`→`jsesh.clipboard`,
+  `mdcDisplayer/swing/units`→`jsesh.swing.units`,
+  `hieroglyphs`→`jsesh.glyphs`.
+  `mdcDisplayer/drawingElements` was merged into the existing
+  `jsesh.render.elements` package-info.
+  A misfiled `org/qenherkhopeshef/swingUtils/portableFileDialog/package.html`
+  living in the `jsesh` module moved to `qenherkhopeshefUtils` as a
+  package-info.
+- **Package genuinely gone** — deleted, with their now-empty directories:
+  `editorSoftware`(+`actions`), `mdcDisplayer/viewToolkit`(+`elements/properties`,
+  `temp`), `swing/preferencesEditor`, `xml`, `mdc/jseshInfo`,
+  `org/qenherkhopeshef/{json,qpreference}`, plus the dead parent namespaces
+  `mdc`, `mdcDisplayer`, `hieroglyphs`.
+
+Not carried over: `mdcDisplayer/preferences/package.html` described
+`DrawingPreferences`/`DrawingSpecifications`, neither of which still exists;
+the current `jsesh.render.style` package-info supersedes it.
+
 ### Leftovers not cleaned up
 
-- `src/main/resources/jsesh/{mdc,mdcDisplayer,hieroglyphs,...}` still hold
-  orphaned `package.html` javadoc stubs for packages that no longer exist.
 - `jsesh/mdcDisplayer/preferences/defaultProperties.properties` is a single
   comment line and is read by no code.
 - `jsesh/graphics/export/pdfExport/oldCode` and `jsesh/mdc/lex/README.txt`.
 
-These are inert; left in place rather than deleted on my own initiative.
+These three are the only reason the dead `jsesh/mdc/lex` and
+`jsesh/mdcDisplayer/preferences` resource directories still exist. They are
+inert; left in place rather than deleted on my own initiative.
