@@ -47,18 +47,18 @@ import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.editor.JMDCEditor;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.hieroglyphs.data.PossibilitiesList;
-import jsesh.hieroglyphs.data.Possibility;
-import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.data.coremdc.GardinerCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.HieroglyphFamily;
+import jsesh.glyphs.data.PossibilitiesList;
+import jsesh.glyphs.data.Possibility;
+import jsesh.glyphs.data.SignDescriptionConstants;
+import jsesh.glyphs.data.coremdc.CanonicalCode;
+import jsesh.glyphs.data.coremdc.GardinerCode;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
+import jsesh.glyphs.tools.HieroglyphPictureBuilder;
 import jsesh.preferences.JSeshPreferencesRoot;
 
 /**

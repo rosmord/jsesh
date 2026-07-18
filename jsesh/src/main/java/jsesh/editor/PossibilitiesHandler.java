@@ -33,8 +33,8 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
-import jsesh.hieroglyphs.data.PossibilitiesList;
-import jsesh.hieroglyphs.data.Possibility;
+import jsesh.glyphs.data.PossibilitiesList;
+import jsesh.glyphs.data.Possibility;
 
 /**
  * Manages the choice of the text to insert at a given point in a given editor.

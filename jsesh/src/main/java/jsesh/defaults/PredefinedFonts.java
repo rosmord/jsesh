@@ -1,9 +1,9 @@
 package jsesh.defaults;
 
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.GnutraceHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
+import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.glyphs.fonts.GnutraceHieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.ResourcesHieroglyphicShapeRepository;
 
 /**
  * Access to individual Predefined hieroglyphic fonts.

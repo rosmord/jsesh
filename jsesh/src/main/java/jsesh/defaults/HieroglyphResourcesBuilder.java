@@ -3,11 +3,11 @@ package jsesh.defaults;
 
 import jsesh.editor.PossibilityRepository;
 import jsesh.glossary.Glossary;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.HieroglyphDatabaseFactory;
-import jsesh.hieroglyphs.fonts.CompositeHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.DirectoryHieroglyphShapeRepository;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.HieroglyphDatabaseFactory;
+import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.utils.DirectoryHolder;
 
 /**

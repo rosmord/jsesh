@@ -42,10 +42,10 @@ import jsesh.glossary.GlossaryEntry;
 import jsesh.glossary.GlossaryEntryAdded;
 import jsesh.glossary.GlossaryEntryRemoved;
 import jsesh.glossary.Glossary;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.PossibilitiesList;
-import jsesh.hieroglyphs.data.SignDescriptionConstants;
-import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.PossibilitiesList;
+import jsesh.glyphs.data.SignDescriptionConstants;
+import jsesh.glyphs.data.coremdc.GardinerCode;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains

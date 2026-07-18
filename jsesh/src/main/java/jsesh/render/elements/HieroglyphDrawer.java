@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.render.layout.ExplicitPosition;
 import jsesh.render.view.ViewBox;

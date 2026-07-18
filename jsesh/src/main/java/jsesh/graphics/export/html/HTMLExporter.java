@@ -36,7 +36,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.model.AlphabeticText;
 import jsesh.mdc.model.LineBreak;
 import jsesh.mdc.model.ModelElement;

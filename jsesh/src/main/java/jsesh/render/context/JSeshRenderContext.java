@@ -3,7 +3,7 @@ package jsesh.render.context;
 import java.util.function.Function;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 
 /**
  * A place to store rendering context technical information.

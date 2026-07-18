@@ -8,7 +8,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.SymbolCodes;

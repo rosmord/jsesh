@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
-import jsesh.hieroglyphs.data.HieroglyphFamily;
+import jsesh.glyphs.data.HieroglyphFamily;
 import jsesh.swing.utils.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 

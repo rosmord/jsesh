@@ -27,7 +27,7 @@ import jsesh.utils.DirectoryHolder;
  * {@link jsesh.preferences.JSeshPreferenceKeys#GLYPH_DIRECTORY}. This resolves
  * to
  * the <em>same</em> node the retired {@code JSeshFullHieroglyphShapeRepository}
- * used (both classes live in {@code jsesh.hieroglyphs.fonts}), so existing
+ * used (both classes live in {@code jsesh.glyphs.fonts}), so existing
  * users
  * keep their configured folder. Do not move {@code GLYPH_DIRECTORY} to another
  * package or the setting will be silently orphaned.

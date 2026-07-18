@@ -8,12 +8,12 @@ import javax.swing.JList;
 import org.qenherkhopeshef.swingUtils.lists.DataListItem;
 import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 
-import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
-import jsesh.hieroglyphs.utils.IconRenderOptions;
-import jsesh.hieroglyphs.utils.PictureDimension;
+import jsesh.glyphs.data.coremdc.CanonicalCode;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.tools.HieroglyphPictureBuilder;
+import jsesh.glyphs.tools.IconRenderOptions;
+import jsesh.glyphs.tools.PictureDimension;
 
 @SuppressWarnings("serial")
 public class SignListCellRenderer extends DefaultListCellRenderer {

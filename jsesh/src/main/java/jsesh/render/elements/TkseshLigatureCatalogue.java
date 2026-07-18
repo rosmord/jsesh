@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.render.layout.ExplicitPosition;
 import jsesh.resources.ResourcesManager;
 

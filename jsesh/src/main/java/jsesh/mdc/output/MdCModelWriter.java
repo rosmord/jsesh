@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
 
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.LexicalSymbolsUtils;
 import jsesh.mdc.constants.WordEndingCode;

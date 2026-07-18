@@ -4,8 +4,8 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.hieroglyphs.data.coremdc.GardinerCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.data.coremdc.GardinerCode;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.mdc.MDCParserFacade;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.interfaces.HieroglyphInterface;

@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 
 import jsesh.defaults.PredefinedFonts;
 import jsesh.render.style.JSeshStyle;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.MDCParserModelGenerator;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.model.TopItemList;

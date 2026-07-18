@@ -5,7 +5,7 @@ import java.io.File;
 import javax.swing.JPanel;
 
 import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.swing.signimportdialog.control.ExternalSignImporterPresenter;
 import jsesh.swing.signimportdialog.model.ExternalSignImporterModel;
 import jsesh.swing.signimportdialog.ui.ExternalSignImporterUI;

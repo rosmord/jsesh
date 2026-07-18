@@ -56,7 +56,7 @@ import jsesh.editor.caret.MDCCaretChangeListener;
 import jsesh.editor.events.NewTextEvent;
 import jsesh.editor.events.TextEvent;
 import jsesh.editor.events.TextOperationEvent;
-import jsesh.hieroglyphs.data.Possibility;
+import jsesh.glyphs.data.Possibility;
 import jsesh.mdc.MDCSyntaxError;
 import jsesh.mdc.constants.SymbolCodes;
 import jsesh.mdc.constants.WordEndingCode;

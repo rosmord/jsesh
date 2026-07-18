@@ -53,10 +53,10 @@ import javax.swing.event.MenuListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
-import jsesh.hieroglyphs.utils.IconRenderOptions;
+import jsesh.glyphs.data.coremdc.CanonicalCode;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.tools.HieroglyphPictureBuilder;
+import jsesh.glyphs.tools.IconRenderOptions;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 
 /**
  * Link between MdC codes and Unicode codes.
