@@ -8,15 +8,15 @@ package jsesh.mdc.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.HBox;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.SubCadrat;
+import jsesh.model.TopItem;
 
 /**
  * An expert, which breaks Manuel de Codage constructs into smaller elements.
@@ -93,7 +93,7 @@ public class GroupExploder {
 
 		/** 
 		 * Only hieroglyphs among innergroups can't be broken into smaller parts.
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.model.Hieroglyph)
 		 */
 		@Override
 		public void visitHieroglyph(Hieroglyph h) {
@@ -102,7 +102,7 @@ public class GroupExploder {
 		
 		/* Default behaviour : dig into the element, and add its sub elements as topitems.
 		 * (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 		@Override
 		public void visitDefault(ModelElement t) {
@@ -114,7 +114,7 @@ public class GroupExploder {
 		}
 		
 		/* (non-Javadoc)
-         * @see jsesh.mdc.model.ModelElementDeepAdapter#visitAbsoluteGroup(jsesh.mdc.model.AbsoluteGroup)
+         * @see jsesh.model.ModelElementDeepAdapter#visitAbsoluteGroup(jsesh.model.AbsoluteGroup)
          */
 		@Override
         public void visitAbsoluteGroup(AbsoluteGroup g) {

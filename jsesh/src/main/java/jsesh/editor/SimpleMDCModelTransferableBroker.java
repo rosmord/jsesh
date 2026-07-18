@@ -38,7 +38,7 @@ import java.awt.datatransfer.DataFlavor;
 import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 
 /**

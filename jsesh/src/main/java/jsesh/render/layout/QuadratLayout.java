@@ -1,10 +1,10 @@
 package jsesh.render.layout;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.HorizontalListElement;
+import jsesh.model.constants.TextOrientation;
+import jsesh.model.Cadrat;
+import jsesh.model.Hieroglyph;
+import jsesh.model.HorizontalListElement;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewIterator;

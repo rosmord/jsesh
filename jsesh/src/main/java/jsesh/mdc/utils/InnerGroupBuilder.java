@@ -6,9 +6,9 @@ package jsesh.mdc.utils;
 
 import java.util.List;
 
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.SubCadrat;
+import jsesh.model.BasicItemList;
+import jsesh.model.InnerGroup;
+import jsesh.model.SubCadrat;
 
 /**
  * This Expert is able to build an InnerGroup from a list of top-level elements

@@ -11,39 +11,39 @@ import java.io.Writer;
 import java.util.Locale;
 
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.mdc.constants.Dialect;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.WordEndingCode;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.Ligature;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementVisitor;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.ModifiersList;
-import jsesh.mdc.model.OptionsMap;
-import jsesh.mdc.model.Overwrite;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.Philology;
-import jsesh.mdc.model.ShadingCode;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.Tabbing;
-import jsesh.mdc.model.TabbingClear;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.model.TopItemState;
-import jsesh.mdc.model.ZoneStart;
+import jsesh.model.constants.Dialect;
+import jsesh.model.constants.LexicalSymbolsUtils;
+import jsesh.model.constants.WordEndingCode;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.AlphabeticText;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.ComplexLigature;
+import jsesh.model.HBox;
+import jsesh.model.HRule;
+import jsesh.model.Hieroglyph;
+import jsesh.model.InnerGroup;
+import jsesh.model.Ligature;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementVisitor;
+import jsesh.model.Modifier;
+import jsesh.model.ModifiersList;
+import jsesh.model.OptionsMap;
+import jsesh.model.Overwrite;
+import jsesh.model.PageBreak;
+import jsesh.model.Philology;
+import jsesh.model.ShadingCode;
+import jsesh.model.SubCadrat;
+import jsesh.model.Superscript;
+import jsesh.model.TabStop;
+import jsesh.model.Tabbing;
+import jsesh.model.TabbingClear;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
+import jsesh.model.TopItemState;
+import jsesh.model.ZoneStart;
 
 /**
  * A MdCModelWriter knows how to write a MDCModel to a file, in the manuel de
@@ -137,7 +137,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+		 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
 		 */
 		public void visitAlphabeticText(AlphabeticText t) {
 			write("+" + t.getScriptCode());
@@ -151,7 +151,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+		 * @see jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {
 			visitElementList(l, "-");
@@ -160,7 +160,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
 			visitElementList(c, ":");
@@ -170,7 +170,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
+		 * @see jsesh.model.ModelElementVisitor#visitCartouche(jsesh.model.Cartouche)
 		 */
 		public void visitCartouche(Cartouche c) {
 			String cartoucheCode = "";
@@ -193,7 +193,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitHBox(jsesh.mdc.model.HBox)
+		 * @see jsesh.model.ModelElementVisitor#visitHBox(jsesh.model.HBox)
 		 */
 		public void visitHBox(HBox b) {
 			visitElementList(b, "*");
@@ -202,7 +202,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementVisitor#visitHieroglyph(jsesh.model.Hieroglyph)
 		 */
 		public void visitHieroglyph(Hieroglyph h) {
 			boolean explicitPosition = false;
@@ -251,7 +251,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitHRule(jsesh.mdc.model.HRule)
+		 * @see jsesh.model.ModelElementVisitor#visitHRule(jsesh.model.HRule)
 		 */
 		public void visitHRule(HRule h) {
 			write("{");
@@ -263,7 +263,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitLigature(jsesh.mdc.model.Ligature)
+		 * @see jsesh.model.ModelElementVisitor#visitLigature(jsesh.model.Ligature)
 		 */
 		public void visitLigature(Ligature l) {
 			visitElementList(l, "&");
@@ -272,7 +272,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitModifier(jsesh.mdc.model.Modifier)
+		 * @see jsesh.model.ModelElementVisitor#visitModifier(jsesh.model.Modifier)
 		 */
 		public void visitModifier(Modifier mod) {
 			write('\\');
@@ -286,7 +286,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitModifierList(jsesh.mdc.model.ModifiersList)
+		 * @see jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
 		 */
 		public void visitModifierList(ModifiersList l) {
 			for (int i = 0; i < l.getNumberOfChildren(); i++) {
@@ -298,7 +298,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitOverwrite(jsesh.mdc.model.Overwrite)
+		 * @see jsesh.model.ModelElementVisitor#visitOverwrite(jsesh.model.Overwrite)
 		 */
 		public void visitOverwrite(Overwrite o) {
 			o.getFirst().accept(this);
@@ -309,7 +309,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitPhilology(jsesh.mdc.model.Philology)
+		 * @see jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
 		 */
 		public void visitPhilology(Philology p) {
 			String open = LexicalSymbolsUtils.getOpenCodeForPhilology(p
@@ -332,7 +332,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitSubCadrat(jsesh.mdc.model.SubCadrat)
+		 * @see jsesh.model.ModelElementVisitor#visitSubCadrat(jsesh.model.SubCadrat)
 		 */
 		public void visitSubCadrat(SubCadrat c) {
 			write("(");
@@ -344,7 +344,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.Superscript)
+		 * @see jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.Superscript)
 		 */
 		public void visitSuperScript(Superscript s) {
 			String txt= s.getText();
@@ -358,7 +358,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitTabStop(jsesh.mdc.model.TabStop)
+		 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
 		 */
 		public void visitTabStop(TabStop t) {
 			write("?" + t.getStopPos());
@@ -473,7 +473,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitLineBreak(jsesh.mdc.model.LineBreak)
+		 * @see jsesh.model.ModelElementVisitor#visitLineBreak(jsesh.model.LineBreak)
 		 */
 		public void visitLineBreak(LineBreak b) {
 			write("!");
@@ -486,7 +486,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitPageBreak(jsesh.mdc.model.PageBreak)
+		 * @see jsesh.model.ModelElementVisitor#visitPageBreak(jsesh.model.PageBreak)
 		 */
 		public void visitPageBreak(PageBreak b) {
 			write("!!\n");
@@ -496,7 +496,7 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.mdc.model.AbsoluteGroup)
+		 * @see jsesh.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.model.AbsoluteGroup)
 		 */
 		public void visitAbsoluteGroup(AbsoluteGroup g) {
 			// TODO : generate "&&" if the correct option is selected.
@@ -505,7 +505,7 @@ public class MdCModelWriter {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitZoneStart(jsesh.mdc.model.ZoneStart)
+		 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
 		 */
 		public void visitZoneStart(ZoneStart start) {
 			// TODO : finish this !!!
@@ -513,7 +513,7 @@ public class MdCModelWriter {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitOptionList(jsesh.mdc.model.OptionsMap)
+		 * @see jsesh.model.ModelElementVisitor#visitOptionList(jsesh.model.OptionsMap)
 		 */
 		public void visitOptionList(OptionsMap list) {
 			// TODO Auto-generated method stub

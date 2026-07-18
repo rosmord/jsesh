@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.mdc.constants.ScriptCodes;
+import jsesh.model.constants.ScriptCodes;
 import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.mdc.utils.YODChoice;
 import jsesh.render.context.JSeshTechRenderContext;

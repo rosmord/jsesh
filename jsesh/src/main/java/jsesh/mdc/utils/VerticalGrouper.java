@@ -7,14 +7,14 @@ package jsesh.mdc.utils;
 
 import java.util.List;
 
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.AlphabeticText;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.HBox;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.SubCadrat;
+import jsesh.model.TopItem;
 
 /**
  * @author S. Rosmorduc
@@ -59,7 +59,7 @@ public class VerticalGrouper {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementAdapter#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
 			for (int i = 0; i < c.getNumberOfHBoxes(); i++) {
@@ -71,7 +71,7 @@ public class VerticalGrouper {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+		 * @see jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.model.AlphabeticText)
 		 */
 		public void visitAlphabeticText(AlphabeticText t) {
 			HBox box = new HBox();
@@ -83,7 +83,7 @@ public class VerticalGrouper {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 		public void visitDefault(ModelElement t) {
 			correct = false;

@@ -23,10 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.Hieroglyph;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.Hieroglyph;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;

@@ -17,15 +17,15 @@ import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
 import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
 import jsesh.graphics.export.wmf.EmbeddableWMFSimpleDrawer;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.io.document.MDCDocument;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.AlphabeticText;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 
@@ -254,7 +254,7 @@ public class RTFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementDeepAdapter#visitLineBreak(jsesh.mdc.
+         * jsesh.model.ModelElementDeepAdapter#visitLineBreak(jsesh.mdc.
          * model.LineBreak)
          */
         @Override
@@ -271,7 +271,7 @@ public class RTFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementDeepAdapter#visitPageBreak(jsesh.mdc.
+         * jsesh.model.ModelElementDeepAdapter#visitPageBreak(jsesh.mdc.
          * model.PageBreak)
          */
         @Override

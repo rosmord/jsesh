@@ -9,11 +9,11 @@ import javax.swing.ImageIcon;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.TopItemList;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.constants.LexicalSymbolsUtils;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.Hieroglyph;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCDrawingFacade;
 

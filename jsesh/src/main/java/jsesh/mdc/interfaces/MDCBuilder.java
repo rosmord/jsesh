@@ -1,6 +1,6 @@
 package jsesh.mdc.interfaces;
 
-import jsesh.mdc.constants.ToggleType;
+import jsesh.model.constants.ToggleType;
 
 /**
  * An abstract builder used to build the components of a MDC Result.
@@ -224,8 +224,8 @@ public interface MDCBuilder {
      * @param isGrammar is true if the sign is part of a grammatical ending
      * @param type is a constant which states which kind of sign we have : a true hieroglyph (MDCCODE)
      *             or another symbol like a FULLSHADE or a REDPOINT. The values for these codes are
-     * 			   in the interface jsesh.mdc.lex.SymbolCodes
-     * @see jsesh.mdc.constants.SymbolCodes for values.
+     * 			   in the interface jsesh.parser.lex.SymbolCodes
+     * @see jsesh.model.constants.SymbolCodes for values.
      * @param code the string with the manuel de codage code for this sign.
 
      * @param m a <code>ModifierListInterface</code> which corresponds to the list of modifiers for this sign.

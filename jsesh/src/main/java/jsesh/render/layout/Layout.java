@@ -13,33 +13,33 @@ import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.shape.LigatureZone;
-import jsesh.mdc.constants.ScriptCodes;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.HorizontalListElement;
-import jsesh.mdc.model.Ligature;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.ModifiersList;
-import jsesh.mdc.model.Overwrite;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.Philology;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.constants.ScriptCodes;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.AlphabeticText;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.ComplexLigature;
+import jsesh.model.HBox;
+import jsesh.model.HRule;
+import jsesh.model.Hieroglyph;
+import jsesh.model.HorizontalListElement;
+import jsesh.model.Ligature;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.Modifier;
+import jsesh.model.ModifiersList;
+import jsesh.model.Overwrite;
+import jsesh.model.PageBreak;
+import jsesh.model.Philology;
+import jsesh.model.SubCadrat;
+import jsesh.model.Superscript;
+import jsesh.model.TabStop;
+import jsesh.model.TopItemList;
 import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -321,7 +321,7 @@ public class Layout {
 		 * refactor the code.
 		 *
 		 * @param c
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 		 */
 		@Override
 		public void visitCadrat(Cadrat c) {
@@ -813,7 +813,7 @@ public class Layout {
 		 * Layout a top item list using a strategy class.
 		 *
 		 * @param t
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
+		 * @see jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model.TopItemList)
 		 */
 		public void compositeVisitTopItemList(TopItemList t) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();

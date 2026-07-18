@@ -37,7 +37,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.editor;
 
 import jsesh.editor.caret.MDCCaretChangeListener;
-import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.model.operations.ModelOperation;
 
 /**
  * MDC editing listeners are warned about any change in the process of editing a hieroglyphic text.

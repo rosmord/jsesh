@@ -8,13 +8,13 @@ Entry system for JSesh according to the Manuel de Codage's specifications.
 	 
 ****************************************************************************/
  
-package jsesh.mdc.parser;
+package jsesh.parser;
 
 //import java_cup.runtime.*;
 //import java.util.*;
-import jsesh.mdc.lex.*;
-import jsesh.mdc.constants.*;
-import jsesh.mdc.*;
+import jsesh.parser.lex.*;
+import jsesh.model.constants.*;
+import jsesh.parser.*;
 import jsesh.mdc.interfaces.*;
 
 /**

@@ -37,7 +37,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.editor;
 
 import jsesh.editor.caret.MDCCaret;
-import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.model.operations.ModelOperation;
 
 /**
  * @author S. Rosmorduc
@@ -46,7 +46,7 @@ import jsesh.mdc.model.operations.ModelOperation;
 public class MDCModelEditionAdapter implements MDCModelEditionListener {
 
 	/* (non-Javadoc)
-	 * @see jsesh.editor.MDCModelEditionListener#textEdited(jsesh.mdc.model.operations.ModelOperation)
+	 * @see jsesh.editor.MDCModelEditionListener#textEdited(jsesh.model.operations.ModelOperation)
 	 */
 	public void textEdited(ModelOperation op) {
 	}

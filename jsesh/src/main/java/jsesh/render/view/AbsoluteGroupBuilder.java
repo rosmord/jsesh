@@ -7,12 +7,12 @@ package jsesh.render.view;
 
 import java.util.List;
 
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.Hieroglyph;
+import jsesh.model.InnerGroup;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.TopItem;
 import jsesh.mdc.utils.InnerGroupLister;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -137,7 +137,7 @@ public class AbsoluteGroupBuilder {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementAdapter#visitHieroglyph(jsesh.model.Hieroglyph)
 		 */
 		public void visitHieroglyph(Hieroglyph oldh) {
 			Hieroglyph h = (Hieroglyph) oldh.deepCopy();

@@ -5,9 +5,9 @@
  */
 package jsesh.mdc.utils;
 
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItem;
 
 /**
  * Knows how to find  the last hieroglyph in a top item.
@@ -33,7 +33,7 @@ public class LastHieroglyphSelector {
 		Hieroglyph last= null;
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.model.Hieroglyph)
 		 */
 		public void visitHieroglyph(Hieroglyph h) {
 			last= h;

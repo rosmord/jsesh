@@ -6,8 +6,8 @@ import java.util.List;
 
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.mdc.MDCParserFacade;
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.parser.MDCParserFacade;
+import jsesh.parser.MDCSyntaxError;
 import jsesh.mdc.interfaces.HieroglyphInterface;
 import jsesh.mdc.interfaces.MDCBuilderAdapter;
 import jsesh.mdc.interfaces.ModifierListInterface;

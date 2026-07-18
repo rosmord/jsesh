@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.Hieroglyph;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TopItemList;
 
 /**
  * This expert is able to extract all hieroglyphs codes from a list of TopItems.
@@ -97,7 +97,7 @@ public class HieroglyphCodesExtractor {
         }
 
         /* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.model.Hieroglyph)
          */
         @Override
         public void visitHieroglyph(Hieroglyph h) {

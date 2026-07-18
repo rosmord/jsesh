@@ -7,11 +7,11 @@
 package jsesh.render.view;
 
 
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.ModifiersList;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.Modifier;
+import jsesh.model.ModifiersList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.layout.Layout;
@@ -130,7 +130,7 @@ public class ViewBuilder {
 
         /**
          * @see
-         * jsesh.mdc.model.ModelElementVisitor#visitModifier(jsesh.mdc.model.Modifier)
+         * jsesh.model.ModelElementVisitor#visitModifier(jsesh.model.Modifier)
          */
 
         public void visitModifier(Modifier mod) {
@@ -139,7 +139,7 @@ public class ViewBuilder {
 
         /**
          * @see
-         * jsesh.mdc.model.ModelElementVisitor#visitModifierList(jsesh.mdc.model.ModifiersList)
+         * jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
          */
         public void visitModifierList(ModifiersList l) {
             throw new RuntimeException("this method shouldn't be called");
@@ -183,7 +183,7 @@ public class ViewBuilder {
 
         /**
          * @see
-         * jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+         * jsesh.model.ModelElementVisitor#visitHieroglyph(jsesh.model.Hieroglyph)
          * We don't want to build a view for modifiers.
          */
         public void visitHieroglyph(Hieroglyph h) {

@@ -8,16 +8,16 @@ package jsesh.mdc.utils;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.HorizontalListElement;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.AlphabeticText;
+import jsesh.model.Cadrat;
+import jsesh.model.HBox;
+import jsesh.model.Hieroglyph;
+import jsesh.model.HorizontalListElement;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.SubCadrat;
+import jsesh.model.TopItem;
 
 /**
  * Expert able to build a quadrat from a list of two elements. The result is a

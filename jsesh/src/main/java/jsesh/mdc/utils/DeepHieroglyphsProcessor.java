@@ -1,8 +1,8 @@
 package jsesh.mdc.utils;
 
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItem;
 
 import java.util.List;
 import java.util.function.Consumer;

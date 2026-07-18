@@ -2,7 +2,7 @@ package jsesh.platform.metadata;
 
 import java.util.HashMap;
 
-import jsesh.mdc.constants.JSeshInfoConstants;
+import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.io.document.DocumentPreferences;
 import jsesh.io.document.MDCDocument;
 import jsesh.utils.StringBufferUtils;

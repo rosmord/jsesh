@@ -5,32 +5,32 @@ import java.awt.geom.AffineTransform;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.Ligature;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementVisitor;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.ModifiersList;
-import jsesh.mdc.model.Overwrite;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.Philology;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.Tabbing;
-import jsesh.mdc.model.TabbingClear;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.model.TopItemState;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.AlphabeticText;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.HBox;
+import jsesh.model.HRule;
+import jsesh.model.Hieroglyph;
+import jsesh.model.Ligature;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementVisitor;
+import jsesh.model.Modifier;
+import jsesh.model.ModifiersList;
+import jsesh.model.Overwrite;
+import jsesh.model.PageBreak;
+import jsesh.model.Philology;
+import jsesh.model.SubCadrat;
+import jsesh.model.Superscript;
+import jsesh.model.TabStop;
+import jsesh.model.Tabbing;
+import jsesh.model.TabbingClear;
+import jsesh.model.TopItemList;
+import jsesh.model.TopItemState;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.MDCView;
@@ -165,62 +165,62 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+	 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
 	 */
 	abstract public void visitAlphabeticText(AlphabeticText t);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)
 	 */
 	public void visitBasicItemList(BasicItemList l) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
+	 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 	 */
 	public void visitCadrat(Cadrat c) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
+	 * @see jsesh.model.ModelElementVisitor#visitCartouche(jsesh.model.Cartouche)
 	 */
 	public abstract void visitCartouche(Cartouche c);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitHBox(jsesh.mdc.model.HBox)
+	 * @see jsesh.model.ModelElementVisitor#visitHBox(jsesh.model.HBox)
 	 */
 	public void visitHBox(HBox b) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+	 * @see jsesh.model.ModelElementVisitor#visitHieroglyph(jsesh.model.Hieroglyph)
 	 */
 	abstract public void visitHieroglyph(Hieroglyph h);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitHRule(jsesh.mdc.model.HRule)
+	 * @see jsesh.model.ModelElementVisitor#visitHRule(jsesh.model.HRule)
 	 */
 	abstract public void visitHRule(HRule h);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitLigature(jsesh.mdc.model.Ligature)
+	 * @see jsesh.model.ModelElementVisitor#visitLigature(jsesh.model.Ligature)
 	 */
 	public void visitLigature(Ligature l) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitLineBreak(jsesh.mdc.model.LineBreak)
+	 * @see jsesh.model.ModelElementVisitor#visitLineBreak(jsesh.model.LineBreak)
 	 */
 	public void visitLineBreak(LineBreak b) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitModifier(jsesh.mdc.model.Modifier)
+	 * @see jsesh.model.ModelElementVisitor#visitModifier(jsesh.model.Modifier)
 	 */
 	public void visitModifier(Modifier mod) {
 		// This method intentionnaly left blank.
@@ -228,45 +228,45 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitModifierList(jsesh.mdc.model.ModifiersList)
+	 * @see jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
 	 */
 	public void visitModifierList(ModifiersList l) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitOverwrite(jsesh.mdc.model.Overwrite)
+	 * @see jsesh.model.ModelElementVisitor#visitOverwrite(jsesh.model.Overwrite)
 	 */
 	public void visitOverwrite(Overwrite o) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitPageBreak(jsesh.mdc.model.PageBreak)
+	 * @see jsesh.model.ModelElementVisitor#visitPageBreak(jsesh.model.PageBreak)
 	 */
 	public void visitPageBreak(PageBreak b) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitPhilology(jsesh.mdc.model.Philology)
+	 * @see jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
 	 */
 	abstract public void visitPhilology(Philology p);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitSubCadrat(jsesh.mdc.model.SubCadrat)
+	 * @see jsesh.model.ModelElementVisitor#visitSubCadrat(jsesh.model.SubCadrat)
 	 */
 	public void visitSubCadrat(SubCadrat c) {
 		// This method intentionnaly left blank.
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.Superscript)
+	 * @see jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.Superscript)
 	 */
 	abstract public void visitSuperScript(Superscript s);
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitTabStop(jsesh.mdc.model.TabStop)
+	 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
 	 */
 	public void visitTabStop(TabStop t) {
 		// This method intentionnaly left blank.
@@ -281,7 +281,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.mdc.model.ModelElementVisitor#visitTopItemList(jsesh.mdc.model.TopItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
 	 */
 	public void visitTopItemList(TopItemList t) {
 		// This method intentionnaly left blank.
@@ -291,7 +291,7 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * jsesh.mdc.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.mdc.model
+	 * jsesh.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.model
 	 * .AbsoluteGroup)
 	 */
 	public void visitAbsoluteGroup(AbsoluteGroup g) {

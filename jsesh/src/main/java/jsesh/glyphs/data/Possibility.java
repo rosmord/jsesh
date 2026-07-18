@@ -33,9 +33,9 @@
  */
 package jsesh.glyphs.data;
 
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.TopItemList;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.TopItemList;
 
 /**
  * A candidate text in the possibility list.

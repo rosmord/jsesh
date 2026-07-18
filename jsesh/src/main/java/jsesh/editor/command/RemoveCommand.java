@@ -35,9 +35,9 @@ package jsesh.editor.command;
 
 import java.util.List;
 
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 
 /**
  * Command that deletes one or more cadrats.

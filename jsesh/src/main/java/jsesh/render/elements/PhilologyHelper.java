@@ -1,6 +1,6 @@
 package jsesh.render.elements;
 
-import jsesh.mdc.constants.SymbolCodes;
+import jsesh.model.constants.SymbolCodes;
 
 public class PhilologyHelper {
     

@@ -1,7 +1,7 @@
 package jsesh.render.style;
 
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 
 /**
  * Options which are related neither to geometry nor to fonts.

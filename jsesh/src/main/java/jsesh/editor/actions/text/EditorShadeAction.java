@@ -44,7 +44,7 @@ import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.mdc.model.ShadingCode;
+import jsesh.model.ShadingCode;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**

@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.TextOrientation;
 
 /**
  * @author rosmord

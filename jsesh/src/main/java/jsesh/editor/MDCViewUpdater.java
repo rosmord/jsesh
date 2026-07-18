@@ -38,15 +38,15 @@ package jsesh.editor;
 
 import java.util.Iterator;
 
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.operations.ChildOperation;
-import jsesh.mdc.model.operations.Deletion;
-import jsesh.mdc.model.operations.Insertion;
-import jsesh.mdc.model.operations.ModelOperationVisitor;
-import jsesh.mdc.model.operations.Modification;
-import jsesh.mdc.model.operations.Replacement;
-import jsesh.mdc.model.operations.ZoneModification;
+import jsesh.model.ModelElement;
+import jsesh.model.TopItem;
+import jsesh.model.operations.ChildOperation;
+import jsesh.model.operations.Deletion;
+import jsesh.model.operations.Insertion;
+import jsesh.model.operations.ModelOperationVisitor;
+import jsesh.model.operations.Modification;
+import jsesh.model.operations.Replacement;
+import jsesh.model.operations.ZoneModification;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.MDCView;

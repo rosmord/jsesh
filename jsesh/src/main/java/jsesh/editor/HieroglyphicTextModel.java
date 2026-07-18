@@ -50,14 +50,14 @@ import jsesh.editor.command.MDCCommand;
 import jsesh.editor.events.NewTextEvent;
 import jsesh.editor.events.TextEvent;
 import jsesh.editor.events.TextOperationEvent;
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.constants.Dialect;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.ModelElementObserver;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.model.operations.ModelOperation;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.constants.Dialect;
+import jsesh.model.MDCPosition;
+import jsesh.model.ModelElementObserver;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
+import jsesh.model.operations.ModelOperation;
 import jsesh.io.mdc.MdCModelWriter;
 
 /**

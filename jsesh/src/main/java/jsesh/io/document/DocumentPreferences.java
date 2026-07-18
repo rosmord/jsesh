@@ -8,9 +8,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.JSeshInfoConstants;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.platform.metadata.JSeshInfoReader;
 
 /**

@@ -40,9 +40,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.mdc.model.MDCMark;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.MDCMark;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
 
 /**
  * The caret represent the editing position in a text. It takes in account both
@@ -184,7 +184,7 @@ public class MDCCaret {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see jsesh.mdc.model.MDCMarkChangeListener#markChanged(jsesh.mdc.model.MDCMark)
+	 * @see jsesh.model.MDCMarkChangeListener#markChanged(jsesh.model.MDCMark)
 	 *
 	public void markChanged(MDCMark mark) {
 		notifyCaretListeners();

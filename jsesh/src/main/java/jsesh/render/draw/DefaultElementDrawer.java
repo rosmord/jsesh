@@ -16,25 +16,25 @@ import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.ScriptCodes;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.lex.MDCShading;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.OptionsMap;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.Philology;
-import jsesh.mdc.model.ShadingCode;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TopItemState;
-import jsesh.mdc.model.ZoneStart;
+import jsesh.model.constants.LexicalSymbolsUtils;
+import jsesh.model.constants.ScriptCodes;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.constants.TextDirection;
+import jsesh.parser.lex.MDCShading;
+import jsesh.model.AlphabeticText;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.ComplexLigature;
+import jsesh.model.HRule;
+import jsesh.model.Hieroglyph;
+import jsesh.model.Modifier;
+import jsesh.model.OptionsMap;
+import jsesh.model.PageBreak;
+import jsesh.model.Philology;
+import jsesh.model.ShadingCode;
+import jsesh.model.Superscript;
+import jsesh.model.TopItemState;
+import jsesh.model.ZoneStart;
 import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -76,7 +76,7 @@ public class DefaultElementDrawer extends ElementDrawer {
     }
 
     /*
-     * jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.
+     * jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.
      * AlphabeticText)
      */
     @Override
@@ -117,7 +117,7 @@ public class DefaultElementDrawer extends ElementDrawer {
     }
 
     /*
-     * jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
+     * jsesh.model.ModelElementVisitor#visitCartouche(jsesh.model.Cartouche)
      *
      * NOTE: Cartouches are drawn larger than the typical cadrat Height, so that
      * the signs in the cartouche be as tall as the ones outside. The cartouche
@@ -151,7 +151,7 @@ public class DefaultElementDrawer extends ElementDrawer {
     /**
      * @param h
      * @see
-     *      jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+     *      jsesh.model.ModelElementVisitor#visitHieroglyph(jsesh.model.Hieroglyph)
      */
     @Override
     public void visitHieroglyph(Hieroglyph h) {
@@ -314,7 +314,7 @@ public class DefaultElementDrawer extends ElementDrawer {
 
     /*
      * 
-     * jsesh.mdc.model.ModelElementVisitor#visitHRule(jsesh.mdc.model.HRule)
+     * jsesh.model.ModelElementVisitor#visitHRule(jsesh.model.HRule)
      */
     @Override
     public void visitHRule(HRule h) {
@@ -338,7 +338,7 @@ public class DefaultElementDrawer extends ElementDrawer {
      * (non-Javadoc)
      * 
      * @see
-     * jsesh.render.draw.ElementDrawer#visitPageBreak(jsesh.mdc.model.
+     * jsesh.render.draw.ElementDrawer#visitPageBreak(jsesh.model.
      * PageBreak)
      */
     @Override
@@ -355,7 +355,7 @@ public class DefaultElementDrawer extends ElementDrawer {
 
     /*
      * @see
-     * jsesh.mdc.model.ModelElementVisitor#visitPhilology(jsesh.mdc.model.Philology)
+     * jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
      */
     @Override
     public void visitPhilology(Philology p) {
@@ -399,7 +399,7 @@ public class DefaultElementDrawer extends ElementDrawer {
 
     /*
      *
-     * jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.
+     * jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.
      * Superscript)
      */
     @Override

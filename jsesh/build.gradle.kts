@@ -37,8 +37,8 @@ val runCup = tasks.register<CupTask>("runCup") {
     grammarFile.set(file("src/jcup/MDCParse.y"))
     parserName.set("MDCParse")
     symbolsName.set("MDCSymbols")
-    parserPackage.set("jsesh.mdc.parser")
-    lexerPackage.set("jsesh.mdc.lex")
+    parserPackage.set("jsesh.parser")
+    lexerPackage.set("jsesh.parser.lex")
     outputDirectory.set(cupGenDir)
     cupToolsClasspath.from(configurations["cuptools"])
 }
@@ -46,7 +46,7 @@ val runCup = tasks.register<CupTask>("runCup") {
 // Run JLex lexer generator on MDCLexAux.l
 val runLex = tasks.register<LexTask>("runLex") {
     lexFile.set(file("src/jlex/MDCLexAux.l"))
-    lexerPackage.set("jsesh.mdc.lex")
+    lexerPackage.set("jsesh.parser.lex")
     outputDirectory.set(lexGenDir)
     lexToolsClasspath.from(configurations["cuptools"])
 }

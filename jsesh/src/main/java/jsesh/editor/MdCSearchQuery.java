@@ -35,8 +35,8 @@
 package jsesh.editor;
 
 import java.util.List;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
 
 /**
  * Generic representation of search queries in JSesh.

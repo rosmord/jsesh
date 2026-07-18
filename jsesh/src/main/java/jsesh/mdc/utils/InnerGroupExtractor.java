@@ -7,13 +7,13 @@ package jsesh.mdc.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.HBox;
+import jsesh.model.InnerGroup;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItemList;
 
 /**
  * Expert which can extract innergroups from a list of top level items
@@ -54,7 +54,7 @@ public class InnerGroupExtractor {
 	private class InnerGroupExtractorAux extends ModelElementDeepAdapter {
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitInnerGroup(jsesh.mdc.model.InnerGroup)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitInnerGroup(jsesh.model.InnerGroup)
 		 */
 		@Override
 		public void visitInnerGroup(InnerGroup g) {
@@ -62,7 +62,7 @@ public class InnerGroupExtractor {
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 		public void visitDefault(ModelElement t) {
 			super.visitDefault(t);
@@ -70,28 +70,28 @@ public class InnerGroupExtractor {
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {
 			super.visitDefault(l);
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHBox(jsesh.mdc.model.HBox)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHBox(jsesh.model.HBox)
 		 */
 		public void visitHBox(HBox b) {
 			super.visitDefault(b);
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
 			super.visitDefault(c);
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitTopItemList(jsesh.model.TopItemList)
 		 */
 		public void visitTopItemList(TopItemList t) {
 			super.visitDefault(t);

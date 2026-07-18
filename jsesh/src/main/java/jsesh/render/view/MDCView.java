@@ -6,10 +6,10 @@ import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.SubCadrat;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
+import jsesh.model.SubCadrat;
 
 /**
  * Base class for all view elements. A view element is a view of an MDC model

@@ -4,13 +4,13 @@
  */
 package jsesh.mdc.utils;
 
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.ComplexLigature;
+import jsesh.model.HBox;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItemList;
 
 /**
  * Expert which extracts a complex ligature from an element.
@@ -56,7 +56,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitComplexLigature(jsesh.mdc.model.ComplexLigature)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitComplexLigature(jsesh.model.ComplexLigature)
 		 */
 		public void visitComplexLigature(ComplexLigature ligature) {
 			if (complexLigature != null)
@@ -68,7 +68,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 		public void visitDefault(ModelElement t) {
 			// All elements which are not listed are not legal :
@@ -79,7 +79,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {
 			super.visitDefault(l);
@@ -88,7 +88,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHBox(jsesh.mdc.model.HBox)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHBox(jsesh.model.HBox)
 		 */
 		public void visitHBox(HBox b) {
 			super.visitDefault(b);
@@ -97,7 +97,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
 			super.visitDefault(c);
@@ -106,7 +106,7 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitTopItemList(jsesh.mdc.model.TopItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitTopItemList(jsesh.model.TopItemList)
 		 */
 		public void visitTopItemList(TopItemList t) {
 			super.visitDefault(t);

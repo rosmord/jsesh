@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.Action;
 import javax.swing.JPopupMenu;
 
-import jsesh.mdc.model.ShadingCode;
+import jsesh.model.ShadingCode;
 
 
 public abstract class ShadingMenuBuilder {

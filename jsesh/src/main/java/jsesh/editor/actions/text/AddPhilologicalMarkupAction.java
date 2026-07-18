@@ -41,7 +41,7 @@ import javax.swing.Action;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.mdc.constants.SymbolCodes;
+import jsesh.model.constants.SymbolCodes;
 import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;

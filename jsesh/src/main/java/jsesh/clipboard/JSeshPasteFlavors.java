@@ -2,7 +2,7 @@ package jsesh.clipboard;
 
 import java.awt.datatransfer.DataFlavor;
 
-import jsesh.mdc.model.ListOfTopItems;
+import jsesh.model.ListOfTopItems;
 
 /**
  * Non Standard Paste flavour availables in JSesh.

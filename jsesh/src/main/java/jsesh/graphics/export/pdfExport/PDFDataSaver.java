@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;

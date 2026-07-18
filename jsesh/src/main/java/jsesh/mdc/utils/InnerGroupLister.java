@@ -8,9 +8,9 @@ package jsesh.mdc.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
+import jsesh.model.InnerGroup;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
 
 /**
  * A visitor able to extract all inner groups from an element.
@@ -48,7 +48,7 @@ public class InnerGroupLister {
         private List innerGroups= new ArrayList();
         
         /* (non-Javadoc)
-         * @see jsesh.mdc.model.ModelElementDeepAdapter#visitInnerGroup(jsesh.mdc.model.InnerGroup)
+         * @see jsesh.model.ModelElementDeepAdapter#visitInnerGroup(jsesh.model.InnerGroup)
          */
         public void visitInnerGroup(InnerGroup g) {
             innerGroups.add(g);

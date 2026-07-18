@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;

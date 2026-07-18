@@ -35,10 +35,10 @@ package jsesh.glossary;
 
 import java.util.Objects;
 
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.TopItemList;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.AlphabeticText;
+import jsesh.model.TopItemList;
 
 /**
  * A glossary entry.

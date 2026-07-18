@@ -8,9 +8,9 @@ package jsesh.mdc.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
 
 /**
  * This expert is able to extract all hieroglyphs from a list of TopItems.
@@ -50,7 +50,7 @@ public class HieroglyphExtractor {
         }
 
         /* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyph(jsesh.model.Hieroglyph)
          */
         @Override
         public void visitHieroglyph(Hieroglyph h) {

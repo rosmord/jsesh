@@ -14,8 +14,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.TopItemList;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.TopItemList;
 
 import org.w3c.dom.Document;
 
@@ -29,8 +29,8 @@ public class MDCDomTest {
 
 	public static void main(String[] args) throws MDCSyntaxError, TransformerException {
 		// Simple tests.
-		jsesh.mdc.MDCParserModelGenerator gen;
-		gen= new jsesh.mdc.MDCParserModelGenerator();
+		jsesh.parser.MDCParserModelGenerator gen;
+		gen= new jsesh.parser.MDCParserModelGenerator();
 		String s;
 		s= "<-ra-ms-s->-i-W -pA -x:r-xr -aA:a*Y1 -n :x*(t:tA)-xAst -d:y-wAt -p\\r1*t\\80:pt\\?-!";
 		s+= "-a-[[-p*t-]]-pt-[[*p*]]*t:pt-A1\\\\80\\s\\truc";

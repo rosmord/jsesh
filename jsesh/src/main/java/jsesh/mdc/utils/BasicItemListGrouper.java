@@ -8,11 +8,11 @@ package jsesh.mdc.utils;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.mdc.model.BasicItem;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItem;
+import jsesh.model.BasicItem;
+import jsesh.model.BasicItemList;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItem;
 
 /**
  * This expert is able to extract a list of basicitems from a larger selection.
@@ -49,7 +49,7 @@ public class BasicItemListGrouper {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitBasitItem(jsesh.mdc.model.BasicItem)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitBasitItem(jsesh.model.BasicItem)
 		 */
 		public void visitBasitItem(BasicItem t) {
 			l.addBasicItem((BasicItem) t.deepCopy());
@@ -58,7 +58,7 @@ public class BasicItemListGrouper {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.mdc.model.ModelElementDeepAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 		public void visitDefault(ModelElement t) {
 			// NO-OP

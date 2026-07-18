@@ -1,6 +1,6 @@
-package jsesh.mdc.lex;
-import jsesh.mdc.*;
-import jsesh.mdc.constants.*;
+package jsesh.parser.lex;
+import jsesh.parser.*;
+import jsesh.model.constants.*;
 import java_cup.runtime.Symbol;
 
  

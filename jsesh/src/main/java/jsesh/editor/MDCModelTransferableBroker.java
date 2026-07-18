@@ -36,7 +36,7 @@ package jsesh.editor;
 import java.awt.datatransfer.DataFlavor;
 
 import jsesh.clipboard.MDCModelTransferable;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 
 /**

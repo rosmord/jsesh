@@ -11,13 +11,13 @@ import java.util.*;
 
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TabStop;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.AlphabeticText;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TabStop;
 import jsesh.render.view.MDCView;
 
 /**
@@ -275,7 +275,7 @@ public class LineLayout extends TopItemLayout {
          * </ul>
          *
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
+         * jsesh.model.ModelElementAdapter#visitLineBreak(jsesh.model.LineBreak)
          */
         @Override
         public void visitLineBreak(LineBreak b) {
@@ -307,7 +307,7 @@ public class LineLayout extends TopItemLayout {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+         * jsesh.model.ModelElementAdapter#visitPageBreak(jsesh.model
          * .PageBreak)
          */
         @Override
@@ -346,7 +346,7 @@ public class LineLayout extends TopItemLayout {
          * terms of the EAST side of the zone.
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
+         * jsesh.model.ModelElementAdapter#visitTabStop(jsesh.model.
          * TabStop)
          */
         @Override
@@ -381,7 +381,7 @@ public class LineLayout extends TopItemLayout {
          * </ul>
          *
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+         * jsesh.model.ModelElementAdapter#visitDefault(jsesh.model.ModelElement)
          */
         @Override
         public void visitDefault(ModelElement t) {

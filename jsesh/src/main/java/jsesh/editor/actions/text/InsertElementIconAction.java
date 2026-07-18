@@ -37,9 +37,9 @@ import java.awt.event.ActionEvent;
 
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
 
 /**
  * A simple class for easy text addition. A graphic representation of the text
@@ -61,7 +61,7 @@ public class InsertElementIconAction extends EditorAction {
 	 *            the element which will be inserted.
 	 * @param mdcText
 	 *            the MdC text used to produce the icon
-	 * @see jsesh.mdc.constants.SymbolCodes
+	 * @see jsesh.model.constants.SymbolCodes
 	 */
 	public InsertElementIconAction(JMDCEditor editor, ModelElement modelElement) {
 		super(editor);
@@ -77,7 +77,7 @@ public class InsertElementIconAction extends EditorAction {
 	 *            interface).
 	 * @param mdcText
 	 *            the MdC text used to produce the icon
-	 * @see jsesh.mdc.constants.SymbolCodes
+	 * @see jsesh.model.constants.SymbolCodes
 	 */
 	public InsertElementIconAction(JMDCEditor editor, int symbolCode) {
 		this(editor, new Hieroglyph(symbolCode));

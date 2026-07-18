@@ -12,33 +12,33 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.Cartouche;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.EmbeddedModelElement;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.Ligature;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementVisitor;
-import jsesh.mdc.model.Modifier;
-import jsesh.mdc.model.ModifiersList;
-import jsesh.mdc.model.OptionsMap;
-import jsesh.mdc.model.Overwrite;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.Philology;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.Tabbing;
-import jsesh.mdc.model.TabbingClear;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.model.ZoneStart;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.AlphabeticText;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.Cartouche;
+import jsesh.model.ComplexLigature;
+import jsesh.model.EmbeddedModelElement;
+import jsesh.model.HBox;
+import jsesh.model.HRule;
+import jsesh.model.Hieroglyph;
+import jsesh.model.Ligature;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementVisitor;
+import jsesh.model.Modifier;
+import jsesh.model.ModifiersList;
+import jsesh.model.OptionsMap;
+import jsesh.model.Overwrite;
+import jsesh.model.PageBreak;
+import jsesh.model.Philology;
+import jsesh.model.SubCadrat;
+import jsesh.model.Superscript;
+import jsesh.model.TabStop;
+import jsesh.model.Tabbing;
+import jsesh.model.TabbingClear;
+import jsesh.model.TopItemList;
+import jsesh.model.ZoneStart;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -122,7 +122,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitAlphabeticText(jsesh.mdc.model.AlphabeticText)
+		 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
 		 */
 		public void visitAlphabeticText(AlphabeticText t) {
 			Element node = createModelElement(ALPHABETIC_TEXT, t);
@@ -131,14 +131,14 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitBasicItemList(jsesh.mdc.model.BasicItemList)
+		 * @see jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {
 			createContainerElement(BASIC_ITEM_LIST, l);
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitCadrat(jsesh.mdc.model.Cadrat)
+		 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
 			Element e = createContainerElement(CADRAT, c);
@@ -146,7 +146,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitCartouche(jsesh.mdc.model.Cartouche)
+		 * @see jsesh.model.ModelElementVisitor#visitCartouche(jsesh.model.Cartouche)
 		 */
 		public void visitCartouche(Cartouche c) {
 			Element node = createContainerElement(CARTOUCHE, c);
@@ -157,14 +157,14 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitHBox(jsesh.mdc.model.HBox)
+		 * @see jsesh.model.ModelElementVisitor#visitHBox(jsesh.model.HBox)
 		 */
 		public void visitHBox(HBox b) {
 			Element node = createContainerElement(HBOX, b);
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitHieroglyph(jsesh.mdc.model.Hieroglyph)
+		 * @see jsesh.model.ModelElementVisitor#visitHieroglyph(jsesh.model.Hieroglyph)
 		 */
 		public void visitHieroglyph(Hieroglyph h) {
 			Node oldParent = parent;
@@ -210,7 +210,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitModifierList(jsesh.mdc.model.ModifiersList)
+		 * @see jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
 		 */
 		public void visitModifierList(ModifiersList l) {
 			//			The parent for a modifier is always a hieroglyph Element. So we cast:
@@ -230,7 +230,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitOverwrite(jsesh.mdc.model.Overwrite)
+		 * @see jsesh.model.ModelElementVisitor#visitOverwrite(jsesh.model.Overwrite)
 		 */
 		public void visitOverwrite(Overwrite o) {
 			Element node = createContainerElement(OVERWRITE, o);
@@ -238,7 +238,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitPhilology(jsesh.mdc.model.Philology)
+		 * @see jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
 		 */
 		public void visitPhilology(Philology p) {
 			Element e = createContainerElement(PHILOLOGY, p);
@@ -271,14 +271,14 @@ public class MDCDOMBuilder {
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitSubCadrat(jsesh.mdc.model.SubCadrat)
+		 * @see jsesh.model.ModelElementVisitor#visitSubCadrat(jsesh.model.SubCadrat)
 		 */
 		public void visitSubCadrat(SubCadrat c) {
 			Element e = createContainerElement(SUBCADRAT, c);
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitSuperScript(jsesh.mdc.model.Superscript)
+		 * @see jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.Superscript)
 		 */
 		public void visitSuperScript(Superscript s) {
 			Element node = createModelElement(SUPERSCRIPT, s);
@@ -286,7 +286,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitTabStop(jsesh.mdc.model.TabStop)
+		 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
 		 */
 		public void visitTabStop(TabStop t) {
 			Element node = createModelElement(TABSTOP, t);
@@ -296,14 +296,14 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitTopItemList(jsesh.mdc.model.TopItemList)
+		 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
 		 */
 		public void visitTopItemList(TopItemList t) {
 			Element e = createContainerElement(TOP_ITEM_LIST, t);
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitLineBreak(jsesh.mdc.model.LineBreak)
+		 * @see jsesh.model.ModelElementVisitor#visitLineBreak(jsesh.model.LineBreak)
 		 */
 		public void visitLineBreak(LineBreak b) {
 			Element node = createModelElement(LINE_BREAK, b);
@@ -312,7 +312,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitPageBreak(jsesh.mdc.model.PageBreak)
+		 * @see jsesh.model.ModelElementVisitor#visitPageBreak(jsesh.model.PageBreak)
 		 */
 		public void visitPageBreak(PageBreak b) {
 			Element node = createModelElement(PAGE_BREAK, b);
@@ -354,7 +354,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitZoneStart(jsesh.mdc.model.ZoneStart)
+		 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
 		 */
 		public void visitZoneStart(ZoneStart start) {
 			// TODO Auto-generated method stub
@@ -362,7 +362,7 @@ public class MDCDOMBuilder {
 		}
 
 		/* (non-Javadoc)
-		 * @see jsesh.mdc.model.ModelElementVisitor#visitOptionList(jsesh.mdc.model.OptionsMap)
+		 * @see jsesh.model.ModelElementVisitor#visitOptionList(jsesh.model.OptionsMap)
 		 */
 		public void visitOptionList(OptionsMap list) {
 			// TODO Auto-generated method stub

@@ -37,13 +37,13 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.AlphabeticText;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -204,7 +204,7 @@ public class HTMLExporter {
         /*
          * (non-Javadoc)
          * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model.
+         * @see jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model.
          * TopItemList)
          */
         public void visitTopItemList(TopItemList t) {
@@ -225,7 +225,7 @@ public class HTMLExporter {
         /*
          * (non-Javadoc)
          * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc.model.
+         * @see jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.model.
          * AlphabeticText)
          */
         public void visitAlphabeticText(AlphabeticText t) {
@@ -269,7 +269,7 @@ public class HTMLExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model.PageBreak)
+         * jsesh.model.ModelElementAdapter#visitPageBreak(jsesh.model.PageBreak)
          */
         public void visitPageBreak(PageBreak b) {
             flushElements();
@@ -289,7 +289,7 @@ public class HTMLExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
+         * jsesh.model.ModelElementAdapter#visitLineBreak(jsesh.model.LineBreak)
          */
         public void visitLineBreak(LineBreak b) {
             flushElements();
@@ -310,7 +310,7 @@ public class HTMLExporter {
         /*
          * (non-Javadoc)
          * 
-         * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.
+         * @see jsesh.model.ModelElementAdapter#visitDefault(jsesh.model.
          * ModelElement)
          */
         public void visitDefault(ModelElement t) {

@@ -35,15 +35,15 @@ package jsesh.mdc.utils;
 
 import java.util.List;
 
-import jsesh.mdc.model.BasicItem;
-import jsesh.mdc.model.BasicItemList;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.ComplexLigature;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.InnerGroup;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.SubCadrat;
+import jsesh.model.BasicItem;
+import jsesh.model.BasicItemList;
+import jsesh.model.Cadrat;
+import jsesh.model.ComplexLigature;
+import jsesh.model.HBox;
+import jsesh.model.InnerGroup;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.SubCadrat;
 
 /**
  * An helper class for grouping elements horizontally.
@@ -138,7 +138,7 @@ public class HorizontalGrouper {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdc.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.
+		 * jsesh.model.ModelElementDeepAdapter#visitBasicItemList(jsesh.
 		 * mdc.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {

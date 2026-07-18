@@ -11,16 +11,16 @@
  */
 package jsesh.model.unicode;
 
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.Cadrat;
-import jsesh.mdc.model.HBox;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.SubCadrat;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.constants.LexicalSymbolsUtils;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.Cadrat;
+import jsesh.model.HBox;
+import jsesh.model.Hieroglyph;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.SubCadrat;
+import jsesh.model.TopItemList;
 
 /**
  * Converter from <em>Manuel de Codage</em> to Unicode.

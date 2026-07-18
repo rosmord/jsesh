@@ -14,8 +14,8 @@ import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.PageBreak;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;

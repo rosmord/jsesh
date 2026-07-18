@@ -9,14 +9,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElement;
-import jsesh.mdc.model.ModelElementAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TabStop;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
+import jsesh.model.AlphabeticText;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TabStop;
 import jsesh.render.view.MDCView;
 
 /**
@@ -169,7 +169,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * <li>prepare a new zone.
 		 * </ul>
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model.LineBreak)
+		 * @see jsesh.model.ModelElementAdapter#visitLineBreak(jsesh.model.LineBreak)
 		 */
 
 		@Override
@@ -194,7 +194,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+		 * jsesh.model.ModelElementAdapter#visitPageBreak(jsesh.model
 		 * .PageBreak)
 		 */
 		@Override
@@ -208,7 +208,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.mdc.model.ModelElementAdapter#visitTabStop(jsesh.mdc.model.
+		 * jsesh.model.ModelElementAdapter#visitTabStop(jsesh.model.
 		 * TabStop)
 		 */
 		@Override
@@ -240,7 +240,7 @@ public class ColumnLayout extends TopItemLayout {
 		 * <li>update the current zone shape
 		 * </ul>
 		 * 
-		 * @see jsesh.mdc.model.ModelElementAdapter#visitDefault(jsesh.mdc.model.ModelElement)
+		 * @see jsesh.model.ModelElementAdapter#visitDefault(jsesh.model.ModelElement)
 		 */
 
 		@Override

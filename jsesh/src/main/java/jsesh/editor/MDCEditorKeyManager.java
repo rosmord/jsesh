@@ -76,9 +76,9 @@ import jsesh.editor.actions.view.SelectOrientationAction;
 import jsesh.editor.actions.view.SelectTextDirectionAction;
 import jsesh.editor.actionsUtils.DelegatingAction;
 import jsesh.editor.actionsUtils.Enabler;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.swing.utils.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;

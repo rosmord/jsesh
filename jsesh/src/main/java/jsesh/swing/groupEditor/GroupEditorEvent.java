@@ -14,7 +14,7 @@ package jsesh.swing.groupEditor;
 
 import java.awt.geom.Point2D;
 
-import jsesh.mdc.model.AbsoluteGroup;
+import jsesh.model.AbsoluteGroup;
 
 /**
  * Represent a mouse action over a group editor.

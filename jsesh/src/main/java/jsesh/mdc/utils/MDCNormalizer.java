@@ -4,11 +4,11 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.TopItemList;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.TopItemList;
 import jsesh.io.mdc.MdCModelWriter;
 
 /**

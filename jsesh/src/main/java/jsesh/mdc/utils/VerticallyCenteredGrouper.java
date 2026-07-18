@@ -1,7 +1,7 @@
 package jsesh.mdc.utils;
 
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.*;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

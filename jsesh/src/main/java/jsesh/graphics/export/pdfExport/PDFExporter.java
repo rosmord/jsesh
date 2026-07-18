@@ -37,15 +37,15 @@ import jsesh.editor.caret.MDCCaret;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.graphics.export.generic.SelectionExporter;
-import jsesh.mdc.constants.ScriptCodes;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.HRule;
-import jsesh.mdc.model.LineBreak;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.PageBreak;
-import jsesh.mdc.model.TabStop;
-import jsesh.mdc.model.TopItem;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.constants.ScriptCodes;
+import jsesh.model.AlphabeticText;
+import jsesh.model.HRule;
+import jsesh.model.LineBreak;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.PageBreak;
+import jsesh.model.TabStop;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -310,7 +310,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitTopItemList(jsesh.mdc.model
+         * jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model
          * .TopItemList)
          */
         @Override
@@ -332,7 +332,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementDeepAdapter#visitHRule(jsesh.mdc.model
+         * jsesh.model.ModelElementDeepAdapter#visitHRule(jsesh.model
          * .HRule)
          */
         @Override
@@ -382,7 +382,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
+         * jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
          * .model.AlphabeticText)
          */
         @Override
@@ -418,7 +418,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitPageBreak(jsesh.mdc.model
+         * jsesh.model.ModelElementAdapter#visitPageBreak(jsesh.model
          * .PageBreak)
          */
         @Override
@@ -435,7 +435,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementAdapter#visitLineBreak(jsesh.mdc.model
+         * jsesh.model.ModelElementAdapter#visitLineBreak(jsesh.model
          * .LineBreak)
          */
         @Override
@@ -453,7 +453,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementDeepAdapter#visitTopItem(jsesh.mdc.model
+         * jsesh.model.ModelElementDeepAdapter#visitTopItem(jsesh.model
          * .TopItem)
          */
         @Override
@@ -465,7 +465,7 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.mdc.model.ModelElementDeepAdapter#visitTabStop(jsesh.mdc.model
+         * jsesh.model.ModelElementDeepAdapter#visitTabStop(jsesh.model
          * .TabStop)
          */
         @Override

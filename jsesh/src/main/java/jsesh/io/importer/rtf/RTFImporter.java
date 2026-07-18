@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.parser.MDCSyntaxError;
 import jsesh.io.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
 

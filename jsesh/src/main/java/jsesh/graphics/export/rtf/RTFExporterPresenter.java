@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import javax.swing.DefaultComboBoxModel;
 
 import jsesh.graphics.export.generic.ExportOptionPanel;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;

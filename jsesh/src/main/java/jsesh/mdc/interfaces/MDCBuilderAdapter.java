@@ -6,7 +6,7 @@
  */
 package jsesh.mdc.interfaces;
 
-import jsesh.mdc.constants.ToggleType;
+import jsesh.model.constants.ToggleType;
 
 /**
  * A utility implementation of MDCBuilder.
@@ -114,7 +114,7 @@ abstract public class MDCBuilderAdapter implements MDCBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.mdc.interfaces.MDCBuilder#addToggleToBasicItemList(jsesh.mdc.interfaces.BasicItemListInterface, jsesh.mdc.constants.ToggleType)
+	 * @see jsesh.mdc.interfaces.MDCBuilder#addToggleToBasicItemList(jsesh.mdc.interfaces.BasicItemListInterface, jsesh.model.constants.ToggleType)
 	 */
 	public void addToggleToBasicItemList(BasicItemListInterface l, ToggleType toggleCode) {
 		// Auto-generated method stub
@@ -122,7 +122,7 @@ abstract public class MDCBuilderAdapter implements MDCBuilder {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.mdc.interfaces.MDCBuilder#addToggleToTopItemList(jsesh.mdc.interfaces.TopItemListInterface, jsesh.mdc.constants.ToggleType)
+	 * @see jsesh.mdc.interfaces.MDCBuilder#addToggleToTopItemList(jsesh.mdc.interfaces.TopItemListInterface, jsesh.model.constants.ToggleType)
 	 */
 	public void addToggleToTopItemList(TopItemListInterface l, ToggleType toggle) {
 		// Auto-generated method stub
