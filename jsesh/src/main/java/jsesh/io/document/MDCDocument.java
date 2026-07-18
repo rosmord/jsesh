@@ -22,8 +22,6 @@ import jsesh.parser.MDCSyntaxError;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
 
-import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
-
 /**
  * A document containing Manuel de codage text.
  * 
@@ -161,7 +159,7 @@ public class MDCDocument {
 	 */
 	public void save() throws IOException {
 		if (getFile().getName().toLowerCase(Locale.ENGLISH).endsWith(".pdf"))
-			throw new UserMessage("THIS METHOD CAN NOT SAVE PDF");
+			throw new IOException("THIS METHOD CAN NOT SAVE PDF");
 		fixDocumentEncoding();
 		saveTo(new FileOutputStream(getFile()));
 	}
