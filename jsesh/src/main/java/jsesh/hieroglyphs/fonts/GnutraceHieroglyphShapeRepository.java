@@ -21,7 +21,7 @@ import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 
 /**
  * The old fonts used by tksesh and the first versions of JSesh.

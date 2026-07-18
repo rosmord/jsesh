@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 
 public class TTFSignSource implements SimpleSignSourceModel {
 

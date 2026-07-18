@@ -47,10 +47,10 @@ import jsesh.mdc.model.operations.ModelOperationVisitor;
 import jsesh.mdc.model.operations.Modification;
 import jsesh.mdc.model.operations.Replacement;
 import jsesh.mdc.model.operations.ZoneModification;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.view.MDCView;
+import jsesh.render.view.ViewBuilder;
 
 /**
  * Updates an editor's view to keep it synchronized with its model.

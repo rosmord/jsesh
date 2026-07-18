@@ -33,8 +33,8 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.PaintingSpecifications;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PaintingSpecifications;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.mdc.model.AlphabeticText;
@@ -44,11 +44,11 @@ import jsesh.mdc.model.ModelElementAdapter;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.draw.ViewDrawer;
+import jsesh.render.view.MDCView;
+import jsesh.render.view.ViewBuilder;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.utils.GraphicsUtils;
 

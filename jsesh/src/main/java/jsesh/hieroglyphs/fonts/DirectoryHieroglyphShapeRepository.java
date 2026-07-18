@@ -14,7 +14,7 @@ import org.qenherkhopeshef.observable.ObservableEventSupport;
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 import jsesh.utils.DirectoryHolder;
 

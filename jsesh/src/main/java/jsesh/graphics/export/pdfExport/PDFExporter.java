@@ -30,9 +30,9 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
-import jsesh.drawingspecifications.FontSpecification;
-import jsesh.drawingspecifications.GeometrySpecification;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.FontSpecification;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
@@ -47,11 +47,11 @@ import jsesh.mdc.model.TabStop;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.transliteration.TransliterationUtilities;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.draw.ViewDrawer;
+import jsesh.render.view.MDCView;
+import jsesh.render.view.ViewBuilder;
 import jsesh.resources.ResourcesManager;
 
 /**

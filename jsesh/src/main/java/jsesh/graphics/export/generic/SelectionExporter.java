@@ -13,14 +13,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.draw.ViewDrawer;
-import jsesh.mdcDisplayer.mdcView.MDCView;
-import jsesh.mdcDisplayer.mdcView.ViewBuilder;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.draw.ViewDrawer;
+import jsesh.render.view.MDCView;
+import jsesh.render.view.ViewBuilder;
 import jsesh.utils.DoubleDimensions;
 
 /**

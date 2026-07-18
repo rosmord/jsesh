@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
-import jsesh.drawingspecifications.FontSpecification;
+import jsesh.render.style.FontSpecification;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
 import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
@@ -27,7 +27,7 @@ import jsesh.mdc.model.PageBreak;
 import jsesh.mdc.model.TopItem;
 import jsesh.mdc.model.TopItemList;
 import jsesh.mdc.transliteration.TransliterationUtilities;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 
 /**

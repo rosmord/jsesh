@@ -11,7 +11,7 @@
  */
 package jsesh.swing.groupEditor;
 
-import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.render.view.MDCView;
 
 /**
  * A No-op group editor.

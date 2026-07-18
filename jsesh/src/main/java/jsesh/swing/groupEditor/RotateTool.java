@@ -12,7 +12,7 @@ package jsesh.swing.groupEditor;
 
 import java.awt.geom.Point2D;
 import java.util.Optional;
-import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.render.view.MDCView;
 import jsesh.swing.utils.GeometryHelper;
 
 /**

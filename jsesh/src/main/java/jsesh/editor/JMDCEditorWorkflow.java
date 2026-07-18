@@ -93,9 +93,9 @@ import jsesh.mdc.utils.InnerGroupBuilder;
 import jsesh.mdc.utils.LastHieroglyphSelector;
 import jsesh.mdc.utils.VerticalGrouper;
 import jsesh.mdc.utils.VerticallyCenteredGrouper;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.view.AbsoluteGroupBuilder;
 
 /**
  * An abstract representation of the editing process of a hieroglyphic text.

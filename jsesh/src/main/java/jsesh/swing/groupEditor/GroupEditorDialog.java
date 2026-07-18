@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
 import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 import jsesh.swing.utils.OrientationUtils;
 
 /**

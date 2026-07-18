@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilder;
 import jsesh.hieroglyphs.data.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
 import jsesh.hieroglyphs.data.io.SignDescriptionReader;
-import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
+import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.resources.ResourcesManager;
 
 /**

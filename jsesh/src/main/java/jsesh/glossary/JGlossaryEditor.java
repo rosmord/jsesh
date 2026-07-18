@@ -49,7 +49,7 @@ import javax.swing.SwingUtilities;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.defaults.HieroglyphResources;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;

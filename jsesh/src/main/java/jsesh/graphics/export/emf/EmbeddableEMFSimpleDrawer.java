@@ -8,7 +8,7 @@ import org.qenherkhopeshef.graphics.generic.RandomAccessByteArray;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 /**
  * A drawer which can be used to generate EMF pictures for embedding.

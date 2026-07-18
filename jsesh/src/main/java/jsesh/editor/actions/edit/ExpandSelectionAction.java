@@ -35,7 +35,7 @@ package jsesh.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
-import jsesh.drawingspecifications.LayoutOptions;
+import jsesh.render.style.LayoutOptions;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.actionsUtils.EditorAction;
 

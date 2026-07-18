@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.swing.signimportdialog.model.SVGSignSource;
 
 /**

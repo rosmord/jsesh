@@ -12,7 +12,7 @@ package jsesh.graphics.export.generic;
 import jsesh.editor.caret.MDCCaret;
 import jsesh.mdc.model.MDCPosition;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 /**
  * Data needed for text exportation.

@@ -9,7 +9,7 @@ import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 
 public class ExternalSignImporterModel {
 

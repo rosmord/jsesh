@@ -3,7 +3,7 @@ package jsesh.editor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 
 /**
  * A reference to a JSeshStyle that can be observed for changes.

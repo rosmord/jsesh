@@ -1,6 +1,6 @@
 package jsesh.graphics.export.generic;
 
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
 import java.awt.font.FontRenderContext;

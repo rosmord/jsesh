@@ -10,8 +10,8 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.ShadingMode;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.ShadingMode;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.mdc.constants.Dialect;
 import jsesh.mdc.constants.JSeshInfoConstants;

@@ -3,7 +3,7 @@ package jsesh.hieroglyphs.fonts;
 
 import jsesh.hieroglyphs.data.HieroglyphCodesSource;
 import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 

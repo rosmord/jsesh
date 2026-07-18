@@ -11,7 +11,7 @@
 package jsesh.swing.groupEditor;
 
 import java.awt.geom.Point2D;
-import jsesh.mdcDisplayer.mdcView.MDCView;
+import jsesh.render.view.MDCView;
 
 /**
  * The mode (MOVE, RESIZE, ROTATE, mainly) for the group editor.

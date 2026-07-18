@@ -76,7 +76,7 @@ public class MDCModelEditionAdapter implements MDCModelEditionListener {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.mdcDisplayer.draw.MDCCaretChangeListener#caretChanged(jsesh.mdcDisplayer.draw.MDCCaret)
+	 * @see jsesh.render.draw.MDCCaretChangeListener#caretChanged(jsesh.render.draw.MDCCaret)
 	 */
 	public void caretChanged(MDCCaret caret) {
 	}

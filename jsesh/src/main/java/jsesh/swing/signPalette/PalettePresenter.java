@@ -57,7 +57,7 @@ import jsesh.hieroglyphs.data.coremdc.GardinerCode;
 import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
 import jsesh.hieroglyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.hieroglyphs.utils.HieroglyphPictureBuilder;
 import jsesh.preferences.JSeshPreferencesRoot;
 

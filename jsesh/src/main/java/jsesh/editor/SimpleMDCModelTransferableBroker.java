@@ -39,7 +39,7 @@ import jsesh.clipboard.MDCClipboardPreferences;
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.graphics.export.rtf.RTFExportPreferences;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 /**
  * Trivial implementation of a MDCModelTransferableBroker.

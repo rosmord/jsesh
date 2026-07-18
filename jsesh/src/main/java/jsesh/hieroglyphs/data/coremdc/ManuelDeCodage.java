@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.hieroglyphs.resources.EmbeddedGlyphsPathResources;
+import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
 
 /**
  * A Singleton class representing the core Manuel de Codage.

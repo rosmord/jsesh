@@ -9,7 +9,7 @@ import java.util.TreeMap;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 
 public class PDFExportPreferences {
 	

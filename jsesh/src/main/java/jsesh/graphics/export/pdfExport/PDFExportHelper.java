@@ -4,7 +4,7 @@ import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfSpotColor;
 import com.lowagie.text.pdf.SpotColor;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.mdc.file.MDCDocument;
 import jsesh.mdc.model.TopItemList;
 

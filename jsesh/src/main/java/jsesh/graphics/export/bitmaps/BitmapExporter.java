@@ -36,7 +36,7 @@ import jsesh.graphics.export.generic.BaseGraphics2DFactory;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.graphics.export.generic.SelectionExporter;
-import jsesh.mdcDisplayer.drawingElements.HieroglyphDrawer;
+import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.swing.utils.RestrictedCharFormatter;
 import jsesh.utils.FileUtils;

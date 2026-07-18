@@ -14,7 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 import jsesh.swing.units.LengthUnit;
 import jsesh.swing.units.UnitMediator;
 import jsesh.swing.utils.FileButtonMapper;

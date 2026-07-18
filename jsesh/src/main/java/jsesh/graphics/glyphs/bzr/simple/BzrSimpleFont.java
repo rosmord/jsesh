@@ -1,6 +1,6 @@
 package jsesh.graphics.glyphs.bzr.simple;
 
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 
 /**
  * BzrSimpleFont represent a BZR font loaded in memory

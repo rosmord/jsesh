@@ -25,8 +25,8 @@ import javax.swing.KeyStroke;
 
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.drawingspecifications.GeometrySpecification;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
 import jsesh.swing.utils.GraphicsUtils;
 
 /**

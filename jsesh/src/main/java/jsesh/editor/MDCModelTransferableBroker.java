@@ -37,7 +37,7 @@ import java.awt.datatransfer.DataFlavor;
 
 import jsesh.clipboard.MDCModelTransferable;
 import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 /**
  * Interface for objects which can provide transferable for use with the clipboard.

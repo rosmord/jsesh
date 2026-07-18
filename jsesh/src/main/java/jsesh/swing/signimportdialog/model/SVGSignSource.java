@@ -1,10 +1,10 @@
 package jsesh.swing.signimportdialog.model;
 
 import jsesh.hieroglyphs.data.coremdc.GardinerCode;
-import jsesh.hieroglyphs.signshape.HorizontalGravity;
-import jsesh.hieroglyphs.signshape.LigatureZone;
-import jsesh.hieroglyphs.signshape.ShapeChar;
-import jsesh.hieroglyphs.signshape.VerticalGravity;
+import jsesh.glyphs.shape.HorizontalGravity;
+import jsesh.glyphs.shape.LigatureZone;
+import jsesh.glyphs.shape.ShapeChar;
+import jsesh.glyphs.shape.VerticalGravity;
 
 import java.awt.BasicStroke;
 import java.awt.geom.*;

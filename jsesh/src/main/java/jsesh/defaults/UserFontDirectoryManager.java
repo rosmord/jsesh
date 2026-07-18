@@ -8,7 +8,7 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.preferences.JSeshPreferenceKeys;
 import jsesh.preferences.JSeshPreferencesRoot;
 import jsesh.utils.DirectoryHolder;
