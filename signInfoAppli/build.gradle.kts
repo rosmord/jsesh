@@ -2,6 +2,7 @@ description = "An application to edit signs properties."
 
 plugins {
     id("jsesh.java-conventions")
+    application
 }
 
 dependencies {
@@ -17,10 +18,17 @@ dependencies {
     }
 }
 
+
+application {
+    mainClass.set("jsesh.utilitysoftwares.signinfoeditor.Main")
+    applicationName = "JSesh SignInfoEditor"
+    applicationDefaultJvmArgs = listOf("-Xmx2G")
+}
+
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "jsesh.utilitysoftwares.signinfoeditor.Main",
+            "Main-Class" to application.mainClass,
             "Class-Path" to configurations.runtimeClasspath.get().files.joinToString(" ") { it.name }
         )
     }

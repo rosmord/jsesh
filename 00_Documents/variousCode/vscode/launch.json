@@ -15,7 +15,7 @@
             "name": "JSesh application",
             "request": "launch",
             "mainClass": "jsesh.jhotdraw.Main",
-            "projectName": "jsesh-all-jseshAppli",
+            "projectName": "jseshAppli",
             "preLaunchTask": "Build application classes"
         },       
         {
@@ -23,7 +23,7 @@
             "name": "Sign Info Application",
             "request": "launch",
             "mainClass": "jsesh.utilitysoftwares.signinfoeditor.Main",
-            "projectName": "jsesh-all-signInfoAppli",
+            "projectName": "signInfoAppli",
             "preLaunchTask": "Build application classes"
         }
     ]
