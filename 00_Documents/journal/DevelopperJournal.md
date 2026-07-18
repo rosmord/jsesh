@@ -223,6 +223,10 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-18
+
+LLM-assisted reorganisation of packages in the `jsesh` module, documented in [[package_refactoring]].
+
 ### 2026-07-15
 
 - [x] For correct arabic localization, we need rtol support for components layout;

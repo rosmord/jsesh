@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "./gradlew",
             "args": [
-                "classes"
+                "build"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
