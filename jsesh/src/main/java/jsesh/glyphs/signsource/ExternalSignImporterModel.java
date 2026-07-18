@@ -1,4 +1,4 @@
-package jsesh.swing.signimportdialog.model;
+package jsesh.glyphs.signsource;
 
 import java.io.File;
 import java.io.FileReader;

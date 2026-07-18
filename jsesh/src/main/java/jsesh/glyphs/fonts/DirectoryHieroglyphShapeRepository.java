@@ -15,7 +15,7 @@ import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.swing.signimportdialog.model.SVGSignSource;
+import jsesh.glyphs.signsource.SVGSignSource;
 import jsesh.utils.DirectoryHolder;
 
 /**

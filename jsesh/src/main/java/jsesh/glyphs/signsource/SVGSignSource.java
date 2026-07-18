@@ -1,4 +1,4 @@
-package jsesh.swing.signimportdialog.model;
+package jsesh.glyphs.signsource;
 
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.shape.HorizontalGravity;

@@ -1,4 +1,4 @@
-package jsesh.swing.signimportdialog.model;
+package jsesh.glyphs.signsource;
 
 import jsesh.glyphs.shape.ShapeChar;
 

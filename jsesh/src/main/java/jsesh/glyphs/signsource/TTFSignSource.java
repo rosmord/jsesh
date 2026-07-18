@@ -1,4 +1,4 @@
-package jsesh.swing.signimportdialog.model;
+package jsesh.glyphs.signsource;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

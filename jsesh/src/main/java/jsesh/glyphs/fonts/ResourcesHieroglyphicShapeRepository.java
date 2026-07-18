@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.swing.signimportdialog.model.SVGSignSource;
+import jsesh.glyphs.signsource.SVGSignSource;
 
 /**
  * Font manager which takes its data from a resource bundle. The signs will be

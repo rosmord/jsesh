@@ -15,7 +15,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.helpers.DefaultHandler;
 
-import jsesh.swing.signimportdialog.model.SVGSignSource;
+import jsesh.glyphs.signsource.SVGSignSource;
 
 /**
  * Tests that a ShapeChar exported to SVG can be re-read without errors.
