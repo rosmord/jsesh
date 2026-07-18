@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.mdc.model.AlphabeticText;
-import jsesh.mdc.model.EmbeddedModelElement;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.ModelElementDeepAdapter;
-import jsesh.mdc.model.Superscript;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.AlphabeticText;
+import jsesh.model.EmbeddedModelElement;
+import jsesh.model.MDCPosition;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.Superscript;
+import jsesh.model.TopItemList;
 
 /**
  * Search for non-hieroglyphic text in the MdC content.

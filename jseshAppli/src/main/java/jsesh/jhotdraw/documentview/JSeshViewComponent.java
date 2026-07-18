@@ -49,12 +49,12 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import jsesh.defaults.HieroglyphResources;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.HieroglyphicTextModel;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 
 /**
  * The actual Swing component with all fixed elements for the JSesh view. As

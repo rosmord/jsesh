@@ -9,10 +9,10 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
 import jsesh.editor.JMDCEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
-import jsesh.mdc.constants.LexicalSymbolsUtils;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.ModelElement;
+import jsesh.model.constants.LexicalSymbolsUtils;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.Hieroglyph;
+import jsesh.model.ModelElement;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**

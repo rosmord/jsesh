@@ -22,12 +22,12 @@ import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.editor.actions.text.EditorCartoucheAction;
 import jsesh.editor.actions.text.EditorShadeAction;
 import jsesh.glossary.GlossaryManager;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.HieroglyphFamily;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.HieroglyphFamily;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 import jsesh.swing.utils.MDCIconFactory;
 import net.miginfocom.layout.PlatformDefaults;
 

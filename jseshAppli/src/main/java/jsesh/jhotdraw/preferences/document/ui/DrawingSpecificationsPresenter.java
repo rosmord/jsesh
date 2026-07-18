@@ -38,9 +38,9 @@ import java.util.Arrays;
 
 import javax.swing.JFormattedTextField;
 
-import jsesh.drawingspecifications.GeometrySpecification;
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.ShadingMode;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.ShadingMode;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.resources.JSeshMessages;
 import jsesh.swing.units.LengthUnit;

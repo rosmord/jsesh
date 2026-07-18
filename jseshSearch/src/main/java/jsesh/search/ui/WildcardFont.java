@@ -1,6 +1,6 @@
 package jsesh.search.ui;
 
-import jsesh.hieroglyphs.fonts.ResourcesHieroglyphicShapeRepository;
+import jsesh.glyphs.fonts.ResourcesHieroglyphicShapeRepository;
 
 /**
  * The font used for displaying wildcards in the search field.

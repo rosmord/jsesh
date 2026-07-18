@@ -2,10 +2,10 @@ package jsesh.jhotdraw.preferences;
 
 import java.util.prefs.Preferences;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.drawingspecifications.ShadingMode;
-import jsesh.mdc.constants.JSeshInfoConstants;
-import jsesh.mdc.file.DocumentPreferences;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.ShadingMode;
+import jsesh.model.constants.JSeshInfoConstants;
+import jsesh.io.document.DocumentPreferences;
 
 /**
  * Utility class to extract JSeshStyle objects from various sources.

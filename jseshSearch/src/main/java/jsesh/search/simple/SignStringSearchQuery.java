@@ -38,11 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.coremdc.CanonicalCode;
-import jsesh.hieroglyphs.data.coremdc.ManuelDeCodage;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.coremdc.CanonicalCode;
+import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 

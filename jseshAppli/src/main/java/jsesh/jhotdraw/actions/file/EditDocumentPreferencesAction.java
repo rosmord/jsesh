@@ -40,7 +40,7 @@ import javax.swing.JOptionPane;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;

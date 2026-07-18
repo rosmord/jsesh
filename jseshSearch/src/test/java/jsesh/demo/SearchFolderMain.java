@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.ui.JSearchFolderPanel;

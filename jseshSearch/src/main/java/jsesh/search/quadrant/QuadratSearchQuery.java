@@ -37,9 +37,9 @@ package jsesh.search.quadrant;
 import jsesh.editor.MdCSearchQuery;
 import java.util.ArrayList;
 import java.util.List;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.MDCNormalizer;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
+import jsesh.model.tools.MDCNormalizer;
 
 /**
  * Search for the exact appearance of a given quadrat.

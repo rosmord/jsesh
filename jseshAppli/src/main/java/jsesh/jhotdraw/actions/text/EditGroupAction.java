@@ -12,9 +12,9 @@ import jsesh.editor.actionsUtils.EditorAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
+import jsesh.model.AbsoluteGroup;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
 /**

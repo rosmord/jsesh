@@ -40,12 +40,12 @@ import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.drawingspecifications.FontSpecification;
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.mdc.utils.YODChoice;
-import jsesh.preferences.JSeshPreferenceKeys;
-import jsesh.preferences.JSeshPreferencesRoot;
-import jsesh.resources.ResourcesManager;
+import jsesh.render.style.FontSpecification;
+import jsesh.render.style.JSeshStyle;
+import jsesh.model.tools.YODChoice;
+import jsesh.platform.preferences.JSeshPreferenceKeys;
+import jsesh.platform.preferences.JSeshPreferencesRoot;
+import jsesh.platform.resources.ResourcesManager;
 
 /**
  * Model for the font preferences.

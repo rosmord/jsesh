@@ -36,10 +36,10 @@ package jsesh.search.corpus;
 
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.editor.MdCSearchQuery;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.file.MDCDocument;
-import jsesh.mdc.file.MDCDocumentReader;
-import jsesh.mdc.model.MDCPosition;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.io.document.MDCDocument;
+import jsesh.io.document.MDCDocumentReader;
+import jsesh.model.MDCPosition;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;

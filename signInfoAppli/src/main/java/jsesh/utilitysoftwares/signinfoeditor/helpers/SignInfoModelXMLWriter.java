@@ -17,7 +17,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import jsesh.hieroglyphs.data.SignDescriptionConstants;
+import jsesh.glyphs.data.SignDescriptionConstants;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;

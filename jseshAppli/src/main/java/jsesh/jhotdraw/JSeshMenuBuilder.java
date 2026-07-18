@@ -80,8 +80,8 @@ import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.constants.AdditionalSymbols;
 import jsesh.jhotdraw.documentview.JSeshView;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.DefaultMenuBuilder;

@@ -119,9 +119,9 @@ import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter;
 import jsesh.jhotdraw.utils.WindowsHelper;
-import jsesh.mdc.constants.SymbolCodes;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.model.constants.SymbolCodes;
+import jsesh.model.TopItemList;
+import jsesh.render.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.swing.utils.MDCIconFactory;
 

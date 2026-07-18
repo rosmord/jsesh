@@ -28,11 +28,11 @@ import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
 import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
 
 import jsesh.editor.MdCSearchQuery;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.hieroglyphs.data.VariantTypeForSearches;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdc.utils.HieroglyphCodesExtractor;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.VariantTypeForSearches;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
+import jsesh.model.tools.HieroglyphCodesExtractor;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 

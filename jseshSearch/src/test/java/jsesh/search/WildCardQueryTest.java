@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.hieroglyphs.data.HieroglyphDatabase;
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.MDCPosition;
-import jsesh.mdc.model.TopItemList;
+import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardQuery;
 

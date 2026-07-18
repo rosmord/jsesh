@@ -6,7 +6,7 @@ import javax.swing.Action;
 
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
-import jsesh.mdc.constants.TextDirection;
+import jsesh.model.constants.TextDirection;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;

@@ -20,9 +20,9 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
 import jsesh.jhotdraw.utils.PanelBuilder;
-import jsesh.mdc.utils.YODChoice;
+import jsesh.model.tools.YODChoice;
 import jsesh.resources.JSeshMessages;
-import jsesh.resources.ResourcesManager;
+import jsesh.platform.resources.ResourcesManager;
 import net.miginfocom.swing.MigLayout;
 
 /**

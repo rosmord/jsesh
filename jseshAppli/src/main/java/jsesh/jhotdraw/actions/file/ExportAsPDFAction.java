@@ -16,7 +16,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
+import jsesh.render.context.JSeshRenderContext;
 import jsesh.resources.JSeshMessages;
 
 @SuppressWarnings("serial")
