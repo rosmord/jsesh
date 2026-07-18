@@ -2,6 +2,7 @@ description = "The JSesh application, using jhotdraw as GUI framework."
 
 plugins {
     id("jsesh.java-conventions")
+    application
 }
 
 dependencies {
@@ -18,10 +19,22 @@ dependencies {
     }
 }
 
+application {
+    mainClass.set("jsesh.jhotdraw.Main")
+    applicationName = "JSesh"
+    applicationDefaultJvmArgs = listOf("-Xmx2G")
+}
+
+if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
+    tasks.named<JavaExec>("run") {
+        jvmArgs("-Xdock:name=${application.applicationName}", "-Dapple.laf.useScreenMenuBar=true")
+    }
+}
+
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "jsesh.jhotdraw.Main",
+            "Main-Class" to application.mainClass,
             "Class-Path" to configurations.runtimeClasspath.get().files.joinToString(" ") { it.name }
         )
     }
