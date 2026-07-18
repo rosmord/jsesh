@@ -1,4 +1,4 @@
-package jsesh.mdc.utils;
+package jsesh.model.tools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.parser.MDCSyntaxError;
 
 
 /**

@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -7,10 +7,10 @@ import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.FieldSource;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.render.style.JSeshStyle;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 
 /**
  *

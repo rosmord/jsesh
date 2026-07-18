@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.data.coremdc;
+package jsesh.glyphs.data.coremdc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -32,13 +32,13 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 
 /**

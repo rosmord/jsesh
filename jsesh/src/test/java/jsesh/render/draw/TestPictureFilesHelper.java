@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.nio.file.Path;
 import javax.imageio.ImageIO;
 
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.render.style.JSeshStyle;
+import jsesh.parser.MDCSyntaxError;
 
 /**
  * Helper class to manage picture drawing tests.

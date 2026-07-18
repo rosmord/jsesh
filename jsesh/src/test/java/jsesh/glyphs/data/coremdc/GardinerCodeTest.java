@@ -1,11 +1,11 @@
-package jsesh.hieroglyphs.data;
+package jsesh.glyphs.data.coremdc;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.hieroglyphs.data.coremdc.GardinerCode;
+import jsesh.glyphs.data.coremdc.GardinerCode;
 
 public class GardinerCodeTest {
 

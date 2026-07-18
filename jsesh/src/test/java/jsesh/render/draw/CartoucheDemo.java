@@ -9,15 +9,15 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCEditor;
-import jsesh.mdc.constants.TextDirection;
-import jsesh.mdc.constants.TextOrientation;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 
 /**
  * Informal test for enclosures drawing.

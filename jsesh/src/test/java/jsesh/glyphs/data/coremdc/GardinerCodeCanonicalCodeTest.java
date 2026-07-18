@@ -1,12 +1,12 @@
-package jsesh.hieroglyphs;
+package jsesh.glyphs.data.coremdc;
 
-import static jsesh.hieroglyphs.data.coremdc.GardinerCode.isCanonicalCode;
+import static jsesh.glyphs.data.coremdc.GardinerCode.isCanonicalCode;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class GardinerCodeTest {
+public class GardinerCodeCanonicalCodeTest {
 
 	@Test
 	public void isCanonicalCodeA1() {

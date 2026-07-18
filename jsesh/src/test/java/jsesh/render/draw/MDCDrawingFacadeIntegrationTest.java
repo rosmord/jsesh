@@ -1,4 +1,4 @@
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,8 +10,8 @@ import javax.imageio.ImageIO;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.drawingspecifications.JSeshStyle;
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.render.style.JSeshStyle;
+import jsesh.parser.MDCSyntaxError;
 
 /**
  * A integration test using MDCDrawingFacade.

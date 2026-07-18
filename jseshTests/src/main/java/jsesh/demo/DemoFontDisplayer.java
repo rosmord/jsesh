@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
 import jsesh.graphics.glyphs.bzr.BzrFontReader;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
-import jsesh.hieroglyphs.signshape.ShapeChar;
+import jsesh.glyphs.shape.ShapeChar;
 import jsesh.platform.graphics.GraphicsUtils;
 
 /**

@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.mdc.model;
+package jsesh.model;
 
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -40,8 +40,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.mdc.MDCParserModelGenerator;
-import jsesh.mdc.MDCSyntaxError;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
 
 /**
  * Compare MdC constructs ignoring their ids.

@@ -19,8 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import jsesh.editor.JMDCEditor;
-import jsesh.mdc.model.Hieroglyph;
-import jsesh.mdc.model.TopItemList;
+import jsesh.model.Hieroglyph;
+import jsesh.model.TopItemList;
 
 /**
  * A demo for a bug we have currently. It should move to a test file at some

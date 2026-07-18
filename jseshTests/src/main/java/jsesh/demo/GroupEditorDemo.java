@@ -11,15 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import jsesh.defaults.PredefinedFonts;
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JMDCField;
-import jsesh.hieroglyphs.fonts.HieroglyphShapeRepository;
-import jsesh.mdc.MDCSyntaxError;
-import jsesh.mdc.model.AbsoluteGroup;
-import jsesh.mdc.model.TopItemList;
-import jsesh.mdcDisplayer.context.JSeshRenderContext;
-import jsesh.mdcDisplayer.context.JSeshTechRenderContext;
-import jsesh.mdcDisplayer.mdcView.AbsoluteGroupBuilder;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.AbsoluteGroup;
+import jsesh.model.TopItemList;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.view.AbsoluteGroupBuilder;
 import jsesh.swing.groupEditor.GroupEditorDialog;
 
 /**

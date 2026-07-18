@@ -1,4 +1,4 @@
-package jsesh.hieroglyphs.signshape;
+package jsesh.glyphs.shape;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

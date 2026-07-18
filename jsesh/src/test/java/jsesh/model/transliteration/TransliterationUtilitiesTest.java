@@ -1,11 +1,11 @@
-package jsesh.mdc.translitteration;
+package jsesh.model.transliteration;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.mdc.transliteration.TransliterationUtilities;
+import jsesh.model.transliteration.TransliterationUtilities;
 
 /**
  *

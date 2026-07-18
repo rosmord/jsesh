@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import jsesh.mdcDisplayer.draw.MDCDrawingFacade;
+import jsesh.render.draw.MDCDrawingFacade;
 
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;

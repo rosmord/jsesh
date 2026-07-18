@@ -1,9 +1,9 @@
-package jsesh.mdcDisplayer.draw;
+package jsesh.render.draw;
 
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.drawingspecifications.JSeshStyle;
+import jsesh.render.style.JSeshStyle;
 
 /**
  * Checks that ntrw and nn are correctly drawn in the BZR fonts.

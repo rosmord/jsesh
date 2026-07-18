@@ -1,4 +1,4 @@
-package jsesh.drawingspecifications.graphical;
+package jsesh.render.style;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.drawingspecifications.PaintingSpecifications;
-import jsesh.drawingspecifications.ShadingMode;
+import jsesh.render.style.PaintingSpecifications;
+import jsesh.render.style.ShadingMode;
 
 public class ColorSpecTest {
 
