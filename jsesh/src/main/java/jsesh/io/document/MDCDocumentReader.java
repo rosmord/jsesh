@@ -109,8 +109,7 @@ public class MDCDocumentReader {
 
         StringReader r = new StringReader(buff.toString());
         try {
-            document.getHieroglyphicTextModel().readTopItemList(r,
-                    document.getDialect());
+            document.readTopItemList(r);
         } catch (MDCSyntaxError e) {
             MDCParserModelGenerator gen = new MDCParserModelGenerator(document.getDialect());
             String[] tab = buff.toString().split("\n|\r|\r\n");
@@ -128,7 +127,7 @@ public class MDCDocumentReader {
                     list.addTopItem(new LineBreak());
                 }
             }
-            document.getHieroglyphicTextModel().setTopItemList(list);
+            document.setTopItemList(list);
         }
         return document;
     }

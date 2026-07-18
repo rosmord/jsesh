@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
@@ -17,6 +18,7 @@ import jsesh.model.constants.Dialect;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.model.TopItemList;
 import jsesh.io.mdc.MdCModelWriter;
+import jsesh.parser.MDCSyntaxError;
 import jsesh.utils.FileUtils;
 import jsesh.utils.SystemUtils;
 
@@ -81,6 +83,44 @@ public class MDCDocument {
 
 	public HieroglyphicTextModel getHieroglyphicTextModel() {
 		return hieroglyphicTextModel;
+	}
+
+	/**
+	 * Returns the underlying top-level model.
+	 */
+	public TopItemList getTopItemList() {
+		return hieroglyphicTextModel.getModel();
+	}
+
+	/**
+	 * Replaces the top-level model.
+	 */
+	public void setTopItemList(TopItemList topItemList) {
+		hieroglyphicTextModel.setTopItemList(topItemList);
+	}
+
+	/**
+	 * Appends items at the end of the current top-level model.
+	 */
+	public void appendTopItems(TopItemList items) {
+		hieroglyphicTextModel.insertElementsAt(
+				hieroglyphicTextModel.getLastPosition(),
+				items.asList());
+	}
+
+	/**
+	 * Parses and replaces current content according to the document dialect.
+	 */
+	public void readTopItemList(Reader reader) throws MDCSyntaxError {
+		hieroglyphicTextModel.readTopItemList(reader, dialect);
+	}
+
+	public boolean isPhilologyIsSign() {
+		return hieroglyphicTextModel.isPhilologyIsSign();
+	}
+
+	public void setPhilologyIsSign(boolean philologyIsSign) {
+		hieroglyphicTextModel.setPhilologyIsSign(philologyIsSign);
 	}
 
 	public File getFile() {
@@ -171,7 +211,7 @@ public class MDCDocument {
 		String correctExtension;
 		// Ensure there is an encoding !
 
-		if (!hieroglyphicTextModel.isPhilologyIsSign()) {
+		if (!isPhilologyIsSign()) {
 			setEncoding("iso-8859-1");
 			correctExtension = "hie";
 		} else {
