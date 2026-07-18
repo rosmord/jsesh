@@ -22,7 +22,7 @@ import jsesh.graphics.glyphs.bzr.BzrFontReader;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
 import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.hieroglyphs.signshape.ShapeChar;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * DemoFontDisplayer.java

@@ -33,7 +33,7 @@ import jsesh.render.draw.ViewDrawer;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * Editor for groups and ligatures.

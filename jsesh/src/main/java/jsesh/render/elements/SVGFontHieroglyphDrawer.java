@@ -27,7 +27,7 @@ import jsesh.glyphs.shape.LigatureZoneBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.render.layout.ExplicitPosition;
 import jsesh.render.view.ViewBox;
-import jsesh.swing.utils.ShapeHelper;
+import jsesh.platform.graphics.ShapeHelper;
 
 /**
  * A Hieroglyphic drawer which takes its input from (SVG) fonts. Our default

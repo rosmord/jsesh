@@ -26,7 +26,7 @@ import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.

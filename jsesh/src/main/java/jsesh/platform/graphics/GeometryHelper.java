@@ -9,7 +9,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.swing.utils;
+package jsesh.platform.graphics;
 
 import java.awt.geom.Point2D;
 import java.util.Optional;

@@ -30,7 +30,7 @@ import jsesh.render.elements.internal.symboldrawers.OpenSuperfluousSymbolDelegat
 import jsesh.render.elements.internal.symboldrawers.SymbolDrawerDelegate;
 import jsesh.render.layout.ExplicitPosition;
 import jsesh.render.view.ViewBox;
-import jsesh.swing.utils.ShapeHelper;
+import jsesh.platform.graphics.ShapeHelper;
 
 /**
  * This class is responsible for drawing special symbols, which are not handled

@@ -27,7 +27,7 @@ import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * A field like editor for Manuel de Codage texts. Displays only one line of

@@ -48,7 +48,7 @@ import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * An helper class to create bitmap/icons versions of single signs.

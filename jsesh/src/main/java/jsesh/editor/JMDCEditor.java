@@ -93,7 +93,7 @@ import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 import jsesh.swing.utils.MDCIconFactory;
 
 /**

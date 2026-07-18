@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.Optional;
 
 import jsesh.render.view.MDCView;
-import jsesh.swing.utils.GeometryHelper;
+import jsesh.platform.graphics.GeometryHelper;
 
 /**
  * Tool for resizing element. We apply an affine transformation on the sign.

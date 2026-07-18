@@ -50,7 +50,7 @@ import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.utils.GraphicsUtils;
+import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * Expert for exporting a Manuel de codage file to HTML.
