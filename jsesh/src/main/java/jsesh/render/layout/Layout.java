@@ -12,7 +12,9 @@ import java.util.Optional;
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
+import jsesh.glyphs.shape.VerticalGravity;
 import jsesh.model.constants.ScriptCodes;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
@@ -124,12 +126,9 @@ public class Layout {
 	 */
 	private TextDirection currentTextDirection;
 
-	
 	private int depth;
 
 	private boolean inAbsoluteGroup = false;
-
-	
 
 	/**
 	 * compute the view size (width and height). If the view has subviews, layout
@@ -431,7 +430,7 @@ public class Layout {
 			if (ligature.getBeforeGroup() != null) {
 				MDCView beforeGroupView = currentView.getSubView(index);
 				if (zones.get(0).isPresent()) {
-					zones.get(0).ifPresent(z -> z.placeView(beforeGroupView));
+					zones.get(0).ifPresent(z -> placeView(z, beforeGroupView));
 				} else {
 					// No zone : ^^^ operator has then the same value as "*".
 				}
@@ -445,9 +444,9 @@ public class Layout {
 				MDCView afterGroupView = currentView.getSubView(index);
 				// If there is a "bottom" zone, we prefer it to the "after" zone.
 				if (zones.get(2).isPresent()) {
-					zones.get(2).ifPresent(z -> z.placeView(afterGroupView));
+					zones.get(2).ifPresent(z -> placeView(z, afterGroupView));
 				} else if (zones.get(1).isPresent()) {
-					zones.get(1).ifPresent(z -> z.placeView(afterGroupView));
+					zones.get(1).ifPresent(z -> placeView(z, afterGroupView));
 				} else {
 					// No zone : &&& operator has then the same value as "*".
 				}
@@ -651,7 +650,7 @@ public class Layout {
 			for (int i = 0; i < l.getNumberOfChildren(); i++) {
 				codes.add(l.getHieroglyphAt(i).getCode());
 			}
-			
+
 			List<ExplicitPosition> pos = hieroglyphsDrawer.getPositions(codes);
 
 			if (pos != null) {
@@ -706,7 +705,7 @@ public class Layout {
 						// Take into account the sign scale..
 						z = z.scale(computeScale());
 						// NEW code for the new complex ligature system.
-						z.placeView(currentView.getSubView(smallerSignIndex));
+						placeView(z, currentView.getSubView(smallerSignIndex));
 						// End of new code.
 					}
 				} else if (l.getNumberOfChildren() == 3) {
@@ -719,8 +718,8 @@ public class Layout {
 						LigatureZone z1 = r1.get().scale(computeScale());
 						LigatureZone z2 = r2.get().scale(computeScale());
 						currentView.getSubView(1).resetPos();
-						z1.placeView(currentView.getSubView(0));
-						z2.placeView(currentView.getSubView(2));
+						placeView(z1, currentView.getSubView(0));
+						placeView(z2, currentView.getSubView(2));
 					}
 				}
 			}
@@ -920,5 +919,34 @@ public class Layout {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Place a subview in a ligature zone. The subview is scaled to fit the zone, and
+	 * @param z
+	 * @param subView
+	 */
+	private void placeView(LigatureZone z, MDCView subView) {
+		// z.placeView(subview);
+		subView.scaleToFitDimensions(z.getWidth(), z.getHeight());
+		double xpos = 0;
+		double ypos = 0;
+
+		if (HorizontalGravity.START.equals(z.getHorizontalGravity())) {
+			xpos = z.getMinX();
+		} else if (HorizontalGravity.END.equals(z.getHorizontalGravity())) {
+			xpos = z.getMinX() + z.getWidth() - subView.getWidth();
+		} else {
+			xpos = z.getMinX() + (z.getWidth() - subView.getWidth()) / 2.0;
+		}
+
+		if (VerticalGravity.TOP.equals(z.getVerticalGravity())) {
+			ypos = z.getMinY();
+		} else if (VerticalGravity.BOTTOM.equals(z.getVerticalGravity())) {
+			ypos = z.getMinY() + z.getHeight() - subView.getHeight();
+		} else {
+			ypos = z.getMinY() + (z.getHeight() - subView.getHeight()) / 2.0;
+		}
+		subView.getPosition().setLocation(xpos, ypos);
 	}
 }

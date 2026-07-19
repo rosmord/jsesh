@@ -3,9 +3,17 @@
 '
 ' Dependencies between the top-level packages of the `jsesh` module.
 '
-' Generated from the actual `import` statements found in
-' jsesh/src/main/java (2026-07), after `jsesh.document` was extracted
-' from `jsesh.io.document` and `jsesh.editor`.
+' Regenerated from the actual `import` statements found in
+' jsesh/src/main/java (2026-07-19), after the Swing/UI reorganisation
+' the move of PDFExportConstants to `jsesh.io.constants`, and the
+' extraction of the UserSignWriter interface:
+'   jsesh.swing          -> jsesh.ui.widgets
+'   jsesh.editor         -> jsesh.ui.editor
+'   jsesh.clipboard      -> jsesh.ui.clipboard
+'   jsesh.graphics.export-> jsesh.ui.export
+'   jsesh.glossary       -> split into jsesh.glossary (model side)
+'                           and jsesh.ui.glossary (editor UI)
+'   jsesh.ui.palette     -> new (extracted from the old swing/defaults mix)
 ' Edge labels = number of import statements.
 '
 ' Solid arrows  = dependency going "downwards" (intended direction).
@@ -22,6 +30,7 @@ skinparam package {
   BackgroundColor<<core>>   #E9F7E9
   BackgroundColor<<doc>>    #E4F1E4
   BackgroundColor<<mid>>    #FFF6E0
+  BackgroundColor<<conf>>   #FFF0F8
   BackgroundColor<<ui>>     #FDECEC
   BackgroundColor<<ext>>    #F0F0F0
   BorderColor #666666
@@ -40,12 +49,15 @@ package "jsesh.document"        as doc      <<doc>>
 package "jsesh.io"              as io       <<mid>>
 package "jsesh.render"          as render   <<mid>>
 
-package "jsesh.swing"           as swing    <<ui>>
-package "jsesh.defaults"        as defaults <<ui>>
-package "jsesh.glossary"        as gloss    <<ui>>
-package "jsesh.clipboard"       as clip     <<ui>>
-package "jsesh.editor"          as editor   <<ui>>
-package "jsesh.graphics.export" as export   <<ui>>
+package "jsesh.glossary"        as gloss    <<conf>>
+package "jsesh.defaults"        as defaults <<conf>>
+
+package "jsesh.ui.widgets"      as widgets  <<ui>>
+package "jsesh.ui.palette"      as palette  <<ui>>
+package "jsesh.ui.clipboard"    as clip     <<ui>>
+package "jsesh.ui.export"       as export   <<ui>>
+package "jsesh.ui.editor"       as editor   <<ui>>
+package "jsesh.ui.glossary"     as uigloss  <<ui>>
 
 package "jsesh.resources" as res <<ext>>
 note right of res
@@ -55,42 +67,42 @@ end note
 
 ' ---------------------------------------------------------------- base layer
 ' `jsesh.platform` has no outgoing dependency at all: it is a pure leaf.
-utils -->  platform                   : 1
+utils  -->        res                 : 1
 
 ' ---------------------------------------------------------------- core layer
-model  -->        utils               : 3
 model  -->        glyphs              : 6
+model  -->        utils               : 3
 model  -[#red]->  parser              : 4
 model  -[#red]->  io                  : 3
 
 parser -->        model               : 4
 
+glyphs -->        ggly                : 8
+glyphs -->        utils               : 7
 glyphs -->        model               : 2
 glyphs -->        parser              : 2
-glyphs -->        platform            : 3
-glyphs -->        utils               : 5
-glyphs -->        ggly                : 8
-glyphs -[#red]->  render              : 1
-glyphs -[#red]->  defaults            : 1
+glyphs -->        platform            : 1
+' `jsesh.glyphs` no longer looks up at anything: the sign importer takes a
+' `jsesh.glyphs.signsource.UserSignWriter` instead of the app-scoped
+' `jsesh.defaults.UserFontDirectoryManager`, which now implements it.
 
 ggly   -->        glyphs              : 2
 
 ' ------------------------------------------------------------ document layer
 ' `jsesh.document` holds MDCDocument, DocumentPreferences,
 ' HieroglyphicTextModel and the undo machinery. It is shared by `io`
-' (which serialises it) and `editor` (which edits it), and depends on
+' (which serialises it) and `ui.editor` (which edits it), and depends on
 ' nothing but the model and the parser.
-doc    -->        model               : 23
+doc    -->        model               : 26
 doc    -->        parser              : 3
 
 ' ---------------------------------------------------------------- middle layer
-render -->        model               : 139
-render -->        glyphs              : 14
-render -->        parser              : 3
-render -->        platform            : 5
-render -->        utils               : 2
-render -->        doc                 : 1
-render -[#red]->  editor              : 1
+render -->        model               : 143
+render -->        glyphs              : 16
+render -->        utils               : 5
+render -->        parser              : 4
+render -->        doc                 : 2
+render -->        platform            : 2
 render -[#red]->  defaults            : 1
 
 io     -->        model               : 42
@@ -98,61 +110,67 @@ io     -->        doc                 : 7
 io     -->        utils               : 6
 io     -->        parser              : 4
 io     -->        glyphs              : 1
-io     -[#red]->  export              : 1
+' `io` no longer imports anything from the UI layer: PDFExportConstants,
+' shared by the PDF exporter and the PDF importer, now lives in
+' `jsesh.io.constants` and both sides import it downwards.
+
+' ------------------------------------------------------- configuration layer
+' `jsesh.glossary` is now Swing-free: the table model and the editor
+' dialog moved to `jsesh.ui.glossary`.
+gloss    --> glyphs                   : 5
+gloss    --> model                    : 4
+gloss    --> parser                   : 2
+gloss    --> utils                    : 1
+
+defaults --> glyphs                   : 15
+defaults --> utils                    : 4
+defaults --> gloss                    : 2
 
 ' ---------------------------------------------------------------- UI layer
-swing  -->        model               : 11
-swing  -->        glyphs              : 29
-swing  -->        parser              : 1
-swing  -->        render              : 16
-swing  -->        platform            : 7
-swing  -->        res                 : 1
-swing  -[#red]->  editor              : 1
-swing  -[#red]->  defaults            : 1
+widgets --> render                    : 14
+widgets --> glyphs                    : 10
+widgets --> model                     : 7
+widgets --> utils                     : 6
+widgets --> platform                  : 2
 
-defaults --> glyphs                   : 12
-defaults --> platform                 : 2
-defaults --> utils                    : 2
-defaults --> gloss                    : 1
-defaults -[#red]-> editor             : 2
+palette --> glyphs                    : 19
+palette --> utils                     : 3
+palette --> editor                    : 1
 
-gloss  --> model                      : 4
-gloss  --> parser                     : 2
-gloss  --> glyphs                     : 2
-gloss  --> render                     : 1
-gloss  --> platform                   : 1
-gloss  --> swing                      : 3
-gloss  --> res                        : 2
-gloss  --> defaults                   : 1
-gloss  --> editor                     : 3
+clip    --> render                    : 7
+clip    --> export                    : 4
+clip    --> model                     : 3
 
-clip   --> model                      : 3
-clip   --> render                     : 7
-clip   --> export                     : 4
+export  --> render                    : 47
+export  --> model                     : 35
+export  --> utils                     : 15
+export  --> res                       : 7
+export  --> io                        : 3
+export  --> doc                       : 3
+export  --> widgets                   : 3
+export  --> glyphs                    : 1
 
-editor --> model                      : 70
-editor --> render                     : 20
-editor --> swing                      : 11
-editor --> glyphs                     : 9
-editor --> doc                        : 7
-editor --> clip                       : 6
-editor --> defaults                   : 4
-editor --> gloss                      : 4
-editor --> parser                     : 2
-editor --> platform                   : 2
-editor --> io                         : 1
-editor --> export                     : 1
-editor --> res                        : 1
+editor  --> model                     : 67
+editor  --> render                    : 27
+editor  --> doc                       : 14
+editor  --> glyphs                    : 7
+editor  --> clip                      : 6
+editor  --> utils                     : 5
+editor  --> defaults                  : 4
+editor  --> parser                    : 2
+editor  --> io                        : 1
+editor  --> widgets                   : 1
+editor  --> export                    : 1
+editor  --> res                       : 1
 
-export --> render                     : 47
-export --> model                      : 35
-export --> swing                      : 9
-export --> res                        : 7
-export --> utils                      : 6
-export --> editor                     : 3
-export --> platform                   : 3
-export --> io                         : 2
-export --> glyphs                     : 1
+uigloss --> gloss                     : 3
+uigloss --> editor                    : 3
+uigloss --> render                    : 2
+uigloss --> glyphs                    : 2
+uigloss --> res                       : 2
+uigloss --> utils                     : 2
+uigloss --> defaults                  : 1
+uigloss --> widgets                   : 1
 
 legend bottom
   |= layer |= packages |
@@ -160,10 +178,56 @@ legend bottom
   | core     | model, parser, glyphs, graphics.glyphs |
   | document | document |
   | middle   | io, render |
-  | UI       | swing, defaults, glossary, clipboard, editor, graphics.export |
-  Red edges are cycles / upward dependencies (10 of them).
+  | config   | glossary, defaults |
+  | UI       | ui.widgets, ui.palette, ui.clipboard, ui.export, ui.editor, ui.glossary |
+  Red edges are cycles / upward dependencies (3 of them, down from 10).
   `jsesh.platform` is clean: no outgoing edge.
   `jsesh.document` is clean: it only reaches down to model and parser.
+  `jsesh.glyphs` is clean: it no longer looks up at render or defaults.
+  The whole UI now lives under `jsesh.ui.*`, and **nothing below the UI
+  layer imports it any more**.
+  All that is left is the `model` <-> `parser` / `io` knot, plus a single
+  `render -> defaults` import.
 endlegend
 @enduml
 ```
+
+## What changed since the previous version
+
+**Renamings / moves**
+
+| before | after |
+|---|---|
+| `jsesh.swing` | `jsesh.ui.widgets` |
+| `jsesh.editor` | `jsesh.ui.editor` |
+| `jsesh.clipboard` | `jsesh.ui.clipboard` |
+| `jsesh.graphics.export` | `jsesh.ui.export` |
+| `jsesh.glossary` (mixed) | `jsesh.glossary` (model) + `jsesh.ui.glossary` (UI) |
+| — | `jsesh.ui.palette` (new) |
+
+**Layering violations fixed** (edges that no longer exist)
+
+- `render -> editor`
+- `swing -> editor`, `swing -> defaults`
+- `defaults -> editor`
+- `export -> editor`
+- `utils -> platform`
+- `io -> ui.export` — `PDFExportConstants` moved to `jsesh.io.constants`, so
+  the PDF exporter and the PDF importer now both import it downwards. This
+  was the last UI reference below the UI layer.
+- `glyphs -> render`
+- `glyphs -> defaults` — `ExternalSignImporterModel` used exactly one method
+  of `UserFontDirectoryManager`, so that method became the one-method
+  interface `jsesh.glyphs.signsource.UserSignWriter`, which
+  `UserFontDirectoryManager` implements. `ui.widgets -> defaults` went away
+  with it, and the app modules were untouched: they still pass a
+  `UserFontDirectoryManager`, which now simply satisfies the interface.
+  This deliberately keeps the app-scoped, preference-touching class *out* of
+  `jsesh.glyphs` — no file under `jsesh/glyphs/` references
+  `java.util.prefs`, and embedders can supply their own writer.
+
+**Layering violations remaining** (3 red edges)
+
+- `model -> parser` (4) and `model -> io` (3) — the core model still reaches
+  up into parsing and serialisation. This is the substantial one left.
+- `render -> defaults` (1).

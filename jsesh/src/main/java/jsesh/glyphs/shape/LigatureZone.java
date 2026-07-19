@@ -2,8 +2,6 @@ package jsesh.glyphs.shape;
 
 import java.awt.geom.Rectangle2D;
 
-import jsesh.render.view.MDCView;
-
 /**
  * A zone near hieroglyph which will be used for ligatures. The zone is defined
  * by a rectangular area (could be something else in the future), and a
@@ -133,29 +131,6 @@ public class LigatureZone implements Cloneable {
      */
     public double getWidth() {
         return box.getWidth();
-    }
-
-    public void placeView(MDCView subView) {
-        subView.scaleToFitDimensions(getWidth(), getHeight());
-        double xpos = 0;
-        double ypos = 0;
-
-        if (HorizontalGravity.START.equals(getHorizontalGravity())) {
-            xpos = getMinX();
-        } else if (HorizontalGravity.END.equals(getHorizontalGravity())) {
-            xpos = getMinX() + getWidth() - subView.getWidth();
-        } else {
-            xpos = getMinX() + (getWidth() - subView.getWidth()) / 2.0;
-        }
-
-        if (VerticalGravity.TOP.equals(getVerticalGravity())) {
-            ypos = getMinY();
-        } else if (VerticalGravity.BOTTOM.equals(getVerticalGravity())) {
-            ypos = getMinY() + getHeight() - subView.getHeight();
-        } else {
-            ypos = getMinY() + (getHeight() - subView.getHeight()) / 2.0;
-        }
-        subView.getPosition().setLocation(xpos, ypos);
     }
 
     /**

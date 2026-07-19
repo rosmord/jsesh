@@ -6,6 +6,7 @@ import com.lowagie.text.pdf.SpotColor;
 
 import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
+import jsesh.io.constants.PDFExportConstants;
 import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.TopItemList;
 

@@ -1,4 +1,4 @@
-package jsesh.ui.export.pdfExport;
+package jsesh.io.constants;
 
 public class PDFExportConstants {
 	public static final String CONTENT_TYPE_APPLICATION_JSESH = "Content-type: application/jsesh";

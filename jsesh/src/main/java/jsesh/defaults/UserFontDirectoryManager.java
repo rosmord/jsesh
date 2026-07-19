@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.glyphs.signsource.UserSignWriter;
 import jsesh.utils.io.DirectoryHolder;
 import jsesh.utils.preferences.JSeshPreferenceKeys;
 import jsesh.utils.preferences.JSeshPreferencesRoot;
@@ -32,7 +33,7 @@ import jsesh.utils.preferences.JSeshPreferencesRoot;
  * keep their configured folder. Do not move {@code GLYPH_DIRECTORY} to another
  * package or the setting will be silently orphaned.
  */
-public class UserFontDirectoryManager {
+public class UserFontDirectoryManager implements UserSignWriter {
 
     /**
      * Creates a new instance of User font manager.
@@ -78,6 +79,7 @@ public class UserFontDirectoryManager {
      * @param shape the shape to store.
      * @throws IllegalStateException if no user font folder is currently configured.
      */
+    @Override
     public void insertNewSign(String code, ShapeChar shape) {
         File folder = userFontHolder.optDirectory()
                 .orElseThrow(() -> new IllegalStateException(

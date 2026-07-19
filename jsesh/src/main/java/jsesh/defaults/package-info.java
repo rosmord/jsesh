@@ -29,6 +29,10 @@
  *     new user signs are written through it because writing "only needs to know
  *     the folder". Reader (the repository) and writer (this manager) never
  *     reference each other — they rendezvous at the {@code DirectoryHolder}.
+ *     It offers that write side as
+ *     {@link jsesh.glyphs.signsource.UserSignWriter}, so the sign importer down
+ *     in {@code jsesh.glyphs} depends on the one-method contract rather than on
+ *     this package.
  * </ul>
  *
  * <p>A library embedder that does not want JSesh's preference tree can ignore
