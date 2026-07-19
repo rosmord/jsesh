@@ -18,7 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import jsesh.editor.JMDCEditor;
+import jsesh.ui.editor.JMDCEditor;
 import jsesh.model.Hieroglyph;
 import jsesh.model.TopItemList;
 

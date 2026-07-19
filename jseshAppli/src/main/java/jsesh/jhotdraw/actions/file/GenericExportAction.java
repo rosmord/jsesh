@@ -6,8 +6,8 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 
-import jsesh.graphics.export.generic.ExportData;
-import jsesh.graphics.export.generic.GraphicalExporter;
+import jsesh.ui.export.generic.ExportData;
+import jsesh.ui.export.generic.GraphicalExporter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;

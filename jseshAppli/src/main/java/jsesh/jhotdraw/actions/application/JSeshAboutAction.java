@@ -3,7 +3,7 @@ package jsesh.jhotdraw.actions.application;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 
-import jsesh.swing.about.AboutDisplayer;
+import jsesh.ui.widgets.about.AboutDisplayer;
 
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.action.app.AboutAction;

@@ -45,7 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.utils.OrientationUtils;
+import jsesh.ui.widgets.utils.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 
 

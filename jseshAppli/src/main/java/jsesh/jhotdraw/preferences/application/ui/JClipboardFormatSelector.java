@@ -41,7 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import jsesh.clipboard.MDCClipboardPreferences;
+import jsesh.ui.clipboard.MDCClipboardPreferences;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.resources.JSeshMessages;

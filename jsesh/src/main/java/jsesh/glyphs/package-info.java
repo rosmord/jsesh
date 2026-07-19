@@ -10,7 +10,7 @@
  *
  * <p>The solution is to provide a default implementation which allows for some
  * tailoring — see {@link jsesh.glyphs.data.HieroglyphDatabaseFactory} and
- * {@code jsesh.defaults.HieroglyphResourcesBuilder}. However, if one wants
+ * {@code jsesh.ui.defaults.HieroglyphResourcesBuilder}. However, if one wants
  * full freedom on the subject, all classes that use hieroglyphs should be able
  * to use the source of their choice.
  */

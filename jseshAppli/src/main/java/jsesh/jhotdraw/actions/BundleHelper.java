@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 
 import jsesh.resources.JSeshMessages;
 
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 
 /**

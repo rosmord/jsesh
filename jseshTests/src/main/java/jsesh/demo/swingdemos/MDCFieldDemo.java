@@ -4,7 +4,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
-import jsesh.editor.JMDCField;
+import jsesh.ui.editor.JMDCField;
 
 /**
  * Simple demonstration of the MDC editor.

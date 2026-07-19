@@ -41,14 +41,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 
-import jsesh.graphics.export.rtf.RTFExportGranularity;
-import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
+import jsesh.ui.export.rtf.RTFExportGranularity;
+import jsesh.ui.export.rtf.RTFExportGraphicFormat;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.units.LengthUnit;
-import jsesh.swing.units.UnitMediator;
+import jsesh.ui.widgets.units.LengthUnit;
+import jsesh.ui.widgets.units.UnitMediator;
 import net.miginfocom.swing.MigLayout;
 
 /**

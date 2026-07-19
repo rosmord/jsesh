@@ -33,7 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
-import jsesh.editor.actions.group.CenterGroupAction;
+import jsesh.ui.editor.actions.group.CenterGroupAction;
 
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -47,13 +47,13 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
-import jsesh.editor.ActionsID;
-import jsesh.editor.actions.sign.EditorSignRotationAction;
-import jsesh.editor.actions.sign.EditorSignSizeAction;
-import jsesh.editor.actions.text.AddPhilologicalMarkupAction;
-import jsesh.editor.actions.text.EditorCartoucheAction;
-import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.editor.actions.text.EditorSignShadeAction;
+import jsesh.ui.editor.ActionsID;
+import jsesh.ui.editor.actions.sign.EditorSignRotationAction;
+import jsesh.ui.editor.actions.sign.EditorSignSizeAction;
+import jsesh.ui.editor.actions.text.AddPhilologicalMarkupAction;
+import jsesh.ui.editor.actions.text.EditorCartoucheAction;
+import jsesh.ui.editor.actions.text.EditorShadeAction;
+import jsesh.ui.editor.actions.text.EditorSignShadeAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.edit.AddToGlossaryAction;

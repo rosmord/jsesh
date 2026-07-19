@@ -45,7 +45,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * Find an element action.

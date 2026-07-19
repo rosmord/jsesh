@@ -35,8 +35,8 @@ package jsesh.jhotdraw.preferences.application.model;
 
 import java.util.prefs.Preferences;
 
-import jsesh.graphics.export.rtf.RTFExportGranularity;
-import jsesh.graphics.export.rtf.RTFExportGraphicFormat;
+import jsesh.ui.export.rtf.RTFExportGranularity;
+import jsesh.ui.export.rtf.RTFExportGraphicFormat;
 
 public final class ExportPreferences implements Cloneable {
 

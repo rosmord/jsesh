@@ -36,7 +36,7 @@ package jsesh.render.draw;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import jsesh.editor.JMDCEditor;
+import jsesh.ui.editor.JMDCEditor;
 
 /**
  * A small test for debugging placement when signs are scaled (or when the

@@ -16,19 +16,19 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 
 import jsesh.Version;
-import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.editor.actions.text.EditorCartoucheAction;
-import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.glossary.GlossaryManager;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResourcesBuilder;
+import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.ui.editor.actions.text.EditorCartoucheAction;
+import jsesh.ui.editor.actions.text.EditorShadeAction;
+import jsesh.ui.glossary.GlossaryManager;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.HieroglyphFamily;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.preferences.application.model.ApplicationUIPreferences;
 import jsesh.platform.resources.ResourcesManager;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 import net.miginfocom.layout.PlatformDefaults;
 
 /**

@@ -4,10 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.HieroglyphResourcesBuilder;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResourcesBuilder;
 import jsesh.render.style.JSeshStyle;
-import jsesh.editor.JSeshStyleReference;
+import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.ui.JSearchFolderPanel;
 import jsesh.search.ui.SearchPanelFactory;

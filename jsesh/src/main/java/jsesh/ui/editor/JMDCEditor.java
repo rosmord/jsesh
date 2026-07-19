@@ -1,0 +1,1021 @@
+/*
+ Copyright Serge Rosmorduc
+ contributor(s) : Serge J. P. Thomas for the fonts
+ serge.rosmorduc@qenherkhopeshef.org
+
+ This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
+
+ This software is governed by the CeCILL license under French law and
+ abiding by the rules of distribution of free software.  You can  use, 
+ modify and/ or redistribute the software under the terms of the CeCILL
+ license as circulated by CEA, CNRS and INRIA at the following URL
+ "http://www.cecill.info". 
+
+ As a counterpart to the access to the source code and  rights to copy,
+ modify and redistribute granted by the license, users are provided only
+ with a limited warranty  and the software's author,  the holder of the
+ economic rights,  and the successive licensors  have only  limited
+ liability. 
+
+ In this respect, the user's attention is drawn to the risks associated
+ with loading,  using,  modifying and/or developing or reproducing the
+ software by the user in light of its specific status of free software,
+ that may mean  that it is complicated to manipulate,  and  that  also
+ therefore means  that it is reserved for developers  and  experienced
+ professionals having in-depth computer knowledge. Users are therefore
+ encouraged to load and test the software's suitability as regards their
+ requirements in conditions enabling the security of their systems and/or 
+ data to be ensured and,  more generally, to use and operate it in the 
+ same conditions as regards security. 
+
+ The fact that you are presently reading this means that you have had
+ knowledge of the CeCILL license and that you accept its terms.
+ */
+/*
+* Created on 30 sept. 2004 by rosmord* 
+* NOTE I have noticed a bad behaviour for the focus with 
+* linux, using fvwm as window manager (and focus followmouse), and jdk1.5.0
+* The problem doesn't appear with jdk1.4, nor with gnome and its default WM, 
+* even in focus followmouse mode. So I don't know if this is java 1.5 or 
+* fvwm's fault, I suppose it will eventually be solved.  
+* See jsesh.misc.tests.TestFocus for a simple example. 
+**/
+package jsesh.ui.editor;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.logging.Logger;
+
+import javax.swing.Action;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+
+import org.qenherkhopeshef.observable.ObservableEventListener;
+
+import jsesh.ui.clipboard.JSeshPasteFlavors;
+import jsesh.ui.clipboard.MDCModelTransferable;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResourcesBuilder;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
+import jsesh.ui.editor.actions.text.EditorShadeAction;
+import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
+import jsesh.parser.MDCSyntaxError;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
+import jsesh.model.AlphabeticText;
+import jsesh.model.ListOfTopItems;
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItemList;
+import jsesh.model.operations.ModelOperation;
+import jsesh.model.unicode.MdCToUnicodeConverter;
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.draw.ViewDrawer;
+import jsesh.render.view.MDCView;
+import jsesh.render.view.ViewBuilder;
+import jsesh.ui.widgets.shadingMenuBuilder.ShadingMenuBuilder;
+import jsesh.platform.graphics.GraphicsUtils;
+import jsesh.ui.widgets.utils.MDCIconFactory;
+import jsesh.document.HieroglyphicTextModel;
+import jsesh.document.MdCSearchQuery;
+import jsesh.document.caret.MDCCaret;
+
+/**
+ * An editor for Manuel de codage text. If you want to manipulate the text, you
+ * may do it through the workflow object.
+ *
+ * The names for the available actions are defined as constants in  
+ * {@link MDCEditorKeyManager}
+ *
+ * @author rosmord
+ */
+public class JMDCEditor extends JPanel {
+
+    // LOGGER
+    private static final Logger LOGGER = Logger.getLogger(JMDCEditor.class.getName());
+    /**
+     * Bottom margin of the editor.
+     */
+    private static final int BOTTOM_MARGIN = 5;
+
+    /**
+     * Strategy to draw a view. (we have just decided to build the view builder
+     * on demand, and not to keep it.).
+     */
+    protected ViewDrawer drawer;
+
+    /**
+     * The current view we maintain.
+     */
+    private MDCView documentView;
+
+    /**
+     * Display scale for this window.
+     */
+    private double scale; // Should be a property !
+
+    /**
+     * Basic Information about drawing : fonts to use, line width, etc...
+     *
+     */
+    JMDCEditorWorkflow workflow;
+
+    /**
+     * The object responsible for building transferable for the clipboard.
+     */
+    MDCModelTransferableBroker mdcModelTransferableBroker = new SimpleMDCModelTransferableBroker();
+
+    /**
+     * States that the caret has changed since last redraw.
+     * <p>
+     * The purpose of this variable is to ensure that scrolls to the caret
+     * position are only done <em>after</em> view updates.
+     */
+    private boolean caretChanged = true;
+
+    /**
+     * Is this editor editable or read-only ?
+     */
+    private boolean editable = true;
+
+    /**
+     * Shareable style reference for this editor.
+     */
+    private JSeshStyleReference styleReference;
+
+    /**
+     * The source for hieroglyphic signs used by this editor.
+     */
+    private HieroglyphShapeRepository hieroglyphShapeRepository;
+
+    // /**
+    // * The code to draw the glyphs from the hieroglyphShapeRepository.
+    // *
+    // * Note: should probably be either merged or moved to local variables.
+    // */
+    // private HieroglyphDrawer hieroglyphsDrawer;
+
+    /**
+     * Do we want to draw page limits?
+     */
+    private boolean drawLimits = false;
+
+    /**
+     * Debugging of view placement.
+     * Will draw a red rectangle around each quadrat.
+     */
+    private boolean debug = false;
+
+    // ------------- Event listeners -----------------
+
+    /**
+     * Updates the view - will receive events asking for view updates.
+     */
+    private MDCViewUpdater viewUpdater;
+
+    /**
+     * Edition events (mouse and keyboard events)
+     * This is in fact a controller.
+     * 
+     * N.B. We could separate mouse and focus events.
+     */
+    private final MDCEditorMouseAndFocusController mouseAndFocusController;
+
+    /**
+     * Listener for model changes.
+     * Classical MVC implementation.
+     */
+    private final JMDCModelEditionListener mdcModelEditionListener;
+
+    /**
+     * Listener for changes in the style reference.
+     */
+    private PropertyChangeListener styleChangeListener = evt -> invalidateView();
+
+    private ObservableEventListener<HieroglyphShapeRepositoryChangedEvent> shapeRepositoryListener = evt -> invalidateView();
+
+    /**
+     * Icon factory for building menus.
+     * 
+     * <p> Currently specific to each instance, which is a small waste of memory.
+     */
+    private MDCIconFactory mdcIconFactory;
+
+    
+
+    public JMDCEditor() {
+        this(new HieroglyphicTextModel(), JSeshStyle.DEFAULT,
+                HieroglyphResourcesBuilder.buildEmbedded());
+    }
+
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyle style, HieroglyphResources fontKit) {
+        this(data, new JSeshStyleReference(style),fontKit);
+    }
+
+    /**
+     * Full constructor for the editor, which lets the user choose every possible
+     * parameter.
+     * 
+     * @param data                  the original text to edit.
+     * @param styleReference        a reference to the style (which allows sharing
+     *                              styles among editors and synchronizing them ).
+     * @param hieroglyphsDrawer     source for hieroglyphs
+     * @param possibilityRepository the system which will propose signs codes when a
+     *                              transliteration is typed. It uses both the
+     *                              hieroglyph
+     *                              database and the glossary.
+     */
+    public JMDCEditor(HieroglyphicTextModel data, JSeshStyleReference styleReference,
+           HieroglyphResources hieroglyphToolkit) {
+        LOGGER.info(() -> "Creating new JMDCEditor");
+        workflow = new JMDCEditorWorkflow(data, hieroglyphToolkit.possibilityRepository());
+        this.hieroglyphShapeRepository = hieroglyphToolkit.hieroglyphShapeRepository();
+        this.setStyleReference(styleReference);
+        this.setBackground(Color.WHITE);
+        this.setScale(2.0);
+
+        mdcIconFactory = new MDCIconFactory(hieroglyphShapeRepository);
+        mdcModelEditionListener = new JMDCModelEditionListener();
+        workflow.addMDCModelListener(mdcModelEditionListener);
+        setFocusable(true);        
+        drawer = new ViewDrawer(); // Is there any need to keep it in memory?
+        viewUpdater = new MDCViewUpdater(this);
+        mouseAndFocusController = new MDCEditorMouseAndFocusController();
+        mouseAndFocusController.attachTo(this);
+        documentView = recomputeDocumentView();
+        new MDCEditorKeyManager(mdcIconFactory).addActionsTo(this);
+
+    }
+
+    /**
+     * Changes the hieroglyphic text model containing the text to edit.
+     * 
+     * @param hieroglyphicTextModel
+     */
+    public void setHieroglyphiTextModel(
+            HieroglyphicTextModel hieroglyphicTextModel) {
+        workflow.setHieroglyphicTextModel(hieroglyphicTextModel);
+        invalidateView();
+    }
+
+    public void addCodeChangeListener(MDCModelEditionListener l) {
+        workflow.addMDCModelListener(l);
+    }
+
+    public void deleteCodeChangeListener(MDCModelEditionListener l) {
+        workflow.deleteCodeChangeListener(l);
+    }
+
+    /**
+     * Returns the style reference, which can be shared with other components.
+     * 
+     * @return the styleReference
+     */
+    public JSeshStyleReference getStyleReference() {
+        return styleReference;
+    }
+
+    /**
+     * Sets the style reference for this editor. This reference can be shared with
+     * other components, which will then share the same style.
+     * 
+     * @param styleReference the styleReference to set
+     */
+
+    public void setStyleReference(JSeshStyleReference styleReference) {
+        Objects.requireNonNull(styleReference);
+        // If the operation doesn't change anything, do nothing.
+        if (this.styleReference == styleReference) {
+            return;
+        }
+        // Now, remove the previous configuration and install the new one.
+        if (this.styleReference != null) {
+            this.styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        this.styleReference = styleReference;
+        // Don't register a listener if the component can't be displayed.
+        if (isDisplayable()) {
+            this.styleReference.addPropertyChangeListener(styleChangeListener);
+        }
+        invalidateView();
+    }
+
+    /**
+     * Returns the current style for this editor.
+     * 
+     * @return
+     */
+    public JSeshStyle getJSeshStyle() {
+        return styleReference.getStyle();
+    }
+
+    /**
+     * Sets the style for this editor.
+     * If the style reference is shared, it will change the style for all editors
+     * using the same reference.
+     * 
+     * @param style the style to set.
+     */
+    public void setJSeshStyle(JSeshStyle style) {
+        styleReference.setStyle(style);
+    }
+
+    /**
+     * Returns the code buffer associated with this editor.
+     *
+     * @return the code buffer associated with this editor.
+     */
+    public String getCodeBuffer() {
+        return workflow.getCurrentCode().toString();
+    }
+
+    /**
+     * @return the model.
+     *
+     */
+    public HieroglyphicTextModel getHieroglyphicTextModel() {
+        return workflow.getHieroglyphicTextModel();
+    }
+
+    /**
+     * returns the cursor associated with this object, or null if none. The
+     * simple displayer has no cursor. Only its editor subclass has.
+     *
+     * @return the caret.
+     */
+    protected MDCCaret getMDCCaret() {
+        return workflow.getCaret();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        if (getHieroglyphicTextModel() == null) {
+            return new Dimension(600, 600);
+        } else {
+            MDCView v = getView();
+            if (v.getWidth() == 0 || v.getHeight() == 0) {
+                v.setWidth(14);
+                v.setHeight(14);
+            }
+            return new Dimension((int) (scale * v.getWidth()), BOTTOM_MARGIN
+                    + (int) (scale * v.getHeight()));
+        }
+    }
+
+    /**
+     * @return the scale
+     *
+     */
+    public double getScale() {
+        return scale;
+    }
+
+    /**
+     * Returns a MDCView of the current hieroglyphicTextModel.
+     * Build it if necessary.
+     *
+     * @return the view for the model.
+     */
+    public MDCView getView() {
+        return documentView;
+    }
+
+    private MDCView recomputeDocumentView() {
+        documentView = new ViewBuilder().buildView(
+                getHieroglyphicTextModel().getModel(),
+                getRenderContext(),
+                buildTechRenderContext());
+        revalidate();
+        return documentView;
+    }
+
+    protected JSeshTechRenderContext buildTechRenderContext() {
+        return JSeshTechRenderContext.buildForComponent(this);
+    }
+
+    /**
+     * Return the workflow, which allows manipulation of the underlaying
+     * hieroglyphicTextModel.
+     *
+     * @return Returns the workflow.
+     */
+    public JMDCEditorWorkflow getWorkflow() {
+        return workflow;
+    }
+
+    /**
+     * Moves cursor to screen position p.
+     *
+     * @param p a point in screen position.
+     */
+    protected void moveCursorToMouse(Point p) {
+
+        Point clickPoint = (Point) p.clone();
+        // the display scale is none of the drawer's business (currently, that
+        // is.)
+        clickPoint.x = (int) (clickPoint.x / getScale());
+        clickPoint.y = (int) (clickPoint.y / getScale());
+        // drawer.getPositionForPoint(getView(), clickPoint);
+        MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
+                getJSeshStyle());
+        if (pos != null) {
+            workflow.setCursor(pos);
+        }
+    }
+
+    /**
+     * Moves mouse to screen position p.
+     *
+     * @param p
+     */
+    protected void moveMarkToMouse(Point p) {
+        Point clickPoint = (Point) p.clone();
+        // the display scale is none of the drawer's business (currently, that
+        // is.)
+        clickPoint.x = (int) (clickPoint.x / getScale());
+        clickPoint.y = (int) (clickPoint.y / getScale());
+        // drawer.getPositionForPoint(getView(), clickPoint);
+        MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
+                getJSeshStyle());
+        workflow.setMark(pos);
+    }
+
+    /**
+     * Preliminary operation for drawing this component.
+     *
+     * @param g
+     */
+    protected void drawBaseComponent(Graphics g) {
+        super.paintComponent(g);
+        Insets insets = getInsets();
+        g.clipRect(insets.left, insets.top, getWidth() - insets.left
+                - insets.right, getHeight() - insets.top - insets.bottom);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        drawBaseComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        GraphicsUtils.antialias(g2d);
+        g2d.scale(scale, scale);
+
+        // Either there are no page format specification (in which case there is
+        // only
+        // one infinitie page).
+        // Used for debugging purposes.
+        GeometrySpecification pageLayout = getJSeshStyle().geometry();
+        if (drawLimits && pageLayout.hasPageFormat()) {
+            // IMPROVE THIS...
+            g2d.setColor(Color.RED);
+            g2d.draw(pageLayout.getDrawingRectangle());
+        }
+
+        drawer.setClip(true);
+
+        drawer.drawViewAndCursor(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
+
+        if (caretChanged) {
+            // Disarm caret change updates.
+            caretChanged = false;
+            // Show the cursor.
+            Rectangle r = getCursorRectangle();
+            if (!g.getClipBounds().contains(r)) {
+                r.height += 4;
+                r.width += 4;
+                r.x -= 2;
+                r.y -= 2;
+                SwingUtilities.invokeLater(new VisibilityScroller(r));
+            }
+        }
+
+    }
+
+    public java.util.List<MDCPosition> doSearch(MdCSearchQuery query) {
+        return getHieroglyphicTextModel().doSearch(query);
+    }
+
+    /**
+     * Gets original line number coordinates of a certain point in the text.
+     * <p>
+     * If the document contains line-number indications, like (vo, 3) which
+     * reference the actual source document (ostracon, papyrus...), this
+     * function will return the coordinates for a given point in text.
+     *
+     * @param position technical position in the JSesh document.
+     * @return the position in the original document, or the empty string if
+     *         none is found.
+     */
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        return getHieroglyphicTextModel().getOriginalDocumentCoordinates(position);
+    }
+
+    /**
+     * insert a line number at current insert position.
+     *
+     * @param line
+     */
+    public void insertLineNumber(String line) {
+        workflow.insertLineNumber(line);
+    }
+
+    /*
+     * Auxiliary class, used to redraw the window when the cursor is out of the
+     * visible frame.
+     */
+    private class VisibilityScroller implements Runnable {
+
+        Rectangle r;
+
+        public VisibilityScroller(Rectangle r) {
+            this.r = r;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Runnable#run()
+         */
+        public void run() {
+            scrollRectToVisible(r);
+            repaint();
+        }
+    }
+
+    /*
+     * Prints the content of this editor.
+     * <p> Mostly obsolete by now. It's way better to export to specific graphical
+     * formats.
+     * 
+     * @see javax.swing.JComponent#print(java.awt.Graphics)
+     */
+    public void print(Graphics g) {
+        // Probably: build a drawer here.
+        ViewDrawer printDrawer = new ViewDrawer();
+        printDrawer.setClip(false);
+        printDrawer.draw((Graphics2D) g, getRenderContext(), buildTechRenderContext(), getView());
+    }
+
+    /**
+     * @param b
+     *
+     */
+    public void setDebug(boolean b) {
+        debug = b;
+    }
+
+    /**
+     * Changes the scale of the drawing.
+     * Doesn't touch the style, but pretends we have zoomed in or out.
+     * 
+     * @param d
+     */
+    public void setScale(double d) {
+        if (d > 0.0) {
+            scale = d;
+            repaint();
+            revalidate();
+        }
+    }
+
+    public void setInsertPosition(int insertPosition) {
+        // TODO : this is WAAYYY too convoluted.
+        MDCPosition mdcPosition = getHieroglyphicTextModel().buildPosition(insertPosition);
+        getWorkflow().setCursor(mdcPosition);
+    }
+
+    /**
+     * @return the current insertion position.
+     */
+    public int getInsertPositiont() {
+        return workflow.getCaret().getInsert().getIndex();
+    }
+
+    /**
+     * Returns a rectangle describing the current cursor position.
+     *
+     * The rectangle coordinates are given in screen coordinates, not model
+     * coordinates.
+     *
+     * @return a rectangle describing the current cursor position.
+     */
+    protected Rectangle getCursorRectangle() {
+        Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
+                .getCaret().getInsert().getPosition(),
+                getJSeshStyle());
+        int w = (int) (r1.getWidth() * getScale());
+        int h = (int) (r1.getHeight() * getScale());
+        if (w < 2) {
+            w = 2;
+        }
+        if (h < 2) {
+            h = 2;
+        }
+        Rectangle r = new Rectangle((int) (r1.getX() * getScale()),
+                (int) (r1.getY() * getScale()), w, h);
+        return r;
+    }
+
+    /**
+     * Chooses between lines and columns for main text. Should change
+     * orientation in sub zones when a zone system is created.
+     *
+     * @param orientation
+     */
+    public void setTextOrientation(TextOrientation orientation) {
+        setJSeshStyle(getJSeshStyle().copy().options(opts -> opts.textOrientation(orientation)).build());
+    }
+
+    /**
+     * Choose between right-to-left and left-to-right text direction.
+     *
+     * @param direction the new TextDirection
+     */
+    public void setTextDirection(TextDirection direction) {
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.textDirection(direction)).build());
+    }
+
+    /**
+     * Returns the current text orientation.
+     * <p>
+     * Note: currently, an editor has a single text orientation. We could consider
+     * having
+     * a contextual text orientation depending on the position of the cursor.
+     * 
+     * @return
+     */
+    public TextOrientation getTextOrientation() {
+        return getJSeshStyle().options().textOrientation();
+    }
+
+    /**
+     * Returns the current text direction.
+     * 
+     * <p>
+     * Note: currently, an editor has a single text direction. We could consider
+     * having
+     * a contextual text direction depending on the position of the cursor.
+     *
+     * @return current TextDirection
+     */
+    public TextDirection getTextDirection() {
+        return getJSeshStyle().options().textDirection();
+    }
+
+    public void invalidateView() {
+        documentView = recomputeDocumentView();
+        revalidate();
+        repaint();
+    }
+
+    public char getCurrentSeparator() {
+        return getWorkflow().getCurrentSeparator();
+    }
+
+    private class JMDCModelEditionListener implements MDCModelEditionListener {
+
+        private static final String CLASS_FULL_NAME = "jsesh.ui.editor.JMDCEditor";
+
+        @Override
+        public void textEdited(ModelOperation op) {
+            op.accept(viewUpdater);
+            LOGGER.fine(() -> "Text edited");
+            caretChanged = true;
+            // FIXME : only call revalidate if the dimensions have changed.
+            revalidate();
+            repaint();
+        }
+
+        @Override
+        public void textChanged() {
+            LOGGER.fine(()->"Text changed");
+            invalidateView();
+        }
+
+        @Override
+        public void caretChanged(MDCCaret caret) {
+            LOGGER.fine(()->"Caret changed");
+            caretChanged = true;
+            repaint();
+        }
+
+        @Override
+        public void codeChanged(StringBuffer code) {
+            // NO-OP.
+        }
+
+        @Override
+        public void separatorChanged() {
+            // NO-OP
+        }
+
+        @Override
+        public void focusGained(StringBuffer code) {
+            // NO-OP.
+        }
+
+        @Override
+        public void focusLost() {
+            // NO-OP.
+        }
+    }
+
+    /**
+     * Paste the content of the clipboard into this editor, at the insert
+     * position.
+     *
+     * <p>
+     * Currently supports cut and paste from other JSesh editors, and plain text
+     * from other editors. It might be interesting to propose some kind of
+     * switch to paste plain text as Manuel de Codage code later.
+     *
+     * <p>
+     * Other project : we should also support html in a basic way.
+     */
+    public void paste() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        try {
+            Transferable t = clipboard.getContents(this);
+            if (t != null) {
+                if (t.isDataFlavorSupported(JSeshPasteFlavors.ListOfTopItemsFlavor)) {
+                    ListOfTopItems l = (ListOfTopItems) t
+                            .getTransferData(JSeshPasteFlavors.ListOfTopItemsFlavor);
+                    workflow.insertElements(l);
+                } else if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                    String string = (String) t
+                            .getTransferData(DataFlavor.stringFlavor);
+                    workflow.insertElement(new AlphabeticText('l', string));
+                }
+            }
+        } catch (IllegalStateException exception) {
+            exception.printStackTrace();
+        } catch (UnsupportedFlavorException exception) {
+            exception.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Copy the selected area in this editor into the clipboard.
+     */
+    public void copy() {
+        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        MDCModelTransferable transferable = mdcModelTransferableBroker
+                .buildTransferable(top, getRenderContext());
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(transferable, null);
+    }
+
+    public void copy(DataFlavor[] dataFlavors) {
+        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        MDCModelTransferable transferable = mdcModelTransferableBroker
+                .buildTransferable(top, getRenderContext(), dataFlavors);
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(transferable, null);
+
+    }
+
+    /**
+     * Copy the selection as plain Unicode text on the clipboard.
+     */
+    public void copyAsUnicode() {
+        copyAsUnicodeImpl(false);
+    }
+
+    /**
+     * Copy the selection as plain Unicode text on the clipboard.
+     */
+    public void copyAsUnicodeWithFormatControls() {
+        copyAsUnicodeImpl(true);
+    }
+
+    private void copyAsUnicodeImpl(boolean useFormatChars) {
+        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
+        converter.setIncludeFormatControlChars(useFormatChars);
+        String toCopy = converter.convertToPlainUnicode(top);
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(toCopy), null);
+    }
+
+    /**
+     * Cut the selected area.
+     */
+    public void cut() {
+        copy();
+        getWorkflow().removeSelectedText();
+    }
+
+    /**
+     * Sets a broker will be used to manage copy/paste operations.
+     *
+     * <p>
+     * A default broker is provided. It uses default values, and is not suitable for
+     * customization.
+     * 
+     * <p>
+     * The JSesh application uses its own broker, which is initialized with the
+     * application preferences.
+     * 
+     * TODO : provide a factory method which will allow one to share preferences in
+     * a consistent way when one wants it.
+     * 
+     * @param mdcModelTransferableBroker The mdcModelTransferableBroker to set.
+     */
+    public void setMdcModelTransferableBroker(
+            MDCModelTransferableBroker mdcModelTransferableBroker) {
+        this.mdcModelTransferableBroker = mdcModelTransferableBroker;
+    }
+
+    public void clearText() {
+        getWorkflow().clear();
+    }
+
+    /**
+     * Sets the content of this element, giving it a text in manuel de codage
+     * format.
+     *
+     * @param mdcText
+     * @throws RuntimeException encapsulating a MDCSyntaxError
+     */
+    public void setMDCText(String mdcText) {
+        try {
+            getWorkflow().setMDCCode(mdcText);
+            invalidateView();
+        } catch (MDCSyntaxError e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getMDCText() {
+        return getWorkflow().getMDCCode();
+    }
+
+    /**
+     * @return the editable
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+
+    /**
+     * @param editable the editable to set
+     */
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public void showShadingPopup() {
+        ShadingMenuBuilder menuBuilder = new ShadingMenuBuilder() {
+            protected Action buildAction(int shadingCode, String mdcLabel) {
+                return new EditorShadeAction(JMDCEditor.this, shadingCode,
+                        mdcLabel, mdcIconFactory);
+            }
+        };
+        JPopupMenu shadingPopup = menuBuilder.buildPopup();
+
+        // Create specific actions for this popup ?????
+        // (the labels for these one is too long).
+        // P.S. Only shade zone seems necessary. Unshade is not as useful.
+        shadingPopup.add(getActionMap().get(ActionsID.SHADE_ZONE));
+        shadingPopup.add(getActionMap().get(ActionsID.UNSHADE_ZONE));
+
+        Rectangle r = getCursorRectangle();
+
+        shadingPopup.show(this, (int) r.getCenterX(), (int) r.getCenterY());
+
+    }
+
+    /**
+     * Has the current document some unsaved changes ?
+     *
+     * @return
+     */
+    public boolean mustSave() {
+        return workflow.mustSave();
+    }
+
+    public boolean hasSelection() {
+        return workflow.getCaret().hasSelection();
+    }
+
+    /**
+     * Insert one sign with a given code.
+     *
+     * @param code
+     */
+    public void insert(String code) {
+        workflow.addSign(code);
+    }
+
+    /**
+     * Should <em>all</em> small signs be vertically centered
+     *
+     * @param center
+     */
+    public void setSmallSignsCentered(boolean center) {
+        setJSeshStyle(getJSeshStyle().copy().options(o -> o.smallSignCentered(center)).build());
+    }
+
+    /**
+     * are <em>all</em> small signs be vertically centered
+     *
+     * @return true if it is the case.
+     */
+    public boolean isSmallSignsCentered() {
+        return getJSeshStyle().options().smallSignCentered();
+    }
+
+    /**
+     * Temporary method for signs justification.
+     *
+     * @return true if lines are justified.
+     */
+    public boolean isJustified() {
+        return getJSeshStyle().options().justified();
+    }
+
+    public TopItemList getSelection() {
+        return workflow.getSelectionAsTopItemList();
+    }
+
+    /**
+     * Returns the current render context.
+     * 
+     * @return
+     */
+    public JSeshRenderContext getRenderContext() {
+        return new JSeshRenderContext(getJSeshStyle(), hieroglyphShapeRepository);
+    }
+
+    /**
+     * Lifecycle method to ensure internal observers don't create
+     * memory leaks.
+     * 
+     */
+    @Override
+    public void addNotify() {
+        LOGGER.info(() -> "Calling addNotify on component " + this);
+        super.addNotify();
+        // Re-register listeners
+        if (styleReference != null) {
+            // Note that the version of addPropertyChangeListener used by
+            // JSeshStyleReference doesn't create duplicates
+            // so we don't need to check if the listener is already registered.
+            styleReference.addPropertyChangeListener(styleChangeListener);
+        }
+        if (hieroglyphShapeRepository != null) {
+            LOGGER.info(() -> "registering listener " + this);
+            hieroglyphShapeRepository.addListener(shapeRepositoryListener);
+        }
+    }
+
+    /**
+     * * Lifecycle method (don't call it!) to ensure internal observers don't create
+     * memory leaks.
+     */
+    @Override
+    public void removeNotify() {
+        LOGGER.info("Calling removeNotify on component " + this);
+        // Unregister listeners
+        if (styleReference != null) {
+            styleReference.removePropertyChangeListener(styleChangeListener);
+        }
+        if (hieroglyphShapeRepository != null) {
+            LOGGER.info(() -> "unregistering listener " + this);
+            hieroglyphShapeRepository.removeListener(shapeRepositoryListener);
+        }
+        super.removeNotify();
+    }
+
+   
+
+    /**
+     * Draw quadrat limits for debugging purposes.
+     * @param drawLimits true if we want to draw the quadrats limits, false otherwise.
+     */
+    public void setDrawLimits(boolean drawLimits) {
+        this.drawLimits = drawLimits;
+        repaint();
+    }   
+}

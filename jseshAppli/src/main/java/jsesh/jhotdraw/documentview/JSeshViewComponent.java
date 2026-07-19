@@ -48,11 +48,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import jsesh.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResources;
 import jsesh.render.style.JSeshStyle;
 import jsesh.document.HieroglyphicTextModel;
-import jsesh.editor.JMDCEditor;
-import jsesh.editor.JSeshStyleReference;
+import jsesh.ui.editor.JMDCEditor;
+import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.render.context.JSeshRenderContext;
 

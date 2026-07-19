@@ -40,7 +40,7 @@ import javax.swing.event.AncestorListener;
 
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.units.LengthUnit;
+import jsesh.ui.widgets.units.LengthUnit;
 import net.miginfocom.swing.MigLayout;
 
 /**

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
-import jsesh.graphics.export.html.HTMLExporter;
+import jsesh.ui.export.html.HTMLExporter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;

@@ -11,7 +11,7 @@ import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.signimportdialog.ExternalSignImporter;
+import jsesh.ui.widgets.signimportdialog.ExternalSignImporter;
 
 /**
  * Add a new sign in the user's own hieroglyphic folder.

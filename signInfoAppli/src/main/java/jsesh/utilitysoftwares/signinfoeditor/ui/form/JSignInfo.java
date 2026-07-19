@@ -35,7 +35,7 @@ public class JSignInfo extends JPanel {
     private JCheckBox alwaysDisplayCheckBox;
     private JList<String> availableTagList;
     private JButton copyPreviousSignTagsButton;
-    private jsesh.editor.JMDCEditor descriptionField;
+    private jsesh.ui.editor.JMDCEditor descriptionField;
     private JLabel jLabel1;
     private JLabel jLabel2;
     private JLabel jLabel7;
@@ -116,7 +116,7 @@ public class JSignInfo extends JPanel {
         partRemoveButton = new JButton();
         jPanel3 = new JPanel();
         jScrollPane6 = new JScrollPane();
-        descriptionField = new jsesh.editor.JMDCEditor();
+        descriptionField = new jsesh.ui.editor.JMDCEditor();
         langSelectCB = new JComboBox<>();
         jLabel7 = new JLabel();
         jLabel8 = new JLabel();
@@ -408,7 +408,7 @@ public class JSignInfo extends JPanel {
 		return variantTable;
 	}
     
-	public jsesh.editor.JMDCEditor getDescriptionField() {
+	public jsesh.ui.editor.JMDCEditor getDescriptionField() {
 		return descriptionField;
 	}
 

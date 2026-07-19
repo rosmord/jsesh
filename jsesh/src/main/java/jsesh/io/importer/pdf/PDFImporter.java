@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import jsesh.graphics.export.pdfExport.PDFExportConstants;
+import jsesh.ui.export.pdfExport.PDFExportConstants;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;

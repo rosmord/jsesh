@@ -5,7 +5,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import jsesh.graphics.export.rtf.RTFExporterPresenter;
+import jsesh.ui.export.rtf.RTFExporterPresenter;
 import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.constants.ExportType;

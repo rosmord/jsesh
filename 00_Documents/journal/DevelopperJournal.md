@@ -223,6 +223,13 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-19
+
+- still trying to clean up packages dependencies in module jsesh. Lots of semi-automatic reorganisation. Will now:
+  - [ ] move back jsesh.ui.defaults to jsesh.defaults : it's not ui ;
+  - [ ] move glossary package
+  - [ ] perhaps introduce an interface for `PossibilityRepository` 
+
 ### 2026-07-18
 
 LLM-assisted reorganisation of packages in the `jsesh` module, documented in [[package_refactoring]].

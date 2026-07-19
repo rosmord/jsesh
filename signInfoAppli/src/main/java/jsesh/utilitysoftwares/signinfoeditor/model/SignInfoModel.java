@@ -11,7 +11,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import jsesh.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResources;
 import jsesh.glyphs.data.SignDescriptionConstants;
 import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;

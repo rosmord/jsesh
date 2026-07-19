@@ -6,14 +6,14 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
-import jsesh.editor.JMDCEditor;
+import jsesh.ui.editor.JMDCEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElement;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * A simple class for easy text addition.

@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
-import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.ui.defaults.UserFontDirectoryManager;
 import jsesh.render.style.FontSpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.tools.YODChoice;

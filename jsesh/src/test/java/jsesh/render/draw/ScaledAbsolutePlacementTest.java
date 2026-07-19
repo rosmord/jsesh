@@ -39,7 +39,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.editor.JMDCEditor;
+import jsesh.ui.editor.JMDCEditor;
 
 /**
  * Demonstrate/test absolute positioning in a context where sign dimensions are

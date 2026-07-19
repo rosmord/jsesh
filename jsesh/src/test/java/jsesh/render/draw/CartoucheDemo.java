@@ -15,7 +15,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import jsesh.editor.JMDCEditor;
+import jsesh.ui.editor.JMDCEditor;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 

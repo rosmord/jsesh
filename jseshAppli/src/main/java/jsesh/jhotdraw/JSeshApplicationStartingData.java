@@ -33,10 +33,10 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.glossary.GlossaryManager;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.ui.glossary.GlossaryManager;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * Data which must be loaded before creating the GUI.

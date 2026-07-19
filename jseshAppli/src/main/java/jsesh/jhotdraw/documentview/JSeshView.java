@@ -57,12 +57,12 @@ import org.jhotdraw_7_6.gui.URIChooser;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 
-import jsesh.editor.ActionsID;
-import jsesh.editor.JMDCEditor;
-import jsesh.editor.MDCModelTransferableBroker;
+import jsesh.ui.editor.ActionsID;
+import jsesh.ui.editor.JMDCEditor;
+import jsesh.ui.editor.MDCModelTransferableBroker;
 import jsesh.document.events.TextEvent;
-import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.graphics.export.pdfExport.PDFExporter;
+import jsesh.ui.export.pdfExport.PDFExportPreferences;
+import jsesh.ui.export.pdfExport.PDFExporter;
 import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
@@ -181,7 +181,7 @@ public class JSeshView extends AbstractView {
         getActionMap().put(
                 PasteAction.ID,
                 getEditor().getActionMap().get(
-                        jsesh.editor.actions.edit.PasteAction.ID));
+                        jsesh.ui.editor.actions.edit.PasteAction.ID));
         // Fetch actions from the view editor.
         for (Object actionIDa : getEditor().getActionMap().keys()) {
             if (getActionMap().get(actionIDa) == null) {

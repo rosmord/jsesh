@@ -49,17 +49,17 @@ import javax.swing.Timer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResources;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
 import jsesh.document.MdCSearchQuery;
 import jsesh.document.caret.MDCCaret;
 import jsesh.document.events.TextEvent;
-import jsesh.editor.JMDCEditor;
-import jsesh.editor.MDCModelEditionAdapter;
+import jsesh.ui.editor.JMDCEditor;
+import jsesh.ui.editor.MDCModelEditionAdapter;
 import jsesh.glyphs.data.HieroglyphFamily;
 import jsesh.glyphs.tools.HieroglyphPictureBuilder;
-import jsesh.graphics.export.generic.ExportData;
+import jsesh.ui.export.generic.ExportData;
 import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
@@ -70,9 +70,9 @@ import jsesh.model.constants.TextOrientation;
 import jsesh.model.operations.ModelOperation;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.style.JSeshStyle;
-import jsesh.swing.hieroglyphicMenu.HieroglyphicMenu;
-import jsesh.swing.hieroglyphicMenu.HieroglyphicMenuListener;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenu;
+import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenuListener;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing

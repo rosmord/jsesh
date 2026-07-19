@@ -64,21 +64,21 @@ import org.jhotdraw_7_6.gui.filechooser.ExtensionFileFilter;
 import org.qenherkhopeshef.jhotdrawChanges.ActiveViewAwareApplication;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
-import jsesh.clipboard.MDCClipboardPreferences;
-import jsesh.clipboard.MDCModelTransferable;
-import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.MDCModelTransferableBroker;
-import jsesh.glossary.GlossaryManager;
-import jsesh.graphics.export.emf.EMFExporter;
-import jsesh.graphics.export.eps.EPSExporter;
-import jsesh.graphics.export.html.HTMLExporter;
-import jsesh.graphics.export.macpict.MacPictExporter;
-import jsesh.graphics.export.pdfExport.PDFExportPreferences;
-import jsesh.graphics.export.rtf.RTFExportPreferences;
-import jsesh.graphics.export.svg.SVGExporter;
-import jsesh.graphics.export.wmf.WMFExporter;
+import jsesh.ui.clipboard.MDCClipboardPreferences;
+import jsesh.ui.clipboard.MDCModelTransferable;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.ui.editor.JSeshStyleReference;
+import jsesh.ui.editor.MDCModelTransferableBroker;
+import jsesh.ui.glossary.GlossaryManager;
+import jsesh.ui.export.emf.EMFExporter;
+import jsesh.ui.export.eps.EPSExporter;
+import jsesh.ui.export.html.HTMLExporter;
+import jsesh.ui.export.macpict.MacPictExporter;
+import jsesh.ui.export.pdfExport.PDFExportPreferences;
+import jsesh.ui.export.rtf.RTFExportPreferences;
+import jsesh.ui.export.svg.SVGExporter;
+import jsesh.ui.export.wmf.WMFExporter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
@@ -123,7 +123,7 @@ import jsesh.model.constants.SymbolCodes;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.search.clientApi.CorpusSearchHit;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * JHotdraw-specific model for the application.

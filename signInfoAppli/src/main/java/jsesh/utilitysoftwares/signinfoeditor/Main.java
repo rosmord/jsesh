@@ -49,13 +49,13 @@ import javax.swing.SwingUtilities;
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.glossary.GlossaryManager;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.defaults.HieroglyphResourcesBuilder;
+import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.ui.glossary.GlossaryManager;
 import jsesh.glyphs.data.HieroglyphDatabaseFactory;
 import jsesh.glyphs.tools.HieroglyphPictureBuilder;
-import jsesh.swing.signPalette.PalettePresenter;
+import jsesh.ui.palette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;
 import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.SignInfoPresenter;

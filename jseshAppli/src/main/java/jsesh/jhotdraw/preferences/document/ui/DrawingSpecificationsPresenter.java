@@ -43,8 +43,8 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.resources.JSeshMessages;
-import jsesh.swing.units.LengthUnit;
-import jsesh.swing.units.UnitMediator;
+import jsesh.ui.widgets.units.LengthUnit;
+import jsesh.ui.widgets.units.UnitMediator;
 
 /**
  * Presenter for drawing preferences.

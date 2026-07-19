@@ -15,9 +15,8 @@ import java.io.StringReader;
 
 import javax.imageio.ImageIO;
 
-import jsesh.defaults.PredefinedFonts;
+import jsesh.ui.defaults.PredefinedFonts;
 import jsesh.render.style.JSeshStyle;
-import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.TopItemList;

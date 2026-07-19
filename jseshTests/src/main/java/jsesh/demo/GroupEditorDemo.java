@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import jsesh.defaults.PredefinedFonts;
+import jsesh.ui.defaults.PredefinedFonts;
 import jsesh.render.style.JSeshStyle;
-import jsesh.editor.JMDCField;
+import jsesh.ui.editor.JMDCField;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AbsoluteGroup;
@@ -20,7 +20,7 @@ import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.AbsoluteGroupBuilder;
-import jsesh.swing.groupEditor.GroupEditorDialog;
+import jsesh.ui.widgets.groupEditor.GroupEditorDialog;
 
 /**
  * Demonstration of the Group editor (mainly for development purposes).

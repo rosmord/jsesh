@@ -34,8 +34,8 @@
  */
 package jsesh.search.ui;
 
-import jsesh.defaults.HieroglyphResources;
-import jsesh.editor.JSeshStyleReference;
+import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.clientApi.SearchTarget;
 

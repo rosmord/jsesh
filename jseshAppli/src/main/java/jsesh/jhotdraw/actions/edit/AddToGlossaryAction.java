@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
-import jsesh.glossary.JGlossaryEditor;
+import jsesh.ui.glossary.JGlossaryEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.swing.utils.MDCIconFactory;
+import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * An action which adds the current selection to the so-called glossary.

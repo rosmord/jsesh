@@ -7,15 +7,15 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.jhotdraw_7_6.app.action.AbstractViewAction;
 
-import jsesh.editor.JMDCEditor;
-import jsesh.editor.actionsUtils.EditorAction;
+import jsesh.ui.editor.JMDCEditor;
+import jsesh.ui.editor.actionsUtils.EditorAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.model.AbsoluteGroup;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.swing.groupEditor.GroupEditorDialog;
+import jsesh.ui.widgets.groupEditor.GroupEditorDialog;
 
 /**
  * The action used to edit a group.

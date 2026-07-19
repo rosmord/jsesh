@@ -3,7 +3,7 @@
  * preferences.
  *
  * <p>
- * This package sits below both {@code jsesh.io} and {@code jsesh.editor}, and
+ * This package sits below both {@code jsesh.io} and {@code jsesh.ui.editor}, and
  * is shared by them. {@link jsesh.document.MDCDocument} is the aggregate a user
  * works on — a text, plus the file, encoding, dialect and
  * {@link jsesh.document.DocumentPreferences} that go with it.

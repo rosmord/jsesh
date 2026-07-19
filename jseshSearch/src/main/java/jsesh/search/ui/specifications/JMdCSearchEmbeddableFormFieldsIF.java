@@ -13,7 +13,7 @@ package jsesh.search.ui.specifications;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
-import jsesh.editor.JMDCField;
+import jsesh.ui.editor.JMDCField;
 
 /**
  * List of fields in JSearchEmbeddableForm.

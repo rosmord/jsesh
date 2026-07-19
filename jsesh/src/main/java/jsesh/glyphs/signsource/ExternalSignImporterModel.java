@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
 
-import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.ui.defaults.UserFontDirectoryManager;
 import jsesh.graphics.glyphs.bzr.BzrFormatException;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
