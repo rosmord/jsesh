@@ -14,7 +14,7 @@
  * </pre>
  *
  * <ul>
- * <li>{@link jsesh.defaults.PredefinedFonts} builds individual, self-contained
+ * <li>{@link jsesh.glyphs.fonts.PredefinedFonts} builds individual, self-contained
  *     fonts (standard JSesh font, GnuTrace font).
  * <li>{@link jsesh.defaults.HieroglyphResourcesBuilder} composes fonts (order
  *     matters: first added is searched first) plus the sign database and the

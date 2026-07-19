@@ -12,8 +12,8 @@ import javax.swing.SwingUtilities;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JMDCField;
-import jsesh.defaults.PredefinedFonts;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.TopItemList;

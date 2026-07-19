@@ -9,6 +9,7 @@ import jsesh.glossary.PossibilityRepositoryFromGlossary;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.utils.io.DirectoryHolder;
 
 /**
