@@ -45,7 +45,7 @@ import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.render.style.FontSpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.PossibilityRepository;
+import jsesh.glossary.PossibilityRepository;
 import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.JGlossaryEditor;
 import jsesh.graphics.export.html.HTMLExporter;

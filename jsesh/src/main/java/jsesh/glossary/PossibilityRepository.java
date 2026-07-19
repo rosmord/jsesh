@@ -31,17 +31,13 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor;
+package jsesh.glossary;
 
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import jsesh.glossary.GlossaryEntry;
-import jsesh.glossary.GlossaryEntryAdded;
-import jsesh.glossary.GlossaryEntryRemoved;
-import jsesh.glossary.Glossary;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.PossibilitiesList;
 import jsesh.glyphs.data.SignDescriptionConstants;

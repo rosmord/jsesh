@@ -1,7 +1,7 @@
 package jsesh.defaults;
 
 
-import jsesh.editor.PossibilityRepository;
+import jsesh.glossary.PossibilityRepository;
 import jsesh.glossary.Glossary;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.HieroglyphDatabaseFactory;

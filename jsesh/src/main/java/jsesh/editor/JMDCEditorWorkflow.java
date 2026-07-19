@@ -54,6 +54,7 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 import jsesh.document.events.NewTextEvent;
 import jsesh.document.events.TextEvent;
 import jsesh.document.events.TextOperationEvent;
+import jsesh.glossary.PossibilityRepository;
 import jsesh.glyphs.data.Possibility;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.SymbolCodes;

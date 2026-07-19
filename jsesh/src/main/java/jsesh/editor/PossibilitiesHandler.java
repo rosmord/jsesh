@@ -34,6 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.editor;
 
 import jsesh.glyphs.data.PossibilitiesList;
+import jsesh.glossary.PossibilityRepository;
 import jsesh.glyphs.data.Possibility;
 
 /**
