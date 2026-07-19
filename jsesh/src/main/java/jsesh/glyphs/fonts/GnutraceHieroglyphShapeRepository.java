@@ -16,9 +16,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
 
-import jsesh.graphics.glyphs.bzr.BzrFontReader;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
+import jsesh.glyphs.bzr.BzrFontReader;
+import jsesh.glyphs.bzr.simple.BzrSimpleFont;
+import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.shape.ShapeChar;

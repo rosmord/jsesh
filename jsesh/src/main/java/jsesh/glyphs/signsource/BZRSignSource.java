@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import jsesh.graphics.glyphs.bzr.BzrFontReader;
-import jsesh.graphics.glyphs.bzr.BzrFormatException;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
+import jsesh.glyphs.bzr.BzrFontReader;
+import jsesh.glyphs.bzr.BzrFormatException;
+import jsesh.glyphs.bzr.simple.BzrSimpleFont;
+import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 public class BZRSignSource implements SimpleSignSourceModel {

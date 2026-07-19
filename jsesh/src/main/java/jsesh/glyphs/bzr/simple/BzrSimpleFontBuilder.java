@@ -1,8 +1,8 @@
-package jsesh.graphics.glyphs.bzr.simple;
+package jsesh.glyphs.bzr.simple;
 
 import java.awt.geom.GeneralPath;
 
-import jsesh.graphics.glyphs.bzr.BzrFontBuilder;
+import jsesh.glyphs.bzr.BzrFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 /**

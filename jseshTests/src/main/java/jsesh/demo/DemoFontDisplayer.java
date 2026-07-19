@@ -18,10 +18,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import jsesh.graphics.glyphs.bzr.BzrFontReader;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.graphics.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.utils.swing.GraphicsUtils;
+import jsesh.glyphs.bzr.BzrFontReader;
+import jsesh.glyphs.bzr.simple.BzrSimpleFont;
+import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 /**

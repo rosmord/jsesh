@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.bzr.simple;
+package jsesh.glyphs.bzr.simple;
 
 import jsesh.glyphs.shape.ShapeChar;
 

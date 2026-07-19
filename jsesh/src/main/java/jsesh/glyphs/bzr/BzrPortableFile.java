@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.bzr;
+package jsesh.glyphs.bzr;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;

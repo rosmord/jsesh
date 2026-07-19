@@ -1,4 +1,4 @@
-package jsesh.graphics.glyphs.bzr;
+package jsesh.glyphs.bzr;
 
 /**
  * interface used for building actual representation of a BZR font.
