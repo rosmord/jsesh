@@ -2,10 +2,11 @@ package jsesh.jhotdraw.preferences;
 
 import java.util.prefs.Preferences;
 
+import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
 import jsesh.model.constants.JSeshInfoConstants;
-import jsesh.io.document.DocumentPreferences;
+import jsesh.document.DocumentPreferences;
 
 /**
  * Utility class to extract JSeshStyle objects from various sources.
@@ -25,22 +26,7 @@ public class JSeshStyleHelper {
      * @return a new style with the document preferences applied.
      */
     public static JSeshStyle applyDocumentPreferences(DocumentPreferences preferences, JSeshStyle original) {
-        return original.copy()
-                .geometry(g -> g.cartoucheLineWidth((float) preferences.getCartoucheLineWidth())
-                        .maxCadratWidth((float) preferences.getMaxQuadratWidth())
-                        .maxCadratHeight((float) preferences.getMaxQuadratHeight())
-                        .lineSkip((float) preferences.getLineSkip())
-                        .columnSkip((float) preferences.getColumnSkip())
-                        .standardSignHeight((float) preferences.getStandardSignHeight())
-                        .smallBodyScaleLimit((float) preferences.getSmallBodyScaleLimit())
-                        .smallSkip((float) preferences.getSmallSkip()))
-                .options(o -> o.smallSignCentered(preferences.isSmallSignCentered())
-                        .textOrientation(preferences.getTextOrientation())
-                        .textDirection(preferences.getTextDirection()))
-                .painting(c -> c
-                        .shadingStyle(preferences.isUseLinesForShading() ? ShadingMode.LINE_HATCHING
-                                : ShadingMode.GRAY_SHADING))
-                .build();
+        return DocumentPreferencesStyleConverter.applyDocumentPreferences(preferences, original);
     }
 
 
@@ -77,20 +63,7 @@ public class JSeshStyleHelper {
      * @return a new DocumentPreferences with values from the style
      */
     public static DocumentPreferences jseshStyleToDocumentPreferences(JSeshStyle jseshStyle) {
-        return new DocumentPreferences()
-                .withTextDirection(jseshStyle.options().textDirection())
-                .withTextOrientation(jseshStyle.options().textOrientation())
-                .withSmallSignCentered(jseshStyle.options().smallSignCentered())
-                .withCartoucheLineWidth(jseshStyle.geometry().cartoucheLineWidth())
-                .withColumnSkip(jseshStyle.geometry().columnSkip())
-                .withLineSkip(jseshStyle.geometry().lineSkip())
-                .withMaxQuadratHeight(jseshStyle.geometry().maxCadratHeight())
-                .withMaxQuadratWidth(jseshStyle.geometry().maxCadratWidth())
-                .withSmallBodyScaleLimit(jseshStyle.geometry().smallBodyScaleLimit())
-                .withStandardSignHeight(jseshStyle.geometry().standardSignHeight())
-                .withUseLinesForShading(
-                        jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING))
-                .withSmallSkip(jseshStyle.geometry().smallSkip());
+        return DocumentPreferencesStyleConverter.toDocumentPreferences(jseshStyle);
     }
 
     /**

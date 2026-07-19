@@ -60,7 +60,7 @@ import org.qenherkhopeshef.swingUtils.errorHandler.UserMessage;
 import jsesh.editor.ActionsID;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.MDCModelTransferableBroker;
-import jsesh.editor.events.TextEvent;
+import jsesh.document.events.TextEvent;
 import jsesh.graphics.export.pdfExport.PDFExportPreferences;
 import jsesh.graphics.export.pdfExport.PDFExporter;
 import jsesh.io.importer.pdf.PDFImportException;
@@ -73,8 +73,9 @@ import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.io.document.MDCDocument;
+import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
+import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.resources.JSeshMessages;
@@ -354,7 +355,7 @@ public class JSeshView extends AbstractView {
             TopItemList model = document.getHieroglyphicTextModel().getModel();
             exporter.exportModel(model, viewCore.getCaret(), viewCore.getRenderContext());
         } else {
-            document.save();
+            new MDCDocumentWriter().write(document);
         }
     }
 

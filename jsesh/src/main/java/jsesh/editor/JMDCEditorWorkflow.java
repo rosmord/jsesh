@@ -53,9 +53,9 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.editor.caret.MDCCaret;
 import jsesh.editor.caret.MDCCaretChangeListener;
-import jsesh.editor.events.NewTextEvent;
-import jsesh.editor.events.TextEvent;
-import jsesh.editor.events.TextOperationEvent;
+import jsesh.document.events.NewTextEvent;
+import jsesh.document.events.TextEvent;
+import jsesh.document.events.TextOperationEvent;
 import jsesh.glyphs.data.Possibility;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.SymbolCodes;
@@ -96,6 +96,8 @@ import jsesh.model.tools.VerticallyCenteredGrouper;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.AbsoluteGroupBuilder;
+import jsesh.document.HieroglyphicTextModel;
+import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * An abstract representation of the editing process of a hieroglyphic text.
@@ -771,7 +773,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public String getCurrentLineAsString() {
         int[] limits = getLineLimits();
         StringWriter sw = new StringWriter();
-        hieroglyphicTextModel.writeAsMDC(sw, limits[0], limits[1]);
+        new MdCModelWriter().write(sw, hieroglyphicTextModel.getModel(),
+                limits[0], limits[1]);
         return sw.toString();
     }
 
@@ -791,8 +794,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public String getMDCCode() {
         StringWriter sw = new StringWriter();
-        hieroglyphicTextModel.writeAsMDC(sw, 0, hieroglyphicTextModel
-                .getLastPosition().getIndex());
+        new MdCModelWriter().write(sw, hieroglyphicTextModel.getModel(), 0,
+                hieroglyphicTextModel.getLastPosition().getIndex());
         return sw.toString();
     }
 
@@ -1391,7 +1394,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         this.hieroglyphicTextModel = newHieroglyphicTextModel;
         hieroglyphicTextModel.addListener(textChangeListener);
-        caret = hieroglyphicTextModel.buildCaret();
+        caret = new MDCCaret(hieroglyphicTextModel.getModel());
         setCursor(hieroglyphicTextModel.buildFirstPosition());
         caret.addCaretChangeListener(this);
         possibilitiesHandler.clear();

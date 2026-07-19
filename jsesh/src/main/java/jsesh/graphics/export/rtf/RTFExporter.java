@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.RTFFontFamily;
 import org.qenherkhopeshef.graphics.rtfBasicWriter.SimpleRTFWriter;
 
+import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.FontSpecification;
 import jsesh.graphics.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.graphics.export.generic.AbstractRTFEmbeddableDrawer;
@@ -19,7 +20,7 @@ import jsesh.graphics.export.macpict.EmbeddableMacPictSimpleDrawer;
 import jsesh.graphics.export.wmf.EmbeddableWMFSimpleDrawer;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.io.document.MDCDocument;
+import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElementDeepAdapter;
@@ -186,8 +187,9 @@ public class RTFExporter {
     }
 
     private String buildMdCForExport(TopItemList t) {
-        MDCDocument doc = new MDCDocument(t, renderContext.jseshStyle());
-        return doc.getMdC();
+        return new MDCDocumentWriter().toMdC(t,
+                DocumentPreferencesStyleConverter.toDocumentPreferences(
+                        renderContext.jseshStyle()));
     }
 
     private String buildMdCForExport(TopItem t) {

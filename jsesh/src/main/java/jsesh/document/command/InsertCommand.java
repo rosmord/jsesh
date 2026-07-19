@@ -31,43 +31,49 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor.command;
+package jsesh.document.command;
+
+import java.util.List;
+
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
 
 /**
- * Command for the undo/redo system.
+ * Command that inserts one or more cadrats.
  * @author rosmord
  *
  */
-abstract class AbstractMDCCommand implements MDCCommand {
+class InsertCommand extends AbstractMDCCommand {
+
 	/**
-	 * Was this command applied on a "clean" text ?
+	 * The cadrats to add.
 	 */
-	private boolean firstCommand;
+	private List<TopItem> newCadrats;
+	private MDCPosition position;
+	private TopItemList topItemList;
 	
 	/**
-	 * Create a command.
-	 * @param firstCommand was the command applied to a "clean" text ?
+	 * Create an insertion command.
+	 * @param topItemList The text which will be modified.
+	 * @param newCadrats The cadrats which will be added (a list of topitems).
+	 * @param position The position where new text will be inserted.
+	 * @param firstCommand Is this command the first one on a fresh text ?
 	 */
-	protected AbstractMDCCommand(boolean firstCommand) {
-		super();
-		this.firstCommand = firstCommand;
+	
+	public InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+		super(firstCommand);
+		this.topItemList= topItemList;
+		this.newCadrats= newCadrats;
+		this.position= position;
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.editor.command.MyCommand#doCommand()
-	 */
-	abstract public void doCommand();
-	
-	/* (non-Javadoc)
-	 * @see jsesh.editor.command.MyCommand#undoCommand()
-	 */
-	abstract public void undoCommand();
-	
-	/* (non-Javadoc)
-	 * @see jsesh.editor.command.MyCommand#isFirstCommand()
-	 */
-	
-	public boolean isFirstCommand() {
-		return firstCommand;
+	public void doCommand() {
+		topItemList.addAllAt(position.getIndex(),newCadrats);
 	}
+
+	public void undoCommand() {
+		topItemList.removeTopItems(position.getIndex(), position.getIndex()+ newCadrats.size());
+	}
+
 }

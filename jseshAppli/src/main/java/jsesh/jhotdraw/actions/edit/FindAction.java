@@ -40,7 +40,7 @@ import javax.swing.JFrame;
 
 import org.jhotdraw_7_6.app.Application;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
 import jsesh.search.clientApi.SearchTarget;

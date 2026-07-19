@@ -5,7 +5,7 @@
  */
 package jsesh.search.clientApi;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 
 /**
  * An object which will hold the seach state and contain the text to search.

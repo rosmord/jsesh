@@ -8,7 +8,7 @@ package jsesh.search.plainText;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.model.AlphabeticText;
 import jsesh.model.EmbeddedModelElement;
 import jsesh.model.MDCPosition;

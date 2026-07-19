@@ -31,49 +31,37 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor.command;
+package jsesh.document.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.model.MDCPosition;
-import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
 
-/**
- * Command that inserts one or more cadrats.
- * @author rosmord
- *
- */
-class InsertCommand extends AbstractMDCCommand {
 
-	/**
-	 * The cadrats to add.
-	 */
-	private List<TopItem> newCadrats;
-	private MDCPosition position;
-	private TopItemList topItemList;
+class  CompositeCommand extends AbstractMDCCommand {
+	private List<MDCCommand> commands= new ArrayList<MDCCommand>();
 	
 	/**
-	 * Create an insertion command.
-	 * @param topItemList The text which will be modified.
-	 * @param newCadrats The cadrats which will be added (a list of topitems).
-	 * @param position The position where new text will be inserted.
-	 * @param firstCommand Is this command the first one on a fresh text ?
+	 * Create an empty composite command.
+	 * @param firstCommand was the command applied to a clean text ?
 	 */
-	
-	public InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+	public CompositeCommand(boolean firstCommand) {
 		super(firstCommand);
-		this.topItemList= topItemList;
-		this.newCadrats= newCadrats;
-		this.position= position;
 	}
-
+	
+	public void addCommand(MDCCommand c) {commands.add(c);}
+	
 	public void doCommand() {
-		topItemList.addAllAt(position.getIndex(),newCadrats);
+		for (int i= 0; i < commands.size(); i++) {
+			MDCCommand c= commands.get(i);
+			c.doCommand();
+		}
 	}
-
+	
 	public void undoCommand() {
-		topItemList.removeTopItems(position.getIndex(), position.getIndex()+ newCadrats.size());
+		for (int i= commands.size()-1; i >=0 ; i--) {
+			MDCCommand c= commands.get(i);
+			c.undoCommand();
+		}
 	}
-
 }

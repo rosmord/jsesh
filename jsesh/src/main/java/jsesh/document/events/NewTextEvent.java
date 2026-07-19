@@ -1,4 +1,4 @@
-package jsesh.editor.events;
+package jsesh.document.events;
 
 /**
  * An event which indicates the creation of a new (empty) text.

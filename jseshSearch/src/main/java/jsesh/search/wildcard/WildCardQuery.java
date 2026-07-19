@@ -27,7 +27,7 @@ import org.qenherkhopeshef.finitestate.lazy.MatchResult;
 import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
 import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.VariantTypeForSearches;
 import jsesh.model.MDCPosition;

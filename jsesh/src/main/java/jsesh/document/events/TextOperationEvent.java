@@ -1,4 +1,4 @@
-package jsesh.editor.events;
+package jsesh.document.events;
 
 import jsesh.model.operations.ModelOperation;
 

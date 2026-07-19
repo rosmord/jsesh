@@ -4,8 +4,9 @@ import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfSpotColor;
 import com.lowagie.text.pdf.SpotColor;
 
+import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
-import jsesh.io.document.MDCDocument;
+import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.TopItemList;
 
 class PDFExportHelper {
@@ -20,11 +21,12 @@ class PDFExportHelper {
 	public static String buildCommentText(JSeshStyle jseshStyle,
 			TopItemList model) {
 
-		MDCDocument doc = new MDCDocument(model, jseshStyle);
 		// As requested by the IFAO, we save the Manuel de codage content in
 		// the picture as a comment.
 		return PDFExportConstants.CONTENT_TYPE_APPLICATION_JSESH2007
-				+ doc.getMdC();
+				+ new MDCDocumentWriter().toMdC(model,
+						DocumentPreferencesStyleConverter
+								.toDocumentPreferences(jseshStyle));
 	}
 
 	/**

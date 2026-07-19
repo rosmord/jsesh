@@ -1,4 +1,4 @@
-package jsesh.editor.events;
+package jsesh.document.events;
 
 /**
  * Base for text events.

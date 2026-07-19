@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.editor;
+package jsesh.document;
 
 import java.util.List;
 import jsesh.model.MDCPosition;

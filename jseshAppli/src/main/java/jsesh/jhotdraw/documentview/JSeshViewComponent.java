@@ -50,7 +50,7 @@ import javax.swing.JToolBar;
 
 import jsesh.defaults.HieroglyphResources;
 import jsesh.render.style.JSeshStyle;
-import jsesh.editor.HieroglyphicTextModel;
+import jsesh.document.HieroglyphicTextModel;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;

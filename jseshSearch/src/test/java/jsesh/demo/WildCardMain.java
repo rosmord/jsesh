@@ -21,7 +21,7 @@ import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.render.style.JSeshStyle;
 import jsesh.editor.JMDCEditor;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.model.MDCPosition;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;

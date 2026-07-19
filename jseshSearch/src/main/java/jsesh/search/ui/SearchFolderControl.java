@@ -29,7 +29,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;

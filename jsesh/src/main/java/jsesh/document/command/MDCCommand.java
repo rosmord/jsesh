@@ -31,37 +31,19 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor.command;
+package jsesh.document.command;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface MDCCommand {
 
+	abstract public void doCommand();
 
+	abstract public void undoCommand();
 
-class  CompositeCommand extends AbstractMDCCommand {
-	private List<MDCCommand> commands= new ArrayList<MDCCommand>();
-	
 	/**
-	 * Create an empty composite command.
-	 * @param firstCommand was the command applied to a clean text ?
+	 * Was this command applied on a clean text?
+	 * @return
 	 */
-	public CompositeCommand(boolean firstCommand) {
-		super(firstCommand);
-	}
-	
-	public void addCommand(MDCCommand c) {commands.add(c);}
-	
-	public void doCommand() {
-		for (int i= 0; i < commands.size(); i++) {
-			MDCCommand c= commands.get(i);
-			c.doCommand();
-		}
-	}
-	
-	public void undoCommand() {
-		for (int i= commands.size()-1; i >=0 ; i--) {
-			MDCCommand c= commands.get(i);
-			c.undoCommand();
-		}
-	}
+
+	public abstract boolean isFirstCommand();
+
 }

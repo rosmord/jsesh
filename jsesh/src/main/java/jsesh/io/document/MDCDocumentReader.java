@@ -14,13 +14,13 @@ import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.JSeshInfoConstants;
-import jsesh.platform.metadata.JSeshInfoReader;
 import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
 import jsesh.model.TopItemList;
 import jsesh.utils.ByteArraysUtils;
 import jsesh.utils.StringBufferUtils;
 import jsesh.utils.SystemUtils;
+import jsesh.document.MDCDocument;
 
 /**
  * A Reader class for documents, complete with MdC Dialect Management.

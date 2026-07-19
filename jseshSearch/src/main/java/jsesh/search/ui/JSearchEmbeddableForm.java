@@ -17,7 +17,7 @@ import java.awt.CardLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.ui.specifications.JSelectableSearchIF;
 import jsesh.search.ui.specifications.JTextSearchFormModelIF;

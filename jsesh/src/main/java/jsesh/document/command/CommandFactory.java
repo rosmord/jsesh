@@ -31,7 +31,7 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor.command;
+package jsesh.document.command;
 
 import java.util.List;
 
@@ -40,49 +40,45 @@ import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
 
 /**
- * Command that deletes one or more cadrats.
- * @author rosmord
+ * A factory to build the main edit commands used by the hieroglyphic editor.
+ * <p> tech detail : Basically build composite commands using deletion and insertion. 
+ * <p> other tech detail : the list of available commands needs not be known, as the Factory hides them.
+ * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */
+public class CommandFactory {
 
-class RemoveCommand extends AbstractMDCCommand {
 	/**
-	 * Where will the deletion take place?
+	 * Build a replace element command.
+	 * @param topItemList the text where replacement will occur.
+	 * @param newTopItems the items to insert
+	 * @param pos1 the start position for replacement
+	 * @param pos2 the end element for replacement
+	 * @param clean is the original text clean (i.e. not modified).
+	 * @return
 	 */
-	private MDCPosition[] range;
-	
-	
-	/**
-	 * The deleted elements.
-	 */
-	private List<TopItem> deletedElements;
-	
-	/**
-	 * The text which will be modified. 
-	 */
-	private TopItemList topItemList;
-	
-	/**
-	 * Create a command corresponding to the erasure of text between two positions.
-	 * Note that the position order is not fixed pos1 may be before or after pos2.
-	 * @param topItemList
-	 * @param pos1 one of the positions
-	 * @param pos2 the other position.
-	 * @param firstCommand
-	 */
-	public RemoveCommand(TopItemList topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
-		super(firstCommand);
-		this.topItemList= topItemList;
-		range = MDCPosition.getOrdereredPositions(pos1, pos2);		
-		deletedElements= null;
+	public MDCCommand buildReplaceCommand(TopItemList topItemList,
+			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
+			boolean clean) {
+		CompositeCommand command = new CompositeCommand(clean);
+		MDCPosition[] p = MDCPosition.getOrdereredPositions(pos1, pos2);
+		MDCCommand removeCommand = buildRemoveCommand(topItemList, pos1, pos2,
+				false);
+		MDCCommand insertCommand = buildInsertCommand(topItemList, newTopItems,
+				p[0], false);
+		command.addCommand(removeCommand);
+		command.addCommand(insertCommand);
+		return command;
 	}
-	
-	public void doCommand() {
-		deletedElements= topItemList.removeTopItems(range[0].getIndex(), range[1].getIndex());
+
+	public MDCCommand buildInsertCommand(TopItemList model,
+			List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+		return new InsertCommand(model, newCadrats, position, firstCommand);
 	}
-	
-	public void undoCommand() {
-		topItemList.addAllAt(range[0].getIndex(), deletedElements);
-	}
-	
+
+	public MDCCommand buildRemoveCommand(TopItemList model, MDCPosition pos1,
+			MDCPosition pos2, boolean clean) {
+		return new RemoveCommand(model, pos1, pos2, clean);
+
+	}	
 }

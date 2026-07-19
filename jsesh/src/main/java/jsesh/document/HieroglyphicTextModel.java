@@ -31,11 +31,10 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor;
+package jsesh.document;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -44,12 +43,11 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.observable.ObservableEventPublisher;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
 
-import jsesh.editor.caret.MDCCaret;
-import jsesh.editor.command.CommandFactory;
-import jsesh.editor.command.MDCCommand;
-import jsesh.editor.events.NewTextEvent;
-import jsesh.editor.events.TextEvent;
-import jsesh.editor.events.TextOperationEvent;
+import jsesh.document.command.CommandFactory;
+import jsesh.document.command.MDCCommand;
+import jsesh.document.events.NewTextEvent;
+import jsesh.document.events.TextEvent;
+import jsesh.document.events.TextOperationEvent;
 import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
@@ -58,7 +56,6 @@ import jsesh.model.ModelElementObserver;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
 import jsesh.model.operations.ModelOperation;
-import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * The edition model of a hieroglyphic text.
@@ -283,10 +280,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		return undoManager.isClean();
 	}
 
-	public MDCCaret buildCaret() {
-		return new MDCCaret(this.getModel());
-	}
-
 	public MDCPosition buildFirstPosition() {
 		return new MDCPosition(getModel(), 0);
 	}
@@ -400,19 +393,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		undoManager.doCommand(command);
 	}
 
-	/**
-	 * Write a part of the text to a Writer.
-	 *
-	 * @param sw
-	 * @param minPos
-	 * @param maxPos
-	 */
-	public void writeAsMDC(Writer sw, int minPos, int maxPos) {
-		TopItemList t = getModel();
-		MdCModelWriter w = new MdCModelWriter();
-		w.write(sw, t, minPos, maxPos);
-	}
-
 	public MDCPosition getLastPosition() {
 		return new MDCPosition(model, model.getNumberOfChildren());
 	}
@@ -460,7 +440,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * Return true if an operation can be redone.
 	 *
 	 * @return
-	 * @see jsesh.editor.UndoManager#canRedo()
+	 * @see jsesh.document.UndoManager#canRedo()
 	 */
 	public boolean canRedo() {
 		return undoManager.canRedo();

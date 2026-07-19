@@ -95,6 +95,8 @@ import jsesh.render.view.ViewBuilder;
 import jsesh.swing.shadingMenuBuilder.ShadingMenuBuilder;
 import jsesh.platform.graphics.GraphicsUtils;
 import jsesh.swing.utils.MDCIconFactory;
+import jsesh.document.HieroglyphicTextModel;
+import jsesh.document.MdCSearchQuery;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you

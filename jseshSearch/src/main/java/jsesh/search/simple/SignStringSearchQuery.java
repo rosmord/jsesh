@@ -37,7 +37,7 @@ package jsesh.search.simple;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;

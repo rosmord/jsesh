@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.specifications.JSearchFormModelIF;

@@ -31,19 +31,43 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.editor.command;
+package jsesh.document.command;
 
-public interface MDCCommand {
-
-	abstract public void doCommand();
-
-	abstract public void undoCommand();
-
+/**
+ * Command for the undo/redo system.
+ * @author rosmord
+ *
+ */
+abstract class AbstractMDCCommand implements MDCCommand {
 	/**
-	 * Was this command applied on a clean text?
-	 * @return
+	 * Was this command applied on a "clean" text ?
 	 */
+	private boolean firstCommand;
+	
+	/**
+	 * Create a command.
+	 * @param firstCommand was the command applied to a "clean" text ?
+	 */
+	protected AbstractMDCCommand(boolean firstCommand) {
+		super();
+		this.firstCommand = firstCommand;
+	}
 
-	public abstract boolean isFirstCommand();
-
+	/* (non-Javadoc)
+	 * @see jsesh.document.command.MyCommand#doCommand()
+	 */
+	abstract public void doCommand();
+	
+	/* (non-Javadoc)
+	 * @see jsesh.document.command.MyCommand#undoCommand()
+	 */
+	abstract public void undoCommand();
+	
+	/* (non-Javadoc)
+	 * @see jsesh.document.command.MyCommand#isFirstCommand()
+	 */
+	
+	public boolean isFirstCommand() {
+		return firstCommand;
+	}
 }

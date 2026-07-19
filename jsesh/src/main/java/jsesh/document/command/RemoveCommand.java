@@ -31,76 +31,58 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
  */
+package jsesh.document.command;
+
+import java.util.List;
+
+import jsesh.model.MDCPosition;
+import jsesh.model.TopItem;
+import jsesh.model.TopItemList;
+
 /**
- * S. Rosmorduc, 2006.
- */
-package jsesh.editor;
-
-import java.util.Stack;
-
-import jsesh.editor.command.MDCCommand;
-
-/**
- * Rather standard undo manager for managing commands.
- * 
- * Basic behaviour : 
- * <ul>
- * <li> Infinite undo/redo capability.
- * <li> Some actions will clear the stack, though (opening new text?)
- * <li> As long as there are no "undo" calls, everything is simple. Just push commands.
- * <li> When starting to undo stuff, we shall have two stacks : undo and redo.
- * <li> undo or redo push the command on the "other" stack.
- * <li> we always undo or redo the last command undone or redone.
- * <li> any action different from undo/redo will clear the redo stack.
- * </ul>
+ * Command that deletes one or more cadrats.
  * @author rosmord
+ *
  */
-class UndoManager {
+
+class RemoveCommand extends AbstractMDCCommand {
+	/**
+	 * Where will the deletion take place?
+	 */
+	private MDCPosition[] range;
 	
-	//private boolean textChanged= false;
-	private Stack<MDCCommand> commands= new Stack<MDCCommand>(); // Stack of MDCCommand
-	private Stack<MDCCommand> undoneCommands= new Stack<MDCCommand>(); // Stack of MDCCommand
 	
 	/**
-	 * Add a new command to the UndoManager.
-	 * @param newCommand
+	 * The deleted elements.
 	 */
-	public void doCommand(MDCCommand newCommand) {
-		undoneCommands.clear();
-		commands.push(newCommand);
-		newCommand.doCommand();
+	private List<TopItem> deletedElements;
+	
+	/**
+	 * The text which will be modified. 
+	 */
+	private TopItemList topItemList;
+	
+	/**
+	 * Create a command corresponding to the erasure of text between two positions.
+	 * Note that the position order is not fixed pos1 may be before or after pos2.
+	 * @param topItemList
+	 * @param pos1 one of the positions
+	 * @param pos2 the other position.
+	 * @param firstCommand
+	 */
+	public RemoveCommand(TopItemList topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
+		super(firstCommand);
+		this.topItemList= topItemList;
+		range = MDCPosition.getOrdereredPositions(pos1, pos2);		
+		deletedElements= null;
+	}
+	
+	public void doCommand() {
+		deletedElements= topItemList.removeTopItems(range[0].getIndex(), range[1].getIndex());
 	}
 	
 	public void undoCommand() {
-		MDCCommand command = commands.pop();
-		undoneCommands.push(command);
-		command.undoCommand();
+		topItemList.addAllAt(range[0].getIndex(), deletedElements);
 	}
 	
-	public void redo() {
-		MDCCommand command= undoneCommands.pop();
-		commands.push(command);
-		command.doCommand();
-	}
-	
-	public boolean canUndo() {
-		return ! commands.isEmpty();
-	}
-	
-	public boolean canRedo() {
-		return (! undoneCommands.isEmpty());
-	}
-
-	/**
-	 * Clear undo/redo history.
-	 */
-	public void clear() {
-		//textChanged= false;
-		commands.clear();
-		undoneCommands.clear();		
-	}
-	
-	public boolean isClean() {
-		return commands.isEmpty();
-	}
 }

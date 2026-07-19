@@ -11,7 +11,7 @@
  */
 package jsesh.search.ui.specifications;
 
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 
 /**
  * Interface for generic search interface.

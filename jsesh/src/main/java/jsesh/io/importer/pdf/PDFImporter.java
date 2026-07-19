@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 import jsesh.graphics.export.pdfExport.PDFExportConstants;
 import jsesh.parser.MDCSyntaxError;
-import jsesh.io.document.MDCDocument;
+import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
 
 import com.lowagie.text.pdf.PdfReader;

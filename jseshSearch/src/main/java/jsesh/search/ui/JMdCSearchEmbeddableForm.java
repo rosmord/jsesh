@@ -23,7 +23,7 @@ import javax.swing.SpinnerNumberModel;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.editor.JMDCField;
 import jsesh.editor.JSeshStyleReference;
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;

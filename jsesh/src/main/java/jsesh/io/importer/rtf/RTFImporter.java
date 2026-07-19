@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import jsesh.parser.MDCSyntaxError;
-import jsesh.io.document.MDCDocument;
+import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
 
 /**

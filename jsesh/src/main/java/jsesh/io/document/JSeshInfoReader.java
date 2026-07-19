@@ -1,11 +1,11 @@
-package jsesh.platform.metadata;
+package jsesh.io.document;
 
 import java.util.HashMap;
 
 import jsesh.model.constants.JSeshInfoConstants;
-import jsesh.io.document.DocumentPreferences;
-import jsesh.io.document.MDCDocument;
 import jsesh.utils.StringBufferUtils;
+import jsesh.document.DocumentPreferences;
+import jsesh.document.MDCDocument;
 
 public class JSeshInfoReader {
 

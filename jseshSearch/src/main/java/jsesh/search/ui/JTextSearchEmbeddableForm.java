@@ -14,7 +14,7 @@ package jsesh.search.ui;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import jsesh.editor.MdCSearchQuery;
+import jsesh.document.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.plainText.PlainTextSearchQuery;
 import jsesh.search.ui.specifications.JTextSearchFormModelIF;
