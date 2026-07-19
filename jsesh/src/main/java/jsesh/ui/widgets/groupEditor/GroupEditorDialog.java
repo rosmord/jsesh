@@ -24,7 +24,7 @@ import javax.swing.JToggleButton;
 
 import jsesh.model.AbsoluteGroup;
 import jsesh.render.context.JSeshRenderContext;
-import jsesh.ui.widgets.utils.OrientationUtils;
+import jsesh.utils.swing.OrientationUtils;
 
 /**
  * Dialog panel for editing groups.

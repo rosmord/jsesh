@@ -1,6 +1,6 @@
 package jsesh.render.view;
 
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 /**
  * Constants for sides of views. 

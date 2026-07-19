@@ -36,6 +36,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFacto
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PaintingSpecifications;
 import jsesh.ui.export.generic.ExportOptionPanel;
+import jsesh.utils.swing.GraphicsUtils;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
@@ -50,7 +51,6 @@ import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 import jsesh.resources.JSeshMessages;
-import jsesh.platform.graphics.GraphicsUtils;
 
 /**
  * Expert for exporting a Manuel de codage file to HTML.

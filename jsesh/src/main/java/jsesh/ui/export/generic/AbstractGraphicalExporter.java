@@ -41,7 +41,8 @@ import java.util.Locale;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.resources.JSeshMessages;
-import jsesh.ui.widgets.utils.FileSaveConfirmDialog;
+import jsesh.utils.swing.FileSaveConfirmDialog;
+
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;

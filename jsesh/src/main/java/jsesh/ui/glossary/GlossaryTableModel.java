@@ -35,6 +35,9 @@ package jsesh.ui.glossary;
 
 import javax.swing.table.AbstractTableModel;
 
+import jsesh.glossary.Glossary;
+import jsesh.glossary.GlossaryManager;
+
 @SuppressWarnings("serial")
 public class GlossaryTableModel extends AbstractTableModel {
 

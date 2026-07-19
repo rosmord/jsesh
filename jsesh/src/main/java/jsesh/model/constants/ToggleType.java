@@ -1,6 +1,6 @@
 package jsesh.model.constants;
 
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 public class ToggleType extends EnumBase
 {

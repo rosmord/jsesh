@@ -47,9 +47,7 @@ import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
 import jsesh.glyphs.tools.HieroglyphPictureBuilder;
 import jsesh.glyphs.tools.IconRenderOptions;
 import jsesh.glyphs.tools.PictureDimension;
-import jsesh.platform.preferences.JSeshPreferencesRoot;
 import jsesh.ui.palette.HieroglyphPaletteListener;
-import jsesh.ui.widgets.utils.AbstractStringTransfertHandler;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;
@@ -67,6 +65,8 @@ import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignContainsTableModel;
 import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignPropertyTableModel;
 import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignTransliterationTableModel;
 import jsesh.utilitysoftwares.signinfoeditor.viewmodel.SignVariantTableModel;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
+import jsesh.utils.swing.AbstractStringTransfertHandler;
 
 /**
  * Control layer for the sign information editor.

@@ -66,11 +66,9 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileExtensionFilter;
 
 import jsesh.ui.clipboard.MDCClipboardPreferences;
 import jsesh.ui.clipboard.MDCModelTransferable;
-import jsesh.ui.defaults.HieroglyphResources;
-import jsesh.ui.defaults.UserFontDirectoryManager;
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.ui.editor.MDCModelTransferableBroker;
-import jsesh.ui.glossary.GlossaryManager;
+import jsesh.glossary.GlossaryManager;
 import jsesh.ui.export.emf.EMFExporter;
 import jsesh.ui.export.eps.EPSExporter;
 import jsesh.ui.export.html.HTMLExporter;
@@ -79,6 +77,8 @@ import jsesh.ui.export.pdfExport.PDFExportPreferences;
 import jsesh.ui.export.rtf.RTFExportPreferences;
 import jsesh.ui.export.svg.SVGExporter;
 import jsesh.ui.export.wmf.WMFExporter;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.actions.JSeshApplicationActionsID;
 import jsesh.jhotdraw.actions.application.JSeshAboutAction;
@@ -122,8 +122,8 @@ import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.search.clientApi.CorpusSearchHit;
-import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * JHotdraw-specific model for the application.

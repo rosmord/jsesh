@@ -13,8 +13,8 @@ package jsesh.search.ui;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import jsesh.ui.defaults.HieroglyphResources;
 import jsesh.ui.editor.JSeshStyleReference;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.document.MdCSearchQuery;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.clientApi.SearchTarget;

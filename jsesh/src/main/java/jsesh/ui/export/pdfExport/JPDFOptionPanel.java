@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.ui.export.generic.ExportOptionPanel;
-import jsesh.utils.FileUtils;
+import jsesh.utils.io.FileUtils;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;

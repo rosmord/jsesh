@@ -5,11 +5,11 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.model.constants.ScriptCodes;
-import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.model.tools.YODChoice;
+import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.platform.resources.ResourcesManager;
-import jsesh.utils.DoubleDimensions;
+import jsesh.utils.datatypes.DoubleDimensions;
+import jsesh.utils.resources.ResourcesManager;
 
 /**
  * Specifications related to fonts and non-hieroglyphic text.

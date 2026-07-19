@@ -63,6 +63,7 @@ import jsesh.ui.editor.MDCModelTransferableBroker;
 import jsesh.document.events.TextEvent;
 import jsesh.ui.export.pdfExport.PDFExportPreferences;
 import jsesh.ui.export.pdfExport.PDFExporter;
+import jsesh.utils.io.JSeshWorkingDirectory;
 import jsesh.io.importer.pdf.PDFImportException;
 import jsesh.io.importer.pdf.PDFImporter;
 import jsesh.io.importer.rtf.RTFImportException;
@@ -79,7 +80,6 @@ import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.resources.JSeshMessages;
-import jsesh.utils.JSeshWorkingDirectory;
 
 /**
  * A view of a JSesh editor instance, as used by the jhotdraw framework.

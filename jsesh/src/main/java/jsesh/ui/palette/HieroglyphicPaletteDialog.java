@@ -6,7 +6,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
 
-import jsesh.platform.preferences.JSeshPreferencesRoot;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 /**
  * A full palette display, with glyph informations. Should be integrated and

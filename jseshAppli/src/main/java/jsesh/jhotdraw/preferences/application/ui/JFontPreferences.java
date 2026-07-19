@@ -22,7 +22,7 @@ import jsesh.jhotdraw.utils.FontSelectorComponentGroup;
 import jsesh.jhotdraw.utils.PanelBuilder;
 import jsesh.model.tools.YODChoice;
 import jsesh.resources.JSeshMessages;
-import jsesh.platform.resources.ResourcesManager;
+import jsesh.utils.resources.ResourcesManager;
 import net.miginfocom.swing.MigLayout;
 
 /**

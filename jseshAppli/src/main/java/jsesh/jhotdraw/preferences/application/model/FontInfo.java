@@ -39,13 +39,13 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.prefs.Preferences;
 
-import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.defaults.UserFontDirectoryManager;
+import jsesh.model.tools.YODChoice;
 import jsesh.render.style.FontSpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.model.tools.YODChoice;
-import jsesh.platform.preferences.JSeshPreferenceKeys;
-import jsesh.platform.preferences.JSeshPreferencesRoot;
-import jsesh.platform.resources.ResourcesManager;
+import jsesh.utils.preferences.JSeshPreferenceKeys;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
+import jsesh.utils.resources.ResourcesManager;
 
 /**
  * Model for the font preferences.

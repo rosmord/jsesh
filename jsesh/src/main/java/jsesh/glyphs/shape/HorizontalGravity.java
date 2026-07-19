@@ -1,6 +1,6 @@
 package jsesh.glyphs.shape;
 
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 public class HorizontalGravity extends EnumBase {
 	

@@ -23,11 +23,11 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-import jsesh.ui.defaults.HieroglyphResources;
-import jsesh.ui.defaults.HieroglyphResourcesBuilder;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.platform.graphics.GraphicsUtils;
+import jsesh.utils.swing.GraphicsUtils;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.document.HieroglyphicTextModel;
 
 /**

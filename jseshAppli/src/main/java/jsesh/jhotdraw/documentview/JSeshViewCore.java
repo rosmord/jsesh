@@ -49,7 +49,7 @@ import javax.swing.Timer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
 import jsesh.document.MdCSearchQuery;
@@ -69,10 +69,10 @@ import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.operations.ModelOperation;
 import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenuListener;
-import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * An abstract (more or less framework-agnostic) representation of an editing

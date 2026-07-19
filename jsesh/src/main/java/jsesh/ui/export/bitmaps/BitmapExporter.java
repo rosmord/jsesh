@@ -37,10 +37,10 @@ import jsesh.ui.export.generic.ExportData;
 import jsesh.ui.export.generic.ExportOptionPanel;
 import jsesh.ui.export.generic.SelectionExporter;
 import jsesh.render.elements.HieroglyphDrawer;
-import jsesh.platform.preferences.JSeshPreferencesRoot;
-import jsesh.ui.widgets.utils.RestrictedCharFormatter;
-import jsesh.utils.FileUtils;
-import jsesh.utils.JSeshWorkingDirectory;
+import jsesh.utils.io.FileUtils;
+import jsesh.utils.io.JSeshWorkingDirectory;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
+import jsesh.utils.swing.RestrictedCharFormatter;
 
 /**
  * Export to graphic bitmaps.

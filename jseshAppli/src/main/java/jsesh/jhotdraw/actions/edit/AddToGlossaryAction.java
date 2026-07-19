@@ -8,7 +8,7 @@ import org.jhotdraw_7_6.app.View;
 import jsesh.ui.glossary.JGlossaryEditor;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.ui.widgets.utils.MDCIconFactory;
+import jsesh.render.draw.MDCIconFactory;
 
 /**
  * An action which adds the current selection to the so-called glossary.

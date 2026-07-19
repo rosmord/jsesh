@@ -1,5 +1,6 @@
 /**
- * Precomposed groups available for the user in order to speed up text typing.
- * One can record a sequence of signs under a name, and typing this name will insert the said sequence of signs.
+ * Swing editor for the glossary.
+ *
+ * <p> The glossary model itself is in {@link jsesh.glossary}.
  */
 package jsesh.ui.glossary;

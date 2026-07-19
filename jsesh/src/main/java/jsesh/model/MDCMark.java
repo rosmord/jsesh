@@ -14,7 +14,7 @@ import jsesh.model.operations.ModelOperationVisitor;
 import jsesh.model.operations.Modification;
 import jsesh.model.operations.Replacement;
 import jsesh.model.operations.ZoneModification;
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 /**
  * A MDCMark designate a position relative to an element. It's a long-term

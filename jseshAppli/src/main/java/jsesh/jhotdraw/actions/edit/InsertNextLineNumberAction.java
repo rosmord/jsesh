@@ -12,7 +12,7 @@ import org.jhotdraw_7_6.app.View;
 
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.utils.LineNumberHelper;
+import jsesh.utils.datatypes.LineNumberHelper;
 
 /**
  * This action inserts a computed line number.

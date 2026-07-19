@@ -15,17 +15,17 @@ import java.io.StringReader;
 
 import javax.imageio.ImageIO;
 
-import jsesh.ui.defaults.PredefinedFonts;
 import jsesh.render.style.JSeshStyle;
 import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
+import jsesh.defaults.PredefinedFonts;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.platform.graphics.GraphicsUtils;
+import jsesh.utils.swing.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.

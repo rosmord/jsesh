@@ -47,6 +47,7 @@ import org.qenherkhopeshef.swingUtils.lists.LabelListItem;
 import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.ui.editor.JMDCEditor;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.data.HieroglyphFamily;
 import jsesh.glyphs.data.PossibilitiesList;
@@ -59,7 +60,6 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.tools.HieroglyphPictureBuilder;
-import jsesh.platform.preferences.JSeshPreferencesRoot;
 
 /**
  * Control and data feed for the simple palette.

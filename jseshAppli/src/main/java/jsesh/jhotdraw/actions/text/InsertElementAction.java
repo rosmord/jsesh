@@ -11,9 +11,9 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElement;
-import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * A simple class for easy text addition.

@@ -42,7 +42,7 @@ import javax.swing.Action;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 import jsesh.model.constants.SymbolCodes;
-import jsesh.ui.widgets.utils.MDCIconFactory;
+import jsesh.render.draw.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;

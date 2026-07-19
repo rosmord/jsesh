@@ -19,7 +19,7 @@ import jsesh.glyphs.io.SignDescriptionBuilder;
 import jsesh.glyphs.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
 import jsesh.glyphs.io.SignDescriptionReader;
 import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
-import jsesh.platform.resources.ResourcesManager;
+import jsesh.utils.resources.ResourcesManager;
 
 /**
  * A collection of factory methods to initialize a hieroglyph database.

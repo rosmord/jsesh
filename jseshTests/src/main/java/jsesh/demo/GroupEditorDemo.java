@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import jsesh.ui.defaults.PredefinedFonts;
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JMDCField;
+import jsesh.defaults.PredefinedFonts;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AbsoluteGroup;

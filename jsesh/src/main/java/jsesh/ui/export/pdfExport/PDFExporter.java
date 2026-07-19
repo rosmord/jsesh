@@ -30,14 +30,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
-import jsesh.render.style.FontSpecification;
-import jsesh.render.style.GeometrySpecification;
-import jsesh.render.style.JSeshStyle;
 import jsesh.document.caret.MDCCaret;
-import jsesh.ui.export.generic.ExportData;
-import jsesh.ui.export.generic.ExportOptionPanel;
-import jsesh.ui.export.generic.SelectionExporter;
-import jsesh.model.constants.ScriptCodes;
 import jsesh.model.AlphabeticText;
 import jsesh.model.HRule;
 import jsesh.model.LineBreak;
@@ -46,13 +39,20 @@ import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
+import jsesh.model.constants.ScriptCodes;
 import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
+import jsesh.render.style.FontSpecification;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.platform.resources.ResourcesManager;
+import jsesh.ui.export.generic.ExportData;
+import jsesh.ui.export.generic.ExportOptionPanel;
+import jsesh.ui.export.generic.SelectionExporter;
+import jsesh.utils.resources.ResourcesManager;
 
 /**
  * Expert for exporting a Manuel de codage file to PDF, using the IText library.

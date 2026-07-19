@@ -17,7 +17,7 @@ import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.ui.widgets.units.LengthUnit;
 import jsesh.ui.widgets.units.UnitMediator;
-import jsesh.ui.widgets.utils.FileButtonMapper;
+import jsesh.utils.swing.FileButtonMapper;
 
 /**
  * Presenter for the GUI interface for RTF export to files.

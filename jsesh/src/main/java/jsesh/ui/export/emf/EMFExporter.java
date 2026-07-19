@@ -46,9 +46,8 @@ import java.io.IOException;
 import java.util.Locale;
 
 import jsesh.ui.export.generic.SelectionExporter;
-
+import jsesh.utils.swing.FileSaveConfirmDialog;
 import jsesh.resources.JSeshMessages;
-import jsesh.ui.widgets.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.emf.EMFGraphics2D;
 

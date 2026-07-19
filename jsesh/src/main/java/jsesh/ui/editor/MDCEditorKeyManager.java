@@ -79,7 +79,7 @@ import jsesh.ui.editor.actionsUtils.Enabler;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.ui.widgets.utils.MDCIconFactory;
+import jsesh.render.draw.MDCIconFactory;
 
 import org.qenherkhopeshef.guiFramework.AppDefaults;
 import org.qenherkhopeshef.guiFramework.BundledActionFiller;

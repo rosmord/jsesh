@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import jsesh.ui.widgets.utils.OrientationUtils;
+import jsesh.utils.swing.OrientationUtils;
 
 /**
  * Graphical objet used to display JSesh's "about" informations. One-use only.

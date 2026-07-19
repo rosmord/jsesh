@@ -3,7 +3,7 @@ package jsesh.io.document;
 import java.util.HashMap;
 
 import jsesh.model.constants.JSeshInfoConstants;
-import jsesh.utils.StringBufferUtils;
+import jsesh.utils.datatypes.StringBufferUtils;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
 

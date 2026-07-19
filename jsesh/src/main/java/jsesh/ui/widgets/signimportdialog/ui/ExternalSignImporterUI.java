@@ -17,9 +17,9 @@ import javax.swing.event.DocumentListener;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
-import jsesh.platform.resources.ResourcesManager;
 import jsesh.ui.widgets.shapedisplayer.ShapeDisplayer;
-import jsesh.ui.widgets.utils.OrientationUtils;
+import jsesh.utils.resources.ResourcesManager;
+import jsesh.utils.swing.OrientationUtils;
 
 public class ExternalSignImporterUI {
 

@@ -122,3 +122,9 @@ All user-visible strings live in `jseshLabels`. When adding UI text, add it ther
 ## Key IDE / Compilation Quirk
 
 If incremental builds complain that `MDCParse` doesn't exist after an initial successful build, delete the `.classpath` and `.project` files in the `jsesh` folder and rebuild. This is a known Eclipse/VS Code artifact from the generated-sources path.
+
+## Bash commands 
+
+- note that we run on a mac.
+- macOS sed doesn't support `\b`, so those substitutions silently no-op'd. Use python instead.
+

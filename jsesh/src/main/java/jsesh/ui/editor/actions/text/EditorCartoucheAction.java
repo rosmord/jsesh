@@ -40,10 +40,10 @@ import java.util.TreeMap;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
-import jsesh.ui.widgets.utils.MDCIconFactory;
-import jsesh.ui.widgets.utils.KeyUtils;
+import jsesh.utils.swing.KeyUtils;
 
 /**
  * Action for adding a cartouche to a JSesh editor.

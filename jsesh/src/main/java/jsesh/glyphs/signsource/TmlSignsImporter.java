@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.utils.TclImporter;
+import jsesh.utils.datatypes.TclImporter;
 
 /**
  * Importer for signs created with Tksesh's font editor.

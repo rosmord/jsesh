@@ -2,7 +2,7 @@ package jsesh.ui.widgets.renderers;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.ui.widgets.utils.MDCIconFactory;
+import jsesh.render.draw.MDCIconFactory;
 
 /**
  * Renders mdc codes as hieroglyphic texts in tables.

@@ -15,9 +15,8 @@ import java.io.OutputStream;
 import java.util.Locale;
 
 import jsesh.ui.export.generic.SelectionExporter;
-
+import jsesh.utils.swing.FileSaveConfirmDialog;
 import jsesh.resources.JSeshMessages;
-import jsesh.ui.widgets.utils.FileSaveConfirmDialog;
 
 import org.qenherkhopeshef.graphics.pict.MacPictGraphics2D;
 

@@ -8,7 +8,7 @@ package jsesh.jhotdraw.preferences.application.model;
 import java.util.Locale;
 import java.util.prefs.Preferences;
 
-import jsesh.platform.preferences.JSeshPreferencesRoot;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 /**
  * Application preferences linked to the UI.

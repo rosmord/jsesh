@@ -11,7 +11,7 @@ import java.awt.geom.Line2D;
 import javax.swing.JComponent;
 
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.platform.graphics.GraphicsUtils;
+import jsesh.utils.swing.GraphicsUtils;
 
 /**
  * A widget able to display a ShapeChar.

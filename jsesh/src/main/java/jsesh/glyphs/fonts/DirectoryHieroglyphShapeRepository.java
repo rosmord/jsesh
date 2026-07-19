@@ -16,7 +16,7 @@ import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.signsource.SVGSignSource;
-import jsesh.utils.DirectoryHolder;
+import jsesh.utils.io.DirectoryHolder;
 
 /**
  * A font manager which stores the signs as files in a directory. The codes for

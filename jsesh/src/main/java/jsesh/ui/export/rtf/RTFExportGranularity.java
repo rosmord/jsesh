@@ -34,7 +34,7 @@
  */
 package jsesh.ui.export.rtf;
 
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 /**
  * Possible modes for RTF export.

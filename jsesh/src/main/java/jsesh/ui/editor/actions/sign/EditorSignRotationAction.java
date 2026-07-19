@@ -43,9 +43,9 @@ import java.util.TreeSet;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
-import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * Action for rotating a sign.

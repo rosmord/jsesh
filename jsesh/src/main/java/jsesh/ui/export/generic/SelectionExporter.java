@@ -21,7 +21,7 @@ import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
-import jsesh.utils.DoubleDimensions;
+import jsesh.utils.datatypes.DoubleDimensions;
 
 /**
  * An expert which is able to export manuel de codage data to some kind of

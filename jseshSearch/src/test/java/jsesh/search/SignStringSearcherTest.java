@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.ui.defaults.HieroglyphResources;
-import jsesh.ui.defaults.HieroglyphResourcesBuilder;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;

@@ -6,7 +6,7 @@
  */
 package jsesh.model.constants;
 
-import jsesh.utils.EnumBase;
+import jsesh.utils.datatypes.EnumBase;
 
 /**
  * @author rosmord

@@ -40,19 +40,20 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import jsesh.ui.clipboard.MDCClipboardPreferences;
-import jsesh.ui.defaults.HieroglyphResources;
-import jsesh.ui.defaults.UserFontDirectoryManager;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.FontSpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JSeshStyleReference;
-import jsesh.ui.glossary.PossibilityRepository;
-import jsesh.ui.glossary.GlossaryManager;
+import jsesh.glossary.GlossaryManager;
 import jsesh.ui.glossary.JGlossaryEditor;
 import jsesh.ui.export.html.HTMLExporter;
 import jsesh.ui.export.pdfExport.PDFExportPreferences;
 import jsesh.ui.export.rtf.RTFExportGranularity;
 import jsesh.ui.export.rtf.RTFExportPreferences;
+import jsesh.defaults.HieroglyphResources;
+import jsesh.defaults.UserFontDirectoryManager;
 import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.data.PossibilityRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.jhotdraw.constants.ExportType;
 import jsesh.jhotdraw.dialogs.CorpusSearchDialogFrame;
@@ -60,15 +61,14 @@ import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
-import jsesh.platform.preferences.JSeshPreferencesRoot;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
 import jsesh.search.ui.SearchPanelFactory;
 import jsesh.search.ui.SearchUIResources;
 import jsesh.ui.palette.PalettePresenter;
 import jsesh.ui.widgets.signimportdialog.ExternalSignImporter;
-import jsesh.ui.widgets.utils.MDCIconFactory;
-import jsesh.utils.JSeshWorkingDirectory;
+import jsesh.utils.io.JSeshWorkingDirectory;
+import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 /**
  * Framework-agnostic part of the JSesh application.

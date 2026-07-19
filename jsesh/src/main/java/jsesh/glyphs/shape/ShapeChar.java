@@ -14,7 +14,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import jsesh.platform.graphics.ShapeHelper;
-import jsesh.utils.DoubleFormatter;
+import jsesh.utils.datatypes.DoubleFormatter;
 
 /**
  * A glyph ; basically a shape which can be painted). moved out of the Bzr

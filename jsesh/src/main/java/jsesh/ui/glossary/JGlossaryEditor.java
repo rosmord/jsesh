@@ -48,17 +48,19 @@ import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.ui.defaults.HieroglyphResources;
+import jsesh.glossary.GlossaryManager;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.JMDCField;
 import jsesh.ui.editor.JSeshStyleReference;
+import jsesh.defaults.HieroglyphResources;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.renderers.MdCTableCellRenderer;
-import jsesh.ui.widgets.utils.MDCIconFactory;
-import jsesh.ui.widgets.utils.OrientationUtils;
+import jsesh.utils.swing.ExplicitFocusPolicy;
+import jsesh.utils.swing.OrientationUtils;
 
 /**
  * Graphical glossary editor for JSesh.

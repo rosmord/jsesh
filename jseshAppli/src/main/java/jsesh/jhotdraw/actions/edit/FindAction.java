@@ -43,9 +43,9 @@ import org.jhotdraw_7_6.app.Application;
 import jsesh.document.MdCSearchQuery;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreApplicationAction;
+import jsesh.render.draw.MDCIconFactory;
 import jsesh.search.clientApi.SearchTarget;
 import jsesh.search.ui.JWildcardPanel;
-import jsesh.ui.widgets.utils.MDCIconFactory;
 
 /**
  * Find an element action.

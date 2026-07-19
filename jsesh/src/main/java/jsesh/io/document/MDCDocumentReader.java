@@ -17,9 +17,9 @@ import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
 import jsesh.model.TopItemList;
-import jsesh.utils.ByteArraysUtils;
-import jsesh.utils.StringBufferUtils;
-import jsesh.utils.SystemUtils;
+import jsesh.utils.datatypes.ByteArraysUtils;
+import jsesh.utils.datatypes.StringBufferUtils;
+import jsesh.utils.io.SystemUtils;
 import jsesh.document.MDCDocument;
 
 /**

@@ -35,7 +35,7 @@ import jsesh.search.clientApi.CorpusSearchHit;
 import jsesh.search.clientApi.CorpusSearchTarget;
 import jsesh.search.corpus.CorpusSearch;
 import jsesh.search.corpus.PartialResults;
-import jsesh.utils.JSeshWorkingDirectory;
+import jsesh.utils.io.JSeshWorkingDirectory;
 
 /**
  * Control class for JSearchFolderPanel.
