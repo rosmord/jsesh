@@ -7,6 +7,7 @@ package jsesh.io.mdc;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
@@ -56,9 +57,9 @@ public class MdCModelWriter {
 	private Writer out;
 	private int startIndex;
 	private int endIndex;
-	private Dialect inDialect= Dialect.JSESH1;
-	private Dialect outDialect= Dialect.JSESH1;
-	private boolean normalized= false;
+	private Dialect inDialect = Dialect.JSESH1;
+	private Dialect outDialect = Dialect.JSESH1;
+	private boolean normalized = false;
 
 	public MdCModelWriter() {
 		out = null;
@@ -77,7 +78,7 @@ public class MdCModelWriter {
 		write(w, top);
 		w.close();
 	}
-	
+
 	/**
 	 * Write the model to the writer.
 	 * <p>
@@ -93,21 +94,82 @@ public class MdCModelWriter {
 		checkDialectCompatibility();
 		write(out, top, 0, top.getNumberOfChildren());
 	}
-	
+
 	private void checkDialectCompatibility() {
-		if (! inDialect.equals(outDialect)) {
+		if (!inDialect.equals(outDialect)) {
 			if (outDialect.equals(Dialect.TKSESH)) {
-				throw new MdcDialectConversionException("Can't convert from "+ inDialect + " into " + outDialect);
+				throw new MdcDialectConversionException("Can't convert from " + inDialect + " into " + outDialect);
 			}
 		}
 	}
-	
+
+	/**
+	 * Returns a MdC Representation for this object.
+	 * 
+	 * @param top the top item list for which we want a string representation.
+	 * @return a Manuel de codage representation of the top item list.
+	 */
+	public String toMdC(TopItemList top) {
+		return toMdC(top, 0, top.getNumberOfChildren());
+	}
+
+	/**
+	 * Returns a MdC Representation for the cadrats between positions start and
+	 * end.
+	 * 
+	 * @param top        the top item list for which we want a string
+	 *                   representation.
+	 * @param start
+	 * @param end
+	 * @return a Manuel de codage representation of the top item list.
+	 */
+	public String toMdC(TopItemList top, int start, int end) {
+		return toMdC(top, start, end, false);
+	}
+
+	/**
+	 * Gets a MdC representation for the quadrats between start and end, with
+	 * possible normalization.
+	 * @param top        the top item list for which we want a string
+	 *                   representation.
+	 * @return a Manuel de codage representation of the top item list.
+	 * @param start
+	 * @param end
+	 * @param normalized if true, phonetic codes will be replaced by their
+	 *                   Gardiner counterpart.
+	 * @return
+	 */
+	public String toMdC(TopItemList top, int start, int end, boolean normalized) {
+		// As requested by the IFAO, we save the Manuel de codage content in
+		// the picture as a comment.
+		setNormalized(normalized);
+		StringWriter comment = new StringWriter();
+		write(comment, top, start, end);
+
+		String mdcText = comment.toString();
+		return mdcText;
+	}
+
+	/**
+	 * Returns a MdC Representation for this object, with possible
+	 * normalization.
+	 *
+	 * @param top        the top item list for which we want a string
+	 *                   representation.
+	 * @param normalized if true, phonetic codes will be replaced by their Gardiner
+	 *                   counterpart.
+	 * @return a Manuel de codage representation of the top item list.
+	 */
+	public String toMdC(TopItemList top, boolean normalized) {
+		return toMdC(top, 0, top.getNumberOfChildren(), normalized);
+	}
+
 	class ModelWriterAux implements ModelElementVisitor {
-		
+
 		/**
 		 * avoid writing two minus signs after |....-
 		 */
-		boolean wantsMinus= true;
+		boolean wantsMinus = true;
 
 		private void write(String s) {
 			try {
@@ -137,7 +199,8 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
+		 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.
+		 * AlphabeticText)
 		 */
 		public void visitAlphabeticText(AlphabeticText t) {
 			write("+" + t.getScriptCode());
@@ -151,7 +214,8 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)
+		 * @see
+		 * jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)
 		 */
 		public void visitBasicItemList(BasicItemList l) {
 			visitElementList(l, "-");
@@ -183,7 +247,7 @@ public class MdCModelWriter {
 				end = "->";
 			} else {
 				start = "<" + cartoucheCode + c.getStartPart() + "-";
-				end = "-" + cartoucheCode+ c.getEndPart() + ">";
+				end = "-" + cartoucheCode + c.getEndPart() + ">";
 			}
 			write(start);
 			c.getBasicItemList().accept(this);
@@ -208,29 +272,29 @@ public class MdCModelWriter {
 			boolean explicitPosition = false;
 			if (h.isGrammar())
 				write("=");
-			//		grammar
+			// grammar
 			// Well I would write something for SMALLTEXT, but it already works !
 			String code;
 			if (normalized)
-				code= ManuelDeCodage.getInstance().getCanonicalCode(h.getCode()).code();
+				code = ManuelDeCodage.getInstance().getCanonicalCode(h.getCode()).code();
 			else
-				code= h.getCode();
- 
+				code = h.getCode();
+
 			write(code);
 
 			ModifiersList l = h.getModifiers();
-			//		Inversion
+			// Inversion
 			if (l.isReversed())
 				write("\\");
 
-			//		scaling
+			// scaling
 			// scaling will be written with the explicit positioning if
 			// specified.
 			if (h.getX() != 0 || h.getY() != 0)
 				explicitPosition = true;
 			if (!explicitPosition && l.getScale() != 100)
 				write("\\" + l.getScale());
-			//		Rotation
+			// Rotation
 			if (l.getAngle() != 0)
 				write("\\R" + l.getAngle());
 			visitModifierList(l);
@@ -286,7 +350,8 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
+		 * @see
+		 * jsesh.model.ModelElementVisitor#visitModifierList(jsesh.model.ModifiersList)
 		 */
 		public void visitModifierList(ModifiersList l) {
 			for (int i = 0; i < l.getNumberOfChildren(); i++) {
@@ -344,15 +409,16 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.Superscript)
+		 * @see
+		 * jsesh.model.ModelElementVisitor#visitSuperScript(jsesh.model.Superscript)
 		 */
 		public void visitSuperScript(Superscript s) {
-			String txt= s.getText();
+			String txt = s.getText();
 			// protect txt :
-			txt= txt.replaceAll("\\\\", "\\\\\\\\").replaceAll("-", "\\\\-");
+			txt = txt.replaceAll("\\\\", "\\\\\\\\").replaceAll("-", "\\\\-");
 			// done...
 			write("|" + txt + "-");
-			wantsMinus= false;
+			wantsMinus = false;
 		}
 
 		/*
@@ -366,19 +432,21 @@ public class MdCModelWriter {
 
 		public void visitTabbing(Tabbing tabbing) {
 			write("%[");
-			write("id="+ tabbing.getId()+",");
-			write("orientation="+ tabbing.getOrientation().name().toLowerCase(Locale.ENGLISH)+",");
-			write("justification="+ tabbing.getTabbingJustification().name().toLowerCase(Locale.ENGLISH)+"]");
+			write("id=" + tabbing.getId() + ",");
+			write("orientation=" + tabbing.getOrientation().name().toLowerCase(Locale.ENGLISH) + ",");
+			write("justification=" + tabbing.getTabbingJustification().name().toLowerCase(Locale.ENGLISH) + "]");
 		}
-		
+
 		public void visitTabbingClear(TabbingClear tabbingClear) {
 			write("%clear");
 		}
+
 		/**
 		 * Writes the top item to the output. ABout toggles : HieroTeX won't
 		 * like the way we deal with them, but then a) HieroTeX user know how
 		 * to correct syntax errors ; and b) I will write a java port of
 		 * hierotex anyway.
+		 * 
 		 * @param t
 		 */
 		public void visitTopItemList(TopItemList t) {
@@ -394,7 +462,7 @@ public class MdCModelWriter {
 
 				if (i > startIndex && wantsMinus)
 					write('-');
-				wantsMinus= true;
+				wantsMinus = true;
 				// For reasons of compatibility with HieroTeX, we close all
 				// toggles at line or page breaks :
 				if (sub instanceof LineBreak || sub instanceof PageBreak)
@@ -415,7 +483,8 @@ public class MdCModelWriter {
 		 * @param newState
 		 * @param redCloser
 		 * @return true if a red toggle was closer than a gray toggle.
-		 * TODO : perhaps move the whole "closer" business to fields of this class.
+		 *         TODO : perhaps move the whole "closer" business to fields of this
+		 *         class.
 		 */
 		private boolean fixToggles(TopItemState state, TopItemState newState,
 				boolean redCloser) {
@@ -480,7 +549,7 @@ public class MdCModelWriter {
 			if (b.getSpacing() != 100)
 				write("=" + b.getSpacing() + "%");
 			write("\n");
-			wantsMinus= false;
+			wantsMinus = false;
 		}
 
 		/*
@@ -490,21 +559,24 @@ public class MdCModelWriter {
 		 */
 		public void visitPageBreak(PageBreak b) {
 			write("!!\n");
-			wantsMinus= false;
+			wantsMinus = false;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.model.AbsoluteGroup)
+		 * @see
+		 * jsesh.model.ModelElementVisitor#visitAbsoluteGroup(jsesh.model.AbsoluteGroup)
 		 */
 		public void visitAbsoluteGroup(AbsoluteGroup g) {
 			// TODO : generate "&&" if the correct option is selected.
-			//visitElementList(g, "&&");
+			// visitElementList(g, "&&");
 			visitElementList(g, "**");
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
 		 */
 		public void visitZoneStart(ZoneStart start) {
@@ -512,25 +584,29 @@ public class MdCModelWriter {
 			write("zone");
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see jsesh.model.ModelElementVisitor#visitOptionList(jsesh.model.OptionsMap)
 		 */
 		public void visitOptionList(OptionsMap list) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void visitComplexLigature(ComplexLigature ligature) {
-			// TODO finish this and propose "&&" and "^^" as operators if possible (according to some switch)
+			// TODO finish this and propose "&&" and "^^" as operators if possible
+			// (according to some switch)
 			// TODO CHANGE THE GRAMMAR TO AVOID PROBLEMS WITH ASSOCIATIVITY AND PARENTHESIS.
-			// LIGATURES SHOULD NOT BE INNERGROUPS... OR AT LEAST THEIR SECOND PART SHOULD NOT BE...
-			InnerGroup before= ligature.getBeforeGroup();
-			InnerGroup after= ligature.getAfterGroup();
-			
+			// LIGATURES SHOULD NOT BE INNERGROUPS... OR AT LEAST THEIR SECOND PART SHOULD
+			// NOT BE...
+			InnerGroup before = ligature.getBeforeGroup();
+			InnerGroup after = ligature.getAfterGroup();
+
 			if (before != null) {
 				before.accept(this);
 				write("^^^");
-			} 
+			}
 			ligature.getHieroglyph().accept(this);
 			if (after != null) {
 				write("&&&");
@@ -541,6 +617,7 @@ public class MdCModelWriter {
 
 	/**
 	 * write the elements between indexes a and b.
+	 * 
 	 * @param w
 	 * @param top
 	 * @param a
@@ -548,23 +625,23 @@ public class MdCModelWriter {
 	 */
 	public void write(Writer w, TopItemList top, int a, int b) {
 		this.out = w;
-		ModelWriterAux aux= new ModelWriterAux();
-		startIndex= a;
-		endIndex= b;
+		ModelWriterAux aux = new ModelWriterAux();
+		startIndex = a;
+		endIndex = b;
 		top.accept(aux);
 	}
-	
-		
+
 	public void setInDialect(Dialect inDialect) {
 		this.inDialect = inDialect;
 	}
-	
+
 	public void setOutDialect(Dialect outDialect) {
 		this.outDialect = outDialect;
 	}
-	
+
 	/**
 	 * Should we normalize the hieroglyph codes to their Gardiner form.
+	 * 
 	 * @param normalized
 	 */
 	public void setNormalized(boolean normalized) {
@@ -573,8 +650,9 @@ public class MdCModelWriter {
 
 	/**
 	 * Should we normalize the hieroglyph codes to their Gardiner form.
-	 * @return true if signs are normalized. 
-	  */
+	 * 
+	 * @return true if signs are normalized.
+	 */
 	public boolean isNormalized() {
 		return normalized;
 	}

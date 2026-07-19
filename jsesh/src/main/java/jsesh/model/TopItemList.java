@@ -331,59 +331,6 @@ public class TopItemList extends ModelElement implements MDCFileInterface,
     }
 
     /**
-     * Returns a MdC Representation for this object.
-     *
-     * @return
-     */
-    public String toMdC() {
-        return toMdC(0, getNumberOfChildren());
-    }
-
-    /**
-     * Returns a MdC Representation for the cadrats between positions start and
-     * end.
-     *
-     * @param start
-     * @param end
-     * @return
-     */
-    public String toMdC(int start, int end) {
-        return toMdC(start, end, false);
-    }
-
-    /**
-     * Gets a MdC representation for the quadrats between start and end, with
-     * possible normalization.
-     *
-     * @param start
-     * @param end
-     * @param normalized if true, phonetic codes will be replaced by their
-     * Gardiner counterpart.
-     * @return
-     */
-    public String toMdC(int start, int end, boolean normalized) {
-        // As requested by the IFAO, we save the Manuel de codage content in
-        // the picture as a comment.
-        MdCModelWriter mdCModelWriter = new MdCModelWriter();
-        mdCModelWriter.setNormalized(normalized);
-        StringWriter comment = new StringWriter();
-        mdCModelWriter.write(comment, this, start, end);
-
-        String mdcText = comment.toString();
-        return mdcText;
-    }
-
-    /**
-     * Returns a MdC Representation for this object, with possible
-     * normalization.
-     *
-     * @return
-     */
-    public String toMdC(boolean normalized) {
-        return toMdC(0, getNumberOfChildren(), normalized);
-    }
-
-    /**
      * Returns the list of top items between two points.
      *
      * @param min

@@ -22,6 +22,7 @@ import jsesh.ui.export.emf.EmbeddableEMFSimpleDrawer;
 import jsesh.ui.export.pdfExport.PDFDataSaver;
 import jsesh.ui.export.rtf.RTFExportPreferences;
 import jsesh.ui.export.rtf.RTFExporter;
+import jsesh.io.mdc.MdCModelWriter;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
@@ -127,9 +128,11 @@ public class MDCModelTransferable implements Transferable {
      */
     private ByteArrayInputStream getEMFData() throws IOException {
         JSeshRenderContext marginLessContext = createEmbeddedRenderContext();
+        MdCModelWriter mdCModelWriter = new MdCModelWriter();
+        String mdc = mdCModelWriter.toMdC(topItemList);
         EmbeddableEMFSimpleDrawer drawer = new EmbeddableEMFSimpleDrawer(marginLessContext,
                 rtfPreferences.cadratHeight(),
-                topItemList.toMdC());
+                mdc);
         drawer.drawTopItemList(topItemList);
         return new ByteArrayInputStream(drawer.getBytes());
     }
@@ -191,7 +194,8 @@ public class MDCModelTransferable implements Transferable {
      * @return
      */
     private String getStringData() {
-        return topItemList.toMdC(true);
+        MdCModelWriter mdCModelWriter = new MdCModelWriter();
+        return mdCModelWriter.toMdC(topItemList, true);
     }
 
     /**

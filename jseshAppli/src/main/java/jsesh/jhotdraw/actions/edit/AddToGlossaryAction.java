@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
-import jsesh.ui.glossary.JGlossaryEditor;
+import jsesh.io.mdc.MdCModelWriter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.model.TopItemList;
 import jsesh.render.draw.MDCIconFactory;
+import jsesh.ui.glossary.JGlossaryEditor;
 
 /**
  * An action which adds the current selection to the so-called glossary.
@@ -29,7 +31,9 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 		viewCore()
 				.filter(v -> v.getEditor().hasSelection())
 				.ifPresent(v -> {
-					String mdc = v.getEditor().getSelection().toMdC();
+					MdCModelWriter mdCModelWriter = new MdCModelWriter();
+					TopItemList list = v.getEditor().getSelection();
+					String mdc = mdCModelWriter.toMdC(list);
 					JGlossaryEditor editor = appCore().glossaryEditor();
 					editor.getFrame().setVisible(true);
 					editor.prepareToAdd(mdc);

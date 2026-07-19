@@ -1,10 +1,7 @@
 package jsesh.model;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * 
@@ -54,7 +51,7 @@ abstract public class TopItem extends EmbeddedModelElement{
 		return (TopItem) deepCopy();
 	}
 
-	public String toMdC() {
+	/*public String toMdC() {
 		// As requested by the IFAO, we save the Manuel de codage content in
 		// the picture as a comment.
 		MdCModelWriter mdCModelWriter = new MdCModelWriter();
@@ -66,6 +63,7 @@ abstract public class TopItem extends EmbeddedModelElement{
 		String mdcText = comment.toString();
 		return mdcText;
 	}
+*/
 
 	public boolean isRed() {
 		return state.isRed();

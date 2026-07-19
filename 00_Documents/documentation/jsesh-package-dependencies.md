@@ -362,3 +362,4 @@ is now written out in full instead.
 
 - `model -> parser` (4) and `model -> io` (3) — the core model still reaches
   up into parsing and serialisation. This is the one substantial knot left.
+

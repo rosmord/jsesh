@@ -10,6 +10,7 @@ package jsesh.ui.export.generic;
 
 
 import jsesh.document.caret.MDCCaret;
+import jsesh.io.mdc.MdCModelWriter;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;
@@ -120,7 +121,8 @@ public class ExportData {
 	 * @return
 	 */
 	public String getExportedMdC() {
-		return topItemList.toMdC(start.getIndex(), end.getIndex());
+		MdCModelWriter mdCModelWriter = new MdCModelWriter();
+		return mdCModelWriter.toMdC(topItemList, start.getIndex(), end.getIndex());		
 	}
 
 }
