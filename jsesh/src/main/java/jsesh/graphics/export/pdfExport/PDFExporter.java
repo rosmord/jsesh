@@ -33,7 +33,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import jsesh.render.style.FontSpecification;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.editor.caret.MDCCaret;
+import jsesh.document.caret.MDCCaret;
 import jsesh.graphics.export.generic.ExportData;
 import jsesh.graphics.export.generic.ExportOptionPanel;
 import jsesh.graphics.export.generic.SelectionExporter;

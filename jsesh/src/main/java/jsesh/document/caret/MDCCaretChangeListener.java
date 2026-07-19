@@ -34,7 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 /*
  * Created on 31 oct. 2004
  */
-package jsesh.editor.caret;
+package jsesh.document.caret;
 
 
 /**

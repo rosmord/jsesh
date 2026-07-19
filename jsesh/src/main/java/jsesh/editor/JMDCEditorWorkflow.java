@@ -51,8 +51,6 @@ import java.util.function.Consumer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
-import jsesh.editor.caret.MDCCaret;
-import jsesh.editor.caret.MDCCaretChangeListener;
 import jsesh.document.events.NewTextEvent;
 import jsesh.document.events.TextEvent;
 import jsesh.document.events.TextOperationEvent;
@@ -97,6 +95,8 @@ import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.AbsoluteGroupBuilder;
 import jsesh.document.HieroglyphicTextModel;
+import jsesh.document.caret.MDCCaret;
+import jsesh.document.caret.MDCCaretChangeListener;
 import jsesh.io.mdc.MdCModelWriter;
 
 /**

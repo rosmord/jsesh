@@ -9,7 +9,7 @@
 package jsesh.graphics.export.generic;
 
 
-import jsesh.editor.caret.MDCCaret;
+import jsesh.document.caret.MDCCaret;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.render.context.JSeshRenderContext;

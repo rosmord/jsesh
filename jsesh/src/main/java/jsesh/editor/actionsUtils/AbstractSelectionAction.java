@@ -38,9 +38,9 @@ package jsesh.editor.actionsUtils;
 
 import javax.swing.Icon;
 
+import jsesh.document.caret.MDCCaret;
+import jsesh.document.caret.MDCCaretChangeListener;
 import jsesh.editor.JMDCEditor;
-import jsesh.editor.caret.MDCCaret;
-import jsesh.editor.caret.MDCCaretChangeListener;
 
 /**
  * An abstract class for actions which work on the selection.

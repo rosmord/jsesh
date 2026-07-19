@@ -5,7 +5,7 @@
  */
 package jsesh.graphics.export.generic;
 
-import jsesh.editor.caret.MDCCaret;
+import jsesh.document.caret.MDCCaret;
 
 /**
  * Interface for classes that can provide a caret.

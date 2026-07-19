@@ -36,7 +36,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.editor;
 
-import jsesh.editor.caret.MDCCaret;
+import jsesh.document.caret.MDCCaret;
 import jsesh.model.operations.ModelOperation;
 
 /**

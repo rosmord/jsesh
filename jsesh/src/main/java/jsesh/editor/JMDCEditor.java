@@ -75,7 +75,6 @@ import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.editor.actions.text.EditorShadeAction;
-import jsesh.editor.caret.MDCCaret;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.parser.MDCSyntaxError;
@@ -97,6 +96,7 @@ import jsesh.platform.graphics.GraphicsUtils;
 import jsesh.swing.utils.MDCIconFactory;
 import jsesh.document.HieroglyphicTextModel;
 import jsesh.document.MdCSearchQuery;
+import jsesh.document.caret.MDCCaret;
 
 /**
  * An editor for Manuel de codage text. If you want to manipulate the text, you
