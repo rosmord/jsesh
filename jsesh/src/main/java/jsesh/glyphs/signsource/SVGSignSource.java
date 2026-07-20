@@ -1,10 +1,10 @@
 package jsesh.glyphs.signsource;
 
-import jsesh.glyphs.data.coremdc.GardinerCode;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.shape.VerticalGravity;
+import jsesh.signcodes.GardinerCode;
 
 import java.awt.BasicStroke;
 import java.awt.geom.*;

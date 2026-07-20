@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.model.transliteration.TransliterationUtilities;
+import jsesh.utils.datatypes.StringUtils;
 
 /**
  *
@@ -23,7 +23,7 @@ public class TransliterationUtilitiesTest {
         String entry = "";
         String expected = "";
         
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -31,7 +31,7 @@ public class TransliterationUtilitiesTest {
     public void testSimplifyKeyAllOk() {
         String entry = "sxmnṯrꜥꜣ𓐍";
         String expected = "sxmnṯrꜥꜣ𓐍";
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -39,7 +39,7 @@ public class TransliterationUtilitiesTest {
     public void testSimplifyKeyWithHyphen() {
         String entry = "Hwt-Hr";
         String expected = "HwtHr";
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -47,7 +47,7 @@ public class TransliterationUtilitiesTest {
     public void testSimplifyKeyWithHyphens() {
         String entry = "Hr-m-Ax-bit";
         String expected = "HrmAxbit";
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -55,7 +55,7 @@ public class TransliterationUtilitiesTest {
     public void testSimplifyKeyWithSpaces() {
         String entry = "Hwt Hr";
         String expected = "HwtHr";
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 
@@ -63,7 +63,7 @@ public class TransliterationUtilitiesTest {
     public void testSimplifyKeyWithSUnderscores() {
         String entry = "Hwt_Hr";
         String expected = "HwtHr";
-        String actual = TransliterationUtilities.removeHyphens(entry);
+        String actual = StringUtils.removeHyphens(entry);
         assertEquals(expected, actual);
     }
 }

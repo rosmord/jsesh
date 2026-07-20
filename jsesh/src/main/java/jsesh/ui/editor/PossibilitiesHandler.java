@@ -33,9 +33,9 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.ui.editor;
 
-import jsesh.glyphs.data.PossibilitiesList;
-import jsesh.glyphs.data.Possibility;
-import jsesh.glyphs.data.PossibilityRepository;
+import jsesh.glyphs.signdata.PossibilitiesList;
+import jsesh.glyphs.signdata.Possibility;
+import jsesh.glyphs.signdata.PossibilityRepository;
 
 /**
  * Manages the choice of the text to insert at a given point in a given editor.

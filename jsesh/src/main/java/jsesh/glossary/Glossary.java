@@ -33,8 +33,6 @@
  */
 package jsesh.glossary;
 
-import static jsesh.model.transliteration.TransliterationUtilities.removeHyphens;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
@@ -45,6 +43,7 @@ import java.util.TreeMap;
 import org.qenherkhopeshef.observable.EventSupport;
 
 import jsesh.model.transliteration.MDCTransliterationComparator;
+import jsesh.utils.datatypes.StringUtils;
 
 /**
  * The "glossary" is in fact a map of precomposed entries.
@@ -185,7 +184,7 @@ public class Glossary implements Iterable<GlossaryEntry> {
 		}
 
 		public List<GlossaryEntry> get(String key) {
-			return map.get(removeHyphens(key));
+			return map.get(StringUtils.removeHyphens(key));
 		}
 
 		/**
@@ -194,7 +193,7 @@ public class Glossary implements Iterable<GlossaryEntry> {
 		 * @return true iff the glossary was modified (i.e. if the entry was actually removed).
 		 */
 		public boolean remove(GlossaryEntry entry) {
-			String simplifiedKey = removeHyphens(entry.getKey());
+			String simplifiedKey = StringUtils.removeHyphens(entry.getKey());
 			ArrayList<GlossaryEntry> l = map.get(simplifiedKey);
 			if (l != null) {
 				boolean removed = l.remove(entry);
@@ -215,7 +214,7 @@ public class Glossary implements Iterable<GlossaryEntry> {
 		 * @return true iff the glossary was modified.
 		 */
 		public boolean add(GlossaryEntry entry) {
-			String simplifiedKey = removeHyphens(entry.getKey());
+			String simplifiedKey = StringUtils.removeHyphens(entry.getKey());
 			if (!map.containsKey(simplifiedKey)) {
 				map.put(simplifiedKey, new ArrayList<>());
 			}

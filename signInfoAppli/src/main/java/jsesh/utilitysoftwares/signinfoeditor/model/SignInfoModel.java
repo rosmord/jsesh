@@ -12,9 +12,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import jsesh.defaults.HieroglyphResources;
-import jsesh.glyphs.data.SignDescriptionConstants;
-import jsesh.glyphs.data.coremdc.GardinerCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
+import jsesh.signcodes.GardinerCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEvent;
 import jsesh.utilitysoftwares.signinfoeditor.events.SignInfoModelEventListener;
 import jsesh.utilitysoftwares.signinfoeditor.events.TagEvent;

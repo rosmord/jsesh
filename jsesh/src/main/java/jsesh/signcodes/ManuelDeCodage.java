@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.glyphs.data.coremdc;
+package jsesh.signcodes;
 
 import java.io.Reader;
 import java.io.StreamTokenizer;

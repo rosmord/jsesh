@@ -1,4 +1,4 @@
-package jsesh.glyphs.signsource;
+package jsesh.ui.widgets.signimportdialog;
 
 import java.io.File;
 import java.io.FileReader;
@@ -6,9 +6,15 @@ import java.io.IOException;
 import java.util.Locale;
 
 import jsesh.glyphs.bzr.BzrFormatException;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.glyphs.signsource.BZRSignSource;
+import jsesh.glyphs.signsource.SVGSignSource;
+import jsesh.glyphs.signsource.SimpleSignSourceModel;
+import jsesh.glyphs.signsource.TTFSignSource;
+import jsesh.glyphs.signsource.TmlSignsImporter;
+import jsesh.glyphs.signsource.UserSignWriter;
+import jsesh.signcodes.ManuelDeCodage;
 
 public class ExternalSignImporterModel {
 

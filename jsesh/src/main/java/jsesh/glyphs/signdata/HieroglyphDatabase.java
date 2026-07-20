@@ -10,7 +10,7 @@
  *
  * Created on 27 sept. 2007, 17:18:09
  */
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 import java.util.ArrayDeque;
 import java.util.Collection;

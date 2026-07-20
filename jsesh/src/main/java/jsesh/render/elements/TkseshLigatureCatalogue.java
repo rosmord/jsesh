@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.render.layout.ExplicitPosition;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.utils.resources.ResourcesManager;
 
 /**

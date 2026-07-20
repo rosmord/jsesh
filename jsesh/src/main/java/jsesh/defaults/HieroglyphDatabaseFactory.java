@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsesh.glyphs.data;
+package jsesh.defaults;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +19,9 @@ import jsesh.glyphs.io.SignDescriptionBuilder;
 import jsesh.glyphs.io.SignDescriptionBuilderToHieroglyphDatabaseAdapter;
 import jsesh.glyphs.io.SignDescriptionReader;
 import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
+import jsesh.glyphs.signdata.DefaultHieroglyphDatabase;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
+import jsesh.signcodes.HieroglyphCodesSource;
 import jsesh.utils.resources.ResourcesManager;
 
 /**

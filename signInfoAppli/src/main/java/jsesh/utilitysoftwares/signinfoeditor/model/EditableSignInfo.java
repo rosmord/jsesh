@@ -3,7 +3,7 @@ package jsesh.utilitysoftwares.signinfoeditor.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.glyphs.data.SignDescriptionConstants;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
 
 
 /**

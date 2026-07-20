@@ -1,9 +1,9 @@
 package jsesh.model;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.model.api.HieroglyphInterface;
 
 /**

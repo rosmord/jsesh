@@ -19,14 +19,14 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Optional;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.LigatureZoneBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.render.layout.ExplicitPosition;
 import jsesh.render.view.ViewBox;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.platform.graphics.ShapeHelper;
 
 /**

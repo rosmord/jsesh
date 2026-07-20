@@ -11,10 +11,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.WordEndingCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticText;
 import jsesh.model.BasicItemList;

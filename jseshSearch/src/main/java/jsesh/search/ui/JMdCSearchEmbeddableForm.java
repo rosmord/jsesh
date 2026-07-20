@@ -24,11 +24,9 @@ import jsesh.ui.editor.JMDCField;
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.document.MdCSearchQuery;
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.model.TopItemList;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadratSearchQuery;
@@ -37,6 +35,8 @@ import jsesh.search.ui.specifications.JMdCSearchFormModelIF;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardConstants;
 import jsesh.search.wildcard.WildCardQuery;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 import net.miginfocom.swing.MigLayout;
 
 /**

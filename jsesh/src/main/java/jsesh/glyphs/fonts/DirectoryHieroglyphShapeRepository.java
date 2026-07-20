@@ -11,11 +11,11 @@ import java.util.TreeMap;
 import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.GardinerCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.signsource.SVGSignSource;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.GardinerCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.utils.io.DirectoryHolder;
 
 /**

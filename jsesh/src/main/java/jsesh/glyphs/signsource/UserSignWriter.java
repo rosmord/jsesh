@@ -1,6 +1,7 @@
 package jsesh.glyphs.signsource;
 
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.ui.widgets.signimportdialog.ExternalSignImporterModel;
 
 /**
  * Write side for newly imported signs: somewhere to put a sign the user has

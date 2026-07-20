@@ -1,4 +1,4 @@
-package jsesh.glyphs.data.coremdc;
+package jsesh.signcodes;
 
 /**
  * Canonical code for a Hieroglyph.

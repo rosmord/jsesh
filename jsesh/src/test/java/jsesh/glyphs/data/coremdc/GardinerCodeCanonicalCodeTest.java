@@ -1,6 +1,6 @@
 package jsesh.glyphs.data.coremdc;
 
-import static jsesh.glyphs.data.coremdc.GardinerCode.isCanonicalCode;
+import static jsesh.signcodes.GardinerCode.isCanonicalCode;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

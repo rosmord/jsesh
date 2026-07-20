@@ -38,11 +38,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.PossibilitiesList;
-import jsesh.glyphs.data.PossibilityRepository;
-import jsesh.glyphs.data.SignDescriptionConstants;
-import jsesh.glyphs.data.coremdc.GardinerCode;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
+import jsesh.glyphs.signdata.PossibilitiesList;
+import jsesh.glyphs.signdata.PossibilityRepository;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
+import jsesh.signcodes.GardinerCode;
 
 /**
  * Shared repository to manage access to possibility lists. Also, maintains

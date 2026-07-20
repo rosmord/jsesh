@@ -50,11 +50,11 @@ import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
 
 import jsesh.glossary.GlossaryManager;
+import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.defaults.HieroglyphDatabaseFactory;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.defaults.UserFontDirectoryManager;
-import jsesh.glyphs.data.HieroglyphDatabaseFactory;
-import jsesh.glyphs.tools.HieroglyphPictureBuilder;
 import jsesh.ui.palette.PalettePresenter;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModel;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoModelFactory;

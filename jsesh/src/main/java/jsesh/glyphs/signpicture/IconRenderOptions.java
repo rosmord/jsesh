@@ -1,5 +1,4 @@
-package jsesh.glyphs.tools;
-
+package jsesh.glyphs.signpicture;
 
 /**
  * Rendering options for {@link HieroglyphPictureBuilder}.

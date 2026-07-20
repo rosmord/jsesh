@@ -32,7 +32,7 @@
  knowledge of the CeCILL license and that you accept its terms.
   Created on 14 nov. 2004
  */
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -136,7 +136,6 @@ public class PossibilitiesList {
 	 */
 	public PossibilitiesList add(PossibilitiesList p1) {
 		PossibilitiesList result = new PossibilitiesList(this);
-		HashSet<Possibility> p1Content = new HashSet<Possibility>(p1.asList());
 		for (Possibility o : p1.asList()) {			
 				result.add(o);
 		}

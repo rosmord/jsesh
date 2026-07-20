@@ -7,8 +7,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.signcodes.CanonicalCode;
+
 import org.qenherkhopeshef.observable.ObservableEventListener;
 import org.qenherkhopeshef.observable.ObservableEventSupport;
 

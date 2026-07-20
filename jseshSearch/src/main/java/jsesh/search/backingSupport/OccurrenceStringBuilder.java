@@ -3,11 +3,11 @@ package jsesh.search.backingSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.TopItemList;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * Extract a normalised list of couples codes/position, usable for a number of searches.

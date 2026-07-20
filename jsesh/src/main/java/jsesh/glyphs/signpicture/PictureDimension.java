@@ -1,4 +1,4 @@
-package jsesh.glyphs.tools;
+package jsesh.glyphs.signpicture;
 
 
 /**

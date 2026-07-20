@@ -4,10 +4,10 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.glyphs.data.coremdc.GardinerCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.parser.MDCParserFacade;
 import jsesh.parser.MDCSyntaxError;
+import jsesh.signcodes.GardinerCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.model.api.HieroglyphInterface;
 import jsesh.model.api.MDCBuilderAdapter;
 import jsesh.model.api.ModifierListInterface;

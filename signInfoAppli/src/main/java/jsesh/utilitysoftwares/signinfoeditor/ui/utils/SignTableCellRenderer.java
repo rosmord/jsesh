@@ -37,11 +37,11 @@ import java.awt.Component;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.glyphs.tools.HieroglyphPictureBuilder;
-import jsesh.glyphs.tools.IconRenderOptions;
-import jsesh.glyphs.tools.PictureDimension;
+import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.glyphs.signpicture.IconRenderOptions;
+import jsesh.glyphs.signpicture.PictureDimension;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * A hieroglyph Renderer for JTable cells, rendering <em>one</em> sign

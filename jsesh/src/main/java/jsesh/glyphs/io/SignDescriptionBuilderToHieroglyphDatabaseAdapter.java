@@ -2,9 +2,9 @@ package jsesh.glyphs.io;
 
 import java.util.Locale;
 
-import jsesh.glyphs.data.SignValueType;
-import jsesh.glyphs.data.SignVariantType;
-import jsesh.glyphs.data.DefaultHieroglyphDatabase;
+import jsesh.glyphs.signdata.DefaultHieroglyphDatabase;
+import jsesh.glyphs.signdata.SignValueType;
+import jsesh.glyphs.signdata.SignVariantType;
 
 /**
  * Adapter class for reading XML signs descriptions into HieroglyphDatabase. The

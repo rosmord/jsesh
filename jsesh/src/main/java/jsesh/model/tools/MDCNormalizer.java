@@ -1,9 +1,9 @@
 package jsesh.model.tools;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.TopItemList;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * An expert able to normalize hieroglyphs in a MDC text (i.e. replace all codes by Gardiner codes for searches).

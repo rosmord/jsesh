@@ -1,8 +1,6 @@
-package jsesh.glyphs.data;
+package jsesh.signcodes;
 
 import java.util.Set;
-
-import jsesh.glyphs.data.coremdc.CanonicalCode;
 
 /**
  * A catalogue of hieroglyph codes.

@@ -1,7 +1,7 @@
 package jsesh.utilitysoftwares.signinfoeditor.viewmodel;
 
-import jsesh.glyphs.data.SignDescriptionConstants;
-import jsesh.glyphs.data.SignValueType;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
+import jsesh.glyphs.signdata.SignValueType;
 import jsesh.utilitysoftwares.signinfoeditor.model.EditableSignInfo;
 import jsesh.utilitysoftwares.signinfoeditor.model.SignInfoProperty;
 

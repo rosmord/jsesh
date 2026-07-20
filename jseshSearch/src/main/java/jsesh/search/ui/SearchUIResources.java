@@ -2,8 +2,8 @@ package jsesh.search.ui;
 
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.defaults.HieroglyphResources;
-import jsesh.glyphs.data.HieroglyphDatabase;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
 
 /**
  * Resources used by the search UI.

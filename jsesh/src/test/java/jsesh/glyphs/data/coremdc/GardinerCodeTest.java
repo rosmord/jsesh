@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.glyphs.data.coremdc.GardinerCode;
+import jsesh.signcodes.GardinerCode;
 
 public class GardinerCodeTest {
 

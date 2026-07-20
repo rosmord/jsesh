@@ -54,8 +54,8 @@ import org.qenherkhopeshef.observable.ObservableEventListener;
 import jsesh.document.events.NewTextEvent;
 import jsesh.document.events.TextEvent;
 import jsesh.document.events.TextOperationEvent;
-import jsesh.glyphs.data.Possibility;
-import jsesh.glyphs.data.PossibilityRepository;
+import jsesh.glyphs.signdata.Possibility;
+import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
@@ -99,6 +99,7 @@ import jsesh.document.HieroglyphicTextModel;
 import jsesh.document.caret.MDCCaret;
 import jsesh.document.caret.MDCCaretChangeListener;
 import jsesh.io.mdc.MdCModelWriter;
+import jsesh.io.mdc.MdcTextHelper;
 
 /**
  * An abstract representation of the editing process of a hieroglyphic text.
@@ -1798,7 +1799,13 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (possibilitiesHandler.hasPossibilities()) {
             Possibility s = possibilitiesHandler.getPossibility();
             if (!s.isSingleSign()) {
-                items = s.getTopItemList().asList();
+                String mdc = s.getCode();
+                try {
+					items = MdcTextHelper.parse(mdc).asList();
+				} catch (MDCSyntaxError e) {
+                    items = Collections.singletonList(buildItemForSignCode("erroringlossary"));
+					e.printStackTrace();
+				}                
             } else {
                 items = Collections.singletonList(buildItemForSignCode(s
                         .getCode()));

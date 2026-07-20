@@ -31,7 +31,7 @@ same conditions as regards security.
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL license and that you accept its terms.
 */
-package jsesh.glyphs.tools;
+package jsesh.glyphs.signpicture;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -44,10 +44,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 import jsesh.utils.swing.GraphicsUtils;
 
 /**

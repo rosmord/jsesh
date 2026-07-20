@@ -48,18 +48,18 @@ import org.qenherkhopeshef.swingUtils.lists.ListItem;
 
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.utils.preferences.JSeshPreferencesRoot;
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.HieroglyphFamily;
-import jsesh.glyphs.data.PossibilitiesList;
-import jsesh.glyphs.data.Possibility;
-import jsesh.glyphs.data.SignDescriptionConstants;
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.GardinerCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.glyphs.tools.HieroglyphPictureBuilder;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
+import jsesh.glyphs.signdata.HieroglyphFamily;
+import jsesh.glyphs.signdata.PossibilitiesList;
+import jsesh.glyphs.signdata.Possibility;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
+import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.GardinerCode;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * Control and data feed for the simple palette.

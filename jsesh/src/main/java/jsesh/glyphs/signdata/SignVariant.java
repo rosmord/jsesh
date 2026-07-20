@@ -9,11 +9,11 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 import java.util.Objects;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * Information about a possible variant for a sign.

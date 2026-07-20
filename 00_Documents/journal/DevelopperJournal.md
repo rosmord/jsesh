@@ -197,7 +197,7 @@ List of classes which need some cleanup:
     - shape
     - fonts
     - signdata        
-  - [ ] remove `TopItemList` from `Possibility` (cleans up dependencies a lot)
+  - [x] remove dependency on `TopItemList` from `Possibility` (cleans up dependencies a lot)
   - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
   - [ ] introduce a top-level `signcode` package (or `coremdc`)
   - [ ] glyphs should have sub-packages shape, fonts, signdata

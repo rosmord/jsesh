@@ -31,11 +31,11 @@
  The fact that you are presently reading this means that you have had
  knowledge of the CeCILL license and that you accept its terms.
  */
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
-import jsesh.parser.MDCParserModelGenerator;
-import jsesh.parser.MDCSyntaxError;
-import jsesh.model.TopItemList;
+import java.util.Objects;
+
+import jsesh.glyphs.signdata.Possibility;
 
 /**
  * A candidate text in the possibility list.
@@ -52,7 +52,6 @@ import jsesh.model.TopItemList;
  */
 public final class Possibility {
 	private String code;
-	private TopItemList topItemList;
 	private boolean singleSign;
 
 	
@@ -76,28 +75,15 @@ public final class Possibility {
 	
 	private Possibility(String code, boolean singleSign) {
 		this.code= code;
-		this.singleSign= singleSign;
-		this.topItemList= null;
-		
+		this.singleSign= singleSign;		
 	}
+
 	private Possibility(String signCode) {
 		if (signCode == null)
 			throw new NullPointerException();
 		this.code = signCode;
 	}
 
-	/**
-	 * Create a possibility corresponding to some text.
-	 * 
-	 * @param topItems
-	 *            a list of items (will be defensively copied).
-	 */
-	private Possibility(TopItemList topItems) {
-		if (topItems == null) {
-			throw new NullPointerException();
-		}
-		this.topItemList = topItems.deepCopy();
-	}
 
 	public boolean isSingleSign() {
 		return singleSign;
@@ -113,33 +99,10 @@ public final class Possibility {
 			throw new NullPointerException();
 		return code;
 	}
-
-	/**
-	 * Returns the text, if defined.
-	 * 
-	 * @return a text
-	 * @throw {@link NullPointerException} if {@link #isSingleSign()}
-	 *        returns true.
-	 */
-	public TopItemList getTopItemList() {
-		if (topItemList == null) {
-			MDCParserModelGenerator gen= new MDCParserModelGenerator();
-			try {
-				topItemList= gen.parse(code);
-			} catch (MDCSyntaxError e) {
-				e.printStackTrace();				
-			}
-		}
-		return topItemList;
-	}
-
+	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + (singleSign ? 1231 : 1237);
-		return result;
+		return Objects.hash(code, singleSign);		
 	}
 
 	@Override

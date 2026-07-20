@@ -28,8 +28,8 @@ import org.qenherkhopeshef.finitestate.lazy.RegularExtractor;
 import org.qenherkhopeshef.finitestate.lazy.RegularLanguageIF;
 
 import jsesh.document.MdCSearchQuery;
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.VariantTypeForSearches;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
+import jsesh.glyphs.signdata.VariantTypeForSearches;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.model.tools.HieroglyphCodesExtractor;

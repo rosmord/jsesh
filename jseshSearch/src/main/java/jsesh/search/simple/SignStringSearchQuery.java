@@ -38,13 +38,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.document.MdCSearchQuery;
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * Simple Search for sign strings.

@@ -2,14 +2,13 @@ package jsesh.defaults;
 
 
 import jsesh.glossary.Glossary;
-import jsesh.glyphs.data.HieroglyphDatabase;
-import jsesh.glyphs.data.HieroglyphDatabaseFactory;
-import jsesh.glyphs.data.PossibilityRepository;
 import jsesh.glossary.PossibilityRepositoryFromGlossary;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
+import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.utils.io.DirectoryHolder;
 
 /**

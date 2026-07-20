@@ -1,4 +1,4 @@
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 /**
  * XML tags names and property names used in sign_description.dtd.

@@ -1,9 +1,10 @@
 package jsesh.glyphs.fonts;
 
 
-import jsesh.glyphs.data.HieroglyphCodesSource;
-import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.signcodes.CanonicalCode;
+import jsesh.signcodes.HieroglyphCodesSource;
+
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 

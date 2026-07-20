@@ -1,4 +1,4 @@
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 public class SignTransliteration {
 

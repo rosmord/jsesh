@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphResources;
 import jsesh.defaults.HieroglyphResourcesBuilder;
-import jsesh.glyphs.data.HieroglyphDatabase;
+import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.parser.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.MDCPosition;

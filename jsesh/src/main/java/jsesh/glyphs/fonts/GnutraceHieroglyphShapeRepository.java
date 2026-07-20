@@ -19,8 +19,8 @@ import java.util.Set;
 import jsesh.glyphs.bzr.BzrDefaultFontBuilder;
 import jsesh.glyphs.bzr.BzrFont;
 import jsesh.glyphs.bzr.BzrFontReader;
-import jsesh.glyphs.data.coremdc.CanonicalCode;
 import jsesh.glyphs.shape.ShapeChar;
+import jsesh.signcodes.CanonicalCode;
 
 /**
  * The old fonts used by tksesh and the first versions of JSesh.

@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.ui.widgets.signimportdialog.control.ExternalSignImporterPresenter;
-import jsesh.glyphs.signsource.ExternalSignImporterModel;
 import jsesh.glyphs.signsource.UserSignWriter;
 import jsesh.ui.widgets.signimportdialog.ui.ExternalSignImporterUI;
 

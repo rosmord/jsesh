@@ -8,13 +8,13 @@ package jsesh.model.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.model.Hieroglyph;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TopItemList;
+import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * This expert is able to extract all hieroglyphs codes from a list of TopItems.

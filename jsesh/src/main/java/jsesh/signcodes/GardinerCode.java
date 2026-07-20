@@ -1,4 +1,4 @@
-package jsesh.glyphs.data.coremdc;
+package jsesh.signcodes;
 
 import java.util.Arrays;
 import java.util.List;

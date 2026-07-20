@@ -6,8 +6,9 @@ import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import jsesh.glyphs.data.SignDescriptionConstants;
+
 import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
+import jsesh.glyphs.signdata.SignDescriptionConstants;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;

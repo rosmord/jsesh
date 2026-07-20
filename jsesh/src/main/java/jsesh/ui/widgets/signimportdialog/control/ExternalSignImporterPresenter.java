@@ -11,8 +11,8 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import jsesh.glyphs.data.coremdc.GardinerCode;
-import jsesh.glyphs.signsource.ExternalSignImporterModel;
+import jsesh.signcodes.GardinerCode;
+import jsesh.ui.widgets.signimportdialog.ExternalSignImporterModel;
 import jsesh.ui.widgets.signimportdialog.ui.ExternalSignImporterUI;
 import jsesh.ui.widgets.signimportdialog.ui.UIEventListener;
 

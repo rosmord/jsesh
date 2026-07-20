@@ -9,7 +9,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.glyphs.data;
+package jsesh.glyphs.signdata;
 
 /**
  * Types of variants usable in searches.
