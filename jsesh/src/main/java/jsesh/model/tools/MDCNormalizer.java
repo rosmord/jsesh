@@ -1,15 +1,9 @@
 package jsesh.model.tools;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import jsesh.glyphs.data.coremdc.ManuelDeCodage;
-import jsesh.parser.MDCParserModelGenerator;
-import jsesh.parser.MDCSyntaxError;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.TopItemList;
-import jsesh.io.mdc.MdCModelWriter;
 
 /**
  * An expert able to normalize hieroglyphs in a MDC text (i.e. replace all codes by Gardiner codes for searches).
@@ -36,28 +30,4 @@ public class MDCNormalizer {
         
 	}
 
-	/**
-	 * Build a normalized Text representation.
-	 * The glyphs will have their correct Gardiner codes. 
-	 * Note that some superfluous information may disappear as a result of parsing.
-	 * @param mdc
-	 * @return
-	 * @throws MDCSyntaxError
-	 */
-	public String normalize(String mdc) throws MDCSyntaxError {
-		// Get the representation
-		MDCParserModelGenerator mdcParser = new MDCParserModelGenerator();
-		TopItemList result = mdcParser.parse(new StringReader(mdc));
-		normalize(result);
-		MdCModelWriter mdCModelWriter = new MdCModelWriter();
-		StringWriter out = new StringWriter();
-		mdCModelWriter.write(out, result);
-		return out.toString();
-	}
-
-	public static void main(String[] args) throws MDCSyntaxError {
-		String mdc= "nn-nTrw-R-N-i-w-r:a-O-$r-ra-[[-m-]]-p*t:pt-$b-10";
-		String mdcNorm= new MDCNormalizer().normalize(mdc);
-		System.out.println(mdcNorm);
-	}
 }

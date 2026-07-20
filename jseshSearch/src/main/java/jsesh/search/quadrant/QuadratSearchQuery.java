@@ -35,6 +35,7 @@
 package jsesh.search.quadrant;
 
 import jsesh.document.MdCSearchQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 import jsesh.model.MDCPosition;

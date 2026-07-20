@@ -48,28 +48,40 @@ skinparam package {
   BorderColor #666666
 }
 
+together {
 package "jsesh.utils"           as utils    <<base>>
 package "jsesh.platform"        as platform <<base>>
+}
 
+together {
 package "jsesh.model"           as model    <<core>>
 package "jsesh.parser"          as parser   <<core>>
 package "jsesh.glyphs"          as glyphs   <<core>>
 package "jsesh.graphics.glyphs" as ggly     <<core>>
+}
 
+together {
 package "jsesh.document"        as doc      <<doc>>
+}
 
+together {
 package "jsesh.io"              as io       <<mid>>
 package "jsesh.render"          as render   <<mid>>
+}
 
+together {
 package "jsesh.glossary"        as gloss    <<conf>>
 package "jsesh.defaults"        as defaults <<conf>>
+}
 
+together {
 package "jsesh.ui.widgets"      as widgets  <<ui>>
 package "jsesh.ui.palette"      as palette  <<ui>>
 package "jsesh.ui.clipboard"    as clip     <<ui>>
 package "jsesh.ui.export"       as export   <<ui>>
 package "jsesh.ui.editor"       as editor   <<ui>>
 package "jsesh.ui.glossary"     as uigloss  <<ui>>
+}
 
 package "jsesh.resources" as res <<ext>>
 note right of res
@@ -227,23 +239,35 @@ skinparam package {
   BorderColor #666666
 }
 
+together {
 package "jsesh.utils"     as utils    <<base>>
 package "jsesh.platform"  as platform <<base>>
+}
 
+together {
 package "jsesh.model"     as model    <<core>>
 package "jsesh.parser"    as parser   <<core>>
 package "jsesh.glyphs"    as glyphs   <<core>>
 package "jsesh.graphics"  as graphics <<core>>
+}
 
+together {
 package "jsesh.document"  as doc      <<doc>>
+}
 
+together {
 package "jsesh.io"        as io       <<mid>>
 package "jsesh.render"    as render   <<mid>>
+}
 
+together {
 package "jsesh.glossary"  as gloss    <<conf>>
 package "jsesh.defaults"  as defaults <<conf>>
+}
 
+together {
 package "jsesh.ui"        as ui       <<ui>>
+}
 
 package "jsesh.resources" as res      <<ext>>
 note right of res

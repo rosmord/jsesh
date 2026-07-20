@@ -656,4 +656,5 @@ public class MdCModelWriter {
 	public boolean isNormalized() {
 		return normalized;
 	}
+
 }

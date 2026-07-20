@@ -11,9 +11,27 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
-- [x] add a system to choose JSesh application user language
-- [x] integrate the arabic version of JSesh
+- goal remove cycles (except those related with the parser)
+  - Introduce sub-packages:
+    - data
+      - would get the current `jsesh.glyphs.io`
+      - embeddedGlyphPathResources
+      - 
+    - shape (current)
+  - [ ] remove `TopItemList` from `Possibility` (cleans up dependencies a lot)
+  - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
+  - [ ] introduce a top-level `signcode` package (or `coremdc`)
+  - [ ] glyphs should have sub-packages shape, fonts, signdata
 - [ ] use i18n for texts in the JSesh Palette
+
+glyphs has three internal cycles today:
+
+| cycle              | cause                                                                     |
+| ------------------ | ------------------------------------------------------------------------- |
+| data ↔ io          | only HieroglyphDatabaseFactory imports io                                 |
+| data ↔ fonts       | HieroglyphShapeRepository needs the small HieroglyphCodesSource interface |
+| fonts ↔ signsource | ExternalSignImporterModel needs HieroglyphShapeRepository to size A1      |
+
 
 
 ## Important decisions

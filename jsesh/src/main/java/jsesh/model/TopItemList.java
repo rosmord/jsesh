@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,6 @@ import jsesh.model.api.MDCFileInterface;
 import jsesh.model.api.TopItemListInterface;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.operations.ZoneModification;
-import jsesh.io.mdc.MdCModelWriter;
 import jsesh.model.tools.HieroglyphCodesExtractor;
 
 /**
