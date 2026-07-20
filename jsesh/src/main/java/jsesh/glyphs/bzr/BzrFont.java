@@ -1,4 +1,4 @@
-package jsesh.glyphs.bzr.simple;
+package jsesh.glyphs.bzr;
 
 import jsesh.glyphs.shape.ShapeChar;
 
@@ -12,11 +12,11 @@ import jsesh.glyphs.shape.ShapeChar;
  * 
  */
 
-public class BzrSimpleFont {
+public class BzrFont {
 
 	private ShapeChar rep[];
 
-	public BzrSimpleFont() {
+	public BzrFont() {
 		rep = new ShapeChar[256];
 	}
 

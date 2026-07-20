@@ -1,8 +1,7 @@
-package jsesh.glyphs.bzr.simple;
+package jsesh.glyphs.bzr;
 
 import java.awt.geom.GeneralPath;
 
-import jsesh.glyphs.bzr.BzrFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 /**
@@ -18,9 +17,9 @@ import jsesh.glyphs.shape.ShapeChar;
  * 
  */
 
-public class BzrSimpleFontBuilder implements BzrFontBuilder {
+public class BzrDefaultFontBuilder implements BzrFontBuilder {
 
-	private BzrSimpleFont font;
+	private BzrFont font;
 
 	private ShapeChar currentChar;
 
@@ -28,11 +27,11 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 
 	private double ury;
 
-	public BzrSimpleFontBuilder() {
+	public BzrDefaultFontBuilder() {
 		font = null;
 	}
 
-	public BzrSimpleFont getFont() {
+	public BzrFont getFont() {
 		return font;
 	}
 
@@ -51,7 +50,7 @@ public class BzrSimpleFontBuilder implements BzrFontBuilder {
 	 *  
 	 */
 	public void reset() {
-		font = new BzrSimpleFont();
+		font = new BzrFont();
 	}
 
 	/**

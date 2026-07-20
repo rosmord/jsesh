@@ -19,9 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import jsesh.utils.swing.GraphicsUtils;
+import jsesh.glyphs.bzr.BzrDefaultFontBuilder;
+import jsesh.glyphs.bzr.BzrFont;
 import jsesh.glyphs.bzr.BzrFontReader;
-import jsesh.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 /**
@@ -37,7 +37,7 @@ import jsesh.glyphs.shape.ShapeChar;
  */
 
 public class DemoFontDisplayer extends JFrame {
-	BzrSimpleFont font;
+	BzrFont font;
 
 	int pos;
 
@@ -80,7 +80,7 @@ public class DemoFontDisplayer extends JFrame {
 		FileDialog file = new FileDialog(this, "choose a bzr font");
 		file.setVisible(true);
 		System.out.println(file.getFile());
-		BzrSimpleFontBuilder builder = new BzrSimpleFontBuilder();
+		BzrDefaultFontBuilder builder = new BzrDefaultFontBuilder();
 		BzrFontReader reader = new BzrFontReader(builder);
 		try {
 			reader.read(new FileInputStream(new File(file.getDirectory(), file

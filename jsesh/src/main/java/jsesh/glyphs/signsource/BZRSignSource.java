@@ -4,20 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import jsesh.glyphs.bzr.BzrDefaultFontBuilder;
+import jsesh.glyphs.bzr.BzrFont;
 import jsesh.glyphs.bzr.BzrFontReader;
 import jsesh.glyphs.bzr.BzrFormatException;
-import jsesh.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.shape.ShapeChar;
 
 public class BZRSignSource implements SimpleSignSourceModel {
 
 	int position;
 	
-	private BzrSimpleFont font;
+	private BzrFont font;
 
 	public BZRSignSource(File file) throws IOException, BzrFormatException {
-		BzrSimpleFontBuilder builder= new BzrSimpleFontBuilder();
+		BzrDefaultFontBuilder builder= new BzrDefaultFontBuilder();
 		BzrFontReader reader= new BzrFontReader(builder);
 		reader.read(new FileInputStream(file));
 		font= builder.getFont();

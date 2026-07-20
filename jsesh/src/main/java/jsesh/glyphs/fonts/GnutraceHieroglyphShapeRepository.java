@@ -16,11 +16,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
 
+import jsesh.glyphs.bzr.BzrDefaultFontBuilder;
+import jsesh.glyphs.bzr.BzrFont;
 import jsesh.glyphs.bzr.BzrFontReader;
-import jsesh.glyphs.bzr.simple.BzrSimpleFont;
-import jsesh.glyphs.bzr.simple.BzrSimpleFontBuilder;
 import jsesh.glyphs.data.coremdc.CanonicalCode;
-import jsesh.glyphs.data.coremdc.ManuelDeCodage;
 import jsesh.glyphs.shape.ShapeChar;
 
 /**
@@ -36,7 +35,7 @@ public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeReposit
 	}
 
 	HashMap<String, ShapeChar> codes;
-	BzrSimpleFont fonts[];
+	BzrFont fonts[];
 	boolean hasNewSigns= false;
 
 	private GnutraceHieroglyphShapeRepository() {
@@ -69,9 +68,9 @@ public class GnutraceHieroglyphShapeRepository implements HieroglyphShapeReposit
 				"Y.bzr",
 				"Z.bzr",
 				"Aa.bzr" };
-		fonts = new BzrSimpleFont[fontNames.length];
+		fonts = new BzrFont[fontNames.length];
 
-		BzrSimpleFontBuilder builder = new BzrSimpleFontBuilder();
+		BzrDefaultFontBuilder builder = new BzrDefaultFontBuilder();
 
 		BzrFontReader reader = new BzrFontReader(builder);
 

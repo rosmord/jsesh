@@ -11,28 +11,6 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
-- goal remove cycles (except those related with the parser)
-  - Introduce sub-packages:
-    - data
-      - would get the current `jsesh.glyphs.io`
-      - embeddedGlyphPathResources
-      - 
-    - shape (current)
-  - [ ] remove `TopItemList` from `Possibility` (cleans up dependencies a lot)
-  - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
-  - [ ] introduce a top-level `signcode` package (or `coremdc`)
-  - [ ] glyphs should have sub-packages shape, fonts, signdata
-- [ ] use i18n for texts in the JSesh Palette
-
-glyphs has three internal cycles today:
-
-| cycle              | cause                                                                     |
-| ------------------ | ------------------------------------------------------------------------- |
-| data ↔ io          | only HieroglyphDatabaseFactory imports io                                 |
-| data ↔ fonts       | HieroglyphShapeRepository needs the small HieroglyphCodesSource interface |
-| fonts ↔ signsource | ExternalSignImporterModel needs HieroglyphShapeRepository to size A1      |
-
-
 
 ## Important decisions
 
@@ -52,46 +30,16 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 ## TODO
 
 
-- [ ] Plan the application of those **TODO** just after the main refactoring is done (and the code runs).
-- [x] **Architectural decision** in the app, the `JHotdraw` linked part should be as thin as possible, and code should move to the **Core** classes.
-- [ ] Change the **column** layout algorithm. Currently, quadrats are processed the same way in columns and lines. But, in column, vertical sign tend not to be scaled. 
-
-### Plan
-
-Follow the following steps:
-
-
--  ~~use standard maven conventions for plugins ; rename the folders accordingly if needed. Clean, recompile, check~~. (**moved from maven to gradle**)
-- when everything runs, check what code can be moved to `Core` classes and move it ; check.
-- ~~rename JSeshFontKit using `Compendium`~~ used **HieroglyphResources** instead,
-- check and debug the SignInfo editor.
 
 ### TODO / MANDATORY
 
 Regarding **standard** codes:
 
-- [x] ❗️add a test checking that nTrw is mapped to `R8A`;
-- [x] ❗️add a test checking that nn is mapped to `M22B`.
-- [x] ❗️make `HieroglyphShapeRepository` an observable. Each object using a `HieroglyphShapeRepository` could listen to it, and be notified when changes occur. When changing the font folder, the JSesh editor would be notified automagically.
 - [ ] write a documentation about using JSesh as a library with and without user-defined signs.
-
-### Arabic localization
-
-**90% done**
-
-I'd like to integrate the localisation proposed by our colleague Hany ZARIF. However, some part of it don't work very well with the Swing library, especially changing the whole application layout from left-to-right to right-to-left.
-
-
-Plan:
-
-1. [x] allow changes in the JSesh local from **user choice** (e.g. in preferences); we might survive if it requires a restart of the application;
-2. [x] integrate arabic localization in the application
-   1. [x] add arabic localization files from the localization branch;
-   2. [x] change the occurrences of text which did not render correctly in right-to-left orientation (e.g. in the search window);
-
 
 ### Long Term TODO
 
+- [ ] Change the **column** layout algorithm. Currently, quadrats are processed the same way in columns and lines. But, in column, vertical sign tend not to be scaled. 
 - [ ] Consider all occurrences of
    ~~~java
    String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code).code();
@@ -183,7 +131,6 @@ Plan:
 
 ### Low priority TODO
 
-- [ ] move `showCorpusSearchHit` out of `JSeshApplicationModel`.
 - [ ] use the type system to differenciate between the various updates of the view (e.g replace `updateView()` by `updateDocumentView()`, `updateSelectionView()`, etc. Make `Selection` a type, an not a particular case of `TopItemList`.
 - [ ] improve the mechanism for margins of components, which is not well defined.
 - [ ] use i18n for texts in the JSesh Palette
@@ -241,11 +188,35 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+
+### 2026-07-20
+
+
+- [ ] remove cycles (except those related with the parser)
+  - Introduce sub-packages for glyphs:
+    - shape
+    - fonts
+    - signdata        
+  - [ ] remove `TopItemList` from `Possibility` (cleans up dependencies a lot)
+  - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
+  - [ ] introduce a top-level `signcode` package (or `coremdc`)
+  - [ ] glyphs should have sub-packages shape, fonts, signdata
+- [ ] use i18n for texts in the JSesh Palette
+
+glyphs has currently three internal cycles:
+
+| cycle              | cause                                                                     |
+| ------------------ | ------------------------------------------------------------------------- |
+| data ↔ io          | only HieroglyphDatabaseFactory imports io                                 |
+| data ↔ fonts       | HieroglyphShapeRepository needs the small HieroglyphCodesSource interface |
+| fonts ↔ signsource | ExternalSignImporterModel needs HieroglyphShapeRepository to size A1      |
+
+
 ### 2026-07-19
 
 - still trying to clean up packages dependencies in module jsesh. Lots of semi-automatic reorganisation. Will now:
   - [x] move back jsesh.ui.defaults to jsesh.defaults : it's not ui ;
-  - [ ] move glossary package
+  - [x] move glossary package
   - [ ] perhaps introduce an interface for `PossibilityRepository` 
 
 ### 2026-07-18
@@ -254,9 +225,24 @@ LLM-assisted reorganisation of packages in the `jsesh` module, documented in [[p
 
 ### 2026-07-15
 
+### Arabic localization
+
+**almost done**
+
+I have integrated the localisation proposed by our colleague Hany ZARIF. However, some part of it don't work very well with the Swing library, especially changing the whole application layout from left-to-right to right-to-left.
+
+Plan:
+
+1. [x] allow changes in the JSesh local from **user choice** (e.g. in preferences); we might survive if it requires a restart of the application;
+2. [x] integrate arabic localization in the application
+   1. [x] add arabic localization files from the localization branch;
+   2. [x] change the occurrences of text which did not render correctly in right-to-left orientation (e.g. in the search window);
+
+
 - [x] For correct arabic localization, we need rtol support for components layout;
   - look at https://www.javacodegeeks.com/2025/05/swing-on-steroids-modernizing-java-desktop-apps-with-flatlaf-and-jreleaser.html
 
+- I don't remember when I introduced the following: the `jseshLabels` module now has a `update-labels` target which will automatically update the localized files by adding missing entries (it won't translate them, of course, but it will copy the english text, plus a warning comment asking for translation).
 
 ### 2026-07-13
 
