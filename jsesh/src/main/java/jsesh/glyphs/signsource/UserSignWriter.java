@@ -1,7 +1,6 @@
 package jsesh.glyphs.signsource;
 
 import jsesh.glyphs.shape.ShapeChar;
-import jsesh.ui.widgets.signimportdialog.ExternalSignImporterModel;
 
 /**
  * Write side for newly imported signs: somewhere to put a sign the user has
@@ -14,9 +13,6 @@ import jsesh.ui.widgets.signimportdialog.ExternalSignImporterModel;
  * itself uses, {@code jsesh.defaults.UserFontDirectoryManager}, is app-scoped
  * and lives above this package.
  *
- * <p>
- * An embedder with its own idea of where user signs belong can implement this
- * instead, and pass it to {@link ExternalSignImporterModel}.
  */
 public interface UserSignWriter {
 

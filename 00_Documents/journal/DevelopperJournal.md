@@ -188,6 +188,10 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-21
+
+- [x] move the resources used by the `ManuelDeCodage` class in the corresponding package.
+- [ ] remove link to ui in `jsesh.glyphs.signsource.UserSignWriter` javadoc.
 
 ### 2026-07-20
 

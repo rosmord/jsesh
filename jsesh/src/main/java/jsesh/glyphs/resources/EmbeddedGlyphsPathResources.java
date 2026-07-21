@@ -26,15 +26,7 @@ public class EmbeddedGlyphsPathResources {
     private EmbeddedGlyphsPathResources() {
     }
 
-    /**
-     * Reads a list of basic Gardiner codes.
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public static Reader getBasicGardinerCodes() throws UnsupportedEncodingException {
-        return new InputStreamReader(EmbeddedGlyphsPathResources.class
-                .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
-    }
+   
 
     /**
      * Reads the DTD of the signs description files.

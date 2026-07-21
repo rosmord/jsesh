@@ -8,8 +8,10 @@
  */
 package jsesh.signcodes;
 
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,8 +19,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import jsesh.glyphs.resources.EmbeddedGlyphsPathResources;
 
 /**
  * A Singleton class representing the core Manuel de Codage.
@@ -194,7 +194,7 @@ public class ManuelDeCodage {
      */
     private void fillBasicGardinerCodeMap() {
         basicGardinerCodeMap = new HashMap<>();
-        try (Reader in = EmbeddedGlyphsPathResources.getBasicGardinerCodes();) {
+        try (Reader in = getBasicGardinerCodes();) {
             // Read and build the map if necessary
 
             StreamTokenizer tok = new StreamTokenizer(in);
@@ -727,5 +727,15 @@ public class ManuelDeCodage {
         public String toString() {
             return code();
         }
+    }
+
+     /**
+     * Reads a list of basic Gardiner codes.
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    private static Reader getBasicGardinerCodes() throws UnsupportedEncodingException {
+        return new InputStreamReader(ManuelDeCodage.class
+                .getResourceAsStream("basicGardinerCodes.txt"), "UTF-8");
     }
 }
