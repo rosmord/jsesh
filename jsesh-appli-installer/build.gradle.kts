@@ -117,6 +117,7 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
 
 tasks.named("jpackageImage") {
     dependsOn("copyResources")
+    dependsOn(":jsesh-installer:build") 
 }
 
 
@@ -181,7 +182,12 @@ runtime {
                     //"--icon", "${projectDir}/src/main/packaging/hibou.icns",
 
                     // "--mac-dmg-content", "${projectDir}/src/main/dist/documentation.md",
-                    //"--mac-dmg-content", "${projectDir}/src/main/dist/data"
+                    "--mac-dmg-content", "${project(":jsesh-installer").buildDir}/standard/jsesh-texts",
+                    "--mac-dmg-content", "${project(":jsesh-installer").projectDir}/src/binary/licenses",
+                    "--mac-dmg-content", "${project(":jsesh-installer").projectDir}/src/binary/FONT-LICENSE.md",
+                    "--mac-dmg-content", "${project(":jsesh-installer").projectDir}/src/binary/LICENSE.txt",
+                    "--mac-dmg-content", "${project(":jsesh-installer").projectDir}/src/binary/Readme.html"
+
                 ))
             }
         }

@@ -11,6 +11,9 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
+- [ ] add supplementary material to `jpackage` generated distributions
+- [ ] use i18n for texts in the JSesh Palette
+
 
 ## Important decisions
 
@@ -57,16 +60,15 @@ Regarding **standard** codes:
 - [ ] 🍰 **TODO** the organisation of the various preferences in JSesh Appli is not optimal. They are difficult to sort and understand. Improve this (when the software runs!) (relatively simple). 
 - [ ] ❗️ try to use `doubles` instead of `floats` to avoid rounding errors.
 - [ ] design a coherent naming system for interfaces and implementations.
-- [ ] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons. **DOCUMENT IT** (as a way to ensure it's coherent).
-- [ ] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
-- [ ] When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
+- [x] ensure we use only **one** system for defaults; we don't want to go back to the use of random singletons. **DOCUMENT IT** (as a way to ensure it's coherent).
+- [x] make the hieroglyphic font observable, so that **all** components which display hieroglyphs can be notified when they are modified - take care of possible memory leaks.
+- [x] When the software compiles, replace all variable named "drawingSpecifications" by jseshStyle.
 - [ ] consider removing `depth` in layout;
 - [ ] when the new version is functional, think about the lifecycle of Layout objects ; it might be interesting to simplify it. They should probably be short-lived objects.
-- [ ] rename `HieroglyphicFontManager` into **ShapeCatalog** ;
+- ~~rename `HieroglyphicFontManager` into ShapeCatalog~~
 - [ ] refactor the whole business around hieroglyphs to make it more logical.
 - [ ] separate JSeshStyle into two parts: one with the features which are likely to be shared, and one with features which are probably specific to a particular document. I'm not sure it's that useful, this being said.
-- [ ] **We should perhaps move some of the responsabilities of `HieroglyphsDrawer` to `JSeshStyle`.**
-- [ ] In the JHotdraw linked part, move **down** (to JSeshViewModel) what can be moved down, possibly keeping `JSeshView` as a facade.
+- [x] In the JHotdraw linked part, move **down** (to JSeshViewModel) what can be moved down, possibly keeping `JSeshView` as a facade.
 
 - Note about singletons
 
@@ -188,24 +190,61 @@ List of classes which need some cleanup:
 
 ## Daily log
 
+### 2026-07-25
+
+- [ ]
+### 2026-07-23
+
+- [x] fix error for SVG output of rotated brackets. The bug: the text `[[\R90:a:]]\R90` is not correctly exported to SVG when the text orientation is right-to-left. The bracket disappear. For left-to-right text, the export is fine. The problem occurs only with ecdotic marks.
+  - for PDF export, there is a problem in "normal" pdf export, but otherwize it works fine.
+  - EMF export works correctly
+  - **TODO**
+    - [x] understand why we have the problem with SVG and not with EMF (for instance) ;
+    - [x] fix it. We had the problem with rotated signs, but not with non rotated ones, because the non rotated used `fill` and not `draw`.
+  
+  Explanation:
+
+  There are two problems: the code used is not the same when the sign is modified by a transform and when it is not. Untransformed signs were drawn with `fill`, while transformed signs were drawn with `draw`. The problem is that there is a bug with `draw` in the svg export. Using `fill` for both cases solves the problem.
+
+  However, there is still a problem with `draw`, which is a bug in `jvectclipboard`. The reason for the bug is that the computation of the stroke width makes it *negative* in some cases, and then zero.
+
+  Compare the l2r and r2l export of the bracket in this case (using draw):
+
+  ~~~xml
+<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
+  <path d='M 2.625 0.375 L 0.375 0.375 L 0.375 17.625 L 2.625 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
+  <path d='M 5.375 0.375 L 7.625 0.375 L 7.625 17.625 L 5.375 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
+</svg>
+  ~~~
+
+  vs. r2l (stroke width is 0 !).
+
+  ~~~xml
+<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
+    <path d='M 5.375 0.375 L 7.625 0.375 L 7.625 17.625 L 5.375 17.625 ' style='fill:none;stroke:#000000;stroke-width:0' />
+    <path d='M 2.625 0.375 L 0.375 0.375 L 0.375 17.625 L 2.625 17.625 ' style='fill:none;stroke:#000000;stroke-width:0' />
+</svg>
+  ~~~
+
+  **Fixed code works both with fill and draw**. We have decided to keep using **fill** to ease SVG manipulation, but **draw** would have its own advantages; it gives simpler svg code.
+
 ### 2026-07-21
 
 - [x] move the resources used by the `ManuelDeCodage` class in the corresponding package.
-- [ ] remove link to ui in `jsesh.glyphs.signsource.UserSignWriter` javadoc.
+- [x] remove link to ui in `jsesh.glyphs.signsource.UserSignWriter` javadoc.
 
 ### 2026-07-20
 
 
-- [ ] remove cycles (except those related with the parser)
+- [x] remove cycles (except those related with the parser)
   - Introduce sub-packages for glyphs:
     - shape
     - fonts
     - signdata        
   - [x] remove dependency on `TopItemList` from `Possibility` (cleans up dependencies a lot)
   - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
-  - [ ] introduce a top-level `signcode` package (or `coremdc`)
-  - [ ] glyphs should have sub-packages shape, fonts, signdata
-- [ ] use i18n for texts in the JSesh Palette
+  - [x] introduce a top-level `signcode` package (or `coremdc`)
+  - [x] glyphs should have sub-packages shape, fonts, signdata
 
 glyphs has currently three internal cycles:
 

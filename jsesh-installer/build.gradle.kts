@@ -16,6 +16,7 @@ plugins {
 }
 
 val jseshVersion = rootProject.version.toString()
+val standardDir = layout.buildDirectory.dir("standard")
 val macDir = layout.buildDirectory.dir("mac/JSesh-$jseshVersion")
 val windowsDir = layout.buildDirectory.dir("windows/JSesh-$jseshVersion")
 val macInstallDir = layout.buildDirectory.dir("mac")
@@ -50,6 +51,18 @@ val copyResourcesMac = tasks.register<Copy>("copyResourcesMac") {
     from("src/mac-binary")
     from("src/binary")
     into(macDir)
+    from ("src/binary") {
+        include("texts")
+        rename { "jsesh-texts" }
+    }
+    into(macDir)
+}
+
+val copyResourcesStandard = tasks.register<Copy>("copyResourcesStandard") {  
+    into(standardDir)
+      from ("src/binary/texts") {
+        into("jsesh-texts")
+    }
 }
 
 val copyInstallMac = tasks.register<Copy>("copyInstallMac") {
@@ -82,5 +95,6 @@ val copyDepsWindows = tasks.register<Copy>("copyDepsWindows") {
 
 tasks.named("build") {
     dependsOn(copyResourcesMac, copyInstallMac, copyDepsMac,
+              copyResourcesStandard,
               copyResourcesWindows, copyInstallWindows, copyDepsWindows)
 }

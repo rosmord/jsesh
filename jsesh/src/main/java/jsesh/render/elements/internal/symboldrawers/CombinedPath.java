@@ -3,7 +3,7 @@ package jsesh.render.elements.internal.symboldrawers;
 import java.awt.geom.GeneralPath;
 
 /**
- * A detailled (or partial) path which comes along a simpler (or fuller) path used for computing bounding boxes. 
+ * The combination of a path and a bounding path (often a bounding box).
  * @author rosmord
  *
  */

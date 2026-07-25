@@ -1,6 +1,6 @@
 [versions]
 itext = "2.1.5"
-jvectclipboard = "8.1.0"
+jvectclipboard = "8.1.1"
 forms = "1.0.7"
 miglayout = "3.7.4"
 finitestate = "2.0"

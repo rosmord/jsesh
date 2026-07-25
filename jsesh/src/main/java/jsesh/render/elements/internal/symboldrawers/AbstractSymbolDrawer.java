@@ -36,6 +36,7 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 					viewBox.getHeight() );
 			GeneralPath pol = combinedPath.getActualPath();
 			g2d.fill(g2d.getStroke().createStrokedShape(pol));
+			//g2d.draw(pol);
 		} else {
 	
 			// Now, the problem is that we need to compute the correct
@@ -63,16 +64,19 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 			
 			GeneralPath pol = combinedPath.getActualPath();
 			
-			// Add a transform operation to pol, it will be more logical here...
+			// rotate the actual path.
 			pol.transform(AffineTransform.getRotateInstance((float) (angle
 					* Math.PI / 180)));
 			
 			GeneralPath boundingPath= combinedPath.getBoundingPath();
+			// rotate the bounding path if it is not the same as the actual path.
+			// (if it is the same, it has already been rotated).
 			if (! combinedPath.actualPathUsed) {
 				boundingPath.transform(AffineTransform.getRotateInstance((float) (angle
 						* Math.PI / 180)));
 			}
-			// Move it to 0,0 :
+
+			// Move the path back to 0,0 :
 			// Bounds should be computed on the basis of a special "bounding box" path,
 			// to account for instance for the white space on [?
 			Rectangle2D bounds = boundingPath.getBounds2D();
@@ -80,7 +84,8 @@ public abstract class AbstractSymbolDrawer implements SymbolDrawerDelegate {
 			pol.transform(AffineTransform.getTranslateInstance(-bounds
 					.getMinX()+ halfStroke, -bounds.getMinY()+ halfStroke));
 
-			g2d.draw(pol);
+			//g2d.draw(pol);
+			g2d.fill(g2d.getStroke().createStrokedShape(pol));
 		}
 	}
 
