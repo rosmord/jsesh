@@ -11,7 +11,6 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending step
 
-- [ ] add supplementary material to `jpackage` generated distributions
 - [ ] use i18n for texts in the JSesh Palette
 
 
@@ -192,7 +191,9 @@ List of classes which need some cleanup:
 
 ### 2026-07-25
 
-- [ ]
+- added supplementary material to `jpackage` generated distributions (mac version)
+- move the code from `jsesh-appli-installer` to `jsesh-installer`
+
 ### 2026-07-23
 
 - [x] fix error for SVG output of rotated brackets. The bug: the text `[[\R90:a:]]\R90` is not correctly exported to SVG when the text orientation is right-to-left. The bracket disappear. For left-to-right text, the export is fine. The problem occurs only with ecdotic marks.
