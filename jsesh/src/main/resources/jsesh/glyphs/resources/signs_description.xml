@@ -27494,6 +27494,7 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="N46">
     <hasTag sign="N46" tag="sky"/>
+    <variantOf baseSign="N2" isSimilar="y" linguistic="full" sign="N46"/>
   </sign>
   <sign sign="N46A">
     <hasTag sign="N46A" tag="sky"/>
