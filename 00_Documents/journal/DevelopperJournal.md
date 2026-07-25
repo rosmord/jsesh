@@ -192,7 +192,7 @@ List of classes which need some cleanup:
 ### 2026-07-25
 
 - added supplementary material to `jpackage` generated distributions (mac version)
-- move the code from `jsesh-appli-installer` to `jsesh-installer`
+- moved the code from `jsesh-appli-installer` to `jsesh-installer`
 
 ### 2026-07-23
 

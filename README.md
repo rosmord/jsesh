@@ -1,11 +1,10 @@
 # JSesh sources
-Welcome to JSesh sources! 
 
-**Java 21**
+See [the JSesh web site for information about the use of the software](https://jsesh.qenherkhopeshef.org/).
 
 
-JSesh is a Java hieroglyphic editor 
-developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+
+JSesh is a Java hieroglyphic editor mostly developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 
 JSesh developpers :
 - Serge J.-P. Thomas : most of the fonts
@@ -13,32 +12,47 @@ JSesh developpers :
 - Wayne Collins (CVS, ant improvement)
 
 
-Licences for the various libraries used by JSesh can be found in resources/licenses
+Licenses for the various libraries used by JSesh can be found in resources/licenses
+
+## Building JSesh
+
+JSesh sources can be loaded in an IDE (Eclipse, Netbeans, IntelliJ, VSCode), or built from the command line using Gradle.
+
+### Using Gradle
+
+Building the sources
+: `./gradlew build`
+
+Running JSesh directly (from the root folder of the project)
+: `./gradlew jseshAppli:run`
+
+Running the sign info editor
+: `./gradlew signInfoAppli:run`
+
+Building the distribution for the current platform
+: `./gradlew jpackage`
+
+You will find the distribution in `jsesh-installer/build/jpackage`.
+
 
 ## Source Content 
-Contains the following folders and modules:
 
-### Gradle modules for JSesh
+The sources contain the following folders and modules:
 
-
-JSesh has moved from Maven to Gradle as build system.
 
 #### Libraries
-
 
 * cupAndlex: bundle with CUP and LEX. Probably usable for other projects as a maven MOJO; those are used to parse Manuel de Codage files;
 * cupruntime: the runtime for CUP;
 * jhotdrawfw: the "application framework" part of JHOTDRAW 7, adapted from [JHotDraw 7 by Walter Randelshofer](https://www.randelshofer.ch/oop/jhotdraw/);
 * jsesh: the main jsesh library;
+* jsesh-installer: the system for building JSesh distribution;
 * jseshGlyphs: the main hieroglyphic font;
 * jseshLabels: the labels for menus, buttons, etc. in Jsesh all in one place to ease translation of the software;
 * jseshSearch: the search module;
-* jseshTests: various small softwares used to check JSesh runs correctly. Only interesting if you develop JSesh.
-* prepareJSeshRelease: software to prepare JSesh for release (mostly to copy stuff in the right place and create index of signs);
+* jseshTests: various small softwares used to check JSesh runs correctly. Only interesting if you develop JSesh;
 * qenherkhopeshefUtils: sundry utilities to help writing JSesh and Swing softwares. Some are outdated (the guiFramework has been replaced by jHotdraw);
 * signInfoAppli: the editor for sign information.
-
-#### Softwares
 
 
 ## Things removed from JSesh
@@ -177,24 +191,9 @@ Either run `./mvnw install` in the root of the project on the command line, or u
 
 The use the vscode command **Java: Clean Java Language Server Workspace** to get vscode to understand the generated files.
 
-## Building distributions
-
-Due to changes in Java distribution and on Windows and Mac OS X as platform 
-(with a strong bias against software not distributed through their respective
-stores), the previous java-only distribution system has changed.
-
-JSesh will now embed its own version of Java
-
-
-The files here are used in the last, non-automated phase of building a
-JSesh distribution. 
-
-I will probably try to automate everything at some point, this being said.
-
-### Updating data
+## Updating data
 
 This is only done if you are in charge of updating the JSesh text base or the JSesh sign base (that is, if I did stop maintaining JSesh, and you decide to take over).
-
 
 **That is, you most probably don't need to do it.**
 
@@ -207,126 +206,7 @@ To update the JSesh external data, run:
 ./gradlew prepareResources
 ~~~
 
-It uses path from my own computers to find the original data.
-
-------------------------------------
-### Building a Mac Distribution:
-
-build the whole project: "mvn install".
-
-1. all files are in jsesh-installer/target/mac. cd there.
-
-5. Ensure main.sh is executable in both apps (JSesh.app and SignInfo.app)
-
-  ~~~bash
-  find . -name main.sh -exec chmod a+x {} \;
-  ~~~
-
-3. build a jre for JSesh (check if your path is correct before).
-
-~~~
-cd JSesh.app/Contents
-MODULES=java.base,java.desktop,java.naming,java.prefs,java.sql
-jlink -G -c --no-header-files --no-man-pages --add-modules  $MODULES --output jre
-~~~
-  (we should identify why on earth java.sql is needed. This being said, it's very small,
-   so no harm done.)
-
-
-6. Check if JSesh and SignInfo are functional (they should start if you double click on them).
-
-7. make a package (.pkg) using the application "Packages" by Stéphane Sudre.
-    A config file is provided : JSesh-dist.pkgproj.
-
-#### For Java 21 distributions
-
-Recent versions of JSesh have their own JRE, as Mac no longer allows the use of a common JRE. It's a waste of drive space, but it's also simpler and safer.
-
-Version 7.11 of JSesh is developped for Java 21.
-
-What I currently do is :
-
-- get sure the PATH is correct (includes the jdk for java 21, and not a former one);
-- get sure JAVA_HOME is correct (it's used by Maven).
-
-Once JSesh is built, I have played with `jdeps` and `jlinks` to create the correct jre.
-
-I go to folder `jsesh-installer/target/mac/JSesh-7.5.0-SNAPSHOT/JSesh.app/Contents/lib`, and
-I build a shell script for jdeps:
-
-~~~bash
-JARS=bcmail-jdk14-138.jar:....:signInfoAppli-7.5.0-SNAPSHOT.jar:swing-layout-1.0.3.jar
-jdeps --ignore-missing-deps --list-deps -cp $JARS jseshAppli-7.5.0-SNAPSHOT.jar
-~~~
-
-where JARS is made from all jars in the folder. There are some missing dependencies related to mail, but JSesh doesn't use 
-mail, so it's not an issue.
-
-It gives me the list of modules needed by JSesh:
-~~~
-   java.base
-   java.datatransfer
-   java.desktop
-   java.logging
-   java.naming
-   java.prefs
-   java.sql
-   java.xml
-~~~
-
-I use this list to build and run the following script:
-~~~bash
-MODULES=java.base,java.datatransfer,java.desktop,java.logging,java.naming,java.prefs,java.sql,java.xml
-jlink --no-header-files --no-man-pages --add-modules  $MODULES --output jre
-~~~
-
-The resulting jre folder should be placed in Contents. The corresponding JRE is 75M large, which is smaller than the
-jre for 1.8 which was included in JSesh previously. This is not yet the master version, as I need to fix bugs.
-
-------------------------------------
-
-### Windows distribution (modern)
-
-
-
-1. copy the files from target/windows into a Windows machine
-2. copy a 64 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
-3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
-4. same for the file signInfo-bundler.xml
-5. run Inno Setup on jsesh-inno.iss. **Generate a new ID for the build before building.**
-
-- *Note : we will probably use jlink as above to generate the JRE*
-- **Important** : check if launch4j wants a JDK or a 64bit executable.
-
-An easy way to find a good JRE for Java is to install the previous version of JSesh, and to get the JRE there.
-
-
-------------------------------------
-
-### Windows distribution (obsolete)
-
-1. copy the files from target/windows into a Windows machine
-2. copy a 32 bit JRE in the JSesh folder on Windows. Ensure it's named "jre".
-3. start lauch4J and use the jsesh-bundler.xml file. It should create JSesh.exe in the JSesh folder.
-4. same for the file signInfo-bundler.xml
-5. run Inno Setup on jsesh-inno.iss. Generate a new ID for the build before building.
-
-- *Note : we will probably use jlink as above to generate the JRE*
-- **Important** : check if launch4j wants a JDK or a 64bit executable.
-
-## Starting JSesh a different language for menus...
-
-This should obviously move to a menu. But meanwhile:
-
-JSesh chooses the menu languages depending on your computer setting. Sometimes, you might want a different language than the one used by your computer. For instance, as most of the tutorials, discusssions, etc. are in English, you might want to swich to the English version of JSesh.
-
-To do this, you currently need to start JSesh on the command line, which is a bit technical.
-
-The command would be :
-
-    java -Duser.language=en -jar jseshAppli-7.8.1-SNAPSHOT.jar
-
-(replace "en" by the two-letters code for your language)
+It uses path from my own computers to find the original data (you can find the said path in `gradle.properties`)
 
 ## Note about github distribution (for personnal use mainly)
 
