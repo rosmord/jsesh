@@ -16,6 +16,7 @@ This journal should only be edited and modified in the Development branch.
 - [ ] use i18n for texts in the JSesh Palette
 - [ ] implement the new unicode insert commands (probably between groups, not signs)
 - [ ] add sub-cadrat move for cursors (existed in tksesh)
+- [ ] allow users to edit alphabetic text directly (without using the MdC textfield)
 - [ ] add actual zones
 - [ ] add page dimensions and wrap in the document
 - [ ] add true justification for lines

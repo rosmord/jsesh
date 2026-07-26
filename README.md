@@ -208,6 +208,71 @@ To update the JSesh external data, run:
 
 It uses path from my own computers to find the original data (you can find the said path in `gradle.properties`)
 
+
+## How to collaborate on JSesh
+
+
+There are many ways you can help on JSesh:
+
+- you can report bugs and make suggestions, either by sending me an email, or by using the [github issue tracker](https://github.com/rosmord/jsesh/issues);
+- you can help with the [translation](#helping-with-translation) of the software;
+- you can help with the [documentation](#helping-with-documentation) of the software;
+- you can send texts for the JSesh text base;
+- you can design hieroglyphs in SVG;
+- you can [help with the code](#coding-jsesh) and fix bugs or add new features.
+
+### Helping with Translation
+
+To help with the translation of JSesh, you need to get the source code (you are at the right place). If you know how to use git, it's simpler. If not, you can download the [sources as a zip file](https://github.com/rosmord/jsesh/archive/refs/heads/master.zip).
+
+The files you need to edit are placed in the folder `jseshLabels/src/main/resources/jsesh/resources`. There is a file for each supported language. Each file name is of the form `labels_XX.properties`, where `XX` is the language code (for instance, `fr` for French, `en` for English, etc. The list of those **two letter** codes corresponds to the [Iso 639 Standard](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)). The default language is English, and the corresponding file is `labels.properties` (without any language suffix).
+
+If you want to add a new language, simply copy one of them (probably the english one), rename it, and edit it. **Only change the right side of entries**, and leave the lines with “AcceleratorKey” or “shortcut” alone.
+
+
+Most lines are relatively easy to translate, such as
+
+~~~properties
+edit.insertNextLineNumber.text=Next Line Number
+~~~
+
+which gives in the French translation:
+
+~~~properties
+edit.insertNextLineNumber.text=numéro de ligne suivant
+~~~
+
+
+Other contain specific placeholders, such as `{0}` or `{1}`. They will be replaced by text or numbers by the software. Suppose they are a word in your sentence and place them logically.
+
+For instance:
+
+~~~properties
+file.quickPDFExportFolder.ok=Selected {0} for PDF Output
+~~~~
+
+gives in the French translation:
+
+~~properties
+file.quickPDFExportFolder.ok=Les exportations pdf seront dans le dossier {0}
+~~~
+
+Once you have translated the file, you can send it to me by mail (or use a pull request if you know how to use git). Please consider that JSesh is not a founded project, that we do it in our free time, and try to avoid unnecessary work for us. So keep the order of the lines as is.
+
+### Helping with Documentation
+
+### Coding JSesh
+
+If you want to help with the code, the best way is to **fork** the project on github.
+
+Get in touch with me (either through issues or by mail) to discuss what you want to do. Of course, you can also propose a genuine fork if you want to explore something completely different. But if you want to contribute to the main project, please discuss it with me first.
+
+Note that I take care of having a clean codebase, and try to follow the same coding style. I can probably help.
+
+Once your modified code runs, you can send me a **pull request**. I will then check it, and merge it if it is ok.
+
+The folder [[00_Documents]] contains documentation about the code and its architecture.
+
 ## Note about github distribution (for personnal use mainly)
 
 To get the number of downloads for version 7.2.0 :
