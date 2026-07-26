@@ -9,9 +9,18 @@ This journal should only be edited and modified in the Development branch.
 : important task
 
 
-## Next pending step
+## Next pending steps
 
+- [ ] update and reorganise documentation (folder `00_Documents`)
+- [ ] add rounded enclosures to MdC
 - [ ] use i18n for texts in the JSesh Palette
+- [ ] implement the new unicode insert commands (probably between groups, not signs)
+- [ ] add sub-cadrat move for cursors (existed in tksesh)
+- [ ] add actual zones
+- [ ] add page dimensions and wrap in the document
+- [ ] add true justification for lines
+- [ ] add tabs
+- [ ] add a "view" menu to control the display of technical information (e.g. tabs)
 
 
 ## Important decisions

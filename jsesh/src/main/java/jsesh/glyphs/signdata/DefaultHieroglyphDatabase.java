@@ -101,7 +101,7 @@ public class DefaultHieroglyphDatabase implements HieroglyphDatabase {
 
         final String[] familyNames = {"Man and his occupations",
             "Woman and her occupations", "Anthropomorphic Deities",
-            "Parts of the human body", "E. Mammals", "Parts of Mammals",
+            "Parts of the human body", "Mammals", "Parts of Mammals",
             "Birds", "Parts of Birds",
             "Amphibious animals, reptiles, etc.",
             "Fishes and parts of fishes",
