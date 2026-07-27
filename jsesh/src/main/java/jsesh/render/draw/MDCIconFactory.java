@@ -42,9 +42,10 @@ public class MDCIconFactory {
             )            
             .build();
         JSeshRenderContext ctx = new JSeshRenderContext(jseshStyle, hieroglyphShapeRepository);
-        mdcDrawingFacade = new MDCDrawingFacade(ctx);
-        mdcDrawingFacade.setPhilologySign(true);
-        setCadratHeight(30);
+        mdcDrawingFacade = MDCDrawingFacade.builder(ctx)
+                .philologySign(true)
+                .cadratHeight(30)
+                .build();
     }
 
     public synchronized final void setCadratHeight(int cadratHeight) {

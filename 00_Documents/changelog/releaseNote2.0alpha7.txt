@@ -1,3 +1,0 @@
-Important improvement of JSesh : support for columns, right-to-left, and the possibility 
-for users to add their own signs.
-

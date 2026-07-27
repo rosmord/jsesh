@@ -6,18 +6,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.parser.MDCSyntaxError;
-import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCDrawingFacade;
-import jsesh.render.style.JSeshStyle;
 
 public class MdcDrawingFacadeDemo {
-    
+
 	public static void main(String[] args) {
 		System.out.println("Test of MDCDrawingFacade");
-		JSeshRenderContext ctx = new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts());
-		MDCDrawingFacade facade = new MDCDrawingFacade(ctx);
+		MDCDrawingFacade facade = MDCDrawingFacade.builder().build();
 		String mdc = "i-w-r:a-ra-m-p*t:pt";
 		try {
 			BufferedImage img = facade.createImage(mdc);

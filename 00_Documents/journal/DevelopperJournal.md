@@ -41,6 +41,10 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+### 2026-07-26
+
+- reorganised the `00_Documents` folder
+- moved all *todos* to `00_Documents/TODO`
 ### 2026-07-25
 
 - added supplementary material to `jpackage` generated distributions (mac version)

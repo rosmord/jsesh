@@ -9,37 +9,51 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 
-import javax.imageio.ImageIO;
-
-import jsesh.render.style.JSeshStyle;
-import jsesh.parser.MDCParserModelGenerator;
-import jsesh.parser.MDCSyntaxError;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.model.TopItemList;
+import jsesh.parser.MDCParserModelGenerator;
+import jsesh.parser.MDCSyntaxError;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
+import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 import jsesh.utils.swing.GraphicsUtils;
 
 /**
  * A simple class for programmers who want to draw hieroglyphs.
- * a) create code for generating SVG
- * b) create code taking a graphic2D factory as argument.
- * 
+ * <p>
+ * Four independent knobs affect the output, and it's easy to confuse them:
+ * <ul>
+ * <li>{@link #setCadratHeight(int)} (pixels) is the practical "how big should
+ * this render" knob: it's the output height of a reference sign (A1). It
+ * overrides, for output-scaling purposes only, the {@code standardSignHeight}
+ * carried by the current {@link JSeshStyle}.
+ * <li>the {@link JSeshStyle} passed via {@link #setStyle(JSeshStyle)} (points)
+ * fixes the <i>proportions</i> of everything relative to everything else
+ * (margins, cartouche thickness, etc.) — its own absolute point values do not
+ * determine the final pixel size, only {@code cadratHeight} does.
+ * <li>{@link #setDeviceScale(double)} is unrelated to apparent output size: it
+ * only tunes the rasterizer precision ({@code FontRenderContext}) for the
+ * target device.
+ * <li>{@link #setMaxSize(int, int)} is a safety cap, used only by
+ * {@link #createImage}, for bitmap output.
+ * </ul>
+ * Use {@link #buildDefault()} or {@link #builder()} for the common case, and
+ * {@link #builder(JSeshRenderContext)} when a custom style or font repository
+ * is needed.
+ *
  * @author S. Rosmorduc
- * 
  */
 public class MDCDrawingFacade {
 
 	private boolean philologySign = true;
 
 	private JSeshRenderContext jSeshRenderContext;
+
 	private final HieroglyphDrawer hieroglyphDrawer;
 
 	/**
@@ -55,8 +69,12 @@ public class MDCDrawingFacade {
 
 	/**
 	 * Build a MDCDrawingFacade for easy rendering of hieroglyphs.
-	 * <p> If you need a MDCDrawing facade for quick rendering of glyphs, and if you are sure you
-	 * don't need to specific adjustments, you can use the static method buildDefault().
+	 * <p>
+	 * If you need a MDCDrawing facade for quick rendering of glyphs, and if you are
+	 * sure you
+	 * don't need to specific adjustments, you can use the static method
+	 * buildDefault().
+	 * 
 	 * @param jSeshRenderContext
 	 */
 	public MDCDrawingFacade(JSeshRenderContext jSeshRenderContext) {
@@ -64,10 +82,16 @@ public class MDCDrawingFacade {
 		this.hieroglyphDrawer = new HieroglyphDrawer(jSeshRenderContext.hieroglyphShapeRepository());
 	}
 
-
+	/**
+	 * Set the style to use for rendering.
+	 * <p> Note: currently, the style does not affect the actual output size, which is controlled by {@link #setCadratHeight(int)}.
+	 * It only affects the relative proportions of the various elements (margins, cartouche thickness, etc.).
+	 * @param jSeshStyle
+	 */
 	public void setStyle(JSeshStyle jSeshStyle) {
-		this.jSeshRenderContext = new JSeshRenderContext(jSeshStyle, jSeshRenderContext.hieroglyphShapeRepository());		
+		this.jSeshRenderContext = jSeshRenderContext.copy().jseshStyle(jSeshStyle).build();
 	}
+
 	/**
 	 * Generate a picture for the manuel de codage text passed as argument.
 	 * 
@@ -76,17 +100,9 @@ public class MDCDrawingFacade {
 	 * @return an image of the text.
 	 * @throws MDCSyntaxError
 	 */
-
 	public BufferedImage createImage(String mdcCodes) throws MDCSyntaxError {
 		TopItemList t = buidTopItemList(mdcCodes);
 		return createImage(t);
-	}
-
-	private TopItemList buidTopItemList(String mdcCodes) throws MDCSyntaxError {
-		MDCParserModelGenerator gen = new MDCParserModelGenerator();
-		gen.setPhilologyAsSigns(isPhilologySign());
-		TopItemList t = gen.parse(new StringReader(mdcCodes));
-		return t;
 	}
 
 	/**
@@ -142,25 +158,6 @@ public class MDCDrawingFacade {
 		return draw(t, g, x, y);
 	}
 
-	/**
-	 * Draws the data on an existing graphic.
-	 * 
-	 * @param t
-	 * @param g
-	 * @param x
-	 * @param y
-	 * @return the bounding box of the drawn text.
-	 */
-
-	public Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
-
-		Graphics2D g1 = (Graphics2D) g.create();
-		JSeshTechRenderContext techRenderContext = buildTechContext(g1);
-		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext, techRenderContext);
-		viewAndBounds.draw(g1, jSeshRenderContext, techRenderContext);
-		g1.dispose();
-		return viewAndBounds.bounds;
-	}
 
 	/**
 	 * Computes the bounds of a particular text without drawing it.
@@ -196,54 +193,41 @@ public class MDCDrawingFacade {
 		return viewAndBounds.bounds;
 	}
 
-	private JSeshTechRenderContext buildTechContext(Graphics2D g0) {
-		return JSeshTechRenderContext.buildSimpleContext(g0, deviceScale);
-	}
-
-	public boolean isPhilologySign() {
-		return philologySign;
-	}
-
-	private double getScale() {		
-		// Uses the actual font to compute scale. We need it.
-		return cadratHeight
-				/ hieroglyphDrawer.getHeightOfA1();
-	}
-
 	/**
 	 * sets the way philological parenthesis will be considered when read. If
 	 * true, they will be considered as mere signs. If false, they will be
 	 * considered as parenthesis (and thus will require matching).
 	 * 
 	 * You won't need to call this method in most cases.
-	 * It only handles old TkSesh texts... and by now, you would have transformed them if you are a former user of TkSesh.
+	 * It's only needed to handles old TkSesh texts. and by now, you would have transformed
+	 * them if you are a former user of TkSesh.
+	 * 
 	 * @param philologySign
 	 */
-
 	public void setPhilologySign(boolean philologySign) {
 		this.philologySign = philologySign;
 	}
+	
+	/**	 
+	 * @return the philologySign
+	 */
+	private boolean isPhilologySign() {
+		return philologySign;
+	}
 
+	/**
+	 * Sets the output device scale, in graphic units per typographical point.
+	 * <p> Usually left alone.
+	 * @param deviceScale
+	 */
 	public void setDeviceScale(double deviceScale) {
 		this.deviceScale = deviceScale;
 	}
 
 	/**
-	 * Returns the scale of the graphic device, in graphic units per
-	 * typographical point. This is the scale used by the device if
-	 * g.getXScale() returns 1.0, not the current scale. Note that we could be
-	 * lying. In the case of a screen zoom, for instance, we will still provide
-	 * the original scale.
-	 * 
-	 * @return
-	 */
-	public double getDeviceScale() {
-		return deviceScale;
-	}
-
-	/**
 	 * Set maximal picture size (only for bitmap pictures).
 	 * 
+	 * <p> It will prevent the creation of bitmaps larger than the specified size.
 	 * @param width
 	 * @param height
 	 */
@@ -254,13 +238,111 @@ public class MDCDrawingFacade {
 
 	/**
 	 * Set the approximative cadrat height, in pixels.
-	 * <p>
-	 * Default value is 20.
+	 * <p> Default value is 20.
 	 * 
+	 * <p> If you want to control the picture size, this is the method to call.
 	 * @param cadratHeight
 	 */
 	public void setCadratHeight(int cadratHeight) {
 		this.cadratHeight = cadratHeight;
+	}
+
+	/**
+	 * Builds a default MDCDrawingFacade - READ the documentation for what it
+	 * implies.
+	 * <p>
+	 * The rendered hieroglyphs will have default settings, and <b>the hieroglyphic
+	 * font won't contain the users' additions.</b>
+	 * 
+	 * @return a new default instance of MDCDrawingFacade.
+	 */
+	public static MDCDrawingFacade buildDefault() {
+		return new MDCDrawingFacade(
+				new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts()));
+	}
+
+	/**
+	 * Returns a builder for a MDCDrawingFacade, seeded with the same default
+	 * style and embedded fonts as {@link #buildDefault()}.
+	 * <p>
+	 * This is the recommended entry point for the common case: e.g.
+	 * {@code MDCDrawingFacade.builder().cadratHeight(24).build()}.
+	 *
+	 * @return a new Builder.
+	 */
+	public static Builder builder() {
+		return new Builder(new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts()));
+	}
+
+	/**
+	 * Returns a builder for a MDCDrawingFacade using a custom render context
+	 * (custom style and/or font repository) — the entry point for the
+	 * complex/advanced case.
+	 *
+	 * @param jSeshRenderContext the render context (style + hieroglyph shape
+	 *                           repository) to draw with.
+	 * @return a new Builder.
+	 */
+	public static Builder builder(JSeshRenderContext jSeshRenderContext) {
+		return new Builder(jSeshRenderContext);
+	}
+
+	/**
+	 * A fluent builder for {@link MDCDrawingFacade}, mirroring the
+	 * {@code copy()}/{@code Builder} idiom used by {@link JSeshRenderContext}
+	 * and {@link JSeshStyle}.
+	 */
+	public static class Builder {
+		private JSeshRenderContext jSeshRenderContext;
+		private boolean philologySign = true;
+		private double deviceScale = 1.0;
+		private int maxWidth = 2000;
+		private int maxHeight = 2000;
+		private int cadratHeight = 20;
+
+		private Builder(JSeshRenderContext jSeshRenderContext) {
+			this.jSeshRenderContext = jSeshRenderContext;
+		}
+
+		/**
+		 * Sets the style to draw with (see the class documentation for how this
+		 * interacts with {@link #cadratHeight(int)}).
+		 */
+		public Builder style(JSeshStyle style) {
+			this.jSeshRenderContext = jSeshRenderContext.copy().jseshStyle(style).build();
+			return this;
+		}
+
+		public Builder philologySign(boolean philologySign) {
+			this.philologySign = philologySign;
+			return this;
+		}
+
+		public Builder deviceScale(double deviceScale) {
+			this.deviceScale = deviceScale;
+			return this;
+		}
+
+		public Builder maxSize(int maxWidth, int maxHeight) {
+			this.maxWidth = maxWidth;
+			this.maxHeight = maxHeight;
+			return this;
+		}
+
+		public Builder cadratHeight(int cadratHeight) {
+			this.cadratHeight = cadratHeight;
+			return this;
+		}
+
+		public MDCDrawingFacade build() {
+			MDCDrawingFacade facade = new MDCDrawingFacade(jSeshRenderContext);
+			facade.philologySign = philologySign;
+			facade.deviceScale = deviceScale;
+			facade.maxWidth = maxWidth;
+			facade.maxHeight = maxHeight;
+			facade.cadratHeight = cadratHeight;
+			return facade;
+		}
 	}
 
 	private class ViewAndBounds {
@@ -293,13 +375,42 @@ public class MDCDrawingFacade {
 	}
 
 	/**
-	 * Builds a default MDCDrawingFacade - READ the documentation for what it implies. 
-	 * <p> The rendered hieroglyphs will have default settings, and <b>the hieroglyphic font won't contain the users' additions.</b> 
-	 * @return a new default instance of MDCDrawingFacade.
+	 * Draws the data on an existing graphic.
+	 * 
+	 * @param t
+	 * @param g
+	 * @param x
+	 * @param y
+	 * @return the bounding box of the drawn text.
 	 */
-	public static MDCDrawingFacade buildDefault() {
-		
-		return new MDCDrawingFacade(new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts()));
+
+	private Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
+		Graphics2D g1 = (Graphics2D) g.create();
+		JSeshTechRenderContext techRenderContext = buildTechContext(g1);
+		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext, techRenderContext);
+		viewAndBounds.draw(g1, jSeshRenderContext, techRenderContext);
+		g1.dispose();
+		return viewAndBounds.bounds;
+	}
+
+	private JSeshTechRenderContext buildTechContext(Graphics2D g0) {
+		return JSeshTechRenderContext.buildSimpleContext(g0, deviceScale);
+	}
+
+	private double getScale() {
+		// cadratHeight (pixels) overrides the style's standardSignHeight (points)
+		// for output-scaling purposes; delegate to the single formula owner.
+		JSeshStyle scaledStyle = jSeshRenderContext.jseshStyle().copy()
+				.geometry(g -> g.standardSignHeight(cadratHeight))
+				.build();
+		return hieroglyphDrawer.scaleFromFontToStyle(scaledStyle);
+	}
+
+	private TopItemList buidTopItemList(String mdcCodes) throws MDCSyntaxError {
+		MDCParserModelGenerator gen = new MDCParserModelGenerator();
+		gen.setPhilologyAsSigns(isPhilologySign());
+		TopItemList t = gen.parse(new StringReader(mdcCodes));
+		return t;
 	}
 
 }

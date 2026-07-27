@@ -1,0 +1,7 @@
+* right-to-left layout
+* column layout
+* signs centering option
+* improved bitmap and pdf output
+* possibility to import new glyph from various sources
+* bug fix on mac os X tiger
+* Mostly small bug correction. Improvement of SVG import.

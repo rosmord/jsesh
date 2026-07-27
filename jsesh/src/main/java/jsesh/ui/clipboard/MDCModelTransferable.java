@@ -171,12 +171,11 @@ public class MDCModelTransferable implements Transferable {
      * @return
      */
     private BufferedImage getImageData() {
-        BufferedImage result;
-        MDCDrawingFacade facade = new MDCDrawingFacade(createEmbeddedRenderContext());
-        facade.setMaxSize(maxBitmapWidth, maxBitmapHeight);
-        facade.setCadratHeight(rtfPreferences.cadratHeight());
-        result = facade.createImage(topItemList);
-        return result;
+        MDCDrawingFacade facade = MDCDrawingFacade.builder(createEmbeddedRenderContext())
+                .maxSize(maxBitmapWidth, maxBitmapHeight)
+                .cadratHeight(rtfPreferences.cadratHeight())
+                .build();
+        return facade.createImage(topItemList);
     }
 
     /**

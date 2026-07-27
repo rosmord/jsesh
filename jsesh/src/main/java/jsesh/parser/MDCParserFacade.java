@@ -5,7 +5,6 @@ import java.io.Reader;
 import java_cup.runtime.Symbol;
 import jsesh.model.api.MDCBuilder;
 import jsesh.parser.lex.MDCLex;
-import jsesh.parser.MDCParse;
 
 
 /**
@@ -24,7 +23,6 @@ public class MDCParserFacade {
 
 	private MDCParse parser;
 	private boolean debug;
-	//private MDCBuilder builder;
 	private boolean philologyAsSigns;
 
 	/**
