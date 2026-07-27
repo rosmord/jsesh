@@ -94,9 +94,7 @@ public final class Possibility {
 	 * 
 	 * @return a sign code
 	 */
-	public String getCode() {
-		if (!isSingleSign())
-			throw new NullPointerException();
+	public String getCode() {	
 		return code;
 	}
 	

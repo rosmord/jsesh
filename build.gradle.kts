@@ -20,6 +20,7 @@ tasks.register<Sync>("syncGlyphs") {
     group = "maintenance"
     description = "Copy glyphs from the JSesh fonts to the JSesh resources"
     duplicatesStrategy = DuplicatesStrategy.WARN
+    includeEmptyDirs = false
     from(project.properties["fontSrc"] as String) {
         include("ManuelDeCodage/**/*.svg")
         eachFile {

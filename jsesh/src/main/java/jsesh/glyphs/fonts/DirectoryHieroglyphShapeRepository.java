@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -19,12 +20,19 @@ import jsesh.signcodes.ManuelDeCodage;
 import jsesh.utils.io.DirectoryHolder;
 
 /**
- * A font manager which stores the signs as files in a directory. The codes for
- * the signs are simply the names of the files ; for instance, "A320.svg" would
+ * A font manager which stores the signs as files in a directory. 
+ * <p>The codes for the signs are simply the names of the files ; for instance, "A320.svg" would
  * contain the code for the sign "A320". Note that, as files systems are not
  * always case-sensitive, "a320.svg" would do just the same, and "aa320.svg"
  * would be a correct file name for the sign "Aa320".
  * 
+ * <p> Important: the current system can designate the font directory through
+ * a ${@link DirectoryHolder} object. The directory holder has a value, which is the actual directory. The purpose of
+ * this system is that the directory holder can be made to point
+ *  to a different directory later on, and the system will automatically refresh.
+ * 
+ * <p> There is also a constructor which takes a File as argument, and 
+ * hence don't support automatic changes.
  * @author rosmord
  * 
  */
@@ -45,18 +53,39 @@ public class DirectoryHieroglyphShapeRepository implements
 	private boolean hasNewSigns;
 
 	/**
-	 * Create a directory font manager which will take its data from the given
-	 * directory.
+	 * Create a directory font manager, using a directory holder to designate the font directory.
 	 * 
-	 * @param directory May be null.
+	 * The directory holder is a reference to a directory, which can be made to point
+	 * to a different directory later on. The system will automatically refresh
+	 * the font accordingly.
+	 * @param directoryHolder may or may not point to a directory.
 	 */
-	public DirectoryHieroglyphShapeRepository(DirectoryHolder directory) {
-		this.directoryProxy = new DirectoryProxy(directory);
+	public DirectoryHieroglyphShapeRepository(DirectoryHolder directoryHolder) {
+		this.directoryProxy = new DirectoryProxy(directoryHolder);
 
 		signsMap = new HashMap<String, ShapeChar>();
 		hasNewSigns = true;
 		lastRefreshed = System.currentTimeMillis();
 		refresh();
+	}
+
+	/**
+	 * Create a DirectoryHieroglyphShapeRepository which points to a specific directory.
+	 * The directory can't be changed (if you want to change it, use a DirectoryHolder):
+	 * ${@link DirectoryHieroglyphShapeRepository#DirectoryHieroglyphShapeRepository(DirectoryHolder)}
+	 * <p> The corresponding file may or may not exist. If it doesn't exist, this 
+	 * repository will be seen as empty.
+	 * @param directory a non null reference to a directory
+	 */
+	public DirectoryHieroglyphShapeRepository(File directory) {
+		this(makeHolder(directory));
+	}
+
+	private static DirectoryHolder makeHolder(File directory) {
+		Objects.nonNull(directory);
+		DirectoryHolder holder = new DirectoryHolder();
+		holder.directory(Optional.of(directory));
+		return holder;		
 	}
 
 	public void refresh() {

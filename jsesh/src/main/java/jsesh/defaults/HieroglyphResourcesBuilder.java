@@ -1,5 +1,6 @@
 package jsesh.defaults;
 
+import java.io.File;
 
 import jsesh.glossary.Glossary;
 import jsesh.glossary.PossibilityRepositoryFromGlossary;
@@ -7,6 +8,7 @@ import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
+import jsesh.glyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.utils.io.DirectoryHolder;
@@ -14,17 +16,18 @@ import jsesh.utils.io.DirectoryHolder;
 /**
  * A builder for HieroglyphResources.
  * 
- * <p> <b>Note about fonts</b> : the order of fonts is important. The first font 
+ * <b>Note about fonts</b> : the order of fonts is important. The first font
  * added will be searched first, and so on.
  */
 public class HieroglyphResourcesBuilder {
 
     private Glossary glossary = new Glossary();
-    private CompositeHieroglyphShapeRepository shapes =  new CompositeHieroglyphShapeRepository();
+    private CompositeHieroglyphShapeRepository shapes = new CompositeHieroglyphShapeRepository();
     private boolean useUserDefinitions = false;
 
     /**
      * Add a shape repository to the resources.
+     * 
      * @param font
      */
     public HieroglyphResourcesBuilder addFont(HieroglyphShapeRepository font) {
@@ -32,24 +35,89 @@ public class HieroglyphResourcesBuilder {
         return this;
     }
 
-
     /**
-     * Adds a directory of user fonts. 
+     * Add a font which takes is signs in a directory.
      * This method can be used multiple times.
      * 
-     * <p> Note that folderFont may possibly point to "no" folder, 
+     * <p>
+     * Note that fontDirectoryHolder may possibly point to "no" directory,
      * in which case it will be ignored.
      * 
-     * <p> Modifications to the folder in folderfont will be detected.
-     * @param folderFont
+     * <p>
+     * The fontDirectoryHolder can be made to point to a different directory, in which case the system will 
+     * take the new directory into account.
+     * 
+     * @param fontDirectoryHolder a DirectoryHolder which is a mutable reference to a directory.
+     * @return the builder, for chaining.
      */
-    public HieroglyphResourcesBuilder userFontFolder(DirectoryHolder folderFont) {
-        addFont(new DirectoryHieroglyphShapeRepository(folderFont));
+    public HieroglyphResourcesBuilder addFontDirectoryHolder(DirectoryHolder fontDirectoryHolder) {
+        addFont(new DirectoryHieroglyphShapeRepository(fontDirectoryHolder));
         return this;
     }
 
     /**
+     * Add a font which takes is signs in a fixed directory.
+     * This method can be used multiple times.
+     * 
+     * <p> If the directory designated by fontDirectory doesn't exist, it will be 
+     * as if it were empty.
+     * @param fontDirectory can't be null.
+     * @return the builder, for chaining.
+     */
+    public HieroglyphResourcesBuilder addFontDirectory(File fontDirectory) {
+        addFont(new DirectoryHieroglyphShapeRepository(fontDirectory));
+        return this;
+    }
+
+     /**
+     * Add a font which takes is signs in a fixed directory.
+     * This method can be used multiple times.
+     * 
+     * <p> If the directory designated by fontDirectory doesn't exist, it will be 
+     * as if it were empty.
+     * @param fontDirectoryPath the path to the directory; can't be null.
+     * @return the builder, for chaining.
+     */
+    public HieroglyphResourcesBuilder addFontDirectory(String fontDirectoryPath) {
+        addFont(new DirectoryHieroglyphShapeRepository(new File(fontDirectoryPath)));
+        return this;
+    }
+
+    /**
+     * Adds the standard JSesh font to the resources.
+     * @return the builder, for chaining.
+     */
+    public HieroglyphResourcesBuilder addStandardJSeshFont() {
+        addFont(PredefinedFonts.buildStandardJSeshFont());
+        return this;
+    }
+
+    /**
+     * Adds the default GnuTrace font to the resources.
+     * (probably not very useful).
+     * @return the builder, for chaining.
+     */
+    public HieroglyphResourcesBuilder addGnuTraceFont() {
+        addFont(PredefinedFonts.buildGnuTraceFont());
+        return this;
+    }
+
+
+
+    /**
+     * Add a font which takes its signs in a resource (data included with the application jar).
+     * @param resourcePath the path to the resource, relative to the root of the jar.
+     * @return the builder, for chaining.
+     */
+
+    public HieroglyphResourcesBuilder addFontFromResource(String resourcePath) {
+        addFont(new ResourcesHieroglyphicShapeRepository(resourcePath));
+        return this;
+    }
+    
+    /**
      * Decide if we use user sign definitions (created with SignInfo).
+     * 
      * @param useUserDefinitions the useUserDefinitions to set
      */
     public HieroglyphResourcesBuilder useUserDefinitions(boolean useUserDefinitions) {
@@ -57,31 +125,34 @@ public class HieroglyphResourcesBuilder {
         return this;
     }
 
+    
+
     /**
-     * Adds an optional glossary which might be searched by the possibility repository.
+     * Adds an optional glossary which might be searched by the possibility
+     * repository.
+     * 
      * @param glossary
      */
     public HieroglyphResourcesBuilder glossary(Glossary glossary) {
         this.glossary = glossary;
         return this;
     }
-   
+
     public HieroglyphResources build() {
-            HieroglyphDatabase database;
-            if (useUserDefinitions) {
-                database = HieroglyphDatabaseFactory.buildWithUserDefinitions(shapes);
-            } else {
-                database = HieroglyphDatabaseFactory.buildPlainDefault(shapes);
-            }
-            
+        HieroglyphDatabase database;
+        if (useUserDefinitions) {
+            database = HieroglyphDatabaseFactory.buildWithUserDefinitions(shapes);
+        } else {
+            database = HieroglyphDatabaseFactory.buildPlainDefault(shapes);
+        }
+
         PossibilityRepository possibilities = new PossibilityRepositoryFromGlossary(database, glossary);
         return new HieroglyphResources(shapes, database, possibilities);
     }
 
-
-
     /**
      * Build resources, using only what JSesh sources provide.
+     * 
      * @return
      */
     public static HieroglyphResources buildEmbedded() {
@@ -90,13 +161,14 @@ public class HieroglyphResourcesBuilder {
                 .addFont(PredefinedFonts.buildGnuTraceFont()).build();
     }
 
-
     /**
-     * Builds resources, including the SignInfo user definitions, if any, but no custom fonts.
+     * Builds resources, including the SignInfo user definitions, if any, but no
+     * custom fonts.
+     * 
      * @return
      */
     public static HieroglyphResources buildWithUserDefinitions() {
-                return new HieroglyphResourcesBuilder()                
+        return new HieroglyphResourcesBuilder()
                 .addFont(PredefinedFonts.buildStandardJSeshFont())
                 .addFont(PredefinedFonts.buildGnuTraceFont())
                 .useUserDefinitions(true)
@@ -106,20 +178,22 @@ public class HieroglyphResourcesBuilder {
     /**
      * The whole resources, including user definitions and user fonts.
      * 
-     * <p> If you don't want to access the user glossary, you can always create an empty glossary with `new Glossary()`.
+     * <p>
+     * If you don't want to access the user glossary, you can always create an empty
+     * glossary with `new Glossary()`.
+     * 
      * @param userFontsDirectoryHolder the directory containing user fonts
-     * @param glossary the glossary (used for completion)
+     * @param glossary                 the glossary (used for completion)
      * @return
      */
-    public static HieroglyphResources buildFull(DirectoryHolder userFontsDirectoryHolder, Glossary glossary) {        
-    return new HieroglyphResourcesBuilder()
-        .userFontFolder(userFontsDirectoryHolder)                  // user signs override first...
-        .addFont(PredefinedFonts.buildStandardJSeshFont())
-        .addFont(PredefinedFonts.buildGnuTraceFont())    // ...gnutrace last (fallback)
-        .useUserDefinitions(true)
-        .glossary(glossary) // add the glossary
-        .build();
-}
-
+    public static HieroglyphResources buildFull(DirectoryHolder userFontsDirectoryHolder, Glossary glossary) {
+        return new HieroglyphResourcesBuilder()
+                .addFontDirectoryHolder(userFontsDirectoryHolder) // user signs override first...
+                .addFont(PredefinedFonts.buildStandardJSeshFont())
+                .addFont(PredefinedFonts.buildGnuTraceFont()) // ...gnutrace last (fallback)
+                .useUserDefinitions(true)
+                .glossary(glossary) // add the glossary
+                .build();
+    }
 
 }

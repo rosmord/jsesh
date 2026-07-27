@@ -41,6 +41,14 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+### 2026-07-27
+
+- worked on the jseshDemos archive. It shows some points which can be improved in the current API. 
+  - [x] improved `MDCDrawingFacade`
+  - [x] add a constructor to `DirectoryHieroglyphShapeRepository` which takes a `File` as argument. write a full documentation.
+  - [x] improve `HieroglyphResourcesBuilder` to ease the creation of shape repositories without having to create them directly.
+  - [ ] fix bug found with the glossary.
+
 ### 2026-07-26
 
 - reorganised the `00_Documents` folder
