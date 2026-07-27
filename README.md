@@ -1,8 +1,8 @@
 # JSesh sources
 
-See [the JSesh web site for information about the use of the software](https://jsesh.qenherkhopeshef.org/).
+- See [the JSesh web site for information about the use of the software](https://jsesh.qenherkhopeshef.org/).
 
-
+- Also see [JSesh documentation](https://jseshdoc.qenherkhopeshef.org/en)
 
 JSesh is a Java hieroglyphic editor mostly developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 
@@ -38,6 +38,34 @@ You will find the distribution in `jsesh-installer/build/jpackage`.
 ## Source Content 
 
 The sources contain the following folders and modules:
+
+#### Documentation
+
+The [[00_Documents]] folder contains :
+
+[[00_Documents/ADR]]
+: Architecture Decision Records (ADRs) for the project. These are personal notes about design decisions made during development.
+
+[[00_Documents/changelog]]
+: trace of changes in the project.
+
+[[00_Documents/documentation]]
+: contains **developper documentation** 
+
+[[00_Documents/formats]]
+: contains information about some file formats used by JSesh.
+
+[[00_Documents/IDE]]
+: contains information about how to use IDEs with JSesh.
+
+[[00_Documents/journal]]
+: a daily log of development, started in 2018 (well, mostly in 2024 I think).
+
+[[00_Documents/notes]]
+: stuff I wrote, but haven't classified yet.
+
+[[00_Documents/TODO]]
+: a structured list of things to do, with a priority system (easy, important, long term).
 
 
 #### Libraries
@@ -75,13 +103,6 @@ If you have the following behaviour :
 it might be worthwhile deleting `.classpath` and `.project` files in your JSesh folder, and trying again.
 
 
-## Files and Folders not part of the general Gradle architecture
-
-* README.md : this file
-* TODO.md : ok, a TODO file
-* comments: various text files I keep about JSesh, 
-    and some unused code (unformal tests and 
-    proof-of-concept)
 
 ## Working with IDEs
 

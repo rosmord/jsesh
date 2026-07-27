@@ -2,8 +2,9 @@
 
 This document describes how to *use* the `jsesh` core library from your own Java
 code. It is organised around concrete use cases rather than around the package
-layout. For the internal architecture and package roots, see
-[`CLAUDE.md`](../../CLAUDE.md) and the package-info files inside the module.
+layout. For the internal architecture and package roots, see [jsesh packages dependencies](jsesh-package-dependencies.html) and the package-info files inside the module.
+
+The demo applications in [JSeshDemos](https://github.com/rosmord/jseshDemos) give examples of how to use the library.
 
 The `jsesh` module is a **library**: it has no `main`. The end-user application
 lives in `jseshAppli`. Everything below can be embedded in a servlet, a batch
@@ -11,18 +12,24 @@ tool, a desktop app, or a test.
 
 ## Contents
 
-1. [Core concepts and vocabulary](#1-core-concepts-and-vocabulary)
-2. [Use case: parse Manuel de Codage into a model](#2-use-case-parse-manuel-de-codage-into-a-model)
-3. [Use case: render hieroglyphs to an image or a `Graphics2D`](#3-use-case-render-hieroglyphs-to-an-image-or-a-graphics2d)
-4. [Use case: read and write `.gly` documents](#4-use-case-read-and-write-gly-documents)
-5. [Use case: turn a model back into MdC text](#5-use-case-turn-a-model-back-into-mdc-text)
-6. [Use case: embed the interactive editor in a Swing app](#6-use-case-embed-the-interactive-editor-in-a-swing-app)
-7. [Use case: query the sign database](#7-use-case-query-the-sign-database)
-8. [Use case: convert hieroglyphs to Unicode](#8-use-case-convert-hieroglyphs-to-unicode)
-9. [Use case: export to PDF, SVG, RTF, EMF…](#9-use-case-export-to-pdf-svg-rtf-emf)
-10. [Use case: walk or transform a model](#10-use-case-walk-or-transform-a-model)
-11. [Resources, fonts and the sign database — how to build them](#11-resources-fonts-and-the-sign-database--how-to-build-them)
-12. [Quick reference: key entry points](#12-quick-reference-key-entry-points)
+- [Contents](#contents)
+- [1. Core concepts and vocabulary](#1-core-concepts-and-vocabulary)
+- [2. Use case: parse Manuel de Codage into a model](#2-use-case-parse-manuel-de-codage-into-a-model)
+- [3. Use case: render hieroglyphs to an image or a `Graphics2D`](#3-use-case-render-hieroglyphs-to-an-image-or-a-graphics2d)
+  - [Quickest possible — a PNG from MdC](#quickest-possible--a-png-from-mdc)
+  - [Drawing onto an existing `Graphics2D`](#drawing-onto-an-existing-graphics2d)
+  - [Building the facade explicitly](#building-the-facade-explicitly)
+- [4. Use case: read and write `.gly` documents](#4-use-case-read-and-write-gly-documents)
+  - [Loading](#loading)
+  - [Saving](#saving)
+- [5. Use case: turn a model back into MdC text](#5-use-case-turn-a-model-back-into-mdc-text)
+- [6. Use case: embed the interactive editor in a Swing app](#6-use-case-embed-the-interactive-editor-in-a-swing-app)
+- [7. Use case: query the sign database](#7-use-case-query-the-sign-database)
+- [8. Use case: convert hieroglyphs to Unicode](#8-use-case-convert-hieroglyphs-to-unicode)
+- [9. Use case: export to PDF, SVG, RTF, EMF…](#9-use-case-export-to-pdf-svg-rtf-emf)
+- [10. Use case: walk or transform a model](#10-use-case-walk-or-transform-a-model)
+- [11. Resources, fonts and the sign database — how to build them](#11-resources-fonts-and-the-sign-database--how-to-build-them)
+- [12. Quick reference: key entry points](#12-quick-reference-key-entry-points)
 
 ---
 
@@ -31,11 +38,11 @@ tool, a desktop app, or a test.
 **Manuel de Codage (MdC)** is the plain-text encoding for Egyptian hieroglyphs
 (e.g. `i-w-r:a-ra-m-p*t:pt`). JSesh reads, edits, renders and writes MdC.
 
-Three data types recur everywhere:
+Three data types represent hieroglyphic texts, with increasing richness:
 
 | Type | What it is | Where |
 |---|---|---|
-| `TopItemList` | The **document model**: a tree of hieroglyphs, cadrats, cartouches, line breaks… This is the in-memory representation of a text. | `jsesh.model.TopItemList` |
+| `TopItemList` | The **actual hieroglyphic text**: a tree of hieroglyphs, cadrats, cartouches, line breaks… This is the in-memory representation of a text. | `jsesh.model.TopItemList` |
 | `MDCDocument` | A `TopItemList` **plus** file metadata (path, encoding, dialect, preferences). What you load from / save to disk. | `jsesh.document.MDCDocument` |
 | `HieroglyphicTextModel` | A **live, observable, undoable** wrapper around a `TopItemList`, used by the editor. | `jsesh.document.HieroglyphicTextModel` |
 
@@ -375,16 +382,24 @@ HieroglyphResources embedded = HieroglyphResourcesBuilder.buildEmbedded();
 // Embedded fonts + the user's SignInfo definitions (signs_definition.xml):
 HieroglyphResources withUser = HieroglyphResourcesBuilder.buildWithUserDefinitions();
 
-// Everything: user font folder + user definitions + a glossary for completion:
+// Everything: user font folder + user definitions + a glossary for completion.
+// Use this form when you keep the DirectoryHolder/GlossaryManager yourself
+// (e.g. because the app also needs to edit and save them back):
 HieroglyphResources full =
     HieroglyphResourcesBuilder.buildFull(userFontsDirectoryHolder, glossary);
+
+// Same, but reading the user's own JSesh preferences for you (font directory
+// from UserFontDirectoryManager, glossary from GlossaryManager) — the
+// convenient one-liner for embedders who just want to reuse the user's setup
+// without managing those objects themselves:
+HieroglyphResources fromPrefs = HieroglyphResourcesBuilder.buildFullFromUserPreferences();
 ```
 
 Or build one piece at a time (font order matters — earlier fonts win):
 
 ```java
 HieroglyphResources res = new HieroglyphResourcesBuilder()
-        .userFontFolder(myFontsDir)                 // user signs override…
+        .addFontDirectory(myFontsDir)                  // user signs override…
         .addFont(PredefinedFonts.buildStandardJSeshFont())
         .addFont(PredefinedFonts.buildGnuTraceFont())  // …fallback last
         .useUserDefinitions(true)
@@ -394,12 +409,6 @@ HieroglyphResources res = new HieroglyphResourcesBuilder()
 
 For the database alone, `jsesh.defaults.HieroglyphDatabaseFactory` has
 `buildPlainDefault(codesSource)` and `buildWithUserDefinitions(codesSource)`.
-
-> **Runtime caveat (from `CLAUDE.md`):** `EmbeddedGlyphsPathResources` and
-> `MdcUnicodeTable` load their data with `getResourceAsStream("name")`, resolved
-> relative to their package. If those classes move, the matching resource
-> directory under `src/main/resources` must move with them, or sign loading
-> fails **only at runtime**.
 
 To feed resources into rendering, wrap the shape repository in a
 `JSeshRenderContext` together with a `JSeshStyle` (§3). To feed them into an

@@ -1,8 +1,11 @@
 package jsesh.defaults;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import jsesh.glossary.Glossary;
+import jsesh.glossary.GlossaryManager;
 import jsesh.glossary.PossibilityRepositoryFromGlossary;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.DirectoryHieroglyphShapeRepository;
@@ -128,8 +131,7 @@ public class HieroglyphResourcesBuilder {
     
 
     /**
-     * Adds an optional glossary which might be searched by the possibility
-     * repository.
+     * Adds a glossary (optional) which might be searched by the possibility repository.
      * 
      * @param glossary
      */
@@ -138,6 +140,10 @@ public class HieroglyphResourcesBuilder {
         return this;
     }
 
+    /**
+     * Build the HieroglyphResources, when everything has been configured.
+     * @return the HieroglyphResources, ready to be used.
+     */
     public HieroglyphResources build() {
         HieroglyphDatabase database;
         if (useUserDefinitions) {
@@ -178,9 +184,15 @@ public class HieroglyphResourcesBuilder {
     /**
      * The whole resources, including user definitions and user fonts.
      * 
+     * <p> 
+     * This one gives you access to the whole resources, while having the possibility
+     * to edit and modify both the user glossary and the user font directory. 
      * <p>
      * If you don't want to access the user glossary, you can always create an empty
      * glossary with `new Glossary()`.
+     * 
+     * <p> if you don't need to modify them, just to use them, the method 
+     * {@link #buildFullFromUserPreferences()} is probably more convenient.
      * 
      * @param userFontsDirectoryHolder the directory containing user fonts
      * @param glossary                 the glossary (used for completion)
@@ -194,6 +206,29 @@ public class HieroglyphResourcesBuilder {
                 .useUserDefinitions(true)
                 .glossary(glossary) // add the glossary
                 .build();
+    }
+
+    /**
+     * The whole resources, using whatever the user has already configured through JSesh's own preferences : user fonts directory and glossary.
+     *
+     * <p>
+     * This is the method to use when you want an editor or field to behave
+     * like JSesh itself, with no need to manage a {@link UserFontDirectoryManager}
+     * or a {@link jsesh.glossary.GlossaryManager} yourself. If the glossary
+     * can't be read, the failure is logged and an empty glossary is used.
+     *
+     * @return
+     */
+    public static HieroglyphResources buildFullFromUserPreferences() {
+        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
+        GlossaryManager glossaryManager = new GlossaryManager();
+        try {
+            glossaryManager.read();
+        } catch (RuntimeException e) {
+            Logger.getLogger(HieroglyphResourcesBuilder.class.getName())
+                    .log(Level.WARNING, "Could not read the user glossary", e);
+        }
+        return buildFull(userFontDirectoryManager.getUserFontHolder(), glossaryManager.getGlossary());
     }
 
 }
