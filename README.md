@@ -14,6 +14,19 @@ JSesh developpers :
 
 Licenses for the various libraries used by JSesh can be found in resources/licenses
 
+- JSesh source code itself is licenced under the [CECILL-C](https://cecill.info/licences/Licence_CeCILL-C_V1-en.txt) license, which is roughly equivalent to the LGPL.
+- some files are explicitly licenced under more permissive licenses (CC0 and CC-BY-SA). See the headers of those files for details.
+- the file `jsesh/src/main/resources/jsesh/glyphs/resources/signs_description.xml` is licensed under [CC-BY](https://creativecommons.org/licenses/by/4.0/).
+
+- JSesh fonts drawn by Serge J.-P. Thomas are distributed with the following license:
+
+    - it is allowed to distribute the fonts with JSesh;
+    - it is allowed to use the fonts when JSesh is used as a library for other softwares;
+    - it is allowed to use JSesh fonts for publications (paper, databases, web sites);
+    - it is allowed to modify the signs and use them under the same terms.
+    - M. Thomas doesn't want the font to be used for other hieroglyphic word processors. 
+    - Please note that this can't be changed. I am aware that this might be a bit inconvenient for some projects.
+
 ## Building JSesh
 
 JSesh sources can be loaded in an IDE (Eclipse, Netbeans, IntelliJ, VSCode), or built from the command line using Gradle.

@@ -1,5 +1,9 @@
 # JSesh `jsesh` module — Programmer Documentation
 
+
+**Warning**: JSesh 8 is a major rewrite, still in beta. I have changed the API a lot, and it's likely that I update it again before making it permanent. So, *please*, experiment with this API, contact me to report problems and suggestions, but consider that the code you write with will need to be updated soon enough.
+
+
 This document describes how to *use* the `jsesh` core library from your own Java
 code. It is organised around concrete use cases rather than around the package
 layout. For the internal architecture and package roots, see [jsesh packages dependencies](jsesh-package-dependencies.html) and the package-info files inside the module.
@@ -14,6 +18,7 @@ tool, a desktop app, or a test.
 
 - [Contents](#contents)
 - [1. Core concepts and vocabulary](#1-core-concepts-and-vocabulary)
+- [2. Building objects with *Construction Builders*](#2-building-objects-with-construction-builders)
 - [2. Use case: parse Manuel de Codage into a model](#2-use-case-parse-manuel-de-codage-into-a-model)
 - [3. Use case: render hieroglyphs to an image or a `Graphics2D`](#3-use-case-render-hieroglyphs-to-an-image-or-a-graphics2d)
   - [Quickest possible — a PNG from MdC](#quickest-possible--a-png-from-mdc)
@@ -60,6 +65,66 @@ Rule of thumb:
 The `MDCDrawingFacade` (see §3) hides both for the common cases.
 
 ---
+
+## 2. Building objects with *Construction Builders*
+
+We had problems in the previous versions because some objects, in particular instances of the class `DrawingSpecification` were *mutable*. Their values could be modified, and it was a problem when those objects were **shared** among various components (for instance, the editor and the Group editor).
+
+Tracking the relationships between those was difficult.
+
+**JSesh 8** follows the “modern” practice of favouring **immutable objects**. Actually, it's not that modern, because it has been used in [functional programming](https://en.wikipedia.org/wiki/Functional_programming) for a long time, but since the 2010's, it's becoming more and more mainstream in object-oriented programming.
+
+Hence, some objects, such as `JSeshStyle` are now **immutable** (using **records**). When you need a modified version of an immutable object, you simply create a new instance. That's exactly what happens with strings in Java. If you want to pass a string to uppercase, you would actually create a new string, and the original string would remain unchanged.
+
+~~~java
+String example = "Hello";
+String upper = example.toUpperCase(); // creates a new string, example is unchanged
+~~~
+
+It doesn't make **references** immutable, as in the following example:
+
+~~~java
+String example = "Hello";
+String example = example.toUpperCase();
+~~~
+
+Here, `example`, which formerly pointed to the string `"Hello"`, points to  `"HELLO"`.
+
+
+```plantuml
+@startuml
+left to right direction
+hide empty members
+object example #white
+object "String" as hello1 #yellow {
+  "hello"
+}
+object "String" as hello2 #yellow{
+  "HELLO"
+}
+example .[#red].> hello1 
+example -[bold]-> hello2
+@enduml
+```
+
+For composite objects, such as `JSeshStyle`, it means that the basic way to create a modified version of the object is to re-create a new instance.
+
+~~~java
+JSeshStyle style = JSeshStyle.DEFAULT;
+// New painting specifications
+PaintingSpecifications newPainting = ...;
+// create a new style with a modified value
+JSeshStyle style = new JSeshStyle(
+  style.geometry(),
+  newPainting,
+  style.fonts(),
+  style.options());
+~~~
+
+It's not very convenient. Hence the use of a pattern which **Martin Fowler** calls the **Construction Builder** pattern.
+
+
+
 
 ## 2. Use case: parse Manuel de Codage into a model
 

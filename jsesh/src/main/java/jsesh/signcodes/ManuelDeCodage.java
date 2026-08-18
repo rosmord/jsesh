@@ -1,11 +1,16 @@
 /*
  * ManuelDeCodage.java
+ * 
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CC0-1.0
+ * 
+ * This file is dedicated to the public domain under the Creative Commons CC0 1.0 Universal License.
+ * Full text available at: https://creativecommons.org
  *
  * Created on 27 sept. 2007, 17:36:34
  *
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
  */
+
 package jsesh.signcodes;
 
 import java.io.InputStreamReader;

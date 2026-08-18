@@ -1,9 +1,9 @@
 
 repositories {
-    mavenLocal()
-    maven {
-        url = uri("https://www.qenherkhopeshef.org/maven")
-    }
+    //mavenLocal()
+    //maven {
+    //    url = uri("https://www.qenherkhopeshef.org/maven")
+    //}
     mavenCentral()
 }
 
