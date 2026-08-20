@@ -7,6 +7,8 @@ description = """
 
     See also https://docs.oracle.com/en/java/javase/25/jpackage/index.html
 
+    see https://badass-runtime-plugin.beryx.org/releases/latest/ for beryx plugin documentation
+
     Problem with files associations:
         see https://bugs.openjdk.org/browse/JDK-8372753
     """
@@ -40,9 +42,11 @@ tasks.named<Test>("test") {
 }
 
 
-// Windows MSI installer
+// Configure a copyResources task according to the operating system
+// the files copied by this task will be used by jpackageImage
 
 if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+    // WINDOWS
     val fullName = "${applicationName}-${project.version}"
     val copyResources = tasks.register<Copy>("copyResources") {
         from("src/main/packaging/windows/tksesh.ico") {
@@ -70,10 +74,7 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
     }
     */
 } else if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
-    // MAC OS X Installer
-    // PATCH !!!!
-    // We might need to delete part of this later.
-    // The point here is to ensure the icons are copied into the app.
+    // MAC OS X
 
     val fullName = "${applicationName}-${project.version}"
     val copyResources = tasks.register<Copy>("copyResources") {
@@ -94,6 +95,10 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         }
     }
 
+    // This part is due to a limitation of jpackage
+    // jpackage only handle predefined files for resources.
+    // for instance, it will copy the icon for the application,
+    // but not the icon for documents.
     tasks.named("jpackageImage") {
         doLast {
             val appFolder = file("build/jpackage/${applicationName}-${project.version}.app")
@@ -108,9 +113,13 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         }
     }
 } else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+    // Linux
+    val fullName = "${applicationName}-${project.version}"
     val copyResources = tasks.register<Copy>("copyResources") {
-        from("src/main/packaging/linux")//  { filter { line: String -> line.replace("\${project.version}", project.version.toString()) } }    
-        into("build/prepackage")                
+        from("src/main/packaging/linux/hibou.png") {
+            rename { "${fullName}.png" }
+        }
+        into("build/prepackage")
     }
 }
 
@@ -144,6 +153,13 @@ runtime {
         if (type != null) {
             installerType = type
         }
+
+        installerOptions.addAll(
+            listOf(
+                "--verbose",
+                "--copyright", "Serge Rosmorduc, CeCILL-C license"
+            )
+        )
 
         if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
             // Default installer type is msi
