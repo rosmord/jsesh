@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=JSesh
+Comment=Hieroglyphic text editor
+Exec=/opt/jsesh/bin/${fullName}
+Icon=/opt/jsesh/lib/${fullName}.png
+Terminal=false
+Categories=Office;
+StartupWMClass=jsesh-jhotdraw-Main

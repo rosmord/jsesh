@@ -119,6 +119,13 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
         from("src/main/packaging/linux/hibou.png") {
             rename { "${fullName}.png" }
         }
+        // To install icons in linux bar, we need to define a .desktop
+        // it must be called after the app full name,
+        // AND it must contain the right content, hence the rewriting with expand. 
+        from("src/main/packaging/linux-filtered/JSesh.desktop") {
+            rename { "${fullName}.desktop" }
+            expand(mapOf("fullName" to fullName))
+        }
         into("build/prepackage")
     }
 }
