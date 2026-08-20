@@ -159,6 +159,10 @@ runtime {
                 
             ))            
         } else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
+            // On Linux, our default installer type is dep
+            if (installerType == null) {
+                installerType = "deb"
+            }
             installerOptions.addAll(listOf(
                 "--linux-shortcut"
             ))
