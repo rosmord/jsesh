@@ -117,11 +117,26 @@ public class HieroglyphResourcesBuilder {
         addFont(new ResourcesHieroglyphicShapeRepository(resourcePath));
         return this;
     }
+
+    /**
+     * Adds the standard user-defined JSesh Application font folder.
+     * <p> If the user has set a font folder for his custom fonts in the JSesh Application, 
+     * they will be added.
+     * <p> It's more versatile to use <code>UserFontDirectoryManager</code> directly.
+     * @return the builder, for chaining.
+     */
+    public HieroglyphResourcesBuilder addCustomUserDefinedFont() {
+        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
+        return addFontDirectoryHolder(userFontDirectoryManager.getUserFontHolder());
+    }
     
     /**
-     * Decide if we use user sign definitions (created with SignInfo).
+     * Decide if we use user sign definitions database (created with SignInfo).
+     * <p>Don't confuse with {@link #addFontDirectory(File)} or {@link #addFontDirectoryHolder(DirectoryHolder)}
+     * which add actual sign shapes. This one is only about sign <em>descriptions</em> and 
+     * <em>metadata</em>
      * 
-     * @param useUserDefinitions the useUserDefinitions to set
+     * @param useUserDefinitions true if we will add user-defined descriptions to the database. Defaults to false.
      */
     public HieroglyphResourcesBuilder useUserDefinitions(boolean useUserDefinitions) {
         this.useUserDefinitions = useUserDefinitions;
@@ -231,4 +246,26 @@ public class HieroglyphResourcesBuilder {
         return buildFull(userFontDirectoryManager.getUserFontHolder(), glossaryManager.getGlossary());
     }
 
+    /**
+     * <p>Returns the resources used by the JSesh application, with an explicitly known glossary.</p>
+     * <p>If :
+     * <ul>
+     * <li> you want the same configuration as JSesh
+     * <li> you need to access the glossary (which is not accessible from HieroglyphResources)
+     * </ul>
+     * this is the method you need.
+     * 
+     * <p>typical use is
+     * <pre>
+     * 
+     * </pre>
+     * @param glossary
+     * @return
+     */
+    public static HieroglyphResources buildFullWithExplicitGlossary(Glossary glossary) {
+        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();        
+        return buildFull(userFontDirectoryManager.getUserFontHolder(), glossary);
+    }
 }
+
+

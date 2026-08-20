@@ -18,7 +18,7 @@ public class ToggleGlossaryEditorAction extends AbstractCoreApplicationAction {
 		super(app);
 		BundleHelper.getInstance().configureActionWithIcon(this, appCore().getMdcIconFactory());
 		// Link this action to the state of the glossary editor.
-		appCore().glossaryEditor().getFrame().addComponentListener(
+		appCore().glossaryEditor().addComponentListener(
 			new ComponentMenuActionChecker(this));
 	}
 

@@ -11,6 +11,7 @@ import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.model.TopItemList;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.ui.glossary.JGlossaryEditor;
+import jsesh.ui.glossary.JGlossaryEditorFrame;
 
 /**
  * An action which adds the current selection to the so-called glossary.
@@ -34,8 +35,8 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 					MdCModelWriter mdCModelWriter = new MdCModelWriter();
 					TopItemList list = v.getEditor().getSelection();
 					String mdc = mdCModelWriter.toMdC(list);
-					JGlossaryEditor editor = appCore().glossaryEditor();
-					editor.getFrame().setVisible(true);
+					JGlossaryEditorFrame editor = appCore().glossaryEditor();
+					editor.setVisible(true);
 					editor.prepareToAdd(mdc);
 				});
 	}

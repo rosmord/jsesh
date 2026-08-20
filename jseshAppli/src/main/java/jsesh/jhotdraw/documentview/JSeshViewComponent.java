@@ -47,6 +47,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.defaults.HieroglyphResources;
@@ -55,6 +56,8 @@ import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.render.context.JSeshRenderContext;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * The actual Swing component with all fixed elements for the JSesh view. As
@@ -130,7 +133,7 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     }
 
     private JComponent prepareTopPanel() {
-        JToolBar top = new JToolBar(JToolBar.HORIZONTAL);
+        JToolBar top = new JToolBar(SwingConstants.HORIZONTAL);
         top.setFloatable(false);
 
         top.add(Box.createHorizontalGlue());
@@ -164,26 +167,18 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
         mdcField.setToolTipText(bundle.getLabel("mdcField.toolTipText"));
 
-        JToolBar actualBar = new JToolBar(JToolBar.HORIZONTAL);
-        actualBar.setFloatable(false);
-        actualBar.add(codeField);
-        actualBar.add(separatorField);
-        actualBar.add(Box.createHorizontalGlue());
-        actualBar.add(messageField);
-        actualBar.add(Box.createHorizontalGlue());
+        JPanel actualBar = new JPanel(new MigLayout("insets 0"));
+        hieroglyphsButton.putClientProperty("JButton.buttonType", "toolBarButton");
 
-        hieroglyphsButton.setBorderPainted(true);
-        hieroglyphsButton.setBorder(BorderFactory.createBevelBorder(3));
-        actualBar.add(hieroglyphsButton);
-
-        actualBar.add(new JLabel(bundle.getLabel("combobox.zoom.text")));
-        actualBar.add(zoomComboBox);
+        actualBar.add(codeField, "gapleft rel");
+        actualBar.add(separatorField, "gapleft unrel");
+        actualBar.add(messageField, "growx, pushx");
+        actualBar.add(hieroglyphsButton, "gapleft unrel");
+        actualBar.add(new JLabel(bundle.getLabel("combobox.zoom.text")), "gapleft unrel");
+        actualBar.add(zoomComboBox, "gapleft rel, gapright rel");
+        panel.setLayout(new GridLayout(2, 0));
         panel.add(mdcField);
         panel.add(actualBar);
-        actualBar.putClientProperty("Quaqua.ToolBar.style", "bottom");
-        actualBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
-        hieroglyphsButton.putClientProperty("Quaqua.Button.style", "push");
-        panel.setLayout(new GridLayout(2, 0));
         return panel;
     }
 

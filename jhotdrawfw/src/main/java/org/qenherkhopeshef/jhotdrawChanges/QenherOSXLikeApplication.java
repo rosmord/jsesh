@@ -25,8 +25,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.AbstractButton;
@@ -41,8 +39,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
@@ -85,6 +81,8 @@ import org.jhotdraw_7_6.app.action.window.MinimizeWindowAction;
 import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  * Application with one window by document for non-Macintosh environment.
@@ -243,22 +241,29 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
     }
 
     protected void initLookAndFeel() {
-        try {
-            /*
-                * try { UIManager
-                * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
-                * (Exception e) { e.printStackTrace(); }
-             */
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // try {
+        //     /*
+        //         * try { UIManager
+        //         * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
+        //         * (Exception e) { e.printStackTrace(); }
+        //      */
+        //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        // } catch (ClassNotFoundException ex) {
+        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        // } catch (InstantiationException ex) {
+        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        // } catch (IllegalAccessException ex) {
+        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        // } catch (UnsupportedLookAndFeelException ex) {
+        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
+        // }
+        FlatLightLaf.setup();
+        /*
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("sun.java2d.uiScale", "1x");
+        System.setProperty("flatlaf.uiScale", "1x");
+         */
+   
     }
 
     @Override

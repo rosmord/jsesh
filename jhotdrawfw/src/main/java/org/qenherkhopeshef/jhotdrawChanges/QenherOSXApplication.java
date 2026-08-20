@@ -40,7 +40,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.jhotdraw_7_6.app.AbstractApplication;
 import org.jhotdraw_7_6.app.ApplicationModel;
@@ -86,6 +85,7 @@ import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**
@@ -259,9 +259,11 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 //             e.printStackTrace();
 //         }
         FlatLightLaf.setup();
+        /* This should run BEFORE everything.
         System.setProperty("sun.java2d.uiScale.enabled", "true");
         System.setProperty("sun.java2d.uiScale", "1x");
         System.setProperty("flatlaf.uiScale", "1x");
+         */
         if (UIManager.getString("OptionPane.css") == null) {
             UIManager.put("OptionPane.css", "<head>"
                     + "<style type=\"text/css\">"

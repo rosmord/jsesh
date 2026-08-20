@@ -33,9 +33,8 @@
  */
 package jsesh.ui.glossary;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
@@ -45,13 +44,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.table.TableColumn;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
 import jsesh.glossary.GlossaryManager;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
-import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.JMDCField;
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.defaults.HieroglyphResources;
@@ -61,6 +61,7 @@ import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.renderers.MdCTableCellRenderer;
 import jsesh.utils.swing.ExplicitFocusPolicy;
 import jsesh.utils.swing.OrientationUtils;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * Graphical glossary editor for JSesh.
@@ -75,10 +76,6 @@ public class JGlossaryEditor extends JPanel {
 
 	private static final Logger LOGGER = Logger.getLogger(JGlossaryEditor.class.getName());
 
-	/**
-	 * Optional JFrame, if we want to create a separate editor.
-	 */
-	private JFrame frame;
 
 	private JTextField codeField;
 	private JMDCField mdcField;
@@ -126,8 +123,14 @@ public class JGlossaryEditor extends JPanel {
 		table.getColumnModel().getColumn(2).setCellRenderer(removeButton);
 		table.getColumnModel().getColumn(2).setCellEditor(removeButton);
 
-		table.getColumnModel().getColumn(2)
-				.setMaxWidth(8 + (int) JRemoveButtonCell.getMaxWidth());
+		// Pin the column to a fixed width (min == pref == max) so Swing's
+		// proportional column resizing can never shrink it below the
+		// button's own preferred width and clip its label.
+		int removeColumnWidth = 16 + (int) JRemoveButtonCell.getMaxWidth();
+		TableColumn removeColumn = table.getColumnModel().getColumn(2);
+		removeColumn.setMinWidth(removeColumnWidth);
+		removeColumn.setMaxWidth(removeColumnWidth);
+		removeColumn.setPreferredWidth(removeColumnWidth);
 		table.setRowHeight(34);
 	}
 
@@ -143,34 +146,31 @@ public class JGlossaryEditor extends JPanel {
 	}
 
 	private void prepareLayout() {
-		GridBagLayout layout = new GridBagLayout();
-		GridBagConstraints c = new GridBagConstraints();
-		setLayout(layout);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.2;
-		add(codeField, c);
+		setLayout(new MigLayout("insets 8", "[grow 20, fill][grow 50, fill][]", "[][grow, fill]"));
 
-		c.gridx = 2;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0;
-		add(okButton, c);
+		add(codeField);
+		add(wrapWithFieldBorder(mdcField));
+		add(okButton, "wrap");
 
-		c.gridx = 1;
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		add(mdcField, c);
+		add(new JScrollPane(table), "span 3, grow, push");
 
-		c.weighty = 1;
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 3;
-		add(new JScrollPane(table), c);
 		setFocusCycleRoot(true);
 		setFocusTraversalPolicy(new ExplicitFocusPolicy(okButton,
 				new Component[] { codeField, okButton, mdcField, table }));
 		OrientationUtils.fixComponentOrientation(this);
+	}
+
+	/**
+	 * Wraps a component in a panel styled like a text field, so it reads as
+	 * an editable box (JMDCField itself has no border, only a white
+	 * background).
+	 */
+	private JPanel wrapWithFieldBorder(Component component) {
+		JPanel wrapper = new JPanel(new BorderLayout());
+		wrapper.setBorder(UIManager.getBorder("TextField.border"));
+		wrapper.setBackground(UIManager.getColor("TextField.background"));
+		wrapper.add(component, BorderLayout.CENTER);
+		return wrapper;
 	}
 
 	public void prepareToAdd(String mdc) {
@@ -178,14 +178,6 @@ public class JGlossaryEditor extends JPanel {
 		codeField.requestFocusInWindow();
 	}
 
-	public JFrame getFrame() {
-		if (frame == null) {
-			frame = new JFrame();
-			frame.add(this);
-			frame.pack();
-		}
-		return frame;
-	}
 
 	@Override
 	public void addNotify() {
@@ -202,14 +194,6 @@ public class JGlossaryEditor extends JPanel {
 		super.removeNotify();
 	}
 	
-
-	public boolean isVisible() {
-		return getFrame().isVisible();
-	}
-
-	public void setVisible(boolean visible) {
-		getFrame().setVisible(visible);
-	}
 
 	private void repositoryChanged() {
 		// Force table redrawing.

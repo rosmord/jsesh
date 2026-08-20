@@ -46,6 +46,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JSeshStyleReference;
 import jsesh.glossary.GlossaryManager;
 import jsesh.ui.glossary.JGlossaryEditor;
+import jsesh.ui.glossary.JGlossaryEditorFrame;
 import jsesh.ui.export.html.HTMLExporter;
 import jsesh.ui.export.pdfExport.PDFExportPreferences;
 import jsesh.ui.export.rtf.RTFExportGranularity;
@@ -170,10 +171,6 @@ public class JSeshApplicationCore {
 
     private ExportPreferences exportPreferences;
 
-    /**
-     * The glossary editor.
-     */
-    private JGlossaryEditor glossaryEditor;
 
     /**
      * Dialog for importing new signs.
@@ -192,6 +189,13 @@ public class JSeshApplicationCore {
      * Lazily built by {@link #palettePresenter()}.
      */
     private PalettePresenter palettePresenter;
+
+
+    /**
+     * The glossary editor.
+     * Lazily built by {@link #glossaryEditor()}
+     */
+    private JGlossaryEditorFrame glossaryEditorFrame;
 
     /**
      * The corpus search dialog, shared by the whole application.
@@ -230,9 +234,9 @@ public class JSeshApplicationCore {
         this.pdfExportPreferences = new PDFExportPreferences();
         this.htmlExporter = new HTMLExporter(hieroglyphShapeRepository);
 
-        // Dialogs
-        glossaryEditor = new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources);
-        externalSignImporter = new ExternalSignImporter(userFontDirectoryManager, hieroglyphResources.hieroglyphShapeRepository());
+        // Dialogs (lazily built)
+        glossaryEditorFrame = null; // new JGlossaryEditorFrame(new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources));
+        externalSignImporter = null; // new ExternalSignImporter(userFontDirectoryManager, hieroglyphResources.hieroglyphShapeRepository());
     }
 
     /**
@@ -533,15 +537,7 @@ public class JSeshApplicationCore {
         this.newDocumentStyle = viewCore.getJSeshStyle();
     }
 
-    /**
-     * The glossary editor.
-     * 
-     * @return
-     */
-    public JGlossaryEditor glossaryEditor() {
-        return glossaryEditor;
-    }
-
+    
 
     /**
      * Initialize a Search panel with a given search adapter.
@@ -617,8 +613,29 @@ public class JSeshApplicationCore {
         return palettePresenter;
     }
 
+    /**
+     * The glossary editor.
+     * <p> shared and unique. Created in a lazy way if needed.
+     * 
+     * @return
+     */
+    public JGlossaryEditorFrame glossaryEditor() {
+        if (glossaryEditorFrame == null) {
+            // Rebuilt hieroglyphResources
+            // TODO : consider using it directly everywhere (possibly replacing field access by aux. methods)
+            HieroglyphResources hieroglyphResources = new HieroglyphResources(hieroglyphShapeRepository, hieroglyphDatabase, possibilityRepository);
+            glossaryEditorFrame = new JGlossaryEditorFrame(
+                new JGlossaryEditor(glossaryManager, jseshComponentsStyle, hieroglyphResources));
+        }
+        return glossaryEditorFrame;
+    }
+
+
 
     public ExternalSignImporter externalSignImporter() {
+        if (externalSignImporter == null) {
+            externalSignImporter = new ExternalSignImporter(userFontDirectoryManager, hieroglyphShapeRepository);
+        }
         return externalSignImporter;
     }
 
