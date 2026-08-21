@@ -11,7 +11,10 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending steps
 
-- [ ] update and reorganise documentation (folder `00_Documents`)
+- [ ] add --win-menu --win-menu-group "JSesh..." to windows installer
+- [ ] add text library and licences to the Windows installer
+- [ ] add file associations for linux and Windows
+- [x] update and reorganise documentation (folder `00_Documents`)
 - [ ] add rounded enclosures to MdC
 - [ ] use i18n for texts in the JSesh Palette
 - [ ] implement the new unicode insert commands (probably between groups, not signs)
@@ -45,7 +48,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 - work on programmer documentation;
 - renamed `DirectoryHolder` into `DirectoryReference` to be consistent with `StyleReference`. added `get/set` to accessors for clarity.
-  
+
 ## 2026-08-20
 
 - fixed a number of problems with Linux and Windows distributions ;
