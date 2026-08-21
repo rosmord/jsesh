@@ -45,6 +45,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import org.qenherkhopeshef.guiFramework.PropertyHolder;
 import org.qenherkhopeshef.guiFramework.SimpleApplicationFactory;
@@ -78,7 +79,7 @@ import jsesh.utilitysoftwares.signinfoeditor.ui.presenter.TagEditorPresenter;
 public class Main implements PropertyHolder {
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new Main());
+		SwingUtilities.invokeLater(Main::new);
 	}
 
 	public JFrame mainFrame;
@@ -102,13 +103,11 @@ public class Main implements PropertyHolder {
 					glossaryManager.getGlossary());
 
 			mainFrame = new JFrame("Sign info Editor");
-			SignInfoModelFactory signInfoModelFactory = new SignInfoModelFactory() {
-
-				@Override
-				public SignInfoModel buildDefaultModel() {
-					return new SignInfoModel(hieroglyphResources);
-				}
-			};
+			
+			// use lambda for the factory.
+			SignInfoModelFactory signInfoModelFactory = () ->
+					new SignInfoModel(hieroglyphResources);
+						
 
 			HieroglyphPictureBuilder pictureBuilder = new HieroglyphPictureBuilder(
 					hieroglyphResources.hieroglyphShapeRepository(), mainFrame);
@@ -123,8 +122,9 @@ public class Main implements PropertyHolder {
 			mainFrame.getContentPane().setLayout(new BorderLayout());
 			mainFrame.getContentPane().add(signInfoPresenter.getPanel(),
 					BorderLayout.CENTER);
-			mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 			mainFrame.addWindowListener(new WindowAdapter() {
+				@Override
 				public void windowClosing(WindowEvent e) {
 					quit();
 				}
@@ -141,13 +141,9 @@ public class Main implements PropertyHolder {
 			mainFrame.pack();
 			mainFrame.setVisible(true);
 
-			SwingUtilities.invokeLater(new Runnable() {
-
-				public void run() {
-					openDefault();
-				}
-
-			});
+			SwingUtilities.invokeLater(this::
+					openDefault
+			);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -188,31 +184,8 @@ public class Main implements PropertyHolder {
 
 	}
 
-	/**
-	 * Ask for a XML definition file and open it. (not used any more, maybe in
-	 * the future...)
-	 * 
-	 *
-	 */
-	@Deprecated
-	public void open() {
-		FileDialog fileDialog = new FileDialog(mainFrame, "Open");
-		if (signInfoPresenter.getCurrentFile() != null) {
-			String parent = signInfoPresenter.getCurrentFile().getParent();
-			if (parent == null)
-				parent = "";
-			fileDialog.setDirectory(parent);
-			fileDialog.setFile(signInfoPresenter.getCurrentFile().getName());
-		}
-		fileDialog.setVisible(true);
-		if (fileDialog.getFile() != null) {
-			File dir = new File(fileDialog.getDirectory());
-			File f = new File(dir, fileDialog.getFile());
-			signInfoPresenter.openFile(f);
-			tagEditorPresenter.setSignInfoModel(signInfoPresenter
-					.getSignInfoModel());
-		}
-	}
+	// We used to have an open() method which allowed to open
+	// any xml file. If needed, fish for it in the git history.
 
 	public void openDefault() {
 		// The open method should probably be located at this level, not in the

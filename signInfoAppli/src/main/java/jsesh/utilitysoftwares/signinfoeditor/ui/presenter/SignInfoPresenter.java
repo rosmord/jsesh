@@ -42,7 +42,6 @@ import jsesh.glyphs.signdata.SignDescriptionConstants;
 import jsesh.glyphs.signdata.SignValueType;
 import jsesh.glyphs.signdata.SignVariantType;
 import jsesh.glyphs.signpicture.HieroglyphPictureBuilder;
-import jsesh.glyphs.signpicture.IconRenderOptions;
 import jsesh.glyphs.signpicture.PictureDimension;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.GardinerCode;
