@@ -181,9 +181,16 @@ runtime {
                 "--win-dir-chooser",
                 "--win-menu",
                 "--win-shortcut",
-                "--file-associations", "src/main/packaging/windows/jsesh-file-association.properties"             
-                
-            ))            
+                "--file-associations", "src/main/packaging/windows/jsesh-file-association.properties",
+                "--license-file", "src/main/binary/LICENSE.txt",
+                // Bundle the demo texts and licenses into the installed application folder
+                // (--app-content is platform-independent, unlike --mac-dmg-content below)
+                "--app-content", "src/main/binary/jsesh-texts",
+                "--app-content", "src/main/binary/licenses",
+                "--app-content", "src/main/binary/FONT-LICENSE.md",
+                "--app-content", "src/main/binary/LICENSE.txt",
+                "--app-content", "src/main/binary/Readme.html"
+            ))
         } else if (org.gradle.internal.os.OperatingSystem.current().isLinux) {
             // On Linux, our default installer type is dep
             if (installerType == null) {
