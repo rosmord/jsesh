@@ -451,7 +451,7 @@ public class JSeshApplicationCore {
         Font baseFont = specifications.plainFont();
         Font transliterationFont = specifications.transliterationFont();
         return new FontInfo(
-                userFontDirectoryManager.getUserFontHolder().optDirectory(),
+                userFontDirectoryManager.getUserFontReference().getDirectory(),
                 baseFont,
                 transliterationFont,
                 this.useEmbeddedTransliterationFont,
@@ -649,7 +649,7 @@ public class JSeshApplicationCore {
     }
 
     public Optional<File> getHieroglyphsDirectory() {
-        return userFontDirectoryManager.getUserFontHolder().optDirectory();
+        return userFontDirectoryManager.getUserFontReference().getDirectory();
     }
 
     /**

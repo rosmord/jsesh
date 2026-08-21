@@ -17,18 +17,18 @@ import jsesh.glyphs.signsource.SVGSignSource;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.GardinerCode;
 import jsesh.signcodes.ManuelDeCodage;
-import jsesh.utils.io.DirectoryHolder;
+import jsesh.utils.io.DirectoryReference;
 
 /**
- * A font manager which stores the signs as files in a directory. 
+ * A font manager which stores the signs as files in a directory.
  * <p>The codes for the signs are simply the names of the files ; for instance, "A320.svg" would
  * contain the code for the sign "A320". Note that, as files systems are not
  * always case-sensitive, "a320.svg" would do just the same, and "aa320.svg"
  * would be a correct file name for the sign "Aa320".
- * 
+ *
  * <p> Important: the current system can designate the font directory through
- * a ${@link DirectoryHolder} object. The directory holder has a value, which is the actual directory. The purpose of
- * this system is that the directory holder can be made to point
+ * a ${@link DirectoryReference} object. The directory reference has a value, which is the actual directory. The purpose of
+ * this system is that the directory reference can be made to point
  *  to a different directory later on, and the system will automatically refresh.
  * 
  * <p> There is also a constructor which takes a File as argument, and 
@@ -53,15 +53,15 @@ public class DirectoryHieroglyphShapeRepository implements
 	private boolean hasNewSigns;
 
 	/**
-	 * Create a directory font manager, using a directory holder to designate the font directory.
-	 * 
-	 * The directory holder is a reference to a directory, which can be made to point
+	 * Create a directory font manager, using a directory reference to designate the font directory.
+	 *
+	 * The directory reference is a reference to a directory, which can be made to point
 	 * to a different directory later on. The system will automatically refresh
 	 * the font accordingly.
-	 * @param directoryHolder may or may not point to a directory.
+	 * @param directoryReference may or may not point to a directory.
 	 */
-	public DirectoryHieroglyphShapeRepository(DirectoryHolder directoryHolder) {
-		this.directoryProxy = new DirectoryProxy(directoryHolder);
+	public DirectoryHieroglyphShapeRepository(DirectoryReference directoryReference) {
+		this.directoryProxy = new DirectoryProxy(directoryReference);
 
 		signsMap = new HashMap<String, ShapeChar>();
 		hasNewSigns = true;
@@ -71,21 +71,21 @@ public class DirectoryHieroglyphShapeRepository implements
 
 	/**
 	 * Create a DirectoryHieroglyphShapeRepository which points to a specific directory.
-	 * The directory can't be changed (if you want to change it, use a DirectoryHolder):
-	 * ${@link DirectoryHieroglyphShapeRepository#DirectoryHieroglyphShapeRepository(DirectoryHolder)}
-	 * <p> The corresponding file may or may not exist. If it doesn't exist, this 
+	 * The directory can't be changed (if you want to change it, use a DirectoryReference):
+	 * ${@link DirectoryHieroglyphShapeRepository#DirectoryHieroglyphShapeRepository(DirectoryReference)}
+	 * <p> The corresponding file may or may not exist. If it doesn't exist, this
 	 * repository will be seen as empty.
 	 * @param directory a non null reference to a directory
 	 */
 	public DirectoryHieroglyphShapeRepository(File directory) {
-		this(makeHolder(directory));
+		this(makeReference(directory));
 	}
 
-	private static DirectoryHolder makeHolder(File directory) {
+	private static DirectoryReference makeReference(File directory) {
 		Objects.nonNull(directory);
-		DirectoryHolder holder = new DirectoryHolder();
-		holder.directory(Optional.of(directory));
-		return holder;		
+		DirectoryReference reference = new DirectoryReference();
+		reference.setDirectory(Optional.of(directory));
+		return reference;
 	}
 
 	public void refresh() {
@@ -164,14 +164,14 @@ public class DirectoryHieroglyphShapeRepository implements
 	 * @return Returns the directory (may be null)
 	 */
 	public Optional<File> optDirectory() {
-		return directoryProxy.getDirectoryHolder().optDirectory();
+		return directoryProxy.getDirectoryReference().getDirectory();
 	}
 
 	// Note: writing new signs is no longer a repository concern. Writing only
 	// needs to know the folder, so it lives on UserFontDirectoryManager, which
-	// owns the DirectoryHolder. After a write it calls holder.forceRefresh(),
+	// owns the DirectoryReference. After a write it calls reference.forceRefresh(),
 	// which this repository observes and reloads from — reader and writer never
-	// reference each other, they rendezvous at the DirectoryHolder.
+	// reference each other, they rendezvous at the DirectoryReference.
 
 	public boolean hasNewSigns() {
 		if (directoryProxy.lastModified() > lastRefreshed)
@@ -197,14 +197,14 @@ public class DirectoryHieroglyphShapeRepository implements
 	 */
 
 	private class DirectoryProxy {
-		DirectoryHolder directoryHolder;
+		DirectoryReference directoryReference;
 
 		long lastModified= 0;
 
-		public DirectoryProxy(DirectoryHolder directoryHolder) {
-			this.directoryHolder = directoryHolder;
-			directoryHolder.addListener(e -> {
-				// A holder event means the folder *identity* changed (or a
+		public DirectoryProxy(DirectoryReference directoryReference) {
+			this.directoryReference = directoryReference;
+			directoryReference.addListener(e -> {
+				// A reference event means the folder *identity* changed (or a
 				// forceRefresh() was requested): reload unconditionally.
 				// We must NOT gate this on lastModified(), because the new
 				// folder may have an older mtime than the one we last read,
@@ -220,17 +220,17 @@ public class DirectoryHieroglyphShapeRepository implements
 			this.lastModified= System.currentTimeMillis();
 		}
 
-		public DirectoryHolder getDirectoryHolder() {
-			return directoryHolder;			
+		public DirectoryReference getDirectoryReference() {
+			return directoryReference;
 		}
 
 		public long lastModified() {
-			return directoryHolder.optDirectory().map(File::lastModified).orElse(lastModified);
+			return directoryReference.getDirectory().map(File::lastModified).orElse(lastModified);
 		}
 
 		public File[] listFiles(FilenameFilter filenameFilter) {
-			return directoryHolder.optDirectory().
-				map(d -> d.listFiles(filenameFilter)).orElse(new File[0]);			
+			return directoryReference.getDirectory().
+				map(d -> d.listFiles(filenameFilter)).orElse(new File[0]);
 		}
 
 	}

@@ -14,7 +14,7 @@ import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.glyphs.fonts.ResourcesHieroglyphicShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.PossibilityRepository;
-import jsesh.utils.io.DirectoryHolder;
+import jsesh.utils.io.DirectoryReference;
 
 /**
  * A builder for HieroglyphResources.
@@ -43,18 +43,18 @@ public class HieroglyphResourcesBuilder {
      * This method can be used multiple times.
      * 
      * <p>
-     * Note that fontDirectoryHolder may possibly point to "no" directory,
+     * Note that fontDirectoryReference may possibly point to "no" directory,
      * in which case it will be ignored.
-     * 
+     *
      * <p>
-     * The fontDirectoryHolder can be made to point to a different directory, in which case the system will 
+     * The fontDirectoryReference can be made to point to a different directory, in which case the system will
      * take the new directory into account.
-     * 
-     * @param fontDirectoryHolder a DirectoryHolder which is a mutable reference to a directory.
+     *
+     * @param fontDirectoryReference a DirectoryReference which is a mutable reference to a directory.
      * @return the builder, for chaining.
      */
-    public HieroglyphResourcesBuilder addFontDirectoryHolder(DirectoryHolder fontDirectoryHolder) {
-        addFont(new DirectoryHieroglyphShapeRepository(fontDirectoryHolder));
+    public HieroglyphResourcesBuilder addFontDirectoryReference(DirectoryReference fontDirectoryReference) {
+        addFont(new DirectoryHieroglyphShapeRepository(fontDirectoryReference));
         return this;
     }
 
@@ -127,12 +127,12 @@ public class HieroglyphResourcesBuilder {
      */
     public HieroglyphResourcesBuilder addCustomUserDefinedFont() {
         UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
-        return addFontDirectoryHolder(userFontDirectoryManager.getUserFontHolder());
+        return addFontDirectoryReference(userFontDirectoryManager.getUserFontReference());
     }
-    
+
     /**
      * Decide if we use user sign definitions database (created with SignInfo).
-     * <p>Don't confuse with {@link #addFontDirectory(File)} or {@link #addFontDirectoryHolder(DirectoryHolder)}
+     * <p>Don't confuse with {@link #addFontDirectory(File)} or {@link #addFontDirectoryReference(DirectoryReference)}
      * which add actual sign shapes. This one is only about sign <em>descriptions</em> and 
      * <em>metadata</em>
      * 
@@ -209,13 +209,13 @@ public class HieroglyphResourcesBuilder {
      * <p> if you don't need to modify them, just to use them, the method 
      * {@link #buildFullFromUserPreferences()} is probably more convenient.
      * 
-     * @param userFontsDirectoryHolder the directory containing user fonts
+     * @param userFontsDirectoryReference the directory containing user fonts
      * @param glossary                 the glossary (used for completion)
      * @return
      */
-    public static HieroglyphResources buildFull(DirectoryHolder userFontsDirectoryHolder, Glossary glossary) {
+    public static HieroglyphResources buildFull(DirectoryReference userFontsDirectoryReference, Glossary glossary) {
         return new HieroglyphResourcesBuilder()
-                .addFontDirectoryHolder(userFontsDirectoryHolder) // user signs override first...
+                .addFontDirectoryReference(userFontsDirectoryReference) // user signs override first...
                 .addFont(PredefinedFonts.buildStandardJSeshFont())
                 .addFont(PredefinedFonts.buildGnuTraceFont()) // ...gnutrace last (fallback)
                 .useUserDefinitions(true)
@@ -243,7 +243,7 @@ public class HieroglyphResourcesBuilder {
             Logger.getLogger(HieroglyphResourcesBuilder.class.getName())
                     .log(Level.WARNING, "Could not read the user glossary", e);
         }
-        return buildFull(userFontDirectoryManager.getUserFontHolder(), glossaryManager.getGlossary());
+        return buildFull(userFontDirectoryManager.getUserFontReference(), glossaryManager.getGlossary());
     }
 
     /**
@@ -263,8 +263,8 @@ public class HieroglyphResourcesBuilder {
      * @return
      */
     public static HieroglyphResources buildFullWithExplicitGlossary(Glossary glossary) {
-        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();        
-        return buildFull(userFontDirectoryManager.getUserFontHolder(), glossary);
+        UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
+        return buildFull(userFontDirectoryManager.getUserFontReference(), glossary);
     }
 }
 

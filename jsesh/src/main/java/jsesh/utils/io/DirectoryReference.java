@@ -17,18 +17,18 @@ import org.qenherkhopeshef.observable.ObservableEventSupport;
 /**
  * An observable reference to a directory.
  */
-public class DirectoryHolder implements ObservableEventPublisher<DirectoryHolder.DirectoryEvent> {
-    
+public class DirectoryReference implements ObservableEventPublisher<DirectoryReference.DirectoryEvent> {
+
     private File directory;
-    private final ObservableEventSupport<DirectoryEvent> eventSupport = 
+    private final ObservableEventSupport<DirectoryEvent> eventSupport =
         new ObservableEventSupport<>();
 
     /**
      * Gets the directory (may not be available).
      * @return
      */
-    public Optional<File> optDirectory() {
-        return Optional.ofNullable(directory);        
+    public Optional<File> getDirectory() {
+        return Optional.ofNullable(directory);
     }
 
     /**
@@ -36,7 +36,7 @@ public class DirectoryHolder implements ObservableEventPublisher<DirectoryHolder
      * If an actual file is provided, it must exist and be a directory, else a directoryException is raised.
      * @param optDirectory a optional for a directory.
      */
-    public void directory(Optional<File> optDirectory) {
+    public void setDirectory(Optional<File> optDirectory) {
         if (optDirectory.isPresent()) {
             File f = optDirectory.get();
             if (!f.exists() || !f.isDirectory()) {

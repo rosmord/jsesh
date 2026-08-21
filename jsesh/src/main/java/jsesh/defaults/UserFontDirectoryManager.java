@@ -10,7 +10,7 @@ import java.util.prefs.Preferences;
 
 import jsesh.glyphs.shape.ShapeChar;
 import jsesh.glyphs.signsource.UserSignWriter;
-import jsesh.utils.io.DirectoryHolder;
+import jsesh.utils.io.DirectoryReference;
 import jsesh.utils.preferences.JSeshPreferenceKeys;
 import jsesh.utils.preferences.JSeshPreferencesRoot;
 
@@ -18,7 +18,7 @@ import jsesh.utils.preferences.JSeshPreferencesRoot;
  * Access to the user personal font directory.
  * <p>
  * Can then be used to call
- * {@link HieroglyphResourcesBuilder#buildFull(DirectoryHolder, jsesh.glossary.Glossary)}.
+ * {@link HieroglyphResourcesBuilder#buildFull(DirectoryReference, jsesh.glossary.Glossary)}.
  * <p>
  * will manage auto save of the preferences when the folder is modified.
  *
@@ -48,19 +48,19 @@ public class UserFontDirectoryManager implements UserSignWriter {
         return res;
     }
 
-    private DirectoryHolder userFontHolder = new DirectoryHolder();
+    private DirectoryReference userFontReference = new DirectoryReference();
 
     UserFontDirectoryManager(Optional<File> initialDirectory) {
-        userFontHolder.directory(initialDirectory);
+        userFontReference.setDirectory(initialDirectory);
     }
 
     /**
-     * Returns the font holder for the user font.
+     * Returns the font reference for the user font.
      *
      * @return
      */
-    public DirectoryHolder getUserFontHolder() {
-        return userFontHolder;
+    public DirectoryReference getUserFontReference() {
+        return userFontReference;
     }
 
     /**
@@ -70,8 +70,8 @@ public class UserFontDirectoryManager implements UserSignWriter {
      * Writing a sign only needs to know the folder, so it lives here,
      * rather than on the read-only repository. The sign is
      * stored as {@code <code>.svg}. After writing we call
-     * {@link DirectoryHolder#forceRefresh()}, which the
-     * {@code DirectoryHieroglyphShapeRepository} built on this holder observes,
+     * {@link DirectoryReference#forceRefresh()}, which the
+     * {@code DirectoryHieroglyphShapeRepository} built on this reference observes,
      * so the new sign becomes visible without reader and writer knowing each
      * other.
      *
@@ -81,7 +81,7 @@ public class UserFontDirectoryManager implements UserSignWriter {
      */
     @Override
     public void insertNewSign(String code, ShapeChar shape) {
-        File folder = userFontHolder.optDirectory()
+        File folder = userFontReference.getDirectory()
                 .orElseThrow(() -> new IllegalStateException(
                         "No user font folder configured; cannot insert sign " + code));
         File f = new File(folder, code + ".svg");
@@ -90,7 +90,7 @@ public class UserFontDirectoryManager implements UserSignWriter {
         } catch (IOException e) {
             throw new UncheckedIOException("Could not write sign " + code + " to " + f, e);
         }
-        userFontHolder.forceRefresh();
+        userFontReference.forceRefresh();
     }
 
     /**
@@ -111,7 +111,7 @@ public class UserFontDirectoryManager implements UserSignWriter {
             e.printStackTrace();
             // Let optfile be empty and that's it.
         }
-        userFontHolder.directory(optFile);
+        userFontReference.setDirectory(optFile);
     }
 
     /**
@@ -119,7 +119,7 @@ public class UserFontDirectoryManager implements UserSignWriter {
      */
     public void saveToPreferences() {
         Preferences preferences = JSeshPreferencesRoot.getPreferences();
-        File newDirectory = userFontHolder.optDirectory().orElse(null);
+        File newDirectory = userFontReference.getDirectory().orElse(null);
         if (newDirectory == null) {
             preferences.remove(JSeshPreferenceKeys.GLYPH_DIRECTORY);
         } else {

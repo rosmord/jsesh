@@ -290,7 +290,7 @@ public class FontInfo {
      */
     public void applyToUserFontDirectory(UserFontDirectoryManager userFontDirectoryManager) {
         if (hieroglyphsFolder != null) {
-            userFontDirectoryManager.getUserFontHolder().directory(
+            userFontDirectoryManager.getUserFontReference().setDirectory(
                 Optional.of(hieroglyphsFolder)
             );
         }

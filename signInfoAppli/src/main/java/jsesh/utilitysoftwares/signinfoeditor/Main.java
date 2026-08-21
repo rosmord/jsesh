@@ -98,7 +98,7 @@ public class Main implements PropertyHolder {
 			UserFontDirectoryManager userfontManager = UserFontDirectoryManager.buildUserFontManager();
 			GlossaryManager glossaryManager = new GlossaryManager();
 			glossaryManager.read(); // There is no reason not to read it.
-			hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userfontManager.getUserFontHolder(),
+			hieroglyphResources = HieroglyphResourcesBuilder.buildFull(userfontManager.getUserFontReference(),
 					glossaryManager.getGlossary());
 
 			mainFrame = new JFrame("Sign info Editor");

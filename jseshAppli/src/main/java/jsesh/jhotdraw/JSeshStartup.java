@@ -69,7 +69,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         }
 
         HieroglyphResources hieroglyphResources = HieroglyphResourcesBuilder.buildFull(
-                userFontDirectoryManager.getUserFontHolder(),
+                userFontDirectoryManager.getUserFontReference(),
                 glossaryManager.getGlossary());
 
         // Dirty architecture.

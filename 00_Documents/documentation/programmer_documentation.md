@@ -510,10 +510,10 @@ HieroglyphResources embedded = HieroglyphResourcesBuilder.buildEmbedded();
 HieroglyphResources withUser = HieroglyphResourcesBuilder.buildWithUserDefinitions();
 
 // Everything: user font folder + user definitions + a glossary for completion.
-// Use this form when you keep the DirectoryHolder/GlossaryManager yourself
+// Use this form when you keep the DirectoryReference/GlossaryManager yourself
 // (e.g. because the app also needs to edit and save them back):
 HieroglyphResources full =
-    HieroglyphResourcesBuilder.buildFull(userFontsDirectoryHolder, glossary);
+    HieroglyphResourcesBuilder.buildFull(userFontsDirectoryReference, glossary);
 
 // Same, but reading the user's own JSesh preferences for you (font directory
 // from UserFontDirectoryManager, glossary from GlossaryManager) — the
@@ -560,7 +560,7 @@ You can have multiple directories containing fonts, but if you want to access th
 
 ~~~java
   UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
-  UserFontHolder userFontHolder = userFontDirectoryManager.getUserFontHolder();
+  DirectoryReference userFontReference = userFontDirectoryManager.getUserFontReference();
 ~~~
 
 
@@ -584,7 +584,7 @@ UserFontDirectoryManager userFM = UserFontDirectoryManager.buildUserFontManager(
 
 HieroglyphResources res = new HieroglyphResourcesBuilder()
         .glossary(glossaryManager.getGlossary())
-        .addFontDirectory(userFM.getUserFontHolder())
+        .addFontDirectoryReference(userFM.getUserFontReference())
         // other font directories if needed ?
         .addFont(PredefinedFonts.buildStandardJSeshFont())
         .addFont(PredefinedFonts.buildGnuTraceFont())

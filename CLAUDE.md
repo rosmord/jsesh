@@ -51,7 +51,7 @@ not this table, as the source of truth when it disagrees.
 
 | Layer | Root | Role |
 |---|---|---|
-| base | `jsesh.utils` | Shared utilities, incl. `.io` (`DirectoryHolder`) |
+| base | `jsesh.utils` | Shared utilities, incl. `.io` (`DirectoryReference`) |
 | base | `jsesh.platform` | Preferences, resources, metadata (pure leaf, no outgoing deps) |
 | core | `jsesh.signcodes` | Gardiner-code identity: `GardinerCode`, `ManuelDeCodage`, `CanonicalCode`, `HieroglyphCodesSource` (pure leaf) |
 | core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools`, `.api` |
@@ -72,8 +72,8 @@ not this table, as the source of truth when it disagrees.
 **Embedding note:** `jsesh.defaults.UserFontDirectoryManager` is the only class
 in `jsesh.defaults` that touches `java.util.prefs`. A library embedder that
 doesn't want JSesh's own preference tree can ignore it and call
-`HieroglyphResourcesBuilder.buildFull(DirectoryHolder, Glossary)` directly with
-a bare `DirectoryHolder`/`Glossary`. Conversely, `buildFullFromUserPreferences()`
+`HieroglyphResourcesBuilder.buildFull(DirectoryReference, Glossary)` directly with
+a bare `DirectoryReference`/`Glossary`. Conversely, `buildFullFromUserPreferences()`
 is the one-line convenience for embedders who *do* want "use it like JSesh
 itself" (reads the user's font directory and glossary from prefs for you). See
 `00_Documents/documentation/programmer_documentation.md` §11.
