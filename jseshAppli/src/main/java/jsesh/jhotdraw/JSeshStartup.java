@@ -56,22 +56,25 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
 
     private String args[];
 
-    
     @Override
     protected void initLookAndFeel() {
-        /* This should run before any graphical item is created.
-        System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", "1x");
-        System.setProperty("flatlaf.uiScale", "1x");
-        
-        if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "<head>"
-                    + "<style type=\"text/css\">"
-                    + "b { font: 13pt \"Dialog\" }"
-                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
-                    + "</style>" + "</head>");
-        }
-        */
+        /*
+         * This should run before any graphical item is created.
+         * System.setProperty("sun.java2d.uiScale.enabled", "true");
+         * System.setProperty("sun.java2d.uiScale", "1x");
+         * System.setProperty("flatlaf.uiScale", "1x");
+         */
+
+        // CSS options for option panel - maybe not needed and a mere patch 
+        // done long time ago.
+        // if (UIManager.getString("OptionPane.css") == null) {
+        //     UIManager.put("OptionPane.css", "<head>"
+        //             + "<style type=\"text/css\">"
+        //             + "b { font: 13pt \"Dialog\" }"
+        //             + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+        //             + "</style>" + "</head>");
+        // }
+
         FlatLightLaf.setup();
         // FlatDarculaLaf.setup(); // used to test if L&F is set
     }

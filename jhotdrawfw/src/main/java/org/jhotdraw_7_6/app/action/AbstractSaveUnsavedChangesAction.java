@@ -76,9 +76,12 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
 
             if (v.hasUnsavedChanges()) {
                 URI unsavedURI = v.getURI();
+                String css = UIManager.getString("OptionPane.css");
+                if (css == null)
+                    css = "";
                 JOptionPane pane = new JOptionPane(
-                        "<html>" + UIManager.getString("OptionPane.css")
-                        +//
+                        "<html>" + css
+                        +
                         "<b>" + labels.getFormatted("file.saveBefore.doYouWantToSave.message",//
                                 (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
                         +//

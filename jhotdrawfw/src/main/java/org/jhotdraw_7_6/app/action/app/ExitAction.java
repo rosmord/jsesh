@@ -94,10 +94,14 @@ public class ExitAction extends AbstractApplicationAction {
                     unsavedView = documentToBeReviewed;
                     oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
                     unsavedView.setEnabled(false);
+                    String css= UIManager.getString("OptionPane.css");
+                    if (css == null)
+                        css = "";
                     JOptionPane pane = new JOptionPane(
-                            "<html>" + UIManager.getString("OptionPane.css")
-                            + "<b>" + labels.getFormatted("application.exit.doYouWantToSave.message",//
-                            (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
+                            "<html>" + css
+                            + "<b>" + 
+                            labels.getFormatted("application.exit.doYouWantToSave.message",//
+                                (unsavedURI == null) ? labels.getString("unnamedFile") : URIUtil.getName(unsavedURI)) + "</b><p>"
                             + labels.getString("application.exit.doYouWantToSave.details"),
                             JOptionPane.WARNING_MESSAGE);
                     Object[] options = {labels.getString("application.exit.saveOption"), labels.getString("application.exit.cancelOption"), labels.getString("application.exit.dontSaveOption")};
@@ -196,8 +200,11 @@ public class ExitAction extends AbstractApplicationAction {
             oldFocusOwner = SwingUtilities.getWindowAncestor(unsavedView.getComponent()).getFocusOwner();
             unsavedView.setEnabled(false);
             URI unsavedURI = unsavedView.getURI();
+            String css = UIManager.getString("OptionPane.css");
+            if (css == null)
+                css = "";
             JOptionPane pane = new JOptionPane(
-                    "<html>" + UIManager.getString("OptionPane.css")
+                    "<html>" + css
                     + labels.getFormatted("application.exit.doYouWantToSave.message", //
                     (unsavedURI==null)?unsavedView.getTitle():URIUtil.getName(unsavedURI)),
                     JOptionPane.WARNING_MESSAGE);
