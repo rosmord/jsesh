@@ -223,7 +223,6 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         prefs = PreferencesUtil
                 .userNodeForPackage((getModel() == null) ? getClass()
                         : getModel().getClass());
-        initLookAndFeel();
         paletteHandler = new QenherOSXPaletteHandler(this);
 
         initLabels();
@@ -240,36 +239,12 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
         super.launch(args);
     }
 
+    @Override
     public void configure(String[] args) {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
         System.setProperty("com.apple.macos.useScreenMenuBar", "true");
-        //System.setProperty("Quaqua.requestFocusEnabled", "true");  
-        //QuaquaSelectiveSetupHelper.selectJSeshSpecificUI();
     }
 
-    protected void initLookAndFeel() {
-//         try {
-//             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-// //			UIManager
-// //					.setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel");
-//         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-//             e.printStackTrace();
-//         }
-        // FlatLightLaf.setup();
-        /* This should run BEFORE everything.
-        System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", "1x");
-        System.setProperty("flatlaf.uiScale", "1x");
-         */
-        if (UIManager.getString("OptionPane.css") == null) {
-            UIManager.put("OptionPane.css", "<head>"
-                    + "<style type=\"text/css\">"
-                    + "b { font: 13pt \"Dialog\" }"
-                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
-                    + "</style>" + "</head>");
-        }
-    }
 
     @Override
     public void dispose(View p) {

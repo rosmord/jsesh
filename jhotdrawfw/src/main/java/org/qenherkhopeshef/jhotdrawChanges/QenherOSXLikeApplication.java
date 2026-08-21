@@ -216,7 +216,6 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
         prefs = PreferencesUtil
                 .userNodeForPackage((getModel() == null) ? getClass()
                         : getModel().getClass());
-        initLookAndFeel();
         paletteHandler = new QenherOSXPaletteHandler(this);
 
         initLabels();
@@ -238,31 +237,6 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
         // System.setProperty("com.apple.macos.useScreenMenuBar", "true");
     }
 
-    protected void initLookAndFeel() {
-        // try {
-        //     /*
-        //         * try { UIManager
-        //         * .setLookAndFeel("ch.randelshofer.quaqua.QuaquaLookAndFeel"); } catch
-        //         * (Exception e) { e.printStackTrace(); }
-        //      */
-        //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        // } catch (ClassNotFoundException ex) {
-        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        // } catch (InstantiationException ex) {
-        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        // } catch (IllegalAccessException ex) {
-        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        // } catch (UnsupportedLookAndFeelException ex) {
-        //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
-        // }
-        // FlatLightLaf.setup();
-        /*
-        System.setProperty("sun.java2d.uiScale.enabled", "true");
-        System.setProperty("sun.java2d.uiScale", "1x");
-        System.setProperty("flatlaf.uiScale", "1x");
-         */
-   
-    }
 
     @Override
     public void dispose(View p) {
