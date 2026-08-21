@@ -1,44 +1,106 @@
-# JSesh `jsesh` module — Programmer Documentation
+# 1. JSesh `jsesh` module — Programmer Documentation
 
 
 **Warning**: JSesh 8 is a major rewrite, still in beta. I have changed the API a lot, and it's likely that I update it again before making it permanent. So, *please*, experiment with this API, contact me to report problems and suggestions, but consider that the code you write with will need to be updated soon enough.
 
 
-This document describes how to *use* the `jsesh` core library from your own Java
-code. It is organised around concrete use cases rather than around the package
-layout. For the internal architecture and package roots, see [jsesh packages dependencies](jsesh-package-dependencies.html) and the package-info files inside the module.
+This document describes how to *use* the `jsesh` core library from your own Java code. It is organised around concrete use cases rather than around the package layout. For the internal architecture and package roots, see [jsesh packages dependencies](jsesh-package-dependencies.html) and the package-info files inside the module.
 
 The demo applications in [JSeshDemos](https://github.com/rosmord/jseshDemos) give examples of how to use the library.
 
-The `jsesh` module is a **library**: it has no `main`. The end-user application
-lives in `jseshAppli`. Everything below can be embedded in a servlet, a batch
-tool, a desktop app, or a test.
+The `jsesh` module is a **library**: it has no `main`. The end-user application lives in `jseshAppli`. Everything below can be embedded in a servlet, a batch tool, a desktop app, or a test.
 
-## Contents
+## Contents <!-- omit from toc -->
 
-- [Contents](#contents)
-- [1. Core concepts and vocabulary](#1-core-concepts-and-vocabulary)
-- [2. Building objects with *Construction Builders*](#2-building-objects-with-construction-builders)
-- [2. Use case: parse Manuel de Codage into a model](#2-use-case-parse-manuel-de-codage-into-a-model)
-- [3. Use case: render hieroglyphs to an image or a `Graphics2D`](#3-use-case-render-hieroglyphs-to-an-image-or-a-graphics2d)
-  - [Quickest possible — a PNG from MdC](#quickest-possible--a-png-from-mdc)
-  - [Drawing onto an existing `Graphics2D`](#drawing-onto-an-existing-graphics2d)
-  - [Building the facade explicitly](#building-the-facade-explicitly)
-- [4. Use case: read and write `.gly` documents](#4-use-case-read-and-write-gly-documents)
-  - [Loading](#loading)
-  - [Saving](#saving)
-- [5. Use case: turn a model back into MdC text](#5-use-case-turn-a-model-back-into-mdc-text)
-- [6. Use case: embed the interactive editor in a Swing app](#6-use-case-embed-the-interactive-editor-in-a-swing-app)
-- [7. Use case: query the sign database](#7-use-case-query-the-sign-database)
-- [8. Use case: convert hieroglyphs to Unicode](#8-use-case-convert-hieroglyphs-to-unicode)
-- [9. Use case: export to PDF, SVG, RTF, EMF…](#9-use-case-export-to-pdf-svg-rtf-emf)
-- [10. Use case: walk or transform a model](#10-use-case-walk-or-transform-a-model)
-- [11. Resources, fonts and the sign database — how to build them](#11-resources-fonts-and-the-sign-database--how-to-build-them)
-- [12. Quick reference: key entry points](#12-quick-reference-key-entry-points)
+- [1. Companion project](#1-companion-project)
+- [2. Set up](#2-set-up)
+- [3. Use in your project](#3-use-in-your-project)
+- [4. Core concepts and vocabulary](#4-core-concepts-and-vocabulary)
+- [5. Building objects with *Construction Builders*](#5-building-objects-with-construction-builders)
+- [6. Use case: render hieroglyphs to an image or a `Graphics2D`](#6-use-case-render-hieroglyphs-to-an-image-or-a-graphics2d)
+  - [6.1. Quickest possible — a PNG from MdC](#61-quickest-possible--a-png-from-mdc)
+  - [6.2. Drawing onto an existing `Graphics2D`](#62-drawing-onto-an-existing-graphics2d)
+  - [6.3. Building the facade explicitly](#63-building-the-facade-explicitly)
+- [7. Use case: build a computer representation of a Manuel de Codage text](#7-use-case-build-a-computer-representation-of-a-manuel-de-codage-text)
+- [8. Use case: read and write `.gly` documents](#8-use-case-read-and-write-gly-documents)
+  - [8.1. Loading](#81-loading)
+  - [8.2. Saving to MdC](#82-saving-to-mdc)
+- [9. Use case: turn a model back into MdC text](#9-use-case-turn-a-model-back-into-mdc-text)
+- [10. Use case: embed the interactive editor in a Swing app](#10-use-case-embed-the-interactive-editor-in-a-swing-app)
+- [11. Use case: query the sign database](#11-use-case-query-the-sign-database)
+- [12. Use case: convert hieroglyphs to Unicode](#12-use-case-convert-hieroglyphs-to-unicode)
+- [13. Use case: export to PDF, SVG, RTF, EMF…](#13-use-case-export-to-pdf-svg-rtf-emf)
+- [14. Use case: walk or transform a model](#14-use-case-walk-or-transform-a-model)
+- [15. Resources, fonts and the sign database — how to build them](#15-resources-fonts-and-the-sign-database--how-to-build-them)
+  - [15.1. HieroglyphResources](#151-hieroglyphresources)
+  - [15.2. Glossary](#152-glossary)
+  - [15.3. Default user font directory](#153-default-user-font-directory)
+  - [15.4. Fully custom build, accessing all resources of the JSesh Application](#154-fully-custom-build-accessing-all-resources-of-the-jsesh-application)
+- [16. Quick reference: key entry points](#16-quick-reference-key-entry-points)
 
 ---
+## 1. Companion project
 
-## 1. Core concepts and vocabulary
+The [JSeshDemos](https://github.com/rosmord/jseshDemos) project contains a number of small demo application which give examples of library usage and configuration.
+
+I strongly recommand you to get them.
+
+
+## 2. Set up
+
+As of today, the JSesh 8 libraries are not yet published to Maven Central. You can build and install them locally:
+
+~~~bash
+# clone the repository
+git clone https://github.com/rosmord/jsesh.git
+# (optional) check out a specific release
+# git checkout TAG (not needed currently)
+cd jsesh
+# build and publish to maven local repository (~/.m2/repository)
+./gradlew publishToMavenLocal
+~~~
+
+## 3. Use in your project
+
+JSesh defines a number of modules you might be interested in. You will probably need `jsesh`, which is the core library, and `jseshGlyphs` if you want the extended glyphs library.
+
+Currently, depending on your system, you would use :
+
+**for gradle**:
+
+~~~gradle
+
+ext {
+    jseshVersion = "8.0.5-SNAPSHOT" // (see below)
+    .....
+}
+
+repositories {
+    mavenLocal() // Hopefully the jsesh library is there.
+    mavenCentral()    
+}
+
+
+
+dependencies {
+    implementation "org.qenherkhopeshef.jsesh:jsesh:${jseshVersion}"
+    implementation "org.qenherkhopeshef.jsesh:jseshGlyphs:${jseshVersion}"
+    ...
+}
+~~~
+
+To know the current version number of the JSesh library you have installed, look at the `gradle.properties` file at the root of the jsesh repository.
+
+Currently, it starts like this:
+
+~~~properties
+version=8.0.5-SNAPSHOT
+javaToolchainVersion=21
+~~~
+
+`version` is the jsesh version number.
+
+## 4. Core concepts and vocabulary
 
 **Manuel de Codage (MdC)** is the plain-text encoding for Egyptian hieroglyphs
 (e.g. `i-w-r:a-ra-m-p*t:pt`). JSesh reads, edits, renders and writes MdC.
@@ -66,7 +128,7 @@ The `MDCDrawingFacade` (see §3) hides both for the common cases.
 
 ---
 
-## 2. Building objects with *Construction Builders*
+## 5. Building objects with *Construction Builders*
 
 We had problems in the previous versions because some objects, in particular instances of the class `DrawingSpecification` were *mutable*. Their values could be modified, and it was a problem when those objects were **shared** among various components (for instance, the editor and the Group editor).
 
@@ -124,9 +186,77 @@ JSeshStyle style = new JSeshStyle(
 It's not very convenient. Hence the use of a pattern which **Martin Fowler** calls the **Construction Builder** pattern.
 
 
+It may seem more complex than the old system, but now sharing mutable objects is explicit instead of implicit. `JSeshStyle` objects are immutable. You can use the same instance in various places without problem. If you replace one of the values, the other will remain unchanged. 
+
+If you want to **synchronize** values (e.g. to use the same style in all of your editors), the `JSeshStyleReference` is there for you.
 
 
-## 2. Use case: parse Manuel de Codage into a model
+---
+
+## 6. Use case: render hieroglyphs to an image or a `Graphics2D`
+
+`jsesh.render.draw.MDCDrawingFacade` is the "one class for programmers who just
+want to draw hieroglyphs". It accepts either an MdC `String` or a `TopItemList`.
+
+### 6.1. Quickest possible — a PNG from MdC
+
+```java
+import jsesh.render.draw.MDCDrawingFacade;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+
+MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
+facade.setCadratHeight(40);                 // approx. height of a quadrat, in px
+BufferedImage img = facade.createImage("i-w-r:a-ra-m-p*t:pt");
+ImageIO.write(img, "png", new File("word.png"));
+```
+
+`buildDefault()` uses the embedded font and the default style. **Caveat:** it does
+*not* include the user's own signs — for that, build the facade from a
+`JSeshRenderContext` you assemble yourself (see §11).
+
+### 6.2. Drawing onto an existing `Graphics2D`
+
+Useful when compositing hieroglyphs into a larger drawing (a report, a custom
+component, another exporter):
+
+```java
+// g is a Graphics2D; x, y the top-left target point.
+Rectangle2D bounds = facade.draw("nfr-nfr-nfr", g, x, y);
+// bounds tells you the box that was drawn, for layout.
+```
+
+`getBounds(...)` computes the same box **without** drawing, so you can size a
+component or lay out a page first.
+
+### 6.3. Building the facade explicitly
+
+```java
+import jsesh.render.context.JSeshRenderContext;
+import jsesh.render.style.JSeshStyle;
+import jsesh.glyphs.fonts.PredefinedFonts;
+
+JSeshRenderContext ctx =
+    new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts());
+MDCDrawingFacade facade = new MDCDrawingFacade(ctx);
+```
+
+Swap `JSeshStyle.DEFAULT` for a customised `JSeshStyle` to change sign spacing,
+line thickness, shading, etc. Use `facade.setStyle(...)` to change it later.
+
+Other knobs: `setDeviceScale(double)` (pixels per typographic point — raise it for
+print resolution), `setMaxSize(w, h)` (caps bitmap size).
+
+There is a runnable example in
+[`jseshTests/.../MdcDrawingFacadeDemo.java`](../../jseshTests/src/main/java/jsesh/demo/drawing/MdcDrawingFacadeDemo.java).
+
+---
+
+
+## 7. Use case: build a computer representation of a Manuel de Codage text
+
+> You have a string of MdC code, and you want to read it, in order to manipulate it (for instance to extract the list of hieroglyphs in a reliable way). The solution is to build a `TopItemList` object.
 
 The entry point is `jsesh.parser.MDCParserModelGenerator`. It returns a
 `TopItemList`.
@@ -158,75 +288,13 @@ Notes:
   (see `jsesh.model.api.MDCBuilder` / `MDCBuilderAdapter`). The model generator is
   just `MDCParserFacade` wired to the built-in `MDCModelBuilder`.
 
----
-
-## 3. Use case: render hieroglyphs to an image or a `Graphics2D`
-
-`jsesh.render.draw.MDCDrawingFacade` is the "one class for programmers who just
-want to draw hieroglyphs". It accepts either an MdC `String` or a `TopItemList`.
-
-### Quickest possible — a PNG from MdC
-
-```java
-import jsesh.render.draw.MDCDrawingFacade;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.File;
-
-MDCDrawingFacade facade = MDCDrawingFacade.buildDefault();
-facade.setCadratHeight(40);                 // approx. height of a quadrat, in px
-BufferedImage img = facade.createImage("i-w-r:a-ra-m-p*t:pt");
-ImageIO.write(img, "png", new File("word.png"));
-```
-
-`buildDefault()` uses the embedded font and the default style. **Caveat:** it does
-*not* include the user's own signs — for that, build the facade from a
-`JSeshRenderContext` you assemble yourself (see §11).
-
-### Drawing onto an existing `Graphics2D`
-
-Useful when compositing hieroglyphs into a larger drawing (a report, a custom
-component, another exporter):
-
-```java
-// g is a Graphics2D; x, y the top-left target point.
-Rectangle2D bounds = facade.draw("nfr-nfr-nfr", g, x, y);
-// bounds tells you the box that was drawn, for layout.
-```
-
-`getBounds(...)` computes the same box **without** drawing, so you can size a
-component or lay out a page first.
-
-### Building the facade explicitly
-
-```java
-import jsesh.render.context.JSeshRenderContext;
-import jsesh.render.style.JSeshStyle;
-import jsesh.glyphs.fonts.PredefinedFonts;
-
-JSeshRenderContext ctx =
-    new JSeshRenderContext(JSeshStyle.DEFAULT, PredefinedFonts.buildAllEmbeddedFonts());
-MDCDrawingFacade facade = new MDCDrawingFacade(ctx);
-```
-
-Swap `JSeshStyle.DEFAULT` for a customised `JSeshStyle` to change sign spacing,
-line thickness, shading, etc. Use `facade.setStyle(...)` to change it later.
-
-Other knobs: `setDeviceScale(double)` (pixels per typographic point — raise it for
-print resolution), `setMaxSize(w, h)` (caps bitmap size).
-
-There is a runnable example in
-[`jseshTests/.../MdcDrawingFacadeDemo.java`](../../jseshTests/src/main/java/jsesh/demo/drawing/MdcDrawingFacadeDemo.java).
-
----
-
-## 4. Use case: read and write `.gly` documents
+## 8. Use case: read and write `.gly` documents
 
 Files carry more than the model: an encoding, a dialect, and document
 preferences (orientation, direction…). Use `MDCDocument` with the reader/writer
 in `jsesh.io.document`.
 
-### Loading
+### 8.1. Loading
 
 ```java
 import jsesh.io.document.MDCDocumentReader;
@@ -237,16 +305,12 @@ MDCDocument doc = reader.loadFile(new File("text.gly"));
 TopItemList model = doc.getTopItemList();
 ```
 
-The reader **guesses the encoding and dialect** from the file (BOM, `.hie`
-extension, WinGlyph `@` header, MacScribe header, JSesh `++JSeshInfo` header…),
-and is *forgiving*: a line it can't parse is kept verbatim as red text rather than
-aborting the load. Call `reader.failFast()` beforehand if instead you want a
-malformed file to throw `MDCSyntaxError` — e.g. when validating input.
+The reader **will guess the encoding and dialect for you,** using various hints (file content, `.hie` extension, WinGlyph `@` header, MacScribe header, JSesh `++JSeshInfo` header…).
+It is *forgiving*: a line it can't parse is kept verbatim as red text rather than aborting the load. Call `reader.failFast()` beforehand if instead you want a malformed file to throw `MDCSyntaxError` — e.g. when validating input.
 
-`readString(mdc, file)` builds a document straight from an MdC string, associating
-it with a (future) file.
+`readString(mdc, file)` builds a document straight from an MdC string, associating it with a (future) file.
 
-### Saving
+### 8.2. Saving to MdC
 
 ```java
 import jsesh.io.document.MDCDocumentWriter;
@@ -258,18 +322,15 @@ Beware: `write(...)` calls `prepareForSaving(doc)`, which **normalises the
 document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and a
 `.gly` extension (or `.hie`/iso-8859-1 when philology-as-signs is on). Variants:
 
-- `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the
-  stream (it stays the caller's).
+- `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the stream (it stays the caller's).
 - `toMdC(doc)` — returns the full document (header included) as a `String`.
-- `toMdC(TopItemList, DocumentPreferences)` — convenience when you have a bare
-  text and preferences but no real document.
+- `toMdC(TopItemList, DocumentPreferences)` — convenience when you have a bare text and preferences but no real document.
 
 ---
 
-## 5. Use case: turn a model back into MdC text
+## 9. Use case: turn a model back into MdC text
 
-If you only need the MdC source of a `TopItemList` (no file header), use
-`jsesh.io.mdc.MdCModelWriter` directly:
+If you only need the MdC source of a `TopItemList` (no file header), use `jsesh.io.mdc.MdCModelWriter` directly:
 
 ```java
 import jsesh.io.mdc.MdCModelWriter;
@@ -280,13 +341,11 @@ new MdCModelWriter().write(out, topItemList);
 String mdc = out.toString();
 ```
 
-It also has `write(File, TopItemList)` and `write(String fileName, TopItemList)`
-overloads. When you want the header too, go through `MDCDocumentWriter.toMdC(...)`
-(§4).
+It also has `write(File, TopItemList)` and `write(String fileName, TopItemList)` overloads. When you want the header too, go through `MDCDocumentWriter.toMdC(...)`.
 
 ---
 
-## 6. Use case: embed the interactive editor in a Swing app
+## 10. Use case: embed the interactive editor in a Swing app
 
 `jsesh.ui.editor.JMDCEditor` is a ready-to-use Swing component (a `JComponent`).
 Drop it in a `JScrollPane`:
@@ -325,7 +384,7 @@ For a single-line input field, see `JMDCField`.
 
 ---
 
-## 7. Use case: query the sign database
+## 11. Use case: query the sign database
 
 `jsesh.glyphs.signdata.HieroglyphDatabase` answers questions about the ~6500
 signs: transliterations, variants, families, tags, code completion. Get an
@@ -356,7 +415,7 @@ The Gardiner code system itself (parsing `A1`, `G17`, phantom codes…) lives in
 
 ---
 
-## 8. Use case: convert hieroglyphs to Unicode
+## 12. Use case: convert hieroglyphs to Unicode
 
 `jsesh.model.unicode.MdCToUnicodeConverter` maps a model to the Unicode
 hieroglyph block (plus optional format/control characters for grouping):
@@ -373,7 +432,7 @@ Combine with the parser (§2) to go straight from MdC text to Unicode.
 
 ---
 
-## 9. Use case: export to PDF, SVG, RTF, EMF…
+## 13. Use case: export to PDF, SVG, RTF, EMF…
 
 Format exporters live under `jsesh.ui.export.*`. Each format has its own
 package; they share the machinery in `jsesh.ui.export.generic`
@@ -404,7 +463,7 @@ then `new ViewDrawer().draw(graphics, renderContext, techContext, view)`
 
 ---
 
-## 10. Use case: walk or transform a model
+## 14. Use case: walk or transform a model
 
 The model is a tree of `ModelElement`s with a **visitor** and an **observer**
 pattern (see the tree in `CLAUDE.md`). To inspect or transform it, implement a
@@ -427,15 +486,18 @@ readable examples of model visitors.
 
 ---
 
-## 11. Resources, fonts and the sign database — how to build them
+## 15. Resources, fonts and the sign database — how to build them
 
-"Resources" bundle the three things rendering and querying need: the sign
-**shapes** (fonts), the sign **database** (metadata), and the **possibilities**
-(completion). Assemble them with `jsesh.defaults.HieroglyphResourcesBuilder`,
-which returns a `HieroglyphResources` record
+"Resources" bundle the three things rendering and querying need: the sign **shapes** (fonts), the sign **database** (metadata), and the **possibilities** (completion). You can access them with `jsesh.defaults.HieroglyphResourcesBuilder`, which returns a `HieroglyphResources` record containg
 (`shapes()`, `database()`, `possibilities()`).
 
-Ready-made factory methods cover the usual needs:
+You can use simple factory methods for usual cases, or build a completely custom object.
+
+Two information are a bit more difficult to get: the glossary and the user font directory.
+
+### 15.1. HieroglyphResources
+
+Ready-made factory methods cover the usual needs (you need only **one** of these):
 
 ```java
 import jsesh.defaults.HieroglyphResourcesBuilder;
@@ -479,9 +541,61 @@ To feed resources into rendering, wrap the shape repository in a
 `JSeshRenderContext` together with a `JSeshStyle` (§3). To feed them into an
 editor, pass the `HieroglyphResources` to the `JMDCEditor` constructor (§6).
 
+### 15.2. Glossary
+
+If you need to manage the glossary (i.e. to be able to edit it using the glossary editor), you need to get it from the `GlossaryManager`. In this case, don't forget to pass it to the `HieroglyphResourcesBuilder` when you build your resources.
+
+~~~java
+// Create a glossary manager
+GlossaryManager glossaryManager = new GlossaryManager();
+// Read the user glossary from the JSesh app.
+glossaryManager.read();
+// if needed, get the glossary object.
+Glossary glossary = glossaryManager.getGlossary();
+~~~
+
+### 15.3. Default user font directory
+
+You can have multiple directories containing fonts, but if you want to access the user font directory set for JSesh, you can use the `UserFontDirectoryManager`:
+
+~~~java
+  UserFontDirectoryManager userFontDirectoryManager = UserFontDirectoryManager.buildUserFontManager();
+  UserFontHolder userFontHolder = userFontDirectoryManager.getUserFontHolder();
+~~~
+
+
+### 15.4. Fully custom build, accessing all resources of the JSesh Application
+
+If you want full control, here is a simple example:
+
+~~~java
+// Style
+JSeshStyle style =
+    JSeshStyle.DEFAULT.copy()
+        .geometry(g -> g.scaleToHeight(40.0))
+        // possibly other modifications...
+    .build();
+// glossary
+// Create a glossary manager
+GlossaryManager glossaryManager = new GlossaryManager();
+glossaryManager.read();
+// user font directory
+UserFontDirectoryManager userFM = UserFontDirectoryManager.buildUserFontManager();
+
+HieroglyphResources res = new HieroglyphResourcesBuilder()
+        .glossary(glossaryManager.getGlossary())
+        .addFontDirectory(userFM.getUserFontHolder())
+        // other font directories if needed ?
+        .addFont(PredefinedFonts.buildStandardJSeshFont())
+        .addFont(PredefinedFonts.buildGnuTraceFont())
+        .useUserDefinitions(true)
+        .build();
+~~~
+
+
 ---
 
-## 12. Quick reference: key entry points
+## 16. Quick reference: key entry points
 
 | I want to… | Use | Package |
 |---|---|---|

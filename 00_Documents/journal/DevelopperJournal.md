@@ -41,6 +41,14 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-08-21
+
+- work on programmer documentation;
+## 2026-08-20
+
+- fixed a number of problems with Linux and Windows distributions ;
+- fixed problems with FlatLaF
+
 ### 2026-07-27
 
 - worked on the jseshDemos archive. It shows some points which can be improved in the current API. 
