@@ -126,6 +126,9 @@ if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
             rename { "${fullName}.desktop" }
             expand(mapOf("fullName" to fullName))
         }
+        from("src/main/binary/LICENSE.txt") {
+            rename {"copyright"}
+        }
         into("build/prepackage")
     }
 }

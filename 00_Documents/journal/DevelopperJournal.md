@@ -48,7 +48,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 - work on programmer documentation;
 - renamed `DirectoryHolder` into `DirectoryReference` to be consistent with `StyleReference`. added `get/set` to accessors for clarity.
-
+- added copyright to linux distribution.
 ## 2026-08-20
 
 - fixed a number of problems with Linux and Windows distributions ;
