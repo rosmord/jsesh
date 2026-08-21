@@ -16,9 +16,11 @@ import org.qenherkhopeshef.guiFramework.AppStartup;
 import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
+import org.qenherkhopeshef.utils.PlatformDetection;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import jsesh.Version;
 import jsesh.defaults.HieroglyphResources;
@@ -75,7 +77,12 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         //             + "</style>" + "</head>");
         // }
 
-        FlatLightLaf.setup();
+        
+        if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
+            FlatMacLightLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
         // FlatDarculaLaf.setup(); // used to test if L&F is set
     }
 
