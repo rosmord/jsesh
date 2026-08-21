@@ -82,7 +82,6 @@ import org.jhotdraw_7_6.gui.Worker;
 import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
 
-import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  * Application with one window by document for non-Macintosh environment.
@@ -214,7 +213,6 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
     @Override
     public void init() {
         abstractApplicationInit();
-        // ResourceBundleUtil.putPropertyNameModifier("os", "mac", "default");
         prefs = PreferencesUtil
                 .userNodeForPackage((getModel() == null) ? getClass()
                         : getModel().getClass());
@@ -257,7 +255,7 @@ public class QenherOSXLikeApplication extends AbstractApplication implements
         // } catch (UnsupportedLookAndFeelException ex) {
         //     Logger.getLogger(QenherOSXLikeApplication.class.getName()).log(Level.SEVERE, null, ex);
         // }
-        FlatLightLaf.setup();
+        // FlatLightLaf.setup();
         /*
         System.setProperty("sun.java2d.uiScale.enabled", "true");
         System.setProperty("sun.java2d.uiScale", "1x");

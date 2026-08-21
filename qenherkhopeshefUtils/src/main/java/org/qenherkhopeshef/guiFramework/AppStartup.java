@@ -17,6 +17,7 @@ import org.qenherkhopeshef.swingUtils.errorHandler.ErrorMessageHandler;
  * Skeleton for an application with a splash screen and a long startup.
  * <ul>
  * <li>the application startup object is created
+ * <li>an optional method to set the look and feel is called, ensuring everyone will get it.
  * <li>when run() is called, initApplicationData is run in a worker thread, and
  * the splash screen is displayed
  * <li>when the data is ready, startApplication can be called.
@@ -25,11 +26,11 @@ import org.qenherkhopeshef.swingUtils.errorHandler.ErrorMessageHandler;
  * 
  * Normally, one extends this class to write an new application.
  * 
- * 
+ * @param INITDATA the data possibly returned by the long-running non-gui process {@link #initApplicationData()} and passed to the gui initialisation.
  * @author rosmord
  * 
  */
-public abstract class AppStartup<InitData> {
+public abstract class AppStartup<INITDATA> {
 
 	private PreparationWorker initWorker;
 	private Timer tickTimer;
@@ -43,32 +44,35 @@ public abstract class AppStartup<InitData> {
 	/**
 	 * Starts the software in the correct thread.
 	 * 
-	 * Should be called from the main thread.
+	 * Should be called from the main thread (not the EDT).
 	 * 
 	 * @throws InterruptedException
 	 * @throws InvocationTargetException
 	 */
-	public void run() throws InterruptedException, InvocationTargetException {
+	public void run() {
 		// Catch all uncaught exception
 		ErrorMessageHandler.installMessageHandler();
-		// FontSizeHelper.fixFontSize();
+		
 
 		initWorker = new PreparationWorker();
 
 		// Starts initialisation...
 
-		SwingUtilities.invokeLater(new Runnable() {
-
-			public void run() {
-				initWorker.start();
-				// The initworker will start the application when ready...
-			}
-		});
+		SwingUtilities.invokeLater(() -> 
+				initWorker.start() // Will start the app when ready.
+		);
 	}
 
 	/**
-	 * Method called on the main thread to prepare the application data. This
-	 * method is <em>not</em> called in the event dispatch thread.
+	 * Install the look and feel you want for your app (or none).
+	 * <p> Always called on the event dispatch thread.
+	 */
+	protected void initLookAndFeel() {
+	}
+
+	/**
+	 * Method called on the main thread to prepare the application data. 
+	 * <p>This method is <em>not</em> called in the event dispatch thread.
 	 * <p>
 	 * It is suggested that you call setProgression from there if you want to
 	 * display progression information.
@@ -76,9 +80,9 @@ public abstract class AppStartup<InitData> {
 	 * If you prefer an automatic system, you can call setTickTimer before
 	 * calling run.
 	 * 
-	 * @return
+	 * @return the data passed to the GUI at start.
 	 */
-	public abstract InitData initApplicationData();
+	public abstract INITDATA initApplicationData();
 
 	/**
 	 * Actual start of the application. called in the Event Dispatch Thread.
@@ -86,7 +90,7 @@ public abstract class AppStartup<InitData> {
 	 * @param data
 	 *            the data prepared by the application initialisation.
 	 */
-	public abstract void startApplication(InitData data);
+	public abstract void startApplication(INITDATA data);
 
 	/**
 	 * Ask for the initialisation progression to be drawn automatically.
@@ -133,7 +137,7 @@ public abstract class AppStartup<InitData> {
 	 * @author rosmord
 	 * 
 	 */
-	private class PreparationWorker extends SwingWorker1_5<InitData> {
+	private class PreparationWorker extends SwingWorker1_5<INITDATA> {
 
 		SplashScreen splashScreen;
 
@@ -150,6 +154,7 @@ public abstract class AppStartup<InitData> {
 
 		@Override
 		public void start() {
+			initLookAndFeel();
 			splashScreen.display();
 			if (tickTimer != null) {
 				tickTimer.start();
@@ -167,7 +172,7 @@ public abstract class AppStartup<InitData> {
 		}
 
 		@Override
-		public InitData construct() {
+		public INITDATA construct() {
 			return initApplicationData();
 		}
 

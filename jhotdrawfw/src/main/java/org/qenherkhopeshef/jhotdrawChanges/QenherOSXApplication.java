@@ -85,8 +85,6 @@ import org.jhotdraw_7_6.net.URIUtil;
 import org.jhotdraw_7_6.util.ResourceBundleUtil;
 import org.jhotdraw_7_6.util.prefs.PreferencesUtil;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 /**
  * Application with one window by document for non-Macintosh environment. Mac OS
@@ -258,7 +256,7 @@ public class QenherOSXApplication extends AbstractApplication implements ActiveV
 //         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
 //             e.printStackTrace();
 //         }
-        FlatLightLaf.setup();
+        // FlatLightLaf.setup();
         /* This should run BEFORE everything.
         System.setProperty("sun.java2d.uiScale.enabled", "true");
         System.setProperty("sun.java2d.uiScale", "1x");

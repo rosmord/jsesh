@@ -17,6 +17,7 @@ dependencies {
             classifier = "swing"
         }
     }
+    implementation("com.formdev:flatlaf:3.7.2")
 }
 
 application {

@@ -9,11 +9,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import javax.swing.UIManager;
+
 import org.jhotdraw_7_6.app.Application;
 import org.qenherkhopeshef.guiFramework.AppStartup;
 import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
+
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import jsesh.Version;
 import jsesh.defaults.HieroglyphResources;
@@ -50,6 +55,26 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
     public final static String COPYRIGHT = "JSesh is CeCiLL Software (GPL-compatible) written by S. Rosmorduc";
 
     private String args[];
+
+    
+    @Override
+    protected void initLookAndFeel() {
+        /* This should run before any graphical item is created.
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("sun.java2d.uiScale", "1x");
+        System.setProperty("flatlaf.uiScale", "1x");
+        
+        if (UIManager.getString("OptionPane.css") == null) {
+            UIManager.put("OptionPane.css", "<head>"
+                    + "<style type=\"text/css\">"
+                    + "b { font: 13pt \"Dialog\" }"
+                    + "p { font: 11pt \"Dialog\"; margin-top: 8px }"
+                    + "</style>" + "</head>");
+        }
+        */
+        FlatLightLaf.setup();
+        // FlatDarculaLaf.setup(); // used to test if L&F is set
+    }
 
     /**
      * Preloading of data before starting the actual application.
