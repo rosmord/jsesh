@@ -262,6 +262,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 }
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, ImportNewSignAction.ID);
+                fileMenu.addSeparator(); // maybe not.
                 addToMenu(fileMenu, app, jSeshView, ExportTextLibraryAction.ID);
 
         }
