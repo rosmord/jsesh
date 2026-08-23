@@ -12,7 +12,7 @@ class JSeshTextExporterTest {
 
     @Test
     void exportTextsExtractsFilesAndSubdirectories(@TempDir Path destination) {
-        JSeshTextExporter.exportTexts(destination);
+        JSeshTextLibraryExporter.exportTexts(destination);
 
         Path textsRoot = destination.resolve("jsesh-texts");
         assertTrue(Files.isRegularFile(textsRoot.resolve("Sinuhe.gly")));

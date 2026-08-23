@@ -8,10 +8,9 @@ import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class JSeshTextExporter {
+public class JSeshTextLibraryExporter {
 
     private static final String TEXTS_ZIP_RESOURCE = "jsesh-texts.zip";
-    private static final String TEXTS_FOLDER_NAME = "jsesh-texts";
 
     /**
      * Unzip the JSesh text library into a "jsesh-texts" subfolder of the given destination folder.
@@ -19,11 +18,11 @@ public class JSeshTextExporter {
      * @param destination the folder under which the text library is extracted
      */
     public static void exportTexts(Path destination) {
-        try (InputStream in = JSeshTextExporter.class.getResourceAsStream(TEXTS_ZIP_RESOURCE)) {
+        try (InputStream in = JSeshTextLibraryExporter.class.getResourceAsStream(TEXTS_ZIP_RESOURCE)) {
             if (in == null) {
                 throw new IllegalStateException("Resource " + TEXTS_ZIP_RESOURCE + " not found");
             }
-            Path textsRoot = destination.resolve(TEXTS_FOLDER_NAME);
+            Path textsRoot = destination;
             Files.createDirectories(textsRoot);
             try (ZipInputStream zip = new ZipInputStream(in)) {
                 ZipEntry entry;

@@ -67,6 +67,7 @@ import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
+import jsesh.jhotdraw.actions.file.ExportTextLibraryAction;
 import jsesh.jhotdraw.actions.file.ImportNewSignAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
 import jsesh.jhotdraw.actions.file.ImportRTFAction;
@@ -261,6 +262,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 }
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, ImportNewSignAction.ID);
+                addToMenu(fileMenu, app, jSeshView, ExportTextLibraryAction.ID);
+
         }
 
         /**

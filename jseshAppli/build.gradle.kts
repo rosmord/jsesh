@@ -12,6 +12,8 @@ dependencies {
     implementation(project(":jseshSearch"))
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
+    implementation(project(":jsesh-texts"))
+    
     implementation(libs.miglayout) {
         artifact {
             classifier = "swing"

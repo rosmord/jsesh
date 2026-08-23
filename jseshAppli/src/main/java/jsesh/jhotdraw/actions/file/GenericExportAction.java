@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ * 
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ */
 package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
@@ -6,13 +13,11 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 
-import jsesh.ui.export.generic.ExportData;
-import jsesh.ui.export.generic.GraphicalExporter;
-import jsesh.jhotdraw.JSeshApplicationModel;
 import jsesh.jhotdraw.actions.BundleHelper;
-import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.ui.export.generic.ExportData;
+import jsesh.ui.export.generic.GraphicalExporter;
 
 @SuppressWarnings("serial")
 public class GenericExportAction extends AbstractCoreViewAction {

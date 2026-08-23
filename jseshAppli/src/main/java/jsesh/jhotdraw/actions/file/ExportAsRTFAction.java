@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ * 
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ */
 package jsesh.jhotdraw.actions.file;
 
 import java.awt.event.ActionEvent;
@@ -5,18 +12,15 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import jsesh.ui.export.rtf.RTFExporterPresenter;
-import jsesh.jhotdraw.JSeshApplicationModel;
+import org.jhotdraw_7_6.app.Application;
+import org.jhotdraw_7_6.app.View;
+
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.constants.ExportType;
-import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.documentview.JSeshViewCore;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
 import jsesh.resources.JSeshMessages;
-
-import org.jhotdraw_7_6.app.Application;
-import org.jhotdraw_7_6.app.View;
-import org.jhotdraw_7_6.app.action.AbstractViewAction;
+import jsesh.ui.export.rtf.RTFExporterPresenter;
 
 // TODO : cleanup this class and improve the architecture.
 

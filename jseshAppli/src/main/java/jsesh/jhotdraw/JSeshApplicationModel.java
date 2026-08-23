@@ -86,6 +86,7 @@ import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
 import jsesh.jhotdraw.actions.file.ExportAsRTFAction;
+import jsesh.jhotdraw.actions.file.ExportTextLibraryAction;
 import jsesh.jhotdraw.actions.file.GenericExportAction;
 import jsesh.jhotdraw.actions.file.ImportNewSignAction;
 import jsesh.jhotdraw.actions.file.ImportPDFAction;
@@ -247,6 +248,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             map.put(ImportPDFAction.ID, new ImportPDFAction(a));
             map.put(ImportRTFAction.ID, new ImportRTFAction(a));
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
+            map.put(ExportTextLibraryAction.ID, new ExportTextLibraryAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
             // Corpus search...
             map.put(FindInFolderAction.ID,
