@@ -16,4 +16,6 @@ include("jseshAppli")
 include("signInfoAppli")
 include("jseshLabels")
 include("jseshTests")
+include("jsesh-texts")
+
 

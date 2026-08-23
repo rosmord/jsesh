@@ -212,7 +212,6 @@ runtime {
                     //"--icon", "${projectDir}/src/main/packaging/hibou.icns",
 
                     // "--mac-dmg-content", "${projectDir}/src/main/dist/documentation.md",
-                    "--mac-dmg-content", "src/main/binary/jsesh-texts",
                     "--mac-dmg-content", "src/main/binary/licenses",
                     "--mac-dmg-content", "src/main/binary/FONT-LICENSE.md",
                     "--mac-dmg-content", "src/main/binary/LICENSE.txt",
