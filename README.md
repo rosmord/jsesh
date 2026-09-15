@@ -54,30 +54,33 @@ The sources contain the following folders and modules:
 
 #### Documentation
 
-The [[00_Documents]] folder contains :
+The [00_Documents](00_Documents) folder contains :
 
-[[00_Documents/ADR]]
+[00_Documents/tracking](00_Documents/tracking)
+: groups project-tracking material: ADRs, TODOs, and DONE items.
+
+[00_Documents/tracking/ADR](00_Documents/tracking/ADR)
 : Architecture Decision Records (ADRs) for the project. These are personal notes about design decisions made during development.
 
-[[00_Documents/changelog]]
+[00_Documents/changelog](00_Documents/changelog)
 : trace of changes in the project.
 
-[[00_Documents/documentation]]
+[00_Documents/documentation](00_Documents/documentation)
 : contains **developper documentation** 
 
-[[00_Documents/formats]]
+[00_Documents/formats](00_Documents/formats)
 : contains information about some file formats used by JSesh.
 
-[[00_Documents/IDE]]
+[00_Documents/IDE](00_Documents/IDE)
 : contains information about how to use IDEs with JSesh.
 
-[[00_Documents/journal]]
+[00_Documents/journal](00_Documents/journal)
 : a daily log of development, started in 2018 (well, mostly in 2024 I think).
 
-[[00_Documents/notes]]
+[00_Documents/notes](00_Documents/notes)
 : stuff I wrote, but haven't classified yet.
 
-[[00_Documents/TODO]]
+[00_Documents/tracking/TODO](00_Documents/tracking/TODO)
 : a structured list of things to do, with a priority system (easy, important, long term).
 
 
@@ -305,7 +308,7 @@ Note that I take care of having a clean codebase, and try to follow the same cod
 
 Once your modified code runs, you can send me a **pull request**. I will then check it, and merge it if it is ok.
 
-The folder [[00_Documents]] contains documentation about the code and its architecture.
+The folder [00_Documents](00_Documents) contains documentation about the code and its architecture.
 
 ## Note about github distribution (for personnal use mainly)
 
