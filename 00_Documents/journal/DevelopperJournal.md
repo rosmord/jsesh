@@ -44,6 +44,10 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-08-23
+
+- la base de textes est maintenant intégrée à JSesh, et exportée à la demande dans un dossier choisi par l'utilisateur.
+
 ## 2026-08-21
 
 - work on programmer documentation;
