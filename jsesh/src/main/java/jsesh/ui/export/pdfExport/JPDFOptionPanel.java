@@ -1,6 +1,5 @@
 package jsesh.ui.export.pdfExport;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
 
@@ -8,14 +7,15 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import jsesh.ui.export.generic.ExportOptionPanel;
 import jsesh.utils.io.FileUtils;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
+import net.miginfocom.swing.MigLayout;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
@@ -87,42 +87,40 @@ public class JPDFOptionPanel extends ExportOptionPanel {
 
         encapsulatedBox = new JCheckBox("Encapsulated PDF", exportPreferences.isEncapsulated());
 
-        // setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        // GridBagLayout layout = new GridBagLayout();
-        FormLayout layout = new FormLayout(
-                // "right:p,4dlu,p,4dlu,p,4dlu,p,p,p,p,p,p,p",
-                "right:p,4dlu,left:max(40dlu;pref),4dlu,left:max(20dlu;pref)",
-                "");
+        setLayout(new MigLayout("insets dialog, wrap 3", "[right][grow][]"));
 
-        DefaultFormBuilder formBuilder = new DefaultFormBuilder(layout);
+        add(new JLabel("Document Title"));
+        add(titleField, "span 2, growx");
 
-        formBuilder.setDefaultDialogBorder();
-        formBuilder.append("Document Title", titleField, 3);
-        formBuilder.nextLine();
-        formBuilder.append("Author", authorField, 3);
-        formBuilder.append("Subject", subjectField, 3);
-        formBuilder.append("Keywords", keywordsField, 3);
+        add(new JLabel("Author"));
+        add(authorField, "span 2, growx");
 
-        formBuilder.append("Line Height", lineHeightField);
+        add(new JLabel("Subject"));
+        add(subjectField, "span 2, growx");
+
+        add(new JLabel("Keywords"));
+        add(keywordsField, "span 2, growx");
+
         lineHeightField
                 .setToolTipText("height of standard hieroglyphic cadrats, in points");
-        formBuilder.nextLine();
-        // formBuilder.appendRow(new RowSpec(""));
-        formBuilder.append("Page Format", formatField, 1);
-        formBuilder.nextLine();
-        formBuilder.append(showPageNumberBox);
-        formBuilder.nextLine();
-        formBuilder.append(wysiwygBox);
-        formBuilder.nextLine();
-        formBuilder.append(encapsulatedBox);
-        formBuilder.nextLine();
-        formBuilder.appendSeparator("Output");
-        formBuilder.nextLine();
-        formBuilder.append("File", fileField, browseButton);
+        add(new JLabel("Line Height"));
+        add(lineHeightField, "span 2, growx");
 
-        setLayout(new BorderLayout());
-        add(formBuilder.getPanel(), BorderLayout.CENTER);
+        add(new JLabel("Page Format"));
+        add(formatField, "span 2, growx");
 
+        add(showPageNumberBox, "span 3");
+
+        add(wysiwygBox, "span 3");
+
+        add(encapsulatedBox, "span 3");
+
+        add(new JLabel("Output"), "split 2, span 3, gaptop unrelated");
+        add(new JSeparator(), "growx, wrap");
+
+        add(new JLabel("File"));
+        add(fileField, "growx");
+        add(browseButton);
     }
 
     @Override

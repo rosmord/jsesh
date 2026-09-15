@@ -8,14 +8,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
+import net.miginfocom.swing.MigLayout;
 
 import jsesh.ui.widgets.shapedisplayer.ShapeDisplayer;
 import jsesh.utils.resources.ResourcesManager;
@@ -98,49 +99,41 @@ public class ExternalSignImporterUI {
 	}
 
 	private Component buildFormPanel() {
-		FormLayout layout = new FormLayout("pref",
-				"pref,pref,pref,pref,pref,pref");
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-		builder.setDefaultDialogBorder();
+		JPanel panel = new JPanel(new MigLayout("insets dialog, wrap 3"));
 
-		builder.append(importButton);
-		builder.nextLine();
-		builder.addSeparator("New sign");
-		builder.nextLine();
-		builder.append("code :");
-		builder.append(codeField);
-		builder.nextLine();
-		builder.append(insertButton);
-		builder.nextRow();
-		builder.append(flipHorizontallyButton);
-		builder.append(flipVerticallyButton);
-		builder.append(fullCadratHeightButton);
-		builder.setDefaultDialogBorder();
-		return builder.getPanel();
+		panel.add(importButton, "span 3, wrap");
 
+		panel.add(new JLabel("New sign"), "split 2, span 3");
+		panel.add(new JSeparator(), "growx, wrap");
+
+		panel.add(new JLabel("code :"));
+		panel.add(codeField, "span 2, wrap");
+
+		panel.add(insertButton, "span 3, wrap");
+
+		panel.add(flipHorizontallyButton);
+		panel.add(flipVerticallyButton);
+		panel.add(fullCadratHeightButton);
+
+		return panel;
 	}
 
 	private JPanel buildDisplayPanel() {
-		FormLayout layout = new FormLayout("pref,3dlu,pref", "pref,pref,pref");
-		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-		builder.setDefaultDialogBorder();
-		layout.setColumnGroups(new int[][] { { 1, 3 } });
-		builder.append("A1 sign");
-		builder.append("Current sign");
-		builder.nextLine();
-		builder.append(getReferenceSignDisplay());
-		builder.append(getImportedSignDisplay());
-		builder.nextLine();
-		builder.nextColumn(2);
-		
+		JPanel panel = new JPanel(new MigLayout("insets dialog, wrap 2",
+				"[sg1,grow][sg1,grow]"));
+		panel.add(new JLabel("A1 sign"));
+		panel.add(new JLabel("Current sign"));
+		panel.add(getReferenceSignDisplay(), "grow");
+		panel.add(getImportedSignDisplay(), "grow");
+
 		JPanel navPanel= new JPanel();
 		navPanel.add(getPreviousButton());
 		navPanel.add(getNextButton());
 
-		builder.append(navPanel);
-		JPanel res = builder.getPanel();
-		OrientationUtils.fixComponentOrientation(res);
-		return res;
+		panel.add(navPanel, "skip 1");
+
+		OrientationUtils.fixComponentOrientation(panel);
+		return panel;
 	}
 
 	public void addEventListener(UIEventListener listener) {

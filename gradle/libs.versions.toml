@@ -1,7 +1,6 @@
 [versions]
 itext = "2.1.5"
 jvectclipboard = "8.1.1"
-forms = "1.0.7"
 miglayout = "3.7.4"
 finitestate = "2.0"
 maven = "3.9.11"
@@ -13,7 +12,6 @@ plexusUtils = "4.0.3"
 [libraries]
 itext = { module = "com.lowagie:itext", version.ref = "itext" }
 jvectclipboard = { module = "org.qenherkhopeshef:jvectclipboard", version.ref = "jvectclipboard" }
-forms = { module = "com.jgoodies:forms", version.ref = "forms" }
 miglayout = { module = "com.miglayout:miglayout", version.ref = "miglayout" }
 finitestate = { module = "org.qenherkhopeshef:finitestate", version.ref = "finitestate" }
 mavenPluginApi = { module = "org.apache.maven:maven-plugin-api", version.ref = "maven" }

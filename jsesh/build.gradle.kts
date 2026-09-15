@@ -24,7 +24,6 @@ dependencies {
     implementation(project(":cupruntime"))
     implementation(libs.itext)
     implementation(libs.jvectclipboard)
-    implementation(libs.forms)
     implementation(libs.miglayout) {
         artifact {
             classifier = "swing"
