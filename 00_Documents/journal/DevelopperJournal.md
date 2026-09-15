@@ -53,6 +53,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 - work on programmer documentation;
 - renamed `DirectoryHolder` into `DirectoryReference` to be consistent with `StyleReference`. added `get/set` to accessors for clarity.
 - added copyright to linux distribution.
+
 ## 2026-08-20
 
 - fixed a number of problems with Linux and Windows distributions ;
@@ -70,6 +71,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 - reorganised the `00_Documents` folder
 - moved all *todos* to `00_Documents/TODO`
+
 ### 2026-07-25
 
 - added supplementary material to `jpackage` generated distributions (mac version)
@@ -93,19 +95,19 @@ This file, which contains the fonts, is currently a jar file, containing the svg
   Compare the l2r and r2l export of the bracket in this case (using draw):
 
   ~~~xml
-<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
-  <path d='M 2.625 0.375 L 0.375 0.375 L 0.375 17.625 L 2.625 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
-  <path d='M 5.375 0.375 L 7.625 0.375 L 7.625 17.625 L 5.375 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
-</svg>
+  <?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
+    <path d='M 2.625 0.375 L 0.375 0.375 L 0.375 17.625 L 2.625 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
+    <path d='M 5.375 0.375 L 7.625 0.375 L 7.625 17.625 L 5.375 17.625 ' style='fill:none;stroke:#000000;stroke-width:1' />
+  </svg>
   ~~~
 
   vs. r2l (stroke width is 0 !).
 
   ~~~xml
-<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
+  <?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='8.0' height='18.0' version='1.1' >
     <path d='M 5.375 0.375 L 7.625 0.375 L 7.625 17.625 L 5.375 17.625 ' style='fill:none;stroke:#000000;stroke-width:0' />
     <path d='M 2.625 0.375 L 0.375 0.375 L 0.375 17.625 L 2.625 17.625 ' style='fill:none;stroke:#000000;stroke-width:0' />
-</svg>
+  </svg>
   ~~~
 
   **Fixed code works both with fill and draw**. We have decided to keep using **fill** to ease SVG manipulation, but **draw** would have its own advantages; it gives simpler svg code.
@@ -122,7 +124,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
   - Introduce sub-packages for glyphs:
     - shape
     - fonts
-    - signdata        
+    - signdata
   - [x] remove dependency on `TopItemList` from `Possibility` (cleans up dependencies a lot)
   - [ ] move `HieroglyphDatabaseFactory` to `jsesh.default` ;
   - [x] introduce a top-level `signcode` package (or `coremdc`)
@@ -152,7 +154,7 @@ LLM-assisted reorganisation of packages in the `jsesh` module, documented in [[p
 
 ### Arabic localization
 
-**almost done**
+> **almost done**
 
 I have integrated the localisation proposed by our colleague Hany ZARIF. However, some part of it don't work very well with the Swing library, especially changing the whole application layout from left-to-right to right-to-left.
 
@@ -165,7 +167,7 @@ Plan:
 
 
 - [x] For correct arabic localization, we need rtol support for components layout;
-  - look at https://www.javacodegeeks.com/2025/05/swing-on-steroids-modernizing-java-desktop-apps-with-flatlaf-and-jreleaser.html
+  - look at [Swing on steroids](https://www.javacodegeeks.com/2025/05/swing-on-steroids-modernizing-java-desktop-apps-with-flatlaf-and-jreleaser.html)
 
 - I don't remember when I introduced the following: the `jseshLabels` module now has a `update-labels` target which will automatically update the localized files by adding missing entries (it won't translate them, of course, but it will copy the english text, plus a warning comment asking for translation).
 
@@ -179,7 +181,7 @@ Plan:
 - [x] fix memory leak due to listeners when building the fonts for the search engine (the problem lies in `WildcardFont.addToFont(...)`, and somehow in the logic of `CompositeHieroglyphShapeRepository`, which has no method to release the listeners it holds.
 - [x] TODO : while testing the search function, it occurred to us that some searched texts had "syntax error" (MdC syntax errors, not Egyptian Grammar ones!). We should write a small utility to find them easily and see whence the problem comes.
 
-### 2026-07-09
+### 2026-07-10
 
 - decide how we save the preferences about external hieroglyphic font source. It used to be done **twice**, which was not a good idea. (done).
 - This being said, if we don't use JSesh defaults, but need the user folder, separate code for saving/loading it from preferences should be written.
@@ -191,7 +193,6 @@ Plan:
 
 ### 2026-07-09
 
-
 - modified sign import and its relationship with `HieroglyphShapeRepository`. Now, `DirectoryHieroglyphShapeRepository` uses an observable reference to a folder, called `DirectoryHolder`. Thus, one can modify the `DirectoryHieroglyphShapeRepository` without touching it directly, just by acting on the `DirectoryHolder`. It separates nicely the responsabilities. We don't need specific modifications of `HieroglyphShapeRepository` anymore. 
 - the modification of the default user defined `DirectoryHieroglyphShapeRepository` is managed by `UserFontDirectoryManager`.
 
@@ -200,7 +201,6 @@ Plan:
 - work on resources factories: how can be get the `HieroglyphShapeRepository` and other resources in a **simple** way, while keeping the ability to add new sources of glyphs if we want to.
 
 ### 2026-07-03
-
 
 - [x] temporary fix: canonical Gardiner codes with a "H" ending should be normalized with a "h" ending. e.g. A23H should be normalized A23h. **Wrote test for this.**
 
@@ -215,10 +215,9 @@ Plan:
 - [x] solve the problem of signs canonization.
   - instead of Strings as codes, the `HieroglyphShapeRepository` we use a specific class, `CanonicalCode`. It's in fact an interface hiding a record.
 
-
 ### 2026-07-02
 
-- lost lots of time because of [this bug](https://bugs.openjdk.org/browse/JDK-8372753). 
+- lost lots of time because of [this bug](https://bugs.openjdk.org/browse/JDK-8372753).
   - file associations don't seem to work on Mac (with my current environment)
     - I had to provide my own `Info.plist`
     - and to add code to copy the needed resources in the JSesh.app folder.
@@ -241,10 +240,9 @@ Plan:
 
 A bit of cleanup: removed the old `utils/copyData.xml` **Ant script** and replaced it by the gradle `prepareResources` task.
 
-
 ### 2026-06-23
 
-####  Problem with gradle build
+#### Problem with gradle build
 
 - finished the handling of observable fonts; improved the architecture of the system (LLM are quite useful here) ;
 - added tests for module `qenherkhopeshefUtils` (in the simple cases). Another LLM-assisted refactoring;
@@ -273,8 +271,6 @@ In fact, it was due to alternating between command line build and IDE build. The
 - created a branch (not pushed) to use an AST (Abstract Syntax Tree) for MDC parsing, separated from the editing model, and do away with the convoluted (and useless) use of interfaces for the builder.
 
 - small cleanup.
-
-
 
 ### 2026/06/19
 
@@ -315,9 +311,9 @@ Here's the summary of what I found and recommended:
 
 Added file [[gradle-migration]] about the gradle migration built by **kyaneticblue**.
 
-- [ ] deal with deprecation in `BundledActionFiller` (later)
-- moved to gradle (done)
-- ~~~still need to integrate the replacement of `prepareJSeshRelease` by gradle code~~~
+- [x] deal with deprecation in `BundledActionFiller` (later)
+- [x] moved to gradle (done)
+- [x] ~~still need to integrate the replacement of `prepareJSeshRelease` by gradle code~~
 - [x] try to remove **nanoXML** which is probably not used (removed everything linked to xml in this jhotdraw fork).
 - [x] 🍰 added generic type parameters to all raw collections in `cupAndlex/src/main/java/JLex/Main.java`:
   - `CSpec`: `Hashtable<String,Integer> m_states`, `Hashtable<String,String> m_macros`, `Vector<CNfa> m_nfa_states`, `Vector<CNfa>[] m_state_rules`, `Vector<CDfa> m_dfa_states`, `Hashtable<SparseBitSet,CDfa> m_dfa_sets`, `Vector<CAccept> m_accept_vector`, `Vector<CDTrans> m_dtrans_vector`
@@ -354,9 +350,7 @@ Added file [[gradle-migration]] about the gradle migration built by **kyaneticbl
 - [x] fix icon building ;
 - [x] unify icon production (sort of);
 
-
 Note: it might be useful to design a `WithFolder` interface for some kinds of `HieroglyhShapeRepositories`, in order to have a consistent way to run and test our code.
-
 
 ### 2026/06/08
 
@@ -367,13 +361,12 @@ Plan for the next days:
 - [x] fix bug when starting signinfo ;
 - [x] menu-based SVG sign import result in a black square instead of the sign. 
 
-
 ### 2026/06/04
 
 - **note** we have multiple classes for creating pictures: `HieroglyphPictureBuilder`, `MDCIconFactory` and `MDCDrawingFacade`. We should either document this or rationalise it.
 
   we should certainly move them to the same package.
- 
+
   - `jsesh.hieroglyphs.utils.HieroglyphPictureBuilder`;
   - `jsesh.swing.utils.MDCIconFactory`;
   - `jsesh.mdcDisplayer.draw.MDCDrawingFacade`.
@@ -384,7 +377,7 @@ Plan for the next days:
 
 - some warnings in starting mvn:
 
-  ~~~
+  ~~~bash
   $./mvnw package
   
   WARNING: A restricted method in java.lang.System has been called
@@ -470,14 +463,11 @@ Plan for the next days:
 - In order to generate icons, we may use the icon generation system, or generate icons on the fly. In any case, we need to be able to configure the fonts for the generation system.
 - renamed `ImageIconFactory` into `MDCIconFactory`
 
-
-
 ### 2026/05/28
 
 - [x] when changing document properties, the change is visible in rendering, but is not saved in the document.
 - [x] the glossary uses the basic font, not the actual one.
 - [ ] currently, changing the hieroglyphic font folder changes a mere *field* of `JSeshFullHieroglyphShapeRepository`, and `JSeshFullHieroglyphShapeRepository` is not observable. Hence the lack of updates when it's changed.
-
 
   ~~~java
    /**
@@ -501,9 +491,9 @@ Plan for the next days:
 
 Checking the software:
 
+- [x] when closing document properties, one gets
 
-- [x] when closing document properties, one gets 
-  ~~~
+  ~~~java
   java.lang.ClassCastException: class java.lang.Float cannot be cast to class java.lang.Double (java.lang.Float and java.lang.Double are in module java.base of loader 'bootstrap')
     at jsesh.jhotdraw.preferences.document.ui.DrawingSpecificationsPresenter.updatePreferences(DrawingSpecificationsPresenter.java:119)
   ~~~
@@ -519,7 +509,8 @@ Checking the software:
 - [x] “gray” shading is not transparent; (fix: add transparency back)
 
 - [x] when quitting JSesh, one gets:
-  ~~~
+
+  ~~~java
   java.lang.NullPointerException: Cannot invoke "jsesh.jhotdraw.preferences.application.model.ExportPreferences.saveToPrefs(java.util.prefs.Preferences)" because "this.exportPreferences" is null
     at jsesh.jhotdraw.JSeshApplicationCore.savePreferences(JSeshApplicationCore.java:223)
     at jsesh.jhotdraw.JSeshApplicationModel.destroyApplication(JSeshApplicationModel.java:540)
@@ -527,16 +518,14 @@ Checking the software:
 
 - [x] when opening "preferences" one gets the exception:
 
-  ~~~
+  ~~~java
   java.lang.NullPointerException: Cannot invoke "jsesh.jhotdraw.preferences.application.model.ExportPreferences.getGranularity()" because "exportPreferences" is null
-  	at jsesh.jhotdraw.preferences.application.ui.JExportPreferences.setExportPreferences(JExportPreferences.java:110)
+    at jsesh.jhotdraw.preferences.application.ui.JExportPreferences.setExportPreferences(JExportPreferences.java:110)
   ~~~
 
   (fixed by calling `loadPreferences()` in the constructor of `JSeshApplicationCore`)
 
 - [ ] on the mac (at least), iconified window are not deiconified easily. After using **command-M** (menu Window/reduce), the window is iconified, but clicking on the app icon on the deck doesn't do anything. One needs to select the iconified window in the Window list, or to right-click on it on the JSesh icon. 
-
-
 
 ### 2026/05/18
 
@@ -781,89 +770,51 @@ Work on  `JSeshAppli`.
 #### Code structure
 A bit of structure. In the following diagram, the stereotype `<<jhotdraw>>` is used to mark classes which instantiate elements of the `jhotdraw` framework.
 
-```plantuml
-@startuml
-skin rose
-hide empty members
+```mermaid
+classDiagram
+    class Main {
+        main(String[] args)
+    }
+    note for Main "Starts the application.<br/>Loads resources and instanciate the main panel elements.<br/>implements AppStartup from<br/>org.qenherkhopeshef.guiFramework"
 
-class Main {
-    main(String[] args)
-}
+    Main --> JSeshApplicationModel
+    Main ..> JSeshApplicationStartingData
 
-note left of Main
-Starts the application.
-Loads resources and instanciate the main panel elements.
-implements AppStartup from 
-org.qenherkhopeshef.guiFramework
-end note
+    note for JSeshApplicationStartingData "Data passed from the main thread to the EDT thread.<br/>Purely technical and should be hidden.<br/>Which means we should probably have a Main class the programmmer can see, and a non public one which implements AppStartup and is called by the true main method."
 
-Main --> JSeshApplicationModel
-Main .> JSeshApplicationStartingData
+    class JSeshApplicationModel {
+        <<jhotdraw>>
+    }
 
-note bottom of JSeshApplicationStartingData
-Data passed from the main thread to the EDT thread.
-Purely technical and should be hidden.
-Which means we should probably have a Main class the programmmer can see, and a non public one which implements AppStartup and is called by the true main method.
-end note
+    class JSeshApplicationCore {
+        jseshStyle JSeshStyle
+    }
 
-together {
-class JSeshApplicationModel <<jhotdraw>> {
-    
-}
+    JSeshApplicationModel --> JSeshApplicationCore
 
-class JSeshApplicationCore  {
-    jseshStyle JSeshStyle    
-}
+    class JSeshMenuBuilder {
+        <<jhotdraw>>
+    }
 
+    JSeshApplicationModel --> JSeshMenuBuilder
 
-JSeshApplicationModel --> JSeshApplicationCore
+    namespace documentview {
+        class JSeshView {
+            <<jhotdraw>>
+        }
+        class JSeshViewComponent
+        class JSeshViewController
+    }
 
-class JSeshMenuBuilder <<jhotdraw>> {
-    
-}
+    note for JSeshViewController "Presenter/controller<br/>for the JSeshViewComponent"
+    note for JSeshViewComponent "gui JPanel for the JSeshView"
 
-JSeshApplicationModel --> JSeshMenuBuilder
-}
+    JSeshView --> JSeshViewController
+    JSeshViewController --> JSeshViewComponent
+    JSeshViewComponent --> JMDCEditor
+    JSeshApplicationModel ..> JSeshView
 
-package documentview {
-
-  class JSeshView <<jhotdraw>> {    
-  }
-  
-  class JSeshViewComponent {}
-
-  class JSeshViewController {
-      
-  }
-}
-
-note top of JSeshViewController
-Presenter/controller 
-for the "JSeshViewComponent"
-end note
-
-note right of JSeshViewComponent
-gui JPanel for the JSeshView
-  end note
-
-
-JSeshView --> JSeshViewController
-JSeshViewController --> JSeshViewComponent
-
-JSeshViewComponent --> JMDCEditor
-JSeshApplicationModel ..> JSeshView
-
-note bottom of JSeshApplicationCore
-Everything which is 
-# application-level
-# and non specific to JHotdraw
-
-is delegated to JSeshApplicationCore.
-
-It knows about all defaults, and currently
-holds the whole hieroglyphic font system.
-end note
-@enduml
+    note for JSeshApplicationCore "Everything which is application-level and non specific to JHotdraw is delegated to JSeshApplicationCore.<br/>It knows about all defaults, and currently holds the whole hieroglyphic font system."
 ```
 
 Currently, the class `JSeshStyleHelper` is in the `jsesh.utils` package. Logically, it's part of `jsesh.jhotdraw` (the main application), but it's relatively likely that some library users will want to use the JSesh **application** preferences for some of their own softwares.
@@ -884,19 +835,17 @@ Currently, the class `JSeshStyleHelper` is in the `jsesh.utils` package. Logical
 
 - [x] **TODO** introduce the following packages :
 
-  ```plantuml
-  @startsalt
-  {
-  {T
-   +jsesh
-   ++ jhotdraw
-   +++ preferences
-   ++++ application
-   ++++ document
-  }
-  }
-  @endsalt
-  ```
+  ~~~mermaid
+  flowchart TD
+      subgraph jsesh
+          subgraph jhotdraw
+              subgraph preferences
+                  application
+                  document
+              end
+          end
+      end
+  ~~~
 
 - working on `JSeshAppli`
   - look at the way the glossary is initialized in the old system.
@@ -920,7 +869,6 @@ Currently, the class `JSeshStyleHelper` is in the `jsesh.utils` package. Logical
 - Working on `jseshSearch`.
   - we have a problem here. We need to pass a `JseshFontKit` to the `JMDCField` constructor, because the font repository is expanded with specific glyphs which render the search language operators. However, we need to pass the standard possibilityRepository (those glyphs should not be accessible for completion) and `hieroglyphDatabase`.
   - ok, now we pass everything. See suggestions for naming in **Simple TODO**.
-
 
 ### 2026/04/18
 
@@ -993,12 +941,6 @@ public float getSignScale() {
 - [ ] ensure that `ViewDrawer` is created only when we need it - or make it stateless. In particular, it's created in the constructor of `JMDCEditor`.
 - [x] fix the problem of `float baseSignScale = hieroglyphsDrawer.scaleFromFontToStyle(jseshStyle);`.
 
-  
-
-
-
-
-
 **Note**: in JSesh 7.x,  `HieroglyphsDrawer` is simply created by calling its default constructor, which will automatically use the user preferences. 
 
 The name of the class `HieroglyphsDrawer` is not very good. 
@@ -1034,12 +976,10 @@ Basically:
   1. draw signs from a `HieroglyphicFontManager` ;
   2. draw ecdotic symbols ;
   3. choose the size of signs.
-   
+
 In the case of HieroglyphsDrawer we have a composite, actual implementation. The only real parameter is the `HieroglyphicFontManager` it uses. Hence, the parameter to pass in the constructor should be a `HieroglyphicFontManager`.
 
 The `JSeshRenderContext` should also hold a `HieroglyphicFontManager`, not a `HieroglyphsDrawer`.
-
-
 
 - in `MDCViewUpdater` : should we use a scale which is not $1.0$ for the TechRenderContext? 
 
@@ -1165,14 +1105,12 @@ updated `ViewDrawer` with `JTechRenderContext`. Some further refactoring would b
 - either create records to group most arguments of `drawViewAndCursor` (all of them, in a `DrawRequest` record, simpler groupings.)
 - it could also be a good idea to avoid using instance variables of `ViewDrawer` to store what is really function arguments. Grouping them in a record would allow one to pass the easily, and make everything much more explicit.
 
-
 **What** is `getPointForPosition` doing in `ViewDrawer`? It should somehow be a method of `View`? **Edit**: it's the case in the current system, but in fact, it's brittle, as we depend on position and subviews to be aligned.
 
 - We start working on `GroupEditor`;
 - why is `JSeshTechRenderContext` outside of `JSeshRenderContext`? 
 
 ### 2025/12/03
-
 
 I definitly don't like the current structure of `JSeshRenderContext`. For instance, the component for `GroupEditor` needs it. But it's not logical at all. Technically, it can be done, by passing mock or default values for `fontRenderContext` and `graphicDeviceScale`, but it's not very nice.
 
@@ -1190,16 +1128,15 @@ We could consider splitting `JSeshRenderContext` into two parts:
 
 Currently, the class JSeshRenderContext has the following structure:
 
-```plantuml
-@startuml
-class JSeshRenderContext {
-    fontRenderContext
-    graphicDeviceScale
-    jseshStyle
-    hieroglyphDrawer
-}
-@enduml
-```
+~~~mermaid
+classDiagram
+    class JSeshRenderContext {
+        fontRenderContext
+        graphicDeviceScale
+        jseshStyle
+        hieroglyphDrawer
+    }
+~~~
 
 - fontRenderContext: depends on the rendering context, Swing specific, but needed **even for layout,** as text measurement depends on it;
 - graphicDeviceScale: depends on the ultimate output;
@@ -1231,78 +1168,57 @@ only in `Layout`; used in `visitLigature`; calls only one method, which is `liga
 
 ### Inheritance hierarchies of HieroglyphsDrawer and HieroglyphicFontManager
 
-```plantuml
-@startuml
-skin rose
-hide empty member
-title Inheritance hierarchies
-interface HieroglyphsDrawer {
-    draw(Graphics2D g,...)
-    getBBox(String code, int angle, boolean fixed)
-    getShape(String code)
-    getSignArea(...)
-    isKnown(String code)
-    getLigatureZone(...)
-    getHeightOfA1()
-    signScale(...)
-    scaleFromFontToStyle(...)
-    getGroupUnitLength()
-}
+~~~mermaid
+classDiagram
+    class HieroglyphsDrawer {
+        <<interface>>
+        draw(Graphics2D g,...)
+        getBBox(String code, int angle, boolean fixed)
+        getShape(String code)
+        getSignArea(...)
+        isKnown(String code)
+        getLigatureZone(...)
+        getHeightOfA1()
+        signScale(...)
+        scaleFromFontToStyle(...)
+        getGroupUnitLength()
+    }
+    note for HieroglyphsDrawer "This class is responsible for everything<br/>which concerns the graphical<br/>appearance of symbols<br/>(hieroglyphs, editorial markup...)"
 
-note left of HieroglyphsDrawer
-This class is responsible for everything
-which concerns the graphical
-appearance of symbols 
-(hieroglyphs, editorial markup...)
-end note
+    class HieroglyphicFontManager {
+        <<interface>>
+        hasCode(String code)
+        getCodes()
+        get(String code) ShapeChar
+        getSmallBody(String code) ShapeChar
+        hasNewSigns()
+    }
+    note for HieroglyphicFontManager "HieroglyphicFontManager associates<br/>glyphs with codes."
 
-interface HieroglyphicFontManager {
-  	hasCode(String code)
-	  getCodes()
-    get(String code): ShapeChar
-    getSmallBody(String code): ShapeChar 
-  	hasNewSigns()
-}
+    HieroglyphsDrawer <|.. HieroglyphicDrawerDispatcher
+    HieroglyphsDrawer <|.. SVGFontHieroglyphicDrawer
+    HieroglyphsDrawer <|.. SpecialSymbolDrawer
+    HieroglyphicDrawerDispatcher --> SVGFontHieroglyphicDrawer
+    HieroglyphicDrawerDispatcher ..> SpecialSymbolDrawer
 
-note right of HieroglyphicFontManager
-HieroglyphicFontManager associates
-glyphs with codes.
-end note
+    class HieroglyphCodesSource {
+        <<interface>>
+        hasCode(String code) boolean
+        getCodes() Set~String~
+    }
 
+    HieroglyphCodesSource <|-- HieroglyphicFontManager
 
-interface HieroglyphsDrawer{}
-HieroglyphsDrawer <|.. HieroglyphicDrawerDispatcher
-HieroglyphsDrawer <|.. SVGFontHieroglyphicDrawer
-HieroglyphsDrawer <|.. SpecialSymbolDrawer
-HieroglyphicDrawerDispatcher -> SVGFontHieroglyphicDrawer
-SpecialSymbolDrawer <.. HieroglyphicDrawerDispatcher 
+    HieroglyphicFontManager <|.. CompositeHieroglyphicFontManager
+    HieroglyphicFontManager <|.. DefaultHieroglyphicFontManager
+    HieroglyphicFontManager <|.. DirectoryHieroglyphicFontManager
+    HieroglyphicFontManager <|.. MemoryHieroglyphicFontManager
+    HieroglyphicFontManager <|.. ResourcesHieroglyphicFontManager
 
-interface HieroglyphCodesSource {
-	hasCode(String code): boolean 	
-	getCodes() : Set<String> 
-}
-
-interface HieroglyphicFontManager extends HieroglyphCodesSource {}
-
-HieroglyphicFontManager <|.. CompositeHieroglyphicFontManager
-HieroglyphicFontManager <|.. DefaultHieroglyphicFontManager
-HieroglyphicFontManager <|.. DirectoryHieroglyphicFontManager
-HieroglyphicFontManager <|.. MemoryHieroglyphicFontManager
-HieroglyphicFontManager <|.. ResourcesHieroglyphicFontManager
-
-note bottom of DefaultHieroglyphicFontManager
-Could perhaps be a Composite manager.
-knows of the three sources used by JSesh:
-- user-defined signs
-- jsesh sign library
-- old tksesh Gardiner-like signs
-end note
-
-@enduml
-```
+    note for DefaultHieroglyphicFontManager "Could perhaps be a Composite manager.<br/>knows of the three sources used by JSesh:<br/>- user-defined signs<br/>- jsesh sign library<br/>- old tksesh Gardiner-like signs"
+~~~
 
 The class `SVGFontHieroglyphicDrawer` draws its signs from a `HieroglyphicFontManager`.
-
 
 In fact:
 
@@ -1337,14 +1253,12 @@ But it would be more logical if the possible quality of the bbox would be stored
 Concerning the **LigatureManager**: its only use is currently to deal with the **old** tksesh-based ligature (i.e. predefined ligatures like `stp&n&ra`).
 It reads a specific file, and is more a dinosaur than anything else. Can it be a singleton? It uses the `HieroglyphicFontManager` to know the sign's bounding boxes. Hence it's linked to the font manager. 
 
-
-
 ### 2025/11/04
 
 - renamed `RenderContext` as `JSeshRenderContext` to avoid importing wrong class;
 - it seems that we **always** need `RenderContext` (there are fonts), `HieroglyphsDrawer` and `JSeshStyle` after all. The simplest solution is to move all of them in `JSeshRenderContext`.
 
-### Notes
+#### Notes about `JSeshRenderContext`
 
 - `superScriptDimensions` and `textDimensions` returns respectively a `Rectangle2D` and `Dimensions2D`. This is **not** logical. Think about it.
 - I'm not fully convinced of the interest of `PhilologyHelper`.
@@ -1383,7 +1297,7 @@ Its **only** use is to decide if we use the **small font** shapes or the **norma
   
   ~~~java
   if (subView.getHeight() > jseshStyle.geometry().largeSignSizeRatio()
-						* hieroglyphsDrawer.getHeightOfA1()) {
+         * hieroglyphsDrawer.getHeightOfA1()) {
   ~~~
 
   I think we should use `jseshStyle.geometry().standardSignHeight()` instead of `hieroglyphsDrawer.getHeightOfA1`
@@ -1401,7 +1315,6 @@ Note:
 
 - If we introduce `RenderingContext`, we will need to decide how we pass it, and what it contains.
 - I don't see the hieroglyphic fonts being a part of rendering context.
-
 
 In `Layout`, for small text, we had:
 
@@ -1445,17 +1358,12 @@ When fixing the classes in the `layout` package, we find the following problems:
 - we need to compute the width of ecdotic symbols: `getPhilologyWidth`;
 - we have `getGroupUnitLength()` which is 1/1000f of the size of `A1`. Currently, it's a bit weird, as it's in `HieroglyphicDrawer`, but if it appears in the `MdC` code, it should probably be computed from `JSeshStyle` and be independant of the font.
 
-
-
-
-
-
 ### 2025/10/10
 
 TODO : add a RenderingContext parameter, which should **not** be part of JSeshStyle.
 
-  - `JSeshStyle` : the way you want the text to be drawn;
-  - `RenderingContext` : the technical constraints you meet.
+- `JSeshStyle` : the way you want the text to be drawn;
+- `RenderingContext` : the technical constraints you meet.
 
 - (cleaned up master branch), probably not the good time to do this; merged both.
 - how to proceed now:
@@ -1470,7 +1378,6 @@ TODO : add a RenderingContext parameter, which should **not** be part of JSeshSt
   - then the rest of the world.
 
 ### 2025/10/08
-
 
 The current organisation of drawingspecification was not really helpful. It's not obvious to find a given information.
 We have made larger groups.
@@ -1505,7 +1412,6 @@ We **might** want to change it, but it's not probably not correctly placed in dr
 
 Generally, it's requested from the `Graphics2D` object.
 
-
 ### 2025/10/07
 
 Problem to solve: should the drawing specifications depend on Swing? or should they be stand alone?
@@ -1521,15 +1427,14 @@ Problem to solve: should the drawing specifications depend on Swing? or should t
 - we will then proceed to write the code ;
 - and then, we will refactor them if needed.
 - we have removed computed data from the drawingspecifications. They will be provided by helper functions when needed.
--  In the current version, the defaults for pagespec are computed from the other specifications. The whole specification system should be rethought to use independent values.
--  DocumentPreferences are using an outdated architecture. We should move to a record based one.
+- In the current version, the defaults for pagespec are computed from the other specifications. The whole specification system should be rethought to use independent values.
+- DocumentPreferences are using an outdated architecture. We should move to a record based one.
 
 ### 2023/06/07
 
 ### 2023/06/06
 
 Analysis and classification of current problem. Planning. See TODO about removing singletons.
-
 
 ### 2023/05/19
 
@@ -1555,9 +1460,7 @@ Well, the mess of singleton is also linked to the question of preferences (not p
 The current question is the granularity of preferences. Should it be large (say, setPreferences/getPreferences, with an immutable 
 preferenceValue object, and possibly a preferenceProperty which could be shared), or fine-grained (with a mutable preference object).
 
-
 **anyway, the first step will be to make everything explicit at constructor level**. We will only use `new` when absolutely mandatory.
-
 
 ### 2023/04/20
 
@@ -1567,63 +1470,64 @@ Working on cleaning up the mess of Singletons.
 
 Currently, we have the following system :
 
-~~~plantuml
-@startuml
-skin rose
-interface HieroglyphDatabaseInterface {
-    getCanonicalCode(code)
-    getCodesForFamily(family, includeVariants)            
-    getDescriptionFor(String code)
-    getFamilies()
-    getPossibilityFor(phoneticValue, level)
-    getSignsContaining(code)
-    getSignsIn(code)
-    getSignsWithTagInFamily(currentTag, familyName)
-    getSignsWithoutTagInFamily(familyName);
-    getTagsForFamily(familyName)
-    getTagsForSign(gardinerCode)
-    getValuesFor(gardinerCode)
-    getVariants(String code)
-    getVariants(String code, variantTypeForSearches)
-    getTransitiveVariants(String code, variantTypeForSearches)
-    isAlwaysDisplayed(code)
-    getCodesStartingWith(code)
-    getSuitableSignsForCode(code)
-}
+~~~mermaid
+classDiagram
+    class HieroglyphDatabaseInterface {
+        <<interface>>
+        getCanonicalCode(code)
+        getCodesForFamily(family, includeVariants)
+        getDescriptionFor(String code)
+        getFamilies()
+        getPossibilityFor(phoneticValue, level)
+        getSignsContaining(code)
+        getSignsIn(code)
+        getSignsWithTagInFamily(currentTag, familyName)
+        getSignsWithoutTagInFamily(familyName)
+        getTagsForFamily(familyName)
+        getTagsForSign(gardinerCode)
+        getValuesFor(gardinerCode)
+        getVariants(String code)
+        getVariants(String code, variantTypeForSearches)
+        getTransitiveVariants(String code, variantTypeForSearches)
+        isAlwaysDisplayed(code)
+        getCodesStartingWith(code)
+        getSuitableSignsForCode(code)
+    }
 
-class ManuelDeCodage <<singleton>> {
-    getTallNarrowSigns()
-    getLowBroadSigns()
-    getLowNarrowSigns()
-    getCanonicalCode(code)
-    isKnownCode(code)
-    getBasicGardinerCodesForFamily(familyCode)
+    class ManuelDeCodage {
+        <<singleton>>
+        getTallNarrowSigns()
+        getLowBroadSigns()
+        getLowNarrowSigns()
+        getCanonicalCode(code)
+        isKnownCode(code)
+        getBasicGardinerCodesForFamily(familyCode)
+    }
 
-}
+    class SimpleHieroglyphDatabase {
+        SimpleHieroglyphDatabase(HieroglyphicFontManager, ManuelDeCodage)
+    }
+    HieroglyphDatabaseInterface <|-- SimpleHieroglyphDatabase
 
-class SimpleHieroglyphDatabase extends HieroglyphDatabaseInterface {
-  SimpleHieroglyphDatabase(HieroglyphicFontManager, ManuelDeCodage)
-}
+    SimpleHieroglyphDatabase --> HieroglyphicFontManager
+    SimpleHieroglyphDatabase --> ManuelDeCodage
 
-HieroglyphicFontManager <- SimpleHieroglyphDatabase
-SimpleHieroglyphDatabase -> ManuelDeCodage
+    class HieroglyphicFontManager {
+        <<interface>>
+        get(code) ShapeChar
+        getSmallBody(code) ShapeChar
+        getCodes()
+        hasNewSigns()
+    }
 
+    HieroglyphicFontManager <|-- DefaultHieroglyphicFontManager
+    HieroglyphicFontManager <|-- DirectoryHieroglyphicFontManager
+    HieroglyphicFontManager <|-- CompositeHieroglyphicFontManager
+    HieroglyphicFontManager <|-- ResourcesHieroglyphicFontManager
 
-interface HieroglyphicFontManager {
-	get(code) : ShapeChar
-  getSmallBody(code)  : ShapeChar
-  getCodes()	
-	hasNewSigns()
-} 
-
-HieroglyphicFontManager <|-- DefaultHieroglyphicFontManager 
-HieroglyphicFontManager <|-- DirectoryHieroglyphicFontManager
-HieroglyphicFontManager <|-- CompositeHieroglyphicFontManager
-HieroglyphicFontManager <|-- ResourcesHieroglyphicFontManager 
-
-
-class DefaultHieroglyphicFontManager <<singleton>> {}
-@enduml
+    class DefaultHieroglyphicFontManager {
+        <<singleton>>
+    }
 ~~~
 
 Possible changes :
@@ -1633,21 +1537,23 @@ Possible changes :
 
 Make code a class :
 
-~~~plantuml
-@startuml
-skin rose
+~~~mermaid
+classDiagram
+    class Code {
+        <<abstract>>
+        buildCode(string)$
+        accept(visitor)*
+    }
 
-abstract class Code {
-  {static} Code buildCode(string)
-  {abstract} accept(visitor)
-}
+    class GardinerCode
+    class PhoneticCode
+    class NumericCode
+    class OtherCode
 
-class GardinerCode extends Code {}
-class PhoneticCode extends Code {}
-class NumericCode extends Code {}
-class OtherCode extends Code {}
-
-@enduml
+    Code <|-- GardinerCode
+    Code <|-- PhoneticCode
+    Code <|-- NumericCode
+    Code <|-- OtherCode
 ~~~
 
 ### 2020/02/14
@@ -1683,17 +1589,15 @@ The git archive is a bit of a mess, as I performed changes on an old version.
 
 Classes dealt with in our modifications :
 
-### Originaly 
+### Originaly
+
 - SelectionExporter : uses ExportData and Graphics2DFactoryIF to
-export a selection. 
+export a selection.
 
 - TopItemDrawer: used in RTFDrawer, for RTF export
 
-- MdCDrawerTemplate (and subclasses): generic copy class, very similar (if not equals to) 
+- MdCDrawerTemplate (and subclasses): generic copy class, very similar (if not equals to)
    TopItemDrawer. Has a slightly better name though.
-   
-
-   
 
 ### 2018/10/16
 
@@ -1701,27 +1605,15 @@ I'm trying to clean the graphical export system.
 Many things (like quadrat sizes) are computed 
 in various places, and it hurts. 
 
-Now, I was looking at the classes in RTFSimpleExporter
-(which I'm probably going to rename RTFExporter. Simple does not give any information here.)
+Now, I was looking at the classes in RTFSimpleExporter (which I'm probably going to rename RTFExporter. Simple does not give any information here.)
 
 A class like EMFSimpleDrawer seems to be a good candidate to encapsulate decisions.
 However, it's currently linked to RTF, and with good reasons:
-when we output the EMF content in the RTF stream, the way
-of encoding it will definitly be different if 
-it's EMF and if it's, say, WMF.
+when we output the EMF content in the RTF stream, the way of encoding it will definitly be different if  it's EMF and if it's, say, WMF.
 
 - we need an "embedded picture" system
 - in which we want to extract the non-RTF part for reuse.
 
-After some reading, the current architecture is not
-so bad. The names of classes need to be updated
-to fit their actual use. Also, the scaling/sizing
-system is flawed. We have two things called CadratHeight
-which behave differently : an "inner" height, which
-is a question of proportion between signs and quadrat height,
-and the actual height in the resulting file.
+After some reading, the current architecture is not so bad. The names of classes need to be updated to fit their actual use. Also, the scaling/sizing system is flawed. We have two things called CadratHeight which behave differently : an "inner" height, which is a question of proportion between signs and quadrat height, and the actual height in the resulting file.
 
-While renaming, I guess I should rename setShadeAfter, which 
-is difficult to understand, as, setDrawShadeOnTop() or 
-something like that. Not done at the moment. 
-
+While renaming, I guess I should rename setShadeAfter, which is difficult to understand, as, setDrawShadeOnTop() or something like that. Not done at the moment.

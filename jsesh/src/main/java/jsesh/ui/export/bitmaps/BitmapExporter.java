@@ -21,6 +21,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.filechooser.FileFilter;
 
 import org.qenherkhopeshef.graphics.bitmaps.BitmapStreamGraphics;
@@ -29,8 +31,7 @@ import org.qenherkhopeshef.swingUtils.portableFileDialog.FileOperationResult;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialog;
 import org.qenherkhopeshef.swingUtils.portableFileDialog.PortableFileDialogFactory;
 
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.FormLayout;
+import net.miginfocom.swing.MigLayout;
 
 import jsesh.ui.export.generic.BaseGraphics2DFactory;
 import jsesh.ui.export.generic.ExportData;
@@ -372,26 +373,26 @@ public class BitmapExporter {
         }
 
         private void prepareLayout(String fileFieldLabel) {
-            FormLayout formLayout = new FormLayout(
-                    "right:p,4dlu,left:max(40dlu;pref),4dlu,left:max(20dlu;pref),4dlu,left:max(20dlu;pref)",
-                    "");
+            setLayout(new MigLayout("insets dialog, wrap 3", "[right][grow][]"));
 
-            DefaultFormBuilder formBuilder = new DefaultFormBuilder(formLayout,
-                    this);
+            add(new JLabel("Cadrat Height"));
+            add(cadratHeightField, "growx");
+            add(transparentField);
 
-            formBuilder.setDefaultDialogBorder();
-            formBuilder.append("Cadrat Height", cadratHeightField);
-            formBuilder.append(transparentField);
-            formBuilder.nextLine();
-            formBuilder.appendSeparator("Output");
-            formBuilder.nextLine();
-            formBuilder.append(fileFieldLabel, fileField, 3);
-            formBuilder.append(browseButton);
-            formBuilder.nextLine();
+            add(new JLabel("Output"));
+            add(new JSeparator(), "span 2, growx, wrap");
+
+            add(new JLabel(fileFieldLabel));
+            add(fileField, "growx");
+            add(browseButton, "wrap");
+
             if (multiFile) {
-                formBuilder.append("Base name for output files", baseNameField);
+                add(new JLabel("Base name for output files"));
+                add(baseNameField, "growx, wrap");
             }
-            formBuilder.append("Output format", outputFormatField);
+
+            add(new JLabel("Output format"));
+            add(outputFormatField);
         }
 
         private void selectOutputFormat() {
