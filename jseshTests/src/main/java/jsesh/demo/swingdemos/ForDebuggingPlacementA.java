@@ -32,7 +32,7 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.render.draw;
+package jsesh.demo.swingdemos;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

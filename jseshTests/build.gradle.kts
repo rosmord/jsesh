@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation(project(":jsesh"))
+    implementation(project(":jseshSearch"))
     implementation(project(":qenherkhopeshefUtils"))
     implementation(libs.miglayout) {
         artifact {

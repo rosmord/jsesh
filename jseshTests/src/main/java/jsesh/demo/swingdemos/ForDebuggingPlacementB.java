@@ -32,9 +32,8 @@
  * pris connaissance de la licence CeCILL, et que vous en avez accepté les
  * termes.
  */
-package jsesh.render.draw;
+package jsesh.demo.swingdemos;
 
-import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -42,49 +41,44 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.ui.editor.JMDCEditor;
 
 /**
- * Demonstrate/test absolute positioning in a context where sign dimensions are
- * modified.
+ * A small test for debugging placement when signs are scaled (or when the
+ * dimensions are not the usual ones). TODO: make this into a proper test. Those
+ * tests should produce graphical files, which should be checked manually.
  *
  * @author rosmord
  */
-public class ScaledAbsolutePlacementTest {
+public class ForDebuggingPlacementB {
 
-    JMDCEditor editor1 = new JMDCEditor();
-    JMDCEditor editor2 = new JMDCEditor();
-    JMDCEditor editor3 = new JMDCEditor();
+    JMDCEditor editor = new JMDCEditor();
+    JFrame frame = new JFrame("testB - scaling");
 
-    JFrame frame = new JFrame("testA - scaling");
+    public ForDebuggingPlacementB() {
+        String mdc = "+lCheck advance geometry when sign dims are modified+s!"
+                + "G5&&&ra-G5\\200&&&ra-!"
+                + "stp&&&ra:n!"
+                + "t&m-m&t-t&m&t-t^^^m-m&&&t!"
+                + "t&A-A&t-t&A&t-t^^^A-A&&&t!"
+                + "n**x{{967,79,100}}-+idirect placement with non-standard size+s!"
+                + "+i(we expect the +sx+i sign to be just after the n+s!"
+                + "t^^^A-t^^^A\\R180+i (unexpectedly --- seems to work)+s-!"
+                + "F20\\R180&&&x-+i (doesn't work; it's more or less expected)+s!"
+                + "t^^^A\\200\\R180+i (this one is not expected to work now)+s-!";
 
-    public ScaledAbsolutePlacementTest() {
-        String mdc = "wD**t**x{{1057,554,100}}**wD{{1583,11,98}}**n{{9,787,100}}";
-        // We create a style with maxCadratHeight and standardSignHeight set to 30, 
-        // we use it in editor1
-        JSeshStyle style1 = JSeshStyle.DEFAULT.copy().geometry(
-            g -> g.maxCadratHeight(30)
-                    .standardSignHeight(30) 
-        ).build();                
-        editor1.setJSeshStyle(style1);
-        editor1.setMDCText(mdc);
-
-        // We use a style with simply maxCadratHeight set to 30 in editor2
-        JSeshStyle style2 = JSeshStyle.DEFAULT.copy().geometry(
-            g -> g.maxCadratHeight(30)                    
-        ).build();
-        editor2.setJSeshStyle(style2);
-        editor2.setMDCText(mdc);
-        editor2.setMDCText(mdc);
-        // We use the default style in editor3
-        editor3.setMDCText(mdc);
-        frame.setLayout(new FlowLayout());
-        frame.add(editor1);
-        frame.add(editor2);
-        frame.add(editor3);
+        JSeshStyle jSeshStyle = JSeshStyle.DEFAULT.copy()
+            .geometry(g -> 
+                g.maxCadratHeight(30)
+                    .standardSignHeight(30)
+            ).build();
+        //drawingSpecification.setTextOrientation(TextOrientation.VERTICAL);
+        editor.setJSeshStyle(jSeshStyle);
+        editor.setMDCText(mdc);
+        frame.add(editor);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ScaledAbsolutePlacementTest());
+        SwingUtilities.invokeLater(() -> new ForDebuggingPlacementB());
     }
 }

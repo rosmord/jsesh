@@ -122,6 +122,14 @@ their data with `getResourceAsStream("name")`, resolved *relative to the
 class's package*. Moving those classes means moving the matching directory
 under `src/main/resources` too, or sign loading breaks at runtime only.
 
+**Genuine singletons:** `jsesh.model.unicode.MdcUnicodeTable`,
+`jsesh.signcodes.ManuelDeCodage`, and
+`jsesh.glyphs.fonts.GnutraceHieroglyphShapeRepository` are logical, not
+accidental, singletons — each wraps one immutable, global piece of data (the
+MDC↔Unicode table, the Manuel de Codage sign-code table, the Gnutrace shape
+repository) that has exactly one valid instance for the whole JVM. Don't
+"fix" their singleton pattern into instance-per-caller.
+
 ### Editor Architecture (`jseshAppli` + `jsesh.ui.editor`)
 
 - `jsesh.jhotdraw.Main` bootstraps the app (loads prefs, icons, glyph DB, creates `JSeshApplication`)

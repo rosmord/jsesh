@@ -1,4 +1,4 @@
-package jsesh.demo;
+package jsesh.demo.search;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

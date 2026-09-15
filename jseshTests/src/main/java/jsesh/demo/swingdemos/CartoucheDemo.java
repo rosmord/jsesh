@@ -9,7 +9,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.render.draw;
+package jsesh.demo.swingdemos;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

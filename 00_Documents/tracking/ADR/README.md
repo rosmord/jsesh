@@ -5,7 +5,6 @@ This folder contains *Architectural Decision Records* (ADR) for jsesh developmen
 Each ADR is stored in a separate markdown file. It has a single number (its ID), which is four digit long.
 The true ID is the number value.
 
-
 It contains the following sections:
 
 Title
@@ -13,6 +12,7 @@ Title
 
 Status
 : the status of the decision, which can be one of the following:
+
 - proposed: the decision is proposed, but not yet accepted.
 - accepted: the decision is accepted, and is being implemented.
 - rejected: the decision is rejected, and will not be implemented.
@@ -21,7 +21,6 @@ Status
 
 Context
 : the context in which the decision is made, including the problem that is being solved, and the constraints that are being considered.
-
 
 Decision
 : the decision that is being made, including the rationale behind it, and the consequences of it.

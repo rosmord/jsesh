@@ -11,4 +11,4 @@
 /**
  * Not actual tests, but simple UI attempts.
  */
-package jsesh.demo;
+package jsesh.demo.search;

@@ -8,7 +8,7 @@
  * This software is governed by the CeCILL-C license 
  * under French law : "http://www.cecill.info". 
  */
-package jsesh.demo;
+package jsesh.demo.search;
 
 import java.util.List;
 
