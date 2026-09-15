@@ -8,17 +8,14 @@ This journal should only be edited and modified in the Development branch.
 ❗️
 : important task
 
-
 ## Next pending steps
 
-- [ ] add --win-menu --win-menu-group "JSesh..." to windows installer
-- [ ] add text library and licences to the Windows installer
-- [ ] add file associations for linux and Windows
-- [x] update and reorganise documentation (folder `00_Documents`)
 - [ ] add rounded enclosures to MdC
+- [ ] add sub-cadrat move for cursors (existed in tksesh)
+- [ ] add --win-menu --win-menu-group "JSesh..." to windows installer
+- [ ] add file associations for linux and Windows
 - [ ] use i18n for texts in the JSesh Palette
 - [ ] implement the new unicode insert commands (probably between groups, not signs)
-- [ ] add sub-cadrat move for cursors (existed in tksesh)
 - [ ] allow users to edit alphabetic text directly (without using the MdC textfield)
 - [ ] add actual zones
 - [ ] add page dimensions and wrap in the document
@@ -26,21 +23,15 @@ This journal should only be edited and modified in the Development branch.
 - [ ] add tabs
 - [ ] add a "view" menu to control the display of technical information (e.g. tabs)
 
-
 ## Important decisions
 
-
 - Use the handy list of abbreviations in https://tla.digital/listings/bibliography/ for the SignInfo editor.
-
-
-
 
 - When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
 
 ### Format of the jseshGlyph.jar file
 
 This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file. for instance, the group ḥnꜥ would not be rendered as V28*(N35:D36) but more like V28\130*(N35:D36) (in fact, "short" versions of ayin and n would be used).
-
 
 ## Daily log
 
