@@ -4,17 +4,43 @@
 # sequence number), and record the closure date after its "created" field.
 #
 # Usage: ./done.sh <todo-file>
-#   todo-file is a path to a file in TODO/ (e.g. TODO/01_easy/todo....md),
-#   named todoYYYYMMDD-NNNN.md.
+#   todo-file is either a path to a file in TODO/ (e.g. TODO/01_easy/todo....md),
+#   named todoYYYYMMDD-NNNN.md, or just its NNNN sequence number (e.g. 0042),
+#   in which case the matching file is looked up under TODO/ and confirmed
+#   before being marked done.
 
 set -euo pipefail
 
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <todo-file>" >&2
+    echo "Usage: $0 <todo-file>|<NNNN>" >&2
     exit 1
 fi
 
 SRC="$1"
+
+if [[ "$SRC" =~ ^[0-9]{4}$ ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+    MATCHES=()
+    while IFS= read -r -d '' f; do
+        MATCHES+=("$f")
+    done < <(find "$SCRIPT_DIR/TODO" -name "todo????????-${SRC}.md" -print0)
+
+    if [ "${#MATCHES[@]}" -eq 0 ]; then
+        echo "No todo found with number $SRC" >&2
+        exit 1
+    elif [ "${#MATCHES[@]}" -gt 1 ]; then
+        echo "Multiple todos found with number $SRC:" >&2
+        printf '  %s\n' "${MATCHES[@]}" >&2
+        exit 1
+    fi
+
+    SRC="${MATCHES[0]}"
+    read -r -p "Mark done: $SRC ? [y/N] " CONFIRM
+    if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
+        echo "Aborted." >&2
+        exit 1
+    fi
+fi
 
 if [ ! -f "$SRC" ]; then
     echo "No such file: $SRC" >&2

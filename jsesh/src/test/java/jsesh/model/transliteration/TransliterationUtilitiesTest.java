@@ -87,7 +87,7 @@ public class TransliterationUtilitiesTest {
 
     @Test
     public void testSampleWithUseJYodChoice() {
-        TransliterationEncoding encoding = new TransliterationEncoding(true, YODChoice.USE_J, false);
+        TransliterationEncoding encoding = new TransliterationEncoding(true, YODChoice.PLAIN_J, false);
         // Only "iw" changes: the yod is rendered as plain "j" instead of "i" + a diacritic.
         String expected = "jw Imn Rꜥ H̱nmw m-ꜥ=k qn=k ꜣḫ Ꜣḫ";
         assertEquals(expected, TransliterationUtilities.getActualTransliterationString(SAMPLE, encoding));
@@ -154,24 +154,20 @@ public class TransliterationUtilitiesTest {
         TransliterationEncoding encoding = new TransliterationEncoding(true, yodChoice, false);
         String lower = TransliterationUtilities.getActualTransliterationString("i", encoding);
         String upper = TransliterationUtilities.getActualTransliterationString("^i", encoding);
-        switch (yodChoice) {
-            case U0313:
-                assertEquals("i̓", lower);
-                assertEquals("I̓", upper);
-                break;
-            case U0486:
-                assertEquals("i҆", lower);
-                assertEquals("I҆", upper);
-                break;
-            case UA7BD:
-                assertEquals("ꞽ", lower);
-                assertEquals("Ꞽ", upper);
-                break;
-            case USE_J:
-                assertEquals("j", lower);
-                assertEquals("J", upper);
-                break;
-        }
+        String expectedLower = switch (yodChoice) {
+            case U0313 -> "i̓";
+            case U0486 -> "i҆";
+            case UA7BD -> "ꞽ";
+            case PLAIN_J -> "j";
+        };
+        String expectedUpper = switch (yodChoice) {
+            case U0313 -> "I̓";
+            case U0486 -> "I҆";
+            case UA7BD -> "Ꞽ";
+            case PLAIN_J -> "J";
+        };
+        assertEquals(expectedLower, lower);
+        assertEquals(expectedUpper, upper);
     }
 
     @Test

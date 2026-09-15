@@ -216,13 +216,28 @@ public class FontInfo {
         fontInfo = fontInfo
                 .withTranslitUnicode(
                         preferences.getBoolean(TRANSLIT_UNICODE, true))
-                .withYodChoice(
-                        YODChoice.valueOf(preferences.get(YOD_CHOICE,
-                                YODChoice.U0313.name())))
+                .withYodChoice(readYodChoice(preferences))
                 .withUseEmbeddedFont(
                         preferences
                                 .getBoolean(USE_EMBEDDED_TRANSLIT_FONT, true));
         return fontInfo;
+    }
+
+    /**
+     * Read the yod choice preference, falling back to the software default
+     * if the stored value doesn't match a known {@link YODChoice} (e.g. a
+     * constant renamed or removed since the preference was saved).
+     */
+    private static YODChoice readYodChoice(Preferences preferences) {
+        String storedValue = preferences.get(YOD_CHOICE, null);
+        if (storedValue == null) {
+            return YODChoice.U0313;
+        }
+        try {
+            return YODChoice.valueOf(storedValue);
+        } catch (IllegalArgumentException e) {
+            return YODChoice.U0313;
+        }
     }
 
     /**

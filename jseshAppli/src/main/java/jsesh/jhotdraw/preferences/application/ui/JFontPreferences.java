@@ -3,6 +3,8 @@ package jsesh.jhotdraw.preferences.application.ui;
 import java.awt.Font;
 import java.awt.Window;
 import java.io.File;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -84,6 +86,18 @@ public class JFontPreferences {
      */
     private JRadioButton yodUsesU0313;
 
+    /**
+     * The "safe" rendering of yod as a J, which has no problem at all with diacritics.
+     */
+    private JRadioButton yodUsesJ;
+
+    /**
+     * Maps each yod rendering choice to its radio button, so the button
+     * group, enable/disable, and FontInfo<->UI conversions can be expressed
+     * as a single lookup instead of one case per {@link YODChoice}.
+     */
+    private Map<YODChoice, JRadioButton> yodButtons;
+
     public JFontPreferences() {
         init();
         layout();
@@ -125,11 +139,17 @@ public class JFontPreferences {
                 JSeshMessages.getString("fontPreferences.useUnicodeRadioButton.text"));
         this.yodUsesU0313 = new JRadioButton(
                 JSeshMessages.getString("fontPreferences.yodUsesU0313.text"));
+        this.yodUsesJ = new JRadioButton(
+                JSeshMessages.getString("fontPreferences.yodUsesJ.text"));
         this.yodUsesU0486 = new JRadioButton(
                 JSeshMessages.getString("fontPreferences.yodUsesU0486.text"));
         this.yodUsesUA7BD = new JRadioButton(
                 JSeshMessages.getString("fontPreferences.yodUsesUA7BD.text"));
-
+        this.yodButtons = new EnumMap<>(YODChoice.class);
+        yodButtons.put(YODChoice.U0313, yodUsesU0313);
+        yodButtons.put(YODChoice.U0486, yodUsesU0486);
+        yodButtons.put(YODChoice.UA7BD, yodUsesUA7BD);
+        yodButtons.put(YODChoice.PLAIN_J, yodUsesJ);
     }
 
     private void layout() {
@@ -156,6 +176,7 @@ public class JFontPreferences {
         trlHelper.add(yodUsesUA7BD, "wrap");
         trlHelper.add(yodUsesU0486, "wrap");
         trlHelper.add(yodUsesU0313, "wrap");
+        trlHelper.add(yodUsesJ, "wrap");
     }
 
     private void animate() {
@@ -163,9 +184,7 @@ public class JFontPreferences {
         trlEncodingGroup.add(useMdCRadioButton);
         trlEncodingGroup.add(useUnicodeRadioButton);
         ButtonGroup yodGroup = new ButtonGroup();
-        yodGroup.add(yodUsesU0313);
-        yodGroup.add(yodUsesU0486);
-        yodGroup.add(yodUsesUA7BD);
+        yodButtons.values().forEach(yodGroup::add);
         useMdCRadioButton.addActionListener((e) -> trlChanged());
         useUnicodeRadioButton.addActionListener((e) -> trlChanged());
         showOptionButton.addActionListener(e -> toggleShowOption());
@@ -201,9 +220,8 @@ public class JFontPreferences {
     }
 
     protected void trlChanged() {
-        yodUsesU0313.setEnabled(useUnicodeRadioButton.isSelected());
-        yodUsesU0486.setEnabled(useUnicodeRadioButton.isSelected());
-        yodUsesUA7BD.setEnabled(useUnicodeRadioButton.isSelected());
+        boolean unicode = useUnicodeRadioButton.isSelected();
+        yodButtons.values().forEach(b -> b.setEnabled(unicode));
     }
 
     protected void toggleShowOption() {
@@ -238,12 +256,11 @@ public class JFontPreferences {
                 transliterationFontHelper.getSelectedFont());
         fontInfo = fontInfo.withTranslitUnicode(useUnicodeRadioButton
                 .isSelected());
-        if (yodUsesU0313.isSelected()) {
-            fontInfo = fontInfo.withYodChoice(YODChoice.U0313);
-        } else if (yodUsesU0486.isSelected()) {
-            fontInfo = fontInfo.withYodChoice(YODChoice.U0486);
-        } else if (yodUsesUA7BD.isSelected()) {
-            fontInfo = fontInfo.withYodChoice(YODChoice.UA7BD);
+        for (Map.Entry<YODChoice, JRadioButton> entry : yodButtons.entrySet()) {
+            if (entry.getValue().isSelected()) {
+                fontInfo = fontInfo.withYodChoice(entry.getKey());
+                break;
+            }
         }
         fontInfo = fontInfo.withUseEmbeddedFont(useDefaultJSeshFont);
         return fontInfo;
@@ -260,17 +277,7 @@ public class JFontPreferences {
             useMdCRadioButton.setSelected(true);
         }
         trlChanged();
-        switch (fontInfo.getYodChoice()) {
-            case U0313:
-                yodUsesU0313.setSelected(true);
-                break;
-            case U0486:
-                yodUsesU0486.setSelected(true);
-                break;
-            case UA7BD:
-                yodUsesUA7BD.setSelected(true);
-                break;
-        }
+        yodButtons.get(fontInfo.getYodChoice()).setSelected(true);
         if (fontInfo.isUseEmbeddedFont()) {
             useOldDefaultFont();
         } else {

@@ -93,23 +93,18 @@ public class TransliterationUtilities {
                             cDown = "\uA723";                          
                             break;
                         case 'i':
-                            switch (transliterationEncoding.getYodChoice()) {
-                                case U0313:
-                                    cUp = "I\u0313";
-                                    cDown = "i\u0313";
-                                    break;
-                                case UA7BD:
-                                    cUp = "\uA7BC";
-                                    cDown = "\uA7BD";                                    
-                                    break;
-                                case U0486:
-                                    cUp = "I\u0486";
-                                    cDown = "i\u0486";
-                                    break;
-                                default: // USE_J
-                                    cUp = "J";
-                                    cDown = "j";
-                            }
+                            cUp = switch (transliterationEncoding.getYodChoice()) {
+                                case U0313 -> "I\u0313";
+                                case UA7BD -> "\uA7BC";
+                                case U0486 -> "I\u0486";
+                                case PLAIN_J -> "J";
+                            };
+                            cDown = switch (transliterationEncoding.getYodChoice()) {
+                                case U0313 -> "i\u0313";
+                                case UA7BD -> "\uA7BD";
+                                case U0486 -> "i\u0486";
+                                case PLAIN_J -> "j";
+                            };
                             break;
                         case 'a':
                             cUp = "\uA724";
