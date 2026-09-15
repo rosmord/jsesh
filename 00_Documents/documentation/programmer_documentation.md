@@ -153,20 +153,18 @@ String example = example.toUpperCase();
 Here, `example`, which formerly pointed to the string `"Hello"`, points to  `"HELLO"`.
 
 
-```plantuml
-@startuml
-left to right direction
-hide empty members
-object example #white
-object "String" as hello1 #yellow {
-  "hello"
-}
-object "String" as hello2 #yellow{
-  "HELLO"
-}
-example .[#red].> hello1 
-example -[bold]-> hello2
-@enduml
+```mermaid
+flowchart LR
+    example["example"]
+    hello1["String\n\"hello\""]
+    hello2["String\n\"HELLO\""]
+    example -.-> hello1
+    example ==> hello2
+
+    style example fill:#ffffff,stroke:#333,stroke-width:1px
+    style hello1 fill:#ffff99,stroke:#333,stroke-width:1px
+    style hello2 fill:#ffff99,stroke:#333,stroke-width:1px
+    linkStyle 0 stroke:#d00,stroke-width:1px
 ```
 
 For composite objects, such as `JSeshStyle`, it means that the basic way to create a modified version of the object is to re-create a new instance.
