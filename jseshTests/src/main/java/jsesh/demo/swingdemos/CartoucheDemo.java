@@ -11,13 +11,18 @@
  */
 package jsesh.demo.swingdemos;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import jsesh.ui.editor.JMDCEditor;
+
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
+import jsesh.ui.editor.JMDCEditor;
 
 /**
  * Informal test for enclosures drawing.
@@ -25,6 +30,7 @@ import jsesh.model.constants.TextOrientation;
  */
 public class CartoucheDemo {
     JFrame frame = new JFrame("Enclosure demo");
+    JPanel root = new JPanel();
     JMDCEditor editor= new JMDCEditor();
     JMDCEditor editor1 = new JMDCEditor();
     JMDCEditor editor2= new JMDCEditor();
@@ -37,7 +43,8 @@ public class CartoucheDemo {
                 "<H-p:t-H-kA->-!"+
                 "<F-ra:xpr-kA*q:D140-A28-w:w->-!"+
                 "<f0-ra:xpr-kA*q:D140-A28-w:w->-!"+
-                "<f-ra:xpr-kA*q:D140-A28-w:w-0>-!"
+                "<f-ra:xpr-kA*q:D140-A28-w:w-0>-!"+
+                "tA:n-<G-n-h-r:y-n:xAst->-m-Htp-!"
                 ;
         editor.setMDCText(mdc);
         editor1.setTextDirection(TextDirection.RIGHT_TO_LEFT);
@@ -48,20 +55,21 @@ public class CartoucheDemo {
         editor3.setTextDirection(TextDirection.RIGHT_TO_LEFT);
         editor3.setMDCText(mdc);
         
-        frame.setLayout(new GridBagLayout());
+        root.setLayout(new GridBagLayout());
         GridBagConstraints cc= new GridBagConstraints();
         
-        frame.add(editor,cc);
+        root.add(editor,cc);
         cc.gridy = 1;
-        frame.add(editor1,cc);
+        root.add(editor1,cc);
          cc.gridy = 2;
-        frame.add(editor2,cc);
+        root.add(editor2,cc);
          cc.gridy = 3;
-        frame.add(editor3,cc);
+        root.add(editor3,cc);
+        frame.setLayout(new BorderLayout());
+        frame.add(new JScrollPane(root), BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Example from the White chapel of Sesostris the first.        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);              
     }
     
     

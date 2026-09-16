@@ -30,7 +30,7 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
      * How large a bastion is, relative to the wall's line width. Change this
      * to make the bastions deeper/shallower.
      */
-    private static final float BASTION_RADIUS_FACTOR = 1f;
+    private static final float BASTION_RADIUS_FACTOR = 1.5f;
 
     /**
      * The empty wall space left between two neighbouring bastions, in units
@@ -85,14 +85,20 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         // loops.
         float loopSkip = geometry.cartoucheLoopLength() / 3;
 
+        // Reference point known to be "inside" the enclosure, used to tell
+        // which way is outward when placing bastions along the round ends.
+        Point2D.Float center = new Point2D.Float(currentView.getWidth() / 2f, currentView.getHeight() / 2f);
+
         Path2D.Float outline = new Path2D.Float();
+        Point2D.Float leftC1 = null, leftC2 = null;
         // Start
         if (leftElement != 0) {
 
             float p0x = dx;
+            leftC1 = new Point2D.Float(p0x - loopSkip, p1.y);
+            leftC2 = new Point2D.Float(p0x - loopSkip, p2.y);
             outline.moveTo(p1.getX(), p1.getY());
-            outline.curveTo(p0x - loopSkip, p1.getY(), p0x - loopSkip, p2.getY(),
-                    p2.getX(), p2.getY());
+            outline.curveTo(leftC1.x, leftC1.y, leftC2.x, leftC2.y, p2.getX(), p2.getY());
         }
         // Middle part.
 
@@ -101,14 +107,15 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         outline.moveTo(p2.getX(), p2.getY());
         outline.lineTo(p4.getX(), p4.getY());
 
+        Point2D.Float rightC1 = null, rightC2 = null;
         // End
         if (rightElement != 0) {
 
             float p0x = -dx;
+            rightC1 = new Point2D.Float(currentView.getWidth() + loopSkip + p0x, p3.y);
+            rightC2 = new Point2D.Float(currentView.getWidth() + loopSkip + p0x, p4.y);
             outline.moveTo(p3.getX(), p3.getY());
-            outline.curveTo(currentView.getWidth() + loopSkip + p0x, p3.getY(),
-                    currentView.getWidth() + loopSkip + p0x, p4.getY(),
-                    p4.getX(), p4.getY());
+            outline.curveTo(rightC1.x, rightC1.y, rightC2.x, rightC2.y, p4.getX(), p4.getY());
         }
 
         // The whole enclosure (wall outline + bastions) is built as a
@@ -117,6 +124,12 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         Area enclosure = new Area(stroke.createStrokedShape(outline));
         drawBastionRow(enclosure, p1, p3, 0, -1); // top wall, bulging up
         drawBastionRow(enclosure, p2, p4, 0, 1);  // bottom wall, bulging down
+        if (leftElement != 0) {
+            drawBastionsAlongCubic(enclosure, p1, leftC1, leftC2, p2, center);
+        }
+        if (rightElement != 0) {
+            drawBastionsAlongCubic(enclosure, p3, rightC1, rightC2, p4, center);
+        }
         g.fill(enclosure);
     }
     // end
@@ -158,6 +171,73 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
             float t = actualSpacing * (i + 0.5f);
             area.add(new Area(bastionShape(start.x + ux * t, start.y + uy * t, nx, ny)));
         }
+    }
+
+    /**
+     * Places bastions evenly (by arc length) along the cubic bezier curve
+     * (p0, c1, c2, p3), each bulging away from {@code outwardReference}
+     * (some point known to be inside the enclosure), and adds each of them
+     * to {@code area}.
+     */
+    private void drawBastionsAlongCubic(Area area, Point2D.Float p0, Point2D.Float c1, Point2D.Float c2,
+            Point2D.Float p3, Point2D.Float outwardReference) {
+        final int samples = 48;
+        Point2D.Float[] pts = new Point2D.Float[samples + 1];
+        float[] len = new float[samples + 1];
+        for (int i = 0; i <= samples; i++) {
+            pts[i] = cubicPoint(p0, c1, c2, p3, (float) i / samples);
+            len[i] = (i == 0) ? 0 : len[i - 1] + (float) pts[i - 1].distance(pts[i]);
+        }
+
+        float totalLength = len[samples];
+        float radius = bastionRadius();
+        float spacing = bastionSpacing(radius);
+        int n = Math.round(totalLength / spacing);
+        if (n <= 0) {
+            return;
+        }
+        float actualSpacing = totalLength / n;
+
+        int segment = 0;
+        for (int i = 0; i < n; i++) {
+            float target = actualSpacing * (i + 0.5f);
+            while (segment < samples - 1 && len[segment + 1] < target) {
+                segment++;
+            }
+            Point2D.Float a = pts[segment];
+            Point2D.Float b = pts[segment + 1];
+            float segLength = len[segment + 1] - len[segment];
+            float fraction = segLength <= 0 ? 0 : (target - len[segment]) / segLength;
+            float x = a.x + (b.x - a.x) * fraction;
+            float y = a.y + (b.y - a.y) * fraction;
+
+            // The chord a->b approximates the local tangent closely enough
+            // for bastion placement (48 samples over one loop).
+            float tx = b.x - a.x, ty = b.y - a.y;
+            float tLen = (float) Math.hypot(tx, ty);
+            if (tLen == 0) {
+                continue;
+            }
+            tx /= tLen;
+            ty /= tLen;
+
+            // Of the two perpendiculars to the tangent, keep the one
+            // pointing away from the inside of the enclosure.
+            float nx = -ty, ny = tx;
+            if (nx * (x - outwardReference.x) + ny * (y - outwardReference.y) < 0) {
+                nx = -nx;
+                ny = -ny;
+            }
+            area.add(new Area(bastionShape(x, y, nx, ny)));
+        }
+    }
+
+    private static Point2D.Float cubicPoint(Point2D.Float p0, Point2D.Float c1, Point2D.Float c2, Point2D.Float p3,
+            float t) {
+        float u = 1 - t;
+        float x = u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p3.x;
+        float y = u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p3.y;
+        return new Point2D.Float(x, y);
     }
 
     /**
@@ -256,15 +336,21 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         // loops.
         float loopSkip = geometry.cartoucheLineWidth() / 3;
 
+        // Reference point known to be "inside" the enclosure, used to tell
+        // which way is outward when placing bastions along the round ends.
+        Point2D.Float center = new Point2D.Float(currentView.getWidth() / 2f, currentView.getHeight() / 2f);
+
         Path2D.Float outline = new Path2D.Float();
+        Point2D.Float topC1 = null, topC2 = null;
         // Start
         if (cartouche.getStartPart() != 0) {
 
             float p0x = dx;
 
+            topC1 = new Point2D.Float(p1.x, p0x - loopSkip);
+            topC2 = new Point2D.Float(p2.x, p0x - loopSkip);
             outline.moveTo(p1.getX(), p1.getY());
-            outline.curveTo(p1.getX(), p0x - loopSkip, p2.getX(), p0x - loopSkip,
-                    p2.getX(), p2.getY());
+            outline.curveTo(topC1.x, topC1.y, topC2.x, topC2.y, p2.getX(), p2.getY());
         }
 
         // Middle part.
@@ -273,15 +359,16 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         outline.moveTo(p2.getX(), p2.getY());
         outline.lineTo(p4.getX(), p4.getY());
 
+        Point2D.Float bottomC1 = null, bottomC2 = null;
         // End
         if (cartouche.getEndPart() != 0) {
 
             float p0x = -dx;
 
+            bottomC1 = new Point2D.Float(p3.x, currentView.getHeight() + loopSkip + p0x);
+            bottomC2 = new Point2D.Float(p4.x, currentView.getHeight() + loopSkip + p0x);
             outline.moveTo(p3.getX(), p3.getY());
-            outline.curveTo(p3.getX(), currentView.getHeight() + loopSkip + p0x,
-                    p4.getX(), currentView.getHeight() + loopSkip + p0x,
-                    p4.getX(), p4.getY());
+            outline.curveTo(bottomC1.x, bottomC1.y, bottomC2.x, bottomC2.y, p4.getX(), p4.getY());
         }
 
         // The whole enclosure (wall outline + bastions) is built as a
@@ -290,6 +377,12 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
         Area enclosure = new Area(s.createStrokedShape(outline));
         drawBastionRow(enclosure, p1, p3, 1, 0);  // right wall, bulging right
         drawBastionRow(enclosure, p2, p4, -1, 0); // left wall, bulging left
+        if (cartouche.getStartPart() != 0) {
+            drawBastionsAlongCubic(enclosure, p1, topC1, topC2, p2, center);
+        }
+        if (cartouche.getEndPart() != 0) {
+            drawBastionsAlongCubic(enclosure, p3, bottomC1, bottomC2, p4, center);
+        }
         g.fill(enclosure);
     }
 

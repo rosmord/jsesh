@@ -125,7 +125,8 @@ public class EditorCartoucheAction extends EditorAction {
 			new CartoucheParameters('h', 0, 3, "<h0-ra-xa-f-h3>"),
 			new CartoucheParameters('h', 0, 1, "<h0-ra-xa-f-h1>"),
 			new CartoucheParameters('h', 0, 0, "<h0-ra-xa-f-h0>"),
-			new CartoucheParameters('F', 1, 2, "<F-ra-xa-f->") };
+			new CartoucheParameters('F', 1, 2, "<F-ra-xa-f->"),
+			new CartoucheParameters('g', 1, 2, "<G-bA&&&Z1-y:r-i-i-Aa18:Z1-qmA->"),};
 
 	public final static String[] actionNames = new String[allCartouches.length];
 
