@@ -254,7 +254,7 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
     private Shape bastionShape(float x, float y, float vx, float vy) {
         float radius = bastionRadius();
         float k = (float) (radius * CIRCLE_BEZIER_FACTOR);
-        float stem = radius / 2f;
+        float stem = radius / 4f;
 
         // (nx, ny) is v rotated by 90°, i.e. the direction of the flat
         // basis. Every point of the shape is then just x,y plus some

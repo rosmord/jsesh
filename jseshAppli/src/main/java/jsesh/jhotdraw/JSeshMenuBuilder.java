@@ -405,7 +405,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 
                 cartoucheMenu.setMnemonic(KeyEvent.VK_C);
                 JPopupMenu pm = cartoucheMenu.getPopupMenu();
-                pm.setLayout(new GridLayout(0, 4));
+                pm.setLayout(new GridLayout(0, 8));
                 for (String s : EditorCartoucheAction.actionNames) {
                         cartoucheMenu.add(a.getActionMap(v).get(s));
                 }
