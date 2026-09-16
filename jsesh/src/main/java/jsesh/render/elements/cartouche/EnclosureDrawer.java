@@ -102,10 +102,6 @@ class EnclosureDrawer extends AbstractCartoucheDrawer {
         float bLength = jseshStyle.geometry().bastionLength();
         float bWidth = jseshStyle.geometry().bastionDepth();
 
-        // Half line width : allows to have a close bounding box.
-        float dy = jseshStyle.geometry().cartoucheLineWidth() / 2f;
-        float dx = jseshStyle.geometry().cartoucheLineWidth() / 2f;
-
         // Account for the  bastion depth.
         // dy = drawingSpecifications.getEnclosureBastionDepth();
         // The frame
@@ -193,16 +189,8 @@ class EnclosureDrawer extends AbstractCartoucheDrawer {
             fillRect(angleX, angleYBottom - bLength, bWidth, bLength);
             fillRect(angleX - bLength, angleYBottom, bWidth + bLength, bWidth);
         }
-
     }
 
-    private void drawLine(float x0, float y0, float x1, float y1) {
-        g.draw(new Line2D.Float(x0, y0, x1, y1));
-    }
-
-    private void drawLine(Point2D.Float p1, Point2D.Float p2) {
-        g.draw(new Line2D.Float(p1, p2));
-    }
 
     private void fillRect(float x0, float y0, float w, float h) {
         g.fill(new Rectangle2D.Double(x0, y0, w, h));
