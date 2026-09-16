@@ -326,17 +326,17 @@ TRUESPACE=([ \t\n\015_])
 <YYINITIAL>"<"[SFH]([bme])	{return buildStartOldCartouche(
 	                                 yytext().charAt(1),
 	                                 yytext().charAt(2));}
-<YYINITIAL>"<"[SFH]	{return buildStartOldCartouche(yytext().charAt(1), 'a');}
+<YYINITIAL>"<"[SFHG]	{return buildStartOldCartouche(yytext().charAt(1), 'a');}
 <YYINITIAL>"<"[bme]	{return buildStartOldCartouche('c', yytext().charAt(1));}
-<YYINITIAL>"<"[sfh][0123]	{return 
+<YYINITIAL>"<"[sfhg][0123]	{return 
 	     buildBeginCartouche(yytext().charAt(1),
 	                    yytext().charAt(2));}
-<YYINITIAL>"<"[sfh]	{return buildBeginCartouche(yytext().charAt(1), '1');}
+<YYINITIAL>"<"[sfhg]	{return buildBeginCartouche(yytext().charAt(1), '1');}
 <YYINITIAL>"<"[012]	{return buildBeginCartouche('c', yytext().charAt(1));}
 <YYINITIAL>">"	{return buildEndCartouche('c', '2');}
-<YYINITIAL>[sfh][0123]">"	{return buildEndCartouche(yytext().charAt(0), 
+<YYINITIAL>[sfhg][0123]">"	{return buildEndCartouche(yytext().charAt(0), 
 	                         yytext().charAt(1));}
-<YYINITIAL>[sfh]">"	{return buildEndCartouche(yytext().charAt(0), 
+<YYINITIAL>[sfhg]">"	{return buildEndCartouche(yytext().charAt(0), 
 	                         '2');}
 <YYINITIAL>[012]">"	{return buildEndCartouche('c', 
 	                         yytext().charAt(0));}

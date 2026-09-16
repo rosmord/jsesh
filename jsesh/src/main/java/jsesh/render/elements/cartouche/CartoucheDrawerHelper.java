@@ -98,6 +98,9 @@ public class CartoucheDrawerHelper {
             case 'h':
                 delegate = new HwtDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
+            case 'g':
+                delegate = new CircularFenceDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
+                break;
             default:
                 delegate = new NormalCartoucheDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
         }
