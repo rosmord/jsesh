@@ -23,7 +23,7 @@ public class LexTest {
         MDCStartOldCartouche start = (MDCStartOldCartouche) token.value;
         assertAll(
                 "",
-                () -> assertEquals(MDCCartoucheType.CIRCULAR_FENCE, start.getCartoucheType()),
+                () -> assertEquals(MDCCartoucheType.CIRCULAR_ENCLOSURE, start.getCartoucheType()),
                 () -> assertEquals('a', start.getPart()));
     }
 
@@ -36,7 +36,7 @@ public class LexTest {
         MDCCartouche start = (MDCCartouche) token.value;        
         assertAll(
                 "",
-                () -> assertEquals(MDCCartoucheType.CIRCULAR_FENCE, start.getCartoucheType()),
+                () -> assertEquals(MDCCartoucheType.CIRCULAR_ENCLOSURE, start.getCartoucheType()),
                 () -> assertEquals(1, start.getPart()));
     }
 
@@ -49,7 +49,7 @@ public class LexTest {
         MDCCartouche start = (MDCCartouche) token.value;        
         assertAll(
                 "",
-                () -> assertEquals(MDCCartoucheType.CIRCULAR_FENCE, start.getCartoucheType()),
+                () -> assertEquals(MDCCartoucheType.CIRCULAR_ENCLOSURE, start.getCartoucheType()),
                 () -> assertEquals(0, start.getPart()));
     }
 }

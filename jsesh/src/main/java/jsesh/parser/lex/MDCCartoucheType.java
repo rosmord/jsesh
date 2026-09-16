@@ -5,7 +5,7 @@ public interface MDCCartoucheType {
     int SEREKH= 's';
     int HOUT= 'h';
     int CASTLE= 'f';
-    int CIRCULAR_FENCE= 'g';
+    int CIRCULAR_ENCLOSURE= 'g';
 
     int STARTCONSTRUCT= 1000;
     int ENDCONSTRUCT= 1010;

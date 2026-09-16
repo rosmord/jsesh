@@ -37,7 +37,7 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## 2026-09-16
 
-- developping the circular fence `<G-n-h-r:y-n:xAst->`
+- developping the circular enclosure `<G-n-h-r:y-n:xAst->`
   - an actual example from Karnak (I guess dated from Tuthmosis III) is a bit too complex, with a wavy line ;
   - an example from Kom Ombo, featuring Kheta (!) is much simpler, with square bastions, but I'd rather have something more New Kingdom ;
   - the rendering by Lepsius (Denkmäler, III Bl. 87) from Soleb gives a good compromise.

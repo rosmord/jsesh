@@ -16,9 +16,9 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 
 /**
- * Drawer for circular fences (town walls).
+ * Drawer for circular enclosures (town walls).
  */
-class CircularFenceDrawer extends AbstractCartoucheDrawer {
+class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
     
     /**
      * Bezier control point offset approximating a quarter circle of radius 1
@@ -40,7 +40,7 @@ class CircularFenceDrawer extends AbstractCartoucheDrawer {
      */
     private static final float BASTION_GAP_FACTOR = 1f;
 
-    public CircularFenceDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection,
+    public CircularEnclosureDrawer(JSeshStyle jseshStyle, TextDirection currentTextDirection,
             TextOrientation currentTextOrientation, MDCView currentView, Graphics2D g) {
         super(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
     }
