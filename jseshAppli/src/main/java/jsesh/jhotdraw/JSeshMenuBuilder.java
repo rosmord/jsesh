@@ -44,6 +44,7 @@ import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -396,6 +397,17 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         }
 
         /**
+         * Builds the Cartouche menu: one entry per construct type (cartouche,
+         * serekh, hwt...) for its default (start=1, end=2) form, plus - for
+         * types with more than one start/end combination - a "variants"
+         * submenu listing all of them.
+         * <p>
+         * This flat-vs-nested split avoids a very long single-column menu:
+         * on macOS, menus attached to the application menu bar are bridged
+         * to native NSMenus, which don't honor a {@link GridLayout} set on
+         * the popup (see {@code HieroglyphicMenu} for the same limitation),
+         * so the grid trick used elsewhere in this class doesn't help here.
+         *
          * @param menubar
          * @return
          */
@@ -404,12 +416,62 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 "text.cartoucheMenu");
 
                 cartoucheMenu.setMnemonic(KeyEvent.VK_C);
-                JPopupMenu pm = cartoucheMenu.getPopupMenu();
-                pm.setLayout(new GridLayout(0, 8));
-                for (String s : EditorCartoucheAction.actionNames) {
-                        cartoucheMenu.add(a.getActionMap(v).get(s));
+                ActionMap actionMap = a.getActionMap(v);
+                for (char type : EditorCartoucheAction.getTypes()) {
+                        JMenuItem simpleItem = new JMenuItem(
+                                        actionMap.get(EditorCartoucheAction.getSimpleActionName(type)));
+                        simpleItem.setText(BundleHelper.getInstance().getLabel(cartoucheTypeLabelKey(type) + ".text"));
+                        cartoucheMenu.add(simpleItem);
+
+                        List<String> variantNames = EditorCartoucheAction.getVariantActionNames(type);
+                        if (variantNames.size() > 1) {
+                                JMenu variantsMenu = BundleHelper.getInstance().configure(new JMenu(),
+                                                cartoucheVariantsLabelKey(type));
+                                for (String s : variantNames) {
+                                        variantsMenu.add(actionMap.get(s));
+                                }
+                                cartoucheMenu.add(variantsMenu);
+                        }
                 }
                 return cartoucheMenu;
+        }
+
+        /**
+         * @return the resource key (without the ".text" suffix) for a cartouche
+         *         construct type's menu label.
+         */
+        private static String cartoucheTypeLabelKey(char type) {
+                switch (type) {
+                case 'c':
+                        return "text.cartoucheMenu.type.cartouche";
+                case 's':
+                        return "text.cartoucheMenu.type.serekh";
+                case 'h':
+                        return "text.cartoucheMenu.type.hwt";
+                case 'F':
+                        return "text.cartoucheMenu.type.enclosure";
+                case 'g':
+                        return "text.cartoucheMenu.type.circularEnclosure";
+                default:
+                        throw new IllegalArgumentException("Unknown cartouche type " + type);
+                }
+        }
+
+        /**
+         * @return the resource key for a cartouche construct type's "variants"
+         *         submenu label.
+         */
+        private static String cartoucheVariantsLabelKey(char type) {
+                switch (type) {
+                case 'c':
+                        return "text.cartoucheMenu.variants.cartouche";
+                case 's':
+                        return "text.cartoucheMenu.variants.serekh";
+                case 'h':
+                        return "text.cartoucheMenu.variants.hwt";
+                default:
+                        throw new IllegalArgumentException("No variants submenu for cartouche type " + type);
+                }
         }
 
         /**

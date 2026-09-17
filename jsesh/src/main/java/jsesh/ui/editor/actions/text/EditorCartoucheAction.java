@@ -34,6 +34,8 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.ui.editor.actions.text;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -106,7 +108,6 @@ public class EditorCartoucheAction extends EditorAction {
 			new CartoucheParameters('c', 1, 2, "<-ra-mn:n-xpr\\R270->"),
 			new CartoucheParameters('c', 1, 1, "<1-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 2, 1, "<2-ra-mn:n-xpr\\R270-1>"),
-			new CartoucheParameters('c', 2, 1, "<2-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 0, 1, "<0-ra-mn:n-xpr\\R270-1>"),
 			new CartoucheParameters('c', 1, 0, "<1-ra-mn:n-xpr\\R270-0>"),
 			new CartoucheParameters('c', 2, 0, "<2-ra-mn:n-xpr\\R270-0>"),
@@ -153,9 +154,56 @@ public class EditorCartoucheAction extends EditorAction {
 	}
 
 	/**
+	 * Returns the cartouche-like construct type codes ('c', 's', 'h', 'F', 'g'...),
+	 * in the order they first appear in {@link #allCartouches}.
+	 * @return the list of construct type codes.
+	 */
+	public static List<Character> getTypes() {
+		List<Character> types = new ArrayList<Character>();
+		for (CartoucheParameters c : allCartouches) {
+			if (!types.contains(c.c)) {
+				types.add(c.c);
+			}
+		}
+		return types;
+	}
+
+	/**
+	 * Returns the action name for the default (start=1, end=2) variant of a
+	 * construct type.
+	 * @param type one of the codes returned by {@link #getTypes()}.
+	 * @return the action name.
+	 */
+	public static String getSimpleActionName(char type) {
+		for (int i = 0; i < allCartouches.length; i++) {
+			CartoucheParameters c = allCartouches[i];
+			if (c.c == type && c.start == 1 && c.end == 2) {
+				return actionNames[i];
+			}
+		}
+		throw new IllegalArgumentException("No default variant for cartouche type " + type);
+	}
+
+	/**
+	 * Returns the action names for all the start/end variants of a construct
+	 * type, in {@link #allCartouches} declaration order.
+	 * @param type one of the codes returned by {@link #getTypes()}.
+	 * @return the list of action names.
+	 */
+	public static List<String> getVariantActionNames(char type) {
+		List<String> names = new ArrayList<String>();
+		for (int i = 0; i < allCartouches.length; i++) {
+			if (allCartouches[i].c == type) {
+				names.add(actionNames[i]);
+			}
+		}
+		return names;
+	}
+
+	/**
 	 * Can be called to preload cartouches pictures before the program is
 	 * started.
-	 * <p> 
+	 * <p>
 	 */
 	public static void preloadCartoucheIcons(MDCIconFactory iconFactory) {
 		for (int i = 0; i < allCartouches.length; i++) {
