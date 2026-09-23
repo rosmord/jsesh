@@ -54,17 +54,16 @@ import jsesh.parser.lex.MDCSubType;
 import static jsesh.parser.lex.MDCSymbols.*;
 
 /**
- * Hand-written recursive descent parser for Manuel de Codage text, meant to
- * be equivalent to the CUP-generated parser ({@code jsesh/src/jcup/MDCParse.y})
- * when used with {@link jsesh.parser.ast.AstBuilder}, but building the
- * {@link jsesh.parser.ast} tree directly instead of going through
- * {@link jsesh.model.api.MDCBuilder}.
- * <p>It reuses the JLex lexer ({@link MDCLex}) unchanged. The grammar is
- * LALR(1) without conflicts, and its left-recursive rules are all plain
- * lists, so one token of lookahead is enough; each method below documents
- * the grammar rules it replaces.
- * <p>Like the CUP parser (whose only error rule, {@code cadrat ::= error},
- * throws), any syntax error aborts the parse with an {@link MDCSyntaxError}.
+ * Hand-written recursive descent parser for Manuel de Codage text, building
+ * the {@link jsesh.parser.ast} tree directly (see {@link #parse(String)}).
+ * <p>It replaced an earlier CUP-generated parser
+ * ({@code jsesh/src/jcup/MDCParse.y}), checked equivalent construct-by-
+ * construct before that grammar was retired. It reuses the JLex lexer
+ * ({@link MDCLex}) unchanged. The grammar is LALR(1) without conflicts, and
+ * its left-recursive rules are all plain lists, so one token of lookahead is
+ * enough; each method below documents the grammar rule it implements.
+ * <p>Any syntax error aborts the parse with an {@link MDCSyntaxError}: there
+ * is no error recovery.
  * <p>A parser object is not thread-safe, but can be reused for successive
  * parses.
  *
@@ -96,7 +95,6 @@ public class MDCHandmadeParser {
         } catch (MDCSyntaxError e) {
             throw e;
         } catch (Exception e) {
-            // Same behaviour as MDCParserFacade.
             MDCSyntaxError err = new MDCSyntaxError("Generic Error", 0, 0, e.getMessage());
             err.setStackTrace(e.getStackTrace());
             throw err;

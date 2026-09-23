@@ -17,11 +17,11 @@
  * <p>If instead you want a literal, uninterpreted record of what was parsed
  * (for instance to write a source-level tool), use
  * {@link jsesh.parser.MDCParserAstGenerator}, which builds an {@link jsesh.parser.ast.AstDocument}.
- * See the package {@link jsesh.parser.ast} for details.
+ * That AST is walkable with {@link jsesh.parser.ast.AstVisitor}. See the
+ * package {@link jsesh.parser.ast} for details.
  *
- * <p>Yet, if you want to have more control over your parsing process, you can
- * use the class {@link jsesh.parser.MDCParserFacade}. You should supply a
- * {@code jsesh.model.api.MDCBuilder} to indicate exactly what you want to do
- * when you meet some Manuel de Codage construct.
+ * <p>Both {@code MDCParserModelGenerator} and {@code MDCParserAstGenerator}
+ * are backed by {@link jsesh.parser.handmade.MDCHandmadeParser}, a
+ * hand-written recursive descent parser for the Manuel de Codage grammar.
  */
 package jsesh.parser;

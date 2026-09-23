@@ -1,17 +1,17 @@
 package jsesh.parser.handmade;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import jsesh.parser.MDCParserAstGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.parser.ast.AstDocument;
 
 /**
- * Checks that {@link MDCHandmadeParser} and the CUP-generated parser (through
- * {@link MDCParserAstGenerator}) agree: same AST, or both reject the text.
+ * A large corpus of Manuel de Codage edge cases -- originally assembled to
+ * check {@link MDCHandmadeParser} against the (now retired) CUP-generated
+ * parser, construct by construct. Kept as a crash-safety regression test:
+ * every snippet must either parse successfully or be rejected with a clean
+ * {@link MDCSyntaxError}, never anything else (NPE, StackOverflowError...).
  * Each snippet is tried with philological markers both as signs and as
  * grouping constructs.
  */
@@ -60,22 +60,11 @@ public class MDCHandmadeParserEquivalenceTest {
             // Multiline
             "A1\nB1", "A1-\n-B1", "A1 \n B1", "A1\n\nB1",
     })
-    public void sameResult(String mdc) {
+    public void parsesCleanly(String mdc) {
         for (boolean philologyAsSigns : new boolean[] { true, false }) {
-            String expected = cupParse(mdc, philologyAsSigns);
-            String actual = handmadeParse(mdc, philologyAsSigns);
-            assertEquals(expected, actual, "for '" + mdc + "', philologyAsSigns=" + philologyAsSigns);
-        }
-    }
-
-    private static String cupParse(String mdc, boolean philologyAsSigns) {
-        MDCParserAstGenerator parser = new MDCParserAstGenerator();
-        parser.setPhilologyAsSigns(philologyAsSigns);
-        try {
-            AstDocument doc = parser.parse(mdc);
-            return doc.toString();
-        } catch (MDCSyntaxError e) {
-            return "ERROR";
+            // Either result is fine: what matters is that parsing never
+            // throws anything other than a clean MDCSyntaxError.
+            handmadeParse(mdc, philologyAsSigns);
         }
     }
 

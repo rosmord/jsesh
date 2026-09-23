@@ -8,7 +8,6 @@ package jsesh.parser.ast;
  * 'c' coptic, 'g' greek, 'h' hebrew, 'r' cyrillic.
  * @param text the text, exactly as parsed.
  * @author rosmord
- * @see jsesh.model.api.MDCBuilder#addTextToBasicItemList(jsesh.model.api.BasicItemListInterface, char, String)
  */
 public record AstAlphabeticText(char scriptCode, String text) implements AstNode {
 

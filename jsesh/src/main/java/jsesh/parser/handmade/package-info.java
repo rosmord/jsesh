@@ -3,9 +3,10 @@
  * {@link jsesh.parser.handmade.MDCHandmadeParser}, which builds the literal
  * AST of {@link jsesh.parser.ast} directly.
  *
- * <p>It is meant to be equivalent to {@link jsesh.parser.MDCParserAstGenerator}
- * (the CUP-generated parser from {@code jsesh/src/jcup/MDCParse.y}), and
- * reuses the same lexer ({@link jsesh.parser.lex.MDCLex}). This package is
- * temporary: it will move once the equivalence has been checked.
+ * <p>It reuses the same lexer ({@link jsesh.parser.lex.MDCLex}), and is the
+ * parser behind both {@link jsesh.parser.MDCParserAstGenerator} and (through
+ * it) {@link jsesh.parser.MDCParserModelGenerator}. It replaced an earlier
+ * CUP-generated parser ({@code jsesh/src/jcup/MDCParse.y}); the two were
+ * checked to agree on every construct before the CUP grammar was retired.
  */
 package jsesh.parser.handmade;

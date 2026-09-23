@@ -1,21 +1,32 @@
 package jsesh.model.tools;
 
-import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.parser.MDCParserFacade;
+import jsesh.parser.MDCParserAstGenerator;
 import jsesh.parser.MDCSyntaxError;
+import jsesh.parser.ast.AstAbsoluteGroup;
+import jsesh.parser.ast.AstBasicItemList;
+import jsesh.parser.ast.AstCadrat;
+import jsesh.parser.ast.AstCartouche;
+import jsesh.parser.ast.AstComplexLigature;
+import jsesh.parser.ast.AstDocument;
+import jsesh.parser.ast.AstHBox;
+import jsesh.parser.ast.AstHieroglyph;
+import jsesh.parser.ast.AstInnerGroup;
+import jsesh.parser.ast.AstLigature;
+import jsesh.parser.ast.AstOverwrite;
+import jsesh.parser.ast.AstPhilology;
+import jsesh.parser.ast.AstSubCadrat;
+import jsesh.parser.ast.AstTopItemList;
+import jsesh.parser.ast.AstVisitorAdapter;
 import jsesh.signcodes.GardinerCode;
 import jsesh.signcodes.ManuelDeCodage;
-import jsesh.model.api.HieroglyphInterface;
-import jsesh.model.api.MDCBuilderAdapter;
-import jsesh.model.api.ModifierListInterface;
 
 /**
  * An extractor is able to fetch codes from a manuel de codage STRING
- * (see HieroglyphExtractor otherwise) and, if needed, to normalize them. 
- * 
+ * (see HieroglyphExtractor otherwise) and, if needed, to normalize them.
+ *
  *
  * @see HieroglyphExtractor for a class working on already parsed text.
  * @author rosmord
@@ -32,44 +43,114 @@ public class MDCCodeExtractor {
         return l.toArray(new String[l.size()]);
     }
 
-    
-
     public List<String> getCodesAsList(String manuelDeCodageText) throws MDCSyntaxError {
-        SignListBuilder builder = new SignListBuilder();
-        MDCParserFacade parser = new MDCParserFacade(builder);
-        parser.parse(new StringReader(manuelDeCodageText));
-        return builder.result;
+        AstDocument document = new MDCParserAstGenerator().parse(manuelDeCodageText);
+        HieroglyphCodeCollector collector = new HieroglyphCodeCollector();
+        document.accept(collector);
+        return collector.result;
     }
-    
-    private class SignListBuilder extends MDCBuilderAdapter {
 
-        public List<String> result;
+    /**
+     * Walks the whole AST in document order, collecting the (normalized)
+     * code of every {@link AstHieroglyph} it finds.
+     */
+    private class HieroglyphCodeCollector extends AstVisitorAdapter {
 
-        /* (non-Javadoc)
-		 * @see jsesh.model.api.MDCBuilder#reset()
-         */
+        final List<String> result = new LinkedList<>();
+
         @Override
-        public void reset() {
-            result = new LinkedList<>();
+        public void visitDocument(AstDocument node) {
+            node.topItems().accept(this);
         }
 
-        /* (non-Javadoc)
-		 * @see jsesh.model.api.MDCBuilder#buildHieroglyph(boolean, int, java.lang.String, jsesh.model.api.ListInterface, int)
-         */
         @Override
-        public HieroglyphInterface buildHieroglyph(boolean isGrammar, int type, String code, ModifierListInterface m, int isEnd) {
-            String actualCode = code;
+        public void visitTopItemList(AstTopItemList node) {
+            for (var item : node.items()) {
+                item.accept(this);
+            }
+        }
+
+        @Override
+        public void visitBasicItemList(AstBasicItemList node) {
+            for (var item : node.items()) {
+                item.accept(this);
+            }
+        }
+
+        @Override
+        public void visitCadrat(AstCadrat node) {
+            for (AstHBox hBox : node.hBoxes()) {
+                hBox.accept(this);
+            }
+        }
+
+        @Override
+        public void visitHBox(AstHBox node) {
+            for (var element : node.elements()) {
+                element.accept(this);
+            }
+        }
+
+        @Override
+        public void visitCartouche(AstCartouche node) {
+            node.content().accept(this);
+        }
+
+        @Override
+        public void visitLigature(AstLigature node) {
+            for (AstHieroglyph hieroglyph : node.hieroglyphs()) {
+                hieroglyph.accept(this);
+            }
+        }
+
+        @Override
+        public void visitComplexLigature(AstComplexLigature node) {
+            AstInnerGroup before = node.beforeGroup();
+            if (before != null) {
+                before.accept(this);
+            }
+            node.hieroglyph().accept(this);
+            AstInnerGroup after = node.afterGroup();
+            if (after != null) {
+                after.accept(this);
+            }
+        }
+
+        @Override
+        public void visitSubCadrat(AstSubCadrat node) {
+            node.content().accept(this);
+        }
+
+        @Override
+        public void visitOverwrite(AstOverwrite node) {
+            node.first().accept(this);
+            node.second().accept(this);
+        }
+
+        @Override
+        public void visitPhilology(AstPhilology node) {
+            node.content().accept(this);
+        }
+
+        @Override
+        public void visitAbsoluteGroup(AstAbsoluteGroup node) {
+            for (AstHieroglyph hieroglyph : node.hieroglyphs()) {
+                hieroglyph.accept(this);
+            }
+        }
+
+        @Override
+        public void visitHieroglyph(AstHieroglyph node) {
+            String code = node.code();
             if (GardinerCode.isCanonicalCode(code)) {
-                result.add(actualCode);
+                result.add(code);
             } else {
                 String canonicalCode = ManuelDeCodage.getInstance().getCanonicalCode(code).code();
                 if (!suppressNonGlyphs || GardinerCode.isCanonicalCode(canonicalCode)) {
                     result.add(canonicalCode);
                 }
             }
-            return null;
         }
-
     }
 
     /**

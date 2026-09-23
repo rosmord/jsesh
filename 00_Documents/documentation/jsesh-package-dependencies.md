@@ -500,6 +500,6 @@ outlives it and keeps the edge alive. Both are now fully cleaned up.
 **Layering violations remaining** (1 red edge)
 
 - `model -> parser` (2) — the core model still reaches up into parsing
-  (`jsesh.model.tools.MDCCodeExtractor` runs `MDCParserFacade`). This is the
-  one knot left, and the only mutual pair still in the module. Everything else
-  in `jsesh` now points strictly downwards.
+  (`jsesh.model.tools.MDCCodeExtractor` runs `MDCParserAstGenerator`). This is
+  the one knot left, and the only mutual pair still in the module. Everything
+  else in `jsesh` now points strictly downwards.

@@ -287,12 +287,8 @@ Notes:
   read, walkable with `AstVisitor`. `MDCParserModelGenerator` itself is just
   `MDCParserAstGenerator` followed by the interpretation step (folding
   toggles into red/shaded state, dropping cadrat/zone options, dialect-specific
-  modifier renaming...) that turns that AST into a `TopItemList`.
-- **Lowest level:** if you don't want a `TopItemList` and not even the AST,
-  but want to drive your own builder straight from the grammar, use
-  `MDCParserFacade` with an `MDCBuilder` implementation (see
-  `jsesh.model.api.MDCBuilder` / `MDCBuilderAdapter`; `jsesh.parser.ast.AstBuilder`
-  is itself one such implementation, the one `MDCParserAstGenerator` uses).
+  modifier renaming...) that turns that AST into a `TopItemList`. Both are
+  backed by the same hand-written parser, `jsesh.parser.handmade.MDCHandmadeParser`.
 
 ## 8. Use case: read and write `.gly` documents
 
@@ -482,7 +478,8 @@ visitor rather than instanceof-chains.
 - The read-only "shape" of these nodes is also published as interfaces in
   `jsesh.model.api` (`HieroglyphInterface`, `CadratInterface`, …) — useful when
   you want to consume the model without depending on concrete classes, and it is
-  the same vocabulary the `MDCBuilder` speaks.
+  the same vocabulary `jsesh.parser.ast` speaks (each interface is implemented
+  by both a model class and its AST counterpart).
 - Structural edits and higher-level operations live in `jsesh.model.operations`.
 - To be notified of changes, register on the `HieroglyphicTextModel` (§6) or on
   individual elements' observers.
@@ -624,6 +621,7 @@ Runnable examples for several of these live in the `jseshTests` module under
 
 ---
 
-*Build reminder:* the `jsesh` module contains generated parser/lexer sources
-(`MDCParse`, `MDCLex`, `MDCSymbols`). Run `./gradlew build` from the repository
-root before working in an IDE, or those classes will be missing.
+*Build reminder:* the `jsesh` module contains a generated lexer source
+(`MDCLexAux`, from the JFlex spec `jsesh/src/jlex/MDCLexAux.l`). Run
+`./gradlew build` from the repository root before working in an IDE, or that
+class will be missing.

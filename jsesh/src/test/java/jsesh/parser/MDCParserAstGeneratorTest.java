@@ -116,10 +116,9 @@ public class MDCParserAstGeneratorTest {
     }
 
     /**
-     * A hieroglyph's explicit position is attached after the fact by the
-     * parser ({@code setHieroglyphPosition}), via the internal mutable
-     * {@code HieroglyphDraft}; this checks it lands correctly on the
-     * finished, immutable {@link AstHieroglyph} record.
+     * A hieroglyph's explicit position ("{@code {{x,y,scale}}}") is read
+     * as part of the {@code hieroglyph} production; this checks it lands
+     * correctly on the finished, immutable {@link AstHieroglyph} record.
      */
     @Test
     public void testExplicitPosition() throws MDCSyntaxError {

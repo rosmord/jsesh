@@ -42,8 +42,10 @@ import jsesh.parser.lex.MDCCartoucheType;
  * the AST node types), rather than picking apart individual fields as
  * {@link MDCParserAstGeneratorTest} does.
  * <p>Every MDC snippet here was checked directly against the grammar
- * ({@code jsesh/src/jcup/MDCParse.y}) and lexer ({@code jsesh/src/jlex/MDCLexAux.l}),
- * not just against the parser's observed behavior.
+ * (originally {@code jsesh/src/jcup/MDCParse.y}, now
+ * {@link jsesh.parser.handmade.MDCHandmadeParser}) and lexer
+ * ({@code jsesh/src/jlex/MDCLexAux.l}), not just against the parser's
+ * observed behavior.
  */
 public class MDCParserAstSyntaxTest {
 
@@ -52,7 +54,7 @@ public class MDCParserAstSyntaxTest {
     }
 
     /**
-     * {@link MDCParserFacade} defaults to {@code philologyAsSigns = true}
+     * {@link MDCParserAstGenerator} defaults to {@code philologyAsSigns = true}
      * (Winglyph-style: {@code [[}, {@code ]]}, etc. are ordinary sign codes).
      * The philology <em>grouping</em> constructs tested here need it off
      * (tksesh-style), which {@link MDCParserAstGenerator#setPhilologyAsSigns}

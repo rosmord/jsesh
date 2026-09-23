@@ -1,10 +1,9 @@
 package jsesh.parser;
 
 import java.io.Reader;
-import java.io.StringReader;
 
-import jsesh.parser.ast.AstBuilder;
 import jsesh.parser.ast.AstDocument;
+import jsesh.parser.handmade.MDCHandmadeParser;
 
 /**
  * A parser for MdC code which generates a literal AST (see
@@ -16,27 +15,21 @@ import jsesh.parser.ast.AstDocument;
  */
 public class MDCParserAstGenerator {
 
-    private final MDCParserFacade facade;
-
-    public MDCParserAstGenerator() {
-        facade = new MDCParserFacade(new AstBuilder());
-    }
+    private final MDCHandmadeParser parser = new MDCHandmadeParser();
 
     public AstDocument parse(Reader in) throws MDCSyntaxError {
-        facade.parse(in);
-        return ((AstBuilder) facade.getBuilder()).getResult();
+        return parser.parse(in);
     }
 
     public AstDocument parse(String text) throws MDCSyntaxError {
-        facade.parse(new StringReader(text));
-        return ((AstBuilder) facade.getBuilder()).getResult();
+        return parser.parse(text);
     }
 
     /**
      * @return true if we are debugging.
      */
     public boolean isDebug() {
-        return facade.isDebug();
+        return parser.isDebug();
     }
 
     /**
@@ -45,14 +38,14 @@ public class MDCParserAstGenerator {
      * @return true if philological markers are considered as simple signs.
      */
     public boolean isPhilologyAsSigns() {
-        return facade.isPhilologyAsSigns();
+        return parser.isPhilologyAsSigns();
     }
 
     public void setDebug(boolean v) {
-        facade.setDebug(v);
+        parser.setDebug(v);
     }
 
     public void setPhilologyAsSigns(boolean v) {
-        facade.setPhilologyAsSigns(v);
+        parser.setPhilologyAsSigns(v);
     }
 }

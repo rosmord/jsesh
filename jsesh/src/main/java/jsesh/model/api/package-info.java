@@ -1,13 +1,11 @@
 /**
- * Marker interfaces used to build a model from a MDC text.
+ * Marker interfaces shared by the two representations of a parsed MDC text:
+ * the interpreted document model ({@code jsesh.model}) and the literal parse
+ * AST ({@code jsesh.parser.ast}).
  *
- * <p>This package contains a number of interfaces, which are used as
- * <em>markers</em> in combination with the {@code MDCBuilder} interface
- * and the parser, to generate a model from a MDC text.
- *
- * <p>In practice, you write a class that implements {@code MDCBuilder}, and
- * generally creates objects from classes that implement the various
- * interfaces. Have a look at {@code jsesh.parser.ast.AstBuilder} and
- * {@code PrintMDCBuilder} for examples.
+ * <p>Each interface here (e.g. {@code CadratInterface}, {@code HBoxInterface})
+ * is implemented both by a {@code jsesh.model} class and by the corresponding
+ * {@code jsesh.parser.ast} node, letting a handful of structures (mainly the
+ * hieroglyph position/word-ending machinery) stay shared between the two.
  */
 package jsesh.model.api;

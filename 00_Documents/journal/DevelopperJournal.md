@@ -35,6 +35,13 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-09-23
+
+Both very practical and terrifying. Claude has built just the lexer system I wanted it to create, and a handmade parser. I ensured both system gave the same result on the existing files.
+
+I still need to integrate the new lexer.
+
+
 ## 2026-09-16
 
 - developping the circular enclosure `<G-n-h-r:y-n:xAst->`

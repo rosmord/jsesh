@@ -1,6 +1,5 @@
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 import org.gradle.plugins.ide.eclipse.model.Classpath
-import org.qenherkhopeshef.jsesh.gradle.CupTask
 import org.qenherkhopeshef.jsesh.gradle.LexTask
 
 description = "The core JSesh library"
@@ -11,12 +10,11 @@ plugins {
     id("jsesh.java-conventions")
 }
 
-// Directories where CUP and JLex put their generated Java sources
-val cupGenDir = layout.buildDirectory.dir("generated-sources/cup")
+// Directory where JLex puts its generated Java sources
 val lexGenDir = layout.buildDirectory.dir("generated-sources/lex")
 
 dependencies {
-    // Build-time tool: CUP parser generator + JLex lexer generator
+    // Build-time tool: JLex lexer generator
     "cuptools"(project(":cupAndlex"))
 
     implementation(project(":qenherkhopeshefUtils"))
@@ -31,17 +29,6 @@ dependencies {
     }
 }
 
-// Run CUP parser generator on MDCParse.y
-val runCup = tasks.register<CupTask>("runCup") {
-    grammarFile.set(file("src/jcup/MDCParse.y"))
-    parserName.set("MDCParse")
-    symbolsName.set("MDCSymbols")
-    parserPackage.set("jsesh.parser")
-    lexerPackage.set("jsesh.parser.lex")
-    outputDirectory.set(cupGenDir)
-    cupToolsClasspath.from(configurations["cuptools"])
-}
-
 // Run JLex lexer generator on MDCLexAux.l
 val runLex = tasks.register<LexTask>("runLex") {
     lexFile.set(file("src/jlex/MDCLexAux.l"))
@@ -52,16 +39,15 @@ val runLex = tasks.register<LexTask>("runLex") {
 
 sourceSets {
     main {
-        // Add generated source directories so compileJava finds the generated files
+        // Add generated source directory so compileJava finds the generated files
         java {
-            srcDir(cupGenDir)
             srcDir(lexGenDir)
         }
     }
 }
 
 tasks.compileJava {
-    dependsOn(runCup, runLex)
+    dependsOn(runLex)
 }
 
 // Pass the build directory to the tests, so that they can create files there if needed.
