@@ -39,7 +39,9 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 Both very practical and terrifying. Claude has built just the lexer system I wanted it to create, and a handmade parser. I ensured both system gave the same result on the existing files.
 
-I still need to integrate the new lexer.
+I still need to integrate the new lexer...
+
+It has generated a very nice test suite in `JseshTextsParsingTest`, which produces a test for each text in the repository.
 
 
 ## 2026-09-16

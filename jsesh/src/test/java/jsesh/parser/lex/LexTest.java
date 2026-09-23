@@ -19,7 +19,9 @@ import jsesh.model.constants.ToggleType;
  *
  * Each test feeds a snippet of Manuel de Codage to the lexer and checks the
  * token(s) it produces, aiming to cover every construct recognised by
- * {@code MDCLexAux.l} at least once.
+ * {@link jsesh.parser.mdwlexer.MdcLexicon} at least once. {@link MDCLex}
+ * itself is a thin adapter over {@code MdcLexicon}/{@code MdcLexer}, so this
+ * doubles as a regression test for that translation.
  */
 public class LexTest {
 

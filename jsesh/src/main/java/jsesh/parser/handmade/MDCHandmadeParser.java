@@ -58,8 +58,10 @@ import static jsesh.parser.lex.MDCSymbols.*;
  * the {@link jsesh.parser.ast} tree directly (see {@link #parse(String)}).
  * <p>It replaced an earlier CUP-generated parser
  * ({@code jsesh/src/jcup/MDCParse.y}), checked equivalent construct-by-
- * construct before that grammar was retired. It reuses the JLex lexer
- * ({@link MDCLex}) unchanged. The grammar is LALR(1) without conflicts, and
+ * construct before that grammar was retired. It reuses the {@link MDCLex}
+ * lexer adapter unchanged, itself now backed by the hand-written
+ * {@link jsesh.parser.mdwlexer.MdcLexer} rather than the retired
+ * JFlex-generated {@code MDCLexAux}. The grammar is LALR(1) without conflicts, and
  * its left-recursive rules are all plain lists, so one token of lookahead is
  * enough; each method below documents the grammar rule it implements.
  * <p>Any syntax error aborts the parse with an {@link MDCSyntaxError}: there

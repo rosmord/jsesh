@@ -18,9 +18,12 @@ For the `jsesh` module's internal package layering (which package may depend on 
 ./gradlew clean build
 ```
 
-**Important:** The `jsesh` module has generated sources (the JFlex lexer). Always run `./gradlew build` from the root before working in an IDE, or the generated lexer class (`MDCLexAux`) will be missing.
-
-After a fresh `./gradlew build`, if the IDE still shows errors on generated sources, run **Java: Clean Java Language Server Workspace** in VS Code.
+The `jsesh` module's MDC lexer is hand-written (`jsesh.parser.mdwlexer`,
+built on the generic scanner framework in the separate `mdwlexer` module) —
+no generated sources or codegen step remain for it. The JFlex-generated
+`MDCLexAux` and its spec (`jsesh/src/jlex/MDCLexAux.l`) were retired once
+`jsesh.parser.lex.MDCLex` was rewritten as a thin adapter over
+`jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon`.
 
 ## Module Structure
 
@@ -33,8 +36,9 @@ After a fresh `./gradlew build`, if the IDE still shows errors on generated sour
 | `jseshLabels` | i18n labels/resources for all modules |
 | `jseshSearch` | Hieroglyphic search/query functionality |
 | `qenherkhopeshefUtils` | Shared utilities and Swing helpers |
-| `cupAndlex` | CUP (parser generator) and JFlex (lexer). Still carries the old Maven Mojos, compiled `compileOnly`; the Gradle build drives it through `buildSrc` instead |
-| `cupruntime` | CUP parser runtime |
+| `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
+| `cupAndlex` | CUP (parser generator) and JFlex (lexer) tooling, still carrying the old Maven Mojos compiled `compileOnly`. No module applies it any more since `jsesh`'s JFlex-generated `MDCLexAux` was retired in favor of `mdwlexer` — kept in case a future `.y`/`.l` grammar needs it |
+| `cupruntime` | CUP parser runtime (still used: `jsesh.parser.lex.MDCLex` implements `java_cup.runtime.Scanner`) |
 | `signInfoAppli` | Sign information editor — entry point: `jsesh.utilitysoftwares.signinfoeditor.Main` |
 | `jseshTests` | Demo programs showing library usage (not formal unit tests) |
 
@@ -103,7 +107,7 @@ TopItemList                  ← document root (implements MDCFileInterface)
 ### MDC Parser (`jsesh` module)
 
 - Grammar: hand-written recursive descent parser, `jsesh.parser.handmade.MDCHandmadeParser`, which builds a literal AST (`jsesh.parser.ast.AstDocument`). It replaced an earlier CUP-generated parser (`jsesh/src/jcup/MDCParse.y`, retired once checked equivalent construct-by-construct).
-- Lexer source: `jsesh/src/jlex/MDCLexAux.l` (JFlex spec) — still generated, into `jsesh/build/generated-sources/lex`, package `jsesh.parser.lex`, via the `LexTask` defined in `buildSrc`. `jsesh.parser.lex.MDCSymbols` (the lexer/parser's shared token-id constants) is hand-written now, not generated.
+- Lexer: hand-written, `jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module. `jsesh.parser.lex.MDCLex` is a thin adapter over it, translating `MdcSymbol` into the `java_cup.runtime.Symbol` and value types (`MDCSign`, `MDCCartouche`...) `MDCHandmadeParser` expects — so the parser and `jsesh.parser.lex.MDCSymbols` (the shared token-id constants, hand-written, not generated) didn't need to change when the JFlex-generated `MDCLexAux` (formerly `jsesh/src/jlex/MDCLexAux.l`) was retired.
 - High-level entry point: `jsesh.parser.MDCParserModelGenerator` (returns a `TopItemList`)
 - Lower-level entry point: `jsesh.parser.MDCParserAstGenerator` (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
 
@@ -146,10 +150,6 @@ repository) that has exactly one valid instance for the whole JVM. Don't
 ### i18n
 
 All user-visible strings live in `jseshLabels`. When adding UI text, add it there rather than inline.
-
-## Key IDE / Compilation Quirk
-
-If incremental builds complain that `MDCLexAux` doesn't exist after an initial successful build, delete the `.classpath` and `.project` files in the `jsesh` folder and rebuild. This is a known Eclipse/VS Code artifact from the generated-sources path.
 
 ## Bash commands 
 

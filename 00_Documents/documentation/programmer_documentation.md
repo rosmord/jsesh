@@ -621,7 +621,6 @@ Runnable examples for several of these live in the `jseshTests` module under
 
 ---
 
-*Build reminder:* the `jsesh` module contains a generated lexer source
-(`MDCLexAux`, from the JFlex spec `jsesh/src/jlex/MDCLexAux.l`). Run
-`./gradlew build` from the repository root before working in an IDE, or that
-class will be missing.
+*Build note:* the `jsesh` module's MDC lexer (`jsesh.parser.mdwlexer.MdcLexer`/
+`MdcLexicon`) is hand-written, not generated — there is no codegen step to
+run before opening the project in an IDE.

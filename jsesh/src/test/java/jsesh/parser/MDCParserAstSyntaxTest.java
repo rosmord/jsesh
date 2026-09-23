@@ -44,7 +44,8 @@ import jsesh.parser.lex.MDCCartoucheType;
  * <p>Every MDC snippet here was checked directly against the grammar
  * (originally {@code jsesh/src/jcup/MDCParse.y}, now
  * {@link jsesh.parser.handmade.MDCHandmadeParser}) and lexer
- * ({@code jsesh/src/jlex/MDCLexAux.l}), not just against the parser's
+ * ({@link jsesh.parser.mdwlexer.MdcLexicon}, formerly the retired
+ * {@code jsesh/src/jlex/MDCLexAux.l}), not just against the parser's
  * observed behavior.
  */
 public class MDCParserAstSyntaxTest {

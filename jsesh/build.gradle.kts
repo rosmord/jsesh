@@ -1,22 +1,14 @@
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 import org.gradle.plugins.ide.eclipse.model.Classpath
-import org.qenherkhopeshef.jsesh.gradle.LexTask
 
 description = "The core JSesh library"
 
 plugins {
     java
-    id("org.qenherkhopeshef.jsesh.cupandlex")
     id("jsesh.java-conventions")
 }
 
-// Directory where JLex puts its generated Java sources
-val lexGenDir = layout.buildDirectory.dir("generated-sources/lex")
-
 dependencies {
-    // Build-time tool: JLex lexer generator
-    "cuptools"(project(":cupAndlex"))
-
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
     implementation(project(":cupruntime"))
@@ -28,27 +20,6 @@ dependencies {
             classifier = "swing"
         }
     }
-}
-
-// Run JLex lexer generator on MDCLexAux.l
-val runLex = tasks.register<LexTask>("runLex") {
-    lexFile.set(file("src/jlex/MDCLexAux.l"))
-    lexerPackage.set("jsesh.parser.lex")
-    outputDirectory.set(lexGenDir)
-    lexToolsClasspath.from(configurations["cuptools"])
-}
-
-sourceSets {
-    main {
-        // Add generated source directory so compileJava finds the generated files
-        java {
-            srcDir(lexGenDir)
-        }
-    }
-}
-
-tasks.compileJava {
-    dependsOn(runLex)
 }
 
 // Pass the build directory to the tests, so that they can create files there if needed.
