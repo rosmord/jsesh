@@ -58,4 +58,37 @@ public class ShadingCode {
 		}
 		return buff.toString();
 	}
+
+	/**
+	 * The inverse of {@link #toString(String, int)}'s digit suffix: reads a
+	 * string of {@code '1'}, {@code '2'}, {@code '3'}, {@code '4'} characters
+	 * (as in the MdC {@code "#1234"} shading syntax) and or's together the
+	 * matching {@link #TOP_START}/{@link #TOP_END}/{@link #BOTTOM_START}/
+	 * {@link #BOTTOM_END} bits. Any other character is ignored.
+	 *
+	 * @param digits the digit characters to decode (a marker such as
+	 *            {@code '#'}, if present, should already be stripped).
+	 * @return the or-combination of the matching shading bits.
+	 */
+	public static final int parse(String digits) {
+		int sh = NONE;
+		for (int i = 0; i < digits.length(); i++) {
+			switch (digits.charAt(i)) {
+			case '1':
+				sh |= TOP_START;
+				break;
+			case '2':
+				sh |= TOP_END;
+				break;
+			case '3':
+				sh |= BOTTOM_START;
+				break;
+			case '4':
+				sh |= BOTTOM_END;
+				break;
+			default:
+			}
+		}
+		return sh;
+	}
 }

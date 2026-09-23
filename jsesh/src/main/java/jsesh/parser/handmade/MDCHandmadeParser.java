@@ -3,9 +3,11 @@ package jsesh.parser.handmade;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.MDCSyntaxError;
@@ -40,29 +42,36 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZoneStart;
-import jsesh.parser.lex.MDCAlphabeticText;
-import jsesh.parser.lex.MDCCartouche;
-import jsesh.parser.lex.MDCHRule;
-import jsesh.parser.lex.MDCLex;
-import jsesh.parser.lex.MDCModifier;
-import jsesh.parser.lex.MDCShading;
-import jsesh.parser.lex.MDCSign;
-import jsesh.parser.lex.MDCStartOldCartouche;
-import jsesh.parser.lex.MDCSubType;
-import jsesh.parser.lex.MDCToken;
+import jsesh.parser.mdwlexer.AlphabeticText;
+import jsesh.parser.mdwlexer.Cartouche;
+import jsesh.parser.mdwlexer.HRule;
+import jsesh.parser.mdwlexer.MdcLexer;
+import jsesh.parser.mdwlexer.MdcLexicon;
+import jsesh.parser.mdwlexer.MdcSign;
+import jsesh.parser.mdwlexer.MdcSymbol;
+import jsesh.parser.mdwlexer.MdcSymbolCode;
+import jsesh.parser.mdwlexer.Modifier;
+import jsesh.parser.mdwlexer.OldCartoucheStart;
+import jsesh.parser.mdwlexer.PhilologyKind;
+import jsesh.parser.mdwlexer.SignSubType;
 
-import static jsesh.parser.lex.MDCSymbols.*;
+import static jsesh.parser.mdwlexer.MdcSymbolCode.*;
 
 /**
  * Hand-written recursive descent parser for Manuel de Codage text, building
  * the {@link jsesh.parser.ast} tree directly (see {@link #parse(String)}).
  * <p>It replaced an earlier CUP-generated parser
  * ({@code jsesh/src/jcup/MDCParse.y}), checked equivalent construct-by-
- * construct before that grammar was retired. It reuses the {@link MDCLex}
- * lexer adapter unchanged, itself now backed by the hand-written
- * {@link jsesh.parser.mdwlexer.MdcLexer} rather than the retired
- * JFlex-generated {@code MDCLexAux}. The grammar is LALR(1) without conflicts, and
- * its left-recursive rules are all plain lists, so one token of lookahead is
+ * construct before that grammar was retired. It drives the hand-written
+ * {@link jsesh.parser.mdwlexer.MdcLexer} (itself the replacement for the
+ * retired JFlex-generated {@code MDCLexAux}) directly, translating each
+ * {@link jsesh.parser.mdwlexer.MdcSymbol} it reads into the
+ * {@link jsesh.parser.ast} tree. The handful of lexeme-to-model-code mappings
+ * ({@link #toSignTypeCode}, {@link #philologySubCode}, {@link #toToggleType})
+ * live here, not in {@code jsesh.parser.mdwlexer}, since they depend on
+ * {@code jsesh.model.constants} and the scanner is deliberately
+ * self-contained. The grammar is LALR(1) without conflicts, and its
+ * left-recursive rules are all plain lists, so one token of lookahead is
  * enough; each method below documents the grammar rule it implements.
  * <p>Any syntax error aborts the parse with an {@link MDCSyntaxError}: there
  * is no error recovery.
@@ -76,19 +85,28 @@ public class MDCHandmadeParser {
     private boolean debug = false;
     private boolean philologyAsSigns = true;
 
-    private MDCLex lexer;
+    private MdcLexer lexer;
 
     /**
-     * The current lookahead token.
+     * The source text, as code points, kept only to compute the line number
+     * of a given position for {@link #error(String)} ({@link MdcLexer} itself
+     * only tracks a flat code-point offset, not lines).
      */
-    private MDCToken token;
+    private int[] codePoints;
+
+    /**
+     * The current lookahead symbol.
+     */
+    private MdcSymbol token;
 
     public AstDocument parse(String text) throws MDCSyntaxError {
         return parse(new StringReader(text));
     }
 
     public AstDocument parse(Reader in) throws MDCSyntaxError {
-        lexer = new MDCLex(in);
+        String source = readAll(in);
+        codePoints = source.codePoints().toArray();
+        lexer = MdcLexicon.instance().newLexer(source);
         lexer.setPhilologyAsSigns(philologyAsSigns);
         lexer.setDebug(debug);
         try {
@@ -103,6 +121,7 @@ public class MDCHandmadeParser {
         } finally {
             lexer = null;
             token = null;
+            codePoints = null;
         }
     }
 
@@ -129,32 +148,69 @@ public class MDCHandmadeParser {
     }
 
     // ------------------------------------------------------------------
+    // Source buffering / error reporting
+    // ------------------------------------------------------------------
+
+    private static String readAll(Reader in) {
+        StringBuilder builder = new StringBuilder();
+        char[] buffer = new char[4096];
+        try {
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                builder.append(buffer, 0, read);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        return builder.toString();
+    }
+
+    /**
+     * The 0-based line number of the given code-point position, counting
+     * newlines the way the original JFlex lexer's {@code %line} did.
+     */
+    private int lineOf(int codePointPos) {
+        int line = 0;
+        int limit = Math.min(codePointPos, codePoints.length);
+        for (int i = 0; i < limit; i++) {
+            if (codePoints[i] == '\n') {
+                line++;
+            }
+        }
+        return line;
+    }
+
+    private MDCSyntaxError error(String message) {
+        int line = lineOf(token.position());
+        int charPos = token.position();
+        String text = token.text();
+        String res = message + " line " + line + " char " + charPos + " at token '" + text + "'";
+        return new MDCSyntaxError(res, line, charPos, text);
+    }
+
+    // ------------------------------------------------------------------
     // Token handling
     // ------------------------------------------------------------------
 
-    private void advance() throws IOException {
-        token = lexer.next_token();
+    private void advance() {
+        token = lexer.nextSymbol().orElseGet(() -> new MdcSymbol(EOF, null, "", lexer.position()));
     }
 
-    private boolean at(int sym) {
-        return token.sym == sym;
+    private boolean at(MdcSymbolCode sym) {
+        return token.code() == sym;
     }
 
     /**
      * Checks that the current token is of the given type, consumes it,
      * and returns its value.
      */
-    private Object expect(int sym, String what) throws IOException, MDCSyntaxError {
+    private Object expect(MdcSymbolCode sym, String what) throws MDCSyntaxError {
         if (!at(sym)) {
             throw error("expected " + what);
         }
-        Object value = token.value;
+        Object value = token.value();
         advance();
         return value;
-    }
-
-    private MDCSyntaxError error(String message) {
-        return lexer.buildError(message);
     }
 
     private boolean atHieroglyphStart() {
@@ -162,8 +218,8 @@ public class MDCHandmadeParser {
     }
 
     private boolean atCadratStart() {
-        return atHieroglyphStart() || at(BEGINPHIL) || at(BPAR)
-                || at(BEGINCARTOUCHE) || at(BEGINOLDCARTOUCHE) || at(CADRAT);
+        return atHieroglyphStart() || at(BEGIN_PHIL) || at(LPAREN)
+                || at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE) || at(QUADRAT);
     }
 
     // ------------------------------------------------------------------
@@ -181,51 +237,51 @@ public class MDCHandmadeParser {
      * The final optSeparator is the one consumed by the last loop iteration,
      * when it isn't followed by an item.
      */
-    private AstDocument parseMdcFile() throws IOException, MDCSyntaxError {
+    private AstDocument parseMdcFile() throws MDCSyntaxError {
         List<AstNode> items = new ArrayList<>();
         while (true) {
             skipOptSeparator();
             AstNode item;
-            switch (token.sym) {
+            switch (token.code()) {
                 case TOGGLE:
-                    item = new AstToggle((ToggleType) token.value);
+                    item = new AstToggle(toToggleType((jsesh.parser.mdwlexer.ToggleType) token.value()));
                     advance();
                     break;
-                case STARTHIEROGLYPHS:
+                case START_HIEROGLYPHS:
                     item = new AstStartHieroglyphicText();
                     advance();
                     break;
                 case TEXT:
-                    item = buildText((MDCAlphabeticText) token.value);
+                    item = buildText((AlphabeticText) token.value());
                     advance();
                     break;
-                case TEXTSUPER:
-                    item = new AstSuperscript((String) token.value);
+                case TEXT_SUPER:
+                    item = new AstSuperscript((String) token.value());
                     advance();
                     break;
-                case LINEEND:
-                    item = new AstLineBreak((Integer) token.value);
+                case LINE_END:
+                    item = new AstLineBreak((Integer) token.value());
                     advance();
                     break;
-                case PAGEEND:
+                case PAGE_END:
                     item = new AstPageBreak();
                     advance();
                     break;
-                case TABSTOP:
-                    item = new AstTabStop((Integer) token.value);
+                case TAB_STOP:
+                    item = new AstTabStop((Integer) token.value());
                     advance();
                     break;
                 case TABBING:
                     advance();
                     item = new AstTabbing(parseOptionList());
                     break;
-                case TABBINGCLEAR:
+                case TABBING_CLEAR:
                     item = new AstTabbingClear();
                     advance();
                     break;
                 case HRULE: {
-                    MDCHRule rule = (MDCHRule) token.value;
-                    item = new AstHRule(rule.getLineType(), rule.getStartPos(), rule.getEndPos());
+                    HRule rule = (HRule) token.value();
+                    item = new AstHRule(rule.type(), rule.start(), rule.end());
                     advance();
                     break;
                 }
@@ -255,14 +311,14 @@ public class MDCHandmadeParser {
      * optSeparator ::= ε | SEPARATOR
      * </pre>
      */
-    private void skipOptSeparator() throws IOException {
+    private void skipOptSeparator() {
         if (at(SEPARATOR)) {
             advance();
         }
     }
 
-    private static AstAlphabeticText buildText(MDCAlphabeticText text) {
-        return new AstAlphabeticText(text.getScriptCode(), text.getText());
+    private static AstAlphabeticText buildText(AlphabeticText text) {
+        return new AstAlphabeticText(text.code(), text.text());
     }
 
     /**
@@ -270,10 +326,10 @@ public class MDCHandmadeParser {
      * zoneStart ::= ZONE | ZONE optionList
      * </pre>
      */
-    private AstZoneStart parseZoneStart() throws IOException, MDCSyntaxError {
+    private AstZoneStart parseZoneStart() throws MDCSyntaxError {
         expect(ZONE, "zone");
         AstOptionList options = null;
-        if (at(OPENBRACE)) {
+        if (at(OPEN_BRACE)) {
             options = parseOptionList();
         }
         return new AstZoneStart(options);
@@ -286,17 +342,17 @@ public class MDCHandmadeParser {
      * option ::= IDENTIFIER | IDENTIFIER EQUAL IDENTIFIER | IDENTIFIER EQUAL INTEGER
      * </pre>
      */
-    private AstOptionList parseOptionList() throws IOException, MDCSyntaxError {
-        expect(OPENBRACE, "'['");
+    private AstOptionList parseOptionList() throws MDCSyntaxError {
+        expect(OPEN_BRACE, "'['");
         List<AstOption> options = new ArrayList<>();
         while (true) {
             String name = (String) expect(IDENTIFIER, "option name");
             if (at(EQUAL)) {
                 advance();
                 if (at(IDENTIFIER)) {
-                    options.add(AstOption.of(name, (String) token.value));
+                    options.add(AstOption.of(name, (String) token.value()));
                 } else if (at(INTEGER)) {
-                    options.add(AstOption.of(name, (Integer) token.value));
+                    options.add(AstOption.of(name, (Integer) token.value()));
                 } else {
                     throw error("expected option value");
                 }
@@ -309,7 +365,7 @@ public class MDCHandmadeParser {
             }
             advance();
         }
-        expect(CLOSEBRACE, "']'");
+        expect(CLOSE_BRACE, "']'");
         return AstOptionList.of(options.toArray(new AstOption[0]));
     }
 
@@ -323,11 +379,11 @@ public class MDCHandmadeParser {
      * optShading ::= ε | SHADING
      * </pre>
      */
-    private AstCadrat parseCadratWithShading() throws IOException, MDCSyntaxError {
+    private AstCadrat parseCadratWithShading() throws MDCSyntaxError {
         AstCadrat.Builder builder = AstCadrat.builder();
         parseCadrat(builder);
         if (at(SHADING)) {
-            builder.shading(((MDCShading) token.value).getShading());
+            builder.shading(parseShadingDigits((String) token.value()));
             advance();
         }
         return builder.build();
@@ -340,13 +396,13 @@ public class MDCHandmadeParser {
      *          | CADRAT BPAR verticalStack EPAR optionList
      * </pre>
      */
-    private void parseCadrat(AstCadrat.Builder builder) throws IOException, MDCSyntaxError {
-        if (at(CADRAT)) {
+    private void parseCadrat(AstCadrat.Builder builder) throws MDCSyntaxError {
+        if (at(QUADRAT)) {
             advance();
-            expect(BPAR, "'('");
+            expect(LPAREN, "'('");
             parseVerticalStack(builder);
-            expect(EPAR, "')'");
-            if (at(OPENBRACE)) {
+            expect(RPAREN, "')'");
+            if (at(OPEN_BRACE)) {
                 builder.options(parseOptionList());
             }
         } else {
@@ -359,7 +415,7 @@ public class MDCHandmadeParser {
      * verticalStack ::= horizontalList | verticalStack COLON horizontalList
      * </pre>
      */
-    private void parseVerticalStack(AstCadrat.Builder builder) throws IOException, MDCSyntaxError {
+    private void parseVerticalStack(AstCadrat.Builder builder) throws MDCSyntaxError {
         builder.hBox(parseHorizontalList());
         while (at(COLON)) {
             advance();
@@ -372,7 +428,7 @@ public class MDCHandmadeParser {
      * horizontalList ::= horizontalListElement | horizontalList STAR horizontalListElement
      * </pre>
      */
-    private AstHBox parseHorizontalList() throws IOException, MDCSyntaxError {
+    private AstHBox parseHorizontalList() throws MDCSyntaxError {
         List<AstHorizontalListElement> elements = new ArrayList<>();
         elements.add(parseHorizontalListElement());
         while (at(STAR)) {
@@ -392,14 +448,14 @@ public class MDCHandmadeParser {
      * A leading hieroglyph is parsed first; the next token then tells which
      * construct it starts.
      */
-    private AstHorizontalListElement parseHorizontalListElement() throws IOException, MDCSyntaxError {
-        if (at(BEGINCARTOUCHE) || at(BEGINOLDCARTOUCHE)) {
+    private AstHorizontalListElement parseHorizontalListElement() throws MDCSyntaxError {
+        if (at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE)) {
             return parseCartouche();
         }
         AstInnerGroup first;
         if (atHieroglyphStart()) {
             AstHieroglyph h = parseHieroglyph();
-            if (at(LIGAFTER)) {
+            if (at(LIG_AFTER)) {
                 advance();
                 return new AstComplexLigature(null, h, parseInnerGroup());
             }
@@ -407,11 +463,11 @@ public class MDCHandmadeParser {
         } else {
             first = parseInnerGroup();
         }
-        if (at(LIGBEFORE)) {
+        if (at(LIG_BEFORE)) {
             advance();
             AstHieroglyph middle = parseHieroglyph();
             AstInnerGroup after = null;
-            if (at(LIGAFTER)) {
+            if (at(LIG_AFTER)) {
                 advance();
                 after = parseInnerGroup();
             }
@@ -425,12 +481,12 @@ public class MDCHandmadeParser {
      * innerGroup ::= ligature | hieroglyph | overwrite | philology | subgroup | absoluteGroup
      * </pre>
      */
-    private AstInnerGroup parseInnerGroup() throws IOException, MDCSyntaxError {
+    private AstInnerGroup parseInnerGroup() throws MDCSyntaxError {
         if (atHieroglyphStart()) {
             return continueInnerGroup(parseHieroglyph());
-        } else if (at(BEGINPHIL)) {
+        } else if (at(BEGIN_PHIL)) {
             return parsePhilology();
-        } else if (at(BPAR)) {
+        } else if (at(LPAREN)) {
             return parseSubgroup();
         } else {
             throw error("unexpected or unknown item.");
@@ -445,8 +501,8 @@ public class MDCHandmadeParser {
      * overwrite ::= hieroglyph OVERWRITE hieroglyph
      * </pre>
      */
-    private AstInnerGroup continueInnerGroup(AstHieroglyph first) throws IOException, MDCSyntaxError {
-        switch (token.sym) {
+    private AstInnerGroup continueInnerGroup(AstHieroglyph first) throws MDCSyntaxError {
+        switch (token.code()) {
             case AMP: {
                 List<AstHieroglyph> signs = new ArrayList<>();
                 signs.add(first);
@@ -456,10 +512,10 @@ public class MDCHandmadeParser {
                 }
                 return AstLigature.of(signs.toArray(new AstHieroglyph[0]));
             }
-            case DOUBLEAMP: {
+            case DOUBLE_AMP: {
                 List<AstHieroglyph> signs = new ArrayList<>();
                 signs.add(first);
-                while (at(DOUBLEAMP)) {
+                while (at(DOUBLE_AMP)) {
                     advance();
                     signs.add(parseHieroglyph());
                 }
@@ -478,11 +534,11 @@ public class MDCHandmadeParser {
      * philology ::= BEGINPHIL basicitems optSeparator ENDPHIL
      * </pre>
      */
-    private AstPhilology parsePhilology() throws IOException, MDCSyntaxError {
-        MDCSubType opening = (MDCSubType) expect(BEGINPHIL, "philology start");
+    private AstPhilology parsePhilology() throws MDCSyntaxError {
+        PhilologyKind opening = (PhilologyKind) expect(BEGIN_PHIL, "philology start");
         AstBasicItemList content = parseBasicItems();
-        MDCSubType closing = (MDCSubType) expect(ENDPHIL, "philology end");
-        return new AstPhilology(opening.getSubType(), closing.getSubType(), content);
+        PhilologyKind closing = (PhilologyKind) expect(END_PHIL, "philology end");
+        return new AstPhilology(philologySubCode(opening), philologySubCode(closing), content);
     }
 
     /**
@@ -490,10 +546,10 @@ public class MDCHandmadeParser {
      * subgroup ::= BPAR basicitems optSeparator EPAR
      * </pre>
      */
-    private AstSubCadrat parseSubgroup() throws IOException, MDCSyntaxError {
-        expect(BPAR, "'('");
+    private AstSubCadrat parseSubgroup() throws MDCSyntaxError {
+        expect(LPAREN, "'('");
         AstBasicItemList content = parseBasicItems();
-        expect(EPAR, "')'");
+        expect(RPAREN, "')'");
         return new AstSubCadrat(content);
     }
 
@@ -505,21 +561,21 @@ public class MDCHandmadeParser {
      * As in the CUP grammar, the modifiers after a cartouche are parsed, but
      * not kept.
      */
-    private AstCartouche parseCartouche() throws IOException, MDCSyntaxError {
-        if (at(BEGINCARTOUCHE)) {
-            MDCCartouche start = (MDCCartouche) token.value;
+    private AstCartouche parseCartouche() throws MDCSyntaxError {
+        if (at(BEGIN_CARTOUCHE)) {
+            Cartouche start = (Cartouche) token.value();
             advance();
             AstBasicItemList content = parseBasicItems();
-            MDCCartouche end = (MDCCartouche) expect(ENDCARTOUCHE, "end of cartouche");
+            Cartouche end = (Cartouche) expect(END_CARTOUCHE, "end of cartouche");
             parseModifiers();
-            return new AstCartouche(start.getCartoucheType(), start.getPart(), end.getPart(), content);
+            return new AstCartouche(start.type(), start.part(), end.part(), content);
         } else {
-            MDCStartOldCartouche start = (MDCStartOldCartouche) expect(BEGINOLDCARTOUCHE, "cartouche");
+            OldCartoucheStart start = (OldCartoucheStart) expect(BEGIN_OLD_CARTOUCHE, "cartouche");
             AstBasicItemList content = parseBasicItems();
-            expect(ENDCARTOUCHE, "end of cartouche");
+            expect(END_CARTOUCHE, "end of cartouche");
             int leftPart;
             int rightPart;
-            switch (start.getPart()) {
+            switch (Character.toLowerCase(start.part())) {
                 case 'b':
                     leftPart = 1;
                     rightPart = 0;
@@ -537,7 +593,7 @@ public class MDCHandmadeParser {
                     leftPart = 1;
                     rightPart = 2;
             }
-            return new AstCartouche(start.getCartoucheType(), leftPart, rightPart, content);
+            return new AstCartouche(Character.toLowerCase(start.code()), leftPart, rightPart, content);
         }
     }
 
@@ -549,18 +605,18 @@ public class MDCHandmadeParser {
      * Also consumes the optSeparator which follows basicitems in all rules
      * using it.
      */
-    private AstBasicItemList parseBasicItems() throws IOException, MDCSyntaxError {
+    private AstBasicItemList parseBasicItems() throws MDCSyntaxError {
         List<AstNode> items = new ArrayList<>();
         while (true) {
             skipOptSeparator();
             if (at(TEXT)) {
-                items.add(buildText((MDCAlphabeticText) token.value));
+                items.add(buildText((AlphabeticText) token.value()));
                 advance();
-            } else if (at(STARTHIEROGLYPHS)) {
+            } else if (at(START_HIEROGLYPHS)) {
                 items.add(new AstStartHieroglyphicText());
                 advance();
             } else if (at(TOGGLE)) {
-                items.add(new AstToggle((ToggleType) token.value));
+                items.add(new AstToggle(toToggleType((jsesh.parser.mdwlexer.ToggleType) token.value())));
                 advance();
             } else if (atCadratStart()) {
                 items.add(parseCadratWithShading());
@@ -583,36 +639,36 @@ public class MDCHandmadeParser {
      * optWordEnd ::= ε | WORDEND | SENTENCEEND
      * </pre>
      */
-    private AstHieroglyph parseHieroglyph() throws IOException, MDCSyntaxError {
+    private AstHieroglyph parseHieroglyph() throws MDCSyntaxError {
         boolean isGrammar = false;
         if (at(GRAMMAR)) {
             isGrammar = true;
             advance();
         }
-        MDCSign sign = (MDCSign) expect(HIEROGLYPH, "sign code");
+        MdcSign sign = (MdcSign) expect(HIEROGLYPH, "sign code");
         AstModifierList modifiers = parseModifiers();
         // Default position, as in the CUP grammar.
         int x = 0;
         int y = 0;
         int scale = 100;
-        if (at(DOUBLELEFTCURLY)) {
+        if (at(DOUBLE_LEFT_CURLY)) {
             advance();
             x = (Integer) expect(INTEGER, "integer");
             expect(COMMA, "','");
             y = (Integer) expect(INTEGER, "integer");
             expect(COMMA, "','");
             scale = (Integer) expect(INTEGER, "integer");
-            expect(DOUBLERIGHTCURLY, "'}}'");
+            expect(DOUBLE_RIGHT_CURLY, "'}}'");
         }
         WordEndingCode endingCode = WordEndingCode.NONE;
-        if (at(WORDEND)) {
+        if (at(WORD_END)) {
             endingCode = WordEndingCode.WORD_END;
             advance();
-        } else if (at(SENTENCEEND)) {
+        } else if (at(SENTENCE_END)) {
             endingCode = WordEndingCode.SENTENCE_END;
             advance();
         }
-        return new AstHieroglyph(isGrammar, sign.getType(), sign.getString(), modifiers, endingCode, x, y,
+        return new AstHieroglyph(isGrammar, toSignTypeCode(sign.subtype()), sign.text(), modifiers, endingCode, x, y,
                 scale);
     }
 
@@ -621,13 +677,98 @@ public class MDCHandmadeParser {
      * modifiers ::= ε | modifiers MODIFIER
      * </pre>
      */
-    private AstModifierList parseModifiers() throws IOException {
+    private AstModifierList parseModifiers() {
         List<AstModifier> modifiers = new ArrayList<>();
         while (at(MODIFIER)) {
-            MDCModifier modifier = (MDCModifier) token.value;
-            modifiers.add(new AstModifier(modifier.getName(), modifier.getIntValue()));
+            Modifier modifier = (Modifier) token.value();
+            modifiers.add(new AstModifier(modifier.name(), modifier.value()));
             advance();
         }
         return AstModifierList.of(modifiers.toArray(new AstModifier[0]));
+    }
+
+    // ------------------------------------------------------------------
+    // Lexical value -> model-code translation
+    //
+    // These depend on jsesh.model.constants, so they live here rather than in
+    // jsesh.parser.mdwlexer, which is deliberately self-contained.
+    // ------------------------------------------------------------------
+
+    /**
+     * The {@link SymbolCodes} constant for a hieroglyph's subtype: the plain
+     * subtypes map directly, while a philological bracket read as a sign
+     * (philologyAsSigns mode) reproduces the original lexer's
+     * {@code subtype * 2} / {@code subtype * 2 + 1} (begin/end) scheme.
+     */
+    private static int toSignTypeCode(SignSubType subtype) {
+        return switch (subtype) {
+            case SignSubType.Plain plain -> switch (plain) {
+                case MDC_CODE -> SymbolCodes.MDCCODE;
+                case RED_POINT -> SymbolCodes.REDPOINT;
+                case BLACK_POINT -> SymbolCodes.BLACKPOINT;
+                case SMALL_TEXT -> SymbolCodes.SMALLTEXT;
+                case HALF_SPACE -> SymbolCodes.HALFSPACE;
+                case FULL_SPACE -> SymbolCodes.FULLSPACE;
+                case FULL_SHADE -> SymbolCodes.FULLSHADE;
+                case VERTICAL_SHADE -> SymbolCodes.VERTICALSHADE;
+                case QUARTER_SHADE -> SymbolCodes.QUATERSHADE;
+                case HORIZONTAL_SHADE -> SymbolCodes.HORIZONTALSHADE;
+            };
+            case SignSubType.Philology(PhilologyKind kind, boolean begin) -> {
+                int base = philologySubCode(kind);
+                yield begin ? base * 2 : base * 2 + 1;
+            }
+        };
+    }
+
+    /** The {@link SymbolCodes} philology sub-type constant (50-56) for a bracket kind. */
+    private static int philologySubCode(PhilologyKind kind) {
+        return switch (kind) {
+            case ERASED_SIGNS -> SymbolCodes.ERASEDSIGNS;
+            case EDITOR_ADDITION -> SymbolCodes.EDITORADDITION;
+            case EDITOR_SUPERFLUOUS -> SymbolCodes.EDITORSUPERFLUOUS;
+            case PREVIOUSLY_READABLE -> SymbolCodes.PREVIOUSLYREADABLE;
+            case SCRIBE_ADDITION -> SymbolCodes.SCRIBEADDITION;
+            case MINOR_ADDITION -> SymbolCodes.MINORADDITION;
+            case DUBIOUS -> SymbolCodes.DUBIOUS;
+        };
+    }
+
+    private static ToggleType toToggleType(jsesh.parser.mdwlexer.ToggleType toggle) {
+        return switch (toggle) {
+            case SHADING_TOGGLE -> ToggleType.SHADINGTOGGLE;
+            case SHADING_ON -> ToggleType.SHADINGON;
+            case SHADING_OFF -> ToggleType.SHADINGOFF;
+            case RED -> ToggleType.RED;
+            case BLACK -> ToggleType.BLACK;
+            case BLACK_RED -> ToggleType.BLACKRED;
+            case LACUNA -> ToggleType.LACUNA;
+            case LINE_LACUNA -> ToggleType.LINELACUNA;
+            case OMIT -> ToggleType.OMMIT;
+        };
+    }
+
+    /**
+     * Decodes a shading marker's digits (e.g. {@code "1234"} from
+     * {@code "#1234"}) into an or-combination of the {@code jsesh.model.ShadingCode}
+     * bits ({@code TOP_START=1, TOP_END=2, BOTTOM_START=4, BOTTOM_END=8}).
+     * Kept as a local copy rather than a call into {@code jsesh.model}: see
+     * {@code 00_Documents/documentation/jsesh-package-dependencies.md}, which
+     * tracks {@code jsesh.parser <-> jsesh.model} as the one remaining
+     * mutual-dependency pair in the module and asks that it not grow.
+     */
+    private static int parseShadingDigits(String digits) {
+        int sh = 0;
+        for (int i = 0; i < digits.length(); i++) {
+            switch (digits.charAt(i)) {
+                case '1' -> sh |= 1;
+                case '2' -> sh |= 2;
+                case '3' -> sh |= 4;
+                case '4' -> sh |= 8;
+                default -> {
+                }
+            }
+        }
+        return sh;
     }
 }

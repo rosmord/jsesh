@@ -222,7 +222,8 @@ public final class MdcLexer {
             case OVERWRITE_DOUBLE_HASH -> emit(MdcSymbolCode.OVERWRITE, null, text, start);
             case AMP -> emit(MdcSymbolCode.AMP, null, text, start);
             case GRAMMAR_EQUALS -> emit(MdcSymbolCode.GRAMMAR, null, text, start);
-            case MODIFIER_QUESTION, MODIFIER_R, MODIFIER_GENERIC -> emit(MdcSymbolCode.MODIFIER, text, text, start);
+            case MODIFIER_QUESTION, MODIFIER_R, MODIFIER_GENERIC ->
+                    emit(MdcSymbolCode.MODIFIER, parseModifier(text), text, start);
             case SIGN_BACKTICK, SIGN_CODE -> sign(SignSubType.Plain.MDC_CODE, text, start);
             case SIGN_RED_POINT -> sign(SignSubType.Plain.RED_POINT, text, start);
             case SIGN_BLACK_POINT -> sign(SignSubType.Plain.BLACK_POINT, text, start);
@@ -278,6 +279,21 @@ public final class MdcLexer {
         int start = Integer.parseInt(text.substring(2, commaIndex));
         int end = Integer.parseInt(text.substring(commaIndex + 1, text.indexOf('}')));
         return new HRule(type, start, end);
+    }
+
+    /// The action for [MdcTokenType#MODIFIER_QUESTION]/[MdcTokenType#MODIFIER_R]/
+    /// [MdcTokenType#MODIFIER_GENERIC]: `name` is the letters (or `?`) right after
+    /// the leading `\`, `value` is the optional trailing integer.
+    private static Modifier parseModifier(String text) {
+        int endPos = 1; // Skip the initial "\"
+        char c;
+        while (endPos < text.length()
+                && (Character.isLetter(c = text.charAt(endPos)) || c == '?')) {
+            endPos++;
+        }
+        String name = text.substring(1, endPos);
+        Integer value = endPos < text.length() ? Integer.parseInt(text.substring(endPos)) : null;
+        return new Modifier(name, value);
     }
 
     /// The action for [MdcTokenType#ALPHABETIC_TEXT]: resolves `\+`/`\\` escapes.

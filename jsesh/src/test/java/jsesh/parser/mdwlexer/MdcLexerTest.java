@@ -284,6 +284,13 @@ class MdcLexerTest {
     }
 
     @Test
+    void modifierValueParsesNameAndOptionalTrailingInteger() {
+        assertEquals(new Modifier("?", null), scanAll("\\?").get(0).value());
+        assertEquals(new Modifier("a", 12), scanAll("\\a12").get(0).value());
+        assertEquals(new Modifier("R", -3), scanAll("\\R-3").get(0).value());
+    }
+
+    @Test
     void quotedTextKeepsAnEscapedClosingBracketInside() {
         List<MdcSymbol> symbols = scanAll("\"a\\]b\"");
 

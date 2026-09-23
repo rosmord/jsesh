@@ -20,7 +20,6 @@ import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.ScriptCodes;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
-import jsesh.parser.lex.MDCShading;
 import jsesh.model.AlphabeticText;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
@@ -160,9 +159,7 @@ public class DefaultElementDrawer extends ElementDrawer {
 
         if (!postfix) {
             if (h.getModifiers().hasInteger("shading")) {
-                MDCShading shading = new MDCShading(""
-                        + h.getModifiers().getInteger("shading"));
-                doShade(shading.getShading());
+                doShade(ShadingCode.parse("" + h.getModifiers().getInteger("shading")));
             }
         }
 

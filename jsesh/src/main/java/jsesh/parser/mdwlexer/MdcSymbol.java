@@ -15,7 +15,8 @@ import java.util.Objects;
 ///  - [MdcSymbolCode#TOGGLE] - [ToggleType]
 ///  - [MdcSymbolCode#HIEROGLYPH] - [MdcSign]
 ///  - [MdcSymbolCode#TEXT] - [AlphabeticText]
-///  - [MdcSymbolCode#SHADING], [MdcSymbolCode#TEXT_SUPER], [MdcSymbolCode#MODIFIER],
+///  - [MdcSymbolCode#MODIFIER] - [Modifier]
+///  - [MdcSymbolCode#SHADING], [MdcSymbolCode#TEXT_SUPER],
 ///    [MdcSymbolCode#IDENTIFIER], [MdcSymbolCode#UNKNOWN] - [String]
 ///  - every other code - `null`
 /// @param position the number of code points consumed before this symbol, i.e. where it starts
