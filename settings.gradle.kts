@@ -17,5 +17,5 @@ include("signInfoAppli")
 include("jseshLabels")
 include("jseshTests")
 include("jsesh-texts")
-
+include("mdwlexer")
 
