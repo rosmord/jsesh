@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.mdwlexer.mdc;
+package jsesh.parser.mdwlexer;
 
 /// What kind of thing a `HIEROGLYPH` symbol's [MdcSign] actually denotes.
 ///

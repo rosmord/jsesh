@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.mdwlexer.mdc;
+package jsesh.parser.mdwlexer;
 
 /// The high-level symbol kind carried by an [MdcSymbol], mirroring the CUP symbol
 /// constants (`SymbolCodes`/`MDCSymbols`) that the original `MDCLexAux.l`

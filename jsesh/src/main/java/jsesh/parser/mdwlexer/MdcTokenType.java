@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.mdwlexer.mdc;
+package jsesh.parser.mdwlexer;
 
 /// One constant per lexical rule of `MDCLexAux.l` (the original JLex specification), in
 /// exactly the order those rules appear in the file.

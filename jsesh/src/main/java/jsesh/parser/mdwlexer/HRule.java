@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.mdwlexer.mdc;
+package jsesh.parser.mdwlexer;
 
 /// A horizontal rule, e.g. `{l12,34}`: `type` is `'l'` (thin) or `'L'`
 /// (wide), `start`/`end` are absolute positions in glyph units.
