@@ -1,56 +1,42 @@
 # mdwlexer
 
-A small Java library for building lexers (tokenizers) in memory, with no code-generation
-step: you describe your tokens as regular expressions in Java, and the library compiles
-them into a minimized DFA at runtime.
+A small Java library for building lexers (tokenizers) in memory, with no code-generation step: you describe your tokens as regular expressions in Java, and the library provides an efficient parsing mechanism.
 
-> This document covers the general-purpose lexer library (packages
-> `org.qenherkhopeshef.mdwlexer` and `org.qenherkhopeshef.mdwlexer.automata`). The
-> `org.qenherkhopeshef.mdwlexer.mdc` package, a Manuel de Codage lexer built on top of it, is
-> a separate concern and not documented here.
 
 ## Contents
 
-- [Why: "I need a lexer"](#why-i-need-a-lexer)
+- [Lexical Analysis](#lexical-analysis)
 - [Architecture](#architecture)
 - [Quick example](#quick-example)
 - [Defining a language](#defining-a-language)
 - [The automata layer](#the-automata-layer-advanced)
 - [Class reference](#class-reference)
 
-## Why: "I need a lexer"
+## Lexical Analysis
 
-You have some text to cut into tokens — keywords, identifiers, numbers, string literals,
-whatever your language needs — and you'd rather describe each token as a small regular
-expression than hand-write a character-by-character scanner. `mdwlexer` lets you do that
-directly in Java:
+When you need to analyse a complex text file, for instance, the code of a program, the lexer helps you to cut a stream of characters into “words”, more properly *tokens*. Token may have very different forms, depending on the language you need to analyse. For Java, you would have keywords like `if`, identifiers like `myVariable`, numbers like `42` or `3.14`, operators such as `+` or `++`, and so on.
 
-- **No generator, no build step.** Unlike JFlex or similar tools, there is no separate
-  grammar file and no generated source to keep in sync. You build `Expression` values with
-  plain Java method calls, at whatever time (even at runtime) you like.
-- **One rule per token type, one shared DFA.** You give each token type a regular
-  expression; the library compiles the whole set into a single minimized DFA, so scanning
-  is a straight table walk — no backtracking, no trying rules one by one.
-- **Longest match wins, ties broken by priority.** Standard "maximal munch" lexer
-  semantics: at each position, the longest token that any rule matches is the one taken. If
-  several rules tie for that length (e.g. a keyword and the more general identifier rule
-  both match `"if"`), the rule declared with the higher priority wins — see
-  [Rule priority](#rule-priority) below.
-- **Full Unicode.** Everything is expressed in Unicode code points, not UTF-16 `char`s, so
-  supplementary-plane characters work like any other character, including as surrogate
-  pairs read from a `Reader`.
-- **Boolean operators, not just concatenation/union/repetition.** Besides the classical
-  regex operators, `Expression` also has [`complement`](#boolean-operators-complement-intersection-difference)
-  and `intersection`, for the (rarer, but occasionally indispensable) cases a plain regex
-  can't express — see [Boolean operators](#boolean-operators-complement-intersection-difference).
+Usually, a lexer is built by defining those tokens with small **regular expressions**. In many cases, a lexer is generated once, before compilation, from a text file describing the existing tokens. Software such as JFlex will take a `.l` file and produce a Java class that implements the lexer. It's efficient, but requires this preliminary step, which makes the build process a bit more complex.
 
-If you don't need any of that — you just want to split a string on whitespace, say — this
-library is overkill. It's meant for actual little languages: configuration formats, markup
-dialects, expression languages, and the like.
+`mdwlexer`is a library which allows you to build a lexer **at runtime**. The cost is minimal, as the lexer needs to be built once, and can be reused throughout the lifetime of the application.
+
+`mdwlexer`:
+
+- works in Unicode (full code points);
+- support conflicts by using:
+  - longest match wins;
+  - in case of tie, the first defined token wins;
+- uses finite automata, and provides an interesting library to manipulate them ; it is even possible to export the automata to a mermaid diagram, which is useful for debugging or understanding the algorithms at hand;
+- handle the full range of regular languages, including intersection and complement, which are not supported by most regex libraries;
+- implements both determinisation and minimization of finite automata.
+
+In some cases,  for instance if you separate each token by spaces, this library is overkill. It's meant for actual little languages: configuration formats, markup dialects, expression languages, and the like.
 
 ## Architecture
 
-Turning a set of rules into running tokenizer goes through several immutable stages:
+The first step is to list the types of the tokens you expect to meet and name them. This will result in a java `enum` type.
+
+Turning a set of rules into a running tokenizer goes through several immutable stages:
 
 ```text
 Expression (AST)                                 you build this, via ExpressionBuilder
@@ -123,7 +109,7 @@ public class Demo {
         Expression letter = union(characterRange('a', 'z'), characterRange('A', 'Z'), character('_'));
         Expression digit = characterRange('0', '9');
 
-        Lexicon<TokenType> lexicon = LexiconBuilder.<TokenType>newBuilder()
+        Lexicon<TokenType> lexicon = LexiconBuilder.<>newBuilder()
                 .rule(TokenType.IF, literal("if"))
                 .rule(TokenType.ELSE, literal("else"))
                 .rule(TokenType.IDENTIFIER, sequence(letter, repeat(union(letter, digit))))
@@ -149,8 +135,7 @@ ELSE else @6
 INTEGER 42 @11
 ```
 
-Runs of whitespace between tokens are skipped automatically — see
-[Whitespace](#whitespace).
+Runs of whitespace between tokens are skipped automatically; see [Whitespace](#whitespace).
 
 ## Defining a language
 
