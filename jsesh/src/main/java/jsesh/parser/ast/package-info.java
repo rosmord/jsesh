@@ -1,12 +1,12 @@
 /**
  * A literal Abstract Syntax Tree for Manuel de Codage text.
  *
- * <p>Unlike {@link jsesh.model}, which is built by {@link jsesh.model.MDCModelBuilder}
- * and already applies some interpretation while parsing (e.g. red/shaded state is
- * folded into each item instead of kept as toggle markers, some constructs such as
- * cadrat and zone options are dropped altogether), this package keeps a faithful,
- * uninterpreted record of what the parser actually read: every construct recognized
- * by the grammar becomes a node, in the order it was parsed.
+ * <p>Unlike {@link jsesh.model}, which {@link jsesh.parser.AstModelBuilder} builds
+ * from this AST and which already applies some interpretation (e.g. red/shaded
+ * state is folded into each item instead of kept as toggle markers, some constructs
+ * such as cadrat and zone options are dropped altogether), this package keeps a
+ * faithful, uninterpreted record of what the parser actually read: every construct
+ * recognized by the grammar becomes a node, in the order it was parsed.
  *
  * <p>Use {@link jsesh.parser.MDCParserAstGenerator} to build this tree from MDC text:
  *

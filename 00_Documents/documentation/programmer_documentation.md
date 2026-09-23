@@ -281,10 +281,18 @@ Notes:
   to read legacy encodings. For plain modern MdC the default is fine.
 - `setPhilologyAsSigns(true)` treats `[[`, `]]`, `(` … as ordinary signs instead
   of philological constructs — only needed for very old TkSesh texts.
-- **Lower level:** if you don't want a `TopItemList` but want to drive your own
-  builder, use `MDCParserFacade` with an `MDCBuilder` implementation
-  (see `jsesh.model.api.MDCBuilder` / `MDCBuilderAdapter`). The model generator is
-  just `MDCParserFacade` wired to the built-in `MDCModelBuilder`.
+- **Lower level:** if you don't want a `TopItemList` but the literal parse tree
+  instead, use `MDCParserAstGenerator`, which returns an `AstDocument` (see
+  `jsesh.parser.ast`) — a faithful, uninterpreted record of what the parser
+  read, walkable with `AstVisitor`. `MDCParserModelGenerator` itself is just
+  `MDCParserAstGenerator` followed by the interpretation step (folding
+  toggles into red/shaded state, dropping cadrat/zone options, dialect-specific
+  modifier renaming...) that turns that AST into a `TopItemList`.
+- **Lowest level:** if you don't want a `TopItemList` and not even the AST,
+  but want to drive your own builder straight from the grammar, use
+  `MDCParserFacade` with an `MDCBuilder` implementation (see
+  `jsesh.model.api.MDCBuilder` / `MDCBuilderAdapter`; `jsesh.parser.ast.AstBuilder`
+  is itself one such implementation, the one `MDCParserAstGenerator` uses).
 
 ## 8. Use case: read and write `.gly` documents
 

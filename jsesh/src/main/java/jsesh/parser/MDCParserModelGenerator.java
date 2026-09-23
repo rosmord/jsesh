@@ -2,56 +2,58 @@
  * Created on 24 d�c. 2003 by rosmord.
  *
  * This code is distributed under the LGPL.
- *  
+ *
  */
 package jsesh.parser;
 
 import java.io.Reader;
-import java.io.StringReader;
 
-import jsesh.model.constants.Dialect;
-import jsesh.model.MDCModelBuilder;
 import jsesh.model.TopItemList;
+import jsesh.model.constants.Dialect;
 
 /**
  * A Parser for MdC code which generates a model (TopItemList)
  * for the code.
- * 
+ *
+ * <p>Internally, this parses to the literal AST (see {@link jsesh.parser.ast})
+ * via {@link MDCParserAstGenerator}, then interprets that AST into the model
+ * with {@link AstModelBuilder}.
+ *
  * @author rosmord
  * @see jsesh.model.TopItemList
  */
 public class MDCParserModelGenerator {
-	private MDCParserFacade facade;
+	private final MDCParserAstGenerator astGenerator;
+	private final Dialect dialect;
 
 	public MDCParserModelGenerator() {
-		facade = new MDCParserFacade(new MDCModelBuilder());
+		this(Dialect.OTHER);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dialect a dialect for the Manuel de codage
 	 * @see Dialect
 	 */
 	public MDCParserModelGenerator(Dialect dialect) {
-		facade = new MDCParserFacade(new MDCModelBuilder(dialect));
+		astGenerator = new MDCParserAstGenerator();
+		this.dialect = dialect;
 	}
 
 	public TopItemList parse(Reader in) throws MDCSyntaxError {
-		facade.parse(in);
-		return ((MDCModelBuilder) facade.getBuilder()).getResult();
+		return new AstModelBuilder(dialect).build(astGenerator.parse(in));
 	}
-	
+
 	public TopItemList parse(String text) throws MDCSyntaxError {
-		facade.parse(new StringReader(text));
-		return ((MDCModelBuilder) facade.getBuilder()).getResult();
+		return new AstModelBuilder(dialect).build(astGenerator.parse(text));
 	}
-	
-	
+
+
 	/**
 	 * @return true if we are debugging.
 	 */
 	public boolean isDebug() {
-		return facade.isDebug();
+		return astGenerator.isDebug();
 	}
 
 	/**
@@ -60,21 +62,21 @@ public class MDCParserModelGenerator {
 	 * @return true if philological markers are considered as simple signs.
 	 */
 	public boolean isPhilologyAsSigns() {
-		return facade.isPhilologyAsSigns();
+		return astGenerator.isPhilologyAsSigns();
 	}
 
 	/**
 	 * @param v
 	 */
 	public void setDebug(boolean v) {
-		facade.setDebug(v);
+		astGenerator.setDebug(v);
 	}
 
 	/**
 	 * @param v
 	 */
 	public void setPhilologyAsSigns(boolean v) {
-		facade.setPhilologyAsSigns(v);
+		astGenerator.setPhilologyAsSigns(v);
 	}
 
 }

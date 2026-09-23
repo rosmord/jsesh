@@ -25,11 +25,11 @@ import jsesh.model.constants.WordEndingCode;
 
 /**
  * A {@link MDCBuilder} which builds a literal AST (see {@link AstDocument})
- * instead of the usable document model that {@link jsesh.model.MDCModelBuilder}
- * builds. Every construct recognized by the grammar becomes a node, with no
- * further interpretation (toggles are not folded into item state, cadrat and
- * zone options are not discarded, dialect-specific modifier renaming is not
- * applied).
+ * instead of the usable document model that {@link jsesh.parser.AstModelBuilder}
+ * builds from it. Every construct recognized by the grammar becomes a node,
+ * with no further interpretation (toggles are not folded into item state,
+ * cadrat and zone options are not discarded, dialect-specific modifier
+ * renaming is not applied).
  *
  * @author rosmord
  * @see jsesh.parser.MDCParserAstGenerator

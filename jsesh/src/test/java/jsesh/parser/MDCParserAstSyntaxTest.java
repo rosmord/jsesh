@@ -182,7 +182,7 @@ public class MDCParserAstSyntaxTest {
         assertEquals(AstDocument.of(expected), parse("i#1234"));
     }
 
-    // --- Cadrat options (preserved here; MDCModelBuilder drops them) ------
+    // --- Cadrat options (preserved here; AstModelBuilder drops them) ------
 
     @Test
     public void testCadratWithOptions() throws MDCSyntaxError {

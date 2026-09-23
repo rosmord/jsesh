@@ -27,7 +27,7 @@ import jsesh.parser.ast.AstToggle;
  * Structural tests for {@link MDCParserAstGenerator}, in the same spirit as
  * {@link MDCParserModelGeneratorTest}, but checking that the AST stays a
  * literal record of what was parsed (e.g. toggles are kept as nodes, instead
- * of being folded into item state as {@link jsesh.model.MDCModelBuilder} does).
+ * of being folded into item state as {@link jsesh.parser.AstModelBuilder} does).
  */
 public class MDCParserAstGeneratorTest {
 
