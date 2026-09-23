@@ -376,7 +376,7 @@ TRUESPACE=([ \t\n\015_])
 	 //  which shouldn't be possible in the generic way.
 	 //  a modifier list system would be a plus
 	}
-<YYINITIAL>\\R"-"?[0-9]*)	{return buildMDCModifier(yytext());}
+<YYINITIAL>\\R"-"?[0-9]*	{return buildMDCModifier(yytext());}
 <YYINITIAL>\\([a-zA-Z]*[0-9]*)      {return buildMDCModifier(yytext());}
 <YYINITIAL>"`"	{
 	 return buildMDCSign(MDCCODE,yytext());
