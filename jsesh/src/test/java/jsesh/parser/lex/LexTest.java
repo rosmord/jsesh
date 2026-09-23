@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import java_cup.runtime.Symbol;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.ToggleType;
 
@@ -37,9 +36,9 @@ public class LexTest {
      * Runs a lexer to completion, collecting every token it produces,
      * including the trailing EOF token.
      */
-    private List<Symbol> tokens(MDCLex lex) throws IOException {
-        List<Symbol> result = new ArrayList<>();
-        Symbol token;
+    private List<MDCToken> tokens(MDCLex lex) throws IOException {
+        List<MDCToken> result = new ArrayList<>();
+        MDCToken token;
         do {
             token = lex.next_token();
             result.add(token);
@@ -47,26 +46,26 @@ public class LexTest {
         return result;
     }
 
-    private List<Symbol> tokens(String mdc) throws IOException {
+    private List<MDCToken> tokens(String mdc) throws IOException {
         return tokens(newLexer(mdc));
     }
 
-    private Symbol firstToken(String mdc) throws IOException {
+    private MDCToken firstToken(String mdc) throws IOException {
         return tokens(mdc).get(0);
     }
 
-    private int subType(Symbol token) {
+    private int subType(MDCToken token) {
         return ((MDCSubType) token.value).getSubType();
     }
 
-    private void assertSign(Symbol token, int type, String text) {
+    private void assertSign(MDCToken token, int type, String text) {
         assertEquals(MDCSymbols.HIEROGLYPH, token.sym);
         MDCSign sign = (MDCSign) token.value;
         assertEquals(type, sign.getType());
         assertEquals(text, sign.getString());
     }
 
-    private void assertToggle(Symbol token, ToggleType expected) {
+    private void assertToggle(MDCToken token, ToggleType expected) {
         assertEquals(MDCSymbols.TOGGLE, token.sym);
         assertEquals(expected, token.value);
     }
@@ -75,7 +74,7 @@ public class LexTest {
 
     @Test
     public void testRoundEnclosureG() throws IOException {
-        Symbol token = firstToken("<G");
+        MDCToken token = firstToken("<G");
         assert (token.value instanceof MDCStartOldCartouche);
         MDCStartOldCartouche start = (MDCStartOldCartouche) token.value;
         assertAll(
@@ -86,7 +85,7 @@ public class LexTest {
 
     @Test
     public void testRoundEnclosureg1() throws IOException {
-        Symbol token = firstToken("<g");
+        MDCToken token = firstToken("<g");
         assert (token.value instanceof MDCCartouche);
         MDCCartouche start = (MDCCartouche) token.value;
         assertAll(
@@ -97,7 +96,7 @@ public class LexTest {
 
     @Test
     public void testRoundEnclosureg0() throws IOException {
-        Symbol token = firstToken("<g0");
+        MDCToken token = firstToken("<g0");
         assert (token.value instanceof MDCCartouche);
         MDCCartouche start = (MDCCartouche) token.value;
         assertAll(
@@ -108,7 +107,7 @@ public class LexTest {
 
     @Test
     public void testOldCartoucheDefault() throws IOException {
-        Symbol token = firstToken("<");
+        MDCToken token = firstToken("<");
         assertEquals(MDCSymbols.BEGINOLDCARTOUCHE, token.sym);
         MDCStartOldCartouche start = (MDCStartOldCartouche) token.value;
         assertAll(
@@ -118,7 +117,7 @@ public class LexTest {
 
     @Test
     public void testOldCartoucheTypedPart() throws IOException {
-        Symbol token = firstToken("<Sb");
+        MDCToken token = firstToken("<Sb");
         MDCStartOldCartouche start = (MDCStartOldCartouche) token.value;
         assertAll(
                 () -> assertEquals(MDCCartoucheType.SEREKH, start.getCartoucheType()),
@@ -127,7 +126,7 @@ public class LexTest {
 
     @Test
     public void testOldCartouchePartOnly() throws IOException {
-        Symbol token = firstToken("<b");
+        MDCToken token = firstToken("<b");
         MDCStartOldCartouche start = (MDCStartOldCartouche) token.value;
         assertAll(
                 () -> assertEquals(MDCCartoucheType.CARTOUCHE, start.getCartoucheType()),
@@ -138,7 +137,7 @@ public class LexTest {
 
     @Test
     public void testCartoucheBeginDigitOnly() throws IOException {
-        Symbol token = firstToken("<1");
+        MDCToken token = firstToken("<1");
         assertEquals(MDCSymbols.BEGINCARTOUCHE, token.sym);
         MDCCartouche start = (MDCCartouche) token.value;
         assertAll(
@@ -148,7 +147,7 @@ public class LexTest {
 
     @Test
     public void testCartoucheEndDefault() throws IOException {
-        Symbol token = firstToken(">");
+        MDCToken token = firstToken(">");
         assertEquals(MDCSymbols.ENDCARTOUCHE, token.sym);
         MDCCartouche end = (MDCCartouche) token.value;
         assertAll(
@@ -158,7 +157,7 @@ public class LexTest {
 
     @Test
     public void testCartoucheEndTypedWithPart() throws IOException {
-        Symbol token = firstToken("s0>");
+        MDCToken token = firstToken("s0>");
         MDCCartouche end = (MDCCartouche) token.value;
         assertAll(
                 () -> assertEquals(MDCCartoucheType.SEREKH, end.getCartoucheType()),
@@ -167,7 +166,7 @@ public class LexTest {
 
     @Test
     public void testCartoucheEndTypedDefaultPart() throws IOException {
-        Symbol token = firstToken("h>");
+        MDCToken token = firstToken("h>");
         MDCCartouche end = (MDCCartouche) token.value;
         assertAll(
                 () -> assertEquals(MDCCartoucheType.HOUT, end.getCartoucheType()),
@@ -176,7 +175,7 @@ public class LexTest {
 
     @Test
     public void testCartoucheEndDigitOnly() throws IOException {
-        Symbol token = firstToken("1>");
+        MDCToken token = firstToken("1>");
         MDCCartouche end = (MDCCartouche) token.value;
         assertAll(
                 () -> assertEquals(MDCCartoucheType.CARTOUCHE, end.getCartoucheType()),
@@ -187,8 +186,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyErasedSigns() throws IOException {
-        Symbol begin = firstToken("[[");
-        Symbol end = firstToken("]]");
+        MDCToken begin = firstToken("[[");
+        MDCToken end = firstToken("]]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.ERASEDSIGNS, subType(begin)),
@@ -198,8 +197,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyEditorSuperfluous() throws IOException {
-        Symbol begin = firstToken("[{");
-        Symbol end = firstToken("}]");
+        MDCToken begin = firstToken("[{");
+        MDCToken end = firstToken("}]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.EDITORSUPERFLUOUS, subType(begin)),
@@ -209,8 +208,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyPreviouslyReadable() throws IOException {
-        Symbol begin = firstToken("[\"");
-        Symbol end = firstToken("\"]");
+        MDCToken begin = firstToken("[\"");
+        MDCToken end = firstToken("\"]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.PREVIOUSLYREADABLE, subType(begin)),
@@ -220,8 +219,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyScribeAddition() throws IOException {
-        Symbol begin = firstToken("['");
-        Symbol end = firstToken("']");
+        MDCToken begin = firstToken("['");
+        MDCToken end = firstToken("']");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.SCRIBEADDITION, subType(begin)),
@@ -231,8 +230,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyEditorAddition() throws IOException {
-        Symbol begin = firstToken("[&");
-        Symbol end = firstToken("&]");
+        MDCToken begin = firstToken("[&");
+        MDCToken end = firstToken("&]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.EDITORADDITION, subType(begin)),
@@ -242,8 +241,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyMinorAddition() throws IOException {
-        Symbol begin = firstToken("[(");
-        Symbol end = firstToken(")]");
+        MDCToken begin = firstToken("[(");
+        MDCToken end = firstToken(")]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.MINORADDITION, subType(begin)),
@@ -253,8 +252,8 @@ public class LexTest {
 
     @Test
     public void testPhilologyDubious() throws IOException {
-        Symbol begin = firstToken("[?");
-        Symbol end = firstToken("?]");
+        MDCToken begin = firstToken("[?");
+        MDCToken end = firstToken("?]");
         assertAll(
                 () -> assertEquals(MDCSymbols.BEGINPHIL, begin.sym),
                 () -> assertEquals(SymbolCodes.DUBIOUS, subType(begin)),
@@ -266,7 +265,7 @@ public class LexTest {
     public void testPhilologyAsSigns() throws IOException {
         MDCLex lex = newLexer("[[");
         lex.setPhilologyAsSigns(true);
-        Symbol token = lex.next_token();
+        MDCToken token = lex.next_token();
         assertEquals(MDCSymbols.HIEROGLYPH, token.sym);
         MDCSign sign = (MDCSign) token.value;
         assertAll(
@@ -363,22 +362,22 @@ public class LexTest {
 
     @Test
     public void testShadingPattern() throws IOException {
-        Symbol full = firstToken("#1234");
+        MDCToken full = firstToken("#1234");
         assertEquals(MDCSymbols.SHADING, full.sym);
         assertEquals(15, ((MDCShading) full.value).getShading());
 
-        Symbol partial = firstToken("#12");
+        MDCToken partial = firstToken("#12");
         assertEquals(3, ((MDCShading) partial.value).getShading());
     }
 
     @Test
     public void testShadingAndOverwriteAfterSign() throws IOException {
-        List<Symbol> withShading = tokens("A1#-");
+        List<MDCToken> withShading = tokens("A1#-");
         assertEquals(MDCSymbols.HIEROGLYPH, withShading.get(0).sym);
         assertEquals(MDCSymbols.SHADING, withShading.get(1).sym);
         assertEquals(15, ((MDCShading) withShading.get(1).value).getShading());
 
-        List<Symbol> withOverwrite = tokens("A1#");
+        List<MDCToken> withOverwrite = tokens("A1#");
         assertEquals(MDCSymbols.HIEROGLYPH, withOverwrite.get(0).sym);
         assertEquals(MDCSymbols.OVERWRITE, withOverwrite.get(1).sym);
     }
@@ -415,7 +414,7 @@ public class LexTest {
 
     @Test
     public void testWordEndAfterSign() throws IOException {
-        List<Symbol> t = tokens("A1 ");
+        List<MDCToken> t = tokens("A1 ");
         assertEquals(MDCSymbols.HIEROGLYPH, t.get(0).sym);
         assertEquals(MDCSymbols.WORDEND, t.get(1).sym);
         assertEquals(MDCSymbols.EOF, t.get(2).sym);
@@ -423,7 +422,7 @@ public class LexTest {
 
     @Test
     public void testSentenceEndAfterSign() throws IOException {
-        List<Symbol> t = tokens("A1  ");
+        List<MDCToken> t = tokens("A1  ");
         assertEquals(MDCSymbols.HIEROGLYPH, t.get(0).sym);
         assertEquals(MDCSymbols.SENTENCEEND, t.get(1).sym);
         assertEquals(MDCSymbols.EOF, t.get(2).sym);
@@ -478,21 +477,21 @@ public class LexTest {
 
     @Test
     public void testLineEndDefaultSkip() throws IOException {
-        Symbol token = firstToken("!");
+        MDCToken token = firstToken("!");
         assertEquals(MDCSymbols.LINEEND, token.sym);
         assertEquals(100, token.value);
     }
 
     @Test
     public void testLineEndWithPercentage() throws IOException {
-        Symbol token = firstToken("!=200%");
+        MDCToken token = firstToken("!=200%");
         assertEquals(MDCSymbols.LINEEND, token.sym);
         assertEquals(200, token.value);
     }
 
     @Test
     public void testTabStop() throws IOException {
-        Symbol token = firstToken("?5");
+        MDCToken token = firstToken("?5");
         assertEquals(MDCSymbols.TABSTOP, token.sym);
         assertEquals(5, token.value);
     }
@@ -533,14 +532,14 @@ public class LexTest {
 
     @Test
     public void testTextSuperscript() throws IOException {
-        Symbol token = firstToken("|super");
+        MDCToken token = firstToken("|super");
         assertEquals(MDCSymbols.TEXTSUPER, token.sym);
         assertEquals("super", token.value);
     }
 
     @Test
     public void testAlphabeticText() throws IOException {
-        Symbol token = firstToken("+lHello");
+        MDCToken token = firstToken("+lHello");
         assertEquals(MDCSymbols.TEXT, token.sym);
         MDCAlphabeticText text = (MDCAlphabeticText) token.value;
         assertAll(
@@ -552,7 +551,7 @@ public class LexTest {
 
     @Test
     public void testPropertyBlock() throws IOException {
-        List<Symbol> t = tokens("[abc,123=45]");
+        List<MDCToken> t = tokens("[abc,123=45]");
         assertEquals(MDCSymbols.OPENBRACE, t.get(0).sym);
         assertEquals(MDCSymbols.IDENTIFIER, t.get(1).sym);
         assertEquals("abc", t.get(1).value);
@@ -568,7 +567,7 @@ public class LexTest {
 
     @Test
     public void testDoubleCurlyPropertyBlock() throws IOException {
-        List<Symbol> t = tokens("{{a=1}} ");
+        List<MDCToken> t = tokens("{{a=1}} ");
         assertEquals(MDCSymbols.DOUBLELEFTCURLY, t.get(0).sym);
         assertEquals(MDCSymbols.IDENTIFIER, t.get(1).sym);
         assertEquals(MDCSymbols.EQUAL, t.get(2).sym);
@@ -583,14 +582,14 @@ public class LexTest {
 
     @Test
     public void testUnknownCharacter() throws IOException {
-        Symbol token = firstToken(";");
+        MDCToken token = firstToken(";");
         assertEquals(MDCSymbols.UNKNOWN, token.sym);
         assertEquals(";", token.value);
     }
 
     @Test
     public void testEndOfFile() throws IOException {
-        List<Symbol> t = tokens("");
+        List<MDCToken> t = tokens("");
         assertEquals(1, t.size());
         assertEquals(MDCSymbols.EOF, t.get(0).sym);
     }

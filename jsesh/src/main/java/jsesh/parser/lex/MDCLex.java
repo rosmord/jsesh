@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 
-import java_cup.runtime.Symbol;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.ToggleType;
 import jsesh.parser.MDCSyntaxError;
@@ -37,11 +36,11 @@ import jsesh.parser.mdwlexer.SignSubType;
 
 // Implementation note: the actual scanning is done by MdcLexer (jsesh.parser.mdwlexer),
 // the hand-written lexer which replaced the JFlex-generated MDCLexAux. This class is an
-// adapter: it translates each jsesh.parser.mdwlexer.MdcSymbol into the java_cup.runtime.Symbol
-// and jsesh.parser.lex value types (MDCSign, MDCCartouche...) that MDCHandmadeParser and the
+// adapter: it translates each jsesh.parser.mdwlexer.MdcSymbol into the MDCToken and
+// jsesh.parser.lex value types (MDCSign, MDCCartouche...) that MDCHandmadeParser and the
 // rest of this package already expect, so nothing downstream of MDCLex had to change.
 
-public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
+public class MDCLex implements ParserErrorManager {
 
 	private final MdcLexer implementation;
 
@@ -79,18 +78,18 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 
 	public  static void main(String argv[]) throws java.io.IOException {
 		   MDCLex yy = new MDCLex(System.in);
-		   java_cup.runtime.Symbol t;
+		   MDCToken t;
 		   while ((t = yy.next_token()).sym != MDCSymbols.EOF)
 			   System.out.println(t);
 	   }
 
-	/* (non-Javadoc)
-	 * @see java_cup.runtime.Scanner#next_token()
+	/**
+	 * Returns the next token.
 	 */
-	public Symbol next_token() throws IOException {
+	public MDCToken next_token() throws IOException {
 		lastSymbol = implementation.nextSymbol()
 				.orElseGet(() -> new MdcSymbol(MdcSymbolCode.EOF, null, "", implementation.position()));
-		return toCupSymbol(lastSymbol);
+		return toToken(lastSymbol);
 	}
 
 	/* (non-Javadoc)
@@ -169,16 +168,16 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	}
 
 	// ------------------------------------------------------------------
-	// MdcSymbol (jsesh.parser.mdwlexer) -> java_cup.runtime.Symbol translation
+	// MdcSymbol (jsesh.parser.mdwlexer) -> MDCToken translation
 	// ------------------------------------------------------------------
 
-	private static Symbol toCupSymbol(MdcSymbol symbol) {
-		int sym = toCupCode(symbol.code());
-		Object value = toCupValue(symbol);
-		return value == null ? new Symbol(sym) : new Symbol(sym, value);
+	private static MDCToken toToken(MdcSymbol symbol) {
+		int sym = toTokenCode(symbol.code());
+		Object value = toTokenValue(symbol);
+		return new MDCToken(sym, value);
 	}
 
-	private static int toCupCode(MdcSymbolCode code) {
+	private static int toTokenCode(MdcSymbolCode code) {
 		return switch (code) {
 			case PAGE_END -> MDCSymbols.PAGEEND;
 			case LINE_END -> MDCSymbols.LINEEND;
@@ -233,7 +232,7 @@ public class MDCLex implements java_cup.runtime.Scanner, ParserErrorManager {
 	 * values are already in the shape the parser expects and pass through
 	 * unchanged.
 	 */
-	private static Object toCupValue(MdcSymbol symbol) {
+	private static Object toTokenValue(MdcSymbol symbol) {
 		Object value = symbol.value();
 		return switch (symbol.code()) {
 			case HRULE -> {

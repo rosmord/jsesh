@@ -86,8 +86,6 @@ The [00_Documents](00_Documents) folder contains :
 
 #### Libraries
 
-* cupAndlex: bundle with CUP and LEX. Probably usable for other projects as a maven MOJO; those are used to parse Manuel de Codage files;
-* cupruntime: the runtime for CUP;
 * jhotdrawfw: the "application framework" part of JHOTDRAW 7, adapted from [JHotDraw 7 by Walter Randelshofer](https://www.randelshofer.ch/oop/jhotdraw/);
 * jsesh: the main jsesh library;
 * jsesh-installer: the system for building JSesh distribution;

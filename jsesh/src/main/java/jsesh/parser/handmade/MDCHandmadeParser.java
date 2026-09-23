@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import java_cup.runtime.Symbol;
 import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.MDCSyntaxError;
@@ -50,6 +49,7 @@ import jsesh.parser.lex.MDCShading;
 import jsesh.parser.lex.MDCSign;
 import jsesh.parser.lex.MDCStartOldCartouche;
 import jsesh.parser.lex.MDCSubType;
+import jsesh.parser.lex.MDCToken;
 
 import static jsesh.parser.lex.MDCSymbols.*;
 
@@ -81,7 +81,7 @@ public class MDCHandmadeParser {
     /**
      * The current lookahead token.
      */
-    private Symbol token;
+    private MDCToken token;
 
     public AstDocument parse(String text) throws MDCSyntaxError {
         return parse(new StringReader(text));

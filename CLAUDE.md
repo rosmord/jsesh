@@ -37,8 +37,6 @@ no generated sources or codegen step remain for it. The JFlex-generated
 | `jseshSearch` | Hieroglyphic search/query functionality |
 | `qenherkhopeshefUtils` | Shared utilities and Swing helpers |
 | `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
-| `cupAndlex` | CUP (parser generator) and JFlex (lexer) tooling, still carrying the old Maven Mojos compiled `compileOnly`. No module applies it any more since `jsesh`'s JFlex-generated `MDCLexAux` was retired in favor of `mdwlexer` — kept in case a future `.y`/`.l` grammar needs it |
-| `cupruntime` | CUP parser runtime (still used: `jsesh.parser.lex.MDCLex` implements `java_cup.runtime.Scanner`) |
 | `signInfoAppli` | Sign information editor — entry point: `jsesh.utilitysoftwares.signinfoeditor.Main` |
 | `jseshTests` | Demo programs showing library usage (not formal unit tests) |
 

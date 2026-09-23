@@ -11,7 +11,6 @@ plugins {
 dependencies {
     implementation(project(":qenherkhopeshefUtils"))
     implementation(project(":jseshLabels"))
-    implementation(project(":cupruntime"))
     implementation(project(":mdwlexer"))
     implementation(libs.itext)
     implementation(libs.jvectclipboard)

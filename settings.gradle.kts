@@ -4,8 +4,6 @@ plugins {
 }
 rootProject.name = "jsesh-all"
 
-include("cupAndlex")
-include("cupruntime")
 include("qenherkhopeshefUtils")
 include("jsesh")
 include("jsesh-installer")
