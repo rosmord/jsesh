@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.TopItemListInterface;
 
 /**
  * A list of top-level items, as they appear directly in a text line: cadrats,
@@ -16,7 +15,7 @@ import jsesh.model.api.TopItemListInterface;
  *
  * @author rosmord
  */
-public final class AstTopItemList implements AstNode, TopItemListInterface {
+public final class AstTopItemList implements AstNode {
 
     private final List<AstNode> items = new ArrayList<>();
 

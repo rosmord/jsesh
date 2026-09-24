@@ -1,8 +1,7 @@
 package jsesh.model;
 
-import jsesh.model.api.ComplexLigatureInterface;
 
-public class ComplexLigature extends HorizontalListElement implements ComplexLigatureInterface {
+public class ComplexLigature extends HorizontalListElement {
 	
 	/*
 	 * Note about the internal organisation of the ligature :

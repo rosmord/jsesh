@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.BasicItemListInterface;
 
 /**
  * A list of basic items: the restricted set of constructs (cadrats, text,
@@ -17,7 +16,7 @@ import jsesh.model.api.BasicItemListInterface;
  *
  * @author rosmord
  */
-public final class AstBasicItemList implements AstNode, BasicItemListInterface {
+public final class AstBasicItemList implements AstNode {
 
     private final List<AstNode> items = new ArrayList<>();
 

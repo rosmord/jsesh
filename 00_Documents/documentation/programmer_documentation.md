@@ -475,11 +475,6 @@ visitor rather than instanceof-chains.
 - Container root: `TopItemList` → `TopItem`s (`Cadrat`, `Cartouche`,
   `LineBreak`, `ZoneStart`, …); a `Cadrat` holds `HBox`es of
   `HorizontalListElement`s (`Hieroglyph`, `InnerGroup`, `ComplexLigature`).
-- The read-only "shape" of these nodes is also published as interfaces in
-  `jsesh.model.api` (`HieroglyphInterface`, `CadratInterface`, …) — useful when
-  you want to consume the model without depending on concrete classes, and it is
-  the same vocabulary `jsesh.parser.ast` speaks (each interface is implemented
-  by both a model class and its AST counterpart).
 - Structural edits and higher-level operations live in `jsesh.model.operations`.
 - To be notified of changes, register on the `HieroglyphicTextModel` (§6) or on
   individual elements' observers.

@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import jsesh.model.api.CadratInterface;
-import jsesh.model.api.VBoxInterface;
 
 /**
  * A quadrat: a vertical stack of {@link AstHBox}es.
@@ -21,7 +19,7 @@ import jsesh.model.api.VBoxInterface;
  * @see jsesh.model.Cadrat
  * @see jsesh.model.ShadingCode
  */
-public final class AstCadrat implements AstNode, CadratInterface, VBoxInterface {
+public final class AstCadrat implements AstNode {
 
     private final List<AstHBox> hBoxes = new ArrayList<>();
     private int shading;

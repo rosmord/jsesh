@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.HorizontalListElementInterface;
 
 /**
  * Base for the nodes that can appear inside an {@link AstHBox}: inner groups
@@ -8,6 +7,6 @@ import jsesh.model.api.HorizontalListElementInterface;
  *
  * @author rosmord
  */
-public sealed interface AstHorizontalListElement extends AstNode, HorizontalListElementInterface
+public sealed interface AstHorizontalListElement extends AstNode
         permits AstInnerGroup, AstComplexLigature {
 }

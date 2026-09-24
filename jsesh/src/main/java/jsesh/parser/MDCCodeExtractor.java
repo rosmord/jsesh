@@ -1,10 +1,8 @@
-package jsesh.model.tools;
+package jsesh.parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import jsesh.parser.MDCParserAstGenerator;
-import jsesh.parser.MDCSyntaxError;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstBasicItemList;
 import jsesh.parser.ast.AstCadrat;
@@ -25,10 +23,10 @@ import jsesh.signcodes.ManuelDeCodage;
 
 /**
  * An extractor is able to fetch codes from a manuel de codage STRING
- * (see HieroglyphExtractor otherwise) and, if needed, to normalize them.
+ * (see jsesh.model.tools.HieroglyphExtractor otherwise) and, if needed, to normalize them.
  *
  *
- * @see HieroglyphExtractor for a class working on already parsed text.
+ * @see jsesh.model.tools.HieroglyphExtractor for a class working on already parsed text.
  * @author rosmord
  *
  */

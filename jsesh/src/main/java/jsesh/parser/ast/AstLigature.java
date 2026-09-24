@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.LigatureInterface;
 
 /**
  * A ligature: hieroglyphs joined with "&amp;" (e.g. {@code p&t&n}).
@@ -15,7 +14,7 @@ import jsesh.model.api.LigatureInterface;
  *
  * @author rosmord
  */
-public final class AstLigature implements AstInnerGroup, LigatureInterface {
+public final class AstLigature implements AstInnerGroup {
 
     private final List<AstHieroglyph> hieroglyphs = new ArrayList<>();
 

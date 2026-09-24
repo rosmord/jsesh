@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.OverwriteInterface;
 
 /**
  * 
@@ -8,7 +7,7 @@ import jsesh.model.api.OverwriteInterface;
  *         </p>
  */
 
-public class Overwrite extends InnerGroup implements OverwriteInterface {
+public class Overwrite extends InnerGroup {
 
 	private static final long serialVersionUID = 4331203673936550315L;
 

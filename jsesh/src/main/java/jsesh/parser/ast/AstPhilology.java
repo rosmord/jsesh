@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.PhilologyInterface;
 
 /**
  * A philological bracket group, e.g. {@code [[...]]} for erased signs or
@@ -12,7 +11,7 @@ import jsesh.model.api.PhilologyInterface;
  * @see jsesh.model.constants.SymbolCodes
  */
 public record AstPhilology(int openingCode, int closingCode, AstBasicItemList content)
-        implements AstInnerGroup, PhilologyInterface {
+        implements AstInnerGroup {
 
     /**
      * Hand-builds a philology group whose opening and closing codes match

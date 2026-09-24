@@ -2,13 +2,12 @@
  */
 package jsesh.model;
 
-import jsesh.model.api.HBoxInterface;
 
 /**
  * An horizontal list of elements.
  * @author Rosmorduc
  */
-public class HBox extends EmbeddedModelElement implements HBoxInterface {
+public class HBox extends EmbeddedModelElement {
 
     /**
      *

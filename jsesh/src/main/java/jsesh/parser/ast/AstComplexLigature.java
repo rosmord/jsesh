@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.ComplexLigatureInterface;
 
 /**
  * A ligature (inspired from MacScribe) combining a glyph with one or two
@@ -12,7 +11,7 @@ import jsesh.model.api.ComplexLigatureInterface;
  * @author rosmord
  */
 public record AstComplexLigature(AstInnerGroup beforeGroup, AstHieroglyph hieroglyph, AstInnerGroup afterGroup)
-        implements AstHorizontalListElement, ComplexLigatureInterface {
+        implements AstHorizontalListElement {
 
     @Override
     public void accept(AstVisitor visitor) {

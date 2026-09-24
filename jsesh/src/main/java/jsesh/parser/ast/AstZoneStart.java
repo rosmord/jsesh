@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.ZoneStartInterface;
 
 /**
  * A zone marker, introducing a new drawing zone (position, dimensions,
@@ -13,7 +12,7 @@ import jsesh.model.api.ZoneStartInterface;
  * the zone marker had none (bare {@code zone}).
  * @author rosmord
  */
-public record AstZoneStart(AstOptionList options) implements AstNode, ZoneStartInterface {
+public record AstZoneStart(AstOptionList options) implements AstNode {
 
     @Override
     public void accept(AstVisitor visitor) {

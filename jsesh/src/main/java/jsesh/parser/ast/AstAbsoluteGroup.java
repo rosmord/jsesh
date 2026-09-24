@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.AbsoluteGroupInterface;
 
 /**
  * A group of signs with explicit placement, built with "&amp;&amp;" (each
@@ -16,7 +15,7 @@ import jsesh.model.api.AbsoluteGroupInterface;
  *
  * @author rosmord
  */
-public final class AstAbsoluteGroup implements AstInnerGroup, AbsoluteGroupInterface {
+public final class AstAbsoluteGroup implements AstInnerGroup {
 
     private final List<AstHieroglyph> hieroglyphs = new ArrayList<>();
 

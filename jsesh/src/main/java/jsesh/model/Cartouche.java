@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.CartoucheInterface;
 
 /**
  * <p>
@@ -8,7 +7,7 @@ import jsesh.model.api.CartoucheInterface;
  * @author Rosmorduc
  * </p>
  */
-public class Cartouche extends InnerGroup implements CartoucheInterface {
+public class Cartouche extends InnerGroup {
 
     /**
      *

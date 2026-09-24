@@ -2,7 +2,6 @@ package jsesh.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import jsesh.model.api.ModifierListInterface;
 
 /**
  * This file is free Software (c) Serge Rosmorduc
@@ -32,8 +31,7 @@ import jsesh.model.api.ModifierListInterface;
  * TODO CLEAN UP The inner structure of this class.
  */
 public class ModifiersList
-        extends EmbeddedModelElement
-        implements ModifierListInterface {
+        extends EmbeddedModelElement {
 
     /**
      *

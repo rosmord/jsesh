@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.LigatureInterface;
 /**
  * Ligature
  * @author rosmord
@@ -8,7 +7,7 @@ import jsesh.model.api.LigatureInterface;
  * This code is published under the GNU LGPL.
  */
 
-public class Ligature extends InnerGroup implements LigatureInterface {
+public class Ligature extends InnerGroup {
 
 
 	/**

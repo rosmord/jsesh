@@ -2,7 +2,6 @@
 package jsesh.model;
 
 
-import jsesh.model.api.SubCadratInterface;
 
 /**
  * 
@@ -11,7 +10,7 @@ import jsesh.model.api.SubCadratInterface;
  *
  *This code is published under the GNU LGPL.
  */
-public class SubCadrat extends InnerGroup implements SubCadratInterface {
+public class SubCadrat extends InnerGroup {
 	private static final long serialVersionUID = -9028273421807758298L;
 
 	public SubCadrat(BasicItemList b)

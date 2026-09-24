@@ -1,7 +1,6 @@
 
 package jsesh.model;
 
-import jsesh.model.api.InnerGroupInterface;
 
 /**
  * 
@@ -12,7 +11,7 @@ import jsesh.model.api.InnerGroupInterface;
  *This code is published under the GNU LGPL.
  */
 
-abstract public class InnerGroup extends HorizontalListElement implements InnerGroupInterface {
+abstract public class InnerGroup extends HorizontalListElement {
 
 	private static final long serialVersionUID = 7046828734218909370L;
 

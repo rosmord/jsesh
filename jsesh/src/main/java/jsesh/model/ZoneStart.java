@@ -7,7 +7,6 @@ package jsesh.model;
 
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.model.api.ZoneStartInterface;
 
 /**
  * Zone markers introduce new drawing zones in the text.
@@ -33,7 +32,7 @@ import jsesh.model.api.ZoneStartInterface;
  * @author S. Rosmorduc
  *
  */
-public class ZoneStart extends TopItem implements ZoneStartInterface {
+public class ZoneStart extends TopItem {
 
 	private static final long serialVersionUID = -6568578915390082362L;
 	/**

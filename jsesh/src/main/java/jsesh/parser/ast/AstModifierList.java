@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.ModifierListInterface;
 
 /**
  * The list of modifiers attached to a hieroglyph, in parse order.
@@ -18,7 +17,7 @@ import jsesh.model.api.ModifierListInterface;
  *
  * @author rosmord
  */
-public final class AstModifierList implements AstNode, ModifierListInterface {
+public final class AstModifierList implements AstNode {
 
     private final List<AstModifier> modifiers = new ArrayList<>();
 

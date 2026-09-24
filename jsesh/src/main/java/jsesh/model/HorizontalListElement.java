@@ -1,8 +1,7 @@
 package jsesh.model;
 
-import jsesh.model.api.HorizontalListElementInterface;
 
-abstract public class HorizontalListElement extends EmbeddedModelElement implements HorizontalListElementInterface{
+abstract public class HorizontalListElement extends EmbeddedModelElement {
 	
 	/**
 	 * 

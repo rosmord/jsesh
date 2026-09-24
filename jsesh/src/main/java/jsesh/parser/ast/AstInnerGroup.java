@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.InnerGroupInterface;
 
 /**
  * Base for the innermost groups: hieroglyphs, ligatures, cartouches,
@@ -8,7 +7,7 @@ import jsesh.model.api.InnerGroupInterface;
  *
  * @author rosmord
  */
-public sealed interface AstInnerGroup extends AstHorizontalListElement, InnerGroupInterface
+public sealed interface AstInnerGroup extends AstHorizontalListElement
         permits AstHieroglyph, AstCartouche, AstLigature, AstSubCadrat, AstOverwrite, AstPhilology,
         AstAbsoluteGroup {
 }

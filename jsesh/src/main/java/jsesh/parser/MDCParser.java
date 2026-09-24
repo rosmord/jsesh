@@ -1,4 +1,4 @@
-package jsesh.parser.handmade;
+package jsesh.parser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,7 +10,6 @@ import java.util.List;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
-import jsesh.parser.MDCSyntaxError;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItemList;
@@ -80,23 +79,27 @@ import static jsesh.parser.mdwlexer.MdcSymbolCode.*;
  *
  * @author rosmord
  */
-public class MDCHandmadeParser {
+
+/// Recursive descent parser for Manuel de Codage texts.
+/// 
+/// It builds an [AstDocument] from the input.
+/// 
+/// Any syntax error aborts the parse with an {@link MDCSyntaxError}: there is no error recovery.
+/// The GUI software (JSesh) reads files line-by-line, so it catches errors at the line level.
+public class MDCParser {
 
     private boolean debug = false;
     private boolean philologyAsSigns = true;
 
     private MdcLexer lexer;
 
-    /**
-     * The source text, as code points, kept only to compute the line number
-     * of a given position for {@link #error(String)} ({@link MdcLexer} itself
-     * only tracks a flat code-point offset, not lines).
-     */
+    /// The source text, represented as an array of code points.
+    /// 
+    /// Used to keep track of line numbers.
+    /// 
     private int[] codePoints;
 
-    /**
-     * The current lookahead symbol.
-     */
+    /// The current lookahead symbol.
     private MdcSymbol token;
 
     public AstDocument parse(String text) throws MDCSyntaxError {
@@ -133,12 +136,15 @@ public class MDCHandmadeParser {
         this.debug = debug;
     }
 
-    /**
-     * if true, philological markers, such as [[ and ]], are considered
-     * as simple signs, and not as constructs. Default is true, as in
-     * {@link jsesh.parser.MDCParserFacade}.
-     * @return true if philological markers are considered as simple signs.
-     */
+   
+    /// Are philological markers, such as `[[` and `]]`, considered as simple signs.
+    /// 
+    /// if false, they work as parenthesis. This was only the case in tksesh.
+    /// 
+    /// Defaults to true.
+    /// 
+    /// @return true if philological markers are considered as simple signs.
+    /// 
     public boolean isPhilologyAsSigns() {
         return philologyAsSigns;
     }
@@ -165,10 +171,10 @@ public class MDCHandmadeParser {
         return builder.toString();
     }
 
-    /**
-     * The 0-based line number of the given code-point position, counting
-     * newlines the way the original JFlex lexer's {@code %line} did.
-     */
+    /// Line number of a position.
+    /// 
+    /// 0 based.
+    /// @return the line number of the given position.    
     private int lineOf(int codePointPos) {
         int line = 0;
         int limit = Math.min(codePointPos, codePoints.length);
@@ -306,11 +312,9 @@ public class MDCHandmadeParser {
         return new AstDocument(AstTopItemList.of(items.toArray(new AstNode[0])));
     }
 
-    /**
-     * <pre>
-     * optSeparator ::= ε | SEPARATOR
-     * </pre>
-     */
+    /// ~~~
+    /// optSeparator ::= ε | SEPARATOR
+    /// ~~~
     private void skipOptSeparator() {
         if (at(SEPARATOR)) {
             advance();

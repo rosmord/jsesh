@@ -1,13 +1,12 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.OverwriteInterface;
 
 /**
  * Two hieroglyphs drawn one over the other ({@code a##b}).
  *
  * @author rosmord
  */
-public record AstOverwrite(AstHieroglyph first, AstHieroglyph second) implements AstInnerGroup, OverwriteInterface {
+public record AstOverwrite(AstHieroglyph first, AstHieroglyph second) implements AstInnerGroup {
 
     @Override
     public void accept(AstVisitor visitor) {

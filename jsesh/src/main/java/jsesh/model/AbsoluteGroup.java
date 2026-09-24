@@ -6,7 +6,6 @@
  */
 package jsesh.model;
 
-import jsesh.model.api.AbsoluteGroupInterface;
 
 /**
  * A group of signs with explicit placement. IMPORTANT : currently, we need at
@@ -15,7 +14,7 @@ import jsesh.model.api.AbsoluteGroupInterface;
  * @author rosmord
  *
  */
-public class AbsoluteGroup extends InnerGroup implements AbsoluteGroupInterface {
+public class AbsoluteGroup extends InnerGroup {
 
     private static final long serialVersionUID = -5214658535536154651L;
 

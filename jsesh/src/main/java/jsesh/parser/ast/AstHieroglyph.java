@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.HieroglyphInterface;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
 
@@ -21,7 +20,7 @@ import jsesh.model.constants.WordEndingCode;
  * @see jsesh.model.constants.SymbolCodes
  */
 public record AstHieroglyph(boolean isGrammar, int type, String code, AstModifierList modifiers,
-        WordEndingCode endingCode, int x, int y, int scale) implements AstInnerGroup, HieroglyphInterface {
+        WordEndingCode endingCode, int x, int y, int scale) implements AstInnerGroup {
 
     /**
      * A plain sign with the given code: no grammar flag, no modifiers, no

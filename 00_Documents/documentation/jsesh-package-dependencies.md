@@ -92,7 +92,6 @@ flowchart TD
 
     res[jsesh.resources]
 
-    model -.->|"2"| parser
     utils -->|1| res
     model -->|6| signcodes
     model -->|3| utils
@@ -189,8 +188,8 @@ flowchart TD
 | config | glossary, defaults |
 | UI | ui.widgets, ui.palette, ui.clipboard, ui.export, ui.editor, ui.glossary |
 
-**One** red edge is left: `model -> parser` (2), the back-edge of the
-`model <-> parser` pair — the last mutual pair in the module.
+**No** red edge is left: `model -> parser`, the back-edge of the former
+`model <-> parser` pair, was removed on 2026-09-24 (see history below).
 `jsesh.signcodes` and `jsesh.platform` are both clean: no outgoing edge.
 `jsesh.glyphs` is clean too: it only reaches down to signcodes, utils and
 platform.
@@ -243,7 +242,6 @@ flowchart TD
     ui[jsesh.ui]:::uiStyle
     res[jsesh.resources]
 
-    model -.->|"2"| parser
     utils -->|1| res
     model -->|6| signcodes
     model -->|3| utils
@@ -300,13 +298,12 @@ flowchart TD
 
 **Legend**
 
-At this granularity the graph is a **DAG except for one edge**.
+At this granularity the graph is a **DAG**.
 `jsesh.ui` is again a pure consumer: 12 outgoing edges, **zero incoming**.
 `jsesh.platform` (2 incoming, zero outgoing) and `jsesh.signcodes`
 (6 incoming, zero outgoing) are pure leaves.
-`model <-> parser` is the only mutual pair left in the whole module, and
-`model -> parser` (2) the only upward edge anywhere. (`model <-> glyphs`,
-`model -> io`, `signcodes <-> glyphs`, `glyphs -> ui` and
+There is no mutual pair and no upward edge left in the whole module.
+(`model <-> parser`, `model <-> glyphs`, `model -> io`, `signcodes <-> glyphs`, `glyphs -> ui` and
 `glyphs <-> graphics.glyphs` are all gone.)
 
 ## 3. Top-level view, transitively reduced
@@ -376,7 +373,6 @@ flowchart TD
 
     res[jsesh.resources]
 
-    model -.->|"2"| parser
     ui -->|97| render
     ui -->|7| io
     ui -->|5| defaults
@@ -424,8 +420,8 @@ meeting at the bottom: the *document* branch
 or `document` imports `glyphs`, and nothing in `glyphs` imports the model —
 they are independent, and only meet again at `signcodes` and `utils`.
 That separation is exactly what extracting `jsesh.signcodes` bought.
-The single red edge is the `model <-> parser` cycle, which no reduction
-can remove.
+There is no red edge left: `model -> parser` is gone, so `parser`
+sits strictly above `model`.
 
 ## History of the clean-up
 
@@ -445,6 +441,16 @@ can remove.
 | — | `jsesh.ui.palette` (new) |
 
 **Layering violations fixed** (edges that no longer exist)
+
+- `model -> parser` (was 2, red; removed 2026-09-24) — two causes. The
+  `jsesh.model.api` marker interfaces (`CadratInterface`, `HBoxInterface`…)
+  were implemented by both the model classes and the `jsesh.parser.ast`
+  nodes, but carried no methods and were never used as types, so the
+  package was deleted outright. `jsesh.model.tools.MDCCodeExtractor`, which
+  parses an MdC string and walks the AST, moved to `jsesh.parser`, where it
+  belongs. `jsesh.model` no longer imports `jsesh.parser` in any form; the
+  edge counts in the diagrams above predate this change and were not
+  regenerated.
 
 - `glyphs -> ui.widgets` (was 1, red) — a javadoc-only `{@link}` in
   `UserSignWriter`, and then the orphaned `import` that survived the `{@link}`'s
@@ -497,9 +503,4 @@ that way, and `jsesh.glyphs.signsource.UserSignWriter` then imported
 half to the lesson: deleting the `{@link}` is not enough, since the `import`
 outlives it and keeps the edge alive. Both are now fully cleaned up.
 
-**Layering violations remaining** (1 red edge)
-
-- `model -> parser` (2) — the core model still reaches up into parsing
-  (`jsesh.model.tools.MDCCodeExtractor` runs `MDCParserAstGenerator`). This is
-  the one knot left, and the only mutual pair still in the module. Everything
-  else in `jsesh` now points strictly downwards.
+**Layering violations remaining**: none.

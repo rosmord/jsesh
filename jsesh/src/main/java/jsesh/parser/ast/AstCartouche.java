@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.CartoucheInterface;
 
 /**
  * A cartouche, serekh, hout-sign or castle.
@@ -12,7 +11,7 @@ import jsesh.model.api.CartoucheInterface;
  * @author rosmord
  */
 public record AstCartouche(int type, int startPart, int endPart, AstBasicItemList content)
-        implements AstInnerGroup, CartoucheInterface {
+        implements AstInnerGroup {
 
     /**
      * A plain, fully-drawn cartouche ({@code <...>}: both extremities drawn,

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.OptionListInterface;
 
 /**
  * A {@code [name, name=value, ...]} option list, attached to a cadrat, a
@@ -22,7 +21,7 @@ import jsesh.model.api.OptionListInterface;
  *
  * @author rosmord
  */
-public final class AstOptionList implements OptionListInterface {
+public final class AstOptionList {
 
     private final List<AstOption> options = new ArrayList<>();
 

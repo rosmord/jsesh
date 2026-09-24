@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.PhilologyInterface;
 
 /**
  * 
@@ -9,7 +8,7 @@ import jsesh.model.api.PhilologyInterface;
  *
  *This code is published under the GNU LGPL.
  */
-public class Philology extends InnerGroup implements PhilologyInterface {
+public class Philology extends InnerGroup {
 
 	private static final long serialVersionUID = -433250876175828144L;
 	private int type;

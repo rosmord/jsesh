@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.BasicItemListInterface;
 
 /**
  * BasicItemList : an auxiliary class, used as <em>implementation</em> for all elements
@@ -14,8 +13,7 @@ import jsesh.model.api.BasicItemListInterface;
  */
 
 public class BasicItemList
-    extends EmbeddedModelElement
-	implements BasicItemListInterface {
+    extends EmbeddedModelElement {
 
 	/**
 	 * 

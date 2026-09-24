@@ -1,13 +1,12 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.MDCFileInterface;
 
 /**
  * The root of a parsed Manuel de Codage text.
  *
  * @author rosmord
  */
-public record AstDocument(AstTopItemList topItems) implements AstNode, MDCFileInterface {
+public record AstDocument(AstTopItemList topItems) implements AstNode {
 
     /**
      * Hand-builds a document from its top-level items, for tests.

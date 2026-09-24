@@ -4,8 +4,6 @@
  */
 package jsesh.model;
 
-import jsesh.model.api.CadratInterface;
-import jsesh.model.api.VBoxInterface;
 
 /**
  * <p> A quadrat.
@@ -15,8 +13,7 @@ import jsesh.model.api.VBoxInterface;
  * </p>
  */
 public class Cadrat
-	extends BasicItem
-	implements CadratInterface, VBoxInterface {
+	extends BasicItem {
 
 	/**
 	 * 

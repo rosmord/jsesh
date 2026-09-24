@@ -56,7 +56,7 @@ not this table, as the source of truth when it disagrees.
 | base | `jsesh.utils` | Shared utilities, incl. `.io` (`DirectoryReference`) |
 | base | `jsesh.platform` | Preferences, resources, metadata (pure leaf, no outgoing deps) |
 | core | `jsesh.signcodes` | Gardiner-code identity: `GardinerCode`, `ManuelDeCodage`, `CanonicalCode`, `HieroglyphCodesSource` (pure leaf) |
-| core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools`, `.api` |
+| core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools` |
 | core | `jsesh.parser` | MDC parser and lexer (`.lex`), generated and handwritten |
 | core | `jsesh.glyphs` | Sign database and shapes: `.signdata`, `.fonts`, `.shape`, `.signsource`, `.tools`, `.resources` |
 | document | `jsesh.document` | `MDCDocument`, `DocumentPreferences`, `HieroglyphicTextModel`, undo machinery |
@@ -99,7 +99,7 @@ TopItemList                  ← document root (implements MDCFileInterface)
        └─ TabStop / Tabbing
 ```
 
-- `MDCFileInterface` and the other `jsesh.model.api` marker interfaces (`CadratInterface`, `HBoxInterface`...) are shared by the interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`); each is implemented by both a `jsesh.model` class and its `jsesh.parser.ast` counterpart.
+- The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types: `jsesh.parser` depends on `jsesh.model`, never the reverse.
 - `ModelElement` is the abstract base; all elements support an observer pattern for change notification.
 
 ### MDC Parser (`jsesh` module)

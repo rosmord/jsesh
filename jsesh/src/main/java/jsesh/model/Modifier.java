@@ -1,6 +1,5 @@
 package jsesh.model;
 
-import jsesh.model.api.ModifierInterface;
 
 /**
  * <p>
@@ -19,7 +18,7 @@ import jsesh.model.api.ModifierInterface;
  * @author Rosmorduc
  *         </p>
  */
-public class Modifier extends EmbeddedModelElement implements ModifierInterface {
+public class Modifier extends EmbeddedModelElement {
 	/**
 	 * 
 	 */

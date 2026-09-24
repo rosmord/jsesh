@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.api.HBoxInterface;
 
 /**
  * A horizontal list of {@link AstHorizontalListElement}s: hieroglyphs,
@@ -17,7 +16,7 @@ import jsesh.model.api.HBoxInterface;
  *
  * @author rosmord
  */
-public final class AstHBox implements AstNode, HBoxInterface {
+public final class AstHBox implements AstNode {
 
     private final List<AstHorizontalListElement> elements = new ArrayList<>();
 

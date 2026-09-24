@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jsesh.model.api.MDCFileInterface;
-import jsesh.model.api.TopItemListInterface;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.operations.ZoneModification;
 import jsesh.model.tools.HieroglyphCodesExtractor;
@@ -18,8 +16,7 @@ import jsesh.model.tools.HieroglyphCodesExtractor;
  *
  * This code is published under the GNU LGPL.
  */
-public class TopItemList extends ModelElement implements MDCFileInterface,
-        TopItemListInterface {
+public class TopItemList extends ModelElement {
 
     /**
      *

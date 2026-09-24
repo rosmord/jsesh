@@ -4,7 +4,6 @@ import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.signcodes.ManuelDeCodage;
-import jsesh.model.api.HieroglyphInterface;
 
 /**
  *
@@ -14,7 +13,7 @@ import jsesh.model.api.HieroglyphInterface;
  *
  * This code is published under the GNU LGPL.
  */
-public class Hieroglyph extends InnerGroup implements HieroglyphInterface {
+public class Hieroglyph extends InnerGroup {
 
     /**
      *

@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import jsesh.model.api.OptionListInterface;
 
 /**
  * Map of attributes given to a glyph or construct.
@@ -20,7 +19,7 @@ import jsesh.model.api.OptionListInterface;
  * @author S. Rosmorduc
  * 
  */
-public class OptionsMap implements OptionListInterface, Comparable<OptionsMap>,
+public class OptionsMap implements Comparable<OptionsMap>,
 		Serializable {
 
 	

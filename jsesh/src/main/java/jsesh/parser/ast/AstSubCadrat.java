@@ -1,6 +1,5 @@
 package jsesh.parser.ast;
 
-import jsesh.model.api.SubCadratInterface;
 
 /**
  * A parenthesized group, embedding a {@link AstBasicItemList} (which may
@@ -8,7 +7,7 @@ import jsesh.model.api.SubCadratInterface;
  *
  * @author rosmord
  */
-public record AstSubCadrat(AstBasicItemList content) implements AstInnerGroup, SubCadratInterface {
+public record AstSubCadrat(AstBasicItemList content) implements AstInnerGroup {
 
     /**
      * Hand-builds a sub-cadrat from its content, for tests.
