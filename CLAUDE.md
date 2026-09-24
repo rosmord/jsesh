@@ -151,6 +151,16 @@ repository) that has exactly one valid instance for the whole JVM. Don't
 
 All user-visible strings live in `jseshLabels`. When adding UI text, add it there rather than inline.
 
+## Documentation comments
+
+- Write javadoc as Markdown documentation comments (`///`, JEP 467), not `/** ... */`. Existing `/** */` comments are being converted gradually: convert one when you rewrite it, but don't mass-convert unrelated files.
+- Links in Markdown comments use reference syntax: `[Foo]`, `[Foo#bar(int)]`, `[text][jsesh.x.Foo]`.
+- Link direction versus the package layering (see `00_Documents/documentation/jsesh-package-dependencies.md`):
+  - **Downwards or same layer:** a short name is fine if the class is already imported for code.
+  - **Upwards** (a lower package pointing to a higher one, e.g. `jsesh.parser` → `jsesh.mdcreader`): allowed, and useful as "see the high-level API", but always write the **fully qualified** name (`[jsesh.mdcreader.MDCParserModelGenerator]`). **Never add an `import` just for a comment**: it creates a real source dependency that the dependency diagrams count.
+  - **Non-public targets:** link to a package-private (or private) class or member only from its own package. From another package, public javadoc can't resolve the link. Link to the nearest public entry point instead (e.g. `[jsesh.mdcreader.MDCParserModelGenerator]` rather than the package-private `AstModelBuilder`), or write the name as code.
+  - **Outside the current Gradle module** (e.g. from `jsesh` to `jseshAppli` or `jseshSearch`): don't link. Write the name as code, `` `jsesh.search.SomeClass` ``, because javadoc can't resolve it when documenting this module.
+
 ## Bash commands 
 
 - note that we run on a mac.
