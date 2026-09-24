@@ -1634,7 +1634,14 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 }
             }
             if (addNew) {
-                if (mdcSectionCode != '|') {
+                if (mode == 'T') {
+                    // Uppercase transliteration is a special case.
+                    String toAdd = "^" + key;
+                    hieroglyphicTextModel.insertElementAt(caret
+                            .getInsertPosition(),
+                            new AlphabeticText(mdcSectionCode, toAdd).buildTopItem());
+                    mode = 't'; // Most of the time, only one uppercase char will be needed !!!
+                } else if (mdcSectionCode != '|') {
                     hieroglyphicTextModel.insertElementAt(caret
                             .getInsertPosition(),
                             new AlphabeticText(mdcSectionCode, Character.toString(key)).buildTopItem());
