@@ -7,6 +7,7 @@
  */
 package org.qenherkhopeshef.mdwlexer.demo;
 
+import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.anyCharacter;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.character;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.characterRange;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.complement;
@@ -69,6 +70,39 @@ class AutomatonShowcase {
                 "An intersection of two simple languages. The NFA stage already embeds two "
                         + "separately-determinized operand DFAs as fragments (see "
                         + "`ExpressionCompiler.intersectionFragment`).",
+                compiled.automaton(), compiled.classifier()::describe);
+    }
+
+    @Test
+    void intersectionAorBStarAndLengthTwo() {
+        Expression aOrB = union(character('a'), character('b'));
+        Expression aOrBStar = repeat(aOrB);
+        Expression lengthTwo = sequence(anyCharacter(), anyCharacter());
+        Expression intersection = intersection(aOrBStar, lengthTwo);
+
+        ExpressionCompiler.Result<DemoToken> compiled =
+                ExpressionCompiler.compile(intersection, DemoToken.IDENTIFIER);
+
+        MarkdownAutomatonReport.write(
+                "Intersection of (ab)\\* and length 2",
+                "An intersection of two very simple languages.",
+                compiled.automaton(), compiled.classifier()::describe);
+    }
+
+
+
+    @Test
+    void intersectionAStarBStarAndLengthTwo() {
+        Expression aStarbStar = sequence(repeat(character('a')), repeat(character('b')));
+        Expression lengthTwo = sequence(anyCharacter(), anyCharacter());
+        Expression intersection = intersection(aStarbStar, lengthTwo);
+
+        ExpressionCompiler.Result<DemoToken> compiled =
+                ExpressionCompiler.compile(intersection, DemoToken.IDENTIFIER);
+
+        MarkdownAutomatonReport.write(
+                "Intersection of a\\*b\\* and length 2",
+                "An intersection of two very simple languages.",
                 compiled.automaton(), compiled.classifier()::describe);
     }
 
