@@ -65,6 +65,30 @@ class LexerTest {
     }
 
     @Test
+    void tracksLinesAndColumnsAcrossAllLineEndings() throws IOException {
+        Lexer<DemoToken> lexer = demoLexicon().newLexer(new StringReader("if x\n  y\r\nz\r\r  w"));
+
+        assertLocation(lexer.nextToken().orElseThrow(), 0, 1, 0);
+        assertLocation(lexer.nextToken().orElseThrow(), 3, 1, 3);
+        assertLocation(lexer.nextToken().orElseThrow(), 7, 2, 2);
+        assertLocation(lexer.nextToken().orElseThrow(), 10, 3, 0);
+        assertLocation(lexer.nextToken().orElseThrow(), 15, 5, 2);
+    }
+
+    @Test
+    void lexicalExceptionReportsLineAndColumn() {
+        Lexer<DemoToken> lexer = demoLexicon().newLexer(new StringReader("a\n b #"));
+
+        LexicalException error = assertThrows(LexicalException.class, () -> {
+            while (lexer.nextToken().isPresent()) {
+            }
+        });
+        assertEquals(5, error.position());
+        assertEquals(2, error.line());
+        assertEquals(3, error.column());
+    }
+
+    @Test
     void unmatchedCharacterThrows() {
         Lexer<DemoToken> lexer = demoLexicon().newLexer(new StringReader("#"));
 
@@ -100,6 +124,12 @@ class LexerTest {
         assertEquals(
                 Set.of(DemoToken.IF, DemoToken.ELSE, DemoToken.FUN, DemoToken.IDENTIFIER, DemoToken.INTEGER),
                 lexicon.tokenTypes());
+    }
+
+    private static void assertLocation(Token<DemoToken> token, int position, int line, int column) {
+        assertEquals(position, token.position(), "position");
+        assertEquals(line, token.line(), "line");
+        assertEquals(column, token.column(), "column");
     }
 
     private static void assertToken(Lexer<DemoToken> lexer, DemoToken type, String text) throws IOException {

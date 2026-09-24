@@ -10,12 +10,7 @@ import org.qenherkhopeshef.mdwlexer.Lexicon;
 import org.qenherkhopeshef.mdwlexer.automata.DeterministicFiniteAutomaton;
 import org.qenherkhopeshef.mdwlexer.automata.State;
 
-/// A stateful scanner for the Manuel de Codage syntax, driven by an immutable [MdcLexicon].
-/// The original JLex scanner originally specified in `MDCLexAux.l` but we update it to
-/// **mdwlexer**.
-///
-/// This lexer uses two different automata to simulate the state-oriented behaviour of
-/// the JLex scanner.
+/// A scanner for the Manuel de Codage syntax.
 ///
 /// There is a main lexicon, and a secondary one which deals with properties,
 /// to separate the way numbers and identifiers are dealt with after braces and double curly braces.
@@ -35,11 +30,6 @@ import org.qenherkhopeshef.mdwlexer.automata.State;
 /// itself, since skipping it was never a legitimate option - one fewer thing for a caller to get
 /// wrong.
 ///
-/// **Known discrepancy.** The original's `\R` modifier rule (line 379) reads
-/// `\R"-"?[0-9]*)` - with a stray, unbalanced `)` after `[0-9]*`. That's very
-/// likely a typo (nothing before it opens a group), so it's dropped here; see
-/// [MdcTokenType#MODIFIER_R]. Worth confirming against the real JLex behavior if that rule
-/// matters.
 ///
 /// Not thread-safe. Built with [MdcLexicon#newLexer(String)] / [MdcLexicon#newLexer(Reader)].
 public final class MdcLexer {

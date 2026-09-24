@@ -20,10 +20,11 @@ import org.qenherkhopeshef.mdwlexer.Expression;
 import org.qenherkhopeshef.mdwlexer.Lexicon;
 import org.qenherkhopeshef.mdwlexer.LexiconBuilder;
 
-/// Immutable, compiled lexicon for the Manuel de Codage syntax, translating every rule of the
-/// original `MDCLexAux.l` into an [Expression] via [org.qenherkhopeshef.mdwlexer.ExpressionBuilder]
-/// and compiling the result down to the DFAs backing [MdcLexer].
+/// Immutable, compiled lexicon for the Manuel de Codage syntax.
 ///
+/// This class is a **Singleton** : use [#instance()] to get the shared instance, 
+/// and [#newLexer(String)] or [#newLexer(Reader)] to create a new stateful lexer scanning some input.
+/// 
 /// The library's [Lexicon]/[LexiconBuilder] only model a single start state, but
 /// the original grammar has two (`YYINITIAL` and `PROPERTIES`, switched with
 /// `yybegin`). So this wraps one [Lexicon] per state instead of one shared lexicon;
@@ -41,7 +42,7 @@ import org.qenherkhopeshef.mdwlexer.LexiconBuilder;
 /// out one shared, immutable instance. Use [#newLexer(String)] or [#newLexer(Reader)] to start
 /// scanning actual input with it.
 public final class MdcLexicon {
-    // ---- Character classes shared by several rules (named after the .l file's own macros) ----
+    // ---- Character classes shared by several rules
 
     private static final Expression DIGIT = characterRange('0', '9');
     private static final Expression INTEGER = oneOrMore(DIGIT);
