@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.defaults.HieroglyphResourcesBuilder;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;

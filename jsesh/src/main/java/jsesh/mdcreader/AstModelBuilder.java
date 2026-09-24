@@ -1,4 +1,4 @@
-package jsesh.parser;
+package jsesh.mdcreader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,11 @@ import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
 import jsesh.model.TopItemState;
 import jsesh.model.constants.Dialect;
+import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
+import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItemList;
@@ -66,25 +68,15 @@ import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.WordEnding;
+import jsesh.parser.lexer.PhilologyKind;
+import jsesh.parser.lexer.SignSubType;
 
-/**
- * Builds the usable document model ({@link TopItemList}) from the literal
- * AST that {@link MDCParserAstGenerator} produces, by walking it as an
- * {@link AstVisitor}.
- * <p>This is where the interpretation the AST deliberately defers happens:
- * toggles are folded into red/shaded state on the items that follow,
- * cadrat/zone options are dropped, dialect-specific modifier renaming is
- * applied, and so on -- the same interpretation the retired
- * {@code jsesh.model.MDCModelBuilder} used to apply while the parser was
- * still running.
- * <p>Each visit method pushes the model object it built for its node onto an
- * internal stack (or {@code null} for the handful of AST nodes that turn
- * into no model object at all: toggles, zone starts, the "+s" marker), for
- * the enclosing call to pop.
- *
- * @author rosmord
- * @see MDCParserModelGenerator
- */
+/// An AstVisitor which knows how to build a [TopItemList] model from an [AstDocument] AST.
+/// @author rosmord
+/// @see MDCParserModelGenerator
+ 
+
 class AstModelBuilder implements AstVisitor {
 
     private final Dialect dialect;
@@ -182,8 +174,8 @@ class AstModelBuilder implements AstVisitor {
     public void visitHieroglyph(AstHieroglyph node) {
         Hieroglyph hieroglyph = new Hieroglyph(node.code());
         hieroglyph.setGrammar(node.isGrammar());
-        hieroglyph.setType(node.type());
-        hieroglyph.setEndingCode(node.endingCode());
+        hieroglyph.setType(toSignTypeCode(node.type()));
+        hieroglyph.setEndingCode(toWordEndingCode(node.endingCode()));
         hieroglyph.setModifiers(build(node.modifiers(), ModifiersList.class));
         // (0, 0, 100) is both AstHieroglyph's "no explicit position" default
         // and Hieroglyph's own default, so skipping the call in that case
@@ -235,9 +227,9 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitPhilology(AstPhilology node) {
-        // Only the opening code is kept, as MDCModelBuilder did: the closing
+        // Only the opening kind is kept, as MDCModelBuilder did: the closing
         // one is normally identical (see AstPhilology's javadoc).
-        push(new Philology(node.openingCode(), build(node.content(), BasicItemList.class)));
+        push(new Philology(philologySubCode(node.openingKind()), build(node.content(), BasicItemList.class)));
     }
 
     @Override
@@ -283,7 +275,7 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitToggle(AstToggle node) {
-        ToggleType toggle = node.toggleType();
+        ToggleType toggle = toToggleType(node.toggleType());
         if (toggle == ToggleType.BLACK) {
             currentState.setRed(false);
         } else if (toggle == ToggleType.BLACKRED) {
@@ -351,5 +343,74 @@ class AstModelBuilder implements AstVisitor {
             name = "R";
         }
         push(new Modifier(name, node.value()));
+    }
+
+    // ------------------------------------------------------------------
+    // Lexical value -> model-code translation
+    //
+    // The AST stores the lexer's own enums, so that jsesh.parser does not
+    // depend on jsesh.model; the mapping to jsesh.model.constants lives here.
+    // ------------------------------------------------------------------
+
+    /**
+     * The {@link SymbolCodes} constant for a hieroglyph's subtype: the plain
+     * subtypes map directly, while a philological bracket read as a sign
+     * (philologyAsSigns mode) reproduces the original lexer's
+     * {@code subtype * 2} / {@code subtype * 2 + 1} (begin/end) scheme.
+     */
+    private static int toSignTypeCode(SignSubType subtype) {
+        return switch (subtype) {
+            case SignSubType.Plain plain -> switch (plain) {
+                case MDC_CODE -> SymbolCodes.MDCCODE;
+                case RED_POINT -> SymbolCodes.REDPOINT;
+                case BLACK_POINT -> SymbolCodes.BLACKPOINT;
+                case SMALL_TEXT -> SymbolCodes.SMALLTEXT;
+                case HALF_SPACE -> SymbolCodes.HALFSPACE;
+                case FULL_SPACE -> SymbolCodes.FULLSPACE;
+                case FULL_SHADE -> SymbolCodes.FULLSHADE;
+                case VERTICAL_SHADE -> SymbolCodes.VERTICALSHADE;
+                case QUARTER_SHADE -> SymbolCodes.QUATERSHADE;
+                case HORIZONTAL_SHADE -> SymbolCodes.HORIZONTALSHADE;
+            };
+            case SignSubType.Philology(PhilologyKind kind, boolean begin) -> {
+                int base = philologySubCode(kind);
+                yield begin ? base * 2 : base * 2 + 1;
+            }
+        };
+    }
+
+    /** The {@link SymbolCodes} philology sub-type constant (50-56) for a bracket kind. */
+    private static int philologySubCode(PhilologyKind kind) {
+        return switch (kind) {
+            case ERASED_SIGNS -> SymbolCodes.ERASEDSIGNS;
+            case EDITOR_ADDITION -> SymbolCodes.EDITORADDITION;
+            case EDITOR_SUPERFLUOUS -> SymbolCodes.EDITORSUPERFLUOUS;
+            case PREVIOUSLY_READABLE -> SymbolCodes.PREVIOUSLYREADABLE;
+            case SCRIBE_ADDITION -> SymbolCodes.SCRIBEADDITION;
+            case MINOR_ADDITION -> SymbolCodes.MINORADDITION;
+            case DUBIOUS -> SymbolCodes.DUBIOUS;
+        };
+    }
+
+    private static ToggleType toToggleType(jsesh.parser.lexer.ToggleType toggle) {
+        return switch (toggle) {
+            case SHADING_TOGGLE -> ToggleType.SHADINGTOGGLE;
+            case SHADING_ON -> ToggleType.SHADINGON;
+            case SHADING_OFF -> ToggleType.SHADINGOFF;
+            case RED -> ToggleType.RED;
+            case BLACK -> ToggleType.BLACK;
+            case BLACK_RED -> ToggleType.BLACKRED;
+            case LACUNA -> ToggleType.LACUNA;
+            case LINE_LACUNA -> ToggleType.LINELACUNA;
+            case OMIT -> ToggleType.OMMIT;
+        };
+    }
+
+    private static WordEndingCode toWordEndingCode(WordEnding ending) {
+        return switch (ending) {
+            case NONE -> WordEndingCode.NONE;
+            case WORD_END -> WordEndingCode.WORD_END;
+            case SENTENCE_END -> WordEndingCode.SENTENCE_END;
+        };
     }
 }

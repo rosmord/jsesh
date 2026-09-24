@@ -4,7 +4,7 @@ package jsesh.parser.ast;
 /**
  * A zone marker, introducing a new drawing zone (position, dimensions,
  * text orientation and direction), given as options: {@code zone[...]}.
- * <p>{@link jsesh.parser.AstModelBuilder} drops the zone marker from the
+ * <p>{@link jsesh.mdcreader.AstModelBuilder} drops the zone marker from the
  * model entirely (it never fills in its options); here the raw option list
  * is kept as parsed.
  *

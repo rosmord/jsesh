@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.JSeshInfoConstants;

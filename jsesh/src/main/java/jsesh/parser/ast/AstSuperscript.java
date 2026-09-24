@@ -4,7 +4,7 @@ package jsesh.parser.ast;
  * A superscript text annotation.
  * <p>The text is kept exactly as the parser read it, including any "\"
  * protection characters in front of "\" and "-"; unescaping them, as
- * {@link jsesh.parser.AstModelBuilder} does, is left to the consumer.
+ * {@link jsesh.mdcreader.AstModelBuilder} does, is left to the consumer.
  *
  * @author rosmord
  */

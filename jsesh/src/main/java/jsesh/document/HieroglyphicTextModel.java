@@ -48,7 +48,7 @@ import jsesh.document.command.MDCCommand;
 import jsesh.document.events.NewTextEvent;
 import jsesh.document.events.TextEvent;
 import jsesh.document.events.TextOperationEvent;
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.MDCPosition;

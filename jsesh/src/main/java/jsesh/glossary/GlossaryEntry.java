@@ -35,7 +35,7 @@ package jsesh.glossary;
 
 import java.util.Objects;
 
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AlphabeticText;
 import jsesh.model.TopItemList;

@@ -3,7 +3,7 @@ package jsesh.parser.ast;
 /**
  * A complex tabulation: {@code %[...]}, with options such as {@code id},
  * {@code orientation} and {@code justification}.
- * <p>Unlike {@link jsesh.parser.AstModelBuilder}, which interprets those
+ * <p>Unlike {@link jsesh.mdcreader.AstModelBuilder}, which interprets those
  * options immediately (defaulting missing ones), this keeps the raw option
  * list as parsed; interpreting it is left to the consumer.
  *

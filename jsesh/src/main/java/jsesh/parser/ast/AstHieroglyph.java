@@ -1,15 +1,15 @@
 package jsesh.parser.ast;
 
-import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.WordEndingCode;
+import jsesh.parser.lexer.SignSubType;
 
 /**
  * A single sign, in context: a Gardiner-ish code, its modifiers, and whether
  * it marks a word or sentence end.
  *
  * @param isGrammar true if the sign is part of a grammatical ending.
- * @param type a code which distinguishes real hieroglyphs (MDCCODE) from
- * other symbols, such as shading or red points.
+ * @param type distinguishes real hieroglyphs ({@link SignSubType.Plain#MDC_CODE})
+ * from other symbols, such as shading or red points, or philological brackets
+ * read as signs.
  * @param code the raw Manuel de Codage code for this sign, exactly as typed
  * (not canonicalized).
  * @param x explicit x position, in 1/1000 of the height of an A1 sign; only
@@ -17,10 +17,9 @@ import jsesh.model.constants.WordEndingCode;
  * @param y explicit y position, same unit as {@code x}.
  * @param scale explicit scale, in percent (100 is the natural size).
  * @author rosmord
- * @see jsesh.model.constants.SymbolCodes
  */
-public record AstHieroglyph(boolean isGrammar, int type, String code, AstModifierList modifiers,
-        WordEndingCode endingCode, int x, int y, int scale) implements AstInnerGroup {
+public record AstHieroglyph(boolean isGrammar, SignSubType type, String code, AstModifierList modifiers,
+        WordEnding endingCode, int x, int y, int scale) implements AstInnerGroup {
 
     /**
      * A plain sign with the given code: no grammar flag, no modifiers, no
@@ -55,9 +54,9 @@ public record AstHieroglyph(boolean isGrammar, int type, String code, AstModifie
 
         private final String code;
         private boolean isGrammar;
-        private int type = SymbolCodes.MDCCODE;
+        private SignSubType type = SignSubType.Plain.MDC_CODE;
         private AstModifierList modifiers = AstModifierList.of();
-        private WordEndingCode endingCode = WordEndingCode.NONE;
+        private WordEnding endingCode = WordEnding.NONE;
         private int x;
         private int y;
         private int scale = 100;
@@ -74,7 +73,7 @@ public record AstHieroglyph(boolean isGrammar, int type, String code, AstModifie
             return this;
         }
 
-        public Builder type(int type) {
+        public Builder type(SignSubType type) {
             this.type = type;
             return this;
         }
@@ -85,12 +84,12 @@ public record AstHieroglyph(boolean isGrammar, int type, String code, AstModifie
         }
 
         public Builder wordEnd() {
-            endingCode = WordEndingCode.WORD_END;
+            endingCode = WordEnding.WORD_END;
             return this;
         }
 
         public Builder sentenceEnd() {
-            endingCode = WordEndingCode.SENTENCE_END;
+            endingCode = WordEnding.SENTENCE_END;
             return this;
         }
 

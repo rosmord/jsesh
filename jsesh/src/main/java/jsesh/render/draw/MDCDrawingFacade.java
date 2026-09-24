@@ -13,7 +13,7 @@ import java.io.StringReader;
 
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.model.TopItemList;
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;

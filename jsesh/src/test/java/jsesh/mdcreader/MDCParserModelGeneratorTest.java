@@ -1,4 +1,4 @@
-package jsesh.parser;
+package jsesh.mdcreader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,6 +12,7 @@ import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.TopItemList;
+import jsesh.parser.MDCSyntaxError;
 
 /**
  * Structural tests for {@link MDCParserModelGenerator}: unlike the existing

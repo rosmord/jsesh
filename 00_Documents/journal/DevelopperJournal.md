@@ -35,6 +35,16 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-09-24
+
+- continued work on lexer/parser. Now cleaning up.
+- slowly converting javadoc comments to [Markdown](https://docs.oracle.com/en/java/javase/25/javadoc/using-markdown-documentation-comments.html#GUID-0E4D6135-AAE9-4641-8427-CEE7F65E4F6E)
+- removed the `jsesh.parser -> jsesh.model` dependency. `MDCParserModelGenerator` and `AstModelBuilder` moved to a new
+  `jsesh.mdcreader` package (not `jsesh.io`: `io -> document` already exists, and `HieroglyphicTextModel` needs the
+  generator, so that would have created a cycle). The AST now uses the lexer's enums (`SignSubType`, `PhilologyKind`,
+  lexer `ToggleType`, new `WordEnding`) instead of model constants, so no shared "constants" package was needed.
+  Breaking change for embedders: `MDCParserModelGenerator` changed package.
+
 ## 2026-09-23
 
 Both very practical and terrifying. Claude has built just the lexer system I wanted it to create, and a handmade parser. I ensured both system gave the same result on the existing files.

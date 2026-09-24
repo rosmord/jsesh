@@ -4,7 +4,7 @@ import java.io.StringWriter;
 
 import jsesh.model.TopItemList;
 import jsesh.model.tools.MDCNormalizer;
-import jsesh.parser.MDCParserModelGenerator;
+import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 
 /**

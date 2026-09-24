@@ -9,9 +9,6 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.ToggleType;
-import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItemList;
@@ -43,6 +40,7 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.AlphabeticText;
 import jsesh.parser.lexer.Cartouche;
 import jsesh.parser.lexer.HRule;
@@ -54,7 +52,7 @@ import jsesh.parser.lexer.MdcSymbolCode;
 import jsesh.parser.lexer.Modifier;
 import jsesh.parser.lexer.OldCartoucheStart;
 import jsesh.parser.lexer.PhilologyKind;
-import jsesh.parser.lexer.SignSubType;
+import jsesh.parser.lexer.ToggleType;
 
 /**
  * Hand-written recursive descent parser for Manuel de Codage text, building
@@ -62,14 +60,14 @@ import jsesh.parser.lexer.SignSubType;
  * <p>It replaced an earlier CUP-generated parser
  * ({@code jsesh/src/jcup/MDCParse.y}), checked equivalent construct-by-
  * construct before that grammar was retired. It drives the hand-written
- * {@link jsesh.parser.mdwlexer.MdcLexer} (itself the replacement for the
+ * {@link jsesh.parser.lexer.MdcLexer} (itself the replacement for the
  * retired JFlex-generated {@code MDCLexAux}) directly, translating each
- * {@link jsesh.parser.mdwlexer.MdcSymbol} it reads into the
- * {@link jsesh.parser.ast} tree. The handful of lexeme-to-model-code mappings
- * ({@link #toSignTypeCode}, {@link #philologySubCode}, {@link #toToggleType})
- * live here, not in {@code jsesh.parser.mdwlexer}, since they depend on
- * {@code jsesh.model.constants} and the scanner is deliberately
- * self-contained. The grammar is LALR(1) without conflicts, and its
+ * {@link jsesh.parser.lexer.MdcSymbol} it reads into the
+ * {@link jsesh.parser.ast} tree. Lexical values (sign subtypes, philology
+ * kinds, toggles) are stored in the AST as the lexer's own enums; their
+ * translation to {@code jsesh.model.constants} codes is left to
+ * {@link jsesh.mdcreader.AstModelBuilder}, so this package does not depend
+ * on {@code jsesh.model}. The grammar is LALR(1) without conflicts, and its
  * left-recursive rules are all plain lists, so one token of lookahead is
  * enough; each method below documents the grammar rule it implements.
  * <p>Any syntax error aborts the parse with an {@link MDCSyntaxError}: there
@@ -250,7 +248,7 @@ public class MDCParser {
             AstNode item;
             switch (token.code()) {
                 case TOGGLE:
-                    item = new AstToggle(toToggleType((jsesh.parser.lexer.ToggleType) token.value()));
+                    item = new AstToggle((ToggleType) token.value());
                     advance();
                     break;
                 case START_HIEROGLYPHS:
@@ -542,7 +540,7 @@ public class MDCParser {
         PhilologyKind opening = (PhilologyKind) expect(BEGIN_PHIL, "philology start");
         AstBasicItemList content = parseBasicItems();
         PhilologyKind closing = (PhilologyKind) expect(END_PHIL, "philology end");
-        return new AstPhilology(philologySubCode(opening), philologySubCode(closing), content);
+        return new AstPhilology(opening, closing, content);
     }
 
     /**
@@ -620,7 +618,7 @@ public class MDCParser {
                 items.add(new AstStartHieroglyphicText());
                 advance();
             } else if (at(TOGGLE)) {
-                items.add(new AstToggle(toToggleType((jsesh.parser.lexer.ToggleType) token.value())));
+                items.add(new AstToggle((ToggleType) token.value()));
                 advance();
             } else if (atCadratStart()) {
                 items.add(parseCadratWithShading());
@@ -664,15 +662,15 @@ public class MDCParser {
             scale = (Integer) expect(INTEGER, "integer");
             expect(DOUBLE_RIGHT_CURLY, "'}}'");
         }
-        WordEndingCode endingCode = WordEndingCode.NONE;
+        WordEnding endingCode = WordEnding.NONE;
         if (at(WORD_END)) {
-            endingCode = WordEndingCode.WORD_END;
+            endingCode = WordEnding.WORD_END;
             advance();
         } else if (at(SENTENCE_END)) {
-            endingCode = WordEndingCode.SENTENCE_END;
+            endingCode = WordEnding.SENTENCE_END;
             advance();
         }
-        return new AstHieroglyph(isGrammar, toSignTypeCode(sign.subtype()), sign.text(), modifiers, endingCode, x, y,
+        return new AstHieroglyph(isGrammar, sign.subtype(), sign.text(), modifiers, endingCode, x, y,
                 scale);
     }
 
@@ -691,75 +689,13 @@ public class MDCParser {
         return AstModifierList.of(modifiers.toArray(new AstModifier[0]));
     }
 
-    // ------------------------------------------------------------------
-    // Lexical value -> model-code translation
-    //
-    // These depend on jsesh.model.constants, so they live here rather than in
-    // jsesh.parser.mdwlexer, which is deliberately self-contained.
-    // ------------------------------------------------------------------
-
-    /**
-     * The {@link SymbolCodes} constant for a hieroglyph's subtype: the plain
-     * subtypes map directly, while a philological bracket read as a sign
-     * (philologyAsSigns mode) reproduces the original lexer's
-     * {@code subtype * 2} / {@code subtype * 2 + 1} (begin/end) scheme.
-     */
-    private static int toSignTypeCode(SignSubType subtype) {
-        return switch (subtype) {
-            case SignSubType.Plain plain -> switch (plain) {
-                case MDC_CODE -> SymbolCodes.MDCCODE;
-                case RED_POINT -> SymbolCodes.REDPOINT;
-                case BLACK_POINT -> SymbolCodes.BLACKPOINT;
-                case SMALL_TEXT -> SymbolCodes.SMALLTEXT;
-                case HALF_SPACE -> SymbolCodes.HALFSPACE;
-                case FULL_SPACE -> SymbolCodes.FULLSPACE;
-                case FULL_SHADE -> SymbolCodes.FULLSHADE;
-                case VERTICAL_SHADE -> SymbolCodes.VERTICALSHADE;
-                case QUARTER_SHADE -> SymbolCodes.QUATERSHADE;
-                case HORIZONTAL_SHADE -> SymbolCodes.HORIZONTALSHADE;
-            };
-            case SignSubType.Philology(PhilologyKind kind, boolean begin) -> {
-                int base = philologySubCode(kind);
-                yield begin ? base * 2 : base * 2 + 1;
-            }
-        };
-    }
-
-    /** The {@link SymbolCodes} philology sub-type constant (50-56) for a bracket kind. */
-    private static int philologySubCode(PhilologyKind kind) {
-        return switch (kind) {
-            case ERASED_SIGNS -> SymbolCodes.ERASEDSIGNS;
-            case EDITOR_ADDITION -> SymbolCodes.EDITORADDITION;
-            case EDITOR_SUPERFLUOUS -> SymbolCodes.EDITORSUPERFLUOUS;
-            case PREVIOUSLY_READABLE -> SymbolCodes.PREVIOUSLYREADABLE;
-            case SCRIBE_ADDITION -> SymbolCodes.SCRIBEADDITION;
-            case MINOR_ADDITION -> SymbolCodes.MINORADDITION;
-            case DUBIOUS -> SymbolCodes.DUBIOUS;
-        };
-    }
-
-    private static ToggleType toToggleType(jsesh.parser.lexer.ToggleType toggle) {
-        return switch (toggle) {
-            case SHADING_TOGGLE -> ToggleType.SHADINGTOGGLE;
-            case SHADING_ON -> ToggleType.SHADINGON;
-            case SHADING_OFF -> ToggleType.SHADINGOFF;
-            case RED -> ToggleType.RED;
-            case BLACK -> ToggleType.BLACK;
-            case BLACK_RED -> ToggleType.BLACKRED;
-            case LACUNA -> ToggleType.LACUNA;
-            case LINE_LACUNA -> ToggleType.LINELACUNA;
-            case OMIT -> ToggleType.OMMIT;
-        };
-    }
-
     /**
      * Decodes a shading marker's digits (e.g. {@code "1234"} from
      * {@code "#1234"}) into an or-combination of the {@code jsesh.model.ShadingCode}
      * bits ({@code TOP_START=1, TOP_END=2, BOTTOM_START=4, BOTTOM_END=8}).
-     * Kept as a local copy rather than a call into {@code jsesh.model}: see
-     * {@code 00_Documents/documentation/jsesh-package-dependencies.md}, which
-     * tracks {@code jsesh.parser <-> jsesh.model} as the one remaining
-     * mutual-dependency pair in the module and asks that it not grow.
+     * Kept as a local copy rather than a call into {@code jsesh.model}:
+     * {@code jsesh.parser} does not depend on the model (see
+     * {@code 00_Documents/documentation/jsesh-package-dependencies.md}).
      */
     private static int parseShadingDigits(String digits) {
         int sh = 0;

@@ -7,7 +7,7 @@ import jsesh.parser.ast.AstDocument;
 /**
  * A parser for MdC code which generates a literal AST (see
  * {@link jsesh.parser.ast}) for the code, instead of the usable document
- * model that {@link MDCParserModelGenerator} builds.
+ * model that {@link jsesh.mdcreader.MDCParserModelGenerator} builds.
  *
  * @author rosmord
  * @see jsesh.parser.ast.AstDocument

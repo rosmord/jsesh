@@ -21,15 +21,10 @@ import jsesh.parser.ast.AstVisitorAdapter;
 import jsesh.signcodes.GardinerCode;
 import jsesh.signcodes.ManuelDeCodage;
 
-/**
- * An extractor is able to fetch codes from a manuel de codage STRING
- * (see jsesh.model.tools.HieroglyphExtractor otherwise) and, if needed, to normalize them.
- *
- *
- * @see jsesh.model.tools.HieroglyphExtractor for a class working on already parsed text.
- * @author rosmord
- *
- */
+/// An extractor which can directly fetch glyphs codes from a manuel de codage **String**.
+/// 
+/// @see jsesh.model.tools.HieroglyphExtractor for a class working on already parsed text
+/// @author rosmord 
 public class MDCCodeExtractor {
 
     private boolean normalize = true;

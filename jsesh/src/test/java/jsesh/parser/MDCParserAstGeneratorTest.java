@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.model.constants.ToggleType;
-import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstCadrat;
@@ -22,12 +20,14 @@ import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.WordEnding;
+import jsesh.parser.lexer.ToggleType;
 
 /**
  * Structural tests for {@link MDCParserAstGenerator}, in the same spirit as
- * {@link MDCParserModelGeneratorTest}, but checking that the AST stays a
+ * {@link jsesh.mdcreader.MDCParserModelGeneratorTest}, but checking that the AST stays a
  * literal record of what was parsed (e.g. toggles are kept as nodes, instead
- * of being folded into item state as {@link jsesh.parser.AstModelBuilder} does).
+ * of being folded into item state as {@link jsesh.mdcreader.AstModelBuilder} does).
  */
 public class MDCParserAstGeneratorTest {
 
@@ -112,7 +112,7 @@ public class MDCParserAstGeneratorTest {
         AstDocument document = parse("i_w");
         AstCadrat cadrat = (AstCadrat) document.topItems().items().get(0);
         AstHieroglyph hieroglyph = hieroglyphAt(cadrat.hBoxes().get(0), 0);
-        assertEquals(WordEndingCode.WORD_END, hieroglyph.endingCode());
+        assertEquals(WordEnding.WORD_END, hieroglyph.endingCode());
     }
 
     /**
@@ -189,7 +189,7 @@ public class MDCParserAstGeneratorTest {
 
     private static String describe(AstNode node) {
         return switch (node) {
-            case AstToggle t -> "toggle: " + t.toggleType().getDesignation();
+            case AstToggle t -> "toggle: " + t.toggleType().name();
             case AstCadrat c -> "cadrat";
             default -> "other";
         };

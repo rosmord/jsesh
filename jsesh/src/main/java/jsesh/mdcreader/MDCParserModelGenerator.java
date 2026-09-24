@@ -1,15 +1,17 @@
-/*
- * Created on 24 d�c. 2003 by rosmord.
- *
+
+/* 
+ * Created on 24 déc. 2003 by rosmord.
  * This code is distributed under the LGPL.
- *
+ *  
  */
-package jsesh.parser;
+package jsesh.mdcreader;
 
 import java.io.Reader;
 
 import jsesh.model.TopItemList;
 import jsesh.model.constants.Dialect;
+import jsesh.parser.MDCParserAstGenerator;
+import jsesh.parser.MDCSyntaxError;
 
 /**
  * A Parser for MdC code which generates a model (TopItemList)

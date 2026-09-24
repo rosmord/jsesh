@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.ToggleType;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItemList;
@@ -34,6 +32,8 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstZoneStart;
 import jsesh.parser.ast.CartoucheType;
+import jsesh.parser.lexer.PhilologyKind;
+import jsesh.parser.lexer.ToggleType;
 
 /**
  * Exhaustive, construct-by-construct tests of the Manuel de Codage grammar,
@@ -266,14 +266,14 @@ public class MDCParserAstSyntaxTest {
 
     @Test
     public void testPhilology_erasedSigns() throws MDCSyntaxError {
-        AstPhilology expected = AstPhilology.of(SymbolCodes.ERASEDSIGNS,
+        AstPhilology expected = AstPhilology.of(PhilologyKind.ERASED_SIGNS,
                 AstCadrat.of(AstHBox.of(AstHieroglyph.of("x"))));
         assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parseWithPhilologyGrouping("[[x]]"));
     }
 
     @Test
     public void testPhilology_minorAddition() throws MDCSyntaxError {
-        AstPhilology expected = AstPhilology.of(SymbolCodes.MINORADDITION,
+        AstPhilology expected = AstPhilology.of(PhilologyKind.MINOR_ADDITION,
                 AstCadrat.of(AstHBox.of(AstHieroglyph.of("x"))));
         assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parseWithPhilologyGrouping("[(x)]"));
     }
@@ -301,12 +301,12 @@ public class MDCParserAstSyntaxTest {
         AstDocument expected = AstDocument.of(
                 new AstToggle(ToggleType.RED),
                 new AstToggle(ToggleType.BLACK),
-                new AstToggle(ToggleType.BLACKRED),
+                new AstToggle(ToggleType.BLACK_RED),
                 new AstToggle(ToggleType.LACUNA),
-                new AstToggle(ToggleType.LINELACUNA),
-                new AstToggle(ToggleType.OMMIT),
-                new AstToggle(ToggleType.SHADINGON),
-                new AstToggle(ToggleType.SHADINGOFF));
+                new AstToggle(ToggleType.LINE_LACUNA),
+                new AstToggle(ToggleType.OMIT),
+                new AstToggle(ToggleType.SHADING_ON),
+                new AstToggle(ToggleType.SHADING_OFF));
         assertEquals(expected, parse("$r-$b-$-?-??-^-#b-#e"));
     }
 

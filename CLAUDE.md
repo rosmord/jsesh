@@ -18,12 +18,12 @@ For the `jsesh` module's internal package layering (which package may depend on 
 ./gradlew clean build
 ```
 
-The `jsesh` module's MDC lexer is hand-written (`jsesh.parser.mdwlexer`,
+The `jsesh` module's MDC lexer is hand-written (`jsesh.parser.lexer`,
 built on the generic scanner framework in the separate `mdwlexer` module) —
 no generated sources or codegen step remain for it. The JFlex-generated
 `MDCLexAux` and its spec (`jsesh/src/jlex/MDCLexAux.l`) were retired once
 `jsesh.parser.lex.MDCLex` was rewritten as a thin adapter over
-`jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon`.
+`jsesh.parser.lexer.MdcLexer`/`MdcLexicon`.
 
 ## Module Structure
 
@@ -36,7 +36,7 @@ no generated sources or codegen step remain for it. The JFlex-generated
 | `jseshLabels` | i18n labels/resources for all modules |
 | `jseshSearch` | Hieroglyphic search/query functionality |
 | `qenherkhopeshefUtils` | Shared utilities and Swing helpers |
-| `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
+| `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.lexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
 | `signInfoAppli` | Sign information editor — entry point: `jsesh.utilitysoftwares.signinfoeditor.Main` |
 | `jseshTests` | Demo programs showing library usage (not formal unit tests) |
 
@@ -57,7 +57,8 @@ not this table, as the source of truth when it disagrees.
 | base | `jsesh.platform` | Preferences, resources, metadata (pure leaf, no outgoing deps) |
 | core | `jsesh.signcodes` | Gardiner-code identity: `GardinerCode`, `ManuelDeCodage`, `CanonicalCode`, `HieroglyphCodesSource` (pure leaf) |
 | core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools` |
-| core | `jsesh.parser` | MDC parser and lexer (`.lex`), generated and handwritten |
+| core | `jsesh.parser` | MDC parser (`MDCParser`), lexer (`.lexer`) and literal AST (`.ast`); no dependency on `jsesh.model` |
+| reader | `jsesh.mdcreader` | `MDCParserModelGenerator`, `AstModelBuilder`: interprets the parser's AST into the model (the only package depending on both) |
 | core | `jsesh.glyphs` | Sign database and shapes: `.signdata`, `.fonts`, `.shape`, `.signsource`, `.tools`, `.resources` |
 | document | `jsesh.document` | `MDCDocument`, `DocumentPreferences`, `HieroglyphicTextModel`, undo machinery |
 | middle | `jsesh.io` | Document and MDC import/export (`.document`, `.mdc`, `.importer`) |
@@ -99,14 +100,15 @@ TopItemList                  ← document root (implements MDCFileInterface)
        └─ TabStop / Tabbing
 ```
 
-- The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types: `jsesh.parser` depends on `jsesh.model`, never the reverse.
+- The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types, and neither package imports the other; `jsesh.mdcreader` bridges them.
 - `ModelElement` is the abstract base; all elements support an observer pattern for change notification.
 
 ### MDC Parser (`jsesh` module)
 
-- Grammar: hand-written recursive descent parser, `jsesh.parser.handmade.MDCHandmadeParser`, which builds a literal AST (`jsesh.parser.ast.AstDocument`). It replaced an earlier CUP-generated parser (`jsesh/src/jcup/MDCParse.y`, retired once checked equivalent construct-by-construct).
-- Lexer: hand-written, `jsesh.parser.mdwlexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module (replacement for the retired JFlex-generated `MDCLexAux`, formerly `jsesh/src/jlex/MDCLexAux.l`). `MDCHandmadeParser` drives `MdcLexer` directly and switches on its `MdcSymbolCode` enum — there is no separate adapter package. (An intermediate `jsesh.parser.lex` package existed briefly while the CUP parser and JFlex lexer were being retired in separate steps; once `MDCHandmadeParser` no longer needed to match the CUP-era shapes, it was merged away.) `jsesh.parser.mdwlexer` is deliberately self-contained (no `jsesh.model` dependency); the handful of lexeme-to-model-code mappings that do need `jsesh.model.constants` (sign subtype, philology bracket kind, toggle type) live as private helpers on `MDCHandmadeParser` itself — see `00_Documents/documentation/jsesh-package-dependencies.md` for why `jsesh.parser` should not grow new edges into `jsesh.model`.
-- High-level entry point: `jsesh.parser.MDCParserModelGenerator` (returns a `TopItemList`)
+- Grammar: hand-written recursive descent parser, `jsesh.parser.MDCParser`, which builds a literal AST (`jsesh.parser.ast.AstDocument`). It replaced an earlier CUP-generated parser (`jsesh/src/jcup/MDCParse.y`, retired once checked equivalent construct-by-construct).
+- Lexer: hand-written, `jsesh.parser.lexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module (replacement for the retired JFlex-generated `MDCLexAux`, formerly `jsesh/src/jlex/MDCLexAux.l`). `MDCParser` drives `MdcLexer` directly and switches on its `MdcSymbolCode` enum.
+- `jsesh.parser` (lexer, parser, AST) does not depend on `jsesh.model`. The AST stores the lexer's own enums (`SignSubType`, `PhilologyKind`, `jsesh.parser.lexer.ToggleType`, `jsesh.parser.ast.WordEnding`); their mapping to `jsesh.model.constants` codes lives in `jsesh.mdcreader.AstModelBuilder`. Don't add `jsesh.model` imports to `jsesh.parser`.
+- High-level entry point: `jsesh.mdcreader.MDCParserModelGenerator` (returns a `TopItemList`)
 - Lower-level entry point: `jsesh.parser.MDCParserAstGenerator` (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
 
 ### Sign/Glyph Database (`jsesh.glyphs`)
