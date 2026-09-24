@@ -9,15 +9,24 @@ import java.util.TreeSet;
 import org.qenherkhopeshef.mdwlexer.Expression.CharacterSet;
 import org.qenherkhopeshef.mdwlexer.Expression.CharacterSet.Range;
 
-/// Partitions the Unicode code point space into the smallest set of disjoint classes such
-/// that every [CharacterSet] appearing in a group of expressions is exactly a union of
-/// classes: e.g. given `[a-z]`, `i` and `f`, it produces one class each for
-/// `i`, `f`, and every maximal run of `[a-z]` left over.
-///
-/// Downstream, a lexer maps each input code point to its class with [#classOf] and
-/// drives the automaton with that class id instead of the raw code point, so a state never
-/// needs one transition per code point (which would be infeasible for e.g. "any character")
-/// but only one per class.
+/// A partition of Unicode characters into classes.
+/// 
+/// Basically, those classes will contain characters **ranges** with the same behavior viz the automata, 
+/// dramatically reducing the number of different cases an automaton must deal with.
+/// 
+/// For instance, if lexer always deal with `[a-z]` in an uniform way, we will map all those characters to the same class,
+/// and the automaton will have only one transition for all of them, instead of 26 transitions.
+/// 
+/// If we have rules for `i` and `f` as well as for `[a-z]`, we will have end up with:
+/// 
+/// - a class for `[a-h]`
+/// - a class for `[j-e]`
+/// - a class for `[g-z]`
+/// - a class for `i`
+/// - a class for `f`.
+/// - a class for characters before `a`
+/// - a class for characters after `z`
+/// 
 public final class CharacterClassifier {
     private final int[] classStarts;
 
@@ -25,8 +34,9 @@ public final class CharacterClassifier {
         this.classStarts = classStarts;
     }
 
-    /// Builds the classifier for every [CharacterSet] reachable from the given
-    /// expressions (including inside sequences, unions, repeats, etc).
+    /// Builds the classifier for every [CharacterSet] reachable from the given expressions.
+    ///
+    /// This includes sequences, unions, repeats, etc.
     public static CharacterClassifier forExpressions(Collection<Expression> expressions) {
         TreeSet<Integer> cuts = new TreeSet<>();
         cuts.add(Character.MIN_CODE_POINT);
@@ -35,8 +45,13 @@ public final class CharacterClassifier {
     }
 
     /// The class id (0-based) that `codepoint` belongs to.
+    /// @param the codepoint of a Unicode character
+    /// @return the class id (0-based) that `codepoint` belongs to.
     public int classOf(int codepoint) {
         int index = Arrays.binarySearch(classStarts, codepoint);
+        // binarySearch is a bit weird. If the element is found, it returns its index.
+        // else, it returns -insertionPoint-1, where insertionPoint is the index of the first element greater than the key.
+        // The class in this second case is at insertionPoint-1, hence the computation below.
         return index >= 0 ? index : -index - 2;
     }
 
@@ -45,7 +60,8 @@ public final class CharacterClassifier {
         return classStarts.length;
     }
 
-    /// The classes that exactly cover `set`. Since every range boundary of every
+    /// The classes that exactly cover `set`.
+    ///  Since every range boundary of every
     /// [CharacterSet] passed to [#forExpressions] was used to cut the partition,
     /// each of `set`'s ranges is itself a union of whole classes, never a partial overlap.
     public Set<Integer> classesOf(CharacterSet set) {
@@ -89,7 +105,8 @@ public final class CharacterClassifier {
                     intersection.operands().forEach(part -> collectCuts(part, cuts));
             case Expression.Complement complement -> collectCuts(complement.operand(), cuts);
             case Expression.Repeat repeat -> collectCuts(repeat.operand(), cuts);
-            case Expression.Epsilon epsilon -> {
+            case Expression.Epsilon _ -> {
+                // Nothing to do.
             }
         }
     }

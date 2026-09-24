@@ -7,12 +7,15 @@ import java.util.Objects;
 
 /// An immutable extended regular expression over Unicode code points.
 ///
-/// Besides the classical operators (sequence, union, repetition), it has the boolean
+/// Besides the classical operators (sequence, union, repetition), it has the
+/// boolean
 /// operators [Intersection] and [Complement]. Such expressions still describe
-/// regular languages, but intersection and complement cannot be built by gluing NFA
+/// regular languages, but intersection and complement cannot be built by gluing
+/// NFA
 /// fragments: they have to go through a DFA.
 ///
-/// An expression only describes a language. Which token it produces, and its priority,
+/// An expression only describes a language. Which token it produces, and its
+/// priority,
 /// are decided where the rules are collected, not here.
 ///
 /// Expressions are meant to be created through [ExpressionBuilder].
@@ -22,16 +25,19 @@ public sealed interface Expression {
     record Epsilon() implements Expression {
     }
 
-    /// Matches exactly one character, taken from a set of code points.
+    /// A Character set matches exactly one character, taken from a set of code points.
     ///
-    /// The set is kept as sorted, non-overlapping, non-adjacent ranges, so equal sets are
-    /// equal records. Negation is relative to the whole code point space
-    /// ([Character#MIN_CODE_POINT] to [Character#MAX_CODE_POINT]) and is computed
-    /// right away; there is no "negated" flag. An empty set matches nothing (the empty language).
+    /// A character set is a sorted list of non-overlapping, non-adjacent ranges, so two sets are equal 
+    /// iff they have the same representation.
+    ///
+    /// A negated set contains all characters in the whole code point space
+    /// ([Character#MIN_CODE_POINT] to [Character#MAX_CODE_POINT]) which are not in the set, it will be computed directly.
+    ///
+    /// An empty set matches nothing (the empty language).
     record CharacterSet(List<Range> ranges) implements Expression {
         public static final CharacterSet NONE = new CharacterSet(List.of());
-        public static final CharacterSet ANY =
-                new CharacterSet(List.of(new Range(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT)));
+        public static final CharacterSet ANY = new CharacterSet(
+                List.of(new Range(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT)));
 
         public CharacterSet {
             ranges = normalize(ranges);
@@ -63,7 +69,8 @@ public sealed interface Expression {
             return negated().union(other).negated();
         }
 
-        /// Every code point which is not in this set. Note: this is one character, not a language complement.
+        /// Every code point which is not in this set. 
+        /// Note: this is one character, not a language complement.
         public CharacterSet negated() {
             List<Range> gaps = new ArrayList<>();
             int next = Character.MIN_CODE_POINT;
@@ -126,7 +133,8 @@ public sealed interface Expression {
         }
     }
 
-    /// Matches every string which the operand does not match (over all code points).
+    /// Matches every string which the operand does not match (over all
+    /// code points).
     record Complement(Expression operand) implements Expression {
         public Complement {
             Objects.requireNonNull(operand, "operand");

@@ -42,7 +42,12 @@ higher one.</p>
 <h2 id="1-detailed-view">1. Detailed view </h2>
 <div class="mermaid">%%{init: {"flowchart": {"htmlLabels": true}} }%%
 flowchart TD
-    %% State as of 2026-07-21, after:
+    %% State as of 2026-09-24, after:
+    %%   - jsesh.parser -&gt; jsesh.model removed: MDCParserModelGenerator and
+    %%     AstModelBuilder moved to the new jsesh.mdcreader package, and the
+    %%     AST now stores the lexer's own enums instead of model constants.
+    %%     Edges touching parser/mdcreader recounted on 2026-09-24; the others
+    %%     are still the 2026-07-21 counts.
     %%   - jsesh.glyphs -&gt; jsesh.ui.widgets removed: the dead `import` that
     %%     outlived its {@link} in UserSignWriter is gone. jsesh.glyphs now has
     %%     three outgoing edges, all pointing down, and nothing below the UI layer
@@ -88,6 +93,10 @@ flowchart TD
         glyphs[jsesh.glyphs]
     end
 
+    subgraph Reader[reader]
+        mdc[jsesh.mdcreader]
+    end
+
     subgraph Document[document]
         doc[jsesh.document]
     end
@@ -116,28 +125,34 @@ flowchart TD
     utils --&gt;|1| res
     model --&gt;|6| signcodes
     model --&gt;|3| utils
-    parser --&gt;|4| model
+    parser --&gt;|2| signcodes
+    mdc --&gt;|36| parser
+    mdc --&gt;|35| model
     glyphs --&gt;|16| signcodes
     glyphs --&gt;|7| utils
     glyphs --&gt;|1| platform
     doc --&gt;|26| model
-    doc --&gt;|3| parser
+    doc --&gt;|2| parser
+    doc --&gt;|1| mdc
     render --&gt;|143| model
     render --&gt;|14| glyphs
     render --&gt;|5| utils
-    render --&gt;|4| parser
+    render --&gt;|2| parser
+    render --&gt;|1| mdc
     render --&gt;|3| signcodes
     render --&gt;|2| doc
     render --&gt;|2| platform
     io --&gt;|44| model
     io --&gt;|7| doc
     io --&gt;|6| utils
-    io --&gt;|6| parser
+    io --&gt;|4| parser
+    io --&gt;|2| mdc
     io --&gt;|1| signcodes
     gloss --&gt;|4| glyphs
     gloss --&gt;|3| model
     gloss --&gt;|2| utils
-    gloss --&gt;|2| parser
+    gloss --&gt;|1| parser
+    gloss --&gt;|1| mdc
     gloss --&gt;|1| signcodes
     defaults --&gt;|17| glyphs
     defaults --&gt;|5| utils
@@ -189,6 +204,7 @@ flowchart TD
 
     class utils,platform base;
     class signcodes,model,parser,glyphs core;
+    class mdc docLayer;
     class doc docLayer;
     class io,render mid;
     class gloss,defaults conf;
@@ -214,6 +230,10 @@ flowchart TD
 <td>signcodes, model, parser, glyphs</td>
 </tr>
 <tr>
+<td>reader</td>
+<td>mdcreader</td>
+</tr>
+<tr>
 <td>document</td>
 <td>document</td>
 </tr>
@@ -231,8 +251,10 @@ flowchart TD
 </tr>
 </tbody>
 </table>
-<p><strong>No</strong> red edge is left: <code>model -&gt; parser</code>, the back-edge of the former<br>
-<code>model &lt;-&gt; parser</code> pair, was removed on 2026-09-24 (see history below).<br>
+<p><strong>No</strong> red edge is left, and <code>model</code> and <code>parser</code> no longer depend on each<br>
+other in either direction (see history below): the parser only builds a<br>
+literal AST, and <code>jsesh.mdcreader</code> is the one package that turns that AST<br>
+into the model.<br>
 <code>jsesh.signcodes</code> and <code>jsesh.platform</code> are both clean: no outgoing edge.<br>
 <code>jsesh.glyphs</code> is clean too: it only reaches down to signcodes, utils and<br>
 platform.<br>
@@ -265,6 +287,10 @@ The whole UI lives under <code>jsesh.ui.*</code>, and nothing below it imports i
         glyphs[jsesh.glyphs]
     end
 
+    subgraph Reader[reader]
+        mdc[jsesh.mdcreader]
+    end
+
     subgraph Document[document]
         doc[jsesh.document]
     end
@@ -285,28 +311,34 @@ The whole UI lives under <code>jsesh.ui.*</code>, and nothing below it imports i
     utils --&gt;|1| res
     model --&gt;|6| signcodes
     model --&gt;|3| utils
-    parser --&gt;|4| model
+    parser --&gt;|2| signcodes
+    mdc --&gt;|36| parser
+    mdc --&gt;|35| model
     glyphs --&gt;|16| signcodes
     glyphs --&gt;|7| utils
     glyphs --&gt;|1| platform
     doc --&gt;|26| model
-    doc --&gt;|3| parser
+    doc --&gt;|2| parser
+    doc --&gt;|1| mdc
     render --&gt;|143| model
     render --&gt;|14| glyphs
     render --&gt;|5| utils
-    render --&gt;|4| parser
+    render --&gt;|2| parser
+    render --&gt;|1| mdc
     render --&gt;|3| signcodes
     render --&gt;|2| doc
     render --&gt;|2| platform
     io --&gt;|44| model
     io --&gt;|7| doc
     io --&gt;|6| utils
-    io --&gt;|6| parser
+    io --&gt;|4| parser
+    io --&gt;|2| mdc
     io --&gt;|1| signcodes
     gloss --&gt;|4| glyphs
     gloss --&gt;|3| model
     gloss --&gt;|2| utils
-    gloss --&gt;|2| parser
+    gloss --&gt;|1| parser
+    gloss --&gt;|1| mdc
     gloss --&gt;|1| signcodes
     defaults --&gt;|17| glyphs
     defaults --&gt;|5| utils
@@ -328,6 +360,7 @@ The whole UI lives under <code>jsesh.ui.*</code>, and nothing below it imports i
 
     class utils,platform base;
     class signcodes,model,parser,glyphs core;
+    class mdc docLayer;
     class doc docLayer;
     class io,render mid;
     class gloss,defaults conf;
@@ -340,21 +373,18 @@ The whole UI lives under <code>jsesh.ui.*</code>, and nothing below it imports i
 <code>jsesh.platform</code> (2 incoming, zero outgoing) and <code>jsesh.signcodes</code><br>
 (6 incoming, zero outgoing) are pure leaves.<br>
 There is no mutual pair and no upward edge left in the whole module.<br>
-(<code>model &lt;-&gt; parser</code>, <code>model &lt;-&gt; glyphs</code>, <code>model -&gt; io</code>, <code>signcodes &lt;-&gt; glyphs</code>, <code>glyphs -&gt; ui</code> and<br>
+(<code>model &lt;-&gt; parser</code> in both directions, <code>model &lt;-&gt; glyphs</code>, <code>model -&gt; io</code>, <code>signcodes &lt;-&gt; glyphs</code>, <code>glyphs -&gt; ui</code> and<br>
 <code>glyphs &lt;-&gt; graphics.glyphs</code> are all gone.)</p>
 <h2 id="3-top-level-view-transitively-reduced">3. Top-level view, transitively reduced </h2>
 <p>Same data as §2, with every <strong>transitive</strong> edge removed: if <code>a -&gt; b</code> and<br>
 <code>b -&gt; c</code> are present, the shortcut <code>a -&gt; c</code> is dropped, since it tells us<br>
 nothing the two others didn't already. What is left is the <em>skeleton</em> of the<br>
-architecture — 16 edges instead of 36.</p>
+architecture — 16 edges instead of 42.</p>
 <p>Two remarks on method:</p>
 <ul>
-<li><code>model</code> and <code>parser</code> import each other, so they are not orderable; they form<br>
-a strongly connected component. The reduction is computed on the graph where<br>
-that pair is treated as a <strong>single node</strong>, then expanded again for drawing.<br>
-This is why both <code>document -&gt; model</code> and <code>document -&gt; parser</code> survive: the<br>
-reduction can only say "<code>document</code> depends on the model/parser knot", not on<br>
-which half.</li>
+<li><code>model</code> and <code>parser</code> are independent: neither imports the other. Every<br>
+package that needs both goes through <code>jsesh.mdcreader</code>, so <code>document</code>,<br>
+<code>glossary</code> and the rest reach <code>model</code> and <code>parser</code> via that single edge.</li>
 <li>Edge labels are still the raw import counts, so a reduced edge carries the<br>
 same number as in §2. Note how <em>large</em> some of the dropped shortcuts are:<br>
 <code>render -&gt; model</code> is 143 imports and <code>ui -&gt; model</code> 112, yet both are<br>
@@ -363,14 +393,15 @@ Transitivity says nothing about how heavily a package is used, only that a<br>
 path already exists.</li>
 </ul>
 <div class="mermaid">flowchart TD
-    %% Transitive reduction of the top-level graph (state 2026-07-21).
+    %% Transitive reduction of the top-level graph (state 2026-09-24).
     %% Dropped because a path already existed:
     %%   ui -&gt; {model, parser, glyphs, utils, document, resources, signcodes,
     %%          glossary, platform}
-    %%   render -&gt; {model, parser, signcodes, utils, platform}
-    %%   io -&gt; {model, parser, signcodes, utils}
+    %%   render -&gt; {model, parser, mdcreader, signcodes, utils, platform}
+    %%   io -&gt; {model, parser, mdcreader, signcodes, utils}
+    %%   document -&gt; {model, parser}
     %%   defaults -&gt; {glyphs, signcodes, utils}
-    %%   glossary -&gt; {signcodes, utils}
+    %%   glossary -&gt; {model, parser, signcodes, utils}
 
     classDef base fill:#EEF6FF,stroke:#666,color:#000;
     classDef core fill:#E9F7E9,stroke:#666,color:#000;
@@ -390,8 +421,9 @@ path already exists.</li>
 
     gloss[jsesh.glossary]
     doc[jsesh.document]
+    mdc[jsesh.mdcreader]
 
-    subgraph CoreKnot[" "]
+    subgraph CoreRow[" "]
         model[jsesh.model]
         parser[jsesh.parser]
     end
@@ -414,11 +446,11 @@ path already exists.</li>
     render --&gt;|2| doc
     defaults --&gt;|2| gloss
     gloss --&gt;|4| glyphs
-    gloss --&gt;|3| model
-    gloss --&gt;|2| parser
-    doc --&gt;|26| model
-    doc --&gt;|3| parser
-    parser --&gt;|4| model
+    gloss --&gt;|1| mdc
+    doc --&gt;|1| mdc
+    mdc --&gt;|35| model
+    mdc --&gt;|36| parser
+    parser --&gt;|2| signcodes
     model --&gt;|6| signcodes
     model --&gt;|3| utils
     glyphs --&gt;|16| signcodes
@@ -431,6 +463,7 @@ path already exists.</li>
     class defaults conf;
     class gloss conf;
     class doc docLayer;
+    class mdc docLayer;
     class model,parser core;
     class glyphs core;
     class signcodes,utils base;
@@ -439,19 +472,19 @@ path already exists.</li>
 
     linkStyle 0 stroke:#cc0000,stroke-width:2px;
 </div><p><strong>Legend</strong></p>
-<p>36 edges reduce to 16. The skeleton has a single source and three sinks:<br>
+<p>42 edges reduce to 16. The skeleton has a single source and three sinks:<br>
 <code>jsesh.ui</code> needs only <strong>three</strong> direct dependencies — <code>render</code>, <code>io</code>,<br>
 <code>defaults</code> — and reaches everything else through them;<br>
 <code>signcodes</code>, <code>platform</code> and <code>resources</code> are the sinks.<br>
 The interesting shape is that it is <strong>not one chain but two branches</strong><br>
 meeting at the bottom: the <em>document</em> branch<br>
-(ui → io/render → document → model↔parser) and the <em>sign</em> branch<br>
+(ui → io/render → document → mdcreader → model, parser) and the <em>sign</em> branch<br>
 (ui → render/defaults → glossary → glyphs). Nothing in <code>model</code>, <code>parser</code><br>
 or <code>document</code> imports <code>glyphs</code>, and nothing in <code>glyphs</code> imports the model —<br>
 they are independent, and only meet again at <code>signcodes</code> and <code>utils</code>.<br>
 That separation is exactly what extracting <code>jsesh.signcodes</code> bought.<br>
-There is no red edge left: <code>model -&gt; parser</code> is gone, so <code>parser</code><br>
-sits strictly above <code>model</code>.</p>
+There is no red edge left, and <code>model</code> and <code>parser</code> are now two independent<br>
+core leaves joined only by <code>jsesh.mdcreader</code>.</p>
 <h2 id="history-of-the-clean-up">History of the clean-up </h2>
 <p><strong>Renamings / moves</strong></p>
 <table>
@@ -502,10 +535,29 @@ sits strictly above <code>model</code>.</p>
 <td>—</td>
 <td><code>jsesh.ui.palette</code> (new)</td>
 </tr>
+<tr>
+<td><code>jsesh.parser.MDCParserModelGenerator</code>, <code>jsesh.parser.AstModelBuilder</code></td>
+<td><code>jsesh.mdcreader</code> (new)</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Layering violations fixed</strong> (edges that no longer exist)</p>
 <ul>
+<li>
+<p><code>parser -&gt; model</code> (was 4; removed 2026-09-24). This one was not an upward<br>
+edge, but it tied the syntax layer to the model. It had two causes.<br>
+<code>MDCParserModelGenerator</code> and <code>AstModelBuilder</code>, which interpret the AST<br>
+into the model, moved to the new <code>jsesh.mdcreader</code> package. The AST stored<br>
+model constants (<code>SymbolCodes</code> ints, <code>WordEndingCode</code>, the model's<br>
+<code>ToggleType</code>); it now stores the lexer's own enums (<code>SignSubType</code>,<br>
+<code>PhilologyKind</code>, <code>jsesh.parser.lexer.ToggleType</code>, and a new<br>
+<code>jsesh.parser.ast.WordEnding</code>), and the mapping to model constants moved<br>
+from <code>MDCParser</code> to <code>AstModelBuilder</code>. Moving the bridge to <code>jsesh.io</code><br>
+was ruled out, because <code>jsesh.document</code> (<code>HieroglyphicTextModel</code>) needs it<br>
+and <code>io -&gt; document</code> already exists, which would create a cycle.<br>
+Some AST javadoc still <code>{@link}</code>s model classes for comparison; those are<br>
+documentation cross-references, not imports.</p>
+</li>
 <li>
 <p><code>model -&gt; parser</code> (was 2, red; removed 2026-09-24) — two causes. The<br>
 <code>jsesh.model.api</code> marker interfaces (<code>CadratInterface</code>, <code>HBoxInterface</code>…)<br>

@@ -33,18 +33,24 @@ class CharacterClassifierTest {
         CharacterSet f = (CharacterSet) character('f');
         CharacterClassifier classifier = CharacterClassifier.forExpressions(List.of(letters, i, f));
 
-        int classOfI = classifier.classOf('i');
-        int classOfF = classifier.classOf('f');
+        assertEquals(7, classifier.classCount(), "seven classes expected");
         int classOfA = classifier.classOf('a');
+        int classOfB = classifier.classOf('b');        
+        int classOfF = classifier.classOf('f');
+        int classOfG = classifier.classOf('g');
+        int classOfI = classifier.classOf('i');        
+        int classOfZ = classifier.classOf('z');
+        int classOfSpace = classifier.classOf(' ');
 
         assertNotEquals(classOfI, classOfF);
         assertNotEquals(classOfA, classOfI);
+        assertNotEquals(classOfA, classOfSpace);
         assertNotEquals(classOfA, classOfF);
-        assertEquals(classOfA, classifier.classOf('b'), "plain letters away from i/f share a class");
+        assertEquals(classOfA, classOfB, "plain letters away before f share a class");
+        assertNotEquals(classOfA, classOfZ, "letters ranges are split.");
         assertEquals(Set.of(classOfI), classifier.classesOf(i));
-        assertEquals(Set.of(classOfF), classifier.classesOf(f));
-        assertTrue(classifier.classesOf(letters).containsAll(Set.of(classOfA, classOfI, classOfF)));
-        assertTrue(classifier.classCount() < 10, "far fewer classes than code points in [a-z]");
+        assertEquals(Set.of(classOfF), classifier.classesOf(f));        
+        assertEquals(Set.of(classOfA, classOfF, classOfG, classOfI, classOfZ), classifier.classesOf(letters));
     }
 
     @Test

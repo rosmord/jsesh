@@ -621,7 +621,3 @@ Runnable examples for several of these live in the `jseshTests` module under
 `jsesh.demo.*` (they are demo programs, not unit tests).
 
 ---
-
-*Build note:* the `jsesh` module's MDC lexer (`jsesh.parser.lexer.MdcLexer`/
-`MdcLexicon`) is hand-written, not generated — there is no codegen step to
-run before opening the project in an IDE.
