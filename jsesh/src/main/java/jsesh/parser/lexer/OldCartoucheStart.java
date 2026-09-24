@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// The start of a "MacScribe"-style old cartouche, e.g. `<Sb`: `code` is the
 /// cartouche kind (`'c'` plain, or one of `S F H G`), `part` is which piece of

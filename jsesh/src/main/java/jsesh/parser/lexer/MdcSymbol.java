@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 import java.util.Objects;
 

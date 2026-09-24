@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// What kind of thing a `HIEROGLYPH` symbol's [MdcSign] actually denotes.
 ///

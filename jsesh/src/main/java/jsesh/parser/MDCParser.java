@@ -1,5 +1,7 @@
 package jsesh.parser;
 
+import static jsesh.parser.lexer.MdcSymbolCode.*;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -41,20 +43,18 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZoneStart;
-import jsesh.parser.mdwlexer.AlphabeticText;
-import jsesh.parser.mdwlexer.Cartouche;
-import jsesh.parser.mdwlexer.HRule;
-import jsesh.parser.mdwlexer.MdcLexer;
-import jsesh.parser.mdwlexer.MdcLexicon;
-import jsesh.parser.mdwlexer.MdcSign;
-import jsesh.parser.mdwlexer.MdcSymbol;
-import jsesh.parser.mdwlexer.MdcSymbolCode;
-import jsesh.parser.mdwlexer.Modifier;
-import jsesh.parser.mdwlexer.OldCartoucheStart;
-import jsesh.parser.mdwlexer.PhilologyKind;
-import jsesh.parser.mdwlexer.SignSubType;
-
-import static jsesh.parser.mdwlexer.MdcSymbolCode.*;
+import jsesh.parser.lexer.AlphabeticText;
+import jsesh.parser.lexer.Cartouche;
+import jsesh.parser.lexer.HRule;
+import jsesh.parser.lexer.MdcLexer;
+import jsesh.parser.lexer.MdcLexicon;
+import jsesh.parser.lexer.MdcSign;
+import jsesh.parser.lexer.MdcSymbol;
+import jsesh.parser.lexer.MdcSymbolCode;
+import jsesh.parser.lexer.Modifier;
+import jsesh.parser.lexer.OldCartoucheStart;
+import jsesh.parser.lexer.PhilologyKind;
+import jsesh.parser.lexer.SignSubType;
 
 /**
  * Hand-written recursive descent parser for Manuel de Codage text, building
@@ -250,7 +250,7 @@ public class MDCParser {
             AstNode item;
             switch (token.code()) {
                 case TOGGLE:
-                    item = new AstToggle(toToggleType((jsesh.parser.mdwlexer.ToggleType) token.value()));
+                    item = new AstToggle(toToggleType((jsesh.parser.lexer.ToggleType) token.value()));
                     advance();
                     break;
                 case START_HIEROGLYPHS:
@@ -312,9 +312,9 @@ public class MDCParser {
         return new AstDocument(AstTopItemList.of(items.toArray(new AstNode[0])));
     }
 
-    /// ~~~
+    /// ```
     /// optSeparator ::= ε | SEPARATOR
-    /// ~~~
+    /// ```
     private void skipOptSeparator() {
         if (at(SEPARATOR)) {
             advance();
@@ -620,7 +620,7 @@ public class MDCParser {
                 items.add(new AstStartHieroglyphicText());
                 advance();
             } else if (at(TOGGLE)) {
-                items.add(new AstToggle(toToggleType((jsesh.parser.mdwlexer.ToggleType) token.value())));
+                items.add(new AstToggle(toToggleType((jsesh.parser.lexer.ToggleType) token.value())));
                 advance();
             } else if (atCadratStart()) {
                 items.add(parseCadratWithShading());
@@ -738,7 +738,7 @@ public class MDCParser {
         };
     }
 
-    private static ToggleType toToggleType(jsesh.parser.mdwlexer.ToggleType toggle) {
+    private static ToggleType toToggleType(jsesh.parser.lexer.ToggleType toggle) {
         return switch (toggle) {
             case SHADING_TOGGLE -> ToggleType.SHADINGTOGGLE;
             case SHADING_ON -> ToggleType.SHADINGON;

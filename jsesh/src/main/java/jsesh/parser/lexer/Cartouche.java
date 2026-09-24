@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 
 /// The start or end of a cartouche, e.g. `<s2` / `s2>`: `type` is the

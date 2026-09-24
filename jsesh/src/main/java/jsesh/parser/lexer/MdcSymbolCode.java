@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// The high-level symbol kind carried by an [MdcSymbol], mirroring the CUP symbol
 /// constants (`SymbolCodes`/`MDCSymbols`) that the original `MDCLexAux.l`

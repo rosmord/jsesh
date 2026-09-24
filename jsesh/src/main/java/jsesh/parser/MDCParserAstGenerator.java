@@ -3,7 +3,6 @@ package jsesh.parser;
 import java.io.Reader;
 
 import jsesh.parser.ast.AstDocument;
-import jsesh.parser.handmade.MDCHandmadeParser;
 
 /**
  * A parser for MdC code which generates a literal AST (see
@@ -15,7 +14,7 @@ import jsesh.parser.handmade.MDCHandmadeParser;
  */
 public class MDCParserAstGenerator {
 
-    private final MDCHandmadeParser parser = new MDCHandmadeParser();
+    private final MDCParser parser = new MDCParser();
 
     public AstDocument parse(Reader in) throws MDCSyntaxError {
         return parser.parse(in);

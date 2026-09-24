@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// One constant per lexical rule of `MDCLexAux.l` (the original JLex specification), in
 /// exactly the order those rules appear in the file.

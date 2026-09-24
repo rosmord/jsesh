@@ -3,12 +3,13 @@ package jsesh.parser.handmade;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import jsesh.parser.MDCParser;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.parser.ast.AstDocument;
 
 /**
  * A large corpus of Manuel de Codage edge cases -- originally assembled to
- * check {@link MDCHandmadeParser} against the (now retired) CUP-generated
+ * check {@link MDCParser} against the (now retired) CUP-generated
  * parser, construct by construct. Kept as a crash-safety regression test:
  * every snippet must either parse successfully or be rejected with a clean
  * {@link MDCSyntaxError}, never anything else (NPE, StackOverflowError...).
@@ -69,7 +70,7 @@ public class MDCHandmadeParserEquivalenceTest {
     }
 
     private static String handmadeParse(String mdc, boolean philologyAsSigns) {
-        MDCHandmadeParser parser = new MDCHandmadeParser();
+        MDCParser parser = new MDCParser();
         parser.setPhilologyAsSigns(philologyAsSigns);
         try {
             AstDocument doc = parser.parse(mdc);

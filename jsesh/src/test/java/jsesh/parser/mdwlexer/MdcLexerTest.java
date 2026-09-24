@@ -10,6 +10,19 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import jsesh.parser.lexer.AlphabeticText;
+import jsesh.parser.lexer.Cartouche;
+import jsesh.parser.lexer.HRule;
+import jsesh.parser.lexer.MdcLexer;
+import jsesh.parser.lexer.MdcLexicon;
+import jsesh.parser.lexer.MdcSign;
+import jsesh.parser.lexer.MdcSymbol;
+import jsesh.parser.lexer.MdcSymbolCode;
+import jsesh.parser.lexer.Modifier;
+import jsesh.parser.lexer.OldCartoucheStart;
+import jsesh.parser.lexer.PhilologyKind;
+import jsesh.parser.lexer.SignSubType;
+
 class MdcLexerTest {
 
     private static List<MdcSymbol> scanAll(String source) {

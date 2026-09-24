@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// The value of a `MODIFIER` symbol, e.g. `\R-3`, `\col50`, `\?`: `name` is the
 /// letters right after the `\` (or `?`), `value` is the optional trailing

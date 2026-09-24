@@ -43,8 +43,8 @@ import jsesh.parser.ast.CartoucheType;
  * {@link MDCParserAstGeneratorTest} does.
  * <p>Every MDC snippet here was checked directly against the grammar
  * (originally {@code jsesh/src/jcup/MDCParse.y}, now
- * {@link jsesh.parser.handmade.MDCHandmadeParser}) and lexer
- * ({@link jsesh.parser.mdwlexer.MdcLexicon}, formerly the retired
+ * {@link jsesh.parser.MDCParser}) and lexer
+ * ({@link jsesh.parser.lexer.MdcLexicon}, formerly the retired
  * {@code jsesh/src/jlex/MDCLexAux.l}), not just against the parser's
  * observed behavior.
  */

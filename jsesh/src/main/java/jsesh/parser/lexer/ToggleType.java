@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 /// The kind of on/off or one-shot rendering toggle recognized by a `TOGGLE` symbol.
 public enum ToggleType {

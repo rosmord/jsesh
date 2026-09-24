@@ -1,4 +1,4 @@
-package jsesh.parser.mdwlexer;
+package jsesh.parser.lexer;
 
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.anyCharacter;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.character;
