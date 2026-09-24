@@ -193,8 +193,7 @@ public enum MdcTokenType {
     PROPERTY_INTEGER,
     /// `[a-zA-Z_][a-zA-Z0-9_]*` (line 418)
     PROPERTY_IDENTIFIER,
-    /// `[ \t\n\015]` (line 419) - always discarded
-    PROPERTY_WHITESPACE,
+    // `[ \t\n\015]` (line 419), always discarded, is the PROPERTIES state's skipped whitespace (see MdcLexicon).
 
     // ---- <YYINITIAL,PROPERTIES> (no explicit state prefix in the original) ----
 

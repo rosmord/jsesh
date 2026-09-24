@@ -2,27 +2,21 @@ package jsesh.parser.lexer;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.qenherkhopeshef.mdwlexer.CharacterClassifier;
+import org.qenherkhopeshef.mdwlexer.Lexer;
 import org.qenherkhopeshef.mdwlexer.Lexicon;
-import org.qenherkhopeshef.mdwlexer.automata.DeterministicFiniteAutomaton;
-import org.qenherkhopeshef.mdwlexer.automata.State;
+import org.qenherkhopeshef.mdwlexer.Token;
 
 /// A scanner for the Manuel de Codage syntax.
 ///
-/// There is a main lexicon, and a secondary one which deals with properties,
-/// to separate the way numbers and identifiers are dealt with after braces and double curly braces.
-///
-/// It currently requires a different approach than when we use a single automaton,
-/// because we have to share the input between the two automata.
-///
-/// **Buffering.** The constructor reads its [Reader] to completion up front, unlike
-/// [org.qenherkhopeshef.mdwlexer.Lexer] which streams. This is what makes switching DFAs
-/// banana-skin-free: two independent stream-backed lexers can't hand off a pushed-back lookahead
-/// character to each other, but two scans sharing one code point array and one cursor can. MDC
-/// source is small text, so the trade-off is a reasonable one here.
+/// Raw scanning, including the switches between the initial and [MdcLexicon#PROPERTIES]
+/// lexical states, is done by a generic [Lexer] over [MdcLexicon#lexicon()]. This class adds
+/// the context-dependent interpretation of the raw [MdcTokenType]s into [MdcSymbol]s: which
+/// whitespace is significant, whether `#` is an overwrite or a toggle, and the symbols' values.
 ///
 /// **`fixExpect`.** In the original, `expectSpace`/`justAfterSign` are
 /// updated by a public `fixExpect(Symbol)` method that the surrounding parser was expected
@@ -33,10 +27,7 @@ import org.qenherkhopeshef.mdwlexer.automata.State;
 ///
 /// Not thread-safe. Built with [MdcLexicon#newLexer(String)] / [MdcLexicon#newLexer(Reader)].
 public final class MdcLexer {
-    private final int[] codePoints;
-    private final MdcLexicon lexicon;
-    private int position;
-    private LexerState state = LexerState.YYINITIAL;
+    private final Lexer<MdcTokenType> lexer;
 
     /// Are philological brackets (`[[...]]` and friends) treated as plain signs?
     private boolean philologyAsSigns;
@@ -48,22 +39,17 @@ public final class MdcLexer {
     private boolean ignoreStars;
     private boolean debug;
 
-    private enum LexerState {
-        YYINITIAL, PROPERTIES
-    }
-
-    MdcLexer(MdcLexicon lexicon, Reader reader) throws IOException {
-        this(lexicon, readAll(Objects.requireNonNull(reader, "reader")));
+    MdcLexer(MdcLexicon lexicon, Reader reader) {
+        this.lexer = lexicon.lexicon().newLexer(Objects.requireNonNull(reader, "reader"));
     }
 
     MdcLexer(MdcLexicon lexicon, String source) {
-        this.lexicon = Objects.requireNonNull(lexicon, "lexicon");
-        this.codePoints = Objects.requireNonNull(source, "source").codePoints().toArray();
+        this(lexicon, new StringReader(Objects.requireNonNull(source, "source")));
     }
 
     /// The number of code points consumed so far, i.e. where the next symbol starts.
     public int position() {
-        return position;
+        return lexer.position();
     }
 
     public boolean isPhilologyAsSigns() {
@@ -96,28 +82,30 @@ public final class MdcLexer {
         ignoreStars = false;
         expectSpace = false;
         justAfterSign = false;
-        state = LexerState.YYINITIAL;
+        lexer.beginState(Lexicon.INITIAL_STATE);
     }
 
     /// Reads the next symbol, or [Optional#empty()] at end of input (corresponding to the
     /// original's `EOF` symbol). Silently-discarded matches (insignificant whitespace, the
     /// `PROPERTIES`-state layout whitespace) are skipped internally; a caller never sees them.
+    /// @throws UncheckedIOException if the underlying reader fails
     public Optional<MdcSymbol> nextSymbol() {
-        while (position < codePoints.length) {
-            Lexicon<MdcTokenType> current = state == LexerState.PROPERTIES ? lexicon.properties() : lexicon.initial();
-            RawMatch match = scanRaw(current).orElseThrow(() -> new IllegalStateException(
-                    "No rule matched at position " + position + " (unreachable: UNKNOWN matches any character)"));
-            int start = position;
-            position += match.length();
-            printDebug(match.type(), match.text());
+        try {
+            Optional<Token<MdcTokenType>> token;
+            while ((token = lexer.nextToken()).isPresent()) {
+                Token<MdcTokenType> found = token.get();
+                printDebug(found.type(), found.text());
 
-            Optional<MdcSymbol> symbol = interpret(match.type(), match.text(), start);
-            if (symbol.isPresent()) {
-                fixExpect(symbol.get());
-                return symbol;
+                Optional<MdcSymbol> symbol = interpret(found.type(), found.text(), found.position());
+                if (symbol.isPresent()) {
+                    fixExpect(symbol.get());
+                    return symbol;
+                }
             }
+            return Optional.empty();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
-        return Optional.empty();
     }
 
     /// Mirrors the original `fixExpect(Symbol)`, driven by the emitted symbol's code.
@@ -172,10 +160,7 @@ public final class MdcLexer {
             case SHADING -> emit(MdcSymbolCode.SHADING, text, text, start);
             case COLON -> emit(MdcSymbolCode.COLON, null, text, start);
             case STAR -> emit(MdcSymbolCode.STAR, null, text, start);
-            case OPEN_BRACE -> {
-                state = LexerState.PROPERTIES;
-                yield emit(MdcSymbolCode.OPEN_BRACE, null, text, start);
-            }
+            case OPEN_BRACE -> emit(MdcSymbolCode.OPEN_BRACE, null, text, start);
             case OLD_CARTOUCHE_PLAIN -> emit(MdcSymbolCode.BEGIN_OLD_CARTOUCHE, new OldCartoucheStart('c', 'a'), text, start);
             case OLD_CARTOUCHE_TYPED_PART ->
                     emit(MdcSymbolCode.BEGIN_OLD_CARTOUCHE, new OldCartoucheStart(text.charAt(1), text.charAt(2)), text, start);
@@ -227,23 +212,13 @@ public final class MdcLexer {
             case DOUBLE_AMP -> emit(MdcSymbolCode.DOUBLE_AMP, null, text, start);
             case LIG_AFTER -> emit(MdcSymbolCode.LIG_AFTER, null, text, start);
             case LIG_BEFORE -> emit(MdcSymbolCode.LIG_BEFORE, null, text, start);
-            case DOUBLE_LEFT_CURLY -> {
-                state = LexerState.PROPERTIES;
-                yield emit(MdcSymbolCode.DOUBLE_LEFT_CURLY, null, text, start);
-            }
-            case DOUBLE_RIGHT_CURLY -> {
-                state = LexerState.YYINITIAL;
-                yield emit(MdcSymbolCode.DOUBLE_RIGHT_CURLY, null, text, start);
-            }
-            case CLOSE_BRACE -> {
-                state = LexerState.YYINITIAL;
-                yield emit(MdcSymbolCode.CLOSE_BRACE, null, text, start);
-            }
+            case DOUBLE_LEFT_CURLY -> emit(MdcSymbolCode.DOUBLE_LEFT_CURLY, null, text, start);
+            case DOUBLE_RIGHT_CURLY -> emit(MdcSymbolCode.DOUBLE_RIGHT_CURLY, null, text, start);
+            case CLOSE_BRACE -> emit(MdcSymbolCode.CLOSE_BRACE, null, text, start);
             case COMMA -> emit(MdcSymbolCode.COMMA, null, text, start);
             case EQUAL -> emit(MdcSymbolCode.EQUAL, null, text, start);
             case PROPERTY_INTEGER -> emit(MdcSymbolCode.INTEGER, Integer.parseInt(text), text, start);
             case PROPERTY_IDENTIFIER -> emit(MdcSymbolCode.IDENTIFIER, text, text, start);
-            case PROPERTY_WHITESPACE -> Optional.empty();
             case UNKNOWN -> emit(MdcSymbolCode.UNKNOWN, text, text, start);
         };
     }
@@ -306,51 +281,5 @@ public final class MdcLexer {
         if (debug) {
             System.err.println("token: " + type + " " + text);
         }
-    }
-
-    /// One raw rule match: which [MdcTokenType] rule, its text, and its length in code points.
-    private record RawMatch(MdcTokenType type, String text, int length) {
-    }
-
-    /// Longest-prefix match of `lexicon` against the input, starting at [#position].
-    private Optional<RawMatch> scanRaw(Lexicon<MdcTokenType> lexicon) {
-        DeterministicFiniteAutomaton<Integer, MdcTokenType> automaton = lexicon.automaton();
-        CharacterClassifier classifier = lexicon.classifier();
-        State state = automaton.initialState();
-        int acceptedLength = -1;
-        MdcTokenType acceptedType = null;
-
-        int index = position;
-        while (index < codePoints.length) {
-            Optional<State> next = automaton.transition(state, classifier.classOf(codePoints[index]));
-            if (next.isEmpty()) {
-                break;
-            }
-            state = next.get();
-            index++;
-            Optional<MdcTokenType> tokenType = automaton.acceptingTokenType(state);
-            if (tokenType.isPresent()) {
-                acceptedLength = index - position;
-                acceptedType = tokenType.get();
-            }
-        }
-        if (acceptedType == null) {
-            return Optional.empty();
-        }
-        StringBuilder text = new StringBuilder();
-        for (int i = 0; i < acceptedLength; i++) {
-            text.appendCodePoint(codePoints[position + i]);
-        }
-        return Optional.of(new RawMatch(acceptedType, text.toString(), acceptedLength));
-    }
-
-    private static String readAll(Reader reader) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        char[] buffer = new char[4096];
-        int read;
-        while ((read = reader.read(buffer)) != -1) {
-            builder.append(buffer, 0, read);
-        }
-        return builder.toString();
     }
 }

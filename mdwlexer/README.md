@@ -307,6 +307,41 @@ Whitespace is compiled into its own separate DFA (with its own `CharacterClassif
 independent from your token rules — it does not affect rule priority or interact with your
 token DFA in any way.
 
+Whitespace is defined per lexical state (see below): `skipWhitespace(...)` and
+`noWhitespaceSkipping()` apply to the state being defined, and each new state starts with
+the default definition.
+
+### Lexical states
+
+Some languages need different rules in different contexts — the same `12` might be part of a
+name in running text, but a number inside `[...]`. Like JFlex's `%state`, a `Lexicon` can hold
+several named *lexical states*, each with its own rules (compiled to its own DFA) and its own
+whitespace definition. A `Lexer` only uses the rules of its current state.
+
+Every builder starts defining `Lexicon.INITIAL_STATE`, which is also where every `Lexer`
+starts. `state(name)` selects (or creates) the state that the following calls apply to:
+
+```java
+Lexicon<Tok> lexicon = LexiconBuilder.<Tok>newBuilder()
+        .rule(Tok.WORD, oneOrMore(union(letter, digit)))
+        .rule(Tok.OPEN, character('['), "PROPERTIES")          // declarative switch
+        .state("PROPERTIES")
+        .rule(Tok.NUMBER, oneOrMore(digit))
+        .rule(Tok.CLOSE, character(']'), Lexicon.INITIAL_STATE)
+        .build();
+```
+
+The state changes in one of two ways, both taking effect from the next `nextToken()` on:
+
+- **declaratively**: `rule(tokenType, expression, nextState)` switches the lexer to
+  `nextState` whenever that rule matches in the state it was declared in;
+- **explicitly**: `Lexer.beginState(name)`, typically called by the parser when it knows the
+  context better than the lexer. `Lexer.state()` returns the current state.
+
+`build()` rejects a state with no rules and a switch to an undefined state; `beginState` rejects
+an unknown name. Switching is safe between any two tokens: the look-ahead the previous scan read
+and pushed back stays in the shared input buffer and is seen by the new state's DFA.
+
 ### Boolean operators: complement, intersection, difference
 
 Most of a language's tokens are plain sequences/unions/repetitions, and for single
@@ -407,9 +442,9 @@ automaton actually runs on).
 | `ExpressionBuilder` | Static factory DSL for building `Expression` trees |
 | `CharacterClassifier` | Partitions the code point space into the classes a set of expressions distinguish |
 | `ExpressionCompiler` | Compiles `Expression`(s) into a `NondeterministicFiniteAutomaton<Integer, T>` (Thompson construction) |
-| `LexiconBuilder<T>` | Collects rules (and an optional whitespace rule) and compiles a `Lexicon` |
+| `LexiconBuilder<T>` | Collects rules (and an optional whitespace rule), per lexical state, and compiles a `Lexicon` |
 | `Lexicon<T>` | Immutable, compiled, thread-safe: the shared DFA plus classifier, and (unless disabled) the whitespace DFA/classifier |
-| `Lexer<T>` | Stateful scanner over one `Reader`, produced by `Lexicon.newLexer(Reader)` |
+| `Lexer<T>` | Stateful scanner over one `Reader`, produced by `Lexicon.newLexer(Reader)`; tracks the current lexical state |
 | `Token<T>` | One scanned token: type, matched text, starting position |
 | `LexicalException` | Thrown by `Lexer.nextToken()` when nothing matches at the current position |
 | `automata.State` | Opaque automaton state identity |

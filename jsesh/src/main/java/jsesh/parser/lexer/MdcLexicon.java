@@ -13,7 +13,6 @@ import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.repeat;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.sequence;
 import static org.qenherkhopeshef.mdwlexer.ExpressionBuilder.union;
 
-import java.io.IOException;
 import java.io.Reader;
 
 import org.qenherkhopeshef.mdwlexer.Expression;
@@ -25,13 +24,15 @@ import org.qenherkhopeshef.mdwlexer.LexiconBuilder;
 /// This class is a **Singleton** : use [#instance()] to get the shared instance, 
 /// and [#newLexer(String)] or [#newLexer(Reader)] to create a new stateful lexer scanning some input.
 /// 
-/// The library's [Lexicon]/[LexiconBuilder] only model a single start state, but
-/// the original grammar has two (`YYINITIAL` and `PROPERTIES`, switched with
-/// `yybegin`). So this wraps one [Lexicon] per state instead of one shared lexicon;
-/// [MdcLexer] drives whichever one is current and switches between them itself. Both
-/// disable automatic whitespace skipping ([LexiconBuilder#noWhitespaceSkipping()]): in MDC,
-/// runs of whitespace are themselves meaningful tokens (see [MdcTokenType#WORD_END_CANDIDATE]
-/// and [MdcTokenType#PROPERTY_WHITESPACE]), not something to skip blindly.
+/// The original grammar has two lexical states, `YYINITIAL` ([Lexicon#INITIAL_STATE] here)
+/// and [#PROPERTIES], used inside `[...]` and `{{...}}` so that numbers and identifiers are
+/// read as property values. Both are states of one [Lexicon]; the switches between them are
+/// declared on the rules for `[`, `{{`, `]` and `}}`.
+///
+/// The initial state disables automatic whitespace skipping
+/// ([LexiconBuilder#noWhitespaceSkipping()]): there, runs of whitespace are themselves
+/// meaningful tokens (see [MdcTokenType#WORD_END_CANDIDATE]). In [#PROPERTIES], whitespace is
+/// mere layout, and is skipped.
 ///
 /// A handful of rules in the original are genuinely ambiguous with another rule on an
 /// equal-length match; where that happens it's called out below, next to the rule it resolves
@@ -54,14 +55,15 @@ public final class MdcLexicon {
     private static final Expression LOWER = characterRange('a', 'z');
 
     // Must come after the character-class constants above: building the lexicons reads them.
-    private static final MdcLexicon INSTANCE = new MdcLexicon(buildInitial(), buildProperties());
+    private static final MdcLexicon INSTANCE = new MdcLexicon(build());
 
-    private final Lexicon<MdcTokenType> initial;
-    private final Lexicon<MdcTokenType> properties;
+    /// The lexical state for property lists, inside `[...]` and `{{...}}`.
+    public static final String PROPERTIES = "PROPERTIES";
 
-    private MdcLexicon(Lexicon<MdcTokenType> initial, Lexicon<MdcTokenType> properties) {
-        this.initial = initial;
-        this.properties = properties;
+    private final Lexicon<MdcTokenType> lexicon;
+
+    private MdcLexicon(Lexicon<MdcTokenType> lexicon) {
+        this.lexicon = lexicon;
     }
 
     /// The shared, immutable MDC lexicon.
@@ -74,22 +76,17 @@ public final class MdcLexicon {
         return new MdcLexer(this, source);
     }
 
-    /// Creates a new stateful lexer scanning `reader` (read to completion up front; see [MdcLexer]).
-    public MdcLexer newLexer(Reader reader) throws IOException {
+    /// Creates a new stateful lexer scanning `reader`.
+    public MdcLexer newLexer(Reader reader) {
         return new MdcLexer(this, reader);
     }
 
-    /// The lexicon for the `YYINITIAL` state.
-    Lexicon<MdcTokenType> initial() {
-        return initial;
+    /// The underlying two-state lexicon, which raw [MdcTokenType] tokens can be scanned with directly.
+    public Lexicon<MdcTokenType> lexicon() {
+        return lexicon;
     }
 
-    /// The lexicon for the `PROPERTIES` state.
-    Lexicon<MdcTokenType> properties() {
-        return properties;
-    }
-
-    private static Lexicon<MdcTokenType> buildInitial() {
+    private static Lexicon<MdcTokenType> build() {
         return LexiconBuilder.<MdcTokenType>newBuilder()
                 .noWhitespaceSkipping()
                 .rule(MdcTokenType.PAGE_END, sequence(literal("!!"), ESPSO))
@@ -128,7 +125,7 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.SHADING, shadingDigits())
                 .rule(MdcTokenType.COLON, character(':'))
                 .rule(MdcTokenType.STAR, character('*'))
-                .rule(MdcTokenType.OPEN_BRACE, character('['))
+                .rule(MdcTokenType.OPEN_BRACE, character('['), PROPERTIES)
                 .rule(MdcTokenType.OLD_CARTOUCHE_PLAIN, character('<'))
                 .rule(MdcTokenType.OLD_CARTOUCHE_TYPED_PART, sequence(character('<'), oneOf("SFH"), oneOf("bme")))
                 .rule(MdcTokenType.OLD_CARTOUCHE_TYPED, sequence(character('<'), oneOf("SFHG")))
@@ -178,22 +175,18 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.DOUBLE_AMP, union(literal("&&"), literal("**")))
                 .rule(MdcTokenType.LIG_AFTER, literal("&&&"))
                 .rule(MdcTokenType.LIG_BEFORE, union(literal("^^^"), literal("^^")))
-                .rule(MdcTokenType.DOUBLE_LEFT_CURLY, literal("{{"))
+                .rule(MdcTokenType.DOUBLE_LEFT_CURLY, literal("{{"), PROPERTIES)
                 .rule(MdcTokenType.UNKNOWN, anyCharacter())
-                .build();
-    }
 
-    private static Lexicon<MdcTokenType> buildProperties() {
-        return LexiconBuilder.<MdcTokenType>newBuilder()
-                .noWhitespaceSkipping()
-                .rule(MdcTokenType.DOUBLE_RIGHT_CURLY, literal("}}"))
-                .rule(MdcTokenType.CLOSE_BRACE, character(']'))
+                .state(PROPERTIES)
+                .skipWhitespace(oneOf(" \t\n\r"))
+                .rule(MdcTokenType.DOUBLE_RIGHT_CURLY, literal("}}"), Lexicon.INITIAL_STATE)
+                .rule(MdcTokenType.CLOSE_BRACE, character(']'), Lexicon.INITIAL_STATE)
                 .rule(MdcTokenType.COMMA, character(','))
                 .rule(MdcTokenType.EQUAL, character('='))
                 .rule(MdcTokenType.PROPERTY_INTEGER, INTEGER)
                 .rule(MdcTokenType.PROPERTY_IDENTIFIER, sequence(union(UPPER, LOWER, character('_')),
                         repeat(union(UPPER, LOWER, DIGIT, character('_')))))
-                .rule(MdcTokenType.PROPERTY_WHITESPACE, oneOf(" \t\n\r"))
                 .rule(MdcTokenType.UNKNOWN, anyCharacter())
                 .build();
     }
