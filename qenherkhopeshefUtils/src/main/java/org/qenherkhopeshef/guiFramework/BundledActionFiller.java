@@ -3,6 +3,7 @@ package org.qenherkhopeshef.guiFramework;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -41,12 +42,31 @@ public class BundledActionFiller {
 	 */
 	private static final String[] ACTION_KEYS = { Action.NAME,
 			Action.SHORT_DESCRIPTION, Action.LONG_DESCRIPTION,
-			Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,		
+			Action.SMALL_ICON, Action.ACTION_COMMAND_KEY,
 			Action.ACCELERATOR_KEY, Action.MNEMONIC_KEY,
 			BundledAction.TEAR_OFF, PRECONDITIONS,
 			BundledAction.GROUP_PROPERTY, BundledAction.BOOLEAN_PROPERTY,
 			BundledAction.METHOD_ARGUMENT, NUMBER_OF_COLUMNS,
 			BundledAction.IS_LABELLED, BundledAction.PROXY_METHOD };
+
+	/**
+	 * Maps each legacy, PascalCase `javax.swing.Action` property suffix to
+	 * the lowerCamelCase suffix now preferred for new or edited entries —
+	 * spelled identically to {@code org.jhotdraw_7_6.util.ResourceBundleUtil}'s
+	 * own vocabulary, so both of JSesh's property-loading mechanisms
+	 * converge on one naming scheme. The legacy suffixes keep working
+	 * indefinitely: {@link #initActionProperties} prefers the new suffix
+	 * when it is defined, and falls back to the legacy one otherwise.
+	 * <p>
+	 * `guiFramework`-only extensions (Preconditions, ProxyMethod, ...) have
+	 * no JHotDraw equivalent and are intentionally absent from this map.
+	 */
+	private static final Map<String, String> NEW_SUFFIX_FOR_LEGACY = Map.of(
+			Action.NAME,              "text",
+			Action.SHORT_DESCRIPTION, "toolTipText",
+			Action.ACCELERATOR_KEY,   "accelerator",
+			Action.MNEMONIC_KEY,      "mnemonic",
+			Action.SMALL_ICON,        "icon");
 
 	/**
 	 * Init an action using its static ID attribute as action key.
@@ -92,8 +112,13 @@ public class BundledActionFiller {
 		
 		for (String propertyName : BundledActionFiller.ACTION_KEYS) {
 			// The key in the property file for this particular action for this
-			// particular entry.
-			String actionPropertyKey = id + "." + propertyName;
+			// particular entry. Prefer the new lowerCamelCase suffix when it's
+			// defined, falling back to the legacy PascalCase one otherwise.
+			String legacyKey = id + "." + propertyName;
+			String newSuffix = NEW_SUFFIX_FOR_LEGACY.get(propertyName);
+			String actionPropertyKey = (newSuffix == null)
+					? legacyKey
+					: defaults.firstDefinedKey(id + "." + newSuffix, legacyKey);
 			if (propertyName.equals(Action.MNEMONIC_KEY)) {
 				action.putValue(propertyName,
 						defaults.getKeyCode(actionPropertyKey));

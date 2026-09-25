@@ -85,11 +85,6 @@ public class BundledAction extends AbstractAction {
      */
     private String[] methodArguments;
 
-//	/**
-//	 * see {@link #PROXY_METHOD}
-//	 */
-//	
-//	private String proxyMethod= null;
     /**
      * Create an action which will take most of its data from a property file.
      * <p>
