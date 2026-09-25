@@ -109,7 +109,7 @@ public class PalettePresenter {
     /**
      * The graphic component.
      */
-    private final JSimplePalette simplePalette;
+    private final JHieroglyphicPalette simplePalette;
     /**
      * Field for detailled sign information.
      */
@@ -167,7 +167,7 @@ public class PalettePresenter {
             HieroglyphDatabase hieroglyphDatabase) {
         this.hieroglyphsDatabase = hieroglyphDatabase;
         this.hieroglyphicFontManager = hieroglyphicFontManager;
-        simplePalette = new JSimplePalette();
+        simplePalette = new JHieroglyphicPalette();
 
         signDescriptionField = new JMDCEditor();
         signDescriptionField.setScale(2.0);
@@ -742,7 +742,7 @@ public class PalettePresenter {
         return result;
     }
 
-    public JSimplePalette getSimplePalette() {
+    public JHieroglyphicPalette getSimplePalette() {
         return simplePalette;
     }
 

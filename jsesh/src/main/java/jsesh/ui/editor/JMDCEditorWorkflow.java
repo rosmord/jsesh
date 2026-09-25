@@ -1591,68 +1591,57 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     private void addAlphabeticChar(char key) {
         possibilitiesHandler.clear();
-        char mdcSectionCode = getMdcTextModeChar();
-
-        // First, deal with backspace.
         if (key == 8) {
             doBackspace();
         } else {
-            boolean addNew = false;
-            if (!caret.getInsert().hasPrevious()) {
-                addNew = true;
-            } else {
-                // TODO : PROBLEM HERE. The method getElementBefore should
-                // return
-                // a copy of the original element. But this might be expensive
-                // (when we will use zones() and the like.
-                // Hence, the test might be done elsewhere.
-                // Or we might have a Readonly variant of getElementBefore
-                // (getElementInfoBefore)
-                // Which is used to ensure no write operation occur.
-                TopItem t = caret.getInsert().getElementBefore();
-                if (t instanceof AlphabeticText
-                        && ((AlphabeticText) t).getScriptCode() == mdcSectionCode) {
-                    //
-                    AlphabeticText txt = (AlphabeticText) t.deepCopy();
-                    String toAdd;
-                    if (mode == 'T') {
-                        toAdd = "^" + key;
-                        mode = 't'; // Most of the time, only one uppercase char will be needed !!!
-                    } else {
-                        toAdd = Character.toString(key);
-                    }
-                    txt.setText(txt.getText() + toAdd);
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), txt);
-                } else if (t instanceof Superscript && mdcSectionCode == '|') { // or use mode, same thing...
-                    Superscript txt = (Superscript) t.deepCopy();
-                    txt.setText(txt.getText() + key);
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), txt);
-                } else {
-                    addNew = true;
-                }
-            }
-            if (addNew) {
-                if (mode == 'T') {
-                    // Uppercase transliteration is a special case.
-                    String toAdd = "^" + key;
-                    hieroglyphicTextModel.insertElementAt(caret
-                            .getInsertPosition(),
-                            new AlphabeticText(mdcSectionCode, toAdd).buildTopItem());
-                    mode = 't'; // Most of the time, only one uppercase char will be needed !!!
-                } else if (mdcSectionCode != '|') {
-                    hieroglyphicTextModel.insertElementAt(caret
-                            .getInsertPosition(),
-                            new AlphabeticText(mdcSectionCode, Character.toString(key)).buildTopItem());
-                } else {
-                    hieroglyphicTextModel.insertElementAt(
-                            caret.getInsertPosition(),
-                            new Superscript(Character.toString(key)).buildTopItem());
-                }
-            }
+            insertOrExtendAlphabeticText(key);
         }
         clearSeparator();
+    }
+
+    /**
+     * Inserts key at the caret, extending the AlphabeticText or Superscript
+     * before the caret if it's in the same text mode, or creating a new one
+     * otherwise.
+     */
+    private void insertOrExtendAlphabeticText(char key) {
+        char mdcSectionCode = getMdcTextModeChar();
+        String toAdd = charsToInsert(key);
+        TopItem elementBefore = caret.getInsert().hasPrevious()
+                ? caret.getInsert().getElementBefore() : null;
+
+        if (mdcSectionCode == '|') {
+            if (elementBefore instanceof Superscript) {
+                Superscript txt = ((Superscript) elementBefore).deepCopy();
+                txt.setText(txt.getText() + toAdd);
+                hieroglyphicTextModel.replaceElementBefore(caret.getInsertPosition(), txt);
+            } else {
+                hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
+                        new Superscript(toAdd).buildTopItem());
+            }
+        } else {
+            if (elementBefore instanceof AlphabeticText
+                    && ((AlphabeticText) elementBefore).getScriptCode() == mdcSectionCode) {
+                AlphabeticText txt = ((AlphabeticText) elementBefore).deepCopy();
+                txt.setText(txt.getText() + toAdd);
+                hieroglyphicTextModel.replaceElementBefore(caret.getInsertPosition(), txt);
+            } else {
+                hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
+                        new AlphabeticText(mdcSectionCode, toAdd).buildTopItem());
+            }
+        }
+    }
+
+    /**
+     * Returns the text to add for key, handling the special case of
+     * uppercase transliteration, encoded as "^" followed by the character.
+     */
+    private String charsToInsert(char key) {
+        if (mode == 'T') {
+            mode = 't'; // Most of the time, only one uppercase char will be needed !!!
+            return "^" + key;
+        }
+        return Character.toString(key);
     }
 
     private int getInsertPosition() {

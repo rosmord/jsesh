@@ -1,4 +1,10 @@
 /*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ *
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ *
  * JSimplePalette.java
  *
  * Created on 2 juillet 2007, 15:10
@@ -10,9 +16,6 @@
  */
 
 package jsesh.ui.palette;
-
-import java.awt.ComponentOrientation;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -39,7 +42,7 @@ import net.miginfocom.swing.MigLayout;
  * @author rosmord
  */
 @SuppressWarnings("serial")
-public class JSimplePalette extends JPanel {
+public class JHieroglyphicPalette extends JPanel {
 
     private JButton backButton;
     private JComboBox<ListItem<HieroglyphFamily>> categoryChooserCB;
@@ -65,7 +68,7 @@ public class JSimplePalette extends JPanel {
     private JTextField translitterationFilterField;
 
     /** Creates new form JSimplePalette */
-    public JSimplePalette() {
+    public JHieroglyphicPalette() {
         initComponents();
     }
 
