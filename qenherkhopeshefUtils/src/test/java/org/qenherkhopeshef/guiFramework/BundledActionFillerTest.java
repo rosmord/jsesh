@@ -23,7 +23,11 @@ import org.qenherkhopeshef.utils.PlatformDetection;
  * {@code javax.swing.Action}-constant suffixes ({@code .Name},
  * {@code .ShortDescription}, {@code .AcceleratorKey}, {@code .MnemonicKey},
  * {@code .SmallIcon}), while still falling back to the legacy suffix when
- * the new one isn't defined.
+ * the new one isn't defined; and that the same holds for the
+ * {@code guiFramework}-only extension suffixes ({@code .Preconditions},
+ * {@code .ProxyMethod}, {@code .BooleanProperty}, {@code .GroupProperty},
+ * {@code .Argument}, {@code .TearOff}, {@code .NumberOfColumns},
+ * {@code .IsLabelled}) against their own lowerCamelCase spellings.
  */
 public class BundledActionFillerTest {
 
@@ -157,16 +161,84 @@ public class BundledActionFillerTest {
     }
 
     @Test
-    public void extensionSuffixIsNeverAliased() {
+    public void preconditionsNewSuffixWins() {
         AppDefaults defaults = new AppDefaults();
         defaults.put("foo.Preconditions", "Cond1");
-        // A would-be lowerCamelCase spelling: guiFramework-only extensions have no
-        // JHotDraw equivalent and must never be aliased, so this must be ignored.
         defaults.put("foo.preconditions", "Cond2, Cond3");
         Action action = newAction();
         BundledActionFiller.initActionProperties(action, "foo", defaults);
-        assertArrayEquals(new String[] { "Cond1" },
+        assertArrayEquals(new String[] { "Cond2", "Cond3" },
                 (String[]) action.getValue(BundledActionFiller.PRECONDITIONS));
+    }
+
+    @Test
+    public void proxyMethodNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.ProxyMethod", "getOldDelegate");
+        defaults.put("foo.proxyMethod", "getNewDelegate");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("getNewDelegate", action.getValue(BundledAction.PROXY_METHOD));
+    }
+
+    @Test
+    public void booleanPropertyNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.BooleanProperty", "oldFlag");
+        defaults.put("foo.booleanProperty", "newFlag");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("newFlag", action.getValue(BundledAction.BOOLEAN_PROPERTY));
+    }
+
+    @Test
+    public void groupPropertyNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.GroupProperty", "oldGroup");
+        defaults.put("foo.groupProperty", "newGroup");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("newGroup", action.getValue(BundledAction.GROUP_PROPERTY));
+    }
+
+    @Test
+    public void argumentNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.Argument", "1");
+        defaults.put("foo.argument", "2");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("2", action.getValue(BundledAction.METHOD_ARGUMENT));
+    }
+
+    @Test
+    public void tearOffNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.TearOff", "n");
+        defaults.put("foo.tearOff", "y");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("y", action.getValue(BundledAction.TEAR_OFF));
+    }
+
+    @Test
+    public void numberOfColumnsNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.NumberOfColumns", "1");
+        defaults.put("foo.numberOfColumns", "3");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals(3, action.getValue(BundledActionFiller.NUMBER_OF_COLUMNS));
+    }
+
+    @Test
+    public void isLabelledNewSuffixWins() {
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.IsLabelled", "n");
+        defaults.put("foo.isLabelled", "y");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals("y", action.getValue(BundledAction.IS_LABELLED));
     }
 
     private static Icon trivialIcon() {

@@ -50,23 +50,39 @@ public class BundledActionFiller {
 			BundledAction.IS_LABELLED, BundledAction.PROXY_METHOD };
 
 	/**
-	 * Maps each legacy, PascalCase `javax.swing.Action` property suffix to
-	 * the lowerCamelCase suffix now preferred for new or edited entries —
-	 * spelled identically to {@code org.jhotdraw_7_6.util.ResourceBundleUtil}'s
-	 * own vocabulary, so both of JSesh's property-loading mechanisms
-	 * converge on one naming scheme. The legacy suffixes keep working
-	 * indefinitely: {@link #initActionProperties} prefers the new suffix
-	 * when it is defined, and falls back to the legacy one otherwise.
+	 * Maps each legacy, PascalCase property suffix to the lowerCamelCase
+	 * suffix now preferred for new or edited entries. The legacy suffixes
+	 * keep working indefinitely: {@link #initActionProperties} prefers the
+	 * new suffix when it is defined, and falls back to the legacy one
+	 * otherwise.
 	 * <p>
-	 * `guiFramework`-only extensions (Preconditions, ProxyMethod, ...) have
-	 * no JHotDraw equivalent and are intentionally absent from this map.
+	 * Five of these (NAME, SHORT_DESCRIPTION, ACCELERATOR_KEY, MNEMONIC_KEY,
+	 * SMALL_ICON) are shared with {@code javax.swing.Action}, and their new
+	 * spelling is chosen to match {@code org.jhotdraw_7_6.util.ResourceBundleUtil}'s
+	 * own vocabulary, so both of JSesh's property-loading mechanisms converge
+	 * on one naming scheme. The rest (Preconditions, ProxyMethod, ...) are
+	 * {@code guiFramework}-only extensions with no JHotDraw equivalent; their
+	 * new spelling is simply the legacy PascalCase name decapitalized, to
+	 * bring them under the same casing rule without inventing new vocabulary.
+	 * `.MenuPlatform` is deliberately absent from this map: it has no
+	 * backing constant and is never read by {@link #initActionProperties} (see
+	 * {@code quitApplication}'s hardcoded platform check in {@code MenuFactory}),
+	 * so there's nothing here to alias yet.
 	 */
-	private static final Map<String, String> NEW_SUFFIX_FOR_LEGACY = Map.of(
-			Action.NAME,              "text",
-			Action.SHORT_DESCRIPTION, "toolTipText",
-			Action.ACCELERATOR_KEY,   "accelerator",
-			Action.MNEMONIC_KEY,      "mnemonic",
-			Action.SMALL_ICON,        "icon");
+	private static final Map<String, String> NEW_SUFFIX_FOR_LEGACY = Map.ofEntries(
+			Map.entry(Action.NAME,                    "text"),
+			Map.entry(Action.SHORT_DESCRIPTION,       "toolTipText"),
+			Map.entry(Action.ACCELERATOR_KEY,         "accelerator"),
+			Map.entry(Action.MNEMONIC_KEY,            "mnemonic"),
+			Map.entry(Action.SMALL_ICON,              "icon"),
+			Map.entry(PRECONDITIONS,                  "preconditions"),
+			Map.entry(NUMBER_OF_COLUMNS,               "numberOfColumns"),
+			Map.entry(BundledAction.TEAR_OFF,          "tearOff"),
+			Map.entry(BundledAction.GROUP_PROPERTY,    "groupProperty"),
+			Map.entry(BundledAction.BOOLEAN_PROPERTY,  "booleanProperty"),
+			Map.entry(BundledAction.METHOD_ARGUMENT,   "argument"),
+			Map.entry(BundledAction.IS_LABELLED,       "isLabelled"),
+			Map.entry(BundledAction.PROXY_METHOD,      "proxyMethod"));
 
 	/**
 	 * Init an action using its static ID attribute as action key.

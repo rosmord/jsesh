@@ -295,7 +295,7 @@ public class MenuFactory {
 			throw new RuntimeException("Action not found " + name);
 		if (null == result.getValue("Name") && null == result.getValue("Icon")
 				&& null == result.getValue("SmallIcon")
-				&& null == result.getValue("IsLabelled")) {
+				&& null == result.getValue(BundledAction.IS_LABELLED)) {
 			System.err.println("Warning. No text or icon for action  " + name);
 			System.err
 					.println("If you think it's right (e.g. you have defined some other display system,\n"
