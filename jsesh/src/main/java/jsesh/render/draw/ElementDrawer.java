@@ -8,7 +8,7 @@ import jsesh.render.style.ShadingMode;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
@@ -55,13 +55,11 @@ import jsesh.render.view.MDCView;
  * cases. So the actual drawing methods might look like this one :
  * 
  * <pre>
- * public void visitAlphabeticText(AlphabeticText t) {
+ * public void visitAlphabeticCharacter(AlphabeticCharacter c) {
  * 	if (!postfix)
  * 		return;
- * 	if (t.getScriptCode() != ScriptCodes.COMMENT) {
- * 		g.setFont(getDrawingSpecifications().getFont(t.getScriptCode()));
- * 		g.drawString(t.getText().toString(), 0, g.getFontMetrics().getAscent());
- * 	}
+ * 	g.setFont(getJSeshStyle().fonts().getFont(c.getScript()));
+ * 	g.drawString(c.getDisplayString(...), 0, g.getFontMetrics().getAscent());
  * }
  * </pre>
  * 
@@ -165,9 +163,15 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
+	 * @see jsesh.model.ModelElementVisitor#visitAlphabeticCharacter(jsesh.model.AlphabeticCharacter)
 	 */
-	abstract public void visitAlphabeticText(AlphabeticText t);
+	abstract public void visitAlphabeticCharacter(AlphabeticCharacter c);
+
+	/// Comments are not drawn.
+	@Override
+	public void visitComment(jsesh.model.MdcComment c) {
+		// This method intentionnaly left blank.
+	}
 
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitBasicItemList(jsesh.model.BasicItemList)

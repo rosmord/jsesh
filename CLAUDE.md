@@ -166,3 +166,6 @@ All user-visible strings live in `jseshLabels`. When adding UI text, add it ther
 - note that we run on a mac.
 - macOS sed doesn't support `\b`, so those substitutions silently no-op'd. Use python instead.
 
+## git management
+
+Git will be managed manually. **Never** commit or push. It's up to me. You can of course use git to look at history - temporary local worktrees are fine, but it should never impact the current archive.

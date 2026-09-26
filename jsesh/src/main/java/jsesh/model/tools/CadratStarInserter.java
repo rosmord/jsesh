@@ -8,7 +8,7 @@ package jsesh.model.tools;
 import java.util.Collections;
 import java.util.List;
 
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
@@ -80,11 +80,11 @@ public class CadratStarInserter {
 			result = (Cadrat) c.deepCopy();
 		}
 	
-		public void visitAlphabeticText(AlphabeticText t) {
+		@Override
+		public void visitAlphabeticCharacter(AlphabeticCharacter c) {
 			result = new Cadrat();
 			HBox box = new HBox();
-			box.addHorizontalListElement(new SubCadrat((AlphabeticText) t
-					.deepCopy()));
+			box.addHorizontalListElement(new SubCadrat(c.deepCopy()));
 			result.addHBox(box);
 		}
 	}

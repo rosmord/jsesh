@@ -39,6 +39,7 @@ package jsesh.render.layout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import jsesh.render.view.MDCView;
 
@@ -71,6 +72,13 @@ public class Zone {
 	private ArrayList<MDCView> views;
 
 	/**
+	 * The views, grouped in units which are moved as a whole when the zone
+	 * is justified. A unit is usually a single view, but a run of alphabetic
+	 * text is one unit.
+	 */
+	private final ArrayList<List<MDCView>> units = new ArrayList<>();
+
+	/**
 	 * build a new zone.
 	 * 
 	 * @param minWidth
@@ -100,6 +108,25 @@ public class Zone {
 		zoneArea.add(new Rectangle2D.Double(view.getPosition().x, view
 				.getPosition().y, view.getWidth(), view.getHeight()));
 		views.add(view);
+		units.add(List.of(view));
+	}
+
+	/// Adds a run of views which must stay together (a run of alphabetic
+	/// text). Justification will move them as one unit.
+	///
+	/// @param runViews the views.
+	/// @param xOffsets the position of each view, relative to the current
+	/// point.
+	public void addRun(List<MDCView> runViews, double[] xOffsets) {
+		for (int k = 0; k < runViews.size(); k++) {
+			MDCView view = runViews.get(k);
+			view.getPosition().setLocation(currentPoint.x + xOffsets[k] + view.getDeltaBaseX(),
+					currentPoint.y + view.getDeltaBaseY());
+			zoneArea.add(new Rectangle2D.Double(view.getPosition().x, view
+					.getPosition().y, view.getWidth(), view.getHeight()));
+			views.add(view);
+		}
+		units.add(List.copyOf(runViews));
 	}
 
 	/**
@@ -194,33 +221,58 @@ public class Zone {
 	public void justifyWidthTo(double startMargin, double width) {
 		// In the current system, some views can be empty (which is not a good
 		// idea, BTW).
-		// Hence, we need to actually count the number of "real" views.
+		// Hence, we need to actually count the number of "real" units.
 		double minimalWidth = 0;
-		int numberOfViews = 0;
-		for (MDCView v : views) {
-			minimalWidth += v.getWidth();
-			if (v.getWidth() != 0)
-				numberOfViews++;
+		List<List<MDCView>> nonEmptyUnits = new ArrayList<>();
+		for (List<MDCView> unit : units) {
+			double unitWidth = unitWidth(unit);
+			minimalWidth += unitWidth;
+			if (unitWidth != 0)
+				nonEmptyUnits.add(unit);
 		}
 
 		if (minimalWidth < width) {
 			double space = width - minimalWidth;
-			if (numberOfViews == 1) {
-				views.get(0).getPosition().x = startMargin+ space / 2.0;
+			if (nonEmptyUnits.size() == 1) {
+				moveUnitTo(nonEmptyUnits.get(0), startMargin + space / 2.0);
 			} else if (space > 0.5 * minimalWidth) {
 				// If spaces would be too large, we center the text.
 				centerInWidth(startMargin, width);
-			} else if (numberOfViews > 1) {
-				double skip = space / (numberOfViews - 1);
+			} else if (nonEmptyUnits.size() > 1) {
+				double skip = space / (nonEmptyUnits.size() - 1);
 				double x = startMargin;
-				for (int i = 0; i < views.size(); i++) {
-					// Ignore empty subviews.
-					if (views.get(i).getWidth() == 0)
-						continue;
-					views.get(i).getPosition().x = x;
-					x += views.get(i).getWidth() + skip;
+				for (List<MDCView> unit : nonEmptyUnits) {
+					moveUnitTo(unit, x);
+					x += unitWidth(unit) + skip;
 				}
 			}
+		}
+	}
+
+	private static double unitMinX(List<MDCView> unit) {
+		double min = Double.POSITIVE_INFINITY;
+		for (MDCView v : unit) {
+			min = Math.min(min, v.getPosition().x);
+		}
+		return min;
+	}
+
+	private static double unitWidth(List<MDCView> unit) {
+		if (unit.size() == 1) {
+			return unit.get(0).getWidth();
+		}
+		double max = Double.NEGATIVE_INFINITY;
+		for (MDCView v : unit) {
+			max = Math.max(max, v.getPosition().x + v.getWidth());
+		}
+		return max - unitMinX(unit);
+	}
+
+	/// Moves a unit rigidly so that its left side is at x.
+	private static void moveUnitTo(List<MDCView> unit, double x) {
+		double delta = x - unitMinX(unit);
+		for (MDCView v : unit) {
+			v.getPosition().x += delta;
 		}
 	}
 
@@ -231,22 +283,21 @@ public class Zone {
 	 * @param width the width of the centering area (the margin is not accounted for).
 	 */
 	private void centerInWidth(double startMargin, double width) {
-		MDCView first = null; // first non empty view
-		MDCView last = null; // last non empty view
+		// Leftmost and rightmost extent of the non-empty views (a reversed run
+		// of text means the list order is not always the left-to-right order).
+		double currentStart = Double.POSITIVE_INFINITY;
+		double currentEnd = Double.NEGATIVE_INFINITY;
 		for (MDCView v : views) {
 			if (v.getWidth() > 0f) {
-				if (first == null)
-					first = v;
-				last = v;
+				currentStart = Math.min(currentStart, v.getPosition().x);
+				currentEnd = Math.max(currentEnd, v.getPosition().x + v.getWidth());
 			}
 		}
-		if (first == null)
+		if (currentStart > currentEnd)
 			return;
-		double currentStart = first.getPosition().x;
-		double currentEnd = last.getPosition().x + last.getWidth();
 		double currentWidth = currentEnd - currentStart;
 		double centerMargin = startMargin+ (width - currentWidth) / 2.0;
-		double delta = centerMargin - first.getPosition().x;
+		double delta = centerMargin - currentStart;
 		translateBy(new Point2D.Double(delta, 0));
 	}
 

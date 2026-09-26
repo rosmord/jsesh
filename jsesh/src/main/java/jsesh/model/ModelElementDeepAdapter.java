@@ -30,13 +30,14 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
-	 */
-        @Override
-	public void visitAlphabeticText(AlphabeticText t) {
-		visitBasitItem(t);
-		
+	@Override
+	public void visitAlphabeticCharacter(AlphabeticCharacter c) {
+		visitBasitItem(c);
+	}
+
+	@Override
+	public void visitComment(MdcComment c) {
+		visitBasitItem(c);
 	}
 
 	/**

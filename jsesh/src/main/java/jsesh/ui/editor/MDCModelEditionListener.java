@@ -83,5 +83,12 @@ public interface MDCModelEditionListener extends MDCCaretChangeListener {
 	void focusGained(StringBuffer code);
 	
 	void focusLost();
+
+	/// Called when the input mode (hieroglyphs, latin, transliteration...)
+	/// changes.
+	///
+	/// @param mode the new mode.
+	default void inputModeChanged(InputMode mode) {
+	}
 }
 

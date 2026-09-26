@@ -6,6 +6,7 @@
 package jsesh.render.layout;
 
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import jsesh.render.view.MDCView;
 
@@ -29,6 +30,19 @@ abstract public class TopItemLayout {
      * @param subView
      */
     public abstract void layoutElement(MDCView subView);
+
+    /// Places a run of alphabetic text, which must be kept together.
+    ///
+    /// The default implementation places each character as a separate element;
+    /// layouts should override it to place the run as a block.
+    ///
+    /// @param run the run, already measured (see [TextRun#layoutRuns]).
+    /// @param views the character views of the run.
+    public void layoutTextRun(TextRun run, List<MDCView> views) {
+        for (MDCView v : views) {
+            layoutElement(v);
+        }
+    }
     
     /**
      * Called when all elements have been processed.

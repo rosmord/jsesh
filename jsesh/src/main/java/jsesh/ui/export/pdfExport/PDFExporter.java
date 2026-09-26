@@ -31,7 +31,9 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 import jsesh.document.caret.MDCCaret;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.MdcComment;
+import jsesh.model.tools.AlphabeticRuns;
 import jsesh.model.HRule;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElementDeepAdapter;
@@ -39,8 +41,7 @@ import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
-import jsesh.model.constants.ScriptCodes;
-import jsesh.model.transliteration.TransliterationUtilities;
+import jsesh.model.constants.ScriptCode;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -264,7 +265,7 @@ public class PDFExporter {
             FontSpecification jseshFonts = renderContext.jseshStyle().fonts();
 
             if (jseshFonts
-                    .getFont(ScriptCodes.TRANSLITERATION)
+                    .getFont(ScriptCode.TRANSLITERATION)
                     .getName()
                     .equals(ResourcesManager.getInstance()
                             .getMdcTransliterationFont().getName())) {
@@ -274,13 +275,13 @@ public class PDFExporter {
                         "/jseshResources/fonts/MDCTranslitLC.ttf",
                         BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 translitFont = new Font(bf, jseshFonts.getFont(
-                        ScriptCodes.TRANSLITERATION).getSize());
+                        ScriptCode.TRANSLITERATION).getSize());
                 fontMapper.putName("MDCTranslitLC",
                         new DefaultFontMapper.BaseFontParameters(
                                 "/jseshResources/fonts/MDCTranslitLC.ttf"));
             } else {
                 java.awt.Font g2dTranslitFont = jseshFonts
-                        .getFont(ScriptCodes.TRANSLITERATION);
+                        .getFont(ScriptCode.TRANSLITERATION);
                 translitFont = FontFactory.getFont(g2dTranslitFont.getName(),
                         BaseFont.IDENTITY_H, true, g2dTranslitFont.getSize());
 
@@ -319,8 +320,15 @@ public class PDFExporter {
                 int i = 0;
                 startPage();
                 while (i < t.getNumberOfChildren()) {
-                    t.getChildAt(i).accept(this);
-                    i++;
+                    if (t.getChildAt(i) instanceof AlphabeticCharacter c) {
+                        // Characters are written by runs.
+                        int end = AlphabeticRuns.runEnd(t, i, false);
+                        writeText(c.getScript(), t, i, end);
+                        i = end;
+                    } else {
+                        t.getChildAt(i).accept(this);
+                        i++;
+                    }
                 }
                 closePage(false);
             } catch (IOException e) {
@@ -378,40 +386,32 @@ public class PDFExporter {
              */
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.mdc
-         * .model.AlphabeticText)
-         */
+        /// Comments are not exported.
         @Override
-        public void visitAlphabeticText(AlphabeticText t) {
+        public void visitComment(MdcComment c) {
+        }
+
+        /// Writes the run of alphabetic text between start and end.
+        private void writeText(ScriptCode script, TopItemList t, int start, int end) {
             FontSpecification fontInfo = renderContext.jseshStyle().fonts();
             Font f;
-            String text = t.getText();
-
-            switch (t.getScriptCode()) {
-                case 'l':
+            switch (script) {
+                case LATIN:
                     f = romanFont;
                     break;
-                case 'b':
+                case BOLD:
                     f = boldFont;
                     break;
-                case 'i':
+                case ITALIC:
                     f = italicFont;
                     break;
-                case 't':
+                case TRANSLITERATION:
                     f = translitFont;
-                    text = TransliterationUtilities.getActualTransliterationString(text,
-                            fontInfo.transliterationEncoding());
                     break;
-                case '+':
                 default:
                     return;
             }
-
-            write(text, f);
+            write(AlphabeticRuns.displayText(t, start, end, fontInfo.transliterationEncoding()), f);
         }
 
         /*

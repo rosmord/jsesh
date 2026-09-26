@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import jsesh.document.MdCSearchQuery;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.EmbeddedModelElement;
 import jsesh.model.MDCPosition;
+import jsesh.model.MdcComment;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.Superscript;
 import jsesh.model.TopItemList;
@@ -81,8 +82,13 @@ public class PlainTextSearchQuery implements MdCSearchQuery {
     }
 
     @Override
-    public void visitAlphabeticText(AlphabeticText t) {
-        builder.append(t.getText());
+    public void visitAlphabeticCharacter(AlphabeticCharacter c) {
+        builder.append(c.getMdcText());
+    }
+
+    @Override
+    public void visitComment(MdcComment c) {
+        builder.append(c.getText());
     }
 
     @Override

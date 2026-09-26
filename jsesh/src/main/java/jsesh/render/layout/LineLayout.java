@@ -12,7 +12,6 @@ import java.util.*;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.constants.TextDirection;
-import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
@@ -116,6 +115,18 @@ public class LineLayout extends TopItemLayout {
         subView.getPosition().setLocation(0, 0);
         subView.getModel().accept(aux);
         this.subView = null;
+    }
+
+    /// Places the run as a block, in its own reading direction: when the
+    /// hieroglyphic text is right to left, the characters are mirrored here, so
+    /// that drawing mirrors them back.
+    @Override
+    public void layoutTextRun(TextRun run, List<MDCView> views) {
+        boolean mirrored = !currentTextDirection.isLeftToRight();
+        zone.addRun(views, run.layoutOffsets(mirrored));
+        if (run.width() != 0) {
+            zone.moveCurrentPoint(run.width() + jseshStyle.geometry().smallSkip(), 0);
+        }
     }
 
     /*
@@ -355,21 +366,6 @@ public class LineLayout extends TopItemLayout {
                     * jseshStyle.geometry().tabUnitWidth();
             zone.getCurrentPoint().setLocation(pos, 0);
             zone.add(subView);
-        }
-
-        /**
-         * Layout alphabetic text.
-         * <p>
-         * Note that alphabetic text is special, because a sequence of element
-         * will always be laid out in a given orientation which depends</em>
-         * only</em> on the text writing system. (currently, always
-         * left-to-right, but if arabic and hebrew are added, this will change).
-         *
-         * @param t
-         */
-        @Override
-        public void visitAlphabeticText(AlphabeticText t) {
-            visitDefault(t);
         }
 
         /**

@@ -74,7 +74,7 @@ public class TopItemState implements Cloneable, Comparable<TopItemState>, Serial
 		if (obj instanceof TopItemState)
 		{
 			TopItemState st= (TopItemState) obj;
-			result= (isRed= st.isRed) && (isShaded == st.isShaded);
+			result= (isRed == st.isRed) && (isShaded == st.isShaded);
 		}
 		return result;
 	}

@@ -124,6 +124,18 @@ public class BundledActionFillerTest {
     }
 
     @Test
+    public void acceleratorMacVariantWithoutShortcutAppliesOnMac() {
+        assumeTrue(PlatformDetection.getPlatform() == PlatformDetection.MACOSX,
+                "mac-specific accelerator override only applies when running on macOS");
+        AppDefaults defaults = new AppDefaults();
+        defaults.put("foo.accelerator", "control LEFT");
+        defaults.put("foo.accelerator[mac]", "alt LEFT");
+        Action action = newAction();
+        BundledActionFiller.initActionProperties(action, "foo", defaults);
+        assertEquals(KeyStroke.getKeyStroke("alt LEFT"), action.getValue(Action.ACCELERATOR_KEY));
+    }
+
+    @Test
     public void acceleratorNonMacPlatformIgnoresMacVariant() {
         assumeTrue(PlatformDetection.getPlatform() != PlatformDetection.MACOSX,
                 "the [mac] override is only skipped when NOT running on macOS");

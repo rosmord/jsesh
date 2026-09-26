@@ -17,6 +17,7 @@ import jsesh.render.style.PaintingSpecifications;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.document.caret.MDCCaret;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
@@ -248,14 +249,22 @@ public class ViewDrawer {
                         && point.y < y + subv.getHeight() + geometry.smallSkip()) {
                     // TODO : the exact position choosed depends on the text
                     // orientation.
-                    if (options.textOrientation().isHorizontal()) {
+                    // Alphabetic characters follow their own direction, and
+                    // are on a horizontal line even in columns.
+                    boolean horizontal = options.textOrientation().isHorizontal();
+                    boolean leftToRight = options.textDirection().isLeftToRight();
+                    if (subv.getModel() instanceof AlphabeticCharacter c) {
+                        horizontal = true;
+                        leftToRight = !c.getScript().isRightToLeft();
+                    }
+                    if (horizontal) {
                         if (point.x < x + subv.getWidth() / 2.0f) {
-                            if (options.textDirection().isLeftToRight()) {
+                            if (leftToRight) {
                                 pos = i;
                             } else {
                                 pos = i + 1;
                             }
-                        } else if (options.textDirection().isLeftToRight()) {
+                        } else if (leftToRight) {
                             pos = i + 1;
                         } else {
                             pos = i;
@@ -760,19 +769,27 @@ public class ViewDrawer {
                 Color currentColor = g.getColor();
                 g.setColor(colors.cursorColor());
                 g.setStroke(geometry.wideStroke());
+                // Next to alphabetic characters, the cursor follows the
+                // text's own direction, and the height of the letters.
+                boolean horizontalCursor = textOrientation.isHorizontal();
+                boolean leftToRight = textDirection.isLeftToRight();
+                double cursorHeight = geometry.maxCadratHeight();
+                if (v.getModel() instanceof AlphabeticCharacter c) {
+                    horizontalCursor = true;
+                    leftToRight = !c.getScript().isRightToLeft();
+                    cursorHeight = v.getHeight();
+                }
 
                 if (drawAfterView) {
 
-                    if (textOrientation.isHorizontal()) {
-                        if (textDirection.isLeftToRight()) {
+                    if (horizontalCursor) {
+                        if (leftToRight) {
                             g
                                     .draw(new Line2D.Double(v.getWidth(), 0, v
                                             .getWidth(),
-                                            geometry
-                                                    .maxCadratHeight()));
+                                            cursorHeight));
                         } else {
-                            g.draw(new Line2D.Double(0, 0, 0, geometry
-                                    .maxCadratHeight()));
+                            g.draw(new Line2D.Double(0, 0, 0, cursorHeight));
                         }
                     } else {
                         g.draw(new Line2D.Double(0, v.getHeight(),
@@ -780,15 +797,14 @@ public class ViewDrawer {
                                         .getHeight()));
                     }
                 } else if (drawBeforeView) {
-                    if (textOrientation.isHorizontal()) {
-                        if (textDirection.isLeftToRight()) {
-                            g.draw(new Line2D.Double(0, 0, 0, geometry
-                                    .maxCadratHeight()));
+                    if (horizontalCursor) {
+                        if (leftToRight) {
+                            g.draw(new Line2D.Double(0, 0, 0, cursorHeight));
                         } else {
                             g
                                     .draw(new Line2D.Double(v.getWidth(), 0, v
                                             .getWidth(),
-                                            geometry.maxCadratHeight()));
+                                            cursorHeight));
                         }
                     } else { // columns
                         g.draw(new Line2D.Double(0, 0, geometry

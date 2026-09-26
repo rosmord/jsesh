@@ -7,7 +7,7 @@ package jsesh.model.tools;
 
 import java.util.List;
 
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
 import jsesh.model.HBox;
@@ -30,11 +30,17 @@ public class VerticalGrouper {
 	 */
 	public Cadrat buildCadrat(List<TopItem> elements) {
 		CadratBuilderAux aux = new CadratBuilderAux();
-		for (TopItem e : elements) {
-			if (! aux.correct) {
-				break;
+		int i = 0;
+		while (aux.correct && i < elements.size()) {
+			if (elements.get(i) instanceof AlphabeticCharacter) {
+				// A run of text is stacked as a whole, not letter by letter.
+				int end = AlphabeticRuns.runEnd(elements, i, false);
+				aux.addText(elements.subList(i, end));
+				i = end;
+			} else {
+				elements.get(i).accept(aux);
+				i++;
 			}
-			e.accept(aux);
 		}
 		if (aux.correct) {
 			return aux.cadrat;
@@ -68,16 +74,15 @@ public class VerticalGrouper {
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.model.AlphabeticText)
-		 */
-		public void visitAlphabeticText(AlphabeticText t) {
+		/// Adds a run of text as one line of the cadrat.
+		void addText(List<TopItem> characters) {
 			HBox box = new HBox();
 			BasicItemList l = new BasicItemList();
-			l.addBasicItem(t.deepCopy());
+			for (TopItem c : characters) {
+				l.addBasicItem((AlphabeticCharacter) c.deepCopy());
+			}
 			box.addHorizontalListElement(new SubCadrat(l));
+			cadrat.addHBox(box);
 		}
 
 		/*

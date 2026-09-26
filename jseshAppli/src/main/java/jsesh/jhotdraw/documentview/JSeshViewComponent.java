@@ -104,6 +104,11 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     private final JTextField messageField;
 
     /**
+     * Displays the current input mode (hieroglyphs, latin, transliteration...).
+     */
+    private final JLabel inputModeLabel;
+
+    /**
      * A menu to choose the zoom factor.
      */
     private final JComboBox<ZOOMINFO> zoomComboBox;
@@ -120,6 +125,7 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
         separatorField = new JTextField(1);
         mdcField = new JTextField();
         messageField= new JTextField();
+        inputModeLabel= new JLabel();
         zoomComboBox= new JComboBox<>();
         hieroglyphsButton= new JButton();
         // Panels layout
@@ -167,10 +173,13 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
         mdcField.setToolTipText(bundle.getLabel("mdcField.toolTipText"));
 
+        inputModeLabel.setToolTipText(bundle.getLabel("inputModeField.toolTipText"));
+
         JPanel actualBar = new JPanel(new MigLayout("insets 0"));
         hieroglyphsButton.putClientProperty("JButton.buttonType", "toolBarButton");
 
-        actualBar.add(codeField, "gapleft rel");
+        actualBar.add(inputModeLabel, "gapleft rel");
+        actualBar.add(codeField, "gapleft unrel");
         actualBar.add(separatorField, "gapleft unrel");
         actualBar.add(messageField, "growx, pushx");
         actualBar.add(hieroglyphsButton, "gapleft unrel");
@@ -200,6 +209,10 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
     public JTextField getMessageField() {
         return messageField;
+    }
+
+    public JLabel getInputModeLabel() {
+        return inputModeLabel;
     }
 
     public JComboBox<ZOOMINFO> getZoomComboBox() {

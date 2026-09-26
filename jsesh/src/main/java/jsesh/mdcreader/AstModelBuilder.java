@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Locale;
 
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.MdcComment;
 import jsesh.model.BasicItem;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
@@ -106,6 +107,15 @@ class AstModelBuilder implements AstVisitor {
         return type.cast(pop());
     }
 
+    /// A built value as a list of items: alphabetic text builds a list of
+    /// characters, everything else a single item.
+    private static <T> List<T> asItems(Object built, Class<T> type) {
+        if (built instanceof List<?> items) {
+            return items.stream().map(type::cast).toList();
+        }
+        return List.of(type.cast(built));
+    }
+
     private <T> T build(AstNode node, Class<T> type) {
         node.accept(this);
         return pop(type);
@@ -128,11 +138,12 @@ class AstModelBuilder implements AstVisitor {
                 // model items, even under the old MDCModelBuilder.
                 continue;
             }
-            TopItem topItem = (TopItem) built;
-            if (!(item instanceof AstTabbing) && !(item instanceof AstTabbingClear)) {
-                topItem.setState(currentState.duplicate());
+            for (TopItem topItem : asItems(built, TopItem.class)) {
+                if (!(item instanceof AstTabbing) && !(item instanceof AstTabbingClear)) {
+                    topItem.setState(currentState.duplicate());
+                }
+                list.addTopItem(topItem);
             }
-            list.addTopItem(topItem);
         }
         push(list);
     }
@@ -144,7 +155,9 @@ class AstModelBuilder implements AstVisitor {
             item.accept(this);
             Object built = pop();
             if (built != null) {
-                list.addBasicItem((BasicItem) built);
+                for (BasicItem basicItem : asItems(built, BasicItem.class)) {
+                    list.addBasicItem(basicItem);
+                }
             }
         }
         push(list);
@@ -245,7 +258,13 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitAlphabeticText(AstAlphabeticText node) {
-        push(new AlphabeticText(node.scriptCode(), node.text()));
+        // One text block gives one element per character (a List, flattened by
+        // the list visitors); "++" blocks are comments.
+        if (node.scriptCode() == '+') {
+            push(new MdcComment(node.text()));
+        } else {
+            push(AlphabeticCharacter.fromMdcText(node.scriptCode(), node.text()));
+        }
     }
 
     @Override

@@ -78,90 +78,100 @@ public class TransliterationUtilities {
      * transliterationEncoding)
      */
     public static String getActualTransliterationString(String mdcCode, TransliterationEncoding transliterationEncoding) {
-        if (transliterationEncoding.isTranslitUnicode()) {
-            StringBuilder builder = new StringBuilder();
-            boolean nextIsUpper = false;
-            for (int i = 0; i < mdcCode.length(); i++) {
-                char c = mdcCode.charAt(i);
-                if (c == '^') {
-                    nextIsUpper = true;
-                } else {
-                    String cDown, cUp;
-                    switch (c) {
-                        case 'A':
-                            cUp = "\uA722";
-                            cDown = "\uA723";                          
-                            break;
-                        case 'i':
-                            cUp = switch (transliterationEncoding.getYodChoice()) {
-                                case U0313 -> "I\u0313";
-                                case UA7BD -> "\uA7BC";
-                                case U0486 -> "I\u0486";
-                                case PLAIN_J -> "J";
-                            };
-                            cDown = switch (transliterationEncoding.getYodChoice()) {
-                                case U0313 -> "i\u0313";
-                                case UA7BD -> "\uA7BD";
-                                case U0486 -> "i\u0486";
-                                case PLAIN_J -> "j";
-                            };
-                            break;
-                        case 'a':
-                            cUp = "\uA724";
-                            cDown = "\uA725";                           
-                            break;
-                        case 'H':
-                            cUp = "\u1e24";
-                            cDown = "\u1e25";
-                            break;
-                        case 'x':
-                            cUp = "\u1e2a";
-                            cDown = "\u1e2b";
-                            break;
-                        case 'X':
-                            cUp = "H\u0331";
-                            cDown = "\u1e96";
-                            break;
-                        case 'S':
-                            cUp = "\u0160";
-                            cDown = "\u0161";
-                            break;
-                        case 'q':
-                            if (transliterationEncoding.isGardinerQofUsed()) {
-                                cUp = "\u1e32";
-                                cDown = "\u1e33";
-                            } else {
-                                cUp = "Q";
-                                cDown = "q";
-                            }
-                            break;
-                        case 'T':
-                            cUp = "\u1e6e";
-                            cDown = "\u1e6f";
-                            break;
-                        case 'D':
-                            cUp = "\u1e0e";
-                            cDown = "\u1e0f";
-                            break;
-                        default:
-                            cUp = "" + Character.toUpperCase(c);  // locale insensitive
-                            cDown = "" + c;
-                            break;
-                    }
-                    if (nextIsUpper) {
-                        builder.append(cUp);
-                    } else {
-                        builder.append(cDown);
-                    }
-                    nextIsUpper = false;
-                }
+        StringBuilder builder = new StringBuilder();
+        boolean nextIsUpper = false;
+        for (int i = 0; i < mdcCode.length(); i++) {
+            char c = mdcCode.charAt(i);
+            if (c == '^') {
+                nextIsUpper = true;
+            } else {
+                builder.append(getActualTransliterationString(c, nextIsUpper, transliterationEncoding));
+                nextIsUpper = false;
             }
-            String result = builder.toString();
-            return result;
-        } else {
-            // We don't do capitals in our mdc font.
-            return mdcCode.replace("^", "");
         }
+        return builder.toString();
+    }
+
+    /// Transform one MdC transliteration letter into a string which can be
+    /// displayed.
+    ///
+    /// The result may be longer than one `char` (uppercase `X` is `H` plus a
+    /// combining macron below), which is why it is a `String`.
+    ///
+    /// @param c the MdC letter, without any `^` marker (e.g. `x` for ḫ).
+    /// @param upper true for the uppercase form (MdC `^x`).
+    /// @param transliterationEncoding the way transliteration will be encoded in
+    /// display.
+    /// @return the string to display (provided the fonts used respect
+    /// transliterationEncoding).
+    public static String getActualTransliterationString(char c, boolean upper, TransliterationEncoding transliterationEncoding) {
+        if (!transliterationEncoding.isTranslitUnicode()) {
+            // We don't do capitals in our mdc font.
+            return String.valueOf(c);
+        }
+        String cDown, cUp;
+        switch (c) {
+            case 'A':
+                cUp = "\uA722";
+                cDown = "\uA723";
+                break;
+            case 'i':
+                cUp = switch (transliterationEncoding.getYodChoice()) {
+                    case U0313 -> "I\u0313";
+                    case UA7BD -> "\uA7BC";
+                    case U0486 -> "I\u0486";
+                    case PLAIN_J -> "J";
+                };
+                cDown = switch (transliterationEncoding.getYodChoice()) {
+                    case U0313 -> "i\u0313";
+                    case UA7BD -> "\uA7BD";
+                    case U0486 -> "i\u0486";
+                    case PLAIN_J -> "j";
+                };
+                break;
+            case 'a':
+                cUp = "\uA724";
+                cDown = "\uA725";
+                break;
+            case 'H':
+                cUp = "\u1e24";
+                cDown = "\u1e25";
+                break;
+            case 'x':
+                cUp = "\u1e2a";
+                cDown = "\u1e2b";
+                break;
+            case 'X':
+                cUp = "H\u0331";
+                cDown = "\u1e96";
+                break;
+            case 'S':
+                cUp = "\u0160";
+                cDown = "\u0161";
+                break;
+            case 'q':
+                if (transliterationEncoding.isGardinerQofUsed()) {
+                    cUp = "\u1e32";
+                    cDown = "\u1e33";
+                } else {
+                    cUp = "Q";
+                    cDown = "q";
+                }
+                break;
+            case 'T':
+                cUp = "\u1e6e";
+                cDown = "\u1e6f";
+                break;
+            case 'D':
+                cUp = "\u1e0e";
+                cDown = "\u1e0f";
+                break;
+            default:
+                cUp = "" + Character.toUpperCase(c);  // locale insensitive
+                cDown = "" + c;
+                break;
+        }
+        return upper ? cUp : cDown;
     }
 
     /**

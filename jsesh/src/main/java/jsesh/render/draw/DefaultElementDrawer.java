@@ -6,7 +6,6 @@ package jsesh.render.draw;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -17,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
 import jsesh.model.constants.LexicalSymbolsUtils;
-import jsesh.model.constants.ScriptCodes;
+import jsesh.model.constants.ScriptCode;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
 import jsesh.model.ComplexLigature;
@@ -34,7 +33,6 @@ import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
 import jsesh.model.TopItemState;
 import jsesh.model.ZoneStart;
-import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphBodySize;
@@ -74,45 +72,22 @@ public class DefaultElementDrawer extends ElementDrawer {
         this.hieroglyphsDrawer = null;
     }
 
-    /*
-     * jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.
-     * AlphabeticText)
-     */
+    /// Draws one character. Its position in its run of text (with kerning)
+    /// was computed by the layout; the character is drawn at the origin of its
+    /// view, with its baseline at the font's ascent.
     @Override
-    public void visitAlphabeticText(AlphabeticText t) {
-        JSeshStyle jseshStyle = getJSeshStyle();
+    public void visitAlphabeticCharacter(AlphabeticCharacter c) {
         if (!postfix) {
             return;
         }
-        if (t.getScriptCode() != ScriptCodes.COMMENT) {
-            String text = t.getText();
-            if (t.getScriptCode() == 't') {
-                text = TransliterationUtilities.getActualTransliterationString(text,
-                        jseshStyle.fonts().transliterationEncoding());
-            }
-
-            if ("".equals(text)) {
-                return;
-            }
-            g.setFont(jseshStyle.fonts().getFont(t.getScriptCode()));
-
-            // g.drawString(text, 0, g.getFontMetrics().getAscent());
-            FontRenderContext fontRenderContext = new FontRenderContext(
-                    new AffineTransform(), true, true);
-            // fontRenderContext= g.getFontRenderContext();
-            TextLayout layout = new TextLayout(text, g.getFont(),
-                    fontRenderContext);
-
-            // The reference system is the view origin, but
-            // layout.draw draws relatively to the text baseline, hence
-            // the g.getFontMetrics().getAscent() here.
-            // layout.draw(g, 0, g.getFontMetrics().getAscent());
-            // IN THEORY, THIS IS THE CORRECT LINE.
-            layout.draw(g, 0, layout.getAscent());
-            // g.drawString(text, 0, layout.getAscent());
-
-            // One day we might propose a caret drawing system ?
-        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        String text = c.getDisplayString(jseshStyle.fonts().transliterationEncoding());
+        Font font = jseshStyle.fonts().getFont(c.getScript());
+        g.setFont(font);
+        // Use the same font render context as the layout, so that the
+        // characters' advances match their views.
+        TextLayout layout = new TextLayout(text, font, getTechRenderContext().fontRenderContext());
+        layout.draw(g, 0, layout.getAscent());
     }
 
     /*
@@ -372,7 +347,7 @@ public class DefaultElementDrawer extends ElementDrawer {
 
     private void drawBracket(int code, float x, float y) {
         JSeshStyle jseshStyle = getJSeshStyle();        
-        Font f = jseshStyle.fonts().getFont('l');
+        Font f = jseshStyle.fonts().getFont(ScriptCode.LATIN);
 
         // Save current transformation.
         // AffineTransform old= g.getTransform();
@@ -380,7 +355,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         tmpG.setFont(f);
         tmpG.translate(x, y);
         String s = LexicalSymbolsUtils.getStringForPhilology(code);
-        Rectangle2D d = jseshStyle.fonts().textDimensions(getTechRenderContext(),'l', s);
+        Rectangle2D d = jseshStyle.fonts().textDimensions(getTechRenderContext(), ScriptCode.LATIN, s);
 
         double scalex = PhilologyHelper.philologyWidth(code)
                 / d.getWidth();

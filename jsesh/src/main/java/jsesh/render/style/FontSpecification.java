@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import jsesh.model.constants.ScriptCodes;
+import jsesh.model.constants.ScriptCode;
 import jsesh.model.tools.YODChoice;
 import jsesh.model.transliteration.TransliterationEncoding;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -40,7 +40,7 @@ import jsesh.utils.resources.ResourcesManager;
  *                             texts like "sic" or note references.
  * @param transliterationFont the font to use for transliteration.
  * 
- * @see ScriptCodes (will probably change)
+ * @see ScriptCode
  */
 public record FontSpecification(
 		boolean translitUnicode,
@@ -96,21 +96,21 @@ public record FontSpecification(
 		return new TransliterationEncoding(translitUnicode, yodChoice, gardinerQofUsed);
 	}
 
-	/**
-	 * Returns the font for a given script code.
-	 * 
-	 * @param scriptCode
-	 * @return
-	 */
-	public Font getFont(char scriptCode) {
-		return switch (scriptCode) {
-			case ScriptCodes.LATIN ->
+	/// Returns the font for a given script.
+	///
+	/// Scripts without a dedicated font (coptic, greek...) use the plain font.
+	///
+	/// @param script the script.
+	/// @return the font to use.
+	public Font getFont(ScriptCode script) {
+		return switch (script) {
+			case LATIN ->
 				plainFont;
-			case ScriptCodes.BOLD ->
+			case BOLD ->
 				boldFont;
-			case ScriptCodes.ITALIC ->
+			case ITALIC ->
 				italicFont;
-			case ScriptCodes.TRANSLITERATION ->
+			case TRANSLITERATION ->
 				transliterationFont;
 			default ->
 				plainFont;
@@ -139,12 +139,12 @@ public record FontSpecification(
 	/**
 	 * Get the dimensions of a text in a given script.
 	 * @param techRenderContext
-	 * @param scriptCode
+	 * @param script
 	 * @param text
 	 * @return
 	 */
-	public Rectangle2D textDimensions(JSeshTechRenderContext techRenderContext, char scriptCode, String text) {
-		Rectangle2D r = getFont(scriptCode).getStringBounds(text,
+	public Rectangle2D textDimensions(JSeshTechRenderContext techRenderContext, ScriptCode script, String text) {
+		Rectangle2D r = getFont(script).getStringBounds(text,
 				techRenderContext.fontRenderContext());
 		return r;
 	}

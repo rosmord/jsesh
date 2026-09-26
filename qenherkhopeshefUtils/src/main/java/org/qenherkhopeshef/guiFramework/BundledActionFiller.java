@@ -167,9 +167,10 @@ public class BundledActionFiller {
 							replaceString);
 					action.putValue(propertyName,
 							KeyStroke.getKeyStroke(actualShortcut));
-				} else {
+				} else if (keyStroke != null) {
+					// (use keyStroke, which may come from the [mac] variant)
 					action.putValue(propertyName,
-							defaults.getKeyStroke(actionPropertyKey));
+							KeyStroke.getKeyStroke(keyStroke));
 				}
 			} else if (propertyName.equals(Action.SMALL_ICON)) {
 				// If we don't get an icon straight from the UIDefault..

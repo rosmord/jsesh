@@ -38,7 +38,9 @@ import jsesh.render.style.PaintingSpecifications;
 import jsesh.ui.export.generic.ExportOptionPanel;
 import jsesh.utils.swing.GraphicsUtils;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.MdcComment;
+import jsesh.model.tools.AlphabeticRuns;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
@@ -213,8 +215,15 @@ public class HTMLExporter {
                 elements = null;
                 startPage();
                 while (i < t.getNumberOfChildren()) {
-                    t.getChildAt(i).accept(this);
-                    i++;
+                    if (t.getChildAt(i) instanceof AlphabeticCharacter c) {
+                        // Characters are written by runs.
+                        int end = AlphabeticRuns.runEnd(t, i, false);
+                        writeText(c.getMdcScriptCode(), AlphabeticRuns.mdcText(t, i, end));
+                        i = end;
+                    } else {
+                        t.getChildAt(i).accept(this);
+                        i++;
+                    }
                 }
                 closePage(false);
             } catch (IOException e) {
@@ -222,15 +231,18 @@ public class HTMLExporter {
             }
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see jsesh.model.ModelElementAdapter#visitAlphabeticText(jsesh.model.
-         * AlphabeticText)
-         */
-        public void visitAlphabeticText(AlphabeticText t) {
+        @Override
+        public void visitComment(MdcComment c) {
+            writeText('+', c.getText());
+        }
+
+        /// Writes a run of alphabetic text (or a comment, for code `+`).
+        ///
+        /// @param scriptCode the MdC script letter.
+        /// @param text the text, in MdC form.
+        private void writeText(char scriptCode, String text) {
             flushElements();
-            switch (t.getScriptCode()) {
+            switch (scriptCode) {
                 case 'b':
                     write("<b>"); // -NLS-1$
                     break;
@@ -244,12 +256,12 @@ public class HTMLExporter {
                     write("<!--"); // -NLS-1$
             }
             if (htmlSpecialProtected) {
-                write(t.getText().toString().replaceAll("&", "&amp;") // -NLS-1$ //-NLS-2$
+                write(text.replaceAll("&", "&amp;") // -NLS-1$ //-NLS-2$
                         .replaceAll("<", "&lt;").replaceAll(">", "&gt;")); // -NLS-1$ //-NLS-2$ //-NLS-3$ //-NLS-4$
             } else {
-                write(t.getText());
+                write(text);
             }
-            switch (t.getScriptCode()) {
+            switch (scriptCode) {
                 case 'b':
                     write("</b>"); // -NLS-1$
                     break;

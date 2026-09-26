@@ -16,7 +16,7 @@ This journal should only be edited and modified in the Development branch.
 - [ ] add file associations for linux and Windows
 - [ ] use i18n for texts in the JSesh Palette
 - [ ] implement the new unicode insert commands (probably between groups, not signs)
-- [ ] allow users to edit alphabetic text directly (without using the MdC textfield)
+- [x] allow users to edit alphabetic text directly (without using the MdC textfield)
 - [ ] add actual zones
 - [ ] add page dimensions and wrap in the document
 - [ ] add true justification for lines
@@ -34,6 +34,26 @@ This journal should only be edited and modified in the Development branch.
 This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file. for instance, the group ḥnꜥ would not be rendered as V28*(N35:D36) but more like V28\130*(N35:D36) (in fact, "short" versions of ayin and n would be used).
 
 ## Daily log
+
+## 2026-09-26
+
+- `AlphabeticText` replaced by `AlphabeticCharacter`: one model element per character, so the caret can go inside
+  alphabetic text and it can be edited in the main window. `^x` (uppercase transliteration) is *one* character.
+  The script is now an enum, `ScriptCode` (`ScriptCodes` is gone; it had `CYRILLIC == COPTIC == 'c'`). Unknown
+  script letters (`+f...`) are kept for round-trip, and displayed in latin.
+- `++...+s` comments are now `MdcComment`s (not displayed, but kept when saving).
+- rendering: each character has its own view, but runs of characters are measured together, with kerning
+  (`TextRun`), and placed as a block. In right-to-left documents, latin text still reads left to right; in columns,
+  a run stays on one line. `Zone` justification moves runs rigidly.
+- `MdCModelWriter` gathers characters back into `+x...+s` blocks. It now also escapes backslashes (the old
+  `replaceAll("\\\\", "\\\\")` was a no-op).
+- editor: `InputMode` enum instead of the `char` mode, shown in the bottom bar. The mode follows the caret when it
+  moves (after a word → its script; after hieroglyphs → hieroglyphs). Alt+arrows (mac) / Ctrl+arrows move by
+  word. Typed text is undone word by word (`MDCCommand.absorb`). Pasted plain text uses the current script.
+- small bugs fixed on the way: `TopItemState.equals` assigned instead of comparing; `VerticalGrouper` never added
+  the box built for text; `BundledActionFiller` ignored `[mac]` accelerators not starting with `shortcut`.
+- breaking change for embedders: `ModelElementVisitor.visitAlphabeticText` → `visitAlphabeticCharacter` +
+  `visitComment`; `FontSpecification.getFont(char)` → `getFont(ScriptCode)`.
 
 ## 2026-09-24
 

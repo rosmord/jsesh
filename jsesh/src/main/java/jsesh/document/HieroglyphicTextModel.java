@@ -339,6 +339,18 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		replaceElement(pos1, pos2, Collections.singletonList(element));
 	}
 
+	/// Inserts elements typed by the user (typically, one alphabetic
+	/// character). Unlike [#insertElementsAt(MDCPosition, List)], successive
+	/// typed insertions are undone together, one word at a time.
+	///
+	/// @param position where to insert.
+	/// @param elements the typed elements.
+	public void insertTypedElementsAt(MDCPosition position, List<TopItem> elements) {
+		MDCCommand command = new CommandFactory().buildTypingCommand(model,
+				elements, position, isFirstCommand());
+		undoManager.doCommand(command);
+	}
+
 	public void insertElementAt(MDCPosition position, TopItem item) {
 		insertElementsAt(position, Collections.singletonList(item));
 	}

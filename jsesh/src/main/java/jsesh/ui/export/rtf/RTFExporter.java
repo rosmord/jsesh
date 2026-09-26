@@ -21,13 +21,15 @@ import jsesh.ui.export.wmf.EmbeddableWMFSimpleDrawer;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.io.document.MDCDocumentWriter;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.constants.ScriptCode;
+import jsesh.model.MdcComment;
+import jsesh.model.tools.AlphabeticRuns;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
-import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 
 
@@ -99,7 +101,7 @@ public class RTFExporter {
         rtfWriter.declareFont(TIMES, RTFFontFamily.ROMAN);
         rtfWriter.declareFont(TRANSLITFONTNAME, RTFFontFamily.ROMAN);
         Font transliterationFont = renderContext.jseshStyle().fonts()
-                .getFont('t');
+                .getFont(ScriptCode.TRANSLITERATION);
         rtfWriter.declareFont(transliterationFont.getName(), RTFFontFamily.ROMAN);
         // Actual export, using a visitor.
         rtfWriter.writeHeader();
@@ -208,40 +210,52 @@ public class RTFExporter {
 
         @Override
         public void visitTopItemList(TopItemList t) {
-            for (int i = 0; i < t.getNumberOfChildren(); i++) {
-                t.getTopItemAt(i).accept(this);
+            int i = 0;
+            while (i < t.getNumberOfChildren()) {
+                if (t.getTopItemAt(i) instanceof AlphabeticCharacter c) {
+                    // Characters are written by runs.
+                    int end = AlphabeticRuns.runEnd(t, i, false);
+                    writeText(c.getScript(), t, i, end);
+                    i = end;
+                } else {
+                    t.getTopItemAt(i).accept(this);
+                    i++;
+                }
             }
         }
 
+        /// Comments are not exported.
         @Override
-        public void visitAlphabeticText(AlphabeticText t) {
+        public void visitComment(MdcComment c) {
+            flushElements();
+        }
+
+        /// Writes the run of alphabetic text between start and end.
+        private void writeText(ScriptCode script, TopItemList t, int start, int end) {
             try {
                 FontSpecification fontSpecs = renderContext.jseshStyle().fonts();
                 flushElements();
-                String text = t.getText();
+                String text = AlphabeticRuns.displayText(t, start, end,
+                        fontSpecs.transliterationEncoding());
                 String fontName = TIMES;
-                switch (t.getScriptCode()) {
-                    case 'l':
+                switch (script) {
+                    case LATIN:
                         rtfWriter.setBold(false);
                         rtfWriter.setItalic(false);
                         break;
-                    case 'b':
+                    case BOLD:
                         rtfWriter.setBold(true);
                         rtfWriter.setItalic(false);
                         break;
-                    case 'i':
+                    case ITALIC:
                         rtfWriter.setBold(false);
                         rtfWriter.setItalic(true);
                         break;
-                    case 't':
+                    case TRANSLITERATION:
                         rtfWriter.setBold(false);
                         rtfWriter.setItalic(false); // italic choosen in the font itself.
-                        text = TransliterationUtilities
-                                .getActualTransliterationString(text,
-                                        fontSpecs.transliterationEncoding());
-                        fontName = fontSpecs.getFont('t').getFontName();
+                        fontName = fontSpecs.getFont(ScriptCode.TRANSLITERATION).getFontName();
                         break;
-                    case '+':
                     default:
                         return;
                 }

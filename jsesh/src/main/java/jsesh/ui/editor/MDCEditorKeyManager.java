@@ -63,6 +63,7 @@ import jsesh.ui.editor.actions.edit.UndoAction;
 import jsesh.ui.editor.actions.group.CenterGroupAction;
 import jsesh.ui.editor.actions.move.GoDownAction;
 import jsesh.ui.editor.actions.move.GoLeftAction;
+import jsesh.ui.editor.actions.move.MoveByWordAction;
 import jsesh.ui.editor.actions.move.GoRightAction;
 import jsesh.ui.editor.actions.move.GoUpAction;
 import jsesh.ui.editor.actions.sign.EditorSignRotationAction;
@@ -135,7 +136,7 @@ class MDCEditorKeyManager {
                 if (!editor.isEditable()) {
                     return;
                 }
-                if (editor.getWorkflow().getMode() == 's' && e.getKeyChar() == '#') {
+                if (editor.getWorkflow().getMode() == InputMode.HIEROGLYPHS && e.getKeyChar() == '#') {
                     editor.showShadingPopup();
                     return;
                 }
@@ -185,6 +186,10 @@ class MDCEditorKeyManager {
             addAction(ActionsID.GO_LEFT, new GoLeftAction(editor));
             addAction(ActionsID.GO_DOWN, new GoDownAction(editor));
             addAction(ActionsID.GO_UP, new GoUpAction(editor));
+            addAction(ActionsID.GO_WORD_LEFT, new MoveByWordAction(editor, true, false));
+            addAction(ActionsID.GO_WORD_RIGHT, new MoveByWordAction(editor, false, false));
+            addAction(ActionsID.EXPAND_SELECTION_WORD_LEFT, new MoveByWordAction(editor, true, true));
+            addAction(ActionsID.EXPAND_SELECTION_WORD_RIGHT, new MoveByWordAction(editor, false, true));
             // COPY/PASTE
             addAction(ActionsID.COPY, new CopyAction(editor));
             addAction(ActionsID.CUT, new CutAction(editor));
@@ -275,13 +280,13 @@ class MDCEditorKeyManager {
             addAction(ActionsID.UNDO, new UndoAction(editor));
             addAction(ActionsID.REDO, new RedoAction(editor));
             // editing modes...
-            addEditingModeAction(ActionsID.SET_MODE_LATIN, 'l');
-            addEditingModeAction(ActionsID.SET_MODE_HIEROGLYPHS, 's');
-            addEditingModeAction(ActionsID.SET_MODE_ITALIC, 'i');
-            addEditingModeAction(ActionsID.SET_MODE_BOLD, 'b');
-            addEditingModeAction(ActionsID.SET_MODE_LINENUMBER, '|');
-            addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, 't');
-            addEditingModeAction(ActionsID.SET_MODE_UPPERCASE_TRANSLIT, 'T');
+            addEditingModeAction(ActionsID.SET_MODE_LATIN, InputMode.LATIN);
+            addEditingModeAction(ActionsID.SET_MODE_HIEROGLYPHS, InputMode.HIEROGLYPHS);
+            addEditingModeAction(ActionsID.SET_MODE_ITALIC, InputMode.ITALIC);
+            addEditingModeAction(ActionsID.SET_MODE_BOLD, InputMode.BOLD);
+            addEditingModeAction(ActionsID.SET_MODE_LINENUMBER, InputMode.LINE_NUMBER);
+            addEditingModeAction(ActionsID.SET_MODE_TRANSLIT, InputMode.TRANSLITERATION);
+            addEditingModeAction(ActionsID.SET_MODE_UPPERCASE_TRANSLIT, InputMode.UPPERCASE_TRANSLITERATION);
 
             // Quadrat Shading
             for (Entry<String, Action> e : EditorShadeAction.generateActionMap(editor, mdcIconFactory).entrySet()) {
@@ -374,7 +379,7 @@ class MDCEditorKeyManager {
             addAction(id, action);
         }
 
-        private void addEditingModeAction(String actionID, char mode) {
+        private void addEditingModeAction(String actionID, InputMode mode) {
             SetModeAction action = new SetModeAction(editor, mode);
             addAction(actionID, action);
         }

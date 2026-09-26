@@ -62,7 +62,8 @@ import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.constants.ScriptCode;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
@@ -79,7 +80,6 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
-import jsesh.model.TextContainer;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
 import jsesh.model.operations.ModelOperation;
@@ -162,11 +162,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     private boolean readWrite = true;
 
     /**
-     * Mode is one of 's', 'l', 'i', 'b', 't', 'T', '|' for respectively
-     * "hieroglyphs", "latin", "italic", "bold", "transliteration", "uppercase
-     * transliteration" and "page/line number".
+     * What typed keys produce: hieroglyphs, latin text, transliteration...
      */
-    private char mode;
+    private InputMode mode;
 
     /**
      * System for handling multiple choices of glyphs.
@@ -193,7 +191,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler = new PossibilitiesHandler(possibilityRepository);
         setHieroglyphicTextModel(data);
         currentCode = new StringBuffer();
-        mode = 's';        
+        mode = InputMode.HIEROGLYPHS;
     }
 
     /**
@@ -453,6 +451,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         caret.unsetMark();
         clearSeparator();
+        followCaret();
     }
 
     /**
@@ -463,6 +462,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         caret.moveInsertBy(1);
         caret.unsetMark();
         clearSeparator();
+        followCaret();
     }
 
     /**
@@ -473,6 +473,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         caret.moveInsertBy(-1);
         caret.unsetMark();
         clearSeparator();
+        followCaret();
     }
 
     /**
@@ -483,6 +484,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         MDCPosition p = getLineFirstPosition();
         caret.setInsertPosition(p);
         clearSeparator();
+        followCaret();
     }
 
     /**
@@ -491,6 +493,83 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void cursorToEndOfLine() {
         possibilitiesHandler.clear();
         caret.setInsertPosition(getLineLastPosition());
+        followCaret();
+    }
+
+    /// Moves the cursor to the end of the current (or next) word of
+    /// alphabetic text; outside of text, moves to the next position.
+    public void cursorNextWord() {
+        possibilitiesHandler.clear();
+        caret.moveInsertTo(nextWordIndex(caret.getInsertPosition().getIndex()));
+        caret.unsetMark();
+        clearSeparator();
+        followCaret();
+    }
+
+    /// Moves the cursor to the start of the current (or previous) word of
+    /// alphabetic text; outside of text, moves to the previous position.
+    public void cursorPreviousWord() {
+        possibilitiesHandler.clear();
+        caret.moveInsertTo(previousWordIndex(caret.getInsertPosition().getIndex()));
+        caret.unsetMark();
+        clearSeparator();
+        followCaret();
+    }
+
+    /// Extends the selection to the next (`dir > 0`) or previous (`dir < 0`)
+    /// word boundary.
+    public void expandSelectionByWord(int dir) {
+        if (!caret.hasMark()) {
+            caret.setMark(new MDCMark(caret.getInsertPosition()));
+        }
+        int index = caret.getInsertPosition().getIndex();
+        int target = dir > 0 ? nextWordIndex(index) : previousWordIndex(index);
+        caret.setInsertPosition(new MDCPosition(hieroglyphicTextModel.getModel(), target));
+    }
+
+    /// The position after the next word: skips spaces, then letters, staying
+    /// in the same run of text.
+    private int nextWordIndex(int index) {
+        TopItemList text = hieroglyphicTextModel.getModel();
+        int n = text.getNumberOfChildren();
+        if (index >= n) {
+            return n;
+        }
+        if (!(text.getTopItemAt(index) instanceof AlphabeticCharacter first)) {
+            return index + 1;
+        }
+        int i = index;
+        while (i < n && text.getTopItemAt(i) instanceof AlphabeticCharacter c
+                && c.isSameScriptAs(first) && c.isSpace()) {
+            i++;
+        }
+        while (i < n && text.getTopItemAt(i) instanceof AlphabeticCharacter c
+                && c.isSameScriptAs(first) && !c.isSpace()) {
+            i++;
+        }
+        return i;
+    }
+
+    /// The position before the previous word: skips spaces, then letters,
+    /// staying in the same run of text.
+    private int previousWordIndex(int index) {
+        TopItemList text = hieroglyphicTextModel.getModel();
+        if (index <= 0) {
+            return 0;
+        }
+        if (!(text.getTopItemAt(index - 1) instanceof AlphabeticCharacter last)) {
+            return index - 1;
+        }
+        int i = index;
+        while (i > 0 && text.getTopItemAt(i - 1) instanceof AlphabeticCharacter c
+                && c.isSameScriptAs(last) && c.isSpace()) {
+            i--;
+        }
+        while (i > 0 && text.getTopItemAt(i - 1) instanceof AlphabeticCharacter c
+                && c.isSameScriptAs(last) && !c.isSpace()) {
+            i--;
+        }
+        return i;
     }
 
     /**
@@ -504,6 +583,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         clearSeparator();
         caret.unsetMark();
+        followCaret();
     }
 
     /**
@@ -542,12 +622,12 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         } else if (currentSeparator != ' ') {
             clearSeparator();
         } else {
-            // Code to deal with text elements. may disappear one day if we
-            // decide that letters are first-class citizens.
+            // Line numbers (superscripts) are edited letter by letter;
+            // alphabetic characters are elements of their own.
             if (caret.hasSelection()) {
                 removeSelectedText();
             } else if (caret.getInsert().hasPrevious()
-                    && caret.getInsert().getElementBefore() instanceof TextContainer) {
+                    && caret.getInsert().getElementBefore() instanceof Superscript) {
                 removeSingleLetter();
             } else {
                 removeTopItem();
@@ -816,22 +896,49 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * @return Returns the mode.
      */
 
-    public char getMode() {
+    public InputMode getMode() {
         return mode;
     }
 
-    /**
-     * Sets the writing mode : hieroglyphs, latin, etc.
-     *
-     * @param mode one of 's', 'l', 'i', 'b', 't', 'T' '|' for respectively
-     *             "hieroglyphs", "latin", "italic", "bold", "transliteration",
-     *             "uppercase
-     *             transliteration", "line number".
-     */
-    public void setMode(char mode) {
+    /// Sets the writing mode : hieroglyphs, latin, etc.
+    ///
+    /// @param mode the new mode.
+    public void setMode(InputMode mode) {
         possibilitiesHandler.clear();
-        this.mode = mode;
+        changeMode(mode);
         clearSeparator();
+    }
+
+    /// Changes the mode, and warns the listeners.
+    private void changeMode(InputMode newMode) {
+        if (mode != newMode) {
+            mode = newMode;
+            for (MDCModelEditionListener listener : new ArrayList<>(listeners)) {
+                listener.inputModeChanged(newMode);
+            }
+        }
+    }
+
+    /// After a caret move (not while typing), adapts the mode to the text
+    /// around the caret: typing after a word continues the word, typing after
+    /// hieroglyphs types hieroglyphs.
+    ///
+    /// The element before the caret is used; at the beginning of a line, the
+    /// element after the caret. Comments, tabulations, etc. don't change the
+    /// mode.
+    private void followCaret() {
+        MDCPosition p = caret.getInsertPosition();
+        TopItem reference = p.hasPrevious() ? p.getElementBefore() : null;
+        if ((reference == null || reference.isBreak()) && p.hasNext()) {
+            reference = p.getElementAfter();
+        }
+        if (reference instanceof AlphabeticCharacter c) {
+            InputMode.forScript(c.getScript()).ifPresent(this::changeMode);
+        } else if (reference instanceof Cadrat) {
+            changeMode(InputMode.HIEROGLYPHS);
+        } else if (reference instanceof Superscript) {
+            changeMode(InputMode.LINE_NUMBER);
+        }
     }
 
     /**
@@ -1021,7 +1128,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void keyTyped(char key) {
-        if (mode == 's') {
+        if (mode == InputMode.HIEROGLYPHS) {
             if (currentSeparator == ' ' && key == ' '
                     && currentCode.length() == 0) {
                 nextPossibility();
@@ -1212,6 +1319,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             possibilitiesHandler.clear();
             caret.setInsert(new MDCMark(position));
             clearSeparator();
+            followCaret();
         }
     }
 
@@ -1417,6 +1525,28 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 element.buildTopItem());
     }
 
+    /// Inserts plain text (e.g. pasted from another application) at the
+    /// caret, as alphabetic characters in the script of the current mode
+    /// (latin in hieroglyphic mode). Line breaks in the text become line
+    /// breaks in the document.
+    ///
+    /// @param text the text.
+    public void insertPlainText(String text) {
+        possibilitiesHandler.clear();
+        char scriptCode = mode.getScript().orElse(ScriptCode.LATIN).getMdcCode();
+        List<TopItem> items = new ArrayList<>();
+        String[] lines = text.split("\r\n|\n|\r", -1);
+        for (int i = 0; i < lines.length; i++) {
+            if (i > 0) {
+                items.add(new LineBreak());
+            }
+            items.addAll(AlphabeticCharacter.fromMdcText(scriptCode, lines[i]));
+        }
+        if (!items.isEmpty()) {
+            hieroglyphicTextModel.insertElementsAt(caret.getInsertPosition(), items);
+        }
+    }
+
     public boolean canUndo() {
         return hieroglyphicTextModel.canUndo();
     }
@@ -1569,24 +1699,6 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     }
 
     /**
-     * Returns the character which should be used in the MdC to indicate the
-     * current text Mode.
-     * <p>
-     * It's mostly the same as the one set with setMode, except for uppercase
-     * translit.
-     *
-     * @return the char to put after "+" in Mdc to introduce non-hieroglyphic
-     *         texts.
-     */
-    private char getMdcTextModeChar() {
-        if (mode == 'T') {
-            return 't';
-        } else {
-            return mode;
-        }
-    }
-
-    /**
      * Method called when a regular letter is added to the text.
      *
      * @param key
@@ -1603,17 +1715,15 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     }
 
     /**
-     * Inserts key at the caret, extending the AlphabeticText or Superscript
-     * before the caret if it's in the same text mode, or creating a new one
-     * otherwise.
+     * Inserts key at the caret: a new alphabetic character, or, in line number
+     * mode, a letter added to the Superscript before the caret.
      */
     private void insertOrExtendAlphabeticText(char key) {
-        char mdcSectionCode = getMdcTextModeChar();
-        String toAdd = charsToInsert(key);
         TopItem elementBefore = caret.getInsert().hasPrevious()
                 ? caret.getInsert().getElementBefore() : null;
 
-        if (mdcSectionCode == '|') {
+        if (mode == InputMode.LINE_NUMBER) {
+            String toAdd = Character.toString(key);
             if (elementBefore instanceof Superscript) {
                 Superscript txt = ((Superscript) elementBefore).deepCopy();
                 txt.setText(txt.getText() + toAdd);
@@ -1622,29 +1732,24 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
                         new Superscript(toAdd).buildTopItem());
             }
+        } else if (mode == InputMode.TRANSLITERATION && key == '^') {
+            // MdC notation for "next letter is uppercase".
+            changeMode(InputMode.UPPERCASE_TRANSLITERATION);
         } else {
-            if (elementBefore instanceof AlphabeticText
-                    && ((AlphabeticText) elementBefore).getScriptCode() == mdcSectionCode) {
-                AlphabeticText txt = ((AlphabeticText) elementBefore).deepCopy();
-                txt.setText(txt.getText() + toAdd);
-                hieroglyphicTextModel.replaceElementBefore(caret.getInsertPosition(), txt);
-            } else {
-                hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(),
-                        new AlphabeticText(mdcSectionCode, toAdd).buildTopItem());
+            char scriptCode = mode.getScript().orElseThrow().getMdcCode();
+            String mdcText = Character.toString(key);
+            if (mode == InputMode.UPPERCASE_TRANSLITERATION) {
+                // Most of the time, only one uppercase char will be needed !!!
+                changeMode(InputMode.TRANSLITERATION);
+                mdcText = "^" + key;
+            }
+            // (for transliteration, fromMdcText also handles the Utrecht font
+            // conventions, e.g. "!" for uppercase h).
+            List<TopItem> characters = new ArrayList<>(AlphabeticCharacter.fromMdcText(scriptCode, mdcText));
+            if (!characters.isEmpty()) {
+                hieroglyphicTextModel.insertTypedElementsAt(caret.getInsertPosition(), characters);
             }
         }
-    }
-
-    /**
-     * Returns the text to add for key, handling the special case of
-     * uppercase transliteration, encoded as "^" followed by the character.
-     */
-    private String charsToInsert(char key) {
-        if (mode == 'T') {
-            mode = 't'; // Most of the time, only one uppercase char will be needed !!!
-            return "^" + key;
-        }
-        return Character.toString(key);
     }
 
     private int getInsertPosition() {
@@ -1758,32 +1863,22 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     }
 
     /**
-     * Remove a single letter from the text element in front of the cursor.
-     * Erase the element if it becomes empty. Things would be waayyyy simpler if
-     * we had "one letter = one element".
+     * Remove a single letter from the line number (superscript) in front of
+     * the cursor. Erase it if it becomes empty.
      */
-
     private void removeSingleLetter() {
-        if (caret.getInsert().hasPrevious()) {
-            TopItem t = caret.getInsert().getElementBefore();
-            // TODO : FIND A BETTER OO ORGANIZATION.
-            if (t instanceof TextContainer) {
-                TextContainer txt = (TextContainer) t;
-                // If t is or would be empty, suppress t
-                if (txt.getText().length() <= 1) {
-                    removeTopItem();
-                } else {
-                    TextContainer newText = (TextContainer) txt.deepCopy();
-                    // Suppress only one char.
-                    newText.setText(txt.getText().substring(0,
-                            txt.getText().length() - 1));
-                    // Replace the old text with the new one.
-                    // NOW, THIS IS A UGLY CAST.
-                    // Normally, we would need some kind of
-                    // "TextContainer + TopItem" class.
-                    hieroglyphicTextModel.replaceElementBefore(
-                            caret.getInsertPosition(), (TopItem) newText);
-                }
+        if (caret.getInsert().hasPrevious()
+                && caret.getInsert().getElementBefore() instanceof Superscript txt) {
+            // If txt is or would be empty, suppress it
+            if (txt.getText().length() <= 1) {
+                removeTopItem();
+            } else {
+                Superscript newText = txt.deepCopy();
+                // Suppress only one char.
+                newText.setText(txt.getText().substring(0,
+                        txt.getText().length() - 1));
+                hieroglyphicTextModel.replaceElementBefore(
+                        caret.getInsertPosition(), newText);
             }
         }
     }

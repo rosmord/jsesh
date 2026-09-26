@@ -8,7 +8,8 @@ package jsesh.model;
  *
  */
 public interface ModelElementVisitor {
-	void visitAlphabeticText(AlphabeticText t);
+	void visitAlphabeticCharacter(AlphabeticCharacter c);
+	void visitComment(MdcComment c);
 	void visitBasicItemList(BasicItemList l);
 	void visitCadrat(Cadrat c);
 	void visitCartouche(Cartouche c);

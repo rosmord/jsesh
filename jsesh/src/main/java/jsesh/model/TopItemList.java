@@ -48,7 +48,7 @@ public class TopItemList extends ModelElement {
      *
      * @param elements
      */
-    public void addAll(List<TopItem> elements) {
+    public void addAll(List<? extends TopItem> elements) {
         for (TopItem e : elements) {
             addChild(e);
         }

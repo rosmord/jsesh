@@ -10,11 +10,12 @@ package jsesh.model;
  */
 public class ModelElementAdapter implements ModelElementVisitor {
 
-	/**
-	 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.AlphabeticText)
-	 */
-	public void visitAlphabeticText(AlphabeticText t) {
-		visitDefault(t);
+	public void visitAlphabeticCharacter(AlphabeticCharacter c) {
+		visitDefault(c);
+	}
+
+	public void visitComment(MdcComment c) {
+		visitDefault(c);
 	}
 
 	/**

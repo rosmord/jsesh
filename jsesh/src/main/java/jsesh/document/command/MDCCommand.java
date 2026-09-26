@@ -46,4 +46,13 @@ public interface MDCCommand {
 
 	public abstract boolean isFirstCommand();
 
+	/// Tries to merge a command which has just been done into this one, so
+	/// that both are undone in one step (used to undo typed text word by word
+	/// rather than letter by letter).
+	///
+	/// @param next the command done just after this one.
+	/// @return true if `next` is now part of this command.
+	default boolean absorb(MDCCommand next) {
+		return false;
+	}
 }

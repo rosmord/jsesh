@@ -35,17 +35,18 @@ package jsesh.ui.editor.actions.edit;
 
 import java.awt.event.ActionEvent;
 
+import jsesh.ui.editor.InputMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
 @SuppressWarnings("serial")
 public class SetModeAction extends EditorAction {
 
-	private char mode;
+	private final InputMode mode;
 	
-	public SetModeAction(JMDCEditor editor, char c) {
+	public SetModeAction(JMDCEditor editor, InputMode mode) {
 		super(editor);
-		this.mode= c;
+		this.mode= mode;
 	}
 
 	public void actionPerformed(ActionEvent e) {

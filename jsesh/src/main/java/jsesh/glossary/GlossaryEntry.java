@@ -37,7 +37,7 @@ import java.util.Objects;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.TopItemList;
 
 /**
@@ -88,8 +88,7 @@ public class GlossaryEntry {
 			} catch (MDCSyntaxError e) {
 				System.out.println("error reading "+ mdc);
 				topItems= new TopItemList();
-				AlphabeticText text= new AlphabeticText('l', "error reading : "+mdc);
-				topItems.addTopItem(text);				
+				topItems.addAll(AlphabeticCharacter.fromMdcText('l', "error reading : "+mdc));
 			}
 		}
 		return this.topItems;

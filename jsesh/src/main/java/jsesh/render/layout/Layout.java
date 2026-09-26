@@ -15,12 +15,11 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
-import jsesh.model.constants.ScriptCodes;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
@@ -31,6 +30,7 @@ import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
+import jsesh.model.MdcComment;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.Modifier;
@@ -42,7 +42,6 @@ import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
 import jsesh.model.TopItemList;
-import jsesh.model.transliteration.TransliterationUtilities;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
@@ -246,57 +245,119 @@ public class Layout {
 			inAbsoluteGroup = false;
 		}
 
+		/// Lays out a character on its own. When the character is part of a
+		/// run of text, its width is then adjusted by [TextRun#layoutRuns], and
+		/// its position set by the layout of the parent view.
 		@Override
-		public void visitAlphabeticText(AlphabeticText t) {
+		public void visitAlphabeticCharacter(AlphabeticCharacter c) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			String text = c.getDisplayString(jseshStyle.fonts().transliterationEncoding());
+			Font f = jseshStyle.fonts().getFont(c.getScript());
+			FontRenderContext fontRenderContext = techRenderContext.fontRenderContext();
+			TextLayout layout = new TextLayout(text, f, fontRenderContext);
+			currentView.setWidth(layout.getAdvance());
+			// Use the font's ascent and descent, not the glyph's bounds, so that
+			// all characters of a run share the same box and baseline.
+			currentView.setHeight(layout.getAscent() + layout.getDescent());
+			// Align the text base with the middle of the hieroglyphs...
+			currentView.setDeltaBaseY(
+					jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent());
+		}
 
-			// Comments are not displayed.
-			if (t.getScriptCode() == ScriptCodes.COMMENT) {
-				currentView.reset();
-				currentView.resetPos();
-				return;
+		/// Comments are not displayed.
+		@Override
+		public void visitComment(MdcComment c) {
+			currentView.reset();
+			currentView.resetPos();
+		}
+
+		/// Lays out the subviews of the current view, one after another, in
+		/// the text orientation, keeping each run of text together, on a
+		/// single line.
+		///
+		/// @param runs the runs of text among the subviews (not empty).
+		/// @param horizontal true for horizontal text orientation.
+		/// @param skip the space between two elements (not used inside runs).
+		private void layoutWithRuns(List<TextRun> runs, boolean horizontal, float skip) {
+			boolean mirrored = !currentView.getDirection().isLeftToRight();
+			int n = currentView.getNumberOfSubviews();
+			// First pass: extent of all units.
+			double totalMain = 0; // total width (horizontal) or height (vertical)
+			double maxCross = 0; // maximal height (horizontal) or width (vertical)
+			int units = 0;
+			int runIndex = 0;
+			for (int i = 0; i < n;) {
+				double main, cross;
+				if (runIndex < runs.size() && runs.get(runIndex).start() == i) {
+					TextRun run = runs.get(runIndex++);
+					double h = 0;
+					for (MDCView v : run.views(currentView)) {
+						h = Math.max(h, v.getHeight());
+					}
+					main = horizontal ? run.width() : h;
+					cross = horizontal ? h : run.width();
+					i = run.end();
+				} else {
+					MDCView v = currentView.getSubView(i++);
+					main = horizontal ? v.getWidth() : v.getHeight();
+					cross = horizontal ? v.getHeight() : v.getWidth();
+				}
+				totalMain += main;
+				maxCross = Math.max(maxCross, cross);
+				units++;
 			}
-
-			String text = t.getText();
-			if (t.getScriptCode() == 't') {
-				text = TransliterationUtilities.getActualTransliterationString(text,
-						jseshStyle.fonts().transliterationEncoding());
-			}
-			// Compute the text dimensions :
-			Rectangle2D dims;
-
-			// Ok now what we really want to do is
-			// a) get the "actual" text we want to display.
-			// b) get the correct font for this.
-			if ("".equals(text)) {
-				// Do nothing => empty view.
+			totalMain += skip * (units - 1);
+			if (horizontal) {
+				currentView.setWidth((float) totalMain);
+				currentView.setHeight((float) maxCross);
 			} else {
-				Font f = jseshStyle.fonts().getFont(t.getScriptCode());
-
-				FontRenderContext fontRenderContext = techRenderContext.fontRenderContext();
-
-				TextLayout layout = new TextLayout(text, f, fontRenderContext);
-
-				dims = layout.getBounds();
-
-				currentView.setHeight((float) dims.getHeight());
-
-				currentView.setWidth(layout.getAdvance());
-
-				// centered hieroglyphs (later we will propose a system replacing
-				// /2.0
-				// with some stored data.
-				// Align the text base with the hieroglyphs...
-				currentView.setDeltaBaseY(
-						jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent());
+				currentView.setWidth((float) maxCross);
+				currentView.setHeight((float) totalMain);
 			}
-
+			// Second pass: positions.
+			double pos = 0;
+			runIndex = 0;
+			for (int i = 0; i < n;) {
+				if (runIndex < runs.size() && runs.get(runIndex).start() == i) {
+					TextRun run = runs.get(runIndex++);
+					List<MDCView> views = run.views(currentView);
+					double lineHeight = 0;
+					for (int k = 0; k < views.size(); k++) {
+						MDCView v = views.get(k);
+						v.resetPos();
+						if (horizontal) {
+							v.getPosition().setLocation(pos + run.layoutOffset(k, mirrored), 0);
+						} else {
+							double x0 = (maxCross - run.width()) / 2.0;
+							v.getPosition().setLocation(x0 + run.layoutOffset(k, mirrored), pos);
+						}
+						lineHeight = Math.max(lineHeight, v.getHeight());
+					}
+					pos += (horizontal ? run.width() : lineHeight) + skip;
+					i = run.end();
+				} else {
+					MDCView v = currentView.getSubView(i++);
+					v.resetPos();
+					if (horizontal) {
+						v.getPosition().setLocation(pos, 0);
+						pos += v.getWidth() + skip;
+					} else {
+						v.getPosition().setLocation((maxCross - v.getWidth()) / 2.0, pos);
+						pos += v.getHeight() + skip;
+					}
+				}
+			}
 		}
 
 		public void visitBasicItemList(BasicItemList l) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 
-			if (jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL)) {
+			List<TextRun> runs = TextRun.layoutRuns(currentView, jseshStyle.fonts(),
+					techRenderContext.fontRenderContext());
+			boolean horizontal = jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL);
+			if (!runs.isEmpty()) {
+				layoutWithRuns(runs, horizontal, jseshStyle.geometry().smallSkip());
+			} else if (horizontal) {
 				visitDefault(l);
 			} else {
 				currentView.stackTop(jseshStyle.geometry().smallSkip());
@@ -834,7 +895,9 @@ public class Layout {
 				topItemLayout = new ColumnLayout(currentView, jseshStyle);
 			}
 
-			ViewIterator i = currentView.iterator();
+			List<TextRun> runs = TextRun.layoutRuns(currentView, jseshStyle.fonts(),
+					techRenderContext.fontRenderContext());
+			int runIndex = 0;
 			topItemLayout.startLayout();
 			// Ok. Currently, even for long texts, the
 			// layout time is very short
@@ -842,10 +905,22 @@ public class Layout {
 			// (by ancient egyptian standards)
 			// on a eeepc, which is not specially the fastest computer in the world.
 			// So we don't bother for efficiency too much at that time.
-			while (i.hasNext()) {
-				MDCView v = i.next();
-				v.resetPos();
-				topItemLayout.layoutElement(v);
+			int i = 0;
+			while (i < currentView.getNumberOfSubviews()) {
+				if (runIndex < runs.size() && runs.get(runIndex).start() == i) {
+					// A run of text is placed as a block.
+					TextRun run = runs.get(runIndex++);
+					List<MDCView> views = run.views(currentView);
+					for (MDCView v : views) {
+						v.resetPos();
+					}
+					topItemLayout.layoutTextRun(run, views);
+					i = run.end();
+				} else {
+					MDCView v = currentView.getSubView(i++);
+					v.resetPos();
+					topItemLayout.layoutElement(v);
+				}
 				// TODO : add here something to change the current layout if needed.
 			}
 			topItemLayout.endLayout();

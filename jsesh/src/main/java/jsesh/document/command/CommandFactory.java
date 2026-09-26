@@ -76,6 +76,13 @@ public class CommandFactory {
 		return new InsertCommand(model, newCadrats, position, firstCommand);
 	}
 
+	/// Builds the insertion of text typed by the user; successive typing
+	/// insertions are merged in the undo history, word by word.
+	public MDCCommand buildTypingCommand(TopItemList model,
+			List<TopItem> newItems, MDCPosition position, boolean firstCommand) {
+		return new InsertCommand(model, newItems, position, firstCommand, true);
+	}
+
 	public MDCCommand buildRemoveCommand(TopItemList model, MDCPosition pos1,
 			MDCPosition pos2, boolean clean) {
 		return new RemoveCommand(model, pos1, pos2, clean);

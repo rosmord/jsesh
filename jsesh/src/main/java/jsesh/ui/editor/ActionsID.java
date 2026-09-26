@@ -61,6 +61,10 @@ public interface ActionsID {
     String GO_LEFT = "edit.left";
     String GO_RIGHT = "edit.right";
     String GO_UP = "edit.up";
+    String GO_WORD_LEFT = "edit.wordLeft";
+    String GO_WORD_RIGHT = "edit.wordRight";
+    String EXPAND_SELECTION_WORD_LEFT = "edit.expandSelectionWordLeft";
+    String EXPAND_SELECTION_WORD_RIGHT = "edit.expandSelectionWordRight";
     String GROUP_HORIZONTAL = "text.groupHorizontally";
     String GROUP_VERTICAL = "text.groupVertically";
     String NEW_LINE = "text.newLine";

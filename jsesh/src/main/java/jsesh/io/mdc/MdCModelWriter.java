@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
+import jsesh.model.tools.AlphabeticRuns;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
@@ -18,9 +19,10 @@ import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.signcodes.ManuelDeCodage;
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
+import jsesh.model.MdcComment;
 import jsesh.model.Cartouche;
 import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
@@ -190,27 +192,46 @@ public class MdCModelWriter {
 		}
 
 		private void visitElementList(ModelElement elt, String separator) {
-			for (int i = 0; i < elt.getNumberOfChildren(); i++) {
-				ModelElement sub = elt.getChildAt(i);
+			int i = 0;
+			while (i < elt.getNumberOfChildren()) {
 				if (i > 0)
 					write(separator);
-				sub.accept(this);
+				i = writeElementOrRun(elt, i, elt.getNumberOfChildren());
 			}
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitAlphabeticText(jsesh.model.
-		 * AlphabeticText)
-		 */
-		public void visitAlphabeticText(AlphabeticText t) {
-			write("+" + t.getScriptCode());
-			String text = t.getText().toString();
-			text = text.replaceAll("\\\\", "\\\\");
-			text = text.replaceAll("\\+", "\\\\+");
-			write(text);
+		/// Writes the child of `container` at `index`, or, if it's an alphabetic
+		/// character, the whole run of text it starts (cut at `end`).
+		///
+		/// @return the index of the next child to write.
+		private int writeElementOrRun(ModelElement container, int index, int end) {
+			if (container.getChildAt(index) instanceof AlphabeticCharacter c) {
+				int runEnd = Math.min(AlphabeticRuns.runEnd(container, index, true), end);
+				writeTextBlock(c.getMdcScriptCode(), AlphabeticRuns.mdcText(container, index, runEnd));
+				return runEnd;
+			} else {
+				container.getChildAt(index).accept(this);
+				return index + 1;
+			}
+		}
+
+		/// Writes `+` code text `+s`, escaping `\` and `+` in the text.
+		private void writeTextBlock(char code, String text) {
+			write("+" + code);
+			write(text.replace("\\", "\\\\").replace("+", "\\+"));
 			write("+s");
+		}
+
+		@Override
+		public void visitAlphabeticCharacter(AlphabeticCharacter c) {
+			// Normally written by runs (see writeElementOrRun); only used when
+			// a lone character is visited directly.
+			writeTextBlock(c.getMdcScriptCode(), c.getMdcText());
+		}
+
+		@Override
+		public void visitComment(MdcComment c) {
+			writeTextBlock('+', c.getText());
 		}
 
 		/*
@@ -458,7 +479,8 @@ public class MdCModelWriter {
 			// toggle ?
 			boolean redCloser = false;
 
-			for (int i = startIndex; i < endIndex; i++) {
+			int i = startIndex;
+			while (i < endIndex) {
 				TopItem sub = t.getTopItemAt(i);
 				TopItemState newState = sub.getState();
 
@@ -472,7 +494,8 @@ public class MdCModelWriter {
 
 				redCloser = fixToggles(state, newState, redCloser);
 
-				sub.accept(this);
+				// A run of text shares one state, so the toggles above hold for all of it.
+				i = writeElementOrRun(t, i, endIndex);
 				state = newState;
 			}
 			fixToggles(state, new TopItemState(), redCloser);

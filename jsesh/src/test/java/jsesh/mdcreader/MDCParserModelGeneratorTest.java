@@ -6,12 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;
+import jsesh.model.MdcComment;
+import jsesh.model.ModelElementDeepAdapter;
+import jsesh.model.constants.ScriptCode;
 import jsesh.model.TopItemList;
 import jsesh.parser.MDCSyntaxError;
 
@@ -166,5 +170,62 @@ public class MDCParserModelGeneratorTest {
     @Test
     public void testSyntaxError_leadingColon() {
         assertThrows(MDCSyntaxError.class, () -> parse(":a"));
+    }
+
+    @Test
+    public void testAlphabeticText_oneElementPerCharacter() throws MDCSyntaxError {
+        TopItemList topItemList = parse("+lab+s-A1");
+        assertEquals(3, topItemList.getNumberOfChildren());
+        AlphabeticCharacter a = (AlphabeticCharacter) topItemList.getTopItemAt(0);
+        assertEquals('a', a.getCodePoint());
+        assertEquals(ScriptCode.LATIN, a.getScript());
+        assertEquals('b', ((AlphabeticCharacter) topItemList.getTopItemAt(1)).getCodePoint());
+        assertTrue(topItemList.getTopItemAt(2) instanceof Cadrat);
+    }
+
+    @Test
+    public void testAlphabeticText_uppercaseTransliteration() throws MDCSyntaxError {
+        TopItemList topItemList = parse("+t^xpr+s");
+        assertEquals(3, topItemList.getNumberOfChildren());
+        assertTrue(((AlphabeticCharacter) topItemList.getTopItemAt(0)).isUppercase());
+    }
+
+    @Test
+    public void testComment() throws MDCSyntaxError {
+        TopItemList topItemList = parse("A1-++some note+s-A2");
+        assertEquals(3, topItemList.getNumberOfChildren());
+        MdcComment comment = (MdcComment) topItemList.getTopItemAt(1);
+        assertEquals("some note", comment.getText());
+    }
+
+    @Test
+    public void testUnknownScriptCode() throws MDCSyntaxError {
+        TopItemList topItemList = parse("+fxy+s");
+        AlphabeticCharacter x = (AlphabeticCharacter) topItemList.getTopItemAt(0);
+        assertEquals(ScriptCode.OTHER, x.getScript());
+        assertEquals('f', x.getMdcScriptCode());
+    }
+
+    @Test
+    public void testAlphabeticText_stateOnEachCharacter() throws MDCSyntaxError {
+        TopItemList topItemList = parse("$r-+lab+s-$b");
+        assertEquals(2, topItemList.getNumberOfChildren());
+        assertTrue(topItemList.getTopItemAt(0).isRed());
+        assertTrue(topItemList.getTopItemAt(1).isRed());
+    }
+
+    @Test
+    public void testAlphabeticText_inCartouche() throws MDCSyntaxError {
+        TopItemList topItemList = parse("<-+lab+s-ra->");
+        Cartouche[] found = new Cartouche[1];
+        topItemList.accept(new ModelElementDeepAdapter() {
+            @Override
+            public void visitCartouche(Cartouche c) {
+                found[0] = c;
+            }
+        });
+        assertEquals(3, found[0].getBasicItemList().getNumberOfChildren());
+        assertTrue(found[0].getBasicItemList().getChildAt(0) instanceof AlphabeticCharacter);
+        assertTrue(found[0].getBasicItemList().getChildAt(2) instanceof Cadrat);
     }
 }

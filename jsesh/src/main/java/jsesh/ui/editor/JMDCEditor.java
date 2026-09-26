@@ -78,7 +78,6 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.model.AlphabeticText;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItemList;
@@ -762,7 +761,7 @@ public class JMDCEditor extends JPanel {
                 } else if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
                     String string = (String) t
                             .getTransferData(DataFlavor.stringFlavor);
-                    workflow.insertElement(new AlphabeticText('l', string));
+                    workflow.insertPlainText(string);
                 }
             }
         } catch (IllegalStateException exception) {

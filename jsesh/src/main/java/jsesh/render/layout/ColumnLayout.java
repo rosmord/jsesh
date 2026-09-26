@@ -7,11 +7,11 @@ package jsesh.render.layout;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.model.AlphabeticText;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
@@ -88,6 +88,22 @@ public class ColumnLayout extends TopItemLayout {
 	 * 
 	 * @see jsesh.render.draw.TopItemLayout#endLayout()
 	 */
+	/// A run of text is one horizontal line in the column (it is not
+	/// aligned with the hieroglyphs' baseline).
+	@Override
+	public void layoutTextRun(TextRun run, List<MDCView> views) {
+		boolean mirrored = !currentTextDirection.isLeftToRight();
+		double height = 0;
+		for (MDCView v : views) {
+			v.setDeltaBaseY(0); // No y alignment required !
+			height = Math.max(height, v.getHeight());
+		}
+		zone.addRun(views, run.layoutOffsets(mirrored));
+		if (height != 0) {
+			zone.moveCurrentPoint(0, height + jseshStyle.geometry().lineSkip());
+		}
+	}
+
 	@Override
 	public void endLayout() {
 		if (!zone.isEmpty()) {
@@ -213,22 +229,6 @@ public class ColumnLayout extends TopItemLayout {
 		 */
 		@Override
 		public void visitTabStop(TabStop t) {
-			visitDefault(t);
-		}
-
-		/**
-		 * Layout alphabetic text.
-		 * <p>
-		 * Note that alphabetic text is special, because a sequence of element
-		 * will always be laid out in a given orientation which depends</em>
-		 * only</em> on the text writing system. (currently, always
-		 * left-to-right, but if arabic and hebrew are added, this will change).
-		 * 
-		 * @param t
-		 */
-		@Override
-		public void visitAlphabeticText(AlphabeticText t) {
-			subView.setDeltaBaseY(0); // No y alignment required !
 			visitDefault(t);
 		}
 

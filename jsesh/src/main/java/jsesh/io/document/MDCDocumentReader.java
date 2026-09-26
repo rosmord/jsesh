@@ -14,7 +14,7 @@ import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.JSeshInfoConstants;
-import jsesh.model.AlphabeticText;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.LineBreak;
 import jsesh.model.TopItemList;
 import jsesh.utils.datatypes.ByteArraysUtils;
@@ -121,9 +121,9 @@ public class MDCDocumentReader {
                 } catch (MDCSyntaxError exception) {
                     if (failFast)
                         throw exception;                    
-                    list.addTopItem(new AlphabeticText('b', "Error in file: " + exception.getMessage()));
+                    list.addAll(AlphabeticCharacter.fromMdcText('b', "Error in file: " + exception.getMessage()));
                     list.addTopItem(new LineBreak());
-                    list.addTopItem(new AlphabeticText('l', line));
+                    list.addAll(AlphabeticCharacter.fromMdcText('l', line));
                     list.addTopItem(new LineBreak());
                 }
             }

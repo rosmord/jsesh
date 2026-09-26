@@ -33,7 +33,10 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.document.command;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import jsesh.model.AlphabeticCharacter;
 
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
@@ -52,6 +55,8 @@ class InsertCommand extends AbstractMDCCommand {
 	private List<TopItem> newCadrats;
 	private MDCPosition position;
 	private TopItemList topItemList;
+
+	private final boolean typing;
 	
 	/**
 	 * Create an insertion command.
@@ -62,10 +67,41 @@ class InsertCommand extends AbstractMDCCommand {
 	 */
 	
 	public InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+		this(topItemList, newCadrats, position, firstCommand, false);
+	}
+
+	/// Create an insertion command.
+	///
+	/// @param typing true if the elements are text typed by the user:
+	/// successive typing insertions are then undone one word at a time.
+	InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand,
+			boolean typing) {
 		super(firstCommand);
 		this.topItemList= topItemList;
-		this.newCadrats= newCadrats;
+		this.newCadrats= new ArrayList<>(newCadrats);
 		this.position= position;
+		this.typing= typing;
+	}
+
+	/// A typing insertion absorbs the next one if it continues it (inserted
+	/// right after it), until a space has been typed and a new word begins.
+	@Override
+	public boolean absorb(MDCCommand next) {
+		if (!typing || !(next instanceof InsertCommand other) || !other.typing
+				|| other.topItemList != topItemList
+				|| other.position.getIndex() != position.getIndex() + newCadrats.size()
+				|| newCadrats.isEmpty() || other.newCadrats.isEmpty()) {
+			return false;
+		}
+		if (isSpace(newCadrats.get(newCadrats.size() - 1)) && !isSpace(other.newCadrats.get(0))) {
+			return false;
+		}
+		newCadrats.addAll(other.newCadrats);
+		return true;
+	}
+
+	private static boolean isSpace(TopItem item) {
+		return item instanceof AlphabeticCharacter c && c.isSpace();
 	}
 
 	public void doCommand() {

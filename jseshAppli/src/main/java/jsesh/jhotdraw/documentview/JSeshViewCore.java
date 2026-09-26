@@ -55,6 +55,9 @@ import jsesh.document.MDCDocument;
 import jsesh.document.MdCSearchQuery;
 import jsesh.document.caret.MDCCaret;
 import jsesh.document.events.TextEvent;
+import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.ui.editor.ActionsID;
+import jsesh.ui.editor.InputMode;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.MDCModelEditionAdapter;
 import jsesh.glyphs.signdata.HieroglyphFamily;
@@ -144,6 +147,7 @@ public final class JSeshViewCore {
         MDCLineManager mdcLineManager = new MDCLineManager();
 
         getEditor().addCodeChangeListener(codeModel);
+        codeModel.inputModeChanged(getEditor().getWorkflow().getMode());
         getEditor().getWorkflow().addMDCModelListener(mdcLineManager);
         viewComponent.getMdcField().addActionListener(mdcLineManager);
 
@@ -323,6 +327,21 @@ public final class JSeshViewCore {
 
         public void codeChanged(StringBuffer code) {
             viewComponent.getCodeField().setText(getEditor().getCodeBuffer());
+        }
+
+        @Override
+        public void inputModeChanged(InputMode mode) {
+            // The names of the mode actions are used as mode names.
+            String actionID = switch (mode) {
+                case HIEROGLYPHS -> ActionsID.SET_MODE_HIEROGLYPHS;
+                case LATIN -> ActionsID.SET_MODE_LATIN;
+                case ITALIC -> ActionsID.SET_MODE_ITALIC;
+                case BOLD -> ActionsID.SET_MODE_BOLD;
+                case TRANSLITERATION -> ActionsID.SET_MODE_TRANSLIT;
+                case UPPERCASE_TRANSLITERATION -> ActionsID.SET_MODE_UPPERCASE_TRANSLIT;
+                case LINE_NUMBER -> ActionsID.SET_MODE_LINENUMBER;
+            };
+            viewComponent.getInputModeLabel().setText(BundleHelper.getInstance().getLabel(actionID + ".Name"));
         }
     }
 

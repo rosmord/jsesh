@@ -67,8 +67,11 @@ class UndoManager {
 	 */
 	public void doCommand(MDCCommand newCommand) {
 		undoneCommands.clear();
-		commands.push(newCommand);
 		newCommand.doCommand();
+		// The command may continue the previous one (e.g. typed text).
+		if (commands.isEmpty() || !commands.peek().absorb(newCommand)) {
+			commands.push(newCommand);
+		}
 	}
 	
 	public void undoCommand() {
