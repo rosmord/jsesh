@@ -4,6 +4,11 @@ repositories {
     //maven {
     //    url = uri("https://www.qenherkhopeshef.org/maven")
     //}
+    // Uncomment the following line
+    // as a temporary workaround when developping the 
+    // other libraries (e.g. jvectclipboard).
+    // It's important that JSesh can compile without them.
+    mavenLocal() 
     mavenCentral()
 }
 

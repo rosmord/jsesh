@@ -1,6 +1,6 @@
 [versions]
 itext = "2.1.5"
-jvectclipboard = "8.1.1"
+jvectclipboard = "8.1.2"
 miglayout = "3.7.4"
 finitestate = "2.0"
 maven = "3.9.11"
