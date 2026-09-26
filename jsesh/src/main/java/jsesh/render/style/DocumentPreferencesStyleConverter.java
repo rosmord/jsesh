@@ -46,6 +46,8 @@ public class DocumentPreferencesStyleConverter {
 				.withStandardSignHeight(
 						jseshStyle.geometry().standardSignHeight())
 				.withSmallSkip(jseshStyle.geometry().smallSkip())
+				.withAlphabeticTextBaseline(
+						jseshStyle.geometry().alphabeticTextBaseline())
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
 						.equals(ShadingMode.LINE_HATCHING));
 	}
@@ -73,7 +75,9 @@ public class DocumentPreferencesStyleConverter {
 								(float) preferences.getStandardSignHeight())
 						.smallBodyScaleLimit(
 								(float) preferences.getSmallBodyScaleLimit())
-						.smallSkip((float) preferences.getSmallSkip()))
+						.smallSkip((float) preferences.getSmallSkip())
+						.alphabeticTextBaseline(
+								(float) preferences.getAlphabeticTextBaseline()))
 				.options(o -> o
 						.smallSignCentered(preferences.isSmallSignCentered())
 						.textOrientation(preferences.getTextOrientation())

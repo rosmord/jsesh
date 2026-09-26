@@ -144,4 +144,35 @@ public class TextRunTest {
         }
         return null;
     }
+
+    // Baseline of alphabetic text.
+
+    private MDCView layoutWithBaseline(String mdc, float baseline) throws MDCSyntaxError {
+        JSeshStyle style = JSeshStyle.DEFAULT.copy()
+                .geometry(g -> g.alphabeticTextBaseline(baseline))
+                .build();
+        JSeshRenderContext renderContext = new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts());
+        JSeshTechRenderContext tech = new JSeshTechRenderContext(FRC, 1.0);
+        return new ViewBuilder().buildView(new MDCParserModelGenerator().parse(mdc), renderContext, tech);
+    }
+
+    /// y of the letter view, relative to the quadrat view.
+    private double letterY(MDCView view) {
+        return view.getSubView(1).getPosition().y - view.getSubView(0).getPosition().y;
+    }
+
+    @Test
+    public void baselineIsMeasuredFromTheQuadratsBottom() throws MDCSyntaxError {
+        MDCView view = layoutWithBaseline("A1-+la+s", 0f);
+        Font font = JSeshStyle.DEFAULT.fonts().getFont(jsesh.model.constants.ScriptCode.LATIN);
+        double ascent = new java.awt.font.TextLayout("a", font, FRC).getAscent();
+        assertEquals(JSeshStyle.DEFAULT.geometry().maxCadratHeight(), letterY(view) + ascent, EPSILON);
+    }
+
+    @Test
+    public void baselineMovesTheTextUp() throws MDCSyntaxError {
+        double y0 = letterY(layoutWithBaseline("A1-+la+s", 0f));
+        double y10 = letterY(layoutWithBaseline("A1-+la+s", 10f));
+        assertEquals(10, y0 - y10, EPSILON);
+    }
 }

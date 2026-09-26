@@ -58,6 +58,10 @@ import java.awt.BasicStroke;
  *                            in
  *                            the small body (bold) font.
  * @param standardSignHeight  the expected height of A1, in points.
+ * @param alphabeticTextBaseline the height of the baseline of alphabetic text
+ *                            (latin, transliteration...) above the bottom line
+ *                            of quadrats, in points. 0 puts the text on the
+ *                            quadrats' baseline.
  */
 public record GeometrySpecification(
 		float fineLineWidth, // 0.5f,
@@ -90,7 +94,8 @@ public record GeometrySpecification(
 		float largeSignSizeRatio, // 0.8f,
 		float smallSignSizeRatio, // 0.4f,
 		float smallBodyScaleLimit, // 12f,
-		float standardSignHeight // 18f);
+		float standardSignHeight, // 18f
+		float alphabeticTextBaseline // 4f
 ) {
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
@@ -118,7 +123,8 @@ public record GeometrySpecification(
 			0.8f,
 			0.4f,
 			12f,
-			18f);
+			18f,
+			4f);
 
 	/**
 	 * Auxiliary method to build a stroke for fine lines.
@@ -194,6 +200,7 @@ public record GeometrySpecification(
 		private float smallSignSizeRatio; // 0.4f,
 		private float smallBodyScaleLimit; // 12f,
 		private float standardSignHeight; // 18f;
+		private float alphabeticTextBaseline; // 4f;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -221,6 +228,7 @@ public record GeometrySpecification(
 			this.smallSignSizeRatio = specs.smallSignSizeRatio;
 			this.smallBodyScaleLimit = specs.smallBodyScaleLimit;
 			this.standardSignHeight = specs.standardSignHeight;
+			this.alphabeticTextBaseline = specs.alphabeticTextBaseline;
 		}
 
 		public Builder fineLineWidth(float fineLineWidth) {
@@ -348,6 +356,11 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		public Builder alphabeticTextBaseline(float alphabeticTextBaseline) {
+			this.alphabeticTextBaseline = alphabeticTextBaseline;
+			return this;
+		}
+
 		public GeometrySpecification build() {
 			return new GeometrySpecification(
 					fineLineWidth,
@@ -374,7 +387,8 @@ public record GeometrySpecification(
 					largeSignSizeRatio,
 					smallSignSizeRatio,
 					smallBodyScaleLimit,
-					standardSignHeight);
+					standardSignHeight,
+					alphabeticTextBaseline);
 		}
 
 		/**
@@ -408,6 +422,7 @@ public record GeometrySpecification(
 			smallSignSizeRatio *= scale;
 			smallBodyScaleLimit *= scale;
 			standardSignHeight *= scale;
+			alphabeticTextBaseline *= scale;
 			return this;
         }
 	}

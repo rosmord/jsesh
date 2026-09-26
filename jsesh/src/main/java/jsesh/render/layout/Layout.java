@@ -259,9 +259,11 @@ public class Layout {
 			// Use the font's ascent and descent, not the glyph's bounds, so that
 			// all characters of a run share the same box and baseline.
 			currentView.setHeight(layout.getAscent() + layout.getDescent());
-			// Align the text base with the middle of the hieroglyphs...
+			// Place the text baseline at alphabeticTextBaseline above the
+			// quadrats' bottom line (which is at maxCadratHeight in the line).
+			GeometrySpecification geometry = jseshStyle.geometry();
 			currentView.setDeltaBaseY(
-					jseshStyle.geometry().maxCadratHeight() / 2.0 - layout.getAscent());
+					geometry.maxCadratHeight() - geometry.alphabeticTextBaseline() - layout.getAscent());
 		}
 
 		/// Comments are not displayed.

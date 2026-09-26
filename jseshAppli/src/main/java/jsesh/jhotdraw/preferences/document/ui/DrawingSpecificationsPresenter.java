@@ -66,6 +66,7 @@ public class DrawingSpecificationsPresenter {
                                 form.getCartoucheLineWidthField(),
                                 form.getColumnSkipField(),
                                 form.getLineSkipField(),
+                                form.getAlphabeticTextBaselineField(),
                                 form.getInterQuadratSkipField(),
                                 form.getMaxCadratHeightField(),
                                 form.getMaxCadratWidthField(),
@@ -93,6 +94,8 @@ public class DrawingSpecificationsPresenter {
                                 geometry.columnSkip());
                 form.getLineSkipField().setValue(
                                 geometry.lineSkip());
+                form.getAlphabeticTextBaselineField().setValue(
+                                geometry.alphabeticTextBaseline());
                 form.getInterQuadratSkipField().setValue(
                                 geometry.smallSkip());
                 form.getMaxCadratHeightField().setValue(
@@ -126,6 +129,8 @@ public class DrawingSpecificationsPresenter {
                                                                 .getCartoucheLineWidthField()))
                                                 .columnSkip(getLength(form.getColumnSkipField()))
                                                 .lineSkip(getLength(form.getLineSkipField()))
+                                                .alphabeticTextBaseline(getLength(form
+                                                                .getAlphabeticTextBaselineField()))
                                                 .maxCadratHeight(getLength(form
                                                                 .getMaxCadratHeightField()))
                                                 .maxCadratWidth(getLength(form

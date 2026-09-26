@@ -87,6 +87,11 @@ public class DocumentPreferences {
 	
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_SKIP)
 	private double smallSkip= 2;
+
+	/// Height of the alphabetic text baseline above the quadrats' bottom line,
+	/// in points. Documents which don't store it get this default.
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE)
+	private double alphabeticTextBaseline = 4;
 	
 	public DocumentPreferences() {
 	}
@@ -320,10 +325,25 @@ public class DocumentPreferences {
 		return result;
 	}
 	
+	/// @param alphabeticTextBaseline height of the alphabetic text baseline
+	/// above the quadrats' bottom line, in points.
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withAlphabeticTextBaseline(double alphabeticTextBaseline) {
+		DocumentPreferences result= this.copy();
+		result.alphabeticTextBaseline= alphabeticTextBaseline;
+		return result;
+	}
+
 	// Generated code
 	
 	public double getSmallSkip() {
 		return smallSkip;
+	}
+
+	/// @return height of the alphabetic text baseline above the quadrats'
+	/// bottom line, in points.
+	public double getAlphabeticTextBaseline() {
+		return alphabeticTextBaseline;
 	}
 	
 	/**

@@ -51,5 +51,6 @@ public interface JSeshInfoConstants {
 	String JSESH_STANDARD_SIGN_HEIGHT = "JSesh_standard_sign_height";
 	String JSESH_SMALL_BODY_SCALE_LIMIT = "JSesh_small_body_scale_limit";
 	String JSESH_SMALL_SKIP = "JSesh_small_skip";
+	String JSESH_ALPHABETIC_TEXT_BASELINE = "JSesh_alphabetic_text_baseline";
 
 }

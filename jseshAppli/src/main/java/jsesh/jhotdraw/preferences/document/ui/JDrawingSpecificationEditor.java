@@ -90,6 +90,7 @@ public class JDrawingSpecificationEditor {
 		h.addWithLabel("drawingPrefs.a1SignHeight", normalSignHeightField, "w 40pt, sg a, gapright unrelated");
 		h.addWithLabel("drawingPrefs.units", unitField, "wrap");
 		h.addWithLabel("drawingPrefs.lineSkip", lineSkipField, "sg a, wrap");
+		h.addWithLabel("drawingPrefs.alphabeticTextBaseline", alphabeticTextBaselineField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.interQuadratSkip", interQuadratSkipField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.columnSkip", columnSkipField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.maximalQuadratHeight", maxCadratHeightField, "sg a, wrap");
@@ -103,6 +104,7 @@ public class JDrawingSpecificationEditor {
 	private JFormattedTextField cartoucheLineWidthField= new JFormattedTextField();
 	private JFormattedTextField columnSkipField=new JFormattedTextField();
 	private JFormattedTextField lineSkipField=new JFormattedTextField();
+	private JFormattedTextField alphabeticTextBaselineField=new JFormattedTextField();
 	private JFormattedTextField interQuadratSkipField= new JFormattedTextField();
 	private JFormattedTextField maxCadratHeightField=new JFormattedTextField();
 	private JFormattedTextField maxCadratWidthField=new JFormattedTextField();
@@ -125,6 +127,10 @@ public class JDrawingSpecificationEditor {
 	
 	public JFormattedTextField getLineSkipField() {
 		return lineSkipField;
+	}
+
+	public JFormattedTextField getAlphabeticTextBaselineField() {
+		return alphabeticTextBaselineField;
 	}
 
 	public JFormattedTextField getMaxCadratHeightField() {

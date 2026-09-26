@@ -45,7 +45,8 @@ public class JSeshStyleHelper {
                         .columnSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_COLUMN_SKIP, 10)) // ok
                         .standardSignHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, 18.0)) // ok
                         .smallBodyScaleLimit((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, 12.0)) // ok
-                        .smallSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, 4)))
+                        .smallSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, 4))
+                        .alphabeticTextBaseline((float) preferences.getDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, 4)))
                 .options(o -> o.smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false)))
                 .painting(c -> c
                         .shadingStyle(preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)
@@ -81,6 +82,7 @@ public class JSeshStyleHelper {
         preferences.putDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, jseshStyle.geometry().standardSignHeight()); //ok
         preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, jseshStyle.geometry().smallBodyScaleLimit());//ok
         preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, jseshStyle.geometry().smallSkip());//ok        
+        preferences.putDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, jseshStyle.geometry().alphabeticTextBaseline());
         preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, jseshStyle.options().smallSignCentered());//ok
         preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
         

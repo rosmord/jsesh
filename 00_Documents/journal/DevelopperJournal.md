@@ -52,6 +52,9 @@ This file, which contains the fonts, is currently a jar file, containing the svg
   word. Typed text is undone word by word (`MDCCommand.absorb`). Pasted plain text uses the current script.
 - small bugs fixed on the way: `TopItemState.equals` assigned instead of comparing; `VerticalGrouper` never added
   the box built for text; `BundledActionFiller` ignored `[mac]` accelerators not starting with `shortcut`.
+- the baseline of alphabetic text is now a style parameter, `GeometrySpecification.alphabeticTextBaseline`: height
+  above the quadrats' bottom line, in points (saved as `JSesh_alphabetic_text_baseline`, editable in the drawing
+  preferences). Default 4pt, to be tuned (see todo 0125).
 - breaking change for embedders: `ModelElementVisitor.visitAlphabeticText` → `visitAlphabeticCharacter` +
   `visitComment`; `FontSpecification.getFont(char)` → `getFont(ScriptCode)`.
 
