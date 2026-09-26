@@ -70,6 +70,16 @@ public class AddPhilologicalMarkupAction extends EditorAction {
 			"text.addEditorSuperfluous", "text.addMinorAddition",
 			"text.addDubious" };
 
+	/// The markup codes (see [SymbolCodes]) matching [#philologyActionNames],
+	/// in the same order.
+	///
+	/// For a markup code `x`, the stand-alone start and end symbols are
+	/// `x * 2` and `x * 2 + 1` (see [SymbolCodes]).
+	public static final int[] philologyCodes = { SymbolCodes.EDITORADDITION, SymbolCodes.ERASEDSIGNS,
+			SymbolCodes.PREVIOUSLYREADABLE, SymbolCodes.SCRIBEADDITION,
+			SymbolCodes.EDITORSUPERFLUOUS, SymbolCodes.MINORADDITION,
+			SymbolCodes.DUBIOUS };
+
 	/**
 	 * Generate a list of actions for a specific editor.
 	 * 
@@ -78,10 +88,7 @@ public class AddPhilologicalMarkupAction extends EditorAction {
 	 * @return
 	 */
 	public static Map<String, Action> generateActionMap(JMDCEditor editor, AppDefaults appDefaults, MDCIconFactory iconFactory) {
-		int[] codes = { SymbolCodes.EDITORADDITION, SymbolCodes.ERASEDSIGNS,
-				SymbolCodes.PREVIOUSLYREADABLE, SymbolCodes.SCRIBEADDITION,
-				SymbolCodes.EDITORSUPERFLUOUS, SymbolCodes.MINORADDITION,
-				SymbolCodes.DUBIOUS };
+		int[] codes = philologyCodes;
 		TreeMap<String, Action> map = new TreeMap<String, Action>();
 		for (int i = 0; i < codes.length; i++) {
 			AddPhilologicalMarkupAction action = new AddPhilologicalMarkupAction(editor, codes[i]);

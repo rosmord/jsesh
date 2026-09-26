@@ -474,31 +474,49 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 }
         }
 
-        /**
-         * Build menu for Ecdotic/Philological marks.
-         *
-         * @param a
-         * @param v
-         * @return
-         */
+        /// Builds the menu for Ecdotic/Philological marks.
+        ///
+        /// One submenu per kind of markup, titled with its meaning, holding the
+        /// balanced markup (placed around the selection) and the separate start
+        /// and end symbols; plus an "arrows" submenu.
+        ///
+        /// As for [#buildCartoucheMenu(Application, JSeshView)], a grid layout
+        /// wouldn't help on macOS, hence the submenus.
         private JMenu buildEcdoticMenu(Application a, JSeshView v) {
-                JMenu ecdoticMenu = BundleHelper.getInstance().configure(new JMenu(),
-                                "text.ecdoticMenu");
+                BundleHelper bundle = BundleHelper.getInstance();
+                JMenu ecdoticMenu = bundle.configure(new JMenu(), "text.ecdoticMenu");
+                ActionMap actionMap = a.getActionMap(v);
 
-                JPopupMenu pm = ecdoticMenu.getPopupMenu();
-                pm.setLayout(new GridLayout(0, 4));
-                for (String s : AddPhilologicalMarkupAction.philologyActionNames) {
-                        ecdoticMenu.add(a.getActionMap(v).get(s));
+                String[] names = AddPhilologicalMarkupAction.philologyActionNames;
+                int[] codes = AddPhilologicalMarkupAction.philologyCodes;
+                for (int i = 0; i < names.length; i++) {
+                        JMenu markupMenu = new JMenu(bundle.getLabel(names[i] + ".ShortDescription"));
+                        // Start and end symbols are code * 2 and code * 2 + 1 (see SymbolCodes).
+                        addLabelledItem(markupMenu, actionMap.get(names[i]),
+                                        "text.ecdoticMenu.enclose.text");
+                        addLabelledItem(markupMenu,
+                                        actionMap.get(JSeshApplicationModel.INSERT_CODE + (codes[i] * 2)),
+                                        "text.ecdoticMenu.start.text");
+                        addLabelledItem(markupMenu,
+                                        actionMap.get(JSeshApplicationModel.INSERT_CODE + (codes[i] * 2 + 1)),
+                                        "text.ecdoticMenu.end.text");
+                        ecdoticMenu.add(markupMenu);
                 }
-                // Limits should be taken from Symbol codes class
-                for (int i = 100; i <= 113; i++) {
-                        ecdoticMenu.add(a.getActionMap(v).get(
-                                        JSeshApplicationModel.INSERT_CODE + i));
-                }
+
+                JMenu arrowsMenu = bundle.configure(new JMenu(), "text.ecdoticMenu.arrows");
                 for (String s : AdditionalSymbols.ARROWS) {
-                        ecdoticMenu.add(a.getActionMap(v).get(JSeshApplicationModel.INSERT_CODE + s));
+                        arrowsMenu.add(actionMap.get(JSeshApplicationModel.INSERT_CODE + s));
                 }
+                ecdoticMenu.addSeparator();
+                ecdoticMenu.add(arrowsMenu);
                 return ecdoticMenu;
+        }
+
+        /// Adds a menu item for an (icon-only) action, with an explicit label.
+        private void addLabelledItem(JMenu menu, Action action, String labelKey) {
+                JMenuItem item = new JMenuItem(action);
+                item.setText(BundleHelper.getInstance().getLabel(labelKey));
+                menu.add(item);
         }
 
         @Override
