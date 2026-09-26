@@ -8,7 +8,7 @@ repositories {
     // as a temporary workaround when developping the 
     // other libraries (e.g. jvectclipboard).
     // It's important that JSesh can compile without them.
-    mavenLocal() 
+    // mavenLocal() 
     mavenCentral()
 }
 
