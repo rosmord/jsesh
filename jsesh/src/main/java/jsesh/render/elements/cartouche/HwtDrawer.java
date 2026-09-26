@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;
@@ -40,7 +41,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
-        int leftElement, rightElement;
+        CartouchePart leftElement, rightElement;
 
         if (currentTextDirection.isLeftToRight()) {
             leftElement = cartouche.getStartPart();
@@ -79,7 +80,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
 
         g.setStroke(s);
         // Start
-        if (leftElement != 0) {
+        if (leftElement != CartouchePart.NONE) {
 
             Point2D pa = new Point2D.Float(dx, dy);
             Point2D pb = new Point2D.Float(dx, currentView.getHeight() - dy);
@@ -92,7 +93,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
         g.draw(new Line2D.Float(p2, p4));
 
         // End
-        if (rightElement != 0) {
+        if (rightElement != CartouchePart.NONE) {
 
             Point2D pa = new Point2D.Float(currentView.getWidth() - dx, dy);
             Point2D pb = new Point2D.Float(currentView.getWidth() - dx,
@@ -128,7 +129,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
        
         g.setStroke(s);
         // Start
-        if (cartouche.getStartPart() != 0) {
+        if (cartouche.getStartPart() != CartouchePart.NONE) {
 
             Point2D pa = new Point2D.Float(currentView.getWidth() - dx, dy);
             Point2D pb = new Point2D.Float(dx, dy);
@@ -141,7 +142,7 @@ class HwtDrawer extends AbstractCartoucheDrawer {
         g.draw(new Line2D.Float(p2, p4));
 
         // End
-        if (cartouche.getEndPart() != 0) {
+        if (cartouche.getEndPart() != CartouchePart.NONE) {
 
             Point2D pb = new Point2D.Float(dx, currentView.getHeight() - dy);
             Point2D pa = new Point2D.Float(currentView.getWidth() - dx,

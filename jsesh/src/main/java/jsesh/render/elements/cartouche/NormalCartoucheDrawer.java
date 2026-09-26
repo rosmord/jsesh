@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;
@@ -42,7 +43,7 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
-        int leftElement, rightElement;
+        CartouchePart leftElement, rightElement;
 
         if (currentTextDirection.isLeftToRight()) {
             leftElement = cartouche.getStartPart();
@@ -77,10 +78,10 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
         g.setStroke(stroke);
         // Start
-        if (leftElement != 0) {
+        if (leftElement != CartouchePart.NONE) {
 
             float p0x = dx;
-            if (leftElement == 2) {
+            if (leftElement == CartouchePart.SECOND) {
                 p0x += geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(dx * 1.5, p1.getY(), dx * 1.5, p2
                         .getY()));
@@ -96,10 +97,10 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         g.draw(new Line2D.Float(p2, p4));
 
         // End
-        if (rightElement != 0) {
+        if (rightElement != CartouchePart.NONE) {
 
             float p0x = -dx;
-            if (rightElement == 2) {
+            if (rightElement == CartouchePart.SECOND) {
                 p0x += -geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(currentView.getWidth() - dx * 1.5,
                         p3.getY(), currentView.getWidth() - dx * 1.5, p4
@@ -161,10 +162,10 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
 
         g.setStroke(s);
         // Start
-        if (cartouche.getStartPart() != 0) {
+        if (cartouche.getStartPart() != CartouchePart.NONE) {
 
             float p0x = dx;
-            if (cartouche.getStartPart() == 2) {
+            if (cartouche.getStartPart() == CartouchePart.SECOND) {
                 p0x += geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(p2.getX(), dy, p1.getX(), dy));
             }
@@ -179,10 +180,10 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         g.draw(new Line2D.Float(p2, p4));
 
         // End
-        if (cartouche.getEndPart() != 0) {
+        if (cartouche.getEndPart() != CartouchePart.NONE) {
 
             float p0x = -dx;
-            if (cartouche.getEndPart() == 2) {
+            if (cartouche.getEndPart() == CartouchePart.SECOND) {
                 p0x += -geometry.cartoucheLineWidth();
                 g.draw(new Line2D.Double(p4.getX(), currentView.getHeight()
                         - dy * 1.5, p3.getX(), currentView.getHeight() - dy

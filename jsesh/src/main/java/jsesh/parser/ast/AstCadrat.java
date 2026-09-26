@@ -3,7 +3,6 @@ package jsesh.parser.ast;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -12,75 +11,22 @@ import java.util.Objects;
  * and {@code buildCadrat} both operate on the very same object), a cadrat
  * doubles as the "vertical box" it is built from. Its stack of hboxes is
  * built incrementally, via a left-recursive grammar rule of unbounded arity,
- * so unlike most other AST nodes it cannot be a record. Structural equality
- * ({@link #equals}/{@link #hashCode}) is implemented by hand to compensate.
+ * across several parser methods — hence the mutable {@link Builder} rather
+ * than a fixed-arity constructor call at a single parse site.
  *
  * @author rosmord
  * @see jsesh.model.Cadrat
  * @see jsesh.model.ShadingCode
  */
-public final class AstCadrat implements AstNode {
+public record AstCadrat(List<AstHBox> hBoxes, int shading, AstOptionList options) implements AstNode {
 
-    private final List<AstHBox> hBoxes = new ArrayList<>();
-    private int shading;
-    private AstOptionList options;
-
-    void addHBox(AstHBox hBox) {
-        hBoxes.add(hBox);
-    }
-
-    public List<AstHBox> hBoxes() {
-        return Collections.unmodifiableList(hBoxes);
-    }
-
-    /**
-     * @return the shading, as a sum of the {@code jsesh.model.ShadingCode} bit
-     * codes (1: top left, 2: top right, 4: bottom left, 8: bottom right).
-     */
-    public int shading() {
-        return shading;
-    }
-
-    void setShading(int shading) {
-        this.shading = shading;
-    }
-
-    /**
-     * @return the options given after a {@code CADRAT(...)} construct, or
-     * {@code null} if none were parsed.
-     */
-    public AstOptionList options() {
-        return options;
-    }
-
-    void setOptions(AstOptionList options) {
-        this.options = options;
+    public AstCadrat {
+        hBoxes = List.copyOf(hBoxes);
     }
 
     @Override
     public void accept(AstVisitor visitor) {
         visitor.visitCadrat(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof AstCadrat other)) {
-            return false;
-        }
-        return shading == other.shading && hBoxes.equals(other.hBoxes) && Objects.equals(options, other.options);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hBoxes, shading, options);
-    }
-
-    @Override
-    public String toString() {
-        return "AstCadrat[hBoxes=" + hBoxes + ", shading=" + shading + ", options=" + options + "]";
     }
 
     /**
@@ -95,9 +41,9 @@ public final class AstCadrat implements AstNode {
     }
 
     /**
-     * Fluent construction of an {@link AstCadrat} for tests, covering
-     * shading and options in addition to the hboxes that {@link #of} alone
-     * cannot express.
+     * Fluent construction of an {@link AstCadrat}, threaded across the
+     * recursive-descent parser methods that build up a cadrat's hboxes one
+     * at a time before its shading and options (if any) are known.
      */
     public static final class Builder {
 
@@ -129,13 +75,7 @@ public final class AstCadrat implements AstNode {
         }
 
         public AstCadrat build() {
-            AstCadrat cadrat = new AstCadrat();
-            for (AstHBox hBox : hBoxes) {
-                cadrat.addHBox(hBox);
-            }
-            cadrat.setShading(shading);
-            cadrat.setOptions(options);
-            return cadrat;
+            return new AstCadrat(hBoxes, shading, options);
         }
     }
 }

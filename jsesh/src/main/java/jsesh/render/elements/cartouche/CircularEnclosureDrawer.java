@@ -8,6 +8,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 import jsesh.model.Cartouche;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.CartoucheSizeHelper;
@@ -52,7 +53,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         float w1, w2;
         // The kind of elements found left and right of the cartouche.
 
-        int leftElement, rightElement;
+        CartouchePart leftElement, rightElement;
 
         if (currentTextDirection.isLeftToRight()) {
             leftElement = cartouche.getStartPart();
@@ -92,7 +93,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         Path2D.Float outline = new Path2D.Float();
         Point2D.Float leftC1 = null, leftC2 = null;
         // Start
-        if (leftElement != 0) {
+        if (leftElement != CartouchePart.NONE) {
 
             float p0x = dx;
             leftC1 = new Point2D.Float(p0x - loopSkip, p1.y);
@@ -109,7 +110,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
 
         Point2D.Float rightC1 = null, rightC2 = null;
         // End
-        if (rightElement != 0) {
+        if (rightElement != CartouchePart.NONE) {
 
             float p0x = -dx;
             rightC1 = new Point2D.Float(currentView.getWidth() + loopSkip + p0x, p3.y);
@@ -124,10 +125,10 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         Area enclosure = new Area(stroke.createStrokedShape(outline));
         drawBastionRow(enclosure, p1, p3, 0, -1); // top wall, bulging up
         drawBastionRow(enclosure, p2, p4, 0, 1);  // bottom wall, bulging down
-        if (leftElement != 0) {
+        if (leftElement != CartouchePart.NONE) {
             drawBastionsAlongCubic(enclosure, p1, leftC1, leftC2, p2, center);
         }
-        if (rightElement != 0) {
+        if (rightElement != CartouchePart.NONE) {
             drawBastionsAlongCubic(enclosure, p3, rightC1, rightC2, p4, center);
         }
         g.fill(enclosure);
@@ -343,7 +344,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         Path2D.Float outline = new Path2D.Float();
         Point2D.Float topC1 = null, topC2 = null;
         // Start
-        if (cartouche.getStartPart() != 0) {
+        if (cartouche.getStartPart() != CartouchePart.NONE) {
 
             float p0x = dx;
 
@@ -361,7 +362,7 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
 
         Point2D.Float bottomC1 = null, bottomC2 = null;
         // End
-        if (cartouche.getEndPart() != 0) {
+        if (cartouche.getEndPart() != CartouchePart.NONE) {
 
             float p0x = -dx;
 
@@ -377,10 +378,10 @@ class CircularEnclosureDrawer extends AbstractCartoucheDrawer {
         Area enclosure = new Area(s.createStrokedShape(outline));
         drawBastionRow(enclosure, p1, p3, 1, 0);  // right wall, bulging right
         drawBastionRow(enclosure, p2, p4, -1, 0); // left wall, bulging left
-        if (cartouche.getStartPart() != 0) {
+        if (cartouche.getStartPart() != CartouchePart.NONE) {
             drawBastionsAlongCubic(enclosure, p1, topC1, topC2, p2, center);
         }
-        if (cartouche.getEndPart() != 0) {
+        if (cartouche.getEndPart() != CartouchePart.NONE) {
             drawBastionsAlongCubic(enclosure, p3, bottomC1, bottomC2, p4, center);
         }
         g.fill(enclosure);

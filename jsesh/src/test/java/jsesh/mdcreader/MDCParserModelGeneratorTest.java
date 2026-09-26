@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;
@@ -145,8 +146,8 @@ public class MDCParserModelGeneratorTest {
         HorizontalListElement element = hBox.getHorizontalListElementAt(0);
         assertTrue(element instanceof Cartouche);
         Cartouche cartouche = (Cartouche) element;
-        assertEquals(1, cartouche.getStartPart());
-        assertEquals(2, cartouche.getEndPart());
+        assertEquals(CartouchePart.FIRST, cartouche.getStartPart());
+        assertEquals(CartouchePart.SECOND, cartouche.getEndPart());
         assertEquals(1, cartouche.getBasicItemList().getNumberOfChildren());
     }
 

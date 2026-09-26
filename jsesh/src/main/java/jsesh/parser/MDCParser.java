@@ -40,6 +40,8 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.CartouchePart;
+import jsesh.parser.ast.CartoucheType;
 import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.AlphabeticText;
 import jsesh.parser.lexer.Cartouche;
@@ -570,32 +572,33 @@ public class MDCParser {
             AstBasicItemList content = parseBasicItems();
             Cartouche end = (Cartouche) expect(END_CARTOUCHE, "end of cartouche");
             parseModifiers();
-            return new AstCartouche(start.type(), start.part(), end.part(), content);
+            return new AstCartouche(CartoucheType.forCode(start.type()),
+                    CartouchePart.forDigit(start.part()), CartouchePart.forDigit(end.part()), content);
         } else {
             OldCartoucheStart start = (OldCartoucheStart) expect(BEGIN_OLD_CARTOUCHE, "cartouche");
             AstBasicItemList content = parseBasicItems();
             expect(END_CARTOUCHE, "end of cartouche");
-            int leftPart;
-            int rightPart;
+            CartouchePart leftPart;
+            CartouchePart rightPart;
             switch (Character.toLowerCase(start.part())) {
                 case 'b':
-                    leftPart = 1;
-                    rightPart = 0;
+                    leftPart = CartouchePart.FIRST;
+                    rightPart = CartouchePart.NONE;
                     break;
                 case 'm':
-                    leftPart = 0;
-                    rightPart = 0;
+                    leftPart = CartouchePart.NONE;
+                    rightPart = CartouchePart.NONE;
                     break;
                 case 'e':
-                    leftPart = 0;
-                    rightPart = 2;
+                    leftPart = CartouchePart.NONE;
+                    rightPart = CartouchePart.SECOND;
                     break;
                 case 'a':
                 default:
-                    leftPart = 1;
-                    rightPart = 2;
+                    leftPart = CartouchePart.FIRST;
+                    rightPart = CartouchePart.SECOND;
             }
-            return new AstCartouche(Character.toLowerCase(start.code()), leftPart, rightPart, content);
+            return new AstCartouche(CartoucheType.forCode(start.code()), leftPart, rightPart, content);
         }
     }
 

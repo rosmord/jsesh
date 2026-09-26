@@ -11,6 +11,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Locale;
 
+import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.WordEndingCode;
@@ -240,14 +242,14 @@ public class MdCModelWriter {
 			String cartoucheCode = "";
 			String start;
 			String end;
-			if (c.getType() != 'c')
-				cartoucheCode = "" + (char) c.getType();
-			if (c.getStartPart() == 1 && c.getEndPart() == 2) {
+			if (c.getType() != CartoucheType.CARTOUCHE)
+				cartoucheCode = "" + c.getType().code();
+			if (c.getStartPart() == CartouchePart.FIRST && c.getEndPart() == CartouchePart.SECOND) {
 				start = "<" + cartoucheCode.toUpperCase(Locale.ENGLISH) + "-";
 				end = "->";
 			} else {
-				start = "<" + cartoucheCode + c.getStartPart() + "-";
-				end = "-" + cartoucheCode + c.getEndPart() + ">";
+				start = "<" + cartoucheCode + c.getStartPart().digit() + "-";
+				end = "-" + cartoucheCode + c.getEndPart().digit() + ">";
 			}
 			write(start);
 			c.getBasicItemList().accept(this);

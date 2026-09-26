@@ -1,5 +1,8 @@
 package jsesh.model;
 
+import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.CartoucheType;
+
 
 /**
  * <p>
@@ -20,44 +23,24 @@ public class Cartouche extends InnerGroup {
      * </p>
      *
      */
-    private int startPart;
+    private CartouchePart startPart;
 
     /**
      * <p>
-     * indicates how the last extremity of the cartouche should be drawn.
-     * </p>
-     * <p>
-     * 0 : nothing
-     * </p>
-     * <p>
-     * 1 : normal start
-     * </p>
-     * <p>
-     * 2 : ending part (e.g. for actual cartouches; the node)
-     * </p>
-     * <p>
-     * For Hwt signs, this is somehow different :
-     * </p>
-     * <p>
-     * 1 : no square
-     * </p>
-     * <p>
-     * 2 : square in the lower part (for text in lines)
-     * </p>
-     * <p>
-     * 3 : square in the upper part.
+     * indicates how the last extremity of the cartouche should be drawn. See
+     * {@link CartouchePart} for the meaning of each value.
      * </p>
      *
      */
-    private int endPart;
+    private CartouchePart endPart;
 
     /**
      * <p>
-     * one of 'c' (cartouche) 's' (serekh) 'h' hwt-sign and 'f' castle.
+     * the kind of cartouche, serekh, hwt-sign, castle or circular enclosure.
      * </p>
      *
      */
-    private int type;
+    private CartoucheType type;
 
     /**
      * <p>
@@ -77,7 +60,7 @@ public class Cartouche extends InnerGroup {
      * @param content the content of the cartouche
      * </p>
      */
-    public Cartouche(int type, int startPart, int endPart, BasicItemList content) {
+    public Cartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, BasicItemList content) {
         this.type = type;
         this.startPart = startPart;
         this.endPart = endPart;
@@ -88,87 +71,47 @@ public class Cartouche extends InnerGroup {
     /**
      * <p>
      * indicates how the first extremity of the cartouche should be drawn.
-     * </p>
-     * <p>
-     * 0 : nothing
-     * </p>
-     * <p>
-     * 1 : normal start
-     * </p>
-     * <p>
-     * 2 : ending part (e.g. for actual cartouches; the node)
-     * </p>
-     * <p>
-     * For Hwt signs, this is somehow different :
-     * </p>
-     * <p>
-     * 1 : no square
-     * </p>
-     * <p>
-     * 2 : square in the lower part (for text in lines)
-     * </p>
-     * <p>
-     * 3 : square in the upper part.
+     * See {@link CartouchePart} for the meaning of each value.
      * </p>
      *
-     * @return the end part code.
+     * @return the start part code.
      *
      */
-    public int getStartPart() {
+    public CartouchePart getStartPart() {
         return startPart;
     }
 
-    public void setStartPart(int _startPart) {
+    public void setStartPart(CartouchePart _startPart) {
         startPart = _startPart;
     }
 
     /**
      * <p>
      * indicates how the last extremity of the cartouche should be drawn.
-     * </p>
-     * <p>
-     * 0 : nothing
-     * </p>
-     * <p>
-     * 1 : normal start
-     * </p>
-     * <p>
-     * 2 : ending part (e.g. for actual cartouches; the node)
-     * </p>
-     * <p>
-     * For Hwt signs, this is somehow different :
-     * </p>
-     * <p>
-     * 1 : no square
-     * </p>
-     * <p>
-     * 2 : square in the lower part (for text in lines)
-     * </p>
-     * <p>
-     * 3 : square in the upper part.
+     * See {@link CartouchePart} for the meaning of each value.
      * </p>
      *
      * @return the end part code.
      *
      */
-    public int getEndPart() {
+    public CartouchePart getEndPart() {
         return endPart;
     }
 
-    public void setEndPart(int _endPart) {
+    public void setEndPart(CartouchePart _endPart) {
         endPart = _endPart;
     }
 
     /**
-     * Returns the type of the cartouche : one of 'c', 's', 'h', 'f'.
+     * Returns the type of the cartouche.
      *
      * @return the type of the cartouche.
      */
-    public int getType() {
+    public CartoucheType getType() {
         return type;
     }
 
-    public void setType(int _type) {
+    public void setType(CartoucheType _type) {
         type = _type;
     }
 
@@ -181,7 +124,7 @@ public class Cartouche extends InnerGroup {
 
     /*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
      */
     public String toString() {
@@ -199,7 +142,7 @@ public class Cartouche extends InnerGroup {
 
     /*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see jsesh.model.ModelElement#compareToAux(jsesh.model.ModelElement)
      */
     public int compareToAux(ModelElement e) {
@@ -207,11 +150,11 @@ public class Cartouche extends InnerGroup {
         if (result == 0) {
             Cartouche c = (Cartouche) e;
             ;
-            result = type - c.type;
+            result = Character.compare(type.code(), c.type.code());
             if (result == 0) {
-                result = startPart - c.startPart;
+                result = Integer.compare(startPart.digit(), c.startPart.digit());
                 if (result == 0) {
-                    result = endPart - c.endPart;
+                    result = Integer.compare(endPart.digit(), c.endPart.digit());
 // As cartouches are no more top-level items, they don't have state anymore
 //					if (result == 0) {
 //						result = getState().compareTo(c.getState());
@@ -248,7 +191,7 @@ public class Cartouche extends InnerGroup {
     protected boolean equalsIgnoreIdAux(ModelElement other) {
         Cartouche c = (Cartouche) other;
         return (
-                this.type == c.type 
+                this.type == c.type
                 && this.startPart == c.startPart
                 && this.endPart == c.endPart
                 );

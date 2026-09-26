@@ -31,6 +31,8 @@ import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemList;
 import jsesh.model.TopItemState;
+import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
@@ -189,7 +191,7 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitCartouche(AstCartouche node) {
         BasicItemList content = build(node.content(), BasicItemList.class);
-        push(new Cartouche(node.type(), node.startPart(), node.endPart(), content));
+        push(new Cartouche(toCartoucheType(node.type()), toCartouchePart(node.startPart()), toCartouchePart(node.endPart()), content));
     }
 
     @Override
@@ -412,5 +414,13 @@ class AstModelBuilder implements AstVisitor {
             case WORD_END -> WordEndingCode.WORD_END;
             case SENTENCE_END -> WordEndingCode.SENTENCE_END;
         };
+    }
+
+    private static CartoucheType toCartoucheType(jsesh.parser.ast.CartoucheType type) {
+        return CartoucheType.forCode(type.code());
+    }
+
+    private static CartouchePart toCartouchePart(jsesh.parser.ast.CartouchePart part) {
+        return CartouchePart.forDigit(part.digit());
     }
 }

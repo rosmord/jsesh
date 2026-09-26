@@ -31,6 +31,7 @@ import jsesh.parser.ast.AstTabbing;
 import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.CartoucheType;
 import jsesh.parser.lexer.PhilologyKind;
 import jsesh.parser.lexer.ToggleType;
@@ -206,7 +207,7 @@ public class MDCParserAstSyntaxTest {
 
     @Test
     public void testCartouche_serekh() throws MDCSyntaxError {
-        AstCartouche expected = new AstCartouche(CartoucheType.SEREKH, 1, 2,
+        AstCartouche expected = new AstCartouche(CartoucheType.SEREKH, CartouchePart.FIRST, CartouchePart.SECOND,
                 AstBasicItemList.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1")))));
         assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parse("<sA1>"));
     }
@@ -215,7 +216,7 @@ public class MDCParserAstSyntaxTest {
     public void testCartouche_partialDrawing() throws MDCSyntaxError {
         // "<1" starts a (modern) cartouche only drawing its start ("1"); "0>"
         // closes it without drawing anything at the end ("0"). Empty content.
-        AstCartouche expected = new AstCartouche(CartoucheType.CARTOUCHE, 1, 0, AstBasicItemList.of());
+        AstCartouche expected = new AstCartouche(CartoucheType.CARTOUCHE, CartouchePart.FIRST, CartouchePart.NONE, AstBasicItemList.of());
         assertEquals(AstDocument.of(AstCadrat.of(AstHBox.of(expected))), parse("<1--0>"));
     }
 

@@ -17,6 +17,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;
@@ -59,11 +60,11 @@ class EnclosureDrawer extends AbstractCartoucheDrawer {
         Point2D.Float topLeftCorner = new Point2D.Float(0, 0);
         boolean left, right;
         if (currentTextDirection.isLeftToRight()) {
-            left = cartouche.getStartPart() != 0;
-            right = cartouche.getEndPart() != 0;
+            left = cartouche.getStartPart() != CartouchePart.NONE;
+            right = cartouche.getEndPart() != CartouchePart.NONE;
         } else {
-            left = cartouche.getEndPart() != 0;
-            right = cartouche.getStartPart() != 0;
+            left = cartouche.getEndPart() != CartouchePart.NONE;
+            right = cartouche.getStartPart() != CartouchePart.NONE;
         }
         float width = currentView.getWidth();
         float height = currentView.getHeight();
@@ -73,8 +74,8 @@ class EnclosureDrawer extends AbstractCartoucheDrawer {
     @Override
     public void drawVertical(Cartouche cartouche) {
         Point2D.Float topLeftCorner = new Point2D.Float(0, 0);
-        boolean drawTop = cartouche.getStartPart() != 0;
-        boolean drawBottom = cartouche.getEndPart()!= 0;        
+        boolean drawTop = cartouche.getStartPart() != CartouchePart.NONE;
+        boolean drawBottom = cartouche.getEndPart() != CartouchePart.NONE;
         float width = currentView.getWidth();
         float height = currentView.getHeight();
         drawEnclosure(topLeftCorner, width, height, drawTop, drawBottom, true, true);

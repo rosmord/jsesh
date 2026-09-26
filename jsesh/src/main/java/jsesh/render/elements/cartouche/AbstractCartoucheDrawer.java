@@ -15,6 +15,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;
@@ -58,9 +59,9 @@ abstract class AbstractCartoucheDrawer {
      * @param p1
      * @param p2
      */
-    protected void drawHutEnd(int part, Point2D pa, Point2D pb, Point2D p1,
+    protected void drawHutEnd(CartouchePart part, Point2D pa, Point2D pb, Point2D p1,
             Point2D p2) {
-        if (part != 0) {
+        if (part != CartouchePart.NONE) {
             /**
              * Orientation to use for the inner square.
              */
@@ -90,10 +91,10 @@ abstract class AbstractCartoucheDrawer {
                 // relationship with the
                 // actual text orientation. We fix this here.
                 if (!currentTextDirection.isLeftToRight()) {
-                    if (part == 2) {
-                        part = 3;
-                    } else if (part == 3) {
-                        part = 2;
+                    if (part == CartouchePart.SECOND) {
+                        part = CartouchePart.THIRD;
+                    } else if (part == CartouchePart.THIRD) {
+                        part = CartouchePart.SECOND;
                     }
                 }
 
@@ -101,7 +102,7 @@ abstract class AbstractCartoucheDrawer {
 
             switch (part) {
                 // square on the pb-p2 side.
-                case 2: {
+                case SECOND: {
                     Point2D pca, pc, pcb;
                     if (currentTextOrientation.isHorizontal()) {
                         // point on the vertical line
@@ -127,7 +128,7 @@ abstract class AbstractCartoucheDrawer {
                     g.draw(new Line2D.Float(pc, pcb));
                 }
                 break;
-                case 3: { // square on the pa-p1 side.
+                case THIRD: { // square on the pa-p1 side.
                     Point2D pca, pc, pcb;
                     if (currentTextOrientation.isHorizontal()) {
                         pca = new Point2D.Double(pa.getX(), pa.getY() + squareSize);
@@ -148,6 +149,9 @@ abstract class AbstractCartoucheDrawer {
                     g.draw(new Line2D.Float(pca, pc));
                     g.draw(new Line2D.Float(pc, pcb));
                 }
+                break;
+                default:
+                    break;
             }
         }
     }

@@ -1,7 +1,5 @@
 package jsesh.parser.ast;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -11,22 +9,15 @@ import java.util.List;
  * keeps every modifier exactly as parsed, including duplicates, instead of
  * merging repeated modifiers or giving special treatment to some of them.
  * <p>Built incrementally, via a left-recursive grammar rule of unbounded
- * arity; unlike most other AST nodes it cannot be a record. Structural
- * equality ({@link #equals}/{@link #hashCode}) is implemented by hand to
- * compensate.
+ * arity, hence the {@link #of} factory rather than a fixed-arity constructor
+ * call at each parse site.
  *
  * @author rosmord
  */
-public final class AstModifierList implements AstNode {
+public record AstModifierList(List<AstModifier> modifiers) implements AstNode {
 
-    private final List<AstModifier> modifiers = new ArrayList<>();
-
-    void addModifier(String name, Integer value) {
-        modifiers.add(new AstModifier(name, value));
-    }
-
-    public List<AstModifier> modifiers() {
-        return Collections.unmodifiableList(modifiers);
+    public AstModifierList {
+        modifiers = List.copyOf(modifiers);
     }
 
     /**
@@ -34,30 +25,11 @@ public final class AstModifierList implements AstNode {
      * and {@link AstModifier#of}.
      */
     public static AstModifierList of(AstModifier... modifiers) {
-        AstModifierList result = new AstModifierList();
-        for (AstModifier modifier : modifiers) {
-            result.modifiers.add(modifier);
-        }
-        return result;
+        return new AstModifierList(List.of(modifiers));
     }
 
     @Override
     public void accept(AstVisitor visitor) {
         visitor.visitModifierList(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return this == o || (o instanceof AstModifierList other && modifiers.equals(other.modifiers));
-    }
-
-    @Override
-    public int hashCode() {
-        return modifiers.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "AstModifierList" + modifiers;
     }
 }

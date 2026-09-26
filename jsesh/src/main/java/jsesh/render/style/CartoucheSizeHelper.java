@@ -1,5 +1,8 @@
 package jsesh.render.style;
 
+import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.CartoucheType;
+
 public class CartoucheSizeHelper {
 
 	// Prevents instantiation of helper class.
@@ -9,78 +12,77 @@ public class CartoucheSizeHelper {
 	/**
 	 * Compute the size needed for cartouches starts and ends along the main
 	 * axis. Use the basic sizes values declared in this class.
-	 * 
+	 *
 	 * @param jseshStyle the corresponding {@link JSeshStyle}
 	 * @param type
-	 *                   the type of cartouche ('c', 's', 'h', 'f' or 'F')
-	 * @param element    :
-	 *                   0,1,2,3, depending on the type of cartouche.
+	 *                   the type of cartouche
+	 * @param element    the part of the cartouche, whose meaning depends on
+	 *                   {@code type}.
 	 * @return a size.
 	 */
-	public static float computeCartouchePartLength(JSeshStyle jseshStyle, int type, int element) {
+	public static float computeCartouchePartLength(JSeshStyle jseshStyle, CartoucheType type, CartouchePart element) {
 		GeometrySpecification geometry = jseshStyle.geometry();
 		float result = 0;
 		switch (type) {
-			case 'c':
+			case CARTOUCHE:
 				switch (element) {
-					case 0:
+					case NONE:
 						result = 0;
 						break;
-					case 1:
+					case FIRST:
 						result = geometry.cartoucheLoopLength();
 						break;
-					case 2:
+					case SECOND:
 						result = geometry.cartoucheLoopLength() + geometry.cartoucheLineWidth();
 						break;
 					default:
 						throw new RuntimeException("bad value for element " + element);
 				}
 				break;
-			case 'g':
+			case CIRCULAR_ENCLOSURE:
 				switch (element) {
-					case 0:
+					case NONE:
 						result = 0;
 						break;
-					case 1:
-					case 2:
+					case FIRST:
+					case SECOND:
 						result = geometry.cartoucheLoopLength();
 						break;
 					default:
 						throw new RuntimeException("bad value for element " + element);
 				}
 				break;
-			case 's':
+			case SEREKH:
 				switch (element) {
-					case 1:
+					case FIRST:
 						result = geometry.hwtSmallMargin()
 								+ geometry.cartoucheLineWidth();
 						break;
-					case 2:
+					case SECOND:
 						result = geometry.hwtSmallMargin()
 								+ geometry.cartoucheLineWidth()
 								+ geometry.serekhDoorSize();
 						break;
+					default:
+						break;
 				}
 				break;
-			case 'h':
+			case HWT:
 				switch (element) {
-					case 0:
+					case NONE:
 						break;
-					case 1:
+					case FIRST:
 						result = geometry.hwtSmallMargin() + geometry.cartoucheLineWidth();
 						break;
-					case 2:
-					case 3:
+					case SECOND:
+					case THIRD:
 						result = geometry.hwtSmallMargin() + geometry.cartoucheLineWidth()
 								+ geometry.hwtSquareSize();
 						break;
-					default:
-						throw new RuntimeException("bad value for element " + element);
 				}
 				break;
-			case 'F':
-			case 'f':
-				if (element != 0) {
+			case CASTLE:
+				if (element != CartouchePart.NONE) {
 					result = geometry.hwtSmallMargin()
 							+ geometry.bastionDepth()
 							+ geometry.cartoucheLineWidth();
@@ -93,24 +95,23 @@ public class CartoucheSizeHelper {
 	/**
 	 * length along the secondary axis of a cartouche from the cartouche
 	 * external side to the text inside.
-	 * 
+	 *
 	 * @param jseshStyle the corresponding drawing specifications.
 	 * @param type
 	 * @return the length along the secondary axis of a cartouche from the
 	 *         cartouche external side to the text inside.
 	 */
-	public static float computeCartoucheSecondaryLength(JSeshStyle jseshStyle, int type) {
+	public static float computeCartoucheSecondaryLength(JSeshStyle jseshStyle, CartoucheType type) {
 		float result = 0;
 		GeometrySpecification geometry = jseshStyle.geometry();
 		switch (type) {
-			case 'c':
-			case 's':
-			case 'h':
-			case 'g':
+			case CARTOUCHE:
+			case SEREKH:
+			case HWT:
+			case CIRCULAR_ENCLOSURE:
 				result = geometry.cartoucheMargin() + geometry.cartoucheLineWidth();
 				break;
-			case 'F':
-			case 'f':
+			case CASTLE:
 				result = geometry.cartoucheMargin() + geometry.cartoucheLineWidth()
 						+ geometry.bastionDepth();
 				break;

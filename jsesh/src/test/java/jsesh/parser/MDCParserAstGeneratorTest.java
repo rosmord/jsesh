@@ -20,6 +20,7 @@ import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.ToggleType;
 
@@ -142,8 +143,8 @@ public class MDCParserAstGeneratorTest {
         AstHorizontalListElement element = hBox.elements().get(0);
         assertTrue(element instanceof AstCartouche);
         AstCartouche cartouche = (AstCartouche) element;
-        assertEquals(1, cartouche.startPart());
-        assertEquals(2, cartouche.endPart());
+        assertEquals(CartouchePart.FIRST, cartouche.startPart());
+        assertEquals(CartouchePart.SECOND, cartouche.endPart());
         assertEquals(1, cartouche.content().items().size());
     }
 

@@ -1,14 +1,17 @@
-package jsesh.parser.ast;
+package jsesh.model.constants;
 
 /**
- * The kinds of cartouche/enclosure an {@link AstCartouche} or old-style
- * cartouche start can denote, keyed by its Manuel de Codage letter.
+ * The kind of cartouche, serekh, hwt-sign, castle or circular enclosure a
+ * {@link jsesh.model.Cartouche} denotes, keyed by its Manuel de Codage
+ * letter.
+ *
+ * @author rosmord
  */
 public enum CartoucheType {
 
     CARTOUCHE('c'),
     SEREKH('s'),
-    HOUT('h'),
+    HWT('h'),
     CASTLE('f'),
     CIRCULAR_ENCLOSURE('g');
 

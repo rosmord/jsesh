@@ -88,17 +88,16 @@ public class CartoucheDrawerHelper {
     private AbstractCartoucheDrawer buildDelegate(Cartouche c) {
         AbstractCartoucheDrawer delegate = null;
         switch (c.getType()) {
-            case 'f':
-            case 'F':
+            case CASTLE:
                 delegate = new EnclosureDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
-            case 's':
+            case SEREKH:
                 delegate = new SerekhDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
-            case 'h':
+            case HWT:
                 delegate = new HwtDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
-            case 'g':
+            case CIRCULAR_ENCLOSURE:
                 delegate = new CircularEnclosureDrawer(jseshStyle, currentTextDirection, currentTextOrientation, currentView, g);
                 break;
             default:

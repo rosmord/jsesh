@@ -4,13 +4,12 @@ package jsesh.parser.ast;
 /**
  * A cartouche, serekh, hout-sign or castle.
  *
- * @param type the kind of cartouche, as one of the codes in
- * {@link CartoucheType} ('c', 's', 'h', 'f', 'g').
+ * @param type the kind of cartouche.
  * @param startPart how the first extremity of the cartouche should be drawn.
  * @param endPart how the last extremity of the cartouche should be drawn.
  * @author rosmord
  */
-public record AstCartouche(int type, int startPart, int endPart, AstBasicItemList content)
+public record AstCartouche(CartoucheType type, CartouchePart startPart, CartouchePart endPart, AstBasicItemList content)
         implements AstInnerGroup {
 
     /**
@@ -18,7 +17,7 @@ public record AstCartouche(int type, int startPart, int endPart, AstBasicItemLis
      * as opposed to a partial cartouche). For tests.
      */
     public static AstCartouche of(AstNode... content) {
-        return new AstCartouche(CartoucheType.CARTOUCHE, 1, 2, AstBasicItemList.of(content));
+        return new AstCartouche(CartoucheType.CARTOUCHE, CartouchePart.FIRST, CartouchePart.SECOND, AstBasicItemList.of(content));
     }
 
     @Override

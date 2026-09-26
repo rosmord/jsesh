@@ -57,6 +57,8 @@ import jsesh.document.events.TextOperationEvent;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.parser.MDCSyntaxError;
+import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.model.AbsoluteGroup;
@@ -212,7 +214,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         List<TopItem> elts = getSelection();
         BasicItemList l = new BasicItemListGrouper().extractBasicItemList(elts);
         if (l != null) {
-            Cartouche c = new Cartouche(type, start, end, l);
+            Cartouche c = new Cartouche(CartoucheType.forCode((char) type),
+                    CartouchePart.forDigit(start), CartouchePart.forDigit(end), l);
             MDCPosition insertPos = getCaret().getInsertPosition();
             MDCPosition markPos = insertPos;
             if (getCaret().hasMark()) {

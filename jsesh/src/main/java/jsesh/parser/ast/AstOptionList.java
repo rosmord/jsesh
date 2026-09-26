@@ -1,7 +1,5 @@
 package jsesh.parser.ast;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -14,31 +12,16 @@ import java.util.List;
  * {@link #getInt} still give the "last one wins" lookup a map would give.
  * <p>Not part of the sealed {@link AstNode} hierarchy (like
  * {@link jsesh.model.OptionsMap}, it is an attribute bag attached to a node,
- * not a node in its own right), and built incrementally via a left-recursive
- * grammar rule of unbounded arity, so it cannot be a record. Structural
- * equality ({@link #equals}/{@link #hashCode}) is implemented by hand to
- * compensate.
+ * not a node in its own right). Built incrementally via a left-recursive
+ * grammar rule of unbounded arity, hence the {@link #of} factory rather than
+ * a fixed-arity constructor call at each parse site.
  *
  * @author rosmord
  */
-public final class AstOptionList {
+public record AstOptionList(List<AstOption> options) {
 
-    private final List<AstOption> options = new ArrayList<>();
-
-    void addOption(String name) {
-        options.add(new AstOption(name, Boolean.TRUE));
-    }
-
-    void addOption(String name, String value) {
-        options.add(new AstOption(name, value));
-    }
-
-    void addOption(String name, int value) {
-        options.add(new AstOption(name, value));
-    }
-
-    public List<AstOption> options() {
-        return Collections.unmodifiableList(options);
+    public AstOptionList {
+        options = List.copyOf(options);
     }
 
     public boolean hasOption(String name) {
@@ -75,23 +58,6 @@ public final class AstOptionList {
      * {@link AstOption#of}.
      */
     public static AstOptionList of(AstOption... options) {
-        AstOptionList result = new AstOptionList();
-        Collections.addAll(result.options, options);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return this == o || (o instanceof AstOptionList other && options.equals(other.options));
-    }
-
-    @Override
-    public int hashCode() {
-        return options.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "AstOptionList" + options;
+        return new AstOptionList(List.of(options));
     }
 }
