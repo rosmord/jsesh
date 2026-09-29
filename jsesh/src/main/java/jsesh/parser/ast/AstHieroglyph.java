@@ -1,6 +1,6 @@
 package jsesh.parser.ast;
 
-import jsesh.parser.lexer.SignSubType;
+import jsesh.parser.lexer.symbols.SignSubType;
 
 /**
  * A single sign, in context: a Gardiner-ish code, its modifiers, and whether

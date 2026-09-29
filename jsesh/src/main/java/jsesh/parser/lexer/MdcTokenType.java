@@ -1,24 +1,14 @@
 package jsesh.parser.lexer;
 
-/// One constant per lexical rule of `MDCLexAux.l` (the original JLex specification), in
-/// exactly the order those rules appear in the file.
+/// Low-level tokens identified by the lexical analyser.
 ///
-/// Order matters: [org.qenherkhopeshef.mdwlexer.automata.AutomataHelper#determinize]
-/// resolves a same-length tie between two rules by picking whichever token type has the lower
-/// [Enum#ordinal()], which is exactly how JLex itself resolves the same tie ("the rule
-/// listed first in the specification wins"). Declaring these constants in file order is what
-/// makes the compiled DFA agree with the original scanner on every such tie; see
-/// [MdcLexicon] for the handful of rules that turned out to be genuinely ambiguous with
-/// each other and how they're ordered here.
+/// Order matters: the lexical analyser uses it to solve ties between rules.
 ///
-/// A few rules whose action was identical (same symbol, no value) were merged into one
-/// constant covering the union of their patterns - this changes nothing observable, since JLex
-/// would have picked either rule and produced the same symbol either way. Each constant's
-/// comment quotes the original pattern(s) and line number(s) it corresponds to.
-///
-/// Rules are grouped by which JLex start-state they belonged to; [#UNKNOWN] is the
-/// catch-all `.` rule, which (having no state prefix in the original) applies in both.
-public enum MdcTokenType {
+/// Rules are grouped by which start-state they belonged to.
+/// 
+/// Tokens are not analysed directly: the client of the lexer must interpret them. In our case, [MDCLexer] transforms those plain tokens into [MdcSymbol]s.
+/// 
+enum MdcTokenType {
 
     // ---- <YYINITIAL> ----
 
@@ -38,10 +28,12 @@ public enum MdcTokenType {
     HRULE_WIDE,
     /// `"+"[a-rt-z+](\+|[^+]|"+"[^a-z+])*` (line 252)
     ALPHABETIC_TEXT,
-    /// `"zone"` (line 258)
+    /// `"@zone"` (line 258)
     ZONE,
-    /// `"quadrat"` (line 262)
+    /// `"@quadrat"` (line 262)
     QUADRAT,
+    /// `@[a-z]+` generic name for an operator - allows extensions of the language.
+    UNKNOW_OPERATOR,
     /// `"+s"` (line 267)
     START_HIEROGLYPHS,
     /// `"|"([^-]|"\-")*` (line 271; the redundant `'\\'` alternative is dropped, see [MdcLexicon])

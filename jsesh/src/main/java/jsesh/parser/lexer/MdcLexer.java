@@ -11,21 +11,25 @@ import org.qenherkhopeshef.mdwlexer.Lexer;
 import org.qenherkhopeshef.mdwlexer.Lexicon;
 import org.qenherkhopeshef.mdwlexer.Token;
 
+import jsesh.parser.lexer.symbols.AlphabeticText;
+import jsesh.parser.lexer.symbols.Cartouche;
+import jsesh.parser.lexer.symbols.HRule;
+import jsesh.parser.lexer.symbols.MdcSign;
+import jsesh.parser.lexer.symbols.MdcSymbol;
+import jsesh.parser.lexer.symbols.MdcSymbolCode;
+import jsesh.parser.lexer.symbols.Modifier;
+import jsesh.parser.lexer.symbols.OldCartoucheStart;
+import jsesh.parser.lexer.symbols.PhilologyKind;
+import jsesh.parser.lexer.symbols.SignSubType;
+import jsesh.parser.lexer.symbols.ToggleType;
+
 /// A scanner for the Manuel de Codage syntax.
-///
-/// Raw scanning, including the switches between the initial and [MdcLexicon#PROPERTIES]
-/// lexical states, is done by a generic [Lexer] over [MdcLexicon#lexicon()]. This class adds
-/// the context-dependent interpretation of the raw [MdcTokenType]s into [MdcSymbol]s: which
-/// whitespace is significant, whether `#` is an overwrite or a toggle, and the symbols' values.
-///
-/// **`fixExpect`.** In the original, `expectSpace`/`justAfterSign` are
-/// updated by a public `fixExpect(Symbol)` method that the surrounding parser was expected
-/// to call after every returned symbol. Here that call is folded into [#nextSymbol()]
-/// itself, since skipping it was never a legitimate option - one fewer thing for a caller to get
-/// wrong.
+/// 
+/// Stateful lexical analyser working on an input. Created by [MdcLexicon#newLexer(String)] / [MdcLexicon#newLexer(Reader)].
 ///
 ///
-/// Not thread-safe. Built with [MdcLexicon#newLexer(String)] / [MdcLexicon#newLexer(Reader)].
+/// Not thread-safe. The [MDCLexicon] is thread-safe and immutable.
+/// 
 public final class MdcLexer {
     private final Lexer<MdcTokenType> lexer;
 
@@ -108,7 +112,7 @@ public final class MdcLexer {
         }
     }
 
-    /// Mirrors the original `fixExpect(Symbol)`, driven by the emitted symbol's code.
+    /// Handle spaces, which can be both significant as word ending, or simple separators, depending the the previous symbol.
     private void fixExpect(MdcSymbol symbol) {
         expectSpace = false;
         justAfterSign = false;
@@ -122,7 +126,6 @@ public final class MdcLexer {
         }
     }
 
-    /// Reproduces each rule's action block, in the same order as `MDCLexAux.l`.
     private Optional<MdcSymbol> interpret(MdcTokenType type, String text, int start) {
         return switch (type) {
             case PAGE_END -> emit(MdcSymbolCode.PAGE_END, null, text, start);
@@ -135,6 +138,7 @@ public final class MdcLexer {
             case ALPHABETIC_TEXT -> emit(MdcSymbolCode.TEXT, parseAlphabeticText(text), text, start);
             case ZONE -> emit(MdcSymbolCode.ZONE, null, text, start);
             case QUADRAT -> emit(MdcSymbolCode.QUADRAT, null, text, start);
+            case UNKNOW_OPERATOR -> emit(MdcSymbolCode.UNKNOWN_OPERATOR, null, text, start);
             case START_HIEROGLYPHS -> emit(MdcSymbolCode.START_HIEROGLYPHS, null, text, start);
             case TEXT_SUPER -> emit(MdcSymbolCode.TEXT_SUPER, text.substring(1), text, start);
             case WORD_END_CANDIDATE ->

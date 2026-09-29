@@ -72,8 +72,8 @@ import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZoneStart;
 import jsesh.parser.ast.WordEnding;
-import jsesh.parser.lexer.PhilologyKind;
-import jsesh.parser.lexer.SignSubType;
+import jsesh.parser.lexer.symbols.PhilologyKind;
+import jsesh.parser.lexer.symbols.SignSubType;
 
 /// An AstVisitor which knows how to build a [TopItemList] model from an [AstDocument] AST.
 /// @author rosmord
@@ -413,7 +413,7 @@ class AstModelBuilder implements AstVisitor {
         };
     }
 
-    private static ToggleType toToggleType(jsesh.parser.lexer.ToggleType toggle) {
+    private static ToggleType toToggleType(jsesh.parser.lexer.symbols.ToggleType toggle) {
         return switch (toggle) {
             case SHADING_TOGGLE -> ToggleType.SHADINGTOGGLE;
             case SHADING_ON -> ToggleType.SHADINGON;

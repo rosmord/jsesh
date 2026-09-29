@@ -1,4 +1,4 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
 /// The seven kinds of philological parenthesis pair (e.g. `[[...]]` for erased signs)
 /// recognized by the `BEGIN_PHIL`/`END_PHIL` rules.

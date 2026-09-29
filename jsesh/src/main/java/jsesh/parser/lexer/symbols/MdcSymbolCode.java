@@ -1,10 +1,10 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
-/// The high-level symbol kind carried by an [MdcSymbol], mirroring the CUP symbol
-/// constants (`SymbolCodes`/`MDCSymbols`) that the original `MDCLexAux.l`
-/// scanner used. Several [MdcTokenType] lexical rules can map to the same code (e.g. every
-/// sign-recognizing rule produces [#HIEROGLYPH]); the code is what a parser built on top
-/// of this scanner would actually switch on.
+
+/// The lexicon as seen by the parser.
+/// 
+/// Symbols at this level are not atomic entries, but structured values.
+
 public enum MdcSymbolCode {
     PAGE_END,
     LINE_END,
@@ -14,6 +14,7 @@ public enum MdcSymbolCode {
     HRULE,
     ZONE,
     QUADRAT,
+    UNKNOWN_OPERATOR,
     START_HIEROGLYPHS,
     TEXT_SUPER,
     WORD_END,

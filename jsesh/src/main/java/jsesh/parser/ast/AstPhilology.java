@@ -1,6 +1,6 @@
 package jsesh.parser.ast;
 
-import jsesh.parser.lexer.PhilologyKind;
+import jsesh.parser.lexer.symbols.PhilologyKind;
 
 /**
  * A philological bracket group, e.g. {@code [[...]]} for erased signs or

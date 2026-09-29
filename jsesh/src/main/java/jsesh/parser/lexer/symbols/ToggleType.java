@@ -1,4 +1,4 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
 /// The kind of on/off or one-shot rendering toggle recognized by a `TOGGLE` symbol.
 public enum ToggleType {

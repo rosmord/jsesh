@@ -1,4 +1,4 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
 import java.util.Objects;
 

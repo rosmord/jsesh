@@ -1,4 +1,4 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
 /// A run of free-form alphabetic text, e.g. `+ftranslation`: `code` says which kind
 /// of text this is (the letter right after `+`), `text` is the content with its

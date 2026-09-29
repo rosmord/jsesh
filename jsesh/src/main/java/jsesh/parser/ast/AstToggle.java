@@ -1,6 +1,6 @@
 package jsesh.parser.ast;
 
-import jsesh.parser.lexer.ToggleType;
+import jsesh.parser.lexer.symbols.ToggleType;
 
 /**
  * A toggle marker (e.g. {@code $r}, {@code $b}, {@code #}), either at top

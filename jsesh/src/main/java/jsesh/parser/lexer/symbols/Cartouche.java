@@ -1,4 +1,4 @@
-package jsesh.parser.lexer;
+package jsesh.parser.lexer.symbols;
 
 
 /// The start or end of a cartouche, e.g. `<s2` / `s2>`: `type` is the

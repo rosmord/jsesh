@@ -1,6 +1,6 @@
 package jsesh.parser;
 
-import static jsesh.parser.lexer.MdcSymbolCode.*;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.*;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -43,42 +43,18 @@ import jsesh.parser.ast.AstZoneStart;
 import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.CartoucheType;
 import jsesh.parser.ast.WordEnding;
-import jsesh.parser.lexer.AlphabeticText;
-import jsesh.parser.lexer.Cartouche;
-import jsesh.parser.lexer.HRule;
 import jsesh.parser.lexer.MdcLexer;
 import jsesh.parser.lexer.MdcLexicon;
-import jsesh.parser.lexer.MdcSign;
-import jsesh.parser.lexer.MdcSymbol;
-import jsesh.parser.lexer.MdcSymbolCode;
-import jsesh.parser.lexer.Modifier;
-import jsesh.parser.lexer.OldCartoucheStart;
-import jsesh.parser.lexer.PhilologyKind;
-import jsesh.parser.lexer.ToggleType;
-
-/**
- * Hand-written recursive descent parser for Manuel de Codage text, building
- * the {@link jsesh.parser.ast} tree directly (see {@link #parse(String)}).
- * <p>It replaced an earlier CUP-generated parser
- * ({@code jsesh/src/jcup/MDCParse.y}), checked equivalent construct-by-
- * construct before that grammar was retired. It drives the hand-written
- * {@link jsesh.parser.lexer.MdcLexer} (itself the replacement for the
- * retired JFlex-generated {@code MDCLexAux}) directly, translating each
- * {@link jsesh.parser.lexer.MdcSymbol} it reads into the
- * {@link jsesh.parser.ast} tree. Lexical values (sign subtypes, philology
- * kinds, toggles) are stored in the AST as the lexer's own enums; their
- * translation to {@code jsesh.model.constants} codes is left to
- * {@link jsesh.mdcreader.AstModelBuilder}, so this package does not depend
- * on {@code jsesh.model}. The grammar is LALR(1) without conflicts, and its
- * left-recursive rules are all plain lists, so one token of lookahead is
- * enough; each method below documents the grammar rule it implements.
- * <p>Any syntax error aborts the parse with an {@link MDCSyntaxError}: there
- * is no error recovery.
- * <p>A parser object is not thread-safe, but can be reused for successive
- * parses.
- *
- * @author rosmord
- */
+import jsesh.parser.lexer.symbols.AlphabeticText;
+import jsesh.parser.lexer.symbols.Cartouche;
+import jsesh.parser.lexer.symbols.HRule;
+import jsesh.parser.lexer.symbols.MdcSign;
+import jsesh.parser.lexer.symbols.MdcSymbol;
+import jsesh.parser.lexer.symbols.MdcSymbolCode;
+import jsesh.parser.lexer.symbols.Modifier;
+import jsesh.parser.lexer.symbols.OldCartoucheStart;
+import jsesh.parser.lexer.symbols.PhilologyKind;
+import jsesh.parser.lexer.symbols.ToggleType;
 
 /// Recursive descent parser for Manuel de Codage texts.
 /// 
@@ -86,6 +62,8 @@ import jsesh.parser.lexer.ToggleType;
 /// 
 /// Any syntax error aborts the parse with an {@link MDCSyntaxError}: there is no error recovery.
 /// The GUI software (JSesh) reads files line-by-line, so it catches errors at the line level.
+/// 
+/// @author rosmord
 public class MDCParser {
 
     private boolean debug = false;

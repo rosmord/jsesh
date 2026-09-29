@@ -33,8 +33,8 @@ import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstZoneStart;
 import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.CartoucheType;
-import jsesh.parser.lexer.PhilologyKind;
-import jsesh.parser.lexer.ToggleType;
+import jsesh.parser.lexer.symbols.PhilologyKind;
+import jsesh.parser.lexer.symbols.ToggleType;
 
 /**
  * Exhaustive, construct-by-construct tests of the Manuel de Codage grammar,
@@ -194,7 +194,7 @@ public class MDCParserAstSyntaxTest {
                 .hBoxes(AstHBox.of(AstHieroglyph.of("x")))
                 .options(AstOptionList.of(AstOption.flag("foo")))
                 .build();
-        assertEquals(AstDocument.of(expected), parse("quadrat(x)[foo]"));
+        assertEquals(AstDocument.of(expected), parse("@quadrat(x)[foo]"));
     }
 
     // --- Cartouches ----------------------------------------------------
@@ -387,13 +387,13 @@ public class MDCParserAstSyntaxTest {
 
     @Test
     public void testZoneStart_bare() throws MDCSyntaxError {
-        assertEquals(AstDocument.of(new AstZoneStart(null)), parse("zone"));
+        assertEquals(AstDocument.of(new AstZoneStart(null)), parse("@zone"));
     }
 
     @Test
     public void testZoneStart_withOptions() throws MDCSyntaxError {
         AstZoneStart expected = new AstZoneStart(AstOptionList.of(AstOption.of("id", 1)));
-        assertEquals(AstDocument.of(expected), parse("zone[id=1]"));
+        assertEquals(AstDocument.of(expected), parse("@zone[id=1]"));
     }
 
     @Test

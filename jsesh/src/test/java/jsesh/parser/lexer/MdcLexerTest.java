@@ -10,6 +10,17 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import jsesh.parser.lexer.symbols.AlphabeticText;
+import jsesh.parser.lexer.symbols.Cartouche;
+import jsesh.parser.lexer.symbols.HRule;
+import jsesh.parser.lexer.symbols.MdcSign;
+import jsesh.parser.lexer.symbols.MdcSymbol;
+import jsesh.parser.lexer.symbols.MdcSymbolCode;
+import jsesh.parser.lexer.symbols.Modifier;
+import jsesh.parser.lexer.symbols.OldCartoucheStart;
+import jsesh.parser.lexer.symbols.PhilologyKind;
+import jsesh.parser.lexer.symbols.SignSubType;
+
 
 class MdcLexerTest {
 
@@ -77,12 +88,12 @@ class MdcLexerTest {
 
     @Test
     void zoneAndQuadratKeywordsWinOverGenericSignCode() {
-        assertEquals(List.of(MdcSymbolCode.ZONE), codesOf("zone"));
-        assertEquals(List.of(MdcSymbolCode.QUADRAT), codesOf("quadrat"));
+        assertEquals(List.of(MdcSymbolCode.ZONE), codesOf("@zone"));
+        assertEquals(List.of(MdcSymbolCode.QUADRAT), codesOf("@quadrat"));
         // "zoner" is not the literal "zone": the generic sign-code rule wins by length.
-        List<MdcSymbol> symbols = scanAll("zoner");
+        List<MdcSymbol> symbols = scanAll("@zoner");
         assertEquals(MdcSymbolCode.HIEROGLYPH, symbols.get(0).code());
-        assertEquals("zoner", symbols.get(0).text());
+        assertEquals("@zoner", symbols.get(0).text());
     }
 
     @Test
@@ -322,5 +333,13 @@ class MdcLexerTest {
         assertEquals(List.of(MdcSymbolCode.LIG_BEFORE), codesOf("^^^"));
         assertEquals(List.of(MdcSymbolCode.LIG_BEFORE), codesOf("^^"));
         assertEquals(List.of(MdcSymbolCode.TOGGLE), codesOf("^"));
+    }
+
+    @Test
+    void testGenericOperator() {
+        List<MdcSymbol> symbols = scanAll("@foo");
+        assertEquals(1, symbols.size());
+        assertEquals(MdcSymbolCode.UNKNOWN_OPERATOR, symbols.get(0).code());
+        assertEquals("@foo", symbols.get(0).text());
     }
 }
