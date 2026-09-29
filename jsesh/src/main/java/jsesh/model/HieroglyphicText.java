@@ -63,15 +63,12 @@ public class HieroglyphicText extends ModelElement {
         }
     }
 
-    /**
-     * Add a list of topitems at a given position in this text.
-     *
-     * @param index
-     * @param items
-     *
-     */
-    public void addAllAt(int index, List<? extends TopItem> items) {
-        int pos = index;
+    /// Adds a list of top items at a given position in this text.
+    ///
+    /// @param position where to insert the items.
+    /// @param items the items to insert.
+    public void addAllAt(MDCPosition position, List<? extends TopItem> items) {
+        int pos = position.getIndex();
         for (TopItem e : items) {
             super.addChildAt(pos++, e);
         }
@@ -81,8 +78,12 @@ public class HieroglyphicText extends ModelElement {
         addChild(topItem);
     }
 
-    public void addTopItemAt(int id, TopItem topItem) {
-        addChildAt(id, topItem);
+    /// Adds a top item at a given position in this text.
+    ///
+    /// @param position where to insert the item.
+    /// @param topItem the item to insert.
+    public void addTopItemAt(MDCPosition position, TopItem topItem) {
+        addChildAt(position.getIndex(), topItem);
     }
 
     /*
@@ -132,17 +133,17 @@ public class HieroglyphicText extends ModelElement {
         return getChildrenAsString();
     }
 
-    /**
-     * Suppress all elements between a and b. Returns the list of the suppressed
-     * elements. (The list should be given as argument, in order to avoid typing
-     * problems ???).
-     *
-     * @param a
-     * @param b (b > a).
-     * @return Returns the list of the suppressed elements.
-     */
-    public List removeTopItems(int a, int b) {
-        return removeChildren(a, b);
+    /// Removes all elements between two positions.
+    ///
+    /// @param start the first position.
+    /// @param end the last position (`start <= end`).
+    /// @return the list of the removed elements.
+    public List<TopItem> removeTopItems(MDCPosition start, MDCPosition end) {
+        List<TopItem> result = new ArrayList<>();
+        for (EmbeddedModelElement e : removeChildren(start.getIndex(), end.getIndex())) {
+            result.add((TopItem) e);
+        }
+        return result;
     }
 
     /*
@@ -155,16 +156,15 @@ public class HieroglyphicText extends ModelElement {
         return null;
     }
 
-    /**
-     * Shade or unshade a whole zone.
-     *
-     * @param a
-     * @param b
-     * @param shade if true, shade ; if false, unshade.
-     */
-    public void shade(int a, int b, boolean shade) {
-        int start = Math.min(a, b);
-        int end = Math.max(a, b);
+    /// Shades or unshades a whole zone. The order of `a` and `b` is not
+    /// important.
+    ///
+    /// @param a one limit of the zone.
+    /// @param b the other limit of the zone.
+    /// @param shade if true, shade ; if false, unshade.
+    public void shade(MDCPosition a, MDCPosition b, boolean shade) {
+        int start = Math.min(a.getIndex(), b.getIndex());
+        int end = Math.max(a.getIndex(), b.getIndex());
 
         // We don't want messages from the modified elements.
         // note that currently we won't get any, for state is not linked to its
@@ -178,17 +178,16 @@ public class HieroglyphicText extends ModelElement {
         notifyModelElementObservers(new ZoneModification(this, start, end));
     }
 
-    /**
-     * Apply a partial shading (for instance shade the top) to a whole zone.
-     *
-     * @param a
-     * @param b
-     * @param shadeCode value in {@link ShadingCode}
-     * @see #shade(int, int, boolean) for another kind of shading.
-     */
-    public void shade(int a, int b, int shadeCode) {
-        int start = Math.min(a, b);
-        int end = Math.max(a, b);
+    /// Applies a partial shading (for instance shade the top) to a whole zone.
+    /// The order of `a` and `b` is not important.
+    ///
+    /// @param a one limit of the zone.
+    /// @param b the other limit of the zone.
+    /// @param shadeCode value in [ShadingCode]
+    /// @see #shade(MDCPosition, MDCPosition, boolean) for another kind of shading.
+    public void shade(MDCPosition a, MDCPosition b, int shadeCode) {
+        int start = Math.min(a.getIndex(), b.getIndex());
+        int end = Math.max(a.getIndex(), b.getIndex());
 
         // We don't want messages from the modified elements.
         // note that currently we won't get any, for state is not linked to its
@@ -207,17 +206,15 @@ public class HieroglyphicText extends ModelElement {
         notifyModelElementObservers(new ZoneModification(this, start, end));
     }
 
-    /**
-     * paint a zone in black or black. a,b are the zone limits. The system is
-     * the one used for positions. (that is, the indexes fall between elements).
-     *
-     * @param a
-     * @param b
-     * @param red : if true, paint in red ; if false, paint in black.
-     */
-    public void setRed(int a, int b, boolean red) {
-        int start = Math.min(a, b);
-        int end = Math.max(a, b);
+    /// Paints a zone in red or black. The order of `a` and `b` is not
+    /// important.
+    ///
+    /// @param a one limit of the zone.
+    /// @param b the other limit of the zone.
+    /// @param red if true, paint in red ; if false, paint in black.
+    public void setRed(MDCPosition a, MDCPosition b, boolean red) {
+        int start = Math.min(a.getIndex(), b.getIndex());
+        int end = Math.max(a.getIndex(), b.getIndex());
 
         // We don't want messages from the modified elements.
         disableUpdates();
@@ -334,14 +331,15 @@ public class HieroglyphicText extends ModelElement {
         }
     }
 
-    /**
-     * Returns the list of top items between two points.
-     *
-     * @param min
-     * @param max
-     * @return a <strong>copy</strong> of the items between the two limits.
-     */
-    public List<TopItem> getTopItemsBetween(int min, int max) {
+    /// Returns a *copy* of the top items between two positions. The order of
+    /// `pos1` and `pos2` is not important.
+    ///
+    /// @param pos1 one limit.
+    /// @param pos2 the other limit.
+    /// @return a **copy** of the items between the two limits.
+    public List<TopItem> getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
+        int min = Math.min(pos1.getIndex(), pos2.getIndex());
+        int max = Math.max(pos1.getIndex(), pos2.getIndex());
         ArrayList<TopItem> result = new ArrayList<TopItem>();
         for (int i = min; i < max; i++) {
             result.add(getTopItemAt(i).deepCopy());
@@ -374,7 +372,7 @@ public class HieroglyphicText extends ModelElement {
      * @return
      */
     public List<TopItem> asList() {
-        return getTopItemsBetween(0, getNumberOfChildren());
+        return getTopItemsBetween(new MDCPosition(0), getLastPosition());
     }
 
     /**
@@ -387,28 +385,21 @@ public class HieroglyphicText extends ModelElement {
         return extractor.extractHieroglyphs(this);
     }
 
-    /**
-     * Returns the line limits for the line around a given position. More
-     * precisely, will return an array of two positions [pos1, pos2] around pos,
-     * with :
-     * <p>
-     * pos1 &le; pos &le; pos2 </p>
-     * <ul>
-     * <li>pos1 is the position in front of the first element in the line
-     * containing pos;</li>
-     * <li>pos2 is the position after the last element in the line containing
-     * pos;</li>
-     * </ul>
-     * <p>
-     * a line being a list of elements which are not page or line break.</p>
-     *
-     * @param pos a position in the line.
-     * @return a list of two elements.
-     */
-    public int[] getLineLimitsAround(int pos) {
-        int startLinePos = getLineStartBefore(pos);
-        int endLinePos = getLineEndAfter(pos);
-        return new int[]{startLinePos, endLinePos};
+    /// Returns the line limits for the line around a given position. More
+    /// precisely, will return a list of two positions `[pos1, pos2]` around
+    /// `pos`, with `pos1 <= pos <= pos2`, where:
+    ///
+    /// - `pos1` is the position in front of the first element in the line
+    ///   containing `pos`;
+    /// - `pos2` is the position after the last element in the line containing
+    ///   `pos`;
+    ///
+    /// a line being a list of elements which are not page or line break.
+    ///
+    /// @param pos a position in the line.
+    /// @return a list of two positions.
+    public List<MDCPosition> getLineLimitsAround(MDCPosition pos) {
+        return List.of(getLineFirstPosition(pos), getLineLastPosition(pos));
     }
 
     private int getLineEndAfter(int pos) {
@@ -486,7 +477,7 @@ public class HieroglyphicText extends ModelElement {
     ///
     /// @param position a position in this text.
     /// @return the first position in the line.
-    /// @see #getLineLimitsAround(int)
+    /// @see #getLineLimitsAround(MDCPosition)
     public MDCPosition getLineFirstPosition(MDCPosition position) {
         return new MDCPosition(getLineStartBefore(clampIndex(position.getIndex())));
     }
@@ -496,7 +487,7 @@ public class HieroglyphicText extends ModelElement {
     ///
     /// @param position a position in this text.
     /// @return the last position in the line.
-    /// @see #getLineLimitsAround(int)
+    /// @see #getLineLimitsAround(MDCPosition)
     public MDCPosition getLineLastPosition(MDCPosition position) {
         return new MDCPosition(getLineEndAfter(clampIndex(position.getIndex())));
     }
@@ -535,29 +526,26 @@ public class HieroglyphicText extends ModelElement {
         return Math.max(0, Math.min(k, getNumberOfChildren()));
     }
 
-    /**
-     * Returns the page limits for the page around a given position. TODO :
-     * generalize this. A getLimitsAround method, taking as argument a boolean
-     * test, or specific types of elements, would be ok. More precisely, will
-     * return an array of two positions [pos1, pos2] around pos, with :
-     * <p>
-     * pos1 &le; pos &le; pos2 </p>
-     * <ul>
-     * <li>pos1 is the position in front of the first element in the page
-     * containing pos;</li>
-     * <li>pos2 is the position after the last element in the page containing
-     * pos;</li>
-     * </ul>
-     * <p>
-     * a page being a list of elements which are not page break.</p>
-     *
-     * @param pos a position in the page.
-     * @return a list of two elements.
-     */
-    public int[] getPageLimitsAround(int pos) {
-        int startLinePos = getPageStartBefore(pos);
-        int endLinePos = getPageEndAfter(pos);
-        return new int[]{startLinePos, endLinePos};
+    /// Returns the page limits for the page around a given position. More
+    /// precisely, will return a list of two positions `[pos1, pos2]` around
+    /// `pos`, with `pos1 <= pos <= pos2`, where:
+    ///
+    /// - `pos1` is the position in front of the first element in the page
+    ///   containing `pos`;
+    /// - `pos2` is the position after the last element in the page containing
+    ///   `pos`;
+    ///
+    /// a page being a list of elements which are not page break.
+    ///
+    /// TODO : generalize this. A getLimitsAround method, taking as argument a
+    /// boolean test, or specific types of elements, would be ok.
+    ///
+    /// @param pos a position in the page.
+    /// @return a list of two positions.
+    public List<MDCPosition> getPageLimitsAround(MDCPosition pos) {
+        int index = clampIndex(pos.getIndex());
+        return List.of(new MDCPosition(getPageStartBefore(index)),
+                new MDCPosition(getPageEndAfter(index)));
     }
 
     private int getPageEndAfter(int pos) {
@@ -578,19 +566,17 @@ public class HieroglyphicText extends ModelElement {
         return res + 1;
     }
 
-    /**
-     * Gets original line number coordinates of a certain point in the text.
-     * <p>
-     * If the document contains line-number indications, like (vo, 3) which
-     * reference the actual source document (ostracon, papyrus...), this
-     * function will return the coordinates for a given point in text.
-     *
-     * @param position technical position in the JSesh document.
-     * @return the position in the original document, or the empty string if
-     * none is found.
-     */
-    public String getOriginalDocumentCoordinates(int position) {
-        int res = position - 1; // The element BEFORE position pos is at index pos - 1 in the array
+    /// Gets original line number coordinates of a certain point in the text.
+    ///
+    /// If the document contains line-number indications, like (vo, 3) which
+    /// reference the actual source document (ostracon, papyrus...), this
+    /// function will return the coordinates for a given point in text.
+    ///
+    /// @param position technical position in the JSesh document.
+    /// @return the position in the original document, or the empty string if
+    /// none is found.
+    public String getOriginalDocumentCoordinates(MDCPosition position) {
+        int res = clampIndex(position.getIndex()) - 1; // The element BEFORE position pos is at index pos - 1 in the array
         while (res >= 0 && !(getChildAt(res) instanceof Superscript)) {
             res--;
         }

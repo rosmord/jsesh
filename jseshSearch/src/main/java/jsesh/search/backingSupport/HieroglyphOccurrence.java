@@ -1,14 +1,16 @@
 package jsesh.search.backingSupport;
 
+import jsesh.model.MDCPosition;
+
 /**
  * A record of the occurrence of a sign at a certain position in a text.
  * @author rosmord
  */
 public class HieroglyphOccurrence {
 	private final String code;
-	private final int position;
+	private final MDCPosition position;
 
-	public HieroglyphOccurrence(String code, int position) {
+	public HieroglyphOccurrence(String code, MDCPosition position) {
 		this.code = code;
 		this.position = position;
 	}
@@ -17,7 +19,7 @@ public class HieroglyphOccurrence {
 		return code;
 	}
 
-	public int getPosition() {
+	public MDCPosition getPosition() {
 		return position;
 	}
 
@@ -27,6 +29,6 @@ public class HieroglyphOccurrence {
 
 	@Override
 	public String toString() {
-		return "(" + code + ", " + position + ')';
+		return "(" + code + ", " + position.getIndex() + ')';
 	}
 }

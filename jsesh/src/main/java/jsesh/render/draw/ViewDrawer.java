@@ -487,10 +487,8 @@ public class ViewDrawer {
     private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
         if (cursor != null && cursor.hasMark()) {
             JSeshStyle jseshStyles = renderContext.jseshStyle();
-            int a = Math.min(cursor.getInsert().getIndex(), cursor.getMark()
-                    .getIndex());
-            int b = Math.max(cursor.getInsert().getIndex(), cursor.getMark()
-                    .getIndex());
+            int a = cursor.getMinPosition().getIndex();
+            int b = cursor.getMaxPosition().getIndex();
             if (a <= i && i < b) {
                 float w = v.getWidth();
                 float h = v.getHeight();

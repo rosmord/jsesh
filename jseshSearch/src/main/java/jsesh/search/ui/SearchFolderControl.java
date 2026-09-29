@@ -207,7 +207,7 @@ class SearchFolderControl {
                     case 0:
                         return pathToString(hit.getFile());
                     case 1:
-                        return hit.getPosition();
+                        return hit.getPosition().getIndex();
                     default:
                         return null;
                 }

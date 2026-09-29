@@ -350,6 +350,8 @@ String mdc = out.toString();
 
 It also has `write(File, HieroglyphicText)` and `write(String fileName, HieroglyphicText)` overloads. When you want the header too, go through `MDCDocumentWriter.toMdC(...)`.
 
+To write only part of the text, pass two positions (`jsesh.model.MDCPosition`, which fall *between* top items; build them with `text.getPositionAt(int)`): `toMdC(text, start, end)` or `write(out, text, start, end)`.
+
 ---
 
 ## 10. Use case: embed the interactive editor in a Swing app
@@ -375,7 +377,7 @@ control):
 | `JMDCEditorWorkflow` | The editing **state machine** — `getMDCCode()`/`setMDCCode()`, caret, undo/redo, insertion. Get it with `editor.getWorkflow()`. |
 | `HieroglyphicTextModel` | The observable/undoable model behind the editor (`editor.getHieroglyphicTextModel()`). Register listeners here to react to edits. |
 | `MDCEditorKeyManager` | Keyboard handling. |
-| `MDCCaret` | Selection / cursor position. |
+| `MDCCaret` | Selection / cursor position, as `MDCPosition`s (`getInsertPosition()`, `getMinPosition()`/`getMaxPosition()`, `setMarkPosition(...)`). `editor.getInsertPosition()`/`setInsertPosition(MDCPosition)` are shortcuts for the cursor. |
 
 Text direction and orientation are set on the editor:
 `editor.setTextDirection(TextDirection.RIGHT_TO_LEFT)`,

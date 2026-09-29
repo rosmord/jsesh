@@ -35,7 +35,6 @@ package jsesh.document;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -252,21 +251,19 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		StringReader r = new StringReader(text);
 		HieroglyphicText t = generator.parse(r);
 		// We take advantage of the return value of removeTopItems here :
-		return t.removeTopItems(0, t.getNumberOfChildren());
+		return t.removeTopItems(new MDCPosition(0), t.getLastPosition());
 	}
 
-	/**
-	 * A simple method for adding text at a given place. Note that this method
-	 * is really not the most efficient one. It's quite error prone. Yet it
-	 * allows a to write simple stuff fast.
-	 *
-	 * @param index
-	 * @param mdcText
-	 * @throws MDCSyntaxError
-	 */
-	public void insertMDCText(int index, String mdcText) throws MDCSyntaxError {
+	/// A simple method for adding text at a given place. Note that this method
+	/// is really not the most efficient one. It's quite error prone. Yet it
+	/// allows a to write simple stuff fast.
+	///
+	/// @param position where to insert the text.
+	/// @param mdcText the text to insert, in Manuel de Codage.
+	/// @throws MDCSyntaxError if `mdcText` is not correct.
+	public void insertMDCText(MDCPosition position, String mdcText) throws MDCSyntaxError {
 		List<TopItem> items = buildItems(mdcText);
-		insertElementsAt(buildPosition(index), items);
+		insertElementsAt(position, items);
 	}
 
 	/**
@@ -351,15 +348,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	public void insertElementAt(MDCPosition position, TopItem item) {
 		insertElementsAt(position, Collections.singletonList(item));
 	}
-        
-        /**
-         * Same as previous, but position is a plain number.
-         * @param position
-         * @param item 
-         */
-	public void insertElementAt(int position, TopItem item) {
-		insertElementsAt(text.getPositionAt(position), Collections.singletonList(item));
-	}
 
 	// I Don't know if I will use this "first command" stuff.
 	// Meanwhile, I have moved the responsability to make the choice to this
@@ -369,31 +357,15 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		return false;
 	}
 
-	/**
-	 * Returns a <em>copy</em> of the items between two positions.
-	 * <p>
-	 * Precondition min < max.
-	 *
-	 * @param min
-	 * @param max
-	 * @return
-	 */
-	public List<TopItem> getTopItemsBetween(int min, int max) {
-		return getHieroglyphicText().getTopItemsBetween(min, max);
-	}
-
-	/**
-	 * Returns a <em>copy</em> of the items between two positions. There are no
-	 * conditions on pos1 and pos2.
-	 *
-	 * @param pos1
-	 * @param pos2
-	 * @return
-	 */
+	/// Returns a *copy* of the items between two positions. There are no
+	/// conditions on the order of `pos1` and `pos2`.
+	///
+	/// @param pos1 one limit.
+	/// @param pos2 the other limit.
+	/// @return a copy of the items between the two limits.
+	/// @see HieroglyphicText#getTopItemsBetween(MDCPosition, MDCPosition)
 	public List<TopItem> getTopItemsBetween(MDCPosition pos1, MDCPosition pos2) {
-		int min = Math.min(pos1.getIndex(), pos2.getIndex());
-		int max = Math.max(pos1.getIndex(), pos2.getIndex());
-		return getTopItemsBetween(min, max);
+		return text.getTopItemsBetween(pos1, pos2);
 	}
 
 	public void removeElements(MDCPosition minPosition, MDCPosition maxPosition) {
@@ -424,21 +396,17 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	}
 
-	/**
-	 * Replace a part of the text with a text in MdC. Precondition: start < end,
-	 * text is a valid MdC text.
-	 *
-	 * @param start
-	 * @param end
-	 * @param text
-	 * @throws MDCSyntaxError
-	 */
-	public void replaceWithMDCText(int start, int end, String text)
+	/// Replaces a part of the text with a text in MdC.
+	/// The order of `start` and `end` is not important.
+	///
+	/// @param start one limit of the text to replace.
+	/// @param end the other limit of the text to replace.
+	/// @param text the new text, in Manuel de Codage.
+	/// @throws MDCSyntaxError if `text` is not correct.
+	public void replaceWithMDCText(MDCPosition start, MDCPosition end, String text)
 			throws MDCSyntaxError {
 		List<TopItem> items = buildItems(text);
-		MDCPosition startPos = buildPosition(start);
-		MDCPosition endPos = buildPosition(end);
-		replaceElement(startPos, endPos, items);
+		replaceElement(start, end, items);
 	}
 
 	public boolean canUndo() {
@@ -504,8 +472,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 
 	public List<MDCPosition> getLineLimitsAround(MDCPosition pos) {
-		int positions[]= text.getLineLimitsAround(pos.getIndex());
-		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
+		return text.getLineLimitsAround(pos);
 	}
         
         /**
@@ -522,8 +489,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 
 	public List<MDCPosition> getPageLimitsAround(MDCPosition pos) {
-		int positions[]= text.getPageLimitsAround(pos.getIndex());
-		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
+		return text.getPageLimitsAround(pos);
 	}
         
         
@@ -540,7 +506,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
      */
   
     public String getOriginalDocumentCoordinates(MDCPosition position) {
-        return text.getOriginalDocumentCoordinates(position.getIndex());
+        return text.getOriginalDocumentCoordinates(position);
     }
 
 	@Override

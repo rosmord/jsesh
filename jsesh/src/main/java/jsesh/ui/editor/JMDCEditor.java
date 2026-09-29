@@ -594,17 +594,16 @@ public class JMDCEditor extends JPanel {
         }
     }
 
-    public void setInsertPosition(int insertPosition) {
-        // TODO : this is WAAYYY too convoluted.
-        MDCPosition mdcPosition = getHieroglyphicTextModel().buildPosition(insertPosition);
-        getWorkflow().setCursor(mdcPosition);
+    /// Moves the cursor to a given position (clamped to the text bounds).
+    ///
+    /// @param position the new insertion position.
+    public void setInsertPosition(MDCPosition position) {
+        getWorkflow().setCursor(position);
     }
 
-    /**
-     * @return the current insertion position.
-     */
-    public int getInsertPositiont() {
-        return workflow.getCaret().getInsert().getIndex();
+    /// @return the current insertion position.
+    public MDCPosition getInsertPosition() {
+        return workflow.getCaret().getInsertPosition();
     }
 
     /**

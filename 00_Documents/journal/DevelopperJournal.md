@@ -51,6 +51,15 @@ This file, which contains the fonts, is currently a jar file, containing the svg
   `getElementAfter/Before(pos)`, `hasNext(pos)`, `getLineFirstPosition/getLineLastPosition(pos)`,
   `getUpPosition/getDownPosition(pos)`. `MDCMark` keeps the reference to its text itself.
   Breaking change for embedders: navigation from a position now goes through the text (or an `MDCMark`).
+- `MDCPosition` replaces `int` wherever an int meant a text position (todo 0086; the todo now lists the ints which
+  stay: factories, offsets, element indexes, and code working on any `ModelElement`). Breaking changes:
+  `HieroglyphicText.getTopItemsBetween/removeTopItems/addAllAt/addTopItemAt/shade/setRed/getOriginalDocumentCoordinates`
+  take positions, `getLine/PageLimitsAround(pos)` return `List<MDCPosition>`; `HieroglyphicTextModel.insertMDCText`
+  and `replaceWithMDCText` take positions, and its `int` overloads of `insertElementAt`/`getTopItemsBetween` are gone;
+  `MDCCaret.getMin/getMax/moveInsertTo/setMarkAt/advanceInsertBy` → `getMinPosition/getMaxPosition/setInsertPosition/
+  setMarkPosition/moveInsertBy`; `MDCMark.getIndex()` → `getPosition()`; `MdCModelWriter.toMdC/write` ranges take
+  positions; `JMDCEditor.getInsertPositiont()` → `getInsertPosition()` (and `setInsertPosition(MDCPosition)`);
+  `CorpusSearchHit.getPosition()` returns an `MDCPosition`.
 - parser: `MDCParserAstGenerator` merged into `MDCParser`, which now returns the `AstDocument` itself (breaking change
   for embedders who used `MDCParserAstGenerator`). The lexer's symbol types (`MdcSymbol`, `MdcSymbolCode`,
   `ToggleType`, `PhilologyKind`, `SignSubType`...) moved to `jsesh.parser.lexer.symbols`. CeCILL-C headers added.

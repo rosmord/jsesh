@@ -84,7 +84,7 @@ public class WildCardQuery implements MdCSearchQuery {
         }
     }
 
-    private static int extractPosition(List<HieroglyphOccurrence> text, MatchResult m) {
+    private static MDCPosition extractPosition(List<HieroglyphOccurrence> text, MatchResult m) {
         return text.get(m.getFirstPosition()).getPosition();
     }
 
@@ -95,7 +95,6 @@ public class WildCardQuery implements MdCSearchQuery {
             List<HieroglyphOccurrence> text = new OccurrenceStringBuilder().analyzeQuadrat(items);
             result = extractor.search(text).stream()
                     .map(m -> extractPosition(text, m))
-                    .map(pos -> new MDCPosition(pos))
                     .collect(Collectors.toList());
         }
         return result;

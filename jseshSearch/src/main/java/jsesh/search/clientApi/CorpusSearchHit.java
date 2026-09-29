@@ -3,14 +3,16 @@ package jsesh.search.clientApi;
 
 import java.nio.file.Path;
 
+import jsesh.model.MDCPosition;
+
 /**
- * An occurrence of a search result in a corpus: a file, and a top-level index in it.
+ * An occurrence of a search result in a corpus: a file, and a position in it.
  */
 public class CorpusSearchHit {
     Path file;
-    int position;
+    MDCPosition position;
 
-    public CorpusSearchHit(Path file, int position) {
+    public CorpusSearchHit(Path file, MDCPosition position) {
         this.file = file;
         this.position = position;
     }
@@ -19,13 +21,13 @@ public class CorpusSearchHit {
         return file;
     }
 
-    public int getPosition() {
+    public MDCPosition getPosition() {
         return position;
     }
 
     @Override
     public String toString() {
-        return String.format("%d : %s", position, file);
+        return String.format("%d : %s", position.getIndex(), file);
     }
     
     

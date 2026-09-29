@@ -122,7 +122,7 @@ public class ExportData {
 	 */
 	public String getExportedMdC() {
 		MdCModelWriter mdCModelWriter = new MdCModelWriter();
-		return mdCModelWriter.toMdC(topItemList, start.getIndex(), end.getIndex());		
+		return mdCModelWriter.toMdC(topItemList, start, end);
 	}
 
 }

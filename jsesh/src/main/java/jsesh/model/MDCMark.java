@@ -268,13 +268,6 @@ public class MDCMark {
 	}
 
 	/**
-	 * @return the mark index.
-	 */
-	public int getIndex() {
-		return position.getIndex();
-	}
-
-	/**
 	 * Get a position relatively to this mark.
 	 * 
 	 * @param i
@@ -283,17 +276,6 @@ public class MDCMark {
 	 */
 	public MDCPosition getNextPosition(int i) {
 		return topItemList.getNextPosition(position, i);
-	}
-
-	/**
-	 * Get an absolute position in the list of items.
-	 * 
-	 * @param k
-	 * @return an absolute position.
-	 * @see HieroglyphicText#getPositionAt(int)
-	 */
-	public MDCPosition getPositionAt(int k) {
-		return topItemList.getPositionAt(k);
 	}
 
 	/**

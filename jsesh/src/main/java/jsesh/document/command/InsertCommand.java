@@ -105,11 +105,11 @@ class InsertCommand extends AbstractMDCCommand {
 	}
 
 	public void doCommand() {
-		topItemList.addAllAt(position.getIndex(),newCadrats);
+		topItemList.addAllAt(position, newCadrats);
 	}
 
 	public void undoCommand() {
-		topItemList.removeTopItems(position.getIndex(), position.getIndex()+ newCadrats.size());
+		topItemList.removeTopItems(position, topItemList.getNextPosition(position, newCadrats.size()));
 	}
 
 }

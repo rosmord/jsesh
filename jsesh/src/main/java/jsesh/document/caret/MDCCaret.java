@@ -95,8 +95,7 @@ public class MDCCaret {
 	 */
 	public static MDCCaret buildWholeTextCaret(HieroglyphicText model) {
 		MDCCaret result= new MDCCaret(model);
-		result.moveInsertTo(0);
-		result.setMarkAt(model.getNumberOfChildren());
+		result.setMarkPosition(model.getLastPosition());
 		return result;
 	}
 	
@@ -161,24 +160,19 @@ public class MDCCaret {
 		return insert.getHieroglyphicText();
 	}
 
-	/**
-	 * move the insertion location by a certain amount of elements
-	 * @param i
-	 */
-	public void moveInsertBy(int i) {
-		setInsertPosition(insert.getNextPosition(i));
+	/// Moves the insertion location by a certain amount of elements. The
+	/// result is clamped to the text bounds.
+	///
+	/// @param delta the number of positions to move by (may be negative).
+	public void moveInsertBy(int delta) {
+		setInsertPosition(insert.getNextPosition(delta));
 	}
 
-	/**
-	 * move the insertion location to a certain place.
-	 * @param i
-	 */
-	public void moveInsertTo(int i) {
-		setInsertPosition(insert.getPositionAt(i));
-	}
-
-	public void setMarkAt(int i) {
-		setMark(new MDCMark(getModel(), new MDCPosition(i)));
+	/// Sets the mark at a given position (clamped to the text bounds).
+	///
+	/// @param p the new mark position.
+	public void setMarkPosition(MDCPosition p) {
+		setMark(new MDCMark(getModel(), p));
 	}
 
 	/*
@@ -212,63 +206,38 @@ public class MDCCaret {
 		return (mark != null);
 	}
 
-	/**
-	 * Returns the minimal index for the caret range.
-	 * 
-	 * @return the minimal index for the caret range.
-	 */
-	public int getMin() {
-		if (hasMark()) {
-			return Math.min(getInsert().getIndex(), getMark().getIndex());
-		} else {
-			return getInsert().getIndex();
+	/// Returns the minimal position for the caret range (the insert position
+	/// if there is no mark).
+	///
+	/// @return the minimal position for the caret range.
+	public MDCPosition getMinPosition() {
+		MDCPosition p = getInsertPosition();
+		if (hasMark() && getMarkPosition().compareTo(p) < 0) {
+			p = getMarkPosition();
 		}
+		return p;
 	}
 
-	/**
-	 * Returns the maximal index for the caret range.
-	 * @return the maximal index for the caret range.
-	 */
-	public int getMax() {
-		if (hasMark()) {
-			return Math.max(getInsert().getIndex(), getMark().getIndex());
-		} else {
-			return getInsert().getIndex();
-		}
-	}
-	
-	/**
-	 * Returns the maximal position for the caret range.
-	 * @return the maximal position for the caret range.
-	 */
+	/// Returns the maximal position for the caret range (the insert position
+	/// if there is no mark).
+	///
+	/// @return the maximal position for the caret range.
 	public MDCPosition getMaxPosition() {
-		return new MDCPosition(getMax());
+		MDCPosition p = getInsertPosition();
+		if (hasMark() && getMarkPosition().compareTo(p) > 0) {
+			p = getMarkPosition();
+		}
+		return p;
 	}
-	
-	/**
-	 * Returns the minimal position for the caret range.
-	 */
-	
-	/**
-	 * Returns the maximal position for the caret range.
-	 * @return the maximal position for the caret range.
-	 */
-	public MDCPosition getMinPosition() {
-		return new MDCPosition(getMin());
-	}
-	
-    /**
-     * true if some text is selected. 
-     * <p> This means that
-     * <ol>
-     * <li> There is a mark
-     * <li> the mark is different from the current position.
-     * </ol>
-     * @return  true if some text is selected
-     * 
-     */
-    public boolean hasSelection() {        
-        return hasMark() && (getMin() != getMax());
+
+    /// True if some text is selected. This means that
+    ///
+    /// 1. there is a mark;
+    /// 2. the mark is different from the current position.
+    ///
+    /// @return true if some text is selected
+    public boolean hasSelection() {
+        return hasMark() && !getMarkPosition().equals(getInsertPosition());
     }
 
 	public void setInsertPosition(MDCPosition p) {
@@ -276,9 +245,4 @@ public class MDCCaret {
 		setInsert(newInsert);
 	}
 
-	public void advanceInsertBy(int dir) {
-		MDCPosition pos= insert.getNextPosition(dir);
-		setInsertPosition(pos);
-	}
-	
 }

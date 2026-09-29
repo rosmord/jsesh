@@ -31,6 +31,7 @@ import jsesh.model.Hieroglyph;
 import jsesh.model.InnerGroup;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
+import jsesh.model.MDCPosition;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementVisitor;
 import jsesh.model.Modifier;
@@ -96,7 +97,7 @@ public class MdCModelWriter {
 	 */
 	public void write(Writer out, HieroglyphicText top) {
 		checkDialectCompatibility();
-		write(out, top, 0, top.getNumberOfChildren());
+		write(out, top, new MDCPosition(0), top.getLastPosition());
 	}
 
 	private void checkDialectCompatibility() {
@@ -114,36 +115,32 @@ public class MdCModelWriter {
 	 * @return a Manuel de codage representation of the top item list.
 	 */
 	public String toMdC(HieroglyphicText top) {
-		return toMdC(top, 0, top.getNumberOfChildren());
+		return toMdC(top, new MDCPosition(0), top.getLastPosition());
 	}
 
-	/**
-	 * Returns a MdC Representation for the cadrats between positions start and
-	 * end.
-	 * 
-	 * @param top        the top item list for which we want a string
-	 *                   representation.
-	 * @param start
-	 * @param end
-	 * @return a Manuel de codage representation of the top item list.
-	 */
-	public String toMdC(HieroglyphicText top, int start, int end) {
+	/// Returns a MdC Representation for the cadrats between positions start and
+	/// end.
+	///
+	/// @param top the top item list for which we want a string
+	///            representation.
+	/// @param start the first position.
+	/// @param end the last position.
+	/// @return a Manuel de codage representation of the top item list.
+	public String toMdC(HieroglyphicText top, MDCPosition start, MDCPosition end) {
 		return toMdC(top, start, end, false);
 	}
 
-	/**
-	 * Gets a MdC representation for the quadrats between start and end, with
-	 * possible normalization.
-	 * @param top        the top item list for which we want a string
-	 *                   representation.
-	 * @return a Manuel de codage representation of the top item list.
-	 * @param start
-	 * @param end
-	 * @param normalized if true, phonetic codes will be replaced by their
-	 *                   Gardiner counterpart.
-	 * @return
-	 */
-	public String toMdC(HieroglyphicText top, int start, int end, boolean normalized) {
+	/// Gets a MdC representation for the quadrats between start and end, with
+	/// possible normalization.
+	///
+	/// @param top the top item list for which we want a string
+	///            representation.
+	/// @param start the first position.
+	/// @param end the last position.
+	/// @param normalized if true, phonetic codes will be replaced by their
+	///                   Gardiner counterpart.
+	/// @return a Manuel de codage representation of the top item list.
+	public String toMdC(HieroglyphicText top, MDCPosition start, MDCPosition end, boolean normalized) {
 		// As requested by the IFAO, we save the Manuel de codage content in
 		// the picture as a comment.
 		setNormalized(normalized);
@@ -165,7 +162,7 @@ public class MdCModelWriter {
 	 * @return a Manuel de codage representation of the top item list.
 	 */
 	public String toMdC(HieroglyphicText top, boolean normalized) {
-		return toMdC(top, 0, top.getNumberOfChildren(), normalized);
+		return toMdC(top, new MDCPosition(0), top.getLastPosition(), normalized);
 	}
 
 	class ModelWriterAux implements ModelElementVisitor {
@@ -640,19 +637,17 @@ public class MdCModelWriter {
 		}
 	}
 
-	/**
-	 * write the elements between indexes a and b.
-	 * 
-	 * @param w
-	 * @param top
-	 * @param a
-	 * @param b
-	 */
-	public void write(Writer w, HieroglyphicText top, int a, int b) {
+	/// Writes the elements between positions `start` and `end`.
+	///
+	/// @param w the writer.
+	/// @param top the text.
+	/// @param start the first position.
+	/// @param end the last position.
+	public void write(Writer w, HieroglyphicText top, MDCPosition start, MDCPosition end) {
 		this.out = w;
 		ModelWriterAux aux = new ModelWriterAux();
-		startIndex = a;
-		endIndex = b;
+		startIndex = start.getIndex();
+		endIndex = end.getIndex();
 		top.accept(aux);
 	}
 

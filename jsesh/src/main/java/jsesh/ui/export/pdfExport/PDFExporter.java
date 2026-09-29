@@ -10,6 +10,7 @@ import java.awt.Component;
 import java.awt.Graphics2D;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
@@ -36,6 +37,7 @@ import jsesh.model.MdcComment;
 import jsesh.model.tools.AlphabeticRuns;
 import jsesh.model.HRule;
 import jsesh.model.LineBreak;
+import jsesh.model.MDCPosition;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
@@ -98,13 +100,13 @@ public class PDFExporter {
             if (caret.hasSelection()) {
                 // TODO WE SHOULD USE EXPORTDATA
                 HieroglyphicText subModel = new HieroglyphicText();
-                subModel.addAll(model.getTopItemsBetween(caret.getMin(),
-                        caret.getMax()));
+                subModel.addAll(model.getTopItemsBetween(caret.getMinPosition(),
+                        caret.getMaxPosition()));
                 pdfDataSaver.writeSinglePagePDF(out, subModel);
             } else {
-                int[] limits = model.getPageLimitsAround(caret.getInsert().getIndex());
+                List<MDCPosition> limits = model.getPageLimitsAround(caret.getInsertPosition());
                 HieroglyphicText subModel = new HieroglyphicText();
-                subModel.addAll(model.getTopItemsBetween(limits[0], limits[1]));
+                subModel.addAll(model.getTopItemsBetween(limits.get(0), limits.get(1)));
                 pdfDataSaver.writeSinglePagePDF(out, subModel);
             }
         } else if (pdfExportPreferences.isRespectTextLayout()) {

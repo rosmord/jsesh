@@ -3,9 +3,12 @@ package jsesh.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,7 +107,7 @@ class HieroglyphicTextPositionTest {
     @Test
     void markIsClampedAndKnowsItsText() {
         MDCMark mark = new MDCMark(text, pos(100));
-        assertEquals(7, mark.getIndex());
+        assertEquals(pos(7), mark.getPosition());
         assertSame(text, mark.getHieroglyphicText());
         assertSame(text.getTopItemAt(6), mark.getElementBefore());
         mark.release();
@@ -115,10 +118,10 @@ class HieroglyphicTextPositionTest {
         MDCMark forward = new MDCMark(text, pos(3));
         MDCMark backward = new MDCMark(text, pos(3), MDCMark.Gravity.BACKWARD);
         MDCMark after = new MDCMark(text, pos(5));
-        text.addTopItemAt(3, new Cadrat());
-        assertEquals(4, forward.getIndex());
-        assertEquals(3, backward.getIndex());
-        assertEquals(6, after.getIndex());
+        text.addTopItemAt(pos(3), new Cadrat());
+        assertEquals(pos(4), forward.getPosition());
+        assertEquals(pos(3), backward.getPosition());
+        assertEquals(pos(6), after.getPosition());
         forward.release();
         backward.release();
         after.release();
@@ -128,10 +131,73 @@ class HieroglyphicTextPositionTest {
     void markFollowsDeletion() {
         MDCMark inside = new MDCMark(text, pos(2));
         MDCMark after = new MDCMark(text, pos(6));
-        text.removeTopItems(1, 4);
-        assertEquals(1, inside.getIndex());
-        assertEquals(3, after.getIndex());
+        text.removeTopItems(pos(1), pos(4));
+        assertEquals(pos(1), inside.getPosition());
+        assertEquals(pos(3), after.getPosition());
         inside.release();
         after.release();
+    }
+
+    @Test
+    void lineLimitsAround() {
+        assertEquals(List.of(pos(0), pos(2)), text.getLineLimitsAround(pos(0)));
+        assertEquals(List.of(pos(0), pos(2)), text.getLineLimitsAround(pos(2)));
+        assertEquals(List.of(pos(3), pos(5)), text.getLineLimitsAround(pos(4)));
+        assertEquals(List.of(pos(6), pos(7)), text.getLineLimitsAround(pos(7)));
+        // Out of bounds: clamped to the last line.
+        assertEquals(List.of(pos(6), pos(7)), text.getLineLimitsAround(pos(100)));
+    }
+
+    @Test
+    void pageLimitsAround() throws Exception {
+        // 0 |A1| 1 |!!| 2 |B1| 3 |B2| 4 |!!| 5 |C1| 6
+        HieroglyphicText paged = new MDCParserModelGenerator().parse("A1-!!B1-B2-!!C1");
+        assertEquals(List.of(pos(0), pos(1)), paged.getPageLimitsAround(pos(1)));
+        assertEquals(List.of(pos(2), pos(4)), paged.getPageLimitsAround(pos(2)));
+        assertEquals(List.of(pos(2), pos(4)), paged.getPageLimitsAround(pos(4)));
+        assertEquals(List.of(pos(5), pos(6)), paged.getPageLimitsAround(pos(6)));
+        assertEquals(List.of(pos(5), pos(6)), paged.getPageLimitsAround(pos(100)));
+    }
+
+    @Test
+    void topItemsBetweenIgnoresOrderAndReturnsCopies() {
+        List<TopItem> items = text.getTopItemsBetween(pos(4), pos(1));
+        assertEquals(3, items.size());
+        assertNotSame(text.getTopItemAt(1), items.get(0));
+        assertEquals(0, text.getTopItemAt(1).compareTo(items.get(0)));
+        assertEquals(items.size(), text.getTopItemsBetween(pos(1), pos(4)).size());
+        assertTrue(text.getTopItemsBetween(pos(3), pos(3)).isEmpty());
+    }
+
+    @Test
+    void removeTopItemsReturnsWhatAddAllAtPutsBack() {
+        TopItem second = text.getTopItemAt(1);
+        List<TopItem> removed = text.removeTopItems(pos(1), pos(4));
+        assertEquals(3, removed.size());
+        assertSame(second, removed.get(0));
+        assertEquals(4, text.getNumberOfChildren());
+        text.addAllAt(pos(1), removed);
+        assertEquals(7, text.getNumberOfChildren());
+        assertSame(second, text.getTopItemAt(1));
+    }
+
+    @Test
+    void zoneModificationsIgnoreLimitsOrder() {
+        text.setRed(pos(4), pos(1), true);
+        text.shade(pos(1), pos(4), true);
+        for (int i = 0; i < text.getNumberOfChildren(); i++) {
+            boolean inZone = 1 <= i && i < 4;
+            assertEquals(inZone, text.getTopItemAt(i).getState().isRed(), "red " + i);
+            assertEquals(inZone, text.getTopItemAt(i).getState().isShaded(), "shaded " + i);
+        }
+    }
+
+    @Test
+    void originalDocumentCoordinates() {
+        text.addTopItemAt(pos(3), new Superscript("vo, 3"));
+        assertEquals("", text.getOriginalDocumentCoordinates(pos(3)));
+        assertEquals("vo, 3", text.getOriginalDocumentCoordinates(pos(4)));
+        assertEquals("vo, 3", text.getOriginalDocumentCoordinates(text.getLastPosition()));
+        assertEquals("vo, 3", text.getOriginalDocumentCoordinates(pos(100)));
     }
 }

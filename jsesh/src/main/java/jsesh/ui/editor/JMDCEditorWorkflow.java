@@ -238,25 +238,29 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         listeners.add(l);
     }
 
-    /**
-     * Adds a philological markup around the selected zone. Respects the current
-     * model's view of philological markup. If markup considered as parenthesis,
-     * it will be add so. Else, two signs will be added.
-     * <p>
-     * Note : to spare ourselves the problem of creating very specific
-     * multi-commands here, we have decided that the undo operation would remove
-     * one element at a time here.
-     *
-     * @param type one of SymbolCodes.ERASEDSIGNS, EDITORADDITION,
-     *             EDITORSUPERFLUOUS, PREVIOUSLYREADABLE or SCRIBEADDITION.
-     * @return true if success, false if failure.
-     */
+    
+    /// Adds a philological markup around the selected zone. 
+    /// 
+    /// Respects the current model system for philological markup: 
+    ///  - if markup is considered as parenthesis, it will add a structure;
+    ///  - if it's considered as signs, it will merely add two signs.
+    ///
+    /// If the selection is empty, it will add the markup and leave the cursor 
+    /// between the two markup elements, for it is likely that the user wants to
+    /// add something between the two balanced elements.
+    /// 
+    /// Note : to spare ourselves the problem of creating very specific
+    /// multi-commands here, we have decided that the undo operation would remove
+    /// one element at a time here.
+    /// @param type one of SymbolCodes.ERASEDSIGNS, EDITORADDITION,
+    ///             EDITORSUPERFLUOUS, PREVIOUSLYREADABLE or SCRIBEADDITION.
+    /// @return true if success, false if failure.
+    /// 
 
     public boolean addPhilologicalMarkup(int type) {
         boolean result;
         possibilitiesHandler.clear();
         if (hieroglyphicTextModel.isPhilologyIsSign()) {
-            int maxIndex = caret.getMax();
             MDCPosition max = caret.getMaxPosition();
             MDCPosition min = caret.getMinPosition();
             // See the SymbolCodes for the explanation of the magic *2 and *2+1
@@ -266,7 +270,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
             hieroglyphicTextModel.insertElementAt(min,
                     new Hieroglyph(type * 2).buildTopItem());
-            caret.moveInsertTo(maxIndex + 1);
+            caret.setInsertPosition(caret.getModel().getNextPosition(max, 1));
             result = true;
         } else {
             BasicItemListGrouper grouper = new BasicItemListGrouper();
@@ -500,7 +504,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// alphabetic text; outside of text, moves to the next position.
     public void cursorNextWord() {
         possibilitiesHandler.clear();
-        caret.moveInsertTo(nextWordIndex(caret.getInsertPosition().getIndex()));
+        caret.setInsertPosition(nextWordPosition(caret.getInsertPosition()));
         caret.unsetMark();
         clearSeparator();
         followCaret();
@@ -510,7 +514,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// alphabetic text; outside of text, moves to the previous position.
     public void cursorPreviousWord() {
         possibilitiesHandler.clear();
-        caret.moveInsertTo(previousWordIndex(caret.getInsertPosition().getIndex()));
+        caret.setInsertPosition(previousWordPosition(caret.getInsertPosition()));
         caret.unsetMark();
         clearSeparator();
         followCaret();
@@ -522,21 +526,21 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (!caret.hasMark()) {
             caret.setMark(new MDCMark(caret.getModel(), caret.getInsertPosition()));
         }
-        int index = caret.getInsertPosition().getIndex();
-        int target = dir > 0 ? nextWordIndex(index) : previousWordIndex(index);
-        caret.setInsertPosition(hieroglyphicTextModel.getHieroglyphicText().getPositionAt(target));
+        MDCPosition current = caret.getInsertPosition();
+        caret.setInsertPosition(dir > 0 ? nextWordPosition(current) : previousWordPosition(current));
     }
 
     /// The position after the next word: skips spaces, then letters, staying
     /// in the same run of text.
-    private int nextWordIndex(int index) {
+    private MDCPosition nextWordPosition(MDCPosition position) {
         HieroglyphicText text = hieroglyphicTextModel.getHieroglyphicText();
         int n = text.getNumberOfChildren();
+        int index = position.getIndex();
         if (index >= n) {
-            return n;
+            return text.getLastPosition();
         }
         if (!(text.getTopItemAt(index) instanceof AlphabeticCharacter first)) {
-            return index + 1;
+            return new MDCPosition(index + 1);
         }
         int i = index;
         while (i < n && text.getTopItemAt(i) instanceof AlphabeticCharacter c
@@ -547,18 +551,19 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 && c.isSameScriptAs(first) && !c.isSpace()) {
             i++;
         }
-        return i;
+        return new MDCPosition(i);
     }
 
     /// The position before the previous word: skips spaces, then letters,
     /// staying in the same run of text.
-    private int previousWordIndex(int index) {
+    private MDCPosition previousWordPosition(MDCPosition position) {
         HieroglyphicText text = hieroglyphicTextModel.getHieroglyphicText();
+        int index = position.getIndex();
         if (index <= 0) {
-            return 0;
+            return new MDCPosition(0);
         }
         if (!(text.getTopItemAt(index - 1) instanceof AlphabeticCharacter last)) {
-            return index - 1;
+            return new MDCPosition(index - 1);
         }
         int i = index;
         while (i > 0 && text.getTopItemAt(i - 1) instanceof AlphabeticCharacter c
@@ -569,7 +574,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 && c.isSameScriptAs(last) && !c.isSpace()) {
             i--;
         }
-        return i;
+        return new MDCPosition(i);
     }
 
     /**
@@ -774,7 +779,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         switch (dir) {
             case 1:
             case -1:
-                caret.advanceInsertBy(dir);
+                caret.moveInsertBy(dir);
                 break;
             case 2:
                 caret.setInsertPosition(caret.getModel().getDownPosition(caret.getInsertPosition()));
@@ -856,10 +861,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public String getCurrentLineAsString() {
-        int[] limits = getLineLimits();
+        List<MDCPosition> limits = getLineLimits();
         StringWriter sw = new StringWriter();
         new MdCModelWriter().write(sw, hieroglyphicTextModel.getHieroglyphicText(),
-                limits[0], limits[1]);
+                limits.get(0), limits.get(1));
         return sw.toString();
     }
 
@@ -879,8 +884,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public String getMDCCode() {
         StringWriter sw = new StringWriter();
-        new MdCModelWriter().write(sw, hieroglyphicTextModel.getHieroglyphicText(), 0,
-                hieroglyphicTextModel.getLastPosition().getIndex());
+        new MdCModelWriter().write(sw, hieroglyphicTextModel.getHieroglyphicText(),
+                hieroglyphicTextModel.buildFirstPosition(), hieroglyphicTextModel.getLastPosition());
         return sw.toString();
     }
 
@@ -950,9 +955,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public HieroglyphicText getSelectionAsHieroglyphicText() {
         HieroglyphicText topItemList = new HieroglyphicText();
         if (caret.hasMark()) {
-            int a = caret.getMin();
-            int b = caret.getMax();
-            List<TopItem> l = hieroglyphicTextModel.getTopItemsBetween(a, b);
+            List<TopItem> l = hieroglyphicTextModel.getTopItemsBetween(
+                    caret.getMinPosition(), caret.getMaxPosition());
             topItemList.addAll(l);
         }
         return topItemList;
@@ -1043,7 +1047,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void insertMDC(String mdcText) {
         try {
             possibilitiesHandler.clear();
-            hieroglyphicTextModel.insertMDCText(getInsertPosition(), mdcText);
+            hieroglyphicTextModel.insertMDCText(caret.getInsertPosition(), mdcText);
         } catch (MDCSyntaxError e) {
             throw new RuntimeException(e);
         }
@@ -1260,25 +1264,23 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public void selectAll() {
         possibilitiesHandler.clear();
-        caret.moveInsertTo(0);
-        caret.setMarkAt(hieroglyphicTextModel.getLastPosition().getIndex());
+        caret.setInsertPosition(hieroglyphicTextModel.buildFirstPosition());
+        caret.setMarkPosition(hieroglyphicTextModel.getLastPosition());
         clearSeparator();
     }
 
     public void selectCurrentLine() {
         possibilitiesHandler.clear();
-        int pos = getInsertPosition();
         List<MDCPosition> limits = hieroglyphicTextModel.getLineLimitsAround(caret.getInsertPosition());
         caret.setInsertPosition(limits.get(0));
-        caret.setMarkAt(limits.get(1).getIndex());
+        caret.setMarkPosition(limits.get(1));
     }
 
     public void selectCurrentPage() {
         possibilitiesHandler.clear();
-        int pos = getInsertPosition();
         List<MDCPosition> limits = hieroglyphicTextModel.getPageLimitsAround(caret.getInsertPosition());
         caret.setInsertPosition(limits.get(0));
-        caret.setMarkAt(limits.get(1).getIndex());
+        caret.setMarkPosition(limits.get(1));
     }
 
     public void clearSelection() {
@@ -1298,11 +1300,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         boolean success = true;
         try {
-            int[] limits = getLineLimits();
+            List<MDCPosition> limits = getLineLimits();
             hieroglyphicTextModel
-                    .replaceWithMDCText(limits[0], limits[1], text);
-            caret.setInsertPosition(hieroglyphicTextModel
-                    .buildPosition(limits[0]));
+                    .replaceWithMDCText(limits.get(0), limits.get(1), text);
+            caret.setInsertPosition(limits.get(0));
             clearSeparator();
         } catch (MDCSyntaxError e) {
             success = false;
@@ -1343,7 +1344,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public void setMarkToCursor() {
         possibilitiesHandler.clear();
-        caret.setMarkAt(caret.getInsert().getIndex());
+        caret.setMarkPosition(caret.getInsertPosition());
         clearSeparator();
     }
 
@@ -1562,7 +1563,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void insertLineNumber(String line) {
         possibilitiesHandler.clear();
         Superscript superscript = new Superscript(line);
-        hieroglyphicTextModel.insertElementAt(getInsertPosition(), superscript);
+        hieroglyphicTextModel.insertElementAt(caret.getInsertPosition(), superscript);
     }
 
     /**
@@ -1589,8 +1590,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         AbsoluteGroupBuilder groupBuilder = new AbsoluteGroupBuilder();
         AbsoluteGroup result = null;
         // ensure there is a selection if possible.
-        if (!caret.hasSelection() && getInsertPosition() >= 1) {
-            caret.setMarkAt(getInsertPosition() - 1);
+        if (!caret.hasSelection() && caret.getInsertPosition().hasPrevious()) {
+            caret.setMarkPosition(caret.getInsertPosition().getPreviousPosition(1));
         }
         if (caret.hasSelection()) {
             List<TopItem> elts = getSelection();
@@ -1615,8 +1616,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         // possibilitiesHandler.clear(); WHY WAS THAT ??
         List<TopItem> result = null;
         if (caret.hasMark()) {
-            result = hieroglyphicTextModel.getTopItemsBetween(caret.getMin(),
-                    caret.getMax());
+            result = hieroglyphicTextModel.getTopItemsBetween(caret.getMinPosition(),
+                    caret.getMaxPosition());
         } else {
             result = Collections.emptyList();
         }
@@ -1643,8 +1644,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             return; // DO NOTHING.
         }
         HieroglyphicText text = caret.getModel();
-        for (int i = p1.getIndex(); i < p2.getIndex(); i++) {
-            TopItem currentItem = text.getTopItemAt(i).deepCopy();
+        for (TopItem currentItem : text.getTopItemsBetween(p1, p2)) {
             modified.addAll(topItemModifier.modifyTopItem(currentItem));
         }
         // NOT SO SURE THAT THIS IS RELEVANT...
@@ -1751,10 +1751,6 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
     }
 
-    private int getInsertPosition() {
-        return caret.getInsertPosition().getIndex();
-    }
-
     /**
      * Returns the last hieroglyph element in the topitem before index mark, or
      * null.
@@ -1802,8 +1798,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * @return the limits of the current line.
      */
 
-    private int[] getLineLimits() {
-        int[] result = new int[2];
+    private List<MDCPosition> getLineLimits() {
         MDCPosition first = getLineFirstPosition();
 
         MDCPosition second = getLineLastPosition();
@@ -1812,10 +1807,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (text.hasNext(second)) {
             second = text.getNextPosition(second, 1);
         }
-
-        result[0] = first.getIndex();
-        result[1] = second.getIndex();
-        return result;
+        return List.of(first, second);
     }
 
     /**

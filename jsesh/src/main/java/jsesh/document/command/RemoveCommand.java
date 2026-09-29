@@ -78,11 +78,11 @@ class RemoveCommand extends AbstractMDCCommand {
 	}
 	
 	public void doCommand() {
-		deletedElements= topItemList.removeTopItems(range[0].getIndex(), range[1].getIndex());
+		deletedElements= topItemList.removeTopItems(range[0], range[1]);
 	}
 	
 	public void undoCommand() {
-		topItemList.addAllAt(range[0].getIndex(), deletedElements);
+		topItemList.addAllAt(range[0], deletedElements);
 	}
 	
 }
