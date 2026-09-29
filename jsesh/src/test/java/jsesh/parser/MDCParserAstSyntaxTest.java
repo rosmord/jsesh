@@ -194,7 +194,16 @@ public class MDCParserAstSyntaxTest {
                 .hBoxes(AstHBox.of(AstHieroglyph.of("x")))
                 .options(AstOptionList.of(AstOption.flag("foo")))
                 .build();
-        assertEquals(AstDocument.of(expected), parse("@quadrat(x)[foo]"));
+        assertEquals(AstDocument.of(expected), parse("@quadrat[foo](x)"));
+    }
+
+     @Test
+    public void testCadratWithOptionsV1() throws MDCSyntaxError {
+        AstCadrat expected = AstCadrat.builder()
+                .hBoxes(AstHBox.of(AstHieroglyph.of("x")))
+                .options(AstOptionList.of(AstOption.of("a", "b"), AstOption.of("x", 3)))
+                .build();
+        assertEquals(AstDocument.of(expected), parse("@quadrat[a=b,x=3](x)"));
     }
 
     // --- Cartouches ----------------------------------------------------

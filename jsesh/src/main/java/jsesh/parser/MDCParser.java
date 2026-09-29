@@ -385,18 +385,18 @@ public class MDCParser {
      * <pre>
      * cadrat ::= verticalStack
      *          | CADRAT BPAR verticalStack EPAR
-     *          | CADRAT BPAR verticalStack EPAR optionList
+     *          | CADRAT optionList BPAR verticalStack EPAR 
      * </pre>
      */
     private void parseCadrat(AstCadrat.Builder builder) throws MDCSyntaxError {
         if (at(QUADRAT)) {
             advance();
-            expect(LPAREN, "'('");
-            parseVerticalStack(builder);
-            expect(RPAREN, "')'");
             if (at(OPEN_BRACE)) {
                 builder.options(parseOptionList());
             }
+            expect(LPAREN, "'('");
+            parseVerticalStack(builder);
+            expect(RPAREN, "')'");            
         } else {
             parseVerticalStack(builder);
         }
