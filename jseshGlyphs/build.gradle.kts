@@ -27,3 +27,12 @@ val generateGlyphList = tasks.register("generateGlyphList") {
 tasks.named("jar") {
     dependsOn(generateGlyphList)
 }
+
+// This module has no Java sources, so compileJava is skipped (NO-SOURCE) and
+// never creates build/classes/java/main. VS Code's Gradle build server still
+// puts that directory on the classpath of dependent projects (jseshAppli,
+// signInfoAppli) and reports it as a missing library. Create it with the resources.
+val javaClassesDir = sourceSets["main"].java.destinationDirectory
+tasks.named("processResources") {
+    doLast { javaClassesDir.get().asFile.mkdirs() }
+}

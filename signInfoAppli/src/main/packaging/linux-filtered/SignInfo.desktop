@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=JSesh Sign Info Editor
+Comment=Editor for JSesh sign descriptions
+Exec=/opt/${linuxPackageName}/bin/${fullName}
+Icon=/opt/${linuxPackageName}/lib/${fullName}.png
+Terminal=false
+Categories=Office;
+StartupWMClass=jsesh-utilitysoftwares-signinfoeditor-Main
