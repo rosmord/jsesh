@@ -85,7 +85,7 @@ public class MDCCaret {
 	 * @param model
 	 */
 	public MDCCaret(TopItemList model) {
-		this(new MDCMark(new MDCPosition(model, 0)));
+		this(new MDCMark(model, new MDCPosition(0)));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class MDCCaret {
 		if (mark != null)
 			mark.release();
 		mark= null;
-		setInsert(new MDCMark(new MDCPosition(model, 0)));
+		setInsert(new MDCMark(model, new MDCPosition(0)));
 	}
 	
 	public MDCMark getMark() {
@@ -158,7 +158,7 @@ public class MDCCaret {
 	 * @return the model
 	 */
 	public TopItemList getModel() {
-		return (TopItemList) insert.getPosition().getTopItemList();
+		return insert.getTopItemList();
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class MDCCaret {
 	}
 
 	public void setMarkAt(int i) {
-		setMark(new MDCMark(insert.getPosition().getPositionAt(i)));
+		setMark(new MDCMark(getModel(), new MDCPosition(i)));
 	}
 
 	/*
@@ -242,7 +242,7 @@ public class MDCCaret {
 	 * @return the maximal position for the caret range.
 	 */
 	public MDCPosition getMaxPosition() {
-		return new MDCPosition(insert.getTopItemList(), getMax());
+		return new MDCPosition(getMax());
 	}
 	
 	/**
@@ -254,7 +254,7 @@ public class MDCCaret {
 	 * @return the maximal position for the caret range.
 	 */
 	public MDCPosition getMinPosition() {
-		return new MDCPosition(insert.getTopItemList(), getMin());
+		return new MDCPosition(getMin());
 	}
 	
     /**
@@ -272,7 +272,7 @@ public class MDCCaret {
     }
 
 	public void setInsertPosition(MDCPosition p) {
-		MDCMark newInsert= new MDCMark(p);
+		MDCMark newInsert= new MDCMark(getModel(), p);
 		setInsert(newInsert);
 	}
 

@@ -1,253 +1,107 @@
 /*
- * Created on 20 juil. 2004
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 package jsesh.model;
 
 import java.io.Serializable;
 
-/**
- * TODO MDCPosition should undergo a major rewriting. It should NOT contain 
- * a reference to the text it refers to, and should simply be a value. It would 
- * be simpler, and would avoid memory leaks.
- * 
- * 
- * AT THE TIME BEING, THE POSITION IS JUST A INTEGER. THE TEXT BELOW DESCRIBES
- * WHAT THE TEXT POSITION WILL PROBABLY BE.
- * 
- * A Text position represents a position in a Manuel de Codage model tree. A
- * position does not designate a <em>model element</em>; it's more like a
- * cursor <em>between</em> elements. This of course simplifies the semantics
- * of element insertion and the like. As Positions are short lived, we have
- * decided to make them <b>read-only </b>.
- * 
- * <p>
- * More precisely, a position is <em> always </em> a position
- * <em><strong>in</strong></em> an element. it designate an element, and a
- * index in this element. For instance, inserting element e1 at position 0 in
- * element e0 would make e1 the first child of e0. The first child of an element
- * stands between positions 0 and 1.
- *
- * <p>
- *     BEWARE: Positions are currently not suitable if you want to transfer information
- *     from one text to the other. More precisely, in the search system, two representations
- *     of the same text might be stored in memory. MDCPositions are not suitable in this
- *     case.
- * </p>
- * <p>
- * A position can be used to insert new data, as well as to implement cursors,
- * text selection, etc.
- * 
- * <p>
- * A position is not a "long term" object. It's quite likely to become invalid
- * or outdated if the text is modified. For long term marking of mutable text
- * position, one should use a MDCMark.
- * 
- * @author rosmord
- *  
- */
-
+/// A position in a MDC model.
+///
+/// A position is a plain, immutable value: it does **not** hold a reference to
+/// the text it refers to. It is only meaningful relative to a
+/// [TopItemList] supplied by the caller. Operations which need the text
+/// (element access, bounded navigation, line navigation...) live in
+/// [TopItemList], and take the position as argument; for instance
+/// [TopItemList#getElementAfter(MDCPosition)] or
+/// [TopItemList#getPositionAt(int)], which builds a position clamped to the
+/// text's bounds.
+/// 
+/// The usual way to create a position is to use [TopItemList#getPositionAt(int)], which checks that 
+/// the position is within bounds for the text.
+///
+/// AT THE TIME BEING, THE POSITION IS JUST AN INTEGER, AT TOP LEVEL. THE TEXT BELOW DESCRIBES
+/// WHAT THE TEXT POSITION WILL PROBABLY BE.
+///
+/// A Text position represents a position in a Manuel de Codage model tree. A
+/// position does not designate a *model element;* it's  a
+/// cursor **between** elements. This clarifies the semantics
+/// of element insertion and the like. Positions are short lived, we have
+/// decided to make them **read-only**.
+///
+/// More precisely, a position is **always** a position
+/// **in** an element. it designates an element, and a
+/// index in this element. For instance, inserting element e1 at position 0 in
+/// element e0 would make e1 the first child of e0. The first child of an element
+/// stands between positions 0 and 1.
+///
+/// A position can be used to insert new data, as well as to implement cursors,
+/// text selection, etc.
+///
+/// A position is not a "long term" object. It's quite likely to become invalid
+/// or outdated if the text is modified. For long term marking of mutable text
+/// position, one should use a [MDCMark].
+///
+/// @author rosmord
 @SuppressWarnings("serial")
-public class MDCPosition implements Cloneable, Serializable, Comparable<MDCPosition> {
+public final class MDCPosition implements Serializable, Comparable<MDCPosition> {
 
-	private TopItemList topItemList;
+	private final int index;
 
-	private int index;
-
-	/**
-	 * TEMPORARY CONSTRUCTOR.
-	 * @param container
-	 * @param index
-	 */
-
-	public MDCPosition(TopItemList container, int index) {
-		this.topItemList = container;
-		if (index < 0)
-			index = 0;
-		if (index > container.getNumberOfChildren())
-			index = container.getNumberOfChildren();
-		this.index = index;
+	/// Builds a position.
+	///
+	/// A negative index is clamped to 0. The position is *not* checked against
+	/// the upper bound of any text; use [TopItemList#getPositionAt(int)] to get
+	/// a position guaranteed to fall inside a given text.
+	///
+	/// @param index the index of the position.
+	public MDCPosition(int index) {
+		this.index = Math.max(0, index);
 	}
 
-	public TopItem getElementAfter() {
-		if (topItemList == null || index >= topItemList.getNumberOfChildren()
-				|| index < 0)
-			return null;
-		return topItemList.getTopItemAt(index);
-	}
-
-	public TopItem getElementBefore() {
-		if (topItemList == null || index > topItemList.getNumberOfChildren()
-				|| index <= 0)
-			return null;
-		return topItemList.getTopItemAt(index - 1);
-	}
-
-	/**
-	 * Returns the topItemList.
-	 * 
-	 * @return the topItemList.
-	 */
-	public TopItemList getTopItemList() {
-		return topItemList;
-	}
-
-	/**
-	 * @return the index.
-	 */
+	/// @return the index.
 	public int getIndex() {
 		return index;
 	}
 
-	/**
-	 * Returns the ith position after this one, at top level. if the position
-	 * would fall outside the possible bounds, it will either be the last
-	 * position or the first.
-	 * 
-	 * @param delta the delta between the two positions. Might be negative.
-	 * @return ith position after this one.
-	 */
-	public MDCPosition getNextPosition(int delta) {
-		int k = getIndex() + delta;
-		return getPositionAt(k);
-	}
-
-
-	/**
-	 * Returns the ith position before this one, at top level. if the position
-	 * would fall outside of the possible bounds, it will either be the first position.
-	 * 
-	 * @param delta :
-	 *            the delta between the two positions. Must be positive.
-	 * @return ith position before this one.
-	 */
+	/// Returns the ith position before this one, at top level. if the position
+	/// would fall before the start of the text, it will be the first position.
+	///
+	/// @param delta the delta between the two positions. Must be positive.
+	/// @return ith position before this one.
 	public MDCPosition getPreviousPosition(int delta) {
 		if (delta < 0) throw new IllegalArgumentException("delta must be positive "+ delta);
-		int k = getIndex() - delta;
-		return getPositionAt(k);
-	}
-	
-
-	 /* Returns the last position in the current line.
-	 * 
-	 * @return the last position in the current line.
-	 */
-	public MDCPosition getLineLastPosition() {
-		MDCPosition second = this;
-
-		while (second.hasNext() && !second.getElementAfter().isBreak())
-			second = second.getNextPosition(1);
-		return second;
-	}
-	
-	/**
-	 * Returns the first position in the current line.
-	 * 
-	 * @return the first position in the current line.
-	 */
-	public MDCPosition getLineFirstPosition() {
-		MDCPosition first = this;
-		while (first.hasPrevious() && !first.getElementBefore().isBreak())
-			first = first.getNextPosition(-1);
-		return first;
-	}
-	
-	/**
-	 * Finds the position "up" (in a syntactic way) from us.
-	 * @return
-	 */
-	public MDCPosition getUpPosition() {
-		MDCPosition p = this;
-		p = p.getNextPosition(-1);
-		// Go to the last position of the previous line.
-		while (p.hasPrevious() && !p.getElementAfter().isBreak())
-			p = p.getNextPosition(-1);
-		return p.getLineFirstPosition();	
-	}
-	
-	/**
-	 * Finds the position "down" (in a syntactic way) from us.
-	 * @return
-	 */
-	public MDCPosition getDownPosition() {
-		MDCPosition p = this;
-		p = p.getNextPosition(1);
-		while (p.hasNext() && !p.getElementBefore().isBreak())
-			p = p.getNextPosition(1);
-		return p;
-	}
-	/**
-	 * Return the k-th position in the current model. if the position would fall
-	 * outside of the possible bounds, it will either be the last position or
-	 * the first.
-	 * 
-	 * @param k :
-	 *            the index of the new position.
-	 * @return the kth position in this model.
-	 */
-
-	public MDCPosition getPositionAt(int k) {
-		return new MDCPosition(getTopItemList(), k);
+		return new MDCPosition(index - delta);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	public String toString() {
 		return "pos " + getIndex();
 	}
 
-	/**
-	 * @return true if there is a previous position.
-	 */
+	/// @return true if there is a previous position.
 	public boolean hasPrevious() {
 		return index > 0;
 	}
 
-
-	/**
-	 * @return true if there is a next position.
-	 */
-	
-	public boolean hasNext() {
-		return index < topItemList.getNumberOfChildren();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	public boolean equals(Object obj) {
-		if (obj instanceof MDCPosition) {
-			MDCPosition p = (MDCPosition) obj;
-			return topItemList.equals(p.topItemList) && index == p.index;
-		} else
-			return false;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return (topItemList.hashCode() * 31) + index; 
+		return obj instanceof MDCPosition p && index == p.index;
 	}
 
-	/**
-	 * Implementation of the Comparable interface.
-	 * 
-	 * Comparing positions in two different top items doesn't mean much.
-	 * Note: this class has a natural ordering that is inconsistent with equals, in the case where the corresponding topItemLists are differents.
-	 * @see Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(MDCPosition other) {
-		return (index - other.index);
+	public int hashCode() {
+		return Integer.hashCode(index);
 	}
-	
+
+	/// Implementation of the Comparable interface.
+	///
+	/// Comparing positions which refer to two different texts doesn't mean much.
+	/// @see Comparable#compareTo(java.lang.Object)
+	public int compareTo(MDCPosition other) {
+		return Integer.compare(index, other.index);
+	}
+
 	/**
 	 * Returns a couple of <em>orderered</em> text positions.
 	 * @param p1
@@ -259,10 +113,8 @@ public class MDCPosition implements Cloneable, Serializable, Comparable<MDCPosit
 		if (p1.compareTo(p2) < 0) {
 			result= new MDCPosition[]{p1, p2};
 		} else {
-			result= new MDCPosition[]{p2, p1};	
+			result= new MDCPosition[]{p2, p1};
 		}
 		return result;
 	}
-
-	
 }

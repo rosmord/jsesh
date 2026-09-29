@@ -301,10 +301,9 @@ public class ViewDrawer {
 
         // If nothing was found, chose the last cadrat.
         if (pos == -1) {
-            return new MDCPosition((TopItemList) v.getModel(), v.getModel()
-                    .getNumberOfChildren());
+            return new MDCPosition(v.getModel().getNumberOfChildren());
         } else {
-            return new MDCPosition((TopItemList) v.getModel(), pos);
+            return new MDCPosition(pos);
         }
     }
 
@@ -737,11 +736,9 @@ public class ViewDrawer {
             boolean drawAfterView;
             boolean drawBeforeView;
 
-            drawBeforeView = v.getModel() == cursor.getInsert().getPosition()
-                    .getElementAfter();
+            drawBeforeView = v.getModel() == cursor.getInsert().getElementAfter();
 
-            drawAfterView = v.getModel() == cursor.getInsert().getPosition()
-                    .getElementBefore();
+            drawAfterView = v.getModel() == cursor.getInsert().getElementBefore();
 
             // We draw cursors at regular elements, not at breaks, but between
             // two breaks, we need to do something anyway.

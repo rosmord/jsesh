@@ -76,7 +76,7 @@ public class QuadratSearchQuery implements MdCSearchQuery {
                 }
             }
             if (i == search.getNumberOfChildren())
-                result.add(new MDCPosition(items, pos));
+                result.add(new MDCPosition(pos));
         }
         return result;
     }

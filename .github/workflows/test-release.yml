@@ -17,15 +17,22 @@ jobs:
           distribution: 'temurin'
 
       - name: Build macOS DMG
-        run: ./gradlew jpackage
+        run: ./gradlew :jsesh-installer:jpackage :signInfoAppli:jpackage
 
       - name: Rename DMG
-        run: for f in jsesh-installer/build/jpackage/JSesh-*.dmg; do mv "$f" "${f/JSesh-/JSesh-m1-}"; done
+        run: |
+          for f in jsesh-installer/build/jpackage/JSesh-*.dmg; do mv "$f" "${f/JSesh-/JSesh-m1-}"; done
+          for f in signInfoAppli/build/jpackage/JSeshSignInfo-*.dmg; do mv "$f" "${f/JSeshSignInfo-/JSeshSignInfo-m1-}"; done
 
       - uses: actions/upload-artifact@v6
         with:
           name: macos-m1.dmg
           path: jsesh-installer/build/jpackage/*.dmg
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: signinfo-macos-m1.dmg
+          path: signInfoAppli/build/jpackage/*.dmg
 
   build-mac-intel:
     runs-on: macos-15-intel
@@ -40,15 +47,22 @@ jobs:
       - name: Build macOS DMG
         env:
           MACOSX_DEPLOYMENT_TARGET: "11.0"
-        run: ./gradlew jpackage
+        run: ./gradlew :jsesh-installer:jpackage :signInfoAppli:jpackage
 
       - name: Rename DMG
-        run: for f in jsesh-installer/build/jpackage/JSesh-*.dmg; do mv "$f" "${f/JSesh-/JSesh-intel-}"; done
+        run: |
+          for f in jsesh-installer/build/jpackage/JSesh-*.dmg; do mv "$f" "${f/JSesh-/JSesh-intel-}"; done
+          for f in signInfoAppli/build/jpackage/JSeshSignInfo-*.dmg; do mv "$f" "${f/JSeshSignInfo-/JSeshSignInfo-intel-}"; done
 
       - uses: actions/upload-artifact@v6
         with:
           name: macos-intel.dmg
           path: jsesh-installer/build/jpackage/*.dmg
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: signinfo-macos-intel.dmg
+          path: signInfoAppli/build/jpackage/*.dmg
 
   build-windows:
     runs-on: windows-latest
@@ -61,12 +75,17 @@ jobs:
           distribution: 'temurin'
 
       - name: Build Windows MSI
-        run: ./gradlew jpackage -PinstallerType=msi
+        run: ./gradlew :jsesh-installer:jpackage :signInfoAppli:jpackage -PinstallerType=msi
 
       - uses: actions/upload-artifact@v6
         with:
           name: windows-msi
           path: jsesh-installer/build/jpackage/*.msi
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: signinfo-windows-msi
+          path: signInfoAppli/build/jpackage/*.msi
 
   build-linux-deb:
     runs-on: ubuntu-latest
@@ -82,12 +101,17 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y fakeroot
 
       - name: Build Debian package
-        run: ./gradlew jpackage -PinstallerType=deb
+        run: ./gradlew :jsesh-installer:jpackage :signInfoAppli:jpackage -PinstallerType=deb
 
       - uses: actions/upload-artifact@v6
         with:
           name: linux-deb
           path: jsesh-installer/build/jpackage/*.deb
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: signinfo-linux-deb
+          path: signInfoAppli/build/jpackage/*.deb
 
   release:
     needs: [build-mac-m1, build-mac-intel, build-windows, build-linux-deb]
@@ -106,4 +130,8 @@ jobs:
             artifacts/macos-intel.dmg/*.dmg
             artifacts/windows-msi/*.msi
             artifacts/linux-deb/*.deb
+            artifacts/signinfo-macos-m1.dmg/*.dmg
+            artifacts/signinfo-macos-intel.dmg/*.dmg
+            artifacts/signinfo-windows-msi/*.msi
+            artifacts/signinfo-linux-deb/*.deb
             

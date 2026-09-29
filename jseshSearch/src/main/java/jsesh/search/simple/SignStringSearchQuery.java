@@ -94,7 +94,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
         List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrat(items);
         for (int i= 0; i < l.size(); i++) {
             if (match(l, i))
-                result.add(new MDCPosition(items, l.get(i).getPosition()));
+                result.add(new MDCPosition(l.get(i).getPosition()));
         }
         return result;
     }

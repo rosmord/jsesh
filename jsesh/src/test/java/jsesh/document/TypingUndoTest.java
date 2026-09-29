@@ -16,7 +16,7 @@ public class TypingUndoTest {
 
     private void type(HieroglyphicTextModel text, String s) {
         for (char c : s.toCharArray()) {
-            MDCPosition end = new MDCPosition(text.getModel(), text.getModel().getNumberOfChildren());
+            MDCPosition end = text.getLastPosition();
             List<TopItem> items = new ArrayList<>(AlphabeticCharacter.fromMdcText('l', String.valueOf(c)));
             text.insertTypedElementsAt(end, items);
         }
@@ -49,7 +49,7 @@ public class TypingUndoTest {
         HieroglyphicTextModel text = new HieroglyphicTextModel();
         type(text, "ab");
         List<TopItem> x = new ArrayList<>(AlphabeticCharacter.fromMdcText('l', "x"));
-        text.insertTypedElementsAt(new MDCPosition(text.getModel(), 0), x);
+        text.insertTypedElementsAt(new MDCPosition(0), x);
         text.undo();
         assertEquals(2, text.getModel().getNumberOfChildren());
     }

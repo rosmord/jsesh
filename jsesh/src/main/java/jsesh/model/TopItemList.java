@@ -420,6 +420,112 @@ public class TopItemList extends ModelElement {
         return res + 1;
     }
 
+    /// Returns the k-th position in this text.
+    ///
+    /// If the position would fall outside of the possible bounds, it will
+    /// either be the last position or the first.
+    ///
+    /// @param k the index of the position.
+    /// @return the kth position in this text.
+    public MDCPosition getPositionAt(int k) {
+        return new MDCPosition(clampIndex(k));
+    }
+
+    /// @return the position after the last element of this text.
+    public MDCPosition getLastPosition() {
+        return new MDCPosition(getNumberOfChildren());
+    }
+
+    /// Returns the ith position after a given one. If the position would fall
+    /// outside the possible bounds, it will either be the last position or the
+    /// first.
+    ///
+    /// @param position the original position.
+    /// @param delta the delta between the two positions. Might be negative.
+    /// @return ith position after `position`.
+    public MDCPosition getNextPosition(MDCPosition position, int delta) {
+        return getPositionAt(position.getIndex() + delta);
+    }
+
+    /// @param position a position in this text.
+    /// @return the element just after `position`, or null if there is none.
+    public TopItem getElementAfter(MDCPosition position) {
+        int index = position.getIndex();
+        if (index >= getNumberOfChildren()) {
+            return null;
+        }
+        return getTopItemAt(index);
+    }
+
+    /// @param position a position in this text.
+    /// @return the element just before `position`, or null if there is none.
+    public TopItem getElementBefore(MDCPosition position) {
+        int index = position.getIndex();
+        if (index > getNumberOfChildren() || index == 0) {
+            return null;
+        }
+        return getTopItemAt(index - 1);
+    }
+
+    /// @param position a position in this text.
+    /// @return true if there is a position after `position` in this text.
+    public boolean hasNext(MDCPosition position) {
+        return position.getIndex() < getNumberOfChildren();
+    }
+
+    /// Returns the first position of the line containing a given position.
+    ///
+    /// @param position a position in this text.
+    /// @return the first position in the line.
+    /// @see #getLineLimitsAround(int)
+    public MDCPosition getLineFirstPosition(MDCPosition position) {
+        return new MDCPosition(getLineStartBefore(clampIndex(position.getIndex())));
+    }
+
+    /// Returns the last position of the line containing a given position
+    /// (i.e. the position just before the line break, if any).
+    ///
+    /// @param position a position in this text.
+    /// @return the last position in the line.
+    /// @see #getLineLimitsAround(int)
+    public MDCPosition getLineLastPosition(MDCPosition position) {
+        return new MDCPosition(getLineEndAfter(clampIndex(position.getIndex())));
+    }
+
+    /// Finds the position "up" (in a syntactic way) from a given one, that is,
+    /// the first position of the previous line.
+    ///
+    /// @param position a position in this text.
+    /// @return the first position of the previous line (or of the current
+    /// line, if it's the first one).
+    public MDCPosition getUpPosition(MDCPosition position) {
+        int p = Math.max(0, clampIndex(position.getIndex()) - 1);
+        // Go to the last position of the previous line.
+        while (p > 0 && !getTopItemAt(p).isBreak()) {
+            p--;
+        }
+        return new MDCPosition(getLineStartBefore(p));
+    }
+
+    /// Finds the position "down" (in a syntactic way) from a given one, that
+    /// is, the first position of the next line.
+    ///
+    /// @param position a position in this text.
+    /// @return the first position of the next line (or the last position of
+    /// the text, if there is no next line).
+    public MDCPosition getDownPosition(MDCPosition position) {
+        int n = getNumberOfChildren();
+        int p = Math.min(n, clampIndex(position.getIndex()) + 1);
+        while (p < n && !getTopItemAt(p - 1).isBreak()) {
+            p++;
+        }
+        return new MDCPosition(p);
+    }
+
+    private int clampIndex(int k) {
+        return Math.max(0, Math.min(k, getNumberOfChildren()));
+    }
+
     /**
      * Returns the page limits for the page around a given position. TODO :
      * generalize this. A getLimitsAround method, taking as argument a boolean

@@ -292,7 +292,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void addSameLevel() {
-        ModelElement elt = caret.getInsertPosition().getElementBefore();
+        ModelElement elt = caret.getInsert().getElementBefore();
         if (elt instanceof Cadrat) {
             Cadrat c = (Cadrat) elt.deepCopy(); // Won't be needed in the future
             // if getElementBefore sends
@@ -447,7 +447,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * Moves the cursor down one line.
      */
     public void cursorDown() {
-        caret.setInsertPosition(caret.getInsertPosition().getDownPosition());
+        caret.setInsertPosition(caret.getModel().getDownPosition(caret.getInsertPosition()));
         possibilitiesHandler.clear();
         caret.unsetMark();
         clearSeparator();
@@ -520,11 +520,11 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// word boundary.
     public void expandSelectionByWord(int dir) {
         if (!caret.hasMark()) {
-            caret.setMark(new MDCMark(caret.getInsertPosition()));
+            caret.setMark(new MDCMark(caret.getModel(), caret.getInsertPosition()));
         }
         int index = caret.getInsertPosition().getIndex();
         int target = dir > 0 ? nextWordIndex(index) : previousWordIndex(index);
-        caret.setInsertPosition(new MDCPosition(hieroglyphicTextModel.getModel(), target));
+        caret.setInsertPosition(hieroglyphicTextModel.getModel().getPositionAt(target));
     }
 
     /// The position after the next word: skips spaces, then letters, staying
@@ -579,7 +579,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * be interesting to retain the horizontal position and to try to keep it.
      */
     public void cursorUp() {
-        caret.setInsertPosition(caret.getInsertPosition().getUpPosition());
+        caret.setInsertPosition(caret.getModel().getUpPosition(caret.getInsertPosition()));
         possibilitiesHandler.clear();
         clearSeparator();
         caret.unsetMark();
@@ -769,7 +769,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public void expandSelection(int dir) {
         if (!caret.hasMark()) {
-            caret.setMark(new MDCMark(caret.getInsertPosition()));
+            caret.setMark(new MDCMark(caret.getModel(), caret.getInsertPosition()));
         }
         switch (dir) {
             case 1:
@@ -777,10 +777,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 caret.advanceInsertBy(dir);
                 break;
             case 2:
-                caret.setInsertPosition(caret.getInsertPosition().getDownPosition());
+                caret.setInsertPosition(caret.getModel().getDownPosition(caret.getInsertPosition()));
                 break;
             case -2:
-                caret.setInsertPosition(caret.getInsertPosition().getUpPosition());
+                caret.setInsertPosition(caret.getModel().getUpPosition(caret.getInsertPosition()));
                 break;
             default:
                 throw new RuntimeException("Unexpected dir " + dir);
@@ -927,7 +927,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// element after the caret. Comments, tabulations, etc. don't change the
     /// mode.
     private void followCaret() {
-        MDCPosition p = caret.getInsertPosition();
+        MDCMark p = caret.getInsert();
         TopItem reference = p.hasPrevious() ? p.getElementBefore() : null;
         if ((reference == null || reference.isBreak()) && p.hasNext()) {
             reference = p.getElementAfter();
@@ -1317,7 +1317,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void setCursor(MDCPosition position) {
         if (position != null) {
             possibilitiesHandler.clear();
-            caret.setInsert(new MDCMark(position));
+            caret.setInsertPosition(position);
             clearSeparator();
             followCaret();
         }
@@ -1332,7 +1332,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void setMark(MDCPosition position) {
         if (position != null) {
             possibilitiesHandler.clear();
-            caret.setMark(new MDCMark(position));
+            caret.setMark(new MDCMark(caret.getModel(), position));
             clearSeparator();
         }
     }
@@ -1642,11 +1642,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         } else {
             return; // DO NOTHING.
         }
-        MDCPosition current = p1;
-        while (!current.equals(p2)) {
-            TopItem currentItem = current.getElementAfter().deepCopy();
+        TopItemList text = caret.getModel();
+        for (int i = p1.getIndex(); i < p2.getIndex(); i++) {
+            TopItem currentItem = text.getTopItemAt(i).deepCopy();
             modified.addAll(topItemModifier.modifyTopItem(currentItem));
-            current = current.getNextPosition(1);
         }
         // NOT SO SURE THAT THIS IS RELEVANT...
         if (modified.size() > 0) {
@@ -1783,7 +1782,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     private MDCPosition getLineFirstPosition() {
-        return caret.getInsertPosition().getLineFirstPosition();
+        return caret.getModel().getLineFirstPosition(caret.getInsertPosition());
     }
 
     /**
@@ -1793,7 +1792,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     private MDCPosition getLineLastPosition() {
-        return caret.getInsertPosition().getLineLastPosition();
+        return caret.getModel().getLineLastPosition(caret.getInsertPosition());
     }
 
     /**
@@ -1809,8 +1808,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
         MDCPosition second = getLineLastPosition();
 
-        if (second.hasNext()) {
-            second = second.getNextPosition(1);
+        TopItemList text = caret.getModel();
+        if (text.hasNext(second)) {
+            second = text.getNextPosition(second, 1);
         }
 
         result[0] = first.getIndex();

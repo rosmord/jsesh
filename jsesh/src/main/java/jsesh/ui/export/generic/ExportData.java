@@ -59,8 +59,8 @@ public class ExportData {
 		MDCPosition start;
 		MDCPosition end;
 		if (caret.getMark() == null) {
-			start= new MDCPosition(text,0);
-			end= new MDCPosition(text, text.getNumberOfChildren());
+			start= new MDCPosition(0);
+			end= text.getLastPosition();
 		} else {
 			start= caret.getInsert().getPosition();
 			end= caret.getMark().getPosition();

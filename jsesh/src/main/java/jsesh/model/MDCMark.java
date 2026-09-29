@@ -1,5 +1,5 @@
 /*
- * Created on 1 ao�t 2004 by rosmord
+ * Created on 1 août 2004 by rosmord
  * This code can be distributed under the Gnu Library Public Licence.
  **/
 package jsesh.model;
@@ -66,6 +66,9 @@ public class MDCMark {
 
 	private MDCPosition position;
 
+	/// The text this mark lives in.
+	private TopItemList topItemList;
+
 	/**
 	 * Will the mark move left or right when data is inserted at the mark index.
 	 * When data at the mark position, the mark may move either to the left or
@@ -78,31 +81,28 @@ public class MDCMark {
 	
 	private MarkUpdater markUpdater;
 
-	/**
-	 * Create a mark corresponding to a specific position in a text. When text
-	 * is inserted at the mark position, the mark will move forward.
-	 * 
-	 * @param position
-	 */
-
-	public MDCMark(MDCPosition position) {
-		this(position, Gravity.FORWARD);
+	/// Create a mark corresponding to a specific position in a text. When text
+	/// is inserted at the mark position, the mark will move forward.
+	///
+	/// @param topItemList the text the mark lives in.
+	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
+	public MDCMark(TopItemList topItemList, MDCPosition position) {
+		this(topItemList, position, Gravity.FORWARD);
 	}
 
-	/**
-	 * Create a mark corresponding to a specific position in a text. specify if
-	 * the mark will move forward or backward when text is inserted at mark
-	 * position.
-	 * 
-	 * @param position
-	 * @param gravity
-	 */
-
-	public MDCMark(MDCPosition position, Gravity gravity) {
-		this.position = position;
+	/// Create a mark corresponding to a specific position in a text. specify if
+	/// the mark will move forward or backward when text is inserted at mark
+	/// position.
+	///
+	/// @param topItemList the text the mark lives in.
+	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
+	/// @param gravity
+	public MDCMark(TopItemList topItemList, MDCPosition position, Gravity gravity) {
+		this.topItemList = topItemList;
+		this.position = topItemList.getPositionAt(position.getIndex());
 		this.gravity = gravity;
 		markUpdater= new MarkUpdater();
-		position.getTopItemList().addMark(this);
+		topItemList.addMark(this);
 	}
 
 	/**
@@ -119,8 +119,9 @@ public class MDCMark {
 	 */
 
 	public void release() {
-		position.getTopItemList().removeMark(this);
+		topItemList.removeMark(this);
 		position = null;
+		topItemList = null;
 	}
 
 	/**
@@ -241,11 +242,10 @@ public class MDCMark {
 	 */
 	private void setIndex(int index) {
 		if (index < 0
-				|| index > position.getTopItemList().getNumberOfChildren())
+				|| index > topItemList.getNumberOfChildren())
 			return;
 		if (position.getIndex() != index) {
-			position = new MDCPosition(position.getTopItemList(), index);
-
+			position = new MDCPosition(index);
 		}
 	}
 
@@ -257,14 +257,14 @@ public class MDCMark {
 	 * @return the element after the mark.
 	 */
 	public TopItem getElementAfter() {
-		return position.getElementAfter();
+		return topItemList.getElementAfter(position);
 	}
 
 	/**
 	 * @return the element before the mark.
 	 */
 	public TopItem getElementBefore() {
-		return position.getElementBefore();
+		return topItemList.getElementBefore(position);
 	}
 
 	/**
@@ -279,10 +279,10 @@ public class MDCMark {
 	 * 
 	 * @param i
 	 * @return the position <em>i</em> places from this mark.
-	 * @see MDCPosition#getNextPosition(int)
+	 * @see TopItemList#getNextPosition(MDCPosition, int)
 	 */
 	public MDCPosition getNextPosition(int i) {
-		return position.getNextPosition(i);
+		return topItemList.getNextPosition(position, i);
 	}
 
 	/**
@@ -290,10 +290,10 @@ public class MDCMark {
 	 * 
 	 * @param k
 	 * @return an absolute position.
-	 * @see MDCPosition#getPositionAt(int)
+	 * @see TopItemList#getPositionAt(int)
 	 */
 	public MDCPosition getPositionAt(int k) {
-		return position.getPositionAt(k);
+		return topItemList.getPositionAt(k);
 	}
 
 	/**
@@ -302,7 +302,7 @@ public class MDCMark {
 	 * @return the topitemlist to which this mark points.
 	 */
 	public TopItemList getTopItemList() {
-		return position.getTopItemList();
+		return topItemList;
 	}
 
 	/*
@@ -315,7 +315,7 @@ public class MDCMark {
 	}
 
 	public boolean hasNext() {
-		return position.hasNext();
+		return topItemList.hasNext(position);
 	}
 
 	public boolean hasPrevious() {

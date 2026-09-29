@@ -54,7 +54,7 @@ public class WildCardQueryTest {
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult
                 = Arrays.asList(expected).stream()
-                        .map(pos -> new MDCPosition(text, pos))
+                        .map(pos -> new MDCPosition(pos))
                         .collect(Collectors.toList());
         assertEquals(expectedResult, actualResult, message);
     }

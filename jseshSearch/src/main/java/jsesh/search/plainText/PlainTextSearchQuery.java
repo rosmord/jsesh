@@ -39,7 +39,7 @@ public class PlainTextSearchQuery implements MdCSearchQuery {
             List<Integer> list = t.match(searchText);
             result.addAll(
                     list.stream()
-                            .map(i -> new MDCPosition(items, i))
+                            .map(i -> new MDCPosition(i))
                             .collect(Collectors.toList()));
         }
         return result;

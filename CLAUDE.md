@@ -12,6 +12,12 @@ Developer reflections and a daily log are written in `00_Documents/journal/Devel
 
 For the `jsesh` module's internal package layering (which package may depend on which, generated from actual imports), see `00_Documents/documentation/jsesh-package-dependencies.md`. For how to *use* the library from outside code, see `00_Documents/documentation/programmer_documentation.md`.
 
+## Various notes
+
+- The current development is moving towards an improved and more logical API. API compatibility with older code is not a goal.
+
+- older code may contain latin-1 characters (mostly in comments and javadoc). We are currently using UTF-8 everywhere, so if you meet a latin-1 character in a comment, place replace it with its UTF-8 equivalent. You should also signal it.
+
 ## Build Commands
 
 ```bash

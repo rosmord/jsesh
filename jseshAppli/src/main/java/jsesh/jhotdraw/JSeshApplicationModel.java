@@ -577,7 +577,6 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
                 });
             }
         } else {
-            // TODO : reorganize MDCPosition. It's too tightly coupled to the text.
             if (selectedView.isEnabled()) {
                 selectedView.setEnabled(false);
                 application.show(selectedView);

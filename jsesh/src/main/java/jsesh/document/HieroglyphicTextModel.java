@@ -281,7 +281,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	}
 
 	public MDCPosition buildFirstPosition() {
-		return new MDCPosition(getModel(), 0);
+		return new MDCPosition(0);
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
          * @param item 
          */
 	public void insertElementAt(int position, TopItem item) {
-		insertElementsAt(new MDCPosition(model, position), Collections.singletonList(item));
+		insertElementsAt(model.getPositionAt(position), Collections.singletonList(item));
 	}
 
 	// I Don't know if I will use this "first command" stuff.
@@ -406,11 +406,11 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	}
 
 	public MDCPosition getLastPosition() {
-		return new MDCPosition(model, model.getNumberOfChildren());
+		return model.getLastPosition();
 	}
 
 	public MDCPosition buildPosition(int index) {
-		return new MDCPosition(model, index);
+		return model.getPositionAt(index);
 	}
 
 	public void redo() {
@@ -508,7 +508,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	public List<MDCPosition> getLineLimitsAround(MDCPosition pos) {
 		int positions[]= model.getLineLimitsAround(pos.getIndex());
-		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
+		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
 	}
         
         /**
@@ -526,7 +526,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	public List<MDCPosition> getPageLimitsAround(MDCPosition pos) {
 		int positions[]= model.getPageLimitsAround(pos.getIndex());
-		return Arrays.asList(new MDCPosition(model, positions[0]), new MDCPosition(model, positions[1]));
+		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
 	}
         
         
