@@ -109,7 +109,7 @@ TopItemList                  ← document root (implements MDCFileInterface)
 - Lexer: hand-written, `jsesh.parser.lexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module (replacement for the retired JFlex-generated `MDCLexAux`, formerly `jsesh/src/jlex/MDCLexAux.l`). `MDCParser` drives `MdcLexer` directly and switches on its `MdcSymbolCode` enum.
 - `jsesh.parser` (lexer, parser, AST) does not depend on `jsesh.model`. The AST stores the lexer's own enums (`SignSubType`, `PhilologyKind`, `jsesh.parser.lexer.ToggleType`, `jsesh.parser.ast.WordEnding`); their mapping to `jsesh.model.constants` codes lives in `jsesh.mdcreader.AstModelBuilder`. Don't add `jsesh.model` imports to `jsesh.parser`.
 - High-level entry point: `jsesh.mdcreader.MDCParserModelGenerator` (returns a `TopItemList`)
-- Lower-level entry point: `jsesh.parser.MDCParserAstGenerator` (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
+- Lower-level entry point: `jsesh.parser.MDCParser` itself (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
 
 ### Sign/Glyph Database (`jsesh.glyphs`)
 

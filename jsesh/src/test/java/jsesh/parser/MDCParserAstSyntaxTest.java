@@ -41,7 +41,7 @@ import jsesh.parser.lexer.symbols.ToggleType;
  * each comparing the whole parsed {@link jsesh.parser.ast.AstDocument} against
  * a hand-built expected tree (via the {@code of}/{@code builder} factories on
  * the AST node types), rather than picking apart individual fields as
- * {@link MDCParserAstGeneratorTest} does.
+ * {@link MDCParserAstStructureTest} does.
  * <p>Every MDC snippet here was checked directly against the grammar
  * (originally {@code jsesh/src/jcup/MDCParse.y}, now
  * {@link jsesh.parser.MDCParser}) and lexer
@@ -52,20 +52,20 @@ import jsesh.parser.lexer.symbols.ToggleType;
 public class MDCParserAstSyntaxTest {
 
     private AstDocument parse(String mdc) throws MDCSyntaxError {
-        return new MDCParserAstGenerator().parse(mdc);
+        return new MDCParser().parse(mdc);
     }
 
     /**
-     * {@link MDCParserAstGenerator} defaults to {@code philologyAsSigns = true}
+     * {@link MDCParser} defaults to {@code philologyAsSigns = true}
      * (Winglyph-style: {@code [[}, {@code ]]}, etc. are ordinary sign codes).
      * The philology <em>grouping</em> constructs tested here need it off
-     * (tksesh-style), which {@link MDCParserAstGenerator#setPhilologyAsSigns}
+     * (tksesh-style), which {@link MDCParser#setPhilologyAsSigns}
      * exposes but does not default to.
      */
     private AstDocument parseWithPhilologyGrouping(String mdc) throws MDCSyntaxError {
-        MDCParserAstGenerator generator = new MDCParserAstGenerator();
-        generator.setPhilologyAsSigns(false);
-        return generator.parse(mdc);
+        MDCParser parser = new MDCParser();
+        parser.setPhilologyAsSigns(false);
+        return parser.parse(mdc);
     }
 
     // --- Juxtaposition, superposition, stacking ------------------------

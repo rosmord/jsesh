@@ -37,7 +37,7 @@ public class MDCCodeExtractor {
     }
 
     public List<String> getCodesAsList(String manuelDeCodageText) throws MDCSyntaxError {
-        AstDocument document = new MDCParserAstGenerator().parse(manuelDeCodageText);
+        AstDocument document = new MDCParser().parse(manuelDeCodageText);
         HieroglyphCodeCollector collector = new HieroglyphCodeCollector();
         document.accept(collector);
         return collector.result;

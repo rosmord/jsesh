@@ -1,7 +1,7 @@
 /// Reading Manuel de Codage text into the document model.
 ///
 /// This package bridges {@link jsesh.parser} and {@link jsesh.model}: it
-/// interprets the literal AST built by {@link jsesh.parser.MDCParserAstGenerator}
+/// interprets the literal AST built by [jsesh.parser.MDCParser]
 /// into a {@link jsesh.model.TopItemList}. It is the only place which depends on
 /// both, so that the parser stays independent of the model.
 ///

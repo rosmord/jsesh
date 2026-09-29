@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ *
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ */
 package jsesh.parser;
 
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.*;
@@ -57,10 +64,12 @@ import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.ToggleType;
 
 /// Recursive descent parser for Manuel de Codage texts.
-/// 
-/// It builds an [AstDocument] from the input.
-/// 
-/// Any syntax error aborts the parse with an {@link MDCSyntaxError}: there is no error recovery.
+///
+/// It builds an [AstDocument] from the input: a literal AST (see [jsesh.parser.ast])
+/// of the code, instead of the usable document model that
+/// [jsesh.mdcreader.MDCParserModelGenerator] builds.
+///
+/// Any syntax error aborts the parse with an [MDCSyntaxError]: there is no error recovery.
 /// The GUI software (JSesh) reads files line-by-line, so it catches errors at the line level.
 /// 
 /// @author rosmord
@@ -106,6 +115,7 @@ public class MDCParser {
         }
     }
 
+    /// @return true if we are debugging.
     public boolean isDebug() {
         return debug;
     }

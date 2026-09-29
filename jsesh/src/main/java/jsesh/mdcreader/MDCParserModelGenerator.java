@@ -10,7 +10,7 @@ import java.io.Reader;
 
 import jsesh.model.TopItemList;
 import jsesh.model.constants.Dialect;
-import jsesh.parser.MDCParserAstGenerator;
+import jsesh.parser.MDCParser;
 import jsesh.parser.MDCSyntaxError;
 
 /**
@@ -18,14 +18,14 @@ import jsesh.parser.MDCSyntaxError;
  * for the code.
  *
  * <p>Internally, this parses to the literal AST (see {@link jsesh.parser.ast})
- * via {@link MDCParserAstGenerator}, then interprets that AST into the model
+ * via {@link MDCParser}, then interprets that AST into the model
  * with {@link AstModelBuilder}.
  *
  * @author rosmord
  * @see jsesh.model.TopItemList
  */
 public class MDCParserModelGenerator {
-	private final MDCParserAstGenerator astGenerator;
+	private final MDCParser parser;
 	private final Dialect dialect;
 
 	public MDCParserModelGenerator() {
@@ -38,16 +38,16 @@ public class MDCParserModelGenerator {
 	 * @see Dialect
 	 */
 	public MDCParserModelGenerator(Dialect dialect) {
-		astGenerator = new MDCParserAstGenerator();
+		parser = new MDCParser();
 		this.dialect = dialect;
 	}
 
 	public TopItemList parse(Reader in) throws MDCSyntaxError {
-		return new AstModelBuilder(dialect).build(astGenerator.parse(in));
+		return new AstModelBuilder(dialect).build(parser.parse(in));
 	}
 
 	public TopItemList parse(String text) throws MDCSyntaxError {
-		return new AstModelBuilder(dialect).build(astGenerator.parse(text));
+		return new AstModelBuilder(dialect).build(parser.parse(text));
 	}
 
 
@@ -55,7 +55,7 @@ public class MDCParserModelGenerator {
 	 * @return true if we are debugging.
 	 */
 	public boolean isDebug() {
-		return astGenerator.isDebug();
+		return parser.isDebug();
 	}
 
 	/**
@@ -64,21 +64,21 @@ public class MDCParserModelGenerator {
 	 * @return true if philological markers are considered as simple signs.
 	 */
 	public boolean isPhilologyAsSigns() {
-		return astGenerator.isPhilologyAsSigns();
+		return parser.isPhilologyAsSigns();
 	}
 
 	/**
 	 * @param v
 	 */
 	public void setDebug(boolean v) {
-		astGenerator.setDebug(v);
+		parser.setDebug(v);
 	}
 
 	/**
 	 * @param v
 	 */
 	public void setPhilologyAsSigns(boolean v) {
-		astGenerator.setPhilologyAsSigns(v);
+		parser.setPhilologyAsSigns(v);
 	}
 
 }

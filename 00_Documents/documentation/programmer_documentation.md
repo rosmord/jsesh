@@ -284,13 +284,13 @@ Notes:
 - `setPhilologyAsSigns(true)` treats `[[`, `]]`, `(` … as ordinary signs instead
   of philological constructs — only needed for very old TkSesh texts.
 - **Lower level:** if you don't want a `TopItemList` but the literal parse tree
-  instead, use `MDCParserAstGenerator`, which returns an `AstDocument` (see
-  `jsesh.parser.ast`) — a faithful, uninterpreted record of what the parser
-  read, walkable with `AstVisitor`. `MDCParserModelGenerator` itself is just
-  `MDCParserAstGenerator` followed by the interpretation step (folding
-  toggles into red/shaded state, dropping cadrat/zone options, dialect-specific
-  modifier renaming...) that turns that AST into a `TopItemList`. Both are
-  backed by the same hand-written parser, `jsesh.parser.MDCParser`.
+  instead, use `jsesh.parser.MDCParser`, the hand-written parser itself, which
+  returns an `AstDocument` (see `jsesh.parser.ast`) — a faithful, uninterpreted
+  record of what the parser read, walkable with `AstVisitor`.
+  `MDCParserModelGenerator` itself is just `MDCParser` followed by the
+  interpretation step (folding toggles into red/shaded state, dropping
+  cadrat/zone options, dialect-specific modifier renaming...) that turns that
+  AST into a `TopItemList`.
   `jsesh.parser` and its AST don't depend on `jsesh.model`: sign subtypes,
   philology kinds and toggles are stored as the lexer's own enums
   (`jsesh.parser.lexer`).
@@ -603,7 +603,7 @@ HieroglyphResources res = new HieroglyphResourcesBuilder()
 | I want to… | Use | Package |
 |---|---|---|
 | Parse MdC → model | `MDCParserModelGenerator.parse` | `jsesh.mdcreader` |
-| Parse MdC → literal AST | `MDCParserAstGenerator.parse` | `jsesh.parser` |
+| Parse MdC → literal AST | `MDCParser.parse` | `jsesh.parser` |
 | Model → MdC text | `MdCModelWriter.write` | `jsesh.io.mdc` |
 | Draw hieroglyphs (image / `Graphics2D`) | `MDCDrawingFacade` | `jsesh.render.draw` |
 | Load a `.gly` file | `MDCDocumentReader.loadFile` | `jsesh.io.document` |

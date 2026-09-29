@@ -25,15 +25,15 @@ import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.symbols.ToggleType;
 
 /**
- * Structural tests for {@link MDCParserAstGenerator}, in the same spirit as
+ * Structural tests for {@link MDCParser}, in the same spirit as
  * {@link jsesh.mdcreader.MDCParserModelGeneratorTest}, but checking that the AST stays a
  * literal record of what was parsed (e.g. toggles are kept as nodes, instead
  * of being folded into item state as {@link jsesh.mdcreader.AstModelBuilder} does).
  */
-public class MDCParserAstGeneratorTest {
+public class MDCParserAstStructureTest {
 
     private AstDocument parse(String mdc) throws MDCSyntaxError {
-        return new MDCParserAstGenerator().parse(mdc);
+        return new MDCParser().parse(mdc);
     }
 
     private AstHieroglyph hieroglyphAt(AstHBox hBox, int i) {

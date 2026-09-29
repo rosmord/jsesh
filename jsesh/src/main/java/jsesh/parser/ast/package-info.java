@@ -8,11 +8,11 @@
  * faithful, uninterpreted record of what the parser actually read: every construct
  * recognized by the grammar becomes a node, in the order it was parsed.
  *
- * <p>Use {@link jsesh.parser.MDCParserAstGenerator} to build this tree from MDC text:
+ * <p>Use {@link jsesh.parser.MDCParser} to build this tree from MDC text:
  *
  * <pre>
- * MDCParserAstGenerator g = new MDCParserAstGenerator();
- * AstDocument doc = g.parse("p*t:pt");
+ * MDCParser p = new MDCParser();
+ * AstDocument doc = p.parse("p*t:pt");
  * </pre>
  *
  * <p>{@link jsesh.parser.ast.AstNode#accept(jsesh.parser.ast.AstVisitor)} and

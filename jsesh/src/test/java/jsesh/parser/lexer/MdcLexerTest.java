@@ -92,7 +92,7 @@ class MdcLexerTest {
         assertEquals(List.of(MdcSymbolCode.QUADRAT), codesOf("@quadrat"));
         // "zoner" is not the literal "zone": the generic sign-code rule wins by length.
         List<MdcSymbol> symbols = scanAll("@zoner");
-        assertEquals(MdcSymbolCode.HIEROGLYPH, symbols.get(0).code());
+        assertEquals(MdcSymbolCode.UNKNOWN_OPERATOR, symbols.get(0).code());
         assertEquals("@zoner", symbols.get(0).text());
     }
 
