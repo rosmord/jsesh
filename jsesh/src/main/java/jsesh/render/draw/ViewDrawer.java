@@ -21,7 +21,7 @@ import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.MDCView;
@@ -184,7 +184,7 @@ public class ViewDrawer {
     /**
      * Mapping from display space to model space, mostly to manage mouse clicks.
      *
-     * @param v          a view for a <em>TopItemList</em> (this might and should
+     * @param v          a view for a <em>HieroglyphicText</em> (this might and should
      *                   change
      *                   ?)
      * @param clickPoint : a point, its coordinates expressed in display space.
@@ -450,7 +450,7 @@ public class ViewDrawer {
                 tmpg.setColor(Color.GREEN);
                 tmpg.setStroke(new BasicStroke(0.4f));
                 tmpg.draw(new Line2D.Double(0, v.getHeight(), v.getWidth(), 0));
-            } else if (v.getModel() instanceof TopItemList) {
+            } else if (v.getModel() instanceof HieroglyphicText) {
                 tmpg.setStroke(new BasicStroke(1f));
                 tmpg.setColor(Color.MAGENTA);
 
@@ -479,7 +479,7 @@ public class ViewDrawer {
      * Highlight the view v if it belongs to the selection.
      *
      * @param g a graphics2D, whose origin should be v's top left corner.
-     * @param i the position in the current TopItemList
+     * @param i the position in the current HieroglyphicText
      * @param x x position of the view
      * @param y y position of the view
      * @param v the view
@@ -565,10 +565,10 @@ public class ViewDrawer {
         Color oldBackground = g.getBackground();
 
         // boolean shadedItem= false;
-        // TODO : move this code up, in a drawing loop for TopItemList ?
+        // TODO : move this code up, in a drawing loop for HieroglyphicText ?
         // (this would be better anyway, for the test would be simpler,
         // without need for "depth")
-        // Code for TopItemLists elements.
+        // Code for HieroglyphicText elements.
         if (depth == 1 && v.getModel() instanceof TopItem) {
 
             // The clipping functions allow us not to draw the text which is not
@@ -674,7 +674,7 @@ public class ViewDrawer {
                 // Draw the subview.
                 boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
                 // If the subview was selected, outline it.
-                if (wasDrawn && v.getModel() instanceof TopItemList) {
+                if (wasDrawn && v.getModel() instanceof HieroglyphicText) {
                     drawSelection(g, renderContext, i, subv);
                 }
                 g.translate(-subvx, -subvy);

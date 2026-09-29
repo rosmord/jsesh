@@ -44,7 +44,7 @@ public class ExportAsHTMLAction extends AbstractCoreViewAction {
 				.askAndSet() == JOptionPane.OK_OPTION) {
 			htmlExporter.setJSeshStyle(v
 					.getJSeshStyle());
-			htmlExporter.exportModel(v.getTopItemList());
+			htmlExporter.exportModel(v.getHieroglyphicText());
 		}
 	}
 

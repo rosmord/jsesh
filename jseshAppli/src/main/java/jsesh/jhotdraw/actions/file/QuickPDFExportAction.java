@@ -97,7 +97,7 @@ public class QuickPDFExportAction extends AbstractCoreViewAction {
 			jSeshView.selectCurrentLine();
 		}
 		try {
-			pdfExporter.exportModel(jSeshView.getTopItemList(),
+			pdfExporter.exportModel(jSeshView.getHieroglyphicText(),
 					jSeshView.getCaret(), jSeshView.getRenderContext());
 			String okMessage = MessageFormat.format(
 					bundleHelper.getLabel("file.quickPDFExport.ok"),

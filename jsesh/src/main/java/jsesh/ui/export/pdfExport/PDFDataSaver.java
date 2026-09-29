@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -68,14 +68,14 @@ public class PDFDataSaver {
         return scale;
     }
 
-    public ByteArrayInputStream createPDFContent(TopItemList topItemList)
+    public ByteArrayInputStream createPDFContent(HieroglyphicText topItemList)
             throws IOException {
         ByteArrayOutputStream imageArray = new ByteArrayOutputStream();
         writeSinglePagePDF(imageArray, topItemList);
         return new ByteArrayInputStream(imageArray.toByteArray());
     }
 
-    public void writeSinglePagePDF(OutputStream out, TopItemList topItemList)
+    public void writeSinglePagePDF(OutputStream out, HieroglyphicText topItemList)
             throws IOException {
         // Dirty code which needs to be cleaned up.
         float margin = 1f;

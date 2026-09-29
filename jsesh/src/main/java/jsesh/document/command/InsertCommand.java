@@ -40,7 +40,7 @@ import jsesh.model.AlphabeticCharacter;
 
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Command that inserts one or more cadrats.
@@ -54,7 +54,7 @@ class InsertCommand extends AbstractMDCCommand {
 	 */
 	private List<TopItem> newCadrats;
 	private MDCPosition position;
-	private TopItemList topItemList;
+	private HieroglyphicText topItemList;
 
 	private final boolean typing;
 	
@@ -66,7 +66,7 @@ class InsertCommand extends AbstractMDCCommand {
 	 * @param firstCommand Is this command the first one on a fresh text ?
 	 */
 	
-	public InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
+	public InsertCommand(HieroglyphicText topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
 		this(topItemList, newCadrats, position, firstCommand, false);
 	}
 
@@ -74,7 +74,7 @@ class InsertCommand extends AbstractMDCCommand {
 	///
 	/// @param typing true if the elements are text typed by the user:
 	/// successive typing insertions are then undone one word at a time.
-	InsertCommand(TopItemList topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand,
+	InsertCommand(HieroglyphicText topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand,
 			boolean typing) {
 		super(firstCommand);
 		this.topItemList= topItemList;

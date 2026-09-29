@@ -66,7 +66,7 @@ public class ViewBuilder {
      * The view will correspond to all sub elements of model between indexes
      * start and end.
      * <p>
-     * mode will typically be a TopItemList which we want to render partially.
+     * mode will typically be a HieroglyphicText which we want to render partially.
      *
      * @param model
      * @param start

@@ -37,7 +37,7 @@ import java.util.List;
 
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * A factory to build the main edit commands used by the hieroglyphic editor.
@@ -57,7 +57,7 @@ public class CommandFactory {
 	 * @param clean is the original text clean (i.e. not modified).
 	 * @return
 	 */
-	public MDCCommand buildReplaceCommand(TopItemList topItemList,
+	public MDCCommand buildReplaceCommand(HieroglyphicText topItemList,
 			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
 			boolean clean) {
 		CompositeCommand command = new CompositeCommand(clean);
@@ -71,19 +71,19 @@ public class CommandFactory {
 		return command;
 	}
 
-	public MDCCommand buildInsertCommand(TopItemList model,
+	public MDCCommand buildInsertCommand(HieroglyphicText model,
 			List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
 		return new InsertCommand(model, newCadrats, position, firstCommand);
 	}
 
 	/// Builds the insertion of text typed by the user; successive typing
 	/// insertions are merged in the undo history, word by word.
-	public MDCCommand buildTypingCommand(TopItemList model,
+	public MDCCommand buildTypingCommand(HieroglyphicText model,
 			List<TopItem> newItems, MDCPosition position, boolean firstCommand) {
 		return new InsertCommand(model, newItems, position, firstCommand, true);
 	}
 
-	public MDCCommand buildRemoveCommand(TopItemList model, MDCPosition pos1,
+	public MDCCommand buildRemoveCommand(HieroglyphicText model, MDCPosition pos1,
 			MDCPosition pos2, boolean clean) {
 		return new RemoveCommand(model, pos1, pos2, clean);
 

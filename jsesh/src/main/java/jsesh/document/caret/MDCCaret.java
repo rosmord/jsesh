@@ -42,7 +42,7 @@ import java.util.List;
 
 import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * The caret represent the editing position in a text. It takes in account both
@@ -84,7 +84,7 @@ public class MDCCaret {
 	/**
 	 * @param model
 	 */
-	public MDCCaret(TopItemList model) {
+	public MDCCaret(HieroglyphicText model) {
 		this(new MDCMark(model, new MDCPosition(0)));
 	}
 
@@ -93,7 +93,7 @@ public class MDCCaret {
 	 * @param model
 	 * @return
 	 */
-	public static MDCCaret buildWholeTextCaret(TopItemList model) {
+	public static MDCCaret buildWholeTextCaret(HieroglyphicText model) {
 		MDCCaret result= new MDCCaret(model);
 		result.moveInsertTo(0);
 		result.setMarkAt(model.getNumberOfChildren());
@@ -125,7 +125,7 @@ public class MDCCaret {
 		notifyCaretListeners();
 	}
 
-	public void changeModel(TopItemList model) {
+	public void changeModel(HieroglyphicText model) {
 		// We want to generate only one caretChanged event. Hence, we delete the mark by hand.
 		if (mark != null)
 			mark.release();
@@ -157,8 +157,8 @@ public class MDCCaret {
 	/** 
 	 * @return the model
 	 */
-	public TopItemList getModel() {
-		return insert.getTopItemList();
+	public HieroglyphicText getModel() {
+		return insert.getHieroglyphicText();
 	}
 
 	/**

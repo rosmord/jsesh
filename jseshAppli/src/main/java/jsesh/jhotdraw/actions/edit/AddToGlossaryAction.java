@@ -8,7 +8,7 @@ import org.jhotdraw_7_6.app.View;
 import jsesh.io.mdc.MdCModelWriter;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.ui.glossary.JGlossaryEditor;
 import jsesh.ui.glossary.JGlossaryEditorFrame;
@@ -33,7 +33,7 @@ public class AddToGlossaryAction extends AbstractCoreViewAction {
 				.filter(v -> v.getEditor().hasSelection())
 				.ifPresent(v -> {
 					MdCModelWriter mdCModelWriter = new MdCModelWriter();
-					TopItemList list = v.getEditor().getSelection();
+					HieroglyphicText list = v.getEditor().getSelection();
 					String mdc = mdCModelWriter.toMdC(list);
 					JGlossaryEditorFrame editor = appCore().glossaryEditor();
 					editor.setVisible(true);

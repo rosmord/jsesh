@@ -8,15 +8,24 @@ import jsesh.model.operations.ModelOperation;
 import jsesh.model.operations.ZoneModification;
 import jsesh.model.tools.HieroglyphCodesExtractor;
 
-/**
- *
- * TopItemList
- *
- * @author rosmord
- *
- * This code is published under the GNU LGPL.
- */
-public class TopItemList extends ModelElement {
+/// A complete hieroglyphic text: the root of the model tree.
+///
+/// Its children are [TopItem]s ([Cadrat]s, [Cartouche]s, line and page
+/// breaks, alphabetic text...). Positions in the text ([MDCPosition]) fall
+/// between these children.
+///
+/// This class is the plain text, usable without any editor. For editing
+/// (undo/redo, change events), wrap it in a
+/// [jsesh.document.HieroglyphicTextModel]; for file metadata, see
+/// [jsesh.document.MDCDocument]. To build one from MdC code, use
+/// [jsesh.mdcreader.MDCParserModelGenerator].
+///
+/// Formerly named `TopItemList`.
+///
+/// @author rosmord
+///
+/// This code is published under the GNU LGPL.
+public class HieroglyphicText extends ModelElement {
 
     /**
      *
@@ -24,26 +33,26 @@ public class TopItemList extends ModelElement {
     private static final long serialVersionUID = 8950824272164138323L;
 
     /**
-     * List of observers for this topItemList. Currently, the associated
+     * List of observers for this text. Currently, the associated
      * HieroglyphicTextModel
      */
-    transient List<ModelElementObserver> topItemListObservers;
+    transient List<ModelElementObserver> textObservers;
 
     /**
-     * The list of MDCMark on this topItemList. To avoid problems with outdated
+     * The list of MDCMark on this text. To avoid problems with outdated
      * marks, we have separated them from the usual observers.
      */
     transient List<MDCMark> marks;
 
-    public TopItemList() {
+    public HieroglyphicText() {
     }
 
     public void accept(ModelElementVisitor v) {
-        v.visitTopItemList(this);
+        v.visitHieroglyphicText(this);
     }
 
     /**
-     * Adds a list of elements to this TopItemList. The list must contain only
+     * Adds a list of elements to this text. The list must contain only
      * topitems.
      *
      * @param elements
@@ -55,7 +64,7 @@ public class TopItemList extends ModelElement {
     }
 
     /**
-     * Add a list of topitems at a given position in this TopItemList.
+     * Add a list of topitems at a given position in this text.
      *
      * @param index
      * @param items
@@ -87,8 +96,8 @@ public class TopItemList extends ModelElement {
     }
 
     @Override
-    public TopItemList deepCopy() {
-        TopItemList r = new TopItemList();
+    public HieroglyphicText deepCopy() {
+        HieroglyphicText r = new HieroglyphicText();
         copyContentTo(r);
         return r;
     }
@@ -221,10 +230,10 @@ public class TopItemList extends ModelElement {
     }
 
     /**
-     * Returns the number of pages in this topItemList. (currently not
+     * Returns the number of pages in this text. (currently not
      * optimized).
      *
-     * @return the number of pages in this topItemList.
+     * @return the number of pages in this text.
      */
     public int getNumberOfPages() {
         int result = 1;
@@ -252,8 +261,8 @@ public class TopItemList extends ModelElement {
             }
         }
         // Then notify regular observers
-        if (topItemListObservers != null) {
-            for (Iterator<ModelElementObserver> it = topItemListObservers
+        if (textObservers != null) {
+            for (Iterator<ModelElementObserver> it = textObservers
                     .iterator(); it.hasNext();) {
                 ModelElementObserver observer = it.next();
                 observer.observedElementChanged(op);
@@ -276,7 +285,7 @@ public class TopItemList extends ModelElement {
 	 * @see jsesh.model.ModelElement#unsetContainers()
      */
     protected void unsetContainers() {
-        topItemListObservers = null;
+        textObservers = null;
     }
 
     public ModelElement getNextSlibing() {
@@ -291,10 +300,10 @@ public class TopItemList extends ModelElement {
      * @param obs
      */
     public void deleteObserver(ModelElementObserver obs) {
-        if (topItemListObservers != null) {
-            topItemListObservers.remove(obs);
-            if (topItemListObservers.isEmpty()) {
-                topItemListObservers = null;
+        if (textObservers != null) {
+            textObservers.remove(obs);
+            if (textObservers.isEmpty()) {
+                textObservers = null;
             }
         }
     }
@@ -303,10 +312,10 @@ public class TopItemList extends ModelElement {
      * @param obs
      */
     public void addObserver(ModelElementObserver obs) {
-        if (topItemListObservers == null) {
-            topItemListObservers = new ArrayList<>();
+        if (textObservers == null) {
+            textObservers = new ArrayList<>();
         }
-        topItemListObservers.add(obs);
+        textObservers.add(obs);
     }
 
     public void addMark(MDCMark mdcMark) {
@@ -332,7 +341,7 @@ public class TopItemList extends ModelElement {
      * @param max
      * @return a <strong>copy</strong> of the items between the two limits.
      */
-    public List<TopItem> getTopItemListBetween(int min, int max) {
+    public List<TopItem> getTopItemsBetween(int min, int max) {
         ArrayList<TopItem> result = new ArrayList<TopItem>();
         for (int i = min; i < max; i++) {
             result.add(getTopItemAt(i).deepCopy());
@@ -359,13 +368,13 @@ public class TopItemList extends ModelElement {
     }
 
     /**
-     * Returns a list view of the top item list. (the elements are copies of the
+     * Returns a list view of this text. (the elements are copies of the
      * original ones).
      *
      * @return
      */
     public List<TopItem> asList() {
-        return getTopItemListBetween(0, getNumberOfChildren());
+        return getTopItemsBetween(0, getNumberOfChildren());
     }
 
     /**

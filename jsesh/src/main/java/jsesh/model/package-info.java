@@ -2,7 +2,7 @@
  * A usable model for representing a Manuel de Codage file.
  *
  * <p>The root element for a manuel de codage file is the
- * {@link jsesh.model.TopItemList} class.
+ * {@link jsesh.model.HieroglyphicText} class.
  *
  * <p>The root of the inheritance hierarchy is the
  * {@link jsesh.model.ModelElement} class. The classes are organized according

@@ -5,7 +5,7 @@ import java.awt.font.FontRenderContext;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -69,7 +69,7 @@ public abstract class AbtractExportDrawer {
      * This method uses buildGraphics to create the drawing device.
      * @param list
      */
-    public void drawTopItemList(TopItemList list) {
+    public void drawHieroglyphicText(HieroglyphicText list) {
         JSeshStyle style = renderContext.jseshStyle();
 
         double scale = (double) getCadratHeight()
@@ -107,9 +107,9 @@ public abstract class AbtractExportDrawer {
      * @param elt
      */
     public void drawElement(TopItem elt) {
-        TopItemList smallModel = new TopItemList();
+        HieroglyphicText smallModel = new HieroglyphicText();
         smallModel.addTopItem((TopItem) elt.deepCopy());
-        drawTopItemList(smallModel);
+        drawHieroglyphicText(smallModel);
     }
 
     /**

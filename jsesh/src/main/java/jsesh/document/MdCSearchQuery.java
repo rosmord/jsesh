@@ -36,12 +36,12 @@ package jsesh.document;
 
 import java.util.List;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Generic representation of search queries in JSesh.
  * @author rosmord
  */
 public interface MdCSearchQuery {
-       List<MDCPosition> doSearch(TopItemList items);
+       List<MDCPosition> doSearch(HieroglyphicText items);
 }

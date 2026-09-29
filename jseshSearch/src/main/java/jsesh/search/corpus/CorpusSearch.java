@@ -129,7 +129,7 @@ public class CorpusSearch {
         try {
             MDCDocumentReader reader = new MDCDocumentReader();
             MDCDocument mdcDocument = reader.loadFile(file.toFile());
-            List<MDCPosition> positions = query.doSearch(mdcDocument.getHieroglyphicTextModel().getModel());
+            List<MDCPosition> positions = query.doSearch(mdcDocument.getHieroglyphicTextModel().getHieroglyphicText());
             // see information about MDCPosition for more details.
             for (MDCPosition pos : positions) {
                 hits.add(new CorpusSearchHit(file, pos.getIndex()));

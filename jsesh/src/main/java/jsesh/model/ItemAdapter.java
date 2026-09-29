@@ -57,9 +57,9 @@ abstract public class ItemAdapter implements ModelElementVisitor {
 	final 	public void visitSubCadrat(SubCadrat c) {}
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */
-	final 	public void visitTopItemList(TopItemList t) {}
+	final 	public void visitHieroglyphicText(HieroglyphicText t) {}
 
 
 }

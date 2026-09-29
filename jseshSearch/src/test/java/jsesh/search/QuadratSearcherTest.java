@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.search.quadrant.QuadratSearchQuery;
 
 /**
@@ -30,7 +30,7 @@ import jsesh.search.quadrant.QuadratSearchQuery;
  */
 public class QuadratSearcherTest {
     
-    private TopItemList parse(String mdc) {
+    private HieroglyphicText parse(String mdc) {
         try {
             return new MDCParserModelGenerator().parse(mdc);
         } catch (MDCSyntaxError ex) {
@@ -46,8 +46,8 @@ public class QuadratSearcherTest {
      * @param expected 
      */
     private void doSearch(String message, String mdc, String mdcToSearch, Integer... expected) {
-        TopItemList text = parse(mdc);
-        TopItemList toSearch= parse(mdcToSearch);
+        HieroglyphicText text = parse(mdc);
+        HieroglyphicText toSearch= parse(mdcToSearch);
         QuadratSearchQuery searcher = new QuadratSearchQuery(toSearch);
         List<MDCPosition> actualResult = searcher.doSearch(text);
         List<MDCPosition> expectedResult

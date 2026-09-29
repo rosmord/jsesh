@@ -24,7 +24,7 @@ import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.search.simple.SignStringSearchQuery;
 
 /**
@@ -33,7 +33,7 @@ import jsesh.search.simple.SignStringSearchQuery;
  */
 public class SignStringSearcherTest {
 
-    private TopItemList parse(String mdc) {
+    private HieroglyphicText parse(String mdc) {
         try {
             return new MDCParserModelGenerator().parse(mdc);
         } catch (MDCSyntaxError ex) {
@@ -49,7 +49,7 @@ public class SignStringSearcherTest {
      * @param expected 
      */
     private void doSearch(String message, String mdc, String codes, Integer... expected) {
-        TopItemList text = parse(mdc);
+        HieroglyphicText text = parse(mdc);
         List<String> toSearch = Arrays.asList(codes.split(" "));
         HieroglyphDatabase database = HieroglyphResourcesBuilder.buildEmbedded().database();
         SignStringSearchQuery searcher = new SignStringSearchQuery(database, toSearch);

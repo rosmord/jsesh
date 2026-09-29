@@ -30,7 +30,7 @@ import jsesh.model.TabStop;
 import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
@@ -75,7 +75,7 @@ import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.SignSubType;
 
-/// An AstVisitor which knows how to build a [TopItemList] model from an [AstDocument] AST.
+/// An AstVisitor which knows how to build a [HieroglyphicText] model from an [AstDocument] AST.
 /// @author rosmord
 /// @see MDCParserModelGenerator
  
@@ -90,9 +90,9 @@ class AstModelBuilder implements AstVisitor {
         this.dialect = dialect;
     }
 
-    TopItemList build(AstDocument document) {
+    HieroglyphicText build(AstDocument document) {
         document.accept(this);
-        return pop(TopItemList.class);
+        return pop(HieroglyphicText.class);
     }
 
     private void push(Object o) {
@@ -128,7 +128,7 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitTopItemList(AstTopItemList node) {
-        TopItemList list = new TopItemList();
+        HieroglyphicText list = new HieroglyphicText();
         for (AstNode item : node.items()) {
             item.accept(this);
             Object built = pop();

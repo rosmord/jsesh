@@ -24,7 +24,7 @@ import jsesh.ui.export.rtf.RTFExportPreferences;
 import jsesh.ui.export.rtf.RTFExporter;
 import jsesh.io.mdc.MdCModelWriter;
 import jsesh.model.ListOfTopItems;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.MDCDrawingFacade;
@@ -45,7 +45,7 @@ import jsesh.render.view.ViewBuilder;
  */
 public class MDCModelTransferable implements Transferable {
 
-    private final TopItemList topItemList;
+    private final HieroglyphicText text;
 
     private RTFExportPreferences rtfPreferences;
 
@@ -67,10 +67,10 @@ public class MDCModelTransferable implements Transferable {
      * @param rtfExportPreferences
      * @param renderContext
      */
-    public MDCModelTransferable(DataFlavor[] dataFlavors, TopItemList list,
+    public MDCModelTransferable(DataFlavor[] dataFlavors, HieroglyphicText list,
             RTFExportPreferences rtfExportPreferences,
             JSeshRenderContext renderContext) {
-        this.topItemList = list;
+        this.text = list;
         maxBitmapWidth = 2000;
         maxBitmapHeight = 2000;
         this.rtfPreferences = rtfExportPreferences;
@@ -129,11 +129,11 @@ public class MDCModelTransferable implements Transferable {
     private ByteArrayInputStream getEMFData() throws IOException {
         JSeshRenderContext marginLessContext = createEmbeddedRenderContext();
         MdCModelWriter mdCModelWriter = new MdCModelWriter();
-        String mdc = mdCModelWriter.toMdC(topItemList);
+        String mdc = mdCModelWriter.toMdC(text);
         EmbeddableEMFSimpleDrawer drawer = new EmbeddableEMFSimpleDrawer(marginLessContext,
                 rtfPreferences.cadratHeight(),
                 mdc);
-        drawer.drawTopItemList(topItemList);
+        drawer.drawHieroglyphicText(text);
         return new ByteArrayInputStream(drawer.getBytes());
     }
 
@@ -151,7 +151,7 @@ public class MDCModelTransferable implements Transferable {
         float scale = targetHeight / maxCadratHeight;
         PDFDataSaver pdfDataSaver = new PDFDataSaver(jseshRenderContext);
         pdfDataSaver.setScale(scale);
-        return pdfDataSaver.createPDFContent(topItemList);
+        return pdfDataSaver.createPDFContent(text);
     }
 
     /**
@@ -161,7 +161,7 @@ public class MDCModelTransferable implements Transferable {
         MacPictGraphics2D g = new MacPictGraphics2D();
         JSeshTechRenderContext tmp = JSeshTechRenderContext.buildSimpleContext(g);
         JSeshRenderContext marginLessRenderContext = createEmbeddedRenderContext();
-        MDCView view = new ViewBuilder().buildView(topItemList, marginLessRenderContext, tmp);        
+        MDCView view = new ViewBuilder().buildView(text, marginLessRenderContext, tmp);        
         new ViewDrawer().draw(g, marginLessRenderContext, tmp, view);
         g.dispose();
         return new ByteArrayInputStream(g.getAsArray());
@@ -175,7 +175,7 @@ public class MDCModelTransferable implements Transferable {
                 .maxSize(maxBitmapWidth, maxBitmapHeight)
                 .cadratHeight(rtfPreferences.cadratHeight())
                 .build();
-        return facade.createImage(topItemList);
+        return facade.createImage(text);
     }
 
     /**
@@ -183,8 +183,8 @@ public class MDCModelTransferable implements Transferable {
      */
     private ListOfTopItems getItemListData() {
         ListOfTopItems l = new ListOfTopItems();
-        for (int i = 0; i < topItemList.getNumberOfChildren(); i++) {
-            l.add(topItemList.getTopItemAt(i).deepCopy());
+        for (int i = 0; i < text.getNumberOfChildren(); i++) {
+            l.add(text.getTopItemAt(i).deepCopy());
         }
         return l;
     }
@@ -194,7 +194,7 @@ public class MDCModelTransferable implements Transferable {
      */
     private String getStringData() {
         MdCModelWriter mdCModelWriter = new MdCModelWriter();
-        return mdCModelWriter.toMdC(topItemList, true);
+        return mdCModelWriter.toMdC(text, true);
     }
 
     /**
@@ -206,10 +206,10 @@ public class MDCModelTransferable implements Transferable {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        if (topItemList.getNumberOfChildren() < 5000) {
+        if (text.getNumberOfChildren() < 5000) {
             RTFExporter rtfExporter = new RTFExporter(jseshRenderContext, rtfPreferences);            
             rtfExporter.setRtfPreferences(rtfPreferences);
-            rtfExporter.ExportModelTo(topItemList, outputStream);
+            rtfExporter.ExportModelTo(text, outputStream);
             result = new ByteArrayInputStream(outputStream.toByteArray());
         } else {
             String data = "{\\rtf1\\ansi\\ansicpg1252Jsesh : "

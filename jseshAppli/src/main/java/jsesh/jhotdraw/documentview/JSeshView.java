@@ -78,7 +78,7 @@ import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
 import jsesh.io.document.MDCDocumentWriter;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.resources.JSeshMessages;
 
 /**
@@ -352,7 +352,7 @@ public class JSeshView extends AbstractView {
                                                            // context!
             PDFExporter exporter = new PDFExporter();
             exporter.setPdfExportPreferences(prefs);
-            TopItemList model = document.getHieroglyphicTextModel().getModel();
+            HieroglyphicText model = document.getHieroglyphicTextModel().getHieroglyphicText();
             exporter.exportModel(model, viewCore.getCaret(), viewCore.getRenderContext());
         } else {
             new MDCDocumentWriter().write(document);

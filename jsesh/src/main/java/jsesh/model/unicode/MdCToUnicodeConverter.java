@@ -20,7 +20,7 @@ import jsesh.model.LineBreak;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.SubCadrat;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Converter from <em>Manuel de Codage</em> to Unicode.
@@ -50,7 +50,7 @@ public class MdCToUnicodeConverter {
      * @param topItemList
      * @return a plain Unicode representation.
      */
-    public String convertToPlainUnicode(TopItemList topItemList) {
+    public String convertToPlainUnicode(HieroglyphicText topItemList) {
         InnerUnicodeConverter converter = new InnerUnicodeConverter();
         topItemList.accept(converter);
         return converter.stringBuilder.toString();

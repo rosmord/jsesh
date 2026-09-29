@@ -16,7 +16,7 @@ import jsesh.model.HorizontalListElement;
 import jsesh.model.MdcComment;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.constants.ScriptCode;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.parser.MDCSyntaxError;
 
 /**
@@ -27,7 +27,7 @@ import jsesh.parser.MDCSyntaxError;
  */
 public class MDCParserModelGeneratorTest {
 
-    private TopItemList parse(String mdc) throws MDCSyntaxError {
+    private HieroglyphicText parse(String mdc) throws MDCSyntaxError {
         return new MDCParserModelGenerator().parse(mdc);
     }
 
@@ -37,13 +37,13 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testEmptyString() throws MDCSyntaxError {
-        TopItemList topItemList = parse("");
+        HieroglyphicText topItemList = parse("");
         assertEquals(0, topItemList.getNumberOfChildren());
     }
 
     @Test
     public void testJuxtaposition_threeTopItems() throws MDCSyntaxError {
-        TopItemList topItemList = parse("i-w-r");
+        HieroglyphicText topItemList = parse("i-w-r");
         assertEquals(3, topItemList.getNumberOfChildren());
 
         String[] expectedCodes = {"i", "w", "r"};
@@ -58,7 +58,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testSuperposition_sameHBox() throws MDCSyntaxError {
-        TopItemList topItemList = parse("p*t");
+        HieroglyphicText topItemList = parse("p*t");
         assertEquals(1, topItemList.getNumberOfChildren());
 
         Cadrat cadrat = (Cadrat) topItemList.getTopItemAt(0);
@@ -71,7 +71,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testStacking_twoHBoxes() throws MDCSyntaxError {
-        TopItemList topItemList = parse("a:m");
+        HieroglyphicText topItemList = parse("a:m");
         assertEquals(1, topItemList.getNumberOfChildren());
 
         Cadrat cadrat = (Cadrat) topItemList.getTopItemAt(0);
@@ -87,7 +87,7 @@ public class MDCParserModelGeneratorTest {
      */
     @Test
     public void testCodesAreNotCanonicalized() throws MDCSyntaxError {
-        TopItemList topItemList = parse("i");
+        HieroglyphicText topItemList = parse("i");
         Cadrat cadrat = (Cadrat) topItemList.getTopItemAt(0);
         assertEquals("i", hieroglyphAt(cadrat.getHBox(0), 0).getCode());
     }
@@ -104,7 +104,7 @@ public class MDCParserModelGeneratorTest {
     @Test
     public void testCombinedStructure() throws MDCSyntaxError {
         // Original MDC : i-w-r:a-C1-m-pt:p*t
-        TopItemList topItemList = parse("i-w-r:a-C1-m-pt:p*t");
+        HieroglyphicText topItemList = parse("i-w-r:a-C1-m-pt:p*t");
         assertEquals(6, topItemList.getNumberOfChildren());
 
         assertEquals("i", hieroglyphAt(((Cadrat) topItemList.getTopItemAt(0)).getHBox(0), 0).getCode());
@@ -129,7 +129,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testModifiers() throws MDCSyntaxError {
-        TopItemList topItemList = parse("m\\det\\col50");
+        HieroglyphicText topItemList = parse("m\\det\\col50");
         Cadrat cadrat = (Cadrat) topItemList.getTopItemAt(0);
         Hieroglyph hieroglyph = hieroglyphAt(cadrat.getHBox(0), 0);
         assertEquals("m", hieroglyph.getCode());
@@ -139,7 +139,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testCartouche() throws MDCSyntaxError {
-        TopItemList topItemList = parse("<A1>");
+        HieroglyphicText topItemList = parse("<A1>");
         assertEquals(1, topItemList.getNumberOfChildren());
 
         Cadrat cadrat = (Cadrat) topItemList.getTopItemAt(0);
@@ -158,7 +158,7 @@ public class MDCParserModelGeneratorTest {
     @Test
     public void testPartialCartouches() throws MDCSyntaxError {
         // Reused from TestPartialCartoucheDrawingsWithOrientation, a known-good MDC string.
-        TopItemList topItemList = parse("<1--0>-ra-mn:n-xpr-<0--2>");
+        HieroglyphicText topItemList = parse("<1--0>-ra-mn:n-xpr-<0--2>");
         assertTrue(topItemList.getNumberOfChildren() > 0);
     }
 
@@ -174,7 +174,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testAlphabeticText_oneElementPerCharacter() throws MDCSyntaxError {
-        TopItemList topItemList = parse("+lab+s-A1");
+        HieroglyphicText topItemList = parse("+lab+s-A1");
         assertEquals(3, topItemList.getNumberOfChildren());
         AlphabeticCharacter a = (AlphabeticCharacter) topItemList.getTopItemAt(0);
         assertEquals('a', a.getCodePoint());
@@ -185,14 +185,14 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testAlphabeticText_uppercaseTransliteration() throws MDCSyntaxError {
-        TopItemList topItemList = parse("+t^xpr+s");
+        HieroglyphicText topItemList = parse("+t^xpr+s");
         assertEquals(3, topItemList.getNumberOfChildren());
         assertTrue(((AlphabeticCharacter) topItemList.getTopItemAt(0)).isUppercase());
     }
 
     @Test
     public void testComment() throws MDCSyntaxError {
-        TopItemList topItemList = parse("A1-++some note+s-A2");
+        HieroglyphicText topItemList = parse("A1-++some note+s-A2");
         assertEquals(3, topItemList.getNumberOfChildren());
         MdcComment comment = (MdcComment) topItemList.getTopItemAt(1);
         assertEquals("some note", comment.getText());
@@ -200,7 +200,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testUnknownScriptCode() throws MDCSyntaxError {
-        TopItemList topItemList = parse("+fxy+s");
+        HieroglyphicText topItemList = parse("+fxy+s");
         AlphabeticCharacter x = (AlphabeticCharacter) topItemList.getTopItemAt(0);
         assertEquals(ScriptCode.OTHER, x.getScript());
         assertEquals('f', x.getMdcScriptCode());
@@ -208,7 +208,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testAlphabeticText_stateOnEachCharacter() throws MDCSyntaxError {
-        TopItemList topItemList = parse("$r-+lab+s-$b");
+        HieroglyphicText topItemList = parse("$r-+lab+s-$b");
         assertEquals(2, topItemList.getNumberOfChildren());
         assertTrue(topItemList.getTopItemAt(0).isRed());
         assertTrue(topItemList.getTopItemAt(1).isRed());
@@ -216,7 +216,7 @@ public class MDCParserModelGeneratorTest {
 
     @Test
     public void testAlphabeticText_inCartouche() throws MDCSyntaxError {
-        TopItemList topItemList = parse("<-+lab+s-ra->");
+        HieroglyphicText topItemList = parse("<-+lab+s-ra->");
         Cartouche[] found = new Cartouche[1];
         topItemList.accept(new ModelElementDeepAdapter() {
             @Override

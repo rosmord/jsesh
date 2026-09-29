@@ -27,13 +27,36 @@ This journal should only be edited and modified in the Development branch.
 
 - Use the handy list of abbreviations in https://tla.digital/listings/bibliography/ for the SignInfo editor.
 
-- When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`.
+- When a method **semantically** creates a new object (vs. a methods which gives lazy access to a field which is built on demand), it should be named `createXXX`. The only exception should be when using the **builder** pattern, where the method should be named `build()` (usually just `build()`).
 
 ### Format of the jseshGlyph.jar file
 
 This file, which contains the fonts, is currently a jar file, containing the svg files for the font, and a file called `list.txt`. In older versions, it used to contain two columns, one with the code of the glyph, and the other with the name of the file. We have now simplified this, and we list only the name of the file. for instance, the group ḥnꜥ would not be rendered as V28*(N35:D36) but more like V28\130*(N35:D36) (in fact, "short" versions of ayin and n would be used).
 
 ## Daily log
+
+## 2026-09-29
+
+- `TopItemList` renamed `HieroglyphicText` (it *is* the text: the root of the model tree). `HieroglyphicTextModel`
+  keeps its name: it's the editable (undo, events) model of that text, in the Swing sense of `…Model`. Reusing
+  `HieroglyphicTextModel` for the text was considered and rejected: the old name would have silently changed meaning
+  in every older note. The AST keeps `AstTopItemList` (it names the grammar rule).
+- breaking change for embedders: `TopItemList` → `HieroglyphicText`; `ModelElementVisitor.visitTopItemList` →
+  `visitHieroglyphicText`; `HieroglyphicTextModel.getModel()` → `getHieroglyphicText()`;
+  `get/set/readTopItemList` → `get/set/readHieroglyphicText` (on `MDCDocument`, `HieroglyphicTextModel`...);
+  `getTopItemListBetween` → `getTopItemsBetween`.
+- `MDCPosition` is now a plain immutable value (an index, `equals`/`hashCode`), with no reference to its text (todo
+  0086). Operations which need the text moved to `HieroglyphicText` and take the position as argument:
+  `getPositionAt(int)` (clamped to the text's bounds), `getLastPosition()`, `getNextPosition(pos, delta)`,
+  `getElementAfter/Before(pos)`, `hasNext(pos)`, `getLineFirstPosition/getLineLastPosition(pos)`,
+  `getUpPosition/getDownPosition(pos)`. `MDCMark` keeps the reference to its text itself.
+  Breaking change for embedders: navigation from a position now goes through the text (or an `MDCMark`).
+- parser: `MDCParserAstGenerator` merged into `MDCParser`, which now returns the `AstDocument` itself (breaking change
+  for embedders who used `MDCParserAstGenerator`). The lexer's symbol types (`MdcSymbol`, `MdcSymbolCode`,
+  `ToggleType`, `PhilologyKind`, `SignSubType`...) moved to `jsesh.parser.lexer.symbols`. CeCILL-C headers added.
+- `@quadrat`: the options now come before the group: `@quadrat(x)[foo]` → `@quadrat[foo](x)`.
+- build: VS Code complained about the missing `build/classes/java/main` of `jseshGlyphs` (no Java sources), which is
+  now created. `signInfoAppli` gets a native installer (jpackage, `JSeshSignInfo`), with its icons and packaging files.
 
 ## 2026-09-26
 
@@ -57,6 +80,31 @@ This file, which contains the fonts, is currently a jar file, containing the svg
   preferences). Default 4pt, to be tuned (see todo 0125).
 - breaking change for embedders: `ModelElementVisitor.visitAlphabeticText` → `visitAlphabeticCharacter` +
   `visitComment`; `FontSpecification.getFont(char)` → `getFont(ScriptCode)`.
+- cartouches: the `int` codes became enums in `jsesh.model.constants`: `CartoucheType` (`CARTOUCHE`, `SEREKH`, `HWT`,
+  `CASTLE`, `CIRCULAR_ENCLOSURE`, keyed by their MdC letter) and `CartouchePart` (`NONE`...`THIRD`, keyed by the MdC
+  digit), with twins in `jsesh.parser.ast`. The list-like AST nodes (`AstHBox`, `AstLigature`, `AstTopItemList`...)
+  are now records. Breaking change for embedders: `Cartouche`'s constructor and `get/setType`,
+  `get/setStartPart`, `get/setEndPart` use the enums.
+- i18n: `BundledActionFiller` extends yesterday's lowerCamelCase suffixes to its own properties (`.preconditions`,
+  `.tearOff`, `.groupProperty`, `.booleanProperty`, `.argument`, `.isLabelled`, `.proxyMethod`, `.numberOfColumns`);
+  the PascalCase ones still work. The leftover `jsesh/jhotdraw/labels_es.properties` in `jseshAppli` was removed.
+- ecdotic marks moved into submenus, to declutter the interface.
+- new version of jvectclipboard (8.1.2): fixes a rounding bug in EMF output.
+- GitHub workflow updated.
+
+## 2026-09-25
+
+- `JSimplePalette` (which is not a simple palette at all) renamed `JHieroglyphicPalette` (todo 0005). Breaking change
+  for embedders; `PalettePresenter.getSimplePalette()` keeps its name, but returns a `JHieroglyphicPalette`.
+- issue #41 (an uppercase transliteration letter typed at the start of a text got its `^` after it) was fixed on the
+  24th; today, the rather ugly fix in `JMDCEditorWorkflow` was cleaned up.
+- new tests for the lexer (`MdcLexerTest`) and the parser (`MDCParserParserTest`).
+- action property names: `BundledActionFiller` (`qenherkhopeshefUtils`) now reads the lowerCamelCase suffixes of
+  JHotDraw's `ResourceBundleUtil` (`.text`, `.toolTipText`, `.accelerator`, `.mnemonic`, `.icon`), and prefers them to
+  the PascalCase ones (`.Name`, `.ShortDescription`, `.AcceleratorKey`...), which still work (todo 0087). New helper:
+  `AppDefaults.firstDefinedKey`.
+- `edit.copyAsBitmap` had two different labels (`.text`: "Copy as Low-resolution picture"; `.Name`: "Copy as JPEG or
+  PNG"). Only `.text` remains, now "Copy as JPEG or PNG", in all languages.
 
 ## 2026-09-24
 

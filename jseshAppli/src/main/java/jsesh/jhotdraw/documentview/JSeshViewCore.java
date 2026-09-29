@@ -67,7 +67,7 @@ import jsesh.jhotdraw.actions.edit.OpenHieroglyphicMenuAction;
 import jsesh.jhotdraw.preferences.JSeshStyleHelper;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.operations.ModelOperation;
@@ -237,9 +237,8 @@ public final class JSeshViewCore {
      *
      * @return
      */
-    public TopItemList getTopItemList() {
-        return getEditor().getHieroglyphicTextModel()
-                .getModel();
+    public HieroglyphicText getHieroglyphicText() {
+        return getEditor().getHieroglyphicTextModel().getHieroglyphicText();
     }
 
     /**
@@ -529,7 +528,7 @@ public final class JSeshViewCore {
      */
     public ExportData createExportData(float scale) {
         return new ExportData(getRenderContext(), getCaret(),
-                getTopItemList(), scale);
+                getHieroglyphicText(), scale);
     }
 
     /**

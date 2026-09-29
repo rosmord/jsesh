@@ -15,7 +15,7 @@ import jsesh.model.MDCPosition;
 import jsesh.model.MdcComment;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.Superscript;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Search for non-hieroglyphic text in the MdC content.
@@ -31,7 +31,7 @@ public class PlainTextSearchQuery implements MdCSearchQuery {
     }
 
     @Override
-    public List<MDCPosition> doSearch(TopItemList items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items) {
         List<TextAndPosition> searchableText = buildSearchableText(items);
         List<MDCPosition> result = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class PlainTextSearchQuery implements MdCSearchQuery {
         return result;
     }
 
-    private List<TextAndPosition> buildSearchableText(TopItemList items) {
+    private List<TextAndPosition> buildSearchableText(HieroglyphicText items) {
         ArrayList<TextAndPosition> result = new ArrayList<>();
         TextAndPosition.Builder currentBuilder = null;
         for (int pos = 0; pos < items.getNumberOfChildren(); pos++) {

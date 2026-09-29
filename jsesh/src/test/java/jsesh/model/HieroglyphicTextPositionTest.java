@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
 
-/// Tests the position-based navigation of [TopItemList], and [MDCMark]s
+/// Tests the position-based navigation of [HieroglyphicText], and [MDCMark]s
 /// following text modifications, now that [MDCPosition] is a plain value.
-class TopItemListPositionTest {
+class HieroglyphicTextPositionTest {
 
     /// Positions: `0 |A1| 1 |A2| 2 |!| 3 |B1| 4 |B2| 5 |!| 6 |C1| 7`
-    private TopItemList text;
+    private HieroglyphicText text;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -92,7 +92,7 @@ class TopItemListPositionTest {
 
     @Test
     void navigationInAnEmptyText() {
-        TopItemList empty = new TopItemList();
+        HieroglyphicText empty = new HieroglyphicText();
         assertEquals(pos(0), empty.getUpPosition(pos(0)));
         assertEquals(pos(0), empty.getDownPosition(pos(0)));
         assertEquals(pos(0), empty.getLineFirstPosition(pos(0)));
@@ -105,7 +105,7 @@ class TopItemListPositionTest {
     void markIsClampedAndKnowsItsText() {
         MDCMark mark = new MDCMark(text, pos(100));
         assertEquals(7, mark.getIndex());
-        assertSame(text, mark.getTopItemList());
+        assertSame(text, mark.getHieroglyphicText());
         assertSame(text.getTopItemAt(6), mark.getElementBefore());
         mark.release();
     }

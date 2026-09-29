@@ -80,7 +80,7 @@ import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
@@ -399,7 +399,7 @@ public class JMDCEditor extends JPanel {
 
     private MDCView recomputeDocumentView() {
         documentView = new ViewBuilder().buildView(
-                getHieroglyphicTextModel().getModel(),
+                getHieroglyphicTextModel().getHieroglyphicText(),
                 getRenderContext(),
                 buildTechRenderContext());
         revalidate();
@@ -778,7 +778,7 @@ public class JMDCEditor extends JPanel {
      * Copy the selected area in this editor into the clipboard.
      */
     public void copy() {
-        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MDCModelTransferable transferable = mdcModelTransferableBroker
                 .buildTransferable(top, getRenderContext());
         Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -786,7 +786,7 @@ public class JMDCEditor extends JPanel {
     }
 
     public void copy(DataFlavor[] dataFlavors) {
-        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MDCModelTransferable transferable = mdcModelTransferableBroker
                 .buildTransferable(top, getRenderContext(), dataFlavors);
         Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -809,7 +809,7 @@ public class JMDCEditor extends JPanel {
     }
 
     private void copyAsUnicodeImpl(boolean useFormatChars) {
-        TopItemList top = getWorkflow().getSelectionAsTopItemList();
+        HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
         converter.setIncludeFormatControlChars(useFormatChars);
         String toCopy = converter.convertToPlainUnicode(top);
@@ -954,8 +954,8 @@ public class JMDCEditor extends JPanel {
         return getJSeshStyle().options().justified();
     }
 
-    public TopItemList getSelection() {
-        return workflow.getSelectionAsTopItemList();
+    public HieroglyphicText getSelection() {
+        return workflow.getSelectionAsHieroglyphicText();
     }
 
     /**

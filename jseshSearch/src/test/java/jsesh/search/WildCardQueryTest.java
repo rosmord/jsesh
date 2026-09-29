@@ -24,13 +24,13 @@ import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.search.wildcard.VariantLevelForSearch;
 import jsesh.search.wildcard.WildCardQuery;
 
 public class WildCardQueryTest {
 
-    private TopItemList parse(String mdc) {
+    private HieroglyphicText parse(String mdc) {
         try {
             return new MDCParserModelGenerator().parse(mdc);
         } catch (MDCSyntaxError ex) {
@@ -47,8 +47,8 @@ public class WildCardQueryTest {
      * @param expected
      */
     private void doSearch(String message, String mdc, String codes, VariantLevelForSearch variantLevel, Integer... expected) {
-        TopItemList text = parse(mdc);
-        TopItemList toSearch = parse(codes);
+        HieroglyphicText text = parse(mdc);
+        HieroglyphicText toSearch = parse(codes);
         HieroglyphDatabase database = HieroglyphResourcesBuilder.buildEmbedded().database();
         WildCardQuery searcher = new WildCardQuery(toSearch, 0, database, variantLevel);
         List<MDCPosition> actualResult = searcher.doSearch(text);

@@ -24,7 +24,7 @@ public interface ModelElementVisitor {
 	void visitSubCadrat(SubCadrat c);
 	void visitSuperScript(Superscript s);
 	void visitTabStop(TabStop t);
-	void visitTopItemList(TopItemList t);
+	void visitHieroglyphicText(HieroglyphicText t);
 	void visitLineBreak(LineBreak b);
 	void visitPageBreak(PageBreak b);
 	void visitAbsoluteGroup(AbsoluteGroup g);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.signcodes.CanonicalCode;
 import jsesh.signcodes.ManuelDeCodage;
 
@@ -26,7 +26,7 @@ public class OccurrenceStringBuilder extends ModelElementDeepAdapter {
 		this.manuelDeCodage = ManuelDeCodage.getInstance();
 	}
 
-	public List<HieroglyphOccurrence> analyzeQuadrat(TopItemList list) {
+	public List<HieroglyphOccurrence> analyzeQuadrat(HieroglyphicText list) {
 		this.codes = new ArrayList<>();
 		for (int i = 0; i < list.getNumberOfChildren(); i++) {
 			this.position = i;

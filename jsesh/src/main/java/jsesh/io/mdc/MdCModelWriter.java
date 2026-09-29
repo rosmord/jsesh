@@ -46,7 +46,7 @@ import jsesh.model.TabStop;
 import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.model.ZoneStart;
 
@@ -69,11 +69,11 @@ public class MdCModelWriter {
 		out = null;
 	}
 
-	public void write(String fileName, TopItemList top) throws IOException {
+	public void write(String fileName, HieroglyphicText top) throws IOException {
 		write(new File(fileName), top);
 	}
 
-	public void write(File f, TopItemList top) throws IOException {
+	public void write(File f, HieroglyphicText top) throws IOException {
 		if (f.getName().endsWith(".hie"))
 			setOutDialect(Dialect.TKSESH);
 		else if (f.getName().endsWith(".gly"))
@@ -94,7 +94,7 @@ public class MdCModelWriter {
 	 * @param out
 	 * @param top
 	 */
-	public void write(Writer out, TopItemList top) {
+	public void write(Writer out, HieroglyphicText top) {
 		checkDialectCompatibility();
 		write(out, top, 0, top.getNumberOfChildren());
 	}
@@ -113,7 +113,7 @@ public class MdCModelWriter {
 	 * @param top the top item list for which we want a string representation.
 	 * @return a Manuel de codage representation of the top item list.
 	 */
-	public String toMdC(TopItemList top) {
+	public String toMdC(HieroglyphicText top) {
 		return toMdC(top, 0, top.getNumberOfChildren());
 	}
 
@@ -127,7 +127,7 @@ public class MdCModelWriter {
 	 * @param end
 	 * @return a Manuel de codage representation of the top item list.
 	 */
-	public String toMdC(TopItemList top, int start, int end) {
+	public String toMdC(HieroglyphicText top, int start, int end) {
 		return toMdC(top, start, end, false);
 	}
 
@@ -143,7 +143,7 @@ public class MdCModelWriter {
 	 *                   Gardiner counterpart.
 	 * @return
 	 */
-	public String toMdC(TopItemList top, int start, int end, boolean normalized) {
+	public String toMdC(HieroglyphicText top, int start, int end, boolean normalized) {
 		// As requested by the IFAO, we save the Manuel de codage content in
 		// the picture as a comment.
 		setNormalized(normalized);
@@ -164,7 +164,7 @@ public class MdCModelWriter {
 	 *                   counterpart.
 	 * @return a Manuel de codage representation of the top item list.
 	 */
-	public String toMdC(TopItemList top, boolean normalized) {
+	public String toMdC(HieroglyphicText top, boolean normalized) {
 		return toMdC(top, 0, top.getNumberOfChildren(), normalized);
 	}
 
@@ -472,7 +472,7 @@ public class MdCModelWriter {
 		 * 
 		 * @param t
 		 */
-		public void visitTopItemList(TopItemList t) {
+		public void visitHieroglyphicText(HieroglyphicText t) {
 			TopItemState state = new TopItemState();
 			int virtualpos = 0;
 			// Was the last opening red toggle closer than the last opening gray
@@ -648,7 +648,7 @@ public class MdCModelWriter {
 	 * @param a
 	 * @param b
 	 */
-	public void write(Writer w, TopItemList top, int a, int b) {
+	public void write(Writer w, HieroglyphicText top, int a, int b) {
 		this.out = w;
 		ModelWriterAux aux = new ModelWriterAux();
 		startIndex = a;

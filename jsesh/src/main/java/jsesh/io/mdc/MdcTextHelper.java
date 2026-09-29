@@ -2,7 +2,7 @@ package jsesh.io.mdc;
 
 import java.io.StringWriter;
 
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.tools.MDCNormalizer;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
@@ -17,22 +17,22 @@ public class MdcTextHelper {
     }
 
     /**
-     * Parse a standard JSesh MDC text into a TopItemList.
+     * Parse a standard JSesh MDC text into a HieroglyphicText.
      * @param mdc a mdc String in the current JSesh version.
-     * @return a TopItemList representing the text.
+     * @return a HieroglyphicText representing the text.
      * @throws MDCSyntaxError
      */
-    public static TopItemList parse(String mdc) throws MDCSyntaxError {
+    public static HieroglyphicText parse(String mdc) throws MDCSyntaxError {
         MDCParserModelGenerator mdcParser = new MDCParserModelGenerator();
         return mdcParser.parse(mdc);
     }
 
     /**
-     * Convert a TopItemList into a standard JSesh MDC text.
+     * Convert a HieroglyphicText into a standard JSesh MDC text.
      * @param top a top item list.
      * @return a MDC String.
      */
-    public static String toMdc(TopItemList top) {
+    public static String toMdc(HieroglyphicText top) {
         MdCModelWriter mdCModelWriter = new MdCModelWriter();
         StringWriter writer = new StringWriter();
         mdCModelWriter.write(writer, top);
@@ -47,7 +47,7 @@ public class MdcTextHelper {
      */
     
     public static String normalize(String mdc) throws MDCSyntaxError {
-        TopItemList t = parse(mdc);
+        HieroglyphicText t = parse(mdc);
         new MDCNormalizer().normalize(t);
         return toMdc(t);
     }

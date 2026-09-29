@@ -38,7 +38,7 @@ import java.awt.datatransfer.DataFlavor;
 import jsesh.ui.clipboard.MDCClipboardPreferences;
 import jsesh.ui.clipboard.MDCModelTransferable;
 import jsesh.ui.export.rtf.RTFExportPreferences;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 
 /**
@@ -60,12 +60,12 @@ public class SimpleMDCModelTransferableBroker implements
     }
 
     @Override
-    public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext) {
+    public MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext) {
         return buildTransferable(top, renderContext, new MDCClipboardPreferences().getTransferDataFlavors());
     }
 
     @Override
-    public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
+    public MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext,
             DataFlavor[] dataFlavors) {
         return new MDCModelTransferable(dataFlavors, top, rtfPrefs, renderContext);        
     }

@@ -38,7 +38,7 @@ import java.util.Objects;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AlphabeticCharacter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * A glossary entry.
@@ -54,7 +54,7 @@ import jsesh.model.TopItemList;
 public class GlossaryEntry {
 	private String key;
 	private String mdc;
-	private TopItemList topItems;
+	private HieroglyphicText topItems;
 
 	/**
 	 * Create a new glossary entry.
@@ -80,14 +80,14 @@ public class GlossaryEntry {
 		return key;
 	}
 
-	public TopItemList getTopItems() {
+	public HieroglyphicText getTopItems() {
 		if (topItems == null) {
 			MDCParserModelGenerator parser = new MDCParserModelGenerator();
 			try {
 				topItems= parser.parse(mdc);				
 			} catch (MDCSyntaxError e) {
 				System.out.println("error reading "+ mdc);
-				topItems= new TopItemList();
+				topItems= new HieroglyphicText();
 				topItems.addAll(AlphabeticCharacter.fromMdcText('l', "error reading : "+mdc));
 			}
 		}

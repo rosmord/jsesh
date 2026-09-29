@@ -8,7 +8,7 @@ import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
 import jsesh.io.constants.PDFExportConstants;
 import jsesh.io.document.MDCDocumentWriter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 class PDFExportHelper {
 
@@ -20,7 +20,7 @@ class PDFExportHelper {
 	 * @return
 	 */
 	public static String buildCommentText(JSeshStyle jseshStyle,
-			TopItemList model) {
+			HieroglyphicText model) {
 
 		// As requested by the IFAO, we save the Manuel de codage content in
 		// the picture as a comment.

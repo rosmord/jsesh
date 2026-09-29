@@ -46,7 +46,7 @@ public class ExportAsRTFAction extends AbstractCoreViewAction {
 		if (rtfExporterUI.getOptionPanel(getActiveView().getComponent(),
 				JSeshMessages.getString("exportAsRTF.title")).askAndSet() == JOptionPane.OK_OPTION) {
 			rtfExporterUI.exportModel(v.getRenderContext(),
-					v.getTopItemList());
+					v.getHieroglyphicText());
 			setCurrentDirectory(rtfExporterUI.getFile()
 					.getParentFile());
 		}

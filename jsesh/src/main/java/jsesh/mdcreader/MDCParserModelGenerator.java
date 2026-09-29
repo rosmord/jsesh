@@ -8,13 +8,13 @@ package jsesh.mdcreader;
 
 import java.io.Reader;
 
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.constants.Dialect;
 import jsesh.parser.MDCParser;
 import jsesh.parser.MDCSyntaxError;
 
 /**
- * A Parser for MdC code which generates a model (TopItemList)
+ * A Parser for MdC code which generates a model (HieroglyphicText)
  * for the code.
  *
  * <p>Internally, this parses to the literal AST (see {@link jsesh.parser.ast})
@@ -22,7 +22,7 @@ import jsesh.parser.MDCSyntaxError;
  * with {@link AstModelBuilder}.
  *
  * @author rosmord
- * @see jsesh.model.TopItemList
+ * @see jsesh.model.HieroglyphicText
  */
 public class MDCParserModelGenerator {
 	private final MDCParser parser;
@@ -42,11 +42,11 @@ public class MDCParserModelGenerator {
 		this.dialect = dialect;
 	}
 
-	public TopItemList parse(Reader in) throws MDCSyntaxError {
+	public HieroglyphicText parse(Reader in) throws MDCSyntaxError {
 		return new AstModelBuilder(dialect).build(parser.parse(in));
 	}
 
-	public TopItemList parse(String text) throws MDCSyntaxError {
+	public HieroglyphicText parse(String text) throws MDCSyntaxError {
 		return new AstModelBuilder(dialect).build(parser.parse(text));
 	}
 

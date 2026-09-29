@@ -13,7 +13,7 @@ import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.signcodes.ManuelDeCodage;
 
 /**
@@ -54,26 +54,26 @@ public class HieroglyphCodesExtractor {
     }
 
     /**
-     * Extract hieroglyphs from TopItemList.
+     * Extract hieroglyphs from HieroglyphicText.
      *
      * @param topItemList the elements.
      * @return the codes of the signs in elts.
      */
-    public List<String> extractHieroglyphs(TopItemList topItemList) {
+    public List<String> extractHieroglyphs(HieroglyphicText topItemList) {
         HieroglyphExtractorAux aux = new HieroglyphExtractorAux();
         topItemList.accept(aux);
         return aux.result;
     }
 
     /**
-     * Extract hieroglyphs from a TopItemList, getting line-oriented
+     * Extract hieroglyphs from a HieroglyphicText, getting line-oriented
      * information.
      *
      * @param topItemList the parsed text
      * @return a list containing, for each line of the text, the list of codes
      * in this line.
      */
-    public List<List<String>> extractHieroglyphLines(TopItemList topItemList) {
+    public List<List<String>> extractHieroglyphLines(HieroglyphicText topItemList) {
         HieroglyphExtractorAux aux = new HieroglyphExtractorAux();
         topItemList.accept(aux);
         return aux.lineResult;

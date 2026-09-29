@@ -183,10 +183,10 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */
         @Override
-	public void visitTopItemList(TopItemList t) {
+	public void visitHieroglyphicText(HieroglyphicText t) {
 		visitDefault(t);
 	}
 

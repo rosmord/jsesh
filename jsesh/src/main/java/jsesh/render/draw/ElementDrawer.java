@@ -29,7 +29,7 @@ import jsesh.model.Superscript;
 import jsesh.model.TabStop;
 import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -285,9 +285,9 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */
-	public void visitTopItemList(TopItemList t) {
+	public void visitHieroglyphicText(HieroglyphicText t) {
 		// This method intentionnaly left blank.
 	}
 

@@ -9,18 +9,18 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.model.AlphabeticCharacter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.parser.MDCSyntaxError;
 
 /// Alphabetic text is stored one character per element; the writer must
 /// gather them back into `+x...+s` blocks.
 public class MdCModelWriterAlphabeticTextTest {
 
-    private TopItemList parse(String mdc) throws MDCSyntaxError {
+    private HieroglyphicText parse(String mdc) throws MDCSyntaxError {
         return new MDCParserModelGenerator().parse(mdc);
     }
 
-    private String write(TopItemList list) {
+    private String write(HieroglyphicText list) {
         return new MdCModelWriter().toMdC(list);
     }
 
@@ -47,8 +47,8 @@ public class MdCModelWriterAlphabeticTextTest {
         "+t#pr+s",
     })
     public void roundTripKeepsTheModel(String mdc) throws MDCSyntaxError {
-        TopItemList first = parse(mdc);
-        TopItemList second = parse(write(first));
+        HieroglyphicText first = parse(mdc);
+        HieroglyphicText second = parse(write(first));
         assertEquals(first.getNumberOfChildren(), second.getNumberOfChildren());
         assertTrue(first.equalsIgnoreId(second), () -> write(first));
         for (int i = 0; i < first.getNumberOfChildren(); i++) {
@@ -58,7 +58,7 @@ public class MdCModelWriterAlphabeticTextTest {
 
     @Test
     public void stateChangeSplitsTheRun() throws MDCSyntaxError {
-        TopItemList list = parse("+labcd+s");
+        HieroglyphicText list = parse("+labcd+s");
         list.getTopItemAt(2).setRed(true);
         list.getTopItemAt(3).setRed(true);
         String mdc = write(list);
@@ -67,7 +67,7 @@ public class MdCModelWriterAlphabeticTextTest {
 
     @Test
     public void backslashIsEscaped() {
-        TopItemList list = new TopItemList();
+        HieroglyphicText list = new HieroglyphicText();
         list.addAll(AlphabeticCharacter.fromMdcText('l', "a\\\\b"));
         assertEquals("+la\\\\\\\\b+s", write(list));
     }

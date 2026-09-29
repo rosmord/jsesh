@@ -56,7 +56,7 @@ abstract public class TopItem extends EmbeddedModelElement{
 		// the picture as a comment.
 		MdCModelWriter mdCModelWriter = new MdCModelWriter();
 		StringWriter comment = new StringWriter();
-		TopItemList l= new TopItemList();
+		HieroglyphicText l= new HieroglyphicText();
 		l.addChild(buildTopItem());
 		mdCModelWriter.write(comment,l);
 

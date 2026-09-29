@@ -20,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.model.Hieroglyph;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * A demo for a bug we have currently. It should move to a test file at some
@@ -57,9 +57,9 @@ public class ViewUpdateBug {
 
     public void replace() {
         try {
-            TopItemList topItemList = new TopItemList();
+            HieroglyphicText topItemList = new HieroglyphicText();
             topItemList.addTopItem(new Hieroglyph("A1").buildTopItem());
-            editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(topItemList);
+            editor.getWorkflow().getHieroglyphicTextModel().setHieroglyphicText(topItemList);
             editor.getWorkflow().cursorToEndOfLine();
             editor.getWorkflow().insertElement(new Hieroglyph("B1")); // g is some kind of element...
         } catch (Exception ex) {

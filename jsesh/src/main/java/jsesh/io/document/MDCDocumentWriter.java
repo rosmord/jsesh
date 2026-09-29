@@ -16,7 +16,7 @@ import jsesh.utils.io.FileUtils;
 import jsesh.utils.io.SystemUtils;
 import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Writes a {@link MDCDocument} in the JSesh "manuel de codage" file format.
@@ -87,7 +87,7 @@ public class MDCDocumentWriter {
 		prepareForSaving(document);
 		writeHeader(document, writer);
 		new MdCModelWriter().write(writer,
-				document.getHieroglyphicTextModel().getModel());
+				document.getHieroglyphicTextModel().getHieroglyphicText());
 		writer.flush();
 		document.getHieroglyphicTextModel().setClean();
 	}
@@ -120,9 +120,9 @@ public class MDCDocumentWriter {
 	 * @param preferences the preferences to write in the header.
 	 * @return the text in MdC format, header included.
 	 */
-	public String toMdC(TopItemList text, DocumentPreferences preferences) {
+	public String toMdC(HieroglyphicText text, DocumentPreferences preferences) {
 		MDCDocument document = new MDCDocument();
-		document.setTopItemList(text);
+		document.setHieroglyphicText(text);
 		document.setDocumentPreferences(preferences);
 		return toMdC(document);
 	}

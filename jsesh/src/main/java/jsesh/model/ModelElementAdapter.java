@@ -131,9 +131,9 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitTopItemList(jsesh.model.TopItemList)
+	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */
-	public void visitTopItemList(TopItemList t) {
+	public void visitHieroglyphicText(HieroglyphicText t) {
 		visitDefault(t);
 	}
 

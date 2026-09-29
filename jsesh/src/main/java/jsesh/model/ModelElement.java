@@ -57,7 +57,7 @@ import jsesh.model.operations.Replacement;
  * the data in the parent class is not copied). The second reason was that it
  * was too general to maintain a list of observers for each model element with
  * the current architecture. Multiple observers can easily be managed by
- * encapsulating a TopItemList in some Observable element.
+ * encapsulating a HieroglyphicText in some Observable element.
  *
  * <p>
  * Note that a list of child elements is maintained. It is suggested to use it
@@ -67,14 +67,14 @@ import jsesh.model.operations.Replacement;
  * This list is somehow problematic, from a type point of view this being said.
  * <p>
  * Modelisation problem : all elements have at most one Container, which, for
- * most of them, is also a ModelElement. the only exception is TopItemList,
+ * most of them, is also a ModelElement. the only exception is HieroglyphicText,
  * whose Container is arbitrary. In some cases, we want to know the parent
  * ModelElement of an element (for navigation purposes. Currently, it's used to
  * know if an element is an inner element or not).
  *
  * <p>
  * Now, we don't want to store the same information twice : for all elements
- * save TopItemList, the parentElement is also the ModelElementContainer. We
+ * save HieroglyphicText, the parentElement is also the ModelElementContainer. We
  * also want to avoid using instanceof, which is evil. The only possible
  * solution is to create an intermediary abstract class, EmbeddedModelElement.
  *

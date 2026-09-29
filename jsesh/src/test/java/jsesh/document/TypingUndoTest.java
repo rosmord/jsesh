@@ -26,11 +26,11 @@ public class TypingUndoTest {
     public void typedWordIsUndoneInOneStep() {
         HieroglyphicTextModel text = new HieroglyphicTextModel();
         type(text, "abc");
-        assertEquals(3, text.getModel().getNumberOfChildren());
+        assertEquals(3, text.getHieroglyphicText().getNumberOfChildren());
         text.undo();
-        assertEquals(0, text.getModel().getNumberOfChildren());
+        assertEquals(0, text.getHieroglyphicText().getNumberOfChildren());
         text.redo();
-        assertEquals(3, text.getModel().getNumberOfChildren());
+        assertEquals(3, text.getHieroglyphicText().getNumberOfChildren());
     }
 
     @Test
@@ -39,9 +39,9 @@ public class TypingUndoTest {
         type(text, "ab cd");
         text.undo();
         // "cd" is removed, "ab " is kept.
-        assertEquals(3, text.getModel().getNumberOfChildren());
+        assertEquals(3, text.getHieroglyphicText().getNumberOfChildren());
         text.undo();
-        assertEquals(0, text.getModel().getNumberOfChildren());
+        assertEquals(0, text.getHieroglyphicText().getNumberOfChildren());
     }
 
     @Test
@@ -51,6 +51,6 @@ public class TypingUndoTest {
         List<TopItem> x = new ArrayList<>(AlphabeticCharacter.fromMdcText('l', "x"));
         text.insertTypedElementsAt(new MDCPosition(0), x);
         text.undo();
-        assertEquals(2, text.getModel().getNumberOfChildren());
+        assertEquals(2, text.getHieroglyphicText().getNumberOfChildren());
     }
 }

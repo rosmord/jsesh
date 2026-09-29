@@ -50,7 +50,7 @@ import jsesh.parser.MDCSyntaxError;
  */
 public class compareIgnoreIdTest {
 
-    private TopItemList build(String mdc) {
+    private HieroglyphicText build(String mdc) {
         MDCParserModelGenerator parser = new MDCParserModelGenerator();
         try {
             return parser.parse(mdc);
@@ -60,8 +60,8 @@ public class compareIgnoreIdTest {
     }
 
     public void doCompare(String mdc1, String mdc2, boolean expected) {
-        TopItemList top1 = build(mdc1);
-        TopItemList top2 = build(mdc2);
+        HieroglyphicText top1 = build(mdc1);
+        HieroglyphicText top2 = build(mdc2);
         if (expected) {
             String message = mdc1 + " ~= " + mdc2;
             assertTrue(top1.equalsIgnoreId(top2), message);

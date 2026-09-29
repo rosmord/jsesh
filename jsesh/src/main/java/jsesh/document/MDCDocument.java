@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Reader;
 
 import jsesh.model.constants.Dialect;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.parser.MDCSyntaxError;
 
 /**
@@ -36,24 +36,20 @@ public class MDCDocument {
 		return hieroglyphicTextModel;
 	}
 
-	/**
-	 * Returns the underlying top-level model.
-	 */
-	public TopItemList getTopItemList() {
-		return hieroglyphicTextModel.getModel();
+	/// Returns the text of this document.
+	public HieroglyphicText getHieroglyphicText() {
+		return hieroglyphicTextModel.getHieroglyphicText();
 	}
 
-	/**
-	 * Replaces the top-level model.
-	 */
-	public void setTopItemList(TopItemList topItemList) {
-		hieroglyphicTextModel.setTopItemList(topItemList);
+	/// Replaces the text of this document.
+	public void setHieroglyphicText(HieroglyphicText text) {
+		hieroglyphicTextModel.setHieroglyphicText(text);
 	}
 
 	// /**
 	//  * Appends items at the end of the current top-level model.
 	//  */
-	// public void appendTopItems(TopItemList items) {
+	// public void appendTopItems(HieroglyphicText items) {
 	// 	hieroglyphicTextModel.insertElementsAt(
 	// 			hieroglyphicTextModel.getLastPosition(),
 	// 			items.asList());
@@ -62,8 +58,8 @@ public class MDCDocument {
 	/**
 	 * Parses and replaces current content according to the document dialect.
 	 */
-	public void readTopItemList(Reader reader) throws MDCSyntaxError {
-		hieroglyphicTextModel.readTopItemList(reader, dialect);
+	public void readHieroglyphicText(Reader reader) throws MDCSyntaxError {
+		hieroglyphicTextModel.readHieroglyphicText(reader, dialect);
 	}
 
 	public boolean isPhilologyIsSign() {

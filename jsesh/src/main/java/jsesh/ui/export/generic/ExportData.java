@@ -12,7 +12,7 @@ package jsesh.ui.export.generic;
 import jsesh.document.caret.MDCCaret;
 import jsesh.io.mdc.MdCModelWriter;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 
 /**
@@ -24,7 +24,7 @@ import jsesh.render.context.JSeshRenderContext;
 public class ExportData {
 	private JSeshRenderContext renderContext;
 
-	private TopItemList topItemList;
+	private HieroglyphicText topItemList;
 
 	private MDCPosition start;
 
@@ -41,7 +41,7 @@ public class ExportData {
 	 * @param scale scaling information.
 	 */
 	public ExportData(JSeshRenderContext renderContext,
-			MDCPosition start, MDCPosition end, TopItemList data, double scale) {
+			MDCPosition start, MDCPosition end, HieroglyphicText data, double scale) {
 		super();
 		init(renderContext, start, end, data, scale);
 
@@ -55,7 +55,7 @@ public class ExportData {
 	 * @param scale the export scale. scale 1 means that a cadrat is 18 point high.
 	 */
 	public ExportData(JSeshRenderContext renderContext,
-			MDCCaret caret, TopItemList text, double scale) {	
+			MDCCaret caret, HieroglyphicText text, double scale) {	
 		MDCPosition start;
 		MDCPosition end;
 		if (caret.getMark() == null) {
@@ -68,7 +68,7 @@ public class ExportData {
 		init(renderContext, start, end, text, scale);
 	}
 	
-	private void init(JSeshRenderContext renderContext, MDCPosition start, MDCPosition end, TopItemList data, double scale) {
+	private void init(JSeshRenderContext renderContext, MDCPosition start, MDCPosition end, HieroglyphicText data, double scale) {
 		this.renderContext = renderContext;
 		this.topItemList = data;
 		this.scale = scale;
@@ -87,7 +87,7 @@ public class ExportData {
 		return renderContext;
 	}
 
-	public TopItemList getTopItemList() {
+	public HieroglyphicText getHieroglyphicText() {
 		return topItemList;
 	}
 

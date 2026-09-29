@@ -81,7 +81,7 @@ import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.tools.BasicItemListGrouper;
 import jsesh.model.tools.CadratStarInserter;
@@ -524,13 +524,13 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         int index = caret.getInsertPosition().getIndex();
         int target = dir > 0 ? nextWordIndex(index) : previousWordIndex(index);
-        caret.setInsertPosition(hieroglyphicTextModel.getModel().getPositionAt(target));
+        caret.setInsertPosition(hieroglyphicTextModel.getHieroglyphicText().getPositionAt(target));
     }
 
     /// The position after the next word: skips spaces, then letters, staying
     /// in the same run of text.
     private int nextWordIndex(int index) {
-        TopItemList text = hieroglyphicTextModel.getModel();
+        HieroglyphicText text = hieroglyphicTextModel.getHieroglyphicText();
         int n = text.getNumberOfChildren();
         if (index >= n) {
             return n;
@@ -553,7 +553,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// The position before the previous word: skips spaces, then letters,
     /// staying in the same run of text.
     private int previousWordIndex(int index) {
-        TopItemList text = hieroglyphicTextModel.getModel();
+        HieroglyphicText text = hieroglyphicTextModel.getHieroglyphicText();
         if (index <= 0) {
             return 0;
         }
@@ -858,7 +858,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public String getCurrentLineAsString() {
         int[] limits = getLineLimits();
         StringWriter sw = new StringWriter();
-        new MdCModelWriter().write(sw, hieroglyphicTextModel.getModel(),
+        new MdCModelWriter().write(sw, hieroglyphicTextModel.getHieroglyphicText(),
                 limits[0], limits[1]);
         return sw.toString();
     }
@@ -879,7 +879,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     public String getMDCCode() {
         StringWriter sw = new StringWriter();
-        new MdCModelWriter().write(sw, hieroglyphicTextModel.getModel(), 0,
+        new MdCModelWriter().write(sw, hieroglyphicTextModel.getHieroglyphicText(), 0,
                 hieroglyphicTextModel.getLastPosition().getIndex());
         return sw.toString();
     }
@@ -942,13 +942,13 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     }
 
     /**
-     * Returns a <em>copy</em> of the selection, as a new TopItemList.
+     * Returns a <em>copy</em> of the selection, as a new HieroglyphicText.
      *
      * @return
      */
 
-    public TopItemList getSelectionAsTopItemList() {
-        TopItemList topItemList = new TopItemList();
+    public HieroglyphicText getSelectionAsHieroglyphicText() {
+        HieroglyphicText topItemList = new HieroglyphicText();
         if (caret.hasMark()) {
             int a = caret.getMin();
             int b = caret.getMax();
@@ -1475,7 +1475,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 // A new Text has been loaded.
                 // We set up the caret, but this should be placed in the caret
                 // itself !
-                caret.changeModel(hieroglyphicTextModel.getModel());
+                caret.changeModel(hieroglyphicTextModel.getHieroglyphicText());
 
                 for (MDCModelEditionListener l : listeners) {
                     l.textChanged();
@@ -1507,7 +1507,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         this.hieroglyphicTextModel = newHieroglyphicTextModel;
         hieroglyphicTextModel.addListener(textChangeListener);
-        caret = new MDCCaret(hieroglyphicTextModel.getModel());
+        caret = new MDCCaret(hieroglyphicTextModel.getHieroglyphicText());
         setCursor(hieroglyphicTextModel.buildFirstPosition());
         caret.addCaretChangeListener(this);
         possibilitiesHandler.clear();
@@ -1642,7 +1642,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         } else {
             return; // DO NOTHING.
         }
-        TopItemList text = caret.getModel();
+        HieroglyphicText text = caret.getModel();
         for (int i = p1.getIndex(); i < p2.getIndex(); i++) {
             TopItem currentItem = text.getTopItemAt(i).deepCopy();
             modified.addAll(topItemModifier.modifyTopItem(currentItem));
@@ -1808,7 +1808,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
         MDCPosition second = getLineLastPosition();
 
-        TopItemList text = caret.getModel();
+        HieroglyphicText text = caret.getModel();
         if (text.hasNext(second)) {
             second = text.getNextPosition(second, 1);
         }

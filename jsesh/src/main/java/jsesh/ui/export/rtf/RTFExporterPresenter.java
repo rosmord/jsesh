@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import javax.swing.DefaultComboBoxModel;
 
 import jsesh.ui.export.generic.ExportOptionPanel;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.ui.widgets.units.LengthUnit;
 import jsesh.ui.widgets.units.UnitMediator;
@@ -41,7 +41,7 @@ public class RTFExporterPresenter {
      * @param model
      */
     public void exportModel(JSeshRenderContext renderContext,
-            TopItemList model) {
+            HieroglyphicText model) {
 
         RTFExporter exporter = new RTFExporter(renderContext, rtfPreferences);
         try {

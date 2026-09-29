@@ -29,7 +29,7 @@ import jsesh.model.LineBreak;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 
 
@@ -85,7 +85,7 @@ public class RTFExporter {
 
     }
 
-    public void ExportModelTo(TopItemList model, OutputStream outputStream)
+    public void ExportModelTo(HieroglyphicText model, OutputStream outputStream)
             throws IOException {
         if (rtfPreferences.exportGraphicFormat().equals(
                 RTFExportGraphicFormat.WMF)) {
@@ -149,9 +149,9 @@ public class RTFExporter {
      *
      * @throws IOException
      */
-    private void exportAsPicture(TopItemList model) throws IOException {
+    private void exportAsPicture(HieroglyphicText model) throws IOException {
         AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(model));
-        simpleDrawer.drawTopItemList(model);
+        simpleDrawer.drawHieroglyphicText(model);
         simpleDrawer.writeToRTF(rtfWriter);
     }
 
@@ -188,14 +188,14 @@ public class RTFExporter {
         return result;
     }
 
-    private String buildMdCForExport(TopItemList t) {
+    private String buildMdCForExport(HieroglyphicText t) {
         return new MDCDocumentWriter().toMdC(t,
                 DocumentPreferencesStyleConverter.toDocumentPreferences(
                         renderContext.jseshStyle()));
     }
 
     private String buildMdCForExport(TopItem t) {
-        TopItemList list = new TopItemList();
+        HieroglyphicText list = new HieroglyphicText();
         list.addTopItem(t.buildTopItem());
         return buildMdCForExport(list);
     }
@@ -206,10 +206,10 @@ public class RTFExporter {
          * list of elements to draw when the mode is
          * RTFExportGranularity.GROUPED_CADRATS.
          */
-        TopItemList toDraw = null;
+        HieroglyphicText toDraw = null;
 
         @Override
-        public void visitTopItemList(TopItemList t) {
+        public void visitHieroglyphicText(HieroglyphicText t) {
             int i = 0;
             while (i < t.getNumberOfChildren()) {
                 if (t.getTopItemAt(i) instanceof AlphabeticCharacter c) {
@@ -231,7 +231,7 @@ public class RTFExporter {
         }
 
         /// Writes the run of alphabetic text between start and end.
-        private void writeText(ScriptCode script, TopItemList t, int start, int end) {
+        private void writeText(ScriptCode script, HieroglyphicText t, int start, int end) {
             try {
                 FontSpecification fontSpecs = renderContext.jseshStyle().fonts();
                 flushElements();
@@ -307,7 +307,7 @@ public class RTFExporter {
                     || rtfPreferences.exportGranularity().equals(
                             RTFExportGranularity.GROUPED_CADRATS)) {
                 if (toDraw == null) {
-                    toDraw = new TopItemList();
+                    toDraw = new HieroglyphicText();
                 }
                 // TODO : We should modify the drawing methods, so that it's
                 // possible to draw any list of top items. Then
@@ -329,7 +329,7 @@ public class RTFExporter {
                                 RTFExportGranularity.GROUPED_CADRATS)) {
                     if (toDraw != null) {
                         AbstractRTFEmbeddableDrawer simpleDrawer = buildSimpleDrawer(buildMdCForExport(toDraw));
-                        simpleDrawer.drawTopItemList(toDraw);
+                        simpleDrawer.drawHieroglyphicText(toDraw);
                         simpleDrawer.writeToRTF(rtfWriter);
                         toDraw = null;
                     }

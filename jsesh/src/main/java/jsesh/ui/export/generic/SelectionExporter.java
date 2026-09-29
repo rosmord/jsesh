@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.PageBreak;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -75,7 +75,7 @@ public class SelectionExporter {
                 .copy().jseshStyle(style -> style.options(opts -> opts.paged(true))).build();
 
         int start = 0;
-        TopItemList l = exportData.getTopItemList();
+        HieroglyphicText l = exportData.getHieroglyphicText();
         // export all pages.
         while (start < l.getNumberOfChildren()) {
             // Now, loop through the model to find page limits
@@ -152,7 +152,7 @@ public class SelectionExporter {
     private void exportZone(ViewBuilder builder, JSeshRenderContext renderContext, int start, int end) throws IOException {
         JSeshStyle style = renderContext.jseshStyle();
         JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.APPROXIMATIVE_CONTEXT;
-        MDCView view = builder.buildView(exportData.getTopItemList(), start, end, renderContext, techRenderContext);
+        MDCView view = builder.buildView(exportData.getHieroglyphicText(), start, end, renderContext, techRenderContext);
         graphicsFactory.setDimension(getScaledDimensions(view));
         // Build the graphic file and initialize it :
         Graphics2D g2d = graphicsFactory

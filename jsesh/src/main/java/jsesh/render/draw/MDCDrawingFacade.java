@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.StringReader;
 
 import jsesh.glyphs.fonts.PredefinedFonts;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.render.context.JSeshRenderContext;
@@ -101,17 +101,17 @@ public class MDCDrawingFacade {
 	 * @throws MDCSyntaxError
 	 */
 	public BufferedImage createImage(String mdcCodes) throws MDCSyntaxError {
-		TopItemList t = buidTopItemList(mdcCodes);
+		HieroglyphicText t = buildHieroglyphicText(mdcCodes);
 		return createImage(t);
 	}
 
 	/**
-	 * Generate a picture for a TopItemList passed as argument.
+	 * Generate a picture for a HieroglyphicText passed as argument.
 	 * 
 	 * @param t
 	 * @return a new bufferedImage.
 	 */
-	public BufferedImage createImage(TopItemList t) {
+	public BufferedImage createImage(HieroglyphicText t) {
 		// First, create a dummy picture to compute the target image size.
 
 		BufferedImage dummy = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
@@ -154,7 +154,7 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D draw(String mdcText, Graphics2D g, double x, double y)
 			throws MDCSyntaxError {
-		TopItemList t = buidTopItemList(mdcText);
+		HieroglyphicText t = buildHieroglyphicText(mdcText);
 		return draw(t, g, x, y);
 	}
 
@@ -167,7 +167,7 @@ public class MDCDrawingFacade {
 	 * @param y
 	 * @return
 	 */
-	public Rectangle2D getBounds(TopItemList t, double x, double y) {
+	public Rectangle2D getBounds(HieroglyphicText t, double x, double y) {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
 		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext,
 				buildTechContext(g0));
@@ -186,7 +186,7 @@ public class MDCDrawingFacade {
 	 */
 	public Rectangle2D getBounds(String mdc, double x, double y) throws MDCSyntaxError {
 		Graphics2D g0 = (Graphics2D) new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB).getGraphics();
-		ViewAndBounds viewAndBounds = new ViewAndBounds(buidTopItemList(mdc), x, y,
+		ViewAndBounds viewAndBounds = new ViewAndBounds(buildHieroglyphicText(mdc), x, y,
 				jSeshRenderContext,
 				buildTechContext(g0));
 		g0.dispose();
@@ -349,7 +349,7 @@ public class MDCDrawingFacade {
 		public MDCView view;
 		public Rectangle2D bounds;
 
-		public ViewAndBounds(TopItemList t, double x, double y, JSeshRenderContext renderContext,
+		public ViewAndBounds(HieroglyphicText t, double x, double y, JSeshRenderContext renderContext,
 				JSeshTechRenderContext techRenderContext) {
 			ViewBuilder viewBuilder = new ViewBuilder();
 			view = viewBuilder.buildView(t, renderContext, techRenderContext);
@@ -384,7 +384,7 @@ public class MDCDrawingFacade {
 	 * @return the bounding box of the drawn text.
 	 */
 
-	private Rectangle2D draw(TopItemList t, Graphics2D g, double x, double y) {
+	private Rectangle2D draw(HieroglyphicText t, Graphics2D g, double x, double y) {
 		Graphics2D g1 = (Graphics2D) g.create();
 		JSeshTechRenderContext techRenderContext = buildTechContext(g1);
 		ViewAndBounds viewAndBounds = new ViewAndBounds(t, x, y, jSeshRenderContext, techRenderContext);
@@ -406,10 +406,10 @@ public class MDCDrawingFacade {
 		return hieroglyphDrawer.scaleFromFontToStyle(scaledStyle);
 	}
 
-	private TopItemList buidTopItemList(String mdcCodes) throws MDCSyntaxError {
+	private HieroglyphicText buildHieroglyphicText(String mdcCodes) throws MDCSyntaxError {
 		MDCParserModelGenerator gen = new MDCParserModelGenerator();
 		gen.setPhilologyAsSigns(isPhilologySign());
-		TopItemList t = gen.parse(new StringReader(mdcCodes));
+		HieroglyphicText t = gen.parse(new StringReader(mdcCodes));
 		return t;
 	}
 

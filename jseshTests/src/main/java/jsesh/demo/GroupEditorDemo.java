@@ -16,7 +16,7 @@ import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.AbsoluteGroup;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.AbsoluteGroupBuilder;
@@ -67,7 +67,7 @@ class GroupEditorDemo extends JFrame {
     }
     
     private void editGroup() {
-        TopItemList topItems = editor.getHieroglyphicTextModel().getModel();
+        HieroglyphicText topItems = editor.getHieroglyphicTextModel().getHieroglyphicText();
         // AbsoluteGroup group = AbsoluteGroupBuilder.createAbsoluteGroupFrom(topItems.asList(), editor.getDrawingSpecifications());
         // The absolute group builder has a problem when using alternate specifications,
         // especially specs.setStandardSignHeight(textHeight);
@@ -75,9 +75,9 @@ class GroupEditorDemo extends JFrame {
         JSeshRenderContext renderContext = new JSeshRenderContext(JSeshStyle.DEFAULT, shapeRepository);  
         AbsoluteGroup group = groupBuilder.createAbsoluteGroupFrom(topItems.asList(), renderContext, JSeshTechRenderContext.VECTOR_CONTEXT);
         groupEditor.setGroup(group);
-        TopItemList top = new TopItemList();
+        HieroglyphicText top = new HieroglyphicText();
         top.addTopItem(group.buildTopItem());
-        editor.getWorkflow().getHieroglyphicTextModel().setTopItemList(top);
+        editor.getWorkflow().getHieroglyphicTextModel().setHieroglyphicText(top);
     }
     
     

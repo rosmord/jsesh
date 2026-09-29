@@ -61,6 +61,6 @@ public class JseshTextsParsingTest {
         MDCDocumentReader reader = new MDCDocumentReader();
         reader.failFast();
         MDCDocument document = reader.loadFile(file);
-        assertNotNull(document.getTopItemList());
+        assertNotNull(document.getHieroglyphicText());
     }
 }

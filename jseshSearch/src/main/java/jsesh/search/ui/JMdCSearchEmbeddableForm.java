@@ -27,7 +27,7 @@ import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.fonts.CompositeHieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.resources.JSeshMessages;
 import jsesh.search.quadrant.QuadratSearchQuery;
 import jsesh.search.ui.specifications.JMdCSearchEmbeddableFormFieldsIF;
@@ -131,8 +131,8 @@ class JMdCSearchEmbeddableForm extends JPanel implements JMdCSearchEmbeddableFor
         return searchField;
     }
 
-    private TopItemList getSearchFieldContent() {
-        return searchField.getHieroglyphicTextModel().getModel();
+    private HieroglyphicText getSearchFieldContent() {
+        return searchField.getHieroglyphicTextModel().getHieroglyphicText();
     }
 
     @Override

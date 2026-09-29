@@ -46,7 +46,7 @@ import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.ViewDrawer;
@@ -187,7 +187,7 @@ public class HTMLExporter {
         return new OptionPanel(popupParent, title);
     }
 
-    public void exportModel(TopItemList model) {
+    public void exportModel(HieroglyphicText model) {
         directory.mkdirs();
         HTMLExporterAux visitor = new HTMLExporterAux();
         model.accept(visitor);
@@ -206,10 +206,10 @@ public class HTMLExporter {
         /*
          * (non-Javadoc)
          * 
-         * @see jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model.
-         * TopItemList)
+         * @see jsesh.model.ModelElementAdapter#visitHieroglyphicText(jsesh.model.
+         * HieroglyphicText)
          */
-        public void visitTopItemList(TopItemList t) {
+        public void visitHieroglyphicText(HieroglyphicText t) {
             try {
                 int i = 0;
                 elements = null;
@@ -359,7 +359,7 @@ public class HTMLExporter {
 
                 MDCView view = JSeshTechRenderContext.applyWithDefaultTechContext(
                         techRenderContext -> {
-                            TopItemList smallModel = new TopItemList();
+                            HieroglyphicText smallModel = new HieroglyphicText();
                             smallModel.addAll(elements);
 
                             ViewBuilder builder = new ViewBuilder();

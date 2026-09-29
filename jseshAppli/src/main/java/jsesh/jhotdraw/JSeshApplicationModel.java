@@ -108,7 +108,7 @@ import jsesh.jhotdraw.preferences.application.model.ExportPreferences;
 import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter;
 import jsesh.jhotdraw.utils.WindowsHelper;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCIconFactory;
@@ -515,13 +515,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
     private class MyTransferableBroker implements MDCModelTransferableBroker {
 
         @Override
-        public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext) {
+        public MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext) {
             return buildTransferable(top, renderContext,
                     getClipboardPreferences().getTransferDataFlavors());
         }
 
         @Override
-        public MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
+        public MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext,
                 DataFlavor[] dataFlavors) {
 
             RTFExportPreferences rtfExportPreferences = jseshApplicationCore.getCurrentRTFPreferences();

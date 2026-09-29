@@ -16,7 +16,7 @@ import jsesh.model.constants.Dialect;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.LineBreak;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.utils.datatypes.ByteArraysUtils;
 import jsesh.utils.datatypes.StringBufferUtils;
 import jsesh.utils.io.SystemUtils;
@@ -109,14 +109,14 @@ public class MDCDocumentReader {
 
         StringReader r = new StringReader(buff.toString());
         try {
-            document.readTopItemList(r);
+            document.readHieroglyphicText(r);
         } catch (MDCSyntaxError e) {
             MDCParserModelGenerator gen = new MDCParserModelGenerator(document.getDialect());
             String[] tab = buff.toString().split("\n|\r|\r\n");
-            TopItemList list = new TopItemList();
+            HieroglyphicText list = new HieroglyphicText();
             for (String line : tab) {
                 try {
-                    TopItemList items = gen.parse(line);
+                    HieroglyphicText items = gen.parse(line);
                     list.addAll(items.asList());
                 } catch (MDCSyntaxError exception) {
                     if (failFast)
@@ -127,7 +127,7 @@ public class MDCDocumentReader {
                     list.addTopItem(new LineBreak());
                 }
             }
-            document.setTopItemList(list);
+            document.setHieroglyphicText(list);
         }
         return document;
     }

@@ -67,7 +67,7 @@ public class MDCMark {
 	private MDCPosition position;
 
 	/// The text this mark lives in.
-	private TopItemList topItemList;
+	private HieroglyphicText topItemList;
 
 	/**
 	 * Will the mark move left or right when data is inserted at the mark index.
@@ -86,7 +86,7 @@ public class MDCMark {
 	///
 	/// @param topItemList the text the mark lives in.
 	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
-	public MDCMark(TopItemList topItemList, MDCPosition position) {
+	public MDCMark(HieroglyphicText topItemList, MDCPosition position) {
 		this(topItemList, position, Gravity.FORWARD);
 	}
 
@@ -97,7 +97,7 @@ public class MDCMark {
 	/// @param topItemList the text the mark lives in.
 	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
 	/// @param gravity
-	public MDCMark(TopItemList topItemList, MDCPosition position, Gravity gravity) {
+	public MDCMark(HieroglyphicText topItemList, MDCPosition position, Gravity gravity) {
 		this.topItemList = topItemList;
 		this.position = topItemList.getPositionAt(position.getIndex());
 		this.gravity = gravity;
@@ -279,7 +279,7 @@ public class MDCMark {
 	 * 
 	 * @param i
 	 * @return the position <em>i</em> places from this mark.
-	 * @see TopItemList#getNextPosition(MDCPosition, int)
+	 * @see HieroglyphicText#getNextPosition(MDCPosition, int)
 	 */
 	public MDCPosition getNextPosition(int i) {
 		return topItemList.getNextPosition(position, i);
@@ -290,7 +290,7 @@ public class MDCMark {
 	 * 
 	 * @param k
 	 * @return an absolute position.
-	 * @see TopItemList#getPositionAt(int)
+	 * @see HieroglyphicText#getPositionAt(int)
 	 */
 	public MDCPosition getPositionAt(int k) {
 		return topItemList.getPositionAt(k);
@@ -301,7 +301,7 @@ public class MDCMark {
 	 * 
 	 * @return the topitemlist to which this mark points.
 	 */
-	public TopItemList getTopItemList() {
+	public HieroglyphicText getHieroglyphicText() {
 		return topItemList;
 	}
 

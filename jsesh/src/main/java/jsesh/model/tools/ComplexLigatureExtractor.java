@@ -10,7 +10,7 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Expert which extracts a complex ligature from an element.
@@ -106,9 +106,9 @@ public class ComplexLigatureExtractor {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementDeepAdapter#visitTopItemList(jsesh.model.TopItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 		 */
-		public void visitTopItemList(TopItemList t) {
+		public void visitHieroglyphicText(HieroglyphicText t) {
 			super.visitDefault(t);
 		}
 

@@ -92,7 +92,7 @@ itself" (reads the user's font directory and glossary from prefs for you). See
 The document model is a tree with visitor and observer patterns:
 
 ```
-TopItemList                  ← document root (implements MDCFileInterface)
+HieroglyphicText             ← document root: the whole text (formerly TopItemList)
   └─ TopItem subclasses:
        ├─ Cadrat              ← one hieroglyphic "square" (grid cell)
        │    └─ HBox(es)
@@ -114,7 +114,7 @@ TopItemList                  ← document root (implements MDCFileInterface)
 - Grammar: hand-written recursive descent parser, `jsesh.parser.MDCParser`, which builds a literal AST (`jsesh.parser.ast.AstDocument`). It replaced an earlier CUP-generated parser (`jsesh/src/jcup/MDCParse.y`, retired once checked equivalent construct-by-construct).
 - Lexer: hand-written, `jsesh.parser.lexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module (replacement for the retired JFlex-generated `MDCLexAux`, formerly `jsesh/src/jlex/MDCLexAux.l`). `MDCParser` drives `MdcLexer` directly and switches on its `MdcSymbolCode` enum.
 - `jsesh.parser` (lexer, parser, AST) does not depend on `jsesh.model`. The AST stores the lexer's own enums (`SignSubType`, `PhilologyKind`, `jsesh.parser.lexer.ToggleType`, `jsesh.parser.ast.WordEnding`); their mapping to `jsesh.model.constants` codes lives in `jsesh.mdcreader.AstModelBuilder`. Don't add `jsesh.model` imports to `jsesh.parser`.
-- High-level entry point: `jsesh.mdcreader.MDCParserModelGenerator` (returns a `TopItemList`)
+- High-level entry point: `jsesh.mdcreader.MDCParserModelGenerator` (returns a `HieroglyphicText`)
 - Lower-level entry point: `jsesh.parser.MDCParser` itself (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
 
 ### Sign/Glyph Database (`jsesh.glyphs`)
@@ -144,7 +144,7 @@ repository) that has exactly one valid instance for the whole JVM. Don't
 - `JMDCEditorWorkflow` — editing state machine
 - `MDCEditorKeyManager` — keyboard input handling
 - `MDCViewUpdater` — triggers view refresh after model changes
-- `HieroglyphicTextModel` (`jsesh.document`) — wraps `TopItemList` for Swing data binding
+- `HieroglyphicTextModel` (`jsesh.document`) — wraps `HieroglyphicText` (`jsesh.model`) with undo/redo and change events, for Swing data binding
 - Undo/redo via `UndoManager`
 
 ### Rendering (`jsesh.render`)

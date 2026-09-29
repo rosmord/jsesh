@@ -36,7 +36,7 @@ package jsesh.ui.editor;
 import java.awt.datatransfer.DataFlavor;
 
 import jsesh.ui.clipboard.MDCModelTransferable;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 
 /**
@@ -53,7 +53,7 @@ import jsesh.render.context.JSeshRenderContext;
 public interface MDCModelTransferableBroker {
 
 	/**
-	 * Create a transferable for the given TopItemList
+	 * Create a transferable for the given HieroglyphicText
          * <p> The method itself decides on the DataFlavors (i.e. the possible export formats) 
          * to allow. Usually, this will be done by asking some 
          * external authority (e.g. application preferences).
@@ -62,16 +62,16 @@ public interface MDCModelTransferableBroker {
          * @param renderContext the render context to use for rendering the text. Individual flavors may use modified versions of this context.
 	 * @return
 	 */
-	MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext);
+	MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext);
 
         /**
          * Create a transferable object for the given text.
-         * @param top the text (as a TopItemList)
+         * @param top the text (as a HieroglyphicText)
          * @param renderContext the render context to use for rendering the text. Individual flavors may use modified versions of this context.
          * @param dataFlavors the export formats we want.
          * @return a transferable.
          */
-	MDCModelTransferable buildTransferable(TopItemList top, JSeshRenderContext renderContext,
+	MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext,
 			DataFlavor[] dataFlavors);
 
 }

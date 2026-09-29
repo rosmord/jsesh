@@ -16,7 +16,7 @@ import jsesh.model.transliteration.TransliterationEncoding;
 /// one run of five characters).
 ///
 /// All methods work either on the children of a container (a
-/// `TopItemList`, a `BasicItemList`...) or on a plain list of elements.
+/// `HieroglyphicText`, a `BasicItemList`...) or on a plain list of elements.
 ///
 /// @author rosmord
 public final class AlphabeticRuns {

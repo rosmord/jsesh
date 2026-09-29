@@ -40,7 +40,7 @@ import java.util.List;
 import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
 import jsesh.signcodes.CanonicalCode;
@@ -88,7 +88,7 @@ public class SignStringSearchQuery implements MdCSearchQuery {
      * @param items
      * @return
      */
-    public List<MDCPosition> doSearch(TopItemList items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items) {
         ArrayList<MDCPosition> result= new ArrayList<>();
         OccurrenceStringBuilder codeExtractors= new OccurrenceStringBuilder();
         List<HieroglyphOccurrence> l = codeExtractors.analyzeQuadrat(items);

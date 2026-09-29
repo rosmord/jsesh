@@ -147,7 +147,7 @@ class MDCViewUpdater implements ModelOperationVisitor {
 		JSeshRenderContext renderContext = renderContext();
 		JSeshTechRenderContext techRenderContext = techRenderContext();
 		for (int i = modification.getStart(); i < modification.getEnd(); i++) {
-			TopItem it = this.editor.getHieroglyphicTextModel().getModel().getTopItemAt(i);
+			TopItem it = this.editor.getHieroglyphicTextModel().getHieroglyphicText().getTopItemAt(i);
 			MDCView v = builder.buildView(it, renderContext, techRenderContext);
 			getView().replaceSubView(i, v);
 		}

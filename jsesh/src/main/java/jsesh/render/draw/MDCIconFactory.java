@@ -13,7 +13,7 @@ import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.Hieroglyph;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 
 /**
@@ -101,7 +101,7 @@ public class MDCIconFactory {
         if (imageIcon == null) {
             BufferedImage bufferedImage;
 
-            TopItemList text = new TopItemList();
+            HieroglyphicText text = new HieroglyphicText();
             text.addTopItem(new Hieroglyph(code).buildTopItem());
             bufferedImage = mdcDrawingFacade.createImage(text);
 

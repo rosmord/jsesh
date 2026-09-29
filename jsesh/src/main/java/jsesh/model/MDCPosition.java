@@ -13,14 +13,14 @@ import java.io.Serializable;
 ///
 /// A position is a plain, immutable value: it does **not** hold a reference to
 /// the text it refers to. It is only meaningful relative to a
-/// [TopItemList] supplied by the caller. Operations which need the text
+/// [HieroglyphicText] supplied by the caller. Operations which need the text
 /// (element access, bounded navigation, line navigation...) live in
-/// [TopItemList], and take the position as argument; for instance
-/// [TopItemList#getElementAfter(MDCPosition)] or
-/// [TopItemList#getPositionAt(int)], which builds a position clamped to the
+/// [HieroglyphicText], and take the position as argument; for instance
+/// [HieroglyphicText#getElementAfter(MDCPosition)] or
+/// [HieroglyphicText#getPositionAt(int)], which builds a position clamped to the
 /// text's bounds.
 /// 
-/// The usual way to create a position is to use [TopItemList#getPositionAt(int)], which checks that 
+/// The usual way to create a position is to use [HieroglyphicText#getPositionAt(int)], which checks that 
 /// the position is within bounds for the text.
 ///
 /// AT THE TIME BEING, THE POSITION IS JUST AN INTEGER, AT TOP LEVEL. THE TEXT BELOW DESCRIBES
@@ -54,7 +54,7 @@ public final class MDCPosition implements Serializable, Comparable<MDCPosition> 
 	/// Builds a position.
 	///
 	/// A negative index is clamped to 0. The position is *not* checked against
-	/// the upper bound of any text; use [TopItemList#getPositionAt(int)] to get
+	/// the upper bound of any text; use [HieroglyphicText#getPositionAt(int)] to get
 	/// a position guaranteed to fall inside a given text.
 	///
 	/// @param index the index of the position.

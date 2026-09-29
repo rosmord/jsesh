@@ -41,7 +41,7 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
@@ -792,7 +792,7 @@ public class Layout {
 		@Override
 		public void visitLineBreak(LineBreak b) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
-			// The actual layout is done in TopItemList, because we need a global
+			// The actual layout is done in HieroglyphicText, because we need a global
 			// view to decide LineBreak skips.
 			currentView.setWidth(0.0f);
 			currentView.setHeight(jseshStyle.geometry().maxCadratHeight());
@@ -856,7 +856,7 @@ public class Layout {
 
 		@Override
 		public void visitTabStop(TabStop t) {
-			// Empty method. Tab stops are handled when laying out the TopItemList.
+			// Empty method. Tab stops are handled when laying out the HieroglyphicText.
 		}
 
 		/**
@@ -866,18 +866,18 @@ public class Layout {
 		 *
 		 */
 		@Override
-		public void visitTopItemList(TopItemList t) {
-			// monoliticVisitTopItemList(t);
-			compositeVisitTopItemList(t);
+		public void visitHieroglyphicText(HieroglyphicText t) {
+			// monoliticVisitHieroglyphicText(t);
+			compositeVisitHieroglyphicText(t);
 		}
 
 		/**
 		 * Layout a top item list using a strategy class.
 		 *
 		 * @param t
-		 * @see jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model.TopItemList)
+		 * @see jsesh.model.ModelElementAdapter#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 		 */
-		public void compositeVisitTopItemList(TopItemList t) {
+		public void compositeVisitHieroglyphicText(HieroglyphicText t) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// currentView contains the content for all pages.
 			// we need

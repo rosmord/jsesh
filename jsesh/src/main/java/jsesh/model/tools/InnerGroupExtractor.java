@@ -13,7 +13,7 @@ import jsesh.model.HBox;
 import jsesh.model.InnerGroup;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Expert which can extract innergroups from a list of top level items
@@ -91,9 +91,9 @@ public class InnerGroupExtractor {
 		}
 		
 		/* (non-Javadoc)
-		 * @see jsesh.model.ModelElementDeepAdapter#visitTopItemList(jsesh.model.TopItemList)
+		 * @see jsesh.model.ModelElementDeepAdapter#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 		 */
-		public void visitTopItemList(TopItemList t) {
+		public void visitHieroglyphicText(HieroglyphicText t) {
 			super.visitDefault(t);
 		}
 	}

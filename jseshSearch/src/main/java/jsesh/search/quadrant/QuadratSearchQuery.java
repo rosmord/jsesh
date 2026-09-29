@@ -39,7 +39,7 @@ import jsesh.document.MdCSearchQuery;
 import java.util.ArrayList;
 import java.util.List;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.tools.MDCNormalizer;
 
 /**
@@ -47,9 +47,9 @@ import jsesh.model.tools.MDCNormalizer;
  * @author rosmord
  */
 public class QuadratSearchQuery implements MdCSearchQuery {
-    private final TopItemList search;
+    private final HieroglyphicText search;
 
-    public QuadratSearchQuery(TopItemList search) {        
+    public QuadratSearchQuery(HieroglyphicText search) {        
         this.search =search.deepCopy();
         MDCNormalizer normalizer= new MDCNormalizer();
         normalizer.normalize(this.search);
@@ -65,7 +65,7 @@ public class QuadratSearchQuery implements MdCSearchQuery {
      * @param items the items to search into.
      * @return
      */
-    public List<MDCPosition> doSearch(TopItemList items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items) {
         ArrayList<MDCPosition> result= new ArrayList<>();
         for (int pos= 0; pos < items.getNumberOfChildren(); pos++) {
             // Brute force search. 

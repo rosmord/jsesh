@@ -54,7 +54,7 @@ import jsesh.model.constants.Dialect;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElementObserver;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.operations.ModelOperation;
 
 /**
@@ -69,8 +69,8 @@ import jsesh.model.operations.ModelOperation;
  * cleared, and so on.
  * <p>
  * TODO : express this class in terms of patterns, and modify it accordingly.
- * We should probably define the TopItemList and the HieroglyphicTextModel in terms 
- * of interfaces, have have HieroglyphicTextModel extend or implement TopItemList.
+ * We should probably define the HieroglyphicText and the HieroglyphicTextModel in terms 
+ * of interfaces, and have HieroglyphicTextModel extend or implement HieroglyphicText.
  * <p>
  * FIXME : currently, the Observable pattern used is misleading.
  * <p>
@@ -90,7 +90,7 @@ import jsesh.model.operations.ModelOperation;
  */
 public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent> {
 
-	private TopItemList model;
+	private HieroglyphicText text;
 	private boolean philologyIsSign;
 	private boolean debug;
 	private UndoManager undoManager;
@@ -103,45 +103,42 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	public HieroglyphicTextModel() {
 		undoManager = new UndoManager();
-		setTopItemList(new TopItemList());
+		setHieroglyphicText(new HieroglyphicText());
 		philologyIsSign = true;
 		debug = false;
 	}
 
-	/**
-	 * Returns the model for READONLY PURPORSES ONLY. Currently, nothing
-	 * enforces this rule. We might either decide to hide the model behind some
-	 * kind of specific interface, or send a copy.
-	 *
-	 * @return TopItemList
-	 */
-	public TopItemList getModel() {
-		return model;
+	/// Returns the edited text, for READ-ONLY PURPOSES ONLY.
+	///
+	/// Currently, nothing enforces this rule. We might either decide to hide
+	/// the text behind some kind of specific interface, or send a copy.
+	///
+	/// @return the edited text.
+	public HieroglyphicText getHieroglyphicText() {
+		return text;
 	}
 
-	/**
-	 * Sets the model.
-	 *
-	 * @param model The model to set
-	 */
-	public void setTopItemList(TopItemList model) {
+	/// Replaces the edited text. Clears the undo history.
+	///
+	/// @param text the new text.
+	public void setHieroglyphicText(HieroglyphicText text) {
 		undoManager.clear();
-		// Detach the ancient model.
-		if (this.model != null) {
-			this.model.deleteObserver(modelElementObserver);
+		// Detach the ancient text.
+		if (this.text != null) {
+			this.text.deleteObserver(modelElementObserver);
 		}
-		this.model = model;
-		if (model != null) {
-			model.addObserver(modelElementObserver);
+		this.text = text;
+		if (text != null) {
+			text.addObserver(modelElementObserver);
 		}
 		eventSupport.fireEvent(new NewTextEvent());		
 	}
 
 	public void clear() {
             // There was a bug, documented by the small demo ViewUpdateBug
-            // if we simply clear the view by calling setTopItemList
+            // if we simply clear the view by calling setHieroglyphicText
             // can't reproduce it ??!!??
-            setTopItemList(new TopItemList());
+            setHieroglyphicText(new HieroglyphicText());
             
             
             // The following two lines are annoying, because they generate
@@ -157,9 +154,9 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
             
 	}
 
-	public void readTopItemList(Reader in) throws MDCSyntaxError {
+	public void readHieroglyphicText(Reader in) throws MDCSyntaxError {
 		// long start= System.currentTimeMillis();
-		TopItemList l = createGenerator(Dialect.OTHER).parse(in);
+		HieroglyphicText l = createGenerator(Dialect.OTHER).parse(in);
 		// System.err.println("model created in "+ (System.currentTimeMillis() -
 		// start));
 		clear();
@@ -176,20 +173,20 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * @throws MDCSyntaxError
 	 * @see Dialect
 	 */
-	public void readTopItemList(Reader in, Dialect dialect)
+	public void readHieroglyphicText(Reader in, Dialect dialect)
 			throws MDCSyntaxError {
 		if (Dialect.TKSESH.equals(dialect)) {
 			this.philologyIsSign = false;
 		} else {
 			this.philologyIsSign = true;
 		}
-		TopItemList l = createGenerator(dialect).parse(in);
-		setTopItemList(l);
+		HieroglyphicText l = createGenerator(dialect).parse(in);
+		setHieroglyphicText(l);
 	}
 
 	public void setMDCCode(String text) throws MDCSyntaxError {
 		StringReader r = new StringReader(text);
-		readTopItemList(r);
+		readHieroglyphicText(r);
 	}
 
 	private MDCParserModelGenerator createGenerator(Dialect dialect) {
@@ -253,7 +250,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	public List<TopItem> buildItems(String text) throws MDCSyntaxError {
 		MDCParserModelGenerator generator = createGenerator(Dialect.OTHER);
 		StringReader r = new StringReader(text);
-		TopItemList t = generator.parse(r);
+		HieroglyphicText t = generator.parse(r);
 		// We take advantage of the return value of removeTopItems here :
 		return t.removeTopItems(0, t.getNumberOfChildren());
 	}
@@ -296,7 +293,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	public void replaceElementBefore(MDCPosition position,
 									 List<TopItem> newElements) {
-		MDCCommand command = new CommandFactory().buildReplaceCommand(model,
+		MDCCommand command = new CommandFactory().buildReplaceCommand(text,
 				newElements, position.getPreviousPosition(1), position,
 				isFirstCommand());
 		undoManager.doCommand(command);
@@ -309,7 +306,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * @param elements a list of TopItems
 	 */
 	public void insertElementsAt(MDCPosition position, List<TopItem> elements) {
-		MDCCommand command = new CommandFactory().buildInsertCommand(model,
+		MDCCommand command = new CommandFactory().buildInsertCommand(text,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
 	}
@@ -324,7 +321,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	public void replaceElement(MDCPosition pos1, MDCPosition pos2,
 							   List<TopItem> newElements) {
 		MDCCommand command = new CommandFactory().buildReplaceCommand(
-				getModel(), newElements, pos1, pos2, isClean());
+				getHieroglyphicText(), newElements, pos1, pos2, isClean());
 		undoManager.doCommand(command);
 	}
 
@@ -346,7 +343,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	/// @param position where to insert.
 	/// @param elements the typed elements.
 	public void insertTypedElementsAt(MDCPosition position, List<TopItem> elements) {
-		MDCCommand command = new CommandFactory().buildTypingCommand(model,
+		MDCCommand command = new CommandFactory().buildTypingCommand(text,
 				elements, position, isFirstCommand());
 		undoManager.doCommand(command);
 	}
@@ -361,7 +358,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
          * @param item 
          */
 	public void insertElementAt(int position, TopItem item) {
-		insertElementsAt(model.getPositionAt(position), Collections.singletonList(item));
+		insertElementsAt(text.getPositionAt(position), Collections.singletonList(item));
 	}
 
 	// I Don't know if I will use this "first command" stuff.
@@ -382,7 +379,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * @return
 	 */
 	public List<TopItem> getTopItemsBetween(int min, int max) {
-		return getModel().getTopItemListBetween(min, max);
+		return getHieroglyphicText().getTopItemsBetween(min, max);
 	}
 
 	/**
@@ -400,17 +397,17 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	}
 
 	public void removeElements(MDCPosition minPosition, MDCPosition maxPosition) {
-		MDCCommand command = new CommandFactory().buildRemoveCommand(model,
+		MDCCommand command = new CommandFactory().buildRemoveCommand(text,
 				minPosition, maxPosition, isClean());
 		undoManager.doCommand(command);
 	}
 
 	public MDCPosition getLastPosition() {
-		return model.getLastPosition();
+		return text.getLastPosition();
 	}
 
 	public MDCPosition buildPosition(int index) {
-		return model.getPositionAt(index);
+		return text.getPositionAt(index);
 	}
 
 	public void redo() {
@@ -490,7 +487,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 * @return a list of positions.
 	 */
 	public List<MDCPosition> doSearch(MdCSearchQuery query) {
-		return query.doSearch(getModel());
+		return query.doSearch(getHieroglyphicText());
 	}
 
 	/**
@@ -507,7 +504,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 
 	public List<MDCPosition> getLineLimitsAround(MDCPosition pos) {
-		int positions[]= model.getLineLimitsAround(pos.getIndex());
+		int positions[]= text.getLineLimitsAround(pos.getIndex());
 		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
 	}
         
@@ -525,7 +522,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 
 	public List<MDCPosition> getPageLimitsAround(MDCPosition pos) {
-		int positions[]= model.getPageLimitsAround(pos.getIndex());
+		int positions[]= text.getPageLimitsAround(pos.getIndex());
 		return Arrays.asList(new MDCPosition(positions[0]), new MDCPosition(positions[1]));
 	}
         
@@ -543,7 +540,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
      */
   
     public String getOriginalDocumentCoordinates(MDCPosition position) {
-        return model.getOriginalDocumentCoordinates(position.getIndex());
+        return text.getOriginalDocumentCoordinates(position.getIndex());
     }
 
 	@Override

@@ -52,7 +52,7 @@ public class ExportAsPDFAction extends AbstractCoreViewAction {
 		if (pdfExporter.getOptionPanel(referenceComponent(), "Export as PDF")
 				.askAndSet() == JOptionPane.OK_OPTION) {
 			try {
-				pdfExporter.exportModel(v.getTopItemList(),
+				pdfExporter.exportModel(v.getHieroglyphicText(),
 						v.getCaret(), v.getRenderContext());
 				appCore().setCurrentDirectory(pdfExportPreferences
 						.getFile().getParentFile());

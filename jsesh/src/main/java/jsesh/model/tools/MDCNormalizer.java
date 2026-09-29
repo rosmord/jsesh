@@ -2,7 +2,7 @@ package jsesh.model.tools;
 
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.signcodes.ManuelDeCodage;
 
 /**
@@ -16,7 +16,7 @@ public class MDCNormalizer {
 	 * Replaces all codes by the canonical Gardiner codes for the sign. e.g. "xpr" will be replaced by "L1".
 	 * @param topItemList
 	 */
-	public void normalize(TopItemList topItemList) {
+	public void normalize(HieroglyphicText topItemList) {
 		topItemList.accept(new NormalizerAux());
 	}
 

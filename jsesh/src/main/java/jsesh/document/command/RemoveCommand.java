@@ -37,7 +37,7 @@ import java.util.List;
 
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 /**
  * Command that deletes one or more cadrats.
@@ -60,7 +60,7 @@ class RemoveCommand extends AbstractMDCCommand {
 	/**
 	 * The text which will be modified. 
 	 */
-	private TopItemList topItemList;
+	private HieroglyphicText topItemList;
 	
 	/**
 	 * Create a command corresponding to the erasure of text between two positions.
@@ -70,7 +70,7 @@ class RemoveCommand extends AbstractMDCCommand {
 	 * @param pos2 the other position.
 	 * @param firstCommand
 	 */
-	public RemoveCommand(TopItemList topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
+	public RemoveCommand(HieroglyphicText topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
 		super(firstCommand);
 		this.topItemList= topItemList;
 		range = MDCPosition.getOrdereredPositions(pos1, pos2);		

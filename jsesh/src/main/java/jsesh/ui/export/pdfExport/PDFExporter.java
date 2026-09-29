@@ -40,7 +40,7 @@ import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
 import jsesh.model.TopItem;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.constants.ScriptCode;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -86,7 +86,7 @@ public class PDFExporter {
         return new JPDFOptionPanel(parent, title, pdfExportPreferences);
     }
 
-    public void exportModel(TopItemList model, MDCCaret caret, JSeshRenderContext renderContext)
+    public void exportModel(HieroglyphicText model, MDCCaret caret, JSeshRenderContext renderContext)
             throws IOException {
         if (pdfExportPreferences.isEncapsulated()) {
             // PDFDataSaver is somehow redundant with PDFExporter...
@@ -97,14 +97,14 @@ public class PDFExporter {
 
             if (caret.hasSelection()) {
                 // TODO WE SHOULD USE EXPORTDATA
-                TopItemList subModel = new TopItemList();
-                subModel.addAll(model.getTopItemListBetween(caret.getMin(),
+                HieroglyphicText subModel = new HieroglyphicText();
+                subModel.addAll(model.getTopItemsBetween(caret.getMin(),
                         caret.getMax()));
                 pdfDataSaver.writeSinglePagePDF(out, subModel);
             } else {
                 int[] limits = model.getPageLimitsAround(caret.getInsert().getIndex());
-                TopItemList subModel = new TopItemList();
-                subModel.addAll(model.getTopItemListBetween(limits[0], limits[1]));
+                HieroglyphicText subModel = new HieroglyphicText();
+                subModel.addAll(model.getTopItemsBetween(limits[0], limits[1]));
                 pdfDataSaver.writeSinglePagePDF(out, subModel);
             }
         } else if (pdfExportPreferences.isRespectTextLayout()) {
@@ -311,11 +311,11 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.model.ModelElementAdapter#visitTopItemList(jsesh.model
-         * .TopItemList)
+         * jsesh.model.ModelElementAdapter#visitHieroglyphicText(jsesh.model
+         * .HieroglyphicText)
          */
         @Override
-        public void visitTopItemList(TopItemList t) {
+        public void visitHieroglyphicText(HieroglyphicText t) {
             try {
                 int i = 0;
                 startPage();
@@ -392,7 +392,7 @@ public class PDFExporter {
         }
 
         /// Writes the run of alphabetic text between start and end.
-        private void writeText(ScriptCode script, TopItemList t, int start, int end) {
+        private void writeText(ScriptCode script, HieroglyphicText t, int start, int end) {
             FontSpecification fontInfo = renderContext.jseshStyle().fonts();
             Font f;
             switch (script) {
@@ -531,7 +531,7 @@ public class PDFExporter {
                     / geom.maxCadratHeight();
 
             if (templateInfo == null) {
-                TopItemList smallModel = new TopItemList();
+                HieroglyphicText smallModel = new HieroglyphicText();
                 smallModel.addTopItem((TopItem) (elt.deepCopy()));
 
                 MDCView view = JSeshTechRenderContext.applyWithDefaultTechContext(techContext -> {

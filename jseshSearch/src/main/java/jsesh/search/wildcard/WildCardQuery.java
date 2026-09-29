@@ -31,7 +31,7 @@ import jsesh.document.MdCSearchQuery;
 import jsesh.glyphs.signdata.HieroglyphDatabase;
 import jsesh.glyphs.signdata.VariantTypeForSearches;
 import jsesh.model.MDCPosition;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.tools.HieroglyphCodesExtractor;
 import jsesh.search.backingSupport.HieroglyphOccurrence;
 import jsesh.search.backingSupport.OccurrenceStringBuilder;
@@ -69,7 +69,7 @@ public class WildCardQuery implements MdCSearchQuery {
      * @param hieroglyphDatabase sign database, used to find variants.
      * @param variantLevel to what extend sign variants should match.
      */
-    public WildCardQuery(TopItemList items, int maxLength, HieroglyphDatabase hieroglyphDatabase, VariantLevelForSearch variantLevel) {
+    public WildCardQuery(HieroglyphicText items, int maxLength, HieroglyphDatabase hieroglyphDatabase, VariantLevelForSearch variantLevel) {
         this.hieroglyphDatabase = hieroglyphDatabase;
         this.maxLength = maxLength;
         if (items.getNumberOfChildren() == 0) {
@@ -89,7 +89,7 @@ public class WildCardQuery implements MdCSearchQuery {
     }
 
     @Override
-    public List<MDCPosition> doSearch(TopItemList items) {
+    public List<MDCPosition> doSearch(HieroglyphicText items) {
         List<MDCPosition> result = Collections.emptyList();
         if (extractor != null) {
             List<HieroglyphOccurrence> text = new OccurrenceStringBuilder().analyzeQuadrat(items);
@@ -118,7 +118,7 @@ public class WildCardQuery implements MdCSearchQuery {
         private String currentCode;
         private VariantLevelForSearch variantLevel;
 
-        public RegularExtractor<HieroglyphOccurrence> buildQuery(TopItemList items, VariantLevelForSearch variantLevel) {
+        public RegularExtractor<HieroglyphOccurrence> buildQuery(HieroglyphicText items, VariantLevelForSearch variantLevel) {
             this.variantLevel = variantLevel;
             codes = new HieroglyphCodesExtractor(true).extractHieroglyphs(items);
             codes.add(null); // null as sentinel.

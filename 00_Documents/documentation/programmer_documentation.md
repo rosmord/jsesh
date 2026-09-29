@@ -109,13 +109,13 @@ Three data types represent hieroglyphic texts, with increasing richness:
 
 | Type | What it is | Where |
 |---|---|---|
-| `TopItemList` | The **actual hieroglyphic text**: a tree of hieroglyphs, cadrats, cartouches, line breaks… This is the in-memory representation of a text. | `jsesh.model.TopItemList` |
-| `MDCDocument` | A `TopItemList` **plus** file metadata (path, encoding, dialect, preferences). What you load from / save to disk. | `jsesh.document.MDCDocument` |
-| `HieroglyphicTextModel` | A **live, observable, undoable** wrapper around a `TopItemList`, used by the editor. | `jsesh.document.HieroglyphicTextModel` |
+| `HieroglyphicText` (formerly `TopItemList`) | The **actual hieroglyphic text**: a tree of hieroglyphs, cadrats, cartouches, line breaks… This is the in-memory representation of a text. | `jsesh.model.HieroglyphicText` |
+| `MDCDocument` | A `HieroglyphicText` **plus** file metadata (path, encoding, dialect, preferences). What you load from / save to disk. | `jsesh.document.MDCDocument` |
+| `HieroglyphicTextModel` | A **live, observable, undoable** wrapper around a `HieroglyphicText`, used by the editor. | `jsesh.document.HieroglyphicTextModel` |
 
 Rule of thumb:
 
-- Batch / server code that only transforms text → work with `TopItemList`.
+- Batch / server code that only transforms text → work with `HieroglyphicText`.
 - Loading and saving files → `MDCDocument`.
 - Anything interactive (an editor, undo/redo, change notification) → `HieroglyphicTextModel`.
 
@@ -194,7 +194,7 @@ If you want to **synchronize** values (e.g. to use the same style in all of your
 ## 6. Use case: render hieroglyphs to an image or a `Graphics2D`
 
 `jsesh.render.draw.MDCDrawingFacade` is the "one class for programmers who just
-want to draw hieroglyphs". It accepts either an MdC `String` or a `TopItemList`.
+want to draw hieroglyphs". It accepts either an MdC `String` or a `HieroglyphicText`.
 
 ### 6.1. Quickest possible — a PNG from MdC
 
@@ -254,21 +254,21 @@ There is a runnable example in
 
 ## 7. Use case: build a computer representation of a Manuel de Codage text
 
-> You have a string of MdC code, and you want to read it, in order to manipulate it (for instance to extract the list of hieroglyphs in a reliable way). The solution is to build a `TopItemList` object.
+> You have a string of MdC code, and you want to read it, in order to manipulate it (for instance to extract the list of hieroglyphs in a reliable way). The solution is to build a `HieroglyphicText` object.
 
 The entry point is `jsesh.mdcreader.MDCParserModelGenerator`. It returns a
-`TopItemList`. (Before 2026-09-24 this class was in `jsesh.parser`. It moved
+`HieroglyphicText`. (Before 2026-09-24 this class was in `jsesh.parser`. It moved
 so that the parser no longer depends on the model; only the package name
 changed.)
 
 ```java
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
-import jsesh.model.TopItemList;
+import jsesh.model.HieroglyphicText;
 
 MDCParserModelGenerator generator = new MDCParserModelGenerator();
 try {
-    TopItemList text = generator.parse("i-w-r:a-ra-m-p*t:pt");
+    HieroglyphicText text = generator.parse("i-w-r:a-ra-m-p*t:pt");
     // ... use the model ...
 } catch (MDCSyntaxError e) {
     // e.getLine() / e.getColumn() locate the problem in the input
@@ -283,14 +283,14 @@ Notes:
   to read legacy encodings. For plain modern MdC the default is fine.
 - `setPhilologyAsSigns(true)` treats `[[`, `]]`, `(` … as ordinary signs instead
   of philological constructs — only needed for very old TkSesh texts.
-- **Lower level:** if you don't want a `TopItemList` but the literal parse tree
+- **Lower level:** if you don't want a `HieroglyphicText` but the literal parse tree
   instead, use `jsesh.parser.MDCParser`, the hand-written parser itself, which
   returns an `AstDocument` (see `jsesh.parser.ast`) — a faithful, uninterpreted
   record of what the parser read, walkable with `AstVisitor`.
   `MDCParserModelGenerator` itself is just `MDCParser` followed by the
   interpretation step (folding toggles into red/shaded state, dropping
   cadrat/zone options, dialect-specific modifier renaming...) that turns that
-  AST into a `TopItemList`.
+  AST into a `HieroglyphicText`.
   `jsesh.parser` and its AST don't depend on `jsesh.model`: sign subtypes,
   philology kinds and toggles are stored as the lexer's own enums
   (`jsesh.parser.lexer`).
@@ -309,7 +309,7 @@ import jsesh.document.MDCDocument;
 
 MDCDocumentReader reader = new MDCDocumentReader();
 MDCDocument doc = reader.loadFile(new File("text.gly"));
-TopItemList model = doc.getTopItemList();
+HieroglyphicText text = doc.getHieroglyphicText();
 ```
 
 The reader **will guess the encoding and dialect for you,** using various hints (file content, `.hie` extension, WinGlyph `@` header, MacScribe header, JSesh `++JSeshInfo` header…).
@@ -331,24 +331,24 @@ document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and 
 
 - `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the stream (it stays the caller's).
 - `toMdC(doc)` — returns the full document (header included) as a `String`.
-- `toMdC(TopItemList, DocumentPreferences)` — convenience when you have a bare text and preferences but no real document.
+- `toMdC(HieroglyphicText, DocumentPreferences)` — convenience when you have a bare text and preferences but no real document.
 
 ---
 
 ## 9. Use case: turn a model back into MdC text
 
-If you only need the MdC source of a `TopItemList` (no file header), use `jsesh.io.mdc.MdCModelWriter` directly:
+If you only need the MdC source of a `HieroglyphicText` (no file header), use `jsesh.io.mdc.MdCModelWriter` directly:
 
 ```java
 import jsesh.io.mdc.MdCModelWriter;
 import java.io.StringWriter;
 
 StringWriter out = new StringWriter();
-new MdCModelWriter().write(out, topItemList);
+new MdCModelWriter().write(out, text);
 String mdc = out.toString();
 ```
 
-It also has `write(File, TopItemList)` and `write(String fileName, TopItemList)` overloads. When you want the header too, go through `MDCDocumentWriter.toMdC(...)`.
+It also has `write(File, HieroglyphicText)` and `write(String fileName, HieroglyphicText)` overloads. When you want the header too, go through `MDCDocumentWriter.toMdC(...)`.
 
 ---
 
@@ -432,7 +432,7 @@ import jsesh.model.unicode.MdCToUnicodeConverter;
 
 MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
 converter.setIncludeFormatControlChars(true);   // emit grouping controls
-String unicode = converter.convertToPlainUnicode(topItemList);
+String unicode = converter.convertToPlainUnicode(text);
 ```
 
 Combine with the parser (§2) to go straight from MdC text to Unicode.
@@ -464,7 +464,7 @@ specific vector/clipboard format. The generic drawer walks the same
 `MDCView`/`ViewDrawer` pipeline the screen uses, so output matches the editor.
 
 The rendering pipeline underneath (should you need it directly) is:
-`ViewBuilder.buildView(topItemList, renderContext, techContext)` → `MDCView`,
+`ViewBuilder.buildView(text, renderContext, techContext)` → `MDCView`,
 then `new ViewDrawer().draw(graphics, renderContext, techContext, view)`
 (all in `jsesh.render.view` / `jsesh.render.draw`).
 
@@ -477,7 +477,7 @@ pattern (see the tree in `CLAUDE.md`). To inspect or transform it, implement a
 visitor rather than instanceof-chains.
 
 - Base class: `jsesh.model.ModelElement` (every node accepts a visitor).
-- Container root: `TopItemList` → `TopItem`s (`Cadrat`, `Cartouche`,
+- Container root: `HieroglyphicText` → `TopItem`s (`Cadrat`, `Cartouche`,
   `LineBreak`, `ZoneStart`, …); a `Cadrat` holds `HBox`es of
   `HorizontalListElement`s (`Hieroglyph`, `InnerGroup`, `ComplexLigature`).
 - Structural edits and higher-level operations live in `jsesh.model.operations`.
