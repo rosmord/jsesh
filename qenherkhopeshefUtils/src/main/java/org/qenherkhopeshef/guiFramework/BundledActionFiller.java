@@ -1,5 +1,6 @@
 package org.qenherkhopeshef.guiFramework;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
@@ -152,8 +153,7 @@ public class BundledActionFiller {
 					keyStroke= defaults.getString(actionPropertyKey);
 				// Now, process the result (if any).				
 				if (keyStroke != null && keyStroke.startsWith("shortcut")) {
-					int shortCutMask = java.awt.Toolkit.getDefaultToolkit()
-							.getMenuShortcutKeyMask();
+					int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMask();
 					String replaceString = "control";
 					switch (shortCutMask) {
 					case KeyEvent.META_MASK:

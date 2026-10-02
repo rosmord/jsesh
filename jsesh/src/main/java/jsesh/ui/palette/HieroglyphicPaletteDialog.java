@@ -1,7 +1,7 @@
 package jsesh.ui.palette;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
@@ -39,7 +39,7 @@ public class HieroglyphicPaletteDialog extends JFrame {
 		boolean reasonableDefault = true;
 		if (x <= 0 || y <= 0 || width <= 100 || height <= 100)
 			reasonableDefault = false;
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screenSize = PortableToolKit.createToolkit().getScreenSize();
 		if (x+width >= screenSize.width || y + height >= screenSize.height)
 			reasonableDefault= false;
 		if (reasonableDefault) {

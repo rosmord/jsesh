@@ -9,8 +9,6 @@ import java.util.Locale;
 
 import org.qenherkhopeshef.utils.PlatformDetection;
 
-import javafx.application.Platform;
-
 ///
 /// Facade hiding the GUI toolkit, so that headless mode can be used.
 ///

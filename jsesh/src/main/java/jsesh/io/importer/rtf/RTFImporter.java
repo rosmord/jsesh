@@ -1,7 +1,7 @@
 package jsesh.io.importer.rtf;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.HeadlessException;
-import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -58,8 +58,7 @@ public class RTFImporter {
 			throws RTFImportException {
 		try {
 			DataFlavor flavor = new DataFlavor("text/rtf");
-			Clipboard clipboard = Toolkit.getDefaultToolkit()
-					.getSystemClipboard();
+			Clipboard clipboard = PortableToolKit.createToolkit().getSystemClipboard();
 			Transferable content = clipboard.getContents(null);
 
 			Object transfertData = content.getTransferData(flavor);
@@ -96,8 +95,7 @@ public class RTFImporter {
 			
 			// Note that the representation class is needed here.
 			DataFlavor flavor = new DataFlavor("text/richtext;class=java.io.InputStream;charset=ASCII");
-			Clipboard clipboard = Toolkit.getDefaultToolkit()
-					.getSystemClipboard();
+			Clipboard clipboard = PortableToolKit.createToolkit().getSystemClipboard();
 			Transferable content = clipboard.getContents(null);
 
 			Object transfertData = content.getTransferData(flavor);

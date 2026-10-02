@@ -5,6 +5,7 @@
  */
 package org.qenherkhopeshef.guiFramework.splash;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -100,7 +101,7 @@ public class SplashScreen {
 	}
 
 	private void center() {
-		Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screen = PortableToolKit.createToolkit().getScreenSize();
 		Rectangle rect = frame.getBounds();
 		frame.setLocation((screen.width - rect.width) / 2,
 				(screen.height - rect.height) / 2);

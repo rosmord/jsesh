@@ -1,7 +1,7 @@
 package jsesh.io.importer.pdf;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.HeadlessException;
-import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -63,8 +63,7 @@ public class PDFImporter {
 	public static PDFImporter createPDFPasteImporter(File outFile) throws  PDFImportException {
 		try {
 			DataFlavor flavor = new DataFlavor("application/pdf");
-			Clipboard clipboard = Toolkit.getDefaultToolkit()
-					.getSystemClipboard();
+			Clipboard clipboard = PortableToolKit.createToolkit().getSystemClipboard();
 			Transferable content = clipboard.getContents(null);
 
 			Object transfertData = content.getTransferData(flavor);

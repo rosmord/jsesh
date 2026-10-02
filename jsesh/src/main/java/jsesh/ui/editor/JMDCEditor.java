@@ -42,6 +42,7 @@
 **/
 package jsesh.ui.editor;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -49,7 +50,6 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -748,7 +748,7 @@ public class JMDCEditor extends JPanel {
      * Other project : we should also support html in a basic way.
      */
     public void paste() {
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        Clipboard clipboard = PortableToolKit.createToolkit().getSystemClipboard();
 
         try {
             Transferable t = clipboard.getContents(this);
@@ -780,7 +780,7 @@ public class JMDCEditor extends JPanel {
         HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MDCModelTransferable transferable = mdcModelTransferableBroker
                 .buildTransferable(top, getRenderContext());
-        Toolkit.getDefaultToolkit().getSystemClipboard()
+        PortableToolKit.createToolkit().getSystemClipboard()
                 .setContents(transferable, null);
     }
 
@@ -788,7 +788,7 @@ public class JMDCEditor extends JPanel {
         HieroglyphicText top = getWorkflow().getSelectionAsHieroglyphicText();
         MDCModelTransferable transferable = mdcModelTransferableBroker
                 .buildTransferable(top, getRenderContext(), dataFlavors);
-        Toolkit.getDefaultToolkit().getSystemClipboard()
+        PortableToolKit.createToolkit().getSystemClipboard()
                 .setContents(transferable, null);
 
     }
@@ -812,7 +812,7 @@ public class JMDCEditor extends JPanel {
         MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
         converter.setIncludeFormatControlChars(useFormatChars);
         String toCopy = converter.convertToPlainUnicode(top);
-        Toolkit.getDefaultToolkit().getSystemClipboard()
+        PortableToolKit.createToolkit().getSystemClipboard()
                 .setContents(new StringSelection(toCopy), null);
     }
 

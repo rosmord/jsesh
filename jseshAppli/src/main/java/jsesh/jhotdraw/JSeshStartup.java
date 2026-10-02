@@ -1,5 +1,6 @@
 package jsesh.jhotdraw;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -163,7 +164,7 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         LOGGER.info(() -> "getDefaultToolkit().getScreenResolution() :" +
                 Toolkit.getDefaultToolkit().getScreenResolution());
         LOGGER.info(
-                () -> "getDefaultToolkit().getScreenSize() : " + java.awt.Toolkit.getDefaultToolkit().getScreenSize());
+                () -> "getDefaultToolkit().getScreenSize() : " + PortableToolKit.createToolkit().getScreenSize());
         LOGGER.info(() -> "PlatformDefaults.getHorizontalScaleFactor(): "
                 + PlatformDefaults.getHorizontalScaleFactor());
         LOGGER.info(() -> "PlatformDefaults.getVerticalScaleFactor(): " +

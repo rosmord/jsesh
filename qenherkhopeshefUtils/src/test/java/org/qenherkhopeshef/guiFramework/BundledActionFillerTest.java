@@ -1,5 +1,6 @@
 package org.qenherkhopeshef.guiFramework;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -101,7 +102,7 @@ public class BundledActionFillerTest {
      * stops applying (see the plan's migration checklist).
      */
     private static KeyStroke expectedShortcutKeyStroke(String suffix) {
-        int shortCutMask = java.awt.Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+        int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMask();
         String replaceString = "control";
         if (shortCutMask == KeyEvent.META_MASK) {
             replaceString = "meta";

@@ -24,6 +24,8 @@ dependencies {
 // Pass the build directory to the tests, so that they can create files there if needed.
 // used to test bitmap creation.
 tasks.test {
+    // Tests must run without a display: JMDCEditor has to work in headless mode.
+    systemProperty("java.awt.headless", "true")
     systemProperty("buildDir", layout.buildDirectory.get().asFile.absolutePath)
 }
 

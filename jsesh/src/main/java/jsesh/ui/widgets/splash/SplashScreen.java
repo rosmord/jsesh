@@ -5,6 +5,7 @@
  */
 package jsesh.ui.widgets.splash;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -72,7 +73,7 @@ public class SplashScreen extends Frame  {
     }
 
     private void center() {
-        Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screen = PortableToolKit.createToolkit().getScreenSize();
         Rectangle frame = getBounds();
         setLocation((screen.width - frame.width) / 2,
                 (screen.height - frame.height) / 2);

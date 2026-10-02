@@ -7,6 +7,7 @@
  */
 package jsesh.utils.swing;
 
+import org.qenherkhopeshef.swingUtils.PortableToolKit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -25,8 +26,7 @@ public class KeyUtils {
 	public static KeyStroke buildCommandShortCut(int vk, int mask) {
 		return KeyStroke
 				.getKeyStroke(vk, mask
-						| java.awt.Toolkit.getDefaultToolkit()
-								.getMenuShortcutKeyMask());
+						| PortableToolKit.createToolkit().getMenuShortcutKeyMask());
 	}
 
 	/**
@@ -36,8 +36,7 @@ public class KeyUtils {
 	 * @return a correct KeyStroke.
 	 */
 	public static KeyStroke buildCommandShortCut(int vk) {
-		return KeyStroke.getKeyStroke(vk, java.awt.Toolkit
-				.getDefaultToolkit().getMenuShortcutKeyMask());
+		return KeyStroke.getKeyStroke(vk, PortableToolKit.createToolkit().getMenuShortcutKeyMask());
 	}
 
 	/**
