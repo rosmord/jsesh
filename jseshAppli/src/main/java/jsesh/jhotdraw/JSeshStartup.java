@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import javax.swing.UIManager;
-
 import org.jhotdraw_7_6.app.Application;
 import org.qenherkhopeshef.guiFramework.AppStartup;
 import org.qenherkhopeshef.guiFramework.splash.SplashMessageText;
@@ -18,7 +16,6 @@ import org.qenherkhopeshef.jhotdrawChanges.QenherOSXApplication;
 import org.qenherkhopeshef.jhotdrawChanges.QenherOSXLikeApplication;
 import org.qenherkhopeshef.utils.PlatformDetection;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
