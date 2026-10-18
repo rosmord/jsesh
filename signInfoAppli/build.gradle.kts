@@ -52,11 +52,11 @@ val os = org.gradle.internal.os.OperatingSystem.current()
 val copyPackagingResources = tasks.register<Copy>("copyPackagingResources") {
     into(prepackageDir)
     if (os.isWindows) {
-        from("src/main/packaging/windows/canard.ico") {
+        from("src/main/packaging/windows/signe.ico") {
             rename { "${fullName}.ico" }
         }
     } else if (os.isMacOsX) {
-        from("src/main/packaging/mac/canard.icns") {
+        from("src/main/packaging/mac/signe.icns") {
             rename { "${fullName}.icns" }
         }
         from("src/main/packaging/mac-filtered") {
@@ -70,7 +70,7 @@ val copyPackagingResources = tasks.register<Copy>("copyPackagingResources") {
             )
         }
     } else if (os.isLinux) {
-        from("src/main/packaging/linux/canard.png") {
+        from("src/main/packaging/linux/signe.png") {
             rename { "${fullName}.png" }
         }
         // The .desktop file must be named after the application, and point to its install dir.

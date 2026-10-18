@@ -3,6 +3,7 @@ name: Test Release
 on:
   push:
     tags:
+      - 'release-*'
       - 'test-release-*'
 
 jobs:

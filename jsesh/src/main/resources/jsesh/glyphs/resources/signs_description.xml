@@ -31,10 +31,12 @@
     <hasTag sign="A1A" tag="foreigner"/>
   </sign>
   <sign sign="A1B">
-    <variantOf baseSign="A1" isSimilar="y" linguistic="unspecified" sign="A1B"/>
+    <variantOf baseSign="A1" isSimilar="y" linguistic="full" sign="A1B"/>
     <hasTag sign="A1B" tag="holding nothing"/>
     <hasTag sign="A1B" tag="seated"/>
     <hasTag sign="A1B" tag="hieratic sign"/>
+    <signDescription lang="en" sign="A1B">+lA linear shape of +s-A1-+l, found for instance in Books of the Dead.+s-!
+</signDescription>
   </sign>
   <sign sign="A1C">
     <variantOf baseSign="A1" isSimilar="y" linguistic="unspecified" sign="A1C"/>

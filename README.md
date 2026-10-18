@@ -7,10 +7,10 @@
 JSesh is a Java hieroglyphic editor mostly developed by Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 
 JSesh developpers :
+
 - Serge J.-P. Thomas : most of the fonts
 - Serge Rosmorduc : almost all the code, a few glyphs in the fonts
 - Wayne Collins (CVS, ant improvement)
-
 
 Licenses for the various libraries used by JSesh can be found in resources/licenses
 
@@ -20,12 +20,12 @@ Licenses for the various libraries used by JSesh can be found in resources/licen
 
 - JSesh fonts drawn by Serge J.-P. Thomas are distributed with the following license:
 
-    - it is allowed to distribute the fonts with JSesh;
-    - it is allowed to use the fonts when JSesh is used as a library for other softwares;
-    - it is allowed to use JSesh fonts for publications (paper, databases, web sites);
-    - it is allowed to modify the signs and use them under the same terms.
-    - M. Thomas doesn't want the font to be used for other hieroglyphic word processors. 
-    - Please note that this can't be changed. I am aware that this might be a bit inconvenient for some projects.
+  - it is allowed to distribute the fonts with JSesh;
+  - it is allowed to use the fonts when JSesh is used as a library for other softwares;
+  - it is allowed to use JSesh fonts for publications (paper, databases, web sites);
+  - it is allowed to modify the signs and use them under the same terms.
+  - M. Thomas doesn't want the font to be used for other hieroglyphic word processors. 
+  - Please note that this can't be changed. I am aware that this might be a bit inconvenient for some projects.
 
 ## Building JSesh
 
@@ -102,21 +102,6 @@ The [00_Documents](00_Documents) folder contains :
 - All demonstrations for programmers have moved to the project [jseshDemos](https://github.com/rosmord/jseshDemos);
 - utilities softwares belongs to the project [jseshUtils](https://github.com/rosmord/jseshUtils);
 - the texts are available in [MDC-texts](https://github.com/rosmord/MDC-texts) (but there is a copy of them in JSesh).
-
-
-#### Weird compilation behaviour
-
-I have just lost a few hours because JSesh wasn't compiling correctly anymore. It seems that the problem was
-due to some IDE project files with a wrong path (in particular, with a wrong path regarding to the generated files.
-
-If you have the following behaviour :
-
-- initial compile is ok, and build files from the CUP and JFlex folder ;
-- further builds complain that `MDCParse` doesn't exist
-
-it might be worthwhile deleting `.classpath` and `.project` files in your JSesh folder, and trying again.
-
-
 
 ## Working with IDEs
 
@@ -196,35 +181,23 @@ With the gradle plugin, JSesh can be edited with VSCode. I did the following to 
 }
 ~~~
 
-### Working with eclipse:
+### Working with eclipse
 
 There seems to be a problem with the eclipse plugin for maven regarding generated sources:
 the "jsesh" maven module will report missing classes in eclipse.
 
 A quick fix:
 
-* import the JSesh-all project in eclipse (import maven project)
-* open the jsesh module, and, on the pom.xml file, select "run as/maven package".
+- import the JSesh-all project in eclipse (import maven project)
+- open the jsesh module, and, on the pom.xml file, select "run as/maven package".
     This will create the missing files
-* then, you need to add the corresponding folders to the jsesh eclipse project as "source folders".
+- then, you need to add the corresponding folders to the jsesh eclipse project as "source folders".
 
-    * In the jsesh module, open target/generated sources
-	* Then right click on target/generated sources/cup, and select the menu entry "build path/use as source folder".
-		do the same for the target/generated sources/lex folder.
-		
+  - In the jsesh module, open target/generated sources
+  - Then right click on target/generated sources/cup, and select the menu entry "build path/use as source folder".
+  do the same for the target/generated sources/lex folder.
+
 That's it.
-
-## Working with VSCode
-
-Interaction between VSCode and Maven is not that easy (again, because of generated files).
-
-I have had problems with java versions. I tend to have **multiple** java version on my machine, and vscode plus maven don't use the same one if the **default** java version is not the one I need. It's pretty annoying.
-
-Also, vscode doesn't understand it needs to run `mvn install` for the plugins. So you must do it yourself.
-
-Either run `./mvnw install` in the root of the project on the command line, or use the vscode maven interface, selecting *maven/JSesh Complete distribution/Lifecycle/install*.
-
-The use the vscode command **Java: Clean Java Language Server Workspace** to get vscode to understand the generated files.
 
 ## Updating data
 
@@ -234,7 +207,6 @@ This is only done if you are in charge of updating the JSesh text base or the JS
 
 Beware if you do it, it can delete files you need in JSesh (and you can use git to restore them).
 
-
 To update the JSesh external data, run:
 
 ~~~bash
@@ -242,7 +214,6 @@ To update the JSesh external data, run:
 ~~~
 
 It uses path from my own computers to find the original data (you can find the said path in `gradle.properties`)
-
 
 ## How to collaborate on JSesh
 
@@ -277,7 +248,6 @@ which gives in the French translation:
 edit.insertNextLineNumber.text=numéro de ligne suivant
 ~~~
 
-
 Other contain specific placeholders, such as `{0}` or `{1}`. They will be replaced by text or numbers by the software. Suppose they are a word in your sentence and place them logically.
 
 For instance:
@@ -288,7 +258,7 @@ file.quickPDFExportFolder.ok=Selected {0} for PDF Output
 
 gives in the French translation:
 
-~~properties
+~~~properties
 file.quickPDFExportFolder.ok=Les exportations pdf seront dans le dossier {0}
 ~~~
 
@@ -312,8 +282,8 @@ The folder [00_Documents](00_Documents) contains documentation about the code an
 
 To get the number of downloads for version 7.2.0 :
 
-~~~~~~~~~~~~~
+~~~bash
 curl -i https://api.github.com/repos/rosmord/jsesh/releases/11259307
-~~~~~~~~~~~~~
+~~~
 
 Remove the last number for all releases.
