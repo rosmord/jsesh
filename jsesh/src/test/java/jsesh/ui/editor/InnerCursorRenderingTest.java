@@ -91,4 +91,21 @@ class InnerCursorRenderingTest {
         assertFalse(sameImage(cartoucheStart, cartoucheEnd));
         assertFalse(sameImage(outside, inComplexLigature));
     }
+
+    @Test
+    void cursorIsDrawnInsideAbsoluteGroups() throws Exception {
+        JMDCEditor editor = new JMDCEditor();
+        editor.setMDCText("n**x{{967,79,100}}**N5{{0,0,100}}-A1");
+        editor.getWorkflow().setCaretGranularity(CaretGranularity.INNER);
+
+        editor.getWorkflow().setCursor(new MDCPosition(0));
+        BufferedImage outside = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(0, 0, 0, 1));
+        BufferedImage first = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(0, 0, 0, 2));
+        BufferedImage second = render(editor);
+
+        assertFalse(sameImage(outside, first));
+        assertFalse(sameImage(first, second));
+    }
 }

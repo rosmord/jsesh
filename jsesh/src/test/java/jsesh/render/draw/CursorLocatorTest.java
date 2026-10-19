@@ -140,4 +140,27 @@ class CursorLocatorTest {
         // A1 is a single sign: no gap inside it.
         assertTrue(locate("A1-N5", MDCPosition.of(0, 0, 1)).isEmpty());
     }
+
+    @Test
+    void cursorInAbsoluteGroupMarksTheEndOfThePrecedingSign() {
+        // An absolute group: signs are placed explicitly, the cursor stands in their order.
+        String mdc = "A1-n**x{{967,79,100}}**N5{{0,0,100}}-D21";
+        Optional<CursorLocator.Location> location = locate(mdc, MDCPosition.of(1, 0, 0, 1));
+        assertTrue(location.isPresent());
+        assertFalse(location.get().wide());
+        assertEquals(1, location.get().lines().size());
+        Line2D line = location.get().lines().get(0);
+        assertEquals(line.getX1(), line.getX2(), EPSILON);
+
+        MDCView quadrat = editor.getView().getSubView(1);
+        MDCView group = quadrat.getSubView(0).getSubView(0);
+        MDCView sign = group.getSubView(0);
+        double offset = quadrat.getPosition().x + quadrat.getSubView(0).getPosition().x + group.getPosition().x;
+        assertEquals(offset + sign.getPosition().x + sign.getWidth(), line.getX1(), EPSILON);
+
+        // The next gap marks another sign.
+        Optional<CursorLocator.Location> next = locate(mdc, MDCPosition.of(1, 0, 0, 2));
+        assertTrue(next.isPresent());
+        assertTrue(Math.abs(next.get().lines().get(0).getX1() - line.getX1()) > EPSILON);
+    }
 }

@@ -181,4 +181,13 @@ class PositionNavigatorTest {
         sorted.sort(null);
         assertEquals(sorted, forward);
     }
+
+    @Test
+    void stopsBetweenSignsOfAnAbsoluteGroup() throws Exception {
+        HieroglyphicText t = parse("n**x{{967,79,100}}**N5{{0,0,100}}-A1");
+        List<MDCPosition> stops = PositionNavigator.innerStops(t, 0);
+        assertEquals(2, stops.size());
+        assertEquals(p(0, 0, 0, 1), stops.get(0));
+        assertEquals(p(0, 0, 0, 2), stops.get(1));
+    }
 }

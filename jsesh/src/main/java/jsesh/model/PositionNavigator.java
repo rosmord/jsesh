@@ -25,6 +25,7 @@ import java.util.List;
 /// - between the signs of a [Ligature]: `(q, h, e, g)`;
 /// - between the parts of a [ComplexLigature] (the group before the main sign,
 ///   the main sign, the group after it);
+/// - between the signs of an [AbsoluteGroup], in their order in the group;
 ///
 /// and so on, recursively. The first and last gaps of such a container (0 and n)
 /// are not stops: they coincide visually with the gap which surrounds the
@@ -37,7 +38,7 @@ import java.util.List;
 /// the stops are `(0)`, `(0,0,0,0,0)` (after the opening of the cartouche),
 /// `(0,0,0,0,1)`, `(0,0,0,0,2)` (before its closing) and `(1)`.
 ///
-/// Other kinds of elements (hieroglyphs, absolute groups, breaks, alphabetic
+/// Other kinds of elements (hieroglyphs, breaks, alphabetic
 /// characters...) are not entered.
 ///
 /// Stops are ordered like [MDCPosition#compareTo(MDCPosition)]: `(1) < (1,0,1) <
@@ -83,7 +84,7 @@ public final class PositionNavigator {
 
 	private static boolean isNavigable(ModelElement element) {
 		return element instanceof Cadrat || element instanceof HBox || element instanceof Ligature
-				|| element instanceof ComplexLigature || element instanceof Cartouche
+				|| element instanceof ComplexLigature || element instanceof AbsoluteGroup || element instanceof Cartouche
 				|| element instanceof SubCadrat || element instanceof BasicItemList;
 	}
 

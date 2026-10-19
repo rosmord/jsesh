@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
 import jsesh.model.ComplexLigature;
@@ -252,6 +253,9 @@ public final class CursorLocator {
     /// The cursor stands between two subviews of `v`, or at one of the edges of `v`
     /// if `v` is a list of quadrats (inside a cartouche...).
     ///
+    /// In an [AbsoluteGroup], where signs are placed freely, it is a line along
+    /// the end edge of the sign which precedes the gap.
+    ///
     /// The cursor is a line which crosses the view, between the two subviews: a
     /// vertical line between the elements of a row (or the quadrats of a
     /// horizontal list), a horizontal one between rows or between the signs of
@@ -284,7 +288,14 @@ public final class CursorLocator {
             }
             Rectangle2D before = subViewBounds(v, gap - 1);
             Rectangle2D after = subViewBounds(v, gap);
-            if (v.getModel() instanceof HBox) {
+            if (v.getModel() instanceof AbsoluteGroup) {
+                // The signs are placed freely, and may overlap: there is no
+                // gap between them to cut through. The gap is their order in the
+                // group, so we mark the end of the sign which precedes it.
+                boolean ltr = leftToRight;
+                double x = ltr ? before.getMaxX() : before.getMinX();
+                line = new Line2D.Double(x, before.getMinY(), x, before.getMaxY());
+            } else if (v.getModel() instanceof HBox) {
                 // Elements side by side: vertical line.
                 line = lineBetween(v, before, after, true);
             } else if (v.getModel() instanceof ComplexLigature) {

@@ -1754,3 +1754,7 @@ See todo 0072 for what remains (editing and selection inside quadrats, mouse, up
 The selection highlight (`ViewDrawer.drawSelection`) could be moved to the same scheme later (it would also allow selections inside quadrats).
 
 In columns, `CursorLocator` now draws a *single* horizontal line, halfway between the two quadrats around the gap (instead of one line at the bottom of the previous quadrat and one at the top of the next), so that the insertion point is predictable. The same goes for horizontal text. Two lines remain only when the neighbours are not parallel or not on the same row or column (line wrap, mixing alphabetic characters and signs in columns).
+
+## Cursor inside absolute groups
+
+`AbsoluteGroup` (signs placed explicitly, e.g. `n**x{{967,79,100}}**N5{{0,0,100}}`) is now navigable: the gaps between its signs (`(q, h, e, g)`, in group order, which is the drawing order) are stops with `CaretGranularity.INNER`. As signs may overlap, there is no gap to cut through, so `CursorLocator` draws a fine line along the *end edge* of the sign which precedes the gap (right edge in LTR, left in RTL), spanning that sign's height. The first and last gaps coincide with the gaps around the group, as for other containers.
