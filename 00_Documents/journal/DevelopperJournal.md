@@ -1752,3 +1752,5 @@ See todo 0072 for what remains (editing and selection inside quadrats, mouse, up
 - Before the change, the top-level cursor was checked against 156 renderings (text variants x horizontal/vertical x LTR/RTL x all positions): the output is pixel-identical. Note that between two non-break items two lines are drawn (end of the previous view, start of the next), as before.
 
 The selection highlight (`ViewDrawer.drawSelection`) could be moved to the same scheme later (it would also allow selections inside quadrats).
+
+In columns, `CursorLocator` now draws a *single* horizontal line, halfway between the two quadrats around the gap (instead of one line at the bottom of the previous quadrat and one at the top of the next), so that the insertion point is predictable. The same goes for horizontal text. Two lines remain only when the neighbours are not parallel or not on the same row or column (line wrap, mixing alphabetic characters and signs in columns).

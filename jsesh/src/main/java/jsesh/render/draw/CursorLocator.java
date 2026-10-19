@@ -147,6 +147,15 @@ public final class CursorLocator {
         }
         boolean drawAfterBeforeView = before != null && !isBreak(before);
 
+        // A single line in the gap shows where an insertion will take place.
+        if (drawAfterBeforeView && drawBeforeAfterView) {
+            Optional<Line2D> merged = mergedLine(lineNextToView(text, before, true, style),
+                    lineNextToView(text, after, false, style));
+            if (merged.isPresent()) {
+                return Optional.of(new Location(List.of(merged.get()), true));
+            }
+        }
+
         List<Line2D> lines = new ArrayList<>(2);
         if (drawAfterBeforeView) {
             lines.add(lineNextToView(text, before, true, style));
@@ -158,6 +167,42 @@ public final class CursorLocator {
             return Optional.empty();
         }
         return Optional.of(new Location(lines, true));
+    }
+
+    /// A line halfway between the end of a view and the start of the next one.
+    ///
+    /// @return the line, or empty if the two lines are not parallel, or are not on the same
+    /// row (or column) of text, as when a line wraps.
+    private static Optional<Line2D> mergedLine(Line2D end, Line2D start) {
+        if (isVerticalLine(end) && isVerticalLine(start)) {
+            if (!overlap(end.getY1(), end.getY2(), start.getY1(), start.getY2())) {
+                return Optional.empty();
+            }
+            double x = (end.getX1() + start.getX1()) / 2;
+            return Optional.of(new Line2D.Double(x, Math.min(end.getY1(), start.getY1()),
+                    x, Math.max(end.getY2(), start.getY2())));
+        }
+        if (isHorizontalLine(end) && isHorizontalLine(start)) {
+            if (!overlap(end.getX1(), end.getX2(), start.getX1(), start.getX2())) {
+                return Optional.empty();
+            }
+            double y = (end.getY1() + start.getY1()) / 2;
+            return Optional.of(new Line2D.Double(Math.min(end.getX1(), start.getX1()), y,
+                    Math.max(end.getX2(), start.getX2()), y));
+        }
+        return Optional.empty();
+    }
+
+    private static boolean isVerticalLine(Line2D l) {
+        return l.getX1() == l.getX2();
+    }
+
+    private static boolean isHorizontalLine(Line2D l) {
+        return l.getY1() == l.getY2();
+    }
+
+    private static boolean overlap(double a1, double a2, double b1, double b2) {
+        return Math.max(Math.min(a1, a2), Math.min(b1, b2)) < Math.min(Math.max(a1, a2), Math.max(b1, b2));
     }
 
     private static boolean isBreak(MDCView v) {

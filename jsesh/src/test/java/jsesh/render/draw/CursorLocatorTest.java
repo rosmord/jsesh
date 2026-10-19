@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import jsesh.model.MDCPosition;
+import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.ui.editor.JMDCEditor;
@@ -40,12 +41,26 @@ class CursorLocatorTest {
         MDCView root = editor.getView();
         Rectangle2D first = bounds(root.getSubView(0), root);
         Rectangle2D second = bounds(root.getSubView(1), root);
-        // One line at the end of the first view, one at the start of the second one.
-        assertEquals(2, location.get().lines().size());
-        double x1 = location.get().lines().get(0).getX1();
-        double x2 = location.get().lines().get(1).getX1();
-        assertEquals(first.getMaxX(), x1, EPSILON);
-        assertEquals(second.getMinX(), x2, EPSILON);
+        // A single line, in the gap between the two views.
+        assertEquals(1, location.get().lines().size());
+        double x = location.get().lines().get(0).getX1();
+        assertTrue(x >= first.getMaxX() - EPSILON && x <= second.getMinX() + EPSILON);
+    }
+
+    @Test
+    void columnCursorBetweenTwoViewsIsASingleLineInTheGap() {
+        editor.setTextOrientation(TextOrientation.VERTICAL);
+        Optional<CursorLocator.Location> location = locate("A1-N5-D21", new MDCPosition(1));
+        assertTrue(location.isPresent());
+        assertEquals(1, location.get().lines().size());
+        MDCView root = editor.getView();
+        MDCView first = root.getSubView(0);
+        MDCView second = root.getSubView(1);
+        Line2D line = location.get().lines().get(0);
+        // Horizontal line, in the gap between the two quadrats.
+        assertEquals(line.getY1(), line.getY2(), EPSILON);
+        assertTrue(line.getY1() >= first.getPosition().y + first.getHeight() - EPSILON);
+        assertTrue(line.getY1() <= second.getPosition().y + EPSILON);
     }
 
     @Test
