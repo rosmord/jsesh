@@ -36,6 +36,7 @@ package jsesh.document.command;
 import java.util.List;
 
 import jsesh.model.MDCPosition;
+import jsesh.model.MDCRange;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 
@@ -61,11 +62,11 @@ public class CommandFactory {
 			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
 			boolean clean) {
 		CompositeCommand command = new CompositeCommand(clean);
-		MDCPosition[] p = MDCPosition.getOrdereredPositions(pos1, pos2);
-		MDCCommand removeCommand = buildRemoveCommand(topItemList, pos1, pos2,
-				false);
+		MDCRange range = MDCRange.ofUnordered(pos1, pos2);
+		MDCCommand removeCommand = buildRemoveCommand(topItemList, range.start(),
+				range.end(), false);
 		MDCCommand insertCommand = buildInsertCommand(topItemList, newTopItems,
-				p[0], false);
+				range.start(), false);
 		command.addCommand(removeCommand);
 		command.addCommand(insertCommand);
 		return command;

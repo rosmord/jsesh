@@ -431,6 +431,27 @@ public class HieroglyphicText extends ModelElement {
         return new MDCPosition(clampIndex(k));
     }
 
+    /// Checks that a position, possibly nested, designates a gap which exists in
+    /// this text.
+    ///
+    /// All values of the path but the last must be valid child indices, and the
+    /// last one must be between 0 and the number of children of the element
+    /// reached.
+    ///
+    /// @param position the position to check.
+    /// @return true if the position is valid for this text.
+    public boolean isValidPosition(MDCPosition position) {
+        ModelElement current = this;
+        int[] parents = position.getParentPath();
+        for (int i : parents) {
+            if (i >= current.getNumberOfChildren()) {
+                return false;
+            }
+            current = current.getChildAt(i);
+        }
+        return position.getLastIndex() <= current.getNumberOfChildren();
+    }
+
     /// @return the position after the last element of this text.
     public MDCPosition getLastPosition() {
         return new MDCPosition(getNumberOfChildren());

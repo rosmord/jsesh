@@ -36,6 +36,7 @@ package jsesh.document.command;
 import java.util.List;
 
 import jsesh.model.MDCPosition;
+import jsesh.model.MDCRange;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 
@@ -49,7 +50,7 @@ class RemoveCommand extends AbstractMDCCommand {
 	/**
 	 * Where will the deletion take place?
 	 */
-	private MDCPosition[] range;
+	private final MDCRange range;
 	
 	
 	/**
@@ -73,16 +74,16 @@ class RemoveCommand extends AbstractMDCCommand {
 	public RemoveCommand(HieroglyphicText topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
 		super(firstCommand);
 		this.topItemList= topItemList;
-		range = MDCPosition.getOrdereredPositions(pos1, pos2);		
+		range = MDCRange.ofUnordered(pos1, pos2);
 		deletedElements= null;
 	}
-	
+
 	public void doCommand() {
-		deletedElements= topItemList.removeTopItems(range[0], range[1]);
+		deletedElements= topItemList.removeTopItems(range.start(), range.end());
 	}
-	
+
 	public void undoCommand() {
-		topItemList.addAllAt(range[0], deletedElements);
+		topItemList.addAllAt(range.start(), deletedElements);
 	}
 	
 }

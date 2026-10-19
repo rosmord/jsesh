@@ -1714,3 +1714,7 @@ when we output the EMF content in the RTF stream, the way of encoding it will de
 After some reading, the current architecture is not so bad. The names of classes need to be updated to fit their actual use. Also, the scaling/sizing system is flawed. We have two things called CadratHeight which behave differently : an "inner" height, which is a question of proportion between signs and quadrat height, and the actual height in the resulting file.
 
 While renaming, I guess I should rename setShadeAfter, which is difficult to understand, as, setDrawShadeOnTop() or something like that. Not done at the moment.
+
+## MDCPosition is now a path
+
+`MDCPosition` holds a list of ints: child indices down the model tree, then a final gap index in the element reached. In `m-p*t:pt`, `(1)` is after the `m` and `(1,0,1)` is just after the `p`. Build with `MDCPosition.of(1,0,1)`; `new MDCPosition(int)` still gives a top-level position. Positions compare in document order. For now copy, removal, insertion and range export only accept top-level positions: `getIndex()` throws `UnsupportedOperationException` on nested ones. `HieroglyphicText.isValidPosition` checks a nested position against the tree. `MDCMark` still follows edits at top level only.

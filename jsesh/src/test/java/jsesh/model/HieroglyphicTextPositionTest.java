@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -199,5 +200,24 @@ class HieroglyphicTextPositionTest {
         assertEquals("vo, 3", text.getOriginalDocumentCoordinates(pos(4)));
         assertEquals("vo, 3", text.getOriginalDocumentCoordinates(text.getLastPosition()));
         assertEquals("vo, 3", text.getOriginalDocumentCoordinates(pos(100)));
+    }
+
+    @Test
+    void nestedPositionsAreValidatedAgainstTheTree() throws Exception {
+        HieroglyphicText t = new MDCParserModelGenerator().parse("m-p*t:pt");
+        assertTrue(t.isValidPosition(MDCPosition.of(2)));
+        assertFalse(t.isValidPosition(MDCPosition.of(9)));
+        assertTrue(t.isValidPosition(MDCPosition.of(1, 0, 1)));
+        assertFalse(t.isValidPosition(MDCPosition.of(1, 0, 5)));
+        assertFalse(t.isValidPosition(MDCPosition.of(9, 0, 0)));
+        assertFalse(t.isValidPosition(MDCPosition.of(1, 3, 0)));
+    }
+
+    @Test
+    void textOperationsRejectNestedPositions() {
+        MDCPosition nested = MDCPosition.of(1, 0, 1);
+        assertThrows(UnsupportedOperationException.class, () -> text.getTopItemsBetween(pos(0), nested));
+        assertThrows(UnsupportedOperationException.class, () -> text.removeTopItems(nested, pos(3)));
+        assertThrows(UnsupportedOperationException.class, () -> text.getNextPosition(nested, 1));
     }
 }

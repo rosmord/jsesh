@@ -8,6 +8,7 @@
 package jsesh.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /// A position in a MDC model.
 ///
@@ -19,27 +20,25 @@ import java.io.Serializable;
 /// [HieroglyphicText#getElementAfter(MDCPosition)] or
 /// [HieroglyphicText#getPositionAt(int)], which builds a position clamped to the
 /// text's bounds.
-/// 
-/// The usual way to create a position is to use [HieroglyphicText#getPositionAt(int)], which checks that 
-/// the position is within bounds for the text.
 ///
-/// AT THE TIME BEING, THE POSITION IS JUST AN INTEGER, AT TOP LEVEL. THE TEXT BELOW DESCRIBES
-/// WHAT THE TEXT POSITION WILL PROBABLY BE.
+/// A position is a **path** of integers in the model tree. All values but the
+/// last are child indices: they select the element in which the position lies.
+/// The last value is a *gap* index in the element thus reached: 0 is before its
+/// first child, and n is after its n-th child. A position never designates a
+/// model element; it's a cursor **between** elements.
 ///
-/// A Text position represents a position in a Manuel de Codage model tree. A
-/// position does not designate a *model element;* it's  a
-/// cursor **between** elements. This clarifies the semantics
-/// of element insertion and the like. Positions are short lived, we have
-/// decided to make them **read-only**.
+/// For instance, in the text `m-p*t:pt`, position `(0)` is before the `m`,
+/// `(1)` is after the `m` and `(2)` after the second quadrat. Position `(1,0,1)`
+/// is in child 1 of the text (the quadrat `p*t`), in its hbox 0, after its first
+/// element: that is, just after the `p`.
 ///
-/// More precisely, a position is **always** a position
-/// **in** an element. it designates an element, and a
-/// index in this element. For instance, inserting element e1 at position 0 in
-/// element e0 would make e1 the first child of e0. The first child of an element
-/// stands between positions 0 and 1.
+/// Positions are ordered in document order, which is the lexicographic order of
+/// their paths: `(1) < (1,0,1) < (2)`.
 ///
-/// A position can be used to insert new data, as well as to implement cursors,
-/// text selection, etc.
+/// **Current limitation:** only *top-level* positions (one-element paths, see
+/// [#isTop()]) are accepted by the text operations (copy, removal, insertion,
+/// export of a range...). Those operations use [#getIndex()], which throws an
+/// [UnsupportedOperationException] on nested positions.
 ///
 /// A position is not a "long term" object. It's quite likely to become invalid
 /// or outdated if the text is modified. For long term marking of mutable text
@@ -49,9 +48,9 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public final class MDCPosition implements Serializable, Comparable<MDCPosition> {
 
-	private final int index;
+	private final int[] path;
 
-	/// Builds a position.
+	/// Builds a top-level position.
 	///
 	/// A negative index is clamped to 0. The position is *not* checked against
 	/// the upper bound of any text; use [HieroglyphicText#getPositionAt(int)] to get
@@ -59,62 +58,110 @@ public final class MDCPosition implements Serializable, Comparable<MDCPosition> 
 	///
 	/// @param index the index of the position.
 	public MDCPosition(int index) {
-		this.index = Math.max(0, index);
+		this.path = new int[] { Math.max(0, index) };
 	}
 
+	private MDCPosition(int[] path, boolean copied) {
+		this.path = path;
+	}
+
+	/// Builds a position from a path. Negative values are clamped to 0.
+	///
+	/// @param path the child indices, followed by the final gap index. Must not
+	///             be empty.
+	/// @return the position.
+	/// @throws IllegalArgumentException if the path is empty.
+	public static MDCPosition of(int... path) {
+		if (path.length == 0) {
+			throw new IllegalArgumentException("A position needs at least one index");
+		}
+		int[] copy = new int[path.length];
+		for (int i = 0; i < path.length; i++) {
+			copy[i] = Math.max(0, path[i]);
+		}
+		return new MDCPosition(copy, true);
+	}
+
+	/// @return true if this position is a gap between top items of the text.
+	public boolean isTop() {
+		return path.length == 1;
+	}
+
+	/// @return the length of the path. 1 for a top-level position.
+	public int depth() {
+		return path.length;
+	}
+
+	/// @return a copy of the path.
+	public int[] getPath() {
+		return path.clone();
+	}
+
+	/// @return the child indices leading to the element containing the position
+	///         (the path without its last value). Empty for a top-level position.
+	public int[] getParentPath() {
+		return Arrays.copyOf(path, path.length - 1);
+	}
+
+	/// @return the gap index in the element which contains this position.
+	public int getLastIndex() {
+		return path[path.length - 1];
+	}
+
+	/// Index of a top-level position.
+	///
 	/// @return the index.
+	/// @throws UnsupportedOperationException if the position is not top-level.
 	public int getIndex() {
-		return index;
+		if (!isTop()) {
+			throw new UnsupportedOperationException("Only top-level positions are supported here: " + this);
+		}
+		return path[0];
 	}
 
-	/// Returns the ith position before this one, at top level. if the position
-	/// would fall before the start of the text, it will be the first position.
+	/// Returns the ith position before this one, in the same element. If the
+	/// position would fall before the start of the element, it will be the
+	/// first position in it.
 	///
 	/// @param delta the delta between the two positions. Must be positive.
 	/// @return ith position before this one.
 	public MDCPosition getPreviousPosition(int delta) {
 		if (delta < 0) throw new IllegalArgumentException("delta must be positive "+ delta);
-		return new MDCPosition(index - delta);
+		int[] copy = path.clone();
+		copy[copy.length - 1] = Math.max(0, copy[copy.length - 1] - delta);
+		return new MDCPosition(copy, true);
 	}
 
 	public String toString() {
-		return "pos " + getIndex();
+		if (isTop()) {
+			return "pos " + path[0];
+		}
+		StringBuilder b = new StringBuilder("pos (");
+		for (int i = 0; i < path.length; i++) {
+			if (i > 0) b.append(',');
+			b.append(path[i]);
+		}
+		return b.append(')').toString();
 	}
 
 	/// @return true if there is a previous position.
 	public boolean hasPrevious() {
-		return index > 0;
+		return getLastIndex() > 0;
 	}
 
 	public boolean equals(Object obj) {
-		return obj instanceof MDCPosition p && index == p.index;
+		return obj instanceof MDCPosition p && Arrays.equals(path, p.path);
 	}
 
 	public int hashCode() {
-		return Integer.hashCode(index);
+		return Arrays.hashCode(path);
 	}
 
-	/// Implementation of the Comparable interface.
+	/// Implementation of the Comparable interface: document order.
 	///
 	/// Comparing positions which refer to two different texts doesn't mean much.
 	/// @see Comparable#compareTo(java.lang.Object)
 	public int compareTo(MDCPosition other) {
-		return Integer.compare(index, other.index);
-	}
-
-	/**
-	 * Returns a couple of <em>orderered</em> text positions.
-	 * @param p1
-	 * @param p2
-	 * @return
-	 */
-	public static MDCPosition [] getOrdereredPositions(MDCPosition p1, MDCPosition p2) {
-		MDCPosition result[];
-		if (p1.compareTo(p2) < 0) {
-			result= new MDCPosition[]{p1, p2};
-		} else {
-			result= new MDCPosition[]{p2, p1};
-		}
-		return result;
+		return Arrays.compare(path, other.path);
 	}
 }
