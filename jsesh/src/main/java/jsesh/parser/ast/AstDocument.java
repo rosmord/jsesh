@@ -18,7 +18,7 @@ public record AstDocument(AstTopItemList topItems) implements AstNode {
     /**
      * Hand-builds a document from its top-level items, for tests.
      */
-    public static AstDocument of(AstNode... topItems) {
+    public static AstDocument of(AstTopItem... topItems) {
         return new AstDocument(AstTopItemList.of(topItems));
     }
 

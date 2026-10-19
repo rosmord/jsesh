@@ -17,11 +17,8 @@ package jsesh.parser.ast;
  * @author rosmord
  */
 public sealed interface AstNode
-        permits AstDocument, AstTopItemList, AstBasicItemList, AstCadrat, AstHBox,
-        AstHorizontalListElement,
-        AstAlphabeticText, AstHRule, AstLineBreak, AstPageBreak, AstTabStop, AstSuperscript,
-        AstToggle, AstStartHieroglyphicText, AstZone, AstTabbing, AstTabbingClear,
-        AstModifier, AstModifierList {
+        permits AstDocument, AstTopItemList, AstBasicItemList, AstTopItem, AstHBox,
+        AstHorizontalListElement, AstModifier, AstModifierList {
 
     void accept(AstVisitor visitor);
 }

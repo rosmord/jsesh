@@ -24,7 +24,7 @@ public record AstPhilology(PhilologyKind openingKind, PhilologyKind closingKind,
      * Hand-builds a philology group whose opening and closing codes match
      * (the normal case), from its content. For tests.
      */
-    public static AstPhilology of(PhilologyKind kind, AstNode... content) {
+    public static AstPhilology of(PhilologyKind kind, AstBasicItem... content) {
         return new AstPhilology(kind, kind, AstBasicItemList.of(content));
     }
 

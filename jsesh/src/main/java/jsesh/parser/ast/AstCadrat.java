@@ -25,7 +25,7 @@ import java.util.List;
  * @see jsesh.model.Cadrat
  * @see jsesh.model.ShadingCode
  */
-public record AstCadrat(List<AstHBox> hBoxes, int shading, AstOptionList options) implements AstNode {
+public record AstCadrat(List<AstHBox> hBoxes, int shading, AstOptionList options) implements AstBasicItem {
 
     public AstCadrat {
         hBoxes = List.copyOf(hBoxes);

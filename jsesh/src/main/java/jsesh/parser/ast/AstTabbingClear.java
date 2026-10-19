@@ -12,7 +12,7 @@ package jsesh.parser.ast;
  *
  * @author rosmord
  */
-public record AstTabbingClear() implements AstNode {
+public record AstTabbingClear() implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

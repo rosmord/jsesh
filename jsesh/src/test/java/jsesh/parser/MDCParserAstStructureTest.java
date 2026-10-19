@@ -20,6 +20,7 @@ import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.symbols.ToggleType;
@@ -49,7 +50,7 @@ public class MDCParserAstStructureTest {
     @Test
     public void testJuxtaposition_threeTopItems() throws MDCSyntaxError {
         AstDocument document = parse("i-w-r");
-        List<AstNode> items = document.topItems().items();
+        List<AstTopItem> items = document.topItems().items();
         assertEquals(3, items.size());
 
         String[] expectedCodes = {"i", "w", "r"};
@@ -65,7 +66,7 @@ public class MDCParserAstStructureTest {
     @Test
     public void testSuperposition_sameHBox() throws MDCSyntaxError {
         AstDocument document = parse("p*t");
-        List<AstNode> items = document.topItems().items();
+        List<AstTopItem> items = document.topItems().items();
         assertEquals(1, items.size());
 
         AstCadrat cadrat = (AstCadrat) items.get(0);
@@ -156,7 +157,7 @@ public class MDCParserAstStructureTest {
     @Test
     public void testToggleIsKeptAsANode() throws MDCSyntaxError {
         AstDocument document = parse("$r-i-$b-w");
-        List<AstNode> items = document.topItems().items();
+        List<AstTopItem> items = document.topItems().items();
         assertEquals(4, items.size());
         assertTrue(items.get(0) instanceof AstToggle);
         assertEquals(ToggleType.RED, ((AstToggle) items.get(0)).toggleType());
@@ -169,7 +170,7 @@ public class MDCParserAstStructureTest {
     @Test
     public void testAlphabeticText() throws MDCSyntaxError {
         AstDocument document = parse("+lhello");
-        List<AstNode> items = document.topItems().items();
+        List<AstTopItem> items = document.topItems().items();
         assertEquals(1, items.size());
         AstAlphabeticText text = (AstAlphabeticText) items.get(0);
         assertEquals('l', text.scriptCode());
@@ -183,7 +184,7 @@ public class MDCParserAstStructureTest {
     @Test
     public void testExhaustiveSwitchOverTopLevelNode() throws MDCSyntaxError {
         AstDocument document = parse("$r");
-        AstNode node = document.topItems().items().get(0);
+        AstTopItem node = document.topItems().items().get(0);
         String description = describe(node);
         assertEquals("toggle: RED", description);
     }

@@ -40,6 +40,11 @@
  * }
  * </pre>
  *
+ * <p>The same goes for the items of a list: {@link jsesh.parser.ast.AstTopItemList}
+ * holds {@link jsesh.parser.ast.AstTopItem}s, and {@link jsesh.parser.ast.AstBasicItemList}
+ * (the content of cartouches, sub-cadrats and philology groups) holds
+ * {@link jsesh.parser.ast.AstBasicItem}s, a sealed subset of the top items.
+ *
  * <p>Most node types are records, with plain (no "get" prefix) accessors,
  * e.g. {@code hieroglyph.code()}. The exceptions are the handful of nodes the
  * grammar builds incrementally, of unbounded arity, via left recursion

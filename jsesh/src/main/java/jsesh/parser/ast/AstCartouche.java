@@ -23,7 +23,7 @@ public record AstCartouche(CartoucheType type, CartouchePart startPart, Cartouch
      * A plain, fully-drawn cartouche ({@code <...>}: both extremities drawn,
      * as opposed to a partial cartouche). For tests.
      */
-    public static AstCartouche of(AstNode... content) {
+    public static AstCartouche of(AstBasicItem... content) {
         return new AstCartouche(CartoucheType.CARTOUCHE, CartouchePart.FIRST, CartouchePart.SECOND, AstBasicItemList.of(content));
     }
 

@@ -51,6 +51,7 @@ import java.util.List;
 
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
+import jsesh.parser.ast.AstBasicItem;
 import jsesh.parser.ast.AstBasicItemList;
 import jsesh.parser.ast.AstCadrat;
 import jsesh.parser.ast.AstCartouche;
@@ -65,7 +66,6 @@ import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstModifierList;
-import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstOption;
 import jsesh.parser.ast.AstOptionList;
 import jsesh.parser.ast.AstOverwrite;
@@ -78,6 +78,7 @@ import jsesh.parser.ast.AstTabStop;
 import jsesh.parser.ast.AstTabbing;
 import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZone;
 import jsesh.parser.ast.CartouchePart;
@@ -265,18 +266,18 @@ public class MDCParser {
      * when it isn't followed by an item.
      */
     private AstDocument parseMdcFile() throws MDCSyntaxError {
-        List<AstNode> items = parseTopItems();
+        List<AstTopItem> items = parseTopItems();
         if (!at(EOF)) {
             throw error("unexpected or unknown item.");
         }
-        return new AstDocument(AstTopItemList.of(items.toArray(new AstNode[0])));
+        return new AstDocument(new AstTopItemList(items));
     }
 
-    private List<AstNode> parseTopItems() throws MDCSyntaxError {
-        List<AstNode> items = new ArrayList<>();
+    private List<AstTopItem> parseTopItems() throws MDCSyntaxError {
+        List<AstTopItem> items = new ArrayList<>();
         while (true) {
             skipOptSeparator();
-            AstNode item;
+            AstTopItem item;
             switch (token.code()) {
                 case TOGGLE:
                     item = new AstToggle((ToggleType) token.value());
@@ -363,7 +364,7 @@ public class MDCParser {
             options = parseOptionList();
         }
         expect(LPAREN, "'('");
-        List<AstNode> items = parseTopItems();
+        List<AstTopItem> items = parseTopItems();
         expect(RPAREN, "')'");
         return new AstZone(options, items);
     }
@@ -641,7 +642,7 @@ public class MDCParser {
      * using it.
      */
     private AstBasicItemList parseBasicItems() throws MDCSyntaxError {
-        List<AstNode> items = new ArrayList<>();
+        List<AstBasicItem> items = new ArrayList<>();
         while (true) {
             skipOptSeparator();
             if (at(TEXT)) {
@@ -659,7 +660,7 @@ public class MDCParser {
                 break;
             }
         }
-        return AstBasicItemList.of(items.toArray(new AstNode[0]));
+        return new AstBasicItemList(items);
     }
 
     // ------------------------------------------------------------------

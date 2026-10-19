@@ -17,7 +17,7 @@ package jsesh.parser.ast;
  * @param options the raw options given between braces.
  * @author rosmord
  */
-public record AstTabbing(AstOptionList options) implements AstNode {
+public record AstTabbing(AstOptionList options) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

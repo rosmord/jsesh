@@ -18,7 +18,7 @@ import jsesh.parser.lexer.symbols.ToggleType;
  *
  * @author rosmord
  */
-public record AstToggle(ToggleType toggleType) implements AstNode {
+public record AstToggle(ToggleType toggleType) implements AstBasicItem {
 
     @Override
     public void accept(AstVisitor visitor) {

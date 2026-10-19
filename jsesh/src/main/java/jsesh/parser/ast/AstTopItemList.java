@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author rosmord
  */
-public record AstTopItemList(List<AstNode> items) implements AstNode {
+public record AstTopItemList(List<AstTopItem> items) implements AstNode {
 
     public AstTopItemList {
         items = List.copyOf(items);
@@ -28,7 +28,7 @@ public record AstTopItemList(List<AstNode> items) implements AstNode {
     /**
      * Hand-builds a top item list from its items, for tests.
      */
-    public static AstTopItemList of(AstNode... items) {
+    public static AstTopItemList of(AstTopItem... items) {
         return new AstTopItemList(List.of(items));
     }
 

@@ -20,7 +20,6 @@ import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstModifierList;
-import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstOption;
 import jsesh.parser.ast.AstOptionList;
 import jsesh.parser.ast.AstOverwrite;
@@ -33,6 +32,7 @@ import jsesh.parser.ast.AstTabStop;
 import jsesh.parser.ast.AstTabbing;
 import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstZone;
 import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.CartoucheType;
@@ -399,14 +399,14 @@ public class MDCParserAstSyntaxTest {
 
     @Test
     public void testZoneStart_bare() throws MDCSyntaxError {
-        List<AstNode> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
+        List<AstTopItem> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
         AstZone expected = new AstZone(AstOptionList.of(), list);
         assertEquals(AstDocument.of(expected), parse("@zone(A1)"));
     }
 
     @Test
     public void testZoneStart_withOptions() throws MDCSyntaxError {
-        List<AstNode> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
+        List<AstTopItem> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
         AstOptionList options = AstOptionList.of(AstOption.of("id", 1));
         AstZone expected = new AstZone(options, list);
         assertEquals(AstDocument.of(expected), parse("@zone[id=1](A1)"));

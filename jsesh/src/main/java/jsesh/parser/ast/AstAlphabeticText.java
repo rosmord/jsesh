@@ -16,7 +16,7 @@ package jsesh.parser.ast;
  * @param text the text, exactly as parsed.
  * @author rosmord
  */
-public record AstAlphabeticText(char scriptCode, String text) implements AstNode {
+public record AstAlphabeticText(char scriptCode, String text) implements AstBasicItem {
 
     @Override
     public void accept(AstVisitor visitor) {

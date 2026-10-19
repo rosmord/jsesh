@@ -12,7 +12,7 @@ package jsesh.parser.ast;
  *
  * @author rosmord
  */
-public record AstPageBreak() implements AstNode {
+public record AstPageBreak() implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

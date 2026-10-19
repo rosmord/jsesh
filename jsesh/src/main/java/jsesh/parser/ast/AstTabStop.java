@@ -13,7 +13,7 @@ package jsesh.parser.ast;
  * @param stopWidth the position, in tab units.
  * @author rosmord
  */
-public record AstTabStop(int stopWidth) implements AstNode {
+public record AstTabStop(int stopWidth) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

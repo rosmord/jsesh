@@ -42,6 +42,7 @@ import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
+import jsesh.parser.ast.AstBasicItem;
 import jsesh.parser.ast.AstBasicItemList;
 import jsesh.parser.ast.AstCadrat;
 import jsesh.parser.ast.AstCartouche;
@@ -68,6 +69,7 @@ import jsesh.parser.ast.AstTabStop;
 import jsesh.parser.ast.AstTabbing;
 import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
+import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZone;
@@ -129,7 +131,7 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitTopItemList(AstTopItemList node) {
         HieroglyphicText list = new HieroglyphicText();
-        for (AstNode item : node.items()) {
+        for (AstTopItem item : node.items()) {
             item.accept(this);
             Object built = pop();
             if (built == null) {
@@ -151,7 +153,7 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitBasicItemList(AstBasicItemList node) {
         BasicItemList list = new BasicItemList();
-        for (AstNode item : node.items()) {
+        for (AstBasicItem item : node.items()) {
             item.accept(this);
             Object built = pop();
             if (built != null) {

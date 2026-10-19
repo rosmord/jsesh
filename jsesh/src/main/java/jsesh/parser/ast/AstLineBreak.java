@@ -14,7 +14,7 @@ package jsesh.parser.ast;
  * normal skip).
  * @author rosmord
  */
-public record AstLineBreak(int skip) implements AstNode {
+public record AstLineBreak(int skip) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

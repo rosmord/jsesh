@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author rosmord
  */
-public record AstBasicItemList(List<AstNode> items) implements AstNode {
+public record AstBasicItemList(List<AstBasicItem> items) implements AstNode {
 
     public AstBasicItemList {
         items = List.copyOf(items);
@@ -29,7 +29,7 @@ public record AstBasicItemList(List<AstNode> items) implements AstNode {
     /**
      * Hand-builds a basic item list from its items, for tests.
      */
-    public static AstBasicItemList of(AstNode... items) {
+    public static AstBasicItemList of(AstBasicItem... items) {
         return new AstBasicItemList(List.of(items));
     }
 

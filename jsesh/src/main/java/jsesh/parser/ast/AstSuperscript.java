@@ -15,7 +15,7 @@ package jsesh.parser.ast;
  *
  * @author rosmord
  */
-public record AstSuperscript(String text) implements AstNode {
+public record AstSuperscript(String text) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

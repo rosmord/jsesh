@@ -14,7 +14,7 @@ package jsesh.parser.ast;
  *
  * @author rosmord
  */
-public record AstStartHieroglyphicText() implements AstNode {
+public record AstStartHieroglyphicText() implements AstBasicItem {
 
     @Override
     public void accept(AstVisitor visitor) {

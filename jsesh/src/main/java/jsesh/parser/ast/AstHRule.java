@@ -15,7 +15,7 @@ package jsesh.parser.ast;
  * @param endPos end of the rule, in tab units.
  * @author rosmord
  */
-public record AstHRule(char lineType, int startPos, int endPos) implements AstNode {
+public record AstHRule(char lineType, int startPos, int endPos) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {

@@ -19,7 +19,7 @@ public record AstSubCadrat(AstBasicItemList content) implements AstInnerGroup {
     /**
      * Hand-builds a sub-cadrat from its content, for tests.
      */
-    public static AstSubCadrat of(AstNode... content) {
+    public static AstSubCadrat of(AstBasicItem... content) {
         return new AstSubCadrat(AstBasicItemList.of(content));
     }
 
