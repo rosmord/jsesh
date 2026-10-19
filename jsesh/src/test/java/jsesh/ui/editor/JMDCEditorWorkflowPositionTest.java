@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import jsesh.document.HieroglyphicTextModel;
 import jsesh.document.caret.MDCCaret;
 import jsesh.io.mdc.MdCModelWriter;
+import jsesh.model.CaretGranularity;
 import jsesh.model.MDCPosition;
 import jsesh.model.constants.SymbolCodes;
 
@@ -186,5 +187,60 @@ class JMDCEditorWorkflowPositionTest {
         w.getCaret().setMarkPosition(pos(4));
         w.paintZoneInRed();
         assertEquals("A1-$r-A2-$b-!\n$r-B1-$b-B2-!\nC1", w.getMDCCode());
+    }
+
+    @Test
+    void innerGranularityWalksInsideQuadrats() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-B1*C1-D1:E1");
+        w.setCaretGranularity(CaretGranularity.INNER);
+        MDCPosition[] expected = {pos(1), MDCPosition.of(1, 0, 1), pos(2), MDCPosition.of(2, 1), pos(3)};
+        for (MDCPosition e : expected) {
+            w.cursorNext();
+            assertEquals(e, w.getCaret().getInsertExactPosition());
+        }
+        for (int i = expected.length - 2; i >= 0; i--) {
+            w.cursorPrevious();
+            assertEquals(expected[i], w.getCaret().getInsertExactPosition());
+        }
+    }
+
+    @Test
+    void quadratGranularityIsTheDefaultAndSkipsInnerStops() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-B1*C1-D1:E1");
+        assertEquals(CaretGranularity.QUADRAT, w.getCaretGranularity());
+        w.cursorNext();
+        w.cursorNext();
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void otherMovesWorkFromAnInnerPosition() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-B1*C1-!D1:E1");
+        w.setCaretGranularity(CaretGranularity.INNER);
+        w.cursorNext();
+        w.cursorNext();
+        assertTrue(w.getCaret().isInsertInner());
+        w.cursorToEndOfLine();
+        // the line ends just before the line break.
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
+
+        w.setCursor(MDCPosition.of(1, 0, 1));
+        w.cursorToBeginningOfLine();
+        assertEquals(pos(0), w.getCaret().getInsertExactPosition());
+
+        w.setCursor(MDCPosition.of(1, 0, 1));
+        w.expandSelection(1);
+        assertSelection(w, 2, 1);
+    }
+
+    @Test
+    void goingBackToQuadratGranularitySnapsTheCursor() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-B1*C1-D1");
+        w.setCaretGranularity(CaretGranularity.INNER);
+        w.cursorNext();
+        w.cursorNext();
+        assertTrue(w.getCaret().isInsertInner());
+        w.setCaretGranularity(CaretGranularity.QUADRAT);
+        assertEquals(pos(1), w.getCaret().getInsertExactPosition());
     }
 }

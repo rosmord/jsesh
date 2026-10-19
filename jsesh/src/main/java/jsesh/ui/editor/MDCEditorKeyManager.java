@@ -64,6 +64,7 @@ import jsesh.ui.editor.actions.group.CenterGroupAction;
 import jsesh.ui.editor.actions.move.GoDownAction;
 import jsesh.ui.editor.actions.move.GoLeftAction;
 import jsesh.ui.editor.actions.move.MoveByWordAction;
+import jsesh.ui.editor.actions.move.ToggleInnerCursorAction;
 import jsesh.ui.editor.actions.move.GoRightAction;
 import jsesh.ui.editor.actions.move.GoUpAction;
 import jsesh.ui.editor.actions.sign.EditorSignRotationAction;
@@ -186,6 +187,7 @@ class MDCEditorKeyManager {
             addAction(ActionsID.GO_LEFT, new GoLeftAction(editor));
             addAction(ActionsID.GO_DOWN, new GoDownAction(editor));
             addAction(ActionsID.GO_UP, new GoUpAction(editor));
+            addAction(ActionsID.TOGGLE_INNER_CURSOR, new ToggleInnerCursorAction(editor));
             addAction(ActionsID.GO_WORD_LEFT, new MoveByWordAction(editor, true, false));
             addAction(ActionsID.GO_WORD_RIGHT, new MoveByWordAction(editor, false, false));
             addAction(ActionsID.EXPAND_SELECTION_WORD_LEFT, new MoveByWordAction(editor, true, true));

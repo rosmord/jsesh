@@ -66,6 +66,18 @@ public class MDCMark {
 
 	private MDCPosition position;
 
+	/// For a mark inside a quadrat: the rest of the path of the position, after
+	/// the index of the top-level item (null for a top-level mark). The mark is
+	/// then the top-level position `position`, followed by this path.
+	///
+	/// This part of the position is not followed through text modifications:
+	/// it is simply dropped (the mark falls back to the top-level `position`)
+	/// as soon as it stops being valid.
+	private int[] innerTail = null;
+
+	/// The top item in which the inner position lies (null for a top-level mark).
+	private TopItem innerOwner = null;
+
 	/// The text this mark lives in.
 	private HieroglyphicText topItemList;
 
@@ -96,20 +108,46 @@ public class MDCMark {
 	///
 	/// @param topItemList the text the mark lives in.
 	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
+	///        It may be a position inside a quadrat; if it does not exist in the
+	///        text, the mark falls back to the top-level position before the
+	///        enclosing top item.
 	/// @param gravity
 	public MDCMark(HieroglyphicText topItemList, MDCPosition position, Gravity gravity) {
 		this.topItemList = topItemList;
-		this.position = topItemList.getPositionAt(position.getIndex());
+		this.position = topItemList.getPositionAt(position.getTopLevelPosition().getIndex());
+		if (!position.isTop() && topItemList.isValidPosition(position)
+				&& position.getPath()[0] < topItemList.getNumberOfChildren()) {
+			int[] path = position.getPath();
+			innerTail = java.util.Arrays.copyOfRange(path, 1, path.length);
+			innerOwner = topItemList.getTopItemAt(path[0]);
+		}
 		this.gravity = gravity;
 		markUpdater= new MarkUpdater();
 		topItemList.addMark(this);
 	}
 
-	/**
-	 * @return Returns the position.
-	 */
+	/// @return the position of this mark. It is nested if the mark lies inside a
+	///         quadrat (see [#isInner()]).
 	public MDCPosition getPosition() {
+		if (innerTail == null) {
+			return position;
+		}
+		int[] path = new int[innerTail.length + 1];
+		path[0] = position.getIndex();
+		System.arraycopy(innerTail, 0, path, 1, innerTail.length);
+		return MDCPosition.of(path);
+	}
+
+	/// @return the top-level position just before the top item containing this
+	///         mark. For a top-level mark, the same as [#getPosition()].
+	public MDCPosition getTopLevelPosition() {
 		return position;
+	}
+
+	/// @return true if this mark lies inside a quadrat, and not between two top
+	///         items.
+	public boolean isInner() {
+		return innerTail != null;
 	}
 
 	/**
@@ -130,6 +168,26 @@ public class MDCMark {
 	 */
 	void updateMark(ModelOperation op) {
 		op.accept(markUpdater);
+		checkInnerPosition();
+	}
+
+	/// Drops the inner part of the position if it doesn't exist anymore.
+	private void checkInnerPosition() {
+		if (innerTail == null) {
+			return;
+		}
+		int index = position.getIndex();
+		boolean valid = index < topItemList.getNumberOfChildren()
+				&& topItemList.getTopItemAt(index) == innerOwner
+				&& topItemList.isValidPosition(getPosition());
+		if (!valid) {
+			dropInnerPosition();
+		}
+	}
+
+	private void dropInnerPosition() {
+		innerTail = null;
+		innerOwner = null;
 	}
 	
 	private class MarkUpdater implements ModelOperationVisitor {
@@ -147,6 +205,8 @@ public class MDCMark {
 		 */
 
 		public void visitInsertion(Insertion insertion) {
+			// Top-level edits move the mark back to the top level.
+			dropInnerPosition();
 			if (insertion.getIndex() < position.getIndex()) {
 				advanceBy(insertion.getChildren().size());
 			} else if (insertion.getIndex() == position.getIndex()) {
@@ -163,6 +223,7 @@ public class MDCMark {
 		 */
 
 		public void visitDeletion(Deletion deletion) {
+			dropInnerPosition();
 			// Note that deletion affects the element after the mark.
 			// hence the "<" below.
 			if (deletion.getEnd() <= position.getIndex()) {

@@ -1718,3 +1718,19 @@ While renaming, I guess I should rename setShadeAfter, which is difficult to und
 ## MDCPosition is now a path
 
 `MDCPosition` holds a list of ints: child indices down the model tree, then a final gap index in the element reached. In `m-p*t:pt`, `(1)` is after the `m` and `(1,0,1)` is just after the `p`. Build with `MDCPosition.of(1,0,1)`; `new MDCPosition(int)` still gives a top-level position. Positions compare in document order. For now copy, removal, insertion and range export only accept top-level positions: `getIndex()` throws `UnsupportedOperationException` on nested ones. `HieroglyphicText.isValidPosition` checks a nested position against the tree. `MDCMark` still follows edits at top level only.
+
+## Cursor inside quadrats
+
+Two caret granularities, `CaretGranularity.QUADRAT` (default) and `INNER`, set on `JMDCEditorWorkflow` and toggled in the Edit menu ("Move Cursor Inside Quadrats", `shortcut shift Q`, remembered in preferences).
+
+In `INNER` mode, `cursorNext`/`cursorPrevious` (hence the arrow keys along the text) visit the stops computed by `PositionNavigator`: all top-level gaps, plus the interior gaps of quadrats (between rows `(q,h)`, between elements of a row `(q,h,e)`, between the signs of a ligature). Edge gaps of a container are *not* stops (they coincide with the enclosing gap), so a one-sign quadrat is still atomic.
+
+Design choices:
+
+- `MDCMark` keeps its top-level anchor, followed by the usual mark updater, plus an optional "inner tail" (rest of the path) and the top item it belongs to. The tail is dropped as soon as it stops being valid (any top-level insertion/deletion, or a change in the quadrat), so no nested mark tracking is needed yet.
+- `MDCCaret.getInsertPosition()`/`getMarkPosition()`/`getMin/MaxPosition()` return the *top-level* position (just before the quadrat containing the cursor), so all editing code is unchanged and works on that position. `getInsertExactPosition()` gives the nested one. So, with the caret inside a quadrat, typing inserts *before* that quadrat, and the caret then goes back to top level.
+- Drawing: `ViewDrawer.testAndDrawInnerCursor` draws a thin line between two subviews of the container view (vertical in an `HBox`, horizontal between rows or signs of a ligature); the usual cursor is not drawn when the caret is inner.
+- Mouse clicks still give top-level positions; scrolling follows the enclosing quadrat.
+
+See todo 0072 for what remains (editing and selection inside quadrats, mouse, up/down between rows...).
+

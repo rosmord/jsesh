@@ -62,8 +62,8 @@ public class ExportData {
 			start= new MDCPosition(0);
 			end= text.getLastPosition();
 		} else {
-			start= caret.getInsert().getPosition();
-			end= caret.getMark().getPosition();
+			start= caret.getInsert().getTopLevelPosition();
+			end= caret.getMark().getTopLevelPosition();
 		}
 		init(renderContext, start, end, text, scale);
 	}

@@ -66,6 +66,7 @@ import jsesh.model.AlphabeticCharacter;
 import jsesh.model.constants.ScriptCode;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
+import jsesh.model.CaretGranularity;
 import jsesh.model.Cartouche;
 import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
@@ -143,6 +144,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * Cursor position and selection.
      */
     private MDCCaret caret;
+
+    /// Can the cursor stand inside quadrats, or only between top-level items?
+    private CaretGranularity caretGranularity = CaretGranularity.QUADRAT;
 
     /**
      * The code being typed
@@ -463,7 +467,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
     public void cursorNext() {
         possibilitiesHandler.clear();
-        caret.moveInsertBy(1);
+        moveCursorBy(1);
         caret.unsetMark();
         clearSeparator();
         followCaret();
@@ -474,10 +478,41 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
     public void cursorPrevious() {
         possibilitiesHandler.clear();
-        caret.moveInsertBy(-1);
+        moveCursorBy(-1);
         caret.unsetMark();
         clearSeparator();
         followCaret();
+    }
+
+    /// Moves the cursor by one stop, according to the current granularity.
+    private void moveCursorBy(int delta) {
+        if (caretGranularity == CaretGranularity.INNER) {
+            caret.moveInsertInner(delta);
+        } else {
+            caret.moveInsertBy(delta);
+        }
+    }
+
+    /// @return the kind of positions the cursor can stand on.
+    public CaretGranularity getCaretGranularity() {
+        return caretGranularity;
+    }
+
+    /// Sets the kind of positions the cursor can stand on. Going back to
+    /// [CaretGranularity#QUADRAT] moves a cursor which lies inside a quadrat
+    /// back to the position before this quadrat.
+    ///
+    /// Only {@link #cursorNext()} and {@link #cursorPrevious()} (hence the arrow keys
+    /// moving along the text) use inner positions. All other commands (editing,
+    /// selection, line and word movements...) work on the top-level position
+    /// before the quadrat which contains the cursor.
+    ///
+    /// @param granularity the new granularity.
+    public void setCaretGranularity(CaretGranularity granularity) {
+        this.caretGranularity = granularity;
+        if (granularity == CaretGranularity.QUADRAT) {
+            caret.snapToTopLevel();
+        }
     }
 
     /**

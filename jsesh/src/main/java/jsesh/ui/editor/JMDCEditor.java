@@ -616,7 +616,7 @@ public class JMDCEditor extends JPanel {
      */
     protected Rectangle getCursorRectangle() {
         Rectangle2D r1 = drawer.getRectangleAroundPosition(getView(), workflow
-                .getCaret().getInsert().getPosition(),
+                .getCaret().getInsert().getTopLevelPosition(),
                 getJSeshStyle());
         int w = (int) (r1.getWidth() * getScale());
         int h = (int) (r1.getHeight() * getScale());

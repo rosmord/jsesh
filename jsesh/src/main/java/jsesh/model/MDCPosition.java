@@ -119,6 +119,14 @@ public final class MDCPosition implements Serializable, Comparable<MDCPosition> 
 		return path[0];
 	}
 
+	/// The top-level position which stands just before the top item containing
+	/// this position. For a top-level position, the position itself.
+	///
+	/// @return a top-level position.
+	public MDCPosition getTopLevelPosition() {
+		return isTop() ? this : new MDCPosition(path[0]);
+	}
+
 	/// Returns the ith position before this one, in the same element. If the
 	/// position would fall before the start of the element, it will be the
 	/// first position in it.

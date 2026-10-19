@@ -19,6 +19,8 @@ import jsesh.model.constants.TextOrientation;
 import jsesh.document.caret.MDCCaret;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
+import jsesh.model.HBox;
+import jsesh.model.ModelElement;
 import jsesh.model.MDCPosition;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
@@ -52,6 +54,13 @@ public class ViewDrawer {
      * A caret to draw, if wanted.
      */
     private MDCCaret cursor = null;
+
+    /// The element containing the cursor, when the cursor stands inside a
+    /// quadrat (null otherwise). Set while drawing.
+    private ModelElement innerCursorContainer = null;
+
+    /// Index of the gap, in `innerCursorContainer`, where the cursor stands.
+    private int innerCursorGap = 0;
 
     /**
      * The class used to draw individual elements.
@@ -615,6 +624,8 @@ public class ViewDrawer {
 
         // Draw the element's subviews.
         drawSubViews(tmpG, renderContext, v, startPos, endPos, depth);
+        // Draw the cursor if it stands between two subviews of this view.
+        testAndDrawInnerCursor(tmpG, renderContext, v);
         // restore old coordinate system.
         tmpG.dispose();
 
@@ -686,6 +697,7 @@ public class ViewDrawer {
             MDCCaret cursor, int start, int end) {
         elementDrawer.prepareDrawing(renderContext, techRenderContext);
         this.cursor = cursor;
+        findInnerCursorContainer(view, cursor);
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
         // conceptual hack (patch) : if cursor is not empty, and text is empty,
         // draws a cursor.
@@ -694,6 +706,7 @@ public class ViewDrawer {
         }
         drawView(g2d, renderContext, view, start, end, 0);
         this.cursor = null; // To avoid short-term memory leak.
+        this.innerCursorContainer = null;
         this.pageCoordinateSystem = null;
         elementDrawer.cleanup();
     }
@@ -725,7 +738,7 @@ public class ViewDrawer {
         TextOrientation textOrientation = options
                 .textOrientation();
 
-        if (cursor != null && cursor.getInsert() != null) {
+        if (cursor != null && cursor.getInsert() != null && !cursor.isInsertInner()) {
 
             /*
              * A cursor stands between two views. Should we draw the cursor
@@ -813,6 +826,83 @@ public class ViewDrawer {
                 g.setColor(currentColor);
             }
         }
+    }
+
+    /// Finds the model element which contains the cursor, when the cursor stands
+    /// inside a quadrat, and the index of the gap in this element.
+    ///
+    /// @param rootView the view of the whole text.
+    /// @param caret the caret (may be null).
+    private void findInnerCursorContainer(MDCView rootView, MDCCaret caret) {
+        innerCursorContainer = null;
+        if (caret == null || caret.getInsert() == null || !caret.isInsertInner()) {
+            return;
+        }
+        MDCPosition position = caret.getInsertExactPosition();
+        ModelElement current = rootView.getModel();
+        for (int i : position.getParentPath()) {
+            if (current == null || i >= current.getNumberOfChildren()) {
+                return;
+            }
+            current = current.getChildAt(i);
+        }
+        innerCursorContainer = current;
+        innerCursorGap = position.getLastIndex();
+    }
+
+    /// Draws the cursor if it stands between two subviews of `v`.
+    ///
+    /// The cursor is a line which crosses the view, between the two subviews: a
+    /// vertical line between the elements of a row, a horizontal one between
+    /// rows or between the signs of a ligature. It is thinner than the cursor
+    /// which stands between top-level items.
+    ///
+    /// @param g the graphics, in the coordinate system used to draw the subviews of `v`.
+    /// @param renderContext the rendering context.
+    /// @param v the view.
+    private void testAndDrawInnerCursor(Graphics2D g, JSeshRenderContext renderContext, MDCView v) {
+        if (innerCursorContainer == null || v.getModel() != innerCursorContainer) {
+            return;
+        }
+        int gap = innerCursorGap;
+        if (gap <= 0 || gap >= v.getNumberOfSubviews()) {
+            return;
+        }
+        Rectangle2D before = subViewBounds(v, gap - 1);
+        Rectangle2D after = subViewBounds(v, gap);
+        JSeshStyle jseshStyles = renderContext.jseshStyle();
+        Line2D line;
+        if (v.getModel() instanceof HBox) {
+            // Elements side by side: vertical line.
+            double x = (before.getMaxX() <= after.getMinX())
+                    ? (before.getMaxX() + after.getMinX()) / 2
+                    : (after.getMaxX() + before.getMinX()) / 2;
+            line = new Line2D.Double(x, 0, x, v.getInternalHeight());
+        } else {
+            // Elements one above the other: horizontal line.
+            double y = (before.getMaxY() <= after.getMinY())
+                    ? (before.getMaxY() + after.getMinY()) / 2
+                    : (after.getMaxY() + before.getMinY()) / 2;
+            line = new Line2D.Double(0, y, v.getInternalWidth(), y);
+        }
+        Color currentColor = g.getColor();
+        g.setColor(jseshStyles.painting().cursorColor());
+        g.setStroke(jseshStyles.geometry().fineStroke());
+        g.draw(line);
+        g.setColor(currentColor);
+    }
+
+    /// The area occupied by a subview, in the coordinate system used to draw
+    /// the subviews of `v` (see [#drawSubViews]).
+    private Rectangle2D subViewBounds(MDCView v, int i) {
+        MDCView subv = v.getSubView(i);
+        double x;
+        if (v.getDirection().isLeftToRight()) {
+            x = subv.getPosition().x;
+        } else {
+            x = v.getInternalWidth() - subv.getPosition().x - subv.getWidth();
+        }
+        return new Rectangle2D.Double(x, subv.getPosition().y, subv.getWidth(), subv.getHeight());
     }
 
     /**

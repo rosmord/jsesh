@@ -360,6 +360,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         modeMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
 
                         editMenu.add(modeMenu);
+                        editMenu.add(new JCheckBoxMenuItem(map.get(ActionsID.TOGGLE_INNER_CURSOR)));
 
                         editMenu.add(map.get(AddToGlossaryAction.ID));
                         editMenu.addSeparator();

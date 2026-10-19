@@ -94,4 +94,45 @@ class MDCCaretTest {
         assertEquals(pos(1), caret.getInsertPosition());
         assertEquals(pos(3), caret.getMarkPosition());
     }
+
+    @Test
+    void innerInsertIsSnappedToTheTopLevelByTheStandardAccessors() throws Exception {
+        MDCCaret c = new MDCCaret(new MDCParserModelGenerator().parse("A1-B1*C1-D1:E1"));
+        c.setInsertPosition(MDCPosition.of(1, 0, 1));
+        assertTrue(c.isInsertInner());
+        assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
+        assertEquals(pos(1), c.getInsertPosition());
+        assertEquals(pos(1), c.getMinPosition());
+        assertEquals(pos(1), c.getMaxPosition());
+        assertFalse(c.hasSelection());
+
+        c.snapToTopLevel();
+        assertFalse(c.isInsertInner());
+        assertEquals(pos(1), c.getInsertExactPosition());
+    }
+
+    @Test
+    void moveInsertInnerWalksThroughTheQuadrats() throws Exception {
+        MDCCaret c = new MDCCaret(new MDCParserModelGenerator().parse("A1-B1*C1-D1:E1"));
+        c.moveInsertInner(1);
+        assertEquals(pos(1), c.getInsertExactPosition());
+        c.moveInsertInner(1);
+        assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
+        c.moveInsertInner(1);
+        assertEquals(pos(2), c.getInsertExactPosition());
+        c.moveInsertInner(1);
+        assertEquals(MDCPosition.of(2, 1), c.getInsertExactPosition());
+        c.moveInsertInner(-2);
+        assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
+        c.moveInsertInner(-100);
+        assertEquals(pos(0), c.getInsertExactPosition());
+    }
+
+    @Test
+    void moveInsertByStillMovesByTopLevelItems() throws Exception {
+        MDCCaret c = new MDCCaret(new MDCParserModelGenerator().parse("A1-B1*C1-D1:E1"));
+        c.setInsertPosition(MDCPosition.of(1, 0, 1));
+        c.moveInsertBy(1);
+        assertEquals(pos(2), c.getInsertExactPosition());
+    }
 }

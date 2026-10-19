@@ -40,9 +40,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import jsesh.model.CaretGranularity;
 import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.PositionNavigator;
 
 /**
  * The caret represent the editing position in a text. It takes in account both
@@ -103,12 +105,49 @@ public class MDCCaret {
 		return insert;
 	}
 
+	/// The insertion position, as a top-level position. If the insertion point
+	/// lies inside a quadrat (see [#isInsertInner()]), this is the position just
+	/// before this quadrat: all editing operations work at this level.
+	///
+	/// @return a top-level position.
 	public MDCPosition getInsertPosition() {
+		return insert.getTopLevelPosition();
+	}
+
+	/// The mark position, as a top-level position (see [#getInsertPosition()]).
+	///
+	/// @return a top-level position.
+	public MDCPosition getMarkPosition() {
+		return mark.getTopLevelPosition();
+	}
+
+	/// @return the exact insertion position, which may be nested if the
+	///         insertion point lies inside a quadrat.
+	public MDCPosition getInsertExactPosition() {
 		return insert.getPosition();
 	}
-	
-	public MDCPosition getMarkPosition() {
-		return mark.getPosition();
+
+	/// @return true if the insertion point lies inside a quadrat, and not between
+	///         two top-level items.
+	public boolean isInsertInner() {
+		return insert.isInner();
+	}
+
+	/// Moves the insertion point by a number of stops, taking into account the
+	/// positions inside quadrats (see [jsesh.model.CaretGranularity#INNER]). The
+	/// result is clamped to the text bounds.
+	///
+	/// @param delta the number of stops to move by (may be negative).
+	public void moveInsertInner(int delta) {
+		setInsertPosition(PositionNavigator.move(getModel(), insert.getPosition(), delta, CaretGranularity.INNER));
+	}
+
+	/// If the insertion point lies inside a quadrat, moves it to the position
+	/// just before this quadrat. Does nothing otherwise.
+	public void snapToTopLevel() {
+		if (insert.isInner()) {
+			setInsertPosition(insert.getTopLevelPosition());
+		}
 	}
 	
 	public void setInsert(MDCMark insert) {
