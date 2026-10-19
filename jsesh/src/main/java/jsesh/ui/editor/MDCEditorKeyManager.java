@@ -188,6 +188,7 @@ class MDCEditorKeyManager {
             addAction(ActionsID.GO_DOWN, new GoDownAction(editor));
             addAction(ActionsID.GO_UP, new GoUpAction(editor));
             addAction(ActionsID.TOGGLE_INNER_CURSOR, new ToggleInnerCursorAction(editor));
+            addDelegateAction(ActionsID.DELETE_FORWARD, editor, "doDelete", editorEnabler);
             addAction(ActionsID.GO_WORD_LEFT, new MoveByWordAction(editor, true, false));
             addAction(ActionsID.GO_WORD_RIGHT, new MoveByWordAction(editor, false, false));
             addAction(ActionsID.EXPAND_SELECTION_WORD_LEFT, new MoveByWordAction(editor, true, true));

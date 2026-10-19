@@ -1758,3 +1758,13 @@ In columns, `CursorLocator` now draws a *single* horizontal line, halfway betwee
 ## Cursor inside absolute groups
 
 `AbsoluteGroup` (signs placed explicitly, e.g. `n**x{{967,79,100}}**N5{{0,0,100}}`) is now navigable: the gaps between its signs (`(q, h, e, g)`, in group order, which is the drawing order) are stops with `CaretGranularity.INNER`. As signs may overlap, there is no gap to cut through, so `CursorLocator` draws a fine line along the *end edge* of the sign which precedes the gap (right edge in LTR, left in RTL), spanning that sign's height. The first and last gaps coincide with the gaps around the group, as for other containers.
+
+## Editing inside quadrats
+
+With `CaretGranularity.INNER`, typing a sign, Backspace and the new forward Delete (`edit.deleteForward`, `JMDCEditorWorkflow.doDelete`) now act at the exact cursor position instead of before the containing quadrat.
+
+- `jsesh.model.InnerEdit` computes the edit on a *copy* of the top item holding the position, and the position where the cursor should be afterwards. The workflow then replaces the top item with the ordinary undoable top-level replacement: no nested undo command was needed, and undo/redo and view updates are unchanged. The price is that undo leaves the cursor at top level.
+- The container decides how a new sign is combined with its neighbours: a gap between rows adds a row (`:`), a gap in a row adds an element (`*`), a gap in a ligature adds a sign (`&`), a gap in a cartouche/sub-quadrat adds a quadrat. Separators typed at an inner position are only consumed.
+- After a deletion, empty rows/quadrats are removed, and a ligature left with one sign becomes this sign.
+- `PositionNavigator.canonicalize` brings a position which is not a stop (edge of a row, of a ligature...) to the surrounding gap; it is used for the cursor after each edit.
+- Not supported yet (the operation does nothing): `ComplexLigature` and `AbsoluteGroup` containers; glossary entries with several quadrats fall back to the old behaviour. Pasting, MDC insertion and sign modifiers still act before the containing quadrat.

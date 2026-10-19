@@ -61,6 +61,7 @@ public interface ActionsID {
     String GO_LEFT = "edit.left";
     String GO_RIGHT = "edit.right";
     String GO_UP = "edit.up";
+    String DELETE_FORWARD = "edit.deleteForward";
     String TOGGLE_INNER_CURSOR = "edit.toggleInnerCursor";
     String GO_WORD_LEFT = "edit.wordLeft";
     String GO_WORD_RIGHT = "edit.wordRight";

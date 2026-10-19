@@ -82,6 +82,68 @@ public final class PositionNavigator {
 		}
 	}
 
+	/// Brings a position to the nearest place where the cursor may stand.
+	///
+	/// The edge gaps (first and last) of a container other than a
+	/// [BasicItemList] are not stops: they coincide with the gap which surrounds
+	/// the container. Such a position is replaced by the surrounding gap, and so
+	/// on recursively, up to a top-level position if need be. Other positions are
+	/// returned unchanged.
+	///
+	/// @param text the text.
+	/// @param position a position, possibly nested. A path which no longer
+	///        matches the structure of the text is handled as far as possible.
+	/// @return the equivalent stop.
+	public static MDCPosition canonicalize(HieroglyphicText text, MDCPosition position) {
+		if (position.isTop() || position.getPath()[0] >= text.getNumberOfChildren()) {
+			return position;
+		}
+		return canonicalize(text.getTopItemAt(position.getPath()[0]), position.getPath());
+	}
+
+	/// Same as [#canonicalize(HieroglyphicText, MDCPosition)], for a top item
+	/// which is not (yet) in a text.
+	///
+	/// @param top the top item.
+	/// @param path the path of the position. Its first value is the index of
+	///        `top` in its text.
+	/// @return the equivalent stop.
+	static MDCPosition canonicalize(TopItem top, int[] path) {
+		int[] p = path.clone();
+		while (p.length > 1) {
+			ModelElement container = descend(top, p, p.length - 1);
+			int gap = p[p.length - 1];
+			if (container != null && isNavigable(container)) {
+				int n = container.getNumberOfChildren();
+				boolean edgesAreStops = container instanceof BasicItemList;
+				if (gap <= n && (edgesAreStops || (gap > 0 && gap < n))) {
+					return MDCPosition.of(p);
+				}
+			}
+			// Climb: before the container if we were at its start, after it otherwise.
+			p = java.util.Arrays.copyOf(p, p.length - 1);
+			if (gap > 0) {
+				p[p.length - 1]++;
+			}
+		}
+		return MDCPosition.of(p);
+	}
+
+	/// The element reached by following the child indices `path[1..depth-1]`
+	/// from a top item (`path[0]` is the index of the top item itself).
+	///
+	/// @return the element, or null if the path does not match the tree.
+	static ModelElement descend(TopItem top, int[] path, int depth) {
+		ModelElement current = top;
+		for (int i = 1; i < depth; i++) {
+			if (path[i] >= current.getNumberOfChildren()) {
+				return null;
+			}
+			current = current.getChildAt(path[i]);
+		}
+		return current;
+	}
+
 	private static boolean isNavigable(ModelElement element) {
 		return element instanceof Cadrat || element instanceof HBox || element instanceof Ligature
 				|| element instanceof ComplexLigature || element instanceof AbsoluteGroup || element instanceof Cartouche

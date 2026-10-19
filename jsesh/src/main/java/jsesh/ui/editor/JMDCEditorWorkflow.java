@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
@@ -71,6 +72,7 @@ import jsesh.model.Cartouche;
 import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
+import jsesh.model.InnerEdit;
 import jsesh.model.InnerGroup;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
@@ -147,6 +149,11 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     /// Can the cursor stand inside quadrats, or only between top-level items?
     private CaretGranularity caretGranularity = CaretGranularity.QUADRAT;
+
+    /// Where the last sign was inserted by [#insertSignAtInnerPosition(String)],
+    /// so that [#nextPossibility()] can replace it. Null if the last sign was
+    /// added at top level.
+    private MDCPosition innerRetryPosition = null;
 
     /**
      * The code being typed
@@ -359,6 +366,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void nextPossibility() {
         if (possibilitiesHandler.hasPossibilities()) {
             hieroglyphicTextModel.undo();
+            if (innerRetryPosition != null) {
+                // The undo has put the caret back at top level.
+                caret.setInsertPosition(innerRetryPosition);
+            }
             possibilitiesHandler.next();
             addCodeAndThenGroup();
         }
@@ -502,10 +513,13 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// [CaretGranularity#QUADRAT] moves a cursor which lies inside a quadrat
     /// back to the position before this quadrat.
     ///
-    /// Only {@link #cursorNext()} and {@link #cursorPrevious()} (hence the arrow keys
-    /// moving along the text) use inner positions. All other commands (editing,
-    /// selection, line and word movements...) work on the top-level position
-    /// before the quadrat which contains the cursor.
+    /// {@link #cursorNext()} and {@link #cursorPrevious()} (hence the arrow keys
+    /// moving along the text) use inner positions. So do the insertion of signs,
+    /// {@link #doBackspace()} and {@link #doDelete()}: they edit the quadrat
+    /// around the cursor (see [InnerEdit]), and the cursor stays inside it when
+    /// possible. All other commands (selection, line and word movements,
+    /// sign modifications...) work on the top-level position before the quadrat
+    /// which contains the cursor.
     ///
     /// @param granularity the new granularity.
     public void setCaretGranularity(CaretGranularity granularity) {
@@ -644,12 +658,66 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         caret.removeCaretChangeListener(l);
     }
 
+    /// Erases the element after the cursor, when the cursor stands inside a
+    /// quadrat (see [CaretGranularity#INNER]); erases the selection, if any.
+    /// Does nothing otherwise.
+    public void doDelete() {
+        possibilitiesHandler.clear();
+        if (currentCode.length() > 0 || currentSeparator != ' ') {
+            return;
+        }
+        if (caret.hasSelection()) {
+            removeSelectedText();
+        } else if (caret.isInsertInner()) {
+            applyInnerEdit(InnerEdit.deleteAfter(getHieroglyphicTextModel().getHieroglyphicText(),
+                    caret.getInsertExactPosition()));
+        }
+    }
+
+    /// Inserts a sign where the cursor stands, inside a quadrat. The container
+    /// of the cursor decides how the sign is combined with its neighbours (see
+    /// [InnerEdit]).
+    ///
+    /// @param code the code of the sign.
+    /// @return true if the sign has been inserted. False if this kind of
+    ///         container does not support insertion yet.
+    private boolean insertSignAtInnerPosition(String code) {
+        MDCPosition where = caret.getInsertExactPosition();
+        boolean done = applyInnerEdit(InnerEdit.insertSign(getHieroglyphicTextModel().getHieroglyphicText(), where,
+                buildHieroglyphFromCode(code)));
+        innerRetryPosition = done ? where : null;
+        return done;
+    }
+
+    /// Replaces the top item which holds the cursor by its edited version,
+    /// and moves the cursor to the place computed by the edit.
+    ///
+    /// @param edit the result of an [InnerEdit] operation.
+    /// @return true if there was an edit to apply.
+    private boolean applyInnerEdit(Optional<InnerEdit.Result> edit) {
+        if (edit.isEmpty()) {
+            return false;
+        }
+        InnerEdit.Result result = edit.get();
+        MDCPosition start = caret.getInsertPosition();
+        MDCPosition end = new MDCPosition(start.getIndex() + 1);
+        List<TopItem> replacement = result.replacement().map(List::of).orElse(List.of());
+        hieroglyphicTextModel.replaceElement(start, end, replacement);
+        caret.setInsertPosition(result.caret());
+        caret.unsetMark();
+        return true;
+    }
+
     /**
      * Erase text according to the context.
      * <p>
      * The erased text might be : an incomplete code (if any), a separator (if
      * any) a whole selection (if any) or the item just in front of the cursor
      * (still if any).
+     * <p>
+     * When the cursor stands inside a quadrat (see {@link CaretGranularity#INNER}),
+     * the item just in front of the cursor is the element of the quadrat which
+     * precedes it.
      */
     public void doBackspace() {
 
@@ -666,6 +734,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             // alphabetic characters are elements of their own.
             if (caret.hasSelection()) {
                 removeSelectedText();
+            } else if (caret.isInsertInner()) {
+                applyInnerEdit(InnerEdit.deleteBefore(getHieroglyphicTextModel().getHieroglyphicText(),
+                        caret.getInsertExactPosition()));
             } else if (caret.getInsert().hasPrevious()
                     && caret.getInsert().getElementBefore() instanceof Superscript) {
                 removeSingleLetter();
@@ -1935,6 +2006,18 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             items = Collections.singletonList(buildItemForSignCode(currentCode
                     .toString()));
         }
+        // Inside a quadrat, the container tells how the sign is combined with its neighbours.
+        innerRetryPosition = null;
+        boolean singleSign = !possibilitiesHandler.hasPossibilities()
+                || possibilitiesHandler.getPossibility().isSingleSign();
+        if (caret.isInsertInner() && !caret.hasSelection() && singleSign) {
+            String signCode = possibilitiesHandler.hasPossibilities() ? possibilitiesHandler.getPossibility().getCode()
+                    : currentCode.toString();
+            if (insertSignAtInnerPosition(signCode)) {
+                clearCode();
+                return;
+            }
+        }
         // Now, add the item.
         MDCPosition pos1, pos2;
         pos1 = caret.getInsertPosition();
@@ -1950,6 +2033,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * Group the two elements in front of the cursor according to the
      */
     private void groupTwoPreviousBySeparator() {
+        if (caret.isInsertInner()) {
+            // Inside a quadrat, signs are combined as they are inserted.
+            return;
+        }
         // group only.
         MDCPosition pos1 = caret.getInsertPosition().getPreviousPosition(2);
         MDCPosition pos2 = caret.getInsertPosition();

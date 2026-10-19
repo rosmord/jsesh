@@ -377,7 +377,7 @@ control):
 | `JMDCEditorWorkflow` | The editing **state machine** — `getMDCCode()`/`setMDCCode()`, caret, undo/redo, insertion. Get it with `editor.getWorkflow()`. |
 | `HieroglyphicTextModel` | The observable/undoable model behind the editor (`editor.getHieroglyphicTextModel()`). Register listeners here to react to edits. |
 | `MDCEditorKeyManager` | Keyboard handling. |
-| `MDCCaret` | Selection / cursor position, as `MDCPosition`s (`getInsertPosition()`, `getMinPosition()`/`getMaxPosition()`, `setMarkPosition(...)`). `editor.getInsertPosition()`/`setInsertPosition(MDCPosition)` are shortcuts for the cursor. These accessors always give *top-level* positions; with `editor.getWorkflow().setCaretGranularity(CaretGranularity.INNER)` the arrow keys also stop between the elements inside a quadrat, and `MDCCaret.getInsertExactPosition()` gives the exact (possibly nested) cursor position. |
+| `MDCCaret` | Selection / cursor position, as `MDCPosition`s (`getInsertPosition()`, `getMinPosition()`/`getMaxPosition()`, `setMarkPosition(...)`). `editor.getInsertPosition()`/`setInsertPosition(MDCPosition)` are shortcuts for the cursor. These accessors always give *top-level* positions; with `editor.getWorkflow().setCaretGranularity(CaretGranularity.INNER)` the arrow keys also stop between the elements inside a quadrat, and `MDCCaret.getInsertExactPosition()` gives the exact (possibly nested) cursor position. Typing a sign, Backspace and Delete also work at such positions (see `jsesh.model.InnerEdit`). |
 
 Text direction and orientation are set on the editor:
 `editor.setTextDirection(TextDirection.RIGHT_TO_LEFT)`,
