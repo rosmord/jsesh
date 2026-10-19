@@ -4,42 +4,40 @@
  **/
 package jsesh.model;
 
-import java.util.List;
+import java.util.Arrays;
 
 import jsesh.model.operations.ChildOperation;
 import jsesh.model.operations.Deletion;
 import jsesh.model.operations.Insertion;
 import jsesh.model.operations.ModelOperation;
-import jsesh.model.operations.ModelOperationVisitor;
-import jsesh.model.operations.Modification;
 import jsesh.model.operations.Replacement;
-import jsesh.model.operations.ZoneModification;
 import jsesh.utils.datatypes.EnumBase;
 
-/**
- * A MDCMark designate a position relative to an element. It's a long-term
- * position marker in a text. A mark is never deleted, except if its release()
- * method is called.
- * 
- * <P>
- * Marks survive text modification.
- * 
- * <P>
- * The mark system is inspired by the tk text widget.
- * 
- * <p>
- * There is a problem with the mark system. When text is modified, the
- * corresponding visit method are called. So far, so good. But now, the mark's
- * observers are notified. The problem is that if they observe more than one
- * mark, some of them won't have been updated by then. Hence, issues.
- * <p>
- * Solution : all marks should have been updated before telling the mark's
- * observer about anything.
- * 
- * @author rosmord
- * 
- */
-
+/// A long-term position marker in a text. Unlike a [MDCPosition], a mark
+/// follows the modifications of the text. A mark is never deleted, except if
+/// its [#release()] method is called.
+///
+/// The mark system is inspired by the tk text widget.
+///
+/// A mark may stand anywhere a [MDCPosition] can: between top items, inside a
+/// quadrat, in the content of a cartouche (a nested [TextScope])... It follows
+/// insertions and deletions done at any depth of the text: when items are
+/// inserted or removed in some element, the marks which stand in this element,
+/// or deeper inside one of its children, are shifted accordingly. A mark which
+/// stood inside a removed (or replaced) element falls back to the gap where
+/// this element was. The resulting position is a valid position of the text,
+/// but not necessarily a cursor stop (see
+/// [PositionNavigator#canonicalize(HieroglyphicText, MDCPosition)]).
+///
+/// There is a problem with the mark system. When text is modified, the
+/// corresponding visit method are called. So far, so good. But now, the mark's
+/// observers are notified. The problem is that if they observe more than one
+/// mark, some of them won't have been updated by then. Hence, issues.
+///
+/// Solution: all marks should have been updated before telling the mark's
+/// observer about anything.
+///
+/// @author rosmord
 public class MDCMark {
 
 	static public class Gravity extends EnumBase {
@@ -59,39 +57,15 @@ public class MDCMark {
 		}
 	}
 
-	/**
-	 * The underlying text position.
-	 * 
-	 */
-
-	private MDCPosition position;
-
-	/// For a mark inside a quadrat: the rest of the path of the position, after
-	/// the index of the top-level item (null for a top-level mark). The mark is
-	/// then the top-level position `position`, followed by this path.
-	///
-	/// This part of the position is not followed through text modifications:
-	/// it is simply dropped (the mark falls back to the top-level `position`)
-	/// as soon as it stops being valid.
-	private int[] innerTail = null;
-
-	/// The top item in which the inner position lies (null for a top-level mark).
-	private TopItem innerOwner = null;
+	/// The path of the position of this mark (see [MDCPosition]).
+	private int[] path;
 
 	/// The text this mark lives in.
 	private HieroglyphicText topItemList;
 
-	/**
-	 * Will the mark move left or right when data is inserted at the mark index.
-	 * When data at the mark position, the mark may move either to the left or
-	 * to the right.
-	 */
-
+	/// Will the mark move left or right when data is inserted at the mark
+	/// position.
 	private Gravity gravity;
-
-	List listeners = null;
-	
-	private MarkUpdater markUpdater;
 
 	/// Create a mark corresponding to a specific position in a text. When text
 	/// is inserted at the mark position, the mark will move forward.
@@ -108,46 +82,34 @@ public class MDCMark {
 	///
 	/// @param topItemList the text the mark lives in.
 	/// @param position the position of the mark in `topItemList` (clamped to its bounds).
-	///        It may be a position inside a quadrat; if it does not exist in the
+	///        It may be a nested position; if it does not exist in the
 	///        text, the mark falls back to the top-level position before the
 	///        enclosing top item.
 	/// @param gravity
 	public MDCMark(HieroglyphicText topItemList, MDCPosition position, Gravity gravity) {
 		this.topItemList = topItemList;
-		this.position = topItemList.getPositionAt(position.getTopLevelPosition().getIndex());
-		if (!position.isTop() && topItemList.isValidPosition(position)
-				&& position.getPath()[0] < topItemList.getNumberOfChildren()) {
-			int[] path = position.getPath();
-			innerTail = java.util.Arrays.copyOfRange(path, 1, path.length);
-			innerOwner = topItemList.getTopItemAt(path[0]);
-		}
+		this.path = position.getPath();
 		this.gravity = gravity;
-		markUpdater= new MarkUpdater();
+		checkPosition();
 		topItemList.addMark(this);
 	}
 
 	/// @return the position of this mark. It is nested if the mark lies inside a
-	///         quadrat (see [#isInner()]).
+	///         top item (see [#isInner()]).
 	public MDCPosition getPosition() {
-		if (innerTail == null) {
-			return position;
-		}
-		int[] path = new int[innerTail.length + 1];
-		path[0] = position.getIndex();
-		System.arraycopy(innerTail, 0, path, 1, innerTail.length);
 		return MDCPosition.of(path);
 	}
 
 	/// @return the top-level position just before the top item containing this
 	///         mark. For a top-level mark, the same as [#getPosition()].
 	public MDCPosition getTopLevelPosition() {
-		return position;
+		return new MDCPosition(path[0]);
 	}
 
-	/// @return true if this mark lies inside a quadrat, and not between two top
-	///         items.
+	/// @return true if this mark lies inside a top item (a quadrat, a
+	///         cartouche...), and not between two top items.
 	public boolean isInner() {
-		return innerTail != null;
+		return path.length > 1;
 	}
 
 	/**
@@ -158,130 +120,110 @@ public class MDCMark {
 
 	public void release() {
 		topItemList.removeMark(this);
-		position = null;
 		topItemList = null;
 	}
 
-	/**
-	 * a method to update this mark when the model it points to is modified.
-	 * Automatically called by the model. Hence the "package" visibility.
-	 */
+	/// Updates this mark when the text is modified. Automatically called by
+	/// the text, hence the "package" visibility.
+	///
+	/// A modification made deep inside the text reaches the text as a chain of
+	/// [ChildOperation]s, one per level, ending on the actual operation. The
+	/// chain gives the path of the modified element.
 	void updateMark(ModelOperation op) {
-		op.accept(markUpdater);
-		checkInnerPosition();
-	}
-
-	/// Drops the inner part of the position if it doesn't exist anymore.
-	private void checkInnerPosition() {
-		if (innerTail == null) {
-			return;
+		int[] container = new int[0];
+		ModelOperation current = op;
+		while (current instanceof ChildOperation child) {
+			ModelOperation inner = child.getChildOperation();
+			int index = indexOfChild(child.getElement(), inner.getElement());
+			if (index < 0) {
+				// Unexpected structure: just make sure the mark is still valid.
+				checkPosition();
+				return;
+			}
+			container = Arrays.copyOf(container, container.length + 1);
+			container[container.length - 1] = index;
+			current = inner;
 		}
-		int index = position.getIndex();
-		boolean valid = index < topItemList.getNumberOfChildren()
-				&& topItemList.getTopItemAt(index) == innerOwner
-				&& topItemList.isValidPosition(getPosition());
-		if (!valid) {
-			dropInnerPosition();
-		}
-	}
-
-	private void dropInnerPosition() {
-		innerTail = null;
-		innerOwner = null;
-	}
-	
-	private class MarkUpdater implements ModelOperationVisitor {
-		
-		/* (non-Javadoc)
-		 * @see jsesh.model.ModelElementObserver#observedElementChanged(jsesh.model.operations.ModelOperation)
-		 */
-		public void observedElementChanged(ModelOperation operation) {
-			operation.accept(this);
-		}
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitInsertion(jsesh.model.operations.Insertion)
-		 */
-
-		public void visitInsertion(Insertion insertion) {
-			// Top-level edits move the mark back to the top level.
-			dropInnerPosition();
-			if (insertion.getIndex() < position.getIndex()) {
-				advanceBy(insertion.getChildren().size());
-			} else if (insertion.getIndex() == position.getIndex()) {
-				if (gravity.equals(Gravity.FORWARD)) {
-					advanceBy(insertion.getChildren().size());
-				}
+		if (isIn(container)) {
+			if (current instanceof Insertion insertion) {
+				inserted(container.length, insertion.getIndex(), insertion.getChildren().size());
+			} else if (current instanceof Deletion deletion) {
+				deleted(container, deletion.getStart(), deletion.getEnd());
+			} else if (current instanceof Replacement replacement) {
+				replaced(container, replacement.getIndex());
 			}
 		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitDeletion(jsesh.model.operations.Deletion)
-		 */
-
-		public void visitDeletion(Deletion deletion) {
-			dropInnerPosition();
-			// Note that deletion affects the element after the mark.
-			// hence the "<" below.
-			if (deletion.getEnd() <= position.getIndex()) {
-				advanceBy(-deletion.getEnd() + deletion.getStart());
-			} else if (deletion.getStart() < position.getIndex()) {
-				// The mark falls in the deleted zone.
-				setIndex(deletion.getStart());
-			}
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitReplacement(jsesh.model.operations.Replacement)
-		 */
-
-		public void visitReplacement(Replacement replacement) {
-			// CURRENTLY NO-OP.
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitModification(jsesh.model.operations.Modification)
-		 */
-
-		public void visitModification(Modification modification) {
-			// CURRENTLY NO-OP.
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitChildOperation(jsesh.model.operations.ChildOperation)
-		 */
-
-		public void visitChildOperation(ChildOperation operation) {
-			// CURRENTLY NO-OP.
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.operations.ModelOperationVisitor#visitZoneModification(jsesh.model.operations.ZoneModification)
-		 */
-		public void visitZoneModification(ZoneModification modification) {
-			// TODO Auto-generated method stub
-		}
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.util.Observer#update(java.util.Observable,
-		 *      java.lang.Object)
-		 */
-
+		// Other operations (modifications, shading...) don't change the structure.
+		checkPosition();
 	}
 
-	
+	/// Does this mark lie in the element with this path (in one of its gaps, or
+	/// deeper)?
+	private boolean isIn(int[] container) {
+		return path.length > container.length
+				&& Arrays.equals(path, 0, container.length, container, 0, container.length);
+	}
+
+	/// Is the mark in a gap of the element at depth `depth`, rather than inside
+	/// one of its children?
+	private boolean isGapAt(int depth) {
+		return path.length == depth + 1;
+	}
+
+	/// Items have been inserted in the element of depth `depth` containing the mark.
+	private void inserted(int depth, int index, int count) {
+		int k = path[depth];
+		// In a gap, the gravity decides; inside the child at `index`, the
+		// insertion comes before the mark.
+		if (k > index || (k == index && (!isGapAt(depth) || gravity.equals(Gravity.FORWARD)))) {
+			path[depth] += count;
+		}
+	}
+
+	/// Items have been removed from the element `container` containing the mark.
+	private void deleted(int[] container, int start, int end) {
+		int depth = container.length;
+		int k = path[depth];
+		if (k >= end) {
+			path[depth] -= end - start;
+		} else if (isGapAt(depth)) {
+			path[depth] = Math.min(k, start);
+		} else if (k >= start) {
+			// The mark was inside a removed element.
+			path = gapIn(container, start);
+		}
+	}
+
+	/// A child of the element `container` containing the mark has been replaced.
+	private void replaced(int[] container, int index) {
+		if (!isGapAt(container.length) && path[container.length] == index) {
+			path = gapIn(container, index);
+		}
+	}
+
+	private static int[] gapIn(int[] container, int gap) {
+		int[] result = Arrays.copyOf(container, container.length + 1);
+		result[container.length] = gap;
+		return result;
+	}
+
+	/// The index of a child, compared by identity.
+	private static int indexOfChild(ModelElement parent, ModelElement child) {
+		for (int i = 0; i < parent.getNumberOfChildren(); i++) {
+			if (parent.getChildAt(i) == child) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/// If the position is not valid in the text anymore, falls back to the
+	/// top-level position before its top item (clamped to the text bounds).
+	private void checkPosition() {
+		if (!topItemList.isValidPosition(MDCPosition.of(path))) {
+			path = new int[] { Math.min(path[0], topItemList.getNumberOfChildren()) };
+		}
+	}
 
 	/**
 	 * Returns the gravity of this mark. When data at the mark position, the
@@ -295,37 +237,17 @@ public class MDCMark {
 	}
 
 	/**
-	 * Update the position of this mark during a text change. Marks are
-	 * immutable, but they follow the text. Hence their internal representation
-	 * change.
-	 * 
-	 * @param index
-	 */
-	private void setIndex(int index) {
-		if (index < 0
-				|| index > topItemList.getNumberOfChildren())
-			return;
-		if (position.getIndex() != index) {
-			position = new MDCPosition(index);
-		}
-	}
-
-	private void advanceBy(int i) {
-		setIndex(position.getIndex() + i);
-	}
-
-	/**
 	 * @return the element after the mark.
 	 */
 	public TopItem getElementAfter() {
-		return topItemList.getElementAfter(position);
+		return topItemList.getElementAfter(getTopLevelPosition());
 	}
 
 	/**
 	 * @return the element before the mark.
 	 */
 	public TopItem getElementBefore() {
-		return topItemList.getElementBefore(position);
+		return topItemList.getElementBefore(getTopLevelPosition());
 	}
 
 	/**
@@ -336,7 +258,7 @@ public class MDCMark {
 	 * @see HieroglyphicText#getNextPosition(MDCPosition, int)
 	 */
 	public MDCPosition getNextPosition(int i) {
-		return topItemList.getNextPosition(position, i);
+		return topItemList.getNextPosition(getTopLevelPosition(), i);
 	}
 
 	/**
@@ -348,21 +270,16 @@ public class MDCMark {
 		return topItemList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	public String toString() {
-		return position.toString();
+		return getPosition().toString();
 	}
 
 	public boolean hasNext() {
-		return topItemList.hasNext(position);
+		return topItemList.hasNext(getTopLevelPosition());
 	}
 
 	public boolean hasPrevious() {
-		return position.hasPrevious();
+		return getTopLevelPosition().hasPrevious();
 	}
 
 }

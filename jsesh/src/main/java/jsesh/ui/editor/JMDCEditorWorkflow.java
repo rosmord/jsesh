@@ -2018,7 +2018,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 return;
             }
         }
-        // Now, add the item.
+        // Now, add the item. If the cursor is inside a quadrat which can't take
+        // the sign, the sign goes before the quadrat, and so does the cursor.
+        caret.snapToTopLevel();
         MDCPosition pos1, pos2;
         pos1 = caret.getInsertPosition();
         pos2 = pos1.getPreviousPosition(1);

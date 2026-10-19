@@ -1778,3 +1778,21 @@ Step 1 done:
 - `jsesh.model.ItemSequence`, implemented by `HieroglyphicText` and `BasicItemList` (which only `accepts` `BasicItem`s: no line break in a cartouche).
 - `jsesh.model.TextScope`: a scope as the path to its sequence (`ROOT` = the text); `TextScope.containing(text, position)` gives the innermost scope of a position, `positionAt`/`localIndexOf` convert between full positions and gaps of the scope.
 - `InsertCommand`/`RemoveCommand` now hold a scope and gap indices, and resolve the sequence at do/undo time; `CommandFactory` and `HieroglyphicTextModel` got scoped overloads (`insertElementsAt(TextScope, int, List)`, `insertTypedElementsAt`, `replaceElement`, `removeElements`). The top-level methods are the `ROOT` case. View refresh needed nothing: nested changes already reach `MDCViewUpdater` as `ChildOperation`s.
+
+## Editing scopes — step 2: marks follow nested edits
+
+Decision: cartouches and zones are *scope* stops in both granularities (`QUADRAT` and `INNER`); only the interior of quadrats needs `CaretGranularity.INNER`. (Navigation will be adapted in step 3.)
+
+`MDCMark` now keeps a full path instead of "top-level index + inner tail dropped at the first edit". A nested edit reaches the text as a chain of `ChildOperation`s, one per level. The mark follows the chain (looking children up by identity) to find the path of the modified element. Then, if the mark lies in this element (in a gap, or deeper inside a child):
+
+- insertion: shifted if after the insertion point. At the insertion point, a mark in a gap follows its gravity, and a mark inside the child at that index is always shifted;
+- deletion: shifted if after the removed range, brought to its start if in a gap inside it, and set to the gap of a removed child it stood inside;
+- replacement: a mark inside the replaced child falls back to the gap before it.
+
+Finally, an invalid position falls back to the top-level gap before its top item. Marks are purely structural: the result is a valid position, not necessarily a cursor stop.
+
+Consequences:
+
+- Undo/redo of scoped commands keeps the cursor in the cartouche (`ScopedUndoCaretTest`).
+- A top-level edit no longer throws an inner caret back to the top level: the caret stays in its quadrat, which may have moved. The one place where the workflow relied on the old behaviour was the fallback of sign typing (a container where `InnerEdit` can't insert, e.g. an absolute group: the sign goes before the quadrat). It now calls `caret.snapToTopLevel()` first, so the cursor still ends up after the new sign. Other top-level commands used with an inner caret (paste, MDC insertion, modifiers) now leave the caret inside its quadrat. Step 3 will revisit them.
+- `InnerEdit` edits are still applied as a top-level replacement of the quadrat, so undoing them still puts the caret before the quadrat. Moving them to path commands would fix that.

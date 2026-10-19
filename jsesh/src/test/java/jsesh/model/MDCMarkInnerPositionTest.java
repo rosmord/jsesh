@@ -42,12 +42,21 @@ class MDCMarkInnerPositionTest {
     }
 
     @Test
-    void editsAtTopLevelResetTheMarkToTopLevel() {
+    void editsAtTopLevelShiftAnInnerMark() {
         MDCMark mark = new MDCMark(text, MDCPosition.of(1, 0, 1));
         text.addTopItemAt(new MDCPosition(0), new Superscript("1"));
-        assertFalse(mark.isInner());
-        // the mark followed the text, as any top-level mark.
-        assertEquals(new MDCPosition(2), mark.getPosition());
+        // The mark stays in its quadrat, which has moved.
+        assertEquals(MDCPosition.of(2, 0, 1), mark.getPosition());
+        text.removeTopItems(new MDCPosition(0), new MDCPosition(1));
+        assertEquals(MDCPosition.of(1, 0, 1), mark.getPosition());
+    }
+
+    @Test
+    void insertionBeforeTheQuadratOfAMarkMovesIt() {
+        // Inserting exactly at the top-level gap before the quadrat holding the mark.
+        MDCMark mark = new MDCMark(text, MDCPosition.of(1, 0, 1), MDCMark.Gravity.BACKWARD);
+        text.addTopItemAt(new MDCPosition(1), new Superscript("1"));
+        assertEquals(MDCPosition.of(2, 0, 1), mark.getPosition());
     }
 
     @Test
