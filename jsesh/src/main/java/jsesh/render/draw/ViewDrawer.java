@@ -19,6 +19,8 @@ import jsesh.model.constants.TextOrientation;
 import jsesh.document.caret.MDCCaret;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
+import jsesh.model.BasicItemList;
+import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.ModelElement;
 import jsesh.model.MDCPosition;
@@ -850,12 +852,14 @@ public class ViewDrawer {
         innerCursorGap = position.getLastIndex();
     }
 
-    /// Draws the cursor if it stands between two subviews of `v`.
+    /// Draws the cursor if it stands between two subviews of `v`, or at one of
+    /// the edges of `v` if `v` is a list of quadrats (inside a cartouche...).
     ///
     /// The cursor is a line which crosses the view, between the two subviews: a
-    /// vertical line between the elements of a row, a horizontal one between
-    /// rows or between the signs of a ligature. It is thinner than the cursor
-    /// which stands between top-level items.
+    /// vertical line between the elements of a row (or the quadrats of a
+    /// horizontal list), a horizontal one between rows or between the signs of
+    /// a ligature. It is thinner than the cursor which stands between top-level
+    /// items.
     ///
     /// @param g the graphics, in the coordinate system used to draw the subviews of `v`.
     /// @param renderContext the rendering context.
@@ -865,31 +869,82 @@ public class ViewDrawer {
             return;
         }
         int gap = innerCursorGap;
-        if (gap <= 0 || gap >= v.getNumberOfSubviews()) {
+        int n = v.getNumberOfSubviews();
+        if (gap < 0 || gap > n) {
             return;
         }
-        Rectangle2D before = subViewBounds(v, gap - 1);
-        Rectangle2D after = subViewBounds(v, gap);
         JSeshStyle jseshStyles = renderContext.jseshStyle();
+        boolean leftToRight = v.getDirection().isLeftToRight();
         Line2D line;
-        if (v.getModel() instanceof HBox) {
-            // Elements side by side: vertical line.
-            double x = (before.getMaxX() <= after.getMinX())
-                    ? (before.getMaxX() + after.getMinX()) / 2
-                    : (after.getMaxX() + before.getMinX()) / 2;
-            line = new Line2D.Double(x, 0, x, v.getInternalHeight());
+        if (v.getModel() instanceof BasicItemList) {
+            // Quadrats follow each other along the line (or the column) of text.
+            boolean horizontal = jseshStyles.options().textOrientation() == TextOrientation.HORIZONTAL;
+            if (n == 0) {
+                line = crossingLine(v, horizontal, horizontal ? v.getInternalWidth() / 2.0 : v.getInternalHeight() / 2.0);
+            } else if (gap == 0) {
+                Rectangle2D first = subViewBounds(v, 0);
+                line = crossingLine(v, horizontal,
+                        horizontal ? (leftToRight ? first.getMinX() : first.getMaxX()) : first.getMinY());
+            } else if (gap == n) {
+                Rectangle2D last = subViewBounds(v, n - 1);
+                line = crossingLine(v, horizontal,
+                        horizontal ? (leftToRight ? last.getMaxX() : last.getMinX()) : last.getMaxY());
+            } else {
+                line = lineBetween(v, subViewBounds(v, gap - 1), subViewBounds(v, gap), horizontal);
+            }
         } else {
-            // Elements one above the other: horizontal line.
-            double y = (before.getMaxY() <= after.getMinY())
-                    ? (before.getMaxY() + after.getMinY()) / 2
-                    : (after.getMaxY() + before.getMinY()) / 2;
-            line = new Line2D.Double(0, y, v.getInternalWidth(), y);
+            if (gap <= 0 || gap >= n) {
+                return;
+            }
+            Rectangle2D before = subViewBounds(v, gap - 1);
+            Rectangle2D after = subViewBounds(v, gap);
+            if (v.getModel() instanceof HBox) {
+                // Elements side by side: vertical line.
+                line = lineBetween(v, before, after, true);
+            } else if (v.getModel() instanceof ComplexLigature) {
+                // The parts are arranged freely around the main sign. Cut across the
+                // direction which separates them.
+                double dx = Math.abs(before.getCenterX() - after.getCenterX());
+                double dy = Math.abs(before.getCenterY() - after.getCenterY());
+                line = lineBetween(v, before, after, dx > dy);
+            } else {
+                // Elements one above the other: horizontal line.
+                line = lineBetween(v, before, after, false);
+            }
         }
         Color currentColor = g.getColor();
         g.setColor(jseshStyles.painting().cursorColor());
         g.setStroke(jseshStyles.geometry().fineStroke());
         g.draw(line);
         g.setColor(currentColor);
+    }
+
+    /// A line between two areas.
+    ///
+    /// @param v the view containing the areas.
+    /// @param vertical true for a vertical line (areas side by side).
+    private Line2D lineBetween(MDCView v, Rectangle2D before, Rectangle2D after, boolean vertical) {
+        if (vertical) {
+            double x = (before.getMaxX() <= after.getMinX())
+                    ? (before.getMaxX() + after.getMinX()) / 2
+                    : (after.getMaxX() + before.getMinX()) / 2;
+            return crossingLine(v, true, x);
+        }
+        double y = (before.getMaxY() <= after.getMinY())
+                ? (before.getMaxY() + after.getMinY()) / 2
+                : (after.getMaxY() + before.getMinY()) / 2;
+        return crossingLine(v, false, y);
+    }
+
+    /// A line which crosses the whole view.
+    ///
+    /// @param vertical true for a vertical line, which will be at abscissa `coordinate`;
+    ///        false for a horizontal one, at ordinate `coordinate`.
+    private Line2D crossingLine(MDCView v, boolean vertical, double coordinate) {
+        if (vertical) {
+            return new Line2D.Double(coordinate, 0, coordinate, v.getInternalHeight());
+        }
+        return new Line2D.Double(0, coordinate, v.getInternalWidth(), coordinate);
     }
 
     /// The area occupied by a subview, in the coordinate system used to draw

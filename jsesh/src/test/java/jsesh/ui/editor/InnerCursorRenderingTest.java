@@ -67,4 +67,28 @@ class InnerCursorRenderingTest {
         assertFalse(sameImage(inRow, inColumn));
         assertTrue(inRow.getWidth() > 0);
     }
+
+    @Test
+    void cursorIsDrawnInsideCartouchesAndLigatures() throws Exception {
+        JMDCEditor editor = new JMDCEditor();
+        editor.setMDCText("<-A1-N5->-t^^^A&&&n");
+        editor.getWorkflow().setCaretGranularity(CaretGranularity.INNER);
+
+        editor.getWorkflow().setCursor(new MDCPosition(1));
+        BufferedImage outside = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(0, 0, 0, 0, 0));
+        BufferedImage cartoucheStart = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(0, 0, 0, 0, 1));
+        BufferedImage cartoucheMiddle = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(0, 0, 0, 0, 2));
+        BufferedImage cartoucheEnd = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(1, 0, 0, 1));
+        BufferedImage inComplexLigature = render(editor);
+
+        assertFalse(sameImage(outside, cartoucheStart));
+        assertFalse(sameImage(cartoucheStart, cartoucheMiddle));
+        assertFalse(sameImage(cartoucheMiddle, cartoucheEnd));
+        assertFalse(sameImage(cartoucheStart, cartoucheEnd));
+        assertFalse(sameImage(outside, inComplexLigature));
+    }
 }

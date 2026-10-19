@@ -23,12 +23,22 @@ import java.util.List;
 /// - between the rows of a [Cadrat]: `(q, h)`;
 /// - between the elements of a [HBox]: `(q, h, e)`;
 /// - between the signs of a [Ligature]: `(q, h, e, g)`;
+/// - between the parts of a [ComplexLigature] (the group before the main sign,
+///   the main sign, the group after it);
 ///
-/// and so on, recursively. The first and last gaps of a container (0 and n) are
-/// not stops: they coincide visually with the gap which surrounds the
+/// and so on, recursively. The first and last gaps of such a container (0 and n)
+/// are not stops: they coincide visually with the gap which surrounds the
 /// container. Hence, a quadrat which contains one sign only has no inner stop.
-/// Other kinds of elements (hieroglyphs, complex ligatures, absolute groups,
-/// sub-quadrats, cartouches, breaks, alphabetic characters...) are not entered.
+///
+/// A [Cartouche] or a [SubCadrat] is entered too: its content (a
+/// [BasicItemList] of quadrats) is a text in miniature. Here, *all* the gaps of
+/// the list are stops, including the first and the last one, as they are
+/// distinct from the gaps outside the cartouche. For instance, in `<-A1-B1->`,
+/// the stops are `(0)`, `(0,0,0,0,0)` (after the opening of the cartouche),
+/// `(0,0,0,0,1)`, `(0,0,0,0,2)` (before its closing) and `(1)`.
+///
+/// Other kinds of elements (hieroglyphs, absolute groups, breaks, alphabetic
+/// characters...) are not entered.
 ///
 /// Stops are ordered like [MDCPosition#compareTo(MDCPosition)]: `(1) < (1,0,1) <
 /// (1,1) < (2)`.
@@ -57,17 +67,24 @@ public final class PositionNavigator {
 			return;
 		}
 		int n = element.getNumberOfChildren();
-		for (int i = 0; i < n; i++) {
-			// The gap before child i, if it's an interior gap.
-			if (i > 0) {
+		// Lists of quadrats (in cartouches...) have their edges as stops. For other
+		// containers, the edges coincide with the gaps around the container.
+		boolean edgesAreStops = element instanceof BasicItemList;
+		for (int i = 0; i <= n; i++) {
+			// The gap before child i.
+			if (edgesAreStops || (i > 0 && i < n)) {
 				result.add(MDCPosition.of(append(path, i)));
 			}
-			collectStops(element.getChildAt(i), append(path, i), result);
+			if (i < n) {
+				collectStops(element.getChildAt(i), append(path, i), result);
+			}
 		}
 	}
 
 	private static boolean isNavigable(ModelElement element) {
-		return element instanceof Cadrat || element instanceof HBox || element instanceof Ligature;
+		return element instanceof Cadrat || element instanceof HBox || element instanceof Ligature
+				|| element instanceof ComplexLigature || element instanceof Cartouche
+				|| element instanceof SubCadrat || element instanceof BasicItemList;
 	}
 
 	private static int[] append(int[] path, int value) {

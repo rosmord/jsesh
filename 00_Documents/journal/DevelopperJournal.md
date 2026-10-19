@@ -1734,3 +1734,9 @@ Design choices:
 
 See todo 0072 for what remains (editing and selection inside quadrats, mouse, up/down between rows...).
 
+## Cursor inside cartouches, sub-quadrats and complex ligatures
+
+`PositionNavigator` now enters `Cartouche` and `SubCadrat` (through their `BasicItemList`), and `ComplexLigature` (stops between the group before, the main sign and the group after). A cartouche's content is a text in miniature, so *both edges* of a `BasicItemList` are stops (`<-A1-B1->` : `(0) (0,0,0,0,0) (0,0,0,0,1) (0,0,0,0,2) (1)`): they differ from the gaps outside the cartouche, unlike the edges of a quadrat, row or ligature. An empty cartouche has one stop.
+
+`ViewDrawer.testAndDrawInnerCursor` draws these: edge gaps of a `BasicItemList` (vertical line in horizontal text, horizontal otherwise), and, for a `ComplexLigature`, a line cutting across the direction separating the two neighbouring parts.
+

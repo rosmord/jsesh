@@ -104,4 +104,81 @@ class PositionNavigatorTest {
             }
         }
     }
+
+    @Test
+    void cursorEntersCartouches() throws Exception {
+        HieroglyphicText t = parse("<-A1-B1->-C1");
+        // Both edges of the cartouche content are stops, as they differ from the
+        // positions around the cartouche.
+        List<MDCPosition> expected = List.of(p(0), p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2), p(1), p(2));
+        assertEquals(expected, walkForward(t, CaretGranularity.INNER));
+        assertEquals(List.of(p(0), p(1), p(2)), walkForward(t, CaretGranularity.QUADRAT));
+    }
+
+    @Test
+    void cursorEntersTheQuadratsInsideACartouche() throws Exception {
+        HieroglyphicText t = parse("<-A1:B1-C1->");
+        assertEquals(List.of(p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 0, 1), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2)),
+                PositionNavigator.innerStops(t, 0));
+    }
+
+    @Test
+    void cursorEntersNestedCartouches() throws Exception {
+        HieroglyphicText t = parse("<-A1-<-B1->->");
+        List<MDCPosition> stops = PositionNavigator.innerStops(t, 0);
+        assertEquals(5, stops.size());
+        assertTrue(stops.contains(p(0, 0, 0, 0, 1, 0, 0, 0, 0)));
+        assertTrue(stops.contains(p(0, 0, 0, 0, 1, 0, 0, 0, 1)));
+    }
+
+    @Test
+    void cursorEntersSubQuadrats() throws Exception {
+        HieroglyphicText t = parse("(A1-B1)");
+        assertEquals(List.of(p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2)),
+                PositionNavigator.innerStops(t, 0));
+    }
+
+    @Test
+    void cursorEntersLigatures() throws Exception {
+        HieroglyphicText t = parse("A1&B1&C1-D1");
+        assertEquals(List.of(p(0, 0, 0, 1), p(0, 0, 0, 2)), PositionNavigator.innerStops(t, 0));
+        assertEquals(List.of(p(0), p(0, 0, 0, 1), p(0, 0, 0, 2), p(1), p(2)), walkForward(t, CaretGranularity.INNER));
+    }
+
+    @Test
+    void cursorEntersComplexLigatures() throws Exception {
+        // t^^^A&&&n : a sign, with a group before and a group after.
+        HieroglyphicText t = parse("t^^^A&&&n");
+        assertEquals(List.of(p(0, 0, 0, 1), p(0, 0, 0, 2)), PositionNavigator.innerStops(t, 0));
+        // a complex ligature with only one extra group.
+        t = parse("t&&&A");
+        assertEquals(List.of(p(0, 0, 0, 1)), PositionNavigator.innerStops(t, 0));
+    }
+
+    @Test
+    void cursorEntersLigaturesInsideCartouches() throws Exception {
+        HieroglyphicText t = parse("<-A1&B1-C1->");
+        List<MDCPosition> expected = List.of(p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 0, 0, 0, 1), p(0, 0, 0, 0, 1),
+                p(0, 0, 0, 0, 2));
+        assertEquals(expected, PositionNavigator.innerStops(t, 0));
+    }
+
+    @Test
+    void emptyCartoucheHasOneStop() throws Exception {
+        HieroglyphicText t = parse("<-->");
+        assertEquals(List.of(p(0, 0, 0, 0, 0)), PositionNavigator.innerStops(t, 0));
+    }
+
+    @Test
+    void previousIsTheInverseOfNextInsideCartouchesAndLigatures() throws Exception {
+        HieroglyphicText t = parse("<-A1&B1-C1:D1->-t^^^A&&&n-(A1-B1)-D1:E1");
+        List<MDCPosition> forward = walkForward(t, CaretGranularity.INNER);
+        for (int i = 1; i < forward.size(); i++) {
+            assertEquals(forward.get(i - 1), PositionNavigator.previous(t, forward.get(i), CaretGranularity.INNER));
+            assertTrue(t.isValidPosition(forward.get(i)), forward.get(i).toString());
+        }
+        List<MDCPosition> sorted = new ArrayList<>(forward);
+        sorted.sort(null);
+        assertEquals(sorted, forward);
+    }
 }
