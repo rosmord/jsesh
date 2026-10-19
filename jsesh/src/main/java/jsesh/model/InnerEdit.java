@@ -13,6 +13,12 @@ import java.util.Optional;
 /// Editing at *inner* positions of a [HieroglyphicText]: the gaps inside a
 /// quadrat, as listed by [PositionNavigator].
 ///
+/// The gaps between the quadrats of a cartouche or of a sub-quadrat are not
+/// inner positions: they belong to an editing scope ([TextScope]), which is
+/// edited like the top level of the text (see
+/// `jsesh.document.EditingScope`). The operations below refuse them. They
+/// work, however, inside a quadrat of such a scope.
+///
 /// The text itself is never modified. Each operation computes the new version
 /// of the top item which contains the position, as a copy, and the position
 /// where the cursor should stand afterwards. The caller then replaces the top
@@ -28,7 +34,6 @@ import java.util.Optional;
 /// | [Cadrat] (between rows)                     | a new row (as with `:`)     | a row      |
 /// | [HBox] (between elements of a row)          | a new element (as with `*`) | an element |
 /// | [Ligature]                                  | a new sign (as with `&`)    | a sign     |
-/// | [BasicItemList] (content of a cartouche...) | a new quadrat               | a quadrat  |
 ///
 /// Other containers ([ComplexLigature], [AbsoluteGroup]) are not supported yet.
 public final class InnerEdit {
@@ -68,8 +73,6 @@ public final class InnerEdit {
 			container.addChildAt(gap, new HBox(sign));
 		} else if (container instanceof HBox || container instanceof Ligature) {
 			container.addChildAt(gap, sign);
-		} else if (container instanceof BasicItemList) {
-			container.addChildAt(gap, new Cadrat(sign));
 		} else {
 			return Optional.empty();
 		}
@@ -159,8 +162,7 @@ public final class InnerEdit {
 	}
 
 	private static boolean isSupportedContainer(ModelElement container) {
-		return container instanceof Cadrat || container instanceof HBox || container instanceof Ligature
-				|| container instanceof BasicItemList;
+		return container instanceof Cadrat || container instanceof HBox || container instanceof Ligature;
 	}
 
 	/// A copy of the top item which holds a nested position.

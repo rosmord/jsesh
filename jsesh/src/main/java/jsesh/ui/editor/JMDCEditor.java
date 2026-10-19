@@ -620,8 +620,8 @@ public class JMDCEditor extends JPanel {
     protected Rectangle getCursorRectangle() {
         MDCCaret caret = workflow.getCaret();
         Rectangle2D r1 = null;
-        if (caret.isInsertInner()) {
-            // Inside a quadrat: follow the cursor itself.
+        if (caret.getInsert().isInner()) {
+            // Inside a quadrat or a cartouche: follow the cursor itself.
             r1 = CursorLocator.locate(getView(), caret.getInsertExactPosition(), getJSeshStyle())
                     .map(CursorLocator.Location::bounds).orElse(null);
         }

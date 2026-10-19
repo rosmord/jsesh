@@ -61,10 +61,8 @@ class InnerEditTest {
     }
 
     @Test
-    void insertInACartouche() throws Exception {
-        assertEquals("<-A1-C1-B1->", insert("<-A1-B1->", p(0, 0, 0, 0, 1), "C1", p(0, 0, 0, 0, 2)));
-        assertEquals("<-C1-A1-B1->", insert("<-A1-B1->", p(0, 0, 0, 0, 0), "C1", p(0, 0, 0, 0, 1)));
-        assertEquals("<-A1-B1-C1->", insert("<-A1-B1->", p(0, 0, 0, 0, 2), "C1", p(0, 0, 0, 0, 3)));
+    void insertInAQuadratOfACartouche() throws Exception {
+        assertEquals("<-A1-B1*D1*C1->", insert("<-A1-B1*C1->", p(0, 0, 0, 0, 1, 0, 1), "D1", p(0, 0, 0, 0, 1, 0, 2)));
     }
 
     @Test
@@ -94,16 +92,18 @@ class InnerEditTest {
     }
 
     @Test
-    void deleteInACartouche() throws Exception {
-        assertEquals("<-B1->", delete("<-A1-B1->", p(0, 0, 0, 0, 1), true, p(0, 0, 0, 0, 0)));
-        assertEquals("<-A1->", delete("<-A1-B1->", p(0, 0, 0, 0, 1), false, p(0, 0, 0, 0, 1)));
+    void deleteInAQuadratOfACartouche() throws Exception {
+        // The quadrat is left with one sign: the cursor goes back to the gap of the cartouche.
+        assertEquals("<-A1-C1->", delete("<-A1-B1*C1->", p(0, 0, 0, 0, 1, 0, 1), true, p(0, 0, 0, 0, 1)));
     }
 
     @Test
-    void nothingToDeleteAtTheEdgesOfACartouche() throws Exception {
+    void gapsOfACartoucheAreNotInnerPositions() throws Exception {
+        // They are edited as a scope (jsesh.document.EditingScope).
         HieroglyphicText t = parse("<-A1-B1->");
-        assertTrue(InnerEdit.deleteBefore(t, p(0, 0, 0, 0, 0)).isEmpty());
-        assertTrue(InnerEdit.deleteAfter(t, p(0, 0, 0, 0, 2)).isEmpty());
+        assertTrue(InnerEdit.insertSign(t, p(0, 0, 0, 0, 1), new Hieroglyph("C1")).isEmpty());
+        assertTrue(InnerEdit.deleteBefore(t, p(0, 0, 0, 0, 1)).isEmpty());
+        assertTrue(InnerEdit.deleteAfter(t, p(0, 0, 0, 0, 1)).isEmpty());
     }
 
     @Test

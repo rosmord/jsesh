@@ -14,8 +14,10 @@ import java.util.List;
 /// Computes the successive places where the cursor may stand in a
 /// [HieroglyphicText], depending on a [CaretGranularity].
 ///
-/// With [CaretGranularity#QUADRAT], the cursor stands on top-level positions
-/// only: `(0)`, `(1)`, ...
+/// With [CaretGranularity#QUADRAT], the cursor stands between quadrats:
+/// on top-level positions `(0)`, `(1)`, ..., and on the gaps of the editing
+/// scopes nested in them (the content of cartouches and sub-quadrats, see
+/// below and [TextScope]).
 ///
 /// With [CaretGranularity#INNER], it also stands on the *interior* gaps of
 /// the quadrats, taken in document order:
@@ -48,36 +50,50 @@ public final class PositionNavigator {
 	private PositionNavigator() {
 	}
 
-	/// Lists the interior stops of a top-level item, in document order.
+	/// Lists the interior stops of a top-level item, in document order, for
+	/// [CaretGranularity#INNER].
 	///
 	/// @param text the text.
 	/// @param topIndex the index of a top-level item of `text`.
 	/// @return the stops inside the item (empty if there is none, or if the
 	///         index is invalid).
 	public static List<MDCPosition> innerStops(HieroglyphicText text, int topIndex) {
+		return stops(text, topIndex, CaretGranularity.INNER);
+	}
+
+	/// Lists the stops inside a top-level item, in document order.
+	///
+	/// @param text the text.
+	/// @param topIndex the index of a top-level item of `text`.
+	/// @param granularity the kinds of stops: with [CaretGranularity#QUADRAT],
+	///        only the gaps of the nested scopes (cartouches...).
+	/// @return the stops inside the item (empty if there is none, or if the
+	///         index is invalid).
+	public static List<MDCPosition> stops(HieroglyphicText text, int topIndex, CaretGranularity granularity) {
 		if (topIndex < 0 || topIndex >= text.getNumberOfChildren()) {
 			return Collections.emptyList();
 		}
 		List<MDCPosition> result = new ArrayList<>();
-		collectStops(text.getChildAt(topIndex), new int[] { topIndex }, result);
+		collectStops(text.getChildAt(topIndex), new int[] { topIndex }, granularity == CaretGranularity.INNER,
+				result);
 		return result;
 	}
 
-	private static void collectStops(ModelElement element, int[] path, List<MDCPosition> result) {
+	private static void collectStops(ModelElement element, int[] path, boolean interior, List<MDCPosition> result) {
 		if (!isNavigable(element)) {
 			return;
 		}
 		int n = element.getNumberOfChildren();
 		// Lists of quadrats (in cartouches...) have their edges as stops. For other
 		// containers, the edges coincide with the gaps around the container.
-		boolean edgesAreStops = element instanceof BasicItemList;
+		boolean isScope = element instanceof BasicItemList;
 		for (int i = 0; i <= n; i++) {
 			// The gap before child i.
-			if (edgesAreStops || (i > 0 && i < n)) {
+			if (isScope || (interior && i > 0 && i < n)) {
 				result.add(MDCPosition.of(append(path, i)));
 			}
 			if (i < n) {
-				collectStops(element.getChildAt(i), append(path, i), result);
+				collectStops(element.getChildAt(i), append(path, i), interior, result);
 			}
 		}
 	}
@@ -182,23 +198,14 @@ public final class PositionNavigator {
 	/// @param position a valid position in `text`. It may be nested.
 	/// @param granularity the kinds of stops allowed.
 	/// @return the stop after `position` (`position` itself at the end of the
-	///         text). With [CaretGranularity#QUADRAT], a nested position is
-	///         first snapped to the top-level position before its item.
+	///         text).
 	public static MDCPosition next(HieroglyphicText text, MDCPosition position, CaretGranularity granularity) {
 		int top = position.getPath()[0];
 		int n = text.getNumberOfChildren();
-		if (granularity == CaretGranularity.QUADRAT) {
-			// Nested positions are first snapped to the position before their top item.
-			return text.getPositionAt(top + 1);
+		if (position.isTop() && top >= n) {
+			return text.getLastPosition();
 		}
-		List<MDCPosition> stops = innerStops(text, top);
-		if (position.isTop()) {
-			if (top >= n) {
-				return text.getLastPosition();
-			}
-			return stops.isEmpty() ? text.getPositionAt(top + 1) : stops.get(0);
-		}
-		for (MDCPosition stop : stops) {
+		for (MDCPosition stop : stops(text, top, granularity)) {
 			if (stop.compareTo(position) > 0) {
 				return stop;
 			}
@@ -210,22 +217,17 @@ public final class PositionNavigator {
 	/// @param position a valid position in `text`. It may be nested.
 	/// @param granularity the kinds of stops allowed.
 	/// @return the stop before `position` (`position` itself at the start of the
-	///         text). With [CaretGranularity#QUADRAT], a nested position is
-	///         first snapped to the top-level position before its item.
+	///         text).
 	public static MDCPosition previous(HieroglyphicText text, MDCPosition position, CaretGranularity granularity) {
 		int top = position.getPath()[0];
-		if (granularity == CaretGranularity.QUADRAT) {
-			// Nested positions are first snapped to the position before their top item.
-			return text.getPositionAt(top - 1);
-		}
 		if (position.isTop()) {
 			if (top <= 0) {
 				return text.getPositionAt(0);
 			}
-			List<MDCPosition> before = innerStops(text, top - 1);
+			List<MDCPosition> before = stops(text, top - 1, granularity);
 			return before.isEmpty() ? text.getPositionAt(top - 1) : before.get(before.size() - 1);
 		}
-		List<MDCPosition> stops = innerStops(text, top);
+		List<MDCPosition> stops = stops(text, top, granularity);
 		for (int i = stops.size() - 1; i >= 0; i--) {
 			if (stops.get(i).compareTo(position) < 0) {
 				return stops.get(i);

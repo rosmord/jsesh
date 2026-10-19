@@ -80,9 +80,9 @@ class PositionNavigatorTest {
     void quadratGranularityIgnoresInnerStops() throws Exception {
         HieroglyphicText t = parse("A1*B1*C1-D1:E1");
         assertEquals(List.of(p(0), p(1), p(2)), walkForward(t, CaretGranularity.QUADRAT));
-        // a nested position is first snapped to the position before its item.
+        // from inside a quadrat, the cursor goes to the gaps around it.
         assertEquals(p(1), PositionNavigator.next(t, p(0, 0, 1), CaretGranularity.QUADRAT));
-        assertEquals(p(0), PositionNavigator.previous(t, p(1, 1), CaretGranularity.QUADRAT));
+        assertEquals(p(1), PositionNavigator.previous(t, p(1, 1), CaretGranularity.QUADRAT));
     }
 
     @Test
@@ -112,7 +112,15 @@ class PositionNavigatorTest {
         // positions around the cartouche.
         List<MDCPosition> expected = List.of(p(0), p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2), p(1), p(2));
         assertEquals(expected, walkForward(t, CaretGranularity.INNER));
-        assertEquals(List.of(p(0), p(1), p(2)), walkForward(t, CaretGranularity.QUADRAT));
+        // cartouches are entered with both granularities.
+        assertEquals(expected, walkForward(t, CaretGranularity.QUADRAT));
+    }
+
+    @Test
+    void quadratGranularityStopsBetweenTheQuadratsOfACartouche() throws Exception {
+        HieroglyphicText t = parse("<-A1:B1-C1->");
+        assertEquals(List.of(p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2)),
+                PositionNavigator.stops(t, 0, CaretGranularity.QUADRAT));
     }
 
     @Test

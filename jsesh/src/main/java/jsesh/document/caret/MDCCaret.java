@@ -45,6 +45,7 @@ import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.PositionNavigator;
+import jsesh.model.TextScope;
 
 /**
  * The caret represent the editing position in a text. It takes in account both
@@ -127,27 +128,122 @@ public class MDCCaret {
 		return insert.getPosition();
 	}
 
-	/// @return true if the insertion point lies inside a quadrat, and not between
-	///         two top-level items.
+	/// @return true if the insertion point lies inside a quadrat, and not in a
+	///         gap of its scope (between two top-level items, or between two
+	///         quadrats of a cartouche...).
 	public boolean isInsertInner() {
-		return insert.isInner();
+		return !getInsertScope().isGap(insert.getPosition());
 	}
 
-	/// Moves the insertion point by a number of stops, taking into account the
-	/// positions inside quadrats (see [jsesh.model.CaretGranularity#INNER]). The
-	/// result is clamped to the text bounds.
+	/// Moves the insertion point by a number of stops (see
+	/// [PositionNavigator]). The result is clamped to the text bounds.
 	///
 	/// @param delta the number of stops to move by (may be negative).
-	public void moveInsertInner(int delta) {
-		setInsertPosition(PositionNavigator.move(getModel(), insert.getPosition(), delta, CaretGranularity.INNER));
+	/// @param granularity the kind of stops: with
+	///        [CaretGranularity#QUADRAT], the cursor stops between quadrats, in
+	///        the text and in the cartouches; with [CaretGranularity#INNER],
+	///        inside the quadrats too.
+	public void moveInsert(int delta, CaretGranularity granularity) {
+		setInsertPosition(PositionNavigator.move(getModel(), insert.getPosition(), delta, granularity));
 	}
 
-	/// If the insertion point lies inside a quadrat, moves it to the position
-	/// just before this quadrat. Does nothing otherwise.
-	public void snapToTopLevel() {
-		if (insert.isInner()) {
-			setInsertPosition(insert.getTopLevelPosition());
+	/// If the insertion point lies inside a quadrat (see [#isInsertInner()]),
+	/// moves it to the gap of its scope just before this quadrat. Does nothing
+	/// otherwise.
+	public void snapToScopeLevel() {
+		if (isInsertInner()) {
+			TextScope scope = getInsertScope();
+			setInsertPosition(scope.positionAt(scope.localIndexOf(insert.getPosition())));
 		}
+	}
+
+	// ---- scopes ----
+
+	/// @return the innermost scope (the text, the content of a cartouche...)
+	///         which contains the insertion point.
+	public TextScope getInsertScope() {
+		return TextScope.containing(getModel(), insert.getPosition());
+	}
+
+	/// The scope where editing takes place: the scope of the insertion point,
+	/// or, if there is a selection, the innermost scope which contains both its
+	/// ends. For instance, a selection from inside a cartouche to the outside
+	/// of it is a selection in the text, which includes the whole cartouche.
+	///
+	/// @return the current scope.
+	public TextScope getScope() {
+		if (hasMark() && !mark.getPosition().equals(insert.getPosition())) {
+			return TextScope.common(getModel(), insert.getPosition(), mark.getPosition());
+		}
+		return getInsertScope();
+	}
+
+	/// The insertion point, as a local position of [#getScope()].
+	///
+	/// Without selection, if the insertion point lies inside a quadrat, this
+	/// is the gap before the quadrat. With a selection, the position is
+	/// rounded outwards, so that the selection covers the whole items in
+	/// which its ends lie.
+	///
+	/// @return a local position (one-level).
+	public MDCPosition getLocalInsertPosition() {
+		return localPosition(insert, mark);
+	}
+
+	/// The mark, as a local position of [#getScope()] (see
+	/// [#getLocalInsertPosition()]).
+	///
+	/// @return a local position; the local insert position if there is no mark.
+	public MDCPosition getLocalMarkPosition() {
+		if (mark == null) {
+			return getLocalInsertPosition();
+		}
+		return localPosition(mark, insert);
+	}
+
+	/// @return the start of the selection, as a local position of
+	///         [#getScope()] (the local insert position if there is no
+	///         selection).
+	public MDCPosition getLocalMinPosition() {
+		if (!hasSelection()) {
+			return getLocalInsertPosition();
+		}
+		MDCPosition a = getLocalInsertPosition();
+		MDCPosition b = getLocalMarkPosition();
+		return a.compareTo(b) <= 0 ? a : b;
+	}
+
+	/// @return the end of the selection, as a local position of [#getScope()].
+	public MDCPosition getLocalMaxPosition() {
+		if (!hasSelection()) {
+			return getLocalInsertPosition();
+		}
+		MDCPosition a = getLocalInsertPosition();
+		MDCPosition b = getLocalMarkPosition();
+		return a.compareTo(b) >= 0 ? a : b;
+	}
+
+	/// Moves the insertion point to a local position of [#getScope()].
+	///
+	/// @param local a local position.
+	public void setLocalInsertPosition(MDCPosition local) {
+		setInsertPosition(getScope().positionAt(local.getIndex()));
+	}
+
+	/// Sets the mark at a local position of [#getScope()].
+	///
+	/// @param local a local position.
+	public void setLocalMarkPosition(MDCPosition local) {
+		setMarkPosition(getScope().positionAt(local.getIndex()));
+	}
+
+	/// The local position of `end` in the current scope; rounded outwards with
+	/// respect to `other` (the other end of the selection) if there is one.
+	private MDCPosition localPosition(MDCMark end, MDCMark other) {
+		TextScope scope = getScope();
+		MDCPosition p = end.getPosition();
+		boolean upper = other != null && hasSelection() && p.compareTo(other.getPosition()) > 0;
+		return new MDCPosition(upper ? scope.localIndexAfter(p) : scope.localIndexOf(p));
 	}
 	
 	public void setInsert(MDCMark insert) {
@@ -246,38 +342,56 @@ public class MDCCaret {
 	}
 
 	/// Returns the minimal position for the caret range (the insert position
-	/// if there is no mark).
+	/// if there is no selection), as a top-level position. Ends of the
+	/// selection which lie inside top items are rounded outwards.
 	///
 	/// @return the minimal position for the caret range.
 	public MDCPosition getMinPosition() {
-		MDCPosition p = getInsertPosition();
-		if (hasMark() && getMarkPosition().compareTo(p) < 0) {
-			p = getMarkPosition();
+		if (!hasSelection()) {
+			return getInsertPosition();
 		}
-		return p;
+		MDCPosition a = insert.getPosition();
+		MDCPosition b = mark.getPosition();
+		return (a.compareTo(b) <= 0 ? a : b).getTopLevelPosition();
 	}
 
 	/// Returns the maximal position for the caret range (the insert position
-	/// if there is no mark).
+	/// if there is no selection), as a top-level position (see
+	/// [#getMinPosition()]).
 	///
 	/// @return the maximal position for the caret range.
 	public MDCPosition getMaxPosition() {
-		MDCPosition p = getInsertPosition();
-		if (hasMark() && getMarkPosition().compareTo(p) > 0) {
-			p = getMarkPosition();
+		if (!hasSelection()) {
+			return getInsertPosition();
 		}
-		return p;
+		MDCPosition a = insert.getPosition();
+		MDCPosition b = mark.getPosition();
+		return TextScope.ROOT.positionAt(TextScope.ROOT.localIndexAfter(a.compareTo(b) >= 0 ? a : b));
 	}
 
-    /// True if some text is selected. This means that
-    ///
-    /// 1. there is a mark;
-    /// 2. the mark is different from the current position.
-    ///
-    /// @return true if some text is selected
-    public boolean hasSelection() {
-        return hasMark() && !getMarkPosition().equals(getInsertPosition());
-    }
+	/// True if some text is selected. This means that
+	///
+	/// 1. there is a mark;
+	/// 2. the selection, once its ends are brought to the scope which contains
+	///    them both (see [#getScope()]), is not empty.
+	///
+	/// Two different positions inside the same quadrat select this quadrat.
+	///
+	/// @return true if some text is selected
+	public boolean hasSelection() {
+		if (!hasMark()) {
+			return false;
+		}
+		MDCPosition a = insert.getPosition();
+		MDCPosition b = mark.getPosition();
+		if (a.equals(b)) {
+			return false;
+		}
+		TextScope scope = TextScope.common(getModel(), a, b);
+		MDCPosition min = a.compareTo(b) <= 0 ? a : b;
+		MDCPosition max = a.compareTo(b) <= 0 ? b : a;
+		return scope.localIndexOf(min) != scope.localIndexAfter(max);
+	}
 
 	public void setInsertPosition(MDCPosition p) {
 		MDCMark newInsert= new MDCMark(getModel(), p);

@@ -1796,3 +1796,19 @@ Consequences:
 - Undo/redo of scoped commands keeps the cursor in the cartouche (`ScopedUndoCaretTest`).
 - A top-level edit no longer throws an inner caret back to the top level: the caret stays in its quadrat, which may have moved. The one place where the workflow relied on the old behaviour was the fallback of sign typing (a container where `InnerEdit` can't insert, e.g. an absolute group: the sign goes before the quadrat). It now calls `caret.snapToTopLevel()` first, so the cursor still ends up after the new sign. Other top-level commands used with an inner caret (paste, MDC insertion, modifiers) now leave the caret inside its quadrat. Step 3 will revisit them.
 - `InnerEdit` edits are still applied as a top-level replacement of the quadrat, so undoing them still puts the caret before the quadrat. Moving them to path commands would fix that.
+
+## Editing scopes — step 3: the editor works in the current scope
+
+The whole editor now works inside cartouches and sub-quadrats as at the top level of the text: grouping with `*`, `:` and `&`, MDC insertion and paste, glossary entries, selections, grouping commands, sign and quadrat modifiers, word moves, Home/End...
+
+- `jsesh.document.EditingScope`: a view of one scope of a `HieroglyphicTextModel` as if it were a whole text, with **local** one-level positions. It has the methods the workflow used on the model (`insertElementsAt`, `replaceElement`, `replaceElementBefore`, `removeElements`, `getTopItemsBetween`, `getItemBefore`, `insertMDCText`, line and page limits...). The edits go through the scoped undoable commands. Items the scope can't hold (a line break or a superscript in a cartouche) are ignored, and the method returns false.
+- `MDCCaret`:
+  - `getScope()` is the scope of the insertion point; with a selection, it is the innermost scope containing both ends (`TextScope.common`).
+  - `getLocalInsertPosition()`, `getLocalMarkPosition()` and `getLocalMin/MaxPosition()` are positions in that scope. Without a selection, a cursor inside a quadrat gives the gap before it. A selection is rounded outwards, so it covers the whole items its ends lie in: selecting from inside a cartouche to outside it selects the whole cartouche.
+  - `hasSelection()` and the top-level `getMin/MaxPosition()` follow the same rules (the latter are rounded at the top level).
+  - `isInsertInner()` now means "inside a quadrat of its scope". A gap of a cartouche is not inner.
+  - `moveInsert(delta, granularity)` replaces `moveInsertInner`, and `snapToScopeLevel()` replaces `snapToTopLevel()`.
+- `JMDCEditorWorkflow`: every `hieroglyphicTextModel.X(caret.getInsertPosition()…)` became `scope().X(caret.getLocalInsertPosition()…)`. What stays top-level: Up/Down (they leave the cartouche, from the top-level position), Select All, and the MdC line field (`getCurrentLineAsString`/`setCurrentLineTo`: the line of the text containing the cartouche).
+- `PositionNavigator.stops(text, top, granularity)`: with `QUADRAT`, the stops are the top-level gaps plus the gaps of nested scopes. So the arrows enter cartouches in both granularities; `INNER` adds the quadrat interiors. Moving left from inside a quadrat now goes to the gap just before it (the same as with `INNER`), not one quadrat further.
+- `InnerEdit` lost its `BasicItemList` branch: the gaps of a cartouche are scope positions. It still edits the inside of a quadrat, including a quadrat in a cartouche.
+- Known limit: `ViewDrawer` highlights a selection by top-level item, so a selection inside a cartouche is drawn as the whole cartouche.

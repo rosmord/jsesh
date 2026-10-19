@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.CaretGranularity;
 import jsesh.model.MDCPosition;
 
 /// Tests the position-based API of [MDCCaret].
@@ -106,25 +107,25 @@ class MDCCaretTest {
         assertEquals(pos(1), c.getMaxPosition());
         assertFalse(c.hasSelection());
 
-        c.snapToTopLevel();
+        c.snapToScopeLevel();
         assertFalse(c.isInsertInner());
         assertEquals(pos(1), c.getInsertExactPosition());
     }
 
     @Test
-    void moveInsertInnerWalksThroughTheQuadrats() throws Exception {
+    void moveInsertWalksThroughTheQuadrats() throws Exception {
         MDCCaret c = new MDCCaret(new MDCParserModelGenerator().parse("A1-B1*C1-D1:E1"));
-        c.moveInsertInner(1);
+        c.moveInsert(1, CaretGranularity.INNER);
         assertEquals(pos(1), c.getInsertExactPosition());
-        c.moveInsertInner(1);
+        c.moveInsert(1, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
-        c.moveInsertInner(1);
+        c.moveInsert(1, CaretGranularity.INNER);
         assertEquals(pos(2), c.getInsertExactPosition());
-        c.moveInsertInner(1);
+        c.moveInsert(1, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(2, 1), c.getInsertExactPosition());
-        c.moveInsertInner(-2);
+        c.moveInsert(-2, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
-        c.moveInsertInner(-100);
+        c.moveInsert(-100, CaretGranularity.INNER);
         assertEquals(pos(0), c.getInsertExactPosition());
     }
 

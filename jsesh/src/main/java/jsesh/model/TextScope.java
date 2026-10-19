@@ -64,6 +64,48 @@ public final class TextScope {
 		return of(Arrays.copyOf(p, depth));
 	}
 
+	/// The innermost scope containing two positions: the scope where a
+	/// selection between them can be edited.
+	///
+	/// @param text the text.
+	/// @param p1 a position.
+	/// @param p2 another position.
+	/// @return the innermost scope containing both.
+	public static TextScope common(HieroglyphicText text, MDCPosition p1, MDCPosition p2) {
+		TextScope scope = containing(text, p1);
+		while (!scope.contains(p2)) {
+			scope = scope.enclosing(text);
+		}
+		return scope;
+	}
+
+	/// The scope around this one: for the content of a cartouche, the scope
+	/// which contains the cartouche.
+	///
+	/// @param text the text.
+	/// @return the enclosing scope; the root for the root itself.
+	public TextScope enclosing(HieroglyphicText text) {
+		return isRoot() ? ROOT : containing(text, MDCPosition.of(path));
+	}
+
+	/// The gap of this scope at, or just after, a position: the gap itself for a
+	/// gap of the scope, the gap after the item for a position inside an item.
+	///
+	/// @param position a position contained in this scope.
+	/// @return the gap index.
+	/// @throws IllegalArgumentException if the position is not in this scope.
+	public int localIndexAfter(MDCPosition position) {
+		int index = localIndexOf(position);
+		return isGap(position) ? index : index + 1;
+	}
+
+	/// @param position a position contained in this scope.
+	/// @return true if it's a gap of the scope itself, false if it lies inside
+	///         one of its items.
+	public boolean isGap(MDCPosition position) {
+		return position.depth() == path.length + 1;
+	}
+
 	/// @return true for the text itself.
 	public boolean isRoot() {
 		return path.length == 0;
