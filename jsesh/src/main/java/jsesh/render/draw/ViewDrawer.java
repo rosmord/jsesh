@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
@@ -24,6 +25,7 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.ModelElement;
 import jsesh.model.MDCPosition;
+import jsesh.model.TextScope;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
@@ -41,6 +43,9 @@ import jsesh.render.view.MDCView;
  *
  */
 public class ViewDrawer {
+
+    /// The colour used to highlight the selection.
+    private static final Color SELECTION_COLOR = new Color(0, 0, 255, 50);
 
     /**
      * Should we clip the drawing to the visible area?
@@ -464,7 +469,8 @@ public class ViewDrawer {
      * @param v the view
      */
     private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
-        if (selectionCaret != null && selectionCaret.hasMark()) {
+        // A selection inside a cartouche... is drawn by drawNestedSelection.
+        if (selectionCaret != null && selectionCaret.hasMark() && selectionCaret.getScope().isRoot()) {
             JSeshStyle jseshStyles = renderContext.jseshStyle();
             int a = selectionCaret.getMinPosition().getIndex();
             int b = selectionCaret.getMaxPosition().getIndex();
@@ -485,7 +491,7 @@ public class ViewDrawer {
                 // the values of dx and dy.
                 // h= h+ v.getNextViewPosition().getDy();
 
-                g.setColor(new Color(0, 0, 255, 50));
+                g.setColor(SELECTION_COLOR);
                 g.fill(new Rectangle2D.Double(0, 0, w, h));
             }
         }
@@ -656,6 +662,36 @@ public class ViewDrawer {
         }
     }
 
+    /// Highlights a selection which lies inside a cartouche (or another nested
+    /// scope): only the selected quadrats of the cartouche are highlighted (see
+    /// [SelectionLocator]).
+    ///
+    /// @param g the graphics, in the state used to draw `view`.
+    /// @param view the view of the whole text.
+    /// @param caret the caret (may be null).
+    private void drawNestedSelection(Graphics2D g, MDCView view, MDCCaret caret) {
+        if (caret == null || !caret.hasSelection()) {
+            return;
+        }
+        TextScope scope = caret.getScope();
+        if (scope.isRoot()) {
+            return;
+        }
+        List<Rectangle2D> areas = SelectionLocator.locate(view, scope, caret.getLocalMinPosition().getIndex(),
+                caret.getLocalMaxPosition().getIndex());
+        Graphics2D tmpG = (Graphics2D) g.create();
+        try {
+            // The areas are expressed in the system used to draw the subviews of view.
+            tmpG.transform(view.getAffineTransform());
+            tmpG.setColor(SELECTION_COLOR);
+            for (Rectangle2D area : areas) {
+                tmpG.fill(area);
+            }
+        } finally {
+            tmpG.dispose();
+        }
+    }
+
     private void drawViewAndSelection(Graphics2D g2d, JSeshRenderContext renderContext,
             JSeshTechRenderContext techRenderContext,
             MDCView view,
@@ -664,6 +700,7 @@ public class ViewDrawer {
         this.selectionCaret = caret;
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
         drawView(g2d, renderContext, view, start, end, 0);
+        drawNestedSelection(g2d, view, caret);
         this.selectionCaret = null; // To avoid short-term memory leak.
         this.pageCoordinateSystem = null;
         elementDrawer.cleanup();

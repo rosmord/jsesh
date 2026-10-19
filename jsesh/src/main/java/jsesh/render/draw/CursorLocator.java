@@ -72,10 +72,46 @@ public final class CursorLocator {
     /// @return the shape of the cursor, or empty if the position doesn't match the
     /// view (for instance if the view is not up to date).
     public static Optional<Location> locate(MDCView rootView, MDCPosition position, JSeshStyle style) {
+        Optional<Descent> descent = descend(rootView, position.getParentPath());
+        if (descent.isEmpty()) {
+            return Optional.empty();
+        }
+        MDCView container = descent.get().view();
+        AffineTransform transform = descent.get().transform();
+        int gap = position.getLastIndex();
+        if (gap < 0 || gap > container.getNumberOfSubviews()) {
+            return Optional.empty();
+        }
+        Optional<Location> shape;
+        if (position.isTop()) {
+            shape = locateInText(container, gap, style);
+        } else {
+            shape = locateInContainer(container, gap, style);
+        }
+        return shape.map(s -> new Location(
+                s.lines().stream().map(l -> transformed(transform, l)).toList(), s.wide()));
+    }
+
+    /// A view reached from the root view by a path of child indices.
+    ///
+    /// @param view the view.
+    /// @param transform the transform from the system used to draw the subviews of
+    /// `view` to the system used to draw the subviews of the root view.
+    record Descent(MDCView view, AffineTransform transform) {
+    }
+
+    /// Follows a path of child indices (a model path, as in [MDCPosition]) down
+    /// the view tree.
+    ///
+    /// @param rootView the view of the whole text.
+    /// @param path child indices, from the text.
+    /// @return the view reached, or empty if the views don't match the path (for
+    /// instance if the view is not up to date).
+    static Optional<Descent> descend(MDCView rootView, int[] path) {
         AffineTransform transform = new AffineTransform();
         MDCView container = rootView;
         ModelElement model = rootView.getModel();
-        for (int i : position.getParentPath()) {
+        for (int i : path) {
             if (model == null || i < 0 || i >= model.getNumberOfChildren() || i >= container.getNumberOfSubviews()) {
                 return Optional.empty();
             }
@@ -89,18 +125,7 @@ public final class CursorLocator {
             model = sub.getModel();
             container = sub;
         }
-        int gap = position.getLastIndex();
-        if (gap < 0 || gap > container.getNumberOfSubviews()) {
-            return Optional.empty();
-        }
-        Optional<Location> shape;
-        if (position.isTop()) {
-            shape = locateInText(container, gap, style);
-        } else {
-            shape = locateInContainer(container, gap, style);
-        }
-        return shape.map(s -> new Location(
-                s.lines().stream().map(l -> transformed(transform, l)).toList(), s.wide()));
+        return Optional.of(new Descent(container, transform));
     }
 
     private static Line2D transformed(AffineTransform transform, Line2D line) {
@@ -342,7 +367,7 @@ public final class CursorLocator {
 
     /// The area occupied by a subview, in the coordinate system used to draw
     /// the subviews of `v`.
-    private static Rectangle2D subViewBounds(MDCView v, int i) {
+    static Rectangle2D subViewBounds(MDCView v, int i) {
         MDCView subv = v.getSubView(i);
         return new Rectangle2D.Double(originX(v, subv), subv.getPosition().y, subv.getWidth(), subv.getHeight());
     }

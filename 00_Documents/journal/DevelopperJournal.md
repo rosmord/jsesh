@@ -1812,3 +1812,13 @@ The whole editor now works inside cartouches and sub-quadrats as at the top leve
 - `PositionNavigator.stops(text, top, granularity)`: with `QUADRAT`, the stops are the top-level gaps plus the gaps of nested scopes. So the arrows enter cartouches in both granularities; `INNER` adds the quadrat interiors. Moving left from inside a quadrat now goes to the gap just before it (the same as with `INNER`), not one quadrat further.
 - `InnerEdit` lost its `BasicItemList` branch: the gaps of a cartouche are scope positions. It still edits the inside of a quadrat, including a quadrat in a cartouche.
 - Known limit: `ViewDrawer` highlights a selection by top-level item, so a selection inside a cartouche is drawn as the whole cartouche.
+
+## Drawing selections inside cartouches
+
+A selection whose scope is nested (`MDCCaret.getScope()` not the root) is now drawn precisely: only the selected quadrats of the cartouche are highlighted, not the whole top-level quadrat.
+
+- `jsesh.render.draw.SelectionLocator` computes the rectangles from the view tree only, like `CursorLocator`. It follows the scope's path down the views, takes the bounds of the selected subviews, and merges consecutive ones on the same row or column into one rectangle, so the space between them is covered too. The descent along a path is now shared: `CursorLocator.descend`.
+- `ViewDrawer.drawNestedSelection` paints them after the text, in the root's subview coordinates (as `CursorPainter` does). The per-view top-level highlight is used only when the selection's scope is the root.
+- A selection which leaves the cartouche is a root-scope selection, and still highlights the whole cartouche.
+- Limit: the "same row" merge only checks that the rectangles overlap along one axis. For a future zone with several lines, two quadrats placed one above the other in horizontal text would be merged. The text orientation will be needed there.
+- Tests: `SelectionLocatorTest` (geometry) and `NestedSelectionRenderingTest`. The latter renders headless, counts blue pixels against a cursor-only baseline, and saves its images in `build/test-images/selection-*.png`.
