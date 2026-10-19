@@ -1729,7 +1729,7 @@ Design choices:
 
 - `MDCMark` keeps its top-level anchor, followed by the usual mark updater, plus an optional "inner tail" (rest of the path) and the top item it belongs to. The tail is dropped as soon as it stops being valid (any top-level insertion/deletion, or a change in the quadrat), so no nested mark tracking is needed yet.
 - `MDCCaret.getInsertPosition()`/`getMarkPosition()`/`getMin/MaxPosition()` return the *top-level* position (just before the quadrat containing the cursor), so all editing code is unchanged and works on that position. `getInsertExactPosition()` gives the nested one. So, with the caret inside a quadrat, typing inserts *before* that quadrat, and the caret then goes back to top level.
-- Drawing: `ViewDrawer.testAndDrawInnerCursor` draws a thin line between two subviews of the container view (vertical in an `HBox`, horizontal between rows or signs of a ligature); the usual cursor is not drawn when the caret is inner.
+- Drawing: `CursorLocator` (formerly `ViewDrawer.testAndDrawInnerCursor`) gives a thin line between two subviews of the container view (vertical in an `HBox`, horizontal between rows or signs of a ligature); the usual cursor is not drawn when the caret is inner.
 - Mouse clicks still give top-level positions; scrolling follows the enclosing quadrat.
 
 See todo 0072 for what remains (editing and selection inside quadrats, mouse, up/down between rows...).
@@ -1738,5 +1738,17 @@ See todo 0072 for what remains (editing and selection inside quadrats, mouse, up
 
 `PositionNavigator` now enters `Cartouche` and `SubCadrat` (through their `BasicItemList`), and `ComplexLigature` (stops between the group before, the main sign and the group after). A cartouche's content is a text in miniature, so *both edges* of a `BasicItemList` are stops (`<-A1-B1->` : `(0) (0,0,0,0,0) (0,0,0,0,1) (0,0,0,0,2) (1)`): they differ from the gaps outside the cartouche, unlike the edges of a quadrat, row or ligature. An empty cartouche has one stop.
 
-`ViewDrawer.testAndDrawInnerCursor` draws these: edge gaps of a `BasicItemList` (vertical line in horizontal text, horizontal otherwise), and, for a `ComplexLigature`, a line cutting across the direction separating the two neighbouring parts.
+`CursorLocator` locates these: edge gaps of a `BasicItemList` (vertical line in horizontal text, horizontal otherwise), and, for a `ComplexLigature`, a line cutting across the direction separating the two neighbouring parts.
 
+
+## Cursor drawing is separate from view drawing
+
+`ViewDrawer` no longer draws the cursor (nor keeps the caret in instance fields, except for the selection highlight). The cursor is now computed from the view tree and the caret's exact `MDCPosition`:
+
+- `jsesh.render.draw.CursorLocator.locate(rootView, position, style)` descends the view tree along the position's parent path (checking at each step that the subview's model is the expected child), then looks at the subviews around the gap. It returns the cursor lines in the coordinate system used to draw the root view's subviews, with a "wide" (between top-level items) or "fine" (inside a quadrat) flag. There is no `Graphics2D` involved, so it is unit-tested (`CursorLocatorTest`).
+- `jsesh.render.draw.CursorPainter.paint(g, renderContext, view, caret)` strokes it. `JMDCEditor` and `JMDCField` call `ViewDrawer.drawViewAndSelection(...)` (formerly `drawViewAndCursor`) and then `CursorPainter.paint(...)`.
+- Empty text is no longer a special hack: it's the "no subview" case of the locator.
+- `JMDCEditor.getCursorRectangle()` follows the inner cursor (scrolling), as it uses the locator's bounds when the caret is inner.
+- Before the change, the top-level cursor was checked against 156 renderings (text variants x horizontal/vertical x LTR/RTL x all positions): the output is pixel-identical. Note that between two non-break items two lines are drawn (end of the previous view, start of the next), as before.
+
+The selection highlight (`ViewDrawer.drawSelection`) could be moved to the same scheme later (it would also allow selections inside quadrats).

@@ -53,16 +53,10 @@ public class ViewDrawer {
     private boolean debug = false;
 
     /**
-     * A caret to draw, if wanted.
+     * The caret whose selection is highlighted while drawing, if any. The
+     * cursor itself is not drawn here: see {@link CursorPainter}.
      */
-    private MDCCaret cursor = null;
-
-    /// The element containing the cursor, when the cursor stands inside a
-    /// quadrat (null otherwise). Set while drawing.
-    private ModelElement innerCursorContainer = null;
-
-    /// Index of the gap, in `innerCursorContainer`, where the cursor stands.
-    private int innerCursorGap = 0;
+    private MDCCaret selectionCaret = null;
 
     /**
      * The class used to draw individual elements.
@@ -106,7 +100,7 @@ public class ViewDrawer {
      */
     public void draw(Graphics2D g, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext,
             MDCView view) {
-        drawViewAndCursor(g, renderContext, techRenderContext, view, null);
+        drawViewAndSelection(g, renderContext, techRenderContext, view, null, 0, view.getNumberOfSubviews());
     }
 
     /**
@@ -125,49 +119,23 @@ public class ViewDrawer {
             JSeshTechRenderContext techRenderContext,
             MDCView view,
             MDCPosition start, MDCPosition end) {
-        drawViewAndCursor(g, renderContext, techRenderContext, view, null, start, end);
+        drawViewAndSelection(g, renderContext, techRenderContext, view, null, start.getIndex(), end.getIndex());
     }
 
-    /**
-     * Draws a view as DrawView(), but also draws a cursor at the right
-     * position.
-     *
-     * @param g2d
-     * @param view
-     * @param cursor
-     * @param ds
-     */
-    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
+    /// Draws a view and its subviews, and highlights the selection of a caret.
+    ///
+    /// This does *not* draw the cursor itself. Call [CursorPainter#paint] afterwards for this.
+    ///
+    /// @param g2d the graphics.
+    /// @param renderContext the rendering context.
+    /// @param techRenderContext the technical rendering context.
+    /// @param view the view of the whole text.
+    /// @param caret the caret whose selection is highlighted. If it is null, nothing is highlighted.
+    public void drawViewAndSelection(Graphics2D g2d, JSeshRenderContext renderContext,
             JSeshTechRenderContext techRenderContext, MDCView view,
-            MDCCaret cursor) {
-        drawViewAndCursor(g2d, renderContext, techRenderContext, view, cursor, 0, view.getNumberOfSubviews());
+            MDCCaret caret) {
+        drawViewAndSelection(g2d, renderContext, techRenderContext, view, caret, 0, view.getNumberOfSubviews());
     }
-
-    /**
-     * Draws a view, its subviews, and the cursor between two positions.
-     * <p>
-     * Note that positions fall <em>between</em> signs, so the first cadrat
-     * stands between positions 0 and 1.
-     *
-     * @param g2d
-     * @param renderContext
-     * @param view
-     * @param cursor        : the cursor position. If it's null, the cursor is not
-     *                      drawn.
-     * @param jseshStyle
-     * @param start
-     * @param end
-     */
-    public void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
-            JSeshTechRenderContext textRenderContext, MDCView view,
-            MDCCaret cursor,
-            MDCPosition start,
-            MDCPosition end) {
-        drawViewAndCursor(g2d, renderContext, textRenderContext, view, cursor,
-                start.getIndex(),
-                end.getIndex());
-    }
-
 
      /**
      * Returns the display coordinates of a given text position.
@@ -496,10 +464,10 @@ public class ViewDrawer {
      * @param v the view
      */
     private void drawSelection(Graphics2D g, JSeshRenderContext renderContext, int i, MDCView v) {
-        if (cursor != null && cursor.hasMark()) {
+        if (selectionCaret != null && selectionCaret.hasMark()) {
             JSeshStyle jseshStyles = renderContext.jseshStyle();
-            int a = cursor.getMinPosition().getIndex();
-            int b = cursor.getMaxPosition().getIndex();
+            int a = selectionCaret.getMinPosition().getIndex();
+            int b = selectionCaret.getMaxPosition().getIndex();
             if (a <= i && i < b) {
                 float w = v.getWidth();
                 float h = v.getHeight();
@@ -626,16 +594,11 @@ public class ViewDrawer {
 
         // Draw the element's subviews.
         drawSubViews(tmpG, renderContext, v, startPos, endPos, depth);
-        // Draw the cursor if it stands between two subviews of this view.
-        testAndDrawInnerCursor(tmpG, renderContext, v);
         // restore old coordinate system.
         tmpG.dispose();
 
         // Part of the element drawn after the subviews ("post" mode).
         elementDrawer.drawElement(v, currentG, true);
-
-        // Draw the cursor if needed.
-        testAndDrawCursor(g, renderContext, v);
 
         if (g.getBackground() != oldBackground) {
             g.setBackground(oldBackground);
@@ -693,299 +656,16 @@ public class ViewDrawer {
         }
     }
 
-    private void drawViewAndCursor(Graphics2D g2d, JSeshRenderContext renderContext,
+    private void drawViewAndSelection(Graphics2D g2d, JSeshRenderContext renderContext,
             JSeshTechRenderContext techRenderContext,
             MDCView view,
-            MDCCaret cursor, int start, int end) {
+            MDCCaret caret, int start, int end) {
         elementDrawer.prepareDrawing(renderContext, techRenderContext);
-        this.cursor = cursor;
-        findInnerCursorContainer(view, cursor);
+        this.selectionCaret = caret;
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
-        // conceptual hack (patch) : if cursor is not empty, and text is empty,
-        // draws a cursor.
-        if (start == end && cursor != null) {
-            drawCursorAtFirstPosition(g2d, renderContext, view);
-        }
         drawView(g2d, renderContext, view, start, end, 0);
-        this.cursor = null; // To avoid short-term memory leak.
-        this.innerCursorContainer = null;
+        this.selectionCaret = null; // To avoid short-term memory leak.
         this.pageCoordinateSystem = null;
         elementDrawer.cleanup();
-    }
-
-   
-    /**
-     * Conditional cursor drawing : if the current position corresponds to the
-     * cursor, draw it. When the cursor is at the last position, the first test
-     * never works. (we might want to use some sentinel to correct this). so we
-     * have a special case. For empty text, we will write some specific code (at
-     * upper levels ?)
-     *
-     * <p>
-     * We should change the cursor drawing system, because it's not logical.
-     * Cursor drawing should be linked with the view that contains the cursor,
-     * not with views around the cursor.
-     *
-     * @param g
-     * @param v
-     */
-    private void testAndDrawCursor(Graphics2D g, JSeshRenderContext renderContext, MDCView v) {
-        JSeshStyle jseshStyles = renderContext.jseshStyle();
-        LayoutOptions options = jseshStyles.options();
-        GeometrySpecification geometry = jseshStyles.geometry();
-        PaintingSpecifications colors = jseshStyles.painting();
-        // Will perhaps be passed as arguments or taken from fields like
-        // currentTextDirection.
-        TextDirection textDirection = options.textDirection();
-        TextOrientation textOrientation = options
-                .textOrientation();
-
-        if (cursor != null && cursor.getInsert() != null && !cursor.isInsertInner()) {
-
-            /*
-             * A cursor stands between two views. Should we draw the cursor
-             * after or before the view ???
-             */
-            boolean drawAfterView;
-            boolean drawBeforeView;
-
-            drawBeforeView = v.getModel() == cursor.getInsert().getElementAfter();
-
-            drawAfterView = v.getModel() == cursor.getInsert().getElementBefore();
-
-            // We draw cursors at regular elements, not at breaks, but between
-            // two breaks, we need to do something anyway.
-            // Hence, if there are two breaks, we favour the "draw before view"
-            // tactic.
-            // Cases "against" drawBeforeView
-            if (drawBeforeView) {
-                if (v.getModel() != null
-                        && v.getModel().isBreak()
-                        && (v.getPrevious() != null
-                                && v.getPrevious().getModel() != null && !v
-                                        .getPrevious().getModel().isBreak())) {
-                    drawBeforeView = false;
-                }
-            }
-
-            // Cases "against" drawAfterView
-            if (drawAfterView) {
-                if (v.getModel().isBreak()) {
-                    drawAfterView = false;
-                }
-            }
-
-            if (drawAfterView || drawBeforeView) {
-                Color currentColor = g.getColor();
-                g.setColor(colors.cursorColor());
-                g.setStroke(geometry.wideStroke());
-                // Next to alphabetic characters, the cursor follows the
-                // text's own direction, and the height of the letters.
-                boolean horizontalCursor = textOrientation.isHorizontal();
-                boolean leftToRight = textDirection.isLeftToRight();
-                double cursorHeight = geometry.maxCadratHeight();
-                if (v.getModel() instanceof AlphabeticCharacter c) {
-                    horizontalCursor = true;
-                    leftToRight = !c.getScript().isRightToLeft();
-                    cursorHeight = v.getHeight();
-                }
-
-                if (drawAfterView) {
-
-                    if (horizontalCursor) {
-                        if (leftToRight) {
-                            g
-                                    .draw(new Line2D.Double(v.getWidth(), 0, v
-                                            .getWidth(),
-                                            cursorHeight));
-                        } else {
-                            g.draw(new Line2D.Double(0, 0, 0, cursorHeight));
-                        }
-                    } else {
-                        g.draw(new Line2D.Double(0, v.getHeight(),
-                                geometry.maxCadratWidth(), v
-                                        .getHeight()));
-                    }
-                } else if (drawBeforeView) {
-                    if (horizontalCursor) {
-                        if (leftToRight) {
-                            g.draw(new Line2D.Double(0, 0, 0, cursorHeight));
-                        } else {
-                            g
-                                    .draw(new Line2D.Double(v.getWidth(), 0, v
-                                            .getWidth(),
-                                            cursorHeight));
-                        }
-                    } else { // columns
-                        g.draw(new Line2D.Double(0, 0, geometry
-                                .maxCadratWidth(), 0));
-
-                    }
-                }
-                // Only restore color. The stroke should be set by all those who
-                // want to draw, anyway
-                // (whereas color is contextual stuff)
-                g.setColor(currentColor);
-            }
-        }
-    }
-
-    /// Finds the model element which contains the cursor, when the cursor stands
-    /// inside a quadrat, and the index of the gap in this element.
-    ///
-    /// @param rootView the view of the whole text.
-    /// @param caret the caret (may be null).
-    private void findInnerCursorContainer(MDCView rootView, MDCCaret caret) {
-        innerCursorContainer = null;
-        if (caret == null || caret.getInsert() == null || !caret.isInsertInner()) {
-            return;
-        }
-        MDCPosition position = caret.getInsertExactPosition();
-        ModelElement current = rootView.getModel();
-        for (int i : position.getParentPath()) {
-            if (current == null || i >= current.getNumberOfChildren()) {
-                return;
-            }
-            current = current.getChildAt(i);
-        }
-        innerCursorContainer = current;
-        innerCursorGap = position.getLastIndex();
-    }
-
-    /// Draws the cursor if it stands between two subviews of `v`, or at one of
-    /// the edges of `v` if `v` is a list of quadrats (inside a cartouche...).
-    ///
-    /// The cursor is a line which crosses the view, between the two subviews: a
-    /// vertical line between the elements of a row (or the quadrats of a
-    /// horizontal list), a horizontal one between rows or between the signs of
-    /// a ligature. It is thinner than the cursor which stands between top-level
-    /// items.
-    ///
-    /// @param g the graphics, in the coordinate system used to draw the subviews of `v`.
-    /// @param renderContext the rendering context.
-    /// @param v the view.
-    private void testAndDrawInnerCursor(Graphics2D g, JSeshRenderContext renderContext, MDCView v) {
-        if (innerCursorContainer == null || v.getModel() != innerCursorContainer) {
-            return;
-        }
-        int gap = innerCursorGap;
-        int n = v.getNumberOfSubviews();
-        if (gap < 0 || gap > n) {
-            return;
-        }
-        JSeshStyle jseshStyles = renderContext.jseshStyle();
-        boolean leftToRight = v.getDirection().isLeftToRight();
-        Line2D line;
-        if (v.getModel() instanceof BasicItemList) {
-            // Quadrats follow each other along the line (or the column) of text.
-            boolean horizontal = jseshStyles.options().textOrientation() == TextOrientation.HORIZONTAL;
-            if (n == 0) {
-                line = crossingLine(v, horizontal, horizontal ? v.getInternalWidth() / 2.0 : v.getInternalHeight() / 2.0);
-            } else if (gap == 0) {
-                Rectangle2D first = subViewBounds(v, 0);
-                line = crossingLine(v, horizontal,
-                        horizontal ? (leftToRight ? first.getMinX() : first.getMaxX()) : first.getMinY());
-            } else if (gap == n) {
-                Rectangle2D last = subViewBounds(v, n - 1);
-                line = crossingLine(v, horizontal,
-                        horizontal ? (leftToRight ? last.getMaxX() : last.getMinX()) : last.getMaxY());
-            } else {
-                line = lineBetween(v, subViewBounds(v, gap - 1), subViewBounds(v, gap), horizontal);
-            }
-        } else {
-            if (gap <= 0 || gap >= n) {
-                return;
-            }
-            Rectangle2D before = subViewBounds(v, gap - 1);
-            Rectangle2D after = subViewBounds(v, gap);
-            if (v.getModel() instanceof HBox) {
-                // Elements side by side: vertical line.
-                line = lineBetween(v, before, after, true);
-            } else if (v.getModel() instanceof ComplexLigature) {
-                // The parts are arranged freely around the main sign. Cut across the
-                // direction which separates them.
-                double dx = Math.abs(before.getCenterX() - after.getCenterX());
-                double dy = Math.abs(before.getCenterY() - after.getCenterY());
-                line = lineBetween(v, before, after, dx > dy);
-            } else {
-                // Elements one above the other: horizontal line.
-                line = lineBetween(v, before, after, false);
-            }
-        }
-        Color currentColor = g.getColor();
-        g.setColor(jseshStyles.painting().cursorColor());
-        g.setStroke(jseshStyles.geometry().fineStroke());
-        g.draw(line);
-        g.setColor(currentColor);
-    }
-
-    /// A line between two areas.
-    ///
-    /// @param v the view containing the areas.
-    /// @param vertical true for a vertical line (areas side by side).
-    private Line2D lineBetween(MDCView v, Rectangle2D before, Rectangle2D after, boolean vertical) {
-        if (vertical) {
-            double x = (before.getMaxX() <= after.getMinX())
-                    ? (before.getMaxX() + after.getMinX()) / 2
-                    : (after.getMaxX() + before.getMinX()) / 2;
-            return crossingLine(v, true, x);
-        }
-        double y = (before.getMaxY() <= after.getMinY())
-                ? (before.getMaxY() + after.getMinY()) / 2
-                : (after.getMaxY() + before.getMinY()) / 2;
-        return crossingLine(v, false, y);
-    }
-
-    /// A line which crosses the whole view.
-    ///
-    /// @param vertical true for a vertical line, which will be at abscissa `coordinate`;
-    ///        false for a horizontal one, at ordinate `coordinate`.
-    private Line2D crossingLine(MDCView v, boolean vertical, double coordinate) {
-        if (vertical) {
-            return new Line2D.Double(coordinate, 0, coordinate, v.getInternalHeight());
-        }
-        return new Line2D.Double(0, coordinate, v.getInternalWidth(), coordinate);
-    }
-
-    /// The area occupied by a subview, in the coordinate system used to draw
-    /// the subviews of `v` (see [#drawSubViews]).
-    private Rectangle2D subViewBounds(MDCView v, int i) {
-        MDCView subv = v.getSubView(i);
-        double x;
-        if (v.getDirection().isLeftToRight()) {
-            x = subv.getPosition().x;
-        } else {
-            x = v.getInternalWidth() - subv.getPosition().x - subv.getWidth();
-        }
-        return new Rectangle2D.Double(x, subv.getPosition().y, subv.getWidth(), subv.getHeight());
-    }
-
-    /**
-     * Simple hack used to draw cursors when there is no text. It's not nice and
-     * will be changed.
-     *
-     * @param g
-     * @param view
-     */
-    private void drawCursorAtFirstPosition(Graphics2D g, JSeshRenderContext renderContext, MDCView view) {
-        JSeshStyle jseshStyles = renderContext.jseshStyle();
-        TextOrientation textOrientation = jseshStyles.options()
-                .textOrientation();
-        Color currentColor = g.getColor();
-        g.setColor(jseshStyles.painting().cursorColor());
-        g.setStroke(jseshStyles.geometry().wideStroke());
-
-        if (textOrientation.isHorizontal()) {
-            g.draw(new Line2D.Double(0, 0, 0, jseshStyles.geometry()
-                    .maxCadratHeight()));
-        } else {
-            g.draw(new Line2D.Double(0, 0,
-                    jseshStyles.geometry().maxCadratWidth(), 0));
-        }
-        // Only restore color. The stroke should be set by all those who
-        // want to draw, anyway
-        // (whereas color is contextual stuff)
-
-        g.setColor(currentColor);
     }
 }
