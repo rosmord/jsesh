@@ -58,7 +58,7 @@ public interface AstVisitor {
 
     void visitStartHieroglyphicText(AstStartHieroglyphicText node);
 
-    void visitZoneStart(AstZoneStart node);
+    void visitZone(AstZone node);
 
     void visitTabbing(AstTabbing node);
 

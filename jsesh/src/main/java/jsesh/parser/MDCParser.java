@@ -7,7 +7,40 @@
  */
 package jsesh.parser;
 
-import static jsesh.parser.lexer.symbols.MdcSymbolCode.*;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.AMP;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.BEGIN_CARTOUCHE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.BEGIN_OLD_CARTOUCHE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.BEGIN_PHIL;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.CLOSE_BRACE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.COLON;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.COMMA;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.DOUBLE_AMP;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.DOUBLE_LEFT_CURLY;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.DOUBLE_RIGHT_CURLY;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.END_CARTOUCHE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.END_PHIL;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.EOF;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.EQUAL;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.GRAMMAR;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.HIEROGLYPH;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.IDENTIFIER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.INTEGER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_AFTER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_BEFORE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.LPAREN;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.MODIFIER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.OPEN_BRACE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.QUADRAT;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.RPAREN;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.SENTENCE_END;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.SEPARATOR;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.SHADING;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.STAR;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.START_HIEROGLYPHS;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.TEXT;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.TOGGLE;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.WORD_END;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.ZONE;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -46,7 +79,7 @@ import jsesh.parser.ast.AstTabbing;
 import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
-import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.AstZone;
 import jsesh.parser.ast.CartouchePart;
 import jsesh.parser.ast.CartoucheType;
 import jsesh.parser.ast.WordEnding;
@@ -226,12 +259,20 @@ public class MDCParser {
      * topitems ::= ε | topitems optSeparator topitem
      * topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
      *           | LINEEND | PAGEEND | TABSTOP | TABBING optionList | TABBINGCLEAR
-     *           | HRULE | zoneStart
+     *           | HRULE | zone
      * </pre>
      * The final optSeparator is the one consumed by the last loop iteration,
      * when it isn't followed by an item.
      */
     private AstDocument parseMdcFile() throws MDCSyntaxError {
+        List<AstNode> items = parseTopItems();
+        if (!at(EOF)) {
+            throw error("unexpected or unknown item.");
+        }
+        return new AstDocument(AstTopItemList.of(items.toArray(new AstNode[0])));
+    }
+
+    private List<AstNode> parseTopItems() throws MDCSyntaxError {
         List<AstNode> items = new ArrayList<>();
         while (true) {
             skipOptSeparator();
@@ -280,7 +321,7 @@ public class MDCParser {
                     break;
                 }
                 case ZONE:
-                    item = parseZoneStart();
+                    item = parseZone();
                     break;
                 default:
                     if (atCadratStart()) {
@@ -294,10 +335,7 @@ public class MDCParser {
             }
             items.add(item);
         }
-        if (!at(EOF)) {
-            throw error("unexpected or unknown item.");
-        }
-        return new AstDocument(AstTopItemList.of(items.toArray(new AstNode[0])));
+        return items;
     }
 
     /// ```
@@ -315,17 +353,21 @@ public class MDCParser {
 
     /**
      * <pre>
-     * zoneStart ::= ZONE | ZONE optionList
+     * zoneStart ::= ZONE optionList? '(' topitems ')'
      * </pre>
      */
-    private AstZoneStart parseZoneStart() throws MDCSyntaxError {
+    private AstZone parseZone() throws MDCSyntaxError {
         expect(ZONE, "zone");
-        AstOptionList options = null;
+        AstOptionList options = AstOptionList.of();
         if (at(OPEN_BRACE)) {
             options = parseOptionList();
         }
-        return new AstZoneStart(options);
+        expect(LPAREN, "'('");
+        List<AstNode> items = parseTopItems();
+        expect(RPAREN, "')'");
+        return new AstZone(options, items);
     }
+    
 
     /**
      * <pre>

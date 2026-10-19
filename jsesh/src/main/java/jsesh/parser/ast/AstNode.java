@@ -20,7 +20,7 @@ public sealed interface AstNode
         permits AstDocument, AstTopItemList, AstBasicItemList, AstCadrat, AstHBox,
         AstHorizontalListElement,
         AstAlphabeticText, AstHRule, AstLineBreak, AstPageBreak, AstTabStop, AstSuperscript,
-        AstToggle, AstStartHieroglyphicText, AstZoneStart, AstTabbing, AstTabbingClear,
+        AstToggle, AstStartHieroglyphicText, AstZone, AstTabbing, AstTabbingClear,
         AstModifier, AstModifierList {
 
     void accept(AstVisitor visitor);

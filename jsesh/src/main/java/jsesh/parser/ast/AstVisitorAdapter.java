@@ -126,7 +126,7 @@ public class AstVisitorAdapter implements AstVisitor {
     }
 
     @Override
-    public void visitZoneStart(AstZoneStart node) {
+    public void visitZone(AstZone node) {
         visitDefault(node);
     }
 

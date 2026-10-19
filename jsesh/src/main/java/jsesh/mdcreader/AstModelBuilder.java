@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
-import jsesh.model.MdcComment;
 import jsesh.model.BasicItem;
 import jsesh.model.BasicItemList;
 import jsesh.model.Cadrat;
@@ -15,10 +14,12 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.HRule;
 import jsesh.model.Hieroglyph;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.InnerGroup;
-import jsesh.model.LineBreak;
 import jsesh.model.Ligature;
+import jsesh.model.LineBreak;
+import jsesh.model.MdcComment;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
 import jsesh.model.Overwrite;
@@ -30,7 +31,6 @@ import jsesh.model.TabStop;
 import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
-import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
@@ -70,7 +70,7 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
-import jsesh.parser.ast.AstZoneStart;
+import jsesh.parser.ast.AstZone;
 import jsesh.parser.ast.WordEnding;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.SignSubType;
@@ -321,10 +321,8 @@ class AstModelBuilder implements AstVisitor {
     }
 
     @Override
-    public void visitZoneStart(AstZoneStart node) {
-        // MDCModelBuilder never turned zone starts into a model item either
-        // (its addZoneStartToTopItemList was an empty stub).
-        push(null);
+    public void visitZone(AstZone node) {
+        push(null);        
     }
 
     @Override
