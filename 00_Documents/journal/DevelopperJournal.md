@@ -1768,3 +1768,13 @@ With `CaretGranularity.INNER`, typing a sign, Backspace and the new forward Dele
 - After a deletion, empty rows/quadrats are removed, and a ligature left with one sign becomes this sign.
 - `PositionNavigator.canonicalize` brings a position which is not a stop (edge of a row, of a ligature...) to the surrounding gap; it is used for the cursor after each edit.
 - Not supported yet (the operation does nothing): `ComplexLigature` and `AbsoluteGroup` containers; glossary entries with several quadrats fall back to the old behaviour. Pasting, MDC insertion and sign modifiers still act before the containing quadrat.
+
+## Editing scopes (cartouches, future zones) — step 1
+
+Design: rather than extending `InnerEdit` container by container, the editor should work on the *current scope*: a sequence of quadrat-level items (the text itself, the content of a cartouche or sub-quadrat, later the content of a zone). The full workflow then applies inside a cartouche (grouping, paste, selection...), and zones (as container top items holding their own sequence) get the full editor for free. `InnerEdit` remains for the interior of a quadrat. Plan: (1) scopes + path-addressed undo commands, (2) marks following nested edits, (3) an `EditingScope` facade with local positions used by `JMDCEditorWorkflow`, (4) scope-confined selection, (5) zones.
+
+Step 1 done:
+
+- `jsesh.model.ItemSequence`, implemented by `HieroglyphicText` and `BasicItemList` (which only `accepts` `BasicItem`s: no line break in a cartouche).
+- `jsesh.model.TextScope`: a scope as the path to its sequence (`ROOT` = the text); `TextScope.containing(text, position)` gives the innermost scope of a position, `positionAt`/`localIndexOf` convert between full positions and gaps of the scope.
+- `InsertCommand`/`RemoveCommand` now hold a scope and gap indices, and resolve the sequence at do/undo time; `CommandFactory` and `HieroglyphicTextModel` got scoped overloads (`insertElementsAt(TextScope, int, List)`, `insertTypedElementsAt`, `replaceElement`, `removeElements`). The top-level methods are the `ROOT` case. View refresh needed nothing: nested changes already reach `MDCViewUpdater` as `ChildOperation`s.

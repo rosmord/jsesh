@@ -35,15 +35,20 @@ package jsesh.document.command;
 
 import java.util.List;
 
+import jsesh.model.HieroglyphicText;
+import jsesh.model.ItemSequence;
 import jsesh.model.MDCPosition;
 import jsesh.model.MDCRange;
+import jsesh.model.TextScope;
 import jsesh.model.TopItem;
-import jsesh.model.HieroglyphicText;
 
 /**
  * A factory to build the main edit commands used by the hieroglyphic editor.
  * <p> tech detail : Basically build composite commands using deletion and insertion. 
  * <p> other tech detail : the list of available commands needs not be known, as the Factory hides them.
+ * <p> The commands work on a scope of the text ({@link TextScope}): the text
+ * itself (the methods with top-level positions), or the content of a
+ * cartouche... (the methods with a scope and gap indices).
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  *
  */
@@ -61,32 +66,91 @@ public class CommandFactory {
 	public MDCCommand buildReplaceCommand(HieroglyphicText topItemList,
 			List<TopItem> newTopItems, MDCPosition pos1, MDCPosition pos2,
 			boolean clean) {
+		return buildReplaceCommand(topItemList, TextScope.ROOT, newTopItems, pos1.getIndex(), pos2.getIndex(),
+				clean);
+	}
+
+	/// Builds the replacement of the items between two gaps of a scope.
+	///
+	/// @param text the text where replacement will occur.
+	/// @param scope the sequence of the text which holds the items.
+	/// @param newItems the items to insert.
+	/// @param gap1 one limit of the items to replace.
+	/// @param gap2 the other limit (the order of `gap1` and `gap2` is not important).
+	/// @param clean is the original text clean (i.e. not modified)?
+	/// @return the command.
+	/// @throws IllegalArgumentException if the scope can't hold one of the new
+	///         items (see [ItemSequence#accepts(TopItem)]).
+	public MDCCommand buildReplaceCommand(HieroglyphicText text, TextScope scope, List<TopItem> newItems, int gap1,
+			int gap2, boolean clean) {
+		checkAccepted(text, scope, newItems);
+		int start = Math.min(gap1, gap2);
+		int end = Math.max(gap1, gap2);
 		CompositeCommand command = new CompositeCommand(clean);
-		MDCRange range = MDCRange.ofUnordered(pos1, pos2);
-		MDCCommand removeCommand = buildRemoveCommand(topItemList, range.start(),
-				range.end(), false);
-		MDCCommand insertCommand = buildInsertCommand(topItemList, newTopItems,
-				range.start(), false);
-		command.addCommand(removeCommand);
-		command.addCommand(insertCommand);
+		command.addCommand(new RemoveCommand(text, scope, start, end, false));
+		command.addCommand(new InsertCommand(text, scope, newItems, start, false, false));
 		return command;
 	}
 
 	public MDCCommand buildInsertCommand(HieroglyphicText model,
 			List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
-		return new InsertCommand(model, newCadrats, position, firstCommand);
+		return buildInsertCommand(model, TextScope.ROOT, newCadrats, position.getIndex(), firstCommand);
+	}
+
+	/// Builds the insertion of items in a scope.
+	///
+	/// @param text the text to modify.
+	/// @param scope the sequence of the text which will receive the items.
+	/// @param newItems the items to insert.
+	/// @param index the gap where they will be inserted.
+	/// @param firstCommand is this command the first one on a fresh text?
+	/// @return the command.
+	/// @throws IllegalArgumentException if the scope can't hold one of the new
+	///         items (see [ItemSequence#accepts(TopItem)]).
+	public MDCCommand buildInsertCommand(HieroglyphicText text, TextScope scope, List<TopItem> newItems, int index,
+			boolean firstCommand) {
+		checkAccepted(text, scope, newItems);
+		return new InsertCommand(text, scope, newItems, index, firstCommand, false);
 	}
 
 	/// Builds the insertion of text typed by the user; successive typing
 	/// insertions are merged in the undo history, word by word.
 	public MDCCommand buildTypingCommand(HieroglyphicText model,
 			List<TopItem> newItems, MDCPosition position, boolean firstCommand) {
-		return new InsertCommand(model, newItems, position, firstCommand, true);
+		return buildTypingCommand(model, TextScope.ROOT, newItems, position.getIndex(), firstCommand);
+	}
+
+	/// Same as [#buildTypingCommand(HieroglyphicText, List, MDCPosition, boolean)],
+	/// in a scope.
+	public MDCCommand buildTypingCommand(HieroglyphicText text, TextScope scope, List<TopItem> newItems, int index,
+			boolean firstCommand) {
+		checkAccepted(text, scope, newItems);
+		return new InsertCommand(text, scope, newItems, index, firstCommand, true);
 	}
 
 	public MDCCommand buildRemoveCommand(HieroglyphicText model, MDCPosition pos1,
 			MDCPosition pos2, boolean clean) {
-		return new RemoveCommand(model, pos1, pos2, clean);
+		MDCRange range = MDCRange.ofUnordered(pos1, pos2);
+		return buildRemoveCommand(model, TextScope.ROOT, range.start().getIndex(), range.end().getIndex(), clean);
+	}
 
-	}	
+	/// Builds the removal of the items between two gaps of a scope.
+	///
+	/// @param text the text to modify.
+	/// @param scope the sequence of the text which holds the items.
+	/// @param gap1 one limit.
+	/// @param gap2 the other limit (the order of `gap1` and `gap2` is not important).
+	/// @param clean is the original text clean (i.e. not modified)?
+	/// @return the command.
+	public MDCCommand buildRemoveCommand(HieroglyphicText text, TextScope scope, int gap1, int gap2,
+			boolean clean) {
+		return new RemoveCommand(text, scope, Math.min(gap1, gap2), Math.max(gap1, gap2), clean);
+	}
+
+	private static void checkAccepted(HieroglyphicText text, TextScope scope, List<TopItem> items) {
+		ItemSequence sequence = scope.resolve(text);
+		if (!sequence.acceptsAll(items)) {
+			throw new IllegalArgumentException("Some items can't be placed in " + scope + ": " + items);
+		}
+	}
 }

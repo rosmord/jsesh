@@ -23,12 +23,12 @@ import java.util.Optional;
 /// particular, no separator is needed to say how a new sign is combined with
 /// its neighbours:
 ///
-/// | container | insertion | deletion |
-/// |---|---|---|
-/// | [Cadrat] (between rows) | a new row (as with `:`) | a row |
-/// | [HBox] (between elements of a row) | a new element (as with `*`) | an element |
-/// | [Ligature] | a new sign (as with `&`) | a sign |
-/// | [BasicItemList] (content of a cartouche...) | a new quadrat | a quadrat |
+/// | container                                   | insertion                   | deletion   |
+/// |---                                          |---                          |---         | 
+/// | [Cadrat] (between rows)                     | a new row (as with `:`)     | a row      |
+/// | [HBox] (between elements of a row)          | a new element (as with `*`) | an element |
+/// | [Ligature]                                  | a new sign (as with `&`)    | a sign     |
+/// | [BasicItemList] (content of a cartouche...) | a new quadrat               | a quadrat  |
 ///
 /// Other containers ([ComplexLigature], [AbsoluteGroup]) are not supported yet.
 public final class InnerEdit {

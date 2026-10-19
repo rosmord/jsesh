@@ -51,6 +51,7 @@ import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.Dialect;
 import jsesh.model.MDCPosition;
+import jsesh.model.TextScope;
 import jsesh.model.ModelElementObserver;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
@@ -372,6 +373,51 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		MDCCommand command = new CommandFactory().buildRemoveCommand(text,
 				minPosition, maxPosition, isClean());
 		undoManager.doCommand(command);
+	}
+
+	/// Inserts items in a scope of the text: the text itself, or the content of
+	/// a cartouche...
+	///
+	/// @param scope the sequence which receives the items.
+	/// @param index the gap of `scope` where they are inserted.
+	/// @param elements the items.
+	/// @throws IllegalArgumentException if the scope can't hold one of the items
+	///         (a line break in a cartouche, for instance).
+	public void insertElementsAt(TextScope scope, int index, List<TopItem> elements) {
+		undoManager.doCommand(new CommandFactory().buildInsertCommand(text, scope, elements, index,
+				isFirstCommand()));
+	}
+
+	/// Same as [#insertTypedElementsAt(MDCPosition, List)], in a scope.
+	///
+	/// @param scope the sequence which receives the items.
+	/// @param index the gap of `scope` where they are inserted.
+	/// @param elements the typed elements.
+	/// @throws IllegalArgumentException if the scope can't hold one of the items.
+	public void insertTypedElementsAt(TextScope scope, int index, List<TopItem> elements) {
+		undoManager.doCommand(new CommandFactory().buildTypingCommand(text, scope, elements, index,
+				isFirstCommand()));
+	}
+
+	/// Replaces the items between two gaps of a scope.
+	///
+	/// @param scope the sequence which holds the items.
+	/// @param gap1 one limit of the items to replace.
+	/// @param gap2 the other limit (the order is not important).
+	/// @param newElements the new items.
+	/// @throws IllegalArgumentException if the scope can't hold one of the items.
+	public void replaceElement(TextScope scope, int gap1, int gap2, List<TopItem> newElements) {
+		undoManager.doCommand(new CommandFactory().buildReplaceCommand(text, scope, newElements, gap1, gap2,
+				isClean()));
+	}
+
+	/// Removes the items between two gaps of a scope.
+	///
+	/// @param scope the sequence which holds the items.
+	/// @param gap1 one limit.
+	/// @param gap2 the other limit (the order is not important).
+	public void removeElements(TextScope scope, int gap1, int gap2) {
+		undoManager.doCommand(new CommandFactory().buildRemoveCommand(text, scope, gap1, gap2, isClean()));
 	}
 
 	public MDCPosition getLastPosition() {

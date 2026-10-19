@@ -25,7 +25,7 @@ import jsesh.model.tools.HieroglyphCodesExtractor;
 /// @author rosmord
 ///
 /// This code is published under the GNU LGPL.
-public class HieroglyphicText extends ModelElement {
+public class HieroglyphicText extends ModelElement implements ItemSequence {
 
     /**
      *
@@ -144,6 +144,27 @@ public class HieroglyphicText extends ModelElement {
             result.add((TopItem) e);
         }
         return result;
+    }
+
+    @Override
+    public TopItem getItemAt(int index) {
+        return getTopItemAt(index);
+    }
+
+    /// A text accepts all top items.
+    @Override
+    public boolean accepts(TopItem item) {
+        return item != null;
+    }
+
+    @Override
+    public void insertItemsAt(int index, List<? extends TopItem> items) {
+        addAllAt(new MDCPosition(index), items);
+    }
+
+    @Override
+    public List<TopItem> removeItems(int start, int end) {
+        return removeTopItems(new MDCPosition(start), new MDCPosition(end));
     }
 
     /*

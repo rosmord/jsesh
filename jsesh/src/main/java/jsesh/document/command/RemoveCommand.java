@@ -35,55 +35,47 @@ package jsesh.document.command;
 
 import java.util.List;
 
-import jsesh.model.MDCPosition;
-import jsesh.model.MDCRange;
-import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.TextScope;
+import jsesh.model.TopItem;
 
-/**
- * Command that deletes one or more cadrats.
- * @author rosmord
- *
- */
-
+/// Command that deletes one or more items (quadrats...) of a scope of a text:
+/// the text itself, or the content of a cartouche...
+///
+/// @author rosmord
 class RemoveCommand extends AbstractMDCCommand {
-	/**
-	 * Where will the deletion take place?
-	 */
-	private final MDCRange range;
-	
-	
-	/**
-	 * The deleted elements.
-	 */
+
+	private final HieroglyphicText text;
+	private final TextScope scope;
+	/// The removed items lie between these two gaps of the scope.
+	private final int start, end;
+
+	/// The deleted elements.
 	private List<TopItem> deletedElements;
-	
-	/**
-	 * The text which will be modified. 
-	 */
-	private HieroglyphicText topItemList;
-	
-	/**
-	 * Create a command corresponding to the erasure of text between two positions.
-	 * Note that the position order is not fixed pos1 may be before or after pos2.
-	 * @param topItemList
-	 * @param pos1 one of the positions
-	 * @param pos2 the other position.
-	 * @param firstCommand
-	 */
-	public RemoveCommand(HieroglyphicText topItemList, MDCPosition pos1, MDCPosition pos2, boolean firstCommand) {
+
+	/// Create a command corresponding to the erasure of the items between two
+	/// gaps of a scope.
+	///
+	/// @param text the text which will be modified.
+	/// @param scope the sequence of the text which holds the items.
+	/// @param start the first gap.
+	/// @param end the last gap (`start <= end`).
+	/// @param firstCommand is this command the first one on a fresh text?
+	RemoveCommand(HieroglyphicText text, TextScope scope, int start, int end, boolean firstCommand) {
 		super(firstCommand);
-		this.topItemList= topItemList;
-		range = MDCRange.ofUnordered(pos1, pos2);
-		deletedElements= null;
+		this.text = text;
+		this.scope = scope;
+		this.start = start;
+		this.end = end;
+		deletedElements = null;
 	}
 
 	public void doCommand() {
-		deletedElements= topItemList.removeTopItems(range.start(), range.end());
+		deletedElements = scope.resolve(text).removeItems(start, end);
 	}
 
 	public void undoCommand() {
-		topItemList.addAllAt(range.start(), deletedElements);
+		scope.resolve(text).insertItemsAt(start, deletedElements);
 	}
-	
+
 }

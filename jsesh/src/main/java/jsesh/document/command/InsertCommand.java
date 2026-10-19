@@ -37,50 +37,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.model.AlphabeticCharacter;
-
-import jsesh.model.MDCPosition;
-import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.TextScope;
+import jsesh.model.TopItem;
 
-/**
- * Command that inserts one or more cadrats.
- * @author rosmord
- *
- */
+/// Command that inserts one or more items (quadrats...) in a scope of a text:
+/// the text itself, or the content of a cartouche...
+///
+/// The scope is kept as a path, and found again in the text each time the
+/// command is done or undone.
+///
+/// @author rosmord
 class InsertCommand extends AbstractMDCCommand {
 
-	/**
-	 * The cadrats to add.
-	 */
-	private List<TopItem> newCadrats;
-	private MDCPosition position;
-	private HieroglyphicText topItemList;
+	/// The items to add.
+	private final List<TopItem> newCadrats;
+	private final HieroglyphicText text;
+	private final TextScope scope;
+	/// The gap of the scope where the items are inserted.
+	private final int index;
 
 	private final boolean typing;
-	
-	/**
-	 * Create an insertion command.
-	 * @param topItemList The text which will be modified.
-	 * @param newCadrats The cadrats which will be added (a list of topitems).
-	 * @param position The position where new text will be inserted.
-	 * @param firstCommand Is this command the first one on a fresh text ?
-	 */
-	
-	public InsertCommand(HieroglyphicText topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand) {
-		this(topItemList, newCadrats, position, firstCommand, false);
-	}
 
 	/// Create an insertion command.
 	///
+	/// @param text the text which will be modified.
+	/// @param scope the sequence of the text where the items will be inserted.
+	/// @param newCadrats the items to add.
+	/// @param index the gap of the scope where they will be inserted.
+	/// @param firstCommand is this command the first one on a fresh text?
 	/// @param typing true if the elements are text typed by the user:
 	/// successive typing insertions are then undone one word at a time.
-	InsertCommand(HieroglyphicText topItemList, List<TopItem> newCadrats, MDCPosition position, boolean firstCommand,
+	InsertCommand(HieroglyphicText text, TextScope scope, List<TopItem> newCadrats, int index, boolean firstCommand,
 			boolean typing) {
 		super(firstCommand);
-		this.topItemList= topItemList;
-		this.newCadrats= new ArrayList<>(newCadrats);
-		this.position= position;
-		this.typing= typing;
+		this.text = text;
+		this.scope = scope;
+		this.newCadrats = new ArrayList<>(newCadrats);
+		this.index = index;
+		this.typing = typing;
 	}
 
 	/// A typing insertion absorbs the next one if it continues it (inserted
@@ -88,8 +83,9 @@ class InsertCommand extends AbstractMDCCommand {
 	@Override
 	public boolean absorb(MDCCommand next) {
 		if (!typing || !(next instanceof InsertCommand other) || !other.typing
-				|| other.topItemList != topItemList
-				|| other.position.getIndex() != position.getIndex() + newCadrats.size()
+				|| other.text != text
+				|| !other.scope.equals(scope)
+				|| other.index != index + newCadrats.size()
 				|| newCadrats.isEmpty() || other.newCadrats.isEmpty()) {
 			return false;
 		}
@@ -105,11 +101,11 @@ class InsertCommand extends AbstractMDCCommand {
 	}
 
 	public void doCommand() {
-		topItemList.addAllAt(position, newCadrats);
+		scope.resolve(text).insertItemsAt(index, newCadrats);
 	}
 
 	public void undoCommand() {
-		topItemList.removeTopItems(position, topItemList.getNextPosition(position, newCadrats.size()));
+		scope.resolve(text).removeItems(index, index + newCadrats.size());
 	}
 
 }

@@ -1,5 +1,8 @@
 package jsesh.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * BasicItemList : an auxiliary class, used as <em>implementation</em> for all elements
@@ -13,7 +16,7 @@ package jsesh.model;
  */
 
 public class BasicItemList
-    extends EmbeddedModelElement {
+    extends EmbeddedModelElement implements ItemSequence {
 
 	/**
 	 * 
@@ -29,6 +32,38 @@ public class BasicItemList
 	
 	public void addBasicItemAt(int id, BasicItem basicItem) {
 		addChildAt(id, basicItem);
+	}
+
+	@Override
+	public TopItem getItemAt(int index) {
+		return (TopItem) getChildAt(index);
+	}
+
+	/// Only [BasicItem]s (quadrats, alphabetic text, comments) can be found in
+	/// such a list: no line or page break, for instance.
+	@Override
+	public boolean accepts(TopItem item) {
+		return item instanceof BasicItem;
+	}
+
+	@Override
+	public void insertItemsAt(int index, List<? extends TopItem> items) {
+		if (!acceptsAll(items)) {
+			throw new IllegalArgumentException("Only basic items can be inserted here: " + items);
+		}
+		int i = index;
+		for (TopItem item : items) {
+			addChildAt(i++, item);
+		}
+	}
+
+	@Override
+	public List<TopItem> removeItems(int start, int end) {
+		List<TopItem> result = new ArrayList<>();
+		for (EmbeddedModelElement e : removeChildren(start, end)) {
+			result.add((TopItem) e);
+		}
+		return result;
 	}
 
         @Override
