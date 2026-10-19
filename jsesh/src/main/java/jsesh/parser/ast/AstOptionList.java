@@ -43,8 +43,8 @@ public record AstOptionList(List<AstOption> options) {
     public String getString(String name, String defaultValue) {
         String result = defaultValue;
         for (AstOption option : options) {
-            if (option.name().equals(name) && option.value() instanceof String) {
-                result = (String) option.value();
+            if (option.name().equals(name) && option.value() instanceof AstOptionValue.Text text) {
+                result = text.value();
             }
         }
         return result;
@@ -53,8 +53,8 @@ public record AstOptionList(List<AstOption> options) {
     public int getInt(String name, int defaultValue) {
         int result = defaultValue;
         for (AstOption option : options) {
-            if (option.name().equals(name) && option.value() instanceof Integer) {
-                result = (Integer) option.value();
+            if (option.name().equals(name) && option.value() instanceof AstOptionValue.Int number) {
+                result = number.value();
             }
         }
         return result;
