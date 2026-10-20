@@ -1,0 +1,196 @@
+/*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ *
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ */
+package jsesh.render.draw;
+
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Optional;
+
+import jsesh.model.AlphabeticCharacter;
+import jsesh.model.CaretGranularity;
+import jsesh.model.ItemSequence;
+import jsesh.model.MDCPosition;
+import jsesh.model.ModelElement;
+import jsesh.model.TextScope;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.LayoutOptions;
+import jsesh.render.view.MDCView;
+
+/// Finds the position under a point, from the view tree only, like
+/// [CursorLocator]. Used through [TextGeometry#positionAt(Point2D)].
+///
+/// A click puts the cursor in the gap of a *sequence of items*: the text
+/// itself, or a text in miniature like the content of a cartouche (what the
+/// cursor reaches in [CaretGranularity#QUADRAT] mode, see
+/// [ModelElement#isCursorStop(int, CaretGranularity)]). It never goes inside a
+/// quadrat, nor inside a sub-quadrat: there, a cursor would be more
+/// disturbing than useful, and the click is resolved to the gap before or
+/// after the whole quadrat.
+final class PositionLocator {
+
+    private final PlacedView root;
+
+    private final JSeshStyle style;
+
+    /// @param root the view of the whole text.
+    /// @param style the style used to build the views.
+    PositionLocator(PlacedView root, JSeshStyle style) {
+        this.root = root;
+        this.style = style;
+    }
+
+    /// @param point a point, in the root system.
+    /// @return the position corresponding to the point (never null).
+    MDCPosition locate(Point2D point) {
+        return locateIn(root, point);
+    }
+
+    /// The position under a point, in the gaps of a sequence of items.
+    ///
+    /// @param sequence the view of the sequence (the text, the content of a
+    ///        cartouche...).
+    /// @param rootPoint a point, in the root system.
+    private MDCPosition locateIn(PlacedView sequence, Point2D rootPoint) {
+        TextScope scope = TextScope.of(sequence.path());
+        boolean nested = !scope.isRoot();
+        int n = sequence.model().getNumberOfChildren();
+        Optional<Point2D> found = sequence.toLocal(rootPoint);
+        if (found.isEmpty()) {
+            return scope.positionAt(n);
+        }
+        Point2D local = found.get();
+
+        // The main idea is that we visit all positions until
+        // we see we are too far.
+        // For line orientation, this means either :
+        // a) the vertical position of the current view fits the point,
+        // but the horizontal position is either too large or too small
+        // (depending on the text orientation).
+        // or
+        // b) the vertical position is too large.
+        // In this cases, the position will be the previous position.
+        //
+        // For text in column, the system is the same, only reversed.
+        GeometrySpecification geometry = style.geometry();
+        LayoutOptions options = style.options();
+        int count = sequence.childCount();
+        for (int i = 0; i < count; i++) {
+            MDCView subv = sequence.subView(i);
+            Rectangle2D bounds = sequence.childBounds(i);
+            double x = bounds.getMinX();
+            double y = bounds.getMinY();
+
+            // First test, the same in all cases : does the point fall
+            // inside a view ?
+            if (local.getX() >= x && local.getY() >= y
+                    && local.getX() < x + subv.getWidth() + geometry.smallSkip()
+                    && local.getY() < y + subv.getHeight() + geometry.smallSkip()) {
+                Optional<PlacedView> inner = sequence.child(i).flatMap(item -> scopeAt(item, rootPoint));
+                if (inner.isPresent()) {
+                    return locateIn(inner.get(), rootPoint);
+                }
+                return scope.positionAt(gapOnItem(i, subv, x, y, local));
+            } else if (!nested) {
+                if (options.textOrientation().isHorizontal()) {
+                    // Text for end of line.
+                    if (y > local.getY()) {
+                        return scope.positionAt(i > 0 ? i - 1 : 0);
+                    }
+                } else if (options.textDirection().isLeftToRight()) {
+                    if (x > local.getX()) {
+                        return scope.positionAt(i);
+                    }
+                } else if (x + geometry.maxCadratWidth() < local.getX()) {
+                    return scope.positionAt(i);
+                }
+            }
+        }
+        // If nothing was found, chose the last cadrat.
+        return scope.positionAt(nested ? gapNearest(sequence, local) : n);
+    }
+
+    /// The gap, between the views of a sequence, which is the nearest to a
+    /// point which falls on none of them. Used for the sequences below the top
+    /// level, which are a single row (or column) of items.
+    private int gapNearest(PlacedView sequence, Point2D local) {
+        LayoutOptions options = style.options();
+        boolean horizontal = options.textOrientation().isHorizontal();
+        boolean leftToRight = options.textDirection().isLeftToRight();
+        int gap = 0;
+        for (int i = 0; i < sequence.childCount(); i++) {
+            Rectangle2D bounds = sequence.childBounds(i);
+            boolean before;
+            if (!horizontal) {
+                before = bounds.getCenterY() < local.getY();
+            } else if (leftToRight) {
+                before = bounds.getCenterX() < local.getX();
+            } else {
+                before = bounds.getCenterX() > local.getX();
+            }
+            if (before) {
+                gap = i + 1;
+            }
+        }
+        return gap;
+    }
+
+    /// The gap, before or after the view `i`, nearest to a point which falls
+    /// on this view.
+    private int gapOnItem(int i, MDCView subv, double x, double y, Point2D local) {
+        LayoutOptions options = style.options();
+        // Alphabetic characters follow their own direction, and
+        // are on a horizontal line even in columns.
+        boolean horizontal = options.textOrientation().isHorizontal();
+        boolean leftToRight = options.textDirection().isLeftToRight();
+        if (subv.getModel() instanceof AlphabeticCharacter c) {
+            horizontal = true;
+            leftToRight = !c.getScript().isRightToLeft();
+        }
+        if (horizontal) {
+            boolean firstHalf = local.getX() < x + subv.getWidth() / 2.0f;
+            return firstHalf == leftToRight ? i : i + 1;
+        }
+        // Columns
+        return local.getY() < y + subv.getHeight() / 2.0f ? i : i + 1;
+    }
+
+    /// The sequence of items, reachable by a click, which stands under a
+    /// point inside a top-level item (or its descendants).
+    ///
+    /// @param view a view the point falls into.
+    /// @param rootPoint a point, in the root system.
+    /// @return the view of the innermost such sequence found first, or empty
+    ///         if the point lies in no such sequence.
+    private Optional<PlacedView> scopeAt(PlacedView view, Point2D rootPoint) {
+        for (int i = 0; i < view.childCount(); i++) {
+            Optional<PlacedView> child = view.child(i)
+                    .filter(c -> c.toLocal(rootPoint).filter(c::containsLocal).isPresent());
+            if (child.isEmpty()) {
+                continue;
+            }
+            if (isClickScope(child.get())) {
+                return child;
+            }
+            Optional<PlacedView> deeper = scopeAt(child.get(), rootPoint);
+            if (deeper.isPresent()) {
+                return deeper;
+            }
+        }
+        return Optional.empty();
+    }
+
+    /// Is a view the sequence of items of a text in miniature, where a click
+    /// puts the cursor? These are the sequences the cursor reaches in
+    /// [CaretGranularity#QUADRAT] mode, whatever the current granularity: a
+    /// click is not an arrow key.
+    private static boolean isClickScope(PlacedView view) {
+        ModelElement model = view.model();
+        return model instanceof ItemSequence && model.isCursorStop(0, CaretGranularity.QUADRAT);
+    }
+}

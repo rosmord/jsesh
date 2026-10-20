@@ -1912,3 +1912,13 @@ Now they are stops of their own, distinct from the surrounding gap: the cursor *
 - Decision: ligatures are **not** included. Their layout (stacked, side by side, diagonal) makes the edge ambiguous, and the same two methods can be overridden later if wanted.
 - Cost: a one-sign quadrat has four inner stops, so crossing a quadrat with the arrow keys takes more presses in INNER mode. INNER is opt-in.
 - Backspace and Delete at an edge do nothing (nothing to delete on that side), rather than reaching the neighbouring quadrat.
+
+## Mouse clicks enter cartouches, not quadrats (2026-10-20)
+
+`TextGeometry.positionAt` only returned top-level positions, so a click in a cartouche put the cursor before or after the whole cartouche. It now returns positions of the cartouche's content.
+
+- Which sequences a click can enter: those for which `isCursorStop(0, CaretGranularity.QUADRAT)` holds, i.e. exactly the ones the cursor reaches with the arrow keys at the default granularity. No new predicate; zones will come for free if they are `ItemSequence`s with the same property. A cartouche inside a sub-quadrat is not entered.
+- Decision: a click never goes *inside* a quadrat, even in `INNER` mode. It would be more disturbing than useful; it resolves to the gap before or after the whole quadrat.
+- Code: the hit test moved from `TextGeometry` to the package-private `PositionLocator` (sibling of `CursorLocator` and `SelectionLocator`). `PlacedView` now knows its model path, and can map a point back to its local system.
+- Nested sequences are a single row: points between quadrats or in the margin go to the nearest gap. The top-level logic (end of line, end of text) is unchanged.
+- The click region of a cartouche's content is its contents view; the frame counts as the cartouche itself. Widening it is easy if it proves too strict.

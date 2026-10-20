@@ -86,6 +86,14 @@ Inside a quadrat, the direction of the cursor is read from the geometry of the t
 
 At the edge of a row or of a quadrat there is no pair of subviews to read the direction from. The cursor is then a thin line at the edge of the first or last subview: vertical at the ends of a row, horizontal at the top and bottom of a quadrat (`stacksChildren()` says which). It is thin, and so differs from the thick cursor between quadrats.
 
+## Mouse clicks
+
+`TextGeometry.positionAt(point)` (implemented by the package-private `PositionLocator`) turns a point into a position. A click puts the cursor in a gap of a *sequence of items*: the text itself, or a text in miniature such as the content of a cartouche (and, later, zones). These are the sequences that the cursor reaches in `QUADRAT` mode (`ModelElement.isCursorStop(0, CaretGranularity.QUADRAT)`), whatever the current granularity: a click is not an arrow key.
+
+A click never goes *inside* a quadrat or a sub-quadrat. A cursor placed there by a mouse click would be more disturbing than useful, so the click is resolved to the gap before or after the whole quadrat (in the sequence which contains it). A click on the frame of a cartouche, outside its content, treats the cartouche as a unit, too.
+
+Inside a text in miniature, which is a single row (or column), the gap is the one nearest to the point, even if the point falls between quadrats or in the margin. The top-level text also knows about lines: a click after the end of a line goes to the end of this line.
+
 ## Selection drawing
 
 Selections at the top level are drawn by `ViewDrawer` itself. Selections in a nested scope (inside a cartouche...) are computed by `TextGeometry.selection`, which returns a `SelectionShape` that `ViewDrawer` asks to paint.

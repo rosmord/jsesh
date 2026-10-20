@@ -7,18 +7,15 @@
  */
 package jsesh.render.draw;
 
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
 
 import jsesh.document.caret.MDCCaret;
-import jsesh.model.AlphabeticCharacter;
 import jsesh.model.MDCPosition;
 import jsesh.model.TextScope;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.LayoutOptions;
 import jsesh.render.view.MDCView;
 
 /// Graphical positions of views in a text.
@@ -48,6 +45,8 @@ public final class TextGeometry {
 
     private final SelectionLocator selectionLocator;
 
+    private final PositionLocator positionLocator;
+
     /// @param rootView the view of the whole text.
     /// @param style the style used to build the view.
     public TextGeometry(MDCView rootView, JSeshStyle style) {
@@ -56,6 +55,7 @@ public final class TextGeometry {
         PlacedView root = PlacedView.root(rootView);
         this.cursorLocator = new CursorLocator(root, style);
         this.selectionLocator = new SelectionLocator(root);
+        this.positionLocator = new PositionLocator(root, style);
     }
 
     /// Finds the cursor shape for the insertion point of a caret.
@@ -92,110 +92,25 @@ public final class TextGeometry {
         return selectionLocator.locate(scope, start, end);
     }
 
-    /// Finds the top-level position under a point, mostly to manage mouse
-    /// clicks.
+    /// Finds the position under a point, mostly to manage mouse clicks.
     ///
-    /// When the point falls into a quadrat, the position is the gap on the
-    /// side of the quadrat nearest to the point. When it falls into no
-    /// quadrat, it is the end of the line (or column) it stands in, or the
-    /// end of the text.
+    /// The position is a gap of a sequence of items: of the text itself, or of
+    /// a text in miniature which the cursor reaches in
+    /// [jsesh.model.CaretGranularity#QUADRAT] mode (the content of a cartouche,
+    /// later zones). The position is never inside a quadrat or a sub-quadrat,
+    /// where it would be more disturbing than useful.
+    ///
+    /// When the point falls into a text in miniature, the position is the gap
+    /// of this text nearest to the point. When it falls into any other
+    /// quadrat, it is the gap on the side of the quadrat nearest to the point.
+    /// When it falls into no quadrat, it is the end of the line (or column) it
+    /// stands in, or the end of the text.
     ///
     /// @param point a point, in drawing coordinates. Any display scaling must
     /// be undone before calling this method.
     /// @return the position corresponding to the point (never null).
     public MDCPosition positionAt(Point2D point) {
-        int pos = -1;
-        // The main idea is that we visit all positions until
-        // we see we are too far.
-        // For line orientation, this means either :
-        // a) the vertical position of the current view fits the point,
-        // but the horizontal position is either too large or too small
-        // (depending on the text orientation).
-        // or
-        // b) the vertical position is too large.
-        // In this cases, the position will be the previous position.
-        //
-        // For text in column, the system is the same, only reversed.
-        MDCView v = rootView;
-        if (v.getNumberOfSubviews() != 0) {
-            Point2D.Float local = new Point2D.Float();
-            // First, compute the point's position in terms of v reference
-            // system :
-            try {
-                v.getAffineTransform().inverseTransform(point, local);
-            } catch (NoninvertibleTransformException e) {
-                // Should not happen !
-                e.printStackTrace();
-            }
-
-            GeometrySpecification geometry = style.geometry();
-            LayoutOptions options = style.options();
-
-            int i = 0;
-            while (pos == -1 && i < v.getNumberOfSubviews()) {
-                MDCView subv = v.getSubView(i);
-                Rectangle2D subvBounds = v.getSubViewBounds(i);
-                double x = subvBounds.getMinX();
-                double y = subvBounds.getMinY();
-
-                // First test, the same in all cases : does the point fall
-                // inside a view ?
-                if (local.x >= x && local.y >= y
-                        && local.x < x + subv.getWidth() + geometry.smallSkip()
-                        && local.y < y + subv.getHeight() + geometry.smallSkip()) {
-                    // Alphabetic characters follow their own direction, and
-                    // are on a horizontal line even in columns.
-                    boolean horizontal = options.textOrientation().isHorizontal();
-                    boolean leftToRight = options.textDirection().isLeftToRight();
-                    if (subv.getModel() instanceof AlphabeticCharacter c) {
-                        horizontal = true;
-                        leftToRight = !c.getScript().isRightToLeft();
-                    }
-                    if (horizontal) {
-                        if (local.x < x + subv.getWidth() / 2.0f) {
-                            if (leftToRight) {
-                                pos = i;
-                            } else {
-                                pos = i + 1;
-                            }
-                        } else if (leftToRight) {
-                            pos = i + 1;
-                        } else {
-                            pos = i;
-                        }
-                    } else { // Columns
-                        if (local.y < y + subv.getHeight() / 2.0f) {
-                            pos = i;
-                        } else {
-                            pos = i + 1;
-                        }
-                    }
-                } else if (options.textOrientation().isHorizontal()) {
-                    // Text for end of line.
-                    if (y > local.y) {
-                        pos = (i > 0 ? i - 1 : 0);
-                    }
-                } else {
-                    if (options.textDirection().isLeftToRight()) {
-                        if (x > local.x) {
-                            pos = i;
-                        }
-                    } else {
-                        if (x + geometry.maxCadratWidth() < local.x) {
-                            pos = i;
-                        }
-                    }
-                }
-                i++;
-            }
-        }
-
-        // If nothing was found, chose the last cadrat.
-        if (pos == -1) {
-            return new MDCPosition(v.getModel().getNumberOfChildren());
-        } else {
-            return new MDCPosition(pos);
-        }
+        return positionLocator.locate(point);
     }
 
     /// Returns a rectangle around a top-level position: it spans the gap
