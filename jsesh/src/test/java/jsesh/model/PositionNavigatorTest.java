@@ -86,6 +86,20 @@ class PositionNavigatorTest {
     }
 
     @Test
+    void subQuadratsAreEnteredOnlyWithInnerGranularity() throws Exception {
+        HieroglyphicText t = parse("n:x*(t:tA)-B1");
+        assertEquals(List.of(p(0), p(1), p(2)), walkForward(t, CaretGranularity.QUADRAT));
+        assertTrue(walkForward(t, CaretGranularity.INNER).size() > 3);
+    }
+
+    @Test
+    void cartouchesAreEnteredWithQuadratGranularity() throws Exception {
+        HieroglyphicText t = parse("<-A1-B1->");
+        assertEquals(List.of(p(0), p(0, 0, 0, 0, 0), p(0, 0, 0, 0, 1), p(0, 0, 0, 0, 2), p(1)),
+                walkForward(t, CaretGranularity.QUADRAT));
+    }
+
+    @Test
     void movesAreClampedAtTheTextBounds() throws Exception {
         HieroglyphicText t = parse("A1:B1");
         assertEquals(p(0), new PositionNavigator(t).previous(p(0), CaretGranularity.INNER));

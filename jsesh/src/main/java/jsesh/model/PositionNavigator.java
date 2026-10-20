@@ -16,7 +16,9 @@ import java.util.List;
 /// With [CaretGranularity#QUADRAT], the cursor stands between quadrats:
 /// on top-level positions `(0)`, `(1)`, ..., and on the gaps of the editing
 /// scopes nested in them (the content of cartouches and sub-quadrats, see
-/// below and [TextScope]).
+/// below and [TextScope]). Sub-quadrats (as in `n:x*(t:tA)`) are not among them:
+/// like the other parts of a quadrat, they are entered only with
+/// [CaretGranularity#INNER] (see [ModelElement#isEnteredAtQuadratGranularity()]).
 ///
 /// With [CaretGranularity#INNER], it also stands on the *interior* gaps of
 /// the quadrats, taken in document order:
@@ -32,7 +34,7 @@ import java.util.List;
 /// are not stops: they coincide visually with the gap which surrounds the
 /// container. Hence, a quadrat which contains one sign only has no inner stop.
 ///
-/// A [Cartouche] or a [SubCadrat] is entered too: its content (a
+/// A [Cartouche] (and, with [CaretGranularity#INNER], a [SubCadrat]) is entered: its content (a
 /// [BasicItemList] of quadrats) is a text in miniature. Here, *all* the gaps of
 /// the list are stops, including the first and the last one, as they are
 /// distinct from the gaps outside the cartouche. For instance, in `<-A1-B1->`,

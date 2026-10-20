@@ -157,6 +157,20 @@ class JMDCEditorWorkflowScopeTest {
     }
 
     @Test
+    void quadratGranularityLeavesSubQuadrats() throws Exception {
+        JMDCEditorWorkflow w = workflow("n:x*(t:tA)-B1");
+        jsesh.model.PositionNavigator nav = new jsesh.model.PositionNavigator(w.getCaret().getModel());
+        java.util.List<MDCPosition> inner = nav.stops(0, CaretGranularity.INNER);
+        assertFalse(inner.isEmpty());
+        for (MDCPosition stop : inner) {
+            w.setCaretGranularity(CaretGranularity.INNER);
+            w.setCursor(stop);
+            w.setCaretGranularity(CaretGranularity.QUADRAT);
+            assertTrue(w.getCaret().getInsertExactPosition().isTop(), stop + " -> " + w.getCaret().getInsertExactPosition());
+        }
+    }
+
+    @Test
     void topLevelEditingIsUnchanged() throws Exception {
         JMDCEditorWorkflow w = workflow("A1");
         w.setCursor(p(1));

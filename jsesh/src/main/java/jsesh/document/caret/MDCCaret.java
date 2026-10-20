@@ -18,6 +18,7 @@ import java.util.List;
 
 import jsesh.model.CaretGranularity;
 import jsesh.model.MDCMark;
+import jsesh.model.ModelElement;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.PositionNavigator;
@@ -128,14 +129,29 @@ public class MDCCaret {
 		setInsertPosition(new PositionNavigator(getModel()).move(insert.getPosition(), delta, granularity));
 	}
 
+	/// Brings the insertion point to a place where the cursor may stand in
+	/// [CaretGranularity#QUADRAT] mode.
+	///
 	/// If the insertion point lies inside a quadrat (see [#isInsertInner()]),
-	/// moves it to the gap of its scope just before this quadrat. Does nothing
-	/// otherwise.
+	/// it moves to the gap of its scope just before this quadrat. If the scope
+	/// is not reachable at this granularity (the content of a sub-quadrat), the
+	/// insertion point moves out of it, to the gap before the quadrat which
+	/// holds it. Does nothing otherwise.
 	public void snapToScopeLevel() {
-		if (isInsertInner()) {
-			TextScope scope = getInsertScope();
-			setInsertPosition(scope.positionAt(scope.localIndexOf(insert.getPosition())));
+		TextScope scope = getInsertScope();
+		MDCPosition target = scope.positionAt(scope.localIndexOf(insert.getPosition()));
+		while (!scope.isRoot() && !isReachableScope(scope)) {
+			int index = scope.enclosing(getModel()).localIndexOf(MDCPosition.of(scope.getPath()));
+			scope = scope.enclosing(getModel());
+			target = scope.positionAt(index);
 		}
+		if (!target.equals(insert.getPosition())) {
+			setInsertPosition(target);
+		}
+	}
+
+	private boolean isReachableScope(TextScope scope) {
+		return scope.resolve(getModel()) instanceof ModelElement e && e.isCursorStop(0, CaretGranularity.QUADRAT);
 	}
 
 	// ---- scopes ----

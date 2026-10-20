@@ -71,4 +71,9 @@ public class SubCadrat extends InnerGroup {
 	public boolean isNavigable() {
 		return true;
 	}
+
+	@Override
+	public boolean isEnteredAtQuadratGranularity() {
+		return false;
+	}
 } // end SubCadrat

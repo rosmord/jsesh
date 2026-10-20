@@ -21,7 +21,8 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.LayoutOptions;
 import jsesh.render.view.MDCView;
 
-/// Where things are in a laid out text: the mapping between positions in the
+/// Graphical positions of views in a text.
+/// Maps between positions in the
 /// model and points in the drawing.
 ///
 /// It finds the cursor, the selections in nested scopes, and the position
@@ -35,7 +36,8 @@ import jsesh.render.view.MDCView;
 /// geometry.cursorAt(caret).ifPresent(c -> c.paint(g, style));
 /// ```
 ///
-/// A `TextGeometry` is cheap to build; build a new one when the view changes.
+/// A `TextGeometry` is cheap to build; build a new one when the view changes, don't 
+/// keep them.
 public final class TextGeometry {
 
     private final MDCView rootView;

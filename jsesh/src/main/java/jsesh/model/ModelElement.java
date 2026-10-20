@@ -436,7 +436,32 @@ public abstract class ModelElement implements ModelElementObserver,
         if (!isNavigable() || gap < 0 || gap > n) {
             return false;
         }
-        return edgeGapsAreStops() || (granularity == CaretGranularity.INNER && gap > 0 && gap < n);
+        if (granularity == CaretGranularity.INNER) {
+            return edgeGapsAreStops() || (gap > 0 && gap < n);
+        }
+        return edgeGapsAreStops() && !isInsideInnerOnlyElement();
+    }
+
+    /// Is this element reachable by the cursor in [CaretGranularity#QUADRAT]
+    /// mode? Cartouches are, as they look like small texts. Sub-quadrats are
+    /// not: they are part of a quadrat, and the cursor enters them only in
+    /// [CaretGranularity#INNER] mode, like any other part of a quadrat.
+    ///
+    /// @return true by default.
+    public boolean isEnteredAtQuadratGranularity() {
+        return true;
+    }
+
+    /// @return true if this element, or one of its ancestors, is not reachable
+    ///         in [CaretGranularity#QUADRAT] mode (see
+    ///         [#isEnteredAtQuadratGranularity()]).
+    private boolean isInsideInnerOnlyElement() {
+        for (ModelElement e = this; e != null; e = e.getParent()) {
+            if (!e.isEnteredAtQuadratGranularity()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// Are the children of this element placed freely, at explicit
