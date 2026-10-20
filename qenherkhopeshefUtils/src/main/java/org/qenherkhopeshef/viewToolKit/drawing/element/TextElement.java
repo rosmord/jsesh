@@ -1,5 +1,6 @@
 package org.qenherkhopeshef.viewToolKit.drawing.element;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
@@ -13,7 +14,10 @@ public class TextElement extends GraphicalElement {
 
 	private final ObjectProperty<String> textProperty;
 
-	private Font font = new Font("SansSerif", Font.PLAIN, 12);
+	private final ObjectProperty<Font> fontProperty;
+
+	private final ObjectProperty<Color> colorProperty = new ObjectProperty<Color>(
+			"textColor", this, Color.BLACK, false);
 
 	/**
 	 * Inner margin (equivalent of HTML padding). TODO : move this property up;
@@ -25,18 +29,13 @@ public class TextElement extends GraphicalElement {
 	private Dimension2D preferredSize;
 
 	public TextElement(String text) {
-		textProperty = new ObjectProperty<String>("text", this, text, true);
+		this(text, new Font("SansSerif", Font.PLAIN, 12));
 	}
 
-	/**
-	 * Constructeur qui permet de préciser la font voulue.
-	 * 
-	 * @param text
-	 * @param otherFont
-	 */
+	/// Builds a text element with a specific font.
 	public TextElement(String text, Font otherFont) {
-		this.font = otherFont;
 		textProperty = new ObjectProperty<String>("text", this, text, true);
+		fontProperty = new ObjectProperty<Font>("font", this, otherFont, true);
 	}
 
 	@Override
@@ -44,6 +43,7 @@ public class TextElement extends GraphicalElement {
 		if ("".equals(textProperty.getValue()))
 			return;
 		g.translate(getInnerMargin().getLeft(), getInnerMargin().getTop());
+		g.setColor(getColor());
 		TextLayout layout = buildLayout();
 		double y = layout.getAscent();
 		layout.draw(g, 0, (float) y);
@@ -56,9 +56,11 @@ public class TextElement extends GraphicalElement {
 
 		if (preferredSize == null) {
 			TextLayout layout = buildLayout();
+			// Use the font metrics rather than the ink bounds, so that all
+			// texts in a given font have the same height (and descenders fit).
 			preferredSize = new DoubleDimensions(layout.getAdvance()
-					+ getInnerMargin().getTotalMarginWidth(), layout
-					.getBounds().getHeight()
+					+ getInnerMargin().getTotalMarginWidth(), layout.getAscent()
+					+ layout.getDescent()
 					+ getInnerMargin().getTotalMarginHeight());
 		}
 		return preferredSize;
@@ -67,7 +69,25 @@ public class TextElement extends GraphicalElement {
 	private TextLayout buildLayout() {
 		FontRenderContext fontRenderContext = new FontRenderContext(null, true,
 				false);
-		return new TextLayout(getText(), font, fontRenderContext);
+		return new TextLayout(getText(), getFont(), fontRenderContext);
+	}
+
+	public Font getFont() {
+		return fontProperty.getValue();
+	}
+
+	public void setFont(Font font) {
+		preferredSize = null;
+		fontProperty.setValue(font);
+	}
+
+	public Color getColor() {
+		return colorProperty.getValue();
+	}
+
+	/// Sets the text color.
+	public void setColor(Color color) {
+		colorProperty.setValue(color);
 	}
 
 	/**

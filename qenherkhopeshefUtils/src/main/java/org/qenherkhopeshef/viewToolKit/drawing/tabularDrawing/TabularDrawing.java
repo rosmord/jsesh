@@ -348,9 +348,12 @@ public class TabularDrawing extends AbstractDrawing {
 	@Override
 	public Collection<GraphicalElement> getDecorations() {
 		if (cursor == null)
-			return Collections.emptySet();
-		else
-			return Collections.singleton(getCursorRectangle());
+			return super.getDecorations();
+		else {
+			ArrayList<GraphicalElement> result = new ArrayList<GraphicalElement>(super.getDecorations());
+			result.add(getCursorRectangle());
+			return result;
+		}
 	}
 
 	/**
@@ -575,65 +578,40 @@ public class TabularDrawing extends AbstractDrawing {
 	private void relayout(GraphicalElement elt) {
 
 		ElementInfo info = elementInfoMap.get(elt);
+		if (info == null) // not one of our elements (or no source at all).
+			return;
 
 		// Find the element preferred size...
 		Dimension2D preferred = elt.getPreferredSize();
 
-		// If needed (that is, the new size is larger than the current one)
-		// (Note: one should compute the total space available instead)
-		boolean widthChanged = preferred.getWidth() > elt.getBounds()
-				.getWidth();
-
-		boolean heightChanged = preferred.getHeight() > elt.getBounds()
-				.getHeight();
+		// If needed (that is, the new size is larger than the space currently
+		// allocated to the element), enlarge the row and columns.
+		double allocatedWidth = 0;
+		for (int i = 0; i < info.getHorizontalSpan(); i++) {
+			allocatedWidth += getColumn(info.getFirstColumn() + i).width;
+		}
 
 		Column column = getColumn(info.getFirstColumn());
 
 		Row row = getRow(info.getFirstRow());
 
-		if (widthChanged || heightChanged) {
-			// enlarge the element
-			elt.setBounds(elt.getBounds().getMinX(), elt.getBounds().getMinY(),
-					preferred.getWidth(), preferred.getHeight());
+		boolean widthChanged = preferred.getWidth() > allocatedWidth;
 
-			// Now, distribute the element increase in width among all columns.
-			if (elt.getBounds().getWidth() > column.width) {
-				column.width = elt.getBounds().getWidth();
-				// Move the following columns
+		boolean heightChanged = preferred.getHeight() > row.height;
+
+		if (widthChanged || heightChanged) {
+			if (widthChanged) {
+				// Give the extra width to the first column of the element.
+				column.width += preferred.getWidth() - allocatedWidth;
 				fixColumnsCoordinates();
 			}
-
-			if (elt.getBounds().getHeight() > row.height) {
-				row.height = elt.getBounds().getHeight();
+			if (heightChanged) {
+				row.height = preferred.getHeight();
 				fixRowsCoordinates();
 			}
-			// If a vertical change occurred, move all elements below the
-			// current one.
-			if (heightChanged) {
-
-			}
-			// If an horizontal change occurred, move all elements after the
-			// current one.
-			if (widthChanged || heightChanged) {
-				fitCells();
-				// fixRowsCoordinates();
-				// fixColumnsCoordinates();
-				/*
-				 * int count = 0; double x = column.width + column.xPos; for
-				 * (int i = info.firstColumn + 1; i < columns.size(); i++) {
-				 * Column currentColumn = getColumn(i); currentColumn.xPos = x;
-				 * for (int j = 0; j < rows.size(); j++) { for (GraphicalElement
-				 * gelt : grid.get(new Coordinates( i, j))) { ElementInfo gInfo
-				 * = elementInfoMap.get(gelt); if (gInfo.firstColumn == i) {
-				 * double y = gelt.getBounds().getMinY(); gelt.setOrigin(x, y);
-				 * count++; } } } x += currentColumn.width; }
-				 * System.out.println("Changed " + count + " elements");
-				 */
-
-			}
-
+			// Move and resize the elements accordingly.
+			fitCells();
 		}
-
 	}
 
 	/**

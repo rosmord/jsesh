@@ -31,6 +31,18 @@ public interface Drawing {
      */
     public Collection<GraphicalElement> getDecorations();
 
+    /// Returns the decorations which might be visible in a given zone.
+    ///
+    /// Drawings with many decorations (for instance, the selection highlight
+    /// in a long text) should redefine this method; the default returns
+    /// [#getDecorations()].
+    ///
+    /// @param zone the zone to draw.
+    /// @return the decorations to draw (in drawing order).
+    default Collection<GraphicalElement> getDecorationsInZone(Rectangle2D zone) {
+        return getDecorations();
+    }
+
 	public Rectangle2D getPreferredSize();
 
 	/**

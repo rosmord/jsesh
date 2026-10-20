@@ -2,6 +2,7 @@ package org.qenherkhopeshef.viewToolKit.drawing.element;
 
 import org.qenherkhopeshef.viewToolKit.drawing.element.layout.CompositeLayout;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.qenherkhopeshef.swingUtils.DoubleDimensions;
+import org.qenherkhopeshef.viewToolKit.drawing.element.layout.HorizontalCompositeLayout;
 import org.qenherkhopeshef.viewToolKit.drawing.element.layout.VerticalCompositeLayout;
 import org.qenherkhopeshef.viewToolKit.drawing.event.CompositeEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
@@ -17,14 +18,15 @@ import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
 
 /**
  * A general composite element.
- * <p> The element layout is decided by one of the available layout classes.
+ * <p> The element layout is decided by one of the available layout classes
+ * (see {@link #setAxis(CompositeAxis)} and {@link #setLayout(CompositeLayout)}).
  * <p> <strong>Dynamics between layout and element size</strong> :
  * Basically, there are two ways for doing the layout. The size of the element might
  * be computed from its content, and the layout done, so to speak, <em>a mimima,</em>
  * or the layout might try to fill some existing space.
- * <p>
- * At the time being, a vertically arranged graphical element. Layout will be
- * separated from the composite in a next version.
+ * <p> {@link #pack()} does the first; {@link #setBounds(double, double, double, double)}
+ * then stretches the children along the cross axis (their alignment decides
+ * how they are drawn in the extra space).
  * 
  * @author rosmord
  * 
@@ -50,31 +52,37 @@ public class CompositeElement extends GraphicalElement {
 	
     private CompositeLayout layout= new VerticalCompositeLayout();
     
+	/// Draws the children which intersect the current clip.
 	@Override
 	public void drawElement(Graphics2D g) {
+		Rectangle clip = g.getClipBounds();
 		for (GraphicalElement elt : this) {
-			elt.draw(g);
+			if (clip == null || clip.intersects(elt.getDecoratedBounds()))
+				elt.draw(g);
 		}
 	}
 
 	@Override
 	public Dimension2D getPreferredSize() {
 		if (preferredSize == null) {
-			Rectangle2D rect = new Rectangle2D.Double();
-			for (GraphicalElement elt : this) {
-				rect.add(elt.getDecoratedBounds());
-			}
-			preferredSize = new DoubleDimensions(rect.getWidth(), rect
-					.getHeight());
+			preferredSize = layout.minimalSize(this);
 		}
 		return preferredSize;
 	}
 
 	public void addElement(GraphicalElement elt) {
 		elements.add(elt);
+		preferredSize = null;
 		elt.setManager(this.contentManager);
 	}
 
+	/// Removes a child element. Call [#pack()] afterwards to update the layout.
+	public void removeElement(GraphicalElement elt) {
+		if (elements.remove(elt)) {
+			preferredSize = null;
+			elt.setManager(null);
+		}
+	}
     public int getNumberOfChildren() {
         return elements.size();
     }
@@ -118,11 +126,7 @@ public class CompositeElement extends GraphicalElement {
 		super.setBounds(x, y, width, height);
 		boolean oldInUpdate = inUpdate;
 		inUpdate = true;
-		for (GraphicalElement elt : this) {
-			Rectangle2D b = elt.getBounds();
-			Margin m= elt.getMargin();
-			elt.setBounds(b.getMinX(), b.getMinY(), width - m.getTotalMarginWidth(), b.getHeight());
-		}
+		layout.fitChildren(this, width, height);
 		fixDecoratorBounds();
 		inUpdate = oldInUpdate;
 	}
@@ -169,15 +173,25 @@ public class CompositeElement extends GraphicalElement {
 		}
 	}
 	
-	/**
-	 * Sets the axis along which the composite will be packed.
-	 * <p>This method does not pack the composite. Packing must 
-	 * be called explicitly.
-	 * <p>
-	 * @param axis
-	 */
+	/// Sets the axis along which the composite will be packed.
+	///
+	/// Selects the matching standard layout ([VerticalCompositeLayout] or
+	/// [HorizontalCompositeLayout]). This method does not pack the composite.
+	/// Packing must be called explicitly.
 	public void setAxis(CompositeAxis axis) {
 		this.axis = axis;
+		setLayout(axis == CompositeAxis.HORIZONTAL ? new HorizontalCompositeLayout()
+				: new VerticalCompositeLayout());
+	}
+
+	/// Sets a specific layout for this composite. Does not pack the composite.
+	public void setLayout(CompositeLayout layout) {
+		this.layout = layout;
+		preferredSize = null;
+	}
+
+	public CompositeLayout getLayout() {
+		return layout;
 	}
 	
 	/**

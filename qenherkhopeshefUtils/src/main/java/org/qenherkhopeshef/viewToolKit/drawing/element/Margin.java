@@ -6,11 +6,13 @@ package org.qenherkhopeshef.viewToolKit.drawing.element;
  * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
  */
 public class Margin {
+
+	/// A margin of size 0 on all sides.
+	public static final Margin NONE = new Margin(0);
+
 	private double top, bottom, left, right;
 
-	/**
-	 * Empty margin.
-	 */
+	/// Default margin (2 units on each side). Use [#NONE] for an empty margin.
 	public Margin() {
 		this(2,2,2,2);
 	}

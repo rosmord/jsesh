@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.qenherkhopeshef.viewToolKit.drawing.element.layout;
 
 import java.awt.geom.Dimension2D;
@@ -15,12 +9,9 @@ import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement;
  */
 public interface CompositeLayout {
 
-    /**
-     * Compute the minimal size a composite element would have with this layout.
-     * @param composite
-     * @return 
-     */
-    
+    /// Compute the minimal size a composite element would have with this layout.
+    ///
+    /// This must not modify the composite or its children.
     Dimension2D minimalSize(CompositeElement composite);
     
     /**
@@ -28,5 +19,15 @@ public interface CompositeLayout {
      * @param composite 
      */
     void layoutComposite(CompositeElement composite);
+
+    /// Adapts the children of a composite to the space it has been given.
+    ///
+    /// Called when the composite bounds are set. Typically, children are
+    /// stretched along the cross axis of the layout.
+    ///
+    /// @param composite the composite, whose size has just been set.
+    /// @param width the composite's new width.
+    /// @param height the composite's new height.
+    void fitChildren(CompositeElement composite, double width, double height);
     
 }

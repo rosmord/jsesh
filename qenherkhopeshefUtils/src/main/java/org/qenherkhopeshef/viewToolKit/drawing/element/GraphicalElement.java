@@ -73,10 +73,12 @@ public abstract class GraphicalElement implements Iterable<GraphicalElement> {
 		Graphics2D g1 = (Graphics2D) g.create();
 		Rectangle2D bounds = getBounds();
 		g1.setBackground(getBackground());
-		Color oldColor = g1.getColor();
-		g1.setColor(getBackground());
-		g1.fill(bounds);
-		g1.setColor(oldColor);
+		if (getBackground().getAlpha() != 0) {
+			Color oldColor = g1.getColor();
+			g1.setColor(getBackground());
+			g1.fill(bounds);
+			g1.setColor(oldColor);
+		}
 		// Horizontal alignment.
 		double diffx = getBounds().getWidth() - getPreferredSize().getWidth();
 		double dx = 0;
@@ -140,16 +142,35 @@ public abstract class GraphicalElement implements Iterable<GraphicalElement> {
 		return backgroundProperty.getValue();
 	}
 
-	/**
-	 * Get element boundaries, ignoring any decoration.
-	 * 
-	 * @return a new rectangle, describing the bounds.
-	 */
+	/// Get element boundaries, ignoring any decoration.
+	///
+	/// As long as no explicit size has been given with
+	/// [#setBounds(double, double, double, double)], the size of the element
+	/// follows its preferred size (and changes with it).
+	///
+	/// @return a new rectangle, describing the bounds.
 	public Rectangle2D getBounds() {
-		if (dimension == null)
-			dimension = getPreferredSize();
+		Dimension2D d = dimension != null ? dimension : getPreferredSize();
 		return new Rectangle2D.Double(origin.getX(), origin.getY(),
-				dimension.getWidth(), dimension.getHeight());
+				d.getWidth(), d.getHeight());
+	}
+
+	/// Precise hit test.
+	///
+	/// The default implementation tests the element bounds; elements whose
+	/// shape is not rectangular (lines, polygons...) should redefine it.
+	///
+	/// @param point a point, in the coordinates of the element's parent (the
+	///  same system as [#getBounds()]).
+	/// @param tolerance the distance under which a point is considered on the
+	///  element.
+	/// @return true if the point touches the element.
+	public boolean contains(Point2D point, double tolerance) {
+		Rectangle2D b = getBounds();
+		return point.getX() >= b.getMinX() - tolerance
+				&& point.getX() <= b.getMaxX() + tolerance
+				&& point.getY() >= b.getMinY() - tolerance
+				&& point.getY() <= b.getMaxY() + tolerance;
 	}
 
 	/**
@@ -316,16 +337,15 @@ public abstract class GraphicalElement implements Iterable<GraphicalElement> {
 		this.margin.setValue(margin);
 	}
 
-	/**
-	 * Sets the position of the element in its parent element. The origin is the
-	 * top-left corner of the element.
-	 * 
-	 * @param x
-	 * @param y
-	 */
+	/// Sets the position of the element in its parent element. The origin is the
+	/// top-left corner of the element.
+	///
+	/// No event is fired if the origin doesn't change.
 	public void setOrigin(double x, double y) {
-		origin = new Point2D.Double(x, y);
-		fireDrawingEvent(new PropertyChangedEvent(this, new BoundsProperty()));
+		if (origin.getX() != x || origin.getY() != y) {
+			origin = new Point2D.Double(x, y);
+			fireDrawingEvent(new PropertyChangedEvent(this, new BoundsProperty()));
+		}
 	}
 
 }

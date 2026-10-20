@@ -3,11 +3,13 @@ package org.qenherkhopeshef.viewToolKit.drawing;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
 import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingListener;
 import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
@@ -54,7 +56,12 @@ import org.qenherkhopeshef.viewToolKit.drawing.tabularDrawing.TabularDrawing;
  */
 public abstract class AbstractDrawing implements Drawing {
 
-	private HashSet<DrawingListener> listeners= new HashSet<DrawingListener>();
+	private LinkedHashSet<DrawingListener> listeners= new LinkedHashSet<DrawingListener>();
+
+	/**
+	 * Decorations set by {@link #setDecorations(Collection)}.
+	 */
+	private List<GraphicalElement> decorations = List.of();
 	
 	/**
 	 * The element which will receive and transmit all information from drawings.
@@ -71,7 +78,8 @@ public abstract class AbstractDrawing implements Drawing {
 	}
 
 	public void fireDrawingEvent(DrawingEvent e) {
-		for (DrawingListener l: listeners) {
+		// Iterate on a copy: a listener might remove itself.
+		for (DrawingListener l: new ArrayList<DrawingListener>(listeners)) {
 			l.drawingChanged(e);
 		}
 	}
@@ -82,7 +90,18 @@ public abstract class AbstractDrawing implements Drawing {
 	}
 
     public Collection<GraphicalElement> getDecorations() {
-        return Collections.emptySet();
+        return decorations;
+    }
+
+    /// Sets "meaningless" decoration elements (selection handles, rubber bands...).
+    ///
+    /// They are drawn over the drawing elements, are not managed by the
+    /// drawing and are not returned by [#getElementsInZone(Rectangle2D)].
+    ///
+    /// @param newDecorations the new decorations, in drawing order.
+    public void setDecorations(Collection<? extends GraphicalElement> newDecorations) {
+        decorations = List.copyOf(newDecorations);
+        fireDrawingEvent(new DrawingChangedEvent());
     }
 
     /**
