@@ -1,6 +1,6 @@
 # Cursor and edition
 
-In **tksesh,**, the cursor could be moved *inside* quadrats. This feature can be useful for *advanced selection* (e.g. selecting a word for search in a dictionary), for *editing*, and is quite necessary if one day we add the notion of **zones** in the text (i.e. boxes which contain multiple columns or lines).
+In **tksesh,**, the cursor could be moved *inside* quadrats. This feature can be useful for *advanced selection* (e.g. selecting a word for search in a dictionary), for *editing*, and is quite necessary if one day we add the notion of **zones** in the text (i.e. boxes which contain multiple columns or lines). Zones, and a view structure that suits them, are designed in [Box tree and zones](boxTree.md).
 
 ## Position
 
