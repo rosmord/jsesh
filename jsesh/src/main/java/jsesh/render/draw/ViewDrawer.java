@@ -3,27 +3,19 @@ package jsesh.render.draw;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 import jsesh.document.caret.MDCCaret;
-import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.MDCPosition;
 import jsesh.model.TextScope;
 import jsesh.model.TopItem;
-import jsesh.model.constants.TextDirection;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.LayoutOptions;
 import jsesh.render.view.MDCView;
 
 /**
@@ -121,7 +113,7 @@ public class ViewDrawer {
 
     /// Draws a view and its subviews, and highlights the selection of a caret.
     ///
-    /// This does *not* draw the cursor itself. Locate it with [CursorLocator] and call [CursorShape#paint] afterwards for this.
+    /// This does *not* draw the cursor itself. Locate it with [TextGeometry#cursorAt(MDCCaret)] and call [CursorShape#paint] afterwards for this.
     ///
     /// @param g2d the graphics.
     /// @param renderContext the rendering context.
@@ -132,237 +124,6 @@ public class ViewDrawer {
             JSeshTechRenderContext techRenderContext, MDCView view,
             MDCCaret caret) {
         drawViewAndSelection(g2d, renderContext, techRenderContext, view, caret, 0, view.getNumberOfSubviews());
-    }
-
-     /**
-     * Returns the display coordinates of a given text position.
-     *
-     * @param v
-     * @param position
-     * @return the display coordinates of a given text position.
-     */
-    public Point2D getPointForPosition(MDCView v, MDCPosition position) {
-        Point2D ref;
-
-        if (position.getIndex() == 0) {
-            ref = new Point2D.Float(0, 0);
-        } else if (position.getIndex() < v.getNumberOfSubviews()) {
-            MDCView subv = v.getSubView(position.getIndex());
-            ref = new Point2D.Double(subv.getPosition().x, subv.getPosition().y);
-        } else {
-            MDCView subv = v.getSubView(v.getNumberOfSubviews() - 1);
-            ref = new Point2D.Double(subv.getPosition().x + subv.getWidth(),
-                    subv.getPosition().y);
-        }
-        return ref;
-    }
-
-    /**
-     * Mapping from display space to model space, mostly to manage mouse clicks.
-     *
-     * @param v          a view for a <em>HieroglyphicText</em> (this might and should
-     *                   change
-     *                   ?)
-     * @param clickPoint : a point, its coordinates expressed in display space.
-     *                   Note that in the case of JMDCDisplayer, display space
-     *                   scaling should be
-     *                   applied before calling this function, as the drawer knows
-     *                   nothing of it.
-     * @param ds         JSeshStyles
-     * @return the position corresponding to the point, or null if the click
-     *         corresponded to nothing..
-     */
-    public MDCPosition getPositionForPoint(MDCView v, Point clickPoint,
-            JSeshStyle ds) {
-        int pos = -1;
-        // The main idea is that we visit all positions until
-        // we see we are too far.
-        // For line orientation, this means either :
-        // a) the vertical position of the current view fits clicPoint,
-        // but the horizontal position is either too large or too small
-        // (depending on the text orientation).
-        // or
-        // b) the vertical position is too large.
-        // In this cases, the position will be the previous position.
-        //
-        // For text in column, the system is the same, only reversed.
-
-        if (v.getNumberOfSubviews() != 0) {
-            Point2D.Float point = new Point2D.Float();
-            // First, compute the point's position in terms of v reference
-            // system :
-
-            try {
-                v.getAffineTransform().inverseTransform(
-                        new Point2D.Float(clickPoint.x, clickPoint.y), point);
-            } catch (NoninvertibleTransformException e) {
-                // Should not happen !
-                e.printStackTrace();
-            }
-
-            int i = 0;
-            while (pos == -1 && i < v.getNumberOfSubviews()) {
-
-                MDCView subv = v.getSubView(i);
-
-                // Test if point falls into the current subview. If it's the
-                // case,
-                // sets pos :
-                double x, y;
-                x = subv.getPosition().x;
-                if (v.getDirection().equals(TextDirection.RIGHT_TO_LEFT)) {
-                    x = v.getInternalWidth() - x - subv.getWidth();
-                }
-                y = subv.getPosition().y;
-
-                GeometrySpecification geometry = ds.geometry();
-                LayoutOptions options = ds.options();
-
-                // First test, the same in all cases : does the point fall
-                // inside a view ?
-                if (point.x >= x && point.y >= y
-                        && point.x < x + subv.getWidth() + geometry.smallSkip()
-                        && point.y < y + subv.getHeight() + geometry.smallSkip()) {
-                    // TODO : the exact position choosed depends on the text
-                    // orientation.
-                    // Alphabetic characters follow their own direction, and
-                    // are on a horizontal line even in columns.
-                    boolean horizontal = options.textOrientation().isHorizontal();
-                    boolean leftToRight = options.textDirection().isLeftToRight();
-                    if (subv.getModel() instanceof AlphabeticCharacter c) {
-                        horizontal = true;
-                        leftToRight = !c.getScript().isRightToLeft();
-                    }
-                    if (horizontal) {
-                        if (point.x < x + subv.getWidth() / 2.0f) {
-                            if (leftToRight) {
-                                pos = i;
-                            } else {
-                                pos = i + 1;
-                            }
-                        } else if (leftToRight) {
-                            pos = i + 1;
-                        } else {
-                            pos = i;
-                        }
-                    } else { // Columns
-                        if (point.y < y + subv.getHeight() / 2.0f) {
-                            pos = i;
-                        } else {
-                            pos = i + 1;
-                        }
-
-                    }
-                } else if (options.textOrientation().isHorizontal()) {
-                    // Text for end of line.
-                    // if (ds.getTextDirection().isLeftToRight()) {
-                    if (y > point.y) {
-                        pos = (i > 0 ? i - 1 : 0);
-                    }
-                    // }
-                } else {
-                    if (options.textDirection().isLeftToRight()) {
-                        if (x > point.x) {
-                            pos = i;
-                        }
-                    } else {
-                        if (x + geometry.maxCadratWidth() < point.x) {
-                            pos = i;
-                        }
-                    }
-                }
-                i++;
-            }
-        }
-
-        // If nothing was found, chose the last cadrat.
-        if (pos == -1) {
-            return new MDCPosition(v.getModel().getNumberOfChildren());
-        } else {
-            return new MDCPosition(pos);
-        }
-    }
-
-    /**
-     * Returns A rectangle that surrounds a specific text position.
-     * <p>
-     * it deals with the cases where one of these signs is a break (line or
-     * page).
-     *
-     * @param v
-     * @param position
-     * @param jseshStyle
-     * @return A rectangle that contains the signs which surround position.
-     */
-    public Rectangle2D getRectangleAroundPosition(MDCView v,
-            MDCPosition position, JSeshStyle jseshStyle) {
-
-        GeometrySpecification geometry = jseshStyle.geometry();
-        // position is the next index. The rectangle should include both
-        // views i-1 and i (if they exist).
-
-        int index = position.getIndex();
-        Rectangle2D result = new Rectangle2D.Float(0, 0, geometry.smallSkip(),
-                geometry.maxCadratHeight());
-
-        // non empty view :
-        if (v.getNumberOfSubviews() != 0) {
-            boolean previousIsBreak = false;
-            boolean nextIsBreak = false;
-
-            Rectangle2D previousRectangle = new Rectangle2D.Float(0, 0, geometry
-                    .smallSkip(), geometry.maxCadratHeight());
-            Rectangle2D nextRectangle = new Rectangle2D.Float(0, v.getHeight()
-                    - geometry.maxCadratHeight(), geometry.smallSkip(),
-                    geometry
-                            .maxCadratHeight());
-
-            if (index > 0) {
-                previousRectangle = new Rectangle2D.Double(v.getSubView(
-                        index - 1).getPosition().x
-                        + v.getSubView(index - 1).getWidth(),
-                        v.getSubView(
-                                index - 1).getPosition().y,
-                        1, v.getSubView(index - 1)
-                                .getHeight());
-            }
-            if (index < v.getNumberOfSubviews()) {
-                nextRectangle = new Rectangle2D.Double(v.getSubView(index)
-                        .getPosition().x, v.getSubView(index).getPosition().y,
-                        1, v.getSubView(index).getHeight());
-            }
-
-            if (index <= 0 || v.getSubView(index - 1) == null
-                    || v.getSubView(index - 1).getModel().isBreak()) {
-                previousIsBreak = true;
-            }
-
-            if (index >= v.getNumberOfSubviews() || v.getSubView(index) == null
-                    || v.getSubView(index).getModel().isBreak()) {
-                nextIsBreak = true;
-            }
-
-            if (previousIsBreak) {
-                result = nextRectangle;
-            } else if (nextIsBreak) {
-                result = previousRectangle;
-            } else {
-                result = previousRectangle;
-                result.add(nextRectangle);
-            }
-        }
-        // Now, the rectangle has been computed regardless of the view's
-        // direction. Correct it :
-        if (v.getDirection().equals(TextDirection.RIGHT_TO_LEFT)) {
-            double x, y, w, h;
-            x = result.getMinX();
-            y = result.getMinY();
-            w = result.getWidth();
-            h = result.getHeight();
-            x = v.getInternalWidth() - x - w;
-            result = new Rectangle2D.Double(x, y, w, h);
-        }
-        return result;
     }
 
     /**
@@ -633,15 +394,9 @@ public class ViewDrawer {
 
                 // Graphics2D subViewG = (Graphics2D) g;
                 // Find the position of the subview's top-left point.
-                double subvx, subvy;
-                if (v.getDirection().isLeftToRight()) {
-                    subvx = subv.getPosition().x;
-                    subvy = subv.getPosition().y;
-                } else {
-                    subvx = v.getInternalWidth() - subv.getPosition().x
-                            - subv.getWidth();
-                    subvy = subv.getPosition().y;
-                }
+                Rectangle2D subvBounds = v.getSubViewBounds(i);
+                double subvx = subvBounds.getMinX();
+                double subvy = subvBounds.getMinY();
                 g.translate(subvx, subvy);
                 // Draw the subview.
                 boolean wasDrawn = drawView(g, renderContext, subv, depth + 1);
@@ -656,12 +411,13 @@ public class ViewDrawer {
 
     /// Highlights a selection which lies inside a cartouche (or another nested
     /// scope): only the selected quadrats of the cartouche are highlighted (see
-    /// [SelectionLocator]).
+    /// [TextGeometry#selection(TextScope, int, int)]).
     ///
     /// @param g the graphics, in the state used to draw `view`.
     /// @param view the view of the whole text.
+    /// @param style the style used to build the view.
     /// @param caret the caret (may be null).
-    private void drawNestedSelection(Graphics2D g, MDCView view, MDCCaret caret) {
+    private void drawNestedSelection(Graphics2D g, MDCView view, JSeshStyle style, MDCCaret caret) {
         if (caret == null || !caret.hasSelection()) {
             return;
         }
@@ -669,19 +425,9 @@ public class ViewDrawer {
         if (scope.isRoot()) {
             return;
         }
-        List<Rectangle2D> areas = new SelectionLocator().locate(view, scope, caret.getLocalMinPosition().getIndex(),
-                caret.getLocalMaxPosition().getIndex());
-        Graphics2D tmpG = (Graphics2D) g.create();
-        try {
-            // The areas are expressed in the system used to draw the subviews of view.
-            tmpG.transform(view.getAffineTransform());
-            tmpG.setColor(SELECTION_COLOR);
-            for (Rectangle2D area : areas) {
-                tmpG.fill(area);
-            }
-        } finally {
-            tmpG.dispose();
-        }
+        new TextGeometry(view, style)
+                .selection(scope, caret.getLocalMinPosition().getIndex(), caret.getLocalMaxPosition().getIndex())
+                .paint(g, SELECTION_COLOR);
     }
 
     private void drawViewAndSelection(Graphics2D g2d, JSeshRenderContext renderContext,
@@ -692,7 +438,7 @@ public class ViewDrawer {
         this.selectionCaret = caret;
         this.pageCoordinateSystem = new PageCoordinateSystem(g2d);
         drawView(g2d, renderContext, view, start, end, 0);
-        drawNestedSelection(g2d, view, caret);
+        drawNestedSelection(g2d, view, renderContext.jseshStyle(), caret);
         this.selectionCaret = null; // To avoid short-term memory leak.
         this.pageCoordinateSystem = null;
         elementDrawer.cleanup();

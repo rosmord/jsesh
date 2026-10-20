@@ -14,13 +14,11 @@ import java.util.List;
 import java.util.function.UnaryOperator;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.view.MDCView;
 
 /// The shape of the cursor, as computed by [CursorLocator].
 ///
-/// It is expressed in the coordinate system used to draw the subviews of the
-/// root view, that is, after applying [MDCView#getAffineTransform()] of the
-/// root view.
+/// It is expressed in the coordinate system of the `Graphics2D` given to
+/// [ViewDrawer] to draw the root view.
 ///
 /// @param lines the lines which make the cursor. In general, there is only one;
 /// between two top-level elements, there is one at the end of the previous
@@ -49,14 +47,11 @@ public record CursorShape(List<Line2D> lines, boolean wide) {
     /// Draws the cursor, on top of an already drawn view. It is independent
     /// from [ViewDrawer].
     ///
-    /// @param g the graphics, in the same state as the one given to [ViewDrawer] to draw `rootView`.
-    /// @param rootView the view of the whole text.
+    /// @param g the graphics, in the same state as the one given to [ViewDrawer] to draw the root view.
     /// @param style the style, which gives the cursor's color and strokes.
-    public void paint(Graphics2D g, MDCView rootView, JSeshStyle style) {
+    public void paint(Graphics2D g, JSeshStyle style) {
         Graphics2D tmpG = (Graphics2D) g.create();
         try {
-            // The lines are expressed in the system used to draw the subviews of the root view.
-            tmpG.transform(rootView.getAffineTransform());
             tmpG.setColor(style.painting().cursorColor());
             tmpG.setStroke(wide ? style.geometry().wideStroke() : style.geometry().fineStroke());
             for (Line2D line : lines) {

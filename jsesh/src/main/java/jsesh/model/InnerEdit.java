@@ -7,7 +7,6 @@
  */
 package jsesh.model;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /// Editing at *inner* positions of a [HieroglyphicText]: the gaps inside a
@@ -127,14 +126,11 @@ public final class InnerEdit {
 	/// A copy of the top item which contains the position, being edited.
 	private final class Draft {
 
-		private final int topIndex = position.getPath()[0];
-
-		private final TopItem top = text.getTopItemAt(topIndex).deepCopy();
+		private final TopItem top = text.getTopItemAt(position.getPath()[0]).deepCopy();
 
 		/// The element which contains a nested gap, in the copy.
 		Optional<ModelElement> containerOf(MDCPosition gap) {
-			int[] path = gap.getPath();
-			return top.getDescendant(Arrays.copyOfRange(path, 1, path.length - 1));
+			return top.getGapContainer(gap);
 		}
 
 		Optional<InnerEditable> editableContainerOf(MDCPosition gap) {
@@ -176,8 +172,7 @@ public final class InnerEdit {
 
 		/// The result, with the cursor at the stop nearest to `caret`.
 		Result result(MDCPosition caret) {
-			MDCPosition stop = new PositionNavigator(text, topIndex, top).canonicalize(caret);
-			return new Result(Optional.of(top), stop);
+			return new Result(Optional.of(top), top.canonicalize(caret));
 		}
 	}
 }

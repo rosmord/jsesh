@@ -578,6 +578,36 @@ public class MDCView implements ViewBox {
 		return (MDCView) subViews.get(i);
 	}
 
+	/// The area occupied by a subview, in the system used to draw the
+	/// subviews of this view (see [#layoutToDrawing(Rectangle2D)]).
+	///
+	/// @param i the index of the subview.
+	/// @return the bounds of the subview.
+	public Rectangle2D getSubViewBounds(int i) {
+		MDCView sub = getSubView(i);
+		return layoutToDrawing(new Rectangle2D.Double(sub.getPosition().x, sub.getPosition().y,
+				sub.getWidth(), sub.getHeight()));
+	}
+
+	/// Converts an area from the layout system to the drawing system of this
+	/// view's subviews.
+	///
+	/// The layout always places subviews from left to right. In a
+	/// right-to-left view, they are drawn mirrored, across the internal width
+	/// of the view. This is the only place where this mirroring is computed.
+	/// A view without a direction (not laid out yet) is left-to-right.
+	///
+	/// @param area an area, as placed by the layout (for instance the
+	///        position and size of a subview).
+	/// @return the area where it is drawn.
+	public Rectangle2D layoutToDrawing(Rectangle2D area) {
+		if (direction != TextDirection.RIGHT_TO_LEFT) {
+			return area;
+		}
+		return new Rectangle2D.Double(getInternalWidth() - area.getX() - area.getWidth(), area.getY(),
+				area.getWidth(), area.getHeight());
+	}
+
 	public List<MDCView> getSubViews() {
 		if (subViews == null)
 			subViews = new ArrayList<MDCView>();

@@ -85,8 +85,8 @@ import jsesh.model.operations.ModelOperation;
 import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
-import jsesh.render.draw.CursorLocator;
 import jsesh.render.draw.CursorShape;
+import jsesh.render.draw.TextGeometry;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
@@ -430,13 +430,11 @@ public class JMDCEditor extends JPanel {
     protected void moveCursorToMouse(Point p) {
 
         Point clickPoint = (Point) p.clone();
-        // the display scale is none of the drawer's business (currently, that
+        // the display scale is none of TextGeometry's business (currently, that
         // is.)
         clickPoint.x = (int) (clickPoint.x / getScale());
         clickPoint.y = (int) (clickPoint.y / getScale());
-        // drawer.getPositionForPoint(getView(), clickPoint);
-        MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getJSeshStyle());
+        MDCPosition pos = new TextGeometry(getView(), getJSeshStyle()).positionAt(clickPoint);
         if (pos != null) {
             workflow.setCursor(pos);
         }
@@ -449,13 +447,11 @@ public class JMDCEditor extends JPanel {
      */
     protected void moveMarkToMouse(Point p) {
         Point clickPoint = (Point) p.clone();
-        // the display scale is none of the drawer's business (currently, that
+        // the display scale is none of TextGeometry's business (currently, that
         // is.)
         clickPoint.x = (int) (clickPoint.x / getScale());
         clickPoint.y = (int) (clickPoint.y / getScale());
-        // drawer.getPositionForPoint(getView(), clickPoint);
-        MDCPosition pos = drawer.getPositionForPoint(getView(), clickPoint,
-                getJSeshStyle());
+        MDCPosition pos = new TextGeometry(getView(), getJSeshStyle()).positionAt(clickPoint);
         workflow.setMark(pos);
     }
 
@@ -493,8 +489,8 @@ public class JMDCEditor extends JPanel {
 
         drawer.drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
         JSeshStyle cursorStyle = getRenderContext().jseshStyle();
-        new CursorLocator(cursorStyle).locate(getView(), getMDCCaret())
-                .ifPresent(cursor -> cursor.paint(g2d, getView(), cursorStyle));
+        new TextGeometry(getView(), cursorStyle).cursorAt(getMDCCaret())
+                .ifPresent(cursor -> cursor.paint(g2d, cursorStyle));
 
         if (caretChanged) {
             // Disarm caret change updates.
@@ -624,12 +620,11 @@ public class JMDCEditor extends JPanel {
         Rectangle2D r1 = null;
         if (caret.getInsert().isInner()) {
             // Inside a quadrat or a cartouche: follow the cursor itself.
-            r1 = new CursorLocator(getJSeshStyle()).locate(getView(), caret.getInsertExactPosition())
+            r1 = new TextGeometry(getView(), getJSeshStyle()).cursorAt(caret.getInsertExactPosition())
                     .map(CursorShape::bounds).orElse(null);
         }
         if (r1 == null) {
-            r1 = drawer.getRectangleAroundPosition(getView(), caret.getInsert().getTopLevelPosition(),
-                    getJSeshStyle());
+            r1 = new TextGeometry(getView(), getJSeshStyle()).areaAround(caret.getInsert().getTopLevelPosition());
         }
         int w = (int) (r1.getWidth() * getScale());
         int h = (int) (r1.getHeight() * getScale());

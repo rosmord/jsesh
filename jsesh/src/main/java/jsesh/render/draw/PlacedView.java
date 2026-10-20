@@ -21,8 +21,9 @@ import jsesh.render.view.MDCView;
 /// Two coordinate systems are involved:
 ///
 /// - the *local* system, used to draw the subviews of this view;
-/// - the *root* system, used to draw the subviews of the root view (that is,
-///   after applying [MDCView#getAffineTransform()] of the root view).
+/// - the *root* system, the one of the `Graphics2D` given to [ViewDrawer] to
+///   draw the root view (that is, *before* applying
+///   [MDCView#getAffineTransform()] of the root view).
 ///
 /// A placed view is reached from the root by following a path of child
 /// indices, applying the same transformations as [ViewDrawer] on the way.
@@ -42,7 +43,8 @@ final class PlacedView {
     /// @param rootView the view of the whole text.
     /// @return the root view, as a placed view.
     static PlacedView root(MDCView rootView) {
-        return new PlacedView(rootView, new AffineTransform());
+        // Same transformation as ViewDrawer.drawView for the root.
+        return new PlacedView(rootView, new AffineTransform(rootView.getAffineTransform()));
     }
 
     MDCView view() {
@@ -77,8 +79,9 @@ final class PlacedView {
             return Optional.empty();
         }
         // Same transformations as ViewDrawer.drawSubViews and drawView.
+        Rectangle2D bounds = view.getSubViewBounds(i);
         AffineTransform subToRoot = new AffineTransform(toRoot);
-        subToRoot.translate(originX(sub), sub.getPosition().y);
+        subToRoot.translate(bounds.getMinX(), bounds.getMinY());
         subToRoot.concatenate(sub.getAffineTransform());
         return Optional.of(new PlacedView(sub, subToRoot));
     }
@@ -97,10 +100,10 @@ final class PlacedView {
         return current;
     }
 
-    /// The area occupied by a subview, in the local system.
+    /// The area occupied by a subview, in the local system
+    /// (see [MDCView#getSubViewBounds(int)]).
     Rectangle2D childBounds(int i) {
-        MDCView sub = view.getSubView(i);
-        return new Rectangle2D.Double(originX(sub), sub.getPosition().y, sub.getWidth(), sub.getHeight());
+        return view.getSubViewBounds(i);
     }
 
     /// A line of the local system, in the root system.
@@ -116,14 +119,5 @@ final class PlacedView {
     /// The bounds of an area of the local system, in the root system.
     Rectangle2D toRoot(Rectangle2D area) {
         return toRoot.createTransformedShape(area).getBounds2D();
-    }
-
-    /// Abscissa of the top-left corner of a subview, in the local system
-    /// (right-to-left views are mirrored).
-    private double originX(MDCView sub) {
-        if (view.getDirection().isLeftToRight()) {
-            return sub.getPosition().x;
-        }
-        return view.getInternalWidth() - sub.getPosition().x - sub.getWidth();
     }
 }

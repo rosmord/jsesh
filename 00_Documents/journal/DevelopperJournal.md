@@ -1885,3 +1885,18 @@ The rule used to decide where each kind of behaviour goes:
 - `MDCPosition` gained `child`, `parent`, `withLastIndex` and `surroundingGap`, so paths are no longer edited by hand.
 
 Pure geometry on value types (`mergedLine`, `overlap`, `sameRow`) stays as private static functions: there is no state or type-dependent behaviour in them.
+
+## Cursor geometry: second pass (2026-10-20)
+
+Compared what was built with an earlier, more ambitious plan, and took its better ideas, with one exception.
+
+- **Mirroring in one place.** The right-to-left formula `internalWidth - x - width` was in four places (`PlacedView` and three in `ViewDrawer`). It is now only in `MDCView.layoutToDrawing(Rectangle2D)`, and `MDCView.getSubViewBounds(i)` uses it. A view without a direction counts as left-to-right.
+- **One entry point, bound to its data.** `new TextGeometry(rootView, style)` with `cursorAt(caret)`, `cursorAt(position)` and `selection(scope, start, end)`. `CursorLocator` and `SelectionLocator` are now package-private and are built on a `PlacedView`, so `rootView` is no longer passed with every call. `TextGeometry` is the natural future home of `ViewDrawer.getPointForPosition`, `getRectangleAroundPosition` and `getPositionForPoint`.
+- **Shapes in the caller's coordinate system.** `PlacedView.root` now starts from the root view's own transform. `CursorShape.paint(g, style)` and the new `SelectionShape.paint(g, color)` need no view, and `CursorShape.bounds()` is in the same system as the rest of the editor.
+- **Cursor direction from the geometry, not from the container class.** The earlier plan wanted `Layout` to record a "child arrangement" enum on each view. I didn't do it. The arrangement is decided in several places (`Layout`, `QuadratLayout`, `TextRun`, the ligature table), and an enum would be a second record of the layout that could drift from it. The layout's real output is the subview geometry, so the cursor now reads it: subviews apart along x only get a vertical line, apart along y only a horizontal one, and otherwise the line cuts across the direction in which the centres are farthest apart. The `ModelElementVisitor` is gone, and so are `render.draw`'s imports of `HBox`, `ComplexLigature`, `AbsoluteGroup` and `BasicItemList`. Two model questions remain: `edgeGapsAreStops()`, and a new `placesChildrenFreely()` (true for `AbsoluteGroup`, where a gap is an order rather than a place). This fixed a bug: ligatures whose signs are side by side (`i&i`) used to get a horizontal line.
+- **Model side.**
+  - `ModelElement.isCursorStop(gap, granularity)` is the one definition of a stop. It was duplicated in `PositionNavigator`.
+  - `TopItem.getGapContainer(position)` and `TopItem.canonicalize(position)` work on a top item, even a copy not yet in the text. This removed the "text with one top item replaced" constructor of `PositionNavigator`, which `InnerEdit` needed only for that.
+- **Not done:**
+  - `InnerEdit.at(...)` returning an `Optional`. It gains nothing, since each operation already returns one.
+  - A `removeChildAt` on `InnerEditable`. `ModelElement.removeChildAt` is protected, and `InnerEdit` also needs to remove from containers which are not `InnerEditable`.

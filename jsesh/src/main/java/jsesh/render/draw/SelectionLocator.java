@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.model.TextScope;
-import jsesh.render.view.MDCView;
 
 /// Computes the area to highlight for a selection inside a nested scope (the
 /// content of a cartouche...), from the view tree only, like [CursorLocator].
+/// Used through [TextGeometry#selection(TextScope, int, int)].
 ///
 /// The items between the two limits are covered by rectangles. Consecutive
 /// items on the same row (or column) of text are covered by a single
@@ -23,25 +23,27 @@ import jsesh.render.view.MDCView;
 ///
 /// Selections at the top level of the text are drawn by [ViewDrawer] itself,
 /// one top-level view at a time.
-///
-/// The rectangles are expressed in the coordinate system used to draw the
-/// subviews of the root view, that is, after applying
-/// [MDCView#getAffineTransform()] of the root view.
-public final class SelectionLocator {
+final class SelectionLocator {
+
+    private final PlacedView root;
+
+    /// @param root the view of the whole text.
+    SelectionLocator(PlacedView root) {
+        this.root = root;
+    }
 
     /// Finds the area of a selection in a scope.
     ///
-    /// @param rootView the view of the whole text.
     /// @param scope the scope of the selection.
     /// @param start the first gap of the selection, in the scope.
     /// @param end the last gap of the selection (`start <= end`).
-    /// @return the rectangles to highlight; empty if there is nothing to
+    /// @return the area to highlight; empty if there is nothing to
     /// highlight, or if the view doesn't match the scope (for instance if it is
     /// not up to date).
-    public List<Rectangle2D> locate(MDCView rootView, TextScope scope, int start, int end) {
-        return PlacedView.root(rootView).follow(scope.getPath())
+    SelectionShape locate(TextScope scope, int start, int end) {
+        return new SelectionShape(root.follow(scope.getPath())
                 .map(container -> locateIn(container, start, end))
-                .orElse(List.of());
+                .orElse(List.of()));
     }
 
     private List<Rectangle2D> locateIn(PlacedView container, int start, int end) {

@@ -8,10 +8,8 @@
 package jsesh.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /// Computes the successive places where the cursor may stand in a [HieroglyphicText], depending on a [CaretGranularity].
 ///
@@ -46,7 +44,7 @@ import java.util.Optional;
 ///
 /// The kinds of elements which are entered, and whether their edge gaps are
 /// stops, are decided by the elements themselves
-/// ([ModelElement#isNavigable()], [ModelElement#edgeGapsAreStops()]).
+/// ([ModelElement#isCursorStop(int, CaretGranularity)]).
 ///
 /// Stops are ordered like [MDCPosition#compareTo(MDCPosition)]: `(1) < (1,0,1) <
 /// (1,1) < (2)`.
@@ -54,29 +52,11 @@ public final class PositionNavigator {
 
 	private final HieroglyphicText text;
 
-	/// The index of a top item seen as replaced by [#replacement], or -1.
-	private final int replacedIndex;
-
-	private final TopItem replacement;
-
 	/// Creates a navigator for a text.
 	///
 	/// @param text the text.
 	public PositionNavigator(HieroglyphicText text) {
-		this(text, -1, null);
-	}
-
-	/// Creates a navigator for a text as it would be if one of its top items
-	/// were replaced by another one (used to compute positions in an edited
-	/// item before it is put in the text).
-	///
-	/// @param text the text.
-	/// @param replacedIndex the index of the replaced top item in `text`.
-	/// @param replacement the item which takes its place.
-	PositionNavigator(HieroglyphicText text, int replacedIndex, TopItem replacement) {
 		this.text = text;
-		this.replacedIndex = replacedIndex;
-		this.replacement = replacement;
 	}
 
 	/// Lists the interior stops of a top-level item, in document order, for
@@ -101,14 +81,14 @@ public final class PositionNavigator {
 			return Collections.emptyList();
 		}
 		List<MDCPosition> result = new ArrayList<>();
-		collectStops(topItemAt(topIndex), MDCPosition.of(topIndex), granularity == CaretGranularity.INNER, result);
+		collectStops(text.getTopItemAt(topIndex), MDCPosition.of(topIndex), granularity, result);
 		return result;
 	}
 
 	/// @param element an element.
 	/// @param elementPath the path of `element`, from the text.
-	/// @param interior true to collect interior gaps too.
-	private void collectStops(ModelElement element, MDCPosition elementPath, boolean interior,
+	/// @param granularity the kinds of stops.
+	private void collectStops(ModelElement element, MDCPosition elementPath, CaretGranularity granularity,
 			List<MDCPosition> result) {
 		if (!element.isNavigable()) {
 			return;
@@ -117,22 +97,17 @@ public final class PositionNavigator {
 		for (int i = 0; i <= n; i++) {
 			// The gap before child i, which is also the path of child i.
 			MDCPosition gap = elementPath.child(i);
-			if (element.edgeGapsAreStops() || (interior && i > 0 && i < n)) {
+			if (element.isCursorStop(i, granularity)) {
 				result.add(gap);
 			}
 			if (i < n) {
-				collectStops(element.getChildAt(i), gap, interior, result);
+				collectStops(element.getChildAt(i), gap, granularity, result);
 			}
 		}
 	}
 
-	/// Brings a position to the nearest place where the cursor may stand.
-	///
-	/// The edge gaps (first and last) of a container whose
-	/// [ModelElement#edgeGapsAreStops()] is false are not stops: they coincide
-	/// with the gap which surrounds the container. Such a position is replaced
-	/// by the surrounding gap, and so on recursively, up to a top-level
-	/// position if need be. Other positions are returned unchanged.
+	/// Brings a position to the nearest place where the cursor may stand
+	/// (see [TopItem#canonicalize(MDCPosition)]).
 	///
 	/// @param position a position, possibly nested. A path which no longer
 	///        matches the structure of the text is handled as far as possible.
@@ -141,33 +116,7 @@ public final class PositionNavigator {
 		if (position.isTop() || position.getPath()[0] >= text.getNumberOfChildren()) {
 			return position;
 		}
-		MDCPosition p = position;
-		while (!p.isTop()) {
-			if (isStop(p)) {
-				return p;
-			}
-			p = p.surroundingGap();
-		}
-		return p;
-	}
-
-	/// Is a nested gap a stop, whatever the granularity?
-	private boolean isStop(MDCPosition gap) {
-		return containerOf(gap).map(container -> {
-			int n = container.getNumberOfChildren();
-			int i = gap.getLastIndex();
-			return container.isNavigable() && i <= n && (container.edgeGapsAreStops() || (i > 0 && i < n));
-		}).orElse(false);
-	}
-
-	/// The element which contains a nested gap.
-	private Optional<ModelElement> containerOf(MDCPosition gap) {
-		int[] path = gap.getPath();
-		return topItemAt(path[0]).getDescendant(Arrays.copyOfRange(path, 1, path.length - 1));
-	}
-
-	private ModelElement topItemAt(int index) {
-		return index == replacedIndex ? replacement : text.getTopItemAt(index);
+		return text.getTopItemAt(position.getPath()[0]).canonicalize(position);
 	}
 
 	/// The position which follows or precedes another one, according to a

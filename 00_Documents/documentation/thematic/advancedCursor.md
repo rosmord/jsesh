@@ -65,15 +65,15 @@ Moving the cursor is handled by a `PositionNavigator`, built for a text. The pri
 
 In the previous versions of the software, the cursor was drawn by the method `ViewDrawer.drawViewAndCursor`, which drew the view, and which checked, at each step, if we were at the cursor position. The cursor drawing has now been separated from the view drawing (even if the view drawing still handles the **selection**).
 
-Now, a `CursorLocator` (built with the current `JSeshStyle`) is responsible for computing the lines which will actually be used to draw the cursor. It returns a `CursorShape`, which paints itself: the editing components (`JMDCField` and `JMDCEditor`) do `new CursorLocator(style).locate(view, caret).ifPresent(c -> c.paint(g, view, style))`.
+Now, a `TextGeometry`, built for the root view and the current `JSeshStyle`, computes where the cursor and nested selections are drawn, from the view tree only. It returns shapes which paint themselves: the editing components (`JMDCField` and `JMDCEditor`) do `new TextGeometry(view, style).cursorAt(caret).ifPresent(c -> c.paint(g, style))`. The shapes are expressed in the coordinate system of the `Graphics2D` given to `ViewDrawer`.
 
-Both the locator and `SelectionLocator` walk the view tree through `PlacedView` (package-private): a view together with the transform from its own coordinate system to the root's. It follows model paths down the views, checks that views and model still match, and gives the bounds of subviews.
+Behind it, the package-private `CursorLocator` and `SelectionLocator` walk the view tree through `PlacedView`: a view together with the transform from its own coordinate system to the root's. It follows model paths down the views, checks that views and model still match, and gives the bounds of subviews. The bounds themselves, including the mirroring of right-to-left views, come from `MDCView.getSubViewBounds` and `MDCView.layoutToDrawing`, which `ViewDrawer` uses too.
 
-Inside a quadrat, the shape of the cursor depends on the kind of container (horizontal box, absolute group, complex ligature, list of quadrats...). This is handled by double dispatch: a `ModelElementVisitor` inside `CursorLocator`, with one method per kind of container. The model classes can't do it themselves, as `jsesh.model` must not know about rendering.
+Inside a quadrat, the direction of the cursor is read from the geometry of the two subviews around the gap, as the layout has placed them: subviews apart horizontally are separated by a vertical line, subviews apart vertically by a horizontal one, and otherwise (overlapping or diagonal parts, as in complex ligatures) the line cuts across the direction in which their centres are farthest apart. The kind of container is not consulted, so the cursor can't disagree with the layout (an earlier version, with one visitor method per kind of container, drew a horizontal line in ligatures whose signs were side by side). Two questions are still asked to the model: `ModelElement.edgeGapsAreStops()` (lists of quadrats, whose first and last gaps have a cursor of their own) and `ModelElement.placesChildrenFreely()` (absolute groups, where the gap is an order rather than a place, so the end of the preceding sign is marked).
 
 ## Selection drawing
 
-Selection drawing is called by `ViewDrawer`, calling a `SelectionLocator`.
+Selections at the top level are drawn by `ViewDrawer` itself. Selections in a nested scope (inside a cartouche...) are computed by `TextGeometry.selection`, which returns a `SelectionShape` that `ViewDrawer` asks to paint.
 
 ## Sub-quadrat edition
 
@@ -85,7 +85,7 @@ When editing inside a quadrat, options are more limited.
 
 If the cursor is not at a place where “standard” edits are possible, the `JMDCEditorWorkflow` uses an `InnerEdit`, built for a text and a position (`new InnerEdit(text, position).insertSign(sign)`, `.deleteBefore()`, `.deleteAfter()`). It computes the new version of the top item and the new cursor position; the workflow then replaces the top item.
 
-What is done depends on the container, and the containers decide it themselves: `Cadrat`, `HBox` and `Ligature` implement `InnerEditable` (`insertSignAt`, `disappearsWhenEmpty`, `simplifyElementAt`). Likewise, which elements the cursor may enter, and whether their edge gaps are stops, are given by `ModelElement.isNavigable()` and `edgeGapsAreStops()`, which `PositionNavigator` uses.
+What is done depends on the container, and the containers decide it themselves: `Cadrat`, `HBox` and `Ligature` implement `InnerEditable` (`insertSignAt`, `disappearsWhenEmpty`, `simplifyElementAt`). Likewise, which gaps are stops is decided by `ModelElement.isCursorStop(gap, granularity)` (built on `isNavigable()` and `edgeGapsAreStops()`), which `PositionNavigator` uses. Bringing a position to the nearest stop is done by `TopItem.canonicalize`, so that `InnerEdit` can compute the new cursor position in its edited copy of the top item, before it is put in the text.
 
 ### Editing Cartouches (and other text scopes)
 

@@ -115,4 +115,9 @@ public class AbsoluteGroup extends InnerGroup {
     public boolean isNavigable() {
         return true;
     }
+
+    @Override
+    public boolean placesChildrenFreely() {
+        return true;
+    }
 }

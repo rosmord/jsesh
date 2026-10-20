@@ -1,7 +1,9 @@
 package jsesh.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 
@@ -83,6 +85,47 @@ abstract public class TopItem extends EmbeddedModelElement{
 	
 	@Override
 	public abstract TopItem deepCopy();
+
+	/// The element which contains a nested gap of this item.
+	///
+	/// The gap is given by its position in the text: the first index of its
+	/// path is taken to be the index of this item, whatever it is. This way,
+	/// a copy of an item can be queried before it is put in the text.
+	///
+	/// @param gap a nested position (not a top-level one).
+	/// @return the element which contains the gap, or empty if the path
+	///         doesn't match the structure of this item.
+	public Optional<ModelElement> getGapContainer(MDCPosition gap) {
+		int[] path = gap.getPath();
+		return getDescendant(Arrays.copyOfRange(path, 1, path.length - 1));
+	}
+
+	/// Brings a position inside this item to the nearest place where the cursor
+	/// may stand.
+	///
+	/// The edge gaps (first and last) of a container whose
+	/// [ModelElement#edgeGapsAreStops()] is false are not stops: they coincide
+	/// with the gap which surrounds the container. Such a position is replaced
+	/// by the surrounding gap, and so on recursively, up to a top-level
+	/// position if need be. Other positions are returned unchanged.
+	///
+	/// As for [#getGapContainer(MDCPosition)], the first index of the path is
+	/// taken to be the index of this item.
+	///
+	/// @param position a position, possibly nested. A path which no longer
+	///        matches the structure of this item is handled as far as possible.
+	/// @return the equivalent stop.
+	public MDCPosition canonicalize(MDCPosition position) {
+		MDCPosition p = position;
+		while (!p.isTop()) {
+			int gap = p.getLastIndex();
+			if (getGapContainer(p).map(c -> c.isCursorStop(gap, CaretGranularity.INNER)).orElse(false)) {
+				return p;
+			}
+			p = p.surroundingGap();
+		}
+		return p;
+	}
 	
 	/**
 	 * defensive copy.

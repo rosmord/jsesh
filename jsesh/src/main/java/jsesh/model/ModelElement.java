@@ -422,6 +422,33 @@ public abstract class ModelElement implements ModelElementObserver,
         return false;
     }
 
+    /// Is a gap of this element a place where the cursor may stand? This is
+    /// the one definition of a stop, used by [PositionNavigator].
+    ///
+    /// @param gap a gap of this element, between 0 and the number of children.
+    /// @param granularity the kinds of stops allowed: with
+    ///        [CaretGranularity#QUADRAT], only the gaps of lists of quadrats
+    ///        (see [#edgeGapsAreStops()]); with [CaretGranularity#INNER], the
+    ///        interior gaps of the other navigable elements too.
+    /// @return true if the cursor may stand in the gap.
+    public final boolean isCursorStop(int gap, CaretGranularity granularity) {
+        int n = getNumberOfChildren();
+        if (!isNavigable() || gap < 0 || gap > n) {
+            return false;
+        }
+        return edgeGapsAreStops() || (granularity == CaretGranularity.INNER && gap > 0 && gap < n);
+    }
+
+    /// Are the children of this element placed freely, at explicit
+    /// coordinates, so that they may overlap? Then, the order of the children
+    /// is not their visual order, and a gap between two of them is not a place
+    /// on the page.
+    ///
+    /// @return false by default; true for absolute groups.
+    public boolean placesChildrenFreely() {
+        return false;
+    }
+
     /// Follows a path of child indices down from this element.
     ///
     /// @param childIndexes the indices of the successive children, from this element.

@@ -24,7 +24,7 @@ class CursorLocatorTest {
 
     private Optional<CursorShape> locate(String mdc, MDCPosition position) {
         editor.setMDCText(mdc);
-        return new CursorLocator(editor.getJSeshStyle()).locate(editor.getView(), position);
+        return new TextGeometry(editor.getView(), editor.getJSeshStyle()).cursorAt(position);
     }
 
     private static Rectangle2D bounds(MDCView v, MDCView parent) {
@@ -118,8 +118,8 @@ class CursorLocatorTest {
         assertTrue(quadratBounds.contains(line.getX1(), (line.getY1() + line.getY2()) / 2));
 
         // Moving the gap moves the line.
-        Optional<CursorShape> next = new CursorLocator(editor.getJSeshStyle())
-                .locate(editor.getView(), MDCPosition.of(1, 0, 2));
+        Optional<CursorShape> next = new TextGeometry(editor.getView(), editor.getJSeshStyle())
+                .cursorAt(MDCPosition.of(1, 0, 2));
         assertTrue(next.get().lines().get(0).getX1() > line.getX1());
     }
 
@@ -160,5 +160,24 @@ class CursorLocatorTest {
         Optional<CursorShape> next = locate(mdc, MDCPosition.of(1, 0, 0, 2));
         assertTrue(next.isPresent());
         assertTrue(Math.abs(next.get().lines().get(0).getX1() - line.getX1()) > EPSILON);
+    }
+
+    @Test
+    void cursorInLigatureFollowsThePlacementOfTheSigns() {
+        // In the ligature table, the two signs of i&i are side by side.
+        Optional<CursorShape> location = locate("A1-i&i-D21", MDCPosition.of(1, 0, 0, 1));
+        assertTrue(location.isPresent());
+        assertFalse(location.get().wide());
+        Line2D line = location.get().lines().get(0);
+        // Vertical line, between the two signs.
+        assertEquals(line.getX1(), line.getX2(), EPSILON);
+        MDCView quadrat = editor.getView().getSubView(1);
+        MDCView hbox = quadrat.getSubView(0);
+        MDCView ligature = hbox.getSubView(0);
+        double offset = quadrat.getPosition().x + hbox.getPosition().x + ligature.getPosition().x;
+        MDCView first = ligature.getSubView(0);
+        MDCView second = ligature.getSubView(1);
+        assertTrue(line.getX1() >= offset + first.getPosition().x + first.getWidth() - EPSILON);
+        assertTrue(line.getX1() <= offset + second.getPosition().x + EPSILON);
     }
 }
