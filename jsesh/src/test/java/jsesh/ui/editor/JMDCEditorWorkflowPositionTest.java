@@ -193,7 +193,11 @@ class JMDCEditorWorkflowPositionTest {
     void innerGranularityWalksInsideQuadrats() throws Exception {
         JMDCEditorWorkflow w = workflow("A1-B1*C1-D1:E1");
         w.setCaretGranularity(CaretGranularity.INNER);
-        MDCPosition[] expected = {pos(1), MDCPosition.of(1, 0, 1), pos(2), MDCPosition.of(2, 1), pos(3)};
+        MDCPosition[] expected = { MDCPosition.of(0, 0), MDCPosition.of(0, 0, 0), MDCPosition.of(0, 0, 1),
+                MDCPosition.of(0, 1), pos(1), MDCPosition.of(1, 0), MDCPosition.of(1, 0, 0),
+                MDCPosition.of(1, 0, 1), MDCPosition.of(1, 0, 2), MDCPosition.of(1, 1), pos(2),
+                MDCPosition.of(2, 0), MDCPosition.of(2, 0, 0), MDCPosition.of(2, 0, 1), MDCPosition.of(2, 1),
+                MDCPosition.of(2, 1, 0), MDCPosition.of(2, 1, 1), MDCPosition.of(2, 2), pos(3) };
         for (MDCPosition e : expected) {
             w.cursorNext();
             assertEquals(e, w.getCaret().getInsertExactPosition());
@@ -228,7 +232,8 @@ class JMDCEditorWorkflowPositionTest {
         w.cursorToBeginningOfLine();
         assertEquals(pos(0), w.getCaret().getInsertExactPosition());
 
-        w.setCursor(MDCPosition.of(1, 0, 1));
+        w.setCursor(MDCPosition.of(1, 0, 2));
+        w.expandSelection(1);
         w.expandSelection(1);
         assertSelection(w, 2, 1);
     }
@@ -237,8 +242,7 @@ class JMDCEditorWorkflowPositionTest {
     void goingBackToQuadratGranularitySnapsTheCursor() throws Exception {
         JMDCEditorWorkflow w = workflow("A1-B1*C1-D1");
         w.setCaretGranularity(CaretGranularity.INNER);
-        w.cursorNext();
-        w.cursorNext();
+        w.setCursor(MDCPosition.of(1, 0, 1));
         assertTrue(w.getCaret().isInsertInner());
         w.setCaretGranularity(CaretGranularity.QUADRAT);
         assertEquals(pos(1), w.getCaret().getInsertExactPosition());

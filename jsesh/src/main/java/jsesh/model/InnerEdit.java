@@ -30,9 +30,12 @@ import java.util.Optional;
 ///
 /// | container                                   | insertion                   | deletion   |
 /// |---                                          |---                          |---         |
-/// | [Cadrat] (between rows)                     | a new row (as with `:`)     | a row      |
-/// | [HBox] (between elements of a row)          | a new element (as with `*`) | an element |
+/// | [Cadrat] (between rows, top, bottom)        | a new row (as with `:`)     | a row      |
+/// | [HBox] (between elements of a row, its ends)| a new element (as with `*`) | an element |
 /// | [Ligature]                                  | a new sign (as with `&`)    | a sign     |
+///
+/// At the edges of a row or of a quadrat, there is nothing to delete on one
+/// side: the deletion is refused, and does not reach the neighbouring item.
 ///
 /// Other containers ([ComplexLigature], [AbsoluteGroup]) are not supported yet.
 ///

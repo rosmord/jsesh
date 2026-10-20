@@ -73,29 +73,54 @@ class InnerEditTest {
 
     @Test
     void deleteInARow() throws Exception {
-        assertEquals("B1*C1", delete("A1*B1*C1", p(0, 0, 1), true, p(0)));
+        // The cursor stays in the row, at its start or at its end.
+        assertEquals("B1*C1", delete("A1*B1*C1", p(0, 0, 1), true, p(0, 0, 0)));
         assertEquals("A1*C1", delete("A1*B1*C1", p(0, 0, 1), false, p(0, 0, 1)));
-        assertEquals("A1*B1", delete("A1*B1*C1", p(0, 0, 2), false, p(1)));
+        assertEquals("A1*B1", delete("A1*B1*C1", p(0, 0, 2), false, p(0, 0, 2)));
     }
 
     @Test
     void deleteBetweenRows() throws Exception {
-        assertEquals("B1", delete("A1:B1", p(0, 1), true, p(0)));
-        assertEquals("A1", delete("A1:B1", p(0, 1), false, p(1)));
+        assertEquals("B1", delete("A1:B1", p(0, 1), true, p(0, 0)));
+        assertEquals("A1", delete("A1:B1", p(0, 1), false, p(0, 1)));
         assertEquals("A1:C1", delete("A1:B1:C1", p(0, 1), false, p(0, 1)).replace("-", ""));
     }
 
     @Test
     void ligatureReducedToOneSignBecomesThisSign() throws Exception {
-        assertEquals("B1", delete("A1&B1", p(0, 0, 0, 1), true, p(0)));
-        assertEquals("A1", delete("A1&B1", p(0, 0, 0, 1), false, p(1)));
+        assertEquals("B1", delete("A1&B1", p(0, 0, 0, 1), true, p(0, 0, 0)));
+        assertEquals("A1", delete("A1&B1", p(0, 0, 0, 1), false, p(0, 0, 1)));
         assertEquals("A1&C1", delete("A1&B1&C1", p(0, 0, 0, 1), false, p(0, 0, 0, 1)));
     }
 
     @Test
     void deleteInAQuadratOfACartouche() throws Exception {
-        // The quadrat is left with one sign: the cursor goes back to the gap of the cartouche.
-        assertEquals("<-A1-C1->", delete("<-A1-B1*C1->", p(0, 0, 0, 0, 1, 0, 1), true, p(0, 0, 0, 0, 1)));
+        // The quadrat is left with one sign: the cursor stays at the start of its row.
+        assertEquals("<-A1-C1->", delete("<-A1-B1*C1->", p(0, 0, 0, 0, 1, 0, 1), true, p(0, 0, 0, 0, 1, 0, 0)));
+    }
+
+    @Test
+    void insertAtTheEdgesOfARow() throws Exception {
+        // The sign joins the row, and the cursor stays inside it.
+        assertEquals("A1*B1*C1", insert("A1*B1", p(0, 0, 2), "C1", p(0, 0, 3)));
+        assertEquals("C1*A1*B1", insert("A1*B1", p(0, 0, 0), "C1", p(0, 0, 1)));
+        // The sign typed at the end of a one-sign quadrat joins its row too.
+        assertEquals("A1*B1", insert("A1", p(0, 0, 1), "B1", p(0, 0, 2)));
+    }
+
+    @Test
+    void insertAtTheTopAndBottomOfAQuadrat() throws Exception {
+        assertEquals("C1:A1", insert("A1", p(0, 0), "C1", p(0, 1)).replace("-", ""));
+        assertEquals("A1:C1", insert("A1", p(0, 1), "C1", p(0, 2)).replace("-", ""));
+    }
+
+    @Test
+    void nothingToDeleteBeyondTheEdges() throws Exception {
+        HieroglyphicText t = parse("A1*B1-C1");
+        assertTrue(new InnerEdit(t, p(0, 0, 0)).deleteBefore().isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 0, 2)).deleteAfter().isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 0)).deleteBefore().isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 1)).deleteAfter().isEmpty());
     }
 
     @Test
@@ -126,14 +151,16 @@ class InnerEditTest {
     @Test
     void canonicalizeClimbsFromEdges() throws Exception {
         HieroglyphicText t = parse("A1*B1-C1&D1");
-        assertEquals(p(0), new PositionNavigator(t).canonicalize(p(0, 0, 0)));
-        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(0, 0, 2)));
-        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(0, 1)));
+        // The edges of rows and quadrats are stops of their own.
+        assertEquals(p(0, 0, 0), new PositionNavigator(t).canonicalize(p(0, 0, 0)));
+        assertEquals(p(0, 0, 2), new PositionNavigator(t).canonicalize(p(0, 0, 2)));
+        assertEquals(p(0, 1), new PositionNavigator(t).canonicalize(p(0, 1)));
         assertEquals(p(0, 0, 1), new PositionNavigator(t).canonicalize(p(0, 0, 1)));
         assertEquals(p(1), new PositionNavigator(t).canonicalize(p(1)));
         assertEquals(p(1, 0, 0, 1), new PositionNavigator(t).canonicalize(p(1, 0, 0, 1)));
         // The edge of a ligature is the gap around the ligature, not a stop of its own.
-        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(1, 0, 0, 0)));
+        assertEquals(p(1, 0, 0), new PositionNavigator(t).canonicalize(p(1, 0, 0, 0)));
+        assertEquals(p(1, 0, 1), new PositionNavigator(t).canonicalize(p(1, 0, 0, 2)));
     }
 
     @Test

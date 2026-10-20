@@ -1,7 +1,7 @@
 package jsesh.ui.editor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -88,13 +88,64 @@ class JMDCEditorWorkflowInnerEditTest {
     }
 
     @Test
-    void backspaceLeavesTheQuadratWhenNoInnerGapIsLeft() throws Exception {
+    void backspaceKeepsTheCursorInTheRowWhenOneSignIsLeft() throws Exception {
         JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
         w.setCursor(p(1, 0, 1));
         type(w, "\b");
         assertEquals("X1-B1-Y1", w.getMDCCode());
-        assertEquals(p(1), w.getCaret().getInsertExactPosition());
-        assertFalse(w.getCaret().isInsertInner());
+        // The start of the row is a position of its own, distinct from the gap before the quadrat.
+        assertEquals(p(1, 0, 0), w.getCaret().getInsertExactPosition());
+        assertTrue(w.getCaret().isInsertInner());
+    }
+
+    @Test
+    void typingAtTheEndOfARowAddsToTheRow() throws Exception {
+        JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
+        w.setCursor(p(1, 0, 2));
+        type(w, "C1 ");
+        assertEquals("X1-A1*B1*C1-Y1", w.getMDCCode());
+        assertEquals(p(1, 0, 3), w.getCaret().getInsertExactPosition());
+        type(w, "D1 ");
+        assertEquals("X1-A1*B1*C1*D1-Y1", w.getMDCCode());
+    }
+
+    @Test
+    void typingAtTheStartOfARowAddsToTheRow() throws Exception {
+        JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
+        w.setCursor(p(1, 0, 0));
+        type(w, "C1 ");
+        assertEquals("X1-C1*A1*B1-Y1", w.getMDCCode());
+        assertEquals(p(1, 0, 1), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void typingAtTheBottomOfAQuadratAddsARow() throws Exception {
+        JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
+        w.setCursor(p(1, 1));
+        type(w, "C1 ");
+        assertEquals("X1-A1*B1:C1-Y1", w.getMDCCode());
+        assertEquals(p(1, 2), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void typingOutsideTheQuadratAddsAQuadrat() throws Exception {
+        JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
+        w.setCursor(p(2));
+        type(w, "C1 ");
+        assertEquals("X1-A1*B1-C1-Y1", w.getMDCCode());
+    }
+
+    @Test
+    void backspaceAndDeleteDoNothingBeyondTheEdges() throws Exception {
+        JMDCEditorWorkflow w = workflow("X1-A1*B1-Y1");
+        w.setCursor(p(1, 0, 0));
+        type(w, "\b");
+        assertEquals("X1-A1*B1-Y1", w.getMDCCode());
+        assertEquals(p(1, 0, 0), w.getCaret().getInsertExactPosition());
+        w.setCursor(p(1, 0, 2));
+        w.doDelete();
+        assertEquals("X1-A1*B1-Y1", w.getMDCCode());
+        assertEquals(p(1, 0, 2), w.getCaret().getInsertExactPosition());
     }
 
     @Test

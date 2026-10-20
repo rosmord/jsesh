@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import jsesh.model.MDCPosition;
+import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.view.MDCView;
 import jsesh.ui.editor.JMDCEditor;
@@ -136,7 +137,7 @@ class CursorLocatorTest {
         assertTrue(locate("A1-N5", new MDCPosition(3)).isEmpty());
         assertTrue(locate("A1-N5", MDCPosition.of(5, 0, 1)).isEmpty());
         // A1 is a single sign: no gap inside it.
-        assertTrue(locate("A1-N5", MDCPosition.of(0, 0, 1)).isEmpty());
+        assertTrue(locate("A1-N5", MDCPosition.of(0, 0, 0, 1)).isEmpty());
     }
 
     @Test
@@ -179,5 +180,91 @@ class CursorLocatorTest {
         MDCView second = ligature.getSubView(1);
         assertTrue(line.getX1() >= offset + first.getPosition().x + first.getWidth() - EPSILON);
         assertTrue(line.getX1() <= offset + second.getPosition().x + EPSILON);
+    }
+
+    // ---- Edges of rows and quadrats: inside positions, distinct from the outer gaps ----
+
+    private Line2D thinLine(String mdc, MDCPosition position) {
+        Optional<CursorShape> location = locate(mdc, position);
+        assertTrue(location.isPresent(), position.toString());
+        assertFalse(location.get().wide(), position.toString());
+        assertEquals(1, location.get().lines().size());
+        return location.get().lines().get(0);
+    }
+
+    @Test
+    void cursorAtTheEndsOfARowIsAVerticalLineAtTheEdgeOfItsSigns() {
+        String mdc = "A1-N5*N5*N5-D21:D21";
+        editor.setMDCText(mdc);
+        MDCView quadrat = editor.getView().getSubView(1);
+        MDCView hbox = quadrat.getSubView(0);
+        double offset = quadrat.getPosition().x + hbox.getPosition().x;
+        MDCView first = hbox.getSubView(0);
+        MDCView last = hbox.getSubView(2);
+
+        Line2D start = thinLine(mdc, MDCPosition.of(1, 0, 0));
+        assertEquals(start.getX1(), start.getX2(), EPSILON);
+        assertEquals(offset + first.getPosition().x, start.getX1(), EPSILON);
+
+        Line2D end = thinLine(mdc, MDCPosition.of(1, 0, 3));
+        assertEquals(end.getX1(), end.getX2(), EPSILON);
+        assertEquals(offset + last.getPosition().x + last.getWidth(), end.getX1(), EPSILON);
+
+        // And it is not the cursor outside the quadrat.
+        Optional<CursorShape> outside = locate(mdc, new MDCPosition(2));
+        assertTrue(outside.get().wide());
+        assertTrue(end.getX1() < outside.get().lines().get(0).getX1() + EPSILON);
+    }
+
+    @Test
+    void cursorAtTheTopAndBottomOfAQuadratIsAHorizontalLine() {
+        String mdc = "A1-N5*N5*N5-D21:D21";
+        editor.setMDCText(mdc);
+        MDCView quadrat = editor.getView().getSubView(2);
+        MDCView firstRow = quadrat.getSubView(0);
+        MDCView lastRow = quadrat.getSubView(1);
+
+        Line2D top = thinLine(mdc, MDCPosition.of(2, 0));
+        assertEquals(top.getY1(), top.getY2(), EPSILON);
+        assertEquals(quadrat.getPosition().y + firstRow.getPosition().y, top.getY1(), EPSILON);
+
+        Line2D between = thinLine(mdc, MDCPosition.of(2, 1));
+        assertEquals(between.getY1(), between.getY2(), EPSILON);
+
+        Line2D bottom = thinLine(mdc, MDCPosition.of(2, 2));
+        assertEquals(bottom.getY1(), bottom.getY2(), EPSILON);
+        assertEquals(quadrat.getPosition().y + lastRow.getPosition().y + lastRow.getHeight(), bottom.getY1(),
+                EPSILON);
+        assertTrue(top.getY1() < between.getY1() && between.getY1() < bottom.getY1());
+    }
+
+    @Test
+    void edgeCursorsOfAOneSignQuadratAreAllDifferent() {
+        String mdc = "A1-N5-D21";
+        Line2D top = thinLine(mdc, MDCPosition.of(1, 0));
+        Line2D left = thinLine(mdc, MDCPosition.of(1, 0, 0));
+        Line2D right = thinLine(mdc, MDCPosition.of(1, 0, 1));
+        Line2D bottom = thinLine(mdc, MDCPosition.of(1, 1));
+        assertEquals(top.getY1(), top.getY2(), EPSILON);
+        assertEquals(bottom.getY1(), bottom.getY2(), EPSILON);
+        assertEquals(left.getX1(), left.getX2(), EPSILON);
+        assertEquals(right.getX1(), right.getX2(), EPSILON);
+        assertTrue(left.getX1() < right.getX1());
+        assertTrue(top.getY1() < bottom.getY1());
+    }
+
+    @Test
+    void startOfARowIsOnTheRightInRightToLeftText() {
+        editor.setTextDirection(TextDirection.RIGHT_TO_LEFT);
+        String mdc = "A1-N5*N5*N5-D21";
+        Line2D start = thinLine(mdc, MDCPosition.of(1, 0, 0));
+        Line2D end = thinLine(mdc, MDCPosition.of(1, 0, 3));
+        assertTrue(start.getX1() > end.getX1());
+    }
+
+    @Test
+    void edgesOfLigaturesStillHaveNoCursorOfTheirOwn() {
+        assertTrue(locate("A1-i&i-D21", MDCPosition.of(1, 0, 0, 0)).isEmpty());
+        assertTrue(locate("A1-i&i-D21", MDCPosition.of(1, 0, 0, 2)).isEmpty());
     }
 }

@@ -39,9 +39,20 @@ graph TD
 
 If we want to represent the position just after `p`, we can use the following list of integers: `(1,0,1)` : child 1, hbox 0, and position 1.
 
-In theory, the positions after the final "pt" would be `(1,1,1)`, and moving forward we would find `(1,1)` and then `(2)`.
+The positions after the final "pt" are `(1,1,1)` (the end of the second row, *inside* the quadrat), then `(1,2)` (the bottom of the quadrat, still inside) and `(2)` (outside).
 
-(currently, we still need to settle this in the edition scheme).
+The edges of rows (`HBox`) and quadrats (`Cadrat`) are therefore **two different places**, one inside and one outside:
+
+| position | where | typing a sign... |
+|---|---|---|
+| `(1)` | before the quadrat | adds a quadrat |
+| `(1,0)` | top of the quadrat | adds a row on top |
+| `(1,0,0)` | start of the first row | adds an element at the start of the row (`x*p*t`) |
+| `(1,0,2)` | end of the first row | adds an element at the end of the row (`p*t*x`) |
+| `(1,2)` | bottom of the quadrat | adds a row at the bottom |
+| `(2)` | after the quadrat | adds a quadrat |
+
+A quadrat with a single sign has four inner stops: `(q,0)`, `(q,0,0)`, `(q,0,1)` and `(q,1)`. Ligatures do not work this way (yet): their edges still coincide with the gap around them.
 
 ### MDCMark and MDCCaret
 
@@ -61,6 +72,8 @@ We used to define a range by a couple of positions, which was kept in an array i
 
 Moving the cursor is handled by a `PositionNavigator`, built for a text. The principle of this class is quite simple: it can compute a list of possible sequential positions (called stops), and moving the cursor implies moving along this list. Stops are defined according to the selected `CaretGranularity`.
 
+With `INNER`, the stops are the interior gaps of the quadrats, rows and ligatures, plus the edge gaps of rows and quadrats (`ModelElement.edgeGapsAreInnerStops()`, true for `HBox` and `Cadrat`). Moving right through `p*t:pt` thus visits `(1)`, `(1,0)`, `(1,0,0)`, `(1,0,1)`, `(1,0,2)`, `(1,1)`, `(1,1,0)`, `(1,1,1)`, `(1,2)` and `(2)`.
+
 ## Cursor drawing
 
 In the previous versions of the software, the cursor was drawn by the method `ViewDrawer.drawViewAndCursor`, which drew the view, and which checked, at each step, if we were at the cursor position. The cursor drawing has now been separated from the view drawing (even if the view drawing still handles the **selection**).
@@ -69,7 +82,9 @@ Now, a `TextGeometry`, built for the root view and the current `JSeshStyle`, com
 
 Behind it, the package-private `CursorLocator` and `SelectionLocator` walk the view tree through `PlacedView`: a view together with the transform from its own coordinate system to the root's. It follows model paths down the views, checks that views and model still match, and gives the bounds of subviews. The bounds themselves, including the mirroring of right-to-left views, come from `MDCView.getSubViewBounds` and `MDCView.layoutToDrawing`, which `ViewDrawer` uses too.
 
-Inside a quadrat, the direction of the cursor is read from the geometry of the two subviews around the gap, as the layout has placed them: subviews apart horizontally are separated by a vertical line, subviews apart vertically by a horizontal one, and otherwise (overlapping or diagonal parts, as in complex ligatures) the line cuts across the direction in which their centres are farthest apart. The kind of container is not consulted, so the cursor can't disagree with the layout (an earlier version, with one visitor method per kind of container, drew a horizontal line in ligatures whose signs were side by side). Two questions are still asked to the model: `ModelElement.edgeGapsAreStops()` (lists of quadrats, whose first and last gaps have a cursor of their own) and `ModelElement.placesChildrenFreely()` (absolute groups, where the gap is an order rather than a place, so the end of the preceding sign is marked).
+Inside a quadrat, the direction of the cursor is read from the geometry of the two subviews around the gap, as the layout has placed them: subviews apart horizontally are separated by a vertical line, subviews apart vertically by a horizontal one, and otherwise (overlapping or diagonal parts, as in complex ligatures) the line cuts across the direction in which their centres are farthest apart. The kind of container is not consulted, so the cursor can't disagree with the layout (an earlier version, with one visitor method per kind of container, drew a horizontal line in ligatures whose signs were side by side). A few questions are still asked to the model: `ModelElement.edgeGapsAreStops()` (lists of quadrats, whose first and last gaps have a cursor of their own), `ModelElement.edgeGapsAreInnerStops()` and `ModelElement.stacksChildren()` (rows and quadrats, see below) and `ModelElement.placesChildrenFreely()` (absolute groups, where the gap is an order rather than a place, so the end of the preceding sign is marked).
+
+At the edge of a row or of a quadrat there is no pair of subviews to read the direction from. The cursor is then a thin line at the edge of the first or last subview: vertical at the ends of a row, horizontal at the top and bottom of a quadrat (`stacksChildren()` says which). It is thin, and so differs from the thick cursor between quadrats.
 
 ## Selection drawing
 
@@ -86,6 +101,8 @@ When editing inside a quadrat, options are more limited.
 If the cursor is not at a place where “standard” edits are possible, the `JMDCEditorWorkflow` uses an `InnerEdit`, built for a text and a position (`new InnerEdit(text, position).insertSign(sign)`, `.deleteBefore()`, `.deleteAfter()`). It computes the new version of the top item and the new cursor position; the workflow then replaces the top item.
 
 What is done depends on the container, and the containers decide it themselves: `Cadrat`, `HBox` and `Ligature` implement `InnerEditable` (`insertSignAt`, `disappearsWhenEmpty`, `simplifyElementAt`). Likewise, which gaps are stops is decided by `ModelElement.isCursorStop(gap, granularity)` (built on `isNavigable()` and `edgeGapsAreStops()`), which `PositionNavigator` uses. Bringing a position to the nearest stop is done by `TopItem.canonicalize`, so that `InnerEdit` can compute the new cursor position in its edited copy of the top item, before it is put in the text.
+
+At the edges of a row or of a quadrat, insertion adds to the container (see the table in the position section), and the cursor stays inside it, so successive signs are appended to the same row. There is nothing to delete on the outer side: Backspace at the start of a row or at the top of a quadrat, and Delete at the end of a row or at the bottom of a quadrat, do nothing. The cursor has to be moved away first.
 
 ### Editing Cartouches (and other text scopes)
 

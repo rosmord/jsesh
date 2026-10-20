@@ -1900,3 +1900,15 @@ Compared what was built with an earlier, more ambitious plan, and took its bette
 - **Not done:**
   - `InnerEdit.at(...)` returning an `Optional`. It gains nothing, since each operation already returns one.
   - A `removeChildAt` on `InnerEditable`. `ModelElement.removeChildAt` is protected, and `InnerEdit` also needs to remove from containers which are not `InnerEditable`.
+
+## Inside and outside cursor positions at the edges of rows and quadrats (2026-10-20)
+
+Before this, the first and last gap of a row (`HBox`) or of a quadrat (`Cadrat`) were not cursor stops: `TopItem.canonicalize` folded them into the gap around the container. The cursor at the end of `p*t` was thus the gap between quadrats, and nothing could be appended to the row.
+
+Now they are stops of their own, distinct from the surrounding gap: the cursor *inside* adds to the container (an element to the row, a row to the quadrat), the one *outside* adds a quadrat.
+
+- Model: `ModelElement.edgeGapsAreInnerStops()` (true for `HBox` and `Cadrat`) is the INNER-only counterpart of `edgeGapsAreStops()`; `isCursorStop` uses it. `ModelElement.stacksChildren()` (true for `Cadrat`) tells the cursor drawing which way the edge line goes. `InnerEdit` and `canonicalize` needed no logic change: `insertSignAt` already accepted the edge gaps, and canonicalize stops climbing at any stop.
+- Drawing: `CursorLocator.edgeLine` is shared with the lists of quadrats; it takes the axis as a parameter.
+- Decision: ligatures are **not** included. Their layout (stacked, side by side, diagonal) makes the edge ambiguous, and the same two methods can be overridden later if wanted.
+- Cost: a one-sign quadrat has four inner stops, so crossing a quadrat with the arrow keys takes more presses in INNER mode. INNER is opt-in.
+- Backspace and Delete at an edge do nothing (nothing to delete on that side), rather than reaching the neighbouring quadrat.

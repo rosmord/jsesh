@@ -69,6 +69,30 @@ class InnerCursorRenderingTest {
     }
 
     @Test
+    void edgeCursorsDifferFromTheOuterCursor() throws Exception {
+        JMDCEditor editor = new JMDCEditor();
+        editor.setMDCText("A1-N5*N5-D21");
+        editor.getWorkflow().setCaretGranularity(CaretGranularity.INNER);
+
+        editor.getWorkflow().setCursor(new MDCPosition(1));
+        BufferedImage outsideBefore = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(1, 0, 0));
+        BufferedImage rowStart = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(1, 0, 2));
+        BufferedImage rowEnd = render(editor);
+        editor.getWorkflow().setCursor(MDCPosition.of(1, 1));
+        BufferedImage bottom = render(editor);
+        editor.getWorkflow().setCursor(new MDCPosition(2));
+        BufferedImage outsideAfter = render(editor);
+
+        assertFalse(sameImage(outsideBefore, rowStart));
+        assertFalse(sameImage(rowEnd, outsideAfter));
+        assertFalse(sameImage(rowEnd, bottom));
+        assertFalse(sameImage(bottom, outsideAfter));
+        assertFalse(sameImage(rowStart, rowEnd));
+    }
+
+    @Test
     void cursorIsDrawnInsideCartouchesAndLigatures() throws Exception {
         JMDCEditor editor = new JMDCEditor();
         editor.setMDCText("<-A1-N5->-t^^^A&&&n");

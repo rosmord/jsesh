@@ -201,6 +201,17 @@ public class Cadrat
 		return true;
 	}
 
+	/// The top and the bottom of a quadrat are places where a row can be added.
+	@Override
+	public boolean edgeGapsAreInnerStops() {
+		return true;
+	}
+
+	@Override
+	public boolean stacksChildren() {
+		return true;
+	}
+
 	/// A new sign between two rows is a row of its own.
 	@Override
 	public void insertSignAt(int gap, Hieroglyph sign) {

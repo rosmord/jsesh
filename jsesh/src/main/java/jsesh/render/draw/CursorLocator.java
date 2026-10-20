@@ -25,9 +25,11 @@ import jsesh.render.view.MDCView;
 /// `Graphics2D`.
 ///
 /// Inside a quadrat, the direction of the cursor is read from the geometry
-/// of the subviews around the gap, as the layout has placed them. Only two
+/// of the subviews around the gap, as the layout has placed them. Only a few
 /// questions are asked to the model: whether the edge gaps of the container
-/// are stops ([ModelElement#edgeGapsAreStops()]) and whether its children are
+/// are stops ([ModelElement#edgeGapsAreStops()],
+/// [ModelElement#edgeGapsAreInnerStops()]), whether its children are stacked
+/// ([ModelElement#stacksChildren()], for the edges) and whether they are
 /// placed freely ([ModelElement#placesChildrenFreely()]).
 final class CursorLocator {
 
@@ -201,15 +203,19 @@ final class CursorLocator {
     /// container: elements side by side are separated by a vertical line,
     /// elements one above the other by a horizontal one.
     ///
-    /// Except in a list of quadrats, the first and last gaps of a container
-    /// have no cursor of their own: they are at the same place as the cursor
-    /// outside the container.
+    /// The first and last gaps of a container have a cursor of their own in a
+    /// list of quadrats, and in a quadrat or a row (where it is inside the
+    /// container, at its edge: [ModelElement#edgeGapsAreInnerStops()]). In the
+    /// other containers, they are at the same place as the cursor outside the
+    /// container, and have none.
     private Optional<CursorShape> locateInContainer(PlacedView container, int gap) {
         int n = container.childCount();
         ModelElement model = container.model();
         Line2D line;
         if (model.edgeGapsAreStops() && (gap == 0 || gap == n)) {
-            line = edgeLine(container, gap);
+            line = edgeLine(container, gap, style.options().textOrientation() == TextOrientation.HORIZONTAL);
+        } else if (model.edgeGapsAreInnerStops() && (gap == 0 || gap == n)) {
+            line = edgeLine(container, gap, !model.stacksChildren());
         } else if (gap <= 0 || gap >= n) {
             return Optional.empty();
         } else if (model.placesChildrenFreely()) {
@@ -220,15 +226,15 @@ final class CursorLocator {
         return Optional.of(new CursorShape(List.of(line), false));
     }
 
-    /// The cursor at the first or last gap of a list of quadrats (inside a
-    /// cartouche...). The quadrats follow each other along the line (or the
-    /// column) of text.
+    /// The cursor at the first or last gap of a container: a list of quadrats
+    /// (inside a cartouche...), a quadrat or a row.
     ///
     /// @param gap 0, or the number of children of `container`.
-    private Line2D edgeLine(PlacedView container, int gap) {
+    /// @param horizontal true if the children follow each other along the x axis
+    /// (the line is then vertical); false if along the y axis.
+    private static Line2D edgeLine(PlacedView container, int gap, boolean horizontal) {
         int n = container.childCount();
         boolean leftToRight = isLeftToRight(container);
-        boolean horizontal = style.options().textOrientation() == TextOrientation.HORIZONTAL;
         MDCView v = container.view();
         if (n == 0) {
             return crossingLine(container, horizontal,

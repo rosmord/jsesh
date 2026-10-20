@@ -144,6 +144,12 @@ public class HBox extends EmbeddedModelElement implements InnerEditable {
         return true;
     }
 
+    /// The ends of a row are places where an element can be added to it.
+    @Override
+    public boolean edgeGapsAreInnerStops() {
+        return true;
+    }
+
     @Override
     public void insertSignAt(int gap, Hieroglyph sign) {
         addChildAt(gap, sign);

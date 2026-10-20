@@ -115,15 +115,21 @@ class MDCCaretTest {
     @Test
     void moveInsertWalksThroughTheQuadrats() throws Exception {
         MDCCaret c = new MDCCaret(new MDCParserModelGenerator().parse("A1-B1*C1-D1:E1"));
+        // The first quadrat has four stops: (0,0) (0,0,0) (0,0,1) (0,1).
         c.moveInsert(1, CaretGranularity.INNER);
+        assertEquals(MDCPosition.of(0, 0), c.getInsertExactPosition());
+        c.moveInsert(4, CaretGranularity.INNER);
         assertEquals(pos(1), c.getInsertExactPosition());
-        c.moveInsert(1, CaretGranularity.INNER);
+        // then (1,0) (1,0,0) (1,0,1)
+        c.moveInsert(3, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
-        c.moveInsert(1, CaretGranularity.INNER);
+        // (1,0,2) (1,1) 2
+        c.moveInsert(3, CaretGranularity.INNER);
         assertEquals(pos(2), c.getInsertExactPosition());
-        c.moveInsert(1, CaretGranularity.INNER);
+        // (2,0) (2,0,0) (2,0,1) (2,1)
+        c.moveInsert(4, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(2, 1), c.getInsertExactPosition());
-        c.moveInsert(-2, CaretGranularity.INNER);
+        c.moveInsert(-7, CaretGranularity.INNER);
         assertEquals(MDCPosition.of(1, 0, 1), c.getInsertExactPosition());
         c.moveInsert(-100, CaretGranularity.INNER);
         assertEquals(pos(0), c.getInsertExactPosition());

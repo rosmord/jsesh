@@ -103,8 +103,9 @@ abstract public class TopItem extends EmbeddedModelElement{
 	/// Brings a position inside this item to the nearest place where the cursor
 	/// may stand.
 	///
-	/// The edge gaps (first and last) of a container whose
-	/// [ModelElement#edgeGapsAreStops()] is false are not stops: they coincide
+	/// The edge gaps (first and last) of a container which is neither a list of
+	/// quadrats ([ModelElement#edgeGapsAreStops()]) nor a row or a quadrat
+	/// ([ModelElement#edgeGapsAreInnerStops()]) are not stops: they coincide
 	/// with the gap which surrounds the container. Such a position is replaced
 	/// by the surrounding gap, and so on recursively, up to a top-level
 	/// position if need be. Other positions are returned unchanged.

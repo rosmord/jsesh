@@ -422,6 +422,31 @@ public abstract class ModelElement implements ModelElementObserver,
         return false;
     }
 
+    /// Are the first and last gaps of this element stops, for
+    /// [CaretGranularity#INNER] only? They are *inside* the element, and
+    /// distinct from the gap which surrounds it: the cursor there adds to this
+    /// element (a new element at the end of a row, a new row at the top of a
+    /// quadrat), whereas the cursor outside adds a new item next to it.
+    ///
+    /// Only meaningful if [#isNavigable()] is true. Not to be confused with
+    /// [#edgeGapsAreStops()], which holds at every granularity.
+    ///
+    /// @return false by default; true for quadrats and rows.
+    public boolean edgeGapsAreInnerStops() {
+        return false;
+    }
+
+    /// Are the children of this element placed one above the other (as the
+    /// rows of a quadrat)? Otherwise, they follow each other along a row.
+    /// The cursor drawing needs it to orient the cursor at the edges of a
+    /// container ([#edgeGapsAreInnerStops()]), where no pair of children is
+    /// there to show the direction.
+    ///
+    /// @return false by default; true for quadrats.
+    public boolean stacksChildren() {
+        return false;
+    }
+
     /// Is a gap of this element a place where the cursor may stand? This is
     /// the one definition of a stop, used by [PositionNavigator].
     ///
@@ -429,7 +454,8 @@ public abstract class ModelElement implements ModelElementObserver,
     /// @param granularity the kinds of stops allowed: with
     ///        [CaretGranularity#QUADRAT], only the gaps of lists of quadrats
     ///        (see [#edgeGapsAreStops()]); with [CaretGranularity#INNER], the
-    ///        interior gaps of the other navigable elements too.
+    ///        interior gaps of the other navigable elements too, and their edge
+    ///        gaps if [#edgeGapsAreInnerStops()].
     /// @return true if the cursor may stand in the gap.
     public final boolean isCursorStop(int gap, CaretGranularity granularity) {
         int n = getNumberOfChildren();
@@ -437,7 +463,7 @@ public abstract class ModelElement implements ModelElementObserver,
             return false;
         }
         if (granularity == CaretGranularity.INNER) {
-            return edgeGapsAreStops() || (gap > 0 && gap < n);
+            return edgeGapsAreStops() || edgeGapsAreInnerStops() || (gap > 0 && gap < n);
         }
         return edgeGapsAreStops() && !isInsideInnerOnlyElement();
     }

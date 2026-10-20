@@ -23,16 +23,23 @@ import java.util.List;
 /// With [CaretGranularity#INNER], it also stands on the *interior* gaps of
 /// the quadrats, taken in document order:
 ///
-/// - between the rows of a [Cadrat]: `(q, h)`;
-/// - between the elements of a [HBox]: `(q, h, e)`;
+/// - between the rows of a [Cadrat]: `(q, h)`, and at its top and bottom:
+///   `(q, 0)` and `(q, n)`;
+/// - between the elements of a [HBox]: `(q, h, e)`, and at its ends: `(q, h, 0)`
+///   and `(q, h, n)`;
 /// - between the signs of a [Ligature]: `(q, h, e, g)`;
 /// - between the parts of a [ComplexLigature] (the group before the main sign,
 ///   the main sign, the group after it);
 /// - between the signs of an [AbsoluteGroup], in their order in the group;
 ///
-/// and so on, recursively. The first and last gaps of such a container (0 and n)
-/// are not stops: they coincide visually with the gap which surrounds the
-/// container. Hence, a quadrat which contains one sign only has no inner stop.
+/// and so on, recursively. The first and last gaps of a quadrat or of a row are
+/// stops of their own ([ModelElement#edgeGapsAreInnerStops()]): they are
+/// *inside* the container, and an insertion there adds to it (a new element in
+/// the row, a new row in the quadrat), whereas an insertion at the surrounding
+/// gap adds a new item beside the container. The edge gaps of the other
+/// containers (ligatures...) are not stops: they coincide visually with the gap
+/// which surrounds the container. For instance, a quadrat which contains `A1`
+/// only has the inner stops `(q, 0)`, `(q, 0, 0)`, `(q, 0, 1)` and `(q, 1)`.
 ///
 /// A [Cartouche] (and, with [CaretGranularity#INNER], a [SubCadrat]) is entered: its content (a
 /// [BasicItemList] of quadrats) is a text in miniature. Here, *all* the gaps of
