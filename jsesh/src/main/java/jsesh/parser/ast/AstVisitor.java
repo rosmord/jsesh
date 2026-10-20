@@ -67,4 +67,6 @@ public interface AstVisitor {
     void visitModifierList(AstModifierList node);
 
     void visitModifier(AstModifier node);
+
+    void visitInsert(AstInsert astInsert);
 }

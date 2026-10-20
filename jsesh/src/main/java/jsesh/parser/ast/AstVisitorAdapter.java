@@ -149,4 +149,9 @@ public class AstVisitorAdapter implements AstVisitor {
     public void visitModifier(AstModifier node) {
         visitDefault(node);
     }
+
+    @Override
+    public void visitInsert(AstInsert astInsert) {
+        visitDefault(astInsert);
+    }
 }

@@ -105,7 +105,8 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.HRULE_WIDE, hrule('L'))
                 .rule(MdcTokenType.ALPHABETIC_TEXT, alphabeticText())
                 .rule(MdcTokenType.ZONE, literal("@zone"))
-                .rule(MdcTokenType.QUADRAT, literal("@quadrat"))                
+                .rule(MdcTokenType.QUADRAT, literal("@quadrat"))
+                .rule(MdcTokenType.INSERT, literal("@insert"))                  
                 .rule(MdcTokenType.START_HIEROGLYPHS, literal("+s"))
                 .rule(MdcTokenType.TEXT_SUPER, sequence(character('|'), repeat(union(noneOf("-"), literal("\\-")))))
                 .rule(MdcTokenType.WORD_END_CANDIDATE, TRUESPACE)
@@ -185,7 +186,7 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.LIG_BEFORE, union(literal("^^^"), literal("^^")))
                 .rule(MdcTokenType.DOUBLE_LEFT_CURLY, literal("{{"), PROPERTIES)
                 .rule(MdcTokenType.UNKNOWN, anyCharacter())
-
+                .rule(MdcTokenType.COMMA, character(',')) 
                 .state(PROPERTIES)
                 .skipWhitespace(oneOf(" \t\n\r"))
                 .rule(MdcTokenType.DOUBLE_RIGHT_CURLY, literal("}}"), Lexicon.INITIAL_STATE)

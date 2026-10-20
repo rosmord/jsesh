@@ -60,6 +60,20 @@ public record AstOptionList(List<AstOption> options) {
         return result;
     }
 
+    /// Creates a copy of this option list without a given option (if present).
+    /// @param name the option name to remove
+    /// @return a new option list without the given option, or this list if the option was not present.
+    public AstOptionList without(String name) {
+        List<AstOption> newOptions = options.stream()
+                .filter(option -> !option.name().equals(name))
+                .toList();
+        if (newOptions.size() == options.size()) {
+            return this; // no change
+        } else {
+            return new AstOptionList(newOptions);
+        }
+    }
+    
     /**
      * Hand-builds an option list, for tests. See {@link AstOption#flag} and
      * {@link AstOption#of}.

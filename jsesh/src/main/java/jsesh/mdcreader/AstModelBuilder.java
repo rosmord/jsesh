@@ -53,6 +53,7 @@ import jsesh.parser.ast.AstHRule;
 import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstInnerGroup;
+import jsesh.parser.ast.AstInsert;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
@@ -224,6 +225,12 @@ class AstModelBuilder implements AstVisitor {
         Hieroglyph main = build(node.hieroglyph(), Hieroglyph.class);
         InnerGroup after = node.afterGroup() == null ? null : buildInnerGroup(node.afterGroup());
         push(new ComplexLigature(before, main, after));
+    }
+
+    @Override
+    public void visitInsert(AstInsert astInsert) {
+        // Not written yet 
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     private InnerGroup buildInnerGroup(AstInnerGroup group) {

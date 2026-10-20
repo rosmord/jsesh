@@ -16,5 +16,5 @@ package jsesh.parser.ast;
  */
 public sealed interface AstInnerGroup extends AstHorizontalListElement
         permits AstHieroglyph, AstCartouche, AstLigature, AstSubCadrat, AstOverwrite, AstPhilology,
-        AstAbsoluteGroup {
+        AstAbsoluteGroup, AstInsert {
 }

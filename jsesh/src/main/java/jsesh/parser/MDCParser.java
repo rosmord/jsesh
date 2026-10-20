@@ -24,6 +24,7 @@ import static jsesh.parser.lexer.symbols.MdcSymbolCode.EQUAL;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.GRAMMAR;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.HIEROGLYPH;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.IDENTIFIER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.INSERT;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INTEGER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_AFTER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_BEFORE;
@@ -62,6 +63,7 @@ import jsesh.parser.ast.AstHRule;
 import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstInnerGroup;
+import jsesh.parser.ast.AstInsert;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
@@ -99,12 +101,15 @@ import jsesh.parser.lexer.symbols.ToggleType;
 
 /// Recursive descent parser for Manuel de Codage texts.
 ///
-/// It builds an [AstDocument] from the input: a literal AST (see [jsesh.parser.ast])
+/// It builds an [AstDocument] from the input: a literal AST (see
+/// [jsesh.parser.ast])
 /// of the code, instead of the usable document model that
 /// [jsesh.mdcreader.MDCParserModelGenerator] builds.
 ///
-/// Any syntax error aborts the parse with an [MDCSyntaxError]: there is no error recovery.
-/// The GUI software (JSesh) reads files line-by-line, so it catches errors at the line level.
+/// Any syntax error aborts the parse with an [MDCSyntaxError]: there is no error
+/// recovery.
+/// The GUI software (JSesh) reads files line-by-line, so it catches errors at
+/// the line level.
 /// 
 /// @author rosmord
 public class MDCParser {
@@ -158,7 +163,6 @@ public class MDCParser {
         this.debug = debug;
     }
 
-   
     /// Are philological markers, such as `[[` and `]]`, considered as simple signs.
     /// 
     /// if false, they work as parenthesis. This was only the case in tksesh.
@@ -196,7 +200,8 @@ public class MDCParser {
     /// Line number of a position.
     /// 
     /// 0 based.
-    /// @return the line number of the given position.    
+    /// 
+    /// @return the line number of the given position.
     private int lineOf(int codePointPos) {
         int line = 0;
         int limit = Math.min(codePointPos, codePoints.length);
@@ -245,9 +250,12 @@ public class MDCParser {
         return at(GRAMMAR) || at(HIEROGLYPH);
     }
 
+    /// everything that can be found at the start of a cadrat.
+    /// 
     private boolean atCadratStart() {
         return atHieroglyphStart() || at(BEGIN_PHIL) || at(LPAREN)
-                || at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE) || at(QUADRAT);
+                || at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE) || at(QUADRAT)
+                || at(INSERT);
     }
 
     // ------------------------------------------------------------------
@@ -262,6 +270,7 @@ public class MDCParser {
      *           | LINEEND | PAGEEND | TABSTOP | TABBING optionList | TABBINGCLEAR
      *           | HRULE | zone
      * </pre>
+     * 
      * The final optSeparator is the one consumed by the last loop iteration,
      * when it isn't followed by an item.
      */
@@ -342,6 +351,7 @@ public class MDCParser {
     /// ```
     /// optSeparator ::= ε | SEPARATOR
     /// ```
+    /// 
     private void skipOptSeparator() {
         if (at(SEPARATOR)) {
             advance();
@@ -368,7 +378,6 @@ public class MDCParser {
         expect(RPAREN, "')'");
         return new AstZone(options, items);
     }
-    
 
     /**
      * <pre>
@@ -428,7 +437,7 @@ public class MDCParser {
      * <pre>
      * cadrat ::= verticalStack
      *          | CADRAT BPAR verticalStack EPAR
-     *          | CADRAT optionList BPAR verticalStack EPAR 
+     *          | CADRAT optionList BPAR verticalStack EPAR
      * </pre>
      */
     private void parseCadrat(AstCadrat.Builder builder) throws MDCSyntaxError {
@@ -439,7 +448,7 @@ public class MDCParser {
             }
             expect(LPAREN, "'('");
             parseVerticalStack(builder);
-            expect(RPAREN, "')'");            
+            expect(RPAREN, "')'");
         } else {
             parseVerticalStack(builder);
         }
@@ -480,6 +489,7 @@ public class MDCParser {
      *                   | innerGroup LIGBEFORE hieroglyph
      *                   | hieroglyph LIGAFTER innerGroup
      * </pre>
+     * 
      * A leading hieroglyph is parsed first; the next token then tells which
      * construct it starts.
      */
@@ -511,11 +521,11 @@ public class MDCParser {
         return first;
     }
 
-    /**
-     * <pre>
-     * innerGroup ::= ligature | hieroglyph | overwrite | philology | subgroup | absoluteGroup
-     * </pre>
-     */
+    ///
+    /// ```yacc
+    /// innerGroup ::= ligature | hieroglyph | overwrite | philology
+    // | subgroup | absoluteGroup | insert
+    /// ```
     private AstInnerGroup parseInnerGroup() throws MDCSyntaxError {
         if (atHieroglyphStart()) {
             return continueInnerGroup(parseHieroglyph());
@@ -523,13 +533,43 @@ public class MDCParser {
             return parsePhilology();
         } else if (at(LPAREN)) {
             return parseSubgroup();
+        } else if (at(INSERT)) {
+            return parseInsert();
         } else {
             throw error("unexpected or unknown item.");
         }
     }
 
+    /// An insert.
+    /// ```yacc
+    /// insert ::= INSERT optionList '(' basicitems ',' basicitems')'
+    /// ```
+    /// 
+    private AstInsert parseInsert() throws MDCSyntaxError {
+        expect(MdcSymbolCode.INSERT, "insert");
+        // Mandatory option list.
+        AstOptionList options = parseOptionList();
+        // Extract "dir" (mandatory):
+        String dir = options.getString("dir", null);
+        if (dir == null) {
+            throw error("insert: missing 'dir' option");
+        }
+        // Map dir to InsertDirection:
+        AstInsert.InsertDirection direction = AstInsert.InsertDirection.fromCode(dir);
+        if (direction == null) {
+            throw error("insert: unknown 'dir' option value: " + dir);
+        }
+        expect(LPAREN, "'('");
+        AstBasicItemList mainItems = parseBasicItems();
+        expect(COMMA, "','");
+        AstBasicItemList insertedItems = parseBasicItems();
+        expect(RPAREN, "')'");
+        return new AstInsert(direction, options.without("dir"), mainItems, insertedItems);
+    }
+
     /**
      * The inner groups which start with a hieroglyph, once it has been read.
+     * 
      * <pre>
      * ligature ::= hieroglyph (AMP hieroglyph)+
      * absoluteGroup ::= hieroglyph (DOUBLEAMP hieroglyph)+
@@ -593,6 +633,7 @@ public class MDCParser {
      * cartouche ::= BEGINCARTOUCHE basicitems optSeparator ENDCARTOUCHE modifiers
      *             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE
      * </pre>
+     * 
      * As in the CUP grammar, the modifiers after a cartouche are parsed, but
      * not kept.
      */
@@ -638,6 +679,7 @@ public class MDCParser {
      * basicitems ::= ε | basicitems optSeparator basicitem
      * basicitem ::= cadrat optShading | TEXT | STARTHIEROGLYPHS | TOGGLE
      * </pre>
+     * 
      * Also consumes the optSeparator which follows basicitems in all rules
      * using it.
      */
@@ -725,7 +767,8 @@ public class MDCParser {
 
     /**
      * Decodes a shading marker's digits (e.g. {@code "1234"} from
-     * {@code "#1234"}) into an or-combination of the {@code jsesh.model.ShadingCode}
+     * {@code "#1234"}) into an or-combination of the
+     * {@code jsesh.model.ShadingCode}
      * bits ({@code TOP_START=1, TOP_END=2, BOTTOM_START=4, BOTTOM_END=8}).
      * Kept as a local copy rather than a call into {@code jsesh.model}:
      * {@code jsesh.parser} does not depend on the model (see

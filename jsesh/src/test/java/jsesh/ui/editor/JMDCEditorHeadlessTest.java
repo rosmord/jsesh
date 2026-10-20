@@ -1,7 +1,7 @@
 package jsesh.ui.editor;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.awt.GraphicsEnvironment;
 
@@ -12,7 +12,8 @@ class JMDCEditorHeadlessTest {
 
     @Test
     void editorCanBeCreatedInHeadlessMode() {
-        assertTrue(GraphicsEnvironment.isHeadless(), "this test must run in headless mode");
+        // Gradle sets java.awt.headless; when run from an IDE, skip rather than fail.
+        assumeTrue(GraphicsEnvironment.isHeadless(), "this test only makes sense in headless mode");
         JMDCEditor editor = new JMDCEditor();
         assertNotNull(editor);
     }

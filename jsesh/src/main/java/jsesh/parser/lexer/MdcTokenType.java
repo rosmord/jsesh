@@ -7,6 +7,8 @@
  */
 package jsesh.parser.lexer;
 
+import jsesh.parser.lexer.symbols.MdcSymbol;
+
 /// Low-level tokens identified by the lexical analyser.
 ///
 /// Order matters: the lexical analyser uses it to solve ties between rules.
@@ -39,6 +41,8 @@ enum MdcTokenType {
     ZONE,
     /// `"@quadrat"` (line 262)
     QUADRAT,
+    /// `"@insert"` 
+    INSERT,
     /// `@[a-z]+` generic name for an operator - allows extensions of the language.
     UNKNOW_OPERATOR,
     /// `"+s"` (line 267)

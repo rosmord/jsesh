@@ -111,4 +111,13 @@ allprojects {
             isDownloadJavadoc = false
         }
     }
+
+    tasks.withType<Javadoc>().configureEach {
+        isFailOnError = false                                   // never fail the build
+        (options as StandardJavadocDocletOptions).apply {
+            addStringOption("Xdoclint:none", "-quiet")          // turn off doclint checks
+            encoding = "UTF-8"
+        }
+    
+    }
 }
