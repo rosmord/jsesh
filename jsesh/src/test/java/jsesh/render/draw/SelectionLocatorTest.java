@@ -24,7 +24,7 @@ class SelectionLocatorTest {
 
     private List<Rectangle2D> locate(String mdc, TextScope scope, int start, int end) {
         editor.setMDCText(mdc);
-        return SelectionLocator.locate(editor.getView(), scope, start, end);
+        return new SelectionLocator().locate(editor.getView(), scope, start, end);
     }
 
     private Rectangle2D topLevelBounds(int i) {

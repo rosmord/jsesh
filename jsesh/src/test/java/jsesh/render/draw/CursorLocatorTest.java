@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import jsesh.model.MDCPosition;
 import jsesh.model.constants.TextOrientation;
-import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.ui.editor.JMDCEditor;
 
@@ -23,10 +22,9 @@ class CursorLocatorTest {
 
     private final JMDCEditor editor = new JMDCEditor();
 
-    private Optional<CursorLocator.Location> locate(String mdc, MDCPosition position) {
+    private Optional<CursorShape> locate(String mdc, MDCPosition position) {
         editor.setMDCText(mdc);
-        JSeshStyle style = editor.getJSeshStyle();
-        return CursorLocator.locate(editor.getView(), position, style);
+        return new CursorLocator(editor.getJSeshStyle()).locate(editor.getView(), position);
     }
 
     private static Rectangle2D bounds(MDCView v, MDCView parent) {
@@ -35,7 +33,7 @@ class CursorLocatorTest {
 
     @Test
     void topLevelCursorStandsBetweenTwoViews() {
-        Optional<CursorLocator.Location> location = locate("A1-N5-D21", new MDCPosition(1));
+        Optional<CursorShape> location = locate("A1-N5-D21", new MDCPosition(1));
         assertTrue(location.isPresent());
         assertTrue(location.get().wide());
         MDCView root = editor.getView();
@@ -50,7 +48,7 @@ class CursorLocatorTest {
     @Test
     void columnCursorBetweenTwoViewsIsASingleLineInTheGap() {
         editor.setTextOrientation(TextOrientation.VERTICAL);
-        Optional<CursorLocator.Location> location = locate("A1-N5-D21", new MDCPosition(1));
+        Optional<CursorShape> location = locate("A1-N5-D21", new MDCPosition(1));
         assertTrue(location.isPresent());
         assertEquals(1, location.get().lines().size());
         MDCView root = editor.getView();
@@ -65,12 +63,12 @@ class CursorLocatorTest {
 
     @Test
     void cursorAtStartAndEndOfText() {
-        Optional<CursorLocator.Location> start = locate("A1-N5", new MDCPosition(0));
+        Optional<CursorShape> start = locate("A1-N5", new MDCPosition(0));
         assertTrue(start.isPresent());
         assertEquals(1, start.get().lines().size());
         assertEquals(editor.getView().getSubView(0).getPosition().x, start.get().lines().get(0).getX1(), EPSILON);
 
-        Optional<CursorLocator.Location> end = locate("A1-N5", new MDCPosition(2));
+        Optional<CursorShape> end = locate("A1-N5", new MDCPosition(2));
         assertTrue(end.isPresent());
         MDCView last = editor.getView().getSubView(1);
         assertEquals(last.getPosition().x + last.getWidth(), end.get().lines().get(0).getX1(), EPSILON);
@@ -78,7 +76,7 @@ class CursorLocatorTest {
 
     @Test
     void cursorInEmptyText() {
-        Optional<CursorLocator.Location> location = locate("", new MDCPosition(0));
+        Optional<CursorShape> location = locate("", new MDCPosition(0));
         assertTrue(location.isPresent());
         Line2D line = location.get().lines().get(0);
         assertEquals(0, line.getX1(), EPSILON);
@@ -88,7 +86,7 @@ class CursorLocatorTest {
     @Test
     void noCursorAfterLineBreak() {
         // Position 2 stands after the break: the cursor is at the start of the next line, not after the break.
-        Optional<CursorLocator.Location> location = locate("A1-!-N5", new MDCPosition(2));
+        Optional<CursorShape> location = locate("A1-!-N5", new MDCPosition(2));
         assertTrue(location.isPresent());
         MDCView after = editor.getView().getSubView(2);
         assertEquals(1, location.get().lines().size());
@@ -99,7 +97,7 @@ class CursorLocatorTest {
     @Test
     void innerCursorStandsBetweenTheSubviewsOfItsContainer() {
         // Quadrat 1 is "N5*N5*N5": a row of three signs inside a horizontal box.
-        Optional<CursorLocator.Location> location = locate("A1-N5*N5*N5-D21:D21", MDCPosition.of(1, 0, 1));
+        Optional<CursorShape> location = locate("A1-N5*N5*N5-D21:D21", MDCPosition.of(1, 0, 1));
         assertTrue(location.isPresent());
         assertFalse(location.get().wide());
         assertEquals(1, location.get().lines().size());
@@ -120,14 +118,14 @@ class CursorLocatorTest {
         assertTrue(quadratBounds.contains(line.getX1(), (line.getY1() + line.getY2()) / 2));
 
         // Moving the gap moves the line.
-        Optional<CursorLocator.Location> next = CursorLocator.locate(editor.getView(), MDCPosition.of(1, 0, 2),
-                editor.getJSeshStyle());
+        Optional<CursorShape> next = new CursorLocator(editor.getJSeshStyle())
+                .locate(editor.getView(), MDCPosition.of(1, 0, 2));
         assertTrue(next.get().lines().get(0).getX1() > line.getX1());
     }
 
     @Test
     void innerCursorBetweenRowsIsHorizontal() {
-        Optional<CursorLocator.Location> location = locate("A1-N5*N5*N5-D21:D21", MDCPosition.of(2, 1));
+        Optional<CursorShape> location = locate("A1-N5*N5*N5-D21:D21", MDCPosition.of(2, 1));
         assertTrue(location.isPresent());
         Line2D line = location.get().lines().get(0);
         assertEquals(line.getY1(), line.getY2(), EPSILON);
@@ -145,7 +143,7 @@ class CursorLocatorTest {
     void cursorInAbsoluteGroupMarksTheEndOfThePrecedingSign() {
         // An absolute group: signs are placed explicitly, the cursor stands in their order.
         String mdc = "A1-n**x{{967,79,100}}**N5{{0,0,100}}-D21";
-        Optional<CursorLocator.Location> location = locate(mdc, MDCPosition.of(1, 0, 0, 1));
+        Optional<CursorShape> location = locate(mdc, MDCPosition.of(1, 0, 0, 1));
         assertTrue(location.isPresent());
         assertFalse(location.get().wide());
         assertEquals(1, location.get().lines().size());
@@ -159,7 +157,7 @@ class CursorLocatorTest {
         assertEquals(offset + sign.getPosition().x + sign.getWidth(), line.getX1(), EPSILON);
 
         // The next gap marks another sign.
-        Optional<CursorLocator.Location> next = locate(mdc, MDCPosition.of(1, 0, 0, 2));
+        Optional<CursorShape> next = locate(mdc, MDCPosition.of(1, 0, 0, 2));
         assertTrue(next.isPresent());
         assertTrue(Math.abs(next.get().lines().get(0).getX1() - line.getX1()) > EPSILON);
     }

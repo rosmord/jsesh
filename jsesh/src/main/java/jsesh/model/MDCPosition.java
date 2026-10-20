@@ -108,6 +108,55 @@ public final class MDCPosition implements Serializable, Comparable<MDCPosition> 
 		return path[path.length - 1];
 	}
 
+	/// The position at gap `gap` inside the element this position designates
+	/// (seen as a child path, its last value being a child index).
+	///
+	/// For instance, `(2, 1).child(0)` is `(2, 1, 0)`.
+	///
+	/// @param gap the gap in the child element.
+	/// @return the nested position.
+	public MDCPosition child(int gap) {
+		int[] copy = Arrays.copyOf(path, path.length + 1);
+		copy[path.length] = Math.max(0, gap);
+		return new MDCPosition(copy, true);
+	}
+
+	/// The position of the element which contains this position, seen from its
+	/// own container: `(2, 1, 0).parent()` is `(2, 1)`.
+	///
+	/// @return the parent position.
+	/// @throws UnsupportedOperationException if the position is top-level.
+	public MDCPosition parent() {
+		if (isTop()) {
+			throw new UnsupportedOperationException("A top-level position has no parent: " + this);
+		}
+		return new MDCPosition(Arrays.copyOf(path, path.length - 1), true);
+	}
+
+	/// The position at another gap of the same element.
+	///
+	/// @param gap the new gap index (negative values are clamped to 0).
+	/// @return the position.
+	public MDCPosition withLastIndex(int gap) {
+		int[] copy = path.clone();
+		copy[copy.length - 1] = Math.max(0, gap);
+		return new MDCPosition(copy, true);
+	}
+
+	/// The gap which surrounds the element containing this position, on the
+	/// side of this position: before the element if this position is its first
+	/// gap, after it otherwise.
+	///
+	/// For instance, `(2, 1, 0).surroundingGap()` is `(2, 1)` and
+	/// `(2, 1, 3).surroundingGap()` is `(2, 2)`.
+	///
+	/// @return the surrounding gap.
+	/// @throws UnsupportedOperationException if the position is top-level.
+	public MDCPosition surroundingGap() {
+		MDCPosition parent = parent();
+		return getLastIndex() > 0 ? parent.withLastIndex(parent.getLastIndex() + 1) : parent;
+	}
+
 	/// Index of a top-level position.
 	///
 	/// @return the index.

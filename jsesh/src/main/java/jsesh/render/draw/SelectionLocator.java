@@ -7,7 +7,6 @@
  */
 package jsesh.render.draw;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +29,6 @@ import jsesh.render.view.MDCView;
 /// [MDCView#getAffineTransform()] of the root view.
 public final class SelectionLocator {
 
-    private SelectionLocator() {
-    }
-
     /// Finds the area of a selection in a scope.
     ///
     /// @param rootView the view of the whole text.
@@ -42,18 +38,18 @@ public final class SelectionLocator {
     /// @return the rectangles to highlight; empty if there is nothing to
     /// highlight, or if the view doesn't match the scope (for instance if it is
     /// not up to date).
-    public static List<Rectangle2D> locate(MDCView rootView, TextScope scope, int start, int end) {
-        return CursorLocator.descend(rootView, scope.getPath())
-                .map(d -> locateIn(d.view(), d.transform(), start, end))
+    public List<Rectangle2D> locate(MDCView rootView, TextScope scope, int start, int end) {
+        return PlacedView.root(rootView).follow(scope.getPath())
+                .map(container -> locateIn(container, start, end))
                 .orElse(List.of());
     }
 
-    private static List<Rectangle2D> locateIn(MDCView container, AffineTransform transform, int start, int end) {
+    private List<Rectangle2D> locateIn(PlacedView container, int start, int end) {
         List<Rectangle2D> result = new ArrayList<>();
-        int last = Math.min(end, container.getNumberOfSubviews());
+        int last = Math.min(end, container.childCount());
         Rectangle2D current = null;
         for (int i = Math.max(0, start); i < last; i++) {
-            Rectangle2D r = transform.createTransformedShape(CursorLocator.subViewBounds(container, i)).getBounds2D();
+            Rectangle2D r = container.toRoot(container.childBounds(i));
             if (current != null && sameRow(current, r)) {
                 current.add(r);
             } else {

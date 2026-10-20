@@ -32,7 +32,7 @@ class InnerEditTest {
     private static String insert(String mdc, MDCPosition pos, String sign, MDCPosition expectedCaret)
             throws Exception {
         HieroglyphicText t = parse(mdc);
-        InnerEdit.Result r = InnerEdit.insertSign(t, pos, new Hieroglyph(sign)).orElseThrow();
+        InnerEdit.Result r = new InnerEdit(t, pos).insertSign(new Hieroglyph(sign)).orElseThrow();
         assertEquals(expectedCaret, r.caret());
         return apply(t, pos, r);
     }
@@ -40,7 +40,8 @@ class InnerEditTest {
     private static String delete(String mdc, MDCPosition pos, boolean before, MDCPosition expectedCaret)
             throws Exception {
         HieroglyphicText t = parse(mdc);
-        InnerEdit.Result r = (before ? InnerEdit.deleteBefore(t, pos) : InnerEdit.deleteAfter(t, pos)).orElseThrow();
+        InnerEdit edit = new InnerEdit(t, pos);
+        InnerEdit.Result r = (before ? edit.deleteBefore() : edit.deleteAfter()).orElseThrow();
         assertEquals(expectedCaret, r.caret());
         return apply(t, pos, r);
     }
@@ -101,44 +102,44 @@ class InnerEditTest {
     void gapsOfACartoucheAreNotInnerPositions() throws Exception {
         // They are edited as a scope (jsesh.document.EditingScope).
         HieroglyphicText t = parse("<-A1-B1->");
-        assertTrue(InnerEdit.insertSign(t, p(0, 0, 0, 0, 1), new Hieroglyph("C1")).isEmpty());
-        assertTrue(InnerEdit.deleteBefore(t, p(0, 0, 0, 0, 1)).isEmpty());
-        assertTrue(InnerEdit.deleteAfter(t, p(0, 0, 0, 0, 1)).isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 0, 0, 0, 1)).insertSign(new Hieroglyph("C1")).isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 0, 0, 0, 1)).deleteBefore().isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 0, 0, 0, 1)).deleteAfter().isEmpty());
     }
 
     @Test
     void topLevelAndInvalidPositionsAreRefused() throws Exception {
         HieroglyphicText t = parse("A1*B1");
-        assertTrue(InnerEdit.insertSign(t, p(1), new Hieroglyph("C1")).isEmpty());
-        assertTrue(InnerEdit.deleteBefore(t, p(1)).isEmpty());
-        assertTrue(InnerEdit.deleteAfter(t, p(0, 5, 1)).isEmpty());
+        assertTrue(new InnerEdit(t, p(1)).insertSign(new Hieroglyph("C1")).isEmpty());
+        assertTrue(new InnerEdit(t, p(1)).deleteBefore().isEmpty());
+        assertTrue(new InnerEdit(t, p(0, 5, 1)).deleteAfter().isEmpty());
     }
 
     @Test
     void theTextIsNotModifiedByTheComputation() throws Exception {
         HieroglyphicText t = parse("A1*B1*C1");
-        InnerEdit.deleteBefore(t, p(0, 0, 1));
-        InnerEdit.insertSign(t, p(0, 0, 1), new Hieroglyph("D1"));
+        new InnerEdit(t, p(0, 0, 1)).deleteBefore();
+        new InnerEdit(t, p(0, 0, 1)).insertSign(new Hieroglyph("D1"));
         assertEquals("A1*B1*C1", new MdCModelWriter().toMdC(t));
     }
 
     @Test
     void canonicalizeClimbsFromEdges() throws Exception {
         HieroglyphicText t = parse("A1*B1-C1&D1");
-        assertEquals(p(0), PositionNavigator.canonicalize(t, p(0, 0, 0)));
-        assertEquals(p(1), PositionNavigator.canonicalize(t, p(0, 0, 2)));
-        assertEquals(p(1), PositionNavigator.canonicalize(t, p(0, 1)));
-        assertEquals(p(0, 0, 1), PositionNavigator.canonicalize(t, p(0, 0, 1)));
-        assertEquals(p(1), PositionNavigator.canonicalize(t, p(1)));
-        assertEquals(p(1, 0, 0, 1), PositionNavigator.canonicalize(t, p(1, 0, 0, 1)));
+        assertEquals(p(0), new PositionNavigator(t).canonicalize(p(0, 0, 0)));
+        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(0, 0, 2)));
+        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(0, 1)));
+        assertEquals(p(0, 0, 1), new PositionNavigator(t).canonicalize(p(0, 0, 1)));
+        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(1)));
+        assertEquals(p(1, 0, 0, 1), new PositionNavigator(t).canonicalize(p(1, 0, 0, 1)));
         // The edge of a ligature is the gap around the ligature, not a stop of its own.
-        assertEquals(p(1), PositionNavigator.canonicalize(t, p(1, 0, 0, 0)));
+        assertEquals(p(1), new PositionNavigator(t).canonicalize(p(1, 0, 0, 0)));
     }
 
     @Test
     void canonicalizeKeepsCartoucheEdges() throws Exception {
         HieroglyphicText t = parse("<-A1-B1->");
-        assertEquals(p(0, 0, 0, 0, 0), PositionNavigator.canonicalize(t, p(0, 0, 0, 0, 0)));
-        assertEquals(p(0, 0, 0, 0, 2), PositionNavigator.canonicalize(t, p(0, 0, 0, 0, 2)));
+        assertEquals(p(0, 0, 0, 0, 0), new PositionNavigator(t).canonicalize(p(0, 0, 0, 0, 0)));
+        assertEquals(p(0, 0, 0, 0, 2), new PositionNavigator(t).canonicalize(p(0, 0, 0, 0, 2)));
     }
 }

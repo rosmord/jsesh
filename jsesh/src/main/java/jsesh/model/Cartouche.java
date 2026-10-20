@@ -197,4 +197,8 @@ public class Cartouche extends InnerGroup {
                 );
     }
 
+    @Override
+    public boolean isNavigable() {
+        return true;
+    }
 } // end Cartouche

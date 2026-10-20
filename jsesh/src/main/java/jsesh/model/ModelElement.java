@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import jsesh.model.operations.ChildOperation;
 import jsesh.model.operations.Deletion;
@@ -400,6 +401,41 @@ public abstract class ModelElement implements ModelElementObserver,
      */
     public boolean isBreak() {
         return false;
+    }
+
+    /// Can the cursor enter this element, and stand in the gaps between its
+    /// children? See [PositionNavigator] for the rules.
+    ///
+    /// @return false by default; true for the elements which are entered.
+    public boolean isNavigable() {
+        return false;
+    }
+
+    /// Are the first and last gaps of this element stops of their own, for the
+    /// cursor? For most containers, they coincide visually with the gap which
+    /// surrounds the container, and are not. See [PositionNavigator].
+    ///
+    /// Only meaningful if [#isNavigable()] is true.
+    ///
+    /// @return false by default; true for lists of quadrats.
+    public boolean edgeGapsAreStops() {
+        return false;
+    }
+
+    /// Follows a path of child indices down from this element.
+    ///
+    /// @param childIndexes the indices of the successive children, from this element.
+    /// @return the element reached (this element for an empty path), or empty if
+    ///         the path doesn't match the tree.
+    public Optional<ModelElement> getDescendant(int... childIndexes) {
+        ModelElement current = this;
+        for (int i : childIndexes) {
+            if (i < 0 || i >= current.getNumberOfChildren()) {
+                return Optional.empty();
+            }
+            current = current.getChildAt(i);
+        }
+        return Optional.of(current);
     }
 
     /**

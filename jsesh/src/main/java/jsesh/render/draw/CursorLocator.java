@@ -1,13 +1,12 @@
 package jsesh.render.draw;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jsesh.document.caret.MDCCaret;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.BasicItemList;
@@ -15,6 +14,7 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElement;
+import jsesh.model.ModelElementAdapter;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.GeometrySpecification;
@@ -29,170 +29,104 @@ import jsesh.render.view.MDCView;
 /// Nothing here depends on the drawing recursion of [ViewDrawer], or on a
 /// `Graphics2D`.
 ///
-/// The resulting [Location] is expressed in the coordinate system used to draw the
-/// subviews of the root view, that is, after applying
-/// [MDCView#getAffineTransform()] of the root view.
+/// Inside a quadrat, the kind of container decides the shape of the cursor;
+/// each kind has its own method in the visitor `ContainerCursor`.
+///
+/// The result is a [CursorShape], which can draw itself:
+///
+/// ```java
+/// new CursorLocator(style).locate(view, caret).ifPresent(c -> c.paint(g, view, style));
+/// ```
 public final class CursorLocator {
 
-    /// Where to draw the cursor.
-    ///
-    /// @param lines the lines which make the cursor. In general, there is only one;
-    /// between two top-level elements, there is one at the end of the previous
-    /// element and one at the start of the next one.
-    /// @param wide true for the (thick) cursor which stands between top-level items,
-    /// false for the (thin) one inside a quadrat.
-    public record Location(List<Line2D> lines, boolean wide) {
+    private final JSeshStyle style;
 
-        public Location {
-            lines = List.copyOf(lines);
-        }
-
-        /// @return the area covered by the cursor, in the same coordinates as the lines.
-        public Rectangle2D bounds() {
-            Rectangle2D result = null;
-            for (Line2D line : lines) {
-                if (result == null) {
-                    result = line.getBounds2D();
-                } else {
-                    result.add(line.getBounds2D());
-                }
-            }
-            return result;
-        }
+    /// @param style the style used to build the views.
+    public CursorLocator(JSeshStyle style) {
+        this.style = style;
     }
 
-    private CursorLocator() {
+    /// Finds the cursor shape for the insertion point of a caret.
+    ///
+    /// @param rootView the view of the whole text.
+    /// @param caret the caret (may be null).
+    /// @return the shape of the cursor, or empty if there is no caret, or if
+    /// it doesn't match the view.
+    public Optional<CursorShape> locate(MDCView rootView, MDCCaret caret) {
+        if (caret == null || caret.getInsert() == null) {
+            return Optional.empty();
+        }
+        return locate(rootView, caret.getInsertExactPosition());
     }
 
     /// Finds the cursor shape for a position.
     ///
     /// @param rootView the view of the whole text.
     /// @param position the position of the cursor, possibly inside a quadrat.
-    /// @param style the style used to build the views.
     /// @return the shape of the cursor, or empty if the position doesn't match the
     /// view (for instance if the view is not up to date).
-    public static Optional<Location> locate(MDCView rootView, MDCPosition position, JSeshStyle style) {
-        Optional<Descent> descent = descend(rootView, position.getParentPath());
-        if (descent.isEmpty()) {
-            return Optional.empty();
-        }
-        MDCView container = descent.get().view();
-        AffineTransform transform = descent.get().transform();
-        int gap = position.getLastIndex();
-        if (gap < 0 || gap > container.getNumberOfSubviews()) {
-            return Optional.empty();
-        }
-        Optional<Location> shape;
-        if (position.isTop()) {
-            shape = locateInText(container, gap, style);
-        } else {
-            shape = locateInContainer(container, gap, style);
-        }
-        return shape.map(s -> new Location(
-                s.lines().stream().map(l -> transformed(transform, l)).toList(), s.wide()));
-    }
-
-    /// A view reached from the root view by a path of child indices.
-    ///
-    /// @param view the view.
-    /// @param transform the transform from the system used to draw the subviews of
-    /// `view` to the system used to draw the subviews of the root view.
-    record Descent(MDCView view, AffineTransform transform) {
-    }
-
-    /// Follows a path of child indices (a model path, as in [MDCPosition]) down
-    /// the view tree.
-    ///
-    /// @param rootView the view of the whole text.
-    /// @param path child indices, from the text.
-    /// @return the view reached, or empty if the views don't match the path (for
-    /// instance if the view is not up to date).
-    static Optional<Descent> descend(MDCView rootView, int[] path) {
-        AffineTransform transform = new AffineTransform();
-        MDCView container = rootView;
-        ModelElement model = rootView.getModel();
-        for (int i : path) {
-            if (model == null || i < 0 || i >= model.getNumberOfChildren() || i >= container.getNumberOfSubviews()) {
+    public Optional<CursorShape> locate(MDCView rootView, MDCPosition position) {
+        return PlacedView.root(rootView).follow(position.getParentPath()).flatMap(container -> {
+            int gap = position.getLastIndex();
+            if (gap < 0 || gap > container.childCount()) {
                 return Optional.empty();
             }
-            MDCView sub = container.getSubView(i);
-            if (sub.getModel() != model.getChildAt(i)) {
-                return Optional.empty();
-            }
-            // Same transformations as ViewDrawer.drawSubViews and drawView.
-            transform.translate(originX(container, sub), sub.getPosition().y);
-            transform.concatenate(sub.getAffineTransform());
-            model = sub.getModel();
-            container = sub;
-        }
-        return Optional.of(new Descent(container, transform));
-    }
-
-    private static Line2D transformed(AffineTransform transform, Line2D line) {
-        if (transform.isIdentity()) {
-            return line;
-        }
-        Point2D p1 = transform.transform(line.getP1(), null);
-        Point2D p2 = transform.transform(line.getP2(), null);
-        return new Line2D.Double(p1, p2);
-    }
-
-    /// Abscissa of the top-left corner of a subview, in the system used to draw the
-    /// subviews of `container` (right-to-left containers are mirrored).
-    private static double originX(MDCView container, MDCView sub) {
-        if (container.getDirection().isLeftToRight()) {
-            return sub.getPosition().x;
-        }
-        return container.getInternalWidth() - sub.getPosition().x - sub.getWidth();
+            Optional<CursorShape> local = position.isTop()
+                    ? locateInText(container, gap)
+                    : new ContainerCursor(container, gap).locate();
+            return local.map(shape -> shape.mapLines(container::toRoot));
+        });
     }
 
     // ------------------------------------------------------------------
     // Cursor between the top-level items of a text.
     // ------------------------------------------------------------------
 
-    private static Optional<Location> locateInText(MDCView text, int gap, JSeshStyle style) {
+    private Optional<CursorShape> locateInText(PlacedView text, int gap) {
         GeometrySpecification geometry = style.geometry();
-        int n = text.getNumberOfSubviews();
+        int n = text.childCount();
         if (n == 0) {
             // Empty text: the cursor stands at the origin.
             Line2D line = style.options().textOrientation().isHorizontal()
                     ? new Line2D.Double(0, 0, 0, geometry.maxCadratHeight())
                     : new Line2D.Double(0, 0, geometry.maxCadratWidth(), 0);
-            return Optional.of(new Location(List.of(line), true));
+            return Optional.of(new CursorShape(List.of(line), true));
         }
-        MDCView before = gap > 0 ? text.getSubView(gap - 1) : null;
-        MDCView after = gap < n ? text.getSubView(gap) : null;
+        int before = gap - 1;
+        int after = gap;
+        boolean hasBefore = gap > 0;
+        boolean hasAfter = gap < n;
 
         // A cursor stands between two views: draw it at the end of the previous
         // one, or at the start of the next one.
         // We draw cursors next to regular elements, not breaks. Between two
         // breaks, we favour the "start of the next view" tactic.
-        boolean drawBeforeAfterView = after != null;
-        if (after != null && isBreak(after) && before != null && !isBreak(before)) {
+        boolean drawBeforeAfterView = hasAfter;
+        if (hasAfter && isBreak(text.subView(after)) && hasBefore && !isBreak(text.subView(before))) {
             drawBeforeAfterView = false;
         }
-        boolean drawAfterBeforeView = before != null && !isBreak(before);
+        boolean drawAfterBeforeView = hasBefore && !isBreak(text.subView(before));
 
         // A single line in the gap shows where an insertion will take place.
         if (drawAfterBeforeView && drawBeforeAfterView) {
-            Optional<Line2D> merged = mergedLine(lineNextToView(text, before, true, style),
-                    lineNextToView(text, after, false, style));
+            Optional<Line2D> merged = mergedLine(lineNextToView(text, before, true),
+                    lineNextToView(text, after, false));
             if (merged.isPresent()) {
-                return Optional.of(new Location(List.of(merged.get()), true));
+                return Optional.of(new CursorShape(List.of(merged.get()), true));
             }
         }
 
         List<Line2D> lines = new ArrayList<>(2);
         if (drawAfterBeforeView) {
-            lines.add(lineNextToView(text, before, true, style));
+            lines.add(lineNextToView(text, before, true));
         }
         if (drawBeforeAfterView) {
-            lines.add(lineNextToView(text, after, false, style));
+            lines.add(lineNextToView(text, after, false));
         }
         if (lines.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(new Location(lines, true));
+        return Optional.of(new CursorShape(lines, true));
     }
 
     /// A line halfway between the end of a view and the start of the next one.
@@ -238,13 +172,14 @@ public final class CursorLocator {
     /// A line standing just after or just before a top-level view.
     ///
     /// @param text the view for the whole text.
-    /// @param v a subview of `text`.
-    /// @param after true to place the line after `v` (in reading order), false for before.
+    /// @param i the index of a subview of `text`.
+    /// @param after true to place the line after the subview (in reading order), false for before.
     /// @return the line, in the coordinate system used to draw the subviews of `text`.
-    private static Line2D lineNextToView(MDCView text, MDCView v, boolean after, JSeshStyle style) {
+    private Line2D lineNextToView(PlacedView text, int i, boolean after) {
         GeometrySpecification geometry = style.geometry();
         TextDirection textDirection = style.options().textDirection();
         TextOrientation textOrientation = style.options().textOrientation();
+        MDCView v = text.subView(i);
         // Next to alphabetic characters, the cursor follows the
         // text's own direction, and the height of the letters.
         boolean horizontalCursor = textOrientation.isHorizontal();
@@ -266,8 +201,9 @@ public final class CursorLocator {
             double y = after ? v.getHeight() : 0;
             line = new Line2D.Double(0, y, geometry.maxCadratWidth(), y);
         }
-        double dx = originX(text, v);
-        double dy = v.getPosition().y;
+        Rectangle2D bounds = text.childBounds(i);
+        double dx = bounds.getMinX();
+        double dy = bounds.getMinY();
         return new Line2D.Double(line.getX1() + dx, line.getY1() + dy, line.getX2() + dx, line.getY2() + dy);
     }
 
@@ -275,100 +211,142 @@ public final class CursorLocator {
     // Cursor inside a quadrat, a cartouche...
     // ------------------------------------------------------------------
 
-    /// The cursor stands between two subviews of `v`, or at one of the edges of `v`
-    /// if `v` is a list of quadrats (inside a cartouche...).
+    /// The cursor in a gap of a container below the top level.
     ///
-    /// In an [AbsoluteGroup], where signs are placed freely, it is a line along
-    /// the end edge of the sign which precedes the gap.
+    /// The cursor is a line which crosses the container, between the two
+    /// subviews around the gap. Its direction depends on the kind of
+    /// container, hence one `visit` method for each kind.
     ///
-    /// The cursor is a line which crosses the view, between the two subviews: a
-    /// vertical line between the elements of a row (or the quadrats of a
-    /// horizontal list), a horizontal one between rows or between the signs of
-    /// a ligature.
-    private static Optional<Location> locateInContainer(MDCView v, int gap, JSeshStyle style) {
-        int n = v.getNumberOfSubviews();
-        boolean leftToRight = v.getDirection().isLeftToRight();
-        Line2D line;
-        if (v.getModel() instanceof BasicItemList) {
-            // Quadrats follow each other along the line (or the column) of text.
+    /// Except in a list of quadrats, the first and last gaps of a container
+    /// have no cursor of their own: they are at the same place as the cursor
+    /// outside the container.
+    private final class ContainerCursor extends ModelElementAdapter {
+
+        private final PlacedView container;
+
+        private final int gap;
+
+        /// The line, in the system used to draw the subviews of the container.
+        private Line2D line;
+
+        ContainerCursor(PlacedView container, int gap) {
+            this.container = container;
+            this.gap = gap;
+        }
+
+        Optional<CursorShape> locate() {
+            container.model().accept(this);
+            return Optional.ofNullable(line).map(l -> new CursorShape(List.of(l), false));
+        }
+
+        /// Quadrats follow each other along the line (or the column) of text.
+        /// The edges of the list are stops too (inside a cartouche...).
+        @Override
+        public void visitBasicItemList(BasicItemList l) {
+            int n = container.childCount();
+            boolean leftToRight = isLeftToRight();
             boolean horizontal = style.options().textOrientation() == TextOrientation.HORIZONTAL;
+            MDCView v = container.view();
             if (n == 0) {
-                line = crossingLine(v, horizontal,
+                line = crossingLine(horizontal,
                         horizontal ? v.getInternalWidth() / 2.0 : v.getInternalHeight() / 2.0);
             } else if (gap == 0) {
-                Rectangle2D first = subViewBounds(v, 0);
-                line = crossingLine(v, horizontal,
+                Rectangle2D first = container.childBounds(0);
+                line = crossingLine(horizontal,
                         horizontal ? (leftToRight ? first.getMinX() : first.getMaxX()) : first.getMinY());
             } else if (gap == n) {
-                Rectangle2D last = subViewBounds(v, n - 1);
-                line = crossingLine(v, horizontal,
+                Rectangle2D last = container.childBounds(n - 1);
+                line = crossingLine(horizontal,
                         horizontal ? (leftToRight ? last.getMaxX() : last.getMinX()) : last.getMaxY());
             } else {
-                line = lineBetween(v, subViewBounds(v, gap - 1), subViewBounds(v, gap), horizontal);
+                line = lineBetween(before(), after(), horizontal);
             }
-        } else {
-            if (gap <= 0 || gap >= n) {
-                // Same place as the cursor outside this element.
-                return Optional.empty();
-            }
-            Rectangle2D before = subViewBounds(v, gap - 1);
-            Rectangle2D after = subViewBounds(v, gap);
-            if (v.getModel() instanceof AbsoluteGroup) {
-                // The signs are placed freely, and may overlap: there is no
-                // gap between them to cut through. The gap is their order in the
-                // group, so we mark the end of the sign which precedes it.
-                boolean ltr = leftToRight;
-                double x = ltr ? before.getMaxX() : before.getMinX();
+        }
+
+        /// The signs are placed freely, and may overlap: there is no gap between
+        /// them to cut through. The gap is their order in the group, so we mark
+        /// the end edge of the sign which precedes it.
+        @Override
+        public void visitAbsoluteGroup(AbsoluteGroup g) {
+            if (hasInnerGap()) {
+                Rectangle2D before = before();
+                double x = isLeftToRight() ? before.getMaxX() : before.getMinX();
                 line = new Line2D.Double(x, before.getMinY(), x, before.getMaxY());
-            } else if (v.getModel() instanceof HBox) {
-                // Elements side by side: vertical line.
-                line = lineBetween(v, before, after, true);
-            } else if (v.getModel() instanceof ComplexLigature) {
-                // The parts are arranged freely around the main sign. Cut across the
-                // direction which separates them.
+            }
+        }
+
+        /// Elements side by side: vertical line.
+        @Override
+        public void visitHBox(HBox b) {
+            if (hasInnerGap()) {
+                line = lineBetween(before(), after(), true);
+            }
+        }
+
+        /// The parts are arranged freely around the main sign. Cut across the
+        /// direction which separates them.
+        @Override
+        public void visitComplexLigature(ComplexLigature ligature) {
+            if (hasInnerGap()) {
+                Rectangle2D before = before();
+                Rectangle2D after = after();
                 double dx = Math.abs(before.getCenterX() - after.getCenterX());
                 double dy = Math.abs(before.getCenterY() - after.getCenterY());
-                line = lineBetween(v, before, after, dx > dy);
-            } else {
-                // Elements one above the other: horizontal line.
-                line = lineBetween(v, before, after, false);
+                line = lineBetween(before, after, dx > dy);
             }
         }
-        return Optional.of(new Location(List.of(line), false));
-    }
 
-    /// A line between two areas.
-    ///
-    /// @param v the view containing the areas.
-    /// @param vertical true for a vertical line (areas side by side).
-    private static Line2D lineBetween(MDCView v, Rectangle2D before, Rectangle2D after, boolean vertical) {
-        if (vertical) {
-            double x = (before.getMaxX() <= after.getMinX())
-                    ? (before.getMaxX() + after.getMinX()) / 2
-                    : (after.getMaxX() + before.getMinX()) / 2;
-            return crossingLine(v, true, x);
+        /// Other containers (quadrats, ligatures...): elements one above the
+        /// other, horizontal line.
+        @Override
+        public void visitDefault(ModelElement e) {
+            if (hasInnerGap()) {
+                line = lineBetween(before(), after(), false);
+            }
         }
-        double y = (before.getMaxY() <= after.getMinY())
-                ? (before.getMaxY() + after.getMinY()) / 2
-                : (after.getMaxY() + before.getMinY()) / 2;
-        return crossingLine(v, false, y);
-    }
 
-    /// A line which crosses the whole view.
-    ///
-    /// @param vertical true for a vertical line, which will be at abscissa `coordinate`;
-    /// false for a horizontal one, at ordinate `coordinate`.
-    private static Line2D crossingLine(MDCView v, boolean vertical, double coordinate) {
-        if (vertical) {
-            return new Line2D.Double(coordinate, 0, coordinate, v.getInternalHeight());
+        private boolean hasInnerGap() {
+            return gap > 0 && gap < container.childCount();
         }
-        return new Line2D.Double(0, coordinate, v.getInternalWidth(), coordinate);
-    }
 
-    /// The area occupied by a subview, in the coordinate system used to draw
-    /// the subviews of `v`.
-    static Rectangle2D subViewBounds(MDCView v, int i) {
-        MDCView subv = v.getSubView(i);
-        return new Rectangle2D.Double(originX(v, subv), subv.getPosition().y, subv.getWidth(), subv.getHeight());
+        private boolean isLeftToRight() {
+            return container.view().getDirection().isLeftToRight();
+        }
+
+        private Rectangle2D before() {
+            return container.childBounds(gap - 1);
+        }
+
+        private Rectangle2D after() {
+            return container.childBounds(gap);
+        }
+
+        /// A line between two areas.
+        ///
+        /// @param vertical true for a vertical line (areas side by side).
+        private Line2D lineBetween(Rectangle2D before, Rectangle2D after, boolean vertical) {
+            if (vertical) {
+                double x = (before.getMaxX() <= after.getMinX())
+                        ? (before.getMaxX() + after.getMinX()) / 2
+                        : (after.getMaxX() + before.getMinX()) / 2;
+                return crossingLine(true, x);
+            }
+            double y = (before.getMaxY() <= after.getMinY())
+                    ? (before.getMaxY() + after.getMinY()) / 2
+                    : (after.getMaxY() + before.getMinY()) / 2;
+            return crossingLine(false, y);
+        }
+
+        /// A line which crosses the whole container.
+        ///
+        /// @param vertical true for a vertical line, which will be at abscissa `coordinate`;
+        /// false for a horizontal one, at ordinate `coordinate`.
+        private Line2D crossingLine(boolean vertical, double coordinate) {
+            MDCView v = container.view();
+            if (vertical) {
+                return new Line2D.Double(coordinate, 0, coordinate, v.getInternalHeight());
+            }
+            return new Line2D.Double(0, coordinate, v.getInternalWidth(), coordinate);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package jsesh.model;
 
+import java.util.Optional;
+
 /**
  * Ligature
  * @author rosmord
@@ -7,7 +9,7 @@ package jsesh.model;
  * This code is published under the GNU LGPL.
  */
 
-public class Ligature extends InnerGroup {
+public class Ligature extends InnerGroup implements InnerEditable {
 
 
 	/**
@@ -56,5 +58,30 @@ public class Ligature extends InnerGroup {
 		Ligature l= new Ligature();
 		copyContentTo(l);
 		return l;
+	}
+
+	@Override
+	public boolean isNavigable() {
+		return true;
+	}
+
+	@Override
+	public void insertSignAt(int gap, Hieroglyph sign) {
+		addChildAt(gap, sign);
+	}
+
+	/// An empty ligature is not a normal state, and is not cleaned up.
+	@Override
+	public boolean disappearsWhenEmpty() {
+		return false;
+	}
+
+	/// A ligature of one sign is just this sign.
+	@Override
+	public Optional<HorizontalListElement> simplified() {
+		if (getNumberOfChildren() != 1) {
+			return Optional.empty();
+		}
+		return Optional.of((Hieroglyph) getHieroglyphAt(0).deepCopy());
 	}
 }

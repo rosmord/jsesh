@@ -7,7 +7,7 @@ package jsesh.model;
  * An horizontal list of elements.
  * @author Rosmorduc
  */
-public class HBox extends EmbeddedModelElement {
+public class HBox extends EmbeddedModelElement implements InnerEditable {
 
     /**
      *
@@ -137,5 +137,25 @@ public class HBox extends EmbeddedModelElement {
             }
             return new SubCadrat(list);
         }
+    }
+
+    @Override
+    public boolean isNavigable() {
+        return true;
+    }
+
+    @Override
+    public void insertSignAt(int gap, Hieroglyph sign) {
+        addChildAt(gap, sign);
+    }
+
+    @Override
+    public boolean disappearsWhenEmpty() {
+        return true;
+    }
+
+    @Override
+    public void simplifyElementAt(int index) {
+        getHorizontalListElementAt(index).simplified().ifPresent(e -> setChildAt(index, e));
     }
 }

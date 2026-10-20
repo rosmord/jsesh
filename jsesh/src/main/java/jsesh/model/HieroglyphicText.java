@@ -462,15 +462,9 @@ public class HieroglyphicText extends ModelElement implements ItemSequence {
     /// @param position the position to check.
     /// @return true if the position is valid for this text.
     public boolean isValidPosition(MDCPosition position) {
-        ModelElement current = this;
-        int[] parents = position.getParentPath();
-        for (int i : parents) {
-            if (i >= current.getNumberOfChildren()) {
-                return false;
-            }
-            current = current.getChildAt(i);
-        }
-        return position.getLastIndex() <= current.getNumberOfChildren();
+        return getDescendant(position.getParentPath())
+                .map(container -> position.getLastIndex() <= container.getNumberOfChildren())
+                .orElse(false);
     }
 
     /// @return the position after the last element of this text.

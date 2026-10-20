@@ -59,19 +59,21 @@ We used to define a range by a couple of positions, which was kept in an array i
 
 ### Moving the cursor
 
-Moving the cursor is handled by static methods of the `PositionNavigator` class. The principle of this class is quite simple: it can compute a list of possible sequential positions (called stops), and moving the cursor implies moving along this list. Stops are defined according to the selected `CaretGranularity`.
+Moving the cursor is handled by a `PositionNavigator`, built for a text. The principle of this class is quite simple: it can compute a list of possible sequential positions (called stops), and moving the cursor implies moving along this list. Stops are defined according to the selected `CaretGranularity`.
 
 ## Cursor drawing
 
 In the previous versions of the software, the cursor was drawn by the method `ViewDrawer.drawViewAndCursor`, which drew the view, and which checked, at each step, if we were at the cursor position. The cursor drawing has now been separated from the view drawing (even if the view drawing still handles the **selection**).
 
-Now, the class `CursorLocator` is responsible for computing the lines which will actually be used to draw the cursor. Currently, this class is a bit complex, because there are many cases to consider.
+Now, a `CursorLocator` (built with the current `JSeshStyle`) is responsible for computing the lines which will actually be used to draw the cursor. It returns a `CursorShape`, which paints itself: the editing components (`JMDCField` and `JMDCEditor`) do `new CursorLocator(style).locate(view, caret).ifPresent(c -> c.paint(g, view, style))`.
 
-The helper class `CursorPainter` calls the locator and paints the cursor. It's called by the editing components (`JMDCField` and `JMDCEditor`).
+Both the locator and `SelectionLocator` walk the view tree through `PlacedView` (package-private): a view together with the transform from its own coordinate system to the root's. It follows model paths down the views, checks that views and model still match, and gives the bounds of subviews.
+
+Inside a quadrat, the shape of the cursor depends on the kind of container (horizontal box, absolute group, complex ligature, list of quadrats...). This is handled by double dispatch: a `ModelElementVisitor` inside `CursorLocator`, with one method per kind of container. The model classes can't do it themselves, as `jsesh.model` must not know about rendering.
 
 ## Selection drawing
 
-Selection drawing is called by `ViewDrawer`, calling the helper class `SelectionLocator`.
+Selection drawing is called by `ViewDrawer`, calling a `SelectionLocator`.
 
 ## Sub-quadrat edition
 
@@ -81,7 +83,9 @@ When editing inside a quadrat, options are more limited.
 
 ### InnerEdit
 
-If the cursor is not at a place where “standard” edits are possible, the `JMDCEditorWorkflow` will use the static methods of the helper class `InnerEdit` to create the appropriate command according to the current position.
+If the cursor is not at a place where “standard” edits are possible, the `JMDCEditorWorkflow` uses an `InnerEdit`, built for a text and a position (`new InnerEdit(text, position).insertSign(sign)`, `.deleteBefore()`, `.deleteAfter()`). It computes the new version of the top item and the new cursor position; the workflow then replaces the top item.
+
+What is done depends on the container, and the containers decide it themselves: `Cadrat`, `HBox` and `Ligature` implement `InnerEditable` (`insertSignAt`, `disappearsWhenEmpty`, `simplifyElementAt`). Likewise, which elements the cursor may enter, and whether their edge gaps are stops, are given by `ModelElement.isNavigable()` and `edgeGapsAreStops()`, which `PositionNavigator` uses.
 
 ### Editing Cartouches (and other text scopes)
 

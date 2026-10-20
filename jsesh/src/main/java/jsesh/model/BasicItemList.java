@@ -121,4 +121,14 @@ public class BasicItemList
 		c.addHBox(b);
 		return c;
 	}
+
+	@Override
+	public boolean isNavigable() {
+		return true;
+	}
+
+	@Override
+	public boolean edgeGapsAreStops() {
+		return true;
+	}
 }

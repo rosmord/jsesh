@@ -67,7 +67,8 @@ public class SubCadrat extends InnerGroup {
 		return r;
 	}
 
+	@Override
+	public boolean isNavigable() {
+		return true;
+	}
 } // end SubCadrat
-
-
-

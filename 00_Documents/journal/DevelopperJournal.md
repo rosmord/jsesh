@@ -1863,3 +1863,25 @@ A selection whose scope is nested (`MDCCaret.getScope()` not the root) is now dr
 - A selection which leaves the cartouche is a root-scope selection, and still highlights the whole cartouche.
 - Limit: the "same row" merge only checks that the rectangles overlap along one axis. For a future zone with several lines, two quadrats placed one above the other in horizontal text would be merged. The text orientation will be needed there.
 - Tests: `SelectionLocatorTest` (geometry) and `NestedSelectionRenderingTest`. The latter renders headless, counts blue pixels against a cursor-only baseline, and saves its images in `build/test-images/selection-*.png`.
+
+## From static helpers to objects (cursor, selection, inner edits)
+
+The cursor and inner-editing work had produced five classes made only of static methods: `CursorPainter`, `CursorLocator`, `SelectionLocator`, `InnerEdit` and `PositionNavigator`. Reviewed as OO design, the problems were: missing objects (the same group of parameters passed around everywhere, and an anemic `Descent` record surrounded by static functions which belonged to it), `instanceof` chains over the model classes in four places, an "ask, then act" cursor painter, and hand-made `int[]` path arithmetic.
+
+The rule used to decide where each kind of behaviour goes:
+
+- **Model knowledge goes on the model classes, as ordinary polymorphism.** Editing a container and navigating it are model concepts:
+  - `InnerEditable` (implemented by `Cadrat`, `HBox`, `Ligature`) has `insertSignAt`, `disappearsWhenEmpty` and `simplifyElementAt`;
+  - `HorizontalListElement.simplified()` (a one-sign `Ligature` gives its sign);
+  - `ModelElement.isNavigable()` and `edgeGapsAreStops()` (true for `BasicItemList`);
+  - `ModelElement.getDescendant(int...)`.
+- **Rendering knowledge about model classes goes through double dispatch.** The model must not know about views, so the cursor shape per container kind is a `ModelElementVisitor` (`CursorLocator.ContainerCursor`), with one method per kind.
+- **What used to be static functions plus their parameters became objects:**
+  - `PlacedView` (package-private) is a view plus its transform to the root. It has `child`, `follow`, `childBounds` and `toRoot`, and is shared by `CursorLocator` and `SelectionLocator`.
+  - `CursorShape` (formerly `CursorLocator.Location`) paints itself. `CursorPainter` is gone.
+  - `new CursorLocator(style)` and `new SelectionLocator()`.
+  - `new PositionNavigator(text)`. A package-private constructor makes the text look as if one top item were replaced; `InnerEdit` uses it to canonicalize the cursor in its edited copy.
+  - `new InnerEdit(text, position).insertSign(sign)`, `.deleteBefore()` and `.deleteAfter()`. Each operation works on a fresh `Draft`, a private inner class holding the copied top item.
+- `MDCPosition` gained `child`, `parent`, `withLastIndex` and `surroundingGap`, so paths are no longer edited by hand.
+
+Pure geometry on value types (`mergedLine`, `overlap`, `sameRow`) stays as private static functions: there is no state or type-dependent behaviour in them.

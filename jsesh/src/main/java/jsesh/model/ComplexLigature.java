@@ -127,4 +127,9 @@ public class ComplexLigature extends HorizontalListElement {
 		} else
 			return null;
 	}
+
+	@Override
+	public boolean isNavigable() {
+		return true;
+	}
 }

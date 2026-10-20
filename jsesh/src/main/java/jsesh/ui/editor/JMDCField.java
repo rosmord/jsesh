@@ -23,7 +23,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-import jsesh.render.draw.CursorPainter;
+import jsesh.render.draw.CursorLocator;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.utils.swing.GraphicsUtils;
@@ -161,7 +161,9 @@ public class JMDCField extends JMDCEditor {
             getRenderContext(),
             buildTechRenderContext(),
             getView(), getMDCCaret());
-        CursorPainter.paint(g2d, getRenderContext(), getView(), getMDCCaret());
+        JSeshStyle cursorStyle = getRenderContext().jseshStyle();
+        new CursorLocator(cursorStyle).locate(getView(), getMDCCaret())
+                .ifPresent(cursor -> cursor.paint(g2d, getView(), cursorStyle));
     }
 
     public void addActionListener(ActionListener l) {

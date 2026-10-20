@@ -51,10 +51,8 @@ public class ViewDrawer {
      */
     private boolean debug = false;
 
-    /**
-     * The caret whose selection is highlighted while drawing, if any. The
-     * cursor itself is not drawn here: see {@link CursorPainter}.
-     */
+    /// The caret whose selection is highlighted while drawing, if any. The
+    /// cursor itself is not drawn here: see [CursorShape#paint].
     private MDCCaret selectionCaret = null;
 
     /**
@@ -123,7 +121,7 @@ public class ViewDrawer {
 
     /// Draws a view and its subviews, and highlights the selection of a caret.
     ///
-    /// This does *not* draw the cursor itself. Call [CursorPainter#paint] afterwards for this.
+    /// This does *not* draw the cursor itself. Locate it with [CursorLocator] and call [CursorShape#paint] afterwards for this.
     ///
     /// @param g2d the graphics.
     /// @param renderContext the rendering context.
@@ -671,7 +669,7 @@ public class ViewDrawer {
         if (scope.isRoot()) {
             return;
         }
-        List<Rectangle2D> areas = SelectionLocator.locate(view, scope, caret.getLocalMinPosition().getIndex(),
+        List<Rectangle2D> areas = new SelectionLocator().locate(view, scope, caret.getLocalMinPosition().getIndex(),
                 caret.getLocalMaxPosition().getIndex());
         Graphics2D tmpG = (Graphics2D) g.create();
         try {

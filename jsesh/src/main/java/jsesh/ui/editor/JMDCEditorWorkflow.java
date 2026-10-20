@@ -676,8 +676,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (caret.hasSelection()) {
             removeSelectedText();
         } else if (caret.isInsertInner()) {
-            applyInnerEdit(InnerEdit.deleteAfter(getHieroglyphicTextModel().getHieroglyphicText(),
-                    caret.getInsertExactPosition()));
+            applyInnerEdit(new InnerEdit(getHieroglyphicTextModel().getHieroglyphicText(),
+                    caret.getInsertExactPosition()).deleteAfter());
         }
     }
 
@@ -690,8 +690,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     ///         container does not support insertion yet.
     private boolean insertSignAtInnerPosition(String code) {
         MDCPosition where = caret.getInsertExactPosition();
-        boolean done = applyInnerEdit(InnerEdit.insertSign(getHieroglyphicTextModel().getHieroglyphicText(), where,
-                buildHieroglyphFromCode(code)));
+        boolean done = applyInnerEdit(new InnerEdit(getHieroglyphicTextModel().getHieroglyphicText(), where)
+                .insertSign(buildHieroglyphFromCode(code)));
         innerRetryPosition = done ? where : null;
         return done;
     }
@@ -742,8 +742,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             if (caret.hasSelection()) {
                 removeSelectedText();
             } else if (caret.isInsertInner()) {
-                applyInnerEdit(InnerEdit.deleteBefore(getHieroglyphicTextModel().getHieroglyphicText(),
-                        caret.getInsertExactPosition()));
+                applyInnerEdit(new InnerEdit(getHieroglyphicTextModel().getHieroglyphicText(),
+                        caret.getInsertExactPosition()).deleteBefore());
             } else if (scope().getElementBefore(caret.getLocalInsertPosition()) instanceof Superscript) {
                 removeSingleLetter();
             } else {

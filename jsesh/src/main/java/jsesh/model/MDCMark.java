@@ -36,7 +36,7 @@ import jsesh.utils.datatypes.EnumBase;
 /// stood inside a removed (or replaced) element falls back to the gap where
 /// this element was. The resulting position is a valid position of the text,
 /// but not necessarily a cursor stop (see
-/// [PositionNavigator#canonicalize(HieroglyphicText, MDCPosition)]).
+/// [PositionNavigator#canonicalize(MDCPosition)]).
 ///
 /// There is a problem with the mark system. When text is modified, the
 /// corresponding visit method are called. So far, so good. But now, the mark's

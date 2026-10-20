@@ -110,4 +110,9 @@ public class AbsoluteGroup extends InnerGroup {
             }
         }
     }
+
+    @Override
+    public boolean isNavigable() {
+        return true;
+    }
 }

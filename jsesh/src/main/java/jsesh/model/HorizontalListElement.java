@@ -1,5 +1,7 @@
 package jsesh.model;
 
+import java.util.Optional;
+
 
 abstract public class HorizontalListElement extends EmbeddedModelElement {
 	
@@ -31,5 +33,13 @@ abstract public class HorizontalListElement extends EmbeddedModelElement {
 		c.addHBox(b);
 		return c;		
 	}
-	
+
+	/// A simpler element equivalent to this one: for instance, a ligature
+	/// reduced to one sign is just this sign.
+	///
+	/// @return a new, simpler element, or empty if this element is as simple as
+	///         it gets.
+	public Optional<HorizontalListElement> simplified() {
+		return Optional.empty();
+	}
 }

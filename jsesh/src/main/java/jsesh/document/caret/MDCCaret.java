@@ -125,7 +125,7 @@ public class MDCCaret {
 	///        the text and in the cartouches; with [CaretGranularity#INNER],
 	///        inside the quadrats too.
 	public void moveInsert(int delta, CaretGranularity granularity) {
-		setInsertPosition(PositionNavigator.move(getModel(), insert.getPosition(), delta, granularity));
+		setInsertPosition(new PositionNavigator(getModel()).move(insert.getPosition(), delta, granularity));
 	}
 
 	/// If the insertion point lies inside a quadrat (see [#isInsertInner()]),

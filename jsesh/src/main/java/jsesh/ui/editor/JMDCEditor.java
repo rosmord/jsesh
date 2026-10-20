@@ -86,7 +86,7 @@ import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.draw.CursorLocator;
-import jsesh.render.draw.CursorPainter;
+import jsesh.render.draw.CursorShape;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
@@ -492,7 +492,9 @@ public class JMDCEditor extends JPanel {
         drawer.setClip(true);
 
         drawer.drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
-        CursorPainter.paint(g2d, getRenderContext(), getView(), getMDCCaret());
+        JSeshStyle cursorStyle = getRenderContext().jseshStyle();
+        new CursorLocator(cursorStyle).locate(getView(), getMDCCaret())
+                .ifPresent(cursor -> cursor.paint(g2d, getView(), cursorStyle));
 
         if (caretChanged) {
             // Disarm caret change updates.
@@ -622,8 +624,8 @@ public class JMDCEditor extends JPanel {
         Rectangle2D r1 = null;
         if (caret.getInsert().isInner()) {
             // Inside a quadrat or a cartouche: follow the cursor itself.
-            r1 = CursorLocator.locate(getView(), caret.getInsertExactPosition(), getJSeshStyle())
-                    .map(CursorLocator.Location::bounds).orElse(null);
+            r1 = new CursorLocator(getJSeshStyle()).locate(getView(), caret.getInsertExactPosition())
+                    .map(CursorShape::bounds).orElse(null);
         }
         if (r1 == null) {
             r1 = drawer.getRectangleAroundPosition(getView(), caret.getInsert().getTopLevelPosition(),

@@ -13,7 +13,7 @@ package jsesh.model;
  * </p>
  */
 public class Cadrat
-	extends BasicItem {
+	extends BasicItem implements InnerEditable {
 
 	/**
 	 * 
@@ -195,6 +195,20 @@ public class Cadrat
         Cadrat otherCadrat= (Cadrat) other;
         return this.shading == otherCadrat.shading;
     }
-        
-        
+
+	@Override
+	public boolean isNavigable() {
+		return true;
+	}
+
+	/// A new sign between two rows is a row of its own.
+	@Override
+	public void insertSignAt(int gap, Hieroglyph sign) {
+		addChildAt(gap, new HBox(sign));
+	}
+
+	@Override
+	public boolean disappearsWhenEmpty() {
+		return true;
+	}
 } // end Cadrat

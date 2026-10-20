@@ -8,8 +8,10 @@
 package jsesh.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /// Computes the successive places where the cursor may stand in a [HieroglyphicText], depending on a [CaretGranularity].
 ///
@@ -42,149 +44,144 @@ import java.util.List;
 /// Other kinds of elements (hieroglyphs, breaks, alphabetic
 /// characters...) are not entered.
 ///
+/// The kinds of elements which are entered, and whether their edge gaps are
+/// stops, are decided by the elements themselves
+/// ([ModelElement#isNavigable()], [ModelElement#edgeGapsAreStops()]).
+///
 /// Stops are ordered like [MDCPosition#compareTo(MDCPosition)]: `(1) < (1,0,1) <
 /// (1,1) < (2)`.
 public final class PositionNavigator {
 
-	private PositionNavigator() {
+	private final HieroglyphicText text;
+
+	/// The index of a top item seen as replaced by [#replacement], or -1.
+	private final int replacedIndex;
+
+	private final TopItem replacement;
+
+	/// Creates a navigator for a text.
+	///
+	/// @param text the text.
+	public PositionNavigator(HieroglyphicText text) {
+		this(text, -1, null);
+	}
+
+	/// Creates a navigator for a text as it would be if one of its top items
+	/// were replaced by another one (used to compute positions in an edited
+	/// item before it is put in the text).
+	///
+	/// @param text the text.
+	/// @param replacedIndex the index of the replaced top item in `text`.
+	/// @param replacement the item which takes its place.
+	PositionNavigator(HieroglyphicText text, int replacedIndex, TopItem replacement) {
+		this.text = text;
+		this.replacedIndex = replacedIndex;
+		this.replacement = replacement;
 	}
 
 	/// Lists the interior stops of a top-level item, in document order, for
 	/// [CaretGranularity#INNER].
 	///
-	/// @param text the text.
-	/// @param topIndex the index of a top-level item of `text`.
+	/// @param topIndex the index of a top-level item of the text.
 	/// @return the stops inside the item (empty if there is none, or if the
 	///         index is invalid).
-	public static List<MDCPosition> innerStops(HieroglyphicText text, int topIndex) {
-		return stops(text, topIndex, CaretGranularity.INNER);
+	public List<MDCPosition> innerStops(int topIndex) {
+		return stops(topIndex, CaretGranularity.INNER);
 	}
 
 	/// Lists the stops inside a top-level item, in document order.
 	///
-	/// @param text the text.
-	/// @param topIndex the index of a top-level item of `text`.
+	/// @param topIndex the index of a top-level item of the text.
 	/// @param granularity the kinds of stops: with [CaretGranularity#QUADRAT],
 	///        only the gaps of the nested scopes (cartouches...).
 	/// @return the stops inside the item (empty if there is none, or if the
 	///         index is invalid).
-	public static List<MDCPosition> stops(HieroglyphicText text, int topIndex, CaretGranularity granularity) {
+	public List<MDCPosition> stops(int topIndex, CaretGranularity granularity) {
 		if (topIndex < 0 || topIndex >= text.getNumberOfChildren()) {
 			return Collections.emptyList();
 		}
 		List<MDCPosition> result = new ArrayList<>();
-		collectStops(text.getChildAt(topIndex), new int[] { topIndex }, granularity == CaretGranularity.INNER,
-				result);
+		collectStops(topItemAt(topIndex), MDCPosition.of(topIndex), granularity == CaretGranularity.INNER, result);
 		return result;
 	}
 
-	private static void collectStops(ModelElement element, int[] path, boolean interior, List<MDCPosition> result) {
-		if (!isNavigable(element)) {
+	/// @param element an element.
+	/// @param elementPath the path of `element`, from the text.
+	/// @param interior true to collect interior gaps too.
+	private void collectStops(ModelElement element, MDCPosition elementPath, boolean interior,
+			List<MDCPosition> result) {
+		if (!element.isNavigable()) {
 			return;
 		}
 		int n = element.getNumberOfChildren();
-		// Lists of quadrats (in cartouches...) have their edges as stops. For other
-		// containers, the edges coincide with the gaps around the container.
-		boolean isScope = element instanceof BasicItemList;
 		for (int i = 0; i <= n; i++) {
-			// The gap before child i.
-			if (isScope || (interior && i > 0 && i < n)) {
-				result.add(MDCPosition.of(append(path, i)));
+			// The gap before child i, which is also the path of child i.
+			MDCPosition gap = elementPath.child(i);
+			if (element.edgeGapsAreStops() || (interior && i > 0 && i < n)) {
+				result.add(gap);
 			}
 			if (i < n) {
-				collectStops(element.getChildAt(i), append(path, i), interior, result);
+				collectStops(element.getChildAt(i), gap, interior, result);
 			}
 		}
 	}
 
 	/// Brings a position to the nearest place where the cursor may stand.
 	///
-	/// The edge gaps (first and last) of a container other than a
-	/// [BasicItemList] are not stops: they coincide with the gap which surrounds
-	/// the container. Such a position is replaced by the surrounding gap, and so
-	/// on recursively, up to a top-level position if need be. Other positions are
-	/// returned unchanged.
+	/// The edge gaps (first and last) of a container whose
+	/// [ModelElement#edgeGapsAreStops()] is false are not stops: they coincide
+	/// with the gap which surrounds the container. Such a position is replaced
+	/// by the surrounding gap, and so on recursively, up to a top-level
+	/// position if need be. Other positions are returned unchanged.
 	///
-	/// @param text the text.
 	/// @param position a position, possibly nested. A path which no longer
 	///        matches the structure of the text is handled as far as possible.
 	/// @return the equivalent stop.
-	public static MDCPosition canonicalize(HieroglyphicText text, MDCPosition position) {
+	public MDCPosition canonicalize(MDCPosition position) {
 		if (position.isTop() || position.getPath()[0] >= text.getNumberOfChildren()) {
 			return position;
 		}
-		return canonicalize(text.getTopItemAt(position.getPath()[0]), position.getPath());
-	}
-
-	/// Same as [#canonicalize(HieroglyphicText, MDCPosition)], for a top item
-	/// which is not (yet) in a text.
-	///
-	/// @param top the top item.
-	/// @param path the path of the position. Its first value is the index of
-	///        `top` in its text.
-	/// @return the equivalent stop.
-	static MDCPosition canonicalize(TopItem top, int[] path) {
-		int[] p = path.clone();
-		while (p.length > 1) {
-			ModelElement container = descend(top, p, p.length - 1);
-			int gap = p[p.length - 1];
-			if (container != null && isNavigable(container)) {
-				int n = container.getNumberOfChildren();
-				boolean edgesAreStops = container instanceof BasicItemList;
-				if (gap <= n && (edgesAreStops || (gap > 0 && gap < n))) {
-					return MDCPosition.of(p);
-				}
+		MDCPosition p = position;
+		while (!p.isTop()) {
+			if (isStop(p)) {
+				return p;
 			}
-			// Climb: before the container if we were at its start, after it otherwise.
-			p = java.util.Arrays.copyOf(p, p.length - 1);
-			if (gap > 0) {
-				p[p.length - 1]++;
-			}
+			p = p.surroundingGap();
 		}
-		return MDCPosition.of(p);
+		return p;
 	}
 
-	/// The element reached by following the child indices `path[1..depth-1]`
-	/// from a top item (`path[0]` is the index of the top item itself).
-	///
-	/// @return the element, or null if the path does not match the tree.
-	static ModelElement descend(TopItem top, int[] path, int depth) {
-		ModelElement current = top;
-		for (int i = 1; i < depth; i++) {
-			if (path[i] >= current.getNumberOfChildren()) {
-				return null;
-			}
-			current = current.getChildAt(path[i]);
-		}
-		return current;
+	/// Is a nested gap a stop, whatever the granularity?
+	private boolean isStop(MDCPosition gap) {
+		return containerOf(gap).map(container -> {
+			int n = container.getNumberOfChildren();
+			int i = gap.getLastIndex();
+			return container.isNavigable() && i <= n && (container.edgeGapsAreStops() || (i > 0 && i < n));
+		}).orElse(false);
 	}
 
-	private static boolean isNavigable(ModelElement element) {
-		return element instanceof Cadrat || element instanceof HBox || element instanceof Ligature
-				|| element instanceof ComplexLigature || element instanceof AbsoluteGroup || element instanceof Cartouche
-				|| element instanceof SubCadrat || element instanceof BasicItemList;
+	/// The element which contains a nested gap.
+	private Optional<ModelElement> containerOf(MDCPosition gap) {
+		int[] path = gap.getPath();
+		return topItemAt(path[0]).getDescendant(Arrays.copyOfRange(path, 1, path.length - 1));
 	}
 
-	private static int[] append(int[] path, int value) {
-		int[] result = java.util.Arrays.copyOf(path, path.length + 1);
-		result[path.length] = value;
-		return result;
+	private ModelElement topItemAt(int index) {
+		return index == replacedIndex ? replacement : text.getTopItemAt(index);
 	}
 
 	/// The position which follows or precedes another one, according to a
 	/// granularity.
 	///
-	/// @param text the text.
-	/// @param position a valid position in `text`. It may be nested.
+	/// @param position a valid position in the text. It may be nested.
 	/// @param delta the number of stops to move by (may be negative). The result
 	///        is clamped to the text bounds.
 	/// @param granularity the kinds of stops allowed.
 	/// @return the new position.
-	public static MDCPosition move(HieroglyphicText text, MDCPosition position, int delta,
-			CaretGranularity granularity) {
+	public MDCPosition move(MDCPosition position, int delta, CaretGranularity granularity) {
 		MDCPosition current = position;
 		for (int i = 0; i < Math.abs(delta); i++) {
-			MDCPosition next = delta > 0 ? next(text, current, granularity) : previous(text, current, granularity);
+			MDCPosition next = delta > 0 ? next(current, granularity) : previous(current, granularity);
 			if (next.equals(current)) {
 				break;
 			}
@@ -193,18 +190,17 @@ public final class PositionNavigator {
 		return current;
 	}
 
-	/// @param text the text.
-	/// @param position a valid position in `text`. It may be nested.
+	/// @param position a valid position in the text. It may be nested.
 	/// @param granularity the kinds of stops allowed.
 	/// @return the stop after `position` (`position` itself at the end of the
 	///         text).
-	public static MDCPosition next(HieroglyphicText text, MDCPosition position, CaretGranularity granularity) {
+	public MDCPosition next(MDCPosition position, CaretGranularity granularity) {
 		int top = position.getPath()[0];
 		int n = text.getNumberOfChildren();
 		if (position.isTop() && top >= n) {
 			return text.getLastPosition();
 		}
-		for (MDCPosition stop : stops(text, top, granularity)) {
+		for (MDCPosition stop : stops(top, granularity)) {
 			if (stop.compareTo(position) > 0) {
 				return stop;
 			}
@@ -212,21 +208,20 @@ public final class PositionNavigator {
 		return text.getPositionAt(top + 1);
 	}
 
-	/// @param text the text.
-	/// @param position a valid position in `text`. It may be nested.
+	/// @param position a valid position in the text. It may be nested.
 	/// @param granularity the kinds of stops allowed.
 	/// @return the stop before `position` (`position` itself at the start of the
 	///         text).
-	public static MDCPosition previous(HieroglyphicText text, MDCPosition position, CaretGranularity granularity) {
+	public MDCPosition previous(MDCPosition position, CaretGranularity granularity) {
 		int top = position.getPath()[0];
 		if (position.isTop()) {
 			if (top <= 0) {
 				return text.getPositionAt(0);
 			}
-			List<MDCPosition> before = stops(text, top - 1, granularity);
+			List<MDCPosition> before = stops(top - 1, granularity);
 			return before.isEmpty() ? text.getPositionAt(top - 1) : before.get(before.size() - 1);
 		}
-		List<MDCPosition> stops = stops(text, top, granularity);
+		List<MDCPosition> stops = stops(top, granularity);
 		for (int i = stops.size() - 1; i >= 0; i--) {
 			if (stops.get(i).compareTo(position) < 0) {
 				return stops.get(i);
