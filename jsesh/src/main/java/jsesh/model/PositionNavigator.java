@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/// Computes the successive places where the cursor may stand in a
-/// [HieroglyphicText], depending on a [CaretGranularity].
+/// Computes the successive places where the cursor may stand in a [HieroglyphicText], depending on a [CaretGranularity].
 ///
 /// With [CaretGranularity#QUADRAT], the cursor stands between quadrats:
 /// on top-level positions `(0)`, `(1)`, ..., and on the gaps of the editing

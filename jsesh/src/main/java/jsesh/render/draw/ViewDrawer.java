@@ -11,25 +11,19 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-import jsesh.render.style.GeometrySpecification;
-import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.LayoutOptions;
-import jsesh.render.style.PaintingSpecifications;
-import jsesh.model.constants.TextDirection;
-import jsesh.model.constants.TextOrientation;
 import jsesh.document.caret.MDCCaret;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
-import jsesh.model.BasicItemList;
-import jsesh.model.ComplexLigature;
-import jsesh.model.HBox;
-import jsesh.model.ModelElement;
+import jsesh.model.HieroglyphicText;
 import jsesh.model.MDCPosition;
 import jsesh.model.TextScope;
 import jsesh.model.TopItem;
-import jsesh.model.HieroglyphicText;
+import jsesh.model.constants.TextDirection;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.style.GeometrySpecification;
+import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.LayoutOptions;
 import jsesh.render.view.MDCView;
 
 /**

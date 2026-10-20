@@ -1,6 +1,14 @@
 /*
- * Created on 1 août 2004 by rosmord
- * This code can be distributed under the Gnu Library Public Licence.
+ * Copyright (c) 2004-2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ *
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ *
+ * contributor(s) : Serge J. P. Thomas for the fonts
+ * serge.rosmorduc@qenherkhopeshef.org
+ *
+ * Created on 1 août 2004 by Serge Rosmorduc
  **/
 package jsesh.model;
 
@@ -13,9 +21,10 @@ import jsesh.model.operations.ModelOperation;
 import jsesh.model.operations.Replacement;
 import jsesh.utils.datatypes.EnumBase;
 
-/// A long-term position marker in a text. Unlike a [MDCPosition], a mark
-/// follows the modifications of the text. A mark is never deleted, except if
-/// its [#release()] method is called.
+/// A long-term position marker in a text.
+///
+/// Unlike a [MDCPosition], a mark follows the modifications of the text. 
+/// A mark is never deleted, except if its [#release()] method is called.
 ///
 /// The mark system is inspired by the tk text widget.
 ///
@@ -41,6 +50,7 @@ import jsesh.utils.datatypes.EnumBase;
 public class MDCMark {
 
 	static public class Gravity extends EnumBase {
+		// TODO: replace all classes which use EnumBase by actual enums.
 
 		private static final long serialVersionUID = 2830453509378805410L;
 

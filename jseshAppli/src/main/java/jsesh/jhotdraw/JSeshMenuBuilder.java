@@ -115,8 +115,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 
                 // I am not sure it is interesting to give names to those actions...
                 // addAll the import and export as menus...
-                //JMenu shadingSymbolsMenu = BundleHelper.getInstance().configure(
-                //                new JMenu(), "text.shadingSymbols");
+                // JMenu shadingSymbolsMenu = BundleHelper.getInstance().configure(
+                // new JMenu(), "text.shadingSymbols");
                 addToMenu(insertMenu, app, view,
                                 JSeshApplicationActionsID.INSERT_FULL_SHADING);
                 addToMenu(insertMenu, app, view,
@@ -126,7 +126,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(insertMenu, app, view,
                                 JSeshApplicationActionsID.INSERT_QUARTER_SHADING);
 
-                //insertMenu.add(shadingSymbolsMenu);
+                // insertMenu.add(shadingSymbolsMenu);
                 insertMenu.addSeparator();
 
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));
@@ -134,27 +134,29 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 return insertMenu;
         }
 
-        private JMenu createTextMenu(Application a, JSeshView v) {
+        private JMenu createTextMenu(Application app, JSeshView view) {
+                ActionMap map = app.getActionMap(view);
                 JMenu textMenu = new JMenu();
                 BundleHelper.getInstance().configure(textMenu, "text");
-                addToMenu(textMenu, a, v, ActionsID.GROUP_HORIZONTAL);
-                addToMenu(textMenu, a, v, ActionsID.GROUP_VERTICAL);
-                addToMenu(textMenu, a, v, ActionsID.LIGATURE_ELEMENTS);
-                addToMenu(textMenu, a, v, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
-                addToMenu(textMenu, a, v, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
-                addToMenu(textMenu, a, v, ActionsID.EXPLODE_GROUP);
-                addToMenu(textMenu, a, v, CenterGroupAction.ID);
+                addToMenu(textMenu, app, view, ActionsID.GROUP_HORIZONTAL);
+                addToMenu(textMenu, app, view, ActionsID.GROUP_VERTICAL);
+                addToMenu(textMenu, app, view, ActionsID.LIGATURE_ELEMENTS);
+                addToMenu(textMenu, app, view, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
+                addToMenu(textMenu, app, view, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
+                addToMenu(textMenu, app, view, ActionsID.EXPLODE_GROUP);
+                addToMenu(textMenu, app, view, CenterGroupAction.ID);
                 textMenu.addSeparator();
-                addToMenu(textMenu, a, v, EditGroupAction.ID);
+                addToMenu(textMenu, app, view, EditGroupAction.ID);
                 textMenu.addSeparator();
-                addToMenu(textMenu, a, v, ActionsID.SHADE_ZONE);
-                addToMenu(textMenu, a, v, ActionsID.UNSHADE_ZONE);
-                addToMenu(textMenu, a, v, ActionsID.RED_ZONE);
-                addToMenu(textMenu, a, v, ActionsID.BLACK_ZONE);
+                addToMenu(textMenu, app, view, ActionsID.SHADE_ZONE);
+                addToMenu(textMenu, app, view, ActionsID.UNSHADE_ZONE);
+                addToMenu(textMenu, app, view, ActionsID.RED_ZONE);
+                addToMenu(textMenu, app, view, ActionsID.BLACK_ZONE);
                 textMenu.addSeparator();
-                textMenu.add(buildShadingMenu(a, v));
-                textMenu.add(buildCartoucheMenu(a, v));
-                textMenu.add(buildEcdoticMenu(a, v));
+                textMenu.add(buildShadingMenu(app, view));
+                textMenu.add(buildCartoucheMenu(app, view));
+                textMenu.add(buildEcdoticMenu(app, view));
+                textMenu.add(map.get(AddToGlossaryAction.ID));
                 return textMenu;
         }
 
@@ -360,9 +362,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         modeMenu.add(map.get(ActionsID.SET_MODE_LINENUMBER));
 
                         editMenu.add(modeMenu);
+                        editMenu.addSeparator();
                         editMenu.add(new JCheckBoxMenuItem(map.get(ActionsID.TOGGLE_INNER_CURSOR)));
-
-                        editMenu.add(map.get(AddToGlossaryAction.ID));
                         editMenu.addSeparator();
                         ButtonGroup group = new ButtonGroup();
                         boolean isFirst = true;
@@ -443,18 +444,18 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
          */
         private static String cartoucheTypeLabelKey(char type) {
                 switch (type) {
-                case 'c':
-                        return "text.cartoucheMenu.type.cartouche";
-                case 's':
-                        return "text.cartoucheMenu.type.serekh";
-                case 'h':
-                        return "text.cartoucheMenu.type.hwt";
-                case 'F':
-                        return "text.cartoucheMenu.type.enclosure";
-                case 'g':
-                        return "text.cartoucheMenu.type.circularEnclosure";
-                default:
-                        throw new IllegalArgumentException("Unknown cartouche type " + type);
+                        case 'c':
+                                return "text.cartoucheMenu.type.cartouche";
+                        case 's':
+                                return "text.cartoucheMenu.type.serekh";
+                        case 'h':
+                                return "text.cartoucheMenu.type.hwt";
+                        case 'F':
+                                return "text.cartoucheMenu.type.enclosure";
+                        case 'g':
+                                return "text.cartoucheMenu.type.circularEnclosure";
+                        default:
+                                throw new IllegalArgumentException("Unknown cartouche type " + type);
                 }
         }
 
@@ -464,14 +465,14 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
          */
         private static String cartoucheVariantsLabelKey(char type) {
                 switch (type) {
-                case 'c':
-                        return "text.cartoucheMenu.variants.cartouche";
-                case 's':
-                        return "text.cartoucheMenu.variants.serekh";
-                case 'h':
-                        return "text.cartoucheMenu.variants.hwt";
-                default:
-                        throw new IllegalArgumentException("No variants submenu for cartouche type " + type);
+                        case 'c':
+                                return "text.cartoucheMenu.variants.cartouche";
+                        case 's':
+                                return "text.cartoucheMenu.variants.serekh";
+                        case 'h':
+                                return "text.cartoucheMenu.variants.hwt";
+                        default:
+                                throw new IllegalArgumentException("No variants submenu for cartouche type " + type);
                 }
         }
 

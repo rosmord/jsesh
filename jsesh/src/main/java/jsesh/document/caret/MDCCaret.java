@@ -1,37 +1,13 @@
 /*
-Copyright Serge Rosmorduc
-contributor(s) : Serge J. P. Thomas for the fonts
-serge.rosmorduc@qenherkhopeshef.org
-
-This software is a computer program whose purpose is to edit ancient egyptian hieroglyphic texts.
-
-This software is governed by the CeCILL license under French law and
-abiding by the rules of distribution of free software.  You can  use, 
-modify and/ or redistribute the software under the terms of the CeCILL
-license as circulated by CEA, CNRS and INRIA at the following URL
-"http://www.cecill.info". 
-
-As a counterpart to the access to the source code and  rights to copy,
-modify and redistribute granted by the license, users are provided only
-with a limited warranty  and the software's author,  the holder of the
-economic rights,  and the successive licensors  have only  limited
-liability. 
-
-In this respect, the user's attention is drawn to the risks associated
-with loading,  using,  modifying and/or developing or reproducing the
-software by the user in light of its specific status of free software,
-that may mean  that it is complicated to manipulate,  and  that  also
-therefore means  that it is reserved for developers  and  experienced
-professionals having in-depth computer knowledge. Users are therefore
-encouraged to load and test the software's suitability as regards their
-requirements in conditions enabling the security of their systems and/or 
-data to be ensured and,  more generally, to use and operate it in the 
-same conditions as regards security. 
-
-The fact that you are presently reading this means that you have had
-knowledge of the CeCILL license and that you accept its terms.
- */
-/*
+ * Copyright (c) 2026 Serge Rosmorduc/Conservatoire National des Arts et Métiers, Paris, France
+ * SPDX-License-Identifier: CECILL-C
+ *
+ * This file is licensed under the CeCILL-C Free Software License, version 1.1.
+ * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ *
+ * contributor(s) : Serge J. P. Thomas for the fonts
+ * serge.rosmorduc@qenherkhopeshef.org
+ *
  * Created on 31 oct. 2004
  */
 package jsesh.document.caret;
@@ -47,25 +23,27 @@ import jsesh.model.HieroglyphicText;
 import jsesh.model.PositionNavigator;
 import jsesh.model.TextScope;
 
-/**
- * The caret represent the editing position in a text. It takes in account both
- * the <em>insertion point</em> where new signs will be inserted, and an
- * optional <em>mark.</em> The space between the mark (if ant) and the
- * insertion point is the selected area.
- * 
- * <p>
- * Note that both insert and mark can be null.
- * 
- * IMPORTANT : we have just had a problem with a case where a text was changed, but not the caret.
- * We could a) move the HieroglyphicTextModel class to the same package as caret, or maybe even to "model"
- * and b) set up an observer system between the two. Another solution : if marks are immutable (in the sense that
- * one can't move them except by changing the text), there is no need for mark listeners. Caret can still change, but in this case, we are in control.
- * 
- *  
- * // TODO : use named marks, in order to avoid any memory leak problem.
- * @author S. Rosmorduc
- *  
- */
+
+/// The caret represent the editing position in a text.
+/// 
+/// It takes in account both
+/// the *insertion point* where new signs will be inserted, and an
+/// optional *mark.* The space between the mark (if any) and the
+/// insertion point is the selected area.
+/// 
+/// The caret is an **observable** object.
+/// 
+/// Note that both insert and mark can be null.
+/// 
+/// **IMPORTANT:** we have just had a problem with a case where a text was changed, but not the caret.
+/// We could a) move the HieroglyphicTextModel class to the same package as caret, or maybe even to "model"
+/// and b) set up an observer system between the two. Another solution : if marks are immutable (in the sense that
+/// one can't move them except by changing the text), there is no need for mark listeners. 
+/// Caret can still change, but in this case, we are in control.
+/// 
+///  
+/// TODO: use named marks, in order to avoid any memory leak problem.
+/// 
 
 public class MDCCaret {
 
@@ -106,8 +84,9 @@ public class MDCCaret {
 		return insert;
 	}
 
-	/// The insertion position, as a top-level position. If the insertion point
-	/// lies inside a quadrat (see [#isInsertInner()]), this is the position just
+	/// The insertion position, **as a top-level position**. 
+	/// 
+	/// If the insertion point lies inside a quadrat (see [#isInsertInner()]), this is the position just
 	/// before this quadrat: all editing operations work at this level.
 	///
 	/// @return a top-level position.
@@ -128,6 +107,8 @@ public class MDCCaret {
 		return insert.getPosition();
 	}
 
+	/// Does the insertion point lie inside a quadrat.
+	/// 
 	/// @return true if the insertion point lies inside a quadrat, and not in a
 	///         gap of its scope (between two top-level items, or between two
 	///         quadrats of a cartouche...).
@@ -135,8 +116,8 @@ public class MDCCaret {
 		return !getInsertScope().isGap(insert.getPosition());
 	}
 
-	/// Moves the insertion point by a number of stops (see
-	/// [PositionNavigator]). The result is clamped to the text bounds.
+	/// Moves the insertion point by a number of stops.
+	/// See [PositionNavigator]) for more details. The result is limited by the text bounds.
 	///
 	/// @param delta the number of stops to move by (may be negative).
 	/// @param granularity the kind of stops: with

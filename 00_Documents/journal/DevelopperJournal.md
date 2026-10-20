@@ -35,6 +35,47 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-10-19
+
+Cursor and editing *inside* quadrats, cartouches and sub-quadrats (todo 0072; the design notes are at the end of
+this file: "MDCPosition is now a path" and the sections after it).
+
+- `MDCPosition` is now a path (a list of ints: child indices down the model tree, then a gap index), built with
+  `MDCPosition.of(1,0,1)`; `new MDCPosition(int)` still gives a top-level position. Added `MDCRange`. Nested
+  positions are not yet accepted by copy/removal/range export (`getIndex()` throws).
+- Caret granularity: `CaretGranularity.QUADRAT` (default) / `INNER`, toggled by the "Move Cursor Inside Quadrats"
+  action (Edit menu, remembered in preferences). Navigation is computed by the new `PositionNavigator`. It enters
+  quadrats, cartouches, sub-quadrats, complex ligatures and absolute groups. Pending change in the working copy: the
+  shortcut moves from `shortcut shift Q` to `shortcut shift A` (`labels.properties`, French line removed).
+- Cursor drawing moved out of `ViewDrawer` into `CursorLocator` (geometry from the view tree, unit-tested without
+  `Graphics2D`) and `CursorPainter`. Top-level rendering checked pixel-identical on 156 variants. The cursor is a
+  single line between two quadrats, and is also drawn in absolute groups.
+- Editing inside quadrats (`InnerEdit`, works on a copy of the top item, then replaces it): typing, Backspace and a
+  new forward Delete act at the exact position. `ComplexLigature` and `AbsoluteGroup` containers are not editable yet.
+- Editing scopes: `ItemSequence`, `TextScope`, scoped `InsertCommand`/`RemoveCommand`; `MDCMark` follows nested
+  edits (undo/redo keeps the caret in the cartouche); `jsesh.document.EditingScope` lets `JMDCEditorWorkflow` work
+  in a cartouche as in a whole text (grouping, paste, glossary, modifiers...). Up/Down, Select All and the MdC line
+  field stay top-level.
+- Selections inside cartouches are drawn precisely (`SelectionLocator`). Known limit: the "same row" merge ignores
+  the text orientation (matters for future multi-line zones).
+- Parser: zones are parsed (`AstZone` replaces `AstZoneStart`), sealed interfaces `AstTopItem`/`AstBasicItem` (an
+  `AstTopItemList` is now a list of `AstTopItem`), `AstOptionValue` introduced. Actual zones in the model are still
+  to be done.
+- `JSeshMenuBuilder`: "Add to glossary" added to the Text menu; some reformatting. `gradle.properties` is at
+  version 8.1 (uncommitted).
+
+## 2026-10-18
+
+- Small fixes before release: workflow renamed `release.yml`, README and `CITATION.cff` updated, new notes
+  `property-naming.md` and `undo_redo_swing.md`, demo text `A_demonstration_of_the_mdc.gly` revised, new sign
+  icons for `signInfoAppli` packaging (replacing the duck), version 8.0.8.
+
+## 2026-10-02
+
+- `PortableToolKit` (qenherkhopeshefUtils) is now used wherever `Toolkit.getDefaultToolkit()` was (importers, palette,
+  splash screens, key utils, `BundledActionFiller`), so JSesh can be tested headless. The `jsesh` tests run with
+  `java.awt.headless=true`, and `JMDCEditorHeadlessTest` checks that `JMDCEditor` can be created.
+
 ## 2026-09-29
 
 - `TopItemList` renamed `HieroglyphicText` (it *is* the text: the root of the model tree). `HieroglyphicTextModel`

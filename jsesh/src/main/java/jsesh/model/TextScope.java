@@ -12,7 +12,7 @@ import java.util.Arrays;
 /// An editing scope: an [ItemSequence] of a text, designated by its path.
 ///
 /// The root scope is the text itself. The content of a cartouche, or of a
-/// sub-quadrat, is a nested scope: a text in miniature, which can be edited
+/// sub-quadrat,  are nested scopes: texts in miniature, which can be edited
 /// like the top level of the text.
 ///
 /// The path of a scope is the list of child indices leading from the text to

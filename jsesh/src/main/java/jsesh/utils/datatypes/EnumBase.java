@@ -13,7 +13,9 @@ import java.io.Serializable;
 
 /**
  * Base type for enum-like classes, for jdk 1.4.
- *   @author rosmord
+ * 
+ * TODO: replace all classes which use EnumBase by actual enums.
+ * @author rosmord
  *
  */
 public abstract class EnumBase implements Serializable {
