@@ -77,7 +77,7 @@ Generic utilities:
 `StringUtils`
 : generic string utilities.
 
-## `org.qenherkhopeshef.viewtoolkit1`
+## `org.qenherkhopeshef.viewtoolkit`
 
 A generic toolkit for creating complex views, with examples. It's used in the editor of syntactic analysis of the Ramses project.
 
