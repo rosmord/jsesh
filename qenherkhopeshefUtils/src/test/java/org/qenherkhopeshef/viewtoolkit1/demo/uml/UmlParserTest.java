@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.ClassKind;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlClass;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlRelation;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlParser.UmlParseException;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.ConnectorEnd;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.DiagramDrawing;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.ClassBoxElement;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlDiagramPresenter;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlParser;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.ClassKind;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlClass;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlRelation;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlParser.UmlParseException;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.ConnectorEnd;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.DiagramDrawing;
 
 public class UmlParserTest {
 

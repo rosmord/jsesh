@@ -1,8 +1,13 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeAxis;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.TextElement;
 
 public class CompositeElementTest {
 

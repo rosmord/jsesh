@@ -1,11 +1,11 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDocumentEvent.Type;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocumentEvent.Type;
 
 /// A text, made of paragraphs, with embedded graphical elements.
 ///

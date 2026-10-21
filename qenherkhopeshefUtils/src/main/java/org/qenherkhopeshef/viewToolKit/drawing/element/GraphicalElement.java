@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.BoundsProperty;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.DecoratorProperty;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
-import org.qenherkhopeshef.viewToolKit.drawing.event.PropertyChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.BoundsProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.DecoratorProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.GraphicalElementManager;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.PropertyChangedEvent;
 
 /**
  * Base class for Graphical elements. Inspired by the JHotdraw framework.

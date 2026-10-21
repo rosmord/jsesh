@@ -1,12 +1,12 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.ClassKind;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlClass;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlRelation;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.ConnectorEnd;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.ClassKind;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlClass;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlRelation;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.ConnectorEnd;
 
 /// Reads a small subset of the PlantUML class diagram syntax.
 ///

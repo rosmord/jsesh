@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo;
+package org.qenherkhopeshef.viewtoolkit1.demo;
 
 import java.awt.GridLayout;
 
@@ -10,9 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import org.qenherkhopeshef.viewToolKit.demo.picture.PictureDrawerDemo;
-import org.qenherkhopeshef.viewToolKit.demo.text.TextEditorDemo;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlDiagramDemo;
+import org.qenherkhopeshef.viewtoolkit1.demo.picture.PictureDrawerDemo;
+import org.qenherkhopeshef.viewtoolkit1.demo.text.TextEditorDemo;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlDiagramDemo;
 
 /// Launcher for the three viewToolKit demos.
 ///
@@ -30,7 +30,7 @@ public final class ViewToolKitDemos {
 		JFrame frame = new JFrame("viewToolKit demos");
 		JPanel panel = new JPanel(new GridLayout(0, 1, 8, 8));
 		panel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-		panel.add(new JLabel("Three small applications built on org.qenherkhopeshef.viewToolKit:"));
+		panel.add(new JLabel("Three small applications built on org.qenherkhopeshef.viewtoolkit1:"));
 		panel.add(button("1. Text editor (embedded pictures, very long texts)", TextEditorDemo::open));
 		panel.add(button("2. Picture drawer (open and closed lines)", PictureDrawerDemo::open));
 		panel.add(button("3. UML class diagram displayer", UmlDiagramDemo::open));

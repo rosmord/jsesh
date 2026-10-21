@@ -1,10 +1,10 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.awt.Graphics2D;
 import java.awt.font.GraphicAttribute;
 import java.awt.geom.Rectangle2D;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
 
 /// Lets a [GraphicalElement] stand in a line of text, as a big "character".
 ///

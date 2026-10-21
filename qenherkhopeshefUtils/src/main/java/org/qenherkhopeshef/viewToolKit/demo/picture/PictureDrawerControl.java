@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.picture;
+package org.qenherkhopeshef.viewtoolkit1.demo.picture;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -14,12 +14,12 @@ import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
 
-import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
-import org.qenherkhopeshef.viewToolKit.drawing.GridDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
-import org.qenherkhopeshef.viewToolKit.drawing.element.PolylineElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.ShapeElement;
+import org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer;
+import org.qenherkhopeshef.viewtoolkit1.drawing.GridDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.PolylineElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.ShapeElement;
 
 /// Mouse and keyboard handling for the picture drawer.
 ///

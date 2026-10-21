@@ -1,10 +1,11 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.HeightIndex;
 
 public class HeightIndexTest {
 

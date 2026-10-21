@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit;
+package org.qenherkhopeshef.viewtoolkit1;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,12 +20,12 @@ import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.guiFramework.busy.BusyInterface;
 import org.qenherkhopeshef.swingUtils.GraphicsUtils;
-import org.qenherkhopeshef.viewToolKit.drawing.Drawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.CursorChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEventAdapter;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingListener;
+import org.qenherkhopeshef.viewtoolkit1.drawing.Drawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.CursorChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEventAdapter;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingListener;
 
 /// Displays a [Drawing] in a Swing component, without requiring the component
 /// to inherit from [JGraphicalElementDisplayer].

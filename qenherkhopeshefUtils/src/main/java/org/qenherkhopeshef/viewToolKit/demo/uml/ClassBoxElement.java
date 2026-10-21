@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -7,15 +7,15 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.ClassKind;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlClass;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Alignment;
-import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
-import org.qenherkhopeshef.viewToolKit.drawing.element.SpacerElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.TextElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.ClassKind;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlClass;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Alignment;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.TextElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
 
 /// The box representing a class: a vertical composite of three compartments
 /// (name, attributes, operations), each one a vertical composite of texts.

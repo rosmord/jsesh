@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element.property;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element.property;
 
 /**
  * Fake property object used when a decorator is changed.

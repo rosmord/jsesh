@@ -1,6 +1,6 @@
-package org.qenherkhopeshef.viewToolKit.drawing.event;
+package org.qenherkhopeshef.viewtoolkit1.drawing.event;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement;
 
 /**
  * An event occurring <em>in</em> a composite.

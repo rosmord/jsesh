@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.text;
+package org.qenherkhopeshef.viewtoolkit1.demo.text;
 
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -16,12 +16,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
-import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.Paragraph;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDocument;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextPosition;
+import org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.Paragraph;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocument;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextPosition;
 
 /// Keyboard and mouse handling for the text editor demo.
 ///

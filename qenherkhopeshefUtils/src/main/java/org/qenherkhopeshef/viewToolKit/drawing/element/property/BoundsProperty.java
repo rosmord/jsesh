@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element.property;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element.property;
 
 /**
  * Pseudo-property for an elements bounds (position and size).

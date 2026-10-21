@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.picture;
+package org.qenherkhopeshef.viewtoolkit1.demo.picture;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,10 +24,10 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
-import org.qenherkhopeshef.viewToolKit.demo.picture.PictureDrawerControl.Tool;
-import org.qenherkhopeshef.viewToolKit.drawing.GridDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.PolylineElement;
+import org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer;
+import org.qenherkhopeshef.viewtoolkit1.demo.picture.PictureDrawerControl.Tool;
+import org.qenherkhopeshef.viewtoolkit1.drawing.GridDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.PolylineElement;
 
 /// Demo 2: a picture drawer, with open and closed lines.
 ///

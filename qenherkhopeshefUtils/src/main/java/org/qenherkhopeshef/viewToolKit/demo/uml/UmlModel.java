@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.ConnectorEnd;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.ConnectorEnd;
 
 /// A (very) small UML class diagram model.
 final class UmlModel {

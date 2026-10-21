@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 /// A change in a [TextDocument].
 ///

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.tabularDrawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing.tabularDrawing;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
@@ -13,14 +13,14 @@ import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 
 import org.qenherkhopeshef.algo.ReversibleMultiHashMap;
-import org.qenherkhopeshef.viewToolKit.drawing.AbstractDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.RectangleElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.CursorChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.ElementAdded;
-import org.qenherkhopeshef.viewToolKit.drawing.event.ElementRemoved;
+import org.qenherkhopeshef.viewtoolkit1.drawing.AbstractDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.RectangleElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.CursorChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.ElementAdded;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.ElementRemoved;
 
 /**
  * A drawing organized in a tabular way. Elements added to the drawing will try
@@ -759,7 +759,7 @@ public class TabularDrawing extends AbstractDrawing {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see grammaticalBase.viewToolkit.drawing.Drawing#getCursorBounds()
+	 * @see grammaticalBase.viewtoolkit1.drawing.Drawing#getCursorBounds()
 	 */
 	@Override
 	public Rectangle2D getCursorBounds() {

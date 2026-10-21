@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 public enum CompositeAxis {
 	HORIZONTAL, VERTICAL

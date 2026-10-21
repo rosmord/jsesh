@@ -1,6 +1,6 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
 
 
 

@@ -1,12 +1,12 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element.layout;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element.layout;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
 
 /// Stacks the children of a composite from top to bottom.
 ///

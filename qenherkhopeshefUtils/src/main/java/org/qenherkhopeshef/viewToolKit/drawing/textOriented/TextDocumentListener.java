@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 /// Listens to the changes in a [TextDocument].
 public interface TextDocumentListener {

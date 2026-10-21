@@ -1,12 +1,12 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingListener;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingListener;
 
 public interface Drawing {
 

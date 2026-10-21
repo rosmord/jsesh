@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,13 +13,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.qenherkhopeshef.viewToolKit.drawing.AbstractDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
-import org.qenherkhopeshef.viewToolKit.drawing.element.ShapeElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.CursorChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.AbstractDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.ShapeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.CursorChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
 
 /// A drawing displaying a [TextDocument] as a column of wrapped paragraphs,
 /// with a caret and a selection.

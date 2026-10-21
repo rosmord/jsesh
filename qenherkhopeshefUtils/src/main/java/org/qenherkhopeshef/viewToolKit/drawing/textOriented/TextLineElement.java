@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -10,8 +10,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
 
 /// One laid-out line of a paragraph.
 ///

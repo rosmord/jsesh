@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,7 +8,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Dimension2D;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
 
 public class TextElement extends GraphicalElement {
 

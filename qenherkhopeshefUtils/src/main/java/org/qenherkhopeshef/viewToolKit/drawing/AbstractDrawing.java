@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
 
 import java.awt.geom.Point2D;
@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingListener;
-import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
-import org.qenherkhopeshef.viewToolKit.drawing.tabularDrawing.TabularDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingListener;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.GraphicalElementManager;
+import org.qenherkhopeshef.viewtoolkit1.drawing.tabularDrawing.TabularDrawing;
 
 /// Base class for creating drawing classes.
 ///

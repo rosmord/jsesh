@@ -1,13 +1,13 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
 
 /**
  * A very plain and not optimized drawing class.

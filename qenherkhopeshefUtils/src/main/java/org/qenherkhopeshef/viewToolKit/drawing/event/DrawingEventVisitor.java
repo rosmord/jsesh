@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.event;
+package org.qenherkhopeshef.viewtoolkit1.drawing.event;
 
 public interface DrawingEventVisitor {
 	void visitCompositeEvent(CompositeEvent ev);

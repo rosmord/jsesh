@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.qenherkhopeshef.viewToolKit.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocument;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocumentEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextPosition;
 
 public class TextDocumentTest {
 

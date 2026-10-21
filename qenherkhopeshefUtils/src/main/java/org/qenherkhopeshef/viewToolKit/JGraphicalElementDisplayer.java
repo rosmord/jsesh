@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit;
+package org.qenherkhopeshef.viewtoolkit1;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 
 import org.qenherkhopeshef.guiFramework.busy.BusyInterface;
-import org.qenherkhopeshef.viewToolKit.drawing.Drawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.Drawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
 
 /// Basic Displayer for a drawing.
 ///

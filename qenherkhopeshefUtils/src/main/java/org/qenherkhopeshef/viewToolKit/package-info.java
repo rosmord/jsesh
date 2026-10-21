@@ -2,14 +2,14 @@
 ///
 /// ## Concepts
 ///
-/// - A [org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement] is
+/// - A [org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement] is
 ///   something which can be drawn: a text, a shape, a line, a picture, or a
 ///   composite of other elements. Its properties fire events when they change.
-/// - A [org.qenherkhopeshef.viewToolKit.drawing.Drawing] is a collection of
+/// - A [org.qenherkhopeshef.viewtoolkit1.drawing.Drawing] is a collection of
 ///   elements, which knows how to find the elements in a given zone quickly.
 ///   It *manages* its elements: it is notified when they change, updates its
 ///   own structures, and passes the events to its listeners.
-/// - [org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer] displays a
+/// - [org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer] displays a
 ///   drawing, asking it only for the elements in the visible area. It also
 ///   draws the drawing's *decorations* (cursors, selection handles...),
 ///   which are not part of the drawing itself.
@@ -31,14 +31,14 @@
 /// 
 /// | Drawing | Use |
 /// |---|---|
-/// | [org.qenherkhopeshef.viewToolKit.drawing.PlainDrawing] | quick experiments, very small drawings |
-/// | [org.qenherkhopeshef.viewToolKit.drawing.GridDrawing] | free placement, spatially indexed (many elements) |
-/// | [org.qenherkhopeshef.viewToolKit.drawing.diagram.DiagramDrawing] | nodes and connectors which follow them |
-/// | [org.qenherkhopeshef.viewToolKit.drawing.tabularDrawing.TabularDrawing] | elements in cells, with a very large number of columns |
-/// | [org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDrawing] | wrapped text with embedded elements, of any length |
+/// | [org.qenherkhopeshef.viewtoolkit1.drawing.PlainDrawing] | quick experiments, very small drawings |
+/// | [org.qenherkhopeshef.viewtoolkit1.drawing.GridDrawing] | free placement, spatially indexed (many elements) |
+/// | [org.qenherkhopeshef.viewtoolkit1.drawing.diagram.DiagramDrawing] | nodes and connectors which follow them |
+/// | [org.qenherkhopeshef.viewtoolkit1.drawing.tabularDrawing.TabularDrawing] | elements in cells, with a very large number of columns |
+/// | [org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDrawing] | wrapped text with embedded elements, of any length |
 ///
 /// ## Demos
 /// 
-/// As a proof of concept, we provide a number of demos in [org.qenherkhopeshef.viewToolKit.demo].
-/// See the demos in `org.qenherkhopeshef.viewToolKit.demo`.
-package org.qenherkhopeshef.viewToolKit;
+/// As a proof of concept, we provide a number of demos in [org.qenherkhopeshef.viewtoolkit1.demo].
+/// See the demos in `org.qenherkhopeshef.viewtoolkit1.demo`.
+package org.qenherkhopeshef.viewtoolkit1;

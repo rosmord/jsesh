@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
 
 /// A shape element, which can be filled and/or stroked.
 ///

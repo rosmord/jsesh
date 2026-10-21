@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.qenherkhopeshef.viewToolKit.drawing.tabularDrawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing.tabularDrawing;
 
 public class ElementInfo {
 	private int firstColumn;

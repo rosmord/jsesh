@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,10 +28,10 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlParser.UmlParseException;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.DiagramDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlParser.UmlParseException;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.DiagramDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
 
 /// Demo 3: a UML class diagram displayer.
 ///

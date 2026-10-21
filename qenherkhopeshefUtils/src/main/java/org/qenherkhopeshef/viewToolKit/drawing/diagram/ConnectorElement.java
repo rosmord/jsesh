@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.diagram;
+package org.qenherkhopeshef.viewtoolkit1.drawing.diagram;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.Property;
-import org.qenherkhopeshef.viewToolKit.drawing.event.PropertyChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.Property;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.PropertyChangedEvent;
 
 /// A line linking two elements (its *source* and its *target*).
 ///

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.diagram;
+package org.qenherkhopeshef.viewtoolkit1.drawing.diagram;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.qenherkhopeshef.viewToolKit.drawing.GridDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.GridDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
 
 /// A drawing made of nodes (any graphical element) and of connectors between
 /// them.

@@ -1,7 +1,7 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element.layout;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element.layout;
 
 import java.awt.geom.Dimension2D;
-import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement; 
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement; 
 
 /**
  * The layout for a given composite.

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.diagram;
+package org.qenherkhopeshef.viewtoolkit1.drawing.diagram;
 
 /// The decoration drawn at one end of a [ConnectorElement].
 ///

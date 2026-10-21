@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.uml;
+package org.qenherkhopeshef.viewtoolkit1.demo.uml;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -8,10 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlClass;
-import org.qenherkhopeshef.viewToolKit.demo.uml.UmlModel.UmlRelation;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.ConnectorElement;
-import org.qenherkhopeshef.viewToolKit.drawing.diagram.DiagramDrawing;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlClass;
+import org.qenherkhopeshef.viewtoolkit1.demo.uml.UmlModel.UmlRelation;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.ConnectorElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.DiagramDrawing;
 
 /// Builds the drawing for a [UmlModel], and places the classes.
 ///

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,8 +7,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.Paragraph;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.ParagraphElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocument;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextPosition;
 
 public class TextDrawingTest {
 

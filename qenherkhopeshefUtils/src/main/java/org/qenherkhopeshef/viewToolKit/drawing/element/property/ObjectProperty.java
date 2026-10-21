@@ -1,7 +1,7 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element.property;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element.property;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.PropertyChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.PropertyChangedEvent;
 
 
 /**

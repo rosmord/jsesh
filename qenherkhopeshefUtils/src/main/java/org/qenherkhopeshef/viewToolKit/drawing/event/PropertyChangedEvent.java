@@ -1,7 +1,7 @@
-package org.qenherkhopeshef.viewToolKit.drawing.event;
+package org.qenherkhopeshef.viewtoolkit1.drawing.event;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.Property;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.Property;
 
 public class PropertyChangedEvent extends DrawingEvent {
 

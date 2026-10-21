@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingChangedEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.ElementAdded;
-import org.qenherkhopeshef.viewToolKit.drawing.event.ElementRemoved;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.ElementAdded;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.ElementRemoved;
 
 /// A free position drawing, in which element access is speeded by a grid-like
 /// indexation.

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.diagram;
+package org.qenherkhopeshef.viewtoolkit1.drawing.diagram;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.junit.jupiter.api.Test;
-import org.qenherkhopeshef.viewToolKit.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.ConnectorElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.diagram.DiagramDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
 
 public class DiagramDrawingTest {
 

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.demo.text;
+package org.qenherkhopeshef.viewtoolkit1.demo.text;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -33,12 +33,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
-import org.qenherkhopeshef.viewToolKit.JGraphicalElementDisplayer;
-import org.qenherkhopeshef.viewToolKit.drawing.element.ImageElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDocument;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextDrawing;
-import org.qenherkhopeshef.viewToolKit.drawing.textOriented.TextPosition;
+import org.qenherkhopeshef.viewtoolkit1.JGraphicalElementDisplayer;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.ImageElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDocument;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.textOriented.TextPosition;
 
 /// Demo 1: a simple text editor, with embedded pictures, able to edit very
 /// long texts.

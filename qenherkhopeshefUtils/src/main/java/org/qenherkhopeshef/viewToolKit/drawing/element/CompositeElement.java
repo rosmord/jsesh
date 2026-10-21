@@ -1,6 +1,6 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.layout.CompositeLayout;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.layout.CompositeLayout;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.layout.HorizontalCompositeLayout;
-import org.qenherkhopeshef.viewToolKit.drawing.element.layout.VerticalCompositeLayout;
-import org.qenherkhopeshef.viewToolKit.drawing.event.CompositeEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
-import org.qenherkhopeshef.viewToolKit.drawing.event.GraphicalElementManager;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.layout.HorizontalCompositeLayout;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.layout.VerticalCompositeLayout;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.CompositeEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.GraphicalElementManager;
 
 /**
  * A general composite element.

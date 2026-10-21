@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.element;
+package org.qenherkhopeshef.viewtoolkit1.drawing.element;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.qenherkhopeshef.swingUtils.DoubleDimensions;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.ObjectProperty;
-import org.qenherkhopeshef.viewToolKit.drawing.element.property.Property;
-import org.qenherkhopeshef.viewToolKit.drawing.event.PropertyChangedEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.ObjectProperty;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.property.Property;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.PropertyChangedEvent;
 
 /// A line made of connected segments, either open (a polyline) or closed (a
 /// polygon).

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,9 +14,9 @@ import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.CompositeElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.Margin;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.CompositeElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.Margin;
 
 /// The view of one paragraph: a vertical composite of [TextLineElement]s.
 ///

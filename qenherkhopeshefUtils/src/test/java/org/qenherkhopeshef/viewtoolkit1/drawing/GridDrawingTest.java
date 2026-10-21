@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing;
+package org.qenherkhopeshef.viewtoolkit1.drawing;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.PolylineElement;
-import org.qenherkhopeshef.viewToolKit.drawing.element.SpacerElement;
-import org.qenherkhopeshef.viewToolKit.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit1.drawing.GridDrawing;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.PolylineElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.SpacerElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.event.DrawingEvent;
 
 public class GridDrawingTest {
 

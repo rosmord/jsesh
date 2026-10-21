@@ -8,7 +8,7 @@ This document proposes a new view structure for JSesh, the *box tree*, and
 the model for `@zone(content of the zone)`.
 
 The starting point is the GUI structure of the Ramsès syntax editor. Its
-toolkit also lives in this repository, as `org.qenherkhopeshef.viewToolKit`
+toolkit also lives in this repository, as `org.qenherkhopeshef.viewtoolkit1`
 (`qenherkhopeshefUtils`). The structure has three parts:
 
 - a dumb displayer, which paints the elements of a drawing that fall in the
@@ -33,7 +33,7 @@ position and scope machinery, on which this design builds.
 
 ## A. Findings
 
-### A.1 `org.qenherkhopeshef.viewToolKit` (qenherkhopeshefUtils)
+### A.1 `org.qenherkhopeshef.viewtoolkit1` (qenherkhopeshefUtils)
 
 | Class | What it does | Keep for JSesh? |
 |---|---|---|
@@ -51,7 +51,7 @@ presenter colours elements to show selection. `graphicalToModel` throws
 "Normally, only one model for a graphical element". **Avoid both**: store
 links on the boxes, and draw the selection as a decoration.
 
-Nothing in this repository imports `org.qenherkhopeshef.viewToolKit`. The old
+Nothing in this repository imports `org.qenherkhopeshef.viewtoolkit1`. The old
 classes stay untouched. Deprecating them is a separate decision.
 
 ### A.2 JSesh's current pipeline
@@ -130,7 +130,7 @@ classes stay untouched. Deprecating them is a separate decision.
    Existing `MDCView` subtrees first live *inside* item boxes (a bridge), so
    drawing and quadrat layout don't change until late.
 
-## C. Generic layer: `org.qenherkhopeshef.viewToolKit.box` (qenherkhopeshefUtils)
+## C. Generic layer: `org.qenherkhopeshef.viewtoolkit1.box` (qenherkhopeshefUtils)
 
 This layer has no JSesh dependency and is Swing-free, except `box.swing`. It
 replaces the empty `drawing.textOriented` package, which is deleted. The
@@ -238,7 +238,7 @@ the layers.
 ## D. JSesh layer: `jsesh.render.box` (new, Swing-free)
 
 Its dependencies: `jsesh.model`, `jsesh.render.{view,layout,draw,style,context}`
-and `org.qenherkhopeshef.viewToolKit.box`. It is used by `jsesh.ui.editor`
+and `org.qenherkhopeshef.viewtoolkit1.box`. It is used by `jsesh.ui.editor`
 and `jsesh.ui.export`.
 **Avoid a cycle**: `TextGeometry` and the locators move from
 `jsesh.render.draw` to `jsesh.render.box`, so that `box → draw`
@@ -473,7 +473,7 @@ Phases 1–5 change no visible behaviour, except up/down.
 
 | # | Phase | Done when |
 |---|---|---|
-| 1 | Generic toolkit `org.qenherkhopeshef.viewToolKit.box` (C.1–C.7; C.8 can wait for phase 5). Delete the empty `textOriented`. | Unit tests in C pass. |
+| 1 | Generic toolkit `org.qenherkhopeshef.viewtoolkit1.box` (C.1–C.7; C.8 can wait for phase 5). Delete the empty `textOriented`. | Unit tests in C pass. |
 | 2 | **Lines kept**, with no change to drawing. `LineLayout`/`ColumnLayout` record each flushed zone as a `LineRecord(startGap, endGap, bounds)` on the root view. `BoxTreeBuilder` wraps the *already positioned* top-level `MDCView`s into `DocumentBox → FlowBox → LineBox → ViewItemBox`, with transforms taken from their positions. | Every top item is in exactly one line, in order. Each item box's bounds in root coordinates equal its `MDCView`'s, for a corpus with breaks, tabs, justification, RTL and columns. |
 | 3 | **Geometry on boxes**: `CaretStopTable`, `ClickResolver`, stop-based `SelectionLocator`, and `TextGeometry` moved to `jsesh.render.box` and built on `DocumentBox`. The old locators are kept as test oracles, then deleted. | `CursorLocatorTest`, `TextGeometryTest`, `JMDCEditorMouseTest`, `InnerCursorRenderingTest` and `PositionNavigatorTest` are green. For every stop of the corpus, the new and old results are equal. |
 | 4 | **Geometric navigation**: `CaretNavigator` with a goal coordinate, workflow up/down, Home/End, and INNER up/down in stacked quadrats. | Tests on multi-line texts in the four orientation/direction combinations. Manual check in the application. |
@@ -554,7 +554,7 @@ Phases 1–5 change no visible behaviour, except up/down.
    referenced? This also affects `jsesh.io`.
 5. Paged mode: should the page split be a `PageBox` over line ranges (as
    proposed), or stay a separate pass for printing only?
-6. Should the old `org.qenherkhopeshef.viewToolKit.drawing.*` classes be
+6. Should the old `org.qenherkhopeshef.viewtoolkit1.drawing.*` classes be
    deprecated once `box` exists?
 7. Does `JMDCEditor` extend or delegate to `JSceneDisplayer` (E)?
 

@@ -1,4 +1,4 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 /// A position in a [TextDocument]: a paragraph index, and an offset in this
 /// paragraph.

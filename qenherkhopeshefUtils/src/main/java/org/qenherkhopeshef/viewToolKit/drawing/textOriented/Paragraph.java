@@ -1,10 +1,10 @@
-package org.qenherkhopeshef.viewToolKit.drawing.textOriented;
+package org.qenherkhopeshef.viewtoolkit1.drawing.textOriented;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.qenherkhopeshef.viewToolKit.drawing.element.GraphicalElement;
+import org.qenherkhopeshef.viewtoolkit1.drawing.element.GraphicalElement;
 
 /// A paragraph of a [TextDocument]: a string of characters, in which graphical
 /// elements (pictures...) can be embedded.
