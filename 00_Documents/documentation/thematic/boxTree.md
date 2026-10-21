@@ -570,7 +570,7 @@ Phases 1–5 change no visible behaviour, except up/down.
 
 ## J. Files concerned by the phases
 
-- Generic: `qenherkhopeshefUtils/src/main/java/org/qenherkhopeshef/viewToolKit/**` (new `box/`).
+- Generic: `qenherkhopeshefUtils/src/main/java/org/qenherkhopeshef/viewtoolkit/**` (new `box/`).
 - Layout: `jsesh/src/main/java/jsesh/render/layout/{Layout,TopItemLayout,LineLayout,ColumnLayout,Zone,TextRun}.java`.
 - Views and drawing: `jsesh/src/main/java/jsesh/render/view/{MDCView,ViewBuilder}.java`, `render/draw/{TextGeometry,PlacedView,CursorLocator,PositionLocator,SelectionLocator,ViewDrawer,CursorShape,SelectionShape,MDCDrawingFacade}.java`.
 - Model: `jsesh/src/main/java/jsesh/model/{ZoneStart,Cartouche,BasicItemList,ItemSequence,PositionNavigator,ModelElementVisitor,ModelElementAdapter,ModelElementDeepAdapter}.java`.
