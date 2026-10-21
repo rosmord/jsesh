@@ -8,16 +8,16 @@ import java.util.List;
 import org.qenherkhopeshef.viewtoolkit.drawing.element.GraphicalElement;
 import org.qenherkhopeshef.viewtoolkit.drawing.event.DrawingChangedEvent;
 import org.qenherkhopeshef.viewtoolkit.drawing.event.DrawingEvent;
+import org.qenherkhopeshef.viewtoolkit.drawing.event.ElementAdded;
 
-/**
- * A very plain and not optimized drawing class.
- * <p>
- * Use for trying ideas and get something running as soon as possible. Not
- * suited for anything but very very simple drawings.
- * 
- * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- * 
- */
+/// A very plain and not optimized drawing class.
+///
+/// Use for trying ideas and get something running as soon as possible. Not
+/// suited for anything but very very simple drawings.
+/// 
+/// @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
+/// 
+ 
 public class PlainDrawing extends AbstractDrawing {
 
 	private List<GraphicalElement> elements = new ArrayList<GraphicalElement>();
@@ -68,6 +68,7 @@ public class PlainDrawing extends AbstractDrawing {
 	public void addElement(GraphicalElement elt) {
 		elements.add(elt);
 		this.manage(elt);
+		eventOccurredInDrawing(new ElementAdded(elt));
 	}
 	
 	@Override

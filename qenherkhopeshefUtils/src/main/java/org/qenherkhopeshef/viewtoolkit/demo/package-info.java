@@ -10,7 +10,7 @@
 ///   diagram displayer (uses `DiagramDrawing`, `CompositeElement` and
 ///   `ConnectorElement`).
 ///
-/// [org.qenherkhopeshef.viewtoolkit.demo.viewtoolkitDemos] launches any of them.
+/// [org.qenherkhopeshef.viewtoolkit.demo.ViewToolKitDemos] launches any of them.
 ///
 /// All three follow the same organisation: a model, a drawing which displays
 /// it in a `JGraphicalElementDisplayer`, and a control object which turns
