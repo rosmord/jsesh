@@ -9,16 +9,15 @@ import org.qenherkhopeshef.viewtoolkit.drawing.element.GraphicalElement;
 import org.qenherkhopeshef.viewtoolkit.drawing.event.DrawingChangedEvent;
 import org.qenherkhopeshef.viewtoolkit.drawing.event.DrawingEvent;
 import org.qenherkhopeshef.viewtoolkit.drawing.event.ElementAdded;
+import org.qenherkhopeshef.viewtoolkit.drawing.event.ElementRemoved;
 
 /// A very plain and not optimized drawing class.
 ///
 /// Use for trying ideas and get something running as soon as possible. Not
 /// suited for anything but very very simple drawings.
-/// 
+///
 /// @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
-/// 
- 
-public class PlainDrawing extends AbstractDrawing {
+public final class PlainDrawing extends AbstractDrawing {
 
 	private List<GraphicalElement> elements = new ArrayList<GraphicalElement>();
 	private Rectangle2D drawingSize;
@@ -66,9 +65,25 @@ public class PlainDrawing extends AbstractDrawing {
 	}
 
 	public void addElement(GraphicalElement elt) {
+		if (elt == null)
+			throw new IllegalArgumentException("null element");
+		if (elements.contains(elt))
+			return; // NO-OP
 		elements.add(elt);
 		this.manage(elt);
-		eventOccurredInDrawing(new ElementAdded(elt));
+		eventOccurredInDrawing(new ElementAdded(elt));		
+	}
+
+	/// Removes an element from the drawing.
+	///
+	/// Does nothing if the element isn't in the drawing.
+	///
+	/// @param elt the element to remove.
+	public void removeElement(GraphicalElement elt) {
+		if (elements.remove(elt)) {
+			elt.setManager(null);
+			eventOccurredInDrawing(new ElementRemoved(elt));
+		}
 	}
 	
 	@Override
@@ -81,5 +96,7 @@ public class PlainDrawing extends AbstractDrawing {
         elements.clear();
         eventOccurredInDrawing(new DrawingChangedEvent());
     }
+
+
 
 }

@@ -70,7 +70,15 @@ public class CompositeElement extends GraphicalElement {
 		return preferredSize;
 	}
 
+	/// Adds a child element. Call [#pack()] afterwards to update the layout.
+	///
+	/// @param elt an element which doesn't belong to any container yet.
+	/// @throws IllegalArgumentException if `elt` already belongs to a drawing
+	///         or a composite (including this one).
 	public void addElement(GraphicalElement elt) {
+		if (elt.getManager() != null)
+			throw new IllegalArgumentException(
+					"element already belongs to a container: " + elt);
 		elements.add(elt);
 		preferredSize = null;
 		elt.setManager(this.contentManager);
@@ -126,9 +134,12 @@ public class CompositeElement extends GraphicalElement {
 		super.setBounds(x, y, width, height);
 		boolean oldInUpdate = inUpdate;
 		inUpdate = true;
-		layout.fitChildren(this, width, height);
-		fixDecoratorBounds();
-		inUpdate = oldInUpdate;
+		try {
+			layout.fitChildren(this, width, height);
+			fixDecoratorBounds();
+		} finally {
+			inUpdate = oldInUpdate;
+		}
 	}
 
 	/**
@@ -137,11 +148,12 @@ public class CompositeElement extends GraphicalElement {
 	public void pack() {
 		boolean oldInUpdate = inUpdate;
 		inUpdate = true;
-		preferredSize = null;
-        
-        layout.layoutComposite(this);
-        // End of part which moves to layout...
-		inUpdate = oldInUpdate;
+		try {
+			preferredSize = null;
+			layout.layoutComposite(this);
+		} finally {
+			inUpdate = oldInUpdate;
+		}
 	}
 
     
@@ -156,19 +168,22 @@ public class CompositeElement extends GraphicalElement {
 		public void eventOccurred(DrawingEvent ev) {
 			if (!inUpdate) {
 				inUpdate = true;
-				// Normally, tests that the geometry of the content of this
-				// element has changed.
-				preferredSize = null;
-				pack();
-				// Given the geometric nature of this element,
-				// We should change its geometry here...
+				try {
+					// Normally, tests that the geometry of the content of this
+					// element has changed.
+					preferredSize = null;
+					pack();
+					// Given the geometric nature of this element,
+					// We should change its geometry here...
 
-				// Now forward the event.
-				CompositeEvent compositeEvent = new CompositeEvent(
-						CompositeElement.this, ev);
-				if (getManager() != null)
-					getManager().eventOccurred(compositeEvent);
-				inUpdate = false;
+					// Now forward the event.
+					CompositeEvent compositeEvent = new CompositeEvent(
+							CompositeElement.this, ev);
+					if (getManager() != null)
+						getManager().eventOccurred(compositeEvent);
+				} finally {
+					inUpdate = false;
+				}
 			}
 		}
 	}

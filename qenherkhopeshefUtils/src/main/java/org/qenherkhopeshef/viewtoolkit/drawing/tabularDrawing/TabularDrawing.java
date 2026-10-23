@@ -32,7 +32,7 @@ import org.qenherkhopeshef.viewtoolkit.drawing.event.ElementRemoved;
  * @author rosmord
  * 
  */
-public class TabularDrawing extends AbstractDrawing {
+public final class TabularDrawing extends AbstractDrawing {
 
 	// Layout maintainer algorithm.
 	// When new data is added :
@@ -50,10 +50,9 @@ public class TabularDrawing extends AbstractDrawing {
 	// change (translate) all elements and entries after a.
 	// let b be the minimal y index... (same).
 	//
-	// Element suppression: for this application, save in the case of complete
-	// suppression of all text, we consider that element suppression is not
-	// likely.
-	// In this case, the other element keep their current coordinate.
+	// Element suppression: only the columns and the row the element belonged
+	// to can shrink. We recompute those (see shrinkAfterRemoval()), and move
+	// the other elements only if something actually changed.
 	//
 	// Element modification is very much the same as element addition.
 	//
@@ -266,22 +265,23 @@ public class TabularDrawing extends AbstractDrawing {
 	private int findRowFor(double y) {
 		if (rows.size() == 0)
 			return 0;
-		int a = 0;
-		int b = rows.size() - 1;
-		// Special cases (x out of bounds).
+		int last = rows.size() - 1;
+		// Special cases (y out of bounds).
 		if (getRow(0).yPos > y)
 			return -1;
-		if (getRowPosition(b) <= y)
-			return b + 1;
-		// Ok, now we know that colA.xPos <= x < colB.xPos.
-		// We keep this as an invariant until b-a <= 1 :
-		while (b - a > 1) {
-			int c = (a + b) / 2;
-			double m = getRowPosition(c);
-			if (m > y)
-				b = c;
-			else
+		if (getRow(last).yPos + getRow(last).height <= y)
+			return rows.size();
+		// Now we know that row 0 starts at or before y, and that y is above
+		// the bottom of the last row. Find the last row starting at or before y.
+		// Invariant: row a starts at or before y, and the answer is <= b.
+		int a = 0;
+		int b = last;
+		while (a < b) {
+			int c = (a + b + 1) / 2;
+			if (getRow(c).yPos <= y)
 				a = c;
+			else
+				b = c - 1;
 		}
 		return a;
 	}
@@ -451,11 +451,19 @@ public class TabularDrawing extends AbstractDrawing {
 	}
 
 	/**
-	 * Initial Lay out for the whole drawing.
+	 * Lay out the whole drawing from scratch.
+	 * <p>
+	 * Column widths and row heights are recomputed from the elements' preferred
+	 * sizes, so they shrink if elements were removed.
 	 */
 	private void layout() {
 		boolean oldBeingChanged = beingChanged;
 		beingChanged = true;
+
+		for (Column column : columns)
+			column.width = 0;
+		for (Row row : rows)
+			row.height = 0;
 
 		int numberOfSquares = grid.keySet().size();
 		int numberDone = 0;
@@ -645,11 +653,85 @@ public class TabularDrawing extends AbstractDrawing {
 	}
 
 	public void removeElement(GraphicalElement element) {
-		elementInfoMap.remove(element);
-		// if (info != null) {
-		grid.removeValue(element);
-		// }
-		fireDrawingEvent(new ElementRemoved(element));
+		ElementInfo removedValue = elementInfoMap.remove(element);
+		if (removedValue != null) {
+			element.setManager(null);
+			grid.removeValue(element);
+			// If the drawing is being changed, layout() will be called when
+			// the change ends.
+			boolean moved = !beingChanged && shrinkAfterRemoval(element, removedValue);
+			fireDrawingEvent(new ElementRemoved(element));
+			if (moved)
+				fireDrawingEvent(new DrawingChangedEvent());
+		}
+	}
+
+	/**
+	 * Shrink the row and columns which contained a removed element, and move
+	 * the remaining elements accordingly.
+	 * <p>
+	 * Cost: one lookup per row for each column the element spanned, plus a
+	 * scan of the element's row, but only if the removed element might have
+	 * been the tallest one. Elements are moved only if a row or column
+	 * actually shrank. If one of the affected columns also contains an element
+	 * spanning several columns, the whole drawing is laid out again.
+	 * 
+	 * @param element
+	 *            the element, already removed from the grid.
+	 * @param info
+	 *            where the element was.
+	 * @return true if the layout changed.
+	 */
+	private boolean shrinkAfterRemoval(GraphicalElement element, ElementInfo info) {
+		Dimension2D preferred = element.getPreferredSize();
+		boolean changed = false;
+
+		Row row = getRow(info.getFirstRow());
+		if (preferred.getHeight() >= row.height) {
+			double height = 0;
+			for (int c = 0; c < columns.size(); c++) {
+				for (GraphicalElement other : grid.get(new Coordinates(c, info.getFirstRow()))) {
+					height = Math.max(height, other.getPreferredSize().getHeight());
+				}
+			}
+			if (height != row.height) {
+				row.height = height;
+				changed = true;
+			}
+		}
+
+		for (int i = 0; i < info.getHorizontalSpan(); i++) {
+			int c = info.getFirstColumn() + i;
+			double width = 0;
+			for (int r = 0; r < rows.size(); r++) {
+				for (GraphicalElement other : grid.get(new Coordinates(c, r))) {
+					int span = elementInfoMap.get(other).getHorizontalSpan();
+					if (span > 1) {
+						// relayout() gives the extra width of a spanning element
+						// to its first column only, so the share of each column
+						// can't be recomputed locally: start again from scratch.
+						layout();
+						return true;
+					}
+					width = Math.max(width, other.getPreferredSize().getWidth());
+				}
+			}
+			Column column = getColumn(c);
+			if (width != column.width) {
+				column.width = width;
+				changed = true;
+			}
+		}
+
+		if (changed) {
+			boolean oldBeingChanged = beingChanged;
+			beingChanged = true;
+			fixColumnsCoordinates();
+			fixRowsCoordinates();
+			fitCells();
+			beingChanged = oldBeingChanged;
+		}
+		return changed;
 	}
 
 	/**
@@ -657,6 +739,8 @@ public class TabularDrawing extends AbstractDrawing {
 	 */
 
 	public void clear() {
+		for (GraphicalElement elt : elementInfoMap.keySet())
+			elt.setManager(null);
 		columns = new ArrayList<Column>();
 		rows = new ArrayList<Row>();
 		elementInfoMap = new HashMap<GraphicalElement, ElementInfo>();

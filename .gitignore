@@ -25,6 +25,7 @@ bin/
 /*.html
 /*.test
 temp/
+*.nogit.*
 
 ### STS ###
 .apt_generated
