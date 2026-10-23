@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A hieroglyphic editor</title>
+    <link rel="stylesheet" href="../examples.css" />
+    <link rel="stylesheet" href="../palette/palette.css" />
+    <style>
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        align-items: center;
+        margin: 0.5rem 0;
+      }
+      .toolbar .spacer {
+        flex: 1;
+      }
+      #surface {
+        position: relative;
+        min-height: 6rem;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 0;
+        overflow: auto;
+        cursor: text;
+        background: white;
+        line-height: 0;
+      }
+      #surface:focus {
+        outline: 2px solid #4a7fd4;
+        outline-offset: 1px;
+      }
+      #surface svg {
+        display: block;
+      }
+      .caret {
+        position: absolute;
+        background: #c00;
+        pointer-events: none;
+      }
+      #surface:focus .caret {
+        animation: blink 1s step-end infinite;
+      }
+      #surface:not(:focus) .caret {
+        background: #999;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .selection-box {
+        position: absolute;
+        background: rgb(74 127 212 / 25%);
+        pointer-events: none;
+      }
+      .status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin: 0.3rem 0;
+      }
+      .status code {
+        background: #eee;
+        padding: 0 0.3em;
+        border-radius: 3px;
+        min-width: 1.5em;
+        display: inline-block;
+      }
+      #error {
+        color: #b00;
+      }
+      #mdc {
+        width: 100%;
+        box-sizing: border-box;
+        font-family: ui-monospace, monospace;
+        font-size: 0.95rem;
+      }
+      #mdc.invalid {
+        border-color: #b00;
+        background: #fff4f4;
+      }
+      kbd {
+        font-family: ui-monospace, monospace;
+        border: 1px solid #bbb;
+        border-bottom-width: 2px;
+        border-radius: 3px;
+        padding: 0 0.3em;
+        font-size: 0.85em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>A hieroglyphic editor</h1>
+    <p>
+      A small editor built on <code>@jsesh/core</code> and <code>@jsesh/elements</code>: the text is a JSesh model
+      (<code>HieroglyphicText</code>), changed by the editor and laid out again after each change. The layout's view
+      tree tells where each quadrat is, for the cursor, the selection and the mouse. Click in the frame, and type as in
+      JSesh.
+    </p>
+
+    <div class="toolbar">
+      <button id="stack" title="Stack the selection, or the two quadrats before the cursor (:)">Stack&nbsp;:</button>
+      <button id="juxtapose" title="Put side by side (*)">Side by side&nbsp;*</button>
+      <button id="ligature" title="Ligature (&amp;)">Ligature&nbsp;&amp;</button>
+      <button id="cartouche" title="Put the selection in a cartouche">Cartouche</button>
+      <button id="red" title="Write the selection, or the quadrat before the cursor, in red">Red</button>
+      <button id="linebreak" title="New line (!)">New line</button>
+      <span class="spacer"></span>
+      <button id="undo" title="Undo (Ctrl-Z)">Undo</button>
+      <button id="redo" title="Redo (Ctrl-Shift-Z)">Redo</button>
+      <button id="clear">Clear</button>
+    </div>
+
+    <div id="surface" tabindex="0" role="textbox" aria-label="Hieroglyphic text"></div>
+
+    <div class="status">
+      <span>Code: <code id="code"></code></span>
+      <span>Separator: <code id="separator"></code></span>
+      <span id="position"></span>
+      <span id="error" role="alert"></span>
+    </div>
+
+    <div class="toolbar">
+      <label>Quadrat height <input id="height" type="range" min="20" max="90" value="45" /></label>
+      <label
+        >Direction
+        <select id="direction">
+          <option value="LEFT_TO_RIGHT">left to right</option>
+          <option value="RIGHT_TO_LEFT">right to left</option>
+        </select></label
+      >
+      <label
+        >Orientation
+        <select id="orientation">
+          <option value="HORIZONTAL">lines</option>
+          <option value="VERTICAL">columns</option>
+        </select></label
+      >
+      <span class="spacer"></span>
+      <button id="save">Save as .gly</button>
+    </div>
+
+    <h2>Signs</h2>
+    <p>The palette of the <a href="../palette/">palette example</a>: double-click a sign (or press Enter) to insert it.</p>
+    <div id="palette"></div>
+
+    <h2>The text in MdC</h2>
+    <p>The text as the editor writes it; it can be edited here too.</p>
+    <textarea id="mdc" rows="4" spellcheck="false"></textarea>
+
+    <h2>Keys</h2>
+    <ul>
+      <li>
+        Sign codes (<kbd>A1</kbd>, <kbd>nfr</kbd>, <kbd>p</kbd>...) are completed by a separator:
+        <kbd>-</kbd>, <kbd>Space</kbd> or <kbd>Enter</kbd> puts the sign in a new quadrat; <kbd>:</kbd>,
+        <kbd>*</kbd> and <kbd>&amp;</kbd> group it with the next one. So <kbd>p</kbd><kbd>:</kbd><kbd>t</kbd><kbd
+          >Space</kbd
+        >
+        stacks <i>p</i> over <i>t</i>.
+      </li>
+      <li><kbd>!</kbd>: new line. <kbd>Backspace</kbd>, <kbd>Delete</kbd>: erase. <kbd>Esc</kbd>: forget the code.</li>
+      <li>Arrows, <kbd>Home</kbd>, <kbd>End</kbd> move the cursor; with <kbd>Shift</kbd>, or a shift-click, they select.</li>
+      <li><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Z</kbd>: undo; with <kbd>Shift</kbd>: redo. <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>A</kbd>: select all.</li>
+    </ul>
+
+    <script type="module">
+      import { configureJSesh } from "@jsesh/elements";
+      import { loadSignDatabase } from "@jsesh/glyphs";
+      import { HieroglyphicEditor } from "./editor.js";
+      import { HieroglyphPalette } from "../palette/palette.js";
+
+      configureJSesh({ glyphsUrl: "/glyph-data/" });
+
+      const $ = (id) => document.getElementById(id);
+      const editor = new HieroglyphicEditor($("surface"), {
+        onChange: (state) => {
+          $("code").textContent = state.code;
+          $("separator").textContent = state.separator.trim();
+          $("position").textContent =
+            `Quadrat ${state.caret} of ${state.length}` + (state.selection > 0 ? `, ${state.selection} selected` : "");
+          $("error").textContent = state.error ?? "";
+          if (document.activeElement !== $("mdc")) {
+            $("mdc").value = state.mdc;
+            $("mdc").classList.remove("invalid");
+          }
+        },
+      });
+
+      const commands = {
+        stack: () => editor.group(":"),
+        juxtapose: () => editor.group("*"),
+        ligature: () => editor.group("&"),
+        cartouche: () => editor.cartouche(),
+        red: () => editor.toggleRed(),
+        linebreak: () => editor.insertMdc("!"),
+        undo: () => editor.undo(),
+        redo: () => editor.redo(),
+        clear: () => editor.setMdc(""),
+      };
+      for (const [id, command] of Object.entries(commands)) {
+        $(id).addEventListener("click", () => {
+          command();
+          editor.focus();
+        });
+      }
+
+      $("height").addEventListener("input", (e) => (editor.cadratHeight = Number(e.target.value)));
+      $("direction").addEventListener("change", (e) => editor.setOptions({ textDirection: e.target.value }));
+      $("orientation").addEventListener("change", (e) => editor.setOptions({ textOrientation: e.target.value }));
+      $("save").addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([editor.document()], { type: "text/plain" }));
+        link.download = "text.gly";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
+
+      // Changes in the MdC field replace the text, once they can be read.
+      let timer;
+      $("mdc").addEventListener("input", (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => e.target.classList.toggle("invalid", !editor.setMdc(e.target.value)), 300);
+      });
+      $("mdc").addEventListener("blur", () => editor.refresh());
+
+      editor.setMdc("i-mn:n-Htp:t*p-!-<-ra-mn:n-xpr->-anx-DA-s", { undoable: false });
+      editor.focus();
+
+      // The palette: a chosen sign is inserted as if its code had been typed
+      // (so that `p` `:` then choosing `t` stacks them).
+      const palette = new HieroglyphPalette($("palette"), await loadSignDatabase("/glyph-data/"));
+      palette.addEventListener("sign-chosen", (e) => {
+        editor.insertSign(e.detail);
+        editor.focus();
+      });
+    </script>
+  </body>
+</html>

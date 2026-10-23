@@ -1,0 +1,23 @@
+{
+  "name": "@jsesh/core",
+  "version": "0.1.0",
+  "description": "JSesh core: Manuel de Codage parser, document model, writer, layout and SVG rendering. No DOM dependency.",
+  "type": "module",
+  "license": "CECILL-C",
+  "main": "./dist/jsesh-core.js",
+  "module": "./dist/jsesh-core.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/jsesh-core.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  }
+}

@@ -1,0 +1,12 @@
+body {
+  font-family: system-ui, sans-serif;
+  max-width: 60rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  line-height: 1.8;
+}
+.document {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  overflow: auto;
+}

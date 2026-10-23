@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSesh in a web page</title>
+    <link rel="stylesheet" href="../examples.css" />
+  </head>
+  <body>
+    <h1>JSesh in a web page</h1>
+
+    <h2>The <code>&lt;jsesh-text&gt;</code> element</h2>
+    <p>
+      The text can be the element's content: <jsesh-text>i-w-r:a-C1-m-p*t:pt</jsesh-text>, or its
+      <code>mdc</code> attribute: <jsesh-text mdc="zA&amp;ra-&lt;-ra-mn:n-xpr-&gt;-anx-DA-s"></jsesh-text>.
+    </p>
+    <p>
+      Larger, with <code>cadrat-height="60"</code>:
+      <jsesh-text cadrat-height="60">$r-i-n:n-$b-A1-[[-..-]]-n:(x:t)*U30-A1-xAst-//-p*t:pt#14</jsesh-text>
+    </p>
+    <p>
+      Right to left: <jsesh-text direction="rtl" cadrat-height="40">i-w-r:a-C1-m-p*t:pt-+lsome text+s-A1\</jsesh-text>
+    </p>
+    <p>
+      In columns:
+      <jsesh-text orientation="vertical" cadrat-height="30">m-Htp:t*p-!-&lt;-ra-mn:n-xpr-&gt;-!-zA-ra-&lt;-i-mn:n-Htp:t*p-&gt;</jsesh-text>
+    </p>
+
+    <h2>Plain elements, with <code>autoRender()</code></h2>
+    <p>The sentence <span class="hieroglyphic-text">i-w-r:a-C1-m-p*t:pt</span> was rendered by <code>autoRender()</code>.</p>
+    <p>Ligatures: <span class="hieroglyphic-text">D:d-D&amp;d-t&amp;A-Ax&amp;x-zA&amp;ra</span>, complex ligatures:
+      <span class="hieroglyphic-text">(Z1:Z1*Z1)^^^nTr-Ax&amp;&amp;&amp;x-ns&amp;&amp;&amp;(mSa*Z3)</span>.</p>
+    <p>Enclosures: <span class="hieroglyphic-text">&lt;S-E1:D40-mAat-mr-&gt;-&lt;H-Z3-A19-&gt;-&lt;F-Hw-t:pr-&gt;-&lt;G-Hw-t:pr-&gt;</span>.</p>
+    <p>Multiline texts: <span class="hieroglyphic-text">m-Htp:t*p-!-m-Htp:t*p-!-m-Htp:t*p-!</span>.</p>
+
+    <h2>JSesh documents</h2>
+    <p>
+      <label>Text from the JSesh corpus: <select id="corpus"></select></label>
+    </p>
+    <div class="document"><jsesh-text id="document" cadrat-height="30"></jsesh-text></div>
+
+    <script type="module">
+      import { autoRender, configureJSesh } from "@jsesh/elements";
+
+      configureJSesh({ glyphsUrl: "/glyph-data/" });
+      autoRender({ observe: true });
+
+      const select = document.getElementById("corpus");
+      const documentView = document.getElementById("document");
+      const files = (await (await fetch("/corpus/")).json()).filter((f) => f.endsWith(".gly"));
+      for (const f of files) select.add(new Option(f.replace(/\.gly$/, ""), f));
+      const show = async () => {
+        const text = await (await fetch("/corpus/" + encodeURIComponent(select.value))).text();
+        documentView.mdc = text;
+      };
+      select.value = "Bryce tablet.gly";
+      select.addEventListener("change", show);
+      show();
+    </script>
+  </body>
+</html>

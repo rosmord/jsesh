@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A sign palette</title>
+    <link rel="stylesheet" href="../examples.css" />
+    <link rel="stylesheet" href="./palette.css" />
+    <style>
+      .chosen {
+        min-height: 3rem;
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>A sign palette</h1>
+    <p>
+      JSesh's sign palette, built on the sign database of <code>@jsesh/glyphs</code> (<code>loadSignDatabase()</code>).
+      Choose a family, then narrow it with tags, or search for a value (<i>nfr</i>, <i>m</i>) or a code
+      (<i>A1</i>, <i>G17</i>). Click a sign to see what JSesh knows about it; double-click it (or press Enter) to
+      choose it.
+    </p>
+
+    <div id="palette"></div>
+
+    <h2>Chosen signs</h2>
+    <div class="chosen"><jsesh-text id="chosen" cadrat-height="40"></jsesh-text></div>
+    <p><code id="chosen-mdc"></code> <button id="clear-chosen">Clear</button></p>
+
+    <script type="module">
+      import { configureJSesh } from "@jsesh/elements";
+      import { loadSignDatabase } from "@jsesh/glyphs";
+      import { HieroglyphPalette } from "./palette.js";
+
+      configureJSesh({ glyphsUrl: "/glyph-data/" });
+      const palette = new HieroglyphPalette(document.getElementById("palette"), await loadSignDatabase("/glyph-data/"));
+
+      // A page uses the palette by listening to `sign-chosen`.
+      const chosen = [];
+      const show = () => {
+        const mdc = chosen.join("-");
+        document.getElementById("chosen").mdc = mdc;
+        document.getElementById("chosen-mdc").textContent = mdc;
+      };
+      palette.addEventListener("sign-chosen", (e) => {
+        chosen.push(e.detail);
+        show();
+      });
+      document.getElementById("clear-chosen").addEventListener("click", () => {
+        chosen.length = 0;
+        show();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "jsesh-js",
+  "private": true,
+  "description": "JavaScript/TypeScript port of JSesh: display, palette and editing of hieroglyphic texts (Manuel de Codage).",
+  "author": "Serge Rosmorduc",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc -b && npm run build --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b",
+    "dev": "vite --config examples/vite.config.ts",
+    "build:examples": "vite build --config examples/vite.config.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^8.1.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.16"
+  }
+}

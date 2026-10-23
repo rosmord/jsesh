@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSesh and its port</title>
+    <link rel="stylesheet" href="../examples.css" />
+    <style>
+      body { max-width: none; }
+      table { border-collapse: collapse; }
+      td, th { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; text-align: left; }
+      td img, td svg { display: block; margin: 2px 0; }
+      td.mdc { font-family: ui-monospace, monospace; font-size: 0.8rem; max-width: 20rem; word-break: break-all; }
+      .pair { display: flex; gap: 1rem; align-items: flex-start; }
+      .pair > div { overflow: auto; max-height: 80vh; border: 1px solid #ccc; }
+    </style>
+  </head>
+  <body>
+    <h1>JSesh (Java) and its JavaScript port</h1>
+    <p>
+      Pictures drawn by JSesh (<code>./gradlew :jseshJsExport:exportPictures</code>), and by the port, with the same
+      style and size. Fonts for Latin text may differ.
+    </p>
+    <h2>Documents</h2>
+    <p><label>Text: <select id="corpus"></select></label></p>
+    <div class="pair">
+      <div><h3>JSesh</h3><img id="java-document" alt="" /></div>
+      <div><h3>Port</h3><div id="js-document"></div></div>
+    </div>
+    <h2>Test snippets</h2>
+    <table id="cases">
+      <thead><tr><th>MdC</th><th>JSesh (above) and port (below)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <script type="module">
+      import { CanvasTextMeasurer, DEFAULT_STYLE, drawLaidOutText, layOutText } from "@jsesh/core";
+      import { loadGlyphProvider } from "@jsesh/glyphs";
+
+      const glyphs = await loadGlyphProvider(new URL("/glyph-data/", location.href).href);
+      document.fonts.add(new FontFace("EgyptoSerif", "url(/glyph-data/fonts/EgyptoSerif.ttf)"));
+      await document.fonts.load("12px EgyptoSerif");
+      const measurer = new CanvasTextMeasurer();
+      const index = await (await fetch("/pictures/index.json")).json();
+      // JSesh scales the font so that A1 is cadratHeight pixels high.
+      const scale = index.cadratHeight / glyphs.size("A1").height;
+      let id = 0;
+      const render = async (source, style) => {
+        const laidOut = await layOutText(source, { glyphs, measurer, ...(style ? { style } : {}) });
+        return drawLaidOutText(laidOut, { scale, idPrefix: "c" + id++, background: true });
+      };
+
+      const body = document.querySelector("#cases tbody");
+      for (const c of index.cases) {
+        const row = body.insertRow();
+        row.insertCell().textContent = c.mdc;
+        row.cells[0].className = "mdc";
+        const img = new Image();
+        img.src = "/pictures/" + c.picture;
+        const cell = row.insertCell();
+        cell.append(img, document.createElement("br"));
+        cell.insertAdjacentHTML("beforeend", await render(c.mdc, DEFAULT_STYLE));
+      }
+
+      const select = document.getElementById("corpus");
+      for (const c of index.corpus) select.add(new Option(c.file.replace(/\.gly$/, ""), c.file));
+      const show = async () => {
+        const entry = index.corpus.find((c) => c.file === select.value);
+        document.getElementById("java-document").src = "/pictures/" + entry.picture;
+        const text = await (await fetch("/corpus/" + encodeURIComponent(entry.file))).text();
+        // A JSesh document: its own preferences are applied to the default style.
+        document.getElementById("js-document").innerHTML = await render(text);
+      };
+      select.value = "Bryce tablet.gly";
+      select.addEventListener("change", show);
+      await show();
+    </script>
+  </body>
+</html>

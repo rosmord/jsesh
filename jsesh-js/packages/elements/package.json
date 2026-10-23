@@ -1,0 +1,26 @@
+{
+  "name": "@jsesh/elements",
+  "version": "0.1.0",
+  "description": "Web Components for JSesh: <jsesh-text> (display), and autoRender() for plain pages. Usable with or without a framework (Vue, React...).",
+  "type": "module",
+  "license": "CECILL-C",
+  "main": "./dist/jsesh-elements.js",
+  "module": "./dist/jsesh-elements.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/jsesh-elements.js"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": ["./src/index.ts", "./dist/jsesh-elements.js"],
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@jsesh/core": "0.1.0",
+    "@jsesh/glyphs": "0.1.0"
+  }
+}
