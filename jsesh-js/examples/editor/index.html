@@ -84,6 +84,79 @@
         border-color: #b00;
         background: #fff4f4;
       }
+      body {
+        max-width: 84rem;
+      }
+      .workspace {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      .workspace > .main {
+        flex: 1;
+        min-width: 0;
+      }
+      #sidebar {
+        flex: none;
+        width: 24rem;
+        position: sticky;
+        top: 0.5rem;
+        max-height: calc(100vh - 1rem);
+        overflow: auto;
+      }
+      #sidebar[hidden] {
+        display: none;
+      }
+      #sidebar .palette {
+        background: white;
+      }
+      .sidebar-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.3rem;
+      }
+      .sidebar-head h2 {
+        margin: 0;
+        font-size: 1.1rem;
+      }
+      /* A tab on the right edge of the window, to bring the palette back. */
+      #palette-tab {
+        position: fixed;
+        right: 0;
+        top: 40%;
+        writing-mode: vertical-rl;
+        padding: 0.8rem 0.4rem;
+        border-radius: 6px 0 0 6px;
+        border-right: none;
+        cursor: pointer;
+        z-index: 10;
+      }
+      #palette-tab[hidden] {
+        display: none;
+      }
+      /* In the narrow side panel, the sign information goes under the signs. */
+      #sidebar .palette .body {
+        grid-template-columns: 1fr;
+      }
+      #sidebar .palette [data-palette="info"] {
+        border-left: none;
+        padding-left: 0;
+        max-height: none;
+      }
+      #sidebar .palette [data-palette="signs"] {
+        height: 18rem;
+      }
+      @media (max-width: 50rem) {
+        .workspace {
+          flex-direction: column;
+        }
+        #sidebar {
+          position: static;
+          width: auto;
+          max-height: none;
+        }
+      }
       kbd {
         font-family: ui-monospace, monospace;
         border: 1px solid #bbb;
@@ -103,6 +176,8 @@
       JSesh.
     </p>
 
+    <div class="workspace">
+    <div class="main">
     <div class="toolbar">
       <button id="stack" title="Stack the selection, or the two quadrats before the cursor (:)">Stack&nbsp;:</button>
       <button id="juxtapose" title="Put side by side (*)">Side by side&nbsp;*</button>
@@ -145,13 +220,23 @@
       <button id="save">Save as .gly</button>
     </div>
 
-    <h2>Signs</h2>
-    <p>The palette of the <a href="../palette/">palette example</a>: double-click a sign (or press Enter) to insert it.</p>
-    <div id="palette"></div>
-
     <h2>The text in MdC</h2>
     <p>The text as the editor writes it; it can be edited here too.</p>
     <textarea id="mdc" rows="4" spellcheck="false"></textarea>
+    </div>
+
+    <aside id="sidebar" aria-label="Sign palette">
+      <div class="sidebar-head">
+        <h2>Signs</h2>
+        <button id="hide-palette" aria-controls="sidebar" title="Hide the sign palette">Hide ▸</button>
+      </div>
+      <p>
+        The palette of the <a href="../palette/">palette example</a>: double-click a sign (or press Enter) to insert
+        it.
+      </p>
+      <div id="palette"></div>
+    </aside>
+    </div>
 
     <h2>Keys</h2>
     <ul>
@@ -167,6 +252,10 @@
       <li>Arrows, <kbd>Home</kbd>, <kbd>End</kbd> move the cursor; with <kbd>Shift</kbd>, or a shift-click, they select.</li>
       <li><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Z</kbd>: undo; with <kbd>Shift</kbd>: redo. <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>A</kbd>: select all.</li>
     </ul>
+
+    <button id="palette-tab" aria-controls="sidebar" aria-expanded="true" title="Show the sign palette" hidden>
+      ◂ Signs
+    </button>
 
     <script type="module">
       import { configureJSesh } from "@jsesh/elements";
@@ -227,6 +316,30 @@
         timer = setTimeout(() => e.target.classList.toggle("invalid", !editor.setMdc(e.target.value)), 300);
       });
       $("mdc").addEventListener("blur", () => editor.refresh());
+
+      // The palette is in a side panel which can be hidden; the choice is remembered.
+      const sidebar = $("sidebar");
+      const setPaletteVisible = (visible, remember = true) => {
+        sidebar.hidden = !visible;
+        $("palette-tab").hidden = visible;
+        $("palette-tab").setAttribute("aria-expanded", String(visible));
+        if (remember) {
+          try {
+            localStorage.setItem("jsesh-editor-palette", visible ? "shown" : "hidden");
+          } catch {}
+        }
+      };
+      try {
+        setPaletteVisible(localStorage.getItem("jsesh-editor-palette") !== "hidden", false);
+      } catch {}
+      $("hide-palette").addEventListener("click", () => {
+        setPaletteVisible(false);
+        editor.focus();
+      });
+      $("palette-tab").addEventListener("click", () => {
+        setPaletteVisible(true);
+        editor.focus();
+      });
 
       editor.setMdc("i-mn:n-Htp:t*p-!-<-ra-mn:n-xpr->-anx-DA-s", { undoable: false });
       editor.focus();

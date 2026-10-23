@@ -13,7 +13,9 @@
     "test:watch": "vitest",
     "typecheck": "tsc -b",
     "dev": "vite --config examples/vite.config.ts",
-    "build:examples": "vite build --config examples/vite.config.ts"
+    "build:examples": "vite build --config examples/vite.config.ts",
+    "bundle": "vite build --config bundle/vite.config.ts",
+    "zip": "npm run bundle && node scripts/make-web-zip.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

@@ -8,7 +8,7 @@
 
 import { JSeshTextElement } from "./jsesh-text.js";
 
-export { autoRender, PROCESSED_CLASS, type AutoRenderOptions } from "./auto-render.js";
+export { autoRender, DEFAULT_CLASS, PROCESSED_CLASS, type AutoRenderOptions } from "./auto-render.js";
 export {
   configureJSesh,
   layOutInPage,

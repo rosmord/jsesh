@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSesh on this site</title>
+    <link rel="stylesheet" href="examples.css" />
+  </head>
+  <body>
+    <h1>JSesh on this site</h1>
+    <p>
+      This page is the smallest possible use of JSesh: view its source, copy what you need. More:
+      <a href="editor/">a hieroglyphic editor</a>, <a href="palette/">a sign palette</a>.
+    </p>
+
+    <h2>Displaying texts</h2>
+    <p>
+      A word, <jsesh-text>nfr-f:r</jsesh-text>, then a larger text:
+      <jsesh-text cadrat-height="50" direction="rtl">i-w-r:a-C1-m-p*t:pt</jsesh-text>
+    </p>
+    <p>Any element of class <code>mdc</code> is also drawn: <span class="mdc">zA&amp;ra-mn:n-xpr</span></p>
+
+    <h2>Typing MdC</h2>
+    <p>
+      <label>MdC: <input id="query" size="40" value="nfr-f:r" /></label><br />
+      <jsesh-text id="preview" cadrat-height="40"></jsesh-text>
+    </p>
+    <p>The MdC text typed: <code id="result"></code></p>
+
+    <script type="module">
+      import { autoRender, configureJSesh } from "./jsesh/jsesh.js";
+
+      // Where the glyph data is. A folder on this site (here), or the address of a shared one:
+      // configureJSesh({ glyphsUrl: "https://static.example.org/jsesh-glyphs/" });
+      configureJSesh({ glyphsUrl: "./jsesh/data/" });
+      autoRender({ observe: true });
+
+      const query = document.getElementById("query");
+      const preview = document.getElementById("preview");
+      const update = () => {
+        preview.mdc = query.value;
+        document.getElementById("result").textContent = query.value;
+      };
+      query.addEventListener("input", update);
+      update();
+    </script>
+  </body>
+</html>

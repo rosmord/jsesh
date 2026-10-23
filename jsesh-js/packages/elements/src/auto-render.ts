@@ -6,7 +6,7 @@
 /// Replaces MdC text in a page with hieroglyphs, without custom elements:
 ///
 /// ```html
-/// <span class="hieroglyphic-text">i-n:n-A1</span>
+/// <span class="mdc">i-n:n-A1</span>
 /// <script type="module">
 ///   import { autoRender } from "@jsesh/elements";
 ///   autoRender();
@@ -17,7 +17,10 @@ import type { StyleChanges } from "@jsesh/core";
 import { renderMdc } from "./config.js";
 
 export interface AutoRenderOptions {
-  /// The elements to process (default `.hieroglyphic-text`).
+  /// Class of the elements to process (default `mdc`). Ignored if `selector` is given.
+  className?: string;
+  /// A CSS selector for the elements to process, for cases `className` can't express
+  /// (default: `.` followed by `className`).
   selector?: string;
   /// Where to look (default: the whole document).
   root?: ParentNode;
@@ -28,6 +31,9 @@ export interface AutoRenderOptions {
   style?: StyleChanges;
 }
 
+/// Default class of the elements to process.
+export const DEFAULT_CLASS = "mdc";
+
 /// Class added to the elements once processed.
 export const PROCESSED_CLASS = "hieroglyphs-processed";
 
@@ -35,7 +41,7 @@ export const PROCESSED_CLASS = "hieroglyphs-processed";
 /// picture, and kept in their `data-mdc` attribute. Returns an object to
 /// stop observing the page.
 export function autoRender(options: AutoRenderOptions = {}): { done: Promise<void>; disconnect(): void } {
-  const selector = options.selector ?? ".hieroglyphic-text";
+  const selector = options.selector ?? `.${CSS.escape(options.className ?? DEFAULT_CLASS)}`;
   const root = options.root ?? document;
   const processAll = () =>
     Promise.all(
