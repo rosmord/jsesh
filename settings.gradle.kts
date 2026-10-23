@@ -16,4 +16,5 @@ include("jseshLabels")
 include("jseshTests")
 include("jsesh-texts")
 include("mdwlexer")
+include("jseshJsExport")
 

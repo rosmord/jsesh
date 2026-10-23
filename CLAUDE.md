@@ -45,6 +45,11 @@ no generated sources or codegen step remain for it. The JFlex-generated
 | `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.lexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
 | `signInfoAppli` | Sign information editor — entry point: `jsesh.utilitysoftwares.signinfoeditor.Main` |
 | `jseshTests` | Demo programs showing library usage (not formal unit tests) |
+| `jseshJsExport` | Exports data and golden fixtures for the TypeScript port in `jsesh-js/` (`./gradlew :jseshJsExport:exportAll`) |
+
+## JavaScript port (`jsesh-js/`)
+
+TypeScript port (npm workspaces; `cd jsesh-js && npm test`, `npm run dev` for the examples). `packages/core` mirrors the Java parser, model, writer, layout (`jsesh.render.layout`, `jsesh.render.view`) and drawing (to SVG), keeping Java names; `packages/glyphs` loads the font data exported from Java; `packages/elements` holds the Web Components. Tests compare the port with fixtures exported by `jseshJsExport` (ASTs, written MdC, view trees). When changing the Java layout or drawing, re-run `./gradlew :jseshJsExport:exportAll` and the JS tests. See `jsesh-js/README.md`.
 
 ## Architecture
 

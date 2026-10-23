@@ -1922,3 +1922,30 @@ Now they are stops of their own, distinct from the surrounding gap: the cursor *
 - Code: the hit test moved from `TextGeometry` to the package-private `PositionLocator` (sibling of `CursorLocator` and `SelectionLocator`). `PlacedView` now knows its model path, and can map a point back to its local system.
 - Nested sequences are a single row: points between quadrats or in the margin go to the nearest gap. The top-level logic (end of line, end of text) is unchanged.
 - The click region of a cartouche's content is its contents view; the frame counts as the cartouche itself. Widening it is easy if it proves too strict.
+
+## JavaScript port, phase 0-1: parser, model, writer (2026-10-23)
+
+Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal: display JSesh texts on the web, then a palette, then area and field editors, usable with Vue, React or no framework (Web Components over a framework-free core).
+
+- `jsesh-js/packages/core` (`@jsesh/core`) ports the lexer (`MdcLexicon`/`MdcLexer`), the parser (`MDCParser`), the AST, the model, `AstModelBuilder`, `MdCModelWriter`, the `++JSesh_` header and `DocumentPreferences`. Java names and structure are kept so both sides can be compared.
+- The TS AST has the shape of the Java records (`nodeType` = record name without `Ast`), so Java ASTs serialised as JSON compare directly.
+- New Gradle module `jseshJsExport`: `./gradlew :jseshJsExport:exportAll` writes golden fixtures into `jsesh-js/fixtures/generated` (gitignored): lexer symbols, ASTs and written MdC for 128 snippets (taken from the parser/lexer/writer tests) and for the 195 `.gly` files of `jsesh-texts`.
+- `cd jsesh-js && npm test`: lexer, parser, writer and corpus round trip all match Java (774 tests).
+- Lesson: `mdwlexer` breaks ties by the **ordinal of the token type** (`MdcTokenType`), not by the order of the `rule(...)` calls. In `MdcLexicon`, `UNKNOWN` is registered before `COMMA`, yet `,` lexes as `COMMA` in the initial state, because `COMMA` comes first in the enum.
+- The parser accepts `@zone`, `@quadrat` and `@insert` as Java does (the model builder drops zones and rejects `@insert`, as Java does).
+- Java quirk noted, kept as is: `ModifiersList.setAngle` normalises its parameter instead of the stored angle after the modulo, so negative angles stay negative.
+
+## JavaScript port, phase 2: displaying texts (2026-10-23)
+
+- `@jsesh/core` now ports the layout (`MDCView`, `ViewBuilder`, `Layout`, `QuadratLayout`, `LineLayout`, `ColumnLayout`, `Zone`, `TextRun`, `JSeshStyle` and its parts, `CartoucheSizeHelper`) and the drawing (`ViewDrawer`, `DefaultElementDrawer`, the cartouche drawers, the philological symbol drawers), which writes SVG. `float` fields and computations are rounded with `Math.fround`, so that sizes match Java's.
+- New package `@jsesh/glyphs`: the font, exported by `./gradlew :jseshJsExport:exportGlyphData` from the embedded fonts (JSesh's, then Gnutrace): `glyph-index.json` (size and ligature zones of 6,963 signs, computed by `HieroglyphDrawer`, phonetic codes, the tksesh ligature catalogue) and one shape file per sign. Layout only needs the index; shapes are loaded when drawn. File names escape uppercase letters (`A1` → `_a1.json`) because macOS file systems ignore case.
+- New package `@jsesh/elements`: `<jsesh-text>` and `autoRender()` (the latter is compatible with the `.hieroglyphic-text` spans of the `jsjseshsample` prototype).
+- Layout fixtures: `exportFixtures` also writes the view tree built by `ViewBuilder` for the test snippets (six styles: default, right to left, columns, columns right to left, centered, justified) and for the corpus (with each document's preferences), with the text measures Java made. The TS tests replay these measures, and compare the view trees: all 753 match.
+- Lesson: path coordinates rounded to 0.01 were enough for drawing, but not for the size of rotated signs (computed from the rotated outline): 3 decimals are needed.
+- `exportPictures` draws the test texts with `MDCDrawingFacade`; `jsesh-js/examples/compare` shows them next to the port's drawings.
+- Java quirks noted, reproduced in the port:
+  - vertical cartouches (and circular enclosures) compute the loop control points from `cartoucheLineWidth / 3` instead of `cartoucheLoopLength / 3`;
+  - philological groups (tksesh reading of `[[ ]]`) draw `??` for minor additions and dubious readings (`LexicalSymbolsUtils.getStringForPhilology` has no string for them).
+- Java quirks noted, *not* reproduced:
+  - small body signs: `DefaultElementDrawer.drawSign` compares `heightOfA1 / graphicDeviceScale` (font units divided by the device scale) with `smallBodyScaleLimit`, so the small body font is used on high-resolution screens and not when signs are small. The port never uses it;
+  - `MDCDrawingFacade.getScale` divides the cadrat height by the height of A1 in font units (17.78) rather than by `standardSignHeight` (18). In the port, `cadratHeight / standardSignHeight` is the scale.
