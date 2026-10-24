@@ -30,11 +30,19 @@
 /// `--jsesh-editor-background`, `--jsesh-editor-min-height`; the part
 /// `surface` (`jsesh-editor::part(surface)`) for everything else.
 ///
+/// As in JSesh, typing a code then a space inserts the first sign for it (`i`:
+/// A1), and typing another space replaces it with the next sign with the same
+/// phonetic value (A26, M2...) or the same basic code (`A1`: A1, A1A...),
+/// going back to the first after the last. This needs the sign database
+/// (`sign-info.json`, loaded from the same place as the glyphs).
+///
 /// Commands (`insertSign`, `group`, `undo`...) are those of `EditorSession`,
 /// which is available as the `session` property: use it to build your own
 /// toolbar.
 
 import type { StyleChanges } from "@jsesh/core";
+import { resolveGlyphsUrl } from "@jsesh/elements";
+import { loadSignDatabase } from "@jsesh/glyphs";
 import { EDITOR_VIEW_CSS, EditorView } from "./view.js";
 import { EditorSession, type EditorOptions, type EditorState } from "./session.js";
 
@@ -176,6 +184,16 @@ export class JSeshEditorElement extends HTMLElement {
     this.unsubscribe = this.session.subscribe(() =>
       this.dispatchEvent(new CustomEvent("jsesh-change", { detail: this.session.state, bubbles: true })),
     );
+    // Not at once: the page may call `configureJSesh` right after importing this module.
+    Promise.resolve()
+      .then(() => loadSignDatabase(resolveGlyphsUrl(this.getAttribute("glyphs-url") ?? undefined)))
+      .then(
+        (database) => {
+          this.session.possibilities = (code) => database.getPossibilityListFor(code);
+        },
+        // The sign database is optional: without it, a code stands for itself only.
+        () => undefined,
+      );
   }
 
   disconnectedCallback(): void {

@@ -22,6 +22,7 @@ export {
   type EditorOptions,
   type EditorState,
   type KeyInput,
+  type PossibilityProvider,
 } from "./session.js";
 export { EDITOR_VIEW_CSS, EditorView, type EditorViewOptions } from "./view.js";
 export { CARET_THICKNESS, caretArea, itemAreas, positionAt, type Area, type TextFlow } from "./geometry.js";

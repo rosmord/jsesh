@@ -205,7 +205,9 @@ typing): it sends a `jsesh-error` event, so it can be updated at each keystroke:
 
 **2. A real hieroglyphic editor.** The user clicks in a box showing the hieroglyphs, with a cursor, and types sign
 codes (completed by `-`, `:`, `*`, `&`), with selection and undo. This is `<jsesh-editor>`; `<jsesh-palette>` lets the
-user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page):
+user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page).
+As in JSesh, typing a value then a space (`i `) inserts the first sign for it; each further space replaces it with the
+next sign with the same value (A1, A26, M2...) or, for a Gardiner code (`a1 `), with its variants (A1, A1A...):
 
 ```html
 <jsesh-editor id="editor" cadrat-height="45">nfr-f:r</jsesh-editor>
@@ -230,7 +232,8 @@ user pick signs by family, value, tag or shape (see `examples/editor/index.html`
 ```
 
 To build your own editor or palette, use `EditorSession` / `EditorView` and `PaletteController` (`examples/custom/`),
-and see `Documentation.md`.
+and see `Documentation.md`. A custom `EditorSession` proposes only the code itself, unless you set its `possibilities`
+(e.g. to `code => database.getPossibilityListFor(code)`, with the database from `loadSignDatabase` in `@jsesh/glyphs`).
 
 ### Example: finding a typed text
 

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@jsesh/core": "0.2.0",
-    "@jsesh/elements": "0.2.0"
+    "@jsesh/elements": "0.2.0",
+    "@jsesh/glyphs": "0.2.0"
   }
 }
