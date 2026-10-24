@@ -34,6 +34,9 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.documentview;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -111,6 +114,9 @@ public class JSeshView extends AbstractView {
      */
     private JSeshViewCore viewCore;
 
+    /// True when the editor should get the focus as soon as the view is enabled.
+    private boolean focusPendingUntilEnabled = false;
+
     private ObservableEventListener<TextEvent> viewModelListener = e -> updateViewData();
 
     public JSeshView() {
@@ -145,7 +151,45 @@ public class JSeshView extends AbstractView {
     @Override
     public void start() {
         super.start();
-        viewCore.getEditor().requestFocusInWindow();
+        // The application starts its first view disabled while it loads or clears it,
+        // and a disabled editor cannot take the focus: wait for setEnabled(true).
+        focusPendingUntilEnabled = !viewCore.getEditor().isEnabled();
+        focusEditor();
+    }
+
+    /// The view itself is not focusable: asking it for the focus gives it to the editor.
+    @Override
+    public void requestFocus() {
+        if (viewCore != null) {
+            viewCore.getEditor().requestFocus();
+        }
+    }
+
+    /// The view itself is not focusable: asking it for the focus gives it to the editor.
+    @Override
+    public boolean requestFocusInWindow() {
+        return viewCore != null && viewCore.getEditor().requestFocusInWindow();
+    }
+
+    /// Gives the focus to the editor, so that the user can type right away.
+    ///
+    /// When the view is started, its window is usually not active yet, and a
+    /// plain focus request would be ignored. We therefore retry once the event
+    /// queue has caught up, and again when the window is activated.
+    private void focusEditor() {
+        JMDCEditor editor = viewCore.getEditor();
+        editor.requestFocusInWindow();
+        SwingUtilities.invokeLater(editor::requestFocusInWindow);
+        Window window = SwingUtilities.getWindowAncestor(editor);
+        if (window != null && !window.isActive()) {
+            window.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowActivated(WindowEvent e) {
+                    window.removeWindowListener(this);
+                    editor.requestFocusInWindow();
+                }
+            });
+        }
     }
 
     public JMDCEditor getEditor() {
@@ -378,6 +422,10 @@ public class JSeshView extends AbstractView {
     public void setEnabled(boolean enabled) {
         viewCore.setEnabled(enabled);
         super.setEnabled(enabled);
+        if (enabled && focusPendingUntilEnabled) {
+            focusPendingUntilEnabled = false;
+            focusEditor();
+        }
     }
 
     /**
