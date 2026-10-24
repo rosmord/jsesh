@@ -290,20 +290,73 @@ Add a `.invalid` rule in your CSS (a red outline, say) to tell the user that the
 
 Here the user clicks in a box showing the hieroglyphs, with a blinking cursor, and types sign codes; there are selection, undo and redo. This exists as `examples/editor/editor.js` (also in the zip, in `editor/`), a class `HieroglyphicEditor`, but it is **not part of the npm packages**: copy the file into your site (and `palette/palette.js` if you want a sign palette). It only uses the public API of `@jsesh/core` and `@jsesh/elements`, so it works there unchanged. Read `editor/index.html` in the zip for a complete page.
 
-```js
-import { configureJSesh } from "@jsesh/elements";
-import { HieroglyphicEditor } from "./editor.js"; // your copy
+Below is an (almost) minimal example with an editor. I will probably provide something more convenient a bit later:
 
-configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
-const editor = new HieroglyphicEditor(document.getElementById("surface"), { // a <div tabindex="0">
-  onChange: (state) => (document.getElementById("mdc").value = state.mdc),   // after each change
-});
-editor.setMdc("nfr-f:r"); // put a text in the editor
-editor.insertSign("A1");  // insert a sign at the cursor
-editor.state.mdc;         // the MdC currently in the editor
+```html
+<!doctype html>
+<html>
+  <head>
+<style>
+  #jsedit {
+    position: relative; /* needed for caret positioning*/
+    min-height: 6rem;
+    overflow: auto;
+    outline: 1px solid #aaa;
+  }
+  #jsedit:focus { outline-color: #4a7fd4; }
+  #jsedit svg { display: block; }
+
+  /* caret and selection display */
+  .caret, .selection-box { position: absolute; pointer-events: none; }
+  .caret { background: #c00; }
+  .selection-box { background: rgb(74 127 212 / 25%); }
+
+  /* optional: caret blinking */
+  #jsedit:focus .caret { animation: blink 1s step-end infinite; }
+  #jsedit:not(:focus) .caret { background: #999; }
+  @keyframes blink { 50% { opacity: 0; } }
+</style>
+  </head>
+  <body>
+    <script type="importmap">
+      /*
+        Needed as editor.js uses modern js imports.
+        Tells where the libraries are. 
+      */
+      { "imports": { "@jsesh/core": "./jsesh/jsesh.js",
+                     "@jsesh/glyphs": "./jsesh/jsesh.js",
+                     "@jsesh/elements": "./jsesh/jsesh.js" } }
+    </script>
+
+    <div>The editor itself, in a minimal configuration.</div>
+
+
+    <div tabindex="0" id="jsedit"></div>
+
+    <div>
+      <button id="linebreak" title="New line (!)">New line</button>
+    </div>
+
+    <script type="module">
+      /* 'module' is necessary because editor.js uses import.  */
+      import { configureJSesh } from "./jsesh/jsesh.js";
+      import { HieroglyphicEditor } from "./editor/editor.js";
+
+      configureJSesh({ glyphsUrl: "./jsesh/data/" });
+      const editor = new HieroglyphicEditor(document.getElementById("jsedit"));
+      editor.setMdc("nfr-f:r-!nfr-f:r-!nfr-f:r-!");
+
+      // Insert a line break (-!) at the caret, then give the focus back to the editor.
+      document.getElementById("linebreak").addEventListener("click", () => {
+        editor.insertMdc("!");
+        editor.focus();
+      });
+    </script>
+  </body>
+</html>
 ```
 
-`surface` must be focusable (`tabindex="0"`) so that it receives the keyboard.
+The editor is materialized in an element of the page, here in a `<div>`with `id="jsedit"` (you can obviously choose the id you want). A very important point is that it needs to receive keyboard input. This can be done by making the element focusable, using `tabindex="0"`. You can call `editor.focus()` when you want it to receive the keyboard.
 
 #### Typing, as in JSesh
 
