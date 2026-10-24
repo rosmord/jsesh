@@ -32,10 +32,9 @@ public interface PortableToolKit {
     /// 1024x768 is returned in headless mode.
     Dimension getScreenSize();
 
-    /// Gets the menu shortcut key mask.
-    /// This should be replaced, as `getMenuShortcutKeyMask` is deprecated ok Toolkit.
-    @Deprecated 
-    int getMenuShortcutKeyMask();
+    /// Gets the menu shortcut key mask, as an extended (`*_DOWN_MASK`) modifier.
+    /// Same as `Toolkit.getMenuShortcutKeyMaskEx()`, but usable in headless mode.
+    int getMenuShortcutKeyMaskEx();
 
     /// get the system clipboard, or a dummy one if headless.    
     Clipboard getSystemClipboard();
@@ -54,12 +53,11 @@ class HeadlessToolKit implements PortableToolKit {
         return new Dimension(1024, 768);
     }
 
-    /// Same values as `Toolkit.getMenuShortcutKeyMask()`, which throws
+    /// Same values as `Toolkit.getMenuShortcutKeyMaskEx()`, which throws
     /// `HeadlessException` in headless mode: Command on macOS, Control elsewhere.
-    @Deprecated
     @Override
-    public int getMenuShortcutKeyMask() {
-        return isMac() ? InputEvent.META_MASK : InputEvent.CTRL_MASK;
+    public int getMenuShortcutKeyMaskEx() {
+        return isMac() ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_DOWN_MASK;
     }
 
     private boolean isMac() {
@@ -84,10 +82,9 @@ class SwingToolKit implements PortableToolKit {
         return toolkit.getSystemClipboard();
     }
 
-    @Deprecated
     @Override 
-    public int getMenuShortcutKeyMask() {
-        return toolkit.getMenuShortcutKeyMask();
+    public int getMenuShortcutKeyMaskEx() {
+        return toolkit.getMenuShortcutKeyMaskEx();
     }
 
     @Override 

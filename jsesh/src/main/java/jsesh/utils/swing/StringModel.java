@@ -9,20 +9,19 @@
  */
 package jsesh.utils.swing;
 
-import java.util.Observer;
+import javax.swing.event.ChangeListener;
 
-/**
- * @author S. Rosmorduc
- *
- */
+/// An observable text, to be displayed by a [JStringDisplayer].
+///
+/// @author S. Rosmorduc
 public interface StringModel {
-	public abstract String getText();
 
-	/**
-	 * Adds an observer to this model.
-	 * Can be easily implemented by extending Observable. 
-	 * @param obs
-	 * 
-	 */
-	public abstract void addObserver(Observer obs);
+	String getText();
+
+	/// Registers a listener to be notified each time the text changes.
+	void addChangeListener(ChangeListener listener);
+
+	/// Unregisters a listener previously added with
+	/// [#addChangeListener(ChangeListener)].
+	void removeChangeListener(ChangeListener listener);
 }
