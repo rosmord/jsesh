@@ -39,8 +39,8 @@ import jsesh.utils.resources.ResourcesManager;
 ///   phonetic code to Gardiner code map; the predefined ligatures.
 /// - `glyphs/<file>.json`: the shape of each sign, as an SVG path, loaded
 ///   lazily. [#fileNameForCode(String)] gives the file name;
-/// - `fonts/EgyptoSerif.ttf`: the transliteration font (a Bitstream Vera
-///   derivative, freely redistributable).
+/// - `fonts/CharisSIL-R.woff`: the transliteration font (Charis SIL, under the
+///   SIL Open Font License).
 public final class ExportGlyphData {
 
     /// Decimals of the numbers written in shapes (in font units).
@@ -101,8 +101,8 @@ public final class ExportGlyphData {
         index.put("glyphs", glyphs);
         Files.writeString(outputDir.resolve("glyph-index.json"), Json.toJson(index), StandardCharsets.UTF_8);
         Files.createDirectories(outputDir.resolve("fonts"));
-        try (var in = ResourcesManager.class.getResourceAsStream("/jseshResources/fonts/EgyptoSerif.ttf")) {
-            Files.copy(in, outputDir.resolve("fonts/EgyptoSerif.ttf"), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        try (var in = ExportGlyphData.class.getResourceAsStream("CharisSIL-R.woff")) {
+            Files.copy(in, outputDir.resolve("fonts/CharisSIL-R.woff"), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         }
         System.out.println("Exported " + glyphs.size() + " glyphs to " + outputDir);
     }

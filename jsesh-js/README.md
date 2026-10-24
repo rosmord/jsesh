@@ -56,7 +56,7 @@ going through a bundler, or Node; in a plain page, replace it with the URL of `j
 With a bundler, always set `glyphsUrl`: the default location is the `data` folder next to the package's own files,
 which only exists when the package is served as is.
 
-Visitors only download what they need: `glyph-index.json` (150 kB compressed) and `fonts/EgyptoSerif.ttf` once, and the
+Visitors only download what they need: `glyph-index.json` (150 kB compressed) and `fonts/CharisSIL-R.woff` once, and the
 shape of each sign actually displayed. Serve the `.json` files compressed.
 
 ### Data shared by several sites
@@ -275,7 +275,7 @@ functions run in Node, on the server, with `GlyphIndexProvider` as shown in [On 
 - `glyph-index.json` (540 kB, 150 kB compressed): the size and ligature zones of each of the 6,963 signs, the
   phonetic codes and the predefined ligatures. It is loaded once, and lays out texts without other requests;
 - `glyphs/*.json`: one file per sign shape, loaded when the sign is displayed;
-- `fonts/EgyptoSerif.ttf`: the transliteration font;
+- `fonts/CharisSIL-R.woff`: the transliteration font (Charis SIL);
 - `sign-info.json` (700 kB, 130 kB compressed): the sign database, for palettes only. `loadSignDatabase(url)` reads
   it as a `SignDatabase`, whose methods are those of JSesh's `HieroglyphDatabase` (`getFamilies()`,
   `getCodesForFamily(family, includeVariants)`, `getValuesFor(code)`, `getTagsForSign(code)`, `getVariants(code)`,
@@ -295,6 +295,7 @@ npm install
 npm test            # compares parser, writer and layout with JSesh
 npm run dev         # examples: /vanilla/, /editor/, /palette/ and /compare/ (JSesh's pictures next to the port's)
 npm run build
+npm run zip         # the bundle and the zip for other sites
 ```
 
 The code follows the Java classes closely, keeping their names, so that both can be compared.

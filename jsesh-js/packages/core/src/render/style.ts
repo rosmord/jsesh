@@ -174,7 +174,7 @@ export const DEFAULT_FONTS: Readonly<FontSpecification> = Object.freeze<FontSpec
   boldFont: { family: SERIF, size: 12, weight: "bold" },
   italicFont: { family: SERIF, size: 12, style: "italic" },
   superScriptFont: { family: SERIF, size: 5, style: "italic" },
-  transliterationFont: { family: `EgyptoSerif, ${SERIF}`, size: 12 },
+  transliterationFont: { family: `CharisSIL, ${SERIF}`, size: 12 },
 });
 
 /// The font for a script; scripts without a font of their own use the plain font.

@@ -71,7 +71,7 @@ function loadFonts(style: JSeshStyle): Promise<unknown> {
       fontsReady = Promise.resolve();
     } else {
       if (typeof FontFace !== "undefined") {
-        const face = new FontFace("EgyptoSerif", `url(${glyphsUrl()}fonts/EgyptoSerif.ttf)`);
+        const face = new FontFace("CharisSIL", `url(${glyphsUrl()}fonts/CharisSIL-R.woff)`);
         document.fonts.add(face);
       }
       const f = style.fonts;

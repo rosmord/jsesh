@@ -38,8 +38,8 @@
       import { loadGlyphProvider } from "@jsesh/glyphs";
 
       const glyphs = await loadGlyphProvider(new URL("/glyph-data/", location.href).href);
-      document.fonts.add(new FontFace("EgyptoSerif", "url(/glyph-data/fonts/EgyptoSerif.ttf)"));
-      await document.fonts.load("12px EgyptoSerif");
+      document.fonts.add(new FontFace("CharisSIL", "url(/glyph-data/fonts/CharisSIL-R.woff)"));
+      await document.fonts.load("12px CharisSIL");
       const measurer = new CanvasTextMeasurer();
       const index = await (await fetch("/pictures/index.json")).json();
       // JSesh scales the font so that A1 is cadratHeight pixels high.
