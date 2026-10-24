@@ -1,6 +1,6 @@
 {
   "name": "@jsesh/glyphs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "JSesh hieroglyphic font data (sign sizes, ligature zones and shapes) and its loader.",
   "type": "module",
   "license": "CECILL-C",
@@ -20,6 +20,6 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@jsesh/core": "0.1.0"
+    "@jsesh/core": "0.2.0"
   }
 }

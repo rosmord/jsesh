@@ -1,6 +1,6 @@
 {
   "name": "@jsesh/editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "JSesh hieroglyphic editor: a <jsesh-editor> Web Component, and the pieces under it (a headless editing session, a DOM view, layout helpers) for custom or framework-specific editors.",
   "type": "module",
   "license": "CECILL-C",
@@ -20,7 +20,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@jsesh/core": "0.1.0",
-    "@jsesh/elements": "0.1.0"
+    "@jsesh/core": "0.2.0",
+    "@jsesh/elements": "0.2.0"
   }
 }

@@ -17,7 +17,7 @@ import { join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const out = join(root, "web-dist");
-const version = JSON.parse(readFileSync(join(root, "packages/elements/package.json"), "utf-8")).version;
+const version = JSON.parse(readFileSync(join(root, "package.json"), "utf-8")).version;
 const bundle = join(out, "bundle/jsesh.js");
 const data = join(root, "packages/glyphs/data");
 

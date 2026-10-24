@@ -1,5 +1,6 @@
 {
   "name": "jsesh-js",
+  "version": "0.2.0",
   "private": true,
   "description": "JavaScript/TypeScript port of JSesh: display, palette and editing of hieroglyphic texts (Manuel de Codage).",
   "author": "Serge Rosmorduc",
@@ -17,7 +18,9 @@
     "dev": "vite --config examples/vite.config.ts",
     "build:examples": "vite build --config examples/vite.config.ts",
     "bundle": "vite build --config bundle/vite.config.ts",
-    "zip": "npm run bundle && node scripts/make-web-zip.mjs"
+    "zip": "npm run bundle && node scripts/make-web-zip.mjs",
+    "version:set": "node scripts/set-version.mjs",
+    "version:check": "node scripts/set-version.mjs --check"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

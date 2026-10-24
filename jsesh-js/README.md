@@ -316,3 +316,19 @@ npm run zip         # the bundle and the zip for other sites
 ```
 
 The code follows the Java classes closely, keeping their names, so that both can be compared.
+
+### Version number
+
+All the packages (`@jsesh/core`, `glyphs`, `elements`, `editor`, `palette`, `vue`, and the Vue sample) share a single
+version number. The reference is the `"version"` of the root `package.json`; `scripts/set-version.mjs` copies it into
+every workspace package, and into the `@jsesh/*` dependencies they declare on each other. Don't edit these by hand.
+
+```bash
+npm run version:set -- 0.2.0   # new version: sets the root, then updates all the packages
+npm install                    # refreshes package-lock.json, which also records the workspace versions
+npm run version:check          # changes nothing; fails if a package differs from the root version
+```
+
+`npm run version:set` with no number only re-synchronises the packages with the current root version (useful after
+adding a package). The zip's name (`jsesh-web-<version>.zip`) uses the same number. The `0.1.0` in the examples of
+`Documentation.md` is just an illustration of a versioned folder name, and isn't updated by the script.
