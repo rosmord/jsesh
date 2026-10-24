@@ -43,6 +43,10 @@ import jsesh.signcodes.ManuelDeCodage;
 /// - `values`: for each value, the signs the palette proposes for it
 ///   ([HieroglyphDatabase#getPossibilityFor(String, String)] with
 ///   `PALETTE`);
+/// - `keyboard`: for each value typed at the keyboard, the signs a
+///   possibility list cycles through ([HieroglyphDatabase#getPossibilityFor(String, String)]
+///   with `KEYBOARD`, as `PossibilityRepositoryFromGlossary` does without
+///   glossary);
 /// - `tallNarrow`, `lowBroad`, `lowNarrow`: Gardiner's lists of sign shapes.
 public final class ExportSignInfo {
 
@@ -60,6 +64,7 @@ public final class ExportSignInfo {
 
         List<Object> signs = new ArrayList<>();
         Map<String, Object> values = new TreeMap<>();
+        Map<String, Object> keyboard = new TreeMap<>();
         for (String code : database.getCodesForFamily("", true)) {
             Map<String, Object> sign = new LinkedHashMap<>();
             sign.put("c", code);
@@ -82,6 +87,10 @@ public final class ExportSignInfo {
             signs.add(sign);
             for (String value : signValues) {
                 values.computeIfAbsent(value, v -> paletteSignsFor(database, v));
+                List<String> typed = keyboardSignsFor(database, value);
+                if (!typed.isEmpty()) {
+                    keyboard.putIfAbsent(value.replace("-", ""), typed);
+                }
             }
         }
 
@@ -90,6 +99,7 @@ public final class ExportSignInfo {
         info.put("families", families);
         info.put("signs", signs);
         info.put("values", values);
+        info.put("keyboard", keyboard);
         info.put("tallNarrow", mdc.getTallNarrowSigns());
         info.put("lowBroad", mdc.getLowBroadSigns());
         info.put("lowNarrow", mdc.getLowNarrowSigns());
@@ -106,6 +116,20 @@ public final class ExportSignInfo {
             for (Possibility p : possibilities.asList()) {
                 if (p.isSingleSign() && GardinerCode.isWellFormedGardinerCode(p.getCode())
                         && !result.contains(p.getCode())) {
+                    result.add(p.getCode());
+                }
+            }
+        }
+        return result;
+    }
+
+    /// The single signs a possibility list offers for a value typed at the keyboard, in order.
+    private static List<String> keyboardSignsFor(HieroglyphDatabase database, String value) {
+        List<String> result = new ArrayList<>();
+        var possibilities = database.getPossibilityFor(value, SignDescriptionConstants.KEYBOARD);
+        if (possibilities != null) {
+            for (Possibility p : possibilities.asList()) {
+                if (p.isSingleSign() && !result.contains(p.getCode())) {
                     result.add(p.getCode());
                 }
             }

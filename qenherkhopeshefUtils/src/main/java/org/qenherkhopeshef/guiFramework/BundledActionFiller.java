@@ -153,13 +153,13 @@ public class BundledActionFiller {
 					keyStroke= defaults.getString(actionPropertyKey);
 				// Now, process the result (if any).				
 				if (keyStroke != null && keyStroke.startsWith("shortcut")) {
-					int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMask();
+					int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMaskEx();
 					String replaceString = "control";
 					switch (shortCutMask) {
-					case KeyEvent.META_MASK:
+					case KeyEvent.META_DOWN_MASK:
 						replaceString = "meta";
 						break;
-					case KeyEvent.ALT_MASK:
+					case KeyEvent.ALT_DOWN_MASK:
 						replaceString = "alt"; // Not likely at all...
 						break;
 					}

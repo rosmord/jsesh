@@ -13,6 +13,8 @@ export interface SignInfoData {
   families: [string, string][];
   signs: SignEntry[];
   values: Record<string, string[]>;
+  /// The signs typed for each value at the keyboard (see `getPossibilityListFor`). Absent in older data.
+  keyboard?: Record<string, string[]>;
   tallNarrow: string[];
   lowBroad: string[];
   lowNarrow: string[];
@@ -50,6 +52,9 @@ export interface SignVariant {
 }
 
 const NO_CODES: readonly string[] = [];
+
+/// A Gardiner code in any case (`GardinerCode.isWellFormedCodeIgnoreCase`).
+const GARDINER_CODE = /^(US[0-9]+)?(Aa|Ff|NL|NU|[A-Z])[0-9]+[a-z]*$/i;
 
 export class SignDatabase {
   private readonly signs = new Map<string, SignEntry>();
@@ -151,6 +156,19 @@ export class SignDatabase {
     const lower = code.toLowerCase();
     const exact = this.getCodesSet().filter((c) => c.toLowerCase() === lower);
     return [...exact, ...this.getCodesSet().filter((c) => c.toLowerCase() !== lower && pattern.test(c))];
+  }
+
+  /// The signs a user typing `code` can cycle through, as the editor's
+  /// possibility lists do (`PossibilityRepositoryFromGlossary`, without
+  /// glossary): for a Gardiner code (any case), the signs it may designate
+  /// ([getSuitableSignsForCode]); otherwise, the signs having `code` as a
+  /// keyboard value, the official Manuel de Codage code first. If there is
+  /// none, `code` itself.
+  getPossibilityListFor(code: string): string[] {
+    const found = GARDINER_CODE.test(code)
+      ? this.getSuitableSignsForCode(code)
+      : (this.data.keyboard?.[code.replaceAll("-", "")] ?? NO_CODES);
+    return found.length > 0 ? [...found] : [code];
   }
 
   getTallNarrowSigns(): readonly string[] {

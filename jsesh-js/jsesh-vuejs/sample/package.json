@@ -1,7 +1,7 @@
 {
   "name": "jsesh-vue-sample",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A small Vue 3 application using @jsesh/vue: a notebook of hieroglyphic texts.",
   "type": "module",
   "scripts": {
@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@jsesh/core": "0.1.0",
-    "@jsesh/vue": "0.1.0",
+    "@jsesh/core": "0.2.0",
+    "@jsesh/vue": "0.2.0",
     "vue": "^3.5.44"
   },
   "devDependencies": {

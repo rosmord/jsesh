@@ -205,7 +205,9 @@ typing): it sends a `jsesh-error` event, so it can be updated at each keystroke:
 
 **2. A real hieroglyphic editor.** The user clicks in a box showing the hieroglyphs, with a cursor, and types sign
 codes (completed by `-`, `:`, `*`, `&`), with selection and undo. This is `<jsesh-editor>`; `<jsesh-palette>` lets the
-user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page):
+user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page).
+As in JSesh, typing a value then a space (`i `) inserts the first sign for it; each further space replaces it with the
+next sign with the same value (A1, A26, M2...) or, for a Gardiner code (`a1 `), with its variants (A1, A1A...):
 
 ```html
 <jsesh-editor id="editor" cadrat-height="45">nfr-f:r</jsesh-editor>
@@ -230,7 +232,8 @@ user pick signs by family, value, tag or shape (see `examples/editor/index.html`
 ```
 
 To build your own editor or palette, use `EditorSession` / `EditorView` and `PaletteController` (`examples/custom/`),
-and see `Documentation.md`.
+and see `Documentation.md`. A custom `EditorSession` proposes only the code itself, unless you set its `possibilities`
+(e.g. to `code => database.getPossibilityListFor(code)`, with the database from `loadSignDatabase` in `@jsesh/glyphs`).
 
 ### Example: finding a typed text
 
@@ -316,3 +319,19 @@ npm run zip         # the bundle and the zip for other sites
 ```
 
 The code follows the Java classes closely, keeping their names, so that both can be compared.
+
+### Version number
+
+All the packages (`@jsesh/core`, `glyphs`, `elements`, `editor`, `palette`, `vue`, and the Vue sample) share a single
+version number. The reference is the `"version"` of the root `package.json`; `scripts/set-version.mjs` copies it into
+every workspace package, and into the `@jsesh/*` dependencies they declare on each other. Don't edit these by hand.
+
+```bash
+npm run version:set -- 0.2.0   # new version: sets the root, then updates all the packages
+npm install                    # refreshes package-lock.json, which also records the workspace versions
+npm run version:check          # changes nothing; fails if a package differs from the root version
+```
+
+`npm run version:set` with no number only re-synchronises the packages with the current root version (useful after
+adding a package). The zip's name (`jsesh-web-<version>.zip`) uses the same number. The `0.1.0` in the examples of
+`Documentation.md` is just an illustration of a versioned folder name, and isn't updated by the script.

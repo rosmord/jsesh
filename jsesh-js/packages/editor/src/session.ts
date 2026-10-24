@@ -60,6 +60,21 @@ export interface EditorChange {
   readonly layout: boolean;
 }
 
+/// Proposes the texts (in MdC) that can be inserted for a code typed by the
+/// user, the preferred one first: see `EditorSession.possibilities`.
+export type PossibilityProvider = (code: string) => readonly string[];
+
+/// What is needed to replace the last inserted text with the next possibility.
+interface Retry {
+  readonly candidates: readonly string[];
+  readonly index: number;
+  /// The separator which grouped the sign with the previous quadrat.
+  readonly separator: string;
+  /// The range of top items the insertion replaced.
+  readonly start: number;
+  readonly end: number;
+}
+
 /// Style options which concern the editing (`textDirection`, `textOrientation`...).
 export type EditorOptions = NonNullable<StyleChanges["options"]>;
 
@@ -82,6 +97,13 @@ export class EditorSession {
   private readonly redoStack: Snapshot[] = [];
   private readonly listeners = new Set<(change: EditorChange) => void>();
   private cachedState: EditorState | undefined;
+  private retry: Retry | undefined;
+
+  /// Tells which signs a code may stand for (`PossibilityProvider`). By
+  /// default, only the code itself. With `SignDatabase.getPossibilityListFor`,
+  /// typing `i`, then a space, inserts the first sign with the value `i`; a
+  /// second space replaces it with the next one, and so on, as in JSesh.
+  possibilities: PossibilityProvider = (code) => [code];
 
   // ---- Observing
 
@@ -169,7 +191,7 @@ export class EditorSession {
   insertSign(code: string): void {
     if (this._code !== "") this.acceptSeparator(this._separator);
     this._code = code;
-    this.acceptSeparator(" ");
+    this.accept(" ", { propose: false, cycle: false });
   }
 
   /// Inserts MdC text at the cursor (replacing the selection).
@@ -229,7 +251,7 @@ export class EditorSession {
 
   /// Notifies the listeners again (to show the state in an MdC field, for instance).
   refresh(): void {
-    this.changed({ layout: false });
+    this.changed({ layout: false, keepRetry: true });
   }
 
   // ---- Typing, as in JSesh
@@ -239,12 +261,23 @@ export class EditorSession {
   /// separator. Without a code, the previous separator groups the two
   /// quadrats before the cursor. Then `separator` becomes the current one.
   acceptSeparator(separator: string): void {
+    this.accept(separator, { propose: true, cycle: separator === " " });
+  }
+
+  /// `acceptSeparator`. With `propose`, the sign is the first possibility for the code (otherwise, the code itself);
+  /// with `cycle`, it can then be replaced by the next ones.
+  private accept(separator: string, { propose, cycle }: { propose: boolean; cycle: boolean }): void {
+    let retry: Retry | undefined;
     if (this._code !== "") {
-      const items = this.read(this._code);
+      const candidates = propose ? this.possibilities(this._code) : [this._code];
+      const items = this.read(candidates[0] ?? this._code);
       if (items === undefined) return;
       this.saveForUndo();
-      this.replaceSelection(items);
-      if (this._separator !== " " && items.length === 1) this.groupBeforeCaret(this._separator);
+      const [start, end] = this.selectionRange();
+      this.insertAndGroup(start, end, items, this._separator);
+      if (cycle && candidates.length > 1) {
+        retry = { candidates, index: 0, separator: this._separator, start, end };
+      }
       this._code = "";
     } else if (this._separator !== " ") {
       this.saveForUndo();
@@ -252,6 +285,26 @@ export class EditorSession {
     }
     this._separator = separator;
     this.changed();
+    this.retry = retry;
+  }
+
+  /// Replaces the sign inserted by the last separator with the next
+  /// possibility for the code which was typed (`i` can be A1, A26, M2...), and
+  /// goes back to the first one after the last. Returns false if there is
+  /// nothing to change: the last action wasn't the insertion of a sign.
+  nextPossibility(): boolean {
+    const retry = this.retry;
+    const previous = this.undoStack.at(-1);
+    if (retry === undefined || previous === undefined) return false;
+    const index = (retry.index + 1) % retry.candidates.length;
+    const items = this.read(retry.candidates[index]);
+    if (items === undefined) return true;
+    // Go back to the text before the insertion: it is still on top of the undo stack.
+    this._text = previous.text.deepCopy();
+    this.insertAndGroup(retry.start, retry.end, items, retry.separator);
+    this.changed();
+    this.retry = { ...retry, index, end: retry.start + items.length };
+    return true;
   }
 
   /// Types one character of a sign code.
@@ -333,10 +386,13 @@ export class EditorSession {
       case "Escape":
         this.escape();
         return true;
-      case "-":
       case " ":
+        if (!(this._code === "" && this._separator === " " && this.nextPossibility())) this.acceptSeparator(" ");
+        return true;
+      case "-":
       case "Enter":
-        this.acceptSeparator(" ");
+        // As a space, but a following space won't change the sign.
+        this.accept(" ", { propose: true, cycle: false });
         return true;
       case ":":
       case "*":
@@ -415,6 +471,12 @@ export class EditorSession {
     return group;
   }
 
+  /// Replaces the range with `items`, grouped with the previous quadrat according to `separator`.
+  private insertAndGroup(start: number, end: number, items: readonly TopItem[], separator: string): void {
+    this.replaceRange(start, end, items);
+    if (separator !== " " && items.length === 1) this.groupBeforeCaret(separator);
+  }
+
   private groupBeforeCaret(separator: string): void {
     const start = this._caret - 2;
     if (start < 0) return;
@@ -469,8 +531,10 @@ export class EditorSession {
     this.changed();
   }
 
-  private changed({ layout = true } = {}): void {
+  /// Tells the listeners. Any change but a `keepRetry` one ends the possibility of cycling through the signs.
+  private changed({ layout = true, keepRetry = false } = {}): void {
     this.cachedState = undefined;
+    if (!keepRetry) this.retry = undefined;
     for (const listener of [...this.listeners]) listener({ layout });
   }
 }

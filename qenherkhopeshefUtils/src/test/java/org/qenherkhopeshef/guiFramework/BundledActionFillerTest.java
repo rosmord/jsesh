@@ -102,11 +102,11 @@ public class BundledActionFillerTest {
      * stops applying (see the plan's migration checklist).
      */
     private static KeyStroke expectedShortcutKeyStroke(String suffix) {
-        int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMask();
+        int shortCutMask = PortableToolKit.createToolkit().getMenuShortcutKeyMaskEx();
         String replaceString = "control";
-        if (shortCutMask == KeyEvent.META_MASK) {
+        if (shortCutMask == KeyEvent.META_DOWN_MASK) {
             replaceString = "meta";
-        } else if (shortCutMask == KeyEvent.ALT_MASK) {
+        } else if (shortCutMask == KeyEvent.ALT_DOWN_MASK) {
             replaceString = "alt";
         }
         return KeyStroke.getKeyStroke(replaceString + " " + suffix);

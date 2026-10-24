@@ -45,4 +45,15 @@ describe.skipIf(!existsSync(file))("SignDatabase", () => {
     expect(db.getCodesStartingWith("A1")).toContain("A10");
     expect(db.compareCodes("A2", "A10")).toBeLessThan(0);
   });
+
+  it("lists the possibilities for a code as the editor does", () => {
+    // Phonetic value: the official code first, then the signs with this value.
+    expect(db.getPossibilityListFor("i").slice(0, 3)).toEqual(["i", "A1", "A26"]);
+    expect(db.getPossibilityListFor("m-n")).toEqual(db.getPossibilityListFor("mn"));
+    // Gardiner code, in any case.
+    expect(db.getPossibilityListFor("a1")[0]).toBe("A1");
+    expect(db.getPossibilityListFor("a1")).toContain("A1A");
+    // Unknown.
+    expect(db.getPossibilityListFor("zzzz")).toEqual(["zzzz"]);
+  });
 });

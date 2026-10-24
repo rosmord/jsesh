@@ -5,5 +5,5 @@
     "outDir": ".tsbuild"
   },
   "include": ["src"],
-  "references": [{ "path": "../core" }, { "path": "../elements" }]
+  "references": [{ "path": "../core" }, { "path": "../glyphs" }, { "path": "../elements" }]
 }

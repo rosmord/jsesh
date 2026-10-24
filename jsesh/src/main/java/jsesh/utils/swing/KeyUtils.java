@@ -26,7 +26,7 @@ public class KeyUtils {
 	public static KeyStroke buildCommandShortCut(int vk, int mask) {
 		return KeyStroke
 				.getKeyStroke(vk, mask
-						| PortableToolKit.createToolkit().getMenuShortcutKeyMask());
+						| PortableToolKit.createToolkit().getMenuShortcutKeyMaskEx());
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class KeyUtils {
 	 * @return a correct KeyStroke.
 	 */
 	public static KeyStroke buildCommandShortCut(int vk) {
-		return KeyStroke.getKeyStroke(vk, PortableToolKit.createToolkit().getMenuShortcutKeyMask());
+		return KeyStroke.getKeyStroke(vk, PortableToolKit.createToolkit().getMenuShortcutKeyMaskEx());
 	}
 
 	/**

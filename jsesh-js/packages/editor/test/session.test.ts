@@ -12,6 +12,79 @@ function type(session: EditorSession, keys: string): void {
   for (const key of keys) session.handleKey({ key });
 }
 
+describe("EditorSession possibility lists", () => {
+  const lists: Record<string, string[]> = { i: ["i", "A1", "M17"], t: ["t", "X1"] };
+  const session = () => {
+    const s = new EditorSession();
+    s.possibilities = (code) => lists[code] ?? [code];
+    return s;
+  };
+
+  it("replaces the sign with the next possibility on a new space, cycling", () => {
+    const s = session();
+    type(s, "i ");
+    expect(s.state.mdc).toBe("i");
+    type(s, " ");
+    expect(s.state.mdc).toBe("A1");
+    type(s, " ");
+    expect(s.state.mdc).toBe("M17");
+    type(s, " ");
+    expect(s.state.mdc).toBe("i");
+    expect(s.state.length).toBe(1);
+  });
+
+  it("keeps the grouping with the previous quadrat, and the other quadrats", () => {
+    const s = session();
+    type(s, "p-n:");
+    type(s, "t  ");
+    expect(s.state.mdc).toBe("p-n:X1");
+    type(s, " ");
+    expect(s.state.mdc).toBe("p-n:t");
+  });
+
+  it("undoes the insertion in one step", () => {
+    const s = session();
+    type(s, "n-i  ");
+    expect(s.state.mdc).toBe("n-A1");
+    s.undo();
+    expect(s.state.mdc).toBe("n");
+  });
+
+  it("replaces a selection once", () => {
+    const s = session();
+    s.setMdc("n-p-d");
+    s.moveCaret(2);
+    s.moveCaret(1, true);
+    type(s, "i  ");
+    expect(s.state.mdc).toBe("n-A1-d");
+  });
+
+  it("stops cycling when something else happens", () => {
+    const s = session();
+    type(s, "i ");
+    s.handleKey({ key: "ArrowLeft" });
+    s.handleKey({ key: "ArrowRight" });
+    type(s, " ");
+    expect(s.state.mdc).toBe("i");
+    type(s, "i-");
+    type(s, "n ");
+    expect(s.state.mdc).toBe("i-i-n");
+  });
+
+  it("does not cycle signs inserted with insertSign, or after - or :", () => {
+    const s = session();
+    s.insertSign("i");
+    type(s, " ");
+    expect(s.state.mdc).toBe("i");
+    type(s, "i-");
+    type(s, " ");
+    expect(s.state.mdc).toBe("i-i");
+    type(s, "i:");
+    type(s, "t ");
+    expect(s.state.mdc).toBe("i-i-i:t");
+  });
+});
+
 describe("EditorSession typing", () => {
   it("makes a quadrat per sign when separated by - or space", () => {
     const s = new EditorSession();
