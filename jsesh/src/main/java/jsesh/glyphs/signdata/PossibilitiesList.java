@@ -108,6 +108,22 @@ public class PossibilitiesList {
 		return signs.get(pos);
 	}
 
+	/// Index of the currently selected possibility in [#asList()].
+	public int getPosition() {
+		return pos;
+	}
+
+	/// Select a given possibility.
+	///
+	/// @param position index of the possibility in [#asList()].
+	/// @throws IndexOutOfBoundsException if there is no such possibility.
+	public void setPosition(int position) {
+		if (position < 0 || position >= signs.size()) {
+			throw new IndexOutOfBoundsException("No possibility at index " + position);
+		}
+		pos = position;
+	}
+
 	/**
 	 * @return Returns the phonCode.
 	 */

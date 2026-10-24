@@ -912,6 +912,22 @@ public class JMDCEditor extends JPanel {
 
     }
 
+    /// Opens a list of the possible signs for the code just typed.
+    ///
+    /// This is an alternative to cycling through the possibilities with the space
+    /// key. If a code has been typed but not yet accepted, it is accepted first,
+    /// as the space key would do. Beeps if there is nothing to choose from.
+    public void showPossibilitiesPopup() {
+        if (!isEditable() || !isShowing()) {
+            return;
+        }
+        if (workflow.prepareChoiceOfPossibility()) {
+            new PossibilitiesPopup(this, workflow, mdcIconFactory).show(getCursorRectangle());
+        } else {
+            getToolkit().beep();
+        }
+    }
+
     /**
      * Has the current document some unsaved changes ?
      *

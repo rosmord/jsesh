@@ -138,6 +138,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 ActionMap map = app.getActionMap(view);
                 JMenu textMenu = new JMenu();
                 BundleHelper.getInstance().configure(textMenu, "text");
+                addToMenu(textMenu, app, view, ActionsID.CHOOSE_POSSIBILITY);
+                textMenu.addSeparator();
                 addToMenu(textMenu, app, view, ActionsID.GROUP_HORIZONTAL);
                 addToMenu(textMenu, app, view, ActionsID.GROUP_VERTICAL);
                 addToMenu(textMenu, app, view, ActionsID.LIGATURE_ELEMENTS);

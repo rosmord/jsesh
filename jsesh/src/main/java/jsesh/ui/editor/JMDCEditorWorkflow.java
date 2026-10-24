@@ -365,14 +365,63 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
     public void nextPossibility() {
         if (possibilitiesHandler.hasPossibilities()) {
-            hieroglyphicTextModel.undo();
-            if (innerRetryPosition != null) {
-                // The undo has put the caret back at top level.
-                caret.setInsertPosition(innerRetryPosition);
-            }
-            possibilitiesHandler.next();
-            addCodeAndThenGroup();
+            replaceLastPossibility(possibilitiesHandler::next);
         }
+    }
+
+    /// Prepares the choice of a possibility in a list, as an alternative to
+    /// cycling with [#nextPossibility()].
+    ///
+    /// Like the space key, this accepts the code being typed (if any), using its
+    /// first possibility. The choices are then available through
+    /// [#getPossibilityChoices()] and [#selectPossibility(int)].
+    ///
+    /// @return true if the sign just entered has several possibilities to choose from.
+    public boolean prepareChoiceOfPossibility() {
+        if (mode != InputMode.HIEROGLYPHS) {
+            return false;
+        }
+        if (currentCode.length() != 0) {
+            acceptSeparator(' ');
+        }
+        return currentSeparator == ' ' && currentCode.length() == 0
+                && possibilitiesHandler.getChoices().size() > 1;
+    }
+
+    /// The possibilities for the sign just entered.
+    ///
+    /// @return an immutable list, empty when there is nothing to choose from.
+    public List<Possibility> getPossibilityChoices() {
+        return possibilitiesHandler.getChoices();
+    }
+
+    /// Index, in [#getPossibilityChoices()], of the possibility currently in the text.
+    public int getSelectedPossibilityIndex() {
+        return possibilitiesHandler.hasPossibilities() ? possibilitiesHandler.getSelectedIndex() : -1;
+    }
+
+    /// Replaces the sign just entered by another of its possibilities.
+    ///
+    /// Does nothing if the cursor has moved since the sign was entered.
+    ///
+    /// @param index index in [#getPossibilityChoices()].
+    public void selectPossibility(int index) {
+        if (possibilitiesHandler.hasPossibilities()
+                && index >= 0 && index < possibilitiesHandler.getChoices().size()) {
+            replaceLastPossibility(() -> possibilitiesHandler.select(index));
+        }
+    }
+
+    /// Undoes the last insertion of a possibility, changes the selected
+    /// possibility with `selector`, and inserts the new one.
+    private void replaceLastPossibility(Runnable selector) {
+        hieroglyphicTextModel.undo();
+        if (innerRetryPosition != null) {
+            // The undo has put the caret back at top level.
+            caret.setInsertPosition(innerRetryPosition);
+        }
+        selector.run();
+        addCodeAndThenGroup();
     }
 
     /**

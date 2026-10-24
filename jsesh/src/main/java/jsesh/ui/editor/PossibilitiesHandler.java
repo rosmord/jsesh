@@ -33,6 +33,8 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.ui.editor;
 
+import java.util.List;
+
 import jsesh.glyphs.signdata.PossibilitiesList;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.PossibilityRepository;
@@ -84,6 +86,23 @@ class PossibilitiesHandler {
 
 	public void next() {
 		possibilities.next();
+	}
+
+	/// All the possibilities for the current code.
+	///
+	/// @return an immutable list (empty if there is no possibility list).
+	public List<Possibility> getChoices() {
+		return possibilities == null ? List.of() : possibilities.asList();
+	}
+
+	/// Index of the current possibility in [#getChoices()].
+	public int getSelectedIndex() {
+		return possibilities.getPosition();
+	}
+
+	/// Make the possibility at the given index the current one.
+	public void select(int index) {
+		possibilities.setPosition(index);
 	}
 
 	public char getSeparator() {

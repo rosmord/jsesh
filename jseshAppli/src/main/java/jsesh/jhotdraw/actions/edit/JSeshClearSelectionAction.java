@@ -25,6 +25,9 @@ public class JSeshClearSelectionAction extends AbstractViewAction {
 		ResourceBundleUtil labels = ResourceBundleUtil
 				.getBundle("org.jhotdraw_7_6.app.Labels");
 		labels.configureAction(this, ClearSelectionAction.ID);
+		// The JHotDraw default shortcut (shift-command-A) is used by
+		// "edit.toggleInnerCursor" in the editor.
+		putValue(ACCELERATOR_KEY, null);
 	}
 
 	public void actionPerformed(ActionEvent e) {
