@@ -1,0 +1,156 @@
+:root {
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  color: #222;
+}
+body {
+  margin: 0;
+  background: #f6f4ef;
+}
+.app {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr) minmax(0, 28rem);
+  grid-template-areas: "head head head" "list main palette";
+  gap: 1rem;
+  max-width: 110rem;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+@media (max-width: 70rem) {
+  .app {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    grid-template-areas: "head head" "list main" "palette palette";
+  }
+}
+@media (max-width: 40rem) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "list" "main" "palette";
+  }
+}
+header {
+  grid-area: head;
+}
+header h1 {
+  margin-bottom: 0;
+}
+header p {
+  margin-top: 0.2rem;
+  color: #666;
+}
+.document-list {
+  grid-area: list;
+}
+main {
+  grid-area: main;
+  min-width: 0;
+}
+aside {
+  grid-area: palette;
+  min-width: 0;
+}
+h2 {
+  font-size: 1rem;
+  margin: 1rem 0 0.3rem;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+code {
+  background: #e8e4d9;
+  padding: 0 0.3em;
+  border-radius: 3px;
+}
+.error {
+  color: #b00;
+}
+
+/* The list of texts */
+.document-list ul {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+}
+.document-list li {
+  display: flex;
+  margin-bottom: 4px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.document-list li.current {
+  border-color: #4a7fd4;
+  background: #dbe6f8;
+}
+.document-list .open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 4px 6px;
+  text-align: left;
+  background: none;
+  border: none;
+  overflow: hidden;
+}
+.document-list .remove {
+  background: none;
+  border: none;
+  color: #888;
+  padding: 0 0.5rem;
+}
+.document-list .remove:hover {
+  color: #b00;
+}
+
+/* The editor column */
+.title {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  margin-bottom: 0.5rem;
+}
+.jsesh-toolbar {
+  margin-bottom: 0.4rem;
+}
+jsesh-editor {
+  --jsesh-editor-min-height: 8rem;
+}
+.status {
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+}
+.mdc-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: ui-monospace, monospace;
+  font-size: 0.95rem;
+}
+.mdc-field textarea.invalid {
+  border-color: #b00;
+  background: #fff4f4;
+}
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+.preview {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  overflow: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

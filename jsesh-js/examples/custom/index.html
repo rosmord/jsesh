@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Building your own editor and palette</title>
+    <link rel="stylesheet" href="../examples.css" />
+    <style>
+      #surface {
+        position: relative;
+        min-height: 5rem;
+        border: 2px solid #4a7fd4;
+        border-radius: 8px;
+        overflow: auto;
+        background: #fffdf5;
+        line-height: 0;
+      }
+      #surface:focus {
+        outline: 3px solid #f0b429;
+      }
+      #surface svg {
+        display: block;
+      }
+      /* EditorView adds a .caret and .selection-box div for the cursor and the selection. */
+      .caret {
+        position: absolute;
+        pointer-events: none;
+        background: #c00;
+      }
+      #surface:focus .caret {
+        animation: blink 1s step-end infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .selection-box {
+        position: absolute;
+        pointer-events: none;
+        background: rgb(240 180 41 / 35%);
+      }
+      #grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 0.5rem 0;
+        max-height: 14rem;
+        overflow: auto;
+      }
+      #grid button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2px 4px;
+        font-size: 0.7rem;
+        background: white;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      #grid button.selected {
+        border-color: #4a7fd4;
+        background: #dbe6f8;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Building your own editor and palette</h1>
+    <p>
+      The same editor and palette as the other examples, but built from their lower-level parts: an
+      <code>EditorSession</code> (the editing state machine, with no DOM) shown by an <code>EditorView</code> in a
+      <code>div</code> of our own, and a <code>PaletteController</code> (the palette's logic, with no DOM) drawn with a
+      few lines of our own markup. This is the starting point for a Vue or React component: see the documentation.
+    </p>
+
+    <h2>Palette</h2>
+    <div class="row">
+      <select id="family"></select>
+      <input id="search" type="search" placeholder="value or code, then Enter" />
+      <span id="count"></span>
+    </div>
+    <div id="grid"></div>
+    <p>Selected: <b id="selected"></b> <span id="values"></span></p>
+
+    <h2>Editor</h2>
+    <div id="surface" tabindex="0" role="textbox" aria-label="Hieroglyphic text"></div>
+    <p>
+      MdC: <code id="mdc"></code><br />
+      Typing: <code id="code"></code> <code id="separator"></code>
+    </p>
+
+    <script type="module">
+      import { configureJSesh } from "@jsesh/elements";
+      import { loadSignDatabase } from "@jsesh/glyphs";
+      import { EditorSession, EditorView } from "@jsesh/editor";
+      import { PaletteController, memoryPaletteStorage } from "@jsesh/palette";
+
+      configureJSesh({ glyphsUrl: "/glyph-data/" });
+      const $ = (id) => document.getElementById(id);
+
+      // ---- The editor: a session, and a view which shows it in $("surface").
+      const session = new EditorSession();
+      const view = new EditorView(session, $("surface"), { cadratHeight: 40 });
+      session.setMdc("i-mn:n-Htp:t*p-!-<-ra-mn:n-xpr->", { undoable: false });
+      // The session tells about each change; its `state` is a snapshot to show.
+      session.subscribe(() => {
+        const s = session.state;
+        $("mdc").textContent = s.mdc.trim();
+        $("code").textContent = s.code || "–";
+        $("separator").textContent = s.separator.trim() || "–";
+      });
+      session.refresh();
+
+      // ---- The palette: a controller, and our own markup.
+      const palette = new PaletteController(await loadSignDatabase("/glyph-data/"), {
+        storage: memoryPaletteStorage(), // nothing is kept in the browser
+        initialFamily: "G",
+      });
+      for (const o of palette.familyOptions) $("family").add(new Option(o.label, o.value));
+      $("family").value = palette.state.family;
+      $("family").addEventListener("change", (e) => palette.setFamily(e.target.value));
+      $("search").addEventListener("keydown", (e) => e.key === "Enter" && palette.search(e.target.value));
+
+      let shown;
+      palette.subscribe(() => {
+        const s = palette.state;
+        $("family").value = s.family;
+        $("count").textContent = `${s.displayed.length} signs`;
+        // Only draw the first 80 signs: a real palette would draw those in view.
+        if (s.displayed !== shown) {
+          shown = s.displayed;
+          $("grid").replaceChildren(
+            ...s.displayed.slice(0, 80).map((code) => {
+              const button = document.createElement("button");
+              button.dataset.code = code;
+              button.innerHTML = `<jsesh-text cadrat-height="30">${code}</jsesh-text>${code}`;
+              button.addEventListener("click", () => palette.select(code));
+              button.addEventListener("dblclick", () => palette.choose(code));
+              return button;
+            }),
+          );
+        }
+        for (const b of $("grid").children) b.classList.toggle("selected", b.dataset.code === s.selected);
+        $("selected").textContent = s.selected ?? "";
+        $("values").textContent = s.info ? `(${s.info.values.join(", ")})` : "";
+      });
+      palette.setFamily("G"); // draws the first state
+
+      // A chosen sign goes into the editor, as if typed.
+      palette.onSignChosen((code) => {
+        session.insertSign(code);
+        view.focus();
+      });
+    </script>
+  </body>
+</html>

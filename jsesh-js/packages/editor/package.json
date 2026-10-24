@@ -1,0 +1,26 @@
+{
+  "name": "@jsesh/editor",
+  "version": "0.1.0",
+  "description": "JSesh hieroglyphic editor: a <jsesh-editor> Web Component, and the pieces under it (a headless editing session, a DOM view, layout helpers) for custom or framework-specific editors.",
+  "type": "module",
+  "license": "CECILL-C",
+  "main": "./dist/jsesh-editor.js",
+  "module": "./dist/jsesh-editor.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/jsesh-editor.js"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": ["./src/index.ts", "./dist/jsesh-editor.js"],
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@jsesh/core": "0.1.0",
+    "@jsesh/elements": "0.1.0"
+  }
+}

@@ -11,6 +11,7 @@ import { JSeshTextElement } from "./jsesh-text.js";
 export { autoRender, DEFAULT_CLASS, PROCESSED_CLASS, type AutoRenderOptions } from "./auto-render.js";
 export {
   configureJSesh,
+  glyphsUrl as resolveGlyphsUrl,
   layOutInPage,
   renderMdc,
   type BrowserRenderOptions,

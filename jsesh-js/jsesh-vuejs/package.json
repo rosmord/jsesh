@@ -1,0 +1,38 @@
+{
+  "name": "@jsesh/vue",
+  "version": "0.1.0",
+  "description": "Vue 3 components for JSesh: <JSeshText>, <JSeshEditor>, <JSeshEditorToolbar> and <JSeshPalette>, built on the JSesh Web Components.",
+  "type": "module",
+  "license": "CECILL-C",
+  "main": "./dist/jsesh-vue.js",
+  "module": "./dist/jsesh-vue.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/jsesh-vue.js"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": ["./src/index.ts", "./dist/jsesh-vue.js"],
+  "scripts": {
+    "build": "vite build && vue-tsc -p tsconfig.build.json",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@jsesh/core": "0.1.0",
+    "@jsesh/editor": "0.1.0",
+    "@jsesh/elements": "0.1.0",
+    "@jsesh/glyphs": "0.1.0",
+    "@jsesh/palette": "0.1.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.13"
+  }
+}

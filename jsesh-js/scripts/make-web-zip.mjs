@@ -35,16 +35,18 @@ cpSync(bundle, join(site, "jsesh/jsesh.js"));
 cpSync(join(root, "web-template/index.html"), join(site, "index.html"));
 cpSync(join(root, "web-template/README.md"), join(site, "README.md"));
 cpSync(join(root, "examples/examples.css"), join(site, "examples.css"));
-for (const dir of ["editor", "palette"]) cpSync(join(root, "examples", dir), join(site, dir), { recursive: true });
+for (const dir of ["editor", "palette", "custom"]) cpSync(join(root, "examples", dir), join(site, dir), { recursive: true });
 
 /// The examples are written for the development server: bare imports (`@jsesh/...`) and `/glyph-data/`.
-/// Here, one import map sends the three packages to the bundle, and the data is next to it.
+/// Here, one import map sends the five packages to the bundle, and the data is next to it.
 const IMPORT_MAP = `<script type="importmap">
       {
         "imports": {
           "@jsesh/core": "../jsesh/jsesh.js",
           "@jsesh/glyphs": "../jsesh/jsesh.js",
-          "@jsesh/elements": "../jsesh/jsesh.js"
+          "@jsesh/elements": "../jsesh/jsesh.js",
+          "@jsesh/editor": "../jsesh/jsesh.js",
+          "@jsesh/palette": "../jsesh/jsesh.js"
         }
       }
     </script>
@@ -61,6 +63,7 @@ function adaptExample(file) {
 }
 adaptExample(join(site, "editor/index.html"));
 adaptExample(join(site, "palette/index.html"));
+adaptExample(join(site, "custom/index.html"));
 
 function zip(fileName) {
   const target = join(out, fileName);

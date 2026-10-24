@@ -57,6 +57,7 @@ export default defineConfig({
         compare: join(here, "compare/index.html"),
         editor: join(here, "editor/index.html"),
         palette: join(here, "palette/index.html"),
+        custom: join(here, "custom/index.html"),
       },
     },
   },

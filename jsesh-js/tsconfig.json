@@ -1,8 +1,20 @@
 {
   "files": [],
   "references": [
-    { "path": "packages/core" },
-    { "path": "packages/glyphs" },
-    { "path": "packages/elements" }
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/glyphs"
+    },
+    {
+      "path": "packages/elements"
+    },
+    {
+      "path": "packages/editor"
+    },
+    {
+      "path": "packages/palette"
+    }
   ]
 }

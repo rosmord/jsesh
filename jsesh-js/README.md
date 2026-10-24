@@ -8,6 +8,9 @@ A TypeScript port of [JSesh](https://jsesh.qenherkhopeshef.org): hieroglyphic te
 | `@jsesh/core`     | MdC parser, document model, MdC writer, layout and SVG drawing. No DOM needed: it runs in browsers and in Node. |
 | `@jsesh/glyphs`   | JSesh's sign font (sizes, ligature zones, shapes) and sign database (families, values, tags, variants), exported from the Java version, and their loaders. |
 | `@jsesh/elements` | Web Components: `<jsesh-text>`, and `autoRender()` for plain pages. |
+| `@jsesh/editor`   | The hieroglyphic editor: `<jsesh-editor>`, and the pieces under it (`EditorSession`, `EditorView`...). |
+| `@jsesh/palette`  | The sign palette: `<jsesh-palette>`, and the logic under it (`PaletteController`). |
+| `@jsesh/vue` (in `jsesh-vuejs/`) | Vue 3 components (`<JSeshText>`, `<JSeshEditor>`, `<JSeshPalette>`...) over the Web Components, and a sample application. |
 
 ## What exists, and what does not
 
@@ -15,12 +18,14 @@ A TypeScript port of [JSesh](https://jsesh.qenherkhopeshef.org): hieroglyphic te
 |---|---|
 | Displaying MdC (`<jsesh-text>`, `autoRender()`, `renderToSvg()`) | **Available**, in the packages above. |
 | Parsing, writing MdC, the document model, layout, sign database | **Available** (`@jsesh/core`, `@jsesh/glyphs`). |
-| A hieroglyphic **editor** (cursor, selection, typing signs) | **Example code only**: `examples/editor/editor.js`. It works, but it is not in any package: to use it you copy the file into your site. |
-| A sign **palette** | **Example code only**: `examples/palette/palette.js`, same remark. |
-| `<jsesh-editor>`, `<jsesh-field>`, `<jsesh-palette>` (ready-to-use Web Components) | **Not written yet.** These names are only planned; nothing in the packages uses them. |
+| A hieroglyphic **editor** (cursor, selection, typing signs) | **Available**: `<jsesh-editor>` (`@jsesh/editor`). |
+| A sign **palette** | **Available**: `<jsesh-palette>` (`@jsesh/palette`). |
+| Building your own editor or palette (Vue, React...) | **Available**: `EditorSession` and `PaletteController` hold the behaviour and have no DOM. |
+| `<jsesh-field>` (single-line field) | **Not written yet.** The name is only planned. |
 
-So today, to let someone type MdC you either use an ordinary text field (see [Letting the user type MdC](#letting-the-user-type-mdc-and-getting-it-back)),
-or copy and adapt the example editor (see [Development](#development) to run it).
+To let someone type MdC, you use an ordinary text field (see [Letting the user type MdC](#letting-the-user-type-mdc-and-getting-it-back)),
+or `<jsesh-editor>`, with `<jsesh-palette>` to pick signs. Both come at three levels (ready-made element, headless logic,
+geometry helpers): see `Documentation.md`.
 
 ## Installing on a web site
 
@@ -88,8 +93,8 @@ npm run zip     # needs the glyph data (see Development) and the `zip` command
 
 writes two files in `web-dist/`:
 
-- `jsesh-web-<version>.zip`: `jsesh/jsesh.js` (the three packages in one self-contained module), `jsesh/data/` (the glyph
-  data), a demo `index.html`, the `editor/` and `palette/` examples, and a `README.md` for the recipient;
+- `jsesh-web-<version>.zip`: `jsesh/jsesh.js` (the five packages in one self-contained module), `jsesh/data/` (the glyph
+  data), a demo `index.html`, the `editor/`, `palette/` and `custom/` examples, and a `README.md` for the recipient;
 - `jsesh-web-<version>-code-only.zip`: the same without `jsesh/data/`, for sites which use a shared copy of the data.
 
 Unzipped on a web server, the demo works as is. Its sources are `bundle/` (the bundle), `web-template/` (demo and README) and
@@ -141,10 +146,14 @@ class, or `selector` for any CSS selector:
 
 Both use custom elements directly once `@jsesh/elements` is imported.
 
-- Vue: tell the template compiler that `jsesh-*` tags are custom elements
+- Vue: the `@jsesh/vue` package (`jsesh-vuejs/`) provides ready-made components and a sample application. Or, with the elements directly: tell the template compiler that `jsesh-*` tags are custom elements
   (`compilerOptions.isCustomElement: (tag) => tag.startsWith("jsesh-")` in the Vue plugin options), then
   `<jsesh-text :mdc="text" cadrat-height="30" />`.
 - React 19: `<jsesh-text mdc={text} cadrat-height="30" />`.
+
+The editor and the palette work the same way (`<jsesh-editor :mdc.prop="text" @jsesh-change="text = $event.detail.mdc" />`),
+and can also be rebuilt as framework components on the headless `EditorSession` and `PaletteController`:
+`Documentation.md` has complete Vue and React recipes.
 
 ### On a server, or in a script
 
@@ -167,12 +176,13 @@ Without a canvas, Latin text is measured approximately; hieroglyphs are not affe
 `layOutInPage` (in `@jsesh/elements`) and `layOutText` (in `@jsesh/core`) also take a model (`HieroglyphicText`).
 The views then refer to its elements: the subviews of the root view are the views of the top items, in order, and
 `view.getSubViewBounds(i)` gives where each one is drawn (in points; multiply by the scale, `cadratHeight` divided by
-`style.geometry.standardSignHeight`, for pixels). `examples/editor/editor.js` uses this to place a cursor and a
-selection, and to find where a click falls; it types as JSesh does (codes completed by `-`, `:`, `*` or `&`).
+`style.geometry.standardSignHeight`, for pixels). `@jsesh/editor` uses this (`itemAreas`, `caretArea`, `positionAt`) to
+place a cursor and a selection, and to find where a click falls; it types as JSesh does (codes completed by `-`, `:`,
+`*` or `&`).
 
 ## Letting the user type MdC, and getting it back
 
-There are two ways to do it today (a packaged `<jsesh-editor>` does not exist; see [What exists](#what-exists-and-what-does-not)).
+There are two ways to do it.
 
 **1. An ordinary text field, with a live preview.** The user types MdC as text (`nfr-f:r`), and the field's value is
 the MdC. This is the simplest, and enough for a search box. `<jsesh-text>` does not throw on an invalid text (a partial one, while
@@ -193,27 +203,34 @@ typing): it sends a `jsesh-error` event, so it can be updated at each keystroke:
 </script>
 ```
 
-**2. A real hieroglyphic editor, copied from the examples.** The user clicks in a box showing the hieroglyphs, with a
-cursor, and types sign codes (completed by `-`, `:`, `*`, `&`), with selection and undo. This exists as
-`examples/editor/editor.js`, a class `HieroglyphicEditor`, but it is *not part of the npm packages*: copy the file
-(and `examples/palette/palette.js` for a sign palette) into your site. It only uses the public API of `@jsesh/core`
-and `@jsesh/elements`, so it works there unchanged. Use it like this (see `examples/editor/index.html` for a complete page):
+**2. A real hieroglyphic editor.** The user clicks in a box showing the hieroglyphs, with a cursor, and types sign
+codes (completed by `-`, `:`, `*`, `&`), with selection and undo. This is `<jsesh-editor>`; `<jsesh-palette>` lets the
+user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page):
 
-```js
-import { configureJSesh } from "@jsesh/elements";
-import { HieroglyphicEditor } from "./editor.js"; // your copy
+```html
+<jsesh-editor id="editor" cadrat-height="45">nfr-f:r</jsesh-editor>
+<jsesh-palette id="palette"></jsesh-palette>
+<script type="module">
+  import { configureJSesh } from "@jsesh/elements";
+  import "@jsesh/editor";  // defines <jsesh-editor>
+  import "@jsesh/palette"; // defines <jsesh-palette>
 
-configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
-const editor = new HieroglyphicEditor(document.getElementById("surface"), { // a <div tabindex="0">
-  onChange: (state) => (document.getElementById("mdc").value = state.mdc), // the MdC, after each change
-});
-editor.setMdc("nfr-f:r"); // put a text in the editor
-editor.insertSign("A1");  // insert a sign at the cursor
-editor.state.mdc;         // the MdC currently in the editor
+  configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
+  const editor = document.getElementById("editor");
+  editor.addEventListener("jsesh-change", (e) => console.log(e.detail.mdc)); // the MdC, after each change
+  editor.mdc;                       // the MdC currently in the editor; assign to replace it
+  editor.insertSign("A1");          // insert a sign at the cursor
+
+  // A chosen sign goes into the editor, as if typed.
+  document.getElementById("palette").addEventListener("sign-chosen", (e) => {
+    editor.insertSign(e.detail);
+    editor.focus();
+  });
+</script>
 ```
 
-What is planned is to turn this example into packaged elements (`<jsesh-editor>`, and a palette and single-line field
-`<jsesh-palette>`, `<jsesh-field>`), so that no copying is needed. Until then, the example is the editor.
+To build your own editor or palette, use `EditorSession` / `EditorView` and `PaletteController` (`examples/custom/`),
+and see `Documentation.md`.
 
 ### Example: finding a typed text
 
@@ -293,7 +310,7 @@ The data and the test fixtures are generated from the Java version (`../jseshJsE
 ../gradlew -p .. :jseshJsExport:exportAll   # glyph data, fixtures, and JSesh's pictures of the test texts
 npm install
 npm test            # compares parser, writer and layout with JSesh
-npm run dev         # examples: /vanilla/, /editor/, /palette/ and /compare/ (JSesh's pictures next to the port's)
+npm run dev         # examples: /vanilla/, /editor/, /palette/, /custom/ and /compare/ (JSesh's pictures next to the port's)
 npm run build
 npm run zip         # the bundle and the zip for other sites
 ```

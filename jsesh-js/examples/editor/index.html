@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>A hieroglyphic editor</title>
     <link rel="stylesheet" href="../examples.css" />
-    <link rel="stylesheet" href="../palette/palette.css" />
     <style>
       .toolbar {
         display: flex;
@@ -17,44 +16,9 @@
       .toolbar .spacer {
         flex: 1;
       }
-      #surface {
-        position: relative;
-        min-height: 6rem;
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        padding: 0;
-        overflow: auto;
-        cursor: text;
-        background: white;
-        line-height: 0;
-      }
-      #surface:focus {
-        outline: 2px solid #4a7fd4;
-        outline-offset: 1px;
-      }
-      #surface svg {
-        display: block;
-      }
-      .caret {
-        position: absolute;
-        background: #c00;
-        pointer-events: none;
-      }
-      #surface:focus .caret {
-        animation: blink 1s step-end infinite;
-      }
-      #surface:not(:focus) .caret {
-        background: #999;
-      }
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
-      .selection-box {
-        position: absolute;
-        background: rgb(74 127 212 / 25%);
-        pointer-events: none;
+      /* The editor is styled with custom properties (and ::part(surface)). */
+      jsesh-editor {
+        --jsesh-editor-min-height: 6rem;
       }
       .status {
         display: flex;
@@ -107,9 +71,6 @@
       #sidebar[hidden] {
         display: none;
       }
-      #sidebar .palette {
-        background: white;
-      }
       .sidebar-head {
         display: flex;
         align-items: center;
@@ -135,17 +96,9 @@
       #palette-tab[hidden] {
         display: none;
       }
-      /* In the narrow side panel, the sign information goes under the signs. */
-      #sidebar .palette .body {
-        grid-template-columns: 1fr;
-      }
-      #sidebar .palette [data-palette="info"] {
-        border-left: none;
-        padding-left: 0;
-        max-height: none;
-      }
-      #sidebar .palette [data-palette="signs"] {
-        height: 18rem;
+      /* <jsesh-palette> adapts to the width of its container (here, a narrow side panel). */
+      jsesh-palette {
+        --jsesh-palette-grid-height: 18rem;
       }
       @media (max-width: 50rem) {
         .workspace {
@@ -170,10 +123,10 @@
   <body>
     <h1>A hieroglyphic editor</h1>
     <p>
-      A small editor built on <code>@jsesh/core</code> and <code>@jsesh/elements</code>: the text is a JSesh model
-      (<code>HieroglyphicText</code>), changed by the editor and laid out again after each change. The layout's view
-      tree tells where each quadrat is, for the cursor, the selection and the mouse. Click in the frame, and type as in
-      JSesh.
+      The <code>&lt;jsesh-editor&gt;</code> element of <code>@jsesh/editor</code>, with the
+      <code>&lt;jsesh-palette&gt;</code> of <code>@jsesh/palette</code> in a side panel. The page only adds a toolbar
+      and a status line: they use the element's commands and its <code>jsesh-change</code> event. Click in the frame,
+      and type as in JSesh.
     </p>
 
     <div class="workspace">
@@ -191,7 +144,7 @@
       <button id="clear">Clear</button>
     </div>
 
-    <div id="surface" tabindex="0" role="textbox" aria-label="Hieroglyphic text"></div>
+    <jsesh-editor id="editor" cadrat-height="45"></jsesh-editor>
 
     <div class="status">
       <span>Code: <code id="code"></code></span>
@@ -205,15 +158,15 @@
       <label
         >Direction
         <select id="direction">
-          <option value="LEFT_TO_RIGHT">left to right</option>
-          <option value="RIGHT_TO_LEFT">right to left</option>
+          <option value="ltr">left to right</option>
+          <option value="rtl">right to left</option>
         </select></label
       >
       <label
         >Orientation
         <select id="orientation">
-          <option value="HORIZONTAL">lines</option>
-          <option value="VERTICAL">columns</option>
+          <option value="horizontal">lines</option>
+          <option value="vertical">columns</option>
         </select></label
       >
       <span class="spacer"></span>
@@ -234,7 +187,7 @@
         The palette of the <a href="../palette/">palette example</a>: double-click a sign (or press Enter) to insert
         it.
       </p>
-      <div id="palette"></div>
+      <jsesh-palette id="palette"></jsesh-palette>
     </aside>
     </div>
 
@@ -259,25 +212,28 @@
 
     <script type="module">
       import { configureJSesh } from "@jsesh/elements";
-      import { loadSignDatabase } from "@jsesh/glyphs";
-      import { HieroglyphicEditor } from "./editor.js";
-      import { HieroglyphPalette } from "../palette/palette.js";
+      import "@jsesh/editor"; // defines <jsesh-editor>
+      import "@jsesh/palette"; // defines <jsesh-palette>
 
       configureJSesh({ glyphsUrl: "/glyph-data/" });
 
       const $ = (id) => document.getElementById(id);
-      const editor = new HieroglyphicEditor($("surface"), {
-        onChange: (state) => {
-          $("code").textContent = state.code;
-          $("separator").textContent = state.separator.trim();
-          $("position").textContent =
-            `Quadrat ${state.caret} of ${state.length}` + (state.selection > 0 ? `, ${state.selection} selected` : "");
-          $("error").textContent = state.error ?? "";
-          if (document.activeElement !== $("mdc")) {
-            $("mdc").value = state.mdc;
-            $("mdc").classList.remove("invalid");
-          }
-        },
+      const editor = $("editor");
+
+      // The element tells what happens with `jsesh-change`; its detail is the editor's state.
+      editor.addEventListener("jsesh-change", (e) => {
+        const state = e.detail;
+        $("code").textContent = state.code;
+        $("separator").textContent = state.separator.trim();
+        $("position").textContent =
+          `Quadrat ${state.caret} of ${state.length}` + (state.selection > 0 ? `, ${state.selection} selected` : "");
+        $("error").textContent = state.error ?? "";
+        $("undo").disabled = !state.canUndo;
+        $("redo").disabled = !state.canRedo;
+        if (document.activeElement !== $("mdc")) {
+          $("mdc").value = state.mdc;
+          $("mdc").classList.remove("invalid");
+        }
       });
 
       const commands = {
@@ -289,7 +245,7 @@
         linebreak: () => editor.insertMdc("!"),
         undo: () => editor.undo(),
         redo: () => editor.redo(),
-        clear: () => editor.setMdc(""),
+        clear: () => (editor.mdc = ""),
       };
       for (const [id, command] of Object.entries(commands)) {
         $(id).addEventListener("click", () => {
@@ -299,8 +255,8 @@
       }
 
       $("height").addEventListener("input", (e) => (editor.cadratHeight = Number(e.target.value)));
-      $("direction").addEventListener("change", (e) => editor.setOptions({ textDirection: e.target.value }));
-      $("orientation").addEventListener("change", (e) => editor.setOptions({ textOrientation: e.target.value }));
+      $("direction").addEventListener("change", (e) => editor.setAttribute("direction", e.target.value));
+      $("orientation").addEventListener("change", (e) => editor.setAttribute("orientation", e.target.value));
       $("save").addEventListener("click", () => {
         const link = document.createElement("a");
         link.href = URL.createObjectURL(new Blob([editor.document()], { type: "text/plain" }));
@@ -313,9 +269,9 @@
       let timer;
       $("mdc").addEventListener("input", (e) => {
         clearTimeout(timer);
-        timer = setTimeout(() => e.target.classList.toggle("invalid", !editor.setMdc(e.target.value)), 300);
+        timer = setTimeout(() => e.target.classList.toggle("invalid", !editor.session.setMdc(e.target.value)), 300);
       });
-      $("mdc").addEventListener("blur", () => editor.refresh());
+      $("mdc").addEventListener("blur", () => editor.session.refresh());
 
       // The palette is in a side panel which can be hidden; the choice is remembered.
       const sidebar = $("sidebar");
@@ -341,13 +297,12 @@
         editor.focus();
       });
 
-      editor.setMdc("i-mn:n-Htp:t*p-!-<-ra-mn:n-xpr->-anx-DA-s", { undoable: false });
+      editor.session.setMdc("i-mn:n-Htp:t*p-!-<-ra-mn:n-xpr->-anx-DA-s", { undoable: false });
       editor.focus();
 
       // The palette: a chosen sign is inserted as if its code had been typed
       // (so that `p` `:` then choosing `t` stacks them).
-      const palette = new HieroglyphPalette($("palette"), await loadSignDatabase("/glyph-data/"));
-      palette.addEventListener("sign-chosen", (e) => {
+      $("palette").addEventListener("sign-chosen", (e) => {
         editor.insertSign(e.detail);
         editor.focus();
       });

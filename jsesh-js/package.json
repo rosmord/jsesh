@@ -5,7 +5,9 @@
   "author": "Serge Rosmorduc",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "jsesh-vuejs",
+    "jsesh-vuejs/sample"
   ],
   "scripts": {
     "build": "tsc -b && npm run build --workspaces --if-present",
