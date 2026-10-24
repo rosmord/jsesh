@@ -1,6 +1,9 @@
-# JSeshJs Programmer documentation
+# JSeshJs user guide
 
-This is a simple documentation to help you use and integrate JSeshJs in your own project.
+This guide helps you use and integrate JSeshJs in your own project. It covers the everyday cases. Two other documents go further:
+
+- the [customisation guide](customisation.md), if you need to change how JSeshJs draws, loads its data, or builds its editor and palette;
+- the [maintainer guide](maintainer-guide.md), if you work on JSeshJs itself.
 
 JSeshJs is the web version of [JSesh](https://jsesh.qenherkhopeshef.org): it displays (and lets you edit) hieroglyphic texts in your web pages, drawn exactly as JSesh draws them. It reads texts written in the *Manuel de Codage* (MdC).
 
@@ -21,7 +24,7 @@ So `i-w-r:a-C1-m-p*t:pt` is a whole phrase. The rest of the documentation simply
 
 ## What is in the box
 
-JSeshJs is made of five small packages:
+JSeshJs is made of five small packages (plus an optional sixth, `@jsesh/vue`, see [Vue and React](#vue-and-react)):
 
 | Package | What it does | Needs a browser? |
 |---|---|---|
@@ -88,8 +91,8 @@ jsesh-web/
 
 #### Testing it
 
-- If you have put the files on a web server, simply open the folder containing `index.html` in a browser should work;
-- on your own computer, as browsers refuse to load data from the local file system, double-clicking `index.html` won't work. You need a small server. If you have python, you can use`cd jsesh-web && python3 -m http.server`, then open <http://localhost:8000/>. With php, `cd jsesh-web && php -S localhost:8000` works too, and in Node, `cd jsesh-web && npx serve` (install `serve` first with `npm install -g serve`).
+- If you have put the files on a web server, opening the folder containing `index.html` in a browser should work;
+- on your own computer, as browsers refuse to load data from the local file system, double-clicking `index.html` won't work. You need a small server. If you have python, you can use `cd jsesh-web && python3 -m http.server`, then open <http://localhost:8000/>. With php, `cd jsesh-web && php -S localhost:8000` works too, and in Node, `cd jsesh-web && npx serve` (install `serve` first with `npm install -g serve`).
 
 ### Configuring JSeshJs from scratch
 
@@ -197,12 +200,12 @@ configureJSesh({ glyphsUrl: "/jsesh/data/", style: { painting: { blackColor: "#2
 | `jsesh-error` | It could not be drawn (invalid MdC, data not found...). The error is in `event.detail`. |
 
 On error, the element does not throw: it shows its own content as plain text instead. This is what makes live previews possible (see [Editing](#using-jseshjs-to-edit-hieroglyphic-text)).
-You can use an *even listener* to catch the events if you want. You will find examples below.
+You can use an *event listener* to catch the events if you want. You will find examples below.
 
 ### Without custom elements: `autoRender()`
 
 `<jsesh-text>` is not standard html, and it can confuse some softwares. If you don't want to use it, Manuel de codage text can be put in standard `html` elements.
-You can use `autoRender()` to turn any element into a hieroglyphic text. It looks for elements of **class** `jsesh` and replaces their content with the picture:
+You can use `autoRender()` to turn any element into a hieroglyphic text. It looks for elements of **class** `mdc` and replaces their content with the picture:
 
 ```html
 <span class="mdc">i-w-r:a-C1-m-p*t:pt</span>
@@ -376,90 +379,9 @@ jsesh-editor { --jsesh-editor-min-height: 10rem; --jsesh-selection-color: rgb(25
 jsesh-editor::part(surface) { border-radius: 12px; }
 ```
 
-#### Lower level: `EditorSession` and `EditorView`
+#### Going further
 
-`<jsesh-editor>` is one `EditorSession` plus one `EditorView`:
-
-- **`EditorSession`** is the editing state machine, with no DOM: the text (a `HieroglyphicText`), the cursor, the selection, the code being typed, undo and redo. It has the commands above, plus `handleKey(event)` (give it a `KeyboardEvent`, or anything with `key`, `ctrlKey`, `metaKey`, `shiftKey`, `altKey`: it returns `true` if the key was used), `moveCaret(position, extend)`, `setOptions({ textDirection, textOrientation })`, `setMdc(mdc)` and `setText(model)`. You can use it in Node, for tests.
-- **`EditorView`** shows a session in an element of your page (focusable: `tabindex="0"`), draws the cursor and selection, and sends the keys and clicks to the session.
-
-```js
-import { EditorSession, EditorView } from "@jsesh/editor";
-
-const session = new EditorSession();
-const view = new EditorView(session, document.getElementById("surface"), { cadratHeight: 40 });
-session.setMdc("nfr-f:r");
-
-// `subscribe` is called after each change; `state` is a snapshot, the same object until the next change.
-const stop = session.subscribe(() => console.log(session.state.mdc, session.state.caret));
-```
-
-The surface needs a little CSS for the cursor and the selection, which the view adds as `div`s of class `caret` and `selection-box` (`EDITOR_VIEW_CSS` has the CSS used by `<jsesh-editor>`):
-
-```css
-#surface { position: relative; }
-.caret, .selection-box { position: absolute; pointer-events: none; }
-.caret { background: #c00; }
-.selection-box { background: rgb(74 127 212 / 25%); }
-```
-
-This is what you use to build the editor into your own components: the page `custom/index.html` of the zip shows it, and [Vue and React](#vue-and-react) has the recipes.
-
-#### Writing the view yourself
-
-If even `EditorView` does not suit you, the one thing to understand is how the picture is linked to the model:
-
-- The model is the session's `text`, a `HieroglyphicText`. After each change (`session.subscribe`), call `layOutInPage(session.text)` (from `@jsesh/elements`; `layOutText` in `@jsesh/core`). Given a model instead of a string, it returns views **which refer to the model's elements**: the subviews of the root view are the views of the top items (quadrats, line breaks...), in the same order.
-- `itemAreas(laidOut, cadratHeight)` gives the rectangle where each top item is drawn, in pixels.
-- `caretArea(areas, caret, flow, cadratHeight, margin)` is where to draw the cursor, and `positionAt(areas, x, y, flow)` the cursor position closest to a click (`flow` is `{ vertical, rightToLeft }`, `session.isVertical` and `session.isRightToLeft`). Draw the selection from `state.selectionStart` and `state.selectionEnd`.
-
-`EditorView` is about 100 lines on top of these functions: read it (`packages/editor/src/view.ts`) as a model.
-
-### Example: finding a typed text
-
-JSesh's search (`jseshSearch`) is not ported. Still, MdC is easy to compare once it is *normalized*: `a`, `nfr` or `F35` all denote the same sign, and the same sign can be spelled in several ways in the texts. The idea: parse the query and the texts, reduce them to the lists of their canonical sign codes, and look for the former in the latter.
-
-```js
-import { Hieroglyph, parseMdc } from "@jsesh/core";
-import { loadGlyphProvider } from "@jsesh/glyphs";
-
-const glyphs = await loadGlyphProvider("/jsesh-glyphs/"); // same URL as for configureJSesh
-
-/// The canonical (Gardiner) codes of the signs in an MdC text, in reading order.
-function signs(mdc) {
-  const result = [];
-  const visit = (element) => {
-    if (element instanceof Hieroglyph) result.push(glyphs.canonicalCode(element.code));
-    else element.children.forEach(visit);
-  };
-  visit(parseMdc(mdc)); // throws if the MdC is invalid
-  return result;
-}
-
-/// Is `needle` a run of consecutive signs of `haystack`?
-function contains(haystack, needle) {
-  if (needle.length === 0) return false;
-  for (let i = 0; i + needle.length <= haystack.length; i++) {
-    if (needle.every((code, j) => haystack[i + j] === code)) return true;
-  }
-  return false;
-}
-
-const corpus = [{ id: 1, mdc: "i-w-r:a-C1-m-p*t:pt" }, { id: 2, mdc: "nfr-f:r-A1" }];
-const entries = corpus.map(({ id, mdc }) => ({ id, mdc, signs: signs(mdc) })); // do it once
-
-query.addEventListener("input", () => {
-  try {
-    const wanted = signs(query.value);
-    const found = entries.filter((entry) => contains(entry.signs, wanted));
-    // show `found`, each entry with <jsesh-text>
-  } catch {
-    // the query is not valid MdC (yet)
-  }
-});
-```
-
-Typing `nfr` finds entry 2 (`nfr` is `F35`). Grouping (`:`, `*`) is ignored: this searches for signs in sequence, wherever they are in the quadrats. If quadrats should matter, compare the normalized MdC instead (next section).
+`<jsesh-editor>` is built from an `EditorSession` (the editing state machine, with no DOM) and an `EditorView` (which shows it). If you want your own markup, your own toolbar, or an editor inside a Vue or React component, see the [customisation guide](customisation.md#building-your-own-editor).
 
 ---
 
@@ -590,42 +512,9 @@ palette.storage = {
 - **Texts.** `palette.labels = { choose: "Choisir", showAllVariants: "montrer les variantes", ... }` (see `PaletteLabels` and `DEFAULT_PALETTE_LABELS`: the texts you don't give stay in English). Set it before the palette is displayed, or it is built again.
 - **Behaviour, or a completely different look**: use `PaletteController`, below.
 
-### Lower level: `PaletteController`
+### Going further: a palette with your own look
 
-`PaletteController` has all the palette's behaviour and no DOM. You give it a `SignDatabase`, show its `state`, and call its methods; `<jsesh-palette>` is just one way to draw it.
-
-```js
-import { loadSignDatabase } from "@jsesh/glyphs";
-import { PaletteController } from "@jsesh/palette";
-
-const palette = new PaletteController(await loadSignDatabase("/jsesh-glyphs/"), {
-  initialFamily: "G",       // "A" by default
-  // storage: ..., labels: { ... }
-});
-
-palette.subscribe(() => draw(palette.state));  // after each change
-palette.onSignChosen((code) => console.log(code));
-```
-
-| `state` | |
-|---|---|
-| `displayed` | The codes to show (a new array whenever the list changes: easy to compare). |
-| `selected`, `info` | The selected sign, and what is known of it: `values`, `tags`, `variants` (`{ code, type, typeLabel }`), `parts`, `description` (MdC), `inUserPalette`. |
-| `family`, `showAllVariants` | The family selected (`""` when the signs come from a search), and whether variants are included. `palette.familyOptions` lists the families, as `{ value, label }`. |
-| `tags`, `tag`, `secondaryTags`, `secondaryTag` | The tag lists, and the selection in each. |
-| `containingOptions` | The parts of the displayed signs, for the "containing…" list. |
-| `canGoBack` | Whether `back()` can do something. |
-
-| Method | |
-|---|---|
-| `setFamily(code)`, `setShowAllVariants(bool)`, `setTag(tag)`, `setSecondaryTag(tag)` | Choose what to display. |
-| `search(text)` | Signs with a value (`nfr`) or a code (`A1`, or the start of one). |
-| `showVariants()`, `showContaining()` | Variants of the selected sign, or the signs containing it; each call goes one level further. |
-| `filterContaining(code)` | Keep, among the displayed signs, those which contain `code`. |
-| `select(code)`, `move(offset)`, `reveal(code)`, `back()` | The selection. `reveal` shows a sign which is not in the list; `move(±1, ±columns)` is for arrow keys. |
-| `setInUserPalette(bool)`, `choose(code?)` | Put the sign in the user palette; choose it (calls the `onSignChosen` listeners). |
-
-The `subscribe` / `state` pair is the interface which React's `useSyncExternalStore` expects, and is easily made into a Vue `ref`: see [Vue and React](#vue-and-react). The page `custom/index.html` of the zip shows a palette built on the controller with a few lines of plain JavaScript.
+`<jsesh-palette>` is a thin layer over `PaletteController`, which holds all the behaviour and knows nothing about the DOM. To draw the palette your own way, see the [customisation guide](customisation.md#building-your-own-palette).
 
 ### Where the knowledge comes from
 
@@ -702,25 +591,9 @@ import { parseMdc } from "@jsesh/core";
 parseMdc("i-w-r:a-C1-m-p*t:pt").getCodes(); // the codes, in order of first appearance
 ```
 
-or to walk the whole tree yourself (as the search example above does): `if (element instanceof Hieroglyph) ... else element.children.forEach(visit)`.
+or to walk the whole tree yourself (as the search example below does): `if (element instanceof Hieroglyph) ... else element.children.forEach(visit)`.
 
 The model is **observable**: `text.addObserver((operation) => ...)` is told of each insertion, deletion or modification. This is what lets an editor redraw only what is needed.
-
-### Modifying a text, and displaying the result
-
-Because `layOutInPage` and `drawLaidOutText` accept a model as well as a string, you can edit the model and display it without going back through MdC:
-
-```js
-import { Hieroglyph, Cadrat, parseMdc, drawLaidOutText } from "@jsesh/core";
-import { layOutInPage } from "@jsesh/elements";
-
-const text = parseMdc("nfr-f:r");
-text.removeItems(0, 1);                      // remove the first quadrat
-const laidOut = await layOutInPage(text);
-target.innerHTML = drawLaidOutText(laidOut, { cadratHeight: 40 });
-```
-
-(To build new quadrats, the simplest is to parse a small piece of MdC and add its `topItems`: `text.addAll(parseMdc("A1").topItems.slice())`. That is also how the example editor builds groups: it writes items as MdC and reads them back.)
 
 ### Normalizing: one spelling for one sign
 
@@ -736,6 +609,52 @@ toMdc(parseMdc("nfr-f:r"), { normalize: (code) => glyphs.canonicalCode(code) });
 The result is one canonical string per text: ideal to index in a database, or to compare with `===` or `includes`. `canonicalCode` only needs `glyph-index.json`, not the shapes, so it also works cheaply in Node.
 
 Another option of `toMdc` is to write a part of the text only: `toMdc(text, { start: 2, end: 5 })` writes the top items 2 to 4.
+
+### Example: finding a typed text
+
+JSesh's search (`jseshSearch`) is not ported. Still, MdC is easy to compare once it is *normalized*: `a`, `nfr` or `F35` all denote the same sign, and the same sign can be spelled in several ways in the texts. The idea: parse the query and the texts, reduce them to the lists of their canonical sign codes, and look for the former in the latter.
+
+```js
+import { Hieroglyph, parseMdc } from "@jsesh/core";
+import { loadGlyphProvider } from "@jsesh/glyphs";
+
+const glyphs = await loadGlyphProvider("/jsesh-glyphs/"); // same URL as for configureJSesh
+
+/// The canonical (Gardiner) codes of the signs in an MdC text, in reading order.
+function signs(mdc) {
+  const result = [];
+  const visit = (element) => {
+    if (element instanceof Hieroglyph) result.push(glyphs.canonicalCode(element.code));
+    else element.children.forEach(visit);
+  };
+  visit(parseMdc(mdc)); // throws if the MdC is invalid
+  return result;
+}
+
+/// Is `needle` a run of consecutive signs of `haystack`?
+function contains(haystack, needle) {
+  if (needle.length === 0) return false;
+  for (let i = 0; i + needle.length <= haystack.length; i++) {
+    if (needle.every((code, j) => haystack[i + j] === code)) return true;
+  }
+  return false;
+}
+
+const corpus = [{ id: 1, mdc: "i-w-r:a-C1-m-p*t:pt" }, { id: 2, mdc: "nfr-f:r-A1" }];
+const entries = corpus.map(({ id, mdc }) => ({ id, mdc, signs: signs(mdc) })); // do it once
+
+query.addEventListener("input", () => {
+  try {
+    const wanted = signs(query.value);
+    const found = entries.filter((entry) => contains(entry.signs, wanted));
+    // show `found`, each entry with <jsesh-text>
+  } catch {
+    // the query is not valid MdC (yet)
+  }
+});
+```
+
+Typing `nfr` finds entry 2 (`nfr` is `F35`). Grouping (`:`, `*`) is ignored: this searches for signs in sequence, wherever they are in the quadrats. If quadrats should matter, compare the normalized MdC instead (see *Normalizing*, above).
 
 ### The sign database
 
@@ -756,11 +675,9 @@ db.getPossibilityFor("nfr");      // signs which can be written with this value
 
 `PaletteController` (in `@jsesh/palette`) is a complete use of this database.
 
-### Lower level: the literal syntax tree
+### Going further: the model and the syntax tree
 
-Between the string and the model there is a third representation, the literal **AST** (`parseMdcAst`, `MdcParser`, types in `Ast`). It records what was *written*, without interpreting it. You will rarely need it, unless you are building a tool which must treat the MdC source itself (a syntax checker, a converter...). The model is what you want for everything else.
-
----
+You can also edit the model directly and display the result without going back through MdC, or work on the literal syntax tree (`parseMdcAst`). Both are described in the [customisation guide](customisation.md#working-with-the-model).
 
 ## The glyph data
 
@@ -773,7 +690,7 @@ Between the string and the model there is a third representation, the literal **
 | `fonts/CharisSIL-R.woff` | | The transliteration font (Charis SIL). |
 | `sign-info.json` | 700 kB (130 kB compressed) | The sign database, for palettes and searches only. |
 
-You can serve it yourself, share it between sites (`glyphsUrl`), or use the copy inside the package. To use another font, implement `GlyphProvider` (in `@jsesh/core`).
+You can serve it yourself, share it between sites (`glyphsUrl`), or use the copy inside the package. To use another source of signs, implement `GlyphProvider` (in `@jsesh/core`): see the [customisation guide](customisation.md#using-your-own-signs-or-your-own-data-source).
 
 
 ## Advanced points
@@ -938,9 +855,9 @@ import "@jsesh/palette";                           // defines <jsesh-palette>
 configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
 ```
 
-For Vue, the `@jsesh/vue` package (folder `jsesh-vuejs/`) already wraps the elements as components (`<JSeshText>`, `<JSeshEditor>`, `<JSeshEditorToolbar>`, `<JSeshPalette>`, with `v-model:mdc`), and has a sample application: see its README. What follows explains how it is done, and what to do in other frameworks.
+For Vue, the `@jsesh/vue` package (folder `jsesh-vuejs/`) already wraps the elements as components (`<JSeshText>`, `<JSeshEditor>`, `<JSeshEditorToolbar>`, `<JSeshPalette>`, with `v-model:mdc`), and has a sample application: see [its README](../jsesh-vuejs/README.md). What follows explains how it is done with the elements, and what to do in other frameworks.
 
-There are two ways to use the editor and the palette in a framework: use the **elements** as they are (the simple way, and enough for most uses), or build your own components on the **headless parts** (`EditorSession`, `PaletteController`) when you want to control the markup.
+There are two ways to use the editor and the palette in a framework: use the **elements** as they are (the simple way, and enough for most uses, described here), or build your own components on the **headless parts** (`EditorSession`, `PaletteController`) when you want to control the markup (see the [customisation guide](customisation.md)).
 
 #### With the elements
 
@@ -1000,141 +917,4 @@ function App() {
 
 #### With the headless parts
 
-`EditorSession` and `PaletteController` both have `subscribe(listener)`, which returns a function to stop listening, and a `state` which is the same object until the next change. That is all a framework needs to follow them.
-
-**Vue.** A small composable makes either a `ref`:
-
-```js
-// useExternalState.js
-import { onScopeDispose, shallowRef } from "vue";
-
-export function useExternalState(source) {
-  const state = shallowRef(source.state);
-  onScopeDispose(source.subscribe(() => (state.value = source.state)));
-  return state;
-}
-```
-
-The editor is an `EditorView` on a `div` of your template, created once it is mounted:
-
-```vue
-<script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
-import { EditorSession, EditorView } from "@jsesh/editor";
-import { useExternalState } from "./useExternalState.js";
-
-const surface = ref(null);
-const session = new EditorSession();
-const state = useExternalState(session);
-let view;
-onMounted(() => (view = new EditorView(session, surface.value, { cadratHeight: 36 })));
-onBeforeUnmount(() => view.destroy());
-</script>
-
-<template>
-  <div ref="surface" tabindex="0" style="position: relative; min-height: 4rem; border: 1px solid #888; line-height: 0" />
-  <button :disabled="!state.canUndo" @click="session.undo()">Undo</button>
-  <code>{{ state.mdc }}</code>
-</template>
-```
-
-(Add the CSS for `.caret` and `.selection-box` given in the [editor section](#lower-level-editorsession-and-editorview).) The palette is a list of buttons, and you decide what it looks like:
-
-```vue
-<script setup>
-import { loadSignDatabase } from "@jsesh/glyphs";
-import { PaletteController } from "@jsesh/palette";
-import { useExternalState } from "./useExternalState.js";
-
-const emit = defineEmits(["chosen"]);
-const palette = new PaletteController(await loadSignDatabase("/jsesh-glyphs/"), { initialFamily: "G" });
-const state = useExternalState(palette);
-palette.onSignChosen((code) => emit("chosen", code));
-</script>
-
-<template>
-  <select :value="state.family" @change="palette.setFamily($event.target.value)">
-    <option v-for="o in palette.familyOptions" :key="o.value" :value="o.value">{{ o.label }}</option>
-  </select>
-  <button
-    v-for="code in state.displayed.slice(0, 100)"
-    :key="code"
-    :class="{ selected: code === state.selected }"
-    @click="palette.select(code)"
-    @dblclick="palette.choose(code)"
-  >
-    <jsesh-text cadrat-height="24">{{ code }}</jsesh-text>
-  </button>
-</template>
-```
-
-(`await` at the top level of `<script setup>` makes the component async: wrap it in `<Suspense>`.)
-
-**React.** `useSyncExternalStore` is made for this:
-
-```jsx
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { EditorSession, EditorView } from "@jsesh/editor";
-import { PaletteController } from "@jsesh/palette";
-
-function useExternalState(source) {
-  return useSyncExternalStore(
-    (callback) => source.subscribe(callback),
-    () => source.state,
-  );
-}
-
-function Editor() {
-  const surface = useRef(null);
-  const [session] = useState(() => new EditorSession());
-  const state = useExternalState(session);
-  useEffect(() => {
-    const view = new EditorView(session, surface.current, { cadratHeight: 36 });
-    return () => view.destroy();
-  }, [session]);
-  return (
-    <>
-      <div ref={surface} tabIndex={0} style={{ position: "relative", minHeight: "4rem", border: "1px solid #888", lineHeight: 0 }} />
-      <button disabled={!state.canUndo} onClick={() => session.undo()}>Undo</button>
-      <code>{state.mdc}</code>
-    </>
-  );
-}
-
-function Palette({ database, onChosen }) {
-  const [palette] = useState(() => new PaletteController(database, { initialFamily: "G" }));
-  const state = useExternalState(palette);
-  useEffect(() => palette.onSignChosen(onChosen), [palette, onChosen]);
-  return (
-    <>
-      <select value={state.family} onChange={(e) => palette.setFamily(e.target.value)}>
-        {palette.familyOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-      </select>
-      {state.displayed.slice(0, 100).map((code) => (
-        <button key={code} className={code === state.selected ? "selected" : ""} onClick={() => palette.select(code)} onDoubleClick={() => palette.choose(code)}>
-          <jsesh-text cadrat-height="24">{code}</jsesh-text>
-        </button>
-      ))}
-    </>
-  );
-}
-```
-
-(React's strict mode runs effects twice in development: `EditorView.destroy()` and the function returned by `onSignChosen` make that harmless.)
-
-To keep the editor's text in your own state, subscribe to the session and copy `session.state.mdc`; to insert a chosen sign, call `session.insertSign(code)` (keep the session in your state or in a context, shared by the editor and the palette).
-
-### Building from the sources
-
-The data and the test fixtures are generated from the Java version (`../jseshJsExport`):
-
-```bash
-../gradlew -p .. :jseshJsExport:exportAll   # glyph data, fixtures, and JSesh's pictures of the test texts
-npm install
-npm test            # compares parser, writer and layout with JSesh
-npm run dev         # examples: /vanilla/, /editor/, /palette/, /custom/ and /compare/ (JSesh's pictures next to the port's)
-npm run build       # builds the five packages
-npm run zip         # builds the bundle and the two zip files, in web-dist/
-```
-
-The code follows the Java classes closely, keeping their names, so that both can be compared.
+`EditorSession` and `PaletteController` can also be wrapped as components in your framework, with your own markup. The recipes for Vue and React are in the [customisation guide](customisation.md#headless-parts-in-vue-and-react).

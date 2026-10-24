@@ -1,337 +1,73 @@
-# JSesh for the web
+# JavaScript port of JSesh
 
-A TypeScript port of [JSesh](https://jsesh.qenherkhopeshef.org): hieroglyphic texts written in the
-*Manuel de Codage* (MdC), as JSesh writes it, displayed in web pages exactly as JSesh displays them.
-
-| Package           | Content                 |
-|-------------------|------------             |
-| `@jsesh/core`     | MdC parser, document model, MdC writer, layout and SVG drawing. No DOM needed: it runs in browsers and in Node. |
-| `@jsesh/glyphs`   | JSesh's sign font (sizes, ligature zones, shapes) and sign database (families, values, tags, variants), exported from the Java version, and their loaders. |
-| `@jsesh/elements` | Web Components: `<jsesh-text>`, and `autoRender()` for plain pages. |
-| `@jsesh/editor`   | The hieroglyphic editor: `<jsesh-editor>`, and the pieces under it (`EditorSession`, `EditorView`...). |
-| `@jsesh/palette`  | The sign palette: `<jsesh-palette>`, and the logic under it (`PaletteController`). |
-| `@jsesh/vue` (in `jsesh-vuejs/`) | Vue 3 components (`<JSeshText>`, `<JSeshEditor>`, `<JSeshPalette>`...) over the Web Components, and a sample application. |
-
-## What exists, and what does not
-
-| | Status |
-|---|---|
-| Displaying MdC (`<jsesh-text>`, `autoRender()`, `renderToSvg()`) | **Available**, in the packages above. |
-| Parsing, writing MdC, the document model, layout, sign database | **Available** (`@jsesh/core`, `@jsesh/glyphs`). |
-| A hieroglyphic **editor** (cursor, selection, typing signs) | **Available**: `<jsesh-editor>` (`@jsesh/editor`). |
-| A sign **palette** | **Available**: `<jsesh-palette>` (`@jsesh/palette`). |
-| Building your own editor or palette (Vue, React...) | **Available**: `EditorSession` and `PaletteController` hold the behaviour and have no DOM. |
-| `<jsesh-field>` (single-line field) | **Not written yet.** The name is only planned. |
-
-To let someone type MdC, you use an ordinary text field (see [Letting the user type MdC](#letting-the-user-type-mdc-and-getting-it-back)),
-or `<jsesh-editor>`, with `<jsesh-palette>` to pick signs. Both come at three levels (ready-made element, headless logic,
-geometry helpers): see `Documentation.md`.
-
-## Installing on a web site
-
-A site needs two things: the **code** (`@jsesh/elements`, which brings `@jsesh/core` and `@jsesh/glyphs`), and the
-**glyph data** (the `data` folder of `@jsesh/glyphs`, 38 MB in 6,963 files, see [The glyph data](#the-glyph-data)).
-The code is small; the data is not, and is not bundled with the code, so it can live elsewhere.
-
-The packages are not published on npm yet. There are two ways to use them.
-
-- **Plain pages, no build tool: use the bundle** (`npm run zip`, see below). `jsesh.js` is one self-contained file,
-  imported by its URL: `import { configureJSesh } from "/jsesh/jsesh.js"`.
-- **With a bundler** (Vite, webpack...): build the packages (`npm install && npm run build` here), `npm pack` each
-  package in `packages/`, and install the tarballs in your project. Then `import ... from "@jsesh/elements"` works.
-
-A browser cannot resolve a *bare* name such as `"@jsesh/elements"` by itself: it only understands URLs. Outside a
-bundler, either import the bundle by URL, as above, or declare an
-[import map](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) before your scripts (the
-`editor/` page of the zip does this). So the `from "@jsesh/..."` in the snippets below is for code
-going through a bundler, or Node; in a plain page, replace it with the URL of `jsesh.js`.
-
-### Own data on the same site
-
-1. Copy `packages/glyphs/data` to your site, for instance as `/jsesh-glyphs/`.
-2. Tell the library where it is, once, before the first text is displayed:
+A TypeScript port of [JSesh](https://jsesh.qenherkhopeshef.org): it displays, and lets users edit, hieroglyphic texts written in the *Manuel de Codage* (MdC), in web pages and in Node, drawn exactly as JSesh draws them.
 
 ```html
+<p>Use <jsesh-text>D&&&Y3</jsesh-text> !</p>
+
 <script type="module">
-  import { configureJSesh } from "/jsesh/jsesh.js"; // the bundle; also defines <jsesh-text>
-  configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
+  import { configureJSesh } from "/jsesh/jsesh.js"; // defines <jsesh-text>
+  configureJSesh({ glyphsUrl: "/jsesh/data/" });    // where the glyph data is served
 </script>
 ```
 
-With a bundler, always set `glyphsUrl`: the default location is the `data` folder next to the package's own files,
-which only exists when the package is served as is.
+## What is in it
 
-Visitors only download what they need: `glyph-index.json` (150 kB compressed) and `fonts/CharisSIL-R.woff` once, and the
-shape of each sign actually displayed. Serve the `.json` files compressed.
+| Package | Content |
+| --- | --- |
+| `@jsesh/core` | MdC parser and writer, document model, layout and SVG drawing. No DOM: runs in browsers and in Node. |
+| `@jsesh/glyphs` | JSesh's hieroglyphic font data and sign database (exported from the Java version), and their loaders. |
+| `@jsesh/elements` | The Web Component `<jsesh-text>`, and `autoRender()` for plain pages. |
+| `@jsesh/editor` | The hieroglyphic editor: `<jsesh-editor>`, and the headless `EditorSession` under it. |
+| `@jsesh/palette` | The sign palette: `<jsesh-palette>`, and the headless `PaletteController` under it. |
+| `@jsesh/vue` (in [jsesh-vuejs/](jsesh-vuejs/README.md)) | Vue 3 components over the elements, and a sample application. |
 
-### Data shared by several sites
+Not ported (yet): JSesh's search, the PDF and RTF exports, and `<jsesh-field>`, a single-line editor.
 
-`glyphsUrl` can be an absolute URL, so several sites can use one copy of the data, hosted on any static server
-or CDN:
+## Documentation
 
-```js
-configureJSesh({ glyphsUrl: "https://static.example.org/jsesh-glyphs/0.1.0/" });
-```
+- **[User guide](documentation/user-guide.md)**: installing JSeshJs on a web site, displaying and editing texts, the palette, reading and writing MdC, sharing the glyph data between sites. Start here.
+- **[Customisation guide](documentation/customisation.md)**: changing the style, using your own signs, rendering on a server, taking the pipeline apart, building your own editor or palette (Vue, React...).
+- **[Maintainer guide](documentation/maintainer-guide.md)**: how the code is organised and how it relates to the Java version, testing, releases.
 
-Only the data needs to be shared: each site keeps its own copy of the (small) code, or loads it from the same place.
-Requirements on the data host:
+## Building
 
-- **CORS.** The data is read with `fetch`, and the font is loaded as a web font, and browsers apply CORS to both. The
-  host must answer with `Access-Control-Allow-Origin: *` (or the list of your sites). Without it, nothing is displayed
-  (the browser console shows the blocked request).
-- **Content types and compression**: `.json` as `application/json` and `.ttf` as `font/ttf`, with gzip or brotli.
-- **Caching**: put the data in a versioned folder (`.../0.1.0/`) and serve it with a long `Cache-Control`, so that
-  returning visitors download nothing.
+The packages are not published on npm yet: you build them from the sources, or take the zip file described in the user guide.
 
-A single `<jsesh-text>` can also read other data with its `glyphs-url` attribute.
+You need Node 20.19 or later (22.12 or later), and a JDK for the first step.
 
-### A zip to give to people
+**1. Generate the glyph data and the test fixtures**, from the Java version. They are not stored in git, so a fresh clone does not have them. From the root of the repository:
 
 ```bash
-npm run zip     # needs the glyph data (see Development) and the `zip` command
+./gradlew :jseshJsExport:exportAll
 ```
 
-writes two files in `web-dist/`:
+This writes `packages/glyphs/data/` (about 38 MB: the sign shapes, the sign database, the transliteration font) and `fixtures/generated/` (what the tests compare the port with).
 
-- `jsesh-web-<version>.zip`: `jsesh/jsesh.js` (the five packages in one self-contained module), `jsesh/data/` (the glyph
-  data), a demo `index.html`, the `editor/`, `palette/` and `custom/` examples, and a `README.md` for the recipient;
-- `jsesh-web-<version>-code-only.zip`: the same without `jsesh/data/`, for sites which use a shared copy of the data.
-
-Unzipped on a web server, the demo works as is. Its sources are `bundle/` (the bundle), `web-template/` (demo and README) and
-`scripts/make-web-zip.mjs`; the editor and palette pages are the ones from `examples/`, adapted by the script.
-
-## Displaying texts
-
-```html
-<script type="module">
-  import { configureJSesh } from "@jsesh/elements";
-  // Where the glyph data is served (the `data` folder of @jsesh/glyphs).
-  configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
-</script>
-
-<p>The word <jsesh-text>nfr-f:r</jsesh-text> means "good".</p>
-<jsesh-text cadrat-height="40" direction="rtl">i-w-r:a-C1-m-p*t:pt</jsesh-text>
-```
-
-`<jsesh-text>` takes its text from its `mdc` attribute, or else from its content. The text can be a whole JSesh
-document (`.gly` file): the preferences in its header are then used.
-
-Attributes:
-
-- `cadrat-height`: height of a quadrat, in pixels (by default, 1.5 times the font size);
-- `direction`: `ltr` or `rtl`;
-- `orientation`: `horizontal` or `vertical` (columns);
-- `centered`: center small signs in their quadrat;
-- `justified`: justify lines;
-- `glyphs-url`: glyph data for this text only.
-
-The `jseshStyle` property takes any change to the style (see `JSeshStyle` in `@jsesh/core`): colours, line widths,
-fonts... The element sends a `jsesh-render` event once the text is displayed.
-
-### Without custom elements
-
-`autoRender()` replaces the content of the elements of class `mdc` with pictures (the MdC text is
-kept in their `data-mdc` attribute). Use the `className` option (`autoRender({ className: "hiero" })`) for another
-class, or `selector` for any CSS selector:
-
-```html
-<span class="mdc">i-w-r:a-C1-m-p*t:pt</span>
-<script type="module">
-  import { autoRender } from "@jsesh/elements";
-  autoRender({ observe: true }); // observe: also process elements added later
-</script>
-```
-
-### With Vue or React
-
-Both use custom elements directly once `@jsesh/elements` is imported.
-
-- Vue: the `@jsesh/vue` package (`jsesh-vuejs/`) provides ready-made components and a sample application. Or, with the elements directly: tell the template compiler that `jsesh-*` tags are custom elements
-  (`compilerOptions.isCustomElement: (tag) => tag.startsWith("jsesh-")` in the Vue plugin options), then
-  `<jsesh-text :mdc="text" cadrat-height="30" />`.
-- React 19: `<jsesh-text mdc={text} cadrat-height="30" />`.
-
-The editor and the palette work the same way (`<jsesh-editor :mdc.prop="text" @jsesh-change="text = $event.detail.mdc" />`),
-and can also be rebuilt as framework components on the headless `EditorSession` and `PaletteController`:
-`Documentation.md` has complete Vue and React recipes.
-
-### On a server, or in a script
-
-```ts
-import { readFileSync } from "node:fs";
-import { ApproximateTextMeasurer, renderToSvg } from "@jsesh/core";
-import { GlyphIndexProvider } from "@jsesh/glyphs";
-
-const data = "node_modules/@jsesh/glyphs/data";
-const glyphs = new GlyphIndexProvider(JSON.parse(readFileSync(`${data}/glyph-index.json`, "utf-8")), async (file) =>
-  JSON.parse(readFileSync(`${data}/glyphs/${file}.json`, "utf-8")),
-);
-const svg = await renderToSvg("i-w-r:a-C1-m-p*t:pt", { glyphs, measurer: new ApproximateTextMeasurer(), cadratHeight: 30 });
-```
-
-Without a canvas, Latin text is measured approximately; hieroglyphs are not affected.
-
-### Editing
-
-`layOutInPage` (in `@jsesh/elements`) and `layOutText` (in `@jsesh/core`) also take a model (`HieroglyphicText`).
-The views then refer to its elements: the subviews of the root view are the views of the top items, in order, and
-`view.getSubViewBounds(i)` gives where each one is drawn (in points; multiply by the scale, `cadratHeight` divided by
-`style.geometry.standardSignHeight`, for pixels). `@jsesh/editor` uses this (`itemAreas`, `caretArea`, `positionAt`) to
-place a cursor and a selection, and to find where a click falls; it types as JSesh does (codes completed by `-`, `:`,
-`*` or `&`).
-
-## Letting the user type MdC, and getting it back
-
-There are two ways to do it.
-
-**1. An ordinary text field, with a live preview.** The user types MdC as text (`nfr-f:r`), and the field's value is
-the MdC. This is the simplest, and enough for a search box. `<jsesh-text>` does not throw on an invalid text (a partial one, while
-typing): it sends a `jsesh-error` event, so it can be updated at each keystroke:
-
-```html
-<input id="query" size="40" placeholder="MdC, for instance nfr-f:r" />
-<jsesh-text id="preview" cadrat-height="40"></jsesh-text>
-<script type="module">
-  import { configureJSesh } from "@jsesh/elements";
-  configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
-
-  const query = document.getElementById("query");
-  const preview = document.getElementById("preview");
-  preview.addEventListener("jsesh-error", () => preview.classList.add("invalid"));
-  preview.addEventListener("jsesh-render", () => preview.classList.remove("invalid"));
-  query.addEventListener("input", () => (preview.mdc = query.value)); // query.value is the MdC to use
-</script>
-```
-
-**2. A real hieroglyphic editor.** The user clicks in a box showing the hieroglyphs, with a cursor, and types sign
-codes (completed by `-`, `:`, `*`, `&`), with selection and undo. This is `<jsesh-editor>`; `<jsesh-palette>` lets the
-user pick signs by family, value, tag or shape (see `examples/editor/index.html` for a complete page).
-As in JSesh, typing a value then a space (`i `) inserts the first sign for it; each further space replaces it with the
-next sign with the same value (A1, A26, M2...) or, for a Gardiner code (`a1 `), with its variants (A1, A1A...):
-
-```html
-<jsesh-editor id="editor" cadrat-height="45">nfr-f:r</jsesh-editor>
-<jsesh-palette id="palette"></jsesh-palette>
-<script type="module">
-  import { configureJSesh } from "@jsesh/elements";
-  import "@jsesh/editor";  // defines <jsesh-editor>
-  import "@jsesh/palette"; // defines <jsesh-palette>
-
-  configureJSesh({ glyphsUrl: "/jsesh-glyphs/" });
-  const editor = document.getElementById("editor");
-  editor.addEventListener("jsesh-change", (e) => console.log(e.detail.mdc)); // the MdC, after each change
-  editor.mdc;                       // the MdC currently in the editor; assign to replace it
-  editor.insertSign("A1");          // insert a sign at the cursor
-
-  // A chosen sign goes into the editor, as if typed.
-  document.getElementById("palette").addEventListener("sign-chosen", (e) => {
-    editor.insertSign(e.detail);
-    editor.focus();
-  });
-</script>
-```
-
-To build your own editor or palette, use `EditorSession` / `EditorView` and `PaletteController` (`examples/custom/`),
-and see `Documentation.md`. A custom `EditorSession` proposes only the code itself, unless you set its `possibilities`
-(e.g. to `code => database.getPossibilityListFor(code)`, with the database from `loadSignDatabase` in `@jsesh/glyphs`).
-
-### Example: finding a typed text
-
-JSesh's search (`jseshSearch`) is not ported. Still, MdC is easy to compare once it is *normalized*: `a`,
-`nfr` or `F35` all denote the same sign, and the same sign can be spelled in several ways in the texts. Parse
-the query and the texts, reduce them to the lists of their canonical sign codes, and look for the former in the latter:
-
-```js
-import { Hieroglyph, parseMdc } from "@jsesh/core";
-import { loadGlyphProvider } from "@jsesh/glyphs";
-
-const glyphs = await loadGlyphProvider("/jsesh-glyphs/"); // same URL as for configureJSesh
-
-/// The canonical (Gardiner) codes of the signs in an MdC text, in reading order.
-function signs(mdc) {
-  const result = [];
-  const visit = (element) => {
-    if (element instanceof Hieroglyph) result.push(glyphs.canonicalCode(element.code));
-    else element.children.forEach(visit);
-  };
-  visit(parseMdc(mdc)); // throws if the MdC is invalid
-  return result;
-}
-
-/// Is `needle` a run of consecutive signs of `haystack`?
-function contains(haystack, needle) {
-  if (needle.length === 0) return false;
-  for (let i = 0; i + needle.length <= haystack.length; i++) {
-    if (needle.every((code, j) => haystack[i + j] === code)) return true;
-  }
-  return false;
-}
-
-const corpus = [{ id: 1, mdc: "i-w-r:a-C1-m-p*t:pt" }, { id: 2, mdc: "nfr-f:r-A1" }];
-const entries = corpus.map(({ id, mdc }) => ({ id, mdc, signs: signs(mdc) })); // do it once
-
-query.addEventListener("input", () => {
-  try {
-    const wanted = signs(query.value);
-    const found = entries.filter((entry) => contains(entry.signs, wanted));
-    // show `found`, each entry with <jsesh-text>
-  } catch {
-    // the query is not valid MdC (yet)
-  }
-});
-```
-
-Here, typing `nfr` finds entry 2 (`nfr` is `F35`). Grouping (`:`, `*`) is ignored: this searches for signs in
-sequence, wherever they are in the quadrats. If you want quadrats to matter, compare the normalized MdC instead:
-`toMdc(parseMdc(mdc), { normalize: (code) => glyphs.canonicalCode(code) })` (`toMdc` is in `@jsesh/core`) gives one
-canonical string per text, which can be indexed in a database or compared with `===` or `includes`. The same
-functions run in Node, on the server, with `GlyphIndexProvider` as shown in [On a server](#on-a-server-or-in-a-script)
-(`canonicalCode` only needs `glyph-index.json`, not the shapes).
-
-## The glyph data
-
-`@jsesh/glyphs` reads a folder with:
-
-- `glyph-index.json` (540 kB, 150 kB compressed): the size and ligature zones of each of the 6,963 signs, the
-  phonetic codes and the predefined ligatures. It is loaded once, and lays out texts without other requests;
-- `glyphs/*.json`: one file per sign shape, loaded when the sign is displayed;
-- `fonts/CharisSIL-R.woff`: the transliteration font (Charis SIL);
-- `sign-info.json` (700 kB, 130 kB compressed): the sign database, for palettes only. `loadSignDatabase(url)` reads
-  it as a `SignDatabase`, whose methods are those of JSesh's `HieroglyphDatabase` (`getFamilies()`,
-  `getCodesForFamily(family, includeVariants)`, `getValuesFor(code)`, `getTagsForSign(code)`, `getVariants(code)`,
-  `getSignsContaining(code)`, `getDescriptionFor(code)`, `getPossibilityFor(value)`...).
-
-A site can serve it itself or from a shared host (`glyphsUrl`, see [Installing on a web site](#installing-on-a-web-site)),
-or use the copy in the package. Another font can be used by implementing
-`GlyphProvider` (in `@jsesh/core`).
-
-## Development
-
-The data and the test fixtures are generated from the Java version (`../jseshJsExport`):
+**2. Install, test and build**, in this folder (`jsesh-js/`):
 
 ```bash
-../gradlew -p .. :jseshJsExport:exportAll   # glyph data, fixtures, and JSesh's pictures of the test texts
 npm install
-npm test            # compares parser, writer and layout with JSesh
-npm run dev         # examples: /vanilla/, /editor/, /palette/, /custom/ and /compare/ (JSesh's pictures next to the port's)
-npm run build
-npm run zip         # the bundle and the zip for other sites
+npm test            # compares the parser, writer and layout with what JSesh produces
+npm run build       # builds the packages (and runs the type check)
 ```
 
-The code follows the Java classes closely, keeping their names, so that both can be compared.
-
-### Version number
-
-All the packages (`@jsesh/core`, `glyphs`, `elements`, `editor`, `palette`, `vue`, and the Vue sample) share a single
-version number. The reference is the `"version"` of the root `package.json`; `scripts/set-version.mjs` copies it into
-every workspace package, and into the `@jsesh/*` dependencies they declare on each other. Don't edit these by hand.
+**3. Try it**:
 
 ```bash
-npm run version:set -- 0.2.0   # new version: sets the root, then updates all the packages
-npm install                    # refreshes package-lock.json, which also records the workspace versions
-npm run version:check          # changes nothing; fails if a package differs from the root version
+npm run dev         # examples: a page of texts, the editor, the palette, custom components, and a comparison with JSesh's pictures
 ```
 
-`npm run version:set` with no number only re-synchronises the packages with the current root version (useful after
-adding a package). The zip's name (`jsesh-web-<version>.zip`) uses the same number. The `0.1.0` in the examples of
-`Documentation.md` is just an illustration of a versioned folder name, and isn't updated by the script.
+**4. Make the files to give to others** (needs the `zip` command and the glyph data):
+
+```bash
+npm run zip         # web-dist/jsesh-web-<version>.zip, and a -code-only.zip without the glyph data
+```
+
+The zip files contain the library in one file (`jsesh.js`), the glyph data, a demo page and examples: unzip them on a web server and they work as is.
+
+All the packages share one version number, set with `npm run version:set -- X.Y.Z` (see the [maintainer guide](documentation/maintainer-guide.md#version-numbers)).
+
+## Licence
+
+CeCILL-C. JSesh: <https://jsesh.qenherkhopeshef.org>.

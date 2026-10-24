@@ -49,7 +49,7 @@ no generated sources or codegen step remain for it. The JFlex-generated
 
 ## JavaScript port (`jsesh-js/`)
 
-TypeScript port (npm workspaces; `cd jsesh-js && npm test`, `npm run dev` for the examples). `packages/core` mirrors the Java parser, model, writer, layout (`jsesh.render.layout`, `jsesh.render.view`) and drawing (to SVG), keeping Java names; `packages/glyphs` loads the font data exported from Java; `packages/elements` holds the Web Components. Tests compare the port with fixtures exported by `jseshJsExport` (ASTs, written MdC, view trees). When changing the Java layout or drawing, re-run `./gradlew :jseshJsExport:exportAll` and the JS tests. See `jsesh-js/README.md`.
+TypeScript port (npm workspaces; `cd jsesh-js && npm test`, `npm run dev` for the examples). `packages/core` mirrors the Java parser, model, writer, layout (`jsesh.render.layout`, `jsesh.render.view`) and drawing (to SVG), keeping Java names; `packages/glyphs` loads the font data exported from Java; `packages/elements` holds the Web Components. Tests compare the port with fixtures exported by `jseshJsExport` (ASTs, written MdC, view trees). When changing the Java layout or drawing, re-run `./gradlew :jseshJsExport:exportAll` and the JS tests. See `jsesh-js/README.md` (build), and `jsesh-js/documentation/` (`user-guide.md`, `customisation.md`, and `maintainer-guide.md` for the architecture).
 
 ## Architecture
 
