@@ -21,6 +21,8 @@ import jsesh.document.HieroglyphicTextModel;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.io.mdc.MdcTextHelper;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.Insert;
+import jsesh.model.constants.InsertionDirection;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -122,5 +124,86 @@ class JMDCEditorWorkflowInsertionTest {
         text("D36-t");
         assertFalse(workflow.hasInsertionBeforeCaret());
         assertFalse(workflow.prepareChoiceOfInsertion(ranker));
+    }
+
+    private Insert currentInsert() {
+        return workflow.getSelectedInsertion().insert();
+    }
+
+    @Test
+    void choosingADirectionKeepsTheGroups() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        workflow.prepareChoiceOfInsertion(ranker);
+        Insert before = currentInsert();
+        workflow.selectInsertionDirection(InsertionDirection.BOTTOM_END);
+        Insert after = currentInsert();
+        assertEquals(InsertionDirection.BOTTOM_END, after.getDirection());
+        assertTrue(after.getMain().equalsIgnoreId(before.getMain()));
+        assertEquals(mdc(workflow.getSelectedInsertion()), workflow.getMDCCode());
+    }
+
+    @Test
+    void enlargementOnlyAppliesWhereItHasAnEffect() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        workflow.prepareChoiceOfInsertion(ranker);
+        workflow.selectInsertionDirection(InsertionDirection.TOP_END);
+        workflow.changeInsertionEnlargement(10, 5);
+        assertEquals(10, workflow.getInsertionDw());
+        assertEquals(5, workflow.getInsertionDh());
+        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
+        // dw has no effect from the top: it is not written, but it is kept.
+        workflow.selectInsertionDirection(InsertionDirection.TOP);
+        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=t,dh=5]"), workflow.getMDCCode());
+        workflow.selectInsertionDirection(InsertionDirection.TOP_END);
+        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
+    }
+
+    @Test
+    void enlargementIsNeverNegative() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        workflow.prepareChoiceOfInsertion(ranker);
+        workflow.changeInsertionEnlargement(-5, -5);
+        assertEquals(0, workflow.getInsertionDw());
+        assertEquals(0, workflow.getInsertionDh());
+    }
+
+    @Test
+    void enlargementLeavesASingleStepInTheUndoHistory() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        String grouped = workflow.getMDCCode();
+        workflow.prepareChoiceOfInsertion(ranker);
+        workflow.selectInsertionDirection(InsertionDirection.CENTER);
+        workflow.changeInsertionEnlargement(5, 0);
+        workflow.changeInsertionEnlargement(5, 0);
+        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=c,dw=10]"), workflow.getMDCCode());
+        workflow.undo();
+        assertEquals(grouped, workflow.getMDCCode());
+    }
+
+    @Test
+    void cancellingPutsBackTheOriginal() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        String grouped = workflow.getMDCCode();
+        workflow.prepareChoiceOfInsertion(ranker);
+        workflow.selectInsertionDirection(InsertionDirection.CENTER);
+        workflow.changeInsertionEnlargement(5, 5);
+        workflow.cancelChoiceOfInsertion();
+        assertEquals(grouped, workflow.getMDCCode());
+        workflow.undo();
+        assertEquals("D36-t", workflow.getMDCCode());
+    }
+
+    @Test
+    void anExistingEnlargementIsKept() throws MDCSyntaxError {
+        text("@insert[dir=te,dw=20](D36,t)");
+        assertTrue(workflow.prepareChoiceOfInsertion(ranker));
+        assertEquals(20, workflow.getInsertionDw());
+        assertEquals(InsertionDirection.TOP_END, currentInsert().getDirection());
+        assertEquals(20, currentInsert().getDw());
     }
 }

@@ -7,6 +7,7 @@
  */
 package jsesh.ui.editor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -25,6 +26,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -80,6 +82,13 @@ class ChoicePopup<T> {
         default boolean isDimmed(T item) {
             return false;
         }
+
+        /// Puts back the choice which was in the text when the popup was opened.
+        ///
+        /// @param originalIndex the index of that choice, when the popup was opened.
+        default void cancel(int originalIndex) {
+            select(originalIndex);
+        }
     }
 
     private static final int MAX_COLUMNS = 6;
@@ -92,32 +101,38 @@ class ChoicePopup<T> {
     private final Choices<T> choices;
     private final JWindow window;
     private final JList<T> list;
+    private final JScrollPane scrollPane;
     private final int originalIndex;
     private boolean closed = false;
+    /// True while the list is updated from the choices, which must then not be selected again.
+    private boolean refreshing = false;
 
     /// @param editor the editor which owns the text.
     /// @param choices what to choose from.
     ChoicePopup(JMDCEditor editor, Choices<T> choices) {
+        this(editor, choices, null);
+    }
+
+    /// @param editor the editor which owns the text.
+    /// @param choices what to choose from.
+    /// @param accessory a component shown beside the list, or null. It should not
+    ///     be focusable: the keys are handled by the list.
+    ChoicePopup(JMDCEditor editor, Choices<T> choices, JComponent accessory) {
         this.editor = editor;
         this.choices = choices;
         this.originalIndex = choices.selectedIndex();
 
-        list = new JList<>(new Vector<>(choices.items()));
+        list = new JList<>();
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         list.setBorder(BorderFactory.createEmptyBorder());
         list.setCellRenderer(new ChoiceRenderer());
         applyPopupColors(list);
-        Dimension cellSize = computeCellSize();
-        list.setFixedCellWidth(cellSize.width);
-        list.setFixedCellHeight(cellSize.height);
-        JScrollPane scrollPane = new JScrollPane(list);
-        Dimension gridSize = layoutGrid(cellSize, scrollPane.getVerticalScrollBar().getPreferredSize().width);
-        list.setSelectedIndex(originalIndex);
-        list.ensureIndexIsVisible(originalIndex);
+        scrollPane = new JScrollPane(list);
+        loadChoices();
         // Listen only once the initial selection is in place.
         list.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting() && !closed && list.getSelectedIndex() >= 0) {
+            if (!e.getValueIsAdjusting() && !closed && !refreshing && list.getSelectedIndex() >= 0) {
                 choices.select(list.getSelectedIndex());
             }
         });
@@ -130,17 +145,24 @@ class ChoicePopup<T> {
                 }
             }
         });
-        installKey(list, "ENTER", "accept", () -> close(false));
-        installKey(list, "SPACE", "accept", () -> close(false));
-        installKey(list, "ESCAPE", "cancel", () -> close(true));
+        addKey("ENTER", "accept", () -> close(false));
+        addKey("SPACE", "accept", () -> close(false));
+        addKey("ESCAPE", "cancel", () -> close(true));
 
         window = new JWindow(SwingUtilities.getWindowAncestor(editor));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
         scrollPane.getViewport().setBackground(list.getBackground());
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setPreferredSize(gridSize);
-        window.setContentPane(scrollPane);
+        if (accessory == null) {
+            window.setContentPane(scrollPane);
+        } else {
+            JPanel content = new JPanel(new BorderLayout());
+            content.setBackground(list.getBackground());
+            content.add(scrollPane, BorderLayout.CENTER);
+            content.add(accessory, BorderLayout.EAST);
+            window.setContentPane(content);
+        }
         window.getRootPane().setBorder(popupBorder());
         window.setFocusableWindowState(true);
         window.addWindowFocusListener(new WindowAdapter() {
@@ -150,6 +172,47 @@ class ChoicePopup<T> {
             }
         });
         window.pack();
+    }
+
+    /// Fills the list with the choices, and sizes the grid for them.
+    private void loadChoices() {
+        refreshing = true;
+        try {
+            list.setListData(new Vector<>(choices.items()));
+            Dimension cellSize = computeCellSize();
+            list.setFixedCellWidth(cellSize.width);
+            list.setFixedCellHeight(cellSize.height);
+            scrollPane.setPreferredSize(
+                    layoutGrid(cellSize, scrollPane.getVerticalScrollBar().getPreferredSize().width));
+            int selected = choices.selectedIndex();
+            if (selected >= 0) {
+                list.setSelectedIndex(selected);
+                list.ensureIndexIsVisible(selected);
+            } else {
+                list.clearSelection();
+            }
+        } finally {
+            refreshing = false;
+        }
+    }
+
+    /// Shows the choices again, after they (or the selected one) have changed
+    /// otherwise than through the list.
+    void refresh() {
+        if (closed) {
+            return;
+        }
+        loadChoices();
+        window.pack();
+    }
+
+    /// Binds a key of the popup to an action.
+    ///
+    /// @param keyStroke the key, as accepted by [KeyStroke#getKeyStroke(String)].
+    /// @param name a name for the action, unique in this popup.
+    /// @param action what to do.
+    void addKey(String keyStroke, String name, Runnable action) {
+        installKey(list, keyStroke, name, action);
     }
 
     /// The size of a cell: large enough for the largest possibility.
@@ -243,7 +306,7 @@ class ChoicePopup<T> {
             return;
         }
         if (restore) {
-            choices.select(originalIndex);
+            choices.cancel(originalIndex);
         }
         closed = true;
         window.dispose();

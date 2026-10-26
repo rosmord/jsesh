@@ -59,6 +59,7 @@ import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.WordEndingCode;
@@ -160,14 +161,26 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// added at top level.
     private MDCPosition innerRetryPosition = null;
 
+    /// Largest enlargement of the frame of an insertion's main group, in percent.
+    public static final int MAX_INSERTION_ENLARGEMENT = 200;
+
     /// The choices prepared by [#prepareChoiceOfInsertion(InsertionRanker)].
     private List<InsertionChoice> insertionChoices = Collections.emptyList();
 
-    /// Index of the insertion which was in the text when the choices were prepared.
-    private int originalInsertionIndex = -1;
-
     /// Index of the insertion currently in the text.
     private int selectedInsertionIndex = -1;
+
+    /// The insertion which was in the text when the choices were prepared.
+    private Insert insertionOriginal = null;
+
+    /// Computes the choices again when the enlargement changes.
+    private InsertionRanker insertionRanker = null;
+
+    /// Enlargement of the frame for the choices, in percent (see [Insert#getDw()]).
+    private int insertionDw = 0;
+
+    /// Enlargement of the frame for the choices, in percent (see [Insert#getDh()]).
+    private int insertionDh = 0;
 
     /// True if the original insertion has been replaced (and the replacement can be undone).
     private boolean insertionReplaced = false;
@@ -1422,7 +1435,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// The choices are all the directions with the current main group, and the
     /// directions where the other group fits, if it is used as the main group.
     /// They are available through [#getInsertionChoices()], and
-    /// [#selectInsertion(int)] puts one of them in the text.
+    /// [#selectInsertion(int)] puts one of them in the text. The direction and the
+    /// enlargement of the frame can also be changed directly, with
+    /// [#selectInsertionDirection(InsertionDirection)] and
+    /// [#changeInsertionEnlargement(int, int)].
     ///
     /// @param ranker computes the possible insertions.
     /// @return true if there is an insertion before the cursor.
@@ -1430,26 +1446,23 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         clearSeparator();
         insertionChoices = Collections.emptyList();
+        selectedInsertionIndex = -1;
         Insert current = getInsertionBeforeCaret();
         if (current == null) {
             return false;
         }
-        List<InsertionChoice> choices = buildInsertionChoices(ranker, current.getMain(), current.getInserted(),
-                current.getDw(), current.getDh());
-        int index = 0;
-        while (index < choices.size() && !choices.get(index).insert().equalsIgnoreId(current)) {
-            index++;
-        }
-        if (index == choices.size()) {
-            // Can't happen in principle: the current insertion is one of the choices.
-            return false;
-        }
-        insertionChoices = choices;
-        originalInsertionIndex = index;
-        selectedInsertionIndex = index;
+        insertionRanker = ranker;
+        insertionOriginal = current.deepCopy();
+        insertionDw = current.getDw();
+        insertionDh = current.getDh();
         insertionReplaced = false;
         insertionCaretPosition = caret.getLocalInsertPosition();
-        return true;
+        insertionChoices = buildInsertionChoices(ranker, current.getMain(), current.getInserted(), insertionDw,
+                insertionDh);
+        // The choice may differ from the text by an enlargement which has no effect.
+        selectedInsertionIndex = indexOfInsertionChoice(current.getMain(), current.getInserted(),
+                current.getDirection());
+        return selectedInsertionIndex >= 0;
     }
 
     /// The choices prepared by [#prepareChoiceOfInsertion(InsertionRanker)], best first.
@@ -1464,6 +1477,37 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         return selectedInsertionIndex;
     }
 
+    /// The insertion currently in the text, among [#getInsertionChoices()], or null if there are no choices.
+    public InsertionChoice getSelectedInsertion() {
+        return selectedInsertionIndex < 0 ? null : insertionChoices.get(selectedInsertionIndex);
+    }
+
+    /// The choice with the same groups as the current insertion, and another direction.
+    ///
+    /// @return the choice, or null if there are no choices.
+    public InsertionChoice getInsertionChoice(InsertionDirection direction) {
+        InsertionChoice current = getSelectedInsertion();
+        if (current == null) {
+            return null;
+        }
+        int index = indexOfInsertionChoice(current.insert().getMain(), current.insert().getInserted(), direction);
+        return index < 0 ? null : insertionChoices.get(index);
+    }
+
+    /// The horizontal enlargement of the frame used for the choices, in percent.
+    ///
+    /// For directions where it has no effect, the choices have no enlargement.
+    public int getInsertionDw() {
+        return insertionDw;
+    }
+
+    /// The vertical enlargement of the frame used for the choices, in percent.
+    ///
+    /// For directions where it has no effect, the choices have no enlargement.
+    public int getInsertionDh() {
+        return insertionDh;
+    }
+
     /// Replaces the insertion before the cursor by one of the choices.
     ///
     /// Successive choices replace each other in the undo history: only the last
@@ -1474,17 +1518,75 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (index < 0 || index >= insertionChoices.size() || index == selectedInsertionIndex) {
             return;
         }
+        applyInsertion(insertionChoices.get(index).insert());
+        selectedInsertionIndex = index;
+    }
+
+    /// Changes the direction of the insertion before the cursor, keeping its groups.
+    public void selectInsertionDirection(InsertionDirection direction) {
+        InsertionChoice current = getSelectedInsertion();
+        if (current != null) {
+            selectInsertion(indexOfInsertionChoice(current.insert().getMain(), current.insert().getInserted(),
+                    direction));
+        }
+    }
+
+    /// Changes the enlargement of the frame of the main group.
+    ///
+    /// The choices are computed again, and the insertion before the cursor is
+    /// replaced by the one with the same groups and direction. Enlargements are
+    /// between 0 and [#MAX_INSERTION_ENLARGEMENT].
+    ///
+    /// @param deltaDw change of the horizontal enlargement, in percent.
+    /// @param deltaDh change of the vertical enlargement, in percent.
+    public void changeInsertionEnlargement(int deltaDw, int deltaDh) {
+        InsertionChoice current = getSelectedInsertion();
+        if (current == null) {
+            return;
+        }
+        insertionDw = Math.clamp(insertionDw + deltaDw, 0, MAX_INSERTION_ENLARGEMENT);
+        insertionDh = Math.clamp(insertionDh + deltaDh, 0, MAX_INSERTION_ENLARGEMENT);
+        Insert insert = current.insert();
+        insertionChoices = buildInsertionChoices(insertionRanker, insert.getMain(), insert.getInserted(),
+                insertionDw, insertionDh);
+        int index = indexOfInsertionChoice(insert.getMain(), insert.getInserted(), insert.getDirection());
+        selectedInsertionIndex = -1;
+        selectInsertion(index);
+    }
+
+    /// Puts back the insertion which was in the text when the choices were prepared.
+    public void cancelChoiceOfInsertion() {
+        if (insertionOriginal != null) {
+            applyInsertion(insertionOriginal);
+        }
+        insertionChoices = Collections.emptyList();
+        selectedInsertionIndex = -1;
+    }
+
+    /// Replaces the insertion before the cursor, undoing the previous replacement if any.
+    private void applyInsertion(Insert insert) {
         if (insertionReplaced) {
             hieroglyphicTextModel.undo();
             caret.setLocalInsertPosition(insertionCaretPosition);
             insertionReplaced = false;
         }
-        if (index != originalInsertionIndex) {
+        if (!insert.equalsIgnoreId(insertionOriginal)) {
             insertionReplaced = scope().replaceElementBefore(insertionCaretPosition,
-                    insertionChoices.get(index).insert().deepCopy().buildTopItem());
+                    insert.deepCopy().buildTopItem());
             caret.setLocalInsertPosition(insertionCaretPosition);
         }
-        selectedInsertionIndex = index;
+    }
+
+    /// Index of the choice with the given groups and direction (whatever its enlargement), or -1.
+    private int indexOfInsertionChoice(SubCadrat main, SubCadrat inserted, InsertionDirection direction) {
+        for (int i = 0; i < insertionChoices.size(); i++) {
+            Insert candidate = insertionChoices.get(i).insert();
+            if (candidate.getDirection() == direction && candidate.getMain().equalsIgnoreId(main)
+                    && candidate.getInserted().equalsIgnoreId(inserted)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /// The insertion which is the only content of the item before the cursor, or null.
@@ -1501,7 +1603,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// The ranked ways of inserting one group into the other.
     ///
     /// Keeps all the candidates where `first` is the main group, and those where
-    /// `second` is the main group and something fits.
+    /// `second` is the main group and something fits. The enlargements are only
+    /// kept for the directions where they have an effect.
     private static List<InsertionChoice> buildInsertionChoices(InsertionRanker ranker, SubCadrat first,
             SubCadrat second, int dw, int dh) {
         List<InsertionChoice> result = new ArrayList<>();
@@ -1509,7 +1612,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
             if (!c.swapped() || c.fits()) {
                 SubCadrat main = c.swapped() ? second : first;
                 SubCadrat inserted = c.swapped() ? first : second;
-                Insert insert = new Insert(c.direction(), main.deepCopy(), inserted.deepCopy(), dw, dh);
+                InsertionDirection direction = c.direction();
+                Insert insert = new Insert(direction, main.deepCopy(), inserted.deepCopy(),
+                        direction.usesDw() ? dw : 0, direction.usesDh() ? dh : 0);
                 result.add(new InsertionChoice(insert, c.scale(), c.fits()));
             }
         }

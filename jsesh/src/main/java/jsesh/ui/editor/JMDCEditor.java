@@ -63,6 +63,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.swing.Icon;
+import javax.swing.UIManager;
 import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -86,6 +87,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.io.mdc.MdcTextHelper;
 import jsesh.render.layout.insert.InsertionRanker;
+import jsesh.model.constants.InsertionDirection;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
@@ -981,7 +983,7 @@ public class JMDCEditor extends JPanel {
         InsertionRanker ranker = new InsertionRanker(getRenderContext(), buildTechRenderContext());
         if (workflow.hasInsertionBeforeCaret()) {
             if (isShowing() && workflow.prepareChoiceOfInsertion(ranker)) {
-                new ChoicePopup<>(this, new InsertionChoices()).show(getCursorRectangle());
+                showInsertionPopup();
             } else {
                 getToolkit().beep();
             }
@@ -990,8 +992,84 @@ public class JMDCEditor extends JPanel {
         }
     }
 
+    /// Opens the list of the ways of inserting, with the compass beside it.
+    ///
+    /// The choices must have been prepared in the workflow.
+    @SuppressWarnings("unchecked")
+    private void showInsertionPopup() {
+        boolean rightToLeft = getJSeshStyle().options().textDirection() == TextDirection.RIGHT_TO_LEFT;
+        InsertionChoices choices = new InsertionChoices();
+        Color background = UIManager.getColor("PopupMenu.background");
+        ChoicePopup<InsertionChoice>[] popup = new ChoicePopup[1];
+        InsertionCompass compass = new InsertionCompass(rightToLeft,
+                background != null ? background : getBackground(), new InsertionCompass.Listener() {
+                    @Override
+                    public void directionChosen(InsertionDirection direction) {
+                        workflow.selectInsertionDirection(direction);
+                        popup[0].refresh();
+                        choices.updateCompass();
+                    }
+
+                    @Override
+                    public void enlargementChanged(int deltaDw, int deltaDh) {
+                        workflow.changeInsertionEnlargement(deltaDw, deltaDh);
+                        popup[0].refresh();
+                        choices.updateCompass();
+                    }
+                });
+        choices.compass = compass;
+        choices.updateCompass();
+        popup[0] = new ChoicePopup<>(this, choices, compass);
+        // The keypad layout: 7 8 9 / 4 5 6 / 1 2 3.
+        for (int digit = 1; digit <= 9; digit++) {
+            InsertionDirection direction = compass.directionAt(2 - (digit - 1) / 3, (digit - 1) % 3);
+            Runnable choose = () -> {
+                workflow.selectInsertionDirection(direction);
+                popup[0].refresh();
+                choices.updateCompass();
+            };
+            // On some keyboards (e.g. French), digits are typed with shift.
+            popup[0].addKey("typed " + digit, "direction" + digit, choose);
+            popup[0].addKey("shift typed " + digit, "shiftDirection" + digit, choose);
+            popup[0].addKey("NUMPAD" + digit, "numpadDirection" + digit, choose);
+        }
+        int step = InsertionCompass.STEP;
+        int horizontalStep = rightToLeft ? -step : step;
+        addEnlargementKey(popup[0], choices, "alt RIGHT", horizontalStep, 0);
+        addEnlargementKey(popup[0], choices, "alt LEFT", -horizontalStep, 0);
+        addEnlargementKey(popup[0], choices, "alt UP", 0, step);
+        addEnlargementKey(popup[0], choices, "alt DOWN", 0, -step);
+        popup[0].show(getCursorRectangle());
+    }
+
+    private void addEnlargementKey(ChoicePopup<InsertionChoice> popup, InsertionChoices choices, String key,
+            int deltaDw, int deltaDh) {
+        popup.addKey(key, "enlarge " + key, () -> {
+            InsertionChoice current = workflow.getSelectedInsertion();
+            // As the steppers: no change when the enlargement has no effect.
+            if (current == null || (deltaDw != 0 && !current.insert().getDirection().usesDw())
+                    || (deltaDh != 0 && !current.insert().getDirection().usesDh())) {
+                return;
+            }
+            workflow.changeInsertionEnlargement(deltaDw, deltaDh);
+            popup.refresh();
+            choices.updateCompass();
+        });
+    }
+
     /// The ways of inserting a group, as shown in the popup list.
     private class InsertionChoices implements ChoicePopup.Choices<InsertionChoice> {
+        /// The compass beside the list, kept in sync with the selection.
+        private InsertionCompass compass;
+
+        void updateCompass() {
+            InsertionChoice current = workflow.getSelectedInsertion();
+            if (compass != null && current != null) {
+                compass.update(current.insert().getDirection(), workflow::getInsertionChoice,
+                        workflow.getInsertionDw(), workflow.getInsertionDh());
+            }
+        }
+
         @Override
         public List<InsertionChoice> items() {
             return workflow.getInsertionChoices();
@@ -1005,6 +1083,12 @@ public class JMDCEditor extends JPanel {
         @Override
         public void select(int index) {
             workflow.selectInsertion(index);
+            updateCompass();
+        }
+
+        @Override
+        public void cancel(int originalIndex) {
+            workflow.cancelChoiceOfInsertion();
         }
 
         @Override

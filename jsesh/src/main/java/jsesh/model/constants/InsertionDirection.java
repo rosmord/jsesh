@@ -67,6 +67,23 @@ public enum InsertionDirection {
         return this == TOP || this == TOP_START || this == TOP_END;
     }
 
+    /// Does the horizontal enlargement of the main element's frame (`dw`) have an
+    /// effect for this direction?
+    ///
+    /// It does for insertions with a "start" or "end" side, and for center insertions
+    /// (see [jsesh.render.layout.insert.InsertionFitter#enlargedFrame]).
+    public boolean usesDw() {
+        return isHorizontal() || this == CENTER;
+    }
+
+    /// Does the vertical enlargement of the main element's frame (`dh`) have an
+    /// effect for this direction?
+    ///
+    /// It does for insertions with a "top" or "bottom" side, and for center insertions.
+    public boolean usesDh() {
+        return isVertical() || this == CENTER;
+    }
+
     /// Find the direction corresponding to a code.
     ///
     /// @param code one of "s", "e", "t", "b", "ts", "bs", "te", "be", "c"
