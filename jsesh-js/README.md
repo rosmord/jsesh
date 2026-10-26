@@ -44,6 +44,8 @@ You need Node 20.19 or later (22.12 or later), and a JDK for the first step.
 
 This writes `packages/glyphs/data/` (about 38 MB: the sign shapes, the sign database, the transliteration font) and `fixtures/generated/` (what the tests compare the port with).
 
+It takes time (it renders all the texts from the database!).
+
 **2. Install, test and build**, in this folder (`jsesh-js/`):
 
 ```bash
