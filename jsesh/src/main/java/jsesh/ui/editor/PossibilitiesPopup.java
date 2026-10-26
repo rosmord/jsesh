@@ -105,6 +105,7 @@ class PossibilitiesPopup {
             }
         });
         installKey(list, "ENTER", "accept", () -> close(false));
+        installKey(list, "SPACE", "accept", () -> close(false));
         installKey(list, "ESCAPE", "cancel", () -> close(true));
 
         window = new JWindow(SwingUtilities.getWindowAncestor(editor));

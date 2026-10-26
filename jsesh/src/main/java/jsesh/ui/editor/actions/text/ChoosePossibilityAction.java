@@ -15,7 +15,7 @@ import jsesh.ui.editor.actionsUtils.EditorAction;
 /// Opens a list of the possible signs for the code just typed.
 ///
 /// The space key cycles through the possibilities; this action lets the user
-/// pick one from a list instead.
+/// pick one from a list instead. In the editor, Shift+Space does the same.
 ///
 /// @see JMDCEditor#showPossibilitiesPopup()
 @SuppressWarnings("serial")

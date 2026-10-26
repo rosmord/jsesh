@@ -142,6 +142,13 @@ class MDCEditorKeyManager {
                     editor.showShadingPopup();
                     return;
                 }
+                // Shift+Space: choose among the possible signs, instead of
+                // cycling through them with the plain space key.
+                if (editor.getWorkflow().getMode() == InputMode.HIEROGLYPHS && e.getKeyChar() == ' '
+                        && e.isShiftDown()) {
+                    editor.showPossibilitiesPopup();
+                    return;
+                }
                 editor.getWorkflow().keyTyped(e.getKeyChar());
             }
         }
