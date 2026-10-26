@@ -21,6 +21,7 @@ import jsesh.model.ModelElement;
 import jsesh.model.ModelElementVisitor;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
+import jsesh.model.Insert;
 import jsesh.model.Overwrite;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
@@ -242,6 +243,13 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * @see jsesh.model.ModelElementVisitor#visitOverwrite(jsesh.model.Overwrite)
 	 */
 	public void visitOverwrite(Overwrite o) {
+		// This method intentionnaly left blank.
+	}
+
+	/**
+	 * @see jsesh.model.ModelElementVisitor#visitInsert(jsesh.model.Insert)
+	 */
+	public void visitInsert(Insert insert) {
 		// This method intentionnaly left blank.
 	}
 

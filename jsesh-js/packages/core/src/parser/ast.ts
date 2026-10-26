@@ -24,10 +24,10 @@ export type InsertDirection =
   | "END"
   | "TOP"
   | "BOTTOM"
-  | "START_TOP"
-  | "START_BOTTOM"
-  | "END_TOP"
-  | "END_BOTTOM"
+  | "TOP_START"
+  | "BOTTOM_START"
+  | "TOP_END"
+  | "BOTTOM_END"
   | "CENTER";
 
 export type AstOptionValue =
@@ -109,6 +109,7 @@ export interface AstInsert {
   nodeType: "Insert";
   direction: InsertDirection;
   options: AstOptionList;
+  /** The main element: any group (including another insertion). */
   mainItems: AstBasicItemList;
   insertedItems: AstBasicItemList;
 }

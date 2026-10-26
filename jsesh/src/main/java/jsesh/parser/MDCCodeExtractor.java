@@ -19,6 +19,7 @@ import jsesh.parser.ast.AstDocument;
 import jsesh.parser.ast.AstHBox;
 import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstInnerGroup;
+import jsesh.parser.ast.AstInsert;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstOverwrite;
 import jsesh.parser.ast.AstPhilology;
@@ -114,6 +115,12 @@ public class MDCCodeExtractor {
             if (after != null) {
                 after.accept(this);
             }
+        }
+
+        @Override
+        public void visitInsert(AstInsert node) {
+            node.mainItems().accept(this);
+            node.insertedItems().accept(this);
         }
 
         @Override

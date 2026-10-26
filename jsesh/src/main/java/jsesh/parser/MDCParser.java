@@ -542,8 +542,9 @@ public class MDCParser {
 
     /// An insert.
     /// ```yacc
-    /// insert ::= INSERT optionList '(' basicitems ',' basicitems')'
+    /// insert ::= INSERT optionList '(' basicitems ',' basicitems ')'
     /// ```
+    /// Both elements can be any group, so that insertions can be nested.
     /// 
     private AstInsert parseInsert() throws MDCSyntaxError {
         expect(MdcSymbolCode.INSERT, "insert");

@@ -17,6 +17,7 @@ import jsesh.model.Hieroglyph;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.InnerGroup;
+import jsesh.model.Insert;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
 import jsesh.model.MdcComment;
@@ -35,6 +36,7 @@ import jsesh.model.TopItemState;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
+import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextOrientation;
@@ -229,8 +231,25 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitInsert(AstInsert astInsert) {
-        // Not written yet 
-        throw new UnsupportedOperationException("Not implemented yet");
+        SubCadrat main = new SubCadrat(build(astInsert.mainItems(), BasicItemList.class));
+        SubCadrat inserted = new SubCadrat(build(astInsert.insertedItems(), BasicItemList.class));
+        AstOptionList options = astInsert.options();
+        push(new Insert(toInsertionDirection(astInsert.direction()), main, inserted,
+                options.getInt("dw", 0), options.getInt("dh", 0)));
+    }
+
+    private static InsertionDirection toInsertionDirection(AstInsert.InsertDirection direction) {
+        return switch (direction) {
+            case START -> InsertionDirection.START;
+            case END -> InsertionDirection.END;
+            case TOP -> InsertionDirection.TOP;
+            case BOTTOM -> InsertionDirection.BOTTOM;
+            case TOP_START -> InsertionDirection.TOP_START;
+            case BOTTOM_START -> InsertionDirection.BOTTOM_START;
+            case TOP_END -> InsertionDirection.TOP_END;
+            case BOTTOM_END -> InsertionDirection.BOTTOM_END;
+            case CENTER -> InsertionDirection.CENTER;
+        };
     }
 
     private InnerGroup buildInnerGroup(AstInnerGroup group) {

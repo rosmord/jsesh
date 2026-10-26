@@ -15,6 +15,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
+import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
@@ -27,6 +28,7 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HBox;
 import jsesh.model.HRule;
 import jsesh.model.Hieroglyph;
+import jsesh.model.Insert;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
@@ -45,6 +47,8 @@ import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
+import jsesh.render.layout.insert.InsertionFitter;
+import jsesh.render.layout.insert.ViewSilhouette;
 import jsesh.render.elements.PhilologyHelper;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewIterator;
@@ -517,6 +521,64 @@ public class Layout {
 			// Now, zone1 might for instance have negative coordinates. We correct
 			// this :
 			currentView.fitToSubViews(true);
+		}
+
+		/**
+		 * Layout of an insertion: the inserted group is fitted into the free space of
+		 * the main sign, according to the actual shapes of both.
+		 * <p>
+		 * The fit is computed in <em>drawing</em> coordinates, as the signs are drawn
+		 * (this matters for right-to-left text, where views are mirrored). The sub
+		 * views' positions are then converted to layout coordinates.
+		 */
+		@Override
+		public void visitInsert(Insert insert) {
+			MDCView mainView = currentView.getSubView(0);
+			MDCView insertedView = currentView.getSubView(1);
+			TextDirection direction = currentView.getDirection();
+			boolean rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(direction);
+
+			InsertionDirection insertionDirection = insert.getDirection();
+			InsertionFitter.HorizontalSide horizontal = InsertionFitter.HorizontalSide.CENTER;
+			if (insertionDirection.isHorizontal()) {
+				// "start" is on the right in right-to-left text.
+				horizontal = (insertionDirection.isStart() ^ rightToLeft) ? InsertionFitter.HorizontalSide.LEFT
+						: InsertionFitter.HorizontalSide.RIGHT;
+			}
+			InsertionFitter.VerticalSide vertical = InsertionFitter.VerticalSide.CENTER;
+			if (insertionDirection.isVertical()) {
+				vertical = insertionDirection.isTop() ? InsertionFitter.VerticalSide.TOP
+						: InsertionFitter.VerticalSide.BOTTOM;
+			}
+
+			ViewSilhouette silhouette = new ViewSilhouette(hieroglyphsDrawer, computeScale(), direction);
+			Rectangle2D mainBox = new Rectangle2D.Double(0, 0, mainView.getWidth(), mainView.getHeight());
+			Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedView.getWidth(),
+					insertedView.getHeight());
+			Rectangle2D frame = InsertionFitter.enlargedFrame(mainBox, insertedBox, horizontal, vertical,
+					insert.getDw(), insert.getDh());
+			InsertionFitter.Placement placement = new InsertionFitter().fit(
+					new InsertionFitter.Request(silhouette.silhouette(mainView), frame,
+							silhouette.silhouette(insertedView), insertedBox, horizontal, vertical));
+
+			insertedView.reScale((float) placement.scale());
+			Rectangle2D placed = placement.transform().createTransformedShape(insertedBox).getBounds2D();
+			// The whole group: the (possibly enlarged) frame and the inserted element.
+			Rectangle2D whole = frame.createUnion(placed);
+			float width = (float) whole.getWidth();
+			float height = (float) whole.getHeight();
+			currentView.setWidth(width);
+			currentView.setHeight(height);
+
+			double mainX = mainBox.getX() - whole.getMinX();
+			double insertedX = placed.getMinX() - whole.getMinX();
+			if (rightToLeft) {
+				// Drawing mirrors layout positions across the view's width.
+				mainX = width - mainX - mainView.getWidth();
+				insertedX = width - insertedX - insertedView.getWidth();
+			}
+			mainView.getPosition().setLocation(mainX, mainBox.getY() - whole.getMinY());
+			insertedView.getPosition().setLocation(insertedX, placed.getMinY() - whole.getMinY());
 		}
 
 		@Override

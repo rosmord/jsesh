@@ -30,6 +30,7 @@ public interface ModelElementVisitor {
 	void visitAbsoluteGroup(AbsoluteGroup g);
 	void visitZoneStart(ZoneStart start);
 	void visitComplexLigature(ComplexLigature ligature);
+	void visitInsert(Insert insert);
 	void visitTabbing(Tabbing tabbing);
 	void visitTabbingClear(TabbingClear tabbingClear);
 }

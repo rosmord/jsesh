@@ -7,8 +7,9 @@ import java.util.Map;
 /// Used in particular to cover the possibilities of the Unicode insertion operators.
 /// 
 /// @param direction how the inserted element is placed relative to the main one.
-/// @param main the main element.
-/// @param inserted the element to be inserted.
+/// @param options the other options (`dw`, `dh`, ...); `dir` is not among them.
+/// @param mainItems the main element, which may be a whole group (including another insertion).
+/// @param insertedItems the element to be inserted, which may be a whole group.
 
 public record AstInsert(
     InsertDirection direction, AstOptionList options,
@@ -22,10 +23,10 @@ public record AstInsert(
         END("e"),
         TOP("t"),
         BOTTOM("b"),
-        START_TOP("st"),
-        START_BOTTOM("sb"),
-        END_TOP("et"),
-        END_BOTTOM("eb"),
+        TOP_START("ts"),
+        BOTTOM_START("bs"),
+        TOP_END("te"),
+        BOTTOM_END("be"),
         CENTER("c");
 
         private static final Map<String, InsertDirection> BY_CODE = new HashMap<>();
@@ -49,7 +50,7 @@ public record AstInsert(
 
         /// Find the direction corresponding to a code.
         ///
-        /// @param code one of "s", "e", "t", "b", "st", "sb", "et", "eb", "c"
+        /// @param code one of "s", "e", "t", "b", "ts", "bs", "te", "be", "c"
         /// @return the matching direction, or null if the code is unknown.
         public static InsertDirection fromCode(String code) {
             return BY_CODE.get(code);

@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -38,22 +37,22 @@ import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphBodySize;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.elements.PhilologyHelper;
+import jsesh.render.elements.SignPlacement;
 import jsesh.render.elements.cartouche.CartoucheDrawerHelper;
 import jsesh.render.view.MDCView;
 
-/**
- * The actual element drawer.
- * <p> Defines how actual elements are draw.
- * 
- * <p> TODO: this is a bit clumsy. We use inheritance, were delegation would be better.
- * Plus, this is the only actual implementation of ElementDrawer, so we could merge the two classes. The only problem is how responsabilities should be split.
- * 
- *
- * (c) Serge Rosmorduc
- *
- * @author Serge Rosmorduc
- *
- */
+/// The actual element drawer.
+/// 
+/// Defines how actual elements are draw.
+/// 
+/// TODO: this is a bit clumsy. We use inheritance, were delegation would be better.
+/// 
+/// Plus, this is the only actual implementation of ElementDrawer, so we could merge the two classes. 
+/// The only problem is how responsabilities should be split.
+/// 
+///  (c) Serge Rosmorduc
+///  @author Serge Rosmorduc
+///  
 public class DefaultElementDrawer extends ElementDrawer {
     HieroglyphDrawer hieroglyphsDrawer;
 
@@ -129,7 +128,6 @@ public class DefaultElementDrawer extends ElementDrawer {
      */
     @Override
     public void visitHieroglyph(Hieroglyph h) {
-        JSeshRenderContext renderContext = getRenderContext();
         JSeshStyle jseshStyle = getJSeshStyle();
 
         if (!postfix) {
@@ -241,8 +239,7 @@ public class DefaultElementDrawer extends ElementDrawer {
             // The following line did not work well when sign scaling wasn't
             // done through views.
             // Now, it seems to work.
-            tmpG.transform(new AffineTransform(-1, 0, 0, 1, currentView
-                    .getWidth(), 0));
+            tmpG.transform(SignPlacement.mirror(currentView.getWidth()));
         }
 
         // Actual drawing of the sign.

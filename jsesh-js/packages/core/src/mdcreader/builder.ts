@@ -240,8 +240,15 @@ class AstModelBuilder {
       case "Philology":
         // Only the opening kind is kept, as in Java.
         return new Philology(PHILOLOGY_CODES[g.openingKind], this.buildBasicItemList(g.content));
-      case "Insert":
-        throw new Error("@insert is not supported yet");
+      case "Insert": {
+        // @insert is not laid out by the TypeScript port yet. Until it is, the main and the inserted
+        // elements simply follow each other, and the insertion options are ignored.
+        const content = new BasicItemList();
+        for (const item of [...g.mainItems.items, ...g.insertedItems.items]) {
+          for (const b of this.buildBasicItem(item)) content.addBasicItem(b);
+        }
+        return new SubCadrat(content);
+      }
     }
   }
 

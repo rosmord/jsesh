@@ -47,6 +47,11 @@ abstract public class ItemAdapter implements ModelElementVisitor {
 	final 	public void visitOverwrite(Overwrite o) {}
 
 	/**
+	 * @see jsesh.model.ModelElementVisitor#visitInsert(jsesh.model.Insert)
+	 */
+	final 	public void visitInsert(Insert insert) {}
+
+	/**
 	 * @see jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
 	 */
 	final 	public void visitPhilology(Philology p) {}

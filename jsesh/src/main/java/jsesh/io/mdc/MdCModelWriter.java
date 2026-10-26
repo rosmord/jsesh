@@ -37,6 +37,7 @@ import jsesh.model.ModelElementVisitor;
 import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
 import jsesh.model.OptionsMap;
+import jsesh.model.Insert;
 import jsesh.model.Overwrite;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
@@ -614,6 +615,21 @@ public class MdCModelWriter {
 		public void visitOptionList(OptionsMap list) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public void visitInsert(Insert insert) {
+			write("@insert[dir=" + insert.getDirection().getCode());
+			if (insert.getDw() != 0) {
+				write(",dw=" + insert.getDw());
+			}
+			if (insert.getDh() != 0) {
+				write(",dh=" + insert.getDh());
+			}
+			write("](");
+			insert.getMain().getBasicItemList().accept(this);
+			write(",");
+			insert.getInserted().getBasicItemList().accept(this);
+			write(")");
 		}
 
 		public void visitComplexLigature(ComplexLigature ligature) {

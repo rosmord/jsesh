@@ -70,6 +70,10 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	public void visitComplexLigature(ComplexLigature ligature) {
 		visitDefault(ligature);	
 	}
+
+	public void visitInsert(Insert insert) {
+		visitDefault(insert);
+	}
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitLineBreak(jsesh.model.LineBreak)
 	 */

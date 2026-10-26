@@ -121,6 +121,11 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	public void visitComplexLigature(ComplexLigature ligature) {
 		visitHorizontalListElement(ligature);	
 	}
+
+        @Override
+	public void visitInsert(Insert insert) {
+		visitInnerGroup(insert);
+	}
 	
 	public void visitHorizontalListElement(HorizontalListElement elt) {
 		visitDefault(elt);

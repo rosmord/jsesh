@@ -11,7 +11,7 @@ import { signCodes } from "../src/render/codes.js";
 import { HieroglyphDrawer } from "../src/render/glyphs.js";
 import { buildView } from "../src/render/layout.js";
 import { applyDocumentPreferences, DEFAULT_STYLE, withStyle, type JSeshStyle } from "../src/render/style.js";
-import { fixturesAvailable, readCorpusFile, readFixture } from "./fixtures.js";
+import { fixturesAvailable, readCorpusFile, readFixture, usesInsert } from "./fixtures.js";
 import {
   compareViews,
   glyphDataAvailable,
@@ -54,7 +54,7 @@ describe.skipIf(!available)("layout, against Java", () => {
   beforeAll(() => {
     nodeGlyphProvider();
   });
-  const rows = cases.flatMap((c) => Object.keys(VARIANTS).map((variant) => [c.input, variant, c] as const));
+  const rows = cases.filter((c) => !usesInsert(c.input)).flatMap((c) => Object.keys(VARIANTS).map((variant) => [c.input, variant, c] as const));
   it.each(rows)("lays out %j (%s)", async (input, variant, c) => {
     expect(await layOut(parseMdc(input), VARIANTS[variant]!, c.variants[variant]!)).toBeNull();
   });

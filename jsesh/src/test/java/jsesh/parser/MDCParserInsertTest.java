@@ -51,8 +51,8 @@ public class MDCParserInsertTest {
 
     @Test
     public void testSimpleInsert() throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=st](A1,B1)");
-        assertEquals(InsertDirection.START_TOP, insert.direction());
+        AstInsert insert = parseInsert("@insert[dir=ts](A1,B1)");
+        assertEquals(InsertDirection.TOP_START, insert.direction());
         assertEquals(1, insert.mainItems().items().size());
         assertEquals("A1", signCode(insert.mainItems().items().get(0)));
         assertEquals(1, insert.insertedItems().items().size());
@@ -62,8 +62,8 @@ public class MDCParserInsertTest {
     @ParameterizedTest
     @CsvSource({
         "s, START", "e, END", "t, TOP", "b, BOTTOM",
-        "st, START_TOP", "sb, START_BOTTOM",
-        "et, END_TOP", "eb, END_BOTTOM", "c, CENTER"
+        "ts, TOP_START", "bs, BOTTOM_START",
+        "te, TOP_END", "be, BOTTOM_END", "c, CENTER"
     })
     public void testAllDirections(String code, InsertDirection expected) throws MDCSyntaxError {
         AstInsert insert = parseInsert("@insert[dir=" + code + "](A1,B1)");
@@ -103,6 +103,26 @@ public class MDCParserInsertTest {
     }
 
     @Test
+    public void testMainElementCanBeAGroup() throws MDCSyntaxError {
+        AstInsert insert = parseInsert("@insert[dir=t](A1-B1:C1,D1)");
+        assertEquals(2, insert.mainItems().items().size());
+        assertEquals(1, insert.insertedItems().items().size());
+    }
+
+    @Test
+    public void testInsertionsCanBeNested() throws MDCSyntaxError {
+        AstInsert outer = parseInsert("@insert[dir=te](@insert[dir=bs](t,w),t)");
+        assertEquals(InsertDirection.TOP_END, outer.direction());
+        assertEquals(1, outer.mainItems().items().size());
+        AstCadrat cadrat = (AstCadrat) outer.mainItems().items().get(0);
+        AstInsert inner = (AstInsert) cadrat.hBoxes().get(0).elements().get(0);
+        assertEquals(InsertDirection.BOTTOM_START, inner.direction());
+        assertEquals("t", signCode(inner.mainItems().items().get(0)));
+        assertEquals("w", signCode(inner.insertedItems().items().get(0)));
+        assertEquals("t", signCode(outer.insertedItems().items().get(0)));
+    }
+
+    @Test
     public void testMissingOptionList() {
         assertThrows(MDCSyntaxError.class, () -> parse("@insert(A1,B1)"));
     }
@@ -120,7 +140,7 @@ public class MDCParserInsertTest {
     @Test
     /// Test of a complex insert in a complex context
     public void testInsertInContext() throws MDCSyntaxError {
-        AstDocument document = parse("i-@insert[dir=e](A1-r,B1-k)*t:n-w");  
+        AstDocument document = parse("i-@insert[dir=e](A1,B1-k)*t:n-w");  
         assertNotNull(document);   
     }
 }

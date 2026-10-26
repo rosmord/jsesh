@@ -88,10 +88,10 @@ const INSERT_DIRECTIONS: Record<string, InsertDirection> = {
   e: "END",
   t: "TOP",
   b: "BOTTOM",
-  st: "START_TOP",
-  sb: "START_BOTTOM",
-  et: "END_TOP",
-  eb: "END_BOTTOM",
+  ts: "TOP_START",
+  bs: "BOTTOM_START",
+  te: "TOP_END",
+  be: "BOTTOM_END",
   c: "CENTER",
 };
 
