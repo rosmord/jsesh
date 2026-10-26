@@ -111,6 +111,25 @@ public class Zone {
 		units.add(List.of(view));
 	}
 
+	/// Adds a view kerned with the previous one: they will be moved together
+	/// when the zone is justified.
+	///
+	/// @param view the view to add; it is placed like in [#add(MDCView)].
+	public void addKerned(MDCView view) {
+		if (units.isEmpty()) {
+			add(view);
+			return;
+		}
+		view.getPosition().setLocation(currentPoint.x + view.getDeltaBaseX(),
+				currentPoint.y + view.getDeltaBaseY());
+		zoneArea.add(new Rectangle2D.Double(view.getPosition().x, view
+				.getPosition().y, view.getWidth(), view.getHeight()));
+		views.add(view);
+		List<MDCView> last = new ArrayList<>(units.remove(units.size() - 1));
+		last.add(view);
+		units.add(last);
+	}
+
 	/// Adds a run of views which must stay together (a run of alphabetic
 	/// text). Justification will move them as one unit.
 	///

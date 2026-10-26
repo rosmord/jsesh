@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.model.Hieroglyph;
+import jsesh.model.Kerning;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.platform.graphics.ShapeHelper;
@@ -36,7 +37,7 @@ import jsesh.render.view.MDCView;
 /// - the standard body of signs is always used, even though drawing may select a small body
 ///   depending on the final zoom, which layout can't know;
 /// - views without a known outline (text, unknown signs, shading) count as their box;
-/// - spaces count as nothing.
+/// - spaces and kerning operators count as nothing.
 public final class ViewSilhouette {
 
     private final HieroglyphDrawer hieroglyphDrawer;
@@ -79,6 +80,9 @@ public final class ViewSilhouette {
     }
 
     private void collectLeaf(MDCView view, AffineTransform toRoot, List<Shape> result) {
+        if (view.getModel() instanceof Kerning) {
+            return;
+        }
         if (view.getModel() instanceof Hieroglyph h) {
             switch (h.getType()) {
                 case SymbolCodes.HALFSPACE, SymbolCodes.FULLSPACE:

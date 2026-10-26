@@ -78,6 +78,7 @@ import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
 import jsesh.jhotdraw.constants.AdditionalSymbols;
@@ -97,6 +98,14 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         menus.add(createInsertMenu(app, (JSeshView) v));
                         menus.add(createTextMenu(app, (JSeshView) v));
                         menus.add(createSignMenu(app, (JSeshView) v));
+                }
+        }
+
+        /// The standard "View" menu of the framework (placed after the Edit menu).
+        @Override
+        public void addOtherViewItems(JMenu m, Application app, View v) {
+                if (v instanceof JSeshView view) {
+                        m.add(new JCheckBoxMenuItem(new ToggleKerningMarksAction(app, view)));
                 }
         }
 

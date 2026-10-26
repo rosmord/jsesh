@@ -4,6 +4,10 @@
  */
 package jsesh.model;
 
+import java.util.Optional;
+
+import jsesh.model.constants.KerningAxis;
+
 
 /**
  * <p> A quadrat.
@@ -107,6 +111,31 @@ public class Cadrat
 
 	public boolean isShaded(int cadratPart) {
 		return (cadratPart & shading) != 0;
+	}
+
+	/// If this quadrat only contains kerning operators, the axis of the last one.
+	///
+	/// Such a quadrat is used to kern the quadrats around it, as in `p-@hkern-q`.
+	public Optional<KerningAxis> getKerningAxis() {
+		KerningAxis axis = null;
+		for (int i = 0; i < getNumberOfHBoxes(); i++) {
+			Optional<KerningAxis> a = getHBox(i).getKerningAxis();
+			if (a.isEmpty()) {
+				return Optional.empty();
+			}
+			axis = a.get();
+		}
+		return Optional.ofNullable(axis);
+	}
+
+	/// Does this quadrat contain a kerning operator, at any level of its lines?
+	public boolean containsKerning() {
+		for (int i = 0; i < getNumberOfHBoxes(); i++) {
+			if (getHBox(i).containsKerning()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void accept(ModelElementVisitor v) {

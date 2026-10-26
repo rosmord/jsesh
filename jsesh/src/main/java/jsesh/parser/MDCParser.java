@@ -24,6 +24,7 @@ import static jsesh.parser.lexer.symbols.MdcSymbolCode.EQUAL;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.GRAMMAR;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.HIEROGLYPH;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.IDENTIFIER;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.HKERN;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INSERT;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.INTEGER;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.LIG_AFTER;
@@ -37,6 +38,7 @@ import static jsesh.parser.lexer.symbols.MdcSymbolCode.SENTENCE_END;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.SEPARATOR;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.SHADING;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.STAR;
+import static jsesh.parser.lexer.symbols.MdcSymbolCode.VKERN;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.START_HIEROGLYPHS;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.TEXT;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.TOGGLE;
@@ -64,6 +66,7 @@ import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstInnerGroup;
 import jsesh.parser.ast.AstInsert;
+import jsesh.parser.ast.AstKerning;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
@@ -255,7 +258,7 @@ public class MDCParser {
     private boolean atCadratStart() {
         return atHieroglyphStart() || at(BEGIN_PHIL) || at(LPAREN)
                 || at(BEGIN_CARTOUCHE) || at(BEGIN_OLD_CARTOUCHE) || at(QUADRAT)
-                || at(INSERT);
+                || at(INSERT) || at(HKERN) || at(VKERN);
     }
 
     // ------------------------------------------------------------------
@@ -524,7 +527,7 @@ public class MDCParser {
     ///
     /// ```yacc
     /// innerGroup ::= ligature | hieroglyph | overwrite | philology
-    // | subgroup | absoluteGroup | insert
+    /// | subgroup | absoluteGroup | insert | kerning
     /// ```
     private AstInnerGroup parseInnerGroup() throws MDCSyntaxError {
         if (atHieroglyphStart()) {
@@ -535,6 +538,8 @@ public class MDCParser {
             return parseSubgroup();
         } else if (at(INSERT)) {
             return parseInsert();
+        } else if (at(HKERN) || at(VKERN)) {
+            return parseKerning();
         } else {
             throw error("unexpected or unknown item.");
         }
@@ -566,6 +571,23 @@ public class MDCParser {
         AstBasicItemList insertedItems = parseBasicItems();
         expect(RPAREN, "')'");
         return new AstInsert(direction, options.without("dir"), mainItems, insertedItems);
+    }
+
+    /// A kerning operator.
+    /// ```yacc
+    /// kerning ::= (HKERN | VKERN) optionList?
+    /// ```
+    /// It is parsed as a group, so it can be found in a horizontal list (`p*@hkern*q`),
+    /// alone in a line of a cadrat (`p:@vkern:q`), or alone in a cadrat (`p-@hkern-q`).
+    private AstKerning parseKerning() throws MDCSyntaxError {
+        AstKerning.KerningAxis axis = at(HKERN) ? AstKerning.KerningAxis.HORIZONTAL
+                : AstKerning.KerningAxis.VERTICAL;
+        advance();
+        AstOptionList options = AstOptionList.of();
+        if (at(OPEN_BRACE)) {
+            options = parseOptionList();
+        }
+        return new AstKerning(axis, options);
     }
 
     /**

@@ -51,6 +51,8 @@ abstract public class ItemAdapter implements ModelElementVisitor {
 	 */
 	final 	public void visitInsert(Insert insert) {}
 
+	final 	public void visitKerning(Kerning kerning) {}
+
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitPhilology(jsesh.model.Philology)
 	 */

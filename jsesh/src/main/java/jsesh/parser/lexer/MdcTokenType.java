@@ -43,6 +43,10 @@ enum MdcTokenType {
     QUADRAT,
     /// `"@insert"` 
     INSERT,
+    /// `"@hkern"`
+    HKERN,
+    /// `"@vkern"`
+    VKERN,
     /// `@[a-z]+` generic name for an operator - allows extensions of the language.
     UNKNOW_OPERATOR,
     /// `"+s"` (line 267)

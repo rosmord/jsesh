@@ -10,10 +10,12 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.ScriptCode;
 import jsesh.model.constants.SymbolCodes;
@@ -24,6 +26,7 @@ import jsesh.model.Cartouche;
 import jsesh.model.ComplexLigature;
 import jsesh.model.HRule;
 import jsesh.model.Hieroglyph;
+import jsesh.model.Kerning;
 import jsesh.model.Modifier;
 import jsesh.model.OptionsMap;
 import jsesh.model.PageBreak;
@@ -310,6 +313,37 @@ public class DefaultElementDrawer extends ElementDrawer {
      * jsesh.render.draw.ElementDrawer#visitPageBreak(jsesh.model.
      * PageBreak)
      */
+    /// Kerning operators are invisible, unless kerning marks are shown. The mark,
+    /// `>|<` for `@hkern`, turned for `@vkern`, is centred on the view, which has no size.
+    @Override
+    public void visitKerning(Kerning kerning) {
+        if (!postfix || !isShowKerningMarks()) {
+            return;
+        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        float half = jseshStyle.geometry().maxCadratHeight() / 6f;
+        float tip = half / 2f;
+        // Drawn for @hkern; coordinates are swapped for @vkern.
+        float[][] lines = {
+                { 0, -half, 0, half },
+                { -2 * tip, -tip / 2, -tip / 2, 0 }, { -tip / 2, 0, -2 * tip, tip / 2 },
+                { 2 * tip, -tip / 2, tip / 2, 0 }, { tip / 2, 0, 2 * tip, tip / 2 } };
+        boolean horizontal = kerning.getAxis() == KerningAxis.HORIZONTAL;
+        Path2D.Float mark = new Path2D.Float();
+        for (float[] l : lines) {
+            if (horizontal) {
+                mark.moveTo(l[0], l[1]);
+                mark.lineTo(l[2], l[3]);
+            } else {
+                mark.moveTo(l[1], l[0]);
+                mark.lineTo(l[3], l[2]);
+            }
+        }
+        g.setColor(jseshStyle.painting().cursorColor());
+        g.setStroke(jseshStyle.geometry().fineStroke());
+        g.draw(mark);
+    }
+
     @Override
     public void visitPageBreak(PageBreak b) {        
         if (!postfix) {

@@ -2,6 +2,10 @@
  */
 package jsesh.model;
 
+import java.util.Optional;
+
+import jsesh.model.constants.KerningAxis;
+
 
 /**
  * An horizontal list of elements.
@@ -61,6 +65,33 @@ public class HBox extends EmbeddedModelElement implements InnerEditable {
 
     public void accept(ModelElementVisitor v) {
         v.visitHBox(this);
+    }
+
+    /// If this box only contains kerning operators, the axis of the last one.
+    ///
+    /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:@vkern:q`.
+    public Optional<KerningAxis> getKerningAxis() {
+        if (getNumberOfChildren() == 0) {
+            return Optional.empty();
+        }
+        KerningAxis axis = null;
+        for (int i = 0; i < getNumberOfChildren(); i++) {
+            if (!(getChildAt(i) instanceof Kerning k)) {
+                return Optional.empty();
+            }
+            axis = k.getAxis();
+        }
+        return Optional.of(axis);
+    }
+
+    /// Does this box contain a kerning operator?
+    public boolean containsKerning() {
+        for (int i = 0; i < getNumberOfChildren(); i++) {
+            if (getChildAt(i) instanceof Kerning) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /*

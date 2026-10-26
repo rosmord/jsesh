@@ -7,9 +7,12 @@ package jsesh.render.layout;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.LineBreak;
@@ -17,6 +20,7 @@ import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
+import jsesh.render.layout.insert.Kerner;
 import jsesh.render.view.MDCView;
 
 /**
@@ -56,12 +60,24 @@ public class ColumnLayout extends TopItemLayout {
 
 	private final LayoutAux aux = new LayoutAux();
 
+	private final Kerner kerner;
+
+	/// The elements of the current kerned group (since the last element which was not kerned).
+	private final List<MDCView> kernedGroup = new ArrayList<>();
+
+	/// Is there a `@vkern` operator after the current kerned group?
+	private boolean pendingKerning;
+
+	/// The kerning operators met since the last element; they are moved to the middle of the gap.
+	private final List<MDCView> kerningViews = new ArrayList<>();
+
 	/**
 	 * @param documentView
 	 * @param jseshStyle
 	 */
 	public ColumnLayout(MDCView documentView,
-			JSeshStyle jseshStyle) {
+			JSeshStyle jseshStyle, Kerner kerner) {
+		this.kerner = kerner;
 		this.documentView = documentView;
 		documentArea = new Rectangle2D.Double();
 		insertionPoint = new Point2D.Double();
@@ -92,6 +108,7 @@ public class ColumnLayout extends TopItemLayout {
 	/// aligned with the hieroglyphs' baseline).
 	@Override
 	public void layoutTextRun(TextRun run, List<MDCView> views) {
+		resetKerning();
 		boolean mirrored = !currentTextDirection.isLeftToRight();
 		double height = 0;
 		for (MDCView v : views) {
@@ -144,6 +161,12 @@ public class ColumnLayout extends TopItemLayout {
 				.leftMargin(), 0);
 	}
 
+	private void resetKerning() {
+		kernedGroup.clear();
+		pendingKerning = false;
+		kerningViews.clear();
+	}
+
 	private Zone createNewZone() {
 		Zone z = new Zone(0, 0);
 		z.moveCurrentPoint(0, jseshStyle.geometry().topMargin());
@@ -190,6 +213,7 @@ public class ColumnLayout extends TopItemLayout {
 
 		@Override
 		public void visitLineBreak(LineBreak b) {
+			resetKerning();
 			subView.setHeight(0.1f);
 			subView.setWidth(jseshStyle.geometry().maxCadratWidth());
 			// Add a minimal line break height to the current zone
@@ -245,8 +269,39 @@ public class ColumnLayout extends TopItemLayout {
 
 		@Override
 		public void visitDefault(ModelElement t) {
+			Optional<KerningAxis> kerning = KerningPacker.kerningOf(subView);
+			if (kerning.isPresent()) {
+				// Takes no room. In columns, only @vkern is meaningful.
+				pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.VERTICAL;
+				zone.add(subView);
+				kerningViews.add(subView);
+				return;
+			}
 			// add the new view's bounding box to the current column.
-			zone.add(subView);
+			if (pendingKerning) {
+				// Place the view where it would go, and move it back.
+				subView.getPosition().setLocation(zone.getCurrentPoint().getX() + subView.getDeltaBaseX(),
+						zone.getCurrentPoint().getY() + subView.getDeltaBaseY());
+				double shift = kerner.shift(kernedGroup, subView, KerningAxis.VERTICAL,
+						jseshStyle.geometry().smallSkip());
+				zone.moveCurrentPoint(0, -shift);
+				zone.addKerned(subView);
+			} else {
+				zone.add(subView);
+			}
+			if (!kernedGroup.isEmpty()) {
+				MDCView last = kernedGroup.get(kernedGroup.size() - 1);
+				double middle = (last.getPosition().y + last.getHeight() + subView.getPosition().y) / 2;
+				for (MDCView k : kerningViews) {
+					k.getPosition().y = middle - k.getHeight() / 2;
+				}
+			}
+			kerningViews.clear();
+			if (!pendingKerning) {
+				kernedGroup.clear();
+			}
+			pendingKerning = false;
+			kernedGroup.add(subView);
 			// Compute the position of the following view.
 			// prepare a small skip after v, if necessary
 			// the skip is "integrated" in v,

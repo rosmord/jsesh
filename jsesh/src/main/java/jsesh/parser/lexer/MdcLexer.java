@@ -145,7 +145,9 @@ public final class MdcLexer {
             case ALPHABETIC_TEXT -> emit(MdcSymbolCode.TEXT, parseAlphabeticText(text), text, start);
             case ZONE -> emit(MdcSymbolCode.ZONE, null, text, start);
             case QUADRAT -> emit(MdcSymbolCode.QUADRAT, null, text, start);
-            case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);            
+            case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);
+            case HKERN -> emit(MdcSymbolCode.HKERN, null, text, start);
+            case VKERN -> emit(MdcSymbolCode.VKERN, null, text, start);
             case UNKNOW_OPERATOR -> emit(MdcSymbolCode.UNKNOWN_OPERATOR, null, text, start);
             case START_HIEROGLYPHS -> emit(MdcSymbolCode.START_HIEROGLYPHS, null, text, start);
             case TEXT_SUPER -> emit(MdcSymbolCode.TEXT_SUPER, text.substring(1), text, start);

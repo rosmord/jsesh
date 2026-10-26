@@ -9,6 +9,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
+import jsesh.model.constants.KerningAxis;
+import jsesh.render.layout.insert.Kerner;
+
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.constants.TextDirection;
@@ -88,13 +91,25 @@ public class LineLayout extends TopItemLayout {
 
     private final LineLayoutAux aux = new LineLayoutAux();
 
+    private final Kerner kerner;
+
+    /// The elements of the current kerned group (since the last element which was not kerned).
+    private final List<MDCView> kernedGroup = new ArrayList<>();
+
+    /// Is there an `@hkern` operator after the current kerned group?
+    private boolean pendingKerning;
+
+    /// The kerning operators met since the last element; they are moved to the middle of the gap.
+    private final List<MDCView> kerningViews = new ArrayList<>();
+
     /**
      * @param documentView
      * @param jseshStyle
      */
     public LineLayout(MDCView documentView,
-            JSeshStyle jseshStyle) {
+            JSeshStyle jseshStyle, Kerner kerner) {
         super();
+        this.kerner = kerner;
         this.documentView = documentView;
         documentArea = new Rectangle2D.Double();
         insertionPoint = new Point2D.Double();
@@ -122,6 +137,7 @@ public class LineLayout extends TopItemLayout {
     /// that drawing mirrors them back.
     @Override
     public void layoutTextRun(TextRun run, List<MDCView> views) {
+        resetKerning();
         boolean mirrored = !currentTextDirection.isLeftToRight();
         zone.addRun(views, run.layoutOffsets(mirrored));
         if (run.width() != 0) {
@@ -197,6 +213,12 @@ public class LineLayout extends TopItemLayout {
         documentView.setDirection(currentTextDirection);
         insertionPoint.setLocation(0f, 0f);
         initZoneForPage();
+    }
+
+    private void resetKerning() {
+        kernedGroup.clear();
+        pendingKerning = false;
+        kerningViews.clear();
     }
 
     private void initZoneForPage() {
@@ -290,6 +312,7 @@ public class LineLayout extends TopItemLayout {
          */
         @Override
         public void visitLineBreak(LineBreak b) {
+            resetKerning();
 
             // compute the coordinate of the top-left point for the following
             // line (mesured relatively to the top-left point of the current
@@ -323,6 +346,7 @@ public class LineLayout extends TopItemLayout {
          */
         @Override
         public void visitPageBreak(PageBreak b) {
+            resetKerning();
             double dh = zone.getHeight();
             // flush the current line.
             flushZone();
@@ -362,6 +386,7 @@ public class LineLayout extends TopItemLayout {
          */
         @Override
         public void visitTabStop(TabStop tab) {
+            resetKerning();
             float pos = tab.getStopPos()
                     * jseshStyle.geometry().tabUnitWidth();
             zone.getCurrentPoint().setLocation(pos, 0);
@@ -388,8 +413,38 @@ public class LineLayout extends TopItemLayout {
             if (subView.getWidth() != 0) {
                 dx = subView.getWidth() + jseshStyle.geometry().smallSkip();
             }
-            // nextViewPosition = subView.getNextViewPosition();
-            zone.add(subView);
+            Optional<KerningAxis> kerning = KerningPacker.kerningOf(subView);
+            if (kerning.isPresent()) {
+                // Takes no room. In lines, only @hkern is meaningful.
+                pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.HORIZONTAL;
+                zone.add(subView);
+                kerningViews.add(subView);
+                return;
+            }
+            if (pendingKerning) {
+                // Place the view where it would go, and move it back.
+                subView.getPosition().setLocation(zone.getCurrentPoint().getX() + subView.getDeltaBaseX(),
+                        zone.getCurrentPoint().getY() + subView.getDeltaBaseY());
+                double shift = kerner.shift(kernedGroup, subView, KerningAxis.HORIZONTAL,
+                        jseshStyle.geometry().smallSkip());
+                zone.moveCurrentPoint(-shift, 0);
+                zone.addKerned(subView);
+            } else {
+                zone.add(subView);
+            }
+            if (!kernedGroup.isEmpty()) {
+                MDCView last = kernedGroup.get(kernedGroup.size() - 1);
+                double middle = (last.getPosition().x + last.getWidth() + subView.getPosition().x) / 2;
+                for (MDCView k : kerningViews) {
+                    k.getPosition().x = middle - k.getWidth() / 2;
+                }
+            }
+            kerningViews.clear();
+            if (!pendingKerning) {
+                kernedGroup.clear();
+            }
+            pendingKerning = false;
+            kernedGroup.add(subView);
             zone.moveCurrentPoint(dx, dy);
         }
     }

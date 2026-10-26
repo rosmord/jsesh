@@ -31,6 +31,7 @@ public interface ModelElementVisitor {
 	void visitZoneStart(ZoneStart start);
 	void visitComplexLigature(ComplexLigature ligature);
 	void visitInsert(Insert insert);
+	void visitKerning(Kerning kerning);
 	void visitTabbing(Tabbing tabbing);
 	void visitTabbingClear(TabbingClear tabbingClear);
 }

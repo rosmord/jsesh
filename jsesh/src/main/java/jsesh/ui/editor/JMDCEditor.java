@@ -1032,6 +1032,19 @@ public class JMDCEditor extends JPanel {
 
    
 
+    /// Show kerning operators as marks, as paragraph marks in a word processor.
+    /// Only this editor is concerned: printing and exports never show them.
+    ///
+    /// @param showKerningMarks true to show the marks.
+    public void setShowKerningMarks(boolean showKerningMarks) {
+        drawer.setShowKerningMarks(showKerningMarks);
+        repaint();
+    }
+
+    public boolean isShowKerningMarks() {
+        return drawer.isShowKerningMarks();
+    }
+
     /**
      * Draw quadrat limits for debugging purposes.
      * @param drawLimits true if we want to draw the quadrats limits, false otherwise.

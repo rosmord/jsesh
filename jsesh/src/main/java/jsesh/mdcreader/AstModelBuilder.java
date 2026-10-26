@@ -18,6 +18,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.InnerGroup;
 import jsesh.model.Insert;
+import jsesh.model.Kerning;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
 import jsesh.model.MdcComment;
@@ -37,6 +38,7 @@ import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.InsertionDirection;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextOrientation;
@@ -56,6 +58,9 @@ import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstHorizontalListElement;
 import jsesh.parser.ast.AstInnerGroup;
 import jsesh.parser.ast.AstInsert;
+import jsesh.parser.ast.AstKerning;
+import jsesh.parser.ast.AstOption;
+import jsesh.parser.ast.AstOptionValue;
 import jsesh.parser.ast.AstLigature;
 import jsesh.parser.ast.AstLineBreak;
 import jsesh.parser.ast.AstModifier;
@@ -236,6 +241,33 @@ class AstModelBuilder implements AstVisitor {
         AstOptionList options = astInsert.options();
         push(new Insert(toInsertionDirection(astInsert.direction()), main, inserted,
                 options.getInt("dw", 0), options.getInt("dh", 0)));
+    }
+
+    @Override
+    public void visitKerning(AstKerning astKerning) {
+        KerningAxis axis = switch (astKerning.axis()) {
+            case HORIZONTAL -> KerningAxis.HORIZONTAL;
+            case VERTICAL -> KerningAxis.VERTICAL;
+        };
+        push(new Kerning(axis, optionsText(astKerning.options())));
+    }
+
+    /// The options, written back as they would appear between brackets.
+    private static String optionsText(AstOptionList options) {
+        StringBuilder result = new StringBuilder();
+        for (AstOption option : options.options()) {
+            if (!result.isEmpty()) {
+                result.append(',');
+            }
+            result.append(option.name());
+            switch (option.value()) {
+                case AstOptionValue.Flag f -> {
+                }
+                case AstOptionValue.Text t -> result.append('=').append(t.value());
+                case AstOptionValue.Int i -> result.append('=').append(i.value());
+            }
+        }
+        return result.toString();
     }
 
     private static InsertionDirection toInsertionDirection(AstInsert.InsertDirection direction) {

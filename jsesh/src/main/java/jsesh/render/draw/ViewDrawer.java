@@ -172,6 +172,16 @@ public class ViewDrawer {
         elementDrawer.setShadeAfter(shadeAfter);
     }
 
+    /// Should kerning operators be drawn as marks (as paragraph marks in a word processor)?
+    /// False by default.
+    public void setShowKerningMarks(boolean showKerningMarks) {
+        elementDrawer.setShowKerningMarks(showKerningMarks);
+    }
+
+    public boolean isShowKerningMarks() {
+        return elementDrawer.isShowKerningMarks();
+    }
+
     /**
      * Draws colored rectangle showing the structure of a view for debugging
      * purporses.

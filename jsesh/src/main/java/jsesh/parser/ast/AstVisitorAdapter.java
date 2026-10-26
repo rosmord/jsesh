@@ -154,4 +154,9 @@ public class AstVisitorAdapter implements AstVisitor {
     public void visitInsert(AstInsert astInsert) {
         visitDefault(astInsert);
     }
+
+    @Override
+    public void visitKerning(AstKerning astKerning) {
+        visitDefault(astKerning);
+    }
 }

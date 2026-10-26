@@ -1,11 +1,15 @@
 package jsesh.render.layout;
 
+import java.util.List;
+
 import jsesh.render.style.JSeshStyle;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cadrat;
 import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;
 import jsesh.render.elements.HieroglyphDrawer;
+import jsesh.render.layout.insert.Kerner;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewIterator;
 import jsesh.render.view.ViewSide;
@@ -34,12 +38,14 @@ public class QuadratLayout {
 	private boolean centerSigns;
 	private TextOrientation currentTextOrientation;
 	private HieroglyphDrawer hieroglyphsDrawer;
+	private Kerner kerner;
 
-	public QuadratLayout(JSeshStyle jseshStyle, HieroglyphDrawer hieroglyphsDrawer,
+	public QuadratLayout(JSeshStyle jseshStyle, HieroglyphDrawer hieroglyphsDrawer, Kerner kerner,
 			boolean centerSigns, TextOrientation currentTextOrientation) {
 		super();
 		this.jseshStyle = jseshStyle;
 		this.hieroglyphsDrawer = hieroglyphsDrawer;
+		this.kerner = kerner;
 		this.centerSigns = centerSigns;
 		this.currentTextOrientation = currentTextOrientation;
 	}
@@ -48,6 +54,10 @@ public class QuadratLayout {
 
 	public void layout(MDCView currentView, Cadrat c) {
 		this.currentView = currentView;
+		if (c.getKerningAxis().isPresent()) {
+			layoutKerningOnly(c);
+			return;
+		}
 		ViewIterator i;
 		currentView.setYStretchable(true);
 		currentView.setXStretchable(true);
@@ -96,8 +106,17 @@ public class QuadratLayout {
 
 		boolean wide = c.isWide();
 
+		// Lines made only of kerning operators (as in p:@vkern:q) don't count.
+		int lineCount = 0;
+		for (int k = 0; k < c.getNumberOfHBoxes(); k++) {
+			if (c.getHBox(k).getKerningAxis().isEmpty()) {
+				lineCount++;
+			}
+		}
+		boolean kerningLines = lineCount != c.getNumberOfHBoxes();
+
 		if ((honourMaxWidth)
-				|| (currentView.getNumberOfSubviews() != 1 && !wide)) {
+				|| (lineCount != 1 && !wide)) {
 			i = currentView.iterator();
 			while (i.hasNext()) {
 				i.next().scaleForMaxWidth(maxWidth);
@@ -130,58 +149,78 @@ public class QuadratLayout {
 			fitLoneSignsToColumnWidth(c, width);
 		}
 
-		// CADRAT HEIGHT
-		// A cadrat is a list of horizontal boxes.
-		// Its height is basically the sum of the heights of these boxes.
-		float h = currentView.getSumOfSubViewsHeights();
-		// add the interline spaces
-		h += (currentView.getNumberOfSubviews() - 1)
-				* jseshStyle.geometry().smallSkip();
-
-		// If the cadrat is not high enough, we add some space to set its height
-		// (if it's too large, it will be scaled anyway).
-		// Note :
-		// This should be done in a number of cases :
-		// a) generally in line composition
-
-		if ((honourMaxHeight) && h < jseshStyle.geometry().maxCadratHeight())
-			h = jseshStyle.geometry().maxCadratHeight();
-
-		currentView.setHeight(h);
-
-		// CADRAT WIDTH
-		// We now proceed to the actual cadrat's width (after fixing the
-		// height).
-		// Compute "natural" width
-		float w = currentView.getMaximalWidthOfSubView();
-
-		if (honourMaxWidth && (!embedded) && w < maxWidth) {
-			w = maxWidth;
-		}
-
-		currentView.setWidth(w);
-
-		// We redistribute views.
-		if (currentView.getNumberOfSubviews() > 1) {
-			currentView.distributeFromTopToBottom();
+		if (kerningLines) {
+			layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, maxWidth);
 		} else {
-			if (centerSigns)
-				currentView.centerSubViewsVertically();
-			else
-				currentView.stickSubViewsTo(ViewSide.BOTTOM);
+			// CADRAT HEIGHT
+			// A cadrat is a list of horizontal boxes.
+			// Its height is basically the sum of the heights of these boxes.
+			float h = currentView.getSumOfSubViewsHeights();
+			// add the interline spaces
+			h += (currentView.getNumberOfSubviews() - 1)
+					* jseshStyle.geometry().smallSkip();
+
+			// If the cadrat is not high enough, we add some space to set its height
+			// (if it's too large, it will be scaled anyway).
+			// Note :
+			// This should be done in a number of cases :
+			// a) generally in line composition
+
+			if ((honourMaxHeight) && h < jseshStyle.geometry().maxCadratHeight())
+				h = jseshStyle.geometry().maxCadratHeight();
+
+			currentView.setHeight(h);
+
+			// CADRAT WIDTH
+			// We now proceed to the actual cadrat's width (after fixing the
+			// height).
+			// Compute "natural" width
+			float w = currentView.getMaximalWidthOfSubView();
+
+			if (honourMaxWidth && (!embedded) && w < maxWidth) {
+				w = maxWidth;
+			}
+
+			currentView.setWidth(w);
+
+			// We redistribute views.
+			if (currentView.getNumberOfSubviews() > 1) {
+				currentView.distributeFromTopToBottom();
+			} else {
+				if (centerSigns)
+					currentView.centerSubViewsVertically();
+				else
+					currentView.stickSubViewsTo(ViewSide.BOTTOM);
+			}
+
+			layoutLines(c, w);
 		}
+		// Now, if needed, we scale the cadrat :
+		float h = currentView.getHeight();
+		if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
+			currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
+		}
+	}
 
-		// Ok. Now, we are going to modify the hboxes' views so
-		// that the cadrats are squared.
-		i = currentView.iterator();
-
-		while (i.hasNext()) {
-			MDCView sub = i.next();
+	/// Places the elements of each line of the quadrat, once its width is known.
+	private void layoutLines(Cadrat c, float w) {
+		for (int k = 0; k < currentView.getNumberOfSubviews(); k++) {
+			MDCView sub = currentView.getSubView(k);
 			if (sub.getWidth() < w) {
 				// enlarge the box.
 				sub.setWidth(w);
 			}
-			if (sub.getNumberOfSubviews() == 1) {
+			if (c.getHBox(k).containsKerning()) {
+				// Kerned elements are moved together; vertical positions are already set.
+				KerningPacker packer = packer(KerningAxis.HORIZONTAL);
+				List<List<Integer>> blocks = packer.blocks(sub);
+				if (blocks.size() > 1) {
+					packer.distribute(sub, blocks, sub.getInternalWidth());
+				} else if (!blocks.isEmpty()) {
+					List<Integer> block = blocks.get(0);
+					packer.moveBlockTo(sub, block, (sub.getInternalWidth() - packer.blockLength(sub, block)) / 2);
+				}
+			} else if (sub.getNumberOfSubviews() == 1) {
 				// Currently, we simply center the element.
 				sub.centerSubViewHorizontally();
 			} else {
@@ -190,10 +229,63 @@ public class QuadratLayout {
 				sub.stickSubViewsTo(ViewSide.BOTTOM);
 			}
 		}
-		// Now, if needed, we scale the cadrat :
-		if (honourMaxHeight && h > jseshStyle.geometry().maxCadratHeight()) {
-			currentView.reScale(jseshStyle.geometry().maxCadratHeight() / h);
+	}
+
+	/// Lays out a quadrat with lines made only of kerning operators, as in `p:@vkern:q`.
+	///
+	/// Such lines take no room. A `@vkern` line kerns the lines around it, which then
+	/// move together; they are only known once the content of the lines is placed.
+	private void layoutWithKerningLines(Cadrat c, boolean honourMaxWidth, boolean honourMaxHeight,
+			boolean embedded, float maxWidth) {
+		float w = currentView.getMaximalWidthOfSubView();
+		if (honourMaxWidth && (!embedded) && w < maxWidth) {
+			w = maxWidth;
 		}
+		currentView.setWidth(w);
+		layoutLines(c, w);
+
+		for (MDCView sub : currentView.getSubViews()) {
+			sub.getPosition().x = 0;
+		}
+		KerningPacker packer = packer(KerningAxis.VERTICAL);
+		float h = (float) packer.pack(currentView);
+		if (honourMaxHeight && h < jseshStyle.geometry().maxCadratHeight()) {
+			h = jseshStyle.geometry().maxCadratHeight();
+		}
+		currentView.setHeight(h);
+
+		List<List<Integer>> blocks = packer.blocks(currentView);
+		if (blocks.size() > 1) {
+			packer.distribute(currentView, blocks, currentView.getInternalHeight());
+		} else if (!blocks.isEmpty()) {
+			List<Integer> block = blocks.get(0);
+			double free = currentView.getInternalHeight() - packer.blockLength(currentView, block);
+			packer.moveBlockTo(currentView, block, centerSigns ? free / 2 : free);
+		}
+	}
+
+	/// Lays out a quadrat made only of kerning operators, as in `p-@hkern-q`.
+	///
+	/// It takes no room along the text, but at the top level it gets the size of a quadrat
+	/// across it, so that kerning marks can be drawn in the middle of the line.
+	private void layoutKerningOnly(Cadrat c) {
+		float w = 0, h = 0;
+		if (!c.isEmbedded()) {
+			if (currentTextOrientation.isHorizontal()) {
+				h = jseshStyle.geometry().maxCadratHeight();
+			} else {
+				w = jseshStyle.geometry().maxCadratWidth();
+			}
+		}
+		currentView.setWidth(w);
+		currentView.setHeight(h);
+		for (MDCView sub : currentView.getSubViews()) {
+			sub.getPosition().setLocation(w / 2, h / 2);
+		}
+	}
+
+	private KerningPacker packer(KerningAxis axis) {
+		return new KerningPacker(kerner, axis, jseshStyle.geometry().smallSkip());
 	}
 
 	private void fitLoneSignsToColumnWidth(Cadrat c, float width) {

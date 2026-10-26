@@ -22,6 +22,8 @@ public enum MdcSymbolCode {
     ZONE,
     QUADRAT,
     INSERT,
+    HKERN,
+    VKERN,
     UNKNOWN_OPERATOR,
     START_HIEROGLYPHS,
     TEXT_SUPER,

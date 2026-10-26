@@ -126,6 +126,10 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	public void visitInsert(Insert insert) {
 		visitInnerGroup(insert);
 	}
+
+	public void visitKerning(Kerning kerning) {
+		visitInnerGroup(kerning);
+	}
 	
 	public void visitHorizontalListElement(HorizontalListElement elt) {
 		visitDefault(elt);

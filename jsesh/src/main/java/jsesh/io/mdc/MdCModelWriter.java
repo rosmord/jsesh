@@ -38,6 +38,7 @@ import jsesh.model.Modifier;
 import jsesh.model.ModifiersList;
 import jsesh.model.OptionsMap;
 import jsesh.model.Insert;
+import jsesh.model.Kerning;
 import jsesh.model.Overwrite;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
@@ -630,6 +631,13 @@ public class MdCModelWriter {
 			write(",");
 			insert.getInserted().getBasicItemList().accept(this);
 			write(")");
+		}
+
+		public void visitKerning(Kerning kerning) {
+			write("@" + kerning.getAxis().getCode());
+			if (!kerning.getOptions().isEmpty()) {
+				write("[" + kerning.getOptions() + "]");
+			}
 		}
 
 		public void visitComplexLigature(ComplexLigature ligature) {

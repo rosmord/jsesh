@@ -69,4 +69,6 @@ public interface AstVisitor {
     void visitModifier(AstModifier node);
 
     void visitInsert(AstInsert astInsert);
+
+    void visitKerning(AstKerning astKerning);
 }

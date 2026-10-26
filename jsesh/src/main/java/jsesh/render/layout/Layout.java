@@ -16,6 +16,7 @@ import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
 import jsesh.model.constants.InsertionDirection;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
@@ -29,6 +30,7 @@ import jsesh.model.HBox;
 import jsesh.model.HRule;
 import jsesh.model.Hieroglyph;
 import jsesh.model.Insert;
+import jsesh.model.Kerning;
 import jsesh.model.HorizontalListElement;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
@@ -48,6 +50,7 @@ import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.layout.insert.InsertionFitter;
+import jsesh.render.layout.insert.Kerner;
 import jsesh.render.layout.insert.ViewSilhouette;
 import jsesh.render.elements.PhilologyHelper;
 import jsesh.render.view.MDCView;
@@ -363,12 +366,34 @@ public class Layout {
 			boolean horizontal = jseshStyle.options().textOrientation().equals(TextOrientation.HORIZONTAL);
 			if (!runs.isEmpty()) {
 				layoutWithRuns(runs, horizontal, jseshStyle.geometry().smallSkip());
+			} else if (KerningPacker.hasKerning(currentView)) {
+				layoutKernedList(horizontal);
 			} else if (horizontal) {
 				visitDefault(l);
 			} else {
 				currentView.stackTop(jseshStyle.geometry().smallSkip());
 				currentView.centerSubViewHorizontally();
 			}
+		}
+
+		/// Lays out a list of elements with kerning operators, one after another in the
+		/// text orientation. The result is the same as without them, except for the kerning.
+		private void layoutKernedList(boolean horizontal) {
+			float cross = horizontal ? currentView.getMaximalHeightOfSubView()
+					: currentView.getMaximalWidthOfSubView();
+			for (MDCView sub : currentView.getSubViews()) {
+				sub.resetPos();
+				boolean kerning = KerningPacker.kerningOf(sub).isPresent();
+				if (horizontal) {
+					sub.getPosition().y = kerning ? (cross - sub.getHeight()) / 2 : 0;
+				} else {
+					sub.getPosition().x = (cross - sub.getWidth()) / 2;
+				}
+			}
+			float length = (float) packer(horizontal ? KerningAxis.HORIZONTAL : KerningAxis.VERTICAL)
+					.pack(currentView);
+			currentView.setWidth(horizontal ? length : cross);
+			currentView.setHeight(horizontal ? cross : length);
 		}
 
 		/**
@@ -392,7 +417,7 @@ public class Layout {
 		@Override
 		public void visitCadrat(Cadrat c) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
-			new QuadratLayout(jseshStyle, hieroglyphsDrawer, centerSigns, currentTextOrientation).layout(currentView,
+			new QuadratLayout(jseshStyle, hieroglyphsDrawer, kerner(), centerSigns, currentTextOrientation).layout(currentView,
 					c);
 		}
 
@@ -657,6 +682,23 @@ public class Layout {
 				MDCView subView = iter.next();
 				new ViewVerticalEnlarger().enlarge(subView, h);
 			}
+
+			// With kerning, the horizontal positions are fixed here, as kerned elements
+			// must stay together. Elements are aligned on the bottom line, as in the cadrat.
+			if (b.containsKerning()) {
+				for (MDCView subView : currentView.getSubViews()) {
+					subView.getPosition().y = KerningPacker.kerningOf(subView).isPresent() ? h / 2
+							: h - subView.getHeight();
+				}
+				currentView.setWidth((float) packer(KerningAxis.HORIZONTAL).pack(currentView));
+			}
+		}
+
+		/// Kerning operators take no room: their place only depends on the elements around them.
+		@Override
+		public void visitKerning(Kerning kerning) {
+			currentView.setWidth(0);
+			currentView.setHeight(0);
 		}
 
 		@Override
@@ -954,9 +996,9 @@ public class Layout {
 
 			// using a factory at this point would be overkill.
 			if (currentTextOrientation.equals(TextOrientation.HORIZONTAL)) {
-				topItemLayout = new LineLayout(currentView, jseshStyle);
+				topItemLayout = new LineLayout(currentView, jseshStyle, kerner());
 			} else {
-				topItemLayout = new ColumnLayout(currentView, jseshStyle);
+				topItemLayout = new ColumnLayout(currentView, jseshStyle, kerner());
 			}
 
 			List<TextRun> runs = TextRun.layoutRuns(currentView, jseshStyle.fonts(),
@@ -990,6 +1032,14 @@ public class Layout {
 			topItemLayout.endLayout();
 			currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
 			currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
+		}
+
+		private Kerner kerner() {
+			return new Kerner(hieroglyphsDrawer, computeScale(), currentTextDirection);
+		}
+
+		private KerningPacker packer(KerningAxis axis) {
+			return new KerningPacker(kerner(), axis, renderContext.jseshStyle().geometry().smallSkip());
 		}
 
 		// Weird code, which supposes that the reference font has a scale of 18.0 for A1

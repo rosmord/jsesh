@@ -74,6 +74,10 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	public void visitInsert(Insert insert) {
 		visitDefault(insert);
 	}
+
+	public void visitKerning(Kerning kerning) {
+		visitDefault(kerning);
+	}
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitLineBreak(jsesh.model.LineBreak)
 	 */
