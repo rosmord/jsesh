@@ -21,6 +21,13 @@ import org.qenherkhopeshef.graphics.svg.SVGGraphics2D;
  */
 public class SVGExporter extends AbstractGraphicalExporter {
 
+    /// Height of a cadrat in the exported SVG, in SVG user units.
+    ///
+    /// The default drawing scale makes a cadrat only 18 units high, which is
+    /// too small for most SVG tools (limited coordinate precision, tiny
+    /// default size). We use 1800 instead.
+    public static final double CADRAT_HEIGHT = 1800;
+
     private File exportFile;
 
     private Component frame;
@@ -35,6 +42,9 @@ public class SVGExporter extends AbstractGraphicalExporter {
     @Override
     public void export(ExportData exportData) {
         try {
+            float standardHeight = exportData.getRenderContext().jseshStyle()
+                    .geometry().standardSignHeight();
+            exportData.setScale(CADRAT_HEIGHT / standardHeight);
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, this);
             selectionExporter.setClearBeforeDrawing(false);
