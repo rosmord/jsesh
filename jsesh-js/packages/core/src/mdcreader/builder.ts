@@ -35,6 +35,7 @@ import {
   HorizontalListElement,
   HRule,
   InnerGroup,
+  Insert,
   Ligature,
   LineBreak,
   MdcComment,
@@ -240,15 +241,15 @@ class AstModelBuilder {
       case "Philology":
         // Only the opening kind is kept, as in Java.
         return new Philology(PHILOLOGY_CODES[g.openingKind], this.buildBasicItemList(g.content));
-      case "Insert": {
-        // @insert is not laid out by the TypeScript port yet. Until it is, the main and the inserted
-        // elements simply follow each other, and the insertion options are ignored.
-        const content = new BasicItemList();
-        for (const item of [...g.mainItems.items, ...g.insertedItems.items]) {
-          for (const b of this.buildBasicItem(item)) content.addBasicItem(b);
-        }
-        return new SubCadrat(content);
-      }
+      case "Insert":
+        // The AST's direction names are the model's.
+        return new Insert(
+          g.direction,
+          new SubCadrat(this.buildBasicItemList(g.mainItems)),
+          new SubCadrat(this.buildBasicItemList(g.insertedItems)),
+          optionInt(g.options, "dw", 0),
+          optionInt(g.options, "dh", 0),
+        );
     }
   }
 

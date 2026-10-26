@@ -11,7 +11,7 @@
 ///        ├─ BasicItem: Cadrat, AlphabeticCharacter, MdcComment
 ///        │    Cadrat └─ HBox └─ HorizontalListElement
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
-///        │                        │   Overwrite, SubCadrat, Cartouche, Philology
+///        │                        │   Overwrite, Insert, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
 ///        └─ Superscript, LineBreak, PageBreak, TabStop, Tabbing, TabbingClear, HRule
 /// ```
@@ -26,6 +26,7 @@ import {
   typeForCode,
   type CartouchePart,
   type CartoucheType,
+  type InsertionDirection,
   type ScriptCode,
   type TabbingJustification,
   type TextOrientation,
@@ -53,6 +54,7 @@ export interface ModelElementVisitor<R = void> {
   visitLigature(e: Ligature): R;
   visitAbsoluteGroup(e: AbsoluteGroup): R;
   visitOverwrite(e: Overwrite): R;
+  visitInsert(e: Insert): R;
   visitComplexLigature(e: ComplexLigature): R;
   visitSubCadrat(e: SubCadrat): R;
   visitBasicItemList(e: BasicItemList): R;
@@ -98,6 +100,9 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitOverwrite(e: Overwrite): void {
+    this.visitDefault(e);
+  }
+  visitInsert(e: Insert): void {
     this.visitDefault(e);
   }
   visitComplexLigature(e: ComplexLigature): void {
@@ -891,6 +896,81 @@ export class Overwrite extends InnerGroup {
 
   deepCopy(): Overwrite {
     return new Overwrite(this.first.deepCopy(), this.second.deepCopy());
+  }
+}
+
+/// A group inserted into the free space of a sign, as in `@insert[dir=bs,dw=20](D36,(n:t))`
+/// (`jsesh.model.Insert`).
+///
+/// An `Insert` has two children, both [SubCadrat]s, which may hold any group of signs
+/// (including other insertions): the *main* element and the *inserted* element. The inserted
+/// element is placed, and scaled, at layout time, so that it fits in the free space of the main
+/// element. The main element's frame can be enlarged on the side of the insertion, to leave more
+/// room: `dw` and `dh` are percentages of the inserted element's natural width and height.
+export class Insert extends InnerGroup {
+  private _direction: InsertionDirection;
+  private _dw = 0;
+  private _dh = 0;
+
+  /// @param dw enlargement of the main element's frame, horizontally, in percent of the inserted
+  ///        element's width. Negative values are taken as 0.
+  /// @param dh the same, vertically.
+  constructor(direction: InsertionDirection, main: SubCadrat, inserted: SubCadrat, dw = 0, dh = 0) {
+    super();
+    this._direction = direction;
+    this._dw = Math.max(0, dw);
+    this._dh = Math.max(0, dh);
+    this.addChild(main);
+    this.addChild(inserted);
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitInsert(this);
+  }
+
+  get main(): SubCadrat {
+    return this.getChildAt(0) as SubCadrat;
+  }
+
+  get inserted(): SubCadrat {
+    return this.getChildAt(1) as SubCadrat;
+  }
+
+  get direction(): InsertionDirection {
+    return this._direction;
+  }
+
+  set direction(d: InsertionDirection) {
+    this._direction = d;
+    this.notifyModification();
+  }
+
+  /// Horizontal enlargement of the main element's frame, in percent of the inserted element's width.
+  get dw(): number {
+    return this._dw;
+  }
+
+  set dw(dw: number) {
+    this._dw = Math.max(0, dw);
+    this.notifyModification();
+  }
+
+  /// Vertical enlargement of the main element's frame, in percent of the inserted element's height.
+  get dh(): number {
+    return this._dh;
+  }
+
+  set dh(dh: number) {
+    this._dh = Math.max(0, dh);
+    this.notifyModification();
+  }
+
+  override containsOnlyOneSign(): boolean {
+    return false;
+  }
+
+  deepCopy(): Insert {
+    return new Insert(this._direction, this.main.deepCopy(), this.inserted.deepCopy(), this._dw, this._dh);
   }
 }
 

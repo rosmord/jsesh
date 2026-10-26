@@ -1,6 +1,6 @@
 {
   "name": "@jsesh/elements",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web Components for JSesh: <jsesh-text> (display), and autoRender() for plain pages. Usable with or without a framework (Vue, React...).",
   "type": "module",
   "license": "CECILL-C",
@@ -20,7 +20,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@jsesh/core": "0.2.0",
-    "@jsesh/glyphs": "0.2.0"
+    "@jsesh/core": "0.3.0",
+    "@jsesh/glyphs": "0.3.0"
   }
 }

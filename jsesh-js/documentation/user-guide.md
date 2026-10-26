@@ -18,6 +18,7 @@ You don't need to know much of MdC to follow this documentation. A text is a str
 | `p:t` | `p` above `t` | `:` stacks two signs vertically in one quadrat. |
 | `f*t` | `f` next to `t` | `*` puts two signs side by side in one quadrat. |
 | `a&b` | `a` and `b` as a ligature | `&` makes a ligature. |
+| `@insert[dir=bs](D36,n:t)` | `n:t` tucked into the free space of `D36` | `@insert` fits a group inside the free space of a sign, whatever its shape. `dir` says where: `s`, `e` (start, end), `t`, `b` (top, bottom), `ts`, `bs`, `te`, `be` (corners) or `c` (center). `dw` and `dh` make room, in percent of the inserted group. |
 | `!` | new line | |
 
 So `i-w-r:a-C1-m-p*t:pt` is a whole phrase. The rest of the documentation simply passes such strings around: you give them to JSeshJs, and it draws them.

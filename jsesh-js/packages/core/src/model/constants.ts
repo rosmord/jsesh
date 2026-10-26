@@ -195,3 +195,52 @@ export function closeCodeForPhilology(type: number): string | undefined {
     [SymbolCodes.SCRIBEADDITION]: "']",
   }[type];
 }
+
+/// Where an inserted element is placed relative to the main element of an insertion
+/// (`jsesh.model.constants.InsertionDirection`).
+///
+/// Directions are given relative to the writing direction: "start" and "end" are the left and
+/// right sides in left-to-right text, and the opposite in right-to-left text.
+export type InsertionDirection =
+  | "START"
+  | "END"
+  | "TOP"
+  | "BOTTOM"
+  | "TOP_START"
+  | "BOTTOM_START"
+  | "TOP_END"
+  | "BOTTOM_END"
+  | "CENTER";
+
+/// The short code of each direction, as in the `dir` option of `@insert`.
+export const INSERTION_DIRECTION_CODES: Record<InsertionDirection, string> = {
+  START: "s",
+  END: "e",
+  TOP: "t",
+  BOTTOM: "b",
+  TOP_START: "ts",
+  BOTTOM_START: "bs",
+  TOP_END: "te",
+  BOTTOM_END: "be",
+  CENTER: "c",
+};
+
+/// Does this direction have a "start" or "end" component?
+export function isHorizontalInsertion(d: InsertionDirection): boolean {
+  return d !== "TOP" && d !== "BOTTOM" && d !== "CENTER";
+}
+
+/// Does this direction have a "top" or "bottom" component?
+export function isVerticalInsertion(d: InsertionDirection): boolean {
+  return d !== "START" && d !== "END" && d !== "CENTER";
+}
+
+/// Is the inserted element on the start side? Only meaningful if [isHorizontalInsertion].
+export function isStartInsertion(d: InsertionDirection): boolean {
+  return d === "START" || d === "TOP_START" || d === "BOTTOM_START";
+}
+
+/// Is the inserted element on the top side? Only meaningful if [isVerticalInsertion].
+export function isTopInsertion(d: InsertionDirection): boolean {
+  return d === "TOP" || d === "TOP_START" || d === "TOP_END";
+}

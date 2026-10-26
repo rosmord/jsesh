@@ -1,6 +1,6 @@
 {
   "name": "@jsesh/palette",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "JSesh sign palette: a <jsesh-palette> Web Component, and the headless PaletteController under it, for custom or framework-specific palettes.",
   "type": "module",
   "license": "CECILL-C",
@@ -20,8 +20,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@jsesh/core": "0.2.0",
-    "@jsesh/elements": "0.2.0",
-    "@jsesh/glyphs": "0.2.0"
+    "@jsesh/core": "0.3.0",
+    "@jsesh/elements": "0.3.0",
+    "@jsesh/glyphs": "0.3.0"
   }
 }

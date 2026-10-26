@@ -48,8 +48,23 @@ export class Rect {
     return this.y + this.height;
   }
 
+  get centerX(): number {
+    return this.x + this.width / 2;
+  }
+
+  get centerY(): number {
+    return this.y + this.height / 2;
+  }
+
   isEmpty(): boolean {
     return this.width <= 0 || this.height <= 0;
+  }
+
+  /// The smallest rectangle containing this one and `r` (`Rectangle2D.createUnion`).
+  union(r: Rect): Rect {
+    const x1 = Math.min(this.minX, r.minX);
+    const y1 = Math.min(this.minY, r.minY);
+    return new Rect(x1, y1, Math.max(this.maxX, r.maxX) - x1, Math.max(this.maxY, r.maxY) - y1);
   }
 
   clone(): Rect {

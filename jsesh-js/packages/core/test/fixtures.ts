@@ -16,12 +16,6 @@ export const corpusDir = join(here, "../../../../jsesh-texts/src/main/assets/jse
 
 export const fixturesAvailable = existsSync(join(generatedDir, "parser-cases.json"));
 
-/// `@insert` is parsed, but not laid out nor written back by the TypeScript port yet (the builder
-/// just places its two elements one after the other). Java fixtures for it are not comparable.
-export function usesInsert(mdc: string): boolean {
-  return mdc.includes("@insert");
-}
-
 export function readFixture<T>(relativePath: string): T {
   return JSON.parse(readFileSync(join(generatedDir, relativePath), "utf-8")) as T;
 }

@@ -31,6 +31,28 @@ export function parsePath(d: string): PathSegment[] {
 /// `y' = b x + d y + f` (as in SVG).
 export type Matrix = [number, number, number, number, number, number];
 
+export const IDENTITY: Matrix = [1, 0, 0, 1, 0, 0];
+
+export function translation(x: number, y: number): Matrix {
+  return [1, 0, 0, 1, x, y];
+}
+
+export function scaling(sx: number, sy: number): Matrix {
+  return [sx, 0, 0, sy, 0, 0];
+}
+
+/// The transform which applies `n` first, then `m` (`m.concatenate(n)` in Java2D).
+export function concatenate(m: Matrix, n: Matrix): Matrix {
+  return [
+    m[0] * n[0] + m[2] * n[1],
+    m[1] * n[0] + m[3] * n[1],
+    m[0] * n[2] + m[2] * n[3],
+    m[1] * n[2] + m[3] * n[3],
+    m[0] * n[4] + m[2] * n[5] + m[4],
+    m[1] * n[4] + m[3] * n[5] + m[5],
+  ];
+}
+
 export function rotation(degrees: number): Matrix {
   const r = (degrees * Math.PI) / 180;
   const cos = Math.cos(r);

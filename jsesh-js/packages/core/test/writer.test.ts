@@ -14,10 +14,9 @@ import {
   readFixture,
   type CorpusCase,
   type ParserCase,
-  usesInsert,
 } from "./fixtures.js";
 
-const cases: ParserCase[] = fixturesAvailable ? readFixture<ParserCase[]>("parser-cases.json").filter((c) => !usesInsert(c.input)) : [];
+const cases: ParserCase[] = fixturesAvailable ? readFixture("parser-cases.json") : [];
 const corpus: string[] = fixturesAvailable ? readFixture("corpus/index.json") : [];
 
 describe.skipIf(!fixturesAvailable)("model and writer, against Java", () => {

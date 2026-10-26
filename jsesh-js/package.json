@@ -1,6 +1,6 @@
 {
   "name": "jsesh-js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "JavaScript/TypeScript port of JSesh: display, palette and editing of hieroglyphic texts (Manuel de Codage).",
   "author": "Serge Rosmorduc",

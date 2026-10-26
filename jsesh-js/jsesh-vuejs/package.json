@@ -1,6 +1,6 @@
 {
   "name": "@jsesh/vue",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Vue 3 components for JSesh: <JSeshText>, <JSeshEditor>, <JSeshEditorToolbar> and <JSeshPalette>, built on the JSesh Web Components.",
   "type": "module",
   "license": "CECILL-C",
@@ -21,11 +21,11 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@jsesh/core": "0.2.0",
-    "@jsesh/editor": "0.2.0",
-    "@jsesh/elements": "0.2.0",
-    "@jsesh/glyphs": "0.2.0",
-    "@jsesh/palette": "0.2.0"
+    "@jsesh/core": "0.3.0",
+    "@jsesh/editor": "0.3.0",
+    "@jsesh/elements": "0.3.0",
+    "@jsesh/glyphs": "0.3.0",
+    "@jsesh/palette": "0.3.0"
   },
   "peerDependencies": {
     "vue": "^3.5.0"

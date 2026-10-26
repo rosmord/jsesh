@@ -11,7 +11,7 @@
 /// compared view by view. `Math.fround` marks Java `float` computations.
 
 import type { TextDirection, TextOrientation } from "../model/constants.js";
-import { SymbolCodes } from "../model/constants.js";
+import { isHorizontalInsertion, isStartInsertion, isTopInsertion, isVerticalInsertion, SymbolCodes } from "../model/constants.js";
 import {
   AbsoluteGroup,
   AlphabeticCharacter,
@@ -25,6 +25,7 @@ import {
   type HieroglyphicText,
   type Hieroglyph,
   type HRule,
+  type Insert,
   type Ligature,
   type LineBreak,
   type MdcComment,
@@ -39,6 +40,14 @@ import {
   type TabStop,
 } from "../model/model.js";
 import { HieroglyphDrawer, scaleZone, type LigatureZone } from "./glyphs.js";
+import {
+  enlargedFrame,
+  fitInsertion,
+  placedBox,
+  type HorizontalSide,
+  type VerticalSide,
+} from "./insert/insertion-fitter.js";
+import { ViewSilhouette } from "./insert/view-silhouette.js";
 import {
   computeCartouchePartLength,
   computeCartoucheSecondaryLength,
@@ -503,6 +512,58 @@ class LayoutAux extends ModelElementAdapter {
   override visitHRule(_h: HRule): void {
     this.l.v.width = this.l.s.geometry.textWidth;
     this.l.v.height = this.l.s.geometry.wideLineWidth;
+  }
+
+  /// Layout of an insertion: the inserted group is fitted into the free space of the main sign,
+  /// according to the actual shapes of both.
+  ///
+  /// The fit is computed in *drawing* coordinates, as the signs are drawn (this matters for
+  /// right-to-left text, where views are mirrored). The sub views' positions are then converted to
+  /// layout coordinates.
+  override visitInsert(insert: Insert): void {
+    const v = this.l.v;
+    const mainView = v.getSubView(0);
+    const insertedView = v.getSubView(1);
+    const rightToLeft = v.direction === "RIGHT_TO_LEFT";
+
+    const direction = insert.direction;
+    let horizontal: HorizontalSide = "CENTER";
+    if (isHorizontalInsertion(direction)) {
+      // "start" is on the right in right-to-left text.
+      horizontal = isStartInsertion(direction) !== rightToLeft ? "LEFT" : "RIGHT";
+    }
+    let vertical: VerticalSide = "CENTER";
+    if (isVerticalInsertion(direction)) vertical = isTopInsertion(direction) ? "TOP" : "BOTTOM";
+
+    const silhouette = new ViewSilhouette(this.l.drawer, this.l.computeScale(), v.direction);
+    const mainBox = new Rect(0, 0, mainView.width, mainView.height);
+    const insertedBox = new Rect(0, 0, insertedView.width, insertedView.height);
+    const frame = enlargedFrame(mainBox, insertedBox, horizontal, vertical, insert.dw, insert.dh);
+    const placement = fitInsertion({
+      target: silhouette.silhouette(mainView),
+      frame,
+      inserted: silhouette.silhouette(insertedView),
+      insertedBox,
+      horizontal,
+      vertical,
+    });
+
+    insertedView.reScale(placement.scale);
+    const placed = placedBox(placement, insertedBox);
+    // The whole group: the (possibly enlarged) frame and the inserted element.
+    const whole = frame.union(placed);
+    v.width = whole.width;
+    v.height = whole.height;
+
+    let mainX = mainBox.x - whole.minX;
+    let insertedX = placed.minX - whole.minX;
+    if (rightToLeft) {
+      // Drawing mirrors layout positions across the view's width.
+      mainX = v.width - mainX - mainView.width;
+      insertedX = v.width - insertedX - insertedView.width;
+    }
+    mainView.position = { x: mainX, y: mainBox.y - whole.minY };
+    insertedView.position = { x: insertedX, y: placed.minY - whole.minY };
   }
 
   override visitLigature(l: Ligature): void {

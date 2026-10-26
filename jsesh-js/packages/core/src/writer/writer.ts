@@ -9,6 +9,7 @@
 import {
   cartoucheTypeCode,
   closeCodeForPhilology,
+  INSERTION_DIRECTION_CODES,
   openCodeForPhilology,
   shadingToString,
 } from "../model/constants.js";
@@ -26,6 +27,7 @@ import {
   type HieroglyphicText,
   type Hieroglyph,
   type HRule,
+  type Insert,
   type Ligature,
   type MdcComment,
   type ModelElement,
@@ -179,6 +181,17 @@ class ModelWriter implements ModelElementVisitor<void> {
 
   visitModifiersList(l: ModifiersList): void {
     for (const m of l.modifiers) this.visitModifier(m);
+  }
+
+  visitInsert(insert: Insert): void {
+    this.write("@insert[dir=" + INSERTION_DIRECTION_CODES[insert.direction]);
+    if (insert.dw !== 0) this.write(",dw=" + insert.dw);
+    if (insert.dh !== 0) this.write(",dh=" + insert.dh);
+    this.write("](");
+    insert.main.basicItemList.accept(this);
+    this.write(",");
+    insert.inserted.basicItemList.accept(this);
+    this.write(")");
   }
 
   visitOverwrite(o: Overwrite): void {

@@ -101,6 +101,7 @@ flowchart LR
 | `writer/writer.ts` | Writes a model back as MdC (`toMdc`). | `jsesh.io.mdc.MdCModelWriter` |
 | `document/` | Whole `.gly` documents: header, preferences. | `jsesh.io.document`, `DocumentPreferences` |
 | `render/layout.ts` | Computes sizes and positions: `buildView`. About 1,100 lines, the heart of the port. | `jsesh.render.layout.*`, `ViewBuilder` |
+| `render/insert/` | `@insert`: `ShapeMask` (a coarse raster of outlines), `InsertionFitter` (where, and how large, the inserted group goes) and `ViewSilhouette` (the outlines of a laid-out view). The layout calls them in `visitInsert`. Raster, scales and candidate positions are the same as Java's, so the results match. | `jsesh.render.layout.insert.*` |
 | `render/view.ts` | The view tree, `MDCView`, `Rect`. | `jsesh.render.view.MDCView` |
 | `render/glyphs.ts` | `GlyphProvider` and `HieroglyphDrawer`: sizes, zones, shapes. | `jsesh.render.elements.HieroglyphDrawer` |
 | `render/text.ts`, `measurers.ts` | Alphabetic text: `TextMeasurer`, runs, transliteration. | `jsesh.render.layout.TextRun`, … |
@@ -274,6 +275,7 @@ npm test
 | `core/test/parser.test.ts` | For each snippet, the lexer's symbols and the AST; for each corpus file, the AST: equal to what Java produced. |
 | `core/test/writer.test.ts` | For each snippet and corpus file, the model written back as MdC against what Java writes (and the header preferences of the documents). |
 | `core/test/layout.test.ts` | The view tree against Java's, view by view (position, size, scale), for snippets in six styles (default, right to left, columns, columns right to left, centred, justified), and for the whole corpus. |
+| `core/test/insert.test.ts` | `@insert`: model and writer round trip, `ShapeMask`, `InsertionFitter` on synthetic shapes, and the layout with real signs (the inserted group never touches the main sign, in both directions). Ported from the Java unit tests. |
 | `core/test/render.test.ts` | The SVG is well formed and has no `NaN`, for every snippet and file. This is a sanity test, not a comparison. |
 | `glyphs/test` | The sign database. |
 | `editor/test/session.test.ts`, `palette/test/controller.test.ts` | The headless cores: typing, grouping, undo, selection; families, tags, search, history. Written by hand, no fixtures. |
