@@ -71,6 +71,7 @@ import jsesh.ui.editor.actions.sign.EditorSignRotationAction;
 import jsesh.ui.editor.actions.sign.EditorSignSizeAction;
 import jsesh.ui.editor.actions.text.AddPhilologicalMarkupAction;
 import jsesh.ui.editor.actions.text.ChoosePossibilityAction;
+import jsesh.ui.editor.actions.text.GroupAsInsertionAction;
 import jsesh.ui.editor.actions.text.EditorCartoucheAction;
 import jsesh.ui.editor.actions.text.EditorShadeAction;
 import jsesh.ui.editor.actions.text.EditorSignShadeAction;
@@ -258,6 +259,7 @@ class MDCEditorKeyManager {
             addAction(CenterGroupAction.ID, new CenterGroupAction(editor));
 
             addAction(ActionsID.CHOOSE_POSSIBILITY, new ChoosePossibilityAction(editor));
+            addAction(ActionsID.GROUP_AS_INSERTION, new GroupAsInsertionAction(editor));
             addDelegateAction(ActionsID.INSERT_SPACE, editor, "insertSpace", editorEnabler);
             addDelegateAction(ActionsID.INSERT_HALF_SPACE, editor, "insertHalfSpace", editorEnabler);
 

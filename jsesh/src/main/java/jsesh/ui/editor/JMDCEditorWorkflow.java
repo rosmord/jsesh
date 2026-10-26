@@ -74,6 +74,7 @@ import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.InnerEdit;
 import jsesh.model.InnerGroup;
+import jsesh.model.Insert;
 import jsesh.model.ItemSequence;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
@@ -83,6 +84,7 @@ import jsesh.model.ModelElement;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
+import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
@@ -100,6 +102,7 @@ import jsesh.model.tools.VerticalGrouper;
 import jsesh.model.tools.VerticallyCenteredGrouper;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.layout.insert.InsertionRanker;
 import jsesh.render.view.AbsoluteGroupBuilder;
 import jsesh.document.EditingScope;
 import jsesh.document.HieroglyphicTextModel;
@@ -156,6 +159,21 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// so that [#nextPossibility()] can replace it. Null if the last sign was
     /// added at top level.
     private MDCPosition innerRetryPosition = null;
+
+    /// The choices prepared by [#prepareChoiceOfInsertion(InsertionRanker)].
+    private List<InsertionChoice> insertionChoices = Collections.emptyList();
+
+    /// Index of the insertion which was in the text when the choices were prepared.
+    private int originalInsertionIndex = -1;
+
+    /// Index of the insertion currently in the text.
+    private int selectedInsertionIndex = -1;
+
+    /// True if the original insertion has been replaced (and the replacement can be undone).
+    private boolean insertionReplaced = false;
+
+    /// The (local) position after the insertion being chosen.
+    private MDCPosition insertionCaretPosition = null;
 
     /**
      * The code being typed
@@ -1351,6 +1369,165 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         clearMark();
         clearSeparator();
         return true;
+    }
+
+    /// Groups two items into an insertion (`@insert`), choosing the best way automatically.
+    ///
+    /// The two items are the selection, if any (it must contain exactly two
+    /// items), or else the two items before the cursor. All directions, and both
+    /// choices of the main group, are tried, and the one where the inserted group
+    /// is the largest is kept (see [InsertionRanker]). The user can then choose
+    /// another way with [#prepareChoiceOfInsertion(InsertionRanker)].
+    ///
+    /// @param ranker computes the possible insertions.
+    /// @return true if an insertion was built.
+    public boolean groupAsInsertion(InsertionRanker ranker) {
+        possibilitiesHandler.clear();
+        clearSeparator();
+        EditingScope scope = scope();
+        MDCPosition p1, p2;
+        if (caret.hasSelection()) {
+            p1 = caret.getLocalMinPosition();
+            p2 = caret.getLocalMaxPosition();
+        } else {
+            p2 = caret.getLocalInsertPosition();
+            if (p2.getLastIndex() < 2) {
+                return false;
+            }
+            p1 = p2.getPreviousPosition(2);
+        }
+        List<TopItem> items = scope.getTopItemsBetween(p1, p2);
+        if (items.size() != 2) {
+            return false;
+        }
+        SubCadrat first = toSubCadrat(items.get(0));
+        SubCadrat second = toSubCadrat(items.get(1));
+        if (first == null || second == null) {
+            return false;
+        }
+        List<InsertionChoice> choices = buildInsertionChoices(ranker, first, second, 0, 0);
+        boolean result = scope.replaceElement(p1, p2, choices.get(0).insert().buildTopItem());
+        clearMark();
+        return result;
+    }
+
+    /// Is the item before the cursor an insertion, whose layout could be chosen
+    /// with [#prepareChoiceOfInsertion(InsertionRanker)]?
+    public boolean hasInsertionBeforeCaret() {
+        return !caret.hasSelection() && getInsertionBeforeCaret() != null;
+    }
+
+    /// Prepares the choice of another way of inserting, for the insertion before the cursor.
+    ///
+    /// The choices are all the directions with the current main group, and the
+    /// directions where the other group fits, if it is used as the main group.
+    /// They are available through [#getInsertionChoices()], and
+    /// [#selectInsertion(int)] puts one of them in the text.
+    ///
+    /// @param ranker computes the possible insertions.
+    /// @return true if there is an insertion before the cursor.
+    public boolean prepareChoiceOfInsertion(InsertionRanker ranker) {
+        possibilitiesHandler.clear();
+        clearSeparator();
+        insertionChoices = Collections.emptyList();
+        Insert current = getInsertionBeforeCaret();
+        if (current == null) {
+            return false;
+        }
+        List<InsertionChoice> choices = buildInsertionChoices(ranker, current.getMain(), current.getInserted(),
+                current.getDw(), current.getDh());
+        int index = 0;
+        while (index < choices.size() && !choices.get(index).insert().equalsIgnoreId(current)) {
+            index++;
+        }
+        if (index == choices.size()) {
+            // Can't happen in principle: the current insertion is one of the choices.
+            return false;
+        }
+        insertionChoices = choices;
+        originalInsertionIndex = index;
+        selectedInsertionIndex = index;
+        insertionReplaced = false;
+        insertionCaretPosition = caret.getLocalInsertPosition();
+        return true;
+    }
+
+    /// The choices prepared by [#prepareChoiceOfInsertion(InsertionRanker)], best first.
+    ///
+    /// @return an immutable list.
+    public List<InsertionChoice> getInsertionChoices() {
+        return insertionChoices;
+    }
+
+    /// Index, in [#getInsertionChoices()], of the insertion currently in the text.
+    public int getSelectedInsertionIndex() {
+        return selectedInsertionIndex;
+    }
+
+    /// Replaces the insertion before the cursor by one of the choices.
+    ///
+    /// Successive choices replace each other in the undo history: only the last
+    /// one remains, and coming back to the original insertion leaves no trace.
+    ///
+    /// @param index index in [#getInsertionChoices()].
+    public void selectInsertion(int index) {
+        if (index < 0 || index >= insertionChoices.size() || index == selectedInsertionIndex) {
+            return;
+        }
+        if (insertionReplaced) {
+            hieroglyphicTextModel.undo();
+            caret.setLocalInsertPosition(insertionCaretPosition);
+            insertionReplaced = false;
+        }
+        if (index != originalInsertionIndex) {
+            insertionReplaced = scope().replaceElementBefore(insertionCaretPosition,
+                    insertionChoices.get(index).insert().deepCopy().buildTopItem());
+            caret.setLocalInsertPosition(insertionCaretPosition);
+        }
+        selectedInsertionIndex = index;
+    }
+
+    /// The insertion which is the only content of the item before the cursor, or null.
+    private Insert getInsertionBeforeCaret() {
+        TopItem item = scope().getElementBefore(caret.getLocalInsertPosition());
+        if (item == null) {
+            return null;
+        }
+        InnerGroupBuilder builder = new InnerGroupBuilder();
+        builder.buildHorizontalElement(List.of(item));
+        return builder.getGroup() instanceof Insert insert ? insert : null;
+    }
+
+    /// The ranked ways of inserting one group into the other.
+    ///
+    /// Keeps all the candidates where `first` is the main group, and those where
+    /// `second` is the main group and something fits.
+    private static List<InsertionChoice> buildInsertionChoices(InsertionRanker ranker, SubCadrat first,
+            SubCadrat second, int dw, int dh) {
+        List<InsertionChoice> result = new ArrayList<>();
+        for (InsertionRanker.Candidate c : ranker.rank(first, second, dw, dh)) {
+            if (!c.swapped() || c.fits()) {
+                SubCadrat main = c.swapped() ? second : first;
+                SubCadrat inserted = c.swapped() ? first : second;
+                Insert insert = new Insert(c.direction(), main.deepCopy(), inserted.deepCopy(), dw, dh);
+                result.add(new InsertionChoice(insert, c.scale(), c.fits()));
+            }
+        }
+        return Collections.unmodifiableList(result);
+    }
+
+    /// A sub-cadrat with the content of an item, for use in an insertion.
+    ///
+    /// @return a sub-cadrat which is not part of the text, or null if the item can't be grouped.
+    private static SubCadrat toSubCadrat(TopItem item) {
+        InnerGroupBuilder builder = new InnerGroupBuilder();
+        builder.buildHorizontalElement(List.of(item));
+        // Avoid ((n:t)) when the item is a single sub-cadrat.
+        if (builder.getGroup() instanceof SubCadrat subCadrat) {
+            return subCadrat.deepCopy();
+        }
+        BasicItemList list = new BasicItemListGrouper().extractBasicItemList(List.of(item));
+        return list.getNumberOfChildren() == 0 ? null : new SubCadrat(list);
     }
 
     public void redo() {

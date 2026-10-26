@@ -17,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -34,25 +36,51 @@ import javax.swing.ListSelectionModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.SwingUtilities;
 
-import jsesh.glyphs.signdata.Possibility;
-import jsesh.render.draw.MDCIconFactory;
 
-/// A small window showing the possibilities for the sign just entered.
+/// A small window for choosing among a few alternatives, shown as pictures.
 ///
-/// This is the "list" counterpart of cycling with the space key. The
-/// possibilities are laid out in a grid, as in the shading menu, using the
-/// colors and border of the look and feel's popup menus. The grid is
-/// navigated with the arrow keys (left and right move along a row, up and down
-/// along a column), and the text is updated as the selection moves, so that
-/// the user sees the actual result. When there are too many possibilities for
-/// the screen, the grid gets scrollbars.
+/// It is used to choose among the possibilities for the sign just entered (the
+/// "list" counterpart of cycling with the space key), and among the ways of
+/// inserting a group into another. The choices are laid out in a grid, as in the
+/// shading menu, using the colors and border of the look and feel's popup menus.
+/// The grid is navigated with the arrow keys (left and right move along a row, up
+/// and down along a column), and the text is updated as the selection moves, so
+/// that the user sees the actual result. When there are too many choices for the
+/// screen, the grid gets scrollbars.
 ///
 /// - Enter, or a click, validates the current choice;
-/// - Escape restores the possibility which was in the text when the list was opened;
+/// - Escape restores the choice which was in the text when the list was opened;
 /// - leaving the window (e.g. clicking in the editor) keeps the current choice.
 ///
-/// Use [JMDCEditorWorkflow#prepareChoiceOfPossibility()] before opening the list.
-class PossibilitiesPopup {
+/// @param <T> the type of the choices.
+class ChoicePopup<T> {
+
+    /// What the popup chooses from, and how it shows it.
+    ///
+    /// @param <T> the type of the choices.
+    interface Choices<T> {
+        /// The choices, in display order.
+        List<T> items();
+
+        /// Index of the choice currently in the text.
+        int selectedIndex();
+
+        /// Puts a choice in the text.
+        void select(int index);
+
+        /// The text shown below a choice.
+        String label(T item);
+
+        /// The picture of a choice.
+        ///
+        /// @return the picture, or null if the choice can't be drawn.
+        Icon icon(T item);
+
+        /// Should a choice be shown as less advisable (it stays selectable)?
+        default boolean isDimmed(T item) {
+            return false;
+        }
+    }
 
     private static final int MAX_COLUMNS = 6;
     private static final int MAX_VISIBLE_ROWS = 8;
@@ -61,26 +89,24 @@ class PossibilitiesPopup {
     private static final int CELL_PADDING = 3;
 
     private final JMDCEditor editor;
-    private final JMDCEditorWorkflow workflow;
+    private final Choices<T> choices;
     private final JWindow window;
-    private final JList<Possibility> list;
+    private final JList<T> list;
     private final int originalIndex;
     private boolean closed = false;
 
     /// @param editor the editor which owns the text.
-    /// @param workflow the editor's workflow; the possibilities have been prepared
-    ///     with [JMDCEditorWorkflow#prepareChoiceOfPossibility()].
-    /// @param iconFactory used to draw the possibilities.
-    PossibilitiesPopup(JMDCEditor editor, JMDCEditorWorkflow workflow, MDCIconFactory iconFactory) {
+    /// @param choices what to choose from.
+    ChoicePopup(JMDCEditor editor, Choices<T> choices) {
         this.editor = editor;
-        this.workflow = workflow;
-        this.originalIndex = workflow.getSelectedPossibilityIndex();
+        this.choices = choices;
+        this.originalIndex = choices.selectedIndex();
 
-        list = new JList<>(workflow.getPossibilityChoices().toArray(new Possibility[0]));
+        list = new JList<>(new Vector<>(choices.items()));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         list.setBorder(BorderFactory.createEmptyBorder());
-        list.setCellRenderer(new PossibilityRenderer(iconFactory));
+        list.setCellRenderer(new ChoiceRenderer());
         applyPopupColors(list);
         Dimension cellSize = computeCellSize();
         list.setFixedCellWidth(cellSize.width);
@@ -92,7 +118,7 @@ class PossibilitiesPopup {
         // Listen only once the initial selection is in place.
         list.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && !closed && list.getSelectedIndex() >= 0) {
-                workflow.selectPossibility(list.getSelectedIndex());
+                choices.select(list.getSelectedIndex());
             }
         });
         list.addMouseListener(new MouseAdapter() {
@@ -128,7 +154,7 @@ class PossibilitiesPopup {
 
     /// The size of a cell: large enough for the largest possibility.
     private Dimension computeCellSize() {
-        ListCellRenderer<? super Possibility> renderer = list.getCellRenderer();
+        ListCellRenderer<? super T> renderer = list.getCellRenderer();
         int width = 0;
         int height = 0;
         for (int i = 0; i < list.getModel().getSize(); i++) {
@@ -211,13 +237,13 @@ class PossibilitiesPopup {
 
     /// Closes the list.
     ///
-    /// @param restore if true, the possibility chosen before opening the list is put back.
+    /// @param restore if true, the choice which was in the text before opening the list is put back.
     private void close(boolean restore) {
         if (closed) {
             return;
         }
         if (restore) {
-            workflow.selectPossibility(originalIndex);
+            choices.select(originalIndex);
         }
         closed = true;
         window.dispose();
@@ -234,13 +260,11 @@ class PossibilitiesPopup {
         });
     }
 
-    /// Shows a possibility as a picture with its code below.
+    /// Shows a choice as a picture with its label below.
     @SuppressWarnings("serial")
-    private static class PossibilityRenderer extends DefaultListCellRenderer {
-        private final MDCIconFactory iconFactory;
+    private class ChoiceRenderer extends DefaultListCellRenderer {
 
-        PossibilityRenderer(MDCIconFactory iconFactory) {
-            this.iconFactory = iconFactory;
+        ChoiceRenderer() {
             setHorizontalAlignment(SwingConstants.CENTER);
             setHorizontalTextPosition(SwingConstants.CENTER);
             setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -250,21 +274,14 @@ class PossibilitiesPopup {
         public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                 boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            Possibility possibility = (Possibility) value;
-            setText(possibility.getCode());
-            setIcon(iconFor(possibility));
+            @SuppressWarnings("unchecked")
+            T item = (T) value;
+            setText(choices.label(item));
+            setIcon(choices.icon(item));
+            setEnabled(!choices.isDimmed(item));
             // The superclass sets its own border (for the focus), so this comes last.
             setBorder(BorderFactory.createEmptyBorder(CELL_PADDING, CELL_PADDING, CELL_PADDING, CELL_PADDING));
             return this;
-        }
-
-        private Icon iconFor(Possibility possibility) {
-            try {
-                return iconFactory.buildImage(possibility.getCode());
-            } catch (RuntimeException e) {
-                // A glossary entry which can't be drawn is still listed by its code.
-                return null;
-            }
         }
     }
 }

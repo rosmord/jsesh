@@ -15,7 +15,6 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
-import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
@@ -49,6 +48,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
+import jsesh.render.layout.insert.InsertPlacer;
 import jsesh.render.layout.insert.InsertionFitter;
 import jsesh.render.layout.insert.Kerner;
 import jsesh.render.layout.insert.ViewSilhouette;
@@ -563,28 +563,14 @@ public class Layout {
 			TextDirection direction = currentView.getDirection();
 			boolean rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(direction);
 
-			InsertionDirection insertionDirection = insert.getDirection();
-			InsertionFitter.HorizontalSide horizontal = InsertionFitter.HorizontalSide.CENTER;
-			if (insertionDirection.isHorizontal()) {
-				// "start" is on the right in right-to-left text.
-				horizontal = (insertionDirection.isStart() ^ rightToLeft) ? InsertionFitter.HorizontalSide.LEFT
-						: InsertionFitter.HorizontalSide.RIGHT;
-			}
-			InsertionFitter.VerticalSide vertical = InsertionFitter.VerticalSide.CENTER;
-			if (insertionDirection.isVertical()) {
-				vertical = insertionDirection.isTop() ? InsertionFitter.VerticalSide.TOP
-						: InsertionFitter.VerticalSide.BOTTOM;
-			}
-
 			ViewSilhouette silhouette = new ViewSilhouette(hieroglyphsDrawer, computeScale(), direction);
+			InsertPlacer.Result result = new InsertPlacer(silhouette, rightToLeft).place(insert.getDirection(),
+					insert.getDw(), insert.getDh(), mainView, insertedView);
+			InsertionFitter.Placement placement = result.placement();
+			Rectangle2D frame = result.frame();
 			Rectangle2D mainBox = new Rectangle2D.Double(0, 0, mainView.getWidth(), mainView.getHeight());
 			Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedView.getWidth(),
 					insertedView.getHeight());
-			Rectangle2D frame = InsertionFitter.enlargedFrame(mainBox, insertedBox, horizontal, vertical,
-					insert.getDw(), insert.getDh());
-			InsertionFitter.Placement placement = new InsertionFitter().fit(
-					new InsertionFitter.Request(silhouette.silhouette(mainView), frame,
-							silhouette.silhouette(insertedView), insertedBox, horizontal, vertical));
 
 			insertedView.reScale((float) placement.scale());
 			Rectangle2D placed = placement.transform().createTransformedShape(insertedBox).getBounds2D();

@@ -152,6 +152,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(textMenu, app, view, ActionsID.LIGATURE_ELEMENTS);
                 addToMenu(textMenu, app, view, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
                 addToMenu(textMenu, app, view, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
+                addToMenu(textMenu, app, view, ActionsID.GROUP_AS_INSERTION);
                 addToMenu(textMenu, app, view, ActionsID.EXPLODE_GROUP);
                 addToMenu(textMenu, app, view, CenterGroupAction.ID);
                 textMenu.addSeparator();

@@ -58,9 +58,11 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import javax.swing.Icon;
 import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -81,6 +83,9 @@ import jsesh.model.constants.TextOrientation;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.MDCPosition;
 import jsesh.model.HieroglyphicText;
+import jsesh.glyphs.signdata.Possibility;
+import jsesh.io.mdc.MdcTextHelper;
+import jsesh.render.layout.insert.InsertionRanker;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;
@@ -922,9 +927,105 @@ public class JMDCEditor extends JPanel {
             return;
         }
         if (workflow.prepareChoiceOfPossibility()) {
-            new PossibilitiesPopup(this, workflow, mdcIconFactory).show(getCursorRectangle());
+            new ChoicePopup<>(this, new ChoicePopup.Choices<Possibility>() {
+                @Override
+                public List<Possibility> items() {
+                    return workflow.getPossibilityChoices();
+                }
+
+                @Override
+                public int selectedIndex() {
+                    return workflow.getSelectedPossibilityIndex();
+                }
+
+                @Override
+                public void select(int index) {
+                    workflow.selectPossibility(index);
+                }
+
+                @Override
+                public String label(Possibility possibility) {
+                    return possibility.getCode();
+                }
+
+                @Override
+                public Icon icon(Possibility possibility) {
+                    try {
+                        return mdcIconFactory.buildImage(possibility.getCode());
+                    } catch (RuntimeException e) {
+                        // A glossary entry which can't be drawn is still listed by its code.
+                        return null;
+                    }
+                }
+            }).show(getCursorRectangle());
         } else {
             getToolkit().beep();
+        }
+    }
+
+    /// Groups two items into an insertion (`@insert`), or changes an existing insertion.
+    ///
+    /// - If the item before the cursor is an insertion (and nothing is selected),
+    ///   opens a list of the other ways of inserting, best first;
+    /// - otherwise, groups the two selected items, or the two items before the
+    ///   cursor, choosing the best way automatically. Using the command again then
+    ///   opens the list.
+    ///
+    /// Beeps if there is nothing to group.
+    ///
+    /// @see JMDCEditorWorkflow#groupAsInsertion(InsertionRanker)
+    public void groupAsInsertion() {
+        if (!isEditable()) {
+            return;
+        }
+        InsertionRanker ranker = new InsertionRanker(getRenderContext(), buildTechRenderContext());
+        if (workflow.hasInsertionBeforeCaret()) {
+            if (isShowing() && workflow.prepareChoiceOfInsertion(ranker)) {
+                new ChoicePopup<>(this, new InsertionChoices()).show(getCursorRectangle());
+            } else {
+                getToolkit().beep();
+            }
+        } else if (!workflow.groupAsInsertion(ranker)) {
+            getToolkit().beep();
+        }
+    }
+
+    /// The ways of inserting a group, as shown in the popup list.
+    private class InsertionChoices implements ChoicePopup.Choices<InsertionChoice> {
+        @Override
+        public List<InsertionChoice> items() {
+            return workflow.getInsertionChoices();
+        }
+
+        @Override
+        public int selectedIndex() {
+            return workflow.getSelectedInsertionIndex();
+        }
+
+        @Override
+        public void select(int index) {
+            workflow.selectInsertion(index);
+        }
+
+        @Override
+        public String label(InsertionChoice choice) {
+            return choice.insert().getDirection().getCode() + " " + Math.round(choice.scale() * 100) + "%";
+        }
+
+        @Override
+        public Icon icon(InsertionChoice choice) {
+            HieroglyphicText text = new HieroglyphicText();
+            text.addTopItem(choice.insert().deepCopy().buildTopItem());
+            try {
+                return mdcIconFactory.buildImage(MdcTextHelper.toMdc(text));
+            } catch (RuntimeException e) {
+                return null;
+            }
+        }
+
+        @Override
+        public boolean isDimmed(InsertionChoice choice) {
+            return !choice.fits();
         }
     }
 
