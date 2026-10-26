@@ -417,7 +417,8 @@ public class LineLayout extends TopItemLayout {
             if (kerning.isPresent()) {
                 // Takes no room. In lines, only @hkern is meaningful.
                 pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.HORIZONTAL;
-                zone.add(subView);
+                // In the unit of the previous element, so that justification keeps kerned elements together.
+                zone.addKerned(subView);
                 kerningViews.add(subView);
                 return;
             }

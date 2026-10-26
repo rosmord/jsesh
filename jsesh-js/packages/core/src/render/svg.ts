@@ -17,6 +17,7 @@ import {
   Hieroglyph,
   HieroglyphicText,
   HRule,
+  Kerning,
   ModelElementAdapter,
   PageBreak,
   Philology,
@@ -32,6 +33,8 @@ import { escapeXml, filledPath, num, PathBuilder, strokedPath } from "./svg-writ
 import { drawSpecialSymbol } from "./symbols.js";
 import { displayString, type TextMeasurer } from "./text.js";
 import { Rect, type MDCView } from "./view.js";
+
+const f = Math.fround;
 
 export interface DrawContext {
   style: JSeshStyle;
@@ -51,6 +54,9 @@ export interface SvgOptions {
   background?: boolean;
   /// Extra attributes for the `svg` element, already escaped.
   attributes?: string;
+  /// Draw kerning operators as marks (as paragraph marks in a word processor). Meant for
+  /// editors; false by default.
+  showKerningMarks?: boolean;
 }
 
 /// Draws a view tree (usually of a whole text) as an SVG document.
@@ -59,7 +65,7 @@ export function drawSvg(view: MDCView, context: DrawContext, options: SvgOptions
   const width = Math.ceil(view.width) + 2;
   const height = Math.ceil(view.height) + 2;
   const prefix = options.idPrefix ?? "jsesh";
-  const drawer = new SvgViewDrawer(context, prefix);
+  const drawer = new SvgViewDrawer(context, prefix, options.showKerningMarks ?? false);
   const content = drawer.draw(view);
   const title = options.title === undefined ? "" : `<title>${escapeXml(options.title)}</title>`;
   const role = options.title === undefined ? ' aria-hidden="true"' : ' role="img"';
@@ -98,6 +104,7 @@ class SvgViewDrawer {
   constructor(
     context: DrawContext,
     private readonly prefix: string,
+    readonly showKerningMarks: boolean,
   ) {
     this.style = context.style;
     this.drawer = context.drawer;
@@ -325,6 +332,30 @@ class ElementDrawer extends ModelElementAdapter {
       result = group(`matrix(-1 0 0 1 ${num(v.width)} 0)`, result);
     }
     return result;
+  }
+
+  /// Kerning operators are invisible, unless kerning marks are shown. The mark, `>|<` for
+  /// `@hkern`, turned for `@vkern`, is centred on the view, which has no size.
+  override visitKerning(kerning: Kerning): void {
+    if (!this.postfix || !this.d.showKerningMarks) return;
+    const style = this.d.s;
+    const half = f(style.geometry.maxCadratHeight / 6);
+    const tip = half / 2;
+    // Drawn for @hkern; coordinates are swapped for @vkern.
+    const lines = [
+      [0, -half, 0, half],
+      [-2 * tip, -tip / 2, -tip / 2, 0],
+      [-tip / 2, 0, -2 * tip, tip / 2],
+      [2 * tip, -tip / 2, tip / 2, 0],
+      [tip / 2, 0, 2 * tip, tip / 2],
+    ] as const;
+    const horizontal = kerning.axis === "HORIZONTAL";
+    const d = new PathBuilder();
+    for (const [x1, y1, x2, y2] of lines) {
+      if (horizontal) d.line(x1, y1, x2, y2);
+      else d.line(y1, x1, y2, x2);
+    }
+    this.out += strokedPath(d, style.painting.cursorColor, style.geometry.fineLineWidth);
   }
 
   override visitHRule(h: HRule): void {

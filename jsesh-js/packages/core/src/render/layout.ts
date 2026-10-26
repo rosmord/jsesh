@@ -10,7 +10,7 @@
 /// The code follows Java closely (names included), so that the two can be
 /// compared view by view. `Math.fround` marks Java `float` computations.
 
-import type { TextDirection, TextOrientation } from "../model/constants.js";
+import type { KerningAxis, TextDirection, TextOrientation } from "../model/constants.js";
 import { isHorizontalInsertion, isStartInsertion, isTopInsertion, isVerticalInsertion, SymbolCodes } from "../model/constants.js";
 import {
   AbsoluteGroup,
@@ -26,6 +26,7 @@ import {
   type Hieroglyph,
   type HRule,
   type Insert,
+  type Kerning,
   type Ligature,
   type LineBreak,
   type MdcComment,
@@ -47,6 +48,7 @@ import {
   type HorizontalSide,
   type VerticalSide,
 } from "./insert/insertion-fitter.js";
+import { Kerner } from "./insert/kerner.js";
 import { ViewSilhouette } from "./insert/view-silhouette.js";
 import {
   computeCartouchePartLength,
@@ -55,6 +57,7 @@ import {
   withStyle,
   type JSeshStyle,
 } from "./style.js";
+import { hasKerning, kerningOf, KerningPacker } from "./kerning-packer.js";
 import { displayString, TextRun, type TextMeasurer } from "./text.js";
 import { MDCView, Rect, type Point } from "./view.js";
 
@@ -190,6 +193,14 @@ class Layout {
   getGroupUnitScale(): number {
     return this.hieroglyphsDrawer.getGroupUnitLength() * this.computeScale();
   }
+
+  kerner(): Kerner {
+    return new Kerner(this.hieroglyphsDrawer, this.computeScale(), this.currentTextDirection);
+  }
+
+  packer(axis: KerningAxis): KerningPacker {
+    return new KerningPacker(this.kerner(), axis, this.style.geometry.smallSkip);
+  }
 }
 
 class LayoutAux extends ModelElementAdapter {
@@ -309,6 +320,8 @@ class LayoutAux extends ModelElementAdapter {
     const horizontal = style.options.textOrientation === "HORIZONTAL";
     if (runs.length > 0) {
       this.layoutWithRuns(runs, horizontal, style.geometry.smallSkip);
+    } else if (hasKerning(this.l.v)) {
+      this.layoutKernedList(horizontal);
     } else if (horizontal) {
       this.visitDefault(l);
     } else {
@@ -317,8 +330,24 @@ class LayoutAux extends ModelElementAdapter {
     }
   }
 
+  /// Lays out a list of elements with kerning operators, one after another in the text
+  /// orientation. The result is the same as without them, except for the kerning.
+  private layoutKernedList(horizontal: boolean): void {
+    const v = this.l.v;
+    const cross = horizontal ? v.maximalHeightOfSubView : v.maximalWidthOfSubView;
+    for (const sub of v.subviews) {
+      sub.resetPos();
+      const kerning = kerningOf(sub) !== undefined;
+      if (horizontal) sub.position.y = kerning ? f(cross - sub.height) / 2 : 0;
+      else sub.position.x = f(cross - sub.width) / 2;
+    }
+    const length = f(this.l.packer(horizontal ? "HORIZONTAL" : "VERTICAL").pack(v));
+    v.width = horizontal ? length : cross;
+    v.height = horizontal ? cross : length;
+  }
+
   override visitCadrat(c: Cadrat): void {
-    new QuadratLayout(this.l.s, this.l.drawer, this.l.centered, this.l.orientation).layout(this.l.v, c);
+    new QuadratLayout(this.l.s, this.l.drawer, this.l.kerner(), this.l.centered, this.l.orientation).layout(this.l.v, c);
   }
 
   /// A cartouche: its content, and space for the frame. A cartouche has only
@@ -409,7 +438,7 @@ class LayoutAux extends ModelElementAdapter {
     }
   }
 
-  override visitHBox(_b: HBox): void {
+  override visitHBox(b: HBox): void {
     const style = this.l.s;
     const v = this.l.v;
     const h = v.maximalHeightOfSubView;
@@ -435,6 +464,20 @@ class LayoutAux extends ModelElementAdapter {
     v.width = w;
     // The positions are set by the quadrat.
     for (const subView of v.subviews) new ViewVerticalEnlarger().enlarge(subView, h);
+    // With kerning, the horizontal positions are fixed here, as kerned elements must stay
+    // together. Elements are aligned on the bottom line, as in the cadrat.
+    if (b.containsKerning()) {
+      for (const subView of v.subviews) {
+        subView.position.y = kerningOf(subView) !== undefined ? h / 2 : f(h - subView.height);
+      }
+      v.width = this.l.packer("HORIZONTAL").pack(v);
+    }
+  }
+
+  /// Kerning operators take no room: their place only depends on the elements around them.
+  override visitKerning(_k: Kerning): void {
+    this.l.v.width = 0;
+    this.l.v.height = 0;
   }
 
   override visitHieroglyph(h: Hieroglyph): void {
@@ -664,7 +707,9 @@ class LayoutAux extends ModelElementAdapter {
     const style = this.l.s;
     const v = this.l.v;
     const topItemLayout: TopItemLayout =
-      this.l.orientation === "HORIZONTAL" ? new LineLayout(v, style) : new ColumnLayout(v, style);
+      this.l.orientation === "HORIZONTAL"
+        ? new LineLayout(v, style, this.l.kerner())
+        : new ColumnLayout(v, style, this.l.kerner());
     const runs = TextRun.layoutRuns(v, style.fonts, this.l.textMeasurer);
     let runIndex = 0;
     topItemLayout.startLayout();
@@ -745,12 +790,17 @@ class QuadratLayout {
   constructor(
     private readonly style: JSeshStyle,
     private readonly hieroglyphsDrawer: HieroglyphDrawer,
+    private readonly kerner: Kerner,
     private readonly centerSigns: boolean,
     private readonly currentTextOrientation: TextOrientation,
   ) {}
 
   layout(currentView: MDCView, c: Cadrat): void {
     this.currentView = currentView;
+    if (c.getKerningAxis() !== undefined) {
+      this.layoutKerningOnly(c);
+      return;
+    }
     const g = this.style.geometry;
     currentView.yStretchable = true;
     currentView.xStretchable = true;
@@ -774,7 +824,10 @@ class QuadratLayout {
     // No hbox should be too wide, except if there is only one (a "flat"
     // quadrat) or if one contains a wide sign.
     const wide = c.isWide();
-    if (honourMaxWidth || (currentView.numberOfSubviews !== 1 && !wide)) {
+    // Lines made only of kerning operators (as in p:@vkern:q) don't count.
+    const lineCount = c.hBoxes.filter((b) => b.getKerningAxis() === undefined).length;
+    const kerningLines = lineCount !== c.numberOfHBoxes;
+    if (honourMaxWidth || (lineCount !== 1 && !wide)) {
       for (const sub of currentView.subviews) sub.scaleForMaxWidth(maxWidth);
     }
     if (wide) {
@@ -790,28 +843,51 @@ class QuadratLayout {
       if (honourMaxWidth && !embedded && width < maxWidth) width = maxWidth;
       this.fitLoneSignsToColumnWidth(c, width);
     }
-    // Height: the sum of the hboxes' heights, and the spaces between them.
-    let h = currentView.sumOfSubViewsHeights;
-    h = f(h + f((currentView.numberOfSubviews - 1) * g.smallSkip));
-    // In lines, a quadrat which is not high enough gets some space (if it's
-    // too high, it will be scaled).
-    if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
-    currentView.height = h;
-    // Width.
-    let w = currentView.maximalWidthOfSubView;
-    if (honourMaxWidth && !embedded && w < maxWidth) w = maxWidth;
-    currentView.width = w;
-    if (currentView.numberOfSubviews > 1) {
-      currentView.distributeFromTopToBottom();
-    } else if (this.centerSigns) {
-      currentView.centerSubViewsVertically();
+    if (kerningLines) {
+      this.layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, maxWidth);
     } else {
-      currentView.stickSubViewsTo("BOTTOM");
+      // Height: the sum of the hboxes' heights, and the spaces between them.
+      let h = currentView.sumOfSubViewsHeights;
+      h = f(h + f((currentView.numberOfSubviews - 1) * g.smallSkip));
+      // In lines, a quadrat which is not high enough gets some space (if it's
+      // too high, it will be scaled).
+      if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
+      currentView.height = h;
+      // Width.
+      let w = currentView.maximalWidthOfSubView;
+      if (honourMaxWidth && !embedded && w < maxWidth) w = maxWidth;
+      currentView.width = w;
+      if (currentView.numberOfSubviews > 1) {
+        currentView.distributeFromTopToBottom();
+      } else if (this.centerSigns) {
+        currentView.centerSubViewsVertically();
+      } else {
+        currentView.stickSubViewsTo("BOTTOM");
+      }
+      this.layoutLines(c, w);
     }
-    // Make the quadrat square: enlarge the hboxes.
-    for (const sub of currentView.subviews) {
+    const h = currentView.height;
+    if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(f(g.maxCadratHeight / h));
+  }
+
+  /// Places the elements of each line of the quadrat, once its width is known (this makes the
+  /// quadrat square).
+  private layoutLines(c: Cadrat, w: number): void {
+    const currentView = this.currentView;
+    for (let k = 0; k < currentView.numberOfSubviews; k++) {
+      const sub = currentView.getSubView(k);
       if (sub.width < w) sub.width = w;
-      if (sub.numberOfSubviews === 1) {
+      if (c.getHBox(k).containsKerning()) {
+        // Kerned elements are moved together; vertical positions are already set.
+        const packer = this.packer("HORIZONTAL");
+        const blocks = packer.blocks(sub);
+        if (blocks.length > 1) {
+          packer.distribute(sub, blocks, sub.internalWidth);
+        } else if (blocks.length > 0) {
+          const block = blocks[0]!;
+          packer.moveBlockTo(sub, block, (sub.internalWidth - packer.blockLength(sub, block)) / 2);
+        }
+      } else if (sub.numberOfSubviews === 1) {
         sub.centerSubViewHorizontally();
       } else {
         sub.distributeHorizontally();
@@ -819,7 +895,62 @@ class QuadratLayout {
         sub.stickSubViewsTo("BOTTOM");
       }
     }
-    if (honourMaxHeight && h > g.maxCadratHeight) currentView.reScale(f(g.maxCadratHeight / h));
+  }
+
+  /// Lays out a quadrat with lines made only of kerning operators, as in `p:@vkern:q`.
+  ///
+  /// Such lines take no room. A `@vkern` line kerns the lines around it, which then move
+  /// together; they are only known once the content of the lines is placed.
+  private layoutWithKerningLines(
+    c: Cadrat,
+    honourMaxWidth: boolean,
+    honourMaxHeight: boolean,
+    embedded: boolean,
+    maxWidth: number,
+  ): void {
+    const currentView = this.currentView;
+    const g = this.style.geometry;
+    let w = currentView.maximalWidthOfSubView;
+    if (honourMaxWidth && !embedded && w < maxWidth) w = maxWidth;
+    currentView.width = w;
+    this.layoutLines(c, w);
+
+    for (const sub of currentView.subviews) sub.position.x = 0;
+    const packer = this.packer("VERTICAL");
+    let h = f(packer.pack(currentView));
+    if (honourMaxHeight && h < g.maxCadratHeight) h = g.maxCadratHeight;
+    currentView.height = h;
+
+    const blocks = packer.blocks(currentView);
+    if (blocks.length > 1) {
+      packer.distribute(currentView, blocks, currentView.internalHeight);
+    } else if (blocks.length > 0) {
+      const block = blocks[0]!;
+      const free = currentView.internalHeight - packer.blockLength(currentView, block);
+      packer.moveBlockTo(currentView, block, this.centerSigns ? free / 2 : free);
+    }
+  }
+
+  /// Lays out a quadrat made only of kerning operators, as in `p-@hkern-q`.
+  ///
+  /// It takes no room along the text, but at the top level it gets the size of a quadrat across
+  /// it, so that kerning marks can be drawn in the middle of the line.
+  private layoutKerningOnly(c: Cadrat): void {
+    const g = this.style.geometry;
+    let w = 0;
+    let h = 0;
+    if (!c.isEmbedded()) {
+      if (this.currentTextOrientation === "HORIZONTAL") h = g.maxCadratHeight;
+      else w = g.maxCadratWidth;
+    }
+    const currentView = this.currentView;
+    currentView.width = w;
+    currentView.height = h;
+    for (const sub of currentView.subviews) sub.position = { x: f(w / 2), y: f(h / 2) };
+  }
+
+  private packer(axis: KerningAxis): KerningPacker {
+    return new KerningPacker(this.kerner, axis, this.style.geometry.smallSkip);
   }
 
   private fitLoneSignsToColumnWidth(c: Cadrat, width: number): void {
@@ -864,6 +995,20 @@ class Zone {
     this.zoneArea.add(new Rect(view.position.x, view.position.y, view.width, view.height));
     this.views.push(view);
     this.units.push([view]);
+  }
+
+  /// Adds a view kerned with the previous one: they will be moved together when the zone is
+  /// justified. The view is placed as in [add].
+  addKerned(view: MDCView): void {
+    const last = this.units[this.units.length - 1];
+    if (last === undefined) {
+      this.add(view);
+      return;
+    }
+    view.position = { x: this.currentPoint.x + view.deltaBaseX, y: this.currentPoint.y + view.deltaBaseY };
+    this.zoneArea.add(new Rect(view.position.x, view.position.y, view.width, view.height));
+    this.views.push(view);
+    last.push(view);
   }
 
   /// Adds a run of views which must stay together; `xOffsets` are their
@@ -982,6 +1127,68 @@ interface TopItemLayout {
   readonly documentArea: Rect;
 }
 
+/// The kerning state of [LineLayout] and [ColumnLayout], which handle top-level kerning the same
+/// way, each along its own axis.
+class TopLevelKerning {
+  /// The elements of the current kerned group (since the last element which was not kerned).
+  private readonly kernedGroup: MDCView[] = [];
+  /// Is there a kerning operator of the layout's axis after the current kerned group?
+  private pendingKerning = false;
+  /// The kerning operators met since the last element; they are moved to the middle of the gap.
+  private readonly kerningViews: MDCView[] = [];
+
+  constructor(
+    private readonly kerner: Kerner,
+    private readonly axis: KerningAxis,
+    private readonly skip: number,
+  ) {}
+
+  reset(): void {
+    this.kernedGroup.length = 0;
+    this.pendingKerning = false;
+    this.kerningViews.length = 0;
+  }
+
+  /// Adds `subView` to the zone, kerned with the previous elements if needed. Returns false if
+  /// it is a kerning operator, which takes no room (and is only placed later).
+  add(zone: Zone, subView: MDCView): boolean {
+    const kerning = kerningOf(subView);
+    const horizontal = this.axis === "HORIZONTAL";
+    if (kerning !== undefined) {
+      this.pendingKerning ||= this.kernedGroup.length > 0 && kerning === this.axis;
+      // In the unit of the previous element, so that justification keeps kerned elements together.
+      zone.addKerned(subView);
+      this.kerningViews.push(subView);
+      return false;
+    }
+    if (this.pendingKerning) {
+      // Place the view where it would go, and move it back.
+      subView.position = { x: zone.currentPoint.x + subView.deltaBaseX, y: zone.currentPoint.y + subView.deltaBaseY };
+      const shift = this.kerner.shift(this.kernedGroup, subView, this.axis, this.skip);
+      if (horizontal) zone.moveCurrentPoint(-shift, 0);
+      else zone.moveCurrentPoint(0, -shift);
+      zone.addKerned(subView);
+    } else {
+      zone.add(subView);
+    }
+    const last = this.kernedGroup[this.kernedGroup.length - 1];
+    if (last !== undefined) {
+      if (horizontal) {
+        const middle = (last.position.x + last.width + subView.position.x) / 2;
+        for (const k of this.kerningViews) k.position.x = middle - k.width / 2;
+      } else {
+        const middle = (last.position.y + last.height + subView.position.y) / 2;
+        for (const k of this.kerningViews) k.position.y = middle - k.height / 2;
+      }
+    }
+    this.kerningViews.length = 0;
+    if (!this.pendingKerning) this.kernedGroup.length = 0;
+    this.pendingKerning = false;
+    this.kernedGroup.push(subView);
+    return true;
+  }
+}
+
 /// Port of `LineLayout`: text in lines.
 class LineLayout extends ModelElementAdapter implements TopItemLayout {
   readonly documentArea = new Rect();
@@ -993,13 +1200,17 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private subView!: MDCView;
   /// True for the first line of a page, which gets the top margin.
   private addTopMargin = true;
+  /// In lines, only `@hkern` is meaningful.
+  private readonly kerning: TopLevelKerning;
 
   constructor(
     private readonly documentView: MDCView,
     private readonly style: JSeshStyle,
+    kerner: Kerner,
   ) {
     super();
     this.currentTextDirection = style.options.textDirection;
+    this.kerning = new TopLevelKerning(kerner, "HORIZONTAL", style.geometry.smallSkip);
   }
 
   layoutElement(subView: MDCView): void {
@@ -1011,6 +1222,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   /// The run is placed in its own reading direction: mirrored here if the
   /// text is right to left, so that drawing mirrors it back.
   layoutTextRun(run: TextRun, views: MDCView[]): void {
+    this.kerning.reset();
     const mirrored = this.currentTextDirection !== "LEFT_TO_RIGHT";
     this.zone.addRun(views, run.layoutOffsets(mirrored));
     if (run.width !== 0) this.zone.moveCurrentPoint(run.width + this.style.geometry.smallSkip, 0);
@@ -1063,6 +1275,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   override visitLineBreak(b: LineBreak): void {
+    this.kerning.reset();
     const g = this.style.geometry;
     // Top of the next line, relative to the top of this one.
     let verticalSkip = this.zone.height + this.zone.minY + g.lineSkip;
@@ -1075,6 +1288,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   override visitPageBreak(_b: PageBreak): void {
+    this.kerning.reset();
     const g = this.style.geometry;
     const dh = this.zone.height;
     this.flushZone();
@@ -1095,6 +1309,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
 
   /// Tabs are relative to the current zone.
   override visitTabStop(tab: TabStop): void {
+    this.kerning.reset();
     const pos = f(tab.stopPos * this.style.geometry.tabUnitWidth);
     this.zone.currentPoint.x = pos;
     this.zone.currentPoint.y = 0;
@@ -1104,8 +1319,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   override visitDefault(_t: ModelElement): void {
     let dx = 0;
     if (this.subView.width !== 0) dx = f(this.subView.width + this.style.geometry.smallSkip);
-    this.zone.add(this.subView);
-    this.zone.moveCurrentPoint(dx, 0);
+    if (this.kerning.add(this.zone, this.subView)) this.zone.moveCurrentPoint(dx, 0);
   }
 }
 
@@ -1117,14 +1331,18 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   private style: JSeshStyle;
   private readonly currentTextDirection: TextDirection;
   private subView!: MDCView;
+  /// In columns, only `@vkern` is meaningful.
+  private readonly kerning: TopLevelKerning;
 
   constructor(
     private readonly documentView: MDCView,
     style: JSeshStyle,
+    kerner: Kerner,
   ) {
     super();
     this.style = style;
     this.currentTextDirection = style.options.textDirection;
+    this.kerning = new TopLevelKerning(kerner, "VERTICAL", style.geometry.smallSkip);
   }
 
   layoutElement(subView: MDCView): void {
@@ -1135,6 +1353,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   /// A run of text is one horizontal line in the column (not aligned with
   /// the hieroglyphs' baseline).
   layoutTextRun(run: TextRun, views: MDCView[]): void {
+    this.kerning.reset();
     const mirrored = this.currentTextDirection !== "LEFT_TO_RIGHT";
     let height = 0;
     for (const v of views) {
@@ -1177,6 +1396,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   private endColumn(): void {
+    this.kerning.reset();
     // A minimal height, else empty columns would have no height.
     this.subView.height = 0.1;
     this.subView.width = this.style.geometry.maxCadratWidth;
@@ -1195,7 +1415,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   override visitDefault(_t: ModelElement): void {
-    this.zone.add(this.subView);
+    if (!this.kerning.add(this.zone, this.subView)) return;
     if (this.subView.height !== 0) this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.lineSkip);
   }
 }

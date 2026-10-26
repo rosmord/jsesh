@@ -182,54 +182,9 @@ export class ShapeMask {
     return count;
   }
 
-  /// The edges of the flattened outline, as x0, y0, x1, y1 quadruples. Curves are flattened as
-  /// `java.awt.geom.FlatteningPathIterator` does, with a flatness of a quarter of a cell.
+  /// The edges of the flattened outline, with a flatness of a quarter of a cell.
   private flatten(path: PathSegment[], m: Matrix): number[] {
-    const squareFlat = (this.cellSize / 4) ** 2;
-    const edges: number[] = [];
-    let startX = 0;
-    let startY = 0;
-    let curX = 0;
-    let curY = 0;
-    const lineTo = (x: number, y: number) => {
-      edges.push(curX, curY, x, y);
-      curX = x;
-      curY = y;
-    };
-    const tx = (x: number, y: number): [number, number] => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
-    for (const s of path) {
-      switch (s.type) {
-        case "M": {
-          // Closes the previous subpath implicitly.
-          if (curX !== startX || curY !== startY) edges.push(curX, curY, startX, startY);
-          [startX, startY] = tx(s.points[0], s.points[1]);
-          curX = startX;
-          curY = startY;
-          break;
-        }
-        case "L":
-          lineTo(...tx(s.points[0], s.points[1]));
-          break;
-        case "Q": {
-          const [cx, cy] = tx(s.points[0], s.points[1]);
-          const [ex, ey] = tx(s.points[2], s.points[3]);
-          flattenQuad(curX, curY, cx, cy, ex, ey, 0, squareFlat, lineTo);
-          break;
-        }
-        case "C": {
-          const [c1x, c1y] = tx(s.points[0], s.points[1]);
-          const [c2x, c2y] = tx(s.points[2], s.points[3]);
-          const [ex, ey] = tx(s.points[4], s.points[5]);
-          flattenCubic(curX, curY, c1x, c1y, c2x, c2y, ex, ey, 0, squareFlat, lineTo);
-          break;
-        }
-        case "Z":
-          lineTo(startX, startY);
-          break;
-      }
-    }
-    if (curX !== startX || curY !== startY) edges.push(curX, curY, startX, startY);
-    return edges;
+    return flattenPath(path, m, this.cellSize / 4);
   }
 
   private fillSpans(row: number, xs: Float64Array, dirs: Int8Array, n: number, evenOdd: boolean): void {
@@ -251,6 +206,57 @@ export class ShapeMask {
     c1 = Math.min(c1, this.columns - 1);
     this.cells.fill(1, row * this.columns + c0, row * this.columns + c1 + 1);
   }
+}
+
+/// The edges of a flattened outline, as x0, y0, x1, y1 quadruples, after applying `m`. Curves are
+/// flattened as `java.awt.geom.FlatteningPathIterator` does, with the given flatness; every
+/// subpath is closed.
+export function flattenPath(path: PathSegment[], m: Matrix, flatness: number): number[] {
+  const squareFlat = flatness ** 2;
+  const edges: number[] = [];
+  let startX = 0;
+  let startY = 0;
+  let curX = 0;
+  let curY = 0;
+  const lineTo = (x: number, y: number) => {
+    edges.push(curX, curY, x, y);
+    curX = x;
+    curY = y;
+  };
+  const tx = (x: number, y: number): [number, number] => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
+  for (const s of path) {
+    switch (s.type) {
+      case "M": {
+        // Closes the previous subpath implicitly.
+        if (curX !== startX || curY !== startY) edges.push(curX, curY, startX, startY);
+        [startX, startY] = tx(s.points[0], s.points[1]);
+        curX = startX;
+        curY = startY;
+        break;
+      }
+      case "L":
+        lineTo(...tx(s.points[0], s.points[1]));
+        break;
+      case "Q": {
+        const [cx, cy] = tx(s.points[0], s.points[1]);
+        const [ex, ey] = tx(s.points[2], s.points[3]);
+        flattenQuad(curX, curY, cx, cy, ex, ey, 0, squareFlat, lineTo);
+        break;
+      }
+      case "C": {
+        const [c1x, c1y] = tx(s.points[0], s.points[1]);
+        const [c2x, c2y] = tx(s.points[2], s.points[3]);
+        const [ex, ey] = tx(s.points[4], s.points[5]);
+        flattenCubic(curX, curY, c1x, c1y, c2x, c2y, ex, ey, 0, squareFlat, lineTo);
+        break;
+      }
+      case "Z":
+        lineTo(startX, startY);
+        break;
+    }
+  }
+  if (curX !== startX || curY !== startY) edges.push(curX, curY, startX, startY);
+  return edges;
 }
 
 function flattenQuad(

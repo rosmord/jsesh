@@ -11,7 +11,7 @@
 ///        ├─ BasicItem: Cadrat, AlphabeticCharacter, MdcComment
 ///        │    Cadrat └─ HBox └─ HorizontalListElement
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
-///        │                        │   Overwrite, Insert, SubCadrat, Cartouche, Philology
+///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
 ///        └─ Superscript, LineBreak, PageBreak, TabStop, Tabbing, TabbingClear, HRule
 /// ```
@@ -27,6 +27,7 @@ import {
   type CartouchePart,
   type CartoucheType,
   type InsertionDirection,
+  type KerningAxis,
   type ScriptCode,
   type TabbingJustification,
   type TextOrientation,
@@ -55,6 +56,7 @@ export interface ModelElementVisitor<R = void> {
   visitAbsoluteGroup(e: AbsoluteGroup): R;
   visitOverwrite(e: Overwrite): R;
   visitInsert(e: Insert): R;
+  visitKerning(e: Kerning): R;
   visitComplexLigature(e: ComplexLigature): R;
   visitSubCadrat(e: SubCadrat): R;
   visitBasicItemList(e: BasicItemList): R;
@@ -103,6 +105,9 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitInsert(e: Insert): void {
+    this.visitDefault(e);
+  }
+  visitKerning(e: Kerning): void {
     this.visitDefault(e);
   }
   visitComplexLigature(e: ComplexLigature): void {
@@ -461,6 +466,23 @@ export class Cadrat extends BasicItem {
     return this.hBoxes.some((b) => b.isWide());
   }
 
+  /// If this quadrat only contains kerning operators, the axis of the last one.
+  ///
+  /// Such a quadrat is used to kern the quadrats around it, as in `p-@hkern-q`.
+  getKerningAxis(): KerningAxis | undefined {
+    let axis: KerningAxis | undefined;
+    for (const b of this.hBoxes) {
+      axis = b.getKerningAxis();
+      if (axis === undefined) return undefined;
+    }
+    return axis;
+  }
+
+  /// Does this quadrat contain a kerning operator, at any level of its lines?
+  containsKerning(): boolean {
+    return this.hBoxes.some((b) => b.containsKerning());
+  }
+
   /// Is this cadrat embedded in a sub-cadrat?
   isEmbedded(): boolean {
     for (let e = this.parent; e !== null; e = e.parent) {
@@ -512,6 +534,23 @@ export class HBox extends ModelElement {
   isWide(): boolean {
     const only = this.numberOfChildren === 1 ? this.getChildAt(0) : null;
     return only instanceof Hieroglyph && only.isWide();
+  }
+
+  /// If this box only contains kerning operators, the axis of the last one.
+  ///
+  /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:@vkern:q`.
+  getKerningAxis(): KerningAxis | undefined {
+    let axis: KerningAxis | undefined;
+    for (const e of this.elements) {
+      if (!(e instanceof Kerning)) return undefined;
+      axis = e.axis;
+    }
+    return axis;
+  }
+
+  /// Does this box contain a kerning operator?
+  containsKerning(): boolean {
+    return this.elements.some((e) => e instanceof Kerning);
   }
 
   deepCopy(): HBox {
@@ -971,6 +1010,39 @@ export class Insert extends InnerGroup {
 
   deepCopy(): Insert {
     return new Insert(this._direction, this.main.deepCopy(), this.inserted.deepCopy(), this._dw, this._dh);
+  }
+}
+
+/// A kerning operator, `@hkern` or `@vkern` (`jsesh.model.Kerning`): the groups before and after
+/// it are moved closer, so that they are about one inter-sign space apart where their signs are
+/// closest.
+///
+/// A kerning operator is a group of its own, without content. It is found:
+///
+/// - in a horizontal group: `p*@hkern*q`;
+/// - alone in a line of a quadrat: `p:@vkern:q`;
+/// - alone in a quadrat, between quadrats: `p-@hkern-q`.
+///
+/// It only acts in a context of its own axis (see [KerningAxis]); elsewhere, it is ignored, and
+/// the text is drawn as if it was not there.
+///
+/// The options (`@hkern[...]`) are not used yet; they are kept as written, so that they are
+/// saved back.
+export class Kerning extends InnerGroup {
+  /// @param options the options, as written between the brackets, without them (empty if none).
+  constructor(
+    readonly axis: KerningAxis,
+    readonly options = "",
+  ) {
+    super();
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitKerning(this);
+  }
+
+  deepCopy(): Kerning {
+    return new Kerning(this.axis, this.options);
   }
 }
 

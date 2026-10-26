@@ -164,4 +164,27 @@ public class KerningLayoutTest {
             }
         }
     }
+
+    /// Justification moves kerned elements together: the kerned gap is kept, while the others grow.
+    @Test
+    public void justificationKeepsKerning() throws MDCSyntaxError {
+        String mdc = "w-@hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
+        for (TextDirection direction : TextDirection.values()) {
+            JSeshRenderContext plainContext = renderContext(TextOrientation.HORIZONTAL, direction);
+            JSeshRenderContext justifiedContext = new JSeshRenderContext(
+                    plainContext.jseshStyle().copy().options(o -> o.justified(true)).build(),
+                    PredefinedFonts.buildAllEmbeddedFonts());
+            MDCView plain = layout(mdc, plainContext);
+            MDCView justified = layout(mdc, justifiedContext);
+            // Sub views: w, @hkern, D58, A1...
+            assertEquals(gap(plain, 0, 2), gap(justified, 0, 2), EPSILON, "kerned gap, " + direction);
+            assertTrue(gap(justified, 2, 3) > gap(plain, 2, 3) + 0.5, "the line is justified, " + direction);
+        }
+    }
+
+    /// The space between two sub views of the text, in layout coordinates.
+    private static double gap(MDCView text, int first, int second) {
+        MDCView a = text.getSubView(first);
+        return text.getSubView(second).getPosition().x - (a.getPosition().x + a.getWidth());
+    }
 }

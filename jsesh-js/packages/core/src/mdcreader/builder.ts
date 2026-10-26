@@ -13,6 +13,7 @@ import type {
   AstHorizontalListElement,
   AstInnerGroup,
   AstModifierList,
+  AstOptionList,
   AstTopItem,
   AstTopItemList,
   CartouchePart as AstCartouchePart,
@@ -36,6 +37,7 @@ import {
   HRule,
   InnerGroup,
   Insert,
+  Kerning,
   Ligature,
   LineBreak,
   MdcComment,
@@ -250,6 +252,9 @@ class AstModelBuilder {
           optionInt(g.options, "dw", 0),
           optionInt(g.options, "dh", 0),
         );
+      case "Kerning":
+        // The AST's axis names are the model's.
+        return new Kerning(g.axis, optionsText(g.options));
     }
   }
 
@@ -269,4 +274,11 @@ class AstModelBuilder {
     for (const m of list.modifiers) result.includeModifier(new Modifier(m.name, m.value));
     return result;
   }
+}
+
+/// The options, written back as they would appear between brackets.
+function optionsText(options: AstOptionList): string {
+  return options.options
+    .map((o) => (o.value.nodeType === "Flag" ? o.name : o.name + "=" + o.value.value))
+    .join(",");
 }

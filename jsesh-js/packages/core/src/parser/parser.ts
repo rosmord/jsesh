@@ -23,6 +23,7 @@ import type {
   AstHorizontalListElement,
   AstInnerGroup,
   AstInsert,
+  AstKerning,
   AstModifier,
   AstModifierList,
   AstOption,
@@ -196,7 +197,9 @@ export class MdcParser {
       this.at(S.BEGIN_CARTOUCHE) ||
       this.at(S.BEGIN_OLD_CARTOUCHE) ||
       this.at(S.QUADRAT) ||
-      this.at(S.INSERT)
+      this.at(S.INSERT) ||
+      this.at(S.HKERN) ||
+      this.at(S.VKERN)
     );
   }
 
@@ -414,13 +417,14 @@ export class MdcParser {
 
   /// ```
   /// innerGroup ::= ligature | hieroglyph | overwrite | philology
-  ///              | subgroup | absoluteGroup | insert
+  ///              | subgroup | absoluteGroup | insert | kerning
   /// ```
   private parseInnerGroup(): AstInnerGroup {
     if (this.atHieroglyphStart()) return this.continueInnerGroup(this.parseHieroglyph());
     if (this.at(S.BEGIN_PHIL)) return this.parsePhilology();
     if (this.at(S.LPAREN)) return this.parseSubgroup();
     if (this.at(S.INSERT)) return this.parseInsert();
+    if (this.at(S.HKERN) || this.at(S.VKERN)) return this.parseKerning();
     throw this.error("unexpected or unknown item.");
   }
 
@@ -438,6 +442,17 @@ export class MdcParser {
     const insertedItems = this.parseBasicItems();
     this.expect(S.RPAREN, "')'");
     return { nodeType: "Insert", direction, options: optionsWithout(options, "dir"), mainItems, insertedItems };
+  }
+
+  /// `kerning ::= (HKERN | VKERN) optionList?`
+  ///
+  /// It is parsed as a group, so it can be found in a horizontal list (`p*@hkern*q`),
+  /// alone in a line of a cadrat (`p:@vkern:q`), or alone in a cadrat (`p-@hkern-q`).
+  private parseKerning(): AstKerning {
+    const axis = this.at(S.HKERN) ? "HORIZONTAL" : "VERTICAL";
+    this.advance();
+    const options: AstOptionList = this.at(S.OPEN_BRACE) ? this.parseOptionList() : { nodeType: "OptionList", options: [] };
+    return { nodeType: "Kerning", axis, options };
   }
 
   /// The inner groups which start with a hieroglyph, once it has been read.

@@ -15,11 +15,11 @@
 /// - the standard body of signs is always used;
 /// - views without a known outline (text, unknown signs, shading, signs whose shape is not
 ///   loaded) count as their box;
-/// - spaces count as nothing.
+/// - spaces and kerning operators count as nothing.
 
 import type { TextDirection } from "../../model/constants.js";
 import { SymbolCodes } from "../../model/constants.js";
-import { Hieroglyph } from "../../model/model.js";
+import { Hieroglyph, Kerning } from "../../model/model.js";
 import type { HieroglyphDrawer } from "../glyphs.js";
 import { concatenate, IDENTITY, parsePath, pathBounds, rotation, scaling, transformPath, translation, type Matrix } from "../path.js";
 import { Rect, type MDCView } from "../view.js";
@@ -64,6 +64,7 @@ export class ViewSilhouette {
 
   private collectLeaf(view: MDCView, toRoot: Matrix, result: Outline[]): void {
     const h = view.model;
+    if (h instanceof Kerning) return;
     if (h instanceof Hieroglyph) {
       if (h.type === SymbolCodes.HALFSPACE || h.type === SymbolCodes.FULLSPACE) return;
       if (h.type === SymbolCodes.MDCCODE && this.drawer.isKnown(h.code) && this.collectSign(h, view, toRoot, result)) return;

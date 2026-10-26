@@ -26,6 +26,8 @@ export interface EditorViewOptions {
   style?: StyleChanges;
   /// URL of the glyph data, for this editor only.
   glyphsUrl?: string;
+  /// Show kerning operators (`@hkern`, `@vkern`) as marks (false by default).
+  showKerningMarks?: boolean;
   /// Called when the text can't be drawn (the glyph data can't be loaded...). By default, the error is logged.
   onError?: (error: unknown) => void;
 }
@@ -47,6 +49,7 @@ export class EditorView {
   private _cadratHeight: number;
   private style: StyleChanges | undefined;
   private readonly glyphsUrl: string | undefined;
+  private _showKerningMarks: boolean;
   private readonly onError: (error: unknown) => void;
   private readonly idPrefix = `jsesh-editor${views++}`;
   private laidOut: LaidOutText | undefined;
@@ -76,6 +79,7 @@ export class EditorView {
     this._cadratHeight = options.cadratHeight ?? 45;
     this.style = options.style;
     this.glyphsUrl = options.glyphsUrl;
+    this._showKerningMarks = options.showKerningMarks ?? false;
     this.onError = options.onError ?? ((error) => console.error("jsesh editor:", error));
     if (getComputedStyle(surface).position === "static") surface.style.position = "relative";
     surface.addEventListener("keydown", this.onKeyDown);
@@ -103,6 +107,19 @@ export class EditorView {
   set cadratHeight(height: number) {
     this._cadratHeight = height;
     this.renderSafely();
+  }
+
+  /// Show kerning operators as marks, as paragraph marks in a word processor. Only the editor
+  /// shows them: they are never part of the text's picture elsewhere.
+  get showKerningMarks(): boolean {
+    return this._showKerningMarks;
+  }
+
+  set showKerningMarks(show: boolean) {
+    if (show === this._showKerningMarks) return;
+    this._showKerningMarks = show;
+    // The marks don't change the layout.
+    if (this.laidOut !== undefined) this.draw(this.laidOut);
   }
 
   /// Changes to the page's style, for this editor (`session.setOptions` is for direction and orientation).
@@ -139,7 +156,15 @@ export class EditorView {
     });
     if (generation !== this.generation) return;
     this.laidOut = laidOut;
-    this.surface.innerHTML = drawLaidOutText(laidOut, { cadratHeight: this._cadratHeight, idPrefix: this.idPrefix });
+    this.draw(laidOut);
+  }
+
+  private draw(laidOut: LaidOutText): void {
+    this.surface.innerHTML = drawLaidOutText(laidOut, {
+      cadratHeight: this._cadratHeight,
+      idPrefix: this.idPrefix,
+      showKerningMarks: this._showKerningMarks,
+    });
     this._areas = itemAreas(laidOut, this._cadratHeight);
     this.drawCaret();
   }

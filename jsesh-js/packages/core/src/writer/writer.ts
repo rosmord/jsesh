@@ -10,6 +10,7 @@ import {
   cartoucheTypeCode,
   closeCodeForPhilology,
   INSERTION_DIRECTION_CODES,
+  KERNING_AXIS_CODES,
   openCodeForPhilology,
   shadingToString,
 } from "../model/constants.js";
@@ -28,6 +29,7 @@ import {
   type Hieroglyph,
   type HRule,
   type Insert,
+  type Kerning,
   type Ligature,
   type MdcComment,
   type ModelElement,
@@ -192,6 +194,11 @@ class ModelWriter implements ModelElementVisitor<void> {
     this.write(",");
     insert.inserted.basicItemList.accept(this);
     this.write(")");
+  }
+
+  visitKerning(kerning: Kerning): void {
+    this.write("@" + KERNING_AXIS_CODES[kerning.axis]);
+    if (kerning.options !== "") this.write("[" + kerning.options + "]");
   }
 
   visitOverwrite(o: Overwrite): void {

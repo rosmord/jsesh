@@ -273,7 +273,8 @@ public class ColumnLayout extends TopItemLayout {
 			if (kerning.isPresent()) {
 				// Takes no room. In columns, only @vkern is meaningful.
 				pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.VERTICAL;
-				zone.add(subView);
+				// In the unit of the previous element, so that justification keeps kerned elements together.
+				zone.addKerned(subView);
 				kerningViews.add(subView);
 				return;
 			}

@@ -33,6 +33,8 @@ enum TokenType {
   ZONE,
   QUADRAT,
   INSERT,
+  HKERN,
+  VKERN,
   UNKNOW_OPERATOR,
   START_HIEROGLYPHS,
   TEXT_SUPER,
@@ -190,6 +192,8 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.ZONE, match: lit("@zone") },
   { type: TokenType.QUADRAT, match: lit("@quadrat") },
   { type: TokenType.INSERT, match: lit("@insert") },
+  { type: TokenType.HKERN, match: lit("@hkern") },
+  { type: TokenType.VKERN, match: lit("@vkern") },
   { type: TokenType.START_HIEROGLYPHS, match: lit("+s") },
   // "\-" is tried first, so that the greedy regexp gives the longest match.
   { type: TokenType.TEXT_SUPER, match: re("\\|(?:\\\\-|[^-])*") },
@@ -384,6 +388,10 @@ export class MdcLexer {
         return emit(MdcSymbolCode.QUADRAT);
       case TokenType.INSERT:
         return emit(MdcSymbolCode.INSERT);
+      case TokenType.HKERN:
+        return emit(MdcSymbolCode.HKERN);
+      case TokenType.VKERN:
+        return emit(MdcSymbolCode.VKERN);
       case TokenType.UNKNOW_OPERATOR:
         return emit(MdcSymbolCode.UNKNOWN_OPERATOR);
       case TokenType.START_HIEROGLYPHS:

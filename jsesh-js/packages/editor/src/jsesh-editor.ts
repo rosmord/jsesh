@@ -16,7 +16,9 @@
 ///
 /// Attributes: `mdc`, `cadrat-height` (height of a quadrat in pixels, 45 by
 /// default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or
-/// `vertical`), `glyphs-url`. The `jseshStyle` property takes any style change.
+/// `vertical`), `glyphs-url`, `show-kerning-marks` (a boolean attribute: show the
+/// kerning operators `@hkern` and `@vkern` as marks). The `jseshStyle` property
+/// takes any style change.
 ///
 /// The `mdc` property reads and sets the text; setting it to what it already
 /// is does nothing, so it can be bound to a framework's model (`v-model`...).
@@ -65,7 +67,14 @@ ${EDITOR_VIEW_CSS}
 `;
 
 export class JSeshEditorElement extends HTMLElement {
-  static readonly observedAttributes = ["mdc", "cadrat-height", "direction", "orientation", "glyphs-url"];
+  static readonly observedAttributes = [
+    "mdc",
+    "cadrat-height",
+    "direction",
+    "orientation",
+    "glyphs-url",
+    "show-kerning-marks",
+  ];
 
   /// The editing state machine of this element.
   readonly session = new EditorSession();
@@ -115,6 +124,15 @@ export class JSeshEditorElement extends HTMLElement {
   set cadratHeight(height: number) {
     this._cadratHeight = height;
     if (this.view !== undefined) this.view.cadratHeight = height;
+  }
+
+  /// Show kerning operators as marks (the `show-kerning-marks` attribute).
+  get showKerningMarks(): boolean {
+    return this.hasAttribute("show-kerning-marks");
+  }
+
+  set showKerningMarks(show: boolean) {
+    this.toggleAttribute("show-kerning-marks", show);
   }
 
   /// Changes to the style, on top of the page's style and the attributes.
@@ -179,6 +197,7 @@ export class JSeshEditorElement extends HTMLElement {
       cadratHeight: this._cadratHeight,
       style: this._style,
       glyphsUrl: this.getAttribute("glyphs-url") ?? undefined,
+      showKerningMarks: this.showKerningMarks,
       onError: (error) => this.dispatchEvent(new CustomEvent("jsesh-error", { detail: error })),
     });
     this.unsubscribe = this.session.subscribe(() =>
@@ -219,6 +238,9 @@ export class JSeshEditorElement extends HTMLElement {
         break;
       case "glyphs-url":
         // Read when the view is created.
+        break;
+      case "show-kerning-marks":
+        if (this.view !== undefined) this.view.showKerningMarks = value !== null;
         break;
     }
   }

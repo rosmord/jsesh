@@ -114,6 +114,17 @@ export interface AstInsert {
   insertedItems: AstBasicItemList;
 }
 
+export type KerningAxis = "HORIZONTAL" | "VERTICAL";
+
+/// A kerning operator, `@hkern` or `@vkern`, written where a group could be:
+/// `p*@hkern*q`, `p:@vkern:q`, `p-@hkern-q`.
+export interface AstKerning {
+  nodeType: "Kerning";
+  axis: KerningAxis;
+  /** Not used yet; empty if none. */
+  options: AstOptionList;
+}
+
 export type AstInnerGroup =
   | AstHieroglyph
   | AstCartouche
@@ -122,7 +133,8 @@ export type AstInnerGroup =
   | AstOverwrite
   | AstPhilology
   | AstAbsoluteGroup
-  | AstInsert;
+  | AstInsert
+  | AstKerning;
 
 export interface AstComplexLigature {
   nodeType: "ComplexLigature";
