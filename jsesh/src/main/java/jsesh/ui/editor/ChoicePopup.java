@@ -106,6 +106,10 @@ class ChoicePopup<T> {
     private boolean closed = false;
     /// True while the list is updated from the choices, which must then not be selected again.
     private boolean refreshing = false;
+    /// Number of columns of the grid, fixed by the first layout (0 before).
+    private int columns = 0;
+    /// Width of the grid, which never shrinks.
+    private int gridWidth = 0;
 
     /// @param editor the editor which owns the text.
     /// @param choices what to choose from.
@@ -160,7 +164,11 @@ class ChoicePopup<T> {
             JPanel content = new JPanel(new BorderLayout());
             content.setBackground(list.getBackground());
             content.add(scrollPane, BorderLayout.CENTER);
-            content.add(accessory, BorderLayout.EAST);
+            // The accessory stays aligned with the top when the popup grows.
+            JPanel accessoryHolder = new JPanel(new BorderLayout());
+            accessoryHolder.setOpaque(false);
+            accessoryHolder.add(accessory, BorderLayout.NORTH);
+            content.add(accessoryHolder, BorderLayout.EAST);
             window.setContentPane(content);
         }
         window.getRootPane().setBorder(popupBorder());
@@ -240,8 +248,13 @@ class ChoicePopup<T> {
         int maxColumns = Math.max(1, Math.min(MAX_COLUMNS, (int) (screen.width * MAX_SCREEN_RATIO / cellSize.width)));
         int maxRows = Math.max(1, Math.min(MAX_VISIBLE_ROWS, (int) (screen.height * MAX_SCREEN_RATIO / cellSize.height)));
         // Spread the possibilities evenly: 7 possibilities make 2 rows of 4, not 6 + 1.
-        int rows = (count + maxColumns - 1) / maxColumns;
-        int columns = (count + rows - 1) / rows;
+        // Once chosen, the number of columns and the width don't change when the
+        // choices are refreshed: the popup grows vertically instead.
+        if (columns == 0) {
+            int firstRows = Math.max(1, (count + maxColumns - 1) / maxColumns);
+            columns = Math.max(1, (count + firstRows - 1) / firstRows);
+        }
+        int rows = Math.max(1, (count + columns - 1) / columns);
         // The preferred size of a wrapping list is computed from its visible row count.
         list.setVisibleRowCount(rows);
         int visibleRows = Math.min(rows, maxRows);
@@ -249,6 +262,8 @@ class ChoicePopup<T> {
         if (visibleRows < rows) {
             width += scrollBarWidth;
         }
+        width = Math.max(width, gridWidth);
+        gridWidth = width;
         return new Dimension(width, visibleRows * cellSize.height);
     }
 

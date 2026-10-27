@@ -25767,8 +25767,17 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
     <variantOf baseSign="M40" isSimilar="y" linguistic="unspecified" sign="M40C"/>
   </sign>
   <sign alwaysDisplay="y" sign="M41">
-    <hasTransliteration sign="M41" transliteration="wan" type="phonogram" use="keyboard"/>
     <hasTag sign="M41" tag="log"/>
+    <hasTransliteration sign="M41" transliteration="aS" type="phonogram" use="keyboard"/>
+    <signDescription lang="en" sign="M41">+lLog of wood stripped of its branches+s-!
++lDet. of essences of wood, e.g +s-a:S-M41-+l, +s-+taS, +s-+ipine-tree +s-+l(used to be interpreted as +s-+icedar+s-+l).+s-!
++lE.g. Urk. IV, 373+s-!
+m-a:S-M41-w-a:n-M41-mr-r:M41-!
++bBibliography+s-!
++lG+s-+iEG+s-+l, p. 484+s-!
++lLoret V. « Quelques notes sur l’arbre âch ». +s-+iASAE.+s-+l 1916. Vol. 16, p. 33‑51. +s-!
+!
+</signDescription>
   </sign>
   <sign alwaysDisplay="y" sign="M42">
     <hasTransliteration sign="M42" transliteration="wn" type="phonogram" use="keyboard"/>
@@ -26673,6 +26682,7 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
   </sign>
   <sign sign="M186">
     <hasTag sign="M186" tag="log"/>
+    <variantOf baseSign="M41" isSimilar="y" linguistic="unspecified" sign="M186"/>
   </sign>
   <sign sign="M187">
     <hasTag sign="M187" tag="log"/>
@@ -26681,7 +26691,8 @@ k:k-t-+isignifierait donc courtilière et ce sens conviendrait au passage où le
 +lSee for instance Cherpion, Corteggiani, Gout, +s-+iLe tombeau de Petosiris,+s-!
 +lScene 73 (= GL 62), col. 4.+s-!
 </signDescription>
-    <variantOf baseSign="M41" isSimilar="y" linguistic="unspecified" sign="M187"/>
+    <variantOf baseSign="M41" isSimilar="y" linguistic="full" sign="M187"/>
+    <hasTransliteration sign="M187" transliteration="aS" type="phonogram" use="palette"/>
   </sign>
   <sign sign="M188">
     <hasTag sign="M188" tag="tree"/>

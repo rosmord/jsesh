@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1366.8"
+   height="512.5"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="N22.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">N22</title>
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.3611111"
+     inkscape:cx="1196.3077"
+     inkscape:cy="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1147"
+     inkscape:window-x="1024"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>N22</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Serge Rosmorduc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>SIL license</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:description>Synthetic sign.</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     style="stroke-linecap:round"
+     d="M -1.7695312,2.5800781 V 514.53711 L 1091.5352,500.22852 c 51.0204,-0.66781 114.3079,-23.9185 171.3867,-59.93555 57.0788,-36.01706 111.1677,-86.98138 109.6074,-155.85547 -1.4082,-62.16117 -37.9561,-119.82369 -86.3398,-164.64648 C 1237.8057,74.968218 1175.8764,41.936086 1111.6309,39.789062 Z M 68.230469,74.958984 1109.293,109.75 c 40.3313,1.34784 90.857,25.75276 129.3261,61.39062 38.4692,35.63787 63.1706,81.4584 63.9278,114.88282 0.6051,26.7115 -29.703,65.2379 -76.9805,95.07031 -47.2775,29.83241 -108.3046,48.7919 -134.9473,49.14062 L 68.230469,443.61523 Z"
+     id="path2" />
+</svg>
