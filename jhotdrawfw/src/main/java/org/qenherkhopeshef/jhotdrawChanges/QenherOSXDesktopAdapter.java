@@ -6,14 +6,14 @@
 package org.qenherkhopeshef.jhotdrawChanges;
 
 import java.awt.Desktop;
-import java.awt.desktop.AboutEvent;
-import java.awt.desktop.AboutHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 import org.jhotdraw_7_6.app.AbstractApplication;
 
 /**
@@ -44,9 +44,15 @@ public class QenherOSXDesktopAdapter {
      * @param quitHandler
      */
     public void setQuitHandler(ActionListener quitHandler) {
-        Desktop.getDesktop().setQuitHandler((e, response) -> quitHandler.actionPerformed(
-                new ActionEvent(Desktop.getDesktop(), ActionEvent.ACTION_PERFORMED, "quit")
-        ));
+        Desktop.getDesktop().setQuitHandler((e, response) -> {
+            // The native quit request must always be answered, otherwise macOS
+            // may consider it still pending and ignore later quit requests.
+            // We cancel it: if the application really exits, the quit handler
+            // ends up calling System.exit(), which does not need the OS's help.
+            response.cancelQuit();
+            SwingUtilities.invokeLater(() -> quitHandler.actionPerformed(
+                    new ActionEvent(Desktop.getDesktop(), ActionEvent.ACTION_PERFORMED, "quit")));
+        });
     }
 
     /**

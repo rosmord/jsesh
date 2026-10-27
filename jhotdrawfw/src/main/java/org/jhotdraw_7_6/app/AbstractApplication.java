@@ -247,9 +247,16 @@ public abstract class AbstractApplication extends AbstractBean implements Applic
 
     
     public void destroy() {
-        stop();
-        model.destroyApplication(this);
-        System.exit(0);
+        // Whatever happens while cleaning up, we must exit: the EDT would
+        // otherwise keep the JVM alive.
+        try {
+            stop();
+            model.destroyApplication(this);
+        } catch (RuntimeException | Error e) {
+            e.printStackTrace();
+        } finally {
+            System.exit(0);
+        }
     }
 
     
