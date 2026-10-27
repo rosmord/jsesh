@@ -138,6 +138,12 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 // insertMenu.add(shadingSymbolsMenu);
                 insertMenu.addSeparator();
 
+                addToMenu(insertMenu, app, view,
+                                JSeshApplicationActionsID.INSERT_HORIZONTAL_KERNING);
+                addToMenu(insertMenu, app, view,
+                                JSeshApplicationActionsID.INSERT_VERTICAL_KERNING);
+                insertMenu.addSeparator();
+
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));
                 insertMenu.add(map.get(InsertShortTextAction.ID));
                 return insertMenu;

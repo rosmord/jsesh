@@ -44,6 +44,18 @@ public class InsertElementAction extends AbstractViewAction {
         putValue(SMALL_ICON, iconFactory.buildImage(mdcTextForIcon));
     }
 
+    /// Build an icon-less insert element action for an arbitrary element.
+    ///
+    /// @param app the application.
+    /// @param view the view.
+    /// @param id the action id, used to configure the action (the label must not need an MdC icon).
+    /// @param element a prototype of the element to add.
+    public InsertElementAction(Application app, View view, String id, ModelElement element) {
+        super(app, view);
+        this.element = element.deepCopy();
+        BundleHelper.getInstance().configureActionWithID(this, id);
+    }
+
     /**
      * Create an action for adding a particular glyph, with a specific numeric
      * code.

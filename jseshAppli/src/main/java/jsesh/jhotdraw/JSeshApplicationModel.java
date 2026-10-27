@@ -109,6 +109,8 @@ import jsesh.jhotdraw.preferences.application.model.FontInfo;
 import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter;
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.Kerning;
+import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCIconFactory;
@@ -339,6 +341,13 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             addInsertAction(map, a, v,
                     JSeshApplicationActionsID.INSERT_QUARTER_SHADING,
                     SymbolCodes.QUATERSHADE);
+
+            map.put(JSeshApplicationActionsID.INSERT_HORIZONTAL_KERNING,
+                    new InsertElementAction(a, v, JSeshApplicationActionsID.INSERT_HORIZONTAL_KERNING,
+                            new Kerning(KerningAxis.HORIZONTAL)));
+            map.put(JSeshApplicationActionsID.INSERT_VERTICAL_KERNING,
+                    new InsertElementAction(a, v, JSeshApplicationActionsID.INSERT_VERTICAL_KERNING,
+                            new Kerning(KerningAxis.VERTICAL)));
 
             // Ecdotic signs. Codes from 100 to 113.
             for (int i = 100; i <= 113; i++) {
