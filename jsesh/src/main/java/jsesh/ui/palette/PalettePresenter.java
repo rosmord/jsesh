@@ -172,6 +172,8 @@ public class PalettePresenter {
         signDescriptionField = new JMDCEditor();
         signDescriptionField.setScale(2.0);
         signDescriptionField.setEditable(false);
+        // The description follows the width of the palette.
+        signDescriptionField.setWrapToComponentWidth(true);
 
         glyphDescriptionField = new JTextArea();
         glyphDescriptionField.setEditable(false);

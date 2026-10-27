@@ -76,7 +76,7 @@ class MDCViewUpdater implements ModelOperationVisitor {
 	 * Returns the render context from the editor.
 	 */
 	private JSeshRenderContext renderContext() {
-		return editor.getRenderContext();
+		return editor.getDisplayRenderContext();
 	}
 
 	/**

@@ -118,7 +118,7 @@ public final class TextGeometry {
     /// them.
     ///
     /// When one of these views is a break (line or page), only the other one
-    /// is used.
+    /// is used. The same goes for the first view of a soft-wrapped row.
     ///
     /// @param position a top-level position.
     /// @return a rectangle around the position, in drawing coordinates.
@@ -169,7 +169,12 @@ public final class TextGeometry {
                 nextIsBreak = true;
             }
 
-            if (previousIsBreak) {
+            // A soft-wrapped line ends here: the next view is on a lower row.
+            boolean wrapped = !previousIsBreak && !nextIsBreak
+                    && style.options().textOrientation().isHorizontal()
+                    && nextRectangle.getMinY() >= previousRectangle.getMaxY();
+
+            if (previousIsBreak || wrapped) {
                 result = nextRectangle;
             } else if (nextIsBreak) {
                 result = previousRectangle;

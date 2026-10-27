@@ -110,6 +110,39 @@ class TextGeometryTest {
         assertEquals(first.getHeight(), area.getHeight(), EPSILON);
     }
 
+    /// Wraps the lines of the editor (soft wrapping), narrow enough for two signs per row.
+    private void wrapAfterTwoSigns() {
+        MDCView probe = geometryView("A1-A1");
+        float width = (float) (probe.getWidth() + 1);
+        editor.setJSeshStyle(editor.getJSeshStyle().copy().geometry(g -> g.wrapWidth(width)).build());
+    }
+
+    private MDCView geometryView(String mdc) {
+        editor.setMDCText(mdc);
+        return editor.getView();
+    }
+
+    @Test
+    void clickAfterTheEndOfAWrappedRowGoesAfterItsLastSign() {
+        wrapAfterTwoSigns();
+        // Views: A1, A1 on the first row, A1, A1 on the second one.
+        TextGeometry geometry = geometry("A1-A1-A1-A1");
+        MDCView root = editor.getView();
+        assertTrue(root.getSubView(2).getPosition().y > root.getSubView(1).getPosition().y, "wrapped");
+        Point2D inSecond = pointIn(1, 0.5, 0.5);
+        assertEquals(2, positionAt(geometry, new Point2D.Double(inSecond.getX() + 10000, inSecond.getY())));
+    }
+
+    @Test
+    void areaAroundAWrapPointIsOnTheNextRow() {
+        wrapAfterTwoSigns();
+        TextGeometry geometry = geometry("A1-A1-A1-A1");
+        Rectangle2D third = editor.getView().getSubViewBounds(2);
+        Rectangle2D area = geometry.areaAround(new MDCPosition(2));
+        assertEquals(third.getMinX(), area.getMinX(), EPSILON);
+        assertEquals(third.getMinY(), area.getMinY(), EPSILON);
+    }
+
     // --- Positions inside cartouches ---------------------------------------
 
     /// The content of the cartouche, when it is the first item of the text.

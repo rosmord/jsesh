@@ -59,6 +59,64 @@ public record TextRun(int start, int end, double[] offsets, double[] widths, dou
         return result;
     }
 
+    /// The visual left side of the characters `from` to `to - 1` (logical order),
+    /// relative to the run.
+    private double minX(int from, int to) {
+        double min = Double.POSITIVE_INFINITY;
+        for (int k = from; k < to; k++) {
+            min = Math.min(min, offsets[k]);
+        }
+        return min;
+    }
+
+    /// The width of a part of the run, i.e. of the characters `from` to
+    /// `to - 1` (logical order). The width of the whole run is the one of the
+    /// part `0` to `n`.
+    ///
+    /// @param from index of the first character of the part.
+    /// @param to index after the last character of the part.
+    public double width(int from, int to) {
+        double max = Double.NEGATIVE_INFINITY;
+        for (int k = from; k < to; k++) {
+            max = Math.max(max, offsets[k] + widths[k]);
+        }
+        return max - minX(from, to);
+    }
+
+    /// The layout offsets of a part of the run, when it is placed on its own.
+    ///
+    /// @param from index of the first character of the part.
+    /// @param to index after the last character of the part.
+    /// @param mirrored true if the parent view is drawn right to left.
+    /// @return the x position of each character from `from` to `to - 1`, relative to the part.
+    /// @see #layoutOffset(int, boolean)
+    public double[] layoutOffsets(int from, int to, boolean mirrored) {
+        double min = minX(from, to);
+        double partWidth = width(from, to);
+        double[] result = new double[to - from];
+        for (int k = from; k < to; k++) {
+            double x = offsets[k] - min;
+            result[k - from] = mirrored ? partWidth - x - widths[k] : x;
+        }
+        return result;
+    }
+
+    /// Can a line end after this character? True for white space and
+    /// punctuation (but not opening brackets and quotes).
+    ///
+    /// @param c a character.
+    /// @return true if a text may be cut after `c`.
+    public static boolean canBreakAfter(AlphabeticCharacter c) {
+        if (c.isSpace()) {
+            return true;
+        }
+        return switch (Character.getType(c.getCodePoint())) {
+            case Character.DASH_PUNCTUATION, Character.END_PUNCTUATION, Character.FINAL_QUOTE_PUNCTUATION,
+                    Character.OTHER_PUNCTUATION -> true;
+            default -> false;
+        };
+    }
+
     /// The subviews of `parent` in this run.
     public List<MDCView> views(MDCView parent) {
         List<MDCView> result = new ArrayList<>(end - start);

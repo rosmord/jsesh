@@ -15,6 +15,7 @@ import jsesh.render.layout.insert.Kerner;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.model.constants.TextDirection;
+import jsesh.model.AlphabeticCharacter;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
@@ -64,6 +65,10 @@ public class LineLayout extends TopItemLayout {
      * A list of all zones, if we decide to justify the text.
      */
     private final List<Zone> allZones = new ArrayList<Zone>();
+
+    /// The zones which ended because of soft wrapping (not at a line break).
+    /// When wrapping, only those are justified: the others end a paragraph.
+    private final Set<Zone> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
     /**
      * the position that will be used to place the current zone
      */
@@ -139,10 +144,88 @@ public class LineLayout extends TopItemLayout {
     public void layoutTextRun(TextRun run, List<MDCView> views) {
         resetKerning();
         boolean mirrored = !currentTextDirection.isLeftToRight();
-        zone.addRun(views, run.layoutOffsets(mirrored));
-        if (run.width() != 0) {
-            zone.moveCurrentPoint(run.width() + jseshStyle.geometry().smallSkip(), 0);
+        if (!jseshStyle.geometry().isWrapping()) {
+            placeRunPart(run, views, 0, views.size(), mirrored);
+            return;
         }
+        // Wrapping: the run is cut at spaces and punctuation, or anywhere if a
+        // word is too long for a line.
+        int n = views.size();
+        boolean[] breakAfter = new boolean[n];
+        boolean[] space = new boolean[n];
+        for (int k = 0; k < n; k++) {
+            AlphabeticCharacter c = (AlphabeticCharacter) views.get(k).getModel();
+            breakAfter[k] = TextRun.canBreakAfter(c);
+            space[k] = c.isSpace();
+        }
+        int from = 0;
+        while (from < n) {
+            int to = runPartEnd(run, from, breakAfter, space);
+            placeRunPart(run, views, from, to, mirrored);
+            from = to;
+            if (from < n) {
+                wrapLine();
+            }
+        }
+    }
+
+    /// Adds the characters `from` to `to - 1` of a run to the current line.
+    private void placeRunPart(TextRun run, List<MDCView> views, int from, int to, boolean mirrored) {
+        zone.addRun(views.subList(from, to), run.layoutOffsets(from, to, mirrored));
+        double width = run.width(from, to);
+        if (width != 0) {
+            zone.moveCurrentPoint(width + jseshStyle.geometry().smallSkip(), 0);
+        }
+    }
+
+    /// Finds how much of a run, starting at the character `from`, goes on the
+    /// current line. If nothing fits, the line is wrapped (unless it is empty).
+    ///
+    /// The part ends after a space or punctuation. If not even a word fits on an
+    /// empty line, it is cut between any two characters. Trailing spaces may
+    /// go beyond the end of the line.
+    ///
+    /// @return the index after the last character to place on the line (greater than `from`).
+    private int runPartEnd(TextRun run, int from, boolean[] breakAfter, boolean[] space) {
+        int end = fittingEnd(run, from, breakAfter, space, true);
+        if (end > from) {
+            return end;
+        }
+        if (!zone.isEmpty()) {
+            wrapLine();
+            end = fittingEnd(run, from, breakAfter, space, true);
+            if (end > from) {
+                return end;
+            }
+        }
+        // The word is larger than a line.
+        return Math.max(from + 1, fittingEnd(run, from, breakAfter, space, false));
+    }
+
+    /// The end of the largest part of a run, starting at `from`, which fits the
+    /// room left on the current line.
+    ///
+    /// @param atBreaksOnly true to end the part only after a space or
+    /// punctuation (or at the end of the run).
+    /// @return the index after the last character of the part, or `from` if nothing fits.
+    private int fittingEnd(TextRun run, int from, boolean[] breakAfter, boolean[] space, boolean atBreaksOnly) {
+        double available = maxLineWidth() - zone.getCurrentPoint().getX();
+        int n = breakAfter.length;
+        int best = from;
+        for (int end = from + 1; end <= n; end++) {
+            // Trailing spaces are not counted.
+            int visibleEnd = end;
+            while (visibleEnd > from + 1 && space[visibleEnd - 1]) {
+                visibleEnd--;
+            }
+            if (run.width(from, visibleEnd) > available) {
+                break;
+            }
+            if (!atBreaksOnly || end == n || breakAfter[end - 1]) {
+                best = end;
+            }
+        }
+        return best;
     }
 
     /*
@@ -156,25 +239,16 @@ public class LineLayout extends TopItemLayout {
             flushZone();
         }
         if (jseshStyle.options().justified()) {
-            // Compute the maximal width of zones.
-            double width = 0;
-            for (Zone z : allZones) {
-                if (z.getWidth() > width) {
-                    width = z.getWidth();
+            if (jseshStyle.geometry().isWrapping()) {
+                // Wrapped lines are justified to the wrapping width.
+                // Zones which end a paragraph stay as they are.
+                for (Zone z : allZones) {
+                    if (softWrappedZones.contains(z)) {
+                        z.justifyWidthTo(jseshStyle.geometry().leftMargin(), maxLineWidth());
+                    }
                 }
-            }
-            width = width
-                    - jseshStyle.geometry().leftMargin();
-            // Justify all zones to this width.
-            for (int i = 0; i < allZones.size(); i++) {
-                Zone z = allZones.get(i);
-                // If it's not the last zone, or it looks large enough
-                // This is a temporary fix. 
-                // We should get somehow the information that the zone "would be centered".
-                if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {
-                    z.justifyWidthTo(jseshStyle.geometry()
-                            .leftMargin(), width);
-                }
+            } else {
+                justifyOnLongestZone();
             }
         }
         // Ensure the margin is there ?
@@ -186,6 +260,68 @@ public class LineLayout extends TopItemLayout {
                                 .getMinY()
                                 + jseshStyle.geometry()
                                 .topMargin()));
+    }
+
+    /// Justifies all zones to the width of the longest one.
+    private void justifyOnLongestZone() {
+        // Compute the maximal width of zones.
+        double width = 0;
+        for (Zone z : allZones) {
+            if (z.getWidth() > width) {
+                width = z.getWidth();
+            }
+        }
+        width = width
+                - jseshStyle.geometry().leftMargin();
+        // Justify all zones to this width.
+        for (int i = 0; i < allZones.size(); i++) {
+            Zone z = allZones.get(i);
+            // If it's not the last zone, or it looks large enough
+            // This is a temporary fix. 
+            // We should get somehow the information that the zone "would be centered".
+            if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {
+                z.justifyWidthTo(jseshStyle.geometry()
+                        .leftMargin(), width);
+            }
+        }
+    }
+
+    /// The width available for the content of a line when wrapping, i.e. the
+    /// wrapping width, minus the margins on both sides.
+    private double maxLineWidth() {
+        GeometrySpecification geometry = jseshStyle.geometry();
+        return geometry.wrapWidth() - 2 * geometry.leftMargin();
+    }
+
+    /// Should the current line be wrapped before adding something which would
+    /// extend it up to `x`?
+    ///
+    /// A line is never wrapped when empty: an element too large for the
+    /// wrapping width is placed alone on its line.
+    ///
+    /// @param x the position of the right side of the new content, in the
+    /// zone's coordinates.
+    private boolean wouldOverflow(double x) {
+        return jseshStyle.geometry().isWrapping() && !zone.isEmpty() && x > maxLineWidth();
+    }
+
+    /// Ends the current line because of soft wrapping, and starts the next one.
+    private void wrapLine() {
+        resetKerning();
+        double verticalSkip = zone.getHeight() + zone.getMinY() + jseshStyle.geometry().lineSkip();
+        softWrappedZones.add(zone);
+        flushZone();
+        startNextZone(verticalSkip);
+    }
+
+    /// Creates the zone for the next line.
+    ///
+    /// @param verticalSkip the distance between the top of the line which has just
+    /// been flushed and the top of the new one.
+    private void startNextZone(double verticalSkip) {
+        zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
+        zoneOriginPosition.y += verticalSkip;
+        addTopMargin = false;
     }
 
     /**
@@ -206,6 +342,7 @@ public class LineLayout extends TopItemLayout {
     @Override
     public void startLayout() {
         allZones.clear();
+        softWrappedZones.clear();
         // Pseudo relative position for first element.
         addTopMargin = true;
         // nextViewPosition = documentView.getFirstSubViewPosition();
@@ -331,10 +468,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
 
             // create a new zone.
-            zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
-            zoneOriginPosition.y += verticalSkip;
-            addTopMargin = false;
-
+            startNextZone(verticalSkip);
         }
 
         /*
@@ -414,6 +548,11 @@ public class LineLayout extends TopItemLayout {
                 dx = subView.getWidth() + jseshStyle.geometry().smallSkip();
             }
             Optional<KerningAxis> kerning = KerningPacker.kerningOf(subView);
+            // A kerned element stays with the previous one: no wrapping before it.
+            if (kerning.isEmpty() && !pendingKerning && subView.getWidth() != 0
+                    && wouldOverflow(zone.computeNewSizeWith(subView).getMaxX())) {
+                wrapLine();
+            }
             if (kerning.isPresent()) {
                 // Takes no room. In lines, only @hkern is meaningful.
                 pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.HORIZONTAL;

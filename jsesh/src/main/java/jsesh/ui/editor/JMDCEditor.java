@@ -67,6 +67,8 @@ import javax.swing.UIManager;
 import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JViewport;
+import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
@@ -115,7 +117,7 @@ import jsesh.document.caret.MDCCaret;
  *
  * @author rosmord
  */
-public class JMDCEditor extends JPanel {
+public class JMDCEditor extends JPanel implements Scrollable {
 
     // LOGGER
     private static final Logger LOGGER = Logger.getLogger(JMDCEditor.class.getName());
@@ -123,6 +125,18 @@ public class JMDCEditor extends JPanel {
      * Bottom margin of the editor.
      */
     private static final int BOTTOM_MARGIN = 5;
+
+    /// Scrolling step, in pixels, when the editor is in a scroll pane.
+    private static final int SCROLL_UNIT = 20;
+
+    /// Should the lines be wrapped to the component's width? This is a
+    /// view-level option: it is not part of the style, and thus not saved with
+    /// the document, nor used for exports and copies.
+    private boolean wrapToComponentWidth = false;
+
+    /// The wrapping width used for the current view (0 if the lines are not
+    /// wrapped).
+    private float currentWrapWidth = 0;
 
     /**
      * Strategy to draw a view. (we have just decided to build the view builder
@@ -407,9 +421,11 @@ public class JMDCEditor extends JPanel {
     }
 
     private MDCView recomputeDocumentView() {
+        JSeshRenderContext renderContext = getDisplayRenderContext();
+        currentWrapWidth = renderContext.jseshStyle().geometry().wrapWidth();
         documentView = new ViewBuilder().buildView(
                 getHieroglyphicTextModel().getHieroglyphicText(),
-                getRenderContext(),
+                renderContext,
                 buildTechRenderContext());
         revalidate();
         return documentView;
@@ -597,6 +613,10 @@ public class JMDCEditor extends JPanel {
     public void setScale(double d) {
         if (d > 0.0) {
             scale = d;
+            if (wrapToComponentWidth) {
+                // The width available to the text, in layout units, changes.
+                invalidateView();
+            }
             repaint();
             revalidate();
         }
@@ -1168,11 +1188,98 @@ public class JMDCEditor extends JPanel {
 
     /**
      * Returns the current render context.
+     * <p>
+     * This is the context for the document itself, as used for exports and
+     * copies. It doesn't include the view-level options of the editor (see
+     * {@link #getDisplayRenderContext()}).
      * 
      * @return
      */
     public JSeshRenderContext getRenderContext() {
         return new JSeshRenderContext(getJSeshStyle(), hieroglyphShapeRepository);
+    }
+
+    /// The render context used to build the editor's own view: the document's
+    /// context, plus the wrapping to the component's width when it is active.
+    ///
+    /// @return the render context for the view displayed by this editor.
+    JSeshRenderContext getDisplayRenderContext() {
+        float wrapWidth = componentWrapWidth();
+        if (wrapWidth <= 0) {
+            return getRenderContext();
+        }
+        JSeshStyle style = getJSeshStyle().copy().geometry(g -> g.wrapWidth(wrapWidth)).build();
+        return new JSeshRenderContext(style, hieroglyphShapeRepository);
+    }
+
+    /// The wrapping width implied by the component's size, in layout units.
+    ///
+    /// @return the width, or 0 if the lines are not wrapped to the component's width
+    /// (or if the component has no size yet).
+    private float componentWrapWidth() {
+        if (!wrapToComponentWidth) {
+            return 0;
+        }
+        Insets insets = getInsets();
+        double pixels = getWidth() - insets.left - insets.right;
+        return pixels > 0 ? (float) Math.floor(pixels / scale) : 0;
+    }
+
+    /// Should the lines be wrapped to the width of this component?
+    ///
+    /// This is a view option: it doesn't change the document or its style.
+    /// Only horizontal text is concerned.
+    ///
+    /// @param wrapToComponentWidth true to wrap the lines.
+    public void setWrapToComponentWidth(boolean wrapToComponentWidth) {
+        if (this.wrapToComponentWidth != wrapToComponentWidth) {
+            this.wrapToComponentWidth = wrapToComponentWidth;
+            invalidateView();
+        }
+    }
+
+    public boolean isWrapToComponentWidth() {
+        return wrapToComponentWidth;
+    }
+
+    @Override
+    public void setBounds(int x, int y, int width, int height) {
+        super.setBounds(x, y, width, height);
+        if (wrapToComponentWidth && documentView != null && componentWrapWidth() != currentWrapWidth) {
+            invalidateView();
+        }
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return SCROLL_UNIT;
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        int visible = orientation == javax.swing.SwingConstants.VERTICAL ? visibleRect.height : visibleRect.width;
+        return Math.max(SCROLL_UNIT, visible - SCROLL_UNIT);
+    }
+
+    /// The editor takes the width of its viewport when the lines are wrapped, and
+    /// when the text is narrower than the viewport (so that the background of the
+    /// editor, not the one of the scroll pane, fills the window).
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return wrapToComponentWidth
+                || getParent() instanceof JViewport viewport && viewport.getWidth() > getPreferredSize().width;
+    }
+
+    /// The editor takes the height of its viewport when the text is smaller than
+    /// the viewport.
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return getParent() instanceof JViewport viewport && viewport.getHeight() > getPreferredSize().height;
     }
 
     /**

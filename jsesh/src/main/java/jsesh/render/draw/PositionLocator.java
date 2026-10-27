@@ -98,9 +98,14 @@ final class PositionLocator {
                 return scope.positionAt(gapOnItem(i, subv, x, y, local));
             } else if (!nested) {
                 if (options.textOrientation().isHorizontal()) {
-                    // Text for end of line.
+                    // Text for end of line. If the line ends with a break,
+                    // the position is before it. Otherwise, the line was
+                    // soft-wrapped, and the position is just after its last view.
                     if (y > local.getY()) {
-                        return scope.positionAt(i > 0 ? i - 1 : 0);
+                        if (i > 0 && sequence.model().getChildAt(i - 1).isBreak()) {
+                            return scope.positionAt(i - 1);
+                        }
+                        return scope.positionAt(i);
                     }
                 } else if (options.textDirection().isLeftToRight()) {
                     if (x > local.getX()) {

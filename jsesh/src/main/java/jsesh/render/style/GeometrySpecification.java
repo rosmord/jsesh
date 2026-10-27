@@ -62,6 +62,10 @@ import java.awt.BasicStroke;
  *                            (latin, transliteration...) above the bottom line
  *                            of quadrats, in points. 0 puts the text on the
  *                            quadrats' baseline.
+ * @param wrapWidth           the total width (margins included) to which lines
+ *                            of horizontal text are soft-wrapped, in layout
+ *                            units. 0 (or less) means no wrapping: lines only
+ *                            end at explicit line breaks.
  */
 public record GeometrySpecification(
 		float fineLineWidth, // 0.5f,
@@ -95,7 +99,8 @@ public record GeometrySpecification(
 		float smallSignSizeRatio, // 0.4f,
 		float smallBodyScaleLimit, // 12f,
 		float standardSignHeight, // 18f
-		float alphabeticTextBaseline // 4f
+		float alphabeticTextBaseline, // 4f
+		float wrapWidth // 0f (no wrapping)
 ) {
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
@@ -124,7 +129,8 @@ public record GeometrySpecification(
 			0.4f,
 			12f,
 			18f,
-			4f);
+			4f,
+			0f);
 
 	/**
 	 * Auxiliary method to build a stroke for fine lines.
@@ -148,6 +154,13 @@ public record GeometrySpecification(
 	 */
 	public Stroke cartoucheStroke() {
 		return new BasicStroke(cartoucheLineWidth);
+	}
+
+	/// Is soft wrapping of lines active?
+	///
+	/// @return true if [#wrapWidth()] is positive.
+	public boolean isWrapping() {
+		return wrapWidth > 0;
 	}
 
 	public boolean hasPageFormat() {
@@ -201,6 +214,7 @@ public record GeometrySpecification(
 		private float smallBodyScaleLimit; // 12f,
 		private float standardSignHeight; // 18f;
 		private float alphabeticTextBaseline; // 4f;
+		private float wrapWidth; // 0f;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -229,6 +243,7 @@ public record GeometrySpecification(
 			this.smallBodyScaleLimit = specs.smallBodyScaleLimit;
 			this.standardSignHeight = specs.standardSignHeight;
 			this.alphabeticTextBaseline = specs.alphabeticTextBaseline;
+			this.wrapWidth = specs.wrapWidth;
 		}
 
 		public Builder fineLineWidth(float fineLineWidth) {
@@ -361,6 +376,11 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		public Builder wrapWidth(float wrapWidth) {
+			this.wrapWidth = wrapWidth;
+			return this;
+		}
+
 		public GeometrySpecification build() {
 			return new GeometrySpecification(
 					fineLineWidth,
@@ -388,7 +408,8 @@ public record GeometrySpecification(
 					smallSignSizeRatio,
 					smallBodyScaleLimit,
 					standardSignHeight,
-					alphabeticTextBaseline);
+					alphabeticTextBaseline,
+					wrapWidth);
 		}
 
 		/**
@@ -423,6 +444,7 @@ public record GeometrySpecification(
 			smallBodyScaleLimit *= scale;
 			standardSignHeight *= scale;
 			alphabeticTextBaseline *= scale;
+			wrapWidth *= scale;
 			return this;
         }
 	}

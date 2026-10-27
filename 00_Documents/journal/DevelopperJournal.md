@@ -1949,3 +1949,12 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - Java quirks noted, *not* reproduced:
   - small body signs: `DefaultElementDrawer.drawSign` compares `heightOfA1 / graphicDeviceScale` (font units divided by the device scale) with `smallBodyScaleLimit`, so the small body font is used on high-resolution screens and not when signs are small. The port never uses it;
   - `MDCDrawingFacade.getScale` divides the cadrat height by the height of A1 in font units (17.78) rather than by `standardSignHeight` (18). In the port, `cadratHeight / standardSignHeight` is the scale.
+
+## Soft line wrapping (2026-10-27)
+
+- `GeometrySpecification.wrapWidth` (layout units, margins included; 0 = no wrapping) is the layout input. `LineLayout` flushes the current `Zone` when the next element (or alphabetic run) would overflow `wrapWidth - 2 * leftMargin`. No view is added: subview index still equals model child index, so `MDCViewUpdater`, carets and selections are unaffected. Columns are not wrapped.
+- Never split: a kerned group (no wrap before an element kerned to the previous one), an alphabetic run. An element wider than the line is placed alone. With `justified`, only soft-wrapped lines are stretched (to the wrap width); lines ending at a real break are not.
+- View level: `JMDCEditor.setWrapToComponentWidth` (not part of the style, so not saved, exported or copied). The editor is now `Scrollable` and tracks the viewport width in this mode; `getDisplayRenderContext()` adds the wrap width (component width / scale) for the editor's own view only. Used by the sign palette's description, and by View > Wrap Lines (`ToggleWrapLinesAction`, remembered in the preferences).
+- To make it a document feature: add a `DocumentPreferences` field and map it in `DocumentPreferencesStyleConverter`; layout needs no change.
+- Hit tests: `PositionLocator` and `TextGeometry.areaAround` no longer assume that a row ends with a break item.
+- Known limitation: Up/Down/Home/End are model-based and treat a wrapped paragraph as one line.
