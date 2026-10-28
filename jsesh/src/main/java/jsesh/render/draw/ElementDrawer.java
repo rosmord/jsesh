@@ -33,6 +33,8 @@ import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.view.MDCView;
@@ -129,6 +131,19 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		this.showLineBreakMarks = showLineBreakMarks;
 	}
 
+	/// Are the limits of zones drawn? Meant for editors only: false by default,
+	/// so that printing and exports never show them (a zone's own frame is
+	/// always drawn).
+	private boolean showZoneLimits = false;
+
+	public boolean isShowZoneLimits() {
+		return showZoneLimits;
+	}
+
+	public void setShowZoneLimits(boolean showZoneLimits) {
+		this.showZoneLimits = showZoneLimits;
+	}
+
 
 
 	/**
@@ -181,8 +196,11 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		if (elt == null)
 			return;
 		currentView = e;
-		currentTextDirection = jseshStyle.options().textDirection();
-		currentTextOrientation = jseshStyle.options().textOrientation();
+		// Inside a zone, the direction and orientation may differ from the
+		// document's: the view knows them.
+		currentTextDirection = e.getDirection() != null ? e.getDirection() : jseshStyle.options().textDirection();
+		currentTextOrientation = e.getOrientation() != null ? e.getOrientation()
+				: jseshStyle.options().textOrientation();
 		this.g = g;
 		elt.accept(this);
                 currentView= null;
@@ -325,6 +343,14 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */
 	public void visitHieroglyphicText(HieroglyphicText t) {
+		// This method intentionnaly left blank.
+	}
+
+	public void visitZone(Zone zone) {
+		// This method intentionnaly left blank.
+	}
+
+	public void visitZoneContent(ZoneContent content) {
 		// This method intentionnaly left blank.
 	}
 

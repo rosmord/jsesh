@@ -80,6 +80,7 @@ import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
+import jsesh.jhotdraw.actions.view.ToggleZoneLimitsAction;
 import jsesh.jhotdraw.actions.view.ToggleWrapLinesAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
@@ -109,6 +110,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 if (v instanceof JSeshView view) {
                         m.add(new JCheckBoxMenuItem(new ToggleKerningMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleLineBreakMarksAction(app, view)));
+                        m.add(new JCheckBoxMenuItem(new ToggleZoneLimitsAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleWrapLinesAction(app, view)));
                 }
         }
@@ -175,6 +177,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 textMenu.addSeparator();
                 textMenu.add(buildShadingMenu(app, view));
                 textMenu.add(buildCartoucheMenu(app, view));
+                addToMenu(textMenu, app, view, ActionsID.INSERT_ZONE);
                 textMenu.add(buildEcdoticMenu(app, view));
                 textMenu.add(map.get(AddToGlossaryAction.ID));
                 return textMenu;

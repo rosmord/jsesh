@@ -9,6 +9,7 @@ package jsesh.document;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import jsesh.model.HieroglyphicText;
 import jsesh.model.ItemSequence;
@@ -170,6 +171,28 @@ public final class EditingScope {
 			i++;
 		}
 		return new MDCPosition(i);
+	}
+
+	/// @param position a local position.
+	/// @return the first position of the previous line, or empty if
+	///         `position` is on the first line of the scope.
+	public Optional<MDCPosition> getUpPosition(MDCPosition position) {
+		MDCPosition lineStart = getLineFirstPosition(position);
+		if (lineStart.getIndex() == 0) {
+			return Optional.empty();
+		}
+		return Optional.of(getLineFirstPosition(new MDCPosition(lineStart.getIndex() - 1)));
+	}
+
+	/// @param position a local position.
+	/// @return the first position of the next line, or empty if `position` is
+	///         on the last line of the scope.
+	public Optional<MDCPosition> getDownPosition(MDCPosition position) {
+		MDCPosition lineEnd = getLineLastPosition(position);
+		if (lineEnd.getIndex() >= size()) {
+			return Optional.empty();
+		}
+		return Optional.of(new MDCPosition(lineEnd.getIndex() + 1));
 	}
 
 	/// @param position a local position.

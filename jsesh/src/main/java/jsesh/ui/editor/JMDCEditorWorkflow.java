@@ -44,6 +44,7 @@ package jsesh.ui.editor;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -89,6 +90,10 @@ import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.TextScope;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
+import jsesh.model.ZoneParameters;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.tools.BasicItemListGrouper;
 import jsesh.model.tools.CadratStarInserter;
@@ -269,6 +274,34 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         clearSeparator();
         return result;
+    }
+
+    /// Puts the selection in a new zone (`%zone(...)`), with default settings,
+    /// or inserts an empty zone if nothing is selected. The cursor is then
+    /// placed at the end of the zone's content.
+    ///
+    /// Zones can't be placed in a cartouche: there, nothing is done.
+    ///
+    /// @return true if the zone was created.
+    public boolean addZone() {
+        EditingScope scope = scope();
+        MDCPosition minPos = caret.getLocalMinPosition();
+        MDCPosition maxPos = caret.getLocalMaxPosition();
+        List<TopItem> content = getSelection();
+        Zone zone = new Zone(ZoneParameters.DEFAULT, new ZoneContent(content));
+        if (!scope.accepts(List.of(zone))) {
+            return false;
+        }
+        clearMark();
+        scope.replaceElement(minPos, maxPos, zone);
+        // Inside the zone (its only child is its content), after its last item.
+        int[] zonePath = scope.toTextPosition(minPos).getPath();
+        int[] path = Arrays.copyOf(zonePath, zonePath.length + 2);
+        path[zonePath.length] = 0;
+        path[zonePath.length + 1] = content.size();
+        caret.setInsertPosition(MDCPosition.of(path));
+        clearSeparator();
+        return true;
     }
 
     /**
@@ -546,7 +579,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * Moves the cursor down one line.
      */
     public void cursorDown() {
-        caret.setInsertPosition(caret.getModel().getDownPosition(caret.getInsertPosition()));
+        caret.setInsertPosition(verticalPosition(true));
         possibilitiesHandler.clear();
         caret.unsetMark();
         clearSeparator();
@@ -720,7 +753,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      * be interesting to retain the horizontal position and to try to keep it.
      */
     public void cursorUp() {
-        caret.setInsertPosition(caret.getModel().getUpPosition(caret.getInsertPosition()));
+        caret.setInsertPosition(verticalPosition(false));
         possibilitiesHandler.clear();
         clearSeparator();
         caret.unsetMark();
@@ -975,10 +1008,10 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
                 caret.moveInsert(dir, caretGranularity);
                 break;
             case 2:
-                caret.setInsertPosition(caret.getModel().getDownPosition(caret.getInsertPosition()));
+                caret.setInsertPosition(verticalPosition(true));
                 break;
             case -2:
-                caret.setInsertPosition(caret.getModel().getUpPosition(caret.getInsertPosition()));
+                caret.setInsertPosition(verticalPosition(false));
                 break;
             default:
                 throw new RuntimeException("Unexpected dir " + dir);
@@ -2060,6 +2093,39 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// positions ([MDCCaret#getLocalInsertPosition()]...).
     private EditingScope scope() {
         return new EditingScope(hieroglyphicTextModel, caret.getScope());
+    }
+
+    /// The start of the next (or previous) line, from the insertion point.
+    ///
+    /// Lines are those of the innermost text with lines around the insertion
+    /// point: the content of a zone, or the text itself (a cartouche is a single
+    /// line). From the last (or first) line of a zone, the move goes on in the
+    /// enclosing text, from the zone.
+    ///
+    /// @param down true to move down, false to move up.
+    /// @return the new insertion position.
+    private MDCPosition verticalPosition(boolean down) {
+        HieroglyphicText text = caret.getModel();
+        MDCPosition position = caret.getInsertExactPosition();
+        TextScope textScope = TextScope.containing(text, position);
+        while (true) {
+            while (!textScope.isRoot() && !(textScope.resolve(text) instanceof ZoneContent)) {
+                textScope = textScope.enclosing(text);
+            }
+            EditingScope scope = new EditingScope(hieroglyphicTextModel, textScope);
+            MDCPosition local = new MDCPosition(textScope.localIndexOf(position));
+            Optional<MDCPosition> result = down ? scope.getDownPosition(local) : scope.getUpPosition(local);
+            if (result.isPresent()) {
+                return scope.toTextPosition(result.get());
+            }
+            if (textScope.isRoot()) {
+                return scope.toTextPosition(down ? scope.getLastPosition() : scope.getLineFirstPosition(local));
+            }
+            // First or last line of a zone: go on from the zone, in the
+            // enclosing text.
+            position = MDCPosition.of(textScope.getPath());
+            textScope = textScope.enclosing(text);
+        }
     }
 
     /**

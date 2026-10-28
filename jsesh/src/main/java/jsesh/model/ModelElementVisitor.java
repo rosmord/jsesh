@@ -28,7 +28,8 @@ public interface ModelElementVisitor {
 	void visitLineBreak(LineBreak b);
 	void visitPageBreak(PageBreak b);
 	void visitAbsoluteGroup(AbsoluteGroup g);
-	void visitZoneStart(ZoneStart start);
+	void visitZone(Zone zone);
+	void visitZoneContent(ZoneContent content);
 	void visitComplexLigature(ComplexLigature ligature);
 	void visitInsert(Insert insert);
 	void visitKerning(Kerning kerning);

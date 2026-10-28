@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElement;
 import jsesh.model.SubCadrat;
@@ -112,6 +113,10 @@ public class MDCView implements ViewBox {
 	 */
 
 	private TextDirection direction;
+
+	/// The orientation of the text this view belongs to: it may differ from the
+	/// document's inside a zone. `null` if not laid out yet.
+	private TextOrientation orientation;
 
 	/**
 	 * The underlying model
@@ -893,6 +898,16 @@ public class MDCView implements ViewBox {
 	 */
 	public void setDirection(TextDirection direction) {
 		this.direction = direction;
+	}
+
+	/// @return the orientation of the text this view belongs to, or `null` if
+	///         the view is not laid out yet.
+	public TextOrientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(TextOrientation orientation) {
+		this.orientation = orientation;
 	}
 
 	/**

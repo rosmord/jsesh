@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import jsesh.model.tools.AlphabeticRuns;
@@ -51,7 +53,9 @@ import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
-import jsesh.model.ZoneStart;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
+import jsesh.model.ZoneParameters;
 
 /**
  * A MdCModelWriter knows how to write a MDCModel to a file, in the manuel de
@@ -472,29 +476,36 @@ public class MdCModelWriter {
 		 * @param t
 		 */
 		public void visitHieroglyphicText(HieroglyphicText t) {
+			writeSequence(t, startIndex, endIndex);
+		}
+
+		/// Writes the items of a text or of a zone between two gaps, with the
+		/// toggles needed for their states. All toggles are closed at the
+		/// end, so that a zone is self-contained.
+		private void writeSequence(ModelElement t, int start, int end) {
 			TopItemState state = new TopItemState();
-			int virtualpos = 0;
 			// Was the last opening red toggle closer than the last opening gray
 			// toggle ?
 			boolean redCloser = false;
 
-			int i = startIndex;
-			while (i < endIndex) {
-				TopItem sub = t.getTopItemAt(i);
+			int i = start;
+			while (i < end) {
+				TopItem sub = (TopItem) t.getChildAt(i);
 				TopItemState newState = sub.getState();
 
-				if (i > startIndex && wantsMinus)
+				if (i > start && wantsMinus)
 					write('-');
 				wantsMinus = true;
 				// For reasons of compatibility with HieroTeX, we close all
-				// toggles at line or page breaks :
-				if (sub instanceof LineBreak || sub instanceof PageBreak)
+				// toggles at line or page breaks. A zone has no state of its
+				// own (its content has), so toggles are closed before it too.
+				if (sub instanceof LineBreak || sub instanceof PageBreak || sub instanceof Zone)
 					newState = new TopItemState();
 
 				redCloser = fixToggles(state, newState, redCloser);
 
 				// A run of text shares one state, so the toggles above hold for all of it.
-				i = writeElementOrRun(t, i, endIndex);
+				i = writeElementOrRun(t, i, end);
 				state = newState;
 			}
 			fixToggles(state, new TopItemState(), redCloser);
@@ -598,14 +609,44 @@ public class MdCModelWriter {
 			visitElementList(g, "**");
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
-		 */
-		public void visitZoneStart(ZoneStart start) {
-			// TODO : finish this !!!
-			write("zone");
+		/// Writes `%zone[options](content)`, with only the options which are
+		/// set.
+		@Override
+		public void visitZone(Zone zone) {
+			ZoneParameters p = zone.getParameters();
+			List<String> options = new ArrayList<>();
+			if (p.orientation() != null) {
+				options.add("layout=" + (p.orientation().isHorizontal() ? "lines" : "columns"));
+			}
+			if (p.direction() != null) {
+				options.add("dir=" + (p.direction().isLeftToRight() ? "lr" : "rl"));
+			}
+			addLengthOption(options, "width", p.width());
+			addLengthOption(options, "height", p.height());
+			addLengthOption(options, "lineskip", p.lineSkip());
+			addLengthOption(options, "colskip", p.columnSkip());
+			if (p.frame()) {
+				options.add("frame");
+			}
+			write("%zone");
+			if (!options.isEmpty()) {
+				write("[" + String.join(",", options) + "]");
+			}
+			write("(");
+			zone.getContent().accept(this);
+			write(")");
+			wantsMinus = true;
+		}
+
+		private void addLengthOption(List<String> options, String name, int value) {
+			if (value != ZoneParameters.UNSET) {
+				options.add(name + "=" + value);
+			}
+		}
+
+		@Override
+		public void visitZoneContent(ZoneContent content) {
+			writeSequence(content, 0, content.getNumberOfChildren());
 		}
 
 		/*

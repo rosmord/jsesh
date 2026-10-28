@@ -223,12 +223,14 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 		visitInnerGroup(g);
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
-	 */
         @Override
-	public void visitZoneStart(ZoneStart start) {
-		visitTopItem(start);
+	public void visitZone(Zone zone) {
+		visitTopItem(zone);
+	}
+
+        @Override
+	public void visitZoneContent(ZoneContent content) {
+		visitDefault(content);
 	}
 	
         @Override

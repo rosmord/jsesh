@@ -107,7 +107,8 @@ HieroglyphicText             ← document root: the whole text (formerly TopItem
        │              └─ ComplexLigature
        ├─ Cartouche
        ├─ LineBreak / PageBreak
-       ├─ ZoneStart
+       ├─ Zone                ← %zone[...](...): area with its own layout
+       │    └─ ZoneContent    ← an ItemSequence of TopItems (nested zones too)
        └─ TabStop / Tabbing
 ```
 

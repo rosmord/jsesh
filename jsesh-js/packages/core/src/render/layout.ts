@@ -5,7 +5,7 @@
 
 /// Computes the size and position of views: port of
 /// `jsesh.render.layout.Layout` with `QuadratLayout`, `LineLayout`,
-/// `ColumnLayout` and `Zone`, and of `jsesh.render.view.ViewBuilder`.
+/// `ColumnLayout` and `LineAccumulator`, and of `jsesh.render.view.ViewBuilder`.
 ///
 /// The code follows Java closely (names included), so that the two can be
 /// compared view by view. `Math.fround` marks Java `float` computations.
@@ -976,9 +976,9 @@ class QuadratLayout {
   }
 }
 
-/// Port of `Zone`: a line or a column being built. It keeps track of its
+/// Port of `LineAccumulator`: a line or a column being built. It keeps track of its
 /// size and views, and of the point where the next view goes.
-class Zone {
+class LineAccumulator {
   readonly currentPoint: Point = { x: 0, y: 0 };
   private readonly zoneArea: Rect;
   private readonly views: MDCView[] = [];
@@ -1151,7 +1151,7 @@ class TopLevelKerning {
 
   /// Adds `subView` to the zone, kerned with the previous elements if needed. Returns false if
   /// it is a kerning operator, which takes no room (and is only placed later).
-  add(zone: Zone, subView: MDCView): boolean {
+  add(zone: LineAccumulator, subView: MDCView): boolean {
     const kerning = kerningOf(subView);
     const horizontal = this.axis === "HORIZONTAL";
     if (kerning !== undefined) {
@@ -1192,8 +1192,8 @@ class TopLevelKerning {
 /// Port of `LineLayout`: text in lines.
 class LineLayout extends ModelElementAdapter implements TopItemLayout {
   readonly documentArea = new Rect();
-  private zone: Zone = new Zone(0, 0);
-  private readonly allZones: Zone[] = [];
+  private zone: LineAccumulator = new LineAccumulator(0, 0);
+  private readonly allZones: LineAccumulator[] = [];
   /// Where the current zone will be placed.
   private zoneOriginPosition: Point = { x: 0, y: 0 };
   private readonly currentTextDirection: TextDirection;
@@ -1252,7 +1252,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   private initZoneForPage(): void {
-    this.zone = new Zone(0, this.style.geometry.maxCadratHeight);
+    this.zone = new LineAccumulator(0, this.style.geometry.maxCadratHeight);
     this.zoneOriginPosition = { x: 0, y: 0 };
   }
 
@@ -1282,7 +1282,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     if (b.spacing !== 100) verticalSkip = (verticalSkip * b.spacing) / 100;
     this.zone.add(this.subView);
     this.flushZone();
-    this.zone = new Zone(0, g.maxCadratHeight);
+    this.zone = new LineAccumulator(0, g.maxCadratHeight);
     this.zoneOriginPosition.y += verticalSkip;
     this.addTopMargin = false;
   }
@@ -1294,13 +1294,13 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.flushZone();
     if (!this.style.options.paged) {
       // A zone with only the page break.
-      this.zone = new Zone(0, 0);
+      this.zone = new LineAccumulator(0, 0);
       this.zoneOriginPosition.y += g.lineSkip + dh;
       this.subView.width = 32;
       this.subView.height = g.lineSkip;
       this.zone.add(this.subView);
       this.flushZone();
-      this.zone = new Zone(0, g.maxCadratHeight);
+      this.zone = new LineAccumulator(0, g.maxCadratHeight);
     } else {
       this.initZoneForPage();
     }
@@ -1326,7 +1326,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
 /// Port of `ColumnLayout`: text in columns.
 class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   readonly documentArea = new Rect();
-  private zone!: Zone;
+  private zone!: LineAccumulator;
   private zoneStart: Point = { x: 0, y: 0 };
   private style: JSeshStyle;
   private readonly currentTextDirection: TextDirection;
@@ -1377,8 +1377,8 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.zoneStart = { x: this.style.geometry.leftMargin, y: 0 };
   }
 
-  private createNewZone(): Zone {
-    const z = new Zone(0, 0);
+  private createNewZone(): LineAccumulator {
+    const z = new LineAccumulator(0, 0);
     z.moveCurrentPoint(0, this.style.geometry.topMargin);
     return z;
   }

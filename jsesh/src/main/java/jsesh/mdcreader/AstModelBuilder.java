@@ -34,6 +34,9 @@ import jsesh.model.Tabbing;
 import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemState;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
+import jsesh.model.ZoneParameters;
 import jsesh.model.constants.CartouchePart;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.Dialect;
@@ -41,6 +44,7 @@ import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
+import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
 import jsesh.model.constants.WordEndingCode;
@@ -139,23 +143,37 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitTopItemList(AstTopItemList node) {
         HieroglyphicText list = new HieroglyphicText();
+        list.addAll(buildTopItems(node));
+        push(list);
+    }
+
+    /// Builds the items of a text or of a zone, giving each one the current
+    /// red/shaded state.
+    ///
+    /// Toggles are read in sequence, across zone limits: `$r-A1-%zone(A2)`
+    /// makes A2 red.
+    private List<TopItem> buildTopItems(AstTopItemList node) {
+        List<TopItem> result = new ArrayList<>();
         for (AstTopItem item : node.items()) {
             item.accept(this);
             Object built = pop();
             if (built == null) {
-                // Toggles (already folded into currentState by visitToggle),
-                // zone starts and the "+s" marker: none of these ever became
-                // model items, even under the old MDCModelBuilder.
+                // Toggles (already folded into currentState by visitToggle)
+                // and the "+s" marker: none of these ever became model items,
+                // even under the old MDCModelBuilder.
                 continue;
             }
             for (TopItem topItem : asItems(built, TopItem.class)) {
-                if (!(item instanceof AstTabbing) && !(item instanceof AstTabbingClear)) {
+                // Tabbings are not drawn, and a zone has no state of its own:
+                // its content has.
+                if (!(item instanceof AstTabbing) && !(item instanceof AstTabbingClear)
+                        && !(item instanceof AstZone)) {
                     topItem.setState(currentState.duplicate());
                 }
-                list.addTopItem(topItem);
+                result.add(topItem);
             }
         }
-        push(list);
+        return result;
     }
 
     @Override
@@ -382,7 +400,30 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitZone(AstZone node) {
-        push(null);        
+        ZoneContent content = new ZoneContent(buildTopItems(node.list()));
+        push(new Zone(zoneParameters(node.options()), content));
+    }
+
+    /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
+    /// `lineskip`, `colskip` and `frame`. Unknown options and values are
+    /// ignored.
+    private static ZoneParameters zoneParameters(AstOptionList options) {
+        TextOrientation orientation = switch (options.getString("layout", "")) {
+            case "lines" -> TextOrientation.HORIZONTAL;
+            case "columns" -> TextOrientation.VERTICAL;
+            default -> null;
+        };
+        TextDirection direction = switch (options.getString("dir", "")) {
+            case "lr" -> TextDirection.LEFT_TO_RIGHT;
+            case "rl" -> TextDirection.RIGHT_TO_LEFT;
+            default -> null;
+        };
+        return new ZoneParameters(orientation, direction,
+                options.getInt("width", ZoneParameters.UNSET),
+                options.getInt("height", ZoneParameters.UNSET),
+                options.getInt("lineskip", ZoneParameters.UNSET),
+                options.getInt("colskip", ZoneParameters.UNSET),
+                options.hasOption("frame"));
     }
 
     @Override

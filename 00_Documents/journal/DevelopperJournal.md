@@ -34,6 +34,10 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## 2026-10-28
 
+New today:
+
+- Zones `(%zone[...](...))` implemented on the current `MDCView` layout, ahead of the box tree (see boxTree.md §G.0). New Zone/ZoneContent/ZoneParameters, ZoneStart removed, render.layout.Zone renamed LineAccumulator. View ▸ Show Zone Limits; Text ▸ Put in a Zone. JS port pending (todo 0138).
+
 Since the last release:
 
 - operators for insertion (RES-like), kerning (still RES-like). **Important note**: the original name of the operators used '@' as prefix (e.g. `@insert`), but `@` is supposed to be usable for names of user-specific glyphs (we don't use it, but it's in the *Manuel*). Hence, we finaly use `%` as prefix.

@@ -68,5 +68,7 @@ abstract public class ItemAdapter implements ModelElementVisitor {
 	 */
 	final 	public void visitHieroglyphicText(HieroglyphicText t) {}
 
+	final 	public void visitZoneContent(ZoneContent content) {}
+
 
 }

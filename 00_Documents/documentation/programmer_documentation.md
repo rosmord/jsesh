@@ -480,8 +480,10 @@ visitor rather than instanceof-chains.
 
 - Base class: `jsesh.model.ModelElement` (every node accepts a visitor).
 - Container root: `HieroglyphicText` → `TopItem`s (`Cadrat`, `Cartouche`,
-  `LineBreak`, `ZoneStart`, …); a `Cadrat` holds `HBox`es of
+  `LineBreak`, `Zone`, …); a `Cadrat` holds `HBox`es of
   `HorizontalListElement`s (`Hieroglyph`, `InnerGroup`, `ComplexLigature`).
+  A `Zone` (`%zone[...](...)`) holds a `ZoneContent`, a sequence of top items
+  laid out with the zone's own `ZoneParameters`.
 - Structural edits and higher-level operations live in `jsesh.model.operations`.
 - To be notified of changes, register on the `HieroglyphicTextModel` (§6) or on
   individual elements' observers.

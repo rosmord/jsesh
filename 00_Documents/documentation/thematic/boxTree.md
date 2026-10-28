@@ -1,8 +1,9 @@
 # Box tree and zones (design, not implemented)
 
-*Written 2026-10-20. Nothing in this document is implemented yet; the
-long-term todo [0127](../../tracking/TODO/03_longterm/todo20261020-0127.md)
-tracks the phases (section F).*
+*Written 2026-10-20. The box tree is not implemented yet; the todo
+[0127](../../tracking/TODO/01_easy/todo20261020-0127.md) tracks the phases
+(section F). Zones (section G) were implemented on 2026-10-28 **on the current
+`MDCView` pipeline**, ahead of the box tree: see G.0.*
 
 This document proposes a new view structure for JSesh, the *box tree*, and
 the model for `%zone(content of the zone)`.
@@ -90,7 +91,10 @@ classes stay untouched. Deprecating them is a separate decision.
   `END_OF_LINE` exists. Up/down inside stacked quadrats is still to do
   (todo 0072).
 
-### A.3 Zones today
+### A.3 Zones before 2026-10-28
+
+*Historical: this was the state when the document was written. For the
+current state, see G.0.*
 
 - **Lexer**: `MdcLexicon` has `ZONE` (`%zone`).
 - **Parser**: `MDCParser.parseZone()` accepts `ZONE optionList? '(' topitems ')'`,
@@ -486,6 +490,50 @@ Phases 1–5 change no visible behaviour, except up/down.
 
 ## G. The zone model (phase 7)
 
+### G.0 What was implemented (2026-10-28)
+
+Zones were implemented without waiting for the box tree, on the current
+`MDCView`/`Layout` pipeline. The model below (G.1) was followed, with these
+differences and decisions:
+
+- **Model**: `Zone extends TopItem` with one child, `ZoneContent` (an
+  `ItemSequence` which accepts **every** `TopItem`; a page break in a zone is
+  laid out as a line break). `ZoneStart` is deleted. `ZoneParameters` is
+  simpler than G.1: `orientation` and `direction` (`null` = inherited from the
+  enclosing zone), `width`, `height`, `lineSkip`, `columnSkip` (`UNSET` =
+  natural size or inherited), `frame`. No placement, no reference point, no
+  rules yet.
+- **Syntax**: `%zone[layout=lines|columns, dir=lr|rl, width=, height=,
+  lineskip=, colskip=, frame](...)`. Lengths are integers, in percent of the
+  height of a quadrat (as `%insert`'s `dw`/`dh`). The writer only writes the
+  options which are set. Toggles are read in sequence across zone limits, and
+  written so that each zone is self-contained.
+- **Size**: a zone has its natural size by default, and is **not** limited by
+  its parent (unlike an HTML `div`). `width=` (for lines) fixes the width and
+  is the wrapping width; `height=` fixes the height. Content which doesn't fit
+  overflows. Sizes imposed by the parent (stretch, fill) are todo 0139;
+  wrapping of columns is todo 0140.
+- **Layout**: `Layout.preLayoutHook` swaps the render context for the zone's
+  content (`Layout.zoneRenderContext`: orientation, direction, skips, no
+  margins, not paged, wrap width), and `postLayoutHook` restores it. The
+  content is laid out by `LineLayout`/`ColumnLayout` (`layoutTopItems`); the
+  zone is placed in its parent's line like a large quadrat (`deltaBase`).
+  Side by side, stacked and nested zones follow from the parent's flow: no
+  placement option is needed. Views now carry their orientation
+  (`MDCView.getOrientation`), used by drawing and geometry instead of the
+  global style. `jsesh.render.layout.Zone` was renamed `LineAccumulator`.
+- **Drawing**: `frame` draws a rectangle; the editor's View ▸ Show Zone Limits
+  toggle draws the limits (never in exports).
+- **Editing**: clicks, cursor, selection and up/down work in the lines of a
+  zone (`CursorLocator`, `PositionLocator`, `SelectionLocator`,
+  `JMDCEditorWorkflow.verticalPosition`). Text ▸ Put in a Zone
+  (`JMDCEditorWorkflow.addZone`) wraps the selection in a zone.
+- **Root zone**: the document is the outermost zone; its settings are the
+  `++JSesh_…` header. A page, when added, will be a size constraint on it
+  (todo 0057).
+- **Not done**: the JS port (todo 0138), a settings dialog (todo 0141),
+  anchored and free zones.
+
 ### G.1 Classes (`jsesh.model`)
 - `Zone extends TopItem`. It is not a `BasicItem`, so it can't go in a
   cartouche, at least at first. It has one child, `ZoneContent`, and a
@@ -544,9 +592,10 @@ Phases 1–5 change no visible behaviour, except up/down.
 
 ## H. Open questions (to decide before the relevant phase)
 
-1. Zone option names and short forms (G.2). Does a zone inherit the
-   orientation of its parent by default?
-2. Can zones appear inside cartouches (making `Zone` a `BasicItem`)?
+1. ~~Zone option names and short forms (G.2). Does a zone inherit the
+   orientation of its parent by default?~~ Decided, see G.0: yes, it inherits.
+2. Can zones appear inside cartouches (making `Zone` a `BasicItem`)? Not for
+   now.
 3. Free placement: where do coordinates live? On each item of a `FREE`
    zone (new item options?), or does a free zone only accept absolute
    groups?

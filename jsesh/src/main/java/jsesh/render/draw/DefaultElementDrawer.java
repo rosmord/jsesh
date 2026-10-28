@@ -3,6 +3,7 @@
  */
 package jsesh.render.draw;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -35,7 +36,7 @@ import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
 import jsesh.model.TopItemState;
-import jsesh.model.ZoneStart;
+import jsesh.model.Zone;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphBodySize;
@@ -385,6 +386,29 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.draw(mark);
     }
 
+    /// Draws the frame of the zone, if it has one, and its limits, if asked
+    /// to (for editors).
+    @Override
+    public void visitZone(Zone zone) {
+        if (!postfix) {
+            return;
+        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        if (zone.getParameters().frame()) {
+            float lineWidth = jseshStyle.geometry().cartoucheLineWidth();
+            g.setStroke(new BasicStroke(lineWidth));
+            g.draw(new Rectangle2D.Float(lineWidth / 2f, lineWidth / 2f,
+                    currentView.getWidth() - lineWidth, currentView.getHeight() - lineWidth));
+        }
+        if (isShowZoneLimits()) {
+            float dash = jseshStyle.geometry().maxCadratHeight() / 6f;
+            g.setColor(jseshStyle.painting().cursorColor());
+            g.setStroke(new BasicStroke(jseshStyle.geometry().fineLineWidth(), BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_MITER, 10f, new float[] { dash, dash }, 0f));
+            g.draw(new Rectangle2D.Float(0, 0, currentView.getWidth(), currentView.getHeight()));
+        }
+    }
+
     @Override
     public void visitPageBreak(PageBreak b) {        
         if (!postfix) {
@@ -613,11 +637,6 @@ public class DefaultElementDrawer extends ElementDrawer {
     public void visitComplexLigature(ComplexLigature ligature) {
     }
    
-    @Override
-    public void visitZoneStart(ZoneStart start) {
-
-    }
-
     public void visitOptionList(OptionsMap list) {
 
     }

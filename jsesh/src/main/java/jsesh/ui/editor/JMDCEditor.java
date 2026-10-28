@@ -1351,6 +1351,20 @@ public class JMDCEditor extends JPanel implements Scrollable {
         return drawer.isShowLineBreakMarks();
     }
 
+    /// Shows or hides the limits of zones (`%zone(...)`), which are otherwise
+    /// invisible. Only this editor is concerned: printing and exports never
+    /// show them.
+    ///
+    /// @param showZoneLimits true to show the limits.
+    public void setShowZoneLimits(boolean showZoneLimits) {
+        drawer.setShowZoneLimits(showZoneLimits);
+        repaint();
+    }
+
+    public boolean isShowZoneLimits() {
+        return drawer.isShowZoneLimits();
+    }
+
     /**
      * Draw quadrat limits for debugging purposes.
      * @param drawLimits true if we want to draw the quadrats limits, false otherwise.

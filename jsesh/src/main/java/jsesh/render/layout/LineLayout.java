@@ -59,16 +59,16 @@ public class LineLayout extends TopItemLayout {
     /**
      * The zone being built.
      */
-    private Zone zone;
+    private LineAccumulator zone;
 
     /**
      * A list of all zones, if we decide to justify the text.
      */
-    private final List<Zone> allZones = new ArrayList<Zone>();
+    private final List<LineAccumulator> allZones = new ArrayList<LineAccumulator>();
 
     /// The zones which ended because of soft wrapping (not at a line break).
     /// When wrapping, only those are justified: the others end a paragraph.
-    private final Set<Zone> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
+    private final Set<LineAccumulator> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
     /**
      * the position that will be used to place the current zone
      */
@@ -242,7 +242,7 @@ public class LineLayout extends TopItemLayout {
             if (jseshStyle.geometry().isWrapping()) {
                 // Wrapped lines are justified to the wrapping width.
                 // Zones which end a paragraph stay as they are.
-                for (Zone z : allZones) {
+                for (LineAccumulator z : allZones) {
                     if (softWrappedZones.contains(z)) {
                         z.justifyWidthTo(jseshStyle.geometry().leftMargin(), maxLineWidth());
                     }
@@ -266,7 +266,7 @@ public class LineLayout extends TopItemLayout {
     private void justifyOnLongestZone() {
         // Compute the maximal width of zones.
         double width = 0;
-        for (Zone z : allZones) {
+        for (LineAccumulator z : allZones) {
             if (z.getWidth() > width) {
                 width = z.getWidth();
             }
@@ -275,7 +275,7 @@ public class LineLayout extends TopItemLayout {
                 - jseshStyle.geometry().leftMargin();
         // Justify all zones to this width.
         for (int i = 0; i < allZones.size(); i++) {
-            Zone z = allZones.get(i);
+            LineAccumulator z = allZones.get(i);
             // If it's not the last zone, or it looks large enough
             // This is a temporary fix. 
             // We should get somehow the information that the zone "would be centered".
@@ -319,7 +319,7 @@ public class LineLayout extends TopItemLayout {
     /// @param verticalSkip the distance between the top of the line which has just
     /// been flushed and the top of the new one.
     private void startNextZone(double verticalSkip) {
-        zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
+        zone = new LineAccumulator(0, jseshStyle.geometry().maxCadratHeight());
         zoneOriginPosition.y += verticalSkip;
         addTopMargin = false;
     }
@@ -359,7 +359,7 @@ public class LineLayout extends TopItemLayout {
     }
 
     private void initZoneForPage() {
-        zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
+        zone = new LineAccumulator(0, jseshStyle.geometry().maxCadratHeight());
         zoneOriginPosition = new Point2D.Double();
     }
 
@@ -488,7 +488,7 @@ public class LineLayout extends TopItemLayout {
             if (!jseshStyle.options().paged()) {
 
                 // build a zone containing only the page break.
-                zone = new Zone(0f, 0f);
+                zone = new LineAccumulator(0f, 0f);
                 zoneOriginPosition.y += jseshStyle.geometry().lineSkip() + dh;
 
                 subView.setWidth(32f);
@@ -498,8 +498,8 @@ public class LineLayout extends TopItemLayout {
                 // for computation purposes
                 // was 0.
                 flushZone();
-                // Zone for first line of the next page
-                zone = new Zone(0, jseshStyle.geometry().maxCadratHeight());
+                // LineAccumulator for first line of the next page
+                zone = new LineAccumulator(0, jseshStyle.geometry().maxCadratHeight());
             } else {
                 initZoneForPage();
             }
