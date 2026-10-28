@@ -287,11 +287,23 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     ///
     /// @return true if the zone was created.
     public boolean addZone() {
+        return addZone(ZoneParameters.DEFAULT);
+    }
+
+    /// Puts the selection in a new zone with the given settings, or inserts an
+    /// empty zone if nothing is selected. The cursor is then placed at the end
+    /// of the zone's content.
+    ///
+    /// Zones can't be placed in a cartouche: there, nothing is done.
+    ///
+    /// @param parameters the settings of the new zone.
+    /// @return true if the zone was created.
+    public boolean addZone(ZoneParameters parameters) {
         EditingScope scope = scope();
         MDCPosition minPos = caret.getLocalMinPosition();
         MDCPosition maxPos = caret.getLocalMaxPosition();
         List<TopItem> content = getSelection();
-        Zone zone = new Zone(ZoneParameters.DEFAULT, new ZoneContent(content));
+        Zone zone = new Zone(parameters, new ZoneContent(content));
         if (!scope.accepts(List.of(zone))) {
             return false;
         }
@@ -303,6 +315,44 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         path[zonePath.length] = 0;
         path[zonePath.length + 1] = content.size();
         caret.setInsertPosition(MDCPosition.of(path));
+        clearSeparator();
+        return true;
+    }
+
+    /// The settings of the innermost zone around the cursor.
+    ///
+    /// @return the settings, or empty if the cursor is not in a zone.
+    public Optional<ZoneParameters> getZoneParametersAtCaret() {
+        List<Zone> zones = enclosingZones();
+        return zones.isEmpty() ? Optional.empty() : Optional.of(zones.get(0).getParameters());
+    }
+
+    /// Changes the settings of the innermost zone around the cursor. The change
+    /// can be undone, and the cursor stays where it was.
+    ///
+    /// @param parameters the new settings.
+    /// @return false if the cursor is not in a zone.
+    public boolean setZoneParametersAtCaret(ZoneParameters parameters) {
+        if (enclosingZones().isEmpty()) {
+            return false;
+        }
+        MDCPosition cursor = caret.getInsertExactPosition();
+        HieroglyphicText text = caret.getModel();
+        // The zone's content is [... zoneIndex, 0]: the zone sits in the scope above.
+        TextScope contentScope = TextScope.containing(text, cursor);
+        while (!(contentScope.resolve(text) instanceof ZoneContent)) {
+            contentScope = contentScope.enclosing(text);
+        }
+        int[] contentPath = contentScope.getPath();
+        int zoneIndex = contentPath[contentPath.length - 2];
+        TextScope zoneScope = TextScope.of(Arrays.copyOf(contentPath, contentPath.length - 2));
+        ZoneContent oldContent = (ZoneContent) contentScope.resolve(text);
+        Zone newZone = new Zone(parameters, new ZoneContent(oldContent.getItemsBetween(0, oldContent.getNumberOfChildren())));
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, zoneScope);
+        clearMark();
+        scope.replaceElement(new MDCPosition(zoneIndex), new MDCPosition(zoneIndex + 1), newZone);
+        // The structure is unchanged: the cursor is still valid.
+        caret.setInsertPosition(cursor);
         clearSeparator();
         return true;
     }

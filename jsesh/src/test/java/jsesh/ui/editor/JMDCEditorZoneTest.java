@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 import jsesh.document.HieroglyphicTextModel;
@@ -23,6 +25,7 @@ import jsesh.render.draw.CursorShape;
 import jsesh.render.draw.TextGeometry;
 import jsesh.render.draw.SelectionShape;
 import jsesh.model.TextScope;
+import jsesh.model.ZoneParameters;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 
@@ -163,6 +166,32 @@ class JMDCEditorZoneTest {
         assertTrue(w.addZone());
         assertEquals("A1-%zone()-A2", code(w));
         assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void aZoneCanBeInsertedWithParameters() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-A2");
+        w.setCursor(pos(1));
+        ZoneParameters p = ZoneParameters.DEFAULT.withFrame(true).withWidth(1200);
+        assertTrue(w.addZone(p));
+        assertEquals(Optional.of(p), w.getZoneParametersAtCaret());
+        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void theParametersOfTheEnclosingZoneCanBeChanged() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone(A2-A3)-A4");
+        assertEquals(Optional.empty(), w.getZoneParametersAtCaret());
+        w.setCursor(pos(1, 0, 1));
+        ZoneParameters p = ZoneParameters.DEFAULT.withFrame(true);
+        assertTrue(w.setZoneParametersAtCaret(p));
+        assertEquals(Optional.of(p), w.getZoneParametersAtCaret());
+        assertEquals(pos(1, 0, 1), w.getCaret().getInsertExactPosition());
+        assertEquals("A1-%zone[frame](A2-A3)-A4", code(w));
+        w.undo();
+        w.setCursor(pos(1, 0, 1));
+        assertEquals(Optional.of(ZoneParameters.DEFAULT), w.getZoneParametersAtCaret());
+        assertEquals("A1-%zone(A2-A3)-A4", code(w));
     }
 
     @Test
