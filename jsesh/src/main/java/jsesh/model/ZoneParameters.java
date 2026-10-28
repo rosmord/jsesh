@@ -7,6 +7,7 @@
  */
 package jsesh.model;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import jsesh.model.constants.TextDirection;
@@ -32,7 +33,7 @@ import jsesh.model.constants.TextOrientation;
 /// @param columnSkip the space between columns, or [#UNSET] if inherited.
 /// @param frame should a frame be drawn around the zone?
 public record ZoneParameters(TextOrientation orientation, TextDirection direction,
-        int width, int height, int lineSkip, int columnSkip, boolean frame) {
+        int width, int height, int lineSkip, int columnSkip, boolean frame) implements Serializable {
 
     /// The value of an unset length.
     public static final int UNSET = -1;
