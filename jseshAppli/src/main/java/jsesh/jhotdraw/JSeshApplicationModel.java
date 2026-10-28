@@ -97,6 +97,8 @@ import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.text.EditZoneAction;
+import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.text.InsertElementAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
@@ -326,6 +328,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             }
 
             map.put(EditGroupAction.ID, new EditGroupAction(a, v));
+            map.put(InsertZoneWithOptionsAction.ID, new InsertZoneWithOptionsAction(a, v));
+            map.put(EditZoneAction.ID, new EditZoneAction(a, v));
 
             map.remove(DuplicateAction.ID);
 

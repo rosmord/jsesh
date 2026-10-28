@@ -78,6 +78,8 @@ import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
+import jsesh.jhotdraw.actions.text.EditZoneAction;
+import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleZoneLimitsAction;
@@ -152,6 +154,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));
                 insertMenu.add(map.get(InsertShortTextAction.ID));
+                insertMenu.add(map.get(InsertZoneWithOptionsAction.ID));
                 return insertMenu;
         }
 
@@ -178,6 +181,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 textMenu.add(buildShadingMenu(app, view));
                 textMenu.add(buildCartoucheMenu(app, view));
                 addToMenu(textMenu, app, view, ActionsID.INSERT_ZONE);
+                addToMenu(textMenu, app, view, EditZoneAction.ID);
                 textMenu.add(buildEcdoticMenu(app, view));
                 textMenu.add(map.get(AddToGlossaryAction.ID));
                 return textMenu;
