@@ -46,7 +46,7 @@ public class ColumnLayout extends TopItemLayout {
 
 	Point2D insertionPoint;
 
-	Zone zone;
+	LineAccumulator zone;
 
 	Point2D.Double zoneStart;
 
@@ -167,8 +167,8 @@ public class ColumnLayout extends TopItemLayout {
 		kerningViews.clear();
 	}
 
-	private Zone createNewZone() {
-		Zone z = new Zone(0, 0);
+	private LineAccumulator createNewZone() {
+		LineAccumulator z = new LineAccumulator(0, 0);
 		z.moveCurrentPoint(0, jseshStyle.geometry().topMargin());
 		return z;
 	}

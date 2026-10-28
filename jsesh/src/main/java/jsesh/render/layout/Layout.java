@@ -5,7 +5,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +47,9 @@ import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.Zone;
+import jsesh.model.ZoneContent;
+import jsesh.model.ZoneParameters;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphDrawer;
@@ -136,6 +141,14 @@ public class Layout {
 
 	private boolean inAbsoluteGroup = false;
 
+	/// The contexts of the enclosing zones, saved while the content of a zone
+	/// is laid out with its own context (see [#preLayoutHook(MDCView, int)]).
+	private final Deque<SavedZoneState> savedZoneStates = new ArrayDeque<>();
+
+	private record SavedZoneState(JSeshRenderContext renderContext, TextOrientation orientation,
+			TextDirection direction) {
+	}
+
 	/**
 	 * compute the view size (width and height). If the view has subviews, layout
 	 * should compute their position in the parent view and scale them if required.
@@ -188,6 +201,14 @@ public class Layout {
 			centerSigns = true;
 		} else if (view.getModel() instanceof AbsoluteGroup) {
 			inAbsoluteGroup = true;
+		} else if (view.getModel() instanceof ZoneContent content
+				&& content.getParent() instanceof Zone zone) {
+			// The content of a zone, and everything in it, is laid out with the
+			// zone's own settings, until postLayoutHook.
+			savedZoneStates.push(new SavedZoneState(renderContext, currentTextOrientation, currentTextDirection));
+			renderContext = zoneRenderContext(renderContext, zone.getParameters());
+			currentTextOrientation = renderContext.jseshStyle().options().textOrientation();
+			currentTextDirection = renderContext.jseshStyle().options().textDirection();
 		}
 	}
 
@@ -197,7 +218,57 @@ public class Layout {
 	 * @param result
 	 */
 	public void postLayoutHook(MDCView result, int depth) {
+		if (result.getModel() instanceof ZoneContent && !savedZoneStates.isEmpty()) {
+			SavedZoneState saved = savedZoneStates.pop();
+			renderContext = saved.renderContext();
+			currentTextOrientation = saved.orientation();
+			currentTextDirection = saved.direction();
+		}
+	}
 
+	/// The context in which the content of a zone is laid out.
+	///
+	/// Settings which the zone doesn't set are inherited from the enclosing
+	/// context. A zone has no margins, and is never paged (a page break in a
+	/// zone is a line break). A zone in lines wraps at its width, if it has
+	/// one.
+	///
+	/// @param parent the context of the enclosing zone (or text).
+	/// @param p the settings of the zone.
+	/// @return the context for the content of the zone.
+	public static JSeshRenderContext zoneRenderContext(JSeshRenderContext parent, ZoneParameters p) {
+		JSeshStyle style = parent.jseshStyle();
+		float unit = zoneLengthUnit(style);
+		TextOrientation orientation = p.orientation() != null ? p.orientation() : style.options().textOrientation();
+		TextDirection direction = p.direction() != null ? p.direction() : style.options().textDirection();
+		float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
+		return parent.copy().jseshStyle(s -> s
+				.options(o -> o.textOrientation(orientation).textDirection(direction).paged(false))
+				.geometry(g -> {
+					g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth);
+					if (p.width() != ZoneParameters.UNSET) {
+						g.textWidth(p.width() * unit);
+					}
+					if (p.lineSkip() != ZoneParameters.UNSET) {
+						g.lineSkip(p.lineSkip() * unit);
+					}
+					if (p.columnSkip() != ZoneParameters.UNSET) {
+						g.columnSkip(p.columnSkip() * unit);
+					}
+					return g;
+				}))
+				.build();
+	}
+
+	/// The unit of the lengths of [ZoneParameters]: one percent of the height
+	/// of a quadrat.
+	public static float zoneLengthUnit(JSeshStyle style) {
+		return style.geometry().maxCadratHeight() / 100f;
+	}
+
+	/// The space between the frame of a zone and its content, frame included.
+	public static float zoneFramePadding(JSeshStyle style) {
+		return style.geometry().cartoucheMargin() + style.geometry().cartoucheLineWidth();
 	}
 
 	/**
@@ -209,6 +280,7 @@ public class Layout {
 	 */
 	void commonLayoutHook() {
 		currentView.setDirection(currentTextDirection);
+		currentView.setOrientation(currentTextOrientation);
 	}
 
 	/**
@@ -958,16 +1030,53 @@ public class Layout {
 		@Override
 		public void visitHieroglyphicText(HieroglyphicText t) {
 			// monoliticVisitHieroglyphicText(t);
-			compositeVisitHieroglyphicText(t);
+			layoutTopItems();
 		}
 
-		/**
-		 * Layout a top item list using a strategy class.
-		 *
-		 * @param t
-		 * @see jsesh.model.ModelElementAdapter#visitHieroglyphicText(jsesh.model.HieroglyphicText)
-		 */
-		public void compositeVisitHieroglyphicText(HieroglyphicText t) {
+		/// The content of a zone is laid out as a text, in the zone's context
+		/// (see [Layout#preLayoutHook(MDCView, int)]).
+		@Override
+		public void visitZoneContent(ZoneContent content) {
+			layoutTopItems();
+		}
+
+		/// A zone is its content, of natural or fixed size, plus the frame's
+		/// padding. It is aligned so that its content starts where the
+		/// quadrats of the line (or column) start.
+		@Override
+		public void visitZone(Zone zone) {
+			JSeshStyle jseshStyle = renderContext.jseshStyle();
+			ZoneParameters p = zone.getParameters();
+			MDCView content = currentView.getFirstSubView();
+			float unit = zoneLengthUnit(jseshStyle);
+			float padding = p.frame() ? zoneFramePadding(jseshStyle) : 0f;
+			float width = p.width() != ZoneParameters.UNSET ? p.width() * unit : content.getWidth();
+			float height = p.height() != ZoneParameters.UNSET ? p.height() * unit : content.getHeight();
+			if (zone.getContent().getNumberOfChildren() == 0) {
+				// An empty zone stays visible, and can be clicked into.
+				width = Math.max(width, jseshStyle.geometry().maxCadratHeight());
+				height = Math.max(height, jseshStyle.geometry().maxCadratHeight());
+			}
+			// The content takes the whole inner area, so that right-to-left
+			// content is mirrored across the zone's width, not its own.
+			content.setWidth(width);
+			content.setHeight(height);
+			content.resetPos();
+			content.getPosition().setLocation(padding, padding);
+			currentView.setWidth(width + 2 * padding);
+			currentView.setHeight(height + 2 * padding);
+			if (currentTextOrientation.isHorizontal()) {
+				currentView.setDeltaBaseX(0);
+				currentView.setDeltaBaseY(-padding);
+			} else {
+				currentView.setDeltaBaseX(-padding);
+				currentView.setDeltaBaseY(0);
+			}
+		}
+
+		/// Lays out the top items of a text or of a zone (the subviews of the
+		/// current view) in lines or columns, with a [TopItemLayout] strategy.
+		public void layoutTopItems() {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
 			// currentView contains the content for all pages.
 			// we need

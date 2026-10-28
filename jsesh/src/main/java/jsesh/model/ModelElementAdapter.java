@@ -152,11 +152,12 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	public void visitDefault(ModelElement t) {
 	}
 
-	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElementVisitor#visitZoneStart(jsesh.model.ZoneStart)
-	 */
-	public void visitZoneStart(ZoneStart start) {
-		visitDefault(start);
+	public void visitZone(Zone zone) {
+		visitDefault(zone);
+	}
+
+	public void visitZoneContent(ZoneContent content) {
+		visitDefault(content);
 	}
 	
 	public void visitTabbing(Tabbing tabbing) {

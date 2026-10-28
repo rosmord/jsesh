@@ -43,24 +43,18 @@ import java.util.List;
 
 import jsesh.render.view.MDCView;
 
-/**
- * Zones are places where views will be added. In fact, they are used to keep
- * track of a line or a column's size and content.
- * 
- * Basically, a zone has a certain size, contains a number of views (with a
- * position), and holds an "insertion" point where new views would be placed.
- * The zone itself is rather stupid, and moving the insertion point, for
- * instance, is the responsability of the class' user.
- * 
- * <p align="center">
- * <img src="../../../images/zone.png">
- * </p>
- * 
- * Zones have been much simplified comparatively with earlier versions.
- * 
- * @author rosmord
- */
-public class Zone {
+/// A line or a column being built by [LineLayout] or [ColumnLayout]: views
+/// are added to it, and it keeps track of its size and content.
+///
+/// It has a size, contains a number of views (with a position), and holds an
+/// "insertion" point where new views would be placed. Moving the insertion
+/// point is the responsibility of the user of the class.
+///
+/// Formerly named `Zone`; not to be confused with [jsesh.model.Zone], the
+/// `%zone(...)` element of the text.
+///
+/// @author rosmord
+public class LineAccumulator {
 
 	/**
 	 * Current insertion position for views in zone.
@@ -84,7 +78,7 @@ public class Zone {
 	 * @param minWidth
 	 * @param minHeight
 	 */
-	public Zone(double minWidth, double minHeight) {
+	public LineAccumulator(double minWidth, double minHeight) {
 		currentPoint = new Point2D.Double();
 		zoneArea = new Rectangle2D.Double(0f, 0f, minWidth, minHeight);
 		views = new ArrayList<MDCView>();

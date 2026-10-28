@@ -13,6 +13,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.model.MDCPosition;
 import jsesh.model.TextScope;
 import jsesh.model.TopItem;
+import jsesh.model.ZoneContent;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.style.JSeshStyle;
@@ -192,6 +193,16 @@ public class ViewDrawer {
         return elementDrawer.isShowLineBreakMarks();
     }
 
+    /// Should the limits of zones be drawn? False by default. A zone's own
+    /// frame (`%zone[frame]`) is drawn anyway.
+    public void setShowZoneLimits(boolean showZoneLimits) {
+        elementDrawer.setShowZoneLimits(showZoneLimits);
+    }
+
+    public boolean isShowZoneLimits() {
+        return elementDrawer.isShowZoneLimits();
+    }
+
     /**
      * Draws colored rectangle showing the structure of a view for debugging
      * purporses.
@@ -344,6 +355,9 @@ public class ViewDrawer {
             }
 
             TopItem topItem = (TopItem) v.getModel();
+            elementDrawer.setDrawingState(topItem.getState());
+        } else if (v.getModel() instanceof TopItem topItem && topItem.getParent() instanceof ZoneContent) {
+            // The items of a zone have their own state, as those of the text.
             elementDrawer.setDrawingState(topItem.getState());
         }
 

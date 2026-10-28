@@ -17,9 +17,11 @@ import jsesh.model.ItemSequence;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElement;
 import jsesh.model.TextScope;
+import jsesh.model.ZoneContent;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.LayoutOptions;
 import jsesh.render.view.MDCView;
 
 /// Finds the position under a point, from the view tree only, like
@@ -54,11 +56,13 @@ final class PositionLocator {
     /// The position under a point, in the gaps of a sequence of items.
     ///
     /// @param sequence the view of the sequence (the text, the content of a
-    ///        cartouche...).
+    ///        cartouche or of a zone...).
     /// @param rootPoint a point, in the root system.
     private MDCPosition locateIn(PlacedView sequence, Point2D rootPoint) {
         TextScope scope = TextScope.of(sequence.path());
-        boolean nested = !scope.isRoot();
+        // The text and the zones have lines (or columns); the other sequences
+        // are a single row.
+        boolean nested = !scope.isRoot() && !(sequence.model() instanceof ZoneContent);
         int n = sequence.model().getNumberOfChildren();
         Optional<Point2D> found = sequence.toLocal(rootPoint);
         if (found.isEmpty()) {
@@ -78,7 +82,8 @@ final class PositionLocator {
         //
         // For text in column, the system is the same, only reversed.
         GeometrySpecification geometry = style.geometry();
-        LayoutOptions options = style.options();
+        TextOrientation orientation = orientation(sequence.view());
+        TextDirection direction = sequence.view().getDirection();
         int count = sequence.childCount();
         for (int i = 0; i < count; i++) {
             MDCView subv = sequence.subView(i);
@@ -95,9 +100,9 @@ final class PositionLocator {
                 if (inner.isPresent()) {
                     return locateIn(inner.get(), rootPoint);
                 }
-                return scope.positionAt(gapOnItem(i, subv, x, y, local));
+                return scope.positionAt(gapOnItem(sequence, i, subv, x, y, local));
             } else if (!nested) {
-                if (options.textOrientation().isHorizontal()) {
+                if (orientation.isHorizontal()) {
                     // Text for end of line. If the line ends with a break,
                     // the position is before it. Otherwise, the line was
                     // soft-wrapped, and the position is just after its last view.
@@ -107,7 +112,7 @@ final class PositionLocator {
                         }
                         return scope.positionAt(i);
                     }
-                } else if (options.textDirection().isLeftToRight()) {
+                } else if (direction.isLeftToRight()) {
                     if (x > local.getX()) {
                         return scope.positionAt(i);
                     }
@@ -124,9 +129,8 @@ final class PositionLocator {
     /// point which falls on none of them. Used for the sequences below the top
     /// level, which are a single row (or column) of items.
     private int gapNearest(PlacedView sequence, Point2D local) {
-        LayoutOptions options = style.options();
-        boolean horizontal = options.textOrientation().isHorizontal();
-        boolean leftToRight = options.textDirection().isLeftToRight();
+        boolean horizontal = orientation(sequence.view()).isHorizontal();
+        boolean leftToRight = sequence.view().getDirection().isLeftToRight();
         int gap = 0;
         for (int i = 0; i < sequence.childCount(); i++) {
             Rectangle2D bounds = sequence.childBounds(i);
@@ -147,12 +151,11 @@ final class PositionLocator {
 
     /// The gap, before or after the view `i`, nearest to a point which falls
     /// on this view.
-    private int gapOnItem(int i, MDCView subv, double x, double y, Point2D local) {
-        LayoutOptions options = style.options();
+    private int gapOnItem(PlacedView sequence, int i, MDCView subv, double x, double y, Point2D local) {
         // Alphabetic characters follow their own direction, and
         // are on a horizontal line even in columns.
-        boolean horizontal = options.textOrientation().isHorizontal();
-        boolean leftToRight = options.textDirection().isLeftToRight();
+        boolean horizontal = orientation(sequence.view()).isHorizontal();
+        boolean leftToRight = sequence.view().getDirection().isLeftToRight();
         if (subv.getModel() instanceof AlphabeticCharacter c) {
             horizontal = true;
             leftToRight = !c.getScript().isRightToLeft();
@@ -163,6 +166,12 @@ final class PositionLocator {
         }
         // Columns
         return local.getY() < y + subv.getHeight() / 2.0f ? i : i + 1;
+    }
+
+    /// The orientation of the text a view belongs to: inside a zone, it may
+    /// differ from the document's.
+    private TextOrientation orientation(MDCView v) {
+        return v.getOrientation() != null ? v.getOrientation() : style.options().textOrientation();
     }
 
     /// The sequence of items, reachable by a click, which stands under a

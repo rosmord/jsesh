@@ -9,6 +9,7 @@ import java.util.Optional;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElement;
+import jsesh.model.ZoneContent;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.GeometrySpecification;
@@ -55,15 +56,27 @@ final class CursorLocator {
             if (gap < 0 || gap > container.childCount()) {
                 return Optional.empty();
             }
-            Optional<CursorShape> local = position.isTop()
+            Optional<CursorShape> local = isText(position, container)
                     ? locateInText(container, gap)
                     : locateInContainer(container, gap);
             return local.map(shape -> shape.mapLines(container::toRoot));
         });
     }
 
+    /// Is the container a text, laid out in lines or columns: the whole text,
+    /// or the content of a zone?
+    private static boolean isText(MDCPosition position, PlacedView container) {
+        return position.isTop() || container.model() instanceof ZoneContent;
+    }
+
+    /// The orientation of the text a view belongs to: inside a zone, it may
+    /// differ from the document's.
+    private TextOrientation orientation(MDCView v) {
+        return v.getOrientation() != null ? v.getOrientation() : style.options().textOrientation();
+    }
+
     // ------------------------------------------------------------------
-    // Cursor between the top-level items of a text.
+    // Cursor between the top-level items of a text, or of a zone.
     // ------------------------------------------------------------------
 
     private Optional<CursorShape> locateInText(PlacedView text, int gap) {
@@ -71,7 +84,7 @@ final class CursorLocator {
         int n = text.childCount();
         if (n == 0) {
             // Empty text: the cursor stands at the origin.
-            Line2D line = style.options().textOrientation().isHorizontal()
+            Line2D line = orientation(text.view()).isHorizontal()
                     ? new Line2D.Double(0, 0, 0, geometry.maxCadratHeight())
                     : new Line2D.Double(0, 0, geometry.maxCadratWidth(), 0);
             return Optional.of(new CursorShape(List.of(line), true));
@@ -155,14 +168,14 @@ final class CursorLocator {
 
     /// A line standing just after or just before a top-level view.
     ///
-    /// @param text the view for the whole text.
+    /// @param text the view for the whole text, or for the content of a zone.
     /// @param i the index of a subview of `text`.
     /// @param after true to place the line after the subview (in reading order), false for before.
     /// @return the line, in the coordinate system used to draw the subviews of `text`.
     private Line2D lineNextToView(PlacedView text, int i, boolean after) {
         GeometrySpecification geometry = style.geometry();
-        TextDirection textDirection = style.options().textDirection();
-        TextOrientation textOrientation = style.options().textOrientation();
+        TextDirection textDirection = text.view().getDirection();
+        TextOrientation textOrientation = orientation(text.view());
         MDCView v = text.subView(i);
         // Next to alphabetic characters, the cursor follows the
         // text's own direction, and the height of the letters.
@@ -213,7 +226,7 @@ final class CursorLocator {
         ModelElement model = container.model();
         Line2D line;
         if (model.edgeGapsAreStops() && (gap == 0 || gap == n)) {
-            line = edgeLine(container, gap, style.options().textOrientation() == TextOrientation.HORIZONTAL);
+            line = edgeLine(container, gap, orientation(container.view()).isHorizontal());
         } else if (model.edgeGapsAreInnerStops() && (gap == 0 || gap == n)) {
             line = edgeLine(container, gap, !model.stacksChildren());
         } else if (gap <= 0 || gap >= n) {

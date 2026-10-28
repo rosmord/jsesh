@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.model.TextScope;
+import jsesh.model.constants.TextOrientation;
 
 /// Computes the area to highlight for a selection inside a nested scope (the
-/// content of a cartouche...), from the view tree only, like [CursorLocator].
+/// content of a cartouche or of a zone...), from the view tree only, like [CursorLocator].
 /// Used through [TextGeometry#selection(TextScope, int, int)].
 ///
 /// The items between the two limits are covered by rectangles. Consecutive
@@ -50,9 +51,10 @@ final class SelectionLocator {
         List<Rectangle2D> result = new ArrayList<>();
         int last = Math.min(end, container.childCount());
         Rectangle2D current = null;
+        TextOrientation orientation = container.view().getOrientation();
         for (int i = Math.max(0, start); i < last; i++) {
             Rectangle2D r = container.toRoot(container.childBounds(i));
-            if (current != null && sameRow(current, r)) {
+            if (current != null && sameRow(current, r, orientation)) {
                 current.add(r);
             } else {
                 if (current != null) {
@@ -68,10 +70,17 @@ final class SelectionLocator {
     }
 
     /// Are two areas on the same line or column of text? They are if they
-    /// overlap across one of the axes.
-    private static boolean sameRow(Rectangle2D a, Rectangle2D b) {
+    /// overlap across the axis of the lines (the y axis for lines, the x axis
+    /// for columns), or across any axis if the orientation is unknown.
+    ///
+    /// The orientation matters in a zone with several lines: the end of a
+    /// line and the start of the next one may overlap along the lines.
+    private static boolean sameRow(Rectangle2D a, Rectangle2D b, TextOrientation orientation) {
         boolean overlapY = Math.max(a.getMinY(), b.getMinY()) < Math.min(a.getMaxY(), b.getMaxY());
         boolean overlapX = Math.max(a.getMinX(), b.getMinX()) < Math.min(a.getMaxX(), b.getMaxX());
-        return overlapX || overlapY;
+        if (orientation == null) {
+            return overlapX || overlapY;
+        }
+        return orientation.isHorizontal() ? overlapY : overlapX;
     }
 }
