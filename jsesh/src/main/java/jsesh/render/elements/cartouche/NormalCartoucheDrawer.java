@@ -152,13 +152,12 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
         p1 = new Point2D.Float(currentView.getWidth() - dx, w1);
         p2 = new Point2D.Float(dx, w1);
         p3 = new Point2D.Float(currentView.getWidth() - dx, currentView
-                .getHeight()
-                - dy - w2);
-        p4 = new Point2D.Float(dx, currentView.getHeight() - dy - w2);
+                .getHeight() - w2);
+        p4 = new Point2D.Float(dx, currentView.getHeight() - w2);
 
         // The necessary skip to get a nice bezier curve for our cartouche
         // loops.
-        float loopSkip = geometry.cartoucheLineWidth() / 3;
+        float loopSkip = geometry.cartoucheLoopLength() / 3;
 
         g.setStroke(s);
         // Start
@@ -167,7 +166,7 @@ class NormalCartoucheDrawer extends AbstractCartoucheDrawer {
             float p0x = dx;
             if (cartouche.getStartPart() == CartouchePart.SECOND) {
                 p0x += geometry.cartoucheLineWidth();
-                g.draw(new Line2D.Double(p2.getX(), dy, p1.getX(), dy));
+                g.draw(new Line2D.Double(p2.getX(), dy * 1.5, p1.getX(), dy * 1.5));
             }
 
             g.draw(new CubicCurve2D.Double(p1.getX(), p1.getY(), p1.getX(),
