@@ -177,4 +177,38 @@ public class ZoneLayoutTest {
                 new JSeshTechRenderContext(FRC, 1.0));
         assertTrue(text.getSubView(4).getPosition().y > text.getSubView(0).getPosition().y);
     }
+
+    @Test
+    public void separatorsAreInTheMiddleOfTheGapBetweenLines() throws MDCSyntaxError {
+        MDCView content = content(layout("%zone[separator=5](A1!A1!A1)").getSubView(0));
+        double[] separators = content.getSeparators();
+        assertEquals(2, separators.length);
+        List<Double> rows = rows(content);
+        assertEquals(3, rows.size());
+        for (int i = 0; i < 2; i++) {
+            assertTrue(rows.get(i) + QUADRAT < separators[i] && separators[i] < rows.get(i + 1));
+        }
+    }
+
+    @Test
+    public void separatorsAreInTheMiddleOfTheGapBetweenColumns() throws MDCSyntaxError {
+        MDCView content = content(layout("%zone[layout=columns,separator=5](A1!A1)").getSubView(0));
+        double[] separators = content.getSeparators();
+        assertEquals(1, separators.length);
+        List<Double> columns = columns(content);
+        assertEquals(2, columns.size());
+        assertTrue(columns.get(0) < separators[0] && separators[0] < columns.get(1));
+    }
+
+    @Test
+    public void wrappedLinesAreSeparatedToo() throws MDCSyntaxError {
+        MDCView content = content(layout("%zone[width=300,separator=5](A1-A1-A1-A1-A1-A1-A1-A1-A1-A1)").getSubView(0));
+        assertEquals(rows(content).size() - 1, content.getSeparators().length);
+        assertTrue(content.getSeparators().length > 0);
+    }
+
+    @Test
+    public void aSingleLineHasNoSeparator() throws MDCSyntaxError {
+        assertEquals(0, content(layout("%zone[separator=5](A1-A1)").getSubView(0)).getSeparators().length);
+    }
 }

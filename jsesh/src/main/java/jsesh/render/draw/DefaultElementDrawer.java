@@ -37,6 +37,7 @@ import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
+import jsesh.model.ZoneParameters;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.elements.HieroglyphBodySize;
@@ -400,12 +401,39 @@ public class DefaultElementDrawer extends ElementDrawer {
             g.draw(new Rectangle2D.Float(lineWidth / 2f, lineWidth / 2f,
                     currentView.getWidth() - lineWidth, currentView.getHeight() - lineWidth));
         }
+        if (zone.getParameters().separator() != ZoneParameters.UNSET) {
+            drawSeparators(zone, jseshStyle);
+        }
         if (isShowZoneLimits()) {
             float dash = jseshStyle.geometry().maxCadratHeight() / 6f;
             g.setColor(jseshStyle.painting().cursorColor());
             g.setStroke(new BasicStroke(jseshStyle.geometry().fineLineWidth(), BasicStroke.CAP_BUTT,
                     BasicStroke.JOIN_MITER, 10f, new float[] { dash, dash }, 0f));
             g.draw(new Rectangle2D.Float(0, 0, currentView.getWidth(), currentView.getHeight()));
+        }
+    }
+
+    /// Draws the rules between the lines (or columns) of a zone, over its
+    /// whole inner width (or height).
+    private void drawSeparators(Zone zone, JSeshStyle jseshStyle) {
+        MDCView content = currentView.getFirstSubView();
+        double[] positions = content.getSeparators();
+        if (positions.length == 0) {
+            return;
+        }
+        float thickness = zone.getParameters().separator() * jseshStyle.geometry().maxCadratHeight() / 100f;
+        boolean horizontal = content.getOrientation() == null || content.getOrientation().isHorizontal();
+        double x0 = content.getPosition().x;
+        double y0 = content.getPosition().y;
+        g.setStroke(new BasicStroke(thickness));
+        for (double pos : positions) {
+            if (horizontal) {
+                g.draw(new Line2D.Double(x0, y0 + pos, x0 + content.getWidth(), y0 + pos));
+            } else {
+                // Columns are placed left to right; right-to-left ones are drawn mirrored.
+                double x = content.layoutToDrawing(new Rectangle2D.Double(pos, 0, 0, 0)).getX();
+                g.draw(new Line2D.Double(x0 + x, y0, x0 + x, y0 + content.getHeight()));
+            }
         }
     }
 

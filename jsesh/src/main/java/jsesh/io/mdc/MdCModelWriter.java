@@ -625,6 +625,7 @@ public class MdCModelWriter {
 			addLengthOption(options, "height", p.height());
 			addLengthOption(options, "lineskip", p.lineSkip());
 			addLengthOption(options, "colskip", p.columnSkip());
+			addLengthOption(options, "separator", p.separator());
 			if (p.frame()) {
 				options.add("frame");
 			}

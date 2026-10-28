@@ -62,6 +62,9 @@ public class ColumnLayout extends TopItemLayout {
 
 	private final Kerner kerner;
 
+	/// The horizontal extent (left, right) of each column, for the separators.
+	private final List<double[]> columnExtents = new ArrayList<>();
+
 	/// The elements of the current kerned group (since the last element which was not kerned).
 	private final List<MDCView> kernedGroup = new ArrayList<>();
 
@@ -132,6 +135,11 @@ public class ColumnLayout extends TopItemLayout {
 				documentArea.getMinY()));
 	}
 
+	@Override
+	public double[] getSeparatorPositions() {
+		return separatorsBetween(columnExtents);
+	}
+
 	/**
 	 * Returns the total area for the document, after computation.
 	 * 
@@ -194,6 +202,8 @@ public class ColumnLayout extends TopItemLayout {
 
 		// update the zone
 		zone.translateBy(zoneStart);
+
+		columnExtents.add(new double[] { zoneStart.x, zoneStart.x + zone.getWidth() });
 
 		// flush the zone
 		documentArea.add(new Rectangle2D.Double(zoneStart.x, zoneStart.y, zone

@@ -147,6 +147,11 @@ public class MDCView implements ViewBox {
 
 	private float width, height;
 
+	/// The positions of the rules between the lines (or the columns) of a text,
+	/// in the layout system of this view: y for lines, x for columns. Only set
+	/// on the content of a zone, which may draw them.
+	private double[] separators = new double[0];
+
 	// **************************************************************************************************
 	// BASIC METHODS
 
@@ -581,6 +586,16 @@ public class MDCView implements ViewBox {
 	 */
 	public MDCView getSubView(int i) {
 		return (MDCView) subViews.get(i);
+	}
+
+	/// @return the positions of the gaps between lines (y) or columns (x), in
+	/// the layout system of this view; empty if the view has fewer than two.
+	public double[] getSeparators() {
+		return separators.clone();
+	}
+
+	public void setSeparators(double[] separators) {
+		this.separators = separators.clone();
 	}
 
 	/// The area occupied by a subview, in the system used to draw the

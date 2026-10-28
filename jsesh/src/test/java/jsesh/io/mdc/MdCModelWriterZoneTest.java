@@ -52,6 +52,7 @@ public class MdCModelWriterZoneTest {
         assertEquals(20, p.lineSkip());
         assertEquals(30, p.columnSkip());
         assertTrue(p.frame());
+        assertEquals(ZoneParameters.UNSET, p.separator());
         assertEquals(4, zone.getContent().getNumberOfChildren());
         assertInstanceOf(LineBreak.class, zone.getContent().getItemAt(2));
     }
@@ -85,6 +86,8 @@ public class MdCModelWriterZoneTest {
             "%zone[lineskip=0](A1)",
             "%zone[colskip=25](A1)",
             "%zone[frame](A1)",
+            "%zone[separator=5](A1!A2)",
+            "%zone[layout=columns,separator=3](A1!A2)",
             "%zone[layout=columns,dir=rl,width=1200,height=400,frame](A1-A2)",
             "%zone(A1-%zone[layout=columns](A2-%zone(A3))-A4)",
             "%zone(A1)-%zone(A2)",

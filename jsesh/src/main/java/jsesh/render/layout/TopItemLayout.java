@@ -64,6 +64,24 @@ abstract public class TopItemLayout {
         this.state = state;
     }*/
 
+    /// @param extents the (start, end) of each line or column, in order.
+    /// @return the middle of the gap between each extent and the next one.
+    protected static double[] separatorsBetween(List<double[]> extents) {
+        double[] result = new double[Math.max(0, extents.size() - 1)];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (extents.get(i)[1] + extents.get(i + 1)[0]) / 2;
+        }
+        return result;
+    }
+
+    /// The middle of the gap between each line (or column) and the next one,
+    /// after layout. Used to draw separator rules.
+    ///
+    /// @return the positions (y for lines, x for columns); empty by default.
+    public double[] getSeparatorPositions() {
+        return new double[0];
+    }
+
     /**
      * Initialize the state, when this layout is the main layout for the text. 
      */

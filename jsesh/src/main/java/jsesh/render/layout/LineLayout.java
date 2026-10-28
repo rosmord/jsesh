@@ -68,6 +68,9 @@ public class LineLayout extends TopItemLayout {
 
     /// The zones which ended because of soft wrapping (not at a line break).
     /// When wrapping, only those are justified: the others end a paragraph.
+    /// The vertical extent (top, bottom) of each line of text, for the separators.
+    private final List<double[]> lineExtents = new ArrayList<>();
+
     private final Set<LineAccumulator> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
     /**
      * the position that will be used to place the current zone
@@ -324,6 +327,11 @@ public class LineLayout extends TopItemLayout {
         addTopMargin = false;
     }
 
+    @Override
+    public double[] getSeparatorPositions() {
+        return separatorsBetween(lineExtents);
+    }
+
     /**
      * Returns the total area for the document, after computation.
      *
@@ -376,6 +384,12 @@ public class LineLayout extends TopItemLayout {
      * <em>updates insertionPoint and documentArea.</em>
      */
     private void flushZone() {
+        flushZone(true);
+    }
+
+    /// @param textLine is the zone a line of text (and not the mark of a page
+    /// break)? Only lines are separated by rules.
+    private void flushZone(boolean textLine) {
 
         // We are supposed to add a new line to the text.
         // In the line coord. system, 0,0 is supposed to be the upper left
@@ -412,6 +426,10 @@ public class LineLayout extends TopItemLayout {
                 .add(new Rectangle2D.Double(zoneOriginPosition.x + minx,
                                 zoneOriginPosition.y + miny, zone.getWidth(), zone
                                 .getHeight()));
+        if (textLine) {
+            lineExtents.add(new double[] { zoneOriginPosition.y + miny,
+                    zoneOriginPosition.y + miny + zone.getHeight() });
+        }
         if (jseshStyle.options().justified()) {
             allZones.add(zone);
         }
@@ -497,7 +515,7 @@ public class LineLayout extends TopItemLayout {
                 // We cheat : the subview's dimension is very large, but its width
                 // for computation purposes
                 // was 0.
-                flushZone();
+                flushZone(false);
                 // LineAccumulator for first line of the next page
                 zone = new LineAccumulator(0, jseshStyle.geometry().maxCadratHeight());
             } else {
