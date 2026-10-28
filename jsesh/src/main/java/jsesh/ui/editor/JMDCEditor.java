@@ -712,6 +712,18 @@ public class JMDCEditor extends JPanel implements Scrollable {
         return getJSeshStyle().options().textDirection();
     }
 
+    /// The text orientation where the caret stands (a zone may override the
+    /// document's).
+    public TextOrientation getTextOrientationAtCaret() {
+        return getWorkflow().getTextOrientationAtCaret(getTextOrientation());
+    }
+
+    /// The text direction where the caret stands (a zone may override the
+    /// document's).
+    public TextDirection getTextDirectionAtCaret() {
+        return getWorkflow().getTextDirectionAtCaret(getTextDirection());
+    }
+
     public void invalidateView() {
         documentView = recomputeDocumentView();
         revalidate();

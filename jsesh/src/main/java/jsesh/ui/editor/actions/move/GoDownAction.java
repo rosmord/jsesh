@@ -61,7 +61,7 @@ public class GoDownAction extends EditorAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (editor.getTextOrientation().isHorizontal())
+		if (editor.getTextOrientationAtCaret().isHorizontal())
 			editor.getWorkflow().cursorDown();
 		else
 			editor.getWorkflow().cursorNext();

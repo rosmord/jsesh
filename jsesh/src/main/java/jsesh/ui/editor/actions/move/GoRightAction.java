@@ -58,21 +58,13 @@ public class GoRightAction extends EditorAction {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (editor.getTextDirection().isLeftToRight()) {
-			if (editor.getTextOrientation()
-					.isHorizontal())
-				editor.getWorkflow().cursorNext();
-			else
-				editor.getWorkflow().cursorDown();
+		if (editor.getTextOrientationAtCaret().isHorizontal()) {
+			editor.getWorkflow().cursorHorizontally(true, editor.getTextDirection());
+		} else if (editor.getTextDirectionAtCaret().isLeftToRight()) {
+			editor.getWorkflow().cursorDown();
 		} else {
-			if (editor.getTextOrientation()
-					.isHorizontal()) {
-				editor.getWorkflow().cursorPrevious();
-			} else {
-				editor.getWorkflow().cursorUp();
-			}
+			editor.getWorkflow().cursorUp();
 		}
-
 	}
 
 }

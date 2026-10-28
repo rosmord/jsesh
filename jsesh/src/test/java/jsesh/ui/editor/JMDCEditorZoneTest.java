@@ -23,6 +23,8 @@ import jsesh.render.draw.CursorShape;
 import jsesh.render.draw.TextGeometry;
 import jsesh.render.draw.SelectionShape;
 import jsesh.model.TextScope;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 
 /// Editing in `%zone(...)`: vertical moves, the "insert zone" command, typing,
 /// and the cursor and click geometry.
@@ -81,6 +83,65 @@ class JMDCEditorZoneTest {
         w.setCursor(pos(1, 0, 1));
         w.cursorUp();
         assertEquals(pos(0), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void textFlowAtCaretFollowsTheEnclosingZones() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone[layout=columns](B1-%zone[dir=rl](C1))-A2");
+        TextOrientation h = TextOrientation.HORIZONTAL;
+        TextDirection lr = TextDirection.LEFT_TO_RIGHT;
+        // Outside any zone: the fallbacks.
+        w.setCursor(pos(1));
+        assertEquals(h, w.getTextOrientationAtCaret(h));
+        assertEquals(lr, w.getTextDirectionAtCaret(lr));
+        // In the column zone.
+        w.setCursor(pos(1, 0, 1));
+        assertEquals(TextOrientation.VERTICAL, w.getTextOrientationAtCaret(h));
+        assertEquals(lr, w.getTextDirectionAtCaret(lr));
+        // In the nested zone: direction set there, orientation inherited from the outer zone.
+        w.setCursor(pos(1, 0, 1, 0, 1));
+        assertEquals(TextOrientation.VERTICAL, w.getTextOrientationAtCaret(h));
+        assertEquals(TextDirection.RIGHT_TO_LEFT, w.getTextDirectionAtCaret(lr));
+    }
+
+    /// `A1-%zone[dir=rl](B1-B2)-A2`: zone content gaps `(1,0,0)` (right edge of the
+    /// zone) to `(1,0,2)` (left edge); `(1)` is before the zone, `(2)` after it.
+    @Test
+    void arrowsFollowTheScreenAtTheBoundariesOfAZoneWithAnotherDirection() throws Exception {
+        TextDirection lr = TextDirection.LEFT_TO_RIGHT;
+        JMDCEditorWorkflow w = workflow("A1-%zone[dir=rl](B1-B2)-A2");
+        // Right edge of the zone: right leaves it, to its right.
+        w.setCursor(pos(1, 0, 0));
+        w.cursorHorizontally(true, lr);
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
+        // Left edge of the zone: left leaves it, to its left.
+        w.setCursor(pos(1, 0, 2));
+        w.cursorHorizontally(false, lr);
+        assertEquals(pos(1), w.getCaret().getInsertExactPosition());
+        // From after the zone, left enters it by its right edge.
+        w.setCursor(pos(2));
+        w.cursorHorizontally(false, lr);
+        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+        // From before the zone, right enters it by its left edge.
+        w.setCursor(pos(1));
+        w.cursorHorizontally(true, lr);
+        assertEquals(pos(1, 0, 2), w.getCaret().getInsertExactPosition());
+        // Inside, right goes towards the right, that is backwards in the zone.
+        w.setCursor(pos(1, 0, 2));
+        w.cursorHorizontally(true, lr);
+        assertEquals(pos(1, 0, 1), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void arrowsAreUnchangedAtTheBoundariesOfAZoneWithTheSameDirection() throws Exception {
+        TextDirection lr = TextDirection.LEFT_TO_RIGHT;
+        JMDCEditorWorkflow w = workflow("A1-%zone(B1-B2)-A2");
+        w.setCursor(pos(1));
+        w.cursorHorizontally(true, lr);
+        assertEquals(pos(1, 0, 0), w.getCaret().getInsertExactPosition());
+        w.setCursor(pos(1, 0, 2));
+        w.cursorHorizontally(true, lr);
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
     }
 
     @Test
