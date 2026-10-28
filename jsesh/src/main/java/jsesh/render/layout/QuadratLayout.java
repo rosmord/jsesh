@@ -106,7 +106,7 @@ public class QuadratLayout {
 
 		boolean wide = c.isWide();
 
-		// Lines made only of kerning operators (as in p:@vkern:q) don't count.
+		// Lines made only of kerning operators (as in p:%vkern:q) don't count.
 		int lineCount = 0;
 		for (int k = 0; k < c.getNumberOfHBoxes(); k++) {
 			if (c.getHBox(k).getKerningAxis().isEmpty()) {
@@ -231,9 +231,9 @@ public class QuadratLayout {
 		}
 	}
 
-	/// Lays out a quadrat with lines made only of kerning operators, as in `p:@vkern:q`.
+	/// Lays out a quadrat with lines made only of kerning operators, as in `p:%vkern:q`.
 	///
-	/// Such lines take no room. A `@vkern` line kerns the lines around it, which then
+	/// Such lines take no room. A `%vkern` line kerns the lines around it, which then
 	/// move together; they are only known once the content of the lines is placed.
 	private void layoutWithKerningLines(Cadrat c, boolean honourMaxWidth, boolean honourMaxHeight,
 			boolean embedded, float maxWidth) {
@@ -264,7 +264,7 @@ public class QuadratLayout {
 		}
 	}
 
-	/// Lays out a quadrat made only of kerning operators, as in `p-@hkern-q`.
+	/// Lays out a quadrat made only of kerning operators, as in `p-%hkern-q`.
 	///
 	/// It takes no room along the text, but at the top level it gets the size of a quadrat
 	/// across it, so that kerning marks can be drawn in the middle of the line.

@@ -10,11 +10,11 @@ package jsesh.model;
 import jsesh.model.constants.InsertionDirection;
 
 /// A group inserted into the free space of a sign, as in
-/// `@insert[dir=bs,dw=20](D36,(n:t))`.
+/// `%insert[dir=bs,dw=20](D36,(n:t))`.
 ///
 /// The model is inspired by Mark-Jan Nederhof's RES and by the Unicode insertion
 /// operators. An `Insert` has two children, both [SubCadrat]s, which may hold any group
-/// of signs (including other insertions, as in `@insert[dir=te](@insert[dir=bs](t,w),t)`):
+/// of signs (including other insertions, as in `%insert[dir=te](%insert[dir=bs](t,w),t)`):
 ///
 /// 1. the *main* element;
 /// 2. the *inserted* element.

@@ -33,7 +33,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 
-/// Layout of `@hkern` and `@vkern` with real signs.
+/// Layout of `%hkern` and `%vkern` with real signs.
 public class KerningLayoutTest {
 
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
@@ -84,13 +84,13 @@ public class KerningLayoutTest {
 
     @ParameterizedTest
     @CsvSource(delimiter = ';', value = {
-            "p:q; p:@hkern:q",
-            "p*q; p*@vkern*q",
-            "p:q-n; p:@hkern:q-n",
-            "p:q*t; p:@hkern[a=1]:q*@vkern*t",
-            "p:q:n; @hkern:p:q:n:@hkern",
-            "(p-q)*t; (p-@vkern-q)*t",
-            "<-p-q->; <-p-@vkern-q->",
+            "p:q; p:%hkern:q",
+            "p*q; p*%vkern*q",
+            "p:q-n; p:%hkern:q-n",
+            "p:q*t; p:%hkern[a=1]:q*%vkern*t",
+            "p:q:n; %hkern:p:q:n:%hkern",
+            "(p-q)*t; (p-%vkern-q)*t",
+            "<-p-q->; <-p-%vkern-q->",
     })
     public void kerningInTheWrongContextIsIgnored(String expected, String actual) throws MDCSyntaxError {
         assertSameDrawing(expected, actual, TextOrientation.HORIZONTAL);
@@ -99,19 +99,19 @@ public class KerningLayoutTest {
 
     @Test
     public void vkernIsIgnoredInLines() throws MDCSyntaxError {
-        assertSameDrawing("p-q-n", "p-@vkern-q-n", TextOrientation.HORIZONTAL);
+        assertSameDrawing("p-q-n", "p-%vkern-q-n", TextOrientation.HORIZONTAL);
     }
 
     @Test
     public void hkernIsIgnoredInColumns() throws MDCSyntaxError {
-        assertSameDrawing("p-q-n", "p-@hkern-q-n", TextOrientation.VERTICAL);
+        assertSameDrawing("p-q-n", "p-%hkern-q-n", TextOrientation.VERTICAL);
     }
 
-    /// In columns, quadrats are separated by `lineSkip`; `@vkern` brings them to about `smallSkip`.
+    /// In columns, quadrats are separated by `lineSkip`; `%vkern` brings them to about `smallSkip`.
     @Test
     public void vkernKernsInColumns() throws MDCSyntaxError {
         List<Rectangle2D> plain = signBounds("t-A1", TextOrientation.VERTICAL, TextDirection.LEFT_TO_RIGHT);
-        List<Rectangle2D> kerned = signBounds("t-@vkern-A1", TextOrientation.VERTICAL,
+        List<Rectangle2D> kerned = signBounds("t-%vkern-A1", TextOrientation.VERTICAL,
                 TextDirection.LEFT_TO_RIGHT);
         double plainGap = plain.get(1).getMinY() - plain.get(0).getMaxY();
         double kernedGap = kerned.get(1).getMinY() - kerned.get(0).getMaxY();
@@ -124,9 +124,9 @@ public class KerningLayoutTest {
     /// The kerned groups can't be brought any closer.
     @ParameterizedTest
     @CsvSource(delimiter = ';', value = {
-            "HORIZONTAL; w-@hkern-D58",
-            "HORIZONTAL; A1-@hkern-x",
-            "VERTICAL; t-@vkern-A1",
+            "HORIZONTAL; w-%hkern-D58",
+            "HORIZONTAL; A1-%hkern-x",
+            "VERTICAL; t-%vkern-A1",
     })
     public void kerningIsStable(TextOrientation orientation, String mdc) throws MDCSyntaxError {
         for (TextDirection direction : TextDirection.values()) {
@@ -146,14 +146,14 @@ public class KerningLayoutTest {
         for (TextDirection direction : TextDirection.values()) {
             JSeshRenderContext context = renderContext(TextOrientation.HORIZONTAL, direction);
             float plain = layout("w*D58", context).getSubView(0).getSubView(0).getWidth();
-            float kerned = layout("w*@hkern*D58", context).getSubView(0).getSubView(0).getWidth();
+            float kerned = layout("w*%hkern*D58", context).getSubView(0).getSubView(0).getWidth();
             assertTrue(kerned < plain - 1, plain + " -> " + kerned);
         }
     }
 
     @Test
     public void rightToLeftIsTheMirrorOfLeftToRight() throws MDCSyntaxError {
-        for (String mdc : List.of("w-@hkern-D58", "w*@hkern*D58-n")) {
+        for (String mdc : List.of("w-%hkern-D58", "w*%hkern*D58-n")) {
             JSeshRenderContext ltr = renderContext(TextOrientation.HORIZONTAL, TextDirection.LEFT_TO_RIGHT);
             JSeshRenderContext rtl = renderContext(TextOrientation.HORIZONTAL, TextDirection.RIGHT_TO_LEFT);
             MDCView a = layout(mdc, ltr);
@@ -168,7 +168,7 @@ public class KerningLayoutTest {
     /// Justification moves kerned elements together: the kerned gap is kept, while the others grow.
     @Test
     public void justificationKeepsKerning() throws MDCSyntaxError {
-        String mdc = "w-@hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
+        String mdc = "w-%hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
         for (TextDirection direction : TextDirection.values()) {
             JSeshRenderContext plainContext = renderContext(TextOrientation.HORIZONTAL, direction);
             JSeshRenderContext justifiedContext = new JSeshRenderContext(
@@ -176,7 +176,7 @@ public class KerningLayoutTest {
                     PredefinedFonts.buildAllEmbeddedFonts());
             MDCView plain = layout(mdc, plainContext);
             MDCView justified = layout(mdc, justifiedContext);
-            // Sub views: w, @hkern, D58, A1...
+            // Sub views: w, %hkern, D58, A1...
             assertEquals(gap(plain, 0, 2), gap(justified, 0, 2), EPSILON, "kerned gap, " + direction);
             assertTrue(gap(justified, 2, 3) > gap(plain, 2, 3) + 0.5, "the line is justified, " + direction);
         }

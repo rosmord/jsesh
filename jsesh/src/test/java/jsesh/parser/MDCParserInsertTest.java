@@ -25,7 +25,7 @@ import jsesh.parser.ast.AstInsert;
 import jsesh.parser.ast.AstInsert.InsertDirection;
 import jsesh.parser.ast.AstTopItem;
 
-/// Tests for the `@insert[dir=...](main,inserted)` construct in [MDCParser].
+/// Tests for the `%insert[dir=...](main,inserted)` construct in [MDCParser].
 public class MDCParserInsertTest {
 
     private AstDocument parse(String mdc) throws MDCSyntaxError {
@@ -51,7 +51,7 @@ public class MDCParserInsertTest {
 
     @Test
     public void testSimpleInsert() throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=ts](A1,B1)");
+        AstInsert insert = parseInsert("%insert[dir=ts](A1,B1)");
         assertEquals(InsertDirection.TOP_START, insert.direction());
         assertEquals(1, insert.mainItems().items().size());
         assertEquals("A1", signCode(insert.mainItems().items().get(0)));
@@ -66,19 +66,19 @@ public class MDCParserInsertTest {
         "te, TOP_END", "be, BOTTOM_END", "c, CENTER"
     })
     public void testAllDirections(String code, InsertDirection expected) throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=" + code + "](A1,B1)");
+        AstInsert insert = parseInsert("%insert[dir=" + code + "](A1,B1)");
         assertEquals(expected, insert.direction());
     }
 
     @Test
     public void testDirOptionIsRemovedFromOptions() throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=t](A1,B1)");
+        AstInsert insert = parseInsert("%insert[dir=t](A1,B1)");
         assertFalse(insert.options().hasOption("dir"));
     }
 
     @Test
     public void testOtherOptionsAreKept() throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=t,fit](A1,B1)");
+        AstInsert insert = parseInsert("%insert[dir=t,fit](A1,B1)");
         assertEquals(InsertDirection.TOP, insert.direction());
         assertFalse(insert.options().hasOption("dir"));
         assertTrue(insert.options().hasOption("fit"));
@@ -86,7 +86,7 @@ public class MDCParserInsertTest {
 
     @Test
     public void testInsertAmongOtherSigns() throws MDCSyntaxError {
-        AstDocument document = parse("i-@insert[dir=e](A1,B1)-w");
+        AstDocument document = parse("i-%insert[dir=e](A1,B1)-w");
         assertEquals(3, document.topItems().items().size());
         AstCadrat middle = (AstCadrat) document.topItems().items().get(1);
         assertTrue(middle.hBoxes().get(0).elements().get(0) instanceof AstInsert);
@@ -94,24 +94,24 @@ public class MDCParserInsertTest {
 
     @Test
     public void testMissingDir() {
-        assertThrows(MDCSyntaxError.class, () -> parse("@insert[fit](A1,B1)"));
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert[fit](A1,B1)"));
     }
 
     @Test
     public void testUnknownDir() {
-        assertThrows(MDCSyntaxError.class, () -> parse("@insert[dir=zz](A1,B1)"));
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert[dir=zz](A1,B1)"));
     }
 
     @Test
     public void testMainElementCanBeAGroup() throws MDCSyntaxError {
-        AstInsert insert = parseInsert("@insert[dir=t](A1-B1:C1,D1)");
+        AstInsert insert = parseInsert("%insert[dir=t](A1-B1:C1,D1)");
         assertEquals(2, insert.mainItems().items().size());
         assertEquals(1, insert.insertedItems().items().size());
     }
 
     @Test
     public void testInsertionsCanBeNested() throws MDCSyntaxError {
-        AstInsert outer = parseInsert("@insert[dir=te](@insert[dir=bs](t,w),t)");
+        AstInsert outer = parseInsert("%insert[dir=te](%insert[dir=bs](t,w),t)");
         assertEquals(InsertDirection.TOP_END, outer.direction());
         assertEquals(1, outer.mainItems().items().size());
         AstCadrat cadrat = (AstCadrat) outer.mainItems().items().get(0);
@@ -124,23 +124,23 @@ public class MDCParserInsertTest {
 
     @Test
     public void testMissingOptionList() {
-        assertThrows(MDCSyntaxError.class, () -> parse("@insert(A1,B1)"));
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert(A1,B1)"));
     }
 
     @Test
     public void testMissingComma() {
-        assertThrows(MDCSyntaxError.class, () -> parse("@insert[dir=t](A1 B1)"));
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert[dir=t](A1 B1)"));
     }
 
     @Test
     public void testMissingClosingParenthesis() {
-        assertThrows(MDCSyntaxError.class, () -> parse("@insert[dir=t](A1,B1"));
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert[dir=t](A1,B1"));
     }
 
     @Test
     /// Test of a complex insert in a complex context
     public void testInsertInContext() throws MDCSyntaxError {
-        AstDocument document = parse("i-@insert[dir=e](A1,B1-k)*t:n-w");  
+        AstDocument document = parse("i-%insert[dir=e](A1,B1-k)*t:n-w");  
         assertNotNull(document);   
     }
 }

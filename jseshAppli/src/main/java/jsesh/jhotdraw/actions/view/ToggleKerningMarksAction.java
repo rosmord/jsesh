@@ -18,7 +18,7 @@ import org.jhotdraw_7_6.app.action.AbstractViewAction;
 import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.documentview.JSeshView;
 
-/// Shows or hides the kerning operators (`@hkern`, `@vkern`) of a document window,
+/// Shows or hides the kerning operators (`%hkern`, `%vkern`) of a document window,
 /// as paragraph marks in a word processor.
 ///
 /// The setting belongs to the window and is not saved; printing and exports never

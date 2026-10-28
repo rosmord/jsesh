@@ -20,7 +20,7 @@ import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstKerning;
 import jsesh.parser.ast.AstKerning.KerningAxis;
 
-/// Tests for the `@hkern` and `@vkern` operators in [MDCParser].
+/// Tests for the `%hkern` and `%vkern` operators in [MDCParser].
 public class MDCParserKerningTest {
 
     private AstDocument parse(String mdc) throws MDCSyntaxError {
@@ -33,7 +33,7 @@ public class MDCParserKerningTest {
 
     @Test
     public void kerningInAHorizontalGroup() throws MDCSyntaxError {
-        AstDocument document = parse("p*@hkern*q");
+        AstDocument document = parse("p*%hkern*q");
         assertEquals(1, document.topItems().items().size());
         AstCadrat cadrat = cadrat(document, 0);
         assertEquals(1, cadrat.hBoxes().size());
@@ -46,7 +46,7 @@ public class MDCParserKerningTest {
 
     @Test
     public void kerningAsALineOfAQuadrat() throws MDCSyntaxError {
-        AstCadrat cadrat = cadrat(parse("p:@vkern:q"), 0);
+        AstCadrat cadrat = cadrat(parse("p:%vkern:q"), 0);
         assertEquals(3, cadrat.hBoxes().size());
         AstKerning kerning = (AstKerning) cadrat.hBoxes().get(1).elements().get(0);
         assertEquals(KerningAxis.VERTICAL, kerning.axis());
@@ -54,7 +54,7 @@ public class MDCParserKerningTest {
 
     @Test
     public void kerningAsAQuadrat() throws MDCSyntaxError {
-        AstDocument document = parse("p-@hkern-q");
+        AstDocument document = parse("p-%hkern-q");
         assertEquals(3, document.topItems().items().size());
         AstCadrat cadrat = cadrat(document, 1);
         assertInstanceOf(AstKerning.class, cadrat.hBoxes().get(0).elements().get(0));
@@ -62,7 +62,7 @@ public class MDCParserKerningTest {
 
     @Test
     public void kerningWithOptions() throws MDCSyntaxError {
-        AstCadrat cadrat = cadrat(parse("p-@vkern[a=2,b,c=x]-q"), 1);
+        AstCadrat cadrat = cadrat(parse("p-%vkern[a=2,b,c=x]-q"), 1);
         AstKerning kerning = (AstKerning) cadrat.hBoxes().get(0).elements().get(0);
         assertEquals(KerningAxis.VERTICAL, kerning.axis());
         assertEquals(3, kerning.options().options().size());
@@ -71,7 +71,7 @@ public class MDCParserKerningTest {
 
     @Test
     public void otherOperatorsAreStillUnknown() {
-        assertThrows(MDCSyntaxError.class, () -> parse("p-@hkernx-q"));
-        assertThrows(MDCSyntaxError.class, () -> parse("p-@foo-q"));
+        assertThrows(MDCSyntaxError.class, () -> parse("p-%hkernx-q"));
+        assertThrows(MDCSyntaxError.class, () -> parse("p-%foo-q"));
     }
 }

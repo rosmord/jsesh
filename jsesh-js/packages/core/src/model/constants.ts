@@ -212,7 +212,7 @@ export type InsertionDirection =
   | "BOTTOM_END"
   | "CENTER";
 
-/// The short code of each direction, as in the `dir` option of `@insert`.
+/// The short code of each direction, as in the `dir` option of `%insert`.
 export const INSERTION_DIRECTION_CODES: Record<InsertionDirection, string> = {
   START: "s",
   END: "e",
@@ -247,12 +247,12 @@ export function isTopInsertion(d: InsertionDirection): boolean {
 
 /// The axis of a kerning operator (`jsesh.model.constants.KerningAxis`).
 ///
-/// A kerning operator only acts in a context of the same axis: `@hkern` between the elements of
-/// a horizontal group, or between quadrats in lines; `@vkern` between the lines of a quadrat, or
+/// A kerning operator only acts in a context of the same axis: `%hkern` between the elements of
+/// a horizontal group, or between quadrats in lines; `%vkern` between the lines of a quadrat, or
 /// between quadrats in columns. Elsewhere, it is ignored.
 export type KerningAxis = "HORIZONTAL" | "VERTICAL";
 
-/// The name of the operator in the Manuel de Codage, without the `@`.
+/// The name of the operator in the Manuel de Codage, without the `%`.
 export const KERNING_AXIS_CODES: Record<KerningAxis, string> = {
   HORIZONTAL: "hkern",
   VERTICAL: "vkern",

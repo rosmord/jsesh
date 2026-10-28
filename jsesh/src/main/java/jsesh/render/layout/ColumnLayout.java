@@ -65,7 +65,7 @@ public class ColumnLayout extends TopItemLayout {
 	/// The elements of the current kerned group (since the last element which was not kerned).
 	private final List<MDCView> kernedGroup = new ArrayList<>();
 
-	/// Is there a `@vkern` operator after the current kerned group?
+	/// Is there a `%vkern` operator after the current kerned group?
 	private boolean pendingKerning;
 
 	/// The kerning operators met since the last element; they are moved to the middle of the gap.
@@ -271,7 +271,7 @@ public class ColumnLayout extends TopItemLayout {
 		public void visitDefault(ModelElement t) {
 			Optional<KerningAxis> kerning = KerningPacker.kerningOf(subView);
 			if (kerning.isPresent()) {
-				// Takes no room. In columns, only @vkern is meaningful.
+				// Takes no room. In columns, only %vkern is meaningful.
 				pendingKerning |= !kernedGroup.isEmpty() && kerning.get() == KerningAxis.VERTICAL;
 				// In the unit of the previous element, so that justification keeps kerned elements together.
 				zone.addKerned(subView);

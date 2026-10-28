@@ -83,7 +83,7 @@ Hieroglyphs themselves are not text: they are paths, from the glyph data.
 | `idPrefix` | Prefix of the ids defined in the picture. **Two pictures in one page need different prefixes**; the elements and `renderMdc` take care of it. |
 | `background` | Fill the background with `painting.backgroundColor` (transparent by default). |
 | `attributes` | Extra attributes for the `<svg>` element, **already escaped**. |
-| `showKerningMarks` | Draw `@hkern` and `@vkern` as marks, in `painting.cursorColor` (false by default; meant for editors). |
+| `showKerningMarks` | Draw `%hkern` and `%vkern` as marks, in `painting.cursorColor` (false by default; meant for editors). |
 
 The SVG is a plain string. To style it from CSS, give `attributes: 'class="my-text"'`, or wrap it. Colours are set in the style rather than in CSS, since they are written into the paths.
 

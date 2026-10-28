@@ -12,7 +12,7 @@ import java.awt.geom.AffineTransform;
 /// How the shape of a sign is placed in its view.
 ///
 /// Both drawing and layout need this: drawing paints the sign this way, and
-/// layout (for instance for `@insert`) must reason on the shape which will
+/// layout (for instance for `%insert`) must reason on the shape which will
 /// actually be painted. Keeping the rule here ensures they agree.
 public final class SignPlacement {
 

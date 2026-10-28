@@ -35,7 +35,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
 
-/// Layout of `@insert` with real signs.
+/// Layout of `%insert` with real signs.
 public class InsertLayoutTest {
 
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
@@ -107,28 +107,28 @@ public class InsertLayoutTest {
     @ParameterizedTest
     @CsvSource({ "s", "e", "t", "b", "ts", "bs", "te", "be", "c" })
     public void insertedElementDoesNotOverlapTheMainSign(String dir) throws MDCSyntaxError {
-        checkNoOverlap("@insert[dir=" + dir + "](O1,n:t)", TextDirection.LEFT_TO_RIGHT);
-        checkNoOverlap("@insert[dir=" + dir + "](O1,n:t)", TextDirection.RIGHT_TO_LEFT);
+        checkNoOverlap("%insert[dir=" + dir + "](O1,n:t)", TextDirection.LEFT_TO_RIGHT);
+        checkNoOverlap("%insert[dir=" + dir + "](O1,n:t)", TextDirection.RIGHT_TO_LEFT);
     }
 
     @ParameterizedTest
     @CsvSource({ "te", "bs", "ts" })
     public void nestedInsertionsDoNotOverlap(String dir) throws MDCSyntaxError {
         // The main element of the outer insertion is itself an insertion.
-        String mdc = "@insert[dir=" + dir + "](@insert[dir=c](O1,n:t),x)";
+        String mdc = "%insert[dir=" + dir + "](%insert[dir=c](O1,n:t),x)";
         checkNoOverlap(mdc, TextDirection.LEFT_TO_RIGHT);
         checkNoOverlap(mdc, TextDirection.RIGHT_TO_LEFT);
     }
 
     @Test
     public void mainElementCanBeAGroup() throws MDCSyntaxError {
-        checkNoOverlap("@insert[dir=e](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);
+        checkNoOverlap("%insert[dir=e](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);
     }
 
     @Test
     public void insertedElementIsScaledDownToFit() throws MDCSyntaxError {
         JSeshRenderContext context = renderContext(TextDirection.LEFT_TO_RIGHT);
-        MDCView insert = findInsert(layout("@insert[dir=c](O1,n:t:n:t)", context));
+        MDCView insert = findInsert(layout("%insert[dir=c](O1,n:t:n:t)", context));
         assertNotNull(insert);
         assertTrue(insert.getSubView(1).getXScale() < 1.0f);
         assertEquals(insert.getSubView(1).getXScale(), insert.getSubView(1).getYScale(), 1e-6);
@@ -137,8 +137,8 @@ public class InsertLayoutTest {
     @Test
     public void enlargingTheFrameWidensTheGroup() throws MDCSyntaxError {
         JSeshRenderContext context = renderContext(TextDirection.LEFT_TO_RIGHT);
-        MDCView plain = findInsert(layout("@insert[dir=e](O1,n)", context));
-        MDCView wide = findInsert(layout("@insert[dir=e,dw=100](O1,n)", context));
+        MDCView plain = findInsert(layout("%insert[dir=e](O1,n)", context));
+        MDCView wide = findInsert(layout("%insert[dir=e,dw=100](O1,n)", context));
         assertTrue(wide.getWidth() > plain.getWidth());
         assertEquals(plain.getHeight(), wide.getHeight(), 1e-3);
     }

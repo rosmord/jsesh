@@ -5,7 +5,7 @@ long-term todo [0127](../../tracking/TODO/03_longterm/todo20261020-0127.md)
 tracks the phases (section F).*
 
 This document proposes a new view structure for JSesh, the *box tree*, and
-the model for `@zone(content of the zone)`.
+the model for `%zone(content of the zone)`.
 
 The starting point is the GUI structure of the Ramsès syntax editor. Its
 toolkit also lives in this repository, as `org.qenherkhopeshef.viewtoolkit`
@@ -92,10 +92,10 @@ classes stay untouched. Deprecating them is a separate decision.
 
 ### A.3 Zones today
 
-- **Lexer**: `MdcLexicon` has `ZONE` (`@zone`).
+- **Lexer**: `MdcLexicon` has `ZONE` (`%zone`).
 - **Parser**: `MDCParser.parseZone()` accepts `ZONE optionList? '(' topitems ')'`,
   and the AST has `AstZone(AstOptionList options, AstTopItemList list)`. So
-  the target syntax `@zone(…)`, and `@zone[opts](…)`, **already parses**.
+  the target syntax `%zone(…)`, and `%zone[opts](…)`, **already parses**.
 - **`AstModelBuilder.visitZone`**: `push(null)`, so the zone is discarded.
 - **Model**: `ZoneStart` is a dead stub (a flat marker with size, reference
   point, orientation, skips and rules). The parser never produces it.
@@ -297,7 +297,7 @@ public interface MdcBox { ModelSpan span(); ModelAnchor anchor(); <R> R accept(M
 | `ViewItemBox` extends `ItemBox` | none (leaf) | **Bridge**: holds the item's `MDCView` subtree, built by `ViewBuilder.buildView(item)`. `paintSelf` calls `ViewDrawer` on that subtree. Cursor geometry inside the item reuses `CursorLocator` (D.3). |
 | `TextRunBox` | none | A run of alphabetic items laid out as one unit (`TextRun`), covering several items. |
 | `BreakBox` | none | `LineBreak`, `PageBreak`, `TabStop`: zero width, but with a span and stops. |
-| `ZoneBox` extends `ItemBox` | `FlowBox` (+ `RuleBox`es and a frame) | A `@zone` item. Its content flow uses the zone's own strategy. |
+| `ZoneBox` extends `ItemBox` | `FlowBox` (+ `RuleBox`es and a frame) | A `%zone` item. Its content flow uses the zone's own strategy. |
 | `CartoucheBox` extends `ItemBox` | `ShapeBox` frame + `FlowBox` content | Phase 8. It makes cartouche content a flow like any other. |
 | `ShapeBox` | none | Frames, rules, philology brackets (a filled or stroked `Shape`, colour, stroke). |
 | `GlyphBox` | none | Phase 10: one sign (a `HieroglyphDrawer` reference, code, options captured at build time). |
@@ -479,7 +479,7 @@ Phases 1–5 change no visible behaviour, except up/down.
 | 4 | **Geometric navigation**: `CaretNavigator` with a goal coordinate, workflow up/down, Home/End, and INNER up/down in stacked quadrats. | Tests on multi-line texts in the four orientation/direction combinations. Manual check in the application. |
 | 5 | **Painting through the scene**: `ScenePainter`, decorations, `ViewDrawer.drawSubtree`, `JMDCEditor` painting, and optionally `JSceneDisplayer`. | **Pixel-identical** `BufferedImage` comparison against the old `ViewDrawer` path for the corpus, with and without selection. |
 | 6 | **Layout through strategies**: `FlowLayout`, `LineFlowLayout`, `ColumnFlowLayout`, `Justifier`, `ItemBoxFactory`, and incremental `BoxTreeUpdater` replacing `MDCViewUpdater` internals. The `TopItemLayout` family and `layout.Zone` (→ `LineAccumulator`) are retired. | Pixel-identical again, and an incremental update gives the same tree as a full build (structural comparison after random edits). Edit latency on a long text (e.g. Horus and Seth) is no worse. |
-| 7 | **Zones** (G): model, `AstModelBuilder.visitZone`, writer, `ZoneStart` removed, `ZoneBox` with inline placement, navigation and editing as a scope, "insert zone" action. | `@zone(...)` round trips (nested, with options). Click, typing, arrows and selection inside a zone behave as inside a cartouche. A vertical zone inside horizontal text renders correctly. |
+| 7 | **Zones** (G): model, `AstModelBuilder.visitZone`, writer, `ZoneStart` removed, `ZoneBox` with inline placement, navigation and editing as a scope, "insert zone" action. | `%zone(...)` round trips (nested, with options). Click, typing, arrows and selection inside a zone behave as inside a cartouche. A vertical zone inside horizontal text renders correctly. |
 | 8 | **Cartouche content as a flow** (`CartoucheBox`). Optional: long cartouches split over lines (fragments). | Cartouche tests unchanged, and pixel-identical rendering. |
 | 9 | **Free placement, pictures, anchored zones**: `FreeFlowLayout`, `PictureBox`, out-of-flow zones (`QuadTreeBoxIndex` if measurements call for it). | Depends on the decisions in H. |
 | 10 | **Fine-grained leaves** (`GlyphBox`, `ShapeBox`) for hit-testing signs inside ligatures, hover, "select this word". On screen, the `ElementDrawer` dispatch retires in favour of self-drawing boxes. | Pixel-identical rendering, and n‑n hit tests on complex ligatures. |
@@ -518,7 +518,7 @@ Phases 1–5 change no visible behaviour, except up/down.
 - Proposed option keys, to confirm (see H): `layout=lines|columns|free`,
   `o=h|v`, `d=lr|rl`, `width`, `height`, `lineskip`, `columnskip`, `rule`,
   `frame`, `x`, `y`.
-- `MdCModelWriter.visitZone` writes `@zone[…](…)`, with only the non-default
+- `MdCModelWriter.visitZone` writes `%zone[…](…)`, with only the non-default
   options.
 - Tests: parse → write → parse round trip, nested zones, an empty zone, and a
   zone at the end of the text.

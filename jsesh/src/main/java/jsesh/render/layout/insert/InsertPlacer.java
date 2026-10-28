@@ -14,7 +14,7 @@ import jsesh.render.view.MDCView;
 
 /// Places the inserted element of an insertion, given the laid-out views of its two parts.
 ///
-/// This is the geometric heart of the layout of `@insert`, shared by
+/// This is the geometric heart of the layout of `%insert`, shared by
 /// `jsesh.render.layout.Layout` and by [InsertionRanker].
 ///
 /// The computation is done in *drawing* coordinates, as the signs are drawn: in

@@ -9,20 +9,20 @@ package jsesh.model;
 
 import jsesh.model.constants.KerningAxis;
 
-/// A kerning operator, `@hkern` or `@vkern`: the groups before and after it are
+/// A kerning operator, `%hkern` or `%vkern`: the groups before and after it are
 /// moved closer, so that they are about one inter-sign space apart where their
 /// signs are closest.
 ///
 /// A kerning operator is a group of its own, without content. It is found:
 ///
-/// - in a horizontal group: `p*@hkern*q`;
-/// - alone in a line of a quadrat: `p:@vkern:q`;
-/// - alone in a quadrat, between quadrats: `p-@hkern-q`.
+/// - in a horizontal group: `p*%hkern*q`;
+/// - alone in a line of a quadrat: `p:%vkern:q`;
+/// - alone in a quadrat, between quadrats: `p-%hkern-q`.
 ///
 /// It only acts in a context of its own axis (see [KerningAxis]); elsewhere,
 /// it is ignored, and the text is drawn as if it was not there.
 ///
-/// The options (`@hkern[...]`) are not used yet; they are kept as written, so
+/// The options (`%hkern[...]`) are not used yet; they are kept as written, so
 /// that they are saved back.
 public class Kerning extends InnerGroup {
 

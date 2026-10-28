@@ -29,7 +29,7 @@ import jsesh.render.context.JSeshTechRenderContext;
 import jsesh.render.layout.insert.InsertionRanker;
 import jsesh.render.style.JSeshStyle;
 
-/// Building insertions (`@insert`) from the editor, and choosing among the ways of inserting.
+/// Building insertions (`%insert`) from the editor, and choosing among the ways of inserting.
 class JMDCEditorWorkflowInsertionTest {
 
     private JMDCEditorWorkflow workflow;
@@ -60,7 +60,7 @@ class JMDCEditorWorkflowInsertionTest {
         text("A1-D36-t");
         assertTrue(workflow.groupAsInsertion(ranker));
         String result = workflow.getMDCCode();
-        assertTrue(result.startsWith("A1-@insert[dir="), result);
+        assertTrue(result.startsWith("A1-%insert[dir="), result);
         assertTrue(result.contains("D36") && result.contains("t"), result);
         assertTrue(workflow.hasInsertionBeforeCaret());
     }
@@ -152,12 +152,12 @@ class JMDCEditorWorkflowInsertionTest {
         workflow.changeInsertionEnlargement(10, 5);
         assertEquals(10, workflow.getInsertionDw());
         assertEquals(5, workflow.getInsertionDh());
-        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
+        assertTrue(workflow.getMDCCode().startsWith("%insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
         // dw has no effect from the top: it is not written, but it is kept.
         workflow.selectInsertionDirection(InsertionDirection.TOP);
-        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=t,dh=5]"), workflow.getMDCCode());
+        assertTrue(workflow.getMDCCode().startsWith("%insert[dir=t,dh=5]"), workflow.getMDCCode());
         workflow.selectInsertionDirection(InsertionDirection.TOP_END);
-        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
+        assertTrue(workflow.getMDCCode().startsWith("%insert[dir=te,dw=10,dh=5]"), workflow.getMDCCode());
     }
 
     @Test
@@ -179,7 +179,7 @@ class JMDCEditorWorkflowInsertionTest {
         workflow.selectInsertionDirection(InsertionDirection.CENTER);
         workflow.changeInsertionEnlargement(5, 0);
         workflow.changeInsertionEnlargement(5, 0);
-        assertTrue(workflow.getMDCCode().startsWith("@insert[dir=c,dw=10]"), workflow.getMDCCode());
+        assertTrue(workflow.getMDCCode().startsWith("%insert[dir=c,dw=10]"), workflow.getMDCCode());
         workflow.undo();
         assertEquals(grouped, workflow.getMDCCode());
     }
@@ -200,7 +200,7 @@ class JMDCEditorWorkflowInsertionTest {
 
     @Test
     void anExistingEnlargementIsKept() throws MDCSyntaxError {
-        text("@insert[dir=te,dw=20](D36,t)");
+        text("%insert[dir=te,dw=20](D36,t)");
         assertTrue(workflow.prepareChoiceOfInsertion(ranker));
         assertEquals(20, workflow.getInsertionDw());
         assertEquals(InsertionDirection.TOP_END, currentInsert().getDirection());

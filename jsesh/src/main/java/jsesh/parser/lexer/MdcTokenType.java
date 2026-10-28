@@ -37,17 +37,17 @@ enum MdcTokenType {
     HRULE_WIDE,
     /// `"+"[a-rt-z+](\+|[^+]|"+"[^a-z+])*` (line 252)
     ALPHABETIC_TEXT,
-    /// `"@zone"` (line 258)
+    /// `"%zone"` (line 258)
     ZONE,
-    /// `"@quadrat"` (line 262)
+    /// `"%quadrat"` (line 262)
     QUADRAT,
-    /// `"@insert"` 
+    /// `"%insert"` 
     INSERT,
-    /// `"@hkern"`
+    /// `"%hkern"`
     HKERN,
-    /// `"@vkern"`
+    /// `"%vkern"`
     VKERN,
-    /// `@[a-z]+` generic name for an operator - allows extensions of the language.
+    /// `%[a-z]+` generic name for an operator - allows extensions of the language.
     UNKNOW_OPERATOR,
     /// `"+s"` (line 267)
     START_HIEROGLYPHS,

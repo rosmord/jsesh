@@ -26,7 +26,7 @@ import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.constants.InsertionDirection;
 import jsesh.parser.MDCSyntaxError;
 
-/// `@insert` in the model: building from MdC, writing back, copying.
+/// `%insert` in the model: building from MdC, writing back, copying.
 public class MdCModelWriterInsertTest {
 
     private HieroglyphicText parse(String mdc) throws MDCSyntaxError {
@@ -48,7 +48,7 @@ public class MdCModelWriterInsertTest {
 
     @Test
     public void modelIsBuiltFromMdC() throws MDCSyntaxError {
-        Insert insert = findInsert(parse("i-@insert[dir=bs,dw=20,dh=30](O1,n:t)-w"));
+        Insert insert = findInsert(parse("i-%insert[dir=bs,dw=20,dh=30](O1,n:t)-w"));
         assertNotNull(insert);
         assertEquals(InsertionDirection.BOTTOM_START, insert.getDirection());
         assertEquals(20, insert.getDw());
@@ -59,24 +59,24 @@ public class MdCModelWriterInsertTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "@insert[dir=s](O1,n)",
-            "@insert[dir=ts,dw=20](O1,n:t)",
-            "@insert[dir=be,dw=10,dh=40](O1,n-t)",
-            "i-@insert[dir=c](O1,n*t)-w",
-            "@insert[dir=te](@insert[dir=bs](O1,n),t)",
-            "@insert[dir=t](O1-n:t,x)",
+            "%insert[dir=s](O1,n)",
+            "%insert[dir=ts,dw=20](O1,n:t)",
+            "%insert[dir=be,dw=10,dh=40](O1,n-t)",
+            "i-%insert[dir=c](O1,n*t)-w",
+            "%insert[dir=te](%insert[dir=bs](O1,n),t)",
+            "%insert[dir=t](O1-n:t,x)",
     })
     public void writingAndReadingBackGivesTheSameModel(String mdc) throws MDCSyntaxError {
         HieroglyphicText first = parse(mdc);
         String written = new MdCModelWriter().toMdC(first);
-        assertTrue(written.contains("@insert[dir="), written);
+        assertTrue(written.contains("%insert[dir="), written);
         HieroglyphicText second = parse(written);
         assertTrue(first.equalsIgnoreId(second), mdc + " -> " + written);
     }
 
     @Test
     public void optionsDefaultToZeroAndNegativeValuesAreClamped() throws MDCSyntaxError {
-        Insert insert = findInsert(parse("@insert[dir=t](O1,n)"));
+        Insert insert = findInsert(parse("%insert[dir=t](O1,n)"));
         assertEquals(0, insert.getDw());
         assertEquals(0, insert.getDh());
         insert.setDw(-5);
@@ -86,7 +86,7 @@ public class MdCModelWriterInsertTest {
     @Test
     public void nestedInsertionsAreBuilt() throws MDCSyntaxError {
         List<Insert> inserts = new ArrayList<>();
-        parse("@insert[dir=te](@insert[dir=bs](O1,n),t)").accept(new ModelElementDeepAdapter() {
+        parse("%insert[dir=te](%insert[dir=bs](O1,n),t)").accept(new ModelElementDeepAdapter() {
             @Override
             public void visitInsert(Insert insert) {
                 inserts.add(insert);
@@ -100,7 +100,7 @@ public class MdCModelWriterInsertTest {
 
     @Test
     public void deepCopyKeepsEverything() throws MDCSyntaxError {
-        Insert insert = findInsert(parse("@insert[dir=be,dw=15](O1,n:t)"));
+        Insert insert = findInsert(parse("%insert[dir=be,dw=15](O1,n:t)"));
         ModelElement copy = insert.deepCopy();
         assertTrue(insert.equalsIgnoreId(copy));
         assertEquals(0, insert.compareTo(copy));

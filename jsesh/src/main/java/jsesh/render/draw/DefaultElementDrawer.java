@@ -315,7 +315,7 @@ public class DefaultElementDrawer extends ElementDrawer {
      * PageBreak)
      */
     /// Kerning operators are invisible, unless kerning marks are shown. The mark,
-    /// `>|<` for `@hkern`, turned for `@vkern`, is centred on the view, which has no size.
+    /// `>|<` for `%hkern`, turned for `%vkern`, is centred on the view, which has no size.
     @Override
     public void visitKerning(Kerning kerning) {
         if (!postfix || !isShowKerningMarks()) {
@@ -324,7 +324,7 @@ public class DefaultElementDrawer extends ElementDrawer {
         JSeshStyle jseshStyle = getJSeshStyle();
         float half = jseshStyle.geometry().maxCadratHeight() / 6f;
         float tip = half / 2f;
-        // Drawn for @hkern; coordinates are swapped for @vkern.
+        // Drawn for %hkern; coordinates are swapped for %vkern.
         float[][] lines = {
                 { 0, -half, 0, half },
                 { -2 * tip, -tip / 2, -tip / 2, 0 }, { -tip / 2, 0, -2 * tip, tip / 2 },

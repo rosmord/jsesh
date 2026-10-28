@@ -186,7 +186,7 @@ class ModelWriter implements ModelElementVisitor<void> {
   }
 
   visitInsert(insert: Insert): void {
-    this.write("@insert[dir=" + INSERTION_DIRECTION_CODES[insert.direction]);
+    this.write("%insert[dir=" + INSERTION_DIRECTION_CODES[insert.direction]);
     if (insert.dw !== 0) this.write(",dw=" + insert.dw);
     if (insert.dh !== 0) this.write(",dh=" + insert.dh);
     this.write("](");
@@ -197,7 +197,7 @@ class ModelWriter implements ModelElementVisitor<void> {
   }
 
   visitKerning(kerning: Kerning): void {
-    this.write("@" + KERNING_AXIS_CODES[kerning.axis]);
+    this.write("%" + KERNING_AXIS_CODES[kerning.axis]);
     if (kerning.options !== "") this.write("[" + kerning.options + "]");
   }
 

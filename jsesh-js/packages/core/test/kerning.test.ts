@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: CECILL-C
  */
 
-/// `@hkern` and `@vkern`: the model, the layout and the marks. The comparison with Java's parser,
+/// `%hkern` and `%vkern`: the model, the layout and the marks. The comparison with Java's parser,
 /// writer and layout is in the fixture tests; these tests port the Java unit tests
 /// (`KerningLayoutTest`), which check the properties of the result rather than its numbers.
 
@@ -31,7 +31,7 @@ function kernings(e: ModelElement): Kerning[] {
 
 describe("kerning in the model", () => {
   it("is built from MdC, with its options", () => {
-    const [h, v] = kernings(parseMdc("p*@hkern[a=1,b]*q-r:@vkern:a"));
+    const [h, v] = kernings(parseMdc("p*%hkern[a=1,b]*q-r:%vkern:a"));
     expect(h!.axis).toBe("HORIZONTAL");
     expect(h!.options).toBe("a=1,b");
     expect(v!.axis).toBe("VERTICAL");
@@ -39,7 +39,7 @@ describe("kerning in the model", () => {
   });
 
   it("tells which boxes and quadrats stand for kerning operators", () => {
-    const text = parseMdc("p-@hkern-q:@vkern:r");
+    const text = parseMdc("p-%hkern-q:%vkern:r");
     const kerningQuadrat = text.getChildAt(1) as Cadrat;
     expect(kerningQuadrat.getKerningAxis()).toBe("HORIZONTAL");
     const q = text.getChildAt(2) as Cadrat;
@@ -88,37 +88,37 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
   }
 
   it.each([
-    ["p:q", "p:@hkern:q"],
-    ["p*q", "p*@vkern*q"],
-    ["p:q-n", "p:@hkern:q-n"],
-    ["p:q*t", "p:@hkern[a=1]:q*@vkern*t"],
-    ["p:q:n", "@hkern:p:q:n:@hkern"],
+    ["p:q", "p:%hkern:q"],
+    ["p*q", "p*%vkern*q"],
+    ["p:q-n", "p:%hkern:q-n"],
+    ["p:q*t", "p:%hkern[a=1]:q*%vkern*t"],
+    ["p:q:n", "%hkern:p:q:n:%hkern"],
   ])("ignores kerning in the wrong context: %s = %s", async (expected, actual) => {
     await expectSameDrawing(expected, actual, "HORIZONTAL");
     await expectSameDrawing(expected, actual, "VERTICAL");
   });
 
   // In columns, the elements of a sub-group or of a cartouche are placed one below the other:
-  // there, `@vkern` is in its own context, and kerns.
+  // there, `%vkern` is in its own context, and kerns.
   it.each([
-    ["(p-q)*t", "(p-@vkern-q)*t"],
-    ["<-p-q->", "<-p-@vkern-q->"],
-  ])("ignores @vkern in groups in lines: %s = %s", async (expected, actual) => {
+    ["(p-q)*t", "(p-%vkern-q)*t"],
+    ["<-p-q->", "<-p-%vkern-q->"],
+  ])("ignores %vkern in groups in lines: %s = %s", async (expected, actual) => {
     await expectSameDrawing(expected, actual, "HORIZONTAL");
   });
 
-  it("ignores @vkern in lines", async () => {
-    await expectSameDrawing("p-q-n", "p-@vkern-q-n", "HORIZONTAL");
+  it("ignores %vkern in lines", async () => {
+    await expectSameDrawing("p-q-n", "p-%vkern-q-n", "HORIZONTAL");
   });
 
-  it("ignores @hkern in columns", async () => {
-    await expectSameDrawing("p-q-n", "p-@hkern-q-n", "VERTICAL");
+  it("ignores %hkern in columns", async () => {
+    await expectSameDrawing("p-q-n", "p-%hkern-q-n", "VERTICAL");
   });
 
-  /// In columns, quadrats are separated by `lineSkip`; `@vkern` brings them to about `smallSkip`.
-  it("kerns with @vkern in columns", async () => {
+  /// In columns, quadrats are separated by `lineSkip`; `%vkern` brings them to about `smallSkip`.
+  it("kerns with %vkern in columns", async () => {
     const plain = await signBounds("t-A1", "VERTICAL", "LEFT_TO_RIGHT");
-    const kerned = await signBounds("t-@vkern-A1", "VERTICAL", "LEFT_TO_RIGHT");
+    const kerned = await signBounds("t-%vkern-A1", "VERTICAL", "LEFT_TO_RIGHT");
     const plainGap = plain[1]!.minY - plain[0]!.maxY;
     const kernedGap = kerned[1]!.minY - kerned[0]!.maxY;
     expect(kernedGap).toBeLessThan(plainGap - 1);
@@ -129,9 +129,9 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
 
   /// The kerned groups can't be brought any closer.
   it.each([
-    ["HORIZONTAL", "w-@hkern-D58"],
-    ["HORIZONTAL", "A1-@hkern-x"],
-    ["VERTICAL", "t-@vkern-A1"],
+    ["HORIZONTAL", "w-%hkern-D58"],
+    ["HORIZONTAL", "A1-%hkern-x"],
+    ["VERTICAL", "t-%vkern-A1"],
   ] as const)("is stable: %s %s", async (orientation, mdc) => {
     for (const direction of ["LEFT_TO_RIGHT", "RIGHT_TO_LEFT"] as const) {
       const s = style(orientation, direction);
@@ -143,17 +143,17 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
     }
   });
 
-  it("narrows a group with @hkern", async () => {
+  it("narrows a group with %hkern", async () => {
     for (const direction of ["LEFT_TO_RIGHT", "RIGHT_TO_LEFT"] as const) {
       const s = style("HORIZONTAL", direction);
       const plain = (await layOut("w*D58", s)).view.getSubView(0).getSubView(0).width;
-      const kerned = (await layOut("w*@hkern*D58", s)).view.getSubView(0).getSubView(0).width;
+      const kerned = (await layOut("w*%hkern*D58", s)).view.getSubView(0).getSubView(0).width;
       expect(kerned).toBeLessThan(plain - 1);
     }
   });
 
   it("lays out right-to-left text as the mirror of left-to-right text", async () => {
-    for (const mdc of ["w-@hkern-D58", "w*@hkern*D58-n"]) {
+    for (const mdc of ["w-%hkern-D58", "w*%hkern*D58-n"]) {
       const a = (await layOut(mdc, style("HORIZONTAL", "LEFT_TO_RIGHT"))).view;
       const b = (await layOut(mdc, style("HORIZONTAL", "RIGHT_TO_LEFT"))).view;
       expect(b.width, mdc).toBeCloseTo(a.width, 3);
@@ -165,14 +165,14 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
 
   /// Justification moves kerned elements together: the kerned gap is kept, while the others grow.
   it("keeps kerning in justified lines", async () => {
-    const mdc = "w-@hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
+    const mdc = "w-%hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
     // The space between two sub views of the text, in layout coordinates.
     const gap = (text: MDCView, first: number, second: number) =>
       text.getSubView(second).position.x - (text.getSubView(first).position.x + text.getSubView(first).width);
     for (const direction of ["LEFT_TO_RIGHT", "RIGHT_TO_LEFT"] as const) {
       const plain = (await layOut(mdc, style("HORIZONTAL", direction))).view;
       const justified = (await layOut(mdc, withStyle(style("HORIZONTAL", direction), { options: { justified: true } }))).view;
-      // Sub views: w, @hkern, D58, A1...
+      // Sub views: w, %hkern, D58, A1...
       expect(gap(justified, 0, 2), `kerned gap, ${direction}`).toBeCloseTo(gap(plain, 0, 2), 3);
       expect(gap(justified, 2, 3), `the line is justified, ${direction}`).toBeGreaterThan(gap(plain, 2, 3) + 0.5);
     }
@@ -181,9 +181,9 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
   it("draws kerning marks only when asked", async () => {
     const options = { glyphs: nodeGlyphProvider(), measurer: new ApproximateTextMeasurer() };
     const cursorColor = DEFAULT_STYLE.painting.cursorColor;
-    const plain = await renderToSvg("p-@hkern-q:@vkern:r", options);
+    const plain = await renderToSvg("p-%hkern-q:%vkern:r", options);
     expect(plain).not.toContain(`stroke="${cursorColor}"`);
-    const marked = await renderToSvg("p-@hkern-q:@vkern:r", { ...options, showKerningMarks: true });
+    const marked = await renderToSvg("p-%hkern-q:%vkern:r", { ...options, showKerningMarks: true });
     // One mark per operator, of five strokes each.
     const marks = marked.match(new RegExp(`<path d="[^"]*" fill="none" stroke="${cursorColor}"`, "g")) ?? [];
     expect(marks.length).toBe(2);

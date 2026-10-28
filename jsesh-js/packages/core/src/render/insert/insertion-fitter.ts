@@ -6,7 +6,7 @@
 /// Computes where, and how large, an element can be inserted in the free space of another one,
 /// using the actual shapes of both: port of `jsesh.render.layout.insert.InsertionFitter`.
 ///
-/// This is the geometric core of the `@insert` operator. It is independent from the model and
+/// This is the geometric core of the `%insert` operator. It is independent from the model and
 /// from the view classes: it works on outlines and boxes, in the geometric (y axis downwards)
 /// coordinates of the layout. "Left" and "right" are geometric: the caller translates "start" and
 /// "end" according to the text direction.

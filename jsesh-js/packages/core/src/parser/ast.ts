@@ -116,8 +116,8 @@ export interface AstInsert {
 
 export type KerningAxis = "HORIZONTAL" | "VERTICAL";
 
-/// A kerning operator, `@hkern` or `@vkern`, written where a group could be:
-/// `p*@hkern*q`, `p:@vkern:q`, `p-@hkern-q`.
+/// A kerning operator, `%hkern` or `%vkern`, written where a group could be:
+/// `p*%hkern*q`, `p:%vkern:q`, `p-%hkern-q`.
 export interface AstKerning {
   nodeType: "Kerning";
   axis: KerningAxis;

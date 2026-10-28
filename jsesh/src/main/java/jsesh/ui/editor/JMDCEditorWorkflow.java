@@ -1384,7 +1384,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         return true;
     }
 
-    /// Groups two items into an insertion (`@insert`), choosing the best way automatically.
+    /// Groups two items into an insertion (`%insert`), choosing the best way automatically.
     ///
     /// The two items are the selection, if any (it must contain exactly two
     /// items), or else the two items before the cursor. All directions, and both

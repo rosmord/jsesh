@@ -26,7 +26,7 @@ export interface EditorViewOptions {
   style?: StyleChanges;
   /// URL of the glyph data, for this editor only.
   glyphsUrl?: string;
-  /// Show kerning operators (`@hkern`, `@vkern`) as marks (false by default).
+  /// Show kerning operators (`%hkern`, `%vkern`) as marks (false by default).
   showKerningMarks?: boolean;
   /// Called when the text can't be drawn (the glyph data can't be loaded...). By default, the error is logged.
   onError?: (error: unknown) => void;

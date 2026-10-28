@@ -468,7 +468,7 @@ export class Cadrat extends BasicItem {
 
   /// If this quadrat only contains kerning operators, the axis of the last one.
   ///
-  /// Such a quadrat is used to kern the quadrats around it, as in `p-@hkern-q`.
+  /// Such a quadrat is used to kern the quadrats around it, as in `p-%hkern-q`.
   getKerningAxis(): KerningAxis | undefined {
     let axis: KerningAxis | undefined;
     for (const b of this.hBoxes) {
@@ -538,7 +538,7 @@ export class HBox extends ModelElement {
 
   /// If this box only contains kerning operators, the axis of the last one.
   ///
-  /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:@vkern:q`.
+  /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:%vkern:q`.
   getKerningAxis(): KerningAxis | undefined {
     let axis: KerningAxis | undefined;
     for (const e of this.elements) {
@@ -938,7 +938,7 @@ export class Overwrite extends InnerGroup {
   }
 }
 
-/// A group inserted into the free space of a sign, as in `@insert[dir=bs,dw=20](D36,(n:t))`
+/// A group inserted into the free space of a sign, as in `%insert[dir=bs,dw=20](D36,(n:t))`
 /// (`jsesh.model.Insert`).
 ///
 /// An `Insert` has two children, both [SubCadrat]s, which may hold any group of signs
@@ -1013,20 +1013,20 @@ export class Insert extends InnerGroup {
   }
 }
 
-/// A kerning operator, `@hkern` or `@vkern` (`jsesh.model.Kerning`): the groups before and after
+/// A kerning operator, `%hkern` or `%vkern` (`jsesh.model.Kerning`): the groups before and after
 /// it are moved closer, so that they are about one inter-sign space apart where their signs are
 /// closest.
 ///
 /// A kerning operator is a group of its own, without content. It is found:
 ///
-/// - in a horizontal group: `p*@hkern*q`;
-/// - alone in a line of a quadrat: `p:@vkern:q`;
-/// - alone in a quadrat, between quadrats: `p-@hkern-q`.
+/// - in a horizontal group: `p*%hkern*q`;
+/// - alone in a line of a quadrat: `p:%vkern:q`;
+/// - alone in a quadrat, between quadrats: `p-%hkern-q`.
 ///
 /// It only acts in a context of its own axis (see [KerningAxis]); elsewhere, it is ignored, and
 /// the text is drawn as if it was not there.
 ///
-/// The options (`@hkern[...]`) are not used yet; they are kept as written, so that they are
+/// The options (`%hkern[...]`) are not used yet; they are kept as written, so that they are
 /// saved back.
 export class Kerning extends InnerGroup {
   /// @param options the options, as written between the brackets, without them (empty if none).

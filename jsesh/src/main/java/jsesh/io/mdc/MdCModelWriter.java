@@ -619,7 +619,7 @@ public class MdCModelWriter {
 		}
 
 		public void visitInsert(Insert insert) {
-			write("@insert[dir=" + insert.getDirection().getCode());
+			write("%insert[dir=" + insert.getDirection().getCode());
 			if (insert.getDw() != 0) {
 				write(",dw=" + insert.getDw());
 			}
@@ -634,7 +634,7 @@ public class MdCModelWriter {
 		}
 
 		public void visitKerning(Kerning kerning) {
-			write("@" + kerning.getAxis().getCode());
+			write("%" + kerning.getAxis().getCode());
 			if (!kerning.getOptions().isEmpty()) {
 				write("[" + kerning.getOptions() + "]");
 			}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: CECILL-C
  */
 
-/// `@insert`: the model, the writer, the fitting algorithm and the layout. The comparison with
+/// `%insert`: the model, the writer, the fitting algorithm and the layout. The comparison with
 /// Java's layout is in `layout.test.ts`; these tests port the Java unit tests, which check the
 /// properties of the result (no overlap, scaling...) rather than its numbers.
 
@@ -42,9 +42,9 @@ function inserts(text: HieroglyphicText): Insert[] {
   return found;
 }
 
-describe("@insert in the model", () => {
+describe("%insert in the model", () => {
   it("is built from MdC", () => {
-    const insert = inserts(parseMdc("i-@insert[dir=bs,dw=20,dh=30](O1,n:t)-w"))[0]!;
+    const insert = inserts(parseMdc("i-%insert[dir=bs,dw=20,dh=30](O1,n:t)-w"))[0]!;
     expect(insert.direction).toBe("BOTTOM_START");
     expect(insert.dw).toBe(20);
     expect(insert.dh).toBe(30);
@@ -53,16 +53,16 @@ describe("@insert in the model", () => {
   });
 
   it.each([
-    "@insert[dir=s](O1,n)",
-    "@insert[dir=ts,dw=20](O1,n:t)",
-    "@insert[dir=be,dw=10,dh=40](O1,n-t)",
-    "i-@insert[dir=c](O1,n*t)-w",
-    "@insert[dir=te](@insert[dir=bs](O1,n),t)",
-    "@insert[dir=t](O1-n:t,x)",
+    "%insert[dir=s](O1,n)",
+    "%insert[dir=ts,dw=20](O1,n:t)",
+    "%insert[dir=be,dw=10,dh=40](O1,n-t)",
+    "i-%insert[dir=c](O1,n*t)-w",
+    "%insert[dir=te](%insert[dir=bs](O1,n),t)",
+    "%insert[dir=t](O1-n:t,x)",
   ])("is written back as the same model: %s", (mdc) => {
     const first = parseMdc(mdc);
     const written = toMdc(first);
-    expect(written).toContain("@insert[dir=");
+    expect(written).toContain("%insert[dir=");
     expect(toMdc(parseMdc(written))).toBe(written);
     expect(inserts(parseMdc(written)).map((i) => [i.direction, i.dw, i.dh])).toEqual(
       inserts(first).map((i) => [i.direction, i.dw, i.dh]),
@@ -70,7 +70,7 @@ describe("@insert in the model", () => {
   });
 
   it("defaults the enlargement to 0, and clamps negative values", () => {
-    const insert = inserts(parseMdc("@insert[dir=t](O1,n)"))[0]!;
+    const insert = inserts(parseMdc("%insert[dir=t](O1,n)"))[0]!;
     expect(insert.dw).toBe(0);
     expect(insert.dh).toBe(0);
     insert.dw = -5;
@@ -78,16 +78,16 @@ describe("@insert in the model", () => {
   });
 
   it("builds nested insertions", () => {
-    const found = inserts(parseMdc("@insert[dir=te](@insert[dir=bs](O1,n),t)"));
+    const found = inserts(parseMdc("%insert[dir=te](%insert[dir=bs](O1,n),t)"));
     expect(found.map((i) => i.direction)).toEqual(["TOP_END", "BOTTOM_START"]);
   });
 
   it("is copied with its options", () => {
-    const insert = inserts(parseMdc("@insert[dir=be,dw=15](O1,n:t)"))[0]!;
+    const insert = inserts(parseMdc("%insert[dir=be,dw=15](O1,n:t)"))[0]!;
     const copy = insert.deepCopy();
     expect([copy.direction, copy.dw, copy.dh]).toEqual(["BOTTOM_END", 15, 0]);
     expect(copy.main).not.toBe(insert.main);
-    expect(toMdc(parseMdc("@insert[dir=be,dw=15](O1,n:t)"))).toBe("@insert[dir=be,dw=15](O1,n:t)");
+    expect(toMdc(parseMdc("%insert[dir=be,dw=15](O1,n:t)"))).toBe("%insert[dir=be,dw=15](O1,n:t)");
   });
 });
 
@@ -302,7 +302,7 @@ describe("fitInsertion", () => {
 
 // ---- Layout, with real signs
 
-describe.skipIf(!glyphDataAvailable)("@insert layout", () => {
+describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
   async function layOut(mdc: string, style: JSeshStyle): Promise<{ view: MDCView; drawer: HieroglyphDrawer }> {
     const provider = nodeGlyphProvider();
     const text = parseMdc(mdc);
@@ -359,37 +359,37 @@ describe.skipIf(!glyphDataAvailable)("@insert layout", () => {
   it.each(["s", "e", "t", "b", "ts", "bs", "te", "be", "c"])(
     "does not overlap the inserted element and the main sign (dir=%s)",
     async (dir) => {
-      await checkNoOverlap(`@insert[dir=${dir}](O1,n:t)`, "LEFT_TO_RIGHT");
-      await checkNoOverlap(`@insert[dir=${dir}](O1,n:t)`, "RIGHT_TO_LEFT");
+      await checkNoOverlap(`%insert[dir=${dir}](O1,n:t)`, "LEFT_TO_RIGHT");
+      await checkNoOverlap(`%insert[dir=${dir}](O1,n:t)`, "RIGHT_TO_LEFT");
     },
   );
 
   it.each(["te", "bs", "ts"])("does not overlap in nested insertions (dir=%s)", async (dir) => {
-    const mdc = `@insert[dir=${dir}](@insert[dir=c](O1,n:t),x)`;
+    const mdc = `%insert[dir=${dir}](%insert[dir=c](O1,n:t),x)`;
     await checkNoOverlap(mdc, "LEFT_TO_RIGHT");
     await checkNoOverlap(mdc, "RIGHT_TO_LEFT");
   });
 
   it("accepts a group as the main element", async () => {
-    await checkNoOverlap("@insert[dir=e](O1-O1,n)", "LEFT_TO_RIGHT");
+    await checkNoOverlap("%insert[dir=e](O1-O1,n)", "LEFT_TO_RIGHT");
   });
 
   it("scales the inserted element down to fit, uniformly", async () => {
-    const { view } = await layOut("@insert[dir=c](O1,n:t:n:t)", DEFAULT_STYLE);
+    const { view } = await layOut("%insert[dir=c](O1,n:t:n:t)", DEFAULT_STYLE);
     const inserted = findInsert(view)!.getSubView(1);
     expect(inserted.xScale).toBeLessThan(1);
     expect(inserted.xScale).toBe(inserted.yScale);
   });
 
   it("widens the group when the frame is enlarged", async () => {
-    const plain = findInsert((await layOut("@insert[dir=e](O1,n)", DEFAULT_STYLE)).view)!;
-    const wide = findInsert((await layOut("@insert[dir=e,dw=100](O1,n)", DEFAULT_STYLE)).view)!;
+    const plain = findInsert((await layOut("%insert[dir=e](O1,n)", DEFAULT_STYLE)).view)!;
+    const wide = findInsert((await layOut("%insert[dir=e,dw=100](O1,n)", DEFAULT_STYLE)).view)!;
     expect(wide.width).toBeGreaterThan(plain.width);
     expect(wide.height).toBeCloseTo(plain.height, 3);
   });
 
   it("is drawn: both parts are in the SVG", async () => {
-    const svg = await renderToSvg("@insert[dir=bs](O1,n:t)", { glyphs: nodeGlyphProvider(), measurer: new ApproximateTextMeasurer() });
+    const svg = await renderToSvg("%insert[dir=bs](O1,n:t)", { glyphs: nodeGlyphProvider(), measurer: new ApproximateTextMeasurer() });
     // Two different signs are defined once each, and the inserted ones are scaled down.
     expect(svg.match(/<path id=/g)?.length).toBe(3);
     expect(svg).toMatch(/<g transform="scale\(0\.5\)">/);

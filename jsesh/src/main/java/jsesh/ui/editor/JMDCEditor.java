@@ -985,7 +985,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
         }
     }
 
-    /// Groups two items into an insertion (`@insert`), or changes an existing insertion.
+    /// Groups two items into an insertion (`%insert`), or changes an existing insertion.
     ///
     /// - If the item before the cursor is an insertion (and nothing is selected),
     ///   opens a list of the other ways of inserting, best first;

@@ -115,7 +115,7 @@ public class Cadrat
 
 	/// If this quadrat only contains kerning operators, the axis of the last one.
 	///
-	/// Such a quadrat is used to kern the quadrats around it, as in `p-@hkern-q`.
+	/// Such a quadrat is used to kern the quadrats around it, as in `p-%hkern-q`.
 	public Optional<KerningAxis> getKerningAxis() {
 		KerningAxis axis = null;
 		for (int i = 0; i < getNumberOfHBoxes(); i++) {

@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
 
-/// Groups two items into an insertion (`@insert`), or, used again, lets the
+/// Groups two items into an insertion (`%insert`), or, used again, lets the
 /// user choose another way of inserting from a list.
 ///
 /// @see JMDCEditor#groupAsInsertion()

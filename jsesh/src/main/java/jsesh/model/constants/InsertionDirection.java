@@ -12,7 +12,7 @@ package jsesh.model.constants;
 /// Directions are given relative to the writing direction: "start" and "end" are
 /// the left and right sides in left-to-right text, and the opposite in
 /// right-to-left text. The corresponding codes are those of the `dir` option of
-/// `@insert` in the Manuel de Codage, and of the Unicode insertion operators.
+/// `%insert` in the Manuel de Codage, and of the Unicode insertion operators.
 public enum InsertionDirection {
     START("s"),
     END("e"),

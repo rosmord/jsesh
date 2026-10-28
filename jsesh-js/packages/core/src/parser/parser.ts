@@ -446,8 +446,8 @@ export class MdcParser {
 
   /// `kerning ::= (HKERN | VKERN) optionList?`
   ///
-  /// It is parsed as a group, so it can be found in a horizontal list (`p*@hkern*q`),
-  /// alone in a line of a cadrat (`p:@vkern:q`), or alone in a cadrat (`p-@hkern-q`).
+  /// It is parsed as a group, so it can be found in a horizontal list (`p*%hkern*q`),
+  /// alone in a line of a cadrat (`p:%vkern:q`), or alone in a cadrat (`p-%hkern-q`).
   private parseKerning(): AstKerning {
     const axis = this.at(S.HKERN) ? "HORIZONTAL" : "VERTICAL";
     this.advance();

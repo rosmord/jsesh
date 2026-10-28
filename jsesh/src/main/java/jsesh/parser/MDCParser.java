@@ -577,8 +577,8 @@ public class MDCParser {
     /// ```yacc
     /// kerning ::= (HKERN | VKERN) optionList?
     /// ```
-    /// It is parsed as a group, so it can be found in a horizontal list (`p*@hkern*q`),
-    /// alone in a line of a cadrat (`p:@vkern:q`), or alone in a cadrat (`p-@hkern-q`).
+    /// It is parsed as a group, so it can be found in a horizontal list (`p*%hkern*q`),
+    /// alone in a line of a cadrat (`p:%vkern:q`), or alone in a cadrat (`p-%hkern-q`).
     private AstKerning parseKerning() throws MDCSyntaxError {
         AstKerning.KerningAxis axis = at(HKERN) ? AstKerning.KerningAxis.HORIZONTAL
                 : AstKerning.KerningAxis.VERTICAL;

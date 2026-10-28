@@ -824,7 +824,7 @@ class QuadratLayout {
     // No hbox should be too wide, except if there is only one (a "flat"
     // quadrat) or if one contains a wide sign.
     const wide = c.isWide();
-    // Lines made only of kerning operators (as in p:@vkern:q) don't count.
+    // Lines made only of kerning operators (as in p:%vkern:q) don't count.
     const lineCount = c.hBoxes.filter((b) => b.getKerningAxis() === undefined).length;
     const kerningLines = lineCount !== c.numberOfHBoxes;
     if (honourMaxWidth || (lineCount !== 1 && !wide)) {
@@ -897,9 +897,9 @@ class QuadratLayout {
     }
   }
 
-  /// Lays out a quadrat with lines made only of kerning operators, as in `p:@vkern:q`.
+  /// Lays out a quadrat with lines made only of kerning operators, as in `p:%vkern:q`.
   ///
-  /// Such lines take no room. A `@vkern` line kerns the lines around it, which then move
+  /// Such lines take no room. A `%vkern` line kerns the lines around it, which then move
   /// together; they are only known once the content of the lines is placed.
   private layoutWithKerningLines(
     c: Cadrat,
@@ -931,7 +931,7 @@ class QuadratLayout {
     }
   }
 
-  /// Lays out a quadrat made only of kerning operators, as in `p-@hkern-q`.
+  /// Lays out a quadrat made only of kerning operators, as in `p-%hkern-q`.
   ///
   /// It takes no room along the text, but at the top level it gets the size of a quadrat across
   /// it, so that kerning marks can be drawn in the middle of the line.
@@ -1200,7 +1200,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private subView!: MDCView;
   /// True for the first line of a page, which gets the top margin.
   private addTopMargin = true;
-  /// In lines, only `@hkern` is meaningful.
+  /// In lines, only `%hkern` is meaningful.
   private readonly kerning: TopLevelKerning;
 
   constructor(
@@ -1331,7 +1331,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   private style: JSeshStyle;
   private readonly currentTextDirection: TextDirection;
   private subView!: MDCView;
-  /// In columns, only `@vkern` is meaningful.
+  /// In columns, only `%vkern` is meaningful.
   private readonly kerning: TopLevelKerning;
 
   constructor(

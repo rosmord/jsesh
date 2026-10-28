@@ -197,7 +197,7 @@ public class MDCParserAstSyntaxTest {
                 .hBoxes(AstHBox.of(AstHieroglyph.of("x")))
                 .options(AstOptionList.of(AstOption.flag("foo")))
                 .build();
-        assertEquals(AstDocument.of(expected), parse("@quadrat[foo](x)"));
+        assertEquals(AstDocument.of(expected), parse("%quadrat[foo](x)"));
     }
 
      @Test
@@ -206,7 +206,7 @@ public class MDCParserAstSyntaxTest {
                 .hBoxes(AstHBox.of(AstHieroglyph.of("x")))
                 .options(AstOptionList.of(AstOption.of("a", "b"), AstOption.of("x", 3)))
                 .build();
-        assertEquals(AstDocument.of(expected), parse("@quadrat[a=b,x=3](x)"));
+        assertEquals(AstDocument.of(expected), parse("%quadrat[a=b,x=3](x)"));
     }
 
     // --- Cartouches ----------------------------------------------------
@@ -401,7 +401,7 @@ public class MDCParserAstSyntaxTest {
     public void testZoneStart_bare() throws MDCSyntaxError {
         List<AstTopItem> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
         AstZone expected = new AstZone(AstOptionList.of(), list);
-        assertEquals(AstDocument.of(expected), parse("@zone(A1)"));
+        assertEquals(AstDocument.of(expected), parse("%zone(A1)"));
     }
 
     @Test
@@ -409,7 +409,7 @@ public class MDCParserAstSyntaxTest {
         List<AstTopItem> list = List.of(AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))));
         AstOptionList options = AstOptionList.of(AstOption.of("id", 1));
         AstZone expected = new AstZone(options, list);
-        assertEquals(AstDocument.of(expected), parse("@zone[id=1](A1)"));
+        assertEquals(AstDocument.of(expected), parse("%zone[id=1](A1)"));
     }
 
     @Test

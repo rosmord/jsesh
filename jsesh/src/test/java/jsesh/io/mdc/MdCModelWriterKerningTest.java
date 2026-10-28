@@ -26,7 +26,7 @@ import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.constants.KerningAxis;
 import jsesh.parser.MDCSyntaxError;
 
-/// `@hkern` and `@vkern` in the model: building from MdC, writing back, copying.
+/// `%hkern` and `%vkern` in the model: building from MdC, writing back, copying.
 public class MdCModelWriterKerningTest {
 
     private HieroglyphicText parse(String mdc) throws MDCSyntaxError {
@@ -46,7 +46,7 @@ public class MdCModelWriterKerningTest {
 
     @Test
     public void modelIsBuiltFromMdC() throws MDCSyntaxError {
-        List<Kerning> kernings = findKernings(parse("p*@hkern*q-n:@vkern[a=2,b]:t"));
+        List<Kerning> kernings = findKernings(parse("p*%hkern*q-n:%vkern[a=2,b]:t"));
         assertEquals(2, kernings.size());
         assertEquals(KerningAxis.HORIZONTAL, kernings.get(0).getAxis());
         assertEquals("", kernings.get(0).getOptions());
@@ -56,7 +56,7 @@ public class MdCModelWriterKerningTest {
 
     @Test
     public void kerningQuadratsAreRecognised() throws MDCSyntaxError {
-        HieroglyphicText text = parse("p-@hkern-q:@vkern:t");
+        HieroglyphicText text = parse("p-%hkern-q:%vkern:t");
         Cadrat kern = (Cadrat) text.getChildAt(1);
         assertEquals(KerningAxis.HORIZONTAL, kern.getKerningAxis().orElseThrow());
         Cadrat other = (Cadrat) text.getChildAt(2);
@@ -68,12 +68,12 @@ public class MdCModelWriterKerningTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "p*@hkern*q",
-            "p:@vkern:q",
-            "p-@hkern-q",
-            "p-@vkern[a=2]-q",
-            "p:@hkern[x,y=z]:q*@vkern*t",
-            "<-p-@hkern-q->",
+            "p*%hkern*q",
+            "p:%vkern:q",
+            "p-%hkern-q",
+            "p-%vkern[a=2]-q",
+            "p:%hkern[x,y=z]:q*%vkern*t",
+            "<-p-%hkern-q->",
     })
     public void writingAndReadingBackGivesTheSameModel(String mdc) throws MDCSyntaxError {
         HieroglyphicText first = parse(mdc);
@@ -85,7 +85,7 @@ public class MdCModelWriterKerningTest {
 
     @Test
     public void deepCopyKeepsEverything() throws MDCSyntaxError {
-        Kerning kerning = findKernings(parse("p-@vkern[a=2]-q")).get(0);
+        Kerning kerning = findKernings(parse("p-%vkern[a=2]-q")).get(0);
         Kerning copy = kerning.deepCopy();
         assertTrue(kerning.equalsIgnoreId(copy));
         assertEquals(0, kerning.compareTo(copy));

@@ -76,7 +76,7 @@ public class LineWrapTest {
 
     @Test
     public void kernedElementsAreNotSeparated() throws MDCSyntaxError {
-        String mdc = LONG_LINE + "-w-@hkern-D58-" + LONG_LINE;
+        String mdc = LONG_LINE + "-w-%hkern-D58-" + LONG_LINE;
         MDCView unwrapped = layout(mdc, 0, false);
         int kerned = LONG_LINE.split("-").length + 2; // index of D58
         for (float width = 20; width < unwrapped.getWidth(); width += 7) {

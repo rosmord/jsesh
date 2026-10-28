@@ -17,7 +17,7 @@
 /// Attributes: `mdc`, `cadrat-height` (height of a quadrat in pixels, 45 by
 /// default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or
 /// `vertical`), `glyphs-url`, `show-kerning-marks` (a boolean attribute: show the
-/// kerning operators `@hkern` and `@vkern` as marks). The `jseshStyle` property
+/// kerning operators `%hkern` and `%vkern` as marks). The `jseshStyle` property
 /// takes any style change.
 ///
 /// The `mdc` property reads and sets the text; setting it to what it already

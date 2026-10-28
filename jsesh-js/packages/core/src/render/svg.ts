@@ -335,13 +335,13 @@ class ElementDrawer extends ModelElementAdapter {
   }
 
   /// Kerning operators are invisible, unless kerning marks are shown. The mark, `>|<` for
-  /// `@hkern`, turned for `@vkern`, is centred on the view, which has no size.
+  /// `%hkern`, turned for `%vkern`, is centred on the view, which has no size.
   override visitKerning(kerning: Kerning): void {
     if (!this.postfix || !this.d.showKerningMarks) return;
     const style = this.d.s;
     const half = f(style.geometry.maxCadratHeight / 6);
     const tip = half / 2;
-    // Drawn for @hkern; coordinates are swapped for @vkern.
+    // Drawn for %hkern; coordinates are swapped for %vkern.
     const lines = [
       [0, -half, 0, half],
       [-2 * tip, -tip / 2, -tip / 2, 0],

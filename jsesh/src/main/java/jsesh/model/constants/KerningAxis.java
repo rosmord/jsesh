@@ -9,14 +9,14 @@ package jsesh.model.constants;
 
 /// The axis of a kerning operator.
 ///
-/// A kerning operator only acts in a context of the same axis: `@hkern` between
-/// the elements of a horizontal group, or between quadrats in lines; `@vkern`
+/// A kerning operator only acts in a context of the same axis: `%hkern` between
+/// the elements of a horizontal group, or between quadrats in lines; `%vkern`
 /// between the lines of a quadrat, or between quadrats in columns. Elsewhere,
 /// it is ignored.
 public enum KerningAxis {
-    /// `@hkern`
+    /// `%hkern`
     HORIZONTAL("hkern"),
-    /// `@vkern`
+    /// `%vkern`
     VERTICAL("vkern");
 
     private final String code;
@@ -25,7 +25,7 @@ public enum KerningAxis {
         this.code = code;
     }
 
-    /// The name of the operator in the Manuel de Codage, without the `@`.
+    /// The name of the operator in the Manuel de Codage, without the `%`.
     public String getCode() {
         return code;
     }

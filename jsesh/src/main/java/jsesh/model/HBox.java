@@ -69,7 +69,7 @@ public class HBox extends EmbeddedModelElement implements InnerEditable {
 
     /// If this box only contains kerning operators, the axis of the last one.
     ///
-    /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:@vkern:q`.
+    /// Such a box is a line of a quadrat used to kern the lines around it, as in `p:%vkern:q`.
     public Optional<KerningAxis> getKerningAxis() {
         if (getNumberOfChildren() == 0) {
             return Optional.empty();

@@ -162,7 +162,7 @@ class AstModelBuilder {
       case "Cadrat": {
         const cadrat = new Cadrat(item.hBoxes.map((b) => new HBox(b.elements.map((e) => this.buildElement(e)))));
         cadrat.shading = item.shading;
-        // Cadrat options (@quadrat[...]) are ignored, as in Java.
+        // Cadrat options (%quadrat[...]) are ignored, as in Java.
         return [cadrat];
       }
       case "AlphabeticText":

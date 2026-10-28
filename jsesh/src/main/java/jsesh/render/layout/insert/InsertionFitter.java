@@ -18,7 +18,7 @@ import java.util.List;
 /// Computes where, and how large, an element can be inserted in the free space
 /// of another one, using the actual shapes of both.
 ///
-/// This is the geometric core of the `@insert` operator. It is deliberately
+/// This is the geometric core of the `%insert` operator. It is deliberately
 /// independent from the model and from the view classes: it works on shapes and
 /// boxes, in the geometric (Java2D, y axis downwards) coordinates of the layout.
 /// "Left" and "right" are geometric: the caller translates "start" and "end"
