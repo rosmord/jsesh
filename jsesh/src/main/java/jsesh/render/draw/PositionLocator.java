@@ -10,6 +10,7 @@ package jsesh.render.draw;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.CaretGranularity;
@@ -85,6 +86,11 @@ final class PositionLocator {
         TextOrientation orientation = orientation(sequence.view());
         TextDirection direction = sequence.view().getDirection();
         int count = sequence.childCount();
+        // In columns, a point in the gap between two quadrats is resolved by
+        // looking at the column as a whole (see columnGap).
+        OptionalInt inColumn = nested || orientation.isHorizontal()
+                ? OptionalInt.empty()
+                : columnGap(sequence, local);
         for (int i = 0; i < count; i++) {
             MDCView subv = sequence.subView(i);
             Rectangle2D bounds = sequence.childBounds(i);
@@ -101,7 +107,7 @@ final class PositionLocator {
                     return locateIn(inner.get(), rootPoint);
                 }
                 return scope.positionAt(gapOnItem(sequence, i, subv, x, y, local));
-            } else if (!nested) {
+            } else if (!nested && inColumn.isEmpty()) {
                 if (orientation.isHorizontal()) {
                     // Text for end of line. If the line ends with a break,
                     // the position is before it. Otherwise, the line was
@@ -121,8 +127,48 @@ final class PositionLocator {
                 }
             }
         }
+        if (inColumn.isPresent()) {
+            return scope.positionAt(inColumn.getAsInt());
+        }
         // If nothing was found, chose the last cadrat.
         return scope.positionAt(nested ? gapNearest(sequence, local) : n);
+    }
+
+    /// For text in columns: the gap in the column a point falls into.
+    ///
+    /// The items of a column are not aligned on a common edge, so that the
+    /// horizontal position of one item says little about the column of the
+    /// point. We use the horizontal extent of the whole column instead.
+    ///
+    /// @return the gap before the first item of the column which lies below
+    ///         the point (or the gap at the end of the column, before its
+    ///         line break), or empty if the point is in no column.
+    private OptionalInt columnGap(PlacedView sequence, Point2D local) {
+        double skip = style.geometry().smallSkip();
+        int count = sequence.childCount();
+        int start = 0;
+        while (start < count) {
+            int end = start;
+            double minX = Double.MAX_VALUE;
+            double maxX = -Double.MAX_VALUE;
+            // The column ends on a break, which is not part of its content.
+            while (end < count && !sequence.model().getChildAt(end).isBreak()) {
+                Rectangle2D b = sequence.childBounds(end);
+                minX = Math.min(minX, b.getMinX());
+                maxX = Math.max(maxX, b.getMinX() + sequence.subView(end).getWidth() + skip);
+                end++;
+            }
+            if (end > start && local.getX() >= minX && local.getX() < maxX) {
+                for (int j = start; j < end; j++) {
+                    if (sequence.childBounds(j).getMinY() > local.getY()) {
+                        return OptionalInt.of(j);
+                    }
+                }
+                return OptionalInt.of(end);
+            }
+            start = end + 1;
+        }
+        return OptionalInt.empty();
     }
 
     /// The gap, between the views of a sequence, which is the nearest to a
