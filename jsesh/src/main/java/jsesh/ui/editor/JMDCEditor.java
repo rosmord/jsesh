@@ -1337,6 +1337,20 @@ public class JMDCEditor extends JPanel implements Scrollable {
         return drawer.isShowKerningMarks();
     }
 
+    /// Show explicit line breaks as marks, as paragraph marks in a word processor.
+    /// Lines which are only wrapped to the window width get no mark.
+    /// Only this editor is concerned: printing and exports never show them.
+    ///
+    /// @param showLineBreakMarks true to show the marks.
+    public void setShowLineBreakMarks(boolean showLineBreakMarks) {
+        drawer.setShowLineBreakMarks(showLineBreakMarks);
+        repaint();
+    }
+
+    public boolean isShowLineBreakMarks() {
+        return drawer.isShowLineBreakMarks();
+    }
+
     /**
      * Draw quadrat limits for debugging purposes.
      * @param drawLimits true if we want to draw the quadrats limits, false otherwise.

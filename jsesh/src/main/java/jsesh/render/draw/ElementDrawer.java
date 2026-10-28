@@ -117,6 +117,18 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		this.showKerningMarks = showKerningMarks;
 	}
 
+	/// Are explicit line breaks drawn as marks? Meant for editors only: false by default,
+	/// so that printing and exports never show them.
+	private boolean showLineBreakMarks = false;
+
+	public boolean isShowLineBreakMarks() {
+		return showLineBreakMarks;
+	}
+
+	public void setShowLineBreakMarks(boolean showLineBreakMarks) {
+		this.showLineBreakMarks = showLineBreakMarks;
+	}
+
 
 
 	/**

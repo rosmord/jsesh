@@ -1958,3 +1958,10 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - To make it a document feature: add a `DocumentPreferences` field and map it in `DocumentPreferencesStyleConverter`; layout needs no change.
 - Hit tests: `PositionLocator` and `TextGeometry.areaAround` no longer assume that a row ends with a break item.
 - Known limitation: Up/Down/Home/End are model-based and treat a wrapped paragraph as one line.
+
+## View > Show Line Breaks (2026-10-28)
+
+- With soft wrapping, a line end may be a real `LineBreak` or just a wrap, and nothing showed which. New editor-only option, like the kerning marks: `ElementDrawer`/`ViewDrawer`/`JMDCEditor.setShowLineBreakMarks`, menu action `ToggleLineBreakMarksAction` (`view.toggleLineBreakMarks`, per window, not saved). Off by default, so printing and exports never show it.
+- `DefaultElementDrawer.visitLineBreak` draws a small return arrow after the last sign of the line, in the cursor colour. It follows the text direction (mirrored for right-to-left) and is transposed for columns. Wrapped lines have no `LineBreak`, hence no mark.
+- Not ported to `jsesh-js` (the port only has `showKerningMarks`).
+- Known limitation: the mark lies outside the (zero-width) view, so it may be clipped at the right edge of the widest line.

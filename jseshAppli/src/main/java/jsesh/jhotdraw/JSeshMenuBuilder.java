@@ -79,6 +79,7 @@ import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
+import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleWrapLinesAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlyphPaletteAction;
@@ -107,6 +108,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         public void addOtherViewItems(JMenu m, Application app, View v) {
                 if (v instanceof JSeshView view) {
                         m.add(new JCheckBoxMenuItem(new ToggleKerningMarksAction(app, view)));
+                        m.add(new JCheckBoxMenuItem(new ToggleLineBreakMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleWrapLinesAction(app, view)));
                 }
         }

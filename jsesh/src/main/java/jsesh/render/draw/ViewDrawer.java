@@ -182,6 +182,16 @@ public class ViewDrawer {
         return elementDrawer.isShowKerningMarks();
     }
 
+    /// Should explicit line breaks be drawn as marks (as paragraph marks in a word processor)?
+    /// False by default. Lines which are only wrapped to the window width have no mark.
+    public void setShowLineBreakMarks(boolean showLineBreakMarks) {
+        elementDrawer.setShowLineBreakMarks(showLineBreakMarks);
+    }
+
+    public boolean isShowLineBreakMarks() {
+        return elementDrawer.isShowLineBreakMarks();
+    }
+
     /**
      * Draws colored rectangle showing the structure of a view for debugging
      * purporses.

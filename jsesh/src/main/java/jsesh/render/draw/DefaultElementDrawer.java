@@ -27,6 +27,7 @@ import jsesh.model.ComplexLigature;
 import jsesh.model.HRule;
 import jsesh.model.Hieroglyph;
 import jsesh.model.Kerning;
+import jsesh.model.LineBreak;
 import jsesh.model.Modifier;
 import jsesh.model.OptionsMap;
 import jsesh.model.PageBreak;
@@ -329,6 +330,46 @@ public class DefaultElementDrawer extends ElementDrawer {
                 { -2 * tip, -tip / 2, -tip / 2, 0 }, { -tip / 2, 0, -2 * tip, tip / 2 },
                 { 2 * tip, -tip / 2, tip / 2, 0 }, { tip / 2, 0, 2 * tip, tip / 2 } };
         boolean horizontal = kerning.getAxis() == KerningAxis.HORIZONTAL;
+        Path2D.Float mark = new Path2D.Float();
+        for (float[] l : lines) {
+            if (horizontal) {
+                mark.moveTo(l[0], l[1]);
+                mark.lineTo(l[2], l[3]);
+            } else {
+                mark.moveTo(l[1], l[0]);
+                mark.lineTo(l[3], l[2]);
+            }
+        }
+        g.setColor(jseshStyle.painting().cursorColor());
+        g.setStroke(jseshStyle.geometry().fineStroke());
+        g.draw(mark);
+    }
+
+    /// Explicit line breaks are invisible, unless line break marks are shown. The mark is
+    /// a "return" arrow (down, then back towards the start of the line), drawn after the
+    /// last sign of the line, and vertically centred on the view. It follows the text
+    /// direction, and is turned for vertical text. Lines which are merely wrapped have
+    /// no `LineBreak` and get no mark.
+    @Override
+    public void visitLineBreak(LineBreak b) {
+        if (!postfix || !isShowLineBreakMarks()) {
+            return;
+        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        float unit = jseshStyle.geometry().maxCadratHeight() / 12f;
+        boolean horizontal = currentTextOrientation.isHorizontal();
+        // In horizontal text, the view is as high as a quadrat, and has no width.
+        // In vertical text, it is as wide as a quadrat, and (almost) has no height.
+        float cross = (horizontal ? currentView.getHeight() : currentView.getWidth()) / 2f;
+        // Direction of the text. For vertical text, the mark is the horizontal one, transposed.
+        float dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1f : 1f;
+        float x = 3 * unit * dir;
+        // The return arrow: down the first stroke, back along the second, with the head at the end.
+        float[][] lines = {
+                { x, cross - 2 * unit, x, cross },
+                { x, cross, 0, cross },
+                { 0, cross, unit * dir, cross - unit },
+                { 0, cross, unit * dir, cross + unit } };
         Path2D.Float mark = new Path2D.Float();
         for (float[] l : lines) {
             if (horizontal) {
