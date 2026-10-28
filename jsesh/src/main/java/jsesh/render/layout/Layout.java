@@ -1127,6 +1127,7 @@ public class Layout {
 			topItemLayout.endLayout();
 			currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
 			currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
+			currentView.setSeparators(topItemLayout.getSeparatorPositions());
 		}
 
 		private Kerner kerner() {
