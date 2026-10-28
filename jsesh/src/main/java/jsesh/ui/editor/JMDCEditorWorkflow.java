@@ -60,6 +60,8 @@ import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.model.constants.CartouchePart;
+import jsesh.model.constants.TextDirection;
+import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.InsertionDirection;
 import jsesh.model.constants.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
@@ -82,6 +84,7 @@ import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
 import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
+import jsesh.model.PositionNavigator;
 import jsesh.model.ModelElement;
 import jsesh.model.PageBreak;
 import jsesh.model.Philology;
@@ -603,6 +606,37 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void cursorPrevious() {
         possibilitiesHandler.clear();
         moveCursorBy(-1);
+        caret.unsetMark();
+        clearSeparator();
+        followCaret();
+    }
+
+    /// Moves the cursor one stop to the left or to the right.
+    ///
+    /// In text of a single direction, this is [#cursorNext()] or
+    /// [#cursorPrevious()], depending on the direction of the text at the cursor.
+    /// At the boundary of a zone whose direction differs from the one around it,
+    /// the move follows what is seen on screen instead of the text order: from
+    /// the right edge of a right-to-left zone in a left-to-right text, going
+    /// right puts the cursor *after* the zone.
+    ///
+    /// @param toRight true to move right, false to move left.
+    /// @param fallback the direction of the text outside any zone setting one.
+    public void cursorHorizontally(boolean toRight, TextDirection fallback) {
+        boolean forward = toRight == getTextDirectionAtCaret(fallback).isLeftToRight();
+        MDCPosition from = caret.getInsertExactPosition();
+        MDCPosition normal = new PositionNavigator(caret.getModel()).move(from, forward ? 1 : -1, caretGranularity);
+        Optional<MDCPosition> target = zoneBoundaryTarget(from, normal, toRight, forward, fallback);
+        if (target.isEmpty()) {
+            if (forward) {
+                cursorNext();
+            } else {
+                cursorPrevious();
+            }
+            return;
+        }
+        possibilitiesHandler.clear();
+        caret.setInsertPosition(target.get());
         caret.unsetMark();
         clearSeparator();
         followCaret();
@@ -2086,6 +2120,115 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     // --------------------------------------------------------------------------------------------------------------
     // Private methods
     // --------------------------------------------------------------------------------------------------------------
+
+    /// The text orientation in force at the insertion point: the one of the
+    /// innermost enclosing zone which sets one, or `fallback`.
+    ///
+    /// @param fallback the orientation of the text outside any zone setting it.
+    public TextOrientation getTextOrientationAtCaret(TextOrientation fallback) {
+        for (Zone zone : enclosingZones()) {
+            if (zone.getParameters().orientation() != null) {
+                return zone.getParameters().orientation();
+            }
+        }
+        return fallback;
+    }
+
+    /// The text direction in force at the insertion point: the one of the
+    /// innermost enclosing zone which sets one, or `fallback`.
+    ///
+    /// @param fallback the direction of the text outside any zone setting it.
+    public TextDirection getTextDirectionAtCaret(TextDirection fallback) {
+        for (Zone zone : enclosingZones()) {
+            if (zone.getParameters().direction() != null) {
+                return zone.getParameters().direction();
+            }
+        }
+        return fallback;
+    }
+
+    /// The zones around the insertion point, innermost first.
+    private List<Zone> enclosingZones() {
+        return enclosingZones(caret.getInsertExactPosition());
+    }
+
+    /// The zones around a position, innermost first.
+    private List<Zone> enclosingZones(MDCPosition position) {
+        HieroglyphicText text = caret.getModel();
+        List<Zone> zones = new ArrayList<>();
+        TextScope textScope = TextScope.containing(text, position);
+        while (!textScope.isRoot()) {
+            if (textScope.resolve(text) instanceof ZoneContent content
+                    && content.getParent() instanceof Zone zone) {
+                zones.add(zone);
+            }
+            textScope = textScope.enclosing(text);
+        }
+        return zones;
+    }
+
+    /// The text direction in force at a position.
+    private TextDirection directionAt(MDCPosition position, TextDirection fallback) {
+        for (Zone zone : enclosingZones(position)) {
+            if (zone.getParameters().direction() != null) {
+                return zone.getParameters().direction();
+            }
+        }
+        return fallback;
+    }
+
+    /// The position the cursor must go to, when a move along the text crosses
+    /// the boundary of a zone whose direction differs from the one outside.
+    ///
+    /// Such a zone is a visual box: the arrow keys follow the *visual*
+    /// direction, in the text which surrounds the zone. Leaving the zone through
+    /// its right edge puts the cursor after it (if the text around is
+    /// left-to-right), and entering it from the right lands on its right edge,
+    /// whatever the direction of its own content.
+    ///
+    /// @param from the current position.
+    /// @param normal the position a move by one stop along the text (in the
+    ///        direction of the text at `from`) leads to.
+    /// @param toRight true if the key moves to the right.
+    /// @param forward true if the move goes forward in the text order.
+    /// @param fallback the direction of the text outside any zone setting one.
+    /// @return the position to go to, or empty if `normal` is the right one.
+    private Optional<MDCPosition> zoneBoundaryTarget(MDCPosition from, MDCPosition normal, boolean toRight,
+            boolean forward, TextDirection fallback) {
+        HieroglyphicText text = caret.getModel();
+        TextScope source = TextScope.containing(text, from);
+        TextScope destination = TextScope.containing(text, normal);
+        if (source.equals(destination)) {
+            return Optional.empty();
+        }
+        if (source.resolve(text) instanceof ZoneContent && !source.contains(normal)) {
+            // Leaving a zone.
+            TextScope outer = source.enclosing(text);
+            int index = outer.localIndexOf(MDCPosition.of(source.getPath()));
+            boolean innerLtr = directionAt(from, fallback).isLeftToRight();
+            boolean outerLtr = directionAt(outer.positionAt(index), fallback).isLeftToRight();
+            if (innerLtr == outerLtr) {
+                return Optional.empty();
+            }
+            boolean outerForward = toRight == outerLtr;
+            return Optional.of(outer.positionAt(outerForward ? index + 1 : index));
+        }
+        if (!destination.contains(from)) {
+            // Entering a zone.
+            TextScope entered = destination;
+            while (!entered.enclosing(text).contains(from)) {
+                entered = entered.enclosing(text);
+            }
+            if (entered.resolve(text) instanceof ZoneContent content) {
+                boolean innerLtr = directionAt(entered.positionAt(0), fallback).isLeftToRight();
+                boolean outerLtr = directionAt(from, fallback).isLeftToRight();
+                if (innerLtr != outerLtr) {
+                    return Optional.of(entered.positionAt(forward ? content.getNumberOfChildren() : 0));
+                }
+            }
+        }
+        return Optional.empty();
+    }
 
     /// The scope where the editing commands work: the text itself, or the
     /// content of the cartouche where the cursor stands (see
