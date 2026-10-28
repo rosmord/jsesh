@@ -34,9 +34,15 @@ public class ZoneParametersPanel extends JPanel {
     /// A length which can be left unset.
     private static class OptionalLength {
         final JCheckBox enabled = new JCheckBox();
-        final JSpinner value = new JSpinner(new SpinnerNumberModel(100, 1, 100000, 10));
+        final JSpinner value;
 
         OptionalLength() {
+            this(100);
+        }
+
+        /// @param initial the value proposed when the length gets enabled
+        OptionalLength(int initial) {
+            value = new JSpinner(new SpinnerNumberModel(initial, 1, 100000, 10));
             value.setEnabled(false);
             enabled.addActionListener(e -> value.setEnabled(enabled.isSelected()));
         }
@@ -61,8 +67,8 @@ public class ZoneParametersPanel extends JPanel {
             new TextDirection[] { null, TextDirection.LEFT_TO_RIGHT, TextDirection.RIGHT_TO_LEFT });
     private final OptionalLength width = new OptionalLength();
     private final OptionalLength height = new OptionalLength();
-    private final OptionalLength lineSkip = new OptionalLength();
-    private final OptionalLength columnSkip = new OptionalLength();
+    private final OptionalLength lineSkip = new OptionalLength(10);
+    private final OptionalLength columnSkip = new OptionalLength(10);
     private final JCheckBox frame = new JCheckBox();
 
     public ZoneParametersPanel(ZoneParameters parameters) {
