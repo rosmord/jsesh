@@ -10,17 +10,14 @@ This journal should only be edited and modified in the Development branch.
 
 ## Next pending steps
 
-- [x] add rounded enclosures to MdC
-- [x] add sub-cadrat move for cursors (existed in tksesh)
+- [ ] add true justification for lines
+- [ ] add tabs
+
 - [ ] add --win-menu --win-menu-group "JSesh..." to windows installer
 - [ ] add file associations for linux and Windows
 - [ ] use i18n for texts in the JSesh Palette
-- [x] implement the new unicode insert commands (probably between groups, not signs)
-- [x] allow users to edit alphabetic text directly (without using the MdC textfield)
-- [ ] add actual zones
+- [x] add actual zones (almost done)
 - [ ] add page dimensions and wrap in the document
-- [ ] add true justification for lines
-- [ ] add tabs
 - [ ] add a "view" menu to control the display of technical information (e.g. tabs)
 
 ## Important decisions
