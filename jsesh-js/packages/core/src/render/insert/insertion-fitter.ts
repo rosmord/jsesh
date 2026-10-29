@@ -27,7 +27,10 @@
 /// - the inserted element is anchored on the candidate position by the corner (or side midpoint)
 ///   of its box which faces the insertion corner (or side);
 /// - the first placement where the inserted element is inside the frame and does not touch the
-///   target wins.
+///   target wins;
+/// - for an insertion from a side, once the inserted element touches the target, the positions
+///   further from the edge are not tried at this scale: the element must not pass through the
+///   target to reach some free space behind it.
 ///
 /// If nothing fits, the smallest scale is used at the position with the least overlap.
 
@@ -141,6 +144,7 @@ export function fitInsertion(request: FitRequest, resolution = MAX_RESOLUTION, m
   const { frame, insertedBox: box } = request;
   const anchor = anchorOf(box, request.horizontal, request.vertical);
   const candidates = candidatePositions(frame, request.horizontal, request.vertical);
+  const fromSide = (request.horizontal === "CENTER") !== (request.vertical === "CENTER");
 
   if (frame.width <= 0 || frame.height <= 0 || box.width <= 0 || box.height <= 0) {
     return placementAt(1, candidates[0]!, anchor, false);
@@ -172,6 +176,7 @@ export function fitInsertion(request: FitRequest, resolution = MAX_RESOLUTION, m
           bestScale = scale;
           bestPosition = position;
         }
+        if (fromSide && overlap > 0) break;
       }
     }
   }
