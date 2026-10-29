@@ -405,7 +405,7 @@ class AstModelBuilder implements AstVisitor {
     }
 
     /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
-    /// `lineskip`, `colskip`, `separator` and `frame`. Unknown options and values are
+    /// `lineskip`, `colskip`, `separator`, `quadratwidth`, `quadratheight` and `frame`. Unknown options and values are
     /// ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
         TextOrientation orientation = switch (options.getString("layout", "")) {
@@ -424,6 +424,8 @@ class AstModelBuilder implements AstVisitor {
                 options.getInt("lineskip", ZoneParameters.UNSET),
                 options.getInt("colskip", ZoneParameters.UNSET),
                 options.getInt("separator", ZoneParameters.UNSET),
+                options.getInt("quadratwidth", ZoneParameters.UNSET),
+                options.getInt("quadratheight", ZoneParameters.UNSET),
                 options.hasOption("frame"));
     }
 

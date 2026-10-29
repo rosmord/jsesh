@@ -86,6 +86,8 @@ public class MdCModelWriterZoneTest {
             "%zone[lineskip=0](A1)",
             "%zone[colskip=25](A1)",
             "%zone[frame](A1)",
+            "%zone[quadratheight=150](A1!A2)",
+            "%zone[layout=columns,quadratwidth=60](A1-A2)",
             "%zone[separator=5](A1!A2)",
             "%zone[layout=columns,separator=3](A1!A2)",
             "%zone[layout=columns,dir=rl,width=1200,height=400,frame](A1-A2)",

@@ -255,6 +255,12 @@ public class Layout {
 					if (p.columnSkip() != ZoneParameters.UNSET) {
 						g.columnSkip(p.columnSkip() * unit);
 					}
+					if (p.quadratWidth() != ZoneParameters.UNSET) {
+						g.maxCadratWidth(p.quadratWidth() * unit);
+					}
+					if (p.quadratHeight() != ZoneParameters.UNSET) {
+						g.maxCadratHeight(p.quadratHeight() * unit);
+					}
 					return g;
 				}))
 				.build();
