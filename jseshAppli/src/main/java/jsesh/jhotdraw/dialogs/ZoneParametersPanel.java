@@ -70,6 +70,8 @@ public class ZoneParametersPanel extends JPanel {
     private final OptionalLength lineSkip = new OptionalLength(10);
     private final OptionalLength columnSkip = new OptionalLength(10);
     private final OptionalLength separator = new OptionalLength(5);
+    private final OptionalLength quadratWidth = new OptionalLength(100);
+    private final OptionalLength quadratHeight = new OptionalLength(100);
     private final JCheckBox frame = new JCheckBox();
 
     public ZoneParametersPanel(ZoneParameters parameters) {
@@ -88,6 +90,8 @@ public class ZoneParametersPanel extends JPanel {
         addRow(row++, "zone.lineSkip", lineSkip);
         addRow(row++, "zone.columnSkip", columnSkip);
         addRow(row++, "zone.separator", separator);
+        addRow(row++, "zone.quadratWidth", quadratWidth);
+        addRow(row++, "zone.quadratHeight", quadratHeight);
         addRow(row++, "zone.frame", frame);
         setParameters(parameters);
     }
@@ -119,6 +123,8 @@ public class ZoneParametersPanel extends JPanel {
         lineSkip.set(p.lineSkip());
         columnSkip.set(p.columnSkip());
         separator.set(p.separator());
+        quadratWidth.set(p.quadratWidth());
+        quadratHeight.set(p.quadratHeight());
         frame.setSelected(p.frame());
     }
 
@@ -126,6 +132,7 @@ public class ZoneParametersPanel extends JPanel {
     public ZoneParameters getParameters() {
         return new ZoneParameters((TextOrientation) orientation.getSelectedItem(),
                 (TextDirection) direction.getSelectedItem(), width.get(), height.get(),
-                lineSkip.get(), columnSkip.get(), separator.get(), frame.isSelected());
+                lineSkip.get(), columnSkip.get(), separator.get(),
+                quadratWidth.get(), quadratHeight.get(), frame.isSelected());
     }
 }

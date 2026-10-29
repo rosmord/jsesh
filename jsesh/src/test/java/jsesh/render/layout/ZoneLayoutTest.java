@@ -211,4 +211,18 @@ public class ZoneLayoutTest {
     public void aSingleLineHasNoSeparator() throws MDCSyntaxError {
         assertEquals(0, content(layout("%zone[separator=5](A1-A1)").getSubView(0)).getSeparators().length);
     }
+
+    @Test
+    public void quadratHeightSetsTheHeightOfTheLines() throws MDCSyntaxError {
+        List<Double> normal = rows(content(layout("%zone(A1!A1)").getSubView(0)));
+        List<Double> tall = rows(content(layout("%zone[quadratheight=200](A1!A1)").getSubView(0)));
+        assertTrue(tall.get(1) - tall.get(0) > 1.5 * (normal.get(1) - normal.get(0)));
+    }
+
+    @Test
+    public void quadratWidthSetsTheWidthOfTheColumns() throws MDCSyntaxError {
+        List<Double> normal = columns(content(layout("%zone[layout=columns](A1!A1)").getSubView(0)));
+        List<Double> wide = columns(content(layout("%zone[layout=columns,quadratwidth=300](A1!A1)").getSubView(0)));
+        assertTrue(Math.abs(wide.get(1) - wide.get(0)) > 1.5 * Math.abs(normal.get(1) - normal.get(0)));
+    }
 }

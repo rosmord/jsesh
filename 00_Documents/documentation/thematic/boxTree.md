@@ -504,7 +504,9 @@ differences and decisions:
   natural size or inherited), `frame`. No placement, no reference point, no
   rules yet.
 - **Syntax**: `%zone[layout=lines|columns, dir=lr|rl, width=, height=,
-  lineskip=, colskip=, frame](...)`. Lengths are integers, in percent of the
+  lineskip=, colskip=, separator=, quadratwidth=, quadratheight=, frame](...)`.
+  `quadratwidth`/`quadratheight` set the maximum quadrat size inside the zone
+  (the width of its columns, the height of its lines). Lengths are integers, in percent of the
   height of a quadrat (as `%insert`'s `dw`/`dh`). The writer only writes the
   options which are set. Toggles are read in sequence across zone limits, and
   written so that each zone is self-contained.
