@@ -550,7 +550,8 @@ public class MDCParser {
     /// insert ::= INSERT optionList '(' basicitems ',' basicitems ')'
     /// ```
     /// Both elements can be any group, so that insertions can be nested.
-    /// 
+    /// The `target` option (1 or 2, 1 by default) tells which of them is the target.
+    ///
     private AstInsert parseInsert() throws MDCSyntaxError {
         expect(MdcSymbolCode.INSERT, "insert");
         // Mandatory option list.
@@ -565,12 +566,16 @@ public class MDCParser {
         if (direction == null) {
             throw error("insert: unknown 'dir' option value: " + dir);
         }
+        int target = options.getInt("target", 1);
+        if (target != 1 && target != 2) {
+            throw error("insert: 'target' option should be 1 or 2, not " + target);
+        }
         expect(LPAREN, "'('");
-        AstBasicItemList mainItems = parseBasicItems();
+        AstBasicItemList firstItems = parseBasicItems();
         expect(COMMA, "','");
-        AstBasicItemList insertedItems = parseBasicItems();
+        AstBasicItemList secondItems = parseBasicItems();
         expect(RPAREN, "')'");
-        return new AstInsert(direction, options.without("dir"), mainItems, insertedItems);
+        return new AstInsert(direction, target, options.without("dir").without("target"), firstItems, secondItems);
     }
 
     /// A kerning operator.

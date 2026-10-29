@@ -59,6 +59,9 @@ describe("%insert in the model", () => {
     "i-%insert[dir=c](O1,n*t)-w",
     "%insert[dir=te](%insert[dir=bs](O1,n),t)",
     "%insert[dir=t](O1-n:t,x)",
+    "%insert[dir=bs,target=2](n,O1)",
+    "%insert[dir=be,target=2,dw=10](n:t,O1)",
+    "%insert[dir=te,target=2](t,%insert[dir=bs,target=2](w,O1))",
   ])("is written back as the same model: %s", (mdc) => {
     const first = parseMdc(mdc);
     const written = toMdc(first);
@@ -67,6 +70,29 @@ describe("%insert in the model", () => {
     expect(inserts(parseMdc(written)).map((i) => [i.direction, i.dw, i.dh])).toEqual(
       inserts(first).map((i) => [i.direction, i.dw, i.dh]),
     );
+  });
+
+  it("takes the first argument as the target by default", () => {
+    const insert = inserts(parseMdc("%insert[dir=bs](O1,n)"))[0]!;
+    expect(insert.target).toBe(1);
+    expect(insert.main).toBe(insert.first);
+    expect(insert.inserted).toBe(insert.second);
+  });
+
+  it("keeps the reading order when the second argument is the target", () => {
+    const insert = inserts(parseMdc("%insert[dir=bs,target=2](n,O1)"))[0]!;
+    expect(insert.target).toBe(2);
+    expect(insert.main).toBe(insert.second);
+    expect(insert.inserted).toBe(insert.first);
+    expect(toMdc(parseMdc("%insert[dir=bs,target=2](n,O1)"))).toBe("%insert[dir=bs,target=2](n,O1)");
+  });
+
+  it("writes the target only when it is not the default", () => {
+    expect(toMdc(parseMdc("%insert[dir=bs,target=1](O1,n)"))).toBe("%insert[dir=bs](O1,n)");
+  });
+
+  it.each(["0", "3", "-1"])("rejects target=%s", (target) => {
+    expect(() => parseMdc(`%insert[dir=t,target=${target}](O1,n)`)).toThrow();
   });
 
   it("defaults the enlargement to 0, and clamps negative values", () => {
@@ -380,6 +406,21 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
     expect(inserted.xScale).toBeLessThan(1);
     expect(inserted.xScale).toBe(inserted.yScale);
   });
+
+  it.each(["s", "e", "t", "b", "ts", "bs", "te", "be", "c"])(
+    "lays out target=2 as target=1 with the arguments swapped (dir=%s)",
+    async (dir) => {
+      for (const textDirection of ["LEFT_TO_RIGHT", "RIGHT_TO_LEFT"] as const) {
+        const style = withStyle(DEFAULT_STYLE, { options: { textDirection } });
+        const normal = findInsert((await layOut(`%insert[dir=${dir}](O1,n:t)`, style)).view)!;
+        const swapped = findInsert((await layOut(`%insert[dir=${dir},target=2](n:t,O1)`, style)).view)!;
+        expect(swapped.width).toBeCloseTo(normal.width, 3);
+        expect(swapped.height).toBeCloseTo(normal.height, 3);
+        expect(swapped.getSubViewBounds(0)).toEqual(normal.getSubViewBounds(1));
+        expect(swapped.getSubViewBounds(1)).toEqual(normal.getSubViewBounds(0));
+      }
+    },
+  );
 
   it("widens the group when the frame is enlarged", async () => {
     const plain = findInsert((await layOut("%insert[dir=e](O1,n)", DEFAULT_STYLE)).view)!;

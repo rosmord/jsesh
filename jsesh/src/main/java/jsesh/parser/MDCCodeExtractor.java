@@ -119,8 +119,8 @@ public class MDCCodeExtractor {
 
         @Override
         public void visitInsert(AstInsert node) {
-            node.mainItems().accept(this);
-            node.insertedItems().accept(this);
+            node.firstItems().accept(this);
+            node.secondItems().accept(this);
         }
 
         @Override

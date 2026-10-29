@@ -247,8 +247,9 @@ class AstModelBuilder {
         // The AST's direction names are the model's.
         return new Insert(
           g.direction,
-          new SubCadrat(this.buildBasicItemList(g.mainItems)),
-          new SubCadrat(this.buildBasicItemList(g.insertedItems)),
+          new SubCadrat(this.buildBasicItemList(g.firstItems)),
+          new SubCadrat(this.buildBasicItemList(g.secondItems)),
+          g.target,
           optionInt(g.options, "dw", 0),
           optionInt(g.options, "dh", 0),
         );

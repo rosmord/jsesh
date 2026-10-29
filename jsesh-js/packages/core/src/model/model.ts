@@ -942,37 +942,69 @@ export class Overwrite extends InnerGroup {
 /// (`jsesh.model.Insert`).
 ///
 /// An `Insert` has two children, both [SubCadrat]s, which may hold any group of signs
-/// (including other insertions): the *main* element and the *inserted* element. The inserted
+/// (including other insertions). They are kept in *reading order*, as in the text. One of them is
+/// the *target* (or *main* element), the other one is the *inserted* element: `target` (1 or 2,
+/// 1 by default) says which argument is the target, so that `%insert[dir=bs](A,B)` and
+/// `%insert[dir=bs,target=2](B,A)` are the same insertion of `B` into `A`, `B` being read first
+/// in the second one. The inserted
 /// element is placed, and scaled, at layout time, so that it fits in the free space of the main
 /// element. The main element's frame can be enlarged on the side of the insertion, to leave more
 /// room: `dw` and `dh` are percentages of the inserted element's natural width and height.
 export class Insert extends InnerGroup {
   private _direction: InsertionDirection;
+  private _target: 1 | 2;
   private _dw = 0;
   private _dh = 0;
 
-  /// @param dw enlargement of the main element's frame, horizontally, in percent of the inserted
+  /// @param first the first argument, in reading order.
+  /// @param second the second argument, in reading order.
+  /// @param target which argument is the target: 1 (the first one) or 2 (the second one).
+  /// @param dw enlargement of the target's frame, horizontally, in percent of the inserted
   ///        element's width. Negative values are taken as 0.
   /// @param dh the same, vertically.
-  constructor(direction: InsertionDirection, main: SubCadrat, inserted: SubCadrat, dw = 0, dh = 0) {
+  constructor(direction: InsertionDirection, first: SubCadrat, second: SubCadrat, target: 1 | 2 = 1, dw = 0, dh = 0) {
     super();
+    if (target !== 1 && target !== 2) throw new Error("insert target must be 1 or 2, not " + target);
     this._direction = direction;
+    this._target = target;
     this._dw = Math.max(0, dw);
     this._dh = Math.max(0, dh);
-    this.addChild(main);
-    this.addChild(inserted);
+    this.addChild(first);
+    this.addChild(second);
   }
 
   accept<R>(v: ModelElementVisitor<R>): R {
     return v.visitInsert(this);
   }
 
-  get main(): SubCadrat {
+  /// The first argument, in reading order.
+  get first(): SubCadrat {
     return this.getChildAt(0) as SubCadrat;
   }
 
-  get inserted(): SubCadrat {
+  /// The second argument, in reading order.
+  get second(): SubCadrat {
     return this.getChildAt(1) as SubCadrat;
+  }
+
+  /// The main element (the target): the one the other element is inserted into.
+  get main(): SubCadrat {
+    return this.getChildAt(this._target - 1) as SubCadrat;
+  }
+
+  get inserted(): SubCadrat {
+    return this.getChildAt(2 - this._target) as SubCadrat;
+  }
+
+  /// Which argument is the target: 1 (the first one) or 2 (the second one).
+  get target(): 1 | 2 {
+    return this._target;
+  }
+
+  set target(target: 1 | 2) {
+    if (target !== 1 && target !== 2) throw new Error("insert target must be 1 or 2, not " + target);
+    this._target = target;
+    this.notifyModification();
   }
 
   get direction(): InsertionDirection {
@@ -1009,7 +1041,7 @@ export class Insert extends InnerGroup {
   }
 
   deepCopy(): Insert {
-    return new Insert(this._direction, this.main.deepCopy(), this.inserted.deepCopy(), this._dw, this._dh);
+    return new Insert(this._direction, this.first.deepCopy(), this.second.deepCopy(), this._target, this._dw, this._dh);
   }
 }
 

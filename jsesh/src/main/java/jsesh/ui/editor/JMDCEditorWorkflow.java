@@ -1535,7 +1535,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (first == null || second == null) {
             return false;
         }
-        List<InsertionChoice> choices = buildInsertionChoices(ranker, first, second, 0, 0);
+        List<InsertionChoice> choices = buildInsertionChoices(ranker, first, second, true, 0, 0);
         boolean result = scope.replaceElement(p1, p2, choices.get(0).insert().buildTopItem());
         clearMark();
         return result;
@@ -1574,11 +1574,11 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         insertionDh = current.getDh();
         insertionReplaced = false;
         insertionCaretPosition = caret.getLocalInsertPosition();
-        insertionChoices = buildInsertionChoices(ranker, current.getMain(), current.getInserted(), insertionDw,
-                insertionDh);
+        insertionChoices = buildInsertionChoices(ranker, current.getMain(), current.getInserted(),
+                current.getTarget() == Insert.TARGET_FIRST, insertionDw, insertionDh);
         // The choice may differ from the text by an enlargement which has no effect.
         selectedInsertionIndex = indexOfInsertionChoice(current.getMain(), current.getInserted(),
-                current.getDirection());
+                current.getTarget(), current.getDirection());
         return selectedInsertionIndex >= 0;
     }
 
@@ -1607,7 +1607,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         if (current == null) {
             return null;
         }
-        int index = indexOfInsertionChoice(current.insert().getMain(), current.insert().getInserted(), direction);
+        Insert insert = current.insert();
+        int index = indexOfInsertionChoice(insert.getMain(), insert.getInserted(), insert.getTarget(), direction);
         return index < 0 ? null : insertionChoices.get(index);
     }
 
@@ -1643,7 +1644,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void selectInsertionDirection(InsertionDirection direction) {
         InsertionChoice current = getSelectedInsertion();
         if (current != null) {
-            selectInsertion(indexOfInsertionChoice(current.insert().getMain(), current.insert().getInserted(),
+            Insert insert = current.insert();
+            selectInsertion(indexOfInsertionChoice(insert.getMain(), insert.getInserted(), insert.getTarget(),
                     direction));
         }
     }
@@ -1665,8 +1667,9 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         insertionDh = Math.clamp(insertionDh + deltaDh, 0, MAX_INSERTION_ENLARGEMENT);
         Insert insert = current.insert();
         insertionChoices = buildInsertionChoices(insertionRanker, insert.getMain(), insert.getInserted(),
-                insertionDw, insertionDh);
-        int index = indexOfInsertionChoice(insert.getMain(), insert.getInserted(), insert.getDirection());
+                insert.getTarget() == Insert.TARGET_FIRST, insertionDw, insertionDh);
+        int index = indexOfInsertionChoice(insert.getMain(), insert.getInserted(), insert.getTarget(),
+                insert.getDirection());
         selectedInsertionIndex = -1;
         selectInsertion(index);
     }
@@ -1694,11 +1697,13 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
     }
 
-    /// Index of the choice with the given groups and direction (whatever its enlargement), or -1.
-    private int indexOfInsertionChoice(SubCadrat main, SubCadrat inserted, InsertionDirection direction) {
+    /// Index of the choice with the given groups, target and direction (whatever its enlargement), or -1.
+    private int indexOfInsertionChoice(SubCadrat main, SubCadrat inserted, int target,
+            InsertionDirection direction) {
         for (int i = 0; i < insertionChoices.size(); i++) {
             Insert candidate = insertionChoices.get(i).insert();
-            if (candidate.getDirection() == direction && candidate.getMain().equalsIgnoreId(main)
+            if (candidate.getDirection() == direction && candidate.getTarget() == target
+                    && candidate.getMain().equalsIgnoreId(main)
                     && candidate.getInserted().equalsIgnoreId(inserted)) {
                 return i;
             }
@@ -1719,18 +1724,25 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
 
     /// The ranked ways of inserting one group into the other.
     ///
-    /// Keeps all the candidates where `first` is the main group, and those where
-    /// `second` is the main group and something fits. The enlargements are only
+    /// Keeps all the candidates where `main` is the main group, and those where
+    /// `other` is the main group and something fits. The enlargements are only
     /// kept for the directions where they have an effect.
-    private static List<InsertionChoice> buildInsertionChoices(InsertionRanker ranker, SubCadrat first,
-            SubCadrat second, int dw, int dh) {
+    ///
+    /// The groups stay in reading order in the choices: choosing the other group
+    /// as the main one changes the `target`, not the order of the arguments.
+    ///
+    /// @param mainIsFirst true if `main` comes first in reading order, false if it comes second.
+    private static List<InsertionChoice> buildInsertionChoices(InsertionRanker ranker, SubCadrat main,
+            SubCadrat other, boolean mainIsFirst, int dw, int dh) {
         List<InsertionChoice> result = new ArrayList<>();
-        for (InsertionRanker.Candidate c : ranker.rank(first, second, dw, dh)) {
+        SubCadrat first = mainIsFirst ? main : other;
+        SubCadrat second = mainIsFirst ? other : main;
+        for (InsertionRanker.Candidate c : ranker.rank(main, other, dw, dh)) {
             if (!c.swapped() || c.fits()) {
-                SubCadrat main = c.swapped() ? second : first;
-                SubCadrat inserted = c.swapped() ? first : second;
+                boolean firstIsTarget = mainIsFirst != c.swapped();
                 InsertionDirection direction = c.direction();
-                Insert insert = new Insert(direction, main.deepCopy(), inserted.deepCopy(),
+                Insert insert = new Insert(direction, first.deepCopy(), second.deepCopy(),
+                        firstIsTarget ? Insert.TARGET_FIRST : Insert.TARGET_SECOND,
                         direction.usesDw() ? dw : 0, direction.usesDh() ? dh : 0);
                 result.add(new InsertionChoice(insert, c.scale(), c.fits()));
             }

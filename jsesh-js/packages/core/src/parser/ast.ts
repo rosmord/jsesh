@@ -108,10 +108,14 @@ export interface AstCartouche {
 export interface AstInsert {
   nodeType: "Insert";
   direction: InsertDirection;
+  /** Which argument is the target: 1 (the default) or 2. */
+  target: 1 | 2;
+  /** The other options; `dir` and `target` are not among them. */
   options: AstOptionList;
-  /** The main element: any group (including another insertion). */
-  mainItems: AstBasicItemList;
-  insertedItems: AstBasicItemList;
+  /** The first argument: any group (including another insertion). */
+  firstItems: AstBasicItemList;
+  /** The second argument, in text order. */
+  secondItems: AstBasicItemList;
 }
 
 export type KerningAxis = "HORIZONTAL" | "VERTICAL";

@@ -120,6 +120,23 @@ public class InsertLayoutTest {
         checkNoOverlap(mdc, TextDirection.RIGHT_TO_LEFT);
     }
 
+    @ParameterizedTest
+    @CsvSource({ "s", "e", "t", "b", "ts", "bs", "te", "be", "c" })
+    public void targetOptionOnlyChangesTheArgumentOrder(String dir) throws MDCSyntaxError {
+        for (TextDirection direction : TextDirection.values()) {
+            JSeshRenderContext context = renderContext(direction);
+            MDCView normal = findInsert(layout("%insert[dir=" + dir + "](O1,n:t)", context));
+            MDCView swapped = findInsert(layout("%insert[dir=" + dir + ",target=2](n:t,O1)", context));
+            assertNotNull(swapped);
+            assertEquals(normal.getWidth(), swapped.getWidth(), 1e-3);
+            assertEquals(normal.getHeight(), swapped.getHeight(), 1e-3);
+            // The first argument of the second text is the inserted one.
+            assertEquals(normal.getSubViewBounds(0), swapped.getSubViewBounds(1));
+            assertEquals(normal.getSubViewBounds(1), swapped.getSubViewBounds(0));
+            assertEquals(normal.getSubView(1).getXScale(), swapped.getSubView(0).getXScale(), 1e-6);
+        }
+    }
+
     @Test
     public void mainElementCanBeAGroup() throws MDCSyntaxError {
         checkNoOverlap("%insert[dir=e](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);

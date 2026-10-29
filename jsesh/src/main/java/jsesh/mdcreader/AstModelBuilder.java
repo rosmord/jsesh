@@ -254,10 +254,10 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitInsert(AstInsert astInsert) {
-        SubCadrat main = new SubCadrat(build(astInsert.mainItems(), BasicItemList.class));
-        SubCadrat inserted = new SubCadrat(build(astInsert.insertedItems(), BasicItemList.class));
+        SubCadrat first = new SubCadrat(build(astInsert.firstItems(), BasicItemList.class));
+        SubCadrat second = new SubCadrat(build(astInsert.secondItems(), BasicItemList.class));
         AstOptionList options = astInsert.options();
-        push(new Insert(toInsertionDirection(astInsert.direction()), main, inserted,
+        push(new Insert(toInsertionDirection(astInsert.direction()), first, second, astInsert.target(),
                 options.getInt("dw", 0), options.getInt("dh", 0)));
     }
 

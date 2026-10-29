@@ -565,8 +565,9 @@ class LayoutAux extends ModelElementAdapter {
   /// layout coordinates.
   override visitInsert(insert: Insert): void {
     const v = this.l.v;
-    const mainView = v.getSubView(0);
-    const insertedView = v.getSubView(1);
+    // The sub views are in reading order, and the target may be either of them.
+    const mainView = v.getSubView(insert.target - 1);
+    const insertedView = v.getSubView(2 - insert.target);
     const rightToLeft = v.direction === "RIGHT_TO_LEFT";
 
     const direction = insert.direction;

@@ -664,6 +664,9 @@ public class MdCModelWriter {
 
 		public void visitInsert(Insert insert) {
 			write("%insert[dir=" + insert.getDirection().getCode());
+			if (insert.getTarget() != Insert.TARGET_FIRST) {
+				write(",target=" + insert.getTarget());
+			}
 			if (insert.getDw() != 0) {
 				write(",dw=" + insert.getDw());
 			}
@@ -671,9 +674,9 @@ public class MdCModelWriter {
 				write(",dh=" + insert.getDh());
 			}
 			write("](");
-			insert.getMain().getBasicItemList().accept(this);
+			insert.getFirst().getBasicItemList().accept(this);
 			write(",");
-			insert.getInserted().getBasicItemList().accept(this);
+			insert.getSecond().getBasicItemList().accept(this);
 			write(")");
 		}
 
