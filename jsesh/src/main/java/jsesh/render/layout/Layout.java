@@ -636,8 +636,9 @@ public class Layout {
 		 */
 		@Override
 		public void visitInsert(Insert insert) {
-			MDCView mainView = currentView.getSubView(0);
-			MDCView insertedView = currentView.getSubView(1);
+			// The sub views are in reading order, and the target may be either of them.
+			MDCView mainView = currentView.getSubView(insert.getTarget() - 1);
+			MDCView insertedView = currentView.getSubView(2 - insert.getTarget());
 			TextDirection direction = currentView.getDirection();
 			boolean rightToLeft = TextDirection.RIGHT_TO_LEFT.equals(direction);
 

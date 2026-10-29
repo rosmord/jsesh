@@ -276,7 +276,7 @@ npm test
 | `core/test/parser.test.ts` | For each snippet, the lexer's symbols and the AST; for each corpus file, the AST: equal to what Java produced. |
 | `core/test/writer.test.ts` | For each snippet and corpus file, the model written back as MdC against what Java writes (and the header preferences of the documents). |
 | `core/test/layout.test.ts` | The view tree against Java's, view by view (position, size, scale), for snippets in six styles (default, right to left, columns, columns right to left, centred, justified), and for the whole corpus. |
-| `core/test/insert.test.ts` | `%insert`: model and writer round trip, `ShapeMask`, `InsertionFitter` on synthetic shapes, and the layout with real signs (the inserted group never touches the main sign, in both directions). Ported from the Java unit tests. |
+| `core/test/insert.test.ts` | `%insert`: model and writer round trip, `ShapeMask`, `InsertionFitter` on synthetic shapes, and the layout with real signs (the inserted group never touches the main sign, in both directions), and `target=2` laying out as the swapped `target=1`. Ported from the Java unit tests. |
 | `core/test/kerning.test.ts` | `%hkern`/`%vkern`: the model, kerning ignored in the wrong context, kerning stable and mirrored in right-to-left text, marks drawn only on request. Ported from the Java unit tests (`KerningLayoutTest`). |
 | `core/test/render.test.ts` | The SVG is well formed and has no `NaN`, for every snippet and file. This is a sanity test, not a comparison. |
 | `glyphs/test` | The sign database. |

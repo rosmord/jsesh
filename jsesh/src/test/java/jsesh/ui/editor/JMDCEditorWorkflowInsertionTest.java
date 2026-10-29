@@ -144,6 +144,35 @@ class JMDCEditorWorkflowInsertionTest {
     }
 
     @Test
+    void choicesKeepTheReadingOrderOfTheGroups() throws MDCSyntaxError {
+        text("D36-t");
+        workflow.groupAsInsertion(ranker);
+        workflow.prepareChoiceOfInsertion(ranker);
+        Insert original = currentInsert();
+        boolean sawSecondTarget = false;
+        for (InsertionChoice choice : workflow.getInsertionChoices()) {
+            Insert insert = choice.insert();
+            assertTrue(insert.getFirst().equalsIgnoreId(original.getFirst()), mdc(choice));
+            assertTrue(insert.getSecond().equalsIgnoreId(original.getSecond()), mdc(choice));
+            sawSecondTarget |= insert.getTarget() == Insert.TARGET_SECOND;
+        }
+        assertTrue(sawSecondTarget, "the second group can also be the target");
+    }
+
+    @Test
+    void anInsertionWithTheSecondArgumentAsTargetKeepsItsTarget() throws MDCSyntaxError {
+        text("%insert[dir=bs,target=2](t,D36)");
+        assertTrue(workflow.prepareChoiceOfInsertion(ranker));
+        Insert before = currentInsert();
+        assertEquals(Insert.TARGET_SECOND, before.getTarget());
+        workflow.selectInsertionDirection(InsertionDirection.TOP_END);
+        Insert after = currentInsert();
+        assertEquals(Insert.TARGET_SECOND, after.getTarget());
+        assertTrue(after.getFirst().equalsIgnoreId(before.getFirst()));
+        assertTrue(workflow.getMDCCode().startsWith("%insert[dir=te,target=2]"), workflow.getMDCCode());
+    }
+
+    @Test
     void enlargementOnlyAppliesWhereItHasAnEffect() throws MDCSyntaxError {
         text("D36-t");
         workflow.groupAsInsertion(ranker);

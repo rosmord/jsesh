@@ -187,12 +187,13 @@ class ModelWriter implements ModelElementVisitor<void> {
 
   visitInsert(insert: Insert): void {
     this.write("%insert[dir=" + INSERTION_DIRECTION_CODES[insert.direction]);
+    if (insert.target !== 1) this.write(",target=" + insert.target);
     if (insert.dw !== 0) this.write(",dw=" + insert.dw);
     if (insert.dh !== 0) this.write(",dh=" + insert.dh);
     this.write("](");
-    insert.main.basicItemList.accept(this);
+    insert.first.basicItemList.accept(this);
     this.write(",");
-    insert.inserted.basicItemList.accept(this);
+    insert.second.basicItemList.accept(this);
     this.write(")");
   }
 

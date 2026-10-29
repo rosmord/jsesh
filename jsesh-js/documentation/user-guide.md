@@ -18,7 +18,7 @@ You don't need to know much of MdC to follow this documentation. A text is a str
 | `p:t` | `p` above `t` | `:` stacks two signs vertically in one quadrat. |
 | `f*t` | `f` next to `t` | `*` puts two signs side by side in one quadrat. |
 | `a&b` | `a` and `b` as a ligature | `&` makes a ligature. |
-| `%insert[dir=bs](D36,n:t)` | `n:t` tucked into the free space of `D36` | `%insert` fits a group inside the free space of a sign, whatever its shape. `dir` says where: `s`, `e` (start, end), `t`, `b` (top, bottom), `ts`, `bs`, `te`, `be` (corners) or `c` (center). `dw` and `dh` make room, in percent of the inserted group. |
+| `%insert[dir=bs](D36,n:t)` | `n:t` tucked into the free space of `D36` | `%insert` fits a group inside the free space of a sign, whatever its shape. `dir` says where: `s`, `e` (start, end), `t`, `b` (top, bottom), `ts`, `bs`, `te`, `be` (corners) or `c` (center). `dw` and `dh` make room, in percent of the inserted group. The first argument is the target, the sign the group is inserted into; `target=2` makes the second one the target instead, so that the arguments stay in reading order: `%insert[dir=bs,target=2](n:t,D36)` is the same drawing as `%insert[dir=bs](D36,n:t)`. `dir`, `dw` and `dh` always apply to the target. |
 | `G17-%hkern-G1`, `p:%vkern:q` | the groups moved closer | `%hkern` and `%vkern` kern the groups on each side, so that their signs are about one inter-sign space apart where they are closest. `%hkern` works between the elements of a horizontal group (`p*%hkern*q`) and between quadrats in lines; `%vkern` between the lines of a quadrat and between quadrats in columns. Elsewhere, they are ignored. |
 | `!` | new line | |
 

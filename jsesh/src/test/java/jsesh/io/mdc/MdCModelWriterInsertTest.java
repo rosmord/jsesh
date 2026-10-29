@@ -9,6 +9,7 @@ package jsesh.io.mdc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -65,6 +66,9 @@ public class MdCModelWriterInsertTest {
             "i-%insert[dir=c](O1,n*t)-w",
             "%insert[dir=te](%insert[dir=bs](O1,n),t)",
             "%insert[dir=t](O1-n:t,x)",
+            "%insert[dir=bs,target=2](n,O1)",
+            "%insert[dir=be,target=2,dw=10](n:t,O1)",
+            "%insert[dir=te,target=2](t,%insert[dir=bs,target=2](w,O1))",
     })
     public void writingAndReadingBackGivesTheSameModel(String mdc) throws MDCSyntaxError {
         HieroglyphicText first = parse(mdc);
@@ -81,6 +85,39 @@ public class MdCModelWriterInsertTest {
         assertEquals(0, insert.getDh());
         insert.setDw(-5);
         assertEquals(0, insert.getDw());
+    }
+
+    @Test
+    public void targetIsTheFirstArgumentByDefault() throws MDCSyntaxError {
+        Insert insert = findInsert(parse("%insert[dir=bs](O1,n)"));
+        assertEquals(Insert.TARGET_FIRST, insert.getTarget());
+        assertTrue(insert.getMain() == insert.getFirst());
+        assertTrue(insert.getInserted() == insert.getSecond());
+    }
+
+    @Test
+    public void secondTargetSwapsMainAndInsertedButNotReadingOrder() throws MDCSyntaxError {
+        Insert insert = findInsert(parse("%insert[dir=bs,target=2](n,O1)"));
+        assertEquals(Insert.TARGET_SECOND, insert.getTarget());
+        assertTrue(insert.getMain() == insert.getSecond());
+        assertTrue(insert.getInserted() == insert.getFirst());
+        Insert same = findInsert(parse("%insert[dir=bs](O1,n)"));
+        assertTrue(same.getMain().equalsIgnoreId(insert.getMain()));
+        assertTrue(same.getInserted().equalsIgnoreId(insert.getInserted()));
+        // ... but they are not the same text.
+        assertTrue(!same.equalsIgnoreId(insert));
+    }
+
+    @Test
+    public void targetIsWrittenOnlyWhenNotDefault() throws MDCSyntaxError {
+        MdCModelWriter writer = new MdCModelWriter();
+        assertTrue(!writer.toMdC(parse("%insert[dir=bs,target=1](O1,n)")).contains("target"));
+        assertTrue(writer.toMdC(parse("%insert[dir=bs,target=2](n,O1)")).contains("%insert[dir=bs,target=2](n,O1)"));
+    }
+
+    @Test
+    public void invalidTargetIsRejected() {
+        assertThrows(IllegalArgumentException.class, () -> findInsert(parse("%insert[dir=t](O1,n)")).setTarget(3));
     }
 
     @Test
@@ -104,5 +141,9 @@ public class MdCModelWriterInsertTest {
         ModelElement copy = insert.deepCopy();
         assertTrue(insert.equalsIgnoreId(copy));
         assertEquals(0, insert.compareTo(copy));
+        Insert second = findInsert(parse("%insert[dir=be,target=2](O1,n:t)"));
+        ModelElement secondCopy = second.deepCopy();
+        assertTrue(second.equalsIgnoreId(secondCopy));
+        assertEquals(0, second.compareTo(secondCopy));
     }
 }

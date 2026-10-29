@@ -37,7 +37,7 @@ import type {
   InsertDirection,
   WordEnding,
 } from "./ast.js";
-import { optionString, optionsWithout } from "./ast.js";
+import { optionInt, optionString, optionsWithout } from "./ast.js";
 import { MdcLexer } from "./lexer.js";
 import {
   MdcSymbolCode as S,
@@ -436,12 +436,21 @@ export class MdcParser {
     if (dir === null) throw this.error("insert: missing 'dir' option");
     const direction = INSERT_DIRECTIONS[dir];
     if (direction === undefined) throw this.error("insert: unknown 'dir' option value: " + dir);
+    const target = optionInt(options, "target", 1);
+    if (target !== 1 && target !== 2) throw this.error("insert: 'target' option should be 1 or 2, not " + target);
     this.expect(S.LPAREN, "'('");
-    const mainItems = this.parseBasicItems();
+    const firstItems = this.parseBasicItems();
     this.expect(S.COMMA, "','");
-    const insertedItems = this.parseBasicItems();
+    const secondItems = this.parseBasicItems();
     this.expect(S.RPAREN, "')'");
-    return { nodeType: "Insert", direction, options: optionsWithout(options, "dir"), mainItems, insertedItems };
+    return {
+      nodeType: "Insert",
+      direction,
+      target,
+      options: optionsWithout(optionsWithout(options, "dir"), "target"),
+      firstItems,
+      secondItems,
+    };
   }
 
   /// `kerning ::= (HKERN | VKERN) optionList?`

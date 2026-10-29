@@ -53,10 +53,10 @@ public class MDCParserInsertTest {
     public void testSimpleInsert() throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=ts](A1,B1)");
         assertEquals(InsertDirection.TOP_START, insert.direction());
-        assertEquals(1, insert.mainItems().items().size());
-        assertEquals("A1", signCode(insert.mainItems().items().get(0)));
-        assertEquals(1, insert.insertedItems().items().size());
-        assertEquals("B1", signCode(insert.insertedItems().items().get(0)));
+        assertEquals(1, insert.firstItems().items().size());
+        assertEquals("A1", signCode(insert.firstItems().items().get(0)));
+        assertEquals(1, insert.secondItems().items().size());
+        assertEquals("B1", signCode(insert.secondItems().items().get(0)));
     }
 
     @ParameterizedTest
@@ -93,6 +93,27 @@ public class MDCParserInsertTest {
     }
 
     @Test
+    public void testTargetDefaultsToFirstArgument() throws MDCSyntaxError {
+        assertEquals(1, parseInsert("%insert[dir=t](A1,B1)").target());
+    }
+
+    @Test
+    public void testTargetIsSecondArgumentAndArgumentsKeepTheirOrder() throws MDCSyntaxError {
+        AstInsert insert = parseInsert("%insert[dir=bs,target=2](B1,A1)");
+        assertEquals(InsertDirection.BOTTOM_START, insert.direction());
+        assertEquals(2, insert.target());
+        assertEquals("B1", signCode(insert.firstItems().items().get(0)));
+        assertEquals("A1", signCode(insert.secondItems().items().get(0)));
+        assertFalse(insert.options().hasOption("target"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "0", "3", "-1" })
+    public void testBadTarget(int target) {
+        assertThrows(MDCSyntaxError.class, () -> parse("%insert[dir=t,target=" + target + "](A1,B1)"));
+    }
+
+    @Test
     public void testMissingDir() {
         assertThrows(MDCSyntaxError.class, () -> parse("%insert[fit](A1,B1)"));
     }
@@ -105,21 +126,21 @@ public class MDCParserInsertTest {
     @Test
     public void testMainElementCanBeAGroup() throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=t](A1-B1:C1,D1)");
-        assertEquals(2, insert.mainItems().items().size());
-        assertEquals(1, insert.insertedItems().items().size());
+        assertEquals(2, insert.firstItems().items().size());
+        assertEquals(1, insert.secondItems().items().size());
     }
 
     @Test
     public void testInsertionsCanBeNested() throws MDCSyntaxError {
         AstInsert outer = parseInsert("%insert[dir=te](%insert[dir=bs](t,w),t)");
         assertEquals(InsertDirection.TOP_END, outer.direction());
-        assertEquals(1, outer.mainItems().items().size());
-        AstCadrat cadrat = (AstCadrat) outer.mainItems().items().get(0);
+        assertEquals(1, outer.firstItems().items().size());
+        AstCadrat cadrat = (AstCadrat) outer.firstItems().items().get(0);
         AstInsert inner = (AstInsert) cadrat.hBoxes().get(0).elements().get(0);
         assertEquals(InsertDirection.BOTTOM_START, inner.direction());
-        assertEquals("t", signCode(inner.mainItems().items().get(0)));
-        assertEquals("w", signCode(inner.insertedItems().items().get(0)));
-        assertEquals("t", signCode(outer.insertedItems().items().get(0)));
+        assertEquals("t", signCode(inner.firstItems().items().get(0)));
+        assertEquals("w", signCode(inner.secondItems().items().get(0)));
+        assertEquals("t", signCode(outer.secondItems().items().get(0)));
     }
 
     @Test
