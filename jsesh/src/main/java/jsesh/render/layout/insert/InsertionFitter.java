@@ -42,7 +42,10 @@ import java.util.List;
 /// - the inserted element is anchored on the candidate position by the corner (or
 ///   side midpoint) of its box which faces the insertion corner (or side).
 /// - the first placement where the inserted element is inside the frame and does
-///   not touch the target wins.
+///   not touch the target wins;
+/// - for an insertion from a side, once the inserted element touches the target,
+///   the positions further from the edge are not tried at this scale: the element
+///   must not pass through the target to reach some free space behind it.
 ///
 /// If nothing fits, the smallest scale is used at the position with the least overlap.
 public final class InsertionFitter {
@@ -172,6 +175,7 @@ public final class InsertionFitter {
         Rectangle2D box = request.insertedBox();
         Point2D anchor = anchorOf(box, request.horizontal(), request.vertical());
         List<Point2D> candidates = candidates(frame, request.horizontal(), request.vertical());
+        boolean fromSide = (request.horizontal() == HorizontalSide.CENTER) != (request.vertical() == VerticalSide.CENTER);
 
         if (frame.getWidth() <= 0 || frame.getHeight() <= 0 || box.getWidth() <= 0 || box.getHeight() <= 0) {
             return placement(1.0, candidates.get(0), anchor, false);
@@ -208,6 +212,9 @@ public final class InsertionFitter {
                         bestOverlap = overlap;
                         bestScale = scale;
                         bestPosition = position;
+                    }
+                    if (fromSide && overlap > 0) {
+                        break;
                     }
                 }
             }

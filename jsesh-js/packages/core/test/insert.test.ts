@@ -257,6 +257,15 @@ describe("fitInsertion", () => {
     expect(p.translateX).toBeCloseTo(0, 9);
   });
 
+  it("does not pass through the target in a side insertion", () => {
+    // A bar across the frame, from y=5 to y=8; free space above and (larger) below.
+    const p = fitInsertion(request([rect(0, 5, 20, 3)], new Rect(0, 0, 6, 6), "CENTER", "TOP"));
+    expect(p.fits).toBe(true);
+    // Shrunk to fit above the bar, not placed at full size below it.
+    expect(p.scale).toBeCloseTo(Math.pow(2, -0.5), 9);
+    expect(p.translateY).toBeCloseTo(0, 9);
+  });
+
   it("uses the corner for an oblique insertion", () => {
     // Free space: an 8x8 hole in the bottom-left corner.
     const target = polygon([
@@ -382,7 +391,9 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
     }
   }
 
-  it.each(["s", "e", "t", "b", "ts", "bs", "te", "be", "c"])(
+  // O1 is closed on its top and sides: only the bottom (through the door), the corners and the
+  // center give access to free space.
+  it.each(["b", "ts", "bs", "te", "be", "c"])(
     "does not overlap the inserted element and the main sign (dir=%s)",
     async (dir) => {
       await checkNoOverlap(`%insert[dir=${dir}](O1,n:t)`, "LEFT_TO_RIGHT");
@@ -396,8 +407,16 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
     await checkNoOverlap(mdc, "RIGHT_TO_LEFT");
   });
 
+  it("does not pass through the main sign in a side insertion", async () => {
+    // The top of O1 is closed: the inserted element stays at the top edge instead of jumping over
+    // the roof into the house.
+    const { view } = await layOut("%insert[dir=t](O1,n:t)", DEFAULT_STYLE);
+    const insert = findInsert(view)!;
+    expect(insert.getSubViewBounds(1).minY).toBeCloseTo(insert.getSubViewBounds(0).minY, 3);
+  });
+
   it("accepts a group as the main element", async () => {
-    await checkNoOverlap("%insert[dir=e](O1-O1,n)", "LEFT_TO_RIGHT");
+    await checkNoOverlap("%insert[dir=be](O1-O1,n)", "LEFT_TO_RIGHT");
   });
 
   it("scales the inserted element down to fit, uniformly", async () => {

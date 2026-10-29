@@ -104,11 +104,23 @@ public class InsertLayoutTest {
         }
     }
 
+    // O1 is closed on its top and sides: only the bottom (through the door), the
+    // corners and the center give access to free space.
     @ParameterizedTest
-    @CsvSource({ "s", "e", "t", "b", "ts", "bs", "te", "be", "c" })
+    @CsvSource({ "b", "ts", "bs", "te", "be", "c" })
     public void insertedElementDoesNotOverlapTheMainSign(String dir) throws MDCSyntaxError {
         checkNoOverlap("%insert[dir=" + dir + "](O1,n:t)", TextDirection.LEFT_TO_RIGHT);
         checkNoOverlap("%insert[dir=" + dir + "](O1,n:t)", TextDirection.RIGHT_TO_LEFT);
+    }
+
+    @Test
+    public void sideInsertionDoesNotPassThroughTheMainSign() throws MDCSyntaxError {
+        // The top of O1 is closed: the inserted element stays at the top edge
+        // instead of jumping over the roof into the house.
+        JSeshRenderContext context = renderContext(TextDirection.LEFT_TO_RIGHT);
+        MDCView insert = findInsert(layout("%insert[dir=t](O1,n:t)", context));
+        assertNotNull(insert);
+        assertEquals(insert.getSubViewBounds(0).getMinY(), insert.getSubViewBounds(1).getMinY(), 1e-3);
     }
 
     @ParameterizedTest
@@ -139,7 +151,7 @@ public class InsertLayoutTest {
 
     @Test
     public void mainElementCanBeAGroup() throws MDCSyntaxError {
-        checkNoOverlap("%insert[dir=e](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);
+        checkNoOverlap("%insert[dir=be](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);
     }
 
     @Test

@@ -70,6 +70,18 @@ public class InsertionFitterTest {
     }
 
     @Test
+    public void sideInsertionDoesNotPassThroughTheTarget() {
+        // A bar across the frame, from y=5 to y=8; free space above and (larger) below.
+        Shape target = square(0, 5, 20, 3);
+        Placement p = fitter.fit(request(target, square(0, 0, 6, 6), HorizontalSide.CENTER, VerticalSide.TOP));
+        assertTrue(p.fits());
+        // Shrunk to fit above the bar, not placed at full size below it.
+        double s = Math.pow(2, -0.5);
+        assertEquals(s, p.scale(), 1e-9);
+        assertEquals(0.0, p.translateY(), 1e-9);
+    }
+
+    @Test
     public void obliqueInsertionUsesTheCorner() {
         // Free space: an 8x8 hole in the bottom-left corner.
         Area target = new Area(square(0, 0, 20, 20));
