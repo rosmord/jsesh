@@ -265,6 +265,10 @@ export function optionInt(list: AstOptionList, name: string, defaultValue: numbe
   return result;
 }
 
+export function hasOption(list: AstOptionList, name: string): boolean {
+  return list.options.some((o) => o.name === name);
+}
+
 export function optionsWithout(list: AstOptionList, name: string): AstOptionList {
   const options = list.options.filter((o) => o.name !== name);
   return options.length === list.options.length ? list : { nodeType: "OptionList", options };

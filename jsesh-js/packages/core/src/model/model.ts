@@ -13,7 +13,8 @@
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
 ///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
-///        └─ Superscript, LineBreak, PageBreak, TabStop, Tabbing, TabbingClear, HRule
+///        ├─ Superscript, LineBreak, PageBreak, TabStop, Tabbing, TabbingClear, HRule
+///        └─ Zone └─ ZoneContent └─ TopItem (nested zones too)
 /// ```
 ///
 /// Elements are mutable and own their children. Every change is reported as a
@@ -30,6 +31,7 @@ import {
   type KerningAxis,
   type ScriptCode,
   type TabbingJustification,
+  type TextDirection,
   type TextOrientation,
   type WordEndingCode,
 } from "./constants.js";
@@ -71,6 +73,8 @@ export interface ModelElementVisitor<R = void> {
   visitTabbing(e: Tabbing): R;
   visitTabbingClear(e: TabbingClear): R;
   visitHRule(e: HRule): R;
+  visitZone(e: Zone): R;
+  visitZoneContent(e: ZoneContent): R;
 }
 
 /// A visitor whose methods all call [ModelElementAdapter.visitDefault]
@@ -150,6 +154,12 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitHRule(e: HRule): void {
+    this.visitDefault(e);
+  }
+  visitZone(e: Zone): void {
+    this.visitDefault(e);
+  }
+  visitZoneContent(e: ZoneContent): void {
     this.visitDefault(e);
   }
 }
@@ -1451,6 +1461,126 @@ export class HRule extends TopItem {
   deepCopy(): HRule {
     const copy = new HRule(this.type, this.startPos, this.endPos);
     this.copyStateTo(copy);
+    return copy;
+  }
+}
+
+/// The value of an unset length in [ZoneParameters].
+export const ZONE_UNSET = -1;
+
+/// The settings of a [Zone] (port of `jsesh.model.ZoneParameters`). Unset
+/// settings are inherited from the enclosing zone (or text): `null` for the
+/// orientation and direction, [ZONE_UNSET] for lengths.
+///
+/// Lengths are integers, in percent of the height of a quadrat.
+export interface ZoneParameters {
+  readonly orientation: TextOrientation | null;
+  readonly direction: TextDirection | null;
+  /// The width of the zone (and, for a zone in lines, its wrapping width).
+  readonly width: number;
+  readonly height: number;
+  readonly lineSkip: number;
+  readonly columnSkip: number;
+  /// The thickness of the rules between the lines (or columns), or unset for no rule.
+  readonly separator: number;
+  /// The maximum width of the quadrats of the zone (the width of its columns).
+  readonly quadratWidth: number;
+  /// The maximum height of the quadrats of the zone (the height of its lines).
+  readonly quadratHeight: number;
+  readonly frame: boolean;
+}
+
+/// Builds zone parameters, normalising the lengths: a size, a quadrat size or
+/// a separator of 0 or less, or a negative skip, is [ZONE_UNSET].
+export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters {
+  const positive = (n: number | undefined) => (n !== undefined && n > 0 ? n : ZONE_UNSET);
+  const nonNegative = (n: number | undefined) => (n !== undefined && n >= 0 ? n : ZONE_UNSET);
+  return {
+    orientation: p.orientation ?? null,
+    direction: p.direction ?? null,
+    width: positive(p.width),
+    height: positive(p.height),
+    lineSkip: nonNegative(p.lineSkip),
+    columnSkip: nonNegative(p.columnSkip),
+    separator: positive(p.separator),
+    quadratWidth: positive(p.quadratWidth),
+    quadratHeight: positive(p.quadratHeight),
+    frame: p.frame ?? false,
+  };
+}
+
+/// Everything inherited, natural size, no frame.
+export const DEFAULT_ZONE_PARAMETERS: ZoneParameters = zoneParameters();
+
+/// A zone, `%zone[options](content)`: an area of the text with its own
+/// layout (lines or columns), direction and, optionally, size.
+///
+/// A zone is placed in the line (or column) of its parent like a large
+/// quadrat. Its only child is its [ZoneContent]. A zone has no state of its
+/// own: the items of its content have.
+export class Zone extends TopItem {
+  constructor(
+    public parameters: ZoneParameters = DEFAULT_ZONE_PARAMETERS,
+    content: ZoneContent = new ZoneContent(),
+  ) {
+    super();
+    this.addChild(content);
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitZone(this);
+  }
+
+  get content(): ZoneContent {
+    return this.getChildAt(0) as ZoneContent;
+  }
+
+  override containsOnlyOneSign(): boolean {
+    return false;
+  }
+
+  deepCopy(): Zone {
+    const copy = new Zone(this.parameters, this.content.deepCopy());
+    this.copyStateTo(copy);
+    return copy;
+  }
+}
+
+/// The content of a [Zone]: a text of its own, laid out in lines or columns.
+/// Like [HieroglyphicText], it accepts every [TopItem], other zones included.
+export class ZoneContent extends ModelElement {
+  constructor(items: Iterable<TopItem> = []) {
+    super();
+    for (const item of items) this.addChild(item);
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitZoneContent(this);
+  }
+
+  get topItems(): readonly TopItem[] {
+    return this.children as readonly TopItem[];
+  }
+
+  getTopItemAt(i: number): TopItem {
+    return this.getChildAt(i) as TopItem;
+  }
+
+  insertItemsAt(index: number, items: readonly TopItem[]): void {
+    items.forEach((item, i) => this.addChildAt(index + i, item));
+  }
+
+  removeItems(start: number, end: number): TopItem[] {
+    return this.removeChildren(start, end) as TopItem[];
+  }
+
+  override containsOnlyOneSign(): boolean {
+    return false;
+  }
+
+  deepCopy(): ZoneContent {
+    const copy = new ZoneContent();
+    this.copyChildrenTo(copy);
     return copy;
   }
 }

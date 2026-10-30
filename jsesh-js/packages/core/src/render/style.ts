@@ -60,6 +60,15 @@ export interface GeometrySpecification {
   standardSignHeight: number;
   /// Height of the baseline of alphabetic text above the quadrats' bottom line.
   alphabeticTextBaseline: number;
+  /// The total width (margins included) to which lines of horizontal text are
+  /// soft-wrapped, in layout units. 0 (or less) means no wrapping: lines only
+  /// end at explicit line breaks.
+  wrapWidth: number;
+}
+
+/// Is soft wrapping of lines active (`GeometrySpecification.isWrapping`)?
+export function isWrapping(geometry: GeometrySpecification): boolean {
+  return geometry.wrapWidth > 0;
 }
 
 export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<GeometrySpecification>({
@@ -88,6 +97,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   smallBodyScaleLimit: 12,
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
+  wrapWidth: 0,
 });
 
 /// Port of `LayoutOptions`.

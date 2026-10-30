@@ -173,11 +173,31 @@ All user-visible strings live in `jseshLabels`. When adding UI text, add it ther
   - **Non-public targets:** link to a package-private (or private) class or member only from its own package. From another package, public javadoc can't resolve the link. Link to the nearest public entry point instead (e.g. `[jsesh.mdcreader.MDCParserModelGenerator]` rather than the package-private `AstModelBuilder`), or write the name as code.
   - **Outside the current Gradle module** (e.g. from `jsesh` to `jseshAppli` or `jseshSearch`): don't link. Write the name as code, `` `jsesh.search.SomeClass` ``, because javadoc can't resolve it when documenting this module.
 
-## Bash commands 
+## UI changes
+
+Claude can't run the Swing app (or the web editor) interactively, and a green build doesn't show that a UI change works. So after any change to the UI (dialogs, popups, menus, shortcuts, focus, caret/keyboard navigation, clipboard, the web editor), end the answer with:
+
+- a statement that the change was **not tried in the running app** (unless it really was), and
+- a short **manual test checklist**: numbered steps, with the exact MdC to type, the keys or menu items to use, and the expected result. Include the edge cases that tend to differ: first window at startup vs a window opened with Cmd-N, left-to-right vs right-to-left and horizontal vs vertical text/zones, an empty document, and (for the web editor) resizing the page.
+
+### Keyboard shortcuts
+
+- Before proposing a menu or key shortcut, grep **all** the action and menu definitions for existing bindings (Shift and Alt variants included) ;
+- check the macOS system shortcuts too (e.g. Cmd+Shift+Space is the input-source selector; Cmd+I is italic; Cmd+Shift+C is the cartouche command). 
+- List the conflicts you checked in your answer. If every sensible binding clashes, say so and let me decide, rather than reshuffling existing ones.
+
+## Bash commands
 
 - note that we run on a mac.
 - macOS sed doesn't support `\b`, so those substitutions silently no-op'd. Use python instead.
+- This is macOS: BSD `sed` differs from GNU `sed`. Do not use `sed -i` for edits. Use the Edit tool, or Python for scripted multi-line or indentation-sensitive changes.
 
 ## git management
 
 Git will be managed manually. **Never** commit or push. It's up to me. You can of course use git to look at history - temporary local worktrees are fine, but it should never impact the current archive.
+
+## Testing
+
+- Run the tests for ALL modules (the full Gradle build plus the JS port tests), not just the module you touched.
+- Any change to Java layout or rendering (line wrapping, kerning, justification, zones, @insert) must be mirrored in the JS port. Run the JS fixture tests to confirm the view trees still match Java. If the JS port can't support a feature yet, say so explicitly.
+- Before writing an MdC test fixture, check the MdC syntax in existing tests or the parser. Don't guess.

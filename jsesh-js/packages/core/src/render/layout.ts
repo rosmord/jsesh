@@ -39,6 +39,10 @@ import {
   type SubCadrat,
   type Superscript,
   type TabStop,
+  Zone,
+  ZoneContent,
+  ZONE_UNSET,
+  type ZoneParameters,
 } from "../model/model.js";
 import { HieroglyphDrawer, scaleZone, type LigatureZone } from "./glyphs.js";
 import {
@@ -53,6 +57,7 @@ import { ViewSilhouette } from "./insert/view-silhouette.js";
 import {
   computeCartouchePartLength,
   computeCartoucheSecondaryLength,
+  isWrapping,
   philologyWidth,
   withStyle,
   type JSeshStyle,
@@ -98,6 +103,7 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
         result.add(currentView!);
       }
       layout.layout(result, depth);
+      layout.postLayoutHook(result);
       currentView = result;
       depth--;
     }
@@ -113,16 +119,61 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
   return currentView!;
 }
 
+/// The style in which the content of a zone is laid out (`Layout.zoneRenderContext`).
+///
+/// Settings which the zone doesn't set are inherited from the enclosing
+/// style. A zone has no margins, and is never paged (a page break in a zone
+/// is a line break).
+///
+/// A zone in lines wraps at its width, if it has one. It never inherits the
+/// wrapping width of the enclosing text.
+export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
+  const unit = zoneLengthUnit(parent);
+  const orientation = p.orientation ?? parent.options.textOrientation;
+  const geometry: Partial<JSeshStyle["geometry"]> = {
+    leftMargin: 0,
+    topMargin: 0,
+    wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
+  };
+  if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
+  if (p.lineSkip !== ZONE_UNSET) geometry.lineSkip = f(p.lineSkip * unit);
+  if (p.columnSkip !== ZONE_UNSET) geometry.columnSkip = f(p.columnSkip * unit);
+  if (p.quadratWidth !== ZONE_UNSET) geometry.maxCadratWidth = f(p.quadratWidth * unit);
+  if (p.quadratHeight !== ZONE_UNSET) geometry.maxCadratHeight = f(p.quadratHeight * unit);
+  return withStyle(parent, {
+    options: {
+      textOrientation: orientation,
+      textDirection: p.direction ?? parent.options.textDirection,
+      paged: false,
+    },
+    geometry,
+  });
+}
+
+/// The unit of the lengths of [ZoneParameters]: one percent of the height
+/// of a quadrat.
+export function zoneLengthUnit(style: JSeshStyle): number {
+  return f(style.geometry.maxCadratHeight / 100);
+}
+
+/// The space between the frame of a zone and its content, frame included.
+export function zoneFramePadding(style: JSeshStyle): number {
+  return f(style.geometry.cartoucheMargin + style.geometry.cartoucheLineWidth);
+}
+
 /// Port of `Layout`: computes the size of a view, and the position and scale
 /// of its subviews (which are already laid out).
 class Layout {
   private currentView!: MDCView;
   /// True if small signs are centered (it changes in cartouches).
   private centerSigns: boolean;
-  private readonly currentTextOrientation: TextOrientation;
-  private readonly currentTextDirection: TextDirection;
+  private currentTextOrientation: TextOrientation;
+  private currentTextDirection: TextDirection;
   private inAbsoluteGroup = false;
-  private readonly style: JSeshStyle;
+  private style: JSeshStyle;
+  /// The styles of the enclosing zones, saved while the content of a zone is
+  /// laid out with its own style (see [preLayoutHook]).
+  private readonly savedZoneStyles: JSeshStyle[] = [];
   private readonly hieroglyphsDrawer: HieroglyphDrawer;
   private readonly measurer: TextMeasurer;
   private readonly aux = new LayoutAux(this);
@@ -139,6 +190,7 @@ class Layout {
   layout(view: MDCView, _depth: number): void {
     this.currentView = view;
     view.direction = this.currentTextDirection;
+    view.orientation = this.currentTextOrientation;
     view.model.accept(this.aux);
   }
 
@@ -146,6 +198,25 @@ class Layout {
   preLayoutHook(view: MDCView): void {
     if (view.model instanceof Cartouche) this.centerSigns = true;
     else if (view.model instanceof AbsoluteGroup) this.inAbsoluteGroup = true;
+    else if (view.model instanceof ZoneContent && view.model.parent instanceof Zone) {
+      // The content of a zone, and everything in it, is laid out with the
+      // zone's own settings, until postLayoutHook.
+      this.savedZoneStyles.push(this.style);
+      this.setStyle(zoneStyle(this.style, view.model.parent.parameters));
+    }
+  }
+
+  /// Called once the view is laid out.
+  postLayoutHook(view: MDCView): void {
+    if (view.model instanceof ZoneContent && this.savedZoneStyles.length > 0) {
+      this.setStyle(this.savedZoneStyles.pop()!);
+    }
+  }
+
+  private setStyle(style: JSeshStyle): void {
+    this.style = style;
+    this.currentTextOrientation = style.options.textOrientation;
+    this.currentTextDirection = style.options.textDirection;
   }
 
   // The visitor, as an inner class, shares the layout's state.
@@ -705,6 +776,52 @@ class LayoutAux extends ModelElementAdapter {
   override visitTabStop(_t: TabStop): void {}
 
   override visitHieroglyphicText(_t: HieroglyphicText): void {
+    this.layoutTopItems();
+  }
+
+  /// The content of a zone is laid out as a text, in the zone's style (see
+  /// [Layout.preLayoutHook]).
+  override visitZoneContent(_content: ZoneContent): void {
+    this.layoutTopItems();
+  }
+
+  /// A zone is its content, of natural or fixed size, plus the frame's
+  /// padding. It is aligned so that its content starts where the quadrats of
+  /// the line (or column) start.
+  override visitZone(zone: Zone): void {
+    const style = this.l.s;
+    const p = zone.parameters;
+    const v = this.l.v;
+    const content = v.firstSubView;
+    const unit = zoneLengthUnit(style);
+    const padding = p.frame ? zoneFramePadding(style) : 0;
+    let width = p.width !== ZONE_UNSET ? f(p.width * unit) : content.width;
+    let height = p.height !== ZONE_UNSET ? f(p.height * unit) : content.height;
+    if (zone.content.numberOfChildren === 0) {
+      // An empty zone stays visible, and can be clicked into.
+      width = Math.max(width, style.geometry.maxCadratHeight);
+      height = Math.max(height, style.geometry.maxCadratHeight);
+    }
+    // The content takes the whole inner area, so that right-to-left content
+    // is mirrored across the zone's width, not its own.
+    content.width = width;
+    content.height = height;
+    content.resetPos();
+    content.position = { x: padding, y: padding };
+    v.width = f(width + 2 * padding);
+    v.height = f(height + 2 * padding);
+    if (this.l.orientation === "HORIZONTAL") {
+      v.deltaBaseX = 0;
+      v.deltaBaseY = -padding;
+    } else {
+      v.deltaBaseX = -padding;
+      v.deltaBaseY = 0;
+    }
+  }
+
+  /// Lays out the top items of a text or of a zone (the subviews of the
+  /// current view) in lines or columns.
+  private layoutTopItems(): void {
     const style = this.l.s;
     const v = this.l.v;
     const topItemLayout: TopItemLayout =
@@ -733,6 +850,7 @@ class LayoutAux extends ModelElementAdapter {
     topItemLayout.endLayout();
     v.width = topItemLayout.documentArea.width;
     v.height = topItemLayout.documentArea.height;
+    v.separators = topItemLayout.separatorPositions();
   }
 }
 
@@ -1026,6 +1144,13 @@ class LineAccumulator {
     this.units.push([...runViews]);
   }
 
+  /// The area the zone would have if it included `view` at the current point.
+  computeNewSizeWith(view: MDCView): Rect {
+    const area = this.zoneArea.clone();
+    area.add(new Rect(this.currentPoint.x + view.deltaBaseX, this.currentPoint.y + view.deltaBaseY, view.width, view.height));
+    return area;
+  }
+
   get width(): number {
     return this.zoneArea.width;
   }
@@ -1126,6 +1251,16 @@ interface TopItemLayout {
   layoutTextRun(run: TextRun, views: MDCView[]): void;
   endLayout(): void;
   readonly documentArea: Rect;
+  /// The middle of the gap between each line (or column) and the next one,
+  /// after layout (y for lines, x for columns). Used to draw separator rules.
+  separatorPositions(): number[];
+}
+
+/// The middle of the gap between each extent (start, end) and the next one.
+function separatorsBetween(extents: [number, number][]): number[] {
+  const result: number[] = [];
+  for (let i = 0; i + 1 < extents.length; i++) result.push((extents[i]![1] + extents[i + 1]![0]) / 2);
+  return result;
 }
 
 /// The kerning state of [LineLayout] and [ColumnLayout], which handle top-level kerning the same
@@ -1143,6 +1278,11 @@ class TopLevelKerning {
     private readonly axis: KerningAxis,
     private readonly skip: number,
   ) {}
+
+  /// Is the next element to be kerned with the previous ones?
+  get isPending(): boolean {
+    return this.pendingKerning;
+  }
 
   reset(): void {
     this.kernedGroup.length = 0;
@@ -1195,6 +1335,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   readonly documentArea = new Rect();
   private zone: LineAccumulator = new LineAccumulator(0, 0);
   private readonly allZones: LineAccumulator[] = [];
+  /// The vertical extent (top, bottom) of each line of text, for the separators.
+  private readonly lineExtents: [number, number][] = [];
   /// Where the current zone will be placed.
   private zoneOriginPosition: Point = { x: 0, y: 0 };
   private readonly currentTextDirection: TextDirection;
@@ -1203,6 +1345,9 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private addTopMargin = true;
   /// In lines, only `%hkern` is meaningful.
   private readonly kerning: TopLevelKerning;
+  /// The zones which ended because of soft wrapping (not at a line break).
+  /// When wrapping, only those are justified: the others end a paragraph.
+  private readonly softWrappedZones = new Set<LineAccumulator>();
 
   constructor(
     private readonly documentView: MDCView,
@@ -1225,27 +1370,143 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   layoutTextRun(run: TextRun, views: MDCView[]): void {
     this.kerning.reset();
     const mirrored = this.currentTextDirection !== "LEFT_TO_RIGHT";
-    this.zone.addRun(views, run.layoutOffsets(mirrored));
-    if (run.width !== 0) this.zone.moveCurrentPoint(run.width + this.style.geometry.smallSkip, 0);
+    const n = views.length;
+    if (!isWrapping(this.style.geometry)) {
+      this.placeRunPart(run, views, 0, n, mirrored);
+      return;
+    }
+    // Wrapping: the run is cut at spaces and punctuation, or anywhere if a
+    // word is too long for a line.
+    const breakAfter: boolean[] = [];
+    const space: boolean[] = [];
+    for (const v of views) {
+      const c = v.model as AlphabeticCharacter;
+      breakAfter.push(TextRun.canBreakAfter(c));
+      space.push(c.isSpace());
+    }
+    let from = 0;
+    while (from < n) {
+      const to = this.runPartEnd(run, from, breakAfter, space);
+      this.placeRunPart(run, views, from, to, mirrored);
+      from = to;
+      if (from < n) this.wrapLine();
+    }
+  }
+
+  /// Adds the characters `from` to `to - 1` of a run to the current line.
+  private placeRunPart(run: TextRun, views: MDCView[], from: number, to: number, mirrored: boolean): void {
+    this.zone.addRun(views.slice(from, to), run.layoutOffsets(mirrored, from, to));
+    const width = run.partWidth(from, to);
+    if (width !== 0) this.zone.moveCurrentPoint(width + this.style.geometry.smallSkip, 0);
+  }
+
+  /// Finds how much of a run, starting at the character `from`, goes on the
+  /// current line. If nothing fits, the line is wrapped (unless it is empty).
+  ///
+  /// The part ends after a space or punctuation. If not even a word fits on an
+  /// empty line, it is cut between any two characters. Trailing spaces may go
+  /// beyond the end of the line.
+  ///
+  /// Returns the index after the last character to place on the line (greater than `from`).
+  private runPartEnd(run: TextRun, from: number, breakAfter: boolean[], space: boolean[]): number {
+    let end = this.fittingEnd(run, from, breakAfter, space, true);
+    if (end > from) return end;
+    if (!this.zone.isEmpty()) {
+      this.wrapLine();
+      end = this.fittingEnd(run, from, breakAfter, space, true);
+      if (end > from) return end;
+    }
+    // The word is larger than a line.
+    return Math.max(from + 1, this.fittingEnd(run, from, breakAfter, space, false));
+  }
+
+  /// The end of the largest part of a run, starting at `from`, which fits the
+  /// room left on the current line. With `atBreaksOnly`, the part ends only
+  /// after a space or punctuation (or at the end of the run).
+  ///
+  /// Returns the index after the last character of the part, or `from` if nothing fits.
+  private fittingEnd(run: TextRun, from: number, breakAfter: boolean[], space: boolean[], atBreaksOnly: boolean): number {
+    const available = this.maxLineWidth() - this.zone.currentPoint.x;
+    const n = breakAfter.length;
+    let best = from;
+    for (let end = from + 1; end <= n; end++) {
+      // Trailing spaces are not counted.
+      let visibleEnd = end;
+      while (visibleEnd > from + 1 && space[visibleEnd - 1]) visibleEnd--;
+      if (run.partWidth(from, visibleEnd) > available) break;
+      if (!atBreaksOnly || end === n || breakAfter[end - 1]) best = end;
+    }
+    return best;
   }
 
   endLayout(): void {
     const g = this.style.geometry;
     if (!this.zone.isEmpty()) this.flushZone();
     if (this.style.options.justified) {
-      let width = 0;
-      for (const z of this.allZones) if (z.width > width) width = z.width;
-      width = width - g.leftMargin;
-      this.allZones.forEach((z, i) => {
-        // Not the last zone, unless it looks large enough (temporary fix).
-        if (i !== this.allZones.length - 1 || z.width >= 0.75 * width) z.justifyWidthTo(g.leftMargin, width);
-      });
+      if (isWrapping(g)) {
+        // Wrapped lines are justified to the wrapping width.
+        // Zones which end a paragraph stay as they are.
+        for (const z of this.allZones) {
+          if (this.softWrappedZones.has(z)) z.justifyWidthTo(g.leftMargin, this.maxLineWidth());
+        }
+      } else {
+        this.justifyOnLongestZone();
+      }
     }
     this.documentArea.addPoint(this.documentArea.maxX + g.leftMargin, this.documentArea.minY + g.topMargin);
   }
 
+  /// Justifies all zones to the width of the longest one.
+  private justifyOnLongestZone(): void {
+    const g = this.style.geometry;
+    let width = 0;
+    for (const z of this.allZones) if (z.width > width) width = z.width;
+    width = width - g.leftMargin;
+    this.allZones.forEach((z, i) => {
+      // Not the last zone, unless it looks large enough (temporary fix).
+      if (i !== this.allZones.length - 1 || z.width >= 0.75 * width) z.justifyWidthTo(g.leftMargin, width);
+    });
+  }
+
+  /// The width available for the content of a line when wrapping, i.e. the
+  /// wrapping width, minus the margins on both sides.
+  private maxLineWidth(): number {
+    const g = this.style.geometry;
+    return g.wrapWidth - 2 * g.leftMargin;
+  }
+
+  /// Should the current line be wrapped before adding something which would
+  /// extend it up to `x`? A line is never wrapped when empty: an element too
+  /// large for the wrapping width is placed alone on its line.
+  private wouldOverflow(x: number): boolean {
+    return isWrapping(this.style.geometry) && !this.zone.isEmpty() && x > this.maxLineWidth();
+  }
+
+  /// Ends the current line because of soft wrapping, and starts the next one.
+  private wrapLine(): void {
+    this.kerning.reset();
+    const verticalSkip = this.zone.height + this.zone.minY + this.style.geometry.lineSkip;
+    this.softWrappedZones.add(this.zone);
+    this.flushZone();
+    this.startNextZone(verticalSkip);
+  }
+
+  /// Creates the zone for the next line, `verticalSkip` below the top of the
+  /// line which has just been flushed.
+  private startNextZone(verticalSkip: number): void {
+    this.zone = new LineAccumulator(0, this.style.geometry.maxCadratHeight);
+    this.zoneOriginPosition.y += verticalSkip;
+    this.addTopMargin = false;
+  }
+
+  separatorPositions(): number[] {
+    return separatorsBetween(this.lineExtents);
+  }
+
   startLayout(): void {
     this.allZones.length = 0;
+    this.softWrappedZones.clear();
+    this.lineExtents.length = 0;
     this.addTopMargin = true;
     this.documentView.reset();
     this.documentView.direction = this.currentTextDirection;
@@ -1257,8 +1518,9 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.zoneOriginPosition = { x: 0, y: 0 };
   }
 
-  /// Adds the current zone to the page.
-  private flushZone(): void {
+  /// Adds the current zone to the page. `textLine`: is the zone a line of
+  /// text (and not the mark of a page break)? Only lines are separated by rules.
+  private flushZone(textLine = true): void {
     // Large signs (cartouches) can make the zone's top negative: the zone is
     // moved so that its real top is at least a margin below the previous line.
     const g = this.style.geometry;
@@ -1272,6 +1534,9 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.documentArea.add(
       new Rect(this.zoneOriginPosition.x + minx, this.zoneOriginPosition.y + miny, this.zone.width, this.zone.height),
     );
+    if (textLine) {
+      this.lineExtents.push([this.zoneOriginPosition.y + miny, this.zoneOriginPosition.y + miny + this.zone.height]);
+    }
     if (this.style.options.justified) this.allZones.push(this.zone);
   }
 
@@ -1283,9 +1548,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     if (b.spacing !== 100) verticalSkip = (verticalSkip * b.spacing) / 100;
     this.zone.add(this.subView);
     this.flushZone();
-    this.zone = new LineAccumulator(0, g.maxCadratHeight);
-    this.zoneOriginPosition.y += verticalSkip;
-    this.addTopMargin = false;
+    this.startNextZone(verticalSkip);
   }
 
   override visitPageBreak(_b: PageBreak): void {
@@ -1300,7 +1563,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       this.subView.width = 32;
       this.subView.height = g.lineSkip;
       this.zone.add(this.subView);
-      this.flushZone();
+      this.flushZone(false);
       this.zone = new LineAccumulator(0, g.maxCadratHeight);
     } else {
       this.initZoneForPage();
@@ -1320,6 +1583,15 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   override visitDefault(_t: ModelElement): void {
     let dx = 0;
     if (this.subView.width !== 0) dx = f(this.subView.width + this.style.geometry.smallSkip);
+    // A kerned element stays with the previous one: no wrapping before it.
+    if (
+      kerningOf(this.subView) === undefined &&
+      !this.kerning.isPending &&
+      this.subView.width !== 0 &&
+      this.wouldOverflow(this.zone.computeNewSizeWith(this.subView).maxX)
+    ) {
+      this.wrapLine();
+    }
     if (this.kerning.add(this.zone, this.subView)) this.zone.moveCurrentPoint(dx, 0);
   }
 }
@@ -1334,6 +1606,8 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   private subView!: MDCView;
   /// In columns, only `%vkern` is meaningful.
   private readonly kerning: TopLevelKerning;
+  /// The horizontal extent (left, right) of each column, for the separators.
+  private readonly columnExtents: [number, number][] = [];
 
   constructor(
     private readonly documentView: MDCView,
@@ -1370,7 +1644,12 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.documentArea.addPoint(this.documentArea.maxX + this.style.geometry.leftMargin, this.documentArea.minY);
   }
 
+  separatorPositions(): number[] {
+    return separatorsBetween(this.columnExtents);
+  }
+
   startLayout(): void {
+    this.columnExtents.length = 0;
     this.documentView.reset();
     this.style = withStyle(this.style, { options: { textOrientation: "VERTICAL" } });
     this.documentView.direction = this.currentTextDirection;
@@ -1389,6 +1668,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.zoneStart.y += -this.zone.minY;
     this.zoneStart.x += -this.zone.minX;
     this.zone.translateBy(this.zoneStart);
+    this.columnExtents.push([this.zoneStart.x, this.zoneStart.x + this.zone.width]);
     this.documentArea.add(new Rect(this.zoneStart.x, this.zoneStart.y, this.zone.width, this.zone.height));
   }
 

@@ -24,6 +24,9 @@ import {
   Superscript,
   TopItem,
   TopItemState,
+  Zone,
+  ZoneContent,
+  ZONE_UNSET,
 } from "../model/model.js";
 import { drawCartouche } from "./cartouches.js";
 import { HieroglyphDrawer, type SignShape } from "./glyphs.js";
@@ -152,7 +155,10 @@ class SvgViewDrawer {
   }
 
   private drawView(v: MDCView, depth: number, page: PageTransform): string {
-    if (depth === 1 && v.model instanceof TopItem) this.drawingState = v.model.state;
+    // The items of a zone have their own state, as those of the text.
+    if (v.model instanceof TopItem && (depth === 1 || v.model.parent instanceof ZoneContent)) {
+      this.drawingState = v.model.state;
+    }
     const color = this.drawingState.isRed ? this.style.painting.redColor : this.style.painting.blackColor;
     const element = new ElementDrawer(this, v, color, page);
     let result = element.draw(false);
@@ -292,7 +298,8 @@ class ElementDrawer extends ModelElementAdapter {
         break;
       default: {
         const special = h.type >= SymbolCodes.BEGINERASE && h.type <= SymbolCodes.ENDDUBIOUS;
-        const reversed = h.isReversed !== (style.options.textDirection === "RIGHT_TO_LEFT");
+        // Inside a zone, the direction may differ from the document's: the view knows it.
+        const reversed = h.isReversed !== (this.view.direction === "RIGHT_TO_LEFT");
         const baseSignScale = special ? 1 : this.d.signs.scaleFromFontToStyle(style);
         this.out += this.sign(h.code, h.angle, reversed, baseSignScale, this.color);
       }
@@ -404,6 +411,40 @@ class ElementDrawer extends ModelElementAdapter {
 
   override visitHieroglyphicText(_t: HieroglyphicText): void {}
 
+  /// Draws the frame of the zone and the rules between its lines (or
+  /// columns), if it has them.
+  override visitZone(zone: Zone): void {
+    if (!this.postfix) return;
+    const g = this.d.s.geometry;
+    const v = this.view;
+    if (zone.parameters.frame) {
+      const w = g.cartoucheLineWidth;
+      this.out += strokedPath(new PathBuilder().rect(w / 2, w / 2, v.width - w, v.height - w), this.color, w);
+    }
+    if (zone.parameters.separator !== ZONE_UNSET) this.drawSeparators(zone);
+  }
+
+  /// The rules between the lines (or columns) of a zone, over its whole
+  /// inner width (or height).
+  private drawSeparators(zone: Zone): void {
+    const content = this.view.firstSubView;
+    if (content.separators.length === 0) return;
+    const thickness = (zone.parameters.separator * this.d.s.geometry.maxCadratHeight) / 100;
+    const horizontal = content.orientation === null || content.orientation === "HORIZONTAL";
+    const { x: x0, y: y0 } = content.position;
+    const d = new PathBuilder();
+    for (const pos of content.separators) {
+      if (horizontal) {
+        d.line(x0, y0 + pos, x0 + content.width, y0 + pos);
+      } else {
+        // Columns are placed left to right; right-to-left ones are drawn mirrored.
+        const x = content.layoutToDrawing(new Rect(pos, 0, 0, 0)).x;
+        d.line(x0 + x, y0, x0 + x, y0 + content.height);
+      }
+    }
+    this.out += strokedPath(d, this.color, thickness);
+  }
+
   /// Shades the quarters of the view (`DefaultElementDrawer.doShade`).
   private doShade(localShading: number): void {
     const v = this.view;
@@ -423,7 +464,8 @@ class ElementDrawer extends ModelElementAdapter {
     if (localShading & bottomEnd) areas.push(new Rect(w, h, w, h));
     // Shade the space between this view and the next one.
     const next = v.next;
-    if (next !== null && shaded && this.d.s.options.textOrientation === "HORIZONTAL" && v.nextIsHorizontallyAdjacent()) {
+    const orientation = v.orientation ?? this.d.s.options.textOrientation;
+    if (next !== null && shaded && orientation === "HORIZONTAL" && v.nextIsHorizontallyAdjacent()) {
       const outerWidth = next.position.x - v.position.x - v.width;
       areas.push(new Rect(v.width, 0, outerWidth / v.xScale, v.height));
     }
