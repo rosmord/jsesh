@@ -346,7 +346,7 @@ public class ModifiersList
     }
 
     /**
-     * sets the value of name to value.
+     * Include a flag modifier or remove it depending on the value of the boolean argument.
      *
      * @param name
      * @param value

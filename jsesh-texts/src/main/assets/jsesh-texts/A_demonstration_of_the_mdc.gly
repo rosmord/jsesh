@@ -398,7 +398,7 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 +lAOS+s-?500-mn:n-mn:n-E1-Z3A-nb:t-Dr:r-W-W-N31:Z2-O:.-?2800-s-U23-m:r-sr-G7&&&"sic"-nw*1-stp:t*p-Y1:Z2-O:.-!
 !
 !!
-+bEcdotic codes+s-!
++bCritical Apparatus Codes+s-!
 +lAdded by editor+s-!
 ?800-+l-[&-i-w-r:a-ra-m-p*t:pt-&]+s-!
 ?800-[&-i-w-r:a-ra-m-p*t:pt-&]-!
@@ -453,9 +453,16 @@ xA\50-xA\50\R45-xA\\R45-xA\\50\R45-!
 +lThus, a line like :+s-!
 .\0:PF2:.\0-i-w-r:a-C1-m-p*t:pt-!
 +lcorresponds to an original which would be :+s-!
-t*p:pt\-m\-C1\-r:a\-w\-i\-!
+t*p:pt\-m\-C1\-r:a\-w\-i\-!!
++bUnsupported Manuel de Codage functions+s-!
++lA few functionalities of the original +s-+iManuel de Codage+s-+l are +s-+bnot supported by JSesh.+s-+l It might change, or be replaced by an equivalent functionality.+s-!
 !
-+bSupport for deprecated +s-+iManuel+s-+b practices+s-!
++lThose are:+s-!
++l^-..-..^: '^' is used to introduce arrows for +s-+imissing text in a parallel version+s-+l (displayed as <------>)+s-!
++l?-..-..-?: as marker of lacuna (displayed as '-----')+s-!
++l??: full line in lacuna +s-!
+!!
++b Support for deprecated +s-+iManuel+s-+b practices+s-!
 +lJSesh is able to read texts that don't follow the exact manuel de codage.+s-!
 +lFor instance, it's quite forgiving about spaces.+s-!
 +lHowever, when saving a text, +s-+iJSesh+s-+l will write it in a very normalized form, to ensure a maximal readability.+s-!

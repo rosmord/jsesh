@@ -1,18 +1,21 @@
 ++JSesh_Info 1.0 +s
-++JSesh_use_lines_for_shading false +s
-++JSesh_max_quadrant_width 22.0 +s
-++JSesh_line_skip 6.0 +s
 ++JSesh_small_skip 2.0 +s
 ++JSesh_column_skip 8.0 +s
-++JSesh_standard_sign_height 18.0 +s
 ++JSesh_small_body_scale_limit 12.0 +s
 ++JSesh_cartouche_line_width 1.0 +s
 ++JSesh_small_sign_centered false +s
 ++JSesh_page_direction LEFT_TO_RIGHT +s
 ++JSesh_max_quadrantHeight 18.0 +s
+++JSesh_use_lines_for_shading false +s
+++JSesh_max_quadrant_width 22.0 +s
+++JSesh_line_skip 6.0 +s
+++JSesh_alphabetic_text_baseline 4.0 +s
+++JSesh_standard_sign_height 18.0 +s
 ++JSesh_page_orientation HORIZONTAL +s
-+bLouvre C300+s-!
++bLouvre C200/E 5607+s-!
 +iTyped by S. Rosmorduc+s-!
++i(I had made an error on the stela inventory number, which is C200 and not C300. Thanks to M. Mathys Seiller for pointing out the problem)+s-!
+!
 +bLicence : Creative commons CC-BY+s-!
 O3-nTr-sn-T:r:N33A-w-mw:N29*nw-nTr:n-wab:F51-n:imAx&x-mn:n:T-w-Htp:t:p-D&d:f-i-w-ir:n:1-wab-mw:n-W1:t-C165-s-Htp:n-s-!
 m-Dsr:3-s-nfr-f:r-m-W5:1-s:n-x:D43:Y1-niwt:t:f-i-w-r:mn:n-D41:n:1-nb*1:nTr*nTr*nTr-m-P3:f-w-T:U39-nfr-3:p:X-pXr:D54-!
