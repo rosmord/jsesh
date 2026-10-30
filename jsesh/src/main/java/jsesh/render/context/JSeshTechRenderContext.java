@@ -8,10 +8,15 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.function.Function;
 
-/**
- * Technical rendering information for JSesh, depending on the output device.
- * 
- */
+/// Technical rendering information for JSesh, depending on the output device.
+/// 
+/// The scale may seem redundant, as the [GeometrySpecification] contain
+/// information about text size. However, scaling is different. When we look if a sign is too small, or when
+/// we intend to draw a line at a certain width, the normal operators would have an impact. Scaling is like using
+//  a magnifying glass: it doesn't change the design, just zoom on it.
+/// <p>
+/// @param fontRenderContext the font render context to use for rendering.
+/// @param graphicDeviceScale the scale factor of the graphic device
 public record JSeshTechRenderContext(
                 FontRenderContext fontRenderContext, double graphicDeviceScale) {
 
