@@ -155,7 +155,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
 
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));
                 insertMenu.add(map.get(InsertShortTextAction.ID));
-                insertMenu.add(map.get(InsertZoneWithOptionsAction.ID));
                 return insertMenu;
         }
 
@@ -165,13 +164,12 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 BundleHelper.getInstance().configure(textMenu, "text");
                 addToMenu(textMenu, app, view, ActionsID.GROUP_HORIZONTAL);
                 addToMenu(textMenu, app, view, ActionsID.GROUP_VERTICAL);
-                addToMenu(textMenu, app, view, ActionsID.LIGATURE_ELEMENTS);
-                addToMenu(textMenu, app, view, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
-                addToMenu(textMenu, app, view, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
                 addToMenu(textMenu, app, view, ActionsID.GROUP_AS_INSERTION);
+                textMenu.add(buildLegacyLigatureMenu(app, view));
                 addToMenu(textMenu, app, view, ActionsID.EXPLODE_GROUP);
                 addToMenu(textMenu, app, view, CenterGroupAction.ID);
                 textMenu.addSeparator();
+                textMenu.add(buildZoneMenu(app, view));
                 addToMenu(textMenu, app, view, EditGroupAction.ID);
                 textMenu.addSeparator();
                 addToMenu(textMenu, app, view, ActionsID.SHADE_ZONE);
@@ -181,8 +179,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 textMenu.addSeparator();
                 textMenu.add(buildShadingMenu(app, view));
                 textMenu.add(buildCartoucheMenu(app, view));
-                addToMenu(textMenu, app, view, ActionsID.INSERT_ZONE);
-                addToMenu(textMenu, app, view, EditZoneAction.ID);
                 textMenu.add(buildEcdoticMenu(app, view));
                 textMenu.add(map.get(AddToGlossaryAction.ID));
                 return textMenu;
@@ -425,6 +421,27 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         shadingMenu.add(a.getActionMap(v).get(s));
                 }
                 return shadingMenu;
+        }
+
+        /// Builds the submenu for the old ligature operators, superseded by the
+        /// insertion command ([ActionsID#GROUP_AS_INSERTION]).
+        private JMenu buildLegacyLigatureMenu(Application a, JSeshView v) {
+                JMenu ligatureMenu = BundleHelper.getInstance().configure(new JMenu(),
+                                "text.legacyLigaturesMenu");
+                addToMenu(ligatureMenu, a, v, ActionsID.LIGATURE_ELEMENTS);
+                addToMenu(ligatureMenu, a, v, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
+                addToMenu(ligatureMenu, a, v, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
+                return ligatureMenu;
+        }
+
+        /// Builds the submenu for creating zones and changing their settings.
+        private JMenu buildZoneMenu(Application a, JSeshView v) {
+                JMenu zoneMenu = BundleHelper.getInstance().configure(new JMenu(),
+                                "text.zoneMenu");
+                addToMenu(zoneMenu, a, v, InsertZoneWithOptionsAction.ID);
+                addToMenu(zoneMenu, a, v, ActionsID.INSERT_ZONE);
+                addToMenu(zoneMenu, a, v, EditZoneAction.ID);
+                return zoneMenu;
         }
 
         /**
