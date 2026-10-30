@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.SystemFlavorMap;
+import javax.swing.UIManager;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
@@ -75,7 +76,12 @@ public class JSeshStartup extends AppStartup<JSeshApplicationStartingData> {
         //             + "</style>" + "</head>");
         // }
 
-        
+        // Several jhotdrawfw dialogs prepend UIManager.getString("OptionPane.css")
+        // to their message. FlatLaf doesn't define it, which printed "null".
+        if (UIManager.getString("OptionPane.css") == null) {
+            UIManager.put("OptionPane.css", "");
+        }
+
         if (PlatformDetection.getPlatform() == PlatformDetection.MACOSX) {
             FlatMacLightLaf.setup();
         } else {

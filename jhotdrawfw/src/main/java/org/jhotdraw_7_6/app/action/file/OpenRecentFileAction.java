@@ -10,6 +10,7 @@
  */
 package org.jhotdraw_7_6.app.action.file;
 
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -58,6 +59,15 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
 	public void actionPerformed(ActionEvent evt) {
 		final Application app = getApplication();
 		if (app.isEnabled()) {
+			// A missing file must not open a window: the new empty window
+			// would fight with the error sheet (and the previously active
+			// window) for the focus.
+			if (!fileExists()) {
+				View active = app.getActiveView();
+				showOpenError(active == null ? null : active.getComponent(),
+						missingFileMessage(), null);
+				return;
+			}
 			app.setEnabled(false);
 			// Search for an empty view
 			View emptyView = app.getActiveView();
@@ -67,18 +77,79 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
 			}
 
 			final View p;
-			if (emptyView == null) {
+			final boolean newView = emptyView == null;
+			if (newView) {
 				p = app.createView();
 				app.add(p);
 				app.show(p);
 			} else {
 				p = emptyView;
 			}
-			openView(p);
+			openView(p, newView);
 		}
 	}
 
-	protected void openView(final View view) {
+	/**
+	 * Checks that the file exists. URIs which don't denote a file can't be
+	 * checked, and are assumed to exist.
+	 */
+	private boolean fileExists() {
+		try {
+			return new File(uri).exists();
+		} catch (IllegalArgumentException e) {
+			return true;
+		}
+	}
+
+	private String missingFileMessage() {
+		ResourceBundleUtil labels = ResourceBundleUtil
+				.getBundle("org.jhotdraw_7_6.app.Labels");
+		return labels.getFormatted("file.open.fileDoesNotExist.message",
+				URIUtil.getName(uri));
+	}
+
+	/**
+	 * Shows the "could not open" error.
+	 * 
+	 * @param parent
+	 *            the component whose window gets the sheet. If null, a plain
+	 *            dialog is used.
+	 * @param message
+	 *            the reason.
+	 * @param listener
+	 *            notified when the sheet is dismissed (may be null).
+	 */
+	private void showOpenError(Component parent, String message,
+			SheetListener listener) {
+		ResourceBundleUtil labels = ResourceBundleUtil
+				.getBundle("org.jhotdraw_7_6.app.Labels");
+		String text = "<html>"
+				+ UIManager.getString("OptionPane.css")
+				+ "<b>"
+				+ labels.getFormatted("file.open.couldntOpen.message",
+						URIUtil.getName(uri)) + "</b><p>" + message;
+		if (parent == null) {
+			JOptionPane.showMessageDialog(null, text, null,
+					JOptionPane.ERROR_MESSAGE);
+			if (listener != null) {
+				listener.optionSelected(null);
+			}
+		} else if (listener == null) {
+			JSheet.showMessageSheet(parent, text, JOptionPane.ERROR_MESSAGE);
+		} else {
+			JSheet.showMessageSheet(parent, text, JOptionPane.ERROR_MESSAGE,
+					listener);
+		}
+	}
+
+	/**
+	 * @param view
+	 *            the view to load the file into.
+	 * @param newView
+	 *            true if the view was created for this file, and should be
+	 *            discarded if loading fails.
+	 */
+	protected void openView(final View view, final boolean newView) {
 		final Application app = getApplication();
 		app.setEnabled(true);
 
@@ -98,24 +169,13 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
 		view.execute(new Worker() {
 
 			protected Object construct() throws IOException {
-				boolean exists = true;
-				try {
-					File f = new File(uri);
-					exists = f.exists();
-				} catch (IllegalArgumentException e) {
-					// The URI does not denote a file, thus we can not check
-					// whether the file exists.
+				// Safety net: the file may have disappeared since the check
+				// in actionPerformed.
+				if (!fileExists()) {
+					throw new IOException(missingFileMessage());
 				}
-				if (exists) {
-					view.read(uri, null);
-					return null;
-				} else {
-					ResourceBundleUtil labels = ResourceBundleUtil
-							.getBundle("org.jhotdraw_7_6.app.Labels");
-					throw new IOException(labels.getFormatted(
-							"file.open.fileDoesNotExist.message",
-							URIUtil.getName(uri)));
-				}
+				view.read(uri, null);
+				return null;
 			}
 
 			protected void done(Object value) {
@@ -139,21 +199,20 @@ public class OpenRecentFileAction extends AbstractApplicationAction {
 				value.printStackTrace();
 				String message = value.getMessage() != null ? value
 						.getMessage() : value.toString();
-				ResourceBundleUtil labels = ResourceBundleUtil
-						.getBundle("org.jhotdraw_7_6.app.Labels");
-				JSheet.showMessageSheet(
-						view.getComponent(),
-						"<html>"
-								+ UIManager.getString("OptionPane.css")
-								+ "<b>"
-								+ labels.getFormatted(
-										"file.open.couldntOpen.message",
-										URIUtil.getName(uri)) + "</b><p>"
-								+ (message == null ? "" : message),
-						JOptionPane.ERROR_MESSAGE, new SheetListener() {
+				showOpenError(view.getComponent(), message,
+						new SheetListener() {
 
 							public void optionSelected(SheetEvent evt) {
-								view.setEnabled(true);
+								if (newView) {
+									// Don't leave an empty window behind.
+									SwingUtilities.invokeLater(new Runnable() {
+										public void run() {
+											app.dispose(view);
+										}
+									});
+								} else {
+									view.setEnabled(true);
+								}
 							}
 						});
 			}
