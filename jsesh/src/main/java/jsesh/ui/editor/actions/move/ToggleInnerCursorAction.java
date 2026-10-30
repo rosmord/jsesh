@@ -8,34 +8,29 @@
 package jsesh.ui.editor.actions.move;
 
 import java.awt.event.ActionEvent;
-import java.util.prefs.Preferences;
 
 import javax.swing.Action;
 
 import jsesh.model.CaretGranularity;
 import jsesh.ui.editor.JMDCEditor;
 import jsesh.ui.editor.actionsUtils.EditorAction;
-import jsesh.utils.preferences.JSeshPreferencesRoot;
 
 /// Switches the cursor between "top-level only" and "inside quadrats" modes.
 ///
 /// The action is meant to be used with a check box menu item: it keeps its
 /// [Action#SELECTED_KEY] property in sync with the editor. The choice is
-/// remembered in the user's preferences, and applied to new editors.
+/// deliberately *not* stored in the preferences: each editor starts in
+/// "top-level only" mode.
 ///
 /// @see CaretGranularity
 @SuppressWarnings("serial")
 public class ToggleInnerCursorAction extends EditorAction {
 
-	/// Name of the preference which stores the mode.
-	public static final String PREFERENCE_KEY = "caret.insideQuadrats";
-
 	public ToggleInnerCursorAction(JMDCEditor editor) {
 		super(editor);
 		if (editor != null) {
-			boolean inner = getPreferences().getBoolean(PREFERENCE_KEY, false);
-			editor.getWorkflow().setCaretGranularity(inner ? CaretGranularity.INNER : CaretGranularity.QUADRAT);
-			putValue(Action.SELECTED_KEY, inner);
+			editor.getWorkflow().setCaretGranularity(CaretGranularity.QUADRAT);
+			putValue(Action.SELECTED_KEY, false);
 		}
 	}
 
@@ -44,10 +39,5 @@ public class ToggleInnerCursorAction extends EditorAction {
 		boolean inner = editor.getWorkflow().getCaretGranularity() == CaretGranularity.QUADRAT;
 		editor.getWorkflow().setCaretGranularity(inner ? CaretGranularity.INNER : CaretGranularity.QUADRAT);
 		putValue(Action.SELECTED_KEY, inner);
-		getPreferences().putBoolean(PREFERENCE_KEY, inner);
-	}
-
-	private static Preferences getPreferences() {
-		return JSeshPreferencesRoot.getPreferences();
 	}
 }
