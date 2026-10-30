@@ -13,7 +13,7 @@
 /// Java stores sizes and scales as `float`: they are rounded with
 /// `Math.fround` here, so that the results match Java's.
 
-import type { TextDirection } from "../model/constants.js";
+import type { TextDirection, TextOrientation } from "../model/constants.js";
 import { SubCadrat, type ModelElement } from "../model/model.js";
 
 const f = Math.fround;
@@ -103,6 +103,13 @@ export class MDCView {
   xStretchable = false;
   yStretchable = false;
   direction: TextDirection = "LEFT_TO_RIGHT";
+  /// The orientation of the text this view belongs to: it may differ from the
+  /// document's inside a zone. `null` if not laid out yet.
+  orientation: TextOrientation | null = null;
+  /// The positions of the rules between the lines (or the columns) of a text,
+  /// in the layout system of this view: y for lines, x for columns. Only set
+  /// on the content of a zone, which may draw them.
+  separators: number[] = [];
   private _parent: MDCView | null = null;
   private _next: MDCView | null = null;
   private _previous: MDCView | null = null;

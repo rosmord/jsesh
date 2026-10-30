@@ -19,6 +19,8 @@ import {
   LineBreak,
   PageBreak,
   TopItemState,
+  Zone,
+  ZONE_UNSET,
   type AbsoluteGroup,
   type BasicItemList,
   type Cadrat,
@@ -42,6 +44,7 @@ import {
   type Superscript,
   type TabStop,
   type Tabbing,
+  type ZoneContent,
 } from "../model/model.js";
 
 export interface MdcWriterOptions {
@@ -241,23 +244,60 @@ class ModelWriter implements ModelElementVisitor<void> {
   }
 
   visitHieroglyphicText(t: HieroglyphicText): void {
+    this.writeSequence(t, this.startIndex, this.endIndex);
+  }
+
+  /// Writes the items of a text or of a zone between two gaps, with the
+  /// toggles needed for their states. All toggles are closed at the end, so
+  /// that a zone is self-contained.
+  private writeSequence(t: HieroglyphicText | ZoneContent, start: number, end: number): void {
     let state = new TopItemState();
     // Was the last opening red toggle closer than the last opening gray toggle?
     let redCloser = false;
-    let i = this.startIndex;
-    while (i < this.endIndex) {
+    let i = start;
+    while (i < end) {
       const sub = t.getTopItemAt(i);
       let newState = sub.state;
-      if (i > this.startIndex && this.wantsMinus) this.write("-");
+      if (i > start && this.wantsMinus) this.write("-");
       this.wantsMinus = true;
       // For compatibility with HieroTeX, all toggles are closed at line or page breaks.
-      if (sub instanceof LineBreak || sub instanceof PageBreak) newState = new TopItemState();
+      // A zone has no state of its own (its content has), so toggles are closed before it too.
+      if (sub instanceof LineBreak || sub instanceof PageBreak || sub instanceof Zone) newState = new TopItemState();
       redCloser = this.fixToggles(state, newState, redCloser);
       // A run of text shares one state, so the toggles above hold for all of it.
-      i = this.writeElementOrRun(t, i, this.endIndex);
+      i = this.writeElementOrRun(t, i, end);
       state = newState;
     }
     this.fixToggles(state, new TopItemState(), redCloser);
+  }
+
+  /// Writes `%zone[options](content)`, with only the options which are set.
+  visitZone(zone: Zone): void {
+    const p = zone.parameters;
+    const options: string[] = [];
+    if (p.orientation !== null) options.push("layout=" + (p.orientation === "HORIZONTAL" ? "lines" : "columns"));
+    if (p.direction !== null) options.push("dir=" + (p.direction === "LEFT_TO_RIGHT" ? "lr" : "rl"));
+    const lengths: [string, number][] = [
+      ["width", p.width],
+      ["height", p.height],
+      ["lineskip", p.lineSkip],
+      ["colskip", p.columnSkip],
+      ["separator", p.separator],
+      ["quadratwidth", p.quadratWidth],
+      ["quadratheight", p.quadratHeight],
+    ];
+    for (const [name, value] of lengths) if (value !== ZONE_UNSET) options.push(name + "=" + value);
+    if (p.frame) options.push("frame");
+    this.write("%zone");
+    if (options.length > 0) this.write("[" + options.join(",") + "]");
+    this.write("(");
+    zone.content.accept(this);
+    this.write(")");
+    this.wantsMinus = true;
+  }
+
+  visitZoneContent(content: ZoneContent): void {
+    this.writeSequence(content, 0, content.numberOfChildren);
   }
 
   /// Writes the toggles needed to go from `state` to `newState`, avoiding

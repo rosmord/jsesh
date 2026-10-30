@@ -9,7 +9,7 @@
 /// Vue or React component, for instance, can create the view in its "mounted"
 /// hook).
 
-import { drawLaidOutText, type LaidOutText, type StyleChanges } from "@jsesh/core";
+import { DEFAULT_STYLE, drawLaidOutText, type LaidOutText, type StyleChanges } from "@jsesh/core";
 import { layOutInPage } from "@jsesh/elements";
 import { caretArea, itemAreas, positionAt, type Area } from "./geometry.js";
 import type { EditorSession } from "./session.js";
@@ -28,6 +28,8 @@ export interface EditorViewOptions {
   glyphsUrl?: string;
   /// Show kerning operators (`%hkern`, `%vkern`) as marks (false by default).
   showKerningMarks?: boolean;
+  /// Wrap the lines to the width of the surface (false by default).
+  wrapLines?: boolean;
   /// Called when the text can't be drawn (the glyph data can't be loaded...). By default, the error is logged.
   onError?: (error: unknown) => void;
 }
@@ -50,6 +52,10 @@ export class EditorView {
   private style: StyleChanges | undefined;
   private readonly glyphsUrl: string | undefined;
   private _showKerningMarks: boolean;
+  private _wrapLines: boolean;
+  /// The width of the surface at the last layout, to ignore resizes which don't change it.
+  private laidOutWidth = 0;
+  private resizeObserver: ResizeObserver | undefined;
   private readonly onError: (error: unknown) => void;
   private readonly idPrefix = `jsesh-editor${views++}`;
   private laidOut: LaidOutText | undefined;
@@ -80,6 +86,7 @@ export class EditorView {
     this.style = options.style;
     this.glyphsUrl = options.glyphsUrl;
     this._showKerningMarks = options.showKerningMarks ?? false;
+    this._wrapLines = options.wrapLines ?? false;
     this.onError = options.onError ?? ((error) => console.error("jsesh editor:", error));
     if (getComputedStyle(surface).position === "static") surface.style.position = "relative";
     surface.addEventListener("keydown", this.onKeyDown);
@@ -88,6 +95,7 @@ export class EditorView {
       if (layout) this.renderSafely();
       else this.drawCaret();
     });
+    this.applyWrapSettings();
     // Not at once: the page may call `configureJSesh` right after importing this module, as for <jsesh-text>.
     queueMicrotask(() => this.renderSafely());
   }
@@ -95,6 +103,7 @@ export class EditorView {
   /// Stops listening to the surface and to the session.
   destroy(): void {
     this.generation++;
+    this.resizeObserver?.disconnect();
     this.unsubscribe();
     this.surface.removeEventListener("keydown", this.onKeyDown);
     this.surface.removeEventListener("mousedown", this.onMouseDown);
@@ -122,6 +131,46 @@ export class EditorView {
     if (this.laidOut !== undefined) this.draw(this.laidOut);
   }
 
+  /// Wrap the lines of horizontal text to the width of the surface, and lay the text out again
+  /// when the surface is resized. Not part of the text's style: the wrapping width is the editor's
+  /// own business.
+  get wrapLines(): boolean {
+    return this._wrapLines;
+  }
+
+  set wrapLines(wrap: boolean) {
+    if (wrap === this._wrapLines) return;
+    this._wrapLines = wrap;
+    this.applyWrapSettings();
+    this.renderSafely();
+  }
+
+  /// Starts or stops watching the size of the surface, and keeps its scroll bar from changing the
+  /// width available to the text (which would change the wrapping, and so the scroll bar...).
+  private applyWrapSettings(): void {
+    this.surface.style.overflowX = this._wrapLines ? "hidden" : "";
+    this.surface.style.scrollbarGutter = this._wrapLines ? "stable" : "";
+    if (this._wrapLines && this.resizeObserver === undefined && typeof ResizeObserver !== "undefined") {
+      this.resizeObserver = new ResizeObserver(() => {
+        if (this._wrapLines && this.surface.clientWidth !== this.laidOutWidth) this.renderSafely();
+      });
+      this.resizeObserver.observe(this.surface);
+    } else if (!this._wrapLines) {
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = undefined;
+    }
+  }
+
+  /// The width at which lines wrap, in layout units: the width of the surface, if wrapping.
+  private wrapWidth(): number | undefined {
+    const width = this.surface.clientWidth;
+    this.laidOutWidth = width;
+    if (!this._wrapLines || width <= 0) return undefined;
+    const standardSignHeight =
+      this.style?.geometry?.standardSignHeight ?? DEFAULT_STYLE.geometry.standardSignHeight;
+    return width / (this._cadratHeight / standardSignHeight);
+  }
+
   /// Changes to the page's style, for this editor (`session.setOptions` is for direction and orientation).
   setStyle(style: StyleChanges | undefined): void {
     this.style = style;
@@ -146,10 +195,16 @@ export class EditorView {
   async render(): Promise<void> {
     const generation = ++this.generation;
     const options = this.session.options;
+    const wrapWidth = this.wrapWidth();
     const laidOut = await layOutInPage(this.session.text, {
       style: {
         ...this.style,
-        geometry: { leftMargin: MARGIN, topMargin: MARGIN, ...this.style?.geometry },
+        geometry: {
+          leftMargin: MARGIN,
+          topMargin: MARGIN,
+          ...this.style?.geometry,
+          ...(wrapWidth === undefined ? {} : { wrapWidth }),
+        },
         options: { ...this.style?.options, ...options },
       },
       glyphsUrl: this.glyphsUrl,

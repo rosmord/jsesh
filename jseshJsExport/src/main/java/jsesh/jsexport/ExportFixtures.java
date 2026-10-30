@@ -48,6 +48,9 @@ public final class ExportFixtures {
     /// The styles used to lay out the snippets.
     private static final Map<String, JSeshStyle> LAYOUT_VARIANTS = new LinkedHashMap<>();
 
+    /// The wrapping width of the "wrapped" variants, in layout units.
+    private static final float WRAP_WIDTH = 150f;
+
     static {
         JSeshStyle base = JSeshStyle.DEFAULT;
         LAYOUT_VARIANTS.put("default", base);
@@ -58,6 +61,10 @@ public final class ExportFixtures {
                 .textDirection(TextDirection.RIGHT_TO_LEFT)).build());
         LAYOUT_VARIANTS.put("centered", base.copy().options(o -> o.smallSignCentered(true)).build());
         LAYOUT_VARIANTS.put("justified", base.copy().options(o -> o.justified(true)).build());
+        // Soft wrapping (the width is also used by the JavaScript tests).
+        LAYOUT_VARIANTS.put("wrapped", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH)).build());
+        LAYOUT_VARIANTS.put("wrappedJustified", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH))
+                .options(o -> o.justified(true)).build());
     }
 
     public static void main(String[] args) throws IOException {

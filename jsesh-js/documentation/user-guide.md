@@ -355,7 +355,7 @@ The editor types like JSesh does: you type a **code**, then a **separator** whic
 
 #### `<jsesh-editor>` reference
 
-**Attributes:** `mdc` (initial text; overrides the content), `cadrat-height` (height of a quadrat in pixels, 45 by default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or `vertical`), `glyphs-url`, `show-kerning-marks` (shows `%hkern` and `%vkern` as marks, as a word processor shows paragraph marks; also the `showKerningMarks` property). The `jseshStyle` property takes any style change, as for `<jsesh-text>`.
+**Attributes:** `mdc` (initial text; overrides the content), `cadrat-height` (height of a quadrat in pixels, 45 by default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or `vertical`), `glyphs-url`, `show-kerning-marks` (shows `%hkern` and `%vkern` as marks, as a word processor shows paragraph marks; also the `showKerningMarks` property), `wrap-lines` (wraps the lines of horizontal text to the width of the editor, and follows its resizing; also the `wrapLines` property). The `jseshStyle` property takes any style change, as for `<jsesh-text>`.
 
 **Properties and methods:**
 

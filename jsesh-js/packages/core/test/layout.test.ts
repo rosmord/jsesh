@@ -27,6 +27,9 @@ interface LayoutCase {
   variants: Record<string, JavaLayout>;
 }
 
+/// The wrapping width of the "wrapped" variants (see `ExportFixtures`).
+const WRAP_WIDTH = 150;
+
 const VARIANTS: Record<string, JSeshStyle> = {
   default: DEFAULT_STYLE,
   rtl: withStyle(DEFAULT_STYLE, { options: { textDirection: "RIGHT_TO_LEFT" } }),
@@ -34,6 +37,8 @@ const VARIANTS: Record<string, JSeshStyle> = {
   columnsRtl: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL", textDirection: "RIGHT_TO_LEFT" } }),
   centered: withStyle(DEFAULT_STYLE, { options: { smallSignCentered: true } }),
   justified: withStyle(DEFAULT_STYLE, { options: { justified: true } }),
+  wrapped: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH } }),
+  wrappedJustified: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH }, options: { justified: true } }),
 };
 
 const cases: LayoutCase[] = available ? readFixture("layout-cases.json") : [];

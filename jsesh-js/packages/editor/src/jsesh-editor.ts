@@ -17,7 +17,9 @@
 /// Attributes: `mdc`, `cadrat-height` (height of a quadrat in pixels, 45 by
 /// default), `direction` (`ltr` or `rtl`), `orientation` (`horizontal` or
 /// `vertical`), `glyphs-url`, `show-kerning-marks` (a boolean attribute: show the
-/// kerning operators `%hkern` and `%vkern` as marks). The `jseshStyle` property
+/// kerning operators `%hkern` and `%vkern` as marks), `wrap-lines` (a boolean
+/// attribute: wrap the lines of horizontal text to the width of the editor, and
+/// follow its resizing). The `jseshStyle` property
 /// takes any style change.
 ///
 /// The `mdc` property reads and sets the text; setting it to what it already
@@ -74,6 +76,7 @@ export class JSeshEditorElement extends HTMLElement {
     "orientation",
     "glyphs-url",
     "show-kerning-marks",
+    "wrap-lines",
   ];
 
   /// The editing state machine of this element.
@@ -133,6 +136,15 @@ export class JSeshEditorElement extends HTMLElement {
 
   set showKerningMarks(show: boolean) {
     this.toggleAttribute("show-kerning-marks", show);
+  }
+
+  /// Wrap lines to the width of the editor (the `wrap-lines` attribute).
+  get wrapLines(): boolean {
+    return this.hasAttribute("wrap-lines");
+  }
+
+  set wrapLines(wrap: boolean) {
+    this.toggleAttribute("wrap-lines", wrap);
   }
 
   /// Changes to the style, on top of the page's style and the attributes.
@@ -198,6 +210,7 @@ export class JSeshEditorElement extends HTMLElement {
       style: this._style,
       glyphsUrl: this.getAttribute("glyphs-url") ?? undefined,
       showKerningMarks: this.showKerningMarks,
+      wrapLines: this.wrapLines,
       onError: (error) => this.dispatchEvent(new CustomEvent("jsesh-error", { detail: error })),
     });
     this.unsubscribe = this.session.subscribe(() =>
@@ -241,6 +254,9 @@ export class JSeshEditorElement extends HTMLElement {
         break;
       case "show-kerning-marks":
         if (this.view !== undefined) this.view.showKerningMarks = value !== null;
+        break;
+      case "wrap-lines":
+        if (this.view !== undefined) this.view.wrapLines = value !== null;
         break;
     }
   }

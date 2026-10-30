@@ -1976,3 +1976,10 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 - `DefaultElementDrawer.visitLineBreak` draws a small return arrow after the last sign of the line, in the cursor colour. It follows the text direction (mirrored for right-to-left) and is transposed for columns. Wrapped lines have no `LineBreak`, hence no mark.
 - Not ported to `jsesh-js` (the port only has `showKerningMarks`).
 - Known limitation: the mark lies outside the (zero-width) view, so it may be clipped at the right edge of the widest line.
+
+## Soft line wrapping ported to `jsesh-js` (2026-10-29)
+
+- `geometry.wrapWidth` (0 = off), `LineLayout` wrapping (elements, and runs of text cut after spaces/punctuation, or anywhere in a word wider than a line), `TextRun.partWidth/layoutOffsets(from, to)/canBreakAfter`: ports of d0fe3883, line by line. Only soft-wrapped lines are justified when wrapping.
+- `zoneStyle` now sets `wrapWidth` to the zone's width for horizontal zones with a `width`, and to 0 otherwise (as `Layout.zoneRenderContext`): a `%zone[width=…]` wraps its content, and a zone never inherits the text's wrapping width. Before, the content of a zone with a width overflowed.
+- Fixtures: `wrapped` and `wrappedJustified` layout variants (`ExportFixtures.WRAP_WIDTH` = 150) and wrapping snippets in `ParserCases`; `core/test/wrap.test.ts` for the zone cases.
+- Editor: `<jsesh-editor wrap-lines>` (`EditorView.wrapLines`) wraps to the surface's width (`clientWidth` / scale) and re-lays out on resize (`ResizeObserver`); `scrollbar-gutter: stable` keeps the scroll bar from changing the width. Like Java's `setWrapToComponentWidth`, it is not part of the style. The JS editor's `positionAt` picks the nearest item, so it didn't need the end-of-row fix of `PositionLocator`. Not done: `<jsesh-text>` has no such attribute (use `jseshStyle.geometry.wrapWidth`).

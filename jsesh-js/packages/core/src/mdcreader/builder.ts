@@ -19,7 +19,7 @@ import type {
   CartouchePart as AstCartouchePart,
   CartoucheType as AstCartoucheType,
 } from "../parser/ast.js";
-import { optionInt, optionString } from "../parser/ast.js";
+import { hasOption, optionInt, optionString } from "../parser/ast.js";
 import { parseMdcAst, type MdcParserOptions } from "../parser/parser.js";
 import type { PhilologyKind, SignSubType } from "../parser/symbols.js";
 import { SymbolCodes, type CartouchePart, type CartoucheType, type TabbingJustification } from "../model/constants.js";
@@ -53,7 +53,12 @@ import {
   TabbingClear,
   TopItem,
   TopItemState,
+  Zone,
+  ZoneContent,
+  ZONE_UNSET,
+  zoneParameters,
   type BasicItem,
+  type ZoneParameters,
 } from "../model/model.js";
 
 /// Parses MdC text into a [HieroglyphicText].
@@ -110,20 +115,30 @@ class AstModelBuilder {
   private readonly currentState = new TopItemState();
 
   buildText(list: AstTopItemList): HieroglyphicText {
-    const text = new HieroglyphicText();
-    for (const item of list.items) {
-      for (const topItem of this.buildTopItem(item)) {
-        if (item.nodeType !== "Tabbing" && item.nodeType !== "TabbingClear") {
-          topItem.state = this.currentState.duplicate();
-        }
-        text.addTopItem(topItem);
-      }
-    }
-    return text;
+    return new HieroglyphicText(this.buildTopItems(list));
   }
 
-  /// Toggles, zones and `+s` build nothing; alphabetic text builds one item
-  /// per character.
+  /// Builds the items of a text or of a zone, giving each one the current
+  /// red/shaded state.
+  ///
+  /// Toggles are read in sequence, across zone limits: `$r-A1-%zone(A2)`
+  /// makes A2 red.
+  private buildTopItems(list: AstTopItemList): TopItem[] {
+    const result: TopItem[] = [];
+    for (const item of list.items) {
+      for (const topItem of this.buildTopItem(item)) {
+        // Tabbings are not drawn, and a zone has no state of its own: its content has.
+        if (item.nodeType !== "Tabbing" && item.nodeType !== "TabbingClear" && item.nodeType !== "Zone") {
+          topItem.state = this.currentState.duplicate();
+        }
+        result.push(topItem);
+      }
+    }
+    return result;
+  }
+
+  /// Toggles and `+s` build nothing; alphabetic text builds one item per
+  /// character.
   private buildTopItem(item: AstTopItem): TopItem[] {
     switch (item.nodeType) {
       case "Superscript":
@@ -151,7 +166,7 @@ class AstModelBuilder {
       case "HRule":
         return [new HRule(item.lineType, item.startPos, item.endPos)];
       case "Zone":
-        return [];
+        return [new Zone(zoneParametersOf(item.options), new ZoneContent(this.buildTopItems(item.list)))];
       default:
         return this.buildBasicItem(item);
     }
@@ -275,6 +290,27 @@ class AstModelBuilder {
     for (const m of list.modifiers) result.includeModifier(new Modifier(m.name, m.value));
     return result;
   }
+}
+
+/// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `lineskip`,
+/// `colskip`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
+/// Unknown options and values are ignored.
+function zoneParametersOf(options: AstOptionList): ZoneParameters {
+  const layout = optionString(options, "layout", "");
+  const dir = optionString(options, "dir", "");
+  const length = (name: string) => optionInt(options, name, ZONE_UNSET);
+  return zoneParameters({
+    orientation: layout === "lines" ? "HORIZONTAL" : layout === "columns" ? "VERTICAL" : null,
+    direction: dir === "lr" ? "LEFT_TO_RIGHT" : dir === "rl" ? "RIGHT_TO_LEFT" : null,
+    width: length("width"),
+    height: length("height"),
+    lineSkip: length("lineskip"),
+    columnSkip: length("colskip"),
+    separator: length("separator"),
+    quadratWidth: length("quadratwidth"),
+    quadratHeight: length("quadratheight"),
+    frame: hasOption(options, "frame"),
+  });
 }
 
 /// The options, written back as they would appear between brackets.

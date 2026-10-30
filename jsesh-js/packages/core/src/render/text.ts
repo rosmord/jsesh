@@ -108,6 +108,9 @@ export function transliterationString(c: string, upper: boolean, fonts: FontSpec
   return upper ? up : down;
 }
 
+/// Dash, closing and final-quote, and other punctuation (`Character.getType` in Java).
+const BREAK_AFTER = /^[\p{Pd}\p{Pe}\p{Pf}\p{Po}]$/u;
+
 /// A run of alphabetic text among the subviews of a view: consecutive
 /// [AlphabeticCharacter] views of the same script, measured as a whole and
 /// placed as one block.
@@ -127,8 +130,40 @@ export class TextRun {
     return mirrored ? this.width - this.offsets[k]! - this.widths[k]! : this.offsets[k]!;
   }
 
-  layoutOffsets(mirrored: boolean): number[] {
-    return this.offsets.map((_, k) => this.layoutOffset(k, mirrored));
+  /// The visual left side of the characters `from` to `to - 1` (logical order),
+  /// relative to the run.
+  private minX(from: number, to: number): number {
+    let min = Infinity;
+    for (let k = from; k < to; k++) min = Math.min(min, this.offsets[k]!);
+    return min;
+  }
+
+  /// The width of a part of the run, i.e. of the characters `from` to `to - 1`
+  /// (logical order). The width of the whole run is the one of the part `0` to `n`.
+  partWidth(from: number, to: number): number {
+    let max = -Infinity;
+    for (let k = from; k < to; k++) max = Math.max(max, this.offsets[k]! + this.widths[k]!);
+    return max - this.minX(from, to);
+  }
+
+  /// The layout offsets of a part of the run (the whole run by default), when
+  /// it is placed on its own: the x position of each character from `from` to
+  /// `to - 1`, relative to the part.
+  layoutOffsets(mirrored: boolean, from = 0, to = this.offsets.length): number[] {
+    const min = this.minX(from, to);
+    const width = this.partWidth(from, to);
+    const result: number[] = [];
+    for (let k = from; k < to; k++) {
+      const x = this.offsets[k]! - min;
+      result.push(mirrored ? width - x - this.widths[k]! : x);
+    }
+    return result;
+  }
+
+  /// Can a line end after this character? True for white space and
+  /// punctuation (but not opening brackets and quotes).
+  static canBreakAfter(c: AlphabeticCharacter): boolean {
+    return c.isSpace() || BREAK_AFTER.test(String.fromCodePoint(c.codePoint));
   }
 
   views(parent: MDCView): MDCView[] {
