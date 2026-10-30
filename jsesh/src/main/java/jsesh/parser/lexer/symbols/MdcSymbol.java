@@ -9,8 +9,7 @@ package jsesh.parser.lexer.symbols;
 
 import java.util.Objects;
 
-/// A scanned MDC symbol: analogous to the `java_cup.runtime.Symbol` the original
-/// `MDCLexAux.l` scanner produced, but self-contained (no CUP/jsesh dependency).
+/// A scanned MDC symbol: a [MdcSymbolCode], a value, and the text and position it was read from.
 ///
 /// `value`'s type depends on `code`; see [MdcSymbolCode] for which rules
 /// produce which code, and the per-code javadoc below for the value's type:

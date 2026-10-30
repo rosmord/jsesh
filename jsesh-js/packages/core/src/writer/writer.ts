@@ -43,7 +43,6 @@ import {
   type SubCadrat,
   type Superscript,
   type TabStop,
-  type Tabbing,
   type ZoneContent,
 } from "../model/model.js";
 
@@ -231,16 +230,6 @@ class ModelWriter implements ModelElementVisitor<void> {
 
   visitTabStop(t: TabStop): void {
     this.write("?" + t.stopPos);
-  }
-
-  visitTabbing(t: Tabbing): void {
-    this.write(
-      `%[id=${t.id},orientation=${t.orientation.toLowerCase()},justification=${t.justification.toLowerCase()}]`,
-    );
-  }
-
-  visitTabbingClear(): void {
-    this.write("%clear");
   }
 
   visitHieroglyphicText(t: HieroglyphicText): void {

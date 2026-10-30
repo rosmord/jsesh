@@ -21,12 +21,12 @@ public class MDCParserParserTest {
     @ParameterizedTest
     @ValueSource(strings = {
             // Taken from the existing parser tests
-            "", ":a", "!!", "!", "!=200%", "?123", "(x)", "{l100,200}", "{L50,300}", "%[id=1]", "%clear",
+            "", ":a", "!!", "!", "!=200%", "?123", "(x)", "{l100,200}", "{L50,300}",
             "+lhello", "+s", "+tnfr", "<1--0>-ra-mn:n-xpr-<0--2>", "<1--0>", "<A1", "<A1>", "<sA1>", "=n",
             "|note", "$r-$b-$-?-??-^-#b-#e", "$r-i-$b-w", "$r", "a:m", "a##b", "A1&&B1",
             "A1&&B1{{100,200,50}}", "i__w", "i_w", "i-w-r:a-C1-m-pt:p*t", "i-w-r", "i", "i#1", "i#1234",
-            "m\\col50", "m\\det", "m\\det\\col50", "p*t", "p&t&n", "quadrat(x)[foo]", "t^^w", "t^^w&&&n",
-            "w&&&t", "zone", "zone[id=1]", "[(x)]", "[[x]]",
+            "m\\col50", "m\\det", "m\\det\\col50", "p*t", "p&t&n", "%quadrat[foo](x)", "t^^w", "t^^w&&&n",
+            "w&&&t", "%zone(x)", "%zone[id=1](x)", "[(x)]", "[[x]]",
             // Separators
             "-", "-i", "i-", "-i-", "i--w", "i - w", "i -", "i- -w",
             // Groups and ligatures
@@ -49,13 +49,14 @@ public class MDCParserParserTest {
             "A1#1234", "A1#12-B1#34", "A1#-B1", "A1# B1", "#-A1", "-#-A1", "A1-#-B1", "A1-#b-B1-#e",
             "A1-#", "#", "A1#", "A1 #b B1", "(A1#12)", "A1:B1#", "(A1)#23", "A1-$r-B1-$b", "A1-?-B1",
             // Top-level items
-            "A1-!-B1", "A1!B1", "A1 ! B1", "A1-!!-B1", "?10-A1", "?10?20", "%[a,b=c,d=3]", "%", "%[]",
-            "%[a,]", "%[a=]", "%[=3]", "%clear-A1", "{l0,100}-A1", "zone[a,b=c,d=3]-A1", "zone-zone",
-            "zone A1", "quadrat(A1:B1)", "quadrat(A1:B1)#12", "quadrat(A1)[a=1]#34", "quadrat A1",
-            "quadrat(A1", "(quadrat(A1))", "+lbla-A1-+s-B1", "+lbla+s", "+i\\+escaped+s-A1",
+            "A1-!-B1", "A1!B1", "A1 ! B1", "A1-!!-B1", "?10-A1", "?10?20", "%", "%[]", "%[a]", "%clear", "%foo-A1",
+            "{l0,100}-A1", "%zone[a,b=c,d=3](A1)", "%zone[a,](A1)", "%zone[a=](A1)", "%zone[=3](A1)",
+            "%zone(%zone(A1))", "%zone", "%zone A1", "%zone(A1", "%quadrat(A1:B1)", "%quadrat(A1:B1)#12",
+            "%quadrat[a=1](A1)#34", "%quadrat A1", "%quadrat(A1", "(%quadrat(A1))", "%zoner", "%hkernx",
+            "%insert(A1,B1)", "%insert(A1,B1", "%insert[dir=zz](A1,B1)", "+lbla-A1-+s-B1", "+lbla+s", "+i\\+escaped+s-A1",
             "|sup-A1", "A1|sup", "+s+s",
             // Items allowed in basic item lists but not at top level, and vice versa
-            "(A1-!-B1)", "(A1-%clear)", "(+lbla-A1)", "(A1-$r-B1)", "(|sup)", "(zone)", "<A1-!-B1>",
+            "(A1-!-B1)", "(A1-%zone(B1))", "(+lbla-A1)", "(A1-$r-B1)", "(|sup)", "(%zone(A1))", "<A1-!-B1>",
             // Unknown and weird characters
             "A1~B1", "@", "@a", "A1;B1", "A1,B1", "A1{{a,b,c}}", "]", "[", "[a]", "{{", "}}",
             // Multiline

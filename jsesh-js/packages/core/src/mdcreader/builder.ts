@@ -22,7 +22,7 @@ import type {
 import { hasOption, optionInt, optionString } from "../parser/ast.js";
 import { parseMdcAst, type MdcParserOptions } from "../parser/parser.js";
 import type { PhilologyKind, SignSubType } from "../parser/symbols.js";
-import { SymbolCodes, type CartouchePart, type CartoucheType, type TabbingJustification } from "../model/constants.js";
+import { SymbolCodes, type CartouchePart, type CartoucheType } from "../model/constants.js";
 import {
   AbsoluteGroup,
   AlphabeticCharacter,
@@ -49,8 +49,6 @@ import {
   SubCadrat,
   Superscript,
   TabStop,
-  Tabbing,
-  TabbingClear,
   TopItem,
   TopItemState,
   Zone,
@@ -127,8 +125,8 @@ class AstModelBuilder {
     const result: TopItem[] = [];
     for (const item of list.items) {
       for (const topItem of this.buildTopItem(item)) {
-        // Tabbings are not drawn, and a zone has no state of its own: its content has.
-        if (item.nodeType !== "Tabbing" && item.nodeType !== "TabbingClear" && item.nodeType !== "Zone") {
+        // A zone has no state of its own: its content has.
+        if (item.nodeType !== "Zone") {
           topItem.state = this.currentState.duplicate();
         }
         result.push(topItem);
@@ -150,19 +148,6 @@ class AstModelBuilder {
         return [new PageBreak()];
       case "TabStop":
         return [new TabStop(item.stopWidth)];
-      case "Tabbing": {
-        const orientation =
-          optionString(item.options, "orientation", "horizontal").toUpperCase() === "VERTICAL"
-            ? "VERTICAL"
-            : "HORIZONTAL";
-        const justification = optionString(item.options, "justification", "left").toUpperCase();
-        if (!["FILL", "LEFT", "RIGHT"].includes(justification)) {
-          throw new Error("No enum constant TabbingJustification." + justification);
-        }
-        return [new Tabbing(optionInt(item.options, "id", 0), justification as TabbingJustification, orientation)];
-      }
-      case "TabbingClear":
-        return [new TabbingClear()];
       case "HRule":
         return [new HRule(item.lineType, item.startPos, item.endPos)];
       case "Zone":

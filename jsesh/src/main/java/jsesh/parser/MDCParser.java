@@ -82,8 +82,6 @@ import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
 import jsesh.parser.ast.AstTabStop;
-import jsesh.parser.ast.AstTabbing;
-import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
@@ -119,7 +117,6 @@ import jsesh.parser.lexer.symbols.ToggleType;
 /// @author rosmord
 public class MDCParser {
 
-    private boolean debug = false;
     private boolean philologyAsSigns = true;
 
     private MdcLexer lexer;
@@ -142,7 +139,6 @@ public class MDCParser {
         codePoints = source.codePoints().toArray();
         lexer = MdcLexicon.instance().newLexer(source);
         lexer.setPhilologyAsSigns(philologyAsSigns);
-        lexer.setDebug(debug);
         try {
             advance();
             return parseMdcFile();
@@ -157,15 +153,6 @@ public class MDCParser {
             token = null;
             codePoints = null;
         }
-    }
-
-    /// @return true if we are debugging.
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 
     /// Are philological markers, such as `[[` and `]]`, considered as simple signs.
@@ -272,7 +259,7 @@ public class MDCParser {
      * mdcfile ::= topitems optSeparator EOF
      * topitems ::= ε | topitems optSeparator topitem
      * topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
-     *           | LINEEND | PAGEEND | TABSTOP | TABBING optionList | TABBINGCLEAR
+     *           | LINEEND | PAGEEND | TABSTOP
      *           | HRULE | zone
      * </pre>
      * 
@@ -319,14 +306,6 @@ public class MDCParser {
                     break;
                 case TAB_STOP:
                     item = new AstTabStop((Integer) token.value());
-                    advance();
-                    break;
-                case TABBING:
-                    advance();
-                    item = new AstTabbing(parseOptionList());
-                    break;
-                case TABBING_CLEAR:
-                    item = new AstTabbingClear();
                     advance();
                     break;
                 case HRULE: {
@@ -664,8 +643,7 @@ public class MDCParser {
      *             | BEGINOLDCARTOUCHE basicitems optSeparator ENDCARTOUCHE
      * </pre>
      * 
-     * As in the CUP grammar, the modifiers after a cartouche are parsed, but
-     * not kept.
+     * The modifiers after a cartouche are parsed, but not kept.
      */
     private AstCartouche parseCartouche() throws MDCSyntaxError {
         if (at(BEGIN_CARTOUCHE)) {
@@ -755,7 +733,7 @@ public class MDCParser {
         }
         MdcSign sign = (MdcSign) expect(HIEROGLYPH, "sign code");
         AstModifierList modifiers = parseModifiers();
-        // Default position, as in the CUP grammar.
+        // Default position.
         int x = 0;
         int y = 0;
         int scale = 100;

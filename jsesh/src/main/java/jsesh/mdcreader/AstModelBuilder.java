@@ -2,7 +2,6 @@ package jsesh.mdcreader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
@@ -30,24 +29,16 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
-import jsesh.model.Tabbing;
-import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
-import jsesh.sharedvocabulary.CartouchePart;
-import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.model.constants.Dialect;
-import jsesh.sharedvocabulary.InsertionDirection;
-import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
-import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItem;
@@ -78,14 +69,11 @@ import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
 import jsesh.parser.ast.AstTabStop;
-import jsesh.parser.ast.AstTabbing;
-import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZone;
-import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.SignSubType;
 
@@ -159,15 +147,12 @@ class AstModelBuilder implements AstVisitor {
             Object built = pop();
             if (built == null) {
                 // Toggles (already folded into currentState by visitToggle)
-                // and the "+s" marker: none of these ever became model items,
-                // even under the old MDCModelBuilder.
+                // and the "+s" marker: none of these become model items.
                 continue;
             }
             for (TopItem topItem : asItems(built, TopItem.class)) {
-                // Tabbings are not drawn, and a zone has no state of its own:
-                // its content has.
-                if (!(item instanceof AstTabbing) && !(item instanceof AstTabbingClear)
-                        && !(item instanceof AstZone)) {
+                // A zone has no state of its own: its content has.
+                if (!(item instanceof AstZone)) {
                     topItem.setState(currentState.duplicate());
                 }
                 result.add(topItem);
@@ -198,9 +183,8 @@ class AstModelBuilder implements AstVisitor {
             cadrat.addHBox(build(hBox, HBox.class));
         }
         cadrat.setShading(node.shading());
-        // node.options() is intentionally ignored here, exactly as
-        // MDCModelBuilder's setOptionList(CadratInterface, ...) never
-        // interpreted them either.
+        // node.options() is intentionally ignored here: the model has
+        // no use for them.
         push(cadrat);
     }
 
@@ -302,7 +286,7 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitPhilology(AstPhilology node) {
-        // Only the opening kind is kept, as MDCModelBuilder did: the closing
+        // Only the opening kind is kept: the closing
         // one is normally identical (see AstPhilology's javadoc).
         push(new Philology(philologySubCode(node.openingKind()), build(node.content(), BasicItemList.class)));
     }
@@ -370,13 +354,13 @@ class AstModelBuilder implements AstVisitor {
         } else if (toggle == ToggleType.SHADINGTOGGLE) {
             currentState.setShaded(!currentState.isShaded());
         }
-        // LACUNA, LINELACUNA, OMMIT: not implemented, same as MDCModelBuilder.
+        // LACUNA, LINELACUNA, OMMIT: not implemented.
         push(null);
     }
 
     @Override
     public void visitStartHieroglyphicText(AstStartHieroglyphicText node) {
-        // Purely a lexer-level marker; MDCModelBuilder discarded it too.
+        // Purely a lexer-level marker.
         push(null);
     }
 
@@ -412,25 +396,6 @@ class AstModelBuilder implements AstVisitor {
     }
 
     @Override
-    public void visitTabbing(AstTabbing node) {
-        AstOptionList options = node.options();
-        int id = options.getInt("id", 0);
-        String orientationCode = options.getString("orientation", "horizontal");
-        String justificationCode = options.getString("justification", "left");
-        TextOrientation orientation = TextOrientation.HORIZONTAL;
-        if (orientationCode.equalsIgnoreCase(TextOrientation.VERTICAL.toString())) {
-            orientation = TextOrientation.VERTICAL;
-        }
-        TabbingJustification justification = TabbingJustification.valueOf(justificationCode.toUpperCase(Locale.ENGLISH));
-        push(new Tabbing(id, justification, orientation));
-    }
-
-    @Override
-    public void visitTabbingClear(AstTabbingClear node) {
-        push(new TabbingClear());
-    }
-
-    @Override
     public void visitModifierList(AstModifierList node) {
         ModifiersList modifiersList = new ModifiersList();
         for (AstModifier modifier : node.modifiers()) {
@@ -460,7 +425,7 @@ class AstModelBuilder implements AstVisitor {
     /**
      * The {@link SymbolCodes} constant for a hieroglyph's subtype: the plain
      * subtypes map directly, while a philological bracket read as a sign
-     * (philologyAsSigns mode) reproduces the original lexer's
+     * (philologyAsSigns mode) uses the
      * {@code subtype * 2} / {@code subtype * 2 + 1} (begin/end) scheme.
      */
     private static int toSignTypeCode(SignSubType subtype) {

@@ -232,14 +232,4 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	public void visitZoneContent(ZoneContent content) {
 		visitDefault(content);
 	}
-	
-        @Override
-	public void visitTabbing(Tabbing tabbing) {
-		visitTopItem(tabbing);
-	}
-
-        @Override
-	public void visitTabbingClear(TabbingClear tabbingClear) {
-		visitTopItem(tabbingClear);
-	}
 }

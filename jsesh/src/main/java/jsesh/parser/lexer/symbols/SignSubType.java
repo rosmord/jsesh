@@ -9,13 +9,11 @@ package jsesh.parser.lexer.symbols;
 
 /// What kind of thing a `HIEROGLYPH` symbol's [MdcSign] actually denotes.
 ///
-/// The original scanner packed every sign subtype into one shared `int` space
-/// (ordinary sign subtypes and, when philology-as-signs mode is on, a doubled philology code).
-/// Here the two cases are kept as a proper sealed type instead: [Plain] for the ordinary
+/// The two cases are kept as a proper sealed type: [Plain] for the ordinary
 /// subtypes, [Philology] for a philological bracket reinterpreted as a sign.
 public sealed interface SignSubType {
 
-    /// Ordinary sign subtypes, in the order their rules appear in `MDCLexAux.l`.
+    /// Ordinary sign subtypes, as declared below.
     enum Plain implements SignSubType {
         /// A backtick, or the generic Gardiner-style code rule.
         MDC_CODE,

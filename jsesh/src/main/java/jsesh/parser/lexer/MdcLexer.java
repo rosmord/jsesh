@@ -35,7 +35,7 @@ import jsesh.parser.lexer.symbols.ToggleType;
 /// Stateful lexical analyser working on an input. Created by [MdcLexicon#newLexer(String)] / [MdcLexicon#newLexer(Reader)].
 ///
 ///
-/// Not thread-safe. The [MDCLexicon] is thread-safe and immutable.
+/// Not thread-safe. The [MdcLexicon] is thread-safe and immutable.
 /// 
 public final class MdcLexer {
     private final Lexer<MdcTokenType> lexer;
@@ -46,9 +46,6 @@ public final class MdcLexer {
     private boolean expectSpace;
     /// Did the last emitted symbol denote a sign, making a following `#` an overwrite?
     private boolean justAfterSign;
-    /// Kept for parity with the original's field; no rule in this grammar consults it.
-    private boolean ignoreStars;
-    private boolean debug;
 
     MdcLexer(MdcLexicon lexicon, Reader reader) {
         this.lexer = lexicon.lexicon().newLexer(Objects.requireNonNull(reader, "reader"));
@@ -63,41 +60,20 @@ public final class MdcLexer {
         return lexer.position();
     }
 
-    public boolean isPhilologyAsSigns() {
-        return philologyAsSigns;
-    }
-
     /// Choose whether philological parentheses are read back as plain signs.
     public void setPhilologyAsSigns(boolean philologyAsSigns) {
         this.philologyAsSigns = philologyAsSigns;
     }
 
-    public boolean isIgnoreStars() {
-        return ignoreStars;
-    }
-
-    public void setIgnoreStars(boolean ignoreStars) {
-        this.ignoreStars = ignoreStars;
-    }
-
-    public boolean isDebug() {
-        return debug;
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
     /// Resets scanning flags and returns to the initial state, without moving [#position()].
     public void reset() {
-        ignoreStars = false;
         expectSpace = false;
         justAfterSign = false;
         lexer.beginState(Lexicon.INITIAL_STATE);
     }
 
-    /// Reads the next symbol, or [Optional#empty()] at end of input (corresponding to the
-    /// original's `EOF` symbol). Silently-discarded matches (insignificant whitespace, the
+    /// Reads the next symbol, or [Optional#empty()] at end of input (the parser itself
+    /// synthesises its `EOF` symbol). Silently-discarded matches (insignificant whitespace, the
     /// `PROPERTIES`-state layout whitespace) are skipped internally; a caller never sees them.
     /// @throws UncheckedIOException if the underlying reader fails
     public Optional<MdcSymbol> nextSymbol() {
@@ -105,8 +81,6 @@ public final class MdcLexer {
             Optional<Token<MdcTokenType>> token;
             while ((token = lexer.nextToken()).isPresent()) {
                 Token<MdcTokenType> found = token.get();
-                printDebug(found.type(), found.text());
-
                 Optional<MdcSymbol> symbol = interpret(found.type(), found.text(), found.position());
                 if (symbol.isPresent()) {
                     fixExpect(symbol.get());
@@ -138,8 +112,6 @@ public final class MdcLexer {
             case PAGE_END -> emit(MdcSymbolCode.PAGE_END, null, text, start);
             case LINE_END -> emit(MdcSymbolCode.LINE_END, extractLineSkip(text), text, start);
             case TAB_STOP -> emit(MdcSymbolCode.TAB_STOP, Integer.parseInt(text.substring(1)), text, start);
-            case TABBING -> emit(MdcSymbolCode.TABBING, null, text, start);
-            case TABBING_CLEAR -> emit(MdcSymbolCode.TABBING_CLEAR, null, text, start);
             case HRULE_THIN -> emit(MdcSymbolCode.HRULE, parseHRule('l', text), text, start);
             case HRULE_WIDE -> emit(MdcSymbolCode.HRULE, parseHRule('L', text), text, start);
             case ALPHABETIC_TEXT -> emit(MdcSymbolCode.TEXT, parseAlphabeticText(text), text, start);
@@ -148,7 +120,6 @@ public final class MdcLexer {
             case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);
             case HKERN -> emit(MdcSymbolCode.HKERN, null, text, start);
             case VKERN -> emit(MdcSymbolCode.VKERN, null, text, start);
-            case UNKNOW_OPERATOR -> emit(MdcSymbolCode.UNKNOWN_OPERATOR, null, text, start);
             case START_HIEROGLYPHS -> emit(MdcSymbolCode.START_HIEROGLYPHS, null, text, start);
             case TEXT_SUPER -> emit(MdcSymbolCode.TEXT_SUPER, text.substring(1), text, start);
             case WORD_END_CANDIDATE ->
@@ -289,11 +260,5 @@ public final class MdcLexer {
             return 100;
         }
         return Integer.parseInt(text.substring(equalsIndex + 1, text.indexOf('%')));
-    }
-
-    private void printDebug(MdcTokenType type, String text) {
-        if (debug) {
-            System.err.println("token: " + type + " " + text);
-        }
     }
 }

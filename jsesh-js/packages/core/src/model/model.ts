@@ -13,7 +13,7 @@
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
 ///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
-///        ├─ Superscript, LineBreak, PageBreak, TabStop, Tabbing, TabbingClear, HRule
+///        ├─ Superscript, LineBreak, PageBreak, TabStop, HRule
 ///        └─ Zone └─ ZoneContent └─ TopItem (nested zones too)
 /// ```
 ///
@@ -30,7 +30,6 @@ import {
   type InsertionDirection,
   type KerningAxis,
   type ScriptCode,
-  type TabbingJustification,
   type TextDirection,
   type TextOrientation,
   type WordEndingCode,
@@ -70,8 +69,6 @@ export interface ModelElementVisitor<R = void> {
   visitLineBreak(e: LineBreak): R;
   visitPageBreak(e: PageBreak): R;
   visitTabStop(e: TabStop): R;
-  visitTabbing(e: Tabbing): R;
-  visitTabbingClear(e: TabbingClear): R;
   visitHRule(e: HRule): R;
   visitZone(e: Zone): R;
   visitZoneContent(e: ZoneContent): R;
@@ -145,12 +142,6 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitTabStop(e: TabStop): void {
-    this.visitDefault(e);
-  }
-  visitTabbing(e: Tabbing): void {
-    this.visitDefault(e);
-  }
-  visitTabbingClear(e: TabbingClear): void {
     this.visitDefault(e);
   }
   visitHRule(e: HRule): void {
@@ -1405,40 +1396,6 @@ export class TabStop extends TopItem {
 
   deepCopy(): TabStop {
     const copy = new TabStop(this.stopPos);
-    this.copyStateTo(copy);
-    return copy;
-  }
-}
-
-/// `%[id=..,orientation=..,justification=..]`.
-export class Tabbing extends TopItem {
-  constructor(
-    public id: number,
-    public justification: TabbingJustification,
-    public orientation: TextOrientation,
-  ) {
-    super();
-  }
-
-  accept<R>(v: ModelElementVisitor<R>): R {
-    return v.visitTabbing(this);
-  }
-
-  deepCopy(): Tabbing {
-    const copy = new Tabbing(this.id, this.justification, this.orientation);
-    this.copyStateTo(copy);
-    return copy;
-  }
-}
-
-/// `%clear`.
-export class TabbingClear extends TopItem {
-  accept<R>(v: ModelElementVisitor<R>): R {
-    return v.visitTabbingClear(this);
-  }
-
-  deepCopy(): TabbingClear {
-    const copy = new TabbingClear();
     this.copyStateTo(copy);
     return copy;
   }

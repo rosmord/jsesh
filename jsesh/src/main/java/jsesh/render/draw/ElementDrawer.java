@@ -29,8 +29,6 @@ import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
-import jsesh.model.Tabbing;
-import jsesh.model.TabbingClear;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
@@ -331,14 +329,6 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		// This method intentionnaly left blank.
 	}
 	
-	public void visitTabbing(Tabbing tabbing) {
-		// This method intentionnaly left blank.
-	}
-	
-	public void visitTabbingClear(TabbingClear tabbingClear) {
-		// This method intentionnaly left blank.
-	}
-
 	/**
 	 * @see jsesh.model.ModelElementVisitor#visitHieroglyphicText(jsesh.model.HieroglyphicText)
 	 */

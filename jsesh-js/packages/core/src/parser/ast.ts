@@ -202,15 +202,6 @@ export interface AstTabStop {
   stopWidth: number;
 }
 
-export interface AstTabbing {
-  nodeType: "Tabbing";
-  options: AstOptionList;
-}
-
-export interface AstTabbingClear {
-  nodeType: "TabbingClear";
-}
-
 export interface AstHRule {
   nodeType: "HRule";
   lineType: string;
@@ -230,8 +221,6 @@ export type AstTopItem =
   | AstLineBreak
   | AstPageBreak
   | AstTabStop
-  | AstTabbing
-  | AstTabbingClear
   | AstHRule
   | AstZone;
 

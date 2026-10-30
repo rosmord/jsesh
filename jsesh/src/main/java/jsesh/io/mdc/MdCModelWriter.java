@@ -48,8 +48,6 @@ import jsesh.model.ShadingCode;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
 import jsesh.model.TabStop;
-import jsesh.model.Tabbing;
-import jsesh.model.TabbingClear;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
@@ -454,17 +452,6 @@ public class MdCModelWriter {
 		 */
 		public void visitTabStop(TabStop t) {
 			write("?" + t.getStopPos());
-		}
-
-		public void visitTabbing(Tabbing tabbing) {
-			write("%[");
-			write("id=" + tabbing.getId() + ",");
-			write("orientation=" + tabbing.getOrientation().name().toLowerCase(Locale.ENGLISH) + ",");
-			write("justification=" + tabbing.getTabbingJustification().name().toLowerCase(Locale.ENGLISH) + "]");
-		}
-
-		public void visitTabbingClear(TabbingClear tabbingClear) {
-			write("%clear");
 		}
 
 		/**

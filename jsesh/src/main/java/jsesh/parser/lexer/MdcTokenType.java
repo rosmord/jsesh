@@ -15,31 +15,27 @@ import jsesh.parser.lexer.symbols.MdcSymbol;
 ///
 /// Rules are grouped by which start-state they belonged to.
 /// 
-/// Tokens are not analysed directly: the client of the lexer must interpret them. In our case, [MDCLexer] transforms those plain tokens into [MdcSymbol]s.
+/// Tokens are not analysed directly: the client of the lexer must interpret them. In our case, [MdcLexer] transforms those plain tokens into [MdcSymbol]s.
 /// 
 enum MdcTokenType {
 
-    // ---- <YYINITIAL> ----
+    // ---- INITIAL state ----
 
-    /// `"!!"{ESPSO}` (line 228)
+    /// `"!!"{ESPSO}`
     PAGE_END,
-    /// `"!"("="{INTEGER}"%")?{ESPSO}` (line 230)
+    /// `"!"("="{INTEGER}"%")?{ESPSO}`
     LINE_END,
-    /// `"?"{INTEGER}` (line 236)
+    /// `"?"{INTEGER}`
     TAB_STOP,
-    /// `"%"` (line 241)
-    TABBING,
-    /// `"%clear"` (line 243)
-    TABBING_CLEAR,
-    /// `"{l"{INTEGER}","{INTEGER}"}"` (line 245)
+    /// `"{l"{INTEGER}","{INTEGER}"}"`
     HRULE_THIN,
-    /// `"{L"{INTEGER}","{INTEGER}"}"` (line 249)
+    /// `"{L"{INTEGER}","{INTEGER}"}"`
     HRULE_WIDE,
-    /// `"+"[a-rt-z+](\+|[^+]|"+"[^a-z+])*` (line 252)
+    /// `"+"[a-rt-z+](\+|[^+]|"+"[^a-z+])*`
     ALPHABETIC_TEXT,
-    /// `"%zone"` (line 258)
+    /// `"%zone"`
     ZONE,
-    /// `"%quadrat"` (line 262)
+    /// `"%quadrat"`
     QUADRAT,
     /// `"%insert"` 
     INSERT,
@@ -47,163 +43,161 @@ enum MdcTokenType {
     HKERN,
     /// `"%vkern"`
     VKERN,
-    /// `%[a-z]+` generic name for an operator - allows extensions of the language.
-    UNKNOW_OPERATOR,
-    /// `"+s"` (line 267)
+    /// `"+s"`
     START_HIEROGLYPHS,
-    /// `"|"([^-]|"\-")*` (line 271; the redundant `'\\'` alternative is dropped, see [MdcLexicon])
+    /// `"|"([^-]|"\-")*` (the redundant `'\\'` alternative is dropped, see [MdcLexicon])
     TEXT_SUPER,
-    /// `{TRUESPACE}` (line 276; the redundant `|"_"` alternative is dropped, `_` already being a `TRUESPACE` char)
+    /// `{TRUESPACE}` (the redundant `|"_"` alternative is dropped, `_` already being a `TRUESPACE` char)
     WORD_END_CANDIDATE,
-    /// `({TRUESPACE}{TRUESPACE})+` (line 282; the redundant `"__"` alternative is dropped)
+    /// `({TRUESPACE}{TRUESPACE})+` (the redundant `"__"` alternative is dropped)
     SENTENCE_END_CANDIDATE,
     /// `"-"({TRUESPACE}|"-")*`, merging lines 288 and 289 (both plain `SEPARATOR`)
     SEPARATOR,
     /// `"-#-"|"-#"`, merging lines 292 and 304 (both an unconditional shading toggle)
     SHADING_TOGGLE_LITERAL,
-    /// `"#-"|("#"" "+)` (line 293)
+    /// `"#-"|("#"" "+)`
     HASH_DASH_OR_SPACES,
-    /// `"#"` (line 306)
+    /// `"#"`
     HASH_ALONE,
-    /// `-?"#b"` (line 313)
+    /// `-?"#b"`
     SHADING_ON,
-    /// `-?"#e"` (line 314)
+    /// `-?"#e"`
     SHADING_OFF,
-    /// `"$r"` (line 315)
+    /// `"$r"`
     TOGGLE_RED,
-    /// `"$b"` (line 316)
+    /// `"$b"`
     TOGGLE_BLACK,
-    /// `"?"` (line 317)
+    /// `"?"`
     TOGGLE_LACUNA,
-    /// `"??"` (line 318)
+    /// `"??"`
     TOGGLE_LINE_LACUNA,
-    /// `"^"` (line 319)
+    /// `"^"`
     TOGGLE_OMIT,
-    /// `"$"` (line 320)
+    /// `"$"`
     TOGGLE_BLACK_RED,
-    /// `"#""1"?"2"?"3"?"4"?` (line 321)
+    /// `"#""1"?"2"?"3"?"4"?`
     SHADING,
-    /// `":"` (line 322)
+    /// `":"`
     COLON,
-    /// `"*"` (line 323)
+    /// `"*"`
     STAR,
-    /// `"["` (line 324) - switches to `PROPERTIES`
+    /// `"["` - switches to `PROPERTIES`
     OPEN_BRACE,
-    /// `"<"` (line 325)
+    /// `"<"`
     OLD_CARTOUCHE_PLAIN,
-    /// `"<"[SFH]([bme])` (line 326)
+    /// `"<"[SFH]([bme])`
     OLD_CARTOUCHE_TYPED_PART,
-    /// `"<"[SFHG]` (line 329)
+    /// `"<"[SFHG]`
     OLD_CARTOUCHE_TYPED,
-    /// `"<"[bme]` (line 330)
+    /// `"<"[bme]`
     OLD_CARTOUCHE_PART,
-    /// `"<"[sfhg][0123]` (line 331)
+    /// `"<"[sfhg][0123]`
     CARTOUCHE_START_TYPED_PART,
-    /// `"<"[sfhg]` (line 334)
+    /// `"<"[sfhg]`
     CARTOUCHE_START_TYPED,
-    /// `"<"[012]` (line 335)
+    /// `"<"[012]`
     CARTOUCHE_START_PART,
-    /// `">"` (line 336)
+    /// `">"`
     CARTOUCHE_END_DEFAULT,
-    /// `[sfhg][0123]">"` (line 337)
+    /// `[sfhg][0123]">"`
     CARTOUCHE_END_TYPED_PART,
-    /// `[sfhg]">"` (line 339)
+    /// `[sfhg]">"`
     CARTOUCHE_END_TYPED,
-    /// `[012]">"` (line 341)
+    /// `[012]">"`
     CARTOUCHE_END_PART,
-    /// `"[["` (line 344)
+    /// `"[["`
     PHIL_ERASED_SIGNS_BEGIN,
-    /// `"[{"` (line 345)
+    /// `"[{"`
     PHIL_EDITOR_SUPERFLUOUS_BEGIN,
-    /// `"[\""` (line 347)
+    /// `"[\""`
     PHIL_PREVIOUSLY_READABLE_BEGIN,
-    /// `"['"` (line 348)
+    /// `"['"`
     PHIL_SCRIBE_ADDITION_BEGIN,
-    /// `"[&"` (line 350)
+    /// `"[&"`
     PHIL_EDITOR_ADDITION_BEGIN,
-    /// `"]]"` (line 351)
+    /// `"]]"`
     PHIL_ERASED_SIGNS_END,
-    /// `"}]"` (line 353)
+    /// `"}]"`
     PHIL_EDITOR_SUPERFLUOUS_END,
-    /// `"\"]"` (line 354)
+    /// `"\"]"`
     PHIL_PREVIOUSLY_READABLE_END,
-    /// `"']"` (line 356)
+    /// `"']"`
     PHIL_SCRIBE_ADDITION_END,
-    /// `"&]"` (line 357)
+    /// `"&]"`
     PHIL_EDITOR_ADDITION_END,
-    /// `")]"` (line 358)
+    /// `")]"`
     PHIL_MINOR_ADDITION_END,
-    /// `"[("` (line 359)
+    /// `"[("`
     PHIL_MINOR_ADDITION_BEGIN,
-    /// `"?]"` (line 360)
+    /// `"?]"`
     PHIL_DUBIOUS_END,
-    /// `"[?"` (line 361)
+    /// `"[?"`
     PHIL_DUBIOUS_BEGIN,
-    /// `"("` (line 364)
+    /// `"("`
     LPAREN,
-    /// `")"` (line 365)
+    /// `")"`
     RPAREN,
-    /// `"##"` (line 366)
+    /// `"##"`
     OVERWRITE_DOUBLE_HASH,
-    /// `"&"` (line 367)
+    /// `"&"`
     AMP,
-    /// `"="` (line 368)
+    /// `"="`
     GRAMMAR_EQUALS,
-    /// `\"?"` (line 369)
+    /// `\"?"`
     MODIFIER_QUESTION,
-    /// `\R"-"?[0-9]*` (line 379; the stray trailing `)` in the original is dropped, see [MdcLexicon])
+    /// `\R"-"?[0-9]*` (see [MdcLexicon])
     MODIFIER_R,
-    /// `\([a-zA-Z]*[0-9]*)` (line 380)
+    /// `\([a-zA-Z]*[0-9]*)`
     MODIFIER_GENERIC,
-    /// ``"`"`` (line 381)
+    /// ``"`"``
     SIGN_BACKTICK,
-    /// `"o"` (line 384)
+    /// `"o"`
     SIGN_RED_POINT,
-    /// `"O"` (line 385)
+    /// `"O"`
     SIGN_BLACK_POINT,
-    /// `\"([^\"\\\]]|\\.)*\"` (line 386)
+    /// `\"([^\"\\\]]|\\.)*\"`
     SIGN_SMALL_TEXT,
-    /// `(([A-Z]|"Aa")[0-9]+A*|[@a-zA-Z0-9]+|"@".)` (line 393)
+    /// `(([A-Z]|"Aa")[0-9]+A*|[@a-zA-Z0-9]+|"@".)`
     SIGN_CODE,
-    /// `"."` (line 398)
+    /// `"."`
     SIGN_HALF_SPACE,
-    /// `".."` (line 399)
+    /// `".."`
     SIGN_FULL_SPACE,
-    /// `"//"` (line 400)
+    /// `"//"`
     SIGN_FULL_SHADE,
-    /// `"v/"` (line 401)
+    /// `"v/"`
     SIGN_VERTICAL_SHADE,
-    /// `"/"` (line 402)
+    /// `"/"`
     SIGN_QUARTER_SHADE,
-    /// `"h/"` (line 403)
+    /// `"h/"`
     SIGN_HORIZONTAL_SHADE,
     /// `"&&"|"**"`, merging lines 404 and 405 (both `DOUBLEAMP`)
     DOUBLE_AMP,
-    /// `"&&&"` (line 406)
+    /// `"&&&"`
     LIG_AFTER,
     /// `"^^^"|"^^"`, merging lines 407 and 408 (both `LIGBEFORE`)
     LIG_BEFORE,
-    /// `"{{"` (line 410) - switches to `PROPERTIES`
+    /// `"{{"` - switches to `PROPERTIES`
     DOUBLE_LEFT_CURLY,
 
     // ---- <PROPERTIES> ----
 
-    /// `"}}"` (line 412) - switches back to `YYINITIAL`
+    /// `"}}"` - switches back to the initial state
     DOUBLE_RIGHT_CURLY,
-    /// `"]"` (line 413) - switches back to `YYINITIAL`
+    /// `"]"` - switches back to the initial state
     CLOSE_BRACE,
-    /// `","` (line 415)
+    /// `","`
     COMMA,
-    /// `"="` (line 416)
+    /// `"="`
     EQUAL,
-    /// `{INTEGER}` (line 417)
+    /// `{INTEGER}`
     PROPERTY_INTEGER,
-    /// `[a-zA-Z_][a-zA-Z0-9_]*` (line 418)
+    /// `[a-zA-Z_][a-zA-Z0-9_]*`
     PROPERTY_IDENTIFIER,
-    // `[ \t\n\015]` (line 419), always discarded, is the PROPERTIES state's skipped whitespace (see MdcLexicon).
+    // `[ \t\n\015]`, always discarded, is the PROPERTIES state's skipped whitespace (see MdcLexicon).
 
-    // ---- <YYINITIAL,PROPERTIES> (no explicit state prefix in the original) ----
+    // ---- INITIAL and PROPERTIES states (no explicit state prefix) ----
 
-    /// `.` (line 421) - matches any single character not otherwise matched
+    /// `.` - matches any single character not otherwise matched
     UNKNOWN
 }

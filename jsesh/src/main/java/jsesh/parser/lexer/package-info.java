@@ -21,7 +21,7 @@
 /// 
 /// If you need to add new symbols to the lexicon:
 /// 
-/// 1. add an entry in the [MDCToken] enum, being aware of that the order of the entries matters in case of ties.
+/// 1. add an entry in the [MdcTokenType] enum, being aware of that the order of the entries matters in case of ties.
 /// 2. add a rule in [MdcLexicon] (in the private `build` method) to describe the token
 /// 3. add a mirror MdcSymbolCode entry in [MdcSymbolCode] enum - those are the enums seen by the parser.
 /// 4. possibly modify the [jsesh.parser.lexer.MdcLexer] to produce the correct symbol.

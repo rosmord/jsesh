@@ -29,8 +29,6 @@ import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
 import jsesh.parser.ast.AstTabStop;
-import jsesh.parser.ast.AstTabbing;
-import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstZone;
@@ -410,17 +408,6 @@ public class MDCParserAstSyntaxTest {
         AstOptionList options = AstOptionList.of(AstOption.of("id", 1));
         AstZone expected = new AstZone(options, list);
         assertEquals(AstDocument.of(expected), parse("%zone[id=1](A1)"));
-    }
-
-    @Test
-    public void testTabbing() throws MDCSyntaxError {
-        AstTabbing expected = new AstTabbing(AstOptionList.of(AstOption.of("id", 1)));
-        assertEquals(AstDocument.of(expected), parse("%[id=1]"));
-    }
-
-    @Test
-    public void testTabbingClear() throws MDCSyntaxError {
-        assertEquals(AstDocument.of(new AstTabbingClear()), parse("%clear"));
     }
 
     

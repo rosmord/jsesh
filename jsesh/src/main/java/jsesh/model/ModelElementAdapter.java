@@ -160,13 +160,5 @@ public class ModelElementAdapter implements ModelElementVisitor {
 		visitDefault(content);
 	}
 	
-	public void visitTabbing(Tabbing tabbing) {
-		visitDefault(tabbing);		
-	}
-	
-	public void visitTabbingClear(TabbingClear tabbingClear) {
-		visitDefault(tabbingClear);
-	}
-	
 
 }

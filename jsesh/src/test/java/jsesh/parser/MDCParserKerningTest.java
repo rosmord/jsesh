@@ -6,7 +6,6 @@
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 package jsesh.parser;
-import jsesh.sharedvocabulary.KerningAxis;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -71,8 +70,17 @@ public class MDCParserKerningTest {
     }
 
     @Test
-    public void otherOperatorsAreStillUnknown() {
-        assertThrows(MDCSyntaxError.class, () -> parse("p-%hkernx-q"));
+    public void otherOperatorsAreUnknown() {
         assertThrows(MDCSyntaxError.class, () -> parse("p-%foo-q"));
+        assertThrows(MDCSyntaxError.class, () -> parse("p-%clear-q"));
+        assertThrows(MDCSyntaxError.class, () -> parse("p-%[id=1]-q"));
+    }
+
+    @Test
+    public void keywordsAreNotDelimitedByTheLexer() throws MDCSyntaxError {
+        // There is no generic "%word" token any more: "%hkernx" is "%hkern" followed by the sign "x".
+        AstDocument document = parse("p-%hkernx-q");
+        assertEquals(4, document.topItems().items().size());
+        assertInstanceOf(AstKerning.class, cadrat(document, 1).hBoxes().get(0).elements().get(0));
     }
 }

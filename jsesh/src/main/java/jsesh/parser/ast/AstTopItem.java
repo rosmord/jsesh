@@ -19,5 +19,5 @@ package jsesh.parser.ast;
 /// @author rosmord
 public sealed interface AstTopItem extends AstNode
         permits AstBasicItem, AstSuperscript, AstLineBreak, AstPageBreak, AstTabStop,
-        AstTabbing, AstTabbingClear, AstHRule, AstZone {
+        AstHRule, AstZone {
 }

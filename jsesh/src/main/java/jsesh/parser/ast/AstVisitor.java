@@ -60,10 +60,6 @@ public interface AstVisitor {
 
     void visitZone(AstZone node);
 
-    void visitTabbing(AstTabbing node);
-
-    void visitTabbingClear(AstTabbingClear node);
-
     void visitModifierList(AstModifierList node);
 
     void visitModifier(AstModifier node);

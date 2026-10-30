@@ -25,8 +25,6 @@ enum TokenType {
   PAGE_END,
   LINE_END,
   TAB_STOP,
-  TABBING,
-  TABBING_CLEAR,
   HRULE_THIN,
   HRULE_WIDE,
   ALPHABETIC_TEXT,
@@ -35,7 +33,6 @@ enum TokenType {
   INSERT,
   HKERN,
   VKERN,
-  UNKNOW_OPERATOR,
   START_HIEROGLYPHS,
   TEXT_SUPER,
   WORD_END_CANDIDATE,
@@ -184,8 +181,6 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.PAGE_END, match: re(`!!${ESPSO}`) },
   { type: TokenType.LINE_END, match: re(`!(?:=[0-9]+%)?${ESPSO}`) },
   { type: TokenType.TAB_STOP, match: re("\\?[0-9]+") },
-  { type: TokenType.TABBING, match: lit("%") },
-  { type: TokenType.TABBING_CLEAR, match: lit("%clear") },
   { type: TokenType.HRULE_THIN, match: re("\\{l[0-9]+,[0-9]+\\}") },
   { type: TokenType.HRULE_WIDE, match: re("\\{L[0-9]+,[0-9]+\\}") },
   { type: TokenType.ALPHABETIC_TEXT, match: alphabeticText },
@@ -252,7 +247,6 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.SIGN_RED_POINT, match: lit("o") },
   { type: TokenType.SIGN_BLACK_POINT, match: lit("O") },
   { type: TokenType.SIGN_SMALL_TEXT, match: re('"(?:[^"\\\\\\]]|\\\\.)*"') },
-  { type: TokenType.UNKNOW_OPERATOR, match: re("%[a-z]+") },
   {
     type: TokenType.SIGN_CODE,
     match: longestOf(re("(?:[A-Z]|Aa)[0-9]+A*"), re("[@a-zA-Z0-9]+"), re("@.")),
@@ -372,10 +366,6 @@ export class MdcLexer {
         return emit(MdcSymbolCode.LINE_END, extractLineSkip(text));
       case TokenType.TAB_STOP:
         return emit(MdcSymbolCode.TAB_STOP, parseInt(text.substring(1), 10));
-      case TokenType.TABBING:
-        return emit(MdcSymbolCode.TABBING);
-      case TokenType.TABBING_CLEAR:
-        return emit(MdcSymbolCode.TABBING_CLEAR);
       case TokenType.HRULE_THIN:
         return emit(MdcSymbolCode.HRULE, parseHRule("l", text));
       case TokenType.HRULE_WIDE:
@@ -392,8 +382,6 @@ export class MdcLexer {
         return emit(MdcSymbolCode.HKERN);
       case TokenType.VKERN:
         return emit(MdcSymbolCode.VKERN);
-      case TokenType.UNKNOW_OPERATOR:
-        return emit(MdcSymbolCode.UNKNOWN_OPERATOR);
       case TokenType.START_HIEROGLYPHS:
         return emit(MdcSymbolCode.START_HIEROGLYPHS);
       case TokenType.TEXT_SUPER:

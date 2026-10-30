@@ -50,14 +50,6 @@ public class MDCParserModelGenerator {
 		return new AstModelBuilder(dialect).build(parser.parse(text));
 	}
 
-
-	/**
-	 * @return true if we are debugging.
-	 */
-	public boolean isDebug() {
-		return parser.isDebug();
-	}
-
 	/**
 	 * if true, philological markers, such as [[ and ]], are considered
 	 * as simple signs, and not as constructs.
@@ -65,13 +57,6 @@ public class MDCParserModelGenerator {
 	 */
 	public boolean isPhilologyAsSigns() {
 		return parser.isPhilologyAsSigns();
-	}
-
-	/**
-	 * @param v
-	 */
-	public void setDebug(boolean v) {
-		parser.setDebug(v);
 	}
 
 	/**

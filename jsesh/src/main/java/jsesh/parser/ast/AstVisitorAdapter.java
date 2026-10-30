@@ -131,16 +131,6 @@ public class AstVisitorAdapter implements AstVisitor {
     }
 
     @Override
-    public void visitTabbing(AstTabbing node) {
-        visitDefault(node);
-    }
-
-    @Override
-    public void visitTabbingClear(AstTabbingClear node) {
-        visitDefault(node);
-    }
-
-    @Override
     public void visitModifierList(AstModifierList node) {
         visitDefault(node);
     }

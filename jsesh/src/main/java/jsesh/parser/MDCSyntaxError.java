@@ -22,12 +22,6 @@ public class MDCSyntaxError extends Exception {
     int charPos;
     String token;
     
-    public MDCSyntaxError (int line, int charPos, String token){
-	this.line= line;
-	this.charPos= charPos;
-	this.token= token;
-    }
-
     public MDCSyntaxError (String msg, int line, int charPos, String token){
 	super(msg);
 	this.line= line;

@@ -102,7 +102,6 @@ export type ToggleType =
   | "OMMIT"
   | "BLACKRED";
 
-export type TabbingJustification = "FILL" | "LEFT" | "RIGHT";
 export type TextDirection = "LEFT_TO_RIGHT" | "RIGHT_TO_LEFT";
 export type TextOrientation = "HORIZONTAL" | "VERTICAL";
 

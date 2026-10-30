@@ -31,7 +31,7 @@ import org.qenherkhopeshef.mdwlexer.LexiconBuilder;
 /// This class is a **Singleton** : use [#instance()] to get the shared instance, 
 /// and [#newLexer(String)] or [#newLexer(Reader)] to create a new stateful lexer scanning some input.
 /// 
-/// The original grammar has two lexical states, `YYINITIAL` ([Lexicon#INITIAL_STATE] here)
+/// The grammar has two lexical states, the initial one ([Lexicon#INITIAL_STATE])
 /// and [#PROPERTIES], used inside `[...]` and `{{...}}` so that numbers and identifiers are
 /// read as property values. Both are states of one [Lexicon]; the switches between them are
 /// declared on the rules for `[`, `{{`, `]` and `}}`.
@@ -41,7 +41,7 @@ import org.qenherkhopeshef.mdwlexer.LexiconBuilder;
 /// meaningful tokens (see [MdcTokenType#WORD_END_CANDIDATE]). In [#PROPERTIES], whitespace is
 /// mere layout, and is skipped.
 ///
-/// A handful of rules in the original are genuinely ambiguous with another rule on an
+/// A handful of rules are genuinely ambiguous with another rule on an
 /// equal-length match; where that happens it's called out below, next to the rule it resolves
 /// against. Every other ordering choice here is inherited for free from [MdcTokenType]'s
 /// declaration order and doesn't need to be justified rule by rule.
@@ -99,8 +99,6 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.PAGE_END, sequence(literal("!!"), ESPSO))
                 .rule(MdcTokenType.LINE_END, lineEnd())
                 .rule(MdcTokenType.TAB_STOP, sequence(character('?'), INTEGER))
-                .rule(MdcTokenType.TABBING, character('%'))
-                .rule(MdcTokenType.TABBING_CLEAR, literal("%clear")) // Probably to remove ?
                 .rule(MdcTokenType.HRULE_THIN, hrule('l'))
                 .rule(MdcTokenType.HRULE_WIDE, hrule('L'))
                 .rule(MdcTokenType.ALPHABETIC_TEXT, alphabeticText())
@@ -117,12 +115,11 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.SHADING_TOGGLE_LITERAL, union(literal("-#-"), literal("-#")))
                 // Ambiguous with HASH_ALONE and SHADING on a bare "#-space"-less prefix? No: both
                 // alternatives here need a second character ('-' or ' '), so they never tie with
-                // HASH_ALONE/SHADING's bare "#" match; declared before SHADING regardless, for a
-                // faithful reading of the original's rule order.
+                // HASH_ALONE/SHADING's bare "#" match; declared before SHADING regardless.
                 .rule(MdcTokenType.HASH_DASH_OR_SPACES, union(literal("#-"), sequence(character('#'), oneOrMore(character(' ')))))
                 // Ties with SHADING on a bare "#" (both match length 1: HASH_ALONE always, SHADING
-                // when no 1-4 digit follows). Declared first, exactly as rule 306 precedes rule 321
-                // in the original, so a bare "#" resolves to HASH_ALONE like the original does.
+                // when no 1-4 digit follows). Declared first, so a bare "#"
+                // resolves to HASH_ALONE.
                 .rule(MdcTokenType.HASH_ALONE, character('#'))
                 .rule(MdcTokenType.SHADING_ON, sequence(optional(character('-')), literal("#b")))
                 .rule(MdcTokenType.SHADING_OFF, sequence(optional(character('-')), literal("#e")))
@@ -167,15 +164,13 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.AMP, character('&'))
                 .rule(MdcTokenType.GRAMMAR_EQUALS, character('='))
                 .rule(MdcTokenType.MODIFIER_QUESTION, literal("\\?"))
-                // Ties with MODIFIER_GENERIC on e.g. "\R" alone (both length 2). Declared first,
-                // exactly as rule 379 precedes rule 380 in the original.
+                // Ties with MODIFIER_GENERIC on e.g. "\R" alone (both length 2). Declared first.
                 .rule(MdcTokenType.MODIFIER_R, modifierR())
                 .rule(MdcTokenType.MODIFIER_GENERIC, sequence(character('\\'), repeat(union(UPPER, LOWER)), repeat(DIGIT)))
                 .rule(MdcTokenType.SIGN_BACKTICK, character('`'))
                 .rule(MdcTokenType.SIGN_RED_POINT, character('o'))
                 .rule(MdcTokenType.SIGN_BLACK_POINT, character('O'))
                 .rule(MdcTokenType.SIGN_SMALL_TEXT, smallText())
-                .rule(MdcTokenType.UNKNOW_OPERATOR, sequence(character('%'), oneOrMore(characterRange('a', 'z'))))
                 .rule(MdcTokenType.SIGN_CODE, signCode())
                 .rule(MdcTokenType.SIGN_HALF_SPACE, character('.'))
                 .rule(MdcTokenType.SIGN_FULL_SPACE, literal(".."))
@@ -230,7 +225,7 @@ public final class MdcLexicon {
                 optional(character('3')), optional(character('4')));
     }
 
-    /// `\R"-"?[0-9]*`: the original also has a stray trailing ")" after "[0-9]*", dropped here (see [MdcTokenType#MODIFIER_R]).
+    /// `\R"-"?[0-9]*` (see [MdcTokenType#MODIFIER_R]).
     private static Expression modifierR() {
         return sequence(literal("\\R"), optional(character('-')), repeat(DIGIT));
     }

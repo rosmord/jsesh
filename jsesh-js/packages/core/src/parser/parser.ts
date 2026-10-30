@@ -217,7 +217,7 @@ export class MdcParser {
   /// ```
   /// topitems ::= ε | topitems optSeparator topitem
   /// topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
-  ///           | LINEEND | PAGEEND | TABSTOP | TABBING optionList | TABBINGCLEAR
+  ///           | LINEEND | PAGEEND | TABSTOP
   ///           | HRULE | zone
   /// ```
   private parseTopItems(): AstTopItem[] {
@@ -255,14 +255,6 @@ export class MdcParser {
           break;
         case S.TAB_STOP:
           item = { nodeType: "TabStop", stopWidth: value as number };
-          this.advance();
-          break;
-        case S.TABBING:
-          this.advance();
-          item = { nodeType: "Tabbing", options: this.parseOptionList() };
-          break;
-        case S.TABBING_CLEAR:
-          item = { nodeType: "TabbingClear" };
           this.advance();
           break;
         case S.HRULE: {

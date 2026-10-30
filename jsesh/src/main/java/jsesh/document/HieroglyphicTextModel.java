@@ -92,7 +92,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 
 	private HieroglyphicText text;
 	private boolean philologyIsSign;
-	private boolean debug;
 	private UndoManager undoManager;
 	private ObservableEventSupport<TextEvent> eventSupport = new ObservableEventSupport<>();
 
@@ -105,7 +104,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 		undoManager = new UndoManager();
 		setHieroglyphicText(new HieroglyphicText());
 		philologyIsSign = true;
-		debug = false;
 	}
 
 	/// Returns the edited text, for READ-ONLY PURPOSES ONLY.
@@ -192,17 +190,7 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	private MDCParserModelGenerator createGenerator(Dialect dialect) {
 		MDCParserModelGenerator generator = new MDCParserModelGenerator(dialect);
 		generator.setPhilologyAsSigns(philologyIsSign);
-		generator.setDebug(debug);
 		return generator;
-	}
-
-	/**
-	 * Returns the debug.
-	 *
-	 * @return boolean
-	 */
-	public boolean isDebug() {
-		return debug;
 	}
 
 	/**
@@ -212,15 +200,6 @@ public class HieroglyphicTextModel implements ObservableEventPublisher<TextEvent
 	 */
 	public boolean isPhilologyIsSign() {
 		return philologyIsSign;
-	}
-
-	/**
-	 * Sets the debug.
-	 *
-	 * @param debug The debug to set
-	 */
-	public void setDebug(boolean debug) {
-		this.debug = debug;
 	}
 
 	/**

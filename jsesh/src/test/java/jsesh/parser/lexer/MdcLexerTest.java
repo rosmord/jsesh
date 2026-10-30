@@ -90,10 +90,8 @@ class MdcLexerTest {
     void zoneAndQuadratKeywordsWinOverGenericSignCode() {
         assertEquals(List.of(MdcSymbolCode.ZONE), codesOf("%zone"));
         assertEquals(List.of(MdcSymbolCode.QUADRAT), codesOf("%quadrat"));
-        // "zoner" is not the literal "zone": the generic operator rule wins by length.
-        List<MdcSymbol> symbols = scanAll("%zoner");
-        assertEquals(MdcSymbolCode.UNKNOWN_OPERATOR, symbols.get(0).code());
-        assertEquals("%zoner", symbols.get(0).text());
+        // There is no generic operator rule: "%zoner" is the keyword followed by a sign.
+        assertEquals(List.of(MdcSymbolCode.ZONE, MdcSymbolCode.HIEROGLYPH), codesOf("%zoner"));
     }
 
     @Test
@@ -105,9 +103,10 @@ class MdcLexerTest {
     }
 
     @Test
-    void tabbingKeywordsAreNotTakenForOperators() {
-        assertEquals(List.of(MdcSymbolCode.TABBING_CLEAR), codesOf("%clear"));
-        assertEquals(MdcSymbolCode.TABBING, codesOf("%[a]").get(0));
+    void unsupportedPercentOperatorsStartWithAnUnknownSymbol() {
+        assertEquals(MdcSymbolCode.UNKNOWN, codesOf("%clear").get(0));
+        assertEquals(MdcSymbolCode.UNKNOWN, codesOf("%[a]").get(0));
+        assertEquals(MdcSymbolCode.UNKNOWN, codesOf("%foo").get(0));
     }
 
     @Test
@@ -349,11 +348,4 @@ class MdcLexerTest {
         assertEquals(List.of(MdcSymbolCode.TOGGLE), codesOf("^"));
     }
 
-    @Test
-    void testGenericOperator() {
-        List<MdcSymbol> symbols = scanAll("%foo");
-        assertEquals(1, symbols.size());
-        assertEquals(MdcSymbolCode.UNKNOWN_OPERATOR, symbols.get(0).code());
-        assertEquals("%foo", symbols.get(0).text());
-    }
 }
