@@ -38,7 +38,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import jsesh.ui.clipboard.MDCClipboardPreferences;
@@ -52,6 +54,7 @@ public class JClipboardFormatSelector {
     private JPanel panel = new JPanel();
     private JEditorPane messageArea;
     private JCheckBox rtfCheckBox, pdfCheckBox, emfCheckBox, bitmapCheckBox, plainTextBox;
+    private JRadioButton mdcTextButton, unicodeTextButton, unicode12TextButton;
 
     public JClipboardFormatSelector() {
         init();
@@ -68,12 +71,31 @@ public class JClipboardFormatSelector {
         bitmapCheckBox = new JCheckBox(
                 JSeshMessages.getString("clipboardFormat.bitmap.text"));
         plainTextBox = new JCheckBox(
+                JSeshMessages.getString("clipboardFormat.plaintext.label"));
+        mdcTextButton = new JRadioButton(
                 JSeshMessages.getString("clipboardFormat.plaintext.text"));
+        unicodeTextButton = new JRadioButton(
+                JSeshMessages.getString("clipboardFormat.plaintext.unicode"));
+        unicode12TextButton = new JRadioButton(
+                JSeshMessages.getString("clipboardFormat.plaintext.unicode12"));
+        ButtonGroup textFormats = new ButtonGroup();
+        textFormats.add(mdcTextButton);
+        textFormats.add(unicodeTextButton);
+        textFormats.add(unicode12TextButton);
+        mdcTextButton.setSelected(true);
+        // The choice only makes sense if plain text is copied.
+        plainTextBox.addActionListener(e -> updateTextFormatEnabled());
         messageArea = new JEditorPane("text/html",
                 JSeshMessages.getString("clipboardFormat.explanation.text"));
 
         messageArea.setEditable(false);
         messageArea.setBackground(panel.getBackground());
+    }
+
+    private void updateTextFormatEnabled() {
+        mdcTextButton.setEnabled(plainTextBox.isSelected());
+        unicodeTextButton.setEnabled(plainTextBox.isSelected());
+        unicode12TextButton.setEnabled(plainTextBox.isSelected());
     }
 
     public JCheckBox getBitmapCheckBox() {
@@ -101,6 +123,9 @@ public class JClipboardFormatSelector {
         helper.add(pdfCheckBox, "wrap");
         helper.add(bitmapCheckBox, "wrap");
         helper.add(plainTextBox, "wrap");
+        helper.add(mdcTextButton, "gapleft 25, wrap");
+        helper.add(unicodeTextButton, "gapleft 25, wrap");
+        helper.add(unicode12TextButton, "gapleft 25, wrap");
     }
 
     public JPanel getPanel() {
@@ -128,6 +153,12 @@ public class JClipboardFormatSelector {
         this.pdfCheckBox.setSelected(clipboardPreferences.isPdfWanted());
         this.bitmapCheckBox.setSelected(clipboardPreferences.isImageWanted());
         this.plainTextBox.setSelected(clipboardPreferences.isTextWanted());
+        boolean unicode = clipboardPreferences.isUnicodeText();
+        boolean controls = clipboardPreferences.isUnicodeFormatControls();
+        this.mdcTextButton.setSelected(!unicode);
+        this.unicodeTextButton.setSelected(unicode && !controls);
+        this.unicode12TextButton.setSelected(unicode && controls);
+        updateTextFormatEnabled();
     }
 
     public void updatePreferences(JSeshApplicationModel app) {
@@ -136,7 +167,9 @@ public class JClipboardFormatSelector {
                 .withEmfWanted(emfCheckBox.isSelected())
                 .withPdfWanted(pdfCheckBox.isSelected())
                 .withImageWanted(bitmapCheckBox.isSelected())
-                .withTextWanted(plainTextBox.isSelected());
+                .withTextWanted(plainTextBox.isSelected())
+                .withUnicodeText(unicodeTextButton.isSelected() || unicode12TextButton.isSelected())
+                .withUnicodeFormatControls(unicode12TextButton.isSelected());
         app.setClipboardPreferences(prefs);
     }
 }

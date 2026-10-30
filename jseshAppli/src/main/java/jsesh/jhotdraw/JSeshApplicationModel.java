@@ -531,8 +531,11 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
 
         @Override
         public MDCModelTransferable buildTransferable(HieroglyphicText top, JSeshRenderContext renderContext) {
+            // Plain text follows the preferences (MdC or Unicode)...
             return buildTransferable(top, renderContext,
-                    getClipboardPreferences().getTransferDataFlavors());
+                    getClipboardPreferences().getTransferDataFlavors())
+                    .withUnicodeText(getClipboardPreferences().isUnicodeText())
+                    .withUnicodeFormatControls(getClipboardPreferences().isUnicodeFormatControls());
         }
 
         @Override

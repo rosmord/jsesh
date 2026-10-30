@@ -75,6 +75,10 @@ public class MDCClipboardPreferences {
 	private boolean textWanted = true;
 	private boolean imageWanted = false;
 	private boolean emfWanted = false;
+	/** If true, the plain text flavor contains Unicode hieroglyphs instead of MdC code. */
+	private boolean unicodeText = false;
+	/** If true (and unicodeText is true), Unicode 12 format controls are used. */
+	private boolean unicodeFormatControls = false;
 
 	public MDCClipboardPreferences() {
 	}
@@ -85,6 +89,8 @@ public class MDCClipboardPreferences {
 		this.textWanted = orig.textWanted;
 		this.imageWanted = orig.imageWanted;
 		this.emfWanted = orig.emfWanted;
+		this.unicodeText = orig.unicodeText;
+		this.unicodeFormatControls = orig.unicodeFormatControls;
 	}
 
 	public boolean isImageWanted() {
@@ -137,12 +143,36 @@ public class MDCClipboardPreferences {
 		return result;
 	}
 
+	/// Is the plain text flavor made of Unicode hieroglyphs (rather than Manuel de Codage code)?
+	public boolean isUnicodeText() {
+		return unicodeText;
+	}
+
+	public MDCClipboardPreferences withUnicodeText(boolean unicodeText) {
+		MDCClipboardPreferences result = new MDCClipboardPreferences(this);
+		result.unicodeText = unicodeText;
+		return result;
+	}
+
+	/// Does the Unicode text use the Unicode 12 format controls? Only meaningful if [#isUnicodeText()].
+	public boolean isUnicodeFormatControls() {
+		return unicodeFormatControls;
+	}
+
+	public MDCClipboardPreferences withUnicodeFormatControls(boolean unicodeFormatControls) {
+		MDCClipboardPreferences result = new MDCClipboardPreferences(this);
+		result.unicodeFormatControls = unicodeFormatControls;
+		return result;
+	}
+
 	public void saveToPrefs(Preferences prefs) {
 		prefs.putBoolean("rtfWanted", rtfWanted);
 		prefs.putBoolean("pdfWanted", pdfWanted);
 		prefs.putBoolean("imageWanted", imageWanted);
 		prefs.putBoolean("textWanted", this.textWanted);
 		prefs.putBoolean("emfWanted", this.emfWanted);
+		prefs.putBoolean("unicodeText", this.unicodeText);
+		prefs.putBoolean("unicodeFormatControls", this.unicodeFormatControls);
 	}
 
 	public static MDCClipboardPreferences getFromPreferences(Preferences prefs) {
@@ -154,7 +184,9 @@ public class MDCClipboardPreferences {
 								"pdfWanted",
 								PlatformDetection.getPlatform() == PlatformDetection.MACOSX))
 				.withImageWanted(prefs.getBoolean("imageWanted", false))
-				.withTextWanted(prefs.getBoolean("textWanted", false));
+				.withTextWanted(prefs.getBoolean("textWanted", false))
+				.withUnicodeText(prefs.getBoolean("unicodeText", false))
+				.withUnicodeFormatControls(prefs.getBoolean("unicodeFormatControls", false));
 	}
 
 	/**

@@ -23,6 +23,7 @@ import jsesh.ui.export.pdfExport.PDFDataSaver;
 import jsesh.ui.export.rtf.RTFExportPreferences;
 import jsesh.ui.export.rtf.RTFExporter;
 import jsesh.io.mdc.MdCModelWriter;
+import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.model.ListOfTopItems;
 import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
@@ -56,6 +57,9 @@ public class MDCModelTransferable implements Transferable {
 
     private final DataFlavor dataFlavors[];
 
+    private boolean unicodeText = false;
+    private boolean unicodeFormatControls = false;
+
     /**
      * Create a MDCModelTransferable.
      * Note that there are a lot of parameters.
@@ -76,6 +80,29 @@ public class MDCModelTransferable implements Transferable {
         this.rtfPreferences = rtfExportPreferences;
         this.jseshRenderContext = renderContext;
         this.dataFlavors = dataFlavors;
+    }
+
+    /**
+     * Choose the content of the plain text flavor.
+     *
+     * @param unicodeText true for Unicode hieroglyphs, false (default) for
+     * Manuel de Codage code.
+     * @return this transferable.
+     */
+    public MDCModelTransferable withUnicodeText(boolean unicodeText) {
+        this.unicodeText = unicodeText;
+        return this;
+    }
+
+    /**
+     * Choose whether the Unicode plain text uses the Unicode 12 format
+     * controls. Only used if Unicode text was requested.
+     *
+     * @return this transferable.
+     */
+    public MDCModelTransferable withUnicodeFormatControls(boolean unicodeFormatControls) {
+        this.unicodeFormatControls = unicodeFormatControls;
+        return this;
     }
 
     public void setJSeshStyle(JSeshStyle style) {
@@ -193,6 +220,11 @@ public class MDCModelTransferable implements Transferable {
      * @return
      */
     private String getStringData() {
+        if (unicodeText) {
+            MdCToUnicodeConverter converter = new MdCToUnicodeConverter();
+            converter.setIncludeFormatControlChars(unicodeFormatControls);
+            return converter.convertToPlainUnicode(text);
+        }
         MdCModelWriter mdCModelWriter = new MdCModelWriter();
         return mdCModelWriter.toMdC(text, true);
     }
