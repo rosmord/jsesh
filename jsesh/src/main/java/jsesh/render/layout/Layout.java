@@ -137,12 +137,10 @@ public class Layout {
 	 */
 	private TextDirection currentTextDirection;
 
-	private int depth;
-
 	private boolean inAbsoluteGroup = false;
 
 	/// The contexts of the enclosing zones, saved while the content of a zone
-	/// is laid out with its own context (see [#preLayoutHook(MDCView, int)]).
+	/// is laid out with its own context (see [#preLayoutHook(MDCView)]).
 	private final Deque<SavedZoneState> savedZoneStates = new ArrayDeque<>();
 
 	private record SavedZoneState(JSeshRenderContext renderContext, TextOrientation orientation,
@@ -161,11 +159,9 @@ public class Layout {
 	 * different (specially in columns).
 	 * 
 	 * @param view
-	 * @param depth the depth of the view.
 	 */
-	final public void layout(MDCView view, int depth) {
+	final public void layout(MDCView view) {
 		currentView = view;
-		this.depth = depth;
 		commonLayoutHook();
 		LayoutAux visitor = new LayoutAux();
 		// Actual layout :
@@ -194,9 +190,8 @@ public class Layout {
 	 * <p>
 	 * 
 	 * @param view
-	 * @param depth depth of the view. the view for the whole text has depth 0.
 	 */
-	public void preLayoutHook(MDCView view, int depth) {
+	public void preLayoutHook(MDCView view) {
 		if (view.getModel() instanceof Cartouche) {
 			centerSigns = true;
 		} else if (view.getModel() instanceof AbsoluteGroup) {
@@ -217,7 +212,7 @@ public class Layout {
 	 * 
 	 * @param result
 	 */
-	public void postLayoutHook(MDCView result, int depth) {
+	public void postLayoutHook(MDCView result) {
 		if (result.getModel() instanceof ZoneContent && !savedZoneStates.isEmpty()) {
 			SavedZoneState saved = savedZoneStates.pop();
 			renderContext = saved.renderContext();
@@ -1041,7 +1036,7 @@ public class Layout {
 		}
 
 		/// The content of a zone is laid out as a text, in the zone's context
-		/// (see [Layout#preLayoutHook(MDCView, int)]).
+		/// (see [Layout#preLayoutHook(MDCView)]).
 		@Override
 		public void visitZoneContent(ZoneContent content) {
 			layoutTopItems();

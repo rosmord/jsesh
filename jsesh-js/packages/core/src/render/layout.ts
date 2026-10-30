@@ -80,7 +80,6 @@ export interface LayoutContext {
 export function buildView(element: ModelElement, context: LayoutContext, start = 0, end = element.numberOfChildren): MDCView {
   const layout = new Layout(context);
   let topLevel = true;
-  let depth = 0;
   let currentView: MDCView | null = null;
 
   const builder = new (class extends ModelElementAdapter {
@@ -93,7 +92,6 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
     }
 
     override visitDefault(t: ModelElement): void {
-      depth++;
       const result = new MDCView(t);
       layout.preLayoutHook(result);
       const [a, b] = topLevel ? [start, end] : [0, t.numberOfChildren];
@@ -102,16 +100,15 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
         t.getChildAt(i).accept(this);
         result.add(currentView!);
       }
-      layout.layout(result, depth);
+      layout.layout(result);
       layout.postLayoutHook(result);
       currentView = result;
-      depth--;
     }
 
     override visitHieroglyph(h: Hieroglyph): void {
       const result = new MDCView(h);
       layout.preLayoutHook(result);
-      layout.layout(result, depth + 1);
+      layout.layout(result);
       currentView = result;
     }
   })();
@@ -187,7 +184,7 @@ class Layout {
     this.centerSigns = this.style.options.smallSignCentered;
   }
 
-  layout(view: MDCView, _depth: number): void {
+  layout(view: MDCView): void {
     this.currentView = view;
     view.direction = this.currentTextDirection;
     view.orientation = this.currentTextOrientation;

@@ -94,7 +94,7 @@ public class ViewBuilder {
     public void reLayout(MDCView view, JSeshRenderContext renderContext, JSeshTechRenderContext techRenderContext) {
         //	  prepare for work :
         getLayout().reset(renderContext, techRenderContext);
-        getLayout().layout(view, 0);
+        getLayout().layout(view);
         getLayout().cleanup();
     }
 
@@ -115,8 +115,6 @@ public class ViewBuilder {
          */
         boolean topLevel;
 
-        int depth;
-
         /**
          * @param start
          * @param end
@@ -125,7 +123,6 @@ public class ViewBuilder {
             this.start = start;
             this.end = end;
             topLevel = true;
-            depth = 0;
         }
 
         /**
@@ -152,9 +149,8 @@ public class ViewBuilder {
          * @param t
          */
         public void visitDefault(ModelElement t) {
-            depth++;
             MDCView result = new MDCView(t);
-            getLayout().preLayoutHook(result, depth);
+            getLayout().preLayoutHook(result);
 
             int a, b;
             if (topLevel) {
@@ -174,11 +170,10 @@ public class ViewBuilder {
                 result.add(currentView);
             }
             // actual layout of the view. The sub views are already laid out :
-            getLayout().layout(result, depth);
-            getLayout().postLayoutHook(result, depth);
+            getLayout().layout(result);
+            getLayout().postLayoutHook(result);
             // visiting must write the view it builds in currentView : 
             currentView = result;
-            depth--;
         }
 
         /**
@@ -188,8 +183,8 @@ public class ViewBuilder {
          */
         public void visitHieroglyph(Hieroglyph h) {
             MDCView result = new MDCView(h);
-            getLayout().preLayoutHook(result, depth + 1);
-            getLayout().layout(result, depth + 1);
+            getLayout().preLayoutHook(result);
+            getLayout().layout(result);
             currentView = result;
         }
     }
