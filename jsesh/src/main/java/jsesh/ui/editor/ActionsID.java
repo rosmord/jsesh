@@ -52,7 +52,7 @@ public interface ActionsID {
     String COPY_AS_PDF = "edit.copyAsPDF";
     String COPY_AS_RTF = "edit.copyAsRTF";
     String CUT = "edit.cut";
-    String END_OF_LINE = "edit.EndOfLine";
+    String END_OF_LINE = "edit.endOfLine";
     String EXPAND_SELECTION_DOWN = "edit.expandSelectionDown";
     String EXPAND_SELECTION_LEFT = "edit.expandSelectionLeft";
     String EXPAND_SELECTION_RIGHT = "edit.expandSelectionRight";

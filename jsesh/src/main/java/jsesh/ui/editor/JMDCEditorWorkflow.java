@@ -732,6 +732,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         EditingScope scope = scope();
         caret.setInsertPosition(scope.toTextPosition(scope.getLineFirstPosition(caret.getLocalInsertPosition())));
+        caret.unsetMark();
         clearSeparator();
         followCaret();
     }
@@ -743,6 +744,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         EditingScope scope = scope();
         caret.setInsertPosition(scope.toTextPosition(scope.getLineLastPosition(caret.getLocalInsertPosition())));
+        caret.unsetMark();
+        clearSeparator();
         followCaret();
     }
 
