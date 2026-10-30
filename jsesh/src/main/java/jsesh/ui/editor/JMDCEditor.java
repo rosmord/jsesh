@@ -138,11 +138,10 @@ public class JMDCEditor extends JPanel implements Scrollable {
     /// wrapped).
     private float currentWrapWidth = 0;
 
-    /**
-     * Strategy to draw a view. (we have just decided to build the view builder
-     * on demand, and not to keep it.).
-     */
-    protected ViewDrawer drawer;
+    /// Display options for the editor only (printing and exports never show them).
+    private boolean showKerningMarks = false;
+    private boolean showLineBreakMarks = false;
+    private boolean showZoneLimits = false;
 
     /**
      * The current view we maintain.
@@ -278,7 +277,6 @@ public class JMDCEditor extends JPanel implements Scrollable {
         mdcModelEditionListener = new JMDCModelEditionListener();
         workflow.addMDCModelListener(mdcModelEditionListener);
         setFocusable(true);        
-        drawer = new ViewDrawer(); // Is there any need to keep it in memory?
         viewUpdater = new MDCViewUpdater(this);
         mouseAndFocusController = new MDCEditorMouseAndFocusController();
         mouseAndFocusController.attachTo(this);
@@ -508,9 +506,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
             g2d.draw(pageLayout.getDrawingRectangle());
         }
 
-        drawer.setClip(true);
-
-        drawer.drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
+        buildViewDrawer().drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
         JSeshStyle cursorStyle = getRenderContext().jseshStyle();
         new TextGeometry(getView(), cursorStyle).cursorAt(getMDCCaret())
                 .ifPresent(cursor -> cursor.paint(g2d, cursorStyle));
@@ -1336,17 +1332,27 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
    
 
+    /// Builds a drawer for painting this editor on screen, with the display options set.
+    protected ViewDrawer buildViewDrawer() {
+        ViewDrawer drawer = new ViewDrawer();
+        drawer.setClip(true);
+        drawer.setShowKerningMarks(showKerningMarks);
+        drawer.setShowLineBreakMarks(showLineBreakMarks);
+        drawer.setShowZoneLimits(showZoneLimits);
+        return drawer;
+    }
+
     /// Show kerning operators as marks, as paragraph marks in a word processor.
     /// Only this editor is concerned: printing and exports never show them.
     ///
     /// @param showKerningMarks true to show the marks.
     public void setShowKerningMarks(boolean showKerningMarks) {
-        drawer.setShowKerningMarks(showKerningMarks);
+        this.showKerningMarks = showKerningMarks;
         repaint();
     }
 
     public boolean isShowKerningMarks() {
-        return drawer.isShowKerningMarks();
+        return showKerningMarks;
     }
 
     /// Show explicit line breaks as marks, as paragraph marks in a word processor.
@@ -1355,12 +1361,12 @@ public class JMDCEditor extends JPanel implements Scrollable {
     ///
     /// @param showLineBreakMarks true to show the marks.
     public void setShowLineBreakMarks(boolean showLineBreakMarks) {
-        drawer.setShowLineBreakMarks(showLineBreakMarks);
+        this.showLineBreakMarks = showLineBreakMarks;
         repaint();
     }
 
     public boolean isShowLineBreakMarks() {
-        return drawer.isShowLineBreakMarks();
+        return showLineBreakMarks;
     }
 
     /// Shows or hides the limits of zones (`%zone(...)`), which are otherwise
@@ -1369,12 +1375,12 @@ public class JMDCEditor extends JPanel implements Scrollable {
     ///
     /// @param showZoneLimits true to show the limits.
     public void setShowZoneLimits(boolean showZoneLimits) {
-        drawer.setShowZoneLimits(showZoneLimits);
+        this.showZoneLimits = showZoneLimits;
         repaint();
     }
 
     public boolean isShowZoneLimits() {
-        return drawer.isShowZoneLimits();
+        return showZoneLimits;
     }
 
     /**

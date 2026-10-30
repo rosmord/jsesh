@@ -156,8 +156,7 @@ public class JMDCField extends JMDCEditor {
         }
         g2d.translate(-drawingHorizontalOrigin, 0);
         g2d.scale(getScale(), getScale());
-        drawer.setClip(true);
-        drawer.drawViewAndSelection(g2d,
+        buildViewDrawer().drawViewAndSelection(g2d,
             getRenderContext(),
             buildTechRenderContext(),
             getView(), getMDCCaret());
