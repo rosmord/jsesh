@@ -33,6 +33,7 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.documentview;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,8 @@ import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
 
@@ -97,6 +100,9 @@ public final class JSeshViewCore {
      */
     private final JSeshViewComponent<ZoomInfo> viewComponent;
 
+    /// Normal foreground colour of the message field (restored after a warning).
+    private final Color messageDefaultColor;
+
     /**
      * Information about fonts and glyphs.
      */
@@ -139,6 +145,7 @@ public final class JSeshViewCore {
         this.hieroglyphResources = hieroglyphResources;
         this.iconFactory = iconFactory;
         viewComponent = new JSeshViewComponent<ZoomInfo>(hieroglyphResources, style);
+        messageDefaultColor = viewComponent.getMessageField().getForeground();
         setCurrentDocument(new MDCDocument());
 
         // Activate the objects
@@ -150,6 +157,7 @@ public final class JSeshViewCore {
         codeModel.inputModeChanged(getEditor().getWorkflow().getMode());
         getEditor().getWorkflow().addMDCModelListener(mdcLineManager);
         viewComponent.getMdcField().addActionListener(mdcLineManager);
+        viewComponent.getMdcField().getDocument().addDocumentListener(mdcLineManager);
 
         // Zoom combobox
         DefaultComboBoxModel<ZoomInfo> comboBoxModel = new DefaultComboBoxModel<>();
@@ -250,9 +258,12 @@ public final class JSeshViewCore {
      * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
      */
     private final class MDCLineManager extends MDCModelEditionAdapter implements
-            ActionListener {
+            ActionListener, DocumentListener {
 
         private boolean textLineRefreshAsked = false;
+
+        /// True while the MdC field is being filled by the program (not typed by the user).
+        private boolean programmaticMdcUpdate = false;
 
         public void caretChanged(MDCCaret caret) {
             updateCurrentMDCLine();
@@ -273,9 +284,36 @@ public final class JSeshViewCore {
          */
         public void updateMdCField() {
             textLineRefreshAsked = true;
-            String s = getEditor().getWorkflow().getCurrentLineAsString();
-            viewComponent.getMdcField().setText(s);
+            programmaticMdcUpdate = true;
+            try {
+                String s = getEditor().getWorkflow().getCurrentLineAsString();
+                viewComponent.getMdcField().setText(s);
+            } finally {
+                programmaticMdcUpdate = false;
+            }
             textLineRefreshAsked = false;
+        }
+
+        /// Warn the user, once per edit, that typing MdC is not the preferred way to enter text.
+        private void userEditedMdcField() {
+            if (!programmaticMdcUpdate) {
+                setWarningMessage(BundleHelper.getInstance().getLabel("mdcField.typingWarning"));
+            }
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            userEditedMdcField();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            userEditedMdcField();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            // attribute changes only
         }
 
         /**
@@ -283,6 +321,7 @@ public final class JSeshViewCore {
          * de-activate the MdC field update : it will show what has been
          * understood.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             getEditor().getWorkflow().setCurrentLineTo(viewComponent.getMdcField().getText());
         }
@@ -410,7 +449,14 @@ public final class JSeshViewCore {
     }
 
     public void setMessage(String messsage) {
+        viewComponent.getMessageField().setForeground(messageDefaultColor);
         viewComponent.getMessageField().setText(messsage);
+    }
+
+    /// Display a warning (in red) in the message field.
+    public void setWarningMessage(String message) {
+        viewComponent.getMessageField().setForeground(Color.RED);
+        viewComponent.getMessageField().setText(message);
     }
 
     /**

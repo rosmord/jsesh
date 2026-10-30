@@ -77,6 +77,7 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.format.*;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
+import jsesh.jhotdraw.actions.help.JSeshTutorialsAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
@@ -552,6 +553,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
         @Override
         public void addHelpItems(JMenu m, Application app, View v) {
                 m.add(app.getActionMap(v).get(JSeshHelpAction.ID));
+                m.add(app.getActionMap(v).get(JSeshTutorialsAction.ID));
         }
 
         /*

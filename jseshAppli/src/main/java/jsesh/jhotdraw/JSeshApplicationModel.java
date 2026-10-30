@@ -96,6 +96,7 @@ import jsesh.jhotdraw.actions.file.QuickPDFSelectExportFolderAction;
 import jsesh.jhotdraw.actions.file.UpdateNewDocumentStyleAction;
 import jsesh.jhotdraw.actions.generic.ViewOpenerWorker;
 import jsesh.jhotdraw.actions.help.JSeshHelpAction;
+import jsesh.jhotdraw.actions.help.JSeshTutorialsAction;
 import jsesh.jhotdraw.actions.text.EditGroupAction;
 import jsesh.jhotdraw.actions.text.EditZoneAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
@@ -254,6 +255,7 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             map.put(ImportNewSignAction.ID, new ImportNewSignAction(a));
             map.put(ExportTextLibraryAction.ID, new ExportTextLibraryAction(a));
             map.put(JSeshHelpAction.ID, new JSeshHelpAction(a));
+            map.put(JSeshTutorialsAction.ID, new JSeshTutorialsAction(a));
             // Corpus search...
             map.put(FindInFolderAction.ID,
                     new FindInFolderAction((ActiveViewAwareApplication) a));
