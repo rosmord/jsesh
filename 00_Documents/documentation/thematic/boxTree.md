@@ -529,7 +529,9 @@ differences and decisions:
 - **Editing**: clicks, cursor, selection and up/down work in the lines of a
   zone (`CursorLocator`, `PositionLocator`, `SelectionLocator`,
   `JMDCEditorWorkflow.verticalPosition`). Text ▸ Zone ▸ Wrap in Zone
-  (`JMDCEditorWorkflow.addZone`) wraps the selection in a zone.
+  (`JMDCEditorWorkflow.addZone`) wraps the selection in a zone; Unwrap Zone
+  (`JMDCEditorWorkflow.unwrapZone`) is the reverse, for the zone around the
+  cursor.
 - **Root zone**: the document is the outermost zone; its settings are the
   `++JSesh_…` header. A page, when added, will be a size constraint on it
   (todo 0057).

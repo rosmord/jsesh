@@ -253,6 +253,8 @@ public class Hieroglyph extends InnerGroup {
             code = "Aa" + code.substring(1);
         } else if ("Ff2".equals(code)) {
             code = "V49A";
+        } else if ("`".equals(code)) {
+            code = "Ff1";
         }
         this.code = code;
         int typeCode = LexicalSymbolsUtils.getCodeForString(code);

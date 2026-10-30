@@ -327,7 +327,7 @@ new MDCDocumentWriter().write(doc);        // saves to doc.getFile()
 
 Beware: `write(...)` calls `prepareForSaving(doc)`, which **normalises the
 document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and a
-`.gly` extension (or `.hie`/iso-8859-1 when philology-as-signs is on). Variants:
+`.gly` extension (or `.hie`/iso-8859-1 when philology-as-signs is off). Variants:
 
 - `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the stream (it stays the caller's).
 - `toMdC(doc)` — returns the full document (header included) as a `String`.

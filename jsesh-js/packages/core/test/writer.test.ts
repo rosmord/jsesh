@@ -19,6 +19,28 @@ import {
 const cases: ParserCase[] = fixturesAvailable ? readFixture("parser-cases.json") : [];
 const corpus: string[] = fixturesAvailable ? readFixture("corpus/index.json") : [];
 
+describe("legacy sign codes", () => {
+  it.each([
+    ["`", "Ff1"],
+    ["Ff1", "Ff1"],
+    ["A1-`", "A1-Ff1"],
+    ["J1", "Aa1"],
+    ["Ff2", "V49A"],
+  ])("writes %s back as %s", (mdc, expected) => {
+    expect(toMdc(parseMdc(mdc))).toEqual(expected);
+  });
+});
+
+describe("superscripts", () => {
+  it.each([
+    ["|12-A1", "|12-A1"],
+    ["|a\\\\-A1", "|a\\\\-A1"], // the text is `a\`
+    ["|a\\-b-A1", "|a\\-b-A1"], // `\-` is a literal hyphen
+  ])("reads and writes %s back as %s", (mdc, expected) => {
+    expect(toMdc(parseMdc(mdc))).toEqual(expected);
+  });
+});
+
 describe.skipIf(!fixturesAvailable)("model and writer, against Java", () => {
   it.each(cases.map((c) => [c.input, c] as const))("writes back %j", (_input, c) => {
     if (c.writtenError !== undefined) {

@@ -338,11 +338,8 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         }
         MDCPosition cursor = caret.getInsertExactPosition();
         HieroglyphicText text = caret.getModel();
+        TextScope contentScope = innermostZoneContentScope();
         // The zone's content is [... zoneIndex, 0]: the zone sits in the scope above.
-        TextScope contentScope = TextScope.containing(text, cursor);
-        while (!(contentScope.resolve(text) instanceof ZoneContent)) {
-            contentScope = contentScope.enclosing(text);
-        }
         int[] contentPath = contentScope.getPath();
         int zoneIndex = contentPath[contentPath.length - 2];
         TextScope zoneScope = TextScope.of(Arrays.copyOf(contentPath, contentPath.length - 2));
@@ -353,6 +350,42 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         scope.replaceElement(new MDCPosition(zoneIndex), new MDCPosition(zoneIndex + 1), newZone);
         // The structure is unchanged: the cursor is still valid.
         caret.setInsertPosition(cursor);
+        clearSeparator();
+        return true;
+    }
+
+    /// Removes the innermost zone around the cursor, and puts its content in
+    /// the zone's place, in the zone's parent: the reverse of [#addZone()]. The
+    /// change can be undone, and the cursor stays at the same place in the
+    /// content.
+    ///
+    /// @return false if the cursor is not in a zone.
+    public boolean unwrapZone() {
+        if (enclosingZones().isEmpty()) {
+            return false;
+        }
+        int[] cursorPath = caret.getInsertExactPosition().getPath();
+        HieroglyphicText text = caret.getModel();
+        TextScope contentScope = innermostZoneContentScope();
+        // The zone's content is [... zoneIndex, 0]: the zone sits in the scope above.
+        int[] contentPath = contentScope.getPath();
+        int zoneIndex = contentPath[contentPath.length - 2];
+        TextScope zoneScope = TextScope.of(Arrays.copyOf(contentPath, contentPath.length - 2));
+        ZoneContent content = (ZoneContent) contentScope.resolve(text);
+        List<TopItem> items = content.getItemsBetween(0, content.getNumberOfChildren());
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, zoneScope);
+        if (!scope.accepts(items)) {
+            return false;
+        }
+        clearMark();
+        scope.replaceElement(new MDCPosition(zoneIndex), new MDCPosition(zoneIndex + 1), items);
+        // [... zoneIndex, 0, k, rest] becomes [... zoneIndex + k, rest].
+        int[] path = new int[cursorPath.length - 2];
+        System.arraycopy(cursorPath, 0, path, 0, zoneScope.depth());
+        path[zoneScope.depth()] = zoneIndex + cursorPath[contentPath.length];
+        System.arraycopy(cursorPath, contentPath.length + 1, path, zoneScope.depth() + 1,
+                cursorPath.length - contentPath.length - 1);
+        caret.setInsertPosition(MDCPosition.of(path));
         clearSeparator();
         return true;
     }
@@ -2215,6 +2248,17 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     /// The zones around the insertion point, innermost first.
     private List<Zone> enclosingZones() {
         return enclosingZones(caret.getInsertExactPosition());
+    }
+
+    /// The scope of the content of the innermost zone around the insertion
+    /// point, which must be in a zone.
+    private TextScope innermostZoneContentScope() {
+        HieroglyphicText text = caret.getModel();
+        TextScope contentScope = TextScope.containing(text, caret.getInsertExactPosition());
+        while (!(contentScope.resolve(text) instanceof ZoneContent)) {
+            contentScope = contentScope.enclosing(text);
+        }
+        return contentScope;
     }
 
     /// The zones around a position, innermost first.

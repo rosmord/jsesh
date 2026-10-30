@@ -108,7 +108,7 @@ public final class MdcLexicon {
                 .rule(MdcTokenType.HKERN, literal("%hkern"))
                 .rule(MdcTokenType.VKERN, literal("%vkern"))
                 .rule(MdcTokenType.START_HIEROGLYPHS, literal("+s"))
-                .rule(MdcTokenType.TEXT_SUPER, sequence(character('|'), repeat(union(noneOf("-"), literal("\\-")))))
+                .rule(MdcTokenType.TEXT_SUPER, superscript())
                 .rule(MdcTokenType.WORD_END_CANDIDATE, TRUESPACE)
                 .rule(MdcTokenType.SENTENCE_END_CANDIDATE, oneOrMore(sequence(TRUESPACE, TRUESPACE)))
                 .rule(MdcTokenType.SEPARATOR, sequence(character('-'), repeat(union(TRUESPACE, character('-')))))
@@ -217,6 +217,16 @@ public final class MdcLexicon {
                 sequence(character('+'), difference(anyCharacter(), union(LOWER, character('+'))));
         Expression body = repeat(union(escapedPlus, notPlus, plusThenNotLowerOrPlus));
         return sequence(character('+'), startLetter, body);
+    }
+
+    /// `\|([^-\\]|\\.)*\\?` (see [MdcTokenType#TEXT_SUPER]).
+    ///
+    /// A backslash always escapes the character after it, so `\-` is a literal hyphen and `\\`
+    /// a literal backslash: `|a\\-` is the superscript `a\`, terminated by the final hyphen.
+    /// The alternatives are mutually exclusive, so there is no ambiguity on `\\-`.
+    private static Expression superscript() {
+        Expression body = union(noneOf("-\\"), sequence(character('\\'), anyCharacter()));
+        return sequence(character('|'), repeat(body), optional(character('\\')));
     }
 
     /// `"#""1"?"2"?"3"?"4"?`

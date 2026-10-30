@@ -261,6 +261,7 @@ class MDCEditorKeyManager {
             addAction(ActionsID.CHOOSE_POSSIBILITY, new ChoosePossibilityAction(editor));
             addAction(ActionsID.GROUP_AS_INSERTION, new GroupAsInsertionAction(editor));
             addDelegateAction(ActionsID.INSERT_ZONE, editor, "addZone", editorEnabler);
+            addDelegateAction(ActionsID.UNWRAP_ZONE, editor, "unwrapZone", editorEnabler);
             addDelegateAction(ActionsID.INSERT_SPACE, editor, "insertSpace", editorEnabler);
             addDelegateAction(ActionsID.INSERT_HALF_SPACE, editor, "insertHalfSpace", editorEnabler);
 

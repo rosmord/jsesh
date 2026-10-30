@@ -338,6 +338,18 @@ public class MDCParserAstSyntaxTest {
         assertEquals(AstDocument.of(new AstSuperscript("note")), parse("|note"));
     }
 
+    /// `|a\\-` is the superscript `a\`: the escaped backslash must not swallow the closing hyphen.
+    @Test
+    public void testSuperscript_escapedBackslashThenHyphen() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstSuperscript("a\\\\")), parse("|a\\\\-"));
+    }
+
+    /// `\-` stays a literal hyphen inside a superscript.
+    @Test
+    public void testSuperscript_escapedHyphen() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstSuperscript("a\\-b")), parse("|a\\-b-"));
+    }
+
     // --- Start-hieroglyphic-text marker ("+s") -----------------------------
 
     @Test

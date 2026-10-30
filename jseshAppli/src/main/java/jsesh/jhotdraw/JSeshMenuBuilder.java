@@ -439,7 +439,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 JMenu zoneMenu = BundleHelper.getInstance().configure(new JMenu(),
                                 "text.zoneMenu");
                 addToMenu(zoneMenu, a, v, InsertZoneWithOptionsAction.ID);
-                addToMenu(zoneMenu, a, v, ActionsID.INSERT_ZONE);
+                //addToMenu(zoneMenu, a, v, ActionsID.INSERT_ZONE); the full zone is better.
+                addToMenu(zoneMenu, a, v, ActionsID.UNWRAP_ZONE);
                 addToMenu(zoneMenu, a, v, EditZoneAction.ID);
                 return zoneMenu;
         }

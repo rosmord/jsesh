@@ -745,11 +745,12 @@ export class Hieroglyph extends InnerGroup {
     this.notifyModification();
   }
 
-  /// Sets the code. `J...` codes become `Aa...`, `Ff2` becomes `V49A`, and
-  /// the type is deduced from the code.
+  /// Sets the code. `J...` codes become `Aa...`, `Ff2` becomes `V49A`,
+  /// the backtick becomes `Ff1`, and the type is deduced from the code.
   setCode(code: string): void {
     if (code.startsWith("J")) code = "Aa" + code.substring(1);
     else if (code === "Ff2") code = "V49A";
+    else if (code === "`") code = "Ff1";
     this.code = code;
     const typeCode = typeForCode(code);
     this.type = typeCode !== -1 ? typeCode : SymbolCodes.MDCCODE;

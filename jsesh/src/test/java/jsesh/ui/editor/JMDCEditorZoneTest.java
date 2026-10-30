@@ -195,6 +195,66 @@ class JMDCEditorZoneTest {
     }
 
     @Test
+    void unwrappingAZonePutsItsContentInItsParent() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone[frame](A2-A3!A4)-A5");
+        w.setCursor(pos(1, 0, 1));
+        assertTrue(w.unwrapZone());
+        assertEquals("A1-A2-A3-!A4-A5", code(w));
+        // Still between A2 and A3.
+        assertEquals(pos(2), w.getCaret().getInsertExactPosition());
+        assertEquals(Optional.empty(), w.getZoneParametersAtCaret());
+        w.undo();
+        assertEquals("A1-%zone[frame](A2-A3-!A4)-A5", code(w));
+    }
+
+    @Test
+    void wrappingThenUnwrappingGivesTheTextBack() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-A2-A3");
+        w.setCursor(pos(1));
+        w.setMark(pos(3));
+        assertTrue(w.addZone());
+        assertTrue(w.unwrapZone());
+        assertEquals("A1-A2-A3", code(w));
+        assertEquals(pos(3), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void onlyTheInnermostZoneIsUnwrapped() throws Exception {
+        JMDCEditorWorkflow w = workflow("%zone(A1-%zone(A2-A3)-A4)");
+        w.setCursor(pos(0, 0, 1, 0, 2));
+        assertTrue(w.unwrapZone());
+        assertEquals("%zone(A1-A2-A3-A4)", code(w));
+        assertEquals(pos(0, 0, 3), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void anEmptyZoneIsUnwrappedToNothing() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone()-A2");
+        w.setCursor(pos(1, 0, 0));
+        assertTrue(w.unwrapZone());
+        assertEquals("A1-A2", code(w));
+        assertEquals(pos(1), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void aZoneIsUnwrappedFromACartoucheInIt() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone(B1-<-C1-C2->)");
+        // In the cartouche, the second item of the zone.
+        w.setCursor(pos(1, 0, 1, 0, 0, 0, 1));
+        assertTrue(w.unwrapZone());
+        assertEquals("A1-B1-<-C1-C2->", code(w));
+        assertEquals(pos(2, 0, 0, 0, 1), w.getCaret().getInsertExactPosition());
+    }
+
+    @Test
+    void outsideAZoneThereIsNothingToUnwrap() throws Exception {
+        JMDCEditorWorkflow w = workflow("A1-%zone(A2)");
+        w.setCursor(pos(1));
+        assertFalse(w.unwrapZone());
+        assertEquals("A1-%zone(A2)", code(w));
+    }
+
+    @Test
     void zonesCanBeNested() throws Exception {
         JMDCEditorWorkflow w = workflow("%zone(A1-A2)");
         w.setCursor(pos(0, 0, 1));

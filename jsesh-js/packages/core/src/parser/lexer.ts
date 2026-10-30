@@ -190,8 +190,9 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.HKERN, match: lit("%hkern") },
   { type: TokenType.VKERN, match: lit("%vkern") },
   { type: TokenType.START_HIEROGLYPHS, match: lit("+s") },
-  // "\-" is tried first, so that the greedy regexp gives the longest match.
-  { type: TokenType.TEXT_SUPER, match: re("\\|(?:\\\\-|[^-])*") },
+  // A backslash escapes the next character ("\-" is a hyphen, "\\" a backslash), so that
+  // "|a\\-" is the superscript "a\". The alternatives are exclusive: no backtracking ambiguity.
+  { type: TokenType.TEXT_SUPER, match: re("\\|(?:[^-\\\\]|\\\\[\\s\\S])*\\\\?") },
   { type: TokenType.WORD_END_CANDIDATE, match: re(TRUESPACE) },
   { type: TokenType.SENTENCE_END_CANDIDATE, match: re(`(?:${TRUESPACE}${TRUESPACE})+`) },
   { type: TokenType.SEPARATOR, match: re(`-${ESPSO}`) },
