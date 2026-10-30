@@ -89,7 +89,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.io.mdc.MdcTextHelper;
 import jsesh.render.layout.insert.InsertionRanker;
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.model.operations.ModelOperation;
 import jsesh.model.unicode.MdCToUnicodeConverter;
 import jsesh.render.context.JSeshRenderContext;

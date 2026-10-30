@@ -8,7 +8,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 import jsesh.model.Cartouche;
-import jsesh.model.constants.CartouchePart;
+import jsesh.sharedvocabulary.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.CartoucheSizeHelper;

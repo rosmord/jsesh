@@ -71,7 +71,7 @@ export function parseMdc(mdc: string, options: MdcParserOptions = {}): Hieroglyp
 const CARTOUCHE_TYPES: Record<AstCartoucheType, CartoucheType> = {
   CARTOUCHE: "CARTOUCHE",
   SEREKH: "SEREKH",
-  HOUT: "HWT",
+  HWT: "HWT",
   CASTLE: "CASTLE",
   CIRCULAR_ENCLOSURE: "CIRCULAR_ENCLOSURE",
 };

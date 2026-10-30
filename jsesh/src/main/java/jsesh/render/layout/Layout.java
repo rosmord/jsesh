@@ -17,7 +17,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.glyphs.shape.HorizontalGravity;
 import jsesh.glyphs.shape.LigatureZone;
 import jsesh.glyphs.shape.VerticalGravity;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;

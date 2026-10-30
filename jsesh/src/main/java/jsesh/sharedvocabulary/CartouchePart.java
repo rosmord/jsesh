@@ -1,7 +1,7 @@
-package jsesh.model.constants;
+package jsesh.sharedvocabulary;
 
 /**
- * How one extremity of a {@link jsesh.model.Cartouche} should be drawn, as
+ * How one extremity of a `Cartouche` should be drawn, as
  * the Manuel de Codage digit (0-3) found there.
  * <p>For a plain cartouche, a serekh, a castle or a circular enclosure:
  * {@link #NONE} is nothing, {@link #FIRST} a normal start, {@link #SECOND}

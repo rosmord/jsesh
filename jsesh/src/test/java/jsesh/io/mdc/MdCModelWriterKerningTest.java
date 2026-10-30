@@ -23,7 +23,7 @@ import jsesh.model.Cadrat;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.Kerning;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.parser.MDCSyntaxError;
 
 /// `%hkern` and `%vkern` in the model: building from MdC, writing back, copying.

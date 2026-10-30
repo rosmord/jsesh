@@ -34,8 +34,8 @@ import jsesh.parser.ast.AstTabbingClear;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstZone;
-import jsesh.parser.ast.CartouchePart;
-import jsesh.parser.ast.CartoucheType;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.ToggleType;
 

@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.model.constants.CartouchePart;
+import jsesh.sharedvocabulary.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;

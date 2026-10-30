@@ -77,7 +77,7 @@ export interface MdcParserOptions {
 const CARTOUCHE_TYPES: Record<string, CartoucheType> = {
   c: "CARTOUCHE",
   s: "SEREKH",
-  h: "HOUT",
+  h: "HWT",
   f: "CASTLE",
   g: "CIRCULAR_ENCLOSURE",
 };

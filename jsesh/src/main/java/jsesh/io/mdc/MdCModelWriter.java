@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Locale;
 
 import jsesh.model.tools.AlphabeticRuns;
-import jsesh.model.constants.CartouchePart;
-import jsesh.model.constants.CartoucheType;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.model.constants.Dialect;
 import jsesh.model.constants.LexicalSymbolsUtils;
-import jsesh.model.constants.WordEndingCode;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.signcodes.ManuelDeCodage;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
@@ -331,9 +331,9 @@ public class MdCModelWriter {
 				write("}}");
 			}
 			// ending
-			if (h.getEndingCode().equals(WordEndingCode.WORD_END)) {
+			if (h.getEndingCode().equals(WordEnding.WORD_END)) {
 				write("_");
-			} else if (h.getEndingCode().equals(WordEndingCode.SENTENCE_END)) {
+			} else if (h.getEndingCode().equals(WordEnding.SENTENCE_END)) {
 				write("__");
 			}
 		}

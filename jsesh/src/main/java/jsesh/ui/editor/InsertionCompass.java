@@ -26,7 +26,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 
 /// Direct control of an insertion: a 3×3 grid of directions, and steppers for the
 /// enlargement of the main group's frame.

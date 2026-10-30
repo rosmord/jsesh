@@ -37,17 +37,17 @@ import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
-import jsesh.model.constants.CartouchePart;
-import jsesh.model.constants.CartoucheType;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.model.constants.Dialect;
-import jsesh.model.constants.InsertionDirection;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.InsertionDirection;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TabbingJustification;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.constants.ToggleType;
-import jsesh.model.constants.WordEndingCode;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.ast.AstAbsoluteGroup;
 import jsesh.parser.ast.AstAlphabeticText;
 import jsesh.parser.ast.AstBasicItem;
@@ -85,7 +85,7 @@ import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstVisitor;
 import jsesh.parser.ast.AstZone;
-import jsesh.parser.ast.WordEnding;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.lexer.symbols.PhilologyKind;
 import jsesh.parser.lexer.symbols.SignSubType;
 
@@ -218,7 +218,7 @@ class AstModelBuilder implements AstVisitor {
         Hieroglyph hieroglyph = new Hieroglyph(node.code());
         hieroglyph.setGrammar(node.isGrammar());
         hieroglyph.setType(toSignTypeCode(node.type()));
-        hieroglyph.setEndingCode(toWordEndingCode(node.endingCode()));
+        hieroglyph.setEndingCode(node.endingCode());
         hieroglyph.setModifiers(build(node.modifiers(), ModifiersList.class));
         // (0, 0, 100) is both AstHieroglyph's "no explicit position" default
         // and Hieroglyph's own default, so skipping the call in that case
@@ -232,7 +232,7 @@ class AstModelBuilder implements AstVisitor {
     @Override
     public void visitCartouche(AstCartouche node) {
         BasicItemList content = build(node.content(), BasicItemList.class);
-        push(new Cartouche(toCartoucheType(node.type()), toCartouchePart(node.startPart()), toCartouchePart(node.endPart()), content));
+        push(new Cartouche(node.type(), node.startPart(), node.endPart(), content));
     }
 
     @Override
@@ -257,17 +257,13 @@ class AstModelBuilder implements AstVisitor {
         SubCadrat first = new SubCadrat(build(astInsert.firstItems(), BasicItemList.class));
         SubCadrat second = new SubCadrat(build(astInsert.secondItems(), BasicItemList.class));
         AstOptionList options = astInsert.options();
-        push(new Insert(toInsertionDirection(astInsert.direction()), first, second, astInsert.target(),
+        push(new Insert(astInsert.direction(), first, second, astInsert.target(),
                 options.getInt("dw", 0), options.getInt("dh", 0)));
     }
 
     @Override
     public void visitKerning(AstKerning astKerning) {
-        KerningAxis axis = switch (astKerning.axis()) {
-            case HORIZONTAL -> KerningAxis.HORIZONTAL;
-            case VERTICAL -> KerningAxis.VERTICAL;
-        };
-        push(new Kerning(axis, optionsText(astKerning.options())));
+        push(new Kerning(astKerning.axis(), optionsText(astKerning.options())));
     }
 
     /// The options, written back as they would appear between brackets.
@@ -286,20 +282,6 @@ class AstModelBuilder implements AstVisitor {
             }
         }
         return result.toString();
-    }
-
-    private static InsertionDirection toInsertionDirection(AstInsert.InsertDirection direction) {
-        return switch (direction) {
-            case START -> InsertionDirection.START;
-            case END -> InsertionDirection.END;
-            case TOP -> InsertionDirection.TOP;
-            case BOTTOM -> InsertionDirection.BOTTOM;
-            case TOP_START -> InsertionDirection.TOP_START;
-            case BOTTOM_START -> InsertionDirection.BOTTOM_START;
-            case TOP_END -> InsertionDirection.TOP_END;
-            case BOTTOM_END -> InsertionDirection.BOTTOM_END;
-            case CENTER -> InsertionDirection.CENTER;
-        };
     }
 
     private InnerGroup buildInnerGroup(AstInnerGroup group) {
@@ -527,21 +509,5 @@ class AstModelBuilder implements AstVisitor {
             case LINE_LACUNA -> ToggleType.LINELACUNA;
             case OMIT -> ToggleType.OMMIT;
         };
-    }
-
-    private static WordEndingCode toWordEndingCode(WordEnding ending) {
-        return switch (ending) {
-            case NONE -> WordEndingCode.NONE;
-            case WORD_END -> WordEndingCode.WORD_END;
-            case SENTENCE_END -> WordEndingCode.SENTENCE_END;
-        };
-    }
-
-    private static CartoucheType toCartoucheType(jsesh.parser.ast.CartoucheType type) {
-        return CartoucheType.forCode(type.code());
-    }
-
-    private static CartouchePart toCartouchePart(jsesh.parser.ast.CartouchePart part) {
-        return CartouchePart.forDigit(part.digit());
     }
 }

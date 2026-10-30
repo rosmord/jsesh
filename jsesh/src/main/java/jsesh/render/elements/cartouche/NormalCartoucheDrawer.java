@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
 import jsesh.render.style.CartoucheSizeHelper;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
-import jsesh.model.constants.CartouchePart;
+import jsesh.sharedvocabulary.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cartouche;

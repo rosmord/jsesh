@@ -22,7 +22,7 @@ import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.io.mdc.MdcTextHelper;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.Insert;
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.parser.MDCSyntaxError;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;

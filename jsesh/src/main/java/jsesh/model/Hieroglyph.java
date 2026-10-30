@@ -2,7 +2,7 @@ package jsesh.model;
 
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.WordEndingCode;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.signcodes.ManuelDeCodage;
 
 /**
@@ -28,7 +28,7 @@ public class Hieroglyph extends InnerGroup {
     /**
      * optional code to indicate if the sign is a word limit.
      */
-    private WordEndingCode endingCode;
+    private WordEnding endingCode;
 
     /**
      * is this sign part of a grammatical ending ?
@@ -69,7 +69,7 @@ public class Hieroglyph extends InnerGroup {
 
     private Hieroglyph() {
         code = null;
-        endingCode = WordEndingCode.NONE;
+        endingCode = WordEnding.NONE;
         grammar = false;
         type = SymbolCodes.MDCCODE;
         addChild(new ModifiersList());
@@ -127,7 +127,7 @@ public class Hieroglyph extends InnerGroup {
                 if (result == 0) {
                     result = y - h.y;
                     if (result == 0) {
-                        result = endingCode.getId() - h.endingCode.getId();
+                        result = endingCode.compareTo(h.endingCode);
                         if (result == 0) {
                             int i1 = (grammar ? 1 : 0);
                             int i2 = (h.grammar ? 1 : 0);
@@ -173,7 +173,7 @@ public class Hieroglyph extends InnerGroup {
      *
      * @return the ending code.
      */
-    public WordEndingCode getEndingCode() {
+    public WordEnding getEndingCode() {
         return endingCode;
     }
 
@@ -269,7 +269,7 @@ public class Hieroglyph extends InnerGroup {
      *
      * @param _endingCode
      */
-    public void setEndingCode(WordEndingCode _endingCode) {
+    public void setEndingCode(WordEnding _endingCode) {
         endingCode = _endingCode;
         notifyModification();
     }

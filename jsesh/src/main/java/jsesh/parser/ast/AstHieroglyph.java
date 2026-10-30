@@ -6,6 +6,7 @@
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 package jsesh.parser.ast;
+import jsesh.sharedvocabulary.WordEnding;
 
 import jsesh.parser.lexer.symbols.SignSubType;
 

@@ -14,7 +14,7 @@ import java.util.List;
 import jsesh.model.Hieroglyph;
 import jsesh.model.ModelElement;
 import jsesh.model.SubCadrat;
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.model.constants.TextDirection;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;

@@ -5,7 +5,7 @@
  * This file is licensed under the CeCILL-C Free Software License, version 1.1.
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
-package jsesh.model.constants;
+package jsesh.sharedvocabulary;
 
 /// The axis of a kerning operator.
 ///
@@ -30,8 +30,4 @@ public enum KerningAxis {
         return code;
     }
 
-    /// Is this axis the main axis of the given text orientation?
-    public boolean matches(TextOrientation orientation) {
-        return orientation.isHorizontal() == (this == HORIZONTAL);
-    }
 }

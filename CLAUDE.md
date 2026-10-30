@@ -67,6 +67,7 @@ not this table, as the source of truth when it disagrees.
 | base | `jsesh.utils` | Shared utilities, incl. `.io` (`DirectoryReference`) |
 | base | `jsesh.platform` | Preferences, resources, metadata (pure leaf, no outgoing deps) |
 | core | `jsesh.signcodes` | Gardiner-code identity: `GardinerCode`, `ManuelDeCodage`, `CanonicalCode`, `HieroglyphCodesSource` (pure leaf) |
+| core | `jsesh.sharedvocabulary` | Constants shared by parser AST and model: `InsertionDirection`, `KerningAxis`, `CartouchePart`, `CartoucheType`, `WordEnding` (pure leaf) |
 | core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools` |
 | core | `jsesh.parser` | MDC parser (`MDCParser`), lexer (`.lexer`) and literal AST (`.ast`); no dependency on `jsesh.model` |
 | reader | `jsesh.mdcreader` | `MDCParserModelGenerator`, `AstModelBuilder`: interprets the parser's AST into the model (the only package depending on both) |

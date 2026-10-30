@@ -14,7 +14,7 @@ import java.awt.geom.PathIterator;
 import java.util.Arrays;
 import java.util.List;
 
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.TextDirection;
 import jsesh.render.elements.HieroglyphDrawer;
 import jsesh.render.view.MDCView;

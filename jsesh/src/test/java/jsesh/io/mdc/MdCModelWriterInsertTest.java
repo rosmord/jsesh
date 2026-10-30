@@ -24,7 +24,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.model.Insert;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementDeepAdapter;
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.parser.MDCSyntaxError;
 
 /// `%insert` in the model: building from MdC, writing back, copying.

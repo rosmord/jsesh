@@ -14,7 +14,7 @@ import java.util.Optional;
 import jsesh.model.Cadrat;
 import jsesh.model.HBox;
 import jsesh.model.Kerning;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.render.layout.insert.Kerner;
 import jsesh.render.view.MDCView;
 

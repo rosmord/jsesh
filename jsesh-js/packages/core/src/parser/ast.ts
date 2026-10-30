@@ -16,7 +16,7 @@
 
 import type { PhilologyKind, SignSubType, ToggleType } from "./symbols.js";
 
-export type CartoucheType = "CARTOUCHE" | "SEREKH" | "HOUT" | "CASTLE" | "CIRCULAR_ENCLOSURE";
+export type CartoucheType = "CARTOUCHE" | "SEREKH" | "HWT" | "CASTLE" | "CIRCULAR_ENCLOSURE";
 export type CartouchePart = "NONE" | "FIRST" | "SECOND" | "THIRD";
 export type WordEnding = "NONE" | "WORD_END" | "SENTENCE_END";
 export type InsertDirection =

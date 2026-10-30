@@ -9,7 +9,7 @@ package jsesh.render.layout.insert;
 
 import java.awt.geom.Rectangle2D;
 
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.render.view.MDCView;
 
 /// Places the inserted element of an insertion, given the laid-out views of its two parts.

@@ -3,7 +3,7 @@ package jsesh.render.layout;
 import java.util.List;
 
 import jsesh.render.style.JSeshStyle;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.TextOrientation;
 import jsesh.model.Cadrat;
 import jsesh.model.Hieroglyph;

@@ -112,7 +112,7 @@ import jsesh.jhotdraw.preferences.application.ui.ApplicationPreferencesPresenter
 import jsesh.jhotdraw.utils.WindowsHelper;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.Kerning;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCIconFactory;

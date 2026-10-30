@@ -1,8 +1,8 @@
-package jsesh.model.constants;
+package jsesh.sharedvocabulary;
 
 /**
  * The kind of cartouche, serekh, hwt-sign, castle or circular enclosure a
- * {@link jsesh.model.Cartouche} denotes, keyed by its Manuel de Codage
+ * `Cartouche` denotes, keyed by its Manuel de Codage
  * letter.
  *
  * @author rosmord

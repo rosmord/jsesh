@@ -21,8 +21,8 @@ import jsesh.parser.ast.AstModifier;
 import jsesh.parser.ast.AstNode;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
-import jsesh.parser.ast.CartouchePart;
-import jsesh.parser.ast.WordEnding;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.lexer.symbols.ToggleType;
 
 /**

@@ -22,7 +22,7 @@ import jsesh.parser.ast.AstCadrat;
 import jsesh.parser.ast.AstDocument;
 import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstInsert;
-import jsesh.parser.ast.AstInsert.InsertDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.parser.ast.AstTopItem;
 
 /// Tests for the `%insert[dir=...](main,inserted)` construct in [MDCParser].
@@ -52,7 +52,7 @@ public class MDCParserInsertTest {
     @Test
     public void testSimpleInsert() throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=ts](A1,B1)");
-        assertEquals(InsertDirection.TOP_START, insert.direction());
+        assertEquals(InsertionDirection.TOP_START, insert.direction());
         assertEquals(1, insert.firstItems().items().size());
         assertEquals("A1", signCode(insert.firstItems().items().get(0)));
         assertEquals(1, insert.secondItems().items().size());
@@ -65,7 +65,7 @@ public class MDCParserInsertTest {
         "ts, TOP_START", "bs, BOTTOM_START",
         "te, TOP_END", "be, BOTTOM_END", "c, CENTER"
     })
-    public void testAllDirections(String code, InsertDirection expected) throws MDCSyntaxError {
+    public void testAllDirections(String code, InsertionDirection expected) throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=" + code + "](A1,B1)");
         assertEquals(expected, insert.direction());
     }
@@ -79,7 +79,7 @@ public class MDCParserInsertTest {
     @Test
     public void testOtherOptionsAreKept() throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=t,fit](A1,B1)");
-        assertEquals(InsertDirection.TOP, insert.direction());
+        assertEquals(InsertionDirection.TOP, insert.direction());
         assertFalse(insert.options().hasOption("dir"));
         assertTrue(insert.options().hasOption("fit"));
     }
@@ -100,7 +100,7 @@ public class MDCParserInsertTest {
     @Test
     public void testTargetIsSecondArgumentAndArgumentsKeepTheirOrder() throws MDCSyntaxError {
         AstInsert insert = parseInsert("%insert[dir=bs,target=2](B1,A1)");
-        assertEquals(InsertDirection.BOTTOM_START, insert.direction());
+        assertEquals(InsertionDirection.BOTTOM_START, insert.direction());
         assertEquals(2, insert.target());
         assertEquals("B1", signCode(insert.firstItems().items().get(0)));
         assertEquals("A1", signCode(insert.secondItems().items().get(0)));
@@ -133,11 +133,11 @@ public class MDCParserInsertTest {
     @Test
     public void testInsertionsCanBeNested() throws MDCSyntaxError {
         AstInsert outer = parseInsert("%insert[dir=te](%insert[dir=bs](t,w),t)");
-        assertEquals(InsertDirection.TOP_END, outer.direction());
+        assertEquals(InsertionDirection.TOP_END, outer.direction());
         assertEquals(1, outer.firstItems().items().size());
         AstCadrat cadrat = (AstCadrat) outer.firstItems().items().get(0);
         AstInsert inner = (AstInsert) cadrat.hBoxes().get(0).elements().get(0);
-        assertEquals(InsertDirection.BOTTOM_START, inner.direction());
+        assertEquals(InsertionDirection.BOTTOM_START, inner.direction());
         assertEquals("t", signCode(inner.firstItems().items().get(0)));
         assertEquals("w", signCode(inner.secondItems().items().get(0)));
         assertEquals("t", signCode(outer.secondItems().items().get(0)));

@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.mdcreader.MDCParserModelGenerator;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.parser.MDCSyntaxError;

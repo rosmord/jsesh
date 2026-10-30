@@ -59,13 +59,13 @@ import jsesh.document.events.TextOperationEvent;
 import jsesh.glyphs.signdata.Possibility;
 import jsesh.glyphs.signdata.PossibilityRepository;
 import jsesh.parser.MDCSyntaxError;
-import jsesh.model.constants.CartouchePart;
+import jsesh.sharedvocabulary.CartouchePart;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
-import jsesh.model.constants.InsertionDirection;
-import jsesh.model.constants.CartoucheType;
+import jsesh.sharedvocabulary.InsertionDirection;
+import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
-import jsesh.model.constants.WordEndingCode;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.constants.ScriptCode;
@@ -1930,7 +1930,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void setSignIsAtSentenceEnd() {
-        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEndingCode.SENTENCE_END));
+        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEnding.SENTENCE_END));
     }
 
     /**
@@ -1938,7 +1938,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void setSignIsAtWordEnd() {
-        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEndingCode.WORD_END));
+        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEnding.WORD_END));
     }
 
     /**
@@ -1946,7 +1946,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      */
 
     public void setSignIsInsideWord() {
-        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEndingCode.NONE));
+        applySignLevelModifications(hieroglyph -> hieroglyph.setEndingCode(WordEnding.NONE));
     }
 
     /**

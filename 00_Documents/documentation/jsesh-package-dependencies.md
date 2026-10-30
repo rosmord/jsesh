@@ -37,6 +37,9 @@ flowchart TD
     %%     jsesh.signcodes is now a pure leaf: zero outgoing edges.
     %%   - (earlier) jsesh.model -> jsesh.io removed: the model no longer reaches
     %%     up into serialisation.
+    %%   - 2026-10-30: new pure leaf jsesh.sharedvocabulary (InsertionDirection,
+    %%     KerningAxis, CartouchePart, CartoucheType, WordEnding), shared by
+    %%     jsesh.parser and jsesh.model; edge counts for it are import lines.
     %%   - (earlier) the sign-code core extracted into jsesh.signcodes
     %%     (GardinerCode, ManuelDeCodage, CanonicalCode, HieroglyphCodesSource):
     %%     jsesh.model and jsesh.glyphs used to be a mutual pair; now they both
@@ -67,6 +70,7 @@ flowchart TD
 
     subgraph Core[core]
         signcodes[jsesh.signcodes]
+        shared[jsesh.sharedvocabulary]
         model[jsesh.model]
         parser[jsesh.parser]
         glyphs[jsesh.glyphs]
@@ -105,6 +109,12 @@ flowchart TD
     model -->|6| signcodes
     model -->|3| utils
     parser -->|2| signcodes
+    parser -->|10| shared
+    model -->|7| shared
+    mdc -->|6| shared
+    render -->|17| shared
+    io -->|3| shared
+    editor -->|6| shared
     mdc -->|36| parser
     mdc -->|35| model
     glyphs -->|16| signcodes
@@ -182,7 +192,7 @@ flowchart TD
     res -.- resNote["Lives in the jseshLabels<br/>module, not in jsesh"]
 
     class utils,platform base;
-    class signcodes,model,parser,glyphs core;
+    class signcodes,shared,model,parser,glyphs core;
     class mdc docLayer;
     class doc docLayer;
     class io,render mid;
@@ -198,7 +208,7 @@ flowchart TD
 | layer | packages |
 |---|---|
 | base | utils, platform |
-| core | signcodes, model, parser, glyphs |
+| core | signcodes, sharedvocabulary, model, parser, glyphs |
 | reader | mdcreader |
 | document | document |
 | middle | io, render |
@@ -209,7 +219,7 @@ flowchart TD
 other in either direction (see history below): the parser only builds a
 literal AST, and `jsesh.mdcreader` is the one package that turns that AST
 into the model.
-`jsesh.signcodes` and `jsesh.platform` are both clean: no outgoing edge.
+`jsesh.signcodes`, `jsesh.sharedvocabulary` and `jsesh.platform` are all clean: no outgoing edge.
 `jsesh.glyphs` is clean too: it only reaches down to signcodes, utils and
 platform.
 `jsesh.model` no longer serialises itself (`model -> io` is gone) and no
@@ -549,3 +559,7 @@ half to the lesson: deleting the `{@link}` is not enough, since the `import`
 outlives it and keeps the edge alive. Both are now fully cleaned up.
 
 **Layering violations remaining**: none.
+
+**`jsesh.sharedvocabulary`** (added 2026-10-30) is a pure leaf like `signcodes`: the constants that
+the parser's AST and the model both need (insert direction, kerning axis, cartouche part/type, word ending).
+It has no outgoing edge. Its edges in the diagram count import lines; the older edges are unchanged.

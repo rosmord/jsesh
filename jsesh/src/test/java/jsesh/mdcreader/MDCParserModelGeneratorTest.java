@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.Cadrat;
 import jsesh.model.Cartouche;
-import jsesh.model.constants.CartouchePart;
+import jsesh.sharedvocabulary.CartouchePart;
 import jsesh.model.HBox;
 import jsesh.model.Hieroglyph;
 import jsesh.model.HorizontalListElement;

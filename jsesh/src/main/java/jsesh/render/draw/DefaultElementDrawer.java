@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.ShadingMode;
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 import jsesh.model.constants.LexicalSymbolsUtils;
 import jsesh.model.constants.ScriptCode;
 import jsesh.model.constants.SymbolCodes;

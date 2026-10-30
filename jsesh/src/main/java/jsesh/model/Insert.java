@@ -7,7 +7,7 @@
  */
 package jsesh.model;
 
-import jsesh.model.constants.InsertionDirection;
+import jsesh.sharedvocabulary.InsertionDirection;
 
 /// A group inserted into the free space of a sign, as in
 /// `%insert[dir=bs,dw=20](D36,(n:t))`.

@@ -7,7 +7,7 @@
  */
 package jsesh.model;
 
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 
 /// A kerning operator, `%hkern` or `%vkern`: the groups before and after it are
 /// moved closer, so that they are about one inter-sign space apart where their

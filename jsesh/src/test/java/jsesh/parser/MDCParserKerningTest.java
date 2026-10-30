@@ -6,6 +6,7 @@
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 package jsesh.parser;
+import jsesh.sharedvocabulary.KerningAxis;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -18,7 +19,7 @@ import jsesh.parser.ast.AstCadrat;
 import jsesh.parser.ast.AstDocument;
 import jsesh.parser.ast.AstHieroglyph;
 import jsesh.parser.ast.AstKerning;
-import jsesh.parser.ast.AstKerning.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 
 /// Tests for the `%hkern` and `%vkern` operators in [MDCParser].
 public class MDCParserKerningTest {

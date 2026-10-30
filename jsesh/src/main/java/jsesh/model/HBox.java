@@ -4,7 +4,7 @@ package jsesh.model;
 
 import java.util.Optional;
 
-import jsesh.model.constants.KerningAxis;
+import jsesh.sharedvocabulary.KerningAxis;
 
 
 /**

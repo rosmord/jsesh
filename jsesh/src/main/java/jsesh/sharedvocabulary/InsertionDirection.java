@@ -5,7 +5,7 @@
  * This file is licensed under the CeCILL-C Free Software License, version 1.1.
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
-package jsesh.model.constants;
+package jsesh.sharedvocabulary;
 
 /// Where an inserted element is placed relative to the main element of an insertion.
 ///

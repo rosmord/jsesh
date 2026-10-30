@@ -6,6 +6,8 @@
  * Full text available at: https://cecill.info/licences/Licence_CeCILL-C_V1-en.html
  */
 package jsesh.parser;
+import jsesh.sharedvocabulary.InsertionDirection;
+import jsesh.sharedvocabulary.KerningAxis;
 
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.AMP;
 import static jsesh.parser.lexer.symbols.MdcSymbolCode.BEGIN_CARTOUCHE;
@@ -86,9 +88,9 @@ import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
 import jsesh.parser.ast.AstZone;
-import jsesh.parser.ast.CartouchePart;
-import jsesh.parser.ast.CartoucheType;
-import jsesh.parser.ast.WordEnding;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.CartoucheType;
+import jsesh.sharedvocabulary.WordEnding;
 import jsesh.parser.lexer.MdcLexer;
 import jsesh.parser.lexer.MdcLexicon;
 import jsesh.parser.lexer.symbols.AlphabeticText;
@@ -561,8 +563,8 @@ public class MDCParser {
         if (dir == null) {
             throw error("insert: missing 'dir' option");
         }
-        // Map dir to InsertDirection:
-        AstInsert.InsertDirection direction = AstInsert.InsertDirection.fromCode(dir);
+        // Map dir to InsertionDirection:
+        InsertionDirection direction = InsertionDirection.fromCode(dir);
         if (direction == null) {
             throw error("insert: unknown 'dir' option value: " + dir);
         }
@@ -585,8 +587,8 @@ public class MDCParser {
     /// It is parsed as a group, so it can be found in a horizontal list (`p*%hkern*q`),
     /// alone in a line of a cadrat (`p:%vkern:q`), or alone in a cadrat (`p-%hkern-q`).
     private AstKerning parseKerning() throws MDCSyntaxError {
-        AstKerning.KerningAxis axis = at(HKERN) ? AstKerning.KerningAxis.HORIZONTAL
-                : AstKerning.KerningAxis.VERTICAL;
+        KerningAxis axis = at(HKERN) ? KerningAxis.HORIZONTAL
+                : KerningAxis.VERTICAL;
         advance();
         AstOptionList options = AstOptionList.of();
         if (at(OPEN_BRACE)) {

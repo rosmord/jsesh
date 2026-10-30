@@ -1,7 +1,7 @@
 package jsesh.model;
 
-import jsesh.model.constants.CartouchePart;
-import jsesh.model.constants.CartoucheType;
+import jsesh.sharedvocabulary.CartouchePart;
+import jsesh.sharedvocabulary.CartoucheType;
 
 
 /**
