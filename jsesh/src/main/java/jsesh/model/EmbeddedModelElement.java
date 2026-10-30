@@ -17,13 +17,18 @@ public abstract class EmbeddedModelElement extends ModelElement {
 	 */
 	private static final long serialVersionUID = 1774338831719968071L;
 
-	private ModelElement parent= null;
+	/// Not serialized: serializing the sibling chain would recurse once per
+	/// sibling (a stack overflow for long zones), and the parent would drag the
+	/// whole document along. [ModelElement] rebuilds these links when
+	/// it is deserialized.
+	private transient ModelElement parent= null;
 
 	/**
 	 * next and previous can be directly manipulated by the parent class ModelElement.
 	 * Hence we don't set them private.
+	 * They are transient, see {@link #parent}.
 	 */
-	ModelElement next= null, previous=null;
+	transient ModelElement next= null, previous=null;
 	
 	public ModelElement getParent() {
 		return parent;

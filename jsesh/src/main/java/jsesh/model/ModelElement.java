@@ -313,6 +313,16 @@ public abstract class ModelElement implements ModelElementObserver,
         updatesEnabled = true;
     }
 
+    /// Rebuilds the parent and sibling links, which are not serialized.
+    private void readObject(java.io.ObjectInputStream in)
+            throws java.io.IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        for (int i = 0; i < children.size(); i++) {
+            children.get(i).setParent(this);
+            fixSlibings(i);
+        }
+    }
+
     /**
      * Fix the slibings at position id.
      *
