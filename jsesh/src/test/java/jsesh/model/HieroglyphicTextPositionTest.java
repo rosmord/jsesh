@@ -203,6 +203,30 @@ class HieroglyphicTextPositionTest {
     }
 
     @Test
+    void originalDocumentCoordinatesInZones() throws Exception {
+        // 0: |1-  1: A1  2: zone( 0: B1  1: |2-  2: C1  3: zone( |3- ) 4: D1 )  3: zone( E1 )  4: F1
+        HieroglyphicText t = new MDCParserModelGenerator()
+                .parse("|1-A1-%zone(B1-|2-C1-%zone(|3-)D1)-%zone(E1)-F1");
+        assertEquals(5, t.getNumberOfChildren());
+        // inside the first zone, before and after its line number.
+        assertEquals("1", t.getOriginalDocumentCoordinates(MDCPosition.of(1)));
+        assertEquals("1", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 1)));
+        assertEquals("2", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 2)));
+        assertEquals("2", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 3)));
+        // inside a nested zone, and after it.
+        assertEquals("2", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 3, 0, 0)));
+        assertEquals("3", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 3, 0, 1)));
+        assertEquals("3", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 5)));
+        // after the zone, we find the last number of the zone.
+        assertEquals("3", t.getOriginalDocumentCoordinates(MDCPosition.of(3)));
+        // in a zone without number: the last number before it, in document order.
+        assertEquals("3", t.getOriginalDocumentCoordinates(MDCPosition.of(3, 0, 1)));
+        assertEquals("3", t.getOriginalDocumentCoordinates(t.getLastPosition()));
+        // inside a quadrat of a zone.
+        assertEquals("1", t.getOriginalDocumentCoordinates(MDCPosition.of(2, 0, 0, 0, 0)));
+    }
+
+    @Test
     void nestedPositionsAreValidatedAgainstTheTree() throws Exception {
         HieroglyphicText t = new MDCParserModelGenerator().parse("m-p*t:pt");
         assertTrue(t.isValidPosition(MDCPosition.of(2)));

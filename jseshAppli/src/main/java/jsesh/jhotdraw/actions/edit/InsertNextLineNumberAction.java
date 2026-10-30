@@ -11,7 +11,9 @@ import org.jhotdraw_7_6.app.Application;
 import org.jhotdraw_7_6.app.View;
 
 import jsesh.jhotdraw.actions.BundleHelper;
+import jsesh.document.caret.MDCCaret;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.model.MDCPosition;
 import jsesh.utils.datatypes.LineNumberHelper;
 
 /**
@@ -41,7 +43,10 @@ public class InsertNextLineNumberAction extends AbstractCoreViewAction {
 
 	public void actionPerformed(ActionEvent e) {
 		viewCore().ifPresent(v -> {
-			String textPos = v.getOriginalDocumentCoordinates(v.getCaret().getInsertPosition());
+			// Use the position where the number will be inserted, which may be in a zone.
+			MDCCaret caret = v.getCaret();
+			MDCPosition insertion = caret.getScope().positionAt(caret.getLocalInsertPosition().getIndex());
+			String textPos = v.getOriginalDocumentCoordinates(insertion);
 			String nextLine = "".equals(textPos) ? "1"
 					: LineNumberHelper.incrementLineNumber(textPos);
 			v.insertLineNumber(nextLine);

@@ -1,6 +1,7 @@
 package jsesh.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -608,19 +609,48 @@ public class HieroglyphicText extends ModelElement implements ItemSequence {
     /// reference the actual source document (ostracon, papyrus...), this
     /// function will return the coordinates for a given point in text.
     ///
-    /// @param position technical position in the JSesh document.
+    /// The search goes backwards in document order, and enters zones: for a
+    /// position in a zone, the line numbers earlier in the zone are found, then
+    /// those before the zone; the line numbers of a previous zone are found
+    /// too.
+    ///
+    /// @param position technical position in the JSesh document, possibly
+    /// nested (in a zone).
     /// @return the position in the original document, or the empty string if
     /// none is found.
     public String getOriginalDocumentCoordinates(MDCPosition position) {
-        int res = clampIndex(position.getIndex()) - 1; // The element BEFORE position pos is at index pos - 1 in the array
-        while (res >= 0 && !(getChildAt(res) instanceof Superscript)) {
-            res--;
+        String result = lastLineNumberBefore(this, new int[0], position);
+        return result == null ? "" : result;
+    }
+
+    /// Looks backwards for the last line number of a sequence of items.
+    ///
+    /// @param sequence the sequence to search (the text, or the content of a zone).
+    /// @param path the path of `sequence` in the text.
+    /// @param limit only line numbers before this position are considered, or
+    /// null for no limit.
+    /// @return the text of the line number, or null if there is none.
+    private static String lastLineNumberBefore(ItemSequence sequence, int[] path, MDCPosition limit) {
+        int depth = path.length;
+        for (int k = sequence.getNumberOfChildren() - 1; k >= 0; k--) {
+            TopItem item = sequence.getItemAt(k);
+            int[] gapAfter = Arrays.copyOf(path, depth + 1);
+            gapAfter[depth] = k + 1;
+            boolean before = limit == null || MDCPosition.of(gapAfter).compareTo(limit) <= 0;
+            boolean around = !before && limit.depth() > depth + 1 && limit.getPath()[depth] == k;
+            if (before && item instanceof Superscript superscript) {
+                return superscript.getText();
+            }
+            if ((before || around) && item instanceof Zone zone) {
+                int[] contentPath = Arrays.copyOf(path, depth + 2);
+                contentPath[depth] = k;
+                contentPath[depth + 1] = 0;
+                String found = lastLineNumberBefore(zone.getContent(), contentPath, before ? null : limit);
+                if (found != null) {
+                    return found;
+                }
+            }
         }
-        if (res == -1)
-            return "";
-        else {
-            Superscript superscript = (Superscript) getChildAt(res);
-            return superscript.getText();
-        }     
+        return null;
     }
 }
