@@ -92,6 +92,11 @@ public class DocumentPreferences {
 	/// in points. Documents which don't store it get this default.
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE)
 	private double alphabeticTextBaseline = 4;
+
+	/// In horizontal text, are quadrats scaled down to the maximal quadrat width?
+	/// Documents which don't store it get `true`, so that their layout doesn't change.
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES)
+	private boolean limitQuadratWidthInLines = true;
 	
 	public DocumentPreferences() {
 	}
@@ -334,7 +339,20 @@ public class DocumentPreferences {
 		return result;
 	}
 
+	/// @param limitQuadratWidthInLines whether quadrats are limited to the maximal width in lines.
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withLimitQuadratWidthInLines(boolean limitQuadratWidthInLines) {
+		DocumentPreferences result= this.copy();
+		result.limitQuadratWidthInLines= limitQuadratWidthInLines;
+		return result;
+	}
+
 	// Generated code
+
+	/// @return whether quadrats are limited to the maximal width in horizontal text.
+	public boolean isLimitQuadratWidthInLines() {
+		return limitQuadratWidthInLines;
+	}
 	
 	public double getSmallSkip() {
 		return smallSkip;

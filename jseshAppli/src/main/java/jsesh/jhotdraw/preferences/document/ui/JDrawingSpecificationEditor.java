@@ -82,6 +82,7 @@ public class JDrawingSpecificationEditor {
 
 	private void initComponents() {
 		useLinesForShadingCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
+		limitQuadratWidthInLinesCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.limitQuadratWidthInLinesCheckBox"));
 	}
 
 	private void layout() {
@@ -97,6 +98,7 @@ public class JDrawingSpecificationEditor {
 		h.addWithLabel("drawingPrefs.maximalQuadratWidth", maxCadratWidthField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.smallFontBodyLimit", smallFontBodyLimitField, "sg a, wrap");
 		h.addWithLabel("drawingPrefs.cartoucheLineWidth", cartoucheLineWidthField, "sg a, wrap");
+		h.add(limitQuadratWidthInLinesCheckBox, "span, wrap");
 		h.add(useLinesForShadingCheckBox, "wrap");
 
 	}
@@ -112,6 +114,11 @@ public class JDrawingSpecificationEditor {
 	private JFormattedTextField smallFontBodyLimitField=new JFormattedTextField();
 	private JComboBox<LengthUnit> unitField= new JComboBox<>();
 	private JCheckBox useLinesForShadingCheckBox;
+	private JCheckBox limitQuadratWidthInLinesCheckBox;
+
+	public JCheckBox getLimitQuadratWidthInLinesCheckBox() {
+		return limitQuadratWidthInLinesCheckBox;
+	}
 
 	public JFormattedTextField getCartoucheLineWidthField() {
 		return cartoucheLineWidthField;

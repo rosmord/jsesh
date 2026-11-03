@@ -106,6 +106,8 @@ public class DrawingSpecificationsPresenter {
                                 geometry.standardSignHeight());
                 form.getSmallFontBodyLimitField().setValue(
                                 geometry.smallBodyScaleLimit());
+                form.getLimitQuadratWidthInLinesCheckBox().setSelected(
+                                jseshStyle.options().limitQuadratWidthInLines());
                 form.getUseLinesForShadingCheckBox().setSelected(
                                 jseshStyle.painting().shadingStyle().equals(
                                                 ShadingMode.LINE_HATCHING));
@@ -140,6 +142,8 @@ public class DrawingSpecificationsPresenter {
                                                 .smallSkip(getLength(form
                                                                 .getInterQuadratSkipField()))
                                                 .smallBodyScaleLimit((float) limit))
+                                .options(o -> o.limitQuadratWidthInLines(
+                                                form.getLimitQuadratWidthInLinesCheckBox().isSelected()))
                                 .painting(p -> p.shadingStyle(shadingMode))
                                 .build();
         }

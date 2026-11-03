@@ -53,4 +53,11 @@ public interface JSeshInfoConstants {
 	String JSESH_SMALL_SKIP = "JSesh_small_skip";
 	String JSESH_ALPHABETIC_TEXT_BASELINE = "JSesh_alphabetic_text_baseline";
 
+	/**
+	 * true or false: in horizontal text, are quadrats limited to the maximal
+	 * quadrat width? Documents which don't have this property get true (the
+	 * historical layout).
+	 */
+	String JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES = "JSesh_limit_quadrat_width_in_lines";
+
 }

@@ -3,20 +3,26 @@ package jsesh.render.style;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 
-/**
- * Options which are related neither to geometry nor to fonts.
- */
+/// Options which are related neither to geometry nor to fonts.
+///
+/// `limitQuadratWidthInLines`: in horizontal text, whether a quadrat made of
+/// several lines of signs is scaled down so as not to exceed the maximal
+/// quadrat width. Columns always limit their quadrats' width. This is `true`
+/// in the historical layout, which documents without the setting in their header
+/// keep (see [jsesh.document.DocumentPreferences]); new documents use `false`.
 public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,
         boolean paged,
         boolean smallSignCentered,
-        boolean justified // will be removed
+        boolean justified, // will be removed
+        boolean limitQuadratWidthInLines
 ) {
 
     public static final LayoutOptions DEFAULT = new LayoutOptions(
             TextDirection.LEFT_TO_RIGHT,
             TextOrientation.HORIZONTAL,
+            false,
             false,
             false,
             false);
@@ -32,6 +38,7 @@ public record LayoutOptions(
         private boolean paged;
         private boolean smallSignCentered;
         private boolean justified;
+        private boolean limitQuadratWidthInLines;
 
         public Builder(LayoutOptions specs) {
             this.textDirection = specs.textDirection;
@@ -39,6 +46,7 @@ public record LayoutOptions(
             this.paged = specs.paged;
             this.smallSignCentered = specs.smallSignCentered;
             this.justified = specs.justified;
+            this.limitQuadratWidthInLines = specs.limitQuadratWidthInLines;
         }
 
         public Builder textDirection(TextDirection textDirection) {
@@ -67,13 +75,19 @@ public record LayoutOptions(
             return this;
         }
 
+        public Builder limitQuadratWidthInLines(boolean limitQuadratWidthInLines) {
+            this.limitQuadratWidthInLines = limitQuadratWidthInLines;
+            return this;
+        }
+
         public LayoutOptions build() {
             return new LayoutOptions(
                     textDirection,
                     textOrientation,
                     paged,
                     smallSignCentered,
-                    justified);
+                    justified,
+                    limitQuadratWidthInLines);
         }
     }
 

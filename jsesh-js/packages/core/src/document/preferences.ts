@@ -23,6 +23,9 @@ export interface DocumentPreferences {
   smallSkip: number;
   /// Height of the alphabetic text baseline above the quadrats' bottom line.
   alphabeticTextBaseline: number;
+  /// In horizontal text, scale quadrats down to the maximal quadrat width. Documents
+  /// without the property get `true` (historical layout).
+  limitQuadratWidthInLines: boolean;
 }
 
 export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Object.freeze({
@@ -39,6 +42,7 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   smallBodyScaleLimit: 12,
   smallSkip: 2,
   alphabeticTextBaseline: 4,
+  limitQuadratWidthInLines: true,
 });
 
 /// Header property names (`JSeshInfoConstants`).
@@ -56,6 +60,7 @@ const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   smallBodyScaleLimit: "JSesh_small_body_scale_limit",
   smallSkip: "JSesh_small_skip",
   alphabeticTextBaseline: "JSesh_alphabetic_text_baseline",
+  limitQuadratWidthInLines: "JSesh_limit_quadrat_width_in_lines",
 };
 
 /// Reads preferences from header properties; unknown properties are ignored,

@@ -108,6 +108,8 @@ export interface LayoutOptions {
   smallSignCentered: boolean;
   /// Justify lines (horizontal text only).
   justified: boolean;
+  /// In horizontal text, scale quadrats down to the maximal quadrat width.
+  limitQuadratWidthInLines: boolean;
 }
 
 export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<LayoutOptions>({
@@ -116,6 +118,7 @@ export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<Lay
   paged: false,
   smallSignCentered: false,
   justified: false,
+  limitQuadratWidthInLines: false,
 });
 
 export type ShadingMode = "GRAY_SHADING" | "LINE_HATCHING";
@@ -251,6 +254,7 @@ export function applyDocumentPreferences(preferences: DocumentPreferences, origi
     },
     options: {
       smallSignCentered: preferences.smallSignCentered,
+      limitQuadratWidthInLines: preferences.limitQuadratWidthInLines,
       textOrientation: preferences.textOrientation,
       textDirection: preferences.textDirection,
     },

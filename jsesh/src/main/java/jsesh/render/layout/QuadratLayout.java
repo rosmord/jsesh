@@ -115,8 +115,11 @@ public class QuadratLayout {
 		}
 		boolean kerningLines = lineCount != c.getNumberOfHBoxes();
 
-		if ((honourMaxWidth)
-				|| (lineCount != 1 && !wide)) {
+		// In horizontal text, the width limit is optional. In columns, it always applies.
+		boolean limitWidthOfHBoxes = !currentTextOrientation.isHorizontal()
+				|| jseshStyle.options().limitQuadratWidthInLines();
+		if (honourMaxWidth
+				|| (limitWidthOfHBoxes && lineCount != 1 && !wide)) {
 			i = currentView.iterator();
 			while (i.hasNext()) {
 				i.next().scaleForMaxWidth(maxWidth);

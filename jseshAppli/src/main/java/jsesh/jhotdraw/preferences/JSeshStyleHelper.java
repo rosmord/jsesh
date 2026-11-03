@@ -4,6 +4,7 @@ import java.util.prefs.Preferences;
 
 import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.LayoutOptions;
 import jsesh.render.style.ShadingMode;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.document.DocumentPreferences;
@@ -47,7 +48,10 @@ public class JSeshStyleHelper {
                         .smallBodyScaleLimit((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, 12.0)) // ok
                         .smallSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, 4))
                         .alphabeticTextBaseline((float) preferences.getDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, 4)))
-                .options(o -> o.smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false)))
+                .options(o -> o
+                        .smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false))
+                        .limitQuadratWidthInLines(preferences.getBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES,
+                                LayoutOptions.DEFAULT.limitQuadratWidthInLines())))
                 .painting(c -> c
                         .shadingStyle(preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)
                                 ? ShadingMode.LINE_HATCHING
@@ -84,6 +88,7 @@ public class JSeshStyleHelper {
         preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, jseshStyle.geometry().smallSkip());//ok        
         preferences.putDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, jseshStyle.geometry().alphabeticTextBaseline());
         preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, jseshStyle.options().smallSignCentered());//ok
+        preferences.putBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES, jseshStyle.options().limitQuadratWidthInLines());
         preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
         
     }

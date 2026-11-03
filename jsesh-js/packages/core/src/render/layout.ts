@@ -953,7 +953,10 @@ class QuadratLayout {
     // Lines made only of kerning operators (as in p:%vkern:q) don't count.
     const lineCount = c.hBoxes.filter((b) => b.getKerningAxis() === undefined).length;
     const kerningLines = lineCount !== c.numberOfHBoxes;
-    if (honourMaxWidth || (lineCount !== 1 && !wide)) {
+    // In horizontal text, the width limit is optional. In columns, it always applies.
+    const limitWidthOfHBoxes =
+      this.currentTextOrientation !== "HORIZONTAL" || this.style.options.limitQuadratWidthInLines;
+    if (honourMaxWidth || (limitWidthOfHBoxes && lineCount !== 1 && !wide)) {
       for (const sub of currentView.subviews) sub.scaleForMaxWidth(maxWidth);
     }
     if (wide) {
