@@ -31,9 +31,9 @@ import jsesh.sharedvocabulary.InsertionDirection;
 /// Direct control of an insertion: a 3×3 grid of directions, and steppers for the
 /// enlargement of the main group's frame.
 ///
-/// The grid is shown as the text is written: in right-to-left text, the "start"
-/// column is on the right. Its cells match the numeric keypad (7 is the top left
-/// cell). Directions where the inserted group doesn't fit are dimmed, but can be chosen.
+/// The grid is always shown left to right, like the preview of the choices beside it,
+/// even in right-to-left text: the "start" column is on the left, and the arrows are not
+/// mirrored. Its cells match the numeric keypad (7 is the top left cell). Directions where the inserted group doesn't fit are dimmed, but can be chosen.
 ///
 /// The enlargements change by steps of [#STEP] percent. A stepper is disabled when
 /// its enlargement has no effect for the current direction.
@@ -57,7 +57,7 @@ class InsertionCompass extends JPanel {
     /// Step of the enlargement steppers, in percent.
     static final int STEP = 5;
 
-    /// The directions in the grid, row by row, for left-to-right text.
+    /// The directions in the grid, row by row.
     private static final InsertionDirection[][] GRID = {
             { InsertionDirection.TOP_START, InsertionDirection.TOP, InsertionDirection.TOP_END },
             { InsertionDirection.START, InsertionDirection.CENTER, InsertionDirection.END },
@@ -70,7 +70,6 @@ class InsertionCompass extends JPanel {
             { "→", "•", "←" },
             { "↗", "↑", "↖" } };
 
-    private final boolean rightToLeft;
     private final Map<InsertionDirection, JToggleButton> directionButtons = new EnumMap<>(InsertionDirection.class);
     private final ButtonGroup directionGroup = new ButtonGroup();
     private final JLabel dwLabel = new JLabel("", SwingConstants.CENTER);
@@ -82,12 +81,10 @@ class InsertionCompass extends JPanel {
     private final Color normalForeground;
     private final Color dimmedForeground;
 
-    /// @param rightToLeft true if the text is written from right to left.
     /// @param background the background of the popup.
     /// @param listener notified of the user's actions.
-    InsertionCompass(boolean rightToLeft, Color background, Listener listener) {
+    InsertionCompass(Color background, Listener listener) {
         super(new GridBagLayout());
-        this.rightToLeft = rightToLeft;
         setBackground(background);
         setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 4));
 
@@ -128,7 +125,7 @@ class InsertionCompass extends JPanel {
     /// @param row 0 for the top row.
     /// @param column 0 for the left column.
     InsertionDirection directionAt(int row, int column) {
-        return GRID[row][rightToLeft ? 2 - column : column];
+        return GRID[row][column];
     }
 
     /// Shows the state of the current insertion.

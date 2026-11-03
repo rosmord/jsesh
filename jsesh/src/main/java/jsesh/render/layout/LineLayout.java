@@ -66,11 +66,11 @@ public class LineLayout extends TopItemLayout {
      */
     private final List<LineAccumulator> allZones = new ArrayList<LineAccumulator>();
 
-    /// The zones which ended because of soft wrapping (not at a line break).
-    /// When wrapping, only those are justified: the others end a paragraph.
     /// The vertical extent (top, bottom) of each line of text, for the separators.
     private final List<double[]> lineExtents = new ArrayList<>();
 
+    /// The zones which ended because of soft wrapping (not at a line break).
+    /// When wrapping, only those are justified: the others end a paragraph.
     private final Set<LineAccumulator> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
     /**
      * the position that will be used to place the current zone

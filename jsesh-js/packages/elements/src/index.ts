@@ -13,6 +13,7 @@ export {
   configureJSesh,
   glyphsUrl as resolveGlyphsUrl,
   layOutInPage,
+  pageStyle,
   renderMdc,
   type BrowserRenderOptions,
   type JSeshConfiguration,

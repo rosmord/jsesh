@@ -109,7 +109,7 @@ HieroglyphicText             ← document root: the whole text (formerly TopItem
        ├─ LineBreak / PageBreak
        ├─ Zone                ← %zone[...](...): area with its own layout
        │    └─ ZoneContent    ← an ItemSequence of TopItems (nested zones too)
-       └─ TabStop / Tabbing
+       └─ TabStop
 ```
 
 - The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types, and neither package imports the other; `jsesh.mdcreader` bridges them.
@@ -119,7 +119,7 @@ HieroglyphicText             ← document root: the whole text (formerly TopItem
 
 - Grammar: hand-written recursive descent parser, `jsesh.parser.MDCParser`, which builds a literal AST (`jsesh.parser.ast.AstDocument`). It replaced an earlier CUP-generated parser (`jsesh/src/jcup/MDCParse.y`, retired once checked equivalent construct-by-construct).
 - Lexer: hand-written, `jsesh.parser.lexer.MdcLexer`/`MdcLexicon`, built on the generic scanner framework in the `mdwlexer` module (replacement for the retired JFlex-generated `MDCLexAux`, formerly `jsesh/src/jlex/MDCLexAux.l`). `MDCParser` drives `MdcLexer` directly and switches on its `MdcSymbolCode` enum.
-- `jsesh.parser` (lexer, parser, AST) does not depend on `jsesh.model`. The AST stores the lexer's own enums (`SignSubType`, `PhilologyKind`, `jsesh.parser.lexer.symbols.ToggleType`, `jsesh.sharedvocabulary.WordEnding`); their mapping to `jsesh.model.constants` codes lives in `jsesh.mdcreader.AstModelBuilder`. Don't add `jsesh.model` imports to `jsesh.parser`.
+- `jsesh.parser` (lexer, parser, AST) does not depend on `jsesh.model`. The AST stores the lexer's own enums (`SignSubType`, `PhilologyKind`, `jsesh.parser.lexer.symbols.ToggleType`); their mapping to `jsesh.model.constants` codes lives in `jsesh.mdcreader.AstModelBuilder`. The enums of `jsesh.sharedvocabulary` (e.g. `WordEnding`) are used as is by both the AST and the model, with no mapping. Don't add `jsesh.model` imports to `jsesh.parser`.
 - High-level entry point: `jsesh.mdcreader.MDCParserModelGenerator` (returns a `HieroglyphicText`)
 - Lower-level entry point: `jsesh.parser.MDCParser` itself (returns the literal `AstDocument`, walkable with `jsesh.parser.ast.AstVisitor`)
 

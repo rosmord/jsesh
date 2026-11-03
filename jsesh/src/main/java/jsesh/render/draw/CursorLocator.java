@@ -107,7 +107,7 @@ final class CursorLocator {
         // A single line in the gap shows where an insertion will take place.
         if (drawAfterBeforeView && drawBeforeAfterView) {
             Optional<Line2D> merged = mergedLine(lineNextToView(text, before, true),
-                    lineNextToView(text, after, false));
+                    lineNextToView(text, after, false), text.childBounds(before), text.childBounds(after));
             if (merged.isPresent()) {
                 return Optional.of(new CursorShape(List.of(merged.get()), true));
             }
@@ -128,10 +128,25 @@ final class CursorLocator {
 
     /// A line halfway between the end of a view and the start of the next one.
     ///
+    /// The two lines are merged only if both stand in the space between the two
+    /// views. It's not the case with bidirectional text: in a right-to-left zone,
+    /// the start of a latin character is at its left side, away from the
+    /// hieroglyph before it. A line halfway between the two would then fall in
+    /// the middle of the text; we keep two lines instead.
+    ///
+    /// @param endBounds the area of the view before the gap.
+    /// @param startBounds the area of the view after the gap.
     /// @return the line, or empty if the two lines are not parallel, or are not on the same
-    /// row (or column) of text, as when a line wraps.
-    private static Optional<Line2D> mergedLine(Line2D end, Line2D start) {
+    /// row (or column) of text, as when a line wraps, or if they are not both between the views.
+    private static Optional<Line2D> mergedLine(Line2D end, Line2D start, Rectangle2D endBounds,
+            Rectangle2D startBounds) {
         if (isVerticalLine(end) && isVerticalLine(start)) {
+            if (!inGap(end.getX1(), endBounds.getMinX(), endBounds.getMaxX(), startBounds.getMinX(),
+                    startBounds.getMaxX())
+                    || !inGap(start.getX1(), endBounds.getMinX(), endBounds.getMaxX(), startBounds.getMinX(),
+                            startBounds.getMaxX())) {
+                return Optional.empty();
+            }
             if (!overlap(end.getY1(), end.getY2(), start.getY1(), start.getY2())) {
                 return Optional.empty();
             }
@@ -140,6 +155,12 @@ final class CursorLocator {
                     x, Math.max(end.getY2(), start.getY2())));
         }
         if (isHorizontalLine(end) && isHorizontalLine(start)) {
+            if (!inGap(end.getY1(), endBounds.getMinY(), endBounds.getMaxY(), startBounds.getMinY(),
+                    startBounds.getMaxY())
+                    || !inGap(start.getY1(), endBounds.getMinY(), endBounds.getMaxY(), startBounds.getMinY(),
+                            startBounds.getMaxY())) {
+                return Optional.empty();
+            }
             if (!overlap(end.getX1(), end.getX2(), start.getX1(), start.getX2())) {
                 return Optional.empty();
             }
@@ -148,6 +169,19 @@ final class CursorLocator {
                     Math.max(end.getX2(), start.getX2()), y));
         }
         return Optional.empty();
+    }
+
+    /// Is a coordinate in the space between two intervals? If the intervals
+    /// overlap, there is no such space, and any coordinate is accepted.
+    private static boolean inGap(double c, double min1, double max1, double min2, double max2) {
+        final double eps = 1e-6;
+        if (max1 <= min2 + eps) {
+            return c >= max1 - eps && c <= min2 + eps;
+        }
+        if (max2 <= min1 + eps) {
+            return c >= max2 - eps && c <= min1 + eps;
+        }
+        return true;
     }
 
     private static boolean isVerticalLine(Line2D l) {

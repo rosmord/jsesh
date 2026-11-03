@@ -1025,11 +1025,10 @@ public class JMDCEditor extends JPanel implements Scrollable {
     /// The choices must have been prepared in the workflow.
     @SuppressWarnings("unchecked")
     private void showInsertionPopup() {
-        boolean rightToLeft = getJSeshStyle().options().textDirection() == TextDirection.RIGHT_TO_LEFT;
         InsertionChoices choices = new InsertionChoices();
         Color background = UIManager.getColor("PopupMenu.background");
         ChoicePopup<InsertionChoice>[] popup = new ChoicePopup[1];
-        InsertionCompass compass = new InsertionCompass(rightToLeft,
+        InsertionCompass compass = new InsertionCompass(
                 background != null ? background : getBackground(), new InsertionCompass.Listener() {
                     @Override
                     public void directionChosen(InsertionDirection direction) {
@@ -1062,9 +1061,8 @@ public class JMDCEditor extends JPanel implements Scrollable {
             popup[0].addKey("NUMPAD" + digit, "numpadDirection" + digit, choose);
         }
         int step = InsertionCompass.STEP;
-        int horizontalStep = rightToLeft ? -step : step;
-        addEnlargementKey(popup[0], choices, "alt RIGHT", horizontalStep, 0);
-        addEnlargementKey(popup[0], choices, "alt LEFT", -horizontalStep, 0);
+        addEnlargementKey(popup[0], choices, "alt RIGHT", step, 0);
+        addEnlargementKey(popup[0], choices, "alt LEFT", -step, 0);
         addEnlargementKey(popup[0], choices, "alt UP", 0, step);
         addEnlargementKey(popup[0], choices, "alt DOWN", 0, -step);
         popup[0].show(getCursorRectangle());

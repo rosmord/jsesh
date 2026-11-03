@@ -267,4 +267,19 @@ class CursorLocatorTest {
         assertTrue(locate("A1-i&i-D21", MDCPosition.of(1, 0, 0, 0)).isEmpty());
         assertTrue(locate("A1-i&i-D21", MDCPosition.of(1, 0, 0, 2)).isEmpty());
     }
+
+    @Test
+    void cursorBeforeLatinTextInRightToLeftZoneIsNotInTheMiddleOfTheText() {
+        // The start of the latin run is at its left side, away from G17.
+        Optional<CursorShape> location = locate("%zone[dir=rl](A1-G17-+lle texte avance bien+s-B1-C1)-|1-!",
+                MDCPosition.of(0, 0, 2));
+        assertTrue(location.isPresent());
+        MDCView zoneContent = editor.getView().getSubView(0).getSubView(0);
+        java.util.List<Line2D> lines = location.get().lines();
+        // One line at the side of G17 (view 1) facing the text, and one at the start (left side)
+        // of the first latin character (view 2). No line in the middle of the text.
+        assertEquals(2, lines.size());
+        double offset = lines.get(0).getX1() - zoneContent.getSubViewBounds(1).getMinX();
+        assertEquals(zoneContent.getSubViewBounds(2).getMinX() + offset, lines.get(1).getX1(), EPSILON);
+    }
 }

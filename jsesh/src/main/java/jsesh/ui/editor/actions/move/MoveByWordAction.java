@@ -30,7 +30,7 @@ public class MoveByWordAction extends EditorAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        boolean forward = left != editor.getTextDirection().isLeftToRight();
+        boolean forward = left != editor.getTextDirectionAtCaret().isLeftToRight();
         if (extendSelection) {
             editor.getWorkflow().expandSelectionByWord(forward ? 1 : -1);
         } else if (forward) {

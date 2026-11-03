@@ -42,7 +42,13 @@ public class ZoneParametersPanel extends JPanel {
 
         /// @param initial the value proposed when the length gets enabled
         OptionalLength(int initial) {
-            value = new JSpinner(new SpinnerNumberModel(initial, 1, 100000, 10));
+            this(initial, 1);
+        }
+
+        /// @param initial the value proposed when the length gets enabled
+        /// @param minimum the smallest value the user can enter
+        OptionalLength(int initial, int minimum) {
+            value = new JSpinner(new SpinnerNumberModel(initial, minimum, 100000, 10));
             value.setEnabled(false);
             enabled.addActionListener(e -> value.setEnabled(enabled.isSelected()));
         }
@@ -67,8 +73,8 @@ public class ZoneParametersPanel extends JPanel {
             new TextDirection[] { null, TextDirection.LEFT_TO_RIGHT, TextDirection.RIGHT_TO_LEFT });
     private final OptionalLength width = new OptionalLength();
     private final OptionalLength height = new OptionalLength();
-    private final OptionalLength lineSkip = new OptionalLength(10);
-    private final OptionalLength columnSkip = new OptionalLength(10);
+    private final OptionalLength lineSkip = new OptionalLength(10, 0);
+    private final OptionalLength columnSkip = new OptionalLength(10, 0);
     private final OptionalLength separator = new OptionalLength(5);
     private final OptionalLength quadratWidth = new OptionalLength(100);
     private final OptionalLength quadratHeight = new OptionalLength(100);

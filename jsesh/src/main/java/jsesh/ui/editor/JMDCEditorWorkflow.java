@@ -1814,11 +1814,11 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
     public void redZone(final boolean b) {
         possibilitiesHandler.clear();
         applyGroupLevelModifications((TopItem t) -> {
-            if (t instanceof Cadrat) {
-                Cadrat c = (Cadrat) t;
-                c.setRed(b);
-
-            }
+            forEachItemInZones(t, item -> {
+                if (item instanceof Cadrat) {
+                    ((Cadrat) item).setRed(b);
+                }
+            });
             return Collections.singletonList(t);
         });
         clearSeparator();
@@ -1997,7 +1997,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         clearSeparator();
         possibilitiesHandler.clear();
         applyGroupLevelModifications((TopItem t) -> {
-            t.setShaded(shade);
+            forEachItemInZones(t, item -> item.setShaded(shade));
             return Collections.singletonList(t);
         });
     }
@@ -2404,6 +2404,20 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
      *
      * @param topItemModifier : the modification to apply.
      */
+
+    /// Applies an action to an item and, if it is a zone, to all the items nested in it.
+    ///
+    /// The state of a zone itself is never drawn nor saved: what counts is
+    /// the state of the items it contains.
+    private static void forEachItemInZones(TopItem item, Consumer<TopItem> action) {
+        action.accept(item);
+        if (item instanceof Zone zone) {
+            ZoneContent content = zone.getContent();
+            for (int i = 0; i < content.getNumberOfChildren(); i++) {
+                forEachItemInZones(content.getItemAt(i), action);
+            }
+        }
+    }
 
     private void applyGroupLevelModifications(TopItemModifier topItemModifier) {
         List<TopItem> modified = new ArrayList<>();
