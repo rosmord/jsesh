@@ -21,16 +21,20 @@ interface Point {
 
 const pt = (x: number, y: number): Point => ({ x, y });
 
-/// Returns the SVG elements of a cartouche's frame.
+/// Returns the SVG elements of a cartouche's frame. `direction` and
+/// `orientation` are those of the cartouche's view (inside a zone they may
+/// differ from the document's).
 export function drawCartouche(
   c: Cartouche,
   style: JSeshStyle,
   width: number,
   height: number,
   color: string,
+  direction: TextDirection = style.options.textDirection,
+  orientation: TextOrientation = style.options.textOrientation,
 ): string {
-  const drawer = new CartoucheDrawer(style, style.options.textDirection, style.options.textOrientation, width, height, color);
-  const horizontal = style.options.textOrientation === "HORIZONTAL";
+  const drawer = new CartoucheDrawer(style, direction, orientation, width, height, color);
+  const horizontal = orientation === "HORIZONTAL";
   switch (c.type) {
     case "CASTLE":
       return horizontal ? drawer.enclosureHorizontal(c) : drawer.enclosureVertical(c);
@@ -136,15 +140,22 @@ class CartoucheDrawer {
 
   normalVertical(c: Cartouche): string {
     const g = this.style.geometry;
-    const [p1, p2, p3, p4] = this.verticalCorners(this.partLength(c, c.startPart), this.partLength(c, c.endPart));
+    const w1 = this.partLength(c, c.startPart);
+    const w2 = this.partLength(c, c.endPart);
     const dy = g.cartoucheLineWidth / 2;
-    // Java quirk: the loop skip uses the line width, not the loop length.
-    const loopSkip = g.cartoucheLineWidth / 3;
+    const dx = dy;
+    // Unlike the other vertical drawers, NormalCartoucheDrawer.drawVertical does
+    // not subtract dy from the bottom corners.
+    const p1 = pt(this.width - dx, w1);
+    const p2 = pt(dx, w1);
+    const p3 = pt(this.width - dx, this.height - w2);
+    const p4 = pt(dx, this.height - w2);
+    const loopSkip = g.cartoucheLoopLength / 3;
     if (c.startPart !== 0) {
       let p0x = dy;
       if (c.startPart === 2) {
         p0x += g.cartoucheLineWidth;
-        this.lines.line(p2.x, dy, p1.x, dy);
+        this.lines.line(p2.x, dy * 1.5, p1.x, dy * 1.5);
       }
       this.lines.moveTo(p1.x, p1.y).curveTo(p1.x, p0x - loopSkip, p2.x, p0x - loopSkip, p2.x, p2.y);
     }

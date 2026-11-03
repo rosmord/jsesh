@@ -255,7 +255,10 @@ class ElementDrawer extends ModelElementAdapter {
 
   override visitCartouche(c: Cartouche): void {
     if (!this.postfix) return;
-    this.out += drawCartouche(c, this.d.s, this.view.width, this.view.height, this.color);
+    this.out += drawCartouche(c, this.d.s, this.view.width, this.view.height, this.color,
+      this.view.direction ?? this.d.s.options.textDirection,
+      this.view.orientation ?? this.d.s.options.textOrientation,
+    );
   }
 
   override visitCadrat(c: Cadrat): void {
