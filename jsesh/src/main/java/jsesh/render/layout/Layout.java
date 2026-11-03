@@ -244,11 +244,23 @@ public class Layout {
 					if (p.width() != ZoneParameters.UNSET) {
 						g.textWidth(p.width() * unit);
 					}
-					if (p.lineSkip() != ZoneParameters.UNSET) {
-						g.lineSkip(p.lineSkip() * unit);
+					// The gaps are given by role, not by axis: the geometry's
+					// names depend on the orientation.
+					if (p.lineGap() != ZoneParameters.UNSET) {
+						float gap = p.lineGap() * unit;
+						if (orientation.isHorizontal()) {
+							g.lineSkip(gap);
+						} else {
+							g.columnSkip(gap);
+						}
 					}
-					if (p.columnSkip() != ZoneParameters.UNSET) {
-						g.columnSkip(p.columnSkip() * unit);
+					if (p.quadratGap() != ZoneParameters.UNSET) {
+						float gap = p.quadratGap() * unit;
+						if (orientation.isHorizontal()) {
+							g.smallSkip(gap);
+						} else {
+							g.lineSkip(gap);
+						}
 					}
 					if (p.quadratWidth() != ZoneParameters.UNSET) {
 						g.maxCadratWidth(p.quadratWidth() * unit);

@@ -1437,8 +1437,10 @@ export interface ZoneParameters {
   /// The width of the zone (and, for a zone in lines, its wrapping width).
   readonly width: number;
   readonly height: number;
-  readonly lineSkip: number;
-  readonly columnSkip: number;
+  /// The space between two lines of text (two columns, in a zone in columns).
+  readonly lineGap: number;
+  /// The space between two successive quadrats of a line (or of a column).
+  readonly quadratGap: number;
   /// The thickness of the rules between the lines (or columns), or unset for no rule.
   readonly separator: number;
   /// The maximum width of the quadrats of the zone (the width of its columns).
@@ -1458,8 +1460,8 @@ export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters 
     direction: p.direction ?? null,
     width: positive(p.width),
     height: positive(p.height),
-    lineSkip: nonNegative(p.lineSkip),
-    columnSkip: nonNegative(p.columnSkip),
+    lineGap: nonNegative(p.lineGap),
+    quadratGap: nonNegative(p.quadratGap),
     separator: positive(p.separator),
     quadratWidth: positive(p.quadratWidth),
     quadratHeight: positive(p.quadratHeight),

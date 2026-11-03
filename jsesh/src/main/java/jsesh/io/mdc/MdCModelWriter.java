@@ -610,8 +610,8 @@ public class MdCModelWriter {
 			}
 			addLengthOption(options, "width", p.width());
 			addLengthOption(options, "height", p.height());
-			addLengthOption(options, "lineskip", p.lineSkip());
-			addLengthOption(options, "colskip", p.columnSkip());
+			addLengthOption(options, "linegap", p.lineGap());
+			addLengthOption(options, "quadratgap", p.quadratGap());
 			addLengthOption(options, "separator", p.separator());
 			addLengthOption(options, "quadratwidth", p.quadratWidth());
 			addLengthOption(options, "quadratheight", p.quadratHeight());

@@ -277,8 +277,8 @@ class AstModelBuilder {
   }
 }
 
-/// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `lineskip`,
-/// `colskip`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
+/// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `linegap`,
+/// `quadratgap`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
 /// Unknown options and values are ignored.
 function zoneParametersOf(options: AstOptionList): ZoneParameters {
   const layout = optionString(options, "layout", "");
@@ -289,8 +289,8 @@ function zoneParametersOf(options: AstOptionList): ZoneParameters {
     direction: dir === "lr" ? "LEFT_TO_RIGHT" : dir === "rl" ? "RIGHT_TO_LEFT" : null,
     width: length("width"),
     height: length("height"),
-    lineSkip: length("lineskip"),
-    columnSkip: length("colskip"),
+    lineGap: length("linegap"),
+    quadratGap: length("quadratgap"),
     separator: length("separator"),
     quadratWidth: length("quadratwidth"),
     quadratHeight: length("quadratheight"),

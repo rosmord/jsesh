@@ -500,11 +500,11 @@ differences and decisions:
   `ItemSequence` which accepts **every** `TopItem`; a page break in a zone is
   laid out as a line break). `ZoneStart` is deleted. `ZoneParameters` is
   simpler than G.1: `orientation` and `direction` (`null` = inherited from the
-  enclosing zone), `width`, `height`, `lineSkip`, `columnSkip` (`UNSET` =
+  enclosing zone), `width`, `height`, `lineGap`, `quadratGap` (`UNSET` =
   natural size or inherited), `frame`. No placement, no reference point, no
   rules yet.
 - **Syntax**: `%zone[layout=lines|columns, dir=lr|rl, width=, height=,
-  lineskip=, colskip=, separator=, quadratwidth=, quadratheight=, frame](...)`.
+  linegap=, quadratgap=, separator=, quadratwidth=, quadratheight=, frame](...)`.
   `quadratwidth`/`quadratheight` set the maximum quadrat size inside the zone
   (the width of its columns, the height of its lines). Lengths are integers, in percent of the
   height of a quadrat (as `%insert`'s `dw`/`dh`). The writer only writes the
@@ -549,7 +549,7 @@ differences and decisions:
   is true, so clicks and QUADRAT mode enter it, as `BasicItemList` does today.
   Positions inside are `(z, 0, k)`.
 - `record ZoneParameters(ZoneLayoutKind layout, TextOrientation orientation,
-  TextDirection direction, int width, int height, int lineSkip, int columnSkip,
+  TextDirection direction, int width, int height, int lineGap, int quadratGap,
   int ruleWidth, ZoneFrame frame, ZonePlacement placement, int refX, int refY)`:
   - `ZoneLayoutKind { LINES, COLUMNS, FREE }`;
   - `ZoneFrame { NONE, RECTANGLE }`;

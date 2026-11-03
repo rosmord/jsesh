@@ -29,8 +29,10 @@ import jsesh.model.constants.TextOrientation;
 ///        wrap.
 /// @param height the fixed height of the zone, or [#UNSET] for its natural
 ///        height.
-/// @param lineSkip the space between lines, or [#UNSET] if inherited.
-/// @param columnSkip the space between columns, or [#UNSET] if inherited.
+/// @param lineGap the space between two lines of text (two columns, for a zone
+///        in columns), or [#UNSET] if inherited.
+/// @param quadratGap the space between two successive quadrats of a line (or of
+///        a column), or [#UNSET] if inherited.
 /// @param separator the thickness of the rules drawn between the lines (for a
 ///        zone in lines) or the columns (for a zone in columns), or [#UNSET]
 ///        for no rule.
@@ -40,7 +42,7 @@ import jsesh.model.constants.TextOrientation;
 ///        height of its lines, for a zone in lines), or [#UNSET] if inherited.
 /// @param frame should a frame be drawn around the zone?
 public record ZoneParameters(TextOrientation orientation, TextDirection direction,
-        int width, int height, int lineSkip, int columnSkip, int separator, int quadratWidth, int quadratHeight,
+        int width, int height, int lineGap, int quadratGap, int separator, int quadratWidth, int quadratHeight,
         boolean frame)
         implements Serializable {
 
@@ -55,8 +57,8 @@ public record ZoneParameters(TextOrientation orientation, TextDirection directio
             .thenComparing(ZoneParameters::direction, Comparator.nullsFirst(Comparator.naturalOrder()))
             .thenComparingInt(ZoneParameters::width)
             .thenComparingInt(ZoneParameters::height)
-            .thenComparingInt(ZoneParameters::lineSkip)
-            .thenComparingInt(ZoneParameters::columnSkip)
+            .thenComparingInt(ZoneParameters::lineGap)
+            .thenComparingInt(ZoneParameters::quadratGap)
             .thenComparingInt(ZoneParameters::separator)
             .thenComparingInt(ZoneParameters::quadratWidth)
             .thenComparingInt(ZoneParameters::quadratHeight)
@@ -67,51 +69,51 @@ public record ZoneParameters(TextOrientation orientation, TextDirection directio
     public ZoneParameters {
         width = width > 0 ? width : UNSET;
         height = height > 0 ? height : UNSET;
-        lineSkip = lineSkip >= 0 ? lineSkip : UNSET;
-        columnSkip = columnSkip >= 0 ? columnSkip : UNSET;
+        lineGap = lineGap >= 0 ? lineGap : UNSET;
+        quadratGap = quadratGap >= 0 ? quadratGap : UNSET;
         separator = separator > 0 ? separator : UNSET;
         quadratWidth = quadratWidth > 0 ? quadratWidth : UNSET;
         quadratHeight = quadratHeight > 0 ? quadratHeight : UNSET;
     }
 
     public ZoneParameters withOrientation(TextOrientation orientation) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withDirection(TextDirection direction) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withWidth(int width) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withHeight(int height) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
-    public ZoneParameters withLineSkip(int lineSkip) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+    public ZoneParameters withLineGap(int lineGap) {
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
-    public ZoneParameters withColumnSkip(int columnSkip) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+    public ZoneParameters withQuadratGap(int quadratGap) {
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withSeparator(int separator) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withQuadratWidth(int quadratWidth) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withQuadratHeight(int quadratHeight) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     public ZoneParameters withFrame(boolean frame) {
-        return new ZoneParameters(orientation, direction, width, height, lineSkip, columnSkip, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, separator, quadratWidth, quadratHeight, frame);
     }
 
     /// An arbitrary but consistent order, for [ModelElement#compareTo].

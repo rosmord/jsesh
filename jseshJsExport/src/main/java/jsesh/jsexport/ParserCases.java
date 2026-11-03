@@ -68,7 +68,7 @@ final class ParserCases {
         "?123",
         "%zone(A1)",
         "%zone[id=1](A1)",
-        "%zone[layout=columns,dir=rl,width=200,height=300,lineskip=10,colskip=20,separator=5,quadratwidth=150,quadratheight=120,frame](A1-B1)",
+        "%zone[layout=columns,dir=rl,width=200,height=300,linegap=10,quadratgap=20,separator=5,quadratwidth=150,quadratheight=120,frame](A1-B1)",
         "$r-A1-%zone(A2-!-A3)-A4",
         "A1-%zone[layout=columns,separator=4](A1-A2-!-B1-!-C1)-C1",
         "%zone[frame](%zone[dir=rl](A1-B1)-!-G17)",

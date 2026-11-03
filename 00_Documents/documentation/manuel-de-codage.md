@@ -424,8 +424,8 @@ A zone holds anything a text holds, including line breaks and other zones. Zones
 | `dir` | `lr` or `rl` | writing direction |
 | `width` | length | fixed width; for a zone in lines, also the width at which lines wrap |
 | `height` | length | fixed height |
-| `lineskip` | length | space between lines |
-| `colskip` | length | space between columns |
+| `linegap` | length | space between two lines of text (two columns, in a zone in columns) |
+| `quadratgap` | length | space between two successive quadrats of a line (or of a column) |
 | `separator` | length | thickness of the rules between lines or columns; no rule if unset |
 | `quadratwidth` | length | maximum width of quadrats |
 | `quadratheight` | length | maximum height of quadrats |

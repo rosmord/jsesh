@@ -371,8 +371,8 @@ class AstModelBuilder implements AstVisitor {
     }
 
     /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
-    /// `lineskip`, `colskip`, `separator`, `quadratwidth`, `quadratheight` and `frame`. Unknown options and values are
-    /// ignored.
+    /// `linegap`, `quadratgap`, `separator`, `quadratwidth`, `quadratheight` and
+    /// `frame`. Unknown options and values are ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
         TextOrientation orientation = switch (options.getString("layout", "")) {
             case "lines" -> TextOrientation.HORIZONTAL;
@@ -387,8 +387,8 @@ class AstModelBuilder implements AstVisitor {
         return new ZoneParameters(orientation, direction,
                 options.getInt("width", ZoneParameters.UNSET),
                 options.getInt("height", ZoneParameters.UNSET),
-                options.getInt("lineskip", ZoneParameters.UNSET),
-                options.getInt("colskip", ZoneParameters.UNSET),
+                options.getInt("linegap", ZoneParameters.UNSET),
+                options.getInt("quadratgap", ZoneParameters.UNSET),
                 options.getInt("separator", ZoneParameters.UNSET),
                 options.getInt("quadratwidth", ZoneParameters.UNSET),
                 options.getInt("quadratheight", ZoneParameters.UNSET),

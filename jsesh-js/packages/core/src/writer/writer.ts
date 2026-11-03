@@ -269,8 +269,8 @@ class ModelWriter implements ModelElementVisitor<void> {
     const lengths: [string, number][] = [
       ["width", p.width],
       ["height", p.height],
-      ["lineskip", p.lineSkip],
-      ["colskip", p.columnSkip],
+      ["linegap", p.lineGap],
+      ["quadratgap", p.quadratGap],
       ["separator", p.separator],
       ["quadratwidth", p.quadratWidth],
       ["quadratheight", p.quadratHeight],

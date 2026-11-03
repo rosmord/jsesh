@@ -41,7 +41,7 @@ public class MdCModelWriterZoneTest {
 
     @Test
     public void zoneIsBuiltFromMdC() throws MDCSyntaxError {
-        HieroglyphicText text = parse("A1-%zone[layout=columns,dir=rl,width=1200,height=400,lineskip=20,colskip=30,frame](A2-A3!A4)-A5");
+        HieroglyphicText text = parse("A1-%zone[layout=columns,dir=rl,width=1200,height=400,linegap=20,quadratgap=30,frame](A2-A3!A4)-A5");
         assertEquals(3, text.getNumberOfChildren());
         Zone zone = assertInstanceOf(Zone.class, text.getTopItemAt(1));
         ZoneParameters p = zone.getParameters();
@@ -49,8 +49,8 @@ public class MdCModelWriterZoneTest {
         assertEquals(TextDirection.RIGHT_TO_LEFT, p.direction());
         assertEquals(1200, p.width());
         assertEquals(400, p.height());
-        assertEquals(20, p.lineSkip());
-        assertEquals(30, p.columnSkip());
+        assertEquals(20, p.lineGap());
+        assertEquals(30, p.quadratGap());
         assertTrue(p.frame());
         assertEquals(ZoneParameters.UNSET, p.separator());
         assertEquals(4, zone.getContent().getNumberOfChildren());
@@ -83,8 +83,8 @@ public class MdCModelWriterZoneTest {
             "%zone[dir=lr](A1)",
             "%zone[width=1200](A1)",
             "%zone[height=300](A1)",
-            "%zone[lineskip=0](A1)",
-            "%zone[colskip=25](A1)",
+            "%zone[linegap=0](A1)",
+            "%zone[quadratgap=25](A1)",
             "%zone[frame](A1)",
             "%zone[quadratheight=150](A1!A2)",
             "%zone[layout=columns,quadratwidth=60](A1-A2)",

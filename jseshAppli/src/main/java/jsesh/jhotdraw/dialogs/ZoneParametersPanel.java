@@ -80,8 +80,8 @@ public class ZoneParametersPanel extends JPanel {
             new TextDirection[] { null, TextDirection.LEFT_TO_RIGHT, TextDirection.RIGHT_TO_LEFT });
     private final OptionalLength width = new OptionalLength();
     private final OptionalLength height = new OptionalLength();
-    private final OptionalLength lineSkip = new OptionalLength(10, 0, 1);
-    private final OptionalLength columnSkip = new OptionalLength(10, 0, 1);
+    private final OptionalLength lineGap = new OptionalLength(10, 0, 1);
+    private final OptionalLength quadratGap = new OptionalLength(10, 0, 1);
     private final OptionalLength separator = new OptionalLength(5, 1, 1);
     private final OptionalLength quadratWidth = new OptionalLength(100);
     private final OptionalLength quadratHeight = new OptionalLength(100);
@@ -100,8 +100,8 @@ public class ZoneParametersPanel extends JPanel {
         addRow(row++, "zone.direction", direction);
         addRow(row++, "zone.width", width);
         addRow(row++, "zone.height", height);
-        addRow(row++, "zone.lineSkip", lineSkip);
-        addRow(row++, "zone.columnSkip", columnSkip);
+        addRow(row++, "zone.lineGap", lineGap);
+        addRow(row++, "zone.quadratGap", quadratGap);
         addRow(row++, "zone.separator", separator);
         addRow(row++, "zone.quadratWidth", quadratWidth);
         addRow(row++, "zone.quadratHeight", quadratHeight);
@@ -133,8 +133,8 @@ public class ZoneParametersPanel extends JPanel {
         direction.setSelectedItem(p.direction());
         width.set(p.width());
         height.set(p.height());
-        lineSkip.set(p.lineSkip());
-        columnSkip.set(p.columnSkip());
+        lineGap.set(p.lineGap());
+        quadratGap.set(p.quadratGap());
         separator.set(p.separator());
         quadratWidth.set(p.quadratWidth());
         quadratHeight.set(p.quadratHeight());
@@ -145,7 +145,7 @@ public class ZoneParametersPanel extends JPanel {
     public ZoneParameters getParameters() {
         return new ZoneParameters((TextOrientation) orientation.getSelectedItem(),
                 (TextDirection) direction.getSelectedItem(), width.get(), height.get(),
-                lineSkip.get(), columnSkip.get(), separator.get(),
+                lineGap.get(), quadratGap.get(), separator.get(),
                 quadratWidth.get(), quadratHeight.get(), frame.isSelected());
     }
 }

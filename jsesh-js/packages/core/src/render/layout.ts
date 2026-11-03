@@ -133,8 +133,18 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
     wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
   };
   if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
-  if (p.lineSkip !== ZONE_UNSET) geometry.lineSkip = f(p.lineSkip * unit);
-  if (p.columnSkip !== ZONE_UNSET) geometry.columnSkip = f(p.columnSkip * unit);
+  // The gaps are given by role, not by axis: the geometry's names depend on the orientation.
+  const horizontal = orientation === "HORIZONTAL";
+  if (p.lineGap !== ZONE_UNSET) {
+    const gap = f(p.lineGap * unit);
+    if (horizontal) geometry.lineSkip = gap;
+    else geometry.columnSkip = gap;
+  }
+  if (p.quadratGap !== ZONE_UNSET) {
+    const gap = f(p.quadratGap * unit);
+    if (horizontal) geometry.smallSkip = gap;
+    else geometry.lineSkip = gap;
+  }
   if (p.quadratWidth !== ZONE_UNSET) geometry.maxCadratWidth = f(p.quadratWidth * unit);
   if (p.quadratHeight !== ZONE_UNSET) geometry.maxCadratHeight = f(p.quadratHeight * unit);
   return withStyle(parent, {
