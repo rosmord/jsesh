@@ -48,7 +48,14 @@ public class ZoneParametersPanel extends JPanel {
         /// @param initial the value proposed when the length gets enabled
         /// @param minimum the smallest value the user can enter
         OptionalLength(int initial, int minimum) {
-            value = new JSpinner(new SpinnerNumberModel(initial, minimum, 100000, 10));
+            this(initial, minimum, 10);
+        }
+
+        /// @param initial the value proposed when the length gets enabled
+        /// @param minimum the smallest value the user can enter
+        /// @param step the increment of the spinner arrows
+        OptionalLength(int initial, int minimum, int step) {
+            value = new JSpinner(new SpinnerNumberModel(initial, minimum, 100000, step));
             value.setEnabled(false);
             enabled.addActionListener(e -> value.setEnabled(enabled.isSelected()));
         }
@@ -73,9 +80,9 @@ public class ZoneParametersPanel extends JPanel {
             new TextDirection[] { null, TextDirection.LEFT_TO_RIGHT, TextDirection.RIGHT_TO_LEFT });
     private final OptionalLength width = new OptionalLength();
     private final OptionalLength height = new OptionalLength();
-    private final OptionalLength lineSkip = new OptionalLength(10, 0);
-    private final OptionalLength columnSkip = new OptionalLength(10, 0);
-    private final OptionalLength separator = new OptionalLength(5);
+    private final OptionalLength lineSkip = new OptionalLength(10, 0, 1);
+    private final OptionalLength columnSkip = new OptionalLength(10, 0, 1);
+    private final OptionalLength separator = new OptionalLength(5, 1, 1);
     private final OptionalLength quadratWidth = new OptionalLength(100);
     private final OptionalLength quadratHeight = new OptionalLength(100);
     private final JCheckBox frame = new JCheckBox();
