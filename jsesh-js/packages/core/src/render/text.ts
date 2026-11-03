@@ -47,9 +47,22 @@ export interface TextMeasurer {
   smallTextDimensions(fonts: FontSpecification, text: string): SmallTextDimensions;
 }
 
-/// Is this script written from right to left?
-export function isRightToLeft(script: ScriptCode): boolean {
-  return script === "HEBREW";
+/// Is a run of text written from right to left? As in Java
+/// (`TextRun.measure`), this comes from the Unicode properties of the text (the
+/// first strong character gives the base direction), not from the script code.
+///
+/// Only the base direction is handled: mixed-direction runs are not reordered
+/// (the Java layout does), and letters are not joined (arabic is drawn letter
+/// by letter).
+export function isRunRightToLeft(pieces: readonly string[]): boolean {
+  for (const piece of pieces) {
+    for (const ch of piece) {
+      // JavaScript regular expressions have no Bidi_Class: use the scripts.
+      if (/\p{Script=Arabic}|\p{Script=Hebrew}|\p{Script=Syriac}|\p{Script=Thaana}|\p{Script=Nko}/u.test(ch)) return true;
+      if (/\p{L}/u.test(ch)) return false;
+    }
+  }
+  return false;
 }
 
 /// The string displayed for a character
@@ -192,7 +205,7 @@ export class TextRun {
       }
       const pieces: string[] = [];
       for (let k = i; k < end; k++) pieces.push(displayString(parent.getSubView(k).model as AlphabeticCharacter, fonts));
-      const m = measurer.measureRun(fonts, first.script, pieces, isRightToLeft(first.script));
+      const m = measurer.measureRun(fonts, first.script, pieces, isRunRightToLeft(pieces));
       const run = new TextRun(i, end, m.offsets, m.widths, m.width);
       for (let k = i; k < end; k++) parent.getSubView(k).width = run.widths[k - i]!;
       runs.push(run);

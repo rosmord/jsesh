@@ -218,7 +218,7 @@ final class CursorLocator {
         double cursorHeight = geometry.maxCadratHeight();
         if (v.getModel() instanceof AlphabeticCharacter c) {
             horizontalCursor = true;
-            leftToRight = !c.getScript().isRightToLeft();
+            leftToRight = !c.isRightToLeft();
             cursorHeight = v.getHeight();
         }
         // Local coordinates, origin at the top left corner of v.

@@ -153,11 +153,12 @@ final class LayoutExporter {
                 pieces.add(((AlphabeticCharacter) v.getSubView(k).getModel())
                         .getDisplayString(fonts.transliterationEncoding()));
             }
-            boolean rightToLeft = first.getScript().isRightToLeft();
+            boolean rightToLeft = !new java.text.Bidi(String.join("", pieces), java.text.Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT)
+                    .baseIsLeftToRight();
             if (measured.add("run\u0000" + first.getScript() + "\u0000" + rightToLeft + "\u0000"
                     + String.join("\u0001", pieces))) {
                 Font font = fonts.getFont(first.getScript());
-                TextRun run = TextRun.measure(0, pieces.size(), font, pieces, rightToLeft, frc);
+                TextRun run = TextRun.measure(0, pieces.size(), font, pieces, frc);
                 Map<String, Object> m = new LinkedHashMap<>();
                 m.put("kind", "run");
                 m.put("script", first.getScript());

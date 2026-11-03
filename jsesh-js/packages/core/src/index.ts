@@ -43,7 +43,7 @@ export {
 } from "./render/glyphs.js";
 export {
   displayString,
-  isRightToLeft,
+  isRunRightToLeft,
   TextRun,
   transliterationString,
   type CharacterMetrics,

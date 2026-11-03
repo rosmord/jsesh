@@ -7,7 +7,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
+import java.text.AttributedString;
+import java.text.Bidi;
+
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
@@ -91,8 +96,68 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.setFont(font);
         // Use the same font render context as the layout, so that the
         // characters' advances match their views.
-        TextLayout layout = new TextLayout(text, font, getTechRenderContext().fontRenderContext());
-        layout.draw(g, 0, layout.getAscent());
+        FontRenderContext frc = getTechRenderContext().fontRenderContext();
+        if (!drawShapedCharacter(c, font, text, frc)) {
+            TextLayout layout = new TextLayout(text, font, frc);
+            layout.draw(g, 0, layout.getAscent());
+        }
+    }
+
+    /// Draws a character which belongs to a run containing right-to-left text.
+    ///
+    /// Such characters can't be drawn alone: arabic letters take different
+    /// forms depending on their neighbours, and mixed directions are reordered.
+    /// So the whole run is laid out (as it was measured by [jsesh.render.layout.TextRun]), and
+    /// only the part belonging to this character is drawn, using a clip.
+    ///
+    /// @return false if the character is not in such a run (nothing was
+    /// drawn).
+    private boolean drawShapedCharacter(AlphabeticCharacter c, Font font, String text, FontRenderContext frc) {
+        // Gather the run around the current view.
+        MDCView first = currentView;
+        while (first.getPrevious() != null && first.getPrevious().getModel() instanceof AlphabeticCharacter p
+                && p.isSameScriptAs(c)) {
+            first = first.getPrevious();
+        }
+        var encoding = getJSeshStyle().fonts().transliterationEncoding();
+        StringBuilder runText = new StringBuilder();
+        int pieceStart = -1;
+        int pieceEnd = -1;
+        for (MDCView v = first; v != null && v.getModel() instanceof AlphabeticCharacter p
+                && p.isSameScriptAs(c); v = v.getNext()) {
+            if (v == currentView) {
+                pieceStart = runText.length();
+            }
+            runText.append(p.getDisplayString(encoding));
+            if (v == currentView) {
+                pieceEnd = runText.length();
+            }
+        }
+        boolean hasRtl = runText.codePoints().anyMatch(cp -> {
+            byte d = Character.getDirectionality(cp);
+            return d == Character.DIRECTIONALITY_RIGHT_TO_LEFT || d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+        });
+        if (!hasRtl || pieceStart < 0 || pieceEnd <= pieceStart) {
+            return false;
+        }
+        String all = runText.toString();
+        boolean baseRtl = !new Bidi(all, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT).baseIsLeftToRight();
+        AttributedString as = new AttributedString(all);
+        as.addAttribute(TextAttribute.FONT, font);
+        as.addAttribute(TextAttribute.KERNING, TextAttribute.KERNING_ON);
+        as.addAttribute(TextAttribute.RUN_DIRECTION,
+                baseRtl ? TextAttribute.RUN_DIRECTION_RTL : TextAttribute.RUN_DIRECTION_LTR);
+        TextLayout layout = new TextLayout(as.getIterator(), frc);
+        Rectangle2D pieceBounds = layout.getLogicalHighlightShape(pieceStart, pieceEnd).getBounds2D();
+        Graphics2D g2 = (Graphics2D) g.create();
+        try {
+            g2.clip(new Rectangle2D.Double(0, -layout.getAscent() * 2, currentView.getWidth(),
+                    layout.getAscent() * 4 + layout.getDescent()));
+            layout.draw(g2, (float) -pieceBounds.getX(), layout.getAscent());
+        } finally {
+            g2.dispose();
+        }
+        return true;
     }
 
     /*

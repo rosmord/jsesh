@@ -36,14 +36,6 @@ public enum ScriptCode {
         return mdcCode;
     }
 
-    /// Is this script written from right to left?
-    ///
-    /// A run of such characters is laid out right to left, whatever the
-    /// direction of the surrounding hieroglyphic text.
-    public boolean isRightToLeft() {
-        return this == HEBREW;
-    }
-
     /// The script for a Manuel de Codage letter; [#OTHER] if the letter is not
     /// a known script code.
     public static ScriptCode forMdcCode(char code) {

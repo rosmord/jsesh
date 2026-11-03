@@ -204,7 +204,7 @@ final class PositionLocator {
         boolean leftToRight = sequence.view().getDirection().isLeftToRight();
         if (subv.getModel() instanceof AlphabeticCharacter c) {
             horizontal = true;
-            leftToRight = !c.getScript().isRightToLeft();
+            leftToRight = !c.isRightToLeft();
         }
         if (horizontal) {
             boolean firstHalf = local.getX() < x + subv.getWidth() / 2.0f;

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.font.TextAttribute;
+import java.text.Bidi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -152,8 +153,7 @@ public record TextRun(int start, int end, double[] offsets, double[] widths, dou
             for (int k = i; k < end; k++) {
                 pieces.add(((AlphabeticCharacter) parent.getSubView(k).getModel()).getDisplayString(encoding));
             }
-            TextRun run = measure(i, end, fonts.getFont(first.getScript()), pieces,
-                    first.getScript().isRightToLeft(), frc);
+            TextRun run = measure(i, end, fonts.getFont(first.getScript()), pieces, frc);
             for (int k = i; k < end; k++) {
                 parent.getSubView(k).setWidth((float) run.widths()[k - i]);
             }
@@ -165,20 +165,24 @@ public record TextRun(int start, int end, double[] offsets, double[] widths, dou
 
     /// Measures a run of text.
     ///
-    /// The run is laid out as a single glyph vector, with kerning, and each
-    /// piece gets the space between its own first glyph and the first glyph of
-    /// the next piece (visually). The widths thus add up to the kerned width
-    /// of the whole run.
+    /// The direction of the text is not given by the script: it comes from
+    /// the Unicode bidirectional algorithm ([Bidi]), so that arabic or hebrew
+    /// (whatever the `+x` code they were typed under) are laid out right to
+    /// left, and a mix of directions is laid out correctly. The base direction
+    /// is the one of the first strong character.
+    ///
+    /// The run is laid out as glyph vectors (one for each directional
+    /// segment), with kerning, and each piece gets the space between its own
+    /// first glyph and the first glyph of the next piece (visually). The
+    /// widths thus add up to the kerned width of the whole run.
     ///
     /// @param start index of the first character (stored in the result).
     /// @param end index after the last character (stored in the result).
     /// @param font the font (kerning is added to it).
     /// @param pieces the displayed string for each character.
-    /// @param rightToLeft true for a right-to-left script.
     /// @param frc the font render context.
     /// @return the run.
-    public static TextRun measure(int start, int end, Font font, List<String> pieces, boolean rightToLeft,
-            FontRenderContext frc) {
+    public static TextRun measure(int start, int end, Font font, List<String> pieces, FontRenderContext frc) {
         int n = pieces.size();
         // Char index in the full text -> piece index.
         StringBuilder text = new StringBuilder();
@@ -191,25 +195,60 @@ public record TextRun(int start, int end, double[] offsets, double[] widths, dou
         char[] chars = text.toString().toCharArray();
 
         Font kerned = font.deriveFont(Map.of(TextAttribute.KERNING, TextAttribute.KERNING_ON));
-        GlyphVector gv = kerned.layoutGlyphVector(frc, chars, 0, chars.length,
-                rightToLeft ? Font.LAYOUT_RIGHT_TO_LEFT : Font.LAYOUT_LEFT_TO_RIGHT);
-        int numGlyphs = gv.getNumGlyphs();
-        double totalWidth = numGlyphs == 0 ? 0 : gv.getGlyphPosition(numGlyphs).getX();
+        Bidi bidi = chars.length == 0 ? null : new Bidi(chars, 0, null, 0, chars.length, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
+        boolean baseRightToLeft = bidi != null && bidi.baseIsLeftToRight() == false;
+
+        // The glyphs, in visual order: the logical char index of each one, and its x position.
+        List<int[]> glyphChars = new ArrayList<>();
+        List<double[]> glyphXs = new ArrayList<>();
+        double totalWidth = 0;
+        if (bidi != null) {
+            int count = bidi.getRunCount();
+            Integer[] runIndex = new Integer[count];
+            byte[] levels = new byte[count];
+            for (int r = 0; r < count; r++) {
+                runIndex[r] = r;
+                levels[r] = (byte) bidi.getRunLevel(r);
+            }
+            // Visual order of the directional segments.
+            Bidi.reorderVisually(levels, 0, runIndex, 0, count);
+            for (int r : runIndex) {
+                int from = bidi.getRunStart(r);
+                int to = bidi.getRunLimit(r);
+                boolean rtl = (bidi.getRunLevel(r) & 1) != 0;
+                char[] segment = Arrays.copyOfRange(chars, from, to);
+                GlyphVector gv = kerned.layoutGlyphVector(frc, segment, 0, segment.length,
+                        rtl ? Font.LAYOUT_RIGHT_TO_LEFT : Font.LAYOUT_LEFT_TO_RIGHT);
+                int numGlyphs = gv.getNumGlyphs();
+                int[] ci = new int[numGlyphs];
+                double[] xs = new double[numGlyphs];
+                for (int g = 0; g < numGlyphs; g++) {
+                    ci[g] = from + gv.getGlyphCharIndex(g);
+                    xs[g] = totalWidth + gv.getGlyphPosition(g).getX();
+                }
+                glyphChars.add(ci);
+                glyphXs.add(xs);
+                totalWidth += numGlyphs == 0 ? 0 : gv.getGlyphPosition(numGlyphs).getX();
+            }
+        }
 
         double[] offsets = new double[n];
         Arrays.fill(offsets, Double.NaN);
-        for (int g = 0; g < numGlyphs; g++) {
-            int piece = pieceFor(gv.getGlyphCharIndex(g), pieceStart);
-            double x = gv.getGlyphPosition(g).getX();
-            if (Double.isNaN(offsets[piece]) || x < offsets[piece]) {
-                offsets[piece] = x;
+        for (int s = 0; s < glyphChars.size(); s++) {
+            int[] ci = glyphChars.get(s);
+            double[] xs = glyphXs.get(s);
+            for (int g = 0; g < ci.length; g++) {
+                int piece = pieceFor(ci[g], pieceStart);
+                if (Double.isNaN(offsets[piece]) || xs[g] < offsets[piece]) {
+                    offsets[piece] = xs[g];
+                }
             }
         }
         // Pieces without glyphs (should not happen) are put against the
         // previous one, with no width.
         for (int k = 0; k < n; k++) {
             if (Double.isNaN(offsets[k])) {
-                offsets[k] = k == 0 ? (rightToLeft ? totalWidth : 0) : offsets[k - 1];
+                offsets[k] = k == 0 ? (baseRightToLeft ? totalWidth : 0) : offsets[k - 1];
             }
         }
         // Each piece extends to the next piece in visual order.

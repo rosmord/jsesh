@@ -28,7 +28,7 @@ public class TextRunTest {
     @Test
     public void widthsAddUpToTheRunWidth() {
         Font font = new Font("Serif", Font.PLAIN, 12);
-        TextRun run = TextRun.measure(0, 5, font, List.of("h", "e", "l", "l", "o"), false, FRC);
+        TextRun run = TextRun.measure(0, 5, font, List.of("h", "e", "l", "l", "o"), FRC);
         double sum = 0;
         for (double w : run.widths()) {
             assertTrue(w >= 0);
@@ -44,9 +44,9 @@ public class TextRunTest {
     @Test
     public void runIsNotWiderThanSeparateCharacters() {
         Font font = new Font("Serif", Font.PLAIN, 40);
-        TextRun av = TextRun.measure(0, 2, font, List.of("A", "V"), false, FRC);
-        TextRun a = TextRun.measure(0, 1, font, List.of("A"), false, FRC);
-        TextRun v = TextRun.measure(0, 1, font, List.of("V"), false, FRC);
+        TextRun av = TextRun.measure(0, 2, font, List.of("A", "V"), FRC);
+        TextRun a = TextRun.measure(0, 1, font, List.of("A"), FRC);
+        TextRun v = TextRun.measure(0, 1, font, List.of("V"), FRC);
         // With kerning, "AV" is usually narrower; it is never wider.
         assertTrue(av.width() <= a.width() + v.width() + EPSILON);
     }
@@ -54,7 +54,7 @@ public class TextRunTest {
     @Test
     public void combiningSequenceIsOnePiece() {
         Font font = new Font("Serif", Font.PLAIN, 12);
-        TextRun run = TextRun.measure(0, 2, font, List.of("i̓", "b"), false, FRC);
+        TextRun run = TextRun.measure(0, 2, font, List.of("i̓", "b"), FRC);
         assertTrue(run.widths()[0] > 0);
         assertTrue(run.offsets()[1] > run.offsets()[0]);
     }
@@ -62,11 +62,30 @@ public class TextRunTest {
     @Test
     public void mirroredOffsetsReverseTheOrder() {
         Font font = new Font("Serif", Font.PLAIN, 12);
-        TextRun run = TextRun.measure(0, 3, font, List.of("a", "b", "c"), false, FRC);
+        TextRun run = TextRun.measure(0, 3, font, List.of("a", "b", "c"), FRC);
         double[] mirrored = run.layoutOffsets(true);
         assertTrue(mirrored[0] > mirrored[1]);
         assertTrue(mirrored[1] > mirrored[2]);
         assertEquals(run.width() - run.widths()[0], mirrored[0], EPSILON);
+    }
+
+    @Test
+    public void arabicRunIsLaidOutRightToLeft() {
+        Font font = new Font("Serif", Font.PLAIN, 12);
+        // Three arabic letters, in logical order: the first one is the rightmost.
+        TextRun run = TextRun.measure(0, 3, font, List.of("\u0628", "\u062a", "\u062b"), FRC);
+        assertTrue(run.offsets()[0] > run.offsets()[1]);
+        assertTrue(run.offsets()[1] > run.offsets()[2]);
+    }
+
+    @Test
+    public void latinInsideArabicKeepsItsOwnDirection() {
+        Font font = new Font("Serif", Font.PLAIN, 12);
+        // beh, "a", "b", teh: the latin letters read left to right between the arabic ones.
+        TextRun run = TextRun.measure(0, 4, font, List.of("\u0628", "a", "b", "\u062a"), FRC);
+        assertTrue(run.offsets()[0] > run.offsets()[1]);
+        assertTrue(run.offsets()[2] > run.offsets()[1]);
+        assertTrue(run.offsets()[3] < run.offsets()[1]);
     }
 
     // Layout of a whole text.

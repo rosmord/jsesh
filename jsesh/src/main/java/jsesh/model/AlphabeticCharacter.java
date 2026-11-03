@@ -117,6 +117,15 @@ public final class AlphabeticCharacter extends BasicItem {
         return uppercase;
     }
 
+    /// Is this character strongly right to left (hebrew, arabic...), according to
+    /// its Unicode directionality? The direction does not depend on the script
+    /// code (`+l`, `+h`...) the character was written under.
+    public boolean isRightToLeft() {
+        byte d = Character.getDirectionality(codePoint);
+        return d == Character.DIRECTIONALITY_RIGHT_TO_LEFT
+                || d == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+    }
+
     /// Is this character a white space?
     public boolean isSpace() {
         return Character.isWhitespace(codePoint);
