@@ -203,7 +203,7 @@ public abstract class AbstractSaveUnsavedChangesAction extends AbstractViewActio
             protected void failed(Throwable value) {
                 String message = (value.getMessage() != null) ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
-                JSheet.showMessageSheet(getActiveView().getComponent(),
+                JSheet.showMessageSheet(v.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(uri)) + "</b><p>"
                         + ((message == null) ? "" : message),

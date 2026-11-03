@@ -587,20 +587,26 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
                     // When the file is loaded, move to the correct position.
                     @Override
                     protected void done(Object value) {
-                        super.done(value);
-                        JSeshView v = (JSeshView) newView;
-                        v.getEditor().setInsertPosition(hit.getPosition());
-                        canOpenNewView = true;
+                        try {
+                            super.done(value);
+                            JSeshView v = (JSeshView) newView;
+                            v.getEditor().setInsertPosition(hit.getPosition());
+                        } finally {
+                            canOpenNewView = true;
+                        }
                     }
                 });
             }
         } else {
             if (selectedView.isEnabled()) {
                 selectedView.setEnabled(false);
-                application.show(selectedView);
-                WindowsHelper.toFront(selectedView);
-                selectedView.getEditor().setInsertPosition(hit.getPosition());
-                selectedView.setEnabled(true);
+                try {
+                    application.show(selectedView);
+                    WindowsHelper.toFront(selectedView);
+                    selectedView.getEditor().setInsertPosition(hit.getPosition());
+                } finally {
+                    selectedView.setEnabled(true);
+                }
             }
         }
     }

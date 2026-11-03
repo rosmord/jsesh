@@ -40,8 +40,12 @@ public abstract class Worker<T> implements Runnable {
 
                 
                 public void run() {
-                    failed(getError());
-                    finished();
+                    try {
+                        failed(getError());
+                    } finally {
+                        // Always release the caller's state (e.g. a disabled view).
+                        finished();
+                    }
                 }
             });
             return;
@@ -50,8 +54,12 @@ public abstract class Worker<T> implements Runnable {
 
             
             public void run() {
-                done(getValue());
-                finished();
+                try {
+                    done(getValue());
+                } finally {
+                    // Always release the caller's state (e.g. a disabled view).
+                    finished();
+                }
             }
         });
     }

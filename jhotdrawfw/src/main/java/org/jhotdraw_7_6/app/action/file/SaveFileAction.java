@@ -163,7 +163,7 @@ public class SaveFileAction extends AbstractViewAction {
                 value.printStackTrace();
                 String message = value.getMessage() != null ? value.getMessage() : value.toString();
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw_7_6.app.Labels");
-                JSheet.showMessageSheet(getActiveView().getComponent(),
+                JSheet.showMessageSheet(view.getComponent(),
                         "<html>" + UIManager.getString("OptionPane.css")
                         + "<b>" + labels.getFormatted("file.save.couldntSave.message", URIUtil.getName(file)) + "</b><p>"
                         + ((message == null) ? "" : message),
