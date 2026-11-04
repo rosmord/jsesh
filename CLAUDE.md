@@ -1,12 +1,13 @@
 # CLAUDE.md
 
+@CLAUDE.local.md
+
 ## Project Overview
 
 JSesh is a Java hieroglyphic editor for Egyptian texts, using the Manuel de Codage (MDC) encoding standard.
 
 - it can be used as a standalone application (in `jseshAppli`),
 - but it's also a library which can be embbeded in other applications.
-
 
 Developer reflections and a daily log are written in `00_Documents/journal/DevelopperJournal.md`; open todos live under `00_Documents/tracking/TODO/` (`01_easy`, `02_important`, `03_longterm`).
 
@@ -33,19 +34,7 @@ no generated sources or codegen step remain for it. The JFlex-generated
 
 ## Module Structure
 
-| Module | Role |
-|---|---|
-| `jsesh` | Core library: MDC parser, document model, rendering, editor components |
-| `jseshAppli` | Main GUI application — entry point: `jsesh.jhotdraw.Main` |
-| `jhotdrawfw` | Adapted JHotDraw 7 application framework |
-| `jseshGlyphs` | Hieroglyphic font resources |
-| `jseshLabels` | i18n labels/resources for all modules |
-| `jseshSearch` | Hieroglyphic search/query functionality |
-| `qenherkhopeshefUtils` | Shared utilities and Swing helpers |
-| `mdwlexer` | Generic hand-written scanner framework (`org.qenherkhopeshef.mdwlexer`: expressions, DFAs, `Lexicon`/`LexiconBuilder`) that `jsesh.parser.lexer.MdcLexer`/`MdcLexicon` (in `jsesh`) are built on |
-| `signInfoAppli` | Sign information editor — entry point: `jsesh.utilitysoftwares.signinfoeditor.Main` |
-| `jseshTests` | Demo programs showing library usage (not formal unit tests) |
-| `jseshJsExport` | Exports data and golden fixtures for the TypeScript port in `jsesh-js/` (`./gradlew :jseshJsExport:exportAll`) |
+Modules are listed in `settings.gradle.kts`. Entry points: `jsesh.jhotdraw.Main` (`jseshAppli`), `jsesh.utilitysoftwares.signinfoeditor.Main` (`signInfoAppli`). `mdwlexer` is the generic scanner framework `jsesh.parser.lexer` is built on. `jseshTests` holds demo programs, not unit tests. `jseshJsExport` exports fixtures for `jsesh-js/` (`./gradlew :jseshJsExport:exportAll`).
 
 ## JavaScript port (`jsesh-js/`)
 
@@ -59,29 +48,8 @@ The module is organised domain-first, bottom to top: base → core → document 
 middle → config → UI. Dependencies run downwards; nothing below `jsesh.ui.*`
 may import it. Full generated dependency diagrams (with edge counts, and a
 running log of layering fixes) live in
-`00_Documents/documentation/jsesh-package-dependencies.md` — treat that file,
-not this table, as the source of truth when it disagrees.
-
-| Layer | Root | Role |
-|---|---|---|
-| base | `jsesh.utils` | Shared utilities, incl. `.io` (`DirectoryReference`) |
-| base | `jsesh.platform` | Preferences, resources, metadata (pure leaf, no outgoing deps) |
-| core | `jsesh.signcodes` | Gardiner-code identity: `GardinerCode`, `ManuelDeCodage`, `CanonicalCode`, `HieroglyphCodesSource` (pure leaf) |
-| core | `jsesh.model` | Document model, plus `.constants`, `.operations`, `.transliteration`, `.unicode`, `.tools` |
-| core | `jsesh.parser` | MDC parser (`MDCParser`), lexer (`.lexer`) and literal AST (`.ast`); no dependency on `jsesh.model` |
-| reader | `jsesh.mdcreader` | `MDCParserModelGenerator`, `AstModelBuilder`: interprets the parser's AST into the model (the only package depending on both) |
-| core | `jsesh.glyphs` | Sign database and shapes: `.signdata`, `.fonts`, `.shape`, `.signsource`, `.tools`, `.resources` |
-| document | `jsesh.document` | `MDCDocument`, `DocumentPreferences`, `HieroglyphicTextModel`, undo machinery |
-| middle | `jsesh.io` | Document and MDC import/export (`.document`, `.mdc`, `.importer`) |
-| middle | `jsesh.render` | Rendering: `.view`, `.layout`, `.draw`, `.elements`, `.context`, `.style` |
-| config | `jsesh.glossary` | `Glossary`, `GlossaryManager` — Swing-free; the editor dialog lives in `jsesh.ui.glossary` |
-| config | `jsesh.defaults` | App-scoped assembly: `HieroglyphResourcesBuilder`, `HieroglyphResources`, `UserFontDirectoryManager` |
-| UI | `jsesh.ui.widgets` | Swing widgets and dialogs (was `jsesh.swing`) |
-| UI | `jsesh.ui.palette` | Sign palette |
-| UI | `jsesh.ui.clipboard` | Vector clipboard support (was `jsesh.clipboard`) |
-| UI | `jsesh.ui.export` | Format exporters (was `jsesh.graphics.export`; still mixes UI presenters with encoders) |
-| UI | `jsesh.ui.editor` | `JMDCEditor`, `JMDCField`, and the editing state machine (was `jsesh.editor`) |
-| UI | `jsesh.ui.glossary` | Glossary editor dialog/table model |
+`00_Documents/documentation/jsesh-package-dependencies.md` — treat that file
+as the source of truth for which package may depend on which.
 
 **Embedding note:** `jsesh.defaults.UserFontDirectoryManager` is the only class
 in `jsesh.defaults` that touches `java.util.prefs`. A library embedder that
@@ -94,22 +62,7 @@ itself" (reads the user's font directory and glossary from prefs for you). See
 
 ### Document Model (`jsesh.model`)
 
-The document model is a tree with visitor and observer patterns:
-
-```
-HieroglyphicText             ← document root: the whole text (formerly TopItemList)
-  └─ TopItem subclasses:
-       ├─ Cadrat              ← one hieroglyphic "square" (grid cell)
-       │    └─ HBox(es)
-       │         └─ HorizontalListElement(s)
-       │              ├─ Hieroglyph      ← one sign (Gardiner code + modifiers)
-       │              ├─ InnerGroup
-       │              └─ ComplexLigature
-       ├─ Cartouche
-       ├─ LineBreak / PageBreak
-       ├─ ZoneStart
-       └─ TabStop / Tabbing
-```
+The model is a tree (`HieroglyphicText` → `TopItem`s such as `Cadrat`, `Cartouche`, `LineBreak` → `HBox` → `HorizontalListElement`s: `Hieroglyph`, `InnerGroup`, `ComplexLigature`) with visitor and observer patterns.
 
 - The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types, and neither package imports the other; `jsesh.mdcreader` bridges them.
 - `ModelElement` is the abstract base; all elements support an observer pattern for change notification.
@@ -142,15 +95,6 @@ MDC↔Unicode table, the Manuel de Codage sign-code table, the Gnutrace shape
 repository) that has exactly one valid instance for the whole JVM. Don't
 "fix" their singleton pattern into instance-per-caller.
 
-### Editor Architecture (`jseshAppli` + `jsesh.ui.editor`)
-
-- `jsesh.jhotdraw.Main` bootstraps the app (loads prefs, icons, glyph DB, creates `JSeshApplication`)
-- `JMDCEditor` — core Swing editor component; `JMDCField` — single-line variant, same package
-- `JMDCEditorWorkflow` — editing state machine
-- `MDCEditorKeyManager` — keyboard input handling
-- `MDCViewUpdater` — triggers view refresh after model changes
-- `HieroglyphicTextModel` (`jsesh.document`) — wraps `HieroglyphicText` (`jsesh.model`) with undo/redo and change events, for Swing data binding
-- Undo/redo via `UndoManager`
 
 ### Rendering (`jsesh.render`)
 

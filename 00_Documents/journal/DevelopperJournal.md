@@ -32,7 +32,60 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-10-30
+
+Mostly a cleaning day, plus several small user-facing todos. Closed todos are in `00_Documents/tracking/DONE`.
+
+Editor and application:
+
+- **Home and End** move the cursor to the start and end of the current line (todo 0120, issue #71).
+- **Warning when typing Manuel de Codage** in the MdC field: a red message in the message bar of the window, pointing to the tutorial (todo 0110, issue #57). New Help > Tutorials action (`JSeshTutorialsAction`).
+- **Unicode copy can be the default** clipboard format, selectable in the clipboard preferences (todo 0121, issue #72).
+- **Keyboard shortcuts changed**: the insertion command (the "modern ligature") is now Cmd-L, the old ligature is Cmd-Alt-L, and "insert next line number" is Cmd-Shift-L.
+- **Menus**: the old ligature operators moved to a "legacy ligatures" submenu of the Text menu, and the zone actions are in a Text > Zone submenu (insert a zone with options, unwrap, edit settings). View > Show Zone Limits. Menu labels updated in all languages.
+- **"Move cursor inside quadrats" is no longer saved** in the preferences (it was remembered since 2026-10-19): each editor starts in top-level mode.
+- "directory" became "folder" in all user-visible labels (todo 0041). Users see folders, developers see directories.
+- Opening a recent file which no longer exists no longer opens an empty window that fought with the error sheet for the focus (`OpenRecentFileAction`). Also, the jhotdrawfw dialogs printed "null" in their message with FlatLaf (`OptionPane.css` was not defined); it is now set to an empty string in `JSeshStartup`.
+
+Fixes:
+
+- **Next line number** (`InsertNextLineNumberAction`) did not find the previous number when the text was in columns (and in zones, which hold their own lines). `HieroglyphicText` now searches backwards in document order and enters zones: first the earlier line numbers of the zone containing the cursor, then those before the zone, including those of previous zones. `HieroglyphicTextPositionTest` covers it.
+- **Serialization of zones** caused stack overflows. The parent and sibling links of `EmbeddedModelElement` were serialized, which recursed once per sibling (and dragged the whole document along with any subtree). They are now `transient` and `ModelElement.readObject` rebuilds them. `ZoneSerializationTest` covers it.
+- `` ` `` (backquote) is read as the sign `Ff1`.
+- Superscript text (`|...`): a backslash always escapes the next character, so `|a\\-` is the superscript `a\`. Fixed in the Java lexer and the TypeScript one, with writer tests.
+- `\R-10` (old rotation scheme with a negative angle) is checked and covered by `MDCParserOldRotationTest` (todo 0124). `ModifiersListTest` was added (210 lines), and the javadoc of the flag setter fixed.
+- Some test texts renamed (the `Stela Louvre C…` files now have a space before the number), and `A_demonstration_of_the_mdc.gly` revised.
+
+Cleanups:
+
+- **Shared vocabulary** (todo 0127): the new package `jsesh.sharedvocabulary` holds the constants which were duplicated in the parser and the model: `InsertionDirection`, `KerningAxis`, `CartouchePart`, `CartoucheType` and `WordEnding`. Cartouche types `HOUT` and `HWT` are unified as `HWT`. Left alone: `ToggleType` and `SignSubType`/`SymbolCodes`, whose representations really differ. This could be a follow-up.
+- **Parser and lexer cleanup** (todo 0137): constructs which were never supported are gone: `Tabbing`, `TabbingClear` (and their AST, tokens and writer code), `TabbingJustification`, `WordEndingCode`, the old `@clear`. About 500 lines less. The tests and the JS export cases were adapted.
+- **`ViewDrawer` is no longer a field of `JMDCEditor`/`JMDCField`**; it is created when needed (todo 0048).
+- The notion of **view depth** was removed from the layout (`Layout`, `ViewBuilder`, and `layout.ts`). It meant how deeply a view was embedded, not a z-order, and nothing needed it any more.
+- The **scale** of `JSeshTechRenderContext` is documented (todo 0045).
+
+Zones and the JS port:
+
+- The JS port now has zones (`Zone`, `ZoneContent`, `ZoneParameters`, layout, SVG drawing, writer), the `target` option of `%insert`, and the "no crossing" rule for insertions (see 2026-10-29). The fixtures and tests were extended (`wrap.test.ts`, `insert.test.ts`, `writer.test.ts`).
+- Text > Zone > Unwrap Zone (details at the end of the file).
+- A new reference document, `00_Documents/documentation/manuel-de-codage.md` (about 980 lines), describes the Manuel de Codage as JSesh reads and writes it in version 9, including `%zone`, `%insert` and the kerning operators.
+- Version bumped to `9.0.0-SNAPSHOT`.
+
+## 2026-10-29
+
+- **`%insert` gets a `target` option**: `%insert[dir=bs,target=2](B,A)` says that the *second* argument is the target. Arguments can now be written in reading order, whatever the target (todo 0151). `target=1` is the default and is not written back. `dir`, `dw` and `dh` always apply to the target. Values are numbers because `left`/`right` and `before`/`after` depend on the writing direction. Done in the parser, `Insert`, `MdCModelWriter`, layout, the editor actions, and the JS port.
+- **Insertions no longer cross the target** (todo 0150). For an insertion from a side (`t`, `b`, `s`, `e`), once the inserted element touches the target, the positions further from the edge are not tried at this scale. Before, the group could pass through the target and land in free space behind it. Done in `InsertionFitter` and in the JS port, with tests.
+- Zones accept `quadratwidth` and `quadratheight`: the maximum size of the quadrats of the zone (for columns, the width of the columns). To be continued.
+- Several todos were reorganised in `tracking`: the new ones for zones and the JS port are in `00_wip`, some moved between "easy", "important" and "longterm".
+
 ## 2026-10-28
+
+Zones (`%zone[options](content)`), first implementation, in Java:
+
+- New model classes `Zone`, `ZoneContent` (an editing scope) and `ZoneParameters` (a record; all settings optional and inherited: layout, direction, width, height, line and column skip, separator, quadrat size, frame). Lengths are in percent of the height of a quadrat, as for `%insert`. The old `ZoneStart` is removed, and `jsesh.render.layout.Zone` was renamed `LineAccumulator` to free the name.
+- Layout: the content of a zone is laid out with its own render context (`Layout.zoneRenderContext`), saved and restored around it. A zone with a width wraps its lines at that width.
+- Editor: navigation inside zones (up and down follow the zone's lines, arrows follow the screen at the border of a zone with another direction), selection, wrapping a selection in a zone, editing the settings of the enclosing zone, typing and clicking inside zones. First Text menu entries for zones (badly placed at first).
+- Fixes of the day: copy of a zone, default values of the line and column separators, line and column separators, clicks in columns, and the loop of the cartouche drawing.
 
 Since the last release:
 
