@@ -140,4 +140,16 @@ public class PageLayoutTest {
             assertEquals(step, rows.get(i) - rows.get(i - 1), 1e-3, "no jump between lines");
         }
     }
+
+    /// A picture of a part of the text must not be as large as a page.
+    @Test
+    public void aSelectionPictureIsNotAsTallAsAPage() throws MDCSyntaxError {
+        JSeshStyle style = withPage(SMALL_PAGE);
+        JSeshRenderContext context = new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts())
+                .marginLessContext();
+        MDCView view = new ViewBuilder().buildView(new MDCParserModelGenerator().parse("A1"), context,
+                new JSeshTechRenderContext(FRC, 1.0));
+        assertTrue(view.getHeight() < SMALL_PAGE.pageHeight() / 2, "height: " + view.getHeight());
+        assertTrue(view.getWidth() < SMALL_PAGE.pageWidth() / 2, "width: " + view.getWidth());
+    }
 }

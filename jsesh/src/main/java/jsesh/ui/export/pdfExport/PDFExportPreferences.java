@@ -307,7 +307,7 @@ public class PDFExportPreferences {
 		subject = "";
 		author = System.getProperty("user.name");
 		respectPages = true;
-		respectTextLayout = false;
+		respectTextLayout = true;
 		showPageNumbers = true;
 		encapsulated= false;
 		pageSize = "A4";

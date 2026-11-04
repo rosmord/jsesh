@@ -18,18 +18,10 @@ public interface JSeshInfoConstants {
 	String JSESH_PAGE_HEIGHT = "JSesh_page_height";
 
 	/// Margins of the page, in layout units.
-	String JSESH_MARGIN_LEFT = "JSesh_margin_left";
-	String JSESH_MARGIN_RIGHT = "JSesh_margin_right";
-	String JSESH_MARGIN_TOP = "JSesh_margin_top";
-	String JSESH_MARGIN_BOTTOM = "JSesh_margin_bottom";
-
-	String JSESH_TEXT_ORiGIN_X = "JSesh_text_origin_x";
-
-	String JSESH_TEXT_ORiGIN_Y = "JSesh_text_origin_y";
-
-	String JSESH_TEXT_WIDTH = "JSesh_text_width";
-
-	String JSESH_TEXT_HEIGHT = "JSesh_text_height";
+	String JSESH_PAGE_MARGIN_LEFT = "JSesh_page_margin_left";
+	String JSESH_PAGE_MARGIN_RIGHT = "JSesh_page_margin_right";
+	String JSESH_PAGE_MARGIN_TOP = "JSesh_page_margin_top";
+	String JSESH_PAGE_MARGIN_BOTTOM = "JSesh_page_margin_bottom";
 
 	/**
 	 * Either horizontal or vertical.

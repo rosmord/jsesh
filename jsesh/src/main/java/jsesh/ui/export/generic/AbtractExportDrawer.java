@@ -77,7 +77,10 @@ public abstract class AbtractExportDrawer {
 
 
         ViewBuilder builder = new ViewBuilder();
-        currentView = builder.buildView(list, renderContext, techRenderContext);
+        // The picture of a text is not as tall as a page.
+        JSeshRenderContext pictureContext = renderContext.copy()
+                .jseshStyle(s -> s.geometry(g -> g.withoutPagination())).build();
+        currentView = builder.buildView(list, pictureContext, techRenderContext);
 
         if (currentView.getWidth() == 0 || currentView.getHeight() == 0) {
             return;

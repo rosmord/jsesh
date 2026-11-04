@@ -59,6 +59,16 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   marginBottom: 0,
 });
 
+/// The preferences which are only written when there is a page.
+const PAGE_PROPERTY_KEYS: (keyof DocumentPreferences)[] = [
+  "pageWidth",
+  "pageHeight",
+  "marginLeft",
+  "marginRight",
+  "marginTop",
+  "marginBottom",
+];
+
 /// Header property names (`JSeshInfoConstants`).
 const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   smallSignCentered: "JSesh_small_sign_centered",
@@ -77,10 +87,10 @@ const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   limitQuadratWidthInLines: "JSesh_limit_quadrat_width_in_lines",
   pageWidth: "JSesh_page_width",
   pageHeight: "JSesh_page_height",
-  marginLeft: "JSesh_margin_left",
-  marginRight: "JSesh_margin_right",
-  marginTop: "JSesh_margin_top",
-  marginBottom: "JSesh_margin_bottom",
+  marginLeft: "JSesh_page_margin_left",
+  marginRight: "JSesh_page_margin_right",
+  marginTop: "JSesh_page_margin_top",
+  marginBottom: "JSesh_page_margin_bottom",
 };
 
 /// Reads preferences from header properties; unknown properties are ignored,
@@ -110,6 +120,10 @@ export function documentPreferencesToMap(preferences: DocumentPreferences): Reco
   for (const [key, property] of Object.entries(PROPERTY_NAMES)) {
     const value = (preferences as unknown as Record<string, unknown>)[key];
     result[property] = typeof value === "number" ? javaDoubleToString(value) : String(value);
+  }
+  if (!(preferences.pageWidth > 0)) {
+    // No page: the page entries are not written.
+    for (const key of PAGE_PROPERTY_KEYS) delete result[PROPERTY_NAMES[key]];
   }
   return result;
 }

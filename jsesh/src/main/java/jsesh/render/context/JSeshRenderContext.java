@@ -67,7 +67,9 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
         return this.copy()
                 .jseshStyle(style -> style.geometry(g -> g
                         .leftMargin(01)
-                        .topMargin(01)))
+                        .topMargin(01)
+                        // A picture of a part of the text is not as tall as a page.
+                        .withoutPagination()))
                 .build();
 
     }

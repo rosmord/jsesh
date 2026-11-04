@@ -97,6 +97,17 @@ public record PageSpecification(
 		return new Rectangle2D.Float(marginLeft, marginTop, usableWidth(), usableHeight());
 	}
 
+	/// The same page, without height: lines still wrap at the usable width, but the
+	/// text is not cut into pages.
+	///
+	/// Useful to draw a part of a text (a selection copied as a picture), which
+	/// should not be as tall as a page.
+	///
+	/// @return the page without its height.
+	public PageSpecification withoutHeight() {
+		return new PageSpecification(pageWidth, 0, marginLeft, marginRight, marginTop, marginBottom);
+	}
+
 	/// The same page, scaled.
 	///
 	/// @param scale the factor applied to all dimensions.

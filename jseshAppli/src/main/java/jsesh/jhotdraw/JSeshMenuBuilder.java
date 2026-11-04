@@ -64,6 +64,7 @@ import jsesh.jhotdraw.actions.edit.InsertShortTextAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplySavedStyleAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
+import jsesh.jhotdraw.actions.file.EditPaginationAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
@@ -281,6 +282,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(fileMenu, app, jSeshView, ApplySavedStyleAction.ID);
                 fileMenu.addSeparator();
                 addToMenu(fileMenu, app, jSeshView, EditDocumentPreferencesAction.ID);
+                addToMenu(fileMenu, app, jSeshView, EditPaginationAction.ID);
 
                 if (view != null) {
                         JMenu documentFormat;

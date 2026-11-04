@@ -17,7 +17,16 @@ public class PDFGraphics2DFactory implements BaseGraphics2DFactory {
     private final PDFDocumentWriterAux documentWriter;
     
     public PDFGraphics2DFactory(PDFExportPreferences pdfExportPreferences, String comment) throws FileNotFoundException {
-        Rectangle format = pdfExportPreferences.getPageRectangle();
+        this(pdfExportPreferences, comment, pdfExportPreferences.getPageRectangle());
+    }
+
+    /// Creates a factory for a PDF file with a given page size.
+    ///
+    /// @param pdfExportPreferences the PDF preferences (file, title...).
+    /// @param comment a comment, written in the PDF.
+    /// @param format the size of the pages (it replaces the one in the preferences).
+    /// @throws FileNotFoundException if the file can't be created.
+    public PDFGraphics2DFactory(PDFExportPreferences pdfExportPreferences, String comment, Rectangle format) throws FileNotFoundException {
         float height = format.getHeight();
         float width = format.getWidth();
         OutputStream out = new FileOutputStream(pdfExportPreferences.getFile());

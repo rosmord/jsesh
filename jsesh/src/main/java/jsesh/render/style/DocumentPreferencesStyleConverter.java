@@ -53,12 +53,18 @@ public class DocumentPreferencesStyleConverter {
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
 						.equals(ShadingMode.LINE_HATCHING))
 				.withPage(
-						jseshStyle.geometry().page().pageWidth(),
-						jseshStyle.geometry().page().pageHeight(),
-						jseshStyle.geometry().page().marginLeft(),
-						jseshStyle.geometry().page().marginRight(),
-						jseshStyle.geometry().page().marginTop(),
-						jseshStyle.geometry().page().marginBottom());
+						decimal(jseshStyle.geometry().page().pageWidth()),
+						decimal(jseshStyle.geometry().page().pageHeight()),
+						decimal(jseshStyle.geometry().page().marginLeft()),
+						decimal(jseshStyle.geometry().page().marginRight()),
+						decimal(jseshStyle.geometry().page().marginTop()),
+						decimal(jseshStyle.geometry().page().marginBottom()));
+	}
+
+	/// The double with the decimal representation of a float, so that
+	/// 56.69f is saved as "56.69" and not as "56.689998626708984".
+	private static double decimal(float value) {
+		return Double.parseDouble(Float.toString(value));
 	}
 
 	private static PageSpecification pageOf(DocumentPreferences preferences) {

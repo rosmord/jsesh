@@ -60,7 +60,7 @@ public class SelectionExporter {
         ViewBuilder builder = new ViewBuilder();
         JSeshRenderContext renderContext = exportData.getRenderContext()
                 .copy().jseshStyle(s -> s.geometry(
-                        g -> g.leftMargin(0f).topMargin(0f)))
+                        g -> g.leftMargin(0f).topMargin(0f).withoutPagination()))
                 .build();
         exportZone(builder, renderContext, exportData.getStart().getIndex(), exportData.getEnd().getIndex());        
     }

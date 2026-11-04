@@ -6,6 +6,7 @@
  */
 package jsesh.ui.export.pdfExport;
 
+import jsesh.render.style.PageSpecification;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.io.FileOutputStream;
@@ -24,6 +25,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
@@ -129,9 +131,15 @@ public class PDFExporter {
             ExportData exportData = new ExportData(renderContext,
                     caret, model, scale);
 
+            // A paginated document gives the size of the PDF pages.
+            PageSpecification documentPage = actualStyle.geometry().page();
+            Rectangle pdfPageSize = documentPage.isPaginated()
+                    ? new Rectangle(documentPage.pageWidth(), documentPage.pageHeight())
+                    : pdfExportPreferences.getPageRectangle();
+
             PDFGraphics2DFactory graphicFactory = new PDFGraphics2DFactory(
                     pdfExportPreferences, PDFExportHelper.buildCommentText(
-                            actualStyle, model));
+                            actualStyle, model), pdfPageSize);
 
             SelectionExporter selectionExporter = new SelectionExporter(
                     exportData, graphicFactory);
@@ -253,8 +261,17 @@ public class PDFExporter {
          * @return the fixed style.
          */
         private JSeshStyle fixStyle(JSeshStyle jseshStyle) {
+            boolean hadPage = jseshStyle.geometry().hasPage();
             return PDFExportHelper.ensureCMYKColorSpace(jseshStyle)
-                    .geometry(g -> g.leftMargin(0.1f)).build();
+                    .geometry(g -> {
+                        g.leftMargin(0.1f);
+                        if (hadPage) {
+                            // The page's top margin would be added to each item.
+                            g.topMargin(0f);
+                        }
+                        // iText does the page layout: items are drawn one by one.
+                        return g.page(PageSpecification.NONE);
+                    }).build();
         }
 
         /**

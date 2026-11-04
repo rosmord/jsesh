@@ -343,6 +343,15 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		/// Keeps the page's width and margins, but doesn't cut the text into pages
+		/// (see [PageSpecification#withoutHeight()]).
+		///
+		/// @return this builder, for chaining.
+		public Builder withoutPagination() {
+			this.page = page.withoutHeight();
+			return this;
+		}
+
 		public Builder maxCadratHeight(float maxCadratHeight) {
 			this.maxCadratHeight = maxCadratHeight;
 			return this;

@@ -82,6 +82,7 @@ import jsesh.jhotdraw.actions.edit.JSeshSelectAllAction;
 import jsesh.jhotdraw.actions.edit.SelectCopyPasteConfigurationAction;
 import jsesh.jhotdraw.actions.file.ApplySavedStyleAction;
 import jsesh.jhotdraw.actions.file.EditDocumentPreferencesAction;
+import jsesh.jhotdraw.actions.file.EditPaginationAction;
 import jsesh.jhotdraw.actions.file.ExportAsBitmapAction;
 import jsesh.jhotdraw.actions.file.ExportAsHTMLAction;
 import jsesh.jhotdraw.actions.file.ExportAsPDFAction;
@@ -289,6 +290,8 @@ public class JSeshApplicationModel extends DefaultApplicationModel implements JS
             map.put(ExportAsBitmapAction.ID, new ExportAsBitmapAction(a, v));
             map.put(EditDocumentPreferencesAction.ID,
                     new EditDocumentPreferencesAction(a, v));
+            map.put(EditPaginationAction.ID,
+                    new EditPaginationAction(a, v));
             map.put(UpdateNewDocumentStyleAction.ID, new UpdateNewDocumentStyleAction(a, v));
             map.put(ApplySavedStyleAction.ID, new ApplySavedStyleAction(a, jseshView));
             map.put(JSeshApplicationActionsID.EXPORT_WMF,

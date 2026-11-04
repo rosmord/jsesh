@@ -85,6 +85,7 @@ public class PDFDataSaver {
                 geom
                     .leftMargin(margin* 0.5f / scale)
                     .topMargin(margin* 0.5f / scale)
+                    .withoutPagination()
             ).build()
             ;
 

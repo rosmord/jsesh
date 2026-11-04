@@ -87,6 +87,10 @@ public class JPDFOptionPanel extends ExportOptionPanel {
 
         encapsulatedBox = new JCheckBox("Encapsulated PDF", exportPreferences.isEncapsulated());
 
+        // A paginated document, exported with its layout, sets the page size.
+        wysiwygBox.addActionListener(e -> updatePageFormatField());
+        updatePageFormatField();
+
         setLayout(new MigLayout("insets dialog, wrap 3", "[right][grow][]"));
 
         add(new JLabel("Document Title"));
@@ -121,6 +125,19 @@ public class JPDFOptionPanel extends ExportOptionPanel {
         add(new JLabel("File"));
         add(fileField, "growx");
         add(browseButton);
+    }
+
+    /**
+     * The format of the document pages is chosen in the document itself when
+     * it is paginated and its layout is respected.
+     */
+    private void updatePageFormatField() {
+        boolean documentGivesFormat = wysiwygBox.isSelected()
+                && exportPreferences.getJSeshStyle().geometry().page().isPaginated();
+        formatField.setEnabled(!documentGivesFormat);
+        formatField.setToolTipText(documentGivesFormat
+                ? "The document is paginated: its page size is used"
+                : null);
     }
 
     @Override

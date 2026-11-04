@@ -4,6 +4,7 @@
  */
 package jsesh.ui.export.html;
 
+import jsesh.render.style.PageSpecification;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -157,7 +158,7 @@ public class HTMLExporter {
     public void setJSeshRenderContext(
             JSeshRenderContext renderContext) {
         this.renderContext = renderContext
-                .copy().jseshStyle(s -> s.geometry(g -> g.topMargin(0).leftMargin(0))).build();
+                .copy().jseshStyle(s -> s.geometry(g -> g.topMargin(0).leftMargin(0).page(PageSpecification.NONE))).build();
         ;
     }
 

@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 import jsesh.model.constants.JSeshInfoConstants;
@@ -100,22 +101,31 @@ public class DocumentPreferences {
 	
 	// Page. A page width of 0 means that there is no page.
 
+	/// The properties which are only saved when there is a page.
+	private static final String[] PAGE_PROPERTIES = {
+			JSeshInfoConstants.JSESH_PAGE_WIDTH,
+			JSeshInfoConstants.JSESH_PAGE_HEIGHT,
+			JSeshInfoConstants.JSESH_PAGE_MARGIN_LEFT,
+			JSeshInfoConstants.JSESH_PAGE_MARGIN_RIGHT,
+			JSeshInfoConstants.JSESH_PAGE_MARGIN_TOP,
+			JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM };
+
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_WIDTH)
 	private double pageWidth = 0;
 
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_HEIGHT)
 	private double pageHeight = 0;
 
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_LEFT)
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_LEFT)
 	private double marginLeft = 0;
 
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_RIGHT)
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_RIGHT)
 	private double marginRight = 0;
 
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_TOP)
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_TOP)
 	private double marginTop = 0;
 
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_BOTTOM)
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM)
 	private double marginBottom = 0;
 
 	public DocumentPreferences() {
@@ -193,7 +203,8 @@ public class DocumentPreferences {
 	 */
 	public Map<String, String> getStringRepresentation() {
 		try {
-			HashMap<String, String> result = new HashMap<String, String>();
+			// Sorted, so that saved headers are stable and related keys (JSesh_page_*) are grouped.
+			TreeMap<String, String> result = new TreeMap<String, String>();
 			for (Field field : this.getClass().getDeclaredFields()) {
 				SaveAbleProperty prop = field
 						.getAnnotation(SaveAbleProperty.class);
@@ -211,6 +222,12 @@ public class DocumentPreferences {
 						throw new RuntimeException("Unexpected type for "
 								+ propertyName + " complement the interface");
 					result.put(propertyName, propertyValue);
+				}
+			}
+			if (!hasPage()) {
+				// No page: don't clutter the saved header with six zeros.
+				for (String key : PAGE_PROPERTIES) {
+					result.remove(key);
 				}
 			}
 			return result;
