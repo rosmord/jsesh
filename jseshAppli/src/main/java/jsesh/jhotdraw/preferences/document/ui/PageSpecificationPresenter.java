@@ -12,7 +12,9 @@ import jsesh.jhotdraw.preferences.document.ui.JPageSpecificationEditor.SizeChoic
 import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PageDecoration;
 import jsesh.render.style.PageSpecification;
+import jsesh.render.style.PageTextPosition;
 import jsesh.render.style.StandardPageSize;
 import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.units.LengthUnit;
@@ -145,6 +147,11 @@ public class PageSpecificationPresenter {
 			form.getMarginRightField().setValue((double) shown.marginRight());
 			form.getMarginTopField().setValue((double) shown.marginTop());
 			form.getMarginBottomField().setValue((double) shown.marginBottom());
+			PageDecoration decoration = jseshStyle.geometry().pageDecoration();
+			form.getNumberPositionField().setSelectedItem(decoration.numberPosition());
+			form.getTitlePositionField().setSelectedItem(decoration.titlePosition());
+			form.getTitleField().setText(decoration.title());
+			form.getAlternateBox().setSelected(decoration.alternate());
 			form.getEnableBox().setSelected(hasPage);
 			form.setPageControlsEnabled(hasPage);
 		} finally {
@@ -201,8 +208,13 @@ public class PageSpecificationPresenter {
 				: PageSpecification.NONE;
 		boolean hadPage = original.geometry().page().isDefined();
 		GeometrySpecification defaults = GeometrySpecification.DEFAULT;
+		PageDecoration decoration = new PageDecoration(
+				(PageTextPosition) form.getNumberPositionField().getSelectedItem(),
+				(PageTextPosition) form.getTitlePositionField().getSelectedItem(),
+				form.getTitleField().getText().strip(),
+				form.getAlternateBox().isSelected());
 		return original.copy().geometry(g -> {
-			g.page(page);
+			g.page(page).pageDecoration(decoration);
 			// With a page, the margins around the text are the page's.
 			if (page.isDefined()) {
 				g.leftMargin(page.marginLeft()).topMargin(page.marginTop());

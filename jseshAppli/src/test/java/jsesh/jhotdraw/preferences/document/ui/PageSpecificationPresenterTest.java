@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import jsesh.jhotdraw.preferences.document.ui.JPageSpecificationEditor.SizeChoice;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PageDecoration;
 import jsesh.render.style.PageSpecification;
+import jsesh.render.style.PageTextPosition;
 import jsesh.render.style.StandardPageSize;
 
 class PageSpecificationPresenterTest {
@@ -126,6 +128,27 @@ class PageSpecificationPresenterTest {
 		p.form().getMarginLeftField().setValue(100.0);
 		p.form().getMarginRightField().setValue(100.0);
 		assertEquals("pagePrefs.error.margins", p.validationError());
+	}
+
+	@Test
+	void pageNumberAndTitleAreEditedWithThePage() {
+		PageSpecification page = new PageSpecification(595.28f, 841.89f, 57, 57, 57, 57);
+		JSeshStyle original = JSeshStyle.DEFAULT.copy().geometry(g -> g.page(page)
+				.pageDecoration(new PageDecoration(PageTextPosition.BOTTOM_RIGHT, PageTextPosition.TOP_LEFT, "Old"))).build();
+		Access p = new Access();
+		p.loadPreferences(original);
+		assertEquals(PageTextPosition.BOTTOM_RIGHT, p.form().getNumberPositionField().getSelectedItem());
+		assertEquals("Old", p.form().getTitleField().getText());
+		assertTrue(p.form().getTitleField().isEnabled());
+
+		p.form().getNumberPositionField().setSelectedItem(PageTextPosition.TOP_CENTER);
+		p.form().getTitleField().setText("  A new title ");
+		p.form().getTitlePositionField().setSelectedItem(PageTextPosition.BOTTOM_LEFT);
+		PageDecoration result = p.updatePreferences(original).geometry().pageDecoration();
+		assertEquals(new PageDecoration(PageTextPosition.TOP_CENTER, PageTextPosition.BOTTOM_LEFT, "A new title"), result);
+
+		p.form().getAlternateBox().doClick();
+		assertTrue(p.updatePreferences(original).geometry().pageDecoration().alternate());
 	}
 
 	@Test

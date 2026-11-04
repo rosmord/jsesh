@@ -12,6 +12,7 @@ import java.util.Map;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
+import jsesh.render.style.PageTextPosition;
 
 /**
  * Immutable (?) representation of document preferences.
@@ -110,6 +111,13 @@ public class DocumentPreferences {
 			JSeshInfoConstants.JSESH_PAGE_MARGIN_TOP,
 			JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM };
 
+	/// The properties which are only saved when the page has a number or a title.
+	private static final String[] PAGE_TEXT_PROPERTIES = {
+			JSeshInfoConstants.JSESH_PAGE_NUMBER_POSITION,
+			JSeshInfoConstants.JSESH_PAGE_TITLE_POSITION,
+			JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE,
+			JSeshInfoConstants.JSESH_PAGE_TITLE };
+
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_WIDTH)
 	private double pageWidth = 0;
 
@@ -128,6 +136,18 @@ public class DocumentPreferences {
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM)
 	private double marginBottom = 0;
 
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_NUMBER_POSITION)
+	private PageTextPosition pageNumberPosition = PageTextPosition.NONE;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TITLE_POSITION)
+	private PageTextPosition pageTitlePosition = PageTextPosition.NONE;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE)
+	private boolean pageTextsAlternate = false;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TITLE)
+	private String pageTitle = "";
+
 	public DocumentPreferences() {
 	}
 
@@ -140,7 +160,7 @@ public class DocumentPreferences {
 		// Lazy and slow, but will survive any change... other option would be
 		// to use a inner cloneable class as representation.
 		return DocumentPreferences
-				.fromStringMap(this.getStringRepresentation());
+				.fromStringMap(this.getFullStringRepresentation());
 	}
 
 	/**
@@ -181,6 +201,8 @@ public class DocumentPreferences {
 									Boolean.parseBoolean(stringValue));
 					} else if (Double.TYPE.equals(field.getType())) {
 						field.setDouble(result, Double.parseDouble(stringValue));
+					} else if (String.class.equals(field.getType())) {
+						field.set(result, stringValue);
 					} else
 						throw new RuntimeException("Unexpected type for "
 								+ pref + " complement the interface");
@@ -202,6 +224,30 @@ public class DocumentPreferences {
 	 * @return
 	 */
 	public Map<String, String> getStringRepresentation() {
+		Map<String, String> result = getFullStringRepresentation();
+		if (!hasPage()) {
+			// No page: don't clutter the saved header with zeros.
+			for (String key : PAGE_PROPERTIES) {
+				result.remove(key);
+			}
+		}
+		if (!hasPage() || !hasPageTexts()) {
+			for (String key : PAGE_TEXT_PROPERTIES) {
+				result.remove(key);
+			}
+		} else {
+			if (pageTitle.isEmpty()) {
+				result.remove(JSeshInfoConstants.JSESH_PAGE_TITLE);
+			}
+			if (!pageTextsAlternate) {
+				result.remove(JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE);
+			}
+		}
+		return result;
+	}
+
+	/// All the properties, even those which are not worth saving.
+	private Map<String, String> getFullStringRepresentation() {
 		try {
 			// Sorted, so that saved headers are stable and related keys (JSesh_page_*) are grouped.
 			TreeMap<String, String> result = new TreeMap<String, String>();
@@ -218,16 +264,13 @@ public class DocumentPreferences {
 								.toString(field.getBoolean(this));
 					} else if (Double.TYPE.equals(field.getType())) {
 						propertyValue = Double.toString(field.getDouble(this));
+					} else if (String.class.equals(field.getType())) {
+						// A header entry is a single line.
+						propertyValue = ((String) field.get(this)).replaceAll("[\\r\\n]+", " ");
 					} else
 						throw new RuntimeException("Unexpected type for "
 								+ propertyName + " complement the interface");
 					result.put(propertyName, propertyValue);
-				}
-			}
-			if (!hasPage()) {
-				// No page: don't clutter the saved header with six zeros.
-				for (String key : PAGE_PROPERTIES) {
-					result.remove(key);
 				}
 			}
 			return result;
@@ -404,6 +447,60 @@ public class DocumentPreferences {
 		result.marginTop = marginTop;
 		result.marginBottom = marginBottom;
 		return result;
+	}
+
+	/// Sets the texts written in the margins of each page.
+	///
+	/// @param numberPosition where the page number is written.
+	/// @param titlePosition where the title is written.
+	/// @param title the title (a single line).
+	/// @return a copy of these preferences, with the new texts.
+	public DocumentPreferences withPageTexts(PageTextPosition numberPosition,
+			PageTextPosition titlePosition, String title) {
+		return withPageTexts(numberPosition, titlePosition, title, false);
+	}
+
+	/// Sets the texts written in the margins of each page.
+	///
+	/// @param numberPosition where the page number is written (on odd pages if the texts alternate).
+	/// @param titlePosition where the title is written (on odd pages if the texts alternate).
+	/// @param title the title (a single line).
+	/// @param alternate true if left and right are exchanged on even pages.
+	/// @return a copy of these preferences, with the new texts.
+	public DocumentPreferences withPageTexts(PageTextPosition numberPosition,
+			PageTextPosition titlePosition, String title, boolean alternate) {
+		DocumentPreferences result = this.copy();
+		result.pageTextsAlternate = alternate;
+		result.pageNumberPosition = numberPosition == null ? PageTextPosition.NONE : numberPosition;
+		result.pageTitlePosition = titlePosition == null ? PageTextPosition.NONE : titlePosition;
+		result.pageTitle = title == null ? "" : title;
+		return result;
+	}
+
+	/// @return where the page number is written.
+	public PageTextPosition getPageNumberPosition() {
+		return pageNumberPosition;
+	}
+
+	/// @return where the title is written.
+	public PageTextPosition getPageTitlePosition() {
+		return pageTitlePosition;
+	}
+
+	/// @return true if the page number and the title change side on even pages.
+	public boolean isPageTextsAlternate() {
+		return pageTextsAlternate;
+	}
+
+	/// @return the title written on each page (never null, maybe empty).
+	public String getPageTitle() {
+		return pageTitle;
+	}
+
+	/// @return true if a page number or a title is written in the margins.
+	public boolean hasPageTexts() {
+		return pageNumberPosition != PageTextPosition.NONE
+				|| (pageTitlePosition != PageTextPosition.NONE && !pageTitle.isEmpty());
 	}
 
 	/// @return the page width (0 if the document has no page).

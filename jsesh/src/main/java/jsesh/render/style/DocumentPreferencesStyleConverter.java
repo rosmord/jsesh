@@ -58,7 +58,12 @@ public class DocumentPreferencesStyleConverter {
 						decimal(jseshStyle.geometry().page().marginLeft()),
 						decimal(jseshStyle.geometry().page().marginRight()),
 						decimal(jseshStyle.geometry().page().marginTop()),
-						decimal(jseshStyle.geometry().page().marginBottom()));
+						decimal(jseshStyle.geometry().page().marginBottom()))
+				.withPageTexts(
+						jseshStyle.geometry().pageDecoration().numberPosition(),
+						jseshStyle.geometry().pageDecoration().titlePosition(),
+						jseshStyle.geometry().pageDecoration().title(),
+						jseshStyle.geometry().pageDecoration().alternate());
 	}
 
 	/// The double with the decimal representation of a float, so that
@@ -106,7 +111,12 @@ public class DocumentPreferencesStyleConverter {
 						.smallSkip((float) preferences.getSmallSkip())
 						.alphabeticTextBaseline(
 								(float) preferences.getAlphabeticTextBaseline())
-						.page(pageOf(preferences)))
+						.page(pageOf(preferences))
+						.pageDecoration(new PageDecoration(
+								preferences.getPageNumberPosition(),
+								preferences.getPageTitlePosition(),
+								preferences.getPageTitle(),
+								preferences.isPageTextsAlternate())))
 				.geometry(g -> {
 					// With a page, the margins around the text are the page's.
 					if (preferences.hasPage()) {

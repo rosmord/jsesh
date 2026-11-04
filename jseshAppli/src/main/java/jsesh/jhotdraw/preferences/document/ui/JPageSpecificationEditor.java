@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -13,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import jsesh.jhotdraw.utils.PanelBuilder;
+import jsesh.render.style.PageTextPosition;
 import jsesh.render.style.StandardPageSize;
 import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.units.LengthUnit;
@@ -50,6 +56,10 @@ public class JPageSpecificationEditor {
 	private final JFormattedTextField marginTopField = new JFormattedTextField();
 	private final JFormattedTextField marginBottomField = new JFormattedTextField();
 	private final JComboBox<LengthUnit> unitField = new JComboBox<>();
+	private final JComboBox<PageTextPosition> numberPositionField = new JComboBox<>(PageTextPosition.values());
+	private final JComboBox<PageTextPosition> titlePositionField = new JComboBox<>(PageTextPosition.values());
+	private final JTextField titleField = new JTextField(20);
+	private final JCheckBox alternateBox = new JCheckBox(JSeshMessages.getString("pagePrefs.alternate"));
 
 	// Everything but the check box
 	private final List<Component> pageControls;
@@ -82,11 +92,29 @@ public class JPageSpecificationEditor {
 		h.addWithLabel("pagePrefs.marginRight", marginRightField, "w 60pt, wrap");
 		h.addWithLabel("pagePrefs.marginTop", marginTopField, "w 60pt, gapright unrelated");
 		h.addWithLabel("pagePrefs.marginBottom", marginBottomField, "w 60pt, wrap");
-		h.add(hint, "span");
+		h.add(hint, "span, wrap, gapbottom unrelated");
+		h.add(new JSeparator(), "span, growx, wrap");
+		h.addWithLabel("pagePrefs.pageNumber", numberPositionField, "span, wrap");
+		h.addWithLabel("pagePrefs.pageTitle", titleField, "span 3, growx, wrap");
+		h.addWithLabel("pagePrefs.pageTitlePosition", titlePositionField, "span, wrap");
+		h.add(alternateBox, "span, wrap");
+		ListCellRenderer<? super PageTextPosition> renderer = new DefaultListCellRenderer() {
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				Object shown = value instanceof PageTextPosition position
+						? JSeshMessages.getString("pagePrefs.position." + position.name())
+						: value;
+				return super.getListCellRendererComponent(list, shown, index, isSelected, cellHasFocus);
+			}
+		};
+		numberPositionField.setRenderer(renderer);
+		titlePositionField.setRenderer(renderer);
 
 		pageControls = List.of(sizeField, unitField, portraitButton, landscapeButton,
 				widthField, heightField, marginLeftField, marginRightField,
-				marginTopField, marginBottomField, hint);
+				marginTopField, marginBottomField, hint,
+				numberPositionField, titlePositionField, titleField, alternateBox);
 		// Labels follow the state of the check box too.
 		for (Component c : panel.getComponents()) {
 			if (c instanceof JLabel && c != hint) {
@@ -145,6 +173,22 @@ public class JPageSpecificationEditor {
 
 	public JFormattedTextField getMarginBottomField() {
 		return marginBottomField;
+	}
+
+	public JComboBox<PageTextPosition> getNumberPositionField() {
+		return numberPositionField;
+	}
+
+	public JComboBox<PageTextPosition> getTitlePositionField() {
+		return titlePositionField;
+	}
+
+	public JCheckBox getAlternateBox() {
+		return alternateBox;
+	}
+
+	public JTextField getTitleField() {
+		return titleField;
 	}
 
 	public JComboBox<LengthUnit> getUnitField() {

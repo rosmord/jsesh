@@ -41,6 +41,8 @@ import java.awt.BasicStroke;
  *                            for a text as large as it needs to be). When the page
  *                            is defined, it determines the wrapping width, and
  *                            {@code wrapWidth} is ignored.
+ * @param pageDecoration     the texts (page number, title) written in the margins
+ *                            of each page ({@link PageDecoration#NONE} for none).
  * @param maxCadratHeight     the maximum height of a quadrat (in points)
  * @param maxCadratWidth      the maximum width of a quadrat (in points)
  * @param smallSkip           a small space (used in various places)
@@ -89,6 +91,7 @@ public record GeometrySpecification(
 		float leftMargin, // 6
 		float topMargin, // 5
 		PageSpecification page, // PageSpecification.NONE
+		PageDecoration pageDecoration, // PageDecoration.NONE
 		float maxCadratHeight, // 18f,
 		float maxCadratWidth, // 22f,
 		float smallSkip, // 2f,
@@ -119,6 +122,7 @@ public record GeometrySpecification(
 			6,
 			5,
 			PageSpecification.NONE,
+			PageDecoration.NONE,
 			18f,
 			22f,
 			2f,
@@ -213,6 +217,7 @@ public record GeometrySpecification(
 		private float leftMargin; // 6
 		private float topMargin; // 5
 		private PageSpecification page; // NONE
+		private PageDecoration pageDecoration; // NONE
 		private float maxCadratHeight; // 18f,
 		private float maxCadratWidth; // 22f,
 		private float smallSkip; // 2f,
@@ -242,6 +247,7 @@ public record GeometrySpecification(
 			this.leftMargin = specs.leftMargin;
 			this.topMargin = specs.topMargin;
 			this.page = specs.page;
+			this.pageDecoration = specs.pageDecoration;
 			this.maxCadratHeight = specs.maxCadratHeight;
 			this.maxCadratWidth = specs.maxCadratWidth;
 			this.smallSkip = specs.smallSkip;
@@ -338,6 +344,11 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		public Builder pageDecoration(PageDecoration pageDecoration) {
+			this.pageDecoration = pageDecoration == null ? PageDecoration.NONE : pageDecoration;
+			return this;
+		}
+
 		public Builder page(PageSpecification page) {
 			this.page = page == null ? PageSpecification.NONE : page;
 			return this;
@@ -417,6 +428,7 @@ public record GeometrySpecification(
 					leftMargin,
 					topMargin,
 					page,
+					pageDecoration,
 					maxCadratHeight,
 					maxCadratWidth,
 					smallSkip,

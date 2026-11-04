@@ -34,6 +34,16 @@ export interface DocumentPreferences {
   marginRight: number;
   marginTop: number;
   marginBottom: number;
+  /// Where the page number is written in the margins: `NONE`, `TOP_LEFT`, `TOP_CENTER`,
+  /// `TOP_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER` or `BOTTOM_RIGHT`. (Stored and written back, but
+  /// not drawn by the port yet.)
+  pageNumberPosition: string;
+  /// Where the title is written (same values).
+  pageTitlePosition: string;
+  /// True if the page number and the title change side on even pages.
+  pageTextsAlternate: boolean;
+  /// The title written on each page; may contain spaces.
+  pageTitle: string;
 }
 
 export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Object.freeze({
@@ -57,6 +67,10 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   marginRight: 0,
   marginTop: 0,
   marginBottom: 0,
+  pageNumberPosition: "NONE",
+  pageTitlePosition: "NONE",
+  pageTextsAlternate: false,
+  pageTitle: "",
 });
 
 /// The preferences which are only written when there is a page.
@@ -67,6 +81,14 @@ const PAGE_PROPERTY_KEYS: (keyof DocumentPreferences)[] = [
   "marginRight",
   "marginTop",
   "marginBottom",
+];
+
+/// The preferences which are only written when the pages have a number or a title.
+const PAGE_TEXT_KEYS: (keyof DocumentPreferences)[] = [
+  "pageNumberPosition",
+  "pageTitlePosition",
+  "pageTextsAlternate",
+  "pageTitle",
 ];
 
 /// Header property names (`JSeshInfoConstants`).
@@ -91,6 +113,10 @@ const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   marginRight: "JSesh_page_margin_right",
   marginTop: "JSesh_page_margin_top",
   marginBottom: "JSesh_page_margin_bottom",
+  pageNumberPosition: "JSesh_page_number_position",
+  pageTitlePosition: "JSesh_page_title_position",
+  pageTextsAlternate: "JSesh_page_texts_alternate",
+  pageTitle: "JSesh_page_title",
 };
 
 /// Reads preferences from header properties; unknown properties are ignored,
@@ -121,9 +147,19 @@ export function documentPreferencesToMap(preferences: DocumentPreferences): Reco
     const value = (preferences as unknown as Record<string, unknown>)[key];
     result[property] = typeof value === "number" ? javaDoubleToString(value) : String(value);
   }
-  if (!(preferences.pageWidth > 0)) {
+  const hasPage = preferences.pageWidth > 0;
+  if (!hasPage) {
     // No page: the page entries are not written.
     for (const key of PAGE_PROPERTY_KEYS) delete result[PROPERTY_NAMES[key]];
+  }
+  const hasPageTexts =
+    preferences.pageNumberPosition !== "NONE" ||
+    (preferences.pageTitlePosition !== "NONE" && preferences.pageTitle !== "");
+  if (!hasPage || !hasPageTexts) {
+    for (const key of PAGE_TEXT_KEYS) delete result[PROPERTY_NAMES[key]];
+  } else {
+    if (preferences.pageTitle === "") delete result[PROPERTY_NAMES.pageTitle];
+    if (!preferences.pageTextsAlternate) delete result[PROPERTY_NAMES.pageTextsAlternate];
   }
   return result;
 }

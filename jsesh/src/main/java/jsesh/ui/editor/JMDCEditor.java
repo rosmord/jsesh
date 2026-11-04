@@ -79,6 +79,7 @@ import jsesh.ui.clipboard.MDCModelTransferable;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PageSpecification;
+import jsesh.render.draw.PageDecorationDrawer;
 import jsesh.ui.editor.actions.text.EditorShadeAction;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
@@ -144,6 +145,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
     private boolean showKerningMarks = false;
     private boolean showLineBreakMarks = false;
     private boolean showZoneLimits = false;
+    private boolean showPageLimits = true;
 
     /**
      * The current view we maintain.
@@ -502,7 +504,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
         // one infinitie page).
         // Used for debugging purposes.
         GeometrySpecification pageLayout = getJSeshStyle().geometry();
-        if (pageLayout.hasPage()) {
+        if (showPageLimits && pageLayout.hasPage()) {
             // The page, and the area where the text is written.
             PageSpecification page = pageLayout.page();
             // Pages are stacked when the page has a height.
@@ -518,6 +520,14 @@ public class JMDCEditor extends JPanel implements Scrollable {
                         page.pageHeight() > 0 ? page.usableHeight() : 0));
             }
             g2d.setStroke(new BasicStroke(1f));
+        }
+        if (pageLayout.hasPage() && pageLayout.page().isPaginated()) {
+            // Page numbers and titles belong to the pages, not to the limits.
+            PageSpecification page = pageLayout.page();
+            g2d.setColor(Color.BLACK);
+            for (int i = 0; i < page.pageCount(getView().getHeight()); i++) {
+                PageDecorationDrawer.draw(g2d, getJSeshStyle(), i + 1, i * (double) page.pageStride());
+            }
         }
 
         buildViewDrawer().drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
@@ -1397,6 +1407,21 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
     public boolean isShowZoneLimits() {
         return showZoneLimits;
+    }
+
+    /// Shows or hides the limits of the pages (the edge of each page, and the
+    /// area inside the margins) when the document has a page. They are shown by
+    /// default. Only this editor is concerned: printing and exports never show
+    /// them.
+    ///
+    /// @param showPageLimits true to show the limits.
+    public void setShowPageLimits(boolean showPageLimits) {
+        this.showPageLimits = showPageLimits;
+        repaint();
+    }
+
+    public boolean isShowPageLimits() {
+        return showPageLimits;
     }
 
     /**

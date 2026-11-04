@@ -20,6 +20,7 @@ import jsesh.model.PageBreak;
 import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
+import jsesh.render.draw.PageDecorationDrawer;
 import jsesh.render.draw.ViewDrawer;
 import jsesh.render.view.MDCView;
 import jsesh.render.view.ViewBuilder;
@@ -178,6 +179,9 @@ public class SelectionExporter {
             ViewDrawer drawer = new ViewDrawer();
             drawer.setShadeAfter(false);
             drawer.draw(g2d, renderContext, techRenderContext, view);
+            // Page number and title, in the margins.
+            g2d.setColor(style.painting().blackColor());
+            PageDecorationDrawer.draw(g2d, style, i + 1, i * (double) page.pageStride());
             g2d.dispose();
             graphicsFactory.writeGraphics();
             graphicsFactory.newPage();

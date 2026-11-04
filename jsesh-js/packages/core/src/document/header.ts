@@ -25,9 +25,20 @@ export function stripJSeshHeader(source: string): { properties: Record<string, s
     else if (end < source.length) pos = end + 1;
     else pos = end;
     const tab = line.split(" ");
-    properties[tab[0]!.substring(2)] = tab.length > 1 ? tab[1]! : "";
+    properties[tab[0]!.substring(2)] = headerValue(line, tab);
   }
   return { properties, body: source.substring(pos) };
+}
+
+/// The value of a header line, `++JSesh_xxx value +s`: the text between the property name and the
+/// final ` +s`, so it can contain spaces (a page title). A line without the final ` +s` gives its
+/// first word, as older versions did.
+function headerValue(line: string, tab: string[]): string {
+  const start = line.indexOf(" ");
+  if (start >= 0 && line.endsWith(" +s") && line.length - 3 >= start + 1) {
+    return line.substring(start + 1, line.length - 3);
+  }
+  return tab.length > 1 ? tab[1]! : "";
 }
 
 /// Writes a JSesh header for `properties` (the `JSesh_Info` line first).

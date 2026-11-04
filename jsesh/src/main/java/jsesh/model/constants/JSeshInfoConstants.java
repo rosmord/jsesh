@@ -23,6 +23,21 @@ public interface JSeshInfoConstants {
 	String JSESH_PAGE_MARGIN_TOP = "JSesh_page_margin_top";
 	String JSESH_PAGE_MARGIN_BOTTOM = "JSesh_page_margin_bottom";
 
+	/// Where the page number is written in the margins: NONE (the default),
+	/// TOP_LEFT, TOP_CENTER, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER or
+	/// BOTTOM_RIGHT.
+	String JSESH_PAGE_NUMBER_POSITION = "JSesh_page_number_position";
+
+	/// Where the title is written in the margins (same values).
+	String JSESH_PAGE_TITLE_POSITION = "JSesh_page_title_position";
+
+	/// true if the page number and the title change side on even pages (left and
+	/// right exchanged).
+	String JSESH_PAGE_TEXTS_ALTERNATE = "JSesh_page_texts_alternate";
+
+	/// The title written on each page. It can contain spaces.
+	String JSESH_PAGE_TITLE = "JSesh_page_title";
+
 	/**
 	 * Either horizontal or vertical.
 	 */

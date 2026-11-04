@@ -84,6 +84,7 @@ import jsesh.jhotdraw.actions.text.EditZoneAction;
 import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
+import jsesh.jhotdraw.actions.view.TogglePageLimitsAction;
 import jsesh.jhotdraw.actions.view.ToggleZoneLimitsAction;
 import jsesh.jhotdraw.actions.view.ToggleWrapLinesAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
@@ -115,6 +116,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         m.add(new JCheckBoxMenuItem(new ToggleKerningMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleLineBreakMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleZoneLimitsAction(app, view)));
+                        m.add(new JCheckBoxMenuItem(new TogglePageLimitsAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleWrapLinesAction(app, view)));
                 }
         }
