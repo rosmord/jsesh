@@ -14,6 +14,7 @@ import jsesh.render.layout.insert.Kerner;
 
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PageSpecification;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.LineBreak;
@@ -96,6 +97,10 @@ public class LineLayout extends TopItemLayout {
      * taken into account. Used when we process the first line of a page.
      */
     private boolean addTopMargin;
+
+    /// The number of the page of the last line placed, when the text is
+    /// paginated (see [PageSpecification#isPaginated()]).
+    private int pageIndex;
 
     private final LineLayoutAux aux = new LineLayoutAux();
 
@@ -254,6 +259,12 @@ public class LineLayout extends TopItemLayout {
                 justifyOnLongestZone();
             }
         }
+        if (paginated()) {
+            // The view covers all the pages.
+            PageSpecification page = jseshStyle.geometry().page();
+            documentArea.add(new Rectangle2D.Double(0, 0, page.pageWidth(),
+                    pageIndex * (double) page.pageStride() + page.pageHeight()));
+        }
         // Ensure the margin is there ?
         documentArea
                 .add(new Point2D.Double(
@@ -263,6 +274,28 @@ public class LineLayout extends TopItemLayout {
                                 .getMinY()
                                 + jseshStyle.geometry()
                                 .topMargin()));
+    }
+
+    /// Is the text cut into pages?
+    private boolean paginated() {
+        return jseshStyle.geometry().page().isPaginated();
+    }
+
+    /// Moves the current line to the top of the next page if it doesn't fit in
+    /// the current one. A line which is alone on its page stays, however tall.
+    ///
+    /// @param marginy the top margin which will be added to the line's origin.
+    private void avoidPageBottom(double marginy) {
+        PageSpecification page = jseshStyle.geometry().page();
+        double pageTop = pageIndex * (double) page.pageStride();
+        double top = zoneOriginPosition.y + marginy;
+        double bottom = top + zone.getHeight();
+        double limit = pageTop + page.pageHeight() - page.marginBottom();
+        if (bottom > limit && top > pageTop + page.marginTop() + 1e-3) {
+            pageIndex++;
+            double newTop = pageIndex * (double) page.pageStride() + page.marginTop();
+            zoneOriginPosition.y = newTop - marginy;
+        }
     }
 
     /// Justifies all zones to the width of the longest one.
@@ -289,11 +322,11 @@ public class LineLayout extends TopItemLayout {
         }
     }
 
-    /// The width available for the content of a line when wrapping, i.e. the
-    /// wrapping width, minus the margins on both sides.
+    /// The width available for the content of a line when wrapping: the page's
+    /// usable width if there is a page, or else the wrapping width, minus the
+    /// margins on both sides.
     private double maxLineWidth() {
-        GeometrySpecification geometry = jseshStyle.geometry();
-        return geometry.wrapWidth() - 2 * geometry.leftMargin();
+        return jseshStyle.geometry().maxLineWidth();
     }
 
     /// Should the current line be wrapped before adding something which would
@@ -351,6 +384,7 @@ public class LineLayout extends TopItemLayout {
     public void startLayout() {
         allZones.clear();
         softWrappedZones.clear();
+        pageIndex = 0;
         // Pseudo relative position for first element.
         addTopMargin = true;
         // nextViewPosition = documentView.getFirstSubViewPosition();
@@ -414,6 +448,10 @@ public class LineLayout extends TopItemLayout {
         // of the zone is separated from the previous line by at least margin.
         double minx = zone.getMinX();
         double miny = zone.getMinY();
+
+        if (textLine && paginated()) {
+            avoidPageBottom(marginy);
+        }
 
         zoneOriginPosition.y = zoneOriginPosition.y + marginy - miny;
         zoneOriginPosition.x = marginx - minx;
@@ -502,8 +540,13 @@ public class LineLayout extends TopItemLayout {
             double dh = zone.getHeight();
             // flush the current line.
             flushZone();
-            // If the page break starts a new page, we won't draw anything.
-            if (!jseshStyle.options().paged()) {
+            if (paginated()) {
+                // Pages are stacked: the next line goes to the top of the next page.
+                pageIndex++;
+                zone = new LineAccumulator(0, jseshStyle.geometry().maxCadratHeight());
+                zoneOriginPosition.y = pageIndex * (double) jseshStyle.geometry().page().pageStride();
+            } else if (!jseshStyle.options().paged()) {
+                // If the page break starts a new page, we won't draw anything.
 
                 // build a zone containing only the page break.
                 zone = new LineAccumulator(0f, 0f);

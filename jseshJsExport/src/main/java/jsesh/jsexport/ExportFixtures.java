@@ -65,6 +65,14 @@ public final class ExportFixtures {
         LAYOUT_VARIANTS.put("wrapped", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH)).build());
         LAYOUT_VARIANTS.put("wrappedJustified", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH))
                 .options(o -> o.justified(true)).build());
+        // A page, with different left and right margins (also used by the JavaScript tests).
+        LAYOUT_VARIANTS.put("paged", base.copy().geometry(g -> g
+                .page(new jsesh.render.style.PageSpecification(200f, 0f, 10f, 30f, 8f, 8f))
+                .leftMargin(10f).topMargin(8f)).build());
+        // A page with a height: the text is cut into pages (also used by the JavaScript tests).
+        LAYOUT_VARIANTS.put("paginated", base.copy().geometry(g -> g
+                .page(new jsesh.render.style.PageSpecification(200f, 120f, 10f, 30f, 8f, 8f))
+                .leftMargin(10f).topMargin(8f)).build());
     }
 
     public static void main(String[] args) throws IOException {

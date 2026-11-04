@@ -51,7 +51,27 @@ public class DocumentPreferencesStyleConverter {
 				.withAlphabeticTextBaseline(
 						jseshStyle.geometry().alphabeticTextBaseline())
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
-						.equals(ShadingMode.LINE_HATCHING));
+						.equals(ShadingMode.LINE_HATCHING))
+				.withPage(
+						jseshStyle.geometry().page().pageWidth(),
+						jseshStyle.geometry().page().pageHeight(),
+						jseshStyle.geometry().page().marginLeft(),
+						jseshStyle.geometry().page().marginRight(),
+						jseshStyle.geometry().page().marginTop(),
+						jseshStyle.geometry().page().marginBottom());
+	}
+
+	private static PageSpecification pageOf(DocumentPreferences preferences) {
+		if (!preferences.hasPage()) {
+			return PageSpecification.NONE;
+		}
+		return new PageSpecification(
+				(float) preferences.getPageWidth(),
+				(float) preferences.getPageHeight(),
+				(float) preferences.getMarginLeft(),
+				(float) preferences.getMarginRight(),
+				(float) preferences.getMarginTop(),
+				(float) preferences.getMarginBottom());
 	}
 
 	/**
@@ -79,7 +99,16 @@ public class DocumentPreferencesStyleConverter {
 								(float) preferences.getSmallBodyScaleLimit())
 						.smallSkip((float) preferences.getSmallSkip())
 						.alphabeticTextBaseline(
-								(float) preferences.getAlphabeticTextBaseline()))
+								(float) preferences.getAlphabeticTextBaseline())
+						.page(pageOf(preferences)))
+				.geometry(g -> {
+					// With a page, the margins around the text are the page's.
+					if (preferences.hasPage()) {
+						g.leftMargin((float) preferences.getMarginLeft())
+								.topMargin((float) preferences.getMarginTop());
+					}
+					return g;
+				})
 				.options(o -> o
 						.smallSignCentered(preferences.isSmallSignCentered())
 						.limitQuadratWidthInLines(

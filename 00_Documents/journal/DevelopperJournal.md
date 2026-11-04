@@ -17,7 +17,7 @@ This journal should only be edited and modified in the Development branch.
 - [ ] add file associations for linux and Windows
 - [ ] use i18n for texts in the JSesh Palette
 - [x] add actual zones (almost done)
-- [ ] add page dimensions and wrap in the document
+- [x] add page dimensions and wrap in the document (model, header, editor frame, JS: done; dialog and PDF defaults: pending, see todo20260726-0057)
 - [ ] add a "view" menu to control the display of technical information (e.g. tabs)
 
 ## Important decisions

@@ -9,7 +9,7 @@
 /// Vue or React component, for instance, can create the view in its "mounted"
 /// hook).
 
-import { drawLaidOutText, type LaidOutText, type StyleChanges } from "@jsesh/core";
+import { drawLaidOutText, isPageDefined, type LaidOutText, type StyleChanges } from "@jsesh/core";
 import { layOutInPage, pageStyle } from "@jsesh/elements";
 import { caretArea, itemAreas, positionAt, type Area } from "./geometry.js";
 import type { EditorSession } from "./session.js";
@@ -166,6 +166,8 @@ export class EditorView {
     const width = this.surface.clientWidth;
     this.laidOutWidth = width;
     if (!this._wrapLines || width <= 0) return undefined;
+    // A page fixes the width of the lines: it prevails over the surface's.
+    if (isPageDefined(this.style?.geometry?.page)) return undefined;
     // The same style as the one used for drawing, including the page-wide one.
     const standardSignHeight = pageStyle(this.style).geometry.standardSignHeight;
     return width / (this._cadratHeight / standardSignHeight);

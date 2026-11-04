@@ -115,11 +115,14 @@ public class PDFExporter {
                 caret = MDCCaret.buildWholeTextCaret(model);
             }
 
-            JSeshStyle actualStyle = renderContext.jseshStyle().copy()
-                    .geometry(g -> g
-                            .leftMargin(32f)
-                            .topMargin(32f))
-                    .build();
+            // A document page brings its own margins.
+            JSeshStyle actualStyle = renderContext.jseshStyle().geometry().hasPage()
+                    ? renderContext.jseshStyle()
+                    : renderContext.jseshStyle().copy()
+                            .geometry(g -> g
+                                    .leftMargin(32f)
+                                    .topMargin(32f))
+                            .build();
 
             renderContext = new JSeshRenderContext(actualStyle, renderContext.hieroglyphShapeRepository());
 

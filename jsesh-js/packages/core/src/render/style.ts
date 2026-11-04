@@ -64,11 +64,68 @@ export interface GeometrySpecification {
   /// soft-wrapped, in layout units. 0 (or less) means no wrapping: lines only
   /// end at explicit line breaks.
   wrapWidth: number;
+  /// The page (`PageSpecification`). When defined, it determines the wrapping width
+  /// and `wrapWidth` is ignored.
+  page: PageSpecification;
+}
+
+/// Size and margins of a page, in layout units (`PageSpecification`). A width of 0
+/// means that there is no page: the text is as large as it needs to be.
+export interface PageSpecification {
+  pageWidth: number;
+  /// 0 if not specified.
+  pageHeight: number;
+  marginLeft: number;
+  marginRight: number;
+  marginTop: number;
+  marginBottom: number;
+}
+
+export const NO_PAGE: Readonly<PageSpecification> = Object.freeze<PageSpecification>({
+  pageWidth: 0,
+  pageHeight: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  marginTop: 0,
+  marginBottom: 0,
+});
+
+/// The space between two pages when they are displayed one below the other (`PageSpecification.PAGE_GAP`).
+export const PAGE_GAP = 24;
+
+/// Is the text cut into pages (`PageSpecification.isPaginated`)? It is when the page has a height.
+export function isPaginated(page: PageSpecification | undefined): boolean {
+  return (
+    page !== undefined &&
+    isPageDefined(page) &&
+    f(page.pageHeight - page.marginTop - page.marginBottom) > 0 &&
+    page.pageHeight > 0
+  );
+}
+
+/// The distance between the tops of two consecutive stacked pages (`PageSpecification.pageStride`).
+export function pageStride(page: PageSpecification): number {
+  return f(page.pageHeight + PAGE_GAP);
+}
+
+/// The width available for text, margins excluded (`PageSpecification.usableWidth`).
+export function usableWidth(page: PageSpecification): number {
+  return f(page.pageWidth - page.marginLeft - page.marginRight);
+}
+
+/// Is a page defined (`PageSpecification.isDefined`)?
+export function isPageDefined(page: PageSpecification | undefined): boolean {
+  return page !== undefined && page.pageWidth > 0 && usableWidth(page) > 0;
 }
 
 /// Is soft wrapping of lines active (`GeometrySpecification.isWrapping`)?
 export function isWrapping(geometry: GeometrySpecification): boolean {
-  return geometry.wrapWidth > 0;
+  return isPageDefined(geometry.page) || geometry.wrapWidth > 0;
+}
+
+/// The width available for the content of a wrapped line (`GeometrySpecification.maxLineWidth`).
+export function maxLineWidth(geometry: GeometrySpecification): number {
+  return isPageDefined(geometry.page) ? usableWidth(geometry.page) : geometry.wrapWidth - 2 * geometry.leftMargin;
 }
 
 export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<GeometrySpecification>({
@@ -98,6 +155,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
   wrapWidth: 0,
+  page: NO_PAGE,
 });
 
 /// Port of `LayoutOptions`.
@@ -237,6 +295,18 @@ export function withStyle(style: JSeshStyle, changes: StyleChanges): JSeshStyle 
   };
 }
 
+function pageOf(preferences: DocumentPreferences): PageSpecification {
+  if (!(preferences.pageWidth > 0)) return NO_PAGE;
+  return {
+    pageWidth: f(preferences.pageWidth),
+    pageHeight: f(preferences.pageHeight),
+    marginLeft: f(preferences.marginLeft),
+    marginRight: f(preferences.marginRight),
+    marginTop: f(preferences.marginTop),
+    marginBottom: f(preferences.marginBottom),
+  };
+}
+
 /// Applies document preferences on top of a style
 /// (`DocumentPreferencesStyleConverter.applyDocumentPreferences`).
 export function applyDocumentPreferences(preferences: DocumentPreferences, original: JSeshStyle): JSeshStyle {
@@ -251,6 +321,11 @@ export function applyDocumentPreferences(preferences: DocumentPreferences, origi
       smallBodyScaleLimit: f(preferences.smallBodyScaleLimit),
       smallSkip: f(preferences.smallSkip),
       alphabeticTextBaseline: f(preferences.alphabeticTextBaseline),
+      page: pageOf(preferences),
+      // With a page, the margins around the text are the page's.
+      ...(preferences.pageWidth > 0
+        ? { leftMargin: f(preferences.marginLeft), topMargin: f(preferences.marginTop) }
+        : {}),
     },
     options: {
       smallSignCentered: preferences.smallSignCentered,

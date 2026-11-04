@@ -138,7 +138,9 @@ public class MDCDocumentWriter {
 	public void prepareForSaving(MDCDocument document) {
 		String correctExtension;
 		// Ensure there is an encoding !
-		if (!document.isPhilologyIsSign()) {
+		// A page can only be saved in the header of the JSESH1 dialect.
+		if (!document.isPhilologyIsSign()
+				&& !document.getDocumentPreferences().hasPage()) {
 			document.setEncoding("iso-8859-1");
 			correctExtension = "hie";
 		} else {

@@ -2,7 +2,6 @@ package jsesh.render.style;
 
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
-import java.awt.print.PageFormat;
 import java.awt.BasicStroke;
 
 /**
@@ -15,7 +14,8 @@ import java.awt.BasicStroke;
  * some speed.
  * 
  * Note: currently, textWidth, textHeight, leftMargin and topMargin
- * and PageFormat are not very well defined.
+ * are not very well defined. See {@link PageSpecification} for the (optional)
+ * page of the document.
  * 
  * @param fineLineWidth       the width for fine lines (drawn with {lx1,x2})
  * @param wideLineWidth       the width for wide lines (drawn with {lx1,x2})
@@ -37,7 +37,10 @@ import java.awt.BasicStroke;
  *                            defined)
  * @param leftMargin          the left margin (not very well defined)
  * @param topMargin           the top margin (not very well defined)
- * @param format              the page format (not very well defined)
+ * @param page                the page size and margins ({@link PageSpecification#NONE}
+ *                            for a text as large as it needs to be). When the page
+ *                            is defined, it determines the wrapping width, and
+ *                            {@code wrapWidth} is ignored.
  * @param maxCadratHeight     the maximum height of a quadrat (in points)
  * @param maxCadratWidth      the maximum width of a quadrat (in points)
  * @param smallSkip           a small space (used in various places)
@@ -85,13 +88,7 @@ public record GeometrySpecification(
 		float textHeight, // 760
 		float leftMargin, // 6
 		float topMargin, // 5
-		/**
-		 * The page format.
-		 * It's for printing, etc. Basically, corresponds to A4, A3, etc. formats.
-		 * 
-		 * Part of the java printing API.
-		 */
-		PageFormat format, // null
+		PageSpecification page, // PageSpecification.NONE
 		float maxCadratHeight, // 18f,
 		float maxCadratWidth, // 22f,
 		float smallSkip, // 2f,
@@ -121,7 +118,7 @@ public record GeometrySpecification(
 			760,
 			6,
 			5,
-			null,
+			PageSpecification.NONE,
 			18f,
 			22f,
 			2f,
@@ -158,28 +155,38 @@ public record GeometrySpecification(
 
 	/// Is soft wrapping of lines active?
 	///
-	/// @return true if [#wrapWidth()] is positive.
+	/// @return true if a page is defined, or if [#wrapWidth()] is positive.
 	public boolean isWrapping() {
-		return wrapWidth > 0;
+		return hasPage() || wrapWidth > 0;
 	}
 
-	public boolean hasPageFormat() {
-		return format != null;
+	/// Is a page defined?
+	///
+	/// @return true if [#page()] is defined.
+	public boolean hasPage() {
+		return page != null && page.isDefined();
 	}
 
-	/**
-	 * Returns the area where the main text content is supposed to be written.
-	 * <p><b>Precondition:</b> {@code hasPageFormat()} must be true.</p>
-	 * @return a rectangle representing the are in that page where text can be written.
-	 * @throws NullPointerException if {@code hasPageFormat()} is false.
-	 */
-	public Rectangle2D getDrawingRectangle() {
-		if (hasPageFormat()) {
-			Rectangle2D rect= new Rectangle2D.Float(leftMargin, topMargin, textWidth, textHeight);
-			return rect;
-		} else {
-			throw new NullPointerException("No drawing rectangle available");
+	/// The width available for the content of a wrapped line.
+	///
+	/// With a page, it's the page's usable width. Otherwise, it's the wrapping
+	/// width minus the margin on both sides.
+	///
+	/// @return the maximal width of a line's content. Meaningful only if
+	/// [#isWrapping()].
+	public double maxLineWidth() {
+		return hasPage() ? page.usableWidth() : wrapWidth - 2 * leftMargin;
+	}
+
+	/// The page rectangle, if a page is defined.
+	///
+	/// @return the whole page.
+	/// @throws NullPointerException if there is no page.
+	public Rectangle2D getPageRectangle() {
+		if (hasPage()) {
+			return page.pageRectangle();
 		}
+		throw new NullPointerException("No page available");
 	}
 
 	public Builder copy() {
@@ -205,7 +212,7 @@ public record GeometrySpecification(
 		private float textHeight; // 760
 		private float leftMargin; // 6
 		private float topMargin; // 5
-		private PageFormat format; // null
+		private PageSpecification page; // NONE
 		private float maxCadratHeight; // 18f,
 		private float maxCadratWidth; // 22f,
 		private float smallSkip; // 2f,
@@ -234,7 +241,7 @@ public record GeometrySpecification(
 			this.textHeight = specs.textHeight;
 			this.leftMargin = specs.leftMargin;
 			this.topMargin = specs.topMargin;
-			this.format = specs.format;
+			this.page = specs.page;
 			this.maxCadratHeight = specs.maxCadratHeight;
 			this.maxCadratWidth = specs.maxCadratWidth;
 			this.smallSkip = specs.smallSkip;
@@ -331,8 +338,8 @@ public record GeometrySpecification(
 			return this;
 		}
 
-		public Builder format(PageFormat format) {
-			this.format = format;
+		public Builder page(PageSpecification page) {
+			this.page = page == null ? PageSpecification.NONE : page;
 			return this;
 		}
 
@@ -400,7 +407,7 @@ public record GeometrySpecification(
 					textHeight,
 					leftMargin,
 					topMargin,
-					format,
+					page,
 					maxCadratHeight,
 					maxCadratWidth,
 					smallSkip,
@@ -413,7 +420,7 @@ public record GeometrySpecification(
 		}
 
 		/**
-		 * Sets a new maxcadrat height, but scales all other parameters accordingly (except page format).
+		 * Sets a new maxcadrat height, but scales all other parameters accordingly (page included).
 		 * @param newHeight the new maxcadrat height.
 		 * @return this builder, for chaining.
 		 */
@@ -436,6 +443,7 @@ public record GeometrySpecification(
 			textHeight *= scale;
 			leftMargin *= scale;
 			topMargin *= scale;
+			page = page.scaled(scale);
 			maxCadratHeight *= scale;
 			maxCadratWidth *= scale;
 			smallSkip *= scale;

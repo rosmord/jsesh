@@ -11,9 +11,11 @@ package jsesh.ui.export.generic;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PageSpecification;
 import jsesh.model.PageBreak;
 import jsesh.model.HieroglyphicText;
 import jsesh.render.context.JSeshRenderContext;
@@ -73,6 +75,12 @@ public class SelectionExporter {
         ViewBuilder builder = new ViewBuilder();
         JSeshRenderContext renderContext = exportData.getRenderContext()
                 .copy().jseshStyle(style -> style.options(opts -> opts.paged(true))).build();
+
+        PageSpecification page = renderContext.jseshStyle().geometry().page();
+        if (page.isPaginated()) {
+            exportPaginatedPages(builder, renderContext, page);
+            return;
+        }
 
         int start = 0;
         HieroglyphicText l = exportData.getHieroglyphicText();
@@ -142,6 +150,39 @@ public class SelectionExporter {
 
     // -------------------------------------------------------------------------------------------------
     // Private methods.
+
+    /// Exports a text which is cut into pages by the layout: the whole text is
+    /// laid out once, with its pages stacked, and each page is drawn separately.
+    private void exportPaginatedPages(ViewBuilder builder, JSeshRenderContext renderContext, PageSpecification page)
+            throws IOException {
+        JSeshStyle style = renderContext.jseshStyle();
+        JSeshTechRenderContext techRenderContext = JSeshTechRenderContext.APPROXIMATIVE_CONTEXT;
+        HieroglyphicText text = exportData.getHieroglyphicText();
+        // The stacked layout is not the "one page at a time" one.
+        JSeshRenderContext stacked = renderContext.copy()
+                .jseshStyle(s -> s.options(o -> o.paged(false))).build();
+        MDCView view = builder.buildView(text, 0, text.getNumberOfChildren(), stacked, techRenderContext);
+        int pages = page.pageCount(view.getHeight());
+        double scale = exportData.getScale();
+        for (int i = 0; i < pages; i++) {
+            graphicsFactory.setDimension(new DoubleDimensions(page.pageWidth() * scale, page.pageHeight() * scale));
+            Graphics2D g2d = graphicsFactory.buildGraphics();
+            g2d.setColor(style.painting().blackColor());
+            g2d.setBackground(background);
+            if (clearBeforeDrawing) {
+                g2d.clearRect(0, 0, (int) (page.pageWidth() * scale) + 1, (int) (page.pageHeight() * scale) + 1);
+            }
+            g2d.scale(scale, scale);
+            g2d.clip(new Rectangle2D.Double(0, 0, page.pageWidth(), page.pageHeight()));
+            g2d.translate(0, -i * (double) page.pageStride());
+            ViewDrawer drawer = new ViewDrawer();
+            drawer.setShadeAfter(false);
+            drawer.draw(g2d, renderContext, techRenderContext, view);
+            g2d.dispose();
+            graphicsFactory.writeGraphics();
+            graphicsFactory.newPage();
+        }
+    }
 
     /**
      * @param builder

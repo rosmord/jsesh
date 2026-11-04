@@ -26,6 +26,14 @@ export interface DocumentPreferences {
   /// In horizontal text, scale quadrats down to the maximal quadrat width. Documents
   /// without the property get `true` (historical layout).
   limitQuadratWidthInLines: boolean;
+  /// Width of the page; 0 means that the document has no page (it is as large as its text).
+  pageWidth: number;
+  /// Height of the page; 0 if not specified.
+  pageHeight: number;
+  marginLeft: number;
+  marginRight: number;
+  marginTop: number;
+  marginBottom: number;
 }
 
 export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Object.freeze({
@@ -43,6 +51,12 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   smallSkip: 2,
   alphabeticTextBaseline: 4,
   limitQuadratWidthInLines: true,
+  pageWidth: 0,
+  pageHeight: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  marginTop: 0,
+  marginBottom: 0,
 });
 
 /// Header property names (`JSeshInfoConstants`).
@@ -61,6 +75,12 @@ const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   smallSkip: "JSesh_small_skip",
   alphabeticTextBaseline: "JSesh_alphabetic_text_baseline",
   limitQuadratWidthInLines: "JSesh_limit_quadrat_width_in_lines",
+  pageWidth: "JSesh_page_width",
+  pageHeight: "JSesh_page_height",
+  marginLeft: "JSesh_margin_left",
+  marginRight: "JSesh_margin_right",
+  marginTop: "JSesh_margin_top",
+  marginBottom: "JSesh_margin_bottom",
 };
 
 /// Reads preferences from header properties; unknown properties are ignored,

@@ -98,6 +98,26 @@ public class DocumentPreferences {
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES)
 	private boolean limitQuadratWidthInLines = true;
 	
+	// Page. A page width of 0 means that there is no page.
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_WIDTH)
+	private double pageWidth = 0;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_HEIGHT)
+	private double pageHeight = 0;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_LEFT)
+	private double marginLeft = 0;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_RIGHT)
+	private double marginRight = 0;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_TOP)
+	private double marginTop = 0;
+
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_MARGIN_BOTTOM)
+	private double marginBottom = 0;
+
 	public DocumentPreferences() {
 	}
 
@@ -345,6 +365,61 @@ public class DocumentPreferences {
 		DocumentPreferences result= this.copy();
 		result.limitQuadratWidthInLines= limitQuadratWidthInLines;
 		return result;
+	}
+
+	/// Sets the page of the document.
+	///
+	/// @param pageWidth total width of the page; 0 for no page.
+	/// @param pageHeight total height of the page; 0 if not specified.
+	/// @param marginLeft left margin.
+	/// @param marginRight right margin.
+	/// @param marginTop top margin.
+	/// @param marginBottom bottom margin.
+	/// @return a copy of these preferences, with the new page.
+	public DocumentPreferences withPage(double pageWidth, double pageHeight,
+			double marginLeft, double marginRight, double marginTop,
+			double marginBottom) {
+		DocumentPreferences result = this.copy();
+		result.pageWidth = pageWidth;
+		result.pageHeight = pageHeight;
+		result.marginLeft = marginLeft;
+		result.marginRight = marginRight;
+		result.marginTop = marginTop;
+		result.marginBottom = marginBottom;
+		return result;
+	}
+
+	/// @return the page width (0 if the document has no page).
+	public double getPageWidth() {
+		return pageWidth;
+	}
+
+	/// @return the page height (0 if not specified).
+	public double getPageHeight() {
+		return pageHeight;
+	}
+
+	public double getMarginLeft() {
+		return marginLeft;
+	}
+
+	public double getMarginRight() {
+		return marginRight;
+	}
+
+	public double getMarginTop() {
+		return marginTop;
+	}
+
+	public double getMarginBottom() {
+		return marginBottom;
+	}
+
+	/// Does the document have a page (and so, a fixed width for its lines)?
+	///
+	/// @return true if the page width is positive.
+	public boolean hasPage() {
+		return pageWidth > 0;
 	}
 
 	// Generated code

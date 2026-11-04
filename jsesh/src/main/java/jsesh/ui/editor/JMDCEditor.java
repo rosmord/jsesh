@@ -43,6 +43,7 @@
 package jsesh.ui.editor;
 
 import org.qenherkhopeshef.swingUtils.PortableToolKit;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -77,6 +78,7 @@ import jsesh.ui.clipboard.JSeshPasteFlavors;
 import jsesh.ui.clipboard.MDCModelTransferable;
 import jsesh.render.style.GeometrySpecification;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.PageSpecification;
 import jsesh.ui.editor.actions.text.EditorShadeAction;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 import jsesh.glyphs.fonts.HieroglyphShapeRepositoryChangedEvent;
@@ -500,10 +502,22 @@ public class JMDCEditor extends JPanel implements Scrollable {
         // one infinitie page).
         // Used for debugging purposes.
         GeometrySpecification pageLayout = getJSeshStyle().geometry();
-        if (drawLimits && pageLayout.hasPageFormat()) {
-            // IMPROVE THIS...
-            g2d.setColor(Color.RED);
-            g2d.draw(pageLayout.getDrawingRectangle());
+        if (pageLayout.hasPage()) {
+            // The page, and the area where the text is written.
+            PageSpecification page = pageLayout.page();
+            // Pages are stacked when the page has a height.
+            int pages = page.isPaginated() ? page.pageCount(getView().getHeight()) : 1;
+            g2d.setStroke(new BasicStroke((float) (1 / scale)));
+            for (int i = 0; i < pages; i++) {
+                double dy = i * (double) page.pageStride();
+                g2d.setColor(Color.LIGHT_GRAY);
+                g2d.draw(new Rectangle2D.Double(0, dy, page.pageWidth(), page.pageHeight()));
+                g2d.setColor(Color.RED);
+                g2d.draw(new Rectangle2D.Double(page.marginLeft(), dy + page.marginTop(),
+                        page.usableWidth(),
+                        page.pageHeight() > 0 ? page.usableHeight() : 0));
+            }
+            g2d.setStroke(new BasicStroke(1f));
         }
 
         buildViewDrawer().drawViewAndSelection(g2d, getRenderContext(), buildTechRenderContext(), getView(), getMDCCaret());
@@ -1210,6 +1224,10 @@ public class JMDCEditor extends JPanel implements Scrollable {
     ///
     /// @return the render context for the view displayed by this editor.
     JSeshRenderContext getDisplayRenderContext() {
+        if (getJSeshStyle().geometry().hasPage()) {
+            // A page fixes the width of the lines: it prevails over the component's.
+            return getRenderContext();
+        }
         float wrapWidth = componentWrapWidth();
         if (wrapWidth <= 0) {
             return getRenderContext();

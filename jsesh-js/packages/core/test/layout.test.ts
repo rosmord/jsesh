@@ -39,6 +39,22 @@ const VARIANTS: Record<string, JSeshStyle> = {
   justified: withStyle(DEFAULT_STYLE, { options: { justified: true } }),
   wrapped: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH } }),
   wrappedJustified: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH }, options: { justified: true } }),
+  // See `ExportFixtures`: the page's margins are also the style's.
+  paged: withStyle(DEFAULT_STYLE, {
+    geometry: {
+      page: { pageWidth: 200, pageHeight: 0, marginLeft: 10, marginRight: 30, marginTop: 8, marginBottom: 8 },
+      leftMargin: 10,
+      topMargin: 8,
+    },
+  }),
+  // Same page, with a height: the text is cut into pages.
+  paginated: withStyle(DEFAULT_STYLE, {
+    geometry: {
+      page: { pageWidth: 200, pageHeight: 120, marginLeft: 10, marginRight: 30, marginTop: 8, marginBottom: 8 },
+      leftMargin: 10,
+      topMargin: 8,
+    },
+  }),
 };
 
 const cases: LayoutCase[] = available ? readFixture("layout-cases.json") : [];

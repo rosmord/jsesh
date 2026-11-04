@@ -10,9 +10,18 @@ public interface JSeshInfoConstants {
 
 	String JSESH_INFO = "JSesh_Info";
 
+	/// Width of the page, in layout units. 0 (the default) means that the
+	/// document has no page: it is as large as its text needs.
 	String JSESH_PAGE_WIDTH = "JSesh_page_width";
 
+	/// Height of the page, in layout units. 0 means "not specified".
 	String JSESH_PAGE_HEIGHT = "JSesh_page_height";
+
+	/// Margins of the page, in layout units.
+	String JSESH_MARGIN_LEFT = "JSesh_margin_left";
+	String JSESH_MARGIN_RIGHT = "JSesh_margin_right";
+	String JSESH_MARGIN_TOP = "JSesh_margin_top";
+	String JSESH_MARGIN_BOTTOM = "JSesh_margin_bottom";
 
 	String JSESH_TEXT_ORiGIN_X = "JSesh_text_origin_x";
 

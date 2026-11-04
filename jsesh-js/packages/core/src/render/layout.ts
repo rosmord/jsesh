@@ -58,6 +58,10 @@ import {
   computeCartouchePartLength,
   computeCartoucheSecondaryLength,
   isWrapping,
+  isPaginated,
+  maxLineWidth,
+  NO_PAGE,
+  pageStride,
   philologyWidth,
   withStyle,
   type JSeshStyle,
@@ -130,6 +134,7 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
   const geometry: Partial<JSeshStyle["geometry"]> = {
     leftMargin: 0,
     topMargin: 0,
+    page: NO_PAGE,
     wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
   };
   if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
@@ -1353,6 +1358,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private subView!: MDCView;
   /// True for the first line of a page, which gets the top margin.
   private addTopMargin = true;
+  /// The page of the last line placed, when the text is paginated.
+  private pageIndex = 0;
   /// In lines, only `%hkern` is meaningful.
   private readonly kerning: TopLevelKerning;
   /// The zones which ended because of soft wrapping (not at a line break).
@@ -1463,6 +1470,10 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
         this.justifyOnLongestZone();
       }
     }
+    if (isPaginated(g.page)) {
+      // The view covers all the pages.
+      this.documentArea.add(new Rect(0, 0, g.page.pageWidth, this.pageIndex * pageStride(g.page) + g.page.pageHeight));
+    }
     this.documentArea.addPoint(this.documentArea.maxX + g.leftMargin, this.documentArea.minY + g.topMargin);
   }
 
@@ -1481,8 +1492,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   /// The width available for the content of a line when wrapping, i.e. the
   /// wrapping width, minus the margins on both sides.
   private maxLineWidth(): number {
-    const g = this.style.geometry;
-    return g.wrapWidth - 2 * g.leftMargin;
+    return maxLineWidth(this.style.geometry);
   }
 
   /// Should the current line be wrapped before adding something which would
@@ -1516,6 +1526,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   startLayout(): void {
     this.allZones.length = 0;
     this.softWrappedZones.clear();
+    this.pageIndex = 0;
     this.lineExtents.length = 0;
     this.addTopMargin = true;
     this.documentView.reset();
@@ -1528,6 +1539,20 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.zoneOriginPosition = { x: 0, y: 0 };
   }
 
+  /// Moves the current line to the top of the next page if it doesn't fit in the current one.
+  /// A line which is alone on its page stays, however tall (`LineLayout.avoidPageBottom`).
+  private avoidPageBottom(marginy: number): void {
+    const page = this.style.geometry.page;
+    const pageTop = this.pageIndex * pageStride(page);
+    const top = this.zoneOriginPosition.y + marginy;
+    const bottom = top + this.zone.height;
+    const limit = pageTop + page.pageHeight - page.marginBottom;
+    if (bottom > limit && top > pageTop + page.marginTop + 1e-3) {
+      this.pageIndex++;
+      this.zoneOriginPosition.y = this.pageIndex * pageStride(page) + page.marginTop - marginy;
+    }
+  }
+
   /// Adds the current zone to the page. `textLine`: is the zone a line of
   /// text (and not the mark of a page break)? Only lines are separated by rules.
   private flushZone(textLine = true): void {
@@ -1538,6 +1563,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     const marginy = this.addTopMargin ? g.topMargin : 0;
     const minx = this.zone.minX;
     const miny = this.zone.minY;
+    if (textLine && isPaginated(g.page)) this.avoidPageBottom(marginy);
     this.zoneOriginPosition.y = this.zoneOriginPosition.y + marginy - miny;
     this.zoneOriginPosition.x = marginx - minx;
     this.zone.translateBy(this.zoneOriginPosition);
@@ -1566,7 +1592,12 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     const g = this.style.geometry;
     const dh = this.zone.height;
     this.flushZone();
-    if (!this.style.options.paged) {
+    if (isPaginated(g.page)) {
+      // Pages are stacked: the next line goes to the top of the next page.
+      this.pageIndex++;
+      this.zone = new LineAccumulator(0, g.maxCadratHeight);
+      this.zoneOriginPosition.y = this.pageIndex * pageStride(g.page);
+    } else if (!this.style.options.paged) {
       // A zone with only the page break.
       this.zone = new LineAccumulator(0, 0);
       this.zoneOriginPosition.y += g.lineSkip + dh;
