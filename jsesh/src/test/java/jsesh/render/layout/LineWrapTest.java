@@ -89,10 +89,11 @@ public class LineWrapTest {
     public void justifiedWrappedLinesAreJustifiedToTheWrappingWidthButParagraphEndsAreNot() throws MDCSyntaxError {
         MDCView unwrapped = layout(LONG_LINE, 0);
         float width = (float) (unwrapped.getWidth() / 3);
-        MDCView plain = layout(LONG_LINE + "!A1-A1", width);
-        MDCView justified = layout(LONG_LINE + "![align=justify]A1-A1", width);
-        int last = plain.getNumberOfSubviews() - 1;
-        // The paragraph end is not stretched.
+        MDCView plain = layout(LONG_LINE + "!A1-A1!", width);
+        MDCView justified = layout(LONG_LINE + "![align=justify]A1-A1!", width);
+        // The last sign of the wrapped line.
+        int last = LONG_LINE.split("-").length - 1;
+        // The paragraph end (the last part of the wrapped line) is not stretched.
         assertEquals(plain.getSubView(last).getPosition().x, justified.getSubView(last).getPosition().x, EPSILON);
         // The first line is: its last sign moved to the right.
         int firstRowEnd = 0;

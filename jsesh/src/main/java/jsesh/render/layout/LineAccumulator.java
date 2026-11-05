@@ -244,8 +244,8 @@ public class LineAccumulator {
 	/// between its units (a unit is a view, a run of alphabetic text, or a
 	/// group of kerned views).
 	///
-	/// The line stays as it is if it has only one unit, or if the spaces would
-	/// be too large (the free space more than half the width of the units).
+	/// The line stays as it is if it has only one unit (there is nothing to
+	/// distribute), or if it is already wider than `width`.
 	///
 	/// @param startMargin the margin to leave on the left.
 	/// @param width the width to use (the start margin is not covered by this
@@ -263,7 +263,7 @@ public class LineAccumulator {
 				nonEmptyUnits.add(unit);
 		}
 		double space = width - minimalWidth;
-		if (nonEmptyUnits.size() > 1 && space > 0 && space <= 0.5 * minimalWidth) {
+		if (nonEmptyUnits.size() > 1 && space > 0) {
 			double skip = space / (nonEmptyUnits.size() - 1);
 			double x = startMargin;
 			for (List<MDCView> unit : nonEmptyUnits) {

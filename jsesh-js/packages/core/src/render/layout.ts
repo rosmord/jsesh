@@ -1225,8 +1225,8 @@ class LineAccumulator {
   }
 
   /// Justifies the line to `width` (after `startMargin`), by distributing the free space between
-  /// its units. The line stays as it is if it has only one unit, or if the spaces would be too
-  /// large (the free space more than half the width of the units).
+  /// its units. The line stays as it is if it has only one unit (there is nothing to distribute),
+  /// or if it is already wider than `width`.
   justifyWidthTo(startMargin: number, width: number): void {
     let minimalWidth = 0;
     const nonEmptyUnits: MDCView[][] = [];
@@ -1236,7 +1236,7 @@ class LineAccumulator {
       if (w !== 0) nonEmptyUnits.push(unit);
     }
     const space = width - minimalWidth;
-    if (nonEmptyUnits.length > 1 && space > 0 && space <= 0.5 * minimalWidth) {
+    if (nonEmptyUnits.length > 1 && space > 0) {
       const skip = space / (nonEmptyUnits.length - 1);
       let x = startMargin;
       for (const unit of nonEmptyUnits) {
@@ -1517,13 +1517,13 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   /// Ends the current logical line: gives its alignment to its lines. When a justified logical
-  /// line is soft-wrapped, its last line is placed at the start if it is less than three
-  /// quarters of the width, as the last line of a paragraph.
+  /// line is soft-wrapped, its last line is placed at the start, as the last line of a paragraph.
+  /// Otherwise, justification always applies.
   private endLogicalLine(alignment: LineAlignment): void {
     this.currentLogicalLine.forEach((line, i) => {
       let a = alignment;
       const lastOfWrapped = i > 0 && i === this.currentLogicalLine.length - 1;
-      if (a === "JUSTIFY" && lastOfWrapped && line.line.visibleWidth < 0.75 * this.maxLineWidth()) a = "START";
+      if (a === "JUSTIFY" && lastOfWrapped) a = "START";
       this.alignedLines.push(line);
       this.alignments.push(a);
     });

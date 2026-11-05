@@ -86,11 +86,29 @@ public class LineAlignmentLayoutTest {
     }
 
     @Test
-    public void aJustifiedLineWhichIsTooShortStaysAtTheStart() throws MDCSyntaxError {
-        MDCView plain = layout(FIRST_LINE + "A1-A1-!");
+    public void evenAShortJustifiedLineIsJustified() throws MDCSyntaxError {
         MDCView text = layout(FIRST_LINE + "A1-A1-![align=justify]");
-        assertEquals(left(plain, SECOND), left(text, SECOND), EPSILON);
-        assertEquals(left(plain, SECOND + 1), left(text, SECOND + 1), EPSILON);
+        assertEquals(left(text, 0), left(text, SECOND), EPSILON);
+        assertEquals(right(text, 4), right(text, SECOND + 1), EPSILON);
+    }
+
+    @Test
+    public void aSingleElementCannotBeJustified() throws MDCSyntaxError {
+        MDCView text = layout(FIRST_LINE + "A1-![align=justify]");
+        assertEquals(left(text, 0), left(text, SECOND), EPSILON);
+    }
+
+    @Test
+    public void theLastPartOfAWrappedJustifiedLineStaysAtTheStart() throws MDCSyntaxError {
+        // Wrapped in rows of 4 A1: the last row has 4 A1 too, and still is not justified.
+        String mdc = "A1-A1-A1-A1-A1-A1-A1-A1-![align=justify]";
+        JSeshStyle style = STYLE.copy().geometry(g -> g.wrapWidth(5 * QUADRAT)).build();
+        MDCView plain = layout(mdc.replace("[align=justify]", ""), style);
+        MDCView text = layout(mdc, style);
+        int last = 7;
+        assertEquals(left(plain, last), left(text, last), EPSILON);
+        double rowY = text.getSubView(last).getPosition().y;
+        assertTrue(text.getSubView(0).getPosition().y < rowY, "the line is wrapped");
     }
 
     @Test

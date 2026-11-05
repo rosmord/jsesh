@@ -306,8 +306,8 @@ public class LineLayout extends TopItemLayout {
     /// Ends the current logical line: gives its alignment to its lines.
     ///
     /// When a justified logical line is soft-wrapped, its last line is placed
-    /// at the start if it is too short (less than three quarters of the
-    /// width), as the last line of a paragraph.
+    /// at the start, as the last line of a paragraph. Otherwise, justification
+    /// always applies.
     ///
     /// @param alignment the alignment written on the line break which ends it.
     private void endLogicalLine(LineAlignment alignment) {
@@ -315,8 +315,7 @@ public class LineLayout extends TopItemLayout {
             PlacedLine line = currentLogicalLine.get(i);
             LineAlignment a = alignment;
             boolean lastOfWrapped = i > 0 && i == currentLogicalLine.size() - 1;
-            if (a == LineAlignment.JUSTIFY && lastOfWrapped
-                    && line.line().getVisibleWidth() < 0.75 * maxLineWidth()) {
+            if (a == LineAlignment.JUSTIFY && lastOfWrapped) {
                 a = LineAlignment.START;
             }
             alignedLines.add(line);

@@ -142,15 +142,15 @@ right-to-left text is drawn mirrored, so a *start* line is on the right there.
 
 The text between two [hard breaks](#hard-line-break). When it is [soft-wrapped](#soft-wrap),
 it is drawn as several lines, which all get its alignment, except for `JUSTIFY`: the last one
-is placed at the start if it is shorter than three quarters of the width (the end of a
-paragraph).
+is always placed at the start (the end of a paragraph).
 
 ### Justification
 
 The `JUSTIFY` [alignment](#line-alignment): the free space is shared between the units of the
 line (a sign, a run of alphabetic text, or a group of kerned elements:
-`LineAccumulator.justifyWidthTo`). If the spaces would be too large (more than half the width
-of the units), or if there is a single unit, the line stays at the start. The global
+`LineAccumulator.justifyWidthTo`). It always applies, however large the spaces, except to the
+last part of a [soft-wrapped](#logical-line) line. A line with a single unit, which has nothing
+to distribute, stays at the start. The global
 `LayoutOptions.justified` boolean, which justified the whole text, has been removed.
 
 ### Wrap in Zone / Unwrap Zone
