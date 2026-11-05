@@ -164,10 +164,12 @@ export interface LayoutOptions {
   textOrientation: TextOrientation;
   paged: boolean;
   smallSignCentered: boolean;
-  /// Justify lines (horizontal text only).
-  justified: boolean;
   /// In horizontal text, scale quadrats down to the maximal quadrat width.
   limitQuadratWidthInLines: boolean;
+  /// Lay out every line at the start, whatever the alignment written on its line break. Used
+  /// when the lines are wrapped to the width of an editor (not WYSIWYG). The content of a zone,
+  /// which has its own width, is not concerned.
+  ignoreLineAlignment: boolean;
 }
 
 export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<LayoutOptions>({
@@ -175,8 +177,8 @@ export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<Lay
   textOrientation: "HORIZONTAL",
   paged: false,
   smallSignCentered: false,
-  justified: false,
   limitQuadratWidthInLines: false,
+  ignoreLineAlignment: false,
 });
 
 export type ShadingMode = "GRAY_SHADING" | "LINE_HATCHING";

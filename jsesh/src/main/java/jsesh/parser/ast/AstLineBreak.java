@@ -7,14 +7,18 @@
  */
 package jsesh.parser.ast;
 
-/**
- * A line break.
- *
- * @param skip the vertical skip, as a percentage of line height (100 is a
- * normal skip).
- * @author rosmord
- */
-public record AstLineBreak(int skip) implements AstTopItem {
+/// A line break: `!`, `!=200%`, `![align=center]`...
+///
+/// @param skip the vertical skip, as a percentage of line height (100 is a
+/// normal skip).
+/// @param options the raw options given between brackets (empty if none).
+/// @author rosmord
+public record AstLineBreak(int skip, AstOptionList options) implements AstTopItem {
+
+    /// A line break without options.
+    public AstLineBreak(int skip) {
+        this(skip, AstOptionList.of());
+    }
 
     @Override
     public void accept(AstVisitor visitor) {

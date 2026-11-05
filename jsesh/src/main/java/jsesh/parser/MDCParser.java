@@ -259,7 +259,7 @@ public class MDCParser {
      * mdcfile ::= topitems optSeparator EOF
      * topitems ::= ε | topitems optSeparator topitem
      * topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
-     *           | LINEEND | PAGEEND | TABSTOP
+     *           | LINEEND optionList? | PAGEEND optionList? | TABSTOP
      *           | HRULE | zone
      * </pre>
      * 
@@ -296,13 +296,15 @@ public class MDCParser {
                     item = new AstSuperscript((String) token.value());
                     advance();
                     break;
-                case LINE_END:
-                    item = new AstLineBreak((Integer) token.value());
+                case LINE_END: {
+                    int skip = (Integer) token.value();
                     advance();
+                    item = new AstLineBreak(skip, parseOptOptionList());
                     break;
+                }
                 case PAGE_END:
-                    item = new AstPageBreak();
                     advance();
+                    item = new AstPageBreak(parseOptOptionList());
                     break;
                 case TAB_STOP:
                     item = new AstTabStop((Integer) token.value());
@@ -361,6 +363,11 @@ public class MDCParser {
         List<AstTopItem> items = parseTopItems();
         expect(RPAREN, "')'");
         return new AstZone(options, items);
+    }
+
+    /// An option list if there is one here, else an empty one.
+    private AstOptionList parseOptOptionList() throws MDCSyntaxError {
+        return at(OPEN_BRACE) ? parseOptionList() : AstOptionList.of();
     }
 
     /**

@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -77,6 +78,7 @@ import jsesh.model.operations.ModelOperation;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.draw.MDCIconFactory;
 import jsesh.render.style.JSeshStyle;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenu;
 import jsesh.ui.widgets.hieroglyphicMenu.HieroglyphicMenuListener;
 
@@ -168,6 +170,10 @@ public final class JSeshViewCore {
         viewComponent.getZoomComboBox().setSelectedIndex(7);
         viewComponent.getZoomComboBox().addActionListener(e -> doZoom());
 
+        // Line alignment combobox
+        viewComponent.getLineAlignmentComboBox().addActionListener(e -> changeLineAlignment());
+        updateLineAlignmentComboBox();
+
         JPopupMenu hieroglyphicMenu = buildHieroglyphicMenus();
         JButton hieroglyphsButton = viewComponent.getHieroglyphsButton();
         hieroglyphsButton.setAction(new OpenHieroglyphicMenuAction(
@@ -185,6 +191,43 @@ public final class JSeshViewCore {
         return viewComponent.getEditor();
     }
 
+    /// True while the alignment combo box is updated by the program, so that
+    /// its action listener doesn't change the text.
+    private boolean updatingLineAlignment = false;
+
+    /// Shows the alignment of the current line (or of the selected lines) in
+    /// the alignment combo box. The box is disabled in text written in
+    /// columns, whose alignment is not supported yet.
+    private void updateLineAlignmentComboBox() {
+        JComboBox<LineAlignment> box = viewComponent.getLineAlignmentComboBox();
+        JSeshStyle style = getEditor().getJSeshStyle();
+        TextOrientation orientation = getEditor().getWorkflow()
+                .getTextOrientationAtCaret(style.options().textOrientation());
+        TextDirection direction = getEditor().getWorkflow()
+                .getTextDirectionAtCaret(style.options().textDirection());
+        updatingLineAlignment = true;
+        try {
+            viewComponent.setLineAlignmentRightToLeft(!direction.isLeftToRight());
+            box.setEnabled(orientation.isHorizontal());
+            box.setSelectedItem(getEditor().getWorkflow().getLineAlignmentAtCaret().orElse(null));
+        } finally {
+            updatingLineAlignment = false;
+        }
+    }
+
+    /// Gives the alignment chosen in the combo box to the current line (or to
+    /// the selected lines).
+    private void changeLineAlignment() {
+        if (updatingLineAlignment) {
+            return;
+        }
+        LineAlignment alignment = (LineAlignment) viewComponent.getLineAlignmentComboBox().getSelectedItem();
+        if (alignment != null) {
+            getEditor().getWorkflow().setLineAlignment(alignment);
+        }
+        getEditor().requestFocusInWindow();
+    }
+
     public MDCDocument getMdcDocument() {
         return mdcDocument;
     }
@@ -199,6 +242,7 @@ public final class JSeshViewCore {
         JSeshStyle newStyle = JSeshStyleHelper.applyDocumentPreferences(prefs, getEditor().getJSeshStyle());
         getEditor().setJSeshStyle(newStyle);
         getEditor().setHieroglyphiTextModel(mdcDocument.getHieroglyphicTextModel());
+        updateLineAlignmentComboBox();
     }
 
     public void setEnabled(boolean enabled) {
@@ -267,15 +311,18 @@ public final class JSeshViewCore {
 
         public void caretChanged(MDCCaret caret) {
             updateCurrentMDCLine();
+            updateLineAlignmentComboBox();
         }
 
         public void textChanged() {
             updateCurrentMDCLine();
+            updateLineAlignmentComboBox();
             lastSearchResults = null;
         }
 
         public void textEdited(ModelOperation op) {
             updateCurrentMDCLine();
+            updateLineAlignmentComboBox();
             lastSearchResults = null;
         }
 
@@ -537,18 +584,13 @@ public final class JSeshViewCore {
         LOGGER.entering(this.getClass().getName(), "setJSeshStyle", jSeshStyle);
         viewComponent.setJSeshStyle(jSeshStyle);
         mdcDocument.setDocumentPreferences(JSeshStyleHelper.jseshStyleToDocumentPreferences(jSeshStyle));
+        updateLineAlignmentComboBox();
     }
 
     public void setFontInfo(FontInfo fontInfo) {
         LOGGER.entering(this.getClass().getName(), "setFontInfo", fontInfo);
         JSeshStyle newStyle = fontInfo.applyApplyToJSeshStyle(getJSeshStyle());
         setJSeshStyle(newStyle);
-    }
-
-    public void setJustify(boolean selected) {
-        LOGGER.entering(this.getClass().getName(), "setJustify", selected);
-        setJSeshStyle(
-                getJSeshStyle().copy().options(o -> o.justified(selected)).build());
     }
 
     public void setTextOrientation(TextOrientation textOrientation) {

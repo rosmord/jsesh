@@ -217,7 +217,7 @@ export class MdcParser {
   /// ```
   /// topitems ::= ε | topitems optSeparator topitem
   /// topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
-  ///           | LINEEND | PAGEEND | TABSTOP
+  ///           | LINEEND optionList? | PAGEEND optionList? | TABSTOP
   ///           | HRULE | zone
   /// ```
   private parseTopItems(): AstTopItem[] {
@@ -246,12 +246,12 @@ export class MdcParser {
           this.advance();
           break;
         case S.LINE_END:
-          item = { nodeType: "LineBreak", skip: value as number };
           this.advance();
+          item = { nodeType: "LineBreak", skip: value as number, options: this.parseOptOptionList() };
           break;
         case S.PAGE_END:
-          item = { nodeType: "PageBreak" };
           this.advance();
+          item = { nodeType: "PageBreak", options: this.parseOptOptionList() };
           break;
         case S.TAB_STOP:
           item = { nodeType: "TabStop", stopWidth: value as number };
@@ -296,6 +296,11 @@ export class MdcParser {
   /// options ::= option | options COMMA option
   /// option ::= IDENTIFIER | IDENTIFIER EQUAL IDENTIFIER | IDENTIFIER EQUAL INTEGER
   /// ```
+  /// An option list if there is one here, else an empty one.
+  private parseOptOptionList(): AstOptionList {
+    return this.at(S.OPEN_BRACE) ? this.parseOptionList() : { nodeType: "OptionList", options: [] };
+  }
+
   private parseOptionList(): AstOptionList {
     this.expect(S.OPEN_BRACE, "'['");
     const options: AstOption[] = [];

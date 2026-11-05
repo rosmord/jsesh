@@ -22,7 +22,13 @@ import type {
 import { hasOption, optionInt, optionString } from "../parser/ast.js";
 import { parseMdcAst, type MdcParserOptions } from "../parser/parser.js";
 import type { PhilologyKind, SignSubType } from "../parser/symbols.js";
-import { SymbolCodes, type CartouchePart, type CartoucheType } from "../model/constants.js";
+import {
+  SymbolCodes,
+  lineAlignmentFromMdc,
+  type CartouchePart,
+  type CartoucheType,
+  type LineAlignment,
+} from "../model/constants.js";
 import {
   AbsoluteGroup,
   AlphabeticCharacter,
@@ -143,9 +149,9 @@ class AstModelBuilder {
         // Remove protection characters (only in front of "\" and "-").
         return [new Superscript(item.text.replace(/\\(\\|-)/g, "$1"))];
       case "LineBreak":
-        return [new LineBreak(item.skip)];
+        return [new LineBreak(item.skip, lineAlignmentOf(item.options))];
       case "PageBreak":
-        return [new PageBreak()];
+        return [new PageBreak(lineAlignmentOf(item.options))];
       case "TabStop":
         return [new TabStop(item.stopWidth)];
       case "HRule":
@@ -275,6 +281,11 @@ class AstModelBuilder {
     for (const m of list.modifiers) result.includeModifier(new Modifier(m.name, m.value));
     return result;
   }
+}
+
+/// The alignment given by the `align` option of a line or page break.
+function lineAlignmentOf(options: AstOptionList): LineAlignment {
+  return lineAlignmentFromMdc(optionString(options, "align", ""));
 }
 
 /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `linegap`,

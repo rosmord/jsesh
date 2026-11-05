@@ -531,16 +531,6 @@ public class JSeshView extends AbstractView {
         firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
     }
 
-    /**
-     * Temporary method to control lines justification.
-     *
-     * @param selected
-     */
-    public void setJustify(boolean selected) {
-        viewCore.setJustify(selected);
-        firePropertyChange(DOCUMENT_INFO_PROPERTY, false, true);
-    }
-
     public void setTextOrientation(TextOrientation textOrientation) {
         viewCore.setTextOrientation(textOrientation);
         // getEditor().setTextOrientation(textOrientation);

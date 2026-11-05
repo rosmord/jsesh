@@ -347,10 +347,6 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 JCheckBoxMenuItem centeredMenuItem = new JCheckBoxMenuItem(
                                 new CenterSmallSignsAction(app, jSeshView));
                 documentFormat.add(centeredMenuItem);
-
-                JCheckBoxMenuItem justifyMenuItem = new JCheckBoxMenuItem(
-                                new ToggleJustifyAction(app, jSeshView));
-                documentFormat.add(justifyMenuItem);
                 return documentFormat;
         }
 

@@ -188,13 +188,19 @@ export interface AstSuperscript {
   text: string;
 }
 
+/// A line break: `!`, `!=200%`, `![align=center]`...
 export interface AstLineBreak {
   nodeType: "LineBreak";
   skip: number;
+  /// The raw options given between brackets (empty if none).
+  options: AstOptionList;
 }
 
+/// A page break: `!!` or `!![align=center]`.
 export interface AstPageBreak {
   nodeType: "PageBreak";
+  /// The raw options given between brackets (empty if none).
+  options: AstOptionList;
 }
 
 export interface AstTabStop {

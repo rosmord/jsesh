@@ -21,6 +21,7 @@ You don't need to know much of MdC to follow this documentation. A text is a str
 | `%insert[dir=bs](D36,n:t)` | `n:t` tucked into the free space of `D36` | `%insert` fits a group inside the free space of a sign, whatever its shape. `dir` says where: `s`, `e` (start, end), `t`, `b` (top, bottom), `ts`, `bs`, `te`, `be` (corners) or `c` (center). `dw` and `dh` make room, in percent of the inserted group. The first argument is the target, the sign the group is inserted into; `target=2` makes the second one the target instead, so that the arguments stay in reading order: `%insert[dir=bs,target=2](n:t,D36)` is the same drawing as `%insert[dir=bs](D36,n:t)`. `dir`, `dw` and `dh` always apply to the target. |
 | `G17-%hkern-G1`, `p:%vkern:q` | the groups moved closer | `%hkern` and `%vkern` kern the groups on each side, so that their signs are about one inter-sign space apart where they are closest. `%hkern` works between the elements of a horizontal group (`p*%hkern*q`) and between quadrats in lines; `%vkern` between the lines of a quadrat and between quadrats in columns. Elsewhere, they are ignored. |
 | `!` | new line | |
+| `![align=center]` | new line, the line before it centred | The alignment of a line is written on the `!` which ends it: `start` (the default), `end`, `center` or `justify`. *Start* and *end* follow the direction of the text (in right-to-left text, *start* is on the right). Lines are aligned on the width of the page or of the zone if it has one, else on the longest line. The last line, if it has no `!`, takes the alignment of the line before it. `!![align=...]` does the same for a page break. Columns are not aligned yet. |
 
 So `i-w-r:a-C1-m-p*t:pt` is a whole phrase. The rest of the documentation simply passes such strings around: you give them to JSeshJs, and it draws them.
 
@@ -176,7 +177,6 @@ The text can even be a whole JSesh document (the content of a `.gly` file): the 
 | `direction` | `ltr` or `rtl`. |
 | `orientation` | `horizontal` or `vertical` (columns). |
 | `centered` | (no value) center small signs in their quadrat. |
-| `justified` | (no value) justify lines. |
 | `glyphs-url` | Glyph data for this text only (see [Sharing the glyph data](#sharing-the-glyph-data-between-sites)). |
 
 #### Changing the style: `jseshStyle`

@@ -10,7 +10,7 @@
 /// The code follows Java closely (names included), so that the two can be
 /// compared view by view. `Math.fround` marks Java `float` computations.
 
-import type { KerningAxis, TextDirection, TextOrientation } from "../model/constants.js";
+import type { KerningAxis, LineAlignment, TextDirection, TextOrientation } from "../model/constants.js";
 import { isHorizontalInsertion, isStartInsertion, isTopInsertion, isVerticalInsertion, SymbolCodes } from "../model/constants.js";
 import {
   AbsoluteGroup,
@@ -127,7 +127,7 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
 /// is a line break).
 ///
 /// A zone in lines wraps at its width, if it has one. It never inherits the
-/// wrapping width of the enclosing text.
+/// wrapping width of the enclosing text. The alignment of its lines is never ignored.
 export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
   const unit = zoneLengthUnit(parent);
   const orientation = p.orientation ?? parent.options.textOrientation;
@@ -157,6 +157,8 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
       textOrientation: orientation,
       textDirection: p.direction ?? parent.options.textDirection,
       paged: false,
+      // A zone keeps its own width, even when the text is wrapped to the width of an editor.
+      ignoreLineAlignment: false,
     },
     geometry,
   });
@@ -1202,9 +1204,29 @@ class LineAccumulator {
     }
   }
 
-  /// Justifies the zone to `width` (after `startMargin`). A lone unit is
-  /// centered; if the spaces would be larger than half the units' width,
-  /// the zone is centered; else, the units are equally distributed.
+  /// Places the content of the line in the width given to it, as an alignment requires. The
+  /// line is supposed to be at the start (its first view at `startMargin`).
+  alignTo(alignment: LineAlignment, startMargin: number, width: number): void {
+    switch (alignment) {
+      case "START":
+        break;
+      case "END": {
+        const extent = this.visibleExtent();
+        if (extent) this.translateBy({ x: startMargin + width - extent[1], y: 0 });
+        break;
+      }
+      case "CENTER":
+        this.centerInWidth(startMargin, width);
+        break;
+      case "JUSTIFY":
+        this.justifyWidthTo(startMargin, width);
+        break;
+    }
+  }
+
+  /// Justifies the line to `width` (after `startMargin`), by distributing the free space between
+  /// its units. The line stays as it is if it has only one unit, or if the spaces would be too
+  /// large (the free space more than half the width of the units).
   justifyWidthTo(startMargin: number, width: number): void {
     let minimalWidth = 0;
     const nonEmptyUnits: MDCView[][] = [];
@@ -1213,24 +1235,19 @@ class LineAccumulator {
       minimalWidth += w;
       if (w !== 0) nonEmptyUnits.push(unit);
     }
-    if (minimalWidth < width) {
-      const space = width - minimalWidth;
-      if (nonEmptyUnits.length === 1) {
-        moveUnitTo(nonEmptyUnits[0]!, startMargin + space / 2);
-      } else if (space > 0.5 * minimalWidth) {
-        this.centerInWidth(startMargin, width);
-      } else if (nonEmptyUnits.length > 1) {
-        const skip = space / (nonEmptyUnits.length - 1);
-        let x = startMargin;
-        for (const unit of nonEmptyUnits) {
-          moveUnitTo(unit, x);
-          x += unitWidth(unit) + skip;
-        }
+    const space = width - minimalWidth;
+    if (nonEmptyUnits.length > 1 && space > 0 && space <= 0.5 * minimalWidth) {
+      const skip = space / (nonEmptyUnits.length - 1);
+      let x = startMargin;
+      for (const unit of nonEmptyUnits) {
+        moveUnitTo(unit, x);
+        x += unitWidth(unit) + skip;
       }
     }
   }
 
-  private centerInWidth(startMargin: number, width: number): void {
+  /// The leftmost and rightmost x of the non-empty views, or null if there are none.
+  private visibleExtent(): [number, number] | null {
     let currentStart = Infinity;
     let currentEnd = -Infinity;
     for (const v of this.views) {
@@ -1239,9 +1256,27 @@ class LineAccumulator {
         currentEnd = Math.max(currentEnd, v.position.x + v.width);
       }
     }
-    if (currentStart > currentEnd) return;
-    const centerMargin = startMargin + (width - (currentEnd - currentStart)) / 2;
-    this.translateBy({ x: centerMargin - currentStart, y: 0 });
+    return currentStart > currentEnd ? null : [currentStart, currentEnd];
+  }
+
+  /// The width of the visible content of the line.
+  get visibleWidth(): number {
+    const extent = this.visibleExtent();
+    return extent ? extent[1] - extent[0] : 0;
+  }
+
+  /// The visible area of the line: the x extent of its non-empty views, and the given vertical
+  /// extent; null if it has no non-empty views.
+  visibleBounds(minY: number, height: number): Rect | null {
+    const extent = this.visibleExtent();
+    return extent ? new Rect(extent[0], minY, extent[1] - extent[0], height) : null;
+  }
+
+  private centerInWidth(startMargin: number, width: number): void {
+    const extent = this.visibleExtent();
+    if (!extent) return;
+    const centerMargin = startMargin + (width - (extent[1] - extent[0])) / 2;
+    this.translateBy({ x: centerMargin - extent[0], y: 0 });
   }
 }
 
@@ -1346,10 +1381,26 @@ class TopLevelKerning {
 }
 
 /// Port of `LineLayout`: text in lines.
+/// A line placed in the document: its views, and its vertical extent in document coordinates.
+interface PlacedLine {
+  line: LineAccumulator;
+  top: number;
+  height: number;
+}
+
 class LineLayout extends ModelElementAdapter implements TopItemLayout {
   readonly documentArea = new Rect();
   private zone: LineAccumulator = new LineAccumulator(0, 0);
-  private readonly allZones: LineAccumulator[] = [];
+  /// The lines placed so far (with their vertical extent), and the alignment they will get in
+  /// `endLayout`.
+  private readonly alignedLines: PlacedLine[] = [];
+  private readonly alignments: LineAlignment[] = [];
+  /// The lines of the current logical line (from the previous line break): several when it is
+  /// soft-wrapped. Their alignment is only known at the line break which ends it.
+  private readonly currentLogicalLine: PlacedLine[] = [];
+  /// The alignment of the last line ended by a line break: the last line of the text, if it
+  /// has no line break, takes it.
+  private previousAlignment: LineAlignment = "START";
   /// The vertical extent (top, bottom) of each line of text, for the separators.
   private readonly lineExtents: [number, number][] = [];
   /// Where the current zone will be placed.
@@ -1362,9 +1413,6 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private pageIndex = 0;
   /// In lines, only `%hkern` is meaningful.
   private readonly kerning: TopLevelKerning;
-  /// The zones which ended because of soft wrapping (not at a line break).
-  /// When wrapping, only those are justified: the others end a paragraph.
-  private readonly softWrappedZones = new Set<LineAccumulator>();
 
   constructor(
     private readonly documentView: MDCView,
@@ -1459,17 +1507,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   endLayout(): void {
     const g = this.style.geometry;
     if (!this.zone.isEmpty()) this.flushZone();
-    if (this.style.options.justified) {
-      if (isWrapping(g)) {
-        // Wrapped lines are justified to the wrapping width.
-        // Zones which end a paragraph stay as they are.
-        for (const z of this.allZones) {
-          if (this.softWrappedZones.has(z)) z.justifyWidthTo(g.leftMargin, this.maxLineWidth());
-        }
-      } else {
-        this.justifyOnLongestZone();
-      }
-    }
+    this.endLogicalLine(this.previousAlignment);
+    if (!this.style.options.ignoreLineAlignment) this.alignLines();
     if (isPaginated(g.page)) {
       // The view covers all the pages.
       this.documentArea.add(new Rect(0, 0, g.page.pageWidth, this.pageIndex * pageStride(g.page) + g.page.pageHeight));
@@ -1477,15 +1516,41 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.documentArea.addPoint(this.documentArea.maxX + g.leftMargin, this.documentArea.minY + g.topMargin);
   }
 
-  /// Justifies all zones to the width of the longest one.
-  private justifyOnLongestZone(): void {
+  /// Ends the current logical line: gives its alignment to its lines. When a justified logical
+  /// line is soft-wrapped, its last line is placed at the start if it is less than three
+  /// quarters of the width, as the last line of a paragraph.
+  private endLogicalLine(alignment: LineAlignment): void {
+    this.currentLogicalLine.forEach((line, i) => {
+      let a = alignment;
+      const lastOfWrapped = i > 0 && i === this.currentLogicalLine.length - 1;
+      if (a === "JUSTIFY" && lastOfWrapped && line.line.visibleWidth < 0.75 * this.maxLineWidth()) a = "START";
+      this.alignedLines.push(line);
+      this.alignments.push(a);
+    });
+    this.currentLogicalLine.length = 0;
+  }
+
+  /// Places the lines according to their alignment, in the width of the parent if it has one (a
+  /// page, or a zone with a width), else in the width of the longest line.
+  private alignLines(): void {
+    if (!this.alignments.some((a) => a !== "START")) return;
     const g = this.style.geometry;
     let width = 0;
-    for (const z of this.allZones) if (z.width > width) width = z.width;
-    width = width - g.leftMargin;
-    this.allZones.forEach((z, i) => {
-      // Not the last zone, unless it looks large enough (temporary fix).
-      if (i !== this.allZones.length - 1 || z.width >= 0.75 * width) z.justifyWidthTo(g.leftMargin, width);
+    if (isWrapping(g)) {
+      width = this.maxLineWidth();
+    } else {
+      // The right side of the visible content of the longest line (lines are placed at the margin).
+      for (const l of this.alignedLines) {
+        const bounds = l.line.visibleBounds(0, 0);
+        if (bounds) width = Math.max(width, bounds.maxX - g.leftMargin);
+      }
+    }
+    this.alignedLines.forEach((l, i) => {
+      const alignment = this.alignments[i]!;
+      if (alignment === "START") return;
+      l.line.alignTo(alignment, g.leftMargin, width);
+      const bounds = l.line.visibleBounds(l.top, l.height);
+      if (bounds) this.documentArea.add(bounds);
     });
   }
 
@@ -1506,7 +1571,6 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private wrapLine(): void {
     this.kerning.reset();
     const verticalSkip = this.zone.height + this.zone.minY + this.style.geometry.lineSkip;
-    this.softWrappedZones.add(this.zone);
     this.flushZone();
     this.startNextZone(verticalSkip);
   }
@@ -1524,8 +1588,10 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   startLayout(): void {
-    this.allZones.length = 0;
-    this.softWrappedZones.clear();
+    this.alignedLines.length = 0;
+    this.alignments.length = 0;
+    this.currentLogicalLine.length = 0;
+    this.previousAlignment = "START";
     this.pageIndex = 0;
     this.lineExtents.length = 0;
     this.addTopMargin = true;
@@ -1572,8 +1638,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     );
     if (textLine) {
       this.lineExtents.push([this.zoneOriginPosition.y + miny, this.zoneOriginPosition.y + miny + this.zone.height]);
+      this.currentLogicalLine.push({ line: this.zone, top: this.zoneOriginPosition.y + miny, height: this.zone.height });
     }
-    if (this.style.options.justified) this.allZones.push(this.zone);
   }
 
   override visitLineBreak(b: LineBreak): void {
@@ -1584,14 +1650,18 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     if (b.spacing !== 100) verticalSkip = (verticalSkip * b.spacing) / 100;
     this.zone.add(this.subView);
     this.flushZone();
+    this.endLogicalLine(b.alignment);
+    this.previousAlignment = b.alignment;
     this.startNextZone(verticalSkip);
   }
 
-  override visitPageBreak(_b: PageBreak): void {
+  override visitPageBreak(b: PageBreak): void {
     this.kerning.reset();
     const g = this.style.geometry;
     const dh = this.zone.height;
     this.flushZone();
+    this.endLogicalLine(b.alignment);
+    this.previousAlignment = b.alignment;
     if (isPaginated(g.page)) {
       // Pages are stacked: the next line goes to the top of the next page.
       this.pageIndex++;

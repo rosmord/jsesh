@@ -46,9 +46,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
@@ -66,6 +68,7 @@ import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.sharedvocabulary.CartoucheType;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.sharedvocabulary.WordEnding;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
 import jsesh.model.constants.ScriptCode;
@@ -82,6 +85,7 @@ import jsesh.model.Insert;
 import jsesh.model.ItemSequence;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
+import jsesh.model.LineEnd;
 import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
 import jsesh.model.PositionNavigator;
@@ -352,6 +356,164 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         caret.setInsertPosition(cursor);
         clearSeparator();
         return true;
+    }
+
+    // ---- line alignment ----
+
+    /// The alignment of the lines touched by the selection (or of the line of
+    /// the cursor), in the innermost text with lines around it: the content of
+    /// a zone, or the text itself.
+    ///
+    /// The last line of a text or zone, when it has no line break, takes the
+    /// alignment of the line before it.
+    ///
+    /// @return the alignment, or empty if the lines have different alignments.
+    public Optional<LineAlignment> getLineAlignmentAtCaret() {
+        TextScope linesScope = linesScope();
+        ItemSequence sequence = linesScope.resolve(caret.getModel());
+        Set<LineAlignment> found = EnumSet.noneOf(LineAlignment.class);
+        for (int end : selectedLineEnds(linesScope)) {
+            found.add(alignmentOfLineEndingAt(sequence, end));
+        }
+        return found.size() == 1 ? Optional.of(found.iterator().next()) : Optional.empty();
+    }
+
+    /// Changes the alignment of the lines touched by the selection (or of the
+    /// line of the cursor), in the innermost text with lines around it. The
+    /// change is undone in one step, and the cursor and selection stay.
+    ///
+    /// The alignment is written on the line breaks which end the lines. If the
+    /// last line of the text (or zone) has no line break, one is added after
+    /// it, unless it already gets the new alignment from the line before it.
+    ///
+    /// @param alignment the new alignment.
+    public void setLineAlignment(LineAlignment alignment) {
+        possibilitiesHandler.clear();
+        HieroglyphicText text = caret.getModel();
+        TextScope linesScope = linesScope();
+        ItemSequence sequence = linesScope.resolve(text);
+        int size = sequence.getNumberOfChildren();
+        List<Integer> ends = selectedLineEnds(linesScope);
+        int first = lineStart(sequence, ends.get(0));
+        int lastEnd = ends.get(ends.size() - 1);
+        int replacedEnd = Math.min(lastEnd + 1, size);
+        List<TopItem> items = new ArrayList<>(sequence.getItemsBetween(first, replacedEnd));
+        boolean changed = false;
+        for (int end : ends) {
+            if (end < size) {
+                TopItem old = items.get(end - first);
+                if (LineEnd.alignmentOf(old) != alignment) {
+                    items.set(end - first, ((LineEnd) old).withAlignment(alignment));
+                    changed = true;
+                }
+            }
+        }
+        if (lastEnd == size) {
+            // The last line has no break: it takes the alignment of the line before it.
+            int previousBreak = lineStart(sequence, lastEnd) - 1;
+            LineAlignment inherited = previousBreak < 0 ? LineAlignment.START
+                    : previousBreak >= first ? LineEnd.alignmentOf(items.get(previousBreak - first))
+                    : LineEnd.alignmentOf(sequence.getItemAt(previousBreak));
+            if (inherited != alignment) {
+                items.add(new LineBreak(alignment));
+                changed = true;
+            }
+        }
+        if (!changed) {
+            return;
+        }
+        MDCPosition insert = caret.getInsertExactPosition();
+        MDCPosition mark = caret.hasMark() ? caret.getMark().getPosition() : null;
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, linesScope);
+        scope.replaceElement(new MDCPosition(first), new MDCPosition(replacedEnd), items);
+        // The items before the end of the scope are unchanged: the positions are still valid.
+        caret.setInsertPosition(insert);
+        if (mark != null) {
+            caret.setMarkPosition(mark);
+        }
+        clearSeparator();
+    }
+
+    /// The alignment a new line break inserted at the cursor should have: the
+    /// one of the line where it is inserted, so that both parts of the line
+    /// keep it.
+    private LineAlignment alignmentForNewBreak() {
+        TextScope linesScope = linesScope();
+        ItemSequence sequence = linesScope.resolve(caret.getModel());
+        int gap = linesScope.localIndexOf(caret.getInsertExactPosition());
+        return alignmentOfLineEndingAt(sequence, lineEnd(sequence, gap));
+    }
+
+    /// The innermost text with lines around the cursor (or the selection): the
+    /// content of a zone, or the text itself. A cartouche is a single line of
+    /// the text around it.
+    private TextScope linesScope() {
+        HieroglyphicText text = caret.getModel();
+        TextScope scope = caret.getScope();
+        while (!scope.isRoot() && !(scope.resolve(text) instanceof ZoneContent)) {
+            scope = scope.enclosing(text);
+        }
+        return scope;
+    }
+
+    /// The ends of the lines touched by the selection (or of the line of the
+    /// cursor) in a scope: the index of the break which ends each line, or the
+    /// size of the sequence for a last line without break.
+    ///
+    /// A selection which ends at the very start of a line (just after a break)
+    /// does not touch that line.
+    private List<Integer> selectedLineEnds(TextScope linesScope) {
+        HieroglyphicText text = caret.getModel();
+        ItemSequence sequence = linesScope.resolve(text);
+        int size = sequence.getNumberOfChildren();
+        int a = linesScope.localIndexOf(caret.getInsertExactPosition());
+        int b = caret.hasMark() ? linesScope.localIndexOf(caret.getMark().getPosition()) : a;
+        int min = Math.min(a, b);
+        int max = Math.max(a, b);
+        if (max > min && sequence.getItemAt(max - 1).isBreak()) {
+            max--;
+        }
+        List<Integer> ends = new ArrayList<>();
+        int gap = min;
+        while (true) {
+            int end = lineEnd(sequence, gap);
+            ends.add(end);
+            if (end >= size || end + 1 > max) {
+                break;
+            }
+            gap = end + 1;
+        }
+        return ends;
+    }
+
+    /// The index of the break which ends the line containing a gap, or the size
+    /// of the sequence if the line has none.
+    private static int lineEnd(ItemSequence sequence, int gap) {
+        int i = gap;
+        while (i < sequence.getNumberOfChildren() && !sequence.getItemAt(i).isBreak()) {
+            i++;
+        }
+        return i;
+    }
+
+    /// The index of the first item of the line containing a gap.
+    private static int lineStart(ItemSequence sequence, int gap) {
+        int i = Math.min(gap, sequence.getNumberOfChildren());
+        while (i > 0 && !sequence.getItemAt(i - 1).isBreak()) {
+            i--;
+        }
+        return i;
+    }
+
+    /// The alignment of a line, given the index of its end (see
+    /// [#lineEnd(ItemSequence, int)]): the one of its break, or of the
+    /// previous line if it has none.
+    private static LineAlignment alignmentOfLineEndingAt(ItemSequence sequence, int end) {
+        if (end < sequence.getNumberOfChildren()) {
+            return LineEnd.alignmentOf(sequence.getItemAt(end));
+        }
+        int previousBreak = lineStart(sequence, end) - 1;
+        return previousBreak < 0 ? LineAlignment.START : LineEnd.alignmentOf(sequence.getItemAt(previousBreak));
     }
 
     /// Removes the innermost zone around the cursor, and puts its content in
@@ -1409,7 +1571,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         acceptSeparator(' ');
         scope().insertElementAt(caret.getLocalInsertPosition(),
-                new LineBreak().buildTopItem());
+                new LineBreak(alignmentForNewBreak()).buildTopItem());
     }
 
     /**
@@ -1420,7 +1582,7 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         possibilitiesHandler.clear();
         acceptSeparator(' ');
         scope().insertElementAt(caret.getLocalInsertPosition(),
-                new PageBreak().buildTopItem());
+                new PageBreak(alignmentForNewBreak()).buildTopItem());
     }
 
     /**

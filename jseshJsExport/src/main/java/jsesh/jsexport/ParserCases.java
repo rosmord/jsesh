@@ -210,5 +210,18 @@ final class ParserCases {
         "(A1-B1):(C1*D1)",
         "A1\\r1-A1\\t2-A1\\s1-A1\\R-90",
         "J1-Ff2-A1",
+        // Line alignment (todo 0155).
+        "A1-![align=center]B1",
+        "A1-!=150%[align=end]-B1",
+        "A1-!![align=justify]-B1",
+        "A1-![align=bogus]-B1-![align=start]-C1",
+        "A1-![align=center]-A1-A1-A1-![align=center]-A1-A1-A1-A1-A1-A1-A1-A1-!"
+                + "A1-A1-A1-A1-A1-A1-![align=justify]-A1-A1-A1-A1-A1-A1-A1-![align=justify]-A1-A1-![align=end]",
+        "A1-A1-A1-A1-A1-A1-![align=center]-A1-A1",
+        "%zone[width=1200](A1-![align=end]-A1-A2-![align=center]-A1)-B1",
+        "%zone[width=900,dir=rl](A1-![align=end]-A1-A2-![align=justify]-A1)",
+        "G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-![align=justify]-A1-G17",
+        "G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-![align=end]-A1-G17",
+        "A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-![align=justify]-+lsome text+s-A1-A1-A1-A1-A1-A1-![align=center]-A1",
     };
 }

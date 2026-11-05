@@ -11,8 +11,10 @@ import {
   closeCodeForPhilology,
   INSERTION_DIRECTION_CODES,
   KERNING_AXIS_CODES,
+  LINE_ALIGNMENT_CODES,
   openCodeForPhilology,
   shadingToString,
+  type LineAlignment,
 } from "../model/constants.js";
 import {
   AlphabeticCharacter,
@@ -329,13 +331,21 @@ class ModelWriter implements ModelElementVisitor<void> {
   visitLineBreak(b: LineBreak): void {
     this.write("!");
     if (b.spacing !== 100) this.write("=" + b.spacing + "%");
+    this.writeAlignment(b.alignment);
     this.write("\n");
     this.wantsMinus = false;
   }
 
-  visitPageBreak(): void {
-    this.write("!!\n");
+  visitPageBreak(b: PageBreak): void {
+    this.write("!!");
+    this.writeAlignment(b.alignment);
+    this.write("\n");
     this.wantsMinus = false;
+  }
+
+  /// Writes the `[align=...]` option of a line or page break, unless it is the default one.
+  private writeAlignment(alignment: LineAlignment): void {
+    if (alignment !== "START") this.write("[align=" + LINE_ALIGNMENT_CODES[alignment] + "]");
   }
 
   visitAbsoluteGroup(g: AbsoluteGroup): void {

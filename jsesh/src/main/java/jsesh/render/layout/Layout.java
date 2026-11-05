@@ -227,7 +227,8 @@ public class Layout {
 	/// Settings which the zone doesn't set are inherited from the enclosing
 	/// context. A zone has no margins, and is never paged (a page break in a
 	/// zone is a line break). A zone in lines wraps at its width, if it has
-	/// one.
+	/// one. The alignment of its lines is never ignored: even when the text
+	/// is wrapped to the width of the editor, a zone keeps its own width.
 	///
 	/// @param parent the context of the enclosing zone (or text).
 	/// @param p the settings of the zone.
@@ -239,7 +240,8 @@ public class Layout {
 		TextDirection direction = p.direction() != null ? p.direction() : style.options().textDirection();
 		float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
 		return parent.copy().jseshStyle(s -> s
-				.options(o -> o.textOrientation(orientation).textDirection(direction).paged(false))
+				.options(o -> o.textOrientation(orientation).textDirection(direction).paged(false)
+						.ignoreLineAlignment(false))
 				.geometry(g -> {
 					g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth)
 								.page(PageSpecification.NONE);

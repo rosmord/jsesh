@@ -1203,15 +1203,6 @@ public class JMDCEditor extends JPanel implements Scrollable {
         return getJSeshStyle().options().smallSignCentered();
     }
 
-    /**
-     * Temporary method for signs justification.
-     *
-     * @return true if lines are justified.
-     */
-    public boolean isJustified() {
-        return getJSeshStyle().options().justified();
-    }
-
     public HieroglyphicText getSelection() {
         return workflow.getSelectionAsHieroglyphicText();
     }
@@ -1230,7 +1221,8 @@ public class JMDCEditor extends JPanel implements Scrollable {
     }
 
     /// The render context used to build the editor's own view: the document's
-    /// context, plus the wrapping to the component's width when it is active.
+    /// context, plus the wrapping to the component's width when it is active
+    /// (the alignment of the lines is then ignored).
     ///
     /// @return the render context for the view displayed by this editor.
     JSeshRenderContext getDisplayRenderContext() {
@@ -1242,7 +1234,9 @@ public class JMDCEditor extends JPanel implements Scrollable {
         if (wrapWidth <= 0) {
             return getRenderContext();
         }
-        JSeshStyle style = getJSeshStyle().copy().geometry(g -> g.wrapWidth(wrapWidth)).build();
+        // The display is optimised for reading, not WYSIWYG: the lines are not aligned.
+        JSeshStyle style = getJSeshStyle().copy().geometry(g -> g.wrapWidth(wrapWidth))
+                .options(o -> o.ignoreLineAlignment(true)).build();
         return new JSeshRenderContext(style, hieroglyphShapeRepository);
     }
 

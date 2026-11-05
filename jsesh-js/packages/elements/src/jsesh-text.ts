@@ -16,7 +16,8 @@
 /// Attributes: `cadrat-height` (height of a quadrat in pixels; by default,
 /// 1.5 times the font size), `direction` (`ltr` or `rtl`), `orientation`
 /// (`horizontal` or `vertical`), `centered` (center small signs),
-/// `justified`, `glyphs-url`. The `jseshStyle` property takes any style change.
+/// `glyphs-url`. The `jseshStyle` property takes any style change. Lines are
+/// aligned (centred, justified...) in the MdC itself: `-![align=center]`.
 ///
 /// Events: `jsesh-render` once the text is displayed, `jsesh-error` if it
 /// could not be (with the error as `detail`).
@@ -36,7 +37,6 @@ export class JSeshTextElement extends HTMLElement {
     "direction",
     "orientation",
     "centered",
-    "justified",
     "glyphs-url",
   ];
 
@@ -104,7 +104,6 @@ export class JSeshTextElement extends HTMLElement {
     const orientation = this.getAttribute("orientation");
     if (orientation !== null) options.textOrientation = orientation.toLowerCase() === "vertical" ? "VERTICAL" : "HORIZONTAL";
     if (this.hasAttribute("centered")) options.smallSignCentered = true;
-    if (this.hasAttribute("justified")) options.justified = true;
     return {
       ...this._style,
       options: { ...this._style?.options, ...options },

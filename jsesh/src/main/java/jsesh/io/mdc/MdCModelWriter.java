@@ -33,6 +33,8 @@ import jsesh.model.Hieroglyph;
 import jsesh.model.InnerGroup;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
+import jsesh.model.LineEnd;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementVisitor;
@@ -570,6 +572,7 @@ public class MdCModelWriter {
 			write("!");
 			if (b.getSpacing() != 100)
 				write("=" + b.getSpacing() + "%");
+			writeAlignment(b);
 			write("\n");
 			wantsMinus = false;
 		}
@@ -580,8 +583,18 @@ public class MdCModelWriter {
 		 * @see jsesh.model.ModelElementVisitor#visitPageBreak(jsesh.model.PageBreak)
 		 */
 		public void visitPageBreak(PageBreak b) {
-			write("!!\n");
+			write("!!");
+			writeAlignment(b);
+			write("\n");
 			wantsMinus = false;
+		}
+
+		/// Writes the `[align=...]` option of a line or page break, unless the
+		/// alignment is the default one.
+		private void writeAlignment(LineEnd end) {
+			if (end.getAlignment() != LineAlignment.START) {
+				write("[align=" + end.getAlignment().mdcName() + "]");
+			}
 		}
 
 		/*

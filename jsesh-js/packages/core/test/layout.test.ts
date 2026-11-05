@@ -36,9 +36,11 @@ const VARIANTS: Record<string, JSeshStyle> = {
   columns: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL" } }),
   columnsRtl: withStyle(DEFAULT_STYLE, { options: { textOrientation: "VERTICAL", textDirection: "RIGHT_TO_LEFT" } }),
   centered: withStyle(DEFAULT_STYLE, { options: { smallSignCentered: true } }),
-  justified: withStyle(DEFAULT_STYLE, { options: { justified: true } }),
   wrapped: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH } }),
-  wrappedJustified: withStyle(DEFAULT_STYLE, { geometry: { wrapWidth: WRAP_WIDTH }, options: { justified: true } }),
+  wrappedIgnoringAlignment: withStyle(DEFAULT_STYLE, {
+    geometry: { wrapWidth: WRAP_WIDTH },
+    options: { ignoreLineAlignment: true },
+  }),
   // See `ExportFixtures`: the page's margins are also the style's.
   paged: withStyle(DEFAULT_STYLE, {
     geometry: {

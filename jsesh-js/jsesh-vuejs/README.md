@@ -58,7 +58,7 @@ not need it.
 ### `<JSeshText>`
 
 Props: `mdc` (required), `cadratHeight`, `direction` (`ltr`/`rtl`), `orientation` (`horizontal`/`vertical`), `centered`,
-`justified`, `glyphsUrl`, `jseshStyle` (any style change, see `JSeshStyle` in `@jsesh/core`). Events: `render`, `error`.
+`glyphsUrl`, `jseshStyle` (any style change, see `JSeshStyle` in `@jsesh/core`). Events: `render`, `error`.
 An invalid text does not throw: it is shown as plain text and `error` is emitted, so it can follow a text field.
 
 ### `<JSeshEditor>`

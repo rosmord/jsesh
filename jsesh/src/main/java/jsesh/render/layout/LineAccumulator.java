@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jsesh.render.view.MDCView;
+import jsesh.sharedvocabulary.LineAlignment;
 
 /// A line or a column being built by [LineLayout] or [ColumnLayout]: views
 /// are added to it, and it keeps track of its size and content.
@@ -215,22 +216,40 @@ public class LineAccumulator {
 		}
 	}
 
-	/**
-	 * Justify a zone content to a certain width, by redistributing its content.
-	 * <p>
-	 * A lone inner view would be centered.
-	 * <p>
-	 * If the spaces between the element is more than half the size of
-	 * individual elements,
-	 * <p>
-	 * In other cases, the views will be equally distributed.
-	 * 
-	 * @param startMargin
-	 *            the margin to leave on the "start" side (left or right,
-	 *            depending on text orientation).
-	 * @param width
-	 *            the width to use (the start margin is not covered by this width).
-	 */
+	/// Places the content of the line in the width given to it, as an
+	/// alignment requires. The line is supposed to be at the start (its first
+	/// view at `startMargin`), which is where [LineLayout] puts it.
+	///
+	/// @param alignment the alignment.
+	/// @param startMargin the margin to leave on the left (in layout
+	///        coordinates, which are always left to right).
+	/// @param width the width to use (the start margin is not covered by this
+	///        width).
+	public void alignTo(LineAlignment alignment, double startMargin, double width) {
+		switch (alignment) {
+			case START -> {
+			}
+			case END -> {
+				double[] extent = visibleExtent();
+				if (extent != null) {
+					translateBy(new Point2D.Double(startMargin + width - extent[1], 0));
+				}
+			}
+			case CENTER -> centerInWidth(startMargin, width);
+			case JUSTIFY -> justifyWidthTo(startMargin, width);
+		}
+	}
+
+	/// Justifies the line to a certain width, by distributing the free space
+	/// between its units (a unit is a view, a run of alphabetic text, or a
+	/// group of kerned views).
+	///
+	/// The line stays as it is if it has only one unit, or if the spaces would
+	/// be too large (the free space more than half the width of the units).
+	///
+	/// @param startMargin the margin to leave on the left.
+	/// @param width the width to use (the start margin is not covered by this
+	///        width).
 	public void justifyWidthTo(double startMargin, double width) {
 		// In the current system, some views can be empty (which is not a good
 		// idea, BTW).
@@ -243,23 +262,46 @@ public class LineAccumulator {
 			if (unitWidth != 0)
 				nonEmptyUnits.add(unit);
 		}
-
-		if (minimalWidth < width) {
-			double space = width - minimalWidth;
-			if (nonEmptyUnits.size() == 1) {
-				moveUnitTo(nonEmptyUnits.get(0), startMargin + space / 2.0);
-			} else if (space > 0.5 * minimalWidth) {
-				// If spaces would be too large, we center the text.
-				centerInWidth(startMargin, width);
-			} else if (nonEmptyUnits.size() > 1) {
-				double skip = space / (nonEmptyUnits.size() - 1);
-				double x = startMargin;
-				for (List<MDCView> unit : nonEmptyUnits) {
-					moveUnitTo(unit, x);
-					x += unitWidth(unit) + skip;
-				}
+		double space = width - minimalWidth;
+		if (nonEmptyUnits.size() > 1 && space > 0 && space <= 0.5 * minimalWidth) {
+			double skip = space / (nonEmptyUnits.size() - 1);
+			double x = startMargin;
+			for (List<MDCView> unit : nonEmptyUnits) {
+				moveUnitTo(unit, x);
+				x += unitWidth(unit) + skip;
 			}
 		}
+	}
+
+	/// The leftmost and rightmost x of the non-empty views (a reversed run of
+	/// text means the list order is not always the left-to-right order).
+	///
+	/// @return `{min, max}`, or null if there are no non-empty views.
+	private double[] visibleExtent() {
+		double currentStart = Double.POSITIVE_INFINITY;
+		double currentEnd = Double.NEGATIVE_INFINITY;
+		for (MDCView v : views) {
+			if (v.getWidth() > 0f) {
+				currentStart = Math.min(currentStart, v.getPosition().x);
+				currentEnd = Math.max(currentEnd, v.getPosition().x + v.getWidth());
+			}
+		}
+		return currentStart > currentEnd ? null : new double[] { currentStart, currentEnd };
+	}
+
+	/// The width of the visible content of the line (its non-empty views).
+	public double getVisibleWidth() {
+		double[] extent = visibleExtent();
+		return extent == null ? 0 : extent[1] - extent[0];
+	}
+
+	/// The visible area of the line, in its current coordinates: the
+	/// x extent of its non-empty views, and the given vertical extent.
+	///
+	/// @return the bounds, or null if the line has no non-empty views.
+	Rectangle2D visibleBounds(double minY, double height) {
+		double[] extent = visibleExtent();
+		return extent == null ? null : new Rectangle2D.Double(extent[0], minY, extent[1] - extent[0], height);
 	}
 
 	private static double unitMinX(List<MDCView> unit) {
@@ -289,29 +331,17 @@ public class LineAccumulator {
 		}
 	}
 
-	/**
-	 * Center the signs in a given zone, using a certain width.
-	 * 
-	 * @param startMargin a margin to add to this page.
-	 * @param width the width of the centering area (the margin is not accounted for).
-	 */
+	/// Centres the views in a given width.
+	///
+	/// @param startMargin a margin to add on the left.
+	/// @param width the width of the centering area (the margin is not accounted for).
 	private void centerInWidth(double startMargin, double width) {
-		// Leftmost and rightmost extent of the non-empty views (a reversed run
-		// of text means the list order is not always the left-to-right order).
-		double currentStart = Double.POSITIVE_INFINITY;
-		double currentEnd = Double.NEGATIVE_INFINITY;
-		for (MDCView v : views) {
-			if (v.getWidth() > 0f) {
-				currentStart = Math.min(currentStart, v.getPosition().x);
-				currentEnd = Math.max(currentEnd, v.getPosition().x + v.getWidth());
-			}
-		}
-		if (currentStart > currentEnd)
+		double[] extent = visibleExtent();
+		if (extent == null)
 			return;
-		double currentWidth = currentEnd - currentStart;
-		double centerMargin = startMargin+ (width - currentWidth) / 2.0;
-		double delta = centerMargin - currentStart;
-		translateBy(new Point2D.Double(delta, 0));
+		double currentWidth = extent[1] - extent[0];
+		double centerMargin = startMargin + (width - currentWidth) / 2.0;
+		translateBy(new Point2D.Double(centerMargin - extent[0], 0));
 	}
 
 }

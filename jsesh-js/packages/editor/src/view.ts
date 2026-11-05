@@ -207,7 +207,12 @@ export class EditorView {
           ...this.style?.geometry,
           ...(wrapWidth === undefined ? {} : { wrapWidth }),
         },
-        options: { ...this.style?.options, ...options },
+        options: {
+          ...this.style?.options,
+          ...options,
+          // Wrapped to the surface's width, the display is not WYSIWYG: the lines are not aligned.
+          ...(wrapWidth === undefined ? {} : { ignoreLineAlignment: true }),
+        },
       },
       glyphsUrl: this.glyphsUrl,
     });

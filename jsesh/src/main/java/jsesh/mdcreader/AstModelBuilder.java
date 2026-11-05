@@ -35,6 +35,7 @@ import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
 import jsesh.model.constants.Dialect;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.model.constants.SymbolCodes;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
@@ -318,12 +319,17 @@ class AstModelBuilder implements AstVisitor {
 
     @Override
     public void visitLineBreak(AstLineBreak node) {
-        push(new LineBreak(node.skip()));
+        push(new LineBreak(node.skip(), lineAlignment(node.options())));
     }
 
     @Override
     public void visitPageBreak(AstPageBreak node) {
-        push(new PageBreak());
+        push(new PageBreak(lineAlignment(node.options())));
+    }
+
+    /// The alignment given by the `align` option of a line or page break.
+    private static LineAlignment lineAlignment(AstOptionList options) {
+        return LineAlignment.fromMdc(options.getString("align", ""));
     }
 
     @Override

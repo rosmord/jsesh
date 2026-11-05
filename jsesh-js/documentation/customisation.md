@@ -30,7 +30,7 @@ Everything about the appearance of a text is in a `JSeshStyle` (from `@jsesh/cor
 | `geometry` | Sizes and spaces, in **points**. `standardSignHeight` is the height of the sign A1 (18 by default); `lineSkip`, `columnSkip`, `smallSkip` are the spaces between lines, columns and small things; `maxCadratHeight` and `maxCadratWidth` limit the size of a quadrat; `leftMargin` and `topMargin` surround the text; `cartoucheLineWidth`, `cartoucheLoopLength`, `cartoucheMargin`, `hwtSquareSize`, `bastionDepth`... shape the enclosures; `fineLineWidth` and `wideLineWidth` are for `{l...}` and `{L...}` lines; `textWidth` is the length of horizontal rules; `wrapWidth` is the total width (margins included) at which lines of horizontal text wrap (0, the default, means no wrapping: lines end only at explicit line breaks). |
 | `painting` | Colours (any CSS colour): `blackColor`, `redColor`, `grayColor` (shading), `backgroundColor`, `cursorColor`; `shadingStyle` (`"GRAY_SHADING"` or `"LINE_HATCHING"`); `colorMap` (see below). |
 | `fonts` | The fonts of alphabetic text: `plainFont`, `boldFont`, `italicFont`, `superScriptFont`, `transliterationFont` (`{ family, size, style?, weight? }`), and the transliteration options (`translitUnicode`, `yodChoice`, `gardinerQofUsed`). |
-| `options` | `textDirection` (`"LEFT_TO_RIGHT"` or `"RIGHT_TO_LEFT"`), `textOrientation` (`"HORIZONTAL"` or `"VERTICAL"`), `smallSignCentered`, `justified`, `paged`. |
+| `options` | `textDirection` (`"LEFT_TO_RIGHT"` or `"RIGHT_TO_LEFT"`), `textOrientation` (`"HORIZONTAL"` or `"VERTICAL"`), `smallSignCentered`, `paged`, `ignoreLineAlignment` (lay out all lines at the start, whatever their `-![align=...]`; zones excepted). |
 
 `DEFAULT_STYLE` is JSesh's own. You almost never write a whole style: you give **changes**, an object with the same four parts, each one optional and itself partial (`StyleChanges`). `withStyle(style, changes)` returns a new style.
 
@@ -54,7 +54,7 @@ Lengths are in points, and **the scale is separate**: a picture's size in CSS pi
 | `jseshStyle` property of `<jsesh-text>` or `<jsesh-editor>`, `jseshStyle` prop of the Vue components | One element. |
 | the `style` option of `renderMdc`, `layOutInPage`, `layOutText`, `renderToSvg` | One call. |
 
-In a page, they pile up in this order: JSesh's default style, the small margins JSeshJs uses in web pages (`leftMargin` and `topMargin` of 1 point), the `configureJSesh` changes, then the element's own changes and attributes (`direction`, `orientation`, `centered`, `justified`).
+In a page, they pile up in this order: JSesh's default style, the small margins JSeshJs uses in web pages (`leftMargin` and `topMargin` of 1 point), the `configureJSesh` changes, then the element's own changes and attributes (`direction`, `orientation`, `centered`).
 
 When `layOutText` or `renderToSvg` is given a **string** which is a whole JSesh document (with a header), the preferences of the header are applied to the default style first, and a *partial* `style` then comes on top. If you pass a *complete* `JSeshStyle` (all four parts), it replaces everything, header preferences included.
 

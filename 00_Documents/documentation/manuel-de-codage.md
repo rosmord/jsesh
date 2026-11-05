@@ -407,6 +407,16 @@ Comments are not displayed, but they are saved back. Comments at the very beginn
 | `!` | end of line (end of column in vertical text) |
 | `!=150%` | end of line, with the skip to the next line scaled to 150 % |
 | `!!` | end of page |
+| `![align=center]` | end of a centred line |
+| `!=150%[align=end]` | both options together |
+| `!![align=justify]` | end of page, which ends a justified line |
+
+The `align` option gives the alignment of the line which the break *ends*: `start` (the default), `end`, `center` or `justify`. *Start* and *end* follow the direction of the text: in right-to-left text, a `start` line is on the right. An unknown value is read as `start`.
+
+- The last line of a text or of a zone, when it has no line break, takes the alignment of the line before it: in `anx-![align=center]-pA-nTr`, `pA-nTr` is centred too.
+- Lines are aligned on the width of their container when it has one (the page, or a zone with a `width`), else on the longest line of the text or zone.
+- A `justify` line is stretched to the whole width, unless it would leave too much space between its quadrats (more than half of their width): it then stays at the start. When such a line is wrapped by the layout, its last part stays at the start if it is shorter than three quarters of the width.
+- When the editor wraps the lines to the width of its window, alignments are ignored. Columns are not aligned yet.
 
 ### 10.2. Zones
 
@@ -478,7 +488,7 @@ Each header line is `++`, a property name starting with `JSesh_`, a value, and `
 | Philological marks | as signs, separated with `-` |
 | Text | `+l...+s`, with `\` and `+` escaped, one block per script |
 | Superscript | `\|...-`, with `\` and `-` escaped |
-| End of line, of page | `!` or `!=N%`, or `!!`, followed by a line break |
+| End of line, of page | `!` or `!=N%`, or `!!`, then `[align=...]` unless the line is aligned at the start, followed by a line break |
 | Zone | `%zone[...](...)`, with only the options which are set |
 
 Toggles are closed before each line break, page break and zone, and at the end of the text, then reopened if needed. This comes from HieroTeX compatibility. The closing toggle at the end of a text follows the last item directly, as in `$r-A1$b-`.
@@ -813,9 +823,11 @@ topitem  ::= shadedCadrat
            | zone
            | TEXT | TEXT_SUPER | START_HIEROGLYPHS
            | TOGGLE
-           | LINE_END | PAGE_END
+           | LINE_END [optionList] | PAGE_END [optionList]
            | TAB_STOP | HRULE ;
 ```
+
+The option list of a line or page break (see [§19.2](#192-zones-and-options)) only knows `align` (§10.1).
 
 - All elements are optional: an empty string is a valid text.
 - `START_HIEROGLYPHS` (`+s`) builds nothing. It only closes a text block.

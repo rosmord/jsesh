@@ -4,44 +4,71 @@
  */
 package jsesh.model;
 
-public class PageBreak extends TopItem {
+import java.util.Objects;
 
-	public PageBreak() {
-	}
+import jsesh.sharedvocabulary.LineAlignment;
 
-        @Override
-	public void accept(ModelElementVisitor v) {
-		v.visitPageBreak(this);
-	}
-	
-	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElement#compareToAux(jsesh.model.ModelElement)
-	 */
-        @Override
-	public int compareToAux(ModelElement e) {
-		return getState().compareTo(((PageBreak)e).getState());
-	}
-	
-	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElement#deepCopy()
-	 */
-        @Override
-	public PageBreak deepCopy() {
-		PageBreak b= new PageBreak();
-		copyStateTo(b);
-		return b;
-	}
-	
-	@Override
-	public HorizontalListElement buildHorizontalListElement() {
-		return null;	
-	}
-	
-	/* (non-Javadoc)
-	 * @see jsesh.model.TopItem#isBreak()
-	 */
-        @Override
-	public boolean isBreak() {
-		return true;
-	}
+/// A page break, `-!!`. It also ends a line, and carries its alignment
+/// (`-!![align=center]`).
+public class PageBreak extends TopItem implements LineEnd {
+
+    /// The alignment of the line ended by this break.
+    private final LineAlignment alignment;
+
+    /// A page break ending a line aligned at the start.
+    public PageBreak() {
+        this(LineAlignment.START);
+    }
+
+    /// @param alignment the alignment of the line ended by this break.
+    public PageBreak(LineAlignment alignment) {
+        this.alignment = Objects.requireNonNull(alignment);
+    }
+
+    @Override
+    public void accept(ModelElementVisitor v) {
+        v.visitPageBreak(this);
+    }
+
+    @Override
+    public LineAlignment getAlignment() {
+        return alignment;
+    }
+
+    @Override
+    public PageBreak withAlignment(LineAlignment alignment) {
+        PageBreak b = new PageBreak(alignment);
+        copyStateTo(b);
+        return b;
+    }
+
+    @Override
+    public int compareToAux(ModelElement e) {
+        PageBreak b = (PageBreak) e;
+        int result = alignment.compareTo(b.alignment);
+        if (result == 0) {
+            result = getState().compareTo(b.getState());
+        }
+        return result;
+    }
+
+    @Override
+    public PageBreak deepCopy() {
+        return withAlignment(alignment);
+    }
+
+    @Override
+    public HorizontalListElement buildHorizontalListElement() {
+        return null;
+    }
+
+    @Override
+    public boolean isBreak() {
+        return true;
+    }
+
+    @Override
+    protected boolean equalsIgnoreIdAux(ModelElement other) {
+        return alignment == ((PageBreak) other).alignment;
+    }
 }

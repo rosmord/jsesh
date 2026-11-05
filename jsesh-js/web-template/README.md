@@ -32,7 +32,7 @@ browsers refuse to load data from `file://`. For a quick test, run `python3 -m h
 
 `<jsesh-text>` takes its text from its content or from its `mdc` attribute (which can be changed by a script).
 Other attributes: `cadrat-height` (height of a quadrat in pixels), `direction` (`ltr` or `rtl`),
-`orientation` (`horizontal` or `vertical`), `centered`, `justified`.
+`orientation` (`horizontal` or `vertical`), `centered`. Lines are aligned in the MdC itself (`-![align=center]`).
 
 ### One copy of the data for several sites
 

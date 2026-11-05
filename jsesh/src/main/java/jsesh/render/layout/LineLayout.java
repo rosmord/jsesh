@@ -23,6 +23,7 @@ import jsesh.model.ModelElementAdapter;
 import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
 import jsesh.render.view.MDCView;
+import jsesh.sharedvocabulary.LineAlignment;
 
 /**
  * Expert for laying out text organised in lines.
@@ -62,17 +63,30 @@ public class LineLayout extends TopItemLayout {
      */
     private LineAccumulator zone;
 
-    /**
-     * A list of all zones, if we decide to justify the text.
-     */
-    private final List<LineAccumulator> allZones = new ArrayList<LineAccumulator>();
+    /// A line placed in the document: its views, and its vertical extent in
+    /// document coordinates.
+    private record PlacedLine(LineAccumulator line, double top, double height) {
+    }
+
+    /// The lines placed so far, with the alignment they will get in
+    /// [#endLayout()].
+    private final List<PlacedLine> alignedLines = new ArrayList<>();
+
+    /// Their alignments (same indexes as [#alignedLines]).
+    private final List<LineAlignment> alignments = new ArrayList<>();
+
+    /// The lines of the current *logical line* (from the previous line break):
+    /// several when it is soft-wrapped. Their alignment is only known at the
+    /// line break which ends it.
+    private final List<PlacedLine> currentLogicalLine = new ArrayList<>();
+
+    /// The alignment of the last line ended by a line break: the last line of
+    /// the text, if it has no line break, takes it.
+    private LineAlignment previousAlignment = LineAlignment.START;
 
     /// The vertical extent (top, bottom) of each line of text, for the separators.
     private final List<double[]> lineExtents = new ArrayList<>();
 
-    /// The zones which ended because of soft wrapping (not at a line break).
-    /// When wrapping, only those are justified: the others end a paragraph.
-    private final Set<LineAccumulator> softWrappedZones = Collections.newSetFromMap(new IdentityHashMap<>());
     /**
      * the position that will be used to place the current zone
      */
@@ -246,18 +260,9 @@ public class LineLayout extends TopItemLayout {
         if (!zone.isEmpty()) {
             flushZone();
         }
-        if (jseshStyle.options().justified()) {
-            if (jseshStyle.geometry().isWrapping()) {
-                // Wrapped lines are justified to the wrapping width.
-                // Zones which end a paragraph stay as they are.
-                for (LineAccumulator z : allZones) {
-                    if (softWrappedZones.contains(z)) {
-                        z.justifyWidthTo(jseshStyle.geometry().leftMargin(), maxLineWidth());
-                    }
-                }
-            } else {
-                justifyOnLongestZone();
-            }
+        endLogicalLine(previousAlignment);
+        if (!jseshStyle.options().ignoreLineAlignment()) {
+            alignLines();
         }
         if (paginated()) {
             // The view covers all the pages.
@@ -298,26 +303,58 @@ public class LineLayout extends TopItemLayout {
         }
     }
 
-    /// Justifies all zones to the width of the longest one.
-    private void justifyOnLongestZone() {
-        // Compute the maximal width of zones.
-        double width = 0;
-        for (LineAccumulator z : allZones) {
-            if (z.getWidth() > width) {
-                width = z.getWidth();
+    /// Ends the current logical line: gives its alignment to its lines.
+    ///
+    /// When a justified logical line is soft-wrapped, its last line is placed
+    /// at the start if it is too short (less than three quarters of the
+    /// width), as the last line of a paragraph.
+    ///
+    /// @param alignment the alignment written on the line break which ends it.
+    private void endLogicalLine(LineAlignment alignment) {
+        for (int i = 0; i < currentLogicalLine.size(); i++) {
+            PlacedLine line = currentLogicalLine.get(i);
+            LineAlignment a = alignment;
+            boolean lastOfWrapped = i > 0 && i == currentLogicalLine.size() - 1;
+            if (a == LineAlignment.JUSTIFY && lastOfWrapped
+                    && line.line().getVisibleWidth() < 0.75 * maxLineWidth()) {
+                a = LineAlignment.START;
+            }
+            alignedLines.add(line);
+            alignments.add(a);
+        }
+        currentLogicalLine.clear();
+    }
+
+    /// Places the lines according to their alignment, in the width of the
+    /// parent if it has one (a page, or a zone with a width), else in the
+    /// width of the longest line.
+    private void alignLines() {
+        if (!alignments.stream().anyMatch(a -> a != LineAlignment.START)) {
+            return;
+        }
+        double width;
+        if (jseshStyle.geometry().isWrapping()) {
+            width = maxLineWidth();
+        } else {
+            // The right side of the visible content of the longest line
+            // (lines are placed at the margin).
+            width = 0;
+            for (PlacedLine l : alignedLines) {
+                Rectangle2D bounds = l.line().visibleBounds(0, 0);
+                if (bounds != null) {
+                    width = Math.max(width, bounds.getMaxX() - jseshStyle.geometry().leftMargin());
+                }
             }
         }
-        width = width
-                - jseshStyle.geometry().leftMargin();
-        // Justify all zones to this width.
-        for (int i = 0; i < allZones.size(); i++) {
-            LineAccumulator z = allZones.get(i);
-            // If it's not the last zone, or it looks large enough
-            // This is a temporary fix. 
-            // We should get somehow the information that the zone "would be centered".
-            if (i != allZones.size() - 1 || z.getWidth() >= 0.75 * width) {
-                z.justifyWidthTo(jseshStyle.geometry()
-                        .leftMargin(), width);
+        double margin = jseshStyle.geometry().leftMargin();
+        for (int i = 0; i < alignedLines.size(); i++) {
+            PlacedLine l = alignedLines.get(i);
+            if (alignments.get(i) != LineAlignment.START) {
+                l.line().alignTo(alignments.get(i), margin, width);
+                Rectangle2D bounds = l.line().visibleBounds(l.top(), l.height());
+                if (bounds != null) {
+                    documentArea.add(bounds);
+                }
             }
         }
     }
@@ -345,7 +382,6 @@ public class LineLayout extends TopItemLayout {
     private void wrapLine() {
         resetKerning();
         double verticalSkip = zone.getHeight() + zone.getMinY() + jseshStyle.geometry().lineSkip();
-        softWrappedZones.add(zone);
         flushZone();
         startNextZone(verticalSkip);
     }
@@ -382,8 +418,10 @@ public class LineLayout extends TopItemLayout {
      */
     @Override
     public void startLayout() {
-        allZones.clear();
-        softWrappedZones.clear();
+        alignedLines.clear();
+        alignments.clear();
+        currentLogicalLine.clear();
+        previousAlignment = LineAlignment.START;
         pageIndex = 0;
         // Pseudo relative position for first element.
         addTopMargin = true;
@@ -467,9 +505,7 @@ public class LineLayout extends TopItemLayout {
         if (textLine) {
             lineExtents.add(new double[] { zoneOriginPosition.y + miny,
                     zoneOriginPosition.y + miny + zone.getHeight() });
-        }
-        if (jseshStyle.options().justified()) {
-            allZones.add(zone);
+            currentLogicalLine.add(new PlacedLine(zone, zoneOriginPosition.y + miny, zone.getHeight()));
         }
         zone = null;
     }
@@ -522,6 +558,8 @@ public class LineLayout extends TopItemLayout {
             zone.add(subView);
             // flush the line.
             flushZone();
+            endLogicalLine(b.getAlignment());
+            previousAlignment = b.getAlignment();
 
             // create a new zone.
             startNextZone(verticalSkip);
@@ -540,6 +578,8 @@ public class LineLayout extends TopItemLayout {
             double dh = zone.getHeight();
             // flush the current line.
             flushZone();
+            endLogicalLine(b.getAlignment());
+            previousAlignment = b.getAlignment();
             if (paginated()) {
                 // Pages are stacked: the next line goes to the top of the next page.
                 pageIndex++;

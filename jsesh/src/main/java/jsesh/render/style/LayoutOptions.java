@@ -10,13 +10,19 @@ import jsesh.model.constants.TextOrientation;
 /// quadrat width. Columns always limit their quadrats' width. This is `true`
 /// in the historical layout, which documents without the setting in their header
 /// keep (see [jsesh.document.DocumentPreferences]); new documents use `false`.
+///
+/// `ignoreLineAlignment`: lay out every line at the start, whatever the
+/// alignment written on its line break (see [jsesh.sharedvocabulary.LineAlignment]).
+/// Used when the lines are wrapped to the width of the editor ("wrap to
+/// component width"), where the display is optimised for reading and not
+/// WYSIWYG. The content of a zone is not concerned: it has its own width.
 public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,
         boolean paged,
         boolean smallSignCentered,
-        boolean justified, // will be removed
-        boolean limitQuadratWidthInLines
+        boolean limitQuadratWidthInLines,
+        boolean ignoreLineAlignment
 ) {
 
     public static final LayoutOptions DEFAULT = new LayoutOptions(
@@ -37,16 +43,16 @@ public record LayoutOptions(
         private TextOrientation textOrientation;
         private boolean paged;
         private boolean smallSignCentered;
-        private boolean justified;
         private boolean limitQuadratWidthInLines;
+        private boolean ignoreLineAlignment;
 
         public Builder(LayoutOptions specs) {
             this.textDirection = specs.textDirection;
             this.textOrientation = specs.textOrientation;
             this.paged = specs.paged;
             this.smallSignCentered = specs.smallSignCentered;
-            this.justified = specs.justified;
             this.limitQuadratWidthInLines = specs.limitQuadratWidthInLines;
+            this.ignoreLineAlignment = specs.ignoreLineAlignment;
         }
 
         public Builder textDirection(TextDirection textDirection) {
@@ -70,8 +76,8 @@ public record LayoutOptions(
             return this;
         }
 
-        public Builder justified(boolean justified) {
-            this.justified = justified;
+        public Builder ignoreLineAlignment(boolean ignoreLineAlignment) {
+            this.ignoreLineAlignment = ignoreLineAlignment;
             return this;
         }
 
@@ -86,8 +92,8 @@ public record LayoutOptions(
                     textOrientation,
                     paged,
                     smallSignCentered,
-                    justified,
-                    limitQuadratWidthInLines);
+                    limitQuadratWidthInLines,
+                    ignoreLineAlignment);
         }
     }
 

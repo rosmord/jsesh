@@ -24,7 +24,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
 ## Index by domain
 
 - [Line wrapping and pages](#line-wrapping-and-pages): hard line break, soft wrap, wrap
-  width, wrap to component width, pagination, justification, wrap in zone
+  width, wrap to component width, pagination, line alignment, logical line, justification,
+  wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
   overwrite, absolute group, philology, kerning, tab stop, zone, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
@@ -52,7 +53,8 @@ An explicit end of line (`!` in MdC; end of column in vertical text). It is a
 exported and copied. Compare with [soft wrap](#soft-wrap).
 
 The *end of page* (`!!`) is the same kind of thing: `PageBreak`. In a zone, a page break is
-laid out as a line break.
+laid out as a line break. Both implement `LineEnd`: they carry the
+[alignment](#line-alignment) of the line they end.
 
 ### Soft wrap
 
@@ -99,6 +101,11 @@ It is a **view option**: it is added to the render context of the editor's own v
 and printing, exporting and copying are not affected. The sign palette uses it for sign
 descriptions.
 
+In this mode, the display is optimised for reading, not WYSIWYG: the
+[alignment of the lines](#line-alignment) is ignored (`LayoutOptions.ignoreLineAlignment`,
+set by `getDisplayRenderContext()`). The content of a zone keeps its alignment, as it has its
+own width (`Layout.zoneRenderContext` resets the option).
+
 *JS port*: `<jsesh-editor wrap-lines>` (`EditorView.wrapLines`); `<jsesh-text>` has no
 such attribute (use `jseshStyle.geometry.wrapWidth`).
 
@@ -110,12 +117,41 @@ a page without height only wraps lines. `PageSpecification.withoutHeight()` is u
 a fragment (a selection copied as a picture) which should not be as tall as a page. In the
 view, pages are stacked, `pageStride()` apart (page height plus `PAGE_GAP`).
 
+### Line alignment
+
+How a line is placed in the width available to it: `LineAlignment` (`jsesh.sharedvocabulary`),
+`START` (the default), `END`, `CENTER` or `JUSTIFY`. Written on the [hard break](#hard-line-break)
+which ends the line: `-![align=center]`, `-!=150%[align=end]`, `-!![align=justify]`. *Start*
+and *end*, not *left* and *right*: the layout works in left-to-right coordinates, and
+right-to-left text is drawn mirrored, so a *start* line is on the right there.
+
+- A line break without `align` is `START`. The last line of a text or zone, when it has no
+  line break, takes the alignment of the line before it.
+- The width: the page's usable width or the zone's width if there is one
+  (`GeometrySpecification.maxLineWidth()`), else the visible width of the longest line of the
+  text (or zone).
+- Applied by `LineLayout` at the end of the layout (`LineAccumulator.alignTo`). Columns ignore
+  it for now.
+- Ignored when [wrapping to the component width](#wrap-to-component-width).
+- Editor: `JMDCEditorWorkflow.getLineAlignmentAtCaret()` (empty when the selected lines differ:
+  the *mixed* state) and `setLineAlignment(...)`, shown by the combo box of the editor's
+  toolbar (`JSeshViewComponent`). A new line break copies the alignment of the line where it is
+  inserted.
+
+### Logical line
+
+The text between two [hard breaks](#hard-line-break). When it is [soft-wrapped](#soft-wrap),
+it is drawn as several lines, which all get its alignment, except for `JUSTIFY`: the last one
+is placed at the start if it is shorter than three quarters of the width (the end of a
+paragraph).
+
 ### Justification
 
-With wrapping active, **only soft-wrapped lines are justified**, to the wrap width; lines
-which end on a hard break are left alone (they end a paragraph). Without wrapping, the
-lines are justified on the longest one. This rule is questioned in the todo on alignments
-(`00_Documents/tracking/TODO/03_longterm`).
+The `JUSTIFY` [alignment](#line-alignment): the free space is shared between the units of the
+line (a sign, a run of alphabetic text, or a group of kerned elements:
+`LineAccumulator.justifyWidthTo`). If the spaces would be too large (more than half the width
+of the units), or if there is a single unit, the line stays at the start. The global
+`LayoutOptions.justified` boolean, which justified the whole text, has been removed.
 
 ### Wrap in Zone / Unwrap Zone
 

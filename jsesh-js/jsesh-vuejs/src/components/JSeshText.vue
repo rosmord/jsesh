@@ -22,8 +22,6 @@ defineProps<{
   orientation?: "horizontal" | "vertical";
   /// Center small signs in their quadrat.
   centered?: boolean;
-  /// Justify the lines.
-  justified?: boolean;
   /// Glyph data for this text only (see `configureJSesh` for the whole page).
   glyphsUrl?: string;
   /// Any change to the style: colours, line widths, fonts... (see `JSeshStyle` in `@jsesh/core`).
@@ -50,7 +48,6 @@ defineExpose({ element });
     :direction="direction"
     :orientation="orientation"
     :centered="centered ? '' : undefined"
-    :justified="justified ? '' : undefined"
     :glyphs-url="glyphsUrl"
     :jseshStyle.prop="jseshStyle"
     @jsesh-render="emit('render')"

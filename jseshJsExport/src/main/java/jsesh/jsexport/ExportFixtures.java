@@ -60,11 +60,11 @@ public final class ExportFixtures {
         LAYOUT_VARIANTS.put("columnsRtl", base.copy().options(o -> o.textOrientation(TextOrientation.VERTICAL)
                 .textDirection(TextDirection.RIGHT_TO_LEFT)).build());
         LAYOUT_VARIANTS.put("centered", base.copy().options(o -> o.smallSignCentered(true)).build());
-        LAYOUT_VARIANTS.put("justified", base.copy().options(o -> o.justified(true)).build());
         // Soft wrapping (the width is also used by the JavaScript tests).
         LAYOUT_VARIANTS.put("wrapped", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH)).build());
-        LAYOUT_VARIANTS.put("wrappedJustified", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH))
-                .options(o -> o.justified(true)).build());
+        // Wrapping to the width of an editor: the alignment of the lines is ignored.
+        LAYOUT_VARIANTS.put("wrappedIgnoringAlignment", base.copy().geometry(g -> g.wrapWidth(WRAP_WIDTH))
+                .options(o -> o.ignoreLineAlignment(true)).build());
         // A page, with different left and right margins (also used by the JavaScript tests).
         LAYOUT_VARIANTS.put("paged", base.copy().geometry(g -> g
                 .page(new jsesh.render.style.PageSpecification(200f, 0f, 10f, 30f, 8f, 8f))

@@ -244,6 +244,28 @@ export function isTopInsertion(d: InsertionDirection): boolean {
   return d === "TOP" || d === "TOP_START" || d === "TOP_END";
 }
 
+/// How a line is placed in the width available to it
+/// (`jsesh.sharedvocabulary.LineAlignment`). Written on the line break which ends the line
+/// (`-![align=center]`); `START` by default. The last line of a text or zone, when it has no
+/// line break, takes the alignment of the line before it.
+export type LineAlignment = "START" | "END" | "CENTER" | "JUSTIFY";
+
+/// The value of the `align` option for each alignment.
+export const LINE_ALIGNMENT_CODES: Record<LineAlignment, string> = {
+  START: "start",
+  END: "end",
+  CENTER: "center",
+  JUSTIFY: "justify",
+};
+
+/// The alignment for a value of the `align` option (`START` if unknown).
+export function lineAlignmentFromMdc(name: string): LineAlignment {
+  for (const [alignment, code] of Object.entries(LINE_ALIGNMENT_CODES)) {
+    if (code === name) return alignment as LineAlignment;
+  }
+  return "START";
+}
+
 /// The axis of a kerning operator (`jsesh.model.constants.KerningAxis`).
 ///
 /// A kerning operator only acts in a context of the same axis: `%hkern` between the elements of

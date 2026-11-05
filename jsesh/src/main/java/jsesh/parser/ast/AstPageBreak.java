@@ -7,12 +7,16 @@
  */
 package jsesh.parser.ast;
 
-/**
- * A page break.
- *
- * @author rosmord
- */
-public record AstPageBreak() implements AstTopItem {
+/// A page break: `!!` or `!![align=center]`.
+///
+/// @param options the raw options given between brackets (empty if none).
+/// @author rosmord
+public record AstPageBreak(AstOptionList options) implements AstTopItem {
+
+    /// A page break without options.
+    public AstPageBreak() {
+        this(AstOptionList.of());
+    }
 
     @Override
     public void accept(AstVisitor visitor) {

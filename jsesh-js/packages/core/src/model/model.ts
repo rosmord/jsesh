@@ -29,6 +29,7 @@ import {
   type CartoucheType,
   type InsertionDirection,
   type KerningAxis,
+  type LineAlignment,
   type ScriptCode,
   type TextDirection,
   type TextOrientation,
@@ -1346,11 +1347,22 @@ export class Superscript extends TopItem {
   }
 }
 
-/// `!` or `!=NN%`.
+/// `!`, `!=NN%` or `![align=...]`: ends a line, and carries its alignment.
 export class LineBreak extends TopItem {
-  /// Line skip, as a percentage of the normal one.
-  constructor(public spacing = 100) {
+  /// @param spacing line skip, as a percentage of the normal one.
+  /// @param alignment the alignment of the line ended by this break.
+  constructor(
+    public spacing = 100,
+    readonly alignment: LineAlignment = "START",
+  ) {
     super();
+  }
+
+  /// A copy (state included) with another alignment.
+  withAlignment(alignment: LineAlignment): LineBreak {
+    const copy = new LineBreak(this.spacing, alignment);
+    this.copyStateTo(copy);
+    return copy;
   }
 
   accept<R>(v: ModelElementVisitor<R>): R {
@@ -1362,14 +1374,24 @@ export class LineBreak extends TopItem {
   }
 
   deepCopy(): LineBreak {
-    const copy = new LineBreak(this.spacing);
-    this.copyStateTo(copy);
-    return copy;
+    return this.withAlignment(this.alignment);
   }
 }
 
-/// `!!`.
+/// `!!` or `!![align=...]`: ends a line too, and carries its alignment.
 export class PageBreak extends TopItem {
+  /// @param alignment the alignment of the line ended by this break.
+  constructor(readonly alignment: LineAlignment = "START") {
+    super();
+  }
+
+  /// A copy (state included) with another alignment.
+  withAlignment(alignment: LineAlignment): PageBreak {
+    const copy = new PageBreak(alignment);
+    this.copyStateTo(copy);
+    return copy;
+  }
+
   accept<R>(v: ModelElementVisitor<R>): R {
     return v.visitPageBreak(this);
   }
@@ -1379,9 +1401,7 @@ export class PageBreak extends TopItem {
   }
 
   deepCopy(): PageBreak {
-    const copy = new PageBreak();
-    this.copyStateTo(copy);
-    return copy;
+    return this.withAlignment(this.alignment);
   }
 }
 

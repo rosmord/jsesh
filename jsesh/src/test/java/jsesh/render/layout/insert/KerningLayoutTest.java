@@ -170,12 +170,9 @@ public class KerningLayoutTest {
     public void justificationKeepsKerning() throws MDCSyntaxError {
         String mdc = "w-%hkern-D58-A1-A1-A1-A1-A1-A1-!A1-A1-A1-A1-A1-A1-A1-A1-A1";
         for (TextDirection direction : TextDirection.values()) {
-            JSeshRenderContext plainContext = renderContext(TextOrientation.HORIZONTAL, direction);
-            JSeshRenderContext justifiedContext = new JSeshRenderContext(
-                    plainContext.jseshStyle().copy().options(o -> o.justified(true)).build(),
-                    PredefinedFonts.buildAllEmbeddedFonts());
-            MDCView plain = layout(mdc, plainContext);
-            MDCView justified = layout(mdc, justifiedContext);
+            JSeshRenderContext context = renderContext(TextOrientation.HORIZONTAL, direction);
+            MDCView plain = layout(mdc, context);
+            MDCView justified = layout(mdc.replace("-!", "-![align=justify]"), context);
             // Sub views: w, %hkern, D58, A1...
             assertEquals(gap(plain, 0, 2), gap(justified, 0, 2), EPSILON, "kerned gap, " + direction);
             assertTrue(gap(justified, 2, 3) > gap(plain, 2, 3) + 0.5, "the line is justified, " + direction);

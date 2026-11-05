@@ -171,7 +171,7 @@ describe.skipIf(!glyphDataAvailable)("kerning layout", () => {
       text.getSubView(second).position.x - (text.getSubView(first).position.x + text.getSubView(first).width);
     for (const direction of ["LEFT_TO_RIGHT", "RIGHT_TO_LEFT"] as const) {
       const plain = (await layOut(mdc, style("HORIZONTAL", direction))).view;
-      const justified = (await layOut(mdc, withStyle(style("HORIZONTAL", direction), { options: { justified: true } }))).view;
+      const justified = (await layOut(mdc.replace("-!", "-![align=justify]"), style("HORIZONTAL", direction))).view;
       // Sub views: w, %hkern, D58, A1...
       expect(gap(justified, 0, 2), `kerned gap, ${direction}`).toBeCloseTo(gap(plain, 0, 2), 3);
       expect(gap(justified, 2, 3), `the line is justified, ${direction}`).toBeGreaterThan(gap(plain, 2, 3) + 0.5);

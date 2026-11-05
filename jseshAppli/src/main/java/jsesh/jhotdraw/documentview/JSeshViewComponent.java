@@ -35,9 +35,13 @@
 package jsesh.jhotdraw.documentview;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -50,6 +54,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import jsesh.render.style.JSeshStyle;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.defaults.HieroglyphResources;
 import jsesh.document.HieroglyphicTextModel;
 import jsesh.ui.editor.JMDCEditor;
@@ -118,6 +123,14 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
      */
     private final JButton hieroglyphsButton;
 
+    /// Shows and changes the alignment of the current line (or of the
+    /// selected lines). No selected item means mixed alignments.
+    private final JComboBox<LineAlignment> lineAlignmentComboBox;
+
+    /// Is the text around the cursor written from right to left? (for the icons
+    /// of [#lineAlignmentComboBox]).
+    private boolean lineAlignmentRightToLeft;
+
     public JSeshViewComponent(HieroglyphResources fontKit, JSeshStyle style) {
         // simple components.
         editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
@@ -128,6 +141,7 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
         inputModeLabel= new JLabel();
         zoomComboBox= new JComboBox<>();
         hieroglyphsButton= new JButton();
+        lineAlignmentComboBox = new JComboBox<>(LineAlignment.values());
         // Panels layout
         topPanel = prepareTopPanel();
         bottomPanel = prepareBottomPanel();
@@ -139,9 +153,28 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     }
 
     private JComponent prepareTopPanel() {
+        BundleHelper bundle = BundleHelper.getInstance();
         JToolBar top = new JToolBar(SwingConstants.HORIZONTAL);
         top.setFloatable(false);
 
+        lineAlignmentComboBox.setFocusable(false);
+        lineAlignmentComboBox.setToolTipText(bundle.getLabel("lineAlignment.toolTipText"));
+        lineAlignmentComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                    boolean isSelected, boolean cellHasFocus) {
+                LineAlignment alignment = (LineAlignment) value;
+                String text = alignment == null ? bundle.getLabel("lineAlignment.mixed")
+                        : bundle.getLabel("lineAlignment." + alignment.mdcName());
+                super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+                setIcon(new LineAlignmentIcon(alignment, lineAlignmentRightToLeft));
+                return this;
+            }
+        });
+        lineAlignmentComboBox.setMaximumSize(lineAlignmentComboBox.getPreferredSize());
+        top.add(new JLabel(bundle.getLabel("lineAlignment.label")));
+        top.addSeparator(new Dimension(4, 0));
+        top.add(lineAlignmentComboBox);
         top.add(Box.createHorizontalGlue());
         return top;
     }
@@ -221,6 +254,24 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
 
     public JButton getHieroglyphsButton() {
         return hieroglyphsButton;
+    }
+
+    /// The combo box which shows and changes the alignment of the current
+    /// line. Its selected item is null when the selected lines have different
+    /// alignments.
+    public JComboBox<LineAlignment> getLineAlignmentComboBox() {
+        return lineAlignmentComboBox;
+    }
+
+    /// Tells the alignment combo box the direction of the text around the
+    /// cursor, so that its icons follow it.
+    ///
+    /// @param rightToLeft true for right-to-left text.
+    public void setLineAlignmentRightToLeft(boolean rightToLeft) {
+        if (this.lineAlignmentRightToLeft != rightToLeft) {
+            this.lineAlignmentRightToLeft = rightToLeft;
+            lineAlignmentComboBox.repaint();
+        }
     }
 
     public JSeshStyle getJSeshStyle() {

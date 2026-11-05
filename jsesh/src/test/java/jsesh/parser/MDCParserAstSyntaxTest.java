@@ -401,6 +401,24 @@ public class MDCParserAstSyntaxTest {
     }
 
     @Test
+    public void testLineBreak_withOptions() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstLineBreak(100, AstOptionList.of(AstOption.of("align", "center")))),
+                parse("![align=center]"));
+    }
+
+    @Test
+    public void testLineBreak_explicitSkipAndOptions() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstLineBreak(150, AstOptionList.of(AstOption.of("align", "end")))),
+                parse("!=150%[align=end]"));
+    }
+
+    @Test
+    public void testPageBreak_withOptions() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstPageBreak(AstOptionList.of(AstOption.of("align", "justify")))),
+                parse("!![align=justify]"));
+    }
+
+    @Test
     public void testTabStop() throws MDCSyntaxError {
         assertEquals(AstDocument.of(new AstTabStop(123)), parse("?123"));
     }
