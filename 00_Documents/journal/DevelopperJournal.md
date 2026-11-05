@@ -2037,3 +2037,8 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 
 - Text ▸ Zone ▸ Unwrap Zone (`ActionsID.UNWRAP_ZONE`, `JMDCEditorWorkflow.unwrapZone`): the reverse of Wrap in Zone. It replaces the innermost zone around the cursor with its content, in one undoable step; the cursor stays at the same place in the content. Like Edit Zone Settings, it does nothing when the cursor is outside a zone (so a zone selected from the outside is not unwrapped).
 - The zone's own colour/shading state (`TopItemState`) is dropped with it.
+
+## Technical glossary (2026-11-05)
+
+- New `00_Documents/documentation/technical_glossary.md`: the words of JSesh which are easy to misunderstand, by domain (line wrapping and pages, text and model, parsing, signs and fonts, rendering, editor, project). First entries: hard line break vs soft wrap, the sources of the wrap width (page, zone width, `wrapWidth`, editor window), and why *Wrap in Zone* has nothing to do with them.
+- Linked from `CLAUDE.md`, from `programmer_documentation.md` §4 and from the javadoc of `GeometrySpecification#isWrapping` and `JMDCEditor#setWrapToComponentWidth`. Documentation only: no code change.

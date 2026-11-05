@@ -102,6 +102,9 @@ javaToolchainVersion=21
 
 ## 4. Core concepts and vocabulary
 
+*A fuller list of terms (hard line break vs soft wrap, quadrat, scope, ligature, glossary...)
+is in the [technical glossary](technical_glossary.md).*
+
 **Manuel de Codage (MdC)** is the plain-text encoding for Egyptian hieroglyphs
 (e.g. `i-w-r:a-ra-m-p*t:pt`). JSesh reads, edits, renders and writes MdC.
 

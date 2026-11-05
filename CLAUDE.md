@@ -11,7 +11,7 @@ JSesh is a Java hieroglyphic editor for Egyptian texts, using the Manuel de Coda
 
 Developer reflections and a daily log are written in `00_Documents/journal/DevelopperJournal.md`; open todos live under `00_Documents/tracking/TODO/` (`01_easy`, `02_important`, `03_longterm`).
 
-For the `jsesh` module's internal package layering (which package may depend on which, generated from actual imports), see `00_Documents/documentation/jsesh-package-dependencies.md`. For how to *use* the library from outside code, see `00_Documents/documentation/programmer_documentation.md`.
+For the `jsesh` module's internal package layering (which package may depend on which, generated from actual imports), see `00_Documents/documentation/jsesh-package-dependencies.md`. For how to *use* the library from outside code, see `00_Documents/documentation/programmer_documentation.md`. The vocabulary which is easy to misunderstand (hard line break vs soft wrap, quadrat, scope, ligature, glossary...) is defined in `00_Documents/documentation/technical_glossary.md`: check it before naming something, and add the terms you introduce.
 
 ## Various notes
 

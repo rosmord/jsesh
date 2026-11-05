@@ -1264,6 +1264,10 @@ public class JMDCEditor extends JPanel implements Scrollable {
     /// This is a view option: it doesn't change the document or its style.
     /// Only horizontal text is concerned.
     ///
+    /// This is the only kind of soft wrapping which depends on the state of the
+    /// editor. If the document defines a page, the page prevails. See "Wrap to
+    /// component width" in `00_Documents/documentation/technical_glossary.md`.
+    ///
     /// @param wrapToComponentWidth true to wrap the lines.
     public void setWrapToComponentWidth(boolean wrapToComponentWidth) {
         if (this.wrapToComponentWidth != wrapToComponentWidth) {

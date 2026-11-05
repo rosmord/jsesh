@@ -159,6 +159,10 @@ public record GeometrySpecification(
 
 	/// Is soft wrapping of lines active?
 	///
+	/// A soft wrap is a line end made by the layout, as opposed to an explicit
+	/// line break of the text. See "Soft wrap" and "Wrap width" in
+	/// `00_Documents/documentation/technical_glossary.md`.
+	///
 	/// @return true if a page is defined, or if [#wrapWidth()] is positive.
 	public boolean isWrapping() {
 		return hasPage() || wrapWidth > 0;
