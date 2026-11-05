@@ -7,7 +7,11 @@
  */
 package jsesh.render.layout.insert;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import jsesh.sharedvocabulary.InsertionDirection;
 import jsesh.render.view.MDCView;
@@ -17,8 +21,15 @@ import jsesh.render.view.MDCView;
 /// This is the geometric heart of the layout of `%insert`, shared by
 /// `jsesh.render.layout.Layout` and by [InsertionRanker].
 ///
-/// The computation is done in *drawing* coordinates, as the signs are drawn: in
+/// The result is given in *drawing* coordinates, as the signs are drawn: in
 /// right-to-left text, "start" is on the right.
+///
+/// Right-to-left text must be drawn as the exact mirror image of left-to-right
+/// text. The fit itself, which rasterises the shapes on a grid anchored on the
+/// left of the frame, is not symmetric: fitting the mirrored signs may give a
+/// slightly different position or scale. So the fit is always computed in the
+/// left-to-right orientation: in right-to-left text, the silhouettes are mirrored
+/// back before the fit, and the result is mirrored afterwards.
 public final class InsertPlacer {
 
     /// The result of a placement.
@@ -72,13 +83,43 @@ public final class InsertPlacer {
     /// @param mainView the laid-out view of the main element.
     /// @param insertedView the laid-out view of the inserted element, at its natural size.
     public Result place(InsertionDirection direction, int dw, int dh, MDCView mainView, MDCView insertedView) {
-        InsertionFitter.HorizontalSide horizontal = horizontalSide(direction, rightToLeft);
+        // The fit is computed in the left-to-right orientation (see the class comment).
+        InsertionFitter.HorizontalSide horizontal = horizontalSide(direction, false);
         InsertionFitter.VerticalSide vertical = verticalSide(direction);
-        Rectangle2D mainBox = new Rectangle2D.Double(0, 0, mainView.getWidth(), mainView.getHeight());
-        Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedView.getWidth(), insertedView.getHeight());
+        double mainWidth = mainView.getWidth();
+        double insertedWidth = insertedView.getWidth();
+        Rectangle2D mainBox = new Rectangle2D.Double(0, 0, mainWidth, mainView.getHeight());
+        Rectangle2D insertedBox = new Rectangle2D.Double(0, 0, insertedWidth, insertedView.getHeight());
+        List<Shape> mainShapes = silhouette.silhouette(mainView);
+        List<Shape> insertedShapes = silhouette.silhouette(insertedView);
+        if (rightToLeft) {
+            mainShapes = mirror(mainShapes, mainWidth);
+            insertedShapes = mirror(insertedShapes, insertedWidth);
+        }
         Rectangle2D frame = InsertionFitter.enlargedFrame(mainBox, insertedBox, horizontal, vertical, dw, dh);
-        InsertionFitter.Placement placement = fitter.fit(new InsertionFitter.Request(silhouette.silhouette(mainView),
-                frame, silhouette.silhouette(insertedView), insertedBox, horizontal, vertical));
+        InsertionFitter.Placement placement = fitter.fit(new InsertionFitter.Request(mainShapes, frame,
+                insertedShapes, insertedBox, horizontal, vertical));
+        if (rightToLeft) {
+            // Back to drawing coordinates: the frame is mirrored across the main element's
+            // box. A point x of the (drawn) inserted element is the point insertedWidth - x
+            // of the fitted one, which went to tx + s (insertedWidth - x), mirrored into
+            // mainWidth - tx - s insertedWidth + s x.
+            frame = new Rectangle2D.Double(mainWidth - frame.getMaxX(), frame.getY(), frame.getWidth(),
+                    frame.getHeight());
+            placement = new InsertionFitter.Placement(placement.scale(),
+                    mainWidth - placement.translateX() - placement.scale() * insertedWidth,
+                    placement.translateY(), placement.fits());
+        }
         return new Result(frame, placement);
+    }
+
+    /// Mirror outlines across the vertical axis of a box of a given width.
+    private static List<Shape> mirror(List<Shape> shapes, double width) {
+        AffineTransform t = new AffineTransform(-1, 0, 0, 1, width, 0);
+        List<Shape> result = new ArrayList<>(shapes.size());
+        for (Shape s : shapes) {
+            result.add(t.createTransformedShape(s));
+        }
+        return result;
     }
 }

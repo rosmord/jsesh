@@ -441,6 +441,32 @@ describe.skipIf(!glyphDataAvailable)("%insert layout", () => {
     },
   );
 
+  // Right-to-left text is drawn as the mirror image of left-to-right text. As the drawing mirrors
+  // the layout positions, both directions must give the same layout.
+  it.each(["s", "e", "t", "b", "ts", "bs", "te", "be", "c"])(
+    "lays out right-to-left text as the mirror of left-to-right text (dir=%s)",
+    async (dir) => {
+      const ltrStyle = withStyle(DEFAULT_STYLE, { options: { textDirection: "LEFT_TO_RIGHT" } });
+      const rtlStyle = withStyle(DEFAULT_STYLE, { options: { textDirection: "RIGHT_TO_LEFT" } });
+      for (const main of ["imAx", "O1", "A1", "G17", "D21", "O1-imAx"]) {
+        for (const options of ["", ",dh=30", ",dw=30"]) {
+          const mdc = `%insert[dir=${dir}${options}](${main},i*i)`;
+          const ltr = findInsert((await layOut(mdc, ltrStyle)).view)!;
+          const rtl = findInsert((await layOut(mdc, rtlStyle)).view)!;
+          expect(rtl.width, mdc).toBeCloseTo(ltr.width, 3);
+          expect(rtl.height, mdc).toBeCloseTo(ltr.height, 3);
+          for (let i = 0; i < 2; i++) {
+            const a = ltr.getSubView(i);
+            const b = rtl.getSubView(i);
+            expect(b.position.x, mdc).toBeCloseTo(a.position.x, 3);
+            expect(b.position.y, mdc).toBeCloseTo(a.position.y, 3);
+            expect(b.xScale, mdc).toBeCloseTo(a.xScale, 6);
+          }
+        }
+      }
+    },
+  );
+
   it("widens the group when the frame is enlarged", async () => {
     const plain = findInsert((await layOut("%insert[dir=e](O1,n)", DEFAULT_STYLE)).view)!;
     const wide = findInsert((await layOut("%insert[dir=e,dw=100](O1,n)", DEFAULT_STYLE)).view)!;

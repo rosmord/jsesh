@@ -53,7 +53,9 @@ import {
   type VerticalSide,
 } from "./insert/insertion-fitter.js";
 import { Kerner } from "./insert/kerner.js";
+import type { Outline } from "./insert/shape-mask.js";
 import { ViewSilhouette } from "./insert/view-silhouette.js";
+import { transformPath } from "./path.js";
 import {
   computeCartouchePartLength,
   computeCartoucheSecondaryLength,
@@ -645,9 +647,15 @@ class LayoutAux extends ModelElementAdapter {
   /// Layout of an insertion: the inserted group is fitted into the free space of the main sign,
   /// according to the actual shapes of both.
   ///
-  /// The fit is computed in *drawing* coordinates, as the signs are drawn (this matters for
+  /// The result is given in *drawing* coordinates, as the signs are drawn (this matters for
   /// right-to-left text, where views are mirrored). The sub views' positions are then converted to
   /// layout coordinates.
+  ///
+  /// Right-to-left text must be drawn as the exact mirror image of left-to-right text, but the fit
+  /// (which rasterises the shapes on a grid anchored on the left of the frame) is not symmetric. So,
+  /// as in Java's `InsertPlacer`, the fit is always computed in the left-to-right orientation: in
+  /// right-to-left text, the silhouettes are mirrored back before the fit, and the result is
+  /// mirrored afterwards.
   override visitInsert(insert: Insert): void {
     const v = this.l.v;
     // The sub views are in reading order, and the target may be either of them.
@@ -658,24 +666,42 @@ class LayoutAux extends ModelElementAdapter {
     const direction = insert.direction;
     let horizontal: HorizontalSide = "CENTER";
     if (isHorizontalInsertion(direction)) {
-      // "start" is on the right in right-to-left text.
-      horizontal = isStartInsertion(direction) !== rightToLeft ? "LEFT" : "RIGHT";
+      // In the left-to-right orientation of the fit, "start" is on the left.
+      horizontal = isStartInsertion(direction) ? "LEFT" : "RIGHT";
     }
     let vertical: VerticalSide = "CENTER";
     if (isVerticalInsertion(direction)) vertical = isTopInsertion(direction) ? "TOP" : "BOTTOM";
 
     const silhouette = new ViewSilhouette(this.l.drawer, this.l.computeScale(), v.direction);
-    const mainBox = new Rect(0, 0, mainView.width, mainView.height);
-    const insertedBox = new Rect(0, 0, insertedView.width, insertedView.height);
-    const frame = enlargedFrame(mainBox, insertedBox, horizontal, vertical, insert.dw, insert.dh);
-    const placement = fitInsertion({
-      target: silhouette.silhouette(mainView),
+    const mainWidth = mainView.width;
+    const insertedWidth = insertedView.width;
+    const mainBox = new Rect(0, 0, mainWidth, mainView.height);
+    const insertedBox = new Rect(0, 0, insertedWidth, insertedView.height);
+    let mainShapes = silhouette.silhouette(mainView);
+    let insertedShapes = silhouette.silhouette(insertedView);
+    if (rightToLeft) {
+      mainShapes = mirrorOutlines(mainShapes, mainWidth);
+      insertedShapes = mirrorOutlines(insertedShapes, insertedWidth);
+    }
+    let frame = enlargedFrame(mainBox, insertedBox, horizontal, vertical, insert.dw, insert.dh);
+    let placement = fitInsertion({
+      target: mainShapes,
       frame,
-      inserted: silhouette.silhouette(insertedView),
+      inserted: insertedShapes,
       insertedBox,
       horizontal,
       vertical,
     });
+    if (rightToLeft) {
+      // Back to drawing coordinates: the frame is mirrored across the main element's box. A point
+      // x of the (drawn) inserted element is the point insertedWidth - x of the fitted one, which
+      // went to tx + s (insertedWidth - x), mirrored into mainWidth - tx - s insertedWidth + s x.
+      frame = new Rect(mainWidth - frame.maxX, frame.y, frame.width, frame.height);
+      placement = {
+        ...placement,
+        translateX: mainWidth - placement.translateX - placement.scale * insertedWidth,
+      };
+    }
 
     insertedView.reScale(placement.scale);
     const placed = placedBox(placement, insertedBox);
@@ -1810,4 +1836,9 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     if (!this.kerning.add(this.zone, this.subView)) return;
     if (this.subView.height !== 0) this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.lineSkip);
   }
+}
+
+/// Mirrors outlines across the vertical axis of a box of a given width.
+function mirrorOutlines(outlines: Outline[], width: number): Outline[] {
+  return outlines.map((o) => ({ ...o, path: transformPath(o.path, [-1, 0, 0, 1, width, 0]) }));
 }

@@ -149,6 +149,30 @@ public class InsertLayoutTest {
         }
     }
 
+    /// Right-to-left text is drawn as the mirror image of left-to-right text. As the
+    /// drawing mirrors the layout positions, both directions must give the same layout.
+    @ParameterizedTest
+    @CsvSource({ "s", "e", "t", "b", "ts", "bs", "te", "be", "c" })
+    public void rightToLeftIsTheMirrorOfLeftToRight(String dir) throws MDCSyntaxError {
+        for (String main : List.of("imAx", "O1", "A1", "G17", "D21", "O1-imAx")) {
+            for (String options : List.of("", ",dh=30", ",dw=30")) {
+                String mdc = "%insert[dir=" + dir + options + "](" + main + ",i*i)";
+                MDCView ltr = findInsert(layout(mdc, renderContext(TextDirection.LEFT_TO_RIGHT)));
+                MDCView rtl = findInsert(layout(mdc, renderContext(TextDirection.RIGHT_TO_LEFT)));
+                assertNotNull(ltr, mdc);
+                assertNotNull(rtl, mdc);
+                assertEquals(ltr.getWidth(), rtl.getWidth(), 1e-3, mdc);
+                assertEquals(ltr.getHeight(), rtl.getHeight(), 1e-3, mdc);
+                for (int i = 0; i < 2; i++) {
+                    MDCView a = ltr.getSubView(i), b = rtl.getSubView(i);
+                    assertEquals(a.getPosition().getX(), b.getPosition().getX(), 1e-3, mdc);
+                    assertEquals(a.getPosition().getY(), b.getPosition().getY(), 1e-3, mdc);
+                    assertEquals(a.getXScale(), b.getXScale(), 1e-6, mdc);
+                }
+            }
+        }
+    }
+
     @Test
     public void mainElementCanBeAGroup() throws MDCSyntaxError {
         checkNoOverlap("%insert[dir=be](O1-O1,n)", TextDirection.LEFT_TO_RIGHT);
