@@ -463,6 +463,30 @@ export class Cadrat extends BasicItem {
     this.notifyModification();
   }
 
+  /// The quadrat which this one uselessly wraps in a sub-quadrat, if any (mirrors Java).
+  ///
+  /// `i-(mn:n)`: the quadrat `(mn:n)` is the only content of the only row of its quadrat,
+  /// and is exactly `mn:n`. The result is a copy, itself simplified.
+  uselessSubCadratContent(): Cadrat | undefined {
+    if (this.numberOfHBoxes !== 1 || this.getHBox(0).numberOfChildren !== 1) return undefined;
+    const sub = this.getHBox(0).getChildAt(0);
+    if (!(sub instanceof SubCadrat)) return undefined;
+    const list = sub.basicItemList;
+    if (list.numberOfChildren !== 1) return undefined;
+    const inner = list.getChildAt(0);
+    if (!(inner instanceof Cadrat)) return undefined;
+    if (
+      this.shading !== ShadingCode.NONE &&
+      inner.shading !== ShadingCode.NONE &&
+      this.shading !== inner.shading
+    ) {
+      return undefined;
+    }
+    const result = inner.deepCopy();
+    if (inner.shading === ShadingCode.NONE) result.setShading(this.shading);
+    return result.uselessSubCadratContent() ?? result;
+  }
+
   isShadedPart(part: number): boolean {
     return (this.shading & part) !== 0;
   }

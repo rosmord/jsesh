@@ -254,6 +254,8 @@ public class MdCModelWriter {
 		 * @see jsesh.model.ModelElementVisitor#visitCadrat(jsesh.model.Cadrat)
 		 */
 		public void visitCadrat(Cadrat c) {
+			// Useless sub-quadrats, as in i-(mn:n), are not written.
+			c = c.uselessSubCadratContent().orElse(c);
 			visitElementList(c, ":");
 			write(ShadingCode.toString("#", c.getShading()));
 		}

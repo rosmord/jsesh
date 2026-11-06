@@ -270,6 +270,12 @@ parentheses.
 The French spelling stayed in the code: *cadrat* in English texts means *quadrat*.
 `SubCadrat` is a quadrat-like group inside a row (`n*(t:r)`).
 
+A sub-quadrat is a *syntactic* device, not a layout one. It is needed when a stack or a
+sequence must sit inside a row (`n:(x:t)*nxt`, `(i-w)`), but a *useless* one — the only
+content of the only row of its quadrat, as in `i-(mn:n)` — is dropped when reading
+(`AstModelBuilder`) and not written (`MdCModelWriter`); `i-((mn:n))` is just `i-mn:n`.
+See `Cadrat.uselessSubCadratContent()`.
+
 ### Scope (text scope)
 
 `TextScope`: a sequence of quadrat-level items that can be edited like a whole text. The

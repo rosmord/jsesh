@@ -191,6 +191,37 @@ public class Cadrat
 		return result;
 	}
 
+	/// The quadrat which this one is a useless sub-quadrat wrapping of, if any.
+	///
+	/// Sub-quadrats are a syntactic device: they are needed in `n:(x:t)*nxt`,
+	/// but not in `i-(mn:n)`, where the quadrat `(mn:n)` is the only content of
+	/// the only row of its quadrat. Such a quadrat is exactly `mn:n`, and should
+	/// be laid out and written as such.
+	///
+	/// The result is a copy, and is itself simplified (so `((mn:n))` gives `mn:n`).
+	/// Wrapping is not considered useless when both quadrats are shaded differently.
+	///
+	/// @return the simplified quadrat, or empty if this quadrat is not a useless wrapping.
+	public Optional<Cadrat> uselessSubCadratContent() {
+		if (getNumberOfHBoxes() != 1 || getHBox(0).getNumberOfChildren() != 1
+				|| !(getHBox(0).getHorizontalListElementAt(0) instanceof SubCadrat sub)) {
+			return Optional.empty();
+		}
+		BasicItemList list = sub.getBasicItemList();
+		if (list.getNumberOfChildren() != 1 || !(list.getChildAt(0) instanceof Cadrat inner)) {
+			return Optional.empty();
+		}
+		int innerShading = inner.getShading();
+		if (shading != ShadingCode.NONE && innerShading != ShadingCode.NONE && shading != innerShading) {
+			return Optional.empty();
+		}
+		Cadrat result = inner.deepCopy();
+		if (innerShading == ShadingCode.NONE) {
+			result.setShading(shading);
+		}
+		return Optional.of(result.uselessSubCadratContent().orElse(result));
+	}
+
 	@Override
 	public HorizontalListElement buildHorizontalListElement() {
 		// We might improve this one ?

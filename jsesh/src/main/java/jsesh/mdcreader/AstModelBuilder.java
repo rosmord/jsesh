@@ -188,7 +188,8 @@ class AstModelBuilder implements AstVisitor {
         cadrat.setShading(node.shading());
         // node.options() is intentionally ignored here: the model has
         // no use for them.
-        push(cadrat);
+        // `i-(mn:n)` is read as `i-mn:n`: useless sub-quadrats are only syntax.
+        push(cadrat.uselessSubCadratContent().orElse(cadrat));
     }
 
     @Override
