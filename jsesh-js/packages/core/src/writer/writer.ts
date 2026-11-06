@@ -291,6 +291,7 @@ class ModelWriter implements ModelElementVisitor<void> {
       ["quadratheight", p.quadratHeight],
     ];
     for (const [name, value] of lengths) if (value !== ZONE_UNSET) options.push(name + "=" + value);
+    if (p.fitLoneSigns !== null) options.push("fitsigns=" + (p.fitLoneSigns ? "yes" : "no"));
     if (p.frame) options.push("frame");
     this.write("%zone");
     if (options.length > 0) this.write("[" + options.join(",") + "]");

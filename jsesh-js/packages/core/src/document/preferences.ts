@@ -26,6 +26,9 @@ export interface DocumentPreferences {
   /// In horizontal text, scale quadrats down to the maximal quadrat width. Documents
   /// without the property get `true` (historical layout).
   limitQuadratWidthInLines: boolean;
+  /// Enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the
+  /// quadrat width. Documents without the property get `true` (historical layout).
+  fitLoneSigns: boolean;
   /// Width of the page; 0 means that the document has no page (it is as large as its text).
   pageWidth: number;
   /// Height of the page; 0 if not specified.
@@ -61,6 +64,7 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   smallSkip: 2,
   alphabeticTextBaseline: 4,
   limitQuadratWidthInLines: true,
+  fitLoneSigns: true,
   pageWidth: 0,
   pageHeight: 0,
   marginLeft: 0,
@@ -107,6 +111,7 @@ const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
   smallSkip: "JSesh_small_skip",
   alphabeticTextBaseline: "JSesh_alphabetic_text_baseline",
   limitQuadratWidthInLines: "JSesh_limit_quadrat_width_in_lines",
+  fitLoneSigns: "JSesh_fit_lone_signs",
   pageWidth: "JSesh_page_width",
   pageHeight: "JSesh_page_height",
   marginLeft: "JSesh_page_margin_left",

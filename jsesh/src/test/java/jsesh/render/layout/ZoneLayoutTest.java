@@ -40,7 +40,11 @@ public class ZoneLayoutTest {
     private static final float QUADRAT = STYLE.geometry().maxCadratHeight();
 
     private MDCView layout(String mdc) throws MDCSyntaxError {
-        JSeshRenderContext context = new JSeshRenderContext(STYLE, PredefinedFonts.buildAllEmbeddedFonts());
+        return layout(mdc, STYLE);
+    }
+
+    private MDCView layout(String mdc, JSeshStyle style) throws MDCSyntaxError {
+        JSeshRenderContext context = new JSeshRenderContext(style, PredefinedFonts.buildAllEmbeddedFonts());
         return new ViewBuilder().buildView(new MDCParserModelGenerator().parse(mdc), context,
                 new JSeshTechRenderContext(FRC, 1.0));
     }
@@ -224,5 +228,37 @@ public class ZoneLayoutTest {
         List<Double> normal = columns(content(layout("%zone[layout=columns](A1!A1)").getSubView(0)));
         List<Double> wide = columns(content(layout("%zone[layout=columns,quadratwidth=300](A1!A1)").getSubView(0)));
         assertTrue(Math.abs(wide.get(1) - wide.get(0)) > 1.5 * Math.abs(normal.get(1) - normal.get(0)));
+    }
+
+    /// The width of the first sign of the first quadrat of a zone.
+    private static double firstSignWidth(MDCView zone) {
+        MDCView quadrat = content(zone).getSubView(0);
+        return quadrat.getSubView(0).getSubView(0).getWidth();
+    }
+
+    @Test
+    public void aLoneLowBroadSignFillsTheColumnByDefault() throws MDCSyntaxError {
+        double fitted = firstSignWidth(layout("%zone[layout=columns](n)").getSubView(0));
+        assertEquals(STYLE.geometry().maxCadratWidth(), fitted, EPSILON);
+    }
+
+    @Test
+    public void fitSignsNoKeepsTheNaturalWidthOfTheSign() throws MDCSyntaxError {
+        double fitted = firstSignWidth(layout("%zone[layout=columns](n)").getSubView(0));
+        double natural = firstSignWidth(layout("%zone[layout=columns,fitsigns=no](n)").getSubView(0));
+        assertTrue(natural < fitted - 1, natural + " vs " + fitted);
+    }
+
+    @Test
+    public void fitSignsIsInheritedFromTheDocumentAndFromTheEnclosingZone() throws MDCSyntaxError {
+        JSeshStyle noFit = STYLE.copy().options(o -> o.fitLoneSigns(false)).build();
+        double fitted = firstSignWidth(layout("%zone[layout=columns](n)").getSubView(0));
+        double natural = firstSignWidth(layout("%zone[layout=columns](n)", noFit).getSubView(0));
+        assertTrue(natural < fitted - 1, natural + " vs " + fitted);
+        // A zone overrides the document, and its own setting is inherited by inner zones.
+        assertEquals(fitted, firstSignWidth(layout("%zone[layout=columns,fitsigns=yes](n)", noFit).getSubView(0)), EPSILON);
+        MDCView outer = layout("%zone[layout=columns,fitsigns=no](%zone(n))").getSubView(0);
+        MDCView inner = content(outer).getSubView(0);
+        assertEquals(natural, firstSignWidth(inner), EPSILON);
     }
 }

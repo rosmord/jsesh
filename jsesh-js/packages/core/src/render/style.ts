@@ -189,6 +189,9 @@ export interface LayoutOptions {
   /// when the lines are wrapped to the width of an editor (not WYSIWYG). The content of a zone,
   /// which has its own width, is not concerned; nor are columns, which are never wrapped.
   ignoreLineAlignment: boolean;
+  /// Enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the
+  /// quadrat width. A zone can override it (`fitsigns=yes|no`).
+  fitLoneSigns: boolean;
 }
 
 export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<LayoutOptions>({
@@ -198,6 +201,7 @@ export const DEFAULT_LAYOUT_OPTIONS: Readonly<LayoutOptions> = Object.freeze<Lay
   smallSignCentered: false,
   limitQuadratWidthInLines: false,
   ignoreLineAlignment: false,
+  fitLoneSigns: true,
 });
 
 export type ShadingMode = "GRAY_SHADING" | "LINE_HATCHING";
@@ -351,6 +355,7 @@ export function applyDocumentPreferences(preferences: DocumentPreferences, origi
     options: {
       smallSignCentered: preferences.smallSignCentered,
       limitQuadratWidthInLines: preferences.limitQuadratWidthInLines,
+      fitLoneSigns: preferences.fitLoneSigns,
       textOrientation: preferences.textOrientation,
       textDirection: preferences.textDirection,
     },

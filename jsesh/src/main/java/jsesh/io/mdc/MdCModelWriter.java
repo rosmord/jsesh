@@ -649,6 +649,9 @@ public class MdCModelWriter {
 			addLengthOption(options, "separator", p.separator());
 			addLengthOption(options, "quadratwidth", p.quadratWidth());
 			addLengthOption(options, "quadratheight", p.quadratHeight());
+			if (p.fitLoneSigns() != null) {
+				options.add("fitsigns=" + (p.fitLoneSigns() ? "yes" : "no"));
+			}
 			if (p.frame()) {
 				options.add("frame");
 			}

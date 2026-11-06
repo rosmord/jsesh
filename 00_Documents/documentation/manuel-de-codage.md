@@ -440,6 +440,7 @@ A zone holds anything a text holds, including line breaks and other zones. Zones
 | `separator` | length | thickness of the rules between lines or columns; no rule if unset |
 | `quadratwidth` | length | maximum width of quadrats |
 | `quadratheight` | length | maximum height of quadrats |
+| `fitsigns` | `yes` or `no` | enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the quadrat width |
 | `frame` | no value | draws a frame around the zone |
 
 Lengths are integers, in percent of the height of a quadrat: `width=1200` is twelve quadrats wide. An unset option is inherited from the enclosing zone, or from the document preferences for an outermost zone. There are three exceptions: without `width` or `height` the zone takes its natural size, and without `separator` there is no rule. Unknown options are ignored and are not saved.

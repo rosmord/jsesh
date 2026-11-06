@@ -1593,6 +1593,8 @@ export interface ZoneParameters {
   readonly quadratWidth: number;
   /// The maximum height of the quadrats of the zone (the height of its lines).
   readonly quadratHeight: number;
+  /// Enlarge a low broad sign alone on a line of a quadrat to the quadrat width; `null` if inherited.
+  readonly fitLoneSigns: boolean | null;
   readonly frame: boolean;
 }
 
@@ -1612,6 +1614,7 @@ export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters 
     separator: positive(p.separator),
     quadratWidth: positive(p.quadratWidth),
     quadratHeight: positive(p.quadratHeight),
+    fitLoneSigns: p.fitLoneSigns ?? null,
     frame: p.frame ?? false,
   };
 }

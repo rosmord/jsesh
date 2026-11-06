@@ -165,6 +165,7 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
       paged: false,
       // A zone keeps its own width, even when the text is wrapped to the width of an editor.
       ignoreLineAlignment: false,
+      fitLoneSigns: p.fitLoneSigns ?? parent.options.fitLoneSigns,
     },
     geometry,
   });
@@ -1031,7 +1032,7 @@ class QuadratLayout {
       // line (for instance, a lone "n" in a column).
       let width = currentView.maximalWidthOfSubView;
       if (honourMaxWidth && !embedded && width < maxWidth) width = maxWidth;
-      this.fitLoneSignsToColumnWidth(c, width);
+      if (this.style.options.fitLoneSigns) this.fitLoneSignsToColumnWidth(c, width);
     }
     if (kerningLines) {
       this.layoutWithKerningLines(c, honourMaxWidth, honourMaxHeight, embedded, maxWidth);

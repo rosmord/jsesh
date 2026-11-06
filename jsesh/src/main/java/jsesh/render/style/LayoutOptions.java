@@ -17,13 +17,20 @@ import jsesh.model.constants.TextOrientation;
 /// component width"), where the display is optimised for reading and not
 /// WYSIWYG. The content of a zone is not concerned: it has its own width.
 /// Nor are columns, which are never wrapped.
+///
+/// `fitLoneSigns`: whether a low broad sign alone on a line of a quadrat (as a
+/// lone `n` in a column) is enlarged to the width of the quadrat. This is
+/// mostly visible in columns, where it fills the column width. `true` by
+/// default; a zone can override it (`fitsigns=yes|no`, see
+/// [jsesh.model.ZoneParameters]).
 public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,
         boolean paged,
         boolean smallSignCentered,
         boolean limitQuadratWidthInLines,
-        boolean ignoreLineAlignment
+        boolean ignoreLineAlignment,
+        boolean fitLoneSigns
 ) {
 
     public static final LayoutOptions DEFAULT = new LayoutOptions(
@@ -32,7 +39,8 @@ public record LayoutOptions(
             false,
             false,
             false,
-            false);
+            false,
+            true);
 
     public Builder copy() {
         return new Builder(this);
@@ -46,6 +54,7 @@ public record LayoutOptions(
         private boolean smallSignCentered;
         private boolean limitQuadratWidthInLines;
         private boolean ignoreLineAlignment;
+        private boolean fitLoneSigns;
 
         public Builder(LayoutOptions specs) {
             this.textDirection = specs.textDirection;
@@ -54,6 +63,7 @@ public record LayoutOptions(
             this.smallSignCentered = specs.smallSignCentered;
             this.limitQuadratWidthInLines = specs.limitQuadratWidthInLines;
             this.ignoreLineAlignment = specs.ignoreLineAlignment;
+            this.fitLoneSigns = specs.fitLoneSigns;
         }
 
         public Builder textDirection(TextDirection textDirection) {
@@ -87,6 +97,11 @@ public record LayoutOptions(
             return this;
         }
 
+        public Builder fitLoneSigns(boolean fitLoneSigns) {
+            this.fitLoneSigns = fitLoneSigns;
+            return this;
+        }
+
         public LayoutOptions build() {
             return new LayoutOptions(
                     textDirection,
@@ -94,7 +109,8 @@ public record LayoutOptions(
                     paged,
                     smallSignCentered,
                     limitQuadratWidthInLines,
-                    ignoreLineAlignment);
+                    ignoreLineAlignment,
+                    fitLoneSigns);
         }
     }
 

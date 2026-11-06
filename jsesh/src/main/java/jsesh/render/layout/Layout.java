@@ -240,11 +240,12 @@ public class Layout {
 		float unit = zoneLengthUnit(style);
 		TextOrientation orientation = p.orientation() != null ? p.orientation() : style.options().textOrientation();
 		TextDirection direction = p.direction() != null ? p.direction() : style.options().textDirection();
+		boolean fitLoneSigns = p.fitLoneSigns() != null ? p.fitLoneSigns() : style.options().fitLoneSigns();
 		float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
 		float columnHeight = !orientation.isHorizontal() && p.height() != ZoneParameters.UNSET ? p.height() * unit : 0f;
 		return parent.copy().jseshStyle(s -> s
 				.options(o -> o.textOrientation(orientation).textDirection(direction).paged(false)
-						.ignoreLineAlignment(false))
+						.ignoreLineAlignment(false).fitLoneSigns(fitLoneSigns))
 				.geometry(g -> {
 					g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth).columnHeight(columnHeight)
 								.page(PageSpecification.NONE);

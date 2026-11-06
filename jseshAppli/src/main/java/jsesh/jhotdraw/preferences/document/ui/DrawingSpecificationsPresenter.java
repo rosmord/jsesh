@@ -108,6 +108,8 @@ public class DrawingSpecificationsPresenter {
                                 geometry.smallBodyScaleLimit());
                 form.getLimitQuadratWidthInLinesCheckBox().setSelected(
                                 jseshStyle.options().limitQuadratWidthInLines());
+                form.getFitLoneSignsCheckBox().setSelected(
+                                jseshStyle.options().fitLoneSigns());
                 form.getUseLinesForShadingCheckBox().setSelected(
                                 jseshStyle.painting().shadingStyle().equals(
                                                 ShadingMode.LINE_HATCHING));
@@ -143,7 +145,8 @@ public class DrawingSpecificationsPresenter {
                                                                 .getInterQuadratSkipField()))
                                                 .smallBodyScaleLimit((float) limit))
                                 .options(o -> o.limitQuadratWidthInLines(
-                                                form.getLimitQuadratWidthInLinesCheckBox().isSelected()))
+                                                form.getLimitQuadratWidthInLinesCheckBox().isSelected())
+                                                .fitLoneSigns(form.getFitLoneSignsCheckBox().isSelected()))
                                 .painting(p -> p.shadingStyle(shadingMode))
                                 .build();
         }

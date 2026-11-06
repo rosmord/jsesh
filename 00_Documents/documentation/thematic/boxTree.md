@@ -504,7 +504,8 @@ differences and decisions:
   natural size or inherited), `frame`. No placement, no reference point, no
   rules yet.
 - **Syntax**: `%zone[layout=lines|columns, dir=lr|rl, width=, height=,
-  linegap=, quadratgap=, separator=, quadratwidth=, quadratheight=, frame](...)`.
+  linegap=, quadratgap=, separator=, quadratwidth=, quadratheight=, fitsigns=yes|no,
+  frame](...)`.
   `quadratwidth`/`quadratheight` set the maximum quadrat size inside the zone
   (the width of its columns, the height of its lines). Lengths are integers, in percent of the
   height of a quadrat (as `%insert`'s `dw`/`dh`). The writer only writes the

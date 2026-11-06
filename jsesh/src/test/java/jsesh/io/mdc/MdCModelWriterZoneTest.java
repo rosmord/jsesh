@@ -63,6 +63,15 @@ public class MdCModelWriterZoneTest {
         assertEquals(ZoneParameters.DEFAULT, zone.getParameters());
         assertNull(zone.getParameters().orientation());
         assertFalse(zone.getParameters().frame());
+        assertNull(zone.getParameters().fitLoneSigns());
+    }
+
+    @Test
+    public void fitSignsIsReadAsYesOrNo() throws MDCSyntaxError {
+        Zone yes = assertInstanceOf(Zone.class, parse("%zone[fitsigns=yes](A1)").getTopItemAt(0));
+        Zone no = assertInstanceOf(Zone.class, parse("%zone[fitsigns=no](A1)").getTopItemAt(0));
+        assertEquals(Boolean.TRUE, yes.getParameters().fitLoneSigns());
+        assertEquals(Boolean.FALSE, no.getParameters().fitLoneSigns());
     }
 
     @Test
@@ -88,6 +97,8 @@ public class MdCModelWriterZoneTest {
             "%zone[frame](A1)",
             "%zone[quadratheight=150](A1!A2)",
             "%zone[layout=columns,quadratwidth=60](A1-A2)",
+            "%zone[layout=columns,fitsigns=no](n-A1)",
+            "%zone[fitsigns=yes](n)",
             "%zone[separator=5](A1!A2)",
             "%zone[layout=columns,separator=3](A1!A2)",
             "%zone[layout=columns,dir=rl,width=1200,height=400,frame](A1-A2)",
@@ -111,6 +122,7 @@ public class MdCModelWriterZoneTest {
     @Test
     public void unsetOptionsAreNotWritten() throws MDCSyntaxError {
         assertEquals("%zone(A1)", write(parse("%zone(A1)")).strip());
+        assertEquals("%zone(A1)", write(parse("%zone[fitsigns=maybe](A1)")).strip());
         assertEquals("%zone[dir=rl](A1)", write(parse("%zone[dir=rl,width=0](A1)")).strip());
     }
 

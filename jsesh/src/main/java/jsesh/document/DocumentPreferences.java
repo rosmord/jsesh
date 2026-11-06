@@ -99,6 +99,12 @@ public class DocumentPreferences {
 	/// Documents which don't store it get `true`, so that their layout doesn't change.
 	@SaveAbleProperty(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES)
 	private boolean limitQuadratWidthInLines = true;
+
+	/// Is a low broad sign alone on a line of a quadrat (as a lone `n` in a
+	/// column) enlarged to the quadrat width? Documents which don't store it get
+	/// `true`, so that their layout doesn't change.
+	@SaveAbleProperty(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS)
+	private boolean fitLoneSigns = true;
 	
 	// Page. A page width of 0 means that there is no page.
 
@@ -427,6 +433,14 @@ public class DocumentPreferences {
 		return result;
 	}
 
+	/// @param fitLoneSigns whether lone low broad signs are enlarged to the quadrat width.
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withFitLoneSigns(boolean fitLoneSigns) {
+		DocumentPreferences result= this.copy();
+		result.fitLoneSigns= fitLoneSigns;
+		return result;
+	}
+
 	/// Sets the page of the document.
 	///
 	/// @param pageWidth total width of the page; 0 for no page.
@@ -541,6 +555,11 @@ public class DocumentPreferences {
 	/// @return whether quadrats are limited to the maximal width in horizontal text.
 	public boolean isLimitQuadratWidthInLines() {
 		return limitQuadratWidthInLines;
+	}
+
+	/// @return whether lone low broad signs are enlarged to the quadrat width.
+	public boolean isFitLoneSigns() {
+		return fitLoneSigns;
 	}
 	
 	public double getSmallSkip() {

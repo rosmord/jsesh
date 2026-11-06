@@ -294,12 +294,14 @@ function lineAlignmentOf(options: AstOptionList): LineAlignment {
 }
 
 /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `linegap`,
-/// `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
+/// `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight`, `fitsigns=yes|no`
+/// and `frame`.
 /// Unknown options and values are ignored.
 function zoneParametersOf(options: AstOptionList): ZoneParameters {
   const layout = optionString(options, "layout", "");
   const dir = optionString(options, "dir", "");
   const length = (name: string) => optionInt(options, name, ZONE_UNSET);
+  const fitSigns = optionString(options, "fitsigns", "");
   return zoneParameters({
     orientation: layout === "lines" ? "HORIZONTAL" : layout === "columns" ? "VERTICAL" : null,
     direction: dir === "lr" ? "LEFT_TO_RIGHT" : dir === "rl" ? "RIGHT_TO_LEFT" : null,
@@ -311,6 +313,7 @@ function zoneParametersOf(options: AstOptionList): ZoneParameters {
     separator: length("separator"),
     quadratWidth: length("quadratwidth"),
     quadratHeight: length("quadratheight"),
+    fitLoneSigns: fitSigns === "yes" ? true : fitSigns === "no" ? false : null,
     frame: hasOption(options, "frame"),
   });
 }

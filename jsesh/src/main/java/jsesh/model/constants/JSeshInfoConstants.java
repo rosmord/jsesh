@@ -76,4 +76,9 @@ public interface JSeshInfoConstants {
 	 */
 	String JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES = "JSesh_limit_quadrat_width_in_lines";
 
+	/// true or false: is a low broad sign alone on a line of a quadrat (as a
+	/// lone `n` in a column) enlarged to the quadrat width? Documents which
+	/// don't have this property get true (the historical layout).
+	String JSESH_FIT_LONE_SIGNS = "JSesh_fit_lone_signs";
+
 }

@@ -246,5 +246,9 @@ final class ParserCases {
         "%zone(A1-%tab-B1-?400-C1)",
         "%zone(%tab-B1-!A1-%tab-C1)",
         "%zone(A1-%tab-+lsome text+s-!G17-%tab-+lother+s)",
+        // Lone low broad signs enlarged (or not) to the column width.
+        "%zone[layout=columns](n-A1-n:t)",
+        "%zone[layout=columns,fitsigns=no](n-A1-n:t)",
+        "%zone[layout=columns,fitsigns=no](n-%zone[fitsigns=yes](n)-%zone(n))",
     };
 }

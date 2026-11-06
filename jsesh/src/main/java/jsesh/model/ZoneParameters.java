@@ -42,17 +42,20 @@ import jsesh.model.constants.TextOrientation;
 ///        width of its columns, for a zone in columns), or [#UNSET] if inherited.
 /// @param quadratHeight the maximum height of the quadrats of the zone (the
 ///        height of its lines, for a zone in lines), or [#UNSET] if inherited.
+/// @param fitLoneSigns should a low broad sign alone on a line of a quadrat
+///        (as a lone `n` in a column) be enlarged to the quadrat width?
+///        `null` if inherited.
 /// @param frame should a frame be drawn around the zone?
 public record ZoneParameters(TextOrientation orientation, TextDirection direction,
         int width, int height, int lineGap, int quadratGap, int tabGap, int separator, int quadratWidth, int quadratHeight,
-        boolean frame)
+        Boolean fitLoneSigns, boolean frame)
         implements Serializable {
 
     /// The value of an unset length.
     public static final int UNSET = -1;
 
     /// Everything inherited, natural size, no frame.
-    public static final ZoneParameters DEFAULT = new ZoneParameters(null, null, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, false);
+    public static final ZoneParameters DEFAULT = new ZoneParameters(null, null, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, null, false);
 
     private static final Comparator<ZoneParameters> ORDER = Comparator
             .comparing(ZoneParameters::orientation, Comparator.nullsFirst(Comparator.naturalOrder()))
@@ -65,6 +68,7 @@ public record ZoneParameters(TextOrientation orientation, TextDirection directio
             .thenComparingInt(ZoneParameters::separator)
             .thenComparingInt(ZoneParameters::quadratWidth)
             .thenComparingInt(ZoneParameters::quadratHeight)
+            .thenComparing(ZoneParameters::fitLoneSigns, Comparator.nullsFirst(Comparator.naturalOrder()))
             .thenComparing(ZoneParameters::frame);
 
     /// Normalises the lengths: a size, a quadrat size or a separator of 0 or less, or a
@@ -81,47 +85,51 @@ public record ZoneParameters(TextOrientation orientation, TextDirection directio
     }
 
     public ZoneParameters withOrientation(TextOrientation orientation) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withDirection(TextDirection direction) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withWidth(int width) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withHeight(int height) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withLineGap(int lineGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withQuadratGap(int quadratGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withTabGap(int tabGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withSeparator(int separator) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withQuadratWidth(int quadratWidth) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withQuadratHeight(int quadratHeight) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+    }
+
+    public ZoneParameters withFitLoneSigns(Boolean fitLoneSigns) {
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     public ZoneParameters withFrame(boolean frame) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, frame);
+        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
     }
 
     /// An arbitrary but consistent order, for [ModelElement#compareTo].

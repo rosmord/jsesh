@@ -51,7 +51,9 @@ public class JSeshStyleHelper {
                 .options(o -> o
                         .smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false))
                         .limitQuadratWidthInLines(preferences.getBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES,
-                                LayoutOptions.DEFAULT.limitQuadratWidthInLines())))
+                                LayoutOptions.DEFAULT.limitQuadratWidthInLines()))
+                        .fitLoneSigns(preferences.getBoolean(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS,
+                                LayoutOptions.DEFAULT.fitLoneSigns())))
                 .painting(c -> c
                         .shadingStyle(preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)
                                 ? ShadingMode.LINE_HATCHING
@@ -89,6 +91,7 @@ public class JSeshStyleHelper {
         preferences.putDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, jseshStyle.geometry().alphabeticTextBaseline());
         preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, jseshStyle.options().smallSignCentered());//ok
         preferences.putBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES, jseshStyle.options().limitQuadratWidthInLines());
+        preferences.putBoolean(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS, jseshStyle.options().fitLoneSigns());
         preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
         
     }

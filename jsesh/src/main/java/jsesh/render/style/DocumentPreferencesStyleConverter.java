@@ -37,6 +37,7 @@ public class DocumentPreferencesStyleConverter {
 				.withSmallSignCentered(jseshStyle.options().smallSignCentered())
 				.withLimitQuadratWidthInLines(
 						jseshStyle.options().limitQuadratWidthInLines())
+				.withFitLoneSigns(jseshStyle.options().fitLoneSigns())
 				.withCartoucheLineWidth(
 						jseshStyle.geometry().cartoucheLineWidth())
 				.withColumnSkip(jseshStyle.geometry().columnSkip())
@@ -129,6 +130,7 @@ public class DocumentPreferencesStyleConverter {
 						.smallSignCentered(preferences.isSmallSignCentered())
 						.limitQuadratWidthInLines(
 								preferences.isLimitQuadratWidthInLines())
+						.fitLoneSigns(preferences.isFitLoneSigns())
 						.textOrientation(preferences.getTextOrientation())
 						.textDirection(preferences.getTextDirection()))
 				.painting(c -> c.shadingStyle(

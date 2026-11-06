@@ -389,8 +389,8 @@ class AstModelBuilder implements AstVisitor {
     }
 
     /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
-    /// `linegap`, `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight` and
-    /// `frame`. Unknown options and values are ignored.
+    /// `linegap`, `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight`,
+    /// `fitsigns=yes|no` and `frame`. Unknown options and values are ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
         TextOrientation orientation = switch (options.getString("layout", "")) {
             case "lines" -> TextOrientation.HORIZONTAL;
@@ -402,6 +402,11 @@ class AstModelBuilder implements AstVisitor {
             case "rl" -> TextDirection.RIGHT_TO_LEFT;
             default -> null;
         };
+        Boolean fitLoneSigns = switch (options.getString("fitsigns", "")) {
+            case "yes" -> Boolean.TRUE;
+            case "no" -> Boolean.FALSE;
+            default -> null;
+        };
         return new ZoneParameters(orientation, direction,
                 options.getInt("width", ZoneParameters.UNSET),
                 options.getInt("height", ZoneParameters.UNSET),
@@ -411,6 +416,7 @@ class AstModelBuilder implements AstVisitor {
                 options.getInt("separator", ZoneParameters.UNSET),
                 options.getInt("quadratwidth", ZoneParameters.UNSET),
                 options.getInt("quadratheight", ZoneParameters.UNSET),
+                fitLoneSigns,
                 options.hasOption("frame"));
     }
 

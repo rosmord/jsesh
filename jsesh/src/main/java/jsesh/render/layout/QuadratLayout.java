@@ -149,7 +149,9 @@ public class QuadratLayout {
 				width = maxWidth;
 			}
 
-			fitLoneSignsToColumnWidth(c, width);
+			if (jseshStyle.options().fitLoneSigns()) {
+				fitLoneSignsToColumnWidth(c, width);
+			}
 		}
 
 		if (kerningLines) {

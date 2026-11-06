@@ -33,8 +33,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
   hieroglyph database, glossary, hieroglyph resources
-- [Rendering](#rendering): style, render context, layout unit, view, layout, text
-  geometry, device
+- [Rendering](#rendering): style, render context, layout unit, view, layout, lone sign
+  fitting, text geometry, device
 - [Editor and user interface](#editor-and-user-interface): document, text model, workflow,
   action id, labels
 - [Project and build](#project-and-build): modules, JS port, fixtures, genuine singletons
@@ -411,6 +411,15 @@ The unit of `GeometrySpecification`: by default, the height of an A1 sign is **1
 
 `Layout`, `LineLayout`, `ColumnLayout`: compute the positions and sizes of the views. They
 do **not** create views (that is `ViewBuilder`'s job). Short-lived objects.
+
+### Lone sign fitting
+
+In a quadrat, a low broad sign (as `n`, `N35`) alone on its line, at its normal size, is
+enlarged to the width of the quadrat (`QuadratLayout.fitLoneSignsToColumnWidth`). It shows
+in columns, where a lone `n` fills the column. Not to be confused with the *wide* quadrats
+of `%insert` or with `limitQuadratWidthInLines` (which scales quadrats *down*). Option
+`LayoutOptions.fitLoneSigns` (document preference `JSesh_fit_lone_signs`, `true` by
+default), overridden per zone with `%zone[fitsigns=yes|no]`.
 
 ### Render context
 

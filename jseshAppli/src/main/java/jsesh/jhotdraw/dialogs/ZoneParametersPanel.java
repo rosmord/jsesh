@@ -85,6 +85,8 @@ public class ZoneParametersPanel extends JPanel {
     private final OptionalLength separator = new OptionalLength(5, 1, 1);
     private final OptionalLength quadratWidth = new OptionalLength(100);
     private final OptionalLength quadratHeight = new OptionalLength(100);
+    private final JComboBox<Boolean> fitLoneSigns = new JComboBox<>(
+            new Boolean[] { null, Boolean.TRUE, Boolean.FALSE });
     private final JCheckBox frame = new JCheckBox();
     /// Not edited here yet: kept as it was given to [#setParameters].
     private int tabGap = ZoneParameters.UNSET;
@@ -96,6 +98,8 @@ public class ZoneParametersPanel extends JPanel {
                 labels.getLabel(value == null ? "zone.inherited" : "zone.orientation." + value.name())));
         direction.setRenderer((list, value, index, selected, focus) -> new JLabel(
                 labels.getLabel(value == null ? "zone.inherited" : "zone.direction." + value.name())));
+        fitLoneSigns.setRenderer((list, value, index, selected, focus) -> new JLabel(
+                labels.getLabel(value == null ? "zone.inherited" : value ? "zone.fitLoneSigns.yes" : "zone.fitLoneSigns.no")));
 
         int row = 0;
         addRow(row++, "zone.orientation", orientation);
@@ -107,6 +111,7 @@ public class ZoneParametersPanel extends JPanel {
         addRow(row++, "zone.separator", separator);
         addRow(row++, "zone.quadratWidth", quadratWidth);
         addRow(row++, "zone.quadratHeight", quadratHeight);
+        addRow(row++, "zone.fitLoneSigns", fitLoneSigns);
         addRow(row++, "zone.frame", frame);
         setParameters(parameters);
     }
@@ -140,6 +145,7 @@ public class ZoneParametersPanel extends JPanel {
         separator.set(p.separator());
         quadratWidth.set(p.quadratWidth());
         quadratHeight.set(p.quadratHeight());
+        fitLoneSigns.setSelectedItem(p.fitLoneSigns());
         frame.setSelected(p.frame());
         tabGap = p.tabGap();
     }
@@ -149,6 +155,7 @@ public class ZoneParametersPanel extends JPanel {
         return new ZoneParameters((TextOrientation) orientation.getSelectedItem(),
                 (TextDirection) direction.getSelectedItem(), width.get(), height.get(),
                 lineGap.get(), quadratGap.get(), tabGap, separator.get(),
-                quadratWidth.get(), quadratHeight.get(), frame.isSelected());
+                quadratWidth.get(), quadratHeight.get(), (Boolean) fitLoneSigns.getSelectedItem(),
+                frame.isSelected());
     }
 }

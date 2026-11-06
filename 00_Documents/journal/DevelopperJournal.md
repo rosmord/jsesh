@@ -2058,3 +2058,10 @@ Start of the TypeScript port (`jsesh-js/`, npm workspaces, Vite + Vitest). Goal:
 
 - New `00_Documents/documentation/technical_glossary.md`: the words of JSesh which are easy to misunderstand, by domain (line wrapping and pages, text and model, parsing, signs and fonts, rendering, editor, project). First entries: hard line break vs soft wrap, the sources of the wrap width (page, zone width, `wrapWidth`, editor window), and why *Wrap in Zone* has nothing to do with them.
 - Linked from `CLAUDE.md`, from `programmer_documentation.md` §4 and from the javadoc of `GeometrySpecification#isWrapping` and `JMDCEditor#setWrapToComponentWidth`. Documentation only: no code change.
+
+## Optional lone sign fitting (2026-11-06)
+
+- In a quadrat, a low broad sign alone on its line (a lone `n` in a column) is enlarged to the quadrat width (`QuadratLayout.fitLoneSignsToColumnWidth`). This is now optional: `LayoutOptions.fitLoneSigns`, document preference `JSesh_fit_lone_signs` (`DocumentPreferences.isFitLoneSigns`, `true` by default and for documents without the property, so their layout doesn't change), checkbox in the drawing preferences.
+- Zones: `ZoneParameters.fitLoneSigns` (`Boolean`, `null` = inherited), written `%zone[fitsigns=yes|no]`; any other value is ignored (inherited). Zone settings dialog: a combo *(inherited)* / Yes / No.
+- Ported to `jsesh-js` (`LayoutOptions.fitLoneSigns`, `ZoneParameters.fitLoneSigns`, reader, writer, `zoneStyle`). Fixtures: three `fitsigns` cases in `ParserCases`.
+- The fitting also applies to stacked quadrats in lines (the sign is widened to the widest line of the quadrat); the option covers that case too.
