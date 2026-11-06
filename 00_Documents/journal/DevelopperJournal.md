@@ -32,6 +32,15 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## Daily log
 
+## 2026-11-06
+
+**Line and column alignment** (todo 0155, closed).
+
+- Each line or column has its own alignment, *start*, *end*, *center* or *justify*, written as `align=` on the line break (`-![align=center]`, `-!![align=...]`). It replaces the global `LayoutOptions.justified`, which is gone. Model: `LineEnd`, `LineAlignment`; layout in `LineLayout`/`ColumnLayout` (Java and `jsesh-js`), with fixtures.
+- Editor: toolbar combobox (label "Line" or "Column", icons depending on direction and orientation), "mixed" state for a multi-line selection, one undo step. "Wrap to component width" ignores the alignment of lines, but not of columns.
+- The last part of a soft-wrapped justified line always stays at the start, whatever its length.
+- Decisions: no Format menu and no shortcuts (the toolbar is enough); no `%zone[align=...]` (selecting lines and choosing an alignment is enough); web editor UI postponed (0158); MVC for the widget not wanted for now (0157). Tab stops, zone `fill` and sizes imposed by the parent remain separate mechanisms.
+
 ## 2026-10-30
 
 Mostly a cleaning day, plus several small user-facing todos. Closed todos are in `00_Documents/tracking/DONE`.
@@ -1779,9 +1788,6 @@ The git archive is a bit of a mess, as I performed changes on an old version.
   The temporary branch has many (relatively logical) renames :
   - BaseGraphics2DFactory -> Graphics2DFactoryIF as it is indeed an interface. 
   - TopItemSimpleDrawer -> TopItemDrawer
-
-
-  
 
 ### 2018/10/17
 
