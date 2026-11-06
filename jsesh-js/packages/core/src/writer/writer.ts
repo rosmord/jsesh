@@ -136,7 +136,7 @@ class ModelWriter implements ModelElementVisitor<void> {
 
   visitCadrat(c: Cadrat): void {
     // Useless sub-quadrats, as in i-(mn:n), are not written.
-    c = c.uselessSubCadratContent() ?? c;
+    c = c.withoutUselessSubCadrats() ?? c;
     this.visitElementList(c, ":");
     this.write(shadingToString("#", c.shading));
   }

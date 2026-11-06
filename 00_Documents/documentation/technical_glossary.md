@@ -276,6 +276,12 @@ content of the only row of its quadrat, as in `i-(mn:n)` — is dropped when rea
 (`AstModelBuilder`) and not written (`MdCModelWriter`); `i-((mn:n))` is just `i-mn:n`.
 See `Cadrat.uselessSubCadratContent()`.
 
+Likewise, a sub-quadrat which only adds parentheses is flattened: `x*(a*b)` is `x*a*b`
+(single-row sub-quadrat inserted in the row), `a:(b:c)` is `a:b:c` (sub-quadrat alone in its
+row: its rows replace that row). Shaded sub-quadrats and ones with kerning operators are kept.
+The model may keep the nested form while editing (`a:(b:c)` before adding `*t`); the flattening
+happens when reading and writing MdC. See `Cadrat.withoutUselessSubCadrats()`.
+
 ### Scope (text scope)
 
 `TextScope`: a sequence of quadrat-level items that can be edited like a whole text. The

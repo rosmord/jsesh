@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
@@ -33,7 +34,16 @@ public class MdCModelWriterSubCadratTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "n:(x:t)*nxt", "x*(a:b)", "(i-w)", "(a:b)^^w", "i-(mn:n)*i" })
+    @CsvSource({ "a:(b:c), a:b:c", "x*(a*b), x*a*b", "a:(b*c:d), a:b*c:d", "a:((b:c)), a:b:c",
+            "x*(a*(b*c)), x*a*b*c", "a:(b:(c:d)), a:b:c:d", "n:(x:t)*(a*b), n:(x:t)*a*b" })
+    public void flattenedSubCadrats(String mdc, String expected) throws MDCSyntaxError {
+        HieroglyphicText text = parse(mdc);
+        assertTrue(text.equalsIgnoreId(parse(expected)), mdc);
+        assertEquals(expected, new MdCModelWriter().toMdC(text).trim());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "n:(x:t)*nxt", "x*(a:b)", "(i-w)", "(a:b)^^w", "i-(mn:n)*i", "a*(b:c)*d", "a:(b:c)*t" })
     public void usefulSubCadratsAreKept(String mdc) throws MDCSyntaxError {
         HieroglyphicText text = parse(mdc);
         String written = new MdCModelWriter().toMdC(text).trim();

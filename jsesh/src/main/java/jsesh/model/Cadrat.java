@@ -4,6 +4,8 @@
  */
 package jsesh.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import jsesh.sharedvocabulary.KerningAxis;
@@ -220,6 +222,77 @@ public class Cadrat
 			result.setShading(shading);
 		}
 		return Optional.of(result.uselessSubCadratContent().orElse(result));
+	}
+
+	/// The simplified form of this quadrat, with its useless sub-quadrats removed, if it has any.
+	///
+	/// Beyond [#uselessSubCadratContent()], this flattens the sub-quadrats which only
+	/// add parentheses:
+	///
+	/// - `x*(a*b)` is `x*a*b`: the sub-quadrat is a single row, inserted in the row of `x`;
+	/// - `a:(b:c)` is `a:b:c`: the sub-quadrat is the only element of its row, so its rows replace that row.
+	///
+	/// A sub-quadrat is kept when it is shaded or contains kerning operators, which act inside the group
+	/// (`x*(a:b)`, `n:(x:t)*nxt` are kept as well, as they are really needed).
+	/// The model itself may keep such sub-quadrats while editing (as `a:(b:c)` must be possible
+	/// before adding `*t`): this is applied when reading and writing MdC.
+	///
+	/// @return a simplified copy, or empty if there is nothing to simplify.
+	public Optional<Cadrat> withoutUselessSubCadrats() {
+		Cadrat current = uselessSubCadratContent().orElse(this);
+		boolean changed = current != this;
+		Cadrat result = new Cadrat();
+		result.shading = current.shading;
+		current.copyStateTo(result);
+		for (int i = 0; i < current.getNumberOfHBoxes(); i++) {
+			HBox row = current.getHBox(i);
+			List<HorizontalListElement> elements = new ArrayList<>();
+			for (int j = 0; j < row.getNumberOfChildren(); j++) {
+				HorizontalListElement element = row.getHorizontalListElementAt(j);
+				Optional<Cadrat> inner = flattenableContent(element);
+				if (inner.isPresent()) {
+					Cadrat content = inner.get();
+					if (row.getNumberOfChildren() == 1) {
+						changed = true;
+						for (int k = 0; k < content.getNumberOfHBoxes(); k++) {
+							result.addHBox(content.getHBox(k).deepCopy());
+						}
+						elements = null;
+						break;
+					} else if (content.getNumberOfHBoxes() == 1) {
+						changed = true;
+						HBox innerRow = content.getHBox(0);
+						for (int k = 0; k < innerRow.getNumberOfChildren(); k++) {
+							elements.add((HorizontalListElement) innerRow.getHorizontalListElementAt(k).deepCopy());
+						}
+						continue;
+					}
+				}
+				elements.add((HorizontalListElement) element.deepCopy());
+			}
+			if (elements != null) {
+				HBox newRow = new HBox();
+				for (HorizontalListElement e : elements) {
+					newRow.addHorizontalListElement(e);
+				}
+				result.addHBox(newRow);
+			}
+		}
+		return changed ? Optional.of(result) : Optional.empty();
+	}
+
+	/// If `element` is a sub-quadrat made of a single unshaded quadrat without kerning,
+	/// the (itself simplified) quadrat.
+	private static Optional<Cadrat> flattenableContent(HorizontalListElement element) {
+		if (!(element instanceof SubCadrat sub)) {
+			return Optional.empty();
+		}
+		BasicItemList list = sub.getBasicItemList();
+		if (list.getNumberOfChildren() != 1 || !(list.getChildAt(0) instanceof Cadrat inner)
+				|| inner.getShading() != ShadingCode.NONE || inner.containsKerning()) {
+			return Optional.empty();
+		}
+		return Optional.of(inner.withoutUselessSubCadrats().orElse(inner));
 	}
 
 	@Override

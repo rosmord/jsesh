@@ -255,7 +255,7 @@ public class MdCModelWriter {
 		 */
 		public void visitCadrat(Cadrat c) {
 			// Useless sub-quadrats, as in i-(mn:n), are not written.
-			c = c.uselessSubCadratContent().orElse(c);
+			c = c.withoutUselessSubCadrats().orElse(c);
 			visitElementList(c, ":");
 			write(ShadingCode.toString("#", c.getShading()));
 		}

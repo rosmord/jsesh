@@ -174,7 +174,7 @@ class AstModelBuilder {
         cadrat.shading = item.shading;
         // Cadrat options (%quadrat[...]) are ignored, as in Java.
         // `i-(mn:n)` is read as `i-mn:n`: useless sub-quadrats are only syntax.
-        return [cadrat.uselessSubCadratContent() ?? cadrat];
+        return [cadrat.withoutUselessSubCadrats() ?? cadrat];
       }
       case "AlphabeticText":
         return item.scriptCode === "+"

@@ -487,6 +487,52 @@ export class Cadrat extends BasicItem {
     return result.uselessSubCadratContent() ?? result;
   }
 
+  /// The simplified form of this cadrat, with its useless sub-cadrats removed, if it has any (mirrors Java).
+  ///
+  /// Beyond `uselessSubCadratContent()`: `x*(a*b)` is `x*a*b` (a single-row sub-cadrat is inserted
+  /// in the row), and `a:(b:c)` is `a:b:c` (a sub-cadrat alone in its row gives its rows).
+  /// Shaded sub-cadrats and those with kerning operators are kept.
+  withoutUselessSubCadrats(): Cadrat | undefined {
+    const current = this.uselessSubCadratContent() ?? this;
+    let changed = current !== this;
+    const result = new Cadrat();
+    result.shading = current.shading;
+    current.copyStateTo(result);
+    for (const row of current.hBoxes) {
+      let elements: HorizontalListElement[] | null = [];
+      for (const element of row.elements) {
+        const content = Cadrat.flattenableContent(element);
+        if (content) {
+          if (row.numberOfChildren === 1) {
+            changed = true;
+            for (const r of content.hBoxes) result.addHBox(r.deepCopy());
+            elements = null;
+            break;
+          } else if (content.numberOfHBoxes === 1) {
+            changed = true;
+            for (const e of content.getHBox(0).elements) elements.push(e.deepCopy());
+            continue;
+          }
+        }
+        elements.push(element.deepCopy());
+      }
+      if (elements) result.addHBox(new HBox(elements));
+    }
+    return changed ? result : undefined;
+  }
+
+  /// If `element` is a sub-cadrat made of a single unshaded cadrat without kerning, that (simplified) cadrat.
+  private static flattenableContent(element: HorizontalListElement): Cadrat | undefined {
+    if (!(element instanceof SubCadrat)) return undefined;
+    const list = element.basicItemList;
+    if (list.numberOfChildren !== 1) return undefined;
+    const inner = list.getChildAt(0);
+    if (!(inner instanceof Cadrat) || inner.shading !== ShadingCode.NONE || inner.containsKerning()) {
+      return undefined;
+    }
+    return inner.withoutUselessSubCadrats() ?? inner;
+  }
+
   isShadedPart(part: number): boolean {
     return (this.shading & part) !== 0;
   }
