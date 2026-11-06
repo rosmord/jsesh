@@ -18,6 +18,7 @@ import jsesh.sharedvocabulary.LineAlignment;
 /// alignment requires. Drawn, so that it follows the colour of the component.
 ///
 /// In right-to-left text, the start is on the right: the picture is mirrored.
+/// In text written in columns, it shows four columns (the start is the top).
 final class LineAlignmentIcon implements Icon {
 
     private static final int SIZE = 16;
@@ -27,13 +28,16 @@ final class LineAlignmentIcon implements Icon {
 
     private final LineAlignment alignment;
     private final boolean rightToLeft;
+    private final boolean vertical;
 
     /// @param alignment the alignment to show, or null for a mixed one (the
     ///        icon is then empty).
     /// @param rightToLeft true if the text is written from right to left.
-    LineAlignmentIcon(LineAlignment alignment, boolean rightToLeft) {
+    /// @param vertical true if the text is written in columns.
+    LineAlignmentIcon(LineAlignment alignment, boolean rightToLeft, boolean vertical) {
         this.alignment = alignment;
         this.rightToLeft = rightToLeft;
+        this.vertical = vertical;
     }
 
     @Override
@@ -50,10 +54,20 @@ final class LineAlignmentIcon implements Icon {
                 case END -> width - length;
                 case CENTER -> (width - length) / 2;
             };
-            if (rightToLeft) {
-                start = width - length - start;
+            // The position of the line (or column) across the text.
+            int across = 2 + 3 * i + i / 2;
+            if (vertical) {
+                // Columns follow one another from the right in right-to-left text.
+                if (rightToLeft) {
+                    across = SIZE - 2 - across;
+                }
+                g.fillRect(x + across, y + 1 + start, 2, length);
+            } else {
+                if (rightToLeft) {
+                    start = width - length - start;
+                }
+                g.fillRect(x + 1 + start, y + across, length, 2);
             }
-            g.fillRect(x + 1 + start, y + 2 + 3 * i + i / 2, length, 2);
         }
     }
 

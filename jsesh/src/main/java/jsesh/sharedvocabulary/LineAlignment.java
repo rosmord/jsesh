@@ -7,8 +7,9 @@
  */
 package jsesh.sharedvocabulary;
 
-/// How a line of text is placed in the width available to it: the
-/// *line alignment* (see `00_Documents/documentation/technical_glossary.md`).
+/// How a line of text is placed in the width available to it, or a column in
+/// the height available to it: the *line alignment* (see
+/// `00_Documents/documentation/technical_glossary.md`).
 ///
 /// It is written on the line break which ends the line, as in
 /// `-![align=center]` (or `-!![align=center]` for a page break). A line break
@@ -16,16 +17,16 @@ package jsesh.sharedvocabulary;
 /// it has no line break, takes the alignment of the line before it.
 ///
 /// The names are *start* and *end*, not *left* and *right*: in right-to-left
-/// text, a [#START] line is on the right.
+/// text, a [#START] line is on the right. In columns, [#START] is the top.
 public enum LineAlignment {
-    /// On the start side (left in left-to-right text). The default.
+    /// On the start side (left in left-to-right text, top in columns). The default.
     START("start"),
-    /// On the end side (right in left-to-right text).
+    /// On the end side (right in left-to-right text, bottom in columns).
     END("end"),
     /// Centred.
     CENTER("center"),
     /// The space between the elements is stretched so that the line fills the
-    /// whole width.
+    /// whole width (the column the whole height).
     JUSTIFY("justify");
 
     private final String mdcName;

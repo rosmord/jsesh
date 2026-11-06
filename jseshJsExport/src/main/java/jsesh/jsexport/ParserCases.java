@@ -223,5 +223,9 @@ final class ParserCases {
         "G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-![align=justify]-A1-G17",
         "G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-G17-N35-D21-A1-X1-![align=end]-A1-G17",
         "A1-A1-A1-A1-A1-A1-A1-A1-A1-A1-![align=justify]-+lsome text+s-A1-A1-A1-A1-A1-A1-![align=center]-A1",
+        // Column alignment (in columns, start is the top).
+        "%zone[layout=columns,height=800](A1-![align=end]-A1-A2-![align=center]-A1-A1-A1-![align=justify]-A1)",
+        "%zone[layout=columns,dir=rl](A1-A1-A1-A1-!-A1-![align=end]-A1-A2-![align=center]-A1-A1-![align=justify])",
+        "A1-A1-A1-A1-A1-!-A1-%vkern-A1-A1-![align=justify]-A1-+lsome text+s-A1-![align=justify]",
     };
 }

@@ -16,6 +16,7 @@ import jsesh.model.constants.TextOrientation;
 /// Used when the lines are wrapped to the width of the editor ("wrap to
 /// component width"), where the display is optimised for reading and not
 /// WYSIWYG. The content of a zone is not concerned: it has its own width.
+/// Nor are columns, which are never wrapped.
 public record LayoutOptions(
         TextDirection textDirection,
         TextOrientation textOrientation,

@@ -130,12 +130,22 @@ right-to-left text is drawn mirrored, so a *start* line is on the right there.
 - The width: the page's usable width or the zone's width if there is one
   (`GeometrySpecification.maxLineWidth()`), else the visible width of the longest line of the
   text (or zone).
-- Applied by `LineLayout` at the end of the layout (`LineAccumulator.alignTo`). Columns ignore
-  it for now.
+- Applied by `LineLayout` at the end of the layout (`LineAccumulator.alignTo`).
 - Ignored when [wrapping to the component width](#wrap-to-component-width).
+- **Columns** (vertical text) use the same `align` option and the same enum, along the y axis:
+  `START` is the top, `END` the bottom, `JUSTIFY` shares the free height between the units of
+  the column. The height: the usable height of the page if it has one, or the height of a
+  `%zone[layout=columns,height=…]`, or `GeometrySpecification.columnHeight` (minus the top margins)
+  (`GeometrySpecification.maxColumnHeight()`), else the visible height of the longest column.
+  Applied by `ColumnLayout` (`LineAccumulator.alignVerticallyTo`). The view of the line break,
+  which gives a column its minimal size, is not part of the aligned content
+  (`LineAccumulator.addColumnEnd`). Columns are never wrapped, so their alignment is **not**
+  ignored when wrapping to the component width (their height doesn't depend on the window).
+  The direction of the text doesn't change it (the mirroring is horizontal).
 - Editor: `JMDCEditorWorkflow.getLineAlignmentAtCaret()` (empty when the selected lines differ:
   the *mixed* state) and `setLineAlignment(...)`, shown by the combo box of the editor's
-  toolbar (`JSeshViewComponent`). A new line break copies the alignment of the line where it is
+  toolbar (`JSeshViewComponent`; its label and icons follow the orientation and direction of
+  the text at the caret). A new line break copies the alignment of the line where it is
   inserted.
 
 ### Logical line

@@ -73,6 +73,10 @@ public class LineAccumulator {
 	 */
 	private final ArrayList<List<MDCView>> units = new ArrayList<>();
 
+	/// The view of the line break which ends a column, if any: it gives the
+	/// column a minimal size, but is not part of its visible content.
+	private MDCView columnEnd;
+
 	/**
 	 * build a new zone.
 	 * 
@@ -104,6 +108,21 @@ public class LineAccumulator {
 				.getPosition().y, view.getWidth(), view.getHeight()));
 		views.add(view);
 		units.add(List.of(view));
+	}
+
+	/// Adds the view of the line break which ends a column. It is placed like
+	/// in [#add(MDCView)], but the alignment of the column ignores it (it is
+	/// moved with the column, as the line break of a line, which has no
+	/// width).
+	///
+	/// @param view the view of the line break.
+	public void addColumnEnd(MDCView view) {
+		view.getPosition().setLocation(currentPoint.x + view.getDeltaBaseX(),
+				currentPoint.y + view.getDeltaBaseY());
+		zoneArea.add(new Rectangle2D.Double(view.getPosition().x, view
+				.getPosition().y, view.getWidth(), view.getHeight()));
+		views.add(view);
+		columnEnd = view;
 	}
 
 	/// Adds a view kerned with the previous one: they will be moved together
@@ -226,17 +245,36 @@ public class LineAccumulator {
 	/// @param width the width to use (the start margin is not covered by this
 	///        width).
 	public void alignTo(LineAlignment alignment, double startMargin, double width) {
+		alignTo(false, alignment, startMargin, width);
+	}
+
+	/// Places the content of a column in the height given to it, as an
+	/// alignment requires: [LineAlignment#START] is the top. The column is
+	/// supposed to be at the top (its first view at `topMargin`), which is
+	/// where [ColumnLayout] puts it.
+	///
+	/// @param alignment the alignment.
+	/// @param topMargin the margin to leave at the top.
+	/// @param height the height to use (the top margin is not covered by this
+	///        height).
+	public void alignVerticallyTo(LineAlignment alignment, double topMargin, double height) {
+		alignTo(true, alignment, topMargin, height);
+	}
+
+	/// @param vertical true to align along the y axis (a column), false
+	///        along the x axis (a line).
+	private void alignTo(boolean vertical, LineAlignment alignment, double start, double length) {
 		switch (alignment) {
 			case START -> {
 			}
 			case END -> {
-				double[] extent = visibleExtent();
+				double[] extent = visibleExtent(vertical);
 				if (extent != null) {
-					translateBy(new Point2D.Double(startMargin + width - extent[1], 0));
+					shift(vertical, start + length - extent[1]);
 				}
 			}
-			case CENTER -> centerInWidth(startMargin, width);
-			case JUSTIFY -> justifyWidthTo(startMargin, width);
+			case CENTER -> centerIn(vertical, start, length);
+			case JUSTIFY -> justifyTo(vertical, start, length);
 		}
 	}
 
@@ -251,39 +289,47 @@ public class LineAccumulator {
 	/// @param width the width to use (the start margin is not covered by this
 	///        width).
 	public void justifyWidthTo(double startMargin, double width) {
+		justifyTo(false, startMargin, width);
+	}
+
+	/// Justification along an axis: see [#justifyWidthTo(double, double)].
+	private void justifyTo(boolean vertical, double start, double length) {
 		// In the current system, some views can be empty (which is not a good
 		// idea, BTW).
 		// Hence, we need to actually count the number of "real" units.
-		double minimalWidth = 0;
+		double minimalLength = 0;
 		List<List<MDCView>> nonEmptyUnits = new ArrayList<>();
 		for (List<MDCView> unit : units) {
-			double unitWidth = unitWidth(unit);
-			minimalWidth += unitWidth;
-			if (unitWidth != 0)
+			double unitLength = unitLength(unit, vertical);
+			minimalLength += unitLength;
+			if (unitLength != 0)
 				nonEmptyUnits.add(unit);
 		}
-		double space = width - minimalWidth;
+		double space = length - minimalLength;
 		if (nonEmptyUnits.size() > 1 && space > 0) {
 			double skip = space / (nonEmptyUnits.size() - 1);
-			double x = startMargin;
+			double pos = start;
 			for (List<MDCView> unit : nonEmptyUnits) {
-				moveUnitTo(unit, x);
-				x += unitWidth(unit) + skip;
+				moveUnitTo(unit, pos, vertical);
+				pos += unitLength(unit, vertical) + skip;
 			}
 		}
 	}
 
-	/// The leftmost and rightmost x of the non-empty views (a reversed run of
-	/// text means the list order is not always the left-to-right order).
+	/// The first and last coordinate, along an axis, of the non-empty views
+	/// (a reversed run of text means the list order is not always the
+	/// left-to-right order).
 	///
+	/// @param vertical true for the y axis, false for the x axis.
 	/// @return `{min, max}`, or null if there are no non-empty views.
-	private double[] visibleExtent() {
+	private double[] visibleExtent(boolean vertical) {
 		double currentStart = Double.POSITIVE_INFINITY;
 		double currentEnd = Double.NEGATIVE_INFINITY;
 		for (MDCView v : views) {
-			if (v.getWidth() > 0f) {
-				currentStart = Math.min(currentStart, v.getPosition().x);
-				currentEnd = Math.max(currentEnd, v.getPosition().x + v.getWidth());
+			double length = v == columnEnd ? 0 : length(v, vertical);
+			if (length > 0f) {
+				currentStart = Math.min(currentStart, coordinate(v, vertical));
+				currentEnd = Math.max(currentEnd, coordinate(v, vertical) + length);
 			}
 		}
 		return currentStart > currentEnd ? null : new double[] { currentStart, currentEnd };
@@ -291,7 +337,7 @@ public class LineAccumulator {
 
 	/// The width of the visible content of the line (its non-empty views).
 	public double getVisibleWidth() {
-		double[] extent = visibleExtent();
+		double[] extent = visibleExtent(false);
 		return extent == null ? 0 : extent[1] - extent[0];
 	}
 
@@ -300,48 +346,74 @@ public class LineAccumulator {
 	///
 	/// @return the bounds, or null if the line has no non-empty views.
 	Rectangle2D visibleBounds(double minY, double height) {
-		double[] extent = visibleExtent();
+		double[] extent = visibleExtent(false);
 		return extent == null ? null : new Rectangle2D.Double(extent[0], minY, extent[1] - extent[0], height);
 	}
 
-	private static double unitMinX(List<MDCView> unit) {
+	/// The visible area of a column, in its current coordinates: the
+	/// y extent of its non-empty views, and the given horizontal extent.
+	///
+	/// @return the bounds, or null if the column has no non-empty views.
+	Rectangle2D visibleVerticalBounds(double minX, double width) {
+		double[] extent = visibleExtent(true);
+		return extent == null ? null : new Rectangle2D.Double(minX, extent[0], width, extent[1] - extent[0]);
+	}
+
+	private static double coordinate(MDCView v, boolean vertical) {
+		return vertical ? v.getPosition().y : v.getPosition().x;
+	}
+
+	private static double length(MDCView v, boolean vertical) {
+		return vertical ? v.getHeight() : v.getWidth();
+	}
+
+	private static double unitMin(List<MDCView> unit, boolean vertical) {
 		double min = Double.POSITIVE_INFINITY;
 		for (MDCView v : unit) {
-			min = Math.min(min, v.getPosition().x);
+			min = Math.min(min, coordinate(v, vertical));
 		}
 		return min;
 	}
 
-	private static double unitWidth(List<MDCView> unit) {
+	private static double unitLength(List<MDCView> unit, boolean vertical) {
 		if (unit.size() == 1) {
-			return unit.get(0).getWidth();
+			return length(unit.get(0), vertical);
 		}
 		double max = Double.NEGATIVE_INFINITY;
 		for (MDCView v : unit) {
-			max = Math.max(max, v.getPosition().x + v.getWidth());
+			max = Math.max(max, coordinate(v, vertical) + length(v, vertical));
 		}
-		return max - unitMinX(unit);
+		return max - unitMin(unit, vertical);
 	}
 
-	/// Moves a unit rigidly so that its left side is at x.
-	private static void moveUnitTo(List<MDCView> unit, double x) {
-		double delta = x - unitMinX(unit);
+	/// Moves a unit rigidly so that its start (left or top) is at `pos`.
+	private static void moveUnitTo(List<MDCView> unit, double pos, boolean vertical) {
+		double delta = pos - unitMin(unit, vertical);
 		for (MDCView v : unit) {
-			v.getPosition().x += delta;
+			if (vertical) {
+				v.getPosition().y += delta;
+			} else {
+				v.getPosition().x += delta;
+			}
 		}
 	}
 
-	/// Centres the views in a given width.
+	/// Moves all the views along an axis.
+	private void shift(boolean vertical, double delta) {
+		translateBy(vertical ? new Point2D.Double(0, delta) : new Point2D.Double(delta, 0));
+	}
+
+	/// Centres the views in a given length.
 	///
-	/// @param startMargin a margin to add on the left.
-	/// @param width the width of the centering area (the margin is not accounted for).
-	private void centerInWidth(double startMargin, double width) {
-		double[] extent = visibleExtent();
+	/// @param start a margin to add before (on the left or at the top).
+	/// @param length the length of the centering area (the margin is not accounted for).
+	private void centerIn(boolean vertical, double start, double length) {
+		double[] extent = visibleExtent(vertical);
 		if (extent == null)
 			return;
-		double currentWidth = extent[1] - extent[0];
-		double centerMargin = startMargin + (width - currentWidth) / 2.0;
-		translateBy(new Point2D.Double(centerMargin - extent[0], 0));
+		double currentLength = extent[1] - extent[0];
+		double centerMargin = start + (length - currentLength) / 2.0;
+		shift(vertical, centerMargin - extent[0]);
 	}
 
 }

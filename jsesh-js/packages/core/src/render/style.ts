@@ -64,6 +64,10 @@ export interface GeometrySpecification {
   /// soft-wrapped, in layout units. 0 (or less) means no wrapping: lines only
   /// end at explicit line breaks.
   wrapWidth: number;
+  /// The total height (margins included) in which the columns of vertical text are aligned, in
+  /// layout units. 0 (or less) means none: they are aligned on the longest column. Columns are
+  /// never cut. When a page with a height is defined, its usable height is used instead.
+  columnHeight: number;
   /// The page (`PageSpecification`). When defined, it determines the wrapping width
   /// and `wrapWidth` is ignored.
   page: PageSpecification;
@@ -113,6 +117,12 @@ export function usableWidth(page: PageSpecification): number {
   return f(page.pageWidth - page.marginLeft - page.marginRight);
 }
 
+/// The height available for text, margins excluded, or 0 if the page has no height
+/// (`PageSpecification.usableHeight`).
+export function usableHeight(page: PageSpecification): number {
+  return page.pageHeight > 0 ? f(page.pageHeight - page.marginTop - page.marginBottom) : 0;
+}
+
 /// Is a page defined (`PageSpecification.isDefined`)?
 export function isPageDefined(page: PageSpecification | undefined): boolean {
   return page !== undefined && page.pageWidth > 0 && usableWidth(page) > 0;
@@ -126,6 +136,14 @@ export function isWrapping(geometry: GeometrySpecification): boolean {
 /// The width available for the content of a wrapped line (`GeometrySpecification.maxLineWidth`).
 export function maxLineWidth(geometry: GeometrySpecification): number {
   return isPageDefined(geometry.page) ? usableWidth(geometry.page) : geometry.wrapWidth - 2 * geometry.leftMargin;
+}
+
+/// The height in which the content of columns is aligned (`GeometrySpecification.maxColumnHeight`):
+/// the usable height of the page if it has one, else `columnHeight` minus the top margin on both
+/// sides; 0 if none is imposed (the columns are then aligned on the longest one).
+export function maxColumnHeight(geometry: GeometrySpecification): number {
+  if (isPageDefined(geometry.page) && usableHeight(geometry.page) > 0) return usableHeight(geometry.page);
+  return geometry.columnHeight > 0 ? Math.max(0, f(geometry.columnHeight - 2 * geometry.topMargin)) : 0;
 }
 
 export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<GeometrySpecification>({
@@ -155,6 +173,7 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   standardSignHeight: 18,
   alphabeticTextBaseline: 4,
   wrapWidth: 0,
+  columnHeight: 0,
   page: NO_PAGE,
 });
 
@@ -168,7 +187,7 @@ export interface LayoutOptions {
   limitQuadratWidthInLines: boolean;
   /// Lay out every line at the start, whatever the alignment written on its line break. Used
   /// when the lines are wrapped to the width of an editor (not WYSIWYG). The content of a zone,
-  /// which has its own width, is not concerned.
+  /// which has its own width, is not concerned; nor are columns, which are never wrapped.
   ignoreLineAlignment: boolean;
 }
 

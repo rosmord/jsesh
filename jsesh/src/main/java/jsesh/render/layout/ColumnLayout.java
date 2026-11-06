@@ -1,6 +1,6 @@
 /*
  * This file is distributed according to the GNU Lesser Public Licence.
- * Created on 23 d�c. 2004
+ * Created on 23 déc. 2004
  *
  */
 package jsesh.render.layout;
@@ -22,21 +22,16 @@ import jsesh.model.PageBreak;
 import jsesh.model.TabStop;
 import jsesh.render.layout.insert.Kerner;
 import jsesh.render.view.MDCView;
+import jsesh.sharedvocabulary.LineAlignment;
 
-/**
- * Expert for laying out text organised in columns.
- * 
- * <p>
- * We suppose that:
- * <ul>
- * <li>Apart from the first element, the others can be placed absolutely.
- * <li>
- * </ul>
- * General organization of the code :
- * 
- * 
- * @author Serge Rosmorduc
- */
+/// Expert for laying out text organised in columns.
+///
+/// Columns are never wrapped. They are aligned vertically, according to the
+/// `align` option of the line break which ends them (see "Line alignment" in
+/// `00_Documents/documentation/technical_glossary.md`): [LineAlignment#START]
+/// is the top.
+///
+/// @author Serge Rosmorduc
 
 public class ColumnLayout extends TopItemLayout {
 
@@ -64,6 +59,22 @@ public class ColumnLayout extends TopItemLayout {
 
 	/// The horizontal extent (left, right) of each column, for the separators.
 	private final List<double[]> columnExtents = new ArrayList<>();
+
+	/// A column placed in the document: its views, the y where its content
+	/// starts, and its horizontal extent, in document coordinates.
+	private record PlacedColumn(LineAccumulator column, double top, double left, double width) {
+	}
+
+	/// The columns placed so far, with the alignment they will get in
+	/// [#endLayout()].
+	private final List<PlacedColumn> placedColumns = new ArrayList<>();
+
+	/// Their alignments (same indexes as [#placedColumns]).
+	private final List<LineAlignment> alignments = new ArrayList<>();
+
+	/// The alignment of the last column ended by a line break: the last
+	/// column of the text, if it has no line break, takes it.
+	private LineAlignment previousAlignment = LineAlignment.START;
 
 	/// The elements of the current kerned group (since the last element which was not kerned).
 	private final List<MDCView> kernedGroup = new ArrayList<>();
@@ -127,8 +138,9 @@ public class ColumnLayout extends TopItemLayout {
 	@Override
 	public void endLayout() {
 		if (!zone.isEmpty()) {
-			flushZone();
+			flushZone(previousAlignment);
 		}
+		alignColumns();
 		// add a margin
 		documentArea.add(new Point2D.Double(documentArea.getMaxX()
 				+ jseshStyle.geometry().leftMargin(),
@@ -158,6 +170,9 @@ public class ColumnLayout extends TopItemLayout {
 	 */
 	@Override
 	public void startLayout() {
+		placedColumns.clear();
+		alignments.clear();
+		previousAlignment = LineAlignment.START;
 		documentView.reset();
 		// Pseudo relative position for first element.
 		// Note : this is somehow problematic...
@@ -181,10 +196,42 @@ public class ColumnLayout extends TopItemLayout {
 		return z;
 	}
 
-	/**
-	 * 
-	 */
-	private void flushZone() {
+	/// Places the columns according to their alignment, in the height of the
+	/// parent if it has one (a page with a height, or a zone with a height),
+	/// else in the height of the longest column.
+	///
+	/// Unlike lines, columns keep their alignment when the text is wrapped to
+	/// the width of the editor (their height doesn't depend on it).
+	private void alignColumns() {
+		if (alignments.stream().allMatch(a -> a == LineAlignment.START)) {
+			return;
+		}
+		double height = jseshStyle.geometry().maxColumnHeight();
+		if (height <= 0) {
+			// The bottom of the visible content of the longest column.
+			for (PlacedColumn c : placedColumns) {
+				Rectangle2D bounds = c.column().visibleVerticalBounds(0, 0);
+				if (bounds != null) {
+					height = Math.max(height, bounds.getMaxY() - c.top());
+				}
+			}
+		}
+		for (int i = 0; i < placedColumns.size(); i++) {
+			PlacedColumn c = placedColumns.get(i);
+			if (alignments.get(i) != LineAlignment.START) {
+				c.column().alignVerticallyTo(alignments.get(i), c.top(), height);
+				Rectangle2D bounds = c.column().visibleVerticalBounds(c.left(), c.width());
+				if (bounds != null) {
+					documentArea.add(bounds);
+				}
+			}
+		}
+	}
+
+	/// Adds the current column to the document.
+	///
+	/// @param alignment the alignment of the column.
+	private void flushZone(LineAlignment alignment) {
 		// Compute the start point relative position for this line
 		// RIght-to-left is :
 		// zoneStart.setValues((float) 0, RelativePosition.WEST,
@@ -204,6 +251,9 @@ public class ColumnLayout extends TopItemLayout {
 		zone.translateBy(zoneStart);
 
 		columnExtents.add(new double[] { zoneStart.x, zoneStart.x + zone.getWidth() });
+		placedColumns.add(new PlacedColumn(zone, zoneStart.y + jseshStyle.geometry().topMargin(),
+				zoneStart.x, zone.getWidth()));
+		alignments.add(alignment);
 
 		// flush the zone
 		documentArea.add(new Rectangle2D.Double(zoneStart.x, zoneStart.y, zone
@@ -223,15 +273,22 @@ public class ColumnLayout extends TopItemLayout {
 
 		@Override
 		public void visitLineBreak(LineBreak b) {
+			endColumn(b.getAlignment());
+		}
+
+		/// Ends the current column (at a line break, or a page break).
+		///
+		/// @param alignment the alignment written on the break.
+		private void endColumn(LineAlignment alignment) {
 			resetKerning();
 			subView.setHeight(0.1f);
 			subView.setWidth(jseshStyle.geometry().maxCadratWidth());
 			// Add a minimal line break height to the current zone
 			// (else empty lines would be 0 height)
-			// Write
 			// Add the line break to the current line.
-			zone.add(subView);
-			flushZone();
+			zone.addColumnEnd(subView);
+			flushZone(alignment);
+			previousAlignment = alignment;
 
 			zoneStart.x += zone.getWidth()
 					+ jseshStyle.geometry().columnSkip();
@@ -251,7 +308,7 @@ public class ColumnLayout extends TopItemLayout {
 		public void visitPageBreak(PageBreak b) {
 			// TEMPORARY.
 			if (!jseshStyle.options().paged())
-				visitLineBreak(new LineBreak());
+				endColumn(b.getAlignment());
 		}
 
 		/*

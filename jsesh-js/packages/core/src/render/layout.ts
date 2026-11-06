@@ -61,6 +61,7 @@ import {
   computeCartoucheSecondaryLength,
   isWrapping,
   isPaginated,
+  maxColumnHeight,
   maxLineWidth,
   NO_PAGE,
   pageStride,
@@ -129,7 +130,8 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
 /// is a line break).
 ///
 /// A zone in lines wraps at its width, if it has one. It never inherits the
-/// wrapping width of the enclosing text. The alignment of its lines is never ignored.
+/// wrapping width of the enclosing text. A zone in columns aligns its columns in its
+/// height, if it has one. The alignment of its lines is never ignored.
 export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
   const unit = zoneLengthUnit(parent);
   const orientation = p.orientation ?? parent.options.textOrientation;
@@ -138,6 +140,7 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
     topMargin: 0,
     page: NO_PAGE,
     wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
+    columnHeight: orientation !== "HORIZONTAL" && p.height !== ZONE_UNSET ? f(p.height * unit) : 0,
   };
   if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
   // The gaps are given by role, not by axis: the geometry's names depend on the orientation.
@@ -1147,6 +1150,9 @@ class LineAccumulator {
   /// The views, grouped in units moved as a whole by justification (a run
   /// of text is one unit).
   private readonly units: MDCView[][] = [];
+  /// The view of the line break which ends a column, if any: it gives the column a minimal
+  /// size, but is not part of its visible content.
+  private columnEnd: MDCView | undefined;
 
   constructor(minWidth: number, minHeight: number) {
     this.zoneArea = new Rect(0, 0, minWidth, minHeight);
@@ -1157,6 +1163,16 @@ class LineAccumulator {
     this.zoneArea.add(new Rect(view.position.x, view.position.y, view.width, view.height));
     this.views.push(view);
     this.units.push([view]);
+  }
+
+  /// Adds the view of the line break which ends a column. It is placed as in [add], but the
+  /// alignment of the column ignores it (it is moved with the column, as the line break of a
+  /// line, which has no width).
+  addColumnEnd(view: MDCView): void {
+    view.position = { x: this.currentPoint.x + view.deltaBaseX, y: this.currentPoint.y + view.deltaBaseY };
+    this.zoneArea.add(new Rect(view.position.x, view.position.y, view.width, view.height));
+    this.views.push(view);
+    this.columnEnd = view;
   }
 
   /// Adds a view kerned with the previous one: they will be moved together when the zone is
@@ -1233,19 +1249,30 @@ class LineAccumulator {
   /// Places the content of the line in the width given to it, as an alignment requires. The
   /// line is supposed to be at the start (its first view at `startMargin`).
   alignTo(alignment: LineAlignment, startMargin: number, width: number): void {
+    this.alignAlong(false, alignment, startMargin, width);
+  }
+
+  /// Places the content of a column in the height given to it, as an alignment requires
+  /// (`START` is the top). The column is supposed to be at the top (its first view at
+  /// `topMargin`).
+  alignVerticallyTo(alignment: LineAlignment, topMargin: number, height: number): void {
+    this.alignAlong(true, alignment, topMargin, height);
+  }
+
+  private alignAlong(vertical: boolean, alignment: LineAlignment, start: number, length: number): void {
     switch (alignment) {
       case "START":
         break;
       case "END": {
-        const extent = this.visibleExtent();
-        if (extent) this.translateBy({ x: startMargin + width - extent[1], y: 0 });
+        const extent = this.visibleExtent(vertical);
+        if (extent) this.shift(vertical, start + length - extent[1]);
         break;
       }
       case "CENTER":
-        this.centerInWidth(startMargin, width);
+        this.centerIn(vertical, start, length);
         break;
       case "JUSTIFY":
-        this.justifyWidthTo(startMargin, width);
+        this.justifyTo(vertical, start, length);
         break;
     }
   }
@@ -1254,32 +1281,38 @@ class LineAccumulator {
   /// its units. The line stays as it is if it has only one unit (there is nothing to distribute),
   /// or if it is already wider than `width`.
   justifyWidthTo(startMargin: number, width: number): void {
-    let minimalWidth = 0;
+    this.justifyTo(false, startMargin, width);
+  }
+
+  private justifyTo(vertical: boolean, start: number, length: number): void {
+    let minimalLength = 0;
     const nonEmptyUnits: MDCView[][] = [];
     for (const unit of this.units) {
-      const w = unitWidth(unit);
-      minimalWidth += w;
-      if (w !== 0) nonEmptyUnits.push(unit);
+      const l = unitLength(unit, vertical);
+      minimalLength += l;
+      if (l !== 0) nonEmptyUnits.push(unit);
     }
-    const space = width - minimalWidth;
+    const space = length - minimalLength;
     if (nonEmptyUnits.length > 1 && space > 0) {
       const skip = space / (nonEmptyUnits.length - 1);
-      let x = startMargin;
+      let pos = start;
       for (const unit of nonEmptyUnits) {
-        moveUnitTo(unit, x);
-        x += unitWidth(unit) + skip;
+        moveUnitTo(unit, pos, vertical);
+        pos += unitLength(unit, vertical) + skip;
       }
     }
   }
 
-  /// The leftmost and rightmost x of the non-empty views, or null if there are none.
-  private visibleExtent(): [number, number] | null {
+  /// The first and last coordinate, along an axis, of the non-empty views, or null if there are
+  /// none.
+  private visibleExtent(vertical: boolean): [number, number] | null {
     let currentStart = Infinity;
     let currentEnd = -Infinity;
     for (const v of this.views) {
-      if (v.width > 0) {
-        currentStart = Math.min(currentStart, v.position.x);
-        currentEnd = Math.max(currentEnd, v.position.x + v.width);
+      const l = v === this.columnEnd ? 0 : viewLength(v, vertical);
+      if (l > 0) {
+        currentStart = Math.min(currentStart, coordinate(v, vertical));
+        currentEnd = Math.max(currentEnd, coordinate(v, vertical) + l);
       }
     }
     return currentStart > currentEnd ? null : [currentStart, currentEnd];
@@ -1287,37 +1320,60 @@ class LineAccumulator {
 
   /// The width of the visible content of the line.
   get visibleWidth(): number {
-    const extent = this.visibleExtent();
+    const extent = this.visibleExtent(false);
     return extent ? extent[1] - extent[0] : 0;
   }
 
   /// The visible area of the line: the x extent of its non-empty views, and the given vertical
   /// extent; null if it has no non-empty views.
   visibleBounds(minY: number, height: number): Rect | null {
-    const extent = this.visibleExtent();
+    const extent = this.visibleExtent(false);
     return extent ? new Rect(extent[0], minY, extent[1] - extent[0], height) : null;
   }
 
-  private centerInWidth(startMargin: number, width: number): void {
-    const extent = this.visibleExtent();
+  /// The visible area of a column: the y extent of its non-empty views, and the given
+  /// horizontal extent; null if it has no non-empty views.
+  visibleVerticalBounds(minX: number, width: number): Rect | null {
+    const extent = this.visibleExtent(true);
+    return extent ? new Rect(minX, extent[0], width, extent[1] - extent[0]) : null;
+  }
+
+  private shift(vertical: boolean, delta: number): void {
+    this.translateBy(vertical ? { x: 0, y: delta } : { x: delta, y: 0 });
+  }
+
+  private centerIn(vertical: boolean, start: number, length: number): void {
+    const extent = this.visibleExtent(vertical);
     if (!extent) return;
-    const centerMargin = startMargin + (width - (extent[1] - extent[0])) / 2;
-    this.translateBy({ x: centerMargin - extent[0], y: 0 });
+    const centerMargin = start + (length - (extent[1] - extent[0])) / 2;
+    this.shift(vertical, centerMargin - extent[0]);
   }
 }
 
-function unitMinX(unit: MDCView[]): number {
-  return Math.min(...unit.map((v) => v.position.x));
+function coordinate(v: MDCView, vertical: boolean): number {
+  return vertical ? v.position.y : v.position.x;
 }
 
-function unitWidth(unit: MDCView[]): number {
-  if (unit.length === 1) return unit[0]!.width;
-  return Math.max(...unit.map((v) => v.position.x + v.width)) - unitMinX(unit);
+function viewLength(v: MDCView, vertical: boolean): number {
+  return vertical ? v.height : v.width;
 }
 
-function moveUnitTo(unit: MDCView[], x: number): void {
-  const delta = x - unitMinX(unit);
-  for (const v of unit) v.position.x += delta;
+function unitMin(unit: MDCView[], vertical: boolean): number {
+  return Math.min(...unit.map((v) => coordinate(v, vertical)));
+}
+
+function unitLength(unit: MDCView[], vertical: boolean): number {
+  if (unit.length === 1) return viewLength(unit[0]!, vertical);
+  return Math.max(...unit.map((v) => coordinate(v, vertical) + viewLength(v, vertical))) - unitMin(unit, vertical);
+}
+
+/// Moves a unit rigidly so that its start (left or top) is at `pos`.
+function moveUnitTo(unit: MDCView[], pos: number, vertical: boolean): void {
+  const delta = pos - unitMin(unit, vertical);
+  for (const v of unit) {
+    if (vertical) v.position.y += delta;
+    else v.position.x += delta;
+  }
 }
 
 /// Port of `TopItemLayout`: places the top items of the text.
@@ -1745,6 +1801,14 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   private readonly kerning: TopLevelKerning;
   /// The horizontal extent (left, right) of each column, for the separators.
   private readonly columnExtents: [number, number][] = [];
+  /// The columns placed so far (their views, the y where their content starts, and their
+  /// horizontal extent), with the alignment they will get in [endLayout].
+  private readonly placedColumns: { column: LineAccumulator; top: number; left: number; width: number }[] = [];
+  /// Their alignments (same indexes as [placedColumns]).
+  private readonly alignments: LineAlignment[] = [];
+  /// The alignment of the last column ended by a line break: the last column of the text, if it
+  /// has no line break, takes it.
+  private previousAlignment: LineAlignment = "START";
 
   constructor(
     private readonly documentView: MDCView,
@@ -1777,7 +1841,8 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   endLayout(): void {
-    if (!this.zone.isEmpty()) this.flushZone();
+    if (!this.zone.isEmpty()) this.flushZone(this.previousAlignment);
+    this.alignColumns();
     this.documentArea.addPoint(this.documentArea.maxX + this.style.geometry.leftMargin, this.documentArea.minY);
   }
 
@@ -1787,6 +1852,9 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
 
   startLayout(): void {
     this.columnExtents.length = 0;
+    this.placedColumns.length = 0;
+    this.alignments.length = 0;
+    this.previousAlignment = "START";
     this.documentView.reset();
     this.style = withStyle(this.style, { options: { textOrientation: "VERTICAL" } });
     this.documentView.direction = this.currentTextDirection;
@@ -1800,32 +1868,64 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     return z;
   }
 
-  private flushZone(): void {
+  /// Places the columns according to their alignment, in the height of the parent if it has one
+  /// (a page with a height, or a zone with a height), else in the height of the longest column.
+  /// Unlike lines, columns keep their alignment when the text is wrapped to the width of an
+  /// editor (their height doesn't depend on it).
+  private alignColumns(): void {
+    if (this.alignments.every((a) => a === "START")) return;
+    let height = maxColumnHeight(this.style.geometry);
+    if (height <= 0) {
+      // The bottom of the visible content of the longest column.
+      for (const c of this.placedColumns) {
+        const bounds = c.column.visibleVerticalBounds(0, 0);
+        if (bounds) height = Math.max(height, bounds.maxY - c.top);
+      }
+    }
+    this.placedColumns.forEach((c, i) => {
+      const alignment = this.alignments[i]!;
+      if (alignment === "START") return;
+      c.column.alignVerticallyTo(alignment, c.top, height);
+      const bounds = c.column.visibleVerticalBounds(c.left, c.width);
+      if (bounds) this.documentArea.add(bounds);
+    });
+  }
+
+  private flushZone(alignment: LineAlignment): void {
     // The zone's top left is normally 0,0, unless it's higher than expected.
     this.zoneStart.y += -this.zone.minY;
     this.zoneStart.x += -this.zone.minX;
     this.zone.translateBy(this.zoneStart);
     this.columnExtents.push([this.zoneStart.x, this.zoneStart.x + this.zone.width]);
+    this.placedColumns.push({
+      column: this.zone,
+      top: this.zoneStart.y + this.style.geometry.topMargin,
+      left: this.zoneStart.x,
+      width: this.zone.width,
+    });
+    this.alignments.push(alignment);
     this.documentArea.add(new Rect(this.zoneStart.x, this.zoneStart.y, this.zone.width, this.zone.height));
   }
 
-  override visitLineBreak(_b: LineBreak): void {
-    this.endColumn();
+  override visitLineBreak(b: LineBreak): void {
+    this.endColumn(b.alignment);
   }
 
-  private endColumn(): void {
+  /// Ends the current column (at a line break, or a page break).
+  private endColumn(alignment: LineAlignment): void {
     this.kerning.reset();
     // A minimal height, else empty columns would have no height.
     this.subView.height = 0.1;
     this.subView.width = this.style.geometry.maxCadratWidth;
-    this.zone.add(this.subView);
-    this.flushZone();
+    this.zone.addColumnEnd(this.subView);
+    this.flushZone(alignment);
+    this.previousAlignment = alignment;
     this.zoneStart.x += this.zone.width + this.style.geometry.columnSkip;
     this.zone = this.createNewZone();
   }
 
-  override visitPageBreak(_b: PageBreak): void {
-    if (!this.style.options.paged) this.endColumn();
+  override visitPageBreak(b: PageBreak): void {
+    if (!this.style.options.paged) this.endColumn(b.alignment);
   }
 
   override visitTabStop(t: TabStop): void {

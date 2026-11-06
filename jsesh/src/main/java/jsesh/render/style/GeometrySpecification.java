@@ -71,6 +71,12 @@ import java.awt.BasicStroke;
  *                            of horizontal text are soft-wrapped, in layout
  *                            units. 0 (or less) means no wrapping: lines only
  *                            end at explicit line breaks.
+ * @param columnHeight        the total height (margins included) in which the
+ *                            columns of vertical text are aligned, in layout
+ *                            units. 0 (or less) means none: they are aligned
+ *                            on the longest column. Columns are never cut.
+ *                            When a page with a height is defined, its usable
+ *                            height is used instead.
  */
 public record GeometrySpecification(
 		float fineLineWidth, // 0.5f,
@@ -100,7 +106,8 @@ public record GeometrySpecification(
 		float smallBodyScaleLimit, // 12f,
 		float standardSignHeight, // 18f
 		float alphabeticTextBaseline, // 4f
-		float wrapWidth // 0f (no wrapping)
+		float wrapWidth, // 0f (no wrapping)
+		float columnHeight // 0f (natural height)
 ) {
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
@@ -131,6 +138,7 @@ public record GeometrySpecification(
 			12f,
 			18f,
 			4f,
+			0f,
 			0f);
 
 	/**
@@ -186,6 +194,21 @@ public record GeometrySpecification(
 		return hasPage() ? page.usableWidth() : wrapWidth - 2 * leftMargin;
 	}
 
+	/// The height in which the content of columns is aligned (see "Line
+	/// alignment" in `00_Documents/documentation/technical_glossary.md`).
+	///
+	/// With a page which has a height, it's the page's usable height.
+	/// Otherwise, it's [#columnHeight()] minus the top margin on both sides.
+	///
+	/// @return the height, or 0 if none is imposed (the columns are then
+	/// aligned on the longest one).
+	public double maxColumnHeight() {
+		if (hasPage() && page.usableHeight() > 0) {
+			return page.usableHeight();
+		}
+		return columnHeight > 0 ? Math.max(0, columnHeight - 2 * topMargin) : 0;
+	}
+
 	/// The page rectangle, if a page is defined.
 	///
 	/// @return the whole page.
@@ -231,6 +254,7 @@ public record GeometrySpecification(
 		private float standardSignHeight; // 18f;
 		private float alphabeticTextBaseline; // 4f;
 		private float wrapWidth; // 0f;
+		private float columnHeight; // 0f;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -261,6 +285,7 @@ public record GeometrySpecification(
 			this.standardSignHeight = specs.standardSignHeight;
 			this.alphabeticTextBaseline = specs.alphabeticTextBaseline;
 			this.wrapWidth = specs.wrapWidth;
+			this.columnHeight = specs.columnHeight;
 		}
 
 		public Builder fineLineWidth(float fineLineWidth) {
@@ -412,6 +437,11 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		public Builder columnHeight(float columnHeight) {
+			this.columnHeight = columnHeight;
+			return this;
+		}
+
 		public GeometrySpecification build() {
 			return new GeometrySpecification(
 					fineLineWidth,
@@ -441,7 +471,8 @@ public record GeometrySpecification(
 					smallBodyScaleLimit,
 					standardSignHeight,
 					alphabeticTextBaseline,
-					wrapWidth);
+					wrapWidth,
+					columnHeight);
 		}
 
 		/**
@@ -478,6 +509,7 @@ public record GeometrySpecification(
 			standardSignHeight *= scale;
 			alphabeticTextBaseline *= scale;
 			wrapWidth *= scale;
+			columnHeight *= scale;
 			return this;
         }
 	}

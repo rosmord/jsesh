@@ -196,8 +196,7 @@ public final class JSeshViewCore {
     private boolean updatingLineAlignment = false;
 
     /// Shows the alignment of the current line (or of the selected lines) in
-    /// the alignment combo box. The box is disabled in text written in
-    /// columns, whose alignment is not supported yet.
+    /// the alignment combo box (also used for the columns of vertical text).
     private void updateLineAlignmentComboBox() {
         JComboBox<LineAlignment> box = viewComponent.getLineAlignmentComboBox();
         JSeshStyle style = getEditor().getJSeshStyle();
@@ -207,8 +206,7 @@ public final class JSeshViewCore {
                 .getTextDirectionAtCaret(style.options().textDirection());
         updatingLineAlignment = true;
         try {
-            viewComponent.setLineAlignmentRightToLeft(!direction.isLeftToRight());
-            box.setEnabled(orientation.isHorizontal());
+            viewComponent.setLineAlignmentLayout(!direction.isLeftToRight(), !orientation.isHorizontal());
             box.setSelectedItem(getEditor().getWorkflow().getLineAlignmentAtCaret().orElse(null));
         } finally {
             updatingLineAlignment = false;

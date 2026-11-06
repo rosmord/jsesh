@@ -416,7 +416,8 @@ The `align` option gives the alignment of the line which the break *ends*: `star
 - The last line of a text or of a zone, when it has no line break, takes the alignment of the line before it: in `anx-![align=center]-pA-nTr`, `pA-nTr` is centred too.
 - Lines are aligned on the width of their container when it has one (the page, or a zone with a `width`), else on the longest line of the text or zone.
 - A `justify` line is always stretched to the whole width, however short it is (a line with a single element stays at the start). When such a line is wrapped by the layout, its last part is not justified: it stays at the start, as the end of a paragraph.
-- When the editor wraps the lines to the width of its window, alignments are ignored. Columns are not aligned yet.
+- When the editor wraps the lines to the width of its window, the alignments of lines are ignored.
+- In text written in columns (or in a `%zone[layout=columns]`), the same option aligns the column which the break ends: `start` is the top, `end` the bottom, `justify` spreads the quadrats over the whole height. Columns are aligned on the height of their container when it has one (a page with a height, or a zone with a `height`), else on the longest column. Columns are never wrapped, and they stay aligned when the editor wraps lines to the width of its window.
 
 ### 10.2. Zones
 

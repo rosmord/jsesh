@@ -131,6 +131,13 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
     /// of [#lineAlignmentComboBox]).
     private boolean lineAlignmentRightToLeft;
 
+    /// Is the text around the cursor written in columns? (for the icons and
+    /// the label of [#lineAlignmentComboBox]).
+    private boolean lineAlignmentVertical;
+
+    /// The label of [#lineAlignmentComboBox] ("Line:" or "Column:").
+    private final JLabel lineAlignmentLabel = new JLabel();
+
     public JSeshViewComponent(HieroglyphResources fontKit, JSeshStyle style) {
         // simple components.
         editor = new JMDCEditor(new HieroglyphicTextModel(), new JSeshStyleReference(style), fontKit);
@@ -158,7 +165,6 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
         top.setFloatable(false);
 
         lineAlignmentComboBox.setFocusable(false);
-        lineAlignmentComboBox.setToolTipText(bundle.getLabel("lineAlignment.toolTipText"));
         lineAlignmentComboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
@@ -167,12 +173,13 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
                 String text = alignment == null ? bundle.getLabel("lineAlignment.mixed")
                         : bundle.getLabel("lineAlignment." + alignment.mdcName());
                 super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
-                setIcon(new LineAlignmentIcon(alignment, lineAlignmentRightToLeft));
+                setIcon(new LineAlignmentIcon(alignment, lineAlignmentRightToLeft, lineAlignmentVertical));
                 return this;
             }
         });
         lineAlignmentComboBox.setMaximumSize(lineAlignmentComboBox.getPreferredSize());
-        top.add(new JLabel(bundle.getLabel("lineAlignment.label")));
+        updateLineAlignmentLabels();
+        top.add(lineAlignmentLabel);
         top.addSeparator(new Dimension(4, 0));
         top.add(lineAlignmentComboBox);
         top.add(Box.createHorizontalGlue());
@@ -263,15 +270,27 @@ public final class JSeshViewComponent<ZOOMINFO> extends JPanel {
         return lineAlignmentComboBox;
     }
 
-    /// Tells the alignment combo box the direction of the text around the
-    /// cursor, so that its icons follow it.
+    /// Tells the alignment combo box the direction and orientation of the
+    /// text around the cursor, so that its icons and label follow them.
     ///
     /// @param rightToLeft true for right-to-left text.
-    public void setLineAlignmentRightToLeft(boolean rightToLeft) {
-        if (this.lineAlignmentRightToLeft != rightToLeft) {
+    /// @param vertical true for text written in columns.
+    public void setLineAlignmentLayout(boolean rightToLeft, boolean vertical) {
+        if (this.lineAlignmentRightToLeft != rightToLeft || this.lineAlignmentVertical != vertical) {
             this.lineAlignmentRightToLeft = rightToLeft;
+            this.lineAlignmentVertical = vertical;
+            updateLineAlignmentLabels();
             lineAlignmentComboBox.repaint();
         }
+    }
+
+    /// Sets the label and tool tip of the alignment combo box, for lines or
+    /// columns.
+    private void updateLineAlignmentLabels() {
+        BundleHelper bundle = BundleHelper.getInstance();
+        String prefix = lineAlignmentVertical ? "columnAlignment." : "lineAlignment.";
+        lineAlignmentLabel.setText(bundle.getLabel(prefix + "label"));
+        lineAlignmentComboBox.setToolTipText(bundle.getLabel(prefix + "toolTipText"));
     }
 
     public JSeshStyle getJSeshStyle() {
