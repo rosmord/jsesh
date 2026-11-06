@@ -55,11 +55,13 @@ import {
   SubCadrat,
   Superscript,
   AbsoluteTab,
+  Tab,
   TopItem,
   TopItemState,
   Zone,
   ZoneContent,
   ZONE_UNSET,
+  TAB_AUTO,
   zoneParameters,
   type BasicItem,
   type ZoneParameters,
@@ -154,6 +156,8 @@ class AstModelBuilder {
         return [new PageBreak(lineAlignmentOf(item.options))];
       case "AbsoluteTab":
         return [new AbsoluteTab(item.stopWidth)];
+      case "Tab":
+        return [new Tab(optionInt(item.options, "n", TAB_AUTO), lineAlignmentOf(item.options))];
       case "HRule":
         return [new HRule(item.lineType, item.startPos, item.endPos)];
       case "Zone":
@@ -289,7 +293,7 @@ function lineAlignmentOf(options: AstOptionList): LineAlignment {
 }
 
 /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `linegap`,
-/// `quadratgap`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
+/// `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight` and `frame`.
 /// Unknown options and values are ignored.
 function zoneParametersOf(options: AstOptionList): ZoneParameters {
   const layout = optionString(options, "layout", "");
@@ -302,6 +306,7 @@ function zoneParametersOf(options: AstOptionList): ZoneParameters {
     height: length("height"),
     lineGap: length("linegap"),
     quadratGap: length("quadratgap"),
+    tabGap: length("tabgap"),
     separator: length("separator"),
     quadratWidth: length("quadratwidth"),
     quadratHeight: length("quadratheight"),

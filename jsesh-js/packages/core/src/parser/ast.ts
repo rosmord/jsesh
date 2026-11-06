@@ -208,6 +208,13 @@ export interface AstAbsoluteTab {
   stopWidth: number;
 }
 
+/// A dynamic tab: `%tab` or `%tab[n=3,align=end]`.
+export interface AstTab {
+  nodeType: "Tab";
+  /// The raw options given between brackets (empty if none).
+  options: AstOptionList;
+}
+
 export interface AstHRule {
   nodeType: "HRule";
   lineType: string;
@@ -227,6 +234,7 @@ export type AstTopItem =
   | AstLineBreak
   | AstPageBreak
   | AstAbsoluteTab
+  | AstTab
   | AstHRule
   | AstZone;
 

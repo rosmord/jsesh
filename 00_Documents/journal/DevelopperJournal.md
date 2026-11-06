@@ -40,8 +40,9 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 - The Winglyph `?N` is renamed `AbsoluteTab` (`AstAbsoluteTab`, token `ABSOLUTE_TAB`), in Java and in `jsesh-js`; fixtures re-exported. `AbsoluteTab` now compares its position in `equalsIgnoreId`.
 - `%tab` is not laid out yet, and the JS port doesn't read it yet.
 - Step 4, editor: View > Show Tabs (blue marks with the stop index), Text > Tabs (insert with `shortcut alt T`; move to the next or previous stop, menus only). `jsesh.model.TabLine` resolves stop indexes (shared rule `Tab.resolveIndex`, also used by the layout) and moves tabs.
-- Step 2, Java layout: `TabLayout` computes the stops and places the cells as blocks, at the end of `LineLayout`/`ColumnLayout`, before line alignment (which leaves tabbed lines alone). Empty cells don't push stops. A `?N` after a `%tab` is ignored. Not mirrored in `jsesh-js` yet (its parser doesn't know `%tab`, so no fixture uses it, and the existing fixtures are unchanged).
+- Step 2, Java layout: `TabLayout` computes the stops and places the cells as blocks, at the end of `LineLayout`/`ColumnLayout`, before line alignment (which leaves tabbed lines alone). Empty cells don't push stops. A `?N` after a `%tab` is ignored. Mirrored in `jsesh-js` (see step 3).
 - Decisions: tabs are active in zones only; in a soft-wrapped line, only the tabs before the first wrap count, wraps being computed on natural widths (overflow accepted).
+- Step 3, `jsesh-js`: `%tab` is now parsed, modelled (`Tab`, `ZoneParameters.tabGap`), written back, and laid out (`TabLayout`, in `layout.ts`, same algorithm as Java, lines and columns). Fixtures: 18 new `ParserCases` (alignments, `n=`, `tabgap`, columns, rtl, wrap, `?N` after a tab, text cells), all view trees identical to Java. The "show tabs" marks are an editor feature: not drawn by the JS SVG output.
 
 **Line and column alignment** (todo 0155, closed).
 

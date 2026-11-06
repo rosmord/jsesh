@@ -25,6 +25,7 @@ enum TokenType {
   PAGE_END,
   LINE_END,
   ABSOLUTE_TAB,
+  TAB,
   HRULE_THIN,
   HRULE_WIDE,
   ALPHABETIC_TEXT,
@@ -185,6 +186,7 @@ const INITIAL_RULES: Rule[] = [
   { type: TokenType.HRULE_WIDE, match: re("\\{L[0-9]+,[0-9]+\\}") },
   { type: TokenType.ALPHABETIC_TEXT, match: alphabeticText },
   { type: TokenType.ZONE, match: lit("%zone") },
+  { type: TokenType.TAB, match: lit("%tab") },
   { type: TokenType.QUADRAT, match: lit("%quadrat") },
   { type: TokenType.INSERT, match: lit("%insert") },
   { type: TokenType.HKERN, match: lit("%hkern") },
@@ -375,6 +377,8 @@ export class MdcLexer {
         return emit(MdcSymbolCode.TEXT, parseAlphabeticText(text));
       case TokenType.ZONE:
         return emit(MdcSymbolCode.ZONE);
+      case TokenType.TAB:
+        return emit(MdcSymbolCode.TAB);
       case TokenType.QUADRAT:
         return emit(MdcSymbolCode.QUADRAT);
       case TokenType.INSERT:

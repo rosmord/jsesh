@@ -217,7 +217,7 @@ export class MdcParser {
   /// ```
   /// topitems ::= ε | topitems optSeparator topitem
   /// topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
-  ///           | LINEEND optionList? | PAGEEND optionList? | TABSTOP
+  ///           | LINEEND optionList? | PAGEEND optionList? | ABSOLUTETAB | TAB optionList?
   ///           | HRULE | zone
   /// ```
   private parseTopItems(): AstTopItem[] {
@@ -265,6 +265,10 @@ export class MdcParser {
         }
         case S.ZONE:
           item = this.parseZone();
+          break;
+        case S.TAB:
+          this.advance();
+          item = { nodeType: "Tab", options: this.parseOptOptionList() };
           break;
         default:
           item = this.atCadratStart() ? this.parseCadratWithShading() : null;

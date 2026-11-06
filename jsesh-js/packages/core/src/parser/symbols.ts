@@ -9,6 +9,7 @@ export enum MdcSymbolCode {
   PAGE_END = "PAGE_END",
   LINE_END = "LINE_END",
   ABSOLUTE_TAB = "ABSOLUTE_TAB",
+  TAB = "TAB",
   HRULE = "HRULE",
   ZONE = "ZONE",
   QUADRAT = "QUADRAT",

@@ -13,7 +13,7 @@
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
 ///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
-///        ├─ Superscript, LineBreak, PageBreak, AbsoluteTab, HRule
+///        ├─ Superscript, LineBreak, PageBreak, AbsoluteTab, Tab, HRule
 ///        └─ Zone └─ ZoneContent └─ TopItem (nested zones too)
 /// ```
 ///
@@ -70,6 +70,7 @@ export interface ModelElementVisitor<R = void> {
   visitLineBreak(e: LineBreak): R;
   visitPageBreak(e: PageBreak): R;
   visitAbsoluteTab(e: AbsoluteTab): R;
+  visitTab(e: Tab): R;
   visitHRule(e: HRule): R;
   visitZone(e: Zone): R;
   visitZoneContent(e: ZoneContent): R;
@@ -143,6 +144,9 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
     this.visitDefault(e);
   }
   visitAbsoluteTab(e: AbsoluteTab): void {
+    this.visitDefault(e);
+  }
+  visitTab(e: Tab): void {
     this.visitDefault(e);
   }
   visitHRule(e: HRule): void {
@@ -1422,6 +1426,56 @@ export class AbsoluteTab extends TopItem {
   }
 }
 
+/// The index of a [Tab] which follows the previous one.
+export const TAB_AUTO = 0;
+
+/// A dynamic tab, `%tab` or `%tab[n=3,align=end]` (port of `jsesh.model.Tab`).
+///
+/// The tabs of a zone cut its lines into *tab cells*, aligned on *tab stops*
+/// shared by all the lines of the zone. The position of a stop is computed
+/// from the text: it is pushed by the longest cell which ends there.
+///
+/// - the **index** is the number of the tab stop the tab jumps to (≥ 1), or
+///   [TAB_AUTO]: "the index of the previous tab of the line, plus one";
+/// - the **alignment** is the alignment of the cell *before* the tab. The cell
+///   after the last tab of a line takes the alignment of the line.
+export class Tab extends TopItem {
+  /// The tab stop index, ≥ 1, or [TAB_AUTO].
+  readonly index: number;
+
+  /// @param index the tab stop index (any value ≤ 0 is [TAB_AUTO]).
+  /// @param alignment the alignment of the cell before the tab.
+  constructor(
+    index: number = TAB_AUTO,
+    readonly alignment: LineAlignment = "START",
+  ) {
+    super();
+    this.index = index > 0 ? index : TAB_AUTO;
+  }
+
+  /// The stop index a tab actually jumps to: its explicit index if it is
+  /// greater than the one of the previous tab of the line, else the previous
+  /// one plus one.
+  static resolveIndex(requested: number, previous: number): number {
+    return requested > previous ? requested : previous + 1;
+  }
+
+  /// True if the index is explicit (`n=...`).
+  get hasExplicitIndex(): boolean {
+    return this.index !== TAB_AUTO;
+  }
+
+  accept<R>(v: ModelElementVisitor<R>): R {
+    return v.visitTab(this);
+  }
+
+  deepCopy(): Tab {
+    const copy = new Tab(this.index, this.alignment);
+    this.copyStateTo(copy);
+    return copy;
+  }
+}
+
 /// `{lA,B}` (thin) or `{LA,B}` (wide) horizontal rule.
 export class HRule extends TopItem {
   constructor(
@@ -1461,6 +1515,8 @@ export interface ZoneParameters {
   readonly lineGap: number;
   /// The space between two successive quadrats of a line (or of a column).
   readonly quadratGap: number;
+  /// The minimal space between a tab cell and the next tab stop.
+  readonly tabGap: number;
   /// The thickness of the rules between the lines (or columns), or unset for no rule.
   readonly separator: number;
   /// The maximum width of the quadrats of the zone (the width of its columns).
@@ -1482,6 +1538,7 @@ export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters 
     height: positive(p.height),
     lineGap: nonNegative(p.lineGap),
     quadratGap: nonNegative(p.quadratGap),
+    tabGap: nonNegative(p.tabGap),
     separator: positive(p.separator),
     quadratWidth: positive(p.quadratWidth),
     quadratHeight: positive(p.quadratHeight),

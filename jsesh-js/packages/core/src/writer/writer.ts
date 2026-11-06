@@ -45,6 +45,7 @@ import {
   type SubCadrat,
   type Superscript,
   type AbsoluteTab,
+  type Tab,
   type ZoneContent,
 } from "../model/model.js";
 
@@ -234,6 +235,15 @@ class ModelWriter implements ModelElementVisitor<void> {
     this.write("?" + t.stopPos);
   }
 
+  /// Writes `%tab`, with the `n` and `align` options only when they are not the default ones.
+  visitTab(t: Tab): void {
+    const options: string[] = [];
+    if (t.hasExplicitIndex) options.push("n=" + t.index);
+    if (t.alignment !== "START") options.push("align=" + LINE_ALIGNMENT_CODES[t.alignment]);
+    this.write("%tab");
+    if (options.length > 0) this.write("[" + options.join(",") + "]");
+  }
+
   visitHieroglyphicText(t: HieroglyphicText): void {
     this.writeSequence(t, this.startIndex, this.endIndex);
   }
@@ -273,6 +283,7 @@ class ModelWriter implements ModelElementVisitor<void> {
       ["height", p.height],
       ["linegap", p.lineGap],
       ["quadratgap", p.quadratGap],
+      ["tabgap", p.tabGap],
       ["separator", p.separator],
       ["quadratwidth", p.quadratWidth],
       ["quadratheight", p.quadratHeight],

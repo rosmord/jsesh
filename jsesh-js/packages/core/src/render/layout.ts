@@ -39,6 +39,7 @@ import {
   type SubCadrat,
   type Superscript,
   type AbsoluteTab,
+  Tab,
   Zone,
   ZoneContent,
   ZONE_UNSET,
@@ -245,6 +246,12 @@ class Layout {
 
   get s(): JSeshStyle {
     return this.style;
+  }
+
+  /// The style of the zone or text which encloses the zone being laid out (the one which gives
+  /// the unit of the zone's lengths). Only meaningful while the content of a zone is laid out.
+  get parentStyle(): JSeshStyle | undefined {
+    return this.savedZoneStyles[this.savedZoneStyles.length - 1];
   }
 
   get drawer(): HieroglyphDrawer {
@@ -818,6 +825,9 @@ class LayoutAux extends ModelElementAdapter {
   /// Tab stops are handled by the text layout.
   override visitAbsoluteTab(_t: AbsoluteTab): void {}
 
+  /// Tabs are handled when laying out the top items.
+  override visitTab(_t: Tab): void {}
+
   override visitHieroglyphicText(_t: HieroglyphicText): void {
     this.layoutTopItems();
   }
@@ -862,6 +872,17 @@ class LayoutAux extends ModelElementAdapter {
     }
   }
 
+  /// The minimal space between a tab cell and the next tab stop, in a zone: its `tabgap`, or
+  /// else the space between two quadrats.
+  ///
+  /// `parentStyle` is the style of the enclosing zone or text (which gives the unit of the zone's
+  /// lengths), `zoneStyle` the style of the content of the zone.
+  private tabGap(p: ZoneParameters, parentStyle: JSeshStyle, zoneStyle: JSeshStyle): number {
+    if (p.tabGap !== ZONE_UNSET) return f(p.tabGap * zoneLengthUnit(parentStyle));
+    // The space between quadrats is named by axis in the geometry.
+    return this.l.orientation === "HORIZONTAL" ? zoneStyle.geometry.smallSkip : zoneStyle.geometry.lineSkip;
+  }
+
   /// Lays out the top items of a text or of a zone (the subviews of the
   /// current view) in lines or columns.
   private layoutTopItems(): void {
@@ -872,6 +893,10 @@ class LayoutAux extends ModelElementAdapter {
         ? new LineLayout(v, style, this.l.kerner())
         : new ColumnLayout(v, style, this.l.kerner());
     const runs = TextRun.layoutRuns(v, style.fonts, this.l.textMeasurer);
+    const parentStyle = this.l.parentStyle;
+    if (v.model instanceof ZoneContent && v.model.parent instanceof Zone && parentStyle !== undefined) {
+      topItemLayout.enableTabs(this.tabGap(v.model.parent.parameters, parentStyle, style));
+    }
     let runIndex = 0;
     topItemLayout.startLayout();
     let i = 0;
@@ -1143,8 +1168,37 @@ class QuadratLayout {
 
 /// Port of `LineAccumulator`: a line or a column being built. It keeps track of its
 /// size and views, and of the point where the next view goes.
+/// A dynamic tab (`%tab`) of a line: the cell before it ends before the unit `unitIndex`.
+interface TabMark {
+  /// The index of the first unit after the tab.
+  unitIndex: number;
+  /// The tab stop index.
+  index: number;
+  /// The alignment of the cell before the tab.
+  alignment: LineAlignment;
+  /// The (empty) view of the tab.
+  view: MDCView;
+}
+
+/// The end tab of the last cell of a line, which has none.
+const LAST_CELL = -1;
+
+/// A tab cell: the units between two tabs (or between the start of the line and the first tab,
+/// or between the last tab and the end of the line).
+interface TabCell {
+  /// The index of the tab stop where the cell starts.
+  startTab: number;
+  /// The index of the tab stop where the cell ends, or [LAST_CELL].
+  endTab: number;
+  /// The alignment of the cell (meaningless for the last cell: it takes the alignment of the line).
+  alignment: LineAlignment;
+  units: MDCView[][];
+}
+
 class LineAccumulator {
   readonly currentPoint: Point = { x: 0, y: 0 };
+  /// The dynamic tabs of the line, in order.
+  private readonly tabMarks: TabMark[] = [];
   private readonly zoneArea: Rect;
   private readonly views: MDCView[] = [];
   /// The views, grouped in units moved as a whole by justification (a run
@@ -1201,6 +1255,52 @@ class LineAccumulator {
       this.views.push(view);
     });
     this.units.push([...runViews]);
+  }
+
+  /// Adds a dynamic tab (`%tab`): it ends the current tab cell.
+  ///
+  /// The view of the tab is placed at the current point, but doesn't count in the size of the
+  /// line; [placeTabViews] moves it to its tab stop. An index which is not greater than the
+  /// previous one is replaced by the previous one plus one.
+  addTab(view: MDCView, requestedIndex: number, alignment: LineAlignment): number {
+    const previous = this.tabMarks.length === 0 ? 0 : this.tabMarks[this.tabMarks.length - 1]!.index;
+    const index = Tab.resolveIndex(requestedIndex, previous);
+    if (requestedIndex > 0 && requestedIndex <= previous) {
+      console.warn(`%tab[n=${requestedIndex}] after tab stop ${previous} in the same line: using ${index}`);
+    }
+    view.position = { x: this.currentPoint.x + view.deltaBaseX, y: this.currentPoint.y + view.deltaBaseY };
+    this.views.push(view);
+    this.tabMarks.push({ unitIndex: this.units.length, index, alignment, view });
+    return index;
+  }
+
+  /// True if the line contains dynamic tabs.
+  hasTabs(): boolean {
+    return this.tabMarks.length > 0;
+  }
+
+  /// The tab cells of the line, in order; the last one is the cell after the last tab (possibly
+  /// empty).
+  tabCells(): TabCell[] {
+    const cells: TabCell[] = [];
+    let startTab = 0;
+    let from = 0;
+    for (const m of this.tabMarks) {
+      cells.push({ startTab, endTab: m.index, alignment: m.alignment, units: this.units.slice(from, m.unitIndex) });
+      startTab = m.index;
+      from = m.unitIndex;
+    }
+    cells.push({ startTab, endTab: LAST_CELL, alignment: "START", units: this.units.slice(from) });
+    return cells;
+  }
+
+  /// Moves the views of the tabs to their tab stops. `origin` is the start of the line (or the
+  /// top of the column), `tabPositions` the position of each tab stop from the origin.
+  placeTabViews(origin: number, tabPositions: number[], vertical: boolean): void {
+    for (const m of this.tabMarks) {
+      if (vertical) m.view.position.y = origin + tabPositions[m.index]!;
+      else m.view.position.x = origin + tabPositions[m.index]!;
+    }
   }
 
   /// The area the zone would have if it included `view` at the current point.
@@ -1285,22 +1385,7 @@ class LineAccumulator {
   }
 
   private justifyTo(vertical: boolean, start: number, length: number): void {
-    let minimalLength = 0;
-    const nonEmptyUnits: MDCView[][] = [];
-    for (const unit of this.units) {
-      const l = unitLength(unit, vertical);
-      minimalLength += l;
-      if (l !== 0) nonEmptyUnits.push(unit);
-    }
-    const space = length - minimalLength;
-    if (nonEmptyUnits.length > 1 && space > 0) {
-      const skip = space / (nonEmptyUnits.length - 1);
-      let pos = start;
-      for (const unit of nonEmptyUnits) {
-        moveUnitTo(unit, pos, vertical);
-        pos += unitLength(unit, vertical) + skip;
-      }
-    }
+    justifyUnits(this.units, vertical, start, length);
   }
 
   /// The first and last coordinate, along an axis, of the non-empty views, or null if there are
@@ -1367,6 +1452,153 @@ function unitLength(unit: MDCView[], vertical: boolean): number {
   return Math.max(...unit.map((v) => coordinate(v, vertical) + viewLength(v, vertical))) - unitMin(unit, vertical);
 }
 
+/// Justifies some units: distributes the free space of `length` between the non-empty ones.
+function justifyUnits(units: MDCView[][], vertical: boolean, start: number, length: number): void {
+  let minimalLength = 0;
+  const nonEmptyUnits: MDCView[][] = [];
+  for (const unit of units) {
+    const l = unitLength(unit, vertical);
+    minimalLength += l;
+    if (l !== 0) nonEmptyUnits.push(unit);
+  }
+  const space = length - minimalLength;
+  if (nonEmptyUnits.length > 1 && space > 0) {
+    const skip = space / (nonEmptyUnits.length - 1);
+    let pos = start;
+    for (const unit of nonEmptyUnits) {
+      moveUnitTo(unit, pos, vertical);
+      pos += unitLength(unit, vertical) + skip;
+    }
+  }
+}
+
+/// The first and last coordinate, along an axis, of the non-empty views of some units, or null
+/// if there are none.
+function unitsExtent(units: MDCView[][], vertical: boolean): [number, number] | null {
+  let currentStart = Infinity;
+  let currentEnd = -Infinity;
+  for (const unit of units) {
+    for (const v of unit) {
+      const l = viewLength(v, vertical);
+      if (l > 0) {
+        currentStart = Math.min(currentStart, coordinate(v, vertical));
+        currentEnd = Math.max(currentEnd, coordinate(v, vertical) + l);
+      }
+    }
+  }
+  return currentStart > currentEnd ? null : [currentStart, currentEnd];
+}
+
+/// The length, along an axis, of the visible content of some units.
+function unitsLength(units: MDCView[][], vertical: boolean): number {
+  const extent = unitsExtent(units, vertical);
+  return extent === null ? 0 : extent[1] - extent[0];
+}
+
+/// Places some units (a tab cell) in an interval, as an alignment requires. The units keep their
+/// relative positions, except for `JUSTIFY`, which spreads the free space between them.
+function placeUnits(units: MDCView[][], alignment: LineAlignment, start: number, length: number, vertical: boolean): void {
+  const extent = unitsExtent(units, vertical);
+  if (extent === null) return;
+  const size = extent[1] - extent[0];
+  let target = start;
+  if (alignment === "END") target = start + length - size;
+  else if (alignment === "CENTER") target = start + (length - size) / 2;
+  const delta = target - extent[0];
+  for (const unit of units) {
+    for (const v of unit) {
+      if (vertical) v.position.y += delta;
+      else v.position.x += delta;
+    }
+  }
+  if (alignment === "JUSTIFY") justifyUnits(units, vertical, start, length);
+}
+
+/// A line (or column) with tabs, for [TabLayout].
+interface TabbedLine {
+  /// The line, already at its final place.
+  line: LineAccumulator;
+  /// The coordinate where the line starts (tab stop 0).
+  origin: number;
+  /// The alignment of the cell after the last tab (the alignment of the line).
+  lastCellAlignment: LineAlignment;
+}
+
+/// Port of `TabLayout`: places the tab cells of the lines (or columns) of a zone on their tab
+/// stops (see [Tab]). Shared by [LineLayout] and [ColumnLayout], which call it at the end of the
+/// layout, once all lines are placed, and before the alignment of the other lines.
+///
+/// 1. the stops are computed from the natural size of the cells: a cell which ends at stop *i*
+///    pushes it to its start, plus its size, plus the tab gap. A stop is never before the
+///    previous one. An empty cell doesn't push anything.
+/// 2. each cell is moved, as a block, to its interval: from its start stop to its end stop minus
+///    the gap; for the last cell of a line, from its start stop to the end of the table.
+///
+/// Positions are along the x axis for lines, the y axis for columns, and are always computed from
+/// the start of the line.
+class TabLayout {
+  /// `vertical` is true for columns; `gap` is the minimal space between a cell and the next tab
+  /// stop.
+  constructor(
+    private readonly vertical: boolean,
+    private readonly gap: number,
+  ) {}
+
+  /// Computes the tab stops of the lines and places their cells.
+  ///
+  /// The last cell of each line is aligned in the interval which ends at the end of the table:
+  /// `availableLength` (the length imposed by the parent) if it is positive, else the longest of
+  /// the tabbed lines and of `untabbedLength` (the length of the longest line without tabs).
+  apply(lines: TabbedLine[], availableLength: number, untabbedLength: number): number[] {
+    const cells = lines.map((l) => l.line.tabCells());
+    let maxIndex = 0;
+    for (const lineCells of cells) for (const c of lineCells) maxIndex = Math.max(maxIndex, c.endTab);
+    const tabPos = this.tabPositions(cells, maxIndex);
+    let end = availableLength > 0 ? availableLength : untabbedLength;
+    if (availableLength <= 0) {
+      for (const lineCells of cells) {
+        const last = lineCells[lineCells.length - 1]!;
+        end = Math.max(end, tabPos[last.startTab]! + this.size(last));
+      }
+    }
+    lines.forEach((l, i) => {
+      for (const c of cells[i]!) {
+        const start = tabPos[c.startTab]!;
+        const isLast = c.endTab === LAST_CELL;
+        const cellEnd = isLast ? end : tabPos[c.endTab]! - this.gap;
+        const length = Math.max(cellEnd - start, this.size(c));
+        const alignment = isLast ? l.lastCellAlignment : c.alignment;
+        placeUnits(c.units, alignment, l.origin + start, length, this.vertical);
+      }
+      l.line.placeTabViews(l.origin, tabPos, this.vertical);
+    });
+    return tabPos;
+  }
+
+  /// The position of each tab stop, from 0 to `maxIndex`.
+  private tabPositions(cells: TabCell[][], maxIndex: number): number[] {
+    const endingAt: TabCell[][] = [];
+    for (let i = 0; i <= maxIndex; i++) endingAt.push([]);
+    for (const lineCells of cells) {
+      for (const c of lineCells) if (c.endTab !== LAST_CELL) endingAt[c.endTab]!.push(c);
+    }
+    const tabPos: number[] = new Array<number>(maxIndex + 1).fill(0);
+    for (let i = 1; i <= maxIndex; i++) {
+      let pos = tabPos[i - 1]!;
+      for (const c of endingAt[i]!) {
+        const size = this.size(c);
+        if (size > 0) pos = Math.max(pos, tabPos[c.startTab]! + size + this.gap);
+      }
+      tabPos[i] = pos;
+    }
+    return tabPos;
+  }
+
+  private size(c: TabCell): number {
+    return unitsLength(c.units, this.vertical);
+  }
+}
+
 /// Moves a unit rigidly so that its start (left or top) is at `pos`.
 function moveUnitTo(unit: MDCView[], pos: number, vertical: boolean): void {
   const delta = pos - unitMin(unit, vertical);
@@ -1379,6 +1611,9 @@ function moveUnitTo(unit: MDCView[], pos: number, vertical: boolean): void {
 /// Port of `TopItemLayout`: places the top items of the text.
 interface TopItemLayout {
   startLayout(): void;
+  /// Lays out the dynamic tabs (`%tab`) of the text, with this minimal space between a tab cell
+  /// and the next tab stop. They are only laid out in zones; elsewhere, they are ignored.
+  enableTabs(gap: number): void;
   layoutElement(subView: MDCView): void;
   layoutTextRun(run: TextRun, views: MDCView[]): void;
   endLayout(): void;
@@ -1495,6 +1730,14 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   private pageIndex = 0;
   /// In lines, only `%hkern` is meaningful.
   private readonly kerning: TopLevelKerning;
+  /// The minimal space between a tab cell and the next tab stop, or negative if dynamic tabs are
+  /// not laid out.
+  private tabGap = -1;
+  /// Has the current logical line been soft-wrapped? Only the tabs before its first soft wrap are
+  /// active.
+  private wrappedLogicalLine = false;
+  /// The lines whose cells were placed by [TabLayout]: [alignLines] leaves them alone.
+  private readonly tabbedLines = new Set<LineAccumulator>();
 
   constructor(
     private readonly documentView: MDCView,
@@ -1504,6 +1747,14 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     super();
     this.currentTextDirection = style.options.textDirection;
     this.kerning = new TopLevelKerning(kerner, "HORIZONTAL", style.geometry.smallSkip);
+  }
+
+  enableTabs(gap: number): void {
+    this.tabGap = Math.max(0, gap);
+  }
+
+  private get tabsEnabled(): boolean {
+    return this.tabGap >= 0;
   }
 
   layoutElement(subView: MDCView): void {
@@ -1590,6 +1841,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     const g = this.style.geometry;
     if (!this.zone.isEmpty()) this.flushZone();
     this.endLogicalLine(this.previousAlignment);
+    this.layoutTabs();
     if (!this.style.options.ignoreLineAlignment) this.alignLines();
     if (isPaginated(g.page)) {
       // The view covers all the pages.
@@ -1612,6 +1864,36 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.currentLogicalLine.length = 0;
   }
 
+  /// Places the cells of the lines which have tabs on their tab stops (see [TabLayout]). The cell
+  /// after the last tab takes the alignment of the line, in the width of the parent if it has
+  /// one, else in the width of the longest line.
+  private layoutTabs(): void {
+    if (!this.tabsEnabled) return;
+    const g = this.style.geometry;
+    const margin = g.leftMargin;
+    const ignoreAlignment = this.style.options.ignoreLineAlignment;
+    const lines: TabbedLine[] = [];
+    let untabbedWidth = 0;
+    this.alignedLines.forEach((placed, i) => {
+      const line = placed.line;
+      if (line.hasTabs()) {
+        lines.push({ line, origin: margin, lastCellAlignment: ignoreAlignment ? "START" : this.alignments[i]! });
+        this.tabbedLines.add(line);
+      } else {
+        const bounds = line.visibleBounds(0, 0);
+        if (bounds) untabbedWidth = Math.max(untabbedWidth, bounds.maxX - margin);
+      }
+    });
+    if (lines.length === 0) return;
+    const available = isWrapping(g) ? this.maxLineWidth() : 0;
+    new TabLayout(false, this.tabGap).apply(lines, available, untabbedWidth);
+    for (const l of this.alignedLines) {
+      if (!this.tabbedLines.has(l.line)) continue;
+      const bounds = l.line.visibleBounds(l.top, l.height);
+      if (bounds) this.documentArea.add(bounds);
+    }
+  }
+
   /// Places the lines according to their alignment, in the width of the parent if it has one (a
   /// page, or a zone with a width), else in the width of the longest line.
   private alignLines(): void {
@@ -1629,7 +1911,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     }
     this.alignedLines.forEach((l, i) => {
       const alignment = this.alignments[i]!;
-      if (alignment === "START") return;
+      if (alignment === "START" || this.tabbedLines.has(l.line)) return;
       l.line.alignTo(alignment, g.leftMargin, width);
       const bounds = l.line.visibleBounds(l.top, l.height);
       if (bounds) this.documentArea.add(bounds);
@@ -1652,6 +1934,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   /// Ends the current line because of soft wrapping, and starts the next one.
   private wrapLine(): void {
     this.kerning.reset();
+    this.wrappedLogicalLine = true;
     const verticalSkip = this.zone.height + this.zone.minY + this.style.geometry.lineSkip;
     this.flushZone();
     this.startNextZone(verticalSkip);
@@ -1673,6 +1956,8 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.alignedLines.length = 0;
     this.alignments.length = 0;
     this.currentLogicalLine.length = 0;
+    this.tabbedLines.clear();
+    this.wrappedLogicalLine = false;
     this.previousAlignment = "START";
     this.pageIndex = 0;
     this.lineExtents.length = 0;
@@ -1734,6 +2019,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.flushZone();
     this.endLogicalLine(b.alignment);
     this.previousAlignment = b.alignment;
+    this.wrappedLogicalLine = false;
     this.startNextZone(verticalSkip);
   }
 
@@ -1744,6 +2030,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     this.flushZone();
     this.endLogicalLine(b.alignment);
     this.previousAlignment = b.alignment;
+    this.wrappedLogicalLine = false;
     if (isPaginated(g.page)) {
       // Pages are stacked: the next line goes to the top of the next page.
       this.pageIndex++;
@@ -1767,10 +2054,23 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   /// Tabs are relative to the current zone.
   override visitAbsoluteTab(tab: AbsoluteTab): void {
     this.kerning.reset();
+    if (this.tabsEnabled && this.zone.hasTabs()) {
+      // Absolute positions mean nothing after a dynamic tab.
+      this.zone.add(this.subView);
+      return;
+    }
     const pos = f(tab.stopPos * this.style.geometry.tabUnitWidth);
     this.zone.currentPoint.x = pos;
     this.zone.currentPoint.y = 0;
     this.zone.add(this.subView);
+  }
+
+  /// A dynamic tab ends the current tab cell, if tabs are laid out, and if the logical line has
+  /// not been soft-wrapped yet. Otherwise, it is an empty element.
+  override visitTab(tab: Tab): void {
+    this.kerning.reset();
+    if (this.tabsEnabled && !this.wrappedLogicalLine) this.zone.addTab(this.subView, tab.index, tab.alignment);
+    else this.zone.add(this.subView);
   }
 
   override visitDefault(_t: ModelElement): void {
@@ -1809,6 +2109,11 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
   /// The alignment of the last column ended by a line break: the last column of the text, if it
   /// has no line break, takes it.
   private previousAlignment: LineAlignment = "START";
+  /// The minimal space between a tab cell and the next tab stop, or negative if dynamic tabs are
+  /// not laid out.
+  private tabGap = -1;
+  /// The columns whose cells were placed by [TabLayout]: [alignColumns] leaves them alone.
+  private readonly tabbedColumns = new Set<LineAccumulator>();
 
   constructor(
     private readonly documentView: MDCView,
@@ -1819,6 +2124,14 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.style = style;
     this.currentTextDirection = style.options.textDirection;
     this.kerning = new TopLevelKerning(kerner, "VERTICAL", style.geometry.smallSkip);
+  }
+
+  enableTabs(gap: number): void {
+    this.tabGap = Math.max(0, gap);
+  }
+
+  private get tabsEnabled(): boolean {
+    return this.tabGap >= 0;
   }
 
   layoutElement(subView: MDCView): void {
@@ -1842,6 +2155,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
 
   endLayout(): void {
     if (!this.zone.isEmpty()) this.flushZone(this.previousAlignment);
+    this.layoutTabs();
     this.alignColumns();
     this.documentArea.addPoint(this.documentArea.maxX + this.style.geometry.leftMargin, this.documentArea.minY);
   }
@@ -1854,6 +2168,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     this.columnExtents.length = 0;
     this.placedColumns.length = 0;
     this.alignments.length = 0;
+    this.tabbedColumns.clear();
     this.previousAlignment = "START";
     this.documentView.reset();
     this.style = withStyle(this.style, { options: { textOrientation: "VERTICAL" } });
@@ -1866,6 +2181,31 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     const z = new LineAccumulator(0, 0);
     z.moveCurrentPoint(0, this.style.geometry.topMargin);
     return z;
+  }
+
+  /// Places the cells of the columns which have tabs on their tab stops (see [TabLayout]). The
+  /// cell after the last tab takes the alignment of the column, in the height of the parent if it
+  /// has one, else in the height of the longest column.
+  private layoutTabs(): void {
+    if (!this.tabsEnabled) return;
+    const columns: TabbedLine[] = [];
+    let untabbedHeight = 0;
+    this.placedColumns.forEach((c, i) => {
+      if (c.column.hasTabs()) {
+        columns.push({ line: c.column, origin: c.top, lastCellAlignment: this.alignments[i]! });
+        this.tabbedColumns.add(c.column);
+      } else {
+        const bounds = c.column.visibleVerticalBounds(0, 0);
+        if (bounds) untabbedHeight = Math.max(untabbedHeight, bounds.maxY - c.top);
+      }
+    });
+    if (columns.length === 0) return;
+    new TabLayout(true, this.tabGap).apply(columns, maxColumnHeight(this.style.geometry), untabbedHeight);
+    for (const c of this.placedColumns) {
+      if (!this.tabbedColumns.has(c.column)) continue;
+      const bounds = c.column.visibleVerticalBounds(c.left, c.width);
+      if (bounds) this.documentArea.add(bounds);
+    }
   }
 
   /// Places the columns according to their alignment, in the height of the parent if it has one
@@ -1884,7 +2224,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     }
     this.placedColumns.forEach((c, i) => {
       const alignment = this.alignments[i]!;
-      if (alignment === "START") return;
+      if (alignment === "START" || this.tabbedColumns.has(c.column)) return;
       c.column.alignVerticallyTo(alignment, c.top, height);
       const bounds = c.column.visibleVerticalBounds(c.left, c.width);
       if (bounds) this.documentArea.add(bounds);
@@ -1930,6 +2270,14 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
 
   override visitAbsoluteTab(t: AbsoluteTab): void {
     this.visitDefault(t);
+  }
+
+  /// A dynamic tab ends the current tab cell, if tabs are laid out. Otherwise, it is an empty
+  /// element.
+  override visitTab(t: Tab): void {
+    this.kerning.reset();
+    if (this.tabsEnabled) this.zone.addTab(this.subView, t.index, t.alignment);
+    else this.visitDefault(t);
   }
 
   override visitDefault(_t: ModelElement): void {
