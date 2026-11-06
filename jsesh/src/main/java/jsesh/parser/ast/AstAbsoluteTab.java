@@ -7,16 +7,14 @@
  */
 package jsesh.parser.ast;
 
-/**
- * A tab stop (Winglyph-style absolute tabulation).
- *
- * @param stopWidth the position, in tab units.
- * @author rosmord
- */
-public record AstTabStop(int stopWidth) implements AstTopItem {
+/// An absolute tab, `?N` (Winglyph-style absolute tabulation).
+///
+/// @param stopWidth the position, in tab units.
+/// @author rosmord
+public record AstAbsoluteTab(int stopWidth) implements AstTopItem {
 
     @Override
     public void accept(AstVisitor visitor) {
-        visitor.visitTabStop(this);
+        visitor.visitAbsoluteTab(this);
     }
 }

@@ -85,6 +85,7 @@ import jsesh.jhotdraw.actions.text.InsertZoneWithOptionsAction;
 import jsesh.jhotdraw.actions.view.ToggleKerningMarksAction;
 import jsesh.jhotdraw.actions.view.ToggleLineBreakMarksAction;
 import jsesh.jhotdraw.actions.view.TogglePageLimitsAction;
+import jsesh.jhotdraw.actions.view.ToggleTabsAction;
 import jsesh.jhotdraw.actions.view.ToggleZoneLimitsAction;
 import jsesh.jhotdraw.actions.view.ToggleWrapLinesAction;
 import jsesh.jhotdraw.actions.windows.ToggleGlossaryEditorAction;
@@ -116,6 +117,7 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                         m.add(new JCheckBoxMenuItem(new ToggleKerningMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleLineBreakMarksAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleZoneLimitsAction(app, view)));
+                        m.add(new JCheckBoxMenuItem(new ToggleTabsAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new TogglePageLimitsAction(app, view)));
                         m.add(new JCheckBoxMenuItem(new ToggleWrapLinesAction(app, view)));
                 }
@@ -154,6 +156,8 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                                 JSeshApplicationActionsID.INSERT_HORIZONTAL_KERNING);
                 addToMenu(insertMenu, app, view,
                                 JSeshApplicationActionsID.INSERT_VERTICAL_KERNING);
+                insertMenu.addSeparator();
+                insertMenu.add(buildTabMenu(app, view));
                 insertMenu.addSeparator();
 
                 insertMenu.add(map.get(InsertNextLineNumberAction.ID));
@@ -432,6 +436,22 @@ public class JSeshMenuBuilder extends DefaultMenuBuilder {
                 addToMenu(ligatureMenu, a, v, ActionsID.LIGATURE_GROUP_WITH_GLYPH);
                 addToMenu(ligatureMenu, a, v, ActionsID.LIGATURE_GLYPH_WITH_GROUP);
                 return ligatureMenu;
+        }
+
+        /// The dynamic tabs (`%tab`): insertion, moves to another tab stop, and
+        /// alignment of the cell before the tab.
+        private JMenu buildTabMenu(Application a, JSeshView v) {
+                JMenu tabMenu = BundleHelper.getInstance().configure(new JMenu(),
+                                "text.tabMenu");
+                addToMenu(tabMenu, a, v, ActionsID.INSERT_TAB);
+                addToMenu(tabMenu, a, v, ActionsID.TAB_TO_NEXT_STOP);
+                addToMenu(tabMenu, a, v, ActionsID.TAB_TO_PREVIOUS_STOP);
+                tabMenu.addSeparator();
+                addToMenu(tabMenu, a, v, ActionsID.TAB_ALIGN_START);
+                addToMenu(tabMenu, a, v, ActionsID.TAB_ALIGN_CENTER);
+                addToMenu(tabMenu, a, v, ActionsID.TAB_ALIGN_END);
+                addToMenu(tabMenu, a, v, ActionsID.TAB_ALIGN_JUSTIFY);
+                return tabMenu;
         }
 
         /// Builds the submenu for creating zones and changing their settings.

@@ -28,7 +28,8 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.model.TopItem;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
@@ -69,7 +70,8 @@ import jsesh.parser.ast.AstPhilology;
 import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
-import jsesh.parser.ast.AstTabStop;
+import jsesh.parser.ast.AstAbsoluteTab;
+import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
@@ -327,14 +329,23 @@ class AstModelBuilder implements AstVisitor {
         push(new PageBreak(lineAlignment(node.options())));
     }
 
-    /// The alignment given by the `align` option of a line or page break.
+    /// The alignment given by the `align` option of a line or page break, or of
+    /// a tab.
     private static LineAlignment lineAlignment(AstOptionList options) {
         return LineAlignment.fromMdc(options.getString("align", ""));
     }
 
     @Override
-    public void visitTabStop(AstTabStop node) {
-        push(new TabStop(node.stopWidth()));
+    public void visitAbsoluteTab(AstAbsoluteTab node) {
+        push(new AbsoluteTab(node.stopWidth()));
+    }
+
+    /// Reads `n` (the tab stop index; an invalid one is ignored) and `align`
+    /// (the alignment of the cell before the tab).
+    @Override
+    public void visitTab(AstTab node) {
+        push(new Tab(node.options().getInt("n", Tab.AUTO),
+                lineAlignment(node.options())));
     }
 
     @Override
@@ -377,7 +388,7 @@ class AstModelBuilder implements AstVisitor {
     }
 
     /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
-    /// `linegap`, `quadratgap`, `separator`, `quadratwidth`, `quadratheight` and
+    /// `linegap`, `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight` and
     /// `frame`. Unknown options and values are ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
         TextOrientation orientation = switch (options.getString("layout", "")) {
@@ -395,6 +406,7 @@ class AstModelBuilder implements AstVisitor {
                 options.getInt("height", ZoneParameters.UNSET),
                 options.getInt("linegap", ZoneParameters.UNSET),
                 options.getInt("quadratgap", ZoneParameters.UNSET),
+                options.getInt("tabgap", ZoneParameters.UNSET),
                 options.getInt("separator", ZoneParameters.UNSET),
                 options.getInt("quadratwidth", ZoneParameters.UNSET),
                 options.getInt("quadratheight", ZoneParameters.UNSET),

@@ -8,8 +8,11 @@ package jsesh.render.layout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import jsesh.render.style.JSeshStyle;
 import jsesh.sharedvocabulary.KerningAxis;
@@ -19,7 +22,8 @@ import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.PageBreak;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.render.layout.insert.Kerner;
 import jsesh.render.view.MDCView;
 import jsesh.sharedvocabulary.LineAlignment;
@@ -71,6 +75,10 @@ public class ColumnLayout extends TopItemLayout {
 
 	/// Their alignments (same indexes as [#placedColumns]).
 	private final List<LineAlignment> alignments = new ArrayList<>();
+
+	/// The columns whose cells were placed by [TabLayout]: [#alignColumns()]
+	/// leaves them alone.
+	private final Set<LineAccumulator> tabbedColumns = Collections.newSetFromMap(new IdentityHashMap<>());
 
 	/// The alignment of the last column ended by a line break: the last
 	/// column of the text, if it has no line break, takes it.
@@ -140,6 +148,7 @@ public class ColumnLayout extends TopItemLayout {
 		if (!zone.isEmpty()) {
 			flushZone(previousAlignment);
 		}
+		layoutTabs();
 		alignColumns();
 		// add a margin
 		documentArea.add(new Point2D.Double(documentArea.getMaxX()
@@ -172,6 +181,7 @@ public class ColumnLayout extends TopItemLayout {
 	public void startLayout() {
 		placedColumns.clear();
 		alignments.clear();
+		tabbedColumns.clear();
 		previousAlignment = LineAlignment.START;
 		documentView.reset();
 		// Pseudo relative position for first element.
@@ -196,6 +206,42 @@ public class ColumnLayout extends TopItemLayout {
 		return z;
 	}
 
+	/// Places the cells of the columns which have tabs on their tab stops
+	/// (see [TabLayout]). The cell after the last tab takes the alignment of
+	/// the column, in the height of the parent if it has one, else in the
+	/// height of the longest column.
+	private void layoutTabs() {
+		if (!tabsEnabled()) {
+			return;
+		}
+		List<TabLayout.TabbedLine> columns = new ArrayList<>();
+		double untabbedHeight = 0;
+		for (int i = 0; i < placedColumns.size(); i++) {
+			PlacedColumn c = placedColumns.get(i);
+			if (c.column().hasTabs()) {
+				columns.add(new TabLayout.TabbedLine(c.column(), c.top(), alignments.get(i)));
+				tabbedColumns.add(c.column());
+			} else {
+				Rectangle2D bounds = c.column().visibleVerticalBounds(0, 0);
+				if (bounds != null) {
+					untabbedHeight = Math.max(untabbedHeight, bounds.getMaxY() - c.top());
+				}
+			}
+		}
+		if (columns.isEmpty()) {
+			return;
+		}
+		new TabLayout(true, tabGap()).apply(columns, jseshStyle.geometry().maxColumnHeight(), untabbedHeight);
+		for (PlacedColumn c : placedColumns) {
+			if (tabbedColumns.contains(c.column())) {
+				Rectangle2D bounds = c.column().visibleVerticalBounds(c.left(), c.width());
+				if (bounds != null) {
+					documentArea.add(bounds);
+				}
+			}
+		}
+	}
+
 	/// Places the columns according to their alignment, in the height of the
 	/// parent if it has one (a page with a height, or a zone with a height),
 	/// else in the height of the longest column.
@@ -218,7 +264,7 @@ public class ColumnLayout extends TopItemLayout {
 		}
 		for (int i = 0; i < placedColumns.size(); i++) {
 			PlacedColumn c = placedColumns.get(i);
-			if (alignments.get(i) != LineAlignment.START) {
+			if (alignments.get(i) != LineAlignment.START && !tabbedColumns.contains(c.column())) {
 				c.column().alignVerticallyTo(alignments.get(i), c.top(), height);
 				Rectangle2D bounds = c.column().visibleVerticalBounds(c.left(), c.width());
 				if (bounds != null) {
@@ -315,12 +361,24 @@ public class ColumnLayout extends TopItemLayout {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * jsesh.model.ModelElementAdapter#visitTabStop(jsesh.model.
-		 * TabStop)
+		 * jsesh.model.ModelElementAdapter#visitAbsoluteTab(jsesh.model.
+		 * AbsoluteTab)
 		 */
 		@Override
-		public void visitTabStop(TabStop t) {
+		public void visitAbsoluteTab(AbsoluteTab t) {
 			visitDefault(t);
+		}
+
+		/// A dynamic tab ends the current tab cell, if tabs are laid out.
+		/// Otherwise, it is an empty element.
+		@Override
+		public void visitTab(Tab t) {
+			resetKerning();
+			if (tabsEnabled()) {
+				zone.addTab(subView, t.getIndex(), t.getAlignment());
+			} else {
+				visitDefault(t);
+			}
 		}
 
 		/**

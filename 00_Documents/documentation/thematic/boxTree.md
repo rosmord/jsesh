@@ -300,7 +300,7 @@ public interface MdcBox { ModelSpan span(); ModelAnchor anchor(); <R> R accept(M
 | `ItemBox` (abstract) | depends on the subclass | A top item of the flow. |
 | `ViewItemBox` extends `ItemBox` | none (leaf) | **Bridge**: holds the item's `MDCView` subtree, built by `ViewBuilder.buildView(item)`. `paintSelf` calls `ViewDrawer` on that subtree. Cursor geometry inside the item reuses `CursorLocator` (D.3). |
 | `TextRunBox` | none | A run of alphabetic items laid out as one unit (`TextRun`), covering several items. |
-| `BreakBox` | none | `LineBreak`, `PageBreak`, `TabStop`: zero width, but with a span and stops. |
+| `BreakBox` | none | `LineBreak`, `PageBreak`, `AbsoluteTab`: zero width, but with a span and stops. |
 | `ZoneBox` extends `ItemBox` | `FlowBox` (+ `RuleBox`es and a frame) | A `%zone` item. Its content flow uses the zone's own strategy. |
 | `CartoucheBox` extends `ItemBox` | `ShapeBox` frame + `FlowBox` content | Phase 8. It makes cartouche content a flow like any other. |
 | `ShapeBox` | none | Frames, rules, philology brackets (a filled or stroked `Shape`, colour, stroke). |
@@ -544,7 +544,7 @@ differences and decisions:
   `ZoneParameters` value. `accept(v)` calls `v.visitZone(this)`.
   `isNavigable()` is true.
 - `ZoneContent extends ModelElement implements ItemSequence`. It accepts
-  every `TopItem` except `PageBreak`, including `LineBreak`, `TabStop` and
+  every `TopItem` except `PageBreak`, including `LineBreak`, `AbsoluteTab` and
   nested `Zone`. `edgeGapsAreStops()` is true, and `isCursorStop(0, QUADRAT)`
   is true, so clicks and QUADRAT mode enter it, as `BasicItemList` does today.
   Positions inside are `(z, 0, k)`.

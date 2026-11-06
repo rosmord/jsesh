@@ -28,7 +28,8 @@ import jsesh.parser.ast.AstPhilology;
 import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
-import jsesh.parser.ast.AstTabStop;
+import jsesh.parser.ast.AstAbsoluteTab;
+import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstZone;
@@ -419,8 +420,28 @@ public class MDCParserAstSyntaxTest {
     }
 
     @Test
-    public void testTabStop() throws MDCSyntaxError {
-        assertEquals(AstDocument.of(new AstTabStop(123)), parse("?123"));
+    public void testAbsoluteTab() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstAbsoluteTab(123)), parse("?123"));
+    }
+
+    @Test
+    public void testTab_bare() throws MDCSyntaxError {
+        assertEquals(AstDocument.of(new AstTab(AstOptionList.of())), parse("%tab"));
+    }
+
+    @Test
+    public void testTab_withOptions() throws MDCSyntaxError {
+        AstOptionList options = AstOptionList.of(AstOption.of("n", 3), AstOption.of("align", "end"));
+        assertEquals(AstDocument.of(new AstTab(options)), parse("%tab[n=3,align=end]"));
+    }
+
+    @Test
+    public void testTab_betweenQuadrats() throws MDCSyntaxError {
+        AstDocument expected = AstDocument.of(
+                AstCadrat.of(AstHBox.of(AstHieroglyph.of("A1"))),
+                new AstTab(AstOptionList.of(AstOption.of("align", "center"))),
+                AstCadrat.of(AstHBox.of(AstHieroglyph.of("B1"))));
+        assertEquals(expected, parse("A1-%tab[align=center]-B1"));
     }
 
     // --- Zone markers, tabbing ---------------------------------------------

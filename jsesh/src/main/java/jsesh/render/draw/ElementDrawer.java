@@ -28,7 +28,8 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
@@ -140,6 +141,19 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 
 	public void setShowZoneLimits(boolean showZoneLimits) {
 		this.showZoneLimits = showZoneLimits;
+	}
+
+	/// Are the dynamic tabs (`%tab`) drawn, with their stop index? Meant for
+	/// editors only: false by default, so that printing and exports never
+	/// show them.
+	private boolean showTabs = false;
+
+	public boolean isShowTabs() {
+		return showTabs;
+	}
+
+	public void setShowTabs(boolean showTabs) {
+		this.showTabs = showTabs;
 	}
 
 
@@ -323,10 +337,15 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 	abstract public void visitSuperScript(Superscript s);
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
+	 * @see jsesh.model.ModelElementVisitor#visitAbsoluteTab(jsesh.model.AbsoluteTab)
 	 */
-	public void visitTabStop(TabStop t) {
+	public void visitAbsoluteTab(AbsoluteTab t) {
 		// This method intentionnaly left blank.
+	}
+
+	@Override
+	public void visitTab(Tab t) {
+		// Nothing to draw (yet: the tabs will be shown when "view tabs" is on).
 	}
 	
 	/**

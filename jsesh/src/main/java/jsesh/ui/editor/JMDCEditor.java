@@ -145,6 +145,9 @@ public class JMDCEditor extends JPanel implements Scrollable {
     private boolean showKerningMarks = false;
     private boolean showLineBreakMarks = false;
     private boolean showZoneLimits = false;
+
+    /// Are the dynamic tabs (`%tab`) shown? See [#setShowTabs(boolean)].
+    private boolean showTabs = false;
     private boolean showPageLimits = true;
 
     /**
@@ -1363,6 +1366,7 @@ public class JMDCEditor extends JPanel implements Scrollable {
         drawer.setShowKerningMarks(showKerningMarks);
         drawer.setShowLineBreakMarks(showLineBreakMarks);
         drawer.setShowZoneLimits(showZoneLimits);
+        drawer.setShowTabs(showTabs);
         return drawer;
     }
 
@@ -1405,6 +1409,20 @@ public class JMDCEditor extends JPanel implements Scrollable {
 
     public boolean isShowZoneLimits() {
         return showZoneLimits;
+    }
+
+    /// Shows or hides the dynamic tabs (`%tab`), which are otherwise
+    /// invisible: a blue mark at their tab stop, with the stop index. Only
+    /// this editor is concerned: printing and exports never show them.
+    ///
+    /// @param showTabs true to show the tabs.
+    public void setShowTabs(boolean showTabs) {
+        this.showTabs = showTabs;
+        repaint();
+    }
+
+    public boolean isShowTabs() {
+        return showTabs;
     }
 
     /// Shows or hides the limits of the pages (the edge of each page, and the

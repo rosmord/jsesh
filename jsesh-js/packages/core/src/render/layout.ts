@@ -38,7 +38,7 @@ import {
   type Philology,
   type SubCadrat,
   type Superscript,
-  type TabStop,
+  type AbsoluteTab,
   Zone,
   ZoneContent,
   ZONE_UNSET,
@@ -816,7 +816,7 @@ class LayoutAux extends ModelElementAdapter {
   }
 
   /// Tab stops are handled by the text layout.
-  override visitTabStop(_t: TabStop): void {}
+  override visitAbsoluteTab(_t: AbsoluteTab): void {}
 
   override visitHieroglyphicText(_t: HieroglyphicText): void {
     this.layoutTopItems();
@@ -1765,7 +1765,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
   }
 
   /// Tabs are relative to the current zone.
-  override visitTabStop(tab: TabStop): void {
+  override visitAbsoluteTab(tab: AbsoluteTab): void {
     this.kerning.reset();
     const pos = f(tab.stopPos * this.style.geometry.tabUnitWidth);
     this.zone.currentPoint.x = pos;
@@ -1928,7 +1928,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
     if (!this.style.options.paged) this.endColumn(b.alignment);
   }
 
-  override visitTabStop(t: TabStop): void {
+  override visitAbsoluteTab(t: AbsoluteTab): void {
     this.visitDefault(t);
   }
 

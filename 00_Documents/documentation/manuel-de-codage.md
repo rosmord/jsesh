@@ -585,11 +585,14 @@ JSesh writes these documents back as `.hie` in iso-8859-1, with the marks as par
 
 | Form | Meaning | Origin |
 |---|---|---|
-| `?N` | the next item is placed at absolute position `N`, in tab units (`tabUnitWidth`) | Winglyph |
+| `?N` | absolute tab: the next item is placed at absolute position `N`, in tab units (`tabUnitWidth`) | Winglyph |
+| `%tab`, `%tab[n=K,align=A]` | dynamic tab: aligns the text on tab stops shared by the lines of a zone. `n` (≥ 1) is the index of the stop, by default the previous one + 1; `align` (`start`, `end`, `center`, `justify`) is the alignment of the cell **before** the tab | JSesh |
 | `{lA,B}` | thin horizontal rule from position `A` to `B`, in tab units | not recorded |
 | `{LA,B}` | wide horizontal rule | not recorded |
 
-JSesh lays out and saves these items, but no editor command creates them. They are top-level items.
+JSesh lays out and saves `?N` and the rules, but no editor command creates them. `%tab` is only laid out in zones: in the main text, it is read and saved, but ignored. In a soft-wrapped line, only the tabs before the first wrap count; a `?N` after a `%tab` is ignored. They are all top-level items.
+
+The `%zone` option `tabgap=N` gives the minimal space between a tab cell and the next tab stop.
 
 ### 15.7. Toggles which are dropped
 
@@ -699,6 +702,7 @@ Initial state, by function. The name on the right is the symbol given to the par
 
 -- Keywords
 "%zone"  "%quadrat"  "%insert"             ZONE  QUADRAT  INSERT
+"%tab"                                     TAB
 "%hkern" "%vkern"                          HKERN  VKERN
 
 -- Sign operators
@@ -751,7 +755,7 @@ SIGN_SMALL_TEXT = '"' ( [^"\\\]] | "\\" any )* '"'
 "|" ( [^-] | "\-" )*                       TEXT_SUPER
 
 -- Legacy
-"?" INTEGER                                TAB_STOP
+"?" INTEGER                                ABSOLUTE_TAB
 "{l" INTEGER "," INTEGER "}"               HRULE
 "{L" INTEGER "," INTEGER "}"               HRULE
 
@@ -825,7 +829,7 @@ topitem  ::= shadedCadrat
            | TEXT | TEXT_SUPER | START_HIEROGLYPHS
            | TOGGLE
            | LINE_END [optionList] | PAGE_END [optionList]
-           | TAB_STOP | HRULE ;
+           | ABSOLUTE_TAB | TAB [optionList] | HRULE ;
 ```
 
 The option list of a line or page break (see [§19.2](#192-zones-and-options)) only knows `align` (§10.1).
@@ -920,7 +924,7 @@ basicitem  ::= shadedCadrat
              | TOGGLE ;
 ```
 
-- `basicitems` is `topitems` without what needs a page: no line break, zone, superscript, tab stop or rule. It is used everywhere a group holds quadrats.
+- `basicitems` is `topitems` without what needs a page: no line break, zone, superscript, tab or rule. It is used everywhere a group holds quadrats.
 - Cartouches nest through `basicitems`, and may be empty.
 - `cartouche` is not an `innerGroup`, so it cannot enter a ligature: `<A1>^^w` is an error.
 - The modifiers after a cartouche are parsed and thrown away.
@@ -943,6 +947,8 @@ position   ::= DOUBLE_LEFT_CURLY INTEGER COMMA INTEGER COMMA INTEGER DOUBLE_RIGH
 ## 20. Rules outside the grammar
 
 **`%insert`.** The option list is required. `dir` is required and must be one of the nine codes of [§5.3](#53-insertions). `target` must be `1` or `2`. These checks are in the parser and give an `MDCSyntaxError`. `dw` and `dh` are read by `AstModelBuilder`. Other options are ignored.
+
+**`%tab`.** The option list is optional. `n` and `align` are read by `AstModelBuilder`; an `n` of 0 or less, or an unknown alignment, gives the default value. Other options are ignored.
 
 **`%zone`.** Options are read by `AstModelBuilder`. Unknown options and unknown values of `layout` and `dir` are ignored. A size, quadrat size or separator of 0 is unset.
 
@@ -981,7 +987,7 @@ All of these were checked against the parser.
 | `A1#` at the end of the input | Syntax error: this is an overwrite with nothing after it. | `A1#1234` |
 | `A1\R90#-B1` | Toggle, not shading: the previous symbol is a modifier. | `A1\R90#1234-B1` |
 | `v/A1`, `h/` | `v/` and `h/` are shade signs, even if `v` or `h` was meant as a sign. | `v-/`, `h-/` |
-| `??10` | Toggle `??`, then the sign `10`. `?10` is a tab stop. | |
+| `??10` | Toggle `??`, then the sign `10`. `?10` is an absolute tab. | |
 | `$c` | Toggle `$`, then the sign `c`. | `$r-c` |
 | `A1!=150` | Line break, then the sign `150` marked as grammatical: the `%` is required. | `A1-!=150%` |
 | `+Lfoo+s` | Syntax error: the script letter must be lowercase. | `+lfoo+s` |

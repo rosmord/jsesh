@@ -106,7 +106,12 @@ public class AstVisitorAdapter implements AstVisitor {
     }
 
     @Override
-    public void visitTabStop(AstTabStop node) {
+    public void visitAbsoluteTab(AstAbsoluteTab node) {
+        visitDefault(node);
+    }
+
+    @Override
+    public void visitTab(AstTab node) {
         visitDefault(node);
     }
 

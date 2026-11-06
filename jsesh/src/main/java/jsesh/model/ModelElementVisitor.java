@@ -23,7 +23,8 @@ public interface ModelElementVisitor {
 	void visitPhilology(Philology p);
 	void visitSubCadrat(SubCadrat c);
 	void visitSuperScript(Superscript s);
-	void visitTabStop(TabStop t);
+	void visitAbsoluteTab(AbsoluteTab t);
+	void visitTab(Tab t);
 	void visitHieroglyphicText(HieroglyphicText t);
 	void visitLineBreak(LineBreak b);
 	void visitPageBreak(PageBreak b);

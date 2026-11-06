@@ -81,7 +81,8 @@ import jsesh.parser.ast.AstPhilology;
 import jsesh.parser.ast.AstStartHieroglyphicText;
 import jsesh.parser.ast.AstSubCadrat;
 import jsesh.parser.ast.AstSuperscript;
-import jsesh.parser.ast.AstTabStop;
+import jsesh.parser.ast.AstAbsoluteTab;
+import jsesh.parser.ast.AstTab;
 import jsesh.parser.ast.AstToggle;
 import jsesh.parser.ast.AstTopItem;
 import jsesh.parser.ast.AstTopItemList;
@@ -260,7 +261,7 @@ public class MDCParser {
      * topitems ::= ε | topitems optSeparator topitem
      * topitem ::= cadrat optShading | TOGGLE | STARTHIEROGLYPHS | TEXT | TEXTSUPER
      *           | LINEEND optionList? | PAGEEND optionList? | TABSTOP
-     *           | HRULE | zone
+     *           | HRULE | zone | TAB optionList?
      * </pre>
      * 
      * The final optSeparator is the one consumed by the last loop iteration,
@@ -306,8 +307,8 @@ public class MDCParser {
                     advance();
                     item = new AstPageBreak(parseOptOptionList());
                     break;
-                case TAB_STOP:
-                    item = new AstTabStop((Integer) token.value());
+                case ABSOLUTE_TAB:
+                    item = new AstAbsoluteTab((Integer) token.value());
                     advance();
                     break;
                 case HRULE: {
@@ -318,6 +319,10 @@ public class MDCParser {
                 }
                 case ZONE:
                     item = parseZone();
+                    break;
+                case TAB:
+                    advance();
+                    item = new AstTab(parseOptOptionList());
                     break;
                 default:
                     if (atCadratStart()) {

@@ -21,7 +21,8 @@ import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
 import jsesh.model.PageBreak;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.render.view.MDCView;
 import jsesh.sharedvocabulary.LineAlignment;
 
@@ -83,6 +84,14 @@ public class LineLayout extends TopItemLayout {
     /// The alignment of the last line ended by a line break: the last line of
     /// the text, if it has no line break, takes it.
     private LineAlignment previousAlignment = LineAlignment.START;
+
+    /// Has the current logical line been soft-wrapped? Only the tabs before
+    /// its first soft wrap are active.
+    private boolean wrappedLogicalLine;
+
+    /// The lines whose cells were placed by [TabLayout]: [#alignLines()]
+    /// leaves them alone.
+    private final Set<LineAccumulator> tabbedLines = Collections.newSetFromMap(new IdentityHashMap<>());
 
     /// The vertical extent (top, bottom) of each line of text, for the separators.
     private final List<double[]> lineExtents = new ArrayList<>();
@@ -261,6 +270,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
         }
         endLogicalLine(previousAlignment);
+        layoutTabs();
         if (!jseshStyle.options().ignoreLineAlignment()) {
             alignLines();
         }
@@ -324,6 +334,46 @@ public class LineLayout extends TopItemLayout {
         currentLogicalLine.clear();
     }
 
+    /// Places the cells of the lines which have tabs on their tab stops
+    /// (see [TabLayout]). The cell after the last tab takes the alignment of
+    /// the line, in the width of the parent if it has one, else in the width
+    /// of the longest line.
+    private void layoutTabs() {
+        if (!tabsEnabled()) {
+            return;
+        }
+        double margin = jseshStyle.geometry().leftMargin();
+        boolean ignoreAlignment = jseshStyle.options().ignoreLineAlignment();
+        List<TabLayout.TabbedLine> lines = new ArrayList<>();
+        double untabbedWidth = 0;
+        for (int i = 0; i < alignedLines.size(); i++) {
+            LineAccumulator line = alignedLines.get(i).line();
+            if (line.hasTabs()) {
+                LineAlignment a = ignoreAlignment ? LineAlignment.START : alignments.get(i);
+                lines.add(new TabLayout.TabbedLine(line, margin, a));
+                tabbedLines.add(line);
+            } else {
+                Rectangle2D bounds = line.visibleBounds(0, 0);
+                if (bounds != null) {
+                    untabbedWidth = Math.max(untabbedWidth, bounds.getMaxX() - margin);
+                }
+            }
+        }
+        if (lines.isEmpty()) {
+            return;
+        }
+        double available = jseshStyle.geometry().isWrapping() ? maxLineWidth() : 0;
+        new TabLayout(false, tabGap()).apply(lines, available, untabbedWidth);
+        for (PlacedLine l : alignedLines) {
+            if (tabbedLines.contains(l.line())) {
+                Rectangle2D bounds = l.line().visibleBounds(l.top(), l.height());
+                if (bounds != null) {
+                    documentArea.add(bounds);
+                }
+            }
+        }
+    }
+
     /// Places the lines according to their alignment, in the width of the
     /// parent if it has one (a page, or a zone with a width), else in the
     /// width of the longest line.
@@ -348,7 +398,7 @@ public class LineLayout extends TopItemLayout {
         double margin = jseshStyle.geometry().leftMargin();
         for (int i = 0; i < alignedLines.size(); i++) {
             PlacedLine l = alignedLines.get(i);
-            if (alignments.get(i) != LineAlignment.START) {
+            if (alignments.get(i) != LineAlignment.START && !tabbedLines.contains(l.line())) {
                 l.line().alignTo(alignments.get(i), margin, width);
                 Rectangle2D bounds = l.line().visibleBounds(l.top(), l.height());
                 if (bounds != null) {
@@ -380,6 +430,7 @@ public class LineLayout extends TopItemLayout {
     /// Ends the current line because of soft wrapping, and starts the next one.
     private void wrapLine() {
         resetKerning();
+        wrappedLogicalLine = true;
         double verticalSkip = zone.getHeight() + zone.getMinY() + jseshStyle.geometry().lineSkip();
         flushZone();
         startNextZone(verticalSkip);
@@ -420,6 +471,8 @@ public class LineLayout extends TopItemLayout {
         alignedLines.clear();
         alignments.clear();
         currentLogicalLine.clear();
+        tabbedLines.clear();
+        wrappedLogicalLine = false;
         previousAlignment = LineAlignment.START;
         pageIndex = 0;
         // Pseudo relative position for first element.
@@ -559,6 +612,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
             endLogicalLine(b.getAlignment());
             previousAlignment = b.getAlignment();
+            wrappedLogicalLine = false;
 
             // create a new zone.
             startNextZone(verticalSkip);
@@ -579,6 +633,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
             endLogicalLine(b.getAlignment());
             previousAlignment = b.getAlignment();
+            wrappedLogicalLine = false;
             if (paginated()) {
                 // Pages are stacked: the next line goes to the top of the next page.
                 pageIndex++;
@@ -615,16 +670,34 @@ public class LineLayout extends TopItemLayout {
          * terms of the EAST side of the zone.
          * 
          * @see
-         * jsesh.model.ModelElementAdapter#visitTabStop(jsesh.model.
-         * TabStop)
+         * jsesh.model.ModelElementAdapter#visitAbsoluteTab(jsesh.model.
+         * AbsoluteTab)
          */
         @Override
-        public void visitTabStop(TabStop tab) {
+        public void visitAbsoluteTab(AbsoluteTab tab) {
             resetKerning();
+            if (tabsEnabled() && zone.hasTabs()) {
+                // Absolute positions mean nothing after a dynamic tab.
+                zone.add(subView);
+                return;
+            }
             float pos = tab.getStopPos()
                     * jseshStyle.geometry().tabUnitWidth();
             zone.getCurrentPoint().setLocation(pos, 0);
             zone.add(subView);
+        }
+
+        /// A dynamic tab ends the current tab cell, if tabs are laid out, and if
+        /// the logical line has not been soft-wrapped yet. Otherwise, it is an
+        /// empty element.
+        @Override
+        public void visitTab(Tab tab) {
+            resetKerning();
+            if (tabsEnabled() && !wrappedLogicalLine) {
+                zone.addTab(subView, tab.getIndex(), tab.getAlignment());
+            } else {
+                zone.add(subView);
+            }
         }
 
         /**

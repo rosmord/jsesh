@@ -132,9 +132,14 @@ public class ModelElementAdapter implements ModelElementVisitor {
 	}
 
 	/**
-	 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
+	 * @see jsesh.model.ModelElementVisitor#visitAbsoluteTab(jsesh.model.AbsoluteTab)
 	 */
-	public void visitTabStop(TabStop t) {
+	public void visitAbsoluteTab(AbsoluteTab t) {
+		visitDefault(t);
+	}
+
+	@Override
+	public void visitTab(Tab t) {
 		visitDefault(t);
 	}
 

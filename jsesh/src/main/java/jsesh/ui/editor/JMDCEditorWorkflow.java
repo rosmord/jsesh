@@ -51,6 +51,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import org.qenherkhopeshef.observable.ObservableEventListener;
@@ -86,6 +87,8 @@ import jsesh.model.ItemSequence;
 import jsesh.model.Ligature;
 import jsesh.model.LineBreak;
 import jsesh.model.LineEnd;
+import jsesh.model.Tab;
+import jsesh.model.TabLine;
 import jsesh.model.MDCMark;
 import jsesh.model.MDCPosition;
 import jsesh.model.PositionNavigator;
@@ -550,6 +553,126 @@ public class JMDCEditorWorkflow implements MDCCaretChangeListener {
         caret.setInsertPosition(MDCPosition.of(path));
         clearSeparator();
         return true;
+    }
+
+    // ---- dynamic tabs ----
+
+    /// Inserts a dynamic tab (`%tab`) at the cursor.
+    ///
+    /// @return false if a tab can't be placed there (in a cartouche, for
+    ///         instance).
+    public boolean insertTab() {
+        possibilitiesHandler.clear();
+        acceptSeparator(' ');
+        return scope().insertElementAt(caret.getLocalInsertPosition(), new Tab());
+    }
+
+    /// Moves the tab near the cursor to the next tab stop (see
+    /// [#moveTab(int)]).
+    ///
+    /// @return false if there is no tab near the cursor.
+    public boolean moveTabToNextStop() {
+        return moveTab(1);
+    }
+
+    /// Moves the tab near the cursor to the previous tab stop (see
+    /// [#moveTab(int)]).
+    ///
+    /// @return false if there is no tab near the cursor, or if it can't move
+    ///         back (it would reach the stop of the previous tab, or stop 0).
+    public boolean moveTabToPreviousStop() {
+        return moveTab(-1);
+    }
+
+    /// Moves a tab to the next or previous tab stop, as
+    /// [TabLine#moveTab(List, int, int)] does: the following tabs of the line
+    /// move forward too if needed. The change is undone in one step, and the
+    /// cursor and selection stay.
+    ///
+    /// The tab is the first one in the selection, or else the one just
+    /// before the cursor, or else the one just after it, in the innermost
+    /// text with lines around the cursor.
+    ///
+    /// @param delta +1 for the next stop, -1 for the previous one.
+    /// @return false if nothing was changed.
+    private boolean moveTab(int delta) {
+        return changeTabLine((line, position) -> TabLine.moveTab(line, position, delta));
+    }
+
+    /// Sets the alignment of the cell before the tab near the cursor (the tab
+    /// is found as for [#moveTabToNextStop()]).
+    ///
+    /// @param alignment the new alignment.
+    /// @return false if there is no tab near the cursor, or if it already has
+    ///         this alignment.
+    public boolean setTabAlignment(LineAlignment alignment) {
+        return changeTabLine((line, position) -> {
+            Tab tab = (Tab) line.get(position);
+            if (tab.getAlignment() == alignment) {
+                return Optional.empty();
+            }
+            List<TopItem> result = new ArrayList<>(line);
+            result.set(position, tab.withAlignment(alignment));
+            return Optional.of(result);
+        });
+    }
+
+    /// Replaces the items of the line which contains the tab near the cursor.
+    /// The change is undone in one step, and the cursor and selection stay.
+    ///
+    /// @param change computes the new items of the line from the items of the
+    ///        line and the position of the tab in them; empty for "no change".
+    /// @return false if nothing was changed.
+    private boolean changeTabLine(
+            BiFunction<List<? extends TopItem>, Integer, Optional<List<TopItem>>> change) {
+        possibilitiesHandler.clear();
+        TextScope linesScope = linesScope();
+        ItemSequence sequence = linesScope.resolve(caret.getModel());
+        int tabIndex = tabNearCaret(linesScope, sequence);
+        if (tabIndex < 0) {
+            return false;
+        }
+        int start = lineStart(sequence, tabIndex);
+        int end = lineEnd(sequence, tabIndex);
+        Optional<List<TopItem>> moved = change.apply(sequence.getItemsBetween(start, end), tabIndex - start);
+        if (moved.isEmpty()) {
+            return false;
+        }
+        MDCPosition insert = caret.getInsertExactPosition();
+        MDCPosition mark = caret.hasMark() ? caret.getMark().getPosition() : null;
+        EditingScope scope = new EditingScope(hieroglyphicTextModel, linesScope);
+        scope.replaceElement(new MDCPosition(start), new MDCPosition(end), moved.get());
+        // The number of items is unchanged: the positions are still valid.
+        caret.setInsertPosition(insert);
+        if (mark != null) {
+            caret.setMarkPosition(mark);
+        }
+        clearSeparator();
+        return true;
+    }
+
+    /// The index of the tab a tab command works on, in a scope: the first tab
+    /// in the selection, else the item just before the cursor, else the item
+    /// just after it.
+    ///
+    /// @return the index of the tab in the sequence, or -1 if there is none.
+    private int tabNearCaret(TextScope linesScope, ItemSequence sequence) {
+        int a = linesScope.localIndexOf(caret.getInsertExactPosition());
+        if (caret.hasMark()) {
+            int b = linesScope.localIndexOf(caret.getMark().getPosition());
+            for (int i = Math.min(a, b); i < Math.max(a, b); i++) {
+                if (sequence.getItemAt(i) instanceof Tab) {
+                    return i;
+                }
+            }
+        }
+        if (a > 0 && sequence.getItemAt(a - 1) instanceof Tab) {
+            return a - 1;
+        }
+        if (a < sequence.getNumberOfChildren() && sequence.getItemAt(a) instanceof Tab) {
+            return a;
+        }
+        return -1;
     }
 
     /**

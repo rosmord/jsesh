@@ -86,6 +86,8 @@ public class ZoneParametersPanel extends JPanel {
     private final OptionalLength quadratWidth = new OptionalLength(100);
     private final OptionalLength quadratHeight = new OptionalLength(100);
     private final JCheckBox frame = new JCheckBox();
+    /// Not edited here yet: kept as it was given to [#setParameters].
+    private int tabGap = ZoneParameters.UNSET;
 
     public ZoneParametersPanel(ZoneParameters parameters) {
         super(new GridBagLayout());
@@ -139,13 +141,14 @@ public class ZoneParametersPanel extends JPanel {
         quadratWidth.set(p.quadratWidth());
         quadratHeight.set(p.quadratHeight());
         frame.setSelected(p.frame());
+        tabGap = p.tabGap();
     }
 
     /// @return the settings chosen by the user.
     public ZoneParameters getParameters() {
         return new ZoneParameters((TextOrientation) orientation.getSelectedItem(),
                 (TextDirection) direction.getSelectedItem(), width.get(), height.get(),
-                lineGap.get(), quadratGap.get(), separator.get(),
+                lineGap.get(), quadratGap.get(), tabGap, separator.get(),
                 quadratWidth.get(), quadratHeight.get(), frame.isSelected());
     }
 }

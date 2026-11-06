@@ -50,7 +50,9 @@ public interface AstVisitor {
 
     void visitPageBreak(AstPageBreak node);
 
-    void visitTabStop(AstTabStop node);
+    void visitAbsoluteTab(AstAbsoluteTab node);
+
+    void visitTab(AstTab node);
 
     void visitSuperscript(AstSuperscript node);
 

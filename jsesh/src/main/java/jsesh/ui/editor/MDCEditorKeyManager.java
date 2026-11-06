@@ -49,7 +49,9 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
 import jsesh.ui.clipboard.JSeshPasteFlavors;
+import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.ui.editor.actions.AppDefaultFactory;
+import jsesh.ui.editor.actions.text.SetTabAlignmentAction;
 import jsesh.ui.editor.actions.edit.CopyAction;
 import jsesh.ui.editor.actions.edit.CopyAsAction;
 import jsesh.ui.editor.actions.edit.CopyAsUnicodeAction;
@@ -262,6 +264,13 @@ class MDCEditorKeyManager {
             addAction(ActionsID.GROUP_AS_INSERTION, new GroupAsInsertionAction(editor));
             addDelegateAction(ActionsID.INSERT_ZONE, editor, "addZone", editorEnabler);
             addDelegateAction(ActionsID.UNWRAP_ZONE, editor, "unwrapZone", editorEnabler);
+            addDelegateAction(ActionsID.INSERT_TAB, editor, "insertTab", editorEnabler);
+            addDelegateAction(ActionsID.TAB_TO_NEXT_STOP, editor, "moveTabToNextStop", editorEnabler);
+            addDelegateAction(ActionsID.TAB_TO_PREVIOUS_STOP, editor, "moveTabToPreviousStop", editorEnabler);
+            addAction(ActionsID.TAB_ALIGN_START, new SetTabAlignmentAction(editor, LineAlignment.START));
+            addAction(ActionsID.TAB_ALIGN_CENTER, new SetTabAlignmentAction(editor, LineAlignment.CENTER));
+            addAction(ActionsID.TAB_ALIGN_END, new SetTabAlignmentAction(editor, LineAlignment.END));
+            addAction(ActionsID.TAB_ALIGN_JUSTIFY, new SetTabAlignmentAction(editor, LineAlignment.JUSTIFY));
             addDelegateAction(ActionsID.INSERT_SPACE, editor, "insertSpace", editorEnabler);
             addDelegateAction(ActionsID.INSERT_HALF_SPACE, editor, "insertHalfSpace", editorEnabler);
 

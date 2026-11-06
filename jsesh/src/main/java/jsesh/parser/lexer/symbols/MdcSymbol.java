@@ -13,7 +13,7 @@ import java.util.Objects;
 ///
 /// `value`'s type depends on `code`; see [MdcSymbolCode] for which rules
 /// produce which code, and the per-code javadoc below for the value's type:
-///  - [MdcSymbolCode#LINE_END], [MdcSymbolCode#TAB_STOP], [MdcSymbolCode#INTEGER] - [Integer]
+///  - [MdcSymbolCode#LINE_END], [MdcSymbolCode#ABSOLUTE_TAB], [MdcSymbolCode#INTEGER] - [Integer]
 ///  - [MdcSymbolCode#HRULE] - [HRule]
 ///  - [MdcSymbolCode#BEGIN_OLD_CARTOUCHE] - [OldCartoucheStart]
 ///  - [MdcSymbolCode#BEGIN_CARTOUCHE], [MdcSymbolCode#END_CARTOUCHE] - [Cartouche]

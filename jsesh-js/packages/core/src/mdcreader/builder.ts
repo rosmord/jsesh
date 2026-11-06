@@ -54,7 +54,7 @@ import {
   Philology,
   SubCadrat,
   Superscript,
-  TabStop,
+  AbsoluteTab,
   TopItem,
   TopItemState,
   Zone,
@@ -152,8 +152,8 @@ class AstModelBuilder {
         return [new LineBreak(item.skip, lineAlignmentOf(item.options))];
       case "PageBreak":
         return [new PageBreak(lineAlignmentOf(item.options))];
-      case "TabStop":
-        return [new TabStop(item.stopWidth)];
+      case "AbsoluteTab":
+        return [new AbsoluteTab(item.stopWidth)];
       case "HRule":
         return [new HRule(item.lineType, item.startPos, item.endPos)];
       case "Zone":

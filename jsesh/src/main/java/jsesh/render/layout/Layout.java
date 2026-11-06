@@ -46,7 +46,8 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
@@ -1037,8 +1038,13 @@ public class Layout {
 		}
 
 		@Override
-		public void visitTabStop(TabStop t) {
+		public void visitAbsoluteTab(AbsoluteTab t) {
 			// Empty method. Tab stops are handled when laying out the HieroglyphicText.
+		}
+
+		@Override
+		public void visitTab(Tab t) {
+			// Empty method: tabs are handled when laying out the top items.
 		}
 
 		/**
@@ -1118,6 +1124,11 @@ public class Layout {
 
 			List<TextRun> runs = TextRun.layoutRuns(currentView, jseshStyle.fonts(),
 					techRenderContext.fontRenderContext());
+			if (currentView.getModel() instanceof ZoneContent content
+					&& content.getParent() instanceof Zone zone && !savedZoneStates.isEmpty()) {
+				topItemLayout.enableTabs(tabGap(zone.getParameters(), savedZoneStates.peek().renderContext().jseshStyle(),
+						jseshStyle));
+			}
 			int runIndex = 0;
 			topItemLayout.startLayout();
 			// Ok. Currently, even for long texts, the
@@ -1148,6 +1159,22 @@ public class Layout {
 			currentView.setWidth((float) topItemLayout.getDocumentArea().getWidth());
 			currentView.setHeight((float) topItemLayout.getDocumentArea().getHeight());
 			currentView.setSeparators(topItemLayout.getSeparatorPositions());
+		}
+
+		/// The minimal space between a tab cell and the next tab stop, in a
+		/// zone: its `tabgap`, or else the space between two quadrats.
+		///
+		/// @param p the settings of the zone.
+		/// @param parentStyle the style of the enclosing zone or text (which
+		///        gives the unit of the zone's lengths, see [#zoneRenderContext]).
+		/// @param zoneStyle the style of the content of the zone.
+		private double tabGap(ZoneParameters p, JSeshStyle parentStyle, JSeshStyle zoneStyle) {
+			if (p.tabGap() != ZoneParameters.UNSET) {
+				return p.tabGap() * zoneLengthUnit(parentStyle);
+			}
+			// The space between quadrats is named by axis in the geometry.
+			return currentTextOrientation.isHorizontal() ? zoneStyle.geometry().smallSkip()
+					: zoneStyle.geometry().lineSkip();
 		}
 
 		private Kerner kerner() {

@@ -13,7 +13,7 @@
 ///        │                        ├─ InnerGroup: Hieroglyph, Ligature, AbsoluteGroup,
 ///        │                        │   Overwrite, Insert, Kerning, SubCadrat, Cartouche, Philology
 ///        │                        └─ ComplexLigature
-///        ├─ Superscript, LineBreak, PageBreak, TabStop, HRule
+///        ├─ Superscript, LineBreak, PageBreak, AbsoluteTab, HRule
 ///        └─ Zone └─ ZoneContent └─ TopItem (nested zones too)
 /// ```
 ///
@@ -69,7 +69,7 @@ export interface ModelElementVisitor<R = void> {
   visitSuperscript(e: Superscript): R;
   visitLineBreak(e: LineBreak): R;
   visitPageBreak(e: PageBreak): R;
-  visitTabStop(e: TabStop): R;
+  visitAbsoluteTab(e: AbsoluteTab): R;
   visitHRule(e: HRule): R;
   visitZone(e: Zone): R;
   visitZoneContent(e: ZoneContent): R;
@@ -142,7 +142,7 @@ export class ModelElementAdapter implements ModelElementVisitor<void> {
   visitPageBreak(e: PageBreak): void {
     this.visitDefault(e);
   }
-  visitTabStop(e: TabStop): void {
+  visitAbsoluteTab(e: AbsoluteTab): void {
     this.visitDefault(e);
   }
   visitHRule(e: HRule): void {
@@ -1406,17 +1406,17 @@ export class PageBreak extends TopItem {
 }
 
 /// `?NN`.
-export class TabStop extends TopItem {
+export class AbsoluteTab extends TopItem {
   constructor(public stopPos: number) {
     super();
   }
 
   accept<R>(v: ModelElementVisitor<R>): R {
-    return v.visitTabStop(this);
+    return v.visitAbsoluteTab(this);
   }
 
-  deepCopy(): TabStop {
-    const copy = new TabStop(this.stopPos);
+  deepCopy(): AbsoluteTab {
+    const copy = new AbsoluteTab(this.stopPos);
     this.copyStateTo(copy);
     return copy;
   }

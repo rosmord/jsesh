@@ -253,8 +253,8 @@ export class MdcParser {
           this.advance();
           item = { nodeType: "PageBreak", options: this.parseOptOptionList() };
           break;
-        case S.TAB_STOP:
-          item = { nodeType: "TabStop", stopWidth: value as number };
+        case S.ABSOLUTE_TAB:
+          item = { nodeType: "AbsoluteTab", stopWidth: value as number };
           this.advance();
           break;
         case S.HRULE: {

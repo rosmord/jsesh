@@ -24,7 +24,7 @@ enum TokenType {
   // INITIAL state
   PAGE_END,
   LINE_END,
-  TAB_STOP,
+  ABSOLUTE_TAB,
   HRULE_THIN,
   HRULE_WIDE,
   ALPHABETIC_TEXT,
@@ -180,7 +180,7 @@ const ESPSO = "[ \\t\\n\\r_-]*";
 const INITIAL_RULES: Rule[] = [
   { type: TokenType.PAGE_END, match: re(`!!${ESPSO}`) },
   { type: TokenType.LINE_END, match: re(`!(?:=[0-9]+%)?${ESPSO}`) },
-  { type: TokenType.TAB_STOP, match: re("\\?[0-9]+") },
+  { type: TokenType.ABSOLUTE_TAB, match: re("\\?[0-9]+") },
   { type: TokenType.HRULE_THIN, match: re("\\{l[0-9]+,[0-9]+\\}") },
   { type: TokenType.HRULE_WIDE, match: re("\\{L[0-9]+,[0-9]+\\}") },
   { type: TokenType.ALPHABETIC_TEXT, match: alphabeticText },
@@ -365,8 +365,8 @@ export class MdcLexer {
         return emit(MdcSymbolCode.PAGE_END);
       case TokenType.LINE_END:
         return emit(MdcSymbolCode.LINE_END, extractLineSkip(text));
-      case TokenType.TAB_STOP:
-        return emit(MdcSymbolCode.TAB_STOP, parseInt(text.substring(1), 10));
+      case TokenType.ABSOLUTE_TAB:
+        return emit(MdcSymbolCode.ABSOLUTE_TAB, parseInt(text.substring(1), 10));
       case TokenType.HRULE_THIN:
         return emit(MdcSymbolCode.HRULE, parseHRule("l", text));
       case TokenType.HRULE_WIDE:

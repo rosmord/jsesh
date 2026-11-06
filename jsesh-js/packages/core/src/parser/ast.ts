@@ -203,8 +203,8 @@ export interface AstPageBreak {
   options: AstOptionList;
 }
 
-export interface AstTabStop {
-  nodeType: "TabStop";
+export interface AstAbsoluteTab {
+  nodeType: "AbsoluteTab";
   stopWidth: number;
 }
 
@@ -226,7 +226,7 @@ export type AstTopItem =
   | AstSuperscript
   | AstLineBreak
   | AstPageBreak
-  | AstTabStop
+  | AstAbsoluteTab
   | AstHRule
   | AstZone;
 

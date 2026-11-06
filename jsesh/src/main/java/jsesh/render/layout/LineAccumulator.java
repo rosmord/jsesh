@@ -40,7 +40,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import jsesh.model.Tab;
 import jsesh.render.view.MDCView;
 import jsesh.sharedvocabulary.LineAlignment;
 
@@ -56,6 +58,41 @@ import jsesh.sharedvocabulary.LineAlignment;
 ///
 /// @author rosmord
 public class LineAccumulator {
+
+	private static final Logger LOGGER = Logger.getLogger(LineAccumulator.class.getName());
+
+	/// The end tab of the last cell of a line, which has none.
+	static final int LAST_CELL = -1;
+
+	/// A dynamic tab (`%tab`) of the line: the cell before it ends before the
+	/// unit `unitIndex`.
+	///
+	/// @param unitIndex the index of the first unit after the tab.
+	/// @param index the tab stop index.
+	/// @param alignment the alignment of the cell before the tab.
+	/// @param view the (empty) view of the tab.
+	private record TabMark(int unitIndex, int index, LineAlignment alignment, MDCView view) {
+	}
+
+	/// A tab cell: the units between two tabs (or between the start of the
+	/// line and the first tab, or between the last tab and the end of the
+	/// line).
+	///
+	/// @param startTab the index of the tab stop where the cell starts.
+	/// @param endTab the index of the tab stop where the cell ends, or
+	///        [#LAST_CELL].
+	/// @param alignment the alignment of the cell, or null for the last cell
+	///        (it takes the alignment of the line).
+	/// @param units the units of the cell.
+	record TabCell(int startTab, int endTab, LineAlignment alignment, List<List<MDCView>> units) {
+
+		boolean isLast() {
+			return endTab == LAST_CELL;
+		}
+	}
+
+	/// The dynamic tabs of the line, in order.
+	private final List<TabMark> tabMarks = new ArrayList<>();
 
 	/**
 	 * Current insertion position for views in zone.
@@ -160,6 +197,66 @@ public class LineAccumulator {
 			views.add(view);
 		}
 		units.add(List.copyOf(runViews));
+	}
+
+	/// Adds a dynamic tab (`%tab`): it ends the current tab cell.
+	///
+	/// The view of the tab is placed at the current point, but doesn't count
+	/// in the size of the line; [#placeTabViews] moves it to its tab stop.
+	///
+	/// @param view the view of the tab.
+	/// @param requestedIndex the index written in the tab, or 0 or less for
+	///        "the previous one plus one". An index which is not greater than
+	///        the previous one is replaced by the previous one plus one.
+	/// @param alignment the alignment of the cell before the tab.
+	/// @return the tab stop index used.
+	public int addTab(MDCView view, int requestedIndex, LineAlignment alignment) {
+		int previous = tabMarks.isEmpty() ? 0 : tabMarks.get(tabMarks.size() - 1).index();
+		int index = Tab.resolveIndex(requestedIndex, previous);
+		if (requestedIndex > 0 && requestedIndex <= previous) {
+			LOGGER.warning(() -> "%tab[n=" + requestedIndex + "] after tab stop " + previous
+					+ " in the same line: using " + index);
+		}
+		view.getPosition().setLocation(currentPoint.x + view.getDeltaBaseX(),
+				currentPoint.y + view.getDeltaBaseY());
+		views.add(view);
+		tabMarks.add(new TabMark(units.size(), index, alignment, view));
+		return index;
+	}
+
+	/// @return true if the line contains dynamic tabs.
+	public boolean hasTabs() {
+		return !tabMarks.isEmpty();
+	}
+
+	/// The tab cells of the line, in order; the last one is the cell after
+	/// the last tab (possibly empty).
+	List<TabCell> tabCells() {
+		List<TabCell> cells = new ArrayList<>();
+		int startTab = 0;
+		int from = 0;
+		for (TabMark m : tabMarks) {
+			cells.add(new TabCell(startTab, m.index(), m.alignment(), List.copyOf(units.subList(from, m.unitIndex()))));
+			startTab = m.index();
+			from = m.unitIndex();
+		}
+		cells.add(new TabCell(startTab, LAST_CELL, null, List.copyOf(units.subList(from, units.size()))));
+		return cells;
+	}
+
+	/// Moves the views of the tabs to their tab stops.
+	///
+	/// @param origin the start of the line (or the top of the column).
+	/// @param tabPositions the position of each tab stop, from the origin.
+	/// @param vertical true for a column.
+	void placeTabViews(double origin, double[] tabPositions, boolean vertical) {
+		for (TabMark m : tabMarks) {
+			if (vertical) {
+				m.view().getPosition().y = origin + tabPositions[m.index()];
+			} else {
+				m.view().getPosition().x = origin + tabPositions[m.index()];
+			}
+		}
 	}
 
 	/**
@@ -294,6 +391,11 @@ public class LineAccumulator {
 
 	/// Justification along an axis: see [#justifyWidthTo(double, double)].
 	private void justifyTo(boolean vertical, double start, double length) {
+		justifyUnits(units, vertical, start, length);
+	}
+
+	/// Justifies some units: see [#justifyWidthTo(double, double)].
+	private static void justifyUnits(List<List<MDCView>> units, boolean vertical, double start, double length) {
 		// In the current system, some views can be empty (which is not a good
 		// idea, BTW).
 		// Hence, we need to actually count the number of "real" units.
@@ -333,6 +435,67 @@ public class LineAccumulator {
 			}
 		}
 		return currentStart > currentEnd ? null : new double[] { currentStart, currentEnd };
+	}
+
+	/// The first and last coordinate, along an axis, of the non-empty views
+	/// of some units.
+	///
+	/// @return `{min, max}`, or null if there are no non-empty views.
+	static double[] unitsExtent(List<List<MDCView>> someUnits, boolean vertical) {
+		double currentStart = Double.POSITIVE_INFINITY;
+		double currentEnd = Double.NEGATIVE_INFINITY;
+		for (List<MDCView> unit : someUnits) {
+			for (MDCView v : unit) {
+				double length = length(v, vertical);
+				if (length > 0f) {
+					currentStart = Math.min(currentStart, coordinate(v, vertical));
+					currentEnd = Math.max(currentEnd, coordinate(v, vertical) + length);
+				}
+			}
+		}
+		return currentStart > currentEnd ? null : new double[] { currentStart, currentEnd };
+	}
+
+	/// The length, along an axis, of the visible content of some units.
+	static double unitsLength(List<List<MDCView>> someUnits, boolean vertical) {
+		double[] extent = unitsExtent(someUnits, vertical);
+		return extent == null ? 0 : extent[1] - extent[0];
+	}
+
+	/// Places some units (a tab cell) in an interval, as an alignment
+	/// requires. The units keep their relative positions, except for
+	/// [LineAlignment#JUSTIFY], which spreads the free space between them.
+	///
+	/// @param someUnits the units.
+	/// @param alignment the alignment.
+	/// @param start the start of the interval.
+	/// @param length the length of the interval.
+	/// @param vertical true to work along the y axis (a column).
+	static void placeUnits(List<List<MDCView>> someUnits, LineAlignment alignment, double start, double length,
+			boolean vertical) {
+		double[] extent = unitsExtent(someUnits, vertical);
+		if (extent == null) {
+			return;
+		}
+		double size = extent[1] - extent[0];
+		double target = switch (alignment) {
+			case START, JUSTIFY -> start;
+			case END -> start + length - size;
+			case CENTER -> start + (length - size) / 2;
+		};
+		double delta = target - extent[0];
+		for (List<MDCView> unit : someUnits) {
+			for (MDCView v : unit) {
+				if (vertical) {
+					v.getPosition().y += delta;
+				} else {
+					v.getPosition().x += delta;
+				}
+			}
+		}
+		if (alignment == LineAlignment.JUSTIFY) {
+			justifyUnits(someUnits, vertical, start, length);
+		}
 	}
 
 	/// The width of the visible content of the line (its non-empty views).

@@ -22,6 +22,28 @@ import jsesh.render.view.MDCView;
  * @author Serge Rosmorduc
  */
 abstract public class TopItemLayout {
+
+    /// The minimal space between a tab cell and the next tab stop, or a
+    /// negative value if dynamic tabs are not laid out (see [#enableTabs]).
+    private double tabGap = -1;
+
+    /// Lays out the dynamic tabs (`%tab`) of the text. They are only laid out
+    /// in zones; elsewhere, they are ignored.
+    ///
+    /// @param gap the minimal space between a tab cell and the next tab stop.
+    public void enableTabs(double gap) {
+        this.tabGap = Math.max(0, gap);
+    }
+
+    /// @return true if dynamic tabs are laid out.
+    protected boolean tabsEnabled() {
+        return tabGap >= 0;
+    }
+
+    /// @return the minimal space between a tab cell and the next tab stop.
+    protected double tabGap() {
+        return tabGap;
+    }
     //TopItemLayoutPosition state;
     
     /**

@@ -184,10 +184,15 @@ public class ModelElementDeepAdapter implements ModelElementVisitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
+	 * @see jsesh.model.ModelElementVisitor#visitAbsoluteTab(jsesh.model.AbsoluteTab)
 	 */
         @Override
-	public void visitTabStop(TabStop t) {
+	public void visitAbsoluteTab(AbsoluteTab t) {
+		visitTopItem(t);
+	}
+
+	@Override
+	public void visitTab(Tab t) {
 		visitTopItem(t);
 	}
 

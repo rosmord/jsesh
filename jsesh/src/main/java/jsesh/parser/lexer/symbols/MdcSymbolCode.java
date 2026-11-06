@@ -15,9 +15,10 @@ package jsesh.parser.lexer.symbols;
 public enum MdcSymbolCode {
     PAGE_END,
     LINE_END,
-    TAB_STOP,
+    ABSOLUTE_TAB,
     HRULE,
     ZONE,
+    TAB,
     QUADRAT,
     INSERT,
     HKERN,

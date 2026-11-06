@@ -40,6 +40,8 @@ import jsesh.model.PageBreak;
 import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.Superscript;
+import jsesh.model.Tab;
+import jsesh.model.TabLine;
 import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneParameters;
@@ -451,6 +453,55 @@ public class DefaultElementDrawer extends ElementDrawer {
         g.setStroke(jseshStyle.geometry().fineStroke());
         g.draw(mark);
     }
+
+    /// Dynamic tabs are invisible, unless tabs are shown. The mark is a blue
+    /// line across the line (or column) at the tab stop, with a small flag
+    /// towards the text which follows, and the stop index just above the line
+    /// (or on the left of the column), where the signs don't hide it.
+    @Override
+    public void visitTab(Tab tab) {
+        if (!postfix || !isShowTabs()) {
+            return;
+        }
+        JSeshStyle jseshStyle = getJSeshStyle();
+        boolean horizontal = currentTextOrientation.isHorizontal();
+        float quadrat = jseshStyle.geometry().maxCadratHeight();
+        float length = horizontal ? quadrat : jseshStyle.geometry().maxCadratWidth();
+        g.setColor(TAB_COLOR);
+        g.setStroke(jseshStyle.geometry().fineStroke());
+        Path2D.Float mark = new Path2D.Float();
+        float flag = quadrat / 8f;
+        float dir = (horizontal && currentTextDirection == TextDirection.RIGHT_TO_LEFT) ? -1f : 1f;
+        if (horizontal) {
+            mark.moveTo(0, 0);
+            mark.lineTo(0, length);
+            mark.moveTo(0, 0);
+            mark.lineTo(flag * dir, 0);
+        } else {
+            mark.moveTo(0, 0);
+            mark.lineTo(length, 0);
+            mark.moveTo(0, 0);
+            mark.lineTo(0, flag);
+        }
+        g.draw(mark);
+        String label = Integer.toString(TabLine.stopIndexOf(tab));
+        Font previousFont = g.getFont();
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 1).deriveFont(quadrat / 4f));
+        float labelWidth = (float) g.getFontMetrics().getStringBounds(label, g).getWidth();
+        float ascent = g.getFontMetrics().getAscent();
+        float descent = g.getFontMetrics().getDescent();
+        // The index is outside the line (or column), so that the signs don't hide it.
+        if (horizontal) {
+            float x = dir > 0 ? 0 : -labelWidth;
+            g.drawString(label, x, -descent);
+        } else {
+            g.drawString(label, -labelWidth - flag / 4f, ascent);
+        }
+        g.setFont(previousFont);
+    }
+
+    /// The colour of the marks of dynamic tabs.
+    private static final Color TAB_COLOR = new Color(0x1E, 0x64, 0xE6);
 
     /// Draws the frame of the zone, if it has one, and its limits, if asked
     /// to (for editors).

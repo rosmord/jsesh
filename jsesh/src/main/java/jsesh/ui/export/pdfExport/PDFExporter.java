@@ -42,7 +42,7 @@ import jsesh.model.LineBreak;
 import jsesh.model.MDCPosition;
 import jsesh.model.ModelElementDeepAdapter;
 import jsesh.model.PageBreak;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.constants.ScriptCode;
@@ -487,11 +487,11 @@ public class PDFExporter {
          * (non-Javadoc)
          * 
          * @see
-         * jsesh.model.ModelElementDeepAdapter#visitTabStop(jsesh.model
-         * .TabStop)
+         * jsesh.model.ModelElementDeepAdapter#visitAbsoluteTab(jsesh.model
+         * .AbsoluteTab)
          */
         @Override
-        public void visitTabStop(TabStop t) {
+        public void visitAbsoluteTab(AbsoluteTab t) {
             var geom = renderContext.jseshStyle().geometry();
             // IText has no tabulation system. Hence, we simply draw a white
             // space

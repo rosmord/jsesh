@@ -93,6 +93,20 @@ public interface ActionsID {
     String GROUP_AS_INSERTION = "text.groupAsInsertion";
     String INSERT_ZONE = "text.insertZone";
     String UNWRAP_ZONE = "text.unwrapZone";
+    /// Inserts a dynamic tab (`%tab`).
+    String INSERT_TAB = "text.insertTab";
+    /// Moves the tab near the cursor to the next tab stop.
+    String TAB_TO_NEXT_STOP = "text.tabToNextStop";
+    /// Moves the tab near the cursor to the previous tab stop.
+    String TAB_TO_PREVIOUS_STOP = "text.tabToPreviousStop";
+    /// Aligns the cell before the tab near the cursor at the start of the cell.
+    String TAB_ALIGN_START = "text.tabAlignStart";
+    /// Centres the cell before the tab near the cursor.
+    String TAB_ALIGN_CENTER = "text.tabAlignCenter";
+    /// Aligns the cell before the tab near the cursor at the end of the cell.
+    String TAB_ALIGN_END = "text.tabAlignEnd";
+    /// Justifies the cell before the tab near the cursor.
+    String TAB_ALIGN_JUSTIFY = "text.tabAlignJustify";
     String EXPLODE_GROUP = "text.explodeGroup";
     String INSERT_SPACE = "text.insertSpace";
     String INSERT_HALF_SPACE = "text.insertHalfSpace";

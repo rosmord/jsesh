@@ -111,11 +111,12 @@ public final class MdcLexer {
         return switch (type) {
             case PAGE_END -> emit(MdcSymbolCode.PAGE_END, null, text, start);
             case LINE_END -> emit(MdcSymbolCode.LINE_END, extractLineSkip(text), text, start);
-            case TAB_STOP -> emit(MdcSymbolCode.TAB_STOP, Integer.parseInt(text.substring(1)), text, start);
+            case ABSOLUTE_TAB -> emit(MdcSymbolCode.ABSOLUTE_TAB, Integer.parseInt(text.substring(1)), text, start);
             case HRULE_THIN -> emit(MdcSymbolCode.HRULE, parseHRule('l', text), text, start);
             case HRULE_WIDE -> emit(MdcSymbolCode.HRULE, parseHRule('L', text), text, start);
             case ALPHABETIC_TEXT -> emit(MdcSymbolCode.TEXT, parseAlphabeticText(text), text, start);
             case ZONE -> emit(MdcSymbolCode.ZONE, null, text, start);
+            case TAB -> emit(MdcSymbolCode.TAB, null, text, start);
             case QUADRAT -> emit(MdcSymbolCode.QUADRAT, null, text, start);
             case INSERT -> emit(MdcSymbolCode.INSERT, null, text, start);
             case HKERN -> emit(MdcSymbolCode.HKERN, null, text, start);

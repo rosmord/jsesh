@@ -44,7 +44,7 @@ import {
   type Philology,
   type SubCadrat,
   type Superscript,
-  type TabStop,
+  type AbsoluteTab,
   type ZoneContent,
 } from "../model/model.js";
 
@@ -230,7 +230,7 @@ class ModelWriter implements ModelElementVisitor<void> {
     this.wantsMinus = false;
   }
 
-  visitTabStop(t: TabStop): void {
+  visitAbsoluteTab(t: AbsoluteTab): void {
     this.write("?" + t.stopPos);
   }
 

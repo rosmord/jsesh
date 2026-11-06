@@ -27,7 +27,8 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   width, wrap to component width, pagination, line alignment, logical line, justification,
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
-  overwrite, absolute group, philology, kerning, tab stop, zone, scope, position, range,
+  overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
+  column), zone, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
@@ -189,6 +190,13 @@ The model is a tree: `HieroglyphicText` → `TopItem`s (`Cadrat`, `Cartouche`, `
 `AbsoluteGroup` (`a**b`): signs placed at explicit coordinates (`{{x,y,scale}}`, in
 thousandths of the height of A1). It needs at least two signs.
 
+### Absolute tab
+
+`AbsoluteTab` (`?N`, formerly `TabStop`): the next item is placed at an absolute position
+from the start of the line, in tab units (`tabUnitWidth`); from Winglyph. `HRule`
+(`{lA,B}`) is a thin horizontal rule between two such positions. Not to be confused with
+the dynamic [tab](#tab-tab-stop-tab-cell-tab-column) `%tab`.
+
 ### Alphabetic text
 
 Latin, transliteration, Greek, Coptic... written as a block in MdC (`+lsome text+s`). In the
@@ -275,16 +283,31 @@ Here *scope* has nothing to do with zones, though a `ZoneContent` is a scope as 
 `Superscript` (`|a-`): a text above the line, used for line numbers. A `TopItem`, allowed
 at top level only.
 
-### Tab stop
+### Tab, tab stop, tab cell, tab column
 
-`TabStop` (`?N`): the next item is placed at an absolute position, in tab units
-(`tabUnitWidth`); from Winglyph. `HRule` (`{lA,B}`) is a thin horizontal rule between two
-such positions.
+`Tab` (`%tab`, `%tab[n=3,align=end]`): a *dynamic* tab, as in a LaTeX `tabular`. The tabs
+of a zone cut its lines into **tab cells**; a **tab stop** is a position, number *i*,
+shared by all the lines of the zone (its **tab scope**), and pushed by the longest cell
+which ends there. Stop 0 is the start of the line, never written. A **tab column** is the
+interval between two consecutive stops; a cell may span several columns when indexes are
+skipped.
+
+- `n`: the absolute index of the stop (default: the previous tab of the line, plus 1);
+- `align`: the alignment of the cell **before** the tab (default `start`). The cell after
+  the last tab takes the alignment of the line.
+- `%zone[tabgap=N]` (`ZoneParameters.tabGap`): the minimal space between a cell and the
+  next stop; the quadrat gap by default.
+
+Laid out only in zones (`TabLayout`, called by `LineLayout` and `ColumnLayout` at the end of
+the layout, before line alignment); ignored in the main text, and after the first soft
+wrap of a logical line. Not yet in the JS port. `TabLine` gives the stop index of a tab in
+the model, and moves a tab to another stop (editor: Text > Tabs; View > Show Tabs). Spec and progress in todo 0131. Not to be
+confused with the absolute tab `?N`.
 
 ### Top item
 
 `TopItem`: an item of the text itself, between two `-`: a quadrat, a cartouche, a line or
-page break, a zone, a tab stop, a superscript, a rule, a comment.
+page break, a zone, an absolute tab, a tab, a superscript, a rule, a comment.
 
 ### Zone
 

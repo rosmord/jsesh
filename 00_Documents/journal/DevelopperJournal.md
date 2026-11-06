@@ -34,6 +34,15 @@ This file, which contains the fonts, is currently a jar file, containing the svg
 
 ## 2026-11-06
 
+**Dynamic tabs, step 1: syntax and model** (todo 0131, moved to `02_important`; the spec was reviewed and rewritten).
+
+- New `%tab[n=K,align=A]` (`AstTab`, `jsesh.model.Tab`): `n` is an absolute tab stop index (no `skip`), `align` the alignment of the cell *before* the tab; the last cell takes the alignment of the line. New `%zone[tabgap=N]` (`ZoneParameters.tabGap`; kept, but not editable yet, in the zone dialog).
+- The Winglyph `?N` is renamed `AbsoluteTab` (`AstAbsoluteTab`, token `ABSOLUTE_TAB`), in Java and in `jsesh-js`; fixtures re-exported. `AbsoluteTab` now compares its position in `equalsIgnoreId`.
+- `%tab` is not laid out yet, and the JS port doesn't read it yet.
+- Step 4, editor: View > Show Tabs (blue marks with the stop index), Text > Tabs (insert with `shortcut alt T`; move to the next or previous stop, menus only). `jsesh.model.TabLine` resolves stop indexes (shared rule `Tab.resolveIndex`, also used by the layout) and moves tabs.
+- Step 2, Java layout: `TabLayout` computes the stops and places the cells as blocks, at the end of `LineLayout`/`ColumnLayout`, before line alignment (which leaves tabbed lines alone). Empty cells don't push stops. A `?N` after a `%tab` is ignored. Not mirrored in `jsesh-js` yet (its parser doesn't know `%tab`, so no fixture uses it, and the existing fixtures are unchanged).
+- Decisions: tabs are active in zones only; in a soft-wrapped line, only the tabs before the first wrap count, wraps being computed on natural widths (overflow accepted).
+
 **Line and column alignment** (todo 0155, closed).
 
 - Each line or column has its own alignment, *start*, *end*, *center* or *justify*, written as `align=` on the line break (`-![align=center]`, `-!![align=...]`). It replaces the global `LayoutOptions.justified`, which is gone. Model: `LineEnd`, `LineAlignment`; layout in `LineLayout`/`ColumnLayout` (Java and `jsesh-js`), with fixtures.

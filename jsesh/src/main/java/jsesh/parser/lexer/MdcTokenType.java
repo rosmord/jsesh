@@ -26,7 +26,7 @@ enum MdcTokenType {
     /// `"!"("="{INTEGER}"%")?{ESPSO}`
     LINE_END,
     /// `"?"{INTEGER}`
-    TAB_STOP,
+    ABSOLUTE_TAB,
     /// `"{l"{INTEGER}","{INTEGER}"}"`
     HRULE_THIN,
     /// `"{L"{INTEGER}","{INTEGER}"}"`
@@ -35,6 +35,8 @@ enum MdcTokenType {
     ALPHABETIC_TEXT,
     /// `"%zone"`
     ZONE,
+    /// `"%tab"`
+    TAB,
     /// `"%quadrat"`
     QUADRAT,
     /// `"%insert"` 

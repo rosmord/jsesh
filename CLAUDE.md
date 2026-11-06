@@ -61,7 +61,7 @@ itself" (reads the user's font directory and glossary from prefs for you). See
 
 ### Document Model (`jsesh.model`)
 
-The model is a tree (`HieroglyphicText` → `TopItem`s such as `Cadrat`, `Cartouche`, `LineBreak` → `HBox` → `HorizontalListElement`s: `Hieroglyph`, `InnerGroup`, `ComplexLigature`) with visitor and observer patterns. `Zone` (`%zone[...](...)`) is a `TopItem` with its own layout area; its `ZoneContent` is an item sequence of `TopItem`s, so zones can nest. `TabStop` is also a `TopItem`.
+The model is a tree (`HieroglyphicText` → `TopItem`s such as `Cadrat`, `Cartouche`, `LineBreak` → `HBox` → `HorizontalListElement`s: `Hieroglyph`, `InnerGroup`, `ComplexLigature`) with visitor and observer patterns. `Zone` (`%zone[...](...)`) is a `TopItem` with its own layout area; its `ZoneContent` is an item sequence of `TopItem`s, so zones can nest. `AbsoluteTab` (`?N`) and `Tab` (`%tab`, dynamic tab stops) are also `TopItem`s.
 
 - The interpreted model (`jsesh.model`) and the literal parse AST (`jsesh.parser.ast`) share no types, and neither package imports the other; `jsesh.mdcreader` bridges them.
 - `ModelElement` is the abstract base; all elements support an observer pattern for change notification.

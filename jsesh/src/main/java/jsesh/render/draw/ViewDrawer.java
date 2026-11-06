@@ -203,6 +203,16 @@ public class ViewDrawer {
         return elementDrawer.isShowZoneLimits();
     }
 
+    /// Should the dynamic tabs (`%tab`) be drawn, with their stop index?
+    /// False by default.
+    public void setShowTabs(boolean showTabs) {
+        elementDrawer.setShowTabs(showTabs);
+    }
+
+    public boolean isShowTabs() {
+        return elementDrawer.isShowTabs();
+    }
+
     /**
      * Draws colored rectangle showing the structure of a view for debugging
      * purporses.

@@ -49,7 +49,8 @@ import jsesh.model.Philology;
 import jsesh.model.ShadingCode;
 import jsesh.model.SubCadrat;
 import jsesh.model.Superscript;
-import jsesh.model.TabStop;
+import jsesh.model.AbsoluteTab;
+import jsesh.model.Tab;
 import jsesh.model.TopItem;
 import jsesh.model.HieroglyphicText;
 import jsesh.model.TopItemState;
@@ -450,10 +451,27 @@ public class MdCModelWriter {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see jsesh.model.ModelElementVisitor#visitTabStop(jsesh.model.TabStop)
+		 * @see jsesh.model.ModelElementVisitor#visitAbsoluteTab(jsesh.model.AbsoluteTab)
 		 */
-		public void visitTabStop(TabStop t) {
+		public void visitAbsoluteTab(AbsoluteTab t) {
 			write("?" + t.getStopPos());
+		}
+
+		/// Writes `%tab`, with the `n` and `align` options only when they
+		/// are not the default ones.
+		@Override
+		public void visitTab(Tab t) {
+			List<String> options = new ArrayList<>();
+			if (t.hasExplicitIndex()) {
+				options.add("n=" + t.getIndex());
+			}
+			if (t.getAlignment() != LineAlignment.START) {
+				options.add("align=" + t.getAlignment().mdcName());
+			}
+			write("%tab");
+			if (!options.isEmpty()) {
+				write("[" + String.join(",", options) + "]");
+			}
 		}
 
 		/**
@@ -625,6 +643,7 @@ public class MdCModelWriter {
 			addLengthOption(options, "height", p.height());
 			addLengthOption(options, "linegap", p.lineGap());
 			addLengthOption(options, "quadratgap", p.quadratGap());
+			addLengthOption(options, "tabgap", p.tabGap());
 			addLengthOption(options, "separator", p.separator());
 			addLengthOption(options, "quadratwidth", p.quadratWidth());
 			addLengthOption(options, "quadratheight", p.quadratHeight());
