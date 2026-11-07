@@ -388,7 +388,8 @@ class ElementDrawer extends ModelElementAdapter {
   override visitHRule(h: HRule): void {
     if (!this.postfix) return;
     const g = this.d.s.geometry;
-    const d = new PathBuilder().line(h.startPos * g.tabUnitWidth, 0, h.endPos * g.tabUnitWidth, 0);
+    // The rule fills its view (see Layout.visitHRule): its positions are not used.
+    const d = new PathBuilder().line(0, 0, this.view.width, 0);
     this.out += strokedPath(d, this.color, h.type === "L" ? g.wideLineWidth : g.fineLineWidth);
   }
 

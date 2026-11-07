@@ -369,11 +369,8 @@ public class DefaultElementDrawer extends ElementDrawer {
         } else {
             g.setStroke(jseshStyle.geometry().fineStroke());
         }
-        g.draw(new Line2D.Float(h.getStartPos()
-                * jseshStyle.geometry().tabUnitWidth(), 0,
-                h.getEndPos()
-                        * jseshStyle.geometry().tabUnitWidth(),
-                0));
+        // The rule fills its view (see Layout#visitHRule): its positions are not used.
+        g.draw(new Line2D.Float(0, 0, currentView.getWidth(), 0));
     }
 
     /*

@@ -17,6 +17,7 @@ import jsesh.render.style.JSeshStyle;
 import jsesh.render.style.PageSpecification;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.AlphabeticCharacter;
+import jsesh.model.HRule;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.ModelElementAdapter;
@@ -270,6 +271,7 @@ public class LineLayout extends TopItemLayout {
             flushZone();
         }
         endLogicalLine(previousAlignment);
+        fitRules();
         layoutTabs();
         if (!jseshStyle.options().ignoreLineAlignment()) {
             alignLines();
@@ -332,6 +334,50 @@ public class LineLayout extends TopItemLayout {
             alignments.add(a);
         }
         currentLogicalLine.clear();
+    }
+
+    /// Widens the horizontal rules ([HRule]) to the width of the text, when
+    /// there is no page nor zone width to fill (see `Layout.visitHRule`, which
+    /// sets their width otherwise).
+    ///
+    /// The width of the text is the one of its longest line, the rules counting
+    /// for their minimal width. A rule alone on its line (the normal case) gets
+    /// that width; a rule which follows other elements gets what is left.
+    private void fitRules() {
+        if (jseshStyle.geometry().isWrapping()) {
+            return;
+        }
+        double margin = jseshStyle.geometry().leftMargin();
+        double width = 0;
+        boolean hasRule = false;
+        for (PlacedLine l : alignedLines) {
+            hasRule |= l.line().getViews().stream().anyMatch(v -> v.getModel() instanceof HRule);
+            Rectangle2D bounds = l.line().visibleBounds(0, 0);
+            if (bounds != null) {
+                width = Math.max(width, bounds.getMaxX() - margin);
+            }
+        }
+        if (!hasRule) {
+            return;
+        }
+        for (PlacedLine l : alignedLines) {
+            boolean changed = false;
+            for (MDCView v : l.line().getViews()) {
+                if (v.getModel() instanceof HRule) {
+                    double fitted = width - (v.getPosition().x - margin);
+                    if (fitted > v.getWidth()) {
+                        v.setWidth((float) fitted);
+                        changed = true;
+                    }
+                }
+            }
+            if (changed) {
+                Rectangle2D bounds = l.line().visibleBounds(l.top(), l.height());
+                if (bounds != null) {
+                    documentArea.add(bounds);
+                }
+            }
+        }
     }
 
     /// Places the cells of the lines which have tabs on their tab stops

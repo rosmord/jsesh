@@ -39,6 +39,7 @@ package jsesh.render.layout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -496,6 +497,13 @@ public class LineAccumulator {
 		if (alignment == LineAlignment.JUSTIFY) {
 			justifyUnits(someUnits, vertical, start, length);
 		}
+	}
+
+	/// The views of the line, in the order they were added.
+	///
+	/// @return a read-only list.
+	List<MDCView> getViews() {
+		return Collections.unmodifiableList(views);
 	}
 
 	/// The width of the visible content of the line (its non-empty views).

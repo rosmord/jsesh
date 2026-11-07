@@ -836,8 +836,15 @@ public class Layout {
 			// parent's size. For instance, some signs can fill an empty space
 			// sizing should be better described (for instance, we could
 			// use some "fill power" dimension, as is done in (La)TeX).
-
-			currentView.setWidth(jseshStyle.geometry().textWidth());
+			GeometrySpecification geometry = jseshStyle.geometry();
+			// At least one quadrat wide, and as wide as the page or the zone
+			// if there is one. Without a width to fill, LineLayout widens the
+			// rule to the width of the text once all the lines are known.
+			float width = geometry.maxCadratWidth();
+			if (currentTextOrientation.isHorizontal() && geometry.isWrapping()) {
+				width = Math.max(width, (float) geometry.maxLineWidth());
+			}
+			currentView.setWidth(width);
 			currentView.setHeight(jseshStyle.geometry().wideLineWidth());
 		}
 

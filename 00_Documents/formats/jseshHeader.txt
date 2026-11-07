@@ -22,7 +22,7 @@ fields:
 	encoding: well, the char encoding the JSesh file uses.
 
 	page: a description of the page, the unit being 1/72inch.
-			e.g. "page" : {"width" : 720, "height" : 720, "dx" : 31, "dy" : 31, "textWidth" : 600, "textHeight" : 600, orientation: "landscape"}
+			e.g. "page" : {"width" : 720, "height" : 720, "dx" : 31, "dy" : 31, orientation: "landscape"}
 				orientation is either landscape or portrait.
 				in landscape mode, the x axis is vertical (bottom to top), and the y axis is left to right.
 				in portrait mode, the origin is on the top left of the page, and y is down the page.

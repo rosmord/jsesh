@@ -105,12 +105,8 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
         return copy().jseshStyle(s -> {
             s.options(o -> o.paged(false).ignoreLineAlignment(false))
                     .geometry(g -> {
-                        g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth).columnHeight(columnHeight)
+                        return g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth).columnHeight(columnHeight)
                                 .page(PageSpecification.NONE);
-                        if (p.width() != ZoneParameters.UNSET) {
-                            g.textWidth(p.width() * unit);
-                        }
-                        return g;
                     });
             return LayoutSettingsApplier.apply(p.settings(), jseshStyle.geometry().unit(), s);
         }).build();

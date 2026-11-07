@@ -32,10 +32,6 @@ import java.awt.BasicStroke;
  * @param hwtSmallMargin      the margin between the hwt and its content.
  * @param hwtSquareSize       the size of the small square in the hwt.
  * @param serekhDoorSize      the size of the door in the serekh.
- * @param textWidth           the length of horizontal rules ({@code HRule}), in
- *                            points. Despite its name, it is *not* the width of
- *                            the text area (see {@code wrapWidth} and
- *                            {@code page} for that).
  * @param leftMargin          the margin on the left (and right) of the text, in
  *                            points. Lines start at this distance of the edge,
  *                            and the usable width of a wrapped line is
@@ -108,7 +104,6 @@ public record GeometrySpecification(
 		float hwtSmallMargin, // 3
 		float hwtSquareSize, // 10
 		float serekhDoorSize, // 20
-		float textWidth, // 538
 		float leftMargin, // 6
 		float topMargin, // 5
 		PageSpecification page, // PageSpecification.NONE
@@ -141,7 +136,6 @@ public record GeometrySpecification(
 			3,
 			10,
 			20,
-			538,
 			6,
 			5,
 			PageSpecification.NONE,
@@ -265,7 +259,6 @@ public record GeometrySpecification(
 		private float hwtSmallMargin; // 3
 		private float hwtSquareSize; // 10
 		private float serekhDoorSize; // 20
-		private float textWidth; // 538
 		private float leftMargin; // 6
 		private float topMargin; // 5
 		private PageSpecification page; // NONE
@@ -297,7 +290,6 @@ public record GeometrySpecification(
 			this.hwtSmallMargin = specs.hwtSmallMargin;
 			this.hwtSquareSize = specs.hwtSquareSize;
 			this.serekhDoorSize = specs.serekhDoorSize;
-			this.textWidth = specs.textWidth;
 			this.leftMargin = specs.leftMargin;
 			this.topMargin = specs.topMargin;
 			this.page = specs.page;
@@ -378,11 +370,6 @@ public record GeometrySpecification(
 
 		public Builder serekhDoorSize(float serekhDoorSize) {
 			this.serekhDoorSize = serekhDoorSize;
-			return this;
-		}
-
-		public Builder textWidth(float textWidth) {
-			this.textWidth = textWidth;
 			return this;
 		}
 
@@ -494,7 +481,6 @@ public record GeometrySpecification(
 					hwtSmallMargin,
 					hwtSquareSize,
 					serekhDoorSize,
-					textWidth,
 					leftMargin,
 					topMargin,
 					page,
@@ -533,7 +519,6 @@ public record GeometrySpecification(
 			hwtSmallMargin *= scale;
 			hwtSquareSize *= scale;
 			serekhDoorSize *= scale;
-			textWidth *= scale;
 			leftMargin *= scale;
 			topMargin *= scale;
 			page = page.scaled(scale);

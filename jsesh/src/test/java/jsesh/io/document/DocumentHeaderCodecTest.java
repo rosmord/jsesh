@@ -79,6 +79,17 @@ public class DocumentHeaderCodecTest {
         assertEquals(ShadingMode.LINE_HATCHING, style.painting().shadingStyle());
     }
 
+    /// `textWidth` (the length of the rules) used to be a style parameter. It is gone, and a header
+    /// which still has it is read as if it didn't.
+    @Test
+    public void theObsoleteTextWidthIsIgnored() {
+        Map<String, String> map = new HashMap<>();
+        map.put("textWidth", "600");
+        map.put("JSesh_text_width", "600");
+        DocumentPreferences prefs = DocumentHeaderCodec.fromHeader(map);
+        assertEquals(DocumentHeaderCodec.fromHeader(new HashMap<>()), prefs);
+    }
+
     @Test
     public void anEmptyHeaderGivesTheOldDefaults() {
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(

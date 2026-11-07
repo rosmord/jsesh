@@ -24,7 +24,7 @@ import {
   type HBox,
   type HieroglyphicText,
   type Hieroglyph,
-  type HRule,
+  HRule,
   type Insert,
   type Kerning,
   type Ligature,
@@ -150,7 +150,6 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
     wrapWidth: orientation === "HORIZONTAL" && p.width !== ZONE_UNSET ? f(p.width * unit) : 0,
     columnHeight: orientation !== "HORIZONTAL" && p.height !== ZONE_UNSET ? f(p.height * unit) : 0,
   };
-  if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
   const base = withStyle(parent, {
     options: {
       paged: false,
@@ -641,8 +640,14 @@ class LayoutAux extends ModelElementAdapter {
     if (h.relativeSize !== 100) v.reScale(f(h.relativeSize / 100));
   }
 
+  /// At least one quadrat wide, and as wide as the page or the zone if there is one. Without a
+  /// width to fill, [LineLayout] widens the rule to the width of the text, once all the lines
+  /// are known.
   override visitHRule(_h: HRule): void {
-    this.l.v.width = this.l.s.geometry.textWidth;
+    const g = this.l.s.geometry;
+    let width = g.maxCadratWidth;
+    if (this.l.orientation === "HORIZONTAL" && isWrapping(g)) width = Math.max(width, maxLineWidth(g));
+    this.l.v.width = f(width);
     this.l.v.height = this.l.s.geometry.wideLineWidth;
   }
 
@@ -1400,6 +1405,11 @@ class LineAccumulator {
     return currentStart > currentEnd ? null : [currentStart, currentEnd];
   }
 
+  /// The views of the line, in the order they were added.
+  getViews(): readonly MDCView[] {
+    return this.views;
+  }
+
   /// The width of the visible content of the line.
   get visibleWidth(): number {
     const extent = this.visibleExtent(false);
@@ -1838,6 +1848,7 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
     const g = this.style.geometry;
     if (!this.zone.isEmpty()) this.flushZone();
     this.endLogicalLine(this.previousAlignment);
+    this.fitRules();
     this.layoutTabs();
     if (!this.style.options.ignoreLineAlignment) this.alignLines();
     if (isPaginated(g.page)) {
@@ -1859,6 +1870,37 @@ class LineLayout extends ModelElementAdapter implements TopItemLayout {
       this.alignments.push(a);
     });
     this.currentLogicalLine.length = 0;
+  }
+
+  /// Widens the horizontal rules to the width of the text, when there is no page nor zone width to
+  /// fill (see `visitHRule`, which sets their width otherwise). The width of the text is the one
+  /// of its longest line, the rules counting for their minimal width. A rule alone on its line (the
+  /// normal case) gets that width; a rule which follows other elements gets what is left.
+  private fitRules(): void {
+    const g = this.style.geometry;
+    if (isWrapping(g)) return;
+    let width = 0;
+    let hasRule = false;
+    for (const l of this.alignedLines) {
+      hasRule ||= l.line.getViews().some((v) => v.model instanceof HRule);
+      const bounds = l.line.visibleBounds(0, 0);
+      if (bounds) width = Math.max(width, bounds.maxX - g.leftMargin);
+    }
+    if (!hasRule) return;
+    for (const l of this.alignedLines) {
+      let changed = false;
+      for (const v of l.line.getViews()) {
+        if (!(v.model instanceof HRule)) continue;
+        const fitted = f(width - (v.position.x - g.leftMargin));
+        if (fitted > v.width) {
+          v.width = fitted;
+          changed = true;
+        }
+      }
+      if (!changed) continue;
+      const bounds = l.line.visibleBounds(l.top, l.height);
+      if (bounds) this.documentArea.add(bounds);
+    }
   }
 
   /// Places the cells of the lines which have tabs on their tab stops (see [TabLayout]). The cell
