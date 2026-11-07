@@ -45,7 +45,6 @@ export interface GeometrySpecification {
   hwtSquareSize: number;
   serekhDoorSize: number;
   textWidth: number;
-  textHeight: number;
   leftMargin: number;
   topMargin: number;
   maxCadratHeight: number;
@@ -167,7 +166,6 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   hwtSquareSize: 10,
   serekhDoorSize: 20,
   textWidth: 538,
-  textHeight: 760,
   leftMargin: 6,
   topMargin: 5,
   maxCadratHeight: 18,

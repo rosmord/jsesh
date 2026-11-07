@@ -13,9 +13,9 @@ import java.awt.BasicStroke;
  * would loose type safety, autocompletion and
  * some speed.
  * 
- * Note: currently, textWidth, textHeight, leftMargin and topMargin
- * are not very well defined. See {@link PageSpecification} for the (optional)
- * page of the document.
+ * The margins ({@code leftMargin}, {@code topMargin}) surround the text
+ * area. The (optional) page of the document is described by
+ * {@link PageSpecification}.
  * 
  * @param fineLineWidth       the width for fine lines (drawn with {lx1,x2})
  * @param wideLineWidth       the width for wide lines (drawn with {lx1,x2})
@@ -32,11 +32,20 @@ import java.awt.BasicStroke;
  * @param hwtSmallMargin      the margin between the hwt and its content.
  * @param hwtSquareSize       the size of the small square in the hwt.
  * @param serekhDoorSize      the size of the door in the serekh.
- * @param textWidth           the width of the text area (not very well defined)
- * @param textHeight          the height of the text area (not very well
- *                            defined)
- * @param leftMargin          the left margin (not very well defined)
- * @param topMargin           the top margin (not very well defined)
+ * @param textWidth           the length of horizontal rules ({@code HRule}), in
+ *                            points. Despite its name, it is *not* the width of
+ *                            the text area (see {@code wrapWidth} and
+ *                            {@code page} for that).
+ * @param leftMargin          the margin on the left (and right) of the text, in
+ *                            points. Lines start at this distance of the edge,
+ *                            and the usable width of a wrapped line is
+ *                            {@code wrapWidth - 2 * leftMargin}. When a page is
+ *                            defined, the page's own margins are used instead
+ *                            for the wrapping width.
+ * @param topMargin           the margin above (and below) the text, in points.
+ *                            Columns start at this distance of the top edge, and
+ *                            the usable height of a column is
+ *                            {@code columnHeight - 2 * topMargin}.
  * @param page                the page size and margins ({@link PageSpecification#NONE}
  *                            for a text as large as it needs to be). When the page
  *                            is defined, it determines the wrapping width, and
@@ -100,7 +109,6 @@ public record GeometrySpecification(
 		float hwtSquareSize, // 10
 		float serekhDoorSize, // 20
 		float textWidth, // 538
-		float textHeight, // 760
 		float leftMargin, // 6
 		float topMargin, // 5
 		PageSpecification page, // PageSpecification.NONE
@@ -134,7 +142,6 @@ public record GeometrySpecification(
 			10,
 			20,
 			538,
-			760,
 			6,
 			5,
 			PageSpecification.NONE,
@@ -259,7 +266,6 @@ public record GeometrySpecification(
 		private float hwtSquareSize; // 10
 		private float serekhDoorSize; // 20
 		private float textWidth; // 538
-		private float textHeight; // 760
 		private float leftMargin; // 6
 		private float topMargin; // 5
 		private PageSpecification page; // NONE
@@ -292,7 +298,6 @@ public record GeometrySpecification(
 			this.hwtSquareSize = specs.hwtSquareSize;
 			this.serekhDoorSize = specs.serekhDoorSize;
 			this.textWidth = specs.textWidth;
-			this.textHeight = specs.textHeight;
 			this.leftMargin = specs.leftMargin;
 			this.topMargin = specs.topMargin;
 			this.page = specs.page;
@@ -378,11 +383,6 @@ public record GeometrySpecification(
 
 		public Builder textWidth(float textWidth) {
 			this.textWidth = textWidth;
-			return this;
-		}
-
-		public Builder textHeight(float textHeight) {
-			this.textHeight = textHeight;
 			return this;
 		}
 
@@ -495,7 +495,6 @@ public record GeometrySpecification(
 					hwtSquareSize,
 					serekhDoorSize,
 					textWidth,
-					textHeight,
 					leftMargin,
 					topMargin,
 					page,
@@ -535,7 +534,6 @@ public record GeometrySpecification(
 			hwtSquareSize *= scale;
 			serekhDoorSize *= scale;
 			textWidth *= scale;
-			textHeight *= scale;
 			leftMargin *= scale;
 			topMargin *= scale;
 			page = page.scaled(scale);
