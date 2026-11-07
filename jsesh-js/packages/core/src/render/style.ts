@@ -9,6 +9,7 @@
 /// Lengths are in points; A1 is `standardSignHeight` high.
 
 import type { DocumentPreferences } from "../document/preferences.js";
+import type { TextLayoutSettings } from "../model/layout-settings.js";
 import {
   SymbolCodes,
   type CartouchePart,
@@ -68,6 +69,11 @@ export interface GeometrySpecification {
   /// layout units. 0 (or less) means none: they are aligned on the longest column. Columns are
   /// never cut. When a page with a height is defined, its usable height is used instead.
   columnHeight: number;
+  /// The space between two quadrats of a column (that of a line is `smallSkip`).
+  columnQuadratSkip: number;
+  /// The unit of the document, in points: the lengths of the document
+  /// preferences and of zones are percents of it.
+  unit: number;
   /// The page (`PageSpecification`). When defined, it determines the wrapping width
   /// and `wrapWidth` is ignored.
   page: PageSpecification;
@@ -174,8 +180,15 @@ export const DEFAULT_GEOMETRY: Readonly<GeometrySpecification> = Object.freeze<G
   alphabeticTextBaseline: 4,
   wrapWidth: 0,
   columnHeight: 0,
+  columnQuadratSkip: 6,
+  unit: 18,
   page: NO_PAGE,
 });
+
+/// One percent of the unit of the document (`GeometrySpecification.percentUnit`).
+export function percentUnit(geometry: GeometrySpecification): number {
+  return f(geometry.unit / 100);
+}
 
 /// Port of `LayoutOptions`.
 export interface LayoutOptions {
@@ -332,35 +345,57 @@ function pageOf(preferences: DocumentPreferences): PageSpecification {
   };
 }
 
+/// A length in percents of the unit, in points (`LayoutSettingsApplier.points`), rounded to
+/// 1e-4 point so that old documents, converted from points, come back to the same floats.
+export function settingPoints(unit: number, percent: number): number {
+  return f(Math.round(unit * percent * 100) / 1e4);
+}
+
+/// The changes made to a style by layout settings (`LayoutSettingsApplier.apply`): the
+/// correspondence between the settings and the style, shared by documents and zones.
+export function layoutSettingsChanges(settings: TextLayoutSettings, unit: number): StyleChanges {
+  const geometry: Partial<GeometrySpecification> = {};
+  const options: Partial<LayoutOptions> = {};
+  const length = (v: number | undefined) => (v === undefined ? undefined : settingPoints(unit, v));
+  if (settings.layout !== undefined) options.textOrientation = settings.layout;
+  if (settings.dir !== undefined) options.textDirection = settings.dir;
+  if (settings.fitsigns !== undefined) options.fitLoneSigns = settings.fitsigns;
+  if (settings.limitquadratwidth !== undefined) options.limitQuadratWidthInLines = settings.limitquadratwidth;
+  if (settings.centresmallsigns !== undefined) options.smallSignCentered = settings.centresmallsigns;
+  const lengths: [number | undefined, keyof GeometrySpecification][] = [
+    [settings.quadratheight, "maxCadratHeight"],
+    [settings.quadratwidth, "maxCadratWidth"],
+    [settings.signheight, "standardSignHeight"],
+    [settings.linegap, "lineSkip"],
+    [settings.columngap, "columnSkip"],
+    [settings.quadratgap, "smallSkip"],
+    [settings.columnquadratgap, "columnQuadratSkip"],
+    [settings.cartouchelinewidth, "cartoucheLineWidth"],
+    [settings.textbaseline, "alphabeticTextBaseline"],
+  ];
+  for (const [value, field] of lengths) {
+    const points = length(value);
+    if (points !== undefined) (geometry as Record<string, number>)[field] = points;
+  }
+  return { geometry, options };
+}
+
 /// Applies document preferences on top of a style
 /// (`DocumentPreferencesStyleConverter.applyDocumentPreferences`).
 export function applyDocumentPreferences(preferences: DocumentPreferences, original: JSeshStyle): JSeshStyle {
-  return withStyle(original, {
+  const base = withStyle(original, {
     geometry: {
-      cartoucheLineWidth: f(preferences.cartoucheLineWidth),
-      maxCadratWidth: f(preferences.maxQuadratWidth),
-      maxCadratHeight: f(preferences.maxQuadratHeight),
-      lineSkip: f(preferences.lineSkip),
-      columnSkip: f(preferences.columnSkip),
-      standardSignHeight: f(preferences.standardSignHeight),
+      unit: f(preferences.unit),
       smallBodyScaleLimit: f(preferences.smallBodyScaleLimit),
-      smallSkip: f(preferences.smallSkip),
-      alphabeticTextBaseline: f(preferences.alphabeticTextBaseline),
       page: pageOf(preferences),
       // With a page, the margins around the text are the page's.
       ...(preferences.pageWidth > 0
         ? { leftMargin: f(preferences.marginLeft), topMargin: f(preferences.marginTop) }
         : {}),
     },
-    options: {
-      smallSignCentered: preferences.smallSignCentered,
-      limitQuadratWidthInLines: preferences.limitQuadratWidthInLines,
-      fitLoneSigns: preferences.fitLoneSigns,
-      textOrientation: preferences.textOrientation,
-      textDirection: preferences.textDirection,
-    },
     painting: { shadingStyle: preferences.useLinesForShading ? "LINE_HATCHING" : "GRAY_SHADING" },
   });
+  return withStyle(base, layoutSettingsChanges(preferences.settings, preferences.unit));
 }
 
 /// Length of a cartouche end along its main axis

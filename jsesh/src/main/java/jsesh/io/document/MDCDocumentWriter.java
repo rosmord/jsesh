@@ -158,9 +158,8 @@ public class MDCDocumentWriter {
 	private void writeHeader(MDCDocument document, Writer f)
 			throws IOException {
 		if (Dialect.JSESH1.equals(document.getDialect())) {
-			writeEntry(f, JSeshInfoConstants.JSESH_INFO, "1.0");
-			Map<String, String> map = document.getDocumentPreferences()
-					.getStringRepresentation();
+			writeEntry(f, JSeshInfoConstants.JSESH_INFO, DocumentHeaderCodec.HEADER_VERSION);
+			Map<String, String> map = DocumentHeaderCodec.toHeader(document.getDocumentPreferences());
 			for (String key : map.keySet()) {
 				writeEntry(f, key, map.get(key));
 			}

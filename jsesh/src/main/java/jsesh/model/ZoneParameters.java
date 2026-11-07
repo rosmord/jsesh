@@ -15,121 +15,122 @@ import jsesh.model.constants.TextOrientation;
 
 /// The settings of a [Zone], as written in `%zone[...]`.
 ///
-/// Every setting is optional: an unset one is inherited from the enclosing
-/// zone (or, for the outermost zones, from the document preferences).
+/// They are of two sorts:
 ///
-/// Lengths are integers, in **percent of the height of a quadrat**, as the
-/// `dw`/`dh` of [Insert]: `width=1200` is twelve quadrats wide.
+/// - the [TextLayoutSettings], shared with the document preferences
+///   (`layout`, `dir`, `linegap`, `fitsigns`…, see [LayoutSetting]). An unset
+///   one is inherited from the enclosing zone (or, for the outermost zones,
+///   from the document preferences);
+/// - the settings which only make sense for a zone: its scale, its size, its
+///   tab gap, its separators and its frame.
 ///
-/// @param orientation the layout: [TextOrientation#HORIZONTAL] for lines,
-///        [TextOrientation#VERTICAL] for columns; `null` if inherited.
-/// @param direction the writing direction; `null` if inherited.
+/// Lengths are in **percent of the unit** of the document (the height of a
+/// quadrat), as the `dw`/`dh` of [Insert]: `width=1200` is twelve quadrats
+/// wide. The lengths of a zone with a `scale` are in its own quadrats: with
+/// `scale=50`, `width=1200` is twelve half-sized quadrats.
+///
+/// @param settings the layout settings shared with the document.
+/// @param scale the scale of the content of the zone, in percent (signs,
+///        quadrats, gaps... everything is scaled), or [#UNSET] for none
+///        (100 %).
 /// @param width the fixed width of the zone, or [#UNSET] for its natural
 ///        width. For a zone in lines, it is also the width at which its lines
 ///        wrap.
 /// @param height the fixed height of the zone, or [#UNSET] for its natural
 ///        height.
-/// @param lineGap the space between two lines of text (two columns, for a zone
-///        in columns), or [#UNSET] if inherited.
-/// @param quadratGap the space between two successive quadrats of a line (or of
-///        a column), or [#UNSET] if inherited.
 /// @param tabGap the minimal space between the text of a tab cell and the
 ///        next tab stop (see [Tab]), or [#UNSET] for the quadrat gap.
 /// @param separator the thickness of the rules drawn between the lines (for a
 ///        zone in lines) or the columns (for a zone in columns), or [#UNSET]
 ///        for no rule.
-/// @param quadratWidth the maximum width of the quadrats of the zone (the
-///        width of its columns, for a zone in columns), or [#UNSET] if inherited.
-/// @param quadratHeight the maximum height of the quadrats of the zone (the
-///        height of its lines, for a zone in lines), or [#UNSET] if inherited.
-/// @param fitLoneSigns should a low broad sign alone on a line of a quadrat
-///        (as a lone `n` in a column) be enlarged to the quadrat width?
-///        `null` if inherited.
 /// @param frame should a frame be drawn around the zone?
-public record ZoneParameters(TextOrientation orientation, TextDirection direction,
-        int width, int height, int lineGap, int quadratGap, int tabGap, int separator, int quadratWidth, int quadratHeight,
-        Boolean fitLoneSigns, boolean frame)
+public record ZoneParameters(TextLayoutSettings settings, int scale,
+        int width, int height, int tabGap, int separator, boolean frame)
         implements Serializable {
 
     /// The value of an unset length.
     public static final int UNSET = -1;
 
     /// Everything inherited, natural size, no frame.
-    public static final ZoneParameters DEFAULT = new ZoneParameters(null, null, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, null, false);
+    public static final ZoneParameters DEFAULT = new ZoneParameters(TextLayoutSettings.INHERIT_ALL,
+            UNSET, UNSET, UNSET, UNSET, UNSET, false);
 
     private static final Comparator<ZoneParameters> ORDER = Comparator
-            .comparing(ZoneParameters::orientation, Comparator.nullsFirst(Comparator.naturalOrder()))
-            .thenComparing(ZoneParameters::direction, Comparator.nullsFirst(Comparator.naturalOrder()))
+            .comparing(ZoneParameters::settings)
+            .thenComparingInt(ZoneParameters::scale)
             .thenComparingInt(ZoneParameters::width)
             .thenComparingInt(ZoneParameters::height)
-            .thenComparingInt(ZoneParameters::lineGap)
-            .thenComparingInt(ZoneParameters::quadratGap)
             .thenComparingInt(ZoneParameters::tabGap)
             .thenComparingInt(ZoneParameters::separator)
-            .thenComparingInt(ZoneParameters::quadratWidth)
-            .thenComparingInt(ZoneParameters::quadratHeight)
-            .thenComparing(ZoneParameters::fitLoneSigns, Comparator.nullsFirst(Comparator.naturalOrder()))
             .thenComparing(ZoneParameters::frame);
 
-    /// Normalises the lengths: a size, a quadrat size or a separator of 0 or less, or a
-    /// negative skip, is [#UNSET].
+    /// Normalises the lengths: a scale, a size or a separator of 0 or less, or
+    /// a negative gap, is [#UNSET]; a scale of 100 is [#UNSET] too.
     public ZoneParameters {
+        settings = settings == null ? TextLayoutSettings.INHERIT_ALL : settings;
+        scale = scale > 0 && scale != 100 ? scale : UNSET;
         width = width > 0 ? width : UNSET;
         height = height > 0 ? height : UNSET;
-        lineGap = lineGap >= 0 ? lineGap : UNSET;
-        quadratGap = quadratGap >= 0 ? quadratGap : UNSET;
         tabGap = tabGap >= 0 ? tabGap : UNSET;
         separator = separator > 0 ? separator : UNSET;
-        quadratWidth = quadratWidth > 0 ? quadratWidth : UNSET;
-        quadratHeight = quadratHeight > 0 ? quadratHeight : UNSET;
+    }
+
+    /// @return the orientation of the zone, or null if inherited.
+    public TextOrientation orientation() {
+        return settings.orientation();
+    }
+
+    /// @return the direction of the zone, or null if inherited.
+    public TextDirection direction() {
+        return settings.direction();
+    }
+
+    /// @return the scale of the content, as a factor (1 for no scale).
+    public float scaleFactor() {
+        return scale == UNSET ? 1f : scale / 100f;
+    }
+
+    public ZoneParameters withSettings(TextLayoutSettings settings) {
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
+    }
+
+    /// @param setting a shared layout setting.
+    /// @param value its value (null for inherited).
+    /// @return a copy with the new value.
+    public ZoneParameters with(LayoutSetting setting, Object value) {
+        return withSettings(settings.with(setting, value));
     }
 
     public ZoneParameters withOrientation(TextOrientation orientation) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return withSettings(settings.withOrientation(orientation));
     }
 
     public ZoneParameters withDirection(TextDirection direction) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return withSettings(settings.withDirection(direction));
+    }
+
+    public ZoneParameters withScale(int scale) {
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     public ZoneParameters withWidth(int width) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     public ZoneParameters withHeight(int height) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
-    }
-
-    public ZoneParameters withLineGap(int lineGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
-    }
-
-    public ZoneParameters withQuadratGap(int quadratGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     public ZoneParameters withTabGap(int tabGap) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     public ZoneParameters withSeparator(int separator) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
-    }
-
-    public ZoneParameters withQuadratWidth(int quadratWidth) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
-    }
-
-    public ZoneParameters withQuadratHeight(int quadratHeight) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
-    }
-
-    public ZoneParameters withFitLoneSigns(Boolean fitLoneSigns) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     public ZoneParameters withFrame(boolean frame) {
-        return new ZoneParameters(orientation, direction, width, height, lineGap, quadratGap, tabGap, separator, quadratWidth, quadratHeight, fitLoneSigns, frame);
+        return new ZoneParameters(settings, scale, width, height, tabGap, separator, frame);
     }
 
     /// An arbitrary but consistent order, for [ModelElement#compareTo].

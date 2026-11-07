@@ -34,128 +34,84 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.preferences.document.ui;
 
 import java.awt.Component;
-import java.util.Arrays;
+import java.util.Map;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 
-import jsesh.render.style.GeometrySpecification;
-import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.ShadingMode;
+import jsesh.document.DocumentPreferences;
 import jsesh.jhotdraw.utils.JSimpleDialog;
+import jsesh.model.LayoutSetting;
+import jsesh.render.style.DocumentPreferencesStyleConverter;
+import jsesh.render.style.JSeshStyle;
 import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.units.LengthUnit;
 import jsesh.ui.widgets.units.UnitMediator;
 
-/**
- * Presenter for drawing preferences.
- * 
- * We stick with a modal dialog.
- *
- * @author rosmord
- *
- */
+/// Presenter for the drawing preferences of a document.
+///
+/// The style is edited through its [DocumentPreferences]: one unit, and the
+/// other lengths of the text in percents of it.
 public class DrawingSpecificationsPresenter {
 
-        JDrawingSpecificationEditor form;
-        UnitMediator unitMediator = new UnitMediator();
+	JDrawingSpecificationEditor form;
+	UnitMediator unitMediator = new UnitMediator();
 
-        public DrawingSpecificationsPresenter() {
-                form = new JDrawingSpecificationEditor();
-                unitMediator.attachToComboBox(form.getUnitField());
-                for (JFormattedTextField field : Arrays.asList(
-                                form.getCartoucheLineWidthField(),
-                                form.getColumnSkipField(),
-                                form.getLineSkipField(),
-                                form.getAlphabeticTextBaselineField(),
-                                form.getInterQuadratSkipField(),
-                                form.getMaxCadratHeightField(),
-                                form.getMaxCadratWidthField(),
-                                form.getNormalSignHeightField(),
-                                form.getSmallFontBodyLimitField())) {
-                        unitMediator.managedTextField(field);
-                }
-        }
+	public DrawingSpecificationsPresenter() {
+		form = new JDrawingSpecificationEditor();
+		unitMediator.attachToComboBox(form.getLengthUnitField());
+		unitMediator.managedTextField(form.getDocumentUnitField());
+		unitMediator.managedTextField(form.getSmallFontBodyLimitField());
+	}
 
-        private float getLength(JFormattedTextField field) {
-                return (float) unitMediator.getManagedFieldInPoints(field);
-        }
+	/// Copies a style in the dialog.
+	///
+	/// @param jseshStyle the style.
+	public void loadPreferences(JSeshStyle jseshStyle) {
+		DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(jseshStyle);
+		unitMediator.setCurrentUnit(LengthUnit.POINT);
+		form.getDocumentUnitField().setValue(prefs.unit());
+		form.getSmallFontBodyLimitField().setValue(prefs.smallBodyScaleLimit());
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getPercentFields().entrySet()) {
+			e.getValue().setValue(prefs.percent(e.getKey()));
+		}
+		for (Map.Entry<LayoutSetting, JCheckBox> e : form.getFlagCheckBoxes().entrySet()) {
+			e.getValue().setSelected(prefs.flag(e.getKey()));
+		}
+		form.getUseLinesForShadingCheckBox().setSelected(prefs.useLinesForShading());
+	}
 
-        /**
-         * Copy the preference drawing implementations in the dialog.
-         *
-         * @param jseshStyle
-         */
-        public void loadPreferences(JSeshStyle jseshStyle) {
-                GeometrySpecification geometry = jseshStyle.geometry();
-                unitMediator.setCurrentUnit(LengthUnit.POINT);
-                form.getCartoucheLineWidthField().setValue(
-                                geometry.cartoucheLineWidth());
-                form.getColumnSkipField().setValue(
-                                geometry.columnSkip());
-                form.getLineSkipField().setValue(
-                                geometry.lineSkip());
-                form.getAlphabeticTextBaselineField().setValue(
-                                geometry.alphabeticTextBaseline());
-                form.getInterQuadratSkipField().setValue(
-                                geometry.smallSkip());
-                form.getMaxCadratHeightField().setValue(
-                                geometry.maxCadratHeight());
-                form.getMaxCadratWidthField().setValue(
-                                geometry.maxCadratWidth());
-                form.getNormalSignHeightField().setValue(
-                                geometry.standardSignHeight());
-                form.getSmallFontBodyLimitField().setValue(
-                                geometry.smallBodyScaleLimit());
-                form.getLimitQuadratWidthInLinesCheckBox().setSelected(
-                                jseshStyle.options().limitQuadratWidthInLines());
-                form.getFitLoneSignsCheckBox().setSelected(
-                                jseshStyle.options().fitLoneSigns());
-                form.getUseLinesForShadingCheckBox().setSelected(
-                                jseshStyle.painting().shadingStyle().equals(
-                                                ShadingMode.LINE_HATCHING));
-        }
+	/// Applies the preferences of the dialog to a style.
+	///
+	/// @param original the original style
+	/// @return a modified style, with the new preferences.
+	public JSeshStyle updatePreferences(JSeshStyle original) {
+		DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(original);
+		double unit = unitMediator.getManagedFieldInPoints(form.getDocumentUnitField());
+		if (unit > 0) {
+			prefs = prefs.withUnit(unit);
+		}
+		double limit = unitMediator.getManagedFieldInPoints(form.getSmallFontBodyLimitField());
+		if (limit >= 0) {
+			prefs = prefs.withSmallBodyScaleLimit(limit);
+		}
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getPercentFields().entrySet()) {
+			if (e.getValue().getValue() instanceof Number n && n.doubleValue() >= 0) {
+				prefs = prefs.with(e.getKey(), n.doubleValue());
+			}
+		}
+		for (Map.Entry<LayoutSetting, JCheckBox> e : form.getFlagCheckBoxes().entrySet()) {
+			prefs = prefs.with(e.getKey(), e.getValue().isSelected());
+		}
+		prefs = prefs.withUseLinesForShading(form.getUseLinesForShadingCheckBox().isSelected());
+		return DocumentPreferencesStyleConverter.applyDocumentPreferences(prefs, original);
+	}
 
-        /**
-         * Apply the current preferences to JSeshStyle and return the modified style.
-         *
-         * @param original the original style
-         * @return a modified style, with the new preferences.
-         */
-        public JSeshStyle updatePreferences(JSeshStyle original) {
-                unitMediator.setCurrentUnit(LengthUnit.POINT);
-                double limit = ((Float) form.getSmallFontBodyLimitField().getValue());
-                ShadingMode shadingMode = form.getUseLinesForShadingCheckBox().isSelected() ? ShadingMode.LINE_HATCHING
-                                : ShadingMode.GRAY_SHADING;
-
-                return original.copy()
-                                .geometry(g -> g
-                                                .cartoucheLineWidth(getLength(form
-                                                                .getCartoucheLineWidthField()))
-                                                .columnSkip(getLength(form.getColumnSkipField()))
-                                                .lineSkip(getLength(form.getLineSkipField()))
-                                                .alphabeticTextBaseline(getLength(form
-                                                                .getAlphabeticTextBaselineField()))
-                                                .maxCadratHeight(getLength(form
-                                                                .getMaxCadratHeightField()))
-                                                .maxCadratWidth(getLength(form
-                                                                .getMaxCadratWidthField()))
-                                                .standardSignHeight(getLength(form
-                                                                .getNormalSignHeightField()))
-                                                .smallSkip(getLength(form
-                                                                .getInterQuadratSkipField()))
-                                                .smallBodyScaleLimit((float) limit))
-                                .options(o -> o.limitQuadratWidthInLines(
-                                                form.getLimitQuadratWidthInLinesCheckBox().isSelected())
-                                                .fitLoneSigns(form.getFitLoneSignsCheckBox().isSelected()))
-                                .painting(p -> p.shadingStyle(shadingMode))
-                                .build();
-        }
-
-        public int showDialog(Component parent) {
-                JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
-                                JSeshMessages.getString("drawingPrefs.title"));
-                int result = dialog.show();
-                dialog.dispose();
-                return result;
-        }
+	public int showDialog(Component parent) {
+		JSimpleDialog dialog = new JSimpleDialog(parent, form.getPanel(),
+				JSeshMessages.getString("drawingPrefs.title"));
+		int result = dialog.show();
+		dialog.dispose();
+		return result;
+	}
 }

@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import jsesh.document.MDCDocument;
+import jsesh.io.document.DocumentHeaderCodec;
 import jsesh.io.document.JSeshInfoReader;
 import jsesh.io.document.MDCDocumentReader;
 import jsesh.io.mdc.MdCModelWriter;
@@ -194,7 +195,7 @@ public final class ExportFixtures {
             MDCDocumentReader reader = new MDCDocumentReader();
             reader.failFast();
             MDCDocument document = reader.loadFile(file.toFile());
-            result.put("preferences", new TreeMap<>(document.getDocumentPreferences().getStringRepresentation()));
+            result.put("preferences", new TreeMap<>(DocumentHeaderCodec.toHeader(document.getDocumentPreferences())));
             result.put("written", new MdCModelWriter().toMdC(document.getHieroglyphicText()));
         } catch (Exception e) {
             result.put("writtenError", String.valueOf(e.getMessage()));

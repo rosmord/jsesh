@@ -2,69 +2,53 @@ package jsesh.render.style;
 
 import jsesh.document.DocumentPreferences;
 
-/**
- * Converts between {@link DocumentPreferences} and {@link JSeshStyle}.
- *
- * <p>
- * The two describe the same layout settings from different angles:
- * {@link DocumentPreferences} is what gets written in a document header, while
- * {@link JSeshStyle} is what the renderer actually uses. Keeping the mapping in
- * one place avoids the two copies drifting apart.
- *
- * <p>
- * The conversion is deliberately placed here, in {@code jsesh.render}, rather
- * than in {@code jsesh.document}: a document should not need to know about
- * rendering styles.
- *
- * @author rosmord
- */
+/// Converts between [DocumentPreferences] and [JSeshStyle].
+///
+/// The two describe the same layout settings from different angles:
+/// [DocumentPreferences] is what gets written in a document header (lengths in
+/// percents of the unit of the document), while [JSeshStyle] is what the
+/// renderer actually uses (lengths in points). The correspondence of the
+/// layout settings themselves is in [LayoutSettingsApplier], shared with
+/// zones.
+///
+/// The conversion is deliberately placed here, in `jsesh.render`, rather
+/// than in `jsesh.document`: a document should not need to know about
+/// rendering styles.
+///
+/// @author rosmord
 public class DocumentPreferencesStyleConverter {
 
 	private DocumentPreferencesStyleConverter() {
 	}
 
-	/**
-	 * Creates document preferences reflecting a rendering style.
-	 *
-	 * @param jseshStyle the style to convert.
-	 * @return the matching document preferences.
-	 */
-	public static DocumentPreferences toDocumentPreferences(
-			JSeshStyle jseshStyle) {
+	/// Creates document preferences reflecting a rendering style.
+	///
+	/// The unit of the document is the [GeometrySpecification#unit()] of the
+	/// style.
+	///
+	/// @param jseshStyle the style to convert.
+	/// @return the matching document preferences.
+	public static DocumentPreferences toDocumentPreferences(JSeshStyle jseshStyle) {
+		GeometrySpecification g = jseshStyle.geometry();
+		double unit = decimal(g.unit());
 		return new DocumentPreferences()
-				.withTextDirection(jseshStyle.options().textDirection())
-				.withTextOrientation(jseshStyle.options().textOrientation())
-				.withSmallSignCentered(jseshStyle.options().smallSignCentered())
-				.withLimitQuadratWidthInLines(
-						jseshStyle.options().limitQuadratWidthInLines())
-				.withFitLoneSigns(jseshStyle.options().fitLoneSigns())
-				.withCartoucheLineWidth(
-						jseshStyle.geometry().cartoucheLineWidth())
-				.withColumnSkip(jseshStyle.geometry().columnSkip())
-				.withLineSkip(jseshStyle.geometry().lineSkip())
-				.withMaxQuadratHeight(jseshStyle.geometry().maxCadratHeight())
-				.withMaxQuadratWidth(jseshStyle.geometry().maxCadratWidth())
-				.withSmallBodyScaleLimit(
-						jseshStyle.geometry().smallBodyScaleLimit())
-				.withStandardSignHeight(
-						jseshStyle.geometry().standardSignHeight())
-				.withSmallSkip(jseshStyle.geometry().smallSkip())
-				.withAlphabeticTextBaseline(
-						jseshStyle.geometry().alphabeticTextBaseline())
+				.withUnit(unit)
+				.withSettings(LayoutSettingsApplier.settingsOf(jseshStyle, unit))
+				.withSmallBodyScaleLimit(decimal(g.smallBodyScaleLimit()))
 				.withUseLinesForShading(jseshStyle.painting().shadingStyle()
 						.equals(ShadingMode.LINE_HATCHING))
 				.withPage(
-						decimal(jseshStyle.geometry().page().pageWidth()),
-						decimal(jseshStyle.geometry().page().pageHeight()),
-						decimal(jseshStyle.geometry().page().marginLeft()),
-						decimal(jseshStyle.geometry().page().marginRight()),
-						decimal(jseshStyle.geometry().page().marginTop()),
-						decimal(jseshStyle.geometry().page().marginBottom()))
+						decimal(g.page().pageWidth()),
+						decimal(g.page().pageHeight()),
+						decimal(g.page().marginLeft()),
+						decimal(g.page().marginRight()),
+						decimal(g.page().marginTop()),
+						decimal(g.page().marginBottom()))
 				.withPageTexts(
-						jseshStyle.geometry().pageDecoration().numberPosition(),
-						jseshStyle.geometry().pageDecoration().titlePosition(),
-						jseshStyle.geometry().pageDecoration().title(),
-						jseshStyle.geometry().pageDecoration().alternate());
+						g.pageDecoration().numberPosition(),
+						g.pageDecoration().titlePosition(),
+						g.pageDecoration().title(),
+						g.pageDecoration().alternate());
 	}
 
 	/// The double with the decimal representation of a float, so that
@@ -78,65 +62,43 @@ public class DocumentPreferencesStyleConverter {
 			return PageSpecification.NONE;
 		}
 		return new PageSpecification(
-				(float) preferences.getPageWidth(),
-				(float) preferences.getPageHeight(),
-				(float) preferences.getMarginLeft(),
-				(float) preferences.getMarginRight(),
-				(float) preferences.getMarginTop(),
-				(float) preferences.getMarginBottom());
+				(float) preferences.pageWidth(),
+				(float) preferences.pageHeight(),
+				(float) preferences.marginLeft(),
+				(float) preferences.marginRight(),
+				(float) preferences.marginTop(),
+				(float) preferences.marginBottom());
 	}
 
-	/**
-	 * Applies document preferences on top of an existing style.
-	 *
-	 * @param preferences the document preferences to apply.
-	 * @param original    the style used as a basis for the new one.
-	 * @return a new style, with the document preferences applied.
-	 */
+	/// Applies document preferences on top of an existing style.
+	///
+	/// @param preferences the document preferences to apply.
+	/// @param original    the style used as a basis for the new one.
+	/// @return a new style, with the document preferences applied.
 	public static JSeshStyle applyDocumentPreferences(
 			DocumentPreferences preferences, JSeshStyle original) {
-		return original.copy()
+		JSeshStyle.Builder builder = original.copy()
 				.geometry(g -> g
-						.cartoucheLineWidth(
-								(float) preferences.getCartoucheLineWidth())
-						.maxCadratWidth(
-								(float) preferences.getMaxQuadratWidth())
-						.maxCadratHeight(
-								(float) preferences.getMaxQuadratHeight())
-						.lineSkip((float) preferences.getLineSkip())
-						.columnSkip((float) preferences.getColumnSkip())
-						.standardSignHeight(
-								(float) preferences.getStandardSignHeight())
-						.smallBodyScaleLimit(
-								(float) preferences.getSmallBodyScaleLimit())
-						.smallSkip((float) preferences.getSmallSkip())
-						.alphabeticTextBaseline(
-								(float) preferences.getAlphabeticTextBaseline())
+						.unit((float) preferences.unit())
+						.smallBodyScaleLimit((float) preferences.smallBodyScaleLimit())
 						.page(pageOf(preferences))
 						.pageDecoration(new PageDecoration(
-								preferences.getPageNumberPosition(),
-								preferences.getPageTitlePosition(),
-								preferences.getPageTitle(),
-								preferences.isPageTextsAlternate())))
+								preferences.pageNumberPosition(),
+								preferences.pageTitlePosition(),
+								preferences.pageTitle(),
+								preferences.pageTextsAlternate())))
 				.geometry(g -> {
 					// With a page, the margins around the text are the page's.
 					if (preferences.hasPage()) {
-						g.leftMargin((float) preferences.getMarginLeft())
-								.topMargin((float) preferences.getMarginTop());
+						g.leftMargin((float) preferences.marginLeft())
+								.topMargin((float) preferences.marginTop());
 					}
 					return g;
 				})
-				.options(o -> o
-						.smallSignCentered(preferences.isSmallSignCentered())
-						.limitQuadratWidthInLines(
-								preferences.isLimitQuadratWidthInLines())
-						.fitLoneSigns(preferences.isFitLoneSigns())
-						.textOrientation(preferences.getTextOrientation())
-						.textDirection(preferences.getTextDirection()))
 				.painting(c -> c.shadingStyle(
-						preferences.isUseLinesForShading()
+						preferences.useLinesForShading()
 								? ShadingMode.LINE_HATCHING
-								: ShadingMode.GRAY_SHADING))
-				.build();
+								: ShadingMode.GRAY_SHADING));
+		return LayoutSettingsApplier.apply(preferences.settings(), preferences.unit(), builder).build();
 	}
 }

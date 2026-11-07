@@ -173,6 +173,14 @@ public abstract class ElementDrawer implements ModelElementVisitor {
 		this.techRenderContext = techRenderContext;
 	}
 
+	/// Changes the render context while drawing, for the content of a zone,
+	/// which has its own settings.
+	///
+	/// @param renderContext the context to use from now on.
+	public void setRenderContext(JSeshRenderContext renderContext) {
+		this.renderContext = renderContext;
+	}
+
 	/**
 	 * free some ressources used by ElementDrawer. called after the text has
 	 * been drawn. Implementations can override this method, but should call

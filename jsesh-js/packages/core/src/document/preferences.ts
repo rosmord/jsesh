@@ -4,31 +4,36 @@
  */
 
 /// Per-document layout preferences, saved in the JSesh file header: port of
-/// `jsesh.document.DocumentPreferences`.
+/// `jsesh.document.DocumentPreferences` and `jsesh.io.document.DocumentHeaderCodec`.
+///
+/// The layout of the text is given by the **unit** of the document (the height of a quadrat, in
+/// points: changing it scales the whole document) and by the layout settings shared with zones,
+/// in percents of the unit (see `layout-settings.ts`). The page and the small body limit are in
+/// points.
+///
+/// A header without `JSesh_unit` is an old one, with every length in points
+/// (`JSesh_line_skip`...): it is converted without loss. The old properties are also written,
+/// for older versions of JSesh (`DocumentHeaderCodec.WRITE_LEGACY_KEYS`).
 
-import type { TextDirection, TextOrientation } from "../model/constants.js";
+import {
+  DEFAULT_UNIT,
+  DOCUMENT_DEFAULT_SETTINGS,
+  formatLayoutSetting,
+  formatLength,
+  LAYOUT_SETTINGS,
+  normaliseLength,
+  parseLayoutSetting,
+  type LayoutSettingName,
+} from "../model/layout-settings.js";
 
 export interface DocumentPreferences {
-  smallSignCentered: boolean;
-  textOrientation: TextOrientation;
-  textDirection: TextDirection;
-  cartoucheLineWidth: number;
-  maxQuadratWidth: number;
-  maxQuadratHeight: number;
-  lineSkip: number;
-  columnSkip: number;
-  useLinesForShading: boolean;
-  standardSignHeight: number;
+  /// The unit of the document (the height of a quadrat), in points.
+  unit: number;
+  /// The layout settings, all set, lengths in percents of the unit.
+  settings: Required<import("../model/layout-settings.js").TextLayoutSettings>;
+  /// The height of A1, in points, under which signs are drawn with the small body font.
   smallBodyScaleLimit: number;
-  smallSkip: number;
-  /// Height of the alphabetic text baseline above the quadrats' bottom line.
-  alphabeticTextBaseline: number;
-  /// In horizontal text, scale quadrats down to the maximal quadrat width. Documents
-  /// without the property get `true` (historical layout).
-  limitQuadratWidthInLines: boolean;
-  /// Enlarge a low broad sign alone on a line of a quadrat (as a lone `n` in a column) to the
-  /// quadrat width. Documents without the property get `true` (historical layout).
-  fitLoneSigns: boolean;
+  useLinesForShading: boolean;
   /// Width of the page; 0 means that the document has no page (it is as large as its text).
   pageWidth: number;
   /// Height of the page; 0 if not specified.
@@ -50,21 +55,10 @@ export interface DocumentPreferences {
 }
 
 export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Object.freeze({
-  smallSignCentered: false,
-  textOrientation: "HORIZONTAL",
-  textDirection: "LEFT_TO_RIGHT",
-  cartoucheLineWidth: 1,
-  maxQuadratWidth: 22,
-  maxQuadratHeight: 18,
-  lineSkip: 6,
-  columnSkip: 8,
-  useLinesForShading: false,
-  standardSignHeight: 18,
+  unit: DEFAULT_UNIT,
+  settings: DOCUMENT_DEFAULT_SETTINGS,
   smallBodyScaleLimit: 12,
-  smallSkip: 2,
-  alphabeticTextBaseline: 4,
-  limitQuadratWidthInLines: true,
-  fitLoneSigns: true,
+  useLinesForShading: false,
   pageWidth: 0,
   pageHeight: 0,
   marginLeft: 0,
@@ -77,98 +71,171 @@ export const DEFAULT_DOCUMENT_PREFERENCES: Readonly<DocumentPreferences> = Objec
   pageTitle: "",
 });
 
-/// The preferences which are only written when there is a page.
-const PAGE_PROPERTY_KEYS: (keyof DocumentPreferences)[] = [
-  "pageWidth",
-  "pageHeight",
-  "marginLeft",
-  "marginRight",
-  "marginTop",
-  "marginBottom",
-];
+/// Write the properties of the old format as well (`DocumentHeaderCodec.WRITE_LEGACY_KEYS`).
+export const WRITE_LEGACY_KEYS = true;
 
-/// The preferences which are only written when the pages have a number or a title.
-const PAGE_TEXT_KEYS: (keyof DocumentPreferences)[] = [
-  "pageNumberPosition",
-  "pageTitlePosition",
-  "pageTextsAlternate",
-  "pageTitle",
-];
+/// The version written in `JSesh_Info`.
+export const HEADER_VERSION = "2.0";
 
-/// Header property names (`JSeshInfoConstants`).
-const PROPERTY_NAMES: Record<keyof DocumentPreferences, string> = {
-  smallSignCentered: "JSesh_small_sign_centered",
-  textOrientation: "JSesh_page_orientation",
-  textDirection: "JSesh_page_direction",
-  cartoucheLineWidth: "JSesh_cartouche_line_width",
-  maxQuadratWidth: "JSesh_max_quadrant_width",
-  maxQuadratHeight: "JSesh_max_quadrantHeight",
-  lineSkip: "JSesh_line_skip",
-  columnSkip: "JSesh_column_skip",
-  useLinesForShading: "JSesh_use_lines_for_shading",
-  standardSignHeight: "JSesh_standard_sign_height",
-  smallBodyScaleLimit: "JSesh_small_body_scale_limit",
-  smallSkip: "JSesh_small_skip",
-  alphabeticTextBaseline: "JSesh_alphabetic_text_baseline",
-  limitQuadratWidthInLines: "JSesh_limit_quadrat_width_in_lines",
-  fitLoneSigns: "JSesh_fit_lone_signs",
+const UNIT = "JSesh_unit";
+const SMALL_BODY_LIMIT = "JSesh_smallbodylimit";
+const SHADING = "JSesh_shading";
+
+/// The old property of each setting, in points for lengths.
+const LEGACY_KEYS: Record<LayoutSettingName, string> = {
+  layout: "JSesh_page_orientation",
+  dir: "JSesh_page_direction",
+  quadratheight: "JSesh_max_quadrantHeight",
+  quadratwidth: "JSesh_max_quadrant_width",
+  signheight: "JSesh_standard_sign_height",
+  linegap: "JSesh_line_skip",
+  columngap: "JSesh_column_skip",
+  quadratgap: "JSesh_small_skip",
+  // The old line skip was also the space between the quadrats of a column.
+  columnquadratgap: "JSesh_line_skip",
+  cartouchelinewidth: "JSesh_cartouche_line_width",
+  textbaseline: "JSesh_alphabetic_text_baseline",
+  fitsigns: "JSesh_fit_lone_signs",
+  limitquadratwidth: "JSesh_limit_quadrat_width_in_lines",
+  centresmallsigns: "JSesh_small_sign_centered",
+};
+
+const PAGE = {
   pageWidth: "JSesh_page_width",
   pageHeight: "JSesh_page_height",
   marginLeft: "JSesh_page_margin_left",
   marginRight: "JSesh_page_margin_right",
   marginTop: "JSesh_page_margin_top",
   marginBottom: "JSesh_page_margin_bottom",
-  pageNumberPosition: "JSesh_page_number_position",
-  pageTitlePosition: "JSesh_page_title_position",
-  pageTextsAlternate: "JSesh_page_texts_alternate",
-  pageTitle: "JSesh_page_title",
-};
+} as const;
 
-/// Reads preferences from header properties; unknown properties are ignored,
-/// missing ones get their default value.
-export function documentPreferencesFromMap(map: Record<string, string>): DocumentPreferences {
-  const result: Record<string, unknown> = { ...DEFAULT_DOCUMENT_PREFERENCES };
-  for (const [key, property] of Object.entries(PROPERTY_NAMES)) {
-    const value = map[property];
-    if (value === undefined) continue;
-    const defaultValue = (DEFAULT_DOCUMENT_PREFERENCES as Record<string, unknown>)[key];
-    if (typeof defaultValue === "boolean") {
-      // "1" and "0" for compatibility with old files.
-      result[key] = value === "1" ? true : value === "0" ? false : value.toLowerCase() === "true";
-    } else if (typeof defaultValue === "number") {
-      result[key] = Number.parseFloat(value);
-    } else {
-      result[key] = value;
-    }
-  }
-  return result as unknown as DocumentPreferences;
+const PAGE_NUMBER_POSITION = "JSesh_page_number_position";
+const PAGE_TITLE_POSITION = "JSesh_page_title_position";
+const PAGE_TEXTS_ALTERNATE = "JSesh_page_texts_alternate";
+const PAGE_TITLE = "JSesh_page_title";
+const PAGE_TEXT_POSITIONS = ["NONE", "TOP_LEFT", "TOP_CENTER", "TOP_RIGHT", "BOTTOM_LEFT", "BOTTOM_CENTER", "BOTTOM_RIGHT"];
+
+/// The header property of a setting.
+export function headerKey(name: LayoutSettingName): string {
+  return "JSesh_" + name;
 }
 
-/// Writes preferences as header properties, in the format Java uses
-/// (`Double.toString`, so `18.0` rather than `18`).
+/// The value in points of a length setting.
+export function preferencePoints(preferences: DocumentPreferences, name: LayoutSettingName): number {
+  return (preferences.unit * (preferences.settings[name] as number)) / 100;
+}
+
+/// Reads preferences from header properties, of the current format or of an older one; unknown
+/// properties and invalid values are ignored, missing ones get their default value.
+export function documentPreferencesFromMap(map: Record<string, string>): DocumentPreferences {
+  const legacy = !(UNIT in map);
+  const unit = positive(legacy ? map["JSesh_max_quadrantHeight"] : map[UNIT], DEFAULT_UNIT);
+  const settings: Record<string, unknown> = {};
+  for (const s of LAYOUT_SETTINGS) {
+    const text = map[headerKey(s.name)];
+    let value = text === undefined ? undefined : parseLayoutSetting(s.name, text);
+    if (value === undefined && legacy) value = readLegacy(s.name, map[LEGACY_KEYS[s.name]], unit);
+    settings[s.name] = value ?? DOCUMENT_DEFAULT_SETTINGS[s.name];
+  }
+  const shading = map[SHADING];
+  return {
+    unit,
+    settings: settings as DocumentPreferences["settings"],
+    smallBodyScaleLimit: positive(SMALL_BODY_LIMIT in map ? map[SMALL_BODY_LIMIT] : map["JSesh_small_body_scale_limit"], 12),
+    useLinesForShading: shading !== undefined ? shading.trim() === "lines" : flag(map["JSesh_use_lines_for_shading"]) === true,
+    pageWidth: num(map[PAGE.pageWidth], 0),
+    pageHeight: num(map[PAGE.pageHeight], 0),
+    marginLeft: num(map[PAGE.marginLeft], 0),
+    marginRight: num(map[PAGE.marginRight], 0),
+    marginTop: num(map[PAGE.marginTop], 0),
+    marginBottom: num(map[PAGE.marginBottom], 0),
+    pageNumberPosition: position(map[PAGE_NUMBER_POSITION]),
+    pageTitlePosition: position(map[PAGE_TITLE_POSITION]),
+    pageTextsAlternate: flag(map[PAGE_TEXTS_ALTERNATE]) === true,
+    pageTitle: map[PAGE_TITLE] ?? "",
+  };
+}
+
+/// Writes preferences as header properties, sorted by name, as Java does
+/// (`DocumentHeaderCodec.toHeader`).
 export function documentPreferencesToMap(preferences: DocumentPreferences): Record<string, string> {
   const result: Record<string, string> = {};
-  for (const [key, property] of Object.entries(PROPERTY_NAMES)) {
-    const value = (preferences as unknown as Record<string, unknown>)[key];
-    result[property] = typeof value === "number" ? javaDoubleToString(value) : String(value);
+  result[UNIT] = formatLength(preferences.unit);
+  for (const s of LAYOUT_SETTINGS) result[headerKey(s.name)] = formatLayoutSetting(s.name, preferences.settings[s.name]);
+  result[SMALL_BODY_LIMIT] = formatLength(preferences.smallBodyScaleLimit);
+  result[SHADING] = preferences.useLinesForShading ? "lines" : "gray";
+  if (WRITE_LEGACY_KEYS) putLegacyKeys(preferences, result);
+  if (preferences.pageWidth > 0) {
+    for (const [field, key] of Object.entries(PAGE)) {
+      result[key] = javaDoubleToString(preferences[field as keyof typeof PAGE]);
+    }
+    const hasPageTexts =
+      preferences.pageNumberPosition !== "NONE" ||
+      (preferences.pageTitlePosition !== "NONE" && preferences.pageTitle !== "");
+    if (hasPageTexts) {
+      result[PAGE_NUMBER_POSITION] = preferences.pageNumberPosition;
+      result[PAGE_TITLE_POSITION] = preferences.pageTitlePosition;
+      if (preferences.pageTextsAlternate) result[PAGE_TEXTS_ALTERNATE] = "true";
+      if (preferences.pageTitle !== "") result[PAGE_TITLE] = preferences.pageTitle.replace(/[\r\n]+/g, " ");
+    }
   }
-  const hasPage = preferences.pageWidth > 0;
-  if (!hasPage) {
-    // No page: the page entries are not written.
-    for (const key of PAGE_PROPERTY_KEYS) delete result[PROPERTY_NAMES[key]];
-  }
-  const hasPageTexts =
-    preferences.pageNumberPosition !== "NONE" ||
-    (preferences.pageTitlePosition !== "NONE" && preferences.pageTitle !== "");
-  if (!hasPage || !hasPageTexts) {
-    for (const key of PAGE_TEXT_KEYS) delete result[PROPERTY_NAMES[key]];
-  } else {
-    if (preferences.pageTitle === "") delete result[PROPERTY_NAMES.pageTitle];
-    if (!preferences.pageTextsAlternate) delete result[PROPERTY_NAMES.pageTextsAlternate];
-  }
-  return result;
+  return Object.fromEntries(Object.entries(result).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
 }
 
+function putLegacyKeys(p: DocumentPreferences, result: Record<string, string>): void {
+  for (const s of LAYOUT_SETTINGS) {
+    // The old format has a single line skip, the line gap's.
+    if (s.name === "columnquadratgap") continue;
+    const value = p.settings[s.name];
+    result[LEGACY_KEYS[s.name]] =
+      s.kind === "LENGTH" ? javaDoubleToString(Math.round(preferencePoints(p, s.name) * 1e6) / 1e6) : String(value);
+  }
+  result["JSesh_small_body_scale_limit"] = javaDoubleToString(p.smallBodyScaleLimit);
+  result["JSesh_use_lines_for_shading"] = String(p.useLinesForShading);
+}
+
+function readLegacy(name: LayoutSettingName, text: string | undefined, unit: number): unknown {
+  const s = LAYOUT_SETTINGS.find((x) => x.name === name)!;
+  switch (s.kind) {
+    case "LENGTH": {
+      // A missing length had its old default value, in points.
+      const defaultPoints = ((s.documentDefault as number) * DEFAULT_UNIT) / 100;
+      return normaliseLength((num(text, defaultPoints) / unit) * 100);
+    }
+    case "FLAG":
+      return flag(text);
+    case "ORIENTATION": {
+      const t = text?.trim();
+      return t === "HORIZONTAL" || t === "VERTICAL" ? t : undefined;
+    }
+    case "DIRECTION": {
+      const t = text?.trim();
+      return t === "LEFT_TO_RIGHT" || t === "RIGHT_TO_LEFT" ? t : undefined;
+    }
+  }
+}
+
+function flag(text: string | undefined): boolean | undefined {
+  return text === undefined ? undefined : (parseLayoutSetting("fitsigns", text) as boolean | undefined);
+}
+
+function position(text: string | undefined): string {
+  const t = text?.trim();
+  return t !== undefined && PAGE_TEXT_POSITIONS.includes(t) ? t : "NONE";
+}
+
+function num(text: string | undefined, defaultValue: number): number {
+  if (text === undefined) return defaultValue;
+  const d = Number.parseFloat(text.trim());
+  return Number.isFinite(d) ? d : defaultValue;
+}
+
+function positive(text: string | undefined, defaultValue: number): number {
+  const d = num(text, defaultValue);
+  return d > 0 ? d : defaultValue;
+}
+
+/// `Double.toString`, for the values written in points (`18.0` rather than `18`).
 function javaDoubleToString(d: number): string {
   return Number.isInteger(d) ? d.toFixed(1) : String(d);
 }

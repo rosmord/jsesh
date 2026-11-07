@@ -20,6 +20,7 @@
 /// Elements are mutable and own their children. Every change is reported as a
 /// [ModelOperation], which bubbles up to the [HieroglyphicText]'s observers.
 
+import type { TextLayoutSettings } from "./layout-settings.js";
 import {
   ShadingCode,
   SymbolCodes,
@@ -1570,53 +1571,48 @@ export class HRule extends TopItem {
 /// The value of an unset length in [ZoneParameters].
 export const ZONE_UNSET = -1;
 
-/// The settings of a [Zone] (port of `jsesh.model.ZoneParameters`). Unset
-/// settings are inherited from the enclosing zone (or text): `null` for the
-/// orientation and direction, [ZONE_UNSET] for lengths.
+/// The settings of a [Zone] (port of `jsesh.model.ZoneParameters`).
 ///
-/// Lengths are integers, in percent of the height of a quadrat.
+/// The layout settings shared with the document (`layout`, `dir`, `linegap`,
+/// `fitsigns`..., see `layout-settings.ts`) are in `settings`; an unset one is
+/// inherited from the enclosing zone (or text). The others only make sense
+/// for a zone; [ZONE_UNSET] for unset ones.
+///
+/// Lengths are integers, in percent of the unit of the document (the height
+/// of a quadrat). The lengths of a zone with a `scale` are in its own quadrats.
 export interface ZoneParameters {
-  readonly orientation: TextOrientation | null;
-  readonly direction: TextDirection | null;
+  readonly settings: TextLayoutSettings;
+  /// The scale of the content, in percent (everything is scaled), or unset for 100 %.
+  readonly scale: number;
   /// The width of the zone (and, for a zone in lines, its wrapping width).
   readonly width: number;
   readonly height: number;
-  /// The space between two lines of text (two columns, in a zone in columns).
-  readonly lineGap: number;
-  /// The space between two successive quadrats of a line (or of a column).
-  readonly quadratGap: number;
   /// The minimal space between a tab cell and the next tab stop.
   readonly tabGap: number;
   /// The thickness of the rules between the lines (or columns), or unset for no rule.
   readonly separator: number;
-  /// The maximum width of the quadrats of the zone (the width of its columns).
-  readonly quadratWidth: number;
-  /// The maximum height of the quadrats of the zone (the height of its lines).
-  readonly quadratHeight: number;
-  /// Enlarge a low broad sign alone on a line of a quadrat to the quadrat width; `null` if inherited.
-  readonly fitLoneSigns: boolean | null;
   readonly frame: boolean;
 }
 
-/// Builds zone parameters, normalising the lengths: a size, a quadrat size or
-/// a separator of 0 or less, or a negative skip, is [ZONE_UNSET].
+/// Builds zone parameters, normalising the lengths: a scale, a size or a
+/// separator of 0 or less, or a negative gap, is [ZONE_UNSET]; so is a scale of 100.
 export function zoneParameters(p: Partial<ZoneParameters> = {}): ZoneParameters {
   const positive = (n: number | undefined) => (n !== undefined && n > 0 ? n : ZONE_UNSET);
   const nonNegative = (n: number | undefined) => (n !== undefined && n >= 0 ? n : ZONE_UNSET);
   return {
-    orientation: p.orientation ?? null,
-    direction: p.direction ?? null,
+    settings: p.settings ?? {},
+    scale: p.scale !== undefined && p.scale > 0 && p.scale !== 100 ? p.scale : ZONE_UNSET,
     width: positive(p.width),
     height: positive(p.height),
-    lineGap: nonNegative(p.lineGap),
-    quadratGap: nonNegative(p.quadratGap),
     tabGap: nonNegative(p.tabGap),
     separator: positive(p.separator),
-    quadratWidth: positive(p.quadratWidth),
-    quadratHeight: positive(p.quadratHeight),
-    fitLoneSigns: p.fitLoneSigns ?? null,
     frame: p.frame ?? false,
   };
+}
+
+/// The scale of the content of a zone, as a factor (1 for none).
+export function zoneScaleFactor(p: ZoneParameters): number {
+  return p.scale === ZONE_UNSET ? 1 : Math.fround(p.scale / 100);
 }
 
 /// Everything inherited, natural size, no frame.

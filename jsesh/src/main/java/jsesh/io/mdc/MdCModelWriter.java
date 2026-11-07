@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 
 import jsesh.model.tools.AlphabeticRuns;
@@ -57,6 +58,7 @@ import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
+import jsesh.model.LayoutSetting;
 
 /**
  * A MdCModelWriter knows how to write a MDCModel to a file, in the manuel de
@@ -635,23 +637,19 @@ public class MdCModelWriter {
 		public void visitZone(Zone zone) {
 			ZoneParameters p = zone.getParameters();
 			List<String> options = new ArrayList<>();
-			if (p.orientation() != null) {
-				options.add("layout=" + (p.orientation().isHorizontal() ? "lines" : "columns"));
+			for (Map.Entry<LayoutSetting, Object> e : p.settings().asMap().entrySet()) {
+				LayoutSetting setting = e.getKey();
+				// The lexer only reads integer option values.
+				Object value = setting.kind() == LayoutSetting.Kind.LENGTH
+						? (double) Math.round((Double) e.getValue())
+						: e.getValue();
+				options.add(setting.settingName() + "=" + setting.format(value));
 			}
-			if (p.direction() != null) {
-				options.add("dir=" + (p.direction().isLeftToRight() ? "lr" : "rl"));
-			}
+			addLengthOption(options, "scale", p.scale());
 			addLengthOption(options, "width", p.width());
 			addLengthOption(options, "height", p.height());
-			addLengthOption(options, "linegap", p.lineGap());
-			addLengthOption(options, "quadratgap", p.quadratGap());
 			addLengthOption(options, "tabgap", p.tabGap());
 			addLengthOption(options, "separator", p.separator());
-			addLengthOption(options, "quadratwidth", p.quadratWidth());
-			addLengthOption(options, "quadratheight", p.quadratHeight());
-			if (p.fitLoneSigns() != null) {
-				options.add("fitsigns=" + (p.fitLoneSigns() ? "yes" : "no"));
-			}
 			if (p.frame()) {
 				options.add("frame");
 			}

@@ -19,6 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.model.HieroglyphicText;
+import jsesh.model.LayoutSetting;
 import jsesh.model.LineBreak;
 import jsesh.model.ModelElement;
 import jsesh.model.PageBreak;
@@ -49,8 +50,8 @@ public class MdCModelWriterZoneTest {
         assertEquals(TextDirection.RIGHT_TO_LEFT, p.direction());
         assertEquals(1200, p.width());
         assertEquals(400, p.height());
-        assertEquals(20, p.lineGap());
-        assertEquals(30, p.quadratGap());
+        assertEquals(20.0, p.settings().length(LayoutSetting.LINE_GAP));
+        assertEquals(30.0, p.settings().length(LayoutSetting.QUADRAT_GAP));
         assertTrue(p.frame());
         assertEquals(ZoneParameters.UNSET, p.separator());
         assertEquals(4, zone.getContent().getNumberOfChildren());
@@ -63,15 +64,38 @@ public class MdCModelWriterZoneTest {
         assertEquals(ZoneParameters.DEFAULT, zone.getParameters());
         assertNull(zone.getParameters().orientation());
         assertFalse(zone.getParameters().frame());
-        assertNull(zone.getParameters().fitLoneSigns());
+        assertNull(zone.getParameters().settings().flag(LayoutSetting.FIT_SIGNS));
+        assertTrue(zone.getParameters().settings().isEmpty());
     }
 
     @Test
     public void fitSignsIsReadAsYesOrNo() throws MDCSyntaxError {
         Zone yes = assertInstanceOf(Zone.class, parse("%zone[fitsigns=yes](A1)").getTopItemAt(0));
         Zone no = assertInstanceOf(Zone.class, parse("%zone[fitsigns=no](A1)").getTopItemAt(0));
-        assertEquals(Boolean.TRUE, yes.getParameters().fitLoneSigns());
-        assertEquals(Boolean.FALSE, no.getParameters().fitLoneSigns());
+        assertEquals(Boolean.TRUE, yes.getParameters().settings().flag(LayoutSetting.FIT_SIGNS));
+        assertEquals(Boolean.FALSE, no.getParameters().settings().flag(LayoutSetting.FIT_SIGNS));
+    }
+
+    @Test
+    public void everySharedSettingIsRead() throws MDCSyntaxError {
+        Zone zone = assertInstanceOf(Zone.class, parse(
+                "%zone[columngap=40,columnquadratgap=10,signheight=80,cartouchelinewidth=8,textbaseline=30,"
+                        + "limitquadratwidth=no,centresmallsigns=yes,scale=50](A1)").getTopItemAt(0));
+        ZoneParameters p = zone.getParameters();
+        assertEquals(40.0, p.settings().length(LayoutSetting.COLUMN_GAP));
+        assertEquals(10.0, p.settings().length(LayoutSetting.COLUMN_QUADRAT_GAP));
+        assertEquals(80.0, p.settings().length(LayoutSetting.SIGN_HEIGHT));
+        assertEquals(8.0, p.settings().length(LayoutSetting.CARTOUCHE_LINE_WIDTH));
+        assertEquals(30.0, p.settings().length(LayoutSetting.TEXT_BASELINE));
+        assertEquals(Boolean.FALSE, p.settings().flag(LayoutSetting.LIMIT_QUADRAT_WIDTH));
+        assertEquals(Boolean.TRUE, p.settings().flag(LayoutSetting.CENTRE_SMALL_SIGNS));
+        assertEquals(50, p.scale());
+    }
+
+    @Test
+    public void invalidValuesAreIgnored() throws MDCSyntaxError {
+        Zone zone = assertInstanceOf(Zone.class, parse("%zone[fitsigns=maybe,layout=diagonal,scale=100](A1)").getTopItemAt(0));
+        assertEquals(ZoneParameters.DEFAULT, zone.getParameters());
     }
 
     @Test
@@ -99,6 +123,11 @@ public class MdCModelWriterZoneTest {
             "%zone[layout=columns,quadratwidth=60](A1-A2)",
             "%zone[layout=columns,fitsigns=no](n-A1)",
             "%zone[fitsigns=yes](n)",
+            "%zone[scale=50](A1-A2)",
+            "%zone[layout=columns,columngap=50,columnquadratgap=10](A1!A2)",
+            "%zone[signheight=70,cartouchelinewidth=10,textbaseline=20](<-A1->)",
+            "%zone[limitquadratwidth=no,centresmallsigns=yes](A1)",
+            "%zone[tabgap=30](A1-%tab-A2)",
             "%zone[separator=5](A1!A2)",
             "%zone[layout=columns,separator=3](A1!A2)",
             "%zone[layout=columns,dir=rl,width=1200,height=400,frame](A1-A2)",

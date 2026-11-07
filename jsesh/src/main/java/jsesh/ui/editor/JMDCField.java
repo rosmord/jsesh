@@ -200,6 +200,7 @@ public class JMDCField extends JMDCEditor {
     private final static JSeshStyle adaptStyleToHeight(JSeshStyle style, int height, int margin) {
         int textHeight = height - 2 * margin;
         return style.copy().geometry(g -> g.maxCadratHeight(textHeight)
+                .unit(textHeight)
                 .standardSignHeight(textHeight)
                 .maxCadratWidth(textHeight * 1.1f)
                 .topMargin(margin)

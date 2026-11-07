@@ -28,7 +28,7 @@ is *not* when there is a trap. Entries are alphabetical inside each section.
   wrap in zone
 - [Text and model](#text-and-model): quadrat, hbox, inner group, ligature, insert,
   overwrite, absolute group, philology, kerning, absolute tab, tab (tab stop, tab cell, tab
-  column), zone, scope, position, range,
+  column), zone, layout settings, unit, document header, scope, position, range,
   mark, caret granularity, alphabetic text, superscript
 - [Parsing and writing MdC](#parsing-and-writing-mdc): MdC, literal AST, model builder, lexer
 - [Signs and fonts](#signs-and-fonts): Gardiner code, phonetic code, shape repository,
@@ -329,6 +329,59 @@ may contain anything a text contains, including other zones. Its only child is a
 `ZoneContent` (a scope). The whole text plays the role of the outermost zone; its
 settings are the `DocumentPreferences`.
 
+The options of a zone are of two sorts (`ZoneParameters`): the *layout settings*, shared
+with the document (see below), and the settings proper to a zone: `scale`, `width`,
+`height`, `tabgap`, `separator`, `frame`. Lengths are percents of the *unit* of the
+document. With `scale=N`, the content is laid out at full size and its view is scaled by
+N % (signs, gaps, lines and all); the lengths of the zone are then in its own quadrats.
+
+### Layout settings
+
+`LayoutSetting` (enum, the only place where their names are written) and
+`TextLayoutSettings` (a set of values; unset ones are inherited): the settings of the
+layout of a text, with the **same names and values** in zone options
+(`%zone[linegap=50]`) and in the document header (`++JSesh_linegap 50 +s`):
+
+| name | values | document default | meaning |
+|---|---|---|---|
+| `layout` | `lines`/`columns` | lines | orientation |
+| `dir` | `lr`/`rl` | lr | direction |
+| `quadratheight` | % | 100 | maximal height of a quadrat |
+| `quadratwidth` | % | 122.22 | maximal width of a quadrat |
+| `signheight` | % | 100 | height of A1 |
+| `linegap` | % | 33.33 | space between two lines |
+| `columngap` | % | 44.44 | space between two columns |
+| `quadratgap` | % | 11.11 | space between the quadrats of a line (and the signs of a quadrat) |
+| `columnquadratgap` | % | 33.33 | space between the quadrats of a column |
+| `cartouchelinewidth` | % | 5.56 | line of cartouches and zone frames |
+| `textbaseline` | % | 22.22 | baseline of alphabetic text above the quadrats' bottom |
+| `fitsigns` | `yes`/`no` | yes | [lone sign fitting](#lone-sign-fitting) |
+| `limitquadratwidth` | `yes`/`no` | yes | in lines, scale quadrats down to `quadratwidth` |
+| `centresmallsigns` | `yes`/`no` | no | centre small signs |
+
+The gaps are named by **role**, never by axis: `linegap` is always between lines, even in a
+zone in columns. (In `GeometrySpecification`, the fields are still named by axis:
+`lineSkip`, `columnSkip`, `smallSkip`, `columnQuadratSkip`; `LayoutSettingsApplier` is the
+only correspondence.)
+
+### Unit (of a document)
+
+`DocumentPreferences.unit` (`++JSesh_unit`, `GeometrySpecification.unit`): the height of a
+quadrat, in points, 18 by default. It is the **only absolute length of the text**: the
+lengths of the layout settings are percents of it, so changing it scales the whole
+document. The page and the small body limit stay in points. Not to be confused with the
+[layout unit](#layout-unit) (the unit of all the lengths of the geometry, in points).
+
+### Document header
+
+The `++JSesh_xxx value +s` lines at the start of a `.gly` file, read and written by
+`DocumentHeaderCodec`. Since `JSesh_Info 2.0`: `JSesh_unit`, the layout settings
+(`JSesh_linegap`...), `JSesh_smallbodylimit`, `JSesh_shading`, and the page. A header
+without `JSesh_unit` is an old one (all lengths in points, `JSesh_line_skip`...), converted
+without loss; the old keys are also written for older versions of JSesh
+(`DocumentHeaderCodec.WRITE_LEGACY_KEYS`). The user's default preferences use the same
+format.
+
 ---
 
 ## Parsing and writing MdC
@@ -418,8 +471,8 @@ In a quadrat, a low broad sign (as `n`, `N35`) alone on its line, at its normal 
 enlarged to the width of the quadrat (`QuadratLayout.fitLoneSignsToColumnWidth`). It shows
 in columns, where a lone `n` fills the column. Not to be confused with the *wide* quadrats
 of `%insert` or with `limitQuadratWidthInLines` (which scales quadrats *down*). Option
-`LayoutOptions.fitLoneSigns` (document preference `JSesh_fit_lone_signs`, `true` by
-default), overridden per zone with `%zone[fitsigns=yes|no]`.
+`LayoutOptions.fitLoneSigns` (layout setting `fitsigns`: document header `JSesh_fitsigns`,
+`yes` by default), overridden per zone with `%zone[fitsigns=yes|no]`.
 
 ### Render context
 

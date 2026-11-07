@@ -139,7 +139,7 @@ public class ColumnLayout extends TopItemLayout {
 		}
 		zone.addRun(views, run.layoutOffsets(mirrored));
 		if (height != 0) {
-			zone.moveCurrentPoint(0, height + jseshStyle.geometry().lineSkip());
+			zone.moveCurrentPoint(0, height + jseshStyle.geometry().columnQuadratSkip());
 		}
 	}
 
@@ -433,7 +433,7 @@ public class ColumnLayout extends TopItemLayout {
 			// the skip is "integrated" in v,
 			if (subView.getHeight() != 0) {
 				zone.moveCurrentPoint(0, subView.getHeight()
-						+ jseshStyle.geometry().lineSkip());
+						+ jseshStyle.geometry().columnQuadratSkip());
 			}
 		}
 	}

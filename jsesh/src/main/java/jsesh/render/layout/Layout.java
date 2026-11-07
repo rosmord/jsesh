@@ -223,68 +223,20 @@ public class Layout {
 		}
 	}
 
-	/// The context in which the content of a zone is laid out.
-	///
-	/// Settings which the zone doesn't set are inherited from the enclosing
-	/// context. A zone has no margins, and is never paged (a page break in a
-	/// zone is a line break). A zone in lines wraps at its width, if it has
-	/// one; a zone in columns aligns its columns in its height, if it has
-	/// one. The alignment of its lines is never ignored: even when the text
-	/// is wrapped to the width of the editor, a zone keeps its own width.
+	/// The context in which the content of a zone is laid out (see
+	/// [JSeshRenderContext#forZone(ZoneParameters)]).
 	///
 	/// @param parent the context of the enclosing zone (or text).
 	/// @param p the settings of the zone.
 	/// @return the context for the content of the zone.
 	public static JSeshRenderContext zoneRenderContext(JSeshRenderContext parent, ZoneParameters p) {
-		JSeshStyle style = parent.jseshStyle();
-		float unit = zoneLengthUnit(style);
-		TextOrientation orientation = p.orientation() != null ? p.orientation() : style.options().textOrientation();
-		TextDirection direction = p.direction() != null ? p.direction() : style.options().textDirection();
-		boolean fitLoneSigns = p.fitLoneSigns() != null ? p.fitLoneSigns() : style.options().fitLoneSigns();
-		float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
-		float columnHeight = !orientation.isHorizontal() && p.height() != ZoneParameters.UNSET ? p.height() * unit : 0f;
-		return parent.copy().jseshStyle(s -> s
-				.options(o -> o.textOrientation(orientation).textDirection(direction).paged(false)
-						.ignoreLineAlignment(false).fitLoneSigns(fitLoneSigns))
-				.geometry(g -> {
-					g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth).columnHeight(columnHeight)
-								.page(PageSpecification.NONE);
-					if (p.width() != ZoneParameters.UNSET) {
-						g.textWidth(p.width() * unit);
-					}
-					// The gaps are given by role, not by axis: the geometry's
-					// names depend on the orientation.
-					if (p.lineGap() != ZoneParameters.UNSET) {
-						float gap = p.lineGap() * unit;
-						if (orientation.isHorizontal()) {
-							g.lineSkip(gap);
-						} else {
-							g.columnSkip(gap);
-						}
-					}
-					if (p.quadratGap() != ZoneParameters.UNSET) {
-						float gap = p.quadratGap() * unit;
-						if (orientation.isHorizontal()) {
-							g.smallSkip(gap);
-						} else {
-							g.lineSkip(gap);
-						}
-					}
-					if (p.quadratWidth() != ZoneParameters.UNSET) {
-						g.maxCadratWidth(p.quadratWidth() * unit);
-					}
-					if (p.quadratHeight() != ZoneParameters.UNSET) {
-						g.maxCadratHeight(p.quadratHeight() * unit);
-					}
-					return g;
-				}))
-				.build();
+		return parent.forZone(p);
 	}
 
-	/// The unit of the lengths of [ZoneParameters]: one percent of the height
-	/// of a quadrat.
+	/// The unit of the lengths of [ZoneParameters]: one percent of the unit of
+	/// the document (the height of a quadrat).
 	public static float zoneLengthUnit(JSeshStyle style) {
-		return style.geometry().maxCadratHeight() / 100f;
+		return style.geometry().percentUnit();
 	}
 
 	/// The space between the frame of a zone and its content, frame included.
@@ -1070,6 +1022,9 @@ public class Layout {
 		/// A zone is its content, of natural or fixed size, plus the frame's
 		/// padding. It is aligned so that its content starts where the
 		/// quadrats of the line (or column) start.
+		///
+		/// The content is laid out at full size, in the zone's own quadrats; a
+		/// zone with a `scale` then scales its view (signs, gaps, lines and all).
 		@Override
 		public void visitZone(Zone zone) {
 			JSeshStyle jseshStyle = renderContext.jseshStyle();
@@ -1088,6 +1043,11 @@ public class Layout {
 			// content is mirrored across the zone's width, not its own.
 			content.setWidth(width);
 			content.setHeight(height);
+			if (p.scale() != ZoneParameters.UNSET) {
+				content.reScale(p.scaleFactor());
+				width = content.getWidth();
+				height = content.getHeight();
+			}
 			content.resetPos();
 			content.getPosition().setLocation(padding, padding);
 			currentView.setWidth(width + 2 * padding);
@@ -1173,9 +1133,8 @@ public class Layout {
 			if (p.tabGap() != ZoneParameters.UNSET) {
 				return p.tabGap() * zoneLengthUnit(parentStyle);
 			}
-			// The space between quadrats is named by axis in the geometry.
 			return currentTextOrientation.isHorizontal() ? zoneStyle.geometry().smallSkip()
-					: zoneStyle.geometry().lineSkip();
+					: zoneStyle.geometry().columnQuadratSkip();
 		}
 
 		private Kerner kerner() {

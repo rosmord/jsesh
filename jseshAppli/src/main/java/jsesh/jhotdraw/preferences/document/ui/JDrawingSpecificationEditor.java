@@ -33,138 +33,132 @@ knowledge of the CeCILL license and that you accept its terms.
  */
 package jsesh.jhotdraw.preferences.document.ui;
 
+import java.awt.Component;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import jsesh.jhotdraw.utils.PanelBuilder;
+import jsesh.jhotdraw.dialogs.ZoneParametersPanel;
+import jsesh.jhotdraw.utils.FormLayoutHelper;
+import jsesh.model.LayoutSetting;
 import jsesh.resources.JSeshMessages;
 import jsesh.ui.widgets.units.LengthUnit;
 import net.miginfocom.swing.MigLayout;
 
-/**
- * A Graphical editor for drawing specifications.
- * 
- * @author rosmord
- */
+/// The form of the drawing preferences of a document.
+///
+/// The unit of the document (the height of a quadrat) is the only absolute
+/// length of the text: changing it scales the whole document. The other
+/// lengths of the text are in percents of it, with the same names as the
+/// options of zones (see [LayoutSetting]). The small body limit, a legibility
+/// limit, is in absolute units too.
 public class JDrawingSpecificationEditor {
 
-	private JPanel panel= new JPanel();
+	private final JPanel panel = new JPanel();
 
-	/**
-	 * Creates new form JDrawingSpecificationEditor
-	 **/
+	private final JFormattedTextField documentUnitField = new JFormattedTextField();
+	private final JComboBox<LengthUnit> lengthUnitField = new JComboBox<>();
+	private final JFormattedTextField smallFontBodyLimitField = new JFormattedTextField();
+	private final Map<LayoutSetting, JFormattedTextField> percentFields = new EnumMap<>(LayoutSetting.class);
+	private final Map<LayoutSetting, JCheckBox> flagCheckBoxes = new EnumMap<>(LayoutSetting.class);
+	private final JCheckBox useLinesForShadingCheckBox = new JCheckBox(
+			JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
+
 	public JDrawingSpecificationEditor() {
-		initComponents();
+		for (LayoutSetting setting : LayoutSetting.values()) {
+			switch (setting.kind()) {
+				case LENGTH -> percentFields.put(setting, new JFormattedTextField());
+				case FLAG -> flagCheckBoxes.put(setting,
+						new JCheckBox(JSeshMessages.getString(ZoneParametersPanel.labelKey(setting))));
+				default -> {
+					// The orientation and the direction are chosen elsewhere.
+				}
+			}
+		}
 		layout();
 	}
-	
+
 	/**
-	 * Requests the focus in one of the fields when the dialog is opened. 
+	 * Requests the focus in one of the fields when the dialog is opened.
 	 */
 	public void addFocus() {
-		panel.addAncestorListener(new AncestorListener() {			
-			public void ancestorRemoved(AncestorEvent event) {}
-			
-			public void ancestorMoved(AncestorEvent event) {}
-			
+		panel.addAncestorListener(new AncestorListener() {
+			public void ancestorRemoved(AncestorEvent event) {
+			}
+
+			public void ancestorMoved(AncestorEvent event) {
+			}
+
 			public void ancestorAdded(AncestorEvent event) {
-				normalSignHeightField.requestFocusInWindow();
+				documentUnitField.requestFocusInWindow();
 			}
 		});
-
 	}
 
 	public JPanel getPanel() {
 		return panel;
 	}
 
-	private void initComponents() {
-		useLinesForShadingCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
-		limitQuadratWidthInLinesCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.limitQuadratWidthInLinesCheckBox"));
-		fitLoneSignsCheckBox= new JCheckBox(JSeshMessages.getString("drawingPrefs.fitLoneSignsCheckBox"));
-	}
-
+	/// Places the fields in three sections: the unit, the lengths (in percents
+	/// of the unit), and the yes/no options. The lengths are beside the two
+	/// others when the screen is wide enough, below them otherwise; the dialog
+	/// scrolls when it is still too tall.
 	private void layout() {
+		JPanel unitSection = FormLayoutHelper.section(JSeshMessages.getString("drawingPrefs.section.unit"));
+		addRow(unitSection, "drawingPrefs.documentUnit", documentUnitField, "w 50pt");
+		addRow(unitSection, "drawingPrefs.units", lengthUnitField, "");
+		addRow(unitSection, "drawingPrefs.smallFontBodyLimit", smallFontBodyLimitField, "w 50pt");
+
+		JPanel optionSection = FormLayoutHelper.section(JSeshMessages.getString("drawingPrefs.section.options"));
+		for (JCheckBox box : flagCheckBoxes.values()) {
+			optionSection.add(box, "span, wrap");
+		}
+		optionSection.add(useLinesForShadingCheckBox, "span, wrap");
+
+		JPanel lengthSection = FormLayoutHelper.section(JSeshMessages.getString("drawingPrefs.section.lengths"));
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : percentFields.entrySet()) {
+			addRow(lengthSection, ZoneParametersPanel.labelKey(e.getKey()), e.getValue(), "w 50pt");
+		}
+
+		JPanel left = new JPanel(new MigLayout("insets 0, fillx", "[grow, fill]"));
+		left.add(unitSection, "wrap");
+		left.add(optionSection, "wrap");
+		int sideBySideWidth = left.getPreferredSize().width + lengthSection.getPreferredSize().width + 20;
 		panel.setLayout(new MigLayout());
-		PanelBuilder h = new PanelBuilder(panel);
-		h.addWithLabel("drawingPrefs.a1SignHeight", normalSignHeightField, "w 40pt, sg a, gapright unrelated");
-		h.addWithLabel("drawingPrefs.units", unitField, "wrap");
-		h.addWithLabel("drawingPrefs.lineSkip", lineSkipField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.alphabeticTextBaseline", alphabeticTextBaselineField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.interQuadratSkip", interQuadratSkipField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.columnSkip", columnSkipField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.maximalQuadratHeight", maxCadratHeightField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.maximalQuadratWidth", maxCadratWidthField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.smallFontBodyLimit", smallFontBodyLimitField, "sg a, wrap");
-		h.addWithLabel("drawingPrefs.cartoucheLineWidth", cartoucheLineWidthField, "sg a, wrap");
-		h.add(limitQuadratWidthInLinesCheckBox, "span, wrap");
-		h.add(fitLoneSignsCheckBox, "span, wrap");
-		h.add(useLinesForShadingCheckBox, "wrap");
-
+		panel.add(left, FormLayoutHelper.hasRoomFor(sideBySideWidth) ? "aligny top" : "aligny top, growx, wrap");
+		panel.add(lengthSection, "aligny top, growx");
 	}
 
-	private JFormattedTextField cartoucheLineWidthField= new JFormattedTextField();
-	private JFormattedTextField columnSkipField=new JFormattedTextField();
-	private JFormattedTextField lineSkipField=new JFormattedTextField();
-	private JFormattedTextField alphabeticTextBaselineField=new JFormattedTextField();
-	private JFormattedTextField interQuadratSkipField= new JFormattedTextField();
-	private JFormattedTextField maxCadratHeightField=new JFormattedTextField();
-	private JFormattedTextField maxCadratWidthField=new JFormattedTextField();
-	private JFormattedTextField normalSignHeightField=new JFormattedTextField();
-	private JFormattedTextField smallFontBodyLimitField=new JFormattedTextField();
-	private JComboBox<LengthUnit> unitField= new JComboBox<>();
-	private JCheckBox useLinesForShadingCheckBox;
-	private JCheckBox limitQuadratWidthInLinesCheckBox;
-	private JCheckBox fitLoneSignsCheckBox;
-
-	public JCheckBox getFitLoneSignsCheckBox() {
-		return fitLoneSignsCheckBox;
+	private static void addRow(JPanel section, String labelCode, Component field, String constraints) {
+		section.add(FormLayoutHelper.wrappingLabel(JSeshMessages.getString(labelCode)));
+		section.add(field, constraints + (constraints.isEmpty() ? "" : ", ") + "growx 0, wrap");
 	}
 
-	public JCheckBox getLimitQuadratWidthInLinesCheckBox() {
-		return limitQuadratWidthInLinesCheckBox;
+	/// @return the unit of the document, in the current length unit.
+	public JFormattedTextField getDocumentUnitField() {
+		return documentUnitField;
 	}
 
-	public JFormattedTextField getCartoucheLineWidthField() {
-		return cartoucheLineWidthField;
-	}
-
-	public JFormattedTextField getColumnSkipField() {
-		return columnSkipField;
-	}
-
-	public JFormattedTextField getInterQuadratSkipField() {
-		return interQuadratSkipField;
-	}
-	
-	public JFormattedTextField getLineSkipField() {
-		return lineSkipField;
-	}
-
-	public JFormattedTextField getAlphabeticTextBaselineField() {
-		return alphabeticTextBaselineField;
-	}
-
-	public JFormattedTextField getMaxCadratHeightField() {
-		return maxCadratHeightField;
-	}
-
-	public JFormattedTextField getMaxCadratWidthField() {
-		return maxCadratWidthField;
-	}
-
-	public JFormattedTextField getNormalSignHeightField() {
-		return normalSignHeightField;
+	/// @return the choice of the length unit (points, mm...).
+	public JComboBox<LengthUnit> getLengthUnitField() {
+		return lengthUnitField;
 	}
 
 	public JFormattedTextField getSmallFontBodyLimitField() {
 		return smallFontBodyLimitField;
 	}
 
-	public JComboBox<LengthUnit> getUnitField() {
-		return unitField;
+	/// @return the fields of the length settings, in percents of the unit.
+	public Map<LayoutSetting, JFormattedTextField> getPercentFields() {
+		return percentFields;
+	}
+
+	/// @return the check boxes of the yes/no settings.
+	public Map<LayoutSetting, JCheckBox> getFlagCheckBoxes() {
+		return flagCheckBoxes;
 	}
 
 	public JCheckBox getUseLinesForShadingCheckBox() {
@@ -172,17 +166,13 @@ public class JDrawingSpecificationEditor {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater( new Runnable() {
-			
-			@Override
-			public void run() {
-				JFrame frame= new JFrame();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				JDrawingSpecificationEditor editor= new JDrawingSpecificationEditor();
-				frame.add(editor.getPanel());
-				frame.pack();
-				frame.setVisible(true);
-			}
+		SwingUtilities.invokeLater(() -> {
+			JFrame frame = new JFrame();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JDrawingSpecificationEditor editor = new JDrawingSpecificationEditor();
+			frame.add(editor.getPanel());
+			frame.pack();
+			frame.setVisible(true);
 		});
 	}
 }

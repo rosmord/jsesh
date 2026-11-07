@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import jsesh.document.DocumentPreferences;
+import jsesh.io.document.DocumentHeaderCodec;
 import jsesh.glyphs.fonts.PredefinedFonts;
 import jsesh.mdcreader.MDCParserModelGenerator;
 import jsesh.parser.MDCSyntaxError;
@@ -88,11 +89,11 @@ public class PageLayoutTest {
     public void pagePreferencesRoundTrip() {
         JSeshStyle style = withPage(new PageSpecification(300, 400, 20, 40, 10, 30));
         DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(style);
-        DocumentPreferences reread = DocumentPreferences.fromStringMap(prefs.getStringRepresentation());
+        DocumentPreferences reread = DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs));
         JSeshStyle back = DocumentPreferencesStyleConverter.applyDocumentPreferences(reread, JSeshStyle.DEFAULT);
         assertEquals(style.geometry().page(), back.geometry().page());
         assertEquals(20f, back.geometry().leftMargin(), 1e-6);
-        assertFalse(DocumentPreferences.fromStringMap(new java.util.HashMap<>()).hasPage());
+        assertFalse(DocumentHeaderCodec.fromHeader(new java.util.HashMap<>()).hasPage());
     }
 
     private static final PageSpecification SMALL_PAGE = new PageSpecification(200, 120, 10, 30, 8, 8);

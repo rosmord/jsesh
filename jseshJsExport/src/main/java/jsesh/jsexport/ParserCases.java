@@ -250,5 +250,14 @@ final class ParserCases {
         "%zone[layout=columns](n-A1-n:t)",
         "%zone[layout=columns,fitsigns=no](n-A1-n:t)",
         "%zone[layout=columns,fitsigns=no](n-%zone[fitsigns=yes](n)-%zone(n))",
+        // Shared layout settings, named by role, and the scale of a zone.
+        "%zone[layout=columns,columngap=100,columnquadratgap=50](A1-A1-!-A1-B1)",
+        "%zone[linegap=100,quadratgap=30](A1-A1-!-A1-B1)",
+        "%zone[signheight=50,cartouchelinewidth=20,textbaseline=50](<-A1-ra->-+lab+s)",
+        "%zone[limitquadratwidth=no,centresmallsigns=yes](A1*A1*A1*A1:t-t)",
+        "A1-%zone[scale=50](A1-B1-<-ra->)-A1",
+        "A1-%zone[scale=50,width=300,frame,separator=10](A1-A1-A1-A1-A1-A1-A1-A1)-A1",
+        "%zone[scale=200,layout=columns,dir=rl,separator=5](A1-!-B1-G17)",
+        "%zone[scale=50](A1-%zone[scale=50](A1)-%zone[signheight=200](A1))",
     };
 }

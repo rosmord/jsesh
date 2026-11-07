@@ -27,11 +27,13 @@ import {
   Zone,
   ZoneContent,
   ZONE_UNSET,
+  zoneScaleFactor,
 } from "../model/model.js";
 import { drawCartouche } from "./cartouches.js";
 import { HieroglyphDrawer, type SignShape } from "./glyphs.js";
 import { parsePath, pathBounds, rotation, transformPath } from "./path.js";
-import { cssFont, fontForScript, philologyWidth, type FontDescription, type JSeshStyle } from "./style.js";
+import { zoneStyle } from "./layout.js";
+import { cssFont, fontForScript, percentUnit, philologyWidth, type FontDescription, type JSeshStyle } from "./style.js";
 import { escapeXml, filledPath, num, PathBuilder, strokedPath } from "./svg-writer.js";
 import { drawSpecialSymbol } from "./symbols.js";
 import { displayString, type TextMeasurer } from "./text.js";
@@ -94,7 +96,8 @@ interface PageTransform {
 }
 
 class SvgViewDrawer {
-  private readonly style: JSeshStyle;
+  /// The style of the views being drawn: inside a zone, the zone's (see `drawView`).
+  private style: JSeshStyle;
   private readonly drawer: HieroglyphDrawer;
   private readonly measurer: TextMeasurer;
   private drawingState = new TopItemState();
@@ -159,6 +162,20 @@ class SvgViewDrawer {
     if (v.model instanceof TopItem && (depth === 1 || v.model.parent instanceof ZoneContent)) {
       this.drawingState = v.model.state;
     }
+    // The content of a zone is drawn in the style it was laid out in (its sign height, its
+    // cartouche lines...).
+    const outerStyle = this.style;
+    if (v.model instanceof ZoneContent && v.model.parent instanceof Zone) {
+      this.style = zoneStyle(outerStyle, v.model.parent.parameters);
+    }
+    try {
+      return this.drawViewIn(v, depth, page);
+    } finally {
+      this.style = outerStyle;
+    }
+  }
+
+  private drawViewIn(v: MDCView, depth: number, page: PageTransform): string {
     const color = this.drawingState.isRed ? this.style.painting.redColor : this.style.painting.blackColor;
     const element = new ElementDrawer(this, v, color, page);
     let result = element.draw(false);
@@ -432,16 +449,18 @@ class ElementDrawer extends ModelElementAdapter {
   private drawSeparators(zone: Zone): void {
     const content = this.view.firstSubView;
     if (content.separators.length === 0) return;
-    const thickness = (zone.parameters.separator * this.d.s.geometry.maxCadratHeight) / 100;
+    // The positions are in the coordinates of the content, which a zone with a scale scales.
+    const scale = zoneScaleFactor(zone.parameters);
+    const thickness = f(f(zone.parameters.separator * percentUnit(this.d.s.geometry)) * scale);
     const horizontal = content.orientation === null || content.orientation === "HORIZONTAL";
     const { x: x0, y: y0 } = content.position;
     const d = new PathBuilder();
     for (const pos of content.separators) {
       if (horizontal) {
-        d.line(x0, y0 + pos, x0 + content.width, y0 + pos);
+        d.line(x0, y0 + pos * scale, x0 + content.width, y0 + pos * scale);
       } else {
         // Columns are placed left to right; right-to-left ones are drawn mirrored.
-        const x = content.layoutToDrawing(new Rect(pos, 0, 0, 0)).x;
+        const x = content.layoutToDrawing(new Rect(pos, 0, 0, 0)).x * scale;
         d.line(x0 + x, y0, x0 + x, y0 + content.height);
       }
     }

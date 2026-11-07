@@ -13,6 +13,7 @@ import jsesh.model.HieroglyphicText;
 import jsesh.model.MDCPosition;
 import jsesh.model.TextScope;
 import jsesh.model.TopItem;
+import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.render.context.JSeshRenderContext;
 import jsesh.render.context.JSeshTechRenderContext;
@@ -371,6 +372,16 @@ public class ViewDrawer {
             elementDrawer.setDrawingState(topItem.getState());
         }
 
+        // The content of a zone is drawn in the context it was laid out in
+        // (its sign height, its cartouche lines...).
+        JSeshRenderContext outerContext = null;
+        if (v.getModel() instanceof ZoneContent content && content.getParent() instanceof Zone zone) {
+            outerContext = renderContext;
+            renderContext = renderContext.forZone(zone.getParameters());
+            jseshStyles = renderContext.jseshStyle();
+            elementDrawer.setRenderContext(renderContext);
+        }
+
         // provide the correct
         // transform to g.
         // (BTW, the best way to do this would be to embed g in a class
@@ -409,6 +420,9 @@ public class ViewDrawer {
         // Temporary : draw a red rectangle around the view
         if (debug) {
             drawDebug(g, v);
+        }
+        if (outerContext != null) {
+            elementDrawer.setRenderContext(outerContext);
         }
         return true;
     }

@@ -77,6 +77,13 @@ import java.awt.BasicStroke;
  *                            on the longest column. Columns are never cut.
  *                            When a page with a height is defined, its usable
  *                            height is used instead.
+ * @param columnQuadratSkip   the space between two successive quadrats of a
+ *                            column (the space between two quadrats of a line is
+ *                            {@code smallSkip}).
+ * @param unit                the reference length of the document, in points:
+ *                            the lengths of the document preferences and of
+ *                            zones ({@code %zone[...]}) are percents of it (see
+ *                            {@link jsesh.model.LayoutSetting}).
  */
 public record GeometrySpecification(
 		float fineLineWidth, // 0.5f,
@@ -107,7 +114,9 @@ public record GeometrySpecification(
 		float standardSignHeight, // 18f
 		float alphabeticTextBaseline, // 4f
 		float wrapWidth, // 0f (no wrapping)
-		float columnHeight // 0f (natural height)
+		float columnHeight, // 0f (natural height)
+		float columnQuadratSkip, // 6f
+		float unit // 18f
 ) {
 
 	public static final GeometrySpecification DEFAULT = new GeometrySpecification(
@@ -139,7 +148,17 @@ public record GeometrySpecification(
 			18f,
 			4f,
 			0f,
-			0f);
+			0f,
+			6f,
+			18f);
+
+	/// The unit of the lengths of zones and of the document preferences: one
+	/// percent of [#unit()].
+	///
+	/// @return the length of 1 %, in points.
+	public float percentUnit() {
+		return unit / 100f;
+	}
 
 	/**
 	 * Auxiliary method to build a stroke for fine lines.
@@ -255,6 +274,8 @@ public record GeometrySpecification(
 		private float alphabeticTextBaseline; // 4f;
 		private float wrapWidth; // 0f;
 		private float columnHeight; // 0f;
+		private float columnQuadratSkip; // 6f;
+		private float unit; // 18f;
 
 		public Builder(GeometrySpecification specs) {
 			this.fineLineWidth = specs.fineLineWidth;
@@ -286,6 +307,8 @@ public record GeometrySpecification(
 			this.alphabeticTextBaseline = specs.alphabeticTextBaseline;
 			this.wrapWidth = specs.wrapWidth;
 			this.columnHeight = specs.columnHeight;
+			this.columnQuadratSkip = specs.columnQuadratSkip;
+			this.unit = specs.unit;
 		}
 
 		public Builder fineLineWidth(float fineLineWidth) {
@@ -442,6 +465,20 @@ public record GeometrySpecification(
 			return this;
 		}
 
+		/// @param columnQuadratSkip the space between two quadrats of a column.
+		/// @return this builder, for chaining.
+		public Builder columnQuadratSkip(float columnQuadratSkip) {
+			this.columnQuadratSkip = columnQuadratSkip;
+			return this;
+		}
+
+		/// @param unit the reference length of the document, in points.
+		/// @return this builder, for chaining.
+		public Builder unit(float unit) {
+			this.unit = unit;
+			return this;
+		}
+
 		public GeometrySpecification build() {
 			return new GeometrySpecification(
 					fineLineWidth,
@@ -472,7 +509,9 @@ public record GeometrySpecification(
 					standardSignHeight,
 					alphabeticTextBaseline,
 					wrapWidth,
-					columnHeight);
+					columnHeight,
+					columnQuadratSkip,
+					unit);
 		}
 
 		/**
@@ -510,6 +549,8 @@ public record GeometrySpecification(
 			alphabeticTextBaseline *= scale;
 			wrapWidth *= scale;
 			columnHeight *= scale;
+			columnQuadratSkip *= scale;
+			unit *= scale;
 			return this;
         }
 	}

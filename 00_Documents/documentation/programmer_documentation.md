@@ -25,6 +25,7 @@ The `jsesh` module is a **library**: it has no `main`. The end-user application 
 - [8. Use case: read and write `.gly` documents](#8-use-case-read-and-write-gly-documents)
   - [8.1. Loading](#81-loading)
   - [8.2. Saving to MdC](#82-saving-to-mdc)
+  - [8.3. Document preferences: one unit, and the settings shared with zones](#83-document-preferences-one-unit-and-the-settings-shared-with-zones)
 - [9. Use case: turn a model back into MdC text](#9-use-case-turn-a-model-back-into-mdc-text)
 - [10. Use case: embed the interactive editor in a Swing app](#10-use-case-embed-the-interactive-editor-in-a-swing-app)
 - [11. Use case: query the sign database](#11-use-case-query-the-sign-database)
@@ -335,6 +336,37 @@ document in place** — it forces the modern JSesh dialect, UTF-8 encoding, and 
 - `write(doc, OutputStream)` / `write(doc, Writer)` — flush but do not close the stream (it stays the caller's).
 - `toMdC(doc)` — returns the full document (header included) as a `String`.
 - `toMdC(HieroglyphicText, DocumentPreferences)` — convenience when you have a bare text and preferences but no real document.
+
+### 8.3. Document preferences: one unit, and the settings shared with zones
+
+`DocumentPreferences` (immutable record) describes the layout of the text by:
+
+- its **unit**, the height of a quadrat in points (18 by default). It is the
+  only absolute length of the text: `prefs.withUnit(36)` doubles the size of
+  the whole document;
+- its `TextLayoutSettings`: the same settings, with the same names, as the
+  options of `%zone[...]` (`linegap`, `quadratwidth`, `fitsigns`…, see
+  `jsesh.model.LayoutSetting`). Lengths are percents of the unit.
+
+```java
+import jsesh.document.DocumentPreferences;
+import jsesh.model.LayoutSetting;
+import jsesh.model.constants.TextOrientation;
+import jsesh.render.style.DocumentPreferencesStyleConverter;
+
+DocumentPreferences prefs = doc.getDocumentPreferences()
+        .withUnit(24)                                        // larger text
+        .with(LayoutSetting.LAYOUT, TextOrientation.VERTICAL)
+        .with(LayoutSetting.COLUMN_GAP, 50.0)                // half a quadrat
+        .with(LayoutSetting.FIT_SIGNS, false);               // no "scale to column width"
+doc.setDocumentPreferences(prefs);
+double gap = prefs.points(LayoutSetting.COLUMN_GAP);         // 12 points
+JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(prefs, JSeshStyle.DEFAULT);
+```
+
+The header is read and written by `jsesh.io.document.DocumentHeaderCodec`
+(`fromHeader`/`toHeader`), which also converts the headers of older versions
+(lengths in points) without loss.
 
 ---
 

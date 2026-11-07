@@ -2,7 +2,11 @@ package jsesh.render.context;
 
 import java.util.function.Function;
 
+import jsesh.model.ZoneParameters;
+import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.JSeshStyle;
+import jsesh.render.style.LayoutSettingsApplier;
+import jsesh.render.style.PageSpecification;
 import jsesh.glyphs.fonts.HieroglyphShapeRepository;
 
 /**
@@ -72,5 +76,43 @@ public record JSeshRenderContext(JSeshStyle jseshStyle, HieroglyphShapeRepositor
                         .withoutPagination()))
                 .build();
 
+    }
+
+    /// The context in which the content of a zone is laid out and drawn.
+    ///
+    /// Settings which the zone doesn't set are inherited from this context
+    /// (see [LayoutSettingsApplier], shared with the document preferences). A
+    /// zone has no margins, and is never paged (a page break in a zone is a
+    /// line break). A zone in lines wraps at its width, if it has one; a zone
+    /// in columns aligns its columns in its height, if it has one. The
+    /// alignment of its lines is never ignored: even when the text is wrapped
+    /// to the width of the editor, a zone keeps its own width.
+    ///
+    /// The `scale` of a zone is not part of this context: the content is laid
+    /// out at full size, and its view is scaled afterwards. So the lengths of
+    /// the zone are in its own quadrats.
+    ///
+    /// @param p the settings of the zone.
+    /// @return the context for the content of the zone.
+    public JSeshRenderContext forZone(ZoneParameters p) {
+        float unit = jseshStyle.geometry().percentUnit();
+        TextOrientation orientation = p.orientation() != null ? p.orientation()
+                : jseshStyle.options().textOrientation();
+        float wrapWidth = orientation.isHorizontal() && p.width() != ZoneParameters.UNSET ? p.width() * unit : 0f;
+        float columnHeight = !orientation.isHorizontal() && p.height() != ZoneParameters.UNSET
+                ? p.height() * unit
+                : 0f;
+        return copy().jseshStyle(s -> {
+            s.options(o -> o.paged(false).ignoreLineAlignment(false))
+                    .geometry(g -> {
+                        g.leftMargin(0).topMargin(0).wrapWidth(wrapWidth).columnHeight(columnHeight)
+                                .page(PageSpecification.NONE);
+                        if (p.width() != ZoneParameters.UNSET) {
+                            g.textWidth(p.width() * unit);
+                        }
+                        return g;
+                    });
+            return LayoutSettingsApplier.apply(p.settings(), jseshStyle.geometry().unit(), s);
+        }).build();
     }
 }

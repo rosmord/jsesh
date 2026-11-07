@@ -43,7 +43,7 @@ function headerValue(line: string, tab: string[]): string {
 
 /// Writes a JSesh header for `properties` (the `JSesh_Info` line first).
 export function writeJSeshHeader(properties: Record<string, string>): string {
-  let result = "++JSesh_Info 1.0 +s\n";
+  let result = "++JSesh_Info 2.0 +s\n";
   for (const [key, value] of Object.entries(properties)) {
     if (key !== "JSesh_Info") result += `++${key} ${value} +s\n`;
   }

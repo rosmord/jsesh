@@ -6,6 +6,7 @@
 /// Writes the document model as Manuel de Codage: port of
 /// `jsesh.io.mdc.MdCModelWriter` (JSESH1 dialect).
 
+import { formatLayoutSetting, layoutSettingKind, setLayoutSettings } from "../model/layout-settings.js";
 import {
   cartoucheTypeCode,
   closeCodeForPhilology,
@@ -278,20 +279,19 @@ class ModelWriter implements ModelElementVisitor<void> {
   visitZone(zone: Zone): void {
     const p = zone.parameters;
     const options: string[] = [];
-    if (p.orientation !== null) options.push("layout=" + (p.orientation === "HORIZONTAL" ? "lines" : "columns"));
-    if (p.direction !== null) options.push("dir=" + (p.direction === "LEFT_TO_RIGHT" ? "lr" : "rl"));
+    for (const [name, value] of setLayoutSettings(p.settings)) {
+      // The lexer only reads integer option values.
+      const written = layoutSettingKind(name) === "LENGTH" ? Math.round(value as number) : value;
+      options.push(name + "=" + formatLayoutSetting(name, written));
+    }
     const lengths: [string, number][] = [
+      ["scale", p.scale],
       ["width", p.width],
       ["height", p.height],
-      ["linegap", p.lineGap],
-      ["quadratgap", p.quadratGap],
       ["tabgap", p.tabGap],
       ["separator", p.separator],
-      ["quadratwidth", p.quadratWidth],
-      ["quadratheight", p.quadratHeight],
     ];
     for (const [name, value] of lengths) if (value !== ZONE_UNSET) options.push(name + "=" + value);
-    if (p.fitLoneSigns !== null) options.push("fitsigns=" + (p.fitLoneSigns ? "yes" : "no"));
     if (p.frame) options.push("frame");
     this.write("%zone");
     if (options.length > 0) this.write("[" + options.join(",") + "]");

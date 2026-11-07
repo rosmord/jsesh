@@ -20,6 +20,7 @@ import type {
   CartoucheType as AstCartoucheType,
 } from "../parser/ast.js";
 import { hasOption, optionInt, optionString } from "../parser/ast.js";
+import { isLayoutSettingName, parseLayoutSetting, type TextLayoutSettings } from "../model/layout-settings.js";
 import { parseMdcAst, type MdcParserOptions } from "../parser/parser.js";
 import type { PhilologyKind, SignSubType } from "../parser/symbols.js";
 import {
@@ -293,27 +294,24 @@ function lineAlignmentOf(options: AstOptionList): LineAlignment {
   return lineAlignmentFromMdc(optionString(options, "align", ""));
 }
 
-/// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`, `linegap`,
-/// `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight`, `fitsigns=yes|no`
-/// and `frame`.
-/// Unknown options and values are ignored.
+/// Reads the shared layout settings (`layout`, `dir`, `linegap`, `fitsigns`...,
+/// see `layout-settings.ts`) and the settings proper to zones: `scale`, `width`,
+/// `height`, `tabgap`, `separator` and `frame`. Unknown options and values are ignored.
 function zoneParametersOf(options: AstOptionList): ZoneParameters {
-  const layout = optionString(options, "layout", "");
-  const dir = optionString(options, "dir", "");
+  const settings: Record<string, unknown> = {};
+  for (const option of options.options) {
+    if (option.value.nodeType === "Flag" || !isLayoutSettingName(option.name)) continue;
+    const value = parseLayoutSetting(option.name, String(option.value.value));
+    if (value !== undefined) settings[option.name] = value;
+  }
   const length = (name: string) => optionInt(options, name, ZONE_UNSET);
-  const fitSigns = optionString(options, "fitsigns", "");
   return zoneParameters({
-    orientation: layout === "lines" ? "HORIZONTAL" : layout === "columns" ? "VERTICAL" : null,
-    direction: dir === "lr" ? "LEFT_TO_RIGHT" : dir === "rl" ? "RIGHT_TO_LEFT" : null,
+    settings: settings as TextLayoutSettings,
+    scale: length("scale"),
     width: length("width"),
     height: length("height"),
-    lineGap: length("linegap"),
-    quadratGap: length("quadratgap"),
     tabGap: length("tabgap"),
     separator: length("separator"),
-    quadratWidth: length("quadratwidth"),
-    quadratHeight: length("quadratheight"),
-    fitLoneSigns: fitSigns === "yes" ? true : fitSigns === "no" ? false : null,
     frame: hasOption(options, "frame"),
   });
 }

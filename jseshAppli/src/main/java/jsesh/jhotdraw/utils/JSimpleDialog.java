@@ -36,6 +36,8 @@ package jsesh.jhotdraw.utils;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -44,18 +46,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import jsesh.resources.JSeshMessages;
 import jsesh.utils.swing.OrientationUtils;
 import net.miginfocom.swing.MigLayout;
 
 
-/**
- * A simple dialog form for getting information from the user. Manages possible
- * problems with focus and JFormattedTextFields (especially in Quaqua UI).
- *
- * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- *
- */
+/// A simple dialog form for getting information from the user. Manages possible
+/// problems with focus and JFormattedTextFields (especially in Quaqua UI).
+///
+/// The form is placed in a scroll pane, and the dialog never gets larger than
+/// the screen: on a small screen, the user scrolls the form, the OK and Cancel
+/// buttons staying visible. The dialog can be resized.
+///
+/// @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
 public class JSimpleDialog {
 
     private boolean okSelected = false;
@@ -82,14 +86,35 @@ public class JSimpleDialog {
         });
 
         Container content = dialog.getContentPane();
-        content.setLayout(new MigLayout());
-        content.add(form, "wrap");
-        content.add(okButton, "split 2, tag ok");
-        content.add(cancelButton, "tag cancel");
+        content.setLayout(new MigLayout("", "[grow, fill]", "[grow, fill][]"));
+        JScrollPane scrollPane = new JScrollPane(form);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        content.add(scrollPane, "wrap");
+        content.add(okButton, "split 2, tag ok, growx 0");
+        content.add(cancelButton, "tag cancel, growx 0");
         dialog.pack();
-        dialog.setResizable(false);
+        fitToScreen(parent, scrollPane);
+        dialog.setResizable(true);
         dialog.getRootPane().setDefaultButton(okButton);
         OrientationUtils.fixComponentOrientation(dialog);
+    }
+
+    /// Shrinks the dialog if it is larger than the screen, and centres it on
+    /// its parent.
+    private void fitToScreen(Component parent, JScrollPane scrollPane) {
+        Rectangle screen = FormLayoutHelper.usableScreenBounds(parent);
+        Dimension size = dialog.getSize();
+        int height = Math.min(size.height, screen.height);
+        int width = size.width;
+        if (height < size.height) {
+            // Room for the vertical scroll bar, to avoid a horizontal one.
+            width += scrollPane.getVerticalScrollBar().getPreferredSize().width;
+        }
+        width = Math.min(width, screen.width);
+        dialog.setSize(width, height);
+        dialog.setLocationRelativeTo(parent);
     }
 
     /**

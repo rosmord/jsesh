@@ -261,4 +261,43 @@ public class ZoneLayoutTest {
         MDCView inner = content(outer).getSubView(0);
         assertEquals(natural, firstSignWidth(inner), EPSILON);
     }
+
+    @Test
+    public void aScaledZoneIsSmallerAndItsLengthsAreInItsOwnQuadrats() throws MDCSyntaxError {
+        MDCView plain = layout("%zone(A1-A1-A1)").getSubView(0);
+        MDCView half = layout("%zone[scale=50](A1-A1-A1)").getSubView(0);
+        assertEquals(plain.getWidth() / 2, half.getWidth(), EPSILON);
+        assertEquals(plain.getHeight() / 2, half.getHeight(), EPSILON);
+        // The content is laid out at full size, and its view is scaled.
+        assertEquals(0.5f, content(half).getXScale(), EPSILON);
+        assertEquals(content(plain).getSubView(2).getPosition().x, content(half).getSubView(2).getPosition().x, EPSILON);
+        // width=300 is three quadrats of the zone.
+        MDCView fixed = layout("%zone[scale=50,width=300](A1)").getSubView(0);
+        assertEquals(1.5 * QUADRAT, fixed.getWidth(), EPSILON);
+    }
+
+    @Test
+    public void theGapsAreNamedByRole() throws MDCSyntaxError {
+        float unit = STYLE.geometry().unit() / 100f;
+        // In columns: columngap between columns, columnquadratgap between quadrats.
+        MDCView columns = content(layout("%zone[layout=columns,columngap=100,columnquadratgap=50](A1-A1!A1)").getSubView(0));
+        List<Double> xs = columns(columns);
+        assertEquals(2, xs.size());
+        MDCView first = columns.getSubView(0);
+        assertEquals(xs.get(0) + first.getWidth() + 100 * unit, xs.get(1), EPSILON);
+        List<Double> ys = rows(columns);
+        assertEquals(ys.get(0) + first.getHeight() + 50 * unit, columns.getSubView(1).getPosition().y, EPSILON);
+        // linegap doesn't change the columns.
+        MDCView withLineGap = content(layout("%zone[layout=columns,linegap=300](A1-A1!A1)").getSubView(0));
+        MDCView normal = content(layout("%zone[layout=columns](A1-A1!A1)").getSubView(0));
+        assertEquals(columns(normal), columns(withLineGap));
+        assertEquals(rows(normal), rows(withLineGap));
+    }
+
+    @Test
+    public void signHeightScalesTheSigns() throws MDCSyntaxError {
+        double normal = firstSignWidth(layout("%zone(A1)").getSubView(0));
+        double small = firstSignWidth(layout("%zone[signheight=50](A1)").getSubView(0));
+        assertEquals(normal / 2, small, 0.01);
+    }
 }

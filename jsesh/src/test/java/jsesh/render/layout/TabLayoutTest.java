@@ -40,7 +40,7 @@ public class TabLayoutTest {
     /// The default tab gap, in lines: the space between quadrats.
     private static final float GAP = STYLE.geometry().smallSkip();
     /// The default tab gap, in columns.
-    private static final float COLUMN_GAP = STYLE.geometry().lineSkip();
+    private static final float COLUMN_GAP = STYLE.geometry().columnQuadratSkip();
 
     private MDCView layout(String mdc) throws MDCSyntaxError {
         JSeshRenderContext context = new JSeshRenderContext(STYLE, PredefinedFonts.buildAllEmbeddedFonts());

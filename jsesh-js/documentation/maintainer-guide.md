@@ -98,8 +98,9 @@ flowchart LR
 | `parser/ast.ts` | The literal syntax tree: what was *written*. | `jsesh.parser.ast` |
 | `mdcreader/builder.ts` | Interprets the AST as a model; `parseMdc` is here. | `jsesh.mdcreader.AstModelBuilder`, `MDCParserModelGenerator` |
 | `model/model.ts`, `constants.ts` | The document model. | `jsesh.model` |
+| `model/layout-settings.ts` | The layout settings shared by document headers and zone options (`linegap`, `fitsigns`…), their names, values and defaults. Their correspondence with the style is `layoutSettingsChanges` in `render/style.ts`. | `jsesh.model.LayoutSetting`, `TextLayoutSettings`, `jsesh.render.style.LayoutSettingsApplier` |
 | `writer/writer.ts` | Writes a model back as MdC (`toMdc`). | `jsesh.io.mdc.MdCModelWriter` |
-| `document/` | Whole `.gly` documents: header, preferences. | `jsesh.io.document`, `DocumentPreferences` |
+| `document/` | Whole `.gly` documents: header, preferences (one unit, the layout settings in percents of it; old headers converted). | `jsesh.io.document`, `DocumentHeaderCodec`, `DocumentPreferences` |
 | `render/layout.ts` | Computes sizes and positions: `buildView`. About 1,100 lines, the heart of the port. | `jsesh.render.layout.*`, `ViewBuilder` |
 | `render/insert/` | `%insert`: `ShapeMask` (a coarse raster of outlines), `InsertionFitter` (where, and how large, the inserted group goes) and `ViewSilhouette` (the outlines of a laid-out view). The layout calls them in `visitInsert`. Raster, scales and candidate positions are the same as Java's, so the results match. `Kerner` computes how far `%hkern`/`%vkern` move a group back, from band profiles of the same silhouettes. | `jsesh.render.layout.insert.*` |
 | `render/kerning-packer.ts` | Places sub views along an axis, honouring kerning operators (kerned elements form rigid blocks). Used by the layout of horizontal groups, quadrats with `%vkern` lines and basic item lists; top-level kerning is in `LineLayout`/`ColumnLayout` (`TopLevelKerning`). | `jsesh.render.layout.KerningPacker` |

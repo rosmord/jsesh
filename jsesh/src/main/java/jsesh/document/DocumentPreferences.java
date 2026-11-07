@@ -1,444 +1,197 @@
 package jsesh.document;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.Map;
-
-import jsesh.model.constants.JSeshInfoConstants;
+import jsesh.model.LayoutSetting;
+import jsesh.model.TextLayoutSettings;
 import jsesh.model.constants.TextDirection;
 import jsesh.model.constants.TextOrientation;
 import jsesh.render.style.PageTextPosition;
 
-/**
- * Immutable (?) representation of document preferences.
- * 
- * Note about this: We would like to avoid code duplication for property reading
- * and writing in {@link JSeshInfoReader} and in the main application.
- * 
- * Now, we can either :
- * <ul>
- * <li>build our own property-based system... we use such a system in Ramses
- * (for graphical elements properties). It's a tempting idea.
- * <li>create i/o oriented properties as "meta" information using introspection.
- * basically : a property has a name (which might include the class ?/ have a
- * prefix ?), a type, and belongs to either a mutable or an immutable object.
- * <p>
- * They can be declared or discovered through introspection.
- * </ul>
- * 
- * @author Serge Rosmorduc (serge.rosmorduc@qenherkhopeshef.org)
- */
-public class DocumentPreferences {
+/// The layout preferences of a document, as saved in its header.
+///
+/// The layout of the text is described by:
+///
+/// - the **unit** of the document, in points: the height of a quadrat. It is
+///   the only absolute length of the text. Changing it scales the whole
+///   document;
+/// - the [TextLayoutSettings], the same settings as those of zones
+///   (`linegap`, `quadratwidth`, `fitsigns`...), with the lengths in percents
+///   of the unit. Here, they are all set.
+///
+/// Some preferences are not proportional to the text, and are in points: the
+/// page (a physical size), and the sign height under which the small body font
+/// is used (a legibility limit).
+///
+/// The header is read and written by `jsesh.io.document.DocumentHeaderCodec`,
+/// which also reads the headers of older versions.
+///
+/// @param unit the unit of the document (the height of a quadrat), in points.
+/// @param settings the layout settings; unset ones get their default value.
+/// @param smallBodyScaleLimit the height of A1, in points, under which signs
+///        are drawn with the small body font.
+/// @param useLinesForShading are shadings drawn with hatching lines (rather
+///        than in gray)?
+/// @param pageWidth total width of the page; 0 if the document has no page.
+/// @param pageHeight total height of the page; 0 if not specified.
+/// @param marginLeft left margin of the page.
+/// @param marginRight right margin of the page.
+/// @param marginTop top margin of the page.
+/// @param marginBottom bottom margin of the page.
+/// @param pageNumberPosition where the page number is written.
+/// @param pageTitlePosition where the title is written.
+/// @param pageTextsAlternate are left and right exchanged on even pages?
+/// @param pageTitle the title written on each page (never null, maybe empty).
+public record DocumentPreferences(
+		double unit,
+		TextLayoutSettings settings,
+		double smallBodyScaleLimit,
+		boolean useLinesForShading,
+		double pageWidth,
+		double pageHeight,
+		double marginLeft,
+		double marginRight,
+		double marginTop,
+		double marginBottom,
+		PageTextPosition pageNumberPosition,
+		PageTextPosition pageTitlePosition,
+		boolean pageTextsAlternate,
+		String pageTitle) {
 
-	/**
-	 * Move this method contents to tests.
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		DocumentPreferences prefs = new DocumentPreferences();
-		System.out.println(prefs.getStringRepresentation());
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, "10.4");
-		map.put(JSeshInfoConstants.JSESH_PAGE_DIRECTION, "RIGHT_TO_LEFT");
-		map.put(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, "true");
-		DocumentPreferences prefs1 = DocumentPreferences.fromStringMap(map);
-		System.out.println(prefs1.getStringRepresentation());
-		System.out
-				.println(prefs1.withTextOrientation(TextOrientation.VERTICAL));
+	/// The default small body scale limit, in points.
+	public static final double DEFAULT_SMALL_BODY_SCALE_LIMIT = 12;
 
+	/// The preferences of a document whose header sets nothing.
+	public static final DocumentPreferences DEFAULT = new DocumentPreferences(
+			LayoutSetting.DEFAULT_UNIT, TextLayoutSettings.DOCUMENT_DEFAULTS,
+			DEFAULT_SMALL_BODY_SCALE_LIMIT, false,
+			0, 0, 0, 0, 0, 0,
+			PageTextPosition.NONE, PageTextPosition.NONE, false, "");
+
+	/// Completes the settings with their default values, and replaces null
+	/// page texts by "nothing".
+	public DocumentPreferences {
+		if (!(unit > 0)) {
+			throw new IllegalArgumentException("The unit must be positive: " + unit);
+		}
+		settings = TextLayoutSettings.DOCUMENT_DEFAULTS.overriddenBy(
+				settings == null ? TextLayoutSettings.INHERIT_ALL : settings);
+		pageNumberPosition = pageNumberPosition == null ? PageTextPosition.NONE : pageNumberPosition;
+		pageTitlePosition = pageTitlePosition == null ? PageTextPosition.NONE : pageTitlePosition;
+		pageTitle = pageTitle == null ? "" : pageTitle;
 	}
 
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED)
-	private boolean smallSignCentered = false;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_ORIENTATION)
-	private TextOrientation textOrientation = TextOrientation.HORIZONTAL;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_DIRECTION)
-	private TextDirection textDirection = TextDirection.LEFT_TO_RIGHT;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH)
-	private double cartoucheLineWidth = 1;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH)
-	private double maxQuadratWidth = 22;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT)
-	private double maxQuadratHeight = 18;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_LINE_SKIP)
-	private double lineSkip = 6;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_COLUMN_SKIP)
-	private double columnSkip = 8;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING)
-	private boolean useLinesForShading = false;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT)
-	private double standardSignHeight = 18;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT)
-	private double smallBodyScaleLimit = 12;
-	
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_SMALL_SKIP)
-	private double smallSkip= 2;
-
-	/// Height of the alphabetic text baseline above the quadrats' bottom line,
-	/// in points. Documents which don't store it get this default.
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE)
-	private double alphabeticTextBaseline = 4;
-
-	/// In horizontal text, are quadrats scaled down to the maximal quadrat width?
-	/// Documents which don't store it get `true`, so that their layout doesn't change.
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES)
-	private boolean limitQuadratWidthInLines = true;
-
-	/// Is a low broad sign alone on a line of a quadrat (as a lone `n` in a
-	/// column) enlarged to the quadrat width? Documents which don't store it get
-	/// `true`, so that their layout doesn't change.
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS)
-	private boolean fitLoneSigns = true;
-	
-	// Page. A page width of 0 means that there is no page.
-
-	/// The properties which are only saved when there is a page.
-	private static final String[] PAGE_PROPERTIES = {
-			JSeshInfoConstants.JSESH_PAGE_WIDTH,
-			JSeshInfoConstants.JSESH_PAGE_HEIGHT,
-			JSeshInfoConstants.JSESH_PAGE_MARGIN_LEFT,
-			JSeshInfoConstants.JSESH_PAGE_MARGIN_RIGHT,
-			JSeshInfoConstants.JSESH_PAGE_MARGIN_TOP,
-			JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM };
-
-	/// The properties which are only saved when the page has a number or a title.
-	private static final String[] PAGE_TEXT_PROPERTIES = {
-			JSeshInfoConstants.JSESH_PAGE_NUMBER_POSITION,
-			JSeshInfoConstants.JSESH_PAGE_TITLE_POSITION,
-			JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE,
-			JSeshInfoConstants.JSESH_PAGE_TITLE };
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_WIDTH)
-	private double pageWidth = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_HEIGHT)
-	private double pageHeight = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_LEFT)
-	private double marginLeft = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_RIGHT)
-	private double marginRight = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_TOP)
-	private double marginTop = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_MARGIN_BOTTOM)
-	private double marginBottom = 0;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_NUMBER_POSITION)
-	private PageTextPosition pageNumberPosition = PageTextPosition.NONE;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TITLE_POSITION)
-	private PageTextPosition pageTitlePosition = PageTextPosition.NONE;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE)
-	private boolean pageTextsAlternate = false;
-
-	@SaveAbleProperty(JSeshInfoConstants.JSESH_PAGE_TITLE)
-	private String pageTitle = "";
-
+	/// The default preferences.
 	public DocumentPreferences() {
+		this(DEFAULT.unit, DEFAULT.settings, DEFAULT.smallBodyScaleLimit, DEFAULT.useLinesForShading,
+				0, 0, 0, 0, 0, 0, PageTextPosition.NONE, PageTextPosition.NONE, false, "");
 	}
 
-	/**
-	 * Private copy builder
-	 * 
-	 * @param o
-	 */
-	private DocumentPreferences copy() {
-		// Lazy and slow, but will survive any change... other option would be
-		// to use a inner cloneable class as representation.
-		return DocumentPreferences
-				.fromStringMap(this.getFullStringRepresentation());
+	// Reading.
+
+	/// @return the orientation of the text.
+	public TextOrientation textOrientation() {
+		return settings.orientation();
 	}
 
-	/**
-	 * Init document preferences from a map of values. (I might be reinventing
-	 * java beans here ????).
-	 * 
-	 * @param map
-	 * @return
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static DocumentPreferences fromStringMap(Map<String, String> map) {
-		try {
-			DocumentPreferences result = new DocumentPreferences();
-			HashMap<String, Field> fieldMap = new HashMap<String, Field>();
-			for (Field field : DocumentPreferences.class.getDeclaredFields()) {
-				SaveAbleProperty prop = field
-						.getAnnotation(SaveAbleProperty.class);
-				if (prop != null) {
-					fieldMap.put(prop.value(), field);
-				}
-			}
-			for (String pref : map.keySet()) {
-				if (fieldMap.containsKey(pref)) {
-					String stringValue = map.get(pref);
-					Field field = fieldMap.get(pref);
-					if (field.getType().isEnum()) {
-						// Problems with type erasure here...
-						Class clazz = field.getType();
-						field.set(result, Enum.valueOf(clazz, stringValue));
-					} else if (Boolean.TYPE.equals(field.getType())) {
-						// Compatibility with "old" files
-						if ("1".equals(stringValue))
-							field.setBoolean(result, true);
-						else if ("0".equals(stringValue))
-							field.setBoolean(result, false);
-						else
-							field.setBoolean(result,
-									Boolean.parseBoolean(stringValue));
-					} else if (Double.TYPE.equals(field.getType())) {
-						field.setDouble(result, Double.parseDouble(stringValue));
-					} else if (String.class.equals(field.getType())) {
-						field.set(result, stringValue);
-					} else
-						throw new RuntimeException("Unexpected type for "
-								+ pref + " complement the interface");
-				}
-			}
-			return result;
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+	/// @return the direction of the text.
+	public TextDirection textDirection() {
+		return settings.direction();
 	}
 
-	/**
-	 * Return a string map suitable to save the preferences map
-	 * 
-	 * @return
-	 */
-	public Map<String, String> getStringRepresentation() {
-		Map<String, String> result = getFullStringRepresentation();
-		if (!hasPage()) {
-			// No page: don't clutter the saved header with zeros.
-			for (String key : PAGE_PROPERTIES) {
-				result.remove(key);
-			}
-		}
-		if (!hasPage() || !hasPageTexts()) {
-			for (String key : PAGE_TEXT_PROPERTIES) {
-				result.remove(key);
-			}
-		} else {
-			if (pageTitle.isEmpty()) {
-				result.remove(JSeshInfoConstants.JSESH_PAGE_TITLE);
-			}
-			if (!pageTextsAlternate) {
-				result.remove(JSeshInfoConstants.JSESH_PAGE_TEXTS_ALTERNATE);
-			}
-		}
-		return result;
+	/// @param setting a length setting.
+	/// @return its value, in percents of the unit.
+	public double percent(LayoutSetting setting) {
+		return settings.length(setting);
 	}
 
-	/// All the properties, even those which are not worth saving.
-	private Map<String, String> getFullStringRepresentation() {
-		try {
-			// Sorted, so that saved headers are stable and related keys (JSesh_page_*) are grouped.
-			TreeMap<String, String> result = new TreeMap<String, String>();
-			for (Field field : this.getClass().getDeclaredFields()) {
-				SaveAbleProperty prop = field
-						.getAnnotation(SaveAbleProperty.class);
-				if (prop != null) {
-					String propertyValue;
-					String propertyName = prop.value();
-					if (Enum.class.isAssignableFrom(field.getType())) {
-						propertyValue = ((Enum<?>) field.get(this)).name();
-					} else if (Boolean.TYPE.equals(field.getType())) {
-						propertyValue = Boolean
-								.toString(field.getBoolean(this));
-					} else if (Double.TYPE.equals(field.getType())) {
-						propertyValue = Double.toString(field.getDouble(this));
-					} else if (String.class.equals(field.getType())) {
-						// A header entry is a single line.
-						propertyValue = ((String) field.get(this)).replaceAll("[\\r\\n]+", " ");
-					} else
-						throw new RuntimeException("Unexpected type for "
-								+ propertyName + " complement the interface");
-					result.put(propertyName, propertyValue);
-				}
-			}
-			return result;
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
+	/// @param setting a length setting.
+	/// @return its value, in points.
+	public double points(LayoutSetting setting) {
+		return unit * settings.length(setting) / 100;
 	}
 
-	
-	// Pseudo-setters...
-
-	/**
-	 * @param smallSignCentered
-	 *            the smallSignCentered to set
-	 */
-	public DocumentPreferences withSmallSignCentered(
-			boolean newSmallSignCentered) {
-		DocumentPreferences result = this.copy();
-		result.smallSignCentered = newSmallSignCentered;
-		return result;
+	/// @param setting a flag setting.
+	/// @return its value.
+	public boolean flag(LayoutSetting setting) {
+		return settings.flag(setting);
 	}
 
-	/**
-	 * @param textOrientation
-	 *            the textOrientation to set
-	 */
-	public DocumentPreferences withTextOrientation(
-			TextOrientation textOrientation) {
+	/// Does the document have a page (and so, a fixed width for its lines)?
+	///
+	/// @return true if the page width is positive.
+	public boolean hasPage() {
+		return pageWidth > 0;
+	}
+
+	/// @return true if a page number or a title is written in the margins.
+	public boolean hasPageTexts() {
+		return pageNumberPosition != PageTextPosition.NONE
+				|| (pageTitlePosition != PageTextPosition.NONE && !pageTitle.isEmpty());
+	}
+
+	// Pseudo-setters.
+
+	/// @param unit the new unit, in points. The other lengths of the text,
+	///        being relative to it, follow: this scales the whole text.
+	/// @return a copy of these preferences, with the new unit.
+	public DocumentPreferences withUnit(double unit) {
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
+	}
+
+	/// @param settings new settings (the unset ones get their default value).
+	/// @return a copy of these preferences, with the new settings.
+	public DocumentPreferences withSettings(TextLayoutSettings settings) {
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
+	}
+
+	/// @param setting a setting.
+	/// @param value its new value (null for its default value).
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences with(LayoutSetting setting, Object value) {
+		return withSettings(settings.with(setting, value));
+	}
+
+	/// @param setting a length setting.
+	/// @param points its new value, in points (converted to percents of the unit).
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withPoints(LayoutSetting setting, double points) {
+		return with(setting, points / unit * 100);
+	}
+
+	/// @param textOrientation the orientation of the text.
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withTextOrientation(TextOrientation textOrientation) {
 		if (textOrientation == null)
 			throw new NullPointerException("TextOrientation should not be null");
-		DocumentPreferences result = this.copy();
-		result.textOrientation = textOrientation;
-		return result;
+		return with(LayoutSetting.LAYOUT, textOrientation);
 	}
 
-	/**
-	 * @param textDirection
-	 *            the textDirection to set
-	 */
+	/// @param textDirection the direction of the text.
+	/// @return a copy of these preferences, with the new value.
 	public DocumentPreferences withTextDirection(TextDirection textDirection) {
 		if (textDirection == null)
 			throw new NullPointerException("TextDirection should not be null");
-		DocumentPreferences result = this.copy();
-		result.textDirection = textDirection;
-		return result;
+		return with(LayoutSetting.DIRECTION, textDirection);
 	}
 
-	/**
-	 * @param cartoucheLineWidth
-	 *            the cartoucheLineWidth to set
-	 */
-	public DocumentPreferences withCartoucheLineWidth(double cartoucheLineWidth) {
-		DocumentPreferences result = this.copy();
-		result.cartoucheLineWidth = cartoucheLineWidth;
-		return result;
+	/// @param smallBodyScaleLimit the height of A1, in points, under which the
+	///        small body font is used.
+	/// @return a copy of these preferences, with the new value.
+	public DocumentPreferences withSmallBodyScaleLimit(double smallBodyScaleLimit) {
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
 
-	/**
-	 * @param maxQuadratWidth
-	 *            the maxQuadratWidth to set
-	 */
-	public DocumentPreferences withMaxQuadratWidth(double maxQuadratWidth) {
-		DocumentPreferences result = this.copy();
-		result.maxQuadratWidth = maxQuadratWidth;
-		return result;
-	}
-
-	/**
-	 * @param maxQuadratHeight
-	 *            the maxQuadratHeight to set
-	 */
-	public DocumentPreferences withMaxQuadratHeight(double maxQuadratHeight) {
-		DocumentPreferences result = this.copy();
-		result.maxQuadratHeight = maxQuadratHeight;
-		return result;
-	}
-
-	/**
-	 * @param lineSkip
-	 *            the lineSkip to set
-	 */
-	public DocumentPreferences withLineSkip(double lineSkip) {
-		DocumentPreferences result = this.copy();
-		result.lineSkip = lineSkip;
-		return result;
-	}
-
-	/**
-	 * @param columnSkip
-	 *            the columnSkip to set
-	 */
-	public DocumentPreferences withColumnSkip(double columnSkip) {
-		DocumentPreferences result = this.copy();
-		result.columnSkip = columnSkip;
-		return result;
-	}
-
-	/**
-	 * @param useLinesForShading
-	 *            the useLinesForShading to set
-	 */
+	/// @param useLinesForShading are shadings drawn with lines?
+	/// @return a copy of these preferences, with the new value.
 	public DocumentPreferences withUseLinesForShading(boolean useLinesForShading) {
-		DocumentPreferences result = this.copy();
-		result.useLinesForShading = useLinesForShading;
-		return result;
-	}
-
-	/**
-	 * @param standardSignHeight
-	 *            the standardSignHeight to set
-	 */
-	public DocumentPreferences withStandardSignHeight(double standardSignHeight) {
-		DocumentPreferences result = this.copy();
-		result.standardSignHeight = standardSignHeight;
-		return result;
-	}
-
-	/**
-	 * @param smallBodyScaleLimit
-	 *            the smallBodyScaleLimit to set
-	 */
-	public DocumentPreferences withSmallBodyScaleLimit(
-			double smallBodyScaleLimit) {
-		DocumentPreferences result = this.copy();
-		result.smallBodyScaleLimit = smallBodyScaleLimit;
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param smallSkip
-	 * @return
-	 */
-	public DocumentPreferences withSmallSkip(double smallSkip) {
-		DocumentPreferences result= this.copy();
-		result.smallSkip= smallSkip;
-		return result;
-	}
-	
-	/// @param alphabeticTextBaseline height of the alphabetic text baseline
-	/// above the quadrats' bottom line, in points.
-	/// @return a copy of these preferences, with the new value.
-	public DocumentPreferences withAlphabeticTextBaseline(double alphabeticTextBaseline) {
-		DocumentPreferences result= this.copy();
-		result.alphabeticTextBaseline= alphabeticTextBaseline;
-		return result;
-	}
-
-	/// @param limitQuadratWidthInLines whether quadrats are limited to the maximal width in lines.
-	/// @return a copy of these preferences, with the new value.
-	public DocumentPreferences withLimitQuadratWidthInLines(boolean limitQuadratWidthInLines) {
-		DocumentPreferences result= this.copy();
-		result.limitQuadratWidthInLines= limitQuadratWidthInLines;
-		return result;
-	}
-
-	/// @param fitLoneSigns whether lone low broad signs are enlarged to the quadrat width.
-	/// @return a copy of these preferences, with the new value.
-	public DocumentPreferences withFitLoneSigns(boolean fitLoneSigns) {
-		DocumentPreferences result= this.copy();
-		result.fitLoneSigns= fitLoneSigns;
-		return result;
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
 
 	/// Sets the page of the document.
@@ -453,14 +206,9 @@ public class DocumentPreferences {
 	public DocumentPreferences withPage(double pageWidth, double pageHeight,
 			double marginLeft, double marginRight, double marginTop,
 			double marginBottom) {
-		DocumentPreferences result = this.copy();
-		result.pageWidth = pageWidth;
-		result.pageHeight = pageHeight;
-		result.marginLeft = marginLeft;
-		result.marginRight = marginRight;
-		result.marginTop = marginTop;
-		result.marginBottom = marginBottom;
-		return result;
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				pageNumberPosition, pageTitlePosition, pageTextsAlternate, pageTitle);
 	}
 
 	/// Sets the texts written in the margins of each page.
@@ -483,182 +231,8 @@ public class DocumentPreferences {
 	/// @return a copy of these preferences, with the new texts.
 	public DocumentPreferences withPageTexts(PageTextPosition numberPosition,
 			PageTextPosition titlePosition, String title, boolean alternate) {
-		DocumentPreferences result = this.copy();
-		result.pageTextsAlternate = alternate;
-		result.pageNumberPosition = numberPosition == null ? PageTextPosition.NONE : numberPosition;
-		result.pageTitlePosition = titlePosition == null ? PageTextPosition.NONE : titlePosition;
-		result.pageTitle = title == null ? "" : title;
-		return result;
+		return new DocumentPreferences(unit, settings, smallBodyScaleLimit, useLinesForShading,
+				pageWidth, pageHeight, marginLeft, marginRight, marginTop, marginBottom,
+				numberPosition, titlePosition, alternate, title);
 	}
-
-	/// @return where the page number is written.
-	public PageTextPosition getPageNumberPosition() {
-		return pageNumberPosition;
-	}
-
-	/// @return where the title is written.
-	public PageTextPosition getPageTitlePosition() {
-		return pageTitlePosition;
-	}
-
-	/// @return true if the page number and the title change side on even pages.
-	public boolean isPageTextsAlternate() {
-		return pageTextsAlternate;
-	}
-
-	/// @return the title written on each page (never null, maybe empty).
-	public String getPageTitle() {
-		return pageTitle;
-	}
-
-	/// @return true if a page number or a title is written in the margins.
-	public boolean hasPageTexts() {
-		return pageNumberPosition != PageTextPosition.NONE
-				|| (pageTitlePosition != PageTextPosition.NONE && !pageTitle.isEmpty());
-	}
-
-	/// @return the page width (0 if the document has no page).
-	public double getPageWidth() {
-		return pageWidth;
-	}
-
-	/// @return the page height (0 if not specified).
-	public double getPageHeight() {
-		return pageHeight;
-	}
-
-	public double getMarginLeft() {
-		return marginLeft;
-	}
-
-	public double getMarginRight() {
-		return marginRight;
-	}
-
-	public double getMarginTop() {
-		return marginTop;
-	}
-
-	public double getMarginBottom() {
-		return marginBottom;
-	}
-
-	/// Does the document have a page (and so, a fixed width for its lines)?
-	///
-	/// @return true if the page width is positive.
-	public boolean hasPage() {
-		return pageWidth > 0;
-	}
-
-	// Generated code
-
-	/// @return whether quadrats are limited to the maximal width in horizontal text.
-	public boolean isLimitQuadratWidthInLines() {
-		return limitQuadratWidthInLines;
-	}
-
-	/// @return whether lone low broad signs are enlarged to the quadrat width.
-	public boolean isFitLoneSigns() {
-		return fitLoneSigns;
-	}
-	
-	public double getSmallSkip() {
-		return smallSkip;
-	}
-
-	/// @return height of the alphabetic text baseline above the quadrats'
-	/// bottom line, in points.
-	public double getAlphabeticTextBaseline() {
-		return alphabeticTextBaseline;
-	}
-	
-	/**
-	 * @return the smallSignCentered
-	 */
-	public boolean isSmallSignCentered() {
-		return smallSignCentered;
-	}
-
-	/**
-	 * @return the textOrientation
-	 */
-	public TextOrientation getTextOrientation() {
-		return textOrientation;
-	}
-
-	/**
-	 * @return the textDirection
-	 */
-	public TextDirection getTextDirection() {
-		return textDirection;
-	}
-
-	/**
-	 * @return the cartoucheLineWidth
-	 */
-	public double getCartoucheLineWidth() {
-		return cartoucheLineWidth;
-	}
-
-	/**
-	 * @return the maxQuadratWidth
-	 */
-	public double getMaxQuadratWidth() {
-		return maxQuadratWidth;
-	}
-
-	/**
-	 * @return the maxQuadratHeight
-	 */
-	public double getMaxQuadratHeight() {
-		return maxQuadratHeight;
-	}
-
-	/**
-	 * @return the lineSkip
-	 */
-	public double getLineSkip() {
-		return lineSkip;
-	}
-
-	/**
-	 * @return the columnSkip
-	 */
-	public double getColumnSkip() {
-		return columnSkip;
-	}
-
-	/**
-	 * @return the useLinesForShading
-	 */
-	public boolean isUseLinesForShading() {
-		return useLinesForShading;
-	}
-
-	/**
-	 * @return the standardSignHeight
-	 */
-	public double getStandardSignHeight() {
-		return standardSignHeight;
-	}
-
-	/**
-	 * @return the smallBodyScaleLimit
-	 */
-	public double getSmallBodyScaleLimit() {
-		return smallBodyScaleLimit;
-	}
-
-	@Override
-	public String toString() {
-		return getStringRepresentation().toString();
-	}
-
-}
-
-// A first try at annotation
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-@interface SaveAbleProperty {
-	String value();
 }

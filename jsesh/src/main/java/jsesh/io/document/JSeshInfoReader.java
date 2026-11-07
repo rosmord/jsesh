@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.utils.datatypes.StringBufferUtils;
-import jsesh.document.DocumentPreferences;
 import jsesh.document.MDCDocument;
 
 public class JSeshInfoReader {
@@ -30,7 +29,7 @@ public class JSeshInfoReader {
 			String property = tab[0].substring(2);
 			propertyMap.put(property, valueOf(line, tab));
 		}
-		document.setDocumentPreferences(DocumentPreferences.fromStringMap(propertyMap));
+		document.setDocumentPreferences(DocumentHeaderCodec.fromHeader(propertyMap));
 	}
 
 	

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import jsesh.io.document.DocumentHeaderCodec;
+import jsesh.model.LayoutSetting;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
@@ -17,16 +19,16 @@ public class DocumentPreferencesBaselineTest {
 
     @Test
     public void missingValueGivesTheDefault() {
-        DocumentPreferences prefs = DocumentPreferences.fromStringMap(new HashMap<>());
-        assertEquals(4.0, prefs.getAlphabeticTextBaseline(), 1e-6);
+        DocumentPreferences prefs = DocumentHeaderCodec.fromHeader(new HashMap<>());
+        assertEquals(4.0, prefs.points(LayoutSetting.TEXT_BASELINE), 1e-6);
     }
 
     @Test
     public void storedValueIsRead() {
         Map<String, String> map = new HashMap<>();
         map.put(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, "7.5");
-        DocumentPreferences prefs = DocumentPreferences.fromStringMap(map);
-        assertEquals(7.5, prefs.getAlphabeticTextBaseline(), 1e-6);
+        DocumentPreferences prefs = DocumentHeaderCodec.fromHeader(map);
+        assertEquals(7.5, prefs.points(LayoutSetting.TEXT_BASELINE), 1e-6);
     }
 
     @Test
@@ -35,7 +37,7 @@ public class DocumentPreferencesBaselineTest {
                 .geometry(g -> g.alphabeticTextBaseline(6.25f))
                 .build();
         DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(style);
-        DocumentPreferences reread = DocumentPreferences.fromStringMap(prefs.getStringRepresentation());
+        DocumentPreferences reread = DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(prefs));
         JSeshStyle back = DocumentPreferencesStyleConverter.applyDocumentPreferences(reread, JSeshStyle.DEFAULT);
         assertEquals(6.25f, back.geometry().alphabeticTextBaseline(), 1e-6);
     }

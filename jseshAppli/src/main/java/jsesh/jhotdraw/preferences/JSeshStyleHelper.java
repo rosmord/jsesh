@@ -1,11 +1,15 @@
 package jsesh.jhotdraw.preferences;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+
+import jsesh.io.document.DocumentHeaderCodec;
+import jsesh.model.LayoutSetting;
 
 import jsesh.render.style.DocumentPreferencesStyleConverter;
 import jsesh.render.style.JSeshStyle;
-import jsesh.render.style.LayoutOptions;
-import jsesh.render.style.ShadingMode;
 import jsesh.model.constants.JSeshInfoConstants;
 import jsesh.document.DocumentPreferences;
 
@@ -31,36 +35,37 @@ public class JSeshStyleHelper {
     }
 
 
-     /**
-     * Initialize a JSeshStyle from Java preferences. 
-     *
-     * @param preferences standard java preferences.
-     * @return the corresponding JSeshStyle.
-     */
+    /// Initialises a JSeshStyle from Java preferences.
+    ///
+    /// The preferences use the format of document headers (see
+    /// [DocumentHeaderCodec]), so the preferences saved by older versions are
+    /// read too. Only the layout of the text is kept there: the orientation,
+    /// the direction and the page of the original style are not changed.
+    ///
+    /// @param preferences standard java preferences.
+    /// @param original the style used as a basis.
+    /// @return the corresponding JSeshStyle.
     public static JSeshStyle javaPreferencesToJSeshStyle(Preferences preferences, JSeshStyle original) {
-        JSeshStyle result = original.copy()
-                .geometry(g -> g.cartoucheLineWidth((float) preferences.getDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, 1.0)) // ok
-                        .maxCadratWidth((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, 22)) // ok
-                        .maxCadratHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT, 18)) // ok
-                        .lineSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_LINE_SKIP, 6)) // ok
-                        .columnSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_COLUMN_SKIP, 10)) // ok
-                        .standardSignHeight((float) preferences.getDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, 18.0)) // ok
-                        .smallBodyScaleLimit((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, 12.0)) // ok
-                        .smallSkip((float) preferences.getDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, 4))
-                        .alphabeticTextBaseline((float) preferences.getDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, 4)))
-                .options(o -> o
-                        .smallSignCentered(preferences.getBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, false))
-                        .limitQuadratWidthInLines(preferences.getBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES,
-                                LayoutOptions.DEFAULT.limitQuadratWidthInLines()))
-                        .fitLoneSigns(preferences.getBoolean(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS,
-                                LayoutOptions.DEFAULT.fitLoneSigns())))
-                .painting(c -> c
-                        .shadingStyle(preferences.getBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, true)
-                                ? ShadingMode.LINE_HATCHING
-                                : ShadingMode.GRAY_SHADING))
-                .build();
-        
-        return result;
+        Map<String, String> map = new HashMap<>();
+        try {
+            for (String key : preferences.keys()) {
+                if (key.startsWith(JSeshInfoConstants.JSESH_INFO_PREFIX)) {
+                    map.put(key, preferences.get(key, ""));
+                }
+            }
+        } catch (BackingStoreException e) {
+            return original;
+        }
+        DocumentPreferences saved = DocumentHeaderCodec.fromHeader(map);
+        DocumentPreferences current = DocumentPreferencesStyleConverter.toDocumentPreferences(original);
+        DocumentPreferences merged = current
+                .withUnit(saved.unit())
+                .withSettings(saved.settings()
+                        .with(LayoutSetting.LAYOUT, current.textOrientation())
+                        .with(LayoutSetting.DIRECTION, current.textDirection()))
+                .withSmallBodyScaleLimit(saved.smallBodyScaleLimit())
+                .withUseLinesForShading(saved.useLinesForShading());
+        return DocumentPreferencesStyleConverter.applyDocumentPreferences(merged, original);
     }
 
     /**
@@ -73,27 +78,21 @@ public class JSeshStyleHelper {
         return DocumentPreferencesStyleConverter.toDocumentPreferences(jseshStyle);
     }
 
-    /**
-     * Saves data from a JSeshStyle into Java preferences.
-     * @param jseshStyle
-     * @param preferences
-     */
+    /// Saves the layout of a JSeshStyle into Java preferences, in the format
+    /// read by [#javaPreferencesToJSeshStyle(Preferences, JSeshStyle)]. The
+    /// orientation, the direction and the page are not saved.
+    ///
+    /// @param jseshStyle the style.
+    /// @param preferences where to save it.
     public static void saveJSeshStyleToPreferences(JSeshStyle jseshStyle, Preferences preferences) {
-        // From default document...
-        preferences.putDouble(JSeshInfoConstants.JSESH_CARTOUCHE_LINE_WIDTH, jseshStyle.geometry().cartoucheLineWidth());	//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_WIDTH, jseshStyle.geometry().maxCadratWidth());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_MAX_QUADRANT_HEIGHT, jseshStyle.geometry().maxCadratHeight());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_LINE_SKIP, jseshStyle.geometry().lineSkip());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_COLUMN_SKIP, jseshStyle.geometry().columnSkip());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_STANDARD_SIGN_HEIGHT, jseshStyle.geometry().standardSignHeight()); //ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_BODY_SCALE_LIMIT, jseshStyle.geometry().smallBodyScaleLimit());//ok
-        preferences.putDouble(JSeshInfoConstants.JSESH_SMALL_SKIP, jseshStyle.geometry().smallSkip());//ok        
-        preferences.putDouble(JSeshInfoConstants.JSESH_ALPHABETIC_TEXT_BASELINE, jseshStyle.geometry().alphabeticTextBaseline());
-        preferences.putBoolean(JSeshInfoConstants.JSESH_SMALL_SIGNS_CENTRED, jseshStyle.options().smallSignCentered());//ok
-        preferences.putBoolean(JSeshInfoConstants.JSESH_LIMIT_QUADRAT_WIDTH_IN_LINES, jseshStyle.options().limitQuadratWidthInLines());
-        preferences.putBoolean(JSeshInfoConstants.JSESH_FIT_LONE_SIGNS, jseshStyle.options().fitLoneSigns());
-        preferences.putBoolean(JSeshInfoConstants.JSESH_USE_LINES_FOR_SHADING, jseshStyle.painting().shadingStyle().equals(ShadingMode.LINE_HATCHING));//ok
-        
+        DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(jseshStyle)
+                .withPage(0, 0, 0, 0, 0, 0);
+        Map<String, String> header = DocumentHeaderCodec.toHeader(prefs);
+        header.remove(DocumentHeaderCodec.headerKey(LayoutSetting.LAYOUT));
+        header.remove(DocumentHeaderCodec.headerKey(LayoutSetting.DIRECTION));
+        header.remove(JSeshInfoConstants.JSESH_PAGE_ORIENTATION);
+        header.remove(JSeshInfoConstants.JSESH_PAGE_DIRECTION);
+        header.forEach(preferences::put);
     }
 
 }

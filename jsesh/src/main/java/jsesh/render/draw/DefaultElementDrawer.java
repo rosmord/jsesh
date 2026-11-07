@@ -537,17 +537,20 @@ public class DefaultElementDrawer extends ElementDrawer {
         if (positions.length == 0) {
             return;
         }
-        float thickness = zone.getParameters().separator() * jseshStyle.geometry().maxCadratHeight() / 100f;
+        // The positions are in the coordinates of the content, which a zone
+        // with a scale scales.
+        float scale = zone.getParameters().scaleFactor();
+        float thickness = zone.getParameters().separator() * jseshStyle.geometry().percentUnit() * scale;
         boolean horizontal = content.getOrientation() == null || content.getOrientation().isHorizontal();
         double x0 = content.getPosition().x;
         double y0 = content.getPosition().y;
         g.setStroke(new BasicStroke(thickness));
         for (double pos : positions) {
             if (horizontal) {
-                g.draw(new Line2D.Double(x0, y0 + pos, x0 + content.getWidth(), y0 + pos));
+                g.draw(new Line2D.Double(x0, y0 + pos * scale, x0 + content.getWidth(), y0 + pos * scale));
             } else {
                 // Columns are placed left to right; right-to-left ones are drawn mirrored.
-                double x = content.layoutToDrawing(new Rectangle2D.Double(pos, 0, 0, 0)).getX();
+                double x = content.layoutToDrawing(new Rectangle2D.Double(pos, 0, 0, 0)).getX() * scale;
                 g.draw(new Line2D.Double(x0 + x, y0, x0 + x, y0 + content.getHeight()));
             }
         }

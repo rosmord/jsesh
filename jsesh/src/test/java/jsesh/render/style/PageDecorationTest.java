@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.Test;
 
 import jsesh.document.DocumentPreferences;
+import jsesh.io.document.DocumentHeaderCodec;
 import jsesh.document.MDCDocument;
 import jsesh.io.document.MDCDocumentReader;
 import jsesh.io.document.MDCDocumentWriter;
@@ -72,13 +73,13 @@ public class PageDecorationTest {
     public void alternatingIsSavedOnlyWhenOn() {
         var on = prefs(PageTextPosition.BOTTOM_RIGHT, PageTextPosition.NONE, "").withPageTexts(
                 PageTextPosition.BOTTOM_RIGHT, PageTextPosition.NONE, "", true);
-        assertEquals("true", on.getStringRepresentation().get("JSesh_page_texts_alternate"));
-        assertTrue(DocumentPreferences.fromStringMap(on.getStringRepresentation()).isPageTextsAlternate());
+        assertEquals("true", DocumentHeaderCodec.toHeader(on).get("JSesh_page_texts_alternate"));
+        assertTrue(DocumentHeaderCodec.fromHeader(DocumentHeaderCodec.toHeader(on)).pageTextsAlternate());
         var off = prefs(PageTextPosition.BOTTOM_RIGHT, PageTextPosition.NONE, "");
-        assertFalse(off.getStringRepresentation().containsKey("JSesh_page_texts_alternate"));
+        assertFalse(DocumentHeaderCodec.toHeader(off).containsKey("JSesh_page_texts_alternate"));
         JSeshStyle style = DocumentPreferencesStyleConverter.applyDocumentPreferences(on, JSeshStyle.DEFAULT);
         assertTrue(style.geometry().pageDecoration().alternate());
-        assertTrue(DocumentPreferencesStyleConverter.toDocumentPreferences(style).isPageTextsAlternate());
+        assertTrue(DocumentPreferencesStyleConverter.toDocumentPreferences(style).pageTextsAlternate());
     }
 
     @Test
@@ -95,14 +96,14 @@ public class PageDecorationTest {
     @Test
     public void nothingIsSavedWithoutPageOrTexts() {
         var noPage = new DocumentPreferences().withPageTexts(PageTextPosition.TOP_LEFT, PageTextPosition.NONE, "x");
-        assertFalse(noPage.getStringRepresentation().keySet().stream().anyMatch(k -> k.startsWith("JSesh_page_n")
+        assertFalse(DocumentHeaderCodec.toHeader(noPage).keySet().stream().anyMatch(k -> k.startsWith("JSesh_page_n")
                 || k.equals("JSesh_page_title") || k.equals("JSesh_page_title_position")));
         var plain = prefs(PageTextPosition.NONE, PageTextPosition.NONE, "ignored");
-        assertFalse(plain.getStringRepresentation().containsKey("JSesh_page_number_position"));
-        assertFalse(plain.getStringRepresentation().containsKey("JSesh_page_title"));
+        assertFalse(DocumentHeaderCodec.toHeader(plain).containsKey("JSesh_page_number_position"));
+        assertFalse(DocumentHeaderCodec.toHeader(plain).containsKey("JSesh_page_title"));
         var numbered = prefs(PageTextPosition.BOTTOM_LEFT, PageTextPosition.NONE, "");
-        assertEquals("BOTTOM_LEFT", numbered.getStringRepresentation().get("JSesh_page_number_position"));
-        assertFalse(numbered.getStringRepresentation().containsKey("JSesh_page_title"));
+        assertEquals("BOTTOM_LEFT", DocumentHeaderCodec.toHeader(numbered).get("JSesh_page_number_position"));
+        assertFalse(DocumentHeaderCodec.toHeader(numbered).containsKey("JSesh_page_title"));
     }
 
     @Test
@@ -114,10 +115,10 @@ public class PageDecorationTest {
         assertTrue(written.contains("++JSesh_page_title Stèle de Séti Ier +s\n"), written);
 
         DocumentPreferences reread = new MDCDocumentReader().readString(written, new java.io.File("x.gly")).getDocumentPreferences();
-        assertEquals("Stèle de Séti Ier", reread.getPageTitle());
-        assertEquals(PageTextPosition.TOP_RIGHT, reread.getPageTitlePosition());
-        assertEquals(PageTextPosition.BOTTOM_CENTER, reread.getPageNumberPosition());
-        assertEquals(200, reread.getPageWidth(), 1e-6);
+        assertEquals("Stèle de Séti Ier", reread.pageTitle());
+        assertEquals(PageTextPosition.TOP_RIGHT, reread.pageTitlePosition());
+        assertEquals(PageTextPosition.BOTTOM_CENTER, reread.pageNumberPosition());
+        assertEquals(200, reread.pageWidth(), 1e-6);
     }
 
     @Test
@@ -127,8 +128,8 @@ public class PageDecorationTest {
         assertEquals(new PageDecoration(PageTextPosition.TOP_RIGHT, PageTextPosition.BOTTOM_LEFT, "A title"),
                 style.geometry().pageDecoration());
         DocumentPreferences back = DocumentPreferencesStyleConverter.toDocumentPreferences(style);
-        assertEquals("A title", back.getPageTitle());
-        assertEquals(PageTextPosition.TOP_RIGHT, back.getPageNumberPosition());
+        assertEquals("A title", back.pageTitle());
+        assertEquals(PageTextPosition.TOP_RIGHT, back.pageNumberPosition());
     }
 
     /// Does the drawing leave ink in a part of the page?

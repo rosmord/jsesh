@@ -17,6 +17,7 @@ export {
   DEFAULT_DOCUMENT_PREFERENCES,
   documentPreferencesFromMap,
   documentPreferencesToMap,
+  preferencePoints,
   type DocumentPreferences,
 } from "./document/preferences.js";
 export { stripJSeshHeader, writeJSeshHeader } from "./document/header.js";
@@ -26,6 +27,7 @@ export { MdcParser, MdcSyntaxError, parseMdcAst, type MdcParserOptions } from ".
 export type * as Ast from "./parser/ast.js";
 
 export * from "./model/model.js";
+export * from "./model/layout-settings.js";
 export * from "./model/constants.js";
 
 // Rendering: layout and drawing.

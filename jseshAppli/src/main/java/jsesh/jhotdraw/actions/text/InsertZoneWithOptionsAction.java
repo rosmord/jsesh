@@ -17,6 +17,7 @@ import jsesh.jhotdraw.actions.BundleHelper;
 import jsesh.jhotdraw.dialogs.ZoneParametersPanel;
 import jsesh.jhotdraw.documentview.JSeshView;
 import jsesh.jhotdraw.utils.AbstractCoreViewAction;
+import jsesh.jhotdraw.utils.JSimpleDialog;
 import jsesh.model.ZoneParameters;
 import jsesh.ui.editor.JMDCEditor;
 
@@ -40,9 +41,10 @@ public class InsertZoneWithOptionsAction extends AbstractCoreViewAction {
         }
         JMDCEditor editor = view.getEditor();
         ZoneParametersPanel panel = new ZoneParametersPanel(ZoneParameters.DEFAULT);
-        int choice = JOptionPane.showConfirmDialog(editor, panel,
-                BundleHelper.getInstance().getLabel("zone.dialog.insertTitle"),
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        JSimpleDialog dialog = new JSimpleDialog(editor, panel,
+                BundleHelper.getInstance().getLabel("zone.dialog.insertTitle"));
+        int choice = dialog.show();
+        dialog.dispose();
         if (choice == JOptionPane.OK_OPTION) {
             editor.getWorkflow().addZone(panel.getParameters());
         }

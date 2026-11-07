@@ -43,6 +43,7 @@ import {
   Zone,
   ZoneContent,
   ZONE_UNSET,
+  zoneScaleFactor,
   type ZoneParameters,
 } from "../model/model.js";
 import { HieroglyphDrawer, scaleZone, type LigatureZone } from "./glyphs.js";
@@ -62,10 +63,12 @@ import {
   computeCartoucheSecondaryLength,
   isWrapping,
   isPaginated,
+  layoutSettingsChanges,
   maxColumnHeight,
   maxLineWidth,
   NO_PAGE,
   pageStride,
+  percentUnit,
   philologyWidth,
   withStyle,
   type JSeshStyle,
@@ -124,18 +127,22 @@ export function buildView(element: ModelElement, context: LayoutContext, start =
   return currentView!;
 }
 
-/// The style in which the content of a zone is laid out (`Layout.zoneRenderContext`).
+/// The style in which the content of a zone is laid out and drawn
+/// (`JSeshRenderContext.forZone`).
 ///
 /// Settings which the zone doesn't set are inherited from the enclosing
-/// style. A zone has no margins, and is never paged (a page break in a zone
-/// is a line break).
+/// style (see `layoutSettingsChanges`, shared with the document preferences). A
+/// zone has no margins, and is never paged (a page break in a zone is a line break).
 ///
 /// A zone in lines wraps at its width, if it has one. It never inherits the
 /// wrapping width of the enclosing text. A zone in columns aligns its columns in its
 /// height, if it has one. The alignment of its lines is never ignored.
+///
+/// The `scale` of a zone is not part of this style: the content is laid out at full size, and
+/// its view is scaled afterwards. So the lengths of the zone are in its own quadrats.
 export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
   const unit = zoneLengthUnit(parent);
-  const orientation = p.orientation ?? parent.options.textOrientation;
+  const orientation = p.settings.layout ?? parent.options.textOrientation;
   const geometry: Partial<JSeshStyle["geometry"]> = {
     leftMargin: 0,
     topMargin: 0,
@@ -144,37 +151,21 @@ export function zoneStyle(parent: JSeshStyle, p: ZoneParameters): JSeshStyle {
     columnHeight: orientation !== "HORIZONTAL" && p.height !== ZONE_UNSET ? f(p.height * unit) : 0,
   };
   if (p.width !== ZONE_UNSET) geometry.textWidth = f(p.width * unit);
-  // The gaps are given by role, not by axis: the geometry's names depend on the orientation.
-  const horizontal = orientation === "HORIZONTAL";
-  if (p.lineGap !== ZONE_UNSET) {
-    const gap = f(p.lineGap * unit);
-    if (horizontal) geometry.lineSkip = gap;
-    else geometry.columnSkip = gap;
-  }
-  if (p.quadratGap !== ZONE_UNSET) {
-    const gap = f(p.quadratGap * unit);
-    if (horizontal) geometry.smallSkip = gap;
-    else geometry.lineSkip = gap;
-  }
-  if (p.quadratWidth !== ZONE_UNSET) geometry.maxCadratWidth = f(p.quadratWidth * unit);
-  if (p.quadratHeight !== ZONE_UNSET) geometry.maxCadratHeight = f(p.quadratHeight * unit);
-  return withStyle(parent, {
+  const base = withStyle(parent, {
     options: {
-      textOrientation: orientation,
-      textDirection: p.direction ?? parent.options.textDirection,
       paged: false,
       // A zone keeps its own width, even when the text is wrapped to the width of an editor.
       ignoreLineAlignment: false,
-      fitLoneSigns: p.fitLoneSigns ?? parent.options.fitLoneSigns,
     },
     geometry,
   });
+  return withStyle(base, layoutSettingsChanges(p.settings, parent.geometry.unit));
 }
 
-/// The unit of the lengths of [ZoneParameters]: one percent of the height
-/// of a quadrat.
+/// The unit of the lengths of [ZoneParameters]: one percent of the unit of the
+/// document (the height of a quadrat).
 export function zoneLengthUnit(style: JSeshStyle): number {
-  return f(style.geometry.maxCadratHeight / 100);
+  return percentUnit(style.geometry);
 }
 
 /// The space between the frame of a zone and its content, frame included.
@@ -860,6 +851,12 @@ class LayoutAux extends ModelElementAdapter {
     // is mirrored across the zone's width, not its own.
     content.width = width;
     content.height = height;
+    if (p.scale !== ZONE_UNSET) {
+      // The content is laid out at full size, in the zone's own quadrats: its view is scaled.
+      content.reScale(zoneScaleFactor(p));
+      width = content.width;
+      height = content.height;
+    }
     content.resetPos();
     content.position = { x: padding, y: padding };
     v.width = f(width + 2 * padding);
@@ -880,8 +877,7 @@ class LayoutAux extends ModelElementAdapter {
   /// lengths), `zoneStyle` the style of the content of the zone.
   private tabGap(p: ZoneParameters, parentStyle: JSeshStyle, zoneStyle: JSeshStyle): number {
     if (p.tabGap !== ZONE_UNSET) return f(p.tabGap * zoneLengthUnit(parentStyle));
-    // The space between quadrats is named by axis in the geometry.
-    return this.l.orientation === "HORIZONTAL" ? zoneStyle.geometry.smallSkip : zoneStyle.geometry.lineSkip;
+    return this.l.orientation === "HORIZONTAL" ? zoneStyle.geometry.smallSkip : zoneStyle.geometry.columnQuadratSkip;
   }
 
   /// Lays out the top items of a text or of a zone (the subviews of the
@@ -2151,7 +2147,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
       height = Math.max(height, v.height);
     }
     this.zone.addRun(views, run.layoutOffsets(mirrored));
-    if (height !== 0) this.zone.moveCurrentPoint(0, height + this.style.geometry.lineSkip);
+    if (height !== 0) this.zone.moveCurrentPoint(0, height + this.style.geometry.columnQuadratSkip);
   }
 
   endLayout(): void {
@@ -2283,7 +2279,7 @@ class ColumnLayout extends ModelElementAdapter implements TopItemLayout {
 
   override visitDefault(_t: ModelElement): void {
     if (!this.kerning.add(this.zone, this.subView)) return;
-    if (this.subView.height !== 0) this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.lineSkip);
+    if (this.subView.height !== 0) this.zone.moveCurrentPoint(0, this.subView.height + this.style.geometry.columnQuadratSkip);
   }
 }
 

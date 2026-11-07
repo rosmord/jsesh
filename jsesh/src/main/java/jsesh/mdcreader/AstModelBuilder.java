@@ -2,6 +2,7 @@ package jsesh.mdcreader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jsesh.model.AbsoluteGroup;
 import jsesh.model.AlphabeticCharacter;
@@ -35,6 +36,8 @@ import jsesh.model.TopItemState;
 import jsesh.model.Zone;
 import jsesh.model.ZoneContent;
 import jsesh.model.ZoneParameters;
+import jsesh.model.LayoutSetting;
+import jsesh.model.TextLayoutSettings;
 import jsesh.model.constants.Dialect;
 import jsesh.sharedvocabulary.LineAlignment;
 import jsesh.model.constants.SymbolCodes;
@@ -388,35 +391,32 @@ class AstModelBuilder implements AstVisitor {
         push(new Zone(zoneParameters(node.options()), content));
     }
 
-    /// Reads `layout=lines|columns`, `dir=lr|rl`, `width`, `height`,
-    /// `linegap`, `quadratgap`, `tabgap`, `separator`, `quadratwidth`, `quadratheight`,
-    /// `fitsigns=yes|no` and `frame`. Unknown options and values are ignored.
+    /// Reads the shared layout settings (`layout`, `dir`, `linegap`,
+    /// `fitsigns`..., see [LayoutSetting]) and the settings proper to zones:
+    /// `scale`, `width`, `height`, `tabgap`, `separator` and `frame`. Unknown
+    /// options and values are ignored.
     private static ZoneParameters zoneParameters(AstOptionList options) {
-        TextOrientation orientation = switch (options.getString("layout", "")) {
-            case "lines" -> TextOrientation.HORIZONTAL;
-            case "columns" -> TextOrientation.VERTICAL;
-            default -> null;
-        };
-        TextDirection direction = switch (options.getString("dir", "")) {
-            case "lr" -> TextDirection.LEFT_TO_RIGHT;
-            case "rl" -> TextDirection.RIGHT_TO_LEFT;
-            default -> null;
-        };
-        Boolean fitLoneSigns = switch (options.getString("fitsigns", "")) {
-            case "yes" -> Boolean.TRUE;
-            case "no" -> Boolean.FALSE;
-            default -> null;
-        };
-        return new ZoneParameters(orientation, direction,
+        TextLayoutSettings settings = TextLayoutSettings.INHERIT_ALL;
+        for (AstOption option : options.options()) {
+            String text = switch (option.value()) {
+                case AstOptionValue.Int i -> Integer.toString(i.value());
+                case AstOptionValue.Text t -> t.value();
+                case AstOptionValue.Flag f -> null;
+            };
+            Optional<LayoutSetting> setting = LayoutSetting.byName(option.name());
+            if (text != null && setting.isPresent()) {
+                Optional<Object> value = setting.get().parse(text);
+                if (value.isPresent()) {
+                    settings = settings.with(setting.get(), value.get());
+                }
+            }
+        }
+        return new ZoneParameters(settings,
+                options.getInt("scale", ZoneParameters.UNSET),
                 options.getInt("width", ZoneParameters.UNSET),
                 options.getInt("height", ZoneParameters.UNSET),
-                options.getInt("linegap", ZoneParameters.UNSET),
-                options.getInt("quadratgap", ZoneParameters.UNSET),
                 options.getInt("tabgap", ZoneParameters.UNSET),
                 options.getInt("separator", ZoneParameters.UNSET),
-                options.getInt("quadratwidth", ZoneParameters.UNSET),
-                options.getInt("quadratheight", ZoneParameters.UNSET),
-                fitLoneSigns,
                 options.hasOption("frame"));
     }
 
