@@ -588,7 +588,7 @@ JSesh writes these documents back as `.hie` in iso-8859-1, with the marks as par
 |---|---|---|
 | `?N` | absolute tab: the next item is placed at absolute position `N`, in tab units (`tabUnitWidth`) | Winglyph |
 | `%tab`, `%tab[n=K,align=A]` | dynamic tab: aligns the text on tab stops shared by the lines of a zone. `n` (≥ 1) is the index of the stop, by default the previous one + 1; `align` (`start`, `end`, `center`, `justify`) is the alignment of the cell **before** the tab | JSesh |
-| `{lA,B}` | thin horizontal rule. `A` and `B` (tab units) are kept for compatibility, but JSesh ignores them: the rule is as wide as the text (the page, or the zone, if it has a width), one quadrat at least | not recorded |
+| `{lA,B}` | thin horizontal rule from `A` % to `B` % of the width of the text (the page, or the zone, if it has a width; one quadrat at least): `{l0,100}` goes across the text, `{l10,90}` leaves 10 % on each side. Values are clamped to 0–100. Formerly in tab units | not recorded |
 | `{LA,B}` | wide horizontal rule | not recorded |
 
 JSesh lays out and saves `?N` and the rules, but no editor command creates them. `%tab` is only laid out in zones: in the main text, it is read and saved, but ignored. In a soft-wrapped line, only the tabs before the first wrap count; a `?N` after a `%tab` is ignored. They are all top-level items.

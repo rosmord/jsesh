@@ -7,10 +7,11 @@ package jsesh.model;
  *  
  */
 
-/**
- * An horizontal rule.
- * 
- */
+/// An horizontal rule, `{lA,B}` (thin) or `{LA,B}` (wide).
+///
+/// The rule is drawn from `A` % to `B` % of the width of the text (the width of
+/// its view, computed by `jsesh.render.layout.Layout`): `{l0,100}` goes across
+/// the text, `{l10,90}` leaves 10 % of the width on each side.
 public class HRule extends TopItem {
 	/**
 	 * 
@@ -20,17 +21,38 @@ public class HRule extends TopItem {
 	private char type;
 
 	private int startPos, endPos;
-	/**
-	 * Create an horizontal rule.
-	 * @param type type of line. 'l' for single, 'L' for double.
-     * @param startPos start of the rule, as an absolute integer position from left edge of the page (?). 
-     * @param endPos an absolute integer position from left edge of the page (?). 
-     * @see PaintingSpecifications#getTabUnitWidth()
-     */
+	/// Creates an horizontal rule.
+	///
+	/// @param type type of line. 'l' for single, 'L' for double.
+	/// @param startPos the start of the rule, in percents of the width of the text.
+	/// @param endPos the end of the rule, in percents of the width of the text.
 	public HRule(char type, int startPos, int endPos) {
 		this.type = type;
 		this.startPos = startPos;
 		this.endPos = endPos;
+	}
+
+	/// The start of the drawn line, as a fraction of the width of the text.
+	///
+	/// The positions are clamped between 0 and 100 %, and taken in order, so that
+	/// `{l90,10}` is `{l10,90}`, and older files (whose positions were in tab
+	/// units) still give a line inside the text.
+	///
+	/// @return a number between 0 and 1.
+	public double startFraction() {
+		return clampedPercent(Math.min(startPos, endPos)) / 100.0;
+	}
+
+	/// The end of the drawn line, as a fraction of the width of the text (see
+	/// [#startFraction()]).
+	///
+	/// @return a number between 0 and 1.
+	public double endFraction() {
+		return clampedPercent(Math.max(startPos, endPos)) / 100.0;
+	}
+
+	private static int clampedPercent(int p) {
+		return Math.max(0, Math.min(100, p));
 	}
 
 	/**

@@ -1548,13 +1548,28 @@ export class Tab extends TopItem {
 }
 
 /// `{lA,B}` (thin) or `{LA,B}` (wide) horizontal rule.
+/// An horizontal rule, `{lA,B}` (thin) or `{LA,B}` (wide), drawn from `A` % to `B` % of the width
+/// of the text.
 export class HRule extends TopItem {
   constructor(
     public type: string,
+    /// The start of the rule, in percents of the width of the text.
     public startPos: number,
+    /// The end of the rule, in percents of the width of the text.
     public endPos: number,
   ) {
     super();
+  }
+
+  /// The start of the drawn line, as a fraction of the width of the text. The positions are
+  /// clamped between 0 and 100 %, and taken in order (`{l90,10}` is `{l10,90}`).
+  startFraction(): number {
+    return clampedPercent(Math.min(this.startPos, this.endPos)) / 100;
+  }
+
+  /// The end of the drawn line, as a fraction of the width of the text (see [startFraction]).
+  endFraction(): number {
+    return clampedPercent(Math.max(this.startPos, this.endPos)) / 100;
   }
 
   accept<R>(v: ModelElementVisitor<R>): R {
@@ -1689,4 +1704,8 @@ export class ZoneContent extends ModelElement {
     this.copyChildrenTo(copy);
     return copy;
   }
+}
+
+function clampedPercent(p: number): number {
+  return Math.max(0, Math.min(100, p));
 }

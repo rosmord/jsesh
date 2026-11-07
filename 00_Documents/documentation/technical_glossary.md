@@ -194,9 +194,11 @@ thousandths of the height of A1). It needs at least two signs.
 
 `AbsoluteTab` (`?N`, formerly `TabStop`): the next item is placed at an absolute position
 from the start of the line, in tab units (`tabUnitWidth`); from Winglyph. `HRule`
-(`{lA,B}`) is a thin horizontal rule. Its positions `A,B` are read and written but no
-longer used: the rule fills the width available (at least one quadrat; else the width of its
-zone, or the usable width of the page; else the width of the text, see `LineLayout.fitRules`).
+(`{lA,B}`) is a thin horizontal rule, `{LA,B}` a wide one, **not** in tab units: it is drawn
+from `A` % to `B` % of the *rule width*. The rule width (the width of its view) is the width
+available: at least one quadrat; else the width of its zone, or the usable width of the page;
+else the width of the text (`LineLayout.fitRules`). `A` and `B` are clamped to 0–100 and taken
+in order (`HRule.startFraction()`/`endFraction()`).
 Not to be confused with the dynamic [tab](#tab-tab-stop-tab-cell-tab-column) `%tab`.
 
 ### Alphabetic text

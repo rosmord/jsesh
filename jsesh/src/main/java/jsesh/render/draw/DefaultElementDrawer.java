@@ -369,8 +369,10 @@ public class DefaultElementDrawer extends ElementDrawer {
         } else {
             g.setStroke(jseshStyle.geometry().fineStroke());
         }
-        // The rule fills its view (see Layout#visitHRule): its positions are not used.
-        g.draw(new Line2D.Float(0, 0, currentView.getWidth(), 0));
+        // The view has the width of the text (see Layout#visitHRule); the
+        // positions of the rule are percents of it.
+        float width = currentView.getWidth();
+        g.draw(new Line2D.Double(h.startFraction() * width, 0, h.endFraction() * width, 0));
     }
 
     /*
