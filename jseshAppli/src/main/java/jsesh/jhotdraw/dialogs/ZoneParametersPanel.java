@@ -31,7 +31,8 @@ import net.miginfocom.swing.MigLayout;
 ///
 /// Each setting can be left to the value inherited from the enclosing text.
 /// Lengths are shown in percent of the unit of the document (the height of a
-/// quadrat), as in the `%zone[...]` syntax. The shared layout settings are
+/// quadrat), as in the `%zone[...]` syntax. The labels don't repeat it: a note
+/// on top of the panel says it once. The shared layout settings are
 /// listed from [LayoutSetting], so that a new one appears here.
 ///
 /// The settings are in two sections: those of the zone itself (its direction,
@@ -133,7 +134,13 @@ public class ZoneParametersPanel extends JPanel {
         }
 
         int sideBySideWidth = zoneSection.getPreferredSize().width + layoutSection.getPreferredSize().width + 20;
-        String placement = FormLayoutHelper.hasRoomFor(sideBySideWidth) ? "aligny top" : "aligny top, wrap";
+        boolean sideBySide = FormLayoutHelper.hasRoomFor(sideBySideWidth);
+        String placement = sideBySide ? "aligny top" : "aligny top, wrap";
+        // The unit is the same for all the lengths: it is said once, on top,
+        // rather than in each label. The note is as wide as the sections.
+        int contentWidth = sideBySide ? sideBySideWidth
+                : Math.max(zoneSection.getPreferredSize().width, layoutSection.getPreferredSize().width);
+        add(FormLayoutHelper.wrappingLabel(labels.getLabel("zone.unitNote"), contentWidth - 20), "span, wrap");
         add(zoneSection, placement + ", growx");
         add(layoutSection, "aligny top, growx");
         setParameters(parameters);

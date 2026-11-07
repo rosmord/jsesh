@@ -52,9 +52,12 @@ import net.miginfocom.swing.MigLayout;
 ///
 /// The unit of the document (the height of a quadrat) is the only absolute
 /// length of the text: changing it scales the whole document. The other
-/// lengths of the text are in percents of it, with the same names as the
-/// options of zones (see [LayoutSetting]). The small body limit, a legibility
-/// limit, is in absolute units too.
+/// lengths of the text are relative to it, with the same names as the
+/// options of zones (see [LayoutSetting]). They are shown in percents of it by
+/// default, which is how they are saved, but they can be shown in another unit
+/// (see [DocumentLengthUnit]): so there are two unit choices, one for the unit
+/// of the document, and one for the other lengths. The small body limit, a
+/// legibility limit, is in absolute units too, like the unit of the document.
 public class JDrawingSpecificationEditor {
 
 	private final JPanel panel = new JPanel();
@@ -62,7 +65,8 @@ public class JDrawingSpecificationEditor {
 	private final JFormattedTextField documentUnitField = new JFormattedTextField();
 	private final JComboBox<LengthUnit> lengthUnitField = new JComboBox<>();
 	private final JFormattedTextField smallFontBodyLimitField = new JFormattedTextField();
-	private final Map<LayoutSetting, JFormattedTextField> percentFields = new EnumMap<>(LayoutSetting.class);
+	private final JComboBox<DocumentLengthUnit> lengthsUnitField = new JComboBox<>();
+	private final Map<LayoutSetting, JFormattedTextField> lengthFields = new EnumMap<>(LayoutSetting.class);
 	private final Map<LayoutSetting, JCheckBox> flagCheckBoxes = new EnumMap<>(LayoutSetting.class);
 	private final JCheckBox useLinesForShadingCheckBox = new JCheckBox(
 			JSeshMessages.getString("drawingPrefs.useLinesForShadingCheckBox"));
@@ -70,7 +74,7 @@ public class JDrawingSpecificationEditor {
 	public JDrawingSpecificationEditor() {
 		for (LayoutSetting setting : LayoutSetting.values()) {
 			switch (setting.kind()) {
-				case LENGTH -> percentFields.put(setting, new JFormattedTextField());
+				case LENGTH -> lengthFields.put(setting, LengthFieldsMediator.createField());
 				case FLAG -> flagCheckBoxes.put(setting,
 						new JCheckBox(JSeshMessages.getString(ZoneParametersPanel.labelKey(setting))));
 				default -> {
@@ -102,8 +106,8 @@ public class JDrawingSpecificationEditor {
 		return panel;
 	}
 
-	/// Places the fields in three sections: the unit, the lengths (in percents
-	/// of the unit), and the yes/no options. The lengths are beside the two
+	/// Places the fields in three sections: the unit, the lengths (relative to
+	/// the unit, with their own unit choice), and the yes/no options. The lengths are beside the two
 	/// others when the screen is wide enough, below them otherwise; the dialog
 	/// scrolls when it is still too tall.
 	private void layout() {
@@ -119,7 +123,8 @@ public class JDrawingSpecificationEditor {
 		optionSection.add(useLinesForShadingCheckBox, "span, wrap");
 
 		JPanel lengthSection = FormLayoutHelper.section(JSeshMessages.getString("drawingPrefs.section.lengths"));
-		for (Map.Entry<LayoutSetting, JFormattedTextField> e : percentFields.entrySet()) {
+		addRow(lengthSection, "drawingPrefs.lengthsUnit", lengthsUnitField, "");
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : lengthFields.entrySet()) {
 			addRow(lengthSection, ZoneParametersPanel.labelKey(e.getKey()), e.getValue(), "w 50pt");
 		}
 
@@ -142,18 +147,26 @@ public class JDrawingSpecificationEditor {
 		return documentUnitField;
 	}
 
-	/// @return the choice of the length unit (points, mm...).
+	/// @return the choice of the unit of the document and of the small body
+	/// limit (points, mm...).
 	public JComboBox<LengthUnit> getLengthUnitField() {
 		return lengthUnitField;
+	}
+
+	/// @return the choice of the unit of the other lengths (percents of the
+	/// unit of the document, points, mm...).
+	public JComboBox<DocumentLengthUnit> getLengthsUnitField() {
+		return lengthsUnitField;
 	}
 
 	public JFormattedTextField getSmallFontBodyLimitField() {
 		return smallFontBodyLimitField;
 	}
 
-	/// @return the fields of the length settings, in percents of the unit.
-	public Map<LayoutSetting, JFormattedTextField> getPercentFields() {
-		return percentFields;
+	/// @return the fields of the length settings, in the unit chosen with
+	/// [#getLengthsUnitField()].
+	public Map<LayoutSetting, JFormattedTextField> getLengthFields() {
+		return lengthFields;
 	}
 
 	/// @return the check boxes of the yes/no settings.

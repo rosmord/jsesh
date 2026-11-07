@@ -34,6 +34,7 @@ knowledge of the CeCILL license and that you accept its terms.
 package jsesh.jhotdraw.preferences.document.ui;
 
 import java.awt.Component;
+import java.text.ParseException;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
@@ -50,18 +51,34 @@ import jsesh.ui.widgets.units.UnitMediator;
 
 /// Presenter for the drawing preferences of a document.
 ///
-/// The style is edited through its [DocumentPreferences]: one unit, and the
-/// other lengths of the text in percents of it.
+/// The style is edited through its [DocumentPreferences]: one unit (the height
+/// of a quadrat), and the other lengths of the text relative to it. Each has
+/// its own unit choice: the unit of the document is in absolute units
+/// ([UnitMediator]), the other lengths are by default in percents of it, but
+/// can be shown in an absolute unit ([LengthFieldsMediator]). They are saved
+/// in percents in any case.
 public class DrawingSpecificationsPresenter {
 
 	JDrawingSpecificationEditor form;
 	UnitMediator unitMediator = new UnitMediator();
+	LengthFieldsMediator lengthsMediator = new LengthFieldsMediator();
 
 	public DrawingSpecificationsPresenter() {
 		form = new JDrawingSpecificationEditor();
 		unitMediator.attachToComboBox(form.getLengthUnitField());
 		unitMediator.managedTextField(form.getDocumentUnitField());
 		unitMediator.managedTextField(form.getSmallFontBodyLimitField());
+		lengthsMediator.attachToComboBox(form.getLengthsUnitField());
+		for (JFormattedTextField field : form.getLengthFields().values()) {
+			lengthsMediator.managedTextField(field);
+		}
+		// Lengths shown in an absolute unit follow the unit of the document.
+		form.getDocumentUnitField().addPropertyChangeListener("value",
+				e -> lengthsMediator.documentUnitChanged(documentUnitInPoints()));
+	}
+
+	private double documentUnitInPoints() {
+		return unitMediator.getManagedFieldInPoints(form.getDocumentUnitField());
 	}
 
 	/// Copies a style in the dialog.
@@ -70,10 +87,11 @@ public class DrawingSpecificationsPresenter {
 	public void loadPreferences(JSeshStyle jseshStyle) {
 		DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(jseshStyle);
 		unitMediator.setCurrentUnit(LengthUnit.POINT);
+		lengthsMediator.reset(prefs.unit());
 		form.getDocumentUnitField().setValue(prefs.unit());
 		form.getSmallFontBodyLimitField().setValue(prefs.smallBodyScaleLimit());
-		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getPercentFields().entrySet()) {
-			e.getValue().setValue(prefs.percent(e.getKey()));
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getLengthFields().entrySet()) {
+			lengthsMediator.setPercent(e.getValue(), prefs.percent(e.getKey()));
 		}
 		for (Map.Entry<LayoutSetting, JCheckBox> e : form.getFlagCheckBoxes().entrySet()) {
 			e.getValue().setSelected(prefs.flag(e.getKey()));
@@ -87,7 +105,15 @@ public class DrawingSpecificationsPresenter {
 	/// @return a modified style, with the new preferences.
 	public JSeshStyle updatePreferences(JSeshStyle original) {
 		DocumentPreferences prefs = DocumentPreferencesStyleConverter.toDocumentPreferences(original);
-		double unit = unitMediator.getManagedFieldInPoints(form.getDocumentUnitField());
+		// Validates what is typed in the unit first: the lengths are converted
+		// through it.
+		try {
+			form.getDocumentUnitField().commitEdit();
+		} catch (ParseException e) {
+			// Invalid text: the last valid value is used.
+		}
+		double unit = documentUnitInPoints();
+		lengthsMediator.documentUnitChanged(unit);
 		if (unit > 0) {
 			prefs = prefs.withUnit(unit);
 		}
@@ -95,9 +121,10 @@ public class DrawingSpecificationsPresenter {
 		if (limit >= 0) {
 			prefs = prefs.withSmallBodyScaleLimit(limit);
 		}
-		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getPercentFields().entrySet()) {
-			if (e.getValue().getValue() instanceof Number n && n.doubleValue() >= 0) {
-				prefs = prefs.with(e.getKey(), n.doubleValue());
+		for (Map.Entry<LayoutSetting, JFormattedTextField> e : form.getLengthFields().entrySet()) {
+			double percent = lengthsMediator.getPercent(e.getValue());
+			if (percent >= 0) {
+				prefs = prefs.with(e.getKey(), percent);
 			}
 		}
 		for (Map.Entry<LayoutSetting, JCheckBox> e : form.getFlagCheckBoxes().entrySet()) {

@@ -42,8 +42,15 @@ public final class FormLayoutHelper {
     /// @param text the text of the label (plain text, not HTML).
     /// @return a label which wraps its text at [#LABEL_WIDTH].
     public static JLabel wrappingLabel(String text) {
+        return wrappingLabel(text, LABEL_WIDTH);
+    }
+
+    /// @param text the text of the label (plain text, not HTML).
+    /// @param width the width at which the label wraps, in pixels.
+    /// @return a label which wraps its text at the given width.
+    public static JLabel wrappingLabel(String text, int width) {
         String escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
-        return new JLabel("<html><body style='width:" + LABEL_WIDTH + "px'>" + escaped + "</body></html>");
+        return new JLabel("<html><body style='width:" + width + "px'>" + escaped + "</body></html>");
     }
 
     /// @param title the title of the section, already translated.
